@@ -45,14 +45,6 @@ type BAPI struct {
 // reverse pointers of slice of poitners to Struct
 type BPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-
-	// Implementation of a reverse ID for field A{}.Bs []*B
-	// (to be removed)
-	A_BsDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	A_BsDBID_Index sql.NullInt64
 }
 
 // BDB describes a b in the database
@@ -551,12 +543,6 @@ func (backRepoB *BackRepoBStruct) RestorePhaseTwo() {
 		_ = bDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex b.Bs
-		if bDB.A_BsDBID.Int64 != 0 {
-			bDB.A_BsDBID.Int64 =
-				int64(BackRepoAid_atBckpTime_newID[uint(bDB.A_BsDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoB.db.Model(bDB).Updates(*bDB)
 		if query.Error != nil {
@@ -584,15 +570,6 @@ func (backRepoB *BackRepoBStruct) ResetReversePointersInstance(backRepo *BackRep
 		_ = bDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if bDB.A_BsDBID.Int64 != 0 {
-			bDB.A_BsDBID.Int64 = 0
-			bDB.A_BsDBID.Valid = true
-
-			// save the reset
-			if q := backRepoB.db.Save(bDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

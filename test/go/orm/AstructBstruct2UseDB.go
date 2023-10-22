@@ -49,14 +49,6 @@ type AstructBstruct2UsePointersEncoding struct {
 	// field Bstrcut2 is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	Bstrcut2ID sql.NullInt64
-
-	// Implementation of a reverse ID for field Astruct{}.Anarrayofb2Use []*AstructBstruct2Use
-	// (to be removed)
-	Astruct_Anarrayofb2UseDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Astruct_Anarrayofb2UseDBID_Index sql.NullInt64
 }
 
 // AstructBstruct2UseDB describes a astructbstruct2use in the database
@@ -578,12 +570,6 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) RestorePhase
 			astructbstruct2useDB.Bstrcut2ID.Valid = true
 		}
 
-		// This reindex astructbstruct2use.Anarrayofb2Use
-		if astructbstruct2useDB.Astruct_Anarrayofb2UseDBID.Int64 != 0 {
-			astructbstruct2useDB.Astruct_Anarrayofb2UseDBID.Int64 =
-				int64(BackRepoAstructid_atBckpTime_newID[uint(astructbstruct2useDB.Astruct_Anarrayofb2UseDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoAstructBstruct2Use.db.Model(astructbstruct2useDB).Updates(*astructbstruct2useDB)
 		if query.Error != nil {
@@ -611,15 +597,6 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) ResetReverse
 		_ = astructbstruct2useDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if astructbstruct2useDB.Astruct_Anarrayofb2UseDBID.Int64 != 0 {
-			astructbstruct2useDB.Astruct_Anarrayofb2UseDBID.Int64 = 0
-			astructbstruct2useDB.Astruct_Anarrayofb2UseDBID.Valid = true
-
-			// save the reset
-			if q := backRepoAstructBstruct2Use.db.Save(astructbstruct2useDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

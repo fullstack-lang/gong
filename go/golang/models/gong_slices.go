@@ -52,12 +52,19 @@ func EvictInOtherSlices[OwningType PointerToGongstruct, FieldType PointerToGongs
 		_ = owningInstanceInfered // to avoid "declared and not used" error if no named struct has slices
 	}
 }
+
+// ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
+// Its complexity is in O(n)O(p) where p is the number of pointers
+func (stage *StageStruct) ComputeReverseMaps() {
+	// insertion point per named struct{{` + string(rune(GongSliceReverseMapCompute)) + `}}
+}
 `
 
 type GongSliceGongstructInsertionId int
 
 const (
 	GongSliceCase GongSliceGongstructInsertionId = iota
+	GongSliceReverseMapCompute
 	GongSliceGongstructInsertionNb
 )
 
@@ -67,12 +74,17 @@ map[GongSliceGongstructInsertionId]string{
 	case *{{Structname}}:
 		// insertion point per field{{perFieldCode}}
 `,
+	GongSliceReverseMapCompute: `
+	// Compute reverse map for named struct {{Structname}}
+	// insertion point per field{{sliceOfPointerFieldReverseMapComputationCode}}
+`,
 }
 
 type GongSliceSubTemplateId int
 
 const (
 	GongSliceSubTmplSliceOfPointersToStruct GongSliceSubTemplateId = iota
+	GongSliceSubTmplSliceOfPointersReverseMapComputation
 )
 
 var GongSliceFileFieldFieldSubTemplateCode map[GongSliceSubTemplateId]string = // declaration of the sub templates
@@ -98,6 +110,15 @@ map[GongSliceSubTemplateId]string{
 				}
 			}
 		}`,
+	GongSliceSubTmplSliceOfPointersReverseMapComputation: `
+	clear(stage.{{Structname}}_{{FieldName}}_reverseMap)
+	stage.{{Structname}}_{{FieldName}}_reverseMap = make(map[*{{AssociationStructName}}]*{{Structname}})
+	for {{structname}} := range stage.{{Structname}}s {
+		_ = {{structname}}
+		for _, _{{associationStructName}} := range {{structname}}.{{FieldName}} {
+			stage.{{Structname}}_{{FieldName}}_reverseMap[_{{associationStructName}}] = {{structname}}
+		}
+	}`,
 }
 
 func CodeGeneratorModelGongSlice(
@@ -138,15 +159,23 @@ func CodeGeneratorModelGongSlice(
 		for subStructTemplate := range GongSliceGongstructSubTemplateCode {
 
 			perFieldCode := ""
+			sliceOfPointerFieldReverseMapComputationCode := ""
 
 			for _, field := range gongStruct.Fields {
 
 				switch field := field.(type) {
 				case *models.SliceOfPointerToGongStructField:
-					perFieldCode += models.Replace2(
+					perFieldCode += models.Replace3(
 						GongSliceFileFieldFieldSubTemplateCode[GongSliceSubTmplSliceOfPointersToStruct],
 						"{{FieldName}}", field.Name,
-						"{{AssociationStructName}}", field.GongStruct.Name)
+						"{{AssociationStructName}}", field.GongStruct.Name,
+						"{{associationStructName}}", strings.ToLower(field.GongStruct.Name))
+					sliceOfPointerFieldReverseMapComputationCode += models.Replace3(
+						GongSliceFileFieldFieldSubTemplateCode[GongSliceSubTmplSliceOfPointersReverseMapComputation],
+						"{{FieldName}}", field.Name,
+						"{{AssociationStructName}}", field.GongStruct.Name,
+						"{{associationStructName}}", strings.ToLower(field.GongStruct.Name))
+
 				default:
 				}
 
@@ -156,10 +185,15 @@ func CodeGeneratorModelGongSlice(
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			generatedCodeFromSubTemplate := models.Replace3(GongSliceGongstructSubTemplateCode[subStructTemplate],
+			sliceOfPointerFieldReverseMapComputationCode = models.Replace2(sliceOfPointerFieldReverseMapComputationCode,
+				"{{structname}}", strings.ToLower(gongStruct.Name),
+				"{{Structname}}", gongStruct.Name)
+
+			generatedCodeFromSubTemplate := models.Replace4(GongSliceGongstructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
-				"{{perFieldCode}}", perFieldCode)
+				"{{perFieldCode}}", perFieldCode,
+				"{{sliceOfPointerFieldReverseMapComputationCode}}", sliceOfPointerFieldReverseMapComputationCode)
 
 			subStructCodes[subStructTemplate] += generatedCodeFromSubTemplate
 		}

@@ -39,10 +39,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "A":
 			switch reverseField.Fieldname {
 			case "Bs":
-				if tmp != nil && tmp.A_BsDBID.Int64 != 0 {
-					id := uint(tmp.A_BsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoA.Map_ADBID_APtr[id]
-					res = reservePointerTarget.Name
+				if _a, ok := stage.A_Bs_reverseMap[inst]; ok {
+					res = _a.Name
 				}
 			}
 		case "B":
@@ -79,7 +77,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.B:
 		tmp := GetInstanceDBFromInstance[models.B, BDB](
 			stage, backRepo, inst,
@@ -90,17 +88,13 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "A":
 			switch reverseField.Fieldname {
 			case "Bs":
-				if tmp != nil && tmp.A_BsDBID.Int64 != 0 {
-					id := uint(tmp.A_BsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoA.Map_ADBID_APtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.A_Bs_reverseMap[inst]
 			}
 		case "B":
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	default:
 		_ = inst
 	}
