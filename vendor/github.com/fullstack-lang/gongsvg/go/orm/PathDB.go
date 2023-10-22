@@ -48,14 +48,6 @@ type PathPointersEncoding struct {
 
 	// field Animates is a slice of pointers to another Struct (optional or 0..1)
 	Animates IntSlice `gorm:"type:TEXT"`
-
-	// Implementation of a reverse ID for field Layer{}.Paths []*Path
-	// (to be removed)
-	Layer_PathsDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Layer_PathsDBID_Index sql.NullInt64
 }
 
 // PathDB describes a path in the database
@@ -267,26 +259,6 @@ func (backRepoPath *BackRepoPathStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		pathDB.CopyBasicFieldsFromPath(path)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// This loop encodes the slice of pointers path.Animates into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, animateAssocEnd := range path.Animates {
-
-			// get the back repo instance at the association end
-			animateAssocEnd_DB :=
-				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			animateAssocEnd_DB.Path_AnimatesDBID.Int64 = int64(pathDB.ID)
-			animateAssocEnd_DB.Path_AnimatesDBID.Valid = true
-			animateAssocEnd_DB.Path_AnimatesDBID_Index.Int64 = int64(idx)
-			animateAssocEnd_DB.Path_AnimatesDBID_Index.Valid = true
-			if q := backRepoPath.db.Save(animateAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		pathDB.PathPointersEncoding.Animates = make([]int, 0)
 		// 2. encode
@@ -409,27 +381,9 @@ func (backRepoPath *BackRepoPathStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 	// it appends the stage instance
 	// 1. reset the slice
 	path.Animates = path.Animates[:0]
-	// 2. loop all instances in the type in the association end
-	for _, animateDB_AssocEnd := range backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if animateDB_AssocEnd.Path_AnimatesDBID.Int64 == int64(pathDB.ID) {
-			// 4. fetch the associated instance in the stage
-			animate_AssocEnd := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[animateDB_AssocEnd.ID]
-			// 5. append it the association slice
-			path.Animates = append(path.Animates, animate_AssocEnd)
-		}
+	for _, _Animateid := range pathDB.PathPointersEncoding.Animates {
+		path.Animates = append(path.Animates, backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[uint(_Animateid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(path.Animates, func(i, j int) bool {
-		animateDB_i_ID := backRepo.BackRepoAnimate.Map_AnimatePtr_AnimateDBID[path.Animates[i]]
-		animateDB_j_ID := backRepo.BackRepoAnimate.Map_AnimatePtr_AnimateDBID[path.Animates[j]]
-
-		animateDB_i := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB[animateDB_i_ID]
-		animateDB_j := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB[animateDB_j_ID]
-
-		return animateDB_i.Path_AnimatesDBID_Index.Int64 < animateDB_j.Path_AnimatesDBID_Index.Int64
-	})
 
 	return
 }
@@ -755,12 +709,6 @@ func (backRepoPath *BackRepoPathStruct) RestorePhaseTwo() {
 		_ = pathDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex path.Paths
-		if pathDB.Layer_PathsDBID.Int64 != 0 {
-			pathDB.Layer_PathsDBID.Int64 =
-				int64(BackRepoLayerid_atBckpTime_newID[uint(pathDB.Layer_PathsDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoPath.db.Model(pathDB).Updates(*pathDB)
 		if query.Error != nil {
@@ -788,15 +736,6 @@ func (backRepoPath *BackRepoPathStruct) ResetReversePointersInstance(backRepo *B
 		_ = pathDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if pathDB.Layer_PathsDBID.Int64 != 0 {
-			pathDB.Layer_PathsDBID.Int64 = 0
-			pathDB.Layer_PathsDBID.Valid = true
-
-			// save the reset
-			if q := backRepoPath.db.Save(pathDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

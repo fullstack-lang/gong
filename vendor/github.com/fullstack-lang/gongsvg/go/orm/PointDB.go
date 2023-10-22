@@ -45,14 +45,6 @@ type PointAPI struct {
 // reverse pointers of slice of poitners to Struct
 type PointPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-
-	// Implementation of a reverse ID for field Link{}.ControlPoints []*Point
-	// (to be removed)
-	Link_ControlPointsDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Link_ControlPointsDBID_Index sql.NullInt64
 }
 
 // PointDB describes a point in the database
@@ -587,12 +579,6 @@ func (backRepoPoint *BackRepoPointStruct) RestorePhaseTwo() {
 		_ = pointDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex point.ControlPoints
-		if pointDB.Link_ControlPointsDBID.Int64 != 0 {
-			pointDB.Link_ControlPointsDBID.Int64 =
-				int64(BackRepoLinkid_atBckpTime_newID[uint(pointDB.Link_ControlPointsDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoPoint.db.Model(pointDB).Updates(*pointDB)
 		if query.Error != nil {
@@ -620,15 +606,6 @@ func (backRepoPoint *BackRepoPointStruct) ResetReversePointersInstance(backRepo 
 		_ = pointDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if pointDB.Link_ControlPointsDBID.Int64 != 0 {
-			pointDB.Link_ControlPointsDBID.Int64 = 0
-			pointDB.Link_ControlPointsDBID.Valid = true
-
-			// save the reset
-			if q := backRepoPoint.db.Save(pointDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

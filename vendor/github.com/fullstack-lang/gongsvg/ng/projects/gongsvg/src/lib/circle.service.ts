@@ -12,9 +12,10 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { CircleDB } from './circle-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { LayerDB } from './layer-db'
+import { AnimateDB } from './animate-db'
 
 @Injectable({
   providedIn: 'root'
@@ -44,10 +45,10 @@ export class CircleService {
 
   /** GET circles from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<CircleDB[]> {
-    return this.getCircles(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleDB[]> {
+    return this.getCircles(GONG__StackPath, frontRepo)
   }
-  getCircles(GONG__StackPath: string): Observable<CircleDB[]> {
+  getCircles(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -61,10 +62,10 @@ export class CircleService {
 
   /** GET circle by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<CircleDB> {
-	return this.getCircle(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleDB> {
+    return this.getCircle(id, GONG__StackPath, frontRepo)
   }
-  getCircle(id: number, GONG__StackPath: string): Observable<CircleDB> {
+  getCircle(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -76,16 +77,16 @@ export class CircleService {
   }
 
   /** POST: add a new circle to the server */
-  post(circledb: CircleDB, GONG__StackPath: string): Observable<CircleDB> {
-    return this.postCircle(circledb, GONG__StackPath)	
+  post(circledb: CircleDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleDB> {
+    return this.postCircle(circledb, GONG__StackPath, frontRepo)
   }
-  postCircle(circledb: CircleDB, GONG__StackPath: string): Observable<CircleDB> {
+  postCircle(circledb: CircleDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Animations = circledb.Animations
+    for (let _animate of circledb.Animations) {
+      circledb.CirclePointersEncoding.Animations.push(_animate.ID)
+    }
     circledb.Animations = []
-    let _Layer_Circles_reverse = circledb.CirclePointersEncoding.Layer_Circles_reverse
-    circledb.CirclePointersEncoding.Layer_Circles_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -96,8 +97,13 @@ export class CircleService {
     return this.http.post<CircleDB>(this.circlesUrl, circledb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      circledb.Animations = Animations
-        circledb.CirclePointersEncoding.Layer_Circles_reverse = _Layer_Circles_reverse
+        circledb.Animations = new Array<AnimateDB>()
+        for (let _id of circledb.CirclePointersEncoding.Animations) {
+          let _animate = frontRepo.Animates.get(_id)
+          if (_animate != undefined) {
+            circledb.Animations.push(_animate!)
+          }
+        }
         // this.log(`posted circledb id=${circledb.ID}`)
       }),
       catchError(this.handleError<CircleDB>('postCircle'))
@@ -125,18 +131,19 @@ export class CircleService {
   }
 
   /** PUT: update the circledb on the server */
-  update(circledb: CircleDB, GONG__StackPath: string): Observable<CircleDB> {
-    return this.updateCircle(circledb, GONG__StackPath)
+  update(circledb: CircleDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleDB> {
+    return this.updateCircle(circledb, GONG__StackPath, frontRepo)
   }
-  updateCircle(circledb: CircleDB, GONG__StackPath: string): Observable<CircleDB> {
+  updateCircle(circledb: CircleDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleDB> {
     const id = typeof circledb === 'number' ? circledb : circledb.ID;
     const url = `${this.circlesUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Animations = circledb.Animations
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
+    for (let _animate of circledb.Animations) {
+      circledb.CirclePointersEncoding.Animations.push(_animate.ID)
+    }
     circledb.Animations = []
-    let _Layer_Circles_reverse = circledb.CirclePointersEncoding.Layer_Circles_reverse
-    circledb.CirclePointersEncoding.Layer_Circles_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,8 +154,13 @@ export class CircleService {
     return this.http.put<CircleDB>(url, circledb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      circledb.Animations = Animations
-        circledb.CirclePointersEncoding.Layer_Circles_reverse = _Layer_Circles_reverse
+        circledb.Animations = new Array<AnimateDB>()
+        for (let _id of circledb.CirclePointersEncoding.Animations) {
+          let _animate = frontRepo.Animates.get(_id)
+          if (_animate != undefined) {
+            circledb.Animations.push(_animate!)
+          }
+        }
         // this.log(`updated circledb id=${circledb.ID}`)
       }),
       catchError(this.handleError<CircleDB>('updateCircle'))
@@ -176,6 +188,6 @@ export class CircleService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

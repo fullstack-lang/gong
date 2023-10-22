@@ -1,5 +1,4 @@
 // insertion point for imports
-import { LinkDB } from './link-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -24,9 +23,4 @@ export class PointDB {
 
 export class PointPointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
-	// reverse pointers encoding (to be removed)
-	Link_ControlPointsDBID: NullInt64 = new NullInt64
-	Link_ControlPointsDBID_Index: NullInt64  = new NullInt64 // store the index of the point instance in Link.ControlPoints
-	Link_ControlPoints_reverse?: LinkDB 
-
 }

@@ -12,9 +12,10 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { PolygoneDB } from './polygone-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { LayerDB } from './layer-db'
+import { AnimateDB } from './animate-db'
 
 @Injectable({
   providedIn: 'root'
@@ -44,10 +45,10 @@ export class PolygoneService {
 
   /** GET polygones from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<PolygoneDB[]> {
-    return this.getPolygones(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneDB[]> {
+    return this.getPolygones(GONG__StackPath, frontRepo)
   }
-  getPolygones(GONG__StackPath: string): Observable<PolygoneDB[]> {
+  getPolygones(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -61,10 +62,10 @@ export class PolygoneService {
 
   /** GET polygone by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<PolygoneDB> {
-	return this.getPolygone(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneDB> {
+    return this.getPolygone(id, GONG__StackPath, frontRepo)
   }
-  getPolygone(id: number, GONG__StackPath: string): Observable<PolygoneDB> {
+  getPolygone(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -76,16 +77,16 @@ export class PolygoneService {
   }
 
   /** POST: add a new polygone to the server */
-  post(polygonedb: PolygoneDB, GONG__StackPath: string): Observable<PolygoneDB> {
-    return this.postPolygone(polygonedb, GONG__StackPath)	
+  post(polygonedb: PolygoneDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneDB> {
+    return this.postPolygone(polygonedb, GONG__StackPath, frontRepo)
   }
-  postPolygone(polygonedb: PolygoneDB, GONG__StackPath: string): Observable<PolygoneDB> {
+  postPolygone(polygonedb: PolygoneDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Animates = polygonedb.Animates
+    for (let _animate of polygonedb.Animates) {
+      polygonedb.PolygonePointersEncoding.Animates.push(_animate.ID)
+    }
     polygonedb.Animates = []
-    let _Layer_Polygones_reverse = polygonedb.PolygonePointersEncoding.Layer_Polygones_reverse
-    polygonedb.PolygonePointersEncoding.Layer_Polygones_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -96,8 +97,13 @@ export class PolygoneService {
     return this.http.post<PolygoneDB>(this.polygonesUrl, polygonedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      polygonedb.Animates = Animates
-        polygonedb.PolygonePointersEncoding.Layer_Polygones_reverse = _Layer_Polygones_reverse
+        polygonedb.Animates = new Array<AnimateDB>()
+        for (let _id of polygonedb.PolygonePointersEncoding.Animates) {
+          let _animate = frontRepo.Animates.get(_id)
+          if (_animate != undefined) {
+            polygonedb.Animates.push(_animate!)
+          }
+        }
         // this.log(`posted polygonedb id=${polygonedb.ID}`)
       }),
       catchError(this.handleError<PolygoneDB>('postPolygone'))
@@ -125,18 +131,19 @@ export class PolygoneService {
   }
 
   /** PUT: update the polygonedb on the server */
-  update(polygonedb: PolygoneDB, GONG__StackPath: string): Observable<PolygoneDB> {
-    return this.updatePolygone(polygonedb, GONG__StackPath)
+  update(polygonedb: PolygoneDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneDB> {
+    return this.updatePolygone(polygonedb, GONG__StackPath, frontRepo)
   }
-  updatePolygone(polygonedb: PolygoneDB, GONG__StackPath: string): Observable<PolygoneDB> {
+  updatePolygone(polygonedb: PolygoneDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneDB> {
     const id = typeof polygonedb === 'number' ? polygonedb : polygonedb.ID;
     const url = `${this.polygonesUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Animates = polygonedb.Animates
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
+    for (let _animate of polygonedb.Animates) {
+      polygonedb.PolygonePointersEncoding.Animates.push(_animate.ID)
+    }
     polygonedb.Animates = []
-    let _Layer_Polygones_reverse = polygonedb.PolygonePointersEncoding.Layer_Polygones_reverse
-    polygonedb.PolygonePointersEncoding.Layer_Polygones_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,8 +154,13 @@ export class PolygoneService {
     return this.http.put<PolygoneDB>(url, polygonedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      polygonedb.Animates = Animates
-        polygonedb.PolygonePointersEncoding.Layer_Polygones_reverse = _Layer_Polygones_reverse
+        polygonedb.Animates = new Array<AnimateDB>()
+        for (let _id of polygonedb.PolygonePointersEncoding.Animates) {
+          let _animate = frontRepo.Animates.get(_id)
+          if (_animate != undefined) {
+            polygonedb.Animates.push(_animate!)
+          }
+        }
         // this.log(`updated polygonedb id=${polygonedb.ID}`)
       }),
       catchError(this.handleError<PolygoneDB>('updatePolygone'))
@@ -176,6 +188,6 @@ export class PolygoneService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

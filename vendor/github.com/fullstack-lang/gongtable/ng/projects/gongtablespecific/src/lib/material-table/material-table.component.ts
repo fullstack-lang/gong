@@ -307,7 +307,7 @@ export class MaterialTableComponent implements OnInit {
       // in case this component is called as a modal window (MatDialog)
       // exits,
       this.selectedTable.SavingInProgress = true
-      this.tableService.update(this.selectedTable!, this.DataStack).subscribe(
+      this.tableService.update(this.selectedTable!, this.DataStack, this.gongtableFrontRepoService.frontRepo).subscribe(
         () => {
           // in case this component is called as a modal window (MatDialog)
           // exits,
@@ -325,14 +325,14 @@ export class MaterialTableComponent implements OnInit {
 
     const promises = []
     for (let row of modifiedRows) {
-      promises.push(this.rowService.updateRow(row, this.DataStack))
+      promises.push(this.rowService.updateRow(row, this.DataStack, this.gongtableFrontRepoService.frontRepo))
     }
 
     forkJoin(promises).subscribe(
       () => {
 
         this.selectedTable!.SavingInProgress = false
-        this.tableService.update(this.selectedTable!, this.DataStack).subscribe(
+        this.tableService.update(this.selectedTable!, this.DataStack, this.gongtableFrontRepoService.frontRepo).subscribe(
           () => {
             // in case this component is called as a modal window (MatDialog)
             // exits,
@@ -353,16 +353,14 @@ export class MaterialTableComponent implements OnInit {
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.selectedTable?.Rows!, event.previousIndex, event.currentIndex)
 
-    const promises = []
-    let index = 0
-    for (let row of this.selectedTable?.Rows!) {
-      row.RowPointersEncoding.Table_RowsDBID_Index.Int64 = index++
-      promises.push(this.rowService.updateRow(row, this.DataStack))
-    }
-
-    forkJoin(promises).subscribe(
-      () => this.refresh()
-    )
+    this.tableService.update(
+      this.selectedTable!,
+      this.DataStack,
+      this.gongtableFrontRepoService.frontRepo).subscribe(
+        () => {
+          console.log("table", this.selectedTable?.Name, "rows shuffled")
+        }
+      )
   }
 
   isDraggableRow = (index: number, item: gongtable.RowDB) => this.selectedTable?.CanDragDropRows
@@ -376,13 +374,12 @@ export class MaterialTableComponent implements OnInit {
   // onClick performs an update of the clicked row (without any property change)
   // this minimalist design will hopefully be sufficient for the backend to interpret
   // that the row has been clicked
-  onClick(rowID: number) {
-    console.log("Material Table: onClick: Stack: `" + this.DataStack + "`table:`" + this.TableName + "`row:" + rowID)
+  onClick(row: gongtable.RowDB) {
+    console.log("Material Table: onClick: Stack: `" + this.DataStack + "`table:`" + this.TableName + "`row:" + row.Name)
 
-    let row: gongtable.RowDB = this.selectedTable?.Rows![rowID]!
     let cells = row.Cells
 
-    this.rowService.updateRow(row, this.DataStack).subscribe(
+    this.rowService.updateRow(row, this.DataStack, this.gongtableFrontRepoService.frontRepo).subscribe(
       () => {
         console.log("row updated")
         row.Cells = cells
@@ -407,7 +404,7 @@ export class MaterialTableComponent implements OnInit {
 
   onClickCellIcon(cellIcon: gongtable.CellIconDB) {
     console.log("Cell Icon clicked")
-    this.celliconService.updateCellIcon(cellIcon, this.DataStack).subscribe(
+    this.celliconService.updateCellIcon(cellIcon, this.DataStack, this.gongtableFrontRepoService.frontRepo).subscribe(
       () => {
 
       }

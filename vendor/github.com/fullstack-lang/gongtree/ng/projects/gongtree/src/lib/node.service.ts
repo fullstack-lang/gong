@@ -12,9 +12,10 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { NodeDB } from './node-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { TreeDB } from './tree-db'
+import { ButtonDB } from './button-db'
 
 @Injectable({
   providedIn: 'root'
@@ -44,10 +45,10 @@ export class NodeService {
 
   /** GET nodes from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<NodeDB[]> {
-    return this.getNodes(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB[]> {
+    return this.getNodes(GONG__StackPath, frontRepo)
   }
-  getNodes(GONG__StackPath: string): Observable<NodeDB[]> {
+  getNodes(GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -61,10 +62,10 @@ export class NodeService {
 
   /** GET node by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<NodeDB> {
-	return this.getNode(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB> {
+    return this.getNode(id, GONG__StackPath, frontRepo)
   }
-  getNode(id: number, GONG__StackPath: string): Observable<NodeDB> {
+  getNode(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -76,20 +77,20 @@ export class NodeService {
   }
 
   /** POST: add a new node to the server */
-  post(nodedb: NodeDB, GONG__StackPath: string): Observable<NodeDB> {
-    return this.postNode(nodedb, GONG__StackPath)	
+  post(nodedb: NodeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB> {
+    return this.postNode(nodedb, GONG__StackPath, frontRepo)
   }
-  postNode(nodedb: NodeDB, GONG__StackPath: string): Observable<NodeDB> {
+  postNode(nodedb: NodeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Children = nodedb.Children
+    for (let _node of nodedb.Children) {
+      nodedb.NodePointersEncoding.Children.push(_node.ID)
+    }
     nodedb.Children = []
-    let Buttons = nodedb.Buttons
+    for (let _button of nodedb.Buttons) {
+      nodedb.NodePointersEncoding.Buttons.push(_button.ID)
+    }
     nodedb.Buttons = []
-    let _Node_Children_reverse = nodedb.NodePointersEncoding.Node_Children_reverse
-    nodedb.NodePointersEncoding.Node_Children_reverse = new NodeDB
-    let _Tree_RootNodes_reverse = nodedb.NodePointersEncoding.Tree_RootNodes_reverse
-    nodedb.NodePointersEncoding.Tree_RootNodes_reverse = new TreeDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -100,10 +101,20 @@ export class NodeService {
     return this.http.post<NodeDB>(this.nodesUrl, nodedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      nodedb.Children = Children
-	      nodedb.Buttons = Buttons
-        nodedb.NodePointersEncoding.Node_Children_reverse = _Node_Children_reverse
-        nodedb.NodePointersEncoding.Tree_RootNodes_reverse = _Tree_RootNodes_reverse
+        nodedb.Children = new Array<NodeDB>()
+        for (let _id of nodedb.NodePointersEncoding.Children) {
+          let _node = frontRepo.Nodes.get(_id)
+          if (_node != undefined) {
+            nodedb.Children.push(_node!)
+          }
+        }
+        nodedb.Buttons = new Array<ButtonDB>()
+        for (let _id of nodedb.NodePointersEncoding.Buttons) {
+          let _button = frontRepo.Buttons.get(_id)
+          if (_button != undefined) {
+            nodedb.Buttons.push(_button!)
+          }
+        }
         // this.log(`posted nodedb id=${nodedb.ID}`)
       }),
       catchError(this.handleError<NodeDB>('postNode'))
@@ -131,22 +142,23 @@ export class NodeService {
   }
 
   /** PUT: update the nodedb on the server */
-  update(nodedb: NodeDB, GONG__StackPath: string): Observable<NodeDB> {
-    return this.updateNode(nodedb, GONG__StackPath)
+  update(nodedb: NodeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB> {
+    return this.updateNode(nodedb, GONG__StackPath, frontRepo)
   }
-  updateNode(nodedb: NodeDB, GONG__StackPath: string): Observable<NodeDB> {
+  updateNode(nodedb: NodeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB> {
     const id = typeof nodedb === 'number' ? nodedb : nodedb.ID;
     const url = `${this.nodesUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Children = nodedb.Children
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
+    for (let _node of nodedb.Children) {
+      nodedb.NodePointersEncoding.Children.push(_node.ID)
+    }
     nodedb.Children = []
-    let Buttons = nodedb.Buttons
+    for (let _button of nodedb.Buttons) {
+      nodedb.NodePointersEncoding.Buttons.push(_button.ID)
+    }
     nodedb.Buttons = []
-    let _Node_Children_reverse = nodedb.NodePointersEncoding.Node_Children_reverse
-    nodedb.NodePointersEncoding.Node_Children_reverse = new NodeDB
-    let _Tree_RootNodes_reverse = nodedb.NodePointersEncoding.Tree_RootNodes_reverse
-    nodedb.NodePointersEncoding.Tree_RootNodes_reverse = new TreeDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -157,10 +169,20 @@ export class NodeService {
     return this.http.put<NodeDB>(url, nodedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      nodedb.Children = Children
-	      nodedb.Buttons = Buttons
-        nodedb.NodePointersEncoding.Node_Children_reverse = _Node_Children_reverse
-        nodedb.NodePointersEncoding.Tree_RootNodes_reverse = _Tree_RootNodes_reverse
+        nodedb.Children = new Array<NodeDB>()
+        for (let _id of nodedb.NodePointersEncoding.Children) {
+          let _node = frontRepo.Nodes.get(_id)
+          if (_node != undefined) {
+            nodedb.Children.push(_node!)
+          }
+        }
+        nodedb.Buttons = new Array<ButtonDB>()
+        for (let _id of nodedb.NodePointersEncoding.Buttons) {
+          let _button = frontRepo.Buttons.get(_id)
+          if (_button != undefined) {
+            nodedb.Buttons.push(_button!)
+          }
+        }
         // this.log(`updated nodedb id=${nodedb.ID}`)
       }),
       catchError(this.handleError<NodeDB>('updateNode'))
@@ -188,6 +210,6 @@ export class NodeService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

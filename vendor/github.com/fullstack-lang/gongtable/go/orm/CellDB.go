@@ -65,14 +65,6 @@ type CellPointersEncoding struct {
 	// field CellIcon is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	CellIconID sql.NullInt64
-
-	// Implementation of a reverse ID for field Row{}.Cells []*Cell
-	// (to be removed)
-	Row_CellsDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Row_CellsDBID_Index sql.NullInt64
 }
 
 // CellDB describes a cell in the database
@@ -686,12 +678,6 @@ func (backRepoCell *BackRepoCellStruct) RestorePhaseTwo() {
 			cellDB.CellIconID.Valid = true
 		}
 
-		// This reindex cell.Cells
-		if cellDB.Row_CellsDBID.Int64 != 0 {
-			cellDB.Row_CellsDBID.Int64 =
-				int64(BackRepoRowid_atBckpTime_newID[uint(cellDB.Row_CellsDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoCell.db.Model(cellDB).Updates(*cellDB)
 		if query.Error != nil {
@@ -719,15 +705,6 @@ func (backRepoCell *BackRepoCellStruct) ResetReversePointersInstance(backRepo *B
 		_ = cellDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if cellDB.Row_CellsDBID.Int64 != 0 {
-			cellDB.Row_CellsDBID.Int64 = 0
-			cellDB.Row_CellsDBID.Valid = true
-
-			// save the reset
-			if q := backRepoCell.db.Save(cellDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

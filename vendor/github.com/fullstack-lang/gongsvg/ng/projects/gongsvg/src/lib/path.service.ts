@@ -12,9 +12,10 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { PathDB } from './path-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { LayerDB } from './layer-db'
+import { AnimateDB } from './animate-db'
 
 @Injectable({
   providedIn: 'root'
@@ -44,10 +45,10 @@ export class PathService {
 
   /** GET paths from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<PathDB[]> {
-    return this.getPaths(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathDB[]> {
+    return this.getPaths(GONG__StackPath, frontRepo)
   }
-  getPaths(GONG__StackPath: string): Observable<PathDB[]> {
+  getPaths(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -61,10 +62,10 @@ export class PathService {
 
   /** GET path by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<PathDB> {
-	return this.getPath(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathDB> {
+    return this.getPath(id, GONG__StackPath, frontRepo)
   }
-  getPath(id: number, GONG__StackPath: string): Observable<PathDB> {
+  getPath(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -76,16 +77,16 @@ export class PathService {
   }
 
   /** POST: add a new path to the server */
-  post(pathdb: PathDB, GONG__StackPath: string): Observable<PathDB> {
-    return this.postPath(pathdb, GONG__StackPath)	
+  post(pathdb: PathDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathDB> {
+    return this.postPath(pathdb, GONG__StackPath, frontRepo)
   }
-  postPath(pathdb: PathDB, GONG__StackPath: string): Observable<PathDB> {
+  postPath(pathdb: PathDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Animates = pathdb.Animates
+    for (let _animate of pathdb.Animates) {
+      pathdb.PathPointersEncoding.Animates.push(_animate.ID)
+    }
     pathdb.Animates = []
-    let _Layer_Paths_reverse = pathdb.PathPointersEncoding.Layer_Paths_reverse
-    pathdb.PathPointersEncoding.Layer_Paths_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -96,8 +97,13 @@ export class PathService {
     return this.http.post<PathDB>(this.pathsUrl, pathdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      pathdb.Animates = Animates
-        pathdb.PathPointersEncoding.Layer_Paths_reverse = _Layer_Paths_reverse
+        pathdb.Animates = new Array<AnimateDB>()
+        for (let _id of pathdb.PathPointersEncoding.Animates) {
+          let _animate = frontRepo.Animates.get(_id)
+          if (_animate != undefined) {
+            pathdb.Animates.push(_animate!)
+          }
+        }
         // this.log(`posted pathdb id=${pathdb.ID}`)
       }),
       catchError(this.handleError<PathDB>('postPath'))
@@ -125,18 +131,19 @@ export class PathService {
   }
 
   /** PUT: update the pathdb on the server */
-  update(pathdb: PathDB, GONG__StackPath: string): Observable<PathDB> {
-    return this.updatePath(pathdb, GONG__StackPath)
+  update(pathdb: PathDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathDB> {
+    return this.updatePath(pathdb, GONG__StackPath, frontRepo)
   }
-  updatePath(pathdb: PathDB, GONG__StackPath: string): Observable<PathDB> {
+  updatePath(pathdb: PathDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathDB> {
     const id = typeof pathdb === 'number' ? pathdb : pathdb.ID;
     const url = `${this.pathsUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Animates = pathdb.Animates
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
+    for (let _animate of pathdb.Animates) {
+      pathdb.PathPointersEncoding.Animates.push(_animate.ID)
+    }
     pathdb.Animates = []
-    let _Layer_Paths_reverse = pathdb.PathPointersEncoding.Layer_Paths_reverse
-    pathdb.PathPointersEncoding.Layer_Paths_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,8 +154,13 @@ export class PathService {
     return this.http.put<PathDB>(url, pathdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      pathdb.Animates = Animates
-        pathdb.PathPointersEncoding.Layer_Paths_reverse = _Layer_Paths_reverse
+        pathdb.Animates = new Array<AnimateDB>()
+        for (let _id of pathdb.PathPointersEncoding.Animates) {
+          let _animate = frontRepo.Animates.get(_id)
+          if (_animate != undefined) {
+            pathdb.Animates.push(_animate!)
+          }
+        }
         // this.log(`updated pathdb id=${pathdb.ID}`)
       }),
       catchError(this.handleError<PathDB>('updatePath'))
@@ -176,6 +188,6 @@ export class PathService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

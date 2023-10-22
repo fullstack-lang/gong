@@ -45,14 +45,6 @@ type RectAnchoredRectAPI struct {
 // reverse pointers of slice of poitners to Struct
 type RectAnchoredRectPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-
-	// Implementation of a reverse ID for field Rect{}.RectAnchoredRects []*RectAnchoredRect
-	// (to be removed)
-	Rect_RectAnchoredRectsDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Rect_RectAnchoredRectsDBID_Index sql.NullInt64
 }
 
 // RectAnchoredRectDB describes a rectanchoredrect in the database
@@ -859,12 +851,6 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) RestorePhaseTwo(
 		_ = rectanchoredrectDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex rectanchoredrect.RectAnchoredRects
-		if rectanchoredrectDB.Rect_RectAnchoredRectsDBID.Int64 != 0 {
-			rectanchoredrectDB.Rect_RectAnchoredRectsDBID.Int64 =
-				int64(BackRepoRectid_atBckpTime_newID[uint(rectanchoredrectDB.Rect_RectAnchoredRectsDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoRectAnchoredRect.db.Model(rectanchoredrectDB).Updates(*rectanchoredrectDB)
 		if query.Error != nil {
@@ -892,15 +878,6 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) ResetReversePoin
 		_ = rectanchoredrectDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if rectanchoredrectDB.Rect_RectAnchoredRectsDBID.Int64 != 0 {
-			rectanchoredrectDB.Rect_RectAnchoredRectsDBID.Int64 = 0
-			rectanchoredrectDB.Rect_RectAnchoredRectsDBID.Valid = true
-
-			// save the reset
-			if q := backRepoRectAnchoredRect.db.Save(rectanchoredrectDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

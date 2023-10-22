@@ -48,14 +48,6 @@ type CirclePointersEncoding struct {
 
 	// field Animations is a slice of pointers to another Struct (optional or 0..1)
 	Animations IntSlice `gorm:"type:TEXT"`
-
-	// Implementation of a reverse ID for field Layer{}.Circles []*Circle
-	// (to be removed)
-	Layer_CirclesDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Layer_CirclesDBID_Index sql.NullInt64
 }
 
 // CircleDB describes a circle in the database
@@ -279,26 +271,6 @@ func (backRepoCircle *BackRepoCircleStruct) CommitPhaseTwoInstance(backRepo *Bac
 		circleDB.CopyBasicFieldsFromCircle(circle)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// This loop encodes the slice of pointers circle.Animations into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, animateAssocEnd := range circle.Animations {
-
-			// get the back repo instance at the association end
-			animateAssocEnd_DB :=
-				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			animateAssocEnd_DB.Circle_AnimationsDBID.Int64 = int64(circleDB.ID)
-			animateAssocEnd_DB.Circle_AnimationsDBID.Valid = true
-			animateAssocEnd_DB.Circle_AnimationsDBID_Index.Int64 = int64(idx)
-			animateAssocEnd_DB.Circle_AnimationsDBID_Index.Valid = true
-			if q := backRepoCircle.db.Save(animateAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		circleDB.CirclePointersEncoding.Animations = make([]int, 0)
 		// 2. encode
@@ -421,27 +393,9 @@ func (backRepoCircle *BackRepoCircleStruct) CheckoutPhaseTwoInstance(backRepo *B
 	// it appends the stage instance
 	// 1. reset the slice
 	circle.Animations = circle.Animations[:0]
-	// 2. loop all instances in the type in the association end
-	for _, animateDB_AssocEnd := range backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if animateDB_AssocEnd.Circle_AnimationsDBID.Int64 == int64(circleDB.ID) {
-			// 4. fetch the associated instance in the stage
-			animate_AssocEnd := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[animateDB_AssocEnd.ID]
-			// 5. append it the association slice
-			circle.Animations = append(circle.Animations, animate_AssocEnd)
-		}
+	for _, _Animateid := range circleDB.CirclePointersEncoding.Animations {
+		circle.Animations = append(circle.Animations, backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[uint(_Animateid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(circle.Animations, func(i, j int) bool {
-		animateDB_i_ID := backRepo.BackRepoAnimate.Map_AnimatePtr_AnimateDBID[circle.Animations[i]]
-		animateDB_j_ID := backRepo.BackRepoAnimate.Map_AnimatePtr_AnimateDBID[circle.Animations[j]]
-
-		animateDB_i := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB[animateDB_i_ID]
-		animateDB_j := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB[animateDB_j_ID]
-
-		return animateDB_i.Circle_AnimationsDBID_Index.Int64 < animateDB_j.Circle_AnimationsDBID_Index.Int64
-	})
 
 	return
 }
@@ -791,12 +745,6 @@ func (backRepoCircle *BackRepoCircleStruct) RestorePhaseTwo() {
 		_ = circleDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex circle.Circles
-		if circleDB.Layer_CirclesDBID.Int64 != 0 {
-			circleDB.Layer_CirclesDBID.Int64 =
-				int64(BackRepoLayerid_atBckpTime_newID[uint(circleDB.Layer_CirclesDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoCircle.db.Model(circleDB).Updates(*circleDB)
 		if query.Error != nil {
@@ -824,15 +772,6 @@ func (backRepoCircle *BackRepoCircleStruct) ResetReversePointersInstance(backRep
 		_ = circleDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if circleDB.Layer_CirclesDBID.Int64 != 0 {
-			circleDB.Layer_CirclesDBID.Int64 = 0
-			circleDB.Layer_CirclesDBID.Valid = true
-
-			// save the reset
-			if q := backRepoCircle.db.Save(circleDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

@@ -250,26 +250,6 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CommitPhaseTwoInstan
 		diagrampackageDB.CopyBasicFieldsFromDiagramPackage(diagrampackage)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// This loop encodes the slice of pointers diagrampackage.Classdiagrams into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, classdiagramAssocEnd := range diagrampackage.Classdiagrams {
-
-			// get the back repo instance at the association end
-			classdiagramAssocEnd_DB :=
-				backRepo.BackRepoClassdiagram.GetClassdiagramDBFromClassdiagramPtr(classdiagramAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			classdiagramAssocEnd_DB.DiagramPackage_ClassdiagramsDBID.Int64 = int64(diagrampackageDB.ID)
-			classdiagramAssocEnd_DB.DiagramPackage_ClassdiagramsDBID.Valid = true
-			classdiagramAssocEnd_DB.DiagramPackage_ClassdiagramsDBID_Index.Int64 = int64(idx)
-			classdiagramAssocEnd_DB.DiagramPackage_ClassdiagramsDBID_Index.Valid = true
-			if q := backRepoDiagramPackage.db.Save(classdiagramAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		diagrampackageDB.DiagramPackagePointersEncoding.Classdiagrams = make([]int, 0)
 		// 2. encode
@@ -290,26 +270,6 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CommitPhaseTwoInstan
 		} else {
 			diagrampackageDB.SelectedClassdiagramID.Int64 = 0
 			diagrampackageDB.SelectedClassdiagramID.Valid = true
-		}
-
-		// This loop encodes the slice of pointers diagrampackage.Umlscs into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, umlscAssocEnd := range diagrampackage.Umlscs {
-
-			// get the back repo instance at the association end
-			umlscAssocEnd_DB :=
-				backRepo.BackRepoUmlsc.GetUmlscDBFromUmlscPtr(umlscAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			umlscAssocEnd_DB.DiagramPackage_UmlscsDBID.Int64 = int64(diagrampackageDB.ID)
-			umlscAssocEnd_DB.DiagramPackage_UmlscsDBID.Valid = true
-			umlscAssocEnd_DB.DiagramPackage_UmlscsDBID_Index.Int64 = int64(idx)
-			umlscAssocEnd_DB.DiagramPackage_UmlscsDBID_Index.Valid = true
-			if q := backRepoDiagramPackage.db.Save(umlscAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
 		}
 
 		// 1. reset
@@ -434,27 +394,9 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CheckoutPhaseTwoInst
 	// it appends the stage instance
 	// 1. reset the slice
 	diagrampackage.Classdiagrams = diagrampackage.Classdiagrams[:0]
-	// 2. loop all instances in the type in the association end
-	for _, classdiagramDB_AssocEnd := range backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if classdiagramDB_AssocEnd.DiagramPackage_ClassdiagramsDBID.Int64 == int64(diagrampackageDB.ID) {
-			// 4. fetch the associated instance in the stage
-			classdiagram_AssocEnd := backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr[classdiagramDB_AssocEnd.ID]
-			// 5. append it the association slice
-			diagrampackage.Classdiagrams = append(diagrampackage.Classdiagrams, classdiagram_AssocEnd)
-		}
+	for _, _Classdiagramid := range diagrampackageDB.DiagramPackagePointersEncoding.Classdiagrams {
+		diagrampackage.Classdiagrams = append(diagrampackage.Classdiagrams, backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr[uint(_Classdiagramid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(diagrampackage.Classdiagrams, func(i, j int) bool {
-		classdiagramDB_i_ID := backRepo.BackRepoClassdiagram.Map_ClassdiagramPtr_ClassdiagramDBID[diagrampackage.Classdiagrams[i]]
-		classdiagramDB_j_ID := backRepo.BackRepoClassdiagram.Map_ClassdiagramPtr_ClassdiagramDBID[diagrampackage.Classdiagrams[j]]
-
-		classdiagramDB_i := backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramDB[classdiagramDB_i_ID]
-		classdiagramDB_j := backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramDB[classdiagramDB_j_ID]
-
-		return classdiagramDB_i.DiagramPackage_ClassdiagramsDBID_Index.Int64 < classdiagramDB_j.DiagramPackage_ClassdiagramsDBID_Index.Int64
-	})
 
 	// SelectedClassdiagram field
 	diagrampackage.SelectedClassdiagram = nil
@@ -466,27 +408,9 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CheckoutPhaseTwoInst
 	// it appends the stage instance
 	// 1. reset the slice
 	diagrampackage.Umlscs = diagrampackage.Umlscs[:0]
-	// 2. loop all instances in the type in the association end
-	for _, umlscDB_AssocEnd := range backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if umlscDB_AssocEnd.DiagramPackage_UmlscsDBID.Int64 == int64(diagrampackageDB.ID) {
-			// 4. fetch the associated instance in the stage
-			umlsc_AssocEnd := backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr[umlscDB_AssocEnd.ID]
-			// 5. append it the association slice
-			diagrampackage.Umlscs = append(diagrampackage.Umlscs, umlsc_AssocEnd)
-		}
+	for _, _Umlscid := range diagrampackageDB.DiagramPackagePointersEncoding.Umlscs {
+		diagrampackage.Umlscs = append(diagrampackage.Umlscs, backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr[uint(_Umlscid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(diagrampackage.Umlscs, func(i, j int) bool {
-		umlscDB_i_ID := backRepo.BackRepoUmlsc.Map_UmlscPtr_UmlscDBID[diagrampackage.Umlscs[i]]
-		umlscDB_j_ID := backRepo.BackRepoUmlsc.Map_UmlscPtr_UmlscDBID[diagrampackage.Umlscs[j]]
-
-		umlscDB_i := backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscDB[umlscDB_i_ID]
-		umlscDB_j := backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscDB[umlscDB_j_ID]
-
-		return umlscDB_i.DiagramPackage_UmlscsDBID_Index.Int64 < umlscDB_j.DiagramPackage_UmlscsDBID_Index.Int64
-	})
 
 	return
 }

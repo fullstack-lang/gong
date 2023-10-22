@@ -48,14 +48,6 @@ type TextPointersEncoding struct {
 
 	// field Animates is a slice of pointers to another Struct (optional or 0..1)
 	Animates IntSlice `gorm:"type:TEXT"`
-
-	// Implementation of a reverse ID for field Layer{}.Texts []*Text
-	// (to be removed)
-	Layer_TextsDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Layer_TextsDBID_Index sql.NullInt64
 }
 
 // TextDB describes a text in the database
@@ -279,26 +271,6 @@ func (backRepoText *BackRepoTextStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		textDB.CopyBasicFieldsFromText(text)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// This loop encodes the slice of pointers text.Animates into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, animateAssocEnd := range text.Animates {
-
-			// get the back repo instance at the association end
-			animateAssocEnd_DB :=
-				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			animateAssocEnd_DB.Text_AnimatesDBID.Int64 = int64(textDB.ID)
-			animateAssocEnd_DB.Text_AnimatesDBID.Valid = true
-			animateAssocEnd_DB.Text_AnimatesDBID_Index.Int64 = int64(idx)
-			animateAssocEnd_DB.Text_AnimatesDBID_Index.Valid = true
-			if q := backRepoText.db.Save(animateAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		textDB.TextPointersEncoding.Animates = make([]int, 0)
 		// 2. encode
@@ -421,27 +393,9 @@ func (backRepoText *BackRepoTextStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 	// it appends the stage instance
 	// 1. reset the slice
 	text.Animates = text.Animates[:0]
-	// 2. loop all instances in the type in the association end
-	for _, animateDB_AssocEnd := range backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if animateDB_AssocEnd.Text_AnimatesDBID.Int64 == int64(textDB.ID) {
-			// 4. fetch the associated instance in the stage
-			animate_AssocEnd := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[animateDB_AssocEnd.ID]
-			// 5. append it the association slice
-			text.Animates = append(text.Animates, animate_AssocEnd)
-		}
+	for _, _Animateid := range textDB.TextPointersEncoding.Animates {
+		text.Animates = append(text.Animates, backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[uint(_Animateid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(text.Animates, func(i, j int) bool {
-		animateDB_i_ID := backRepo.BackRepoAnimate.Map_AnimatePtr_AnimateDBID[text.Animates[i]]
-		animateDB_j_ID := backRepo.BackRepoAnimate.Map_AnimatePtr_AnimateDBID[text.Animates[j]]
-
-		animateDB_i := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB[animateDB_i_ID]
-		animateDB_j := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB[animateDB_j_ID]
-
-		return animateDB_i.Text_AnimatesDBID_Index.Int64 < animateDB_j.Text_AnimatesDBID_Index.Int64
-	})
 
 	return
 }
@@ -791,12 +745,6 @@ func (backRepoText *BackRepoTextStruct) RestorePhaseTwo() {
 		_ = textDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex text.Texts
-		if textDB.Layer_TextsDBID.Int64 != 0 {
-			textDB.Layer_TextsDBID.Int64 =
-				int64(BackRepoLayerid_atBckpTime_newID[uint(textDB.Layer_TextsDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoText.db.Model(textDB).Updates(*textDB)
 		if query.Error != nil {
@@ -824,15 +772,6 @@ func (backRepoText *BackRepoTextStruct) ResetReversePointersInstance(backRepo *B
 		_ = textDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if textDB.Layer_TextsDBID.Int64 != 0 {
-			textDB.Layer_TextsDBID.Int64 = 0
-			textDB.Layer_TextsDBID.Valid = true
-
-			// save the reset
-			if q := backRepoText.db.Save(textDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

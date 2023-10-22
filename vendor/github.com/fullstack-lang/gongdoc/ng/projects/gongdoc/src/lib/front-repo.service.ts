@@ -165,11 +165,7 @@ export class FrontRepoService {
             // insertion point sub template for init 
 
             // 
-            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
-            // insertion point sub template for redeem 
-
-            // 
-            // Third Step: sort arrays (slices in go) according to their index
+            // Second Step: reddeem slice of pointers fields
             // insertion point sub template for redeem 
 
             // hand over control flow to observer

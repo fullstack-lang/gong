@@ -211,26 +211,6 @@ func (backRepoTree *BackRepoTreeStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		treeDB.CopyBasicFieldsFromTree(tree)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// This loop encodes the slice of pointers tree.RootNodes into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, nodeAssocEnd := range tree.RootNodes {
-
-			// get the back repo instance at the association end
-			nodeAssocEnd_DB :=
-				backRepo.BackRepoNode.GetNodeDBFromNodePtr(nodeAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			nodeAssocEnd_DB.Tree_RootNodesDBID.Int64 = int64(treeDB.ID)
-			nodeAssocEnd_DB.Tree_RootNodesDBID.Valid = true
-			nodeAssocEnd_DB.Tree_RootNodesDBID_Index.Int64 = int64(idx)
-			nodeAssocEnd_DB.Tree_RootNodesDBID_Index.Valid = true
-			if q := backRepoTree.db.Save(nodeAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		treeDB.TreePointersEncoding.RootNodes = make([]int, 0)
 		// 2. encode
@@ -353,27 +333,9 @@ func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 	// it appends the stage instance
 	// 1. reset the slice
 	tree.RootNodes = tree.RootNodes[:0]
-	// 2. loop all instances in the type in the association end
-	for _, nodeDB_AssocEnd := range backRepo.BackRepoNode.Map_NodeDBID_NodeDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if nodeDB_AssocEnd.Tree_RootNodesDBID.Int64 == int64(treeDB.ID) {
-			// 4. fetch the associated instance in the stage
-			node_AssocEnd := backRepo.BackRepoNode.Map_NodeDBID_NodePtr[nodeDB_AssocEnd.ID]
-			// 5. append it the association slice
-			tree.RootNodes = append(tree.RootNodes, node_AssocEnd)
-		}
+	for _, _Nodeid := range treeDB.TreePointersEncoding.RootNodes {
+		tree.RootNodes = append(tree.RootNodes, backRepo.BackRepoNode.Map_NodeDBID_NodePtr[uint(_Nodeid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(tree.RootNodes, func(i, j int) bool {
-		nodeDB_i_ID := backRepo.BackRepoNode.Map_NodePtr_NodeDBID[tree.RootNodes[i]]
-		nodeDB_j_ID := backRepo.BackRepoNode.Map_NodePtr_NodeDBID[tree.RootNodes[j]]
-
-		nodeDB_i := backRepo.BackRepoNode.Map_NodeDBID_NodeDB[nodeDB_i_ID]
-		nodeDB_j := backRepo.BackRepoNode.Map_NodeDBID_NodeDB[nodeDB_j_ID]
-
-		return nodeDB_i.Tree_RootNodesDBID_Index.Int64 < nodeDB_j.Tree_RootNodesDBID_Index.Int64
-	})
 
 	return
 }

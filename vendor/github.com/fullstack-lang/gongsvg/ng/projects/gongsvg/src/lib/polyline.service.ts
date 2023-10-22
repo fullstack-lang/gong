@@ -12,9 +12,10 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { PolylineDB } from './polyline-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { LayerDB } from './layer-db'
+import { AnimateDB } from './animate-db'
 
 @Injectable({
   providedIn: 'root'
@@ -44,10 +45,10 @@ export class PolylineService {
 
   /** GET polylines from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<PolylineDB[]> {
-    return this.getPolylines(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineDB[]> {
+    return this.getPolylines(GONG__StackPath, frontRepo)
   }
-  getPolylines(GONG__StackPath: string): Observable<PolylineDB[]> {
+  getPolylines(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -61,10 +62,10 @@ export class PolylineService {
 
   /** GET polyline by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<PolylineDB> {
-	return this.getPolyline(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineDB> {
+    return this.getPolyline(id, GONG__StackPath, frontRepo)
   }
-  getPolyline(id: number, GONG__StackPath: string): Observable<PolylineDB> {
+  getPolyline(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -76,16 +77,16 @@ export class PolylineService {
   }
 
   /** POST: add a new polyline to the server */
-  post(polylinedb: PolylineDB, GONG__StackPath: string): Observable<PolylineDB> {
-    return this.postPolyline(polylinedb, GONG__StackPath)	
+  post(polylinedb: PolylineDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineDB> {
+    return this.postPolyline(polylinedb, GONG__StackPath, frontRepo)
   }
-  postPolyline(polylinedb: PolylineDB, GONG__StackPath: string): Observable<PolylineDB> {
+  postPolyline(polylinedb: PolylineDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Animates = polylinedb.Animates
+    for (let _animate of polylinedb.Animates) {
+      polylinedb.PolylinePointersEncoding.Animates.push(_animate.ID)
+    }
     polylinedb.Animates = []
-    let _Layer_Polylines_reverse = polylinedb.PolylinePointersEncoding.Layer_Polylines_reverse
-    polylinedb.PolylinePointersEncoding.Layer_Polylines_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -96,8 +97,13 @@ export class PolylineService {
     return this.http.post<PolylineDB>(this.polylinesUrl, polylinedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      polylinedb.Animates = Animates
-        polylinedb.PolylinePointersEncoding.Layer_Polylines_reverse = _Layer_Polylines_reverse
+        polylinedb.Animates = new Array<AnimateDB>()
+        for (let _id of polylinedb.PolylinePointersEncoding.Animates) {
+          let _animate = frontRepo.Animates.get(_id)
+          if (_animate != undefined) {
+            polylinedb.Animates.push(_animate!)
+          }
+        }
         // this.log(`posted polylinedb id=${polylinedb.ID}`)
       }),
       catchError(this.handleError<PolylineDB>('postPolyline'))
@@ -125,18 +131,19 @@ export class PolylineService {
   }
 
   /** PUT: update the polylinedb on the server */
-  update(polylinedb: PolylineDB, GONG__StackPath: string): Observable<PolylineDB> {
-    return this.updatePolyline(polylinedb, GONG__StackPath)
+  update(polylinedb: PolylineDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineDB> {
+    return this.updatePolyline(polylinedb, GONG__StackPath, frontRepo)
   }
-  updatePolyline(polylinedb: PolylineDB, GONG__StackPath: string): Observable<PolylineDB> {
+  updatePolyline(polylinedb: PolylineDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineDB> {
     const id = typeof polylinedb === 'number' ? polylinedb : polylinedb.ID;
     const url = `${this.polylinesUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Animates = polylinedb.Animates
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
+    for (let _animate of polylinedb.Animates) {
+      polylinedb.PolylinePointersEncoding.Animates.push(_animate.ID)
+    }
     polylinedb.Animates = []
-    let _Layer_Polylines_reverse = polylinedb.PolylinePointersEncoding.Layer_Polylines_reverse
-    polylinedb.PolylinePointersEncoding.Layer_Polylines_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,8 +154,13 @@ export class PolylineService {
     return this.http.put<PolylineDB>(url, polylinedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      polylinedb.Animates = Animates
-        polylinedb.PolylinePointersEncoding.Layer_Polylines_reverse = _Layer_Polylines_reverse
+        polylinedb.Animates = new Array<AnimateDB>()
+        for (let _id of polylinedb.PolylinePointersEncoding.Animates) {
+          let _animate = frontRepo.Animates.get(_id)
+          if (_animate != undefined) {
+            polylinedb.Animates.push(_animate!)
+          }
+        }
         // this.log(`updated polylinedb id=${polylinedb.ID}`)
       }),
       catchError(this.handleError<PolylineDB>('updatePolyline'))
@@ -176,6 +188,6 @@ export class PolylineService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

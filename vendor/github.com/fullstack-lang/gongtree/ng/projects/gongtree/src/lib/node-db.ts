@@ -1,6 +1,5 @@
 // insertion point for imports
 import { ButtonDB } from './button-db'
-import { TreeDB } from './tree-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -34,14 +33,4 @@ export class NodePointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
 	Children: number[] = []
 	Buttons: number[] = []
-	// reverse pointers encoding (to be removed)
-	Node_ChildrenDBID: NullInt64 = new NullInt64
-	Node_ChildrenDBID_Index: NullInt64  = new NullInt64 // store the index of the node instance in Node.Children
-	Node_Children_reverse?: NodeDB 
-
-	// reverse pointers encoding (to be removed)
-	Tree_RootNodesDBID: NullInt64 = new NullInt64
-	Tree_RootNodesDBID_Index: NullInt64  = new NullInt64 // store the index of the node instance in Tree.RootNodes
-	Tree_RootNodes_reverse?: TreeDB 
-
 }

@@ -27,10 +27,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "DiagramPackage":
 			switch reverseField.Fieldname {
 			case "Classdiagrams":
-				if tmp != nil && tmp.DiagramPackage_ClassdiagramsDBID.Int64 != 0 {
-					id := uint(tmp.DiagramPackage_ClassdiagramsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr[id]
-					res = reservePointerTarget.Name
+				if _diagrampackage, ok := stage.DiagramPackage_Classdiagrams_reverseMap[inst]; ok {
+					res = _diagrampackage.Name
 				}
 			}
 		case "Field":
@@ -141,10 +139,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "GongStructShape":
 			switch reverseField.Fieldname {
 			case "Fields":
-				if tmp != nil && tmp.GongStructShape_FieldsDBID.Int64 != 0 {
-					id := uint(tmp.GongStructShape_FieldsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr[id]
-					res = reservePointerTarget.Name
+				if _gongstructshape, ok := stage.GongStructShape_Fields_reverseMap[inst]; ok {
+					res = _gongstructshape.Name
 				}
 			}
 		case "Link":
@@ -180,10 +176,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Classdiagram":
 			switch reverseField.Fieldname {
 			case "GongEnumShapes":
-				if tmp != nil && tmp.Classdiagram_GongEnumShapesDBID.Int64 != 0 {
-					id := uint(tmp.Classdiagram_GongEnumShapesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr[id]
-					res = reservePointerTarget.Name
+				if _classdiagram, ok := stage.Classdiagram_GongEnumShapes_reverseMap[inst]; ok {
+					res = _classdiagram.Name
 				}
 			}
 		case "DiagramPackage":
@@ -243,10 +237,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "GongEnumShape":
 			switch reverseField.Fieldname {
 			case "GongEnumValueEntrys":
-				if tmp != nil && tmp.GongEnumShape_GongEnumValueEntrysDBID.Int64 != 0 {
-					id := uint(tmp.GongEnumShape_GongEnumValueEntrysDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapePtr[id]
-					res = reservePointerTarget.Name
+				if _gongenumshape, ok := stage.GongEnumShape_GongEnumValueEntrys_reverseMap[inst]; ok {
+					res = _gongenumshape.Name
 				}
 			}
 		case "GongEnumValueEntry":
@@ -288,10 +280,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Classdiagram":
 			switch reverseField.Fieldname {
 			case "GongStructShapes":
-				if tmp != nil && tmp.Classdiagram_GongStructShapesDBID.Int64 != 0 {
-					id := uint(tmp.Classdiagram_GongStructShapesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr[id]
-					res = reservePointerTarget.Name
+				if _classdiagram, ok := stage.Classdiagram_GongStructShapes_reverseMap[inst]; ok {
+					res = _classdiagram.Name
 				}
 			}
 		case "DiagramPackage":
@@ -357,10 +347,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "GongStructShape":
 			switch reverseField.Fieldname {
 			case "Links":
-				if tmp != nil && tmp.GongStructShape_LinksDBID.Int64 != 0 {
-					id := uint(tmp.GongStructShape_LinksDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr[id]
-					res = reservePointerTarget.Name
+				if _gongstructshape, ok := stage.GongStructShape_Links_reverseMap[inst]; ok {
+					res = _gongstructshape.Name
 				}
 			}
 		case "Link":
@@ -396,10 +384,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Classdiagram":
 			switch reverseField.Fieldname {
 			case "NoteShapes":
-				if tmp != nil && tmp.Classdiagram_NoteShapesDBID.Int64 != 0 {
-					id := uint(tmp.Classdiagram_NoteShapesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr[id]
-					res = reservePointerTarget.Name
+				if _classdiagram, ok := stage.Classdiagram_NoteShapes_reverseMap[inst]; ok {
+					res = _classdiagram.Name
 				}
 			}
 		case "DiagramPackage":
@@ -471,10 +457,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "NoteShape":
 			switch reverseField.Fieldname {
 			case "NoteShapeLinks":
-				if tmp != nil && tmp.NoteShape_NoteShapeLinksDBID.Int64 != 0 {
-					id := uint(tmp.NoteShape_NoteShapeLinksDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr[id]
-					res = reservePointerTarget.Name
+				if _noteshape, ok := stage.NoteShape_NoteShapeLinks_reverseMap[inst]; ok {
+					res = _noteshape.Name
 				}
 			}
 		case "NoteShapeLink":
@@ -585,10 +569,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Umlsc":
 			switch reverseField.Fieldname {
 			case "States":
-				if tmp != nil && tmp.Umlsc_StatesDBID.Int64 != 0 {
-					id := uint(tmp.Umlsc_StatesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr[id]
-					res = reservePointerTarget.Name
+				if _umlsc, ok := stage.Umlsc_States_reverseMap[inst]; ok {
+					res = _umlsc.Name
 				}
 			}
 		case "Vertice":
@@ -609,10 +591,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "DiagramPackage":
 			switch reverseField.Fieldname {
 			case "Umlscs":
-				if tmp != nil && tmp.DiagramPackage_UmlscsDBID.Int64 != 0 {
-					id := uint(tmp.DiagramPackage_UmlscsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr[id]
-					res = reservePointerTarget.Name
+				if _diagrampackage, ok := stage.DiagramPackage_Umlscs_reverseMap[inst]; ok {
+					res = _diagrampackage.Name
 				}
 			}
 		case "Field":
@@ -726,11 +706,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "DiagramPackage":
 			switch reverseField.Fieldname {
 			case "Classdiagrams":
-				if tmp != nil && tmp.DiagramPackage_ClassdiagramsDBID.Int64 != 0 {
-					id := uint(tmp.DiagramPackage_ClassdiagramsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.DiagramPackage_Classdiagrams_reverseMap[inst]
 			}
 		case "Field":
 			switch reverseField.Fieldname {
@@ -766,7 +742,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.DiagramPackage:
 		tmp := GetInstanceDBFromInstance[models.DiagramPackage, DiagramPackageDB](
 			stage, backRepo, inst,
@@ -814,7 +790,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Field:
 		tmp := GetInstanceDBFromInstance[models.Field, FieldDB](
 			stage, backRepo, inst,
@@ -840,11 +816,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "GongStructShape":
 			switch reverseField.Fieldname {
 			case "Fields":
-				if tmp != nil && tmp.GongStructShape_FieldsDBID.Int64 != 0 {
-					id := uint(tmp.GongStructShape_FieldsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.GongStructShape_Fields_reverseMap[inst]
 			}
 		case "Link":
 			switch reverseField.Fieldname {
@@ -868,7 +840,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.GongEnumShape:
 		tmp := GetInstanceDBFromInstance[models.GongEnumShape, GongEnumShapeDB](
 			stage, backRepo, inst,
@@ -879,11 +851,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Classdiagram":
 			switch reverseField.Fieldname {
 			case "GongEnumShapes":
-				if tmp != nil && tmp.Classdiagram_GongEnumShapesDBID.Int64 != 0 {
-					id := uint(tmp.Classdiagram_GongEnumShapesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Classdiagram_GongEnumShapes_reverseMap[inst]
 			}
 		case "DiagramPackage":
 			switch reverseField.Fieldname {
@@ -922,7 +890,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.GongEnumValueEntry:
 		tmp := GetInstanceDBFromInstance[models.GongEnumValueEntry, GongEnumValueEntryDB](
 			stage, backRepo, inst,
@@ -942,11 +910,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "GongEnumShape":
 			switch reverseField.Fieldname {
 			case "GongEnumValueEntrys":
-				if tmp != nil && tmp.GongEnumShape_GongEnumValueEntrysDBID.Int64 != 0 {
-					id := uint(tmp.GongEnumShape_GongEnumValueEntrysDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapePtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.GongEnumShape_GongEnumValueEntrys_reverseMap[inst]
 			}
 		case "GongEnumValueEntry":
 			switch reverseField.Fieldname {
@@ -976,7 +940,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.GongStructShape:
 		tmp := GetInstanceDBFromInstance[models.GongStructShape, GongStructShapeDB](
 			stage, backRepo, inst,
@@ -987,11 +951,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Classdiagram":
 			switch reverseField.Fieldname {
 			case "GongStructShapes":
-				if tmp != nil && tmp.Classdiagram_GongStructShapesDBID.Int64 != 0 {
-					id := uint(tmp.Classdiagram_GongStructShapesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Classdiagram_GongStructShapes_reverseMap[inst]
 			}
 		case "DiagramPackage":
 			switch reverseField.Fieldname {
@@ -1030,7 +990,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Link:
 		tmp := GetInstanceDBFromInstance[models.Link, LinkDB](
 			stage, backRepo, inst,
@@ -1056,11 +1016,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "GongStructShape":
 			switch reverseField.Fieldname {
 			case "Links":
-				if tmp != nil && tmp.GongStructShape_LinksDBID.Int64 != 0 {
-					id := uint(tmp.GongStructShape_LinksDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.GongStructShape_Links_reverseMap[inst]
 			}
 		case "Link":
 			switch reverseField.Fieldname {
@@ -1084,7 +1040,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.NoteShape:
 		tmp := GetInstanceDBFromInstance[models.NoteShape, NoteShapeDB](
 			stage, backRepo, inst,
@@ -1095,11 +1051,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Classdiagram":
 			switch reverseField.Fieldname {
 			case "NoteShapes":
-				if tmp != nil && tmp.Classdiagram_NoteShapesDBID.Int64 != 0 {
-					id := uint(tmp.Classdiagram_NoteShapesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Classdiagram_NoteShapes_reverseMap[inst]
 			}
 		case "DiagramPackage":
 			switch reverseField.Fieldname {
@@ -1138,7 +1090,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.NoteShapeLink:
 		tmp := GetInstanceDBFromInstance[models.NoteShapeLink, NoteShapeLinkDB](
 			stage, backRepo, inst,
@@ -1170,11 +1122,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "NoteShape":
 			switch reverseField.Fieldname {
 			case "NoteShapeLinks":
-				if tmp != nil && tmp.NoteShape_NoteShapeLinksDBID.Int64 != 0 {
-					id := uint(tmp.NoteShape_NoteShapeLinksDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.NoteShape_NoteShapeLinks_reverseMap[inst]
 			}
 		case "NoteShapeLink":
 			switch reverseField.Fieldname {
@@ -1192,7 +1140,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Position:
 		tmp := GetInstanceDBFromInstance[models.Position, PositionDB](
 			stage, backRepo, inst,
@@ -1240,7 +1188,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.UmlState:
 		tmp := GetInstanceDBFromInstance[models.UmlState, UmlStateDB](
 			stage, backRepo, inst,
@@ -1284,17 +1232,13 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Umlsc":
 			switch reverseField.Fieldname {
 			case "States":
-				if tmp != nil && tmp.Umlsc_StatesDBID.Int64 != 0 {
-					id := uint(tmp.Umlsc_StatesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Umlsc_States_reverseMap[inst]
 			}
 		case "Vertice":
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Umlsc:
 		tmp := GetInstanceDBFromInstance[models.Umlsc, UmlscDB](
 			stage, backRepo, inst,
@@ -1308,11 +1252,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "DiagramPackage":
 			switch reverseField.Fieldname {
 			case "Umlscs":
-				if tmp != nil && tmp.DiagramPackage_UmlscsDBID.Int64 != 0 {
-					id := uint(tmp.DiagramPackage_UmlscsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.DiagramPackage_Umlscs_reverseMap[inst]
 			}
 		case "Field":
 			switch reverseField.Fieldname {
@@ -1348,7 +1288,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Vertice:
 		tmp := GetInstanceDBFromInstance[models.Vertice, VerticeDB](
 			stage, backRepo, inst,
@@ -1396,7 +1336,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	default:
 		_ = inst
 	}

@@ -73,14 +73,6 @@ type FormFieldPointersEncoding struct {
 	// field FormFieldSelect is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	FormFieldSelectID sql.NullInt64
-
-	// Implementation of a reverse ID for field FormDiv{}.FormFields []*FormField
-	// (to be removed)
-	FormDiv_FormFieldsDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	FormDiv_FormFieldsDBID_Index sql.NullInt64
 }
 
 // FormFieldDB describes a formfield in the database
@@ -831,12 +823,6 @@ func (backRepoFormField *BackRepoFormFieldStruct) RestorePhaseTwo() {
 			formfieldDB.FormFieldSelectID.Valid = true
 		}
 
-		// This reindex formfield.FormFields
-		if formfieldDB.FormDiv_FormFieldsDBID.Int64 != 0 {
-			formfieldDB.FormDiv_FormFieldsDBID.Int64 =
-				int64(BackRepoFormDivid_atBckpTime_newID[uint(formfieldDB.FormDiv_FormFieldsDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoFormField.db.Model(formfieldDB).Updates(*formfieldDB)
 		if query.Error != nil {
@@ -864,15 +850,6 @@ func (backRepoFormField *BackRepoFormFieldStruct) ResetReversePointersInstance(b
 		_ = formfieldDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if formfieldDB.FormDiv_FormFieldsDBID.Int64 != 0 {
-			formfieldDB.FormDiv_FormFieldsDBID.Int64 = 0
-			formfieldDB.FormDiv_FormFieldsDBID.Valid = true
-
-			// save the reset
-			if q := backRepoFormField.db.Save(formfieldDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

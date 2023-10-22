@@ -12,6 +12,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { FormEditAssocButtonDB } from './formeditassocbutton-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
 
@@ -43,10 +44,10 @@ export class FormEditAssocButtonService {
 
   /** GET formeditassocbuttons from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<FormEditAssocButtonDB[]> {
-    return this.getFormEditAssocButtons(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonDB[]> {
+    return this.getFormEditAssocButtons(GONG__StackPath, frontRepo)
   }
-  getFormEditAssocButtons(GONG__StackPath: string): Observable<FormEditAssocButtonDB[]> {
+  getFormEditAssocButtons(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -60,10 +61,10 @@ export class FormEditAssocButtonService {
 
   /** GET formeditassocbutton by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
-	return this.getFormEditAssocButton(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonDB> {
+    return this.getFormEditAssocButton(id, GONG__StackPath, frontRepo)
   }
-  getFormEditAssocButton(id: number, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
+  getFormEditAssocButton(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -75,10 +76,10 @@ export class FormEditAssocButtonService {
   }
 
   /** POST: add a new formeditassocbutton to the server */
-  post(formeditassocbuttondb: FormEditAssocButtonDB, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
-    return this.postFormEditAssocButton(formeditassocbuttondb, GONG__StackPath)	
+  post(formeditassocbuttondb: FormEditAssocButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonDB> {
+    return this.postFormEditAssocButton(formeditassocbuttondb, GONG__StackPath, frontRepo)
   }
-  postFormEditAssocButton(formeditassocbuttondb: FormEditAssocButtonDB, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
+  postFormEditAssocButton(formeditassocbuttondb: FormEditAssocButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
@@ -118,14 +119,15 @@ export class FormEditAssocButtonService {
   }
 
   /** PUT: update the formeditassocbuttondb on the server */
-  update(formeditassocbuttondb: FormEditAssocButtonDB, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
-    return this.updateFormEditAssocButton(formeditassocbuttondb, GONG__StackPath)
+  update(formeditassocbuttondb: FormEditAssocButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonDB> {
+    return this.updateFormEditAssocButton(formeditassocbuttondb, GONG__StackPath, frontRepo)
   }
-  updateFormEditAssocButton(formeditassocbuttondb: FormEditAssocButtonDB, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
+  updateFormEditAssocButton(formeditassocbuttondb: FormEditAssocButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonDB> {
     const id = typeof formeditassocbuttondb === 'number' ? formeditassocbuttondb : formeditassocbuttondb.ID;
     const url = `${this.formeditassocbuttonsUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -163,6 +165,6 @@ export class FormEditAssocButtonService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

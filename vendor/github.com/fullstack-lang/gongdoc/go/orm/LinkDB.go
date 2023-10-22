@@ -49,14 +49,6 @@ type LinkPointersEncoding struct {
 	// field Middlevertice is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	MiddleverticeID sql.NullInt64
-
-	// Implementation of a reverse ID for field GongStructShape{}.Links []*Link
-	// (to be removed)
-	GongStructShape_LinksDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	GongStructShape_LinksDBID_Index sql.NullInt64
 }
 
 // LinkDB describes a link in the database
@@ -848,12 +840,6 @@ func (backRepoLink *BackRepoLinkStruct) RestorePhaseTwo() {
 			linkDB.MiddleverticeID.Valid = true
 		}
 
-		// This reindex link.Links
-		if linkDB.GongStructShape_LinksDBID.Int64 != 0 {
-			linkDB.GongStructShape_LinksDBID.Int64 =
-				int64(BackRepoGongStructShapeid_atBckpTime_newID[uint(linkDB.GongStructShape_LinksDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoLink.db.Model(linkDB).Updates(*linkDB)
 		if query.Error != nil {
@@ -881,15 +867,6 @@ func (backRepoLink *BackRepoLinkStruct) ResetReversePointersInstance(backRepo *B
 		_ = linkDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if linkDB.GongStructShape_LinksDBID.Int64 != 0 {
-			linkDB.GongStructShape_LinksDBID.Int64 = 0
-			linkDB.GongStructShape_LinksDBID.Valid = true
-
-			// save the reset
-			if q := backRepoLink.db.Save(linkDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

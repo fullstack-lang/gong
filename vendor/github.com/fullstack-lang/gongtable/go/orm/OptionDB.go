@@ -45,14 +45,6 @@ type OptionAPI struct {
 // reverse pointers of slice of poitners to Struct
 type OptionPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-
-	// Implementation of a reverse ID for field FormFieldSelect{}.Options []*Option
-	// (to be removed)
-	FormFieldSelect_OptionsDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	FormFieldSelect_OptionsDBID_Index sql.NullInt64
 }
 
 // OptionDB describes a option in the database
@@ -551,12 +543,6 @@ func (backRepoOption *BackRepoOptionStruct) RestorePhaseTwo() {
 		_ = optionDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex option.Options
-		if optionDB.FormFieldSelect_OptionsDBID.Int64 != 0 {
-			optionDB.FormFieldSelect_OptionsDBID.Int64 =
-				int64(BackRepoFormFieldSelectid_atBckpTime_newID[uint(optionDB.FormFieldSelect_OptionsDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoOption.db.Model(optionDB).Updates(*optionDB)
 		if query.Error != nil {
@@ -584,15 +570,6 @@ func (backRepoOption *BackRepoOptionStruct) ResetReversePointersInstance(backRep
 		_ = optionDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if optionDB.FormFieldSelect_OptionsDBID.Int64 != 0 {
-			optionDB.FormFieldSelect_OptionsDBID.Int64 = 0
-			optionDB.FormFieldSelect_OptionsDBID.Valid = true
-
-			// save the reset
-			if q := backRepoOption.db.Save(optionDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

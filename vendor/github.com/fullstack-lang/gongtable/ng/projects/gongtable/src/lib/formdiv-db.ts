@@ -3,7 +3,6 @@ import { FormFieldDB } from './formfield-db'
 import { CheckBoxDB } from './checkbox-db'
 import { FormEditAssocButtonDB } from './formeditassocbutton-db'
 import { FormSortAssocButtonDB } from './formsortassocbutton-db'
-import { FormGroupDB } from './formgroup-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -37,10 +36,5 @@ export class FormDivPointersEncoding {
 	FormEditAssocButtonID: NullInt64 = new NullInt64 // if pointer is null, FormEditAssocButton.ID = 0
 
 	FormSortAssocButtonID: NullInt64 = new NullInt64 // if pointer is null, FormSortAssocButton.ID = 0
-
-	// reverse pointers encoding (to be removed)
-	FormGroup_FormDivsDBID: NullInt64 = new NullInt64
-	FormGroup_FormDivsDBID_Index: NullInt64  = new NullInt64 // store the index of the formdiv instance in FormGroup.FormDivs
-	FormGroup_FormDivs_reverse?: FormGroupDB 
 
 }

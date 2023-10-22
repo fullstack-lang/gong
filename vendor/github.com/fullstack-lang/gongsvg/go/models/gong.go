@@ -48,6 +48,8 @@ type StageStruct struct {
 	Animates           map[*Animate]any
 	Animates_mapString map[string]*Animate
 
+	// insertion point for slice of pointers maps
+
 	OnAfterAnimateCreateCallback OnAfterCreateInterface[Animate]
 	OnAfterAnimateUpdateCallback OnAfterUpdateInterface[Animate]
 	OnAfterAnimateDeleteCallback OnAfterDeleteInterface[Animate]
@@ -55,6 +57,9 @@ type StageStruct struct {
 
 	Circles           map[*Circle]any
 	Circles_mapString map[string]*Circle
+
+	// insertion point for slice of pointers maps
+	Circle_Animations_reverseMap map[*Animate]*Circle
 
 	OnAfterCircleCreateCallback OnAfterCreateInterface[Circle]
 	OnAfterCircleUpdateCallback OnAfterUpdateInterface[Circle]
@@ -64,6 +69,9 @@ type StageStruct struct {
 	Ellipses           map[*Ellipse]any
 	Ellipses_mapString map[string]*Ellipse
 
+	// insertion point for slice of pointers maps
+	Ellipse_Animates_reverseMap map[*Animate]*Ellipse
+
 	OnAfterEllipseCreateCallback OnAfterCreateInterface[Ellipse]
 	OnAfterEllipseUpdateCallback OnAfterUpdateInterface[Ellipse]
 	OnAfterEllipseDeleteCallback OnAfterDeleteInterface[Ellipse]
@@ -71,6 +79,18 @@ type StageStruct struct {
 
 	Layers           map[*Layer]any
 	Layers_mapString map[string]*Layer
+
+	// insertion point for slice of pointers maps
+	Layer_Rects_reverseMap map[*Rect]*Layer
+	Layer_Texts_reverseMap map[*Text]*Layer
+	Layer_Circles_reverseMap map[*Circle]*Layer
+	Layer_Lines_reverseMap map[*Line]*Layer
+	Layer_Ellipses_reverseMap map[*Ellipse]*Layer
+	Layer_Polylines_reverseMap map[*Polyline]*Layer
+	Layer_Polygones_reverseMap map[*Polygone]*Layer
+	Layer_Paths_reverseMap map[*Path]*Layer
+	Layer_Links_reverseMap map[*Link]*Layer
+	Layer_RectLinkLinks_reverseMap map[*RectLinkLink]*Layer
 
 	OnAfterLayerCreateCallback OnAfterCreateInterface[Layer]
 	OnAfterLayerUpdateCallback OnAfterUpdateInterface[Layer]
@@ -80,6 +100,9 @@ type StageStruct struct {
 	Lines           map[*Line]any
 	Lines_mapString map[string]*Line
 
+	// insertion point for slice of pointers maps
+	Line_Animates_reverseMap map[*Animate]*Line
+
 	OnAfterLineCreateCallback OnAfterCreateInterface[Line]
 	OnAfterLineUpdateCallback OnAfterUpdateInterface[Line]
 	OnAfterLineDeleteCallback OnAfterDeleteInterface[Line]
@@ -87,6 +110,11 @@ type StageStruct struct {
 
 	Links           map[*Link]any
 	Links_mapString map[string]*Link
+
+	// insertion point for slice of pointers maps
+	Link_TextAtArrowEnd_reverseMap map[*LinkAnchoredText]*Link
+	Link_TextAtArrowStart_reverseMap map[*LinkAnchoredText]*Link
+	Link_ControlPoints_reverseMap map[*Point]*Link
 
 	OnAfterLinkCreateCallback OnAfterCreateInterface[Link]
 	OnAfterLinkUpdateCallback OnAfterUpdateInterface[Link]
@@ -96,6 +124,9 @@ type StageStruct struct {
 	LinkAnchoredTexts           map[*LinkAnchoredText]any
 	LinkAnchoredTexts_mapString map[string]*LinkAnchoredText
 
+	// insertion point for slice of pointers maps
+	LinkAnchoredText_Animates_reverseMap map[*Animate]*LinkAnchoredText
+
 	OnAfterLinkAnchoredTextCreateCallback OnAfterCreateInterface[LinkAnchoredText]
 	OnAfterLinkAnchoredTextUpdateCallback OnAfterUpdateInterface[LinkAnchoredText]
 	OnAfterLinkAnchoredTextDeleteCallback OnAfterDeleteInterface[LinkAnchoredText]
@@ -103,6 +134,9 @@ type StageStruct struct {
 
 	Paths           map[*Path]any
 	Paths_mapString map[string]*Path
+
+	// insertion point for slice of pointers maps
+	Path_Animates_reverseMap map[*Animate]*Path
 
 	OnAfterPathCreateCallback OnAfterCreateInterface[Path]
 	OnAfterPathUpdateCallback OnAfterUpdateInterface[Path]
@@ -112,6 +146,8 @@ type StageStruct struct {
 	Points           map[*Point]any
 	Points_mapString map[string]*Point
 
+	// insertion point for slice of pointers maps
+
 	OnAfterPointCreateCallback OnAfterCreateInterface[Point]
 	OnAfterPointUpdateCallback OnAfterUpdateInterface[Point]
 	OnAfterPointDeleteCallback OnAfterDeleteInterface[Point]
@@ -119,6 +155,9 @@ type StageStruct struct {
 
 	Polygones           map[*Polygone]any
 	Polygones_mapString map[string]*Polygone
+
+	// insertion point for slice of pointers maps
+	Polygone_Animates_reverseMap map[*Animate]*Polygone
 
 	OnAfterPolygoneCreateCallback OnAfterCreateInterface[Polygone]
 	OnAfterPolygoneUpdateCallback OnAfterUpdateInterface[Polygone]
@@ -128,6 +167,9 @@ type StageStruct struct {
 	Polylines           map[*Polyline]any
 	Polylines_mapString map[string]*Polyline
 
+	// insertion point for slice of pointers maps
+	Polyline_Animates_reverseMap map[*Animate]*Polyline
+
 	OnAfterPolylineCreateCallback OnAfterCreateInterface[Polyline]
 	OnAfterPolylineUpdateCallback OnAfterUpdateInterface[Polyline]
 	OnAfterPolylineDeleteCallback OnAfterDeleteInterface[Polyline]
@@ -135,6 +177,11 @@ type StageStruct struct {
 
 	Rects           map[*Rect]any
 	Rects_mapString map[string]*Rect
+
+	// insertion point for slice of pointers maps
+	Rect_Animations_reverseMap map[*Animate]*Rect
+	Rect_RectAnchoredTexts_reverseMap map[*RectAnchoredText]*Rect
+	Rect_RectAnchoredRects_reverseMap map[*RectAnchoredRect]*Rect
 
 	OnAfterRectCreateCallback OnAfterCreateInterface[Rect]
 	OnAfterRectUpdateCallback OnAfterUpdateInterface[Rect]
@@ -144,6 +191,8 @@ type StageStruct struct {
 	RectAnchoredRects           map[*RectAnchoredRect]any
 	RectAnchoredRects_mapString map[string]*RectAnchoredRect
 
+	// insertion point for slice of pointers maps
+
 	OnAfterRectAnchoredRectCreateCallback OnAfterCreateInterface[RectAnchoredRect]
 	OnAfterRectAnchoredRectUpdateCallback OnAfterUpdateInterface[RectAnchoredRect]
 	OnAfterRectAnchoredRectDeleteCallback OnAfterDeleteInterface[RectAnchoredRect]
@@ -151,6 +200,9 @@ type StageStruct struct {
 
 	RectAnchoredTexts           map[*RectAnchoredText]any
 	RectAnchoredTexts_mapString map[string]*RectAnchoredText
+
+	// insertion point for slice of pointers maps
+	RectAnchoredText_Animates_reverseMap map[*Animate]*RectAnchoredText
 
 	OnAfterRectAnchoredTextCreateCallback OnAfterCreateInterface[RectAnchoredText]
 	OnAfterRectAnchoredTextUpdateCallback OnAfterUpdateInterface[RectAnchoredText]
@@ -160,6 +212,8 @@ type StageStruct struct {
 	RectLinkLinks           map[*RectLinkLink]any
 	RectLinkLinks_mapString map[string]*RectLinkLink
 
+	// insertion point for slice of pointers maps
+
 	OnAfterRectLinkLinkCreateCallback OnAfterCreateInterface[RectLinkLink]
 	OnAfterRectLinkLinkUpdateCallback OnAfterUpdateInterface[RectLinkLink]
 	OnAfterRectLinkLinkDeleteCallback OnAfterDeleteInterface[RectLinkLink]
@@ -168,6 +222,9 @@ type StageStruct struct {
 	SVGs           map[*SVG]any
 	SVGs_mapString map[string]*SVG
 
+	// insertion point for slice of pointers maps
+	SVG_Layers_reverseMap map[*Layer]*SVG
+
 	OnAfterSVGCreateCallback OnAfterCreateInterface[SVG]
 	OnAfterSVGUpdateCallback OnAfterUpdateInterface[SVG]
 	OnAfterSVGDeleteCallback OnAfterDeleteInterface[SVG]
@@ -175,6 +232,9 @@ type StageStruct struct {
 
 	Texts           map[*Text]any
 	Texts_mapString map[string]*Text
+
+	// insertion point for slice of pointers maps
+	Text_Animates_reverseMap map[*Animate]*Text
 
 	OnAfterTextCreateCallback OnAfterCreateInterface[Text]
 	OnAfterTextUpdateCallback OnAfterUpdateInterface[Text]
@@ -363,6 +423,8 @@ func (stage *StageStruct) CommitWithSuspendedCallbacks() {
 }
 
 func (stage *StageStruct) Commit() {
+	stage.ComputeReverseMaps()
+
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
 	}
@@ -393,6 +455,7 @@ func (stage *StageStruct) Checkout() {
 		stage.BackRepo.Checkout(stage)
 	}
 
+	stage.ComputeReverseMaps()
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Animate"] = len(stage.Animates)
 	stage.Map_GongStructName_InstancesNb["Circle"] = len(stage.Circles)

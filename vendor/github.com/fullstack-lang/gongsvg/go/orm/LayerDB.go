@@ -75,14 +75,6 @@ type LayerPointersEncoding struct {
 
 	// field RectLinkLinks is a slice of pointers to another Struct (optional or 0..1)
 	RectLinkLinks IntSlice `gorm:"type:TEXT"`
-
-	// Implementation of a reverse ID for field SVG{}.Layers []*Layer
-	// (to be removed)
-	SVG_LayersDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	SVG_LayersDBID_Index sql.NullInt64
 }
 
 // LayerDB describes a layer in the database
@@ -253,26 +245,6 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 		layerDB.CopyBasicFieldsFromLayer(layer)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// This loop encodes the slice of pointers layer.Rects into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, rectAssocEnd := range layer.Rects {
-
-			// get the back repo instance at the association end
-			rectAssocEnd_DB :=
-				backRepo.BackRepoRect.GetRectDBFromRectPtr(rectAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			rectAssocEnd_DB.Layer_RectsDBID.Int64 = int64(layerDB.ID)
-			rectAssocEnd_DB.Layer_RectsDBID.Valid = true
-			rectAssocEnd_DB.Layer_RectsDBID_Index.Int64 = int64(idx)
-			rectAssocEnd_DB.Layer_RectsDBID_Index.Valid = true
-			if q := backRepoLayer.db.Save(rectAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		layerDB.LayerPointersEncoding.Rects = make([]int, 0)
 		// 2. encode
@@ -281,26 +253,6 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				backRepo.BackRepoRect.GetRectDBFromRectPtr(rectAssocEnd)
 			layerDB.LayerPointersEncoding.Rects =
 				append(layerDB.LayerPointersEncoding.Rects, int(rectAssocEnd_DB.ID))
-		}
-
-		// This loop encodes the slice of pointers layer.Texts into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, textAssocEnd := range layer.Texts {
-
-			// get the back repo instance at the association end
-			textAssocEnd_DB :=
-				backRepo.BackRepoText.GetTextDBFromTextPtr(textAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			textAssocEnd_DB.Layer_TextsDBID.Int64 = int64(layerDB.ID)
-			textAssocEnd_DB.Layer_TextsDBID.Valid = true
-			textAssocEnd_DB.Layer_TextsDBID_Index.Int64 = int64(idx)
-			textAssocEnd_DB.Layer_TextsDBID_Index.Valid = true
-			if q := backRepoLayer.db.Save(textAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
 		}
 
 		// 1. reset
@@ -313,26 +265,6 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				append(layerDB.LayerPointersEncoding.Texts, int(textAssocEnd_DB.ID))
 		}
 
-		// This loop encodes the slice of pointers layer.Circles into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, circleAssocEnd := range layer.Circles {
-
-			// get the back repo instance at the association end
-			circleAssocEnd_DB :=
-				backRepo.BackRepoCircle.GetCircleDBFromCirclePtr(circleAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			circleAssocEnd_DB.Layer_CirclesDBID.Int64 = int64(layerDB.ID)
-			circleAssocEnd_DB.Layer_CirclesDBID.Valid = true
-			circleAssocEnd_DB.Layer_CirclesDBID_Index.Int64 = int64(idx)
-			circleAssocEnd_DB.Layer_CirclesDBID_Index.Valid = true
-			if q := backRepoLayer.db.Save(circleAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		layerDB.LayerPointersEncoding.Circles = make([]int, 0)
 		// 2. encode
@@ -341,26 +273,6 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				backRepo.BackRepoCircle.GetCircleDBFromCirclePtr(circleAssocEnd)
 			layerDB.LayerPointersEncoding.Circles =
 				append(layerDB.LayerPointersEncoding.Circles, int(circleAssocEnd_DB.ID))
-		}
-
-		// This loop encodes the slice of pointers layer.Lines into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, lineAssocEnd := range layer.Lines {
-
-			// get the back repo instance at the association end
-			lineAssocEnd_DB :=
-				backRepo.BackRepoLine.GetLineDBFromLinePtr(lineAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			lineAssocEnd_DB.Layer_LinesDBID.Int64 = int64(layerDB.ID)
-			lineAssocEnd_DB.Layer_LinesDBID.Valid = true
-			lineAssocEnd_DB.Layer_LinesDBID_Index.Int64 = int64(idx)
-			lineAssocEnd_DB.Layer_LinesDBID_Index.Valid = true
-			if q := backRepoLayer.db.Save(lineAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
 		}
 
 		// 1. reset
@@ -373,26 +285,6 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				append(layerDB.LayerPointersEncoding.Lines, int(lineAssocEnd_DB.ID))
 		}
 
-		// This loop encodes the slice of pointers layer.Ellipses into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, ellipseAssocEnd := range layer.Ellipses {
-
-			// get the back repo instance at the association end
-			ellipseAssocEnd_DB :=
-				backRepo.BackRepoEllipse.GetEllipseDBFromEllipsePtr(ellipseAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			ellipseAssocEnd_DB.Layer_EllipsesDBID.Int64 = int64(layerDB.ID)
-			ellipseAssocEnd_DB.Layer_EllipsesDBID.Valid = true
-			ellipseAssocEnd_DB.Layer_EllipsesDBID_Index.Int64 = int64(idx)
-			ellipseAssocEnd_DB.Layer_EllipsesDBID_Index.Valid = true
-			if q := backRepoLayer.db.Save(ellipseAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		layerDB.LayerPointersEncoding.Ellipses = make([]int, 0)
 		// 2. encode
@@ -401,26 +293,6 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				backRepo.BackRepoEllipse.GetEllipseDBFromEllipsePtr(ellipseAssocEnd)
 			layerDB.LayerPointersEncoding.Ellipses =
 				append(layerDB.LayerPointersEncoding.Ellipses, int(ellipseAssocEnd_DB.ID))
-		}
-
-		// This loop encodes the slice of pointers layer.Polylines into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, polylineAssocEnd := range layer.Polylines {
-
-			// get the back repo instance at the association end
-			polylineAssocEnd_DB :=
-				backRepo.BackRepoPolyline.GetPolylineDBFromPolylinePtr(polylineAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			polylineAssocEnd_DB.Layer_PolylinesDBID.Int64 = int64(layerDB.ID)
-			polylineAssocEnd_DB.Layer_PolylinesDBID.Valid = true
-			polylineAssocEnd_DB.Layer_PolylinesDBID_Index.Int64 = int64(idx)
-			polylineAssocEnd_DB.Layer_PolylinesDBID_Index.Valid = true
-			if q := backRepoLayer.db.Save(polylineAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
 		}
 
 		// 1. reset
@@ -433,26 +305,6 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				append(layerDB.LayerPointersEncoding.Polylines, int(polylineAssocEnd_DB.ID))
 		}
 
-		// This loop encodes the slice of pointers layer.Polygones into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, polygoneAssocEnd := range layer.Polygones {
-
-			// get the back repo instance at the association end
-			polygoneAssocEnd_DB :=
-				backRepo.BackRepoPolygone.GetPolygoneDBFromPolygonePtr(polygoneAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			polygoneAssocEnd_DB.Layer_PolygonesDBID.Int64 = int64(layerDB.ID)
-			polygoneAssocEnd_DB.Layer_PolygonesDBID.Valid = true
-			polygoneAssocEnd_DB.Layer_PolygonesDBID_Index.Int64 = int64(idx)
-			polygoneAssocEnd_DB.Layer_PolygonesDBID_Index.Valid = true
-			if q := backRepoLayer.db.Save(polygoneAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		layerDB.LayerPointersEncoding.Polygones = make([]int, 0)
 		// 2. encode
@@ -461,26 +313,6 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				backRepo.BackRepoPolygone.GetPolygoneDBFromPolygonePtr(polygoneAssocEnd)
 			layerDB.LayerPointersEncoding.Polygones =
 				append(layerDB.LayerPointersEncoding.Polygones, int(polygoneAssocEnd_DB.ID))
-		}
-
-		// This loop encodes the slice of pointers layer.Paths into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, pathAssocEnd := range layer.Paths {
-
-			// get the back repo instance at the association end
-			pathAssocEnd_DB :=
-				backRepo.BackRepoPath.GetPathDBFromPathPtr(pathAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			pathAssocEnd_DB.Layer_PathsDBID.Int64 = int64(layerDB.ID)
-			pathAssocEnd_DB.Layer_PathsDBID.Valid = true
-			pathAssocEnd_DB.Layer_PathsDBID_Index.Int64 = int64(idx)
-			pathAssocEnd_DB.Layer_PathsDBID_Index.Valid = true
-			if q := backRepoLayer.db.Save(pathAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
 		}
 
 		// 1. reset
@@ -493,26 +325,6 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				append(layerDB.LayerPointersEncoding.Paths, int(pathAssocEnd_DB.ID))
 		}
 
-		// This loop encodes the slice of pointers layer.Links into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, linkAssocEnd := range layer.Links {
-
-			// get the back repo instance at the association end
-			linkAssocEnd_DB :=
-				backRepo.BackRepoLink.GetLinkDBFromLinkPtr(linkAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			linkAssocEnd_DB.Layer_LinksDBID.Int64 = int64(layerDB.ID)
-			linkAssocEnd_DB.Layer_LinksDBID.Valid = true
-			linkAssocEnd_DB.Layer_LinksDBID_Index.Int64 = int64(idx)
-			linkAssocEnd_DB.Layer_LinksDBID_Index.Valid = true
-			if q := backRepoLayer.db.Save(linkAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		layerDB.LayerPointersEncoding.Links = make([]int, 0)
 		// 2. encode
@@ -521,26 +333,6 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				backRepo.BackRepoLink.GetLinkDBFromLinkPtr(linkAssocEnd)
 			layerDB.LayerPointersEncoding.Links =
 				append(layerDB.LayerPointersEncoding.Links, int(linkAssocEnd_DB.ID))
-		}
-
-		// This loop encodes the slice of pointers layer.RectLinkLinks into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, rectlinklinkAssocEnd := range layer.RectLinkLinks {
-
-			// get the back repo instance at the association end
-			rectlinklinkAssocEnd_DB :=
-				backRepo.BackRepoRectLinkLink.GetRectLinkLinkDBFromRectLinkLinkPtr(rectlinklinkAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			rectlinklinkAssocEnd_DB.Layer_RectLinkLinksDBID.Int64 = int64(layerDB.ID)
-			rectlinklinkAssocEnd_DB.Layer_RectLinkLinksDBID.Valid = true
-			rectlinklinkAssocEnd_DB.Layer_RectLinkLinksDBID_Index.Int64 = int64(idx)
-			rectlinklinkAssocEnd_DB.Layer_RectLinkLinksDBID_Index.Valid = true
-			if q := backRepoLayer.db.Save(rectlinklinkAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
 		}
 
 		// 1. reset
@@ -665,270 +457,90 @@ func (backRepoLayer *BackRepoLayerStruct) CheckoutPhaseTwoInstance(backRepo *Bac
 	// it appends the stage instance
 	// 1. reset the slice
 	layer.Rects = layer.Rects[:0]
-	// 2. loop all instances in the type in the association end
-	for _, rectDB_AssocEnd := range backRepo.BackRepoRect.Map_RectDBID_RectDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if rectDB_AssocEnd.Layer_RectsDBID.Int64 == int64(layerDB.ID) {
-			// 4. fetch the associated instance in the stage
-			rect_AssocEnd := backRepo.BackRepoRect.Map_RectDBID_RectPtr[rectDB_AssocEnd.ID]
-			// 5. append it the association slice
-			layer.Rects = append(layer.Rects, rect_AssocEnd)
-		}
+	for _, _Rectid := range layerDB.LayerPointersEncoding.Rects {
+		layer.Rects = append(layer.Rects, backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(_Rectid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(layer.Rects, func(i, j int) bool {
-		rectDB_i_ID := backRepo.BackRepoRect.Map_RectPtr_RectDBID[layer.Rects[i]]
-		rectDB_j_ID := backRepo.BackRepoRect.Map_RectPtr_RectDBID[layer.Rects[j]]
-
-		rectDB_i := backRepo.BackRepoRect.Map_RectDBID_RectDB[rectDB_i_ID]
-		rectDB_j := backRepo.BackRepoRect.Map_RectDBID_RectDB[rectDB_j_ID]
-
-		return rectDB_i.Layer_RectsDBID_Index.Int64 < rectDB_j.Layer_RectsDBID_Index.Int64
-	})
 
 	// This loop redeem layer.Texts in the stage from the encode in the back repo
 	// It parses all TextDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
 	layer.Texts = layer.Texts[:0]
-	// 2. loop all instances in the type in the association end
-	for _, textDB_AssocEnd := range backRepo.BackRepoText.Map_TextDBID_TextDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if textDB_AssocEnd.Layer_TextsDBID.Int64 == int64(layerDB.ID) {
-			// 4. fetch the associated instance in the stage
-			text_AssocEnd := backRepo.BackRepoText.Map_TextDBID_TextPtr[textDB_AssocEnd.ID]
-			// 5. append it the association slice
-			layer.Texts = append(layer.Texts, text_AssocEnd)
-		}
+	for _, _Textid := range layerDB.LayerPointersEncoding.Texts {
+		layer.Texts = append(layer.Texts, backRepo.BackRepoText.Map_TextDBID_TextPtr[uint(_Textid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(layer.Texts, func(i, j int) bool {
-		textDB_i_ID := backRepo.BackRepoText.Map_TextPtr_TextDBID[layer.Texts[i]]
-		textDB_j_ID := backRepo.BackRepoText.Map_TextPtr_TextDBID[layer.Texts[j]]
-
-		textDB_i := backRepo.BackRepoText.Map_TextDBID_TextDB[textDB_i_ID]
-		textDB_j := backRepo.BackRepoText.Map_TextDBID_TextDB[textDB_j_ID]
-
-		return textDB_i.Layer_TextsDBID_Index.Int64 < textDB_j.Layer_TextsDBID_Index.Int64
-	})
 
 	// This loop redeem layer.Circles in the stage from the encode in the back repo
 	// It parses all CircleDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
 	layer.Circles = layer.Circles[:0]
-	// 2. loop all instances in the type in the association end
-	for _, circleDB_AssocEnd := range backRepo.BackRepoCircle.Map_CircleDBID_CircleDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if circleDB_AssocEnd.Layer_CirclesDBID.Int64 == int64(layerDB.ID) {
-			// 4. fetch the associated instance in the stage
-			circle_AssocEnd := backRepo.BackRepoCircle.Map_CircleDBID_CirclePtr[circleDB_AssocEnd.ID]
-			// 5. append it the association slice
-			layer.Circles = append(layer.Circles, circle_AssocEnd)
-		}
+	for _, _Circleid := range layerDB.LayerPointersEncoding.Circles {
+		layer.Circles = append(layer.Circles, backRepo.BackRepoCircle.Map_CircleDBID_CirclePtr[uint(_Circleid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(layer.Circles, func(i, j int) bool {
-		circleDB_i_ID := backRepo.BackRepoCircle.Map_CirclePtr_CircleDBID[layer.Circles[i]]
-		circleDB_j_ID := backRepo.BackRepoCircle.Map_CirclePtr_CircleDBID[layer.Circles[j]]
-
-		circleDB_i := backRepo.BackRepoCircle.Map_CircleDBID_CircleDB[circleDB_i_ID]
-		circleDB_j := backRepo.BackRepoCircle.Map_CircleDBID_CircleDB[circleDB_j_ID]
-
-		return circleDB_i.Layer_CirclesDBID_Index.Int64 < circleDB_j.Layer_CirclesDBID_Index.Int64
-	})
 
 	// This loop redeem layer.Lines in the stage from the encode in the back repo
 	// It parses all LineDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
 	layer.Lines = layer.Lines[:0]
-	// 2. loop all instances in the type in the association end
-	for _, lineDB_AssocEnd := range backRepo.BackRepoLine.Map_LineDBID_LineDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if lineDB_AssocEnd.Layer_LinesDBID.Int64 == int64(layerDB.ID) {
-			// 4. fetch the associated instance in the stage
-			line_AssocEnd := backRepo.BackRepoLine.Map_LineDBID_LinePtr[lineDB_AssocEnd.ID]
-			// 5. append it the association slice
-			layer.Lines = append(layer.Lines, line_AssocEnd)
-		}
+	for _, _Lineid := range layerDB.LayerPointersEncoding.Lines {
+		layer.Lines = append(layer.Lines, backRepo.BackRepoLine.Map_LineDBID_LinePtr[uint(_Lineid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(layer.Lines, func(i, j int) bool {
-		lineDB_i_ID := backRepo.BackRepoLine.Map_LinePtr_LineDBID[layer.Lines[i]]
-		lineDB_j_ID := backRepo.BackRepoLine.Map_LinePtr_LineDBID[layer.Lines[j]]
-
-		lineDB_i := backRepo.BackRepoLine.Map_LineDBID_LineDB[lineDB_i_ID]
-		lineDB_j := backRepo.BackRepoLine.Map_LineDBID_LineDB[lineDB_j_ID]
-
-		return lineDB_i.Layer_LinesDBID_Index.Int64 < lineDB_j.Layer_LinesDBID_Index.Int64
-	})
 
 	// This loop redeem layer.Ellipses in the stage from the encode in the back repo
 	// It parses all EllipseDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
 	layer.Ellipses = layer.Ellipses[:0]
-	// 2. loop all instances in the type in the association end
-	for _, ellipseDB_AssocEnd := range backRepo.BackRepoEllipse.Map_EllipseDBID_EllipseDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if ellipseDB_AssocEnd.Layer_EllipsesDBID.Int64 == int64(layerDB.ID) {
-			// 4. fetch the associated instance in the stage
-			ellipse_AssocEnd := backRepo.BackRepoEllipse.Map_EllipseDBID_EllipsePtr[ellipseDB_AssocEnd.ID]
-			// 5. append it the association slice
-			layer.Ellipses = append(layer.Ellipses, ellipse_AssocEnd)
-		}
+	for _, _Ellipseid := range layerDB.LayerPointersEncoding.Ellipses {
+		layer.Ellipses = append(layer.Ellipses, backRepo.BackRepoEllipse.Map_EllipseDBID_EllipsePtr[uint(_Ellipseid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(layer.Ellipses, func(i, j int) bool {
-		ellipseDB_i_ID := backRepo.BackRepoEllipse.Map_EllipsePtr_EllipseDBID[layer.Ellipses[i]]
-		ellipseDB_j_ID := backRepo.BackRepoEllipse.Map_EllipsePtr_EllipseDBID[layer.Ellipses[j]]
-
-		ellipseDB_i := backRepo.BackRepoEllipse.Map_EllipseDBID_EllipseDB[ellipseDB_i_ID]
-		ellipseDB_j := backRepo.BackRepoEllipse.Map_EllipseDBID_EllipseDB[ellipseDB_j_ID]
-
-		return ellipseDB_i.Layer_EllipsesDBID_Index.Int64 < ellipseDB_j.Layer_EllipsesDBID_Index.Int64
-	})
 
 	// This loop redeem layer.Polylines in the stage from the encode in the back repo
 	// It parses all PolylineDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
 	layer.Polylines = layer.Polylines[:0]
-	// 2. loop all instances in the type in the association end
-	for _, polylineDB_AssocEnd := range backRepo.BackRepoPolyline.Map_PolylineDBID_PolylineDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if polylineDB_AssocEnd.Layer_PolylinesDBID.Int64 == int64(layerDB.ID) {
-			// 4. fetch the associated instance in the stage
-			polyline_AssocEnd := backRepo.BackRepoPolyline.Map_PolylineDBID_PolylinePtr[polylineDB_AssocEnd.ID]
-			// 5. append it the association slice
-			layer.Polylines = append(layer.Polylines, polyline_AssocEnd)
-		}
+	for _, _Polylineid := range layerDB.LayerPointersEncoding.Polylines {
+		layer.Polylines = append(layer.Polylines, backRepo.BackRepoPolyline.Map_PolylineDBID_PolylinePtr[uint(_Polylineid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(layer.Polylines, func(i, j int) bool {
-		polylineDB_i_ID := backRepo.BackRepoPolyline.Map_PolylinePtr_PolylineDBID[layer.Polylines[i]]
-		polylineDB_j_ID := backRepo.BackRepoPolyline.Map_PolylinePtr_PolylineDBID[layer.Polylines[j]]
-
-		polylineDB_i := backRepo.BackRepoPolyline.Map_PolylineDBID_PolylineDB[polylineDB_i_ID]
-		polylineDB_j := backRepo.BackRepoPolyline.Map_PolylineDBID_PolylineDB[polylineDB_j_ID]
-
-		return polylineDB_i.Layer_PolylinesDBID_Index.Int64 < polylineDB_j.Layer_PolylinesDBID_Index.Int64
-	})
 
 	// This loop redeem layer.Polygones in the stage from the encode in the back repo
 	// It parses all PolygoneDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
 	layer.Polygones = layer.Polygones[:0]
-	// 2. loop all instances in the type in the association end
-	for _, polygoneDB_AssocEnd := range backRepo.BackRepoPolygone.Map_PolygoneDBID_PolygoneDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if polygoneDB_AssocEnd.Layer_PolygonesDBID.Int64 == int64(layerDB.ID) {
-			// 4. fetch the associated instance in the stage
-			polygone_AssocEnd := backRepo.BackRepoPolygone.Map_PolygoneDBID_PolygonePtr[polygoneDB_AssocEnd.ID]
-			// 5. append it the association slice
-			layer.Polygones = append(layer.Polygones, polygone_AssocEnd)
-		}
+	for _, _Polygoneid := range layerDB.LayerPointersEncoding.Polygones {
+		layer.Polygones = append(layer.Polygones, backRepo.BackRepoPolygone.Map_PolygoneDBID_PolygonePtr[uint(_Polygoneid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(layer.Polygones, func(i, j int) bool {
-		polygoneDB_i_ID := backRepo.BackRepoPolygone.Map_PolygonePtr_PolygoneDBID[layer.Polygones[i]]
-		polygoneDB_j_ID := backRepo.BackRepoPolygone.Map_PolygonePtr_PolygoneDBID[layer.Polygones[j]]
-
-		polygoneDB_i := backRepo.BackRepoPolygone.Map_PolygoneDBID_PolygoneDB[polygoneDB_i_ID]
-		polygoneDB_j := backRepo.BackRepoPolygone.Map_PolygoneDBID_PolygoneDB[polygoneDB_j_ID]
-
-		return polygoneDB_i.Layer_PolygonesDBID_Index.Int64 < polygoneDB_j.Layer_PolygonesDBID_Index.Int64
-	})
 
 	// This loop redeem layer.Paths in the stage from the encode in the back repo
 	// It parses all PathDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
 	layer.Paths = layer.Paths[:0]
-	// 2. loop all instances in the type in the association end
-	for _, pathDB_AssocEnd := range backRepo.BackRepoPath.Map_PathDBID_PathDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if pathDB_AssocEnd.Layer_PathsDBID.Int64 == int64(layerDB.ID) {
-			// 4. fetch the associated instance in the stage
-			path_AssocEnd := backRepo.BackRepoPath.Map_PathDBID_PathPtr[pathDB_AssocEnd.ID]
-			// 5. append it the association slice
-			layer.Paths = append(layer.Paths, path_AssocEnd)
-		}
+	for _, _Pathid := range layerDB.LayerPointersEncoding.Paths {
+		layer.Paths = append(layer.Paths, backRepo.BackRepoPath.Map_PathDBID_PathPtr[uint(_Pathid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(layer.Paths, func(i, j int) bool {
-		pathDB_i_ID := backRepo.BackRepoPath.Map_PathPtr_PathDBID[layer.Paths[i]]
-		pathDB_j_ID := backRepo.BackRepoPath.Map_PathPtr_PathDBID[layer.Paths[j]]
-
-		pathDB_i := backRepo.BackRepoPath.Map_PathDBID_PathDB[pathDB_i_ID]
-		pathDB_j := backRepo.BackRepoPath.Map_PathDBID_PathDB[pathDB_j_ID]
-
-		return pathDB_i.Layer_PathsDBID_Index.Int64 < pathDB_j.Layer_PathsDBID_Index.Int64
-	})
 
 	// This loop redeem layer.Links in the stage from the encode in the back repo
 	// It parses all LinkDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
 	layer.Links = layer.Links[:0]
-	// 2. loop all instances in the type in the association end
-	for _, linkDB_AssocEnd := range backRepo.BackRepoLink.Map_LinkDBID_LinkDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if linkDB_AssocEnd.Layer_LinksDBID.Int64 == int64(layerDB.ID) {
-			// 4. fetch the associated instance in the stage
-			link_AssocEnd := backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[linkDB_AssocEnd.ID]
-			// 5. append it the association slice
-			layer.Links = append(layer.Links, link_AssocEnd)
-		}
+	for _, _Linkid := range layerDB.LayerPointersEncoding.Links {
+		layer.Links = append(layer.Links, backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[uint(_Linkid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(layer.Links, func(i, j int) bool {
-		linkDB_i_ID := backRepo.BackRepoLink.Map_LinkPtr_LinkDBID[layer.Links[i]]
-		linkDB_j_ID := backRepo.BackRepoLink.Map_LinkPtr_LinkDBID[layer.Links[j]]
-
-		linkDB_i := backRepo.BackRepoLink.Map_LinkDBID_LinkDB[linkDB_i_ID]
-		linkDB_j := backRepo.BackRepoLink.Map_LinkDBID_LinkDB[linkDB_j_ID]
-
-		return linkDB_i.Layer_LinksDBID_Index.Int64 < linkDB_j.Layer_LinksDBID_Index.Int64
-	})
 
 	// This loop redeem layer.RectLinkLinks in the stage from the encode in the back repo
 	// It parses all RectLinkLinkDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
 	layer.RectLinkLinks = layer.RectLinkLinks[:0]
-	// 2. loop all instances in the type in the association end
-	for _, rectlinklinkDB_AssocEnd := range backRepo.BackRepoRectLinkLink.Map_RectLinkLinkDBID_RectLinkLinkDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if rectlinklinkDB_AssocEnd.Layer_RectLinkLinksDBID.Int64 == int64(layerDB.ID) {
-			// 4. fetch the associated instance in the stage
-			rectlinklink_AssocEnd := backRepo.BackRepoRectLinkLink.Map_RectLinkLinkDBID_RectLinkLinkPtr[rectlinklinkDB_AssocEnd.ID]
-			// 5. append it the association slice
-			layer.RectLinkLinks = append(layer.RectLinkLinks, rectlinklink_AssocEnd)
-		}
+	for _, _RectLinkLinkid := range layerDB.LayerPointersEncoding.RectLinkLinks {
+		layer.RectLinkLinks = append(layer.RectLinkLinks, backRepo.BackRepoRectLinkLink.Map_RectLinkLinkDBID_RectLinkLinkPtr[uint(_RectLinkLinkid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(layer.RectLinkLinks, func(i, j int) bool {
-		rectlinklinkDB_i_ID := backRepo.BackRepoRectLinkLink.Map_RectLinkLinkPtr_RectLinkLinkDBID[layer.RectLinkLinks[i]]
-		rectlinklinkDB_j_ID := backRepo.BackRepoRectLinkLink.Map_RectLinkLinkPtr_RectLinkLinkDBID[layer.RectLinkLinks[j]]
-
-		rectlinklinkDB_i := backRepo.BackRepoRectLinkLink.Map_RectLinkLinkDBID_RectLinkLinkDB[rectlinklinkDB_i_ID]
-		rectlinklinkDB_j := backRepo.BackRepoRectLinkLink.Map_RectLinkLinkDBID_RectLinkLinkDB[rectlinklinkDB_j_ID]
-
-		return rectlinklinkDB_i.Layer_RectLinkLinksDBID_Index.Int64 < rectlinklinkDB_j.Layer_RectLinkLinksDBID_Index.Int64
-	})
 
 	return
 }
@@ -1170,12 +782,6 @@ func (backRepoLayer *BackRepoLayerStruct) RestorePhaseTwo() {
 		_ = layerDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex layer.Layers
-		if layerDB.SVG_LayersDBID.Int64 != 0 {
-			layerDB.SVG_LayersDBID.Int64 =
-				int64(BackRepoSVGid_atBckpTime_newID[uint(layerDB.SVG_LayersDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoLayer.db.Model(layerDB).Updates(*layerDB)
 		if query.Error != nil {
@@ -1203,15 +809,6 @@ func (backRepoLayer *BackRepoLayerStruct) ResetReversePointersInstance(backRepo 
 		_ = layerDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if layerDB.SVG_LayersDBID.Int64 != 0 {
-			layerDB.SVG_LayersDBID.Int64 = 0
-			layerDB.SVG_LayersDBID.Valid = true
-
-			// save the reset
-			if q := backRepoLayer.db.Save(layerDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

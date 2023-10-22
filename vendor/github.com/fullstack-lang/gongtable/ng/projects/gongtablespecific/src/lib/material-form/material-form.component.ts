@@ -229,7 +229,7 @@ export class MaterialFormComponent implements OnInit {
             if (newValue != formFieldString.Value) {
 
               formFieldString.Value = newValue
-              promises.push(this.formFieldStringService.updateFormFieldString(formFieldString, this.DataStack))
+              promises.push(this.formFieldStringService.updateFormFieldString(formFieldString, this.DataStack, this.gongtableFrontRepoService.frontRepo))
             }
           }
           if (formField.FormFieldInt) {
@@ -239,7 +239,7 @@ export class MaterialFormComponent implements OnInit {
             if (newValue != formFieldInt.Value) {
 
               formFieldInt.Value = newValue
-              promises.push(this.formFieldIntService.updateFormFieldInt(formFieldInt, this.DataStack))
+              promises.push(this.formFieldIntService.updateFormFieldInt(formFieldInt, this.DataStack, this.gongtableFrontRepoService.frontRepo))
             }
           }
           if (formField.FormFieldFloat64) {
@@ -249,7 +249,7 @@ export class MaterialFormComponent implements OnInit {
             if (newValue != formFieldFlFormFieldFloat64.Value) {
 
               formFieldFlFormFieldFloat64.Value = newValue
-              promises.push(this.formFieldFloat64Service.updateFormFieldFloat64(formFieldFlFormFieldFloat64, this.DataStack))
+              promises.push(this.formFieldFloat64Service.updateFormFieldFloat64(formFieldFlFormFieldFloat64, this.DataStack, this.gongtableFrontRepoService.frontRepo))
             }
           }
           if (formField.FormFieldDate) {
@@ -280,7 +280,7 @@ export class MaterialFormComponent implements OnInit {
 
             if (!isSameDay(inputDate, comparisonDate)) {
               formFieldDate.Value = dateObject;
-              promises.push(this.formFieldDateService.updateFormFieldDate(formFieldDate, this.DataStack))
+              promises.push(this.formFieldDateService.updateFormFieldDate(formFieldDate, this.DataStack, this.gongtableFrontRepoService.frontRepo))
             }
 
           }
@@ -295,7 +295,7 @@ export class MaterialFormComponent implements OnInit {
 
             if (date.getTime() != new Date(formFieldTime.Value).getTime()) {
               formFieldTime.Value = date
-              promises.push(this.formFieldTimeService.updateFormFieldTime(formFieldTime, this.DataStack))
+              promises.push(this.formFieldTimeService.updateFormFieldTime(formFieldTime, this.DataStack, this.gongtableFrontRepoService.frontRepo))
             }
           }
           if (formField.FormFieldDateTime) {
@@ -305,7 +305,7 @@ export class MaterialFormComponent implements OnInit {
 
             if (newValue != formFieldDateTime.Value) {
               formFieldDateTime.Value = newValue
-              promises.push(this.formFieldDateTimeService.updateFormFieldDateTime(formFieldDateTime, this.DataStack))
+              promises.push(this.formFieldDateTimeService.updateFormFieldDateTime(formFieldDateTime, this.DataStack, this.gongtableFrontRepoService.frontRepo))
             }
           }
           if (formField.FormFieldSelect) {
@@ -331,7 +331,7 @@ export class MaterialFormComponent implements OnInit {
                   }
                 }
               }
-              promises.push(this.formFieldSelectService.updateFormFieldSelect(formFieldSelect, this.DataStack))
+              promises.push(this.formFieldSelectService.updateFormFieldSelect(formFieldSelect, this.DataStack, this.gongtableFrontRepoService.frontRepo))
             }
           }
         }
@@ -341,7 +341,7 @@ export class MaterialFormComponent implements OnInit {
           let newValue = this.generatedForm.value[checkBox.Name] as boolean
           if (newValue != checkBox.Value) {
             checkBox.Value = newValue
-            promises.push(this.checkBoxService.updateCheckBox(checkBox, this.DataStack))
+            promises.push(this.checkBoxService.updateCheckBox(checkBox, this.DataStack, this.gongtableFrontRepoService.frontRepo))
           }
         }
       }
@@ -350,7 +350,7 @@ export class MaterialFormComponent implements OnInit {
     // wait till all promises are completed to update the form group itself
     forkJoin(promises).subscribe(
       () => {
-        this.formGroupService.updateFormGroup(this.selectedFormGroup!, this.DataStack).subscribe(
+        this.formGroupService.updateFormGroup(this.selectedFormGroup!, this.DataStack, this.gongtableFrontRepoService.frontRepo).subscribe(
           () => {
 
             // a refresh is necessary to redeem all associations
@@ -361,7 +361,7 @@ export class MaterialFormComponent implements OnInit {
     )
 
     if (promises.length == 0) {
-      this.formGroupService.updateFormGroup(this.selectedFormGroup!, this.DataStack).subscribe(
+      this.formGroupService.updateFormGroup(this.selectedFormGroup!, this.DataStack, this.gongtableFrontRepoService.frontRepo).subscribe(
         () => {
           // a refresh is necessary to redeem all associations
           // this.refresh()
@@ -391,7 +391,7 @@ export class MaterialFormComponent implements OnInit {
       if (formDiv.FormEditAssocButton) {
         if (formDiv.FormEditAssocButton.Name == fieldName) {
 
-          this.formEditAssocButtonService.updateFormEditAssocButton(formDiv.FormEditAssocButton, this.DataStack).subscribe(
+          this.formEditAssocButtonService.updateFormEditAssocButton(formDiv.FormEditAssocButton, this.DataStack, this.gongtableFrontRepoService.frontRepo).subscribe(
             () => {
               console.log("assoc button updated")
 
@@ -429,7 +429,7 @@ export class MaterialFormComponent implements OnInit {
       if (formDiv.FormSortAssocButton) {
         if (formDiv.FormSortAssocButton.Name == fieldName) {
 
-          this.formSortAssocButtonService.updateFormSortAssocButton(formDiv.FormSortAssocButton, this.DataStack).subscribe(
+          this.formSortAssocButtonService.updateFormSortAssocButton(formDiv.FormSortAssocButton, this.DataStack, this.gongtableFrontRepoService.frontRepo).subscribe(
             () => {
               console.log("sort button updated")
 

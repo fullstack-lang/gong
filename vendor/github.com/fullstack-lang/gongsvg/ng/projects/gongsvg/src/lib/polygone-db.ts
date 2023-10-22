@@ -1,6 +1,5 @@
 // insertion point for imports
 import { AnimateDB } from './animate-db'
-import { LayerDB } from './layer-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -33,9 +32,4 @@ export class PolygoneDB {
 export class PolygonePointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
 	Animates: number[] = []
-	// reverse pointers encoding (to be removed)
-	Layer_PolygonesDBID: NullInt64 = new NullInt64
-	Layer_PolygonesDBID_Index: NullInt64  = new NullInt64 // store the index of the polygone instance in Layer.Polygones
-	Layer_Polygones_reverse?: LayerDB 
-
 }

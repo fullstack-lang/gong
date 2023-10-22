@@ -48,14 +48,6 @@ type LinePointersEncoding struct {
 
 	// field Animates is a slice of pointers to another Struct (optional or 0..1)
 	Animates IntSlice `gorm:"type:TEXT"`
-
-	// Implementation of a reverse ID for field Layer{}.Lines []*Line
-	// (to be removed)
-	Layer_LinesDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Layer_LinesDBID_Index sql.NullInt64
 }
 
 // LineDB describes a line in the database
@@ -297,26 +289,6 @@ func (backRepoLine *BackRepoLineStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		lineDB.CopyBasicFieldsFromLine(line)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// This loop encodes the slice of pointers line.Animates into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, animateAssocEnd := range line.Animates {
-
-			// get the back repo instance at the association end
-			animateAssocEnd_DB :=
-				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			animateAssocEnd_DB.Line_AnimatesDBID.Int64 = int64(lineDB.ID)
-			animateAssocEnd_DB.Line_AnimatesDBID.Valid = true
-			animateAssocEnd_DB.Line_AnimatesDBID_Index.Int64 = int64(idx)
-			animateAssocEnd_DB.Line_AnimatesDBID_Index.Valid = true
-			if q := backRepoLine.db.Save(animateAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		lineDB.LinePointersEncoding.Animates = make([]int, 0)
 		// 2. encode
@@ -439,27 +411,9 @@ func (backRepoLine *BackRepoLineStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 	// it appends the stage instance
 	// 1. reset the slice
 	line.Animates = line.Animates[:0]
-	// 2. loop all instances in the type in the association end
-	for _, animateDB_AssocEnd := range backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if animateDB_AssocEnd.Line_AnimatesDBID.Int64 == int64(lineDB.ID) {
-			// 4. fetch the associated instance in the stage
-			animate_AssocEnd := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[animateDB_AssocEnd.ID]
-			// 5. append it the association slice
-			line.Animates = append(line.Animates, animate_AssocEnd)
-		}
+	for _, _Animateid := range lineDB.LinePointersEncoding.Animates {
+		line.Animates = append(line.Animates, backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[uint(_Animateid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(line.Animates, func(i, j int) bool {
-		animateDB_i_ID := backRepo.BackRepoAnimate.Map_AnimatePtr_AnimateDBID[line.Animates[i]]
-		animateDB_j_ID := backRepo.BackRepoAnimate.Map_AnimatePtr_AnimateDBID[line.Animates[j]]
-
-		animateDB_i := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB[animateDB_i_ID]
-		animateDB_j := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB[animateDB_j_ID]
-
-		return animateDB_i.Line_AnimatesDBID_Index.Int64 < animateDB_j.Line_AnimatesDBID_Index.Int64
-	})
 
 	return
 }
@@ -845,12 +799,6 @@ func (backRepoLine *BackRepoLineStruct) RestorePhaseTwo() {
 		_ = lineDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex line.Lines
-		if lineDB.Layer_LinesDBID.Int64 != 0 {
-			lineDB.Layer_LinesDBID.Int64 =
-				int64(BackRepoLayerid_atBckpTime_newID[uint(lineDB.Layer_LinesDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoLine.db.Model(lineDB).Updates(*lineDB)
 		if query.Error != nil {
@@ -878,15 +826,6 @@ func (backRepoLine *BackRepoLineStruct) ResetReversePointersInstance(backRepo *B
 		_ = lineDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if lineDB.Layer_LinesDBID.Int64 != 0 {
-			lineDB.Layer_LinesDBID.Int64 = 0
-			lineDB.Layer_LinesDBID.Valid = true
-
-			// save the reset
-			if q := backRepoLine.db.Save(lineDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

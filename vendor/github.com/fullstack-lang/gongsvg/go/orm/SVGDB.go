@@ -232,26 +232,6 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 		svgDB.CopyBasicFieldsFromSVG(svg)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// This loop encodes the slice of pointers svg.Layers into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, layerAssocEnd := range svg.Layers {
-
-			// get the back repo instance at the association end
-			layerAssocEnd_DB :=
-				backRepo.BackRepoLayer.GetLayerDBFromLayerPtr(layerAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			layerAssocEnd_DB.SVG_LayersDBID.Int64 = int64(svgDB.ID)
-			layerAssocEnd_DB.SVG_LayersDBID.Valid = true
-			layerAssocEnd_DB.SVG_LayersDBID_Index.Int64 = int64(idx)
-			layerAssocEnd_DB.SVG_LayersDBID_Index.Valid = true
-			if q := backRepoSVG.db.Save(layerAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		svgDB.SVGPointersEncoding.Layers = make([]int, 0)
 		// 2. encode
@@ -398,27 +378,9 @@ func (backRepoSVG *BackRepoSVGStruct) CheckoutPhaseTwoInstance(backRepo *BackRep
 	// it appends the stage instance
 	// 1. reset the slice
 	svg.Layers = svg.Layers[:0]
-	// 2. loop all instances in the type in the association end
-	for _, layerDB_AssocEnd := range backRepo.BackRepoLayer.Map_LayerDBID_LayerDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if layerDB_AssocEnd.SVG_LayersDBID.Int64 == int64(svgDB.ID) {
-			// 4. fetch the associated instance in the stage
-			layer_AssocEnd := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[layerDB_AssocEnd.ID]
-			// 5. append it the association slice
-			svg.Layers = append(svg.Layers, layer_AssocEnd)
-		}
+	for _, _Layerid := range svgDB.SVGPointersEncoding.Layers {
+		svg.Layers = append(svg.Layers, backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[uint(_Layerid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(svg.Layers, func(i, j int) bool {
-		layerDB_i_ID := backRepo.BackRepoLayer.Map_LayerPtr_LayerDBID[svg.Layers[i]]
-		layerDB_j_ID := backRepo.BackRepoLayer.Map_LayerPtr_LayerDBID[svg.Layers[j]]
-
-		layerDB_i := backRepo.BackRepoLayer.Map_LayerDBID_LayerDB[layerDB_i_ID]
-		layerDB_j := backRepo.BackRepoLayer.Map_LayerDBID_LayerDB[layerDB_j_ID]
-
-		return layerDB_i.SVG_LayersDBID_Index.Int64 < layerDB_j.SVG_LayersDBID_Index.Int64
-	})
 
 	// StartRect field
 	svg.StartRect = nil

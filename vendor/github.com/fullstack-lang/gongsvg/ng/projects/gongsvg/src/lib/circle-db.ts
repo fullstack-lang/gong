@@ -1,6 +1,5 @@
 // insertion point for imports
 import { AnimateDB } from './animate-db'
-import { LayerDB } from './layer-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -35,9 +34,4 @@ export class CircleDB {
 export class CirclePointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
 	Animations: number[] = []
-	// reverse pointers encoding (to be removed)
-	Layer_CirclesDBID: NullInt64 = new NullInt64
-	Layer_CirclesDBID_Index: NullInt64  = new NullInt64 // store the index of the circle instance in Layer.Circles
-	Layer_Circles_reverse?: LayerDB 
-
 }

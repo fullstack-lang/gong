@@ -55,14 +55,6 @@ type GongStructShapePointersEncoding struct {
 
 	// field Links is a slice of pointers to another Struct (optional or 0..1)
 	Links IntSlice `gorm:"type:TEXT"`
-
-	// Implementation of a reverse ID for field Classdiagram{}.GongStructShapes []*GongStructShape
-	// (to be removed)
-	Classdiagram_GongStructShapesDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Classdiagram_GongStructShapesDBID_Index sql.NullInt64
 }
 
 // GongStructShapeDB describes a gongstructshape in the database
@@ -276,26 +268,6 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CommitPhaseTwoInst
 			gongstructshapeDB.PositionID.Valid = true
 		}
 
-		// This loop encodes the slice of pointers gongstructshape.Fields into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, fieldAssocEnd := range gongstructshape.Fields {
-
-			// get the back repo instance at the association end
-			fieldAssocEnd_DB :=
-				backRepo.BackRepoField.GetFieldDBFromFieldPtr(fieldAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			fieldAssocEnd_DB.GongStructShape_FieldsDBID.Int64 = int64(gongstructshapeDB.ID)
-			fieldAssocEnd_DB.GongStructShape_FieldsDBID.Valid = true
-			fieldAssocEnd_DB.GongStructShape_FieldsDBID_Index.Int64 = int64(idx)
-			fieldAssocEnd_DB.GongStructShape_FieldsDBID_Index.Valid = true
-			if q := backRepoGongStructShape.db.Save(fieldAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		gongstructshapeDB.GongStructShapePointersEncoding.Fields = make([]int, 0)
 		// 2. encode
@@ -304,26 +276,6 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CommitPhaseTwoInst
 				backRepo.BackRepoField.GetFieldDBFromFieldPtr(fieldAssocEnd)
 			gongstructshapeDB.GongStructShapePointersEncoding.Fields =
 				append(gongstructshapeDB.GongStructShapePointersEncoding.Fields, int(fieldAssocEnd_DB.ID))
-		}
-
-		// This loop encodes the slice of pointers gongstructshape.Links into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, linkAssocEnd := range gongstructshape.Links {
-
-			// get the back repo instance at the association end
-			linkAssocEnd_DB :=
-				backRepo.BackRepoLink.GetLinkDBFromLinkPtr(linkAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			linkAssocEnd_DB.GongStructShape_LinksDBID.Int64 = int64(gongstructshapeDB.ID)
-			linkAssocEnd_DB.GongStructShape_LinksDBID.Valid = true
-			linkAssocEnd_DB.GongStructShape_LinksDBID_Index.Int64 = int64(idx)
-			linkAssocEnd_DB.GongStructShape_LinksDBID_Index.Valid = true
-			if q := backRepoGongStructShape.db.Save(linkAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
 		}
 
 		// 1. reset
@@ -453,54 +405,18 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CheckoutPhaseTwoIn
 	// it appends the stage instance
 	// 1. reset the slice
 	gongstructshape.Fields = gongstructshape.Fields[:0]
-	// 2. loop all instances in the type in the association end
-	for _, fieldDB_AssocEnd := range backRepo.BackRepoField.Map_FieldDBID_FieldDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if fieldDB_AssocEnd.GongStructShape_FieldsDBID.Int64 == int64(gongstructshapeDB.ID) {
-			// 4. fetch the associated instance in the stage
-			field_AssocEnd := backRepo.BackRepoField.Map_FieldDBID_FieldPtr[fieldDB_AssocEnd.ID]
-			// 5. append it the association slice
-			gongstructshape.Fields = append(gongstructshape.Fields, field_AssocEnd)
-		}
+	for _, _Fieldid := range gongstructshapeDB.GongStructShapePointersEncoding.Fields {
+		gongstructshape.Fields = append(gongstructshape.Fields, backRepo.BackRepoField.Map_FieldDBID_FieldPtr[uint(_Fieldid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(gongstructshape.Fields, func(i, j int) bool {
-		fieldDB_i_ID := backRepo.BackRepoField.Map_FieldPtr_FieldDBID[gongstructshape.Fields[i]]
-		fieldDB_j_ID := backRepo.BackRepoField.Map_FieldPtr_FieldDBID[gongstructshape.Fields[j]]
-
-		fieldDB_i := backRepo.BackRepoField.Map_FieldDBID_FieldDB[fieldDB_i_ID]
-		fieldDB_j := backRepo.BackRepoField.Map_FieldDBID_FieldDB[fieldDB_j_ID]
-
-		return fieldDB_i.GongStructShape_FieldsDBID_Index.Int64 < fieldDB_j.GongStructShape_FieldsDBID_Index.Int64
-	})
 
 	// This loop redeem gongstructshape.Links in the stage from the encode in the back repo
 	// It parses all LinkDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
 	gongstructshape.Links = gongstructshape.Links[:0]
-	// 2. loop all instances in the type in the association end
-	for _, linkDB_AssocEnd := range backRepo.BackRepoLink.Map_LinkDBID_LinkDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if linkDB_AssocEnd.GongStructShape_LinksDBID.Int64 == int64(gongstructshapeDB.ID) {
-			// 4. fetch the associated instance in the stage
-			link_AssocEnd := backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[linkDB_AssocEnd.ID]
-			// 5. append it the association slice
-			gongstructshape.Links = append(gongstructshape.Links, link_AssocEnd)
-		}
+	for _, _Linkid := range gongstructshapeDB.GongStructShapePointersEncoding.Links {
+		gongstructshape.Links = append(gongstructshape.Links, backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[uint(_Linkid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(gongstructshape.Links, func(i, j int) bool {
-		linkDB_i_ID := backRepo.BackRepoLink.Map_LinkPtr_LinkDBID[gongstructshape.Links[i]]
-		linkDB_j_ID := backRepo.BackRepoLink.Map_LinkPtr_LinkDBID[gongstructshape.Links[j]]
-
-		linkDB_i := backRepo.BackRepoLink.Map_LinkDBID_LinkDB[linkDB_i_ID]
-		linkDB_j := backRepo.BackRepoLink.Map_LinkDBID_LinkDB[linkDB_j_ID]
-
-		return linkDB_i.GongStructShape_LinksDBID_Index.Int64 < linkDB_j.GongStructShape_LinksDBID_Index.Int64
-	})
 
 	return
 }
@@ -808,12 +724,6 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) RestorePhaseTwo() 
 			gongstructshapeDB.PositionID.Valid = true
 		}
 
-		// This reindex gongstructshape.GongStructShapes
-		if gongstructshapeDB.Classdiagram_GongStructShapesDBID.Int64 != 0 {
-			gongstructshapeDB.Classdiagram_GongStructShapesDBID.Int64 =
-				int64(BackRepoClassdiagramid_atBckpTime_newID[uint(gongstructshapeDB.Classdiagram_GongStructShapesDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoGongStructShape.db.Model(gongstructshapeDB).Updates(*gongstructshapeDB)
 		if query.Error != nil {
@@ -841,15 +751,6 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) ResetReversePointe
 		_ = gongstructshapeDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if gongstructshapeDB.Classdiagram_GongStructShapesDBID.Int64 != 0 {
-			gongstructshapeDB.Classdiagram_GongStructShapesDBID.Int64 = 0
-			gongstructshapeDB.Classdiagram_GongStructShapesDBID.Valid = true
-
-			// save the reset
-			if q := backRepoGongStructShape.db.Save(gongstructshapeDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

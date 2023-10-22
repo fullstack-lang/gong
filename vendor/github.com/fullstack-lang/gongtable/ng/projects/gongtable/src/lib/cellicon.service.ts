@@ -12,6 +12,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { CellIconDB } from './cellicon-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
 
@@ -43,10 +44,10 @@ export class CellIconService {
 
   /** GET cellicons from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<CellIconDB[]> {
-    return this.getCellIcons(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconDB[]> {
+    return this.getCellIcons(GONG__StackPath, frontRepo)
   }
-  getCellIcons(GONG__StackPath: string): Observable<CellIconDB[]> {
+  getCellIcons(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -60,10 +61,10 @@ export class CellIconService {
 
   /** GET cellicon by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<CellIconDB> {
-	return this.getCellIcon(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconDB> {
+    return this.getCellIcon(id, GONG__StackPath, frontRepo)
   }
-  getCellIcon(id: number, GONG__StackPath: string): Observable<CellIconDB> {
+  getCellIcon(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -75,10 +76,10 @@ export class CellIconService {
   }
 
   /** POST: add a new cellicon to the server */
-  post(cellicondb: CellIconDB, GONG__StackPath: string): Observable<CellIconDB> {
-    return this.postCellIcon(cellicondb, GONG__StackPath)	
+  post(cellicondb: CellIconDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconDB> {
+    return this.postCellIcon(cellicondb, GONG__StackPath, frontRepo)
   }
-  postCellIcon(cellicondb: CellIconDB, GONG__StackPath: string): Observable<CellIconDB> {
+  postCellIcon(cellicondb: CellIconDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
@@ -118,14 +119,15 @@ export class CellIconService {
   }
 
   /** PUT: update the cellicondb on the server */
-  update(cellicondb: CellIconDB, GONG__StackPath: string): Observable<CellIconDB> {
-    return this.updateCellIcon(cellicondb, GONG__StackPath)
+  update(cellicondb: CellIconDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconDB> {
+    return this.updateCellIcon(cellicondb, GONG__StackPath, frontRepo)
   }
-  updateCellIcon(cellicondb: CellIconDB, GONG__StackPath: string): Observable<CellIconDB> {
+  updateCellIcon(cellicondb: CellIconDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconDB> {
     const id = typeof cellicondb === 'number' ? cellicondb : cellicondb.ID;
     const url = `${this.celliconsUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -163,6 +165,6 @@ export class CellIconService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

@@ -217,26 +217,6 @@ func (backRepoFormGroup *BackRepoFormGroupStruct) CommitPhaseTwoInstance(backRep
 		formgroupDB.CopyBasicFieldsFromFormGroup(formgroup)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// This loop encodes the slice of pointers formgroup.FormDivs into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, formdivAssocEnd := range formgroup.FormDivs {
-
-			// get the back repo instance at the association end
-			formdivAssocEnd_DB :=
-				backRepo.BackRepoFormDiv.GetFormDivDBFromFormDivPtr(formdivAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			formdivAssocEnd_DB.FormGroup_FormDivsDBID.Int64 = int64(formgroupDB.ID)
-			formdivAssocEnd_DB.FormGroup_FormDivsDBID.Valid = true
-			formdivAssocEnd_DB.FormGroup_FormDivsDBID_Index.Int64 = int64(idx)
-			formdivAssocEnd_DB.FormGroup_FormDivsDBID_Index.Valid = true
-			if q := backRepoFormGroup.db.Save(formdivAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		formgroupDB.FormGroupPointersEncoding.FormDivs = make([]int, 0)
 		// 2. encode
@@ -359,27 +339,9 @@ func (backRepoFormGroup *BackRepoFormGroupStruct) CheckoutPhaseTwoInstance(backR
 	// it appends the stage instance
 	// 1. reset the slice
 	formgroup.FormDivs = formgroup.FormDivs[:0]
-	// 2. loop all instances in the type in the association end
-	for _, formdivDB_AssocEnd := range backRepo.BackRepoFormDiv.Map_FormDivDBID_FormDivDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if formdivDB_AssocEnd.FormGroup_FormDivsDBID.Int64 == int64(formgroupDB.ID) {
-			// 4. fetch the associated instance in the stage
-			formdiv_AssocEnd := backRepo.BackRepoFormDiv.Map_FormDivDBID_FormDivPtr[formdivDB_AssocEnd.ID]
-			// 5. append it the association slice
-			formgroup.FormDivs = append(formgroup.FormDivs, formdiv_AssocEnd)
-		}
+	for _, _FormDivid := range formgroupDB.FormGroupPointersEncoding.FormDivs {
+		formgroup.FormDivs = append(formgroup.FormDivs, backRepo.BackRepoFormDiv.Map_FormDivDBID_FormDivPtr[uint(_FormDivid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(formgroup.FormDivs, func(i, j int) bool {
-		formdivDB_i_ID := backRepo.BackRepoFormDiv.Map_FormDivPtr_FormDivDBID[formgroup.FormDivs[i]]
-		formdivDB_j_ID := backRepo.BackRepoFormDiv.Map_FormDivPtr_FormDivDBID[formgroup.FormDivs[j]]
-
-		formdivDB_i := backRepo.BackRepoFormDiv.Map_FormDivDBID_FormDivDB[formdivDB_i_ID]
-		formdivDB_j := backRepo.BackRepoFormDiv.Map_FormDivDBID_FormDivDB[formdivDB_j_ID]
-
-		return formdivDB_i.FormGroup_FormDivsDBID_Index.Int64 < formdivDB_j.FormGroup_FormDivsDBID_Index.Int64
-	})
 
 	return
 }

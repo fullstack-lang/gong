@@ -45,14 +45,6 @@ type UmlStateAPI struct {
 // reverse pointers of slice of poitners to Struct
 type UmlStatePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-
-	// Implementation of a reverse ID for field Umlsc{}.States []*UmlState
-	// (to be removed)
-	Umlsc_StatesDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Umlsc_StatesDBID_Index sql.NullInt64
 }
 
 // UmlStateDB describes a umlstate in the database
@@ -587,12 +579,6 @@ func (backRepoUmlState *BackRepoUmlStateStruct) RestorePhaseTwo() {
 		_ = umlstateDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex umlstate.States
-		if umlstateDB.Umlsc_StatesDBID.Int64 != 0 {
-			umlstateDB.Umlsc_StatesDBID.Int64 =
-				int64(BackRepoUmlscid_atBckpTime_newID[uint(umlstateDB.Umlsc_StatesDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoUmlState.db.Model(umlstateDB).Updates(*umlstateDB)
 		if query.Error != nil {
@@ -620,15 +606,6 @@ func (backRepoUmlState *BackRepoUmlStateStruct) ResetReversePointersInstance(bac
 		_ = umlstateDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if umlstateDB.Umlsc_StatesDBID.Int64 != 0 {
-			umlstateDB.Umlsc_StatesDBID.Int64 = 0
-			umlstateDB.Umlsc_StatesDBID.Valid = true
-
-			// save the reset
-			if q := backRepoUmlState.db.Save(umlstateDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 
