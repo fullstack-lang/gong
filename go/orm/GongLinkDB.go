@@ -45,14 +45,6 @@ type GongLinkAPI struct {
 // reverse pointers of slice of poitners to Struct
 type GongLinkPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-
-	// Implementation of a reverse ID for field GongNote{}.Links []*GongLink
-	// (to be removed)
-	GongNote_LinksDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	GongNote_LinksDBID_Index sql.NullInt64
 }
 
 // GongLinkDB describes a gonglink in the database
@@ -587,12 +579,6 @@ func (backRepoGongLink *BackRepoGongLinkStruct) RestorePhaseTwo() {
 		_ = gonglinkDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex gonglink.Links
-		if gonglinkDB.GongNote_LinksDBID.Int64 != 0 {
-			gonglinkDB.GongNote_LinksDBID.Int64 =
-				int64(BackRepoGongNoteid_atBckpTime_newID[uint(gonglinkDB.GongNote_LinksDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoGongLink.db.Model(gonglinkDB).Updates(*gonglinkDB)
 		if query.Error != nil {
@@ -620,15 +606,6 @@ func (backRepoGongLink *BackRepoGongLinkStruct) ResetReversePointersInstance(bac
 		_ = gonglinkDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if gonglinkDB.GongNote_LinksDBID.Int64 != 0 {
-			gonglinkDB.GongNote_LinksDBID.Int64 = 0
-			gonglinkDB.GongNote_LinksDBID.Valid = true
-
-			// save the reset
-			if q := backRepoGongLink.db.Save(gonglinkDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

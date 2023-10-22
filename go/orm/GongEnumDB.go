@@ -217,26 +217,6 @@ func (backRepoGongEnum *BackRepoGongEnumStruct) CommitPhaseTwoInstance(backRepo 
 		gongenumDB.CopyBasicFieldsFromGongEnum(gongenum)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// This loop encodes the slice of pointers gongenum.GongEnumValues into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, gongenumvalueAssocEnd := range gongenum.GongEnumValues {
-
-			// get the back repo instance at the association end
-			gongenumvalueAssocEnd_DB :=
-				backRepo.BackRepoGongEnumValue.GetGongEnumValueDBFromGongEnumValuePtr(gongenumvalueAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			gongenumvalueAssocEnd_DB.GongEnum_GongEnumValuesDBID.Int64 = int64(gongenumDB.ID)
-			gongenumvalueAssocEnd_DB.GongEnum_GongEnumValuesDBID.Valid = true
-			gongenumvalueAssocEnd_DB.GongEnum_GongEnumValuesDBID_Index.Int64 = int64(idx)
-			gongenumvalueAssocEnd_DB.GongEnum_GongEnumValuesDBID_Index.Valid = true
-			if q := backRepoGongEnum.db.Save(gongenumvalueAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		gongenumDB.GongEnumPointersEncoding.GongEnumValues = make([]int, 0)
 		// 2. encode
@@ -359,27 +339,9 @@ func (backRepoGongEnum *BackRepoGongEnumStruct) CheckoutPhaseTwoInstance(backRep
 	// it appends the stage instance
 	// 1. reset the slice
 	gongenum.GongEnumValues = gongenum.GongEnumValues[:0]
-	// 2. loop all instances in the type in the association end
-	for _, gongenumvalueDB_AssocEnd := range backRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValueDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if gongenumvalueDB_AssocEnd.GongEnum_GongEnumValuesDBID.Int64 == int64(gongenumDB.ID) {
-			// 4. fetch the associated instance in the stage
-			gongenumvalue_AssocEnd := backRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValuePtr[gongenumvalueDB_AssocEnd.ID]
-			// 5. append it the association slice
-			gongenum.GongEnumValues = append(gongenum.GongEnumValues, gongenumvalue_AssocEnd)
-		}
+	for _, _GongEnumValueid := range gongenumDB.GongEnumPointersEncoding.GongEnumValues {
+		gongenum.GongEnumValues = append(gongenum.GongEnumValues, backRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValuePtr[uint(_GongEnumValueid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(gongenum.GongEnumValues, func(i, j int) bool {
-		gongenumvalueDB_i_ID := backRepo.BackRepoGongEnumValue.Map_GongEnumValuePtr_GongEnumValueDBID[gongenum.GongEnumValues[i]]
-		gongenumvalueDB_j_ID := backRepo.BackRepoGongEnumValue.Map_GongEnumValuePtr_GongEnumValueDBID[gongenum.GongEnumValues[j]]
-
-		gongenumvalueDB_i := backRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValueDB[gongenumvalueDB_i_ID]
-		gongenumvalueDB_j := backRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValueDB[gongenumvalueDB_j_ID]
-
-		return gongenumvalueDB_i.GongEnum_GongEnumValuesDBID_Index.Int64 < gongenumvalueDB_j.GongEnum_GongEnumValuesDBID_Index.Int64
-	})
 
 	return
 }

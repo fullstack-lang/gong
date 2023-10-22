@@ -12,9 +12,9 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { GongTimeFieldDB } from './gongtimefield-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { GongStructDB } from './gongstruct-db'
 
 @Injectable({
   providedIn: 'root'
@@ -44,10 +44,10 @@ export class GongTimeFieldService {
 
   /** GET gongtimefields from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<GongTimeFieldDB[]> {
-    return this.getGongTimeFields(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongTimeFieldDB[]> {
+    return this.getGongTimeFields(GONG__StackPath, frontRepo)
   }
-  getGongTimeFields(GONG__StackPath: string): Observable<GongTimeFieldDB[]> {
+  getGongTimeFields(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongTimeFieldDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -61,10 +61,10 @@ export class GongTimeFieldService {
 
   /** GET gongtimefield by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<GongTimeFieldDB> {
-	return this.getGongTimeField(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongTimeFieldDB> {
+    return this.getGongTimeField(id, GONG__StackPath, frontRepo)
   }
-  getGongTimeField(id: number, GONG__StackPath: string): Observable<GongTimeFieldDB> {
+  getGongTimeField(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongTimeFieldDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -76,14 +76,12 @@ export class GongTimeFieldService {
   }
 
   /** POST: add a new gongtimefield to the server */
-  post(gongtimefielddb: GongTimeFieldDB, GONG__StackPath: string): Observable<GongTimeFieldDB> {
-    return this.postGongTimeField(gongtimefielddb, GONG__StackPath)	
+  post(gongtimefielddb: GongTimeFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongTimeFieldDB> {
+    return this.postGongTimeField(gongtimefielddb, GONG__StackPath, frontRepo)
   }
-  postGongTimeField(gongtimefielddb: GongTimeFieldDB, GONG__StackPath: string): Observable<GongTimeFieldDB> {
+  postGongTimeField(gongtimefielddb: GongTimeFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongTimeFieldDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _GongStruct_GongTimeFields_reverse = gongtimefielddb.GongTimeFieldPointersEncoding.GongStruct_GongTimeFields_reverse
-    gongtimefielddb.GongTimeFieldPointersEncoding.GongStruct_GongTimeFields_reverse = new GongStructDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -94,7 +92,6 @@ export class GongTimeFieldService {
     return this.http.post<GongTimeFieldDB>(this.gongtimefieldsUrl, gongtimefielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        gongtimefielddb.GongTimeFieldPointersEncoding.GongStruct_GongTimeFields_reverse = _GongStruct_GongTimeFields_reverse
         // this.log(`posted gongtimefielddb id=${gongtimefielddb.ID}`)
       }),
       catchError(this.handleError<GongTimeFieldDB>('postGongTimeField'))
@@ -122,16 +119,15 @@ export class GongTimeFieldService {
   }
 
   /** PUT: update the gongtimefielddb on the server */
-  update(gongtimefielddb: GongTimeFieldDB, GONG__StackPath: string): Observable<GongTimeFieldDB> {
-    return this.updateGongTimeField(gongtimefielddb, GONG__StackPath)
+  update(gongtimefielddb: GongTimeFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongTimeFieldDB> {
+    return this.updateGongTimeField(gongtimefielddb, GONG__StackPath, frontRepo)
   }
-  updateGongTimeField(gongtimefielddb: GongTimeFieldDB, GONG__StackPath: string): Observable<GongTimeFieldDB> {
+  updateGongTimeField(gongtimefielddb: GongTimeFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongTimeFieldDB> {
     const id = typeof gongtimefielddb === 'number' ? gongtimefielddb : gongtimefielddb.ID;
     const url = `${this.gongtimefieldsUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _GongStruct_GongTimeFields_reverse = gongtimefielddb.GongTimeFieldPointersEncoding.GongStruct_GongTimeFields_reverse
-    gongtimefielddb.GongTimeFieldPointersEncoding.GongStruct_GongTimeFields_reverse = new GongStructDB
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -142,7 +138,6 @@ export class GongTimeFieldService {
     return this.http.put<GongTimeFieldDB>(url, gongtimefielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        gongtimefielddb.GongTimeFieldPointersEncoding.GongStruct_GongTimeFields_reverse = _GongStruct_GongTimeFields_reverse
         // this.log(`updated gongtimefielddb id=${gongtimefielddb.ID}`)
       }),
       catchError(this.handleError<GongTimeFieldDB>('updateGongTimeField'))
@@ -170,6 +165,6 @@ export class GongTimeFieldService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }
