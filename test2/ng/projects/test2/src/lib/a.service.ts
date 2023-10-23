@@ -55,7 +55,6 @@ export class AService {
     return this.http.get<ADB[]>(this.asUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched as')),
         catchError(this.handleError<ADB[]>('getAs', []))
       );
   }
@@ -88,6 +87,7 @@ export class AService {
       adb.APointersEncoding.BID.Valid = true
     }
     adb.B = undefined
+    adb.APointersEncoding.Bs = []
     for (let _b of adb.Bs) {
       adb.APointersEncoding.Bs.push(_b.ID)
     }
@@ -145,12 +145,13 @@ export class AService {
     const url = `${this.asUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
     if (adb.B != undefined) {
       adb.APointersEncoding.BID.Int64 = adb.B.ID
       adb.APointersEncoding.BID.Valid = true
     }
     adb.B = undefined
+    adb.APointersEncoding.Bs = []
     for (let _b of adb.Bs) {
       adb.APointersEncoding.Bs.push(_b.ID)
     }
