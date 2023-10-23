@@ -54,7 +54,6 @@ export class PointService {
     return this.http.get<PointDB[]>(this.pointsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched points')),
         catchError(this.handleError<PointDB[]>('getPoints', []))
       );
   }
@@ -127,7 +126,7 @@ export class PointService {
     const url = `${this.pointsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {

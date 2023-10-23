@@ -55,7 +55,6 @@ export class PolygoneService {
     return this.http.get<PolygoneDB[]>(this.polygonesUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched polygones')),
         catchError(this.handleError<PolygoneDB[]>('getPolygones', []))
       );
   }
@@ -83,6 +82,7 @@ export class PolygoneService {
   postPolygone(polygonedb: PolygoneDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    polygonedb.PolygonePointersEncoding.Animates = []
     for (let _animate of polygonedb.Animates) {
       polygonedb.PolygonePointersEncoding.Animates.push(_animate.ID)
     }
@@ -139,7 +139,8 @@ export class PolygoneService {
     const url = `${this.polygonesUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    polygonedb.PolygonePointersEncoding.Animates = []
     for (let _animate of polygonedb.Animates) {
       polygonedb.PolygonePointersEncoding.Animates.push(_animate.ID)
     }

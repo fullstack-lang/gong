@@ -55,7 +55,6 @@ export class FormGroupService {
     return this.http.get<FormGroupDB[]>(this.formgroupsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched formgroups')),
         catchError(this.handleError<FormGroupDB[]>('getFormGroups', []))
       );
   }
@@ -83,6 +82,7 @@ export class FormGroupService {
   postFormGroup(formgroupdb: FormGroupDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    formgroupdb.FormGroupPointersEncoding.FormDivs = []
     for (let _formdiv of formgroupdb.FormDivs) {
       formgroupdb.FormGroupPointersEncoding.FormDivs.push(_formdiv.ID)
     }
@@ -139,7 +139,8 @@ export class FormGroupService {
     const url = `${this.formgroupsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    formgroupdb.FormGroupPointersEncoding.FormDivs = []
     for (let _formdiv of formgroupdb.FormDivs) {
       formgroupdb.FormGroupPointersEncoding.FormDivs.push(_formdiv.ID)
     }

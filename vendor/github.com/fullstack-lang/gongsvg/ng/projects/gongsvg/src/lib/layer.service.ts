@@ -64,7 +64,6 @@ export class LayerService {
     return this.http.get<LayerDB[]>(this.layersUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched layers')),
         catchError(this.handleError<LayerDB[]>('getLayers', []))
       );
   }
@@ -92,42 +91,52 @@ export class LayerService {
   postLayer(layerdb: LayerDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    layerdb.LayerPointersEncoding.Rects = []
     for (let _rect of layerdb.Rects) {
       layerdb.LayerPointersEncoding.Rects.push(_rect.ID)
     }
     layerdb.Rects = []
+    layerdb.LayerPointersEncoding.Texts = []
     for (let _text of layerdb.Texts) {
       layerdb.LayerPointersEncoding.Texts.push(_text.ID)
     }
     layerdb.Texts = []
+    layerdb.LayerPointersEncoding.Circles = []
     for (let _circle of layerdb.Circles) {
       layerdb.LayerPointersEncoding.Circles.push(_circle.ID)
     }
     layerdb.Circles = []
+    layerdb.LayerPointersEncoding.Lines = []
     for (let _line of layerdb.Lines) {
       layerdb.LayerPointersEncoding.Lines.push(_line.ID)
     }
     layerdb.Lines = []
+    layerdb.LayerPointersEncoding.Ellipses = []
     for (let _ellipse of layerdb.Ellipses) {
       layerdb.LayerPointersEncoding.Ellipses.push(_ellipse.ID)
     }
     layerdb.Ellipses = []
+    layerdb.LayerPointersEncoding.Polylines = []
     for (let _polyline of layerdb.Polylines) {
       layerdb.LayerPointersEncoding.Polylines.push(_polyline.ID)
     }
     layerdb.Polylines = []
+    layerdb.LayerPointersEncoding.Polygones = []
     for (let _polygone of layerdb.Polygones) {
       layerdb.LayerPointersEncoding.Polygones.push(_polygone.ID)
     }
     layerdb.Polygones = []
+    layerdb.LayerPointersEncoding.Paths = []
     for (let _path of layerdb.Paths) {
       layerdb.LayerPointersEncoding.Paths.push(_path.ID)
     }
     layerdb.Paths = []
+    layerdb.LayerPointersEncoding.Links = []
     for (let _link of layerdb.Links) {
       layerdb.LayerPointersEncoding.Links.push(_link.ID)
     }
     layerdb.Links = []
+    layerdb.LayerPointersEncoding.RectLinkLinks = []
     for (let _rectlinklink of layerdb.RectLinkLinks) {
       layerdb.LayerPointersEncoding.RectLinkLinks.push(_rectlinklink.ID)
     }
@@ -247,43 +256,53 @@ export class LayerService {
     const url = `${this.layersUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    layerdb.LayerPointersEncoding.Rects = []
     for (let _rect of layerdb.Rects) {
       layerdb.LayerPointersEncoding.Rects.push(_rect.ID)
     }
     layerdb.Rects = []
+    layerdb.LayerPointersEncoding.Texts = []
     for (let _text of layerdb.Texts) {
       layerdb.LayerPointersEncoding.Texts.push(_text.ID)
     }
     layerdb.Texts = []
+    layerdb.LayerPointersEncoding.Circles = []
     for (let _circle of layerdb.Circles) {
       layerdb.LayerPointersEncoding.Circles.push(_circle.ID)
     }
     layerdb.Circles = []
+    layerdb.LayerPointersEncoding.Lines = []
     for (let _line of layerdb.Lines) {
       layerdb.LayerPointersEncoding.Lines.push(_line.ID)
     }
     layerdb.Lines = []
+    layerdb.LayerPointersEncoding.Ellipses = []
     for (let _ellipse of layerdb.Ellipses) {
       layerdb.LayerPointersEncoding.Ellipses.push(_ellipse.ID)
     }
     layerdb.Ellipses = []
+    layerdb.LayerPointersEncoding.Polylines = []
     for (let _polyline of layerdb.Polylines) {
       layerdb.LayerPointersEncoding.Polylines.push(_polyline.ID)
     }
     layerdb.Polylines = []
+    layerdb.LayerPointersEncoding.Polygones = []
     for (let _polygone of layerdb.Polygones) {
       layerdb.LayerPointersEncoding.Polygones.push(_polygone.ID)
     }
     layerdb.Polygones = []
+    layerdb.LayerPointersEncoding.Paths = []
     for (let _path of layerdb.Paths) {
       layerdb.LayerPointersEncoding.Paths.push(_path.ID)
     }
     layerdb.Paths = []
+    layerdb.LayerPointersEncoding.Links = []
     for (let _link of layerdb.Links) {
       layerdb.LayerPointersEncoding.Links.push(_link.ID)
     }
     layerdb.Links = []
+    layerdb.LayerPointersEncoding.RectLinkLinks = []
     for (let _rectlinklink of layerdb.RectLinkLinks) {
       layerdb.LayerPointersEncoding.RectLinkLinks.push(_rectlinklink.ID)
     }

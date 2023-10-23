@@ -55,7 +55,6 @@ export class NodeService {
     return this.http.get<NodeDB[]>(this.nodesUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched nodes')),
         catchError(this.handleError<NodeDB[]>('getNodes', []))
       );
   }
@@ -83,10 +82,12 @@ export class NodeService {
   postNode(nodedb: NodeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    nodedb.NodePointersEncoding.Children = []
     for (let _node of nodedb.Children) {
       nodedb.NodePointersEncoding.Children.push(_node.ID)
     }
     nodedb.Children = []
+    nodedb.NodePointersEncoding.Buttons = []
     for (let _button of nodedb.Buttons) {
       nodedb.NodePointersEncoding.Buttons.push(_button.ID)
     }
@@ -150,11 +151,13 @@ export class NodeService {
     const url = `${this.nodesUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    nodedb.NodePointersEncoding.Children = []
     for (let _node of nodedb.Children) {
       nodedb.NodePointersEncoding.Children.push(_node.ID)
     }
     nodedb.Children = []
+    nodedb.NodePointersEncoding.Buttons = []
     for (let _button of nodedb.Buttons) {
       nodedb.NodePointersEncoding.Buttons.push(_button.ID)
     }

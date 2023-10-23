@@ -57,7 +57,6 @@ export class LinkService {
     return this.http.get<LinkDB[]>(this.linksUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched links')),
         catchError(this.handleError<LinkDB[]>('getLinks', []))
       );
   }
@@ -95,14 +94,17 @@ export class LinkService {
       linkdb.LinkPointersEncoding.EndID.Valid = true
     }
     linkdb.End = undefined
+    linkdb.LinkPointersEncoding.TextAtArrowEnd = []
     for (let _linkanchoredtext of linkdb.TextAtArrowEnd) {
       linkdb.LinkPointersEncoding.TextAtArrowEnd.push(_linkanchoredtext.ID)
     }
     linkdb.TextAtArrowEnd = []
+    linkdb.LinkPointersEncoding.TextAtArrowStart = []
     for (let _linkanchoredtext of linkdb.TextAtArrowStart) {
       linkdb.LinkPointersEncoding.TextAtArrowStart.push(_linkanchoredtext.ID)
     }
     linkdb.TextAtArrowStart = []
+    linkdb.LinkPointersEncoding.ControlPoints = []
     for (let _point of linkdb.ControlPoints) {
       linkdb.LinkPointersEncoding.ControlPoints.push(_point.ID)
     }
@@ -175,7 +177,7 @@ export class LinkService {
     const url = `${this.linksUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
     if (linkdb.Start != undefined) {
       linkdb.LinkPointersEncoding.StartID.Int64 = linkdb.Start.ID
       linkdb.LinkPointersEncoding.StartID.Valid = true
@@ -186,14 +188,17 @@ export class LinkService {
       linkdb.LinkPointersEncoding.EndID.Valid = true
     }
     linkdb.End = undefined
+    linkdb.LinkPointersEncoding.TextAtArrowEnd = []
     for (let _linkanchoredtext of linkdb.TextAtArrowEnd) {
       linkdb.LinkPointersEncoding.TextAtArrowEnd.push(_linkanchoredtext.ID)
     }
     linkdb.TextAtArrowEnd = []
+    linkdb.LinkPointersEncoding.TextAtArrowStart = []
     for (let _linkanchoredtext of linkdb.TextAtArrowStart) {
       linkdb.LinkPointersEncoding.TextAtArrowStart.push(_linkanchoredtext.ID)
     }
     linkdb.TextAtArrowStart = []
+    linkdb.LinkPointersEncoding.ControlPoints = []
     for (let _point of linkdb.ControlPoints) {
       linkdb.LinkPointersEncoding.ControlPoints.push(_point.ID)
     }

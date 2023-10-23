@@ -61,7 +61,6 @@ export class FormFieldService {
     return this.http.get<FormFieldDB[]>(this.formfieldsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched formfields')),
         catchError(this.handleError<FormFieldDB[]>('getFormFields', []))
       );
   }
@@ -176,7 +175,7 @@ export class FormFieldService {
     const url = `${this.formfieldsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
     if (formfielddb.FormFieldString != undefined) {
       formfielddb.FormFieldPointersEncoding.FormFieldStringID.Int64 = formfielddb.FormFieldString.ID
       formfielddb.FormFieldPointersEncoding.FormFieldStringID.Valid = true

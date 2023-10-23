@@ -54,7 +54,6 @@ export class FormSortAssocButtonService {
     return this.http.get<FormSortAssocButtonDB[]>(this.formsortassocbuttonsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched formsortassocbuttons')),
         catchError(this.handleError<FormSortAssocButtonDB[]>('getFormSortAssocButtons', []))
       );
   }
@@ -127,7 +126,7 @@ export class FormSortAssocButtonService {
     const url = `${this.formsortassocbuttonsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {

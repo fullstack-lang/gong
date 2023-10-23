@@ -55,7 +55,6 @@ export class EllipseService {
     return this.http.get<EllipseDB[]>(this.ellipsesUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched ellipses')),
         catchError(this.handleError<EllipseDB[]>('getEllipses', []))
       );
   }
@@ -83,6 +82,7 @@ export class EllipseService {
   postEllipse(ellipsedb: EllipseDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    ellipsedb.EllipsePointersEncoding.Animates = []
     for (let _animate of ellipsedb.Animates) {
       ellipsedb.EllipsePointersEncoding.Animates.push(_animate.ID)
     }
@@ -139,7 +139,8 @@ export class EllipseService {
     const url = `${this.ellipsesUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    ellipsedb.EllipsePointersEncoding.Animates = []
     for (let _animate of ellipsedb.Animates) {
       ellipsedb.EllipsePointersEncoding.Animates.push(_animate.ID)
     }

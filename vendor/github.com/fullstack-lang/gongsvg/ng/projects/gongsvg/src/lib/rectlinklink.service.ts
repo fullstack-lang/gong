@@ -56,7 +56,6 @@ export class RectLinkLinkService {
     return this.http.get<RectLinkLinkDB[]>(this.rectlinklinksUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched rectlinklinks')),
         catchError(this.handleError<RectLinkLinkDB[]>('getRectLinkLinks', []))
       );
   }
@@ -141,7 +140,7 @@ export class RectLinkLinkService {
     const url = `${this.rectlinklinksUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
     if (rectlinklinkdb.Start != undefined) {
       rectlinklinkdb.RectLinkLinkPointersEncoding.StartID.Int64 = rectlinklinkdb.Start.ID
       rectlinklinkdb.RectLinkLinkPointersEncoding.StartID.Valid = true

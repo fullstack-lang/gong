@@ -54,7 +54,6 @@ export class FormFieldFloat64Service {
     return this.http.get<FormFieldFloat64DB[]>(this.formfieldfloat64sUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched formfieldfloat64s')),
         catchError(this.handleError<FormFieldFloat64DB[]>('getFormFieldFloat64s', []))
       );
   }
@@ -127,7 +126,7 @@ export class FormFieldFloat64Service {
     const url = `${this.formfieldfloat64sUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {

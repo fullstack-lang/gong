@@ -55,7 +55,6 @@ export class RowService {
     return this.http.get<RowDB[]>(this.rowsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched rows')),
         catchError(this.handleError<RowDB[]>('getRows', []))
       );
   }
@@ -83,6 +82,7 @@ export class RowService {
   postRow(rowdb: RowDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    rowdb.RowPointersEncoding.Cells = []
     for (let _cell of rowdb.Cells) {
       rowdb.RowPointersEncoding.Cells.push(_cell.ID)
     }
@@ -139,7 +139,8 @@ export class RowService {
     const url = `${this.rowsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    rowdb.RowPointersEncoding.Cells = []
     for (let _cell of rowdb.Cells) {
       rowdb.RowPointersEncoding.Cells.push(_cell.ID)
     }

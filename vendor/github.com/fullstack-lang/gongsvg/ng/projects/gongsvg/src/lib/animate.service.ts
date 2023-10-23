@@ -54,7 +54,6 @@ export class AnimateService {
     return this.http.get<AnimateDB[]>(this.animatesUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched animates')),
         catchError(this.handleError<AnimateDB[]>('getAnimates', []))
       );
   }
@@ -127,7 +126,7 @@ export class AnimateService {
     const url = `${this.animatesUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {

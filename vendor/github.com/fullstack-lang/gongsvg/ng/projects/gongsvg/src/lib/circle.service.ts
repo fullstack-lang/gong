@@ -55,7 +55,6 @@ export class CircleService {
     return this.http.get<CircleDB[]>(this.circlesUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched circles')),
         catchError(this.handleError<CircleDB[]>('getCircles', []))
       );
   }
@@ -83,6 +82,7 @@ export class CircleService {
   postCircle(circledb: CircleDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    circledb.CirclePointersEncoding.Animations = []
     for (let _animate of circledb.Animations) {
       circledb.CirclePointersEncoding.Animations.push(_animate.ID)
     }
@@ -139,7 +139,8 @@ export class CircleService {
     const url = `${this.circlesUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    circledb.CirclePointersEncoding.Animations = []
     for (let _animate of circledb.Animations) {
       circledb.CirclePointersEncoding.Animations.push(_animate.ID)
     }

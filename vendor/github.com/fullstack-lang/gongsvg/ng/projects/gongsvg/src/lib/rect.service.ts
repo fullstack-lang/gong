@@ -57,7 +57,6 @@ export class RectService {
     return this.http.get<RectDB[]>(this.rectsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched rects')),
         catchError(this.handleError<RectDB[]>('getRects', []))
       );
   }
@@ -85,14 +84,17 @@ export class RectService {
   postRect(rectdb: RectDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    rectdb.RectPointersEncoding.Animations = []
     for (let _animate of rectdb.Animations) {
       rectdb.RectPointersEncoding.Animations.push(_animate.ID)
     }
     rectdb.Animations = []
+    rectdb.RectPointersEncoding.RectAnchoredTexts = []
     for (let _rectanchoredtext of rectdb.RectAnchoredTexts) {
       rectdb.RectPointersEncoding.RectAnchoredTexts.push(_rectanchoredtext.ID)
     }
     rectdb.RectAnchoredTexts = []
+    rectdb.RectPointersEncoding.RectAnchoredRects = []
     for (let _rectanchoredrect of rectdb.RectAnchoredRects) {
       rectdb.RectPointersEncoding.RectAnchoredRects.push(_rectanchoredrect.ID)
     }
@@ -163,15 +165,18 @@ export class RectService {
     const url = `${this.rectsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    rectdb.RectPointersEncoding.Animations = []
     for (let _animate of rectdb.Animations) {
       rectdb.RectPointersEncoding.Animations.push(_animate.ID)
     }
     rectdb.Animations = []
+    rectdb.RectPointersEncoding.RectAnchoredTexts = []
     for (let _rectanchoredtext of rectdb.RectAnchoredTexts) {
       rectdb.RectPointersEncoding.RectAnchoredTexts.push(_rectanchoredtext.ID)
     }
     rectdb.RectAnchoredTexts = []
+    rectdb.RectPointersEncoding.RectAnchoredRects = []
     for (let _rectanchoredrect of rectdb.RectAnchoredRects) {
       rectdb.RectPointersEncoding.RectAnchoredRects.push(_rectanchoredrect.ID)
     }

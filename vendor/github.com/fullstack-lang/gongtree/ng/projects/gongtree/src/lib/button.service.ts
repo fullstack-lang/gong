@@ -54,7 +54,6 @@ export class ButtonService {
     return this.http.get<ButtonDB[]>(this.buttonsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched buttons')),
         catchError(this.handleError<ButtonDB[]>('getButtons', []))
       );
   }
@@ -127,7 +126,7 @@ export class ButtonService {
     const url = `${this.buttonsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {

@@ -59,7 +59,6 @@ export class CellService {
     return this.http.get<CellDB[]>(this.cellsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched cells')),
         catchError(this.handleError<CellDB[]>('getCells', []))
       );
   }
@@ -162,7 +161,7 @@ export class CellService {
     const url = `${this.cellsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
     if (celldb.CellString != undefined) {
       celldb.CellPointersEncoding.CellStringID.Int64 = celldb.CellString.ID
       celldb.CellPointersEncoding.CellStringID.Valid = true

@@ -54,7 +54,6 @@ export class FormFieldDateService {
     return this.http.get<FormFieldDateDB[]>(this.formfielddatesUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched formfielddates')),
         catchError(this.handleError<FormFieldDateDB[]>('getFormFieldDates', []))
       );
   }
@@ -127,7 +126,7 @@ export class FormFieldDateService {
     const url = `${this.formfielddatesUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {

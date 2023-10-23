@@ -55,7 +55,6 @@ export class LineService {
     return this.http.get<LineDB[]>(this.linesUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched lines')),
         catchError(this.handleError<LineDB[]>('getLines', []))
       );
   }
@@ -83,6 +82,7 @@ export class LineService {
   postLine(linedb: LineDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LineDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    linedb.LinePointersEncoding.Animates = []
     for (let _animate of linedb.Animates) {
       linedb.LinePointersEncoding.Animates.push(_animate.ID)
     }
@@ -139,7 +139,8 @@ export class LineService {
     const url = `${this.linesUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    linedb.LinePointersEncoding.Animates = []
     for (let _animate of linedb.Animates) {
       linedb.LinePointersEncoding.Animates.push(_animate.ID)
     }

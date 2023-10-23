@@ -54,7 +54,6 @@ export class CellFloat64Service {
     return this.http.get<CellFloat64DB[]>(this.cellfloat64sUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched cellfloat64s')),
         catchError(this.handleError<CellFloat64DB[]>('getCellFloat64s', []))
       );
   }
@@ -127,7 +126,7 @@ export class CellFloat64Service {
     const url = `${this.cellfloat64sUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {

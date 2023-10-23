@@ -55,7 +55,6 @@ export class LinkAnchoredTextService {
     return this.http.get<LinkAnchoredTextDB[]>(this.linkanchoredtextsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched linkanchoredtexts')),
         catchError(this.handleError<LinkAnchoredTextDB[]>('getLinkAnchoredTexts', []))
       );
   }
@@ -83,6 +82,7 @@ export class LinkAnchoredTextService {
   postLinkAnchoredText(linkanchoredtextdb: LinkAnchoredTextDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Animates = []
     for (let _animate of linkanchoredtextdb.Animates) {
       linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Animates.push(_animate.ID)
     }
@@ -139,7 +139,8 @@ export class LinkAnchoredTextService {
     const url = `${this.linkanchoredtextsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Animates = []
     for (let _animate of linkanchoredtextdb.Animates) {
       linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Animates.push(_animate.ID)
     }
