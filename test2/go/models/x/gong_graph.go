@@ -8,6 +8,9 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	case *A:
 		ok = stage.IsStagedA(target)
 
+	case *B:
+		ok = stage.IsStagedB(target)
+
 	default:
 		_ = target
 	}
@@ -18,6 +21,13 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 func (stage *StageStruct) IsStagedA(a *A) (ok bool) {
 
 	_, ok = stage.As[a]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedB(b *B) (ok bool) {
+
+	_, ok = stage.Bs[b]
 
 	return
 }
@@ -33,6 +43,9 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *A:
 		stage.StageBranchA(target)
 
+	case *B:
+		stage.StageBranchB(target)
+
 	default:
 		_ = target
 	}
@@ -47,6 +60,27 @@ func (stage *StageStruct) StageBranchA(a *A) {
 	}
 
 	a.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if a.B != nil {
+		StageBranch(stage, a.B)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _b := range a.Bs {
+		StageBranch(stage, _b)
+	}
+
+}
+
+func (stage *StageStruct) StageBranchB(b *B) {
+
+	// check if instance is already staged
+	if IsStaged(stage, b) {
+		return
+	}
+
+	b.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -65,6 +99,9 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *A:
 		stage.UnstageBranchA(target)
 
+	case *B:
+		stage.UnstageBranchB(target)
+
 	default:
 		_ = target
 	}
@@ -79,6 +116,27 @@ func (stage *StageStruct) UnstageBranchA(a *A) {
 	}
 
 	a.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if a.B != nil {
+		UnstageBranch(stage, a.B)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _b := range a.Bs {
+		UnstageBranch(stage, _b)
+	}
+
+}
+
+func (stage *StageStruct) UnstageBranchB(b *B) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, b) {
+		return
+	}
+
+	b.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 

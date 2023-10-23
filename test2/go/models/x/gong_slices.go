@@ -35,8 +35,50 @@ func EvictInOtherSlices[OwningType PointerToGongstruct, FieldType PointerToGongs
 	// insertion point
 	case *A:
 		// insertion point per field
+		if fieldName == "Bs" {
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
+				if any(_instance).(*A) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*A)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Bs).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Bs = _inferedTypeInstance.Bs[0:]
+					for _, fieldInstance := range reference {
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Bs =
+								append(_inferedTypeInstance.Bs, any(fieldInstance).(*B))
+						}
+					}
+				}
+			}
+		}
+
+	case *B:
+		// insertion point per field
 
 	default:
 		_ = owningInstanceInfered // to avoid "declared and not used" error if no named struct has slices
 	}
+}
+
+// ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
+// Its complexity is in O(n)O(p) where p is the number of pointers
+func (stage *StageStruct) ComputeReverseMaps() {
+	// insertion point per named struct
+	// Compute reverse map for named struct A
+	// insertion point per field
+	clear(stage.A_Bs_reverseMap)
+	stage.A_Bs_reverseMap = make(map[*B]*A)
+	for a := range stage.As {
+		_ = a
+		for _, _b := range a.Bs {
+			stage.A_Bs_reverseMap[_b] = a
+		}
+	}
+
+	// Compute reverse map for named struct B
+	// insertion point per field
+
 }
