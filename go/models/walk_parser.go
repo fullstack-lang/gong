@@ -10,8 +10,8 @@ import (
 	"io/fs"
 	"log"
 	"math"
-	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"unicode"
 
@@ -136,7 +136,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, ignorePa
 			continue
 		}
 
-		if fileName == "gong.go" {
+		if slices.Contains(GeneratedModelFiles, filepath.Base(filePath)) {
 			continue
 		}
 
@@ -246,13 +246,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, ignorePa
 	// second pass
 	for filePath, file := range astPackage.Files {
 
-		var fileName string
-		if strings.Contains(filePath, string(os.PathSeparator)) {
-			fileNames := strings.Split(filePath, string(os.PathSeparator))
-			fileName = fileNames[len(fileNames)-1]
-		}
-
-		if fileName == "gong.go" {
+		if slices.Contains(GeneratedModelFiles, filepath.Base(filePath)) {
 			continue
 		}
 
@@ -361,14 +355,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, ignorePa
 	// pass to detect if there a function that matches the OnAfterUpdate signature
 	for filePath, file := range astPackage.Files {
 
-		var fileName string
-
-		if strings.Contains(filePath, string(os.PathSeparator)) {
-			fileNames := strings.Split(filePath, string(os.PathSeparator))
-			fileName = fileNames[len(fileNames)-1]
-		}
-
-		if fileName == "gong.go" {
+		if slices.Contains(GeneratedModelFiles, filepath.Base(filePath)) {
 			continue
 		}
 

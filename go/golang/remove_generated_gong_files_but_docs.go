@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 
 	"github.com/fullstack-lang/gong/go/golang/models"
+
+	gong_models "github.com/fullstack-lang/gong/go/models"
 )
 
 // RemoveGeneratedGongFilesButDocs generates the setup file for the gorm
@@ -29,23 +31,7 @@ func RemoveGeneratedGongFilesButDocs(
 
 	}
 
-	filesToRemove := []string{
-		"gong.go",
-		"../..embed.go",
-		"../embed.go",
-		"gong_coder.go",
-		"gong_ast.go",
-		"gong_serialize.go",
-		"gong_slices.go",
-		"gong_marshall.go",
-		"gong_graph.go",
-		"gong_enum.go",
-		"gong_callbacks.go",
-		"gong_orchestrator.go",
-		"gong_wop.go",
-	}
-
-	for _, file := range filesToRemove {
+	for _, file := range gong_models.GeneratedModelFiles {
 		removeFile(filepath.Join(RelativePkgPath, file))
 	}
 }

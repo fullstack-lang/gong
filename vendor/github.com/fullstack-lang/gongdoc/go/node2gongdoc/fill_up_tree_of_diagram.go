@@ -34,13 +34,12 @@ func FillUpTreeOfDiagramNodes(
 
 	// add one node for each diagram
 	for classdiagram := range *gongdoc_models.GetGongstructInstancesSet[gongdoc_models.Classdiagram](gongdocStage) {
-		classdiagramNode := NewClassdiagramNode(
+		NewClassdiagramNode(
 			gongtreeStage,
 			classdiagram,
 			diagramPackage,
 			rootOfClassdiagramsNode,
 			treeOfGongObjects)
-		rootOfClassdiagramsNode.Children = append(rootOfClassdiagramsNode.Children, classdiagramNode)
 	}
 
 	return

@@ -99,14 +99,12 @@ func (buttonImpl *ButtonImplRootOfClassdiagrams) ButtonUpdated(
 		gongdocStage.Unstage()
 		gongdocStage.Checkout()
 
-		classdiagramNode := NewClassdiagramNode(
+		NewClassdiagramNode(
 			gongtreeStage,
 			classdiagram,
 			buttonImpl.diagramPackage,
 			buttonImpl.diagramPackageNode,
 			buttonImpl.treeOfGongObjects)
-		buttonImpl.diagramPackageNode.Children =
-			append(buttonImpl.diagramPackageNode.Children, classdiagramNode)
 	default:
 		log.Fatalln("Unkown button type", buttonImpl.Icon)
 	}

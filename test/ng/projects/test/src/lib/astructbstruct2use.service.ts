@@ -55,7 +55,6 @@ export class AstructBstruct2UseService {
     return this.http.get<AstructBstruct2UseDB[]>(this.astructbstruct2usesUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched astructbstruct2uses')),
         catchError(this.handleError<AstructBstruct2UseDB[]>('getAstructBstruct2Uses', []))
       );
   }
@@ -134,7 +133,7 @@ export class AstructBstruct2UseService {
     const url = `${this.astructbstruct2usesUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
     if (astructbstruct2usedb.Bstrcut2 != undefined) {
       astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Int64 = astructbstruct2usedb.Bstrcut2.ID
       astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Valid = true
