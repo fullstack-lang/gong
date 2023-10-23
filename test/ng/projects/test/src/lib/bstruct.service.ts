@@ -15,8 +15,6 @@ import { BstructDB } from './bstruct-db';
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { AstructDB } from './astruct-db'
-import { DstructDB } from './dstruct-db'
 
 @Injectable({
   providedIn: 'root'
@@ -84,12 +82,6 @@ export class BstructService {
   postBstruct(bstructdb: BstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _Astruct_Anarrayofb_reverse = bstructdb.BstructPointersEncoding.Astruct_Anarrayofb_reverse
-    bstructdb.BstructPointersEncoding.Astruct_Anarrayofb_reverse = new AstructDB
-    let _Astruct_Anotherarrayofb_reverse = bstructdb.BstructPointersEncoding.Astruct_Anotherarrayofb_reverse
-    bstructdb.BstructPointersEncoding.Astruct_Anotherarrayofb_reverse = new AstructDB
-    let _Dstruct_Anarrayofb_reverse = bstructdb.BstructPointersEncoding.Dstruct_Anarrayofb_reverse
-    bstructdb.BstructPointersEncoding.Dstruct_Anarrayofb_reverse = new DstructDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -100,9 +92,6 @@ export class BstructService {
     return this.http.post<BstructDB>(this.bstructsUrl, bstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        bstructdb.BstructPointersEncoding.Astruct_Anarrayofb_reverse = _Astruct_Anarrayofb_reverse
-        bstructdb.BstructPointersEncoding.Astruct_Anotherarrayofb_reverse = _Astruct_Anotherarrayofb_reverse
-        bstructdb.BstructPointersEncoding.Dstruct_Anarrayofb_reverse = _Dstruct_Anarrayofb_reverse
         // this.log(`posted bstructdb id=${bstructdb.ID}`)
       }),
       catchError(this.handleError<BstructDB>('postBstruct'))
@@ -139,12 +128,6 @@ export class BstructService {
 
     // insertion point for reset of pointers (to avoid circular JSON)
 	// and encoding of pointers
-    let _Astruct_Anarrayofb_reverse = bstructdb.BstructPointersEncoding.Astruct_Anarrayofb_reverse
-    bstructdb.BstructPointersEncoding.Astruct_Anarrayofb_reverse = new AstructDB
-    let _Astruct_Anotherarrayofb_reverse = bstructdb.BstructPointersEncoding.Astruct_Anotherarrayofb_reverse
-    bstructdb.BstructPointersEncoding.Astruct_Anotherarrayofb_reverse = new AstructDB
-    let _Dstruct_Anarrayofb_reverse = bstructdb.BstructPointersEncoding.Dstruct_Anarrayofb_reverse
-    bstructdb.BstructPointersEncoding.Dstruct_Anarrayofb_reverse = new DstructDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -155,9 +138,6 @@ export class BstructService {
     return this.http.put<BstructDB>(url, bstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        bstructdb.BstructPointersEncoding.Astruct_Anarrayofb_reverse = _Astruct_Anarrayofb_reverse
-        bstructdb.BstructPointersEncoding.Astruct_Anotherarrayofb_reverse = _Astruct_Anotherarrayofb_reverse
-        bstructdb.BstructPointersEncoding.Dstruct_Anarrayofb_reverse = _Dstruct_Anarrayofb_reverse
         // this.log(`updated bstructdb id=${bstructdb.ID}`)
       }),
       catchError(this.handleError<BstructDB>('updateBstruct'))
