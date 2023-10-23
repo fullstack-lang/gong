@@ -54,7 +54,6 @@ export class BstructService {
     return this.http.get<BstructDB[]>(this.bstructsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched bstructs')),
         catchError(this.handleError<BstructDB[]>('getBstructs', []))
       );
   }
@@ -127,7 +126,7 @@ export class BstructService {
     const url = `${this.bstructsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {

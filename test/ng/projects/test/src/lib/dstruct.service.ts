@@ -55,7 +55,6 @@ export class DstructService {
     return this.http.get<DstructDB[]>(this.dstructsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched dstructs')),
         catchError(this.handleError<DstructDB[]>('getDstructs', []))
       );
   }
@@ -83,6 +82,7 @@ export class DstructService {
   postDstruct(dstructdb: DstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    dstructdb.DstructPointersEncoding.Anarrayofb = []
     for (let _bstruct of dstructdb.Anarrayofb) {
       dstructdb.DstructPointersEncoding.Anarrayofb.push(_bstruct.ID)
     }
@@ -139,7 +139,8 @@ export class DstructService {
     const url = `${this.dstructsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    dstructdb.DstructPointersEncoding.Anarrayofb = []
     for (let _bstruct of dstructdb.Anarrayofb) {
       dstructdb.DstructPointersEncoding.Anarrayofb.push(_bstruct.ID)
     }
