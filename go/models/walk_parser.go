@@ -137,7 +137,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, ignorePa
 			continue
 		}
 
-		if slices.Contains(GeneratedModelFiles, filepath.Base(fileName)) {
+		if slices.Contains(GeneratedModelFiles, strings.TrimSuffix(filepath.Base(fileName), "_WOP")) {
 			continue
 		}
 
@@ -253,7 +253,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, ignorePa
 			fileName = fileNames[len(fileNames)-1]
 		}
 
-		if slices.Contains(GeneratedModelFiles, filepath.Base(fileName)) {
+		if slices.Contains(GeneratedModelFiles, strings.TrimSuffix(filepath.Base(fileName), "_WOP")) {
 			continue
 		}
 
@@ -369,7 +369,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, ignorePa
 			fileName = fileNames[len(fileNames)-1]
 		}
 
-		if slices.Contains(GeneratedModelFiles, filepath.Base(fileName)) {
+		if slices.Contains(GeneratedModelFiles, strings.TrimSuffix(filepath.Base(fileName), "_WOP")) {
 			continue
 		}
 
