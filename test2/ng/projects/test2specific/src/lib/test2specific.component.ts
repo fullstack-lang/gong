@@ -79,7 +79,11 @@ export class Test2specificComponent implements OnInit, OnDestroy {
   onClickUpdateBasicField(A: test2.ADB) {
     A.NumberField = Math.floor(Math.random() * 100)
 
-    this.aService.update(A, "test2", this.frontRepoService.frontRepo).subscribe()
+    this.aService.update(A, "test2", this.frontRepoService.frontRepo).subscribe(
+      a => {
+        console.log("a", a)
+      }
+    )
   }
 
   onClickUpdatePointerField(A: test2.ADB) {
