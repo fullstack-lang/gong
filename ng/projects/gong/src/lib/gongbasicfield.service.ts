@@ -55,7 +55,6 @@ export class GongBasicFieldService {
     return this.http.get<GongBasicFieldDB[]>(this.gongbasicfieldsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched gongbasicfields')),
         catchError(this.handleError<GongBasicFieldDB[]>('getGongBasicFields', []))
       );
   }
@@ -134,7 +133,7 @@ export class GongBasicFieldService {
     const url = `${this.gongbasicfieldsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
     if (gongbasicfielddb.GongEnum != undefined) {
       gongbasicfielddb.GongBasicFieldPointersEncoding.GongEnumID.Int64 = gongbasicfielddb.GongEnum.ID
       gongbasicfielddb.GongBasicFieldPointersEncoding.GongEnumID.Valid = true
