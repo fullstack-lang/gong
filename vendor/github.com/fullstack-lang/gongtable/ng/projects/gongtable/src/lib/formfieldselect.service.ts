@@ -55,7 +55,6 @@ export class FormFieldSelectService {
     return this.http.get<FormFieldSelectDB[]>(this.formfieldselectsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched formfieldselects')),
         catchError(this.handleError<FormFieldSelectDB[]>('getFormFieldSelects', []))
       );
   }
@@ -88,6 +87,7 @@ export class FormFieldSelectService {
       formfieldselectdb.FormFieldSelectPointersEncoding.ValueID.Valid = true
     }
     formfieldselectdb.Value = undefined
+    formfieldselectdb.FormFieldSelectPointersEncoding.Options = []
     for (let _option of formfieldselectdb.Options) {
       formfieldselectdb.FormFieldSelectPointersEncoding.Options.push(_option.ID)
     }
@@ -145,12 +145,13 @@ export class FormFieldSelectService {
     const url = `${this.formfieldselectsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
     if (formfieldselectdb.Value != undefined) {
       formfieldselectdb.FormFieldSelectPointersEncoding.ValueID.Int64 = formfieldselectdb.Value.ID
       formfieldselectdb.FormFieldSelectPointersEncoding.ValueID.Valid = true
     }
     formfieldselectdb.Value = undefined
+    formfieldselectdb.FormFieldSelectPointersEncoding.Options = []
     for (let _option of formfieldselectdb.Options) {
       formfieldselectdb.FormFieldSelectPointersEncoding.Options.push(_option.ID)
     }

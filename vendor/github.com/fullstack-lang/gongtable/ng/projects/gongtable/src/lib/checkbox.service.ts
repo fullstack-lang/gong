@@ -54,7 +54,6 @@ export class CheckBoxService {
     return this.http.get<CheckBoxDB[]>(this.checkboxsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched checkboxs')),
         catchError(this.handleError<CheckBoxDB[]>('getCheckBoxs', []))
       );
   }
@@ -127,7 +126,7 @@ export class CheckBoxService {
     const url = `${this.checkboxsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {

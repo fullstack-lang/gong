@@ -56,7 +56,6 @@ export class TableService {
     return this.http.get<TableDB[]>(this.tablesUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched tables')),
         catchError(this.handleError<TableDB[]>('getTables', []))
       );
   }
@@ -84,10 +83,12 @@ export class TableService {
   postTable(tabledb: TableDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    tabledb.TablePointersEncoding.DisplayedColumns = []
     for (let _displayedcolumn of tabledb.DisplayedColumns) {
       tabledb.TablePointersEncoding.DisplayedColumns.push(_displayedcolumn.ID)
     }
     tabledb.DisplayedColumns = []
+    tabledb.TablePointersEncoding.Rows = []
     for (let _row of tabledb.Rows) {
       tabledb.TablePointersEncoding.Rows.push(_row.ID)
     }
@@ -151,11 +152,13 @@ export class TableService {
     const url = `${this.tablesUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    tabledb.TablePointersEncoding.DisplayedColumns = []
     for (let _displayedcolumn of tabledb.DisplayedColumns) {
       tabledb.TablePointersEncoding.DisplayedColumns.push(_displayedcolumn.ID)
     }
     tabledb.DisplayedColumns = []
+    tabledb.TablePointersEncoding.Rows = []
     for (let _row of tabledb.Rows) {
       tabledb.TablePointersEncoding.Rows.push(_row.ID)
     }

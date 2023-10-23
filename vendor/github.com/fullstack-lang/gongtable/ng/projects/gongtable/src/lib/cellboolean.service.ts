@@ -54,7 +54,6 @@ export class CellBooleanService {
     return this.http.get<CellBooleanDB[]>(this.cellbooleansUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched cellbooleans')),
         catchError(this.handleError<CellBooleanDB[]>('getCellBooleans', []))
       );
   }
@@ -127,7 +126,7 @@ export class CellBooleanService {
     const url = `${this.cellbooleansUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {

@@ -58,7 +58,6 @@ export class FormDivService {
     return this.http.get<FormDivDB[]>(this.formdivsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched formdivs')),
         catchError(this.handleError<FormDivDB[]>('getFormDivs', []))
       );
   }
@@ -86,10 +85,12 @@ export class FormDivService {
   postFormDiv(formdivdb: FormDivDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    formdivdb.FormDivPointersEncoding.FormFields = []
     for (let _formfield of formdivdb.FormFields) {
       formdivdb.FormDivPointersEncoding.FormFields.push(_formfield.ID)
     }
     formdivdb.FormFields = []
+    formdivdb.FormDivPointersEncoding.CheckBoxs = []
     for (let _checkbox of formdivdb.CheckBoxs) {
       formdivdb.FormDivPointersEncoding.CheckBoxs.push(_checkbox.ID)
     }
@@ -165,11 +166,13 @@ export class FormDivService {
     const url = `${this.formdivsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    formdivdb.FormDivPointersEncoding.FormFields = []
     for (let _formfield of formdivdb.FormFields) {
       formdivdb.FormDivPointersEncoding.FormFields.push(_formfield.ID)
     }
     formdivdb.FormFields = []
+    formdivdb.FormDivPointersEncoding.CheckBoxs = []
     for (let _checkbox of formdivdb.CheckBoxs) {
       formdivdb.FormDivPointersEncoding.CheckBoxs.push(_checkbox.ID)
     }

@@ -55,7 +55,6 @@ export class PolylineService {
     return this.http.get<PolylineDB[]>(this.polylinesUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched polylines')),
         catchError(this.handleError<PolylineDB[]>('getPolylines', []))
       );
   }
@@ -83,6 +82,7 @@ export class PolylineService {
   postPolyline(polylinedb: PolylineDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    polylinedb.PolylinePointersEncoding.Animates = []
     for (let _animate of polylinedb.Animates) {
       polylinedb.PolylinePointersEncoding.Animates.push(_animate.ID)
     }
@@ -139,7 +139,8 @@ export class PolylineService {
     const url = `${this.polylinesUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    polylinedb.PolylinePointersEncoding.Animates = []
     for (let _animate of polylinedb.Animates) {
       polylinedb.PolylinePointersEncoding.Animates.push(_animate.ID)
     }

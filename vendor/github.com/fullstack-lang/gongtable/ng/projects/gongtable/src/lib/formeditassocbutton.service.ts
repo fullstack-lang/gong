@@ -54,7 +54,6 @@ export class FormEditAssocButtonService {
     return this.http.get<FormEditAssocButtonDB[]>(this.formeditassocbuttonsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched formeditassocbuttons')),
         catchError(this.handleError<FormEditAssocButtonDB[]>('getFormEditAssocButtons', []))
       );
   }
@@ -127,7 +126,7 @@ export class FormEditAssocButtonService {
     const url = `${this.formeditassocbuttonsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
