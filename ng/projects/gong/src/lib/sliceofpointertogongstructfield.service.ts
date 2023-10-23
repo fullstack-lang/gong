@@ -55,7 +55,6 @@ export class SliceOfPointerToGongStructFieldService {
     return this.http.get<SliceOfPointerToGongStructFieldDB[]>(this.sliceofpointertogongstructfieldsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched sliceofpointertogongstructfields')),
         catchError(this.handleError<SliceOfPointerToGongStructFieldDB[]>('getSliceOfPointerToGongStructFields', []))
       );
   }
@@ -134,7 +133,7 @@ export class SliceOfPointerToGongStructFieldService {
     const url = `${this.sliceofpointertogongstructfieldsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
     if (sliceofpointertogongstructfielddb.GongStruct != undefined) {
       sliceofpointertogongstructfielddb.SliceOfPointerToGongStructFieldPointersEncoding.GongStructID.Int64 = sliceofpointertogongstructfielddb.GongStruct.ID
       sliceofpointertogongstructfielddb.SliceOfPointerToGongStructFieldPointersEncoding.GongStructID.Valid = true

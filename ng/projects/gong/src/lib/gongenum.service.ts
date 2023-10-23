@@ -55,7 +55,6 @@ export class GongEnumService {
     return this.http.get<GongEnumDB[]>(this.gongenumsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched gongenums')),
         catchError(this.handleError<GongEnumDB[]>('getGongEnums', []))
       );
   }
@@ -83,6 +82,7 @@ export class GongEnumService {
   postGongEnum(gongenumdb: GongEnumDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    gongenumdb.GongEnumPointersEncoding.GongEnumValues = []
     for (let _gongenumvalue of gongenumdb.GongEnumValues) {
       gongenumdb.GongEnumPointersEncoding.GongEnumValues.push(_gongenumvalue.ID)
     }
@@ -139,7 +139,8 @@ export class GongEnumService {
     const url = `${this.gongenumsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    gongenumdb.GongEnumPointersEncoding.GongEnumValues = []
     for (let _gongenumvalue of gongenumdb.GongEnumValues) {
       gongenumdb.GongEnumPointersEncoding.GongEnumValues.push(_gongenumvalue.ID)
     }

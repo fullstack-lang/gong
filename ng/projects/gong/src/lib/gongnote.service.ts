@@ -55,7 +55,6 @@ export class GongNoteService {
     return this.http.get<GongNoteDB[]>(this.gongnotesUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched gongnotes')),
         catchError(this.handleError<GongNoteDB[]>('getGongNotes', []))
       );
   }
@@ -83,6 +82,7 @@ export class GongNoteService {
   postGongNote(gongnotedb: GongNoteDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    gongnotedb.GongNotePointersEncoding.Links = []
     for (let _gonglink of gongnotedb.Links) {
       gongnotedb.GongNotePointersEncoding.Links.push(_gonglink.ID)
     }
@@ -139,7 +139,8 @@ export class GongNoteService {
     const url = `${this.gongnotesUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    gongnotedb.GongNotePointersEncoding.Links = []
     for (let _gonglink of gongnotedb.Links) {
       gongnotedb.GongNotePointersEncoding.Links.push(_gonglink.ID)
     }

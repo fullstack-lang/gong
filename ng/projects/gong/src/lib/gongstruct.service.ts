@@ -58,7 +58,6 @@ export class GongStructService {
     return this.http.get<GongStructDB[]>(this.gongstructsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched gongstructs')),
         catchError(this.handleError<GongStructDB[]>('getGongStructs', []))
       );
   }
@@ -86,18 +85,22 @@ export class GongStructService {
   postGongStruct(gongstructdb: GongStructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongStructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    gongstructdb.GongStructPointersEncoding.GongBasicFields = []
     for (let _gongbasicfield of gongstructdb.GongBasicFields) {
       gongstructdb.GongStructPointersEncoding.GongBasicFields.push(_gongbasicfield.ID)
     }
     gongstructdb.GongBasicFields = []
+    gongstructdb.GongStructPointersEncoding.GongTimeFields = []
     for (let _gongtimefield of gongstructdb.GongTimeFields) {
       gongstructdb.GongStructPointersEncoding.GongTimeFields.push(_gongtimefield.ID)
     }
     gongstructdb.GongTimeFields = []
+    gongstructdb.GongStructPointersEncoding.PointerToGongStructFields = []
     for (let _pointertogongstructfield of gongstructdb.PointerToGongStructFields) {
       gongstructdb.GongStructPointersEncoding.PointerToGongStructFields.push(_pointertogongstructfield.ID)
     }
     gongstructdb.PointerToGongStructFields = []
+    gongstructdb.GongStructPointersEncoding.SliceOfPointerToGongStructFields = []
     for (let _sliceofpointertogongstructfield of gongstructdb.SliceOfPointerToGongStructFields) {
       gongstructdb.GongStructPointersEncoding.SliceOfPointerToGongStructFields.push(_sliceofpointertogongstructfield.ID)
     }
@@ -175,19 +178,23 @@ export class GongStructService {
     const url = `${this.gongstructsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    gongstructdb.GongStructPointersEncoding.GongBasicFields = []
     for (let _gongbasicfield of gongstructdb.GongBasicFields) {
       gongstructdb.GongStructPointersEncoding.GongBasicFields.push(_gongbasicfield.ID)
     }
     gongstructdb.GongBasicFields = []
+    gongstructdb.GongStructPointersEncoding.GongTimeFields = []
     for (let _gongtimefield of gongstructdb.GongTimeFields) {
       gongstructdb.GongStructPointersEncoding.GongTimeFields.push(_gongtimefield.ID)
     }
     gongstructdb.GongTimeFields = []
+    gongstructdb.GongStructPointersEncoding.PointerToGongStructFields = []
     for (let _pointertogongstructfield of gongstructdb.PointerToGongStructFields) {
       gongstructdb.GongStructPointersEncoding.PointerToGongStructFields.push(_pointertogongstructfield.ID)
     }
     gongstructdb.PointerToGongStructFields = []
+    gongstructdb.GongStructPointersEncoding.SliceOfPointerToGongStructFields = []
     for (let _sliceofpointertogongstructfield of gongstructdb.SliceOfPointerToGongStructFields) {
       gongstructdb.GongStructPointersEncoding.SliceOfPointerToGongStructFields.push(_sliceofpointertogongstructfield.ID)
     }

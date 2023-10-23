@@ -54,7 +54,6 @@ export class GongTimeFieldService {
     return this.http.get<GongTimeFieldDB[]>(this.gongtimefieldsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched gongtimefields')),
         catchError(this.handleError<GongTimeFieldDB[]>('getGongTimeFields', []))
       );
   }
@@ -127,7 +126,7 @@ export class GongTimeFieldService {
     const url = `${this.gongtimefieldsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {

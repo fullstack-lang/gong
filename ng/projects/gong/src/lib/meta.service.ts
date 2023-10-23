@@ -55,7 +55,6 @@ export class MetaService {
     return this.http.get<MetaDB[]>(this.metasUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched metas')),
         catchError(this.handleError<MetaDB[]>('getMetas', []))
       );
   }
@@ -83,6 +82,7 @@ export class MetaService {
   postMeta(metadb: MetaDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    metadb.MetaPointersEncoding.MetaReferences = []
     for (let _metareference of metadb.MetaReferences) {
       metadb.MetaPointersEncoding.MetaReferences.push(_metareference.ID)
     }
@@ -139,7 +139,8 @@ export class MetaService {
     const url = `${this.metasUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    metadb.MetaPointersEncoding.MetaReferences = []
     for (let _metareference of metadb.MetaReferences) {
       metadb.MetaPointersEncoding.MetaReferences.push(_metareference.ID)
     }

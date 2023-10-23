@@ -54,7 +54,6 @@ export class ModelPkgService {
     return this.http.get<ModelPkgDB[]>(this.modelpkgsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched modelpkgs')),
         catchError(this.handleError<ModelPkgDB[]>('getModelPkgs', []))
       );
   }
@@ -127,7 +126,7 @@ export class ModelPkgService {
     const url = `${this.modelpkgsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
