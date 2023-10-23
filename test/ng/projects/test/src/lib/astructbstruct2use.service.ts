@@ -16,7 +16,6 @@ import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
 import { BstructDB } from './bstruct-db'
-import { AstructDB } from './astruct-db'
 
 @Injectable({
   providedIn: 'root'
@@ -89,8 +88,6 @@ export class AstructBstruct2UseService {
       astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Valid = true
     }
     astructbstruct2usedb.Bstrcut2 = undefined
-    let _Astruct_Anarrayofb2Use_reverse = astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Astruct_Anarrayofb2Use_reverse
-    astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Astruct_Anarrayofb2Use_reverse = new AstructDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -102,7 +99,6 @@ export class AstructBstruct2UseService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         astructbstruct2usedb.Bstrcut2 = frontRepo.Bstructs.get(astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Int64)
-        astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Astruct_Anarrayofb2Use_reverse = _Astruct_Anarrayofb2Use_reverse
         // this.log(`posted astructbstruct2usedb id=${astructbstruct2usedb.ID}`)
       }),
       catchError(this.handleError<AstructBstruct2UseDB>('postAstructBstruct2Use'))
@@ -144,8 +140,6 @@ export class AstructBstruct2UseService {
       astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Valid = true
     }
     astructbstruct2usedb.Bstrcut2 = undefined
-    let _Astruct_Anarrayofb2Use_reverse = astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Astruct_Anarrayofb2Use_reverse
-    astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Astruct_Anarrayofb2Use_reverse = new AstructDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -157,7 +151,6 @@ export class AstructBstruct2UseService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         astructbstruct2usedb.Bstrcut2 = frontRepo.Bstructs.get(astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Int64)
-        astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Astruct_Anarrayofb2Use_reverse = _Astruct_Anarrayofb2Use_reverse
         // this.log(`updated astructbstruct2usedb id=${astructbstruct2usedb.ID}`)
       }),
       catchError(this.handleError<AstructBstruct2UseDB>('updateAstructBstruct2Use'))

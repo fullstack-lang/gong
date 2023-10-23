@@ -151,8 +151,6 @@ export class AstructService {
       astructdb.AstructPointersEncoding.AnAstructID.Valid = true
     }
     astructdb.AnAstruct = undefined
-    let _Astruct_Anarrayofa_reverse = astructdb.AstructPointersEncoding.Astruct_Anarrayofa_reverse
-    astructdb.AstructPointersEncoding.Astruct_Anarrayofa_reverse = new AstructDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -207,7 +205,6 @@ export class AstructService {
           }
         }
         astructdb.AnAstruct = frontRepo.Astructs.get(astructdb.AstructPointersEncoding.AnAstructID.Int64)
-        astructdb.AstructPointersEncoding.Astruct_Anarrayofa_reverse = _Astruct_Anarrayofa_reverse
         // this.log(`posted astructdb id=${astructdb.ID}`)
       }),
       catchError(this.handleError<AstructDB>('postAstruct'))
@@ -309,8 +306,6 @@ export class AstructService {
       astructdb.AstructPointersEncoding.AnAstructID.Valid = true
     }
     astructdb.AnAstruct = undefined
-    let _Astruct_Anarrayofa_reverse = astructdb.AstructPointersEncoding.Astruct_Anarrayofa_reverse
-    astructdb.AstructPointersEncoding.Astruct_Anarrayofa_reverse = new AstructDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -365,7 +360,6 @@ export class AstructService {
           }
         }
         astructdb.AnAstruct = frontRepo.Astructs.get(astructdb.AstructPointersEncoding.AnAstructID.Int64)
-        astructdb.AstructPointersEncoding.Astruct_Anarrayofa_reverse = _Astruct_Anarrayofa_reverse
         // this.log(`updated astructdb id=${astructdb.ID}`)
       }),
       catchError(this.handleError<AstructDB>('updateAstruct'))

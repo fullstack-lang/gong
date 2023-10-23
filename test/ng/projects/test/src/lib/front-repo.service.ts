@@ -475,7 +475,71 @@ export class FrontRepoService {
             // insertion point sub template for redeem 
             astructs.forEach(
               astruct => {
-                // insertion point for sorting
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointer field Associationtob redeeming
+                {
+                  let _bstruct = this.frontRepo.Bstructs.get(astruct.AstructPointersEncoding.AssociationtobID.Int64)
+                  if (_bstruct) {
+                    astruct.Associationtob = _bstruct
+                  }
+                }
+                // insertion point for pointer field Anotherassociationtob_2 redeeming
+                {
+                  let _bstruct = this.frontRepo.Bstructs.get(astruct.AstructPointersEncoding.Anotherassociationtob_2ID.Int64)
+                  if (_bstruct) {
+                    astruct.Anotherassociationtob_2 = _bstruct
+                  }
+                }
+                // insertion point for pointer field Bstruct redeeming
+                {
+                  let _bstruct = this.frontRepo.Bstructs.get(astruct.AstructPointersEncoding.BstructID.Int64)
+                  if (_bstruct) {
+                    astruct.Bstruct = _bstruct
+                  }
+                }
+                // insertion point for pointer field Bstruct2 redeeming
+                {
+                  let _bstruct = this.frontRepo.Bstructs.get(astruct.AstructPointersEncoding.Bstruct2ID.Int64)
+                  if (_bstruct) {
+                    astruct.Bstruct2 = _bstruct
+                  }
+                }
+                // insertion point for pointer field Dstruct redeeming
+                {
+                  let _dstruct = this.frontRepo.Dstructs.get(astruct.AstructPointersEncoding.DstructID.Int64)
+                  if (_dstruct) {
+                    astruct.Dstruct = _dstruct
+                  }
+                }
+                // insertion point for pointer field Dstruct2 redeeming
+                {
+                  let _dstruct = this.frontRepo.Dstructs.get(astruct.AstructPointersEncoding.Dstruct2ID.Int64)
+                  if (_dstruct) {
+                    astruct.Dstruct2 = _dstruct
+                  }
+                }
+                // insertion point for pointer field Dstruct3 redeeming
+                {
+                  let _dstruct = this.frontRepo.Dstructs.get(astruct.AstructPointersEncoding.Dstruct3ID.Int64)
+                  if (_dstruct) {
+                    astruct.Dstruct3 = _dstruct
+                  }
+                }
+                // insertion point for pointer field Dstruct4 redeeming
+                {
+                  let _dstruct = this.frontRepo.Dstructs.get(astruct.AstructPointersEncoding.Dstruct4ID.Int64)
+                  if (_dstruct) {
+                    astruct.Dstruct4 = _dstruct
+                  }
+                }
+                // insertion point for pointer field AnAstruct redeeming
+                {
+                  let _astruct = this.frontRepo.Astructs.get(astruct.AstructPointersEncoding.AnAstructID.Int64)
+                  if (_astruct) {
+                    astruct.AnAstruct = _astruct
+                  }
+                }
+                // insertion point for pointers decoding
                 astruct.Anarrayofb = new Array<BstructDB>()
                 for (let _id of astruct.AstructPointersEncoding.Anarrayofb) {
                   let _bstruct = this.frontRepo.Bstructs.get(_id)
@@ -515,22 +579,40 @@ export class FrontRepoService {
             )
             astructbstruct2uses.forEach(
               astructbstruct2use => {
-                // insertion point for sorting
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointer field Bstrcut2 redeeming
+                {
+                  let _bstruct = this.frontRepo.Bstructs.get(astructbstruct2use.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Int64)
+                  if (_bstruct) {
+                    astructbstruct2use.Bstrcut2 = _bstruct
+                  }
+                }
+                // insertion point for pointers decoding
               }
             )
             astructbstructuses.forEach(
               astructbstructuse => {
-                // insertion point for sorting
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointer field Bstruct2 redeeming
+                {
+                  let _bstruct = this.frontRepo.Bstructs.get(astructbstructuse.AstructBstructUsePointersEncoding.Bstruct2ID.Int64)
+                  if (_bstruct) {
+                    astructbstructuse.Bstruct2 = _bstruct
+                  }
+                }
+                // insertion point for pointers decoding
               }
             )
             bstructs.forEach(
               bstruct => {
-                // insertion point for sorting
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointers decoding
               }
             )
             dstructs.forEach(
               dstruct => {
-                // insertion point for sorting
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointers decoding
                 dstruct.Anarrayofb = new Array<BstructDB>()
                 for (let _id of dstruct.DstructPointersEncoding.Anarrayofb) {
                   let _bstruct = this.frontRepo.Bstructs.get(_id)
@@ -542,7 +624,8 @@ export class FrontRepoService {
             )
             fstructs.forEach(
               fstruct => {
-                // insertion point for sorting
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointers decoding
               }
             )
 
@@ -644,23 +727,6 @@ export class FrontRepoService {
                     astruct.AnAstruct = _astruct
                   }
                 }
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Astruct.Anarrayofa redeeming
-                // to be removed
-                {
-                  let _id = astruct.AstructPointersEncoding.Astruct_AnarrayofaDBID.Int64
-                  let _astruct = this.frontRepo.Astructs.get(_id)
-                  if (_astruct) {
-                    if (_astruct.Anarrayofa == undefined) {
-                      _astruct.Anarrayofa = new Array<AstructDB>()
-                    }
-                    _astruct.Anarrayofa.push(astruct)
-                    if (astruct.AstructPointersEncoding.Astruct_Anarrayofa_reverse == undefined) {
-                      astruct.AstructPointersEncoding.Astruct_Anarrayofa_reverse = _astruct
-                    }
-                  }
-                }
               }
             )
 
@@ -715,23 +781,6 @@ export class FrontRepoService {
                   let _bstruct = this.frontRepo.Bstructs.get(astructbstruct2use.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Int64)
                   if (_bstruct) {
                     astructbstruct2use.Bstrcut2 = _bstruct
-                  }
-                }
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Astruct.Anarrayofb2Use redeeming
-                // to be removed
-                {
-                  let _id = astructbstruct2use.AstructBstruct2UsePointersEncoding.Astruct_Anarrayofb2UseDBID.Int64
-                  let _astruct = this.frontRepo.Astructs.get(_id)
-                  if (_astruct) {
-                    if (_astruct.Anarrayofb2Use == undefined) {
-                      _astruct.Anarrayofb2Use = new Array<AstructBstruct2UseDB>()
-                    }
-                    _astruct.Anarrayofb2Use.push(astructbstruct2use)
-                    if (astructbstruct2use.AstructBstruct2UsePointersEncoding.Astruct_Anarrayofb2Use_reverse == undefined) {
-                      astructbstruct2use.AstructBstruct2UsePointersEncoding.Astruct_Anarrayofb2Use_reverse = _astruct
-                    }
                   }
                 }
               }
@@ -790,23 +839,6 @@ export class FrontRepoService {
                     astructbstructuse.Bstruct2 = _bstruct
                   }
                 }
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Astruct.AnarrayofbUse redeeming
-                // to be removed
-                {
-                  let _id = astructbstructuse.AstructBstructUsePointersEncoding.Astruct_AnarrayofbUseDBID.Int64
-                  let _astruct = this.frontRepo.Astructs.get(_id)
-                  if (_astruct) {
-                    if (_astruct.AnarrayofbUse == undefined) {
-                      _astruct.AnarrayofbUse = new Array<AstructBstructUseDB>()
-                    }
-                    _astruct.AnarrayofbUse.push(astructbstructuse)
-                    if (astructbstructuse.AstructBstructUsePointersEncoding.Astruct_AnarrayofbUse_reverse == undefined) {
-                      astructbstructuse.AstructBstructUsePointersEncoding.Astruct_AnarrayofbUse_reverse = _astruct
-                    }
-                  }
-                }
               }
             )
 
@@ -856,53 +888,6 @@ export class FrontRepoService {
                 this.frontRepo.Bstructs_batch.set(bstruct.ID, bstruct)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Astruct.Anarrayofb redeeming
-                // to be removed
-                {
-                  let _id = bstruct.BstructPointersEncoding.Astruct_AnarrayofbDBID.Int64
-                  let _astruct = this.frontRepo.Astructs.get(_id)
-                  if (_astruct) {
-                    if (_astruct.Anarrayofb == undefined) {
-                      _astruct.Anarrayofb = new Array<BstructDB>()
-                    }
-                    _astruct.Anarrayofb.push(bstruct)
-                    if (bstruct.BstructPointersEncoding.Astruct_Anarrayofb_reverse == undefined) {
-                      bstruct.BstructPointersEncoding.Astruct_Anarrayofb_reverse = _astruct
-                    }
-                  }
-                }
-                // insertion point for slice of pointer field Astruct.Anotherarrayofb redeeming
-                // to be removed
-                {
-                  let _id = bstruct.BstructPointersEncoding.Astruct_AnotherarrayofbDBID.Int64
-                  let _astruct = this.frontRepo.Astructs.get(_id)
-                  if (_astruct) {
-                    if (_astruct.Anotherarrayofb == undefined) {
-                      _astruct.Anotherarrayofb = new Array<BstructDB>()
-                    }
-                    _astruct.Anotherarrayofb.push(bstruct)
-                    if (bstruct.BstructPointersEncoding.Astruct_Anotherarrayofb_reverse == undefined) {
-                      bstruct.BstructPointersEncoding.Astruct_Anotherarrayofb_reverse = _astruct
-                    }
-                  }
-                }
-                // insertion point for slice of pointer field Dstruct.Anarrayofb redeeming
-                // to be removed
-                {
-                  let _id = bstruct.BstructPointersEncoding.Dstruct_AnarrayofbDBID.Int64
-                  let _dstruct = this.frontRepo.Dstructs.get(_id)
-                  if (_dstruct) {
-                    if (_dstruct.Anarrayofb == undefined) {
-                      _dstruct.Anarrayofb = new Array<BstructDB>()
-                    }
-                    _dstruct.Anarrayofb.push(bstruct)
-                    if (bstruct.BstructPointersEncoding.Dstruct_Anarrayofb_reverse == undefined) {
-                      bstruct.BstructPointersEncoding.Dstruct_Anarrayofb_reverse = _dstruct
-                    }
-                  }
-                }
               }
             )
 
@@ -952,8 +937,6 @@ export class FrontRepoService {
                 this.frontRepo.Dstructs_batch.set(dstruct.ID, dstruct)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
 
@@ -1003,8 +986,6 @@ export class FrontRepoService {
                 this.frontRepo.Fstructs_batch.set(fstruct.ID, fstruct)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
 
