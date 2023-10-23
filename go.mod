@@ -23,9 +23,9 @@ require (
 )
 
 require (
-	github.com/fullstack-lang/gongdoc v0.0.0-20231022162241-cfc5834af904
-	github.com/fullstack-lang/gongtable v0.0.0-20231022162242-cbef0821a190
-	github.com/fullstack-lang/gongtree v0.0.0-20231022162242-056e440b501f
+	github.com/fullstack-lang/gongdoc v0.0.0-20231023032144-1c3b92fe2275
+	github.com/fullstack-lang/gongtable v0.0.0-20231023031806-c2ced54560fc
+	github.com/fullstack-lang/gongtree v0.0.0-20231023031806-2beaec84ed97
 	github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00
 	github.com/glebarez/sqlite v1.9.0
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
@@ -37,7 +37,7 @@ require (
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
 	github.com/chenzhuoyu/iasm v0.9.0 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
-	github.com/fullstack-lang/gongsvg v0.0.0-20231022162242-c85beac75561 // indirect
+	github.com/fullstack-lang/gongsvg v0.0.0-20231023031806-925b6e7ea7fe // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/glebarez/go-sqlite v1.21.2 // indirect
@@ -68,7 +68,7 @@ require (
 	golang.org/x/arch v0.5.0 // indirect
 	golang.org/x/net v0.17.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	modernc.org/libc v1.27.0 // indirect
+	modernc.org/libc v1.28.0 // indirect
 	modernc.org/mathutil v1.6.0 // indirect
 	modernc.org/memory v1.7.2 // indirect
 	modernc.org/sqlite v1.26.0 // indirect

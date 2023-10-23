@@ -55,7 +55,6 @@ export class RectAnchoredTextService {
     return this.http.get<RectAnchoredTextDB[]>(this.rectanchoredtextsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched rectanchoredtexts')),
         catchError(this.handleError<RectAnchoredTextDB[]>('getRectAnchoredTexts', []))
       );
   }
@@ -83,6 +82,7 @@ export class RectAnchoredTextService {
   postRectAnchoredText(rectanchoredtextdb: RectAnchoredTextDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    rectanchoredtextdb.RectAnchoredTextPointersEncoding.Animates = []
     for (let _animate of rectanchoredtextdb.Animates) {
       rectanchoredtextdb.RectAnchoredTextPointersEncoding.Animates.push(_animate.ID)
     }
@@ -139,7 +139,8 @@ export class RectAnchoredTextService {
     const url = `${this.rectanchoredtextsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    rectanchoredtextdb.RectAnchoredTextPointersEncoding.Animates = []
     for (let _animate of rectanchoredtextdb.Animates) {
       rectanchoredtextdb.RectAnchoredTextPointersEncoding.Animates.push(_animate.ID)
     }

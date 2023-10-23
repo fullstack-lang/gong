@@ -56,7 +56,6 @@ export class SVGService {
     return this.http.get<SVGDB[]>(this.svgsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched svgs')),
         catchError(this.handleError<SVGDB[]>('getSVGs', []))
       );
   }
@@ -84,6 +83,7 @@ export class SVGService {
   postSVG(svgdb: SVGDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    svgdb.SVGPointersEncoding.Layers = []
     for (let _layer of svgdb.Layers) {
       svgdb.SVGPointersEncoding.Layers.push(_layer.ID)
     }
@@ -152,7 +152,8 @@ export class SVGService {
     const url = `${this.svgsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    svgdb.SVGPointersEncoding.Layers = []
     for (let _layer of svgdb.Layers) {
       svgdb.SVGPointersEncoding.Layers.push(_layer.ID)
     }

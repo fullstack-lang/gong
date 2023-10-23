@@ -54,7 +54,6 @@ export class FormFieldIntService {
     return this.http.get<FormFieldIntDB[]>(this.formfieldintsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched formfieldints')),
         catchError(this.handleError<FormFieldIntDB[]>('getFormFieldInts', []))
       );
   }
@@ -127,7 +126,7 @@ export class FormFieldIntService {
     const url = `${this.formfieldintsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {

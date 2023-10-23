@@ -54,7 +54,6 @@ export class CellIconService {
     return this.http.get<CellIconDB[]>(this.celliconsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched cellicons')),
         catchError(this.handleError<CellIconDB[]>('getCellIcons', []))
       );
   }
@@ -127,7 +126,7 @@ export class CellIconService {
     const url = `${this.celliconsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {

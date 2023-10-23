@@ -55,7 +55,6 @@ export class TextService {
     return this.http.get<TextDB[]>(this.textsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched texts')),
         catchError(this.handleError<TextDB[]>('getTexts', []))
       );
   }
@@ -83,6 +82,7 @@ export class TextService {
   postText(textdb: TextDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TextDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    textdb.TextPointersEncoding.Animates = []
     for (let _animate of textdb.Animates) {
       textdb.TextPointersEncoding.Animates.push(_animate.ID)
     }
@@ -139,7 +139,8 @@ export class TextService {
     const url = `${this.textsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    textdb.TextPointersEncoding.Animates = []
     for (let _animate of textdb.Animates) {
       textdb.TextPointersEncoding.Animates.push(_animate.ID)
     }

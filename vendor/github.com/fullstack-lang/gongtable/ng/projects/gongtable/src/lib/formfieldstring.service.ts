@@ -54,7 +54,6 @@ export class FormFieldStringService {
     return this.http.get<FormFieldStringDB[]>(this.formfieldstringsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched formfieldstrings')),
         catchError(this.handleError<FormFieldStringDB[]>('getFormFieldStrings', []))
       );
   }
@@ -127,7 +126,7 @@ export class FormFieldStringService {
     const url = `${this.formfieldstringsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {

@@ -55,7 +55,6 @@ export class PathService {
     return this.http.get<PathDB[]>(this.pathsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched paths')),
         catchError(this.handleError<PathDB[]>('getPaths', []))
       );
   }
@@ -83,6 +82,7 @@ export class PathService {
   postPath(pathdb: PathDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    pathdb.PathPointersEncoding.Animates = []
     for (let _animate of pathdb.Animates) {
       pathdb.PathPointersEncoding.Animates.push(_animate.ID)
     }
@@ -139,7 +139,8 @@ export class PathService {
     const url = `${this.pathsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    pathdb.PathPointersEncoding.Animates = []
     for (let _animate of pathdb.Animates) {
       pathdb.PathPointersEncoding.Animates.push(_animate.ID)
     }

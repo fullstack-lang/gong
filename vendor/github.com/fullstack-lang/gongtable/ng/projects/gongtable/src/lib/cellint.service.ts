@@ -54,7 +54,6 @@ export class CellIntService {
     return this.http.get<CellIntDB[]>(this.cellintsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched cellints')),
         catchError(this.handleError<CellIntDB[]>('getCellInts', []))
       );
   }
@@ -127,7 +126,7 @@ export class CellIntService {
     const url = `${this.cellintsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {

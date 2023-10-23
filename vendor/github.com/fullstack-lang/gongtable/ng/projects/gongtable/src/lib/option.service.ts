@@ -54,7 +54,6 @@ export class OptionService {
     return this.http.get<OptionDB[]>(this.optionsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched options')),
         catchError(this.handleError<OptionDB[]>('getOptions', []))
       );
   }
@@ -127,7 +126,7 @@ export class OptionService {
     const url = `${this.optionsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {

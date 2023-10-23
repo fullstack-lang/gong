@@ -55,7 +55,6 @@ export class TreeService {
     return this.http.get<TreeDB[]>(this.treesUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched trees')),
         catchError(this.handleError<TreeDB[]>('getTrees', []))
       );
   }
@@ -83,6 +82,7 @@ export class TreeService {
   postTree(treedb: TreeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TreeDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    treedb.TreePointersEncoding.RootNodes = []
     for (let _node of treedb.RootNodes) {
       treedb.TreePointersEncoding.RootNodes.push(_node.ID)
     }
@@ -139,7 +139,8 @@ export class TreeService {
     const url = `${this.treesUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
+    treedb.TreePointersEncoding.RootNodes = []
     for (let _node of treedb.RootNodes) {
       treedb.TreePointersEncoding.RootNodes.push(_node.ID)
     }
