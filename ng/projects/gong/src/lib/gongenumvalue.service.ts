@@ -54,7 +54,6 @@ export class GongEnumValueService {
     return this.http.get<GongEnumValueDB[]>(this.gongenumvaluesUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched gongenumvalues')),
         catchError(this.handleError<GongEnumValueDB[]>('getGongEnumValues', []))
       );
   }
@@ -127,7 +126,7 @@ export class GongEnumValueService {
     const url = `${this.gongenumvaluesUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {

@@ -54,7 +54,6 @@ export class GongLinkService {
     return this.http.get<GongLinkDB[]>(this.gonglinksUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched gonglinks')),
         catchError(this.handleError<GongLinkDB[]>('getGongLinks', []))
       );
   }
@@ -127,7 +126,7 @@ export class GongLinkService {
     const url = `${this.gonglinksUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
