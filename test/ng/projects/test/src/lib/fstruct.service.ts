@@ -54,7 +54,6 @@ export class FstructService {
     return this.http.get<FstructDB[]>(this.fstructsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched fstructs')),
         catchError(this.handleError<FstructDB[]>('getFstructs', []))
       );
   }
@@ -127,7 +126,7 @@ export class FstructService {
     const url = `${this.fstructsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {

@@ -58,7 +58,6 @@ export class AstructService {
     return this.http.get<AstructDB[]>(this.astructsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched astructs')),
         catchError(this.handleError<AstructDB[]>('getAstructs', []))
       );
   }
@@ -91,6 +90,7 @@ export class AstructService {
       astructdb.AstructPointersEncoding.AssociationtobID.Valid = true
     }
     astructdb.Associationtob = undefined
+    astructdb.AstructPointersEncoding.Anarrayofb = []
     for (let _bstruct of astructdb.Anarrayofb) {
       astructdb.AstructPointersEncoding.Anarrayofb.push(_bstruct.ID)
     }
@@ -130,18 +130,22 @@ export class AstructService {
       astructdb.AstructPointersEncoding.Dstruct4ID.Valid = true
     }
     astructdb.Dstruct4 = undefined
+    astructdb.AstructPointersEncoding.Anarrayofa = []
     for (let _astruct of astructdb.Anarrayofa) {
       astructdb.AstructPointersEncoding.Anarrayofa.push(_astruct.ID)
     }
     astructdb.Anarrayofa = []
+    astructdb.AstructPointersEncoding.Anotherarrayofb = []
     for (let _bstruct of astructdb.Anotherarrayofb) {
       astructdb.AstructPointersEncoding.Anotherarrayofb.push(_bstruct.ID)
     }
     astructdb.Anotherarrayofb = []
+    astructdb.AstructPointersEncoding.AnarrayofbUse = []
     for (let _astructbstructuse of astructdb.AnarrayofbUse) {
       astructdb.AstructPointersEncoding.AnarrayofbUse.push(_astructbstructuse.ID)
     }
     astructdb.AnarrayofbUse = []
+    astructdb.AstructPointersEncoding.Anarrayofb2Use = []
     for (let _astructbstruct2use of astructdb.Anarrayofb2Use) {
       astructdb.AstructPointersEncoding.Anarrayofb2Use.push(_astructbstruct2use.ID)
     }
@@ -240,12 +244,13 @@ export class AstructService {
     const url = `${this.astructsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
     if (astructdb.Associationtob != undefined) {
       astructdb.AstructPointersEncoding.AssociationtobID.Int64 = astructdb.Associationtob.ID
       astructdb.AstructPointersEncoding.AssociationtobID.Valid = true
     }
     astructdb.Associationtob = undefined
+    astructdb.AstructPointersEncoding.Anarrayofb = []
     for (let _bstruct of astructdb.Anarrayofb) {
       astructdb.AstructPointersEncoding.Anarrayofb.push(_bstruct.ID)
     }
@@ -285,18 +290,22 @@ export class AstructService {
       astructdb.AstructPointersEncoding.Dstruct4ID.Valid = true
     }
     astructdb.Dstruct4 = undefined
+    astructdb.AstructPointersEncoding.Anarrayofa = []
     for (let _astruct of astructdb.Anarrayofa) {
       astructdb.AstructPointersEncoding.Anarrayofa.push(_astruct.ID)
     }
     astructdb.Anarrayofa = []
+    astructdb.AstructPointersEncoding.Anotherarrayofb = []
     for (let _bstruct of astructdb.Anotherarrayofb) {
       astructdb.AstructPointersEncoding.Anotherarrayofb.push(_bstruct.ID)
     }
     astructdb.Anotherarrayofb = []
+    astructdb.AstructPointersEncoding.AnarrayofbUse = []
     for (let _astructbstructuse of astructdb.AnarrayofbUse) {
       astructdb.AstructPointersEncoding.AnarrayofbUse.push(_astructbstructuse.ID)
     }
     astructdb.AnarrayofbUse = []
+    astructdb.AstructPointersEncoding.Anarrayofb2Use = []
     for (let _astructbstruct2use of astructdb.Anarrayofb2Use) {
       astructdb.AstructPointersEncoding.Anarrayofb2Use.push(_astructbstruct2use.ID)
     }
