@@ -12,6 +12,7 @@ import (
 	"math"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"unicode"
 
@@ -136,7 +137,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, ignorePa
 			continue
 		}
 
-		if fileName == "gong.go" {
+		if slices.Contains(GeneratedModelFiles, fileName) {
 			continue
 		}
 
@@ -252,7 +253,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, ignorePa
 			fileName = fileNames[len(fileNames)-1]
 		}
 
-		if fileName == "gong.go" {
+		if slices.Contains(GeneratedModelFiles, fileName) {
 			continue
 		}
 
@@ -368,7 +369,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, ignorePa
 			fileName = fileNames[len(fileNames)-1]
 		}
 
-		if fileName == "gong.go" {
+		if slices.Contains(GeneratedModelFiles, fileName) {
 			continue
 		}
 
