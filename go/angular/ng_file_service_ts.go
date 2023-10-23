@@ -67,7 +67,6 @@ export class {{Structname}}Service {
     return this.http.get<{{Structname}}DB[]>(this.{{structname}}sUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched {{structname}}s')),
         catchError(this.handleError<{{Structname}}DB[]>('get{{Structname}}s', []))
       );
   }
@@ -140,7 +139,7 @@ export class {{Structname}}Service {
     const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers{{` + string(rune(NgServiceTsInsertionPointerEncoding)) + `}}
+    // and encoding of pointers{{` + string(rune(NgServiceTsInsertionPointerEncoding)) + `}}
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -227,6 +226,7 @@ import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
         {{structname}}db.{{FieldName}} = frontRepo.{{AssocStructName}}s.get({{structname}}db.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64)`,
 
 	NgServiceTSSliceOfPointerToGongStructEncode: `
+    {{structname}}db.{{Structname}}PointersEncoding.{{FieldName}} = []
     for (let _{{assocStructName}} of {{structname}}db.{{FieldName}}) {
       {{structname}}db.{{Structname}}PointersEncoding.{{FieldName}}.push(_{{assocStructName}}.ID)
     }

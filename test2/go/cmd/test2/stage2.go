@@ -50,7 +50,7 @@ func stage2Injection(stage *models.StageStruct) {
 
 	// A values setup
 	__A__000000_A1.Name = `A1`
-	__A__000000_A1.NumberField = 6
+	__A__000000_A1.NumberField = 50
 
 	// B values setup
 	__B__000000_B1.Name = `B1`
@@ -63,8 +63,8 @@ func stage2Injection(stage *models.StageStruct) {
 
 	// Setup of pointers
 	__A__000000_A1.B = __B__000000_B1
-	__A__000000_A1.Bs = append(__A__000000_A1.Bs, __B__000000_B1)
 	__A__000000_A1.Bs = append(__A__000000_A1.Bs, __B__000002_B3)
+	__A__000000_A1.Bs = append(__A__000000_A1.Bs, __B__000000_B1)
 }
 
 

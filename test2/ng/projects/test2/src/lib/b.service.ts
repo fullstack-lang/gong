@@ -54,7 +54,6 @@ export class BService {
     return this.http.get<BDB[]>(this.bsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched bs')),
         catchError(this.handleError<BDB[]>('getBs', []))
       );
   }
@@ -127,7 +126,7 @@ export class BService {
     const url = `${this.bsUrl}/${id}`;
 
     // insertion point for reset of pointers (to avoid circular JSON)
-	// and encoding of pointers
+    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
