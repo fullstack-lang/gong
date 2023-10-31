@@ -20,15 +20,15 @@
             <as-split-area [size]=50>
                 <as-split direction="horizontal">
                     <as-split-area [size]="20">
-                        <lib-tree [GONG__StackPath]="StackName+'-sidebar'" name="gong"></lib-tree>
+                        <lib-tree [GONG__StackPath]="StackName+TableExtraPathEnum.StackNamePostFixForTableForMainTree" name="gong"></lib-tree>
                     </as-split-area>
                     <as-split-area [size]="50">
                         <div [ngStyle]="scrollStyle">
-                            <lib-material-table TableName="Table" [DataStack]="StackName+'-table'"></lib-material-table>
+                            <lib-material-table TableName="Table" [DataStack]="StackName+TableExtraPathEnum.StackNamePostFixForTableForMainTable"></lib-material-table>
                         </div>
                     </as-split-area>
                     <as-split-area [size]="30">
-                        <lib-material-form FormName="Form" [DataStack]="StackName+'-form'"></lib-material-form>
+                        <lib-material-form FormName="Form" [DataStack]="StackName+TableExtraPathEnum.StackNamePostFixForTableForMainForm"></lib-material-form>
                     </as-split-area>
                 </as-split>
             </as-split-area>
