@@ -13,7 +13,7 @@ import { GongdocspecificModule } from 'gongdocspecific'
 import { GongtreeModule } from 'gongtree'
 import { GongtreespecificModule } from 'gongtreespecific'
 
-import { GongtableModule } from 'gongtable'
+import * as gongtable from 'gongtable'
 import { GongtablespecificModule } from 'gongtablespecific'
 
 @Component({
@@ -34,6 +34,8 @@ export class AppComponent implements OnInit {
 
   StackName = "{{pkgname}}"
   StackType = "{{PkgPathRoot}}/models"
+
+  TableExtraPathEnum = gongtable.TableExtraPathEnum
 
   constructor(
   ) {
