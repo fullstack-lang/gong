@@ -32,7 +32,7 @@ func main() {
 	// setup the static file server and get the controller
 	r := test_static.ServeStaticFiles(*logGINFlag)
 
-	// instanciate a stack with name "test"
+	// setup stack
 	stage := test_fullstack.NewStage(r, "test", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	_ = stage
 
