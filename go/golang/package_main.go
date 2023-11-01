@@ -15,16 +15,10 @@ const PackageMain = `package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
-	"os"
 	"strconv"
 
-	{{pkgname}}_go "{{PkgPathRoot}}"
 	{{pkgname}}_fullstack "{{PkgPathRoot}}/fullstack"
-	{{pkgname}}_models "{{PkgPathRoot}}/models"
-	{{pkgname}}_orm "{{PkgPathRoot}}/orm"
-	{{pkgname}}_probe "{{PkgPathRoot}}/probe"
 	{{pkgname}}_static "{{PkgPathRoot}}/static"
 )
 
@@ -40,26 +34,6 @@ var (
 	port = flag.Int("port", 8080, "port server")
 )
 
-// InjectionGateway is the singloton that stores all functions
-// that can set the objects the stage
-// InjectionGateway stores function as a map of names
-var InjectionGateway = make(map[string](func()))
-
-// hook marhalling to stage
-type BeforeCommitImplementation struct {
-}
-
-func (impl *BeforeCommitImplementation) BeforeCommit(stage *{{pkgname}}_models.StageStruct) {
-	file, err := os.Create(fmt.Sprintf("./%s.go", *marshallOnCommit))
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	defer file.Close()
-
-	stage.Checkout()
-	stage.Marshall(file, "{{PkgPathRoot}}/models", "main")
-}
-
 func main() {
 
 	log.SetPrefix("{{pkgname}}: ")
@@ -72,43 +46,8 @@ func main() {
 	r := {{pkgname}}_static.ServeStaticFiles(*logGINFlag)
 
 	// setup stack
-	var stage *{{pkgname}}_models.StageStruct
-	var backRepo *{{pkgname}}_orm.BackRepoStruct
-
-	if *marshallOnCommit != "" {
-		// persistence in a SQLite file on disk in memory
-		stage, backRepo = {{pkgname}}_fullstack.NewStackInstance(r, "{{pkgname}}")
-	} else {
-		// persistence in a SQLite file on disk
-		stage, backRepo = {{pkgname}}_fullstack.NewStackInstance(r, "{{pkgname}}", "./{{pkgname}}.db")
-	}
-
-	if *unmarshallFromCode != "" {
-		stage.Checkout()
-		stage.Reset()
-		stage.Commit()
-		err := {{pkgname}}_models.ParseAstFile(stage, *unmarshallFromCode)
-
-		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
-		// xxx.go might be absent the first time. However, this shall not be a show stopper.
-		if err != nil {
-			log.Println("no file to read " + err.Error())
-		}
-
-		stage.Commit()
-	} else {
-		// in case the database is used, checkout the content to the stage
-		stage.Checkout()
-	}
-
-	// hook automatic marshall to go code at every commit
-	if *marshallOnCommit != "" {
-		hook := new(BeforeCommitImplementation)
-		stage.OnInitCommitCallback = hook
-	}
-
-	{{pkgname}}_probe.NewProbe(r, {{pkgname}}_go.GoModelsDir, {{pkgname}}_go.GoDiagramsDir, 
-		*embeddedDiagrams,"{{pkgname}}", stage, backRepo)
+	stage := {{pkgname}}_fullstack.NewStage(r, "{{pkgname}}", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	_ = stage
 
 	log.Printf("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
