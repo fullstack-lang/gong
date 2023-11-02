@@ -1,6 +1,8 @@
 package node2gongdoc
 
 import (
+	"slices"
+
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
@@ -44,6 +46,9 @@ func FillUpTreeOfGongObjects(
 		}
 	}
 
+	// have the nodes display order done according the alphabetical order
+	slices.SortFunc(gongstructRootNode.Children, CompareNodeNames)
+
 	gongenumRootNode := (&gongtree_models.Node{Name: "gongenums"}).Stage(gongtreeStage)
 	gongenumRootNode.IsExpanded = true
 	treeOfGongObjects.RootNodes = append(treeOfGongObjects.RootNodes, gongenumRootNode)
@@ -68,6 +73,9 @@ func FillUpTreeOfGongObjects(
 				NewNodeImplGongObjectAbstract(diagramPackage, treeOfGongObjects))
 		}
 	}
+
+	// have the nodes display order done according the alphabetical order
+	slices.SortFunc(gongenumRootNode.Children, CompareNodeNames)
 
 	gongNotesRootNode := (&gongtree_models.Node{Name: "notes"}).Stage(gongtreeStage)
 	gongNotesRootNode.IsExpanded = true
@@ -100,5 +108,8 @@ func FillUpTreeOfGongObjects(
 				NewNodeImplGongObjectAbstract(diagramPackage, treeOfGongObjects))
 		}
 	}
+
+	// have the nodes display order done according the alphabetical order
+	slices.SortFunc(gongNotesRootNode.Children, CompareNodeNames)
 	return
 }

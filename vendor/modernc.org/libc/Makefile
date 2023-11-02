@@ -164,7 +164,7 @@ cpu: clean
 
 edit:
 	@touch log
-	@if [ -f "Session.vim" ]; then gvim -S & else gvim -p Makefile libc.go & fi
+	@if [ -f "Session.vim" ]; then novim -S & else novim -p Makefile libc.go & fi
 
 editor:
 	# go generate 2>&1 | tee log

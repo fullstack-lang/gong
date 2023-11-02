@@ -149,6 +149,8 @@ more:
 			arg = int64(int8(VaInt32(args)))
 		case mod32, modNone:
 			arg = int64(VaInt32(args))
+		case modT:
+			arg = int64(VaInt64(args))
 		default:
 			panic(todo("", mod))
 		}
@@ -185,6 +187,8 @@ more:
 			arg = uint64(uint8(VaInt32(args)))
 		case mod32:
 			arg = uint64(VaInt32(args))
+		case modZ:
+			arg = uint64(VaInt64(args))
 		default:
 			panic(todo("", mod))
 		}
@@ -613,11 +617,14 @@ func parseLengthModifier(format uintptr) (_ uintptr, n int) {
 		n = modJ
 		return format, n
 	case 'z':
-		panic(todo(""))
+		format++
+		return format, modZ
 	case 'Z':
-		panic(todo(""))
+		format++
+		return format, modCapitalZ
 	case 't':
-		panic(todo(""))
+		format++
+		return format, modT
 	default:
 		return format, 0
 	}

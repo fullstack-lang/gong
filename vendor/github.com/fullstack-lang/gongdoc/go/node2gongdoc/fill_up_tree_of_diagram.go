@@ -1,6 +1,8 @@
 package node2gongdoc
 
 import (
+	"slices"
+
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 )
@@ -41,6 +43,9 @@ func FillUpTreeOfDiagramNodes(
 			rootOfClassdiagramsNode,
 			treeOfGongObjects)
 	}
+
+	// have the nodes display order done according the alphabetical order
+	slices.SortFunc(rootOfClassdiagramsNode.Children, CompareNodeNames)
 
 	return
 }
