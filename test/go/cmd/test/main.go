@@ -5,7 +5,7 @@ import (
 	"log"
 	"strconv"
 
-	test_fullstack "github.com/fullstack-lang/gong/test/go/fullstack"
+	test_stack "github.com/fullstack-lang/gong/test/go/stack"
 	test_static "github.com/fullstack-lang/gong/test/go/static"
 )
 
@@ -33,7 +33,7 @@ func main() {
 	r := test_static.ServeStaticFiles(*logGINFlag)
 
 	// setup stack
-	stage := test_fullstack.NewStage(r, "test", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	stage := test_stack.NewStage(r, "test", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	_ = stage
 
 	log.Printf("Server ready serve on localhost:" + strconv.Itoa(*port))
