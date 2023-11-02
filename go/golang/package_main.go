@@ -18,7 +18,7 @@ import (
 	"log"
 	"strconv"
 
-	{{pkgname}}_fullstack "{{PkgPathRoot}}/fullstack"
+	{{pkgname}}_stack "{{PkgPathRoot}}/stack"
 	{{pkgname}}_static "{{PkgPathRoot}}/static"
 )
 
@@ -46,7 +46,7 @@ func main() {
 	r := {{pkgname}}_static.ServeStaticFiles(*logGINFlag)
 
 	// setup stack
-	stage := {{pkgname}}_fullstack.NewStage(r, "{{pkgname}}", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	stage := {{pkgname}}_stack.NewStage(r, "{{pkgname}}", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	_ = stage
 
 	log.Printf("Server ready serve on localhost:" + strconv.Itoa(*port))

@@ -22,6 +22,7 @@ import (
 	"github.com/fullstack-lang/gong/go/golang/models"
 	"github.com/fullstack-lang/gong/go/golang/orm"
 	"github.com/fullstack-lang/gong/go/golang/probe"
+	"github.com/fullstack-lang/gong/go/golang/stack"
 	"github.com/fullstack-lang/gong/go/golang/static"
 
 	"github.com/fullstack-lang/gong/go/vscode"
@@ -393,6 +394,12 @@ func main() {
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../fullstack/new_stack_instance.go"),
 		fullstack.FullstackNewStackInstanceTemplate,
 		fullstack.ModelGongNewStackInstanceStructSubTemplateCode)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../stack/new_stage.go"),
+		stack.NewStageInstanceTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
