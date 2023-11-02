@@ -105,6 +105,8 @@ func main() {
 		os.RemoveAll(gong_models.ControllersPkgGenPath)
 		gong_models.FullstackPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "fullstack")
 		os.RemoveAll(gong_models.FullstackPkgGenPath)
+		gong_models.StackPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "stack")
+		os.RemoveAll(gong_models.StackPkgGenPath)
 		gong_models.StaticPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "static")
 		os.RemoveAll(gong_models.StaticPkgGenPath)
 		gong_models.ProbePkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "probe")
@@ -343,6 +345,14 @@ func main() {
 	}
 	if os.IsExist(errd) {
 		log.Println("directory " + gong_models.FullstackPkgGenPath + " allready exists")
+	}
+
+	errd = os.MkdirAll(gong_models.StackPkgGenPath, os.ModePerm)
+	if os.IsNotExist(errd) {
+		log.Println("creating directory : " + gong_models.StackPkgGenPath)
+	}
+	if os.IsExist(errd) {
+		log.Println("directory " + gong_models.StackPkgGenPath + " allready exists")
 	}
 
 	// generate directory for static package
