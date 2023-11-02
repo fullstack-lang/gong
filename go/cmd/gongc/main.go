@@ -22,6 +22,7 @@ import (
 	"github.com/fullstack-lang/gong/go/golang/models"
 	"github.com/fullstack-lang/gong/go/golang/orm"
 	"github.com/fullstack-lang/gong/go/golang/probe"
+	"github.com/fullstack-lang/gong/go/golang/stack"
 	"github.com/fullstack-lang/gong/go/golang/static"
 
 	"github.com/fullstack-lang/gong/go/vscode"
@@ -105,6 +106,8 @@ func main() {
 		os.RemoveAll(gong_models.ControllersPkgGenPath)
 		gong_models.FullstackPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "fullstack")
 		os.RemoveAll(gong_models.FullstackPkgGenPath)
+		gong_models.StackPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "stack")
+		os.RemoveAll(gong_models.StackPkgGenPath)
 		gong_models.StaticPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "static")
 		os.RemoveAll(gong_models.StaticPkgGenPath)
 		gong_models.ProbePkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "probe")
@@ -345,6 +348,14 @@ func main() {
 		log.Println("directory " + gong_models.FullstackPkgGenPath + " allready exists")
 	}
 
+	errd = os.MkdirAll(gong_models.StackPkgGenPath, os.ModePerm)
+	if os.IsNotExist(errd) {
+		log.Println("creating directory : " + gong_models.StackPkgGenPath)
+	}
+	if os.IsExist(errd) {
+		log.Println("directory " + gong_models.StackPkgGenPath + " allready exists")
+	}
+
 	// generate directory for static package
 	errd = os.MkdirAll(gong_models.StaticPkgGenPath, os.ModePerm)
 	if os.IsNotExist(errd) {
@@ -383,6 +394,12 @@ func main() {
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../fullstack/new_stack_instance.go"),
 		fullstack.FullstackNewStackInstanceTemplate,
 		fullstack.ModelGongNewStackInstanceStructSubTemplateCode)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../stack/new_stage.go"),
+		stack.NewStageInstanceTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
