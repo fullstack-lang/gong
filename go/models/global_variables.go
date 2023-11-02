@@ -12,6 +12,9 @@ var ControllersPkgGenPath string
 // FullstackPkgGenPath is target path for Fullstack package
 var FullstackPkgGenPath string
 
+// StackPkgGenPath is target path for Stack package
+var StackPkgGenPath string
+
 // StaticPkgGenPath is target path for Static package
 var StaticPkgGenPath string
 
