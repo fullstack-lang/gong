@@ -71,6 +71,10 @@ type StageStruct struct {
 	// the to be removed stops here
 }
 
+func (stage *StageStruct) GetType() string {
+	return "{{PkgPathRoot}}/models"
+}
+
 type GONG__Identifier struct {
 	Ident string
 	Type  GONG__ExpressionType

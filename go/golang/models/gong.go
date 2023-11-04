@@ -675,12 +675,13 @@ func CodeGeneratorModelGong(
 	if len(mdlPkg.GongStructs) == 0 {
 		returnType = "any"
 	}
-	codeGO = models.Replace5(codeGO,
+	codeGO = models.Replace6(codeGO,
 		"{{PkgName}}", pkgName,
 		"{{TitlePkgName}}", caserEnglish.String(pkgName),
 		"{{pkgname}}", strings.ToLower(pkgName),
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def,
 		"{{mapReturnType}}", returnType,
+		"{{PkgPathRoot}}", strings.ReplaceAll(mdlPkg.PkgPath, "/models", ""),
 	)
 
 	file, err := os.Create(filepath.Join(pkgPath, "gong.go"))
