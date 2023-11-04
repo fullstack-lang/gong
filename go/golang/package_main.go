@@ -46,8 +46,8 @@ func main() {
 	r := {{pkgname}}_static.ServeStaticFiles(*logGINFlag)
 
 	// setup stack
-	stage := {{pkgname}}_stack.NewStage(r, "{{pkgname}}", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
-	_ = stage
+	stack := {{pkgname}}_stack.NewStack(r, "{{pkgname}}", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	stack.Probe.Refresh()
 
 	log.Printf("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))

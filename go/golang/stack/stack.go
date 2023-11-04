@@ -1,4 +1,6 @@
-// do not modify, generated file
+package stack
+
+const StackInstanceTemplate = `// do not modify, generated file
 package stack
 
 import (
@@ -6,12 +8,12 @@ import (
 	"log"
 	"os"
 
-	"github.com/fullstack-lang/gong/test/go/fullstack"
-	"github.com/fullstack-lang/gong/test/go/models"
-	"github.com/fullstack-lang/gong/test/go/orm"
-	"github.com/fullstack-lang/gong/test/go/probe"
+	"{{PkgPathRoot}}/fullstack"
+	"{{PkgPathRoot}}/models"
+	"{{PkgPathRoot}}/orm"
+	"{{PkgPathRoot}}/probe"
 
-	test_go "github.com/fullstack-lang/gong/test/go"
+	{{pkgname}}_go "{{PkgPathRoot}}"
 
 	"github.com/gin-gonic/gin"
 )
@@ -29,7 +31,7 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) 
 	defer file.Close()
 
 	stage.Checkout()
-	stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main")
+	stage.Marshall(file, "{{PkgPathRoot}}/models", "main")
 }
 
 type Stack struct {
@@ -120,9 +122,22 @@ func NewStack(
 	}
 
 	if withProbe {
-		stack.Probe = probe.NewProbe(r, test_go.GoModelsDir, test_go.GoDiagramsDir,
+		probe.NewProbe(r, {{pkgname}}_go.GoModelsDir, {{pkgname}}_go.GoDiagramsDir,
 			embeddedDiagrams, stackPath, stage, backRepo)
 	}
 
 	return
+}
+`
+
+type ModelGongNewStackInstanceStructInsertionId int
+
+const (
+	ModelGongNewStackInstanceSet ModelGongNewStackInstanceStructInsertionId = iota
+)
+
+var ModelGongNewStackInstanceStructSubTemplateCode map[string]string = // new line
+map[string]string{
+	string(rune(ModelGongNewStackInstanceSet)): `
+	models.SetOrchestratorOnAfterUpdate[models.{{Structname}}](stage)`,
 }

@@ -1,6 +1,4 @@
-package stack
-
-const NewStageInstanceTemplate = `// do not modify, generated file
+// do not modify, generated file
 package stack
 
 import (
@@ -8,12 +6,12 @@ import (
 	"log"
 	"os"
 
-	"{{PkgPathRoot}}/fullstack"
-	"{{PkgPathRoot}}/models"
-	"{{PkgPathRoot}}/orm"
-	"{{PkgPathRoot}}/probe"
+	"github.com/fullstack-lang/gong/test/go/fullstack"
+	"github.com/fullstack-lang/gong/test/go/models"
+	"github.com/fullstack-lang/gong/test/go/orm"
+	"github.com/fullstack-lang/gong/test/go/probe"
 
-	{{pkgname}}_go "{{PkgPathRoot}}"
+	test_go "github.com/fullstack-lang/gong/test/go"
 
 	"github.com/gin-gonic/gin"
 )
@@ -31,10 +29,15 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) 
 	defer file.Close()
 
 	stage.Checkout()
-	stage.Marshall(file, "{{PkgPathRoot}}/models", "main")
+	stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main")
 }
 
-// NewStage initializes and configures a new stage instance for a full-stack application.
+type Stack struct {
+	Probe *probe.Probe
+	Stage *models.StageStruct
+}
+
+// NewStack initializes and configures a new stack instance for a full-stack application.
 // It sets up the backend repository, provides options for unmarshalling from Go code,
 // automatic marshalling on commits, and initializing a probe for monitoring and visualization.
 // The function returns a pointer to the initialized StageStruct.
@@ -53,7 +56,7 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) 
 //   - withProbe bool: If true, initializes a probe for monitoring and visualization.
 //
 // Returns:
-// - *models.StageStruct: Pointer to the initialized stage instance.
+// - *Stack: Pointer to the initialized stack instance.
 //
 // Behavior:
 //  1. Initialize Stage and Backend Repository: Creates a new stage instance and a backend
@@ -68,7 +71,7 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) 
 //  4. Initialize Probe (Optional): If withProbe is true, initializes a probe for monitoring
 //     and visualization.
 //  5. Configure Orchestration: Configures orchestration for various model structures.
-func NewStage(
+func NewStack(
 	r *gin.Engine,
 	stackPath string,
 	unmarshallFromCode string,
@@ -76,15 +79,20 @@ func NewStage(
 	dbFileName string,
 	embeddedDiagrams bool,
 	withProbe bool) (
-	stage *models.StageStruct) {
+	stack *Stack) {
+
+	stack = new(Stack)
 
 	var backRepo *orm.BackRepoStruct
+	var stage *models.StageStruct
 
 	if dbFileName == "" {
 		stage, backRepo = fullstack.NewStackInstance(r, stackPath)
 	} else {
 		stage, backRepo = fullstack.NewStackInstance(r, stackPath, dbFileName)
 	}
+
+	stack.Stage = stage
 
 	if unmarshallFromCode != "" {
 		stage.Checkout()
@@ -112,22 +120,9 @@ func NewStage(
 	}
 
 	if withProbe {
-		probe.NewProbe(r, {{pkgname}}_go.GoModelsDir, {{pkgname}}_go.GoDiagramsDir,
+		probe.NewProbe(r, test_go.GoModelsDir, test_go.GoDiagramsDir,
 			embeddedDiagrams, stackPath, stage, backRepo)
 	}
 
 	return
-}
-`
-
-type ModelGongNewStackInstanceStructInsertionId int
-
-const (
-	ModelGongNewStackInstanceSet ModelGongNewStackInstanceStructInsertionId = iota
-)
-
-var ModelGongNewStackInstanceStructSubTemplateCode map[string]string = // new line
-map[string]string{
-	string(rune(ModelGongNewStackInstanceSet)): `
-	models.SetOrchestratorOnAfterUpdate[models.{{Structname}}](stage)`,
 }

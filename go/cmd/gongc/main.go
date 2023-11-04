@@ -398,8 +398,8 @@ func main() {
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../stack/new_stage.go"),
-		stack.NewStageInstanceTemplate)
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../stack/stack.go"),
+		stack.StackInstanceTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
