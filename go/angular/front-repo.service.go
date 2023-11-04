@@ -18,6 +18,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
 // insertion point sub template for services imports{{` + string(rune(NgLibFrontRepoServiceImports)) + `}}
+export const StackType = "{{PkgPathRoot}}/models"
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template{{` + string(rune(NgLibFrontRepoMapDecl)) + `}}
