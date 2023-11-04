@@ -7,7 +7,9 @@ import (
 	"github.com/gin-gonic/gin"
 
 	gongtable_fullstack "github.com/fullstack-lang/gongtable/go/fullstack"
+	form "github.com/fullstack-lang/gongtable/go/models"
 	gongtree_fullstack "github.com/fullstack-lang/gongtree/go/fullstack"
+	tree "github.com/fullstack-lang/gongtree/go/models"
 
 	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
 	gong_models "github.com/fullstack-lang/gong/go/models"
@@ -18,6 +20,16 @@ import (
 	"github.com/fullstack-lang/gong/test/go/orm"
 )
 
+type Probe struct {
+	r                  *gin.Engine
+	stageOfInterest    *models.StageStruct
+	backRepoOfInterest *orm.BackRepoStruct
+	gongStage          *gong_models.StageStruct
+	treeStage          *tree.StageStruct
+	formStage          *form.StageStruct
+	tableStage         *form.StageStruct
+}
+
 func NewProbe(
 	r *gin.Engine,
 	goModelsDir embed.FS,
@@ -25,7 +37,7 @@ func NewProbe(
 	embeddedDiagrams bool,
 	stackPath string,
 	stageOfInterest *models.StageStruct,
-	backRepoOfInterest *orm.BackRepoStruct) {
+	backRepoOfInterest *orm.BackRepoStruct) (probe *Probe) {
 
 	gongStage, _ := gong_fullstack.NewStackInstance(r, stackPath)
 
@@ -42,17 +54,16 @@ func NewProbe(
 	formStage, _ := gongtable_fullstack.NewStackInstance(r, stackPath+"-form")
 	formStage.Commit()
 
-	playground := NewPlayground(
-		r,
-		stageOfInterest,
-		backRepoOfInterest,
-		gongStage,
-		treeStage,
-		formStage,
-		tableStage,
-	)
+	probe = new(Probe)
+	probe.r = r
+	probe.stageOfInterest = stageOfInterest
+	probe.backRepoOfInterest = backRepoOfInterest
+	probe.gongStage = gongStage
+	probe.treeStage = treeStage
+	probe.formStage = formStage
+	probe.tableStage = tableStage
 
-	fillUpTree(playground)
+	fillUpTree(probe)
 
 	gongdoc_load.Load(
 		"",
@@ -63,4 +74,5 @@ func NewProbe(
 		embeddedDiagrams,
 		&stageOfInterest.Map_GongStructName_InstancesNb)
 
+	return
 }

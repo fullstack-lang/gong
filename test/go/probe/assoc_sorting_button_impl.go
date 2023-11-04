@@ -15,12 +15,12 @@ import (
 func NewOnSortingEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct](
 	instance InstanceType,
 	field *[]FieldType,
-	playground *Playground,
+	probe *Probe,
 ) (onSortingEdition *OnSortingEditon[InstanceType, FieldType]) {
 
 	onSortingEdition = new(OnSortingEditon[InstanceType, FieldType])
 
-	onSortingEdition.playground = playground
+	onSortingEdition.probe = probe
 	onSortingEdition.instance = instance
 	onSortingEdition.field = field
 
@@ -28,18 +28,18 @@ func NewOnSortingEditon[InstanceType models.PointerToGongstruct, FieldType model
 }
 
 type OnSortingEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
-	instance   InstanceType
-	field      *[]FieldType
-	playground *Playground
+	instance InstanceType
+	field    *[]FieldType
+	probe    *Probe
 }
 
 func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed() {
 
-	tableStackName := onSortingEditon.playground.formStage.GetPath() +
+	tableStackName := onSortingEditon.probe.formStage.GetPath() +
 		string(form.StackNamePostFixForTableForAssociationSorting)
 
 	// tableStackName supposed to be "test-form-table"
-	tableStageForSelection, _ := gongtable_fullstack.NewStackInstance(onSortingEditon.playground.r, tableStackName)
+	tableStageForSelection, _ := gongtable_fullstack.NewStackInstance(onSortingEditon.probe.r, tableStackName)
 
 	table := new(gongtable_models.Table).Stage(tableStageForSelection)
 	table.Name = string(form.TableSortExtraName)
@@ -79,7 +79,7 @@ func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed
 	table.Impl = NewTableSortSaver[InstanceType, FieldType](
 		onSortingEditon.instance,
 		onSortingEditon.field,
-		onSortingEditon.playground,
+		onSortingEditon.probe,
 		&map_RowID_instance)
 	tableStageForSelection.Commit()
 }
@@ -87,23 +87,23 @@ func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed
 func NewTableSortSaver[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct](
 	instance InstanceType,
 	field *[]FieldType,
-	playground *Playground,
+	probe *Probe,
 	map_RowID_instance *map[*gongtable_models.Row]FieldType,
 ) (tableSortSaver *TableSortSaver[InstanceType, FieldType]) {
 
 	tableSortSaver = new(TableSortSaver[InstanceType, FieldType])
 	tableSortSaver.instance = instance
 	tableSortSaver.field = field
-	tableSortSaver.playground = playground
+	tableSortSaver.probe = probe
 	tableSortSaver.map_RowID_instance = map_RowID_instance
 
 	return
 }
 
 type TableSortSaver[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
-	instance   InstanceType
-	field      *[]FieldType
-	playground *Playground
+	instance InstanceType
+	field    *[]FieldType
+	probe    *Probe
 
 	// map giving the relation between the row ID and the instance
 	map_RowID_instance *map[*gongtable_models.Row]FieldType
@@ -121,11 +121,11 @@ func (tableSortSaver *TableSortSaver[InstanceType, FieldType]) TableUpdated(stag
 		instance := (*tableSortSaver.map_RowID_instance)[row]
 		*tableSortSaver.field = append(*tableSortSaver.field, instance)
 	}
-	tableSortSaver.playground.stageOfInterest.Commit()
+	tableSortSaver.probe.stageOfInterest.Commit()
 
 	// see the result
 	fillUpTablePointerToGongstruct[InstanceType](
-		tableSortSaver.playground,
+		tableSortSaver.probe,
 	)
-	tableSortSaver.playground.tableStage.Commit()
+	tableSortSaver.probe.tableStage.Commit()
 }
