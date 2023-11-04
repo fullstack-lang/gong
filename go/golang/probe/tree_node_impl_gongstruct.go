@@ -14,17 +14,17 @@ import (
 
 type TreeNodeImplGongstruct struct {
 	gongStruct *gong_models.GongStruct
-	playground *Playground
+	probe *Probe
 }
 
 func NewTreeNodeImplGongstruct(
 	gongStruct *gong_models.GongStruct,
-	playground *Playground,
+	probe *Probe,
 ) (nodeImplGongstruct *TreeNodeImplGongstruct) {
 
 	nodeImplGongstruct = new(TreeNodeImplGongstruct)
 	nodeImplGongstruct.gongStruct = gongStruct
-	nodeImplGongstruct.playground = playground
+	nodeImplGongstruct.probe = probe
 	return
 }
 
@@ -62,7 +62,7 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	stagedNode.BackgroundColor = "lightgrey"
 	gongtreeStage.Commit()
 
-	nodeImplGongstruct.playground.tableStage.Commit()
+	nodeImplGongstruct.probe.tableStage.Commit()
 }
 `
 
@@ -76,6 +76,6 @@ var TreeNodeImplGongstructSubTemplateCode map[string]string = // new line
 map[string]string{
 	string(rune(NodeImplGongstruct)): `
 	if nodeImplGongstruct.gongStruct.GetName() == "{{Structname}}" {
-		fillUpTable[models.{{Structname}}](nodeImplGongstruct.playground)
+		fillUpTable[models.{{Structname}}](nodeImplGongstruct.probe)
 	}`,
 }

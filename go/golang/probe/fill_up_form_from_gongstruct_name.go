@@ -10,11 +10,11 @@ import (
 )
 
 func FillUpFormFromGongstructName(
-	playground *Playground,
+	probe *Probe,
 	gongstructName string,
 	isNewInstance bool,
 ) {
-	formStage := playground.formStage
+	formStage := probe.formStage
 	formStage.Reset()
 	formStage.Commit()
 
@@ -49,9 +49,9 @@ map[string]string{
 			Label: prefix + " {{Structname}} Form",
 			OnSave: __gong__New__{{Structname}}FormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		{{structname}} := new(models.{{Structname}})
-		FillUpForm({{structname}}, formGroup, playground)`,
+		FillUpForm({{structname}}, formGroup, probe)`,
 }

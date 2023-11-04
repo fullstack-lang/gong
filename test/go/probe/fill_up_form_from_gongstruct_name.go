@@ -8,11 +8,11 @@ import (
 )
 
 func FillUpFormFromGongstructName(
-	playground *Playground,
+	probe *Probe,
 	gongstructName string,
 	isNewInstance bool,
 ) {
-	formStage := playground.formStage
+	formStage := probe.formStage
 	formStage.Reset()
 	formStage.Commit()
 
@@ -32,66 +32,66 @@ func FillUpFormFromGongstructName(
 			Label: prefix + " Astruct Form",
 			OnSave: __gong__New__AstructFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		astruct := new(models.Astruct)
-		FillUpForm(astruct, formGroup, playground)
+		FillUpForm(astruct, formGroup, probe)
 	case "AstructBstruct2Use":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " AstructBstruct2Use Form",
 			OnSave: __gong__New__AstructBstruct2UseFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		astructbstruct2use := new(models.AstructBstruct2Use)
-		FillUpForm(astructbstruct2use, formGroup, playground)
+		FillUpForm(astructbstruct2use, formGroup, probe)
 	case "AstructBstructUse":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " AstructBstructUse Form",
 			OnSave: __gong__New__AstructBstructUseFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		astructbstructuse := new(models.AstructBstructUse)
-		FillUpForm(astructbstructuse, formGroup, playground)
+		FillUpForm(astructbstructuse, formGroup, probe)
 	case "Bstruct":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Bstruct Form",
 			OnSave: __gong__New__BstructFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		bstruct := new(models.Bstruct)
-		FillUpForm(bstruct, formGroup, playground)
+		FillUpForm(bstruct, formGroup, probe)
 	case "Dstruct":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Dstruct Form",
 			OnSave: __gong__New__DstructFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		dstruct := new(models.Dstruct)
-		FillUpForm(dstruct, formGroup, playground)
+		FillUpForm(dstruct, formGroup, probe)
 	case "Fstruct":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Fstruct Form",
 			OnSave: __gong__New__FstructFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		fstruct := new(models.Fstruct)
-		FillUpForm(fstruct, formGroup, playground)
+		FillUpForm(fstruct, formGroup, probe)
 	}
 	formStage.Commit()
 }

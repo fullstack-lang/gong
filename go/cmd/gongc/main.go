@@ -398,8 +398,8 @@ func main() {
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../stack/new_stage.go"),
-		stack.NewStageInstanceTemplate)
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../stack/stack.go"),
+		stack.StackInstanceTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
@@ -588,20 +588,14 @@ func main() {
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/new_probe.go"),
-		probe.NewProbeTemplate)
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/probe.go"),
+		probe.ProbeTemplate)
 
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/fill_up_tree.go"),
 		probe.FillUpTree, probe.FillUpTreeSubTemplateCode)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/playground.go"),
-		probe.PlaygroundTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
