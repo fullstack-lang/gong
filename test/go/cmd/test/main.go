@@ -34,7 +34,6 @@ func main() {
 
 	// setup stack
 	stack := test_stack.NewStack(r, "test", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
-
 	stack.Probe.Refresh()
 
 	log.Printf("Server ready serve on localhost:" + strconv.Itoa(*port))
