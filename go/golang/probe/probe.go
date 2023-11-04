@@ -79,4 +79,8 @@ func NewProbe(
 
 	return
 }
+
+func (probe *Probe) Refresh() {
+	fillUpTree(probe)
+}
 `
