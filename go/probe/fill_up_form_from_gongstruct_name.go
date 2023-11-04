@@ -8,11 +8,11 @@ import (
 )
 
 func FillUpFormFromGongstructName(
-	playground *Playground,
+	probe *Probe,
 	gongstructName string,
 	isNewInstance bool,
 ) {
-	formStage := playground.formStage
+	formStage := probe.formStage
 	formStage.Reset()
 	formStage.Commit()
 
@@ -32,132 +32,132 @@ func FillUpFormFromGongstructName(
 			Label: prefix + " GongBasicField Form",
 			OnSave: __gong__New__GongBasicFieldFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		gongbasicfield := new(models.GongBasicField)
-		FillUpForm(gongbasicfield, formGroup, playground)
+		FillUpForm(gongbasicfield, formGroup, probe)
 	case "GongEnum":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " GongEnum Form",
 			OnSave: __gong__New__GongEnumFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		gongenum := new(models.GongEnum)
-		FillUpForm(gongenum, formGroup, playground)
+		FillUpForm(gongenum, formGroup, probe)
 	case "GongEnumValue":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " GongEnumValue Form",
 			OnSave: __gong__New__GongEnumValueFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		gongenumvalue := new(models.GongEnumValue)
-		FillUpForm(gongenumvalue, formGroup, playground)
+		FillUpForm(gongenumvalue, formGroup, probe)
 	case "GongLink":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " GongLink Form",
 			OnSave: __gong__New__GongLinkFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		gonglink := new(models.GongLink)
-		FillUpForm(gonglink, formGroup, playground)
+		FillUpForm(gonglink, formGroup, probe)
 	case "GongNote":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " GongNote Form",
 			OnSave: __gong__New__GongNoteFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		gongnote := new(models.GongNote)
-		FillUpForm(gongnote, formGroup, playground)
+		FillUpForm(gongnote, formGroup, probe)
 	case "GongStruct":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " GongStruct Form",
 			OnSave: __gong__New__GongStructFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		gongstruct := new(models.GongStruct)
-		FillUpForm(gongstruct, formGroup, playground)
+		FillUpForm(gongstruct, formGroup, probe)
 	case "GongTimeField":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " GongTimeField Form",
 			OnSave: __gong__New__GongTimeFieldFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		gongtimefield := new(models.GongTimeField)
-		FillUpForm(gongtimefield, formGroup, playground)
+		FillUpForm(gongtimefield, formGroup, probe)
 	case "Meta":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Meta Form",
 			OnSave: __gong__New__MetaFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		meta := new(models.Meta)
-		FillUpForm(meta, formGroup, playground)
+		FillUpForm(meta, formGroup, probe)
 	case "MetaReference":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " MetaReference Form",
 			OnSave: __gong__New__MetaReferenceFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		metareference := new(models.MetaReference)
-		FillUpForm(metareference, formGroup, playground)
+		FillUpForm(metareference, formGroup, probe)
 	case "ModelPkg":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " ModelPkg Form",
 			OnSave: __gong__New__ModelPkgFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		modelpkg := new(models.ModelPkg)
-		FillUpForm(modelpkg, formGroup, playground)
+		FillUpForm(modelpkg, formGroup, probe)
 	case "PointerToGongStructField":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " PointerToGongStructField Form",
 			OnSave: __gong__New__PointerToGongStructFieldFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		pointertogongstructfield := new(models.PointerToGongStructField)
-		FillUpForm(pointertogongstructfield, formGroup, playground)
+		FillUpForm(pointertogongstructfield, formGroup, probe)
 	case "SliceOfPointerToGongStructField":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " SliceOfPointerToGongStructField Form",
 			OnSave: __gong__New__SliceOfPointerToGongStructFieldFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		sliceofpointertogongstructfield := new(models.SliceOfPointerToGongStructField)
-		FillUpForm(sliceofpointertogongstructfield, formGroup, playground)
+		FillUpForm(sliceofpointertogongstructfield, formGroup, probe)
 	}
 	formStage.Commit()
 }
