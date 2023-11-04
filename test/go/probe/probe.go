@@ -68,7 +68,7 @@ func NewProbe(
 
 	gongdoc_load.Load(
 		"",
-		"github.com/fullstack-lang/gong/test/go/models",
+		probe.stageOfInterest.GetType(),
 		goModelsDir,
 		goDiagramsDir,
 		r,
