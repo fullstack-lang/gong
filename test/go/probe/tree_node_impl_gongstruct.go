@@ -12,17 +12,17 @@ import (
 
 type TreeNodeImplGongstruct struct {
 	gongStruct *gong_models.GongStruct
-	playground *Playground
+	probe      *Probe
 }
 
 func NewTreeNodeImplGongstruct(
 	gongStruct *gong_models.GongStruct,
-	playground *Playground,
+	probe *Probe,
 ) (nodeImplGongstruct *TreeNodeImplGongstruct) {
 
 	nodeImplGongstruct = new(TreeNodeImplGongstruct)
 	nodeImplGongstruct.gongStruct = gongStruct
-	nodeImplGongstruct.playground = playground
+	nodeImplGongstruct.probe = probe
 	return
 }
 
@@ -53,22 +53,22 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Astruct" {
-		fillUpTable[models.Astruct](nodeImplGongstruct.playground)
+		fillUpTable[models.Astruct](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "AstructBstruct2Use" {
-		fillUpTable[models.AstructBstruct2Use](nodeImplGongstruct.playground)
+		fillUpTable[models.AstructBstruct2Use](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "AstructBstructUse" {
-		fillUpTable[models.AstructBstructUse](nodeImplGongstruct.playground)
+		fillUpTable[models.AstructBstructUse](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Bstruct" {
-		fillUpTable[models.Bstruct](nodeImplGongstruct.playground)
+		fillUpTable[models.Bstruct](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Dstruct" {
-		fillUpTable[models.Dstruct](nodeImplGongstruct.playground)
+		fillUpTable[models.Dstruct](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Fstruct" {
-		fillUpTable[models.Fstruct](nodeImplGongstruct.playground)
+		fillUpTable[models.Fstruct](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color
@@ -78,5 +78,5 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	stagedNode.BackgroundColor = "lightgrey"
 	gongtreeStage.Commit()
 
-	nodeImplGongstruct.playground.tableStage.Commit()
+	nodeImplGongstruct.probe.tableStage.Commit()
 }
