@@ -20,10 +20,10 @@ var __dummy_orm = orm.BackRepoStruct{}
 // insertion point
 func __gong__New__GongBasicFieldFormCallback(
 	gongbasicfield *models.GongBasicField,
-	playground *Playground,
+	probe *Probe,
 ) (gongbasicfieldFormCallback *GongBasicFieldFormCallback) {
 	gongbasicfieldFormCallback = new(GongBasicFieldFormCallback)
-	gongbasicfieldFormCallback.playground = playground
+	gongbasicfieldFormCallback.probe = probe
 	gongbasicfieldFormCallback.gongbasicfield = gongbasicfield
 
 	gongbasicfieldFormCallback.CreationMode = (gongbasicfield == nil)
@@ -37,7 +37,7 @@ type GongBasicFieldFormCallback struct {
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
 
-	playground *Playground
+	probe *Probe
 }
 
 func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
@@ -46,16 +46,16 @@ func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	gongbasicfieldFormCallback.playground.formStage.Checkout()
+	gongbasicfieldFormCallback.probe.formStage.Checkout()
 
 	if gongbasicfieldFormCallback.gongbasicfield == nil {
-		gongbasicfieldFormCallback.gongbasicfield = new(models.GongBasicField).Stage(gongbasicfieldFormCallback.playground.stageOfInterest)
+		gongbasicfieldFormCallback.gongbasicfield = new(models.GongBasicField).Stage(gongbasicfieldFormCallback.probe.stageOfInterest)
 	}
 	gongbasicfield_ := gongbasicfieldFormCallback.gongbasicfield
 	_ = gongbasicfield_
 
 	// get the formGroup
-	formGroup := gongbasicfieldFormCallback.playground.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
+	formGroup := gongbasicfieldFormCallback.probe.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
 
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
@@ -65,7 +65,7 @@ func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
 		case "BasicKindName":
 			FormDivBasicFieldToField(&(gongbasicfield_.BasicKindName), formDiv)
 		case "GongEnum":
-			FormDivSelectFieldToField(&(gongbasicfield_.GongEnum), gongbasicfieldFormCallback.playground.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(gongbasicfield_.GongEnum), gongbasicfieldFormCallback.probe.stageOfInterest, formDiv)
 		case "DeclaredType":
 			FormDivBasicFieldToField(&(gongbasicfield_.DeclaredType), formDiv)
 		case "CompositeStructName":
@@ -84,8 +84,8 @@ func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
 			rf.GongstructName = "GongStruct"
 			rf.Fieldname = "GongBasicFields"
 			reverseFieldOwner := orm.GetReverseFieldOwner(
-				gongbasicfieldFormCallback.playground.stageOfInterest,
-				gongbasicfieldFormCallback.playground.backRepoOfInterest,
+				gongbasicfieldFormCallback.probe.stageOfInterest,
+				gongbasicfieldFormCallback.probe.backRepoOfInterest,
 				gongbasicfield_,
 				&rf)
 
@@ -101,7 +101,7 @@ func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
 				// we need to retrieve the field owner after the change
 				// parse all astrcut and get the one with the name in the
 				// div
-				for _gongstruct := range *models.GetGongstructInstancesSet[models.GongStruct](gongbasicfieldFormCallback.playground.stageOfInterest) {
+				for _gongstruct := range *models.GetGongstructInstancesSet[models.GongStruct](gongbasicfieldFormCallback.probe.stageOfInterest) {
 
 					// the match is base on the name
 					if _gongstruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
@@ -121,35 +121,35 @@ func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
 		}
 	}
 
-	gongbasicfieldFormCallback.playground.stageOfInterest.Commit()
+	gongbasicfieldFormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.GongBasicField](
-		gongbasicfieldFormCallback.playground,
+		gongbasicfieldFormCallback.probe,
 	)
-	gongbasicfieldFormCallback.playground.tableStage.Commit()
+	gongbasicfieldFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gongbasicfieldFormCallback.CreationMode {
-		gongbasicfieldFormCallback.playground.formStage.Reset()
+		gongbasicfieldFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
 			OnSave: __gong__New__GongBasicFieldFormCallback(
 				nil,
-				gongbasicfieldFormCallback.playground,
+				gongbasicfieldFormCallback.probe,
 			),
-		}).Stage(gongbasicfieldFormCallback.playground.formStage)
+		}).Stage(gongbasicfieldFormCallback.probe.formStage)
 		gongbasicfield := new(models.GongBasicField)
-		FillUpForm(gongbasicfield, newFormGroup, gongbasicfieldFormCallback.playground)
-		gongbasicfieldFormCallback.playground.formStage.Commit()
+		FillUpForm(gongbasicfield, newFormGroup, gongbasicfieldFormCallback.probe)
+		gongbasicfieldFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(gongbasicfieldFormCallback.playground)
+	fillUpTree(gongbasicfieldFormCallback.probe)
 }
 func __gong__New__GongEnumFormCallback(
 	gongenum *models.GongEnum,
-	playground *Playground,
+	probe *Probe,
 ) (gongenumFormCallback *GongEnumFormCallback) {
 	gongenumFormCallback = new(GongEnumFormCallback)
-	gongenumFormCallback.playground = playground
+	gongenumFormCallback.probe = probe
 	gongenumFormCallback.gongenum = gongenum
 
 	gongenumFormCallback.CreationMode = (gongenum == nil)
@@ -163,7 +163,7 @@ type GongEnumFormCallback struct {
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
 
-	playground *Playground
+	probe *Probe
 }
 
 func (gongenumFormCallback *GongEnumFormCallback) OnSave() {
@@ -172,16 +172,16 @@ func (gongenumFormCallback *GongEnumFormCallback) OnSave() {
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	gongenumFormCallback.playground.formStage.Checkout()
+	gongenumFormCallback.probe.formStage.Checkout()
 
 	if gongenumFormCallback.gongenum == nil {
-		gongenumFormCallback.gongenum = new(models.GongEnum).Stage(gongenumFormCallback.playground.stageOfInterest)
+		gongenumFormCallback.gongenum = new(models.GongEnum).Stage(gongenumFormCallback.probe.stageOfInterest)
 	}
 	gongenum_ := gongenumFormCallback.gongenum
 	_ = gongenum_
 
 	// get the formGroup
-	formGroup := gongenumFormCallback.playground.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
+	formGroup := gongenumFormCallback.probe.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
 
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
@@ -193,35 +193,35 @@ func (gongenumFormCallback *GongEnumFormCallback) OnSave() {
 		}
 	}
 
-	gongenumFormCallback.playground.stageOfInterest.Commit()
+	gongenumFormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.GongEnum](
-		gongenumFormCallback.playground,
+		gongenumFormCallback.probe,
 	)
-	gongenumFormCallback.playground.tableStage.Commit()
+	gongenumFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gongenumFormCallback.CreationMode {
-		gongenumFormCallback.playground.formStage.Reset()
+		gongenumFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
 			OnSave: __gong__New__GongEnumFormCallback(
 				nil,
-				gongenumFormCallback.playground,
+				gongenumFormCallback.probe,
 			),
-		}).Stage(gongenumFormCallback.playground.formStage)
+		}).Stage(gongenumFormCallback.probe.formStage)
 		gongenum := new(models.GongEnum)
-		FillUpForm(gongenum, newFormGroup, gongenumFormCallback.playground)
-		gongenumFormCallback.playground.formStage.Commit()
+		FillUpForm(gongenum, newFormGroup, gongenumFormCallback.probe)
+		gongenumFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(gongenumFormCallback.playground)
+	fillUpTree(gongenumFormCallback.probe)
 }
 func __gong__New__GongEnumValueFormCallback(
 	gongenumvalue *models.GongEnumValue,
-	playground *Playground,
+	probe *Probe,
 ) (gongenumvalueFormCallback *GongEnumValueFormCallback) {
 	gongenumvalueFormCallback = new(GongEnumValueFormCallback)
-	gongenumvalueFormCallback.playground = playground
+	gongenumvalueFormCallback.probe = probe
 	gongenumvalueFormCallback.gongenumvalue = gongenumvalue
 
 	gongenumvalueFormCallback.CreationMode = (gongenumvalue == nil)
@@ -235,7 +235,7 @@ type GongEnumValueFormCallback struct {
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
 
-	playground *Playground
+	probe *Probe
 }
 
 func (gongenumvalueFormCallback *GongEnumValueFormCallback) OnSave() {
@@ -244,16 +244,16 @@ func (gongenumvalueFormCallback *GongEnumValueFormCallback) OnSave() {
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	gongenumvalueFormCallback.playground.formStage.Checkout()
+	gongenumvalueFormCallback.probe.formStage.Checkout()
 
 	if gongenumvalueFormCallback.gongenumvalue == nil {
-		gongenumvalueFormCallback.gongenumvalue = new(models.GongEnumValue).Stage(gongenumvalueFormCallback.playground.stageOfInterest)
+		gongenumvalueFormCallback.gongenumvalue = new(models.GongEnumValue).Stage(gongenumvalueFormCallback.probe.stageOfInterest)
 	}
 	gongenumvalue_ := gongenumvalueFormCallback.gongenumvalue
 	_ = gongenumvalue_
 
 	// get the formGroup
-	formGroup := gongenumvalueFormCallback.playground.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
+	formGroup := gongenumvalueFormCallback.probe.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
 
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
@@ -270,8 +270,8 @@ func (gongenumvalueFormCallback *GongEnumValueFormCallback) OnSave() {
 			rf.GongstructName = "GongEnum"
 			rf.Fieldname = "GongEnumValues"
 			reverseFieldOwner := orm.GetReverseFieldOwner(
-				gongenumvalueFormCallback.playground.stageOfInterest,
-				gongenumvalueFormCallback.playground.backRepoOfInterest,
+				gongenumvalueFormCallback.probe.stageOfInterest,
+				gongenumvalueFormCallback.probe.backRepoOfInterest,
 				gongenumvalue_,
 				&rf)
 
@@ -287,7 +287,7 @@ func (gongenumvalueFormCallback *GongEnumValueFormCallback) OnSave() {
 				// we need to retrieve the field owner after the change
 				// parse all astrcut and get the one with the name in the
 				// div
-				for _gongenum := range *models.GetGongstructInstancesSet[models.GongEnum](gongenumvalueFormCallback.playground.stageOfInterest) {
+				for _gongenum := range *models.GetGongstructInstancesSet[models.GongEnum](gongenumvalueFormCallback.probe.stageOfInterest) {
 
 					// the match is base on the name
 					if _gongenum.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
@@ -307,35 +307,35 @@ func (gongenumvalueFormCallback *GongEnumValueFormCallback) OnSave() {
 		}
 	}
 
-	gongenumvalueFormCallback.playground.stageOfInterest.Commit()
+	gongenumvalueFormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.GongEnumValue](
-		gongenumvalueFormCallback.playground,
+		gongenumvalueFormCallback.probe,
 	)
-	gongenumvalueFormCallback.playground.tableStage.Commit()
+	gongenumvalueFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gongenumvalueFormCallback.CreationMode {
-		gongenumvalueFormCallback.playground.formStage.Reset()
+		gongenumvalueFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
 			OnSave: __gong__New__GongEnumValueFormCallback(
 				nil,
-				gongenumvalueFormCallback.playground,
+				gongenumvalueFormCallback.probe,
 			),
-		}).Stage(gongenumvalueFormCallback.playground.formStage)
+		}).Stage(gongenumvalueFormCallback.probe.formStage)
 		gongenumvalue := new(models.GongEnumValue)
-		FillUpForm(gongenumvalue, newFormGroup, gongenumvalueFormCallback.playground)
-		gongenumvalueFormCallback.playground.formStage.Commit()
+		FillUpForm(gongenumvalue, newFormGroup, gongenumvalueFormCallback.probe)
+		gongenumvalueFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(gongenumvalueFormCallback.playground)
+	fillUpTree(gongenumvalueFormCallback.probe)
 }
 func __gong__New__GongLinkFormCallback(
 	gonglink *models.GongLink,
-	playground *Playground,
+	probe *Probe,
 ) (gonglinkFormCallback *GongLinkFormCallback) {
 	gonglinkFormCallback = new(GongLinkFormCallback)
-	gonglinkFormCallback.playground = playground
+	gonglinkFormCallback.probe = probe
 	gonglinkFormCallback.gonglink = gonglink
 
 	gonglinkFormCallback.CreationMode = (gonglink == nil)
@@ -349,7 +349,7 @@ type GongLinkFormCallback struct {
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
 
-	playground *Playground
+	probe *Probe
 }
 
 func (gonglinkFormCallback *GongLinkFormCallback) OnSave() {
@@ -358,16 +358,16 @@ func (gonglinkFormCallback *GongLinkFormCallback) OnSave() {
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	gonglinkFormCallback.playground.formStage.Checkout()
+	gonglinkFormCallback.probe.formStage.Checkout()
 
 	if gonglinkFormCallback.gonglink == nil {
-		gonglinkFormCallback.gonglink = new(models.GongLink).Stage(gonglinkFormCallback.playground.stageOfInterest)
+		gonglinkFormCallback.gonglink = new(models.GongLink).Stage(gonglinkFormCallback.probe.stageOfInterest)
 	}
 	gonglink_ := gonglinkFormCallback.gonglink
 	_ = gonglink_
 
 	// get the formGroup
-	formGroup := gonglinkFormCallback.playground.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
+	formGroup := gonglinkFormCallback.probe.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
 
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
@@ -386,8 +386,8 @@ func (gonglinkFormCallback *GongLinkFormCallback) OnSave() {
 			rf.GongstructName = "GongNote"
 			rf.Fieldname = "Links"
 			reverseFieldOwner := orm.GetReverseFieldOwner(
-				gonglinkFormCallback.playground.stageOfInterest,
-				gonglinkFormCallback.playground.backRepoOfInterest,
+				gonglinkFormCallback.probe.stageOfInterest,
+				gonglinkFormCallback.probe.backRepoOfInterest,
 				gonglink_,
 				&rf)
 
@@ -403,7 +403,7 @@ func (gonglinkFormCallback *GongLinkFormCallback) OnSave() {
 				// we need to retrieve the field owner after the change
 				// parse all astrcut and get the one with the name in the
 				// div
-				for _gongnote := range *models.GetGongstructInstancesSet[models.GongNote](gonglinkFormCallback.playground.stageOfInterest) {
+				for _gongnote := range *models.GetGongstructInstancesSet[models.GongNote](gonglinkFormCallback.probe.stageOfInterest) {
 
 					// the match is base on the name
 					if _gongnote.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
@@ -423,35 +423,35 @@ func (gonglinkFormCallback *GongLinkFormCallback) OnSave() {
 		}
 	}
 
-	gonglinkFormCallback.playground.stageOfInterest.Commit()
+	gonglinkFormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.GongLink](
-		gonglinkFormCallback.playground,
+		gonglinkFormCallback.probe,
 	)
-	gonglinkFormCallback.playground.tableStage.Commit()
+	gonglinkFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gonglinkFormCallback.CreationMode {
-		gonglinkFormCallback.playground.formStage.Reset()
+		gonglinkFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
 			OnSave: __gong__New__GongLinkFormCallback(
 				nil,
-				gonglinkFormCallback.playground,
+				gonglinkFormCallback.probe,
 			),
-		}).Stage(gonglinkFormCallback.playground.formStage)
+		}).Stage(gonglinkFormCallback.probe.formStage)
 		gonglink := new(models.GongLink)
-		FillUpForm(gonglink, newFormGroup, gonglinkFormCallback.playground)
-		gonglinkFormCallback.playground.formStage.Commit()
+		FillUpForm(gonglink, newFormGroup, gonglinkFormCallback.probe)
+		gonglinkFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(gonglinkFormCallback.playground)
+	fillUpTree(gonglinkFormCallback.probe)
 }
 func __gong__New__GongNoteFormCallback(
 	gongnote *models.GongNote,
-	playground *Playground,
+	probe *Probe,
 ) (gongnoteFormCallback *GongNoteFormCallback) {
 	gongnoteFormCallback = new(GongNoteFormCallback)
-	gongnoteFormCallback.playground = playground
+	gongnoteFormCallback.probe = probe
 	gongnoteFormCallback.gongnote = gongnote
 
 	gongnoteFormCallback.CreationMode = (gongnote == nil)
@@ -465,7 +465,7 @@ type GongNoteFormCallback struct {
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
 
-	playground *Playground
+	probe *Probe
 }
 
 func (gongnoteFormCallback *GongNoteFormCallback) OnSave() {
@@ -474,16 +474,16 @@ func (gongnoteFormCallback *GongNoteFormCallback) OnSave() {
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	gongnoteFormCallback.playground.formStage.Checkout()
+	gongnoteFormCallback.probe.formStage.Checkout()
 
 	if gongnoteFormCallback.gongnote == nil {
-		gongnoteFormCallback.gongnote = new(models.GongNote).Stage(gongnoteFormCallback.playground.stageOfInterest)
+		gongnoteFormCallback.gongnote = new(models.GongNote).Stage(gongnoteFormCallback.probe.stageOfInterest)
 	}
 	gongnote_ := gongnoteFormCallback.gongnote
 	_ = gongnote_
 
 	// get the formGroup
-	formGroup := gongnoteFormCallback.playground.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
+	formGroup := gongnoteFormCallback.probe.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
 
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
@@ -497,35 +497,35 @@ func (gongnoteFormCallback *GongNoteFormCallback) OnSave() {
 		}
 	}
 
-	gongnoteFormCallback.playground.stageOfInterest.Commit()
+	gongnoteFormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.GongNote](
-		gongnoteFormCallback.playground,
+		gongnoteFormCallback.probe,
 	)
-	gongnoteFormCallback.playground.tableStage.Commit()
+	gongnoteFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gongnoteFormCallback.CreationMode {
-		gongnoteFormCallback.playground.formStage.Reset()
+		gongnoteFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
 			OnSave: __gong__New__GongNoteFormCallback(
 				nil,
-				gongnoteFormCallback.playground,
+				gongnoteFormCallback.probe,
 			),
-		}).Stage(gongnoteFormCallback.playground.formStage)
+		}).Stage(gongnoteFormCallback.probe.formStage)
 		gongnote := new(models.GongNote)
-		FillUpForm(gongnote, newFormGroup, gongnoteFormCallback.playground)
-		gongnoteFormCallback.playground.formStage.Commit()
+		FillUpForm(gongnote, newFormGroup, gongnoteFormCallback.probe)
+		gongnoteFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(gongnoteFormCallback.playground)
+	fillUpTree(gongnoteFormCallback.probe)
 }
 func __gong__New__GongStructFormCallback(
 	gongstruct *models.GongStruct,
-	playground *Playground,
+	probe *Probe,
 ) (gongstructFormCallback *GongStructFormCallback) {
 	gongstructFormCallback = new(GongStructFormCallback)
-	gongstructFormCallback.playground = playground
+	gongstructFormCallback.probe = probe
 	gongstructFormCallback.gongstruct = gongstruct
 
 	gongstructFormCallback.CreationMode = (gongstruct == nil)
@@ -539,7 +539,7 @@ type GongStructFormCallback struct {
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
 
-	playground *Playground
+	probe *Probe
 }
 
 func (gongstructFormCallback *GongStructFormCallback) OnSave() {
@@ -548,16 +548,16 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	gongstructFormCallback.playground.formStage.Checkout()
+	gongstructFormCallback.probe.formStage.Checkout()
 
 	if gongstructFormCallback.gongstruct == nil {
-		gongstructFormCallback.gongstruct = new(models.GongStruct).Stage(gongstructFormCallback.playground.stageOfInterest)
+		gongstructFormCallback.gongstruct = new(models.GongStruct).Stage(gongstructFormCallback.probe.stageOfInterest)
 	}
 	gongstruct_ := gongstructFormCallback.gongstruct
 	_ = gongstruct_
 
 	// get the formGroup
-	formGroup := gongstructFormCallback.playground.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
+	formGroup := gongstructFormCallback.probe.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
 
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
@@ -571,35 +571,35 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 		}
 	}
 
-	gongstructFormCallback.playground.stageOfInterest.Commit()
+	gongstructFormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.GongStruct](
-		gongstructFormCallback.playground,
+		gongstructFormCallback.probe,
 	)
-	gongstructFormCallback.playground.tableStage.Commit()
+	gongstructFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gongstructFormCallback.CreationMode {
-		gongstructFormCallback.playground.formStage.Reset()
+		gongstructFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
 			OnSave: __gong__New__GongStructFormCallback(
 				nil,
-				gongstructFormCallback.playground,
+				gongstructFormCallback.probe,
 			),
-		}).Stage(gongstructFormCallback.playground.formStage)
+		}).Stage(gongstructFormCallback.probe.formStage)
 		gongstruct := new(models.GongStruct)
-		FillUpForm(gongstruct, newFormGroup, gongstructFormCallback.playground)
-		gongstructFormCallback.playground.formStage.Commit()
+		FillUpForm(gongstruct, newFormGroup, gongstructFormCallback.probe)
+		gongstructFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(gongstructFormCallback.playground)
+	fillUpTree(gongstructFormCallback.probe)
 }
 func __gong__New__GongTimeFieldFormCallback(
 	gongtimefield *models.GongTimeField,
-	playground *Playground,
+	probe *Probe,
 ) (gongtimefieldFormCallback *GongTimeFieldFormCallback) {
 	gongtimefieldFormCallback = new(GongTimeFieldFormCallback)
-	gongtimefieldFormCallback.playground = playground
+	gongtimefieldFormCallback.probe = probe
 	gongtimefieldFormCallback.gongtimefield = gongtimefield
 
 	gongtimefieldFormCallback.CreationMode = (gongtimefield == nil)
@@ -613,7 +613,7 @@ type GongTimeFieldFormCallback struct {
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
 
-	playground *Playground
+	probe *Probe
 }
 
 func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
@@ -622,16 +622,16 @@ func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	gongtimefieldFormCallback.playground.formStage.Checkout()
+	gongtimefieldFormCallback.probe.formStage.Checkout()
 
 	if gongtimefieldFormCallback.gongtimefield == nil {
-		gongtimefieldFormCallback.gongtimefield = new(models.GongTimeField).Stage(gongtimefieldFormCallback.playground.stageOfInterest)
+		gongtimefieldFormCallback.gongtimefield = new(models.GongTimeField).Stage(gongtimefieldFormCallback.probe.stageOfInterest)
 	}
 	gongtimefield_ := gongtimefieldFormCallback.gongtimefield
 	_ = gongtimefield_
 
 	// get the formGroup
-	formGroup := gongtimefieldFormCallback.playground.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
+	formGroup := gongtimefieldFormCallback.probe.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
 
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
@@ -650,8 +650,8 @@ func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
 			rf.GongstructName = "GongStruct"
 			rf.Fieldname = "GongTimeFields"
 			reverseFieldOwner := orm.GetReverseFieldOwner(
-				gongtimefieldFormCallback.playground.stageOfInterest,
-				gongtimefieldFormCallback.playground.backRepoOfInterest,
+				gongtimefieldFormCallback.probe.stageOfInterest,
+				gongtimefieldFormCallback.probe.backRepoOfInterest,
 				gongtimefield_,
 				&rf)
 
@@ -667,7 +667,7 @@ func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
 				// we need to retrieve the field owner after the change
 				// parse all astrcut and get the one with the name in the
 				// div
-				for _gongstruct := range *models.GetGongstructInstancesSet[models.GongStruct](gongtimefieldFormCallback.playground.stageOfInterest) {
+				for _gongstruct := range *models.GetGongstructInstancesSet[models.GongStruct](gongtimefieldFormCallback.probe.stageOfInterest) {
 
 					// the match is base on the name
 					if _gongstruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
@@ -687,35 +687,35 @@ func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
 		}
 	}
 
-	gongtimefieldFormCallback.playground.stageOfInterest.Commit()
+	gongtimefieldFormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.GongTimeField](
-		gongtimefieldFormCallback.playground,
+		gongtimefieldFormCallback.probe,
 	)
-	gongtimefieldFormCallback.playground.tableStage.Commit()
+	gongtimefieldFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gongtimefieldFormCallback.CreationMode {
-		gongtimefieldFormCallback.playground.formStage.Reset()
+		gongtimefieldFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
 			OnSave: __gong__New__GongTimeFieldFormCallback(
 				nil,
-				gongtimefieldFormCallback.playground,
+				gongtimefieldFormCallback.probe,
 			),
-		}).Stage(gongtimefieldFormCallback.playground.formStage)
+		}).Stage(gongtimefieldFormCallback.probe.formStage)
 		gongtimefield := new(models.GongTimeField)
-		FillUpForm(gongtimefield, newFormGroup, gongtimefieldFormCallback.playground)
-		gongtimefieldFormCallback.playground.formStage.Commit()
+		FillUpForm(gongtimefield, newFormGroup, gongtimefieldFormCallback.probe)
+		gongtimefieldFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(gongtimefieldFormCallback.playground)
+	fillUpTree(gongtimefieldFormCallback.probe)
 }
 func __gong__New__MetaFormCallback(
 	meta *models.Meta,
-	playground *Playground,
+	probe *Probe,
 ) (metaFormCallback *MetaFormCallback) {
 	metaFormCallback = new(MetaFormCallback)
-	metaFormCallback.playground = playground
+	metaFormCallback.probe = probe
 	metaFormCallback.meta = meta
 
 	metaFormCallback.CreationMode = (meta == nil)
@@ -729,7 +729,7 @@ type MetaFormCallback struct {
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
 
-	playground *Playground
+	probe *Probe
 }
 
 func (metaFormCallback *MetaFormCallback) OnSave() {
@@ -738,16 +738,16 @@ func (metaFormCallback *MetaFormCallback) OnSave() {
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	metaFormCallback.playground.formStage.Checkout()
+	metaFormCallback.probe.formStage.Checkout()
 
 	if metaFormCallback.meta == nil {
-		metaFormCallback.meta = new(models.Meta).Stage(metaFormCallback.playground.stageOfInterest)
+		metaFormCallback.meta = new(models.Meta).Stage(metaFormCallback.probe.stageOfInterest)
 	}
 	meta_ := metaFormCallback.meta
 	_ = meta_
 
 	// get the formGroup
-	formGroup := metaFormCallback.playground.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
+	formGroup := metaFormCallback.probe.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
 
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
@@ -759,35 +759,35 @@ func (metaFormCallback *MetaFormCallback) OnSave() {
 		}
 	}
 
-	metaFormCallback.playground.stageOfInterest.Commit()
+	metaFormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.Meta](
-		metaFormCallback.playground,
+		metaFormCallback.probe,
 	)
-	metaFormCallback.playground.tableStage.Commit()
+	metaFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if metaFormCallback.CreationMode {
-		metaFormCallback.playground.formStage.Reset()
+		metaFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
 			OnSave: __gong__New__MetaFormCallback(
 				nil,
-				metaFormCallback.playground,
+				metaFormCallback.probe,
 			),
-		}).Stage(metaFormCallback.playground.formStage)
+		}).Stage(metaFormCallback.probe.formStage)
 		meta := new(models.Meta)
-		FillUpForm(meta, newFormGroup, metaFormCallback.playground)
-		metaFormCallback.playground.formStage.Commit()
+		FillUpForm(meta, newFormGroup, metaFormCallback.probe)
+		metaFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(metaFormCallback.playground)
+	fillUpTree(metaFormCallback.probe)
 }
 func __gong__New__MetaReferenceFormCallback(
 	metareference *models.MetaReference,
-	playground *Playground,
+	probe *Probe,
 ) (metareferenceFormCallback *MetaReferenceFormCallback) {
 	metareferenceFormCallback = new(MetaReferenceFormCallback)
-	metareferenceFormCallback.playground = playground
+	metareferenceFormCallback.probe = probe
 	metareferenceFormCallback.metareference = metareference
 
 	metareferenceFormCallback.CreationMode = (metareference == nil)
@@ -801,7 +801,7 @@ type MetaReferenceFormCallback struct {
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
 
-	playground *Playground
+	probe *Probe
 }
 
 func (metareferenceFormCallback *MetaReferenceFormCallback) OnSave() {
@@ -810,16 +810,16 @@ func (metareferenceFormCallback *MetaReferenceFormCallback) OnSave() {
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	metareferenceFormCallback.playground.formStage.Checkout()
+	metareferenceFormCallback.probe.formStage.Checkout()
 
 	if metareferenceFormCallback.metareference == nil {
-		metareferenceFormCallback.metareference = new(models.MetaReference).Stage(metareferenceFormCallback.playground.stageOfInterest)
+		metareferenceFormCallback.metareference = new(models.MetaReference).Stage(metareferenceFormCallback.probe.stageOfInterest)
 	}
 	metareference_ := metareferenceFormCallback.metareference
 	_ = metareference_
 
 	// get the formGroup
-	formGroup := metareferenceFormCallback.playground.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
+	formGroup := metareferenceFormCallback.probe.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
 
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
@@ -834,8 +834,8 @@ func (metareferenceFormCallback *MetaReferenceFormCallback) OnSave() {
 			rf.GongstructName = "Meta"
 			rf.Fieldname = "MetaReferences"
 			reverseFieldOwner := orm.GetReverseFieldOwner(
-				metareferenceFormCallback.playground.stageOfInterest,
-				metareferenceFormCallback.playground.backRepoOfInterest,
+				metareferenceFormCallback.probe.stageOfInterest,
+				metareferenceFormCallback.probe.backRepoOfInterest,
 				metareference_,
 				&rf)
 
@@ -851,7 +851,7 @@ func (metareferenceFormCallback *MetaReferenceFormCallback) OnSave() {
 				// we need to retrieve the field owner after the change
 				// parse all astrcut and get the one with the name in the
 				// div
-				for _meta := range *models.GetGongstructInstancesSet[models.Meta](metareferenceFormCallback.playground.stageOfInterest) {
+				for _meta := range *models.GetGongstructInstancesSet[models.Meta](metareferenceFormCallback.probe.stageOfInterest) {
 
 					// the match is base on the name
 					if _meta.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
@@ -871,35 +871,35 @@ func (metareferenceFormCallback *MetaReferenceFormCallback) OnSave() {
 		}
 	}
 
-	metareferenceFormCallback.playground.stageOfInterest.Commit()
+	metareferenceFormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.MetaReference](
-		metareferenceFormCallback.playground,
+		metareferenceFormCallback.probe,
 	)
-	metareferenceFormCallback.playground.tableStage.Commit()
+	metareferenceFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if metareferenceFormCallback.CreationMode {
-		metareferenceFormCallback.playground.formStage.Reset()
+		metareferenceFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
 			OnSave: __gong__New__MetaReferenceFormCallback(
 				nil,
-				metareferenceFormCallback.playground,
+				metareferenceFormCallback.probe,
 			),
-		}).Stage(metareferenceFormCallback.playground.formStage)
+		}).Stage(metareferenceFormCallback.probe.formStage)
 		metareference := new(models.MetaReference)
-		FillUpForm(metareference, newFormGroup, metareferenceFormCallback.playground)
-		metareferenceFormCallback.playground.formStage.Commit()
+		FillUpForm(metareference, newFormGroup, metareferenceFormCallback.probe)
+		metareferenceFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(metareferenceFormCallback.playground)
+	fillUpTree(metareferenceFormCallback.probe)
 }
 func __gong__New__ModelPkgFormCallback(
 	modelpkg *models.ModelPkg,
-	playground *Playground,
+	probe *Probe,
 ) (modelpkgFormCallback *ModelPkgFormCallback) {
 	modelpkgFormCallback = new(ModelPkgFormCallback)
-	modelpkgFormCallback.playground = playground
+	modelpkgFormCallback.probe = probe
 	modelpkgFormCallback.modelpkg = modelpkg
 
 	modelpkgFormCallback.CreationMode = (modelpkg == nil)
@@ -913,7 +913,7 @@ type ModelPkgFormCallback struct {
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
 
-	playground *Playground
+	probe *Probe
 }
 
 func (modelpkgFormCallback *ModelPkgFormCallback) OnSave() {
@@ -922,16 +922,16 @@ func (modelpkgFormCallback *ModelPkgFormCallback) OnSave() {
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	modelpkgFormCallback.playground.formStage.Checkout()
+	modelpkgFormCallback.probe.formStage.Checkout()
 
 	if modelpkgFormCallback.modelpkg == nil {
-		modelpkgFormCallback.modelpkg = new(models.ModelPkg).Stage(modelpkgFormCallback.playground.stageOfInterest)
+		modelpkgFormCallback.modelpkg = new(models.ModelPkg).Stage(modelpkgFormCallback.probe.stageOfInterest)
 	}
 	modelpkg_ := modelpkgFormCallback.modelpkg
 	_ = modelpkg_
 
 	// get the formGroup
-	formGroup := modelpkgFormCallback.playground.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
+	formGroup := modelpkgFormCallback.probe.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
 
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
@@ -943,35 +943,35 @@ func (modelpkgFormCallback *ModelPkgFormCallback) OnSave() {
 		}
 	}
 
-	modelpkgFormCallback.playground.stageOfInterest.Commit()
+	modelpkgFormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.ModelPkg](
-		modelpkgFormCallback.playground,
+		modelpkgFormCallback.probe,
 	)
-	modelpkgFormCallback.playground.tableStage.Commit()
+	modelpkgFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if modelpkgFormCallback.CreationMode {
-		modelpkgFormCallback.playground.formStage.Reset()
+		modelpkgFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
 			OnSave: __gong__New__ModelPkgFormCallback(
 				nil,
-				modelpkgFormCallback.playground,
+				modelpkgFormCallback.probe,
 			),
-		}).Stage(modelpkgFormCallback.playground.formStage)
+		}).Stage(modelpkgFormCallback.probe.formStage)
 		modelpkg := new(models.ModelPkg)
-		FillUpForm(modelpkg, newFormGroup, modelpkgFormCallback.playground)
-		modelpkgFormCallback.playground.formStage.Commit()
+		FillUpForm(modelpkg, newFormGroup, modelpkgFormCallback.probe)
+		modelpkgFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(modelpkgFormCallback.playground)
+	fillUpTree(modelpkgFormCallback.probe)
 }
 func __gong__New__PointerToGongStructFieldFormCallback(
 	pointertogongstructfield *models.PointerToGongStructField,
-	playground *Playground,
+	probe *Probe,
 ) (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback) {
 	pointertogongstructfieldFormCallback = new(PointerToGongStructFieldFormCallback)
-	pointertogongstructfieldFormCallback.playground = playground
+	pointertogongstructfieldFormCallback.probe = probe
 	pointertogongstructfieldFormCallback.pointertogongstructfield = pointertogongstructfield
 
 	pointertogongstructfieldFormCallback.CreationMode = (pointertogongstructfield == nil)
@@ -985,7 +985,7 @@ type PointerToGongStructFieldFormCallback struct {
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
 
-	playground *Playground
+	probe *Probe
 }
 
 func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback) OnSave() {
@@ -994,16 +994,16 @@ func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	pointertogongstructfieldFormCallback.playground.formStage.Checkout()
+	pointertogongstructfieldFormCallback.probe.formStage.Checkout()
 
 	if pointertogongstructfieldFormCallback.pointertogongstructfield == nil {
-		pointertogongstructfieldFormCallback.pointertogongstructfield = new(models.PointerToGongStructField).Stage(pointertogongstructfieldFormCallback.playground.stageOfInterest)
+		pointertogongstructfieldFormCallback.pointertogongstructfield = new(models.PointerToGongStructField).Stage(pointertogongstructfieldFormCallback.probe.stageOfInterest)
 	}
 	pointertogongstructfield_ := pointertogongstructfieldFormCallback.pointertogongstructfield
 	_ = pointertogongstructfield_
 
 	// get the formGroup
-	formGroup := pointertogongstructfieldFormCallback.playground.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
+	formGroup := pointertogongstructfieldFormCallback.probe.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
 
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
@@ -1011,7 +1011,7 @@ func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback
 		case "Name":
 			FormDivBasicFieldToField(&(pointertogongstructfield_.Name), formDiv)
 		case "GongStruct":
-			FormDivSelectFieldToField(&(pointertogongstructfield_.GongStruct), pointertogongstructfieldFormCallback.playground.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(pointertogongstructfield_.GongStruct), pointertogongstructfieldFormCallback.probe.stageOfInterest, formDiv)
 		case "Index":
 			FormDivBasicFieldToField(&(pointertogongstructfield_.Index), formDiv)
 		case "CompositeStructName":
@@ -1024,8 +1024,8 @@ func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback
 			rf.GongstructName = "GongStruct"
 			rf.Fieldname = "PointerToGongStructFields"
 			reverseFieldOwner := orm.GetReverseFieldOwner(
-				pointertogongstructfieldFormCallback.playground.stageOfInterest,
-				pointertogongstructfieldFormCallback.playground.backRepoOfInterest,
+				pointertogongstructfieldFormCallback.probe.stageOfInterest,
+				pointertogongstructfieldFormCallback.probe.backRepoOfInterest,
 				pointertogongstructfield_,
 				&rf)
 
@@ -1041,7 +1041,7 @@ func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback
 				// we need to retrieve the field owner after the change
 				// parse all astrcut and get the one with the name in the
 				// div
-				for _gongstruct := range *models.GetGongstructInstancesSet[models.GongStruct](pointertogongstructfieldFormCallback.playground.stageOfInterest) {
+				for _gongstruct := range *models.GetGongstructInstancesSet[models.GongStruct](pointertogongstructfieldFormCallback.probe.stageOfInterest) {
 
 					// the match is base on the name
 					if _gongstruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
@@ -1061,35 +1061,35 @@ func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback
 		}
 	}
 
-	pointertogongstructfieldFormCallback.playground.stageOfInterest.Commit()
+	pointertogongstructfieldFormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.PointerToGongStructField](
-		pointertogongstructfieldFormCallback.playground,
+		pointertogongstructfieldFormCallback.probe,
 	)
-	pointertogongstructfieldFormCallback.playground.tableStage.Commit()
+	pointertogongstructfieldFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if pointertogongstructfieldFormCallback.CreationMode {
-		pointertogongstructfieldFormCallback.playground.formStage.Reset()
+		pointertogongstructfieldFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
 			OnSave: __gong__New__PointerToGongStructFieldFormCallback(
 				nil,
-				pointertogongstructfieldFormCallback.playground,
+				pointertogongstructfieldFormCallback.probe,
 			),
-		}).Stage(pointertogongstructfieldFormCallback.playground.formStage)
+		}).Stage(pointertogongstructfieldFormCallback.probe.formStage)
 		pointertogongstructfield := new(models.PointerToGongStructField)
-		FillUpForm(pointertogongstructfield, newFormGroup, pointertogongstructfieldFormCallback.playground)
-		pointertogongstructfieldFormCallback.playground.formStage.Commit()
+		FillUpForm(pointertogongstructfield, newFormGroup, pointertogongstructfieldFormCallback.probe)
+		pointertogongstructfieldFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(pointertogongstructfieldFormCallback.playground)
+	fillUpTree(pointertogongstructfieldFormCallback.probe)
 }
 func __gong__New__SliceOfPointerToGongStructFieldFormCallback(
 	sliceofpointertogongstructfield *models.SliceOfPointerToGongStructField,
-	playground *Playground,
+	probe *Probe,
 ) (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFieldFormCallback) {
 	sliceofpointertogongstructfieldFormCallback = new(SliceOfPointerToGongStructFieldFormCallback)
-	sliceofpointertogongstructfieldFormCallback.playground = playground
+	sliceofpointertogongstructfieldFormCallback.probe = probe
 	sliceofpointertogongstructfieldFormCallback.sliceofpointertogongstructfield = sliceofpointertogongstructfield
 
 	sliceofpointertogongstructfieldFormCallback.CreationMode = (sliceofpointertogongstructfield == nil)
@@ -1103,7 +1103,7 @@ type SliceOfPointerToGongStructFieldFormCallback struct {
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
 
-	playground *Playground
+	probe *Probe
 }
 
 func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFieldFormCallback) OnSave() {
@@ -1112,16 +1112,16 @@ func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFie
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	sliceofpointertogongstructfieldFormCallback.playground.formStage.Checkout()
+	sliceofpointertogongstructfieldFormCallback.probe.formStage.Checkout()
 
 	if sliceofpointertogongstructfieldFormCallback.sliceofpointertogongstructfield == nil {
-		sliceofpointertogongstructfieldFormCallback.sliceofpointertogongstructfield = new(models.SliceOfPointerToGongStructField).Stage(sliceofpointertogongstructfieldFormCallback.playground.stageOfInterest)
+		sliceofpointertogongstructfieldFormCallback.sliceofpointertogongstructfield = new(models.SliceOfPointerToGongStructField).Stage(sliceofpointertogongstructfieldFormCallback.probe.stageOfInterest)
 	}
 	sliceofpointertogongstructfield_ := sliceofpointertogongstructfieldFormCallback.sliceofpointertogongstructfield
 	_ = sliceofpointertogongstructfield_
 
 	// get the formGroup
-	formGroup := sliceofpointertogongstructfieldFormCallback.playground.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
+	formGroup := sliceofpointertogongstructfieldFormCallback.probe.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
 
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
@@ -1129,7 +1129,7 @@ func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFie
 		case "Name":
 			FormDivBasicFieldToField(&(sliceofpointertogongstructfield_.Name), formDiv)
 		case "GongStruct":
-			FormDivSelectFieldToField(&(sliceofpointertogongstructfield_.GongStruct), sliceofpointertogongstructfieldFormCallback.playground.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(sliceofpointertogongstructfield_.GongStruct), sliceofpointertogongstructfieldFormCallback.probe.stageOfInterest, formDiv)
 		case "Index":
 			FormDivBasicFieldToField(&(sliceofpointertogongstructfield_.Index), formDiv)
 		case "CompositeStructName":
@@ -1142,8 +1142,8 @@ func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFie
 			rf.GongstructName = "GongStruct"
 			rf.Fieldname = "SliceOfPointerToGongStructFields"
 			reverseFieldOwner := orm.GetReverseFieldOwner(
-				sliceofpointertogongstructfieldFormCallback.playground.stageOfInterest,
-				sliceofpointertogongstructfieldFormCallback.playground.backRepoOfInterest,
+				sliceofpointertogongstructfieldFormCallback.probe.stageOfInterest,
+				sliceofpointertogongstructfieldFormCallback.probe.backRepoOfInterest,
 				sliceofpointertogongstructfield_,
 				&rf)
 
@@ -1159,7 +1159,7 @@ func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFie
 				// we need to retrieve the field owner after the change
 				// parse all astrcut and get the one with the name in the
 				// div
-				for _gongstruct := range *models.GetGongstructInstancesSet[models.GongStruct](sliceofpointertogongstructfieldFormCallback.playground.stageOfInterest) {
+				for _gongstruct := range *models.GetGongstructInstancesSet[models.GongStruct](sliceofpointertogongstructfieldFormCallback.probe.stageOfInterest) {
 
 					// the match is base on the name
 					if _gongstruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
@@ -1179,26 +1179,26 @@ func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFie
 		}
 	}
 
-	sliceofpointertogongstructfieldFormCallback.playground.stageOfInterest.Commit()
+	sliceofpointertogongstructfieldFormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.SliceOfPointerToGongStructField](
-		sliceofpointertogongstructfieldFormCallback.playground,
+		sliceofpointertogongstructfieldFormCallback.probe,
 	)
-	sliceofpointertogongstructfieldFormCallback.playground.tableStage.Commit()
+	sliceofpointertogongstructfieldFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if sliceofpointertogongstructfieldFormCallback.CreationMode {
-		sliceofpointertogongstructfieldFormCallback.playground.formStage.Reset()
+		sliceofpointertogongstructfieldFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
 			OnSave: __gong__New__SliceOfPointerToGongStructFieldFormCallback(
 				nil,
-				sliceofpointertogongstructfieldFormCallback.playground,
+				sliceofpointertogongstructfieldFormCallback.probe,
 			),
-		}).Stage(sliceofpointertogongstructfieldFormCallback.playground.formStage)
+		}).Stage(sliceofpointertogongstructfieldFormCallback.probe.formStage)
 		sliceofpointertogongstructfield := new(models.SliceOfPointerToGongStructField)
-		FillUpForm(sliceofpointertogongstructfield, newFormGroup, sliceofpointertogongstructfieldFormCallback.playground)
-		sliceofpointertogongstructfieldFormCallback.playground.formStage.Commit()
+		FillUpForm(sliceofpointertogongstructfield, newFormGroup, sliceofpointertogongstructfieldFormCallback.probe)
+		sliceofpointertogongstructfieldFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(sliceofpointertogongstructfieldFormCallback.playground)
+	fillUpTree(sliceofpointertogongstructfieldFormCallback.probe)
 }
