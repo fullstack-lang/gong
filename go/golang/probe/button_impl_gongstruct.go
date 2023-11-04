@@ -14,19 +14,19 @@ import (
 type ButtonImplGongstruct struct {
 	gongStruct *gong_models.GongStruct
 	Icon       gongtree_buttons.ButtonType
-	playground *Playground
+	probe *Probe
 }
 
 func NewButtonImplGongstruct(
 	gongStruct *gong_models.GongStruct,
 	icon gongtree_buttons.ButtonType,
-	playground *Playground,
+	probe *Probe,
 ) (buttonImplGongstruct *ButtonImplGongstruct) {
 
 	buttonImplGongstruct = new(ButtonImplGongstruct)
 	buttonImplGongstruct.Icon = icon
 	buttonImplGongstruct.gongStruct = gongStruct
-	buttonImplGongstruct.playground = playground
+	buttonImplGongstruct.probe = probe
 
 	return
 }
@@ -38,7 +38,7 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 	log.Println("ButtonImplGongstruct: ButtonUpdated")
 
 	FillUpFormFromGongstructName(
-		buttonImpl.playground,
+		buttonImpl.probe,
 		buttonImpl.gongStruct.Name,
 		true,
 	)

@@ -9,8 +9,8 @@ import (
 	"{{PkgPathRoot}}/models"
 )
 
-func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, playground *Playground) {
-	formStage := playground.formStage
+func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, probe *Probe) {
+	formStage := probe.formStage
 	formStage.Reset()
 	formStage.Commit()
 
@@ -39,8 +39,8 @@ map[string]string{
 			Label: "Update {{Structname}} Form",
 			OnSave: __gong__New__{{Structname}}FormCallback(
 				instancesTyped,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
-		FillUpForm(instancesTyped, formGroup, playground)`,
+		FillUpForm(instancesTyped, formGroup, probe)`,
 }

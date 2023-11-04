@@ -1,6 +1,6 @@
 package stack
 
-const NewStageInstanceTemplate = `// do not modify, generated file
+const StackInstanceTemplate = `// do not modify, generated file
 package stack
 
 import (
@@ -34,7 +34,12 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) 
 	stage.Marshall(file, "{{PkgPathRoot}}/models", "main")
 }
 
-// NewStage initializes and configures a new stage instance for a full-stack application.
+type Stack struct {
+	Probe *probe.Probe
+	Stage *models.StageStruct
+}
+
+// NewStack initializes and configures a new stack instance for a full-stack application.
 // It sets up the backend repository, provides options for unmarshalling from Go code,
 // automatic marshalling on commits, and initializing a probe for monitoring and visualization.
 // The function returns a pointer to the initialized StageStruct.
@@ -53,7 +58,7 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) 
 //   - withProbe bool: If true, initializes a probe for monitoring and visualization.
 //
 // Returns:
-// - *models.StageStruct: Pointer to the initialized stage instance.
+// - *Stack: Pointer to the initialized stack instance.
 //
 // Behavior:
 //  1. Initialize Stage and Backend Repository: Creates a new stage instance and a backend
@@ -68,7 +73,7 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) 
 //  4. Initialize Probe (Optional): If withProbe is true, initializes a probe for monitoring
 //     and visualization.
 //  5. Configure Orchestration: Configures orchestration for various model structures.
-func NewStage(
+func NewStack(
 	r *gin.Engine,
 	stackPath string,
 	unmarshallFromCode string,
@@ -76,15 +81,20 @@ func NewStage(
 	dbFileName string,
 	embeddedDiagrams bool,
 	withProbe bool) (
-	stage *models.StageStruct) {
+	stack *Stack) {
+
+	stack = new(Stack)
 
 	var backRepo *orm.BackRepoStruct
+	var stage *models.StageStruct
 
 	if dbFileName == "" {
 		stage, backRepo = fullstack.NewStackInstance(r, stackPath)
 	} else {
 		stage, backRepo = fullstack.NewStackInstance(r, stackPath, dbFileName)
 	}
+
+	stack.Stage = stage
 
 	if unmarshallFromCode != "" {
 		stage.Checkout()

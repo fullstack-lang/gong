@@ -23,28 +23,28 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 	instance InstanceType,
 	field *[]FieldType,
 	formGroup *form.FormGroup,
-	playground *Playground,
+	probe *Probe,
 ) {
 
 	formDiv := (&form.FormDiv{
 		Name: fieldName,
-	}).Stage(playground.formStage)
+	}).Stage(probe.formStage)
 	formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
 
 	formEditAssocButton := (&form.FormEditAssocButton{
 		Name:  fieldName,
 		Label: fieldName,
-	}).Stage(playground.formStage)
+	}).Stage(probe.formStage)
 	formDiv.FormEditAssocButton = formEditAssocButton
-	onAssocEditon := NewOnAssocEditon(instance, field, fieldName, playground)
+	onAssocEditon := NewOnAssocEditon(instance, field, fieldName, probe)
 	formEditAssocButton.OnAssocEditon = onAssocEditon
 
 	formSortAssocButton := (&form.FormSortAssocButton{
 		Name:  fieldName,
 		Label: fieldName,
-	}).Stage(playground.formStage)
+	}).Stage(probe.formStage)
 	formDiv.FormSortAssocButton = formSortAssocButton
-	onSortingEditon := NewOnSortingEditon(instance, field, playground)
+	onSortingEditon := NewOnSortingEditon(instance, field, probe)
 	formSortAssocButton.OnSortEdition = onSortingEditon
 
 }
@@ -52,33 +52,33 @@ type OnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.Poi
 	instance   InstanceType
 	field      *[]FieldType
 	fieldName  string
-	playground *Playground
+	probe *Probe
 }
 
 func NewOnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct](
 	instance InstanceType,
 	field *[]FieldType,
 	fieldName string,
-	playground *Playground,
+	probe *Probe,
 ) (onAssocEdition *OnAssocEditon[InstanceType, FieldType]) {
 
 	onAssocEdition = new(OnAssocEditon[InstanceType, FieldType])
 	onAssocEdition.instance = instance
 	onAssocEdition.field = field
 	onAssocEdition.fieldName = fieldName
-	onAssocEdition.playground = playground
+	onAssocEdition.probe = probe
 
 	return
 }
 
 func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 
-	tableStackName := onAssocEditon.playground.formStage.GetPath() + string(form.StackNamePostFixForTableForAssociation)
+	tableStackName := onAssocEditon.probe.formStage.GetPath() + string(form.StackNamePostFixForTableForAssociation)
 
 	// tableStackName supposed to be "test-form-table"
-	tableStageForSelection, _ := gongtable_fullstack.NewStackInstance(onAssocEditon.playground.r, tableStackName)
+	tableStageForSelection, _ := gongtable_fullstack.NewStackInstance(onAssocEditon.probe.r, tableStackName)
 
-	instanceSet := *models.GetGongstructInstancesSetFromPointerType[FieldType](onAssocEditon.playground.stageOfInterest)
+	instanceSet := *models.GetGongstructInstancesSetFromPointerType[FieldType](onAssocEditon.probe.stageOfInterest)
 	instanceSlice := make([]FieldType, 0)
 	for instance := range instanceSet {
 		instanceSlice = append(instanceSlice, instance)
@@ -133,7 +133,7 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 		onAssocEditon.instance,
 		onAssocEditon.field,
 		onAssocEditon.fieldName,
-		onAssocEditon.playground)
+		onAssocEditon.probe)
 
 	tableStageForSelection.Commit()
 }
@@ -142,7 +142,7 @@ func NewTablePickSaver[InstanceType models.PointerToGongstruct, FieldType models
 	instance InstanceType,
 	field *[]FieldType,
 	fieldName string,
-	playground *Playground,
+	probe *Probe,
 
 ) (tablePickSaver *TablePickSaver[InstanceType, FieldType]) {
 
@@ -150,7 +150,7 @@ func NewTablePickSaver[InstanceType models.PointerToGongstruct, FieldType models
 	tablePickSaver.instance = instance
 	tablePickSaver.field = field
 	tablePickSaver.fieldName = fieldName
-	tablePickSaver.playground = playground
+	tablePickSaver.probe = probe
 
 	return
 }
@@ -159,7 +159,7 @@ type TablePickSaver[InstanceType models.PointerToGongstruct, FieldType models.Po
 	instance   InstanceType
 	field      *[]FieldType
 	fieldName  string
-	playground *Playground
+	probe *Probe
 }
 
 func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(
@@ -170,7 +170,7 @@ func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(
 	// checkout to the stage to get the rows that have been checked and not
 	stage.Checkout()
 
-	instanceSet := *models.GetGongstructInstancesSetFromPointerType[FieldType](tablePickSaver.playground.stageOfInterest)
+	instanceSet := *models.GetGongstructInstancesSetFromPointerType[FieldType](tablePickSaver.probe.stageOfInterest)
 	instanceSlice := make([]FieldType, 0)
 	for instance := range instanceSet {
 		instanceSlice = append(instanceSlice, instance)
@@ -190,18 +190,18 @@ func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(
 
 	// first, force commit of instance for taking into account the slice
 	models.EvictInOtherSlices(
-		tablePickSaver.playground.stageOfInterest,
+		tablePickSaver.probe.stageOfInterest,
 		tablePickSaver.instance,
 		*tablePickSaver.field,
 		tablePickSaver.fieldName)
 
 	// commit the whole
-	tablePickSaver.playground.stageOfInterest.Commit()
+	tablePickSaver.probe.stageOfInterest.Commit()
 
 	// see the result
 	fillUpTablePointerToGongstruct[InstanceType](
-		tablePickSaver.playground,
+		tablePickSaver.probe,
 	)
-	tablePickSaver.playground.tableStage.Commit()
+	tablePickSaver.probe.tableStage.Commit()
 }
 `

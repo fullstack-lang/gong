@@ -15,36 +15,36 @@ import (
 )
 
 func fillUpTablePointerToGongstruct[T models.PointerToGongstruct](
-	playground *Playground,
+	probe *Probe,
 ) {
 	var typedInstance T
 	switch any(typedInstance).(type) {
 	// insertion point
 	case *models.Astruct:
-		fillUpTable[models.Astruct](playground)
+		fillUpTable[models.Astruct](probe)
 	case *models.AstructBstruct2Use:
-		fillUpTable[models.AstructBstruct2Use](playground)
+		fillUpTable[models.AstructBstruct2Use](probe)
 	case *models.AstructBstructUse:
-		fillUpTable[models.AstructBstructUse](playground)
+		fillUpTable[models.AstructBstructUse](probe)
 	case *models.Bstruct:
-		fillUpTable[models.Bstruct](playground)
+		fillUpTable[models.Bstruct](probe)
 	case *models.Dstruct:
-		fillUpTable[models.Dstruct](playground)
+		fillUpTable[models.Dstruct](probe)
 	case *models.Fstruct:
-		fillUpTable[models.Fstruct](playground)
+		fillUpTable[models.Fstruct](probe)
 	default:
 		log.Println("unknow type")
 	}
 }
 
 func fillUpTable[T models.Gongstruct](
-	playground *Playground,
+	probe *Probe,
 ) {
 
-	playground.tableStage.Reset()
-	playground.tableStage.Commit()
+	probe.tableStage.Reset()
+	probe.tableStage.Commit()
 
-	table := new(gongtable.Table).Stage(playground.tableStage)
+	table := new(gongtable.Table).Stage(probe.tableStage)
 	table.Name = "Table"
 	table.HasColumnSorting = true
 	table.HasFiltering = true
@@ -58,9 +58,9 @@ func fillUpTable[T models.Gongstruct](
 	table.NbOfStickyColumns = 3
 
 	// refresh the stage of interest
-	playground.stageOfInterest.Checkout()
+	probe.stageOfInterest.Checkout()
 
-	setOfStructs := (*models.GetGongstructInstancesSet[T](playground.stageOfInterest))
+	setOfStructs := (*models.GetGongstructInstancesSet[T](probe.stageOfInterest))
 	sliceOfGongStructsSorted := make([]*T, len(setOfStructs))
 	i := 0
 	for k := range setOfStructs {
@@ -69,42 +69,42 @@ func fillUpTable[T models.Gongstruct](
 	}
 	sort.Slice(sliceOfGongStructsSorted, func(i, j int) bool {
 		return orm.GetID(
-			playground.stageOfInterest,
-			playground.backRepoOfInterest,
+			probe.stageOfInterest,
+			probe.backRepoOfInterest,
 			sliceOfGongStructsSorted[i],
 		) <
 			orm.GetID(
-				playground.stageOfInterest,
-				playground.backRepoOfInterest,
+				probe.stageOfInterest,
+				probe.backRepoOfInterest,
 				sliceOfGongStructsSorted[j],
 			)
 	})
 
-	column := new(gongtable.DisplayedColumn).Stage(playground.tableStage)
+	column := new(gongtable.DisplayedColumn).Stage(probe.tableStage)
 	column.Name = "ID"
 	table.DisplayedColumns = append(table.DisplayedColumns, column)
 
-	column = new(gongtable.DisplayedColumn).Stage(playground.tableStage)
+	column = new(gongtable.DisplayedColumn).Stage(probe.tableStage)
 	column.Name = "Delete"
 	table.DisplayedColumns = append(table.DisplayedColumns, column)
 
 	for _, fieldName := range fields {
-		column := new(gongtable.DisplayedColumn).Stage(playground.tableStage)
+		column := new(gongtable.DisplayedColumn).Stage(probe.tableStage)
 		column.Name = fieldName
 		table.DisplayedColumns = append(table.DisplayedColumns, column)
 	}
 	for _, reverseField := range reverseFields {
-		column := new(gongtable.DisplayedColumn).Stage(playground.tableStage)
+		column := new(gongtable.DisplayedColumn).Stage(probe.tableStage)
 		column.Name = "(" + reverseField.GongstructName + ") -> " + reverseField.Fieldname
 		table.DisplayedColumns = append(table.DisplayedColumns, column)
 	}
 
 	fieldIndex := 0
 	for _, structInstance := range sliceOfGongStructsSorted {
-		row := new(gongtable.Row).Stage(playground.tableStage)
+		row := new(gongtable.Row).Stage(probe.tableStage)
 		row.Name = models.GetFieldStringValue[T](*structInstance, "Name")
 
-		updater := NewRowUpdate[T](structInstance, playground)
+		updater := NewRowUpdate[T](structInstance, probe)
 		updater.Instance = structInstance
 		row.Impl = updater
 
@@ -112,27 +112,27 @@ func fillUpTable[T models.Gongstruct](
 
 		cell := (&gongtable.Cell{
 			Name: "ID",
-		}).Stage(playground.tableStage)
+		}).Stage(probe.tableStage)
 		row.Cells = append(row.Cells, cell)
 		cellInt := (&gongtable.CellInt{
 			Name: "ID",
 			Value: orm.GetID(
-				playground.stageOfInterest,
-				playground.backRepoOfInterest,
+				probe.stageOfInterest,
+				probe.backRepoOfInterest,
 				structInstance,
 			),
-		}).Stage(playground.tableStage)
+		}).Stage(probe.tableStage)
 		cell.CellInt = cellInt
 
 		cell = (&gongtable.Cell{
 			Name: "Delete Icon",
-		}).Stage(playground.tableStage)
+		}).Stage(probe.tableStage)
 		row.Cells = append(row.Cells, cell)
 		cellIcon := (&gongtable.CellIcon{
 			Name: "Delete Icon",
 			Icon: string(maticons.BUTTON_delete),
-		}).Stage(playground.tableStage)
-		cellIcon.Impl = NewCellDeleteIconImpl[T](structInstance, playground)
+		}).Stage(probe.tableStage)
+		cellIcon.Impl = NewCellDeleteIconImpl[T](structInstance, probe)
 		cell.CellIcon = cellIcon
 
 		for _, fieldName := range fields {
@@ -142,20 +142,20 @@ func fillUpTable[T models.Gongstruct](
 			// log.Println(fieldName, value)
 			cell := (&gongtable.Cell{
 				Name: name,
-			}).Stage(playground.tableStage)
+			}).Stage(probe.tableStage)
 			row.Cells = append(row.Cells, cell)
 
 			cellString := (&gongtable.CellString{
 				Name:  name,
 				Value: value,
-			}).Stage(playground.tableStage)
+			}).Stage(probe.tableStage)
 			cell.CellString = cellString
 		}
 		for _, reverseField := range reverseFields {
 
 			value := orm.GetReverseFieldOwnerName[T](
-				playground.stageOfInterest,
-				playground.backRepoOfInterest,
+				probe.stageOfInterest,
+				probe.backRepoOfInterest,
 				structInstance,
 				&reverseField)
 			name := fmt.Sprintf("%d", fieldIndex) + " " + value
@@ -163,13 +163,13 @@ func fillUpTable[T models.Gongstruct](
 			// log.Println(fieldName, value)
 			cell := (&gongtable.Cell{
 				Name: name,
-			}).Stage(playground.tableStage)
+			}).Stage(probe.tableStage)
 			row.Cells = append(row.Cells, cell)
 
 			cellString := (&gongtable.CellString{
 				Name:  name,
 				Value: value,
-			}).Stage(playground.tableStage)
+			}).Stage(probe.tableStage)
 			cell.CellString = cellString
 		}
 	}
@@ -177,21 +177,21 @@ func fillUpTable[T models.Gongstruct](
 
 func NewRowUpdate[T models.Gongstruct](
 	Instance *T,
-	playground *Playground,
+	probe *Probe,
 ) (rowUpdate *RowUpdate[T]) {
 	rowUpdate = new(RowUpdate[T])
 	rowUpdate.Instance = Instance
-	rowUpdate.playground = playground
+	rowUpdate.probe = probe
 	return
 }
 
 type RowUpdate[T models.Gongstruct] struct {
 	Instance   *T
-	playground *Playground
+	probe *Probe
 }
 
 func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, updatedRow *gongtable.Row) {
 	log.Println("RowUpdate: RowUpdated", updatedRow.Name)
 
-	FillUpFormFromGongstruct(rowUpdate.Instance, rowUpdate.playground)
+	FillUpFormFromGongstruct(rowUpdate.Instance, rowUpdate.probe)
 }
