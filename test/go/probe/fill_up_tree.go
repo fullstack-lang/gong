@@ -55,11 +55,12 @@ func fillUpTree(
 
 		nodeGongstruct := (&tree.Node{Name: name}).Stage(probe.treeStage)
 
+
 		nodeGongstruct.IsExpanded = false
 		if _, ok := expandedNodesSet[strings.Fields(name)[0]]; ok {
 			nodeGongstruct.IsExpanded = true
 		}
-
+		
 		switch gongStruct.Name {
 		// insertion point
 		case "Astruct":
@@ -121,7 +122,7 @@ func fillUpTree(
 				nodeInstance.Impl = NewInstanceNodeCallback(_fstruct, "Fstruct", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
+			}	
 		}
 
 		nodeGongstruct.IsNodeClickable = true
@@ -146,7 +147,7 @@ func fillUpTree(
 type InstanceNodeCallback[T models.Gongstruct] struct {
 	Instance       *T
 	gongstructName string
-	probe          *Probe
+	probe     *Probe
 }
 
 func NewInstanceNodeCallback[T models.Gongstruct](

@@ -20,8 +20,8 @@ func NewCellDeleteIconImpl[T models.Gongstruct](
 }
 
 type CellDeleteIconImpl[T models.Gongstruct] struct {
-	Instance *T
-	probe    *Probe
+	Instance   *T
+	probe *Probe
 }
 
 func (cellDeleteIconImpl *CellDeleteIconImpl[T]) CellIconUpdated(stage *gongtable.StageStruct,
@@ -51,3 +51,4 @@ func (cellDeleteIconImpl *CellDeleteIconImpl[T]) CellIconUpdated(stage *gongtabl
 	fillUpTree(cellDeleteIconImpl.probe)
 	cellDeleteIconImpl.probe.tableStage.Commit()
 }
+
