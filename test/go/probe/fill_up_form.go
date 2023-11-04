@@ -74,7 +74,7 @@ func FillUpForm[T models.Gongstruct](
 					instanceWithInferedType,
 					formGroup,
 					probe)
-			}
+			}	
 		}
 
 	case *models.AstructBstruct2Use:
@@ -101,7 +101,7 @@ func FillUpForm[T models.Gongstruct](
 					instanceWithInferedType,
 					formGroup,
 					probe)
-			}
+			}	
 		}
 
 	case *models.AstructBstructUse:
@@ -128,7 +128,7 @@ func FillUpForm[T models.Gongstruct](
 					instanceWithInferedType,
 					formGroup,
 					probe)
-			}
+			}	
 		}
 
 	case *models.Bstruct:
@@ -157,7 +157,7 @@ func FillUpForm[T models.Gongstruct](
 					instanceWithInferedType,
 					formGroup,
 					probe)
-			}
+			}	
 		}
 		{
 			var rf models.ReverseField
@@ -179,7 +179,7 @@ func FillUpForm[T models.Gongstruct](
 					instanceWithInferedType,
 					formGroup,
 					probe)
-			}
+			}	
 		}
 		{
 			var rf models.ReverseField
@@ -201,7 +201,7 @@ func FillUpForm[T models.Gongstruct](
 					instanceWithInferedType,
 					formGroup,
 					probe)
-			}
+			}	
 		}
 
 	case *models.Dstruct:

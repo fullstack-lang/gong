@@ -48,10 +48,10 @@ map[FormCallbackGongstructInsertionId]string{
 	FormCallbackPerGongstructCode: `
 func __gong__New__{{Structname}}FormCallback(
 	{{structname}} *models.{{Structname}},
-	playground *Playground,
+	probe *Probe,
 ) ({{structname}}FormCallback *{{Structname}}FormCallback) {
 	{{structname}}FormCallback = new({{Structname}}FormCallback)
-	{{structname}}FormCallback.playground = playground
+	{{structname}}FormCallback.probe = probe
 	{{structname}}FormCallback.{{structname}} = {{structname}}
 
 	{{structname}}FormCallback.CreationMode = ({{structname}} == nil)
@@ -65,7 +65,7 @@ type {{Structname}}FormCallback struct {
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
 
-	playground *Playground
+	probe *Probe
 }
 
 func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
@@ -74,16 +74,16 @@ func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	{{structname}}FormCallback.playground.formStage.Checkout()
+	{{structname}}FormCallback.probe.formStage.Checkout()
 
 	if {{structname}}FormCallback.{{structname}} == nil {
-		{{structname}}FormCallback.{{structname}} = new(models.{{Structname}}).Stage({{structname}}FormCallback.playground.stageOfInterest)
+		{{structname}}FormCallback.{{structname}} = new(models.{{Structname}}).Stage({{structname}}FormCallback.probe.stageOfInterest)
 	}
 	{{structname}}_ := {{structname}}FormCallback.{{structname}}
 	_ = {{structname}}_
 
 	// get the formGroup
-	formGroup := {{structname}}FormCallback.playground.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
+	formGroup := {{structname}}FormCallback.probe.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
 
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
@@ -91,28 +91,28 @@ func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
 		}
 	}
 
-	{{structname}}FormCallback.playground.stageOfInterest.Commit()
+	{{structname}}FormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.{{Structname}}](
-		{{structname}}FormCallback.playground,
+		{{structname}}FormCallback.probe,
 	)
-	{{structname}}FormCallback.playground.tableStage.Commit()
+	{{structname}}FormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if {{structname}}FormCallback.CreationMode {
-		{{structname}}FormCallback.playground.formStage.Reset()
+		{{structname}}FormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
 			OnSave: __gong__New__{{Structname}}FormCallback(
 				nil,
-				{{structname}}FormCallback.playground,
+				{{structname}}FormCallback.probe,
 			),
-		}).Stage({{structname}}FormCallback.playground.formStage)
+		}).Stage({{structname}}FormCallback.probe.formStage)
 		{{structname}} := new(models.{{Structname}})
-		FillUpForm({{structname}}, newFormGroup, {{structname}}FormCallback.playground)
-		{{structname}}FormCallback.playground.formStage.Commit()
+		FillUpForm({{structname}}, newFormGroup, {{structname}}FormCallback.probe)
+		{{structname}}FormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree({{structname}}FormCallback.playground)
+	fillUpTree({{structname}}FormCallback.probe)
 }`,
 }
 
@@ -140,7 +140,7 @@ map[FormCallbackSubTemplateId]string{
 			FormDivEnumIntFieldToField(&({{structname}}_.{{FieldName}}), formDiv)`,
 	FormCallbackSubTmplPointerToStruct: `
 		case "{{FieldName}}":
-			FormDivSelectFieldToField(&({{structname}}_.{{FieldName}}), {{structname}}FormCallback.playground.stageOfInterest, formDiv)`,
+			FormDivSelectFieldToField(&({{structname}}_.{{FieldName}}), {{structname}}FormCallback.probe.stageOfInterest, formDiv)`,
 	FormCallbackSubTmplSliceOfPointersReversePointer: `
 		case "{{AssocStructName}}:{{FieldName}}":
 			// we need to retrieve the field owner before the change
@@ -150,8 +150,8 @@ map[FormCallbackSubTemplateId]string{
 			rf.GongstructName = "{{AssocStructName}}"
 			rf.Fieldname = "{{FieldName}}"
 			reverseFieldOwner := orm.GetReverseFieldOwner(
-				{{structname}}FormCallback.playground.stageOfInterest,
-				{{structname}}FormCallback.playground.backRepoOfInterest,
+				{{structname}}FormCallback.probe.stageOfInterest,
+				{{structname}}FormCallback.probe.backRepoOfInterest,
 				{{structname}}_,
 				&rf)
 
@@ -167,7 +167,7 @@ map[FormCallbackSubTemplateId]string{
 				// we need to retrieve the field owner after the change
 				// parse all astrcut and get the one with the name in the
 				// div
-				for _{{assocStructName}} := range *models.GetGongstructInstancesSet[models.{{AssocStructName}}]({{structname}}FormCallback.playground.stageOfInterest) {
+				for _{{assocStructName}} := range *models.GetGongstructInstancesSet[models.{{AssocStructName}}]({{structname}}FormCallback.probe.stageOfInterest) {
 
 					// the match is base on the name
 					if _{{assocStructName}}.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {

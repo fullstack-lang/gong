@@ -186,8 +186,8 @@ func NewRowUpdate[T models.Gongstruct](
 }
 
 type RowUpdate[T models.Gongstruct] struct {
-	Instance *T
-	probe    *Probe
+	Instance   *T
+	probe *Probe
 }
 
 func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, updatedRow *gongtable.Row) {

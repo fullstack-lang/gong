@@ -29,7 +29,7 @@ var __dummy_orm_fillup_form = orm.BackRepoStruct{}
 func FillUpForm[T models.Gongstruct](
 	instance *T,
 	formGroup *form.FormGroup,
-	playground *Playground,
+	probe *Probe,
 ) {
 
 	switch instanceWithInferedType := any(instance).(type) {
@@ -75,36 +75,36 @@ var ButtonImplFileFieldFieldSubTemplateCode map[ButtonImplSubTemplateId]string =
 map[ButtonImplSubTemplateId]string{
 
 	ButtonImplSubTmplBasicField: `
-		BasicFieldtoForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, playground.formStage, formGroup, {{isTextArea}})`,
+		BasicFieldtoForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, probe.formStage, formGroup, {{isTextArea}})`,
 	ButtonImplSubTmplBasicFieldEnumString: `
-		EnumTypeStringToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, playground.formStage, formGroup)`,
+		EnumTypeStringToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, probe.formStage, formGroup)`,
 	ButtonImplSubTmplBasicFieldEnumInt: `
-		EnumTypeIntToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, playground.formStage, formGroup)`,
+		EnumTypeIntToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, probe.formStage, formGroup)`,
 	ButtonImplSubTmplPointerField: `
-		AssociationFieldToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, formGroup, playground)`,
+		AssociationFieldToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, formGroup, probe)`,
 	ButtonImplSubTmplSliceOfPointersField: `
-		AssociationSliceToForm("{{FieldName}}", instanceWithInferedType, &instanceWithInferedType.{{FieldName}}, formGroup, playground)`,
+		AssociationSliceToForm("{{FieldName}}", instanceWithInferedType, &instanceWithInferedType.{{FieldName}}, formGroup, probe)`,
 	ButtonImplSubTmplSliceOfPointersReversePointer: `
 		{
 			var rf models.ReverseField
 			_ = rf
 			rf.GongstructName = "{{AssocStructName}}"
 			rf.Fieldname = "{{FieldName}}"
-			reverseFieldOwner := orm.GetReverseFieldOwner(playground.stageOfInterest, playground.backRepoOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := orm.GetReverseFieldOwner(probe.stageOfInterest, probe.backRepoOfInterest, instanceWithInferedType, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.{{AssocStructName}}),
 					"{{FieldName}}",
 					instanceWithInferedType,
 					formGroup,
-					playground)
+					probe)
 			} else {
 				AssociationReverseFieldToForm[*models.{{AssocStructName}}, *models.{{Structname}}](
 					nil,
 					"{{FieldName}}",
 					instanceWithInferedType,
 					formGroup,
-					playground)
+					probe)
 			}	
 		}`,
 }
