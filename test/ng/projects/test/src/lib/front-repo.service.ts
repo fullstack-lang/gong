@@ -22,6 +22,7 @@ import { DstructService } from './dstruct.service'
 import { FstructDB } from './fstruct-db'
 import { FstructService } from './fstruct.service'
 
+export const StackType = "github.com/fullstack-lang/gong/test/go/models"
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template
