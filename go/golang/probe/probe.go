@@ -70,7 +70,7 @@ func NewProbe(
 
 	gongdoc_load.Load(
 		"",
-		"{{PkgPathRoot}}/models",
+		probe.stageOfInterest.GetType(),
 		goModelsDir,
 		goDiagramsDir,
 		r,
