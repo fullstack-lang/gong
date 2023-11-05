@@ -33,9 +33,7 @@ const (
 	NgEnumNbInsertionPoints
 )
 
-//
 // Sub Templates
-//
 type NgEnumSubTemplate int
 
 const (
@@ -54,12 +52,12 @@ var NgEnumHtmlSubTemplateCode map[NgEnumSubTemplate]string = map[NgEnumSubTempla
 // MultiCodeGeneratorNgEnum parses mdlPkg and generates the code for the
 // Enum components
 func CodeGeneratorNgEnum(
-	mdlPkg *models.ModelPkg,
+	modelPkg *models.ModelPkg,
 	pkgName string,
 	matTargetPath string,
 	pkgGoPath string) {
 
-	for _, gongEnum := range mdlPkg.GongEnums {
+	for _, gongEnum := range modelPkg.GongEnums {
 
 		// generate the typescript file
 		codeTS := NgEnumTemplateTS

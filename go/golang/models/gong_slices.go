@@ -122,14 +122,14 @@ map[GongSliceSubTemplateId]string{
 }
 
 func CodeGeneratorModelGongSlice(
-	mdlPkg *models.ModelPkg,
+	modelPkg *models.ModelPkg,
 	pkgName string,
 	pkgPath string,
 	pkgGoPath string) {
 
 	// this code is not robust to empty models
 	// map[Gongstruct]any cannot compile
-	if len(mdlPkg.GongStructs) == 0 {
+	if len(modelPkg.GongStructs) == 0 {
 		return
 	}
 
@@ -143,7 +143,7 @@ func CodeGeneratorModelGongSlice(
 
 	// sort gong structs per name (for reproductibility)
 	gongStructs := []*models.GongStruct{}
-	for _, _struct := range mdlPkg.GongStructs {
+	for _, _struct := range modelPkg.GongStructs {
 		gongStructs = append(gongStructs, _struct)
 	}
 	sort.Slice(gongStructs[:], func(i, j int) bool {
