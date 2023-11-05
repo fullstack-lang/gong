@@ -561,6 +561,12 @@ func main() {
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/button_impl_gongstruct.go"),
 		probe.ButtonImplGongstructFileTemplate)
 
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/button_impl_refresh.go"),
+		probe.ButtonImplRefreshFileTemplate)
+
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
