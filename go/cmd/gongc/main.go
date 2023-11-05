@@ -97,27 +97,27 @@ func main() {
 		if fileInfo.Mode().Perm()&(1<<(uint(7))) == 0 {
 			log.Panicf("Folder %s is not writtable", directory)
 		}
-		gong_models.PathToGoSubDirectory = directory
-		log.Println("backend target path " + gong_models.PathToGoSubDirectory)
+		modelPkg.PathToGoSubDirectory = directory
+		log.Println("backend target path " + modelPkg.PathToGoSubDirectory)
 
-		gong_models.OrmPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "orm")
-		os.RemoveAll(gong_models.OrmPkgGenPath)
-		gong_models.ControllersPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "controllers")
-		os.RemoveAll(gong_models.ControllersPkgGenPath)
-		gong_models.FullstackPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "fullstack")
-		os.RemoveAll(gong_models.FullstackPkgGenPath)
-		gong_models.StackPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "stack")
-		os.RemoveAll(gong_models.StackPkgGenPath)
-		gong_models.StaticPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "static")
-		os.RemoveAll(gong_models.StaticPkgGenPath)
-		gong_models.ProbePkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "probe")
-		os.RemoveAll(gong_models.ProbePkgGenPath)
+		modelPkg.OrmPkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "orm")
+		os.RemoveAll(modelPkg.OrmPkgGenPath)
+		modelPkg.ControllersPkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "controllers")
+		os.RemoveAll(modelPkg.ControllersPkgGenPath)
+		modelPkg.FullstackPkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "fullstack")
+		os.RemoveAll(modelPkg.FullstackPkgGenPath)
+		modelPkg.StackPkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "stack")
+		os.RemoveAll(modelPkg.StackPkgGenPath)
+		modelPkg.StaticPkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "static")
+		os.RemoveAll(modelPkg.StaticPkgGenPath)
+		modelPkg.ProbePkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "probe")
+		os.RemoveAll(modelPkg.ProbePkgGenPath)
 		{
 			directory, err :=
 				filepath.Abs(
 					filepath.Join(*pkgPath,
 						fmt.Sprintf("../../ng/projects/%s/src/lib", modelPkg.Name)))
-			gong_models.NgDataLibrarySourceCodeDirectory = directory
+			modelPkg.NgDataLibrarySourceCodeDirectory = directory
 			if err != nil {
 				log.Panic("Problem with frontend target path " + err.Error())
 			}
@@ -128,7 +128,7 @@ func main() {
 				filepath.Abs(
 					filepath.Join(*pkgPath,
 						fmt.Sprintf("../../ng/projects/%sspecific/src/lib", modelPkg.Name)))
-			gong_models.NgSpecificLibrarySourceCodeDirectory = directory
+			modelPkg.NgSpecificLibrarySourceCodeDirectory = directory
 			if err != nil {
 				log.Panic("Problem with frontend target path " + err.Error())
 			}
@@ -139,21 +139,21 @@ func main() {
 				filepath.Abs(
 					filepath.Join(*pkgPath,
 						fmt.Sprintf("../../ng/projects/%sdatamodel/src/lib", modelPkg.Name)))
-			gong_models.MaterialLibDatamodelTargetPath = directory
+			modelPkg.MaterialLibDatamodelTargetPath = directory
 			if err != nil {
 				log.Panic("Problem with frontend target path " + err.Error())
 			}
 		}
 
 		if !*skipNg {
-			log.Println("Removing all content of " + gong_models.NgDataLibrarySourceCodeDirectory)
-			gong_models.RemoveContents(gong_models.NgDataLibrarySourceCodeDirectory)
+			log.Println("Removing all content of " + modelPkg.NgDataLibrarySourceCodeDirectory)
+			gong_models.RemoveContents(modelPkg.NgDataLibrarySourceCodeDirectory)
 		}
 
 		// idealy, one would like to regenerate the datamodel library at each gongc but
 		// there is no "ng" command to remove an existing library from a workspace
 		// if !*skipNg {
-		// 	datamodelLibDir := filepath.Join(gong_models.MaterialLibDatamodelTargetPath, "../..")
+		// 	datamodelLibDir := filepath.Join(modelPkg.MaterialLibDatamodelTargetPath, "../..")
 		// 	log.Println("Removing all content of " + datamodelLibDir)
 		// 	gong_models.RemoveContents(datamodelLibDir)
 		// 	err = os.RemoveAll(datamodelLibDir)
@@ -320,58 +320,58 @@ func main() {
 	}
 
 	// generate directory for orm package
-	errd := os.MkdirAll(gong_models.OrmPkgGenPath, os.ModePerm)
+	errd := os.MkdirAll(modelPkg.OrmPkgGenPath, os.ModePerm)
 	if os.IsNotExist(errd) {
-		log.Println("creating directory : " + gong_models.OrmPkgGenPath)
+		log.Println("creating directory : " + modelPkg.OrmPkgGenPath)
 	}
 	if os.IsExist(errd) {
-		log.Println("directory " + gong_models.OrmPkgGenPath + " allready exists")
+		log.Println("directory " + modelPkg.OrmPkgGenPath + " allready exists")
 
 		// supppress all files in it
 	}
 
 	// generate directory for controllers package
-	errd = os.MkdirAll(gong_models.ControllersPkgGenPath, os.ModePerm)
+	errd = os.MkdirAll(modelPkg.ControllersPkgGenPath, os.ModePerm)
 	if os.IsNotExist(errd) {
-		log.Println("creating directory : " + gong_models.ControllersPkgGenPath)
+		log.Println("creating directory : " + modelPkg.ControllersPkgGenPath)
 	}
 	if os.IsExist(errd) {
-		log.Println("directory " + gong_models.ControllersPkgGenPath + " allready exists")
+		log.Println("directory " + modelPkg.ControllersPkgGenPath + " allready exists")
 	}
 
 	// generate directory for fullstack package
-	errd = os.MkdirAll(gong_models.FullstackPkgGenPath, os.ModePerm)
+	errd = os.MkdirAll(modelPkg.FullstackPkgGenPath, os.ModePerm)
 	if os.IsNotExist(errd) {
-		log.Println("creating directory : " + gong_models.FullstackPkgGenPath)
+		log.Println("creating directory : " + modelPkg.FullstackPkgGenPath)
 	}
 	if os.IsExist(errd) {
-		log.Println("directory " + gong_models.FullstackPkgGenPath + " allready exists")
+		log.Println("directory " + modelPkg.FullstackPkgGenPath + " allready exists")
 	}
 
-	errd = os.MkdirAll(gong_models.StackPkgGenPath, os.ModePerm)
+	errd = os.MkdirAll(modelPkg.StackPkgGenPath, os.ModePerm)
 	if os.IsNotExist(errd) {
-		log.Println("creating directory : " + gong_models.StackPkgGenPath)
+		log.Println("creating directory : " + modelPkg.StackPkgGenPath)
 	}
 	if os.IsExist(errd) {
-		log.Println("directory " + gong_models.StackPkgGenPath + " allready exists")
+		log.Println("directory " + modelPkg.StackPkgGenPath + " allready exists")
 	}
 
 	// generate directory for static package
-	errd = os.MkdirAll(gong_models.StaticPkgGenPath, os.ModePerm)
+	errd = os.MkdirAll(modelPkg.StaticPkgGenPath, os.ModePerm)
 	if os.IsNotExist(errd) {
-		log.Println("creating directory : " + gong_models.StaticPkgGenPath)
+		log.Println("creating directory : " + modelPkg.StaticPkgGenPath)
 	}
 	if os.IsExist(errd) {
-		log.Println("directory " + gong_models.StaticPkgGenPath + " allready exists")
+		log.Println("directory " + modelPkg.StaticPkgGenPath + " allready exists")
 	}
 
 	// generate directory for Data package
-	errd = os.MkdirAll(gong_models.ProbePkgGenPath, os.ModePerm)
+	errd = os.MkdirAll(modelPkg.ProbePkgGenPath, os.ModePerm)
 	if os.IsNotExist(errd) {
-		log.Println("creating directory : " + gong_models.ProbePkgGenPath)
+		log.Println("creating directory : " + modelPkg.ProbePkgGenPath)
 	}
 	if os.IsExist(errd) {
-		log.Println("directory " + gong_models.ProbePkgGenPath + " allready exists")
+		log.Println("directory " + modelPkg.ProbePkgGenPath + " allready exists")
 	}
 
 	// compute source path
@@ -513,13 +513,13 @@ func main() {
 		modelPkg,
 		modelPkg.Name,
 		modelPkg.PkgPath,
-		gong_models.OrmPkgGenPath)
+		modelPkg.OrmPkgGenPath)
 
 	controllers.MultiCodeGeneratorControllers(
 		modelPkg,
 		modelPkg.Name,
 		modelPkg.PkgPath,
-		gong_models.ControllersPkgGenPath)
+		modelPkg.ControllersPkgGenPath)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
@@ -649,7 +649,7 @@ func main() {
 		genFlutter(modelPkg)
 	}
 
-	apiYamlFilePath := fmt.Sprintf("%s/%sapi.yml", gong_models.ControllersPkgGenPath, modelPkg.Name)
+	apiYamlFilePath := fmt.Sprintf("%s/%sapi.yml", modelPkg.ControllersPkgGenPath, modelPkg.Name)
 	if !*skipSwagger {
 
 		// generate open api specification with swagger

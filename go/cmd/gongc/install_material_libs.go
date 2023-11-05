@@ -21,7 +21,7 @@ func installMaterialLibs(modelPkg *gong_models.ModelPkg) {
 		// "No terminal detected. '--skip-confirmation' can be used to bypass installation confirmation.
 		// Ensure package name is correct prior to '--skip-confirmation' option usage."
 		cmd := exec.Command("ng", "add", "@angular/material", "--skip-confirmation")
-		cmd.Dir = gong_models.NgWorkspacePath
+		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Adding angular material\n")
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -48,7 +48,7 @@ func installMaterialLibs(modelPkg *gong_models.ModelPkg) {
 			"material-icons",
 			"@fontsource/open-sans",
 			"@fontsource/roboto")
-		cmd.Dir = gong_models.NgWorkspacePath
+		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Installing some packages\n")
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -74,28 +74,28 @@ func installMaterialLibs(modelPkg *gong_models.ModelPkg) {
 			modelPkg,
 			modelPkg.Name,
 			modelPkg.PkgPath,
-			filepath.Join(gong_models.NgWorkspacePath, "src/app/app.module.ts"),
+			filepath.Join(modelPkg.NgWorkspacePath, "src/app/app.module.ts"),
 			angular.NgFileModule)
 
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
 			modelPkg.Name,
 			modelPkg.PkgPath,
-			filepath.Join(gong_models.NgWorkspacePath, "src/index.html"),
+			filepath.Join(modelPkg.NgWorkspacePath, "src/index.html"),
 			angular.NgFileIndex)
 
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
 			modelPkg.Name,
 			modelPkg.PkgPath,
-			filepath.Join(gong_models.NgWorkspacePath, "src/app/app.component.ts"),
+			filepath.Join(modelPkg.NgWorkspacePath, "src/app/app.component.ts"),
 			angular.NgFileAppComponentTs)
 
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
 			modelPkg.Name,
 			modelPkg.PkgPath,
-			filepath.Join(gong_models.NgWorkspacePath, "src/app/app.component.html"),
+			filepath.Join(modelPkg.NgWorkspacePath, "src/app/app.component.html"),
 			angular.NgFileAppComponentHtml)
 
 	}
