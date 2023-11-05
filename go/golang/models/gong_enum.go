@@ -160,7 +160,7 @@ map[GongModelEnumValueSubTemplateId]string{
 }
 
 func CodeGeneratorModelGongEnum(
-	mdlPkg *models.ModelPkg,
+	modelPkg *models.ModelPkg,
 	pkgName string,
 	pkgPath string) {
 
@@ -176,7 +176,7 @@ func CodeGeneratorModelGongEnum(
 	gongEnums := []*models.GongEnum{}
 	// gongStringEnums := []*models.GongEnum{}
 	// gongIntEnums := []*models.GongEnum{}
-	for _, _enum := range mdlPkg.GongEnums {
+	for _, _enum := range modelPkg.GongEnums {
 		gongEnums = append(gongEnums, _enum)
 		// if _enum.Type == models.String {
 		// 	gongStringEnums = append(gongStringEnums, _enum)

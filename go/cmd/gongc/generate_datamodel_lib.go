@@ -14,7 +14,7 @@ import (
 func generateDatamodelLib(modelPkg *gong_models.ModelPkg) {
 	start := time.Now()
 	cmd := exec.Command("ng", "generate", "component", "data-model-panel", "--project", modelPkg.Name+"datamodel")
-	cmd.Dir = gong_models.NgWorkspacePath
+	cmd.Dir = modelPkg.NgWorkspacePath
 	log.Printf("Creating a specific component %s in the angular workspace\n", "data-model-panel")
 
 	// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
