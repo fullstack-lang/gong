@@ -77,29 +77,21 @@ func installMaterialLibs(modelPkg *gong_models.ModelPkg) {
 	{
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
-			caserEnglish.String(modelPkg.Name),
-			modelPkg.PkgPath,
 			filepath.Join(modelPkg.NgWorkspacePath, "src/app/app.module.ts"),
 			angular.NgFileModule)
 
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
-			modelPkg.Name,
-			modelPkg.PkgPath,
 			filepath.Join(modelPkg.NgWorkspacePath, "src/index.html"),
 			angular.NgFileIndex)
 
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
-			modelPkg.Name,
-			modelPkg.PkgPath,
 			filepath.Join(modelPkg.NgWorkspacePath, "src/app/app.component.ts"),
 			angular.NgFileAppComponentTs)
 
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
-			modelPkg.Name,
-			modelPkg.PkgPath,
 			filepath.Join(modelPkg.NgWorkspacePath, "src/app/app.component.html"),
 			angular.NgFileAppComponentHtml)
 

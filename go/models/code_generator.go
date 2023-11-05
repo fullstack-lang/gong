@@ -6,16 +6,23 @@ import (
 	"os"
 	"sort"
 	"strings"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
+
+var caserEnglish = cases.Title(language.English)
 
 // VerySimpleCodeGenerator generates from elements of mdlPkg the file generatedFilePath with templateCode
 func VerySimpleCodeGenerator(
-	mdlPkg *ModelPkg,
-	pkgName string,
-	pkgGoPath string,
+	modelPkg *ModelPkg,
 	generatedFilePath string,
 	templateCode string) {
-	SimpleCodeGenerator(mdlPkg, pkgName, pkgGoPath, generatedFilePath, templateCode, map[string]string{})
+
+	pkgName := caserEnglish.String(modelPkg.Name)
+	pkgGoPath := modelPkg.PkgPath
+
+	SimpleCodeGenerator(modelPkg, pkgName, pkgGoPath, generatedFilePath, templateCode, map[string]string{})
 }
 
 func VerySimpleCodeGeneratorForGongStructWithNameField(
