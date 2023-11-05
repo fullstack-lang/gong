@@ -112,9 +112,10 @@ import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 // Detail components
 func MultiCodeGeneratorNgClass(
 	mdlPkg *models.ModelPkg,
-	PkgName,
-	MatTargetPath,
-	PkgGoPath string) {
+	MatTargetPath string) {
+
+	PkgName := mdlPkg.Name
+	PkgGoPath := mdlPkg.PkgPath
 
 	// have alphabetical order generation
 	structList := []*models.GongStruct{}
