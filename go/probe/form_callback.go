@@ -940,6 +940,28 @@ func (modelpkgFormCallback *ModelPkgFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(modelpkg_.Name), formDiv)
 		case "PkgPath":
 			FormDivBasicFieldToField(&(modelpkg_.PkgPath), formDiv)
+		case "PathToGoSubDirectory":
+			FormDivBasicFieldToField(&(modelpkg_.PathToGoSubDirectory), formDiv)
+		case "OrmPkgGenPath":
+			FormDivBasicFieldToField(&(modelpkg_.OrmPkgGenPath), formDiv)
+		case "ControllersPkgGenPath":
+			FormDivBasicFieldToField(&(modelpkg_.ControllersPkgGenPath), formDiv)
+		case "FullstackPkgGenPath":
+			FormDivBasicFieldToField(&(modelpkg_.FullstackPkgGenPath), formDiv)
+		case "StackPkgGenPath":
+			FormDivBasicFieldToField(&(modelpkg_.StackPkgGenPath), formDiv)
+		case "StaticPkgGenPath":
+			FormDivBasicFieldToField(&(modelpkg_.StaticPkgGenPath), formDiv)
+		case "ProbePkgGenPath":
+			FormDivBasicFieldToField(&(modelpkg_.ProbePkgGenPath), formDiv)
+		case "NgWorkspacePath":
+			FormDivBasicFieldToField(&(modelpkg_.NgWorkspacePath), formDiv)
+		case "NgDataLibrarySourceCodeDirectory":
+			FormDivBasicFieldToField(&(modelpkg_.NgDataLibrarySourceCodeDirectory), formDiv)
+		case "NgSpecificLibrarySourceCodeDirectory":
+			FormDivBasicFieldToField(&(modelpkg_.NgSpecificLibrarySourceCodeDirectory), formDiv)
+		case "MaterialLibDatamodelTargetPath":
+			FormDivBasicFieldToField(&(modelpkg_.MaterialLibDatamodelTargetPath), formDiv)
 		}
 	}
 

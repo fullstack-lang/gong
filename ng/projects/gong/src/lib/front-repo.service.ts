@@ -40,6 +40,7 @@ import { PointerToGongStructFieldService } from './pointertogongstructfield.serv
 import { SliceOfPointerToGongStructFieldDB } from './sliceofpointertogongstructfield-db'
 import { SliceOfPointerToGongStructFieldService } from './sliceofpointertogongstructfield.service'
 
+export const StackType = "github.com/fullstack-lang/gong/go/models"
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template

@@ -73,6 +73,17 @@ type ModelPkg_WOP struct {
 	// insertion point
 	Name string
 	PkgPath string
+	PathToGoSubDirectory string
+	OrmPkgGenPath string
+	ControllersPkgGenPath string
+	FullstackPkgGenPath string
+	StackPkgGenPath string
+	StaticPkgGenPath string
+	ProbePkgGenPath string
+	NgWorkspacePath string
+	NgDataLibrarySourceCodeDirectory string
+	NgSpecificLibrarySourceCodeDirectory string
+	MaterialLibDatamodelTargetPath string
 }
 
 type PointerToGongStructField_WOP struct {

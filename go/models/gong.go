@@ -196,6 +196,10 @@ type StageStruct struct {
 	// the to be removed stops here
 }
 
+func (stage *StageStruct) GetType() string {
+	return "github.com/fullstack-lang/gong/go/models"
+}
+
 type GONG__Identifier struct {
 	Ident string
 	Type  GONG__ExpressionType
@@ -1843,7 +1847,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case MetaReference:
 		res = []string{"Name"}
 	case ModelPkg:
-		res = []string{"Name", "PkgPath"}
+		res = []string{"Name", "PkgPath", "PathToGoSubDirectory", "OrmPkgGenPath", "ControllersPkgGenPath", "FullstackPkgGenPath", "StackPkgGenPath", "StaticPkgGenPath", "ProbePkgGenPath", "NgWorkspacePath", "NgDataLibrarySourceCodeDirectory", "NgSpecificLibrarySourceCodeDirectory", "MaterialLibDatamodelTargetPath"}
 	case PointerToGongStructField:
 		res = []string{"Name", "GongStruct", "Index", "CompositeStructName"}
 	case SliceOfPointerToGongStructField:
@@ -1953,7 +1957,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *MetaReference:
 		res = []string{"Name"}
 	case *ModelPkg:
-		res = []string{"Name", "PkgPath"}
+		res = []string{"Name", "PkgPath", "PathToGoSubDirectory", "OrmPkgGenPath", "ControllersPkgGenPath", "FullstackPkgGenPath", "StackPkgGenPath", "StaticPkgGenPath", "ProbePkgGenPath", "NgWorkspacePath", "NgDataLibrarySourceCodeDirectory", "NgSpecificLibrarySourceCodeDirectory", "MaterialLibDatamodelTargetPath"}
 	case *PointerToGongStructField:
 		res = []string{"Name", "GongStruct", "Index", "CompositeStructName"}
 	case *SliceOfPointerToGongStructField:
@@ -2115,6 +2119,28 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res = inferedInstance.Name
 		case "PkgPath":
 			res = inferedInstance.PkgPath
+		case "PathToGoSubDirectory":
+			res = inferedInstance.PathToGoSubDirectory
+		case "OrmPkgGenPath":
+			res = inferedInstance.OrmPkgGenPath
+		case "ControllersPkgGenPath":
+			res = inferedInstance.ControllersPkgGenPath
+		case "FullstackPkgGenPath":
+			res = inferedInstance.FullstackPkgGenPath
+		case "StackPkgGenPath":
+			res = inferedInstance.StackPkgGenPath
+		case "StaticPkgGenPath":
+			res = inferedInstance.StaticPkgGenPath
+		case "ProbePkgGenPath":
+			res = inferedInstance.ProbePkgGenPath
+		case "NgWorkspacePath":
+			res = inferedInstance.NgWorkspacePath
+		case "NgDataLibrarySourceCodeDirectory":
+			res = inferedInstance.NgDataLibrarySourceCodeDirectory
+		case "NgSpecificLibrarySourceCodeDirectory":
+			res = inferedInstance.NgSpecificLibrarySourceCodeDirectory
+		case "MaterialLibDatamodelTargetPath":
+			res = inferedInstance.MaterialLibDatamodelTargetPath
 		}
 	case *PointerToGongStructField:
 		switch fieldName {
@@ -2303,6 +2329,28 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = inferedInstance.Name
 		case "PkgPath":
 			res = inferedInstance.PkgPath
+		case "PathToGoSubDirectory":
+			res = inferedInstance.PathToGoSubDirectory
+		case "OrmPkgGenPath":
+			res = inferedInstance.OrmPkgGenPath
+		case "ControllersPkgGenPath":
+			res = inferedInstance.ControllersPkgGenPath
+		case "FullstackPkgGenPath":
+			res = inferedInstance.FullstackPkgGenPath
+		case "StackPkgGenPath":
+			res = inferedInstance.StackPkgGenPath
+		case "StaticPkgGenPath":
+			res = inferedInstance.StaticPkgGenPath
+		case "ProbePkgGenPath":
+			res = inferedInstance.ProbePkgGenPath
+		case "NgWorkspacePath":
+			res = inferedInstance.NgWorkspacePath
+		case "NgDataLibrarySourceCodeDirectory":
+			res = inferedInstance.NgDataLibrarySourceCodeDirectory
+		case "NgSpecificLibrarySourceCodeDirectory":
+			res = inferedInstance.NgSpecificLibrarySourceCodeDirectory
+		case "MaterialLibDatamodelTargetPath":
+			res = inferedInstance.MaterialLibDatamodelTargetPath
 		}
 	case PointerToGongStructField:
 		switch fieldName {
