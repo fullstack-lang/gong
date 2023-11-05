@@ -394,11 +394,11 @@ map[NgLibFrontRepoServiceSubSubTemplate]string{
                 }`,
 }
 
-func CodeGeneratorNgFrontRepo(
-	mdlPkg *models.ModelPkg,
-	pkgName string,
-	matTargetPath string,
-	pkgGoPath string) {
+func CodeGeneratorNgFrontRepo(modelPkg *models.ModelPkg) {
+
+	pkgName := modelPkg.Name
+	matTargetPath := modelPkg.NgDataLibrarySourceCodeDirectory
+	pkgGoPath := modelPkg.PkgPath
 
 	file, err := os.Create(filepath.Join(matTargetPath, "front-repo.service.ts"))
 	if err != nil {
@@ -414,7 +414,7 @@ func CodeGeneratorNgFrontRepo(
 
 	// have alphabetical order generation
 	structList := []*models.GongStruct{}
-	for _, _struct := range mdlPkg.GongStructs {
+	for _, _struct := range modelPkg.GongStructs {
 		if !_struct.HasNameField() || _struct.IsIgnoredForFront {
 			continue
 		}

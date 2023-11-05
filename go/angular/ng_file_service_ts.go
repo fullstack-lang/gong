@@ -255,15 +255,16 @@ import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 // MultiCodeGeneratorNgService generates the code for the
 // services
 func MultiCodeGeneratorNgService(
-	mdlPkg *models.ModelPkg,
-	PkgName,
-	MatTargetPath,
-	PkgGoPath string,
+	modelPkg *models.ModelPkg,
 	apiPath string) {
+
+	PkgName := modelPkg.Name
+	MatTargetPath := modelPkg.NgDataLibrarySourceCodeDirectory
+	PkgGoPath := modelPkg.PkgPath
 
 	// have alphabetical order generation
 	structList := []*models.GongStruct{}
-	for _, _struct := range mdlPkg.GongStructs {
+	for _, _struct := range modelPkg.GongStructs {
 		structList = append(structList, _struct)
 	}
 	sort.Slice(structList[:], func(i, j int) bool {

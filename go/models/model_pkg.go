@@ -15,6 +15,54 @@ type ModelPkg struct {
 	GongStructs map[string]*GongStruct `gorm:"-"` // sql3Lite does not support maps
 	GongEnums   map[string]*GongEnum   `gorm:"-"`
 	GongNotes   map[string]*GongNote   `gorm:"-"`
+
+	// PathToGoSubDirectory for instance "/tmp"
+	PathToGoSubDirectory string
+
+	// OrmPkgGenPath is target path for orm package, for instance "/tmp/libraryorm"
+	OrmPkgGenPath string
+
+	// ControllersPkgGenPath is target path for controllers package
+	ControllersPkgGenPath string
+
+	// FullstackPkgGenPath is target path for Fullstack package
+	FullstackPkgGenPath string
+
+	// StackPkgGenPath is target path for Stack package
+	StackPkgGenPath string
+
+	// StaticPkgGenPath is target path for Static package
+	StaticPkgGenPath string
+
+	// ProbePkgGenPath is target path for Data package
+	ProbePkgGenPath string
+
+	// NgWorkspacePath is the path to the Ng Workspace
+	NgWorkspacePath string
+
+	// NgDataLibrarySourceCodeDirectory is the "<pkgName>/src/lib" directory where,
+	// by angular CLI convention,
+	// the source code for the library's components,
+	// services, modules, and other features are located.
+	//
+	// gongc regenerates at each compilation a material angular library "<pkgName>" for
+	// having the code related to data manipulation of objects of the
+	// stack
+	NgDataLibrarySourceCodeDirectory string
+
+	// NgSpecificLibrarySourceCodeDirectory is the "<pkgName>specific/src/lib"
+	// where the developper stores its specific code for the front component
+	//
+	// This library is generated once at the stack creation
+	NgSpecificLibrarySourceCodeDirectory string
+
+	// MaterialLibDatamodelTargetPath is the "<pkgName>datamodel/src/lib"
+	//
+	// gongc regenerates at each compilation a material angular library "<pkgName>datamodel" for
+	// having the code related to inclusion of the gongdoc stack and the gong stack
+	// for docmenting the stack with UML diagrams (gongdoc) and providing a meta inspection
+	// of the declarations of the stack
+	MaterialLibDatamodelTargetPath string
 }
 
 func (modelPkg *ModelPkg) GetStage() (stage *StageStruct) {

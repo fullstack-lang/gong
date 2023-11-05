@@ -594,14 +594,14 @@ map[ControllerFilPerStructSubTemplate]string{
 // MultiCodeGeneratorControllers parses mdlPkg and generates the code for the
 // back repository code
 func MultiCodeGeneratorControllers(
-	mdlPkg *models.ModelPkg,
+	modelPkg *models.ModelPkg,
 	pkgName string,
 	pkgGoPath string,
 	dirPath string) {
 
 	// have alphabetical order generation
 	structList := []*models.GongStruct{}
-	for _, _struct := range mdlPkg.GongStructs {
+	for _, _struct := range modelPkg.GongStructs {
 		structList = append(structList, _struct)
 	}
 	sort.Slice(structList[:], func(i, j int) bool {
