@@ -243,8 +243,6 @@ func main() {
 			}
 			gong_models.VerySimpleCodeGenerator(
 				modelPkg,
-				modelPkg.Name,
-				modelPkg.PkgPath,
 				diagramsDocFilePath,
 				diagrams.DiagramsDocFile)
 		}
@@ -304,15 +302,11 @@ func main() {
 			time.Sleep(1000 * time.Millisecond)
 			gong_models.VerySimpleCodeGenerator(
 				modelPkg,
-				modelPkg.Name,
-				modelPkg.PkgPath,
 				filepath.Join(vscodeDirFilePath, "launch.json"),
 				vscode.VsCodeLaunchConfig)
 
 			gong_models.VerySimpleCodeGenerator(
 				modelPkg,
-				modelPkg.Name,
-				modelPkg.PkgPath,
 				filepath.Join(vscodeDirFilePath, "tasks.json"),
 				vscode.VsCodeTasksConfig)
 		}
@@ -384,8 +378,7 @@ func main() {
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../../go/embed.go"),
+		filepath.Join(*pkgPath, "../../go/embed.go"),
 		golang.EmebedGoDirTemplate)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
@@ -397,14 +390,12 @@ func main() {
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../stack/stack.go"),
+		filepath.Join(*pkgPath, "../stack/stack.go"),
 		stack.StackInstanceTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../static/serve_static_files.go"),
+		filepath.Join(*pkgPath, "../static/serve_static_files.go"),
 		static.ServeStaticFilesTemplate)
 
 	models.CodeGeneratorModelGong(
@@ -459,8 +450,6 @@ func main() {
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../orm/int_slice.go"),
 		orm.IntSliceTemplateCode)
 
@@ -476,8 +465,7 @@ func main() {
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../controllers/controller.go"),
+		filepath.Join(*pkgPath, "../controllers/controller.go"),
 		controllers.ControllerTemplate)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
@@ -521,12 +509,11 @@ func main() {
 		modelPkg.PkgPath,
 		modelPkg.ControllersPkgGenPath)
 
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
+	gong_models.SimpleCodeGenerator(modelPkg,
+		modelPkg.Name, modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../docs.go"),
-		golang.RootFileDocsTemplate)
+		golang.RootFileDocsTemplate,
+		map[string]string{})
 
 	probe.CodeGeneratorFillUpForm(
 		modelPkg,
@@ -557,14 +544,12 @@ func main() {
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/button_impl_gongstruct.go"),
+		filepath.Join(*pkgPath, "../probe/button_impl_gongstruct.go"),
 		probe.ButtonImplGongstructFileTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/button_impl_refresh.go"),
+		filepath.Join(*pkgPath, "../probe/button_impl_refresh.go"),
 		probe.ButtonImplRefreshFileTemplate)
 
 	gong_models.SimpleCodeGenerator(
@@ -593,8 +578,7 @@ func main() {
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/probe.go"),
+		filepath.Join(*pkgPath, "../probe/probe.go"),
 		probe.ProbeTemplate)
 
 	gong_models.SimpleCodeGenerator(
@@ -605,38 +589,32 @@ func main() {
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/basic_field_to_form.go"),
+		filepath.Join(*pkgPath, "../probe/basic_field_to_form.go"),
 		probe.BasicFieldtoFormTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/association_to_form.go"),
+		filepath.Join(*pkgPath, "../probe/association_to_form.go"),
 		probe.AssociationFieldToFormTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/association_slice_to_form.go"),
+		filepath.Join(*pkgPath, "../probe/association_slice_to_form.go"),
 		probe.AssociationSliceToFormTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/enum_type_to_form.go"),
+		filepath.Join(*pkgPath, "../probe/enum_type_to_form.go"),
 		probe.EnumTypeStringToForm)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/assoc_sorting_button_impl.go"),
+		filepath.Join(*pkgPath, "../probe/assoc_sorting_button_impl.go"),
 		probe.NewOnSortingEditonTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/form_div_field.go"),
+		filepath.Join(*pkgPath, "../probe/form_div_field.go"),
 		probe.FormDivToFieldTemplate)
 
 	// since go mod vendor brings angular dependencies into the vendor directory

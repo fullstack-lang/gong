@@ -146,15 +146,11 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath,
 		filepath.Join(modelPkg.NgWorkspacePath, "projects/embed.go"),
 		golang.GoProjectsGo)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath,
 		filepath.Join(modelPkg.NgWorkspacePath, "../embed_ng_dist_ng.go"),
 		angular.EmebedNgDistNg)
 
