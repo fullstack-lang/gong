@@ -113,38 +113,15 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 		}
 	}
 
-	angular.MultiCodeGeneratorNgClass(
-		modelPkg,
-		modelPkg.NgDataLibrarySourceCodeDirectory,
-	)
+	angular.MultiCodeGeneratorNgClass(modelPkg)
 
-	angular.MultiCodeGeneratorNgService(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath,
-		*addr)
+	angular.MultiCodeGeneratorNgService(modelPkg, *addr)
 
-	angular.CodeGeneratorNgCommitNbFromBack(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath,
-		*addr)
+	angular.CodeGeneratorNgCommitNbFromBack(modelPkg, *addr)
 
-	angular.CodeGeneratorNgNullInt64(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath,
-		*addr)
+	angular.CodeGeneratorNgNullInt64(modelPkg)
 
-	angular.CodeGeneratorNgPushFromFrontNb(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath,
-		*addr)
+	angular.CodeGeneratorNgPushFromFrontNb(modelPkg, *addr)
 
 	angular.CodeGeneratorNgFrontRepo(
 		modelPkg,
@@ -168,25 +145,29 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 	gong_models.VerySimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(modelPkg.NgDataLibrarySourceCodeDirectory, modelPkg.Name+".module.ts"),
+		modelPkg.PkgPath,
+		filepath.Join(modelPkg.NgDataLibrarySourceCodeDirectory, modelPkg.Name+".module.ts"),
 		angular.NgLibModuleTemplate)
 
 	gong_models.VerySimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(modelPkg.NgDataLibrarySourceCodeDirectory, "app-routing.module.ts"),
+		modelPkg.PkgPath,
+		filepath.Join(modelPkg.NgDataLibrarySourceCodeDirectory, "app-routing.module.ts"),
 		angular.NgRoutingTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(modelPkg.NgWorkspacePath, "projects/embed.go"),
+		modelPkg.PkgPath,
+		filepath.Join(modelPkg.NgWorkspacePath, "projects/embed.go"),
 		golang.GoProjectsGo)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(modelPkg.NgWorkspacePath, "../embed_ng_dist_ng.go"),
+		modelPkg.PkgPath,
+		filepath.Join(modelPkg.NgWorkspacePath, "../embed_ng_dist_ng.go"),
 		angular.EmebedNgDistNg)
 
 	// go mod tidy to get the new dependencies

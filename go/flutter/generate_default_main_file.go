@@ -35,18 +35,18 @@ class MyApp extends StatelessWidget {
 `
 
 func GenerateDefaultMainFile(
-	mdlPkg *models.ModelPkg,
+	modelPkg *models.ModelPkg,
 	mainFilePath string) {
 	{
 		codeGo := main_dart_template
 
 		codeGo = models.Replace4(codeGo,
-			"{{PkgName}}", mdlPkg.Name,
-			"{{TitlePkgName}}", strings.Title(mdlPkg.Name),
-			"{{pkgname}}", strings.ToLower(mdlPkg.Name),
-			"{{PkgPathRoot}}", strings.ReplaceAll(mdlPkg.PkgPath, "/models", ""))
+			"{{PkgName}}", modelPkg.Name,
+			"{{TitlePkgName}}", strings.Title(modelPkg.Name),
+			"{{pkgname}}", strings.ToLower(modelPkg.Name),
+			"{{PkgPathRoot}}", strings.ReplaceAll(modelPkg.PkgPath, "/models", ""))
 		codeGo = strings.ReplaceAll(codeGo, "{{PkgPathAboveRoot}}",
-			strings.ReplaceAll(mdlPkg.PkgPath, "/go/models", ""))
+			strings.ReplaceAll(modelPkg.PkgPath, "/go/models", ""))
 
 		file, err := os.Create(mainFilePath)
 		if err != nil {

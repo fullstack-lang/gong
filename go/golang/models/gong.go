@@ -450,7 +450,7 @@ map[GongFilePerStructSubTemplateId]string{
 }
 
 func CodeGeneratorModelGong(
-	mdlPkg *models.ModelPkg,
+	modelPkg *models.ModelPkg,
 	pkgName string,
 	pkgPath string) {
 
@@ -464,7 +464,7 @@ func CodeGeneratorModelGong(
 
 	// sort gong structs per name (for reproductibility)
 	gongStructs := []*models.GongStruct{}
-	for _, _struct := range mdlPkg.GongStructs {
+	for _, _struct := range modelPkg.GongStructs {
 		gongStructs = append(gongStructs, _struct)
 	}
 	sort.Slice(gongStructs[:], func(i, j int) bool {
@@ -672,7 +672,7 @@ func CodeGeneratorModelGong(
 	caserEnglish := cases.Title(language.English)
 	returnType := "*map[Type]any" // to solve the issue of empty model
 	_ = returnType
-	if len(mdlPkg.GongStructs) == 0 {
+	if len(modelPkg.GongStructs) == 0 {
 		returnType = "any"
 	}
 	codeGO = models.Replace6(codeGO,
@@ -681,7 +681,7 @@ func CodeGeneratorModelGong(
 		"{{pkgname}}", strings.ToLower(pkgName),
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def,
 		"{{mapReturnType}}", returnType,
-		"{{PkgPathRoot}}", strings.ReplaceAll(mdlPkg.PkgPath, "/models", ""),
+		"{{PkgPathRoot}}", strings.ReplaceAll(modelPkg.PkgPath, "/models", ""),
 	)
 
 	file, err := os.Create(filepath.Join(pkgPath, "gong.go"))

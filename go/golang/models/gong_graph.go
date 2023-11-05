@@ -161,7 +161,7 @@ map[GongGraphFilePerStructSubTemplateId]string{
 }
 
 func CodeGeneratorModelGongGraph(
-	mdlPkg *models.ModelPkg,
+	modelPkg *models.ModelPkg,
 	pkgName string,
 	pkgPath string) {
 
@@ -175,7 +175,7 @@ func CodeGeneratorModelGongGraph(
 
 	// sort gong structs per name (for reproductibility)
 	gongStructs := []*models.GongStruct{}
-	for _, _struct := range mdlPkg.GongStructs {
+	for _, _struct := range modelPkg.GongStructs {
 		gongStructs = append(gongStructs, _struct)
 	}
 	sort.Slice(gongStructs[:], func(i, j int) bool {
