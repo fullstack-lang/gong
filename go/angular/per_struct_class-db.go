@@ -110,15 +110,15 @@ import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 
 // MultiCodeGeneratorNgTable generates the code for the
 // Detail components
-func MultiCodeGeneratorNgClass(
-	mdlPkg *models.ModelPkg,
-	PkgName,
-	MatTargetPath,
-	PkgGoPath string) {
+func MultiCodeGeneratorNgClass(modelPkg *models.ModelPkg) {
+
+	PkgName := modelPkg.Name
+	PkgGoPath := modelPkg.PkgPath
+	MatTargetPath := modelPkg.NgDataLibrarySourceCodeDirectory
 
 	// have alphabetical order generation
 	structList := []*models.GongStruct{}
-	for _, _struct := range mdlPkg.GongStructs {
+	for _, _struct := range modelPkg.GongStructs {
 		structList = append(structList, _struct)
 	}
 	sort.Slice(structList[:], func(i, j int) bool {

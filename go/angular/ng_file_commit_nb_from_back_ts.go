@@ -96,21 +96,20 @@ export class CommitNbFromBackService {
 // MultiCodeGeneratorNgCommitNb parses mdlPkg and generates the code for the
 // CommitNb components
 func CodeGeneratorNgCommitNbFromBack(
-	mdlPkg *models.ModelPkg,
-	pkgName string,
-	matTargetPath string,
-	pkgGoPath string,
+	modelPkg *models.ModelPkg,
 	apiPath string) {
+
+	matTargetPath := modelPkg.NgDataLibrarySourceCodeDirectory
 
 	codeTS := NgCommitNbFromBackTemplateTS
 	codeTS = strings.ReplaceAll(codeTS, "{{addr}}", apiPath)
 
 	// final replacement
 	codeTS = models.Replace4(codeTS,
-		"{{PkgName}}", mdlPkg.Name,
-		"{{TitlePkgName}}", strings.Title(mdlPkg.Name),
-		"{{pkgname}}", strings.ToLower(mdlPkg.Name),
-		"{{PkgPathRoot}}", strings.ReplaceAll(mdlPkg.PkgPath, "/models", ""))
+		"{{PkgName}}", modelPkg.Name,
+		"{{TitlePkgName}}", strings.Title(modelPkg.Name),
+		"{{pkgname}}", strings.ToLower(modelPkg.Name),
+		"{{PkgPathRoot}}", strings.ReplaceAll(modelPkg.PkgPath, "/models", ""))
 
 	file, err := os.Create(filepath.Join(matTargetPath, "commitnbfromback.service.ts"))
 	if err != nil {

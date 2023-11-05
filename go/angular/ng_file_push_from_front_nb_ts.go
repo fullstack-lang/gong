@@ -104,21 +104,20 @@ export class PushFromFrontNbService {
 // MultiCodeGeneratorNgPushFromFrontNb parses mdlPkg and generates the code for the
 // PushFromFrontNb components
 func CodeGeneratorNgPushFromFrontNb(
-	mdlPkg *models.ModelPkg,
-	pkgName string,
-	matTargetPath string,
-	pkgGoPath string,
+	modelPkg *models.ModelPkg,
 	apiPath string) {
+
+	matTargetPath := modelPkg.NgDataLibrarySourceCodeDirectory
 
 	codeTS := NgPushFromFrontTemplateTS
 	codeTS = strings.ReplaceAll(codeTS, "{{addr}}", apiPath)
 
 	// final replacement
 	codeTS = models.Replace4(codeTS,
-		"{{PkgName}}", mdlPkg.Name,
-		"{{TitlePkgName}}", strings.Title(mdlPkg.Name),
-		"{{pkgname}}", strings.ToLower(mdlPkg.Name),
-		"{{PkgPathRoot}}", strings.ReplaceAll(mdlPkg.PkgPath, "/models", ""))
+		"{{PkgName}}", modelPkg.Name,
+		"{{TitlePkgName}}", strings.Title(modelPkg.Name),
+		"{{pkgname}}", strings.ToLower(modelPkg.Name),
+		"{{PkgPathRoot}}", strings.ReplaceAll(modelPkg.PkgPath, "/models", ""))
 
 	file, err := os.Create(filepath.Join(matTargetPath, "push_from_front_nb.service.ts"))
 	if err != nil {

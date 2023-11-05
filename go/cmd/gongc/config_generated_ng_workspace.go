@@ -17,7 +17,7 @@ import (
 
 func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 
-	angularJsonFile := filepath.Join(gong_models.NgWorkspacePath, "angular.json")
+	angularJsonFile := filepath.Join(modelPkg.NgWorkspacePath, "angular.json")
 
 	// Read the file
 	input, err := os.ReadFile(angularJsonFile)
@@ -77,17 +77,17 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 	// check existance of generated angular library. If absent, use "ng generate libray <library>"
 	// and generate default app application
 	{
-		_, errStat := os.Stat(gong_models.NgDataLibrarySourceCodeDirectory)
-		log.Println("module target abs path " + gong_models.NgDataLibrarySourceCodeDirectory)
+		_, errStat := os.Stat(modelPkg.NgDataLibrarySourceCodeDirectory)
+		log.Println("module target abs path " + modelPkg.NgDataLibrarySourceCodeDirectory)
 
 		if os.IsNotExist(errStat) {
 			log.Printf("library directory %s does not exist, hence gong is generating it with ng generate library command",
-				gong_models.NgDataLibrarySourceCodeDirectory)
+				modelPkg.NgDataLibrarySourceCodeDirectory)
 
 			// generate library project
 			start := time.Now()
 			cmd := exec.Command("ng", "generate", "library", modelPkg.Name, "--defaults=true", "--skip-install=true")
-			cmd.Dir = gong_models.NgWorkspacePath
+			cmd.Dir = modelPkg.NgWorkspacePath
 			log.Printf("Creating a library %s in the angular workspace\n", modelPkg.Name)
 
 			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -108,7 +108,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 			{
 				// patch tsconfig file in order to have the path to the public-api of the
 				// generated library (instead of the path to "dist")
-				filename := filepath.Join(gong_models.NgWorkspacePath, "tsconfig.json")
+				filename := filepath.Join(modelPkg.NgWorkspacePath, "tsconfig.json")
 				gong_models.InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"/src/public-api.ts\",", modelPkg.Name+"\": [")
 
 				gong_models.InsertStringToFile(filename, angular.TsConfigInsertForPaths, "\"paths\": {")
@@ -116,7 +116,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 			}
 			{
 				// patch styles.css file in order have imports of css stuff and work offline
-				filename := filepath.Join(gong_models.NgWorkspacePath, "src", "styles.css")
+				filename := filepath.Join(modelPkg.NgWorkspacePath, "src", "styles.css")
 				gong_models.InsertStringToFile(filename, angular.StylesCssInsert, "/* You can add global styles to this file, and also import other style files */")
 			}
 		}
@@ -124,12 +124,12 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 		// generate the "specific" library that will contains stack specific stuff, that can be reused
 		if os.IsNotExist(errStat) {
 			log.Printf("library directory %sspecific does not exist, hence gong is generating it with ng generate library command",
-				gong_models.NgDataLibrarySourceCodeDirectory)
+				modelPkg.NgDataLibrarySourceCodeDirectory)
 
 			// generate library project
 			start := time.Now()
 			cmd := exec.Command("ng", "generate", "library", modelPkg.Name+"specific", "--defaults=true", "--skip-install=true")
-			cmd.Dir = gong_models.NgWorkspacePath
+			cmd.Dir = modelPkg.NgWorkspacePath
 			log.Printf("Creating a specific library %s in the angular workspace\n", modelPkg.Name)
 
 			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -148,7 +148,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 			}
 			log.Printf("ng generate library is over and took %s", time.Since(start))
 
-			filename := filepath.Join(gong_models.NgWorkspacePath, "tsconfig.json")
+			filename := filepath.Join(modelPkg.NgWorkspacePath, "tsconfig.json")
 			gong_models.InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"specific/src/public-api.ts\",", modelPkg.Name+"specific\": [")
 
 			{
@@ -160,7 +160,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 		if true {
 			start := time.Now()
 			cmd := exec.Command("npm", "i")
-			cmd.Dir = gong_models.NgWorkspacePath
+			cmd.Dir = modelPkg.NgWorkspacePath
 			log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -182,7 +182,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 		// if true {
 
 		// 	// needed till fix of https://github.com/clientIO/joint/issues/2018
-		// 	tsConfigFile := filepath.Join(gong_models.NgWorkspacePath, "tsconfig.json")
+		// 	tsConfigFile := filepath.Join(modelPkg.NgWorkspacePath, "tsconfig.json")
 		// 	// Read the contents of the tsconfig.json file
 		// 	file, err := ioutil.ReadFile(tsConfigFile)
 		// 	if err != nil {

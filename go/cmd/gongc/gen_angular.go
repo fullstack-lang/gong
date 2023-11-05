@@ -28,13 +28,13 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 		if err != nil {
 			log.Panic("Problem with frontend target path " + err.Error())
 		}
-		gong_models.NgWorkspacePath = directory
-		log.Println("module target abs path " + gong_models.NgWorkspacePath)
+		modelPkg.NgWorkspacePath = directory
+		log.Println("module target abs path " + modelPkg.NgWorkspacePath)
 
 		// check existance of angular directory. If absent, use "ng new ng", then generate default app.component.html
-		_, errd := os.Stat(gong_models.NgWorkspacePath)
+		_, errd := os.Stat(modelPkg.NgWorkspacePath)
 		if os.IsNotExist(errd) {
-			log.Printf("ng directory %s does not exist, hence gong is generating it with ng new ng command", gong_models.NgWorkspacePath)
+			log.Printf("ng directory %s does not exist, hence gong is generating it with ng new ng command", modelPkg.NgWorkspacePath)
 
 			// generate ng workspace
 			var cmd *exec.Cmd
@@ -43,7 +43,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 			} else {
 				cmd = exec.Command("ng", "new", "ng", "--defaults=true", "--minimal=true", "--skip-install")
 			}
-			cmd.Dir = filepath.Dir(gong_models.NgWorkspacePath)
+			cmd.Dir = filepath.Dir(modelPkg.NgWorkspacePath)
 			log.Printf("Creating angular workspace\n")
 
 			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -72,7 +72,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 			if !skipNpmInstall {
 				start := time.Now()
 				cmd := exec.Command("npm", "install")
-				cmd.Dir = gong_models.NgWorkspacePath
+				cmd.Dir = modelPkg.NgWorkspacePath
 				log.Printf("Performing default npm install\n")
 
 				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -103,91 +103,55 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 
 	// generates styles
 	{
-		directory, _ := filepath.Abs(gong_models.NgDataLibrarySourceCodeDirectory)
+		directory, _ := filepath.Abs(modelPkg.NgDataLibrarySourceCodeDirectory)
 		errForCreationOfStylesDir := os.MkdirAll(filepath.Join(directory, "styles"), os.ModePerm)
 		if os.IsNotExist(errForCreationOfStylesDir) {
-			log.Println("creating directory : " + gong_models.OrmPkgGenPath)
+			log.Println("creating directory : " + modelPkg.OrmPkgGenPath)
 		}
 		if os.IsExist(errForCreationOfStylesDir) {
-			log.Println("directory " + gong_models.OrmPkgGenPath + " allready exists")
+			log.Println("directory " + modelPkg.OrmPkgGenPath + " allready exists")
 		}
 	}
 
-	angular.MultiCodeGeneratorNgClass(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath)
+	angular.MultiCodeGeneratorNgClass(modelPkg)
 
-	angular.MultiCodeGeneratorNgService(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath,
-		*addr)
+	angular.MultiCodeGeneratorNgService(modelPkg, *addr)
 
-	angular.CodeGeneratorNgCommitNbFromBack(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath,
-		*addr)
+	angular.CodeGeneratorNgCommitNbFromBack(modelPkg, *addr)
 
-	angular.CodeGeneratorNgNullInt64(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath,
-		*addr)
+	angular.CodeGeneratorNgNullInt64(modelPkg)
 
-	angular.CodeGeneratorNgPushFromFrontNb(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath,
-		*addr)
+	angular.CodeGeneratorNgPushFromFrontNb(modelPkg, *addr)
 
-	angular.CodeGeneratorNgFrontRepo(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath)
+	angular.CodeGeneratorNgFrontRepo(modelPkg)
 
-	angular.CodeGeneratorNgEnum(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath)
+	angular.CodeGeneratorNgEnum(modelPkg)
 
-	angular.CodeGeneratorNgPublicApi(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath)
+	angular.CodeGeneratorNgPublicApi(modelPkg)
 
 	caserEnglish := cases.Title(language.English)
 	gong_models.VerySimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(gong_models.NgDataLibrarySourceCodeDirectory, modelPkg.Name+".module.ts"),
+		modelPkg.PkgPath,
+		filepath.Join(modelPkg.NgDataLibrarySourceCodeDirectory, modelPkg.Name+".module.ts"),
 		angular.NgLibModuleTemplate)
 
 	gong_models.VerySimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(gong_models.NgDataLibrarySourceCodeDirectory, "app-routing.module.ts"),
+		modelPkg.PkgPath,
+		filepath.Join(modelPkg.NgDataLibrarySourceCodeDirectory, "app-routing.module.ts"),
 		angular.NgRoutingTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "projects/embed.go"),
+		filepath.Join(modelPkg.NgWorkspacePath, "projects/embed.go"),
 		golang.GoProjectsGo)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "../embed_ng_dist_ng.go"),
+		filepath.Join(modelPkg.NgWorkspacePath, "../embed_ng_dist_ng.go"),
 		angular.EmebedNgDistNg)
 
 	// go mod tidy to get the new dependencies
@@ -243,7 +207,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 	{
 		start := time.Now()
 		cmd := exec.Command("ng", "build")
-		cmd.Dir = gong_models.NgWorkspacePath
+		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go

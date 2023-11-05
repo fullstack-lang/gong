@@ -67,7 +67,7 @@ const codeForNgStaticService = `
 	})`
 
 func CodeGeneratorPackageMain(
-	mdlPkg *models.ModelPkg,
+	modelPkg *models.ModelPkg,
 	pkgName string,
 	pkgGoPath string,
 	mainFilePath string,

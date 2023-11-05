@@ -18,12 +18,9 @@ export class NullInt64 {
 
 // MultiCodeGeneratorNgCommitNb parses mdlPkg and generates the code for the
 // CommitNb components
-func CodeGeneratorNgNullInt64(
-	mdlPkg *models.ModelPkg,
-	pkgName string,
-	matTargetPath string,
-	pkgGoPath string,
-	apiPath string) {
+func CodeGeneratorNgNullInt64(modelPkg *models.ModelPkg) {
+
+	matTargetPath := modelPkg.NgDataLibrarySourceCodeDirectory
 
 	codeTS := NgNullInt64TemplateTS
 
