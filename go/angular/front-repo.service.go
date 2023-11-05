@@ -395,7 +395,7 @@ map[NgLibFrontRepoServiceSubSubTemplate]string{
 }
 
 func CodeGeneratorNgFrontRepo(
-	mdlPkg *models.ModelPkg,
+	modelPkg *models.ModelPkg,
 	pkgName string,
 	matTargetPath string,
 	pkgGoPath string) {
@@ -414,7 +414,7 @@ func CodeGeneratorNgFrontRepo(
 
 	// have alphabetical order generation
 	structList := []*models.GongStruct{}
-	for _, _struct := range mdlPkg.GongStructs {
+	for _, _struct := range modelPkg.GongStructs {
 		if !_struct.HasNameField() || _struct.IsIgnoredForFront {
 			continue
 		}

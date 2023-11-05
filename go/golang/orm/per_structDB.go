@@ -773,14 +773,14 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 // MultiCodeGeneratorBackRepo parses mdlPkg and generates the code for the
 // back repository code
 func MultiCodeGeneratorBackRepo(
-	mdlPkg *models.ModelPkg,
+	modelPkg *models.ModelPkg,
 	pkgName string,
 	pkgGoPath string,
 	dirPath string) {
 
 	// have alphabetical order generation
 	structList := []*models.GongStruct{}
-	for _, _struct := range mdlPkg.GongStructs {
+	for _, _struct := range modelPkg.GongStructs {
 		if _struct.HasNameField() {
 			structList = append(structList, _struct)
 		}

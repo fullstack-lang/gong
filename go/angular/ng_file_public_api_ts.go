@@ -57,7 +57,7 @@ export * from './lib/{{Enumname}}'`,
 // MultiCodeGeneratorNgPublicApi parses mdlPkg and generates the code for the
 // PublicApi components
 func CodeGeneratorNgPublicApi(
-	mdlPkg *models.ModelPkg,
+	modelPkg *models.ModelPkg,
 	pkgName string,
 	matTargetPath string,
 	pkgGoPath string) {
@@ -72,7 +72,7 @@ func CodeGeneratorNgPublicApi(
 
 	// have alphabetical order generation
 	structList := []*models.GongStruct{}
-	for _, _struct := range mdlPkg.GongStructs {
+	for _, _struct := range modelPkg.GongStructs {
 		if !_struct.HasNameField() || _struct.IsIgnoredForFront {
 			continue
 		}
@@ -92,7 +92,7 @@ func CodeGeneratorNgPublicApi(
 
 	// have alphabetical order generation
 	enumList := []*models.GongEnum{}
-	for _, _enum := range mdlPkg.GongEnums {
+	for _, _enum := range modelPkg.GongEnums {
 		enumList = append(enumList, _enum)
 	}
 	sort.Slice(enumList[:], func(i, j int) bool {
