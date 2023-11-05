@@ -51,11 +51,11 @@ var NgEnumHtmlSubTemplateCode map[NgEnumSubTemplate]string = map[NgEnumSubTempla
 
 // MultiCodeGeneratorNgEnum parses mdlPkg and generates the code for the
 // Enum components
-func CodeGeneratorNgEnum(
-	modelPkg *models.ModelPkg,
-	pkgName string,
-	matTargetPath string,
-	pkgGoPath string) {
+func CodeGeneratorNgEnum(modelPkg *models.ModelPkg) {
+
+	pkgName := modelPkg.Name
+	matTargetPath := modelPkg.NgDataLibrarySourceCodeDirectory
+	pkgGoPath := modelPkg.PkgPath
 
 	for _, gongEnum := range modelPkg.GongEnums {
 

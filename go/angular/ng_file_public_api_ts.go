@@ -56,11 +56,11 @@ export * from './lib/{{Enumname}}'`,
 
 // MultiCodeGeneratorNgPublicApi parses mdlPkg and generates the code for the
 // PublicApi components
-func CodeGeneratorNgPublicApi(
-	modelPkg *models.ModelPkg,
-	pkgName string,
-	matTargetPath string,
-	pkgGoPath string) {
+func CodeGeneratorNgPublicApi(modelPkg *models.ModelPkg) {
+
+	pkgName := modelPkg.Name
+	matTargetPath := modelPkg.NgDataLibrarySourceCodeDirectory
+	pkgGoPath := modelPkg.PkgPath
 
 	// generate the typescript file
 	codeTS := NgPublicApiTemplateTS

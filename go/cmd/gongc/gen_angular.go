@@ -123,23 +123,11 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 
 	angular.CodeGeneratorNgPushFromFrontNb(modelPkg, *addr)
 
-	angular.CodeGeneratorNgFrontRepo(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath)
+	angular.CodeGeneratorNgFrontRepo(modelPkg)
 
-	angular.CodeGeneratorNgEnum(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath)
+	angular.CodeGeneratorNgEnum(modelPkg)
 
-	angular.CodeGeneratorNgPublicApi(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath)
+	angular.CodeGeneratorNgPublicApi(modelPkg)
 
 	caserEnglish := cases.Title(language.English)
 	gong_models.VerySimpleCodeGeneratorForGongStructWithNameField(
