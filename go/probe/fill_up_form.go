@@ -193,6 +193,17 @@ func FillUpForm[T models.Gongstruct](
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup, false)
 		BasicFieldtoForm("PkgPath", instanceWithInferedType.PkgPath, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("PathToGoSubDirectory", instanceWithInferedType.PathToGoSubDirectory, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("OrmPkgGenPath", instanceWithInferedType.OrmPkgGenPath, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("ControllersPkgGenPath", instanceWithInferedType.ControllersPkgGenPath, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("FullstackPkgGenPath", instanceWithInferedType.FullstackPkgGenPath, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("StackPkgGenPath", instanceWithInferedType.StackPkgGenPath, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("StaticPkgGenPath", instanceWithInferedType.StaticPkgGenPath, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("ProbePkgGenPath", instanceWithInferedType.ProbePkgGenPath, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("NgWorkspacePath", instanceWithInferedType.NgWorkspacePath, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("NgDataLibrarySourceCodeDirectory", instanceWithInferedType.NgDataLibrarySourceCodeDirectory, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("NgSpecificLibrarySourceCodeDirectory", instanceWithInferedType.NgSpecificLibrarySourceCodeDirectory, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("MaterialLibDatamodelTargetPath", instanceWithInferedType.MaterialLibDatamodelTargetPath, instanceWithInferedType, probe.formStage, formGroup, false)
 
 	case *models.PointerToGongStructField:
 		// insertion point
