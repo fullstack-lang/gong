@@ -20,32 +20,16 @@
     "module": "ES2022",
     "useDefineForClassFields": false,
     "paths": {
-      // 
-      // https://angular.io/guide/creating-libraries#use-typescript-path-mapping-for-peer-dependencies
-      //
-      // Angular libraries should list any @angular/* 
-      // dependencies the library depends on as peer dependencies. This ensures that when modules ask for Angular, 
-      // they all get the exact same module. If a library lists @angular/core in dependencies instead of peerDependencies, 
-      // it might get a different Angular module instead, which would cause your application to break.
-      "@angular/*": [
-        "./node_modules/@angular/*"
-      ],
-      "rxjs/operators": [
-        "./node_modules/rxjs/operators"
-      ],
-      "rxjs": [
-        "./node_modules/rxjs"
-      ],
-      "@angular-material-components/datetime-picker": [
-        "./node_modules/@angular-material-components/datetime-picker"
-      ],
-      "angular-split": [
-        "./node_modules/angular-split"
-      ],
-      "tslib": [
-        "./node_modules/tslib"
+
+      // when the dependant angular component present in "<project>/vendor" directory, it
+      // cannot find the node_modules directory by going recursively up.
+      // therefore one adds the following line to indicate to search in "<project>/ng/nodes_modules"
+      // for "./node_modules" seen from the tsconfig.json directory
+      "*": [
+        "./node_modules/*"
       ],
       "gong": [
+        "projects/gong/src/public-api.ts",
         "../../ng/projects/gong/src/public-api.ts",
         "../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/public-api.ts"
@@ -57,14 +41,11 @@
       "gongdocspecific": [
         "../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdocspecific/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdocspecific/src/public-api.ts"
+
       ],
       "gongsvg": [
         "../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvg/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvg/src/public-api.ts"
-      ],
-      "gongsvgdatamodel": [
-        "../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgdatamodel/src/public-api.ts",
-        "../../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgdatamodel/src/public-api.ts"
       ],
       "gongsvgspecific": [
         "../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgspecific/src/public-api.ts",
@@ -73,10 +54,6 @@
       "gongtree": [
         "../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtree/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtree/src/public-api.ts"
-      ],
-      "gongtreedatamodel": [
-        "../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreedatamodel/src/public-api.ts",
-        "../../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreedatamodel/src/public-api.ts"
       ],
       "gongtreespecific": [
         "../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreespecific/src/public-api.ts",
@@ -90,27 +67,20 @@
         "../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtablespecific/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtablespecific/src/public-api.ts"
       ],
-      "gongtabledatamodel": [
-        "../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtabledatamodel/src/public-api.ts",
-        "../../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtabledatamodel/src/public-api.ts"
-      ],
-      "testdatamodel": [
-        "projects/testdatamodel/src/public-api.ts",
-        "dist/testdatamodel"
+
+      "test": [
+        "projects/test/src/public-api.ts",
+        "dist/test"
       ],
       "testspecific": [
         "projects/testspecific/src/public-api.ts",
         "dist/testspecific"
-      ],
-      "test": [
-        "projects/test/src/public-api.ts",
-        "dist/test"
       ]
     },
     "lib": [
       "ES2022",
       "dom"
-    ],
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -11,7 +11,12 @@ import (
 
 	"github.com/fullstack-lang/gong/go/angular"
 	gong_models "github.com/fullstack-lang/gong/go/models"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
+
+var caserEnglish = cases.Title(language.English)
 
 func installMaterialLibs(modelPkg *gong_models.ModelPkg) {
 	{
@@ -72,7 +77,7 @@ func installMaterialLibs(modelPkg *gong_models.ModelPkg) {
 	{
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
-			modelPkg.Name,
+			caserEnglish.String(modelPkg.Name),
 			modelPkg.PkgPath,
 			filepath.Join(modelPkg.NgWorkspacePath, "src/app/app.module.ts"),
 			angular.NgFileModule)
