@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
   }
 
   StackName = "test"
-  StackType = "github.com/fullstack-lang/gong/test/go/models"
+  StackType = test.StackType
 
   TableExtraPathEnum = gongtable.TableExtraPathEnum
 
