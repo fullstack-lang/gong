@@ -254,6 +254,14 @@ func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice 
 	return
 }
 
+func GetGongstrucsSorted[T PointerToGongstruct](stage *StageStruct) (sortedSlice []T) {
+
+	set := GetGongstructInstancesSetFromPointerType[T](stage)
+	sortedSlice = SortGongstructSetByName(*set)
+
+	return
+}
+
 type GongstructSet interface {
 	map[any]any |
 		// insertion point for generic types{{` + string(rune(ModelGongStructInsertionGenericGongSetTypes)) + `}}
