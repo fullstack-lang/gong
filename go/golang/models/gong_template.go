@@ -246,10 +246,10 @@ func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedList []T) {
+func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice []T) {
 
-	list := maps.Keys(set)
-	slices.SortFunc(list, CompareGongstructByName)
+	sortedSlice = maps.Keys(set)
+	slices.SortFunc(sortedSlice, CompareGongstructByName)
 
 	return
 }
