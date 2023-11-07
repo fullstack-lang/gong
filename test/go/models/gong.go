@@ -2,10 +2,14 @@
 package models
 
 import (
+	"cmp"
 	"errors"
 	"fmt"
 	"math"
+	"slices"
 	"time"
+
+	"golang.org/x/exp/maps"
 )
 
 func __Gong__Abs(x int) int {
@@ -714,6 +718,18 @@ type PointerToGongstruct interface {
 	GetName() string
 	CommitVoid(*StageStruct)
 	UnstageVoid(stage *StageStruct)
+}
+
+func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
+	return cmp.Compare(a.GetName(), b.GetName())
+}
+
+func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedList []T) {
+
+	list := maps.Keys(set)
+	slices.SortFunc(list, CompareGongstructByName)
+
+	return
 }
 
 type GongstructSet interface {

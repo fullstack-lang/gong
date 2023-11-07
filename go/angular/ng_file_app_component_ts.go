@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
   }
 
   StackName = "{{pkgname}}"
-  StackType = "{{PkgPathRoot}}/models"
+  StackType = {{pkgname}}.StackType
 
   TableExtraPathEnum = gongtable.TableExtraPathEnum
 
