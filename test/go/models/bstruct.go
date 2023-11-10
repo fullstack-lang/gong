@@ -14,6 +14,7 @@ type Bstruct struct {
 	Struct interface{} `gorm:"-"` // instruction for gorm ORM
 
 	// swagger:ignore
+	// gong:ignore
 	ToBeIgnored int
 }
 

@@ -33,7 +33,7 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 		}
 		if field.Doc != nil {
 			for _, comment := range field.Doc.List {
-				if strings.Contains(comment.Text, "swagger:ignore") {
+				if strings.Contains(comment.Text, "swagger:ignore") || strings.Contains(comment.Text, "gong:ignore") {
 					isIgnoredField = true
 				}
 				if strings.Contains(comment.Text, "gong:text") {
