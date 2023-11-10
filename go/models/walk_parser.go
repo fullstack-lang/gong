@@ -84,7 +84,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, ignorePa
 
 	map_StructName_hasIgnoreStatement := make(map[string]bool)
 	for _, t := range typeDocumentation.Types {
-		map_StructName_hasIgnoreStatement[t.Name] = strings.Contains(t.Doc, "swagger:ignore")
+		map_StructName_hasIgnoreStatement[t.Name] = strings.Contains(t.Doc, "swagger:ignore") || strings.Contains(t.Doc, "gong:ignore")
 	}
 
 	// in astPackage.Files is the map of filePath to file
