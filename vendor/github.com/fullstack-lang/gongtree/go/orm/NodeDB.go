@@ -93,6 +93,13 @@ type NodeDB struct {
 	// Declation for basic field nodeDB.IsNodeClickable
 	// provide the sql storage for the boolan
 	IsNodeClickable_Data sql.NullBool
+
+	// Declation for basic field nodeDB.IsWithPreceedingIcon
+	// provide the sql storage for the boolan
+	IsWithPreceedingIcon_Data sql.NullBool
+
+	// Declation for basic field nodeDB.PreceedingIcon
+	PreceedingIcon_Data sql.NullString
 	// encoding of pointers
 	NodePointersEncoding
 }
@@ -129,6 +136,10 @@ type NodeWOP struct {
 	IsInEditMode bool `xlsx:"7"`
 
 	IsNodeClickable bool `xlsx:"8"`
+
+	IsWithPreceedingIcon bool `xlsx:"9"`
+
+	PreceedingIcon string `xlsx:"10"`
 	// insertion for WOP pointer fields
 }
 
@@ -143,6 +154,8 @@ var Node_Fields = []string{
 	"IsCheckboxDisabled",
 	"IsInEditMode",
 	"IsNodeClickable",
+	"IsWithPreceedingIcon",
+	"PreceedingIcon",
 }
 
 type BackRepoNodeStruct struct {
@@ -464,6 +477,12 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNode(node *models.Node) {
 
 	nodeDB.IsNodeClickable_Data.Bool = node.IsNodeClickable
 	nodeDB.IsNodeClickable_Data.Valid = true
+
+	nodeDB.IsWithPreceedingIcon_Data.Bool = node.IsWithPreceedingIcon
+	nodeDB.IsWithPreceedingIcon_Data.Valid = true
+
+	nodeDB.PreceedingIcon_Data.String = node.PreceedingIcon
+	nodeDB.PreceedingIcon_Data.Valid = true
 }
 
 // CopyBasicFieldsFromNode_WOP
@@ -493,6 +512,12 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNode_WOP(node *models.Node_WOP) {
 
 	nodeDB.IsNodeClickable_Data.Bool = node.IsNodeClickable
 	nodeDB.IsNodeClickable_Data.Valid = true
+
+	nodeDB.IsWithPreceedingIcon_Data.Bool = node.IsWithPreceedingIcon
+	nodeDB.IsWithPreceedingIcon_Data.Valid = true
+
+	nodeDB.PreceedingIcon_Data.String = node.PreceedingIcon
+	nodeDB.PreceedingIcon_Data.Valid = true
 }
 
 // CopyBasicFieldsFromNodeWOP
@@ -522,6 +547,12 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNodeWOP(node *NodeWOP) {
 
 	nodeDB.IsNodeClickable_Data.Bool = node.IsNodeClickable
 	nodeDB.IsNodeClickable_Data.Valid = true
+
+	nodeDB.IsWithPreceedingIcon_Data.Bool = node.IsWithPreceedingIcon
+	nodeDB.IsWithPreceedingIcon_Data.Valid = true
+
+	nodeDB.PreceedingIcon_Data.String = node.PreceedingIcon
+	nodeDB.PreceedingIcon_Data.Valid = true
 }
 
 // CopyBasicFieldsToNode
@@ -535,6 +566,8 @@ func (nodeDB *NodeDB) CopyBasicFieldsToNode(node *models.Node) {
 	node.IsCheckboxDisabled = nodeDB.IsCheckboxDisabled_Data.Bool
 	node.IsInEditMode = nodeDB.IsInEditMode_Data.Bool
 	node.IsNodeClickable = nodeDB.IsNodeClickable_Data.Bool
+	node.IsWithPreceedingIcon = nodeDB.IsWithPreceedingIcon_Data.Bool
+	node.PreceedingIcon = nodeDB.PreceedingIcon_Data.String
 }
 
 // CopyBasicFieldsToNode_WOP
@@ -548,6 +581,8 @@ func (nodeDB *NodeDB) CopyBasicFieldsToNode_WOP(node *models.Node_WOP) {
 	node.IsCheckboxDisabled = nodeDB.IsCheckboxDisabled_Data.Bool
 	node.IsInEditMode = nodeDB.IsInEditMode_Data.Bool
 	node.IsNodeClickable = nodeDB.IsNodeClickable_Data.Bool
+	node.IsWithPreceedingIcon = nodeDB.IsWithPreceedingIcon_Data.Bool
+	node.PreceedingIcon = nodeDB.PreceedingIcon_Data.String
 }
 
 // CopyBasicFieldsToNodeWOP
@@ -562,6 +597,8 @@ func (nodeDB *NodeDB) CopyBasicFieldsToNodeWOP(node *NodeWOP) {
 	node.IsCheckboxDisabled = nodeDB.IsCheckboxDisabled_Data.Bool
 	node.IsInEditMode = nodeDB.IsInEditMode_Data.Bool
 	node.IsNodeClickable = nodeDB.IsNodeClickable_Data.Bool
+	node.IsWithPreceedingIcon = nodeDB.IsWithPreceedingIcon_Data.Bool
+	node.PreceedingIcon = nodeDB.PreceedingIcon_Data.String
 }
 
 // Backup generates a json file from a slice of all NodeDB instances in the backrepo

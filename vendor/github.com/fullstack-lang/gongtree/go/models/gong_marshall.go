@@ -220,6 +220,18 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsNodeClickable))
 		initializerStatements += setValueField
 
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsWithPreceedingIcon")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsWithPreceedingIcon))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "PreceedingIcon")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(node.PreceedingIcon))
+		initializerStatements += setValueField
+
 	}
 
 	map_Tree_Identifiers := make(map[*Tree]string)

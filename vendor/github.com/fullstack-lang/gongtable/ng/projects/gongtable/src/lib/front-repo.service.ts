@@ -73,6 +73,7 @@ import { RowService } from './row.service'
 import { TableDB } from './table-db'
 import { TableService } from './table.service'
 
+export const StackType = "github.com/fullstack-lang/gongtable/go/models"
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template

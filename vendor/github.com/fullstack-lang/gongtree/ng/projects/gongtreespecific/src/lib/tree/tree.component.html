@@ -2,8 +2,15 @@
     <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
         <!-- This is the tree node template for leaf nodes -->
         <mat-tree-node class="custom-tree-node" [ngStyle]="{'background-color': getNodeBackgroundColor(node)}" *matTreeNodeDef="let node" matTreeNodePadding>
+
+
             <!-- use a disabled button to provide padding for tree leaf -->
             <button mat-icon-button disabled></button>
+            <ng-container *ngIf="node.gongNode.IsWithPreceedingIcon">
+                <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{node.gongNode.PreceedingIcon}}
+                </mat-icon>
+                &nbsp;&nbsp;
+            </ng-container>
             <mat-checkbox *ngIf="node.gongNode.HasCheckboxButton" [disabled]="node.gongNode.IsCheckboxDisabled" [checked]="node.gongNode.IsChecked" (change)="toggleNodeCheckbox(node)">
             </mat-checkbox>
             <div *ngIf='!node.gongNode.IsInEditMode && !node.gongNode.IsNodeClickable'>
@@ -29,12 +36,18 @@
         </mat-tree-node>
         <!-- This is the tree node template for expandable nodes -->
         <mat-tree-node class="custom-tree-node" [ngStyle]="{'background-color': getNodeBackgroundColor(node)}" *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+
             <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name" (click)="toggleNodeExpansion(node)">
                 <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}" class="mat-icon-rtl-mirror">
                     {{treeControl.isExpanded(node) ?
                     'expand_more' : 'chevron_right'}}
                 </mat-icon>
             </button>
+            <ng-container *ngIf="node.gongNode.IsWithPreceedingIcon">
+                <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{node.gongNode.PreceedingIcon}}
+                </mat-icon>
+                &nbsp;&nbsp;
+            </ng-container>
             <mat-checkbox *ngIf="node.gongNode.HasCheckboxButton" [disabled]="node.gongNode.IsCheckboxDisabled" [checked]="node.gongNode.IsChecked" (change)="toggleNodeCheckbox(node)">
             </mat-checkbox>
             <div *ngIf='!node.gongNode.IsInEditMode && !node.gongNode.IsNodeClickable'>

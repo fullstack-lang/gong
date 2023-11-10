@@ -85,6 +85,8 @@ type Link_WOP struct {
 	CornerRadius float64
 	HasEndArrow bool
 	EndArrowSize float64
+	HasStartArrow bool
+	StartArrowSize float64
 	Color string
 	FillOpacity float64
 	Stroke string
