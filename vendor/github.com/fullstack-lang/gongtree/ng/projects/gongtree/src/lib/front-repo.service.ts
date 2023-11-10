@@ -13,6 +13,7 @@ import { NodeService } from './node.service'
 import { TreeDB } from './tree-db'
 import { TreeService } from './tree.service'
 
+export const StackType = "github.com/fullstack-lang/gongtree/go/models"
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template

@@ -28,9 +28,13 @@ type Link struct {
 	// corner radius
 	CornerRadius float64
 
-	// Arrows
+	// End Arrows
 	HasEndArrow  bool
 	EndArrowSize float64
+
+	// Start Arrows
+	HasStartArrow  bool
+	StartArrowSize float64
 
 	// to be displayed at the end
 	TextAtArrowEnd []*LinkAnchoredText

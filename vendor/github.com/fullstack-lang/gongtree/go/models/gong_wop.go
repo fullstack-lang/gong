@@ -23,6 +23,8 @@ type Node_WOP struct {
 	IsCheckboxDisabled bool
 	IsInEditMode bool
 	IsNodeClickable bool
+	IsWithPreceedingIcon bool
+	PreceedingIcon string
 }
 
 type Tree_WOP struct {

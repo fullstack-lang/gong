@@ -21,6 +21,8 @@ export class NodeDB {
 	IsCheckboxDisabled: boolean = false
 	IsInEditMode: boolean = false
 	IsNodeClickable: boolean = false
+	IsWithPreceedingIcon: boolean = false
+	PreceedingIcon: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 	Children: Array<NodeDB> = []

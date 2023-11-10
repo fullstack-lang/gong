@@ -108,8 +108,17 @@
                 />
             <ng-container *ngIf="(i == (segments.length - 1)) && this.Link!.HasEndArrow">
                 <path class="overlay" 
-                
-                    [attr.d]="getArrowPath(segment)"
+                    [attr.d]="getEndArrowPath(segment, this.Link!.EndArrowSize)"
+                    [attr.fill]="Link.Color"
+                    [attr.fill-opacity]="Link.FillOpacity" 
+                    [attr.stroke]="Link.Stroke" 
+                    [attr.stroke-width]="Link.StrokeWidth"
+                    [attr.stroke-dasharray]="Link.StrokeDashArray" 
+                />
+            </ng-container>
+            <ng-container *ngIf="(i == 0) && this.Link!.HasStartArrow">
+                <path class="overlay" 
+                    [attr.d]="getStartArrowPath(segment, this.Link!.StartArrowSize)"
                     [attr.fill]="Link.Color"
                     [attr.fill-opacity]="Link.FillOpacity" 
                     [attr.stroke]="Link.Stroke" 

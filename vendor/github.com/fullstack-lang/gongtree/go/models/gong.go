@@ -102,6 +102,10 @@ type StageStruct struct {
 	// the to be removed stops here
 }
 
+func (stage *StageStruct) GetType() string {
+	return "github.com/fullstack-lang/gongtree/go/models"
+}
+
 type GONG__Identifier struct {
 	Ident string
 	Type  GONG__ExpressionType
@@ -745,7 +749,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Button:
 		res = []string{"Name", "Icon"}
 	case Node:
-		res = []string{"Name", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "IsInEditMode", "IsNodeClickable", "Children", "Buttons"}
+		res = []string{"Name", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "Children", "Buttons"}
 	case Tree:
 		res = []string{"Name", "RootNodes"}
 	}
@@ -798,7 +802,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Button:
 		res = []string{"Name", "Icon"}
 	case *Node:
-		res = []string{"Name", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "IsInEditMode", "IsNodeClickable", "Children", "Buttons"}
+		res = []string{"Name", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "Children", "Buttons"}
 	case *Tree:
 		res = []string{"Name", "RootNodes"}
 	}
@@ -836,6 +840,10 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res = fmt.Sprintf("%t", inferedInstance.IsInEditMode)
 		case "IsNodeClickable":
 			res = fmt.Sprintf("%t", inferedInstance.IsNodeClickable)
+		case "IsWithPreceedingIcon":
+			res = fmt.Sprintf("%t", inferedInstance.IsWithPreceedingIcon)
+		case "PreceedingIcon":
+			res = inferedInstance.PreceedingIcon
 		case "Children":
 			for idx, __instance__ := range inferedInstance.Children {
 				if idx > 0 {
@@ -901,6 +909,10 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%t", inferedInstance.IsInEditMode)
 		case "IsNodeClickable":
 			res = fmt.Sprintf("%t", inferedInstance.IsNodeClickable)
+		case "IsWithPreceedingIcon":
+			res = fmt.Sprintf("%t", inferedInstance.IsWithPreceedingIcon)
+		case "PreceedingIcon":
+			res = inferedInstance.PreceedingIcon
 		case "Children":
 			for idx, __instance__ := range inferedInstance.Children {
 				if idx > 0 {

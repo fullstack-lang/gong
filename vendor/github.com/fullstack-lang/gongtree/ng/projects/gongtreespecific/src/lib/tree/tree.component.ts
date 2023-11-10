@@ -167,8 +167,12 @@ export class TreeComponent implements OnInit {
             if (gongNode && gongNode.Buttons) {
 
               if (gongNode.Buttons.length > 0) {
-                console.log("Button", gongNode.Name)
+                // console.log("Button", gongNode.Name)
               }
+            }
+
+            if (gongNode && gongNode.IsWithPreceedingIcon) {
+              console.log("Node with preceeding icon", gongNode.Name, gongNode.PreceedingIcon)
             }
 
             if (node.gongNode.IsExpanded) {
@@ -195,14 +199,9 @@ export class TreeComponent implements OnInit {
 
     node.gongNode.IsExpanded = !node.gongNode.IsExpanded
 
-    let buttons = node.gongNode.Buttons
-
     this.gongtreeNodeService.updateNode(node.gongNode, this.GONG__StackPath, this.gongtreeFrontRepoService.frontRepo).subscribe(
       gongtreeNode => {
         console.log("toggleNodeExpansion: updated node")
-        if (buttons) {
-          node.gongNode.Buttons = buttons
-        }
       }
     )
   }
@@ -227,41 +226,29 @@ export class TreeComponent implements OnInit {
   }
 
   onButtonClick(node: FlatNode, button: gongtree.ButtonDB) {
-    let buttons = node.gongNode.Buttons
 
     this.gongtreeButtonService.updateButton(button, this.GONG__StackPath, this.gongtreeFrontRepoService.frontRepo).subscribe(
       gongtreeButton => {
         console.log("button pressed")
-        if (buttons) {
-          node.gongNode.Buttons = buttons
-        }
       }
     )
   }
 
   update(node: FlatNode) {
-    let buttons = node.gongNode.Buttons
 
     node.gongNode.IsInEditMode = false
     this.gongtreeNodeService.updateNode(node.gongNode, this.GONG__StackPath, this.gongtreeFrontRepoService.frontRepo).subscribe(
       gongtreeNode => {
         console.log("node.gongNode.IsInEditMode = false, updated node")
-        if (buttons) {
-          node.gongNode.Buttons = buttons
-        }
       }
     )
   }
 
   onNodeClick(node: FlatNode): void {
-    let buttons = node.gongNode.Buttons
 
     this.gongtreeNodeService.updateNode(node.gongNode, this.GONG__StackPath, this.gongtreeFrontRepoService.frontRepo).subscribe(
       gongtreeNode => {
         console.log("onNodeClick: updated node")
-        if (buttons) {
-          node.gongNode.Buttons = buttons
-        }
       }
     )
   }

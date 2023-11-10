@@ -666,6 +666,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Node[identifier].BackgroundColor = fielValue
+				case "PreceedingIcon":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Node[identifier].PreceedingIcon = fielValue
 				}
 			case "Tree":
 				switch fieldName {
@@ -738,6 +742,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_Node[identifier].IsNodeClickable = fielValue
+				case "IsWithPreceedingIcon":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Node[identifier].IsWithPreceedingIcon = fielValue
 				}
 			case "Tree":
 				switch fieldName {

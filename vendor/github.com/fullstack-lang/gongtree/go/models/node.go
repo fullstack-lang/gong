@@ -32,6 +32,12 @@ type Node struct {
 	// when the user hover on the node, it can click
 	IsNodeClickable bool
 
+	// IsWithPreceedingIcon indicates if the node have an icon preceeding the name
+	IsWithPreceedingIcon bool
+
+	// PreceedingIcon if [IsWithPreceedingIcon] is true
+	PreceedingIcon string
+
 	Children []*Node
 
 	Buttons []*Button
