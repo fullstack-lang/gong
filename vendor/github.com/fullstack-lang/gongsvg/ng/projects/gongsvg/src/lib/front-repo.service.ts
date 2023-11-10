@@ -55,6 +55,7 @@ import { SVGService } from './svg.service'
 import { TextDB } from './text-db'
 import { TextService } from './text.service'
 
+export const StackType = "github.com/fullstack-lang/gongsvg/go/models"
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template

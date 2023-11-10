@@ -112,6 +112,13 @@ type LinkDB struct {
 	// Declation for basic field linkDB.EndArrowSize
 	EndArrowSize_Data sql.NullFloat64
 
+	// Declation for basic field linkDB.HasStartArrow
+	// provide the sql storage for the boolan
+	HasStartArrow_Data sql.NullBool
+
+	// Declation for basic field linkDB.StartArrowSize
+	StartArrowSize_Data sql.NullFloat64
+
 	// Declation for basic field linkDB.Color
 	Color_Data sql.NullString
 
@@ -177,19 +184,23 @@ type LinkWOP struct {
 
 	EndArrowSize float64 `xlsx:"12"`
 
-	Color string `xlsx:"13"`
+	HasStartArrow bool `xlsx:"13"`
 
-	FillOpacity float64 `xlsx:"14"`
+	StartArrowSize float64 `xlsx:"14"`
 
-	Stroke string `xlsx:"15"`
+	Color string `xlsx:"15"`
 
-	StrokeWidth float64 `xlsx:"16"`
+	FillOpacity float64 `xlsx:"16"`
 
-	StrokeDashArray string `xlsx:"17"`
+	Stroke string `xlsx:"17"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"18"`
+	StrokeWidth float64 `xlsx:"18"`
 
-	Transform string `xlsx:"19"`
+	StrokeDashArray string `xlsx:"19"`
+
+	StrokeDashArrayWhenSelected string `xlsx:"20"`
+
+	Transform string `xlsx:"21"`
 	// insertion for WOP pointer fields
 }
 
@@ -208,6 +219,8 @@ var Link_Fields = []string{
 	"CornerRadius",
 	"HasEndArrow",
 	"EndArrowSize",
+	"HasStartArrow",
+	"StartArrowSize",
 	"Color",
 	"FillOpacity",
 	"Stroke",
@@ -602,6 +615,12 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLink(link *models.Link) {
 	linkDB.EndArrowSize_Data.Float64 = link.EndArrowSize
 	linkDB.EndArrowSize_Data.Valid = true
 
+	linkDB.HasStartArrow_Data.Bool = link.HasStartArrow
+	linkDB.HasStartArrow_Data.Valid = true
+
+	linkDB.StartArrowSize_Data.Float64 = link.StartArrowSize
+	linkDB.StartArrowSize_Data.Valid = true
+
 	linkDB.Color_Data.String = link.Color
 	linkDB.Color_Data.Valid = true
 
@@ -663,6 +682,12 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLink_WOP(link *models.Link_WOP) {
 
 	linkDB.EndArrowSize_Data.Float64 = link.EndArrowSize
 	linkDB.EndArrowSize_Data.Valid = true
+
+	linkDB.HasStartArrow_Data.Bool = link.HasStartArrow
+	linkDB.HasStartArrow_Data.Valid = true
+
+	linkDB.StartArrowSize_Data.Float64 = link.StartArrowSize
+	linkDB.StartArrowSize_Data.Valid = true
 
 	linkDB.Color_Data.String = link.Color
 	linkDB.Color_Data.Valid = true
@@ -726,6 +751,12 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLinkWOP(link *LinkWOP) {
 	linkDB.EndArrowSize_Data.Float64 = link.EndArrowSize
 	linkDB.EndArrowSize_Data.Valid = true
 
+	linkDB.HasStartArrow_Data.Bool = link.HasStartArrow
+	linkDB.HasStartArrow_Data.Valid = true
+
+	linkDB.StartArrowSize_Data.Float64 = link.StartArrowSize
+	linkDB.StartArrowSize_Data.Valid = true
+
 	linkDB.Color_Data.String = link.Color
 	linkDB.Color_Data.Valid = true
 
@@ -763,6 +794,8 @@ func (linkDB *LinkDB) CopyBasicFieldsToLink(link *models.Link) {
 	link.CornerRadius = linkDB.CornerRadius_Data.Float64
 	link.HasEndArrow = linkDB.HasEndArrow_Data.Bool
 	link.EndArrowSize = linkDB.EndArrowSize_Data.Float64
+	link.HasStartArrow = linkDB.HasStartArrow_Data.Bool
+	link.StartArrowSize = linkDB.StartArrowSize_Data.Float64
 	link.Color = linkDB.Color_Data.String
 	link.FillOpacity = linkDB.FillOpacity_Data.Float64
 	link.Stroke = linkDB.Stroke_Data.String
@@ -787,6 +820,8 @@ func (linkDB *LinkDB) CopyBasicFieldsToLink_WOP(link *models.Link_WOP) {
 	link.CornerRadius = linkDB.CornerRadius_Data.Float64
 	link.HasEndArrow = linkDB.HasEndArrow_Data.Bool
 	link.EndArrowSize = linkDB.EndArrowSize_Data.Float64
+	link.HasStartArrow = linkDB.HasStartArrow_Data.Bool
+	link.StartArrowSize = linkDB.StartArrowSize_Data.Float64
 	link.Color = linkDB.Color_Data.String
 	link.FillOpacity = linkDB.FillOpacity_Data.Float64
 	link.Stroke = linkDB.Stroke_Data.String
@@ -812,6 +847,8 @@ func (linkDB *LinkDB) CopyBasicFieldsToLinkWOP(link *LinkWOP) {
 	link.CornerRadius = linkDB.CornerRadius_Data.Float64
 	link.HasEndArrow = linkDB.HasEndArrow_Data.Bool
 	link.EndArrowSize = linkDB.EndArrowSize_Data.Float64
+	link.HasStartArrow = linkDB.HasStartArrow_Data.Bool
+	link.StartArrowSize = linkDB.StartArrowSize_Data.Float64
 	link.Color = linkDB.Color_Data.String
 	link.FillOpacity = linkDB.FillOpacity_Data.Float64
 	link.Stroke = linkDB.Stroke_Data.String
