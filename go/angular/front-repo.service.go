@@ -236,7 +236,7 @@ import { {{Structname}}Service } from './{{structname}}.service'
 
 	NgLibFrontRepoSwitchGetMap: `
       case '{{Structname}}':
-        return this.{{Structname}}s_array as unknown as Map<number, Type>`,
+        return this.{{Structname}}s as unknown as Map<number, Type>`,
 
 	NgLibFrontRepoObservableArrayType: `
     Observable<{{Structname}}DB[]>,`,
