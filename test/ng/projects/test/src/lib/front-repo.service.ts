@@ -79,17 +79,17 @@ export class FrontRepo { // insertion point sub template
     switch (gongStructName) {
       // insertion point
       case 'Astruct':
-        return this.Astructs_array as unknown as Map<number, Type>
+        return this.Astructs as unknown as Map<number, Type>
       case 'AstructBstruct2Use':
-        return this.AstructBstruct2Uses_array as unknown as Map<number, Type>
+        return this.AstructBstruct2Uses as unknown as Map<number, Type>
       case 'AstructBstructUse':
-        return this.AstructBstructUses_array as unknown as Map<number, Type>
+        return this.AstructBstructUses as unknown as Map<number, Type>
       case 'Bstruct':
-        return this.Bstructs_array as unknown as Map<number, Type>
+        return this.Bstructs as unknown as Map<number, Type>
       case 'Dstruct':
-        return this.Dstructs_array as unknown as Map<number, Type>
+        return this.Dstructs as unknown as Map<number, Type>
       case 'Fstruct':
-        return this.Fstructs_array as unknown as Map<number, Type>
+        return this.Fstructs as unknown as Map<number, Type>
       default:
         throw new Error("Type not recognized");
     }
