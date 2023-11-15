@@ -35,8 +35,9 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) 
 }
 
 type Stack struct {
-	Probe *probe.Probe
-	Stage *models.StageStruct
+	Probe    *probe.Probe
+	Stage    *models.StageStruct
+	BackRepo *orm.BackRepoStruct
 }
 
 // NewStack initializes and configures a new stack instance for a full-stack application.
@@ -95,6 +96,7 @@ func NewStack(
 	}
 
 	stack.Stage = stage
+	stack.BackRepo = backRepo
 
 	if unmarshallFromCode != "" {
 		stage.Checkout()
