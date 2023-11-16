@@ -639,6 +639,13 @@ func (backRepoAstruct *BackRepoAstructStruct) CheckoutPhaseTwoInstance(backRepo 
 	astruct := backRepoAstruct.Map_AstructDBID_AstructPtr[astructDB.ID]
 	_ = astruct // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
+	astructDB.DecodePointers(backRepo, astruct)
+
+	return
+}
+
+func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *models.Astruct) {
+
 	// insertion point for checkout of pointer encoding
 	// Associationtob field
 	astruct.Associationtob = nil
