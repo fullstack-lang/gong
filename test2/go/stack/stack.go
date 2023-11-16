@@ -6,12 +6,12 @@ import (
 	"log"
 	"os"
 
-	"github.com/fullstack-lang/gong/go/fullstack"
-	"github.com/fullstack-lang/gong/go/models"
-	"github.com/fullstack-lang/gong/go/orm"
-	"github.com/fullstack-lang/gong/go/probe"
+	"github.com/fullstack-lang/gong/test2/go/fullstack"
+	"github.com/fullstack-lang/gong/test2/go/models"
+	"github.com/fullstack-lang/gong/test2/go/orm"
+	"github.com/fullstack-lang/gong/test2/go/probe"
 
-	gong_go "github.com/fullstack-lang/gong/go"
+	test2_go "github.com/fullstack-lang/gong/test2/go"
 
 	"github.com/gin-gonic/gin"
 )
@@ -29,7 +29,7 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) 
 	defer file.Close()
 
 	stage.Checkout()
-	stage.Marshall(file, "github.com/fullstack-lang/gong/go/models", "main")
+	stage.Marshall(file, "github.com/fullstack-lang/gong/test2/go/models", "main")
 }
 
 type Stack struct {
@@ -122,7 +122,7 @@ func NewStack(
 	}
 
 	if withProbe {
-		stack.Probe = probe.NewProbe(r, gong_go.GoModelsDir, gong_go.GoDiagramsDir,
+		stack.Probe = probe.NewProbe(r, test2_go.GoModelsDir, test2_go.GoDiagramsDir,
 			embeddedDiagrams, stackPath, stage, backRepo)
 	}
 

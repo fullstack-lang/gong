@@ -12,17 +12,17 @@ import (
 
 type TreeNodeImplGongstruct struct {
 	gongStruct *gong_models.GongStruct
-	playground *Playground
+	probe *Probe
 }
 
 func NewTreeNodeImplGongstruct(
 	gongStruct *gong_models.GongStruct,
-	playground *Playground,
+	probe *Probe,
 ) (nodeImplGongstruct *TreeNodeImplGongstruct) {
 
 	nodeImplGongstruct = new(TreeNodeImplGongstruct)
 	nodeImplGongstruct.gongStruct = gongStruct
-	nodeImplGongstruct.playground = playground
+	nodeImplGongstruct.probe = probe
 	return
 }
 
@@ -53,10 +53,10 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "A" {
-		fillUpTable[models.A](nodeImplGongstruct.playground)
+		fillUpTable[models.A](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "B" {
-		fillUpTable[models.B](nodeImplGongstruct.playground)
+		fillUpTable[models.B](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color
@@ -66,5 +66,5 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	stagedNode.BackgroundColor = "lightgrey"
 	gongtreeStage.Commit()
 
-	nodeImplGongstruct.playground.tableStage.Commit()
+	nodeImplGongstruct.probe.tableStage.Commit()
 }

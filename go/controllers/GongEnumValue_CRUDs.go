@@ -293,6 +293,9 @@ func (controller *Controller) UpdateGongEnumValue(c *gin.Context) {
 	gongenumvalueNew := new(models.GongEnumValue)
 	gongenumvalueDB.CopyBasicFieldsToGongEnumValue(gongenumvalueNew)
 
+	// redeem pointers
+	gongenumvalueDB.DecodePointers(backRepo, gongenumvalueNew)
+
 	// get stage instance from DB instance, and call callback function
 	gongenumvalueOld := backRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValuePtr[gongenumvalueDB.ID]
 	if gongenumvalueOld != nil {

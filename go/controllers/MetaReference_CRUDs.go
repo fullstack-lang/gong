@@ -293,6 +293,9 @@ func (controller *Controller) UpdateMetaReference(c *gin.Context) {
 	metareferenceNew := new(models.MetaReference)
 	metareferenceDB.CopyBasicFieldsToMetaReference(metareferenceNew)
 
+	// redeem pointers
+	metareferenceDB.DecodePointers(backRepo, metareferenceNew)
+
 	// get stage instance from DB instance, and call callback function
 	metareferenceOld := backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferencePtr[metareferenceDB.ID]
 	if metareferenceOld != nil {

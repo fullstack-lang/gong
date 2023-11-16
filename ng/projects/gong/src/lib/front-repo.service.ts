@@ -133,29 +133,29 @@ export class FrontRepo { // insertion point sub template
     switch (gongStructName) {
       // insertion point
       case 'GongBasicField':
-        return this.GongBasicFields_array as unknown as Map<number, Type>
+        return this.GongBasicFields as unknown as Map<number, Type>
       case 'GongEnum':
-        return this.GongEnums_array as unknown as Map<number, Type>
+        return this.GongEnums as unknown as Map<number, Type>
       case 'GongEnumValue':
-        return this.GongEnumValues_array as unknown as Map<number, Type>
+        return this.GongEnumValues as unknown as Map<number, Type>
       case 'GongLink':
-        return this.GongLinks_array as unknown as Map<number, Type>
+        return this.GongLinks as unknown as Map<number, Type>
       case 'GongNote':
-        return this.GongNotes_array as unknown as Map<number, Type>
+        return this.GongNotes as unknown as Map<number, Type>
       case 'GongStruct':
-        return this.GongStructs_array as unknown as Map<number, Type>
+        return this.GongStructs as unknown as Map<number, Type>
       case 'GongTimeField':
-        return this.GongTimeFields_array as unknown as Map<number, Type>
+        return this.GongTimeFields as unknown as Map<number, Type>
       case 'Meta':
-        return this.Metas_array as unknown as Map<number, Type>
+        return this.Metas as unknown as Map<number, Type>
       case 'MetaReference':
-        return this.MetaReferences_array as unknown as Map<number, Type>
+        return this.MetaReferences as unknown as Map<number, Type>
       case 'ModelPkg':
-        return this.ModelPkgs_array as unknown as Map<number, Type>
+        return this.ModelPkgs as unknown as Map<number, Type>
       case 'PointerToGongStructField':
-        return this.PointerToGongStructFields_array as unknown as Map<number, Type>
+        return this.PointerToGongStructFields as unknown as Map<number, Type>
       case 'SliceOfPointerToGongStructField':
-        return this.SliceOfPointerToGongStructFields_array as unknown as Map<number, Type>
+        return this.SliceOfPointerToGongStructFields as unknown as Map<number, Type>
       default:
         throw new Error("Type not recognized");
     }

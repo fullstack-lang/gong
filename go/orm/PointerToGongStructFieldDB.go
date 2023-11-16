@@ -340,7 +340,13 @@ func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) 
 func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, pointertogongstructfieldDB *PointerToGongStructFieldDB) (Error error) {
 
 	pointertogongstructfield := backRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr[pointertogongstructfieldDB.ID]
-	_ = pointertogongstructfield // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	pointertogongstructfieldDB.DecodePointers(backRepo, pointertogongstructfield)
+
+	return
+}
+
+func (pointertogongstructfieldDB *PointerToGongStructFieldDB) DecodePointers(backRepo *BackRepoStruct, pointertogongstructfield *models.PointerToGongStructField) {
 
 	// insertion point for checkout of pointer encoding
 	// GongStruct field
@@ -626,7 +632,7 @@ func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) 
 	return
 }
 
-func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.PointerToGongStructField) (Error error) {
+func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, pointertogongstructfield *models.PointerToGongStructField) (Error error) {
 
 	// fetch matching pointertogongstructfieldDB
 	if pointertogongstructfieldDB, ok := backRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB[idx]; ok {

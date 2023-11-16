@@ -10,6 +10,7 @@ import { AService } from './a.service'
 import { BDB } from './b-db'
 import { BService } from './b.service'
 
+export const StackType = "github.com/fullstack-lang/gong/test2/go/models"
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template
@@ -42,9 +43,9 @@ export class FrontRepo { // insertion point sub template
     switch (gongStructName) {
       // insertion point
       case 'A':
-        return this.As_array as unknown as Map<number, Type>
+        return this.As as unknown as Map<number, Type>
       case 'B':
-        return this.Bs_array as unknown as Map<number, Type>
+        return this.Bs as unknown as Map<number, Type>
       default:
         throw new Error("Type not recognized");
     }

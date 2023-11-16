@@ -293,6 +293,9 @@ func (controller *Controller) UpdateGongLink(c *gin.Context) {
 	gonglinkNew := new(models.GongLink)
 	gonglinkDB.CopyBasicFieldsToGongLink(gonglinkNew)
 
+	// redeem pointers
+	gonglinkDB.DecodePointers(backRepo, gonglinkNew)
+
 	// get stage instance from DB instance, and call callback function
 	gonglinkOld := backRepo.BackRepoGongLink.Map_GongLinkDBID_GongLinkPtr[gonglinkDB.ID]
 	if gonglinkOld != nil {

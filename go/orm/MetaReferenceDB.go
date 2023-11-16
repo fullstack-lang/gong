@@ -312,7 +312,13 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) CheckoutPhaseTwo(backR
 func (backRepoMetaReference *BackRepoMetaReferenceStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, metareferenceDB *MetaReferenceDB) (Error error) {
 
 	metareference := backRepoMetaReference.Map_MetaReferenceDBID_MetaReferencePtr[metareferenceDB.ID]
-	_ = metareference // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	metareferenceDB.DecodePointers(backRepo, metareference)
+
+	return
+}
+
+func (metareferenceDB *MetaReferenceDB) DecodePointers(backRepo *BackRepoStruct, metareference *models.MetaReference) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -563,7 +569,7 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) ResetReversePointers(b
 	return
 }
 
-func (backRepoMetaReference *BackRepoMetaReferenceStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.MetaReference) (Error error) {
+func (backRepoMetaReference *BackRepoMetaReferenceStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, metareference *models.MetaReference) (Error error) {
 
 	// fetch matching metareferenceDB
 	if metareferenceDB, ok := backRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB[idx]; ok {

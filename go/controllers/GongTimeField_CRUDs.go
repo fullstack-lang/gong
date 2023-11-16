@@ -293,6 +293,9 @@ func (controller *Controller) UpdateGongTimeField(c *gin.Context) {
 	gongtimefieldNew := new(models.GongTimeField)
 	gongtimefieldDB.CopyBasicFieldsToGongTimeField(gongtimefieldNew)
 
+	// redeem pointers
+	gongtimefieldDB.DecodePointers(backRepo, gongtimefieldNew)
+
 	// get stage instance from DB instance, and call callback function
 	gongtimefieldOld := backRepo.BackRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr[gongtimefieldDB.ID]
 	if gongtimefieldOld != nil {

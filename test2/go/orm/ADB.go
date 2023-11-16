@@ -347,7 +347,13 @@ func (backRepoA *BackRepoAStruct) CheckoutPhaseTwo(backRepo *BackRepoStruct) (Er
 func (backRepoA *BackRepoAStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, aDB *ADB) (Error error) {
 
 	a := backRepoA.Map_ADBID_APtr[aDB.ID]
-	_ = a // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	aDB.DecodePointers(backRepo, a)
+
+	return
+}
+
+func (aDB *ADB) DecodePointers(backRepo *BackRepoStruct, a *models.A) {
 
 	// insertion point for checkout of pointer encoding
 	// B field
@@ -630,7 +636,7 @@ func (backRepoA *BackRepoAStruct) ResetReversePointers(backRepo *BackRepoStruct)
 	return
 }
 
-func (backRepoA *BackRepoAStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.A) (Error error) {
+func (backRepoA *BackRepoAStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, a *models.A) (Error error) {
 
 	// fetch matching aDB
 	if aDB, ok := backRepoA.Map_ADBID_ADB[idx]; ok {
