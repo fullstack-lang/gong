@@ -637,7 +637,6 @@ func (backRepoAstruct *BackRepoAstructStruct) CheckoutPhaseTwo(backRepo *BackRep
 func (backRepoAstruct *BackRepoAstructStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, astructDB *AstructDB) (Error error) {
 
 	astruct := backRepoAstruct.Map_AstructDBID_AstructPtr[astructDB.ID]
-	_ = astruct // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	astructDB.DecodePointers(backRepo, astruct)
 

@@ -321,7 +321,13 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CheckoutPhaseTwo(bac
 func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, {{structname}}DB *{{Structname}}DB) (Error error) {
 
 	{{structname}} := backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr[{{structname}}DB.ID]
-	_ = {{structname}} // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	{{structname}}DB.DecodePointers(backRepo, {{structname}})
+
+	return
+}
+
+func ({{structname}}DB *{{Structname}}DB) DecodePointers(backRepo *BackRepoStruct, {{structname}} *models.{{Structname}}) {
 
 	// insertion point for checkout of pointer encoding{{` + string(rune(BackRepoPointerEncodingFieldsCheckout)) + `}}
 	return
@@ -560,7 +566,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) ResetReversePointers
 	return
 }
 
-func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.{{Structname}}) (Error error) {
+func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, {{structname}} *models.{{Structname}}) (Error error) {
 
 	// fetch matching {{structname}}DB
 	if {{structname}}DB, ok := backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB[idx]; ok {

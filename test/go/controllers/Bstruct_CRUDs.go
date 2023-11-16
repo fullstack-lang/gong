@@ -293,6 +293,9 @@ func (controller *Controller) UpdateBstruct(c *gin.Context) {
 	bstructNew := new(models.Bstruct)
 	bstructDB.CopyBasicFieldsToBstruct(bstructNew)
 
+	// redeem pointers
+	bstructDB.DecodePointers(backRepo, bstructNew)
+
 	// get stage instance from DB instance, and call callback function
 	bstructOld := backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[bstructDB.ID]
 	if bstructOld != nil {

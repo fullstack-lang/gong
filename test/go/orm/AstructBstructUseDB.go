@@ -328,7 +328,13 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) CheckoutPhaseT
 func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, astructbstructuseDB *AstructBstructUseDB) (Error error) {
 
 	astructbstructuse := backRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr[astructbstructuseDB.ID]
-	_ = astructbstructuse // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	astructbstructuseDB.DecodePointers(backRepo, astructbstructuse)
+
+	return
+}
+
+func (astructbstructuseDB *AstructBstructUseDB) DecodePointers(backRepo *BackRepoStruct, astructbstructuse *models.AstructBstructUse) {
 
 	// insertion point for checkout of pointer encoding
 	// Bstruct2 field
@@ -590,7 +596,7 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) ResetReversePo
 	return
 }
 
-func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.AstructBstructUse) (Error error) {
+func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astructbstructuse *models.AstructBstructUse) (Error error) {
 
 	// fetch matching astructbstructuseDB
 	if astructbstructuseDB, ok := backRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUseDB[idx]; ok {
