@@ -312,7 +312,13 @@ func (backRepoB *BackRepoBStruct) CheckoutPhaseTwo(backRepo *BackRepoStruct) (Er
 func (backRepoB *BackRepoBStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, bDB *BDB) (Error error) {
 
 	b := backRepoB.Map_BDBID_BPtr[bDB.ID]
-	_ = b // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	bDB.DecodePointers(backRepo, b)
+
+	return
+}
+
+func (bDB *BDB) DecodePointers(backRepo *BackRepoStruct, b *models.B) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -563,7 +569,7 @@ func (backRepoB *BackRepoBStruct) ResetReversePointers(backRepo *BackRepoStruct)
 	return
 }
 
-func (backRepoB *BackRepoBStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.B) (Error error) {
+func (backRepoB *BackRepoBStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, b *models.B) (Error error) {
 
 	// fetch matching bDB
 	if bDB, ok := backRepoB.Map_BDBID_BDB[idx]; ok {

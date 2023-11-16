@@ -293,6 +293,9 @@ func (controller *Controller) UpdateB(c *gin.Context) {
 	bNew := new(models.B)
 	bDB.CopyBasicFieldsToB(bNew)
 
+	// redeem pointers
+	bDB.DecodePointers(backRepo, bNew)
+
 	// get stage instance from DB instance, and call callback function
 	bOld := backRepo.BackRepoB.Map_BDBID_BPtr[bDB.ID]
 	if bOld != nil {
