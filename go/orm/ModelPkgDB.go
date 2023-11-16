@@ -384,7 +384,13 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseTwo(backRepo *BackR
 func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, modelpkgDB *ModelPkgDB) (Error error) {
 
 	modelpkg := backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr[modelpkgDB.ID]
-	_ = modelpkg // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	modelpkgDB.DecodePointers(backRepo, modelpkg)
+
+	return
+}
+
+func (modelpkgDB *ModelPkgDB) DecodePointers(backRepo *BackRepoStruct, modelpkg *models.ModelPkg) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -779,7 +785,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) ResetReversePointers(backRepo *B
 	return
 }
 
-func (backRepoModelPkg *BackRepoModelPkgStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.ModelPkg) (Error error) {
+func (backRepoModelPkg *BackRepoModelPkgStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, modelpkg *models.ModelPkg) (Error error) {
 
 	// fetch matching modelpkgDB
 	if modelpkgDB, ok := backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB[idx]; ok {
