@@ -324,7 +324,13 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CheckoutPhaseTwo(backRepo *BackR
 func (backRepoGongLink *BackRepoGongLinkStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, gonglinkDB *GongLinkDB) (Error error) {
 
 	gonglink := backRepoGongLink.Map_GongLinkDBID_GongLinkPtr[gonglinkDB.ID]
-	_ = gonglink // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	gonglinkDB.DecodePointers(backRepo, gonglink)
+
+	return
+}
+
+func (gonglinkDB *GongLinkDB) DecodePointers(backRepo *BackRepoStruct, gonglink *models.GongLink) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -599,7 +605,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) ResetReversePointers(backRepo *B
 	return
 }
 
-func (backRepoGongLink *BackRepoGongLinkStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.GongLink) (Error error) {
+func (backRepoGongLink *BackRepoGongLinkStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, gonglink *models.GongLink) (Error error) {
 
 	// fetch matching gonglinkDB
 	if gonglinkDB, ok := backRepoGongLink.Map_GongLinkDBID_GongLinkDB[idx]; ok {

@@ -331,7 +331,13 @@ func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseTwo(backRepo *BackRepoStruc
 func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, metaDB *MetaDB) (Error error) {
 
 	meta := backRepoMeta.Map_MetaDBID_MetaPtr[metaDB.ID]
-	_ = meta // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	metaDB.DecodePointers(backRepo, meta)
+
+	return
+}
+
+func (metaDB *MetaDB) DecodePointers(backRepo *BackRepoStruct, meta *models.Meta) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem meta.MetaReferences in the stage from the encode in the back repo
@@ -603,7 +609,7 @@ func (backRepoMeta *BackRepoMetaStruct) ResetReversePointers(backRepo *BackRepoS
 	return
 }
 
-func (backRepoMeta *BackRepoMetaStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Meta) (Error error) {
+func (backRepoMeta *BackRepoMetaStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, meta *models.Meta) (Error error) {
 
 	// fetch matching metaDB
 	if metaDB, ok := backRepoMeta.Map_MetaDBID_MetaDB[idx]; ok {

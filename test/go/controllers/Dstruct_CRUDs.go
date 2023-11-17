@@ -293,6 +293,9 @@ func (controller *Controller) UpdateDstruct(c *gin.Context) {
 	dstructNew := new(models.Dstruct)
 	dstructDB.CopyBasicFieldsToDstruct(dstructNew)
 
+	// redeem pointers
+	dstructDB.DecodePointers(backRepo, dstructNew)
+
 	// get stage instance from DB instance, and call callback function
 	dstructOld := backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[dstructDB.ID]
 	if dstructOld != nil {

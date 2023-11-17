@@ -2,10 +2,14 @@
 package models
 
 import (
+	"cmp"
 	"errors"
 	"fmt"
 	"math"
+	"slices"
 	"time"
+
+	"golang.org/x/exp/maps"
 )
 
 func __Gong__Abs(x int) int {
@@ -88,6 +92,10 @@ type StageStruct struct {
 	// map to enable docLink renaming when an identifier is renamed
 	Map_DocLink_Renaming map[string]GONG__Identifier
 	// the to be removed stops here
+}
+
+func (stage *StageStruct) GetType() string {
+	return "github.com/fullstack-lang/gong/test2/go/models"
 }
 
 type GONG__Identifier struct {
@@ -389,6 +397,26 @@ type PointerToGongstruct interface {
 	GetName() string
 	CommitVoid(*StageStruct)
 	UnstageVoid(stage *StageStruct)
+}
+
+func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
+	return cmp.Compare(a.GetName(), b.GetName())
+}
+
+func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice []T) {
+
+	sortedSlice = maps.Keys(set)
+	slices.SortFunc(sortedSlice, CompareGongstructByName)
+
+	return
+}
+
+func GetGongstrucsSorted[T PointerToGongstruct](stage *StageStruct) (sortedSlice []T) {
+
+	set := GetGongstructInstancesSetFromPointerType[T](stage)
+	sortedSlice = SortGongstructSetByName(*set)
+
+	return
 }
 
 type GongstructSet interface {

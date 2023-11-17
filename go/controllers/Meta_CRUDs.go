@@ -293,6 +293,9 @@ func (controller *Controller) UpdateMeta(c *gin.Context) {
 	metaNew := new(models.Meta)
 	metaDB.CopyBasicFieldsToMeta(metaNew)
 
+	// redeem pointers
+	metaDB.DecodePointers(backRepo, metaNew)
+
 	// get stage instance from DB instance, and call callback function
 	metaOld := backRepo.BackRepoMeta.Map_MetaDBID_MetaPtr[metaDB.ID]
 	if metaOld != nil {

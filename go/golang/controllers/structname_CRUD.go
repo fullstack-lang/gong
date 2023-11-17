@@ -309,6 +309,9 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 	{{structname}}New := new(models.{{Structname}})
 	{{structname}}DB.CopyBasicFieldsTo{{Structname}}({{structname}}New)
 
+	// redeem pointers
+	{{structname}}DB.DecodePointers(backRepo, {{structname}}New)
+
 	// get stage instance from DB instance, and call callback function
 	{{structname}}Old := backRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr[{{structname}}DB.ID]
 	if {{structname}}Old != nil {

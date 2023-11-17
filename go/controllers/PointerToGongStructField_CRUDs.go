@@ -293,6 +293,9 @@ func (controller *Controller) UpdatePointerToGongStructField(c *gin.Context) {
 	pointertogongstructfieldNew := new(models.PointerToGongStructField)
 	pointertogongstructfieldDB.CopyBasicFieldsToPointerToGongStructField(pointertogongstructfieldNew)
 
+	// redeem pointers
+	pointertogongstructfieldDB.DecodePointers(backRepo, pointertogongstructfieldNew)
+
 	// get stage instance from DB instance, and call callback function
 	pointertogongstructfieldOld := backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr[pointertogongstructfieldDB.ID]
 	if pointertogongstructfieldOld != nil {

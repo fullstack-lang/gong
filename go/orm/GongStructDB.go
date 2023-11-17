@@ -378,7 +378,13 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CheckoutPhaseTwo(backRepo *B
 func (backRepoGongStruct *BackRepoGongStructStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, gongstructDB *GongStructDB) (Error error) {
 
 	gongstruct := backRepoGongStruct.Map_GongStructDBID_GongStructPtr[gongstructDB.ID]
-	_ = gongstruct // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	gongstructDB.DecodePointers(backRepo, gongstruct)
+
+	return
+}
+
+func (gongstructDB *GongStructDB) DecodePointers(backRepo *BackRepoStruct, gongstruct *models.GongStruct) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem gongstruct.GongBasicFields in the stage from the encode in the back repo
@@ -689,7 +695,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) ResetReversePointers(backRep
 	return
 }
 
-func (backRepoGongStruct *BackRepoGongStructStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.GongStruct) (Error error) {
+func (backRepoGongStruct *BackRepoGongStructStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, gongstruct *models.GongStruct) (Error error) {
 
 	// fetch matching gongstructDB
 	if gongstructDB, ok := backRepoGongStruct.Map_GongStructDBID_GongStructDB[idx]; ok {

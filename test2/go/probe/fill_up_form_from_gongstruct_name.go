@@ -8,11 +8,11 @@ import (
 )
 
 func FillUpFormFromGongstructName(
-	playground *Playground,
+	probe *Probe,
 	gongstructName string,
 	isNewInstance bool,
 ) {
-	formStage := playground.formStage
+	formStage := probe.formStage
 	formStage.Reset()
 	formStage.Commit()
 
@@ -32,22 +32,22 @@ func FillUpFormFromGongstructName(
 			Label: prefix + " A Form",
 			OnSave: __gong__New__AFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		a := new(models.A)
-		FillUpForm(a, formGroup, playground)
+		FillUpForm(a, formGroup, probe)
 	case "B":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " B Form",
 			OnSave: __gong__New__BFormCallback(
 				nil,
-				playground,
+				probe,
 			),
 		}).Stage(formStage)
 		b := new(models.B)
-		FillUpForm(b, formGroup, playground)
+		FillUpForm(b, formGroup, probe)
 	}
 	formStage.Commit()
 }
