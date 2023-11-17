@@ -243,6 +243,10 @@ func CodeGeneratorModelFormCallback(
 						}
 					default:
 					}
+				case *models.GongTimeField:
+					fieldToFormCode += models.Replace1(
+						FormCallbackFileFieldFieldSubTemplateCode[FormCallbackSubTmplBasicField],
+						"{{FieldName}}", field.Name)
 				case *models.PointerToGongStructField:
 					fieldToFormCode += models.Replace1(
 						FormCallbackFileFieldFieldSubTemplateCode[FormCallbackSubTmplPointerToStruct],

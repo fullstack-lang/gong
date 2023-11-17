@@ -66,6 +66,8 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(astruct_.Associationtob), astructFormCallback.probe.stageOfInterest, formDiv)
 		case "Anotherassociationtob_2":
 			FormDivSelectFieldToField(&(astruct_.Anotherassociationtob_2), astructFormCallback.probe.stageOfInterest, formDiv)
+		case "Date":
+			FormDivBasicFieldToField(&(astruct_.Date), formDiv)
 		case "Booleanfield":
 			FormDivBasicFieldToField(&(astruct_.Booleanfield), formDiv)
 		case "Aenum":
