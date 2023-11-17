@@ -293,6 +293,9 @@ func (controller *Controller) UpdateFstruct(c *gin.Context) {
 	fstructNew := new(models.Fstruct)
 	fstructDB.CopyBasicFieldsToFstruct(fstructNew)
 
+	// redeem pointers
+	fstructDB.DecodePointers(backRepo, fstructNew)
+
 	// get stage instance from DB instance, and call callback function
 	fstructOld := backRepo.BackRepoFstruct.Map_FstructDBID_FstructPtr[fstructDB.ID]
 	if fstructOld != nil {

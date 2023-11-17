@@ -337,7 +337,13 @@ func (backRepoGongNote *BackRepoGongNoteStruct) CheckoutPhaseTwo(backRepo *BackR
 func (backRepoGongNote *BackRepoGongNoteStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, gongnoteDB *GongNoteDB) (Error error) {
 
 	gongnote := backRepoGongNote.Map_GongNoteDBID_GongNotePtr[gongnoteDB.ID]
-	_ = gongnote // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	gongnoteDB.DecodePointers(backRepo, gongnote)
+
+	return
+}
+
+func (gongnoteDB *GongNoteDB) DecodePointers(backRepo *BackRepoStruct, gongnote *models.GongNote) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem gongnote.Links in the stage from the encode in the back repo
@@ -621,7 +627,7 @@ func (backRepoGongNote *BackRepoGongNoteStruct) ResetReversePointers(backRepo *B
 	return
 }
 
-func (backRepoGongNote *BackRepoGongNoteStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.GongNote) (Error error) {
+func (backRepoGongNote *BackRepoGongNoteStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, gongnote *models.GongNote) (Error error) {
 
 	// fetch matching gongnoteDB
 	if gongnoteDB, ok := backRepoGongNote.Map_GongNoteDBID_GongNoteDB[idx]; ok {

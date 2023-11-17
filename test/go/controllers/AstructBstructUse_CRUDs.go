@@ -293,6 +293,9 @@ func (controller *Controller) UpdateAstructBstructUse(c *gin.Context) {
 	astructbstructuseNew := new(models.AstructBstructUse)
 	astructbstructuseDB.CopyBasicFieldsToAstructBstructUse(astructbstructuseNew)
 
+	// redeem pointers
+	astructbstructuseDB.DecodePointers(backRepo, astructbstructuseNew)
+
 	// get stage instance from DB instance, and call callback function
 	astructbstructuseOld := backRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr[astructbstructuseDB.ID]
 	if astructbstructuseOld != nil {

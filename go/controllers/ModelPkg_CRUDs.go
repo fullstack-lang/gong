@@ -293,6 +293,9 @@ func (controller *Controller) UpdateModelPkg(c *gin.Context) {
 	modelpkgNew := new(models.ModelPkg)
 	modelpkgDB.CopyBasicFieldsToModelPkg(modelpkgNew)
 
+	// redeem pointers
+	modelpkgDB.DecodePointers(backRepo, modelpkgNew)
+
 	// get stage instance from DB instance, and call callback function
 	modelpkgOld := backRepo.BackRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr[modelpkgDB.ID]
 	if modelpkgOld != nil {

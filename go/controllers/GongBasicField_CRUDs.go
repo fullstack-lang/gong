@@ -293,6 +293,9 @@ func (controller *Controller) UpdateGongBasicField(c *gin.Context) {
 	gongbasicfieldNew := new(models.GongBasicField)
 	gongbasicfieldDB.CopyBasicFieldsToGongBasicField(gongbasicfieldNew)
 
+	// redeem pointers
+	gongbasicfieldDB.DecodePointers(backRepo, gongbasicfieldNew)
+
 	// get stage instance from DB instance, and call callback function
 	gongbasicfieldOld := backRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr[gongbasicfieldDB.ID]
 	if gongbasicfieldOld != nil {

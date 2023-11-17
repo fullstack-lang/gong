@@ -325,7 +325,13 @@ func (backRepoDstruct *BackRepoDstructStruct) CheckoutPhaseTwo(backRepo *BackRep
 func (backRepoDstruct *BackRepoDstructStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, dstructDB *DstructDB) (Error error) {
 
 	dstruct := backRepoDstruct.Map_DstructDBID_DstructPtr[dstructDB.ID]
-	_ = dstruct // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	dstructDB.DecodePointers(backRepo, dstruct)
+
+	return
+}
+
+func (dstructDB *DstructDB) DecodePointers(backRepo *BackRepoStruct, dstruct *models.Dstruct) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem dstruct.Anarrayofb in the stage from the encode in the back repo
@@ -585,7 +591,7 @@ func (backRepoDstruct *BackRepoDstructStruct) ResetReversePointers(backRepo *Bac
 	return
 }
 
-func (backRepoDstruct *BackRepoDstructStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Dstruct) (Error error) {
+func (backRepoDstruct *BackRepoDstructStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, dstruct *models.Dstruct) (Error error) {
 
 	// fetch matching dstructDB
 	if dstructDB, ok := backRepoDstruct.Map_DstructDBID_DstructDB[idx]; ok {
