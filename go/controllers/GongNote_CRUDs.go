@@ -293,6 +293,9 @@ func (controller *Controller) UpdateGongNote(c *gin.Context) {
 	gongnoteNew := new(models.GongNote)
 	gongnoteDB.CopyBasicFieldsToGongNote(gongnoteNew)
 
+	// redeem pointers
+	gongnoteDB.DecodePointers(backRepo, gongnoteNew)
+
 	// get stage instance from DB instance, and call callback function
 	gongnoteOld := backRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr[gongnoteDB.ID]
 	if gongnoteOld != nil {

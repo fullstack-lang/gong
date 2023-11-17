@@ -366,7 +366,13 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseTwo(bac
 func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, gongbasicfieldDB *GongBasicFieldDB) (Error error) {
 
 	gongbasicfield := backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr[gongbasicfieldDB.ID]
-	_ = gongbasicfield // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	gongbasicfieldDB.DecodePointers(backRepo, gongbasicfield)
+
+	return
+}
+
+func (gongbasicfieldDB *GongBasicFieldDB) DecodePointers(backRepo *BackRepoStruct, gongbasicfield *models.GongBasicField) {
 
 	// insertion point for checkout of pointer encoding
 	// GongEnum field
@@ -700,7 +706,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) ResetReversePointers
 	return
 }
 
-func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.GongBasicField) (Error error) {
+func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, gongbasicfield *models.GongBasicField) (Error error) {
 
 	// fetch matching gongbasicfieldDB
 	if gongbasicfieldDB, ok := backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB[idx]; ok {

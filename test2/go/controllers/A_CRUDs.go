@@ -293,6 +293,9 @@ func (controller *Controller) UpdateA(c *gin.Context) {
 	aNew := new(models.A)
 	aDB.CopyBasicFieldsToA(aNew)
 
+	// redeem pointers
+	aDB.DecodePointers(backRepo, aNew)
+
 	// get stage instance from DB instance, and call callback function
 	aOld := backRepo.BackRepoA.Map_ADBID_APtr[aDB.ID]
 	if aOld != nil {

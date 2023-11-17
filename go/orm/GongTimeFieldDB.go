@@ -324,7 +324,13 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CheckoutPhaseTwo(backR
 func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, gongtimefieldDB *GongTimeFieldDB) (Error error) {
 
 	gongtimefield := backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr[gongtimefieldDB.ID]
-	_ = gongtimefield // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	gongtimefieldDB.DecodePointers(backRepo, gongtimefield)
+
+	return
+}
+
+func (gongtimefieldDB *GongTimeFieldDB) DecodePointers(backRepo *BackRepoStruct, gongtimefield *models.GongTimeField) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -599,7 +605,7 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) ResetReversePointers(b
 	return
 }
 
-func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.GongTimeField) (Error error) {
+func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, gongtimefield *models.GongTimeField) (Error error) {
 
 	// fetch matching gongtimefieldDB
 	if gongtimefieldDB, ok := backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB[idx]; ok {
