@@ -69,7 +69,7 @@ func stage_outInjection(stage *models.StageStruct) {
 
 	// Astruct values setup
 	__Astruct__000000_A1.Name = `A1`
-	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-11-14 03:08:21 +0000 UTC")
+	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-11-14 03:08:21 +0000 UTC")
 	__Astruct__000000_A1.Booleanfield = false
 	__Astruct__000000_A1.Aenum = models.ENUM_VAL1
 	__Astruct__000000_A1.Aenum_2 = models.ENUM_VAL2
@@ -126,7 +126,7 @@ Second Line`
 	__Astruct__000001_A2.Floatfield = 0.000000
 	__Astruct__000001_A2.Intfield = 0
 	__Astruct__000001_A2.Anotherbooleanfield = false
-	__Astruct__000001_A2.Duration1 = -796530000000000000
+	__Astruct__000001_A2.Duration1 = 796530000000000000
 
 	// comment added to overcome the problem with the comment map association
 
@@ -231,14 +231,13 @@ Second Line`
 	__Dstruct__000000_D1.Name = `D1`
 
 	// Setup of pointers
-	__Astruct__000000_A1.Associationtob = __Bstruct__000000_B1
+	__Astruct__000000_A1.Associationtob = __Bstruct__000001_B2
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)
 	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
 	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000001_B2)
 	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000000_)
-	__Astruct__000001_A2.Associationtob = __Bstruct__000000_B1
 	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
 	__Dstruct__000000_D1.Anarrayofb = append(__Dstruct__000000_D1.Anarrayofb, __Bstruct__000001_B2)
