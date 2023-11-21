@@ -418,7 +418,13 @@ func (backRepoLink *BackRepoLinkStruct) CheckoutPhaseTwo(backRepo *BackRepoStruc
 func (backRepoLink *BackRepoLinkStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, linkDB *LinkDB) (Error error) {
 
 	link := backRepoLink.Map_LinkDBID_LinkPtr[linkDB.ID]
-	_ = link // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	linkDB.DecodePointers(backRepo, link)
+
+	return
+}
+
+func (linkDB *LinkDB) DecodePointers(backRepo *BackRepoStruct, link *models.Link) {
 
 	// insertion point for checkout of pointer encoding
 	// Middlevertice field
@@ -860,7 +866,7 @@ func (backRepoLink *BackRepoLinkStruct) ResetReversePointers(backRepo *BackRepoS
 	return
 }
 
-func (backRepoLink *BackRepoLinkStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Link) (Error error) {
+func (backRepoLink *BackRepoLinkStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, link *models.Link) (Error error) {
 
 	// fetch matching linkDB
 	if linkDB, ok := backRepoLink.Map_LinkDBID_LinkDB[idx]; ok {

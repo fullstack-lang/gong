@@ -293,6 +293,9 @@ func (controller *Controller) UpdateRectLinkLink(c *gin.Context) {
 	rectlinklinkNew := new(models.RectLinkLink)
 	rectlinklinkDB.CopyBasicFieldsToRectLinkLink(rectlinklinkNew)
 
+	// redeem pointers
+	rectlinklinkDB.DecodePointers(backRepo, rectlinklinkNew)
+
 	// get stage instance from DB instance, and call callback function
 	rectlinklinkOld := backRepo.BackRepoRectLinkLink.Map_RectLinkLinkDBID_RectLinkLinkPtr[rectlinklinkDB.ID]
 	if rectlinklinkOld != nil {

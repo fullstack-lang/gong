@@ -293,6 +293,9 @@ func (controller *Controller) UpdatePath(c *gin.Context) {
 	pathNew := new(models.Path)
 	pathDB.CopyBasicFieldsToPath(pathNew)
 
+	// redeem pointers
+	pathDB.DecodePointers(backRepo, pathNew)
+
 	// get stage instance from DB instance, and call callback function
 	pathOld := backRepo.BackRepoPath.Map_PathDBID_PathPtr[pathDB.ID]
 	if pathOld != nil {

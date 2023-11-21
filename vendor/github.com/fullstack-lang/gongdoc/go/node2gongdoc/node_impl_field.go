@@ -74,7 +74,7 @@ func (nodeImplField *NodeImplField) OnAfterUpdate(
 			}
 			if field != nil {
 				gongStructShape.Fields = remove(gongStructShape.Fields, field)
-				gongStructShape.Heigth = gongStructShape.Heigth - 15
+				gongStructShape.Height = gongStructShape.Height - 15
 				field.Unstage(gongdocStage)
 			}
 		}
@@ -125,7 +125,7 @@ func (nodeImplField *NodeImplField) OnAfterUpdate(
 			concreteField.Structname = gongdoc_models.IdentifierToGongObjectName(gongStructShape.Identifier)
 			concreteField.Stage(gongdocStage)
 
-			gongStructShape.Heigth = gongStructShape.Heigth + 15
+			gongStructShape.Height = gongStructShape.Height + 15
 
 			// construct ordered slice of fields
 			map_Field_Rank := make(map[gong_models.FieldInterface]int, 0)
@@ -221,7 +221,7 @@ func (nodeImplField *NodeImplField) OnAfterUpdate(
 			link.Middlevertice.X = (gongStructShape.Position.X+targetGongStructShape.Position.X)/2.0 +
 				gongStructShape.Width*1.5
 			link.Middlevertice.Y = (gongStructShape.Position.Y+targetGongStructShape.Position.Y)/2.0 +
-				gongStructShape.Heigth/2.0
+				gongStructShape.Height/2.0
 
 			link.StartOrientation = gongdoc_models.ORIENTATION_HORIZONTAL
 			link.StartRatio = 0.5

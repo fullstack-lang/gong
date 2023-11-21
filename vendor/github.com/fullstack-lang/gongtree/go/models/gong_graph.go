@@ -11,6 +11,9 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	case *Node:
 		ok = stage.IsStagedNode(target)
 
+	case *SVGIcon:
+		ok = stage.IsStagedSVGIcon(target)
+
 	case *Tree:
 		ok = stage.IsStagedTree(target)
 
@@ -31,6 +34,13 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	func (stage *StageStruct) IsStagedNode(node *Node) (ok bool) {
 
 		_, ok = stage.Nodes[node]
+	
+		return
+	}
+
+	func (stage *StageStruct) IsStagedSVGIcon(svgicon *SVGIcon) (ok bool) {
+
+		_, ok = stage.SVGIcons[svgicon]
 	
 		return
 	}
@@ -57,6 +67,9 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *Node:
 		stage.StageBranchNode(target)
 
+	case *SVGIcon:
+		stage.StageBranchSVGIcon(target)
+
 	case *Tree:
 		stage.StageBranchTree(target)
 
@@ -76,6 +89,9 @@ func (stage *StageStruct) StageBranchButton(button *Button) {
 	button.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if button.SVGIcon != nil {
+		StageBranch(stage, button.SVGIcon)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -91,6 +107,9 @@ func (stage *StageStruct) StageBranchNode(node *Node) {
 	node.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if node.PreceedingSVGIcon != nil {
+		StageBranch(stage, node.PreceedingSVGIcon)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _node := range node.Children {
@@ -99,6 +118,21 @@ func (stage *StageStruct) StageBranchNode(node *Node) {
 	for _, _button := range node.Buttons {
 		StageBranch(stage, _button)
 	}
+
+}
+
+func (stage *StageStruct) StageBranchSVGIcon(svgicon *SVGIcon) {
+
+	// check if instance is already staged
+	if IsStaged(stage, svgicon) {
+		return
+	}
+
+	svgicon.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -135,6 +169,9 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *Node:
 		stage.UnstageBranchNode(target)
 
+	case *SVGIcon:
+		stage.UnstageBranchSVGIcon(target)
+
 	case *Tree:
 		stage.UnstageBranchTree(target)
 
@@ -154,6 +191,9 @@ func (stage *StageStruct) UnstageBranchButton(button *Button) {
 	button.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if button.SVGIcon != nil {
+		UnstageBranch(stage, button.SVGIcon)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -169,6 +209,9 @@ func (stage *StageStruct) UnstageBranchNode(node *Node) {
 	node.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if node.PreceedingSVGIcon != nil {
+		UnstageBranch(stage, node.PreceedingSVGIcon)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _node := range node.Children {
@@ -177,6 +220,21 @@ func (stage *StageStruct) UnstageBranchNode(node *Node) {
 	for _, _button := range node.Buttons {
 		UnstageBranch(stage, _button)
 	}
+
+}
+
+func (stage *StageStruct) UnstageBranchSVGIcon(svgicon *SVGIcon) {
+
+	// check if instance is already staged
+	if ! IsStaged(stage, svgicon) {
+		return
+	}
+
+	svgicon.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 

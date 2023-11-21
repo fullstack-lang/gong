@@ -373,7 +373,13 @@ func (backRepoPolyline *BackRepoPolylineStruct) CheckoutPhaseTwo(backRepo *BackR
 func (backRepoPolyline *BackRepoPolylineStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, polylineDB *PolylineDB) (Error error) {
 
 	polyline := backRepoPolyline.Map_PolylineDBID_PolylinePtr[polylineDB.ID]
-	_ = polyline // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	polylineDB.DecodePointers(backRepo, polyline)
+
+	return
+}
+
+func (polylineDB *PolylineDB) DecodePointers(backRepo *BackRepoStruct, polyline *models.Polyline) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem polyline.Animates in the stage from the encode in the back repo
@@ -729,7 +735,7 @@ func (backRepoPolyline *BackRepoPolylineStruct) ResetReversePointers(backRepo *B
 	return
 }
 
-func (backRepoPolyline *BackRepoPolylineStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Polyline) (Error error) {
+func (backRepoPolyline *BackRepoPolylineStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, polyline *models.Polyline) (Error error) {
 
 	// fetch matching polylineDB
 	if polylineDB, ok := backRepoPolyline.Map_PolylineDBID_PolylineDB[idx]; ok {

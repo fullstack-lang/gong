@@ -293,6 +293,9 @@ func (controller *Controller) UpdateClassdiagram(c *gin.Context) {
 	classdiagramNew := new(models.Classdiagram)
 	classdiagramDB.CopyBasicFieldsToClassdiagram(classdiagramNew)
 
+	// redeem pointers
+	classdiagramDB.DecodePointers(backRepo, classdiagramNew)
+
 	// get stage instance from DB instance, and call callback function
 	classdiagramOld := backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr[classdiagramDB.ID]
 	if classdiagramOld != nil {

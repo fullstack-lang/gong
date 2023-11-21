@@ -293,6 +293,9 @@ func (controller *Controller) UpdateAnimate(c *gin.Context) {
 	animateNew := new(models.Animate)
 	animateDB.CopyBasicFieldsToAnimate(animateNew)
 
+	// redeem pointers
+	animateDB.DecodePointers(backRepo, animateNew)
+
 	// get stage instance from DB instance, and call callback function
 	animateOld := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[animateDB.ID]
 	if animateOld != nil {

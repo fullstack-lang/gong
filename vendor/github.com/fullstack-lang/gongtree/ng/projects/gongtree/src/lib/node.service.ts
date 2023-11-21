@@ -15,6 +15,7 @@ import { NodeDB } from './node-db';
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
+import { SVGIconDB } from './svgicon-db'
 import { ButtonDB } from './button-db'
 
 @Injectable({
@@ -82,6 +83,11 @@ export class NodeService {
   postNode(nodedb: NodeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    if (nodedb.PreceedingSVGIcon != undefined) {
+      nodedb.NodePointersEncoding.PreceedingSVGIconID.Int64 = nodedb.PreceedingSVGIcon.ID
+      nodedb.NodePointersEncoding.PreceedingSVGIconID.Valid = true
+    }
+    nodedb.PreceedingSVGIcon = undefined
     nodedb.NodePointersEncoding.Children = []
     for (let _node of nodedb.Children) {
       nodedb.NodePointersEncoding.Children.push(_node.ID)
@@ -102,6 +108,7 @@ export class NodeService {
     return this.http.post<NodeDB>(this.nodesUrl, nodedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+        nodedb.PreceedingSVGIcon = frontRepo.SVGIcons.get(nodedb.NodePointersEncoding.PreceedingSVGIconID.Int64)
         nodedb.Children = new Array<NodeDB>()
         for (let _id of nodedb.NodePointersEncoding.Children) {
           let _node = frontRepo.Nodes.get(_id)
@@ -152,6 +159,11 @@ export class NodeService {
 
     // insertion point for reset of pointers (to avoid circular JSON)
     // and encoding of pointers
+    if (nodedb.PreceedingSVGIcon != undefined) {
+      nodedb.NodePointersEncoding.PreceedingSVGIconID.Int64 = nodedb.PreceedingSVGIcon.ID
+      nodedb.NodePointersEncoding.PreceedingSVGIconID.Valid = true
+    }
+    nodedb.PreceedingSVGIcon = undefined
     nodedb.NodePointersEncoding.Children = []
     for (let _node of nodedb.Children) {
       nodedb.NodePointersEncoding.Children.push(_node.ID)
@@ -172,6 +184,7 @@ export class NodeService {
     return this.http.put<NodeDB>(url, nodedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+        nodedb.PreceedingSVGIcon = frontRepo.SVGIcons.get(nodedb.NodePointersEncoding.PreceedingSVGIconID.Int64)
         nodedb.Children = new Array<NodeDB>()
         for (let _id of nodedb.NodePointersEncoding.Children) {
           let _node = frontRepo.Nodes.get(_id)

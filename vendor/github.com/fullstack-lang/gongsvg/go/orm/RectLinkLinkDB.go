@@ -392,7 +392,13 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) CheckoutPhaseTwo(backRep
 func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, rectlinklinkDB *RectLinkLinkDB) (Error error) {
 
 	rectlinklink := backRepoRectLinkLink.Map_RectLinkLinkDBID_RectLinkLinkPtr[rectlinklinkDB.ID]
-	_ = rectlinklink // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	rectlinklinkDB.DecodePointers(backRepo, rectlinklink)
+
+	return
+}
+
+func (rectlinklinkDB *RectLinkLinkDB) DecodePointers(backRepo *BackRepoStruct, rectlinklink *models.RectLinkLink) {
 
 	// insertion point for checkout of pointer encoding
 	// Start field
@@ -761,7 +767,7 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) ResetReversePointers(bac
 	return
 }
 
-func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.RectLinkLink) (Error error) {
+func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, rectlinklink *models.RectLinkLink) (Error error) {
 
 	// fetch matching rectlinklinkDB
 	if rectlinklinkDB, ok := backRepoRectLinkLink.Map_RectLinkLinkDBID_RectLinkLinkDB[idx]; ok {

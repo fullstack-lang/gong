@@ -324,7 +324,13 @@ func (backRepoPosition *BackRepoPositionStruct) CheckoutPhaseTwo(backRepo *BackR
 func (backRepoPosition *BackRepoPositionStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, positionDB *PositionDB) (Error error) {
 
 	position := backRepoPosition.Map_PositionDBID_PositionPtr[positionDB.ID]
-	_ = position // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	positionDB.DecodePointers(backRepo, position)
+
+	return
+}
+
+func (positionDB *PositionDB) DecodePointers(backRepo *BackRepoStruct, position *models.Position) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -599,7 +605,7 @@ func (backRepoPosition *BackRepoPositionStruct) ResetReversePointers(backRepo *B
 	return
 }
 
-func (backRepoPosition *BackRepoPositionStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Position) (Error error) {
+func (backRepoPosition *BackRepoPositionStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, position *models.Position) (Error error) {
 
 	// fetch matching positionDB
 	if positionDB, ok := backRepoPosition.Map_PositionDBID_PositionDB[idx]; ok {

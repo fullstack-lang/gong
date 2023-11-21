@@ -293,6 +293,9 @@ func (controller *Controller) UpdateLinkAnchoredText(c *gin.Context) {
 	linkanchoredtextNew := new(models.LinkAnchoredText)
 	linkanchoredtextDB.CopyBasicFieldsToLinkAnchoredText(linkanchoredtextNew)
 
+	// redeem pointers
+	linkanchoredtextDB.DecodePointers(backRepo, linkanchoredtextNew)
+
 	// get stage instance from DB instance, and call callback function
 	linkanchoredtextOld := backRepo.BackRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextPtr[linkanchoredtextDB.ID]
 	if linkanchoredtextOld != nil {

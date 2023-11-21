@@ -306,6 +306,7 @@ var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 // insertion point for identifiers maps
 var __gong__map_Button = make(map[string]*Button)
 var __gong__map_Node = make(map[string]*Node)
+var __gong__map_SVGIcon = make(map[string]*SVGIcon)
 var __gong__map_Tree = make(map[string]*Tree)
 
 // Parser needs to be configured for having the [Name1.Name2] or [pkg.Name1] ...
@@ -487,6 +488,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 										instanceNode := (&Node{Name: instanceName}).Stage(stage)
 										instance = any(instanceNode)
 										__gong__map_Node[identifier] = instanceNode
+									case "SVGIcon":
+										instanceSVGIcon := (&SVGIcon{Name: instanceName}).Stage(stage)
+										instance = any(instanceSVGIcon)
+										__gong__map_SVGIcon[identifier] = instanceSVGIcon
 									case "Tree":
 										instanceTree := (&Tree{Name: instanceName}).Stage(stage)
 										instance = any(instanceTree)
@@ -532,6 +537,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							// insertion point for date assign code
 							}
 						case "Node":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "SVGIcon":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -583,6 +592,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							target := __gong__map_Button[targetIdentifier]
 							__gong__map_Node[identifier].Buttons =
 								append(__gong__map_Node[identifier].Buttons, target)
+						}
+					case "SVGIcon":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
 						}
 					case "Tree":
 						switch fieldName {
@@ -671,6 +684,18 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Node[identifier].PreceedingIcon = fielValue
 				}
+			case "SVGIcon":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_SVGIcon[identifier].Name = fielValue
+				case "SVG":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_SVGIcon[identifier].SVG = fielValue
+				}
 			case "Tree":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -696,6 +721,9 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 			case "Button":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "SVGIcon":
+					targetIdentifier := ident.Name
+					__gong__map_Button[identifier].SVGIcon = __gong__map_SVGIcon[targetIdentifier]
 				}
 			case "Node":
 				switch fieldName {
@@ -749,6 +777,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_Node[identifier].IsWithPreceedingIcon = fielValue
+				case "PreceedingSVGIcon":
+					targetIdentifier := ident.Name
+					__gong__map_Node[identifier].PreceedingSVGIcon = __gong__map_SVGIcon[targetIdentifier]
+				}
+			case "SVGIcon":
+				switch fieldName {
+				// insertion point for field dependant code
 				}
 			case "Tree":
 				switch fieldName {
@@ -787,6 +822,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					// insertion point for enum assign code
 					}
 				case "Node":
+					switch fieldName {
+					// insertion point for enum assign code
+					}
+				case "SVGIcon":
 					switch fieldName {
 					// insertion point for enum assign code
 					}

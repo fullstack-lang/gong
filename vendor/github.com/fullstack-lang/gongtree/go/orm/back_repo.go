@@ -25,6 +25,8 @@ type BackRepoStruct struct {
 
 	BackRepoNode BackRepoNodeStruct
 
+	BackRepoSVGIcon BackRepoSVGIconStruct
+
 	BackRepoTree BackRepoTreeStruct
 
 	CommitFromBackNb uint // records commit increments when performed by the back
@@ -65,6 +67,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 	err = db.AutoMigrate( // insertion point for reference to structs
 		&ButtonDB{},
 		&NodeDB{},
+		&SVGIconDB{},
 		&TreeDB{},
 	)
 
@@ -88,6 +91,14 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_NodeDBID_NodePtr: make(map[uint]*models.Node, 0),
 		Map_NodeDBID_NodeDB:  make(map[uint]*NodeDB, 0),
 		Map_NodePtr_NodeDBID: make(map[*models.Node]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoSVGIcon = BackRepoSVGIconStruct{
+		Map_SVGIconDBID_SVGIconPtr: make(map[uint]*models.SVGIcon, 0),
+		Map_SVGIconDBID_SVGIconDB:  make(map[uint]*SVGIconDB, 0),
+		Map_SVGIconPtr_SVGIconDBID: make(map[*models.SVGIcon]uint, 0),
 
 		db:    db,
 		stage: stage,
@@ -147,11 +158,13 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoButton.CommitPhaseOne(stage)
 	backRepo.BackRepoNode.CommitPhaseOne(stage)
+	backRepo.BackRepoSVGIcon.CommitPhaseOne(stage)
 	backRepo.BackRepoTree.CommitPhaseOne(stage)
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoButton.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoNode.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoSVGIcon.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoTree.CommitPhaseTwo(backRepo)
 
 	backRepo.IncrementCommitFromBackNb()
@@ -162,11 +175,13 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoButton.CheckoutPhaseOne()
 	backRepo.BackRepoNode.CheckoutPhaseOne()
+	backRepo.BackRepoSVGIcon.CheckoutPhaseOne()
 	backRepo.BackRepoTree.CheckoutPhaseOne()
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoButton.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoNode.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoSVGIcon.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoTree.CheckoutPhaseTwo(backRepo)
 }
 
@@ -177,6 +192,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string
 	// insertion point for per struct backup
 	backRepo.BackRepoButton.Backup(dirPath)
 	backRepo.BackRepoNode.Backup(dirPath)
+	backRepo.BackRepoSVGIcon.Backup(dirPath)
 	backRepo.BackRepoTree.Backup(dirPath)
 }
 
@@ -190,6 +206,7 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.StageStruct, dirPath stri
 	// insertion point for per struct backup
 	backRepo.BackRepoButton.BackupXL(file)
 	backRepo.BackRepoNode.BackupXL(file)
+	backRepo.BackRepoSVGIcon.BackupXL(file)
 	backRepo.BackRepoTree.BackupXL(file)
 
 	var b bytes.Buffer
@@ -217,6 +234,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	// insertion point for per struct backup
 	backRepo.BackRepoButton.RestorePhaseOne(dirPath)
 	backRepo.BackRepoNode.RestorePhaseOne(dirPath)
+	backRepo.BackRepoSVGIcon.RestorePhaseOne(dirPath)
 	backRepo.BackRepoTree.RestorePhaseOne(dirPath)
 
 	//
@@ -226,6 +244,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	// insertion point for per struct backup
 	backRepo.BackRepoButton.RestorePhaseTwo()
 	backRepo.BackRepoNode.RestorePhaseTwo()
+	backRepo.BackRepoSVGIcon.RestorePhaseTwo()
 	backRepo.BackRepoTree.RestorePhaseTwo()
 
 	backRepo.stage.Checkout()
@@ -256,6 +275,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.StageStruct, dirPath str
 	// insertion point for per struct backup
 	backRepo.BackRepoButton.RestoreXLPhaseOne(file)
 	backRepo.BackRepoNode.RestoreXLPhaseOne(file)
+	backRepo.BackRepoSVGIcon.RestoreXLPhaseOne(file)
 	backRepo.BackRepoTree.RestoreXLPhaseOne(file)
 
 	// commit the restored stage

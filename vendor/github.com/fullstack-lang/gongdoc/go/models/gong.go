@@ -2,10 +2,14 @@
 package models
 
 import (
+	"cmp"
 	"errors"
 	"fmt"
 	"math"
+	"slices"
 	"time"
+
+	"golang.org/x/exp/maps"
 )
 
 func __Gong__Abs(x int) int {
@@ -1273,6 +1277,26 @@ type PointerToGongstruct interface {
 	UnstageVoid(stage *StageStruct)
 }
 
+func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
+	return cmp.Compare(a.GetName(), b.GetName())
+}
+
+func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice []T) {
+
+	sortedSlice = maps.Keys(set)
+	slices.SortFunc(sortedSlice, CompareGongstructByName)
+
+	return
+}
+
+func GetGongstrucsSorted[T PointerToGongstruct](stage *StageStruct) (sortedSlice []T) {
+
+	set := GetGongstructInstancesSetFromPointerType[T](stage)
+	sortedSlice = SortGongstructSetByName(*set)
+
+	return
+}
+
 type GongstructSet interface {
 	map[any]any |
 		// insertion point for generic types
@@ -2000,7 +2024,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case GongEnumValueEntry:
 		res = []string{"Name", "Identifier"}
 	case GongStructShape:
-		res = []string{"Name", "Position", "Identifier", "ShowNbInstances", "NbInstances", "Fields", "Links", "Width", "Heigth", "IsSelected"}
+		res = []string{"Name", "Position", "Identifier", "ShowNbInstances", "NbInstances", "Fields", "Links", "Width", "Height", "IsSelected"}
 	case Link:
 		res = []string{"Name", "Identifier", "Fieldtypename", "FieldOffsetX", "FieldOffsetY", "TargetMultiplicity", "TargetMultiplicityOffsetX", "TargetMultiplicityOffsetY", "SourceMultiplicity", "SourceMultiplicityOffsetX", "SourceMultiplicityOffsetY", "Middlevertice", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio"}
 	case NoteShape:
@@ -2124,7 +2148,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *GongEnumValueEntry:
 		res = []string{"Name", "Identifier"}
 	case *GongStructShape:
-		res = []string{"Name", "Position", "Identifier", "ShowNbInstances", "NbInstances", "Fields", "Links", "Width", "Heigth", "IsSelected"}
+		res = []string{"Name", "Position", "Identifier", "ShowNbInstances", "NbInstances", "Fields", "Links", "Width", "Height", "IsSelected"}
 	case *Link:
 		res = []string{"Name", "Identifier", "Fieldtypename", "FieldOffsetX", "FieldOffsetY", "TargetMultiplicity", "TargetMultiplicityOffsetX", "TargetMultiplicityOffsetY", "SourceMultiplicity", "SourceMultiplicityOffsetX", "SourceMultiplicityOffsetY", "Middlevertice", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio"}
 	case *NoteShape:
@@ -2286,8 +2310,8 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			}
 		case "Width":
 			res = fmt.Sprintf("%f", inferedInstance.Width)
-		case "Heigth":
-			res = fmt.Sprintf("%f", inferedInstance.Heigth)
+		case "Height":
+			res = fmt.Sprintf("%f", inferedInstance.Height)
 		case "IsSelected":
 			res = fmt.Sprintf("%t", inferedInstance.IsSelected)
 		}
@@ -2571,8 +2595,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			}
 		case "Width":
 			res = fmt.Sprintf("%f", inferedInstance.Width)
-		case "Heigth":
-			res = fmt.Sprintf("%f", inferedInstance.Heigth)
+		case "Height":
+			res = fmt.Sprintf("%f", inferedInstance.Height)
 		case "IsSelected":
 			res = fmt.Sprintf("%t", inferedInstance.IsSelected)
 		}

@@ -178,39 +178,39 @@ export class FrontRepo { // insertion point sub template
     switch (gongStructName) {
       // insertion point
       case 'Animate':
-        return this.Animates_array as unknown as Map<number, Type>
+        return this.Animates as unknown as Map<number, Type>
       case 'Circle':
-        return this.Circles_array as unknown as Map<number, Type>
+        return this.Circles as unknown as Map<number, Type>
       case 'Ellipse':
-        return this.Ellipses_array as unknown as Map<number, Type>
+        return this.Ellipses as unknown as Map<number, Type>
       case 'Layer':
-        return this.Layers_array as unknown as Map<number, Type>
+        return this.Layers as unknown as Map<number, Type>
       case 'Line':
-        return this.Lines_array as unknown as Map<number, Type>
+        return this.Lines as unknown as Map<number, Type>
       case 'Link':
-        return this.Links_array as unknown as Map<number, Type>
+        return this.Links as unknown as Map<number, Type>
       case 'LinkAnchoredText':
-        return this.LinkAnchoredTexts_array as unknown as Map<number, Type>
+        return this.LinkAnchoredTexts as unknown as Map<number, Type>
       case 'Path':
-        return this.Paths_array as unknown as Map<number, Type>
+        return this.Paths as unknown as Map<number, Type>
       case 'Point':
-        return this.Points_array as unknown as Map<number, Type>
+        return this.Points as unknown as Map<number, Type>
       case 'Polygone':
-        return this.Polygones_array as unknown as Map<number, Type>
+        return this.Polygones as unknown as Map<number, Type>
       case 'Polyline':
-        return this.Polylines_array as unknown as Map<number, Type>
+        return this.Polylines as unknown as Map<number, Type>
       case 'Rect':
-        return this.Rects_array as unknown as Map<number, Type>
+        return this.Rects as unknown as Map<number, Type>
       case 'RectAnchoredRect':
-        return this.RectAnchoredRects_array as unknown as Map<number, Type>
+        return this.RectAnchoredRects as unknown as Map<number, Type>
       case 'RectAnchoredText':
-        return this.RectAnchoredTexts_array as unknown as Map<number, Type>
+        return this.RectAnchoredTexts as unknown as Map<number, Type>
       case 'RectLinkLink':
-        return this.RectLinkLinks_array as unknown as Map<number, Type>
+        return this.RectLinkLinks as unknown as Map<number, Type>
       case 'SVG':
-        return this.SVGs_array as unknown as Map<number, Type>
+        return this.SVGs as unknown as Map<number, Type>
       case 'Text':
-        return this.Texts_array as unknown as Map<number, Type>
+        return this.Texts as unknown as Map<number, Type>
       default:
         throw new Error("Type not recognized");
     }

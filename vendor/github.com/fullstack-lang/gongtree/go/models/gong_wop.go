@@ -27,6 +27,12 @@ type Node_WOP struct {
 	PreceedingIcon string
 }
 
+type SVGIcon_WOP struct {
+	// insertion point
+	Name string
+	SVG string
+}
+
 type Tree_WOP struct {
 	// insertion point
 	Name string

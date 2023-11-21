@@ -77,6 +77,9 @@ func EvictInOtherSlices[OwningType PointerToGongstruct, FieldType PointerToGongs
 			}
 		}
 
+	case *SVGIcon:
+		// insertion point per field
+
 	case *Tree:
 		// insertion point per field
 		if fieldName == "RootNodes" {
@@ -129,6 +132,9 @@ func (stage *StageStruct) ComputeReverseMaps() {
 			stage.Node_Buttons_reverseMap[_button] = node
 		}
 	}
+
+	// Compute reverse map for named struct SVGIcon
+	// insertion point per field
 
 	// Compute reverse map for named struct Tree
 	// insertion point per field

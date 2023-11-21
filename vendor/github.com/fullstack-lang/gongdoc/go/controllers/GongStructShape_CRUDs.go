@@ -293,6 +293,9 @@ func (controller *Controller) UpdateGongStructShape(c *gin.Context) {
 	gongstructshapeNew := new(models.GongStructShape)
 	gongstructshapeDB.CopyBasicFieldsToGongStructShape(gongstructshapeNew)
 
+	// redeem pointers
+	gongstructshapeDB.DecodePointers(backRepo, gongstructshapeNew)
+
 	// get stage instance from DB instance, and call callback function
 	gongstructshapeOld := backRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr[gongstructshapeDB.ID]
 	if gongstructshapeOld != nil {

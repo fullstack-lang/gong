@@ -293,6 +293,9 @@ func (controller *Controller) UpdateNode(c *gin.Context) {
 	nodeNew := new(models.Node)
 	nodeDB.CopyBasicFieldsToNode(nodeNew)
 
+	// redeem pointers
+	nodeDB.DecodePointers(backRepo, nodeNew)
+
 	// get stage instance from DB instance, and call callback function
 	nodeOld := backRepo.BackRepoNode.Map_NodeDBID_NodePtr[nodeDB.ID]
 	if nodeOld != nil {

@@ -336,7 +336,13 @@ func (backRepoAnimate *BackRepoAnimateStruct) CheckoutPhaseTwo(backRepo *BackRep
 func (backRepoAnimate *BackRepoAnimateStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, animateDB *AnimateDB) (Error error) {
 
 	animate := backRepoAnimate.Map_AnimateDBID_AnimatePtr[animateDB.ID]
-	_ = animate // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	animateDB.DecodePointers(backRepo, animate)
+
+	return
+}
+
+func (animateDB *AnimateDB) DecodePointers(backRepo *BackRepoStruct, animate *models.Animate) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -635,7 +641,7 @@ func (backRepoAnimate *BackRepoAnimateStruct) ResetReversePointers(backRepo *Bac
 	return
 }
 
-func (backRepoAnimate *BackRepoAnimateStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Animate) (Error error) {
+func (backRepoAnimate *BackRepoAnimateStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, animate *models.Animate) (Error error) {
 
 	// fetch matching animateDB
 	if animateDB, ok := backRepoAnimate.Map_AnimateDBID_AnimateDB[idx]; ok {

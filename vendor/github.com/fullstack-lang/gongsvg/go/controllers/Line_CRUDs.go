@@ -293,6 +293,9 @@ func (controller *Controller) UpdateLine(c *gin.Context) {
 	lineNew := new(models.Line)
 	lineDB.CopyBasicFieldsToLine(lineNew)
 
+	// redeem pointers
+	lineDB.DecodePointers(backRepo, lineNew)
+
 	// get stage instance from DB instance, and call callback function
 	lineOld := backRepo.BackRepoLine.Map_LineDBID_LinePtr[lineDB.ID]
 	if lineOld != nil {

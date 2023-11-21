@@ -391,7 +391,13 @@ func (backRepoEllipse *BackRepoEllipseStruct) CheckoutPhaseTwo(backRepo *BackRep
 func (backRepoEllipse *BackRepoEllipseStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, ellipseDB *EllipseDB) (Error error) {
 
 	ellipse := backRepoEllipse.Map_EllipseDBID_EllipsePtr[ellipseDB.ID]
-	_ = ellipse // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	ellipseDB.DecodePointers(backRepo, ellipse)
+
+	return
+}
+
+func (ellipseDB *EllipseDB) DecodePointers(backRepo *BackRepoStruct, ellipse *models.Ellipse) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem ellipse.Animates in the stage from the encode in the back repo
@@ -783,7 +789,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) ResetReversePointers(backRepo *Bac
 	return
 }
 
-func (backRepoEllipse *BackRepoEllipseStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Ellipse) (Error error) {
+func (backRepoEllipse *BackRepoEllipseStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, ellipse *models.Ellipse) (Error error) {
 
 	// fetch matching ellipseDB
 	if ellipseDB, ok := backRepoEllipse.Map_EllipseDBID_EllipseDB[idx]; ok {

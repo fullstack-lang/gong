@@ -73,7 +73,7 @@ export class SvgComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       rectangleEventService.mouseRectAltKeyMouseDownEvent$.subscribe(
         (shapeMouseEvent: ShapeMouseEvent) => {
-          // console.log('SvgComponent, Mouse down event occurred on rectangle ', rectangleID, " at ", coordinate)
+          console.log('SvgComponent, Alt Mouse down event occurred on rectangle ', shapeMouseEvent.ShapeID)
           this.linkStartRectangleID = shapeMouseEvent.ShapeID
 
           // refactorable of Rect name
@@ -101,7 +101,7 @@ export class SvgComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       rectangleEventService.mouseRectAltKeyMouseUpEvent$.subscribe((rectangleID: number) => {
-        // console.log('SvgComponent, Mouse up event occurred on rectangle ', rectangleID);
+        console.log('SvgComponent, Mouse up event occurred on rectangle ', rectangleID);
         this.linkDrawing = false
 
         this.onEndOfLinkDrawing(this.linkStartRectangleID, rectangleID)
@@ -231,17 +231,32 @@ export class SvgComponent implements OnInit, OnDestroy {
 
     this.svg.DrawingState = gongsvg.DrawingState.DRAWING_LINE
 
-    this.svg.SVGPointersEncoding.StartRectID.Valid = true
-    this.svg.SVGPointersEncoding.StartRectID.Int64 = startRectangleID
+    let rectMap = this.gongsvgFrontRepo!.getMap<gongsvg.RectDB>(gongsvg.RectDB.GONGSTRUCT_NAME)
 
-    this.svg.SVGPointersEncoding.EndRectID.Valid = true
-    this.svg.SVGPointersEncoding.EndRectID.Int64 = endRectangleID
+    this.svg.StartRect = rectMap.get(startRectangleID)
+    this.svg.EndRect = rectMap.get(endRectangleID)
 
     this.svgService.updateSVG(this.svg, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
       () => {
-        // back to normal state
-        this.svg.DrawingState = gongsvg.DrawingState.NOT_DRAWING_LINE
-        this.svgService.updateSVG(this.svg, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
+
+        this.gongsvgFrontRepoService.pull(this.GONG__StackPath).subscribe(
+          gongsvgsFrontRepo => {
+            this.gongsvgFrontRepo = gongsvgsFrontRepo
+
+            if (this.gongsvgFrontRepo.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1) {
+              this.svg = this.gongsvgFrontRepo.getArray<gongsvg.SVGDB>(gongsvg.SVGDB.GONGSTRUCT_NAME)[0]
+
+              // back to normal state
+              this.svg.DrawingState = gongsvg.DrawingState.NOT_DRAWING_LINE
+              this.svgService.updateSVG(this.svg, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
+
+              // set the isEditable
+              this.isEditableService.setIsEditable(this.svg!.IsEditable)
+            } else {
+              return
+            }
+          }
+        )
       }
     )
   }

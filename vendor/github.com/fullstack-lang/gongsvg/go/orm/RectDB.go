@@ -507,7 +507,13 @@ func (backRepoRect *BackRepoRectStruct) CheckoutPhaseTwo(backRepo *BackRepoStruc
 func (backRepoRect *BackRepoRectStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, rectDB *RectDB) (Error error) {
 
 	rect := backRepoRect.Map_RectDBID_RectPtr[rectDB.ID]
-	_ = rect // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	rectDB.DecodePointers(backRepo, rect)
+
+	return
+}
+
+func (rectDB *RectDB) DecodePointers(backRepo *BackRepoStruct, rect *models.Rect) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem rect.Animations in the stage from the encode in the back repo
@@ -1073,7 +1079,7 @@ func (backRepoRect *BackRepoRectStruct) ResetReversePointers(backRepo *BackRepoS
 	return
 }
 
-func (backRepoRect *BackRepoRectStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Rect) (Error error) {
+func (backRepoRect *BackRepoRectStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, rect *models.Rect) (Error error) {
 
 	// fetch matching rectDB
 	if rectDB, ok := backRepoRect.Map_RectDBID_RectDB[idx]; ok {
