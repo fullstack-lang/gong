@@ -84,8 +84,8 @@ type GongStructShapeDB struct {
 	// Declation for basic field gongstructshapeDB.Width
 	Width_Data sql.NullFloat64
 
-	// Declation for basic field gongstructshapeDB.Heigth
-	Heigth_Data sql.NullFloat64
+	// Declation for basic field gongstructshapeDB.Height
+	Height_Data sql.NullFloat64
 
 	// Declation for basic field gongstructshapeDB.IsSelected
 	// provide the sql storage for the boolan
@@ -121,7 +121,7 @@ type GongStructShapeWOP struct {
 
 	Width float64 `xlsx:"5"`
 
-	Heigth float64 `xlsx:"6"`
+	Height float64 `xlsx:"6"`
 
 	IsSelected bool `xlsx:"7"`
 	// insertion for WOP pointer fields
@@ -135,7 +135,7 @@ var GongStructShape_Fields = []string{
 	"ShowNbInstances",
 	"NbInstances",
 	"Width",
-	"Heigth",
+	"Height",
 	"IsSelected",
 }
 
@@ -392,7 +392,13 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CheckoutPhaseTwo(b
 func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, gongstructshapeDB *GongStructShapeDB) (Error error) {
 
 	gongstructshape := backRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr[gongstructshapeDB.ID]
-	_ = gongstructshape // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	gongstructshapeDB.DecodePointers(backRepo, gongstructshape)
+
+	return
+}
+
+func (gongstructshapeDB *GongStructShapeDB) DecodePointers(backRepo *BackRepoStruct, gongstructshape *models.GongStructShape) {
 
 	// insertion point for checkout of pointer encoding
 	// Position field
@@ -467,8 +473,8 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsFromGongStructShape(g
 	gongstructshapeDB.Width_Data.Float64 = gongstructshape.Width
 	gongstructshapeDB.Width_Data.Valid = true
 
-	gongstructshapeDB.Heigth_Data.Float64 = gongstructshape.Heigth
-	gongstructshapeDB.Heigth_Data.Valid = true
+	gongstructshapeDB.Height_Data.Float64 = gongstructshape.Height
+	gongstructshapeDB.Height_Data.Valid = true
 
 	gongstructshapeDB.IsSelected_Data.Bool = gongstructshape.IsSelected
 	gongstructshapeDB.IsSelected_Data.Valid = true
@@ -493,8 +499,8 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsFromGongStructShape_W
 	gongstructshapeDB.Width_Data.Float64 = gongstructshape.Width
 	gongstructshapeDB.Width_Data.Valid = true
 
-	gongstructshapeDB.Heigth_Data.Float64 = gongstructshape.Heigth
-	gongstructshapeDB.Heigth_Data.Valid = true
+	gongstructshapeDB.Height_Data.Float64 = gongstructshape.Height
+	gongstructshapeDB.Height_Data.Valid = true
 
 	gongstructshapeDB.IsSelected_Data.Bool = gongstructshape.IsSelected
 	gongstructshapeDB.IsSelected_Data.Valid = true
@@ -519,8 +525,8 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsFromGongStructShapeWO
 	gongstructshapeDB.Width_Data.Float64 = gongstructshape.Width
 	gongstructshapeDB.Width_Data.Valid = true
 
-	gongstructshapeDB.Heigth_Data.Float64 = gongstructshape.Heigth
-	gongstructshapeDB.Heigth_Data.Valid = true
+	gongstructshapeDB.Height_Data.Float64 = gongstructshape.Height
+	gongstructshapeDB.Height_Data.Valid = true
 
 	gongstructshapeDB.IsSelected_Data.Bool = gongstructshape.IsSelected
 	gongstructshapeDB.IsSelected_Data.Valid = true
@@ -534,7 +540,7 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsToGongStructShape(gon
 	gongstructshape.ShowNbInstances = gongstructshapeDB.ShowNbInstances_Data.Bool
 	gongstructshape.NbInstances = int(gongstructshapeDB.NbInstances_Data.Int64)
 	gongstructshape.Width = gongstructshapeDB.Width_Data.Float64
-	gongstructshape.Heigth = gongstructshapeDB.Heigth_Data.Float64
+	gongstructshape.Height = gongstructshapeDB.Height_Data.Float64
 	gongstructshape.IsSelected = gongstructshapeDB.IsSelected_Data.Bool
 }
 
@@ -546,7 +552,7 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsToGongStructShape_WOP
 	gongstructshape.ShowNbInstances = gongstructshapeDB.ShowNbInstances_Data.Bool
 	gongstructshape.NbInstances = int(gongstructshapeDB.NbInstances_Data.Int64)
 	gongstructshape.Width = gongstructshapeDB.Width_Data.Float64
-	gongstructshape.Heigth = gongstructshapeDB.Heigth_Data.Float64
+	gongstructshape.Height = gongstructshapeDB.Height_Data.Float64
 	gongstructshape.IsSelected = gongstructshapeDB.IsSelected_Data.Bool
 }
 
@@ -559,7 +565,7 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsToGongStructShapeWOP(
 	gongstructshape.ShowNbInstances = gongstructshapeDB.ShowNbInstances_Data.Bool
 	gongstructshape.NbInstances = int(gongstructshapeDB.NbInstances_Data.Int64)
 	gongstructshape.Width = gongstructshapeDB.Width_Data.Float64
-	gongstructshape.Heigth = gongstructshapeDB.Heigth_Data.Float64
+	gongstructshape.Height = gongstructshapeDB.Height_Data.Float64
 	gongstructshape.IsSelected = gongstructshapeDB.IsSelected_Data.Bool
 }
 
@@ -744,7 +750,7 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) ResetReversePointe
 	return
 }
 
-func (backRepoGongStructShape *BackRepoGongStructShapeStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.GongStructShape) (Error error) {
+func (backRepoGongStructShape *BackRepoGongStructShapeStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, gongstructshape *models.GongStructShape) (Error error) {
 
 	// fetch matching gongstructshapeDB
 	if gongstructshapeDB, ok := backRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapeDB[idx]; ok {

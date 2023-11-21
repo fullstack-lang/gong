@@ -293,6 +293,9 @@ func (controller *Controller) UpdateNoteShape(c *gin.Context) {
 	noteshapeNew := new(models.NoteShape)
 	noteshapeDB.CopyBasicFieldsToNoteShape(noteshapeNew)
 
+	// redeem pointers
+	noteshapeDB.DecodePointers(backRepo, noteshapeNew)
+
 	// get stage instance from DB instance, and call callback function
 	noteshapeOld := backRepo.BackRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr[noteshapeDB.ID]
 	if noteshapeOld != nil {

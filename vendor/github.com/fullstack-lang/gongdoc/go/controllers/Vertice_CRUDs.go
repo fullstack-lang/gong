@@ -293,6 +293,9 @@ func (controller *Controller) UpdateVertice(c *gin.Context) {
 	verticeNew := new(models.Vertice)
 	verticeDB.CopyBasicFieldsToVertice(verticeNew)
 
+	// redeem pointers
+	verticeDB.DecodePointers(backRepo, verticeNew)
+
 	// get stage instance from DB instance, and call callback function
 	verticeOld := backRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr[verticeDB.ID]
 	if verticeOld != nil {

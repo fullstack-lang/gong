@@ -930,13 +930,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_GongStructShape[identifier].Width = exprSign * fielValue
-				case "Heigth":
+				case "Height":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_GongStructShape[identifier].Heigth = exprSign * fielValue
+					__gong__map_GongStructShape[identifier].Height = exprSign * fielValue
 				}
 			case "Link":
 				switch fieldName {

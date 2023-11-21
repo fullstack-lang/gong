@@ -261,7 +261,7 @@ func NewDiagramInjection(stage *models.StageStruct) {
 	__GongStructShape__000000_NewDiagram_Astruct.ShowNbInstances = false
 	__GongStructShape__000000_NewDiagram_Astruct.NbInstances = 0
 	__GongStructShape__000000_NewDiagram_Astruct.Width = 240.000000
-	__GongStructShape__000000_NewDiagram_Astruct.Heigth = 108.000000
+	__GongStructShape__000000_NewDiagram_Astruct.Height = 108.000000
 	__GongStructShape__000000_NewDiagram_Astruct.IsSelected = false
 
 	// GongStructShape values setup
@@ -274,7 +274,7 @@ func NewDiagramInjection(stage *models.StageStruct) {
 	__GongStructShape__000001_NewDiagram_Bstruct.ShowNbInstances = false
 	__GongStructShape__000001_NewDiagram_Bstruct.NbInstances = 0
 	__GongStructShape__000001_NewDiagram_Bstruct.Width = 240.000000
-	__GongStructShape__000001_NewDiagram_Bstruct.Heigth = 63.000000
+	__GongStructShape__000001_NewDiagram_Bstruct.Height = 63.000000
 	__GongStructShape__000001_NewDiagram_Bstruct.IsSelected = false
 
 	// Link values setup
@@ -362,5 +362,3 @@ func NewDiagramInjection(stage *models.StageStruct) {
 	__Link__000000_Anarrayofb.Middlevertice = __Vertice__000000_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_Astruct_and_NewDiagram_Bstruct
 	__Link__000001_Bstruct.Middlevertice = __Vertice__000001_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_Astruct_and_NewDiagram_Bstruct
 }
-
-

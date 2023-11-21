@@ -27,7 +27,7 @@ type GongStructShape struct {
 
 	// with and height of the shape when they are rendered on SVG or with jointjs
 	// They are optional fields. they can be computed when empty
-	Width, Heigth float64
+	Width, Height float64
 
 	// this is always false in the backend, but it can be set to true by the front end
 	// this means it is selected by the user

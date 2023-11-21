@@ -324,7 +324,13 @@ func (backRepoVertice *BackRepoVerticeStruct) CheckoutPhaseTwo(backRepo *BackRep
 func (backRepoVertice *BackRepoVerticeStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, verticeDB *VerticeDB) (Error error) {
 
 	vertice := backRepoVertice.Map_VerticeDBID_VerticePtr[verticeDB.ID]
-	_ = vertice // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	verticeDB.DecodePointers(backRepo, vertice)
+
+	return
+}
+
+func (verticeDB *VerticeDB) DecodePointers(backRepo *BackRepoStruct, vertice *models.Vertice) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -599,7 +605,7 @@ func (backRepoVertice *BackRepoVerticeStruct) ResetReversePointers(backRepo *Bac
 	return
 }
 
-func (backRepoVertice *BackRepoVerticeStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Vertice) (Error error) {
+func (backRepoVertice *BackRepoVerticeStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, vertice *models.Vertice) (Error error) {
 
 	// fetch matching verticeDB
 	if verticeDB, ok := backRepoVertice.Map_VerticeDBID_VerticeDB[idx]; ok {

@@ -1,12 +1,11 @@
 // insertion point for imports
-import { SVGIconDB } from './svgicon-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
 
-export class ButtonDB {
+export class SVGIconDB {
 
-	static GONGSTRUCT_NAME = "Button"
+	static GONGSTRUCT_NAME = "SVGIcon"
 
 	CreatedAt?: string
 	DeletedAt?: string
@@ -14,17 +13,13 @@ export class ButtonDB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
-	Icon: string = ""
+	SVG: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
-	SVGIcon?: SVGIconDB
 
-
-	ButtonPointersEncoding: ButtonPointersEncoding = new ButtonPointersEncoding
+	SVGIconPointersEncoding: SVGIconPointersEncoding = new SVGIconPointersEncoding
 }
 
-export class ButtonPointersEncoding {
+export class SVGIconPointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
-	SVGIconID: NullInt64 = new NullInt64 // if pointer is null, SVGIcon.ID = 0
-
 }

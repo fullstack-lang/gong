@@ -293,6 +293,9 @@ func (controller *Controller) UpdateSVG(c *gin.Context) {
 	svgNew := new(models.SVG)
 	svgDB.CopyBasicFieldsToSVG(svgNew)
 
+	// redeem pointers
+	svgDB.DecodePointers(backRepo, svgNew)
+
 	// get stage instance from DB instance, and call callback function
 	svgOld := backRepo.BackRepoSVG.Map_SVGDBID_SVGPtr[svgDB.ID]
 	if svgOld != nil {

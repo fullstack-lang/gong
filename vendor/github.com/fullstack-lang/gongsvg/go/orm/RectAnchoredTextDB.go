@@ -409,7 +409,13 @@ func (backRepoRectAnchoredText *BackRepoRectAnchoredTextStruct) CheckoutPhaseTwo
 func (backRepoRectAnchoredText *BackRepoRectAnchoredTextStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, rectanchoredtextDB *RectAnchoredTextDB) (Error error) {
 
 	rectanchoredtext := backRepoRectAnchoredText.Map_RectAnchoredTextDBID_RectAnchoredTextPtr[rectanchoredtextDB.ID]
-	_ = rectanchoredtext // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	rectanchoredtextDB.DecodePointers(backRepo, rectanchoredtext)
+
+	return
+}
+
+func (rectanchoredtextDB *RectAnchoredTextDB) DecodePointers(backRepo *BackRepoStruct, rectanchoredtext *models.RectAnchoredText) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem rectanchoredtext.Animates in the stage from the encode in the back repo
@@ -837,7 +843,7 @@ func (backRepoRectAnchoredText *BackRepoRectAnchoredTextStruct) ResetReversePoin
 	return
 }
 
-func (backRepoRectAnchoredText *BackRepoRectAnchoredTextStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.RectAnchoredText) (Error error) {
+func (backRepoRectAnchoredText *BackRepoRectAnchoredTextStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, rectanchoredtext *models.RectAnchoredText) (Error error) {
 
 	// fetch matching rectanchoredtextDB
 	if rectanchoredtextDB, ok := backRepoRectAnchoredText.Map_RectAnchoredTextDBID_RectAnchoredTextDB[idx]; ok {

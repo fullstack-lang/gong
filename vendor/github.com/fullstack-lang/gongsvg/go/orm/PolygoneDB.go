@@ -373,7 +373,13 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CheckoutPhaseTwo(backRepo *BackR
 func (backRepoPolygone *BackRepoPolygoneStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, polygoneDB *PolygoneDB) (Error error) {
 
 	polygone := backRepoPolygone.Map_PolygoneDBID_PolygonePtr[polygoneDB.ID]
-	_ = polygone // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	polygoneDB.DecodePointers(backRepo, polygone)
+
+	return
+}
+
+func (polygoneDB *PolygoneDB) DecodePointers(backRepo *BackRepoStruct, polygone *models.Polygone) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem polygone.Animates in the stage from the encode in the back repo
@@ -729,7 +735,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) ResetReversePointers(backRepo *B
 	return
 }
 
-func (backRepoPolygone *BackRepoPolygoneStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Polygone) (Error error) {
+func (backRepoPolygone *BackRepoPolygoneStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, polygone *models.Polygone) (Error error) {
 
 	// fetch matching polygoneDB
 	if polygoneDB, ok := backRepoPolygone.Map_PolygoneDBID_PolygoneDB[idx]; ok {

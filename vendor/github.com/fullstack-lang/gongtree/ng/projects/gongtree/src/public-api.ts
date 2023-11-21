@@ -17,6 +17,9 @@ export * from './lib/button.service'
 export * from './lib/node-db'
 export * from './lib/node.service'
 
+export * from './lib/svgicon-db'
+export * from './lib/svgicon.service'
+
 export * from './lib/tree-db'
 export * from './lib/tree.service'
 

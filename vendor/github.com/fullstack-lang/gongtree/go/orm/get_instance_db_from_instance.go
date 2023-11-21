@@ -8,7 +8,7 @@ import (
 type GongstructDB interface {
 	// insertion point for generic types
 	// "int" is present to handle the case when no struct is present
-	int | ButtonDB | NodeDB | TreeDB
+	int | ButtonDB | NodeDB | SVGIconDB | TreeDB
 }
 
 func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
@@ -25,6 +25,10 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 	case *models.Node:
 		nodeInstance := any(concreteInstance).(*models.Node)
 		ret2 := backRepo.BackRepoNode.GetNodeDBFromNodePtr(nodeInstance)
+		ret = any(ret2).(*T2)
+	case *models.SVGIcon:
+		svgiconInstance := any(concreteInstance).(*models.SVGIcon)
+		ret2 := backRepo.BackRepoSVGIcon.GetSVGIconDBFromSVGIconPtr(svgiconInstance)
 		ret = any(ret2).(*T2)
 	case *models.Tree:
 		treeInstance := any(concreteInstance).(*models.Tree)
@@ -53,6 +57,11 @@ func GetID[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
+	case *models.SVGIcon:
+		tmp := GetInstanceDBFromInstance[models.SVGIcon, SVGIconDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
 	case *models.Tree:
 		tmp := GetInstanceDBFromInstance[models.Tree, TreeDB](
 			stage, backRepo, inst,
@@ -78,6 +87,11 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.Node:
 		tmp := GetInstanceDBFromInstance[models.Node, NodeDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.SVGIcon:
+		tmp := GetInstanceDBFromInstance[models.SVGIcon, SVGIconDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

@@ -293,6 +293,9 @@ func (controller *Controller) UpdateCircle(c *gin.Context) {
 	circleNew := new(models.Circle)
 	circleDB.CopyBasicFieldsToCircle(circleNew)
 
+	// redeem pointers
+	circleDB.DecodePointers(backRepo, circleNew)
+
 	// get stage instance from DB instance, and call callback function
 	circleOld := backRepo.BackRepoCircle.Map_CircleDBID_CirclePtr[circleDB.ID]
 	if circleOld != nil {

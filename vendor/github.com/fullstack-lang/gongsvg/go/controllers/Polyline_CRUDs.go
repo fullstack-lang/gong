@@ -293,6 +293,9 @@ func (controller *Controller) UpdatePolyline(c *gin.Context) {
 	polylineNew := new(models.Polyline)
 	polylineDB.CopyBasicFieldsToPolyline(polylineNew)
 
+	// redeem pointers
+	polylineDB.DecodePointers(backRepo, polylineNew)
+
 	// get stage instance from DB instance, and call callback function
 	polylineOld := backRepo.BackRepoPolyline.Map_PolylineDBID_PolylinePtr[polylineDB.ID]
 	if polylineOld != nil {

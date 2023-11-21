@@ -234,6 +234,44 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	map_SVGIcon_Identifiers := make(map[*SVGIcon]string)
+	_ = map_SVGIcon_Identifiers
+
+	svgiconOrdered := []*SVGIcon{}
+	for svgicon := range stage.SVGIcons {
+		svgiconOrdered = append(svgiconOrdered, svgicon)
+	}
+	sort.Slice(svgiconOrdered[:], func(i, j int) bool {
+		return svgiconOrdered[i].Name < svgiconOrdered[j].Name
+	})
+	identifiersDecl += "\n\n	// Declarations of staged instances of SVGIcon"
+	for idx, svgicon := range svgiconOrdered {
+
+		id = generatesIdentifier("SVGIcon", idx, svgicon.Name)
+		map_SVGIcon_Identifiers[svgicon] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SVGIcon")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", svgicon.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n\n	// SVGIcon values setup"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(svgicon.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "SVG")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(svgicon.SVG))
+		initializerStatements += setValueField
+
+	}
+
 	map_Tree_Identifiers := make(map[*Tree]string)
 	_ = map_Tree_Identifiers
 
@@ -275,6 +313,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		map_Button_Identifiers[button] = id
 
 		// Initialisation of values
+		if button.SVGIcon != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "SVGIcon")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_SVGIcon_Identifiers[button.SVGIcon])
+			pointersInitializesStatements += setPointerField
+		}
+
 	}
 
 	for idx, node := range nodeOrdered {
@@ -285,6 +331,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		map_Node_Identifiers[node] = id
 
 		// Initialisation of values
+		if node.PreceedingSVGIcon != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "PreceedingSVGIcon")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_SVGIcon_Identifiers[node.PreceedingSVGIcon])
+			pointersInitializesStatements += setPointerField
+		}
+
 		for _, _node := range node.Children {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
@@ -301,6 +355,16 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			pointersInitializesStatements += setPointerField
 		}
 
+	}
+
+	for idx, svgicon := range svgiconOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("SVGIcon", idx, svgicon.Name)
+		map_SVGIcon_Identifiers[svgicon] = id
+
+		// Initialisation of values
 	}
 
 	for idx, tree := range treeOrdered {

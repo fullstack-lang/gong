@@ -293,6 +293,9 @@ func (controller *Controller) UpdatePosition(c *gin.Context) {
 	positionNew := new(models.Position)
 	positionDB.CopyBasicFieldsToPosition(positionNew)
 
+	// redeem pointers
+	positionDB.DecodePointers(backRepo, positionNew)
+
 	// get stage instance from DB instance, and call callback function
 	positionOld := backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr[positionDB.ID]
 	if positionOld != nil {

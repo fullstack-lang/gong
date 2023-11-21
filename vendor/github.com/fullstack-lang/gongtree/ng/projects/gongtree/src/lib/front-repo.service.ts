@@ -10,6 +10,9 @@ import { ButtonService } from './button.service'
 import { NodeDB } from './node-db'
 import { NodeService } from './node.service'
 
+import { SVGIconDB } from './svgicon-db'
+import { SVGIconService } from './svgicon.service'
+
 import { TreeDB } from './tree-db'
 import { TreeService } from './tree.service'
 
@@ -24,6 +27,10 @@ export class FrontRepo { // insertion point sub template
   Nodes_array = new Array<NodeDB>() // array of repo instances
   Nodes = new Map<number, NodeDB>() // map of repo instances
   Nodes_batch = new Map<number, NodeDB>() // same but only in last GET (for finding repo instances to delete)
+
+  SVGIcons_array = new Array<SVGIconDB>() // array of repo instances
+  SVGIcons = new Map<number, SVGIconDB>() // map of repo instances
+  SVGIcons_batch = new Map<number, SVGIconDB>() // same but only in last GET (for finding repo instances to delete)
 
   Trees_array = new Array<TreeDB>() // array of repo instances
   Trees = new Map<number, TreeDB>() // map of repo instances
@@ -40,6 +47,8 @@ export class FrontRepo { // insertion point sub template
         return this.Buttons_array as unknown as Array<Type>
       case 'Node':
         return this.Nodes_array as unknown as Array<Type>
+      case 'SVGIcon':
+        return this.SVGIcons_array as unknown as Array<Type>
       case 'Tree':
         return this.Trees_array as unknown as Array<Type>
       default:
@@ -52,11 +61,13 @@ export class FrontRepo { // insertion point sub template
     switch (gongStructName) {
       // insertion point
       case 'Button':
-        return this.Buttons_array as unknown as Map<number, Type>
+        return this.Buttons as unknown as Map<number, Type>
       case 'Node':
-        return this.Nodes_array as unknown as Map<number, Type>
+        return this.Nodes as unknown as Map<number, Type>
+      case 'SVGIcon':
+        return this.SVGIcons as unknown as Map<number, Type>
       case 'Tree':
-        return this.Trees_array as unknown as Map<number, Type>
+        return this.Trees as unknown as Map<number, Type>
       default:
         throw new Error("Type not recognized");
     }
@@ -125,6 +136,7 @@ export class FrontRepoService {
     private http: HttpClient, // insertion point sub template 
     private buttonService: ButtonService,
     private nodeService: NodeService,
+    private svgiconService: SVGIconService,
     private treeService: TreeService,
   ) { }
 
@@ -160,6 +172,7 @@ export class FrontRepoService {
     // insertion point sub template 
     Observable<ButtonDB[]>,
     Observable<NodeDB[]>,
+    Observable<SVGIconDB[]>,
     Observable<TreeDB[]>,
   ] = [
       // Using "combineLatest" with a placeholder observable.
@@ -173,6 +186,7 @@ export class FrontRepoService {
       // insertion point sub template
       this.buttonService.getButtons(this.GONG__StackPath, this.frontRepo),
       this.nodeService.getNodes(this.GONG__StackPath, this.frontRepo),
+      this.svgiconService.getSVGIcons(this.GONG__StackPath, this.frontRepo),
       this.treeService.getTrees(this.GONG__StackPath, this.frontRepo),
     ];
 
@@ -191,6 +205,7 @@ export class FrontRepoService {
       // insertion point sub template
       this.buttonService.getButtons(this.GONG__StackPath, this.frontRepo),
       this.nodeService.getNodes(this.GONG__StackPath, this.frontRepo),
+      this.svgiconService.getSVGIcons(this.GONG__StackPath, this.frontRepo),
       this.treeService.getTrees(this.GONG__StackPath, this.frontRepo),
     ]
 
@@ -204,6 +219,7 @@ export class FrontRepoService {
             // insertion point sub template for declarations 
             buttons_,
             nodes_,
+            svgicons_,
             trees_,
           ]) => {
             // Typing can be messy with many items. Therefore, type casting is necessary here
@@ -212,6 +228,8 @@ export class FrontRepoService {
             buttons = buttons_ as ButtonDB[]
             var nodes: NodeDB[]
             nodes = nodes_ as NodeDB[]
+            var svgicons: SVGIconDB[]
+            svgicons = svgicons_ as SVGIconDB[]
             var trees: TreeDB[]
             trees = trees_ as TreeDB[]
 
@@ -285,6 +303,39 @@ export class FrontRepoService {
             });
 
             // init the array
+            this.frontRepo.SVGIcons_array = svgicons
+
+            // clear the map that counts SVGIcon in the GET
+            this.frontRepo.SVGIcons_batch.clear()
+
+            svgicons.forEach(
+              svgicon => {
+                this.frontRepo.SVGIcons.set(svgicon.ID, svgicon)
+                this.frontRepo.SVGIcons_batch.set(svgicon.ID, svgicon)
+              }
+            )
+
+            // clear svgicons that are absent from the batch
+            this.frontRepo.SVGIcons.forEach(
+              svgicon => {
+                if (this.frontRepo.SVGIcons_batch.get(svgicon.ID) == undefined) {
+                  this.frontRepo.SVGIcons.delete(svgicon.ID)
+                }
+              }
+            )
+
+            // sort SVGIcons_array array
+            this.frontRepo.SVGIcons_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+
+            // init the array
             this.frontRepo.Trees_array = trees
 
             // clear the map that counts Tree in the GET
@@ -324,12 +375,26 @@ export class FrontRepoService {
             buttons.forEach(
               button => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointer field SVGIcon redeeming
+                {
+                  let _svgicon = this.frontRepo.SVGIcons.get(button.ButtonPointersEncoding.SVGIconID.Int64)
+                  if (_svgicon) {
+                    button.SVGIcon = _svgicon
+                  }
+                }
                 // insertion point for pointers decoding
               }
             )
             nodes.forEach(
               node => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointer field PreceedingSVGIcon redeeming
+                {
+                  let _svgicon = this.frontRepo.SVGIcons.get(node.NodePointersEncoding.PreceedingSVGIconID.Int64)
+                  if (_svgicon) {
+                    node.PreceedingSVGIcon = _svgicon
+                  }
+                }
                 // insertion point for pointers decoding
                 node.Children = new Array<NodeDB>()
                 for (let _id of node.NodePointersEncoding.Children) {
@@ -345,6 +410,12 @@ export class FrontRepoService {
                     node.Buttons.push(_button!)
                   }
                 }
+              }
+            )
+            svgicons.forEach(
+              svgicon => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointers decoding
               }
             )
             trees.forEach(
@@ -396,6 +467,13 @@ export class FrontRepoService {
                 this.frontRepo.Buttons_batch.set(button.ID, button)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
+                // insertion point for pointer field SVGIcon redeeming
+                {
+                  let _svgicon = this.frontRepo.SVGIcons.get(button.ButtonPointersEncoding.SVGIconID.Int64)
+                  if (_svgicon) {
+                    button.SVGIcon = _svgicon
+                  }
+                }
               }
             )
 
@@ -445,6 +523,13 @@ export class FrontRepoService {
                 this.frontRepo.Nodes_batch.set(node.ID, node)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
+                // insertion point for pointer field PreceedingSVGIcon redeeming
+                {
+                  let _svgicon = this.frontRepo.SVGIcons.get(node.NodePointersEncoding.PreceedingSVGIconID.Int64)
+                  if (_svgicon) {
+                    node.PreceedingSVGIcon = _svgicon
+                  }
+                }
               }
             )
 
@@ -453,6 +538,55 @@ export class FrontRepoService {
               node => {
                 if (this.frontRepo.Nodes_batch.get(node.ID) == undefined) {
                   this.frontRepo.Nodes.delete(node.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(this.frontRepo)
+          }
+        )
+      }
+    )
+  }
+
+  // SVGIconPull performs a GET on SVGIcon of the stack and redeem association pointers 
+  SVGIconPull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.svgiconService.getSVGIcons(this.GONG__StackPath, this.frontRepo)
+        ]).subscribe(
+          ([ // insertion point sub template 
+            svgicons,
+          ]) => {
+            // init the array
+            this.frontRepo.SVGIcons_array = svgicons
+
+            // clear the map that counts SVGIcon in the GET
+            this.frontRepo.SVGIcons_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            svgicons.forEach(
+              svgicon => {
+                this.frontRepo.SVGIcons.set(svgicon.ID, svgicon)
+                this.frontRepo.SVGIcons_batch.set(svgicon.ID, svgicon)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations
+              }
+            )
+
+            // clear svgicons that are absent from the GET
+            this.frontRepo.SVGIcons.forEach(
+              svgicon => {
+                if (this.frontRepo.SVGIcons_batch.get(svgicon.ID) == undefined) {
+                  this.frontRepo.SVGIcons.delete(svgicon.ID)
                 }
               }
             )
@@ -526,6 +660,9 @@ export function getButtonUniqueID(id: number): number {
 export function getNodeUniqueID(id: number): number {
   return 37 * id
 }
-export function getTreeUniqueID(id: number): number {
+export function getSVGIconUniqueID(id: number): number {
   return 41 * id
+}
+export function getTreeUniqueID(id: number): number {
+  return 43 * id
 }

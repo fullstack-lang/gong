@@ -318,7 +318,13 @@ func (backRepoGongEnumValueEntry *BackRepoGongEnumValueEntryStruct) CheckoutPhas
 func (backRepoGongEnumValueEntry *BackRepoGongEnumValueEntryStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, gongenumvalueentryDB *GongEnumValueEntryDB) (Error error) {
 
 	gongenumvalueentry := backRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryPtr[gongenumvalueentryDB.ID]
-	_ = gongenumvalueentry // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	gongenumvalueentryDB.DecodePointers(backRepo, gongenumvalueentry)
+
+	return
+}
+
+func (gongenumvalueentryDB *GongEnumValueEntryDB) DecodePointers(backRepo *BackRepoStruct, gongenumvalueentry *models.GongEnumValueEntry) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -581,7 +587,7 @@ func (backRepoGongEnumValueEntry *BackRepoGongEnumValueEntryStruct) ResetReverse
 	return
 }
 
-func (backRepoGongEnumValueEntry *BackRepoGongEnumValueEntryStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.GongEnumValueEntry) (Error error) {
+func (backRepoGongEnumValueEntry *BackRepoGongEnumValueEntryStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, gongenumvalueentry *models.GongEnumValueEntry) (Error error) {
 
 	// fetch matching gongenumvalueentryDB
 	if gongenumvalueentryDB, ok := backRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryDB[idx]; ok {

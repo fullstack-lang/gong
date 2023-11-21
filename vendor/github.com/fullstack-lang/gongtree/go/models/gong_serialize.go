@@ -16,6 +16,7 @@ func SerializeStage(stage *StageStruct, filename string) {
 		// insertion point
 		SerializeExcelize[Button](stage, f)
 		SerializeExcelize[Node](stage, f)
+		SerializeExcelize[SVGIcon](stage, f)
 		SerializeExcelize[Tree](stage, f)
 	}
 

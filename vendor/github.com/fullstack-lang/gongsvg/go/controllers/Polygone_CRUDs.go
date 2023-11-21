@@ -293,6 +293,9 @@ func (controller *Controller) UpdatePolygone(c *gin.Context) {
 	polygoneNew := new(models.Polygone)
 	polygoneDB.CopyBasicFieldsToPolygone(polygoneNew)
 
+	// redeem pointers
+	polygoneDB.DecodePointers(backRepo, polygoneNew)
+
 	// get stage instance from DB instance, and call callback function
 	polygoneOld := backRepo.BackRepoPolygone.Map_PolygoneDBID_PolygonePtr[polygoneDB.ID]
 	if polygoneOld != nil {

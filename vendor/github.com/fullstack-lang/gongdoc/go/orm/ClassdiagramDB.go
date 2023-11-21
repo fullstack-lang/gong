@@ -358,7 +358,13 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) CheckoutPhaseTwo(backRep
 func (backRepoClassdiagram *BackRepoClassdiagramStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, classdiagramDB *ClassdiagramDB) (Error error) {
 
 	classdiagram := backRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr[classdiagramDB.ID]
-	_ = classdiagram // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	classdiagramDB.DecodePointers(backRepo, classdiagram)
+
+	return
+}
+
+func (classdiagramDB *ClassdiagramDB) DecodePointers(backRepo *BackRepoStruct, classdiagram *models.Classdiagram) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem classdiagram.GongStructShapes in the stage from the encode in the back repo
@@ -648,7 +654,7 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) ResetReversePointers(bac
 	return
 }
 
-func (backRepoClassdiagram *BackRepoClassdiagramStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Classdiagram) (Error error) {
+func (backRepoClassdiagram *BackRepoClassdiagramStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, classdiagram *models.Classdiagram) (Error error) {
 
 	// fetch matching classdiagramDB
 	if classdiagramDB, ok := backRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramDB[idx]; ok {

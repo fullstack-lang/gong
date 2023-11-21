@@ -293,6 +293,9 @@ func (controller *Controller) UpdateDiagramPackage(c *gin.Context) {
 	diagrampackageNew := new(models.DiagramPackage)
 	diagrampackageDB.CopyBasicFieldsToDiagramPackage(diagrampackageNew)
 
+	// redeem pointers
+	diagrampackageDB.DecodePointers(backRepo, diagrampackageNew)
+
 	// get stage instance from DB instance, and call callback function
 	diagrampackageOld := backRepo.BackRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr[diagrampackageDB.ID]
 	if diagrampackageOld != nil {

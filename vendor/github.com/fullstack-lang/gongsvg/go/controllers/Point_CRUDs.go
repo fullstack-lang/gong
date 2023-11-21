@@ -293,6 +293,9 @@ func (controller *Controller) UpdatePoint(c *gin.Context) {
 	pointNew := new(models.Point)
 	pointDB.CopyBasicFieldsToPoint(pointNew)
 
+	// redeem pointers
+	pointDB.DecodePointers(backRepo, pointNew)
+
 	// get stage instance from DB instance, and call callback function
 	pointOld := backRepo.BackRepoPoint.Map_PointDBID_PointPtr[pointDB.ID]
 	if pointOld != nil {

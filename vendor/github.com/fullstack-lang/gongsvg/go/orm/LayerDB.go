@@ -449,7 +449,13 @@ func (backRepoLayer *BackRepoLayerStruct) CheckoutPhaseTwo(backRepo *BackRepoStr
 func (backRepoLayer *BackRepoLayerStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, layerDB *LayerDB) (Error error) {
 
 	layer := backRepoLayer.Map_LayerDBID_LayerPtr[layerDB.ID]
-	_ = layer // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	layerDB.DecodePointers(backRepo, layer)
+
+	return
+}
+
+func (layerDB *LayerDB) DecodePointers(backRepo *BackRepoStruct, layer *models.Layer) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem layer.Rects in the stage from the encode in the back repo
@@ -802,7 +808,7 @@ func (backRepoLayer *BackRepoLayerStruct) ResetReversePointers(backRepo *BackRep
 	return
 }
 
-func (backRepoLayer *BackRepoLayerStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Layer) (Error error) {
+func (backRepoLayer *BackRepoLayerStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, layer *models.Layer) (Error error) {
 
 	// fetch matching layerDB
 	if layerDB, ok := backRepoLayer.Map_LayerDBID_LayerDB[idx]; ok {

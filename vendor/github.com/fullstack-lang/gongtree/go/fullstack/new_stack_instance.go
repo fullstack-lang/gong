@@ -46,6 +46,7 @@ func NewStackInstance(
 	// insertion point
 	models.SetOrchestratorOnAfterUpdate[models.Button](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Node](stage)
+	models.SetOrchestratorOnAfterUpdate[models.SVGIcon](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Tree](stage)
 
 	return

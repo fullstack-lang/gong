@@ -403,7 +403,13 @@ func (backRepoLine *BackRepoLineStruct) CheckoutPhaseTwo(backRepo *BackRepoStruc
 func (backRepoLine *BackRepoLineStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, lineDB *LineDB) (Error error) {
 
 	line := backRepoLine.Map_LineDBID_LinePtr[lineDB.ID]
-	_ = line // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	lineDB.DecodePointers(backRepo, line)
+
+	return
+}
+
+func (lineDB *LineDB) DecodePointers(backRepo *BackRepoStruct, line *models.Line) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem line.Animates in the stage from the encode in the back repo
@@ -819,7 +825,7 @@ func (backRepoLine *BackRepoLineStruct) ResetReversePointers(backRepo *BackRepoS
 	return
 }
 
-func (backRepoLine *BackRepoLineStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Line) (Error error) {
+func (backRepoLine *BackRepoLineStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, line *models.Line) (Error error) {
 
 	// fetch matching lineDB
 	if lineDB, ok := backRepoLine.Map_LineDBID_LineDB[idx]; ok {
