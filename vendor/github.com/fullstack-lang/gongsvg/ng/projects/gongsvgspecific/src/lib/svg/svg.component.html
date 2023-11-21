@@ -1,5 +1,6 @@
-<div class="downloadbutton">
-    <button mat-raised-button color="primary" (click)="downloadSVG()">Download SVG</button>
+<div *ngIf="!svg.IsEditable" class="downloadbutton">
+    <button mat-raised-button (click)="downloadSVG()">
+        <mat-icon>download</mat-icon>SVG</button>
 </div>
 <div #drawingArea class="parent">
 

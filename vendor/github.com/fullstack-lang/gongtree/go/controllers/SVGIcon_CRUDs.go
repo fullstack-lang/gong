@@ -14,16 +14,16 @@ import (
 )
 
 // declaration in order to justify use of the models import
-var __Button__dummysDeclaration__ models.Button
-var __Button_time__dummyDeclaration time.Duration
+var __SVGIcon__dummysDeclaration__ models.SVGIcon
+var __SVGIcon_time__dummyDeclaration time.Duration
 
-var mutexButton sync.Mutex
+var mutexSVGIcon sync.Mutex
 
-// An ButtonID parameter model.
+// An SVGIconID parameter model.
 //
 // This is used for operations that want the ID of an order in the path
-// swagger:parameters getButton updateButton deleteButton
-type ButtonID struct {
+// swagger:parameters getSVGIcon updateSVGIcon deleteSVGIcon
+type SVGIconID struct {
 	// The ID of the order
 	//
 	// in: path
@@ -31,29 +31,29 @@ type ButtonID struct {
 	ID int64
 }
 
-// ButtonInput is a schema that can validate the user’s
+// SVGIconInput is a schema that can validate the user’s
 // input to prevent us from getting invalid data
-// swagger:parameters postButton updateButton
-type ButtonInput struct {
-	// The Button to submit or modify
+// swagger:parameters postSVGIcon updateSVGIcon
+type SVGIconInput struct {
+	// The SVGIcon to submit or modify
 	// in: body
-	Button *orm.ButtonAPI
+	SVGIcon *orm.SVGIconAPI
 }
 
-// GetButtons
+// GetSVGIcons
 //
-// swagger:route GET /buttons buttons getButtons
+// swagger:route GET /svgicons svgicons getSVGIcons
 //
-// # Get all buttons
+// # Get all svgicons
 //
 // Responses:
 // default: genericError
 //
-//	200: buttonDBResponse
-func (controller *Controller) GetButtons(c *gin.Context) {
+//	200: svgiconDBResponse
+func (controller *Controller) GetSVGIcons(c *gin.Context) {
 
 	// source slice
-	var buttonDBs []orm.ButtonDB
+	var svgiconDBs []orm.SVGIconDB
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -61,16 +61,16 @@ func (controller *Controller) GetButtons(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetButtons", "GONG__StackPath", stackPath)
+			// log.Println("GetSVGIcons", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
 	}
-	db := backRepo.BackRepoButton.GetDB()
+	db := backRepo.BackRepoSVGIcon.GetDB()
 
-	query := db.Find(&buttonDBs)
+	query := db.Find(&svgiconDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -81,29 +81,29 @@ func (controller *Controller) GetButtons(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	buttonAPIs := make([]orm.ButtonAPI, 0)
+	svgiconAPIs := make([]orm.SVGIconAPI, 0)
 
-	// for each button, update fields from the database nullable fields
-	for idx := range buttonDBs {
-		buttonDB := &buttonDBs[idx]
-		_ = buttonDB
-		var buttonAPI orm.ButtonAPI
+	// for each svgicon, update fields from the database nullable fields
+	for idx := range svgiconDBs {
+		svgiconDB := &svgiconDBs[idx]
+		_ = svgiconDB
+		var svgiconAPI orm.SVGIconAPI
 
 		// insertion point for updating fields
-		buttonAPI.ID = buttonDB.ID
-		buttonDB.CopyBasicFieldsToButton_WOP(&buttonAPI.Button_WOP)
-		buttonAPI.ButtonPointersEncoding = buttonDB.ButtonPointersEncoding
-		buttonAPIs = append(buttonAPIs, buttonAPI)
+		svgiconAPI.ID = svgiconDB.ID
+		svgiconDB.CopyBasicFieldsToSVGIcon_WOP(&svgiconAPI.SVGIcon_WOP)
+		svgiconAPI.SVGIconPointersEncoding = svgiconDB.SVGIconPointersEncoding
+		svgiconAPIs = append(svgiconAPIs, svgiconAPI)
 	}
 
-	c.JSON(http.StatusOK, buttonAPIs)
+	c.JSON(http.StatusOK, svgiconAPIs)
 }
 
-// PostButton
+// PostSVGIcon
 //
-// swagger:route POST /buttons buttons postButton
+// swagger:route POST /svgicons svgicons postSVGIcon
 //
-// Creates a button
+// Creates a svgicon
 //
 //	Consumes:
 //	- application/json
@@ -113,9 +113,9 @@ func (controller *Controller) GetButtons(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostButton(c *gin.Context) {
+func (controller *Controller) PostSVGIcon(c *gin.Context) {
 
-	mutexButton.Lock()
+	mutexSVGIcon.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -123,17 +123,17 @@ func (controller *Controller) PostButton(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("PostButtons", "GONG__StackPath", stackPath)
+			// log.Println("PostSVGIcons", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
 	}
-	db := backRepo.BackRepoButton.GetDB()
+	db := backRepo.BackRepoSVGIcon.GetDB()
 
 	// Validate input
-	var input orm.ButtonAPI
+	var input orm.SVGIconAPI
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -145,12 +145,12 @@ func (controller *Controller) PostButton(c *gin.Context) {
 		return
 	}
 
-	// Create button
-	buttonDB := orm.ButtonDB{}
-	buttonDB.ButtonPointersEncoding = input.ButtonPointersEncoding
-	buttonDB.CopyBasicFieldsFromButton_WOP(&input.Button_WOP)
+	// Create svgicon
+	svgiconDB := orm.SVGIconDB{}
+	svgiconDB.SVGIconPointersEncoding = input.SVGIconPointersEncoding
+	svgiconDB.CopyBasicFieldsFromSVGIcon_WOP(&input.SVGIcon_WOP)
 
-	query := db.Create(&buttonDB)
+	query := db.Create(&svgiconDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -161,33 +161,33 @@ func (controller *Controller) PostButton(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	backRepo.BackRepoButton.CheckoutPhaseOneInstance(&buttonDB)
-	button := backRepo.BackRepoButton.Map_ButtonDBID_ButtonPtr[buttonDB.ID]
+	backRepo.BackRepoSVGIcon.CheckoutPhaseOneInstance(&svgiconDB)
+	svgicon := backRepo.BackRepoSVGIcon.Map_SVGIconDBID_SVGIconPtr[svgiconDB.ID]
 
-	if button != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), button)
+	if svgicon != nil {
+		models.AfterCreateFromFront(backRepo.GetStage(), svgicon)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, buttonDB)
+	c.JSON(http.StatusOK, svgiconDB)
 
-	mutexButton.Unlock()
+	mutexSVGIcon.Unlock()
 }
 
-// GetButton
+// GetSVGIcon
 //
-// swagger:route GET /buttons/{ID} buttons getButton
+// swagger:route GET /svgicons/{ID} svgicons getSVGIcon
 //
-// Gets the details for a button.
+// Gets the details for a svgicon.
 //
 // Responses:
 // default: genericError
 //
-//	200: buttonDBResponse
-func (controller *Controller) GetButton(c *gin.Context) {
+//	200: svgiconDBResponse
+func (controller *Controller) GetSVGIcon(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -195,18 +195,18 @@ func (controller *Controller) GetButton(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetButton", "GONG__StackPath", stackPath)
+			// log.Println("GetSVGIcon", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
 	}
-	db := backRepo.BackRepoButton.GetDB()
+	db := backRepo.BackRepoSVGIcon.GetDB()
 
-	// Get buttonDB in DB
-	var buttonDB orm.ButtonDB
-	if err := db.First(&buttonDB, c.Param("id")).Error; err != nil {
+	// Get svgiconDB in DB
+	var svgiconDB orm.SVGIconDB
+	if err := db.First(&svgiconDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -215,27 +215,27 @@ func (controller *Controller) GetButton(c *gin.Context) {
 		return
 	}
 
-	var buttonAPI orm.ButtonAPI
-	buttonAPI.ID = buttonDB.ID
-	buttonAPI.ButtonPointersEncoding = buttonDB.ButtonPointersEncoding
-	buttonDB.CopyBasicFieldsToButton_WOP(&buttonAPI.Button_WOP)
+	var svgiconAPI orm.SVGIconAPI
+	svgiconAPI.ID = svgiconDB.ID
+	svgiconAPI.SVGIconPointersEncoding = svgiconDB.SVGIconPointersEncoding
+	svgiconDB.CopyBasicFieldsToSVGIcon_WOP(&svgiconAPI.SVGIcon_WOP)
 
-	c.JSON(http.StatusOK, buttonAPI)
+	c.JSON(http.StatusOK, svgiconAPI)
 }
 
-// UpdateButton
+// UpdateSVGIcon
 //
-// swagger:route PATCH /buttons/{ID} buttons updateButton
+// swagger:route PATCH /svgicons/{ID} svgicons updateSVGIcon
 //
-// # Update a button
+// # Update a svgicon
 //
 // Responses:
 // default: genericError
 //
-//	200: buttonDBResponse
-func (controller *Controller) UpdateButton(c *gin.Context) {
+//	200: svgiconDBResponse
+func (controller *Controller) UpdateSVGIcon(c *gin.Context) {
 
-	mutexButton.Lock()
+	mutexSVGIcon.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -243,17 +243,17 @@ func (controller *Controller) UpdateButton(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("UpdateButton", "GONG__StackPath", stackPath)
+			// log.Println("UpdateSVGIcon", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
 	}
-	db := backRepo.BackRepoButton.GetDB()
+	db := backRepo.BackRepoSVGIcon.GetDB()
 
 	// Validate input
-	var input orm.ButtonAPI
+	var input orm.SVGIconAPI
 	if err := c.ShouldBindJSON(&input); err != nil {
 		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -261,10 +261,10 @@ func (controller *Controller) UpdateButton(c *gin.Context) {
 	}
 
 	// Get model if exist
-	var buttonDB orm.ButtonDB
+	var svgiconDB orm.SVGIconDB
 
-	// fetch the button
-	query := db.First(&buttonDB, c.Param("id"))
+	// fetch the svgicon
+	query := db.First(&svgiconDB, c.Param("id"))
 
 	if query.Error != nil {
 		var returnError GenericError
@@ -276,10 +276,10 @@ func (controller *Controller) UpdateButton(c *gin.Context) {
 	}
 
 	// update
-	buttonDB.CopyBasicFieldsFromButton_WOP(&input.Button_WOP)
-	buttonDB.ButtonPointersEncoding = input.ButtonPointersEncoding
+	svgiconDB.CopyBasicFieldsFromSVGIcon_WOP(&input.SVGIcon_WOP)
+	svgiconDB.SVGIconPointersEncoding = input.SVGIconPointersEncoding
 
-	query = db.Model(&buttonDB).Updates(buttonDB)
+	query = db.Model(&svgiconDB).Updates(svgiconDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -290,16 +290,16 @@ func (controller *Controller) UpdateButton(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	buttonNew := new(models.Button)
-	buttonDB.CopyBasicFieldsToButton(buttonNew)
+	svgiconNew := new(models.SVGIcon)
+	svgiconDB.CopyBasicFieldsToSVGIcon(svgiconNew)
 
 	// redeem pointers
-	buttonDB.DecodePointers(backRepo, buttonNew)
+	svgiconDB.DecodePointers(backRepo, svgiconNew)
 
 	// get stage instance from DB instance, and call callback function
-	buttonOld := backRepo.BackRepoButton.Map_ButtonDBID_ButtonPtr[buttonDB.ID]
-	if buttonOld != nil {
-		models.AfterUpdateFromFront(backRepo.GetStage(), buttonOld, buttonNew)
+	svgiconOld := backRepo.BackRepoSVGIcon.Map_SVGIconDBID_SVGIconPtr[svgiconDB.ID]
+	if svgiconOld != nil {
+		models.AfterUpdateFromFront(backRepo.GetStage(), svgiconOld, svgiconNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -308,24 +308,24 @@ func (controller *Controller) UpdateButton(c *gin.Context) {
 	// generates a checkout
 	backRepo.IncrementPushFromFrontNb()
 
-	// return status OK with the marshalling of the the buttonDB
-	c.JSON(http.StatusOK, buttonDB)
+	// return status OK with the marshalling of the the svgiconDB
+	c.JSON(http.StatusOK, svgiconDB)
 
-	mutexButton.Unlock()
+	mutexSVGIcon.Unlock()
 }
 
-// DeleteButton
+// DeleteSVGIcon
 //
-// swagger:route DELETE /buttons/{ID} buttons deleteButton
+// swagger:route DELETE /svgicons/{ID} svgicons deleteSVGIcon
 //
-// # Delete a button
+// # Delete a svgicon
 //
 // default: genericError
 //
-//	200: buttonDBResponse
-func (controller *Controller) DeleteButton(c *gin.Context) {
+//	200: svgiconDBResponse
+func (controller *Controller) DeleteSVGIcon(c *gin.Context) {
 
-	mutexButton.Lock()
+	mutexSVGIcon.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -333,18 +333,18 @@ func (controller *Controller) DeleteButton(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("DeleteButton", "GONG__StackPath", stackPath)
+			// log.Println("DeleteSVGIcon", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
 	}
-	db := backRepo.BackRepoButton.GetDB()
+	db := backRepo.BackRepoSVGIcon.GetDB()
 
 	// Get model if exist
-	var buttonDB orm.ButtonDB
-	if err := db.First(&buttonDB, c.Param("id")).Error; err != nil {
+	var svgiconDB orm.SVGIconDB
+	if err := db.First(&svgiconDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -354,16 +354,16 @@ func (controller *Controller) DeleteButton(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&buttonDB)
+	db.Unscoped().Delete(&svgiconDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
-	buttonDeleted := new(models.Button)
-	buttonDB.CopyBasicFieldsToButton(buttonDeleted)
+	svgiconDeleted := new(models.SVGIcon)
+	svgiconDB.CopyBasicFieldsToSVGIcon(svgiconDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	buttonStaged := backRepo.BackRepoButton.Map_ButtonDBID_ButtonPtr[buttonDB.ID]
-	if buttonStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), buttonStaged, buttonDeleted)
+	svgiconStaged := backRepo.BackRepoSVGIcon.Map_SVGIconDBID_SVGIconPtr[svgiconDB.ID]
+	if svgiconStaged != nil {
+		models.AfterDeleteFromFront(backRepo.GetStage(), svgiconStaged, svgiconDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
@@ -372,5 +372,5 @@ func (controller *Controller) DeleteButton(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 
-	mutexButton.Unlock()
+	mutexSVGIcon.Unlock()
 }

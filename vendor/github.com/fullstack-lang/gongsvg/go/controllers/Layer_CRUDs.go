@@ -293,6 +293,9 @@ func (controller *Controller) UpdateLayer(c *gin.Context) {
 	layerNew := new(models.Layer)
 	layerDB.CopyBasicFieldsToLayer(layerNew)
 
+	// redeem pointers
+	layerDB.DecodePointers(backRepo, layerNew)
+
 	// get stage instance from DB instance, and call callback function
 	layerOld := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[layerDB.ID]
 	if layerOld != nil {

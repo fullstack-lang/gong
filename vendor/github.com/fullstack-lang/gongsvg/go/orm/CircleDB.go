@@ -385,7 +385,13 @@ func (backRepoCircle *BackRepoCircleStruct) CheckoutPhaseTwo(backRepo *BackRepoS
 func (backRepoCircle *BackRepoCircleStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, circleDB *CircleDB) (Error error) {
 
 	circle := backRepoCircle.Map_CircleDBID_CirclePtr[circleDB.ID]
-	_ = circle // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	circleDB.DecodePointers(backRepo, circle)
+
+	return
+}
+
+func (circleDB *CircleDB) DecodePointers(backRepo *BackRepoStruct, circle *models.Circle) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem circle.Animations in the stage from the encode in the back repo
@@ -765,7 +771,7 @@ func (backRepoCircle *BackRepoCircleStruct) ResetReversePointers(backRepo *BackR
 	return
 }
 
-func (backRepoCircle *BackRepoCircleStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Circle) (Error error) {
+func (backRepoCircle *BackRepoCircleStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, circle *models.Circle) (Error error) {
 
 	// fetch matching circleDB
 	if circleDB, ok := backRepoCircle.Map_CircleDBID_CircleDB[idx]; ok {

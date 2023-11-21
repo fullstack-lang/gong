@@ -85,7 +85,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		rect.Y = gongstructShape.Position.Y
 
 		rect.Width = gongstructShape.Width
-		rect.Height = gongstructShape.Heigth
+		rect.Height = gongstructShape.Height
 
 		rect.Stroke = gongsvg_models.Lightsalmon.ToString()
 		rect.StrokeWidth = 1

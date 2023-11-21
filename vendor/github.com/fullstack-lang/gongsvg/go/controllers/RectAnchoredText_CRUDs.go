@@ -293,6 +293,9 @@ func (controller *Controller) UpdateRectAnchoredText(c *gin.Context) {
 	rectanchoredtextNew := new(models.RectAnchoredText)
 	rectanchoredtextDB.CopyBasicFieldsToRectAnchoredText(rectanchoredtextNew)
 
+	// redeem pointers
+	rectanchoredtextDB.DecodePointers(backRepo, rectanchoredtextNew)
+
 	// get stage instance from DB instance, and call callback function
 	rectanchoredtextOld := backRepo.BackRepoRectAnchoredText.Map_RectAnchoredTextDBID_RectAnchoredTextPtr[rectanchoredtextDB.ID]
 	if rectanchoredtextOld != nil {

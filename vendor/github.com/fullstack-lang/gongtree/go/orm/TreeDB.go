@@ -325,7 +325,13 @@ func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseTwo(backRepo *BackRepoStruc
 func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, treeDB *TreeDB) (Error error) {
 
 	tree := backRepoTree.Map_TreeDBID_TreePtr[treeDB.ID]
-	_ = tree // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	treeDB.DecodePointers(backRepo, tree)
+
+	return
+}
+
+func (treeDB *TreeDB) DecodePointers(backRepo *BackRepoStruct, tree *models.Tree) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem tree.RootNodes in the stage from the encode in the back repo
@@ -585,7 +591,7 @@ func (backRepoTree *BackRepoTreeStruct) ResetReversePointers(backRepo *BackRepoS
 	return
 }
 
-func (backRepoTree *BackRepoTreeStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Tree) (Error error) {
+func (backRepoTree *BackRepoTreeStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, tree *models.Tree) (Error error) {
 
 	// fetch matching treeDB
 	if treeDB, ok := backRepoTree.Map_TreeDBID_TreeDB[idx]; ok {

@@ -293,6 +293,9 @@ func (controller *Controller) UpdateLink(c *gin.Context) {
 	linkNew := new(models.Link)
 	linkDB.CopyBasicFieldsToLink(linkNew)
 
+	// redeem pointers
+	linkDB.DecodePointers(backRepo, linkNew)
+
 	// get stage instance from DB instance, and call callback function
 	linkOld := backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[linkDB.ID]
 	if linkOld != nil {

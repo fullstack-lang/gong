@@ -293,6 +293,9 @@ func (controller *Controller) UpdateField(c *gin.Context) {
 	fieldNew := new(models.Field)
 	fieldDB.CopyBasicFieldsToField(fieldNew)
 
+	// redeem pointers
+	fieldDB.DecodePointers(backRepo, fieldNew)
+
 	// get stage instance from DB instance, and call callback function
 	fieldOld := backRepo.BackRepoField.Map_FieldDBID_FieldPtr[fieldDB.ID]
 	if fieldOld != nil {

@@ -293,6 +293,9 @@ func (controller *Controller) UpdateNoteShapeLink(c *gin.Context) {
 	noteshapelinkNew := new(models.NoteShapeLink)
 	noteshapelinkDB.CopyBasicFieldsToNoteShapeLink(noteshapelinkNew)
 
+	// redeem pointers
+	noteshapelinkDB.DecodePointers(backRepo, noteshapelinkNew)
+
 	// get stage instance from DB instance, and call callback function
 	noteshapelinkOld := backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr[noteshapelinkDB.ID]
 	if noteshapelinkOld != nil {

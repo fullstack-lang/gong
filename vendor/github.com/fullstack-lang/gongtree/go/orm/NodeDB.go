@@ -46,6 +46,10 @@ type NodeAPI struct {
 type NodePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
+	// field PreceedingSVGIcon is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	PreceedingSVGIconID sql.NullInt64
+
 	// field Children is a slice of pointers to another Struct (optional or 0..1)
 	Children IntSlice `gorm:"type:TEXT"`
 
@@ -275,6 +279,18 @@ func (backRepoNode *BackRepoNodeStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		nodeDB.CopyBasicFieldsFromNode(node)
 
 		// insertion point for translating pointers encodings into actual pointers
+		// commit pointer value node.PreceedingSVGIcon translates to updating the node.PreceedingSVGIconID
+		nodeDB.PreceedingSVGIconID.Valid = true // allow for a 0 value (nil association)
+		if node.PreceedingSVGIcon != nil {
+			if PreceedingSVGIconId, ok := backRepo.BackRepoSVGIcon.Map_SVGIconPtr_SVGIconDBID[node.PreceedingSVGIcon]; ok {
+				nodeDB.PreceedingSVGIconID.Int64 = int64(PreceedingSVGIconId)
+				nodeDB.PreceedingSVGIconID.Valid = true
+			}
+		} else {
+			nodeDB.PreceedingSVGIconID.Int64 = 0
+			nodeDB.PreceedingSVGIconID.Valid = true
+		}
+
 		// 1. reset
 		nodeDB.NodePointersEncoding.Children = make([]int, 0)
 		// 2. encode
@@ -399,9 +415,20 @@ func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseTwo(backRepo *BackRepoStruc
 func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, nodeDB *NodeDB) (Error error) {
 
 	node := backRepoNode.Map_NodeDBID_NodePtr[nodeDB.ID]
-	_ = node // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	nodeDB.DecodePointers(backRepo, node)
+
+	return
+}
+
+func (nodeDB *NodeDB) DecodePointers(backRepo *BackRepoStruct, node *models.Node) {
 
 	// insertion point for checkout of pointer encoding
+	// PreceedingSVGIcon field
+	node.PreceedingSVGIcon = nil
+	if nodeDB.PreceedingSVGIconID.Int64 != 0 {
+		node.PreceedingSVGIcon = backRepo.BackRepoSVGIcon.Map_SVGIconDBID_SVGIconPtr[uint(nodeDB.PreceedingSVGIconID.Int64)]
+	}
 	// This loop redeem node.Children in the stage from the encode in the back repo
 	// It parses all NodeDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
@@ -756,6 +783,12 @@ func (backRepoNode *BackRepoNodeStruct) RestorePhaseTwo() {
 		_ = nodeDB
 
 		// insertion point for reindexing pointers encoding
+		// reindexing PreceedingSVGIcon field
+		if nodeDB.PreceedingSVGIconID.Int64 != 0 {
+			nodeDB.PreceedingSVGIconID.Int64 = int64(BackRepoSVGIconid_atBckpTime_newID[uint(nodeDB.PreceedingSVGIconID.Int64)])
+			nodeDB.PreceedingSVGIconID.Valid = true
+		}
+
 		// update databse with new index encoding
 		query := backRepoNode.db.Model(nodeDB).Updates(*nodeDB)
 		if query.Error != nil {
@@ -776,7 +809,7 @@ func (backRepoNode *BackRepoNodeStruct) ResetReversePointers(backRepo *BackRepoS
 	return
 }
 
-func (backRepoNode *BackRepoNodeStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Node) (Error error) {
+func (backRepoNode *BackRepoNodeStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, node *models.Node) (Error error) {
 
 	// fetch matching nodeDB
 	if nodeDB, ok := backRepoNode.Map_NodeDBID_NodeDB[idx]; ok {

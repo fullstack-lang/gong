@@ -80,12 +80,12 @@ func AddNewButton(
 		return
 	}
 
-	drawButton := (&gongtree_models.Button{
+	newButton := (&gongtree_models.Button{
 		Name: nodeImplClassdiagram.classdiagram.Name + " " + string(icon),
 		Icon: string(icon)}).Stage(gongtreeStage)
-	_ = drawButton
-	classdiagramNode.Buttons = append(classdiagramNode.Buttons, drawButton)
-	drawButton.Impl = NewButtonImplClassdiagram(
+	_ = newButton
+	classdiagramNode.Buttons = append(classdiagramNode.Buttons, newButton)
+	newButton.Impl = NewButtonImplClassdiagram(
 		nodeImplClassdiagram.diagramPackage,
 		nodeImplClassdiagram.classdiagram,
 		diagramPackageNode,

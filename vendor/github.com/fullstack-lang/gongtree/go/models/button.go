@@ -2,7 +2,10 @@ package models
 
 type Button struct {
 	Name string // used for indentfication of click
-	Icon string
+	Icon string // material angular icon
+
+	// SVG Icon, overides the angular materal icon
+	SVGIcon *SVGIcon
 
 	Impl ButtonImplInterface
 }

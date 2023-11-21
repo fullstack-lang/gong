@@ -1,4 +1,5 @@
 // insertion point for imports
+import { SVGIconDB } from './svgicon-db'
 import { ButtonDB } from './button-db'
 
 // usefull for managing pointer ID values that can be nullable
@@ -25,6 +26,8 @@ export class NodeDB {
 	PreceedingIcon: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+	PreceedingSVGIcon?: SVGIconDB
+
 	Children: Array<NodeDB> = []
 	Buttons: Array<ButtonDB> = []
 
@@ -33,6 +36,8 @@ export class NodeDB {
 
 export class NodePointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
+	PreceedingSVGIconID: NullInt64 = new NullInt64 // if pointer is null, PreceedingSVGIcon.ID = 0
+
 	Children: number[] = []
 	Buttons: number[] = []
 }

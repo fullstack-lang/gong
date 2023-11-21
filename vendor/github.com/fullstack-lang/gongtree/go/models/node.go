@@ -35,8 +35,10 @@ type Node struct {
 	// IsWithPreceedingIcon indicates if the node have an icon preceeding the name
 	IsWithPreceedingIcon bool
 
-	// PreceedingIcon if [IsWithPreceedingIcon] is true
+	// PreceedingIcon is the angular material name if [models.IsWithPreceedingIcon] is true
 	PreceedingIcon string
+
+	PreceedingSVGIcon *SVGIcon
 
 	Children []*Node
 

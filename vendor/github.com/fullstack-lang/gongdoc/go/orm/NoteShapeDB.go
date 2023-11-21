@@ -374,7 +374,13 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseTwo(backRepo *Bac
 func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, noteshapeDB *NoteShapeDB) (Error error) {
 
 	noteshape := backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr[noteshapeDB.ID]
-	_ = noteshape // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	noteshapeDB.DecodePointers(backRepo, noteshape)
+
+	return
+}
+
+func (noteshapeDB *NoteShapeDB) DecodePointers(backRepo *BackRepoStruct, noteshape *models.NoteShape) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem noteshape.NoteShapeLinks in the stage from the encode in the back repo
@@ -730,7 +736,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) ResetReversePointers(backRepo 
 	return
 }
 
-func (backRepoNoteShape *BackRepoNoteShapeStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.NoteShape) (Error error) {
+func (backRepoNoteShape *BackRepoNoteShapeStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, noteshape *models.NoteShape) (Error error) {
 
 	// fetch matching noteshapeDB
 	if noteshapeDB, ok := backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB[idx]; ok {

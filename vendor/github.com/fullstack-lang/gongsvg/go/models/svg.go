@@ -22,6 +22,8 @@ type SVG struct {
 	EndRect   *Rect
 
 	IsEditable bool
+
+	Impl SVGImplInterface
 }
 
 // OnAfterUpdate, notice that rect == stagedRect
@@ -29,24 +31,33 @@ func (svg *SVG) OnAfterUpdate(stage *StageStruct, _, frontSVG *SVG) {
 
 	log.Println("SVG, OnAfterUpdate", svg.Name)
 
-	// if it is the end of a drawing state
-	if svg.DrawingState == NOT_DRAWING_LINE && frontSVG.DrawingState == DRAWING_LINE {
-		svg.DrawingState = frontSVG.DrawingState
-
-		// let's create a new layer with a line in it that connects both rectangles
-		layer := new(Layer).Stage(stage)
-		layer.Name = "Line layer"
-		svg.Layers = append(svg.Layers, layer)
-
-		line := closestMidpoints(svg.StartRect, svg.EndRect).Stage(stage)
-		line.Name = "Line connecting rect " + svg.StartRect.Name + " to " + svg.EndRect.Name
-		line.Color = "olivedrab"
-		line.Stroke = "olivedrab"
-		line.StrokeWidth = 4
-		layer.Lines = append(layer.Lines, line)
-
-		stage.Commit()
+	if svg.Impl != nil {
+		svg.Impl.SVGUpdated(frontSVG)
 	}
+
+	// below is an example of working interception
+	if false {
+		// if it is the end of a drawing state
+		if svg.DrawingState == NOT_DRAWING_LINE && frontSVG.DrawingState == DRAWING_LINE {
+			svg.DrawingState = frontSVG.DrawingState
+
+			// let's create a new layer with a line in it that connects both rectangles
+			layer := new(Layer).Stage(stage)
+			layer.Name = "Line layer"
+			layer.Display = true
+			svg.Layers = append(svg.Layers, layer)
+
+			line := closestMidpoints(svg.StartRect, svg.EndRect).Stage(stage)
+			line.Name = "Line connecting rect " + svg.StartRect.Name + " to " + svg.EndRect.Name
+			line.Color = "olivedrab"
+			line.Stroke = "olivedrab"
+			line.StrokeWidth = 4
+			layer.Lines = append(layer.Lines, line)
+
+			stage.Commit()
+		}
+	}
+
 }
 
 func closestMidpoints(r1, r2 *Rect) *Line {

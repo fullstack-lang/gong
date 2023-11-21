@@ -53,7 +53,7 @@ type GongStructShape_WOP struct {
 	ShowNbInstances bool
 	NbInstances int
 	Width float64
-	Heigth float64
+	Height float64
 	IsSelected bool
 }
 

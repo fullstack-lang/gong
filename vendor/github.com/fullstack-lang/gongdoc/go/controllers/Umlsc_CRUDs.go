@@ -293,6 +293,9 @@ func (controller *Controller) UpdateUmlsc(c *gin.Context) {
 	umlscNew := new(models.Umlsc)
 	umlscDB.CopyBasicFieldsToUmlsc(umlscNew)
 
+	// redeem pointers
+	umlscDB.DecodePointers(backRepo, umlscNew)
+
 	// get stage instance from DB instance, and call callback function
 	umlscOld := backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr[umlscDB.ID]
 	if umlscOld != nil {

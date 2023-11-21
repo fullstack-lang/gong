@@ -373,7 +373,13 @@ func (backRepoPath *BackRepoPathStruct) CheckoutPhaseTwo(backRepo *BackRepoStruc
 func (backRepoPath *BackRepoPathStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, pathDB *PathDB) (Error error) {
 
 	path := backRepoPath.Map_PathDBID_PathPtr[pathDB.ID]
-	_ = path // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	pathDB.DecodePointers(backRepo, path)
+
+	return
+}
+
+func (pathDB *PathDB) DecodePointers(backRepo *BackRepoStruct, path *models.Path) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem path.Animates in the stage from the encode in the back repo
@@ -729,7 +735,7 @@ func (backRepoPath *BackRepoPathStruct) ResetReversePointers(backRepo *BackRepoS
 	return
 }
 
-func (backRepoPath *BackRepoPathStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Path) (Error error) {
+func (backRepoPath *BackRepoPathStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, path *models.Path) (Error error) {
 
 	// fetch matching pathDB
 	if pathDB, ok := backRepoPath.Map_PathDBID_PathDB[idx]; ok {

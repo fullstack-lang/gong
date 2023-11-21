@@ -391,7 +391,13 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CheckoutPhaseTwo
 func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, linkanchoredtextDB *LinkAnchoredTextDB) (Error error) {
 
 	linkanchoredtext := backRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextPtr[linkanchoredtextDB.ID]
-	_ = linkanchoredtext // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	linkanchoredtextDB.DecodePointers(backRepo, linkanchoredtext)
+
+	return
+}
+
+func (linkanchoredtextDB *LinkAnchoredTextDB) DecodePointers(backRepo *BackRepoStruct, linkanchoredtext *models.LinkAnchoredText) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem linkanchoredtext.Animates in the stage from the encode in the back repo
@@ -783,7 +789,7 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) ResetReversePoin
 	return
 }
 
-func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.LinkAnchoredText) (Error error) {
+func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, linkanchoredtext *models.LinkAnchoredText) (Error error) {
 
 	// fetch matching linkanchoredtextDB
 	if linkanchoredtextDB, ok := backRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextDB[idx]; ok {

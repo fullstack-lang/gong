@@ -324,7 +324,13 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CheckoutPhaseTwo(backR
 func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, noteshapelinkDB *NoteShapeLinkDB) (Error error) {
 
 	noteshapelink := backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr[noteshapelinkDB.ID]
-	_ = noteshapelink // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	noteshapelinkDB.DecodePointers(backRepo, noteshapelink)
+
+	return
+}
+
+func (noteshapelinkDB *NoteShapeLinkDB) DecodePointers(backRepo *BackRepoStruct, noteshapelink *models.NoteShapeLink) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -599,7 +605,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) ResetReversePointers(b
 	return
 }
 
-func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.NoteShapeLink) (Error error) {
+func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, noteshapelink *models.NoteShapeLink) (Error error) {
 
 	// fetch matching noteshapelinkDB
 	if noteshapelinkDB, ok := backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB[idx]; ok {

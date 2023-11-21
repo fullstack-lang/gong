@@ -338,7 +338,13 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseTwo(backRepo *BackRepoStr
 func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, umlscDB *UmlscDB) (Error error) {
 
 	umlsc := backRepoUmlsc.Map_UmlscDBID_UmlscPtr[umlscDB.ID]
-	_ = umlsc // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	umlscDB.DecodePointers(backRepo, umlsc)
+
+	return
+}
+
+func (umlscDB *UmlscDB) DecodePointers(backRepo *BackRepoStruct, umlsc *models.Umlsc) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem umlsc.States in the stage from the encode in the back repo
@@ -622,7 +628,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) ResetReversePointers(backRepo *BackRep
 	return
 }
 
-func (backRepoUmlsc *BackRepoUmlscStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Umlsc) (Error error) {
+func (backRepoUmlsc *BackRepoUmlscStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, umlsc *models.Umlsc) (Error error) {
 
 	// fetch matching umlscDB
 	if umlscDB, ok := backRepoUmlsc.Map_UmlscDBID_UmlscDB[idx]; ok {

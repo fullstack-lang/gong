@@ -293,6 +293,9 @@ func (controller *Controller) UpdateTree(c *gin.Context) {
 	treeNew := new(models.Tree)
 	treeDB.CopyBasicFieldsToTree(treeNew)
 
+	// redeem pointers
+	treeDB.DecodePointers(backRepo, treeNew)
+
 	// get stage instance from DB instance, and call callback function
 	treeOld := backRepo.BackRepoTree.Map_TreeDBID_TreePtr[treeDB.ID]
 	if treeOld != nil {

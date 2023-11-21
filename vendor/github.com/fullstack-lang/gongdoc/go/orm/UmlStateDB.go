@@ -324,7 +324,13 @@ func (backRepoUmlState *BackRepoUmlStateStruct) CheckoutPhaseTwo(backRepo *BackR
 func (backRepoUmlState *BackRepoUmlStateStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, umlstateDB *UmlStateDB) (Error error) {
 
 	umlstate := backRepoUmlState.Map_UmlStateDBID_UmlStatePtr[umlstateDB.ID]
-	_ = umlstate // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	umlstateDB.DecodePointers(backRepo, umlstate)
+
+	return
+}
+
+func (umlstateDB *UmlStateDB) DecodePointers(backRepo *BackRepoStruct, umlstate *models.UmlState) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -599,7 +605,7 @@ func (backRepoUmlState *BackRepoUmlStateStruct) ResetReversePointers(backRepo *B
 	return
 }
 
-func (backRepoUmlState *BackRepoUmlStateStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.UmlState) (Error error) {
+func (backRepoUmlState *BackRepoUmlStateStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, umlstate *models.UmlState) (Error error) {
 
 	// fetch matching umlstateDB
 	if umlstateDB, ok := backRepoUmlState.Map_UmlStateDBID_UmlStateDB[idx]; ok {

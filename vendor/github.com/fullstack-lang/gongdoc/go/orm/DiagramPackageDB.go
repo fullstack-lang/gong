@@ -386,7 +386,13 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CheckoutPhaseTwo(bac
 func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, diagrampackageDB *DiagramPackageDB) (Error error) {
 
 	diagrampackage := backRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr[diagrampackageDB.ID]
-	_ = diagrampackage // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	diagrampackageDB.DecodePointers(backRepo, diagrampackage)
+
+	return
+}
+
+func (diagrampackageDB *DiagramPackageDB) DecodePointers(backRepo *BackRepoStruct, diagrampackage *models.DiagramPackage) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem diagrampackage.Classdiagrams in the stage from the encode in the back repo
@@ -726,7 +732,7 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) ResetReversePointers
 	return
 }
 
-func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.DiagramPackage) (Error error) {
+func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, diagrampackage *models.DiagramPackage) (Error error) {
 
 	// fetch matching diagrampackageDB
 	if diagrampackageDB, ok := backRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackageDB[idx]; ok {

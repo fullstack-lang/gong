@@ -293,6 +293,9 @@ func (controller *Controller) UpdateText(c *gin.Context) {
 	textNew := new(models.Text)
 	textDB.CopyBasicFieldsToText(textNew)
 
+	// redeem pointers
+	textDB.DecodePointers(backRepo, textNew)
+
 	// get stage instance from DB instance, and call callback function
 	textOld := backRepo.BackRepoText.Map_TextDBID_TextPtr[textDB.ID]
 	if textOld != nil {

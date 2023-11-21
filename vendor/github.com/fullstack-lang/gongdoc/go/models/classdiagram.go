@@ -98,7 +98,7 @@ func (classdiagram *Classdiagram) AddGongStructShape(stage *StageStruct, diagram
 	gongstructshape.Name = classdiagram.Name + "-" + gongstructshapeName
 	gongstructshape.Identifier = GongStructNameToIdentifier(gongstructshapeName)
 	gongstructshape.Width = 240
-	gongstructshape.Heigth = 63
+	gongstructshape.Height = 63
 
 	// attach GongStruct to gongstructshape
 	nbInstances, ok := diagramPackage.Map_Identifier_NbInstances[gongstructshape.Identifier]

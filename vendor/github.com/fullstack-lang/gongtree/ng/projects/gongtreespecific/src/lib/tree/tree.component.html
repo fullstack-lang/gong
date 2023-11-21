@@ -11,6 +11,10 @@
                 </mat-icon>
                 &nbsp;&nbsp;
             </ng-container>
+            <ng-container *ngIf="node.gongNode.PreceedingSVGIcon">
+                <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}" svgIcon="{{node.gongNode.PreceedingSVGIcon.Name}}"></mat-icon>
+                &nbsp;&nbsp;
+            </ng-container>
             <mat-checkbox *ngIf="node.gongNode.HasCheckboxButton" [disabled]="node.gongNode.IsCheckboxDisabled" [checked]="node.gongNode.IsChecked" (change)="toggleNodeCheckbox(node)">
             </mat-checkbox>
             <div *ngIf='!node.gongNode.IsInEditMode && !node.gongNode.IsNodeClickable'>
@@ -29,7 +33,9 @@
             </button>
             <ng-container *ngFor="let button of node.gongNode.Buttons">
                 <button mat-button (click)="onButtonClick(node, button)" class="tight-buttons">
-                    <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{button.Icon}}
+                    <mat-icon *ngIf="button.SVGIcon == undefined" [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{button.Icon}}
+                    </mat-icon>
+                    <mat-icon *ngIf="button.SVGIcon" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" svgIcon="{{button.SVGIcon.Name}}">
                     </mat-icon>
                 </button>
             </ng-container>
@@ -43,6 +49,10 @@
                     'expand_more' : 'chevron_right'}}
                 </mat-icon>
             </button>
+            <ng-container *ngIf="node.gongNode.PreceedingSVGIcon">
+                <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}" svgIcon="{{node.gongNode.PreceedingSVGIcon.Name}}"></mat-icon>
+                &nbsp;&nbsp;
+            </ng-container>
             <ng-container *ngIf="node.gongNode.IsWithPreceedingIcon">
                 <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{node.gongNode.PreceedingIcon}}
                 </mat-icon>
@@ -58,7 +68,9 @@
             </span>
             <ng-container *ngFor="let button of node.gongNode.Buttons">
                 <button mat-button (click)="onButtonClick(node, button)">
-                    <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{button.Icon}}
+                    <mat-icon *ngIf="button.SVGIcon == undefined" [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{button.Icon}}
+                    </mat-icon>
+                    <mat-icon *ngIf="button.SVGIcon" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" svgIcon="{{button.SVGIcon.Name}}">
                     </mat-icon>
                 </button>
             </ng-container>

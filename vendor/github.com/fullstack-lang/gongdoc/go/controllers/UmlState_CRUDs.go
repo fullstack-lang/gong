@@ -293,6 +293,9 @@ func (controller *Controller) UpdateUmlState(c *gin.Context) {
 	umlstateNew := new(models.UmlState)
 	umlstateDB.CopyBasicFieldsToUmlState(umlstateNew)
 
+	// redeem pointers
+	umlstateDB.DecodePointers(backRepo, umlstateNew)
+
 	// get stage instance from DB instance, and call callback function
 	umlstateOld := backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStatePtr[umlstateDB.ID]
 	if umlstateOld != nil {

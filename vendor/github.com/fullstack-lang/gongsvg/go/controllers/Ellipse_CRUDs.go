@@ -293,6 +293,9 @@ func (controller *Controller) UpdateEllipse(c *gin.Context) {
 	ellipseNew := new(models.Ellipse)
 	ellipseDB.CopyBasicFieldsToEllipse(ellipseNew)
 
+	// redeem pointers
+	ellipseDB.DecodePointers(backRepo, ellipseNew)
+
 	// get stage instance from DB instance, and call callback function
 	ellipseOld := backRepo.BackRepoEllipse.Map_EllipseDBID_EllipsePtr[ellipseDB.ID]
 	if ellipseOld != nil {

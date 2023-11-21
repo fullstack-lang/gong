@@ -293,6 +293,9 @@ func (controller *Controller) UpdateRect(c *gin.Context) {
 	rectNew := new(models.Rect)
 	rectDB.CopyBasicFieldsToRect(rectNew)
 
+	// redeem pointers
+	rectDB.DecodePointers(backRepo, rectNew)
+
 	// get stage instance from DB instance, and call callback function
 	rectOld := backRepo.BackRepoRect.Map_RectDBID_RectPtr[rectDB.ID]
 	if rectOld != nil {

@@ -253,7 +253,7 @@ export class RectComponent implements OnInit, OnDestroy, DoCheck, OnChanges {
       }
       this.mouseEventService.emitMouseDownEvent(shapeMouseEvent)
     } else {
-      console.log("startRectDrag + shiftKey : ", this.Rect?.Name)
+      console.log('RectComponent, Alt Mouse down event occurred on rectangle ', this.Rect.Name, this.Rect.ID, event.clientX, event.clientY);
 
       let shapeMouseEvent: ShapeMouseEvent = {
         ShapeID: this.Rect.ID,
@@ -277,7 +277,7 @@ export class RectComponent implements OnInit, OnDestroy, DoCheck, OnChanges {
 
     // we want this event to bubble to the SVG element
     if (event.altKey) {
-      console.log('RectComponent, Alt Mouse drag event occurred on rectangle ', this.Rect.Name, event.clientX, event.clientY);
+      // console.log('RectComponent, Alt Mouse drag event occurred on rectangle ', this.Rect.Name, event.clientX, event.clientY);
       this.rectangleEventService.emitRectAltKeyMouseDragEvent(shapeMouseEvent)
       return
     }
@@ -315,7 +315,7 @@ export class RectComponent implements OnInit, OnDestroy, DoCheck, OnChanges {
     }
 
     if (event.altKey) {
-      console.log("endRectDrag + shiftKey rect : ", this.Rect?.Name)
+      console.log('RectComponent, Alt Mouse up event occurred on rectangle ', this.Rect.Name, this.Rect.ID, event.clientX, event.clientY);
 
       this.rectangleEventService.emitMouseRectAltKeyMouseUpEvent(this.Rect.ID);
     }

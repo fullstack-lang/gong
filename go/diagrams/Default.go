@@ -323,7 +323,7 @@ func DefaultInjection(stage *models.StageStruct) {
 	__GongStructShape__000000_Default_GongBasicField.ShowNbInstances = false
 	__GongStructShape__000000_Default_GongBasicField.NbInstances = 0
 	__GongStructShape__000000_Default_GongBasicField.Width = 240.000000
-	__GongStructShape__000000_Default_GongBasicField.Heigth = 63.000000
+	__GongStructShape__000000_Default_GongBasicField.Height= 63.000000
 	__GongStructShape__000000_Default_GongBasicField.IsSelected = false
 
 	// GongStructShape values setup
@@ -336,7 +336,7 @@ func DefaultInjection(stage *models.StageStruct) {
 	__GongStructShape__000001_Default_GongLink.ShowNbInstances = false
 	__GongStructShape__000001_Default_GongLink.NbInstances = 0
 	__GongStructShape__000001_Default_GongLink.Width = 240.000000
-	__GongStructShape__000001_Default_GongLink.Heigth = 108.000000
+	__GongStructShape__000001_Default_GongLink.Height= 108.000000
 	__GongStructShape__000001_Default_GongLink.IsSelected = false
 
 	// GongStructShape values setup
@@ -349,7 +349,7 @@ func DefaultInjection(stage *models.StageStruct) {
 	__GongStructShape__000002_Default_GongNote.ShowNbInstances = false
 	__GongStructShape__000002_Default_GongNote.NbInstances = 0
 	__GongStructShape__000002_Default_GongNote.Width = 240.000000
-	__GongStructShape__000002_Default_GongNote.Heigth = 108.000000
+	__GongStructShape__000002_Default_GongNote.Height= 108.000000
 	__GongStructShape__000002_Default_GongNote.IsSelected = false
 
 	// GongStructShape values setup
@@ -362,7 +362,7 @@ func DefaultInjection(stage *models.StageStruct) {
 	__GongStructShape__000003_Default_GongStruct.ShowNbInstances = false
 	__GongStructShape__000003_Default_GongStruct.NbInstances = 0
 	__GongStructShape__000003_Default_GongStruct.Width = 240.000000
-	__GongStructShape__000003_Default_GongStruct.Heigth = 93.000000
+	__GongStructShape__000003_Default_GongStruct.Height= 93.000000
 	__GongStructShape__000003_Default_GongStruct.IsSelected = false
 
 	// GongStructShape values setup
@@ -375,7 +375,7 @@ func DefaultInjection(stage *models.StageStruct) {
 	__GongStructShape__000004_Default_GongTimeField.ShowNbInstances = false
 	__GongStructShape__000004_Default_GongTimeField.NbInstances = 0
 	__GongStructShape__000004_Default_GongTimeField.Width = 240.000000
-	__GongStructShape__000004_Default_GongTimeField.Heigth = 63.000000
+	__GongStructShape__000004_Default_GongTimeField.Height= 63.000000
 	__GongStructShape__000004_Default_GongTimeField.IsSelected = false
 
 	// GongStructShape values setup
@@ -388,7 +388,7 @@ func DefaultInjection(stage *models.StageStruct) {
 	__GongStructShape__000005_Default_ModelPkg.ShowNbInstances = false
 	__GongStructShape__000005_Default_ModelPkg.NbInstances = 0
 	__GongStructShape__000005_Default_ModelPkg.Width = 240.000000
-	__GongStructShape__000005_Default_ModelPkg.Heigth = 63.000000
+	__GongStructShape__000005_Default_ModelPkg.Height= 63.000000
 	__GongStructShape__000005_Default_ModelPkg.IsSelected = false
 
 	// GongStructShape values setup
@@ -401,7 +401,7 @@ func DefaultInjection(stage *models.StageStruct) {
 	__GongStructShape__000006_Default_PointerToGongStructField.ShowNbInstances = false
 	__GongStructShape__000006_Default_PointerToGongStructField.NbInstances = 0
 	__GongStructShape__000006_Default_PointerToGongStructField.Width = 240.000000
-	__GongStructShape__000006_Default_PointerToGongStructField.Heigth = 63.000000
+	__GongStructShape__000006_Default_PointerToGongStructField.Height= 63.000000
 	__GongStructShape__000006_Default_PointerToGongStructField.IsSelected = false
 
 	// GongStructShape values setup
@@ -414,7 +414,7 @@ func DefaultInjection(stage *models.StageStruct) {
 	__GongStructShape__000007_Default_SliceOfPointerToGongStructField.ShowNbInstances = false
 	__GongStructShape__000007_Default_SliceOfPointerToGongStructField.NbInstances = 0
 	__GongStructShape__000007_Default_SliceOfPointerToGongStructField.Width = 240.000000
-	__GongStructShape__000007_Default_SliceOfPointerToGongStructField.Heigth = 63.000000
+	__GongStructShape__000007_Default_SliceOfPointerToGongStructField.Height= 63.000000
 	__GongStructShape__000007_Default_SliceOfPointerToGongStructField.IsSelected = false
 
 	// Link values setup

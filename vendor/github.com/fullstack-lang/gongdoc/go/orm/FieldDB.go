@@ -336,7 +336,13 @@ func (backRepoField *BackRepoFieldStruct) CheckoutPhaseTwo(backRepo *BackRepoStr
 func (backRepoField *BackRepoFieldStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, fieldDB *FieldDB) (Error error) {
 
 	field := backRepoField.Map_FieldDBID_FieldPtr[fieldDB.ID]
-	_ = field // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	fieldDB.DecodePointers(backRepo, field)
+
+	return
+}
+
+func (fieldDB *FieldDB) DecodePointers(backRepo *BackRepoStruct, field *models.Field) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -635,7 +641,7 @@ func (backRepoField *BackRepoFieldStruct) ResetReversePointers(backRepo *BackRep
 	return
 }
 
-func (backRepoField *BackRepoFieldStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Field) (Error error) {
+func (backRepoField *BackRepoFieldStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, field *models.Field) (Error error) {
 
 	// fetch matching fieldDB
 	if fieldDB, ok := backRepoField.Map_FieldDBID_FieldDB[idx]; ok {

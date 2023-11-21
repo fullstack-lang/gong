@@ -31,6 +31,9 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 					res = _node.Name
 				}
 			}
+		case "SVGIcon":
+			switch reverseField.Fieldname {
+			}
 		case "Tree":
 			switch reverseField.Fieldname {
 			}
@@ -53,12 +56,36 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 					res = _node.Name
 				}
 			}
+		case "SVGIcon":
+			switch reverseField.Fieldname {
+			}
 		case "Tree":
 			switch reverseField.Fieldname {
 			case "RootNodes":
 				if _tree, ok := stage.Tree_RootNodes_reverseMap[inst]; ok {
 					res = _tree.Name
 				}
+			}
+		}
+
+	case *models.SVGIcon:
+		tmp := GetInstanceDBFromInstance[models.SVGIcon, SVGIconDB](
+			stage, backRepo, inst,
+		)
+		_ = tmp
+		switch reverseField.GongstructName {
+		// insertion point
+		case "Button":
+			switch reverseField.Fieldname {
+			}
+		case "Node":
+			switch reverseField.Fieldname {
+			}
+		case "SVGIcon":
+			switch reverseField.Fieldname {
+			}
+		case "Tree":
+			switch reverseField.Fieldname {
 			}
 		}
 
@@ -73,6 +100,9 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		case "Node":
+			switch reverseField.Fieldname {
+			}
+		case "SVGIcon":
 			switch reverseField.Fieldname {
 			}
 		case "Tree":
@@ -110,6 +140,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			case "Buttons":
 				res = stage.Node_Buttons_reverseMap[inst]
 			}
+		case "SVGIcon":
+			switch reverseField.Fieldname {
+			}
 		case "Tree":
 			switch reverseField.Fieldname {
 			}
@@ -130,10 +163,34 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			case "Children":
 				res = stage.Node_Children_reverseMap[inst]
 			}
+		case "SVGIcon":
+			switch reverseField.Fieldname {
+			}
 		case "Tree":
 			switch reverseField.Fieldname {
 			case "RootNodes":
 				res = stage.Tree_RootNodes_reverseMap[inst]
+			}
+		}
+
+	case *models.SVGIcon:
+		tmp := GetInstanceDBFromInstance[models.SVGIcon, SVGIconDB](
+			stage, backRepo, inst,
+		)
+		_ = tmp
+		switch reverseField.GongstructName {
+		// insertion point
+		case "Button":
+			switch reverseField.Fieldname {
+			}
+		case "Node":
+			switch reverseField.Fieldname {
+			}
+		case "SVGIcon":
+			switch reverseField.Fieldname {
+			}
+		case "Tree":
+			switch reverseField.Fieldname {
 			}
 		}
 
@@ -148,6 +205,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		case "Node":
+			switch reverseField.Fieldname {
+			}
+		case "SVGIcon":
 			switch reverseField.Fieldname {
 			}
 		case "Tree":

@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
 
+import { MatIconModule } from '@angular/material/icon';
+
 
 import { GongsvgspecificComponent } from './gongsvgspecific.component';
 import { LayerComponent } from './layer/layer.component';
@@ -42,6 +44,7 @@ import { RectLinkLinkComponent } from './rect-link-link/rect-link-link.component
   imports: [
     CommonModule,
 
+    MatIconModule,
     MatButtonModule,
 
     GongsvgModule

@@ -416,7 +416,13 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) CheckoutPhaseTwo
 func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, rectanchoredrectDB *RectAnchoredRectDB) (Error error) {
 
 	rectanchoredrect := backRepoRectAnchoredRect.Map_RectAnchoredRectDBID_RectAnchoredRectPtr[rectanchoredrectDB.ID]
-	_ = rectanchoredrect // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	rectanchoredrectDB.DecodePointers(backRepo, rectanchoredrect)
+
+	return
+}
+
+func (rectanchoredrectDB *RectAnchoredRectDB) DecodePointers(backRepo *BackRepoStruct, rectanchoredrect *models.RectAnchoredRect) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -871,7 +877,7 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) ResetReversePoin
 	return
 }
 
-func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.RectAnchoredRect) (Error error) {
+func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, rectanchoredrect *models.RectAnchoredRect) (Error error) {
 
 	// fetch matching rectanchoredrectDB
 	if rectanchoredrectDB, ok := backRepoRectAnchoredRect.Map_RectAnchoredRectDBID_RectAnchoredRectDB[idx]; ok {

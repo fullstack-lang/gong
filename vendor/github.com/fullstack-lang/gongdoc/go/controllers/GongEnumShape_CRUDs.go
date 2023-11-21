@@ -293,6 +293,9 @@ func (controller *Controller) UpdateGongEnumShape(c *gin.Context) {
 	gongenumshapeNew := new(models.GongEnumShape)
 	gongenumshapeDB.CopyBasicFieldsToGongEnumShape(gongenumshapeNew)
 
+	// redeem pointers
+	gongenumshapeDB.DecodePointers(backRepo, gongenumshapeNew)
+
 	// get stage instance from DB instance, and call callback function
 	gongenumshapeOld := backRepo.BackRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapePtr[gongenumshapeDB.ID]
 	if gongenumshapeOld != nil {
