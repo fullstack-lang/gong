@@ -44,7 +44,7 @@ github.com/fullstack-lang/gongdoc/go/models
 github.com/fullstack-lang/gongdoc/go/node2gongdoc
 github.com/fullstack-lang/gongdoc/go/orm
 github.com/fullstack-lang/gongdoc/ng/projects
-# github.com/fullstack-lang/gongsvg v0.0.0-20231116010249-feea037a7a20
+# github.com/fullstack-lang/gongsvg v0.0.0-20231118170738-6fac74d96498
 ## explicit; go 1.21.0
 github.com/fullstack-lang/gongsvg/go/controllers
 github.com/fullstack-lang/gongsvg/go/fullstack
@@ -238,7 +238,7 @@ golang.org/x/arch/x86/x86asm
 golang.org/x/crypto/md4
 golang.org/x/crypto/ripemd160
 golang.org/x/crypto/sha3
-# golang.org/x/exp v0.0.0-20231108232855-2478ac86f678
+# golang.org/x/exp v0.0.0-20231110203233-9a3e6036ecaa
 ## explicit; go 1.20
 golang.org/x/exp/maps
 # golang.org/x/mod v0.14.0
@@ -319,7 +319,7 @@ gorm.io/gorm/logger
 gorm.io/gorm/migrator
 gorm.io/gorm/schema
 gorm.io/gorm/utils
-# modernc.org/libc v1.32.0
+# modernc.org/libc v1.34.9
 ## explicit; go 1.20
 modernc.org/libc
 modernc.org/libc/errno
