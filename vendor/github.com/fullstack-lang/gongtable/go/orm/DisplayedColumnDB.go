@@ -312,7 +312,13 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) CheckoutPhaseTwo(b
 func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, displayedcolumnDB *DisplayedColumnDB) (Error error) {
 
 	displayedcolumn := backRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnPtr[displayedcolumnDB.ID]
-	_ = displayedcolumn // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	displayedcolumnDB.DecodePointers(backRepo, displayedcolumn)
+
+	return
+}
+
+func (displayedcolumnDB *DisplayedColumnDB) DecodePointers(backRepo *BackRepoStruct, displayedcolumn *models.DisplayedColumn) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -563,7 +569,7 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) ResetReversePointe
 	return
 }
 
-func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.DisplayedColumn) (Error error) {
+func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, displayedcolumn *models.DisplayedColumn) (Error error) {
 
 	// fetch matching displayedcolumnDB
 	if displayedcolumnDB, ok := backRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnDB[idx]; ok {

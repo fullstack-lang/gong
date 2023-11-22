@@ -312,7 +312,13 @@ func (backRepoOption *BackRepoOptionStruct) CheckoutPhaseTwo(backRepo *BackRepoS
 func (backRepoOption *BackRepoOptionStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, optionDB *OptionDB) (Error error) {
 
 	option := backRepoOption.Map_OptionDBID_OptionPtr[optionDB.ID]
-	_ = option // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	optionDB.DecodePointers(backRepo, option)
+
+	return
+}
+
+func (optionDB *OptionDB) DecodePointers(backRepo *BackRepoStruct, option *models.Option) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -563,7 +569,7 @@ func (backRepoOption *BackRepoOptionStruct) ResetReversePointers(backRepo *BackR
 	return
 }
 
-func (backRepoOption *BackRepoOptionStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Option) (Error error) {
+func (backRepoOption *BackRepoOptionStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, option *models.Option) (Error error) {
 
 	// fetch matching optionDB
 	if optionDB, ok := backRepoOption.Map_OptionDBID_OptionDB[idx]; ok {

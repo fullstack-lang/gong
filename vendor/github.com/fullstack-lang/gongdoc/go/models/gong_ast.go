@@ -885,13 +885,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_GongEnumShape[identifier].Width = exprSign * fielValue
-				case "Heigth":
+				case "Height":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_GongEnumShape[identifier].Heigth = exprSign * fielValue
+					__gong__map_GongEnumShape[identifier].Height = exprSign * fielValue
 				}
 			case "GongEnumValueEntry":
 				switch fieldName {
@@ -1057,13 +1057,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_NoteShape[identifier].Width = exprSign * fielValue
-				case "Heigth":
+				case "Height":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_NoteShape[identifier].Heigth = exprSign * fielValue
+					__gong__map_NoteShape[identifier].Height = exprSign * fielValue
 				}
 			case "NoteShapeLink":
 				switch fieldName {

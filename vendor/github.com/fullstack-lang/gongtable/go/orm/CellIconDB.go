@@ -318,7 +318,13 @@ func (backRepoCellIcon *BackRepoCellIconStruct) CheckoutPhaseTwo(backRepo *BackR
 func (backRepoCellIcon *BackRepoCellIconStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, celliconDB *CellIconDB) (Error error) {
 
 	cellicon := backRepoCellIcon.Map_CellIconDBID_CellIconPtr[celliconDB.ID]
-	_ = cellicon // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	celliconDB.DecodePointers(backRepo, cellicon)
+
+	return
+}
+
+func (celliconDB *CellIconDB) DecodePointers(backRepo *BackRepoStruct, cellicon *models.CellIcon) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -581,7 +587,7 @@ func (backRepoCellIcon *BackRepoCellIconStruct) ResetReversePointers(backRepo *B
 	return
 }
 
-func (backRepoCellIcon *BackRepoCellIconStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.CellIcon) (Error error) {
+func (backRepoCellIcon *BackRepoCellIconStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, cellicon *models.CellIcon) (Error error) {
 
 	// fetch matching celliconDB
 	if celliconDB, ok := backRepoCellIcon.Map_CellIconDBID_CellIconDB[idx]; ok {

@@ -85,7 +85,7 @@ func (nodeImplGongnote *NodeImplGongnote) OnAfterUpdate(
 		noteShape.X = 30
 		noteShape.Y = 30
 		noteShape.Width = 240
-		noteShape.Heigth = 63
+		noteShape.Height = 63
 
 		classDiagram.NoteShapes = append(classDiagram.NoteShapes, noteShape)
 	}

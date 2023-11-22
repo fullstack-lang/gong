@@ -319,7 +319,13 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) CheckoutPhaseTwo(backRepo *BackR
 func (backRepoCheckBox *BackRepoCheckBoxStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, checkboxDB *CheckBoxDB) (Error error) {
 
 	checkbox := backRepoCheckBox.Map_CheckBoxDBID_CheckBoxPtr[checkboxDB.ID]
-	_ = checkbox // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	checkboxDB.DecodePointers(backRepo, checkbox)
+
+	return
+}
+
+func (checkboxDB *CheckBoxDB) DecodePointers(backRepo *BackRepoStruct, checkbox *models.CheckBox) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -582,7 +588,7 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) ResetReversePointers(backRepo *B
 	return
 }
 
-func (backRepoCheckBox *BackRepoCheckBoxStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.CheckBox) (Error error) {
+func (backRepoCheckBox *BackRepoCheckBoxStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, checkbox *models.CheckBox) (Error error) {
 
 	// fetch matching checkboxDB
 	if checkboxDB, ok := backRepoCheckBox.Map_CheckBoxDBID_CheckBoxDB[idx]; ok {

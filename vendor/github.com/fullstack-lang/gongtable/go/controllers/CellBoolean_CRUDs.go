@@ -293,6 +293,9 @@ func (controller *Controller) UpdateCellBoolean(c *gin.Context) {
 	cellbooleanNew := new(models.CellBoolean)
 	cellbooleanDB.CopyBasicFieldsToCellBoolean(cellbooleanNew)
 
+	// redeem pointers
+	cellbooleanDB.DecodePointers(backRepo, cellbooleanNew)
+
 	// get stage instance from DB instance, and call callback function
 	cellbooleanOld := backRepo.BackRepoCellBoolean.Map_CellBooleanDBID_CellBooleanPtr[cellbooleanDB.ID]
 	if cellbooleanOld != nil {

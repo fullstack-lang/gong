@@ -318,7 +318,13 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) CheckoutPh
 func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, formeditassocbuttonDB *FormEditAssocButtonDB) (Error error) {
 
 	formeditassocbutton := backRepoFormEditAssocButton.Map_FormEditAssocButtonDBID_FormEditAssocButtonPtr[formeditassocbuttonDB.ID]
-	_ = formeditassocbutton // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	formeditassocbuttonDB.DecodePointers(backRepo, formeditassocbutton)
+
+	return
+}
+
+func (formeditassocbuttonDB *FormEditAssocButtonDB) DecodePointers(backRepo *BackRepoStruct, formeditassocbutton *models.FormEditAssocButton) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -581,7 +587,7 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) ResetRever
 	return
 }
 
-func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.FormEditAssocButton) (Error error) {
+func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, formeditassocbutton *models.FormEditAssocButton) (Error error) {
 
 	// fetch matching formeditassocbuttonDB
 	if formeditassocbuttonDB, ok := backRepoFormEditAssocButton.Map_FormEditAssocButtonDBID_FormEditAssocButtonDB[idx]; ok {

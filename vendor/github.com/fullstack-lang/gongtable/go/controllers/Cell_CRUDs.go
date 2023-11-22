@@ -293,6 +293,9 @@ func (controller *Controller) UpdateCell(c *gin.Context) {
 	cellNew := new(models.Cell)
 	cellDB.CopyBasicFieldsToCell(cellNew)
 
+	// redeem pointers
+	cellDB.DecodePointers(backRepo, cellNew)
+
 	// get stage instance from DB instance, and call callback function
 	cellOld := backRepo.BackRepoCell.Map_CellDBID_CellPtr[cellDB.ID]
 	if cellOld != nil {

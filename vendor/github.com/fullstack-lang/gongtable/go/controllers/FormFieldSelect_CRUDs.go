@@ -293,6 +293,9 @@ func (controller *Controller) UpdateFormFieldSelect(c *gin.Context) {
 	formfieldselectNew := new(models.FormFieldSelect)
 	formfieldselectDB.CopyBasicFieldsToFormFieldSelect(formfieldselectNew)
 
+	// redeem pointers
+	formfieldselectDB.DecodePointers(backRepo, formfieldselectNew)
+
 	// get stage instance from DB instance, and call callback function
 	formfieldselectOld := backRepo.BackRepoFormFieldSelect.Map_FormFieldSelectDBID_FormFieldSelectPtr[formfieldselectDB.ID]
 	if formfieldselectOld != nil {

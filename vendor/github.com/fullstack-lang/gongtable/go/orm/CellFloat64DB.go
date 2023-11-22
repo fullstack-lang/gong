@@ -318,7 +318,13 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) CheckoutPhaseTwo(backRepo 
 func (backRepoCellFloat64 *BackRepoCellFloat64Struct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, cellfloat64DB *CellFloat64DB) (Error error) {
 
 	cellfloat64 := backRepoCellFloat64.Map_CellFloat64DBID_CellFloat64Ptr[cellfloat64DB.ID]
-	_ = cellfloat64 // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	cellfloat64DB.DecodePointers(backRepo, cellfloat64)
+
+	return
+}
+
+func (cellfloat64DB *CellFloat64DB) DecodePointers(backRepo *BackRepoStruct, cellfloat64 *models.CellFloat64) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -581,7 +587,7 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) ResetReversePointers(backR
 	return
 }
 
-func (backRepoCellFloat64 *BackRepoCellFloat64Struct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.CellFloat64) (Error error) {
+func (backRepoCellFloat64 *BackRepoCellFloat64Struct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, cellfloat64 *models.CellFloat64) (Error error) {
 
 	// fetch matching cellfloat64DB
 	if cellfloat64DB, ok := backRepoCellFloat64.Map_CellFloat64DBID_CellFloat64DB[idx]; ok {

@@ -293,6 +293,9 @@ func (controller *Controller) UpdateRow(c *gin.Context) {
 	rowNew := new(models.Row)
 	rowDB.CopyBasicFieldsToRow(rowNew)
 
+	// redeem pointers
+	rowDB.DecodePointers(backRepo, rowNew)
+
 	// get stage instance from DB instance, and call callback function
 	rowOld := backRepo.BackRepoRow.Map_RowDBID_RowPtr[rowDB.ID]
 	if rowOld != nil {

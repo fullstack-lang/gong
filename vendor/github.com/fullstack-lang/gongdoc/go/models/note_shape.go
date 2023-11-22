@@ -30,7 +30,7 @@ type NoteShape struct {
 	BodyHTML string
 
 	X, Y          float64
-	Width, Heigth float64
+	Width, Height float64
 	Matched       bool // if a note with the same name has been found
 
 	NoteShapeLinks []*NoteShapeLink

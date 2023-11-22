@@ -293,6 +293,9 @@ func (controller *Controller) UpdateFormDiv(c *gin.Context) {
 	formdivNew := new(models.FormDiv)
 	formdivDB.CopyBasicFieldsToFormDiv(formdivNew)
 
+	// redeem pointers
+	formdivDB.DecodePointers(backRepo, formdivNew)
+
 	// get stage instance from DB instance, and call callback function
 	formdivOld := backRepo.BackRepoFormDiv.Map_FormDivDBID_FormDivPtr[formdivDB.ID]
 	if formdivOld != nil {

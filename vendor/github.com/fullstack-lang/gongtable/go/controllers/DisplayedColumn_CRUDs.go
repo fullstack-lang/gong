@@ -293,6 +293,9 @@ func (controller *Controller) UpdateDisplayedColumn(c *gin.Context) {
 	displayedcolumnNew := new(models.DisplayedColumn)
 	displayedcolumnDB.CopyBasicFieldsToDisplayedColumn(displayedcolumnNew)
 
+	// redeem pointers
+	displayedcolumnDB.DecodePointers(backRepo, displayedcolumnNew)
+
 	// get stage instance from DB instance, and call callback function
 	displayedcolumnOld := backRepo.BackRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnPtr[displayedcolumnDB.ID]
 	if displayedcolumnOld != nil {

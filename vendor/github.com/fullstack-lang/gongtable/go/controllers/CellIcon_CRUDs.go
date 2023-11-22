@@ -293,6 +293,9 @@ func (controller *Controller) UpdateCellIcon(c *gin.Context) {
 	celliconNew := new(models.CellIcon)
 	celliconDB.CopyBasicFieldsToCellIcon(celliconNew)
 
+	// redeem pointers
+	celliconDB.DecodePointers(backRepo, celliconNew)
+
 	// get stage instance from DB instance, and call callback function
 	celliconOld := backRepo.BackRepoCellIcon.Map_CellIconDBID_CellIconPtr[celliconDB.ID]
 	if celliconOld != nil {

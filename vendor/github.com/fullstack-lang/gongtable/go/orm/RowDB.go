@@ -332,7 +332,13 @@ func (backRepoRow *BackRepoRowStruct) CheckoutPhaseTwo(backRepo *BackRepoStruct)
 func (backRepoRow *BackRepoRowStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, rowDB *RowDB) (Error error) {
 
 	row := backRepoRow.Map_RowDBID_RowPtr[rowDB.ID]
-	_ = row // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	rowDB.DecodePointers(backRepo, row)
+
+	return
+}
+
+func (rowDB *RowDB) DecodePointers(backRepo *BackRepoStruct, row *models.Row) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem row.Cells in the stage from the encode in the back repo
@@ -604,7 +610,7 @@ func (backRepoRow *BackRepoRowStruct) ResetReversePointers(backRepo *BackRepoStr
 	return
 }
 
-func (backRepoRow *BackRepoRowStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Row) (Error error) {
+func (backRepoRow *BackRepoRowStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, row *models.Row) (Error error) {
 
 	// fetch matching rowDB
 	if rowDB, ok := backRepoRow.Map_RowDBID_RowDB[idx]; ok {

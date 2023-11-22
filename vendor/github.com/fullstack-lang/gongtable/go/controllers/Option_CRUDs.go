@@ -293,6 +293,9 @@ func (controller *Controller) UpdateOption(c *gin.Context) {
 	optionNew := new(models.Option)
 	optionDB.CopyBasicFieldsToOption(optionNew)
 
+	// redeem pointers
+	optionDB.DecodePointers(backRepo, optionNew)
+
 	// get stage instance from DB instance, and call callback function
 	optionOld := backRepo.BackRepoOption.Map_OptionDBID_OptionPtr[optionDB.ID]
 	if optionOld != nil {

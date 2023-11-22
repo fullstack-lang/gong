@@ -324,7 +324,13 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) CheckoutPhaseTwo(backR
 func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, formfieldtimeDB *FormFieldTimeDB) (Error error) {
 
 	formfieldtime := backRepoFormFieldTime.Map_FormFieldTimeDBID_FormFieldTimePtr[formfieldtimeDB.ID]
-	_ = formfieldtime // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	formfieldtimeDB.DecodePointers(backRepo, formfieldtime)
+
+	return
+}
+
+func (formfieldtimeDB *FormFieldTimeDB) DecodePointers(backRepo *BackRepoStruct, formfieldtime *models.FormFieldTime) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -599,7 +605,7 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) ResetReversePointers(b
 	return
 }
 
-func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.FormFieldTime) (Error error) {
+func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, formfieldtime *models.FormFieldTime) (Error error) {
 
 	// fetch matching formfieldtimeDB
 	if formfieldtimeDB, ok := backRepoFormFieldTime.Map_FormFieldTimeDBID_FormFieldTimeDB[idx]; ok {

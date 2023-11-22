@@ -293,6 +293,9 @@ func (controller *Controller) UpdateTable(c *gin.Context) {
 	tableNew := new(models.Table)
 	tableDB.CopyBasicFieldsToTable(tableNew)
 
+	// redeem pointers
+	tableDB.DecodePointers(backRepo, tableNew)
+
 	// get stage instance from DB instance, and call callback function
 	tableOld := backRepo.BackRepoTable.Map_TableDBID_TablePtr[tableDB.ID]
 	if tableOld != nil {

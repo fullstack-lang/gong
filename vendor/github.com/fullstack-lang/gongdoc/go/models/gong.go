@@ -2020,7 +2020,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Field:
 		res = []string{"Name", "Identifier", "FieldTypeAsString", "Structname", "Fieldtypename"}
 	case GongEnumShape:
-		res = []string{"Name", "Position", "Identifier", "GongEnumValueEntrys", "Width", "Heigth"}
+		res = []string{"Name", "Position", "Identifier", "GongEnumValueEntrys", "Width", "Height"}
 	case GongEnumValueEntry:
 		res = []string{"Name", "Identifier"}
 	case GongStructShape:
@@ -2028,7 +2028,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Link:
 		res = []string{"Name", "Identifier", "Fieldtypename", "FieldOffsetX", "FieldOffsetY", "TargetMultiplicity", "TargetMultiplicityOffsetX", "TargetMultiplicityOffsetY", "SourceMultiplicity", "SourceMultiplicityOffsetX", "SourceMultiplicityOffsetY", "Middlevertice", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio"}
 	case NoteShape:
-		res = []string{"Name", "Identifier", "Body", "BodyHTML", "X", "Y", "Width", "Heigth", "Matched", "NoteShapeLinks"}
+		res = []string{"Name", "Identifier", "Body", "BodyHTML", "X", "Y", "Width", "Height", "Matched", "NoteShapeLinks"}
 	case NoteShapeLink:
 		res = []string{"Name", "Identifier", "Type"}
 	case Position:
@@ -2144,7 +2144,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Field:
 		res = []string{"Name", "Identifier", "FieldTypeAsString", "Structname", "Fieldtypename"}
 	case *GongEnumShape:
-		res = []string{"Name", "Position", "Identifier", "GongEnumValueEntrys", "Width", "Heigth"}
+		res = []string{"Name", "Position", "Identifier", "GongEnumValueEntrys", "Width", "Height"}
 	case *GongEnumValueEntry:
 		res = []string{"Name", "Identifier"}
 	case *GongStructShape:
@@ -2152,7 +2152,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Link:
 		res = []string{"Name", "Identifier", "Fieldtypename", "FieldOffsetX", "FieldOffsetY", "TargetMultiplicity", "TargetMultiplicityOffsetX", "TargetMultiplicityOffsetY", "SourceMultiplicity", "SourceMultiplicityOffsetX", "SourceMultiplicityOffsetY", "Middlevertice", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio"}
 	case *NoteShape:
-		res = []string{"Name", "Identifier", "Body", "BodyHTML", "X", "Y", "Width", "Heigth", "Matched", "NoteShapeLinks"}
+		res = []string{"Name", "Identifier", "Body", "BodyHTML", "X", "Y", "Width", "Height", "Matched", "NoteShapeLinks"}
 	case *NoteShapeLink:
 		res = []string{"Name", "Identifier", "Type"}
 	case *Position:
@@ -2268,8 +2268,8 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			}
 		case "Width":
 			res = fmt.Sprintf("%f", inferedInstance.Width)
-		case "Heigth":
-			res = fmt.Sprintf("%f", inferedInstance.Heigth)
+		case "Height":
+			res = fmt.Sprintf("%f", inferedInstance.Height)
 		}
 	case *GongEnumValueEntry:
 		switch fieldName {
@@ -2376,8 +2376,8 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res = fmt.Sprintf("%f", inferedInstance.Y)
 		case "Width":
 			res = fmt.Sprintf("%f", inferedInstance.Width)
-		case "Heigth":
-			res = fmt.Sprintf("%f", inferedInstance.Heigth)
+		case "Height":
+			res = fmt.Sprintf("%f", inferedInstance.Height)
 		case "Matched":
 			res = fmt.Sprintf("%t", inferedInstance.Matched)
 		case "NoteShapeLinks":
@@ -2553,8 +2553,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			}
 		case "Width":
 			res = fmt.Sprintf("%f", inferedInstance.Width)
-		case "Heigth":
-			res = fmt.Sprintf("%f", inferedInstance.Heigth)
+		case "Height":
+			res = fmt.Sprintf("%f", inferedInstance.Height)
 		}
 	case GongEnumValueEntry:
 		switch fieldName {
@@ -2661,8 +2661,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%f", inferedInstance.Y)
 		case "Width":
 			res = fmt.Sprintf("%f", inferedInstance.Width)
-		case "Heigth":
-			res = fmt.Sprintf("%f", inferedInstance.Heigth)
+		case "Height":
+			res = fmt.Sprintf("%f", inferedInstance.Height)
 		case "Matched":
 			res = fmt.Sprintf("%t", inferedInstance.Matched)
 		case "NoteShapeLinks":

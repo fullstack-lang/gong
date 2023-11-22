@@ -293,6 +293,9 @@ func (controller *Controller) UpdateCellInt(c *gin.Context) {
 	cellintNew := new(models.CellInt)
 	cellintDB.CopyBasicFieldsToCellInt(cellintNew)
 
+	// redeem pointers
+	cellintDB.DecodePointers(backRepo, cellintNew)
+
 	// get stage instance from DB instance, and call callback function
 	cellintOld := backRepo.BackRepoCellInt.Map_CellIntDBID_CellIntPtr[cellintDB.ID]
 	if cellintOld != nil {

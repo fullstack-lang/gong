@@ -319,7 +319,13 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) CheckoutPhaseTwo(backRepo 
 func (backRepoCellBoolean *BackRepoCellBooleanStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, cellbooleanDB *CellBooleanDB) (Error error) {
 
 	cellboolean := backRepoCellBoolean.Map_CellBooleanDBID_CellBooleanPtr[cellbooleanDB.ID]
-	_ = cellboolean // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	cellbooleanDB.DecodePointers(backRepo, cellboolean)
+
+	return
+}
+
+func (cellbooleanDB *CellBooleanDB) DecodePointers(backRepo *BackRepoStruct, cellboolean *models.CellBoolean) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -582,7 +588,7 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) ResetReversePointers(backR
 	return
 }
 
-func (backRepoCellBoolean *BackRepoCellBooleanStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.CellBoolean) (Error error) {
+func (backRepoCellBoolean *BackRepoCellBooleanStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, cellboolean *models.CellBoolean) (Error error) {
 
 	// fetch matching cellbooleanDB
 	if cellbooleanDB, ok := backRepoCellBoolean.Map_CellBooleanDBID_CellBooleanDB[idx]; ok {

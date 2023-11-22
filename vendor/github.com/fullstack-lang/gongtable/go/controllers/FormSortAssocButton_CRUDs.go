@@ -293,6 +293,9 @@ func (controller *Controller) UpdateFormSortAssocButton(c *gin.Context) {
 	formsortassocbuttonNew := new(models.FormSortAssocButton)
 	formsortassocbuttonDB.CopyBasicFieldsToFormSortAssocButton(formsortassocbuttonNew)
 
+	// redeem pointers
+	formsortassocbuttonDB.DecodePointers(backRepo, formsortassocbuttonNew)
+
 	// get stage instance from DB instance, and call callback function
 	formsortassocbuttonOld := backRepo.BackRepoFormSortAssocButton.Map_FormSortAssocButtonDBID_FormSortAssocButtonPtr[formsortassocbuttonDB.ID]
 	if formsortassocbuttonOld != nil {
