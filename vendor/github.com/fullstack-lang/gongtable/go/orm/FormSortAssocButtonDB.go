@@ -318,7 +318,13 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) CheckoutPh
 func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, formsortassocbuttonDB *FormSortAssocButtonDB) (Error error) {
 
 	formsortassocbutton := backRepoFormSortAssocButton.Map_FormSortAssocButtonDBID_FormSortAssocButtonPtr[formsortassocbuttonDB.ID]
-	_ = formsortassocbutton // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	formsortassocbuttonDB.DecodePointers(backRepo, formsortassocbutton)
+
+	return
+}
+
+func (formsortassocbuttonDB *FormSortAssocButtonDB) DecodePointers(backRepo *BackRepoStruct, formsortassocbutton *models.FormSortAssocButton) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -581,7 +587,7 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) ResetRever
 	return
 }
 
-func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.FormSortAssocButton) (Error error) {
+func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, formsortassocbutton *models.FormSortAssocButton) (Error error) {
 
 	// fetch matching formsortassocbuttonDB
 	if formsortassocbuttonDB, ok := backRepoFormSortAssocButton.Map_FormSortAssocButtonDBID_FormSortAssocButtonDB[idx]; ok {

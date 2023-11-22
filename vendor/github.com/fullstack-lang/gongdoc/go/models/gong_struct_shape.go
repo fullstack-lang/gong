@@ -1,7 +1,7 @@
 package models
 
 const GongStructShapeDefaultWidth = 240.0
-const GongStructShapeDefaultHeigth = 48.0
+const GongStructShapeDefaultHeight = 48.0
 
 // GongStructShape mirrors joint.shapes.uml.Class
 // swagger:model GongStructShape

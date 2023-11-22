@@ -232,51 +232,51 @@ export class FrontRepo { // insertion point sub template
     switch (gongStructName) {
       // insertion point
       case 'Cell':
-        return this.Cells_array as unknown as Map<number, Type>
+        return this.Cells as unknown as Map<number, Type>
       case 'CellBoolean':
-        return this.CellBooleans_array as unknown as Map<number, Type>
+        return this.CellBooleans as unknown as Map<number, Type>
       case 'CellFloat64':
-        return this.CellFloat64s_array as unknown as Map<number, Type>
+        return this.CellFloat64s as unknown as Map<number, Type>
       case 'CellIcon':
-        return this.CellIcons_array as unknown as Map<number, Type>
+        return this.CellIcons as unknown as Map<number, Type>
       case 'CellInt':
-        return this.CellInts_array as unknown as Map<number, Type>
+        return this.CellInts as unknown as Map<number, Type>
       case 'CellString':
-        return this.CellStrings_array as unknown as Map<number, Type>
+        return this.CellStrings as unknown as Map<number, Type>
       case 'CheckBox':
-        return this.CheckBoxs_array as unknown as Map<number, Type>
+        return this.CheckBoxs as unknown as Map<number, Type>
       case 'DisplayedColumn':
-        return this.DisplayedColumns_array as unknown as Map<number, Type>
+        return this.DisplayedColumns as unknown as Map<number, Type>
       case 'FormDiv':
-        return this.FormDivs_array as unknown as Map<number, Type>
+        return this.FormDivs as unknown as Map<number, Type>
       case 'FormEditAssocButton':
-        return this.FormEditAssocButtons_array as unknown as Map<number, Type>
+        return this.FormEditAssocButtons as unknown as Map<number, Type>
       case 'FormField':
-        return this.FormFields_array as unknown as Map<number, Type>
+        return this.FormFields as unknown as Map<number, Type>
       case 'FormFieldDate':
-        return this.FormFieldDates_array as unknown as Map<number, Type>
+        return this.FormFieldDates as unknown as Map<number, Type>
       case 'FormFieldDateTime':
-        return this.FormFieldDateTimes_array as unknown as Map<number, Type>
+        return this.FormFieldDateTimes as unknown as Map<number, Type>
       case 'FormFieldFloat64':
-        return this.FormFieldFloat64s_array as unknown as Map<number, Type>
+        return this.FormFieldFloat64s as unknown as Map<number, Type>
       case 'FormFieldInt':
-        return this.FormFieldInts_array as unknown as Map<number, Type>
+        return this.FormFieldInts as unknown as Map<number, Type>
       case 'FormFieldSelect':
-        return this.FormFieldSelects_array as unknown as Map<number, Type>
+        return this.FormFieldSelects as unknown as Map<number, Type>
       case 'FormFieldString':
-        return this.FormFieldStrings_array as unknown as Map<number, Type>
+        return this.FormFieldStrings as unknown as Map<number, Type>
       case 'FormFieldTime':
-        return this.FormFieldTimes_array as unknown as Map<number, Type>
+        return this.FormFieldTimes as unknown as Map<number, Type>
       case 'FormGroup':
-        return this.FormGroups_array as unknown as Map<number, Type>
+        return this.FormGroups as unknown as Map<number, Type>
       case 'FormSortAssocButton':
-        return this.FormSortAssocButtons_array as unknown as Map<number, Type>
+        return this.FormSortAssocButtons as unknown as Map<number, Type>
       case 'Option':
-        return this.Options_array as unknown as Map<number, Type>
+        return this.Options as unknown as Map<number, Type>
       case 'Row':
-        return this.Rows_array as unknown as Map<number, Type>
+        return this.Rows as unknown as Map<number, Type>
       case 'Table':
-        return this.Tables_array as unknown as Map<number, Type>
+        return this.Tables as unknown as Map<number, Type>
       default:
         throw new Error("Type not recognized");
     }

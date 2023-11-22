@@ -293,6 +293,9 @@ func (controller *Controller) UpdateFormGroup(c *gin.Context) {
 	formgroupNew := new(models.FormGroup)
 	formgroupDB.CopyBasicFieldsToFormGroup(formgroupNew)
 
+	// redeem pointers
+	formgroupDB.DecodePointers(backRepo, formgroupNew)
+
 	// get stage instance from DB instance, and call callback function
 	formgroupOld := backRepo.BackRepoFormGroup.Map_FormGroupDBID_FormGroupPtr[formgroupDB.ID]
 	if formgroupOld != nil {

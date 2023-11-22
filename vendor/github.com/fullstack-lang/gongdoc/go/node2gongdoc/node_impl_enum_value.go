@@ -69,7 +69,7 @@ func (nodeImplEnumValue *NodeImplEnumValue) OnAfterUpdate(
 		// get the latest version of the diagram before modifying it
 		gongdocStage.Checkout()
 
-		gongEnumShape.Heigth = gongEnumShape.Heigth + 15
+		gongEnumShape.Height = gongEnumShape.Height + 15
 
 		var gongEnumValueEntry gongdoc_models.GongEnumValueEntry
 		gongEnumValueEntry.Name = stagedNode.Name
@@ -123,7 +123,7 @@ func (nodeImplEnumValue *NodeImplEnumValue) OnAfterUpdate(
 			}
 			if gongEnumValueEntry != nil {
 				gongEnumShape.GongEnumValueEntrys = remove(gongEnumShape.GongEnumValueEntrys, gongEnumValueEntry)
-				gongEnumShape.Heigth = gongEnumShape.Heigth - 15
+				gongEnumShape.Height = gongEnumShape.Height - 15
 				gongEnumValueEntry.Unstage(gongdocStage)
 			}
 		}

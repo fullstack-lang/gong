@@ -293,6 +293,9 @@ func (controller *Controller) UpdateFormFieldTime(c *gin.Context) {
 	formfieldtimeNew := new(models.FormFieldTime)
 	formfieldtimeDB.CopyBasicFieldsToFormFieldTime(formfieldtimeNew)
 
+	// redeem pointers
+	formfieldtimeDB.DecodePointers(backRepo, formfieldtimeNew)
+
 	// get stage instance from DB instance, and call callback function
 	formfieldtimeOld := backRepo.BackRepoFormFieldTime.Map_FormFieldTimeDBID_FormFieldTimePtr[formfieldtimeDB.ID]
 	if formfieldtimeOld != nil {

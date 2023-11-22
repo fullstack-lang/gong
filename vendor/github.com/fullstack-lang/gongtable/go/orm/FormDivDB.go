@@ -370,7 +370,13 @@ func (backRepoFormDiv *BackRepoFormDivStruct) CheckoutPhaseTwo(backRepo *BackRep
 func (backRepoFormDiv *BackRepoFormDivStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, formdivDB *FormDivDB) (Error error) {
 
 	formdiv := backRepoFormDiv.Map_FormDivDBID_FormDivPtr[formdivDB.ID]
-	_ = formdiv // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	formdivDB.DecodePointers(backRepo, formdiv)
+
+	return
+}
+
+func (formdivDB *FormDivDB) DecodePointers(backRepo *BackRepoStruct, formdiv *models.FormDiv) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem formdiv.FormFields in the stage from the encode in the back repo
@@ -661,7 +667,7 @@ func (backRepoFormDiv *BackRepoFormDivStruct) ResetReversePointers(backRepo *Bac
 	return
 }
 
-func (backRepoFormDiv *BackRepoFormDivStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.FormDiv) (Error error) {
+func (backRepoFormDiv *BackRepoFormDivStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, formdiv *models.FormDiv) (Error error) {
 
 	// fetch matching formdivDB
 	if formdivDB, ok := backRepoFormDiv.Map_FormDivDBID_FormDivDB[idx]; ok {

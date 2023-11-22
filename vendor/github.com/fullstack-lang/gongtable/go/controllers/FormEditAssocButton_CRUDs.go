@@ -293,6 +293,9 @@ func (controller *Controller) UpdateFormEditAssocButton(c *gin.Context) {
 	formeditassocbuttonNew := new(models.FormEditAssocButton)
 	formeditassocbuttonDB.CopyBasicFieldsToFormEditAssocButton(formeditassocbuttonNew)
 
+	// redeem pointers
+	formeditassocbuttonDB.DecodePointers(backRepo, formeditassocbuttonNew)
+
 	// get stage instance from DB instance, and call callback function
 	formeditassocbuttonOld := backRepo.BackRepoFormEditAssocButton.Map_FormEditAssocButtonDBID_FormEditAssocButtonPtr[formeditassocbuttonDB.ID]
 	if formeditassocbuttonOld != nil {

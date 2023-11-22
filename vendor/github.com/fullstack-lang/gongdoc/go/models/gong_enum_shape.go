@@ -1,7 +1,7 @@
 package models
 
 const GongEnumShapeDefaultWidth = 240.0
-const GongEnumShapeDefaultHeigth = 48.0
+const GongEnumShapeDefaultHeight = 48.0
 
 // GongEnumShape mirrors joint.shapes.uml.Class
 // swagger:model GongEnumShape
@@ -18,7 +18,7 @@ type GongEnumShape struct {
 
 	// with and height of the shape when they are rendered on SVG or with jointjs
 	// They are optional fields. they can be computed when empty
-	Width, Heigth float64
+	Width, Height float64
 }
 
 type GongEnumShapeType int

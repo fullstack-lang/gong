@@ -400,7 +400,13 @@ func (backRepoTable *BackRepoTableStruct) CheckoutPhaseTwo(backRepo *BackRepoStr
 func (backRepoTable *BackRepoTableStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, tableDB *TableDB) (Error error) {
 
 	table := backRepoTable.Map_TableDBID_TablePtr[tableDB.ID]
-	_ = table // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	tableDB.DecodePointers(backRepo, table)
+
+	return
+}
+
+func (tableDB *TableDB) DecodePointers(backRepo *BackRepoStruct, table *models.Table) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem table.DisplayedColumns in the stage from the encode in the back repo
@@ -777,7 +783,7 @@ func (backRepoTable *BackRepoTableStruct) ResetReversePointers(backRepo *BackRep
 	return
 }
 
-func (backRepoTable *BackRepoTableStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Table) (Error error) {
+func (backRepoTable *BackRepoTableStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, table *models.Table) (Error error) {
 
 	// fetch matching tableDB
 	if tableDB, ok := backRepoTable.Map_TableDBID_TableDB[idx]; ok {

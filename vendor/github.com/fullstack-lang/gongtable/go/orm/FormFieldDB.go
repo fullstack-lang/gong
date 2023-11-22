@@ -455,7 +455,13 @@ func (backRepoFormField *BackRepoFormFieldStruct) CheckoutPhaseTwo(backRepo *Bac
 func (backRepoFormField *BackRepoFormFieldStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, formfieldDB *FormFieldDB) (Error error) {
 
 	formfield := backRepoFormField.Map_FormFieldDBID_FormFieldPtr[formfieldDB.ID]
-	_ = formfield // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	formfieldDB.DecodePointers(backRepo, formfield)
+
+	return
+}
+
+func (formfieldDB *FormFieldDB) DecodePointers(backRepo *BackRepoStruct, formfield *models.FormField) {
 
 	// insertion point for checkout of pointer encoding
 	// FormFieldString field
@@ -843,7 +849,7 @@ func (backRepoFormField *BackRepoFormFieldStruct) ResetReversePointers(backRepo 
 	return
 }
 
-func (backRepoFormField *BackRepoFormFieldStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.FormField) (Error error) {
+func (backRepoFormField *BackRepoFormFieldStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, formfield *models.FormField) (Error error) {
 
 	// fetch matching formfieldDB
 	if formfieldDB, ok := backRepoFormField.Map_FormFieldDBID_FormFieldDB[idx]; ok {
