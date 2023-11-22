@@ -293,6 +293,9 @@ func (controller *Controller) UpdateCellFloat64(c *gin.Context) {
 	cellfloat64New := new(models.CellFloat64)
 	cellfloat64DB.CopyBasicFieldsToCellFloat64(cellfloat64New)
 
+	// redeem pointers
+	cellfloat64DB.DecodePointers(backRepo, cellfloat64New)
+
 	// get stage instance from DB instance, and call callback function
 	cellfloat64Old := backRepo.BackRepoCellFloat64.Map_CellFloat64DBID_CellFloat64Ptr[cellfloat64DB.ID]
 	if cellfloat64Old != nil {

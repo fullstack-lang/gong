@@ -331,7 +331,13 @@ func (backRepoFormGroup *BackRepoFormGroupStruct) CheckoutPhaseTwo(backRepo *Bac
 func (backRepoFormGroup *BackRepoFormGroupStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, formgroupDB *FormGroupDB) (Error error) {
 
 	formgroup := backRepoFormGroup.Map_FormGroupDBID_FormGroupPtr[formgroupDB.ID]
-	_ = formgroup // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	formgroupDB.DecodePointers(backRepo, formgroup)
+
+	return
+}
+
+func (formgroupDB *FormGroupDB) DecodePointers(backRepo *BackRepoStruct, formgroup *models.FormGroup) {
 
 	// insertion point for checkout of pointer encoding
 	// This loop redeem formgroup.FormDivs in the stage from the encode in the back repo
@@ -603,7 +609,7 @@ func (backRepoFormGroup *BackRepoFormGroupStruct) ResetReversePointers(backRepo 
 	return
 }
 
-func (backRepoFormGroup *BackRepoFormGroupStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.FormGroup) (Error error) {
+func (backRepoFormGroup *BackRepoFormGroupStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, formgroup *models.FormGroup) (Error error) {
 
 	// fetch matching formgroupDB
 	if formgroupDB, ok := backRepoFormGroup.Map_FormGroupDBID_FormGroupDB[idx]; ok {

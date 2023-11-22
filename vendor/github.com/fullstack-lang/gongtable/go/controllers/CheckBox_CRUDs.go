@@ -293,6 +293,9 @@ func (controller *Controller) UpdateCheckBox(c *gin.Context) {
 	checkboxNew := new(models.CheckBox)
 	checkboxDB.CopyBasicFieldsToCheckBox(checkboxNew)
 
+	// redeem pointers
+	checkboxDB.DecodePointers(backRepo, checkboxNew)
+
 	// get stage instance from DB instance, and call callback function
 	checkboxOld := backRepo.BackRepoCheckBox.Map_CheckBoxDBID_CheckBoxPtr[checkboxDB.ID]
 	if checkboxOld != nil {

@@ -37,7 +37,7 @@ type GongEnumShape_WOP struct {
 	Name string
 	Identifier string
 	Width float64
-	Heigth float64
+	Height float64
 }
 
 type GongEnumValueEntry_WOP struct {
@@ -86,7 +86,7 @@ type NoteShape_WOP struct {
 	X float64
 	Y float64
 	Width float64
-	Heigth float64
+	Height float64
 	Matched bool
 }
 

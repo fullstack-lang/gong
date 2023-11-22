@@ -318,7 +318,13 @@ func (backRepoFormFieldDate *BackRepoFormFieldDateStruct) CheckoutPhaseTwo(backR
 func (backRepoFormFieldDate *BackRepoFormFieldDateStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, formfielddateDB *FormFieldDateDB) (Error error) {
 
 	formfielddate := backRepoFormFieldDate.Map_FormFieldDateDBID_FormFieldDatePtr[formfielddateDB.ID]
-	_ = formfielddate // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
+
+	formfielddateDB.DecodePointers(backRepo, formfielddate)
+
+	return
+}
+
+func (formfielddateDB *FormFieldDateDB) DecodePointers(backRepo *BackRepoStruct, formfielddate *models.FormFieldDate) {
 
 	// insertion point for checkout of pointer encoding
 	return
@@ -581,7 +587,7 @@ func (backRepoFormFieldDate *BackRepoFormFieldDateStruct) ResetReversePointers(b
 	return
 }
 
-func (backRepoFormFieldDate *BackRepoFormFieldDateStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.FormFieldDate) (Error error) {
+func (backRepoFormFieldDate *BackRepoFormFieldDateStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, formfielddate *models.FormFieldDate) (Error error) {
 
 	// fetch matching formfielddateDB
 	if formfielddateDB, ok := backRepoFormFieldDate.Map_FormFieldDateDBID_FormFieldDateDB[idx]; ok {

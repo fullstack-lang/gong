@@ -289,7 +289,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		rect.Y = gongenumShape.Position.Y
 
 		rect.Width = gongenumShape.Width
-		rect.Height = gongenumShape.Heigth
+		rect.Height = gongenumShape.Height
 
 		rect.Stroke = gongsvg_models.Lightsteelblue.ToString()
 		rect.StrokeWidth = 1
@@ -380,7 +380,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		rect.Y = noteShape.Y
 
 		rect.Width = noteShape.Width
-		rect.Height = noteShape.Heigth
+		rect.Height = noteShape.Height
 
 		rect.Stroke = gongsvg_models.Lightskyblue.ToString()
 		rect.StrokeWidth = 1

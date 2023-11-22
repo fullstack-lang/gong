@@ -82,8 +82,8 @@ type NoteShapeDB struct {
 	// Declation for basic field noteshapeDB.Width
 	Width_Data sql.NullFloat64
 
-	// Declation for basic field noteshapeDB.Heigth
-	Heigth_Data sql.NullFloat64
+	// Declation for basic field noteshapeDB.Height
+	Height_Data sql.NullFloat64
 
 	// Declation for basic field noteshapeDB.Matched
 	// provide the sql storage for the boolan
@@ -123,7 +123,7 @@ type NoteShapeWOP struct {
 
 	Width float64 `xlsx:"7"`
 
-	Heigth float64 `xlsx:"8"`
+	Height float64 `xlsx:"8"`
 
 	Matched bool `xlsx:"9"`
 	// insertion for WOP pointer fields
@@ -139,7 +139,7 @@ var NoteShape_Fields = []string{
 	"X",
 	"Y",
 	"Width",
-	"Heigth",
+	"Height",
 	"Matched",
 }
 
@@ -447,8 +447,8 @@ func (noteshapeDB *NoteShapeDB) CopyBasicFieldsFromNoteShape(noteshape *models.N
 	noteshapeDB.Width_Data.Float64 = noteshape.Width
 	noteshapeDB.Width_Data.Valid = true
 
-	noteshapeDB.Heigth_Data.Float64 = noteshape.Heigth
-	noteshapeDB.Heigth_Data.Valid = true
+	noteshapeDB.Height_Data.Float64 = noteshape.Height
+	noteshapeDB.Height_Data.Valid = true
 
 	noteshapeDB.Matched_Data.Bool = noteshape.Matched
 	noteshapeDB.Matched_Data.Valid = true
@@ -479,8 +479,8 @@ func (noteshapeDB *NoteShapeDB) CopyBasicFieldsFromNoteShape_WOP(noteshape *mode
 	noteshapeDB.Width_Data.Float64 = noteshape.Width
 	noteshapeDB.Width_Data.Valid = true
 
-	noteshapeDB.Heigth_Data.Float64 = noteshape.Heigth
-	noteshapeDB.Heigth_Data.Valid = true
+	noteshapeDB.Height_Data.Float64 = noteshape.Height
+	noteshapeDB.Height_Data.Valid = true
 
 	noteshapeDB.Matched_Data.Bool = noteshape.Matched
 	noteshapeDB.Matched_Data.Valid = true
@@ -511,8 +511,8 @@ func (noteshapeDB *NoteShapeDB) CopyBasicFieldsFromNoteShapeWOP(noteshape *NoteS
 	noteshapeDB.Width_Data.Float64 = noteshape.Width
 	noteshapeDB.Width_Data.Valid = true
 
-	noteshapeDB.Heigth_Data.Float64 = noteshape.Heigth
-	noteshapeDB.Heigth_Data.Valid = true
+	noteshapeDB.Height_Data.Float64 = noteshape.Height
+	noteshapeDB.Height_Data.Valid = true
 
 	noteshapeDB.Matched_Data.Bool = noteshape.Matched
 	noteshapeDB.Matched_Data.Valid = true
@@ -528,7 +528,7 @@ func (noteshapeDB *NoteShapeDB) CopyBasicFieldsToNoteShape(noteshape *models.Not
 	noteshape.X = noteshapeDB.X_Data.Float64
 	noteshape.Y = noteshapeDB.Y_Data.Float64
 	noteshape.Width = noteshapeDB.Width_Data.Float64
-	noteshape.Heigth = noteshapeDB.Heigth_Data.Float64
+	noteshape.Height = noteshapeDB.Height_Data.Float64
 	noteshape.Matched = noteshapeDB.Matched_Data.Bool
 }
 
@@ -542,7 +542,7 @@ func (noteshapeDB *NoteShapeDB) CopyBasicFieldsToNoteShape_WOP(noteshape *models
 	noteshape.X = noteshapeDB.X_Data.Float64
 	noteshape.Y = noteshapeDB.Y_Data.Float64
 	noteshape.Width = noteshapeDB.Width_Data.Float64
-	noteshape.Heigth = noteshapeDB.Heigth_Data.Float64
+	noteshape.Height = noteshapeDB.Height_Data.Float64
 	noteshape.Matched = noteshapeDB.Matched_Data.Bool
 }
 
@@ -557,7 +557,7 @@ func (noteshapeDB *NoteShapeDB) CopyBasicFieldsToNoteShapeWOP(noteshape *NoteSha
 	noteshape.X = noteshapeDB.X_Data.Float64
 	noteshape.Y = noteshapeDB.Y_Data.Float64
 	noteshape.Width = noteshapeDB.Width_Data.Float64
-	noteshape.Heigth = noteshapeDB.Heigth_Data.Float64
+	noteshape.Height = noteshapeDB.Height_Data.Float64
 	noteshape.Matched = noteshapeDB.Matched_Data.Bool
 }
 

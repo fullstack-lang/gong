@@ -293,6 +293,9 @@ func (controller *Controller) UpdateFormFieldFloat64(c *gin.Context) {
 	formfieldfloat64New := new(models.FormFieldFloat64)
 	formfieldfloat64DB.CopyBasicFieldsToFormFieldFloat64(formfieldfloat64New)
 
+	// redeem pointers
+	formfieldfloat64DB.DecodePointers(backRepo, formfieldfloat64New)
+
 	// get stage instance from DB instance, and call callback function
 	formfieldfloat64Old := backRepo.BackRepoFormFieldFloat64.Map_FormFieldFloat64DBID_FormFieldFloat64Ptr[formfieldfloat64DB.ID]
 	if formfieldfloat64Old != nil {

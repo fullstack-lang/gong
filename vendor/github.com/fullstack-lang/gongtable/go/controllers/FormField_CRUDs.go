@@ -293,6 +293,9 @@ func (controller *Controller) UpdateFormField(c *gin.Context) {
 	formfieldNew := new(models.FormField)
 	formfieldDB.CopyBasicFieldsToFormField(formfieldNew)
 
+	// redeem pointers
+	formfieldDB.DecodePointers(backRepo, formfieldNew)
+
 	// get stage instance from DB instance, and call callback function
 	formfieldOld := backRepo.BackRepoFormField.Map_FormFieldDBID_FormFieldPtr[formfieldDB.ID]
 	if formfieldOld != nil {

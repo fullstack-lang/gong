@@ -129,7 +129,7 @@ func (classdiagram *Classdiagram) AddGongEnumShape(stage *StageStruct, diagramPa
 	enumshape.Name = classdiagram.Name + "-" + enumshapeName
 	enumshape.Identifier = GongStructNameToIdentifier(enumshapeName)
 	enumshape.Width = 240
-	enumshape.Heigth = 63
+	enumshape.Height = 63
 
 	enumshape.Stage(stage)
 
