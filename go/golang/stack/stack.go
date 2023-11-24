@@ -130,6 +130,11 @@ func NewStack(
 
 	return
 }
+
+func NewTranscientStack(r *gin.Engine, stackPath string, withProbe bool) (stack *Stack) {
+
+	return NewStack(r, stackPath, "", "", "", true, withProbe)
+}
 `
 
 type ModelGongNewStackInstanceStructInsertionId int
