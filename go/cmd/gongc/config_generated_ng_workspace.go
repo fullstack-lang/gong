@@ -86,7 +86,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 
 			// generate library project
 			start := time.Now()
-			cmd := exec.Command("ng", "generate", "library", modelPkg.Name, "--defaults=true", "--skip-install=true")
+			cmd := exec.Command("ng", "generate", "library", modelPkg.Name, "--defaults=true", "--skip-install=true", "--no-standalone")
 			cmd.Dir = modelPkg.NgWorkspacePath
 			log.Printf("Creating a library %s in the angular workspace\n", modelPkg.Name)
 
@@ -128,7 +128,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 
 			// generate library project
 			start := time.Now()
-			cmd := exec.Command("ng", "generate", "library", modelPkg.Name+"specific", "--defaults=true", "--skip-install=true")
+			cmd := exec.Command("ng", "generate", "library", modelPkg.Name+"specific", "--defaults=true", "--skip-install=true", "--no-standalone")
 			cmd.Dir = modelPkg.NgWorkspacePath
 			log.Printf("Creating a specific library %s in the angular workspace\n", modelPkg.Name)
 

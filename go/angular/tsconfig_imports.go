@@ -9,7 +9,7 @@ const TsConfigInsertForPaths = `
         "./node_modules/*"
       ],
       "gong": [
-        "projects/gong/src/public-api.ts",
+        "./projects/gong/src/public-api.ts",
         "../../ng/projects/gong/src/public-api.ts",
         "../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/public-api.ts"

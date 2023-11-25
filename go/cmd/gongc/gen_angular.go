@@ -39,7 +39,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 			// generate ng workspace
 			var cmd *exec.Cmd
 			if !skipNpmInstall {
-				cmd = exec.Command("ng", "new", "ng", "--defaults=true", "--minimal=true")
+				cmd = exec.Command("ng", "new", "ng", "--defaults=true", "--minimal=true", "--no-standalone", "--routing", "--ssr=false")
 			} else {
 				cmd = exec.Command("ng", "new", "ng", "--defaults=true", "--minimal=true", "--skip-install")
 			}
