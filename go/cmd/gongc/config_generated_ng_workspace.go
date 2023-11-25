@@ -109,7 +109,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 				// patch tsconfig file in order to have the path to the public-api of the
 				// generated library (instead of the path to "dist")
 				filename := filepath.Join(modelPkg.NgWorkspacePath, "tsconfig.json")
-				gong_models.InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"/src/public-api.ts\",", modelPkg.Name+"\": [")
+				gong_models.InsertStringToFile(filename, "        \"./projects/"+modelPkg.Name+"/src/public-api.ts\",", modelPkg.Name+"\": [")
 
 				gong_models.InsertStringToFile(filename, angular.TsConfigInsertForPaths, "\"paths\": {")
 
@@ -149,7 +149,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 			log.Printf("ng generate library is over and took %s", time.Since(start))
 
 			filename := filepath.Join(modelPkg.NgWorkspacePath, "tsconfig.json")
-			gong_models.InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"specific/src/public-api.ts\",", modelPkg.Name+"specific\": [")
+			gong_models.InsertStringToFile(filename, "        \"./projects/"+modelPkg.Name+"specific/src/public-api.ts\",", modelPkg.Name+"specific\": [")
 
 			{
 
