@@ -20,8 +20,14 @@ type GongBasicField struct {
 	// that is set at compile time by a DocLink directive //gong:ident
 	IsDocLink bool
 
-	// if there is a gong:text magic field
+	// if there is a gong:text gong directive
 	IsTextArea bool
+
+	// IsBespokeWidth indicates wether the field shall be displayed with a
+	// beskope width
+	// this is set with a gong:width <width in px> gong directive
+	IsBespokeWidth bool
+	BespokeWidth   int
 }
 
 func (gongBasicField *GongBasicField) GetIndex() int {

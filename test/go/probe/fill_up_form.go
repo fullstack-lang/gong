@@ -53,6 +53,7 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("EnumStringRef", instanceWithInferedType.EnumStringRef, instanceWithInferedType, probe.formStage, formGroup, false)
 		BasicFieldtoForm("EnumValue", instanceWithInferedType.EnumValue, instanceWithInferedType, probe.formStage, formGroup, false)
 		BasicFieldtoForm("ConstIdentifierValue", instanceWithInferedType.ConstIdentifierValue, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("TextFieldBespokeWidth", instanceWithInferedType.TextFieldBespokeWidth, instanceWithInferedType, probe.formStage, formGroup, false)
 		BasicFieldtoForm("TextArea", instanceWithInferedType.TextArea, instanceWithInferedType, probe.formStage, formGroup, true)
 		{
 			var rf models.ReverseField

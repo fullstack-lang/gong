@@ -28,6 +28,7 @@ type Astruct_WOP struct {
 	EnumStringRef string
 	EnumValue string
 	ConstIdentifierValue string
+	TextFieldBespokeWidth string
 	TextArea string
 }
 
