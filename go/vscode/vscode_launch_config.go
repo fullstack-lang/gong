@@ -14,7 +14,7 @@ const VsCodeLaunchConfig = `{
             "name": "Launch Chrome",
             "request": "launch",
             "type": "chrome",
-            "url": "http://localhost:8080",
+            "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}/ng"
         },
         {
