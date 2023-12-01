@@ -75,7 +75,8 @@ var ButtonImplFileFieldFieldSubTemplateCode map[ButtonImplSubTemplateId]string =
 map[ButtonImplSubTemplateId]string{
 
 	ButtonImplSubTmplBasicField: `
-		BasicFieldtoForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, probe.formStage, formGroup, {{isTextArea}})`,
+		BasicFieldtoForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, probe.formStage, formGroup, 
+			{{isTextArea}}, {{isBespokeWidth}}, {{bespokeWidth}})`,
 	ButtonImplSubTmplBasicFieldEnumString: `
 		EnumTypeStringToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, probe.formStage, formGroup)`,
 	ButtonImplSubTmplBasicFieldEnumInt: `
@@ -154,10 +155,19 @@ func CodeGeneratorFillUpForm(
 							if field.IsTextArea {
 								isTextArea = "true"
 							}
-							fieldToFormCode += models.Replace2(
+							var isBespokeWidth = "false"
+							var bespokeWidth int
+							if field.IsBespokeWidth {
+								isBespokeWidth = "true"
+								bespokeWidth = field.BespokeWidth
+							}
+							fieldToFormCode += models.Replace4(
 								ButtonImplFileFieldFieldSubTemplateCode[ButtonImplSubTmplBasicField],
 								"{{FieldName}}", field.Name,
-								"{{isTextArea}}", isTextArea)
+								"{{isTextArea}}", isTextArea,
+								"{{isBespokeWidth}}", isBespokeWidth,
+								"{{bespokeWidth}}", fmt.Sprintf("%d", bespokeWidth),
+							)
 						} else {
 							if field.GongEnum.Type == models.Int {
 								fieldToFormCode += models.Replace1(
@@ -172,10 +182,13 @@ func CodeGeneratorFillUpForm(
 					default:
 					}
 				case *models.GongTimeField:
-					fieldToFormCode += models.Replace2(
+					fieldToFormCode += models.Replace4(
 						ButtonImplFileFieldFieldSubTemplateCode[ButtonImplSubTmplBasicField],
 						"{{FieldName}}", field.Name,
-						"{{isTextArea}}", "false")
+						"{{isTextArea}}", "false",
+						"{{isBespokeWidth}}", "false",
+						"{{bespokeWidth}}", fmt.Sprintf("%d", 0),
+					)
 
 				case *models.PointerToGongStructField:
 					fieldToFormCode += models.Replace1(

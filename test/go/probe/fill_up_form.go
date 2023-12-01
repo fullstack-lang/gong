@@ -20,41 +20,58 @@ func FillUpForm[T models.Gongstruct](
 	// insertion point
 	case *models.Astruct:
 		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
 		AssociationFieldToForm("Associationtob", instanceWithInferedType.Associationtob, formGroup, probe)
 		AssociationSliceToForm("Anarrayofb", instanceWithInferedType, &instanceWithInferedType.Anarrayofb, formGroup, probe)
 		AssociationFieldToForm("Anotherassociationtob_2", instanceWithInferedType.Anotherassociationtob_2, formGroup, probe)
-		BasicFieldtoForm("Date", instanceWithInferedType.Date, instanceWithInferedType, probe.formStage, formGroup, false)
-		BasicFieldtoForm("Booleanfield", instanceWithInferedType.Booleanfield, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("Date", instanceWithInferedType.Date, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
+		BasicFieldtoForm("Booleanfield", instanceWithInferedType.Booleanfield, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
 		EnumTypeStringToForm("Aenum", instanceWithInferedType.Aenum, instanceWithInferedType, probe.formStage, formGroup)
 		EnumTypeStringToForm("Aenum_2", instanceWithInferedType.Aenum_2, instanceWithInferedType, probe.formStage, formGroup)
 		EnumTypeStringToForm("Benum", instanceWithInferedType.Benum, instanceWithInferedType, probe.formStage, formGroup)
 		EnumTypeIntToForm("CEnum", instanceWithInferedType.CEnum, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("CName", instanceWithInferedType.CName, instanceWithInferedType, probe.formStage, formGroup, false)
-		BasicFieldtoForm("CFloatfield", instanceWithInferedType.CFloatfield, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("CName", instanceWithInferedType.CName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
+		BasicFieldtoForm("CFloatfield", instanceWithInferedType.CFloatfield, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
 		AssociationFieldToForm("Bstruct", instanceWithInferedType.Bstruct, formGroup, probe)
 		AssociationFieldToForm("Bstruct2", instanceWithInferedType.Bstruct2, formGroup, probe)
 		AssociationFieldToForm("Dstruct", instanceWithInferedType.Dstruct, formGroup, probe)
 		AssociationFieldToForm("Dstruct2", instanceWithInferedType.Dstruct2, formGroup, probe)
 		AssociationFieldToForm("Dstruct3", instanceWithInferedType.Dstruct3, formGroup, probe)
 		AssociationFieldToForm("Dstruct4", instanceWithInferedType.Dstruct4, formGroup, probe)
-		BasicFieldtoForm("Floatfield", instanceWithInferedType.Floatfield, instanceWithInferedType, probe.formStage, formGroup, false)
-		BasicFieldtoForm("Intfield", instanceWithInferedType.Intfield, instanceWithInferedType, probe.formStage, formGroup, false)
-		BasicFieldtoForm("Anotherbooleanfield", instanceWithInferedType.Anotherbooleanfield, instanceWithInferedType, probe.formStage, formGroup, false)
-		BasicFieldtoForm("Duration1", instanceWithInferedType.Duration1, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("Floatfield", instanceWithInferedType.Floatfield, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
+		BasicFieldtoForm("Intfield", instanceWithInferedType.Intfield, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
+		BasicFieldtoForm("Anotherbooleanfield", instanceWithInferedType.Anotherbooleanfield, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
+		BasicFieldtoForm("Duration1", instanceWithInferedType.Duration1, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
 		AssociationSliceToForm("Anarrayofa", instanceWithInferedType, &instanceWithInferedType.Anarrayofa, formGroup, probe)
 		AssociationSliceToForm("Anotherarrayofb", instanceWithInferedType, &instanceWithInferedType.Anotherarrayofb, formGroup, probe)
 		AssociationSliceToForm("AnarrayofbUse", instanceWithInferedType, &instanceWithInferedType.AnarrayofbUse, formGroup, probe)
 		AssociationSliceToForm("Anarrayofb2Use", instanceWithInferedType, &instanceWithInferedType.Anarrayofb2Use, formGroup, probe)
 		AssociationFieldToForm("AnAstruct", instanceWithInferedType.AnAstruct, formGroup, probe)
-		BasicFieldtoForm("StructRef", instanceWithInferedType.StructRef, instanceWithInferedType, probe.formStage, formGroup, false)
-		BasicFieldtoForm("FieldRef", instanceWithInferedType.FieldRef, instanceWithInferedType, probe.formStage, formGroup, false)
-		BasicFieldtoForm("EnumIntRef", instanceWithInferedType.EnumIntRef, instanceWithInferedType, probe.formStage, formGroup, false)
-		BasicFieldtoForm("EnumStringRef", instanceWithInferedType.EnumStringRef, instanceWithInferedType, probe.formStage, formGroup, false)
-		BasicFieldtoForm("EnumValue", instanceWithInferedType.EnumValue, instanceWithInferedType, probe.formStage, formGroup, false)
-		BasicFieldtoForm("ConstIdentifierValue", instanceWithInferedType.ConstIdentifierValue, instanceWithInferedType, probe.formStage, formGroup, false)
-		BasicFieldtoForm("TextFieldBespokeWidth", instanceWithInferedType.TextFieldBespokeWidth, instanceWithInferedType, probe.formStage, formGroup, false)
-		BasicFieldtoForm("TextArea", instanceWithInferedType.TextArea, instanceWithInferedType, probe.formStage, formGroup, true)
+		BasicFieldtoForm("StructRef", instanceWithInferedType.StructRef, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
+		BasicFieldtoForm("FieldRef", instanceWithInferedType.FieldRef, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
+		BasicFieldtoForm("EnumIntRef", instanceWithInferedType.EnumIntRef, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
+		BasicFieldtoForm("EnumStringRef", instanceWithInferedType.EnumStringRef, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
+		BasicFieldtoForm("EnumValue", instanceWithInferedType.EnumValue, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
+		BasicFieldtoForm("ConstIdentifierValue", instanceWithInferedType.ConstIdentifierValue, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
+		BasicFieldtoForm("TextFieldBespokeWidth", instanceWithInferedType.TextFieldBespokeWidth, instanceWithInferedType, probe.formStage, formGroup,
+			false, true, 200)
+		BasicFieldtoForm("TextArea", instanceWithInferedType.TextArea, instanceWithInferedType, probe.formStage, formGroup,
+			true, false, 0)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -75,12 +92,13 @@ func FillUpForm[T models.Gongstruct](
 					instanceWithInferedType,
 					formGroup,
 					probe)
-			}	
+			}
 		}
 
 	case *models.AstructBstruct2Use:
 		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
 		AssociationFieldToForm("Bstrcut2", instanceWithInferedType.Bstrcut2, formGroup, probe)
 		{
 			var rf models.ReverseField
@@ -102,12 +120,13 @@ func FillUpForm[T models.Gongstruct](
 					instanceWithInferedType,
 					formGroup,
 					probe)
-			}	
+			}
 		}
 
 	case *models.AstructBstructUse:
 		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
 		AssociationFieldToForm("Bstruct2", instanceWithInferedType.Bstruct2, formGroup, probe)
 		{
 			var rf models.ReverseField
@@ -129,15 +148,19 @@ func FillUpForm[T models.Gongstruct](
 					instanceWithInferedType,
 					formGroup,
 					probe)
-			}	
+			}
 		}
 
 	case *models.Bstruct:
 		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup, false)
-		BasicFieldtoForm("Floatfield", instanceWithInferedType.Floatfield, instanceWithInferedType, probe.formStage, formGroup, false)
-		BasicFieldtoForm("Floatfield2", instanceWithInferedType.Floatfield2, instanceWithInferedType, probe.formStage, formGroup, false)
-		BasicFieldtoForm("Intfield", instanceWithInferedType.Intfield, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
+		BasicFieldtoForm("Floatfield", instanceWithInferedType.Floatfield, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
+		BasicFieldtoForm("Floatfield2", instanceWithInferedType.Floatfield2, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
+		BasicFieldtoForm("Intfield", instanceWithInferedType.Intfield, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -158,7 +181,7 @@ func FillUpForm[T models.Gongstruct](
 					instanceWithInferedType,
 					formGroup,
 					probe)
-			}	
+			}
 		}
 		{
 			var rf models.ReverseField
@@ -180,7 +203,7 @@ func FillUpForm[T models.Gongstruct](
 					instanceWithInferedType,
 					formGroup,
 					probe)
-			}	
+			}
 		}
 		{
 			var rf models.ReverseField
@@ -202,17 +225,19 @@ func FillUpForm[T models.Gongstruct](
 					instanceWithInferedType,
 					formGroup,
 					probe)
-			}	
+			}
 		}
 
 	case *models.Dstruct:
 		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
 		AssociationSliceToForm("Anarrayofb", instanceWithInferedType, &instanceWithInferedType.Anarrayofb, formGroup, probe)
 
 	case *models.Fstruct:
 		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup, false)
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0)
 
 	default:
 		_ = instanceWithInferedType

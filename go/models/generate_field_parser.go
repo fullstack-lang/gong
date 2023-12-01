@@ -32,7 +32,11 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 					isTextArea = true
 				}
 				if strings.Contains(comment.Text, "gong:width") {
-					isBespokeWidth = true
+					width, err := extractWidthNumber(comment.Text)
+					if err == nil {
+						isBespokeWidth = true
+						bespokeWidth = width
+					}
 				}
 			}
 		}
