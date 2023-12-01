@@ -168,6 +168,9 @@ type AstructDB struct {
 	// Declation for basic field astructDB.ConstIdentifierValue
 	ConstIdentifierValue_Data sql.NullString
 
+	// Declation for basic field astructDB.TextFieldBespokeWidth
+	TextFieldBespokeWidth_Data sql.NullString
+
 	// Declation for basic field astructDB.TextArea
 	TextArea_Data sql.NullString
 	// encoding of pointers
@@ -229,7 +232,9 @@ type AstructWOP struct {
 
 	ConstIdentifierValue string `xlsx:"19"`
 
-	TextArea string `xlsx:"20"`
+	TextFieldBespokeWidth string `xlsx:"20"`
+
+	TextArea string `xlsx:"21"`
 	// insertion for WOP pointer fields
 }
 
@@ -255,6 +260,7 @@ var Astruct_Fields = []string{
 	"EnumStringRef",
 	"EnumValue",
 	"ConstIdentifierValue",
+	"TextFieldBespokeWidth",
 	"TextArea",
 }
 
@@ -827,6 +833,9 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstruct(astruct *models.Astruct) 
 	astructDB.ConstIdentifierValue_Data.String = astruct.ConstIdentifierValue
 	astructDB.ConstIdentifierValue_Data.Valid = true
 
+	astructDB.TextFieldBespokeWidth_Data.String = astruct.TextFieldBespokeWidth
+	astructDB.TextFieldBespokeWidth_Data.Valid = true
+
 	astructDB.TextArea_Data.String = astruct.TextArea
 	astructDB.TextArea_Data.Valid = true
 }
@@ -891,6 +900,9 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstruct_WOP(astruct *models.Astru
 
 	astructDB.ConstIdentifierValue_Data.String = astruct.ConstIdentifierValue
 	astructDB.ConstIdentifierValue_Data.Valid = true
+
+	astructDB.TextFieldBespokeWidth_Data.String = astruct.TextFieldBespokeWidth
+	astructDB.TextFieldBespokeWidth_Data.Valid = true
 
 	astructDB.TextArea_Data.String = astruct.TextArea
 	astructDB.TextArea_Data.Valid = true
@@ -957,6 +969,9 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstructWOP(astruct *AstructWOP) {
 	astructDB.ConstIdentifierValue_Data.String = astruct.ConstIdentifierValue
 	astructDB.ConstIdentifierValue_Data.Valid = true
 
+	astructDB.TextFieldBespokeWidth_Data.String = astruct.TextFieldBespokeWidth
+	astructDB.TextFieldBespokeWidth_Data.Valid = true
+
 	astructDB.TextArea_Data.String = astruct.TextArea
 	astructDB.TextArea_Data.Valid = true
 }
@@ -983,6 +998,7 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstruct(astruct *models.Astruct) {
 	astruct.EnumStringRef = astructDB.EnumStringRef_Data.String
 	astruct.EnumValue = astructDB.EnumValue_Data.String
 	astruct.ConstIdentifierValue = astructDB.ConstIdentifierValue_Data.String
+	astruct.TextFieldBespokeWidth = astructDB.TextFieldBespokeWidth_Data.String
 	astruct.TextArea = astructDB.TextArea_Data.String
 }
 
@@ -1008,6 +1024,7 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstruct_WOP(astruct *models.Astruct
 	astruct.EnumStringRef = astructDB.EnumStringRef_Data.String
 	astruct.EnumValue = astructDB.EnumValue_Data.String
 	astruct.ConstIdentifierValue = astructDB.ConstIdentifierValue_Data.String
+	astruct.TextFieldBespokeWidth = astructDB.TextFieldBespokeWidth_Data.String
 	astruct.TextArea = astructDB.TextArea_Data.String
 }
 
@@ -1034,6 +1051,7 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstructWOP(astruct *AstructWOP) {
 	astruct.EnumStringRef = astructDB.EnumStringRef_Data.String
 	astruct.EnumValue = astructDB.EnumValue_Data.String
 	astruct.ConstIdentifierValue = astructDB.ConstIdentifierValue_Data.String
+	astruct.TextFieldBespokeWidth = astructDB.TextFieldBespokeWidth_Data.String
 	astruct.TextArea = astructDB.TextArea_Data.String
 }
 
