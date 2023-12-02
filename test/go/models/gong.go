@@ -53,11 +53,11 @@ type StageStruct struct {
 	Astructs_mapString map[string]*Astruct
 
 	// insertion point for slice of pointers maps
-	Astruct_Anarrayofb_reverseMap map[*Bstruct]*Astruct
-	Astruct_Anarrayofa_reverseMap map[*Astruct]*Astruct
+	Astruct_Anarrayofb_reverseMap      map[*Bstruct]*Astruct
+	Astruct_Anarrayofa_reverseMap      map[*Astruct]*Astruct
 	Astruct_Anotherarrayofb_reverseMap map[*Bstruct]*Astruct
-	Astruct_AnarrayofbUse_reverseMap map[*AstructBstructUse]*Astruct
-	Astruct_Anarrayofb2Use_reverseMap map[*AstructBstruct2Use]*Astruct
+	Astruct_AnarrayofbUse_reverseMap   map[*AstructBstructUse]*Astruct
+	Astruct_Anarrayofb2Use_reverseMap  map[*AstructBstruct2Use]*Astruct
 
 	OnAfterAstructCreateCallback OnAfterCreateInterface[Astruct]
 	OnAfterAstructUpdateCallback OnAfterUpdateInterface[Astruct]
@@ -1600,7 +1600,7 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 		case "ConstIdentifierValue":
 			res = inferedInstance.ConstIdentifierValue
 		case "TextFieldBespokeWidth":
-			res = inferedInstance.TextFieldBespokeWidth
+			res = inferedInstance.TextFieldBespokeSize
 		case "TextArea":
 			res = inferedInstance.TextArea
 		}
@@ -1821,7 +1821,7 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		case "ConstIdentifierValue":
 			res = inferedInstance.ConstIdentifierValue
 		case "TextFieldBespokeWidth":
-			res = inferedInstance.TextFieldBespokeWidth
+			res = inferedInstance.TextFieldBespokeSize
 		case "TextArea":
 			res = inferedInstance.TextArea
 		}

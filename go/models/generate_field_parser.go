@@ -23,6 +23,8 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 		var isTextArea bool
 		var isBespokeWidth bool
 		var bespokeWidth int
+		var isBespokeHeight bool
+		var bespokeHeight int
 		if field.Comment != nil {
 			for _, comment := range field.Comment.List {
 				if strings.Contains(comment.Text, "swagger:ignore") || strings.Contains(comment.Text, "gong:ignore") {
@@ -36,6 +38,13 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 					if err == nil {
 						isBespokeWidth = true
 						bespokeWidth = width
+					}
+				}
+				if strings.Contains(comment.Text, "gong:height") {
+					height, err := extractHeightNumber(comment.Text)
+					if err == nil {
+						isBespokeHeight = true
+						bespokeHeight = height
 					}
 				}
 			}
@@ -53,6 +62,13 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 					if err == nil {
 						isBespokeWidth = true
 						bespokeWidth = width
+					}
+				}
+				if strings.Contains(comment.Text, "gong:height") {
+					height, err := extractHeightNumber(comment.Text)
+					if err == nil {
+						isBespokeHeight = true
+						bespokeHeight = height
 					}
 				}
 			}
@@ -98,6 +114,8 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 							IsTextArea:          isTextArea,
 							IsBespokeWidth:      isBespokeWidth,
 							BespokeWidth:        bespokeWidth,
+							IsBespokeHeight:     isBespokeHeight,
+							BespokeHeight:       bespokeHeight,
 						}
 
 					if field.Doc != nil {
