@@ -1,6 +1,6 @@
 
 import * as gongsvg from 'gongsvg'
-import { createPoint } from './link/draw.segments';
+import { createPoint } from './draw.segments';
 
 type Segment = {
     StartPointWithoutRadius: gongsvg.PointDB;
@@ -55,7 +55,7 @@ export function getAnchorPoint(polyline: Segment[], targetAnchorPosition: number
     }
 
 
-  
+
 
     // If we've gone through all segments and haven't found the position, return null
     return null;

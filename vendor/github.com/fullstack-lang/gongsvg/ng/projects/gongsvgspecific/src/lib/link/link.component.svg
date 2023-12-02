@@ -12,9 +12,9 @@
             [attr.stroke-dasharray]="Link.StrokeDashArray" 
             [attr.transform]="Link.Transform" 
             
-            (mousedown)="linkMouseDown($event, 0)" 
-            (mousemove)="linkMouseMove($event)" 
-            (mouseup)="linkMouseUp($event)"
+            (mousedown)="linkMouseDown($event, 0, Link)" 
+            (mousemove)="linkMouseMove($event, Link)" 
+            (mouseup)="linkMouseUp($event, Link)"
             
             />
     </g>
@@ -34,7 +34,7 @@
             [attr.stroke-dasharray]="Link.StrokeDashArray" 
             [attr.transform]="Link.Transform" 
             
-            (mousedown)="linkMouseDown($event, 0)" 
+            (mousedown)="linkMouseDown($event, 0, this.Link)" 
             />
 
         <line class="overlay" 
@@ -49,7 +49,7 @@
             [attr.stroke-dasharray]="Link.StrokeDashArray" 
             [attr.transform]="Link.Transform"
 
-            (mousedown)="linkMouseDown($event, 0)" 
+            (mousedown)="linkMouseDown($event, 0, Link)" 
             />
     </g>
 </svg>
@@ -69,7 +69,7 @@
             [attr.stroke-dasharray]="Link.StrokeDashArray" 
             [attr.transform]="Link.Transform" 
 
-            (mousedown)="linkMouseDown($event, 0)" 
+            (mousedown)="linkMouseDown($event, 0, Link)" 
             />
     </g>
     </svg>
@@ -90,10 +90,9 @@
             [attr.segment-orientation]="getOrientation(segment)"
             [attr.segment-number]="segment.Number"
             
-            (mousedown)="linkMouseDown($event, segment.Number)" 
-            (mousemove)="linkMouseMove($event
-            )" 
-            (mouseup)="linkMouseUp($event)"
+            (mousedown)="linkMouseDown($event, segment.Number, Link)" 
+            (mousemove)="linkMouseMove($event, Link)" 
+            (mouseup)="linkMouseUp($event, Link)"
             
             />
 
