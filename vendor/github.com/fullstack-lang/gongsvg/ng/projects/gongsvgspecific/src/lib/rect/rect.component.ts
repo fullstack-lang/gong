@@ -8,7 +8,7 @@ import { SelectAreaConfig, SvgEventService, SweepDirection } from '../svg-event.
 import * as gongsvg from 'gongsvg'
 import { Subscription } from 'rxjs';
 import { ShapeMouseEvent } from '../shape.mouse.event';
-import { createPoint } from '../link/draw.segments';
+import { createPoint } from '../draw.segments';
 import { MouseEventService } from '../mouse-event.service';
 import { mouseCoordInComponentRef } from '../mouse.coord.in.component.ref';
 import { IsEditableService } from '../is-editable.service';

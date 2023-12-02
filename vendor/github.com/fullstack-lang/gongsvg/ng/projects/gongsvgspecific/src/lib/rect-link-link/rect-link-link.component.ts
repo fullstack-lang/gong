@@ -4,7 +4,7 @@ import * as gongsvg from 'gongsvg'
 import { Coordinate } from '../rectangle-event.service';
 import { compareRectGeometries } from '../compare.rect.geometries';
 import { compareLinkGeometries } from '../compare.link.geometries';
-import { Segment, SegmentsParams, drawSegments } from '../link/draw.segments';
+import { Segment, SegmentsParams, drawSegments } from '../draw.segments';
 import { getAnchorPoint } from '../get.anchor.point';
 import { drawLineFromRectToB } from '../draw.line.from.rect.to.point';
 
