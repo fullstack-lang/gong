@@ -24,9 +24,11 @@ func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicFiel
 		}).Stage(formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
 		formField := (&form.FormField{
-			Name:        fieldName,
-			Label:       fieldName,
-			Placeholder: "",
+			Name:            fieldName,
+			Label:           fieldName,
+			Placeholder:     "",
+			HasBespokeWidth: isBespokeWidth,
+			BespokeWidthPx:  bespokeWidth,
 		}).Stage(formStage)
 		formDiv.FormFields = append(formDiv.FormFields, formField)
 
