@@ -12,7 +12,7 @@ import (
 
 func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicField](
 	fieldName string, field TF, instance T, formStage *form.StageStruct, formGroup *form.FormGroup,
-	isTextArea bool, isBespokeWidth bool, bespokeWidth int,
+	isTextArea bool, isBespokeWidth bool, bespokeWidth int, isBespokeHeight bool, bespokeHeight int,
 ) {
 
 	switch fieldWithInterferedType := any(field).(type) {
@@ -27,6 +27,8 @@ func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicFiel
 			Placeholder:     "",
 			HasBespokeWidth: isBespokeWidth,
 			BespokeWidthPx:  bespokeWidth,
+			HasBespokeHeight: isBespokeHeight,
+			BespokeHeightPx:  bespokeHeight,
 		}).Stage(formStage)
 		formDiv.FormFields = append(formDiv.FormFields, formField)
 

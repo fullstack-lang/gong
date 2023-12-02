@@ -3300,7 +3300,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case FormEditAssocButton:
 		res = []string{"Name", "Label"}
 	case FormField:
-		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect", "HasBespokeWidth", "BespokeWidthPx"}
+		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect", "HasBespokeWidth", "BespokeWidthPx", "HasBespokeHeight", "BespokeHeightPx"}
 	case FormFieldDate:
 		res = []string{"Name", "Value"}
 	case FormFieldDateTime:
@@ -3465,7 +3465,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *FormEditAssocButton:
 		res = []string{"Name", "Label"}
 	case *FormField:
-		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect", "HasBespokeWidth", "BespokeWidthPx"}
+		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect", "HasBespokeWidth", "BespokeWidthPx", "HasBespokeHeight", "BespokeHeightPx"}
 	case *FormFieldDate:
 		res = []string{"Name", "Value"}
 	case *FormFieldDateTime:
@@ -3658,6 +3658,10 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res = fmt.Sprintf("%t", inferedInstance.HasBespokeWidth)
 		case "BespokeWidthPx":
 			res = fmt.Sprintf("%d", inferedInstance.BespokeWidthPx)
+		case "HasBespokeHeight":
+			res = fmt.Sprintf("%t", inferedInstance.HasBespokeHeight)
+		case "BespokeHeightPx":
+			res = fmt.Sprintf("%d", inferedInstance.BespokeHeightPx)
 		}
 	case *FormFieldDate:
 		switch fieldName {
@@ -3998,6 +4002,10 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%t", inferedInstance.HasBespokeWidth)
 		case "BespokeWidthPx":
 			res = fmt.Sprintf("%d", inferedInstance.BespokeWidthPx)
+		case "HasBespokeHeight":
+			res = fmt.Sprintf("%t", inferedInstance.HasBespokeHeight)
+		case "BespokeHeightPx":
+			res = fmt.Sprintf("%d", inferedInstance.BespokeHeightPx)
 		}
 	case FormFieldDate:
 		switch fieldName {

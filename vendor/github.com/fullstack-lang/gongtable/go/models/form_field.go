@@ -24,4 +24,8 @@ type FormField struct {
 	// set up specific width
 	HasBespokeWidth bool
 	BespokeWidthPx  int
+
+	// set up specific height
+	HasBespokeHeight bool
+	BespokeHeightPx  int
 }

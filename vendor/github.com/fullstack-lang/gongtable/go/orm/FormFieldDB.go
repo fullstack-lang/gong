@@ -104,6 +104,13 @@ type FormFieldDB struct {
 
 	// Declation for basic field formfieldDB.BespokeWidthPx
 	BespokeWidthPx_Data sql.NullInt64
+
+	// Declation for basic field formfieldDB.HasBespokeHeight
+	// provide the sql storage for the boolan
+	HasBespokeHeight_Data sql.NullBool
+
+	// Declation for basic field formfieldDB.BespokeHeightPx
+	BespokeHeightPx_Data sql.NullInt64
 	// encoding of pointers
 	FormFieldPointersEncoding
 }
@@ -136,6 +143,10 @@ type FormFieldWOP struct {
 	HasBespokeWidth bool `xlsx:"5"`
 
 	BespokeWidthPx int `xlsx:"6"`
+
+	HasBespokeHeight bool `xlsx:"7"`
+
+	BespokeHeightPx int `xlsx:"8"`
 	// insertion for WOP pointer fields
 }
 
@@ -148,6 +159,8 @@ var FormField_Fields = []string{
 	"Placeholder",
 	"HasBespokeWidth",
 	"BespokeWidthPx",
+	"HasBespokeHeight",
+	"BespokeHeightPx",
 }
 
 type BackRepoFormFieldStruct struct {
@@ -550,6 +563,12 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsFromFormField(formfield *models.F
 
 	formfieldDB.BespokeWidthPx_Data.Int64 = int64(formfield.BespokeWidthPx)
 	formfieldDB.BespokeWidthPx_Data.Valid = true
+
+	formfieldDB.HasBespokeHeight_Data.Bool = formfield.HasBespokeHeight
+	formfieldDB.HasBespokeHeight_Data.Valid = true
+
+	formfieldDB.BespokeHeightPx_Data.Int64 = int64(formfield.BespokeHeightPx)
+	formfieldDB.BespokeHeightPx_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormField_WOP
@@ -573,6 +592,12 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsFromFormField_WOP(formfield *mode
 
 	formfieldDB.BespokeWidthPx_Data.Int64 = int64(formfield.BespokeWidthPx)
 	formfieldDB.BespokeWidthPx_Data.Valid = true
+
+	formfieldDB.HasBespokeHeight_Data.Bool = formfield.HasBespokeHeight
+	formfieldDB.HasBespokeHeight_Data.Valid = true
+
+	formfieldDB.BespokeHeightPx_Data.Int64 = int64(formfield.BespokeHeightPx)
+	formfieldDB.BespokeHeightPx_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormFieldWOP
@@ -596,6 +621,12 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsFromFormFieldWOP(formfield *FormF
 
 	formfieldDB.BespokeWidthPx_Data.Int64 = int64(formfield.BespokeWidthPx)
 	formfieldDB.BespokeWidthPx_Data.Valid = true
+
+	formfieldDB.HasBespokeHeight_Data.Bool = formfield.HasBespokeHeight
+	formfieldDB.HasBespokeHeight_Data.Valid = true
+
+	formfieldDB.BespokeHeightPx_Data.Int64 = int64(formfield.BespokeHeightPx)
+	formfieldDB.BespokeHeightPx_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormField
@@ -607,6 +638,8 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsToFormField(formfield *models.For
 	formfield.Placeholder = formfieldDB.Placeholder_Data.String
 	formfield.HasBespokeWidth = formfieldDB.HasBespokeWidth_Data.Bool
 	formfield.BespokeWidthPx = int(formfieldDB.BespokeWidthPx_Data.Int64)
+	formfield.HasBespokeHeight = formfieldDB.HasBespokeHeight_Data.Bool
+	formfield.BespokeHeightPx = int(formfieldDB.BespokeHeightPx_Data.Int64)
 }
 
 // CopyBasicFieldsToFormField_WOP
@@ -618,6 +651,8 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsToFormField_WOP(formfield *models
 	formfield.Placeholder = formfieldDB.Placeholder_Data.String
 	formfield.HasBespokeWidth = formfieldDB.HasBespokeWidth_Data.Bool
 	formfield.BespokeWidthPx = int(formfieldDB.BespokeWidthPx_Data.Int64)
+	formfield.HasBespokeHeight = formfieldDB.HasBespokeHeight_Data.Bool
+	formfield.BespokeHeightPx = int(formfieldDB.BespokeHeightPx_Data.Int64)
 }
 
 // CopyBasicFieldsToFormFieldWOP
@@ -630,6 +665,8 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsToFormFieldWOP(formfield *FormFie
 	formfield.Placeholder = formfieldDB.Placeholder_Data.String
 	formfield.HasBespokeWidth = formfieldDB.HasBespokeWidth_Data.Bool
 	formfield.BespokeWidthPx = int(formfieldDB.BespokeWidthPx_Data.Int64)
+	formfield.HasBespokeHeight = formfieldDB.HasBespokeHeight_Data.Bool
+	formfield.BespokeHeightPx = int(formfieldDB.BespokeHeightPx_Data.Int64)
 }
 
 // Backup generates a json file from a slice of all FormFieldDB instances in the backrepo

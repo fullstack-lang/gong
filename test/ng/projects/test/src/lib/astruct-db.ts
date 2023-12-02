@@ -35,7 +35,7 @@ export class AstructDB {
 	EnumStringRef: string = ""
 	EnumValue: string = ""
 	ConstIdentifierValue: string = ""
-	TextFieldBespokeWidth: string = ""
+	TextFieldBespokeSize: string = ""
 	TextArea: string = ""
 
 	// insertion point for pointers and slices of pointers declarations

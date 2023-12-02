@@ -1067,6 +1067,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_FormField[identifier].BespokeWidthPx = int(exprSign) * int(fielValue)
+				case "BespokeHeightPx":
+					// convert string to int
+					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_FormField[identifier].BespokeHeightPx = int(exprSign) * int(fielValue)
 				}
 			case "FormFieldDate":
 				switch fieldName {
@@ -1352,6 +1359,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_FormField[identifier].HasBespokeWidth = fielValue
+				case "HasBespokeHeight":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_FormField[identifier].HasBespokeHeight = fielValue
 				}
 			case "FormFieldDate":
 				switch fieldName {

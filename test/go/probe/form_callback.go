@@ -116,7 +116,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(astruct_.EnumValue), formDiv)
 		case "ConstIdentifierValue":
 			FormDivBasicFieldToField(&(astruct_.ConstIdentifierValue), formDiv)
-		case "TextFieldBespokeWidth":
+		case "TextFieldBespokeSize":
 			FormDivBasicFieldToField(&(astruct_.TextFieldBespokeSize), formDiv)
 		case "TextArea":
 			FormDivBasicFieldToField(&(astruct_.TextArea), formDiv)

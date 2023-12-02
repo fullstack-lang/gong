@@ -25,6 +25,8 @@ export class FormFieldDB {
 	Placeholder: string = ""
 	HasBespokeWidth: boolean = false
 	BespokeWidthPx: number = 0
+	HasBespokeHeight: boolean = false
+	BespokeHeightPx: number = 0
 
 	// insertion point for pointers and slices of pointers declarations
 	FormFieldString?: FormFieldStringDB
