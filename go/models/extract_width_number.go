@@ -19,3 +19,17 @@ func extractWidthNumber(s string) (int, error) {
 	}
 	return width, nil
 }
+
+func extractHeightNumber(s string) (int, error) {
+	re := regexp.MustCompile(`gong:height\s*([0-9]+)`)
+	matches := re.FindStringSubmatch(s)
+	if len(matches) < 2 {
+		return 0, fmt.Errorf("No height number found")
+	}
+	heightStr := matches[1]
+	height, err := strconv.Atoi(heightStr)
+	if err != nil {
+		return 0, err
+	}
+	return height, nil
+}

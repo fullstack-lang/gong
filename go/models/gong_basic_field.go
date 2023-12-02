@@ -28,6 +28,10 @@ type GongBasicField struct {
 	// this is set with a gong:width <width in px> gong directive
 	IsBespokeWidth bool
 	BespokeWidth   int
+
+	//
+	IsBespokeHeight bool
+	BespokeHeight   int
 }
 
 func (gongBasicField *GongBasicField) GetIndex() int {

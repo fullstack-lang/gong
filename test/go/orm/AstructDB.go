@@ -833,7 +833,7 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstruct(astruct *models.Astruct) 
 	astructDB.ConstIdentifierValue_Data.String = astruct.ConstIdentifierValue
 	astructDB.ConstIdentifierValue_Data.Valid = true
 
-	astructDB.TextFieldBespokeWidth_Data.String = astruct.TextFieldBespokeWidth
+	astructDB.TextFieldBespokeWidth_Data.String = astruct.TextFieldBespokeSize
 	astructDB.TextFieldBespokeWidth_Data.Valid = true
 
 	astructDB.TextArea_Data.String = astruct.TextArea
@@ -998,7 +998,7 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstruct(astruct *models.Astruct) {
 	astruct.EnumStringRef = astructDB.EnumStringRef_Data.String
 	astruct.EnumValue = astructDB.EnumValue_Data.String
 	astruct.ConstIdentifierValue = astructDB.ConstIdentifierValue_Data.String
-	astruct.TextFieldBespokeWidth = astructDB.TextFieldBespokeWidth_Data.String
+	astruct.TextFieldBespokeSize = astructDB.TextFieldBespokeWidth_Data.String
 	astruct.TextArea = astructDB.TextArea_Data.String
 }
 

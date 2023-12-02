@@ -87,9 +87,9 @@ type Astruct struct {
 	//gong:ident [pkg.Name1]
 	ConstIdentifierValue string
 
-	// TextFieldBespokeWidth is a field with a larger form field
-	//gong:width 600
-	TextFieldBespokeWidth string
+	// TextFieldBespokeSize is a field with a larger form field
+	//gong:width 600 gong:height 300
+	TextFieldBespokeSize string
 
 	//gong:text, magic code to have the form editor have a text area instead of an input
 	TextArea string
