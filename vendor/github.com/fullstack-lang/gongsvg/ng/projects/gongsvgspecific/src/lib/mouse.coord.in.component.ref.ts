@@ -1,5 +1,5 @@
 import * as gongsvg from 'gongsvg'
-import { createPoint } from './link/draw.segments'
+import { createPoint } from './draw.segments'
 
 export function mouseCoordInComponentRef(event: MouseEvent): gongsvg.PointDB {
 

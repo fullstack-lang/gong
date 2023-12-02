@@ -1,7 +1,6 @@
 
 import * as gongsvg from 'gongsvg'
-import { createPoint } from './link/draw.segments';
-
+import { createPoint } from './draw.segments';
 
 // Function to calculate the center of a rectangle
 function getRectCenter(rect: gongsvg.RectDB): gongsvg.PointDB {
