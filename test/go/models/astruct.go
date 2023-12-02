@@ -88,7 +88,7 @@ type Astruct struct {
 	ConstIdentifierValue string
 
 	// TextFieldBespokeWidth is a field with a larger form field
-	//gong:width 160
+	//gong:width 600
 	TextFieldBespokeWidth string
 
 	//gong:text, magic code to have the form editor have a text area instead of an input

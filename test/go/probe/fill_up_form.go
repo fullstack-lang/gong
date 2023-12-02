@@ -69,7 +69,7 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("ConstIdentifierValue", instanceWithInferedType.ConstIdentifierValue, instanceWithInferedType, probe.formStage, formGroup, 
 			false, false, 0)
 		BasicFieldtoForm("TextFieldBespokeWidth", instanceWithInferedType.TextFieldBespokeWidth, instanceWithInferedType, probe.formStage, formGroup, 
-			false, true, 160)
+			false, true, 600)
 		BasicFieldtoForm("TextArea", instanceWithInferedType.TextArea, instanceWithInferedType, probe.formStage, formGroup, 
 			true, false, 0)
 		{
