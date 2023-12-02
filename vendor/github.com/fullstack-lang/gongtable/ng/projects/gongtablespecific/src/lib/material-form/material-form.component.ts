@@ -453,6 +453,9 @@ export class MaterialFormComponent implements OnInit {
       if (formField.HasBespokeWidth) {
         styles['width.px'] = formField.BespokeWidthPx
       }
+      if (formField.HasBespokeHeight) {
+        styles['height.px'] = formField.BespokeHeightPx
+      }
     }
     return styles
   }
