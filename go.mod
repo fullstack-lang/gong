@@ -28,7 +28,6 @@ require (
 	github.com/fullstack-lang/gongtree v0.0.0-20231122074822-febf350211ba
 	github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00
 	github.com/glebarez/sqlite v1.10.0
-	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
 	github.com/xuri/excelize/v2 v2.8.0
 	golang.org/x/exp v0.0.0-20231110203233-9a3e6036ecaa
 )
