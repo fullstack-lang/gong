@@ -19,9 +19,6 @@ import { BstructService } from './bstruct.service'
 import { DstructDB } from './dstruct-db'
 import { DstructService } from './dstruct.service'
 
-import { FstructDB } from './fstruct-db'
-import { FstructService } from './fstruct.service'
-
 export const StackType = "github.com/fullstack-lang/gong/test/go/models"
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
@@ -46,10 +43,6 @@ export class FrontRepo { // insertion point sub template
   Dstructs = new Map<number, DstructDB>() // map of repo instances
   Dstructs_batch = new Map<number, DstructDB>() // same but only in last GET (for finding repo instances to delete)
 
-  Fstructs_array = new Array<FstructDB>() // array of repo instances
-  Fstructs = new Map<number, FstructDB>() // map of repo instances
-  Fstructs_batch = new Map<number, FstructDB>() // same but only in last GET (for finding repo instances to delete)
-
 
   // getArray allows for a get function that is robust to refactoring of the named struct name
   // for instance frontRepo.getArray<Astruct>( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
@@ -67,8 +60,6 @@ export class FrontRepo { // insertion point sub template
         return this.Bstructs_array as unknown as Array<Type>
       case 'Dstruct':
         return this.Dstructs_array as unknown as Array<Type>
-      case 'Fstruct':
-        return this.Fstructs_array as unknown as Array<Type>
       default:
         throw new Error("Type not recognized");
     }
@@ -88,8 +79,6 @@ export class FrontRepo { // insertion point sub template
         return this.Bstructs as unknown as Map<number, Type>
       case 'Dstruct':
         return this.Dstructs as unknown as Map<number, Type>
-      case 'Fstruct':
-        return this.Fstructs as unknown as Map<number, Type>
       default:
         throw new Error("Type not recognized");
     }
@@ -161,7 +150,6 @@ export class FrontRepoService {
     private astructbstructuseService: AstructBstructUseService,
     private bstructService: BstructService,
     private dstructService: DstructService,
-    private fstructService: FstructService,
   ) { }
 
   // postService provides a post function for each struct name
@@ -199,7 +187,6 @@ export class FrontRepoService {
     Observable<AstructBstructUseDB[]>,
     Observable<BstructDB[]>,
     Observable<DstructDB[]>,
-    Observable<FstructDB[]>,
   ] = [
       // Using "combineLatest" with a placeholder observable.
       //
@@ -215,7 +202,6 @@ export class FrontRepoService {
       this.astructbstructuseService.getAstructBstructUses(this.GONG__StackPath, this.frontRepo),
       this.bstructService.getBstructs(this.GONG__StackPath, this.frontRepo),
       this.dstructService.getDstructs(this.GONG__StackPath, this.frontRepo),
-      this.fstructService.getFstructs(this.GONG__StackPath, this.frontRepo),
     ];
 
   //
@@ -236,7 +222,6 @@ export class FrontRepoService {
       this.astructbstructuseService.getAstructBstructUses(this.GONG__StackPath, this.frontRepo),
       this.bstructService.getBstructs(this.GONG__StackPath, this.frontRepo),
       this.dstructService.getDstructs(this.GONG__StackPath, this.frontRepo),
-      this.fstructService.getFstructs(this.GONG__StackPath, this.frontRepo),
     ]
 
     return new Observable<FrontRepo>(
@@ -252,7 +237,6 @@ export class FrontRepoService {
             astructbstructuses_,
             bstructs_,
             dstructs_,
-            fstructs_,
           ]) => {
             // Typing can be messy with many items. Therefore, type casting is necessary here
             // insertion point sub template for type casting 
@@ -266,8 +250,6 @@ export class FrontRepoService {
             bstructs = bstructs_ as BstructDB[]
             var dstructs: DstructDB[]
             dstructs = dstructs_ as DstructDB[]
-            var fstructs: FstructDB[]
-            fstructs = fstructs_ as FstructDB[]
 
             // 
             // First Step: init map of instances
@@ -437,39 +419,6 @@ export class FrontRepoService {
               return 0;
             });
 
-            // init the array
-            this.frontRepo.Fstructs_array = fstructs
-
-            // clear the map that counts Fstruct in the GET
-            this.frontRepo.Fstructs_batch.clear()
-
-            fstructs.forEach(
-              fstruct => {
-                this.frontRepo.Fstructs.set(fstruct.ID, fstruct)
-                this.frontRepo.Fstructs_batch.set(fstruct.ID, fstruct)
-              }
-            )
-
-            // clear fstructs that are absent from the batch
-            this.frontRepo.Fstructs.forEach(
-              fstruct => {
-                if (this.frontRepo.Fstructs_batch.get(fstruct.ID) == undefined) {
-                  this.frontRepo.Fstructs.delete(fstruct.ID)
-                }
-              }
-            )
-
-            // sort Fstructs_array array
-            this.frontRepo.Fstructs_array.sort((t1, t2) => {
-              if (t1.Name > t2.Name) {
-                return 1;
-              }
-              if (t1.Name < t2.Name) {
-                return -1;
-              }
-              return 0;
-            });
-
 
             // 
             // Second Step: reddeem slice of pointers fields
@@ -621,12 +570,6 @@ export class FrontRepoService {
                     dstruct.Anarrayofb.push(_bstruct!)
                   }
                 }
-              }
-            )
-            fstructs.forEach(
-              fstruct => {
-                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-                // insertion point for pointers decoding
               }
             )
 
@@ -961,55 +904,6 @@ export class FrontRepoService {
       }
     )
   }
-
-  // FstructPull performs a GET on Fstruct of the stack and redeem association pointers 
-  FstructPull(): Observable<FrontRepo> {
-    return new Observable<FrontRepo>(
-      (observer) => {
-        combineLatest([
-          this.fstructService.getFstructs(this.GONG__StackPath, this.frontRepo)
-        ]).subscribe(
-          ([ // insertion point sub template 
-            fstructs,
-          ]) => {
-            // init the array
-            this.frontRepo.Fstructs_array = fstructs
-
-            // clear the map that counts Fstruct in the GET
-            this.frontRepo.Fstructs_batch.clear()
-
-            // 
-            // First Step: init map of instances
-            // insertion point sub template 
-            fstructs.forEach(
-              fstruct => {
-                this.frontRepo.Fstructs.set(fstruct.ID, fstruct)
-                this.frontRepo.Fstructs_batch.set(fstruct.ID, fstruct)
-
-                // insertion point for redeeming ONE/ZERO-ONE associations
-              }
-            )
-
-            // clear fstructs that are absent from the GET
-            this.frontRepo.Fstructs.forEach(
-              fstruct => {
-                if (this.frontRepo.Fstructs_batch.get(fstruct.ID) == undefined) {
-                  this.frontRepo.Fstructs.delete(fstruct.ID)
-                }
-              }
-            )
-
-            // 
-            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
-            // insertion point sub template 
-
-            // hand over control flow to observer
-            observer.next(this.frontRepo)
-          }
-        )
-      }
-    )
-  }
 }
 
 // insertion point for get unique ID per struct 
@@ -1027,7 +921,4 @@ export function getBstructUniqueID(id: number): number {
 }
 export function getDstructUniqueID(id: number): number {
   return 47 * id
-}
-export function getFstructUniqueID(id: number): number {
-  return 53 * id
 }

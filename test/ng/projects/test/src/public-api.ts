@@ -26,9 +26,6 @@ export * from './lib/bstruct.service'
 export * from './lib/dstruct-db'
 export * from './lib/dstruct.service'
 
-export * from './lib/fstruct-db'
-export * from './lib/fstruct.service'
-
 
 export * from './lib/AEnumType'
 export * from './lib/BEnumType'
