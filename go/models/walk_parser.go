@@ -15,8 +15,8 @@ import (
 	"strings"
 	"unicode"
 
+	"github.com/fullstack-lang/gong/go/ignore"
 	// to parse the .frontignore file
-	gitignore "github.com/sabhiram/go-gitignore"
 )
 
 func ParseEmbedModel(embeddedDir embed.FS, source string) map[string]*ast.Package {
@@ -58,7 +58,7 @@ func ParseEmbedModel(embeddedDir embed.FS, source string) map[string]*ast.Packag
 	return pkgs
 }
 
-func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, ignorePatterns *gitignore.GitIgnore) {
+func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, goGitignoreEntries *[]ignore.GitignoreEntry) {
 
 	// this is to store struct that are not gongstruct
 	// but that can be embedded
@@ -140,7 +140,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, ignorePa
 			continue
 		}
 
-		if ignorePatterns != nil && ignorePatterns.MatchesPath(fileName) {
+		if goGitignoreEntries != nil && ignore.CheckFileMatches(fileName, *goGitignoreEntries) {
 			isFileFrontIgnored = true
 		}
 
