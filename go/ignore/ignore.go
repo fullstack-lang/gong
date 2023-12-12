@@ -3,6 +3,7 @@ package ignore
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -15,7 +16,7 @@ type GitignoreEntry struct {
 
 func ParseGoGitignore(filename string) ([]GitignoreEntry, error) {
 	// Read the contents of the gitignore file
-	data, err := ioutil.ReadFile(filename)
+	data, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
