@@ -23,9 +23,9 @@ require (
 )
 
 require (
-	github.com/fullstack-lang/gongdoc v0.0.0-20231202082305-5e436c8f5c5d
-	github.com/fullstack-lang/gongtable v0.0.0-20231202093416-4a8959bf53aa
-	github.com/fullstack-lang/gongtree v0.0.0-20231122074822-febf350211ba
+	github.com/fullstack-lang/gongdoc v0.0.0-20231212093954-e3801bc125fb
+	github.com/fullstack-lang/gongtable v0.0.0-20231212103540-55432c19f109
+	github.com/fullstack-lang/gongtree v0.0.0-20231206130925-9ded3e8642ab
 	github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00
 	github.com/glebarez/sqlite v1.10.0
 	github.com/xuri/excelize/v2 v2.8.0
@@ -37,7 +37,7 @@ require (
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
 	github.com/chenzhuoyu/iasm v0.9.1 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
-	github.com/fullstack-lang/gongsvg v0.0.0-20231128075811-4f3a64fcfc05 // indirect
+	github.com/fullstack-lang/gongsvg v0.0.0-20231212090334-208f4b72e281 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/glebarez/go-sqlite v1.21.2 // indirect

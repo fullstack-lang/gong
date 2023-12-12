@@ -1,5 +1,5 @@
 <form *ngIf="generatedForm" [formGroup]="generatedForm" (ngSubmit)="submitForm()">
-    <div *ngIf="selectedFormGroup" class="flex-align-items-center">
+    <div *ngIf="selectedFormGroup" class="flex-align-items-center sticky-container">
         <p class="custom-text">{{selectedFormGroup.Label}}</p>
         <button class="table__save custom-button" mat-raised-button type=" submit">Submit</button>
     </div>
