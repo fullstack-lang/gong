@@ -1443,6 +1443,20 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 			case "FormGroup":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "HasSuppressButton":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_FormGroup[identifier].HasSuppressButton = fielValue
+				case "HasSuppressButtonBeenPressed":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_FormGroup[identifier].HasSuppressButtonBeenPressed = fielValue
 				}
 			case "FormSortAssocButton":
 				switch fieldName {

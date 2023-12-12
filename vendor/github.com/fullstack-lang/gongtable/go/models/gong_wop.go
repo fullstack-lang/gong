@@ -132,6 +132,8 @@ type FormGroup_WOP struct {
 	// insertion point
 	Name string
 	Label string
+	HasSuppressButton bool
+	HasSuppressButtonBeenPressed bool
 }
 
 type FormSortAssocButton_WOP struct {

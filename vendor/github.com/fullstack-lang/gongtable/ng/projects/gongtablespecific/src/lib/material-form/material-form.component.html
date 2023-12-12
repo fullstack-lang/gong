@@ -1,7 +1,14 @@
-<form *ngIf="generatedForm" [formGroup]="generatedForm" (ngSubmit)="submitForm()">
+<form *ngIf="angularFormGroup" [formGroup]="angularFormGroup" (ngSubmit)="submitForm()">
     <div *ngIf="selectedFormGroup" class="flex-align-items-center sticky-container">
         <p class="custom-text">{{selectedFormGroup.Label}}</p>
-        <button class="table__save custom-button" mat-raised-button type=" submit">Submit</button>
+        <button class="table__save custom-button" mat-raised-button type="submit">Submit</button>
+        <button *ngIf="selectedFormGroup.HasSuppressButton" 
+            class="table__save custom-button" 
+            color="warn" 
+            mat-raised-button 
+            type="suppresion"
+            (click)="onSuppress()"
+            >Suppress</button>
     </div>
     <div *ngFor="let div of this.selectedFormGroup?.FormDivs">
         <ng-container *ngFor="let formField of div.FormFields">
@@ -9,22 +16,22 @@
             >
                 <mat-label>{{formField.Label}}</mat-label>
                 <ng-container *ngIf="formField.FormFieldInt">
-                    <mat-error *ngIf="generatedForm.controls[formField.Name].hasError('min')">
+                    <mat-error *ngIf="angularFormGroup.controls[formField.Name].hasError('min')">
                         The number must be at least {{formField.FormFieldInt.MinValue}}
                     </mat-error>
-                    <mat-error *ngIf="generatedForm.controls[formField.Name].hasError('max')">
+                    <mat-error *ngIf="angularFormGroup.controls[formField.Name].hasError('max')">
                         The number must be at most {{formField.FormFieldInt.MaxValue}}
                     </mat-error>
-                    <mat-error *ngIf="generatedForm.controls[formField.Name].hasError('integer')">
+                    <mat-error *ngIf="angularFormGroup.controls[formField.Name].hasError('integer')">
                         Input must be an integer
                     </mat-error>
                     <input matInput type="number" [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
                 </ng-container>
                 <ng-container *ngIf="formField.FormFieldFloat64">
-                    <mat-error *ngIf="generatedForm.controls[formField.Name].hasError('min')">
+                    <mat-error *ngIf="angularFormGroup.controls[formField.Name].hasError('min')">
                         The number must be at least {{formField.FormFieldFloat64.MinValue}}
                     </mat-error>
-                    <mat-error *ngIf="generatedForm.controls[formField.Name].hasError('max')">
+                    <mat-error *ngIf="angularFormGroup.controls[formField.Name].hasError('max')">
                         The number must be at most {{formField.FormFieldFloat64.MaxValue}}
                     </mat-error>
                     <input matInput type="number" [formControlName]="formField.Name" [placeholder]="formField.Placeholder">

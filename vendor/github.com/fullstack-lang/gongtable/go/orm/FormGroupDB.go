@@ -66,6 +66,14 @@ type FormGroupDB struct {
 
 	// Declation for basic field formgroupDB.Label
 	Label_Data sql.NullString
+
+	// Declation for basic field formgroupDB.HasSuppressButton
+	// provide the sql storage for the boolan
+	HasSuppressButton_Data sql.NullBool
+
+	// Declation for basic field formgroupDB.HasSuppressButtonBeenPressed
+	// provide the sql storage for the boolan
+	HasSuppressButtonBeenPressed_Data sql.NullBool
 	// encoding of pointers
 	FormGroupPointersEncoding
 }
@@ -90,6 +98,10 @@ type FormGroupWOP struct {
 	Name string `xlsx:"1"`
 
 	Label string `xlsx:"2"`
+
+	HasSuppressButton bool `xlsx:"3"`
+
+	HasSuppressButtonBeenPressed bool `xlsx:"4"`
 	// insertion for WOP pointer fields
 }
 
@@ -98,6 +110,8 @@ var FormGroup_Fields = []string{
 	"ID",
 	"Name",
 	"Label",
+	"HasSuppressButton",
+	"HasSuppressButtonBeenPressed",
 }
 
 type BackRepoFormGroupStruct struct {
@@ -388,6 +402,12 @@ func (formgroupDB *FormGroupDB) CopyBasicFieldsFromFormGroup(formgroup *models.F
 
 	formgroupDB.Label_Data.String = formgroup.Label
 	formgroupDB.Label_Data.Valid = true
+
+	formgroupDB.HasSuppressButton_Data.Bool = formgroup.HasSuppressButton
+	formgroupDB.HasSuppressButton_Data.Valid = true
+
+	formgroupDB.HasSuppressButtonBeenPressed_Data.Bool = formgroup.HasSuppressButtonBeenPressed
+	formgroupDB.HasSuppressButtonBeenPressed_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormGroup_WOP
@@ -399,6 +419,12 @@ func (formgroupDB *FormGroupDB) CopyBasicFieldsFromFormGroup_WOP(formgroup *mode
 
 	formgroupDB.Label_Data.String = formgroup.Label
 	formgroupDB.Label_Data.Valid = true
+
+	formgroupDB.HasSuppressButton_Data.Bool = formgroup.HasSuppressButton
+	formgroupDB.HasSuppressButton_Data.Valid = true
+
+	formgroupDB.HasSuppressButtonBeenPressed_Data.Bool = formgroup.HasSuppressButtonBeenPressed
+	formgroupDB.HasSuppressButtonBeenPressed_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormGroupWOP
@@ -410,6 +436,12 @@ func (formgroupDB *FormGroupDB) CopyBasicFieldsFromFormGroupWOP(formgroup *FormG
 
 	formgroupDB.Label_Data.String = formgroup.Label
 	formgroupDB.Label_Data.Valid = true
+
+	formgroupDB.HasSuppressButton_Data.Bool = formgroup.HasSuppressButton
+	formgroupDB.HasSuppressButton_Data.Valid = true
+
+	formgroupDB.HasSuppressButtonBeenPressed_Data.Bool = formgroup.HasSuppressButtonBeenPressed
+	formgroupDB.HasSuppressButtonBeenPressed_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormGroup
@@ -417,6 +449,8 @@ func (formgroupDB *FormGroupDB) CopyBasicFieldsToFormGroup(formgroup *models.For
 	// insertion point for checkout of basic fields (back repo to stage)
 	formgroup.Name = formgroupDB.Name_Data.String
 	formgroup.Label = formgroupDB.Label_Data.String
+	formgroup.HasSuppressButton = formgroupDB.HasSuppressButton_Data.Bool
+	formgroup.HasSuppressButtonBeenPressed = formgroupDB.HasSuppressButtonBeenPressed_Data.Bool
 }
 
 // CopyBasicFieldsToFormGroup_WOP
@@ -424,6 +458,8 @@ func (formgroupDB *FormGroupDB) CopyBasicFieldsToFormGroup_WOP(formgroup *models
 	// insertion point for checkout of basic fields (back repo to stage)
 	formgroup.Name = formgroupDB.Name_Data.String
 	formgroup.Label = formgroupDB.Label_Data.String
+	formgroup.HasSuppressButton = formgroupDB.HasSuppressButton_Data.Bool
+	formgroup.HasSuppressButtonBeenPressed = formgroupDB.HasSuppressButtonBeenPressed_Data.Bool
 }
 
 // CopyBasicFieldsToFormGroupWOP
@@ -432,6 +468,8 @@ func (formgroupDB *FormGroupDB) CopyBasicFieldsToFormGroupWOP(formgroup *FormGro
 	// insertion point for checkout of basic fields (back repo to stage)
 	formgroup.Name = formgroupDB.Name_Data.String
 	formgroup.Label = formgroupDB.Label_Data.String
+	formgroup.HasSuppressButton = formgroupDB.HasSuppressButton_Data.Bool
+	formgroup.HasSuppressButtonBeenPressed = formgroupDB.HasSuppressButtonBeenPressed_Data.Bool
 }
 
 // Backup generates a json file from a slice of all FormGroupDB instances in the backrepo
