@@ -450,10 +450,8 @@ export class MaterialFormComponent implements OnInit {
       return
     }
     this.selectedFormGroup.HasSuppressButtonBeenPressed = true
-    this.formGroupService.update(this.selectedFormGroup, 
-      this.DataStack, this.gongtableFrontRepoService.frontRepo).subscribe(
-      () => {}
-    )
+
+    // the update of the form will be called later
   }
 
   getDynamicStyles(formField: gongtable.FormFieldDB): { [key: string]: any } {

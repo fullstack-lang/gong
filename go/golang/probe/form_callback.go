@@ -91,6 +91,11 @@ func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
 		}
 	}
 
+	// manage the suppress operation
+	if formGroup.HasSuppressButtonBeenPressed {
+		{{structname}}_.Unstage({{structname}}FormCallback.probe.stageOfInterest)
+	}
+
 	{{structname}}FormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.{{Structname}}](
 		{{structname}}FormCallback.probe,
@@ -98,7 +103,7 @@ func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
 	{{structname}}FormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
-	if {{structname}}FormCallback.CreationMode {
+	if {{structname}}FormCallback.CreationMode || formGroup.HasSuppressButtonBeenPressed {
 		{{structname}}FormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),

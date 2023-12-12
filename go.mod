@@ -23,8 +23,8 @@ require (
 )
 
 require (
-	github.com/fullstack-lang/gongdoc v0.0.0-20231212212925-f5d6d7e349b7
-	github.com/fullstack-lang/gongtable v0.0.0-20231212212628-7085f4607806
+	github.com/fullstack-lang/gongdoc v0.0.0-20231212222019-867b22576e73
+	github.com/fullstack-lang/gongtable v0.0.0-20231212221924-dcbcd75e6d08
 	github.com/fullstack-lang/gongtree v0.0.0-20231206130925-9ded3e8642ab
 	github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00
 	github.com/glebarez/sqlite v1.10.0

@@ -75,7 +75,7 @@ var ButtonImplFileFieldFieldSubTemplateCode map[ButtonImplSubTemplateId]string =
 map[ButtonImplSubTemplateId]string{
 
 	ButtonImplSubTmplBasicField: `
-		BasicFieldtoForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, probe.formStage, formGroup, 
+		BasicFieldtoForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, probe.formStage, formGroup,
 			{{isTextArea}}, {{isBespokeWidth}}, {{bespokeWidth}}, {{isBespokeHeight}}, {{bespokeHeight}})`,
 	ButtonImplSubTmplBasicFieldEnumString: `
 		EnumTypeStringToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, probe.formStage, formGroup)`,
@@ -106,7 +106,7 @@ map[ButtonImplSubTemplateId]string{
 					instanceWithInferedType,
 					formGroup,
 					probe)
-			}	
+			}
 		}`,
 }
 

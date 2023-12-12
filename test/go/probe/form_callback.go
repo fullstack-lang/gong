@@ -165,6 +165,11 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		}
 	}
 
+	// manage the suppress operation
+	if formGroup.HasSuppressButtonBeenPressed {
+		astruct_.Unstage(astructFormCallback.probe.stageOfInterest)
+	}
+
 	astructFormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.Astruct](
 		astructFormCallback.probe,
@@ -172,7 +177,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 	astructFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
-	if astructFormCallback.CreationMode {
+	if astructFormCallback.CreationMode || formGroup.HasSuppressButtonBeenPressed {
 		astructFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
@@ -279,6 +284,11 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 		}
 	}
 
+	// manage the suppress operation
+	if formGroup.HasSuppressButtonBeenPressed {
+		astructbstruct2use_.Unstage(astructbstruct2useFormCallback.probe.stageOfInterest)
+	}
+
 	astructbstruct2useFormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.AstructBstruct2Use](
 		astructbstruct2useFormCallback.probe,
@@ -286,7 +296,7 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 	astructbstruct2useFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
-	if astructbstruct2useFormCallback.CreationMode {
+	if astructbstruct2useFormCallback.CreationMode || formGroup.HasSuppressButtonBeenPressed {
 		astructbstruct2useFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
@@ -393,6 +403,11 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 		}
 	}
 
+	// manage the suppress operation
+	if formGroup.HasSuppressButtonBeenPressed {
+		astructbstructuse_.Unstage(astructbstructuseFormCallback.probe.stageOfInterest)
+	}
+
 	astructbstructuseFormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.AstructBstructUse](
 		astructbstructuseFormCallback.probe,
@@ -400,7 +415,7 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 	astructbstructuseFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
-	if astructbstructuseFormCallback.CreationMode {
+	if astructbstructuseFormCallback.CreationMode || formGroup.HasSuppressButtonBeenPressed {
 		astructbstructuseFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
@@ -595,6 +610,11 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 		}
 	}
 
+	// manage the suppress operation
+	if formGroup.HasSuppressButtonBeenPressed {
+		bstruct_.Unstage(bstructFormCallback.probe.stageOfInterest)
+	}
+
 	bstructFormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.Bstruct](
 		bstructFormCallback.probe,
@@ -602,7 +622,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 	bstructFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
-	if bstructFormCallback.CreationMode {
+	if bstructFormCallback.CreationMode || formGroup.HasSuppressButtonBeenPressed {
 		bstructFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
@@ -665,6 +685,11 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 		}
 	}
 
+	// manage the suppress operation
+	if formGroup.HasSuppressButtonBeenPressed {
+		dstruct_.Unstage(dstructFormCallback.probe.stageOfInterest)
+	}
+
 	dstructFormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.Dstruct](
 		dstructFormCallback.probe,
@@ -672,7 +697,7 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 	dstructFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
-	if dstructFormCallback.CreationMode {
+	if dstructFormCallback.CreationMode || formGroup.HasSuppressButtonBeenPressed {
 		dstructFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
@@ -735,6 +760,11 @@ func (fstructFormCallback *FstructFormCallback) OnSave() {
 		}
 	}
 
+	// manage the suppress operation
+	if formGroup.HasSuppressButtonBeenPressed {
+		fstruct_.Unstage(fstructFormCallback.probe.stageOfInterest)
+	}
+
 	fstructFormCallback.probe.stageOfInterest.Commit()
 	fillUpTable[models.Fstruct](
 		fstructFormCallback.probe,
@@ -742,7 +772,7 @@ func (fstructFormCallback *FstructFormCallback) OnSave() {
 	fstructFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
-	if fstructFormCallback.CreationMode {
+	if fstructFormCallback.CreationMode || formGroup.HasSuppressButtonBeenPressed {
 		fstructFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
