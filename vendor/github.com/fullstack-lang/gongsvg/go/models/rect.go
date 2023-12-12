@@ -30,6 +30,7 @@ type Rect struct {
 
 	RectAnchoredTexts []*RectAnchoredText
 	RectAnchoredRects []*RectAnchoredRect
+	RectAnchoredPaths []*RectAnchoredPath
 
 	Impl RectImplInterface
 }

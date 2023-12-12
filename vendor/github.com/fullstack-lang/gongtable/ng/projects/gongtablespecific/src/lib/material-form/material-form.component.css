@@ -35,3 +35,16 @@
     line-height: 1.5;
     /* making the line height similar to material */
 }
+
+.sticky-container {
+    position: sticky;
+
+    top: 0;
+    z-index: 100;
+    background-color: white;
+    /* Sets the background color to white */
+    padding: 2px;
+    /* Adds some space inside the container */
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+    /* Optional: Adds a subtle shadow for a raised effect */
+}

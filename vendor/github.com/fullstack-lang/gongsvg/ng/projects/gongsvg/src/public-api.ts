@@ -47,6 +47,9 @@ export * from './lib/polyline.service'
 export * from './lib/rect-db'
 export * from './lib/rect.service'
 
+export * from './lib/rectanchoredpath-db'
+export * from './lib/rectanchoredpath.service'
+
 export * from './lib/rectanchoredrect-db'
 export * from './lib/rectanchoredrect.service'
 

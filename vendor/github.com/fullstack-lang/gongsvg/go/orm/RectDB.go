@@ -54,6 +54,9 @@ type RectPointersEncoding struct {
 
 	// field RectAnchoredRects is a slice of pointers to another Struct (optional or 0..1)
 	RectAnchoredRects IntSlice `gorm:"type:TEXT"`
+
+	// field RectAnchoredPaths is a slice of pointers to another Struct (optional or 0..1)
+	RectAnchoredPaths IntSlice `gorm:"type:TEXT"`
 }
 
 // RectDB describes a rect in the database
@@ -403,6 +406,16 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				append(rectDB.RectPointersEncoding.RectAnchoredRects, int(rectanchoredrectAssocEnd_DB.ID))
 		}
 
+		// 1. reset
+		rectDB.RectPointersEncoding.RectAnchoredPaths = make([]int, 0)
+		// 2. encode
+		for _, rectanchoredpathAssocEnd := range rect.RectAnchoredPaths {
+			rectanchoredpathAssocEnd_DB :=
+				backRepo.BackRepoRectAnchoredPath.GetRectAnchoredPathDBFromRectAnchoredPathPtr(rectanchoredpathAssocEnd)
+			rectDB.RectPointersEncoding.RectAnchoredPaths =
+				append(rectDB.RectPointersEncoding.RectAnchoredPaths, int(rectanchoredpathAssocEnd_DB.ID))
+		}
+
 		query := backRepoRect.db.Save(&rectDB)
 		if query.Error != nil {
 			log.Fatalln(query.Error)
@@ -541,6 +554,15 @@ func (rectDB *RectDB) DecodePointers(backRepo *BackRepoStruct, rect *models.Rect
 	rect.RectAnchoredRects = rect.RectAnchoredRects[:0]
 	for _, _RectAnchoredRectid := range rectDB.RectPointersEncoding.RectAnchoredRects {
 		rect.RectAnchoredRects = append(rect.RectAnchoredRects, backRepo.BackRepoRectAnchoredRect.Map_RectAnchoredRectDBID_RectAnchoredRectPtr[uint(_RectAnchoredRectid)])
+	}
+
+	// This loop redeem rect.RectAnchoredPaths in the stage from the encode in the back repo
+	// It parses all RectAnchoredPathDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	rect.RectAnchoredPaths = rect.RectAnchoredPaths[:0]
+	for _, _RectAnchoredPathid := range rectDB.RectPointersEncoding.RectAnchoredPaths {
+		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, backRepo.BackRepoRectAnchoredPath.Map_RectAnchoredPathDBID_RectAnchoredPathPtr[uint(_RectAnchoredPathid)])
 	}
 
 	return

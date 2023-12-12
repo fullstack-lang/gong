@@ -8,7 +8,7 @@ import (
 type GongstructDB interface {
 	// insertion point for generic types
 	// "int" is present to handle the case when no struct is present
-	int | AnimateDB | CircleDB | EllipseDB | LayerDB | LineDB | LinkDB | LinkAnchoredTextDB | PathDB | PointDB | PolygoneDB | PolylineDB | RectDB | RectAnchoredRectDB | RectAnchoredTextDB | RectLinkLinkDB | SVGDB | TextDB
+	int | AnimateDB | CircleDB | EllipseDB | LayerDB | LineDB | LinkDB | LinkAnchoredTextDB | PathDB | PointDB | PolygoneDB | PolylineDB | RectDB | RectAnchoredPathDB | RectAnchoredRectDB | RectAnchoredTextDB | RectLinkLinkDB | SVGDB | TextDB
 }
 
 func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
@@ -65,6 +65,10 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 	case *models.Rect:
 		rectInstance := any(concreteInstance).(*models.Rect)
 		ret2 := backRepo.BackRepoRect.GetRectDBFromRectPtr(rectInstance)
+		ret = any(ret2).(*T2)
+	case *models.RectAnchoredPath:
+		rectanchoredpathInstance := any(concreteInstance).(*models.RectAnchoredPath)
+		ret2 := backRepo.BackRepoRectAnchoredPath.GetRectAnchoredPathDBFromRectAnchoredPathPtr(rectanchoredpathInstance)
 		ret = any(ret2).(*T2)
 	case *models.RectAnchoredRect:
 		rectanchoredrectInstance := any(concreteInstance).(*models.RectAnchoredRect)
@@ -156,6 +160,11 @@ func GetID[T models.Gongstruct](
 		id = int(tmp.ID)
 	case *models.Rect:
 		tmp := GetInstanceDBFromInstance[models.Rect, RectDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.RectAnchoredPath:
+		tmp := GetInstanceDBFromInstance[models.RectAnchoredPath, RectAnchoredPathDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -254,6 +263,11 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.Rect:
 		tmp := GetInstanceDBFromInstance[models.Rect, RectDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.RectAnchoredPath:
+		tmp := GetInstanceDBFromInstance[models.RectAnchoredPath, RectAnchoredPathDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

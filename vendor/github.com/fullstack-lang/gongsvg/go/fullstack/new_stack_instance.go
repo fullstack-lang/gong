@@ -56,6 +56,7 @@ func NewStackInstance(
 	models.SetOrchestratorOnAfterUpdate[models.Polygone](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Polyline](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Rect](stage)
+	models.SetOrchestratorOnAfterUpdate[models.RectAnchoredPath](stage)
 	models.SetOrchestratorOnAfterUpdate[models.RectAnchoredRect](stage)
 	models.SetOrchestratorOnAfterUpdate[models.RectAnchoredText](stage)
 	models.SetOrchestratorOnAfterUpdate[models.RectLinkLink](stage)

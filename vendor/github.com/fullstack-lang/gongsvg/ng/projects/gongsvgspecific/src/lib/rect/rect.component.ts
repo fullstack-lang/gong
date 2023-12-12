@@ -168,53 +168,52 @@ export class RectComponent implements OnInit, OnDestroy, DoCheck, OnChanges {
         })
     )
 
-    this.subscriptions.push(
-      svgEventService.multiShapeSelectEndEvent$.subscribe(
-        (selectAreaConfig: SelectAreaConfig) => {
+    this.subscriptions.push(svgEventService.multiShapeSelectEndEvent$.subscribe(
+      (selectAreaConfig: SelectAreaConfig) => {
 
-          if (this.Rect.IsSelected) {
-            return
-          }
+        if (this.Rect.IsSelected) {
+          return
+        }
 
-          switch (selectAreaConfig.SweepDirection) {
-            case SweepDirection.LEFT_TO_RIGHT:
+        switch (selectAreaConfig.SweepDirection) {
+          case SweepDirection.LEFT_TO_RIGHT:
 
-              // rectangle has to be in boxed in the rect
-              if (
-                this.Rect.X > selectAreaConfig.TopLeft[0] &&
-                this.Rect.X + this.Rect.Width < selectAreaConfig.BottomRigth[0] &&
-                this.Rect.Y > selectAreaConfig.TopLeft[1] &&
-                this.Rect.Y + this.Rect.Height < selectAreaConfig.BottomRigth[1]
-              ) {
-                this.Rect.IsSelected = true
-                this.manageHandles()
-                this.rectService.updateRect(this.Rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
-                  _ => {
-                    this.refreshService.emitRefreshRequestEvent(0)
-                  }
-                )
-              }
-              break
-            case SweepDirection.RIGHT_TO_LEFT:
+            // rectangle has to be in boxed in the rect
+            if (
+              this.Rect.X > selectAreaConfig.TopLeft[0] &&
+              this.Rect.X + this.Rect.Width < selectAreaConfig.BottomRigth[0] &&
+              this.Rect.Y > selectAreaConfig.TopLeft[1] &&
+              this.Rect.Y + this.Rect.Height < selectAreaConfig.BottomRigth[1]
+            ) {
+              this.Rect.IsSelected = true
+              this.manageHandles()
+              this.rectService.updateRect(this.Rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+                _ => {
+                  this.refreshService.emitRefreshRequestEvent(0)
+                }
+              )
+            }
+            break
+          case SweepDirection.RIGHT_TO_LEFT:
 
-              // rectangle has to be partialy boxed in the rect
-              if (
-                this.Rect.X < selectAreaConfig.BottomRigth[0] &&
-                this.Rect.X + this.Rect.Width > selectAreaConfig.TopLeft[0] &&
-                this.Rect.Y < selectAreaConfig.BottomRigth[1] &&
-                this.Rect.Y + this.Rect.Height > selectAreaConfig.TopLeft[1]
-              ) {
-                this.Rect.IsSelected = true
-                this.manageHandles()
-                this.rectService.updateRect(this.Rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
-                  _ => {
-                    this.refreshService.emitRefreshRequestEvent(0)
-                  }
-                )
-              }
-              break
-          }
-        })
+            // rectangle has to be partialy boxed in the rect
+            if (
+              this.Rect.X < selectAreaConfig.BottomRigth[0] &&
+              this.Rect.X + this.Rect.Width > selectAreaConfig.TopLeft[0] &&
+              this.Rect.Y < selectAreaConfig.BottomRigth[1] &&
+              this.Rect.Y + this.Rect.Height > selectAreaConfig.TopLeft[1]
+            ) {
+              this.Rect.IsSelected = true
+              this.manageHandles()
+              this.rectService.updateRect(this.Rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+                _ => {
+                  this.refreshService.emitRefreshRequestEvent(0)
+                }
+              )
+            }
+            break
+        }
+      })
     )
   }
 
