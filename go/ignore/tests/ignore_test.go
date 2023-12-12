@@ -1,10 +1,11 @@
-package ignore
+package tests
 
 import (
-	"io/ioutil"
 	"os"
 	"reflect"
 	"testing"
+
+	"github.com/fullstack-lang/gong/go/ignore"
 )
 
 func TestGitignore(t *testing.T) {
@@ -16,7 +17,7 @@ func TestGitignore(t *testing.T) {
 	`
 
 	// Create a temporary file to store the gitignore content
-	tmpFile, err := ioutil.TempFile("", "test_gitignore")
+	tmpFile, err := os.CreateTemp("", "test_gitignore")
 	if err != nil {
 		t.Fatalf("Failed to create temporary file: %v", err)
 	}
@@ -28,13 +29,13 @@ func TestGitignore(t *testing.T) {
 	}
 
 	// Parse the gitignore file
-	gitignoreEntries, err := ParseGoGitignore(tmpFile.Name())
+	gitignoreEntries, err := ignore.ParseGoGitignore(tmpFile.Name())
 	if err != nil {
 		t.Fatalf("Failed to parse gitignore: %v", err)
 	}
 
 	// Parse the directory
-	actualFiles, err := NotIngoredGoFiles(".", gitignoreEntries)
+	actualFiles, err := ignore.NotIngoredGoFiles(".", gitignoreEntries)
 	if err != nil {
 		t.Fatalf("Failed to parse directory: %v", err)
 	}
