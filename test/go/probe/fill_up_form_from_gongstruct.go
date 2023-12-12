@@ -17,62 +17,68 @@ func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, probe *Probe) {
 	case *models.Astruct:
 		formGroup := (&gongtable.FormGroup{
 			Name:  gongtable.FormGroupDefaultName.ToString(),
-			Label: "Update Astruct Form",
+			Label: "Astruct Form",
 			OnSave: __gong__New__AstructFormCallback(
 				instancesTyped,
 				probe,
 			),
 		}).Stage(formStage)
+		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.AstructBstruct2Use:
 		formGroup := (&gongtable.FormGroup{
 			Name:  gongtable.FormGroupDefaultName.ToString(),
-			Label: "Update AstructBstruct2Use Form",
+			Label: "AstructBstruct2Use Form",
 			OnSave: __gong__New__AstructBstruct2UseFormCallback(
 				instancesTyped,
 				probe,
 			),
 		}).Stage(formStage)
+		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.AstructBstructUse:
 		formGroup := (&gongtable.FormGroup{
 			Name:  gongtable.FormGroupDefaultName.ToString(),
-			Label: "Update AstructBstructUse Form",
+			Label: "AstructBstructUse Form",
 			OnSave: __gong__New__AstructBstructUseFormCallback(
 				instancesTyped,
 				probe,
 			),
 		}).Stage(formStage)
+		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Bstruct:
 		formGroup := (&gongtable.FormGroup{
 			Name:  gongtable.FormGroupDefaultName.ToString(),
-			Label: "Update Bstruct Form",
+			Label: "Bstruct Form",
 			OnSave: __gong__New__BstructFormCallback(
 				instancesTyped,
 				probe,
 			),
 		}).Stage(formStage)
+		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Dstruct:
 		formGroup := (&gongtable.FormGroup{
 			Name:  gongtable.FormGroupDefaultName.ToString(),
-			Label: "Update Dstruct Form",
+			Label: "Dstruct Form",
 			OnSave: __gong__New__DstructFormCallback(
 				instancesTyped,
 				probe,
 			),
 		}).Stage(formStage)
+		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Fstruct:
 		formGroup := (&gongtable.FormGroup{
 			Name:  gongtable.FormGroupDefaultName.ToString(),
-			Label: "Update Fstruct Form",
+			Label: "Fstruct Form",
 			OnSave: __gong__New__FstructFormCallback(
 				instancesTyped,
 				probe,
 			),
 		}).Stage(formStage)
+		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	default:
 		_ = instancesTyped

@@ -36,11 +36,12 @@ map[string]string{
 	case *models.{{Structname}}:
 		formGroup := (&gongtable.FormGroup{
 			Name:  gongtable.FormGroupDefaultName.ToString(),
-			Label: "Update {{Structname}} Form",
+			Label: "{{Structname}} Form",
 			OnSave: __gong__New__{{Structname}}FormCallback(
 				instancesTyped,
 				probe,
 			),
 		}).Stage(formStage)
+		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)`,
 }
