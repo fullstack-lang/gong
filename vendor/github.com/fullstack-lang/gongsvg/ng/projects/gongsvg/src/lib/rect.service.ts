@@ -18,6 +18,7 @@ import { FrontRepo, FrontRepoService } from './front-repo.service';
 import { AnimateDB } from './animate-db'
 import { RectAnchoredTextDB } from './rectanchoredtext-db'
 import { RectAnchoredRectDB } from './rectanchoredrect-db'
+import { RectAnchoredPathDB } from './rectanchoredpath-db'
 
 @Injectable({
   providedIn: 'root'
@@ -99,6 +100,11 @@ export class RectService {
       rectdb.RectPointersEncoding.RectAnchoredRects.push(_rectanchoredrect.ID)
     }
     rectdb.RectAnchoredRects = []
+    rectdb.RectPointersEncoding.RectAnchoredPaths = []
+    for (let _rectanchoredpath of rectdb.RectAnchoredPaths) {
+      rectdb.RectPointersEncoding.RectAnchoredPaths.push(_rectanchoredpath.ID)
+    }
+    rectdb.RectAnchoredPaths = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -128,6 +134,13 @@ export class RectService {
           let _rectanchoredrect = frontRepo.RectAnchoredRects.get(_id)
           if (_rectanchoredrect != undefined) {
             rectdb.RectAnchoredRects.push(_rectanchoredrect!)
+          }
+        }
+        rectdb.RectAnchoredPaths = new Array<RectAnchoredPathDB>()
+        for (let _id of rectdb.RectPointersEncoding.RectAnchoredPaths) {
+          let _rectanchoredpath = frontRepo.RectAnchoredPaths.get(_id)
+          if (_rectanchoredpath != undefined) {
+            rectdb.RectAnchoredPaths.push(_rectanchoredpath!)
           }
         }
         // this.log(`posted rectdb id=${rectdb.ID}`)
@@ -181,6 +194,11 @@ export class RectService {
       rectdb.RectPointersEncoding.RectAnchoredRects.push(_rectanchoredrect.ID)
     }
     rectdb.RectAnchoredRects = []
+    rectdb.RectPointersEncoding.RectAnchoredPaths = []
+    for (let _rectanchoredpath of rectdb.RectAnchoredPaths) {
+      rectdb.RectPointersEncoding.RectAnchoredPaths.push(_rectanchoredpath.ID)
+    }
+    rectdb.RectAnchoredPaths = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -210,6 +228,13 @@ export class RectService {
           let _rectanchoredrect = frontRepo.RectAnchoredRects.get(_id)
           if (_rectanchoredrect != undefined) {
             rectdb.RectAnchoredRects.push(_rectanchoredrect!)
+          }
+        }
+        rectdb.RectAnchoredPaths = new Array<RectAnchoredPathDB>()
+        for (let _id of rectdb.RectPointersEncoding.RectAnchoredPaths) {
+          let _rectanchoredpath = frontRepo.RectAnchoredPaths.get(_id)
+          if (_rectanchoredpath != undefined) {
+            rectdb.RectAnchoredPaths.push(_rectanchoredpath!)
           }
         }
         // this.log(`updated rectdb id=${rectdb.ID}`)

@@ -14,18 +14,20 @@ import { drawLineFromRectToB } from '../draw.line.from.rect.to.point';
 import { IsEditableService } from '../is-editable.service';
 import { RefreshService } from '../refresh.service';
 import { swapSegment } from '../swap.segment';
-import { computeSegmentConf } from '../compute.segment.conf';
+import { computeLinkFromMouseEvent } from '../compute.link.from.mouse.event';
 
 @Component({
   selector: 'lib-link',
   templateUrl: './link.component.svg',
   styleUrls: ['./link.component.css']
 })
-export class LinkComponent implements OnInit, DoCheck, AfterViewChecked, OnChanges {
+export class LinkComponent implements OnInit, DoCheck, AfterViewChecked {
 
   @Input() Link?: gongsvg.LinkDB
   @Input() GONG__StackPath: string = ""
 
+  // the list of segments to draw the link
+  // every change on this will provoke a redrawing
   segments: Segment[] | undefined
 
   // @ViewChild('textElement', { static: false }) textElement: ElementRef | undefined
@@ -133,13 +135,13 @@ export class LinkComponent implements OnInit, DoCheck, AfterViewChecked, OnChang
         }
 
         if (this.dragging) {
-          computeSegmentConf(this, shapeMouseEvent)
+          computeLinkFromMouseEvent(this, shapeMouseEvent)
         }
         if (this.textDragging) {
           let deltaX = shapeMouseEvent.Point.X - this.PointAtMouseDown!.X
           let deltaY = shapeMouseEvent.Point.Y - this.PointAtMouseDown!.Y
 
-          // console.log("Text dragging, deltaX", deltaX, "deltaY", deltaY)
+          console.log("Text dragging, deltaX", deltaX, "deltaY", deltaY)
 
           if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
             let text = this.Link!.TextAtArrowEnd![this.draggedTextIndex]
@@ -213,6 +215,7 @@ export class LinkComponent implements OnInit, DoCheck, AfterViewChecked, OnChang
     this.drawSegments(this.Link!)
   }
 
+  // this is invoked in order to modify the link if the end rects are changed
   ngDoCheck(): void {
 
     let hasStartChanged = !compareRectGeometries(this.previousStart!, this.Link!.Start!)
@@ -225,13 +228,6 @@ export class LinkComponent implements OnInit, DoCheck, AfterViewChecked, OnChang
 
   ngAfterViewChecked() {
     //  console.log('Change detection run on MySvgComponent');
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['Link']) {
-      // console.log('Previous value: ', changes['Link'].previousValue);
-      // console.log('Current value: ', changes['Link'].currentValue);
-    }
   }
 
   resetPreviousState() {

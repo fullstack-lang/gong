@@ -89,6 +89,9 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 					res = _rect.Name
 				}
 			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
 			}
@@ -161,6 +164,9 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Rect":
 			switch reverseField.Fieldname {
 			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
 			}
@@ -225,6 +231,9 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Rect":
 			switch reverseField.Fieldname {
 			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
 			}
@@ -283,6 +292,9 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		case "Rect":
+			switch reverseField.Fieldname {
+			}
+		case "RectAnchoredPath":
 			switch reverseField.Fieldname {
 			}
 		case "RectAnchoredRect":
@@ -353,6 +365,9 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Rect":
 			switch reverseField.Fieldname {
 			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
 			}
@@ -415,6 +430,9 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		case "Rect":
+			switch reverseField.Fieldname {
+			}
+		case "RectAnchoredPath":
 			switch reverseField.Fieldname {
 			}
 		case "RectAnchoredRect":
@@ -485,6 +503,9 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Rect":
 			switch reverseField.Fieldname {
 			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
 			}
@@ -547,6 +568,9 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		case "Rect":
+			switch reverseField.Fieldname {
+			}
+		case "RectAnchoredPath":
 			switch reverseField.Fieldname {
 			}
 		case "RectAnchoredRect":
@@ -613,6 +637,9 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Rect":
 			switch reverseField.Fieldname {
 			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
 			}
@@ -675,6 +702,9 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		case "Rect":
+			switch reverseField.Fieldname {
+			}
+		case "RectAnchoredPath":
 			switch reverseField.Fieldname {
 			}
 		case "RectAnchoredRect":
@@ -741,6 +771,9 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Rect":
 			switch reverseField.Fieldname {
 			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
 			}
@@ -803,6 +836,76 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		case "Rect":
+			switch reverseField.Fieldname {
+			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
+		case "RectAnchoredRect":
+			switch reverseField.Fieldname {
+			}
+		case "RectAnchoredText":
+			switch reverseField.Fieldname {
+			}
+		case "RectLinkLink":
+			switch reverseField.Fieldname {
+			}
+		case "SVG":
+			switch reverseField.Fieldname {
+			}
+		case "Text":
+			switch reverseField.Fieldname {
+			}
+		}
+
+	case *models.RectAnchoredPath:
+		tmp := GetInstanceDBFromInstance[models.RectAnchoredPath, RectAnchoredPathDB](
+			stage, backRepo, inst,
+		)
+		_ = tmp
+		switch reverseField.GongstructName {
+		// insertion point
+		case "Animate":
+			switch reverseField.Fieldname {
+			}
+		case "Circle":
+			switch reverseField.Fieldname {
+			}
+		case "Ellipse":
+			switch reverseField.Fieldname {
+			}
+		case "Layer":
+			switch reverseField.Fieldname {
+			}
+		case "Line":
+			switch reverseField.Fieldname {
+			}
+		case "Link":
+			switch reverseField.Fieldname {
+			}
+		case "LinkAnchoredText":
+			switch reverseField.Fieldname {
+			}
+		case "Path":
+			switch reverseField.Fieldname {
+			}
+		case "Point":
+			switch reverseField.Fieldname {
+			}
+		case "Polygone":
+			switch reverseField.Fieldname {
+			}
+		case "Polyline":
+			switch reverseField.Fieldname {
+			}
+		case "Rect":
+			switch reverseField.Fieldname {
+			case "RectAnchoredPaths":
+				if _rect, ok := stage.Rect_RectAnchoredPaths_reverseMap[inst]; ok {
+					res = _rect.Name
+				}
+			}
+		case "RectAnchoredPath":
 			switch reverseField.Fieldname {
 			}
 		case "RectAnchoredRect":
@@ -869,6 +972,9 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 					res = _rect.Name
 				}
 			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
 			}
@@ -932,6 +1038,9 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 				if _rect, ok := stage.Rect_RectAnchoredTexts_reverseMap[inst]; ok {
 					res = _rect.Name
 				}
+			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
 			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
@@ -997,6 +1106,9 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Rect":
 			switch reverseField.Fieldname {
 			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
 			}
@@ -1055,6 +1167,9 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		case "Rect":
+			switch reverseField.Fieldname {
+			}
+		case "RectAnchoredPath":
 			switch reverseField.Fieldname {
 			}
 		case "RectAnchoredRect":
@@ -1119,6 +1234,9 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		case "Rect":
+			switch reverseField.Fieldname {
+			}
+		case "RectAnchoredPath":
 			switch reverseField.Fieldname {
 			}
 		case "RectAnchoredRect":
@@ -1212,6 +1330,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			case "Animations":
 				res = stage.Rect_Animations_reverseMap[inst]
 			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
 			}
@@ -1278,6 +1399,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Rect":
 			switch reverseField.Fieldname {
 			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
 			}
@@ -1340,6 +1464,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Rect":
 			switch reverseField.Fieldname {
 			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
 			}
@@ -1398,6 +1525,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		case "Rect":
+			switch reverseField.Fieldname {
+			}
+		case "RectAnchoredPath":
 			switch reverseField.Fieldname {
 			}
 		case "RectAnchoredRect":
@@ -1464,6 +1594,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Rect":
 			switch reverseField.Fieldname {
 			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
 			}
@@ -1524,6 +1657,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		case "Rect":
+			switch reverseField.Fieldname {
+			}
+		case "RectAnchoredPath":
 			switch reverseField.Fieldname {
 			}
 		case "RectAnchoredRect":
@@ -1590,6 +1726,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Rect":
 			switch reverseField.Fieldname {
 			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
 			}
@@ -1650,6 +1789,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		case "Rect":
+			switch reverseField.Fieldname {
+			}
+		case "RectAnchoredPath":
 			switch reverseField.Fieldname {
 			}
 		case "RectAnchoredRect":
@@ -1714,6 +1856,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Rect":
 			switch reverseField.Fieldname {
 			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
 			}
@@ -1774,6 +1919,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		case "Rect":
+			switch reverseField.Fieldname {
+			}
+		case "RectAnchoredPath":
 			switch reverseField.Fieldname {
 			}
 		case "RectAnchoredRect":
@@ -1838,6 +1986,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Rect":
 			switch reverseField.Fieldname {
 			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
 			}
@@ -1898,6 +2049,74 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		case "Rect":
+			switch reverseField.Fieldname {
+			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
+		case "RectAnchoredRect":
+			switch reverseField.Fieldname {
+			}
+		case "RectAnchoredText":
+			switch reverseField.Fieldname {
+			}
+		case "RectLinkLink":
+			switch reverseField.Fieldname {
+			}
+		case "SVG":
+			switch reverseField.Fieldname {
+			}
+		case "Text":
+			switch reverseField.Fieldname {
+			}
+		}
+
+	case *models.RectAnchoredPath:
+		tmp := GetInstanceDBFromInstance[models.RectAnchoredPath, RectAnchoredPathDB](
+			stage, backRepo, inst,
+		)
+		_ = tmp
+		switch reverseField.GongstructName {
+		// insertion point
+		case "Animate":
+			switch reverseField.Fieldname {
+			}
+		case "Circle":
+			switch reverseField.Fieldname {
+			}
+		case "Ellipse":
+			switch reverseField.Fieldname {
+			}
+		case "Layer":
+			switch reverseField.Fieldname {
+			}
+		case "Line":
+			switch reverseField.Fieldname {
+			}
+		case "Link":
+			switch reverseField.Fieldname {
+			}
+		case "LinkAnchoredText":
+			switch reverseField.Fieldname {
+			}
+		case "Path":
+			switch reverseField.Fieldname {
+			}
+		case "Point":
+			switch reverseField.Fieldname {
+			}
+		case "Polygone":
+			switch reverseField.Fieldname {
+			}
+		case "Polyline":
+			switch reverseField.Fieldname {
+			}
+		case "Rect":
+			switch reverseField.Fieldname {
+			case "RectAnchoredPaths":
+				res = stage.Rect_RectAnchoredPaths_reverseMap[inst]
+			}
+		case "RectAnchoredPath":
 			switch reverseField.Fieldname {
 			}
 		case "RectAnchoredRect":
@@ -1962,6 +2181,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			case "RectAnchoredRects":
 				res = stage.Rect_RectAnchoredRects_reverseMap[inst]
 			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
 			}
@@ -2023,6 +2245,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			case "RectAnchoredTexts":
 				res = stage.Rect_RectAnchoredTexts_reverseMap[inst]
+			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
 			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
@@ -2086,6 +2311,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Rect":
 			switch reverseField.Fieldname {
 			}
+		case "RectAnchoredPath":
+			switch reverseField.Fieldname {
+			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
 			}
@@ -2144,6 +2372,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		case "Rect":
+			switch reverseField.Fieldname {
+			}
+		case "RectAnchoredPath":
 			switch reverseField.Fieldname {
 			}
 		case "RectAnchoredRect":
@@ -2206,6 +2437,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		case "Rect":
+			switch reverseField.Fieldname {
+			}
+		case "RectAnchoredPath":
 			switch reverseField.Fieldname {
 			}
 		case "RectAnchoredRect":

@@ -40,6 +40,9 @@ import { PolylineService } from './polyline.service'
 import { RectDB } from './rect-db'
 import { RectService } from './rect.service'
 
+import { RectAnchoredPathDB } from './rectanchoredpath-db'
+import { RectAnchoredPathService } from './rectanchoredpath.service'
+
 import { RectAnchoredRectDB } from './rectanchoredrect-db'
 import { RectAnchoredRectService } from './rectanchoredrect.service'
 
@@ -107,6 +110,10 @@ export class FrontRepo { // insertion point sub template
   Rects = new Map<number, RectDB>() // map of repo instances
   Rects_batch = new Map<number, RectDB>() // same but only in last GET (for finding repo instances to delete)
 
+  RectAnchoredPaths_array = new Array<RectAnchoredPathDB>() // array of repo instances
+  RectAnchoredPaths = new Map<number, RectAnchoredPathDB>() // map of repo instances
+  RectAnchoredPaths_batch = new Map<number, RectAnchoredPathDB>() // same but only in last GET (for finding repo instances to delete)
+
   RectAnchoredRects_array = new Array<RectAnchoredRectDB>() // array of repo instances
   RectAnchoredRects = new Map<number, RectAnchoredRectDB>() // map of repo instances
   RectAnchoredRects_batch = new Map<number, RectAnchoredRectDB>() // same but only in last GET (for finding repo instances to delete)
@@ -158,6 +165,8 @@ export class FrontRepo { // insertion point sub template
         return this.Polylines_array as unknown as Array<Type>
       case 'Rect':
         return this.Rects_array as unknown as Array<Type>
+      case 'RectAnchoredPath':
+        return this.RectAnchoredPaths_array as unknown as Array<Type>
       case 'RectAnchoredRect':
         return this.RectAnchoredRects_array as unknown as Array<Type>
       case 'RectAnchoredText':
@@ -201,6 +210,8 @@ export class FrontRepo { // insertion point sub template
         return this.Polylines as unknown as Map<number, Type>
       case 'Rect':
         return this.Rects as unknown as Map<number, Type>
+      case 'RectAnchoredPath':
+        return this.RectAnchoredPaths as unknown as Map<number, Type>
       case 'RectAnchoredRect':
         return this.RectAnchoredRects as unknown as Map<number, Type>
       case 'RectAnchoredText':
@@ -289,6 +300,7 @@ export class FrontRepoService {
     private polygoneService: PolygoneService,
     private polylineService: PolylineService,
     private rectService: RectService,
+    private rectanchoredpathService: RectAnchoredPathService,
     private rectanchoredrectService: RectAnchoredRectService,
     private rectanchoredtextService: RectAnchoredTextService,
     private rectlinklinkService: RectLinkLinkService,
@@ -338,6 +350,7 @@ export class FrontRepoService {
     Observable<PolygoneDB[]>,
     Observable<PolylineDB[]>,
     Observable<RectDB[]>,
+    Observable<RectAnchoredPathDB[]>,
     Observable<RectAnchoredRectDB[]>,
     Observable<RectAnchoredTextDB[]>,
     Observable<RectLinkLinkDB[]>,
@@ -365,6 +378,7 @@ export class FrontRepoService {
       this.polygoneService.getPolygones(this.GONG__StackPath, this.frontRepo),
       this.polylineService.getPolylines(this.GONG__StackPath, this.frontRepo),
       this.rectService.getRects(this.GONG__StackPath, this.frontRepo),
+      this.rectanchoredpathService.getRectAnchoredPaths(this.GONG__StackPath, this.frontRepo),
       this.rectanchoredrectService.getRectAnchoredRects(this.GONG__StackPath, this.frontRepo),
       this.rectanchoredtextService.getRectAnchoredTexts(this.GONG__StackPath, this.frontRepo),
       this.rectlinklinkService.getRectLinkLinks(this.GONG__StackPath, this.frontRepo),
@@ -397,6 +411,7 @@ export class FrontRepoService {
       this.polygoneService.getPolygones(this.GONG__StackPath, this.frontRepo),
       this.polylineService.getPolylines(this.GONG__StackPath, this.frontRepo),
       this.rectService.getRects(this.GONG__StackPath, this.frontRepo),
+      this.rectanchoredpathService.getRectAnchoredPaths(this.GONG__StackPath, this.frontRepo),
       this.rectanchoredrectService.getRectAnchoredRects(this.GONG__StackPath, this.frontRepo),
       this.rectanchoredtextService.getRectAnchoredTexts(this.GONG__StackPath, this.frontRepo),
       this.rectlinklinkService.getRectLinkLinks(this.GONG__StackPath, this.frontRepo),
@@ -424,6 +439,7 @@ export class FrontRepoService {
             polygones_,
             polylines_,
             rects_,
+            rectanchoredpaths_,
             rectanchoredrects_,
             rectanchoredtexts_,
             rectlinklinks_,
@@ -456,6 +472,8 @@ export class FrontRepoService {
             polylines = polylines_ as PolylineDB[]
             var rects: RectDB[]
             rects = rects_ as RectDB[]
+            var rectanchoredpaths: RectAnchoredPathDB[]
+            rectanchoredpaths = rectanchoredpaths_ as RectAnchoredPathDB[]
             var rectanchoredrects: RectAnchoredRectDB[]
             rectanchoredrects = rectanchoredrects_ as RectAnchoredRectDB[]
             var rectanchoredtexts: RectAnchoredTextDB[]
@@ -857,6 +875,39 @@ export class FrontRepoService {
 
             // sort Rects_array array
             this.frontRepo.Rects_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+
+            // init the array
+            this.frontRepo.RectAnchoredPaths_array = rectanchoredpaths
+
+            // clear the map that counts RectAnchoredPath in the GET
+            this.frontRepo.RectAnchoredPaths_batch.clear()
+
+            rectanchoredpaths.forEach(
+              rectanchoredpath => {
+                this.frontRepo.RectAnchoredPaths.set(rectanchoredpath.ID, rectanchoredpath)
+                this.frontRepo.RectAnchoredPaths_batch.set(rectanchoredpath.ID, rectanchoredpath)
+              }
+            )
+
+            // clear rectanchoredpaths that are absent from the batch
+            this.frontRepo.RectAnchoredPaths.forEach(
+              rectanchoredpath => {
+                if (this.frontRepo.RectAnchoredPaths_batch.get(rectanchoredpath.ID) == undefined) {
+                  this.frontRepo.RectAnchoredPaths.delete(rectanchoredpath.ID)
+                }
+              }
+            )
+
+            // sort RectAnchoredPaths_array array
+            this.frontRepo.RectAnchoredPaths_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -1280,6 +1331,19 @@ export class FrontRepoService {
                     rect.RectAnchoredRects.push(_rectanchoredrect!)
                   }
                 }
+                rect.RectAnchoredPaths = new Array<RectAnchoredPathDB>()
+                for (let _id of rect.RectPointersEncoding.RectAnchoredPaths) {
+                  let _rectanchoredpath = this.frontRepo.RectAnchoredPaths.get(_id)
+                  if (_rectanchoredpath != undefined) {
+                    rect.RectAnchoredPaths.push(_rectanchoredpath!)
+                  }
+                }
+              }
+            )
+            rectanchoredpaths.forEach(
+              rectanchoredpath => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointers decoding
               }
             )
             rectanchoredrects.forEach(
@@ -1974,6 +2038,55 @@ export class FrontRepoService {
     )
   }
 
+  // RectAnchoredPathPull performs a GET on RectAnchoredPath of the stack and redeem association pointers 
+  RectAnchoredPathPull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.rectanchoredpathService.getRectAnchoredPaths(this.GONG__StackPath, this.frontRepo)
+        ]).subscribe(
+          ([ // insertion point sub template 
+            rectanchoredpaths,
+          ]) => {
+            // init the array
+            this.frontRepo.RectAnchoredPaths_array = rectanchoredpaths
+
+            // clear the map that counts RectAnchoredPath in the GET
+            this.frontRepo.RectAnchoredPaths_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            rectanchoredpaths.forEach(
+              rectanchoredpath => {
+                this.frontRepo.RectAnchoredPaths.set(rectanchoredpath.ID, rectanchoredpath)
+                this.frontRepo.RectAnchoredPaths_batch.set(rectanchoredpath.ID, rectanchoredpath)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations
+              }
+            )
+
+            // clear rectanchoredpaths that are absent from the GET
+            this.frontRepo.RectAnchoredPaths.forEach(
+              rectanchoredpath => {
+                if (this.frontRepo.RectAnchoredPaths_batch.get(rectanchoredpath.ID) == undefined) {
+                  this.frontRepo.RectAnchoredPaths.delete(rectanchoredpath.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(this.frontRepo)
+          }
+        )
+      }
+    )
+  }
+
   // RectAnchoredRectPull performs a GET on RectAnchoredRect of the stack and redeem association pointers 
   RectAnchoredRectPull(): Observable<FrontRepo> {
     return new Observable<FrontRepo>(
@@ -2285,18 +2398,21 @@ export function getPolylineUniqueID(id: number): number {
 export function getRectUniqueID(id: number): number {
   return 79 * id
 }
-export function getRectAnchoredRectUniqueID(id: number): number {
+export function getRectAnchoredPathUniqueID(id: number): number {
   return 83 * id
 }
-export function getRectAnchoredTextUniqueID(id: number): number {
+export function getRectAnchoredRectUniqueID(id: number): number {
   return 89 * id
 }
-export function getRectLinkLinkUniqueID(id: number): number {
+export function getRectAnchoredTextUniqueID(id: number): number {
   return 97 * id
 }
-export function getSVGUniqueID(id: number): number {
+export function getRectLinkLinkUniqueID(id: number): number {
   return 101 * id
 }
-export function getTextUniqueID(id: number): number {
+export function getSVGUniqueID(id: number): number {
   return 103 * id
+}
+export function getTextUniqueID(id: number): number {
+  return 107 * id
 }

@@ -505,6 +505,28 @@ func EvictInOtherSlices[OwningType PointerToGongstruct, FieldType PointerToGongs
 				}
 			}
 		}
+		if fieldName == "RectAnchoredPaths" {
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
+				if any(_instance).(*Rect) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Rect)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.RectAnchoredPaths).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.RectAnchoredPaths = _inferedTypeInstance.RectAnchoredPaths[0:]
+					for _, fieldInstance := range reference {
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.RectAnchoredPaths =
+								append(_inferedTypeInstance.RectAnchoredPaths, any(fieldInstance).(*RectAnchoredPath))
+						}
+					}
+				}
+			}
+		}
+
+	case *RectAnchoredPath:
+		// insertion point per field
 
 	case *RectAnchoredRect:
 		// insertion point per field
@@ -806,6 +828,17 @@ func (stage *StageStruct) ComputeReverseMaps() {
 			stage.Rect_RectAnchoredRects_reverseMap[_rectanchoredrect] = rect
 		}
 	}
+	clear(stage.Rect_RectAnchoredPaths_reverseMap)
+	stage.Rect_RectAnchoredPaths_reverseMap = make(map[*RectAnchoredPath]*Rect)
+	for rect := range stage.Rects {
+		_ = rect
+		for _, _rectanchoredpath := range rect.RectAnchoredPaths {
+			stage.Rect_RectAnchoredPaths_reverseMap[_rectanchoredpath] = rect
+		}
+	}
+
+	// Compute reverse map for named struct RectAnchoredPath
+	// insertion point per field
 
 	// Compute reverse map for named struct RectAnchoredRect
 	// insertion point per field

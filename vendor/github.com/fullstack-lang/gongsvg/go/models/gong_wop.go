@@ -187,6 +187,25 @@ type Rect_WOP struct {
 	CanMoveVerticaly bool
 }
 
+type RectAnchoredPath_WOP struct {
+	// insertion point
+	Name string
+	Definition string
+	X_Offset float64
+	Y_Offset float64
+	RectAnchorType RectAnchorType
+	WidthFollowRect bool
+	HeightFollowRect bool
+	ScalePropotionnally bool
+	Color string
+	FillOpacity float64
+	Stroke string
+	StrokeWidth float64
+	StrokeDashArray string
+	StrokeDashArrayWhenSelected string
+	Transform string
+}
+
 type RectAnchoredRect_WOP struct {
 	// insertion point
 	Name string

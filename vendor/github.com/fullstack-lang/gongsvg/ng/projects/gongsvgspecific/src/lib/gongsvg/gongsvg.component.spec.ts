@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MaterialSvgComponent } from './material-svg.component';
+import { GongsvgComponent } from './gongsvg.component';
 
 describe('MaterialSvgComponent', () => {
-  let component: MaterialSvgComponent;
-  let fixture: ComponentFixture<MaterialSvgComponent>;
+  let component: GongsvgComponent;
+  let fixture: ComponentFixture<GongsvgComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MaterialSvgComponent]
+      declarations: [GongsvgComponent]
     });
-    fixture = TestBed.createComponent(MaterialSvgComponent);
+    fixture = TestBed.createComponent(GongsvgComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
