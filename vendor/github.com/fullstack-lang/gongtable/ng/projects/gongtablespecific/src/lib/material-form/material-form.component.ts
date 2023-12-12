@@ -38,11 +38,8 @@ export class MaterialFormComponent implements OnInit {
   // for selection
   selectedFormGroup: gongtable.FormGroupDB | undefined = undefined;
 
-  // angular stuff
-  myFormSample: FormGroup | undefined
-
   // generated form by getting info from the back
-  generatedForm: FormGroup | undefined
+  angularFormGroup: FormGroup | undefined
 
   constructor(
     public dialog: MatDialog,
@@ -114,7 +111,7 @@ export class MaterialFormComponent implements OnInit {
           }
         }
 
-        this.generatedForm = undefined
+        this.angularFormGroup = undefined
         if (this.selectedFormGroup == undefined) {
           return
         }
@@ -196,7 +193,7 @@ export class MaterialFormComponent implements OnInit {
 
         }
 
-        this.generatedForm = this.formBuilder.group(generatedFormGroupConfig)
+        this.angularFormGroup = this.formBuilder.group(generatedFormGroupConfig)
       }
     )
   }
@@ -206,10 +203,10 @@ export class MaterialFormComponent implements OnInit {
     const promises = []
 
 
-    if (this.generatedForm == undefined) {
+    if (this.angularFormGroup == undefined) {
       return
     }
-    console.log(this.generatedForm.valueChanges)
+    console.log(this.angularFormGroup.valueChanges)
 
     if (this.selectedFormGroup == undefined) {
       return
@@ -224,17 +221,18 @@ export class MaterialFormComponent implements OnInit {
         for (let formField of formDiv.FormFields) {
           if (formField.FormFieldString) {
             let formFieldString = formField.FormFieldString
-            let newValue = this.generatedForm.value[formField.Name]
+            let newValue = this.angularFormGroup.value[formField.Name]
 
             if (newValue != formFieldString.Value) {
 
               formFieldString.Value = newValue
-              promises.push(this.formFieldStringService.updateFormFieldString(formFieldString, this.DataStack, this.gongtableFrontRepoService.frontRepo))
+              promises.push(this.formFieldStringService.updateFormFieldString(
+                formFieldString, this.DataStack, this.gongtableFrontRepoService.frontRepo))
             }
           }
           if (formField.FormFieldInt) {
             let formFieldInt = formField.FormFieldInt
-            let newValue: number = +this.generatedForm.value[formField.Name]
+            let newValue: number = +this.angularFormGroup.value[formField.Name]
 
             if (newValue != formFieldInt.Value) {
 
@@ -244,7 +242,7 @@ export class MaterialFormComponent implements OnInit {
           }
           if (formField.FormFieldFloat64) {
             let formFieldFlFormFieldFloat64 = formField.FormFieldFloat64
-            let newValue: number = +this.generatedForm.value[formField.Name]
+            let newValue: number = +this.angularFormGroup.value[formField.Name]
 
             if (newValue != formFieldFlFormFieldFloat64.Value) {
 
@@ -256,7 +254,7 @@ export class MaterialFormComponent implements OnInit {
             // Assume formField is already defined
             let formFieldDate = formField.FormFieldDate
 
-            let formFieldValue = this.generatedForm.value[formField.Name];
+            let formFieldValue = this.angularFormGroup.value[formField.Name];
 
             // 1. Convert to a UTC formatted string and then to a Date object
             let dateObj = new Date(formFieldValue);
@@ -287,7 +285,7 @@ export class MaterialFormComponent implements OnInit {
           if (formField.FormFieldTime) {
             let formFieldTime = formField.FormFieldTime
 
-            const [hours, minutes, seconds] = this.generatedForm.value[formField.Name].split(':').map(Number);
+            const [hours, minutes, seconds] = this.angularFormGroup.value[formField.Name].split(':').map(Number);
             const date = new Date("1970-01-01")
             date.setUTCHours(hours, minutes, seconds);
             // console.log("date for time", date.toUTCString())
@@ -301,7 +299,7 @@ export class MaterialFormComponent implements OnInit {
           if (formField.FormFieldDateTime) {
             let formFieldDateTime = formField.FormFieldDateTime
 
-            let newValue = this.generatedForm.value[formField.Name]
+            let newValue = this.angularFormGroup.value[formField.Name]
 
             if (newValue != formFieldDateTime.Value) {
               formFieldDateTime.Value = newValue
@@ -309,7 +307,7 @@ export class MaterialFormComponent implements OnInit {
             }
           }
           if (formField.FormFieldSelect) {
-            let newValue = this.generatedForm.value[formField.Name]
+            let newValue = this.angularFormGroup.value[formField.Name]
             let formFieldSelect = formField.FormFieldSelect
 
             if (newValue != formFieldSelect.Value?.Name) {
@@ -338,7 +336,7 @@ export class MaterialFormComponent implements OnInit {
       }
       if (formDiv.CheckBoxs) {
         for (let checkBox of formDiv.CheckBoxs) {
-          let newValue = this.generatedForm.value[checkBox.Name] as boolean
+          let newValue = this.angularFormGroup.value[checkBox.Name] as boolean
           if (newValue != checkBox.Value) {
             checkBox.Value = newValue
             promises.push(this.checkBoxService.updateCheckBox(checkBox, this.DataStack, this.gongtableFrontRepoService.frontRepo))
@@ -375,7 +373,7 @@ export class MaterialFormComponent implements OnInit {
 
     console.log("openTableAssociation: ", fieldName)
 
-    if (this.generatedForm == undefined) {
+    if (this.angularFormGroup == undefined) {
       return
     }
 
@@ -413,7 +411,7 @@ export class MaterialFormComponent implements OnInit {
 
     console.log("openTableSort: ", fieldName)
 
-    if (this.generatedForm == undefined) {
+    if (this.angularFormGroup == undefined) {
       return
     }
 
@@ -445,6 +443,17 @@ export class MaterialFormComponent implements OnInit {
         }
       }
     }
+  }
+
+  onSuppress() {
+    if (this.selectedFormGroup == undefined) {
+      return
+    }
+    this.selectedFormGroup.HasSuppressButtonBeenPressed = true
+    this.formGroupService.update(this.selectedFormGroup, 
+      this.DataStack, this.gongtableFrontRepoService.frontRepo).subscribe(
+      () => {}
+    )
   }
 
   getDynamicStyles(formField: gongtable.FormFieldDB): { [key: string]: any } {

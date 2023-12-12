@@ -15,6 +15,8 @@ export class FormGroupDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Label: string = ""
+	HasSuppressButton: boolean = false
+	HasSuppressButtonBeenPressed: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
 	FormDivs: Array<FormDivDB> = []

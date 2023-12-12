@@ -7,6 +7,14 @@ type FormGroup struct {
 	Label    string
 	FormDivs []*FormDiv
 
+	// If yes, a suppress button is present
+	HasSuppressButton bool
+
+	// HasSuppressButtonBeenPressed is set to true
+	// when the suppress button is pressed. It is the responsability
+	// of the backend to reset this value to false
+	HasSuppressButtonBeenPressed bool
+
 	// swagger:ignore
 	OnSave OnSaveInterface
 }

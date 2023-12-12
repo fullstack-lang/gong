@@ -3316,7 +3316,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case FormFieldTime:
 		res = []string{"Name", "Value", "Step"}
 	case FormGroup:
-		res = []string{"Name", "Label", "FormDivs"}
+		res = []string{"Name", "Label", "FormDivs", "HasSuppressButton", "HasSuppressButtonBeenPressed"}
 	case FormSortAssocButton:
 		res = []string{"Name", "Label"}
 	case Option:
@@ -3481,7 +3481,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *FormFieldTime:
 		res = []string{"Name", "Value", "Step"}
 	case *FormGroup:
-		res = []string{"Name", "Label", "FormDivs"}
+		res = []string{"Name", "Label", "FormDivs", "HasSuppressButton", "HasSuppressButtonBeenPressed"}
 	case *FormSortAssocButton:
 		res = []string{"Name", "Label"}
 	case *Option:
@@ -3764,6 +3764,10 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 				}
 				res += __instance__.Name
 			}
+		case "HasSuppressButton":
+			res = fmt.Sprintf("%t", inferedInstance.HasSuppressButton)
+		case "HasSuppressButtonBeenPressed":
+			res = fmt.Sprintf("%t", inferedInstance.HasSuppressButtonBeenPressed)
 		}
 	case *FormSortAssocButton:
 		switch fieldName {
@@ -4108,6 +4112,10 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 				}
 				res += __instance__.Name
 			}
+		case "HasSuppressButton":
+			res = fmt.Sprintf("%t", inferedInstance.HasSuppressButton)
+		case "HasSuppressButtonBeenPressed":
+			res = fmt.Sprintf("%t", inferedInstance.HasSuppressButtonBeenPressed)
 		}
 	case FormSortAssocButton:
 		switch fieldName {
