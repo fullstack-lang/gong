@@ -722,6 +722,14 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 		for _, {{associationStructName}}AssocEnd := range {{structname}}.{{FieldName}} {
 			{{associationStructName}}AssocEnd_DB :=
 				backRepo.BackRepo{{AssociationStructName}}.Get{{AssociationStructName}}DBFrom{{AssociationStructName}}Ptr({{associationStructName}}AssocEnd)
+			
+			// the stage might be inconsistant, meaning that the {{associationStructName}}AssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if {{associationStructName}}AssocEnd_DB == nil {
+				continue
+			}
+			
 			{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}} =
 				append({{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}, int({{associationStructName}}AssocEnd_DB.ID))
 		}
