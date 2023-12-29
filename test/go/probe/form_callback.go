@@ -21,10 +21,12 @@ var __dummy_orm = orm.BackRepoStruct{}
 func __gong__New__AstructFormCallback(
 	astruct *models.Astruct,
 	probe *Probe,
+	formGroup *table.FormGroup,
 ) (astructFormCallback *AstructFormCallback) {
 	astructFormCallback = new(AstructFormCallback)
 	astructFormCallback.probe = probe
 	astructFormCallback.astruct = astruct
+	astructFormCallback.formGroup = formGroup
 
 	astructFormCallback.CreationMode = (astruct == nil)
 
@@ -38,6 +40,8 @@ type AstructFormCallback struct {
 	CreationMode bool
 
 	probe *Probe
+
+	formGroup *table.FormGroup
 }
 
 func (astructFormCallback *AstructFormCallback) OnSave() {
@@ -55,9 +59,8 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 	_ = astruct_
 
 	// get the formGroup
-	formGroup := astructFormCallback.probe.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
 
-	for _, formDiv := range formGroup.FormDivs {
+	for _, formDiv := range astructFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
@@ -166,7 +169,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 	}
 
 	// manage the suppress operation
-	if formGroup.HasSuppressButtonBeenPressed {
+	if astructFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		astruct_.Unstage(astructFormCallback.probe.stageOfInterest)
 	}
 
@@ -177,15 +180,16 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 	astructFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
-	if astructFormCallback.CreationMode || formGroup.HasSuppressButtonBeenPressed {
+	if astructFormCallback.CreationMode || astructFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		astructFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
-			OnSave: __gong__New__AstructFormCallback(
-				nil,
-				astructFormCallback.probe,
-			),
 		}).Stage(astructFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__AstructFormCallback(
+			nil,
+			astructFormCallback.probe,
+			newFormGroup,
+		)
 		astruct := new(models.Astruct)
 		FillUpForm(astruct, newFormGroup, astructFormCallback.probe)
 		astructFormCallback.probe.formStage.Commit()

@@ -24,11 +24,12 @@ func FillUpNamedFormFromGongstruct[T models.Gongstruct](instance *T, probe *Prob
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,
 			Label: "Astruct Form",
-			OnSave: __gong__New__AstructFormCallback(
-				instancesTyped,
-				probe,
-			),
 		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__AstructFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.AstructBstruct2Use:
