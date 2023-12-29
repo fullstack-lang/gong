@@ -83,4 +83,8 @@ func NewProbe(
 func (probe *Probe) Refresh() {
 	fillUpTree(probe)
 }
+
+func (probe *Probe) GetFormStage() *form.StageStruct {
+	return probe.formStage
+}
 `
