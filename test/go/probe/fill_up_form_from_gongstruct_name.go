@@ -30,11 +30,13 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + "Astruct Form",
-			OnSave: __gong__New__AstructFormCallback(
-				nil,
-				probe,
-			),
 		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__AstructFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+
 		astruct := new(models.Astruct)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(astruct, formGroup, probe)
