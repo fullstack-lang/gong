@@ -14,6 +14,12 @@ func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, probe *Probe) {
 	formStage.Reset()
 	formStage.Commit()
 
+	FillUpNamedFormFromGongstruct[T](instance, probe, formStage, gongtable.FormGroupDefaultName.ToString())
+
+}
+
+func FillUpNamedFormFromGongstruct[T models.Gongstruct](instance *T, probe *Probe, formStage *gongtable.StageStruct, formName string) {
+
 	switch instancesTyped := any(instance).(type) {
 	// insertion point{{` + string(rune(FillUpFormFromGongstructSwitchCase)) + `}}
 	default:
@@ -35,7 +41,7 @@ map[string]string{
 	string(rune(FillUpTreeStructCase)): `
 	case *models.{{Structname}}:
 		formGroup := (&gongtable.FormGroup{
-			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Name:  formName,
 			Label: "{{Structname}} Form",
 			OnSave: __gong__New__{{Structname}}FormCallback(
 				instancesTyped,
