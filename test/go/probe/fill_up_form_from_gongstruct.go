@@ -12,11 +12,17 @@ func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, probe *Probe) {
 	formStage.Reset()
 	formStage.Commit()
 
+	FillUpNamedFormFromGongstruct[T](instance, probe, formStage, gongtable.FormGroupDefaultName.ToString())
+
+}
+
+func FillUpNamedFormFromGongstruct[T models.Gongstruct](instance *T, probe *Probe, formStage *gongtable.StageStruct, formName string) {
+
 	switch instancesTyped := any(instance).(type) {
 	// insertion point
 	case *models.Astruct:
 		formGroup := (&gongtable.FormGroup{
-			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Name:  formName,
 			Label: "Astruct Form",
 			OnSave: __gong__New__AstructFormCallback(
 				instancesTyped,
@@ -27,7 +33,7 @@ func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, probe *Probe) {
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.AstructBstruct2Use:
 		formGroup := (&gongtable.FormGroup{
-			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Name:  formName,
 			Label: "AstructBstruct2Use Form",
 			OnSave: __gong__New__AstructBstruct2UseFormCallback(
 				instancesTyped,
@@ -38,7 +44,7 @@ func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, probe *Probe) {
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.AstructBstructUse:
 		formGroup := (&gongtable.FormGroup{
-			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Name:  formName,
 			Label: "AstructBstructUse Form",
 			OnSave: __gong__New__AstructBstructUseFormCallback(
 				instancesTyped,
@@ -49,7 +55,7 @@ func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, probe *Probe) {
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Bstruct:
 		formGroup := (&gongtable.FormGroup{
-			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Name:  formName,
 			Label: "Bstruct Form",
 			OnSave: __gong__New__BstructFormCallback(
 				instancesTyped,
@@ -60,7 +66,7 @@ func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, probe *Probe) {
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Dstruct:
 		formGroup := (&gongtable.FormGroup{
-			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Name:  formName,
 			Label: "Dstruct Form",
 			OnSave: __gong__New__DstructFormCallback(
 				instancesTyped,
@@ -71,7 +77,7 @@ func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, probe *Probe) {
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Fstruct:
 		formGroup := (&gongtable.FormGroup{
-			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Name:  formName,
 			Label: "Fstruct Form",
 			OnSave: __gong__New__FstructFormCallback(
 				instancesTyped,
