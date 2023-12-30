@@ -49,10 +49,12 @@ map[FormCallbackGongstructInsertionId]string{
 func __gong__New__{{Structname}}FormCallback(
 	{{structname}} *models.{{Structname}},
 	probe *Probe,
+	formGroup *table.FormGroup,
 ) ({{structname}}FormCallback *{{Structname}}FormCallback) {
 	{{structname}}FormCallback = new({{Structname}}FormCallback)
 	{{structname}}FormCallback.probe = probe
 	{{structname}}FormCallback.{{structname}} = {{structname}}
+	{{structname}}FormCallback.formGroup = formGroup
 
 	{{structname}}FormCallback.CreationMode = ({{structname}} == nil)
 
@@ -66,6 +68,8 @@ type {{Structname}}FormCallback struct {
 	CreationMode bool
 
 	probe *Probe
+
+	formGroup *table.FormGroup
 }
 
 func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
@@ -82,17 +86,14 @@ func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
 	{{structname}}_ := {{structname}}FormCallback.{{structname}}
 	_ = {{structname}}_
 
-	// get the formGroup
-	formGroup := {{structname}}FormCallback.probe.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
-
-	for _, formDiv := range formGroup.FormDivs {
+	for _, formDiv := range {{structname}}FormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field{{fieldToFormCode}}
 		}
 	}
 
 	// manage the suppress operation
-	if formGroup.HasSuppressButtonBeenPressed {
+	if {{structname}}FormCallback.formGroup.HasSuppressButtonBeenPressed {
 		{{structname}}_.Unstage({{structname}}FormCallback.probe.stageOfInterest)
 	}
 
@@ -103,15 +104,16 @@ func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
 	{{structname}}FormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
-	if {{structname}}FormCallback.CreationMode || formGroup.HasSuppressButtonBeenPressed {
+	if {{structname}}FormCallback.CreationMode || {{structname}}FormCallback.formGroup.HasSuppressButtonBeenPressed {
 		{{structname}}FormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
-			OnSave: __gong__New__{{Structname}}FormCallback(
-				nil,
-				{{structname}}FormCallback.probe,
-			),
 		}).Stage({{structname}}FormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__{{Structname}}FormCallback(
+			nil,
+			{{structname}}FormCallback.probe,
+			newFormGroup,
+		)
 		{{structname}} := new(models.{{Structname}})
 		FillUpForm({{structname}}, newFormGroup, {{structname}}FormCallback.probe)
 		{{structname}}FormCallback.probe.formStage.Commit()

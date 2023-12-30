@@ -36,55 +36,60 @@ func FillUpNamedFormFromGongstruct[T models.Gongstruct](instance *T, probe *Prob
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,
 			Label: "AstructBstruct2Use Form",
-			OnSave: __gong__New__AstructBstruct2UseFormCallback(
-				instancesTyped,
-				probe,
-			),
 		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__AstructBstruct2UseFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.AstructBstructUse:
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,
 			Label: "AstructBstructUse Form",
-			OnSave: __gong__New__AstructBstructUseFormCallback(
-				instancesTyped,
-				probe,
-			),
 		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__AstructBstructUseFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Bstruct:
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,
 			Label: "Bstruct Form",
-			OnSave: __gong__New__BstructFormCallback(
-				instancesTyped,
-				probe,
-			),
 		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BstructFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Dstruct:
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,
 			Label: "Dstruct Form",
-			OnSave: __gong__New__DstructFormCallback(
-				instancesTyped,
-				probe,
-			),
 		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DstructFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Fstruct:
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,
 			Label: "Fstruct Form",
-			OnSave: __gong__New__FstructFormCallback(
-				instancesTyped,
-				probe,
-			),
 		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__FstructFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	default:
