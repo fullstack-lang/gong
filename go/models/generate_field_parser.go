@@ -193,7 +193,7 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 						}
 
 					} else {
-						log.Println("Cannot parse field of type ", __fieldType.Name)
+						// log.Println("Cannot parse field of type ", __fieldType.Name)
 					}
 
 				}
