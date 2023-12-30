@@ -36,7 +36,6 @@ func FillUpFormFromGongstructName(
 			probe,
 			formGroup,
 		)
-
 		astruct := new(models.Astruct)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(astruct, formGroup, probe)
@@ -44,11 +43,12 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + "AstructBstruct2Use Form",
-			OnSave: __gong__New__AstructBstruct2UseFormCallback(
-				nil,
-				probe,
-			),
 		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__AstructBstruct2UseFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
 		astructbstruct2use := new(models.AstructBstruct2Use)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(astructbstruct2use, formGroup, probe)
@@ -56,11 +56,12 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + "AstructBstructUse Form",
-			OnSave: __gong__New__AstructBstructUseFormCallback(
-				nil,
-				probe,
-			),
 		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__AstructBstructUseFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
 		astructbstructuse := new(models.AstructBstructUse)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(astructbstructuse, formGroup, probe)
@@ -68,11 +69,12 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + "Bstruct Form",
-			OnSave: __gong__New__BstructFormCallback(
-				nil,
-				probe,
-			),
 		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BstructFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
 		bstruct := new(models.Bstruct)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(bstruct, formGroup, probe)
@@ -80,11 +82,12 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + "Dstruct Form",
-			OnSave: __gong__New__DstructFormCallback(
-				nil,
-				probe,
-			),
 		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DstructFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
 		dstruct := new(models.Dstruct)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(dstruct, formGroup, probe)
@@ -92,11 +95,12 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + "Fstruct Form",
-			OnSave: __gong__New__FstructFormCallback(
-				nil,
-				probe,
-			),
 		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__FstructFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
 		fstruct := new(models.Fstruct)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(fstruct, formGroup, probe)

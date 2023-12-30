@@ -47,11 +47,12 @@ map[string]string{
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + "{{Structname}} Form",
-			OnSave: __gong__New__{{Structname}}FormCallback(
-				nil,
-				probe,
-			),
 		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__{{Structname}}FormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
 		{{structname}} := new(models.{{Structname}})
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm({{structname}}, formGroup, probe)`,
