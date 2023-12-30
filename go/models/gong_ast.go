@@ -11,7 +11,6 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
-	"time"
 )
 
 var dummy_strconv_import strconv.NumError
@@ -38,9 +37,9 @@ func ParseAstFile(stage *StageStruct, pathToFile string) error {
 	}
 
 	fset := token.NewFileSet()
-	startParser := time.Now()
+	// startParser := time.Now()
 	inFile, errParser := parser.ParseFile(fset, fileOfInterest, nil, parser.ParseComments)
-	log.Printf("Parser took %s", time.Since(startParser))
+	// log.Printf("Parser took %s", time.Since(startParser))
 
 	if errParser != nil {
 		return errors.New("Unable to parser " + errParser.Error())
