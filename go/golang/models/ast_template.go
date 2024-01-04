@@ -17,6 +17,7 @@ import (
 )
 
 var dummy_strconv_import strconv.NumError
+var dummy_time_import time.Time
 
 // swagger:ignore
 type GONG__ExpressionType string
