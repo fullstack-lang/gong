@@ -81,6 +81,10 @@ type LinkDB struct {
 	// Declation for basic field linkDB.Type
 	Type_Data sql.NullString
 
+	// Declation for basic field linkDB.IsBezierCurve
+	// provide the sql storage for the boolan
+	IsBezierCurve_Data sql.NullBool
+
 	// Declation for basic field linkDB.StartAnchorType
 	StartAnchorType_Data sql.NullString
 
@@ -164,43 +168,45 @@ type LinkWOP struct {
 
 	Type models.LinkType `xlsx:"2"`
 
-	StartAnchorType models.AnchorType `xlsx:"3"`
+	IsBezierCurve bool `xlsx:"3"`
 
-	EndAnchorType models.AnchorType `xlsx:"4"`
+	StartAnchorType models.AnchorType `xlsx:"4"`
 
-	StartOrientation models.OrientationType `xlsx:"5"`
+	EndAnchorType models.AnchorType `xlsx:"5"`
 
-	StartRatio float64 `xlsx:"6"`
+	StartOrientation models.OrientationType `xlsx:"6"`
 
-	EndOrientation models.OrientationType `xlsx:"7"`
+	StartRatio float64 `xlsx:"7"`
 
-	EndRatio float64 `xlsx:"8"`
+	EndOrientation models.OrientationType `xlsx:"8"`
 
-	CornerOffsetRatio float64 `xlsx:"9"`
+	EndRatio float64 `xlsx:"9"`
 
-	CornerRadius float64 `xlsx:"10"`
+	CornerOffsetRatio float64 `xlsx:"10"`
 
-	HasEndArrow bool `xlsx:"11"`
+	CornerRadius float64 `xlsx:"11"`
 
-	EndArrowSize float64 `xlsx:"12"`
+	HasEndArrow bool `xlsx:"12"`
 
-	HasStartArrow bool `xlsx:"13"`
+	EndArrowSize float64 `xlsx:"13"`
 
-	StartArrowSize float64 `xlsx:"14"`
+	HasStartArrow bool `xlsx:"14"`
 
-	Color string `xlsx:"15"`
+	StartArrowSize float64 `xlsx:"15"`
 
-	FillOpacity float64 `xlsx:"16"`
+	Color string `xlsx:"16"`
 
-	Stroke string `xlsx:"17"`
+	FillOpacity float64 `xlsx:"17"`
 
-	StrokeWidth float64 `xlsx:"18"`
+	Stroke string `xlsx:"18"`
 
-	StrokeDashArray string `xlsx:"19"`
+	StrokeWidth float64 `xlsx:"19"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"20"`
+	StrokeDashArray string `xlsx:"20"`
 
-	Transform string `xlsx:"21"`
+	StrokeDashArrayWhenSelected string `xlsx:"21"`
+
+	Transform string `xlsx:"22"`
 	// insertion for WOP pointer fields
 }
 
@@ -209,6 +215,7 @@ var Link_Fields = []string{
 	"ID",
 	"Name",
 	"Type",
+	"IsBezierCurve",
 	"StartAnchorType",
 	"EndAnchorType",
 	"StartOrientation",
@@ -377,6 +384,14 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, linkanchoredtextAssocEnd := range link.TextAtArrowEnd {
 			linkanchoredtextAssocEnd_DB :=
 				backRepo.BackRepoLinkAnchoredText.GetLinkAnchoredTextDBFromLinkAnchoredTextPtr(linkanchoredtextAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the linkanchoredtextAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if linkanchoredtextAssocEnd_DB == nil {
+				continue
+			}
+			
 			linkDB.LinkPointersEncoding.TextAtArrowEnd =
 				append(linkDB.LinkPointersEncoding.TextAtArrowEnd, int(linkanchoredtextAssocEnd_DB.ID))
 		}
@@ -387,6 +402,14 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, linkanchoredtextAssocEnd := range link.TextAtArrowStart {
 			linkanchoredtextAssocEnd_DB :=
 				backRepo.BackRepoLinkAnchoredText.GetLinkAnchoredTextDBFromLinkAnchoredTextPtr(linkanchoredtextAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the linkanchoredtextAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if linkanchoredtextAssocEnd_DB == nil {
+				continue
+			}
+			
 			linkDB.LinkPointersEncoding.TextAtArrowStart =
 				append(linkDB.LinkPointersEncoding.TextAtArrowStart, int(linkanchoredtextAssocEnd_DB.ID))
 		}
@@ -397,6 +420,14 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, pointAssocEnd := range link.ControlPoints {
 			pointAssocEnd_DB :=
 				backRepo.BackRepoPoint.GetPointDBFromPointPtr(pointAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the pointAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if pointAssocEnd_DB == nil {
+				continue
+			}
+			
 			linkDB.LinkPointersEncoding.ControlPoints =
 				append(linkDB.LinkPointersEncoding.ControlPoints, int(pointAssocEnd_DB.ID))
 		}
@@ -591,6 +622,9 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLink(link *models.Link) {
 	linkDB.Type_Data.String = link.Type.ToString()
 	linkDB.Type_Data.Valid = true
 
+	linkDB.IsBezierCurve_Data.Bool = link.IsBezierCurve
+	linkDB.IsBezierCurve_Data.Valid = true
+
 	linkDB.StartAnchorType_Data.String = link.StartAnchorType.ToString()
 	linkDB.StartAnchorType_Data.Valid = true
 
@@ -658,6 +692,9 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLink_WOP(link *models.Link_WOP) {
 
 	linkDB.Type_Data.String = link.Type.ToString()
 	linkDB.Type_Data.Valid = true
+
+	linkDB.IsBezierCurve_Data.Bool = link.IsBezierCurve
+	linkDB.IsBezierCurve_Data.Valid = true
 
 	linkDB.StartAnchorType_Data.String = link.StartAnchorType.ToString()
 	linkDB.StartAnchorType_Data.Valid = true
@@ -727,6 +764,9 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLinkWOP(link *LinkWOP) {
 	linkDB.Type_Data.String = link.Type.ToString()
 	linkDB.Type_Data.Valid = true
 
+	linkDB.IsBezierCurve_Data.Bool = link.IsBezierCurve
+	linkDB.IsBezierCurve_Data.Valid = true
+
 	linkDB.StartAnchorType_Data.String = link.StartAnchorType.ToString()
 	linkDB.StartAnchorType_Data.Valid = true
 
@@ -790,6 +830,7 @@ func (linkDB *LinkDB) CopyBasicFieldsToLink(link *models.Link) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	link.Name = linkDB.Name_Data.String
 	link.Type.FromString(linkDB.Type_Data.String)
+	link.IsBezierCurve = linkDB.IsBezierCurve_Data.Bool
 	link.StartAnchorType.FromString(linkDB.StartAnchorType_Data.String)
 	link.EndAnchorType.FromString(linkDB.EndAnchorType_Data.String)
 	link.StartOrientation.FromString(linkDB.StartOrientation_Data.String)
@@ -816,6 +857,7 @@ func (linkDB *LinkDB) CopyBasicFieldsToLink_WOP(link *models.Link_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	link.Name = linkDB.Name_Data.String
 	link.Type.FromString(linkDB.Type_Data.String)
+	link.IsBezierCurve = linkDB.IsBezierCurve_Data.Bool
 	link.StartAnchorType.FromString(linkDB.StartAnchorType_Data.String)
 	link.EndAnchorType.FromString(linkDB.EndAnchorType_Data.String)
 	link.StartOrientation.FromString(linkDB.StartOrientation_Data.String)
@@ -843,6 +885,7 @@ func (linkDB *LinkDB) CopyBasicFieldsToLinkWOP(link *LinkWOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	link.Name = linkDB.Name_Data.String
 	link.Type.FromString(linkDB.Type_Data.String)
+	link.IsBezierCurve = linkDB.IsBezierCurve_Data.Bool
 	link.StartAnchorType.FromString(linkDB.StartAnchorType_Data.String)
 	link.EndAnchorType.FromString(linkDB.EndAnchorType_Data.String)
 	link.StartOrientation.FromString(linkDB.StartOrientation_Data.String)

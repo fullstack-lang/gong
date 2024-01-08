@@ -15,6 +15,7 @@ import (
 )
 
 var dummy_strconv_import strconv.NumError
+var dummy_time_import time.Time
 
 // swagger:ignore
 type GONG__ExpressionType string
@@ -38,9 +39,9 @@ func ParseAstFile(stage *StageStruct, pathToFile string) error {
 	}
 
 	fset := token.NewFileSet()
-	startParser := time.Now()
+	// startParser := time.Now()
 	inFile, errParser := parser.ParseFile(fset, fileOfInterest, nil, parser.ParseComments)
-	log.Printf("Parser took %s", time.Since(startParser))
+	// log.Printf("Parser took %s", time.Since(startParser))
 
 	if errParser != nil {
 		return errors.New("Unable to parser " + errParser.Error())
@@ -1641,6 +1642,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_RectAnchoredPath[identifier].Y_Offset = exprSign * fielValue
+				case "AppliedScaling":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_RectAnchoredPath[identifier].AppliedScaling = exprSign * fielValue
 				case "Color":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -1999,6 +2007,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 			case "Link":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "IsBezierCurve":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Link[identifier].IsBezierCurve = fielValue
 				case "Start":
 					targetIdentifier := ident.Name
 					__gong__map_Link[identifier].Start = __gong__map_Rect[targetIdentifier]
@@ -2023,6 +2038,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 			case "LinkAnchoredText":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "AutomaticLayout":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_LinkAnchoredText[identifier].AutomaticLayout = fielValue
 				}
 			case "Path":
 				switch fieldName {
@@ -2099,6 +2121,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_Rect[identifier].HasTopHandle = fielValue
+				case "IsScalingProportionally":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Rect[identifier].IsScalingProportionally = fielValue
 				case "CanHaveBottomHandle":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
@@ -2131,20 +2160,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 			case "RectAnchoredPath":
 				switch fieldName {
 				// insertion point for field dependant code
-				case "WidthFollowRect":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_RectAnchoredPath[identifier].WidthFollowRect = fielValue
-				case "HeightFollowRect":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_RectAnchoredPath[identifier].HeightFollowRect = fielValue
 				case "ScalePropotionnally":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
@@ -2296,6 +2311,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 				case "LinkAnchoredText":
 					switch fieldName {
 					// insertion point for enum assign code
+					case "LinkAnchorType":
+						var val LinkAnchorType
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_LinkAnchoredText[identifier].LinkAnchorType = LinkAnchorType(val)
 					}
 				case "Path":
 					switch fieldName {

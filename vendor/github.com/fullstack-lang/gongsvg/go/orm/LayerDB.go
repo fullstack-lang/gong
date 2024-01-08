@@ -251,6 +251,14 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 		for _, rectAssocEnd := range layer.Rects {
 			rectAssocEnd_DB :=
 				backRepo.BackRepoRect.GetRectDBFromRectPtr(rectAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the rectAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if rectAssocEnd_DB == nil {
+				continue
+			}
+			
 			layerDB.LayerPointersEncoding.Rects =
 				append(layerDB.LayerPointersEncoding.Rects, int(rectAssocEnd_DB.ID))
 		}
@@ -261,6 +269,14 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 		for _, textAssocEnd := range layer.Texts {
 			textAssocEnd_DB :=
 				backRepo.BackRepoText.GetTextDBFromTextPtr(textAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the textAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if textAssocEnd_DB == nil {
+				continue
+			}
+			
 			layerDB.LayerPointersEncoding.Texts =
 				append(layerDB.LayerPointersEncoding.Texts, int(textAssocEnd_DB.ID))
 		}
@@ -271,6 +287,14 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 		for _, circleAssocEnd := range layer.Circles {
 			circleAssocEnd_DB :=
 				backRepo.BackRepoCircle.GetCircleDBFromCirclePtr(circleAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the circleAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if circleAssocEnd_DB == nil {
+				continue
+			}
+			
 			layerDB.LayerPointersEncoding.Circles =
 				append(layerDB.LayerPointersEncoding.Circles, int(circleAssocEnd_DB.ID))
 		}
@@ -281,6 +305,14 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 		for _, lineAssocEnd := range layer.Lines {
 			lineAssocEnd_DB :=
 				backRepo.BackRepoLine.GetLineDBFromLinePtr(lineAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the lineAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if lineAssocEnd_DB == nil {
+				continue
+			}
+			
 			layerDB.LayerPointersEncoding.Lines =
 				append(layerDB.LayerPointersEncoding.Lines, int(lineAssocEnd_DB.ID))
 		}
@@ -291,6 +323,14 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 		for _, ellipseAssocEnd := range layer.Ellipses {
 			ellipseAssocEnd_DB :=
 				backRepo.BackRepoEllipse.GetEllipseDBFromEllipsePtr(ellipseAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the ellipseAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if ellipseAssocEnd_DB == nil {
+				continue
+			}
+			
 			layerDB.LayerPointersEncoding.Ellipses =
 				append(layerDB.LayerPointersEncoding.Ellipses, int(ellipseAssocEnd_DB.ID))
 		}
@@ -301,6 +341,14 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 		for _, polylineAssocEnd := range layer.Polylines {
 			polylineAssocEnd_DB :=
 				backRepo.BackRepoPolyline.GetPolylineDBFromPolylinePtr(polylineAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the polylineAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if polylineAssocEnd_DB == nil {
+				continue
+			}
+			
 			layerDB.LayerPointersEncoding.Polylines =
 				append(layerDB.LayerPointersEncoding.Polylines, int(polylineAssocEnd_DB.ID))
 		}
@@ -311,6 +359,14 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 		for _, polygoneAssocEnd := range layer.Polygones {
 			polygoneAssocEnd_DB :=
 				backRepo.BackRepoPolygone.GetPolygoneDBFromPolygonePtr(polygoneAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the polygoneAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if polygoneAssocEnd_DB == nil {
+				continue
+			}
+			
 			layerDB.LayerPointersEncoding.Polygones =
 				append(layerDB.LayerPointersEncoding.Polygones, int(polygoneAssocEnd_DB.ID))
 		}
@@ -321,6 +377,14 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 		for _, pathAssocEnd := range layer.Paths {
 			pathAssocEnd_DB :=
 				backRepo.BackRepoPath.GetPathDBFromPathPtr(pathAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the pathAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if pathAssocEnd_DB == nil {
+				continue
+			}
+			
 			layerDB.LayerPointersEncoding.Paths =
 				append(layerDB.LayerPointersEncoding.Paths, int(pathAssocEnd_DB.ID))
 		}
@@ -331,6 +395,14 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 		for _, linkAssocEnd := range layer.Links {
 			linkAssocEnd_DB :=
 				backRepo.BackRepoLink.GetLinkDBFromLinkPtr(linkAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the linkAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if linkAssocEnd_DB == nil {
+				continue
+			}
+			
 			layerDB.LayerPointersEncoding.Links =
 				append(layerDB.LayerPointersEncoding.Links, int(linkAssocEnd_DB.ID))
 		}
@@ -341,6 +413,14 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 		for _, rectlinklinkAssocEnd := range layer.RectLinkLinks {
 			rectlinklinkAssocEnd_DB :=
 				backRepo.BackRepoRectLinkLink.GetRectLinkLinkDBFromRectLinkLinkPtr(rectlinklinkAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the rectlinklinkAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if rectlinklinkAssocEnd_DB == nil {
+				continue
+			}
+			
 			layerDB.LayerPointersEncoding.RectLinkLinks =
 				append(layerDB.LayerPointersEncoding.RectLinkLinks, int(rectlinklinkAssocEnd_DB.ID))
 		}

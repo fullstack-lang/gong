@@ -14,5 +14,6 @@ type Presentation struct {
 	// translate(-36 45.5)
 	// skewX(40)
 	// scale(1 0.5)
+	// gong:text gong:width 600 gong:height 400
 	Transform string
 }

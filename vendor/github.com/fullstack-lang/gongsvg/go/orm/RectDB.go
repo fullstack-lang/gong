@@ -141,6 +141,10 @@ type RectDB struct {
 	// provide the sql storage for the boolan
 	HasTopHandle_Data sql.NullBool
 
+	// Declation for basic field rectDB.IsScalingProportionally
+	// provide the sql storage for the boolan
+	IsScalingProportionally_Data sql.NullBool
+
 	// Declation for basic field rectDB.CanHaveBottomHandle
 	// provide the sql storage for the boolan
 	CanHaveBottomHandle_Data sql.NullBool
@@ -219,13 +223,15 @@ type RectWOP struct {
 
 	HasTopHandle bool `xlsx:"21"`
 
-	CanHaveBottomHandle bool `xlsx:"22"`
+	IsScalingProportionally bool `xlsx:"22"`
 
-	HasBottomHandle bool `xlsx:"23"`
+	CanHaveBottomHandle bool `xlsx:"23"`
 
-	CanMoveHorizontaly bool `xlsx:"24"`
+	HasBottomHandle bool `xlsx:"24"`
 
-	CanMoveVerticaly bool `xlsx:"25"`
+	CanMoveHorizontaly bool `xlsx:"25"`
+
+	CanMoveVerticaly bool `xlsx:"26"`
 	// insertion for WOP pointer fields
 }
 
@@ -253,6 +259,7 @@ var Rect_Fields = []string{
 	"HasRightHandle",
 	"CanHaveTopHandle",
 	"HasTopHandle",
+	"IsScalingProportionally",
 	"CanHaveBottomHandle",
 	"HasBottomHandle",
 	"CanMoveHorizontaly",
@@ -382,6 +389,14 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, animateAssocEnd := range rect.Animations {
 			animateAssocEnd_DB :=
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the animateAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if animateAssocEnd_DB == nil {
+				continue
+			}
+			
 			rectDB.RectPointersEncoding.Animations =
 				append(rectDB.RectPointersEncoding.Animations, int(animateAssocEnd_DB.ID))
 		}
@@ -392,6 +407,14 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, rectanchoredtextAssocEnd := range rect.RectAnchoredTexts {
 			rectanchoredtextAssocEnd_DB :=
 				backRepo.BackRepoRectAnchoredText.GetRectAnchoredTextDBFromRectAnchoredTextPtr(rectanchoredtextAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the rectanchoredtextAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if rectanchoredtextAssocEnd_DB == nil {
+				continue
+			}
+			
 			rectDB.RectPointersEncoding.RectAnchoredTexts =
 				append(rectDB.RectPointersEncoding.RectAnchoredTexts, int(rectanchoredtextAssocEnd_DB.ID))
 		}
@@ -402,6 +425,14 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, rectanchoredrectAssocEnd := range rect.RectAnchoredRects {
 			rectanchoredrectAssocEnd_DB :=
 				backRepo.BackRepoRectAnchoredRect.GetRectAnchoredRectDBFromRectAnchoredRectPtr(rectanchoredrectAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the rectanchoredrectAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if rectanchoredrectAssocEnd_DB == nil {
+				continue
+			}
+			
 			rectDB.RectPointersEncoding.RectAnchoredRects =
 				append(rectDB.RectPointersEncoding.RectAnchoredRects, int(rectanchoredrectAssocEnd_DB.ID))
 		}
@@ -412,6 +443,14 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, rectanchoredpathAssocEnd := range rect.RectAnchoredPaths {
 			rectanchoredpathAssocEnd_DB :=
 				backRepo.BackRepoRectAnchoredPath.GetRectAnchoredPathDBFromRectAnchoredPathPtr(rectanchoredpathAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the rectanchoredpathAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if rectanchoredpathAssocEnd_DB == nil {
+				continue
+			}
+			
 			rectDB.RectPointersEncoding.RectAnchoredPaths =
 				append(rectDB.RectPointersEncoding.RectAnchoredPaths, int(rectanchoredpathAssocEnd_DB.ID))
 		}
@@ -662,6 +701,9 @@ func (rectDB *RectDB) CopyBasicFieldsFromRect(rect *models.Rect) {
 	rectDB.HasTopHandle_Data.Bool = rect.HasTopHandle
 	rectDB.HasTopHandle_Data.Valid = true
 
+	rectDB.IsScalingProportionally_Data.Bool = rect.IsScalingProportionally
+	rectDB.IsScalingProportionally_Data.Valid = true
+
 	rectDB.CanHaveBottomHandle_Data.Bool = rect.CanHaveBottomHandle
 	rectDB.CanHaveBottomHandle_Data.Valid = true
 
@@ -741,6 +783,9 @@ func (rectDB *RectDB) CopyBasicFieldsFromRect_WOP(rect *models.Rect_WOP) {
 
 	rectDB.HasTopHandle_Data.Bool = rect.HasTopHandle
 	rectDB.HasTopHandle_Data.Valid = true
+
+	rectDB.IsScalingProportionally_Data.Bool = rect.IsScalingProportionally
+	rectDB.IsScalingProportionally_Data.Valid = true
 
 	rectDB.CanHaveBottomHandle_Data.Bool = rect.CanHaveBottomHandle
 	rectDB.CanHaveBottomHandle_Data.Valid = true
@@ -822,6 +867,9 @@ func (rectDB *RectDB) CopyBasicFieldsFromRectWOP(rect *RectWOP) {
 	rectDB.HasTopHandle_Data.Bool = rect.HasTopHandle
 	rectDB.HasTopHandle_Data.Valid = true
 
+	rectDB.IsScalingProportionally_Data.Bool = rect.IsScalingProportionally
+	rectDB.IsScalingProportionally_Data.Valid = true
+
 	rectDB.CanHaveBottomHandle_Data.Bool = rect.CanHaveBottomHandle
 	rectDB.CanHaveBottomHandle_Data.Valid = true
 
@@ -859,6 +907,7 @@ func (rectDB *RectDB) CopyBasicFieldsToRect(rect *models.Rect) {
 	rect.HasRightHandle = rectDB.HasRightHandle_Data.Bool
 	rect.CanHaveTopHandle = rectDB.CanHaveTopHandle_Data.Bool
 	rect.HasTopHandle = rectDB.HasTopHandle_Data.Bool
+	rect.IsScalingProportionally = rectDB.IsScalingProportionally_Data.Bool
 	rect.CanHaveBottomHandle = rectDB.CanHaveBottomHandle_Data.Bool
 	rect.HasBottomHandle = rectDB.HasBottomHandle_Data.Bool
 	rect.CanMoveHorizontaly = rectDB.CanMoveHorizontaly_Data.Bool
@@ -889,6 +938,7 @@ func (rectDB *RectDB) CopyBasicFieldsToRect_WOP(rect *models.Rect_WOP) {
 	rect.HasRightHandle = rectDB.HasRightHandle_Data.Bool
 	rect.CanHaveTopHandle = rectDB.CanHaveTopHandle_Data.Bool
 	rect.HasTopHandle = rectDB.HasTopHandle_Data.Bool
+	rect.IsScalingProportionally = rectDB.IsScalingProportionally_Data.Bool
 	rect.CanHaveBottomHandle = rectDB.CanHaveBottomHandle_Data.Bool
 	rect.HasBottomHandle = rectDB.HasBottomHandle_Data.Bool
 	rect.CanMoveHorizontaly = rectDB.CanMoveHorizontaly_Data.Bool
@@ -920,6 +970,7 @@ func (rectDB *RectDB) CopyBasicFieldsToRectWOP(rect *RectWOP) {
 	rect.HasRightHandle = rectDB.HasRightHandle_Data.Bool
 	rect.CanHaveTopHandle = rectDB.CanHaveTopHandle_Data.Bool
 	rect.HasTopHandle = rectDB.HasTopHandle_Data.Bool
+	rect.IsScalingProportionally = rectDB.IsScalingProportionally_Data.Bool
 	rect.CanHaveBottomHandle = rectDB.CanHaveBottomHandle_Data.Bool
 	rect.HasBottomHandle = rectDB.HasBottomHandle_Data.Bool
 	rect.CanMoveHorizontaly = rectDB.CanMoveHorizontaly_Data.Bool

@@ -266,6 +266,14 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseTwoInstance(backRep
 		for _, noteshapelinkAssocEnd := range noteshape.NoteShapeLinks {
 			noteshapelinkAssocEnd_DB :=
 				backRepo.BackRepoNoteShapeLink.GetNoteShapeLinkDBFromNoteShapeLinkPtr(noteshapelinkAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the noteshapelinkAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if noteshapelinkAssocEnd_DB == nil {
+				continue
+			}
+			
 			noteshapeDB.NoteShapePointersEncoding.NoteShapeLinks =
 				append(noteshapeDB.NoteShapePointersEncoding.NoteShapeLinks, int(noteshapelinkAssocEnd_DB.ID))
 		}

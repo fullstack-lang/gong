@@ -230,6 +230,14 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseTwoInstance(backRepo *BackR
 		for _, umlstateAssocEnd := range umlsc.States {
 			umlstateAssocEnd_DB :=
 				backRepo.BackRepoUmlState.GetUmlStateDBFromUmlStatePtr(umlstateAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the umlstateAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if umlstateAssocEnd_DB == nil {
+				continue
+			}
+			
 			umlscDB.UmlscPointersEncoding.States =
 				append(umlscDB.UmlscPointersEncoding.States, int(umlstateAssocEnd_DB.ID))
 		}
