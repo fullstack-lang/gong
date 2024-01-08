@@ -568,6 +568,13 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
       console.assert(this.draggedLink!.End != undefined, "dragged link without end rect")
 
       let segments = drawSegmentsFromLink(this.draggedLink!)
+
+      // case when one go from 2 segments to 3 segments
+      if (this.map_Link_Segment.get(this.draggedLink!)!.length == 2 &&
+        segments.length == 3) {
+        this.draggedSegmentNumber = 1
+      }
+
       this.map_Link_Segment.set(this.draggedLink!, segments)
     }
 
