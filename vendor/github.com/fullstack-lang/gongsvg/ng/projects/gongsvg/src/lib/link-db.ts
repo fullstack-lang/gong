@@ -17,6 +17,7 @@ export class LinkDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Type: string = ""
+	IsBezierCurve: boolean = false
 	StartAnchorType: string = ""
 	EndAnchorType: string = ""
 	StartOrientation: string = ""

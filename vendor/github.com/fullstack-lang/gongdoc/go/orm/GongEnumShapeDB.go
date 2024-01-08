@@ -251,6 +251,14 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CommitPhaseTwoInstance
 		for _, gongenumvalueentryAssocEnd := range gongenumshape.GongEnumValueEntrys {
 			gongenumvalueentryAssocEnd_DB :=
 				backRepo.BackRepoGongEnumValueEntry.GetGongEnumValueEntryDBFromGongEnumValueEntryPtr(gongenumvalueentryAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the gongenumvalueentryAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if gongenumvalueentryAssocEnd_DB == nil {
+				continue
+			}
+			
 			gongenumshapeDB.GongEnumShapePointersEncoding.GongEnumValueEntrys =
 				append(gongenumshapeDB.GongEnumShapePointersEncoding.GongEnumValueEntrys, int(gongenumvalueentryAssocEnd_DB.ID))
 		}

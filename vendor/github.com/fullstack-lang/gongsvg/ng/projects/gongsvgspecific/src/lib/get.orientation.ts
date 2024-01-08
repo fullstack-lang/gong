@@ -2,6 +2,9 @@ import * as gongsvg from 'gongsvg'
 import { Segment } from './draw.segments';
 
 export function getOrientation(segment: Segment): 'horizontal' | 'vertical' | null {
+
+    // console.log("getOrientation:", segment.Number)
+
     if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_HORIZONTAL) {
         return 'horizontal';
     } else if (segment.Orientation == gongsvg.OrientationType.ORIENTATION_VERTICAL) {

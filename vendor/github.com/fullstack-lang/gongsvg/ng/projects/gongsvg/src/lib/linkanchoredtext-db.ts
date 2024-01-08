@@ -15,6 +15,8 @@ export class LinkAnchoredTextDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Content: string = ""
+	AutomaticLayout: boolean = false
+	LinkAnchorType: string = ""
 	X_Offset: number = 0
 	Y_Offset: number = 0
 	FontWeight: string = ""

@@ -1646,10 +1646,10 @@ func (drawingstate DrawingState) ToString() (res string) {
 	// migration of former implementation of enum
 	switch drawingstate {
 	// insertion code per enum code
-	case NOT_DRAWING_LINE:
-		res = "NOT_DRAWING_LINE"
-	case DRAWING_LINE:
-		res = "DRAWING_LINE"
+	case NOT_DRAWING_LINK:
+		res = "NOT_DRAWING_LINK"
+	case DRAWING_LINK:
+		res = "DRAWING_LINK"
 	}
 	return
 }
@@ -1658,10 +1658,10 @@ func (drawingstate *DrawingState) FromString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "NOT_DRAWING_LINE":
-		*drawingstate = NOT_DRAWING_LINE
-	case "DRAWING_LINE":
-		*drawingstate = DRAWING_LINE
+	case "NOT_DRAWING_LINK":
+		*drawingstate = NOT_DRAWING_LINK
+	case "DRAWING_LINK":
+		*drawingstate = DRAWING_LINK
 	default:
 		return errUnkownEnum
 	}
@@ -1672,10 +1672,10 @@ func (drawingstate *DrawingState) FromCodeString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "NOT_DRAWING_LINE":
-		*drawingstate = NOT_DRAWING_LINE
-	case "DRAWING_LINE":
-		*drawingstate = DRAWING_LINE
+	case "NOT_DRAWING_LINK":
+		*drawingstate = NOT_DRAWING_LINK
+	case "DRAWING_LINK":
+		*drawingstate = DRAWING_LINK
 	default:
 		return errUnkownEnum
 	}
@@ -1686,10 +1686,10 @@ func (drawingstate *DrawingState) ToCodeString() (res string) {
 
 	switch *drawingstate {
 	// insertion code per enum code
-	case NOT_DRAWING_LINE:
-		res = "NOT_DRAWING_LINE"
-	case DRAWING_LINE:
-		res = "DRAWING_LINE"
+	case NOT_DRAWING_LINK:
+		res = "NOT_DRAWING_LINK"
+	case DRAWING_LINK:
+		res = "DRAWING_LINK"
 	}
 	return
 }
@@ -1699,8 +1699,8 @@ func (drawingstate DrawingState) Codes() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "NOT_DRAWING_LINE")
-	res = append(res, "DRAWING_LINE")
+	res = append(res, "NOT_DRAWING_LINK")
+	res = append(res, "DRAWING_LINK")
 
 	return
 }
@@ -1710,8 +1710,86 @@ func (drawingstate DrawingState) CodeValues() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "NOT_DRAWING_LINE")
-	res = append(res, "DRAWING_LINE")
+	res = append(res, "NOT_DRAWING_LINK")
+	res = append(res, "DRAWING_LINK")
+
+	return
+}
+
+// Utility function for LinkAnchorType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (linkanchortype LinkAnchorType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch linkanchortype {
+	// insertion code per enum code
+	case LINK_LEFT_OR_TOP:
+		res = "LINK_LEFT_OR_TOP"
+	case LINK_RIGHT_OR_BOTTOM:
+		res = "LINK_RIGHT_OR_BOTTOM"
+	}
+	return
+}
+
+func (linkanchortype *LinkAnchorType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "LINK_LEFT_OR_TOP":
+		*linkanchortype = LINK_LEFT_OR_TOP
+	case "LINK_RIGHT_OR_BOTTOM":
+		*linkanchortype = LINK_RIGHT_OR_BOTTOM
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (linkanchortype *LinkAnchorType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "LINK_LEFT_OR_TOP":
+		*linkanchortype = LINK_LEFT_OR_TOP
+	case "LINK_RIGHT_OR_BOTTOM":
+		*linkanchortype = LINK_RIGHT_OR_BOTTOM
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (linkanchortype *LinkAnchorType) ToCodeString() (res string) {
+
+	switch *linkanchortype {
+	// insertion code per enum code
+	case LINK_LEFT_OR_TOP:
+		res = "LINK_LEFT_OR_TOP"
+	case LINK_RIGHT_OR_BOTTOM:
+		res = "LINK_RIGHT_OR_BOTTOM"
+	}
+	return
+}
+
+func (linkanchortype LinkAnchorType) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "LINK_LEFT_OR_TOP")
+	res = append(res, "LINK_RIGHT_OR_BOTTOM")
+
+	return
+}
+
+func (linkanchortype LinkAnchorType) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "LINK_LEFT_OR_TOP")
+	res = append(res, "LINK_RIGHT_OR_BOTTOM")
 
 	return
 }
@@ -1958,24 +2036,28 @@ func (rectanchortype RectAnchorType) ToString() (res string) {
 	// migration of former implementation of enum
 	switch rectanchortype {
 	// insertion code per enum code
-	case RECT_ANCHOR_TOP:
-		res = "RECT_ANCHOR_TOP"
-	case RECT_ANCHOR_TOP_LEFT:
-		res = "RECT_ANCHOR_TOP_LEFT"
-	case RECT_ANCHOR_TOP_RIGHT:
-		res = "RECT_ANCHOR_TOP_RIGHT"
-	case RECT_ANCHOR_BOTTOM:
-		res = "RECT_ANCHOR_BOTTOM"
-	case RECT_ANCHOR_BOTTOM_LEFT:
-		res = "RECT_ANCHOR_BOTTOM_LEFT"
-	case RECT_ANCHOR_BOTTOM_RIGHT:
-		res = "RECT_ANCHOR_BOTTOM_RIGHT"
-	case RECT_ANCHOR_LEFT:
-		res = "RECT_ANCHOR_LEFT"
-	case RECT_ANCHOR_RIGHT:
-		res = "RECT_ANCHOR_RIGHT"
-	case RECT_ANCHOR_CENTER:
-		res = "RECT_ANCHOR_CENTER"
+	case RECT_TOP:
+		res = "RECT_TOP"
+	case RECT_TOP_LEFT:
+		res = "RECT_TOP_LEFT"
+	case RECT_TOP_RIGHT:
+		res = "RECT_TOP_RIGHT"
+	case RECT_BOTTOM:
+		res = "RECT_BOTTOM"
+	case RECT_BOTTOM_LEFT:
+		res = "RECT_BOTTOM_LEFT"
+	case RECT_BOTTOM_LEFT_LEFT:
+		res = "RECT_BOTTOM_LEFT_LEFT"
+	case RECT_BOTTOM_BOTTOM_LEFT:
+		res = "RECT_BOTTOM_BOTTOM_LEFT"
+	case RECT_BOTTOM_RIGHT:
+		res = "RECT_BOTTOM_RIGHT"
+	case RECT_LEFT:
+		res = "RECT_LEFT"
+	case RECT_RIGHT:
+		res = "RECT_RIGHT"
+	case RECT_CENTER:
+		res = "RECT_CENTER"
 	}
 	return
 }
@@ -1984,24 +2066,28 @@ func (rectanchortype *RectAnchorType) FromString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "RECT_ANCHOR_TOP":
-		*rectanchortype = RECT_ANCHOR_TOP
-	case "RECT_ANCHOR_TOP_LEFT":
-		*rectanchortype = RECT_ANCHOR_TOP_LEFT
-	case "RECT_ANCHOR_TOP_RIGHT":
-		*rectanchortype = RECT_ANCHOR_TOP_RIGHT
-	case "RECT_ANCHOR_BOTTOM":
-		*rectanchortype = RECT_ANCHOR_BOTTOM
-	case "RECT_ANCHOR_BOTTOM_LEFT":
-		*rectanchortype = RECT_ANCHOR_BOTTOM_LEFT
-	case "RECT_ANCHOR_BOTTOM_RIGHT":
-		*rectanchortype = RECT_ANCHOR_BOTTOM_RIGHT
-	case "RECT_ANCHOR_LEFT":
-		*rectanchortype = RECT_ANCHOR_LEFT
-	case "RECT_ANCHOR_RIGHT":
-		*rectanchortype = RECT_ANCHOR_RIGHT
-	case "RECT_ANCHOR_CENTER":
-		*rectanchortype = RECT_ANCHOR_CENTER
+	case "RECT_TOP":
+		*rectanchortype = RECT_TOP
+	case "RECT_TOP_LEFT":
+		*rectanchortype = RECT_TOP_LEFT
+	case "RECT_TOP_RIGHT":
+		*rectanchortype = RECT_TOP_RIGHT
+	case "RECT_BOTTOM":
+		*rectanchortype = RECT_BOTTOM
+	case "RECT_BOTTOM_LEFT":
+		*rectanchortype = RECT_BOTTOM_LEFT
+	case "RECT_BOTTOM_LEFT_LEFT":
+		*rectanchortype = RECT_BOTTOM_LEFT_LEFT
+	case "RECT_BOTTOM_BOTTOM_LEFT":
+		*rectanchortype = RECT_BOTTOM_BOTTOM_LEFT
+	case "RECT_BOTTOM_RIGHT":
+		*rectanchortype = RECT_BOTTOM_RIGHT
+	case "RECT_LEFT":
+		*rectanchortype = RECT_LEFT
+	case "RECT_RIGHT":
+		*rectanchortype = RECT_RIGHT
+	case "RECT_CENTER":
+		*rectanchortype = RECT_CENTER
 	default:
 		return errUnkownEnum
 	}
@@ -2012,24 +2098,28 @@ func (rectanchortype *RectAnchorType) FromCodeString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "RECT_ANCHOR_TOP":
-		*rectanchortype = RECT_ANCHOR_TOP
-	case "RECT_ANCHOR_TOP_LEFT":
-		*rectanchortype = RECT_ANCHOR_TOP_LEFT
-	case "RECT_ANCHOR_TOP_RIGHT":
-		*rectanchortype = RECT_ANCHOR_TOP_RIGHT
-	case "RECT_ANCHOR_BOTTOM":
-		*rectanchortype = RECT_ANCHOR_BOTTOM
-	case "RECT_ANCHOR_BOTTOM_LEFT":
-		*rectanchortype = RECT_ANCHOR_BOTTOM_LEFT
-	case "RECT_ANCHOR_BOTTOM_RIGHT":
-		*rectanchortype = RECT_ANCHOR_BOTTOM_RIGHT
-	case "RECT_ANCHOR_LEFT":
-		*rectanchortype = RECT_ANCHOR_LEFT
-	case "RECT_ANCHOR_RIGHT":
-		*rectanchortype = RECT_ANCHOR_RIGHT
-	case "RECT_ANCHOR_CENTER":
-		*rectanchortype = RECT_ANCHOR_CENTER
+	case "RECT_TOP":
+		*rectanchortype = RECT_TOP
+	case "RECT_TOP_LEFT":
+		*rectanchortype = RECT_TOP_LEFT
+	case "RECT_TOP_RIGHT":
+		*rectanchortype = RECT_TOP_RIGHT
+	case "RECT_BOTTOM":
+		*rectanchortype = RECT_BOTTOM
+	case "RECT_BOTTOM_LEFT":
+		*rectanchortype = RECT_BOTTOM_LEFT
+	case "RECT_BOTTOM_LEFT_LEFT":
+		*rectanchortype = RECT_BOTTOM_LEFT_LEFT
+	case "RECT_BOTTOM_BOTTOM_LEFT":
+		*rectanchortype = RECT_BOTTOM_BOTTOM_LEFT
+	case "RECT_BOTTOM_RIGHT":
+		*rectanchortype = RECT_BOTTOM_RIGHT
+	case "RECT_LEFT":
+		*rectanchortype = RECT_LEFT
+	case "RECT_RIGHT":
+		*rectanchortype = RECT_RIGHT
+	case "RECT_CENTER":
+		*rectanchortype = RECT_CENTER
 	default:
 		return errUnkownEnum
 	}
@@ -2040,24 +2130,28 @@ func (rectanchortype *RectAnchorType) ToCodeString() (res string) {
 
 	switch *rectanchortype {
 	// insertion code per enum code
-	case RECT_ANCHOR_TOP:
-		res = "RECT_ANCHOR_TOP"
-	case RECT_ANCHOR_TOP_LEFT:
-		res = "RECT_ANCHOR_TOP_LEFT"
-	case RECT_ANCHOR_TOP_RIGHT:
-		res = "RECT_ANCHOR_TOP_RIGHT"
-	case RECT_ANCHOR_BOTTOM:
-		res = "RECT_ANCHOR_BOTTOM"
-	case RECT_ANCHOR_BOTTOM_LEFT:
-		res = "RECT_ANCHOR_BOTTOM_LEFT"
-	case RECT_ANCHOR_BOTTOM_RIGHT:
-		res = "RECT_ANCHOR_BOTTOM_RIGHT"
-	case RECT_ANCHOR_LEFT:
-		res = "RECT_ANCHOR_LEFT"
-	case RECT_ANCHOR_RIGHT:
-		res = "RECT_ANCHOR_RIGHT"
-	case RECT_ANCHOR_CENTER:
-		res = "RECT_ANCHOR_CENTER"
+	case RECT_TOP:
+		res = "RECT_TOP"
+	case RECT_TOP_LEFT:
+		res = "RECT_TOP_LEFT"
+	case RECT_TOP_RIGHT:
+		res = "RECT_TOP_RIGHT"
+	case RECT_BOTTOM:
+		res = "RECT_BOTTOM"
+	case RECT_BOTTOM_LEFT:
+		res = "RECT_BOTTOM_LEFT"
+	case RECT_BOTTOM_LEFT_LEFT:
+		res = "RECT_BOTTOM_LEFT_LEFT"
+	case RECT_BOTTOM_BOTTOM_LEFT:
+		res = "RECT_BOTTOM_BOTTOM_LEFT"
+	case RECT_BOTTOM_RIGHT:
+		res = "RECT_BOTTOM_RIGHT"
+	case RECT_LEFT:
+		res = "RECT_LEFT"
+	case RECT_RIGHT:
+		res = "RECT_RIGHT"
+	case RECT_CENTER:
+		res = "RECT_CENTER"
 	}
 	return
 }
@@ -2067,15 +2161,17 @@ func (rectanchortype RectAnchorType) Codes() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "RECT_ANCHOR_TOP")
-	res = append(res, "RECT_ANCHOR_TOP_LEFT")
-	res = append(res, "RECT_ANCHOR_TOP_RIGHT")
-	res = append(res, "RECT_ANCHOR_BOTTOM")
-	res = append(res, "RECT_ANCHOR_BOTTOM_LEFT")
-	res = append(res, "RECT_ANCHOR_BOTTOM_RIGHT")
-	res = append(res, "RECT_ANCHOR_LEFT")
-	res = append(res, "RECT_ANCHOR_RIGHT")
-	res = append(res, "RECT_ANCHOR_CENTER")
+	res = append(res, "RECT_TOP")
+	res = append(res, "RECT_TOP_LEFT")
+	res = append(res, "RECT_TOP_RIGHT")
+	res = append(res, "RECT_BOTTOM")
+	res = append(res, "RECT_BOTTOM_LEFT")
+	res = append(res, "RECT_BOTTOM_LEFT_LEFT")
+	res = append(res, "RECT_BOTTOM_BOTTOM_LEFT")
+	res = append(res, "RECT_BOTTOM_RIGHT")
+	res = append(res, "RECT_LEFT")
+	res = append(res, "RECT_RIGHT")
+	res = append(res, "RECT_CENTER")
 
 	return
 }
@@ -2085,15 +2181,17 @@ func (rectanchortype RectAnchorType) CodeValues() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "RECT_ANCHOR_TOP")
-	res = append(res, "RECT_ANCHOR_TOP_LEFT")
-	res = append(res, "RECT_ANCHOR_TOP_RIGHT")
-	res = append(res, "RECT_ANCHOR_BOTTOM")
-	res = append(res, "RECT_ANCHOR_BOTTOM_LEFT")
-	res = append(res, "RECT_ANCHOR_BOTTOM_RIGHT")
-	res = append(res, "RECT_ANCHOR_LEFT")
-	res = append(res, "RECT_ANCHOR_RIGHT")
-	res = append(res, "RECT_ANCHOR_CENTER")
+	res = append(res, "RECT_TOP")
+	res = append(res, "RECT_TOP_LEFT")
+	res = append(res, "RECT_TOP_RIGHT")
+	res = append(res, "RECT_BOTTOM")
+	res = append(res, "RECT_BOTTOM_LEFT")
+	res = append(res, "RECT_BOTTOM_LEFT_LEFT")
+	res = append(res, "RECT_BOTTOM_BOTTOM_LEFT")
+	res = append(res, "RECT_BOTTOM_RIGHT")
+	res = append(res, "RECT_LEFT")
+	res = append(res, "RECT_RIGHT")
+	res = append(res, "RECT_CENTER")
 
 	return
 }
@@ -2355,13 +2453,13 @@ func (textanchortype TextAnchorType) CodeValues() (res []string) {
 // end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {
-	string | AnchorType | ColorType | DrawingState | LinkType | OrientationType | PositionOnArrowType | RectAnchorType | SideType | StackName | TextAnchorType
+	string | AnchorType | ColorType | DrawingState | LinkAnchorType | LinkType | OrientationType | PositionOnArrowType | RectAnchorType | SideType | StackName | TextAnchorType
 	Codes() []string
 	CodeValues() []string
 }
 
 type PointerToGongstructEnumStringField interface {
-	*AnchorType | *ColorType | *DrawingState | *LinkType | *OrientationType | *PositionOnArrowType | *RectAnchorType | *SideType | *StackName | *TextAnchorType
+	*AnchorType | *ColorType | *DrawingState | *LinkAnchorType | *LinkType | *OrientationType | *PositionOnArrowType | *RectAnchorType | *SideType | *StackName | *TextAnchorType
 	FromCodeString(input string) (err error)
 }
 

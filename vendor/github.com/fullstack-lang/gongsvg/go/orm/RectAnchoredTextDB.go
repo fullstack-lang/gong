@@ -301,6 +301,14 @@ func (backRepoRectAnchoredText *BackRepoRectAnchoredTextStruct) CommitPhaseTwoIn
 		for _, animateAssocEnd := range rectanchoredtext.Animates {
 			animateAssocEnd_DB :=
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the animateAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if animateAssocEnd_DB == nil {
+				continue
+			}
+			
 			rectanchoredtextDB.RectAnchoredTextPointersEncoding.Animates =
 				append(rectanchoredtextDB.RectAnchoredTextPointersEncoding.Animates, int(animateAssocEnd_DB.ID))
 		}

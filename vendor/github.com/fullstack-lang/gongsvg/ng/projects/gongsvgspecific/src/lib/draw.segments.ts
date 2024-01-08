@@ -36,6 +36,22 @@ export function createPoint(x: number, y: number): gongsvg.PointDB {
     return point
 }
 
+export function drawSegmentsFromLink(link: gongsvg.LinkDB): Segment[] {
+
+    let segmentsParams = {
+        StartRect: link.Start!,
+        EndRect: link.End!,
+        StartDirection: link.StartOrientation! as gongsvg.OrientationType,
+        EndDirection: link.EndOrientation! as gongsvg.OrientationType,
+        StartRatio: link.StartRatio,
+        EndRatio: link.EndRatio,
+        CornerOffsetRatio: link.CornerOffsetRatio,
+        CornerRadius: link.CornerRadius,
+    }
+
+    return drawSegments(segmentsParams)
+}
+
 export function drawSegments(params: SegmentsParams): Segment[] {
     const {
         StartRect: StartRect,

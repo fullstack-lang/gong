@@ -6,8 +6,8 @@
             class="table__save custom-button" 
             color="warn" 
             mat-raised-button 
-            type="suppresion"
-            (click)="onSuppress()"
+            type="button"
+            (click)="openDialog()"
             >Suppress</button>
     </div>
     <div *ngFor="let div of this.selectedFormGroup?.FormDivs">

@@ -265,6 +265,14 @@ func (backRepoPolyline *BackRepoPolylineStruct) CommitPhaseTwoInstance(backRepo 
 		for _, animateAssocEnd := range polyline.Animates {
 			animateAssocEnd_DB :=
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the animateAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if animateAssocEnd_DB == nil {
+				continue
+			}
+			
 			polylineDB.PolylinePointersEncoding.Animates =
 				append(polylineDB.PolylinePointersEncoding.Animates, int(animateAssocEnd_DB.ID))
 		}

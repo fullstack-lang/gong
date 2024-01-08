@@ -277,6 +277,14 @@ func (backRepoCircle *BackRepoCircleStruct) CommitPhaseTwoInstance(backRepo *Bac
 		for _, animateAssocEnd := range circle.Animations {
 			animateAssocEnd_DB :=
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the animateAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if animateAssocEnd_DB == nil {
+				continue
+			}
+			
 			circleDB.CirclePointersEncoding.Animations =
 				append(circleDB.CirclePointersEncoding.Animations, int(animateAssocEnd_DB.ID))
 		}
