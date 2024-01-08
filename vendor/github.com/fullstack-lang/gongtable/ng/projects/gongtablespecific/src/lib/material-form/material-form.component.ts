@@ -10,6 +10,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/d
 import { NgIf } from '@angular/common';
 import { TableDialogData } from '../table-dialog-data';
 import { MaterialTableComponent } from '../material-table/material-table.component';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'lib-material-form',
@@ -59,6 +60,8 @@ export class MaterialFormComponent implements OnInit {
     private formSortAssocButtonService: gongtable.FormSortAssocButtonService,
 
     private formGroupService: gongtable.FormGroupService,
+
+    public confirmationDialog: MatDialog,
   ) {
 
   }
@@ -452,6 +455,30 @@ export class MaterialFormComponent implements OnInit {
     this.selectedFormGroup.HasSuppressButtonBeenPressed = true
 
     // the update of the form will be called later
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '250px',
+      data: { message: 'Are you sure you want to delete this item?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (this.selectedFormGroup == undefined) {
+          return
+        }
+        this.selectedFormGroup.HasSuppressButtonBeenPressed = true
+        this.formGroupService.updateFormGroup(
+          this.selectedFormGroup,
+          this.DataStack,
+          this.gongtableFrontRepoService.frontRepo).subscribe(
+            () => {
+
+            }
+          )
+      }
+    });
   }
 
   getDynamicStyles(formField: gongtable.FormFieldDB): { [key: string]: any } {

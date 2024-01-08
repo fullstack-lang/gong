@@ -274,6 +274,14 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CommitPhaseTwoInst
 		for _, fieldAssocEnd := range gongstructshape.Fields {
 			fieldAssocEnd_DB :=
 				backRepo.BackRepoField.GetFieldDBFromFieldPtr(fieldAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the fieldAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if fieldAssocEnd_DB == nil {
+				continue
+			}
+			
 			gongstructshapeDB.GongStructShapePointersEncoding.Fields =
 				append(gongstructshapeDB.GongStructShapePointersEncoding.Fields, int(fieldAssocEnd_DB.ID))
 		}
@@ -284,6 +292,14 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CommitPhaseTwoInst
 		for _, linkAssocEnd := range gongstructshape.Links {
 			linkAssocEnd_DB :=
 				backRepo.BackRepoLink.GetLinkDBFromLinkPtr(linkAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the linkAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if linkAssocEnd_DB == nil {
+				continue
+			}
+			
 			gongstructshapeDB.GongStructShapePointersEncoding.Links =
 				append(gongstructshapeDB.GongStructShapePointersEncoding.Links, int(linkAssocEnd_DB.ID))
 		}

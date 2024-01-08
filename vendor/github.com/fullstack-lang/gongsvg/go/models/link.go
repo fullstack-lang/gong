@@ -7,6 +7,9 @@ type Link struct {
 
 	Type LinkType
 
+	// IsBezierCurve, if true will draw the link as a bezier curve instead of segments
+	IsBezierCurve bool
+
 	Start           *Rect
 	StartAnchorType AnchorType
 

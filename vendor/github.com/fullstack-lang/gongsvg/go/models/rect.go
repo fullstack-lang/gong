@@ -22,6 +22,8 @@ type Rect struct {
 	CanHaveTopHandle bool
 	HasTopHandle     bool
 
+	IsScalingProportionally bool
+
 	CanHaveBottomHandle bool
 	HasBottomHandle     bool
 

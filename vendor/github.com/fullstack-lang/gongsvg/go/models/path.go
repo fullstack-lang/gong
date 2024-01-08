@@ -18,6 +18,7 @@ type Path struct {
 	// Quadratic Bézier Curve: Q, q, T, t
 	// Elliptical Arc Curve: A, a
 	// ClosePath: Z, z
+	// gong:text gong:width 600
 	Definition string
 	Presentation
 	Animates []*Animate

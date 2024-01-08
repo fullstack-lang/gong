@@ -230,6 +230,14 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) CommitPhaseTwoInstance(b
 		for _, gongstructshapeAssocEnd := range classdiagram.GongStructShapes {
 			gongstructshapeAssocEnd_DB :=
 				backRepo.BackRepoGongStructShape.GetGongStructShapeDBFromGongStructShapePtr(gongstructshapeAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the gongstructshapeAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if gongstructshapeAssocEnd_DB == nil {
+				continue
+			}
+			
 			classdiagramDB.ClassdiagramPointersEncoding.GongStructShapes =
 				append(classdiagramDB.ClassdiagramPointersEncoding.GongStructShapes, int(gongstructshapeAssocEnd_DB.ID))
 		}
@@ -240,6 +248,14 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) CommitPhaseTwoInstance(b
 		for _, gongenumshapeAssocEnd := range classdiagram.GongEnumShapes {
 			gongenumshapeAssocEnd_DB :=
 				backRepo.BackRepoGongEnumShape.GetGongEnumShapeDBFromGongEnumShapePtr(gongenumshapeAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the gongenumshapeAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if gongenumshapeAssocEnd_DB == nil {
+				continue
+			}
+			
 			classdiagramDB.ClassdiagramPointersEncoding.GongEnumShapes =
 				append(classdiagramDB.ClassdiagramPointersEncoding.GongEnumShapes, int(gongenumshapeAssocEnd_DB.ID))
 		}
@@ -250,6 +266,14 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) CommitPhaseTwoInstance(b
 		for _, noteshapeAssocEnd := range classdiagram.NoteShapes {
 			noteshapeAssocEnd_DB :=
 				backRepo.BackRepoNoteShape.GetNoteShapeDBFromNoteShapePtr(noteshapeAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the noteshapeAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if noteshapeAssocEnd_DB == nil {
+				continue
+			}
+			
 			classdiagramDB.ClassdiagramPointersEncoding.NoteShapes =
 				append(classdiagramDB.ClassdiagramPointersEncoding.NoteShapes, int(noteshapeAssocEnd_DB.ID))
 		}

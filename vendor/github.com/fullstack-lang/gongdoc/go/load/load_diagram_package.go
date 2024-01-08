@@ -7,7 +7,6 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"time"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
@@ -63,9 +62,9 @@ func LoadDiagramPackage(
 	}
 
 	fset := token.NewFileSet()
-	startParser := time.Now()
+	// startParser := time.Now()
 	pkgsParser, errParser := parser.ParseDir(fset, diagramPkgPath, nil, parser.ParseComments)
-	log.Printf("Parser took %s", time.Since(startParser))
+	// log.Printf("Parser took %s", time.Since(startParser))
 
 	if errParser != nil {
 		log.Panic("Unable to parser ", errParser.Error())

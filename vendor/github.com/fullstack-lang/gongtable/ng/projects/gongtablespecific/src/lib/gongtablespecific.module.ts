@@ -18,11 +18,13 @@ import { MatPaginatorModule } from '@angular/material/paginator'
 import { MatSelectModule } from '@angular/material/select'
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
     MaterialTableComponent,
-    MaterialFormComponent
+    MaterialFormComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -37,6 +37,7 @@ export class RectDB {
 	HasRightHandle: boolean = false
 	CanHaveTopHandle: boolean = false
 	HasTopHandle: boolean = false
+	IsScalingProportionally: boolean = false
 	CanHaveBottomHandle: boolean = false
 	HasBottomHandle: boolean = false
 	CanMoveHorizontaly: boolean = false

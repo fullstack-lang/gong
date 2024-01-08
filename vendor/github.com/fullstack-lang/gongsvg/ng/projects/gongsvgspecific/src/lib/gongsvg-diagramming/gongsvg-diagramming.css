@@ -1,0 +1,23 @@
+.noevents-area {
+    pointer-events: auto;
+}
+
+.click-through {
+    pointer-events: none;
+}
+
+.moveable-line {
+    pointer-events: auto;
+}
+
+line.moveable-line[segment-orientation='horizontal'] {
+    cursor: ns-resize;
+}
+
+line.moveable-line[segment-orientation='vertical'] {
+    cursor: ew-resize;
+}
+
+.movable-text {
+    cursor: move;
+}

@@ -73,17 +73,12 @@ type RectAnchoredPathDB struct {
 	// Declation for basic field rectanchoredpathDB.RectAnchorType
 	RectAnchorType_Data sql.NullString
 
-	// Declation for basic field rectanchoredpathDB.WidthFollowRect
-	// provide the sql storage for the boolan
-	WidthFollowRect_Data sql.NullBool
-
-	// Declation for basic field rectanchoredpathDB.HeightFollowRect
-	// provide the sql storage for the boolan
-	HeightFollowRect_Data sql.NullBool
-
 	// Declation for basic field rectanchoredpathDB.ScalePropotionnally
 	// provide the sql storage for the boolan
 	ScalePropotionnally_Data sql.NullBool
+
+	// Declation for basic field rectanchoredpathDB.AppliedScaling
+	AppliedScaling_Data sql.NullFloat64
 
 	// Declation for basic field rectanchoredpathDB.Color
 	Color_Data sql.NullString
@@ -136,25 +131,23 @@ type RectAnchoredPathWOP struct {
 
 	RectAnchorType models.RectAnchorType `xlsx:"5"`
 
-	WidthFollowRect bool `xlsx:"6"`
+	ScalePropotionnally bool `xlsx:"6"`
 
-	HeightFollowRect bool `xlsx:"7"`
+	AppliedScaling float64 `xlsx:"7"`
 
-	ScalePropotionnally bool `xlsx:"8"`
+	Color string `xlsx:"8"`
 
-	Color string `xlsx:"9"`
+	FillOpacity float64 `xlsx:"9"`
 
-	FillOpacity float64 `xlsx:"10"`
+	Stroke string `xlsx:"10"`
 
-	Stroke string `xlsx:"11"`
+	StrokeWidth float64 `xlsx:"11"`
 
-	StrokeWidth float64 `xlsx:"12"`
+	StrokeDashArray string `xlsx:"12"`
 
-	StrokeDashArray string `xlsx:"13"`
+	StrokeDashArrayWhenSelected string `xlsx:"13"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"14"`
-
-	Transform string `xlsx:"15"`
+	Transform string `xlsx:"14"`
 	// insertion for WOP pointer fields
 }
 
@@ -166,9 +159,8 @@ var RectAnchoredPath_Fields = []string{
 	"X_Offset",
 	"Y_Offset",
 	"RectAnchorType",
-	"WidthFollowRect",
-	"HeightFollowRect",
 	"ScalePropotionnally",
+	"AppliedScaling",
 	"Color",
 	"FillOpacity",
 	"Stroke",
@@ -457,14 +449,11 @@ func (rectanchoredpathDB *RectAnchoredPathDB) CopyBasicFieldsFromRectAnchoredPat
 	rectanchoredpathDB.RectAnchorType_Data.String = rectanchoredpath.RectAnchorType.ToString()
 	rectanchoredpathDB.RectAnchorType_Data.Valid = true
 
-	rectanchoredpathDB.WidthFollowRect_Data.Bool = rectanchoredpath.WidthFollowRect
-	rectanchoredpathDB.WidthFollowRect_Data.Valid = true
-
-	rectanchoredpathDB.HeightFollowRect_Data.Bool = rectanchoredpath.HeightFollowRect
-	rectanchoredpathDB.HeightFollowRect_Data.Valid = true
-
 	rectanchoredpathDB.ScalePropotionnally_Data.Bool = rectanchoredpath.ScalePropotionnally
 	rectanchoredpathDB.ScalePropotionnally_Data.Valid = true
+
+	rectanchoredpathDB.AppliedScaling_Data.Float64 = rectanchoredpath.AppliedScaling
+	rectanchoredpathDB.AppliedScaling_Data.Valid = true
 
 	rectanchoredpathDB.Color_Data.String = rectanchoredpath.Color
 	rectanchoredpathDB.Color_Data.Valid = true
@@ -507,14 +496,11 @@ func (rectanchoredpathDB *RectAnchoredPathDB) CopyBasicFieldsFromRectAnchoredPat
 	rectanchoredpathDB.RectAnchorType_Data.String = rectanchoredpath.RectAnchorType.ToString()
 	rectanchoredpathDB.RectAnchorType_Data.Valid = true
 
-	rectanchoredpathDB.WidthFollowRect_Data.Bool = rectanchoredpath.WidthFollowRect
-	rectanchoredpathDB.WidthFollowRect_Data.Valid = true
-
-	rectanchoredpathDB.HeightFollowRect_Data.Bool = rectanchoredpath.HeightFollowRect
-	rectanchoredpathDB.HeightFollowRect_Data.Valid = true
-
 	rectanchoredpathDB.ScalePropotionnally_Data.Bool = rectanchoredpath.ScalePropotionnally
 	rectanchoredpathDB.ScalePropotionnally_Data.Valid = true
+
+	rectanchoredpathDB.AppliedScaling_Data.Float64 = rectanchoredpath.AppliedScaling
+	rectanchoredpathDB.AppliedScaling_Data.Valid = true
 
 	rectanchoredpathDB.Color_Data.String = rectanchoredpath.Color
 	rectanchoredpathDB.Color_Data.Valid = true
@@ -557,14 +543,11 @@ func (rectanchoredpathDB *RectAnchoredPathDB) CopyBasicFieldsFromRectAnchoredPat
 	rectanchoredpathDB.RectAnchorType_Data.String = rectanchoredpath.RectAnchorType.ToString()
 	rectanchoredpathDB.RectAnchorType_Data.Valid = true
 
-	rectanchoredpathDB.WidthFollowRect_Data.Bool = rectanchoredpath.WidthFollowRect
-	rectanchoredpathDB.WidthFollowRect_Data.Valid = true
-
-	rectanchoredpathDB.HeightFollowRect_Data.Bool = rectanchoredpath.HeightFollowRect
-	rectanchoredpathDB.HeightFollowRect_Data.Valid = true
-
 	rectanchoredpathDB.ScalePropotionnally_Data.Bool = rectanchoredpath.ScalePropotionnally
 	rectanchoredpathDB.ScalePropotionnally_Data.Valid = true
+
+	rectanchoredpathDB.AppliedScaling_Data.Float64 = rectanchoredpath.AppliedScaling
+	rectanchoredpathDB.AppliedScaling_Data.Valid = true
 
 	rectanchoredpathDB.Color_Data.String = rectanchoredpath.Color
 	rectanchoredpathDB.Color_Data.Valid = true
@@ -596,9 +579,8 @@ func (rectanchoredpathDB *RectAnchoredPathDB) CopyBasicFieldsToRectAnchoredPath(
 	rectanchoredpath.X_Offset = rectanchoredpathDB.X_Offset_Data.Float64
 	rectanchoredpath.Y_Offset = rectanchoredpathDB.Y_Offset_Data.Float64
 	rectanchoredpath.RectAnchorType.FromString(rectanchoredpathDB.RectAnchorType_Data.String)
-	rectanchoredpath.WidthFollowRect = rectanchoredpathDB.WidthFollowRect_Data.Bool
-	rectanchoredpath.HeightFollowRect = rectanchoredpathDB.HeightFollowRect_Data.Bool
 	rectanchoredpath.ScalePropotionnally = rectanchoredpathDB.ScalePropotionnally_Data.Bool
+	rectanchoredpath.AppliedScaling = rectanchoredpathDB.AppliedScaling_Data.Float64
 	rectanchoredpath.Color = rectanchoredpathDB.Color_Data.String
 	rectanchoredpath.FillOpacity = rectanchoredpathDB.FillOpacity_Data.Float64
 	rectanchoredpath.Stroke = rectanchoredpathDB.Stroke_Data.String
@@ -616,9 +598,8 @@ func (rectanchoredpathDB *RectAnchoredPathDB) CopyBasicFieldsToRectAnchoredPath_
 	rectanchoredpath.X_Offset = rectanchoredpathDB.X_Offset_Data.Float64
 	rectanchoredpath.Y_Offset = rectanchoredpathDB.Y_Offset_Data.Float64
 	rectanchoredpath.RectAnchorType.FromString(rectanchoredpathDB.RectAnchorType_Data.String)
-	rectanchoredpath.WidthFollowRect = rectanchoredpathDB.WidthFollowRect_Data.Bool
-	rectanchoredpath.HeightFollowRect = rectanchoredpathDB.HeightFollowRect_Data.Bool
 	rectanchoredpath.ScalePropotionnally = rectanchoredpathDB.ScalePropotionnally_Data.Bool
+	rectanchoredpath.AppliedScaling = rectanchoredpathDB.AppliedScaling_Data.Float64
 	rectanchoredpath.Color = rectanchoredpathDB.Color_Data.String
 	rectanchoredpath.FillOpacity = rectanchoredpathDB.FillOpacity_Data.Float64
 	rectanchoredpath.Stroke = rectanchoredpathDB.Stroke_Data.String
@@ -637,9 +618,8 @@ func (rectanchoredpathDB *RectAnchoredPathDB) CopyBasicFieldsToRectAnchoredPathW
 	rectanchoredpath.X_Offset = rectanchoredpathDB.X_Offset_Data.Float64
 	rectanchoredpath.Y_Offset = rectanchoredpathDB.Y_Offset_Data.Float64
 	rectanchoredpath.RectAnchorType.FromString(rectanchoredpathDB.RectAnchorType_Data.String)
-	rectanchoredpath.WidthFollowRect = rectanchoredpathDB.WidthFollowRect_Data.Bool
-	rectanchoredpath.HeightFollowRect = rectanchoredpathDB.HeightFollowRect_Data.Bool
 	rectanchoredpath.ScalePropotionnally = rectanchoredpathDB.ScalePropotionnally_Data.Bool
+	rectanchoredpath.AppliedScaling = rectanchoredpathDB.AppliedScaling_Data.Float64
 	rectanchoredpath.Color = rectanchoredpathDB.Color_Data.String
 	rectanchoredpath.FillOpacity = rectanchoredpathDB.FillOpacity_Data.Float64
 	rectanchoredpath.Stroke = rectanchoredpathDB.Stroke_Data.String

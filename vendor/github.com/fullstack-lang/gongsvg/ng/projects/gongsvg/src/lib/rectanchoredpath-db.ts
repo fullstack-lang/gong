@@ -17,9 +17,8 @@ export class RectAnchoredPathDB {
 	X_Offset: number = 0
 	Y_Offset: number = 0
 	RectAnchorType: string = ""
-	WidthFollowRect: boolean = false
-	HeightFollowRect: boolean = false
 	ScalePropotionnally: boolean = false
+	AppliedScaling: number = 0
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""

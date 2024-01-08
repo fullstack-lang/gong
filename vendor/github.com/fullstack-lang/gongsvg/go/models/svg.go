@@ -38,7 +38,7 @@ func (svg *SVG) OnAfterUpdate(stage *StageStruct, _, frontSVG *SVG) {
 	// below is an example of working interception
 	if false {
 		// if it is the end of a drawing state
-		if svg.DrawingState == NOT_DRAWING_LINE && frontSVG.DrawingState == DRAWING_LINE {
+		if svg.DrawingState == NOT_DRAWING_LINK && frontSVG.DrawingState == DRAWING_LINK {
 			svg.DrawingState = frontSVG.DrawingState
 
 			// let's create a new layer with a line in it that connects both rectangles

@@ -7,7 +7,6 @@ import (
 	"log"
 	"os"
 	"strings"
-	"time"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 )
@@ -75,9 +74,9 @@ import (
 func (diagramPackage *DiagramPackage) UnmarshallOneDiagram(stage *StageStruct, diagramName string, inFile *ast.File, fset *token.FileSet) (classdiagram *Classdiagram) {
 
 	var err error
-	startParser := time.Now()
+	// startParser := time.Now()
 	err = ParseAstFileFromAst(stage, inFile, fset)
-	log.Printf("Parsing of %s took %s", diagramName, time.Since(startParser))
+	// log.Printf("Parsing of %s took %s", diagramName, time.Since(startParser))
 
 	if err != nil {
 		log.Fatalln("Unable to parse", diagramName, err.Error())

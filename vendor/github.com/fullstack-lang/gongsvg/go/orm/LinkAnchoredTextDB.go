@@ -67,6 +67,13 @@ type LinkAnchoredTextDB struct {
 	// Declation for basic field linkanchoredtextDB.Content
 	Content_Data sql.NullString
 
+	// Declation for basic field linkanchoredtextDB.AutomaticLayout
+	// provide the sql storage for the boolan
+	AutomaticLayout_Data sql.NullBool
+
+	// Declation for basic field linkanchoredtextDB.LinkAnchorType
+	LinkAnchorType_Data sql.NullString
+
 	// Declation for basic field linkanchoredtextDB.X_Offset
 	X_Offset_Data sql.NullFloat64
 
@@ -121,25 +128,29 @@ type LinkAnchoredTextWOP struct {
 
 	Content string `xlsx:"2"`
 
-	X_Offset float64 `xlsx:"3"`
+	AutomaticLayout bool `xlsx:"3"`
 
-	Y_Offset float64 `xlsx:"4"`
+	LinkAnchorType models.LinkAnchorType `xlsx:"4"`
 
-	FontWeight string `xlsx:"5"`
+	X_Offset float64 `xlsx:"5"`
 
-	Color string `xlsx:"6"`
+	Y_Offset float64 `xlsx:"6"`
 
-	FillOpacity float64 `xlsx:"7"`
+	FontWeight string `xlsx:"7"`
 
-	Stroke string `xlsx:"8"`
+	Color string `xlsx:"8"`
 
-	StrokeWidth float64 `xlsx:"9"`
+	FillOpacity float64 `xlsx:"9"`
 
-	StrokeDashArray string `xlsx:"10"`
+	Stroke string `xlsx:"10"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"11"`
+	StrokeWidth float64 `xlsx:"11"`
 
-	Transform string `xlsx:"12"`
+	StrokeDashArray string `xlsx:"12"`
+
+	StrokeDashArrayWhenSelected string `xlsx:"13"`
+
+	Transform string `xlsx:"14"`
 	// insertion for WOP pointer fields
 }
 
@@ -148,6 +159,8 @@ var LinkAnchoredText_Fields = []string{
 	"ID",
 	"Name",
 	"Content",
+	"AutomaticLayout",
+	"LinkAnchorType",
 	"X_Offset",
 	"Y_Offset",
 	"FontWeight",
@@ -283,6 +296,14 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CommitPhaseTwoIn
 		for _, animateAssocEnd := range linkanchoredtext.Animates {
 			animateAssocEnd_DB :=
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the animateAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if animateAssocEnd_DB == nil {
+				continue
+			}
+			
 			linkanchoredtextDB.LinkAnchoredTextPointersEncoding.Animates =
 				append(linkanchoredtextDB.LinkAnchoredTextPointersEncoding.Animates, int(animateAssocEnd_DB.ID))
 		}
@@ -449,6 +470,12 @@ func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsFromLinkAnchoredTex
 	linkanchoredtextDB.Content_Data.String = linkanchoredtext.Content
 	linkanchoredtextDB.Content_Data.Valid = true
 
+	linkanchoredtextDB.AutomaticLayout_Data.Bool = linkanchoredtext.AutomaticLayout
+	linkanchoredtextDB.AutomaticLayout_Data.Valid = true
+
+	linkanchoredtextDB.LinkAnchorType_Data.String = linkanchoredtext.LinkAnchorType.ToString()
+	linkanchoredtextDB.LinkAnchorType_Data.Valid = true
+
 	linkanchoredtextDB.X_Offset_Data.Float64 = linkanchoredtext.X_Offset
 	linkanchoredtextDB.X_Offset_Data.Valid = true
 
@@ -489,6 +516,12 @@ func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsFromLinkAnchoredTex
 
 	linkanchoredtextDB.Content_Data.String = linkanchoredtext.Content
 	linkanchoredtextDB.Content_Data.Valid = true
+
+	linkanchoredtextDB.AutomaticLayout_Data.Bool = linkanchoredtext.AutomaticLayout
+	linkanchoredtextDB.AutomaticLayout_Data.Valid = true
+
+	linkanchoredtextDB.LinkAnchorType_Data.String = linkanchoredtext.LinkAnchorType.ToString()
+	linkanchoredtextDB.LinkAnchorType_Data.Valid = true
 
 	linkanchoredtextDB.X_Offset_Data.Float64 = linkanchoredtext.X_Offset
 	linkanchoredtextDB.X_Offset_Data.Valid = true
@@ -531,6 +564,12 @@ func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsFromLinkAnchoredTex
 	linkanchoredtextDB.Content_Data.String = linkanchoredtext.Content
 	linkanchoredtextDB.Content_Data.Valid = true
 
+	linkanchoredtextDB.AutomaticLayout_Data.Bool = linkanchoredtext.AutomaticLayout
+	linkanchoredtextDB.AutomaticLayout_Data.Valid = true
+
+	linkanchoredtextDB.LinkAnchorType_Data.String = linkanchoredtext.LinkAnchorType.ToString()
+	linkanchoredtextDB.LinkAnchorType_Data.Valid = true
+
 	linkanchoredtextDB.X_Offset_Data.Float64 = linkanchoredtext.X_Offset
 	linkanchoredtextDB.X_Offset_Data.Valid = true
 
@@ -567,6 +606,8 @@ func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsToLinkAnchoredText(
 	// insertion point for checkout of basic fields (back repo to stage)
 	linkanchoredtext.Name = linkanchoredtextDB.Name_Data.String
 	linkanchoredtext.Content = linkanchoredtextDB.Content_Data.String
+	linkanchoredtext.AutomaticLayout = linkanchoredtextDB.AutomaticLayout_Data.Bool
+	linkanchoredtext.LinkAnchorType.FromString(linkanchoredtextDB.LinkAnchorType_Data.String)
 	linkanchoredtext.X_Offset = linkanchoredtextDB.X_Offset_Data.Float64
 	linkanchoredtext.Y_Offset = linkanchoredtextDB.Y_Offset_Data.Float64
 	linkanchoredtext.FontWeight = linkanchoredtextDB.FontWeight_Data.String
@@ -584,6 +625,8 @@ func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsToLinkAnchoredText_
 	// insertion point for checkout of basic fields (back repo to stage)
 	linkanchoredtext.Name = linkanchoredtextDB.Name_Data.String
 	linkanchoredtext.Content = linkanchoredtextDB.Content_Data.String
+	linkanchoredtext.AutomaticLayout = linkanchoredtextDB.AutomaticLayout_Data.Bool
+	linkanchoredtext.LinkAnchorType.FromString(linkanchoredtextDB.LinkAnchorType_Data.String)
 	linkanchoredtext.X_Offset = linkanchoredtextDB.X_Offset_Data.Float64
 	linkanchoredtext.Y_Offset = linkanchoredtextDB.Y_Offset_Data.Float64
 	linkanchoredtext.FontWeight = linkanchoredtextDB.FontWeight_Data.String
@@ -602,6 +645,8 @@ func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsToLinkAnchoredTextW
 	// insertion point for checkout of basic fields (back repo to stage)
 	linkanchoredtext.Name = linkanchoredtextDB.Name_Data.String
 	linkanchoredtext.Content = linkanchoredtextDB.Content_Data.String
+	linkanchoredtext.AutomaticLayout = linkanchoredtextDB.AutomaticLayout_Data.Bool
+	linkanchoredtext.LinkAnchorType.FromString(linkanchoredtextDB.LinkAnchorType_Data.String)
 	linkanchoredtext.X_Offset = linkanchoredtextDB.X_Offset_Data.Float64
 	linkanchoredtext.Y_Offset = linkanchoredtextDB.Y_Offset_Data.Float64
 	linkanchoredtext.FontWeight = linkanchoredtextDB.FontWeight_Data.String

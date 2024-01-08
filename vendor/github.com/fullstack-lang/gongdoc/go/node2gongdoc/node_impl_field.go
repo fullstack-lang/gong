@@ -227,7 +227,7 @@ func (nodeImplField *NodeImplField) OnAfterUpdate(
 			link.StartRatio = 0.5
 			link.EndOrientation = gongdoc_models.ORIENTATION_HORIZONTAL
 			link.EndRatio = 0.5
-			link.CornerOffsetRatio = 0.8
+			link.CornerOffsetRatio = 1.38
 		}
 	}
 	computeGongNodesConfigurations(

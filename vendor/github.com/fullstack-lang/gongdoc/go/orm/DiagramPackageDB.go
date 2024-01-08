@@ -256,6 +256,14 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CommitPhaseTwoInstan
 		for _, classdiagramAssocEnd := range diagrampackage.Classdiagrams {
 			classdiagramAssocEnd_DB :=
 				backRepo.BackRepoClassdiagram.GetClassdiagramDBFromClassdiagramPtr(classdiagramAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the classdiagramAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if classdiagramAssocEnd_DB == nil {
+				continue
+			}
+			
 			diagrampackageDB.DiagramPackagePointersEncoding.Classdiagrams =
 				append(diagrampackageDB.DiagramPackagePointersEncoding.Classdiagrams, int(classdiagramAssocEnd_DB.ID))
 		}
@@ -278,6 +286,14 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CommitPhaseTwoInstan
 		for _, umlscAssocEnd := range diagrampackage.Umlscs {
 			umlscAssocEnd_DB :=
 				backRepo.BackRepoUmlsc.GetUmlscDBFromUmlscPtr(umlscAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the umlscAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if umlscAssocEnd_DB == nil {
+				continue
+			}
+			
 			diagrampackageDB.DiagramPackagePointersEncoding.Umlscs =
 				append(diagrampackageDB.DiagramPackagePointersEncoding.Umlscs, int(umlscAssocEnd_DB.ID))
 		}

@@ -238,6 +238,14 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 		for _, layerAssocEnd := range svg.Layers {
 			layerAssocEnd_DB :=
 				backRepo.BackRepoLayer.GetLayerDBFromLayerPtr(layerAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the layerAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if layerAssocEnd_DB == nil {
+				continue
+			}
+			
 			svgDB.SVGPointersEncoding.Layers =
 				append(svgDB.SVGPointersEncoding.Layers, int(layerAssocEnd_DB.ID))
 		}

@@ -4,6 +4,6 @@ type DrawingState string
 
 // values for EnumType
 const (
-	NOT_DRAWING_LINE DrawingState = "NOT_DRAWING_LINE"
-	DRAWING_LINE     DrawingState = "DRAWING_LINE"
+	NOT_DRAWING_LINK DrawingState = "NOT_DRAWING_LINK"
+	DRAWING_LINK     DrawingState = "DRAWING_LINK"
 )
