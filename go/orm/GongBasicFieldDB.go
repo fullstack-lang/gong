@@ -84,6 +84,20 @@ type GongBasicFieldDB struct {
 	// Declation for basic field gongbasicfieldDB.IsTextArea
 	// provide the sql storage for the boolan
 	IsTextArea_Data sql.NullBool
+
+	// Declation for basic field gongbasicfieldDB.IsBespokeWidth
+	// provide the sql storage for the boolan
+	IsBespokeWidth_Data sql.NullBool
+
+	// Declation for basic field gongbasicfieldDB.BespokeWidth
+	BespokeWidth_Data sql.NullInt64
+
+	// Declation for basic field gongbasicfieldDB.IsBespokeHeight
+	// provide the sql storage for the boolan
+	IsBespokeHeight_Data sql.NullBool
+
+	// Declation for basic field gongbasicfieldDB.BespokeHeight
+	BespokeHeight_Data sql.NullInt64
 	// encoding of pointers
 	GongBasicFieldPointersEncoding
 }
@@ -118,6 +132,14 @@ type GongBasicFieldWOP struct {
 	IsDocLink bool `xlsx:"6"`
 
 	IsTextArea bool `xlsx:"7"`
+
+	IsBespokeWidth bool `xlsx:"8"`
+
+	BespokeWidth int `xlsx:"9"`
+
+	IsBespokeHeight bool `xlsx:"10"`
+
+	BespokeHeight int `xlsx:"11"`
 	// insertion for WOP pointer fields
 }
 
@@ -131,6 +153,10 @@ var GongBasicField_Fields = []string{
 	"Index",
 	"IsDocLink",
 	"IsTextArea",
+	"IsBespokeWidth",
+	"BespokeWidth",
+	"IsBespokeHeight",
+	"BespokeHeight",
 }
 
 type BackRepoGongBasicFieldStruct struct {
@@ -434,6 +460,18 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsFromGongBasicField(gong
 
 	gongbasicfieldDB.IsTextArea_Data.Bool = gongbasicfield.IsTextArea
 	gongbasicfieldDB.IsTextArea_Data.Valid = true
+
+	gongbasicfieldDB.IsBespokeWidth_Data.Bool = gongbasicfield.IsBespokeWidth
+	gongbasicfieldDB.IsBespokeWidth_Data.Valid = true
+
+	gongbasicfieldDB.BespokeWidth_Data.Int64 = int64(gongbasicfield.BespokeWidth)
+	gongbasicfieldDB.BespokeWidth_Data.Valid = true
+
+	gongbasicfieldDB.IsBespokeHeight_Data.Bool = gongbasicfield.IsBespokeHeight
+	gongbasicfieldDB.IsBespokeHeight_Data.Valid = true
+
+	gongbasicfieldDB.BespokeHeight_Data.Int64 = int64(gongbasicfield.BespokeHeight)
+	gongbasicfieldDB.BespokeHeight_Data.Valid = true
 }
 
 // CopyBasicFieldsFromGongBasicField_WOP
@@ -460,6 +498,18 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsFromGongBasicField_WOP(
 
 	gongbasicfieldDB.IsTextArea_Data.Bool = gongbasicfield.IsTextArea
 	gongbasicfieldDB.IsTextArea_Data.Valid = true
+
+	gongbasicfieldDB.IsBespokeWidth_Data.Bool = gongbasicfield.IsBespokeWidth
+	gongbasicfieldDB.IsBespokeWidth_Data.Valid = true
+
+	gongbasicfieldDB.BespokeWidth_Data.Int64 = int64(gongbasicfield.BespokeWidth)
+	gongbasicfieldDB.BespokeWidth_Data.Valid = true
+
+	gongbasicfieldDB.IsBespokeHeight_Data.Bool = gongbasicfield.IsBespokeHeight
+	gongbasicfieldDB.IsBespokeHeight_Data.Valid = true
+
+	gongbasicfieldDB.BespokeHeight_Data.Int64 = int64(gongbasicfield.BespokeHeight)
+	gongbasicfieldDB.BespokeHeight_Data.Valid = true
 }
 
 // CopyBasicFieldsFromGongBasicFieldWOP
@@ -486,6 +536,18 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsFromGongBasicFieldWOP(g
 
 	gongbasicfieldDB.IsTextArea_Data.Bool = gongbasicfield.IsTextArea
 	gongbasicfieldDB.IsTextArea_Data.Valid = true
+
+	gongbasicfieldDB.IsBespokeWidth_Data.Bool = gongbasicfield.IsBespokeWidth
+	gongbasicfieldDB.IsBespokeWidth_Data.Valid = true
+
+	gongbasicfieldDB.BespokeWidth_Data.Int64 = int64(gongbasicfield.BespokeWidth)
+	gongbasicfieldDB.BespokeWidth_Data.Valid = true
+
+	gongbasicfieldDB.IsBespokeHeight_Data.Bool = gongbasicfield.IsBespokeHeight
+	gongbasicfieldDB.IsBespokeHeight_Data.Valid = true
+
+	gongbasicfieldDB.BespokeHeight_Data.Int64 = int64(gongbasicfield.BespokeHeight)
+	gongbasicfieldDB.BespokeHeight_Data.Valid = true
 }
 
 // CopyBasicFieldsToGongBasicField
@@ -498,6 +560,10 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsToGongBasicField(gongba
 	gongbasicfield.Index = int(gongbasicfieldDB.Index_Data.Int64)
 	gongbasicfield.IsDocLink = gongbasicfieldDB.IsDocLink_Data.Bool
 	gongbasicfield.IsTextArea = gongbasicfieldDB.IsTextArea_Data.Bool
+	gongbasicfield.IsBespokeWidth = gongbasicfieldDB.IsBespokeWidth_Data.Bool
+	gongbasicfield.BespokeWidth = int(gongbasicfieldDB.BespokeWidth_Data.Int64)
+	gongbasicfield.IsBespokeHeight = gongbasicfieldDB.IsBespokeHeight_Data.Bool
+	gongbasicfield.BespokeHeight = int(gongbasicfieldDB.BespokeHeight_Data.Int64)
 }
 
 // CopyBasicFieldsToGongBasicField_WOP
@@ -510,6 +576,10 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsToGongBasicField_WOP(go
 	gongbasicfield.Index = int(gongbasicfieldDB.Index_Data.Int64)
 	gongbasicfield.IsDocLink = gongbasicfieldDB.IsDocLink_Data.Bool
 	gongbasicfield.IsTextArea = gongbasicfieldDB.IsTextArea_Data.Bool
+	gongbasicfield.IsBespokeWidth = gongbasicfieldDB.IsBespokeWidth_Data.Bool
+	gongbasicfield.BespokeWidth = int(gongbasicfieldDB.BespokeWidth_Data.Int64)
+	gongbasicfield.IsBespokeHeight = gongbasicfieldDB.IsBespokeHeight_Data.Bool
+	gongbasicfield.BespokeHeight = int(gongbasicfieldDB.BespokeHeight_Data.Int64)
 }
 
 // CopyBasicFieldsToGongBasicFieldWOP
@@ -523,6 +593,10 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsToGongBasicFieldWOP(gon
 	gongbasicfield.Index = int(gongbasicfieldDB.Index_Data.Int64)
 	gongbasicfield.IsDocLink = gongbasicfieldDB.IsDocLink_Data.Bool
 	gongbasicfield.IsTextArea = gongbasicfieldDB.IsTextArea_Data.Bool
+	gongbasicfield.IsBespokeWidth = gongbasicfieldDB.IsBespokeWidth_Data.Bool
+	gongbasicfield.BespokeWidth = int(gongbasicfieldDB.BespokeWidth_Data.Int64)
+	gongbasicfield.IsBespokeHeight = gongbasicfieldDB.IsBespokeHeight_Data.Bool
+	gongbasicfield.BespokeHeight = int(gongbasicfieldDB.BespokeHeight_Data.Int64)
 }
 
 // Backup generates a json file from a slice of all GongBasicFieldDB instances in the backrepo

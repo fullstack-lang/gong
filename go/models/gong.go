@@ -1853,7 +1853,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case GongBasicField:
-		res = []string{"Name", "BasicKindName", "GongEnum", "DeclaredType", "CompositeStructName", "Index", "IsDocLink", "IsTextArea"}
+		res = []string{"Name", "BasicKindName", "GongEnum", "DeclaredType", "CompositeStructName", "Index", "IsDocLink", "IsTextArea", "IsBespokeWidth", "BespokeWidth", "IsBespokeHeight", "BespokeHeight"}
 	case GongEnum:
 		res = []string{"Name", "Type", "GongEnumValues"}
 	case GongEnumValue:
@@ -1963,7 +1963,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *GongBasicField:
-		res = []string{"Name", "BasicKindName", "GongEnum", "DeclaredType", "CompositeStructName", "Index", "IsDocLink", "IsTextArea"}
+		res = []string{"Name", "BasicKindName", "GongEnum", "DeclaredType", "CompositeStructName", "Index", "IsDocLink", "IsTextArea", "IsBespokeWidth", "BespokeWidth", "IsBespokeHeight", "BespokeHeight"}
 	case *GongEnum:
 		res = []string{"Name", "Type", "GongEnumValues"}
 	case *GongEnumValue:
@@ -2015,6 +2015,14 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res = fmt.Sprintf("%t", inferedInstance.IsDocLink)
 		case "IsTextArea":
 			res = fmt.Sprintf("%t", inferedInstance.IsTextArea)
+		case "IsBespokeWidth":
+			res = fmt.Sprintf("%t", inferedInstance.IsBespokeWidth)
+		case "BespokeWidth":
+			res = fmt.Sprintf("%d", inferedInstance.BespokeWidth)
+		case "IsBespokeHeight":
+			res = fmt.Sprintf("%t", inferedInstance.IsBespokeHeight)
+		case "BespokeHeight":
+			res = fmt.Sprintf("%d", inferedInstance.BespokeHeight)
 		}
 	case *GongEnum:
 		switch fieldName {
@@ -2225,6 +2233,14 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%t", inferedInstance.IsDocLink)
 		case "IsTextArea":
 			res = fmt.Sprintf("%t", inferedInstance.IsTextArea)
+		case "IsBespokeWidth":
+			res = fmt.Sprintf("%t", inferedInstance.IsBespokeWidth)
+		case "BespokeWidth":
+			res = fmt.Sprintf("%d", inferedInstance.BespokeWidth)
+		case "IsBespokeHeight":
+			res = fmt.Sprintf("%t", inferedInstance.IsBespokeHeight)
+		case "BespokeHeight":
+			res = fmt.Sprintf("%d", inferedInstance.BespokeHeight)
 		}
 	case GongEnum:
 		switch fieldName {

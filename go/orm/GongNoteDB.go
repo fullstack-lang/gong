@@ -229,6 +229,14 @@ func (backRepoGongNote *BackRepoGongNoteStruct) CommitPhaseTwoInstance(backRepo 
 		for _, gonglinkAssocEnd := range gongnote.Links {
 			gonglinkAssocEnd_DB :=
 				backRepo.BackRepoGongLink.GetGongLinkDBFromGongLinkPtr(gonglinkAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the gonglinkAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if gonglinkAssocEnd_DB == nil {
+				continue
+			}
+			
 			gongnoteDB.GongNotePointersEncoding.Links =
 				append(gongnoteDB.GongNotePointersEncoding.Links, int(gonglinkAssocEnd_DB.ID))
 		}

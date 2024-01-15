@@ -11,9 +11,11 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"time"
 )
 
 var dummy_strconv_import strconv.NumError
+var dummy_time_import time.Time
 
 // swagger:ignore
 type GONG__ExpressionType string
@@ -809,6 +811,20 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_GongBasicField[identifier].Index = int(exprSign) * int(fielValue)
+				case "BespokeWidth":
+					// convert string to int
+					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_GongBasicField[identifier].BespokeWidth = int(exprSign) * int(fielValue)
+				case "BespokeHeight":
+					// convert string to int
+					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_GongBasicField[identifier].BespokeHeight = int(exprSign) * int(fielValue)
 				}
 			case "GongEnum":
 				switch fieldName {
@@ -1037,6 +1053,20 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_GongBasicField[identifier].IsTextArea = fielValue
+				case "IsBespokeWidth":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_GongBasicField[identifier].IsBespokeWidth = fielValue
+				case "IsBespokeHeight":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_GongBasicField[identifier].IsBespokeHeight = fielValue
 				}
 			case "GongEnum":
 				switch fieldName {

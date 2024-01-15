@@ -240,6 +240,14 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 		for _, gongbasicfieldAssocEnd := range gongstruct.GongBasicFields {
 			gongbasicfieldAssocEnd_DB :=
 				backRepo.BackRepoGongBasicField.GetGongBasicFieldDBFromGongBasicFieldPtr(gongbasicfieldAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the gongbasicfieldAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if gongbasicfieldAssocEnd_DB == nil {
+				continue
+			}
+			
 			gongstructDB.GongStructPointersEncoding.GongBasicFields =
 				append(gongstructDB.GongStructPointersEncoding.GongBasicFields, int(gongbasicfieldAssocEnd_DB.ID))
 		}
@@ -250,6 +258,14 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 		for _, gongtimefieldAssocEnd := range gongstruct.GongTimeFields {
 			gongtimefieldAssocEnd_DB :=
 				backRepo.BackRepoGongTimeField.GetGongTimeFieldDBFromGongTimeFieldPtr(gongtimefieldAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the gongtimefieldAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if gongtimefieldAssocEnd_DB == nil {
+				continue
+			}
+			
 			gongstructDB.GongStructPointersEncoding.GongTimeFields =
 				append(gongstructDB.GongStructPointersEncoding.GongTimeFields, int(gongtimefieldAssocEnd_DB.ID))
 		}
@@ -260,6 +276,14 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 		for _, pointertogongstructfieldAssocEnd := range gongstruct.PointerToGongStructFields {
 			pointertogongstructfieldAssocEnd_DB :=
 				backRepo.BackRepoPointerToGongStructField.GetPointerToGongStructFieldDBFromPointerToGongStructFieldPtr(pointertogongstructfieldAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the pointertogongstructfieldAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if pointertogongstructfieldAssocEnd_DB == nil {
+				continue
+			}
+			
 			gongstructDB.GongStructPointersEncoding.PointerToGongStructFields =
 				append(gongstructDB.GongStructPointersEncoding.PointerToGongStructFields, int(pointertogongstructfieldAssocEnd_DB.ID))
 		}
@@ -270,6 +294,14 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 		for _, sliceofpointertogongstructfieldAssocEnd := range gongstruct.SliceOfPointerToGongStructFields {
 			sliceofpointertogongstructfieldAssocEnd_DB :=
 				backRepo.BackRepoSliceOfPointerToGongStructField.GetSliceOfPointerToGongStructFieldDBFromSliceOfPointerToGongStructFieldPtr(sliceofpointertogongstructfieldAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the sliceofpointertogongstructfieldAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if sliceofpointertogongstructfieldAssocEnd_DB == nil {
+				continue
+			}
+			
 			gongstructDB.GongStructPointersEncoding.SliceOfPointerToGongStructFields =
 				append(gongstructDB.GongStructPointersEncoding.SliceOfPointerToGongStructFields, int(sliceofpointertogongstructfieldAssocEnd_DB.ID))
 		}
