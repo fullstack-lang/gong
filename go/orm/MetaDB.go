@@ -223,6 +223,14 @@ func (backRepoMeta *BackRepoMetaStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, metareferenceAssocEnd := range meta.MetaReferences {
 			metareferenceAssocEnd_DB :=
 				backRepo.BackRepoMetaReference.GetMetaReferenceDBFromMetaReferencePtr(metareferenceAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the metareferenceAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if metareferenceAssocEnd_DB == nil {
+				continue
+			}
+			
 			metaDB.MetaPointersEncoding.MetaReferences =
 				append(metaDB.MetaPointersEncoding.MetaReferences, int(metareferenceAssocEnd_DB.ID))
 		}

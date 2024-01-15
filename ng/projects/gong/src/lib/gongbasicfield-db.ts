@@ -20,6 +20,10 @@ export class GongBasicFieldDB {
 	Index: number = 0
 	IsDocLink: boolean = false
 	IsTextArea: boolean = false
+	IsBespokeWidth: boolean = false
+	BespokeWidth: number = 0
+	IsBespokeHeight: boolean = false
+	BespokeHeight: number = 0
 
 	// insertion point for pointers and slices of pointers declarations
 	GongEnum?: GongEnumDB
