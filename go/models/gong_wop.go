@@ -16,6 +16,10 @@ type GongBasicField_WOP struct {
 	Index int
 	IsDocLink bool
 	IsTextArea bool
+	IsBespokeWidth bool
+	BespokeWidth int
+	IsBespokeHeight bool
+	BespokeHeight int
 }
 
 type GongEnum_WOP struct {
