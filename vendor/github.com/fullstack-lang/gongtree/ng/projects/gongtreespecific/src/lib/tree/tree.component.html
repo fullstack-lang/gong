@@ -17,10 +17,10 @@
             </ng-container>
             <mat-checkbox *ngIf="node.gongNode.HasCheckboxButton" [disabled]="node.gongNode.IsCheckboxDisabled" [checked]="node.gongNode.IsChecked" (change)="toggleNodeCheckbox(node)">
             </mat-checkbox>
-            <div *ngIf='!node.gongNode.IsInEditMode && !node.gongNode.IsNodeClickable'>
+            <div [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode && !node.gongNode.IsNodeClickable'>
                 {{node.name}}
             </div>
-            <span *ngIf='!node.gongNode.IsInEditMode && node.gongNode.IsNodeClickable' (click)="onNodeClick(node)">
+            <span [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode && node.gongNode.IsNodeClickable' (click)="onNodeClick(node)">
                 {{node.name}}
             </span>
             <mat-form-field *ngIf='node.gongNode.IsInEditMode' mat-form-field class="mat-mdc-form-field">
@@ -60,10 +60,10 @@
             </ng-container>
             <mat-checkbox *ngIf="node.gongNode.HasCheckboxButton" [disabled]="node.gongNode.IsCheckboxDisabled" [checked]="node.gongNode.IsChecked" (change)="toggleNodeCheckbox(node)">
             </mat-checkbox>
-            <div *ngIf='!node.gongNode.IsInEditMode && !node.gongNode.IsNodeClickable'>
+            <div [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode && !node.gongNode.IsNodeClickable'>
                 {{node.name}}
             </div>
-            <span *ngIf='!node.gongNode.IsInEditMode && node.gongNode.IsNodeClickable' (click)="onNodeClick(node)">
+            <span [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode && node.gongNode.IsNodeClickable' (click)="onNodeClick(node)">
                 {{node.name}}
             </span>
             <ng-container *ngFor="let button of node.gongNode.Buttons">

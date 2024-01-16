@@ -3,7 +3,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestr
 import * as gongsvg from 'gongsvg'
 
 import { manageHandles } from '../manage.handles';
-import { Segment, drawSegments, drawSegmentsFromLink } from '../draw.segments';
+import { Segment, createPoint, drawSegments, drawSegmentsFromLink } from '../draw.segments';
 import { getOrientation } from '../get.orientation';
 import { getArcPath } from '../get.arc.path';
 import { getEndArrowPath } from '../get.end.arrow.path';
@@ -25,6 +25,7 @@ import { updateLinkFromCursor } from '../update.link.from.cursor';
 import { TextWidthCalculatorComponent } from '../text-width-calculator/text-width-calculator.component';
 import { auto_X_offset } from './auto-x-offset';
 import { auto_Y_offset } from './auto-y-offset';
+import { drawLineFromRectToB } from '../draw.line.from.rect.to.point';
 
 @Component({
   selector: 'lib-gongsvg-diagramming',
@@ -894,5 +895,44 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
 
     return auto_X_offset(link, segment, text, line, draggedSegmentPositionOnArrow,
       this.map_text_textWidth, this.oneEm, this.textWidthCalculator!)
+  }
+
+  public getPosition(
+    startRect: gongsvg.RectDB | undefined,
+    position: string | undefined,
+    endRect?: gongsvg.RectDB | undefined
+  ): Coordinate {
+
+    let coordinate: Coordinate = [0, 0]
+
+    if (startRect == undefined || position == undefined) {
+      return coordinate
+    }
+
+    switch (position) {
+      case gongsvg.AnchorType.ANCHOR_BOTTOM:
+        coordinate = [startRect.X + startRect.Width / 2, startRect.Y + startRect.Height]
+        break;
+      case gongsvg.AnchorType.ANCHOR_TOP:
+        coordinate = [startRect.X + startRect.Width / 2, startRect.Y]
+        break;
+      case gongsvg.AnchorType.ANCHOR_LEFT:
+        coordinate = [startRect.X, startRect.Y + startRect.Height / 2]
+        break;
+      case gongsvg.AnchorType.ANCHOR_RIGHT:
+        coordinate = [startRect.X + startRect.Width, startRect.Y + startRect.Height / 2]
+        break;
+      case gongsvg.AnchorType.ANCHOR_CENTER:
+        if (endRect == undefined) {
+          coordinate = [startRect.X + startRect.Width / 2, startRect.Y + startRect.Height / 2]
+        } else {
+          let endRectCenter = createPoint(endRect.X + endRect.Width / 2, endRect.Y + endRect.Height / 2)
+          let borderPoint = drawLineFromRectToB(startRect, endRectCenter)
+          coordinate = [borderPoint.X, borderPoint.Y]
+        }
+        break;
+    }
+
+    return coordinate
   }
 }

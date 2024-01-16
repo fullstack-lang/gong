@@ -2,6 +2,84 @@
 package models
 
 // insertion point of enum utility functions
+// Utility function for FontStyleEnum
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (fontstyleenum FontStyleEnum) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch fontstyleenum {
+	// insertion code per enum code
+	case NORMAL:
+		res = "NORMAL"
+	case ITALIC:
+		res = "ITALIC"
+	}
+	return
+}
+
+func (fontstyleenum *FontStyleEnum) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "NORMAL":
+		*fontstyleenum = NORMAL
+	case "ITALIC":
+		*fontstyleenum = ITALIC
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (fontstyleenum *FontStyleEnum) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "NORMAL":
+		*fontstyleenum = NORMAL
+	case "ITALIC":
+		*fontstyleenum = ITALIC
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (fontstyleenum *FontStyleEnum) ToCodeString() (res string) {
+
+	switch *fontstyleenum {
+	// insertion code per enum code
+	case NORMAL:
+		res = "NORMAL"
+	case ITALIC:
+		res = "ITALIC"
+	}
+	return
+}
+
+func (fontstyleenum FontStyleEnum) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "NORMAL")
+	res = append(res, "ITALIC")
+
+	return
+}
+
+func (fontstyleenum FontStyleEnum) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "NORMAL")
+	res = append(res, "ITALIC")
+
+	return
+}
+
 // Utility function for TreeStackName
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -73,13 +151,13 @@ func (treestackname TreeStackName) CodeValues() (res []string) {
 // end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {
-	string | TreeStackName
+	string | FontStyleEnum | TreeStackName
 	Codes() []string
 	CodeValues() []string
 }
 
 type PointerToGongstructEnumStringField interface {
-	*TreeStackName
+	*FontStyleEnum | *TreeStackName
 	FromCodeString(input string) (err error)
 }
 

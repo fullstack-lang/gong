@@ -2052,6 +2052,8 @@ func (rectanchortype RectAnchorType) ToString() (res string) {
 		res = "RECT_BOTTOM_BOTTOM_LEFT"
 	case RECT_BOTTOM_RIGHT:
 		res = "RECT_BOTTOM_RIGHT"
+	case RECT_BOTTOM_INSIDE_RIGHT:
+		res = "RECT_BOTTOM_INSIDE_RIGHT"
 	case RECT_LEFT:
 		res = "RECT_LEFT"
 	case RECT_RIGHT:
@@ -2082,6 +2084,8 @@ func (rectanchortype *RectAnchorType) FromString(input string) (err error) {
 		*rectanchortype = RECT_BOTTOM_BOTTOM_LEFT
 	case "RECT_BOTTOM_RIGHT":
 		*rectanchortype = RECT_BOTTOM_RIGHT
+	case "RECT_BOTTOM_INSIDE_RIGHT":
+		*rectanchortype = RECT_BOTTOM_INSIDE_RIGHT
 	case "RECT_LEFT":
 		*rectanchortype = RECT_LEFT
 	case "RECT_RIGHT":
@@ -2114,6 +2118,8 @@ func (rectanchortype *RectAnchorType) FromCodeString(input string) (err error) {
 		*rectanchortype = RECT_BOTTOM_BOTTOM_LEFT
 	case "RECT_BOTTOM_RIGHT":
 		*rectanchortype = RECT_BOTTOM_RIGHT
+	case "RECT_BOTTOM_INSIDE_RIGHT":
+		*rectanchortype = RECT_BOTTOM_INSIDE_RIGHT
 	case "RECT_LEFT":
 		*rectanchortype = RECT_LEFT
 	case "RECT_RIGHT":
@@ -2146,6 +2152,8 @@ func (rectanchortype *RectAnchorType) ToCodeString() (res string) {
 		res = "RECT_BOTTOM_BOTTOM_LEFT"
 	case RECT_BOTTOM_RIGHT:
 		res = "RECT_BOTTOM_RIGHT"
+	case RECT_BOTTOM_INSIDE_RIGHT:
+		res = "RECT_BOTTOM_INSIDE_RIGHT"
 	case RECT_LEFT:
 		res = "RECT_LEFT"
 	case RECT_RIGHT:
@@ -2169,6 +2177,7 @@ func (rectanchortype RectAnchorType) Codes() (res []string) {
 	res = append(res, "RECT_BOTTOM_LEFT_LEFT")
 	res = append(res, "RECT_BOTTOM_BOTTOM_LEFT")
 	res = append(res, "RECT_BOTTOM_RIGHT")
+	res = append(res, "RECT_BOTTOM_INSIDE_RIGHT")
 	res = append(res, "RECT_LEFT")
 	res = append(res, "RECT_RIGHT")
 	res = append(res, "RECT_CENTER")
@@ -2189,6 +2198,7 @@ func (rectanchortype RectAnchorType) CodeValues() (res []string) {
 	res = append(res, "RECT_BOTTOM_LEFT_LEFT")
 	res = append(res, "RECT_BOTTOM_BOTTOM_LEFT")
 	res = append(res, "RECT_BOTTOM_RIGHT")
+	res = append(res, "RECT_BOTTOM_INSIDE_RIGHT")
 	res = append(res, "RECT_LEFT")
 	res = append(res, "RECT_RIGHT")
 	res = append(res, "RECT_CENTER")

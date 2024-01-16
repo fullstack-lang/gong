@@ -16,6 +16,7 @@ type Button_WOP struct {
 type Node_WOP struct {
 	// insertion point
 	Name string
+	FontStyle FontStyleEnum
 	BackgroundColor string
 	IsExpanded bool
 	HasCheckboxButton bool

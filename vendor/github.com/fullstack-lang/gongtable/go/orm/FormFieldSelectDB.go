@@ -240,6 +240,14 @@ func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) CommitPhaseTwoInst
 		for _, optionAssocEnd := range formfieldselect.Options {
 			optionAssocEnd_DB :=
 				backRepo.BackRepoOption.GetOptionDBFromOptionPtr(optionAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the optionAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if optionAssocEnd_DB == nil {
+				continue
+			}
+			
 			formfieldselectDB.FormFieldSelectPointersEncoding.Options =
 				append(formfieldselectDB.FormFieldSelectPointersEncoding.Options, int(optionAssocEnd_DB.ID))
 		}

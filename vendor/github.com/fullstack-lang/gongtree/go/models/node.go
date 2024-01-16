@@ -12,6 +12,8 @@ import "log"
 type Node struct {
 	Name string
 
+	FontStyle FontStyleEnum
+
 	// Impl is the pointer to the implementation of the node in the models of interest
 	Impl NodeImplInterface
 
