@@ -12,7 +12,11 @@ const (
 	RECT_BOTTOM_LEFT_LEFT   RectAnchorType = "RECT_BOTTOM_LEFT_LEFT"
 	RECT_BOTTOM_BOTTOM_LEFT RectAnchorType = "RECT_BOTTOM_BOTTOM_LEFT"
 	RECT_BOTTOM_RIGHT       RectAnchorType = "RECT_BOTTOM_RIGHT"
-	RECT_LEFT               RectAnchorType = "RECT_LEFT"
-	RECT_RIGHT              RectAnchorType = "RECT_RIGHT"
-	RECT_CENTER             RectAnchorType = "RECT_CENTER"
+
+	// the path is inside the shape, but on the right
+	RECT_BOTTOM_INSIDE_RIGHT RectAnchorType = "RECT_BOTTOM_INSIDE_RIGHT"
+
+	RECT_LEFT   RectAnchorType = "RECT_LEFT"
+	RECT_RIGHT  RectAnchorType = "RECT_RIGHT"
+	RECT_CENTER RectAnchorType = "RECT_CENTER"
 )

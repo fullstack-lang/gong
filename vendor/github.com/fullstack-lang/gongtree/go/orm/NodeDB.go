@@ -71,6 +71,9 @@ type NodeDB struct {
 	// Declation for basic field nodeDB.Name
 	Name_Data sql.NullString
 
+	// Declation for basic field nodeDB.FontStyle
+	FontStyle_Data sql.NullString
+
 	// Declation for basic field nodeDB.BackgroundColor
 	BackgroundColor_Data sql.NullString
 
@@ -127,23 +130,25 @@ type NodeWOP struct {
 
 	Name string `xlsx:"1"`
 
-	BackgroundColor string `xlsx:"2"`
+	FontStyle models.FontStyleEnum `xlsx:"2"`
 
-	IsExpanded bool `xlsx:"3"`
+	BackgroundColor string `xlsx:"3"`
 
-	HasCheckboxButton bool `xlsx:"4"`
+	IsExpanded bool `xlsx:"4"`
 
-	IsChecked bool `xlsx:"5"`
+	HasCheckboxButton bool `xlsx:"5"`
 
-	IsCheckboxDisabled bool `xlsx:"6"`
+	IsChecked bool `xlsx:"6"`
 
-	IsInEditMode bool `xlsx:"7"`
+	IsCheckboxDisabled bool `xlsx:"7"`
 
-	IsNodeClickable bool `xlsx:"8"`
+	IsInEditMode bool `xlsx:"8"`
 
-	IsWithPreceedingIcon bool `xlsx:"9"`
+	IsNodeClickable bool `xlsx:"9"`
 
-	PreceedingIcon string `xlsx:"10"`
+	IsWithPreceedingIcon bool `xlsx:"10"`
+
+	PreceedingIcon string `xlsx:"11"`
 	// insertion for WOP pointer fields
 }
 
@@ -151,6 +156,7 @@ var Node_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"FontStyle",
 	"BackgroundColor",
 	"IsExpanded",
 	"HasCheckboxButton",
@@ -297,6 +303,14 @@ func (backRepoNode *BackRepoNodeStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, nodeAssocEnd := range node.Children {
 			nodeAssocEnd_DB :=
 				backRepo.BackRepoNode.GetNodeDBFromNodePtr(nodeAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the nodeAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if nodeAssocEnd_DB == nil {
+				continue
+			}
+			
 			nodeDB.NodePointersEncoding.Children =
 				append(nodeDB.NodePointersEncoding.Children, int(nodeAssocEnd_DB.ID))
 		}
@@ -307,6 +321,14 @@ func (backRepoNode *BackRepoNodeStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, buttonAssocEnd := range node.Buttons {
 			buttonAssocEnd_DB :=
 				backRepo.BackRepoButton.GetButtonDBFromButtonPtr(buttonAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the buttonAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if buttonAssocEnd_DB == nil {
+				continue
+			}
+			
 			nodeDB.NodePointersEncoding.Buttons =
 				append(nodeDB.NodePointersEncoding.Buttons, int(buttonAssocEnd_DB.ID))
 		}
@@ -484,6 +506,9 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNode(node *models.Node) {
 	nodeDB.Name_Data.String = node.Name
 	nodeDB.Name_Data.Valid = true
 
+	nodeDB.FontStyle_Data.String = node.FontStyle.ToString()
+	nodeDB.FontStyle_Data.Valid = true
+
 	nodeDB.BackgroundColor_Data.String = node.BackgroundColor
 	nodeDB.BackgroundColor_Data.Valid = true
 
@@ -518,6 +543,9 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNode_WOP(node *models.Node_WOP) {
 
 	nodeDB.Name_Data.String = node.Name
 	nodeDB.Name_Data.Valid = true
+
+	nodeDB.FontStyle_Data.String = node.FontStyle.ToString()
+	nodeDB.FontStyle_Data.Valid = true
 
 	nodeDB.BackgroundColor_Data.String = node.BackgroundColor
 	nodeDB.BackgroundColor_Data.Valid = true
@@ -554,6 +582,9 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNodeWOP(node *NodeWOP) {
 	nodeDB.Name_Data.String = node.Name
 	nodeDB.Name_Data.Valid = true
 
+	nodeDB.FontStyle_Data.String = node.FontStyle.ToString()
+	nodeDB.FontStyle_Data.Valid = true
+
 	nodeDB.BackgroundColor_Data.String = node.BackgroundColor
 	nodeDB.BackgroundColor_Data.Valid = true
 
@@ -586,6 +617,7 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNodeWOP(node *NodeWOP) {
 func (nodeDB *NodeDB) CopyBasicFieldsToNode(node *models.Node) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	node.Name = nodeDB.Name_Data.String
+	node.FontStyle.FromString(nodeDB.FontStyle_Data.String)
 	node.BackgroundColor = nodeDB.BackgroundColor_Data.String
 	node.IsExpanded = nodeDB.IsExpanded_Data.Bool
 	node.HasCheckboxButton = nodeDB.HasCheckboxButton_Data.Bool
@@ -601,6 +633,7 @@ func (nodeDB *NodeDB) CopyBasicFieldsToNode(node *models.Node) {
 func (nodeDB *NodeDB) CopyBasicFieldsToNode_WOP(node *models.Node_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	node.Name = nodeDB.Name_Data.String
+	node.FontStyle.FromString(nodeDB.FontStyle_Data.String)
 	node.BackgroundColor = nodeDB.BackgroundColor_Data.String
 	node.IsExpanded = nodeDB.IsExpanded_Data.Bool
 	node.HasCheckboxButton = nodeDB.HasCheckboxButton_Data.Bool
@@ -617,6 +650,7 @@ func (nodeDB *NodeDB) CopyBasicFieldsToNodeWOP(node *NodeWOP) {
 	node.ID = int(nodeDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	node.Name = nodeDB.Name_Data.String
+	node.FontStyle.FromString(nodeDB.FontStyle_Data.String)
 	node.BackgroundColor = nodeDB.BackgroundColor_Data.String
 	node.IsExpanded = nodeDB.IsExpanded_Data.Bool
 	node.HasCheckboxButton = nodeDB.HasCheckboxButton_Data.Bool

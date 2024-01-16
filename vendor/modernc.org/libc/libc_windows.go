@@ -36,6 +36,7 @@ var X__imp__environ = EnvironP()
 var X__imp__wenviron = uintptr(unsafe.Pointer(&wenviron))
 var X_imp___environ = EnvironP()
 var X_iob [stdio.X_IOB_ENTRIES]stdio.FILE
+var Xin6addr_any [16]byte
 
 var Xtimezone long // extern long timezone;
 
@@ -50,6 +51,13 @@ func init() {
 	for i := range X_iob {
 		iobMap[uintptr(unsafe.Pointer(&X_iob[i]))] = int32(i)
 	}
+}
+
+func X__p__wenviron(t *TLS) uintptr {
+	if !wenvValid {
+		bootWinEnviron(t)
+	}
+	return uintptr(unsafe.Pointer(&wenviron))
 }
 
 func winGetObject(stream uintptr) interface{} {
@@ -692,6 +700,13 @@ func Xread(t *TLS, fd int32, buf uintptr, count uint32) int32 {
 	return int32(n)
 }
 
+func X_read(t *TLS, fd int32, buf uintptr, count uint32) int32 {
+	if __ccgo_strace {
+		trc("t=%v fd=%v buf=%v count=%v, (%v:)", t, fd, buf, count, origin(2))
+	}
+	return Xread(t, fd, buf, count)
+}
+
 // int _write( // https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/write?view=msvc-160
 //
 //	int fd,
@@ -724,6 +739,13 @@ func Xwrite(t *TLS, fd int32, buf uintptr, count uint32) int32 {
 		dmesg("%v: %d %#x: %#x", origin(1), fd, count, n)
 	}
 	return int32(n)
+}
+
+func X_write(t *TLS, fd int32, buf uintptr, count uint32) int32 {
+	if __ccgo_strace {
+		trc("t=%v fd=%v buf=%v count=%v, (%v:)", t, fd, buf, count, origin(2))
+	}
+	return Xwrite(t, fd, buf, count)
 }
 
 // int fchmod(int fd, mode_t mode);
@@ -7307,3 +7329,43 @@ func X__stdio_common_vsscanf(t *TLS, args ...interface{}) int32      { panic("TO
 func X__stdio_common_vswprintf(t *TLS, args ...interface{}) int32    { panic("TODO") }
 func X__stdio_common_vswprintf_s(t *TLS, args ...interface{}) int32  { panic("TODO") }
 func X__stdio_common_vswscanf(t *TLS, args ...interface{}) int32     { panic("TODO") }
+
+func X_lseeki64(t *TLS, fd int32, offset int64, whence int32) int64 {
+	if __ccgo_strace {
+		trc("t=%v fd=%v offset=%v whence=%v, (%v:)", t, fd, offset, whence, origin(2))
+	}
+
+	f, ok := fdToFile(fd)
+	if !ok {
+		t.setErrno(errno.EBADF)
+		return -1
+	}
+
+	n, err := syscall.Seek(f.Handle, offset, int(whence))
+	if err != nil {
+		if dmesgs {
+			dmesg("%v: fd %v, off %#x, whence %v: %v", origin(1), f._fd, offset, whenceStr(whence), n)
+		}
+		t.setErrno(err)
+		return -1
+	}
+
+	if dmesgs {
+		dmesg("%v: fd %v, off %#x, whence %v: ok", origin(1), f._fd, offset, whenceStr(whence))
+	}
+	return n
+}
+
+func Xislower(tls *TLS, c int32) int32 { /* islower.c:4:5: */
+	if __ccgo_strace {
+		trc("tls=%v c=%v, (%v:)", tls, c, origin(2))
+	}
+	return Bool32(uint32(c)-uint32('a') < uint32(26))
+}
+
+func Xisupper(tls *TLS, c int32) int32 { /* isupper.c:4:5: */
+	if __ccgo_strace {
+		trc("tls=%v c=%v, (%v:)", tls, c, origin(2))
+	}
+	return Bool32(uint32(c)-uint32('A') < uint32(26))
+}

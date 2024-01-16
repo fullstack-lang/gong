@@ -237,6 +237,14 @@ func (backRepoFormGroup *BackRepoFormGroupStruct) CommitPhaseTwoInstance(backRep
 		for _, formdivAssocEnd := range formgroup.FormDivs {
 			formdivAssocEnd_DB :=
 				backRepo.BackRepoFormDiv.GetFormDivDBFromFormDivPtr(formdivAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the formdivAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if formdivAssocEnd_DB == nil {
+				continue
+			}
+			
 			formgroupDB.FormGroupPointersEncoding.FormDivs =
 				append(formgroupDB.FormGroupPointersEncoding.FormDivs, int(formdivAssocEnd_DB.ID))
 		}

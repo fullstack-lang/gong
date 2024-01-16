@@ -24,4 +24,5 @@ export * from './lib/tree-db'
 export * from './lib/tree.service'
 
 
+export * from './lib/FontStyleEnum'
 export * from './lib/TreeStackName'
