@@ -270,4 +270,16 @@ export class TreeComponent implements OnInit {
     return 'default'
   }
 
+  getStyle(node: FlatNode): { 'font-style': string } {
+    if (node.gongNode.FontStyle == gongtree.FontStyleEnum.ITALIC) {
+      return {
+        'font-style': 'italic', // You can also use 'normal' or 'oblique'
+      }
+    } else {
+      return {
+        'font-style': 'normal', // You can also use 'normal' or 'oblique'
+      }
+    }
+  }
+
 }

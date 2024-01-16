@@ -920,7 +920,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Button:
 		res = []string{"Name", "Icon", "SVGIcon"}
 	case Node:
-		res = []string{"Name", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "PreceedingSVGIcon", "Children", "Buttons"}
+		res = []string{"Name", "FontStyle", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "PreceedingSVGIcon", "Children", "Buttons"}
 	case SVGIcon:
 		res = []string{"Name", "SVG"}
 	case Tree:
@@ -978,7 +978,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Button:
 		res = []string{"Name", "Icon", "SVGIcon"}
 	case *Node:
-		res = []string{"Name", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "PreceedingSVGIcon", "Children", "Buttons"}
+		res = []string{"Name", "FontStyle", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "PreceedingSVGIcon", "Children", "Buttons"}
 	case *SVGIcon:
 		res = []string{"Name", "SVG"}
 	case *Tree:
@@ -1008,6 +1008,9 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
+		case "FontStyle":
+			enum := inferedInstance.FontStyle
+			res = enum.ToCodeString()
 		case "BackgroundColor":
 			res = inferedInstance.BackgroundColor
 		case "IsExpanded":
@@ -1093,6 +1096,9 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
+		case "FontStyle":
+			enum := inferedInstance.FontStyle
+			res = enum.ToCodeString()
 		case "BackgroundColor":
 			res = inferedInstance.BackgroundColor
 		case "IsExpanded":
