@@ -28,13 +28,15 @@ export function CopyAstructBstructUseToAstructBstructUseDB(astructbstructuse: As
 
 	// insertion point for basic fields copy operations
 	astructbstructuseDB.Name = astructbstructuse.Name
-	
+
 	// insertion point for pointer fields encoding
     astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Valid = true
 	if (astructbstructuse.Bstruct2 != undefined) {
-      astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Int64 = astructbstructuse.Bstruct2.ID  
+		astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Int64 = astructbstructuse.Bstruct2.ID  
     } else {
-      astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Int64 = 0 		
+		astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Int64 = 0 		
 	}
 
+
+	// insertion point for slice of pointers fields encoding
 }
