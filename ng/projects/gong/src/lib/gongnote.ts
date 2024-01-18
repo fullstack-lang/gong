@@ -1,4 +1,8 @@
 // generated code - do not edit
+
+import { GongNoteDB } from './gongnote-db'
+import { FrontRepo } from './front-repo.service';
+
 // insertion point for imports
 import { GongLink } from './gonglink'
 
@@ -20,4 +24,40 @@ export class GongNote {
 
 	// insertion point for pointers and slices of pointers declarations
 	Links: Array<GongLink> = []
+}
+
+export function CopyGongNoteToGongNoteDB(gongnote: GongNote, gongnoteDB: GongNoteDB) {
+
+	// insertion point for basic fields copy operations
+	gongnoteDB.Name = gongnote.Name
+	gongnoteDB.Body = gongnote.Body
+	gongnoteDB.BodyHTML = gongnote.BodyHTML
+
+	// insertion point for pointer fields encoding
+
+	// insertion point for slice of pointers fields encoding
+	gongnoteDB.GongNotePointersEncoding.Links = []
+    for (let _gonglink of gongnote.Links) {
+		gongnoteDB.GongNotePointersEncoding.Links.push(_gonglink.ID)
+    }
+	
+}
+
+export function CopyGongNoteDBToGongNote(gongnoteDB: GongNoteDB, gongnote: GongNote, frontRepo: FrontRepo) {
+
+	// insertion point for basic fields copy operations
+	gongnote.Name = gongnoteDB.Name
+	gongnote.Body = gongnoteDB.Body
+	gongnote.BodyHTML = gongnoteDB.BodyHTML
+
+	// insertion point for pointer fields encoding
+
+	// insertion point for slice of pointers fields encoding
+	gongnote.Links = new Array<GongLink>()
+	for (let _id of gongnoteDB.GongNotePointersEncoding.Links) {
+	  let _gonglink = frontRepo.GongLinks.get(_id)
+	  if (_gonglink != undefined) {
+		gongnote.Links.push(_gonglink!)
+	  }
+	}
 }
