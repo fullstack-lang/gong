@@ -1,4 +1,7 @@
 // generated code - do not edit
+
+import { BstructDB } from './bstruct-db'
+
 // insertion point for imports
 
 // usefull for managing pointer ID values that can be nullable
@@ -19,4 +22,14 @@ export class Bstruct {
 	Intfield: number = 0
 
 	// insertion point for pointers and slices of pointers declarations
+}
+
+export function CopyBstructToBstructDB(bstruct: Bstruct, bstructDB: BstructDB) {
+
+	// insertion point for basic fields declarations
+	bstructDB.Name = bstruct.Name
+	bstructDB.Floatfield = bstruct.Floatfield
+	bstructDB.Floatfield2 = bstruct.Floatfield2
+	bstructDB.Intfield = bstruct.Intfield
+
 }

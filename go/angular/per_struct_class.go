@@ -13,6 +13,9 @@ import (
 )
 
 const NgClassTmpl = `// generated code - do not edit
+
+import { {{Structname}}DB } from './{{structname}}-db'
+
 // insertion point for imports{{` + string(rune(NgClassTsInsertionPerStructImports)) + `}}
 
 // usefull for managing pointer ID values that can be nullable
@@ -30,6 +33,12 @@ export class {{Structname}} {
 
 	// insertion point for pointers and slices of pointers declarations{{` + string(rune(NgClassTsInsertionPerStructOtherDecls)) + `}}
 }
+
+export function Copy{{Structname}}To{{Structname}}DB({{structname}}: {{Structname}}, {{structname}}DB: {{Structname}}DB) {
+
+	// insertion point for basic fields declarations{{` + string(rune(NgClassTsInsertionPerStructBasicFieldsCopyToDB)) + `}}
+
+}
 `
 
 // Insertion points
@@ -39,8 +48,8 @@ type NgClassTsInsertionPoint int
 const (
 	NgClassTsInsertionPerStructImports NgClassTsInsertionPoint = iota
 	NgClassTsInsertionPerStructBasicFieldsDecl
+	NgClassTsInsertionPerStructBasicFieldsCopyToDB
 	NgClassTsInsertionPerStructOtherDecls
-	NgClassTsInsertionPerStructPointersEncoding
 	NgClassTsInsertionsNb
 )
 
@@ -48,7 +57,10 @@ type NgClassSubTemplate int
 
 const (
 	NgClassTSBasicFieldImports NgClassSubTemplate = iota
+
 	NgClassTSBasicFieldDecls
+
+	NgClassTSBasicFieldCopyToDB
 
 	NgClassTSTimeFieldDecls
 
@@ -70,6 +82,9 @@ import { {{AssocStructName}} } from './{{assocStructName}}'`,
 
 	NgClassTSBasicFieldDecls: `
 	{{FieldName}}: {{TypeInput}} = {{NullValue}}`,
+
+	NgClassTSBasicFieldCopyToDB: `
+	{{structname}}DB.{{FieldName}} = {{structname}}.{{FieldName}}`,
 
 	NgClassTSTimeFieldDecls: `
 	{{FieldName}}: Date = new Date`,
@@ -142,6 +157,11 @@ func MultiCodeGeneratorNgClass(modelPkg *models.ModelPkg) {
 					"{{FieldName}}", field.Name,
 					"{{TypeInput}}", typeOfField,
 					"{{NullValue}}", nullValue,
+				)
+
+				TSinsertions[NgClassTsInsertionPerStructBasicFieldsCopyToDB] += models.Replace1(
+					NgClassSubTemplateCode[NgClassTSBasicFieldCopyToDB],
+					"{{FieldName}}", field.Name,
 				)
 
 				if field.DeclaredType == "time.Duration" {
