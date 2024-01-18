@@ -72,6 +72,32 @@ export class Astruct {
 
 export function CopyAstructToAstructDB(astruct: Astruct, astructDB: AstructDB) {
 
+	// insertion point for basic fields declarations
 	astructDB.Name = astruct.Name
-	astructDB.Date = astruct.Date
+	astructDB.Booleanfield = astruct.Booleanfield
+	astructDB.Aenum = astruct.Aenum
+	astructDB.Aenum_2 = astruct.Aenum_2
+	astructDB.Benum = astruct.Benum
+	astructDB.CEnum = astruct.CEnum
+	astructDB.CName = astruct.CName
+	astructDB.CFloatfield = astruct.CFloatfield
+	astructDB.Floatfield = astruct.Floatfield
+	astructDB.Intfield = astruct.Intfield
+	astructDB.Anotherbooleanfield = astruct.Anotherbooleanfield
+	astructDB.Duration1 = astruct.Duration1
+	astructDB.StructRef = astruct.StructRef
+	astructDB.FieldRef = astruct.FieldRef
+	astructDB.EnumIntRef = astruct.EnumIntRef
+	astructDB.EnumStringRef = astruct.EnumStringRef
+	astructDB.EnumValue = astruct.EnumValue
+	astructDB.ConstIdentifierValue = astruct.ConstIdentifierValue
+	astructDB.TextFieldBespokeSize = astruct.TextFieldBespokeSize
+	astructDB.TextArea = astruct.TextArea
+
+	astructDB.AstructPointersEncoding.BstructID.Valid = true
+	if (astruct.Bstruct != undefined) {
+		astructDB.AstructPointersEncoding.BstructID.Int64 = astruct.Bstruct.ID
+	} else {
+		astructDB.AstructPointersEncoding.BstructID.Int64 = 0
+	}
 }
