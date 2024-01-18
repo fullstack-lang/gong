@@ -1,4 +1,7 @@
 // generated code - do not edit
+
+import { AstructDB } from './astruct-db'
+
 // insertion point for imports
 import { Bstruct } from './bstruct'
 import { Dstruct } from './dstruct'
@@ -65,4 +68,10 @@ export class Astruct {
 	Anarrayofb2Use: Array<AstructBstruct2Use> = []
 	AnAstruct?: Astruct
 
+}
+
+export function CopyAstructToAstructDB(astruct: Astruct, astructDB: AstructDB) {
+
+	astructDB.Name = astruct.Name
+	astructDB.Date = astruct.Date
 }
