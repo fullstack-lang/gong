@@ -26,10 +26,11 @@ export class Bstruct {
 
 export function CopyBstructToBstructDB(bstruct: Bstruct, bstructDB: BstructDB) {
 
-	// insertion point for basic fields declarations
+	// insertion point for basic fields copy operations
 	bstructDB.Name = bstruct.Name
 	bstructDB.Floatfield = bstruct.Floatfield
 	bstructDB.Floatfield2 = bstruct.Floatfield2
 	bstructDB.Intfield = bstruct.Intfield
-
+	
+	// insertion point for pointer fields encoding
 }
