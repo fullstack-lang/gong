@@ -36,8 +36,9 @@ export class {{Structname}} {
 
 export function Copy{{Structname}}To{{Structname}}DB({{structname}}: {{Structname}}, {{structname}}DB: {{Structname}}DB) {
 
-	// insertion point for basic fields declarations{{` + string(rune(NgClassTsInsertionPerStructBasicFieldsCopyToDB)) + `}}
-
+	// insertion point for basic fields copy operations{{` + string(rune(NgClassTsInsertionPerStructBasicFieldsCopyToDB)) + `}}
+	
+	// insertion point for pointer fields encoding{{` + string(rune(NgClassTsInsertionPerStructPointerFieldsCopyToDB)) + `}}
 }
 `
 
@@ -49,6 +50,7 @@ const (
 	NgClassTsInsertionPerStructImports NgClassTsInsertionPoint = iota
 	NgClassTsInsertionPerStructBasicFieldsDecl
 	NgClassTsInsertionPerStructBasicFieldsCopyToDB
+	NgClassTsInsertionPerStructPointerFieldsCopyToDB
 	NgClassTsInsertionPerStructOtherDecls
 	NgClassTsInsertionsNb
 )
@@ -61,6 +63,8 @@ const (
 	NgClassTSBasicFieldDecls
 
 	NgClassTSBasicFieldCopyToDB
+
+	NgClassTSPointerFieldCopyToDB
 
 	NgClassTSTimeFieldDecls
 
@@ -85,6 +89,15 @@ import { {{AssocStructName}} } from './{{assocStructName}}'`,
 
 	NgClassTSBasicFieldCopyToDB: `
 	{{structname}}DB.{{FieldName}} = {{structname}}.{{FieldName}}`,
+
+	NgClassTSPointerFieldCopyToDB: `
+    {{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Valid = true
+	if ({{structname}}.{{FieldName}} != undefined) {
+      {{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64 = {{structname}}.{{FieldName}}.ID  
+    } else {
+      {{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64 = 0 		
+	}
+`,
 
 	NgClassTSTimeFieldDecls: `
 	{{FieldName}}: Date = new Date`,
@@ -196,6 +209,11 @@ func MultiCodeGeneratorNgClass(modelPkg *models.ModelPkg) {
 
 				TSinsertions[NgClassTsInsertionPerStructOtherDecls] +=
 					models.Replace2(NgClassSubTemplateCode[NgClassTSPointerToStructFieldsDecl],
+						"{{FieldName}}", field.Name,
+						"{{TypeInput}}", field.GongStruct.Name)
+
+				TSinsertions[NgClassTsInsertionPerStructPointerFieldsCopyToDB] +=
+					models.Replace2(NgClassSubTemplateCode[NgClassTSPointerFieldCopyToDB],
 						"{{FieldName}}", field.Name,
 						"{{TypeInput}}", field.GongStruct.Name)
 

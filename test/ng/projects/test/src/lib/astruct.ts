@@ -72,7 +72,7 @@ export class Astruct {
 
 export function CopyAstructToAstructDB(astruct: Astruct, astructDB: AstructDB) {
 
-	// insertion point for basic fields declarations
+	// insertion point for basic fields copy operations
 	astructDB.Name = astruct.Name
 	astructDB.Booleanfield = astruct.Booleanfield
 	astructDB.Aenum = astruct.Aenum
@@ -93,11 +93,69 @@ export function CopyAstructToAstructDB(astruct: Astruct, astructDB: AstructDB) {
 	astructDB.ConstIdentifierValue = astruct.ConstIdentifierValue
 	astructDB.TextFieldBespokeSize = astruct.TextFieldBespokeSize
 	astructDB.TextArea = astruct.TextArea
-
-	astructDB.AstructPointersEncoding.BstructID.Valid = true
-	if (astruct.Bstruct != undefined) {
-		astructDB.AstructPointersEncoding.BstructID.Int64 = astruct.Bstruct.ID
-	} else {
-		astructDB.AstructPointersEncoding.BstructID.Int64 = 0
+	
+	// insertion point for pointer fields encoding
+    astructDB.AstructPointersEncoding.AssociationtobID.Valid = true
+	if (astruct.Associationtob != undefined) {
+      astructDB.AstructPointersEncoding.AssociationtobID.Int64 = astruct.Associationtob.ID  
+    } else {
+      astructDB.AstructPointersEncoding.AssociationtobID.Int64 = 0 		
 	}
+
+    astructDB.AstructPointersEncoding.Anotherassociationtob_2ID.Valid = true
+	if (astruct.Anotherassociationtob_2 != undefined) {
+      astructDB.AstructPointersEncoding.Anotherassociationtob_2ID.Int64 = astruct.Anotherassociationtob_2.ID  
+    } else {
+      astructDB.AstructPointersEncoding.Anotherassociationtob_2ID.Int64 = 0 		
+	}
+
+    astructDB.AstructPointersEncoding.BstructID.Valid = true
+	if (astruct.Bstruct != undefined) {
+      astructDB.AstructPointersEncoding.BstructID.Int64 = astruct.Bstruct.ID  
+    } else {
+      astructDB.AstructPointersEncoding.BstructID.Int64 = 0 		
+	}
+
+    astructDB.AstructPointersEncoding.Bstruct2ID.Valid = true
+	if (astruct.Bstruct2 != undefined) {
+      astructDB.AstructPointersEncoding.Bstruct2ID.Int64 = astruct.Bstruct2.ID  
+    } else {
+      astructDB.AstructPointersEncoding.Bstruct2ID.Int64 = 0 		
+	}
+
+    astructDB.AstructPointersEncoding.DstructID.Valid = true
+	if (astruct.Dstruct != undefined) {
+      astructDB.AstructPointersEncoding.DstructID.Int64 = astruct.Dstruct.ID  
+    } else {
+      astructDB.AstructPointersEncoding.DstructID.Int64 = 0 		
+	}
+
+    astructDB.AstructPointersEncoding.Dstruct2ID.Valid = true
+	if (astruct.Dstruct2 != undefined) {
+      astructDB.AstructPointersEncoding.Dstruct2ID.Int64 = astruct.Dstruct2.ID  
+    } else {
+      astructDB.AstructPointersEncoding.Dstruct2ID.Int64 = 0 		
+	}
+
+    astructDB.AstructPointersEncoding.Dstruct3ID.Valid = true
+	if (astruct.Dstruct3 != undefined) {
+      astructDB.AstructPointersEncoding.Dstruct3ID.Int64 = astruct.Dstruct3.ID  
+    } else {
+      astructDB.AstructPointersEncoding.Dstruct3ID.Int64 = 0 		
+	}
+
+    astructDB.AstructPointersEncoding.Dstruct4ID.Valid = true
+	if (astruct.Dstruct4 != undefined) {
+      astructDB.AstructPointersEncoding.Dstruct4ID.Int64 = astruct.Dstruct4.ID  
+    } else {
+      astructDB.AstructPointersEncoding.Dstruct4ID.Int64 = 0 		
+	}
+
+    astructDB.AstructPointersEncoding.AnAstructID.Valid = true
+	if (astruct.AnAstruct != undefined) {
+      astructDB.AstructPointersEncoding.AnAstructID.Int64 = astruct.AnAstruct.ID  
+    } else {
+      astructDB.AstructPointersEncoding.AnAstructID.Int64 = 0 		
+	}
+
 }

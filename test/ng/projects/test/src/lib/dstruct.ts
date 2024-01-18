@@ -25,7 +25,8 @@ export class Dstruct {
 
 export function CopyDstructToDstructDB(dstruct: Dstruct, dstructDB: DstructDB) {
 
-	// insertion point for basic fields declarations
+	// insertion point for basic fields copy operations
 	dstructDB.Name = dstruct.Name
-
+	
+	// insertion point for pointer fields encoding
 }
