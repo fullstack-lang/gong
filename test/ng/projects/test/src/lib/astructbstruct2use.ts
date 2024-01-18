@@ -1,6 +1,7 @@
 // generated code - do not edit
 
 import { AstructBstruct2UseDB } from './astructbstruct2use-db'
+import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
 import { Bstruct } from './bstruct'
@@ -37,6 +38,17 @@ export function CopyAstructBstruct2UseToAstructBstruct2UseDB(astructbstruct2use:
 		astructbstruct2useDB.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Int64 = 0 		
 	}
 
+
+	// insertion point for slice of pointers fields encoding
+}
+
+export function CopyAstructBstruct2UseDBToAstructBstruct2Use(astructbstruct2useDB: AstructBstruct2UseDB, astructbstruct2use: AstructBstruct2Use, frontRepo: FrontRepo) {
+
+	// insertion point for basic fields copy operations
+	astructbstruct2use.Name = astructbstruct2useDB.Name
+
+	// insertion point for pointer fields encoding
+	astructbstruct2use.Bstrcut2 = frontRepo.Bstructs.get(astructbstruct2useDB.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 }

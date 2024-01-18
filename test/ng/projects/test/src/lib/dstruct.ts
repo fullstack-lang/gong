@@ -1,6 +1,7 @@
 // generated code - do not edit
 
 import { DstructDB } from './dstruct-db'
+import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
 import { Bstruct } from './bstruct'
@@ -36,4 +37,21 @@ export function CopyDstructToDstructDB(dstruct: Dstruct, dstructDB: DstructDB) {
 		dstructDB.DstructPointersEncoding.Anarrayofb.push(_bstruct.ID)
     }
 	
+}
+
+export function CopyDstructDBToDstruct(dstructDB: DstructDB, dstruct: Dstruct, frontRepo: FrontRepo) {
+
+	// insertion point for basic fields copy operations
+	dstruct.Name = dstructDB.Name
+
+	// insertion point for pointer fields encoding
+
+	// insertion point for slice of pointers fields encoding
+	dstruct.Anarrayofb = new Array<Bstruct>()
+	for (let _id of dstructDB.DstructPointersEncoding.Anarrayofb) {
+	  let _bstruct = frontRepo.Bstructs.get(_id)
+	  if (_bstruct != undefined) {
+		dstruct.Anarrayofb.push(_bstruct!)
+	  }
+	}
 }

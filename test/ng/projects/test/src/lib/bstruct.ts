@@ -1,6 +1,7 @@
 // generated code - do not edit
 
 import { BstructDB } from './bstruct-db'
+import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
 
@@ -31,6 +32,19 @@ export function CopyBstructToBstructDB(bstruct: Bstruct, bstructDB: BstructDB) {
 	bstructDB.Floatfield = bstruct.Floatfield
 	bstructDB.Floatfield2 = bstruct.Floatfield2
 	bstructDB.Intfield = bstruct.Intfield
+
+	// insertion point for pointer fields encoding
+
+	// insertion point for slice of pointers fields encoding
+}
+
+export function CopyBstructDBToBstruct(bstructDB: BstructDB, bstruct: Bstruct, frontRepo: FrontRepo) {
+
+	// insertion point for basic fields copy operations
+	bstruct.Name = bstructDB.Name
+	bstruct.Floatfield = bstructDB.Floatfield
+	bstruct.Floatfield2 = bstructDB.Floatfield2
+	bstruct.Intfield = bstructDB.Intfield
 
 	// insertion point for pointer fields encoding
 
