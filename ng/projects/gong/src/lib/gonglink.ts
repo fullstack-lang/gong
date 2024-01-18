@@ -1,4 +1,8 @@
 // generated code - do not edit
+
+import { GongLinkDB } from './gonglink-db'
+import { FrontRepo } from './front-repo.service';
+
 // insertion point for imports
 
 // usefull for managing pointer ID values that can be nullable
@@ -18,4 +22,28 @@ export class GongLink {
 	ImportPath: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+}
+
+export function CopyGongLinkToGongLinkDB(gonglink: GongLink, gonglinkDB: GongLinkDB) {
+
+	// insertion point for basic fields copy operations
+	gonglinkDB.Name = gonglink.Name
+	gonglinkDB.Recv = gonglink.Recv
+	gonglinkDB.ImportPath = gonglink.ImportPath
+
+	// insertion point for pointer fields encoding
+
+	// insertion point for slice of pointers fields encoding
+}
+
+export function CopyGongLinkDBToGongLink(gonglinkDB: GongLinkDB, gonglink: GongLink, frontRepo: FrontRepo) {
+
+	// insertion point for basic fields copy operations
+	gonglink.Name = gonglinkDB.Name
+	gonglink.Recv = gonglinkDB.Recv
+	gonglink.ImportPath = gonglinkDB.ImportPath
+
+	// insertion point for pointer fields encoding
+
+	// insertion point for slice of pointers fields encoding
 }

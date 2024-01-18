@@ -1,4 +1,8 @@
 // generated code - do not edit
+
+import { GongTimeFieldDB } from './gongtimefield-db'
+import { FrontRepo } from './front-repo.service';
+
 // insertion point for imports
 
 // usefull for managing pointer ID values that can be nullable
@@ -18,4 +22,28 @@ export class GongTimeField {
 	CompositeStructName: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+}
+
+export function CopyGongTimeFieldToGongTimeFieldDB(gongtimefield: GongTimeField, gongtimefieldDB: GongTimeFieldDB) {
+
+	// insertion point for basic fields copy operations
+	gongtimefieldDB.Name = gongtimefield.Name
+	gongtimefieldDB.Index = gongtimefield.Index
+	gongtimefieldDB.CompositeStructName = gongtimefield.CompositeStructName
+
+	// insertion point for pointer fields encoding
+
+	// insertion point for slice of pointers fields encoding
+}
+
+export function CopyGongTimeFieldDBToGongTimeField(gongtimefieldDB: GongTimeFieldDB, gongtimefield: GongTimeField, frontRepo: FrontRepo) {
+
+	// insertion point for basic fields copy operations
+	gongtimefield.Name = gongtimefieldDB.Name
+	gongtimefield.Index = gongtimefieldDB.Index
+	gongtimefield.CompositeStructName = gongtimefieldDB.CompositeStructName
+
+	// insertion point for pointer fields encoding
+
+	// insertion point for slice of pointers fields encoding
 }
