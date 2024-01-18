@@ -1,0 +1,46 @@
+// generated code - do not edit
+
+import { GongEnumValueDB } from './gongenumvalue-db'
+import { FrontRepo } from './front-repo.service';
+
+// insertion point for imports
+
+// usefull for managing pointer ID values that can be nullable
+import { NullInt64 } from './null-int64'
+
+export class GongEnumValue {
+
+	static GONGSTRUCT_NAME = "GongEnumValue"
+
+	CreatedAt?: string
+	DeletedAt?: string
+	ID: number = 0
+
+	// insertion point for basic fields declarations
+	Name: string = ""
+	Value: string = ""
+
+	// insertion point for pointers and slices of pointers declarations
+}
+
+export function CopyGongEnumValueToGongEnumValueDB(gongenumvalue: GongEnumValue, gongenumvalueDB: GongEnumValueDB) {
+
+	// insertion point for basic fields copy operations
+	gongenumvalueDB.Name = gongenumvalue.Name
+	gongenumvalueDB.Value = gongenumvalue.Value
+
+	// insertion point for pointer fields encoding
+
+	// insertion point for slice of pointers fields encoding
+}
+
+export function CopyGongEnumValueDBToGongEnumValue(gongenumvalueDB: GongEnumValueDB, gongenumvalue: GongEnumValue, frontRepo: FrontRepo) {
+
+	// insertion point for basic fields copy operations
+	gongenumvalue.Name = gongenumvalueDB.Name
+	gongenumvalue.Value = gongenumvalueDB.Value
+
+	// insertion point for pointer fields encoding
+
+	// insertion point for slice of pointers fields encoding
+}
