@@ -27,6 +27,13 @@ export function CopyDstructToDstructDB(dstruct: Dstruct, dstructDB: DstructDB) {
 
 	// insertion point for basic fields copy operations
 	dstructDB.Name = dstruct.Name
-	
+
 	// insertion point for pointer fields encoding
+
+	// insertion point for slice of pointers fields encoding
+	dstructDB.DstructPointersEncoding.Anarrayofb = []
+    for (let _bstruct of dstruct.Anarrayofb) {
+		dstructDB.DstructPointersEncoding.Anarrayofb.push(_bstruct.ID)
+    }
+	
 }
