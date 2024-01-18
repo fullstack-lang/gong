@@ -31,6 +31,8 @@ export function CopyBstructToBstructDB(bstruct: Bstruct, bstructDB: BstructDB) {
 	bstructDB.Floatfield = bstruct.Floatfield
 	bstructDB.Floatfield2 = bstruct.Floatfield2
 	bstructDB.Intfield = bstruct.Intfield
-	
+
 	// insertion point for pointer fields encoding
+
+	// insertion point for slice of pointers fields encoding
 }

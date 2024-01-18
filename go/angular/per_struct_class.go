@@ -37,8 +37,10 @@ export class {{Structname}} {
 export function Copy{{Structname}}To{{Structname}}DB({{structname}}: {{Structname}}, {{structname}}DB: {{Structname}}DB) {
 
 	// insertion point for basic fields copy operations{{` + string(rune(NgClassTsInsertionPerStructBasicFieldsCopyToDB)) + `}}
-	
+
 	// insertion point for pointer fields encoding{{` + string(rune(NgClassTsInsertionPerStructPointerFieldsCopyToDB)) + `}}
+
+	// insertion point for slice of pointers fields encoding{{` + string(rune(NgClassTsInsertionPerStructSliceOfPointersFieldsCopyToDB)) + `}}
 }
 `
 
@@ -51,6 +53,7 @@ const (
 	NgClassTsInsertionPerStructBasicFieldsDecl
 	NgClassTsInsertionPerStructBasicFieldsCopyToDB
 	NgClassTsInsertionPerStructPointerFieldsCopyToDB
+	NgClassTsInsertionPerStructSliceOfPointersFieldsCopyToDB
 	NgClassTsInsertionPerStructOtherDecls
 	NgClassTsInsertionsNb
 )
@@ -65,6 +68,8 @@ const (
 	NgClassTSBasicFieldCopyToDB
 
 	NgClassTSPointerFieldCopyToDB
+
+	NgClassTSSliceOfPointersFieldCopyToDB
 
 	NgClassTSTimeFieldDecls
 
@@ -93,11 +98,18 @@ import { {{AssocStructName}} } from './{{assocStructName}}'`,
 	NgClassTSPointerFieldCopyToDB: `
     {{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Valid = true
 	if ({{structname}}.{{FieldName}} != undefined) {
-      {{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64 = {{structname}}.{{FieldName}}.ID  
+		{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64 = {{structname}}.{{FieldName}}.ID  
     } else {
-      {{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64 = 0 		
+		{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64 = 0 		
 	}
 `,
+
+	NgClassTSSliceOfPointersFieldCopyToDB: `
+	{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}} = []
+    for (let _{{assocStructName}} of {{structname}}.{{FieldName}}) {
+		{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}.push(_{{assocStructName}}.ID)
+    }
+	`,
 
 	NgClassTSTimeFieldDecls: `
 	{{FieldName}}: Date = new Date`,
@@ -233,6 +245,12 @@ func MultiCodeGeneratorNgClass(modelPkg *models.ModelPkg) {
 					models.Replace2(NgClassSubTemplateCode[NgClassTSSliceOfPtrToStructFieldsDecl],
 						"{{FieldName}}", field.Name,
 						"{{TypeInput}}", field.GongStruct.Name)
+
+				TSinsertions[NgClassTsInsertionPerStructSliceOfPointersFieldsCopyToDB] +=
+					models.Replace3(NgClassSubTemplateCode[NgClassTSSliceOfPointersFieldCopyToDB],
+						"{{AssocStructName}}", field.GongStruct.Name,
+						"{{assocStructName}}", strings.ToLower(field.GongStruct.Name),
+						"{{FieldName}}", field.Name)
 			}
 		}
 
