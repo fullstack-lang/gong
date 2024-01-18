@@ -1,4 +1,7 @@
 // generated code - do not edit
+
+import { DstructDB } from './dstruct-db'
+
 // insertion point for imports
 import { Bstruct } from './bstruct'
 
@@ -18,4 +21,11 @@ export class Dstruct {
 
 	// insertion point for pointers and slices of pointers declarations
 	Anarrayofb: Array<Bstruct> = []
+}
+
+export function CopyDstructToDstructDB(dstruct: Dstruct, dstructDB: DstructDB) {
+
+	// insertion point for basic fields declarations
+	dstructDB.Name = dstruct.Name
+
 }

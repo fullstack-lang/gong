@@ -1,4 +1,7 @@
 // generated code - do not edit
+
+import { AstructBstructUseDB } from './astructbstructuse-db'
+
 // insertion point for imports
 import { Bstruct } from './bstruct'
 
@@ -18,5 +21,12 @@ export class AstructBstructUse {
 
 	// insertion point for pointers and slices of pointers declarations
 	Bstruct2?: Bstruct
+
+}
+
+export function CopyAstructBstructUseToAstructBstructUseDB(astructbstructuse: AstructBstructUse, astructbstructuseDB: AstructBstructUseDB) {
+
+	// insertion point for basic fields declarations
+	astructbstructuseDB.Name = astructbstructuse.Name
 
 }
