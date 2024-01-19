@@ -37,6 +37,8 @@ export class {{Structname}} {
 
 export function Copy{{Structname}}To{{Structname}}DB({{structname}}: {{Structname}}, {{structname}}DB: {{Structname}}DB) {
 
+	{{structname}}DB.CreatedAt = {{structname}}.CreatedAt
+	{{structname}}DB.DeletedAt = {{structname}}.DeletedAt
 	{{structname}}DB.ID = {{structname}}.ID
 	
 	// insertion point for basic fields copy operations{{` + string(rune(NgClassTsInsertionPerStructBasicFieldsCopyToDB)) + `}}
@@ -48,6 +50,8 @@ export function Copy{{Structname}}To{{Structname}}DB({{structname}}: {{Structnam
 
 export function Copy{{Structname}}DBTo{{Structname}}({{structname}}DB: {{Structname}}DB, {{structname}}: {{Structname}}, frontRepo: FrontRepo) {
 
+	{{structname}}.CreatedAt = {{structname}}DB.CreatedAt
+	{{structname}}.DeletedAt = {{structname}}DB.DeletedAt
 	{{structname}}.ID = {{structname}}DB.ID
 	
 	// insertion point for basic fields copy operations{{` + string(rune(NgClassTsInsertionPerStructBasicFieldsCopyFromDB)) + `}}

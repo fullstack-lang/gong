@@ -73,6 +73,8 @@ export class Astruct {
 
 export function CopyAstructToAstructDB(astruct: Astruct, astructDB: AstructDB) {
 
+	astructDB.CreatedAt = astruct.CreatedAt
+	astructDB.DeletedAt = astruct.DeletedAt
 	astructDB.ID = astruct.ID
 	
 	// insertion point for basic fields copy operations
@@ -192,6 +194,8 @@ export function CopyAstructToAstructDB(astruct: Astruct, astructDB: AstructDB) {
 
 export function CopyAstructDBToAstruct(astructDB: AstructDB, astruct: Astruct, frontRepo: FrontRepo) {
 
+	astruct.CreatedAt = astructDB.CreatedAt
+	astruct.DeletedAt = astructDB.DeletedAt
 	astruct.ID = astructDB.ID
 	
 	// insertion point for basic fields copy operations

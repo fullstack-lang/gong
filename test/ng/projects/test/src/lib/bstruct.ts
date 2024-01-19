@@ -27,6 +27,8 @@ export class Bstruct {
 
 export function CopyBstructToBstructDB(bstruct: Bstruct, bstructDB: BstructDB) {
 
+	bstructDB.CreatedAt = bstruct.CreatedAt
+	bstructDB.DeletedAt = bstruct.DeletedAt
 	bstructDB.ID = bstruct.ID
 	
 	// insertion point for basic fields copy operations
@@ -42,6 +44,8 @@ export function CopyBstructToBstructDB(bstruct: Bstruct, bstructDB: BstructDB) {
 
 export function CopyBstructDBToBstruct(bstructDB: BstructDB, bstruct: Bstruct, frontRepo: FrontRepo) {
 
+	bstruct.CreatedAt = bstructDB.CreatedAt
+	bstruct.DeletedAt = bstructDB.DeletedAt
 	bstruct.ID = bstructDB.ID
 	
 	// insertion point for basic fields copy operations
