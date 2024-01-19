@@ -27,6 +27,8 @@ export class AstructBstructUse {
 
 export function CopyAstructBstructUseToAstructBstructUseDB(astructbstructuse: AstructBstructUse, astructbstructuseDB: AstructBstructUseDB) {
 
+	astructbstructuseDB.CreatedAt = astructbstructuse.CreatedAt
+	astructbstructuseDB.DeletedAt = astructbstructuse.DeletedAt
 	astructbstructuseDB.ID = astructbstructuse.ID
 	
 	// insertion point for basic fields copy operations
@@ -46,6 +48,8 @@ export function CopyAstructBstructUseToAstructBstructUseDB(astructbstructuse: As
 
 export function CopyAstructBstructUseDBToAstructBstructUse(astructbstructuseDB: AstructBstructUseDB, astructbstructuse: AstructBstructUse, frontRepo: FrontRepo) {
 
+	astructbstructuse.CreatedAt = astructbstructuseDB.CreatedAt
+	astructbstructuse.DeletedAt = astructbstructuseDB.DeletedAt
 	astructbstructuse.ID = astructbstructuseDB.ID
 	
 	// insertion point for basic fields copy operations
