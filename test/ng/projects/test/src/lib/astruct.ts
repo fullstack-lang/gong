@@ -73,6 +73,8 @@ export class Astruct {
 
 export function CopyAstructToAstructDB(astruct: Astruct, astructDB: AstructDB) {
 
+	astructDB.ID = astruct.ID
+	
 	// insertion point for basic fields copy operations
 	astructDB.Name = astruct.Name
 	astructDB.Booleanfield = astruct.Booleanfield
@@ -190,6 +192,8 @@ export function CopyAstructToAstructDB(astruct: Astruct, astructDB: AstructDB) {
 
 export function CopyAstructDBToAstruct(astructDB: AstructDB, astruct: Astruct, frontRepo: FrontRepo) {
 
+	astruct.ID = astructDB.ID
+	
 	// insertion point for basic fields copy operations
 	astruct.Name = astructDB.Name
 	astruct.Booleanfield = astructDB.Booleanfield

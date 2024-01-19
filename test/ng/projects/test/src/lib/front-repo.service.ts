@@ -5,18 +5,23 @@ import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
 // insertion point sub template for services imports
 import { AstructDB } from './astruct-db'
+import { Astruct, CopyAstructDBToAstruct } from './astruct'
 import { AstructService } from './astruct.service'
 
 import { AstructBstruct2UseDB } from './astructbstruct2use-db'
+import { AstructBstruct2Use, CopyAstructBstruct2UseDBToAstructBstruct2Use } from './astructbstruct2use'
 import { AstructBstruct2UseService } from './astructbstruct2use.service'
 
 import { AstructBstructUseDB } from './astructbstructuse-db'
+import { AstructBstructUse, CopyAstructBstructUseDBToAstructBstructUse } from './astructbstructuse'
 import { AstructBstructUseService } from './astructbstructuse.service'
 
 import { BstructDB } from './bstruct-db'
+import { Bstruct, CopyBstructDBToBstruct } from './bstruct'
 import { BstructService } from './bstruct.service'
 
 import { DstructDB } from './dstruct-db'
+import { Dstruct, CopyDstructDBToDstruct } from './dstruct'
 import { DstructService } from './dstruct.service'
 
 export const StackType = "github.com/fullstack-lang/gong/test/go/models"
@@ -27,21 +32,36 @@ export class FrontRepo { // insertion point sub template
   Astructs = new Map<number, AstructDB>() // map of repo instances
   Astructs_batch = new Map<number, AstructDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_Astructs = new Array<Astruct>() // array of front instances
+  map_ID_Astruct = new Map<number, Astruct>() // map of front instances
+
   AstructBstruct2Uses_array = new Array<AstructBstruct2UseDB>() // array of repo instances
   AstructBstruct2Uses = new Map<number, AstructBstruct2UseDB>() // map of repo instances
   AstructBstruct2Uses_batch = new Map<number, AstructBstruct2UseDB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_AstructBstruct2Uses = new Array<AstructBstruct2Use>() // array of front instances
+  map_ID_AstructBstruct2Use = new Map<number, AstructBstruct2Use>() // map of front instances
 
   AstructBstructUses_array = new Array<AstructBstructUseDB>() // array of repo instances
   AstructBstructUses = new Map<number, AstructBstructUseDB>() // map of repo instances
   AstructBstructUses_batch = new Map<number, AstructBstructUseDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_AstructBstructUses = new Array<AstructBstructUse>() // array of front instances
+  map_ID_AstructBstructUse = new Map<number, AstructBstructUse>() // map of front instances
+
   Bstructs_array = new Array<BstructDB>() // array of repo instances
   Bstructs = new Map<number, BstructDB>() // map of repo instances
   Bstructs_batch = new Map<number, BstructDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_Bstructs = new Array<Bstruct>() // array of front instances
+  map_ID_Bstruct = new Map<number, Bstruct>() // map of front instances
+
   Dstructs_array = new Array<DstructDB>() // array of repo instances
   Dstructs = new Map<number, DstructDB>() // map of repo instances
   Dstructs_batch = new Map<number, DstructDB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_Dstructs = new Array<Dstruct>() // array of front instances
+  map_ID_Dstruct = new Map<number, Dstruct>() // map of front instances
 
 
   // getArray allows for a get function that is robust to refactoring of the named struct name
@@ -261,17 +281,17 @@ export class FrontRepoService {
             this.frontRepo.Astructs_batch.clear()
 
             astructs.forEach(
-              astruct => {
-                this.frontRepo.Astructs.set(astruct.ID, astruct)
-                this.frontRepo.Astructs_batch.set(astruct.ID, astruct)
+              astructDB => {
+                this.frontRepo.Astructs.set(astructDB.ID, astructDB)
+                this.frontRepo.Astructs_batch.set(astructDB.ID, astructDB)
               }
             )
 
             // clear astructs that are absent from the batch
             this.frontRepo.Astructs.forEach(
-              astruct => {
-                if (this.frontRepo.Astructs_batch.get(astruct.ID) == undefined) {
-                  this.frontRepo.Astructs.delete(astruct.ID)
+              astructDB => {
+                if (this.frontRepo.Astructs_batch.get(astructDB.ID) == undefined) {
+                  this.frontRepo.Astructs.delete(astructDB.ID)
                 }
               }
             )
@@ -287,6 +307,18 @@ export class FrontRepoService {
               return 0;
             });
 
+            // init front objects
+            this.frontRepo.array_Astructs = []
+            this.frontRepo.map_ID_Astruct.clear()
+            this.frontRepo.Astructs_array.forEach(
+              astructDB => {
+                let astruct = new Astruct
+                CopyAstructDBToAstruct(astructDB, astruct, this.frontRepo)
+                this.frontRepo.array_Astructs.push(astruct)
+                this.frontRepo.map_ID_Astruct.set(astruct.ID, astruct)
+              }
+            )
+
             // init the array
             this.frontRepo.AstructBstruct2Uses_array = astructbstruct2uses
 
@@ -294,17 +326,17 @@ export class FrontRepoService {
             this.frontRepo.AstructBstruct2Uses_batch.clear()
 
             astructbstruct2uses.forEach(
-              astructbstruct2use => {
-                this.frontRepo.AstructBstruct2Uses.set(astructbstruct2use.ID, astructbstruct2use)
-                this.frontRepo.AstructBstruct2Uses_batch.set(astructbstruct2use.ID, astructbstruct2use)
+              astructbstruct2useDB => {
+                this.frontRepo.AstructBstruct2Uses.set(astructbstruct2useDB.ID, astructbstruct2useDB)
+                this.frontRepo.AstructBstruct2Uses_batch.set(astructbstruct2useDB.ID, astructbstruct2useDB)
               }
             )
 
             // clear astructbstruct2uses that are absent from the batch
             this.frontRepo.AstructBstruct2Uses.forEach(
-              astructbstruct2use => {
-                if (this.frontRepo.AstructBstruct2Uses_batch.get(astructbstruct2use.ID) == undefined) {
-                  this.frontRepo.AstructBstruct2Uses.delete(astructbstruct2use.ID)
+              astructbstruct2useDB => {
+                if (this.frontRepo.AstructBstruct2Uses_batch.get(astructbstruct2useDB.ID) == undefined) {
+                  this.frontRepo.AstructBstruct2Uses.delete(astructbstruct2useDB.ID)
                 }
               }
             )
@@ -320,6 +352,18 @@ export class FrontRepoService {
               return 0;
             });
 
+            // init front objects
+            this.frontRepo.array_AstructBstruct2Uses = []
+            this.frontRepo.map_ID_AstructBstruct2Use.clear()
+            this.frontRepo.AstructBstruct2Uses_array.forEach(
+              astructbstruct2useDB => {
+                let astructbstruct2use = new AstructBstruct2Use
+                CopyAstructBstruct2UseDBToAstructBstruct2Use(astructbstruct2useDB, astructbstruct2use, this.frontRepo)
+                this.frontRepo.array_AstructBstruct2Uses.push(astructbstruct2use)
+                this.frontRepo.map_ID_AstructBstruct2Use.set(astructbstruct2use.ID, astructbstruct2use)
+              }
+            )
+
             // init the array
             this.frontRepo.AstructBstructUses_array = astructbstructuses
 
@@ -327,17 +371,17 @@ export class FrontRepoService {
             this.frontRepo.AstructBstructUses_batch.clear()
 
             astructbstructuses.forEach(
-              astructbstructuse => {
-                this.frontRepo.AstructBstructUses.set(astructbstructuse.ID, astructbstructuse)
-                this.frontRepo.AstructBstructUses_batch.set(astructbstructuse.ID, astructbstructuse)
+              astructbstructuseDB => {
+                this.frontRepo.AstructBstructUses.set(astructbstructuseDB.ID, astructbstructuseDB)
+                this.frontRepo.AstructBstructUses_batch.set(astructbstructuseDB.ID, astructbstructuseDB)
               }
             )
 
             // clear astructbstructuses that are absent from the batch
             this.frontRepo.AstructBstructUses.forEach(
-              astructbstructuse => {
-                if (this.frontRepo.AstructBstructUses_batch.get(astructbstructuse.ID) == undefined) {
-                  this.frontRepo.AstructBstructUses.delete(astructbstructuse.ID)
+              astructbstructuseDB => {
+                if (this.frontRepo.AstructBstructUses_batch.get(astructbstructuseDB.ID) == undefined) {
+                  this.frontRepo.AstructBstructUses.delete(astructbstructuseDB.ID)
                 }
               }
             )
@@ -353,6 +397,18 @@ export class FrontRepoService {
               return 0;
             });
 
+            // init front objects
+            this.frontRepo.array_AstructBstructUses = []
+            this.frontRepo.map_ID_AstructBstructUse.clear()
+            this.frontRepo.AstructBstructUses_array.forEach(
+              astructbstructuseDB => {
+                let astructbstructuse = new AstructBstructUse
+                CopyAstructBstructUseDBToAstructBstructUse(astructbstructuseDB, astructbstructuse, this.frontRepo)
+                this.frontRepo.array_AstructBstructUses.push(astructbstructuse)
+                this.frontRepo.map_ID_AstructBstructUse.set(astructbstructuse.ID, astructbstructuse)
+              }
+            )
+
             // init the array
             this.frontRepo.Bstructs_array = bstructs
 
@@ -360,17 +416,17 @@ export class FrontRepoService {
             this.frontRepo.Bstructs_batch.clear()
 
             bstructs.forEach(
-              bstruct => {
-                this.frontRepo.Bstructs.set(bstruct.ID, bstruct)
-                this.frontRepo.Bstructs_batch.set(bstruct.ID, bstruct)
+              bstructDB => {
+                this.frontRepo.Bstructs.set(bstructDB.ID, bstructDB)
+                this.frontRepo.Bstructs_batch.set(bstructDB.ID, bstructDB)
               }
             )
 
             // clear bstructs that are absent from the batch
             this.frontRepo.Bstructs.forEach(
-              bstruct => {
-                if (this.frontRepo.Bstructs_batch.get(bstruct.ID) == undefined) {
-                  this.frontRepo.Bstructs.delete(bstruct.ID)
+              bstructDB => {
+                if (this.frontRepo.Bstructs_batch.get(bstructDB.ID) == undefined) {
+                  this.frontRepo.Bstructs.delete(bstructDB.ID)
                 }
               }
             )
@@ -386,6 +442,18 @@ export class FrontRepoService {
               return 0;
             });
 
+            // init front objects
+            this.frontRepo.array_Bstructs = []
+            this.frontRepo.map_ID_Bstruct.clear()
+            this.frontRepo.Bstructs_array.forEach(
+              bstructDB => {
+                let bstruct = new Bstruct
+                CopyBstructDBToBstruct(bstructDB, bstruct, this.frontRepo)
+                this.frontRepo.array_Bstructs.push(bstruct)
+                this.frontRepo.map_ID_Bstruct.set(bstruct.ID, bstruct)
+              }
+            )
+
             // init the array
             this.frontRepo.Dstructs_array = dstructs
 
@@ -393,17 +461,17 @@ export class FrontRepoService {
             this.frontRepo.Dstructs_batch.clear()
 
             dstructs.forEach(
-              dstruct => {
-                this.frontRepo.Dstructs.set(dstruct.ID, dstruct)
-                this.frontRepo.Dstructs_batch.set(dstruct.ID, dstruct)
+              dstructDB => {
+                this.frontRepo.Dstructs.set(dstructDB.ID, dstructDB)
+                this.frontRepo.Dstructs_batch.set(dstructDB.ID, dstructDB)
               }
             )
 
             // clear dstructs that are absent from the batch
             this.frontRepo.Dstructs.forEach(
-              dstruct => {
-                if (this.frontRepo.Dstructs_batch.get(dstruct.ID) == undefined) {
-                  this.frontRepo.Dstructs.delete(dstruct.ID)
+              dstructDB => {
+                if (this.frontRepo.Dstructs_batch.get(dstructDB.ID) == undefined) {
+                  this.frontRepo.Dstructs.delete(dstructDB.ID)
                 }
               }
             )
@@ -418,6 +486,18 @@ export class FrontRepoService {
               }
               return 0;
             });
+
+            // init front objects
+            this.frontRepo.array_Dstructs = []
+            this.frontRepo.map_ID_Dstruct.clear()
+            this.frontRepo.Dstructs_array.forEach(
+              dstructDB => {
+                let dstruct = new Dstruct
+                CopyDstructDBToDstruct(dstructDB, dstruct, this.frontRepo)
+                this.frontRepo.array_Dstructs.push(dstruct)
+                this.frontRepo.map_ID_Dstruct.set(dstruct.ID, dstruct)
+              }
+            )
 
 
             // 

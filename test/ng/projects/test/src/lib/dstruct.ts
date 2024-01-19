@@ -26,6 +26,8 @@ export class Dstruct {
 
 export function CopyDstructToDstructDB(dstruct: Dstruct, dstructDB: DstructDB) {
 
+	dstructDB.ID = dstruct.ID
+	
 	// insertion point for basic fields copy operations
 	dstructDB.Name = dstruct.Name
 
@@ -41,6 +43,8 @@ export function CopyDstructToDstructDB(dstruct: Dstruct, dstructDB: DstructDB) {
 
 export function CopyDstructDBToDstruct(dstructDB: DstructDB, dstruct: Dstruct, frontRepo: FrontRepo) {
 
+	dstruct.ID = dstructDB.ID
+	
 	// insertion point for basic fields copy operations
 	dstruct.Name = dstructDB.Name
 
