@@ -68,7 +68,7 @@ export class FrontRepo { // insertion point sub template
   // for instance frontRepo.getArray<Astruct>( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
   // contrary to frontRepo.Astructs_array which is not refactored when Astruct identifier is modified
   getArray<Type>(gongStructName: string): Array<Type> {
-    switch (gongStructName) {
+    switch (gongStructName) { // deprecated
       // insertion point
       case 'Astruct':
         return this.Astructs_array as unknown as Array<Type>
@@ -85,8 +85,27 @@ export class FrontRepo { // insertion point sub template
     }
   }
 
+  getFrontArray<Type>(gongStructName: string): Array<Type> {
+    switch (gongStructName) {
+      // insertion point
+      case 'Astruct':
+        return this.array_Astructs as unknown as Array<Type>
+      case 'AstructBstruct2Use':
+        return this.array_AstructBstruct2Uses as unknown as Array<Type>
+      case 'AstructBstructUse':
+        return this.array_AstructBstructUses as unknown as Array<Type>
+      case 'Bstruct':
+        return this.array_Bstructs as unknown as Array<Type>
+      case 'Dstruct':
+        return this.array_Dstructs as unknown as Array<Type>
+      default:
+        throw new Error("Type not recognized");
+    }
+  }
+
+
   // getMap allows for a get function that is robust to refactoring of the named struct name
-  getMap<Type>(gongStructName: string): Map<number, Type> {
+  getMap<Type>(gongStructName: string): Map<number, Type> { // deprecated
     switch (gongStructName) {
       // insertion point
       case 'Astruct':
@@ -99,6 +118,23 @@ export class FrontRepo { // insertion point sub template
         return this.Bstructs as unknown as Map<number, Type>
       case 'Dstruct':
         return this.Dstructs as unknown as Map<number, Type>
+      default:
+        throw new Error("Type not recognized");
+    }
+  }
+  getFrontMap<Type>(gongStructName: string): Map<number, Type> {
+    switch (gongStructName) {
+      // insertion point
+      case 'Astruct':
+        return this.map_ID_Astruct as unknown as Map<number, Type>
+      case 'AstructBstruct2Use':
+        return this.map_ID_AstructBstruct2Use as unknown as Map<number, Type>
+      case 'AstructBstructUse':
+        return this.map_ID_AstructBstructUse as unknown as Map<number, Type>
+      case 'Bstruct':
+        return this.map_ID_Bstruct as unknown as Map<number, Type>
+      case 'Dstruct':
+        return this.map_ID_Dstruct as unknown as Map<number, Type>
       default:
         throw new Error("Type not recognized");
     }
