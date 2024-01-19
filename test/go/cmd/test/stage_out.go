@@ -69,7 +69,7 @@ func stage_outInjection(stage *models.StageStruct) {
 
 	// Astruct values setup
 	__Astruct__000000_A1.Name = `A1`
-	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-11-14 03:08:21 +0000 UTC")
+	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-19 19:30:24.011 +0000 UTC")
 	__Astruct__000000_A1.Booleanfield = false
 	__Astruct__000000_A1.Aenum = models.ENUM_VAL1
 	__Astruct__000000_A1.Aenum_2 = models.ENUM_VAL2
@@ -83,7 +83,7 @@ Second Line`
 	__Astruct__000000_A1.Floatfield = 0.000000
 	__Astruct__000000_A1.Intfield = 3
 	__Astruct__000000_A1.Anotherbooleanfield = false
-	__Astruct__000000_A1.Duration1 = -79653000000000
+	__Astruct__000000_A1.Duration1 = 79653000000000
 
 	// comment added to overcome the problem with the comment map association
 
@@ -114,6 +114,7 @@ Second Line`
 
 	//gong:ident [......]
 	__Astruct__000000_A1.ConstIdentifierValue = `......`
+	__Astruct__000000_A1.TextFieldBespokeSize = ``
 	__Astruct__000000_A1.TextArea = ``
 
 	// Astruct values setup
@@ -157,6 +158,7 @@ Second Line`
 
 	//gong:ident [.]
 	__Astruct__000001_A2.ConstIdentifierValue = `.`
+	__Astruct__000001_A2.TextFieldBespokeSize = ``
 	__Astruct__000001_A2.TextArea = ``
 
 	// Astruct values setup
@@ -201,6 +203,7 @@ Second Line`
 
 	//gong:ident [......]
 	__Astruct__000002_A3.ConstIdentifierValue = `......`
+	__Astruct__000002_A3.TextFieldBespokeSize = ``
 	__Astruct__000002_A3.TextArea = ``
 
 	// AstructBstruct2Use values setup
