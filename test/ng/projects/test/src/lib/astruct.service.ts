@@ -19,6 +19,7 @@ import { BstructDB } from './bstruct-db'
 import { DstructDB } from './dstruct-db'
 import { AstructBstructUseDB } from './astructbstructuse-db'
 import { AstructBstruct2UseDB } from './astructbstruct2use-db'
+import { Astruct, CopyAstructToAstructDB } from './astruct';
 
 @Injectable({
   providedIn: 'root'
@@ -235,7 +236,26 @@ export class AstructService {
     );
   }
 
-  /** PUT: update the astructdb on the server */
+  // updateFront copy astruct to a version with encoded pointers and update to the back
+  updateFront(astruct: Astruct, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructDB> {
+    let astructDB = new AstructDB
+    CopyAstructToAstructDB(astruct, astructDB)
+    const id = typeof astructDB === 'number' ? astructDB : astructDB.ID
+    const url = `${this.astructsUrl}/${id}`
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<AstructDB>(url, AstructDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<AstructDB>('updateAstruct'))
+    );
+  }
+
+  /** PUT: update the astructdb on the server (deprecated) */
   update(astructdb: AstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructDB> {
     return this.updateAstruct(astructdb, GONG__StackPath, frontRepo)
   }
