@@ -47,6 +47,7 @@ const (
 var NgPublicApiHtmlSubTemplateCode map[NgPublicApiSubTemplate]string = map[NgPublicApiSubTemplate]string{
 	NgPublicApiStructComponentsExportDeclaration: `
 export * from './lib/{{structname}}-db'
+export * from './lib/{{structname}}'
 export * from './lib/{{structname}}.service'
 `,
 

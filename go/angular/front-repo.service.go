@@ -199,6 +199,11 @@ export class FrontRepoService {
             // Second Step: reddeem slice of pointers fields
             // insertion point sub template for redeem {{` + string(rune(NgLibFrontRepoSlicesOfPointersDecode)) + `}}
 
+            // 
+            // Third Step: reddeem front objects
+            // insertion point sub template for redeem {{` + string(rune(NgLibFrontRepoInitFrontObjects)) + `}}
+
+
             // hand over control flow to observer
             observer.next(this.frontRepo)
           }
@@ -229,6 +234,7 @@ const (
 	NgLibFrontRepoArraysDecls
 	NgLibFrontRepoInitMapInstances
 	NgLibFrontRepoRedeemPointers
+	NgLibFrontRepoInitFrontObjects
 	NgLibFrontRepoSlicesOfPointersDecode
 	NgLibFrontRepoPerStructPull
 	NgLibFrontRepoPerStructGetUniqueID
@@ -317,7 +323,9 @@ import { {{Structname}}Service } from './{{structname}}.service'
               }
               return 0;
             });
-
+`,
+	NgLibFrontRepoInitFrontObjects: `
+            
             // init front objects
             this.frontRepo.array_{{Structname}}s = []
             this.frontRepo.map_ID_{{Structname}}.clear()
