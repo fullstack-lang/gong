@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { AstructBstruct2UseDB } from './astructbstruct2use-db';
+import { AstructBstruct2UseDB } from './astructbstruct2use-db'
+import { AstructBstruct2Use, CopyAstructBstruct2UseToAstructBstruct2UseDB } from './astructbstruct2use'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -121,6 +123,25 @@ export class AstructBstruct2UseService {
     return this.http.delete<AstructBstruct2UseDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted astructbstruct2usedb id=${id}`)),
       catchError(this.handleError<AstructBstruct2UseDB>('deleteAstructBstruct2Use'))
+    );
+  }
+
+  // updateFront copy astructbstruct2use to a version with encoded pointers and update to the back
+  updateFront(astructbstruct2use: AstructBstruct2Use, GONG__StackPath: string): Observable<AstructBstruct2UseDB> {
+    let astructbstruct2useDB = new AstructBstruct2UseDB
+    CopyAstructBstruct2UseToAstructBstruct2UseDB(astructbstruct2use, astructbstruct2useDB)
+    const id = typeof astructbstruct2useDB === 'number' ? astructbstruct2useDB : astructbstruct2useDB.ID
+    const url = `${this.astructbstruct2usesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<AstructBstruct2UseDB>(url, AstructBstruct2UseDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<AstructBstruct2UseDB>('updateAstructBstruct2Use'))
     );
   }
 

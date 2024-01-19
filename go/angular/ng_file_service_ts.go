@@ -20,11 +20,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { {{Structname}}DB } from './{{structname}}-db';
+import { {{Structname}}DB } from './{{structname}}-db'
+import { {{Structname}}, Copy{{Structname}}To{{Structname}}DB } from './{{structname}}'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports{{` + string(rune(NgServiceTsInsertionImports)) + `}}
@@ -127,6 +129,25 @@ export class {{Structname}}Service {
     return this.http.delete<{{Structname}}DB>(url, httpOptions).pipe(
       tap(_ => this.log(` + "`" + `deleted {{structname}}db id=${id}` + "`" + `)),
       catchError(this.handleError<{{Structname}}DB>('delete{{Structname}}'))
+    );
+  }
+
+  // updateFront copy {{structname}} to a version with encoded pointers and update to the back
+  updateFront({{structname}}: {{Structname}}, GONG__StackPath: string): Observable<{{Structname}}DB> {
+    let {{structname}}DB = new {{Structname}}DB
+    Copy{{Structname}}To{{Structname}}DB({{structname}}, {{structname}}DB)
+    const id = typeof {{structname}}DB === 'number' ? {{structname}}DB : {{structname}}DB.ID
+    const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<{{Structname}}DB>(url, {{Structname}}DB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<{{Structname}}DB>('update{{Structname}}'))
     );
   }
 
