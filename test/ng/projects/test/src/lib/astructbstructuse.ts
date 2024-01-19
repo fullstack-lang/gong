@@ -27,6 +27,8 @@ export class AstructBstructUse {
 
 export function CopyAstructBstructUseToAstructBstructUseDB(astructbstructuse: AstructBstructUse, astructbstructuseDB: AstructBstructUseDB) {
 
+	astructbstructuseDB.ID = astructbstructuse.ID
+	
 	// insertion point for basic fields copy operations
 	astructbstructuseDB.Name = astructbstructuse.Name
 
@@ -44,6 +46,8 @@ export function CopyAstructBstructUseToAstructBstructUseDB(astructbstructuse: As
 
 export function CopyAstructBstructUseDBToAstructBstructUse(astructbstructuseDB: AstructBstructUseDB, astructbstructuse: AstructBstructUse, frontRepo: FrontRepo) {
 
+	astructbstructuse.ID = astructbstructuseDB.ID
+	
 	// insertion point for basic fields copy operations
 	astructbstructuse.Name = astructbstructuseDB.Name
 
