@@ -144,7 +144,7 @@ export class DstructService {
       params: params
     }
 
-    return this.http.put<DstructDB>(url, DstructDB, httpOptions).pipe(
+    return this.http.put<DstructDB>(url, dstructDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<DstructDB>('updateDstruct'))

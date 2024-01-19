@@ -131,7 +131,7 @@ export class BstructService {
       params: params
     }
 
-    return this.http.put<BstructDB>(url, BstructDB, httpOptions).pipe(
+    return this.http.put<BstructDB>(url, bstructDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<BstructDB>('updateBstruct'))

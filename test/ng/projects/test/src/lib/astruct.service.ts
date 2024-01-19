@@ -249,7 +249,7 @@ export class AstructService {
       params: params
     }
 
-    return this.http.put<AstructDB>(url, AstructDB, httpOptions).pipe(
+    return this.http.put<AstructDB>(url, astructDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<AstructDB>('updateAstruct'))
