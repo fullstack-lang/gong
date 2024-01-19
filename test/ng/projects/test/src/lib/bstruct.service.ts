@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { BstructDB } from './bstruct-db';
+import { BstructDB } from './bstruct-db'
+import { Bstruct, CopyBstructToBstructDB } from './bstruct'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class BstructService {
     return this.http.delete<BstructDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted bstructdb id=${id}`)),
       catchError(this.handleError<BstructDB>('deleteBstruct'))
+    );
+  }
+
+  // updateFront copy bstruct to a version with encoded pointers and update to the back
+  updateFront(bstruct: Bstruct, GONG__StackPath: string): Observable<BstructDB> {
+    let bstructDB = new BstructDB
+    CopyBstructToBstructDB(bstruct, bstructDB)
+    const id = typeof bstructDB === 'number' ? bstructDB : bstructDB.ID
+    const url = `${this.bstructsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<BstructDB>(url, BstructDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<BstructDB>('updateBstruct'))
     );
   }
 

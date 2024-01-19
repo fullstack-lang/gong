@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { DstructDB } from './dstruct-db';
+import { DstructDB } from './dstruct-db'
+import { Dstruct, CopyDstructToDstructDB } from './dstruct'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -127,6 +129,25 @@ export class DstructService {
     return this.http.delete<DstructDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted dstructdb id=${id}`)),
       catchError(this.handleError<DstructDB>('deleteDstruct'))
+    );
+  }
+
+  // updateFront copy dstruct to a version with encoded pointers and update to the back
+  updateFront(dstruct: Dstruct, GONG__StackPath: string): Observable<DstructDB> {
+    let dstructDB = new DstructDB
+    CopyDstructToDstructDB(dstruct, dstructDB)
+    const id = typeof dstructDB === 'number' ? dstructDB : dstructDB.ID
+    const url = `${this.dstructsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<DstructDB>(url, DstructDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<DstructDB>('updateDstruct'))
     );
   }
 
