@@ -41,7 +41,6 @@ export class FrontRepo { // insertion point sub template{{` + string(rune(NgLibF
         throw new Error("Type not recognized");
     }
   }
-  
 
   // getMap allows for a get function that is robust to refactoring of the named struct name
   getMap<Type>(gongStructName: string): Map<number, Type> { // deprecated
@@ -51,6 +50,7 @@ export class FrontRepo { // insertion point sub template{{` + string(rune(NgLibF
         throw new Error("Type not recognized");
     }
   }
+  
   getFrontMap<Type>(gongStructName: string): Map<number, Type> {
     switch (gongStructName) {
       // insertion point{{` + string(rune(NgLibFrontRepoSwitchGetFrontMap)) + `}}

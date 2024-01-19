@@ -103,7 +103,6 @@ export class FrontRepo { // insertion point sub template
     }
   }
 
-
   // getMap allows for a get function that is robust to refactoring of the named struct name
   getMap<Type>(gongStructName: string): Map<number, Type> { // deprecated
     switch (gongStructName) {
@@ -122,6 +121,7 @@ export class FrontRepo { // insertion point sub template
         throw new Error("Type not recognized");
     }
   }
+  
   getFrontMap<Type>(gongStructName: string): Map<number, Type> {
     switch (gongStructName) {
       // insertion point
