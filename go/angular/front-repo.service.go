@@ -221,6 +221,7 @@ map[FrontRepoInsertionPointId]string{
 
 	NgLibFrontRepoServiceImports: `
 import { {{Structname}}DB } from './{{structname}}-db'
+import { {{Structname}}, Copy{{Structname}}DBTo{{Structname}} } from './{{structname}}'
 import { {{Structname}}Service } from './{{structname}}.service'
 `,
 
@@ -228,6 +229,9 @@ import { {{Structname}}Service } from './{{structname}}.service'
   {{Structname}}s_array = new Array<{{Structname}}DB>() // array of repo instances
   {{Structname}}s = new Map<number, {{Structname}}DB>() // map of repo instances
   {{Structname}}s_batch = new Map<number, {{Structname}}DB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_{{Structname}}s = new Array<{{Structname}}>() // array of front instances
+  map_ID_{{Structname}} = new Map<number, {{Structname}}>() // map of front instances
 `,
 
 	NgLibFrontRepoSwitchGetArray: `
@@ -262,17 +266,17 @@ import { {{Structname}}Service } from './{{structname}}.service'
             this.frontRepo.{{Structname}}s_batch.clear()
 
             {{structname}}s.forEach(
-              {{structname}} => {
-                this.frontRepo.{{Structname}}s.set({{structname}}.ID, {{structname}})
-                this.frontRepo.{{Structname}}s_batch.set({{structname}}.ID, {{structname}})
+              {{structname}}DB => {
+                this.frontRepo.{{Structname}}s.set({{structname}}DB.ID, {{structname}}DB)
+                this.frontRepo.{{Structname}}s_batch.set({{structname}}DB.ID, {{structname}}DB)
               }
             )
 
             // clear {{structname}}s that are absent from the batch
             this.frontRepo.{{Structname}}s.forEach(
-              {{structname}} => {
-                if (this.frontRepo.{{Structname}}s_batch.get({{structname}}.ID) == undefined) {
-                  this.frontRepo.{{Structname}}s.delete({{structname}}.ID)
+              {{structname}}DB => {
+                if (this.frontRepo.{{Structname}}s_batch.get({{structname}}DB.ID) == undefined) {
+                  this.frontRepo.{{Structname}}s.delete({{structname}}DB.ID)
                 }
               }
             )
@@ -287,6 +291,18 @@ import { {{Structname}}Service } from './{{structname}}.service'
               }
               return 0;
             });
+
+            // init front objects
+            this.frontRepo.array_{{Structname}}s = []
+            this.frontRepo.map_ID_{{Structname}}.clear()
+            this.frontRepo.{{Structname}}s_array.forEach(
+              {{structname}}DB => {
+                let {{structname}} = new {{Structname}}
+                Copy{{Structname}}DBTo{{Structname}}({{structname}}DB, {{structname}}, this.frontRepo)
+                this.frontRepo.array_{{Structname}}s.push({{structname}})
+                this.frontRepo.map_ID_{{Structname}}.set({{structname}}.ID, {{structname}})
+              }
+            )
 `,
 
 	NgLibFrontRepoRedeemPointers: `

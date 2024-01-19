@@ -27,6 +27,8 @@ export class Bstruct {
 
 export function CopyBstructToBstructDB(bstruct: Bstruct, bstructDB: BstructDB) {
 
+	bstructDB.ID = bstruct.ID
+	
 	// insertion point for basic fields copy operations
 	bstructDB.Name = bstruct.Name
 	bstructDB.Floatfield = bstruct.Floatfield
@@ -40,6 +42,8 @@ export function CopyBstructToBstructDB(bstruct: Bstruct, bstructDB: BstructDB) {
 
 export function CopyBstructDBToBstruct(bstructDB: BstructDB, bstruct: Bstruct, frontRepo: FrontRepo) {
 
+	bstruct.ID = bstructDB.ID
+	
 	// insertion point for basic fields copy operations
 	bstruct.Name = bstructDB.Name
 	bstruct.Floatfield = bstructDB.Floatfield
