@@ -27,17 +27,33 @@ export class FrontRepo { // insertion point sub template{{` + string(rune(NgLibF
   // for instance frontRepo.getArray<Astruct>( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
   // contrary to frontRepo.Astructs_array which is not refactored when Astruct identifier is modified
   getArray<Type>(gongStructName: string): Array<Type> {
-    switch (gongStructName) {
+    switch (gongStructName) { // deprecated
       // insertion point{{` + string(rune(NgLibFrontRepoSwitchGetArray)) + `}}
       default:
         throw new Error("Type not recognized");
     }
   }
 
+  getFrontArray<Type>(gongStructName: string): Array<Type> {
+    switch (gongStructName) {
+      // insertion point{{` + string(rune(NgLibFrontRepoSwitchGetFrontArray)) + `}}
+      default:
+        throw new Error("Type not recognized");
+    }
+  }
+  
+
   // getMap allows for a get function that is robust to refactoring of the named struct name
-  getMap<Type>(gongStructName: string): Map<number, Type> {
+  getMap<Type>(gongStructName: string): Map<number, Type> { // deprecated
     switch (gongStructName) {
       // insertion point{{` + string(rune(NgLibFrontRepoSwitchGetMap)) + `}}
+      default:
+        throw new Error("Type not recognized");
+    }
+  }
+  getFrontMap<Type>(gongStructName: string): Map<number, Type> {
+    switch (gongStructName) {
+      // insertion point{{` + string(rune(NgLibFrontRepoSwitchGetFrontMap)) + `}}
       default:
         throw new Error("Type not recognized");
     }
@@ -204,6 +220,8 @@ const (
 	NgLibFrontRepoMapDecl
 	NgLibFrontRepoSwitchGetArray
 	NgLibFrontRepoSwitchGetMap
+	NgLibFrontRepoSwitchGetFrontArray
+	NgLibFrontRepoSwitchGetFrontMap
 	NgLibFrontRepoObservableArrayType
 	NgLibFrontRepoTypeCasting
 	NgLibFrontRepoServiceDecl
@@ -241,6 +259,14 @@ import { {{Structname}}Service } from './{{structname}}.service'
 	NgLibFrontRepoSwitchGetMap: `
       case '{{Structname}}':
         return this.{{Structname}}s as unknown as Map<number, Type>`,
+
+	NgLibFrontRepoSwitchGetFrontArray: `
+      case '{{Structname}}':
+        return this.array_{{Structname}}s as unknown as Array<Type>`,
+
+	NgLibFrontRepoSwitchGetFrontMap: `
+      case '{{Structname}}':
+        return this.map_ID_{{Structname}} as unknown as Map<number, Type>`,
 
 	NgLibFrontRepoObservableArrayType: `
     Observable<{{Structname}}DB[]>,`,
