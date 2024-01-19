@@ -138,7 +138,7 @@ export class AstructBstructUseService {
       params: params
     }
 
-    return this.http.put<AstructBstructUseDB>(url, AstructBstructUseDB, httpOptions).pipe(
+    return this.http.put<AstructBstructUseDB>(url, astructbstructuseDB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<AstructBstructUseDB>('updateAstructBstructUse'))

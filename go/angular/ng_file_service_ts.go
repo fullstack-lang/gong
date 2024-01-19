@@ -144,7 +144,7 @@ export class {{Structname}}Service {
       params: params
     }
 
-    return this.http.put<{{Structname}}DB>(url, {{Structname}}DB, httpOptions).pipe(
+    return this.http.put<{{Structname}}DB>(url, {{structname}}DB, httpOptions).pipe(
       tap(_ => {
       }),
       catchError(this.handleError<{{Structname}}DB>('update{{Structname}}'))
