@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { AstructDB } from './astruct-db';
+import { AstructDB } from './astruct-db'
+import { Astruct, CopyAstructToAstructDB } from './astruct'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -19,7 +21,6 @@ import { BstructDB } from './bstruct-db'
 import { DstructDB } from './dstruct-db'
 import { AstructBstructUseDB } from './astructbstructuse-db'
 import { AstructBstruct2UseDB } from './astructbstruct2use-db'
-import { Astruct, CopyAstructToAstructDB } from './astruct';
 
 @Injectable({
   providedIn: 'root'
@@ -237,11 +238,11 @@ export class AstructService {
   }
 
   // updateFront copy astruct to a version with encoded pointers and update to the back
-  updateFront(astruct: Astruct, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructDB> {
+  updateFront(astruct: Astruct, GONG__StackPath: string): Observable<AstructDB> {
     let astructDB = new AstructDB
     CopyAstructToAstructDB(astruct, astructDB)
     const id = typeof astructDB === 'number' ? astructDB : astructDB.ID
-    const url = `${this.astructsUrl}/${id}`
+    const url = `${this.astructsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -255,7 +256,7 @@ export class AstructService {
     );
   }
 
-  /** PUT: update the astructdb on the server (deprecated) */
+  /** PUT: update the astructdb on the server */
   update(astructdb: AstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructDB> {
     return this.updateAstruct(astructdb, GONG__StackPath, frontRepo)
   }
