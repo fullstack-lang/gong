@@ -343,18 +343,6 @@ export class FrontRepoService {
               return 0;
             });
 
-            // init front objects
-            this.frontRepo.array_Astructs = []
-            this.frontRepo.map_ID_Astruct.clear()
-            this.frontRepo.Astructs_array.forEach(
-              astructDB => {
-                let astruct = new Astruct
-                CopyAstructDBToAstruct(astructDB, astruct, this.frontRepo)
-                this.frontRepo.array_Astructs.push(astruct)
-                this.frontRepo.map_ID_Astruct.set(astruct.ID, astruct)
-              }
-            )
-
             // init the array
             this.frontRepo.AstructBstruct2Uses_array = astructbstruct2uses
 
@@ -387,18 +375,6 @@ export class FrontRepoService {
               }
               return 0;
             });
-
-            // init front objects
-            this.frontRepo.array_AstructBstruct2Uses = []
-            this.frontRepo.map_ID_AstructBstruct2Use.clear()
-            this.frontRepo.AstructBstruct2Uses_array.forEach(
-              astructbstruct2useDB => {
-                let astructbstruct2use = new AstructBstruct2Use
-                CopyAstructBstruct2UseDBToAstructBstruct2Use(astructbstruct2useDB, astructbstruct2use, this.frontRepo)
-                this.frontRepo.array_AstructBstruct2Uses.push(astructbstruct2use)
-                this.frontRepo.map_ID_AstructBstruct2Use.set(astructbstruct2use.ID, astructbstruct2use)
-              }
-            )
 
             // init the array
             this.frontRepo.AstructBstructUses_array = astructbstructuses
@@ -433,18 +409,6 @@ export class FrontRepoService {
               return 0;
             });
 
-            // init front objects
-            this.frontRepo.array_AstructBstructUses = []
-            this.frontRepo.map_ID_AstructBstructUse.clear()
-            this.frontRepo.AstructBstructUses_array.forEach(
-              astructbstructuseDB => {
-                let astructbstructuse = new AstructBstructUse
-                CopyAstructBstructUseDBToAstructBstructUse(astructbstructuseDB, astructbstructuse, this.frontRepo)
-                this.frontRepo.array_AstructBstructUses.push(astructbstructuse)
-                this.frontRepo.map_ID_AstructBstructUse.set(astructbstructuse.ID, astructbstructuse)
-              }
-            )
-
             // init the array
             this.frontRepo.Bstructs_array = bstructs
 
@@ -478,18 +442,6 @@ export class FrontRepoService {
               return 0;
             });
 
-            // init front objects
-            this.frontRepo.array_Bstructs = []
-            this.frontRepo.map_ID_Bstruct.clear()
-            this.frontRepo.Bstructs_array.forEach(
-              bstructDB => {
-                let bstruct = new Bstruct
-                CopyBstructDBToBstruct(bstructDB, bstruct, this.frontRepo)
-                this.frontRepo.array_Bstructs.push(bstruct)
-                this.frontRepo.map_ID_Bstruct.set(bstruct.ID, bstruct)
-              }
-            )
-
             // init the array
             this.frontRepo.Dstructs_array = dstructs
 
@@ -522,18 +474,6 @@ export class FrontRepoService {
               }
               return 0;
             });
-
-            // init front objects
-            this.frontRepo.array_Dstructs = []
-            this.frontRepo.map_ID_Dstruct.clear()
-            this.frontRepo.Dstructs_array.forEach(
-              dstructDB => {
-                let dstruct = new Dstruct
-                CopyDstructDBToDstruct(dstructDB, dstruct, this.frontRepo)
-                this.frontRepo.array_Dstructs.push(dstruct)
-                this.frontRepo.map_ID_Dstruct.set(dstruct.ID, dstruct)
-              }
-            )
 
 
             // 
@@ -688,6 +628,76 @@ export class FrontRepoService {
                 }
               }
             )
+
+            // 
+            // Third Step: reddeem front objects
+            // insertion point sub template for redeem 
+            
+            // init front objects
+            this.frontRepo.array_Astructs = []
+            this.frontRepo.map_ID_Astruct.clear()
+            this.frontRepo.Astructs_array.forEach(
+              astructDB => {
+                let astruct = new Astruct
+                CopyAstructDBToAstruct(astructDB, astruct, this.frontRepo)
+                this.frontRepo.array_Astructs.push(astruct)
+                this.frontRepo.map_ID_Astruct.set(astruct.ID, astruct)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_AstructBstruct2Uses = []
+            this.frontRepo.map_ID_AstructBstruct2Use.clear()
+            this.frontRepo.AstructBstruct2Uses_array.forEach(
+              astructbstruct2useDB => {
+                let astructbstruct2use = new AstructBstruct2Use
+                CopyAstructBstruct2UseDBToAstructBstruct2Use(astructbstruct2useDB, astructbstruct2use, this.frontRepo)
+                this.frontRepo.array_AstructBstruct2Uses.push(astructbstruct2use)
+                this.frontRepo.map_ID_AstructBstruct2Use.set(astructbstruct2use.ID, astructbstruct2use)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_AstructBstructUses = []
+            this.frontRepo.map_ID_AstructBstructUse.clear()
+            this.frontRepo.AstructBstructUses_array.forEach(
+              astructbstructuseDB => {
+                let astructbstructuse = new AstructBstructUse
+                CopyAstructBstructUseDBToAstructBstructUse(astructbstructuseDB, astructbstructuse, this.frontRepo)
+                this.frontRepo.array_AstructBstructUses.push(astructbstructuse)
+                this.frontRepo.map_ID_AstructBstructUse.set(astructbstructuse.ID, astructbstructuse)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Bstructs = []
+            this.frontRepo.map_ID_Bstruct.clear()
+            this.frontRepo.Bstructs_array.forEach(
+              bstructDB => {
+                let bstruct = new Bstruct
+                CopyBstructDBToBstruct(bstructDB, bstruct, this.frontRepo)
+                this.frontRepo.array_Bstructs.push(bstruct)
+                this.frontRepo.map_ID_Bstruct.set(bstruct.ID, bstruct)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Dstructs = []
+            this.frontRepo.map_ID_Dstruct.clear()
+            this.frontRepo.Dstructs_array.forEach(
+              dstructDB => {
+                let dstruct = new Dstruct
+                CopyDstructDBToDstruct(dstructDB, dstruct, this.frontRepo)
+                this.frontRepo.array_Dstructs.push(dstruct)
+                this.frontRepo.map_ID_Dstruct.set(dstruct.ID, dstruct)
+              }
+            )
+
+
 
             // hand over control flow to observer
             observer.next(this.frontRepo)
