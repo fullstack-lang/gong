@@ -89,6 +89,25 @@ export class {{Structname}}Service {
     );
   }
 
+  // postFront copy {{structname}} to a version with encoded pointers and post to the back
+  postFront({{structname}}: {{Structname}}, GONG__StackPath: string): Observable<{{Structname}}DB> {
+    let {{structname}}DB = new {{Structname}}DB
+    Copy{{Structname}}To{{Structname}}DB({{structname}}, {{structname}}DB)
+    const id = typeof {{structname}}DB === 'number' ? {{structname}}DB : {{structname}}DB.ID
+    const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<{{Structname}}DB>(url, {{structname}}DB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<{{Structname}}DB>('post{{Structname}}'))
+    );
+  }
+  
   /** POST: add a new {{structname}} to the server */
   post({{structname}}db: {{Structname}}DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}DB> {
     return this.post{{Structname}}({{structname}}db, GONG__StackPath, frontRepo)
