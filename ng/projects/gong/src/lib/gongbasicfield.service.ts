@@ -77,6 +77,25 @@ export class GongBasicFieldService {
     );
   }
 
+  // postFront copy gongbasicfield to a version with encoded pointers and post to the back
+  postFront(gongbasicfield: GongBasicField, GONG__StackPath: string): Observable<GongBasicFieldDB> {
+    let gongbasicfieldDB = new GongBasicFieldDB
+    CopyGongBasicFieldToGongBasicFieldDB(gongbasicfield, gongbasicfieldDB)
+    const id = typeof gongbasicfieldDB === 'number' ? gongbasicfieldDB : gongbasicfieldDB.ID
+    const url = `${this.gongbasicfieldsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<GongBasicFieldDB>(url, gongbasicfieldDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<GongBasicFieldDB>('postGongBasicField'))
+    );
+  }
+  
   /** POST: add a new gongbasicfield to the server */
   post(gongbasicfielddb: GongBasicFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongBasicFieldDB> {
     return this.postGongBasicField(gongbasicfielddb, GONG__StackPath, frontRepo)

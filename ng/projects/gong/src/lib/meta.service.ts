@@ -77,6 +77,25 @@ export class MetaService {
     );
   }
 
+  // postFront copy meta to a version with encoded pointers and post to the back
+  postFront(meta: Meta, GONG__StackPath: string): Observable<MetaDB> {
+    let metaDB = new MetaDB
+    CopyMetaToMetaDB(meta, metaDB)
+    const id = typeof metaDB === 'number' ? metaDB : metaDB.ID
+    const url = `${this.metasUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<MetaDB>(url, metaDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<MetaDB>('postMeta'))
+    );
+  }
+  
   /** POST: add a new meta to the server */
   post(metadb: MetaDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaDB> {
     return this.postMeta(metadb, GONG__StackPath, frontRepo)

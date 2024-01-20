@@ -77,6 +77,25 @@ export class PointerToGongStructFieldService {
     );
   }
 
+  // postFront copy pointertogongstructfield to a version with encoded pointers and post to the back
+  postFront(pointertogongstructfield: PointerToGongStructField, GONG__StackPath: string): Observable<PointerToGongStructFieldDB> {
+    let pointertogongstructfieldDB = new PointerToGongStructFieldDB
+    CopyPointerToGongStructFieldToPointerToGongStructFieldDB(pointertogongstructfield, pointertogongstructfieldDB)
+    const id = typeof pointertogongstructfieldDB === 'number' ? pointertogongstructfieldDB : pointertogongstructfieldDB.ID
+    const url = `${this.pointertogongstructfieldsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<PointerToGongStructFieldDB>(url, pointertogongstructfieldDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<PointerToGongStructFieldDB>('postPointerToGongStructField'))
+    );
+  }
+  
   /** POST: add a new pointertogongstructfield to the server */
   post(pointertogongstructfielddb: PointerToGongStructFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointerToGongStructFieldDB> {
     return this.postPointerToGongStructField(pointertogongstructfielddb, GONG__StackPath, frontRepo)
