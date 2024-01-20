@@ -80,6 +80,25 @@ export class AstructService {
     );
   }
 
+  // postFront copy astruct to a version with encoded pointers and post to the back
+  postFront(astruct: Astruct, GONG__StackPath: string): Observable<AstructDB> {
+    let astructDB = new AstructDB
+    CopyAstructToAstructDB(astruct, astructDB)
+    const id = typeof astructDB === 'number' ? astructDB : astructDB.ID
+    const url = `${this.astructsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<AstructDB>(url, astructDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<AstructDB>('postAstruct'))
+    );
+  }
+  
   /** POST: add a new astruct to the server */
   post(astructdb: AstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructDB> {
     return this.postAstruct(astructdb, GONG__StackPath, frontRepo)

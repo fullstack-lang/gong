@@ -77,6 +77,25 @@ export class AstructBstructUseService {
     );
   }
 
+  // postFront copy astructbstructuse to a version with encoded pointers and post to the back
+  postFront(astructbstructuse: AstructBstructUse, GONG__StackPath: string): Observable<AstructBstructUseDB> {
+    let astructbstructuseDB = new AstructBstructUseDB
+    CopyAstructBstructUseToAstructBstructUseDB(astructbstructuse, astructbstructuseDB)
+    const id = typeof astructbstructuseDB === 'number' ? astructbstructuseDB : astructbstructuseDB.ID
+    const url = `${this.astructbstructusesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<AstructBstructUseDB>(url, astructbstructuseDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<AstructBstructUseDB>('postAstructBstructUse'))
+    );
+  }
+  
   /** POST: add a new astructbstructuse to the server */
   post(astructbstructusedb: AstructBstructUseDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstructUseDB> {
     return this.postAstructBstructUse(astructbstructusedb, GONG__StackPath, frontRepo)

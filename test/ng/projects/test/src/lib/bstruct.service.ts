@@ -76,6 +76,25 @@ export class BstructService {
     );
   }
 
+  // postFront copy bstruct to a version with encoded pointers and post to the back
+  postFront(bstruct: Bstruct, GONG__StackPath: string): Observable<BstructDB> {
+    let bstructDB = new BstructDB
+    CopyBstructToBstructDB(bstruct, bstructDB)
+    const id = typeof bstructDB === 'number' ? bstructDB : bstructDB.ID
+    const url = `${this.bstructsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<BstructDB>(url, bstructDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<BstructDB>('postBstruct'))
+    );
+  }
+  
   /** POST: add a new bstruct to the server */
   post(bstructdb: BstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructDB> {
     return this.postBstruct(bstructdb, GONG__StackPath, frontRepo)

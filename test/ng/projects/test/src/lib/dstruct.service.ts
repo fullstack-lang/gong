@@ -77,6 +77,25 @@ export class DstructService {
     );
   }
 
+  // postFront copy dstruct to a version with encoded pointers and post to the back
+  postFront(dstruct: Dstruct, GONG__StackPath: string): Observable<DstructDB> {
+    let dstructDB = new DstructDB
+    CopyDstructToDstructDB(dstruct, dstructDB)
+    const id = typeof dstructDB === 'number' ? dstructDB : dstructDB.ID
+    const url = `${this.dstructsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<DstructDB>(url, dstructDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<DstructDB>('postDstruct'))
+    );
+  }
+  
   /** POST: add a new dstruct to the server */
   post(dstructdb: DstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructDB> {
     return this.postDstruct(dstructdb, GONG__StackPath, frontRepo)
