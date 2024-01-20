@@ -1,7 +1,7 @@
 import * as gongsvg from 'gongsvg'
 import { Segment } from './draw.segments';
 
-export function getEndArrowPath(link: gongsvg.LinkDB, segment: Segment, arrowSize: number): string {
+export function getEndArrowPath(link: gongsvg.Link, segment: Segment, arrowSize: number): string {
     const ratio = 0.707106781 / 2 // (1/sqrt(2)) / 2
 
     let firstStartX = segment.EndPoint.X

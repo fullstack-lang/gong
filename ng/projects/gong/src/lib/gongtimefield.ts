@@ -26,6 +26,10 @@ export class GongTimeField {
 
 export function CopyGongTimeFieldToGongTimeFieldDB(gongtimefield: GongTimeField, gongtimefieldDB: GongTimeFieldDB) {
 
+	gongtimefieldDB.CreatedAt = gongtimefield.CreatedAt
+	gongtimefieldDB.DeletedAt = gongtimefield.DeletedAt
+	gongtimefieldDB.ID = gongtimefield.ID
+	
 	// insertion point for basic fields copy operations
 	gongtimefieldDB.Name = gongtimefield.Name
 	gongtimefieldDB.Index = gongtimefield.Index
@@ -38,6 +42,10 @@ export function CopyGongTimeFieldToGongTimeFieldDB(gongtimefield: GongTimeField,
 
 export function CopyGongTimeFieldDBToGongTimeField(gongtimefieldDB: GongTimeFieldDB, gongtimefield: GongTimeField, frontRepo: FrontRepo) {
 
+	gongtimefield.CreatedAt = gongtimefieldDB.CreatedAt
+	gongtimefield.DeletedAt = gongtimefieldDB.DeletedAt
+	gongtimefield.ID = gongtimefieldDB.ID
+	
 	// insertion point for basic fields copy operations
 	gongtimefield.Name = gongtimefieldDB.Name
 	gongtimefield.Index = gongtimefieldDB.Index

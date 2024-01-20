@@ -13,6 +13,14 @@ export class FrontRepo { // insertion point sub template
   // for instance frontRepo.getArray<Astruct>( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
   // contrary to frontRepo.Astructs_array which is not refactored when Astruct identifier is modified
   getArray<Type>(gongStructName: string): Array<Type> {
+    switch (gongStructName) { // deprecated
+      // insertion point
+      default:
+        throw new Error("Type not recognized");
+    }
+  }
+
+  getFrontArray<Type>(gongStructName: string): Array<Type> {
     switch (gongStructName) {
       // insertion point
       default:
@@ -21,7 +29,15 @@ export class FrontRepo { // insertion point sub template
   }
 
   // getMap allows for a get function that is robust to refactoring of the named struct name
-  getMap<Type>(gongStructName: string): Map<number, Type> {
+  getMap<Type>(gongStructName: string): Map<number, Type> { // deprecated
+    switch (gongStructName) {
+      // insertion point
+      default:
+        throw new Error("Type not recognized");
+    }
+  }
+  
+  getFrontMap<Type>(gongStructName: string): Map<number, Type> {
     switch (gongStructName) {
       // insertion point
       default:
@@ -168,6 +184,11 @@ export class FrontRepoService {
             // 
             // Second Step: reddeem slice of pointers fields
             // insertion point sub template for redeem 
+
+            // 
+            // Third Step: reddeem front objects
+            // insertion point sub template for redeem 
+
 
             // hand over control flow to observer
             observer.next(this.frontRepo)

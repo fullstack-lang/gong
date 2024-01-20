@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { PointDB } from './point-db';
+import { PointDB } from './point-db'
+import { Point, CopyPointToPointDB } from './point'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class PointService {
     return this.http.delete<PointDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted pointdb id=${id}`)),
       catchError(this.handleError<PointDB>('deletePoint'))
+    );
+  }
+
+  // updateFront copy point to a version with encoded pointers and update to the back
+  updateFront(point: Point, GONG__StackPath: string): Observable<PointDB> {
+    let pointDB = new PointDB
+    CopyPointToPointDB(point, pointDB)
+    const id = typeof pointDB === 'number' ? pointDB : pointDB.ID
+    const url = `${this.pointsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<PointDB>(url, pointDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<PointDB>('updatePoint'))
     );
   }
 

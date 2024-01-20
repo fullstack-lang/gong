@@ -3,9 +3,9 @@ import { Segment } from '../draw.segments'
 import { TextWidthCalculatorComponent } from '../text-width-calculator/text-width-calculator.component'
 
 export function auto_Y_offset(
-    link: gongsvg.LinkDB,
+    link: gongsvg.Link,
     segment: Segment,
-    text: gongsvg.LinkAnchoredTextDB,
+    text: gongsvg.LinkAnchoredText,
     draggedSegmentPositionOnArrow: string,
     oneEm: number): number {
     // console.log(getFunctionName(), "text", text.Content)

@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { GongStructDB } from './gongstruct-db';
+import { GongStructDB } from './gongstruct-db'
+import { GongStruct, CopyGongStructToGongStructDB } from './gongstruct'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -166,6 +168,25 @@ export class GongStructService {
     return this.http.delete<GongStructDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted gongstructdb id=${id}`)),
       catchError(this.handleError<GongStructDB>('deleteGongStruct'))
+    );
+  }
+
+  // updateFront copy gongstruct to a version with encoded pointers and update to the back
+  updateFront(gongstruct: GongStruct, GONG__StackPath: string): Observable<GongStructDB> {
+    let gongstructDB = new GongStructDB
+    CopyGongStructToGongStructDB(gongstruct, gongstructDB)
+    const id = typeof gongstructDB === 'number' ? gongstructDB : gongstructDB.ID
+    const url = `${this.gongstructsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<GongStructDB>(url, gongstructDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<GongStructDB>('updateGongStruct'))
     );
   }
 

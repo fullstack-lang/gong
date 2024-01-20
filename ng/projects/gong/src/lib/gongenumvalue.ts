@@ -25,6 +25,10 @@ export class GongEnumValue {
 
 export function CopyGongEnumValueToGongEnumValueDB(gongenumvalue: GongEnumValue, gongenumvalueDB: GongEnumValueDB) {
 
+	gongenumvalueDB.CreatedAt = gongenumvalue.CreatedAt
+	gongenumvalueDB.DeletedAt = gongenumvalue.DeletedAt
+	gongenumvalueDB.ID = gongenumvalue.ID
+	
 	// insertion point for basic fields copy operations
 	gongenumvalueDB.Name = gongenumvalue.Name
 	gongenumvalueDB.Value = gongenumvalue.Value
@@ -36,6 +40,10 @@ export function CopyGongEnumValueToGongEnumValueDB(gongenumvalue: GongEnumValue,
 
 export function CopyGongEnumValueDBToGongEnumValue(gongenumvalueDB: GongEnumValueDB, gongenumvalue: GongEnumValue, frontRepo: FrontRepo) {
 
+	gongenumvalue.CreatedAt = gongenumvalueDB.CreatedAt
+	gongenumvalue.DeletedAt = gongenumvalueDB.DeletedAt
+	gongenumvalue.ID = gongenumvalueDB.ID
+	
 	// insertion point for basic fields copy operations
 	gongenumvalue.Name = gongenumvalueDB.Name
 	gongenumvalue.Value = gongenumvalueDB.Value

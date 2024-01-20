@@ -34,6 +34,10 @@ export class GongStruct {
 
 export function CopyGongStructToGongStructDB(gongstruct: GongStruct, gongstructDB: GongStructDB) {
 
+	gongstructDB.CreatedAt = gongstruct.CreatedAt
+	gongstructDB.DeletedAt = gongstruct.DeletedAt
+	gongstructDB.ID = gongstruct.ID
+	
 	// insertion point for basic fields copy operations
 	gongstructDB.Name = gongstruct.Name
 	gongstructDB.HasOnAfterUpdateSignature = gongstruct.HasOnAfterUpdateSignature
@@ -66,6 +70,10 @@ export function CopyGongStructToGongStructDB(gongstruct: GongStruct, gongstructD
 
 export function CopyGongStructDBToGongStruct(gongstructDB: GongStructDB, gongstruct: GongStruct, frontRepo: FrontRepo) {
 
+	gongstruct.CreatedAt = gongstructDB.CreatedAt
+	gongstruct.DeletedAt = gongstructDB.DeletedAt
+	gongstruct.ID = gongstructDB.ID
+	
 	// insertion point for basic fields copy operations
 	gongstruct.Name = gongstructDB.Name
 	gongstruct.HasOnAfterUpdateSignature = gongstructDB.HasOnAfterUpdateSignature

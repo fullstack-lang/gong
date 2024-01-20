@@ -1,7 +1,7 @@
 import * as gongsvg from 'gongsvg'
 import { Segment } from './draw.segments';
 
-export function getArcPath(link: gongsvg.LinkDB, segment: Segment, nextSegment: Segment): string {
+export function getArcPath(link: gongsvg.Link, segment: Segment, nextSegment: Segment): string {
 
     const startDegree = 180
     const endDegree = 270

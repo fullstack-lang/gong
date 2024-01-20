@@ -26,6 +26,10 @@ export class GongLink {
 
 export function CopyGongLinkToGongLinkDB(gonglink: GongLink, gonglinkDB: GongLinkDB) {
 
+	gonglinkDB.CreatedAt = gonglink.CreatedAt
+	gonglinkDB.DeletedAt = gonglink.DeletedAt
+	gonglinkDB.ID = gonglink.ID
+	
 	// insertion point for basic fields copy operations
 	gonglinkDB.Name = gonglink.Name
 	gonglinkDB.Recv = gonglink.Recv
@@ -38,6 +42,10 @@ export function CopyGongLinkToGongLinkDB(gonglink: GongLink, gonglinkDB: GongLin
 
 export function CopyGongLinkDBToGongLink(gonglinkDB: GongLinkDB, gonglink: GongLink, frontRepo: FrontRepo) {
 
+	gonglink.CreatedAt = gonglinkDB.CreatedAt
+	gonglink.DeletedAt = gonglinkDB.DeletedAt
+	gonglink.ID = gonglinkDB.ID
+	
 	// insertion point for basic fields copy operations
 	gonglink.Name = gonglinkDB.Name
 	gonglink.Recv = gonglinkDB.Recv

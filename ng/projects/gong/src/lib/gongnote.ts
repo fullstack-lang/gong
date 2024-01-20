@@ -28,6 +28,10 @@ export class GongNote {
 
 export function CopyGongNoteToGongNoteDB(gongnote: GongNote, gongnoteDB: GongNoteDB) {
 
+	gongnoteDB.CreatedAt = gongnote.CreatedAt
+	gongnoteDB.DeletedAt = gongnote.DeletedAt
+	gongnoteDB.ID = gongnote.ID
+	
 	// insertion point for basic fields copy operations
 	gongnoteDB.Name = gongnote.Name
 	gongnoteDB.Body = gongnote.Body
@@ -45,6 +49,10 @@ export function CopyGongNoteToGongNoteDB(gongnote: GongNote, gongnoteDB: GongNot
 
 export function CopyGongNoteDBToGongNote(gongnoteDB: GongNoteDB, gongnote: GongNote, frontRepo: FrontRepo) {
 
+	gongnote.CreatedAt = gongnoteDB.CreatedAt
+	gongnote.DeletedAt = gongnoteDB.DeletedAt
+	gongnote.ID = gongnoteDB.ID
+	
 	// insertion point for basic fields copy operations
 	gongnote.Name = gongnoteDB.Name
 	gongnote.Body = gongnoteDB.Body

@@ -28,6 +28,10 @@ export class GongEnum {
 
 export function CopyGongEnumToGongEnumDB(gongenum: GongEnum, gongenumDB: GongEnumDB) {
 
+	gongenumDB.CreatedAt = gongenum.CreatedAt
+	gongenumDB.DeletedAt = gongenum.DeletedAt
+	gongenumDB.ID = gongenum.ID
+	
 	// insertion point for basic fields copy operations
 	gongenumDB.Name = gongenum.Name
 	gongenumDB.Type = gongenum.Type
@@ -44,6 +48,10 @@ export function CopyGongEnumToGongEnumDB(gongenum: GongEnum, gongenumDB: GongEnu
 
 export function CopyGongEnumDBToGongEnum(gongenumDB: GongEnumDB, gongenum: GongEnum, frontRepo: FrontRepo) {
 
+	gongenum.CreatedAt = gongenumDB.CreatedAt
+	gongenum.DeletedAt = gongenumDB.DeletedAt
+	gongenum.ID = gongenumDB.ID
+	
 	// insertion point for basic fields copy operations
 	gongenum.Name = gongenumDB.Name
 	gongenum.Type = gongenumDB.Type

@@ -24,6 +24,10 @@ export class MetaReference {
 
 export function CopyMetaReferenceToMetaReferenceDB(metareference: MetaReference, metareferenceDB: MetaReferenceDB) {
 
+	metareferenceDB.CreatedAt = metareference.CreatedAt
+	metareferenceDB.DeletedAt = metareference.DeletedAt
+	metareferenceDB.ID = metareference.ID
+	
 	// insertion point for basic fields copy operations
 	metareferenceDB.Name = metareference.Name
 
@@ -34,6 +38,10 @@ export function CopyMetaReferenceToMetaReferenceDB(metareference: MetaReference,
 
 export function CopyMetaReferenceDBToMetaReference(metareferenceDB: MetaReferenceDB, metareference: MetaReference, frontRepo: FrontRepo) {
 
+	metareference.CreatedAt = metareferenceDB.CreatedAt
+	metareference.DeletedAt = metareferenceDB.DeletedAt
+	metareference.ID = metareferenceDB.ID
+	
 	// insertion point for basic fields copy operations
 	metareference.Name = metareferenceDB.Name
 

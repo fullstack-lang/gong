@@ -5,57 +5,75 @@ import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
 // insertion point sub template for services imports
 import { AnimateDB } from './animate-db'
+import { Animate, CopyAnimateDBToAnimate } from './animate'
 import { AnimateService } from './animate.service'
 
 import { CircleDB } from './circle-db'
+import { Circle, CopyCircleDBToCircle } from './circle'
 import { CircleService } from './circle.service'
 
 import { EllipseDB } from './ellipse-db'
+import { Ellipse, CopyEllipseDBToEllipse } from './ellipse'
 import { EllipseService } from './ellipse.service'
 
 import { LayerDB } from './layer-db'
+import { Layer, CopyLayerDBToLayer } from './layer'
 import { LayerService } from './layer.service'
 
 import { LineDB } from './line-db'
+import { Line, CopyLineDBToLine } from './line'
 import { LineService } from './line.service'
 
 import { LinkDB } from './link-db'
+import { Link, CopyLinkDBToLink } from './link'
 import { LinkService } from './link.service'
 
 import { LinkAnchoredTextDB } from './linkanchoredtext-db'
+import { LinkAnchoredText, CopyLinkAnchoredTextDBToLinkAnchoredText } from './linkanchoredtext'
 import { LinkAnchoredTextService } from './linkanchoredtext.service'
 
 import { PathDB } from './path-db'
+import { Path, CopyPathDBToPath } from './path'
 import { PathService } from './path.service'
 
 import { PointDB } from './point-db'
+import { Point, CopyPointDBToPoint } from './point'
 import { PointService } from './point.service'
 
 import { PolygoneDB } from './polygone-db'
+import { Polygone, CopyPolygoneDBToPolygone } from './polygone'
 import { PolygoneService } from './polygone.service'
 
 import { PolylineDB } from './polyline-db'
+import { Polyline, CopyPolylineDBToPolyline } from './polyline'
 import { PolylineService } from './polyline.service'
 
 import { RectDB } from './rect-db'
+import { Rect, CopyRectDBToRect } from './rect'
 import { RectService } from './rect.service'
 
 import { RectAnchoredPathDB } from './rectanchoredpath-db'
+import { RectAnchoredPath, CopyRectAnchoredPathDBToRectAnchoredPath } from './rectanchoredpath'
 import { RectAnchoredPathService } from './rectanchoredpath.service'
 
 import { RectAnchoredRectDB } from './rectanchoredrect-db'
+import { RectAnchoredRect, CopyRectAnchoredRectDBToRectAnchoredRect } from './rectanchoredrect'
 import { RectAnchoredRectService } from './rectanchoredrect.service'
 
 import { RectAnchoredTextDB } from './rectanchoredtext-db'
+import { RectAnchoredText, CopyRectAnchoredTextDBToRectAnchoredText } from './rectanchoredtext'
 import { RectAnchoredTextService } from './rectanchoredtext.service'
 
 import { RectLinkLinkDB } from './rectlinklink-db'
+import { RectLinkLink, CopyRectLinkLinkDBToRectLinkLink } from './rectlinklink'
 import { RectLinkLinkService } from './rectlinklink.service'
 
 import { SVGDB } from './svg-db'
+import { SVG, CopySVGDBToSVG } from './svg'
 import { SVGService } from './svg.service'
 
 import { TextDB } from './text-db'
+import { Text, CopyTextDBToText } from './text'
 import { TextService } from './text.service'
 
 export const StackType = "github.com/fullstack-lang/gongsvg/go/models"
@@ -66,80 +84,134 @@ export class FrontRepo { // insertion point sub template
   Animates = new Map<number, AnimateDB>() // map of repo instances
   Animates_batch = new Map<number, AnimateDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_Animates = new Array<Animate>() // array of front instances
+  map_ID_Animate = new Map<number, Animate>() // map of front instances
+
   Circles_array = new Array<CircleDB>() // array of repo instances
   Circles = new Map<number, CircleDB>() // map of repo instances
   Circles_batch = new Map<number, CircleDB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_Circles = new Array<Circle>() // array of front instances
+  map_ID_Circle = new Map<number, Circle>() // map of front instances
 
   Ellipses_array = new Array<EllipseDB>() // array of repo instances
   Ellipses = new Map<number, EllipseDB>() // map of repo instances
   Ellipses_batch = new Map<number, EllipseDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_Ellipses = new Array<Ellipse>() // array of front instances
+  map_ID_Ellipse = new Map<number, Ellipse>() // map of front instances
+
   Layers_array = new Array<LayerDB>() // array of repo instances
   Layers = new Map<number, LayerDB>() // map of repo instances
   Layers_batch = new Map<number, LayerDB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_Layers = new Array<Layer>() // array of front instances
+  map_ID_Layer = new Map<number, Layer>() // map of front instances
 
   Lines_array = new Array<LineDB>() // array of repo instances
   Lines = new Map<number, LineDB>() // map of repo instances
   Lines_batch = new Map<number, LineDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_Lines = new Array<Line>() // array of front instances
+  map_ID_Line = new Map<number, Line>() // map of front instances
+
   Links_array = new Array<LinkDB>() // array of repo instances
   Links = new Map<number, LinkDB>() // map of repo instances
   Links_batch = new Map<number, LinkDB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_Links = new Array<Link>() // array of front instances
+  map_ID_Link = new Map<number, Link>() // map of front instances
 
   LinkAnchoredTexts_array = new Array<LinkAnchoredTextDB>() // array of repo instances
   LinkAnchoredTexts = new Map<number, LinkAnchoredTextDB>() // map of repo instances
   LinkAnchoredTexts_batch = new Map<number, LinkAnchoredTextDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_LinkAnchoredTexts = new Array<LinkAnchoredText>() // array of front instances
+  map_ID_LinkAnchoredText = new Map<number, LinkAnchoredText>() // map of front instances
+
   Paths_array = new Array<PathDB>() // array of repo instances
   Paths = new Map<number, PathDB>() // map of repo instances
   Paths_batch = new Map<number, PathDB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_Paths = new Array<Path>() // array of front instances
+  map_ID_Path = new Map<number, Path>() // map of front instances
 
   Points_array = new Array<PointDB>() // array of repo instances
   Points = new Map<number, PointDB>() // map of repo instances
   Points_batch = new Map<number, PointDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_Points = new Array<Point>() // array of front instances
+  map_ID_Point = new Map<number, Point>() // map of front instances
+
   Polygones_array = new Array<PolygoneDB>() // array of repo instances
   Polygones = new Map<number, PolygoneDB>() // map of repo instances
   Polygones_batch = new Map<number, PolygoneDB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_Polygones = new Array<Polygone>() // array of front instances
+  map_ID_Polygone = new Map<number, Polygone>() // map of front instances
 
   Polylines_array = new Array<PolylineDB>() // array of repo instances
   Polylines = new Map<number, PolylineDB>() // map of repo instances
   Polylines_batch = new Map<number, PolylineDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_Polylines = new Array<Polyline>() // array of front instances
+  map_ID_Polyline = new Map<number, Polyline>() // map of front instances
+
   Rects_array = new Array<RectDB>() // array of repo instances
   Rects = new Map<number, RectDB>() // map of repo instances
   Rects_batch = new Map<number, RectDB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_Rects = new Array<Rect>() // array of front instances
+  map_ID_Rect = new Map<number, Rect>() // map of front instances
 
   RectAnchoredPaths_array = new Array<RectAnchoredPathDB>() // array of repo instances
   RectAnchoredPaths = new Map<number, RectAnchoredPathDB>() // map of repo instances
   RectAnchoredPaths_batch = new Map<number, RectAnchoredPathDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_RectAnchoredPaths = new Array<RectAnchoredPath>() // array of front instances
+  map_ID_RectAnchoredPath = new Map<number, RectAnchoredPath>() // map of front instances
+
   RectAnchoredRects_array = new Array<RectAnchoredRectDB>() // array of repo instances
   RectAnchoredRects = new Map<number, RectAnchoredRectDB>() // map of repo instances
   RectAnchoredRects_batch = new Map<number, RectAnchoredRectDB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_RectAnchoredRects = new Array<RectAnchoredRect>() // array of front instances
+  map_ID_RectAnchoredRect = new Map<number, RectAnchoredRect>() // map of front instances
 
   RectAnchoredTexts_array = new Array<RectAnchoredTextDB>() // array of repo instances
   RectAnchoredTexts = new Map<number, RectAnchoredTextDB>() // map of repo instances
   RectAnchoredTexts_batch = new Map<number, RectAnchoredTextDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_RectAnchoredTexts = new Array<RectAnchoredText>() // array of front instances
+  map_ID_RectAnchoredText = new Map<number, RectAnchoredText>() // map of front instances
+
   RectLinkLinks_array = new Array<RectLinkLinkDB>() // array of repo instances
   RectLinkLinks = new Map<number, RectLinkLinkDB>() // map of repo instances
   RectLinkLinks_batch = new Map<number, RectLinkLinkDB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_RectLinkLinks = new Array<RectLinkLink>() // array of front instances
+  map_ID_RectLinkLink = new Map<number, RectLinkLink>() // map of front instances
 
   SVGs_array = new Array<SVGDB>() // array of repo instances
   SVGs = new Map<number, SVGDB>() // map of repo instances
   SVGs_batch = new Map<number, SVGDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_SVGs = new Array<SVG>() // array of front instances
+  map_ID_SVG = new Map<number, SVG>() // map of front instances
+
   Texts_array = new Array<TextDB>() // array of repo instances
   Texts = new Map<number, TextDB>() // map of repo instances
   Texts_batch = new Map<number, TextDB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_Texts = new Array<Text>() // array of front instances
+  map_ID_Text = new Map<number, Text>() // map of front instances
 
 
   // getArray allows for a get function that is robust to refactoring of the named struct name
   // for instance frontRepo.getArray<Astruct>( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
   // contrary to frontRepo.Astructs_array which is not refactored when Astruct identifier is modified
   getArray<Type>(gongStructName: string): Array<Type> {
-    switch (gongStructName) {
+    switch (gongStructName) { // deprecated
       // insertion point
       case 'Animate':
         return this.Animates_array as unknown as Array<Type>
@@ -182,8 +254,52 @@ export class FrontRepo { // insertion point sub template
     }
   }
 
+  getFrontArray<Type>(gongStructName: string): Array<Type> {
+    switch (gongStructName) {
+      // insertion point
+      case 'Animate':
+        return this.array_Animates as unknown as Array<Type>
+      case 'Circle':
+        return this.array_Circles as unknown as Array<Type>
+      case 'Ellipse':
+        return this.array_Ellipses as unknown as Array<Type>
+      case 'Layer':
+        return this.array_Layers as unknown as Array<Type>
+      case 'Line':
+        return this.array_Lines as unknown as Array<Type>
+      case 'Link':
+        return this.array_Links as unknown as Array<Type>
+      case 'LinkAnchoredText':
+        return this.array_LinkAnchoredTexts as unknown as Array<Type>
+      case 'Path':
+        return this.array_Paths as unknown as Array<Type>
+      case 'Point':
+        return this.array_Points as unknown as Array<Type>
+      case 'Polygone':
+        return this.array_Polygones as unknown as Array<Type>
+      case 'Polyline':
+        return this.array_Polylines as unknown as Array<Type>
+      case 'Rect':
+        return this.array_Rects as unknown as Array<Type>
+      case 'RectAnchoredPath':
+        return this.array_RectAnchoredPaths as unknown as Array<Type>
+      case 'RectAnchoredRect':
+        return this.array_RectAnchoredRects as unknown as Array<Type>
+      case 'RectAnchoredText':
+        return this.array_RectAnchoredTexts as unknown as Array<Type>
+      case 'RectLinkLink':
+        return this.array_RectLinkLinks as unknown as Array<Type>
+      case 'SVG':
+        return this.array_SVGs as unknown as Array<Type>
+      case 'Text':
+        return this.array_Texts as unknown as Array<Type>
+      default:
+        throw new Error("Type not recognized");
+    }
+  }
+
   // getMap allows for a get function that is robust to refactoring of the named struct name
-  getMap<Type>(gongStructName: string): Map<number, Type> {
+  getMap<Type>(gongStructName: string): Map<number, Type> { // deprecated
     switch (gongStructName) {
       // insertion point
       case 'Animate':
@@ -222,6 +338,50 @@ export class FrontRepo { // insertion point sub template
         return this.SVGs as unknown as Map<number, Type>
       case 'Text':
         return this.Texts as unknown as Map<number, Type>
+      default:
+        throw new Error("Type not recognized");
+    }
+  }
+  
+  getFrontMap<Type>(gongStructName: string): Map<number, Type> {
+    switch (gongStructName) {
+      // insertion point
+      case 'Animate':
+        return this.map_ID_Animate as unknown as Map<number, Type>
+      case 'Circle':
+        return this.map_ID_Circle as unknown as Map<number, Type>
+      case 'Ellipse':
+        return this.map_ID_Ellipse as unknown as Map<number, Type>
+      case 'Layer':
+        return this.map_ID_Layer as unknown as Map<number, Type>
+      case 'Line':
+        return this.map_ID_Line as unknown as Map<number, Type>
+      case 'Link':
+        return this.map_ID_Link as unknown as Map<number, Type>
+      case 'LinkAnchoredText':
+        return this.map_ID_LinkAnchoredText as unknown as Map<number, Type>
+      case 'Path':
+        return this.map_ID_Path as unknown as Map<number, Type>
+      case 'Point':
+        return this.map_ID_Point as unknown as Map<number, Type>
+      case 'Polygone':
+        return this.map_ID_Polygone as unknown as Map<number, Type>
+      case 'Polyline':
+        return this.map_ID_Polyline as unknown as Map<number, Type>
+      case 'Rect':
+        return this.map_ID_Rect as unknown as Map<number, Type>
+      case 'RectAnchoredPath':
+        return this.map_ID_RectAnchoredPath as unknown as Map<number, Type>
+      case 'RectAnchoredRect':
+        return this.map_ID_RectAnchoredRect as unknown as Map<number, Type>
+      case 'RectAnchoredText':
+        return this.map_ID_RectAnchoredText as unknown as Map<number, Type>
+      case 'RectLinkLink':
+        return this.map_ID_RectLinkLink as unknown as Map<number, Type>
+      case 'SVG':
+        return this.map_ID_SVG as unknown as Map<number, Type>
+      case 'Text':
+        return this.map_ID_Text as unknown as Map<number, Type>
       default:
         throw new Error("Type not recognized");
     }
@@ -495,17 +655,17 @@ export class FrontRepoService {
             this.frontRepo.Animates_batch.clear()
 
             animates.forEach(
-              animate => {
-                this.frontRepo.Animates.set(animate.ID, animate)
-                this.frontRepo.Animates_batch.set(animate.ID, animate)
+              animateDB => {
+                this.frontRepo.Animates.set(animateDB.ID, animateDB)
+                this.frontRepo.Animates_batch.set(animateDB.ID, animateDB)
               }
             )
 
             // clear animates that are absent from the batch
             this.frontRepo.Animates.forEach(
-              animate => {
-                if (this.frontRepo.Animates_batch.get(animate.ID) == undefined) {
-                  this.frontRepo.Animates.delete(animate.ID)
+              animateDB => {
+                if (this.frontRepo.Animates_batch.get(animateDB.ID) == undefined) {
+                  this.frontRepo.Animates.delete(animateDB.ID)
                 }
               }
             )
@@ -528,17 +688,17 @@ export class FrontRepoService {
             this.frontRepo.Circles_batch.clear()
 
             circles.forEach(
-              circle => {
-                this.frontRepo.Circles.set(circle.ID, circle)
-                this.frontRepo.Circles_batch.set(circle.ID, circle)
+              circleDB => {
+                this.frontRepo.Circles.set(circleDB.ID, circleDB)
+                this.frontRepo.Circles_batch.set(circleDB.ID, circleDB)
               }
             )
 
             // clear circles that are absent from the batch
             this.frontRepo.Circles.forEach(
-              circle => {
-                if (this.frontRepo.Circles_batch.get(circle.ID) == undefined) {
-                  this.frontRepo.Circles.delete(circle.ID)
+              circleDB => {
+                if (this.frontRepo.Circles_batch.get(circleDB.ID) == undefined) {
+                  this.frontRepo.Circles.delete(circleDB.ID)
                 }
               }
             )
@@ -561,17 +721,17 @@ export class FrontRepoService {
             this.frontRepo.Ellipses_batch.clear()
 
             ellipses.forEach(
-              ellipse => {
-                this.frontRepo.Ellipses.set(ellipse.ID, ellipse)
-                this.frontRepo.Ellipses_batch.set(ellipse.ID, ellipse)
+              ellipseDB => {
+                this.frontRepo.Ellipses.set(ellipseDB.ID, ellipseDB)
+                this.frontRepo.Ellipses_batch.set(ellipseDB.ID, ellipseDB)
               }
             )
 
             // clear ellipses that are absent from the batch
             this.frontRepo.Ellipses.forEach(
-              ellipse => {
-                if (this.frontRepo.Ellipses_batch.get(ellipse.ID) == undefined) {
-                  this.frontRepo.Ellipses.delete(ellipse.ID)
+              ellipseDB => {
+                if (this.frontRepo.Ellipses_batch.get(ellipseDB.ID) == undefined) {
+                  this.frontRepo.Ellipses.delete(ellipseDB.ID)
                 }
               }
             )
@@ -594,17 +754,17 @@ export class FrontRepoService {
             this.frontRepo.Layers_batch.clear()
 
             layers.forEach(
-              layer => {
-                this.frontRepo.Layers.set(layer.ID, layer)
-                this.frontRepo.Layers_batch.set(layer.ID, layer)
+              layerDB => {
+                this.frontRepo.Layers.set(layerDB.ID, layerDB)
+                this.frontRepo.Layers_batch.set(layerDB.ID, layerDB)
               }
             )
 
             // clear layers that are absent from the batch
             this.frontRepo.Layers.forEach(
-              layer => {
-                if (this.frontRepo.Layers_batch.get(layer.ID) == undefined) {
-                  this.frontRepo.Layers.delete(layer.ID)
+              layerDB => {
+                if (this.frontRepo.Layers_batch.get(layerDB.ID) == undefined) {
+                  this.frontRepo.Layers.delete(layerDB.ID)
                 }
               }
             )
@@ -627,17 +787,17 @@ export class FrontRepoService {
             this.frontRepo.Lines_batch.clear()
 
             lines.forEach(
-              line => {
-                this.frontRepo.Lines.set(line.ID, line)
-                this.frontRepo.Lines_batch.set(line.ID, line)
+              lineDB => {
+                this.frontRepo.Lines.set(lineDB.ID, lineDB)
+                this.frontRepo.Lines_batch.set(lineDB.ID, lineDB)
               }
             )
 
             // clear lines that are absent from the batch
             this.frontRepo.Lines.forEach(
-              line => {
-                if (this.frontRepo.Lines_batch.get(line.ID) == undefined) {
-                  this.frontRepo.Lines.delete(line.ID)
+              lineDB => {
+                if (this.frontRepo.Lines_batch.get(lineDB.ID) == undefined) {
+                  this.frontRepo.Lines.delete(lineDB.ID)
                 }
               }
             )
@@ -660,17 +820,17 @@ export class FrontRepoService {
             this.frontRepo.Links_batch.clear()
 
             links.forEach(
-              link => {
-                this.frontRepo.Links.set(link.ID, link)
-                this.frontRepo.Links_batch.set(link.ID, link)
+              linkDB => {
+                this.frontRepo.Links.set(linkDB.ID, linkDB)
+                this.frontRepo.Links_batch.set(linkDB.ID, linkDB)
               }
             )
 
             // clear links that are absent from the batch
             this.frontRepo.Links.forEach(
-              link => {
-                if (this.frontRepo.Links_batch.get(link.ID) == undefined) {
-                  this.frontRepo.Links.delete(link.ID)
+              linkDB => {
+                if (this.frontRepo.Links_batch.get(linkDB.ID) == undefined) {
+                  this.frontRepo.Links.delete(linkDB.ID)
                 }
               }
             )
@@ -693,17 +853,17 @@ export class FrontRepoService {
             this.frontRepo.LinkAnchoredTexts_batch.clear()
 
             linkanchoredtexts.forEach(
-              linkanchoredtext => {
-                this.frontRepo.LinkAnchoredTexts.set(linkanchoredtext.ID, linkanchoredtext)
-                this.frontRepo.LinkAnchoredTexts_batch.set(linkanchoredtext.ID, linkanchoredtext)
+              linkanchoredtextDB => {
+                this.frontRepo.LinkAnchoredTexts.set(linkanchoredtextDB.ID, linkanchoredtextDB)
+                this.frontRepo.LinkAnchoredTexts_batch.set(linkanchoredtextDB.ID, linkanchoredtextDB)
               }
             )
 
             // clear linkanchoredtexts that are absent from the batch
             this.frontRepo.LinkAnchoredTexts.forEach(
-              linkanchoredtext => {
-                if (this.frontRepo.LinkAnchoredTexts_batch.get(linkanchoredtext.ID) == undefined) {
-                  this.frontRepo.LinkAnchoredTexts.delete(linkanchoredtext.ID)
+              linkanchoredtextDB => {
+                if (this.frontRepo.LinkAnchoredTexts_batch.get(linkanchoredtextDB.ID) == undefined) {
+                  this.frontRepo.LinkAnchoredTexts.delete(linkanchoredtextDB.ID)
                 }
               }
             )
@@ -726,17 +886,17 @@ export class FrontRepoService {
             this.frontRepo.Paths_batch.clear()
 
             paths.forEach(
-              path => {
-                this.frontRepo.Paths.set(path.ID, path)
-                this.frontRepo.Paths_batch.set(path.ID, path)
+              pathDB => {
+                this.frontRepo.Paths.set(pathDB.ID, pathDB)
+                this.frontRepo.Paths_batch.set(pathDB.ID, pathDB)
               }
             )
 
             // clear paths that are absent from the batch
             this.frontRepo.Paths.forEach(
-              path => {
-                if (this.frontRepo.Paths_batch.get(path.ID) == undefined) {
-                  this.frontRepo.Paths.delete(path.ID)
+              pathDB => {
+                if (this.frontRepo.Paths_batch.get(pathDB.ID) == undefined) {
+                  this.frontRepo.Paths.delete(pathDB.ID)
                 }
               }
             )
@@ -759,17 +919,17 @@ export class FrontRepoService {
             this.frontRepo.Points_batch.clear()
 
             points.forEach(
-              point => {
-                this.frontRepo.Points.set(point.ID, point)
-                this.frontRepo.Points_batch.set(point.ID, point)
+              pointDB => {
+                this.frontRepo.Points.set(pointDB.ID, pointDB)
+                this.frontRepo.Points_batch.set(pointDB.ID, pointDB)
               }
             )
 
             // clear points that are absent from the batch
             this.frontRepo.Points.forEach(
-              point => {
-                if (this.frontRepo.Points_batch.get(point.ID) == undefined) {
-                  this.frontRepo.Points.delete(point.ID)
+              pointDB => {
+                if (this.frontRepo.Points_batch.get(pointDB.ID) == undefined) {
+                  this.frontRepo.Points.delete(pointDB.ID)
                 }
               }
             )
@@ -792,17 +952,17 @@ export class FrontRepoService {
             this.frontRepo.Polygones_batch.clear()
 
             polygones.forEach(
-              polygone => {
-                this.frontRepo.Polygones.set(polygone.ID, polygone)
-                this.frontRepo.Polygones_batch.set(polygone.ID, polygone)
+              polygoneDB => {
+                this.frontRepo.Polygones.set(polygoneDB.ID, polygoneDB)
+                this.frontRepo.Polygones_batch.set(polygoneDB.ID, polygoneDB)
               }
             )
 
             // clear polygones that are absent from the batch
             this.frontRepo.Polygones.forEach(
-              polygone => {
-                if (this.frontRepo.Polygones_batch.get(polygone.ID) == undefined) {
-                  this.frontRepo.Polygones.delete(polygone.ID)
+              polygoneDB => {
+                if (this.frontRepo.Polygones_batch.get(polygoneDB.ID) == undefined) {
+                  this.frontRepo.Polygones.delete(polygoneDB.ID)
                 }
               }
             )
@@ -825,17 +985,17 @@ export class FrontRepoService {
             this.frontRepo.Polylines_batch.clear()
 
             polylines.forEach(
-              polyline => {
-                this.frontRepo.Polylines.set(polyline.ID, polyline)
-                this.frontRepo.Polylines_batch.set(polyline.ID, polyline)
+              polylineDB => {
+                this.frontRepo.Polylines.set(polylineDB.ID, polylineDB)
+                this.frontRepo.Polylines_batch.set(polylineDB.ID, polylineDB)
               }
             )
 
             // clear polylines that are absent from the batch
             this.frontRepo.Polylines.forEach(
-              polyline => {
-                if (this.frontRepo.Polylines_batch.get(polyline.ID) == undefined) {
-                  this.frontRepo.Polylines.delete(polyline.ID)
+              polylineDB => {
+                if (this.frontRepo.Polylines_batch.get(polylineDB.ID) == undefined) {
+                  this.frontRepo.Polylines.delete(polylineDB.ID)
                 }
               }
             )
@@ -858,17 +1018,17 @@ export class FrontRepoService {
             this.frontRepo.Rects_batch.clear()
 
             rects.forEach(
-              rect => {
-                this.frontRepo.Rects.set(rect.ID, rect)
-                this.frontRepo.Rects_batch.set(rect.ID, rect)
+              rectDB => {
+                this.frontRepo.Rects.set(rectDB.ID, rectDB)
+                this.frontRepo.Rects_batch.set(rectDB.ID, rectDB)
               }
             )
 
             // clear rects that are absent from the batch
             this.frontRepo.Rects.forEach(
-              rect => {
-                if (this.frontRepo.Rects_batch.get(rect.ID) == undefined) {
-                  this.frontRepo.Rects.delete(rect.ID)
+              rectDB => {
+                if (this.frontRepo.Rects_batch.get(rectDB.ID) == undefined) {
+                  this.frontRepo.Rects.delete(rectDB.ID)
                 }
               }
             )
@@ -891,17 +1051,17 @@ export class FrontRepoService {
             this.frontRepo.RectAnchoredPaths_batch.clear()
 
             rectanchoredpaths.forEach(
-              rectanchoredpath => {
-                this.frontRepo.RectAnchoredPaths.set(rectanchoredpath.ID, rectanchoredpath)
-                this.frontRepo.RectAnchoredPaths_batch.set(rectanchoredpath.ID, rectanchoredpath)
+              rectanchoredpathDB => {
+                this.frontRepo.RectAnchoredPaths.set(rectanchoredpathDB.ID, rectanchoredpathDB)
+                this.frontRepo.RectAnchoredPaths_batch.set(rectanchoredpathDB.ID, rectanchoredpathDB)
               }
             )
 
             // clear rectanchoredpaths that are absent from the batch
             this.frontRepo.RectAnchoredPaths.forEach(
-              rectanchoredpath => {
-                if (this.frontRepo.RectAnchoredPaths_batch.get(rectanchoredpath.ID) == undefined) {
-                  this.frontRepo.RectAnchoredPaths.delete(rectanchoredpath.ID)
+              rectanchoredpathDB => {
+                if (this.frontRepo.RectAnchoredPaths_batch.get(rectanchoredpathDB.ID) == undefined) {
+                  this.frontRepo.RectAnchoredPaths.delete(rectanchoredpathDB.ID)
                 }
               }
             )
@@ -924,17 +1084,17 @@ export class FrontRepoService {
             this.frontRepo.RectAnchoredRects_batch.clear()
 
             rectanchoredrects.forEach(
-              rectanchoredrect => {
-                this.frontRepo.RectAnchoredRects.set(rectanchoredrect.ID, rectanchoredrect)
-                this.frontRepo.RectAnchoredRects_batch.set(rectanchoredrect.ID, rectanchoredrect)
+              rectanchoredrectDB => {
+                this.frontRepo.RectAnchoredRects.set(rectanchoredrectDB.ID, rectanchoredrectDB)
+                this.frontRepo.RectAnchoredRects_batch.set(rectanchoredrectDB.ID, rectanchoredrectDB)
               }
             )
 
             // clear rectanchoredrects that are absent from the batch
             this.frontRepo.RectAnchoredRects.forEach(
-              rectanchoredrect => {
-                if (this.frontRepo.RectAnchoredRects_batch.get(rectanchoredrect.ID) == undefined) {
-                  this.frontRepo.RectAnchoredRects.delete(rectanchoredrect.ID)
+              rectanchoredrectDB => {
+                if (this.frontRepo.RectAnchoredRects_batch.get(rectanchoredrectDB.ID) == undefined) {
+                  this.frontRepo.RectAnchoredRects.delete(rectanchoredrectDB.ID)
                 }
               }
             )
@@ -957,17 +1117,17 @@ export class FrontRepoService {
             this.frontRepo.RectAnchoredTexts_batch.clear()
 
             rectanchoredtexts.forEach(
-              rectanchoredtext => {
-                this.frontRepo.RectAnchoredTexts.set(rectanchoredtext.ID, rectanchoredtext)
-                this.frontRepo.RectAnchoredTexts_batch.set(rectanchoredtext.ID, rectanchoredtext)
+              rectanchoredtextDB => {
+                this.frontRepo.RectAnchoredTexts.set(rectanchoredtextDB.ID, rectanchoredtextDB)
+                this.frontRepo.RectAnchoredTexts_batch.set(rectanchoredtextDB.ID, rectanchoredtextDB)
               }
             )
 
             // clear rectanchoredtexts that are absent from the batch
             this.frontRepo.RectAnchoredTexts.forEach(
-              rectanchoredtext => {
-                if (this.frontRepo.RectAnchoredTexts_batch.get(rectanchoredtext.ID) == undefined) {
-                  this.frontRepo.RectAnchoredTexts.delete(rectanchoredtext.ID)
+              rectanchoredtextDB => {
+                if (this.frontRepo.RectAnchoredTexts_batch.get(rectanchoredtextDB.ID) == undefined) {
+                  this.frontRepo.RectAnchoredTexts.delete(rectanchoredtextDB.ID)
                 }
               }
             )
@@ -990,17 +1150,17 @@ export class FrontRepoService {
             this.frontRepo.RectLinkLinks_batch.clear()
 
             rectlinklinks.forEach(
-              rectlinklink => {
-                this.frontRepo.RectLinkLinks.set(rectlinklink.ID, rectlinklink)
-                this.frontRepo.RectLinkLinks_batch.set(rectlinklink.ID, rectlinklink)
+              rectlinklinkDB => {
+                this.frontRepo.RectLinkLinks.set(rectlinklinkDB.ID, rectlinklinkDB)
+                this.frontRepo.RectLinkLinks_batch.set(rectlinklinkDB.ID, rectlinklinkDB)
               }
             )
 
             // clear rectlinklinks that are absent from the batch
             this.frontRepo.RectLinkLinks.forEach(
-              rectlinklink => {
-                if (this.frontRepo.RectLinkLinks_batch.get(rectlinklink.ID) == undefined) {
-                  this.frontRepo.RectLinkLinks.delete(rectlinklink.ID)
+              rectlinklinkDB => {
+                if (this.frontRepo.RectLinkLinks_batch.get(rectlinklinkDB.ID) == undefined) {
+                  this.frontRepo.RectLinkLinks.delete(rectlinklinkDB.ID)
                 }
               }
             )
@@ -1023,17 +1183,17 @@ export class FrontRepoService {
             this.frontRepo.SVGs_batch.clear()
 
             svgs.forEach(
-              svg => {
-                this.frontRepo.SVGs.set(svg.ID, svg)
-                this.frontRepo.SVGs_batch.set(svg.ID, svg)
+              svgDB => {
+                this.frontRepo.SVGs.set(svgDB.ID, svgDB)
+                this.frontRepo.SVGs_batch.set(svgDB.ID, svgDB)
               }
             )
 
             // clear svgs that are absent from the batch
             this.frontRepo.SVGs.forEach(
-              svg => {
-                if (this.frontRepo.SVGs_batch.get(svg.ID) == undefined) {
-                  this.frontRepo.SVGs.delete(svg.ID)
+              svgDB => {
+                if (this.frontRepo.SVGs_batch.get(svgDB.ID) == undefined) {
+                  this.frontRepo.SVGs.delete(svgDB.ID)
                 }
               }
             )
@@ -1056,17 +1216,17 @@ export class FrontRepoService {
             this.frontRepo.Texts_batch.clear()
 
             texts.forEach(
-              text => {
-                this.frontRepo.Texts.set(text.ID, text)
-                this.frontRepo.Texts_batch.set(text.ID, text)
+              textDB => {
+                this.frontRepo.Texts.set(textDB.ID, textDB)
+                this.frontRepo.Texts_batch.set(textDB.ID, textDB)
               }
             )
 
             // clear texts that are absent from the batch
             this.frontRepo.Texts.forEach(
-              text => {
-                if (this.frontRepo.Texts_batch.get(text.ID) == undefined) {
-                  this.frontRepo.Texts.delete(text.ID)
+              textDB => {
+                if (this.frontRepo.Texts_batch.get(textDB.ID) == undefined) {
+                  this.frontRepo.Texts.delete(textDB.ID)
                 }
               }
             )
@@ -1425,6 +1585,245 @@ export class FrontRepoService {
                 }
               }
             )
+
+            // 
+            // Third Step: reddeem front objects
+            // insertion point sub template for redeem 
+            
+            // init front objects
+            this.frontRepo.array_Animates = []
+            this.frontRepo.map_ID_Animate.clear()
+            this.frontRepo.Animates_array.forEach(
+              animateDB => {
+                let animate = new Animate
+                CopyAnimateDBToAnimate(animateDB, animate, this.frontRepo)
+                this.frontRepo.array_Animates.push(animate)
+                this.frontRepo.map_ID_Animate.set(animate.ID, animate)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Circles = []
+            this.frontRepo.map_ID_Circle.clear()
+            this.frontRepo.Circles_array.forEach(
+              circleDB => {
+                let circle = new Circle
+                CopyCircleDBToCircle(circleDB, circle, this.frontRepo)
+                this.frontRepo.array_Circles.push(circle)
+                this.frontRepo.map_ID_Circle.set(circle.ID, circle)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Ellipses = []
+            this.frontRepo.map_ID_Ellipse.clear()
+            this.frontRepo.Ellipses_array.forEach(
+              ellipseDB => {
+                let ellipse = new Ellipse
+                CopyEllipseDBToEllipse(ellipseDB, ellipse, this.frontRepo)
+                this.frontRepo.array_Ellipses.push(ellipse)
+                this.frontRepo.map_ID_Ellipse.set(ellipse.ID, ellipse)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Layers = []
+            this.frontRepo.map_ID_Layer.clear()
+            this.frontRepo.Layers_array.forEach(
+              layerDB => {
+                let layer = new Layer
+                CopyLayerDBToLayer(layerDB, layer, this.frontRepo)
+                this.frontRepo.array_Layers.push(layer)
+                this.frontRepo.map_ID_Layer.set(layer.ID, layer)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Lines = []
+            this.frontRepo.map_ID_Line.clear()
+            this.frontRepo.Lines_array.forEach(
+              lineDB => {
+                let line = new Line
+                CopyLineDBToLine(lineDB, line, this.frontRepo)
+                this.frontRepo.array_Lines.push(line)
+                this.frontRepo.map_ID_Line.set(line.ID, line)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Links = []
+            this.frontRepo.map_ID_Link.clear()
+            this.frontRepo.Links_array.forEach(
+              linkDB => {
+                let link = new Link
+                CopyLinkDBToLink(linkDB, link, this.frontRepo)
+                this.frontRepo.array_Links.push(link)
+                this.frontRepo.map_ID_Link.set(link.ID, link)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_LinkAnchoredTexts = []
+            this.frontRepo.map_ID_LinkAnchoredText.clear()
+            this.frontRepo.LinkAnchoredTexts_array.forEach(
+              linkanchoredtextDB => {
+                let linkanchoredtext = new LinkAnchoredText
+                CopyLinkAnchoredTextDBToLinkAnchoredText(linkanchoredtextDB, linkanchoredtext, this.frontRepo)
+                this.frontRepo.array_LinkAnchoredTexts.push(linkanchoredtext)
+                this.frontRepo.map_ID_LinkAnchoredText.set(linkanchoredtext.ID, linkanchoredtext)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Paths = []
+            this.frontRepo.map_ID_Path.clear()
+            this.frontRepo.Paths_array.forEach(
+              pathDB => {
+                let path = new Path
+                CopyPathDBToPath(pathDB, path, this.frontRepo)
+                this.frontRepo.array_Paths.push(path)
+                this.frontRepo.map_ID_Path.set(path.ID, path)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Points = []
+            this.frontRepo.map_ID_Point.clear()
+            this.frontRepo.Points_array.forEach(
+              pointDB => {
+                let point = new Point
+                CopyPointDBToPoint(pointDB, point, this.frontRepo)
+                this.frontRepo.array_Points.push(point)
+                this.frontRepo.map_ID_Point.set(point.ID, point)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Polygones = []
+            this.frontRepo.map_ID_Polygone.clear()
+            this.frontRepo.Polygones_array.forEach(
+              polygoneDB => {
+                let polygone = new Polygone
+                CopyPolygoneDBToPolygone(polygoneDB, polygone, this.frontRepo)
+                this.frontRepo.array_Polygones.push(polygone)
+                this.frontRepo.map_ID_Polygone.set(polygone.ID, polygone)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Polylines = []
+            this.frontRepo.map_ID_Polyline.clear()
+            this.frontRepo.Polylines_array.forEach(
+              polylineDB => {
+                let polyline = new Polyline
+                CopyPolylineDBToPolyline(polylineDB, polyline, this.frontRepo)
+                this.frontRepo.array_Polylines.push(polyline)
+                this.frontRepo.map_ID_Polyline.set(polyline.ID, polyline)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Rects = []
+            this.frontRepo.map_ID_Rect.clear()
+            this.frontRepo.Rects_array.forEach(
+              rectDB => {
+                let rect = new Rect
+                CopyRectDBToRect(rectDB, rect, this.frontRepo)
+                this.frontRepo.array_Rects.push(rect)
+                this.frontRepo.map_ID_Rect.set(rect.ID, rect)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_RectAnchoredPaths = []
+            this.frontRepo.map_ID_RectAnchoredPath.clear()
+            this.frontRepo.RectAnchoredPaths_array.forEach(
+              rectanchoredpathDB => {
+                let rectanchoredpath = new RectAnchoredPath
+                CopyRectAnchoredPathDBToRectAnchoredPath(rectanchoredpathDB, rectanchoredpath, this.frontRepo)
+                this.frontRepo.array_RectAnchoredPaths.push(rectanchoredpath)
+                this.frontRepo.map_ID_RectAnchoredPath.set(rectanchoredpath.ID, rectanchoredpath)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_RectAnchoredRects = []
+            this.frontRepo.map_ID_RectAnchoredRect.clear()
+            this.frontRepo.RectAnchoredRects_array.forEach(
+              rectanchoredrectDB => {
+                let rectanchoredrect = new RectAnchoredRect
+                CopyRectAnchoredRectDBToRectAnchoredRect(rectanchoredrectDB, rectanchoredrect, this.frontRepo)
+                this.frontRepo.array_RectAnchoredRects.push(rectanchoredrect)
+                this.frontRepo.map_ID_RectAnchoredRect.set(rectanchoredrect.ID, rectanchoredrect)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_RectAnchoredTexts = []
+            this.frontRepo.map_ID_RectAnchoredText.clear()
+            this.frontRepo.RectAnchoredTexts_array.forEach(
+              rectanchoredtextDB => {
+                let rectanchoredtext = new RectAnchoredText
+                CopyRectAnchoredTextDBToRectAnchoredText(rectanchoredtextDB, rectanchoredtext, this.frontRepo)
+                this.frontRepo.array_RectAnchoredTexts.push(rectanchoredtext)
+                this.frontRepo.map_ID_RectAnchoredText.set(rectanchoredtext.ID, rectanchoredtext)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_RectLinkLinks = []
+            this.frontRepo.map_ID_RectLinkLink.clear()
+            this.frontRepo.RectLinkLinks_array.forEach(
+              rectlinklinkDB => {
+                let rectlinklink = new RectLinkLink
+                CopyRectLinkLinkDBToRectLinkLink(rectlinklinkDB, rectlinklink, this.frontRepo)
+                this.frontRepo.array_RectLinkLinks.push(rectlinklink)
+                this.frontRepo.map_ID_RectLinkLink.set(rectlinklink.ID, rectlinklink)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_SVGs = []
+            this.frontRepo.map_ID_SVG.clear()
+            this.frontRepo.SVGs_array.forEach(
+              svgDB => {
+                let svg = new SVG
+                CopySVGDBToSVG(svgDB, svg, this.frontRepo)
+                this.frontRepo.array_SVGs.push(svg)
+                this.frontRepo.map_ID_SVG.set(svg.ID, svg)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Texts = []
+            this.frontRepo.map_ID_Text.clear()
+            this.frontRepo.Texts_array.forEach(
+              textDB => {
+                let text = new Text
+                CopyTextDBToText(textDB, text, this.frontRepo)
+                this.frontRepo.array_Texts.push(text)
+                this.frontRepo.map_ID_Text.set(text.ID, text)
+              }
+            )
+
+
 
             // hand over control flow to observer
             observer.next(this.frontRepo)

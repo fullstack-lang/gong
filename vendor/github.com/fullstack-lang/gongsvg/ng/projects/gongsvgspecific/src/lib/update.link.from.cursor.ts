@@ -7,17 +7,17 @@ import { Segment } from './draw.segments'
 // 1. update the link conf
 // 2. call drawSegment
 export function updateLinkFromCursor(
-    draggedLink: gongsvg.LinkDB,
+    draggedLink: gongsvg.Link,
     draggedSegmentNumber: number,
     segments: Segment[],
 
 
     // for change detection, we need to store start and end rect
-    previousStart: gongsvg.RectDB | undefined,
-    previousEnd: gongsvg.RectDB | undefined,
+    previousStart: gongsvg.Rect | undefined,
+    previousEnd: gongsvg.Rect | undefined,
 
-    pointAtMouseDown: gongsvg.PointDB,
-    pointAtMouseMove: gongsvg.PointDB,
+    pointAtMouseDown: gongsvg.Point,
+    pointAtMouseMove: gongsvg.Point,
 
 ) {
 

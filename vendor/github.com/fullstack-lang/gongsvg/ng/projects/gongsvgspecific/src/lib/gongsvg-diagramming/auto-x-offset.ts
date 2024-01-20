@@ -4,9 +4,9 @@ import { TextWidthCalculatorComponent } from '../text-width-calculator/text-widt
 
 
 export function auto_X_offset(
-    link: gongsvg.LinkDB,
+    link: gongsvg.Link,
     segment: Segment,
-    text: gongsvg.LinkAnchoredTextDB,
+    text: gongsvg.LinkAnchoredText,
     line: string,
     draggedSegmentPositionOnArrow: string,
     map_text_textWidth: Map<string, number>,

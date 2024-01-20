@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { LinkDB } from './link-db';
+import { LinkDB } from './link-db'
+import { Link, CopyLinkToLinkDB } from './link'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -165,6 +167,25 @@ export class LinkService {
     return this.http.delete<LinkDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted linkdb id=${id}`)),
       catchError(this.handleError<LinkDB>('deleteLink'))
+    );
+  }
+
+  // updateFront copy link to a version with encoded pointers and update to the back
+  updateFront(link: Link, GONG__StackPath: string): Observable<LinkDB> {
+    let linkDB = new LinkDB
+    CopyLinkToLinkDB(link, linkDB)
+    const id = typeof linkDB === 'number' ? linkDB : linkDB.ID
+    const url = `${this.linksUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<LinkDB>(url, linkDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<LinkDB>('updateLink'))
     );
   }
 

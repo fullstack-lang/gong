@@ -27,6 +27,10 @@ export class Meta {
 
 export function CopyMetaToMetaDB(meta: Meta, metaDB: MetaDB) {
 
+	metaDB.CreatedAt = meta.CreatedAt
+	metaDB.DeletedAt = meta.DeletedAt
+	metaDB.ID = meta.ID
+	
 	// insertion point for basic fields copy operations
 	metaDB.Name = meta.Name
 	metaDB.Text = meta.Text
@@ -43,6 +47,10 @@ export function CopyMetaToMetaDB(meta: Meta, metaDB: MetaDB) {
 
 export function CopyMetaDBToMeta(metaDB: MetaDB, meta: Meta, frontRepo: FrontRepo) {
 
+	meta.CreatedAt = metaDB.CreatedAt
+	meta.DeletedAt = metaDB.DeletedAt
+	meta.ID = metaDB.ID
+	
 	// insertion point for basic fields copy operations
 	meta.Name = metaDB.Name
 	meta.Text = metaDB.Text

@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { LayerDB } from './layer-db';
+import { LayerDB } from './layer-db'
+import { Layer, CopyLayerToLayerDB } from './layer'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -244,6 +246,25 @@ export class LayerService {
     return this.http.delete<LayerDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted layerdb id=${id}`)),
       catchError(this.handleError<LayerDB>('deleteLayer'))
+    );
+  }
+
+  // updateFront copy layer to a version with encoded pointers and update to the back
+  updateFront(layer: Layer, GONG__StackPath: string): Observable<LayerDB> {
+    let layerDB = new LayerDB
+    CopyLayerToLayerDB(layer, layerDB)
+    const id = typeof layerDB === 'number' ? layerDB : layerDB.ID
+    const url = `${this.layersUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<LayerDB>(url, layerDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<LayerDB>('updateLayer'))
     );
   }
 

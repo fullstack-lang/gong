@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { EllipseDB } from './ellipse-db';
+import { EllipseDB } from './ellipse-db'
+import { Ellipse, CopyEllipseToEllipseDB } from './ellipse'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -127,6 +129,25 @@ export class EllipseService {
     return this.http.delete<EllipseDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted ellipsedb id=${id}`)),
       catchError(this.handleError<EllipseDB>('deleteEllipse'))
+    );
+  }
+
+  // updateFront copy ellipse to a version with encoded pointers and update to the back
+  updateFront(ellipse: Ellipse, GONG__StackPath: string): Observable<EllipseDB> {
+    let ellipseDB = new EllipseDB
+    CopyEllipseToEllipseDB(ellipse, ellipseDB)
+    const id = typeof ellipseDB === 'number' ? ellipseDB : ellipseDB.ID
+    const url = `${this.ellipsesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<EllipseDB>(url, ellipseDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<EllipseDB>('updateEllipse'))
     );
   }
 

@@ -3,8 +3,8 @@ import { drawPointRectSegment } from './draw.point.rect.segment'
 import { drawPointPointSegment } from './draw.point.point.segment';
 
 export type SegmentsParams = {
-    StartRect: gongsvg.RectDB
-    EndRect: gongsvg.RectDB
+    StartRect: gongsvg.Rect
+    EndRect: gongsvg.Rect
     StartDirection: gongsvg.OrientationType
     EndDirection: gongsvg.OrientationType
     StartRatio: number
@@ -19,24 +19,24 @@ export type Offset = {
 }
 
 export type Segment = {
-    StartPoint: gongsvg.PointDB,
-    EndPoint: gongsvg.PointDB
-    StartPointWithoutRadius: gongsvg.PointDB,
-    EndPointWithoutRadius: gongsvg.PointDB
+    StartPoint: gongsvg.Point,
+    EndPoint: gongsvg.Point
+    StartPointWithoutRadius: gongsvg.Point,
+    EndPointWithoutRadius: gongsvg.Point
     Orientation: gongsvg.OrientationType
     Number: number
     ArrowEndAnchoredText: Array<Offset>
 }
 
-export function createPoint(x: number, y: number): gongsvg.PointDB {
+export function createPoint(x: number, y: number): gongsvg.Point {
 
-    let point = new gongsvg.PointDB
+    let point = new gongsvg.Point
     point.X = x
     point.Y = y
     return point
 }
 
-export function drawSegmentsFromLink(link: gongsvg.LinkDB): Segment[] {
+export function drawSegmentsFromLink(link: gongsvg.Link): Segment[] {
 
     let segmentsParams = {
         StartRect: link.Start!,

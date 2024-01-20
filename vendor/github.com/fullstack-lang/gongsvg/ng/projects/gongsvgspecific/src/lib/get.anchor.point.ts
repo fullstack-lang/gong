@@ -3,19 +3,19 @@ import * as gongsvg from 'gongsvg'
 import { createPoint } from './draw.segments';
 
 type Segment = {
-    StartPointWithoutRadius: gongsvg.PointDB;
-    EndPointWithoutRadius: gongsvg.PointDB;
+    StartPointWithoutRadius: gongsvg.Point;
+    EndPointWithoutRadius: gongsvg.Point;
 };
 
 // Calculate the distance between two points
-function getDistance(p1: gongsvg.PointDB, p2: gongsvg.PointDB): number {
+function getDistance(p1: gongsvg.Point, p2: gongsvg.Point): number {
     const dx = p2.X - p1.X;
     const dy = p2.Y - p1.Y;
     return Math.sqrt(dx * dx + dy * dy);
 }
 
 // Calculate the position between two points given a ratio
-function interpolate(p1: gongsvg.PointDB, p2: gongsvg.PointDB, ratio: number): gongsvg.PointDB {
+function interpolate(p1: gongsvg.Point, p2: gongsvg.Point, ratio: number): gongsvg.Point {
     return createPoint(
         p1.X + (p2.X - p1.X) * ratio,
         p1.Y + (p2.Y - p1.Y) * ratio,
@@ -23,7 +23,7 @@ function interpolate(p1: gongsvg.PointDB, p2: gongsvg.PointDB, ratio: number): g
 }
 
 // Function to get the anchor point
-export function getAnchorPoint(polyline: Segment[], targetAnchorPosition: number): gongsvg.PointDB | null {
+export function getAnchorPoint(polyline: Segment[], targetAnchorPosition: number): gongsvg.Point | null {
     // Calculate total length of the polyline
     let totalLength = 0;
     for (let segment of polyline) {

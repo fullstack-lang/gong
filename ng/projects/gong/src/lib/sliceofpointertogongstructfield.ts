@@ -29,6 +29,10 @@ export class SliceOfPointerToGongStructField {
 
 export function CopySliceOfPointerToGongStructFieldToSliceOfPointerToGongStructFieldDB(sliceofpointertogongstructfield: SliceOfPointerToGongStructField, sliceofpointertogongstructfieldDB: SliceOfPointerToGongStructFieldDB) {
 
+	sliceofpointertogongstructfieldDB.CreatedAt = sliceofpointertogongstructfield.CreatedAt
+	sliceofpointertogongstructfieldDB.DeletedAt = sliceofpointertogongstructfield.DeletedAt
+	sliceofpointertogongstructfieldDB.ID = sliceofpointertogongstructfield.ID
+	
 	// insertion point for basic fields copy operations
 	sliceofpointertogongstructfieldDB.Name = sliceofpointertogongstructfield.Name
 	sliceofpointertogongstructfieldDB.Index = sliceofpointertogongstructfield.Index
@@ -48,6 +52,10 @@ export function CopySliceOfPointerToGongStructFieldToSliceOfPointerToGongStructF
 
 export function CopySliceOfPointerToGongStructFieldDBToSliceOfPointerToGongStructField(sliceofpointertogongstructfieldDB: SliceOfPointerToGongStructFieldDB, sliceofpointertogongstructfield: SliceOfPointerToGongStructField, frontRepo: FrontRepo) {
 
+	sliceofpointertogongstructfield.CreatedAt = sliceofpointertogongstructfieldDB.CreatedAt
+	sliceofpointertogongstructfield.DeletedAt = sliceofpointertogongstructfieldDB.DeletedAt
+	sliceofpointertogongstructfield.ID = sliceofpointertogongstructfieldDB.ID
+	
 	// insertion point for basic fields copy operations
 	sliceofpointertogongstructfield.Name = sliceofpointertogongstructfieldDB.Name
 	sliceofpointertogongstructfield.Index = sliceofpointertogongstructfieldDB.Index

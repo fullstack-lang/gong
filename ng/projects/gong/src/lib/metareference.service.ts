@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { MetaReferenceDB } from './metareference-db';
+import { MetaReferenceDB } from './metareference-db'
+import { MetaReference, CopyMetaReferenceToMetaReferenceDB } from './metareference'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class MetaReferenceService {
     return this.http.delete<MetaReferenceDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted metareferencedb id=${id}`)),
       catchError(this.handleError<MetaReferenceDB>('deleteMetaReference'))
+    );
+  }
+
+  // updateFront copy metareference to a version with encoded pointers and update to the back
+  updateFront(metareference: MetaReference, GONG__StackPath: string): Observable<MetaReferenceDB> {
+    let metareferenceDB = new MetaReferenceDB
+    CopyMetaReferenceToMetaReferenceDB(metareference, metareferenceDB)
+    const id = typeof metareferenceDB === 'number' ? metareferenceDB : metareferenceDB.ID
+    const url = `${this.metareferencesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<MetaReferenceDB>(url, metareferenceDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<MetaReferenceDB>('updateMetaReference'))
     );
   }
 

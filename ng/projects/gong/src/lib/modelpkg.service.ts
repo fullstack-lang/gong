@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { ModelPkgDB } from './modelpkg-db';
+import { ModelPkgDB } from './modelpkg-db'
+import { ModelPkg, CopyModelPkgToModelPkgDB } from './modelpkg'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class ModelPkgService {
     return this.http.delete<ModelPkgDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted modelpkgdb id=${id}`)),
       catchError(this.handleError<ModelPkgDB>('deleteModelPkg'))
+    );
+  }
+
+  // updateFront copy modelpkg to a version with encoded pointers and update to the back
+  updateFront(modelpkg: ModelPkg, GONG__StackPath: string): Observable<ModelPkgDB> {
+    let modelpkgDB = new ModelPkgDB
+    CopyModelPkgToModelPkgDB(modelpkg, modelpkgDB)
+    const id = typeof modelpkgDB === 'number' ? modelpkgDB : modelpkgDB.ID
+    const url = `${this.modelpkgsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<ModelPkgDB>(url, modelpkgDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<ModelPkgDB>('updateModelPkg'))
     );
   }
 

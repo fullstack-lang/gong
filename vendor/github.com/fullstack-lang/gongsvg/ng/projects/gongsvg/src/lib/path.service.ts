@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { PathDB } from './path-db';
+import { PathDB } from './path-db'
+import { Path, CopyPathToPathDB } from './path'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -127,6 +129,25 @@ export class PathService {
     return this.http.delete<PathDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted pathdb id=${id}`)),
       catchError(this.handleError<PathDB>('deletePath'))
+    );
+  }
+
+  // updateFront copy path to a version with encoded pointers and update to the back
+  updateFront(path: Path, GONG__StackPath: string): Observable<PathDB> {
+    let pathDB = new PathDB
+    CopyPathToPathDB(path, pathDB)
+    const id = typeof pathDB === 'number' ? pathDB : pathDB.ID
+    const url = `${this.pathsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<PathDB>(url, pathDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<PathDB>('updatePath'))
     );
   }
 
