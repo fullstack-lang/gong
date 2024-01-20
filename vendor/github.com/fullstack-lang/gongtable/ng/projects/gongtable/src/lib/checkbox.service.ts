@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { CheckBoxDB } from './checkbox-db';
+import { CheckBoxDB } from './checkbox-db'
+import { CheckBox, CopyCheckBoxToCheckBoxDB } from './checkbox'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class CheckBoxService {
     return this.http.delete<CheckBoxDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted checkboxdb id=${id}`)),
       catchError(this.handleError<CheckBoxDB>('deleteCheckBox'))
+    );
+  }
+
+  // updateFront copy checkbox to a version with encoded pointers and update to the back
+  updateFront(checkbox: CheckBox, GONG__StackPath: string): Observable<CheckBoxDB> {
+    let checkboxDB = new CheckBoxDB
+    CopyCheckBoxToCheckBoxDB(checkbox, checkboxDB)
+    const id = typeof checkboxDB === 'number' ? checkboxDB : checkboxDB.ID
+    const url = `${this.checkboxsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<CheckBoxDB>(url, checkboxDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CheckBoxDB>('updateCheckBox'))
     );
   }
 

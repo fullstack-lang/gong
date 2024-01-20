@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { FormFieldDB } from './formfield-db';
+import { FormFieldDB } from './formfield-db'
+import { FormField, CopyFormFieldToFormFieldDB } from './formfield'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -163,6 +165,25 @@ export class FormFieldService {
     return this.http.delete<FormFieldDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted formfielddb id=${id}`)),
       catchError(this.handleError<FormFieldDB>('deleteFormField'))
+    );
+  }
+
+  // updateFront copy formfield to a version with encoded pointers and update to the back
+  updateFront(formfield: FormField, GONG__StackPath: string): Observable<FormFieldDB> {
+    let formfieldDB = new FormFieldDB
+    CopyFormFieldToFormFieldDB(formfield, formfieldDB)
+    const id = typeof formfieldDB === 'number' ? formfieldDB : formfieldDB.ID
+    const url = `${this.formfieldsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FormFieldDB>(url, formfieldDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormFieldDB>('updateFormField'))
     );
   }
 

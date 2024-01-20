@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { RowDB } from './row-db';
+import { RowDB } from './row-db'
+import { Row, CopyRowToRowDB } from './row'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -127,6 +129,25 @@ export class RowService {
     return this.http.delete<RowDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted rowdb id=${id}`)),
       catchError(this.handleError<RowDB>('deleteRow'))
+    );
+  }
+
+  // updateFront copy row to a version with encoded pointers and update to the back
+  updateFront(row: Row, GONG__StackPath: string): Observable<RowDB> {
+    let rowDB = new RowDB
+    CopyRowToRowDB(row, rowDB)
+    const id = typeof rowDB === 'number' ? rowDB : rowDB.ID
+    const url = `${this.rowsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<RowDB>(url, rowDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<RowDB>('updateRow'))
     );
   }
 

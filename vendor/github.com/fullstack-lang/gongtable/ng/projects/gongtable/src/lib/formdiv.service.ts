@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { FormDivDB } from './formdiv-db';
+import { FormDivDB } from './formdiv-db'
+import { FormDiv, CopyFormDivToFormDivDB } from './formdiv'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -154,6 +156,25 @@ export class FormDivService {
     return this.http.delete<FormDivDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted formdivdb id=${id}`)),
       catchError(this.handleError<FormDivDB>('deleteFormDiv'))
+    );
+  }
+
+  // updateFront copy formdiv to a version with encoded pointers and update to the back
+  updateFront(formdiv: FormDiv, GONG__StackPath: string): Observable<FormDivDB> {
+    let formdivDB = new FormDivDB
+    CopyFormDivToFormDivDB(formdiv, formdivDB)
+    const id = typeof formdivDB === 'number' ? formdivDB : formdivDB.ID
+    const url = `${this.formdivsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FormDivDB>(url, formdivDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormDivDB>('updateFormDiv'))
     );
   }
 

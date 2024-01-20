@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { CellBooleanDB } from './cellboolean-db';
+import { CellBooleanDB } from './cellboolean-db'
+import { CellBoolean, CopyCellBooleanToCellBooleanDB } from './cellboolean'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class CellBooleanService {
     return this.http.delete<CellBooleanDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted cellbooleandb id=${id}`)),
       catchError(this.handleError<CellBooleanDB>('deleteCellBoolean'))
+    );
+  }
+
+  // updateFront copy cellboolean to a version with encoded pointers and update to the back
+  updateFront(cellboolean: CellBoolean, GONG__StackPath: string): Observable<CellBooleanDB> {
+    let cellbooleanDB = new CellBooleanDB
+    CopyCellBooleanToCellBooleanDB(cellboolean, cellbooleanDB)
+    const id = typeof cellbooleanDB === 'number' ? cellbooleanDB : cellbooleanDB.ID
+    const url = `${this.cellbooleansUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<CellBooleanDB>(url, cellbooleanDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CellBooleanDB>('updateCellBoolean'))
     );
   }
 

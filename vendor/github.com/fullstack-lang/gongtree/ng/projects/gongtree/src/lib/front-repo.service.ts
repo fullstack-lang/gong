@@ -5,15 +5,19 @@ import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
 // insertion point sub template for services imports
 import { ButtonDB } from './button-db'
+import { Button, CopyButtonDBToButton } from './button'
 import { ButtonService } from './button.service'
 
 import { NodeDB } from './node-db'
+import { Node, CopyNodeDBToNode } from './node'
 import { NodeService } from './node.service'
 
 import { SVGIconDB } from './svgicon-db'
+import { SVGIcon, CopySVGIconDBToSVGIcon } from './svgicon'
 import { SVGIconService } from './svgicon.service'
 
 import { TreeDB } from './tree-db'
+import { Tree, CopyTreeDBToTree } from './tree'
 import { TreeService } from './tree.service'
 
 export const StackType = "github.com/fullstack-lang/gongtree/go/models"
@@ -24,24 +28,36 @@ export class FrontRepo { // insertion point sub template
   Buttons = new Map<number, ButtonDB>() // map of repo instances
   Buttons_batch = new Map<number, ButtonDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_Buttons = new Array<Button>() // array of front instances
+  map_ID_Button = new Map<number, Button>() // map of front instances
+
   Nodes_array = new Array<NodeDB>() // array of repo instances
   Nodes = new Map<number, NodeDB>() // map of repo instances
   Nodes_batch = new Map<number, NodeDB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_Nodes = new Array<Node>() // array of front instances
+  map_ID_Node = new Map<number, Node>() // map of front instances
 
   SVGIcons_array = new Array<SVGIconDB>() // array of repo instances
   SVGIcons = new Map<number, SVGIconDB>() // map of repo instances
   SVGIcons_batch = new Map<number, SVGIconDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_SVGIcons = new Array<SVGIcon>() // array of front instances
+  map_ID_SVGIcon = new Map<number, SVGIcon>() // map of front instances
+
   Trees_array = new Array<TreeDB>() // array of repo instances
   Trees = new Map<number, TreeDB>() // map of repo instances
   Trees_batch = new Map<number, TreeDB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_Trees = new Array<Tree>() // array of front instances
+  map_ID_Tree = new Map<number, Tree>() // map of front instances
 
 
   // getArray allows for a get function that is robust to refactoring of the named struct name
   // for instance frontRepo.getArray<Astruct>( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
   // contrary to frontRepo.Astructs_array which is not refactored when Astruct identifier is modified
   getArray<Type>(gongStructName: string): Array<Type> {
-    switch (gongStructName) {
+    switch (gongStructName) { // deprecated
       // insertion point
       case 'Button':
         return this.Buttons_array as unknown as Array<Type>
@@ -56,8 +72,24 @@ export class FrontRepo { // insertion point sub template
     }
   }
 
+  getFrontArray<Type>(gongStructName: string): Array<Type> {
+    switch (gongStructName) {
+      // insertion point
+      case 'Button':
+        return this.array_Buttons as unknown as Array<Type>
+      case 'Node':
+        return this.array_Nodes as unknown as Array<Type>
+      case 'SVGIcon':
+        return this.array_SVGIcons as unknown as Array<Type>
+      case 'Tree':
+        return this.array_Trees as unknown as Array<Type>
+      default:
+        throw new Error("Type not recognized");
+    }
+  }
+
   // getMap allows for a get function that is robust to refactoring of the named struct name
-  getMap<Type>(gongStructName: string): Map<number, Type> {
+  getMap<Type>(gongStructName: string): Map<number, Type> { // deprecated
     switch (gongStructName) {
       // insertion point
       case 'Button':
@@ -68,6 +100,22 @@ export class FrontRepo { // insertion point sub template
         return this.SVGIcons as unknown as Map<number, Type>
       case 'Tree':
         return this.Trees as unknown as Map<number, Type>
+      default:
+        throw new Error("Type not recognized");
+    }
+  }
+  
+  getFrontMap<Type>(gongStructName: string): Map<number, Type> {
+    switch (gongStructName) {
+      // insertion point
+      case 'Button':
+        return this.map_ID_Button as unknown as Map<number, Type>
+      case 'Node':
+        return this.map_ID_Node as unknown as Map<number, Type>
+      case 'SVGIcon':
+        return this.map_ID_SVGIcon as unknown as Map<number, Type>
+      case 'Tree':
+        return this.map_ID_Tree as unknown as Map<number, Type>
       default:
         throw new Error("Type not recognized");
     }
@@ -243,17 +291,17 @@ export class FrontRepoService {
             this.frontRepo.Buttons_batch.clear()
 
             buttons.forEach(
-              button => {
-                this.frontRepo.Buttons.set(button.ID, button)
-                this.frontRepo.Buttons_batch.set(button.ID, button)
+              buttonDB => {
+                this.frontRepo.Buttons.set(buttonDB.ID, buttonDB)
+                this.frontRepo.Buttons_batch.set(buttonDB.ID, buttonDB)
               }
             )
 
             // clear buttons that are absent from the batch
             this.frontRepo.Buttons.forEach(
-              button => {
-                if (this.frontRepo.Buttons_batch.get(button.ID) == undefined) {
-                  this.frontRepo.Buttons.delete(button.ID)
+              buttonDB => {
+                if (this.frontRepo.Buttons_batch.get(buttonDB.ID) == undefined) {
+                  this.frontRepo.Buttons.delete(buttonDB.ID)
                 }
               }
             )
@@ -276,17 +324,17 @@ export class FrontRepoService {
             this.frontRepo.Nodes_batch.clear()
 
             nodes.forEach(
-              node => {
-                this.frontRepo.Nodes.set(node.ID, node)
-                this.frontRepo.Nodes_batch.set(node.ID, node)
+              nodeDB => {
+                this.frontRepo.Nodes.set(nodeDB.ID, nodeDB)
+                this.frontRepo.Nodes_batch.set(nodeDB.ID, nodeDB)
               }
             )
 
             // clear nodes that are absent from the batch
             this.frontRepo.Nodes.forEach(
-              node => {
-                if (this.frontRepo.Nodes_batch.get(node.ID) == undefined) {
-                  this.frontRepo.Nodes.delete(node.ID)
+              nodeDB => {
+                if (this.frontRepo.Nodes_batch.get(nodeDB.ID) == undefined) {
+                  this.frontRepo.Nodes.delete(nodeDB.ID)
                 }
               }
             )
@@ -309,17 +357,17 @@ export class FrontRepoService {
             this.frontRepo.SVGIcons_batch.clear()
 
             svgicons.forEach(
-              svgicon => {
-                this.frontRepo.SVGIcons.set(svgicon.ID, svgicon)
-                this.frontRepo.SVGIcons_batch.set(svgicon.ID, svgicon)
+              svgiconDB => {
+                this.frontRepo.SVGIcons.set(svgiconDB.ID, svgiconDB)
+                this.frontRepo.SVGIcons_batch.set(svgiconDB.ID, svgiconDB)
               }
             )
 
             // clear svgicons that are absent from the batch
             this.frontRepo.SVGIcons.forEach(
-              svgicon => {
-                if (this.frontRepo.SVGIcons_batch.get(svgicon.ID) == undefined) {
-                  this.frontRepo.SVGIcons.delete(svgicon.ID)
+              svgiconDB => {
+                if (this.frontRepo.SVGIcons_batch.get(svgiconDB.ID) == undefined) {
+                  this.frontRepo.SVGIcons.delete(svgiconDB.ID)
                 }
               }
             )
@@ -342,17 +390,17 @@ export class FrontRepoService {
             this.frontRepo.Trees_batch.clear()
 
             trees.forEach(
-              tree => {
-                this.frontRepo.Trees.set(tree.ID, tree)
-                this.frontRepo.Trees_batch.set(tree.ID, tree)
+              treeDB => {
+                this.frontRepo.Trees.set(treeDB.ID, treeDB)
+                this.frontRepo.Trees_batch.set(treeDB.ID, treeDB)
               }
             )
 
             // clear trees that are absent from the batch
             this.frontRepo.Trees.forEach(
-              tree => {
-                if (this.frontRepo.Trees_batch.get(tree.ID) == undefined) {
-                  this.frontRepo.Trees.delete(tree.ID)
+              treeDB => {
+                if (this.frontRepo.Trees_batch.get(treeDB.ID) == undefined) {
+                  this.frontRepo.Trees.delete(treeDB.ID)
                 }
               }
             )
@@ -431,6 +479,63 @@ export class FrontRepoService {
                 }
               }
             )
+
+            // 
+            // Third Step: reddeem front objects
+            // insertion point sub template for redeem 
+            
+            // init front objects
+            this.frontRepo.array_Buttons = []
+            this.frontRepo.map_ID_Button.clear()
+            this.frontRepo.Buttons_array.forEach(
+              buttonDB => {
+                let button = new Button
+                CopyButtonDBToButton(buttonDB, button, this.frontRepo)
+                this.frontRepo.array_Buttons.push(button)
+                this.frontRepo.map_ID_Button.set(button.ID, button)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Nodes = []
+            this.frontRepo.map_ID_Node.clear()
+            this.frontRepo.Nodes_array.forEach(
+              nodeDB => {
+                let node = new Node
+                CopyNodeDBToNode(nodeDB, node, this.frontRepo)
+                this.frontRepo.array_Nodes.push(node)
+                this.frontRepo.map_ID_Node.set(node.ID, node)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_SVGIcons = []
+            this.frontRepo.map_ID_SVGIcon.clear()
+            this.frontRepo.SVGIcons_array.forEach(
+              svgiconDB => {
+                let svgicon = new SVGIcon
+                CopySVGIconDBToSVGIcon(svgiconDB, svgicon, this.frontRepo)
+                this.frontRepo.array_SVGIcons.push(svgicon)
+                this.frontRepo.map_ID_SVGIcon.set(svgicon.ID, svgicon)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Trees = []
+            this.frontRepo.map_ID_Tree.clear()
+            this.frontRepo.Trees_array.forEach(
+              treeDB => {
+                let tree = new Tree
+                CopyTreeDBToTree(treeDB, tree, this.frontRepo)
+                this.frontRepo.array_Trees.push(tree)
+                this.frontRepo.map_ID_Tree.set(tree.ID, tree)
+              }
+            )
+
+
 
             // hand over control flow to observer
             observer.next(this.frontRepo)

@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { FormFieldDateTimeDB } from './formfielddatetime-db';
+import { FormFieldDateTimeDB } from './formfielddatetime-db'
+import { FormFieldDateTime, CopyFormFieldDateTimeToFormFieldDateTimeDB } from './formfielddatetime'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class FormFieldDateTimeService {
     return this.http.delete<FormFieldDateTimeDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted formfielddatetimedb id=${id}`)),
       catchError(this.handleError<FormFieldDateTimeDB>('deleteFormFieldDateTime'))
+    );
+  }
+
+  // updateFront copy formfielddatetime to a version with encoded pointers and update to the back
+  updateFront(formfielddatetime: FormFieldDateTime, GONG__StackPath: string): Observable<FormFieldDateTimeDB> {
+    let formfielddatetimeDB = new FormFieldDateTimeDB
+    CopyFormFieldDateTimeToFormFieldDateTimeDB(formfielddatetime, formfielddatetimeDB)
+    const id = typeof formfielddatetimeDB === 'number' ? formfielddatetimeDB : formfielddatetimeDB.ID
+    const url = `${this.formfielddatetimesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FormFieldDateTimeDB>(url, formfielddatetimeDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormFieldDateTimeDB>('updateFormFieldDateTime'))
     );
   }
 

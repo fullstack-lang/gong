@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { FormFieldTimeDB } from './formfieldtime-db';
+import { FormFieldTimeDB } from './formfieldtime-db'
+import { FormFieldTime, CopyFormFieldTimeToFormFieldTimeDB } from './formfieldtime'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class FormFieldTimeService {
     return this.http.delete<FormFieldTimeDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted formfieldtimedb id=${id}`)),
       catchError(this.handleError<FormFieldTimeDB>('deleteFormFieldTime'))
+    );
+  }
+
+  // updateFront copy formfieldtime to a version with encoded pointers and update to the back
+  updateFront(formfieldtime: FormFieldTime, GONG__StackPath: string): Observable<FormFieldTimeDB> {
+    let formfieldtimeDB = new FormFieldTimeDB
+    CopyFormFieldTimeToFormFieldTimeDB(formfieldtime, formfieldtimeDB)
+    const id = typeof formfieldtimeDB === 'number' ? formfieldtimeDB : formfieldtimeDB.ID
+    const url = `${this.formfieldtimesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FormFieldTimeDB>(url, formfieldtimeDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormFieldTimeDB>('updateFormFieldTime'))
     );
   }
 

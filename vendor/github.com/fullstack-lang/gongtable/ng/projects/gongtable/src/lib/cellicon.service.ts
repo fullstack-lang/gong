@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { CellIconDB } from './cellicon-db';
+import { CellIconDB } from './cellicon-db'
+import { CellIcon, CopyCellIconToCellIconDB } from './cellicon'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class CellIconService {
     return this.http.delete<CellIconDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted cellicondb id=${id}`)),
       catchError(this.handleError<CellIconDB>('deleteCellIcon'))
+    );
+  }
+
+  // updateFront copy cellicon to a version with encoded pointers and update to the back
+  updateFront(cellicon: CellIcon, GONG__StackPath: string): Observable<CellIconDB> {
+    let celliconDB = new CellIconDB
+    CopyCellIconToCellIconDB(cellicon, celliconDB)
+    const id = typeof celliconDB === 'number' ? celliconDB : celliconDB.ID
+    const url = `${this.celliconsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<CellIconDB>(url, celliconDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CellIconDB>('updateCellIcon'))
     );
   }
 

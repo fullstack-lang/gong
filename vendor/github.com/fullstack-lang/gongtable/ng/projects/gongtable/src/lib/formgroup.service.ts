@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { FormGroupDB } from './formgroup-db';
+import { FormGroupDB } from './formgroup-db'
+import { FormGroup, CopyFormGroupToFormGroupDB } from './formgroup'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -127,6 +129,25 @@ export class FormGroupService {
     return this.http.delete<FormGroupDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted formgroupdb id=${id}`)),
       catchError(this.handleError<FormGroupDB>('deleteFormGroup'))
+    );
+  }
+
+  // updateFront copy formgroup to a version with encoded pointers and update to the back
+  updateFront(formgroup: FormGroup, GONG__StackPath: string): Observable<FormGroupDB> {
+    let formgroupDB = new FormGroupDB
+    CopyFormGroupToFormGroupDB(formgroup, formgroupDB)
+    const id = typeof formgroupDB === 'number' ? formgroupDB : formgroupDB.ID
+    const url = `${this.formgroupsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FormGroupDB>(url, formgroupDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormGroupDB>('updateFormGroup'))
     );
   }
 

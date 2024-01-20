@@ -37,7 +37,7 @@ export class MaterialFormComponent implements OnInit {
   public gongtableFrontRepo?: gongtable.FrontRepo
 
   // for selection
-  selectedFormGroup: gongtable.FormGroupDB | undefined = undefined;
+  selectedFormGroup: gongtable.FormGroup | undefined = undefined;
 
   // generated form by getting info from the back
   angularFormGroup: FormGroup | undefined
@@ -108,7 +108,7 @@ export class MaterialFormComponent implements OnInit {
         this.selectedFormGroup = undefined
 
         // refactorable version
-        for (let form of this.gongtableFrontRepo.getArray<gongtable.FormGroupDB>(gongtable.FormGroupDB.GONGSTRUCT_NAME)) {
+        for (let form of this.gongtableFrontRepo.getArray<gongtable.FormGroup>(gongtable.FormGroup.GONGSTRUCT_NAME)) {
           if (form.Name == this.FormName) {
             this.selectedFormGroup = form
           }
@@ -229,8 +229,7 @@ export class MaterialFormComponent implements OnInit {
             if (newValue != formFieldString.Value) {
 
               formFieldString.Value = newValue
-              promises.push(this.formFieldStringService.updateFormFieldString(
-                formFieldString, this.DataStack, this.gongtableFrontRepoService.frontRepo))
+              promises.push(this.formFieldStringService.updateFront(formFieldString, this.DataStack))
             }
           }
           if (formField.FormFieldInt) {
@@ -240,7 +239,7 @@ export class MaterialFormComponent implements OnInit {
             if (newValue != formFieldInt.Value) {
 
               formFieldInt.Value = newValue
-              promises.push(this.formFieldIntService.updateFormFieldInt(formFieldInt, this.DataStack, this.gongtableFrontRepoService.frontRepo))
+              promises.push(this.formFieldIntService.updateFront(formFieldInt, this.DataStack))
             }
           }
           if (formField.FormFieldFloat64) {
@@ -250,7 +249,7 @@ export class MaterialFormComponent implements OnInit {
             if (newValue != formFieldFlFormFieldFloat64.Value) {
 
               formFieldFlFormFieldFloat64.Value = newValue
-              promises.push(this.formFieldFloat64Service.updateFormFieldFloat64(formFieldFlFormFieldFloat64, this.DataStack, this.gongtableFrontRepoService.frontRepo))
+              promises.push(this.formFieldFloat64Service.updateFront(formFieldFlFormFieldFloat64, this.DataStack))
             }
           }
           if (formField.FormFieldDate) {
@@ -281,7 +280,7 @@ export class MaterialFormComponent implements OnInit {
 
             if (!isSameDay(inputDate, comparisonDate)) {
               formFieldDate.Value = dateObject;
-              promises.push(this.formFieldDateService.updateFormFieldDate(formFieldDate, this.DataStack, this.gongtableFrontRepoService.frontRepo))
+              promises.push(this.formFieldDateService.updateFront, this.DataStack)
             }
 
           }
@@ -296,7 +295,7 @@ export class MaterialFormComponent implements OnInit {
 
             if (date.getTime() != new Date(formFieldTime.Value).getTime()) {
               formFieldTime.Value = date
-              promises.push(this.formFieldTimeService.updateFormFieldTime(formFieldTime, this.DataStack, this.gongtableFrontRepoService.frontRepo))
+              promises.push(this.formFieldTimeService.updateFront(formFieldTime, this.DataStack))
             }
           }
           if (formField.FormFieldDateTime) {
@@ -306,7 +305,7 @@ export class MaterialFormComponent implements OnInit {
 
             if (newValue != formFieldDateTime.Value) {
               formFieldDateTime.Value = newValue
-              promises.push(this.formFieldDateTimeService.updateFormFieldDateTime(formFieldDateTime, this.DataStack, this.gongtableFrontRepoService.frontRepo))
+              promises.push(this.formFieldDateTimeService.updateFront(formFieldDateTime, this.DataStack))
             }
           }
           if (formField.FormFieldSelect) {
@@ -320,19 +319,14 @@ export class MaterialFormComponent implements OnInit {
                 return
               }
 
-              if (formFieldSelect.CanBeEmpty && formFieldSelect.Value == undefined) {
-                formFieldSelect.FormFieldSelectPointersEncoding.ValueID.Int64 = 0
-              }
-
               if (formFieldSelect.Options) {
                 for (let option of formFieldSelect.Options) {
                   if (option.Name == newValue) {
                     formFieldSelect.Value = option
-                    formFieldSelect.FormFieldSelectPointersEncoding.ValueID.Int64 = option.ID
                   }
                 }
               }
-              promises.push(this.formFieldSelectService.updateFormFieldSelect(formFieldSelect, this.DataStack, this.gongtableFrontRepoService.frontRepo))
+              promises.push(this.formFieldSelectService.updateFront(formFieldSelect, this.DataStack))
             }
           }
         }
@@ -342,7 +336,7 @@ export class MaterialFormComponent implements OnInit {
           let newValue = this.angularFormGroup.value[checkBox.Name] as boolean
           if (newValue != checkBox.Value) {
             checkBox.Value = newValue
-            promises.push(this.checkBoxService.updateCheckBox(checkBox, this.DataStack, this.gongtableFrontRepoService.frontRepo))
+            promises.push(this.checkBoxService.updateFront(checkBox, this.DataStack))
           }
         }
       }
@@ -351,7 +345,7 @@ export class MaterialFormComponent implements OnInit {
     // wait till all promises are completed to update the form group itself
     forkJoin(promises).subscribe(
       () => {
-        this.formGroupService.updateFormGroup(this.selectedFormGroup!, this.DataStack, this.gongtableFrontRepoService.frontRepo).subscribe(
+        this.formGroupService.updateFront(this.selectedFormGroup!, this.DataStack).subscribe(
           () => {
 
             // a refresh is necessary to redeem all associations
@@ -362,7 +356,7 @@ export class MaterialFormComponent implements OnInit {
     )
 
     if (promises.length == 0) {
-      this.formGroupService.updateFormGroup(this.selectedFormGroup!, this.DataStack, this.gongtableFrontRepoService.frontRepo).subscribe(
+      this.formGroupService.updateFront(this.selectedFormGroup!, this.DataStack).subscribe(
         () => {
           // a refresh is necessary to redeem all associations
           // this.refresh()
@@ -392,7 +386,7 @@ export class MaterialFormComponent implements OnInit {
       if (formDiv.FormEditAssocButton) {
         if (formDiv.FormEditAssocButton.Name == fieldName) {
 
-          this.formEditAssocButtonService.updateFormEditAssocButton(formDiv.FormEditAssocButton, this.DataStack, this.gongtableFrontRepoService.frontRepo).subscribe(
+          this.formEditAssocButtonService.updateFront(formDiv.FormEditAssocButton, this.DataStack).subscribe(
             () => {
               console.log("assoc button updated")
 
@@ -430,7 +424,7 @@ export class MaterialFormComponent implements OnInit {
       if (formDiv.FormSortAssocButton) {
         if (formDiv.FormSortAssocButton.Name == fieldName) {
 
-          this.formSortAssocButtonService.updateFormSortAssocButton(formDiv.FormSortAssocButton, this.DataStack, this.gongtableFrontRepoService.frontRepo).subscribe(
+          this.formSortAssocButtonService.updateFront(formDiv.FormSortAssocButton, this.DataStack).subscribe(
             () => {
               console.log("sort button updated")
 
@@ -469,10 +463,8 @@ export class MaterialFormComponent implements OnInit {
           return
         }
         this.selectedFormGroup.HasSuppressButtonBeenPressed = true
-        this.formGroupService.updateFormGroup(
-          this.selectedFormGroup,
-          this.DataStack,
-          this.gongtableFrontRepoService.frontRepo).subscribe(
+        this.formGroupService.updateFront(
+          this.selectedFormGroup, this.DataStack).subscribe(
             () => {
 
             }
@@ -481,7 +473,7 @@ export class MaterialFormComponent implements OnInit {
     });
   }
 
-  getDynamicStyles(formField: gongtable.FormFieldDB): { [key: string]: any } {
+  getDynamicStyles(formField: gongtable.FormField): { [key: string]: any } {
     const styles: { [key: string]: any } = {} // Explicitly define the type here   
     if (formField) {
       if (formField.HasBespokeWidth) {

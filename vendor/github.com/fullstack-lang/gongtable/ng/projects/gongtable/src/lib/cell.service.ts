@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { CellDB } from './cell-db';
+import { CellDB } from './cell-db'
+import { Cell, CopyCellToCellDB } from './cell'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -149,6 +151,25 @@ export class CellService {
     return this.http.delete<CellDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted celldb id=${id}`)),
       catchError(this.handleError<CellDB>('deleteCell'))
+    );
+  }
+
+  // updateFront copy cell to a version with encoded pointers and update to the back
+  updateFront(cell: Cell, GONG__StackPath: string): Observable<CellDB> {
+    let cellDB = new CellDB
+    CopyCellToCellDB(cell, cellDB)
+    const id = typeof cellDB === 'number' ? cellDB : cellDB.ID
+    const url = `${this.cellsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<CellDB>(url, cellDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CellDB>('updateCell'))
     );
   }
 

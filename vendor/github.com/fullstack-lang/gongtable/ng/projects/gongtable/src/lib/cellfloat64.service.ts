@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { CellFloat64DB } from './cellfloat64-db';
+import { CellFloat64DB } from './cellfloat64-db'
+import { CellFloat64, CopyCellFloat64ToCellFloat64DB } from './cellfloat64'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class CellFloat64Service {
     return this.http.delete<CellFloat64DB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted cellfloat64db id=${id}`)),
       catchError(this.handleError<CellFloat64DB>('deleteCellFloat64'))
+    );
+  }
+
+  // updateFront copy cellfloat64 to a version with encoded pointers and update to the back
+  updateFront(cellfloat64: CellFloat64, GONG__StackPath: string): Observable<CellFloat64DB> {
+    let cellfloat64DB = new CellFloat64DB
+    CopyCellFloat64ToCellFloat64DB(cellfloat64, cellfloat64DB)
+    const id = typeof cellfloat64DB === 'number' ? cellfloat64DB : cellfloat64DB.ID
+    const url = `${this.cellfloat64sUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<CellFloat64DB>(url, cellfloat64DB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CellFloat64DB>('updateCellFloat64'))
     );
   }
 
