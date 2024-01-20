@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { FormSortAssocButtonDB } from './formsortassocbutton-db';
+import { FormSortAssocButtonDB } from './formsortassocbutton-db'
+import { FormSortAssocButton, CopyFormSortAssocButtonToFormSortAssocButtonDB } from './formsortassocbutton'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class FormSortAssocButtonService {
     return this.http.delete<FormSortAssocButtonDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted formsortassocbuttondb id=${id}`)),
       catchError(this.handleError<FormSortAssocButtonDB>('deleteFormSortAssocButton'))
+    );
+  }
+
+  // updateFront copy formsortassocbutton to a version with encoded pointers and update to the back
+  updateFront(formsortassocbutton: FormSortAssocButton, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
+    let formsortassocbuttonDB = new FormSortAssocButtonDB
+    CopyFormSortAssocButtonToFormSortAssocButtonDB(formsortassocbutton, formsortassocbuttonDB)
+    const id = typeof formsortassocbuttonDB === 'number' ? formsortassocbuttonDB : formsortassocbuttonDB.ID
+    const url = `${this.formsortassocbuttonsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FormSortAssocButtonDB>(url, formsortassocbuttonDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormSortAssocButtonDB>('updateFormSortAssocButton'))
     );
   }
 

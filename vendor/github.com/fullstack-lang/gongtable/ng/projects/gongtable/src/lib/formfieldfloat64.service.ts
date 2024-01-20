@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { FormFieldFloat64DB } from './formfieldfloat64-db';
+import { FormFieldFloat64DB } from './formfieldfloat64-db'
+import { FormFieldFloat64, CopyFormFieldFloat64ToFormFieldFloat64DB } from './formfieldfloat64'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class FormFieldFloat64Service {
     return this.http.delete<FormFieldFloat64DB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted formfieldfloat64db id=${id}`)),
       catchError(this.handleError<FormFieldFloat64DB>('deleteFormFieldFloat64'))
+    );
+  }
+
+  // updateFront copy formfieldfloat64 to a version with encoded pointers and update to the back
+  updateFront(formfieldfloat64: FormFieldFloat64, GONG__StackPath: string): Observable<FormFieldFloat64DB> {
+    let formfieldfloat64DB = new FormFieldFloat64DB
+    CopyFormFieldFloat64ToFormFieldFloat64DB(formfieldfloat64, formfieldfloat64DB)
+    const id = typeof formfieldfloat64DB === 'number' ? formfieldfloat64DB : formfieldfloat64DB.ID
+    const url = `${this.formfieldfloat64sUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FormFieldFloat64DB>(url, formfieldfloat64DB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormFieldFloat64DB>('updateFormFieldFloat64'))
     );
   }
 

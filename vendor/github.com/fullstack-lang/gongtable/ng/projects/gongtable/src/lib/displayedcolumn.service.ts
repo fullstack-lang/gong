@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { DisplayedColumnDB } from './displayedcolumn-db';
+import { DisplayedColumnDB } from './displayedcolumn-db'
+import { DisplayedColumn, CopyDisplayedColumnToDisplayedColumnDB } from './displayedcolumn'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class DisplayedColumnService {
     return this.http.delete<DisplayedColumnDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted displayedcolumndb id=${id}`)),
       catchError(this.handleError<DisplayedColumnDB>('deleteDisplayedColumn'))
+    );
+  }
+
+  // updateFront copy displayedcolumn to a version with encoded pointers and update to the back
+  updateFront(displayedcolumn: DisplayedColumn, GONG__StackPath: string): Observable<DisplayedColumnDB> {
+    let displayedcolumnDB = new DisplayedColumnDB
+    CopyDisplayedColumnToDisplayedColumnDB(displayedcolumn, displayedcolumnDB)
+    const id = typeof displayedcolumnDB === 'number' ? displayedcolumnDB : displayedcolumnDB.ID
+    const url = `${this.displayedcolumnsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<DisplayedColumnDB>(url, displayedcolumnDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<DisplayedColumnDB>('updateDisplayedColumn'))
     );
   }
 

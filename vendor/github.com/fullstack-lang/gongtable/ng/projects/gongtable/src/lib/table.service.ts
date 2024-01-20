@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { TableDB } from './table-db';
+import { TableDB } from './table-db'
+import { Table, CopyTableToTableDB } from './table'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -140,6 +142,25 @@ export class TableService {
     return this.http.delete<TableDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted tabledb id=${id}`)),
       catchError(this.handleError<TableDB>('deleteTable'))
+    );
+  }
+
+  // updateFront copy table to a version with encoded pointers and update to the back
+  updateFront(table: Table, GONG__StackPath: string): Observable<TableDB> {
+    let tableDB = new TableDB
+    CopyTableToTableDB(table, tableDB)
+    const id = typeof tableDB === 'number' ? tableDB : tableDB.ID
+    const url = `${this.tablesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<TableDB>(url, tableDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<TableDB>('updateTable'))
     );
   }
 
