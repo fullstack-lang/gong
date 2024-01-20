@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { RectAnchoredPathDB } from './rectanchoredpath-db';
+import { RectAnchoredPathDB } from './rectanchoredpath-db'
+import { RectAnchoredPath, CopyRectAnchoredPathToRectAnchoredPathDB } from './rectanchoredpath'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class RectAnchoredPathService {
     return this.http.delete<RectAnchoredPathDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted rectanchoredpathdb id=${id}`)),
       catchError(this.handleError<RectAnchoredPathDB>('deleteRectAnchoredPath'))
+    );
+  }
+
+  // updateFront copy rectanchoredpath to a version with encoded pointers and update to the back
+  updateFront(rectanchoredpath: RectAnchoredPath, GONG__StackPath: string): Observable<RectAnchoredPathDB> {
+    let rectanchoredpathDB = new RectAnchoredPathDB
+    CopyRectAnchoredPathToRectAnchoredPathDB(rectanchoredpath, rectanchoredpathDB)
+    const id = typeof rectanchoredpathDB === 'number' ? rectanchoredpathDB : rectanchoredpathDB.ID
+    const url = `${this.rectanchoredpathsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<RectAnchoredPathDB>(url, rectanchoredpathDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<RectAnchoredPathDB>('updateRectAnchoredPath'))
     );
   }
 

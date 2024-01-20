@@ -5,39 +5,51 @@ import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
 // insertion point sub template for services imports
 import { GongBasicFieldDB } from './gongbasicfield-db'
+import { GongBasicField, CopyGongBasicFieldDBToGongBasicField } from './gongbasicfield'
 import { GongBasicFieldService } from './gongbasicfield.service'
 
 import { GongEnumDB } from './gongenum-db'
+import { GongEnum, CopyGongEnumDBToGongEnum } from './gongenum'
 import { GongEnumService } from './gongenum.service'
 
 import { GongEnumValueDB } from './gongenumvalue-db'
+import { GongEnumValue, CopyGongEnumValueDBToGongEnumValue } from './gongenumvalue'
 import { GongEnumValueService } from './gongenumvalue.service'
 
 import { GongLinkDB } from './gonglink-db'
+import { GongLink, CopyGongLinkDBToGongLink } from './gonglink'
 import { GongLinkService } from './gonglink.service'
 
 import { GongNoteDB } from './gongnote-db'
+import { GongNote, CopyGongNoteDBToGongNote } from './gongnote'
 import { GongNoteService } from './gongnote.service'
 
 import { GongStructDB } from './gongstruct-db'
+import { GongStruct, CopyGongStructDBToGongStruct } from './gongstruct'
 import { GongStructService } from './gongstruct.service'
 
 import { GongTimeFieldDB } from './gongtimefield-db'
+import { GongTimeField, CopyGongTimeFieldDBToGongTimeField } from './gongtimefield'
 import { GongTimeFieldService } from './gongtimefield.service'
 
 import { MetaDB } from './meta-db'
+import { Meta, CopyMetaDBToMeta } from './meta'
 import { MetaService } from './meta.service'
 
 import { MetaReferenceDB } from './metareference-db'
+import { MetaReference, CopyMetaReferenceDBToMetaReference } from './metareference'
 import { MetaReferenceService } from './metareference.service'
 
 import { ModelPkgDB } from './modelpkg-db'
+import { ModelPkg, CopyModelPkgDBToModelPkg } from './modelpkg'
 import { ModelPkgService } from './modelpkg.service'
 
 import { PointerToGongStructFieldDB } from './pointertogongstructfield-db'
+import { PointerToGongStructField, CopyPointerToGongStructFieldDBToPointerToGongStructField } from './pointertogongstructfield'
 import { PointerToGongStructFieldService } from './pointertogongstructfield.service'
 
 import { SliceOfPointerToGongStructFieldDB } from './sliceofpointertogongstructfield-db'
+import { SliceOfPointerToGongStructField, CopySliceOfPointerToGongStructFieldDBToSliceOfPointerToGongStructField } from './sliceofpointertogongstructfield'
 import { SliceOfPointerToGongStructFieldService } from './sliceofpointertogongstructfield.service'
 
 export const StackType = "github.com/fullstack-lang/gong/go/models"
@@ -48,56 +60,92 @@ export class FrontRepo { // insertion point sub template
   GongBasicFields = new Map<number, GongBasicFieldDB>() // map of repo instances
   GongBasicFields_batch = new Map<number, GongBasicFieldDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_GongBasicFields = new Array<GongBasicField>() // array of front instances
+  map_ID_GongBasicField = new Map<number, GongBasicField>() // map of front instances
+
   GongEnums_array = new Array<GongEnumDB>() // array of repo instances
   GongEnums = new Map<number, GongEnumDB>() // map of repo instances
   GongEnums_batch = new Map<number, GongEnumDB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_GongEnums = new Array<GongEnum>() // array of front instances
+  map_ID_GongEnum = new Map<number, GongEnum>() // map of front instances
 
   GongEnumValues_array = new Array<GongEnumValueDB>() // array of repo instances
   GongEnumValues = new Map<number, GongEnumValueDB>() // map of repo instances
   GongEnumValues_batch = new Map<number, GongEnumValueDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_GongEnumValues = new Array<GongEnumValue>() // array of front instances
+  map_ID_GongEnumValue = new Map<number, GongEnumValue>() // map of front instances
+
   GongLinks_array = new Array<GongLinkDB>() // array of repo instances
   GongLinks = new Map<number, GongLinkDB>() // map of repo instances
   GongLinks_batch = new Map<number, GongLinkDB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_GongLinks = new Array<GongLink>() // array of front instances
+  map_ID_GongLink = new Map<number, GongLink>() // map of front instances
 
   GongNotes_array = new Array<GongNoteDB>() // array of repo instances
   GongNotes = new Map<number, GongNoteDB>() // map of repo instances
   GongNotes_batch = new Map<number, GongNoteDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_GongNotes = new Array<GongNote>() // array of front instances
+  map_ID_GongNote = new Map<number, GongNote>() // map of front instances
+
   GongStructs_array = new Array<GongStructDB>() // array of repo instances
   GongStructs = new Map<number, GongStructDB>() // map of repo instances
   GongStructs_batch = new Map<number, GongStructDB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_GongStructs = new Array<GongStruct>() // array of front instances
+  map_ID_GongStruct = new Map<number, GongStruct>() // map of front instances
 
   GongTimeFields_array = new Array<GongTimeFieldDB>() // array of repo instances
   GongTimeFields = new Map<number, GongTimeFieldDB>() // map of repo instances
   GongTimeFields_batch = new Map<number, GongTimeFieldDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_GongTimeFields = new Array<GongTimeField>() // array of front instances
+  map_ID_GongTimeField = new Map<number, GongTimeField>() // map of front instances
+
   Metas_array = new Array<MetaDB>() // array of repo instances
   Metas = new Map<number, MetaDB>() // map of repo instances
   Metas_batch = new Map<number, MetaDB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_Metas = new Array<Meta>() // array of front instances
+  map_ID_Meta = new Map<number, Meta>() // map of front instances
 
   MetaReferences_array = new Array<MetaReferenceDB>() // array of repo instances
   MetaReferences = new Map<number, MetaReferenceDB>() // map of repo instances
   MetaReferences_batch = new Map<number, MetaReferenceDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_MetaReferences = new Array<MetaReference>() // array of front instances
+  map_ID_MetaReference = new Map<number, MetaReference>() // map of front instances
+
   ModelPkgs_array = new Array<ModelPkgDB>() // array of repo instances
   ModelPkgs = new Map<number, ModelPkgDB>() // map of repo instances
   ModelPkgs_batch = new Map<number, ModelPkgDB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_ModelPkgs = new Array<ModelPkg>() // array of front instances
+  map_ID_ModelPkg = new Map<number, ModelPkg>() // map of front instances
 
   PointerToGongStructFields_array = new Array<PointerToGongStructFieldDB>() // array of repo instances
   PointerToGongStructFields = new Map<number, PointerToGongStructFieldDB>() // map of repo instances
   PointerToGongStructFields_batch = new Map<number, PointerToGongStructFieldDB>() // same but only in last GET (for finding repo instances to delete)
 
+  array_PointerToGongStructFields = new Array<PointerToGongStructField>() // array of front instances
+  map_ID_PointerToGongStructField = new Map<number, PointerToGongStructField>() // map of front instances
+
   SliceOfPointerToGongStructFields_array = new Array<SliceOfPointerToGongStructFieldDB>() // array of repo instances
   SliceOfPointerToGongStructFields = new Map<number, SliceOfPointerToGongStructFieldDB>() // map of repo instances
   SliceOfPointerToGongStructFields_batch = new Map<number, SliceOfPointerToGongStructFieldDB>() // same but only in last GET (for finding repo instances to delete)
+
+  array_SliceOfPointerToGongStructFields = new Array<SliceOfPointerToGongStructField>() // array of front instances
+  map_ID_SliceOfPointerToGongStructField = new Map<number, SliceOfPointerToGongStructField>() // map of front instances
 
 
   // getArray allows for a get function that is robust to refactoring of the named struct name
   // for instance frontRepo.getArray<Astruct>( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
   // contrary to frontRepo.Astructs_array which is not refactored when Astruct identifier is modified
   getArray<Type>(gongStructName: string): Array<Type> {
-    switch (gongStructName) {
+    switch (gongStructName) { // deprecated
       // insertion point
       case 'GongBasicField':
         return this.GongBasicFields_array as unknown as Array<Type>
@@ -128,8 +176,40 @@ export class FrontRepo { // insertion point sub template
     }
   }
 
+  getFrontArray<Type>(gongStructName: string): Array<Type> {
+    switch (gongStructName) {
+      // insertion point
+      case 'GongBasicField':
+        return this.array_GongBasicFields as unknown as Array<Type>
+      case 'GongEnum':
+        return this.array_GongEnums as unknown as Array<Type>
+      case 'GongEnumValue':
+        return this.array_GongEnumValues as unknown as Array<Type>
+      case 'GongLink':
+        return this.array_GongLinks as unknown as Array<Type>
+      case 'GongNote':
+        return this.array_GongNotes as unknown as Array<Type>
+      case 'GongStruct':
+        return this.array_GongStructs as unknown as Array<Type>
+      case 'GongTimeField':
+        return this.array_GongTimeFields as unknown as Array<Type>
+      case 'Meta':
+        return this.array_Metas as unknown as Array<Type>
+      case 'MetaReference':
+        return this.array_MetaReferences as unknown as Array<Type>
+      case 'ModelPkg':
+        return this.array_ModelPkgs as unknown as Array<Type>
+      case 'PointerToGongStructField':
+        return this.array_PointerToGongStructFields as unknown as Array<Type>
+      case 'SliceOfPointerToGongStructField':
+        return this.array_SliceOfPointerToGongStructFields as unknown as Array<Type>
+      default:
+        throw new Error("Type not recognized");
+    }
+  }
+
   // getMap allows for a get function that is robust to refactoring of the named struct name
-  getMap<Type>(gongStructName: string): Map<number, Type> {
+  getMap<Type>(gongStructName: string): Map<number, Type> { // deprecated
     switch (gongStructName) {
       // insertion point
       case 'GongBasicField':
@@ -156,6 +236,38 @@ export class FrontRepo { // insertion point sub template
         return this.PointerToGongStructFields as unknown as Map<number, Type>
       case 'SliceOfPointerToGongStructField':
         return this.SliceOfPointerToGongStructFields as unknown as Map<number, Type>
+      default:
+        throw new Error("Type not recognized");
+    }
+  }
+  
+  getFrontMap<Type>(gongStructName: string): Map<number, Type> {
+    switch (gongStructName) {
+      // insertion point
+      case 'GongBasicField':
+        return this.map_ID_GongBasicField as unknown as Map<number, Type>
+      case 'GongEnum':
+        return this.map_ID_GongEnum as unknown as Map<number, Type>
+      case 'GongEnumValue':
+        return this.map_ID_GongEnumValue as unknown as Map<number, Type>
+      case 'GongLink':
+        return this.map_ID_GongLink as unknown as Map<number, Type>
+      case 'GongNote':
+        return this.map_ID_GongNote as unknown as Map<number, Type>
+      case 'GongStruct':
+        return this.map_ID_GongStruct as unknown as Map<number, Type>
+      case 'GongTimeField':
+        return this.map_ID_GongTimeField as unknown as Map<number, Type>
+      case 'Meta':
+        return this.map_ID_Meta as unknown as Map<number, Type>
+      case 'MetaReference':
+        return this.map_ID_MetaReference as unknown as Map<number, Type>
+      case 'ModelPkg':
+        return this.map_ID_ModelPkg as unknown as Map<number, Type>
+      case 'PointerToGongStructField':
+        return this.map_ID_PointerToGongStructField as unknown as Map<number, Type>
+      case 'SliceOfPointerToGongStructField':
+        return this.map_ID_SliceOfPointerToGongStructField as unknown as Map<number, Type>
       default:
         throw new Error("Type not recognized");
     }
@@ -387,17 +499,17 @@ export class FrontRepoService {
             this.frontRepo.GongBasicFields_batch.clear()
 
             gongbasicfields.forEach(
-              gongbasicfield => {
-                this.frontRepo.GongBasicFields.set(gongbasicfield.ID, gongbasicfield)
-                this.frontRepo.GongBasicFields_batch.set(gongbasicfield.ID, gongbasicfield)
+              gongbasicfieldDB => {
+                this.frontRepo.GongBasicFields.set(gongbasicfieldDB.ID, gongbasicfieldDB)
+                this.frontRepo.GongBasicFields_batch.set(gongbasicfieldDB.ID, gongbasicfieldDB)
               }
             )
 
             // clear gongbasicfields that are absent from the batch
             this.frontRepo.GongBasicFields.forEach(
-              gongbasicfield => {
-                if (this.frontRepo.GongBasicFields_batch.get(gongbasicfield.ID) == undefined) {
-                  this.frontRepo.GongBasicFields.delete(gongbasicfield.ID)
+              gongbasicfieldDB => {
+                if (this.frontRepo.GongBasicFields_batch.get(gongbasicfieldDB.ID) == undefined) {
+                  this.frontRepo.GongBasicFields.delete(gongbasicfieldDB.ID)
                 }
               }
             )
@@ -420,17 +532,17 @@ export class FrontRepoService {
             this.frontRepo.GongEnums_batch.clear()
 
             gongenums.forEach(
-              gongenum => {
-                this.frontRepo.GongEnums.set(gongenum.ID, gongenum)
-                this.frontRepo.GongEnums_batch.set(gongenum.ID, gongenum)
+              gongenumDB => {
+                this.frontRepo.GongEnums.set(gongenumDB.ID, gongenumDB)
+                this.frontRepo.GongEnums_batch.set(gongenumDB.ID, gongenumDB)
               }
             )
 
             // clear gongenums that are absent from the batch
             this.frontRepo.GongEnums.forEach(
-              gongenum => {
-                if (this.frontRepo.GongEnums_batch.get(gongenum.ID) == undefined) {
-                  this.frontRepo.GongEnums.delete(gongenum.ID)
+              gongenumDB => {
+                if (this.frontRepo.GongEnums_batch.get(gongenumDB.ID) == undefined) {
+                  this.frontRepo.GongEnums.delete(gongenumDB.ID)
                 }
               }
             )
@@ -453,17 +565,17 @@ export class FrontRepoService {
             this.frontRepo.GongEnumValues_batch.clear()
 
             gongenumvalues.forEach(
-              gongenumvalue => {
-                this.frontRepo.GongEnumValues.set(gongenumvalue.ID, gongenumvalue)
-                this.frontRepo.GongEnumValues_batch.set(gongenumvalue.ID, gongenumvalue)
+              gongenumvalueDB => {
+                this.frontRepo.GongEnumValues.set(gongenumvalueDB.ID, gongenumvalueDB)
+                this.frontRepo.GongEnumValues_batch.set(gongenumvalueDB.ID, gongenumvalueDB)
               }
             )
 
             // clear gongenumvalues that are absent from the batch
             this.frontRepo.GongEnumValues.forEach(
-              gongenumvalue => {
-                if (this.frontRepo.GongEnumValues_batch.get(gongenumvalue.ID) == undefined) {
-                  this.frontRepo.GongEnumValues.delete(gongenumvalue.ID)
+              gongenumvalueDB => {
+                if (this.frontRepo.GongEnumValues_batch.get(gongenumvalueDB.ID) == undefined) {
+                  this.frontRepo.GongEnumValues.delete(gongenumvalueDB.ID)
                 }
               }
             )
@@ -486,17 +598,17 @@ export class FrontRepoService {
             this.frontRepo.GongLinks_batch.clear()
 
             gonglinks.forEach(
-              gonglink => {
-                this.frontRepo.GongLinks.set(gonglink.ID, gonglink)
-                this.frontRepo.GongLinks_batch.set(gonglink.ID, gonglink)
+              gonglinkDB => {
+                this.frontRepo.GongLinks.set(gonglinkDB.ID, gonglinkDB)
+                this.frontRepo.GongLinks_batch.set(gonglinkDB.ID, gonglinkDB)
               }
             )
 
             // clear gonglinks that are absent from the batch
             this.frontRepo.GongLinks.forEach(
-              gonglink => {
-                if (this.frontRepo.GongLinks_batch.get(gonglink.ID) == undefined) {
-                  this.frontRepo.GongLinks.delete(gonglink.ID)
+              gonglinkDB => {
+                if (this.frontRepo.GongLinks_batch.get(gonglinkDB.ID) == undefined) {
+                  this.frontRepo.GongLinks.delete(gonglinkDB.ID)
                 }
               }
             )
@@ -519,17 +631,17 @@ export class FrontRepoService {
             this.frontRepo.GongNotes_batch.clear()
 
             gongnotes.forEach(
-              gongnote => {
-                this.frontRepo.GongNotes.set(gongnote.ID, gongnote)
-                this.frontRepo.GongNotes_batch.set(gongnote.ID, gongnote)
+              gongnoteDB => {
+                this.frontRepo.GongNotes.set(gongnoteDB.ID, gongnoteDB)
+                this.frontRepo.GongNotes_batch.set(gongnoteDB.ID, gongnoteDB)
               }
             )
 
             // clear gongnotes that are absent from the batch
             this.frontRepo.GongNotes.forEach(
-              gongnote => {
-                if (this.frontRepo.GongNotes_batch.get(gongnote.ID) == undefined) {
-                  this.frontRepo.GongNotes.delete(gongnote.ID)
+              gongnoteDB => {
+                if (this.frontRepo.GongNotes_batch.get(gongnoteDB.ID) == undefined) {
+                  this.frontRepo.GongNotes.delete(gongnoteDB.ID)
                 }
               }
             )
@@ -552,17 +664,17 @@ export class FrontRepoService {
             this.frontRepo.GongStructs_batch.clear()
 
             gongstructs.forEach(
-              gongstruct => {
-                this.frontRepo.GongStructs.set(gongstruct.ID, gongstruct)
-                this.frontRepo.GongStructs_batch.set(gongstruct.ID, gongstruct)
+              gongstructDB => {
+                this.frontRepo.GongStructs.set(gongstructDB.ID, gongstructDB)
+                this.frontRepo.GongStructs_batch.set(gongstructDB.ID, gongstructDB)
               }
             )
 
             // clear gongstructs that are absent from the batch
             this.frontRepo.GongStructs.forEach(
-              gongstruct => {
-                if (this.frontRepo.GongStructs_batch.get(gongstruct.ID) == undefined) {
-                  this.frontRepo.GongStructs.delete(gongstruct.ID)
+              gongstructDB => {
+                if (this.frontRepo.GongStructs_batch.get(gongstructDB.ID) == undefined) {
+                  this.frontRepo.GongStructs.delete(gongstructDB.ID)
                 }
               }
             )
@@ -585,17 +697,17 @@ export class FrontRepoService {
             this.frontRepo.GongTimeFields_batch.clear()
 
             gongtimefields.forEach(
-              gongtimefield => {
-                this.frontRepo.GongTimeFields.set(gongtimefield.ID, gongtimefield)
-                this.frontRepo.GongTimeFields_batch.set(gongtimefield.ID, gongtimefield)
+              gongtimefieldDB => {
+                this.frontRepo.GongTimeFields.set(gongtimefieldDB.ID, gongtimefieldDB)
+                this.frontRepo.GongTimeFields_batch.set(gongtimefieldDB.ID, gongtimefieldDB)
               }
             )
 
             // clear gongtimefields that are absent from the batch
             this.frontRepo.GongTimeFields.forEach(
-              gongtimefield => {
-                if (this.frontRepo.GongTimeFields_batch.get(gongtimefield.ID) == undefined) {
-                  this.frontRepo.GongTimeFields.delete(gongtimefield.ID)
+              gongtimefieldDB => {
+                if (this.frontRepo.GongTimeFields_batch.get(gongtimefieldDB.ID) == undefined) {
+                  this.frontRepo.GongTimeFields.delete(gongtimefieldDB.ID)
                 }
               }
             )
@@ -618,17 +730,17 @@ export class FrontRepoService {
             this.frontRepo.Metas_batch.clear()
 
             metas.forEach(
-              meta => {
-                this.frontRepo.Metas.set(meta.ID, meta)
-                this.frontRepo.Metas_batch.set(meta.ID, meta)
+              metaDB => {
+                this.frontRepo.Metas.set(metaDB.ID, metaDB)
+                this.frontRepo.Metas_batch.set(metaDB.ID, metaDB)
               }
             )
 
             // clear metas that are absent from the batch
             this.frontRepo.Metas.forEach(
-              meta => {
-                if (this.frontRepo.Metas_batch.get(meta.ID) == undefined) {
-                  this.frontRepo.Metas.delete(meta.ID)
+              metaDB => {
+                if (this.frontRepo.Metas_batch.get(metaDB.ID) == undefined) {
+                  this.frontRepo.Metas.delete(metaDB.ID)
                 }
               }
             )
@@ -651,17 +763,17 @@ export class FrontRepoService {
             this.frontRepo.MetaReferences_batch.clear()
 
             metareferences.forEach(
-              metareference => {
-                this.frontRepo.MetaReferences.set(metareference.ID, metareference)
-                this.frontRepo.MetaReferences_batch.set(metareference.ID, metareference)
+              metareferenceDB => {
+                this.frontRepo.MetaReferences.set(metareferenceDB.ID, metareferenceDB)
+                this.frontRepo.MetaReferences_batch.set(metareferenceDB.ID, metareferenceDB)
               }
             )
 
             // clear metareferences that are absent from the batch
             this.frontRepo.MetaReferences.forEach(
-              metareference => {
-                if (this.frontRepo.MetaReferences_batch.get(metareference.ID) == undefined) {
-                  this.frontRepo.MetaReferences.delete(metareference.ID)
+              metareferenceDB => {
+                if (this.frontRepo.MetaReferences_batch.get(metareferenceDB.ID) == undefined) {
+                  this.frontRepo.MetaReferences.delete(metareferenceDB.ID)
                 }
               }
             )
@@ -684,17 +796,17 @@ export class FrontRepoService {
             this.frontRepo.ModelPkgs_batch.clear()
 
             modelpkgs.forEach(
-              modelpkg => {
-                this.frontRepo.ModelPkgs.set(modelpkg.ID, modelpkg)
-                this.frontRepo.ModelPkgs_batch.set(modelpkg.ID, modelpkg)
+              modelpkgDB => {
+                this.frontRepo.ModelPkgs.set(modelpkgDB.ID, modelpkgDB)
+                this.frontRepo.ModelPkgs_batch.set(modelpkgDB.ID, modelpkgDB)
               }
             )
 
             // clear modelpkgs that are absent from the batch
             this.frontRepo.ModelPkgs.forEach(
-              modelpkg => {
-                if (this.frontRepo.ModelPkgs_batch.get(modelpkg.ID) == undefined) {
-                  this.frontRepo.ModelPkgs.delete(modelpkg.ID)
+              modelpkgDB => {
+                if (this.frontRepo.ModelPkgs_batch.get(modelpkgDB.ID) == undefined) {
+                  this.frontRepo.ModelPkgs.delete(modelpkgDB.ID)
                 }
               }
             )
@@ -717,17 +829,17 @@ export class FrontRepoService {
             this.frontRepo.PointerToGongStructFields_batch.clear()
 
             pointertogongstructfields.forEach(
-              pointertogongstructfield => {
-                this.frontRepo.PointerToGongStructFields.set(pointertogongstructfield.ID, pointertogongstructfield)
-                this.frontRepo.PointerToGongStructFields_batch.set(pointertogongstructfield.ID, pointertogongstructfield)
+              pointertogongstructfieldDB => {
+                this.frontRepo.PointerToGongStructFields.set(pointertogongstructfieldDB.ID, pointertogongstructfieldDB)
+                this.frontRepo.PointerToGongStructFields_batch.set(pointertogongstructfieldDB.ID, pointertogongstructfieldDB)
               }
             )
 
             // clear pointertogongstructfields that are absent from the batch
             this.frontRepo.PointerToGongStructFields.forEach(
-              pointertogongstructfield => {
-                if (this.frontRepo.PointerToGongStructFields_batch.get(pointertogongstructfield.ID) == undefined) {
-                  this.frontRepo.PointerToGongStructFields.delete(pointertogongstructfield.ID)
+              pointertogongstructfieldDB => {
+                if (this.frontRepo.PointerToGongStructFields_batch.get(pointertogongstructfieldDB.ID) == undefined) {
+                  this.frontRepo.PointerToGongStructFields.delete(pointertogongstructfieldDB.ID)
                 }
               }
             )
@@ -750,17 +862,17 @@ export class FrontRepoService {
             this.frontRepo.SliceOfPointerToGongStructFields_batch.clear()
 
             sliceofpointertogongstructfields.forEach(
-              sliceofpointertogongstructfield => {
-                this.frontRepo.SliceOfPointerToGongStructFields.set(sliceofpointertogongstructfield.ID, sliceofpointertogongstructfield)
-                this.frontRepo.SliceOfPointerToGongStructFields_batch.set(sliceofpointertogongstructfield.ID, sliceofpointertogongstructfield)
+              sliceofpointertogongstructfieldDB => {
+                this.frontRepo.SliceOfPointerToGongStructFields.set(sliceofpointertogongstructfieldDB.ID, sliceofpointertogongstructfieldDB)
+                this.frontRepo.SliceOfPointerToGongStructFields_batch.set(sliceofpointertogongstructfieldDB.ID, sliceofpointertogongstructfieldDB)
               }
             )
 
             // clear sliceofpointertogongstructfields that are absent from the batch
             this.frontRepo.SliceOfPointerToGongStructFields.forEach(
-              sliceofpointertogongstructfield => {
-                if (this.frontRepo.SliceOfPointerToGongStructFields_batch.get(sliceofpointertogongstructfield.ID) == undefined) {
-                  this.frontRepo.SliceOfPointerToGongStructFields.delete(sliceofpointertogongstructfield.ID)
+              sliceofpointertogongstructfieldDB => {
+                if (this.frontRepo.SliceOfPointerToGongStructFields_batch.get(sliceofpointertogongstructfieldDB.ID) == undefined) {
+                  this.frontRepo.SliceOfPointerToGongStructFields.delete(sliceofpointertogongstructfieldDB.ID)
                 }
               }
             )
@@ -922,6 +1034,167 @@ export class FrontRepoService {
                 // insertion point for pointers decoding
               }
             )
+
+            // 
+            // Third Step: reddeem front objects
+            // insertion point sub template for redeem 
+            
+            // init front objects
+            this.frontRepo.array_GongBasicFields = []
+            this.frontRepo.map_ID_GongBasicField.clear()
+            this.frontRepo.GongBasicFields_array.forEach(
+              gongbasicfieldDB => {
+                let gongbasicfield = new GongBasicField
+                CopyGongBasicFieldDBToGongBasicField(gongbasicfieldDB, gongbasicfield, this.frontRepo)
+                this.frontRepo.array_GongBasicFields.push(gongbasicfield)
+                this.frontRepo.map_ID_GongBasicField.set(gongbasicfield.ID, gongbasicfield)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_GongEnums = []
+            this.frontRepo.map_ID_GongEnum.clear()
+            this.frontRepo.GongEnums_array.forEach(
+              gongenumDB => {
+                let gongenum = new GongEnum
+                CopyGongEnumDBToGongEnum(gongenumDB, gongenum, this.frontRepo)
+                this.frontRepo.array_GongEnums.push(gongenum)
+                this.frontRepo.map_ID_GongEnum.set(gongenum.ID, gongenum)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_GongEnumValues = []
+            this.frontRepo.map_ID_GongEnumValue.clear()
+            this.frontRepo.GongEnumValues_array.forEach(
+              gongenumvalueDB => {
+                let gongenumvalue = new GongEnumValue
+                CopyGongEnumValueDBToGongEnumValue(gongenumvalueDB, gongenumvalue, this.frontRepo)
+                this.frontRepo.array_GongEnumValues.push(gongenumvalue)
+                this.frontRepo.map_ID_GongEnumValue.set(gongenumvalue.ID, gongenumvalue)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_GongLinks = []
+            this.frontRepo.map_ID_GongLink.clear()
+            this.frontRepo.GongLinks_array.forEach(
+              gonglinkDB => {
+                let gonglink = new GongLink
+                CopyGongLinkDBToGongLink(gonglinkDB, gonglink, this.frontRepo)
+                this.frontRepo.array_GongLinks.push(gonglink)
+                this.frontRepo.map_ID_GongLink.set(gonglink.ID, gonglink)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_GongNotes = []
+            this.frontRepo.map_ID_GongNote.clear()
+            this.frontRepo.GongNotes_array.forEach(
+              gongnoteDB => {
+                let gongnote = new GongNote
+                CopyGongNoteDBToGongNote(gongnoteDB, gongnote, this.frontRepo)
+                this.frontRepo.array_GongNotes.push(gongnote)
+                this.frontRepo.map_ID_GongNote.set(gongnote.ID, gongnote)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_GongStructs = []
+            this.frontRepo.map_ID_GongStruct.clear()
+            this.frontRepo.GongStructs_array.forEach(
+              gongstructDB => {
+                let gongstruct = new GongStruct
+                CopyGongStructDBToGongStruct(gongstructDB, gongstruct, this.frontRepo)
+                this.frontRepo.array_GongStructs.push(gongstruct)
+                this.frontRepo.map_ID_GongStruct.set(gongstruct.ID, gongstruct)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_GongTimeFields = []
+            this.frontRepo.map_ID_GongTimeField.clear()
+            this.frontRepo.GongTimeFields_array.forEach(
+              gongtimefieldDB => {
+                let gongtimefield = new GongTimeField
+                CopyGongTimeFieldDBToGongTimeField(gongtimefieldDB, gongtimefield, this.frontRepo)
+                this.frontRepo.array_GongTimeFields.push(gongtimefield)
+                this.frontRepo.map_ID_GongTimeField.set(gongtimefield.ID, gongtimefield)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_Metas = []
+            this.frontRepo.map_ID_Meta.clear()
+            this.frontRepo.Metas_array.forEach(
+              metaDB => {
+                let meta = new Meta
+                CopyMetaDBToMeta(metaDB, meta, this.frontRepo)
+                this.frontRepo.array_Metas.push(meta)
+                this.frontRepo.map_ID_Meta.set(meta.ID, meta)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_MetaReferences = []
+            this.frontRepo.map_ID_MetaReference.clear()
+            this.frontRepo.MetaReferences_array.forEach(
+              metareferenceDB => {
+                let metareference = new MetaReference
+                CopyMetaReferenceDBToMetaReference(metareferenceDB, metareference, this.frontRepo)
+                this.frontRepo.array_MetaReferences.push(metareference)
+                this.frontRepo.map_ID_MetaReference.set(metareference.ID, metareference)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_ModelPkgs = []
+            this.frontRepo.map_ID_ModelPkg.clear()
+            this.frontRepo.ModelPkgs_array.forEach(
+              modelpkgDB => {
+                let modelpkg = new ModelPkg
+                CopyModelPkgDBToModelPkg(modelpkgDB, modelpkg, this.frontRepo)
+                this.frontRepo.array_ModelPkgs.push(modelpkg)
+                this.frontRepo.map_ID_ModelPkg.set(modelpkg.ID, modelpkg)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_PointerToGongStructFields = []
+            this.frontRepo.map_ID_PointerToGongStructField.clear()
+            this.frontRepo.PointerToGongStructFields_array.forEach(
+              pointertogongstructfieldDB => {
+                let pointertogongstructfield = new PointerToGongStructField
+                CopyPointerToGongStructFieldDBToPointerToGongStructField(pointertogongstructfieldDB, pointertogongstructfield, this.frontRepo)
+                this.frontRepo.array_PointerToGongStructFields.push(pointertogongstructfield)
+                this.frontRepo.map_ID_PointerToGongStructField.set(pointertogongstructfield.ID, pointertogongstructfield)
+              }
+            )
+
+            
+            // init front objects
+            this.frontRepo.array_SliceOfPointerToGongStructFields = []
+            this.frontRepo.map_ID_SliceOfPointerToGongStructField.clear()
+            this.frontRepo.SliceOfPointerToGongStructFields_array.forEach(
+              sliceofpointertogongstructfieldDB => {
+                let sliceofpointertogongstructfield = new SliceOfPointerToGongStructField
+                CopySliceOfPointerToGongStructFieldDBToSliceOfPointerToGongStructField(sliceofpointertogongstructfieldDB, sliceofpointertogongstructfield, this.frontRepo)
+                this.frontRepo.array_SliceOfPointerToGongStructFields.push(sliceofpointertogongstructfield)
+                this.frontRepo.map_ID_SliceOfPointerToGongStructField.set(sliceofpointertogongstructfield.ID, sliceofpointertogongstructfield)
+              }
+            )
+
+
 
             // hand over control flow to observer
             observer.next(this.frontRepo)

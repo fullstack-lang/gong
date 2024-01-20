@@ -3,7 +3,7 @@ import * as gongsvg from 'gongsvg'
 import { createPoint } from './draw.segments';
 
 // Function to calculate the center of a rectangle
-function getRectCenter(rect: gongsvg.RectDB): gongsvg.PointDB {
+function getRectCenter(rect: gongsvg.Rect): gongsvg.Point {
     return createPoint(
         rect.X + rect.Width / 2,
         rect.Y + rect.Height / 2,
@@ -11,7 +11,7 @@ function getRectCenter(rect: gongsvg.RectDB): gongsvg.PointDB {
 }
 
 // Function to draw a line from the border of the rectangle to the point B
-export function drawLineFromRectToB(rect: gongsvg.RectDB, B: gongsvg.PointDB): gongsvg.PointDB {
+export function drawLineFromRectToB(rect: gongsvg.Rect, B: gongsvg.Point): gongsvg.Point {
     const center = getRectCenter(rect);
 
     // Calculate vector from center to point B

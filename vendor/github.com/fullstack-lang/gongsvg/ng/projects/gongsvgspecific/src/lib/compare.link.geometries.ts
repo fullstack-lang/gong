@@ -2,7 +2,7 @@
 import * as gongsvg from 'gongsvg'
 
 
-export function compareLinkGeometries(instance1: gongsvg.LinkDB, instance2: gongsvg.LinkDB): boolean {
+export function compareLinkGeometries(instance1: gongsvg.Link, instance2: gongsvg.Link): boolean {
 
     if (instance1 == undefined || instance2 == undefined) {
         console.log("comparing undefined links")

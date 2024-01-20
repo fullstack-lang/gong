@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { TextDB } from './text-db';
+import { TextDB } from './text-db'
+import { Text, CopyTextToTextDB } from './text'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -127,6 +129,25 @@ export class TextService {
     return this.http.delete<TextDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted textdb id=${id}`)),
       catchError(this.handleError<TextDB>('deleteText'))
+    );
+  }
+
+  // updateFront copy text to a version with encoded pointers and update to the back
+  updateFront(text: Text, GONG__StackPath: string): Observable<TextDB> {
+    let textDB = new TextDB
+    CopyTextToTextDB(text, textDB)
+    const id = typeof textDB === 'number' ? textDB : textDB.ID
+    const url = `${this.textsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<TextDB>(url, textDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<TextDB>('updateText'))
     );
   }
 

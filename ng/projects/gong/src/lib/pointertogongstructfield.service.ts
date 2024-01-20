@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { PointerToGongStructFieldDB } from './pointertogongstructfield-db';
+import { PointerToGongStructFieldDB } from './pointertogongstructfield-db'
+import { PointerToGongStructField, CopyPointerToGongStructFieldToPointerToGongStructFieldDB } from './pointertogongstructfield'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -121,6 +123,25 @@ export class PointerToGongStructFieldService {
     return this.http.delete<PointerToGongStructFieldDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted pointertogongstructfielddb id=${id}`)),
       catchError(this.handleError<PointerToGongStructFieldDB>('deletePointerToGongStructField'))
+    );
+  }
+
+  // updateFront copy pointertogongstructfield to a version with encoded pointers and update to the back
+  updateFront(pointertogongstructfield: PointerToGongStructField, GONG__StackPath: string): Observable<PointerToGongStructFieldDB> {
+    let pointertogongstructfieldDB = new PointerToGongStructFieldDB
+    CopyPointerToGongStructFieldToPointerToGongStructFieldDB(pointertogongstructfield, pointertogongstructfieldDB)
+    const id = typeof pointertogongstructfieldDB === 'number' ? pointertogongstructfieldDB : pointertogongstructfieldDB.ID
+    const url = `${this.pointertogongstructfieldsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<PointerToGongStructFieldDB>(url, pointertogongstructfieldDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<PointerToGongStructFieldDB>('updatePointerToGongStructField'))
     );
   }
 

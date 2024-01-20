@@ -4,7 +4,7 @@ import { Coordinate } from './rectangle-event.service';
 import { getAnchorPoint } from './get.anchor.point';
 import { drawLineFromRectToB } from './draw.line.from.rect.to.point';
 
-export function getEndPosition(rectLinkLink: gongsvg.RectLinkLinkDB, map_Link_Segment: Map<gongsvg.LinkDB, Segment[]>): Coordinate {
+export function getEndPosition(rectLinkLink: gongsvg.RectLinkLink, map_Link_Segment: Map<gongsvg.Link, Segment[]>): Coordinate {
 
     let coordinate: Coordinate = [0, 0]
     if (rectLinkLink.End == undefined || rectLinkLink.Start == undefined) {

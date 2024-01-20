@@ -1,7 +1,7 @@
 import * as gongsvg from 'gongsvg'
 import { createPoint } from './draw.segments'
 
-export function mouseCoordInComponentRef(event: MouseEvent): gongsvg.PointDB {
+export function mouseCoordInComponentRef(event: MouseEvent): gongsvg.Point {
 
     const targetElement = event.target as SVGElement
     const svg = targetElement.ownerSVGElement

@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { GongEnumDB } from './gongenum-db';
+import { GongEnumDB } from './gongenum-db'
+import { GongEnum, CopyGongEnumToGongEnumDB } from './gongenum'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -127,6 +129,25 @@ export class GongEnumService {
     return this.http.delete<GongEnumDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted gongenumdb id=${id}`)),
       catchError(this.handleError<GongEnumDB>('deleteGongEnum'))
+    );
+  }
+
+  // updateFront copy gongenum to a version with encoded pointers and update to the back
+  updateFront(gongenum: GongEnum, GONG__StackPath: string): Observable<GongEnumDB> {
+    let gongenumDB = new GongEnumDB
+    CopyGongEnumToGongEnumDB(gongenum, gongenumDB)
+    const id = typeof gongenumDB === 'number' ? gongenumDB : gongenumDB.ID
+    const url = `${this.gongenumsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<GongEnumDB>(url, gongenumDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<GongEnumDB>('updateGongEnum'))
     );
   }
 

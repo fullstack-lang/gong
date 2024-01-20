@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { GongNoteDB } from './gongnote-db';
+import { GongNoteDB } from './gongnote-db'
+import { GongNote, CopyGongNoteToGongNoteDB } from './gongnote'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -127,6 +129,25 @@ export class GongNoteService {
     return this.http.delete<GongNoteDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted gongnotedb id=${id}`)),
       catchError(this.handleError<GongNoteDB>('deleteGongNote'))
+    );
+  }
+
+  // updateFront copy gongnote to a version with encoded pointers and update to the back
+  updateFront(gongnote: GongNote, GONG__StackPath: string): Observable<GongNoteDB> {
+    let gongnoteDB = new GongNoteDB
+    CopyGongNoteToGongNoteDB(gongnote, gongnoteDB)
+    const id = typeof gongnoteDB === 'number' ? gongnoteDB : gongnoteDB.ID
+    const url = `${this.gongnotesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<GongNoteDB>(url, gongnoteDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<GongNoteDB>('updateGongNote'))
     );
   }
 

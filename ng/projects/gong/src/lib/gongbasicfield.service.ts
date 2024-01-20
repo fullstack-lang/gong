@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { GongBasicFieldDB } from './gongbasicfield-db';
+import { GongBasicFieldDB } from './gongbasicfield-db'
+import { GongBasicField, CopyGongBasicFieldToGongBasicFieldDB } from './gongbasicfield'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -121,6 +123,25 @@ export class GongBasicFieldService {
     return this.http.delete<GongBasicFieldDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted gongbasicfielddb id=${id}`)),
       catchError(this.handleError<GongBasicFieldDB>('deleteGongBasicField'))
+    );
+  }
+
+  // updateFront copy gongbasicfield to a version with encoded pointers and update to the back
+  updateFront(gongbasicfield: GongBasicField, GONG__StackPath: string): Observable<GongBasicFieldDB> {
+    let gongbasicfieldDB = new GongBasicFieldDB
+    CopyGongBasicFieldToGongBasicFieldDB(gongbasicfield, gongbasicfieldDB)
+    const id = typeof gongbasicfieldDB === 'number' ? gongbasicfieldDB : gongbasicfieldDB.ID
+    const url = `${this.gongbasicfieldsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<GongBasicFieldDB>(url, gongbasicfieldDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<GongBasicFieldDB>('updateGongBasicField'))
     );
   }
 

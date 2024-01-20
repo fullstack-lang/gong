@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { RectLinkLinkDB } from './rectlinklink-db';
+import { RectLinkLinkDB } from './rectlinklink-db'
+import { RectLinkLink, CopyRectLinkLinkToRectLinkLinkDB } from './rectlinklink'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -128,6 +130,25 @@ export class RectLinkLinkService {
     return this.http.delete<RectLinkLinkDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted rectlinklinkdb id=${id}`)),
       catchError(this.handleError<RectLinkLinkDB>('deleteRectLinkLink'))
+    );
+  }
+
+  // updateFront copy rectlinklink to a version with encoded pointers and update to the back
+  updateFront(rectlinklink: RectLinkLink, GONG__StackPath: string): Observable<RectLinkLinkDB> {
+    let rectlinklinkDB = new RectLinkLinkDB
+    CopyRectLinkLinkToRectLinkLinkDB(rectlinklink, rectlinklinkDB)
+    const id = typeof rectlinklinkDB === 'number' ? rectlinklinkDB : rectlinklinkDB.ID
+    const url = `${this.rectlinklinksUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<RectLinkLinkDB>(url, rectlinklinkDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<RectLinkLinkDB>('updateRectLinkLink'))
     );
   }
 

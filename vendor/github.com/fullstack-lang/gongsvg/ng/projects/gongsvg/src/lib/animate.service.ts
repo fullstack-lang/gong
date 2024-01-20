@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { AnimateDB } from './animate-db';
+import { AnimateDB } from './animate-db'
+import { Animate, CopyAnimateToAnimateDB } from './animate'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class AnimateService {
     return this.http.delete<AnimateDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted animatedb id=${id}`)),
       catchError(this.handleError<AnimateDB>('deleteAnimate'))
+    );
+  }
+
+  // updateFront copy animate to a version with encoded pointers and update to the back
+  updateFront(animate: Animate, GONG__StackPath: string): Observable<AnimateDB> {
+    let animateDB = new AnimateDB
+    CopyAnimateToAnimateDB(animate, animateDB)
+    const id = typeof animateDB === 'number' ? animateDB : animateDB.ID
+    const url = `${this.animatesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<AnimateDB>(url, animateDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<AnimateDB>('updateAnimate'))
     );
   }
 

@@ -59,14 +59,14 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   // svg is the singloton that is displayed. A svg
   // is the root of the directed acyclic graph containing
   // all svg elements
-  svg = new gongsvg.SVGDB
+  svg = new gongsvg.SVG
 
   //
   // USER INTERACTION MANAGEMENT
   //
-  PointAtMouseDown = new gongsvg.PointDB
-  PointAtMouseMove = new gongsvg.PointDB
-  PointAtMouseUp = new gongsvg.PointDB
+  PointAtMouseDown = new gongsvg.Point
+  PointAtMouseMove = new gongsvg.Point
+  PointAtMouseUp = new gongsvg.Point
 
   dragThreshold = 5
 
@@ -78,7 +78,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   }
   // map of rects to link
   // it is used to update the connected link
-  map_Rect_ConnectedLinks: Map<gongsvg.RectDB, Set<gongsvg.LinkDB>> = new (Map<gongsvg.RectDB, Set<gongsvg.LinkDB>>)
+  map_Rect_ConnectedLinks: Map<gongsvg.Rect, Set<gongsvg.Link>> = new (Map<gongsvg.Rect, Set<gongsvg.Link>>)
 
   //
   // LINK MANAGEMENT
@@ -89,8 +89,8 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   // in this case, each link is associated with a set of segment
   //
   LinkType = gongsvg.LinkType
-  map_Link_Segment: Map<gongsvg.LinkDB, Segment[]> = new (Map<gongsvg.LinkDB, Segment[]>)
-  getSegments(link: gongsvg.LinkDB): Segment[] {
+  map_Link_Segment: Map<gongsvg.Link, Segment[]> = new (Map<gongsvg.Link, Segment[]>)
+  getSegments(link: gongsvg.Link): Segment[] {
     return this.map_Link_Segment.get(link)!
   }
 
@@ -98,15 +98,15 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
     return getOrientation(segment)
   }
 
-  getArcPath(link: gongsvg.LinkDB, segment: Segment, nextSegment: Segment): string {
+  getArcPath(link: gongsvg.Link, segment: Segment, nextSegment: Segment): string {
     return getArcPath(link, segment, nextSegment)
   }
 
-  getEndArrowPath(link: gongsvg.LinkDB, segment: Segment, arrowSize: number): string {
+  getEndArrowPath(link: gongsvg.Link, segment: Segment, arrowSize: number): string {
     return getEndArrowPath(link, segment, arrowSize)
   }
 
-  getStartArrowPath(link: gongsvg.LinkDB, segment: Segment, arrowSize: number): string {
+  getStartArrowPath(link: gongsvg.Link, segment: Segment, arrowSize: number): string {
     let inverseSegment = swapSegment(segment)
     let path = this.getEndArrowPath(link, inverseSegment, arrowSize)
     return path
@@ -120,10 +120,10 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   }
 
   // for change detection, we need to store start and end rect of all links
-  map_Link_PreviousStart: Map<gongsvg.LinkDB, gongsvg.RectDB> = new (Map<gongsvg.LinkDB, gongsvg.RectDB>)
-  map_Link_PreviousEnd: Map<gongsvg.LinkDB, gongsvg.RectDB> = new (Map<gongsvg.LinkDB, gongsvg.RectDB>)
+  map_Link_PreviousStart: Map<gongsvg.Link, gongsvg.Rect> = new (Map<gongsvg.Link, gongsvg.Rect>)
+  map_Link_PreviousEnd: Map<gongsvg.Link, gongsvg.Rect> = new (Map<gongsvg.Link, gongsvg.Rect>)
 
-  draggedLink: gongsvg.LinkDB | undefined
+  draggedLink: gongsvg.Link | undefined
   draggedSegmentNumber = 0
 
   //
@@ -134,20 +134,20 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   anchorFillColor = 'blue'; // Choose your desired anchor fill color
   draggingAnchorFillColor = 'red'; // Change this to the desired color when dragging
 
-  draggedRect: gongsvg.RectDB | undefined
+  draggedRect: gongsvg.Rect | undefined
   anchorDragging: boolean = false
   activeAnchor: 'left' | 'right' | 'top' | 'bottom' = 'left'
-  RectAtMouseDown: gongsvg.RectDB | undefined
-  map_SelectedRectAtMouseDown: Map<gongsvg.RectDB, gongsvg.RectDB> = new (Map<gongsvg.RectDB, gongsvg.RectDB>)
+  RectAtMouseDown: gongsvg.Rect | undefined
+  map_SelectedRectAtMouseDown: Map<gongsvg.Rect, gongsvg.Rect> = new (Map<gongsvg.Rect, gongsvg.Rect>)
 
   // a rect that is scaled might have anchored path to it
   // if the path scale proportionnaly with the shape, one
   // have to store a clone at mouse down to compute the scaled path
-  RectAnchoredPathsAtMouseDown: Map<gongsvg.RectAnchoredPathDB, gongsvg.RectAnchoredPathDB> =
-    new Map<gongsvg.RectAnchoredPathDB, gongsvg.RectAnchoredPathDB>
+  RectAnchoredPathsAtMouseDown: Map<gongsvg.RectAnchoredPath, gongsvg.RectAnchoredPath> =
+    new Map<gongsvg.RectAnchoredPath, gongsvg.RectAnchoredPath>
 
   // display or not handles if selected or not
-  manageHandles(rect: gongsvg.RectDB) {
+  manageHandles(rect: gongsvg.Rect) {
     manageHandles(rect)
   }
 
@@ -156,12 +156,12 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   //
 
   // the link whose anchored text is dragged
-  draggedLinkAnchoredTextLink: gongsvg.LinkDB | undefined
+  draggedLinkAnchoredTextLink: gongsvg.Link | undefined
   draggedTextIndex = 0
-  draggedText: gongsvg.LinkAnchoredTextDB | undefined
+  draggedText: gongsvg.LinkAnchoredText | undefined
 
   // LinkAtMouseDown is the clone of the Link when mouse down
-  AnchoredTextAtMouseDown: gongsvg.LinkAnchoredTextDB | undefined
+  AnchoredTextAtMouseDown: gongsvg.LinkAnchoredText | undefined
 
   // is the link anchored text at the start or the end of the arrows
   PositionOnArrowType = gongsvg.PositionOnArrowType
@@ -171,11 +171,11 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   // RECT LINK LINK MANAGEMENT
   //
   // Elements for managing links between a rect and a link
-  public getStartPosition(rectLinkLink: gongsvg.RectLinkLinkDB): Coordinate {
+  public getStartPosition(rectLinkLink: gongsvg.RectLinkLink): Coordinate {
     return getStartPosition(rectLinkLink, this.map_Link_Segment)
   }
 
-  public getEndPosition(rectLinkLink: gongsvg.RectLinkLinkDB): Coordinate {
+  public getEndPosition(rectLinkLink: gongsvg.RectLinkLink): Coordinate {
     return getEndPosition(rectLinkLink, this.map_Link_Segment)
   }
 
@@ -231,7 +231,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
           this.refresh()
           this.lastCommitNbFromBack = commiNbFromBagetCommitNbFromBack
 
-          // console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1,
+          // console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVG.GONGSTRUCT_NAME).length == 1,
           //   "After call to refresh", "gongsvgFrontRepo not good, but that's normal")
         }
       }
@@ -244,11 +244,11 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
       gongsvgsFrontRepo => {
         this.gongsvgFrontRepo = gongsvgsFrontRepo
 
-        // console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1,
+        // console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVG.GONGSTRUCT_NAME).length == 1,
         //   "in promise to front repose servive pull", "gongsvgFrontRepo not good")
 
-        if (this.gongsvgFrontRepo.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1) {
-          this.svg = this.gongsvgFrontRepo.getArray<gongsvg.SVGDB>(gongsvg.SVGDB.GONGSTRUCT_NAME)[0]
+        if (this.gongsvgFrontRepo.getArray(gongsvg.SVG.GONGSTRUCT_NAME).length == 1) {
+          this.svg = this.gongsvgFrontRepo.getFrontArray<gongsvg.SVG>(gongsvg.SVG.GONGSTRUCT_NAME)[0]
 
           // set the isEditable
           this.isEditableService.setIsEditable(this.svg!.IsEditable)
@@ -274,7 +274,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
         this.map_Rect_ConnectedLinks.clear()
 
         // compute map of rect to links
-        for (let layer of this.gongsvgFrontRepo.Layers_array) {
+        for (let layer of this.gongsvgFrontRepo.getFrontArray<gongsvg.Layer>(gongsvg.Layer.GONGSTRUCT_NAME)) {
           for (let link of layer.Links) {
             let segments = drawSegmentsFromLink(link)
             this.map_Link_Segment.set(link, segments)
@@ -284,14 +284,14 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
 
             let connectedLinksViaStart = this.map_Rect_ConnectedLinks.get(link.Start!)
             if (connectedLinksViaStart == undefined) {
-              connectedLinksViaStart = new Set<gongsvg.LinkDB>
+              connectedLinksViaStart = new Set<gongsvg.Link>
               this.map_Rect_ConnectedLinks.set(link.Start!, connectedLinksViaStart)
             }
             connectedLinksViaStart.add(link)
 
             let connectedLinksViaEnd = this.map_Rect_ConnectedLinks.get(link.End!)
             if (connectedLinksViaEnd == undefined) {
-              connectedLinksViaEnd = new Set<gongsvg.LinkDB>
+              connectedLinksViaEnd = new Set<gongsvg.Link>
               this.map_Rect_ConnectedLinks.set(link.End!, connectedLinksViaEnd)
             }
             connectedLinksViaEnd.add(link)
@@ -303,7 +303,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
         // Manually trigger change detection
         this.changeDetectorRef.detectChanges()
 
-        console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1,
+        console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVG.GONGSTRUCT_NAME).length == 1,
           "in promise to front repose servive pull", "gongsvgFrontRepo not good")
       }
     )
@@ -359,7 +359,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   // processGenericMouseUp performs all mouse up stuff
   processMouseUp(event: MouseEvent) {
     console.log(getFunctionName(), "state at entry", this.State)
-    console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1,
+    console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVG.GONGSTRUCT_NAME).length == 1,
       getFunctionName(), "gongsvgFrontRepo not good")
 
     // when the mouse has not moved more than a threshold
@@ -381,9 +381,8 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
     if (distanceMoved < this.dragThreshold && this.State == StateEnumType.NOT_EDITABLE) {
       console.log(getFunctionName(), "distanceMoved below threshold in state", this.State)
 
-      this.rectService.updateRect(this.draggedRect!, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+      this.rectService.updateFront(this.draggedRect!, this.GONG__StackPath).subscribe(
         _ => {
-          this.changeDetectorRef.detectChanges()
         }
       )
     }
@@ -429,23 +428,21 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
       console.log(getFunctionName(), "state at exit", this.State)
 
       console.assert(this.draggedText != undefined, "no dragged text")
-      this.anchoredTextService.updateLinkAnchoredText(
-        this.draggedText!, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
+      this.anchoredTextService.updateFront(this.draggedText!, this.GONG__StackPath).subscribe()
     }
 
     if (this.State == StateEnumType.LINK_DRAGGING) {
       this.State = StateEnumType.WAITING_FOR_USER_INPUT
       console.log(getFunctionName(), "state at exit", this.State)
-      this.linkService.updateLink(this.draggedLink!,
-        this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
-          () => {
-            // this is necessary because the this.gongsvgFrontRepoService.frontRepo
-            // is empty at this stage
-            // TO DO, understand why this.gongsvgFrontRepoService.frontRepo can be not ok
-            // in this call
-            this.refresh()
-          }
-        )
+      this.linkService.updateFront(this.draggedLink!, this.GONG__StackPath).subscribe(
+        () => {
+          // this is necessary because the this.gongsvgFrontRepoService.frontRepo
+          // is empty at this stage
+          // TO DO, understand why this.gongsvgFrontRepoService.frontRepo can be not ok
+          // in this call
+          this.refresh()
+        }
+      )
       document.body.style.cursor = ''
     }
 
@@ -455,34 +452,22 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
 
       // the path have to be updated first
       for (let path of this.draggedRect!.RectAnchoredPaths) {
-        this.rectAnchoredPathService.update(path, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
+        this.rectAnchoredPathService.updateFront(path, this.GONG__StackPath).subscribe()
       }
 
-      this.rectService.updateRect(this.draggedRect!,
-        this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
-          () => {
-            // this is necessary because the this.gongsvgFrontRepoService.frontRepo
-            // is empty at this stage
-            // TO DO, understand why this.gongsvgFrontRepoService.frontRepo can be not ok
-            // in this call
-            this.refresh()
-          }
-        )
+      this.rectService.updateFront(this.draggedRect!, this.GONG__StackPath).subscribe(
+        () => {
+        }
+      )
     }
 
     if (this.State == StateEnumType.RECTS_DRAGGING) {
       this.State = StateEnumType.WAITING_FOR_USER_INPUT
       console.log(getFunctionName(), "state at exit", this.State)
-      this.rectService.updateRect(this.draggedRect!,
-        this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
-          () => {
-            // this is necessary because the this.gongsvgFrontRepoService.frontRepo
-            // is empty at this stage
-            // TO DO, understand why this.gongsvgFrontRepoService.frontRepo can be not ok
-            // in this call
-            this.refresh()
-          }
-        )
+      this.rectService.updateFront(this.draggedRect!, this.GONG__StackPath).subscribe(
+        () => {
+        }
+      )
     }
 
     this.computeShapeStates()
@@ -491,22 +476,22 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
 
   Math = Math
 
-  public selectRect(rect: gongsvg.RectDB) {
+  public selectRect(rect: gongsvg.Rect) {
     console.log(getFunctionName(), "selecting rect", rect.Name);
     rect.IsSelected = true;
     this.manageHandles(rect);
-    this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+    this.rectService.updateFront(rect, this.GONG__StackPath).subscribe(
       _ => {
         this.changeDetectorRef.detectChanges()
       }
     );
   }
 
-  private unselectRect(rect: gongsvg.RectDB) {
+  private unselectRect(rect: gongsvg.Rect) {
     console.log(getFunctionName(), "unselecting rect", rect.Name);
     rect.IsSelected = false;
     this.manageHandles(rect);
-    this.rectService.updateRect(rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
+    this.rectService.updateFront(rect, this.GONG__StackPath).subscribe(
       _ => {
         this.changeDetectorRef.detectChanges()
       }
@@ -721,7 +706,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
     this.processMouseUp(event)
   }
 
-  rectMouseDown(event: MouseEvent, rect: gongsvg.RectDB): void {
+  rectMouseDown(event: MouseEvent, rect: gongsvg.Rect): void {
     this.PointAtMouseDown = mouseCoordInComponentRef(event)
     console.log(getFunctionName(), "state at entry", this.State)
 
@@ -757,7 +742,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
     console.log(getFunctionName(), "state at exit", this.State)
   }
 
-  rectMouseUp(event: MouseEvent, rect: gongsvg.RectDB): void {
+  rectMouseUp(event: MouseEvent, rect: gongsvg.Rect): void {
     this.PointAtMouseUp = mouseCoordInComponentRef(event)
     console.log(getFunctionName(), "state at entry", this.State)
 
@@ -767,7 +752,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
     this.processMouseUp(event)
   }
 
-  anchorMouseDown(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom', rect: gongsvg.RectDB): void {
+  anchorMouseDown(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom', rect: gongsvg.Rect): void {
     this.PointAtMouseDown = mouseCoordInComponentRef(event)
     if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && !event.altKey && !event.shiftKey) {
       this.State = StateEnumType.RECT_ANCHOR_DRAGGING
@@ -784,18 +769,18 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
       }
     }
   }
-  anchorMouseUp(event: MouseEvent, rect: gongsvg.RectDB): void {
+  anchorMouseUp(event: MouseEvent, rect: gongsvg.Rect): void {
     this.PointAtMouseUp = mouseCoordInComponentRef(event)
     console.log(getFunctionName(), "state at entry", this.State)
 
     this.processMouseUp(event)
   }
 
-  linkMouseDown(event: MouseEvent, segmentNumber: number, link: gongsvg.LinkDB): void {
+  linkMouseDown(event: MouseEvent, segmentNumber: number, link: gongsvg.Link): void {
     if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && !event.altKey && !event.shiftKey) {
       this.State = StateEnumType.LINK_DRAGGING
       console.log(getFunctionName(), "state at exit", this.State)
-      console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1,
+      console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVG.GONGSTRUCT_NAME).length == 1,
         getFunctionName(), "gongsvgFrontRepo not good")
 
       console.assert(link.Start != undefined, getFunctionName(), "dragged link without start rect")
@@ -805,7 +790,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
       this.draggedSegmentNumber = segmentNumber
     }
   }
-  linkMouseUp(event: MouseEvent, link: gongsvg.LinkDB, segmentNumber: number = 0): void {
+  linkMouseUp(event: MouseEvent, link: gongsvg.Link, segmentNumber: number = 0): void {
     this.PointAtMouseUp = mouseCoordInComponentRef(event)
     console.log(getFunctionName(), "state at entry", this.State)
 
@@ -813,7 +798,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   }
 
   textAnchoredMouseDown(
-    link: gongsvg.LinkDB,
+    link: gongsvg.Link,
     event: MouseEvent,
     anchoredTextIndex: number,
     draggedSegmentPositionOnArrow: string): void {
@@ -837,14 +822,14 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
     }
   }
 
-  textAnchoredMouseUp(link: gongsvg.LinkDB, event: MouseEvent): void {
+  textAnchoredMouseUp(link: gongsvg.Link, event: MouseEvent): void {
     this.PointAtMouseUp = mouseCoordInComponentRef(event)
     console.log(getFunctionName(), "state at entry", this.State)
 
     this.processMouseUp(event)
   }
 
-  getBezierPath(link: gongsvg.LinkDB): string {
+  getBezierPath(link: gongsvg.Link): string {
 
     let segments = this.map_Link_Segment.get(link)
 
@@ -877,9 +862,9 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   oneEm = 0
 
   auto_Y_offset(
-    link: gongsvg.LinkDB,
+    link: gongsvg.Link,
     segment: Segment,
-    text: gongsvg.LinkAnchoredTextDB,
+    text: gongsvg.LinkAnchoredText,
     draggedSegmentPositionOnArrow: string): number {
     // console.log(getFunctionName(), "text", text.Content)
 
@@ -887,9 +872,9 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   }
 
   auto_X_offset(
-    link: gongsvg.LinkDB,
+    link: gongsvg.Link,
     segment: Segment,
-    text: gongsvg.LinkAnchoredTextDB,
+    text: gongsvg.LinkAnchoredText,
     line: string,
     draggedSegmentPositionOnArrow: string): number {
 
@@ -898,9 +883,9 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   }
 
   public getPosition(
-    startRect: gongsvg.RectDB | undefined,
+    startRect: gongsvg.Rect | undefined,
     position: string | undefined,
-    endRect?: gongsvg.RectDB | undefined
+    endRect?: gongsvg.Rect | undefined
   ): Coordinate {
 
     let coordinate: Coordinate = [0, 0]

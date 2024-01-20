@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { SVGDB } from './svg-db';
+import { SVGDB } from './svg-db'
+import { SVG, CopySVGToSVGDB } from './svg'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -140,6 +142,25 @@ export class SVGService {
     return this.http.delete<SVGDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted svgdb id=${id}`)),
       catchError(this.handleError<SVGDB>('deleteSVG'))
+    );
+  }
+
+  // updateFront copy svg to a version with encoded pointers and update to the back
+  updateFront(svg: SVG, GONG__StackPath: string): Observable<SVGDB> {
+    let svgDB = new SVGDB
+    CopySVGToSVGDB(svg, svgDB)
+    const id = typeof svgDB === 'number' ? svgDB : svgDB.ID
+    const url = `${this.svgsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<SVGDB>(url, svgDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<SVGDB>('updateSVG'))
     );
   }
 
