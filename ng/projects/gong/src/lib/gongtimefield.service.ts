@@ -76,6 +76,25 @@ export class GongTimeFieldService {
     );
   }
 
+  // postFront copy gongtimefield to a version with encoded pointers and post to the back
+  postFront(gongtimefield: GongTimeField, GONG__StackPath: string): Observable<GongTimeFieldDB> {
+    let gongtimefieldDB = new GongTimeFieldDB
+    CopyGongTimeFieldToGongTimeFieldDB(gongtimefield, gongtimefieldDB)
+    const id = typeof gongtimefieldDB === 'number' ? gongtimefieldDB : gongtimefieldDB.ID
+    const url = `${this.gongtimefieldsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<GongTimeFieldDB>(url, gongtimefieldDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<GongTimeFieldDB>('postGongTimeField'))
+    );
+  }
+  
   /** POST: add a new gongtimefield to the server */
   post(gongtimefielddb: GongTimeFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongTimeFieldDB> {
     return this.postGongTimeField(gongtimefielddb, GONG__StackPath, frontRepo)

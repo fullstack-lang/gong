@@ -76,6 +76,25 @@ export class GongLinkService {
     );
   }
 
+  // postFront copy gonglink to a version with encoded pointers and post to the back
+  postFront(gonglink: GongLink, GONG__StackPath: string): Observable<GongLinkDB> {
+    let gonglinkDB = new GongLinkDB
+    CopyGongLinkToGongLinkDB(gonglink, gonglinkDB)
+    const id = typeof gonglinkDB === 'number' ? gonglinkDB : gonglinkDB.ID
+    const url = `${this.gonglinksUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<GongLinkDB>(url, gonglinkDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<GongLinkDB>('postGongLink'))
+    );
+  }
+  
   /** POST: add a new gonglink to the server */
   post(gonglinkdb: GongLinkDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkDB> {
     return this.postGongLink(gonglinkdb, GONG__StackPath, frontRepo)

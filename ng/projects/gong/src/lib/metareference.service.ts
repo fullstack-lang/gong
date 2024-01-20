@@ -76,6 +76,25 @@ export class MetaReferenceService {
     );
   }
 
+  // postFront copy metareference to a version with encoded pointers and post to the back
+  postFront(metareference: MetaReference, GONG__StackPath: string): Observable<MetaReferenceDB> {
+    let metareferenceDB = new MetaReferenceDB
+    CopyMetaReferenceToMetaReferenceDB(metareference, metareferenceDB)
+    const id = typeof metareferenceDB === 'number' ? metareferenceDB : metareferenceDB.ID
+    const url = `${this.metareferencesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<MetaReferenceDB>(url, metareferenceDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<MetaReferenceDB>('postMetaReference'))
+    );
+  }
+  
   /** POST: add a new metareference to the server */
   post(metareferencedb: MetaReferenceDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceDB> {
     return this.postMetaReference(metareferencedb, GONG__StackPath, frontRepo)

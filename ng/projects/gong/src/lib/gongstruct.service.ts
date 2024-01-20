@@ -80,6 +80,25 @@ export class GongStructService {
     );
   }
 
+  // postFront copy gongstruct to a version with encoded pointers and post to the back
+  postFront(gongstruct: GongStruct, GONG__StackPath: string): Observable<GongStructDB> {
+    let gongstructDB = new GongStructDB
+    CopyGongStructToGongStructDB(gongstruct, gongstructDB)
+    const id = typeof gongstructDB === 'number' ? gongstructDB : gongstructDB.ID
+    const url = `${this.gongstructsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<GongStructDB>(url, gongstructDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<GongStructDB>('postGongStruct'))
+    );
+  }
+  
   /** POST: add a new gongstruct to the server */
   post(gongstructdb: GongStructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongStructDB> {
     return this.postGongStruct(gongstructdb, GONG__StackPath, frontRepo)
