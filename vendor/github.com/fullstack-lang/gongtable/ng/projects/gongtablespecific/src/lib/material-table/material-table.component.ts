@@ -26,7 +26,7 @@ export class MaterialTableComponent implements OnInit {
 
   mapHeaderIdIndex = new Map<string, number>()
 
-  dataSource = new MatTableDataSource<gongtable.RowDB>()
+  dataSource = new MatTableDataSource<gongtable.Row>()
 
   stickyStyle = {
     position: 'sticky',
@@ -34,7 +34,7 @@ export class MaterialTableComponent implements OnInit {
     zIndex: '1'
   }
   // for selection
-  selectedTable: gongtable.TableDB | undefined = undefined;
+  selectedTable: gongtable.Table | undefined = undefined;
 
   @Input() DataStack: string = ""
   @Input() TableName: string = ""
@@ -142,7 +142,7 @@ export class MaterialTableComponent implements OnInit {
         this.selectedTable = undefined
 
         // use of the refactorable version
-        for (let table of this.gongtableFrontRepo.getArray<gongtable.TableDB>(gongtable.TableDB.GONGSTRUCT_NAME)) {
+        for (let table of this.gongtableFrontRepo.getArray<gongtable.Table>(gongtable.Table.GONGSTRUCT_NAME)) {
           if (table.Name == this.TableName) {
             this.selectedTable = table
           }
@@ -179,25 +179,25 @@ export class MaterialTableComponent implements OnInit {
 
           if (this.selectedTable.Rows != undefined) {
             this.initialSelection = []
-            for (let rowDB of this.selectedTable.Rows) {
-              if (rowDB.IsChecked) {
-                this.initialSelection.push(rowDB)
+            for (let Row of this.selectedTable.Rows) {
+              if (Row.IsChecked) {
+                this.initialSelection.push(Row)
               }
             }
-            this.selection = new SelectionModel<gongtable.RowDB>(allowMultiSelect, this.initialSelection)
+            this.selection = new SelectionModel<gongtable.Row>(allowMultiSelect, this.initialSelection)
           }
 
         }
         this.allDisplayedColumns = this.allDisplayedColumns.concat(this.displayedColumns)
 
         if (this.selectedTable.HasFiltering) {
-          this.dataSource.filterPredicate = (rowDB: gongtable.RowDB, filter: string) => {
+          this.dataSource.filterPredicate = (Row: gongtable.Row, filter: string) => {
 
             // filtering is based on finding a lower case filter into a concatenated string
-            // the cellDB properties
+            // the Cell properties
             let mergedContent = ""
 
-            for (let cell of rowDB.Cells!) {
+            for (let cell of Row.Cells!) {
               if (cell.CellInt) {
                 mergedContent += cell.CellInt.Value
               }
@@ -221,9 +221,9 @@ export class MaterialTableComponent implements OnInit {
           this.matSortDirective = "mat-sort"
 
           // enable sorting on all fields (including pointers and reverse pointer)
-          this.dataSource.sortingDataAccessor = (rowDB: gongtable.RowDB, sortHeaderId: string) => {
+          this.dataSource.sortingDataAccessor = (Row: gongtable.Row, sortHeaderId: string) => {
 
-            if (rowDB.Cells == undefined) {
+            if (Row.Cells == undefined) {
               return ""
             }
             let index = this.mapHeaderIdIndex.get(sortHeaderId)
@@ -231,7 +231,7 @@ export class MaterialTableComponent implements OnInit {
               return ""
             }
 
-            let cell: gongtable.CellDB = rowDB.Cells[index]
+            let cell: gongtable.Cell = Row.Cells[index]
             if (cell.CellInt) {
               return cell.CellInt.Value
             }
@@ -271,8 +271,8 @@ export class MaterialTableComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  selection: SelectionModel<gongtable.RowDB> = new (SelectionModel)
-  initialSelection = new Array<gongtable.RowDB>()
+  selection: SelectionModel<gongtable.Row> = new (SelectionModel)
+  initialSelection = new Array<gongtable.Row>()
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -294,7 +294,7 @@ export class MaterialTableComponent implements OnInit {
     }
 
     // map of modified rows to be be updated
-    let modifiedRows = new Set<gongtable.RowDB>
+    let modifiedRows = new Set<gongtable.Row>
     for (let row of this.selectedTable.Rows!) {
       if ((row.IsChecked && !this.selection.isSelected(row)) ||
         (!row.IsChecked && this.selection.isSelected(row))) {
@@ -307,7 +307,7 @@ export class MaterialTableComponent implements OnInit {
       // in case this component is called as a modal window (MatDialog)
       // exits,
       this.selectedTable.SavingInProgress = true
-      this.tableService.update(this.selectedTable!, this.DataStack, this.gongtableFrontRepoService.frontRepo).subscribe(
+      this.tableService.updateFront(this.selectedTable!, this.DataStack).subscribe(
         () => {
           // in case this component is called as a modal window (MatDialog)
           // exits,
@@ -325,22 +325,20 @@ export class MaterialTableComponent implements OnInit {
 
     const promises = []
     for (let row of modifiedRows) {
-      promises.push(this.rowService.updateRow(row, this.DataStack, this.gongtableFrontRepoService.frontRepo))
+      promises.push(this.rowService.updateFront(row, this.DataStack))
     }
 
     forkJoin(promises).subscribe(
       () => {
 
         this.selectedTable!.SavingInProgress = false
-        this.tableService.update(this.selectedTable!, this.DataStack, this.gongtableFrontRepoService.frontRepo).subscribe(
+        this.tableService.updateFront(this.selectedTable!, this.DataStack).subscribe(
           () => {
             // in case this component is called as a modal window (MatDialog)
             // exits,
             if (this.tableDialogData) {
               this.dialogRef?.close('Closing the application')
             }
-
-            this.refresh()
           }
         )
       }
@@ -353,17 +351,14 @@ export class MaterialTableComponent implements OnInit {
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.selectedTable?.Rows!, event.previousIndex, event.currentIndex)
 
-    this.tableService.update(
-      this.selectedTable!,
-      this.DataStack,
-      this.gongtableFrontRepoService.frontRepo).subscribe(
-        () => {
-          console.log("table", this.selectedTable?.Name, "rows shuffled")
-        }
-      )
+    this.tableService.updateFront(this.selectedTable!, this.DataStack).subscribe(
+      () => {
+        console.log("table", this.selectedTable?.Name, "rows shuffled")
+      }
+    )
   }
 
-  isDraggableRow = (index: number, item: gongtable.RowDB) => this.selectedTable?.CanDragDropRows
+  isDraggableRow = (index: number, item: gongtable.Row) => this.selectedTable?.CanDragDropRows
 
   close() {
     if (this.tableDialogData) {
@@ -374,12 +369,12 @@ export class MaterialTableComponent implements OnInit {
   // onClick performs an update of the clicked row (without any property change)
   // this minimalist design will hopefully be sufficient for the backend to interpret
   // that the row has been clicked
-  onClick(row: gongtable.RowDB) {
+  onClick(row: gongtable.Row) {
     console.log("Material Table: onClick: Stack: `" + this.DataStack + "`table:`" + this.TableName + "`row:" + row.Name)
 
     let cells = row.Cells
 
-    this.rowService.updateRow(row, this.DataStack, this.gongtableFrontRepoService.frontRepo).subscribe(
+    this.rowService.updateFront(row, this.DataStack).subscribe(
       () => {
         console.log("row updated")
         row.Cells = cells
@@ -402,9 +397,9 @@ export class MaterialTableComponent implements OnInit {
     return styles
   }
 
-  onClickCellIcon(cellIcon: gongtable.CellIconDB) {
+  onClickCellIcon(cellIcon: gongtable.CellIcon) {
     console.log("Cell Icon clicked")
-    this.celliconService.updateCellIcon(cellIcon, this.DataStack, this.gongtableFrontRepoService.frontRepo).subscribe(
+    this.celliconService.updateFront(cellIcon, this.DataStack).subscribe(
       () => {
 
       }

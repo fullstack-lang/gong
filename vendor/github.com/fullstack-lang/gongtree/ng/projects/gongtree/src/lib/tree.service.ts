@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { TreeDB } from './tree-db';
+import { TreeDB } from './tree-db'
+import { Tree, CopyTreeToTreeDB } from './tree'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -127,6 +129,25 @@ export class TreeService {
     return this.http.delete<TreeDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted treedb id=${id}`)),
       catchError(this.handleError<TreeDB>('deleteTree'))
+    );
+  }
+
+  // updateFront copy tree to a version with encoded pointers and update to the back
+  updateFront(tree: Tree, GONG__StackPath: string): Observable<TreeDB> {
+    let treeDB = new TreeDB
+    CopyTreeToTreeDB(tree, treeDB)
+    const id = typeof treeDB === 'number' ? treeDB : treeDB.ID
+    const url = `${this.treesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<TreeDB>(url, treeDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<TreeDB>('updateTree'))
     );
   }
 

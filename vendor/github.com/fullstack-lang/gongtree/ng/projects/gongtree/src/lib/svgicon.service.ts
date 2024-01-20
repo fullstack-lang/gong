@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { SVGIconDB } from './svgicon-db';
+import { SVGIconDB } from './svgicon-db'
+import { SVGIcon, CopySVGIconToSVGIconDB } from './svgicon'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class SVGIconService {
     return this.http.delete<SVGIconDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted svgicondb id=${id}`)),
       catchError(this.handleError<SVGIconDB>('deleteSVGIcon'))
+    );
+  }
+
+  // updateFront copy svgicon to a version with encoded pointers and update to the back
+  updateFront(svgicon: SVGIcon, GONG__StackPath: string): Observable<SVGIconDB> {
+    let svgiconDB = new SVGIconDB
+    CopySVGIconToSVGIconDB(svgicon, svgiconDB)
+    const id = typeof svgiconDB === 'number' ? svgiconDB : svgiconDB.ID
+    const url = `${this.svgiconsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<SVGIconDB>(url, svgiconDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<SVGIconDB>('updateSVGIcon'))
     );
   }
 

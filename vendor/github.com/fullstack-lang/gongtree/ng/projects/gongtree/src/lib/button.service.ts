@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { ButtonDB } from './button-db';
+import { ButtonDB } from './button-db'
+import { Button, CopyButtonToButtonDB } from './button'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -121,6 +123,25 @@ export class ButtonService {
     return this.http.delete<ButtonDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted buttondb id=${id}`)),
       catchError(this.handleError<ButtonDB>('deleteButton'))
+    );
+  }
+
+  // updateFront copy button to a version with encoded pointers and update to the back
+  updateFront(button: Button, GONG__StackPath: string): Observable<ButtonDB> {
+    let buttonDB = new ButtonDB
+    CopyButtonToButtonDB(button, buttonDB)
+    const id = typeof buttonDB === 'number' ? buttonDB : buttonDB.ID
+    const url = `${this.buttonsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<ButtonDB>(url, buttonDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<ButtonDB>('updateButton'))
     );
   }
 

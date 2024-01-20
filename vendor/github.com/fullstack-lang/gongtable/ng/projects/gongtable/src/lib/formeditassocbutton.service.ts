@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { FormEditAssocButtonDB } from './formeditassocbutton-db';
+import { FormEditAssocButtonDB } from './formeditassocbutton-db'
+import { FormEditAssocButton, CopyFormEditAssocButtonToFormEditAssocButtonDB } from './formeditassocbutton'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class FormEditAssocButtonService {
     return this.http.delete<FormEditAssocButtonDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted formeditassocbuttondb id=${id}`)),
       catchError(this.handleError<FormEditAssocButtonDB>('deleteFormEditAssocButton'))
+    );
+  }
+
+  // updateFront copy formeditassocbutton to a version with encoded pointers and update to the back
+  updateFront(formeditassocbutton: FormEditAssocButton, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
+    let formeditassocbuttonDB = new FormEditAssocButtonDB
+    CopyFormEditAssocButtonToFormEditAssocButtonDB(formeditassocbutton, formeditassocbuttonDB)
+    const id = typeof formeditassocbuttonDB === 'number' ? formeditassocbuttonDB : formeditassocbuttonDB.ID
+    const url = `${this.formeditassocbuttonsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FormEditAssocButtonDB>(url, formeditassocbuttonDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormEditAssocButtonDB>('updateFormEditAssocButton'))
     );
   }
 

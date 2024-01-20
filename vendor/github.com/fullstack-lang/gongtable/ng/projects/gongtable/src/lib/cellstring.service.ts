@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { CellStringDB } from './cellstring-db';
+import { CellStringDB } from './cellstring-db'
+import { CellString, CopyCellStringToCellStringDB } from './cellstring'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class CellStringService {
     return this.http.delete<CellStringDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted cellstringdb id=${id}`)),
       catchError(this.handleError<CellStringDB>('deleteCellString'))
+    );
+  }
+
+  // updateFront copy cellstring to a version with encoded pointers and update to the back
+  updateFront(cellstring: CellString, GONG__StackPath: string): Observable<CellStringDB> {
+    let cellstringDB = new CellStringDB
+    CopyCellStringToCellStringDB(cellstring, cellstringDB)
+    const id = typeof cellstringDB === 'number' ? cellstringDB : cellstringDB.ID
+    const url = `${this.cellstringsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<CellStringDB>(url, cellstringDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CellStringDB>('updateCellString'))
     );
   }
 

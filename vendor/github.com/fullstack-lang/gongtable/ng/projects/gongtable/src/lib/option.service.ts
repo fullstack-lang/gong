@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { OptionDB } from './option-db';
+import { OptionDB } from './option-db'
+import { Option, CopyOptionToOptionDB } from './option'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class OptionService {
     return this.http.delete<OptionDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted optiondb id=${id}`)),
       catchError(this.handleError<OptionDB>('deleteOption'))
+    );
+  }
+
+  // updateFront copy option to a version with encoded pointers and update to the back
+  updateFront(option: Option, GONG__StackPath: string): Observable<OptionDB> {
+    let optionDB = new OptionDB
+    CopyOptionToOptionDB(option, optionDB)
+    const id = typeof optionDB === 'number' ? optionDB : optionDB.ID
+    const url = `${this.optionsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<OptionDB>(url, optionDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<OptionDB>('updateOption'))
     );
   }
 

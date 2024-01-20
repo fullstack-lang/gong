@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { NodeDB } from './node-db';
+import { NodeDB } from './node-db'
+import { Node, CopyNodeToNodeDB } from './node'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -146,6 +148,25 @@ export class NodeService {
     return this.http.delete<NodeDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted nodedb id=${id}`)),
       catchError(this.handleError<NodeDB>('deleteNode'))
+    );
+  }
+
+  // updateFront copy node to a version with encoded pointers and update to the back
+  updateFront(node: Node, GONG__StackPath: string): Observable<NodeDB> {
+    let nodeDB = new NodeDB
+    CopyNodeToNodeDB(node, nodeDB)
+    const id = typeof nodeDB === 'number' ? nodeDB : nodeDB.ID
+    const url = `${this.nodesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<NodeDB>(url, nodeDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<NodeDB>('updateNode'))
     );
   }
 

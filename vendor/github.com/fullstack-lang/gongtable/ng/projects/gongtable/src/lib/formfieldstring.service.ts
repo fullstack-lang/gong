@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { FormFieldStringDB } from './formfieldstring-db';
+import { FormFieldStringDB } from './formfieldstring-db'
+import { FormFieldString, CopyFormFieldStringToFormFieldStringDB } from './formfieldstring'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -114,6 +116,25 @@ export class FormFieldStringService {
     return this.http.delete<FormFieldStringDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted formfieldstringdb id=${id}`)),
       catchError(this.handleError<FormFieldStringDB>('deleteFormFieldString'))
+    );
+  }
+
+  // updateFront copy formfieldstring to a version with encoded pointers and update to the back
+  updateFront(formfieldstring: FormFieldString, GONG__StackPath: string): Observable<FormFieldStringDB> {
+    let formfieldstringDB = new FormFieldStringDB
+    CopyFormFieldStringToFormFieldStringDB(formfieldstring, formfieldstringDB)
+    const id = typeof formfieldstringDB === 'number' ? formfieldstringDB : formfieldstringDB.ID
+    const url = `${this.formfieldstringsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FormFieldStringDB>(url, formfieldstringDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormFieldStringDB>('updateFormFieldString'))
     );
   }
 
