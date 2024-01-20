@@ -3,19 +3,19 @@ import { Segment } from './draw.segments'
 import { ShapeMouseEvent } from './shape.mouse.event'
 
 export interface LinkConf {
-    drawSegments(link: gongsvg.LinkDB, linkUpdating: boolean, map_Link_Segment: Map<gongsvg.LinkDB, Segment[]>): boolean
+    drawSegments(link: gongsvg.Link, linkUpdating: boolean, map_Link_Segment: Map<gongsvg.Link, Segment[]>): boolean
 
     dragging: boolean
-    draggedLink: gongsvg.LinkDB | undefined
+    draggedLink: gongsvg.Link | undefined
     draggedSegmentNumber: number
     draggedSegmentPositionOnArrow: gongsvg.PositionOnArrowType
     segments: Segment[] | undefined
-    PointAtMouseDown: gongsvg.PointDB | undefined
+    PointAtMouseDown: gongsvg.Point | undefined
 
     // for change detection, we need to store start and end rect
-    previousStart: gongsvg.RectDB | undefined
-    previousEnd: gongsvg.RectDB | undefined
-    map_Link_Segment: Map<gongsvg.LinkDB, Segment[]>
+    previousStart: gongsvg.Rect | undefined
+    previousEnd: gongsvg.Rect | undefined
+    map_Link_Segment: Map<gongsvg.Link, Segment[]>
     linkUpdating: boolean,
 }
 

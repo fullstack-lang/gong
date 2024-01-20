@@ -36,6 +36,10 @@ export class ModelPkg {
 
 export function CopyModelPkgToModelPkgDB(modelpkg: ModelPkg, modelpkgDB: ModelPkgDB) {
 
+	modelpkgDB.CreatedAt = modelpkg.CreatedAt
+	modelpkgDB.DeletedAt = modelpkg.DeletedAt
+	modelpkgDB.ID = modelpkg.ID
+	
 	// insertion point for basic fields copy operations
 	modelpkgDB.Name = modelpkg.Name
 	modelpkgDB.PkgPath = modelpkg.PkgPath
@@ -58,6 +62,10 @@ export function CopyModelPkgToModelPkgDB(modelpkg: ModelPkg, modelpkgDB: ModelPk
 
 export function CopyModelPkgDBToModelPkg(modelpkgDB: ModelPkgDB, modelpkg: ModelPkg, frontRepo: FrontRepo) {
 
+	modelpkg.CreatedAt = modelpkgDB.CreatedAt
+	modelpkg.DeletedAt = modelpkgDB.DeletedAt
+	modelpkg.ID = modelpkgDB.ID
+	
 	// insertion point for basic fields copy operations
 	modelpkg.Name = modelpkgDB.Name
 	modelpkg.PkgPath = modelpkgDB.PkgPath

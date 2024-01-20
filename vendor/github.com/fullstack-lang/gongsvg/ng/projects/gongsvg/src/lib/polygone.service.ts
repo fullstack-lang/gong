@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { PolygoneDB } from './polygone-db';
+import { PolygoneDB } from './polygone-db'
+import { Polygone, CopyPolygoneToPolygoneDB } from './polygone'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -127,6 +129,25 @@ export class PolygoneService {
     return this.http.delete<PolygoneDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted polygonedb id=${id}`)),
       catchError(this.handleError<PolygoneDB>('deletePolygone'))
+    );
+  }
+
+  // updateFront copy polygone to a version with encoded pointers and update to the back
+  updateFront(polygone: Polygone, GONG__StackPath: string): Observable<PolygoneDB> {
+    let polygoneDB = new PolygoneDB
+    CopyPolygoneToPolygoneDB(polygone, polygoneDB)
+    const id = typeof polygoneDB === 'number' ? polygoneDB : polygoneDB.ID
+    const url = `${this.polygonesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<PolygoneDB>(url, polygoneDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<PolygoneDB>('updatePolygone'))
     );
   }
 

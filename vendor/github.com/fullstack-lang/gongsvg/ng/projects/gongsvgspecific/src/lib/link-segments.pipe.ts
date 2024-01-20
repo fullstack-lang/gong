@@ -12,7 +12,7 @@ import { Segment } from './draw.segments';
   pure: false,
 })
 export class LinkSegmentsPipe implements PipeTransform {
-  transform(link: gongsvg.LinkDB, map_Link_Segment: Map<gongsvg.LinkDB, Segment[]>): Segment[] {
+  transform(link: gongsvg.Link, map_Link_Segment: Map<gongsvg.Link, Segment[]>): Segment[] {
     let res = map_Link_Segment.get(link)!
     return res
   }

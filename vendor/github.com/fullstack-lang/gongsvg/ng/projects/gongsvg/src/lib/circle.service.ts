@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { CircleDB } from './circle-db';
+import { CircleDB } from './circle-db'
+import { Circle, CopyCircleToCircleDB } from './circle'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -127,6 +129,25 @@ export class CircleService {
     return this.http.delete<CircleDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted circledb id=${id}`)),
       catchError(this.handleError<CircleDB>('deleteCircle'))
+    );
+  }
+
+  // updateFront copy circle to a version with encoded pointers and update to the back
+  updateFront(circle: Circle, GONG__StackPath: string): Observable<CircleDB> {
+    let circleDB = new CircleDB
+    CopyCircleToCircleDB(circle, circleDB)
+    const id = typeof circleDB === 'number' ? circleDB : circleDB.ID
+    const url = `${this.circlesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<CircleDB>(url, circleDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CircleDB>('updateCircle'))
     );
   }
 

@@ -37,6 +37,10 @@ export class GongBasicField {
 
 export function CopyGongBasicFieldToGongBasicFieldDB(gongbasicfield: GongBasicField, gongbasicfieldDB: GongBasicFieldDB) {
 
+	gongbasicfieldDB.CreatedAt = gongbasicfield.CreatedAt
+	gongbasicfieldDB.DeletedAt = gongbasicfield.DeletedAt
+	gongbasicfieldDB.ID = gongbasicfield.ID
+	
 	// insertion point for basic fields copy operations
 	gongbasicfieldDB.Name = gongbasicfield.Name
 	gongbasicfieldDB.BasicKindName = gongbasicfield.BasicKindName
@@ -64,6 +68,10 @@ export function CopyGongBasicFieldToGongBasicFieldDB(gongbasicfield: GongBasicFi
 
 export function CopyGongBasicFieldDBToGongBasicField(gongbasicfieldDB: GongBasicFieldDB, gongbasicfield: GongBasicField, frontRepo: FrontRepo) {
 
+	gongbasicfield.CreatedAt = gongbasicfieldDB.CreatedAt
+	gongbasicfield.DeletedAt = gongbasicfieldDB.DeletedAt
+	gongbasicfield.ID = gongbasicfieldDB.ID
+	
 	// insertion point for basic fields copy operations
 	gongbasicfield.Name = gongbasicfieldDB.Name
 	gongbasicfield.BasicKindName = gongbasicfieldDB.BasicKindName

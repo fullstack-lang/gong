@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { LineDB } from './line-db';
+import { LineDB } from './line-db'
+import { Line, CopyLineToLineDB } from './line'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -127,6 +129,25 @@ export class LineService {
     return this.http.delete<LineDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted linedb id=${id}`)),
       catchError(this.handleError<LineDB>('deleteLine'))
+    );
+  }
+
+  // updateFront copy line to a version with encoded pointers and update to the back
+  updateFront(line: Line, GONG__StackPath: string): Observable<LineDB> {
+    let lineDB = new LineDB
+    CopyLineToLineDB(line, lineDB)
+    const id = typeof lineDB === 'number' ? lineDB : lineDB.ID
+    const url = `${this.linesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<LineDB>(url, lineDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<LineDB>('updateLine'))
     );
   }
 

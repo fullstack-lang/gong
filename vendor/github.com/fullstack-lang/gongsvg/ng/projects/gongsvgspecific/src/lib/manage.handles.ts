@@ -1,7 +1,7 @@
 import * as gongsvg from 'gongsvg'
 
 // display or not handles if selected or not
-export function manageHandles(rect: gongsvg.RectDB) {
+export function manageHandles(rect: gongsvg.Rect) {
 
     if (rect.IsSelected && rect.CanHaveLeftHandle) {
         rect.HasLeftHandle = true

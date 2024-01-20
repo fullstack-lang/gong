@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { LinkAnchoredTextDB } from './linkanchoredtext-db';
+import { LinkAnchoredTextDB } from './linkanchoredtext-db'
+import { LinkAnchoredText, CopyLinkAnchoredTextToLinkAnchoredTextDB } from './linkanchoredtext'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -127,6 +129,25 @@ export class LinkAnchoredTextService {
     return this.http.delete<LinkAnchoredTextDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted linkanchoredtextdb id=${id}`)),
       catchError(this.handleError<LinkAnchoredTextDB>('deleteLinkAnchoredText'))
+    );
+  }
+
+  // updateFront copy linkanchoredtext to a version with encoded pointers and update to the back
+  updateFront(linkanchoredtext: LinkAnchoredText, GONG__StackPath: string): Observable<LinkAnchoredTextDB> {
+    let linkanchoredtextDB = new LinkAnchoredTextDB
+    CopyLinkAnchoredTextToLinkAnchoredTextDB(linkanchoredtext, linkanchoredtextDB)
+    const id = typeof linkanchoredtextDB === 'number' ? linkanchoredtextDB : linkanchoredtextDB.ID
+    const url = `${this.linkanchoredtextsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<LinkAnchoredTextDB>(url, linkanchoredtextDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<LinkAnchoredTextDB>('updateLinkAnchoredText'))
     );
   }
 

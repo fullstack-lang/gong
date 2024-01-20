@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { PolylineDB } from './polyline-db';
+import { PolylineDB } from './polyline-db'
+import { Polyline, CopyPolylineToPolylineDB } from './polyline'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -127,6 +129,25 @@ export class PolylineService {
     return this.http.delete<PolylineDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted polylinedb id=${id}`)),
       catchError(this.handleError<PolylineDB>('deletePolyline'))
+    );
+  }
+
+  // updateFront copy polyline to a version with encoded pointers and update to the back
+  updateFront(polyline: Polyline, GONG__StackPath: string): Observable<PolylineDB> {
+    let polylineDB = new PolylineDB
+    CopyPolylineToPolylineDB(polyline, polylineDB)
+    const id = typeof polylineDB === 'number' ? polylineDB : polylineDB.ID
+    const url = `${this.polylinesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<PolylineDB>(url, polylineDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<PolylineDB>('updatePolyline'))
     );
   }
 

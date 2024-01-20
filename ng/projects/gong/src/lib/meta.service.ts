@@ -7,11 +7,13 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, tap } from 'rxjs/operators'
 
-import { MetaDB } from './meta-db';
+import { MetaDB } from './meta-db'
+import { Meta, CopyMetaToMetaDB } from './meta'
+
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
@@ -127,6 +129,25 @@ export class MetaService {
     return this.http.delete<MetaDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted metadb id=${id}`)),
       catchError(this.handleError<MetaDB>('deleteMeta'))
+    );
+  }
+
+  // updateFront copy meta to a version with encoded pointers and update to the back
+  updateFront(meta: Meta, GONG__StackPath: string): Observable<MetaDB> {
+    let metaDB = new MetaDB
+    CopyMetaToMetaDB(meta, metaDB)
+    const id = typeof metaDB === 'number' ? metaDB : metaDB.ID
+    const url = `${this.metasUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<MetaDB>(url, metaDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<MetaDB>('updateMeta'))
     );
   }
 
