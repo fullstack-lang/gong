@@ -76,6 +76,25 @@ export class ModelPkgService {
     );
   }
 
+  // postFront copy modelpkg to a version with encoded pointers and post to the back
+  postFront(modelpkg: ModelPkg, GONG__StackPath: string): Observable<ModelPkgDB> {
+    let modelpkgDB = new ModelPkgDB
+    CopyModelPkgToModelPkgDB(modelpkg, modelpkgDB)
+    const id = typeof modelpkgDB === 'number' ? modelpkgDB : modelpkgDB.ID
+    const url = `${this.modelpkgsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<ModelPkgDB>(url, modelpkgDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<ModelPkgDB>('postModelPkg'))
+    );
+  }
+  
   /** POST: add a new modelpkg to the server */
   post(modelpkgdb: ModelPkgDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgDB> {
     return this.postModelPkg(modelpkgdb, GONG__StackPath, frontRepo)

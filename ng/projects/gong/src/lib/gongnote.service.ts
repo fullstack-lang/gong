@@ -77,6 +77,25 @@ export class GongNoteService {
     );
   }
 
+  // postFront copy gongnote to a version with encoded pointers and post to the back
+  postFront(gongnote: GongNote, GONG__StackPath: string): Observable<GongNoteDB> {
+    let gongnoteDB = new GongNoteDB
+    CopyGongNoteToGongNoteDB(gongnote, gongnoteDB)
+    const id = typeof gongnoteDB === 'number' ? gongnoteDB : gongnoteDB.ID
+    const url = `${this.gongnotesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<GongNoteDB>(url, gongnoteDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<GongNoteDB>('postGongNote'))
+    );
+  }
+  
   /** POST: add a new gongnote to the server */
   post(gongnotedb: GongNoteDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteDB> {
     return this.postGongNote(gongnotedb, GONG__StackPath, frontRepo)

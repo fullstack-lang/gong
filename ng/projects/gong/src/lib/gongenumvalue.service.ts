@@ -76,6 +76,25 @@ export class GongEnumValueService {
     );
   }
 
+  // postFront copy gongenumvalue to a version with encoded pointers and post to the back
+  postFront(gongenumvalue: GongEnumValue, GONG__StackPath: string): Observable<GongEnumValueDB> {
+    let gongenumvalueDB = new GongEnumValueDB
+    CopyGongEnumValueToGongEnumValueDB(gongenumvalue, gongenumvalueDB)
+    const id = typeof gongenumvalueDB === 'number' ? gongenumvalueDB : gongenumvalueDB.ID
+    const url = `${this.gongenumvaluesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<GongEnumValueDB>(url, gongenumvalueDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<GongEnumValueDB>('postGongEnumValue'))
+    );
+  }
+  
   /** POST: add a new gongenumvalue to the server */
   post(gongenumvaluedb: GongEnumValueDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumValueDB> {
     return this.postGongEnumValue(gongenumvaluedb, GONG__StackPath, frontRepo)
