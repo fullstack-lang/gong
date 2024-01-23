@@ -37,7 +37,7 @@ func RemoveGeneratedGongFilesButDocs(
 }
 
 func removeFile(filename string) {
-	log.Println("removing file : " + filename)
+	// log.Println("removing file : " + filename)
 
 	if err := os.Remove(filename); err != nil {
 		if os.IsExist(err) {
