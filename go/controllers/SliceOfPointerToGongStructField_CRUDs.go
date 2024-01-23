@@ -116,6 +116,7 @@ func (controller *Controller) GetSliceOfPointerToGongStructFields(c *gin.Context
 func (controller *Controller) PostSliceOfPointerToGongStructField(c *gin.Context) {
 
 	mutexSliceOfPointerToGongStructField.Lock()
+	defer mutexSliceOfPointerToGongStructField.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostSliceOfPointerToGongStructField(c *gin.Context
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, sliceofpointertogongstructfieldDB)
-
-	mutexSliceOfPointerToGongStructField.Unlock()
 }
 
 // GetSliceOfPointerToGongStructField
@@ -236,6 +235,7 @@ func (controller *Controller) GetSliceOfPointerToGongStructField(c *gin.Context)
 func (controller *Controller) UpdateSliceOfPointerToGongStructField(c *gin.Context) {
 
 	mutexSliceOfPointerToGongStructField.Lock()
+	defer mutexSliceOfPointerToGongStructField.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateSliceOfPointerToGongStructField(c *gin.Conte
 
 	// return status OK with the marshalling of the the sliceofpointertogongstructfieldDB
 	c.JSON(http.StatusOK, sliceofpointertogongstructfieldDB)
-
-	mutexSliceOfPointerToGongStructField.Unlock()
 }
 
 // DeleteSliceOfPointerToGongStructField
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateSliceOfPointerToGongStructField(c *gin.Conte
 func (controller *Controller) DeleteSliceOfPointerToGongStructField(c *gin.Context) {
 
 	mutexSliceOfPointerToGongStructField.Lock()
+	defer mutexSliceOfPointerToGongStructField.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteSliceOfPointerToGongStructField(c *gin.Conte
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexSliceOfPointerToGongStructField.Unlock()
 }

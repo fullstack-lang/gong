@@ -146,7 +146,7 @@ func main() {
 		}
 
 		if !*skipNg {
-			log.Println("Removing all content of " + modelPkg.NgDataLibrarySourceCodeDirectory)
+			// log.Println("Removing all content of " + modelPkg.NgDataLibrarySourceCodeDirectory)
 			gong_models.RemoveContents(modelPkg.NgDataLibrarySourceCodeDirectory)
 		}
 
@@ -177,14 +177,14 @@ func main() {
 		// Execute the command
 		if err := gitStatusCommand.Run(); err != nil {
 			isGitActive = false
-			log.Println("not a git directory")
+			// log.Println("not a git directory")
 		} else {
 			isGitActive = true
-			log.Println("a git directory")
+			// log.Println("a git directory")
 		}
 
 		if !isGitActive {
-			log.Printf("git is not active, hence gong is generating a git directory with git init command")
+			// log.Printf("git is not active, hence gong is generating a git directory with git init command")
 
 			// git init
 			cmd := exec.Command("git", "init")

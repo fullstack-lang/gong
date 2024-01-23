@@ -116,6 +116,7 @@ func (controller *Controller) GetModelPkgs(c *gin.Context) {
 func (controller *Controller) PostModelPkg(c *gin.Context) {
 
 	mutexModelPkg.Lock()
+	defer mutexModelPkg.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostModelPkg(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, modelpkgDB)
-
-	mutexModelPkg.Unlock()
 }
 
 // GetModelPkg
@@ -236,6 +235,7 @@ func (controller *Controller) GetModelPkg(c *gin.Context) {
 func (controller *Controller) UpdateModelPkg(c *gin.Context) {
 
 	mutexModelPkg.Lock()
+	defer mutexModelPkg.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateModelPkg(c *gin.Context) {
 
 	// return status OK with the marshalling of the the modelpkgDB
 	c.JSON(http.StatusOK, modelpkgDB)
-
-	mutexModelPkg.Unlock()
 }
 
 // DeleteModelPkg
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateModelPkg(c *gin.Context) {
 func (controller *Controller) DeleteModelPkg(c *gin.Context) {
 
 	mutexModelPkg.Lock()
+	defer mutexModelPkg.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteModelPkg(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexModelPkg.Unlock()
 }

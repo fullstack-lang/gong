@@ -116,6 +116,7 @@ func (controller *Controller) GetGongLinks(c *gin.Context) {
 func (controller *Controller) PostGongLink(c *gin.Context) {
 
 	mutexGongLink.Lock()
+	defer mutexGongLink.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostGongLink(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gonglinkDB)
-
-	mutexGongLink.Unlock()
 }
 
 // GetGongLink
@@ -236,6 +235,7 @@ func (controller *Controller) GetGongLink(c *gin.Context) {
 func (controller *Controller) UpdateGongLink(c *gin.Context) {
 
 	mutexGongLink.Lock()
+	defer mutexGongLink.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateGongLink(c *gin.Context) {
 
 	// return status OK with the marshalling of the the gonglinkDB
 	c.JSON(http.StatusOK, gonglinkDB)
-
-	mutexGongLink.Unlock()
 }
 
 // DeleteGongLink
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateGongLink(c *gin.Context) {
 func (controller *Controller) DeleteGongLink(c *gin.Context) {
 
 	mutexGongLink.Lock()
+	defer mutexGongLink.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteGongLink(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexGongLink.Unlock()
 }

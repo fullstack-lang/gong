@@ -116,6 +116,7 @@ func (controller *Controller) GetMetaReferences(c *gin.Context) {
 func (controller *Controller) PostMetaReference(c *gin.Context) {
 
 	mutexMetaReference.Lock()
+	defer mutexMetaReference.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostMetaReference(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, metareferenceDB)
-
-	mutexMetaReference.Unlock()
 }
 
 // GetMetaReference
@@ -236,6 +235,7 @@ func (controller *Controller) GetMetaReference(c *gin.Context) {
 func (controller *Controller) UpdateMetaReference(c *gin.Context) {
 
 	mutexMetaReference.Lock()
+	defer mutexMetaReference.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateMetaReference(c *gin.Context) {
 
 	// return status OK with the marshalling of the the metareferenceDB
 	c.JSON(http.StatusOK, metareferenceDB)
-
-	mutexMetaReference.Unlock()
 }
 
 // DeleteMetaReference
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateMetaReference(c *gin.Context) {
 func (controller *Controller) DeleteMetaReference(c *gin.Context) {
 
 	mutexMetaReference.Lock()
+	defer mutexMetaReference.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteMetaReference(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexMetaReference.Unlock()
 }

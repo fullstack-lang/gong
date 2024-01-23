@@ -116,6 +116,7 @@ func (controller *Controller) GetGongNotes(c *gin.Context) {
 func (controller *Controller) PostGongNote(c *gin.Context) {
 
 	mutexGongNote.Lock()
+	defer mutexGongNote.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostGongNote(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gongnoteDB)
-
-	mutexGongNote.Unlock()
 }
 
 // GetGongNote
@@ -236,6 +235,7 @@ func (controller *Controller) GetGongNote(c *gin.Context) {
 func (controller *Controller) UpdateGongNote(c *gin.Context) {
 
 	mutexGongNote.Lock()
+	defer mutexGongNote.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateGongNote(c *gin.Context) {
 
 	// return status OK with the marshalling of the the gongnoteDB
 	c.JSON(http.StatusOK, gongnoteDB)
-
-	mutexGongNote.Unlock()
 }
 
 // DeleteGongNote
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateGongNote(c *gin.Context) {
 func (controller *Controller) DeleteGongNote(c *gin.Context) {
 
 	mutexGongNote.Lock()
+	defer mutexGongNote.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteGongNote(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexGongNote.Unlock()
 }

@@ -116,6 +116,7 @@ func (controller *Controller) GetGongStructs(c *gin.Context) {
 func (controller *Controller) PostGongStruct(c *gin.Context) {
 
 	mutexGongStruct.Lock()
+	defer mutexGongStruct.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostGongStruct(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gongstructDB)
-
-	mutexGongStruct.Unlock()
 }
 
 // GetGongStruct
@@ -236,6 +235,7 @@ func (controller *Controller) GetGongStruct(c *gin.Context) {
 func (controller *Controller) UpdateGongStruct(c *gin.Context) {
 
 	mutexGongStruct.Lock()
+	defer mutexGongStruct.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateGongStruct(c *gin.Context) {
 
 	// return status OK with the marshalling of the the gongstructDB
 	c.JSON(http.StatusOK, gongstructDB)
-
-	mutexGongStruct.Unlock()
 }
 
 // DeleteGongStruct
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateGongStruct(c *gin.Context) {
 func (controller *Controller) DeleteGongStruct(c *gin.Context) {
 
 	mutexGongStruct.Lock()
+	defer mutexGongStruct.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteGongStruct(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexGongStruct.Unlock()
 }

@@ -116,6 +116,7 @@ func (controller *Controller) GetGongBasicFields(c *gin.Context) {
 func (controller *Controller) PostGongBasicField(c *gin.Context) {
 
 	mutexGongBasicField.Lock()
+	defer mutexGongBasicField.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostGongBasicField(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gongbasicfieldDB)
-
-	mutexGongBasicField.Unlock()
 }
 
 // GetGongBasicField
@@ -236,6 +235,7 @@ func (controller *Controller) GetGongBasicField(c *gin.Context) {
 func (controller *Controller) UpdateGongBasicField(c *gin.Context) {
 
 	mutexGongBasicField.Lock()
+	defer mutexGongBasicField.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateGongBasicField(c *gin.Context) {
 
 	// return status OK with the marshalling of the the gongbasicfieldDB
 	c.JSON(http.StatusOK, gongbasicfieldDB)
-
-	mutexGongBasicField.Unlock()
 }
 
 // DeleteGongBasicField
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateGongBasicField(c *gin.Context) {
 func (controller *Controller) DeleteGongBasicField(c *gin.Context) {
 
 	mutexGongBasicField.Lock()
+	defer mutexGongBasicField.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteGongBasicField(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexGongBasicField.Unlock()
 }
