@@ -77,6 +77,25 @@ export class PolygoneService {
     );
   }
 
+  // postFront copy polygone to a version with encoded pointers and post to the back
+  postFront(polygone: Polygone, GONG__StackPath: string): Observable<PolygoneDB> {
+    let polygoneDB = new PolygoneDB
+    CopyPolygoneToPolygoneDB(polygone, polygoneDB)
+    const id = typeof polygoneDB === 'number' ? polygoneDB : polygoneDB.ID
+    const url = `${this.polygonesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<PolygoneDB>(url, polygoneDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<PolygoneDB>('postPolygone'))
+    );
+  }
+  
   /** POST: add a new polygone to the server */
   post(polygonedb: PolygoneDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneDB> {
     return this.postPolygone(polygonedb, GONG__StackPath, frontRepo)

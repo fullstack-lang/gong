@@ -116,6 +116,7 @@ func (controller *Controller) GetLayers(c *gin.Context) {
 func (controller *Controller) PostLayer(c *gin.Context) {
 
 	mutexLayer.Lock()
+	defer mutexLayer.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostLayer(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, layerDB)
-
-	mutexLayer.Unlock()
 }
 
 // GetLayer
@@ -236,6 +235,7 @@ func (controller *Controller) GetLayer(c *gin.Context) {
 func (controller *Controller) UpdateLayer(c *gin.Context) {
 
 	mutexLayer.Lock()
+	defer mutexLayer.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateLayer(c *gin.Context) {
 
 	// return status OK with the marshalling of the the layerDB
 	c.JSON(http.StatusOK, layerDB)
-
-	mutexLayer.Unlock()
 }
 
 // DeleteLayer
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateLayer(c *gin.Context) {
 func (controller *Controller) DeleteLayer(c *gin.Context) {
 
 	mutexLayer.Lock()
+	defer mutexLayer.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteLayer(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexLayer.Unlock()
 }

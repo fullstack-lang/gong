@@ -116,6 +116,7 @@ func (controller *Controller) GetDisplayedColumns(c *gin.Context) {
 func (controller *Controller) PostDisplayedColumn(c *gin.Context) {
 
 	mutexDisplayedColumn.Lock()
+	defer mutexDisplayedColumn.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostDisplayedColumn(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, displayedcolumnDB)
-
-	mutexDisplayedColumn.Unlock()
 }
 
 // GetDisplayedColumn
@@ -236,6 +235,7 @@ func (controller *Controller) GetDisplayedColumn(c *gin.Context) {
 func (controller *Controller) UpdateDisplayedColumn(c *gin.Context) {
 
 	mutexDisplayedColumn.Lock()
+	defer mutexDisplayedColumn.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateDisplayedColumn(c *gin.Context) {
 
 	// return status OK with the marshalling of the the displayedcolumnDB
 	c.JSON(http.StatusOK, displayedcolumnDB)
-
-	mutexDisplayedColumn.Unlock()
 }
 
 // DeleteDisplayedColumn
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateDisplayedColumn(c *gin.Context) {
 func (controller *Controller) DeleteDisplayedColumn(c *gin.Context) {
 
 	mutexDisplayedColumn.Lock()
+	defer mutexDisplayedColumn.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteDisplayedColumn(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexDisplayedColumn.Unlock()
 }

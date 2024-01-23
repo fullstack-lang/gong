@@ -48,7 +48,7 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg) {
 
 	if err != nil {
 		if _, ok := err.(*os.PathError); ok {
-			log.Println("No .frontignore file present")
+			// log.Println("No .frontignore file present")
 		} else {
 			log.Fatalf("Failed to compile .frontignore: %v", err)
 		}

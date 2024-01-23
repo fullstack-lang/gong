@@ -77,6 +77,25 @@ export class ButtonService {
     );
   }
 
+  // postFront copy button to a version with encoded pointers and post to the back
+  postFront(button: Button, GONG__StackPath: string): Observable<ButtonDB> {
+    let buttonDB = new ButtonDB
+    CopyButtonToButtonDB(button, buttonDB)
+    const id = typeof buttonDB === 'number' ? buttonDB : buttonDB.ID
+    const url = `${this.buttonsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<ButtonDB>(url, buttonDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<ButtonDB>('postButton'))
+    );
+  }
+  
   /** POST: add a new button to the server */
   post(buttondb: ButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonDB> {
     return this.postButton(buttondb, GONG__StackPath, frontRepo)

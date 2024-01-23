@@ -116,6 +116,7 @@ func (controller *Controller) GetClassdiagrams(c *gin.Context) {
 func (controller *Controller) PostClassdiagram(c *gin.Context) {
 
 	mutexClassdiagram.Lock()
+	defer mutexClassdiagram.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostClassdiagram(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, classdiagramDB)
-
-	mutexClassdiagram.Unlock()
 }
 
 // GetClassdiagram
@@ -236,6 +235,7 @@ func (controller *Controller) GetClassdiagram(c *gin.Context) {
 func (controller *Controller) UpdateClassdiagram(c *gin.Context) {
 
 	mutexClassdiagram.Lock()
+	defer mutexClassdiagram.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateClassdiagram(c *gin.Context) {
 
 	// return status OK with the marshalling of the the classdiagramDB
 	c.JSON(http.StatusOK, classdiagramDB)
-
-	mutexClassdiagram.Unlock()
 }
 
 // DeleteClassdiagram
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateClassdiagram(c *gin.Context) {
 func (controller *Controller) DeleteClassdiagram(c *gin.Context) {
 
 	mutexClassdiagram.Lock()
+	defer mutexClassdiagram.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteClassdiagram(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexClassdiagram.Unlock()
 }

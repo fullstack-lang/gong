@@ -76,6 +76,25 @@ export class FormSortAssocButtonService {
     );
   }
 
+  // postFront copy formsortassocbutton to a version with encoded pointers and post to the back
+  postFront(formsortassocbutton: FormSortAssocButton, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
+    let formsortassocbuttonDB = new FormSortAssocButtonDB
+    CopyFormSortAssocButtonToFormSortAssocButtonDB(formsortassocbutton, formsortassocbuttonDB)
+    const id = typeof formsortassocbuttonDB === 'number' ? formsortassocbuttonDB : formsortassocbuttonDB.ID
+    const url = `${this.formsortassocbuttonsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<FormSortAssocButtonDB>(url, formsortassocbuttonDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormSortAssocButtonDB>('postFormSortAssocButton'))
+    );
+  }
+  
   /** POST: add a new formsortassocbutton to the server */
   post(formsortassocbuttondb: FormSortAssocButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonDB> {
     return this.postFormSortAssocButton(formsortassocbuttondb, GONG__StackPath, frontRepo)

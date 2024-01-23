@@ -78,6 +78,25 @@ export class SVGService {
     );
   }
 
+  // postFront copy svg to a version with encoded pointers and post to the back
+  postFront(svg: SVG, GONG__StackPath: string): Observable<SVGDB> {
+    let svgDB = new SVGDB
+    CopySVGToSVGDB(svg, svgDB)
+    const id = typeof svgDB === 'number' ? svgDB : svgDB.ID
+    const url = `${this.svgsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<SVGDB>(url, svgDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<SVGDB>('postSVG'))
+    );
+  }
+  
   /** POST: add a new svg to the server */
   post(svgdb: SVGDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGDB> {
     return this.postSVG(svgdb, GONG__StackPath, frontRepo)

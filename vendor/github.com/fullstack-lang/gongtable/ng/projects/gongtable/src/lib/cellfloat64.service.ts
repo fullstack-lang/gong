@@ -76,6 +76,25 @@ export class CellFloat64Service {
     );
   }
 
+  // postFront copy cellfloat64 to a version with encoded pointers and post to the back
+  postFront(cellfloat64: CellFloat64, GONG__StackPath: string): Observable<CellFloat64DB> {
+    let cellfloat64DB = new CellFloat64DB
+    CopyCellFloat64ToCellFloat64DB(cellfloat64, cellfloat64DB)
+    const id = typeof cellfloat64DB === 'number' ? cellfloat64DB : cellfloat64DB.ID
+    const url = `${this.cellfloat64sUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<CellFloat64DB>(url, cellfloat64DB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CellFloat64DB>('postCellFloat64'))
+    );
+  }
+  
   /** POST: add a new cellfloat64 to the server */
   post(cellfloat64db: CellFloat64DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64DB> {
     return this.postCellFloat64(cellfloat64db, GONG__StackPath, frontRepo)

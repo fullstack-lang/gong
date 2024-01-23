@@ -76,6 +76,25 @@ export class FormFieldIntService {
     );
   }
 
+  // postFront copy formfieldint to a version with encoded pointers and post to the back
+  postFront(formfieldint: FormFieldInt, GONG__StackPath: string): Observable<FormFieldIntDB> {
+    let formfieldintDB = new FormFieldIntDB
+    CopyFormFieldIntToFormFieldIntDB(formfieldint, formfieldintDB)
+    const id = typeof formfieldintDB === 'number' ? formfieldintDB : formfieldintDB.ID
+    const url = `${this.formfieldintsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<FormFieldIntDB>(url, formfieldintDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormFieldIntDB>('postFormFieldInt'))
+    );
+  }
+  
   /** POST: add a new formfieldint to the server */
   post(formfieldintdb: FormFieldIntDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldIntDB> {
     return this.postFormFieldInt(formfieldintdb, GONG__StackPath, frontRepo)

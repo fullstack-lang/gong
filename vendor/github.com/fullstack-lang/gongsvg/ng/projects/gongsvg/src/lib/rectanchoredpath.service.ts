@@ -76,6 +76,25 @@ export class RectAnchoredPathService {
     );
   }
 
+  // postFront copy rectanchoredpath to a version with encoded pointers and post to the back
+  postFront(rectanchoredpath: RectAnchoredPath, GONG__StackPath: string): Observable<RectAnchoredPathDB> {
+    let rectanchoredpathDB = new RectAnchoredPathDB
+    CopyRectAnchoredPathToRectAnchoredPathDB(rectanchoredpath, rectanchoredpathDB)
+    const id = typeof rectanchoredpathDB === 'number' ? rectanchoredpathDB : rectanchoredpathDB.ID
+    const url = `${this.rectanchoredpathsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<RectAnchoredPathDB>(url, rectanchoredpathDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<RectAnchoredPathDB>('postRectAnchoredPath'))
+    );
+  }
+  
   /** POST: add a new rectanchoredpath to the server */
   post(rectanchoredpathdb: RectAnchoredPathDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredPathDB> {
     return this.postRectAnchoredPath(rectanchoredpathdb, GONG__StackPath, frontRepo)

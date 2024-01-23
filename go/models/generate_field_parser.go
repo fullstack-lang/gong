@@ -3,7 +3,6 @@ package models
 import (
 	"go/ast"
 	"go/types"
-	"log"
 	"strings"
 )
 
@@ -261,7 +260,7 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 					}
 				}
 			default:
-				log.Println("Field ", fieldName, " of struct ", owningGongstruct.Name, " is not a gong type")
+				// log.Println("Field ", fieldName, " of struct ", owningGongstruct.Name, " is not a gong type")
 			}
 		}
 	}

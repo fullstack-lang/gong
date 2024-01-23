@@ -116,6 +116,7 @@ func (controller *Controller) GetRectLinkLinks(c *gin.Context) {
 func (controller *Controller) PostRectLinkLink(c *gin.Context) {
 
 	mutexRectLinkLink.Lock()
+	defer mutexRectLinkLink.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostRectLinkLink(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, rectlinklinkDB)
-
-	mutexRectLinkLink.Unlock()
 }
 
 // GetRectLinkLink
@@ -236,6 +235,7 @@ func (controller *Controller) GetRectLinkLink(c *gin.Context) {
 func (controller *Controller) UpdateRectLinkLink(c *gin.Context) {
 
 	mutexRectLinkLink.Lock()
+	defer mutexRectLinkLink.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateRectLinkLink(c *gin.Context) {
 
 	// return status OK with the marshalling of the the rectlinklinkDB
 	c.JSON(http.StatusOK, rectlinklinkDB)
-
-	mutexRectLinkLink.Unlock()
 }
 
 // DeleteRectLinkLink
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateRectLinkLink(c *gin.Context) {
 func (controller *Controller) DeleteRectLinkLink(c *gin.Context) {
 
 	mutexRectLinkLink.Lock()
+	defer mutexRectLinkLink.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteRectLinkLink(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexRectLinkLink.Unlock()
 }

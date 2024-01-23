@@ -76,6 +76,25 @@ export class CellBooleanService {
     );
   }
 
+  // postFront copy cellboolean to a version with encoded pointers and post to the back
+  postFront(cellboolean: CellBoolean, GONG__StackPath: string): Observable<CellBooleanDB> {
+    let cellbooleanDB = new CellBooleanDB
+    CopyCellBooleanToCellBooleanDB(cellboolean, cellbooleanDB)
+    const id = typeof cellbooleanDB === 'number' ? cellbooleanDB : cellbooleanDB.ID
+    const url = `${this.cellbooleansUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<CellBooleanDB>(url, cellbooleanDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CellBooleanDB>('postCellBoolean'))
+    );
+  }
+  
   /** POST: add a new cellboolean to the server */
   post(cellbooleandb: CellBooleanDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellBooleanDB> {
     return this.postCellBoolean(cellbooleandb, GONG__StackPath, frontRepo)

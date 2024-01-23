@@ -77,6 +77,25 @@ export class FormGroupService {
     );
   }
 
+  // postFront copy formgroup to a version with encoded pointers and post to the back
+  postFront(formgroup: FormGroup, GONG__StackPath: string): Observable<FormGroupDB> {
+    let formgroupDB = new FormGroupDB
+    CopyFormGroupToFormGroupDB(formgroup, formgroupDB)
+    const id = typeof formgroupDB === 'number' ? formgroupDB : formgroupDB.ID
+    const url = `${this.formgroupsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<FormGroupDB>(url, formgroupDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormGroupDB>('postFormGroup'))
+    );
+  }
+  
   /** POST: add a new formgroup to the server */
   post(formgroupdb: FormGroupDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupDB> {
     return this.postFormGroup(formgroupdb, GONG__StackPath, frontRepo)

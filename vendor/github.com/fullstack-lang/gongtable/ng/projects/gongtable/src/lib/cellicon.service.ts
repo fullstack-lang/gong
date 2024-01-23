@@ -76,6 +76,25 @@ export class CellIconService {
     );
   }
 
+  // postFront copy cellicon to a version with encoded pointers and post to the back
+  postFront(cellicon: CellIcon, GONG__StackPath: string): Observable<CellIconDB> {
+    let celliconDB = new CellIconDB
+    CopyCellIconToCellIconDB(cellicon, celliconDB)
+    const id = typeof celliconDB === 'number' ? celliconDB : celliconDB.ID
+    const url = `${this.celliconsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<CellIconDB>(url, celliconDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CellIconDB>('postCellIcon'))
+    );
+  }
+  
   /** POST: add a new cellicon to the server */
   post(cellicondb: CellIconDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconDB> {
     return this.postCellIcon(cellicondb, GONG__StackPath, frontRepo)

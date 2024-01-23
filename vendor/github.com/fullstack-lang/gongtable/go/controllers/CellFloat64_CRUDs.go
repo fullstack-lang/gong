@@ -116,6 +116,7 @@ func (controller *Controller) GetCellFloat64s(c *gin.Context) {
 func (controller *Controller) PostCellFloat64(c *gin.Context) {
 
 	mutexCellFloat64.Lock()
+	defer mutexCellFloat64.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostCellFloat64(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, cellfloat64DB)
-
-	mutexCellFloat64.Unlock()
 }
 
 // GetCellFloat64
@@ -236,6 +235,7 @@ func (controller *Controller) GetCellFloat64(c *gin.Context) {
 func (controller *Controller) UpdateCellFloat64(c *gin.Context) {
 
 	mutexCellFloat64.Lock()
+	defer mutexCellFloat64.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateCellFloat64(c *gin.Context) {
 
 	// return status OK with the marshalling of the the cellfloat64DB
 	c.JSON(http.StatusOK, cellfloat64DB)
-
-	mutexCellFloat64.Unlock()
 }
 
 // DeleteCellFloat64
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateCellFloat64(c *gin.Context) {
 func (controller *Controller) DeleteCellFloat64(c *gin.Context) {
 
 	mutexCellFloat64.Lock()
+	defer mutexCellFloat64.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteCellFloat64(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexCellFloat64.Unlock()
 }

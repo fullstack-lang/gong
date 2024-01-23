@@ -76,6 +76,25 @@ export class FormFieldTimeService {
     );
   }
 
+  // postFront copy formfieldtime to a version with encoded pointers and post to the back
+  postFront(formfieldtime: FormFieldTime, GONG__StackPath: string): Observable<FormFieldTimeDB> {
+    let formfieldtimeDB = new FormFieldTimeDB
+    CopyFormFieldTimeToFormFieldTimeDB(formfieldtime, formfieldtimeDB)
+    const id = typeof formfieldtimeDB === 'number' ? formfieldtimeDB : formfieldtimeDB.ID
+    const url = `${this.formfieldtimesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<FormFieldTimeDB>(url, formfieldtimeDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormFieldTimeDB>('postFormFieldTime'))
+    );
+  }
+  
   /** POST: add a new formfieldtime to the server */
   post(formfieldtimedb: FormFieldTimeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldTimeDB> {
     return this.postFormFieldTime(formfieldtimedb, GONG__StackPath, frontRepo)

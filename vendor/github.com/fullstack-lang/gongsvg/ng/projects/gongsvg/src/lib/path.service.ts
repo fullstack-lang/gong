@@ -77,6 +77,25 @@ export class PathService {
     );
   }
 
+  // postFront copy path to a version with encoded pointers and post to the back
+  postFront(path: Path, GONG__StackPath: string): Observable<PathDB> {
+    let pathDB = new PathDB
+    CopyPathToPathDB(path, pathDB)
+    const id = typeof pathDB === 'number' ? pathDB : pathDB.ID
+    const url = `${this.pathsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<PathDB>(url, pathDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<PathDB>('postPath'))
+    );
+  }
+  
   /** POST: add a new path to the server */
   post(pathdb: PathDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathDB> {
     return this.postPath(pathdb, GONG__StackPath, frontRepo)

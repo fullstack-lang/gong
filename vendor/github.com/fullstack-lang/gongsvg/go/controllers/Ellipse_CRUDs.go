@@ -116,6 +116,7 @@ func (controller *Controller) GetEllipses(c *gin.Context) {
 func (controller *Controller) PostEllipse(c *gin.Context) {
 
 	mutexEllipse.Lock()
+	defer mutexEllipse.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostEllipse(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, ellipseDB)
-
-	mutexEllipse.Unlock()
 }
 
 // GetEllipse
@@ -236,6 +235,7 @@ func (controller *Controller) GetEllipse(c *gin.Context) {
 func (controller *Controller) UpdateEllipse(c *gin.Context) {
 
 	mutexEllipse.Lock()
+	defer mutexEllipse.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateEllipse(c *gin.Context) {
 
 	// return status OK with the marshalling of the the ellipseDB
 	c.JSON(http.StatusOK, ellipseDB)
-
-	mutexEllipse.Unlock()
 }
 
 // DeleteEllipse
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateEllipse(c *gin.Context) {
 func (controller *Controller) DeleteEllipse(c *gin.Context) {
 
 	mutexEllipse.Lock()
+	defer mutexEllipse.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteEllipse(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexEllipse.Unlock()
 }

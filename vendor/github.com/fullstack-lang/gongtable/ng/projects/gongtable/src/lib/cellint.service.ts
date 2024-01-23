@@ -76,6 +76,25 @@ export class CellIntService {
     );
   }
 
+  // postFront copy cellint to a version with encoded pointers and post to the back
+  postFront(cellint: CellInt, GONG__StackPath: string): Observable<CellIntDB> {
+    let cellintDB = new CellIntDB
+    CopyCellIntToCellIntDB(cellint, cellintDB)
+    const id = typeof cellintDB === 'number' ? cellintDB : cellintDB.ID
+    const url = `${this.cellintsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<CellIntDB>(url, cellintDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CellIntDB>('postCellInt'))
+    );
+  }
+  
   /** POST: add a new cellint to the server */
   post(cellintdb: CellIntDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIntDB> {
     return this.postCellInt(cellintdb, GONG__StackPath, frontRepo)

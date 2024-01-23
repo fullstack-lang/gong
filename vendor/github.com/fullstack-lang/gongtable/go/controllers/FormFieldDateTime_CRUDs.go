@@ -116,6 +116,7 @@ func (controller *Controller) GetFormFieldDateTimes(c *gin.Context) {
 func (controller *Controller) PostFormFieldDateTime(c *gin.Context) {
 
 	mutexFormFieldDateTime.Lock()
+	defer mutexFormFieldDateTime.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostFormFieldDateTime(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, formfielddatetimeDB)
-
-	mutexFormFieldDateTime.Unlock()
 }
 
 // GetFormFieldDateTime
@@ -236,6 +235,7 @@ func (controller *Controller) GetFormFieldDateTime(c *gin.Context) {
 func (controller *Controller) UpdateFormFieldDateTime(c *gin.Context) {
 
 	mutexFormFieldDateTime.Lock()
+	defer mutexFormFieldDateTime.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateFormFieldDateTime(c *gin.Context) {
 
 	// return status OK with the marshalling of the the formfielddatetimeDB
 	c.JSON(http.StatusOK, formfielddatetimeDB)
-
-	mutexFormFieldDateTime.Unlock()
 }
 
 // DeleteFormFieldDateTime
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateFormFieldDateTime(c *gin.Context) {
 func (controller *Controller) DeleteFormFieldDateTime(c *gin.Context) {
 
 	mutexFormFieldDateTime.Lock()
+	defer mutexFormFieldDateTime.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteFormFieldDateTime(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexFormFieldDateTime.Unlock()
 }

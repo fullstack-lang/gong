@@ -116,6 +116,7 @@ func (controller *Controller) GetLinkAnchoredTexts(c *gin.Context) {
 func (controller *Controller) PostLinkAnchoredText(c *gin.Context) {
 
 	mutexLinkAnchoredText.Lock()
+	defer mutexLinkAnchoredText.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostLinkAnchoredText(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, linkanchoredtextDB)
-
-	mutexLinkAnchoredText.Unlock()
 }
 
 // GetLinkAnchoredText
@@ -236,6 +235,7 @@ func (controller *Controller) GetLinkAnchoredText(c *gin.Context) {
 func (controller *Controller) UpdateLinkAnchoredText(c *gin.Context) {
 
 	mutexLinkAnchoredText.Lock()
+	defer mutexLinkAnchoredText.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateLinkAnchoredText(c *gin.Context) {
 
 	// return status OK with the marshalling of the the linkanchoredtextDB
 	c.JSON(http.StatusOK, linkanchoredtextDB)
-
-	mutexLinkAnchoredText.Unlock()
 }
 
 // DeleteLinkAnchoredText
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateLinkAnchoredText(c *gin.Context) {
 func (controller *Controller) DeleteLinkAnchoredText(c *gin.Context) {
 
 	mutexLinkAnchoredText.Lock()
+	defer mutexLinkAnchoredText.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteLinkAnchoredText(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexLinkAnchoredText.Unlock()
 }

@@ -98,7 +98,7 @@ func main() {
 			log.Panicf("Folder %s is not writtable", directory)
 		}
 		modelPkg.PathToGoSubDirectory = directory
-		log.Println("backend target path " + modelPkg.PathToGoSubDirectory)
+		// log.Println("backend target path " + modelPkg.PathToGoSubDirectory)
 
 		modelPkg.OrmPkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "orm")
 		os.RemoveAll(modelPkg.OrmPkgGenPath)

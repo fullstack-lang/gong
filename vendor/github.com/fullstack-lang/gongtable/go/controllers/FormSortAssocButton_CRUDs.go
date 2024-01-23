@@ -116,6 +116,7 @@ func (controller *Controller) GetFormSortAssocButtons(c *gin.Context) {
 func (controller *Controller) PostFormSortAssocButton(c *gin.Context) {
 
 	mutexFormSortAssocButton.Lock()
+	defer mutexFormSortAssocButton.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostFormSortAssocButton(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, formsortassocbuttonDB)
-
-	mutexFormSortAssocButton.Unlock()
 }
 
 // GetFormSortAssocButton
@@ -236,6 +235,7 @@ func (controller *Controller) GetFormSortAssocButton(c *gin.Context) {
 func (controller *Controller) UpdateFormSortAssocButton(c *gin.Context) {
 
 	mutexFormSortAssocButton.Lock()
+	defer mutexFormSortAssocButton.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateFormSortAssocButton(c *gin.Context) {
 
 	// return status OK with the marshalling of the the formsortassocbuttonDB
 	c.JSON(http.StatusOK, formsortassocbuttonDB)
-
-	mutexFormSortAssocButton.Unlock()
 }
 
 // DeleteFormSortAssocButton
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateFormSortAssocButton(c *gin.Context) {
 func (controller *Controller) DeleteFormSortAssocButton(c *gin.Context) {
 
 	mutexFormSortAssocButton.Lock()
+	defer mutexFormSortAssocButton.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteFormSortAssocButton(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexFormSortAssocButton.Unlock()
 }
