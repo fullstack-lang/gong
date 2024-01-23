@@ -116,6 +116,7 @@ func (controller *Controller) GetNodes(c *gin.Context) {
 func (controller *Controller) PostNode(c *gin.Context) {
 
 	mutexNode.Lock()
+	defer mutexNode.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostNode(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, nodeDB)
-
-	mutexNode.Unlock()
 }
 
 // GetNode
@@ -236,6 +235,7 @@ func (controller *Controller) GetNode(c *gin.Context) {
 func (controller *Controller) UpdateNode(c *gin.Context) {
 
 	mutexNode.Lock()
+	defer mutexNode.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateNode(c *gin.Context) {
 
 	// return status OK with the marshalling of the the nodeDB
 	c.JSON(http.StatusOK, nodeDB)
-
-	mutexNode.Unlock()
 }
 
 // DeleteNode
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateNode(c *gin.Context) {
 func (controller *Controller) DeleteNode(c *gin.Context) {
 
 	mutexNode.Lock()
+	defer mutexNode.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteNode(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexNode.Unlock()
 }

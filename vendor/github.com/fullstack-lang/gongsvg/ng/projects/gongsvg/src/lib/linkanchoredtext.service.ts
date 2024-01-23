@@ -77,6 +77,25 @@ export class LinkAnchoredTextService {
     );
   }
 
+  // postFront copy linkanchoredtext to a version with encoded pointers and post to the back
+  postFront(linkanchoredtext: LinkAnchoredText, GONG__StackPath: string): Observable<LinkAnchoredTextDB> {
+    let linkanchoredtextDB = new LinkAnchoredTextDB
+    CopyLinkAnchoredTextToLinkAnchoredTextDB(linkanchoredtext, linkanchoredtextDB)
+    const id = typeof linkanchoredtextDB === 'number' ? linkanchoredtextDB : linkanchoredtextDB.ID
+    const url = `${this.linkanchoredtextsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<LinkAnchoredTextDB>(url, linkanchoredtextDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<LinkAnchoredTextDB>('postLinkAnchoredText'))
+    );
+  }
+  
   /** POST: add a new linkanchoredtext to the server */
   post(linkanchoredtextdb: LinkAnchoredTextDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextDB> {
     return this.postLinkAnchoredText(linkanchoredtextdb, GONG__StackPath, frontRepo)

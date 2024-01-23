@@ -116,6 +116,7 @@ func (controller *Controller) GetRows(c *gin.Context) {
 func (controller *Controller) PostRow(c *gin.Context) {
 
 	mutexRow.Lock()
+	defer mutexRow.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostRow(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, rowDB)
-
-	mutexRow.Unlock()
 }
 
 // GetRow
@@ -236,6 +235,7 @@ func (controller *Controller) GetRow(c *gin.Context) {
 func (controller *Controller) UpdateRow(c *gin.Context) {
 
 	mutexRow.Lock()
+	defer mutexRow.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateRow(c *gin.Context) {
 
 	// return status OK with the marshalling of the the rowDB
 	c.JSON(http.StatusOK, rowDB)
-
-	mutexRow.Unlock()
 }
 
 // DeleteRow
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateRow(c *gin.Context) {
 func (controller *Controller) DeleteRow(c *gin.Context) {
 
 	mutexRow.Lock()
+	defer mutexRow.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteRow(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexRow.Unlock()
 }

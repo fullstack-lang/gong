@@ -116,6 +116,7 @@ func (controller *Controller) GetCellBooleans(c *gin.Context) {
 func (controller *Controller) PostCellBoolean(c *gin.Context) {
 
 	mutexCellBoolean.Lock()
+	defer mutexCellBoolean.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostCellBoolean(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, cellbooleanDB)
-
-	mutexCellBoolean.Unlock()
 }
 
 // GetCellBoolean
@@ -236,6 +235,7 @@ func (controller *Controller) GetCellBoolean(c *gin.Context) {
 func (controller *Controller) UpdateCellBoolean(c *gin.Context) {
 
 	mutexCellBoolean.Lock()
+	defer mutexCellBoolean.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateCellBoolean(c *gin.Context) {
 
 	// return status OK with the marshalling of the the cellbooleanDB
 	c.JSON(http.StatusOK, cellbooleanDB)
-
-	mutexCellBoolean.Unlock()
 }
 
 // DeleteCellBoolean
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateCellBoolean(c *gin.Context) {
 func (controller *Controller) DeleteCellBoolean(c *gin.Context) {
 
 	mutexCellBoolean.Lock()
+	defer mutexCellBoolean.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteCellBoolean(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexCellBoolean.Unlock()
 }

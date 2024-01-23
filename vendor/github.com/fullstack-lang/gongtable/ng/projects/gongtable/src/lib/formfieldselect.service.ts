@@ -77,6 +77,25 @@ export class FormFieldSelectService {
     );
   }
 
+  // postFront copy formfieldselect to a version with encoded pointers and post to the back
+  postFront(formfieldselect: FormFieldSelect, GONG__StackPath: string): Observable<FormFieldSelectDB> {
+    let formfieldselectDB = new FormFieldSelectDB
+    CopyFormFieldSelectToFormFieldSelectDB(formfieldselect, formfieldselectDB)
+    const id = typeof formfieldselectDB === 'number' ? formfieldselectDB : formfieldselectDB.ID
+    const url = `${this.formfieldselectsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<FormFieldSelectDB>(url, formfieldselectDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormFieldSelectDB>('postFormFieldSelect'))
+    );
+  }
+  
   /** POST: add a new formfieldselect to the server */
   post(formfieldselectdb: FormFieldSelectDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectDB> {
     return this.postFormFieldSelect(formfieldselectdb, GONG__StackPath, frontRepo)

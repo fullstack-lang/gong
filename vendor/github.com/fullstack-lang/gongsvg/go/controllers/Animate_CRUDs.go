@@ -116,6 +116,7 @@ func (controller *Controller) GetAnimates(c *gin.Context) {
 func (controller *Controller) PostAnimate(c *gin.Context) {
 
 	mutexAnimate.Lock()
+	defer mutexAnimate.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostAnimate(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, animateDB)
-
-	mutexAnimate.Unlock()
 }
 
 // GetAnimate
@@ -236,6 +235,7 @@ func (controller *Controller) GetAnimate(c *gin.Context) {
 func (controller *Controller) UpdateAnimate(c *gin.Context) {
 
 	mutexAnimate.Lock()
+	defer mutexAnimate.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateAnimate(c *gin.Context) {
 
 	// return status OK with the marshalling of the the animateDB
 	c.JSON(http.StatusOK, animateDB)
-
-	mutexAnimate.Unlock()
 }
 
 // DeleteAnimate
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateAnimate(c *gin.Context) {
 func (controller *Controller) DeleteAnimate(c *gin.Context) {
 
 	mutexAnimate.Lock()
+	defer mutexAnimate.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteAnimate(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexAnimate.Unlock()
 }

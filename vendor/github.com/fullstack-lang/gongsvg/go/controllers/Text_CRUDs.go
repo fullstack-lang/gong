@@ -116,6 +116,7 @@ func (controller *Controller) GetTexts(c *gin.Context) {
 func (controller *Controller) PostText(c *gin.Context) {
 
 	mutexText.Lock()
+	defer mutexText.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostText(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, textDB)
-
-	mutexText.Unlock()
 }
 
 // GetText
@@ -236,6 +235,7 @@ func (controller *Controller) GetText(c *gin.Context) {
 func (controller *Controller) UpdateText(c *gin.Context) {
 
 	mutexText.Lock()
+	defer mutexText.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateText(c *gin.Context) {
 
 	// return status OK with the marshalling of the the textDB
 	c.JSON(http.StatusOK, textDB)
-
-	mutexText.Unlock()
 }
 
 // DeleteText
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateText(c *gin.Context) {
 func (controller *Controller) DeleteText(c *gin.Context) {
 
 	mutexText.Lock()
+	defer mutexText.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteText(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexText.Unlock()
 }

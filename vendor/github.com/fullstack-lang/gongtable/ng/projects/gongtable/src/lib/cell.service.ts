@@ -81,6 +81,25 @@ export class CellService {
     );
   }
 
+  // postFront copy cell to a version with encoded pointers and post to the back
+  postFront(cell: Cell, GONG__StackPath: string): Observable<CellDB> {
+    let cellDB = new CellDB
+    CopyCellToCellDB(cell, cellDB)
+    const id = typeof cellDB === 'number' ? cellDB : cellDB.ID
+    const url = `${this.cellsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<CellDB>(url, cellDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CellDB>('postCell'))
+    );
+  }
+  
   /** POST: add a new cell to the server */
   post(celldb: CellDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellDB> {
     return this.postCell(celldb, GONG__StackPath, frontRepo)

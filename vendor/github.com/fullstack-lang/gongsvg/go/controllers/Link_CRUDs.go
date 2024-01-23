@@ -116,6 +116,7 @@ func (controller *Controller) GetLinks(c *gin.Context) {
 func (controller *Controller) PostLink(c *gin.Context) {
 
 	mutexLink.Lock()
+	defer mutexLink.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostLink(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, linkDB)
-
-	mutexLink.Unlock()
 }
 
 // GetLink
@@ -236,6 +235,7 @@ func (controller *Controller) GetLink(c *gin.Context) {
 func (controller *Controller) UpdateLink(c *gin.Context) {
 
 	mutexLink.Lock()
+	defer mutexLink.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateLink(c *gin.Context) {
 
 	// return status OK with the marshalling of the the linkDB
 	c.JSON(http.StatusOK, linkDB)
-
-	mutexLink.Unlock()
 }
 
 // DeleteLink
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateLink(c *gin.Context) {
 func (controller *Controller) DeleteLink(c *gin.Context) {
 
 	mutexLink.Lock()
+	defer mutexLink.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteLink(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexLink.Unlock()
 }

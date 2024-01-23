@@ -116,6 +116,7 @@ func (controller *Controller) GetFormGroups(c *gin.Context) {
 func (controller *Controller) PostFormGroup(c *gin.Context) {
 
 	mutexFormGroup.Lock()
+	defer mutexFormGroup.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostFormGroup(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, formgroupDB)
-
-	mutexFormGroup.Unlock()
 }
 
 // GetFormGroup
@@ -236,6 +235,7 @@ func (controller *Controller) GetFormGroup(c *gin.Context) {
 func (controller *Controller) UpdateFormGroup(c *gin.Context) {
 
 	mutexFormGroup.Lock()
+	defer mutexFormGroup.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateFormGroup(c *gin.Context) {
 
 	// return status OK with the marshalling of the the formgroupDB
 	c.JSON(http.StatusOK, formgroupDB)
-
-	mutexFormGroup.Unlock()
 }
 
 // DeleteFormGroup
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateFormGroup(c *gin.Context) {
 func (controller *Controller) DeleteFormGroup(c *gin.Context) {
 
 	mutexFormGroup.Lock()
+	defer mutexFormGroup.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteFormGroup(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexFormGroup.Unlock()
 }

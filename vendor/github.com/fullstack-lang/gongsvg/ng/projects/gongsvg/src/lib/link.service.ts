@@ -79,6 +79,25 @@ export class LinkService {
     );
   }
 
+  // postFront copy link to a version with encoded pointers and post to the back
+  postFront(link: Link, GONG__StackPath: string): Observable<LinkDB> {
+    let linkDB = new LinkDB
+    CopyLinkToLinkDB(link, linkDB)
+    const id = typeof linkDB === 'number' ? linkDB : linkDB.ID
+    const url = `${this.linksUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<LinkDB>(url, linkDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<LinkDB>('postLink'))
+    );
+  }
+  
   /** POST: add a new link to the server */
   post(linkdb: LinkDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkDB> {
     return this.postLink(linkdb, GONG__StackPath, frontRepo)

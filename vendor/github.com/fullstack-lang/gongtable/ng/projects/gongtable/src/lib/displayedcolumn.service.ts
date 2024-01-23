@@ -76,6 +76,25 @@ export class DisplayedColumnService {
     );
   }
 
+  // postFront copy displayedcolumn to a version with encoded pointers and post to the back
+  postFront(displayedcolumn: DisplayedColumn, GONG__StackPath: string): Observable<DisplayedColumnDB> {
+    let displayedcolumnDB = new DisplayedColumnDB
+    CopyDisplayedColumnToDisplayedColumnDB(displayedcolumn, displayedcolumnDB)
+    const id = typeof displayedcolumnDB === 'number' ? displayedcolumnDB : displayedcolumnDB.ID
+    const url = `${this.displayedcolumnsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<DisplayedColumnDB>(url, displayedcolumnDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<DisplayedColumnDB>('postDisplayedColumn'))
+    );
+  }
+  
   /** POST: add a new displayedcolumn to the server */
   post(displayedcolumndb: DisplayedColumnDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnDB> {
     return this.postDisplayedColumn(displayedcolumndb, GONG__StackPath, frontRepo)

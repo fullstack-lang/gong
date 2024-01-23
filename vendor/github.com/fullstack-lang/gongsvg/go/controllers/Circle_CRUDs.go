@@ -116,6 +116,7 @@ func (controller *Controller) GetCircles(c *gin.Context) {
 func (controller *Controller) PostCircle(c *gin.Context) {
 
 	mutexCircle.Lock()
+	defer mutexCircle.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostCircle(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, circleDB)
-
-	mutexCircle.Unlock()
 }
 
 // GetCircle
@@ -236,6 +235,7 @@ func (controller *Controller) GetCircle(c *gin.Context) {
 func (controller *Controller) UpdateCircle(c *gin.Context) {
 
 	mutexCircle.Lock()
+	defer mutexCircle.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateCircle(c *gin.Context) {
 
 	// return status OK with the marshalling of the the circleDB
 	c.JSON(http.StatusOK, circleDB)
-
-	mutexCircle.Unlock()
 }
 
 // DeleteCircle
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateCircle(c *gin.Context) {
 func (controller *Controller) DeleteCircle(c *gin.Context) {
 
 	mutexCircle.Lock()
+	defer mutexCircle.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteCircle(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexCircle.Unlock()
 }

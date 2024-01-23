@@ -86,6 +86,25 @@ export class LayerService {
     );
   }
 
+  // postFront copy layer to a version with encoded pointers and post to the back
+  postFront(layer: Layer, GONG__StackPath: string): Observable<LayerDB> {
+    let layerDB = new LayerDB
+    CopyLayerToLayerDB(layer, layerDB)
+    const id = typeof layerDB === 'number' ? layerDB : layerDB.ID
+    const url = `${this.layersUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<LayerDB>(url, layerDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<LayerDB>('postLayer'))
+    );
+  }
+  
   /** POST: add a new layer to the server */
   post(layerdb: LayerDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerDB> {
     return this.postLayer(layerdb, GONG__StackPath, frontRepo)

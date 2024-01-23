@@ -77,6 +77,25 @@ export class RowService {
     );
   }
 
+  // postFront copy row to a version with encoded pointers and post to the back
+  postFront(row: Row, GONG__StackPath: string): Observable<RowDB> {
+    let rowDB = new RowDB
+    CopyRowToRowDB(row, rowDB)
+    const id = typeof rowDB === 'number' ? rowDB : rowDB.ID
+    const url = `${this.rowsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<RowDB>(url, rowDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<RowDB>('postRow'))
+    );
+  }
+  
   /** POST: add a new row to the server */
   post(rowdb: RowDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowDB> {
     return this.postRow(rowdb, GONG__StackPath, frontRepo)

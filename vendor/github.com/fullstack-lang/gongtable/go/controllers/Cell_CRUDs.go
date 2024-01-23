@@ -116,6 +116,7 @@ func (controller *Controller) GetCells(c *gin.Context) {
 func (controller *Controller) PostCell(c *gin.Context) {
 
 	mutexCell.Lock()
+	defer mutexCell.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostCell(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, cellDB)
-
-	mutexCell.Unlock()
 }
 
 // GetCell
@@ -236,6 +235,7 @@ func (controller *Controller) GetCell(c *gin.Context) {
 func (controller *Controller) UpdateCell(c *gin.Context) {
 
 	mutexCell.Lock()
+	defer mutexCell.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateCell(c *gin.Context) {
 
 	// return status OK with the marshalling of the the cellDB
 	c.JSON(http.StatusOK, cellDB)
-
-	mutexCell.Unlock()
 }
 
 // DeleteCell
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateCell(c *gin.Context) {
 func (controller *Controller) DeleteCell(c *gin.Context) {
 
 	mutexCell.Lock()
+	defer mutexCell.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteCell(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexCell.Unlock()
 }

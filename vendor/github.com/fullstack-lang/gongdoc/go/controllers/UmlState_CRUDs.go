@@ -116,6 +116,7 @@ func (controller *Controller) GetUmlStates(c *gin.Context) {
 func (controller *Controller) PostUmlState(c *gin.Context) {
 
 	mutexUmlState.Lock()
+	defer mutexUmlState.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostUmlState(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, umlstateDB)
-
-	mutexUmlState.Unlock()
 }
 
 // GetUmlState
@@ -236,6 +235,7 @@ func (controller *Controller) GetUmlState(c *gin.Context) {
 func (controller *Controller) UpdateUmlState(c *gin.Context) {
 
 	mutexUmlState.Lock()
+	defer mutexUmlState.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateUmlState(c *gin.Context) {
 
 	// return status OK with the marshalling of the the umlstateDB
 	c.JSON(http.StatusOK, umlstateDB)
-
-	mutexUmlState.Unlock()
 }
 
 // DeleteUmlState
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateUmlState(c *gin.Context) {
 func (controller *Controller) DeleteUmlState(c *gin.Context) {
 
 	mutexUmlState.Lock()
+	defer mutexUmlState.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteUmlState(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexUmlState.Unlock()
 }

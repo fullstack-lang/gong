@@ -116,6 +116,7 @@ func (controller *Controller) GetFormDivs(c *gin.Context) {
 func (controller *Controller) PostFormDiv(c *gin.Context) {
 
 	mutexFormDiv.Lock()
+	defer mutexFormDiv.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostFormDiv(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, formdivDB)
-
-	mutexFormDiv.Unlock()
 }
 
 // GetFormDiv
@@ -236,6 +235,7 @@ func (controller *Controller) GetFormDiv(c *gin.Context) {
 func (controller *Controller) UpdateFormDiv(c *gin.Context) {
 
 	mutexFormDiv.Lock()
+	defer mutexFormDiv.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateFormDiv(c *gin.Context) {
 
 	// return status OK with the marshalling of the the formdivDB
 	c.JSON(http.StatusOK, formdivDB)
-
-	mutexFormDiv.Unlock()
 }
 
 // DeleteFormDiv
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateFormDiv(c *gin.Context) {
 func (controller *Controller) DeleteFormDiv(c *gin.Context) {
 
 	mutexFormDiv.Lock()
+	defer mutexFormDiv.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteFormDiv(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexFormDiv.Unlock()
 }

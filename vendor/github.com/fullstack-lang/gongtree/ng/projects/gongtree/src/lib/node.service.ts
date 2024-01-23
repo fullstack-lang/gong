@@ -78,6 +78,25 @@ export class NodeService {
     );
   }
 
+  // postFront copy node to a version with encoded pointers and post to the back
+  postFront(node: Node, GONG__StackPath: string): Observable<NodeDB> {
+    let nodeDB = new NodeDB
+    CopyNodeToNodeDB(node, nodeDB)
+    const id = typeof nodeDB === 'number' ? nodeDB : nodeDB.ID
+    const url = `${this.nodesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<NodeDB>(url, nodeDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<NodeDB>('postNode'))
+    );
+  }
+  
   /** POST: add a new node to the server */
   post(nodedb: NodeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB> {
     return this.postNode(nodedb, GONG__StackPath, frontRepo)

@@ -116,6 +116,7 @@ func (controller *Controller) GetDiagramPackages(c *gin.Context) {
 func (controller *Controller) PostDiagramPackage(c *gin.Context) {
 
 	mutexDiagramPackage.Lock()
+	defer mutexDiagramPackage.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostDiagramPackage(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, diagrampackageDB)
-
-	mutexDiagramPackage.Unlock()
 }
 
 // GetDiagramPackage
@@ -236,6 +235,7 @@ func (controller *Controller) GetDiagramPackage(c *gin.Context) {
 func (controller *Controller) UpdateDiagramPackage(c *gin.Context) {
 
 	mutexDiagramPackage.Lock()
+	defer mutexDiagramPackage.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateDiagramPackage(c *gin.Context) {
 
 	// return status OK with the marshalling of the the diagrampackageDB
 	c.JSON(http.StatusOK, diagrampackageDB)
-
-	mutexDiagramPackage.Unlock()
 }
 
 // DeleteDiagramPackage
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateDiagramPackage(c *gin.Context) {
 func (controller *Controller) DeleteDiagramPackage(c *gin.Context) {
 
 	mutexDiagramPackage.Lock()
+	defer mutexDiagramPackage.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteDiagramPackage(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexDiagramPackage.Unlock()
 }

@@ -76,6 +76,25 @@ export class FormFieldDateTimeService {
     );
   }
 
+  // postFront copy formfielddatetime to a version with encoded pointers and post to the back
+  postFront(formfielddatetime: FormFieldDateTime, GONG__StackPath: string): Observable<FormFieldDateTimeDB> {
+    let formfielddatetimeDB = new FormFieldDateTimeDB
+    CopyFormFieldDateTimeToFormFieldDateTimeDB(formfielddatetime, formfielddatetimeDB)
+    const id = typeof formfielddatetimeDB === 'number' ? formfielddatetimeDB : formfielddatetimeDB.ID
+    const url = `${this.formfielddatetimesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<FormFieldDateTimeDB>(url, formfielddatetimeDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormFieldDateTimeDB>('postFormFieldDateTime'))
+    );
+  }
+  
   /** POST: add a new formfielddatetime to the server */
   post(formfielddatetimedb: FormFieldDateTimeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeDB> {
     return this.postFormFieldDateTime(formfielddatetimedb, GONG__StackPath, frontRepo)

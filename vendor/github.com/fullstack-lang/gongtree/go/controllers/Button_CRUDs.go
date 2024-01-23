@@ -116,6 +116,7 @@ func (controller *Controller) GetButtons(c *gin.Context) {
 func (controller *Controller) PostButton(c *gin.Context) {
 
 	mutexButton.Lock()
+	defer mutexButton.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostButton(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, buttonDB)
-
-	mutexButton.Unlock()
 }
 
 // GetButton
@@ -236,6 +235,7 @@ func (controller *Controller) GetButton(c *gin.Context) {
 func (controller *Controller) UpdateButton(c *gin.Context) {
 
 	mutexButton.Lock()
+	defer mutexButton.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateButton(c *gin.Context) {
 
 	// return status OK with the marshalling of the the buttonDB
 	c.JSON(http.StatusOK, buttonDB)
-
-	mutexButton.Unlock()
 }
 
 // DeleteButton
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateButton(c *gin.Context) {
 func (controller *Controller) DeleteButton(c *gin.Context) {
 
 	mutexButton.Lock()
+	defer mutexButton.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteButton(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexButton.Unlock()
 }

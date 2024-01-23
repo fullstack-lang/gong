@@ -116,6 +116,7 @@ func (controller *Controller) GetSVGs(c *gin.Context) {
 func (controller *Controller) PostSVG(c *gin.Context) {
 
 	mutexSVG.Lock()
+	defer mutexSVG.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostSVG(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, svgDB)
-
-	mutexSVG.Unlock()
 }
 
 // GetSVG
@@ -236,6 +235,7 @@ func (controller *Controller) GetSVG(c *gin.Context) {
 func (controller *Controller) UpdateSVG(c *gin.Context) {
 
 	mutexSVG.Lock()
+	defer mutexSVG.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateSVG(c *gin.Context) {
 
 	// return status OK with the marshalling of the the svgDB
 	c.JSON(http.StatusOK, svgDB)
-
-	mutexSVG.Unlock()
 }
 
 // DeleteSVG
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateSVG(c *gin.Context) {
 func (controller *Controller) DeleteSVG(c *gin.Context) {
 
 	mutexSVG.Lock()
+	defer mutexSVG.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteSVG(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexSVG.Unlock()
 }

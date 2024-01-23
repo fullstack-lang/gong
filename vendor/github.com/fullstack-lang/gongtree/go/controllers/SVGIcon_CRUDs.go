@@ -116,6 +116,7 @@ func (controller *Controller) GetSVGIcons(c *gin.Context) {
 func (controller *Controller) PostSVGIcon(c *gin.Context) {
 
 	mutexSVGIcon.Lock()
+	defer mutexSVGIcon.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostSVGIcon(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, svgiconDB)
-
-	mutexSVGIcon.Unlock()
 }
 
 // GetSVGIcon
@@ -236,6 +235,7 @@ func (controller *Controller) GetSVGIcon(c *gin.Context) {
 func (controller *Controller) UpdateSVGIcon(c *gin.Context) {
 
 	mutexSVGIcon.Lock()
+	defer mutexSVGIcon.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateSVGIcon(c *gin.Context) {
 
 	// return status OK with the marshalling of the the svgiconDB
 	c.JSON(http.StatusOK, svgiconDB)
-
-	mutexSVGIcon.Unlock()
 }
 
 // DeleteSVGIcon
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateSVGIcon(c *gin.Context) {
 func (controller *Controller) DeleteSVGIcon(c *gin.Context) {
 
 	mutexSVGIcon.Lock()
+	defer mutexSVGIcon.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteSVGIcon(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexSVGIcon.Unlock()
 }

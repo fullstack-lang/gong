@@ -83,6 +83,25 @@ export class FormFieldService {
     );
   }
 
+  // postFront copy formfield to a version with encoded pointers and post to the back
+  postFront(formfield: FormField, GONG__StackPath: string): Observable<FormFieldDB> {
+    let formfieldDB = new FormFieldDB
+    CopyFormFieldToFormFieldDB(formfield, formfieldDB)
+    const id = typeof formfieldDB === 'number' ? formfieldDB : formfieldDB.ID
+    const url = `${this.formfieldsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<FormFieldDB>(url, formfieldDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormFieldDB>('postFormField'))
+    );
+  }
+  
   /** POST: add a new formfield to the server */
   post(formfielddb: FormFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDB> {
     return this.postFormField(formfielddb, GONG__StackPath, frontRepo)

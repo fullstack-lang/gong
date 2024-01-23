@@ -80,6 +80,25 @@ export class FormDivService {
     );
   }
 
+  // postFront copy formdiv to a version with encoded pointers and post to the back
+  postFront(formdiv: FormDiv, GONG__StackPath: string): Observable<FormDivDB> {
+    let formdivDB = new FormDivDB
+    CopyFormDivToFormDivDB(formdiv, formdivDB)
+    const id = typeof formdivDB === 'number' ? formdivDB : formdivDB.ID
+    const url = `${this.formdivsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<FormDivDB>(url, formdivDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormDivDB>('postFormDiv'))
+    );
+  }
+  
   /** POST: add a new formdiv to the server */
   post(formdivdb: FormDivDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivDB> {
     return this.postFormDiv(formdivdb, GONG__StackPath, frontRepo)

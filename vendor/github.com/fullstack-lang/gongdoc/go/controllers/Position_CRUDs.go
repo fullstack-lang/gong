@@ -116,6 +116,7 @@ func (controller *Controller) GetPositions(c *gin.Context) {
 func (controller *Controller) PostPosition(c *gin.Context) {
 
 	mutexPosition.Lock()
+	defer mutexPosition.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostPosition(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, positionDB)
-
-	mutexPosition.Unlock()
 }
 
 // GetPosition
@@ -236,6 +235,7 @@ func (controller *Controller) GetPosition(c *gin.Context) {
 func (controller *Controller) UpdatePosition(c *gin.Context) {
 
 	mutexPosition.Lock()
+	defer mutexPosition.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdatePosition(c *gin.Context) {
 
 	// return status OK with the marshalling of the the positionDB
 	c.JSON(http.StatusOK, positionDB)
-
-	mutexPosition.Unlock()
 }
 
 // DeletePosition
@@ -326,6 +324,7 @@ func (controller *Controller) UpdatePosition(c *gin.Context) {
 func (controller *Controller) DeletePosition(c *gin.Context) {
 
 	mutexPosition.Lock()
+	defer mutexPosition.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeletePosition(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexPosition.Unlock()
 }

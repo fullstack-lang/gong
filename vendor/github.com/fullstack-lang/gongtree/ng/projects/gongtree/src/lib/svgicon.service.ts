@@ -76,6 +76,25 @@ export class SVGIconService {
     );
   }
 
+  // postFront copy svgicon to a version with encoded pointers and post to the back
+  postFront(svgicon: SVGIcon, GONG__StackPath: string): Observable<SVGIconDB> {
+    let svgiconDB = new SVGIconDB
+    CopySVGIconToSVGIconDB(svgicon, svgiconDB)
+    const id = typeof svgiconDB === 'number' ? svgiconDB : svgiconDB.ID
+    const url = `${this.svgiconsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<SVGIconDB>(url, svgiconDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<SVGIconDB>('postSVGIcon'))
+    );
+  }
+  
   /** POST: add a new svgicon to the server */
   post(svgicondb: SVGIconDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGIconDB> {
     return this.postSVGIcon(svgicondb, GONG__StackPath, frontRepo)

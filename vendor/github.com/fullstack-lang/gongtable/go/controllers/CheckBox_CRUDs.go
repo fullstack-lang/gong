@@ -116,6 +116,7 @@ func (controller *Controller) GetCheckBoxs(c *gin.Context) {
 func (controller *Controller) PostCheckBox(c *gin.Context) {
 
 	mutexCheckBox.Lock()
+	defer mutexCheckBox.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostCheckBox(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, checkboxDB)
-
-	mutexCheckBox.Unlock()
 }
 
 // GetCheckBox
@@ -236,6 +235,7 @@ func (controller *Controller) GetCheckBox(c *gin.Context) {
 func (controller *Controller) UpdateCheckBox(c *gin.Context) {
 
 	mutexCheckBox.Lock()
+	defer mutexCheckBox.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateCheckBox(c *gin.Context) {
 
 	// return status OK with the marshalling of the the checkboxDB
 	c.JSON(http.StatusOK, checkboxDB)
-
-	mutexCheckBox.Unlock()
 }
 
 // DeleteCheckBox
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateCheckBox(c *gin.Context) {
 func (controller *Controller) DeleteCheckBox(c *gin.Context) {
 
 	mutexCheckBox.Lock()
+	defer mutexCheckBox.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteCheckBox(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexCheckBox.Unlock()
 }

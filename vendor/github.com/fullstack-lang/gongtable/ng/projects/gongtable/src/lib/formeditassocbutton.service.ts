@@ -76,6 +76,25 @@ export class FormEditAssocButtonService {
     );
   }
 
+  // postFront copy formeditassocbutton to a version with encoded pointers and post to the back
+  postFront(formeditassocbutton: FormEditAssocButton, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
+    let formeditassocbuttonDB = new FormEditAssocButtonDB
+    CopyFormEditAssocButtonToFormEditAssocButtonDB(formeditassocbutton, formeditassocbuttonDB)
+    const id = typeof formeditassocbuttonDB === 'number' ? formeditassocbuttonDB : formeditassocbuttonDB.ID
+    const url = `${this.formeditassocbuttonsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<FormEditAssocButtonDB>(url, formeditassocbuttonDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormEditAssocButtonDB>('postFormEditAssocButton'))
+    );
+  }
+  
   /** POST: add a new formeditassocbutton to the server */
   post(formeditassocbuttondb: FormEditAssocButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonDB> {
     return this.postFormEditAssocButton(formeditassocbuttondb, GONG__StackPath, frontRepo)

@@ -116,6 +116,7 @@ func (controller *Controller) GetRects(c *gin.Context) {
 func (controller *Controller) PostRect(c *gin.Context) {
 
 	mutexRect.Lock()
+	defer mutexRect.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostRect(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, rectDB)
-
-	mutexRect.Unlock()
 }
 
 // GetRect
@@ -236,6 +235,7 @@ func (controller *Controller) GetRect(c *gin.Context) {
 func (controller *Controller) UpdateRect(c *gin.Context) {
 
 	mutexRect.Lock()
+	defer mutexRect.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateRect(c *gin.Context) {
 
 	// return status OK with the marshalling of the the rectDB
 	c.JSON(http.StatusOK, rectDB)
-
-	mutexRect.Unlock()
 }
 
 // DeleteRect
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateRect(c *gin.Context) {
 func (controller *Controller) DeleteRect(c *gin.Context) {
 
 	mutexRect.Lock()
+	defer mutexRect.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteRect(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexRect.Unlock()
 }

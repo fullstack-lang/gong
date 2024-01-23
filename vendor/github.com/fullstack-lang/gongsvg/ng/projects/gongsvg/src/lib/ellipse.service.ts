@@ -77,6 +77,25 @@ export class EllipseService {
     );
   }
 
+  // postFront copy ellipse to a version with encoded pointers and post to the back
+  postFront(ellipse: Ellipse, GONG__StackPath: string): Observable<EllipseDB> {
+    let ellipseDB = new EllipseDB
+    CopyEllipseToEllipseDB(ellipse, ellipseDB)
+    const id = typeof ellipseDB === 'number' ? ellipseDB : ellipseDB.ID
+    const url = `${this.ellipsesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<EllipseDB>(url, ellipseDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<EllipseDB>('postEllipse'))
+    );
+  }
+  
   /** POST: add a new ellipse to the server */
   post(ellipsedb: EllipseDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseDB> {
     return this.postEllipse(ellipsedb, GONG__StackPath, frontRepo)

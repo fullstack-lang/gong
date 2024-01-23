@@ -116,6 +116,7 @@ func (controller *Controller) GetOptions(c *gin.Context) {
 func (controller *Controller) PostOption(c *gin.Context) {
 
 	mutexOption.Lock()
+	defer mutexOption.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostOption(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, optionDB)
-
-	mutexOption.Unlock()
 }
 
 // GetOption
@@ -236,6 +235,7 @@ func (controller *Controller) GetOption(c *gin.Context) {
 func (controller *Controller) UpdateOption(c *gin.Context) {
 
 	mutexOption.Lock()
+	defer mutexOption.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateOption(c *gin.Context) {
 
 	// return status OK with the marshalling of the the optionDB
 	c.JSON(http.StatusOK, optionDB)
-
-	mutexOption.Unlock()
 }
 
 // DeleteOption
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateOption(c *gin.Context) {
 func (controller *Controller) DeleteOption(c *gin.Context) {
 
 	mutexOption.Lock()
+	defer mutexOption.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteOption(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexOption.Unlock()
 }

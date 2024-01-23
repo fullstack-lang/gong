@@ -76,6 +76,25 @@ export class FormFieldFloat64Service {
     );
   }
 
+  // postFront copy formfieldfloat64 to a version with encoded pointers and post to the back
+  postFront(formfieldfloat64: FormFieldFloat64, GONG__StackPath: string): Observable<FormFieldFloat64DB> {
+    let formfieldfloat64DB = new FormFieldFloat64DB
+    CopyFormFieldFloat64ToFormFieldFloat64DB(formfieldfloat64, formfieldfloat64DB)
+    const id = typeof formfieldfloat64DB === 'number' ? formfieldfloat64DB : formfieldfloat64DB.ID
+    const url = `${this.formfieldfloat64sUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<FormFieldFloat64DB>(url, formfieldfloat64DB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormFieldFloat64DB>('postFormFieldFloat64'))
+    );
+  }
+  
   /** POST: add a new formfieldfloat64 to the server */
   post(formfieldfloat64db: FormFieldFloat64DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldFloat64DB> {
     return this.postFormFieldFloat64(formfieldfloat64db, GONG__StackPath, frontRepo)

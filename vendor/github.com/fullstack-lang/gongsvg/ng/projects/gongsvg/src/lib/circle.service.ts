@@ -77,6 +77,25 @@ export class CircleService {
     );
   }
 
+  // postFront copy circle to a version with encoded pointers and post to the back
+  postFront(circle: Circle, GONG__StackPath: string): Observable<CircleDB> {
+    let circleDB = new CircleDB
+    CopyCircleToCircleDB(circle, circleDB)
+    const id = typeof circleDB === 'number' ? circleDB : circleDB.ID
+    const url = `${this.circlesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<CircleDB>(url, circleDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CircleDB>('postCircle'))
+    );
+  }
+  
   /** POST: add a new circle to the server */
   post(circledb: CircleDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleDB> {
     return this.postCircle(circledb, GONG__StackPath, frontRepo)

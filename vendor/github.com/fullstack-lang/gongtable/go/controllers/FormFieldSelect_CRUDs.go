@@ -116,6 +116,7 @@ func (controller *Controller) GetFormFieldSelects(c *gin.Context) {
 func (controller *Controller) PostFormFieldSelect(c *gin.Context) {
 
 	mutexFormFieldSelect.Lock()
+	defer mutexFormFieldSelect.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostFormFieldSelect(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, formfieldselectDB)
-
-	mutexFormFieldSelect.Unlock()
 }
 
 // GetFormFieldSelect
@@ -236,6 +235,7 @@ func (controller *Controller) GetFormFieldSelect(c *gin.Context) {
 func (controller *Controller) UpdateFormFieldSelect(c *gin.Context) {
 
 	mutexFormFieldSelect.Lock()
+	defer mutexFormFieldSelect.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateFormFieldSelect(c *gin.Context) {
 
 	// return status OK with the marshalling of the the formfieldselectDB
 	c.JSON(http.StatusOK, formfieldselectDB)
-
-	mutexFormFieldSelect.Unlock()
 }
 
 // DeleteFormFieldSelect
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateFormFieldSelect(c *gin.Context) {
 func (controller *Controller) DeleteFormFieldSelect(c *gin.Context) {
 
 	mutexFormFieldSelect.Lock()
+	defer mutexFormFieldSelect.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteFormFieldSelect(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexFormFieldSelect.Unlock()
 }

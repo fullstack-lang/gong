@@ -78,6 +78,25 @@ export class TableService {
     );
   }
 
+  // postFront copy table to a version with encoded pointers and post to the back
+  postFront(table: Table, GONG__StackPath: string): Observable<TableDB> {
+    let tableDB = new TableDB
+    CopyTableToTableDB(table, tableDB)
+    const id = typeof tableDB === 'number' ? tableDB : tableDB.ID
+    const url = `${this.tablesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<TableDB>(url, tableDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<TableDB>('postTable'))
+    );
+  }
+  
   /** POST: add a new table to the server */
   post(tabledb: TableDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableDB> {
     return this.postTable(tabledb, GONG__StackPath, frontRepo)

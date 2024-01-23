@@ -116,6 +116,7 @@ func (controller *Controller) GetFormFields(c *gin.Context) {
 func (controller *Controller) PostFormField(c *gin.Context) {
 
 	mutexFormField.Lock()
+	defer mutexFormField.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostFormField(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, formfieldDB)
-
-	mutexFormField.Unlock()
 }
 
 // GetFormField
@@ -236,6 +235,7 @@ func (controller *Controller) GetFormField(c *gin.Context) {
 func (controller *Controller) UpdateFormField(c *gin.Context) {
 
 	mutexFormField.Lock()
+	defer mutexFormField.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateFormField(c *gin.Context) {
 
 	// return status OK with the marshalling of the the formfieldDB
 	c.JSON(http.StatusOK, formfieldDB)
-
-	mutexFormField.Unlock()
 }
 
 // DeleteFormField
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateFormField(c *gin.Context) {
 func (controller *Controller) DeleteFormField(c *gin.Context) {
 
 	mutexFormField.Lock()
+	defer mutexFormField.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteFormField(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexFormField.Unlock()
 }

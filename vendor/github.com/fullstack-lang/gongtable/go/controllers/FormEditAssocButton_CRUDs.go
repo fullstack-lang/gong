@@ -116,6 +116,7 @@ func (controller *Controller) GetFormEditAssocButtons(c *gin.Context) {
 func (controller *Controller) PostFormEditAssocButton(c *gin.Context) {
 
 	mutexFormEditAssocButton.Lock()
+	defer mutexFormEditAssocButton.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostFormEditAssocButton(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, formeditassocbuttonDB)
-
-	mutexFormEditAssocButton.Unlock()
 }
 
 // GetFormEditAssocButton
@@ -236,6 +235,7 @@ func (controller *Controller) GetFormEditAssocButton(c *gin.Context) {
 func (controller *Controller) UpdateFormEditAssocButton(c *gin.Context) {
 
 	mutexFormEditAssocButton.Lock()
+	defer mutexFormEditAssocButton.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateFormEditAssocButton(c *gin.Context) {
 
 	// return status OK with the marshalling of the the formeditassocbuttonDB
 	c.JSON(http.StatusOK, formeditassocbuttonDB)
-
-	mutexFormEditAssocButton.Unlock()
 }
 
 // DeleteFormEditAssocButton
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateFormEditAssocButton(c *gin.Context) {
 func (controller *Controller) DeleteFormEditAssocButton(c *gin.Context) {
 
 	mutexFormEditAssocButton.Lock()
+	defer mutexFormEditAssocButton.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteFormEditAssocButton(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexFormEditAssocButton.Unlock()
 }

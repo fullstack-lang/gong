@@ -116,6 +116,7 @@ func (controller *Controller) GetNoteShapeLinks(c *gin.Context) {
 func (controller *Controller) PostNoteShapeLink(c *gin.Context) {
 
 	mutexNoteShapeLink.Lock()
+	defer mutexNoteShapeLink.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostNoteShapeLink(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, noteshapelinkDB)
-
-	mutexNoteShapeLink.Unlock()
 }
 
 // GetNoteShapeLink
@@ -236,6 +235,7 @@ func (controller *Controller) GetNoteShapeLink(c *gin.Context) {
 func (controller *Controller) UpdateNoteShapeLink(c *gin.Context) {
 
 	mutexNoteShapeLink.Lock()
+	defer mutexNoteShapeLink.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateNoteShapeLink(c *gin.Context) {
 
 	// return status OK with the marshalling of the the noteshapelinkDB
 	c.JSON(http.StatusOK, noteshapelinkDB)
-
-	mutexNoteShapeLink.Unlock()
 }
 
 // DeleteNoteShapeLink
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateNoteShapeLink(c *gin.Context) {
 func (controller *Controller) DeleteNoteShapeLink(c *gin.Context) {
 
 	mutexNoteShapeLink.Lock()
+	defer mutexNoteShapeLink.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteNoteShapeLink(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexNoteShapeLink.Unlock()
 }

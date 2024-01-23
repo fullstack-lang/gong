@@ -76,6 +76,25 @@ export class FormFieldStringService {
     );
   }
 
+  // postFront copy formfieldstring to a version with encoded pointers and post to the back
+  postFront(formfieldstring: FormFieldString, GONG__StackPath: string): Observable<FormFieldStringDB> {
+    let formfieldstringDB = new FormFieldStringDB
+    CopyFormFieldStringToFormFieldStringDB(formfieldstring, formfieldstringDB)
+    const id = typeof formfieldstringDB === 'number' ? formfieldstringDB : formfieldstringDB.ID
+    const url = `${this.formfieldstringsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<FormFieldStringDB>(url, formfieldstringDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormFieldStringDB>('postFormFieldString'))
+    );
+  }
+  
   /** POST: add a new formfieldstring to the server */
   post(formfieldstringdb: FormFieldStringDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldStringDB> {
     return this.postFormFieldString(formfieldstringdb, GONG__StackPath, frontRepo)

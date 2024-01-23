@@ -116,6 +116,7 @@ func (controller *Controller) GetTrees(c *gin.Context) {
 func (controller *Controller) PostTree(c *gin.Context) {
 
 	mutexTree.Lock()
+	defer mutexTree.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostTree(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, treeDB)
-
-	mutexTree.Unlock()
 }
 
 // GetTree
@@ -236,6 +235,7 @@ func (controller *Controller) GetTree(c *gin.Context) {
 func (controller *Controller) UpdateTree(c *gin.Context) {
 
 	mutexTree.Lock()
+	defer mutexTree.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateTree(c *gin.Context) {
 
 	// return status OK with the marshalling of the the treeDB
 	c.JSON(http.StatusOK, treeDB)
-
-	mutexTree.Unlock()
 }
 
 // DeleteTree
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateTree(c *gin.Context) {
 func (controller *Controller) DeleteTree(c *gin.Context) {
 
 	mutexTree.Lock()
+	defer mutexTree.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteTree(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexTree.Unlock()
 }

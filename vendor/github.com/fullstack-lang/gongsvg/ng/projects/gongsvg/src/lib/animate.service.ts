@@ -76,6 +76,25 @@ export class AnimateService {
     );
   }
 
+  // postFront copy animate to a version with encoded pointers and post to the back
+  postFront(animate: Animate, GONG__StackPath: string): Observable<AnimateDB> {
+    let animateDB = new AnimateDB
+    CopyAnimateToAnimateDB(animate, animateDB)
+    const id = typeof animateDB === 'number' ? animateDB : animateDB.ID
+    const url = `${this.animatesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<AnimateDB>(url, animateDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<AnimateDB>('postAnimate'))
+    );
+  }
+  
   /** POST: add a new animate to the server */
   post(animatedb: AnimateDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateDB> {
     return this.postAnimate(animatedb, GONG__StackPath, frontRepo)
