@@ -85,7 +85,7 @@ func ComputePkgPathFromGoModFile(pkgPathArg string) (pkgName, fullPkgPath string
 	if err != nil {
 		panic(err)
 	}
-	log.Println("module path is ", modFile.Module.Mod.Path)
+	// log.Println("module path is ", modFile.Module.Mod.Path)
 	_ = modFile // now we have mod file
 
 	// load package into database

@@ -116,6 +116,7 @@ func (controller *Controller) GetMetas(c *gin.Context) {
 func (controller *Controller) PostMeta(c *gin.Context) {
 
 	mutexMeta.Lock()
+	defer mutexMeta.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostMeta(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, metaDB)
-
-	mutexMeta.Unlock()
 }
 
 // GetMeta
@@ -236,6 +235,7 @@ func (controller *Controller) GetMeta(c *gin.Context) {
 func (controller *Controller) UpdateMeta(c *gin.Context) {
 
 	mutexMeta.Lock()
+	defer mutexMeta.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateMeta(c *gin.Context) {
 
 	// return status OK with the marshalling of the the metaDB
 	c.JSON(http.StatusOK, metaDB)
-
-	mutexMeta.Unlock()
 }
 
 // DeleteMeta
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateMeta(c *gin.Context) {
 func (controller *Controller) DeleteMeta(c *gin.Context) {
 
 	mutexMeta.Lock()
+	defer mutexMeta.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteMeta(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexMeta.Unlock()
 }

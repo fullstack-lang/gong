@@ -116,6 +116,7 @@ func (controller *Controller) GetGongTimeFields(c *gin.Context) {
 func (controller *Controller) PostGongTimeField(c *gin.Context) {
 
 	mutexGongTimeField.Lock()
+	defer mutexGongTimeField.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostGongTimeField(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gongtimefieldDB)
-
-	mutexGongTimeField.Unlock()
 }
 
 // GetGongTimeField
@@ -236,6 +235,7 @@ func (controller *Controller) GetGongTimeField(c *gin.Context) {
 func (controller *Controller) UpdateGongTimeField(c *gin.Context) {
 
 	mutexGongTimeField.Lock()
+	defer mutexGongTimeField.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateGongTimeField(c *gin.Context) {
 
 	// return status OK with the marshalling of the the gongtimefieldDB
 	c.JSON(http.StatusOK, gongtimefieldDB)
-
-	mutexGongTimeField.Unlock()
 }
 
 // DeleteGongTimeField
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateGongTimeField(c *gin.Context) {
 func (controller *Controller) DeleteGongTimeField(c *gin.Context) {
 
 	mutexGongTimeField.Lock()
+	defer mutexGongTimeField.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteGongTimeField(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexGongTimeField.Unlock()
 }

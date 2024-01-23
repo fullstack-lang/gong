@@ -10,14 +10,14 @@ import (
 func ComputePkgNameFromPkgPath(pkgPathArg string) (pkgName string) {
 	// compute name of package
 	abs, _ := filepath.Abs(filepath.Join(pkgPathArg, "../.."))
-	log.Println("Abs is " + abs)
+	// log.Println("Abs is " + abs)
 
 	// to slash to have standardized separators between unix and windows
 	abs = filepath.ToSlash(abs)
 
 	dirs := strings.Split(abs, "/")
 	pkgName = dirs[len(dirs)-1]
-	log.Println("PkgName is " + pkgName)
+	// log.Println("PkgName is " + pkgName)
 
 	// check name
 

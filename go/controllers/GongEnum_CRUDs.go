@@ -116,6 +116,7 @@ func (controller *Controller) GetGongEnums(c *gin.Context) {
 func (controller *Controller) PostGongEnum(c *gin.Context) {
 
 	mutexGongEnum.Lock()
+	defer mutexGongEnum.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostGongEnum(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gongenumDB)
-
-	mutexGongEnum.Unlock()
 }
 
 // GetGongEnum
@@ -236,6 +235,7 @@ func (controller *Controller) GetGongEnum(c *gin.Context) {
 func (controller *Controller) UpdateGongEnum(c *gin.Context) {
 
 	mutexGongEnum.Lock()
+	defer mutexGongEnum.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateGongEnum(c *gin.Context) {
 
 	// return status OK with the marshalling of the the gongenumDB
 	c.JSON(http.StatusOK, gongenumDB)
-
-	mutexGongEnum.Unlock()
 }
 
 // DeleteGongEnum
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateGongEnum(c *gin.Context) {
 func (controller *Controller) DeleteGongEnum(c *gin.Context) {
 
 	mutexGongEnum.Lock()
+	defer mutexGongEnum.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteGongEnum(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexGongEnum.Unlock()
 }
