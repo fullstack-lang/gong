@@ -76,6 +76,25 @@ export class PointService {
     );
   }
 
+  // postFront copy point to a version with encoded pointers and post to the back
+  postFront(point: Point, GONG__StackPath: string): Observable<PointDB> {
+    let pointDB = new PointDB
+    CopyPointToPointDB(point, pointDB)
+    const id = typeof pointDB === 'number' ? pointDB : pointDB.ID
+    const url = `${this.pointsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<PointDB>(url, pointDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<PointDB>('postPoint'))
+    );
+  }
+  
   /** POST: add a new point to the server */
   post(pointdb: PointDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointDB> {
     return this.postPoint(pointdb, GONG__StackPath, frontRepo)

@@ -78,6 +78,25 @@ export class RectLinkLinkService {
     );
   }
 
+  // postFront copy rectlinklink to a version with encoded pointers and post to the back
+  postFront(rectlinklink: RectLinkLink, GONG__StackPath: string): Observable<RectLinkLinkDB> {
+    let rectlinklinkDB = new RectLinkLinkDB
+    CopyRectLinkLinkToRectLinkLinkDB(rectlinklink, rectlinklinkDB)
+    const id = typeof rectlinklinkDB === 'number' ? rectlinklinkDB : rectlinklinkDB.ID
+    const url = `${this.rectlinklinksUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<RectLinkLinkDB>(url, rectlinklinkDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<RectLinkLinkDB>('postRectLinkLink'))
+    );
+  }
+  
   /** POST: add a new rectlinklink to the server */
   post(rectlinklinkdb: RectLinkLinkDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectLinkLinkDB> {
     return this.postRectLinkLink(rectlinklinkdb, GONG__StackPath, frontRepo)

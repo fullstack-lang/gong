@@ -116,6 +116,7 @@ func (controller *Controller) GetCellIcons(c *gin.Context) {
 func (controller *Controller) PostCellIcon(c *gin.Context) {
 
 	mutexCellIcon.Lock()
+	defer mutexCellIcon.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostCellIcon(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, celliconDB)
-
-	mutexCellIcon.Unlock()
 }
 
 // GetCellIcon
@@ -236,6 +235,7 @@ func (controller *Controller) GetCellIcon(c *gin.Context) {
 func (controller *Controller) UpdateCellIcon(c *gin.Context) {
 
 	mutexCellIcon.Lock()
+	defer mutexCellIcon.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateCellIcon(c *gin.Context) {
 
 	// return status OK with the marshalling of the the celliconDB
 	c.JSON(http.StatusOK, celliconDB)
-
-	mutexCellIcon.Unlock()
 }
 
 // DeleteCellIcon
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateCellIcon(c *gin.Context) {
 func (controller *Controller) DeleteCellIcon(c *gin.Context) {
 
 	mutexCellIcon.Lock()
+	defer mutexCellIcon.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteCellIcon(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexCellIcon.Unlock()
 }

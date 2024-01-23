@@ -76,6 +76,25 @@ export class OptionService {
     );
   }
 
+  // postFront copy option to a version with encoded pointers and post to the back
+  postFront(option: Option, GONG__StackPath: string): Observable<OptionDB> {
+    let optionDB = new OptionDB
+    CopyOptionToOptionDB(option, optionDB)
+    const id = typeof optionDB === 'number' ? optionDB : optionDB.ID
+    const url = `${this.optionsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<OptionDB>(url, optionDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<OptionDB>('postOption'))
+    );
+  }
+  
   /** POST: add a new option to the server */
   post(optiondb: OptionDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<OptionDB> {
     return this.postOption(optiondb, GONG__StackPath, frontRepo)

@@ -77,6 +77,25 @@ export class LineService {
     );
   }
 
+  // postFront copy line to a version with encoded pointers and post to the back
+  postFront(line: Line, GONG__StackPath: string): Observable<LineDB> {
+    let lineDB = new LineDB
+    CopyLineToLineDB(line, lineDB)
+    const id = typeof lineDB === 'number' ? lineDB : lineDB.ID
+    const url = `${this.linesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<LineDB>(url, lineDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<LineDB>('postLine'))
+    );
+  }
+  
   /** POST: add a new line to the server */
   post(linedb: LineDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LineDB> {
     return this.postLine(linedb, GONG__StackPath, frontRepo)

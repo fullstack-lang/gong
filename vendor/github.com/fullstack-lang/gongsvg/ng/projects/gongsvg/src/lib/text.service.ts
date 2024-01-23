@@ -77,6 +77,25 @@ export class TextService {
     );
   }
 
+  // postFront copy text to a version with encoded pointers and post to the back
+  postFront(text: Text, GONG__StackPath: string): Observable<TextDB> {
+    let textDB = new TextDB
+    CopyTextToTextDB(text, textDB)
+    const id = typeof textDB === 'number' ? textDB : textDB.ID
+    const url = `${this.textsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<TextDB>(url, textDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<TextDB>('postText'))
+    );
+  }
+  
   /** POST: add a new text to the server */
   post(textdb: TextDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TextDB> {
     return this.postText(textdb, GONG__StackPath, frontRepo)

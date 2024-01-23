@@ -116,6 +116,7 @@ func (controller *Controller) GetPolylines(c *gin.Context) {
 func (controller *Controller) PostPolyline(c *gin.Context) {
 
 	mutexPolyline.Lock()
+	defer mutexPolyline.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostPolyline(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, polylineDB)
-
-	mutexPolyline.Unlock()
 }
 
 // GetPolyline
@@ -236,6 +235,7 @@ func (controller *Controller) GetPolyline(c *gin.Context) {
 func (controller *Controller) UpdatePolyline(c *gin.Context) {
 
 	mutexPolyline.Lock()
+	defer mutexPolyline.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdatePolyline(c *gin.Context) {
 
 	// return status OK with the marshalling of the the polylineDB
 	c.JSON(http.StatusOK, polylineDB)
-
-	mutexPolyline.Unlock()
 }
 
 // DeletePolyline
@@ -326,6 +324,7 @@ func (controller *Controller) UpdatePolyline(c *gin.Context) {
 func (controller *Controller) DeletePolyline(c *gin.Context) {
 
 	mutexPolyline.Lock()
+	defer mutexPolyline.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeletePolyline(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexPolyline.Unlock()
 }

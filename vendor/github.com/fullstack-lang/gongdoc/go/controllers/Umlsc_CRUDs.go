@@ -116,6 +116,7 @@ func (controller *Controller) GetUmlscs(c *gin.Context) {
 func (controller *Controller) PostUmlsc(c *gin.Context) {
 
 	mutexUmlsc.Lock()
+	defer mutexUmlsc.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostUmlsc(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, umlscDB)
-
-	mutexUmlsc.Unlock()
 }
 
 // GetUmlsc
@@ -236,6 +235,7 @@ func (controller *Controller) GetUmlsc(c *gin.Context) {
 func (controller *Controller) UpdateUmlsc(c *gin.Context) {
 
 	mutexUmlsc.Lock()
+	defer mutexUmlsc.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateUmlsc(c *gin.Context) {
 
 	// return status OK with the marshalling of the the umlscDB
 	c.JSON(http.StatusOK, umlscDB)
-
-	mutexUmlsc.Unlock()
 }
 
 // DeleteUmlsc
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateUmlsc(c *gin.Context) {
 func (controller *Controller) DeleteUmlsc(c *gin.Context) {
 
 	mutexUmlsc.Lock()
+	defer mutexUmlsc.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteUmlsc(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexUmlsc.Unlock()
 }

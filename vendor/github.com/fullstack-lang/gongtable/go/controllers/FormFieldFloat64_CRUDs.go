@@ -116,6 +116,7 @@ func (controller *Controller) GetFormFieldFloat64s(c *gin.Context) {
 func (controller *Controller) PostFormFieldFloat64(c *gin.Context) {
 
 	mutexFormFieldFloat64.Lock()
+	defer mutexFormFieldFloat64.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostFormFieldFloat64(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, formfieldfloat64DB)
-
-	mutexFormFieldFloat64.Unlock()
 }
 
 // GetFormFieldFloat64
@@ -236,6 +235,7 @@ func (controller *Controller) GetFormFieldFloat64(c *gin.Context) {
 func (controller *Controller) UpdateFormFieldFloat64(c *gin.Context) {
 
 	mutexFormFieldFloat64.Lock()
+	defer mutexFormFieldFloat64.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateFormFieldFloat64(c *gin.Context) {
 
 	// return status OK with the marshalling of the the formfieldfloat64DB
 	c.JSON(http.StatusOK, formfieldfloat64DB)
-
-	mutexFormFieldFloat64.Unlock()
 }
 
 // DeleteFormFieldFloat64
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateFormFieldFloat64(c *gin.Context) {
 func (controller *Controller) DeleteFormFieldFloat64(c *gin.Context) {
 
 	mutexFormFieldFloat64.Lock()
+	defer mutexFormFieldFloat64.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteFormFieldFloat64(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexFormFieldFloat64.Unlock()
 }

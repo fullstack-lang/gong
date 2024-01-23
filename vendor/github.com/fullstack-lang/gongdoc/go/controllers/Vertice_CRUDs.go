@@ -116,6 +116,7 @@ func (controller *Controller) GetVertices(c *gin.Context) {
 func (controller *Controller) PostVertice(c *gin.Context) {
 
 	mutexVertice.Lock()
+	defer mutexVertice.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostVertice(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, verticeDB)
-
-	mutexVertice.Unlock()
 }
 
 // GetVertice
@@ -236,6 +235,7 @@ func (controller *Controller) GetVertice(c *gin.Context) {
 func (controller *Controller) UpdateVertice(c *gin.Context) {
 
 	mutexVertice.Lock()
+	defer mutexVertice.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateVertice(c *gin.Context) {
 
 	// return status OK with the marshalling of the the verticeDB
 	c.JSON(http.StatusOK, verticeDB)
-
-	mutexVertice.Unlock()
 }
 
 // DeleteVertice
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateVertice(c *gin.Context) {
 func (controller *Controller) DeleteVertice(c *gin.Context) {
 
 	mutexVertice.Lock()
+	defer mutexVertice.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteVertice(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexVertice.Unlock()
 }

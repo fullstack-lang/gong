@@ -116,6 +116,7 @@ func (controller *Controller) GetGongStructShapes(c *gin.Context) {
 func (controller *Controller) PostGongStructShape(c *gin.Context) {
 
 	mutexGongStructShape.Lock()
+	defer mutexGongStructShape.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostGongStructShape(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gongstructshapeDB)
-
-	mutexGongStructShape.Unlock()
 }
 
 // GetGongStructShape
@@ -236,6 +235,7 @@ func (controller *Controller) GetGongStructShape(c *gin.Context) {
 func (controller *Controller) UpdateGongStructShape(c *gin.Context) {
 
 	mutexGongStructShape.Lock()
+	defer mutexGongStructShape.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateGongStructShape(c *gin.Context) {
 
 	// return status OK with the marshalling of the the gongstructshapeDB
 	c.JSON(http.StatusOK, gongstructshapeDB)
-
-	mutexGongStructShape.Unlock()
 }
 
 // DeleteGongStructShape
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateGongStructShape(c *gin.Context) {
 func (controller *Controller) DeleteGongStructShape(c *gin.Context) {
 
 	mutexGongStructShape.Lock()
+	defer mutexGongStructShape.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteGongStructShape(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexGongStructShape.Unlock()
 }

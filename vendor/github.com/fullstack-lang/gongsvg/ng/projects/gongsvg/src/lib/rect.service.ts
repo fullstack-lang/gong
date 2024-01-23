@@ -80,6 +80,25 @@ export class RectService {
     );
   }
 
+  // postFront copy rect to a version with encoded pointers and post to the back
+  postFront(rect: Rect, GONG__StackPath: string): Observable<RectDB> {
+    let rectDB = new RectDB
+    CopyRectToRectDB(rect, rectDB)
+    const id = typeof rectDB === 'number' ? rectDB : rectDB.ID
+    const url = `${this.rectsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<RectDB>(url, rectDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<RectDB>('postRect'))
+    );
+  }
+  
   /** POST: add a new rect to the server */
   post(rectdb: RectDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectDB> {
     return this.postRect(rectdb, GONG__StackPath, frontRepo)

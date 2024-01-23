@@ -77,6 +77,25 @@ export class PolylineService {
     );
   }
 
+  // postFront copy polyline to a version with encoded pointers and post to the back
+  postFront(polyline: Polyline, GONG__StackPath: string): Observable<PolylineDB> {
+    let polylineDB = new PolylineDB
+    CopyPolylineToPolylineDB(polyline, polylineDB)
+    const id = typeof polylineDB === 'number' ? polylineDB : polylineDB.ID
+    const url = `${this.polylinesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<PolylineDB>(url, polylineDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<PolylineDB>('postPolyline'))
+    );
+  }
+  
   /** POST: add a new polyline to the server */
   post(polylinedb: PolylineDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineDB> {
     return this.postPolyline(polylinedb, GONG__StackPath, frontRepo)

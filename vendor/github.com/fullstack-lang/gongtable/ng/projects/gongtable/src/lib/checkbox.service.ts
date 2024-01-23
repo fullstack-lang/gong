@@ -76,6 +76,25 @@ export class CheckBoxService {
     );
   }
 
+  // postFront copy checkbox to a version with encoded pointers and post to the back
+  postFront(checkbox: CheckBox, GONG__StackPath: string): Observable<CheckBoxDB> {
+    let checkboxDB = new CheckBoxDB
+    CopyCheckBoxToCheckBoxDB(checkbox, checkboxDB)
+    const id = typeof checkboxDB === 'number' ? checkboxDB : checkboxDB.ID
+    const url = `${this.checkboxsUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<CheckBoxDB>(url, checkboxDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CheckBoxDB>('postCheckBox'))
+    );
+  }
+  
   /** POST: add a new checkbox to the server */
   post(checkboxdb: CheckBoxDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxDB> {
     return this.postCheckBox(checkboxdb, GONG__StackPath, frontRepo)

@@ -116,6 +116,7 @@ func (controller *Controller) GetRectAnchoredPaths(c *gin.Context) {
 func (controller *Controller) PostRectAnchoredPath(c *gin.Context) {
 
 	mutexRectAnchoredPath.Lock()
+	defer mutexRectAnchoredPath.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostRectAnchoredPath(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, rectanchoredpathDB)
-
-	mutexRectAnchoredPath.Unlock()
 }
 
 // GetRectAnchoredPath
@@ -236,6 +235,7 @@ func (controller *Controller) GetRectAnchoredPath(c *gin.Context) {
 func (controller *Controller) UpdateRectAnchoredPath(c *gin.Context) {
 
 	mutexRectAnchoredPath.Lock()
+	defer mutexRectAnchoredPath.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateRectAnchoredPath(c *gin.Context) {
 
 	// return status OK with the marshalling of the the rectanchoredpathDB
 	c.JSON(http.StatusOK, rectanchoredpathDB)
-
-	mutexRectAnchoredPath.Unlock()
 }
 
 // DeleteRectAnchoredPath
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateRectAnchoredPath(c *gin.Context) {
 func (controller *Controller) DeleteRectAnchoredPath(c *gin.Context) {
 
 	mutexRectAnchoredPath.Lock()
+	defer mutexRectAnchoredPath.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteRectAnchoredPath(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexRectAnchoredPath.Unlock()
 }

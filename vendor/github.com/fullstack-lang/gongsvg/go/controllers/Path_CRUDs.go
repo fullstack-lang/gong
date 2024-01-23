@@ -116,6 +116,7 @@ func (controller *Controller) GetPaths(c *gin.Context) {
 func (controller *Controller) PostPath(c *gin.Context) {
 
 	mutexPath.Lock()
+	defer mutexPath.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostPath(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, pathDB)
-
-	mutexPath.Unlock()
 }
 
 // GetPath
@@ -236,6 +235,7 @@ func (controller *Controller) GetPath(c *gin.Context) {
 func (controller *Controller) UpdatePath(c *gin.Context) {
 
 	mutexPath.Lock()
+	defer mutexPath.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdatePath(c *gin.Context) {
 
 	// return status OK with the marshalling of the the pathDB
 	c.JSON(http.StatusOK, pathDB)
-
-	mutexPath.Unlock()
 }
 
 // DeletePath
@@ -326,6 +324,7 @@ func (controller *Controller) UpdatePath(c *gin.Context) {
 func (controller *Controller) DeletePath(c *gin.Context) {
 
 	mutexPath.Lock()
+	defer mutexPath.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeletePath(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexPath.Unlock()
 }

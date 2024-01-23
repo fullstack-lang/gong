@@ -77,6 +77,25 @@ export class TreeService {
     );
   }
 
+  // postFront copy tree to a version with encoded pointers and post to the back
+  postFront(tree: Tree, GONG__StackPath: string): Observable<TreeDB> {
+    let treeDB = new TreeDB
+    CopyTreeToTreeDB(tree, treeDB)
+    const id = typeof treeDB === 'number' ? treeDB : treeDB.ID
+    const url = `${this.treesUrl}/${id}`;
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.post<TreeDB>(url, treeDB, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<TreeDB>('postTree'))
+    );
+  }
+  
   /** POST: add a new tree to the server */
   post(treedb: TreeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TreeDB> {
     return this.postTree(treedb, GONG__StackPath, frontRepo)

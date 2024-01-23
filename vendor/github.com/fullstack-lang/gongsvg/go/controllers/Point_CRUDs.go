@@ -116,6 +116,7 @@ func (controller *Controller) GetPoints(c *gin.Context) {
 func (controller *Controller) PostPoint(c *gin.Context) {
 
 	mutexPoint.Lock()
+	defer mutexPoint.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostPoint(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, pointDB)
-
-	mutexPoint.Unlock()
 }
 
 // GetPoint
@@ -236,6 +235,7 @@ func (controller *Controller) GetPoint(c *gin.Context) {
 func (controller *Controller) UpdatePoint(c *gin.Context) {
 
 	mutexPoint.Lock()
+	defer mutexPoint.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdatePoint(c *gin.Context) {
 
 	// return status OK with the marshalling of the the pointDB
 	c.JSON(http.StatusOK, pointDB)
-
-	mutexPoint.Unlock()
 }
 
 // DeletePoint
@@ -326,6 +324,7 @@ func (controller *Controller) UpdatePoint(c *gin.Context) {
 func (controller *Controller) DeletePoint(c *gin.Context) {
 
 	mutexPoint.Lock()
+	defer mutexPoint.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeletePoint(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexPoint.Unlock()
 }
