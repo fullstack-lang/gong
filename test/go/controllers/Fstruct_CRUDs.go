@@ -116,6 +116,7 @@ func (controller *Controller) GetFstructs(c *gin.Context) {
 func (controller *Controller) PostFstruct(c *gin.Context) {
 
 	mutexFstruct.Lock()
+	defer mutexFstruct.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostFstruct(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, fstructDB)
-
-	mutexFstruct.Unlock()
 }
 
 // GetFstruct
@@ -236,6 +235,7 @@ func (controller *Controller) GetFstruct(c *gin.Context) {
 func (controller *Controller) UpdateFstruct(c *gin.Context) {
 
 	mutexFstruct.Lock()
+	defer mutexFstruct.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateFstruct(c *gin.Context) {
 
 	// return status OK with the marshalling of the the fstructDB
 	c.JSON(http.StatusOK, fstructDB)
-
-	mutexFstruct.Unlock()
 }
 
 // DeleteFstruct
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateFstruct(c *gin.Context) {
 func (controller *Controller) DeleteFstruct(c *gin.Context) {
 
 	mutexFstruct.Lock()
+	defer mutexFstruct.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteFstruct(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexFstruct.Unlock()
 }

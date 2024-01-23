@@ -116,6 +116,7 @@ func (controller *Controller) GetAstructBstruct2Uses(c *gin.Context) {
 func (controller *Controller) PostAstructBstruct2Use(c *gin.Context) {
 
 	mutexAstructBstruct2Use.Lock()
+	defer mutexAstructBstruct2Use.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostAstructBstruct2Use(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, astructbstruct2useDB)
-
-	mutexAstructBstruct2Use.Unlock()
 }
 
 // GetAstructBstruct2Use
@@ -236,6 +235,7 @@ func (controller *Controller) GetAstructBstruct2Use(c *gin.Context) {
 func (controller *Controller) UpdateAstructBstruct2Use(c *gin.Context) {
 
 	mutexAstructBstruct2Use.Lock()
+	defer mutexAstructBstruct2Use.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateAstructBstruct2Use(c *gin.Context) {
 
 	// return status OK with the marshalling of the the astructbstruct2useDB
 	c.JSON(http.StatusOK, astructbstruct2useDB)
-
-	mutexAstructBstruct2Use.Unlock()
 }
 
 // DeleteAstructBstruct2Use
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateAstructBstruct2Use(c *gin.Context) {
 func (controller *Controller) DeleteAstructBstruct2Use(c *gin.Context) {
 
 	mutexAstructBstruct2Use.Lock()
+	defer mutexAstructBstruct2Use.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteAstructBstruct2Use(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexAstructBstruct2Use.Unlock()
 }

@@ -69,7 +69,7 @@ func stage_outInjection(stage *models.StageStruct) {
 
 	// Astruct values setup
 	__Astruct__000000_A1.Name = `A1`
-	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-19 19:30:24.011 +0000 UTC")
+	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-23 07:14:50.755 +0000 UTC")
 	__Astruct__000000_A1.Booleanfield = false
 	__Astruct__000000_A1.Aenum = models.ENUM_VAL1
 	__Astruct__000000_A1.Aenum_2 = models.ENUM_VAL2
