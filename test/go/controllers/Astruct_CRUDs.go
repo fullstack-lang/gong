@@ -116,6 +116,7 @@ func (controller *Controller) GetAstructs(c *gin.Context) {
 func (controller *Controller) PostAstruct(c *gin.Context) {
 
 	mutexAstruct.Lock()
+	defer mutexAstruct.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -173,8 +174,6 @@ func (controller *Controller) PostAstruct(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, astructDB)
-
-	mutexAstruct.Unlock()
 }
 
 // GetAstruct
@@ -236,6 +235,7 @@ func (controller *Controller) GetAstruct(c *gin.Context) {
 func (controller *Controller) UpdateAstruct(c *gin.Context) {
 
 	mutexAstruct.Lock()
+	defer mutexAstruct.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateAstruct(c *gin.Context) {
 
 	// return status OK with the marshalling of the the astructDB
 	c.JSON(http.StatusOK, astructDB)
-
-	mutexAstruct.Unlock()
 }
 
 // DeleteAstruct
@@ -326,6 +324,7 @@ func (controller *Controller) UpdateAstruct(c *gin.Context) {
 func (controller *Controller) DeleteAstruct(c *gin.Context) {
 
 	mutexAstruct.Lock()
+	defer mutexAstruct.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteAstruct(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexAstruct.Unlock()
 }

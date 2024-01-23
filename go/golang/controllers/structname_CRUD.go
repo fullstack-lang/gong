@@ -132,6 +132,7 @@ func (controller *Controller) Get{{Structname}}s(c *gin.Context) {
 func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 
 	mutex{{Structname}}.Lock()
+	defer mutex{{Structname}}.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -189,8 +190,6 @@ func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, {{structname}}DB)
-
-	mutex{{Structname}}.Unlock()
 }
 
 // Get{{Structname}}
@@ -252,6 +251,7 @@ func (controller *Controller) Get{{Structname}}(c *gin.Context) {
 func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 
 	mutex{{Structname}}.Lock()
+	defer mutex{{Structname}}.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -326,8 +326,6 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 
 	// return status OK with the marshalling of the the {{structname}}DB
 	c.JSON(http.StatusOK, {{structname}}DB)
-
-	mutex{{Structname}}.Unlock()
 }
 
 // Delete{{Structname}}
@@ -342,6 +340,7 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 func (controller *Controller) Delete{{Structname}}(c *gin.Context) {
 
 	mutex{{Structname}}.Lock()
+	defer mutex{{Structname}}.Unlock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -387,8 +386,6 @@ func (controller *Controller) Delete{{Structname}}(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutex{{Structname}}.Unlock()
 }
 `
 
