@@ -20,11 +20,7 @@ export class GongStructDB {
 	HasOnAfterUpdateSignature: boolean = false
 	IsIgnoredForFront: boolean = false
 
-	// insertion point for pointers and slices of pointers declarations
-	GongBasicFields: Array<GongBasicFieldDB> = []
-	GongTimeFields: Array<GongTimeFieldDB> = []
-	PointerToGongStructFields: Array<PointerToGongStructFieldDB> = []
-	SliceOfPointerToGongStructFields: Array<SliceOfPointerToGongStructFieldDB> = []
+	// insertion point for other decls
 
 	GongStructPointersEncoding: GongStructPointersEncoding = new GongStructPointersEncoding
 }

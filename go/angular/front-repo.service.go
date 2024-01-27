@@ -23,29 +23,12 @@ export const StackType = "{{PkgPathRoot}}/models"
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template{{` + string(rune(NgLibFrontRepoMapDecl)) + `}}
 
-	// getArray allows for a get function that is robust to refactoring of the named struct name
+	// getFrontArray allows for a get function that is robust to refactoring of the named struct name
 	// for instance frontRepo.getArray<Astruct>( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
 	// contrary to frontRepo.Astructs_array which is not refactored when Astruct identifier is modified
-	getArray<Type>(gongStructName: string): Array<Type> {
-		switch (gongStructName) { // deprecated
-			// insertion point{{` + string(rune(NgLibFrontRepoSwitchGetArray)) + `}}
-			default:
-				throw new Error("Type not recognized");
-		}
-	}
-
 	getFrontArray<Type>(gongStructName: string): Array<Type> {
 		switch (gongStructName) {
 			// insertion point{{` + string(rune(NgLibFrontRepoSwitchGetFrontArray)) + `}}
-			default:
-				throw new Error("Type not recognized");
-		}
-	}
-
-	// getMap allows for a get function that is robust to refactoring of the named struct name
-	getMap<Type>(gongStructName: string): Map<number, Type> { // deprecated
-		switch (gongStructName) {
-			// insertion point{{` + string(rune(NgLibFrontRepoSwitchGetMap)) + `}}
 			default:
 				throw new Error("Type not recognized");
 		}
@@ -207,8 +190,6 @@ export class FrontRepoService {
 			}
 		)
 	}
-
-	// insertion point for pull per struct {{` + string(rune(NgLibFrontRepoPerStructPull)) + `}}
 }
 
 // insertion point for get unique ID per struct {{` + string(rune(NgLibFrontRepoPerStructGetUniqueID)) + `}}
@@ -219,8 +200,6 @@ type FrontRepoInsertionPointId int
 const (
 	NgLibFrontRepoServiceImports FrontRepoInsertionPointId = iota
 	NgLibFrontRepoMapDecl
-	NgLibFrontRepoSwitchGetArray
-	NgLibFrontRepoSwitchGetMap
 	NgLibFrontRepoSwitchGetFrontArray
 	NgLibFrontRepoSwitchGetFrontMap
 	NgLibFrontRepoObservableArrayType
@@ -232,7 +211,6 @@ const (
 	NgLibFrontRepoRedeemPointers
 	NgLibFrontRepoInitFrontObjects
 	NgLibFrontRepoSlicesOfPointersDecode
-	NgLibFrontRepoPerStructPull
 	NgLibFrontRepoPerStructGetUniqueID
 )
 
@@ -246,21 +224,9 @@ import { {{Structname}}Service } from './{{structname}}.service'
 `,
 
 	NgLibFrontRepoMapDecl: `
-	{{Structname}}s_array = new Array<{{Structname}}DB>() // array of repo instances
-	{{Structname}}DBs = new Map<number, {{Structname}}DB>() // map of repo instances
-	{{Structname}}s_batch = new Map<number, {{Structname}}DB>() // same but only in last GET (for finding repo instances to delete)
-
 	array_{{Structname}}s = new Array<{{Structname}}>() // array of front instances
 	map_ID_{{Structname}} = new Map<number, {{Structname}}>() // map of front instances
 `,
-
-	NgLibFrontRepoSwitchGetArray: `
-			case '{{Structname}}':
-				return this.{{Structname}}s_array as unknown as Array<Type>`,
-
-	NgLibFrontRepoSwitchGetMap: `
-			case '{{Structname}}':
-				return this.{{Structname}}DBs as unknown as Map<number, Type>`,
 
 	NgLibFrontRepoSwitchGetFrontArray: `
 			case '{{Structname}}':
@@ -288,46 +254,20 @@ import { {{Structname}}Service } from './{{structname}}.service'
 
 	NgLibFrontRepoInitMapInstances: `
 						// init the arrays
-						this.frontRepo.{{Structname}}s_array = {{structname}}s
 						this.frontRepo.array_{{Structname}}s = []
 						this.frontRepo.map_ID_{{Structname}}.clear()
 
-						// clear the map that counts {{Structname}} in the GET
-						this.frontRepo.{{Structname}}s_batch.clear()
-
 						{{structname}}s.forEach(
 							{{structname}}DB => {
-								this.frontRepo.{{Structname}}DBs.set({{structname}}DB.ID, {{structname}}DB)
-								this.frontRepo.{{Structname}}s_batch.set({{structname}}DB.ID, {{structname}}DB)
 								let {{structname}} = new {{Structname}}
 								this.frontRepo.array_{{Structname}}s.push({{structname}})
 								this.frontRepo.map_ID_{{Structname}}.set({{structname}}DB.ID, {{structname}})
 							}
 						)
-
-						// clear {{structname}}s that are absent from the batch
-						this.frontRepo.{{Structname}}DBs.forEach(
-							{{structname}}DB => {
-								if (this.frontRepo.{{Structname}}s_batch.get({{structname}}DB.ID) == undefined) {
-									this.frontRepo.{{Structname}}DBs.delete({{structname}}DB.ID)
-								}
-							}
-						)
-
-						// sort {{Structname}}s_array array
-						this.frontRepo.{{Structname}}s_array.sort((t1, t2) => {
-							if (t1.Name > t2.Name) {
-								return 1;
-							}
-							if (t1.Name < t2.Name) {
-								return -1;
-							}
-							return 0;
-						});
 `,
 	NgLibFrontRepoInitFrontObjects: `
-						// init front objects
-						this.frontRepo.{{Structname}}s_array.forEach(
+						// fill up front objects
+						{{structname}}s.forEach(
 							{{structname}}DB => {
 								let {{structname}} = this.frontRepo.map_ID_{{Structname}}.get({{structname}}DB.ID)
 								Copy{{Structname}}DBTo{{Structname}}({{structname}}DB, {{structname}}!, this.frontRepo)
@@ -349,55 +289,6 @@ import { {{Structname}}Service } from './{{structname}}.service'
 								// insertion point for pointers decoding{{` + string(rune(NgFrontRepoSliceOfPointerSorting)) + `}}
 							}
 						)`,
-
-	NgLibFrontRepoPerStructPull: `
-
-	// {{Structname}}Pull performs a GET on {{Structname}} of the stack and redeem association pointers 
-	{{Structname}}Pull(): Observable<FrontRepo> {
-		return new Observable<FrontRepo>(
-			(observer) => {
-				combineLatest([
-					this.{{structname}}Service.get{{Structname}}s(this.GONG__StackPath, this.frontRepo)
-				]).subscribe(
-					([ // insertion point sub template 
-						{{structname}}s,
-					]) => {
-						// init the array
-						this.frontRepo.{{Structname}}s_array = {{structname}}s
-
-						// clear the map that counts {{Structname}} in the GET
-						this.frontRepo.{{Structname}}s_batch.clear()
-
-						// 
-						// First Step: init map of instances
-						// insertion point sub template 
-						{{structname}}s.forEach(
-							{{structname}} => {
-								this.frontRepo.{{Structname}}DBs.set({{structname}}.ID, {{structname}})
-								this.frontRepo.{{Structname}}s_batch.set({{structname}}.ID, {{structname}})
-							}
-						)
-
-						// clear {{structname}}s that are absent from the GET
-						this.frontRepo.{{Structname}}DBs.forEach(
-							{{structname}} => {
-								if (this.frontRepo.{{Structname}}s_batch.get({{structname}}.ID) == undefined) {
-									this.frontRepo.{{Structname}}DBs.delete({{structname}}.ID)
-								}
-							}
-						)
-
-						// 
-						// Second Step: redeem pointers between instances (thanks to maps in the First Step)
-						// insertion point sub template 
-
-						// hand over control flow to observer
-						observer.next(this.frontRepo)
-					}
-				)
-			}
-		)
-	}`,
 
 	NgLibFrontRepoPerStructGetUniqueID: `
 export function get{{Structname}}UniqueID(id: number): number {
