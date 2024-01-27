@@ -37,7 +37,7 @@ export function CopyGongStructToGongStructDB(gongstruct: GongStruct, gongstructD
 	gongstructDB.CreatedAt = gongstruct.CreatedAt
 	gongstructDB.DeletedAt = gongstruct.DeletedAt
 	gongstructDB.ID = gongstruct.ID
-	
+
 	// insertion point for basic fields copy operations
 	gongstructDB.Name = gongstruct.Name
 	gongstructDB.HasOnAfterUpdateSignature = gongstruct.HasOnAfterUpdateSignature
@@ -47,33 +47,37 @@ export function CopyGongStructToGongStructDB(gongstruct: GongStruct, gongstructD
 
 	// insertion point for slice of pointers fields encoding
 	gongstructDB.GongStructPointersEncoding.GongBasicFields = []
-    for (let _gongbasicfield of gongstruct.GongBasicFields) {
+	for (let _gongbasicfield of gongstruct.GongBasicFields) {
 		gongstructDB.GongStructPointersEncoding.GongBasicFields.push(_gongbasicfield.ID)
-    }
-	
+	}
+
 	gongstructDB.GongStructPointersEncoding.GongTimeFields = []
-    for (let _gongtimefield of gongstruct.GongTimeFields) {
+	for (let _gongtimefield of gongstruct.GongTimeFields) {
 		gongstructDB.GongStructPointersEncoding.GongTimeFields.push(_gongtimefield.ID)
-    }
-	
+	}
+
 	gongstructDB.GongStructPointersEncoding.PointerToGongStructFields = []
-    for (let _pointertogongstructfield of gongstruct.PointerToGongStructFields) {
+	for (let _pointertogongstructfield of gongstruct.PointerToGongStructFields) {
 		gongstructDB.GongStructPointersEncoding.PointerToGongStructFields.push(_pointertogongstructfield.ID)
-    }
-	
+	}
+
 	gongstructDB.GongStructPointersEncoding.SliceOfPointerToGongStructFields = []
-    for (let _sliceofpointertogongstructfield of gongstruct.SliceOfPointerToGongStructFields) {
+	for (let _sliceofpointertogongstructfield of gongstruct.SliceOfPointerToGongStructFields) {
 		gongstructDB.GongStructPointersEncoding.SliceOfPointerToGongStructFields.push(_sliceofpointertogongstructfield.ID)
-    }
-	
+	}
+
 }
 
+// CopyGongStructDBToGongStruct update basic, pointers and slice of pointers fields of gongstruct
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of gongstructDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyGongStructDBToGongStruct(gongstructDB: GongStructDB, gongstruct: GongStruct, frontRepo: FrontRepo) {
 
 	gongstruct.CreatedAt = gongstructDB.CreatedAt
 	gongstruct.DeletedAt = gongstructDB.DeletedAt
 	gongstruct.ID = gongstructDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	gongstruct.Name = gongstructDB.Name
 	gongstruct.HasOnAfterUpdateSignature = gongstructDB.HasOnAfterUpdateSignature
@@ -84,30 +88,30 @@ export function CopyGongStructDBToGongStruct(gongstructDB: GongStructDB, gongstr
 	// insertion point for slice of pointers fields encoding
 	gongstruct.GongBasicFields = new Array<GongBasicField>()
 	for (let _id of gongstructDB.GongStructPointersEncoding.GongBasicFields) {
-	  let _gongbasicfield = frontRepo.GongBasicFields.get(_id)
-	  if (_gongbasicfield != undefined) {
-		gongstruct.GongBasicFields.push(_gongbasicfield!)
-	  }
+		let _gongbasicfield = frontRepo.map_ID_GongBasicField.get(_id)
+		if (_gongbasicfield != undefined) {
+			gongstruct.GongBasicFields.push(_gongbasicfield!)
+		}
 	}
 	gongstruct.GongTimeFields = new Array<GongTimeField>()
 	for (let _id of gongstructDB.GongStructPointersEncoding.GongTimeFields) {
-	  let _gongtimefield = frontRepo.GongTimeFields.get(_id)
-	  if (_gongtimefield != undefined) {
-		gongstruct.GongTimeFields.push(_gongtimefield!)
-	  }
+		let _gongtimefield = frontRepo.map_ID_GongTimeField.get(_id)
+		if (_gongtimefield != undefined) {
+			gongstruct.GongTimeFields.push(_gongtimefield!)
+		}
 	}
 	gongstruct.PointerToGongStructFields = new Array<PointerToGongStructField>()
 	for (let _id of gongstructDB.GongStructPointersEncoding.PointerToGongStructFields) {
-	  let _pointertogongstructfield = frontRepo.PointerToGongStructFields.get(_id)
-	  if (_pointertogongstructfield != undefined) {
-		gongstruct.PointerToGongStructFields.push(_pointertogongstructfield!)
-	  }
+		let _pointertogongstructfield = frontRepo.map_ID_PointerToGongStructField.get(_id)
+		if (_pointertogongstructfield != undefined) {
+			gongstruct.PointerToGongStructFields.push(_pointertogongstructfield!)
+		}
 	}
 	gongstruct.SliceOfPointerToGongStructFields = new Array<SliceOfPointerToGongStructField>()
 	for (let _id of gongstructDB.GongStructPointersEncoding.SliceOfPointerToGongStructFields) {
-	  let _sliceofpointertogongstructfield = frontRepo.SliceOfPointerToGongStructFields.get(_id)
-	  if (_sliceofpointertogongstructfield != undefined) {
-		gongstruct.SliceOfPointerToGongStructFields.push(_sliceofpointertogongstructfield!)
-	  }
+		let _sliceofpointertogongstructfield = frontRepo.map_ID_SliceOfPointerToGongStructField.get(_id)
+		if (_sliceofpointertogongstructfield != undefined) {
+			gongstruct.SliceOfPointerToGongStructFields.push(_sliceofpointertogongstructfield!)
+		}
 	}
 }

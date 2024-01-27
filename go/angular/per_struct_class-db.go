@@ -27,7 +27,7 @@ export class {{Structname}}DB {
 
 	// insertion point for basic fields declarations{{` + string(rune(NgClassDBTsInsertionPerStructBasicFieldsDecl)) + `}}
 
-	// insertion point for pointers and slices of pointers declarations{{` + string(rune(NgClassDBTsInsertionPerStructOtherDecls)) + `}}
+	// insertion point for other decls{{` + string(rune(NgClassDBTsInsertionPerStructOtherDecls)) + `}}
 
 	{{Structname}}PointersEncoding: {{Structname}}PointersEncoding = new {{Structname}}PointersEncoding
 }
@@ -59,11 +59,7 @@ const (
 
 	NgClassDBTSOtherDecls
 
-	NgClassDBTSPointerToStructFieldsDecl
-
 	NgClassDBTSPointerToStructFieldsEncodingDecl
-
-	NgClassDBTSSliceOfPtrToStructFieldsDecl
 
 	NgClassDBPointersEncodingTSSliceOfPtrToStructFieldsDecl
 
@@ -83,16 +79,9 @@ import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 	NgClassDBTSTimeFieldDecls: `
 	{{FieldName}}: Date = new Date`,
 
-	NgClassDBTSPointerToStructFieldsDecl: `
-	{{FieldName}}?: {{TypeInput}}DB
-`,
-
 	NgClassDBTSPointerToStructFieldsEncodingDecl: `
 	{{FieldName}}ID: NullInt64 = new NullInt64 // if pointer is null, {{FieldName}}.ID = 0
 `,
-
-	NgClassDBTSSliceOfPtrToStructFieldsDecl: `
-	{{FieldName}}: Array<{{TypeInput}}DB> = []`,
 
 	NgClassDBPointersEncodingTSSliceOfPtrToStructFieldsDecl: `
 	{{FieldName}}: number[] = []`,
@@ -190,11 +179,6 @@ func MultiCodeGeneratorNgClassDB(modelPkg *models.ModelPkg) {
 					TSinsertions[NgClassDBTsInsertionPerStructImports] += newImport
 				}
 
-				TSinsertions[NgClassDBTsInsertionPerStructOtherDecls] +=
-					models.Replace2(NgClassDBSubTemplateCode[NgClassDBTSPointerToStructFieldsDecl],
-						"{{FieldName}}", field.Name,
-						"{{TypeInput}}", field.GongStruct.Name)
-
 				TSinsertions[NgClassDBTsInsertionPerStructPointersEncoding] +=
 					models.Replace2(NgClassDBSubTemplateCode[NgClassDBTSPointerToStructFieldsEncodingDecl],
 						"{{FieldName}}", field.Name,
@@ -211,11 +195,6 @@ func MultiCodeGeneratorNgClassDB(modelPkg *models.ModelPkg) {
 					_struct != field.GongStruct {
 					TSinsertions[NgClassDBTsInsertionPerStructImports] += newImport
 				}
-
-				TSinsertions[NgClassDBTsInsertionPerStructOtherDecls] +=
-					models.Replace2(NgClassDBSubTemplateCode[NgClassDBTSSliceOfPtrToStructFieldsDecl],
-						"{{FieldName}}", field.Name,
-						"{{TypeInput}}", field.GongStruct.Name)
 
 				TSinsertions[NgClassDBTsInsertionPerStructPointersEncoding] +=
 					models.Replace2(NgClassDBSubTemplateCode[NgClassDBPointersEncodingTSSliceOfPtrToStructFieldsDecl],

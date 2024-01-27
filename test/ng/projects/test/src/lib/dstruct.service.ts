@@ -102,13 +102,6 @@ export class DstructService {
   }
   postDstruct(dstructdb: DstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    dstructdb.DstructPointersEncoding.Anarrayofb = []
-    for (let _bstruct of dstructdb.Anarrayofb) {
-      dstructdb.DstructPointersEncoding.Anarrayofb.push(_bstruct.ID)
-    }
-    dstructdb.Anarrayofb = []
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,14 +110,6 @@ export class DstructService {
 
     return this.http.post<DstructDB>(this.dstructsUrl, dstructdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        dstructdb.Anarrayofb = new Array<BstructDB>()
-        for (let _id of dstructdb.DstructPointersEncoding.Anarrayofb) {
-          let _bstruct = frontRepo.Bstructs.get(_id)
-          if (_bstruct != undefined) {
-            dstructdb.Anarrayofb.push(_bstruct!)
-          }
-        }
         // this.log(`posted dstructdb id=${dstructdb.ID}`)
       }),
       catchError(this.handleError<DstructDB>('postDstruct'))
@@ -178,13 +163,6 @@ export class DstructService {
     const id = typeof dstructdb === 'number' ? dstructdb : dstructdb.ID;
     const url = `${this.dstructsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    dstructdb.DstructPointersEncoding.Anarrayofb = []
-    for (let _bstruct of dstructdb.Anarrayofb) {
-      dstructdb.DstructPointersEncoding.Anarrayofb.push(_bstruct.ID)
-    }
-    dstructdb.Anarrayofb = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -194,14 +172,6 @@ export class DstructService {
 
     return this.http.put<DstructDB>(url, dstructdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        dstructdb.Anarrayofb = new Array<BstructDB>()
-        for (let _id of dstructdb.DstructPointersEncoding.Anarrayofb) {
-          let _bstruct = frontRepo.Bstructs.get(_id)
-          if (_bstruct != undefined) {
-            dstructdb.Anarrayofb.push(_bstruct!)
-          }
-        }
         // this.log(`updated dstructdb id=${dstructdb.ID}`)
       }),
       catchError(this.handleError<DstructDB>('updateDstruct'))
