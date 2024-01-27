@@ -28,7 +28,7 @@ export function CopyCellFloat64ToCellFloat64DB(cellfloat64: CellFloat64, cellflo
 	cellfloat64DB.CreatedAt = cellfloat64.CreatedAt
 	cellfloat64DB.DeletedAt = cellfloat64.DeletedAt
 	cellfloat64DB.ID = cellfloat64.ID
-	
+
 	// insertion point for basic fields copy operations
 	cellfloat64DB.Name = cellfloat64.Name
 	cellfloat64DB.Value = cellfloat64.Value
@@ -38,12 +38,16 @@ export function CopyCellFloat64ToCellFloat64DB(cellfloat64: CellFloat64, cellflo
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyCellFloat64DBToCellFloat64 update basic, pointers and slice of pointers fields of cellfloat64
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of cellfloat64DB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyCellFloat64DBToCellFloat64(cellfloat64DB: CellFloat64DB, cellfloat64: CellFloat64, frontRepo: FrontRepo) {
 
 	cellfloat64.CreatedAt = cellfloat64DB.CreatedAt
 	cellfloat64.DeletedAt = cellfloat64DB.DeletedAt
 	cellfloat64.ID = cellfloat64DB.ID
-	
+
 	// insertion point for basic fields copy operations
 	cellfloat64.Name = cellfloat64DB.Name
 	cellfloat64.Value = cellfloat64DB.Value

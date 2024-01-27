@@ -101,8 +101,6 @@ export class FormFieldTimeService {
   }
   postFormFieldTime(formfieldtimedb: FormFieldTimeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldTimeDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -111,7 +109,6 @@ export class FormFieldTimeService {
 
     return this.http.post<FormFieldTimeDB>(this.formfieldtimesUrl, formfieldtimedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`posted formfieldtimedb id=${formfieldtimedb.ID}`)
       }),
       catchError(this.handleError<FormFieldTimeDB>('postFormFieldTime'))
@@ -165,8 +162,6 @@ export class FormFieldTimeService {
     const id = typeof formfieldtimedb === 'number' ? formfieldtimedb : formfieldtimedb.ID;
     const url = `${this.formfieldtimesUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -176,7 +171,6 @@ export class FormFieldTimeService {
 
     return this.http.put<FormFieldTimeDB>(url, formfieldtimedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`updated formfieldtimedb id=${formfieldtimedb.ID}`)
       }),
       catchError(this.handleError<FormFieldTimeDB>('updateFormFieldTime'))

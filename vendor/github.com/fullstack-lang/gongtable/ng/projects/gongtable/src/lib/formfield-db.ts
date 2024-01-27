@@ -28,21 +28,7 @@ export class FormFieldDB {
 	HasBespokeHeight: boolean = false
 	BespokeHeightPx: number = 0
 
-	// insertion point for pointers and slices of pointers declarations
-	FormFieldString?: FormFieldStringDB
-
-	FormFieldFloat64?: FormFieldFloat64DB
-
-	FormFieldInt?: FormFieldIntDB
-
-	FormFieldDate?: FormFieldDateDB
-
-	FormFieldTime?: FormFieldTimeDB
-
-	FormFieldDateTime?: FormFieldDateTimeDB
-
-	FormFieldSelect?: FormFieldSelectDB
-
+	// insertion point for other decls
 
 	FormFieldPointersEncoding: FormFieldPointersEncoding = new FormFieldPointersEncoding
 }

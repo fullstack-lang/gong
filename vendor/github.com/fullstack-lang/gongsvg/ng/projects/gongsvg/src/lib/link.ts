@@ -58,7 +58,7 @@ export function CopyLinkToLinkDB(link: Link, linkDB: LinkDB) {
 	linkDB.CreatedAt = link.CreatedAt
 	linkDB.DeletedAt = link.DeletedAt
 	linkDB.ID = link.ID
-	
+
 	// insertion point for basic fields copy operations
 	linkDB.Name = link.Name
 	linkDB.Type = link.Type
@@ -84,45 +84,49 @@ export function CopyLinkToLinkDB(link: Link, linkDB: LinkDB) {
 	linkDB.Transform = link.Transform
 
 	// insertion point for pointer fields encoding
-    linkDB.LinkPointersEncoding.StartID.Valid = true
+	linkDB.LinkPointersEncoding.StartID.Valid = true
 	if (link.Start != undefined) {
 		linkDB.LinkPointersEncoding.StartID.Int64 = link.Start.ID  
-    } else {
+	} else {
 		linkDB.LinkPointersEncoding.StartID.Int64 = 0 		
 	}
 
-    linkDB.LinkPointersEncoding.EndID.Valid = true
+	linkDB.LinkPointersEncoding.EndID.Valid = true
 	if (link.End != undefined) {
 		linkDB.LinkPointersEncoding.EndID.Int64 = link.End.ID  
-    } else {
+	} else {
 		linkDB.LinkPointersEncoding.EndID.Int64 = 0 		
 	}
 
 
 	// insertion point for slice of pointers fields encoding
 	linkDB.LinkPointersEncoding.TextAtArrowEnd = []
-    for (let _linkanchoredtext of link.TextAtArrowEnd) {
+	for (let _linkanchoredtext of link.TextAtArrowEnd) {
 		linkDB.LinkPointersEncoding.TextAtArrowEnd.push(_linkanchoredtext.ID)
-    }
-	
+	}
+
 	linkDB.LinkPointersEncoding.TextAtArrowStart = []
-    for (let _linkanchoredtext of link.TextAtArrowStart) {
+	for (let _linkanchoredtext of link.TextAtArrowStart) {
 		linkDB.LinkPointersEncoding.TextAtArrowStart.push(_linkanchoredtext.ID)
-    }
-	
+	}
+
 	linkDB.LinkPointersEncoding.ControlPoints = []
-    for (let _point of link.ControlPoints) {
+	for (let _point of link.ControlPoints) {
 		linkDB.LinkPointersEncoding.ControlPoints.push(_point.ID)
-    }
-	
+	}
+
 }
 
+// CopyLinkDBToLink update basic, pointers and slice of pointers fields of link
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of linkDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyLinkDBToLink(linkDB: LinkDB, link: Link, frontRepo: FrontRepo) {
 
 	link.CreatedAt = linkDB.CreatedAt
 	link.DeletedAt = linkDB.DeletedAt
 	link.ID = linkDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	link.Name = linkDB.Name
 	link.Type = linkDB.Type
@@ -148,29 +152,29 @@ export function CopyLinkDBToLink(linkDB: LinkDB, link: Link, frontRepo: FrontRep
 	link.Transform = linkDB.Transform
 
 	// insertion point for pointer fields encoding
-	link.Start = frontRepo.Rects.get(linkDB.LinkPointersEncoding.StartID.Int64)
-	link.End = frontRepo.Rects.get(linkDB.LinkPointersEncoding.EndID.Int64)
+	link.Start = frontRepo.map_ID_Rect.get(linkDB.LinkPointersEncoding.StartID.Int64)
+	link.End = frontRepo.map_ID_Rect.get(linkDB.LinkPointersEncoding.EndID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 	link.TextAtArrowEnd = new Array<LinkAnchoredText>()
 	for (let _id of linkDB.LinkPointersEncoding.TextAtArrowEnd) {
-	  let _linkanchoredtext = frontRepo.LinkAnchoredTexts.get(_id)
-	  if (_linkanchoredtext != undefined) {
-		link.TextAtArrowEnd.push(_linkanchoredtext!)
-	  }
+		let _linkanchoredtext = frontRepo.map_ID_LinkAnchoredText.get(_id)
+		if (_linkanchoredtext != undefined) {
+			link.TextAtArrowEnd.push(_linkanchoredtext!)
+		}
 	}
 	link.TextAtArrowStart = new Array<LinkAnchoredText>()
 	for (let _id of linkDB.LinkPointersEncoding.TextAtArrowStart) {
-	  let _linkanchoredtext = frontRepo.LinkAnchoredTexts.get(_id)
-	  if (_linkanchoredtext != undefined) {
-		link.TextAtArrowStart.push(_linkanchoredtext!)
-	  }
+		let _linkanchoredtext = frontRepo.map_ID_LinkAnchoredText.get(_id)
+		if (_linkanchoredtext != undefined) {
+			link.TextAtArrowStart.push(_linkanchoredtext!)
+		}
 	}
 	link.ControlPoints = new Array<Point>()
 	for (let _id of linkDB.LinkPointersEncoding.ControlPoints) {
-	  let _point = frontRepo.Points.get(_id)
-	  if (_point != undefined) {
-		link.ControlPoints.push(_point!)
-	  }
+		let _point = frontRepo.map_ID_Point.get(_id)
+		if (_point != undefined) {
+			link.ControlPoints.push(_point!)
+		}
 	}
 }

@@ -101,8 +101,6 @@ export class FormFieldDateService {
   }
   postFormFieldDate(formfielddatedb: FormFieldDateDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -111,7 +109,6 @@ export class FormFieldDateService {
 
     return this.http.post<FormFieldDateDB>(this.formfielddatesUrl, formfielddatedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`posted formfielddatedb id=${formfielddatedb.ID}`)
       }),
       catchError(this.handleError<FormFieldDateDB>('postFormFieldDate'))
@@ -165,8 +162,6 @@ export class FormFieldDateService {
     const id = typeof formfielddatedb === 'number' ? formfielddatedb : formfielddatedb.ID;
     const url = `${this.formfielddatesUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -176,7 +171,6 @@ export class FormFieldDateService {
 
     return this.http.put<FormFieldDateDB>(url, formfielddatedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`updated formfielddatedb id=${formfielddatedb.ID}`)
       }),
       catchError(this.handleError<FormFieldDateDB>('updateFormFieldDate'))

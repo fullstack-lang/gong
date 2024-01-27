@@ -29,8 +29,7 @@ export class RectAnchoredTextDB {
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
-	Animates: Array<AnimateDB> = []
+	// insertion point for other decls
 
 	RectAnchoredTextPointersEncoding: RectAnchoredTextPointersEncoding = new RectAnchoredTextPointersEncoding
 }

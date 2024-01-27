@@ -43,11 +43,7 @@ export class RectDB {
 	CanMoveHorizontaly: boolean = false
 	CanMoveVerticaly: boolean = false
 
-	// insertion point for pointers and slices of pointers declarations
-	Animations: Array<AnimateDB> = []
-	RectAnchoredTexts: Array<RectAnchoredTextDB> = []
-	RectAnchoredRects: Array<RectAnchoredRectDB> = []
-	RectAnchoredPaths: Array<RectAnchoredPathDB> = []
+	// insertion point for other decls
 
 	RectPointersEncoding: RectPointersEncoding = new RectPointersEncoding
 }

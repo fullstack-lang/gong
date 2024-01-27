@@ -153,7 +153,7 @@ export class TreeComponent implements OnInit {
         var rootNodes = new Array<Node>()
 
         // register all icons
-        for (let svgIcon of this.gongtreeFrontRepo.SVGIcons_array) {
+        for (let svgIcon of this.gongtreeFrontRepo.getFrontArray<gongtree.SVGIcon>(gongtree.SVGIcon.GONGSTRUCT_NAME)) {
           this.iconService.registerIcon(svgIcon.Name, svgIcon.SVG)
         }
 
@@ -246,11 +246,13 @@ export class TreeComponent implements OnInit {
 
   onNodeClick(node: FlatNode): void {
 
-    this.gongtreeNodeService.updateFront(node.gongNode, this.GONG__StackPath).subscribe(
-      gongtreeNode => {
-        // console.log("onNodeClick: updated node")
-      }
-    )
+    if (node.gongNode.IsNodeClickable) {
+      this.gongtreeNodeService.updateFront(node.gongNode, this.GONG__StackPath).subscribe(
+        gongtreeNode => {
+          // console.log("onNodeClick: updated node")
+        }
+      )
+    }
   }
 
   getNodeBackgroundColor(node: FlatNode): string {

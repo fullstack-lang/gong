@@ -55,7 +55,7 @@ export function CopyFormFieldToFormFieldDB(formfield: FormField, formfieldDB: Fo
 	formfieldDB.CreatedAt = formfield.CreatedAt
 	formfieldDB.DeletedAt = formfield.DeletedAt
 	formfieldDB.ID = formfield.ID
-	
+
 	// insertion point for basic fields copy operations
 	formfieldDB.Name = formfield.Name
 	formfieldDB.InputTypeEnum = formfield.InputTypeEnum
@@ -67,52 +67,52 @@ export function CopyFormFieldToFormFieldDB(formfield: FormField, formfieldDB: Fo
 	formfieldDB.BespokeHeightPx = formfield.BespokeHeightPx
 
 	// insertion point for pointer fields encoding
-    formfieldDB.FormFieldPointersEncoding.FormFieldStringID.Valid = true
+	formfieldDB.FormFieldPointersEncoding.FormFieldStringID.Valid = true
 	if (formfield.FormFieldString != undefined) {
 		formfieldDB.FormFieldPointersEncoding.FormFieldStringID.Int64 = formfield.FormFieldString.ID  
-    } else {
+	} else {
 		formfieldDB.FormFieldPointersEncoding.FormFieldStringID.Int64 = 0 		
 	}
 
-    formfieldDB.FormFieldPointersEncoding.FormFieldFloat64ID.Valid = true
+	formfieldDB.FormFieldPointersEncoding.FormFieldFloat64ID.Valid = true
 	if (formfield.FormFieldFloat64 != undefined) {
 		formfieldDB.FormFieldPointersEncoding.FormFieldFloat64ID.Int64 = formfield.FormFieldFloat64.ID  
-    } else {
+	} else {
 		formfieldDB.FormFieldPointersEncoding.FormFieldFloat64ID.Int64 = 0 		
 	}
 
-    formfieldDB.FormFieldPointersEncoding.FormFieldIntID.Valid = true
+	formfieldDB.FormFieldPointersEncoding.FormFieldIntID.Valid = true
 	if (formfield.FormFieldInt != undefined) {
 		formfieldDB.FormFieldPointersEncoding.FormFieldIntID.Int64 = formfield.FormFieldInt.ID  
-    } else {
+	} else {
 		formfieldDB.FormFieldPointersEncoding.FormFieldIntID.Int64 = 0 		
 	}
 
-    formfieldDB.FormFieldPointersEncoding.FormFieldDateID.Valid = true
+	formfieldDB.FormFieldPointersEncoding.FormFieldDateID.Valid = true
 	if (formfield.FormFieldDate != undefined) {
 		formfieldDB.FormFieldPointersEncoding.FormFieldDateID.Int64 = formfield.FormFieldDate.ID  
-    } else {
+	} else {
 		formfieldDB.FormFieldPointersEncoding.FormFieldDateID.Int64 = 0 		
 	}
 
-    formfieldDB.FormFieldPointersEncoding.FormFieldTimeID.Valid = true
+	formfieldDB.FormFieldPointersEncoding.FormFieldTimeID.Valid = true
 	if (formfield.FormFieldTime != undefined) {
 		formfieldDB.FormFieldPointersEncoding.FormFieldTimeID.Int64 = formfield.FormFieldTime.ID  
-    } else {
+	} else {
 		formfieldDB.FormFieldPointersEncoding.FormFieldTimeID.Int64 = 0 		
 	}
 
-    formfieldDB.FormFieldPointersEncoding.FormFieldDateTimeID.Valid = true
+	formfieldDB.FormFieldPointersEncoding.FormFieldDateTimeID.Valid = true
 	if (formfield.FormFieldDateTime != undefined) {
 		formfieldDB.FormFieldPointersEncoding.FormFieldDateTimeID.Int64 = formfield.FormFieldDateTime.ID  
-    } else {
+	} else {
 		formfieldDB.FormFieldPointersEncoding.FormFieldDateTimeID.Int64 = 0 		
 	}
 
-    formfieldDB.FormFieldPointersEncoding.FormFieldSelectID.Valid = true
+	formfieldDB.FormFieldPointersEncoding.FormFieldSelectID.Valid = true
 	if (formfield.FormFieldSelect != undefined) {
 		formfieldDB.FormFieldPointersEncoding.FormFieldSelectID.Int64 = formfield.FormFieldSelect.ID  
-    } else {
+	} else {
 		formfieldDB.FormFieldPointersEncoding.FormFieldSelectID.Int64 = 0 		
 	}
 
@@ -120,12 +120,16 @@ export function CopyFormFieldToFormFieldDB(formfield: FormField, formfieldDB: Fo
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyFormFieldDBToFormField update basic, pointers and slice of pointers fields of formfield
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of formfieldDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyFormFieldDBToFormField(formfieldDB: FormFieldDB, formfield: FormField, frontRepo: FrontRepo) {
 
 	formfield.CreatedAt = formfieldDB.CreatedAt
 	formfield.DeletedAt = formfieldDB.DeletedAt
 	formfield.ID = formfieldDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	formfield.Name = formfieldDB.Name
 	formfield.InputTypeEnum = formfieldDB.InputTypeEnum
@@ -137,13 +141,13 @@ export function CopyFormFieldDBToFormField(formfieldDB: FormFieldDB, formfield: 
 	formfield.BespokeHeightPx = formfieldDB.BespokeHeightPx
 
 	// insertion point for pointer fields encoding
-	formfield.FormFieldString = frontRepo.FormFieldStrings.get(formfieldDB.FormFieldPointersEncoding.FormFieldStringID.Int64)
-	formfield.FormFieldFloat64 = frontRepo.FormFieldFloat64s.get(formfieldDB.FormFieldPointersEncoding.FormFieldFloat64ID.Int64)
-	formfield.FormFieldInt = frontRepo.FormFieldInts.get(formfieldDB.FormFieldPointersEncoding.FormFieldIntID.Int64)
-	formfield.FormFieldDate = frontRepo.FormFieldDates.get(formfieldDB.FormFieldPointersEncoding.FormFieldDateID.Int64)
-	formfield.FormFieldTime = frontRepo.FormFieldTimes.get(formfieldDB.FormFieldPointersEncoding.FormFieldTimeID.Int64)
-	formfield.FormFieldDateTime = frontRepo.FormFieldDateTimes.get(formfieldDB.FormFieldPointersEncoding.FormFieldDateTimeID.Int64)
-	formfield.FormFieldSelect = frontRepo.FormFieldSelects.get(formfieldDB.FormFieldPointersEncoding.FormFieldSelectID.Int64)
+	formfield.FormFieldString = frontRepo.map_ID_FormFieldString.get(formfieldDB.FormFieldPointersEncoding.FormFieldStringID.Int64)
+	formfield.FormFieldFloat64 = frontRepo.map_ID_FormFieldFloat64.get(formfieldDB.FormFieldPointersEncoding.FormFieldFloat64ID.Int64)
+	formfield.FormFieldInt = frontRepo.map_ID_FormFieldInt.get(formfieldDB.FormFieldPointersEncoding.FormFieldIntID.Int64)
+	formfield.FormFieldDate = frontRepo.map_ID_FormFieldDate.get(formfieldDB.FormFieldPointersEncoding.FormFieldDateID.Int64)
+	formfield.FormFieldTime = frontRepo.map_ID_FormFieldTime.get(formfieldDB.FormFieldPointersEncoding.FormFieldTimeID.Int64)
+	formfield.FormFieldDateTime = frontRepo.map_ID_FormFieldDateTime.get(formfieldDB.FormFieldPointersEncoding.FormFieldDateTimeID.Int64)
+	formfield.FormFieldSelect = frontRepo.map_ID_FormFieldSelect.get(formfieldDB.FormFieldPointersEncoding.FormFieldSelectID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 }

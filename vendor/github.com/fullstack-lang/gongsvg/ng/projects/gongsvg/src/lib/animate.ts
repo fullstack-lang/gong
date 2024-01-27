@@ -31,7 +31,7 @@ export function CopyAnimateToAnimateDB(animate: Animate, animateDB: AnimateDB) {
 	animateDB.CreatedAt = animate.CreatedAt
 	animateDB.DeletedAt = animate.DeletedAt
 	animateDB.ID = animate.ID
-	
+
 	// insertion point for basic fields copy operations
 	animateDB.Name = animate.Name
 	animateDB.AttributeName = animate.AttributeName
@@ -44,12 +44,16 @@ export function CopyAnimateToAnimateDB(animate: Animate, animateDB: AnimateDB) {
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyAnimateDBToAnimate update basic, pointers and slice of pointers fields of animate
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of animateDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyAnimateDBToAnimate(animateDB: AnimateDB, animate: Animate, frontRepo: FrontRepo) {
 
 	animate.CreatedAt = animateDB.CreatedAt
 	animate.DeletedAt = animateDB.DeletedAt
 	animate.ID = animateDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	animate.Name = animateDB.Name
 	animate.AttributeName = animateDB.AttributeName

@@ -39,7 +39,7 @@ export function CopyTextToTextDB(text: Text, textDB: TextDB) {
 	textDB.CreatedAt = text.CreatedAt
 	textDB.DeletedAt = text.DeletedAt
 	textDB.ID = text.ID
-	
+
 	// insertion point for basic fields copy operations
 	textDB.Name = text.Name
 	textDB.X = text.X
@@ -57,18 +57,22 @@ export function CopyTextToTextDB(text: Text, textDB: TextDB) {
 
 	// insertion point for slice of pointers fields encoding
 	textDB.TextPointersEncoding.Animates = []
-    for (let _animate of text.Animates) {
+	for (let _animate of text.Animates) {
 		textDB.TextPointersEncoding.Animates.push(_animate.ID)
-    }
-	
+	}
+
 }
 
+// CopyTextDBToText update basic, pointers and slice of pointers fields of text
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of textDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyTextDBToText(textDB: TextDB, text: Text, frontRepo: FrontRepo) {
 
 	text.CreatedAt = textDB.CreatedAt
 	text.DeletedAt = textDB.DeletedAt
 	text.ID = textDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	text.Name = textDB.Name
 	text.X = textDB.X
@@ -87,9 +91,9 @@ export function CopyTextDBToText(textDB: TextDB, text: Text, frontRepo: FrontRep
 	// insertion point for slice of pointers fields encoding
 	text.Animates = new Array<Animate>()
 	for (let _id of textDB.TextPointersEncoding.Animates) {
-	  let _animate = frontRepo.Animates.get(_id)
-	  if (_animate != undefined) {
-		text.Animates.push(_animate!)
-	  }
+		let _animate = frontRepo.map_ID_Animate.get(_id)
+		if (_animate != undefined) {
+			text.Animates.push(_animate!)
+		}
 	}
 }

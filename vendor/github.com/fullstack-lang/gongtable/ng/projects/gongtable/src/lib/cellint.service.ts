@@ -101,8 +101,6 @@ export class CellIntService {
   }
   postCellInt(cellintdb: CellIntDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIntDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -111,7 +109,6 @@ export class CellIntService {
 
     return this.http.post<CellIntDB>(this.cellintsUrl, cellintdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`posted cellintdb id=${cellintdb.ID}`)
       }),
       catchError(this.handleError<CellIntDB>('postCellInt'))
@@ -165,8 +162,6 @@ export class CellIntService {
     const id = typeof cellintdb === 'number' ? cellintdb : cellintdb.ID;
     const url = `${this.cellintsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -176,7 +171,6 @@ export class CellIntService {
 
     return this.http.put<CellIntDB>(url, cellintdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`updated cellintdb id=${cellintdb.ID}`)
       }),
       catchError(this.handleError<CellIntDB>('updateCellInt'))

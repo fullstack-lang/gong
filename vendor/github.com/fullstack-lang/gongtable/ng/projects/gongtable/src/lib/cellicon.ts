@@ -28,7 +28,7 @@ export function CopyCellIconToCellIconDB(cellicon: CellIcon, celliconDB: CellIco
 	celliconDB.CreatedAt = cellicon.CreatedAt
 	celliconDB.DeletedAt = cellicon.DeletedAt
 	celliconDB.ID = cellicon.ID
-	
+
 	// insertion point for basic fields copy operations
 	celliconDB.Name = cellicon.Name
 	celliconDB.Icon = cellicon.Icon
@@ -38,12 +38,16 @@ export function CopyCellIconToCellIconDB(cellicon: CellIcon, celliconDB: CellIco
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyCellIconDBToCellIcon update basic, pointers and slice of pointers fields of cellicon
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of celliconDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyCellIconDBToCellIcon(celliconDB: CellIconDB, cellicon: CellIcon, frontRepo: FrontRepo) {
 
 	cellicon.CreatedAt = celliconDB.CreatedAt
 	cellicon.DeletedAt = celliconDB.DeletedAt
 	cellicon.ID = celliconDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	cellicon.Name = celliconDB.Name
 	cellicon.Icon = celliconDB.Icon

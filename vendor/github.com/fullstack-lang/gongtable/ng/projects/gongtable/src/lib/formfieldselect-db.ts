@@ -16,10 +16,7 @@ export class FormFieldSelectDB {
 	Name: string = ""
 	CanBeEmpty: boolean = false
 
-	// insertion point for pointers and slices of pointers declarations
-	Value?: OptionDB
-
-	Options: Array<OptionDB> = []
+	// insertion point for other decls
 
 	FormFieldSelectPointersEncoding: FormFieldSelectPointersEncoding = new FormFieldSelectPointersEncoding
 }

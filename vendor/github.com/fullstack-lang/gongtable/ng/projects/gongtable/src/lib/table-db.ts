@@ -25,9 +25,7 @@ export class TableDB {
 	SavingInProgress: boolean = false
 	NbOfStickyColumns: number = 0
 
-	// insertion point for pointers and slices of pointers declarations
-	DisplayedColumns: Array<DisplayedColumnDB> = []
-	Rows: Array<RowDB> = []
+	// insertion point for other decls
 
 	TablePointersEncoding: TablePointersEncoding = new TablePointersEncoding
 }

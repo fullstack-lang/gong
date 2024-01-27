@@ -102,13 +102,6 @@ export class LineService {
   }
   postLine(linedb: LineDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LineDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    linedb.LinePointersEncoding.Animates = []
-    for (let _animate of linedb.Animates) {
-      linedb.LinePointersEncoding.Animates.push(_animate.ID)
-    }
-    linedb.Animates = []
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,14 +110,6 @@ export class LineService {
 
     return this.http.post<LineDB>(this.linesUrl, linedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        linedb.Animates = new Array<AnimateDB>()
-        for (let _id of linedb.LinePointersEncoding.Animates) {
-          let _animate = frontRepo.Animates.get(_id)
-          if (_animate != undefined) {
-            linedb.Animates.push(_animate!)
-          }
-        }
         // this.log(`posted linedb id=${linedb.ID}`)
       }),
       catchError(this.handleError<LineDB>('postLine'))
@@ -178,13 +163,6 @@ export class LineService {
     const id = typeof linedb === 'number' ? linedb : linedb.ID;
     const url = `${this.linesUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    linedb.LinePointersEncoding.Animates = []
-    for (let _animate of linedb.Animates) {
-      linedb.LinePointersEncoding.Animates.push(_animate.ID)
-    }
-    linedb.Animates = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -194,14 +172,6 @@ export class LineService {
 
     return this.http.put<LineDB>(url, linedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        linedb.Animates = new Array<AnimateDB>()
-        for (let _id of linedb.LinePointersEncoding.Animates) {
-          let _animate = frontRepo.Animates.get(_id)
-          if (_animate != undefined) {
-            linedb.Animates.push(_animate!)
-          }
-        }
         // this.log(`updated linedb id=${linedb.ID}`)
       }),
       catchError(this.handleError<LineDB>('updateLine'))

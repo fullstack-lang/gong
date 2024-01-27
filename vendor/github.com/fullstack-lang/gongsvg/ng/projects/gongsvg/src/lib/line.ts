@@ -42,7 +42,7 @@ export function CopyLineToLineDB(line: Line, lineDB: LineDB) {
 	lineDB.CreatedAt = line.CreatedAt
 	lineDB.DeletedAt = line.DeletedAt
 	lineDB.ID = line.ID
-	
+
 	// insertion point for basic fields copy operations
 	lineDB.Name = line.Name
 	lineDB.X1 = line.X1
@@ -63,18 +63,22 @@ export function CopyLineToLineDB(line: Line, lineDB: LineDB) {
 
 	// insertion point for slice of pointers fields encoding
 	lineDB.LinePointersEncoding.Animates = []
-    for (let _animate of line.Animates) {
+	for (let _animate of line.Animates) {
 		lineDB.LinePointersEncoding.Animates.push(_animate.ID)
-    }
-	
+	}
+
 }
 
+// CopyLineDBToLine update basic, pointers and slice of pointers fields of line
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of lineDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyLineDBToLine(lineDB: LineDB, line: Line, frontRepo: FrontRepo) {
 
 	line.CreatedAt = lineDB.CreatedAt
 	line.DeletedAt = lineDB.DeletedAt
 	line.ID = lineDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	line.Name = lineDB.Name
 	line.X1 = lineDB.X1
@@ -96,9 +100,9 @@ export function CopyLineDBToLine(lineDB: LineDB, line: Line, frontRepo: FrontRep
 	// insertion point for slice of pointers fields encoding
 	line.Animates = new Array<Animate>()
 	for (let _id of lineDB.LinePointersEncoding.Animates) {
-	  let _animate = frontRepo.Animates.get(_id)
-	  if (_animate != undefined) {
-		line.Animates.push(_animate!)
-	  }
+		let _animate = frontRepo.map_ID_Animate.get(_id)
+		if (_animate != undefined) {
+			line.Animates.push(_animate!)
+		}
 	}
 }

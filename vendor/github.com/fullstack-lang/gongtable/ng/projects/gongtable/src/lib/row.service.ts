@@ -102,13 +102,6 @@ export class RowService {
   }
   postRow(rowdb: RowDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    rowdb.RowPointersEncoding.Cells = []
-    for (let _cell of rowdb.Cells) {
-      rowdb.RowPointersEncoding.Cells.push(_cell.ID)
-    }
-    rowdb.Cells = []
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,14 +110,6 @@ export class RowService {
 
     return this.http.post<RowDB>(this.rowsUrl, rowdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        rowdb.Cells = new Array<CellDB>()
-        for (let _id of rowdb.RowPointersEncoding.Cells) {
-          let _cell = frontRepo.Cells.get(_id)
-          if (_cell != undefined) {
-            rowdb.Cells.push(_cell!)
-          }
-        }
         // this.log(`posted rowdb id=${rowdb.ID}`)
       }),
       catchError(this.handleError<RowDB>('postRow'))
@@ -178,13 +163,6 @@ export class RowService {
     const id = typeof rowdb === 'number' ? rowdb : rowdb.ID;
     const url = `${this.rowsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    rowdb.RowPointersEncoding.Cells = []
-    for (let _cell of rowdb.Cells) {
-      rowdb.RowPointersEncoding.Cells.push(_cell.ID)
-    }
-    rowdb.Cells = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -194,14 +172,6 @@ export class RowService {
 
     return this.http.put<RowDB>(url, rowdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        rowdb.Cells = new Array<CellDB>()
-        for (let _id of rowdb.RowPointersEncoding.Cells) {
-          let _cell = frontRepo.Cells.get(_id)
-          if (_cell != undefined) {
-            rowdb.Cells.push(_cell!)
-          }
-        }
         // this.log(`updated rowdb id=${rowdb.ID}`)
       }),
       catchError(this.handleError<RowDB>('updateRow'))

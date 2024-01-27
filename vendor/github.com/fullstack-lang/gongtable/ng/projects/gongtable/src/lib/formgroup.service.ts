@@ -102,13 +102,6 @@ export class FormGroupService {
   }
   postFormGroup(formgroupdb: FormGroupDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    formgroupdb.FormGroupPointersEncoding.FormDivs = []
-    for (let _formdiv of formgroupdb.FormDivs) {
-      formgroupdb.FormGroupPointersEncoding.FormDivs.push(_formdiv.ID)
-    }
-    formgroupdb.FormDivs = []
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,14 +110,6 @@ export class FormGroupService {
 
     return this.http.post<FormGroupDB>(this.formgroupsUrl, formgroupdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        formgroupdb.FormDivs = new Array<FormDivDB>()
-        for (let _id of formgroupdb.FormGroupPointersEncoding.FormDivs) {
-          let _formdiv = frontRepo.FormDivs.get(_id)
-          if (_formdiv != undefined) {
-            formgroupdb.FormDivs.push(_formdiv!)
-          }
-        }
         // this.log(`posted formgroupdb id=${formgroupdb.ID}`)
       }),
       catchError(this.handleError<FormGroupDB>('postFormGroup'))
@@ -178,13 +163,6 @@ export class FormGroupService {
     const id = typeof formgroupdb === 'number' ? formgroupdb : formgroupdb.ID;
     const url = `${this.formgroupsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    formgroupdb.FormGroupPointersEncoding.FormDivs = []
-    for (let _formdiv of formgroupdb.FormDivs) {
-      formgroupdb.FormGroupPointersEncoding.FormDivs.push(_formdiv.ID)
-    }
-    formgroupdb.FormDivs = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -194,14 +172,6 @@ export class FormGroupService {
 
     return this.http.put<FormGroupDB>(url, formgroupdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        formgroupdb.FormDivs = new Array<FormDivDB>()
-        for (let _id of formgroupdb.FormGroupPointersEncoding.FormDivs) {
-          let _formdiv = frontRepo.FormDivs.get(_id)
-          if (_formdiv != undefined) {
-            formgroupdb.FormDivs.push(_formdiv!)
-          }
-        }
         // this.log(`updated formgroupdb id=${formgroupdb.ID}`)
       }),
       catchError(this.handleError<FormGroupDB>('updateFormGroup'))

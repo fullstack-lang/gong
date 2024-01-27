@@ -102,13 +102,6 @@ export class TreeService {
   }
   postTree(treedb: TreeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TreeDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    treedb.TreePointersEncoding.RootNodes = []
-    for (let _node of treedb.RootNodes) {
-      treedb.TreePointersEncoding.RootNodes.push(_node.ID)
-    }
-    treedb.RootNodes = []
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,14 +110,6 @@ export class TreeService {
 
     return this.http.post<TreeDB>(this.treesUrl, treedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        treedb.RootNodes = new Array<NodeDB>()
-        for (let _id of treedb.TreePointersEncoding.RootNodes) {
-          let _node = frontRepo.Nodes.get(_id)
-          if (_node != undefined) {
-            treedb.RootNodes.push(_node!)
-          }
-        }
         // this.log(`posted treedb id=${treedb.ID}`)
       }),
       catchError(this.handleError<TreeDB>('postTree'))
@@ -178,13 +163,6 @@ export class TreeService {
     const id = typeof treedb === 'number' ? treedb : treedb.ID;
     const url = `${this.treesUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    treedb.TreePointersEncoding.RootNodes = []
-    for (let _node of treedb.RootNodes) {
-      treedb.TreePointersEncoding.RootNodes.push(_node.ID)
-    }
-    treedb.RootNodes = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -194,14 +172,6 @@ export class TreeService {
 
     return this.http.put<TreeDB>(url, treedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        treedb.RootNodes = new Array<NodeDB>()
-        for (let _id of treedb.TreePointersEncoding.RootNodes) {
-          let _node = frontRepo.Nodes.get(_id)
-          if (_node != undefined) {
-            treedb.RootNodes.push(_node!)
-          }
-        }
         // this.log(`updated treedb id=${treedb.ID}`)
       }),
       catchError(this.handleError<TreeDB>('updateTree'))

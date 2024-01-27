@@ -32,7 +32,7 @@ export function CopyFormGroupToFormGroupDB(formgroup: FormGroup, formgroupDB: Fo
 	formgroupDB.CreatedAt = formgroup.CreatedAt
 	formgroupDB.DeletedAt = formgroup.DeletedAt
 	formgroupDB.ID = formgroup.ID
-	
+
 	// insertion point for basic fields copy operations
 	formgroupDB.Name = formgroup.Name
 	formgroupDB.Label = formgroup.Label
@@ -43,18 +43,22 @@ export function CopyFormGroupToFormGroupDB(formgroup: FormGroup, formgroupDB: Fo
 
 	// insertion point for slice of pointers fields encoding
 	formgroupDB.FormGroupPointersEncoding.FormDivs = []
-    for (let _formdiv of formgroup.FormDivs) {
+	for (let _formdiv of formgroup.FormDivs) {
 		formgroupDB.FormGroupPointersEncoding.FormDivs.push(_formdiv.ID)
-    }
-	
+	}
+
 }
 
+// CopyFormGroupDBToFormGroup update basic, pointers and slice of pointers fields of formgroup
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of formgroupDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyFormGroupDBToFormGroup(formgroupDB: FormGroupDB, formgroup: FormGroup, frontRepo: FrontRepo) {
 
 	formgroup.CreatedAt = formgroupDB.CreatedAt
 	formgroup.DeletedAt = formgroupDB.DeletedAt
 	formgroup.ID = formgroupDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	formgroup.Name = formgroupDB.Name
 	formgroup.Label = formgroupDB.Label
@@ -66,9 +70,9 @@ export function CopyFormGroupDBToFormGroup(formgroupDB: FormGroupDB, formgroup: 
 	// insertion point for slice of pointers fields encoding
 	formgroup.FormDivs = new Array<FormDiv>()
 	for (let _id of formgroupDB.FormGroupPointersEncoding.FormDivs) {
-	  let _formdiv = frontRepo.FormDivs.get(_id)
-	  if (_formdiv != undefined) {
-		formgroup.FormDivs.push(_formdiv!)
-	  }
+		let _formdiv = frontRepo.map_ID_FormDiv.get(_id)
+		if (_formdiv != undefined) {
+			formgroup.FormDivs.push(_formdiv!)
+		}
 	}
 }

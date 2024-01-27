@@ -43,7 +43,7 @@ export function CopyRectAnchoredTextToRectAnchoredTextDB(rectanchoredtext: RectA
 	rectanchoredtextDB.CreatedAt = rectanchoredtext.CreatedAt
 	rectanchoredtextDB.DeletedAt = rectanchoredtext.DeletedAt
 	rectanchoredtextDB.ID = rectanchoredtext.ID
-	
+
 	// insertion point for basic fields copy operations
 	rectanchoredtextDB.Name = rectanchoredtext.Name
 	rectanchoredtextDB.Content = rectanchoredtext.Content
@@ -65,18 +65,22 @@ export function CopyRectAnchoredTextToRectAnchoredTextDB(rectanchoredtext: RectA
 
 	// insertion point for slice of pointers fields encoding
 	rectanchoredtextDB.RectAnchoredTextPointersEncoding.Animates = []
-    for (let _animate of rectanchoredtext.Animates) {
+	for (let _animate of rectanchoredtext.Animates) {
 		rectanchoredtextDB.RectAnchoredTextPointersEncoding.Animates.push(_animate.ID)
-    }
-	
+	}
+
 }
 
+// CopyRectAnchoredTextDBToRectAnchoredText update basic, pointers and slice of pointers fields of rectanchoredtext
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of rectanchoredtextDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyRectAnchoredTextDBToRectAnchoredText(rectanchoredtextDB: RectAnchoredTextDB, rectanchoredtext: RectAnchoredText, frontRepo: FrontRepo) {
 
 	rectanchoredtext.CreatedAt = rectanchoredtextDB.CreatedAt
 	rectanchoredtext.DeletedAt = rectanchoredtextDB.DeletedAt
 	rectanchoredtext.ID = rectanchoredtextDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	rectanchoredtext.Name = rectanchoredtextDB.Name
 	rectanchoredtext.Content = rectanchoredtextDB.Content
@@ -99,9 +103,9 @@ export function CopyRectAnchoredTextDBToRectAnchoredText(rectanchoredtextDB: Rec
 	// insertion point for slice of pointers fields encoding
 	rectanchoredtext.Animates = new Array<Animate>()
 	for (let _id of rectanchoredtextDB.RectAnchoredTextPointersEncoding.Animates) {
-	  let _animate = frontRepo.Animates.get(_id)
-	  if (_animate != undefined) {
-		rectanchoredtext.Animates.push(_animate!)
-	  }
+		let _animate = frontRepo.map_ID_Animate.get(_id)
+		if (_animate != undefined) {
+			rectanchoredtext.Animates.push(_animate!)
+		}
 	}
 }

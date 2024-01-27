@@ -101,8 +101,6 @@ export class CheckBoxService {
   }
   postCheckBox(checkboxdb: CheckBoxDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -111,7 +109,6 @@ export class CheckBoxService {
 
     return this.http.post<CheckBoxDB>(this.checkboxsUrl, checkboxdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`posted checkboxdb id=${checkboxdb.ID}`)
       }),
       catchError(this.handleError<CheckBoxDB>('postCheckBox'))
@@ -165,8 +162,6 @@ export class CheckBoxService {
     const id = typeof checkboxdb === 'number' ? checkboxdb : checkboxdb.ID;
     const url = `${this.checkboxsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -176,7 +171,6 @@ export class CheckBoxService {
 
     return this.http.put<CheckBoxDB>(url, checkboxdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`updated checkboxdb id=${checkboxdb.ID}`)
       }),
       catchError(this.handleError<CheckBoxDB>('updateCheckBox'))

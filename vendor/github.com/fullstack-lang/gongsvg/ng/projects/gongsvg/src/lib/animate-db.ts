@@ -18,7 +18,7 @@ export class AnimateDB {
 	Dur: string = ""
 	RepeatCount: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
+	// insertion point for other decls
 
 	AnimatePointersEncoding: AnimatePointersEncoding = new AnimatePointersEncoding
 }

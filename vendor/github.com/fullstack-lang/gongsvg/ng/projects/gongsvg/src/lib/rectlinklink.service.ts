@@ -103,18 +103,6 @@ export class RectLinkLinkService {
   }
   postRectLinkLink(rectlinklinkdb: RectLinkLinkDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectLinkLinkDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    if (rectlinklinkdb.Start != undefined) {
-      rectlinklinkdb.RectLinkLinkPointersEncoding.StartID.Int64 = rectlinklinkdb.Start.ID
-      rectlinklinkdb.RectLinkLinkPointersEncoding.StartID.Valid = true
-    }
-    rectlinklinkdb.Start = undefined
-    if (rectlinklinkdb.End != undefined) {
-      rectlinklinkdb.RectLinkLinkPointersEncoding.EndID.Int64 = rectlinklinkdb.End.ID
-      rectlinklinkdb.RectLinkLinkPointersEncoding.EndID.Valid = true
-    }
-    rectlinklinkdb.End = undefined
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -123,9 +111,6 @@ export class RectLinkLinkService {
 
     return this.http.post<RectLinkLinkDB>(this.rectlinklinksUrl, rectlinklinkdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        rectlinklinkdb.Start = frontRepo.Rects.get(rectlinklinkdb.RectLinkLinkPointersEncoding.StartID.Int64)
-        rectlinklinkdb.End = frontRepo.Links.get(rectlinklinkdb.RectLinkLinkPointersEncoding.EndID.Int64)
         // this.log(`posted rectlinklinkdb id=${rectlinklinkdb.ID}`)
       }),
       catchError(this.handleError<RectLinkLinkDB>('postRectLinkLink'))
@@ -179,18 +164,6 @@ export class RectLinkLinkService {
     const id = typeof rectlinklinkdb === 'number' ? rectlinklinkdb : rectlinklinkdb.ID;
     const url = `${this.rectlinklinksUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    if (rectlinklinkdb.Start != undefined) {
-      rectlinklinkdb.RectLinkLinkPointersEncoding.StartID.Int64 = rectlinklinkdb.Start.ID
-      rectlinklinkdb.RectLinkLinkPointersEncoding.StartID.Valid = true
-    }
-    rectlinklinkdb.Start = undefined
-    if (rectlinklinkdb.End != undefined) {
-      rectlinklinkdb.RectLinkLinkPointersEncoding.EndID.Int64 = rectlinklinkdb.End.ID
-      rectlinklinkdb.RectLinkLinkPointersEncoding.EndID.Valid = true
-    }
-    rectlinklinkdb.End = undefined
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -200,9 +173,6 @@ export class RectLinkLinkService {
 
     return this.http.put<RectLinkLinkDB>(url, rectlinklinkdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        rectlinklinkdb.Start = frontRepo.Rects.get(rectlinklinkdb.RectLinkLinkPointersEncoding.StartID.Int64)
-        rectlinklinkdb.End = frontRepo.Links.get(rectlinklinkdb.RectLinkLinkPointersEncoding.EndID.Int64)
         // this.log(`updated rectlinklinkdb id=${rectlinklinkdb.ID}`)
       }),
       catchError(this.handleError<RectLinkLinkDB>('updateRectLinkLink'))

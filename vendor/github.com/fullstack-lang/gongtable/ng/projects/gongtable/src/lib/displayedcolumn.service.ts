@@ -101,8 +101,6 @@ export class DisplayedColumnService {
   }
   postDisplayedColumn(displayedcolumndb: DisplayedColumnDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -111,7 +109,6 @@ export class DisplayedColumnService {
 
     return this.http.post<DisplayedColumnDB>(this.displayedcolumnsUrl, displayedcolumndb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`posted displayedcolumndb id=${displayedcolumndb.ID}`)
       }),
       catchError(this.handleError<DisplayedColumnDB>('postDisplayedColumn'))
@@ -165,8 +162,6 @@ export class DisplayedColumnService {
     const id = typeof displayedcolumndb === 'number' ? displayedcolumndb : displayedcolumndb.ID;
     const url = `${this.displayedcolumnsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -176,7 +171,6 @@ export class DisplayedColumnService {
 
     return this.http.put<DisplayedColumnDB>(url, displayedcolumndb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`updated displayedcolumndb id=${displayedcolumndb.ID}`)
       }),
       catchError(this.handleError<DisplayedColumnDB>('updateDisplayedColumn'))

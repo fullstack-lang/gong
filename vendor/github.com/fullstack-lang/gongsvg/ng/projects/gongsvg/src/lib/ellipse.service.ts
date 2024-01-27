@@ -102,13 +102,6 @@ export class EllipseService {
   }
   postEllipse(ellipsedb: EllipseDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    ellipsedb.EllipsePointersEncoding.Animates = []
-    for (let _animate of ellipsedb.Animates) {
-      ellipsedb.EllipsePointersEncoding.Animates.push(_animate.ID)
-    }
-    ellipsedb.Animates = []
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,14 +110,6 @@ export class EllipseService {
 
     return this.http.post<EllipseDB>(this.ellipsesUrl, ellipsedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        ellipsedb.Animates = new Array<AnimateDB>()
-        for (let _id of ellipsedb.EllipsePointersEncoding.Animates) {
-          let _animate = frontRepo.Animates.get(_id)
-          if (_animate != undefined) {
-            ellipsedb.Animates.push(_animate!)
-          }
-        }
         // this.log(`posted ellipsedb id=${ellipsedb.ID}`)
       }),
       catchError(this.handleError<EllipseDB>('postEllipse'))
@@ -178,13 +163,6 @@ export class EllipseService {
     const id = typeof ellipsedb === 'number' ? ellipsedb : ellipsedb.ID;
     const url = `${this.ellipsesUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    ellipsedb.EllipsePointersEncoding.Animates = []
-    for (let _animate of ellipsedb.Animates) {
-      ellipsedb.EllipsePointersEncoding.Animates.push(_animate.ID)
-    }
-    ellipsedb.Animates = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -194,14 +172,6 @@ export class EllipseService {
 
     return this.http.put<EllipseDB>(url, ellipsedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        ellipsedb.Animates = new Array<AnimateDB>()
-        for (let _id of ellipsedb.EllipsePointersEncoding.Animates) {
-          let _animate = frontRepo.Animates.get(_id)
-          if (_animate != undefined) {
-            ellipsedb.Animates.push(_animate!)
-          }
-        }
         // this.log(`updated ellipsedb id=${ellipsedb.ID}`)
       }),
       catchError(this.handleError<EllipseDB>('updateEllipse'))

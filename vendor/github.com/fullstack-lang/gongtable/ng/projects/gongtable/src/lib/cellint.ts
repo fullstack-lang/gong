@@ -28,7 +28,7 @@ export function CopyCellIntToCellIntDB(cellint: CellInt, cellintDB: CellIntDB) {
 	cellintDB.CreatedAt = cellint.CreatedAt
 	cellintDB.DeletedAt = cellint.DeletedAt
 	cellintDB.ID = cellint.ID
-	
+
 	// insertion point for basic fields copy operations
 	cellintDB.Name = cellint.Name
 	cellintDB.Value = cellint.Value
@@ -38,12 +38,16 @@ export function CopyCellIntToCellIntDB(cellint: CellInt, cellintDB: CellIntDB) {
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyCellIntDBToCellInt update basic, pointers and slice of pointers fields of cellint
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of cellintDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyCellIntDBToCellInt(cellintDB: CellIntDB, cellint: CellInt, frontRepo: FrontRepo) {
 
 	cellint.CreatedAt = cellintDB.CreatedAt
 	cellint.DeletedAt = cellintDB.DeletedAt
 	cellint.ID = cellintDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	cellint.Name = cellintDB.Name
 	cellint.Value = cellintDB.Value

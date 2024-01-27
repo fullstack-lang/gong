@@ -25,8 +25,7 @@ export class CircleDB {
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
-	Animations: Array<AnimateDB> = []
+	// insertion point for other decls
 
 	CirclePointersEncoding: CirclePointersEncoding = new CirclePointersEncoding
 }

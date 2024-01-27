@@ -16,8 +16,7 @@ export class RowDB {
 	Name: string = ""
 	IsChecked: boolean = false
 
-	// insertion point for pointers and slices of pointers declarations
-	Cells: Array<CellDB> = []
+	// insertion point for other decls
 
 	RowPointersEncoding: RowPointersEncoding = new RowPointersEncoding
 }

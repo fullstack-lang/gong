@@ -42,7 +42,7 @@ export function CopyLinkAnchoredTextToLinkAnchoredTextDB(linkanchoredtext: LinkA
 	linkanchoredtextDB.CreatedAt = linkanchoredtext.CreatedAt
 	linkanchoredtextDB.DeletedAt = linkanchoredtext.DeletedAt
 	linkanchoredtextDB.ID = linkanchoredtext.ID
-	
+
 	// insertion point for basic fields copy operations
 	linkanchoredtextDB.Name = linkanchoredtext.Name
 	linkanchoredtextDB.Content = linkanchoredtext.Content
@@ -63,18 +63,22 @@ export function CopyLinkAnchoredTextToLinkAnchoredTextDB(linkanchoredtext: LinkA
 
 	// insertion point for slice of pointers fields encoding
 	linkanchoredtextDB.LinkAnchoredTextPointersEncoding.Animates = []
-    for (let _animate of linkanchoredtext.Animates) {
+	for (let _animate of linkanchoredtext.Animates) {
 		linkanchoredtextDB.LinkAnchoredTextPointersEncoding.Animates.push(_animate.ID)
-    }
-	
+	}
+
 }
 
+// CopyLinkAnchoredTextDBToLinkAnchoredText update basic, pointers and slice of pointers fields of linkanchoredtext
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of linkanchoredtextDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyLinkAnchoredTextDBToLinkAnchoredText(linkanchoredtextDB: LinkAnchoredTextDB, linkanchoredtext: LinkAnchoredText, frontRepo: FrontRepo) {
 
 	linkanchoredtext.CreatedAt = linkanchoredtextDB.CreatedAt
 	linkanchoredtext.DeletedAt = linkanchoredtextDB.DeletedAt
 	linkanchoredtext.ID = linkanchoredtextDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	linkanchoredtext.Name = linkanchoredtextDB.Name
 	linkanchoredtext.Content = linkanchoredtextDB.Content
@@ -96,9 +100,9 @@ export function CopyLinkAnchoredTextDBToLinkAnchoredText(linkanchoredtextDB: Lin
 	// insertion point for slice of pointers fields encoding
 	linkanchoredtext.Animates = new Array<Animate>()
 	for (let _id of linkanchoredtextDB.LinkAnchoredTextPointersEncoding.Animates) {
-	  let _animate = frontRepo.Animates.get(_id)
-	  if (_animate != undefined) {
-		linkanchoredtext.Animates.push(_animate!)
-	  }
+		let _animate = frontRepo.map_ID_Animate.get(_id)
+		if (_animate != undefined) {
+			linkanchoredtext.Animates.push(_animate!)
+		}
 	}
 }

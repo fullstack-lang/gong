@@ -15,8 +15,7 @@ export class TreeDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
-	RootNodes: Array<NodeDB> = []
+	// insertion point for other decls
 
 	TreePointersEncoding: TreePointersEncoding = new TreePointersEncoding
 }

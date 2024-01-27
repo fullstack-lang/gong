@@ -19,13 +19,13 @@ require (
 	golang.org/x/sys v0.16.0 // indirect
 	golang.org/x/text v0.14.0
 	google.golang.org/protobuf v1.32.0 // indirect
-	gorm.io/gorm v1.25.5
+	gorm.io/gorm v1.25.6
 )
 
 require (
-	github.com/fullstack-lang/gongdoc v0.0.0-20240123072355-91c88a405847
-	github.com/fullstack-lang/gongtable v0.0.0-20240123072357-e856413912aa
-	github.com/fullstack-lang/gongtree v0.0.0-20240123072357-1be43648ba63
+	github.com/fullstack-lang/gongdoc v0.0.0-20240127175548-e14d21f277fd
+	github.com/fullstack-lang/gongtable v0.0.0-20240127175549-6fea7a8bc9ff
+	github.com/fullstack-lang/gongtree v0.0.0-20240127175549-0b9c685be7d3
 	github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00
 	github.com/glebarez/sqlite v1.10.0
 	github.com/xuri/excelize/v2 v2.8.0
@@ -37,7 +37,7 @@ require (
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
 	github.com/chenzhuoyu/iasm v0.9.1 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
-	github.com/fullstack-lang/gongsvg v0.0.0-20240123072356-214ae3157251 // indirect
+	github.com/fullstack-lang/gongsvg v0.0.0-20240127175549-616185e1147c // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/glebarez/go-sqlite v1.22.0 // indirect
@@ -45,13 +45,13 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
-	github.com/google/uuid v1.5.0 // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.6 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
 	github.com/kr/text v0.2.0 // indirect
-	github.com/leodido/go-urn v1.2.4 // indirect
+	github.com/leodido/go-urn v1.3.0 // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
 	github.com/pelletier/go-toml/v2 v2.1.1 // indirect

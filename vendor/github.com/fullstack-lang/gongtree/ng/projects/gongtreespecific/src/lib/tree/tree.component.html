@@ -1,7 +1,7 @@
 <div class="vertical-paper">
     <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
         <!-- This is the tree node template for leaf nodes -->
-        <mat-tree-node class="custom-tree-node" [ngStyle]="{'background-color': getNodeBackgroundColor(node)}" *matTreeNodeDef="let node" matTreeNodePadding>
+        <mat-tree-node class="custom-tree-node" [ngStyle]="{'background-color': getNodeBackgroundColor(node)}" *matTreeNodeDef="let node" matTreeNodePadding (click)="onNodeClick(node)">
 
 
             <!-- use a disabled button to provide padding for tree leaf -->
@@ -17,12 +17,9 @@
             </ng-container>
             <mat-checkbox *ngIf="node.gongNode.HasCheckboxButton" [disabled]="node.gongNode.IsCheckboxDisabled" [checked]="node.gongNode.IsChecked" (change)="toggleNodeCheckbox(node)">
             </mat-checkbox>
-            <div [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode && !node.gongNode.IsNodeClickable'>
+            <div [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode'>
                 {{node.name}}
             </div>
-            <span [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode && node.gongNode.IsNodeClickable' (click)="onNodeClick(node)">
-                {{node.name}}
-            </span>
             <mat-form-field *ngIf='node.gongNode.IsInEditMode' mat-form-field class="mat-mdc-form-field">
                 <mat-label>Name</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="node.gongNode.Name">
@@ -41,7 +38,7 @@
             </ng-container>
         </mat-tree-node>
         <!-- This is the tree node template for expandable nodes -->
-        <mat-tree-node class="custom-tree-node" [ngStyle]="{'background-color': getNodeBackgroundColor(node)}" *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+        <mat-tree-node class="custom-tree-node" [ngStyle]="{'background-color': getNodeBackgroundColor(node)}" *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding (click)="onNodeClick(node)">
 
             <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name" (click)="toggleNodeExpansion(node)">
                 <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}" class="mat-icon-rtl-mirror">
@@ -60,12 +57,9 @@
             </ng-container>
             <mat-checkbox *ngIf="node.gongNode.HasCheckboxButton" [disabled]="node.gongNode.IsCheckboxDisabled" [checked]="node.gongNode.IsChecked" (change)="toggleNodeCheckbox(node)">
             </mat-checkbox>
-            <div [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode && !node.gongNode.IsNodeClickable'>
+            <div [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode'>
                 {{node.name}}
             </div>
-            <span [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode && node.gongNode.IsNodeClickable' (click)="onNodeClick(node)">
-                {{node.name}}
-            </span>
             <ng-container *ngFor="let button of node.gongNode.Buttons">
                 <button mat-button (click)="onButtonClick(node, button)">
                     <mat-icon *ngIf="button.SVGIcon == undefined" [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{button.Icon}}

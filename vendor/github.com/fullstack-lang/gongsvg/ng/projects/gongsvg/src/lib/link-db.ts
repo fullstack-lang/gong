@@ -38,14 +38,7 @@ export class LinkDB {
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
-	Start?: RectDB
-
-	End?: RectDB
-
-	TextAtArrowEnd: Array<LinkAnchoredTextDB> = []
-	TextAtArrowStart: Array<LinkAnchoredTextDB> = []
-	ControlPoints: Array<PointDB> = []
+	// insertion point for other decls
 
 	LinkPointersEncoding: LinkPointersEncoding = new LinkPointersEncoding
 }

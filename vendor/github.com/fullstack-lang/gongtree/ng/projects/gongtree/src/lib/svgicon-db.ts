@@ -15,7 +15,7 @@ export class SVGIconDB {
 	Name: string = ""
 	SVG: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
+	// insertion point for other decls
 
 	SVGIconPointersEncoding: SVGIconPointersEncoding = new SVGIconPointersEncoding
 }

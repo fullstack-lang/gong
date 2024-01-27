@@ -102,13 +102,6 @@ export class TextService {
   }
   postText(textdb: TextDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TextDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    textdb.TextPointersEncoding.Animates = []
-    for (let _animate of textdb.Animates) {
-      textdb.TextPointersEncoding.Animates.push(_animate.ID)
-    }
-    textdb.Animates = []
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,14 +110,6 @@ export class TextService {
 
     return this.http.post<TextDB>(this.textsUrl, textdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        textdb.Animates = new Array<AnimateDB>()
-        for (let _id of textdb.TextPointersEncoding.Animates) {
-          let _animate = frontRepo.Animates.get(_id)
-          if (_animate != undefined) {
-            textdb.Animates.push(_animate!)
-          }
-        }
         // this.log(`posted textdb id=${textdb.ID}`)
       }),
       catchError(this.handleError<TextDB>('postText'))
@@ -178,13 +163,6 @@ export class TextService {
     const id = typeof textdb === 'number' ? textdb : textdb.ID;
     const url = `${this.textsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    textdb.TextPointersEncoding.Animates = []
-    for (let _animate of textdb.Animates) {
-      textdb.TextPointersEncoding.Animates.push(_animate.ID)
-    }
-    textdb.Animates = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -194,14 +172,6 @@ export class TextService {
 
     return this.http.put<TextDB>(url, textdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        textdb.Animates = new Array<AnimateDB>()
-        for (let _id of textdb.TextPointersEncoding.Animates) {
-          let _animate = frontRepo.Animates.get(_id)
-          if (_animate != undefined) {
-            textdb.Animates.push(_animate!)
-          }
-        }
         // this.log(`updated textdb id=${textdb.ID}`)
       }),
       catchError(this.handleError<TextDB>('updateText'))

@@ -27,7 +27,7 @@ export function CopyDisplayedColumnToDisplayedColumnDB(displayedcolumn: Displaye
 	displayedcolumnDB.CreatedAt = displayedcolumn.CreatedAt
 	displayedcolumnDB.DeletedAt = displayedcolumn.DeletedAt
 	displayedcolumnDB.ID = displayedcolumn.ID
-	
+
 	// insertion point for basic fields copy operations
 	displayedcolumnDB.Name = displayedcolumn.Name
 
@@ -36,12 +36,16 @@ export function CopyDisplayedColumnToDisplayedColumnDB(displayedcolumn: Displaye
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyDisplayedColumnDBToDisplayedColumn update basic, pointers and slice of pointers fields of displayedcolumn
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of displayedcolumnDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyDisplayedColumnDBToDisplayedColumn(displayedcolumnDB: DisplayedColumnDB, displayedcolumn: DisplayedColumn, frontRepo: FrontRepo) {
 
 	displayedcolumn.CreatedAt = displayedcolumnDB.CreatedAt
 	displayedcolumn.DeletedAt = displayedcolumnDB.DeletedAt
 	displayedcolumn.ID = displayedcolumnDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	displayedcolumn.Name = displayedcolumnDB.Name
 

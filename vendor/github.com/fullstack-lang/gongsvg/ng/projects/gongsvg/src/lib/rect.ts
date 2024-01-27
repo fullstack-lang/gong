@@ -60,7 +60,7 @@ export function CopyRectToRectDB(rect: Rect, rectDB: RectDB) {
 	rectDB.CreatedAt = rect.CreatedAt
 	rectDB.DeletedAt = rect.DeletedAt
 	rectDB.ID = rect.ID
-	
+
 	// insertion point for basic fields copy operations
 	rectDB.Name = rect.Name
 	rectDB.X = rect.X
@@ -93,33 +93,37 @@ export function CopyRectToRectDB(rect: Rect, rectDB: RectDB) {
 
 	// insertion point for slice of pointers fields encoding
 	rectDB.RectPointersEncoding.Animations = []
-    for (let _animate of rect.Animations) {
+	for (let _animate of rect.Animations) {
 		rectDB.RectPointersEncoding.Animations.push(_animate.ID)
-    }
-	
+	}
+
 	rectDB.RectPointersEncoding.RectAnchoredTexts = []
-    for (let _rectanchoredtext of rect.RectAnchoredTexts) {
+	for (let _rectanchoredtext of rect.RectAnchoredTexts) {
 		rectDB.RectPointersEncoding.RectAnchoredTexts.push(_rectanchoredtext.ID)
-    }
-	
+	}
+
 	rectDB.RectPointersEncoding.RectAnchoredRects = []
-    for (let _rectanchoredrect of rect.RectAnchoredRects) {
+	for (let _rectanchoredrect of rect.RectAnchoredRects) {
 		rectDB.RectPointersEncoding.RectAnchoredRects.push(_rectanchoredrect.ID)
-    }
-	
+	}
+
 	rectDB.RectPointersEncoding.RectAnchoredPaths = []
-    for (let _rectanchoredpath of rect.RectAnchoredPaths) {
+	for (let _rectanchoredpath of rect.RectAnchoredPaths) {
 		rectDB.RectPointersEncoding.RectAnchoredPaths.push(_rectanchoredpath.ID)
-    }
-	
+	}
+
 }
 
+// CopyRectDBToRect update basic, pointers and slice of pointers fields of rect
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of rectDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyRectDBToRect(rectDB: RectDB, rect: Rect, frontRepo: FrontRepo) {
 
 	rect.CreatedAt = rectDB.CreatedAt
 	rect.DeletedAt = rectDB.DeletedAt
 	rect.ID = rectDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	rect.Name = rectDB.Name
 	rect.X = rectDB.X
@@ -153,30 +157,30 @@ export function CopyRectDBToRect(rectDB: RectDB, rect: Rect, frontRepo: FrontRep
 	// insertion point for slice of pointers fields encoding
 	rect.Animations = new Array<Animate>()
 	for (let _id of rectDB.RectPointersEncoding.Animations) {
-	  let _animate = frontRepo.Animates.get(_id)
-	  if (_animate != undefined) {
-		rect.Animations.push(_animate!)
-	  }
+		let _animate = frontRepo.map_ID_Animate.get(_id)
+		if (_animate != undefined) {
+			rect.Animations.push(_animate!)
+		}
 	}
 	rect.RectAnchoredTexts = new Array<RectAnchoredText>()
 	for (let _id of rectDB.RectPointersEncoding.RectAnchoredTexts) {
-	  let _rectanchoredtext = frontRepo.RectAnchoredTexts.get(_id)
-	  if (_rectanchoredtext != undefined) {
-		rect.RectAnchoredTexts.push(_rectanchoredtext!)
-	  }
+		let _rectanchoredtext = frontRepo.map_ID_RectAnchoredText.get(_id)
+		if (_rectanchoredtext != undefined) {
+			rect.RectAnchoredTexts.push(_rectanchoredtext!)
+		}
 	}
 	rect.RectAnchoredRects = new Array<RectAnchoredRect>()
 	for (let _id of rectDB.RectPointersEncoding.RectAnchoredRects) {
-	  let _rectanchoredrect = frontRepo.RectAnchoredRects.get(_id)
-	  if (_rectanchoredrect != undefined) {
-		rect.RectAnchoredRects.push(_rectanchoredrect!)
-	  }
+		let _rectanchoredrect = frontRepo.map_ID_RectAnchoredRect.get(_id)
+		if (_rectanchoredrect != undefined) {
+			rect.RectAnchoredRects.push(_rectanchoredrect!)
+		}
 	}
 	rect.RectAnchoredPaths = new Array<RectAnchoredPath>()
 	for (let _id of rectDB.RectPointersEncoding.RectAnchoredPaths) {
-	  let _rectanchoredpath = frontRepo.RectAnchoredPaths.get(_id)
-	  if (_rectanchoredpath != undefined) {
-		rect.RectAnchoredPaths.push(_rectanchoredpath!)
-	  }
+		let _rectanchoredpath = frontRepo.map_ID_RectAnchoredPath.get(_id)
+		if (_rectanchoredpath != undefined) {
+			rect.RectAnchoredPaths.push(_rectanchoredpath!)
+		}
 	}
 }
