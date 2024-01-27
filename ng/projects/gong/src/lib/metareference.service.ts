@@ -101,8 +101,6 @@ export class MetaReferenceService {
   }
   postMetaReference(metareferencedb: MetaReferenceDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -111,7 +109,6 @@ export class MetaReferenceService {
 
     return this.http.post<MetaReferenceDB>(this.metareferencesUrl, metareferencedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`posted metareferencedb id=${metareferencedb.ID}`)
       }),
       catchError(this.handleError<MetaReferenceDB>('postMetaReference'))
@@ -165,8 +162,6 @@ export class MetaReferenceService {
     const id = typeof metareferencedb === 'number' ? metareferencedb : metareferencedb.ID;
     const url = `${this.metareferencesUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -176,7 +171,6 @@ export class MetaReferenceService {
 
     return this.http.put<MetaReferenceDB>(url, metareferencedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`updated metareferencedb id=${metareferencedb.ID}`)
       }),
       catchError(this.handleError<MetaReferenceDB>('updateMetaReference'))

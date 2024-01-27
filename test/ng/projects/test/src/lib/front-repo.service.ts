@@ -31,37 +31,21 @@ export class FrontRepo { // insertion point sub template
 	array_Astructs = new Array<Astruct>() // array of front instances
 	map_ID_Astruct = new Map<number, Astruct>() // map of front instances
 
-	AstructBstruct2Uses_array = new Array<AstructBstruct2UseDB>() // array of repo instances
-	AstructBstruct2UseDBs = new Map<number, AstructBstruct2UseDB>() // map of repo instances
-	AstructBstruct2Uses_batch = new Map<number, AstructBstruct2UseDB>() // same but only in last GET (for finding repo instances to delete)
-
 	array_AstructBstruct2Uses = new Array<AstructBstruct2Use>() // array of front instances
 	map_ID_AstructBstruct2Use = new Map<number, AstructBstruct2Use>() // map of front instances
-
-	AstructBstructUses_array = new Array<AstructBstructUseDB>() // array of repo instances
-	AstructBstructUseDBs = new Map<number, AstructBstructUseDB>() // map of repo instances
-	AstructBstructUses_batch = new Map<number, AstructBstructUseDB>() // same but only in last GET (for finding repo instances to delete)
 
 	array_AstructBstructUses = new Array<AstructBstructUse>() // array of front instances
 	map_ID_AstructBstructUse = new Map<number, AstructBstructUse>() // map of front instances
 
-	Bstructs_array = new Array<BstructDB>() // array of repo instances
-	BstructDBs = new Map<number, BstructDB>() // map of repo instances
-	Bstructs_batch = new Map<number, BstructDB>() // same but only in last GET (for finding repo instances to delete)
-
 	array_Bstructs = new Array<Bstruct>() // array of front instances
 	map_ID_Bstruct = new Map<number, Bstruct>() // map of front instances
-
-	Dstructs_array = new Array<DstructDB>() // array of repo instances
-	DstructDBs = new Map<number, DstructDB>() // map of repo instances
-	Dstructs_batch = new Map<number, DstructDB>() // same but only in last GET (for finding repo instances to delete)
 
 	array_Dstructs = new Array<Dstruct>() // array of front instances
 	map_ID_Dstruct = new Map<number, Dstruct>() // map of front instances
 
 
 	// getFrontArray allows for a get function that is robust to refactoring of the named struct name
-	// for instance frontRepo.getFrontArray<Astruct>( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
+	// for instance frontRepo.getArray<Astruct>( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
 	// contrary to frontRepo.Astructs_array which is not refactored when Astruct identifier is modified
 	getFrontArray<Type>(gongStructName: string): Array<Type> {
 		switch (gongStructName) {
@@ -80,7 +64,7 @@ export class FrontRepo { // insertion point sub template
 				throw new Error("Type not recognized");
 		}
 	}
-
+	
 	getFrontMap<Type>(gongStructName: string): Map<number, Type> {
 		switch (gongStructName) {
 			// insertion point
@@ -283,162 +267,58 @@ export class FrontRepoService {
 						)
 
 						// init the arrays
-						this.frontRepo.AstructBstruct2Uses_array = astructbstruct2uses
 						this.frontRepo.array_AstructBstruct2Uses = []
 						this.frontRepo.map_ID_AstructBstruct2Use.clear()
 
-						// clear the map that counts AstructBstruct2Use in the GET
-						this.frontRepo.AstructBstruct2Uses_batch.clear()
-
 						astructbstruct2uses.forEach(
 							astructbstruct2useDB => {
-								this.frontRepo.AstructBstruct2UseDBs.set(astructbstruct2useDB.ID, astructbstruct2useDB)
-								this.frontRepo.AstructBstruct2Uses_batch.set(astructbstruct2useDB.ID, astructbstruct2useDB)
 								let astructbstruct2use = new AstructBstruct2Use
 								this.frontRepo.array_AstructBstruct2Uses.push(astructbstruct2use)
 								this.frontRepo.map_ID_AstructBstruct2Use.set(astructbstruct2useDB.ID, astructbstruct2use)
 							}
 						)
 
-						// clear astructbstruct2uses that are absent from the batch
-						this.frontRepo.AstructBstruct2UseDBs.forEach(
-							astructbstruct2useDB => {
-								if (this.frontRepo.AstructBstruct2Uses_batch.get(astructbstruct2useDB.ID) == undefined) {
-									this.frontRepo.AstructBstruct2UseDBs.delete(astructbstruct2useDB.ID)
-								}
-							}
-						)
-
-						// sort AstructBstruct2Uses_array array
-						this.frontRepo.AstructBstruct2Uses_array.sort((t1, t2) => {
-							if (t1.Name > t2.Name) {
-								return 1;
-							}
-							if (t1.Name < t2.Name) {
-								return -1;
-							}
-							return 0;
-						});
-
 						// init the arrays
-						this.frontRepo.AstructBstructUses_array = astructbstructuses
 						this.frontRepo.array_AstructBstructUses = []
 						this.frontRepo.map_ID_AstructBstructUse.clear()
 
-						// clear the map that counts AstructBstructUse in the GET
-						this.frontRepo.AstructBstructUses_batch.clear()
-
 						astructbstructuses.forEach(
 							astructbstructuseDB => {
-								this.frontRepo.AstructBstructUseDBs.set(astructbstructuseDB.ID, astructbstructuseDB)
-								this.frontRepo.AstructBstructUses_batch.set(astructbstructuseDB.ID, astructbstructuseDB)
 								let astructbstructuse = new AstructBstructUse
 								this.frontRepo.array_AstructBstructUses.push(astructbstructuse)
 								this.frontRepo.map_ID_AstructBstructUse.set(astructbstructuseDB.ID, astructbstructuse)
 							}
 						)
 
-						// clear astructbstructuses that are absent from the batch
-						this.frontRepo.AstructBstructUseDBs.forEach(
-							astructbstructuseDB => {
-								if (this.frontRepo.AstructBstructUses_batch.get(astructbstructuseDB.ID) == undefined) {
-									this.frontRepo.AstructBstructUseDBs.delete(astructbstructuseDB.ID)
-								}
-							}
-						)
-
-						// sort AstructBstructUses_array array
-						this.frontRepo.AstructBstructUses_array.sort((t1, t2) => {
-							if (t1.Name > t2.Name) {
-								return 1;
-							}
-							if (t1.Name < t2.Name) {
-								return -1;
-							}
-							return 0;
-						});
-
 						// init the arrays
-						this.frontRepo.Bstructs_array = bstructs
 						this.frontRepo.array_Bstructs = []
 						this.frontRepo.map_ID_Bstruct.clear()
 
-						// clear the map that counts Bstruct in the GET
-						this.frontRepo.Bstructs_batch.clear()
-
 						bstructs.forEach(
 							bstructDB => {
-								this.frontRepo.BstructDBs.set(bstructDB.ID, bstructDB)
-								this.frontRepo.Bstructs_batch.set(bstructDB.ID, bstructDB)
 								let bstruct = new Bstruct
 								this.frontRepo.array_Bstructs.push(bstruct)
 								this.frontRepo.map_ID_Bstruct.set(bstructDB.ID, bstruct)
 							}
 						)
 
-						// clear bstructs that are absent from the batch
-						this.frontRepo.BstructDBs.forEach(
-							bstructDB => {
-								if (this.frontRepo.Bstructs_batch.get(bstructDB.ID) == undefined) {
-									this.frontRepo.BstructDBs.delete(bstructDB.ID)
-								}
-							}
-						)
-
-						// sort Bstructs_array array
-						this.frontRepo.Bstructs_array.sort((t1, t2) => {
-							if (t1.Name > t2.Name) {
-								return 1;
-							}
-							if (t1.Name < t2.Name) {
-								return -1;
-							}
-							return 0;
-						});
-
 						// init the arrays
-						this.frontRepo.Dstructs_array = dstructs
 						this.frontRepo.array_Dstructs = []
 						this.frontRepo.map_ID_Dstruct.clear()
 
-						// clear the map that counts Dstruct in the GET
-						this.frontRepo.Dstructs_batch.clear()
-
 						dstructs.forEach(
 							dstructDB => {
-								this.frontRepo.DstructDBs.set(dstructDB.ID, dstructDB)
-								this.frontRepo.Dstructs_batch.set(dstructDB.ID, dstructDB)
 								let dstruct = new Dstruct
 								this.frontRepo.array_Dstructs.push(dstruct)
 								this.frontRepo.map_ID_Dstruct.set(dstructDB.ID, dstruct)
 							}
 						)
 
-						// clear dstructs that are absent from the batch
-						this.frontRepo.DstructDBs.forEach(
-							dstructDB => {
-								if (this.frontRepo.Dstructs_batch.get(dstructDB.ID) == undefined) {
-									this.frontRepo.DstructDBs.delete(dstructDB.ID)
-								}
-							}
-						)
-
-						// sort Dstructs_array array
-						this.frontRepo.Dstructs_array.sort((t1, t2) => {
-							if (t1.Name > t2.Name) {
-								return 1;
-							}
-							if (t1.Name < t2.Name) {
-								return -1;
-							}
-							return 0;
-						});
-
 
 						// 
 						// Second Step: reddeem front objects
 						// insertion point sub template for redeem 
-						// init front objects
+						// fill up front objects
 						astructs.forEach(
 							astructDB => {
 								let astruct = this.frontRepo.map_ID_Astruct.get(astructDB.ID)
@@ -446,228 +326,38 @@ export class FrontRepoService {
 							}
 						)
 
-						// init front objects
-						this.frontRepo.AstructBstruct2Uses_array.forEach(
+						// fill up front objects
+						astructbstruct2uses.forEach(
 							astructbstruct2useDB => {
 								let astructbstruct2use = this.frontRepo.map_ID_AstructBstruct2Use.get(astructbstruct2useDB.ID)
 								CopyAstructBstruct2UseDBToAstructBstruct2Use(astructbstruct2useDB, astructbstruct2use!, this.frontRepo)
 							}
 						)
 
-						// init front objects
-						this.frontRepo.AstructBstructUses_array.forEach(
+						// fill up front objects
+						astructbstructuses.forEach(
 							astructbstructuseDB => {
 								let astructbstructuse = this.frontRepo.map_ID_AstructBstructUse.get(astructbstructuseDB.ID)
 								CopyAstructBstructUseDBToAstructBstructUse(astructbstructuseDB, astructbstructuse!, this.frontRepo)
 							}
 						)
 
-						// init front objects
-						this.frontRepo.Bstructs_array.forEach(
+						// fill up front objects
+						bstructs.forEach(
 							bstructDB => {
 								let bstruct = this.frontRepo.map_ID_Bstruct.get(bstructDB.ID)
 								CopyBstructDBToBstruct(bstructDB, bstruct!, this.frontRepo)
 							}
 						)
 
-						// init front objects
-						this.frontRepo.Dstructs_array.forEach(
+						// fill up front objects
+						dstructs.forEach(
 							dstructDB => {
 								let dstruct = this.frontRepo.map_ID_Dstruct.get(dstructDB.ID)
 								CopyDstructDBToDstruct(dstructDB, dstruct!, this.frontRepo)
 							}
 						)
 
-
-						// hand over control flow to observer
-						observer.next(this.frontRepo)
-					}
-				)
-			}
-		)
-	}
-
-	// insertion point for pull per struct 
-
-	// AstructBstruct2UsePull performs a GET on AstructBstruct2Use of the stack and redeem association pointers 
-	AstructBstruct2UsePull(): Observable<FrontRepo> {
-		return new Observable<FrontRepo>(
-			(observer) => {
-				combineLatest([
-					this.astructbstruct2useService.getAstructBstruct2Uses(this.GONG__StackPath, this.frontRepo)
-				]).subscribe(
-					([ // insertion point sub template 
-						astructbstruct2uses,
-					]) => {
-						// init the array
-						this.frontRepo.AstructBstruct2Uses_array = astructbstruct2uses
-
-						// clear the map that counts AstructBstruct2Use in the GET
-						this.frontRepo.AstructBstruct2Uses_batch.clear()
-
-						// 
-						// First Step: init map of instances
-						// insertion point sub template 
-						astructbstruct2uses.forEach(
-							astructbstruct2use => {
-								this.frontRepo.AstructBstruct2UseDBs.set(astructbstruct2use.ID, astructbstruct2use)
-								this.frontRepo.AstructBstruct2Uses_batch.set(astructbstruct2use.ID, astructbstruct2use)
-							}
-						)
-
-						// clear astructbstruct2uses that are absent from the GET
-						this.frontRepo.AstructBstruct2UseDBs.forEach(
-							astructbstruct2use => {
-								if (this.frontRepo.AstructBstruct2Uses_batch.get(astructbstruct2use.ID) == undefined) {
-									this.frontRepo.AstructBstruct2UseDBs.delete(astructbstruct2use.ID)
-								}
-							}
-						)
-
-						// 
-						// Second Step: redeem pointers between instances (thanks to maps in the First Step)
-						// insertion point sub template 
-
-						// hand over control flow to observer
-						observer.next(this.frontRepo)
-					}
-				)
-			}
-		)
-	}
-
-	// AstructBstructUsePull performs a GET on AstructBstructUse of the stack and redeem association pointers 
-	AstructBstructUsePull(): Observable<FrontRepo> {
-		return new Observable<FrontRepo>(
-			(observer) => {
-				combineLatest([
-					this.astructbstructuseService.getAstructBstructUses(this.GONG__StackPath, this.frontRepo)
-				]).subscribe(
-					([ // insertion point sub template 
-						astructbstructuses,
-					]) => {
-						// init the array
-						this.frontRepo.AstructBstructUses_array = astructbstructuses
-
-						// clear the map that counts AstructBstructUse in the GET
-						this.frontRepo.AstructBstructUses_batch.clear()
-
-						// 
-						// First Step: init map of instances
-						// insertion point sub template 
-						astructbstructuses.forEach(
-							astructbstructuse => {
-								this.frontRepo.AstructBstructUseDBs.set(astructbstructuse.ID, astructbstructuse)
-								this.frontRepo.AstructBstructUses_batch.set(astructbstructuse.ID, astructbstructuse)
-							}
-						)
-
-						// clear astructbstructuses that are absent from the GET
-						this.frontRepo.AstructBstructUseDBs.forEach(
-							astructbstructuse => {
-								if (this.frontRepo.AstructBstructUses_batch.get(astructbstructuse.ID) == undefined) {
-									this.frontRepo.AstructBstructUseDBs.delete(astructbstructuse.ID)
-								}
-							}
-						)
-
-						// 
-						// Second Step: redeem pointers between instances (thanks to maps in the First Step)
-						// insertion point sub template 
-
-						// hand over control flow to observer
-						observer.next(this.frontRepo)
-					}
-				)
-			}
-		)
-	}
-
-	// BstructPull performs a GET on Bstruct of the stack and redeem association pointers 
-	BstructPull(): Observable<FrontRepo> {
-		return new Observable<FrontRepo>(
-			(observer) => {
-				combineLatest([
-					this.bstructService.getBstructs(this.GONG__StackPath, this.frontRepo)
-				]).subscribe(
-					([ // insertion point sub template 
-						bstructs,
-					]) => {
-						// init the array
-						this.frontRepo.Bstructs_array = bstructs
-
-						// clear the map that counts Bstruct in the GET
-						this.frontRepo.Bstructs_batch.clear()
-
-						// 
-						// First Step: init map of instances
-						// insertion point sub template 
-						bstructs.forEach(
-							bstruct => {
-								this.frontRepo.BstructDBs.set(bstruct.ID, bstruct)
-								this.frontRepo.Bstructs_batch.set(bstruct.ID, bstruct)
-							}
-						)
-
-						// clear bstructs that are absent from the GET
-						this.frontRepo.BstructDBs.forEach(
-							bstruct => {
-								if (this.frontRepo.Bstructs_batch.get(bstruct.ID) == undefined) {
-									this.frontRepo.BstructDBs.delete(bstruct.ID)
-								}
-							}
-						)
-
-						// 
-						// Second Step: redeem pointers between instances (thanks to maps in the First Step)
-						// insertion point sub template 
-
-						// hand over control flow to observer
-						observer.next(this.frontRepo)
-					}
-				)
-			}
-		)
-	}
-
-	// DstructPull performs a GET on Dstruct of the stack and redeem association pointers 
-	DstructPull(): Observable<FrontRepo> {
-		return new Observable<FrontRepo>(
-			(observer) => {
-				combineLatest([
-					this.dstructService.getDstructs(this.GONG__StackPath, this.frontRepo)
-				]).subscribe(
-					([ // insertion point sub template 
-						dstructs,
-					]) => {
-						// init the array
-						this.frontRepo.Dstructs_array = dstructs
-
-						// clear the map that counts Dstruct in the GET
-						this.frontRepo.Dstructs_batch.clear()
-
-						// 
-						// First Step: init map of instances
-						// insertion point sub template 
-						dstructs.forEach(
-							dstruct => {
-								this.frontRepo.DstructDBs.set(dstruct.ID, dstruct)
-								this.frontRepo.Dstructs_batch.set(dstruct.ID, dstruct)
-							}
-						)
-
-						// clear dstructs that are absent from the GET
-						this.frontRepo.DstructDBs.forEach(
-							dstruct => {
-								if (this.frontRepo.Dstructs_batch.get(dstruct.ID) == undefined) {
-									this.frontRepo.DstructDBs.delete(dstruct.ID)
-								}
-							}
-						)
-
-						// 
-						// Second Step: redeem pointers between instances (thanks to maps in the First Step)
-						// insertion point sub template 
 
 						// hand over control flow to observer
 						observer.next(this.frontRepo)

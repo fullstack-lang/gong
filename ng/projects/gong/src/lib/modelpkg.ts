@@ -39,7 +39,7 @@ export function CopyModelPkgToModelPkgDB(modelpkg: ModelPkg, modelpkgDB: ModelPk
 	modelpkgDB.CreatedAt = modelpkg.CreatedAt
 	modelpkgDB.DeletedAt = modelpkg.DeletedAt
 	modelpkgDB.ID = modelpkg.ID
-	
+
 	// insertion point for basic fields copy operations
 	modelpkgDB.Name = modelpkg.Name
 	modelpkgDB.PkgPath = modelpkg.PkgPath
@@ -60,12 +60,16 @@ export function CopyModelPkgToModelPkgDB(modelpkg: ModelPkg, modelpkgDB: ModelPk
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyModelPkgDBToModelPkg update basic, pointers and slice of pointers fields of modelpkg
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of modelpkgDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyModelPkgDBToModelPkg(modelpkgDB: ModelPkgDB, modelpkg: ModelPkg, frontRepo: FrontRepo) {
 
 	modelpkg.CreatedAt = modelpkgDB.CreatedAt
 	modelpkg.DeletedAt = modelpkgDB.DeletedAt
 	modelpkg.ID = modelpkgDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	modelpkg.Name = modelpkgDB.Name
 	modelpkg.PkgPath = modelpkgDB.PkgPath

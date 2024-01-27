@@ -17,9 +17,7 @@ export class SliceOfPointerToGongStructFieldDB {
 	Index: number = 0
 	CompositeStructName: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
-	GongStruct?: GongStructDB
-
+	// insertion point for other decls
 
 	SliceOfPointerToGongStructFieldPointersEncoding: SliceOfPointerToGongStructFieldPointersEncoding = new SliceOfPointerToGongStructFieldPointersEncoding
 }

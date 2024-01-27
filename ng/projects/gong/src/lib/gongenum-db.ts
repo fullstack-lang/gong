@@ -16,9 +16,8 @@ export class GongEnumDB {
 	Name: string = ""
 	Type: number = 0
 
-	// insertion point for pointers and slices of pointers declarations
+	// insertion point for other decls
 	Type_string?: string
-	GongEnumValues: Array<GongEnumValueDB> = []
 
 	GongEnumPointersEncoding: GongEnumPointersEncoding = new GongEnumPointersEncoding
 }

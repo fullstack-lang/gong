@@ -102,13 +102,6 @@ export class GongBasicFieldService {
   }
   postGongBasicField(gongbasicfielddb: GongBasicFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongBasicFieldDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    if (gongbasicfielddb.GongEnum != undefined) {
-      gongbasicfielddb.GongBasicFieldPointersEncoding.GongEnumID.Int64 = gongbasicfielddb.GongEnum.ID
-      gongbasicfielddb.GongBasicFieldPointersEncoding.GongEnumID.Valid = true
-    }
-    gongbasicfielddb.GongEnum = undefined
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,8 +110,6 @@ export class GongBasicFieldService {
 
     return this.http.post<GongBasicFieldDB>(this.gongbasicfieldsUrl, gongbasicfielddb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        gongbasicfielddb.GongEnum = frontRepo.GongEnums.get(gongbasicfielddb.GongBasicFieldPointersEncoding.GongEnumID.Int64)
         // this.log(`posted gongbasicfielddb id=${gongbasicfielddb.ID}`)
       }),
       catchError(this.handleError<GongBasicFieldDB>('postGongBasicField'))
@@ -172,13 +163,6 @@ export class GongBasicFieldService {
     const id = typeof gongbasicfielddb === 'number' ? gongbasicfielddb : gongbasicfielddb.ID;
     const url = `${this.gongbasicfieldsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    if (gongbasicfielddb.GongEnum != undefined) {
-      gongbasicfielddb.GongBasicFieldPointersEncoding.GongEnumID.Int64 = gongbasicfielddb.GongEnum.ID
-      gongbasicfielddb.GongBasicFieldPointersEncoding.GongEnumID.Valid = true
-    }
-    gongbasicfielddb.GongEnum = undefined
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -188,8 +172,6 @@ export class GongBasicFieldService {
 
     return this.http.put<GongBasicFieldDB>(url, gongbasicfielddb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        gongbasicfielddb.GongEnum = frontRepo.GongEnums.get(gongbasicfielddb.GongBasicFieldPointersEncoding.GongEnumID.Int64)
         // this.log(`updated gongbasicfielddb id=${gongbasicfielddb.ID}`)
       }),
       catchError(this.handleError<GongBasicFieldDB>('updateGongBasicField'))
