@@ -23,41 +23,41 @@ export const StackType = "{{PkgPathRoot}}/models"
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template{{` + string(rune(NgLibFrontRepoMapDecl)) + `}}
 
-  // getArray allows for a get function that is robust to refactoring of the named struct name
-  // for instance frontRepo.getArray<Astruct>( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
-  // contrary to frontRepo.Astructs_array which is not refactored when Astruct identifier is modified
-  getArray<Type>(gongStructName: string): Array<Type> {
-    switch (gongStructName) { // deprecated
-      // insertion point{{` + string(rune(NgLibFrontRepoSwitchGetArray)) + `}}
-      default:
-        throw new Error("Type not recognized");
-    }
-  }
+	// getArray allows for a get function that is robust to refactoring of the named struct name
+	// for instance frontRepo.getArray<Astruct>( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
+	// contrary to frontRepo.Astructs_array which is not refactored when Astruct identifier is modified
+	getArray<Type>(gongStructName: string): Array<Type> {
+		switch (gongStructName) { // deprecated
+			// insertion point{{` + string(rune(NgLibFrontRepoSwitchGetArray)) + `}}
+			default:
+				throw new Error("Type not recognized");
+		}
+	}
 
-  getFrontArray<Type>(gongStructName: string): Array<Type> {
-    switch (gongStructName) {
-      // insertion point{{` + string(rune(NgLibFrontRepoSwitchGetFrontArray)) + `}}
-      default:
-        throw new Error("Type not recognized");
-    }
-  }
+	getFrontArray<Type>(gongStructName: string): Array<Type> {
+		switch (gongStructName) {
+			// insertion point{{` + string(rune(NgLibFrontRepoSwitchGetFrontArray)) + `}}
+			default:
+				throw new Error("Type not recognized");
+		}
+	}
 
-  // getMap allows for a get function that is robust to refactoring of the named struct name
-  getMap<Type>(gongStructName: string): Map<number, Type> { // deprecated
-    switch (gongStructName) {
-      // insertion point{{` + string(rune(NgLibFrontRepoSwitchGetMap)) + `}}
-      default:
-        throw new Error("Type not recognized");
-    }
-  }
-  
-  getFrontMap<Type>(gongStructName: string): Map<number, Type> {
-    switch (gongStructName) {
-      // insertion point{{` + string(rune(NgLibFrontRepoSwitchGetFrontMap)) + `}}
-      default:
-        throw new Error("Type not recognized");
-    }
-  }
+	// getMap allows for a get function that is robust to refactoring of the named struct name
+	getMap<Type>(gongStructName: string): Map<number, Type> { // deprecated
+		switch (gongStructName) {
+			// insertion point{{` + string(rune(NgLibFrontRepoSwitchGetMap)) + `}}
+			default:
+				throw new Error("Type not recognized");
+		}
+	}
+	
+	getFrontMap<Type>(gongStructName: string): Map<number, Type> {
+		switch (gongStructName) {
+			// insertion point{{` + string(rune(NgLibFrontRepoSwitchGetFrontMap)) + `}}
+			default:
+				throw new Error("Type not recognized");
+		}
+	}
 }
 
 // the table component is called in different ways
@@ -69,150 +69,145 @@ export class FrontRepo { // insertion point sub template{{` + string(rune(NgLibF
 // DialogData define the interface for information that is forwarded from the calling instance to 
 // the select table
 export class DialogData {
-  ID: number = 0 // ID of the calling instance
+	ID: number = 0 // ID of the calling instance
 
-  // the reverse pointer is the name of the generated field on the destination
-  // struct of the ONE-MANY association
-  ReversePointer: string = "" // field of {{Structname}} that serve as reverse pointer
-  OrderingMode: boolean = false // if true, this is for ordering items
+	// the reverse pointer is the name of the generated field on the destination
+	// struct of the ONE-MANY association
+	ReversePointer: string = "" // field of {{Structname}} that serve as reverse pointer
+	OrderingMode: boolean = false // if true, this is for ordering items
 
-  // there are different selection mode : ONE_MANY or MANY_MANY
-  SelectionMode: SelectionMode = SelectionMode.ONE_MANY_ASSOCIATION_MODE
+	// there are different selection mode : ONE_MANY or MANY_MANY
+	SelectionMode: SelectionMode = SelectionMode.ONE_MANY_ASSOCIATION_MODE
 
-  // used if SelectionMode is MANY_MANY_ASSOCIATION_MODE
-  //
-  // In Gong, a MANY-MANY association is implemented as a ONE-ZERO/ONE followed by a ONE_MANY association
-  // 
-  // in the MANY_MANY_ASSOCIATION_MODE case, we need also the Struct and the FieldName that are
-  // at the end of the ONE-MANY association
-  SourceStruct: string = ""  // The "Aclass"
-  SourceField: string = "" // the "AnarrayofbUse"
-  IntermediateStruct: string = "" // the "AclassBclassUse" 
-  IntermediateStructField: string = "" // the "Bclass" as field
-  NextAssociationStruct: string = "" // the "Bclass"
+	// used if SelectionMode is MANY_MANY_ASSOCIATION_MODE
+	//
+	// In Gong, a MANY-MANY association is implemented as a ONE-ZERO/ONE followed by a ONE_MANY association
+	// 
+	// in the MANY_MANY_ASSOCIATION_MODE case, we need also the Struct and the FieldName that are
+	// at the end of the ONE-MANY association
+	SourceStruct: string = ""	// The "Aclass"
+	SourceField: string = "" // the "AnarrayofbUse"
+	IntermediateStruct: string = "" // the "AclassBclassUse" 
+	IntermediateStructField: string = "" // the "Bclass" as field
+	NextAssociationStruct: string = "" // the "Bclass"
 
-  GONG__StackPath: string = ""
+	GONG__StackPath: string = ""
 }
 
 export enum SelectionMode {
-  ONE_MANY_ASSOCIATION_MODE = "ONE_MANY_ASSOCIATION_MODE",
-  MANY_MANY_ASSOCIATION_MODE = "MANY_MANY_ASSOCIATION_MODE",
+	ONE_MANY_ASSOCIATION_MODE = "ONE_MANY_ASSOCIATION_MODE",
+	MANY_MANY_ASSOCIATION_MODE = "MANY_MANY_ASSOCIATION_MODE",
 }
 
 //
 // observable that fetch all elements of the stack and store them in the FrontRepo
 //
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class FrontRepoService {
 
-  GONG__StackPath: string = ""
+	GONG__StackPath: string = ""
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
+	httpOptions = {
+		headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+	};
 
-  //
-  // Store of all instances of the stack
-  //
-  frontRepo = new (FrontRepo)
+	//
+	// Store of all instances of the stack
+	//
+	frontRepo = new (FrontRepo)
 
-  constructor(
-    private http: HttpClient, // insertion point sub template {{` + string(rune(NgLibFrontRepoServiceDecl)) + `}}
-  ) { }
+	constructor(
+		private http: HttpClient, // insertion point sub template {{` + string(rune(NgLibFrontRepoServiceDecl)) + `}}
+	) { }
 
-  // postService provides a post function for each struct name
-  postService(structName: string, instanceToBePosted: any) {
-    let service = this[structName.toLowerCase() + "Service" + "Service" as keyof FrontRepoService]
-    let servicePostFunction = service[("post" + structName) as keyof typeof service] as (instance: typeof instanceToBePosted) => Observable<typeof instanceToBePosted>
+	// postService provides a post function for each struct name
+	postService(structName: string, instanceToBePosted: any) {
+		let service = this[structName.toLowerCase() + "Service" + "Service" as keyof FrontRepoService]
+		let servicePostFunction = service[("post" + structName) as keyof typeof service] as (instance: typeof instanceToBePosted) => Observable<typeof instanceToBePosted>
 
-    servicePostFunction(instanceToBePosted).subscribe(
-      instance => {
-        let behaviorSubject = instanceToBePosted[(structName + "ServiceChanged") as keyof typeof instanceToBePosted] as unknown as BehaviorSubject<string>
-        behaviorSubject.next("post")
-      }
-    );
-  }
+		servicePostFunction(instanceToBePosted).subscribe(
+			instance => {
+				let behaviorSubject = instanceToBePosted[(structName + "ServiceChanged") as keyof typeof instanceToBePosted] as unknown as BehaviorSubject<string>
+				behaviorSubject.next("post")
+			}
+		);
+	}
 
-  // deleteService provides a delete function for each struct name
-  deleteService(structName: string, instanceToBeDeleted: any) {
-    let service = this[structName.toLowerCase() + "Service" as keyof FrontRepoService]
-    let serviceDeleteFunction = service["delete" + structName as keyof typeof service] as (instance: typeof instanceToBeDeleted) => Observable<typeof instanceToBeDeleted>
+	// deleteService provides a delete function for each struct name
+	deleteService(structName: string, instanceToBeDeleted: any) {
+		let service = this[structName.toLowerCase() + "Service" as keyof FrontRepoService]
+		let serviceDeleteFunction = service["delete" + structName as keyof typeof service] as (instance: typeof instanceToBeDeleted) => Observable<typeof instanceToBeDeleted>
 
-    serviceDeleteFunction(instanceToBeDeleted).subscribe(
-      instance => {
-        let behaviorSubject = instanceToBeDeleted[(structName + "ServiceChanged") as keyof typeof instanceToBeDeleted] as unknown as BehaviorSubject<string>
-        behaviorSubject.next("delete")
-      }
-    );
-  }
+		serviceDeleteFunction(instanceToBeDeleted).subscribe(
+			instance => {
+				let behaviorSubject = instanceToBeDeleted[(structName + "ServiceChanged") as keyof typeof instanceToBeDeleted] as unknown as BehaviorSubject<string>
+				behaviorSubject.next("delete")
+			}
+		);
+	}
 
-  // typing of observable can be messy in typescript. Therefore, one force the type
-  observableFrontRepo: [
-    Observable<null>, // see below for the of(null) observable
-    // insertion point sub template {{` + string(rune(NgLibFrontRepoObservableArrayType)) + `}}
-  ] = [
-      // Using "combineLatest" with a placeholder observable.
-      //
-      // This allows the typescript compiler to pass when no GongStruct is present in the front API
-      //
-      // The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
-      // This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
-      // expectation for a non-empty array of observables.
-      of(null), // 
-      // insertion point sub template{{` + string(rune(NgLibFrontRepoObservableRefs)) + `}}
-    ];
+	// typing of observable can be messy in typescript. Therefore, one force the type
+	observableFrontRepo: [
+		Observable<null>, // see below for the of(null) observable
+		// insertion point sub template {{` + string(rune(NgLibFrontRepoObservableArrayType)) + `}}
+	] = [
+			// Using "combineLatest" with a placeholder observable.
+			//
+			// This allows the typescript compiler to pass when no GongStruct is present in the front API
+			//
+			// The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
+			// This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
+			// expectation for a non-empty array of observables.
+			of(null), // 
+			// insertion point sub template{{` + string(rune(NgLibFrontRepoObservableRefs)) + `}}
+		];
 
-  //
-  // pull performs a GET on all struct of the stack and redeem association pointers 
-  //
-  // This is an observable. Therefore, the control flow forks with
-  // - pull() return immediatly the observable
-  // - the observable observer, if it subscribe, is called when all GET calls are performs
-  pull(GONG__StackPath: string = ""): Observable<FrontRepo> {
+	//
+	// pull performs a GET on all struct of the stack and redeem association pointers 
+	//
+	// This is an observable. Therefore, the control flow forks with
+	// - pull() return immediatly the observable
+	// - the observable observer, if it subscribe, is called when all GET calls are performs
+	pull(GONG__StackPath: string = ""): Observable<FrontRepo> {
 
-    this.GONG__StackPath = GONG__StackPath
+		this.GONG__StackPath = GONG__StackPath
 
-    this.observableFrontRepo = [
-      of(null), // see above for justification
-      // insertion point sub template{{` + string(rune(NgLibFrontRepoObservableRefs)) + `}}
-    ]
+		this.observableFrontRepo = [
+			of(null), // see above for justification
+			// insertion point sub template{{` + string(rune(NgLibFrontRepoObservableRefs)) + `}}
+		]
 
-    return new Observable<FrontRepo>(
-      (observer) => {
-        combineLatest(
-          this.observableFrontRepo
-        ).subscribe(
-          ([
-            ___of_null, // see above for the explanation about of
-            // insertion point sub template for declarations {{` + string(rune(NgLibFrontRepoArraysDecls)) + `}}
-          ]) => {
-            // Typing can be messy with many items. Therefore, type casting is necessary here
-            // insertion point sub template for type casting {{` + string(rune(NgLibFrontRepoTypeCasting)) + `}}
+		return new Observable<FrontRepo>(
+			(observer) => {
+				combineLatest(
+					this.observableFrontRepo
+				).subscribe(
+					([
+						___of_null, // see above for the explanation about of
+						// insertion point sub template for declarations {{` + string(rune(NgLibFrontRepoArraysDecls)) + `}}
+					]) => {
+						// Typing can be messy with many items. Therefore, type casting is necessary here
+						// insertion point sub template for type casting {{` + string(rune(NgLibFrontRepoTypeCasting)) + `}}
 
-            // 
-            // First Step: init map of instances
-            // insertion point sub template for init {{` + string(rune(NgLibFrontRepoInitMapInstances)) + `}}
+						// 
+						// First Step: init map of instances
+						// insertion point sub template for init {{` + string(rune(NgLibFrontRepoInitMapInstances)) + `}}
 
-            // 
-            // Second Step: reddeem slice of pointers fields
-            // insertion point sub template for redeem {{` + string(rune(NgLibFrontRepoSlicesOfPointersDecode)) + `}}
+						// 
+						// Second Step: reddeem front objects
+						// insertion point sub template for redeem {{` + string(rune(NgLibFrontRepoInitFrontObjects)) + `}}
 
-            // 
-            // Third Step: reddeem front objects
-            // insertion point sub template for redeem {{` + string(rune(NgLibFrontRepoInitFrontObjects)) + `}}
+						// hand over control flow to observer
+						observer.next(this.frontRepo)
+					}
+				)
+			}
+		)
+	}
 
-
-            // hand over control flow to observer
-            observer.next(this.frontRepo)
-          }
-        )
-      }
-    )
-  }
-
-  // insertion point for pull per struct {{` + string(rune(NgLibFrontRepoPerStructPull)) + `}}
+	// insertion point for pull per struct {{` + string(rune(NgLibFrontRepoPerStructPull)) + `}}
 }
 
 // insertion point for get unique ID per struct {{` + string(rune(NgLibFrontRepoPerStructGetUniqueID)) + `}}
@@ -250,164 +245,161 @@ import { {{Structname}}Service } from './{{structname}}.service'
 `,
 
 	NgLibFrontRepoMapDecl: `
-  {{Structname}}s_array = new Array<{{Structname}}DB>() // array of repo instances
-  {{Structname}}s = new Map<number, {{Structname}}DB>() // map of repo instances
-  {{Structname}}s_batch = new Map<number, {{Structname}}DB>() // same but only in last GET (for finding repo instances to delete)
+	{{Structname}}s_array = new Array<{{Structname}}DB>() // array of repo instances
+	{{Structname}}s = new Map<number, {{Structname}}DB>() // map of repo instances
+	{{Structname}}s_batch = new Map<number, {{Structname}}DB>() // same but only in last GET (for finding repo instances to delete)
 
-  array_{{Structname}}s = new Array<{{Structname}}>() // array of front instances
-  map_ID_{{Structname}} = new Map<number, {{Structname}}>() // map of front instances
+	array_{{Structname}}s = new Array<{{Structname}}>() // array of front instances
+	map_ID_{{Structname}} = new Map<number, {{Structname}}>() // map of front instances
 `,
 
 	NgLibFrontRepoSwitchGetArray: `
-      case '{{Structname}}':
-        return this.{{Structname}}s_array as unknown as Array<Type>`,
+			case '{{Structname}}':
+				return this.{{Structname}}s_array as unknown as Array<Type>`,
 
 	NgLibFrontRepoSwitchGetMap: `
-      case '{{Structname}}':
-        return this.{{Structname}}s as unknown as Map<number, Type>`,
+			case '{{Structname}}':
+				return this.{{Structname}}s as unknown as Map<number, Type>`,
 
 	NgLibFrontRepoSwitchGetFrontArray: `
-      case '{{Structname}}':
-        return this.array_{{Structname}}s as unknown as Array<Type>`,
+			case '{{Structname}}':
+				return this.array_{{Structname}}s as unknown as Array<Type>`,
 
 	NgLibFrontRepoSwitchGetFrontMap: `
-      case '{{Structname}}':
-        return this.map_ID_{{Structname}} as unknown as Map<number, Type>`,
+			case '{{Structname}}':
+				return this.map_ID_{{Structname}} as unknown as Map<number, Type>`,
 
 	NgLibFrontRepoObservableArrayType: `
-    Observable<{{Structname}}DB[]>,`,
+		Observable<{{Structname}}DB[]>,`,
 
 	NgLibFrontRepoServiceDecl: `
-    private {{structname}}Service: {{Structname}}Service,`,
+		private {{structname}}Service: {{Structname}}Service,`,
 
 	NgLibFrontRepoObservableRefs: `
-      this.{{structname}}Service.get{{Structname}}s(this.GONG__StackPath, this.frontRepo),`,
+			this.{{structname}}Service.get{{Structname}}s(this.GONG__StackPath, this.frontRepo),`,
 
 	NgLibFrontRepoArraysDecls: `
-            {{structname}}s_,`,
+						{{structname}}s_,`,
 
 	NgLibFrontRepoTypeCasting: `
-            var {{structname}}s: {{Structname}}DB[]
-            {{structname}}s = {{structname}}s_ as {{Structname}}DB[]`,
+						var {{structname}}s: {{Structname}}DB[]
+						{{structname}}s = {{structname}}s_ as {{Structname}}DB[]`,
 
 	NgLibFrontRepoInitMapInstances: `
-            // init the array
-            this.frontRepo.{{Structname}}s_array = {{structname}}s
+						// init the array
+						this.frontRepo.{{Structname}}s_array = {{structname}}s
 
-            // clear the map that counts {{Structname}} in the GET
-            this.frontRepo.{{Structname}}s_batch.clear()
+						// clear the map that counts {{Structname}} in the GET
+						this.frontRepo.{{Structname}}s_batch.clear()
 
-            {{structname}}s.forEach(
-              {{structname}}DB => {
-                this.frontRepo.{{Structname}}s.set({{structname}}DB.ID, {{structname}}DB)
-                this.frontRepo.{{Structname}}s_batch.set({{structname}}DB.ID, {{structname}}DB)
-              }
-            )
+						{{structname}}s.forEach(
+							{{structname}}DB => {
+								this.frontRepo.{{Structname}}s.set({{structname}}DB.ID, {{structname}}DB)
+								this.frontRepo.{{Structname}}s_batch.set({{structname}}DB.ID, {{structname}}DB)
+							}
+						)
 
-            // clear {{structname}}s that are absent from the batch
-            this.frontRepo.{{Structname}}s.forEach(
-              {{structname}}DB => {
-                if (this.frontRepo.{{Structname}}s_batch.get({{structname}}DB.ID) == undefined) {
-                  this.frontRepo.{{Structname}}s.delete({{structname}}DB.ID)
-                }
-              }
-            )
+						// clear {{structname}}s that are absent from the batch
+						this.frontRepo.{{Structname}}s.forEach(
+							{{structname}}DB => {
+								if (this.frontRepo.{{Structname}}s_batch.get({{structname}}DB.ID) == undefined) {
+									this.frontRepo.{{Structname}}s.delete({{structname}}DB.ID)
+								}
+							}
+						)
 
-            // sort {{Structname}}s_array array
-            this.frontRepo.{{Structname}}s_array.sort((t1, t2) => {
-              if (t1.Name > t2.Name) {
-                return 1;
-              }
-              if (t1.Name < t2.Name) {
-                return -1;
-              }
-              return 0;
-            });
+						// sort {{Structname}}s_array array
+						this.frontRepo.{{Structname}}s_array.sort((t1, t2) => {
+							if (t1.Name > t2.Name) {
+								return 1;
+							}
+							if (t1.Name < t2.Name) {
+								return -1;
+							}
+							return 0;
+						});
 `,
 	NgLibFrontRepoInitFrontObjects: `
-            
-            // init front objects
-            this.frontRepo.array_{{Structname}}s = []
-            this.frontRepo.map_ID_{{Structname}}.clear()
-            this.frontRepo.{{Structname}}s_array.forEach(
-              {{structname}}DB => {
-                let {{structname}} = new {{Structname}}
-                Copy{{Structname}}DBTo{{Structname}}({{structname}}DB, {{structname}}, this.frontRepo)
-                this.frontRepo.array_{{Structname}}s.push({{structname}})
-                this.frontRepo.map_ID_{{Structname}}.set({{structname}}.ID, {{structname}})
-              }
-            )
+			      // init front objects
+			      this.frontRepo.array_{{Structname}}s = []
+						this.frontRepo.map_ID_{{Structname}}.clear()
+						this.frontRepo.{{Structname}}s_array.forEach(
+							{{structname}}DB => {
+								let {{structname}} = new {{Structname}}
+								Copy{{Structname}}DBTo{{Structname}}({{structname}}DB, {{structname}}, this.frontRepo)
+								this.frontRepo.array_{{Structname}}s.push({{structname}})
+								this.frontRepo.map_ID_{{Structname}}.set({{structname}}.ID, {{structname}})
+							}
+						)
 `,
 
 	NgLibFrontRepoRedeemPointers: `
-            {{structname}}s.forEach(
-              {{structname}} => {
-                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming{{` + string(rune(NgFrontRepoPtrToStructRedeeming)) + `}}
-              }
-            )`,
+						{{structname}}s.forEach(
+							{{structname}} => {
+								// insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming{{` + string(rune(NgFrontRepoPtrToStructRedeeming)) + `}}
+							}
+						)`,
 
 	NgLibFrontRepoSlicesOfPointersDecode: `
-            {{structname}}s.forEach(
-              {{structname}} => {
-                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming{{` + string(rune(NgFrontRepoPtrToStructRedeeming)) + `}}
-                // insertion point for pointers decoding{{` + string(rune(NgFrontRepoSliceOfPointerSorting)) + `}}
-              }
-            )`,
+						{{structname}}s.forEach(
+							{{structname}} => {
+								// insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming{{` + string(rune(NgFrontRepoPtrToStructRedeeming)) + `}}
+								// insertion point for pointers decoding{{` + string(rune(NgFrontRepoSliceOfPointerSorting)) + `}}
+							}
+						)`,
 
 	NgLibFrontRepoPerStructPull: `
 
-  // {{Structname}}Pull performs a GET on {{Structname}} of the stack and redeem association pointers 
-  {{Structname}}Pull(): Observable<FrontRepo> {
-    return new Observable<FrontRepo>(
-      (observer) => {
-        combineLatest([
-          this.{{structname}}Service.get{{Structname}}s(this.GONG__StackPath, this.frontRepo)
-        ]).subscribe(
-          ([ // insertion point sub template 
-            {{structname}}s,
-          ]) => {
-            // init the array
-            this.frontRepo.{{Structname}}s_array = {{structname}}s
+	// {{Structname}}Pull performs a GET on {{Structname}} of the stack and redeem association pointers 
+	{{Structname}}Pull(): Observable<FrontRepo> {
+		return new Observable<FrontRepo>(
+			(observer) => {
+				combineLatest([
+					this.{{structname}}Service.get{{Structname}}s(this.GONG__StackPath, this.frontRepo)
+				]).subscribe(
+					([ // insertion point sub template 
+						{{structname}}s,
+					]) => {
+						// init the array
+						this.frontRepo.{{Structname}}s_array = {{structname}}s
 
-            // clear the map that counts {{Structname}} in the GET
-            this.frontRepo.{{Structname}}s_batch.clear()
+						// clear the map that counts {{Structname}} in the GET
+						this.frontRepo.{{Structname}}s_batch.clear()
 
-            // 
-            // First Step: init map of instances
-            // insertion point sub template 
-            {{structname}}s.forEach(
-              {{structname}} => {
-                this.frontRepo.{{Structname}}s.set({{structname}}.ID, {{structname}})
-                this.frontRepo.{{Structname}}s_batch.set({{structname}}.ID, {{structname}})
+						// 
+						// First Step: init map of instances
+						// insertion point sub template 
+						{{structname}}s.forEach(
+							{{structname}} => {
+								this.frontRepo.{{Structname}}s.set({{structname}}.ID, {{structname}})
+								this.frontRepo.{{Structname}}s_batch.set({{structname}}.ID, {{structname}})
+							}
+						)
 
-                // insertion point for redeeming ONE/ZERO-ONE associations{{` + string(rune(NgFrontRepoPtrToStructRedeeming)) + `}}
-              }
-            )
+						// clear {{structname}}s that are absent from the GET
+						this.frontRepo.{{Structname}}s.forEach(
+							{{structname}} => {
+								if (this.frontRepo.{{Structname}}s_batch.get({{structname}}.ID) == undefined) {
+									this.frontRepo.{{Structname}}s.delete({{structname}}.ID)
+								}
+							}
+						)
 
-            // clear {{structname}}s that are absent from the GET
-            this.frontRepo.{{Structname}}s.forEach(
-              {{structname}} => {
-                if (this.frontRepo.{{Structname}}s_batch.get({{structname}}.ID) == undefined) {
-                  this.frontRepo.{{Structname}}s.delete({{structname}}.ID)
-                }
-              }
-            )
+						// 
+						// Second Step: redeem pointers between instances (thanks to maps in the First Step)
+						// insertion point sub template 
 
-            // 
-            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
-            // insertion point sub template 
-
-            // hand over control flow to observer
-            observer.next(this.frontRepo)
-          }
-        )
-      }
-    )
-  }`,
+						// hand over control flow to observer
+						observer.next(this.frontRepo)
+					}
+				)
+			}
+		)
+	}`,
 
 	NgLibFrontRepoPerStructGetUniqueID: `
 export function get{{Structname}}UniqueID(id: number): number {
-  return {{Prime}} * id
+	return {{Prime}} * id
 }`,
 }
 
@@ -427,21 +419,21 @@ map[NgLibFrontRepoServiceSubSubTemplate]string{
 var NgFrontRepoPtrToStructTmplCodes map[NgLibFrontRepoServiceSubSubTemplate]string = // new line
 map[NgLibFrontRepoServiceSubSubTemplate]string{
 	NgFrontRepoPtrToStructRedeeming: `
-                // insertion point for pointer field {{FieldName}} redeeming
-                {
-                  let _{{assocStructName}} = this.frontRepo.{{AssocStructName}}s.get({{structname}}.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64)
-                  if (_{{assocStructName}}) {
-                    {{structname}}.{{FieldName}} = _{{assocStructName}}
-                  }
-                }`,
+								// insertion point for pointer field {{FieldName}} redeeming
+								{
+									let _{{assocStructName}} = this.frontRepo.{{AssocStructName}}s.get({{structname}}.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64)
+									if (_{{assocStructName}}) {
+										{{structname}}.{{FieldName}} = _{{assocStructName}}
+									}
+								}`,
 	NgFrontRepoSliceOfPointerSorting: `
-                {{structname}}.{{FieldName}} = new Array<{{AssocStructName}}DB>()
-                for (let _id of {{structname}}.{{Structname}}PointersEncoding.{{FieldName}}) {
-                  let _{{assocStructName}} = this.frontRepo.{{AssocStructName}}s.get(_id)
-                  if (_{{assocStructName}} != undefined) {
-                    {{structname}}.{{FieldName}}.push(_{{assocStructName}}!)
-                  }
-                }`,
+								{{structname}}.{{FieldName}} = new Array<{{AssocStructName}}DB>()
+								for (let _id of {{structname}}.{{Structname}}PointersEncoding.{{FieldName}}) {
+									let _{{assocStructName}} = this.frontRepo.{{AssocStructName}}s.get(_id)
+									if (_{{assocStructName}} != undefined) {
+										{{structname}}.{{FieldName}}.push(_{{assocStructName}}!)
+									}
+								}`,
 }
 
 func CodeGeneratorNgFrontRepo(modelPkg *models.ModelPkg) {
