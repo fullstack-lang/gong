@@ -188,6 +188,7 @@ export class FrontRepoService {
 						___of_null, // see above for the explanation about of
 						// insertion point sub template for declarations {{` + string(rune(NgLibFrontRepoArraysDecls)) + `}}
 					]) => {
+						let _this = this
 						// Typing can be messy with many items. Therefore, type casting is necessary here
 						// insertion point sub template for type casting {{` + string(rune(NgLibFrontRepoTypeCasting)) + `}}
 
@@ -288,6 +289,7 @@ import { {{Structname}}Service } from './{{structname}}.service'
 	NgLibFrontRepoInitMapInstances: `
 						// init the arrays
 						this.frontRepo.{{Structname}}s_array = {{structname}}s
+						this.frontRepo.array_{{Structname}}s = []
 						this.frontRepo.map_ID_{{Structname}}.clear()
 
 						// clear the map that counts {{Structname}} in the GET
@@ -299,7 +301,7 @@ import { {{Structname}}Service } from './{{structname}}.service'
 								this.frontRepo.{{Structname}}s_batch.set({{structname}}DB.ID, {{structname}}DB)
 								let {{structname}} = new {{Structname}}
 								this.frontRepo.array_{{Structname}}s.push({{structname}})
-								this.frontRepo.map_ID_{{Structname}}.set({{structname}}.ID, {{structname}})
+								this.frontRepo.map_ID_{{Structname}}.set({{structname}}DB.ID, {{structname}})
 							}
 						)
 
