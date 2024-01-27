@@ -25,9 +25,7 @@ export class GongBasicFieldDB {
 	IsBespokeHeight: boolean = false
 	BespokeHeight: number = 0
 
-	// insertion point for pointers and slices of pointers declarations
-	GongEnum?: GongEnumDB
-
+	// insertion point for other decls
 
 	GongBasicFieldPointersEncoding: GongBasicFieldPointersEncoding = new GongBasicFieldPointersEncoding
 }

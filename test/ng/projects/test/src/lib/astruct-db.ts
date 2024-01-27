@@ -38,32 +38,9 @@ export class AstructDB {
 	TextFieldBespokeSize: string = ""
 	TextArea: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
-	Associationtob?: BstructDB
-
-	Anarrayofb: Array<BstructDB> = []
-	Anotherassociationtob_2?: BstructDB
-
+	// insertion point for other decls
 	CEnum_string?: string
-	Bstruct?: BstructDB
-
-	Bstruct2?: BstructDB
-
-	Dstruct?: DstructDB
-
-	Dstruct2?: DstructDB
-
-	Dstruct3?: DstructDB
-
-	Dstruct4?: DstructDB
-
 	Duration1_string?: string
-	Anarrayofa: Array<AstructDB> = []
-	Anotherarrayofb: Array<BstructDB> = []
-	AnarrayofbUse: Array<AstructBstructUseDB> = []
-	Anarrayofb2Use: Array<AstructBstruct2UseDB> = []
-	AnAstruct?: AstructDB
-
 
 	AstructPointersEncoding: AstructPointersEncoding = new AstructPointersEncoding
 }

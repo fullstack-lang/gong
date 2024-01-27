@@ -40,7 +40,7 @@ export function Copy{{Structname}}To{{Structname}}DB({{structname}}: {{Structnam
 	{{structname}}DB.CreatedAt = {{structname}}.CreatedAt
 	{{structname}}DB.DeletedAt = {{structname}}.DeletedAt
 	{{structname}}DB.ID = {{structname}}.ID
-	
+
 	// insertion point for basic fields copy operations{{` + string(rune(NgClassTsInsertionPerStructBasicFieldsCopyToDB)) + `}}
 
 	// insertion point for pointer fields encoding{{` + string(rune(NgClassTsInsertionPerStructPointerFieldsCopyToDB)) + `}}
@@ -48,12 +48,16 @@ export function Copy{{Structname}}To{{Structname}}DB({{structname}}: {{Structnam
 	// insertion point for slice of pointers fields encoding{{` + string(rune(NgClassTsInsertionPerStructSliceOfPointersFieldsCopyToDB)) + `}}
 }
 
+// Copy{{Structname}}DBTo{{Structname}} update basic, pointers and slice of pointers fields of {{structname}}
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of {{structname}}DB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function Copy{{Structname}}DBTo{{Structname}}({{structname}}DB: {{Structname}}DB, {{structname}}: {{Structname}}, frontRepo: FrontRepo) {
 
 	{{structname}}.CreatedAt = {{structname}}DB.CreatedAt
 	{{structname}}.DeletedAt = {{structname}}DB.DeletedAt
 	{{structname}}.ID = {{structname}}DB.ID
-	
+
 	// insertion point for basic fields copy operations{{` + string(rune(NgClassTsInsertionPerStructBasicFieldsCopyFromDB)) + `}}
 
 	// insertion point for pointer fields encoding{{` + string(rune(NgClassTsInsertionPerStructPointerFieldsCopyFromDB)) + `}}
@@ -123,34 +127,34 @@ import { {{AssocStructName}} } from './{{assocStructName}}'`,
 	{{structname}}DB.{{FieldName}} = {{structname}}.{{FieldName}}`,
 
 	NgClassTSPointerFieldCopyToDB: `
-    {{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Valid = true
+	{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Valid = true
 	if ({{structname}}.{{FieldName}} != undefined) {
 		{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64 = {{structname}}.{{FieldName}}.ID  
-    } else {
+	} else {
 		{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64 = 0 		
 	}
 `,
 
 	NgClassTSSliceOfPointersFieldCopyToDB: `
 	{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}} = []
-    for (let _{{assocStructName}} of {{structname}}.{{FieldName}}) {
+	for (let _{{assocStructName}} of {{structname}}.{{FieldName}}) {
 		{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}.push(_{{assocStructName}}.ID)
-    }
-	`,
+	}
+`,
 
 	NgClassTSBasicFieldCopyFromDB: `
 	{{structname}}.{{FieldName}} = {{structname}}DB.{{FieldName}}`,
 
 	NgClassTSPointerFieldCopyFromDB: `
-	{{structname}}.{{FieldName}} = frontRepo.{{AssocStructName}}s.get({{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64)`,
+	{{structname}}.{{FieldName}} = frontRepo.map_ID_{{AssocStructName}}.get({{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64)`,
 
 	NgClassTSSliceOfPointersFieldCopyFromDB: `
 	{{structname}}.{{FieldName}} = new Array<{{AssocStructName}}>()
 	for (let _id of {{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}) {
-	  let _{{assocStructName}} = frontRepo.{{AssocStructName}}s.get(_id)
-	  if (_{{assocStructName}} != undefined) {
-		{{structname}}.{{FieldName}}.push(_{{assocStructName}}!)
-	  }
+		let _{{assocStructName}} = frontRepo.map_ID_{{AssocStructName}}.get(_id)
+		if (_{{assocStructName}} != undefined) {
+			{{structname}}.{{FieldName}}.push(_{{assocStructName}}!)
+		}
 	}`,
 
 	NgClassTSTimeFieldDecls: `

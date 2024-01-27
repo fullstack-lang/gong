@@ -102,13 +102,6 @@ export class SliceOfPointerToGongStructFieldService {
   }
   postSliceOfPointerToGongStructField(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliceOfPointerToGongStructFieldDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    if (sliceofpointertogongstructfielddb.GongStruct != undefined) {
-      sliceofpointertogongstructfielddb.SliceOfPointerToGongStructFieldPointersEncoding.GongStructID.Int64 = sliceofpointertogongstructfielddb.GongStruct.ID
-      sliceofpointertogongstructfielddb.SliceOfPointerToGongStructFieldPointersEncoding.GongStructID.Valid = true
-    }
-    sliceofpointertogongstructfielddb.GongStruct = undefined
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,8 +110,6 @@ export class SliceOfPointerToGongStructFieldService {
 
     return this.http.post<SliceOfPointerToGongStructFieldDB>(this.sliceofpointertogongstructfieldsUrl, sliceofpointertogongstructfielddb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        sliceofpointertogongstructfielddb.GongStruct = frontRepo.GongStructs.get(sliceofpointertogongstructfielddb.SliceOfPointerToGongStructFieldPointersEncoding.GongStructID.Int64)
         // this.log(`posted sliceofpointertogongstructfielddb id=${sliceofpointertogongstructfielddb.ID}`)
       }),
       catchError(this.handleError<SliceOfPointerToGongStructFieldDB>('postSliceOfPointerToGongStructField'))
@@ -172,13 +163,6 @@ export class SliceOfPointerToGongStructFieldService {
     const id = typeof sliceofpointertogongstructfielddb === 'number' ? sliceofpointertogongstructfielddb : sliceofpointertogongstructfielddb.ID;
     const url = `${this.sliceofpointertogongstructfieldsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    if (sliceofpointertogongstructfielddb.GongStruct != undefined) {
-      sliceofpointertogongstructfielddb.SliceOfPointerToGongStructFieldPointersEncoding.GongStructID.Int64 = sliceofpointertogongstructfielddb.GongStruct.ID
-      sliceofpointertogongstructfielddb.SliceOfPointerToGongStructFieldPointersEncoding.GongStructID.Valid = true
-    }
-    sliceofpointertogongstructfielddb.GongStruct = undefined
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -188,8 +172,6 @@ export class SliceOfPointerToGongStructFieldService {
 
     return this.http.put<SliceOfPointerToGongStructFieldDB>(url, sliceofpointertogongstructfielddb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        sliceofpointertogongstructfielddb.GongStruct = frontRepo.GongStructs.get(sliceofpointertogongstructfielddb.SliceOfPointerToGongStructFieldPointersEncoding.GongStructID.Int64)
         // this.log(`updated sliceofpointertogongstructfielddb id=${sliceofpointertogongstructfielddb.ID}`)
       }),
       catchError(this.handleError<SliceOfPointerToGongStructFieldDB>('updateSliceOfPointerToGongStructField'))

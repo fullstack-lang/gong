@@ -102,13 +102,6 @@ export class AstructBstructUseService {
   }
   postAstructBstructUse(astructbstructusedb: AstructBstructUseDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstructUseDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    if (astructbstructusedb.Bstruct2 != undefined) {
-      astructbstructusedb.AstructBstructUsePointersEncoding.Bstruct2ID.Int64 = astructbstructusedb.Bstruct2.ID
-      astructbstructusedb.AstructBstructUsePointersEncoding.Bstruct2ID.Valid = true
-    }
-    astructbstructusedb.Bstruct2 = undefined
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,8 +110,6 @@ export class AstructBstructUseService {
 
     return this.http.post<AstructBstructUseDB>(this.astructbstructusesUrl, astructbstructusedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        astructbstructusedb.Bstruct2 = frontRepo.Bstructs.get(astructbstructusedb.AstructBstructUsePointersEncoding.Bstruct2ID.Int64)
         // this.log(`posted astructbstructusedb id=${astructbstructusedb.ID}`)
       }),
       catchError(this.handleError<AstructBstructUseDB>('postAstructBstructUse'))
@@ -172,13 +163,6 @@ export class AstructBstructUseService {
     const id = typeof astructbstructusedb === 'number' ? astructbstructusedb : astructbstructusedb.ID;
     const url = `${this.astructbstructusesUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    if (astructbstructusedb.Bstruct2 != undefined) {
-      astructbstructusedb.AstructBstructUsePointersEncoding.Bstruct2ID.Int64 = astructbstructusedb.Bstruct2.ID
-      astructbstructusedb.AstructBstructUsePointersEncoding.Bstruct2ID.Valid = true
-    }
-    astructbstructusedb.Bstruct2 = undefined
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -188,8 +172,6 @@ export class AstructBstructUseService {
 
     return this.http.put<AstructBstructUseDB>(url, astructbstructusedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        astructbstructusedb.Bstruct2 = frontRepo.Bstructs.get(astructbstructusedb.AstructBstructUsePointersEncoding.Bstruct2ID.Int64)
         // this.log(`updated astructbstructusedb id=${astructbstructusedb.ID}`)
       }),
       catchError(this.handleError<AstructBstructUseDB>('updateAstructBstructUse'))

@@ -27,7 +27,7 @@ export function CopyMetaReferenceToMetaReferenceDB(metareference: MetaReference,
 	metareferenceDB.CreatedAt = metareference.CreatedAt
 	metareferenceDB.DeletedAt = metareference.DeletedAt
 	metareferenceDB.ID = metareference.ID
-	
+
 	// insertion point for basic fields copy operations
 	metareferenceDB.Name = metareference.Name
 
@@ -36,12 +36,16 @@ export function CopyMetaReferenceToMetaReferenceDB(metareference: MetaReference,
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyMetaReferenceDBToMetaReference update basic, pointers and slice of pointers fields of metareference
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of metareferenceDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyMetaReferenceDBToMetaReference(metareferenceDB: MetaReferenceDB, metareference: MetaReference, frontRepo: FrontRepo) {
 
 	metareference.CreatedAt = metareferenceDB.CreatedAt
 	metareference.DeletedAt = metareferenceDB.DeletedAt
 	metareference.ID = metareferenceDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	metareference.Name = metareferenceDB.Name
 

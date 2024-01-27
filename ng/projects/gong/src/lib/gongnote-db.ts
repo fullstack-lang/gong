@@ -17,8 +17,7 @@ export class GongNoteDB {
 	Body: string = ""
 	BodyHTML: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
-	Links: Array<GongLinkDB> = []
+	// insertion point for other decls
 
 	GongNotePointersEncoding: GongNotePointersEncoding = new GongNotePointersEncoding
 }
