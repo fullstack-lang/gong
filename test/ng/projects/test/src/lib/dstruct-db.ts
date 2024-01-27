@@ -15,8 +15,7 @@ export class DstructDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
-	Anarrayofb: Array<BstructDB> = []
+	// insertion point for other decls
 
 	DstructPointersEncoding: DstructPointersEncoding = new DstructPointersEncoding
 }
