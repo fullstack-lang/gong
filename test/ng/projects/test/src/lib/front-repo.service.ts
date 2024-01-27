@@ -29,7 +29,7 @@ export const StackType = "github.com/fullstack-lang/gong/test/go/models"
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template
 	Astructs_array = new Array<AstructDB>() // array of repo instances
-	Astructs = new Map<number, AstructDB>() // map of repo instances
+	AstructDBs = new Map<number, AstructDB>() // map of repo instances
 	Astructs_batch = new Map<number, AstructDB>() // same but only in last GET (for finding repo instances to delete)
 
 	array_Astructs = new Array<Astruct>() // array of front instances
@@ -108,7 +108,7 @@ export class FrontRepo { // insertion point sub template
 		switch (gongStructName) {
 			// insertion point
 			case 'Astruct':
-				return this.Astructs as unknown as Map<number, Type>
+				return this.AstructDBs as unknown as Map<number, Type>
 			case 'AstructBstruct2Use':
 				return this.AstructBstruct2Uses as unknown as Map<number, Type>
 			case 'AstructBstructUse':
@@ -121,7 +121,7 @@ export class FrontRepo { // insertion point sub template
 				throw new Error("Type not recognized");
 		}
 	}
-	
+
 	getFrontMap<Type>(gongStructName: string): Map<number, Type> {
 		switch (gongStructName) {
 			// insertion point
@@ -312,22 +312,26 @@ export class FrontRepoService {
 						// insertion point sub template for init 
 						// init the array
 						this.frontRepo.Astructs_array = astructs
+						this.frontRepo.map_ID_Astruct.clear()
 
 						// clear the map that counts Astruct in the GET
 						this.frontRepo.Astructs_batch.clear()
 
 						astructs.forEach(
 							astructDB => {
-								this.frontRepo.Astructs.set(astructDB.ID, astructDB)
+								this.frontRepo.AstructDBs.set(astructDB.ID, astructDB)
 								this.frontRepo.Astructs_batch.set(astructDB.ID, astructDB)
+								let astruct = new Astruct
+								this.frontRepo.array_Astructs.push(astruct)
+								this.frontRepo.map_ID_Astruct.set(astruct.ID, astruct)
 							}
 						)
 
 						// clear astructs that are absent from the batch
-						this.frontRepo.Astructs.forEach(
+						this.frontRepo.AstructDBs.forEach(
 							astructDB => {
 								if (this.frontRepo.Astructs_batch.get(astructDB.ID) == undefined) {
-									this.frontRepo.Astructs.delete(astructDB.ID)
+									this.frontRepo.AstructDBs.delete(astructDB.ID)
 								}
 							}
 						)
@@ -479,20 +483,18 @@ export class FrontRepoService {
 						// 
 						// Second Step: reddeem front objects
 						// insertion point sub template for redeem 
-			      // init front objects
-			      this.frontRepo.array_Astructs = []
+						// init front objects
+						this.frontRepo.array_Astructs = []
 						this.frontRepo.map_ID_Astruct.clear()
 						this.frontRepo.Astructs_array.forEach(
 							astructDB => {
-								let astruct = new Astruct
-								CopyAstructDBToAstruct(astructDB, astruct, this.frontRepo)
-								this.frontRepo.array_Astructs.push(astruct)
-								this.frontRepo.map_ID_Astruct.set(astruct.ID, astruct)
+								let astruct = this.frontRepo.map_ID_Astruct.get(astructDB.ID)
+								CopyAstructDBToAstruct(astructDB, astruct!, this.frontRepo)
 							}
 						)
 
-			      // init front objects
-			      this.frontRepo.array_AstructBstruct2Uses = []
+						// init front objects
+						this.frontRepo.array_AstructBstruct2Uses = []
 						this.frontRepo.map_ID_AstructBstruct2Use.clear()
 						this.frontRepo.AstructBstruct2Uses_array.forEach(
 							astructbstruct2useDB => {
@@ -503,8 +505,8 @@ export class FrontRepoService {
 							}
 						)
 
-			      // init front objects
-			      this.frontRepo.array_AstructBstructUses = []
+						// init front objects
+						this.frontRepo.array_AstructBstructUses = []
 						this.frontRepo.map_ID_AstructBstructUse.clear()
 						this.frontRepo.AstructBstructUses_array.forEach(
 							astructbstructuseDB => {
@@ -515,8 +517,8 @@ export class FrontRepoService {
 							}
 						)
 
-			      // init front objects
-			      this.frontRepo.array_Bstructs = []
+						// init front objects
+						this.frontRepo.array_Bstructs = []
 						this.frontRepo.map_ID_Bstruct.clear()
 						this.frontRepo.Bstructs_array.forEach(
 							bstructDB => {
@@ -527,8 +529,8 @@ export class FrontRepoService {
 							}
 						)
 
-			      // init front objects
-			      this.frontRepo.array_Dstructs = []
+						// init front objects
+						this.frontRepo.array_Dstructs = []
 						this.frontRepo.map_ID_Dstruct.clear()
 						this.frontRepo.Dstructs_array.forEach(
 							dstructDB => {
@@ -571,16 +573,16 @@ export class FrontRepoService {
 						// insertion point sub template 
 						astructs.forEach(
 							astruct => {
-								this.frontRepo.Astructs.set(astruct.ID, astruct)
+								this.frontRepo.AstructDBs.set(astruct.ID, astruct)
 								this.frontRepo.Astructs_batch.set(astruct.ID, astruct)
 							}
 						)
 
 						// clear astructs that are absent from the GET
-						this.frontRepo.Astructs.forEach(
+						this.frontRepo.AstructDBs.forEach(
 							astruct => {
 								if (this.frontRepo.Astructs_batch.get(astruct.ID) == undefined) {
-									this.frontRepo.Astructs.delete(astruct.ID)
+									this.frontRepo.AstructDBs.delete(astruct.ID)
 								}
 							}
 						)
