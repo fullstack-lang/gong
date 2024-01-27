@@ -121,7 +121,7 @@ export class FrontRepo { // insertion point sub template
 				throw new Error("Type not recognized");
 		}
 	}
-	
+
 	getFrontMap<Type>(gongStructName: string): Map<number, Type> {
 		switch (gongStructName) {
 			// insertion point
@@ -294,6 +294,7 @@ export class FrontRepoService {
 						bstructs_,
 						dstructs_,
 					]) => {
+						let _this = this
 						// Typing can be messy with many items. Therefore, type casting is necessary here
 						// insertion point sub template for type casting 
 						var astructs: AstructDB[]
@@ -312,6 +313,7 @@ export class FrontRepoService {
 						// insertion point sub template for init 
 						// init the arrays
 						this.frontRepo.Astructs_array = astructs
+						this.frontRepo.array_Astructs = []
 						this.frontRepo.map_ID_Astruct.clear()
 
 						// clear the map that counts Astruct in the GET
@@ -323,7 +325,7 @@ export class FrontRepoService {
 								this.frontRepo.Astructs_batch.set(astructDB.ID, astructDB)
 								let astruct = new Astruct
 								this.frontRepo.array_Astructs.push(astruct)
-								this.frontRepo.map_ID_Astruct.set(astruct.ID, astruct)
+								this.frontRepo.map_ID_Astruct.set(astructDB.ID, astruct)
 							}
 						)
 
@@ -349,6 +351,7 @@ export class FrontRepoService {
 
 						// init the arrays
 						this.frontRepo.AstructBstruct2Uses_array = astructbstruct2uses
+						this.frontRepo.array_AstructBstruct2Uses = []
 						this.frontRepo.map_ID_AstructBstruct2Use.clear()
 
 						// clear the map that counts AstructBstruct2Use in the GET
@@ -360,7 +363,7 @@ export class FrontRepoService {
 								this.frontRepo.AstructBstruct2Uses_batch.set(astructbstruct2useDB.ID, astructbstruct2useDB)
 								let astructbstruct2use = new AstructBstruct2Use
 								this.frontRepo.array_AstructBstruct2Uses.push(astructbstruct2use)
-								this.frontRepo.map_ID_AstructBstruct2Use.set(astructbstruct2use.ID, astructbstruct2use)
+								this.frontRepo.map_ID_AstructBstruct2Use.set(astructbstruct2useDB.ID, astructbstruct2use)
 							}
 						)
 
@@ -386,6 +389,7 @@ export class FrontRepoService {
 
 						// init the arrays
 						this.frontRepo.AstructBstructUses_array = astructbstructuses
+						this.frontRepo.array_AstructBstructUses = []
 						this.frontRepo.map_ID_AstructBstructUse.clear()
 
 						// clear the map that counts AstructBstructUse in the GET
@@ -397,7 +401,7 @@ export class FrontRepoService {
 								this.frontRepo.AstructBstructUses_batch.set(astructbstructuseDB.ID, astructbstructuseDB)
 								let astructbstructuse = new AstructBstructUse
 								this.frontRepo.array_AstructBstructUses.push(astructbstructuse)
-								this.frontRepo.map_ID_AstructBstructUse.set(astructbstructuse.ID, astructbstructuse)
+								this.frontRepo.map_ID_AstructBstructUse.set(astructbstructuseDB.ID, astructbstructuse)
 							}
 						)
 
@@ -423,6 +427,7 @@ export class FrontRepoService {
 
 						// init the arrays
 						this.frontRepo.Bstructs_array = bstructs
+						this.frontRepo.array_Bstructs = []
 						this.frontRepo.map_ID_Bstruct.clear()
 
 						// clear the map that counts Bstruct in the GET
@@ -434,7 +439,7 @@ export class FrontRepoService {
 								this.frontRepo.Bstructs_batch.set(bstructDB.ID, bstructDB)
 								let bstruct = new Bstruct
 								this.frontRepo.array_Bstructs.push(bstruct)
-								this.frontRepo.map_ID_Bstruct.set(bstruct.ID, bstruct)
+								this.frontRepo.map_ID_Bstruct.set(bstructDB.ID, bstruct)
 							}
 						)
 
@@ -460,6 +465,7 @@ export class FrontRepoService {
 
 						// init the arrays
 						this.frontRepo.Dstructs_array = dstructs
+						this.frontRepo.array_Dstructs = []
 						this.frontRepo.map_ID_Dstruct.clear()
 
 						// clear the map that counts Dstruct in the GET
@@ -471,7 +477,7 @@ export class FrontRepoService {
 								this.frontRepo.Dstructs_batch.set(dstructDB.ID, dstructDB)
 								let dstruct = new Dstruct
 								this.frontRepo.array_Dstructs.push(dstruct)
-								this.frontRepo.map_ID_Dstruct.set(dstruct.ID, dstruct)
+								this.frontRepo.map_ID_Dstruct.set(dstructDB.ID, dstruct)
 							}
 						)
 
