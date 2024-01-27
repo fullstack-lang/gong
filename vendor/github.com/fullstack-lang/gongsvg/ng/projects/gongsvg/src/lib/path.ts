@@ -37,7 +37,7 @@ export function CopyPathToPathDB(path: Path, pathDB: PathDB) {
 	pathDB.CreatedAt = path.CreatedAt
 	pathDB.DeletedAt = path.DeletedAt
 	pathDB.ID = path.ID
-	
+
 	// insertion point for basic fields copy operations
 	pathDB.Name = path.Name
 	pathDB.Definition = path.Definition
@@ -53,18 +53,22 @@ export function CopyPathToPathDB(path: Path, pathDB: PathDB) {
 
 	// insertion point for slice of pointers fields encoding
 	pathDB.PathPointersEncoding.Animates = []
-    for (let _animate of path.Animates) {
+	for (let _animate of path.Animates) {
 		pathDB.PathPointersEncoding.Animates.push(_animate.ID)
-    }
-	
+	}
+
 }
 
+// CopyPathDBToPath update basic, pointers and slice of pointers fields of path
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of pathDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyPathDBToPath(pathDB: PathDB, path: Path, frontRepo: FrontRepo) {
 
 	path.CreatedAt = pathDB.CreatedAt
 	path.DeletedAt = pathDB.DeletedAt
 	path.ID = pathDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	path.Name = pathDB.Name
 	path.Definition = pathDB.Definition
@@ -81,9 +85,9 @@ export function CopyPathDBToPath(pathDB: PathDB, path: Path, frontRepo: FrontRep
 	// insertion point for slice of pointers fields encoding
 	path.Animates = new Array<Animate>()
 	for (let _id of pathDB.PathPointersEncoding.Animates) {
-	  let _animate = frontRepo.Animates.get(_id)
-	  if (_animate != undefined) {
-		path.Animates.push(_animate!)
-	  }
+		let _animate = frontRepo.map_ID_Animate.get(_id)
+		if (_animate != undefined) {
+			path.Animates.push(_animate!)
+		}
 	}
 }

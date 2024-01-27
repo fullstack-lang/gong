@@ -101,8 +101,6 @@ export class FormFieldIntService {
   }
   postFormFieldInt(formfieldintdb: FormFieldIntDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldIntDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -111,7 +109,6 @@ export class FormFieldIntService {
 
     return this.http.post<FormFieldIntDB>(this.formfieldintsUrl, formfieldintdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`posted formfieldintdb id=${formfieldintdb.ID}`)
       }),
       catchError(this.handleError<FormFieldIntDB>('postFormFieldInt'))
@@ -165,8 +162,6 @@ export class FormFieldIntService {
     const id = typeof formfieldintdb === 'number' ? formfieldintdb : formfieldintdb.ID;
     const url = `${this.formfieldintsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -176,7 +171,6 @@ export class FormFieldIntService {
 
     return this.http.put<FormFieldIntDB>(url, formfieldintdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`updated formfieldintdb id=${formfieldintdb.ID}`)
       }),
       catchError(this.handleError<FormFieldIntDB>('updateFormFieldInt'))

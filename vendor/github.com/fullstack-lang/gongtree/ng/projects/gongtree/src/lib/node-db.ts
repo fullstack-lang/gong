@@ -26,11 +26,7 @@ export class NodeDB {
 	IsWithPreceedingIcon: boolean = false
 	PreceedingIcon: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
-	PreceedingSVGIcon?: SVGIconDB
-
-	Children: Array<NodeDB> = []
-	Buttons: Array<ButtonDB> = []
+	// insertion point for other decls
 
 	NodePointersEncoding: NodePointersEncoding = new NodePointersEncoding
 }

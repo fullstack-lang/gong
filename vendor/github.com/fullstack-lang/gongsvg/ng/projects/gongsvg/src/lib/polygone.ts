@@ -37,7 +37,7 @@ export function CopyPolygoneToPolygoneDB(polygone: Polygone, polygoneDB: Polygon
 	polygoneDB.CreatedAt = polygone.CreatedAt
 	polygoneDB.DeletedAt = polygone.DeletedAt
 	polygoneDB.ID = polygone.ID
-	
+
 	// insertion point for basic fields copy operations
 	polygoneDB.Name = polygone.Name
 	polygoneDB.Points = polygone.Points
@@ -53,18 +53,22 @@ export function CopyPolygoneToPolygoneDB(polygone: Polygone, polygoneDB: Polygon
 
 	// insertion point for slice of pointers fields encoding
 	polygoneDB.PolygonePointersEncoding.Animates = []
-    for (let _animate of polygone.Animates) {
+	for (let _animate of polygone.Animates) {
 		polygoneDB.PolygonePointersEncoding.Animates.push(_animate.ID)
-    }
-	
+	}
+
 }
 
+// CopyPolygoneDBToPolygone update basic, pointers and slice of pointers fields of polygone
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of polygoneDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyPolygoneDBToPolygone(polygoneDB: PolygoneDB, polygone: Polygone, frontRepo: FrontRepo) {
 
 	polygone.CreatedAt = polygoneDB.CreatedAt
 	polygone.DeletedAt = polygoneDB.DeletedAt
 	polygone.ID = polygoneDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	polygone.Name = polygoneDB.Name
 	polygone.Points = polygoneDB.Points
@@ -81,9 +85,9 @@ export function CopyPolygoneDBToPolygone(polygoneDB: PolygoneDB, polygone: Polyg
 	// insertion point for slice of pointers fields encoding
 	polygone.Animates = new Array<Animate>()
 	for (let _id of polygoneDB.PolygonePointersEncoding.Animates) {
-	  let _animate = frontRepo.Animates.get(_id)
-	  if (_animate != undefined) {
-		polygone.Animates.push(_animate!)
-	  }
+		let _animate = frontRepo.map_ID_Animate.get(_id)
+		if (_animate != undefined) {
+			polygone.Animates.push(_animate!)
+		}
 	}
 }

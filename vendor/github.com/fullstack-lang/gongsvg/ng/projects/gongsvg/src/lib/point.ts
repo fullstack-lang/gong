@@ -29,7 +29,7 @@ export function CopyPointToPointDB(point: Point, pointDB: PointDB) {
 	pointDB.CreatedAt = point.CreatedAt
 	pointDB.DeletedAt = point.DeletedAt
 	pointDB.ID = point.ID
-	
+
 	// insertion point for basic fields copy operations
 	pointDB.Name = point.Name
 	pointDB.X = point.X
@@ -40,12 +40,16 @@ export function CopyPointToPointDB(point: Point, pointDB: PointDB) {
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyPointDBToPoint update basic, pointers and slice of pointers fields of point
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of pointDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyPointDBToPoint(pointDB: PointDB, point: Point, frontRepo: FrontRepo) {
 
 	point.CreatedAt = pointDB.CreatedAt
 	point.DeletedAt = pointDB.DeletedAt
 	point.ID = pointDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	point.Name = pointDB.Name
 	point.X = pointDB.X

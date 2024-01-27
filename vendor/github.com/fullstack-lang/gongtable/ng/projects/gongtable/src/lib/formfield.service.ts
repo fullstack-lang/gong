@@ -108,43 +108,6 @@ export class FormFieldService {
   }
   postFormField(formfielddb: FormFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    if (formfielddb.FormFieldString != undefined) {
-      formfielddb.FormFieldPointersEncoding.FormFieldStringID.Int64 = formfielddb.FormFieldString.ID
-      formfielddb.FormFieldPointersEncoding.FormFieldStringID.Valid = true
-    }
-    formfielddb.FormFieldString = undefined
-    if (formfielddb.FormFieldFloat64 != undefined) {
-      formfielddb.FormFieldPointersEncoding.FormFieldFloat64ID.Int64 = formfielddb.FormFieldFloat64.ID
-      formfielddb.FormFieldPointersEncoding.FormFieldFloat64ID.Valid = true
-    }
-    formfielddb.FormFieldFloat64 = undefined
-    if (formfielddb.FormFieldInt != undefined) {
-      formfielddb.FormFieldPointersEncoding.FormFieldIntID.Int64 = formfielddb.FormFieldInt.ID
-      formfielddb.FormFieldPointersEncoding.FormFieldIntID.Valid = true
-    }
-    formfielddb.FormFieldInt = undefined
-    if (formfielddb.FormFieldDate != undefined) {
-      formfielddb.FormFieldPointersEncoding.FormFieldDateID.Int64 = formfielddb.FormFieldDate.ID
-      formfielddb.FormFieldPointersEncoding.FormFieldDateID.Valid = true
-    }
-    formfielddb.FormFieldDate = undefined
-    if (formfielddb.FormFieldTime != undefined) {
-      formfielddb.FormFieldPointersEncoding.FormFieldTimeID.Int64 = formfielddb.FormFieldTime.ID
-      formfielddb.FormFieldPointersEncoding.FormFieldTimeID.Valid = true
-    }
-    formfielddb.FormFieldTime = undefined
-    if (formfielddb.FormFieldDateTime != undefined) {
-      formfielddb.FormFieldPointersEncoding.FormFieldDateTimeID.Int64 = formfielddb.FormFieldDateTime.ID
-      formfielddb.FormFieldPointersEncoding.FormFieldDateTimeID.Valid = true
-    }
-    formfielddb.FormFieldDateTime = undefined
-    if (formfielddb.FormFieldSelect != undefined) {
-      formfielddb.FormFieldPointersEncoding.FormFieldSelectID.Int64 = formfielddb.FormFieldSelect.ID
-      formfielddb.FormFieldPointersEncoding.FormFieldSelectID.Valid = true
-    }
-    formfielddb.FormFieldSelect = undefined
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -153,14 +116,6 @@ export class FormFieldService {
 
     return this.http.post<FormFieldDB>(this.formfieldsUrl, formfielddb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        formfielddb.FormFieldString = frontRepo.FormFieldStrings.get(formfielddb.FormFieldPointersEncoding.FormFieldStringID.Int64)
-        formfielddb.FormFieldFloat64 = frontRepo.FormFieldFloat64s.get(formfielddb.FormFieldPointersEncoding.FormFieldFloat64ID.Int64)
-        formfielddb.FormFieldInt = frontRepo.FormFieldInts.get(formfielddb.FormFieldPointersEncoding.FormFieldIntID.Int64)
-        formfielddb.FormFieldDate = frontRepo.FormFieldDates.get(formfielddb.FormFieldPointersEncoding.FormFieldDateID.Int64)
-        formfielddb.FormFieldTime = frontRepo.FormFieldTimes.get(formfielddb.FormFieldPointersEncoding.FormFieldTimeID.Int64)
-        formfielddb.FormFieldDateTime = frontRepo.FormFieldDateTimes.get(formfielddb.FormFieldPointersEncoding.FormFieldDateTimeID.Int64)
-        formfielddb.FormFieldSelect = frontRepo.FormFieldSelects.get(formfielddb.FormFieldPointersEncoding.FormFieldSelectID.Int64)
         // this.log(`posted formfielddb id=${formfielddb.ID}`)
       }),
       catchError(this.handleError<FormFieldDB>('postFormField'))
@@ -214,43 +169,6 @@ export class FormFieldService {
     const id = typeof formfielddb === 'number' ? formfielddb : formfielddb.ID;
     const url = `${this.formfieldsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    if (formfielddb.FormFieldString != undefined) {
-      formfielddb.FormFieldPointersEncoding.FormFieldStringID.Int64 = formfielddb.FormFieldString.ID
-      formfielddb.FormFieldPointersEncoding.FormFieldStringID.Valid = true
-    }
-    formfielddb.FormFieldString = undefined
-    if (formfielddb.FormFieldFloat64 != undefined) {
-      formfielddb.FormFieldPointersEncoding.FormFieldFloat64ID.Int64 = formfielddb.FormFieldFloat64.ID
-      formfielddb.FormFieldPointersEncoding.FormFieldFloat64ID.Valid = true
-    }
-    formfielddb.FormFieldFloat64 = undefined
-    if (formfielddb.FormFieldInt != undefined) {
-      formfielddb.FormFieldPointersEncoding.FormFieldIntID.Int64 = formfielddb.FormFieldInt.ID
-      formfielddb.FormFieldPointersEncoding.FormFieldIntID.Valid = true
-    }
-    formfielddb.FormFieldInt = undefined
-    if (formfielddb.FormFieldDate != undefined) {
-      formfielddb.FormFieldPointersEncoding.FormFieldDateID.Int64 = formfielddb.FormFieldDate.ID
-      formfielddb.FormFieldPointersEncoding.FormFieldDateID.Valid = true
-    }
-    formfielddb.FormFieldDate = undefined
-    if (formfielddb.FormFieldTime != undefined) {
-      formfielddb.FormFieldPointersEncoding.FormFieldTimeID.Int64 = formfielddb.FormFieldTime.ID
-      formfielddb.FormFieldPointersEncoding.FormFieldTimeID.Valid = true
-    }
-    formfielddb.FormFieldTime = undefined
-    if (formfielddb.FormFieldDateTime != undefined) {
-      formfielddb.FormFieldPointersEncoding.FormFieldDateTimeID.Int64 = formfielddb.FormFieldDateTime.ID
-      formfielddb.FormFieldPointersEncoding.FormFieldDateTimeID.Valid = true
-    }
-    formfielddb.FormFieldDateTime = undefined
-    if (formfielddb.FormFieldSelect != undefined) {
-      formfielddb.FormFieldPointersEncoding.FormFieldSelectID.Int64 = formfielddb.FormFieldSelect.ID
-      formfielddb.FormFieldPointersEncoding.FormFieldSelectID.Valid = true
-    }
-    formfielddb.FormFieldSelect = undefined
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -260,14 +178,6 @@ export class FormFieldService {
 
     return this.http.put<FormFieldDB>(url, formfielddb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        formfielddb.FormFieldString = frontRepo.FormFieldStrings.get(formfielddb.FormFieldPointersEncoding.FormFieldStringID.Int64)
-        formfielddb.FormFieldFloat64 = frontRepo.FormFieldFloat64s.get(formfielddb.FormFieldPointersEncoding.FormFieldFloat64ID.Int64)
-        formfielddb.FormFieldInt = frontRepo.FormFieldInts.get(formfielddb.FormFieldPointersEncoding.FormFieldIntID.Int64)
-        formfielddb.FormFieldDate = frontRepo.FormFieldDates.get(formfielddb.FormFieldPointersEncoding.FormFieldDateID.Int64)
-        formfielddb.FormFieldTime = frontRepo.FormFieldTimes.get(formfielddb.FormFieldPointersEncoding.FormFieldTimeID.Int64)
-        formfielddb.FormFieldDateTime = frontRepo.FormFieldDateTimes.get(formfielddb.FormFieldPointersEncoding.FormFieldDateTimeID.Int64)
-        formfielddb.FormFieldSelect = frontRepo.FormFieldSelects.get(formfielddb.FormFieldPointersEncoding.FormFieldSelectID.Int64)
         // this.log(`updated formfielddb id=${formfielddb.ID}`)
       }),
       catchError(this.handleError<FormFieldDB>('updateFormField'))

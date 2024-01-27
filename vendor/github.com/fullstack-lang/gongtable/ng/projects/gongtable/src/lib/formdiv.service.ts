@@ -105,28 +105,6 @@ export class FormDivService {
   }
   postFormDiv(formdivdb: FormDivDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    formdivdb.FormDivPointersEncoding.FormFields = []
-    for (let _formfield of formdivdb.FormFields) {
-      formdivdb.FormDivPointersEncoding.FormFields.push(_formfield.ID)
-    }
-    formdivdb.FormFields = []
-    formdivdb.FormDivPointersEncoding.CheckBoxs = []
-    for (let _checkbox of formdivdb.CheckBoxs) {
-      formdivdb.FormDivPointersEncoding.CheckBoxs.push(_checkbox.ID)
-    }
-    formdivdb.CheckBoxs = []
-    if (formdivdb.FormEditAssocButton != undefined) {
-      formdivdb.FormDivPointersEncoding.FormEditAssocButtonID.Int64 = formdivdb.FormEditAssocButton.ID
-      formdivdb.FormDivPointersEncoding.FormEditAssocButtonID.Valid = true
-    }
-    formdivdb.FormEditAssocButton = undefined
-    if (formdivdb.FormSortAssocButton != undefined) {
-      formdivdb.FormDivPointersEncoding.FormSortAssocButtonID.Int64 = formdivdb.FormSortAssocButton.ID
-      formdivdb.FormDivPointersEncoding.FormSortAssocButtonID.Valid = true
-    }
-    formdivdb.FormSortAssocButton = undefined
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -135,23 +113,6 @@ export class FormDivService {
 
     return this.http.post<FormDivDB>(this.formdivsUrl, formdivdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        formdivdb.FormFields = new Array<FormFieldDB>()
-        for (let _id of formdivdb.FormDivPointersEncoding.FormFields) {
-          let _formfield = frontRepo.FormFields.get(_id)
-          if (_formfield != undefined) {
-            formdivdb.FormFields.push(_formfield!)
-          }
-        }
-        formdivdb.CheckBoxs = new Array<CheckBoxDB>()
-        for (let _id of formdivdb.FormDivPointersEncoding.CheckBoxs) {
-          let _checkbox = frontRepo.CheckBoxs.get(_id)
-          if (_checkbox != undefined) {
-            formdivdb.CheckBoxs.push(_checkbox!)
-          }
-        }
-        formdivdb.FormEditAssocButton = frontRepo.FormEditAssocButtons.get(formdivdb.FormDivPointersEncoding.FormEditAssocButtonID.Int64)
-        formdivdb.FormSortAssocButton = frontRepo.FormSortAssocButtons.get(formdivdb.FormDivPointersEncoding.FormSortAssocButtonID.Int64)
         // this.log(`posted formdivdb id=${formdivdb.ID}`)
       }),
       catchError(this.handleError<FormDivDB>('postFormDiv'))
@@ -205,28 +166,6 @@ export class FormDivService {
     const id = typeof formdivdb === 'number' ? formdivdb : formdivdb.ID;
     const url = `${this.formdivsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    formdivdb.FormDivPointersEncoding.FormFields = []
-    for (let _formfield of formdivdb.FormFields) {
-      formdivdb.FormDivPointersEncoding.FormFields.push(_formfield.ID)
-    }
-    formdivdb.FormFields = []
-    formdivdb.FormDivPointersEncoding.CheckBoxs = []
-    for (let _checkbox of formdivdb.CheckBoxs) {
-      formdivdb.FormDivPointersEncoding.CheckBoxs.push(_checkbox.ID)
-    }
-    formdivdb.CheckBoxs = []
-    if (formdivdb.FormEditAssocButton != undefined) {
-      formdivdb.FormDivPointersEncoding.FormEditAssocButtonID.Int64 = formdivdb.FormEditAssocButton.ID
-      formdivdb.FormDivPointersEncoding.FormEditAssocButtonID.Valid = true
-    }
-    formdivdb.FormEditAssocButton = undefined
-    if (formdivdb.FormSortAssocButton != undefined) {
-      formdivdb.FormDivPointersEncoding.FormSortAssocButtonID.Int64 = formdivdb.FormSortAssocButton.ID
-      formdivdb.FormDivPointersEncoding.FormSortAssocButtonID.Valid = true
-    }
-    formdivdb.FormSortAssocButton = undefined
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -236,23 +175,6 @@ export class FormDivService {
 
     return this.http.put<FormDivDB>(url, formdivdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        formdivdb.FormFields = new Array<FormFieldDB>()
-        for (let _id of formdivdb.FormDivPointersEncoding.FormFields) {
-          let _formfield = frontRepo.FormFields.get(_id)
-          if (_formfield != undefined) {
-            formdivdb.FormFields.push(_formfield!)
-          }
-        }
-        formdivdb.CheckBoxs = new Array<CheckBoxDB>()
-        for (let _id of formdivdb.FormDivPointersEncoding.CheckBoxs) {
-          let _checkbox = frontRepo.CheckBoxs.get(_id)
-          if (_checkbox != undefined) {
-            formdivdb.CheckBoxs.push(_checkbox!)
-          }
-        }
-        formdivdb.FormEditAssocButton = frontRepo.FormEditAssocButtons.get(formdivdb.FormDivPointersEncoding.FormEditAssocButtonID.Int64)
-        formdivdb.FormSortAssocButton = frontRepo.FormSortAssocButtons.get(formdivdb.FormDivPointersEncoding.FormSortAssocButtonID.Int64)
         // this.log(`updated formdivdb id=${formdivdb.ID}`)
       }),
       catchError(this.handleError<FormDivDB>('updateFormDiv'))

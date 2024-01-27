@@ -102,13 +102,6 @@ export class LinkAnchoredTextService {
   }
   postLinkAnchoredText(linkanchoredtextdb: LinkAnchoredTextDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Animates = []
-    for (let _animate of linkanchoredtextdb.Animates) {
-      linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Animates.push(_animate.ID)
-    }
-    linkanchoredtextdb.Animates = []
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,14 +110,6 @@ export class LinkAnchoredTextService {
 
     return this.http.post<LinkAnchoredTextDB>(this.linkanchoredtextsUrl, linkanchoredtextdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        linkanchoredtextdb.Animates = new Array<AnimateDB>()
-        for (let _id of linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Animates) {
-          let _animate = frontRepo.Animates.get(_id)
-          if (_animate != undefined) {
-            linkanchoredtextdb.Animates.push(_animate!)
-          }
-        }
         // this.log(`posted linkanchoredtextdb id=${linkanchoredtextdb.ID}`)
       }),
       catchError(this.handleError<LinkAnchoredTextDB>('postLinkAnchoredText'))
@@ -178,13 +163,6 @@ export class LinkAnchoredTextService {
     const id = typeof linkanchoredtextdb === 'number' ? linkanchoredtextdb : linkanchoredtextdb.ID;
     const url = `${this.linkanchoredtextsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Animates = []
-    for (let _animate of linkanchoredtextdb.Animates) {
-      linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Animates.push(_animate.ID)
-    }
-    linkanchoredtextdb.Animates = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -194,14 +172,6 @@ export class LinkAnchoredTextService {
 
     return this.http.put<LinkAnchoredTextDB>(url, linkanchoredtextdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        linkanchoredtextdb.Animates = new Array<AnimateDB>()
-        for (let _id of linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Animates) {
-          let _animate = frontRepo.Animates.get(_id)
-          if (_animate != undefined) {
-            linkanchoredtextdb.Animates.push(_animate!)
-          }
-        }
         // this.log(`updated linkanchoredtextdb id=${linkanchoredtextdb.ID}`)
       }),
       catchError(this.handleError<LinkAnchoredTextDB>('updateLinkAnchoredText'))

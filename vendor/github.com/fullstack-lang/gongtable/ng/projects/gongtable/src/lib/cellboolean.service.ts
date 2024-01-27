@@ -101,8 +101,6 @@ export class CellBooleanService {
   }
   postCellBoolean(cellbooleandb: CellBooleanDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellBooleanDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -111,7 +109,6 @@ export class CellBooleanService {
 
     return this.http.post<CellBooleanDB>(this.cellbooleansUrl, cellbooleandb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`posted cellbooleandb id=${cellbooleandb.ID}`)
       }),
       catchError(this.handleError<CellBooleanDB>('postCellBoolean'))
@@ -165,8 +162,6 @@ export class CellBooleanService {
     const id = typeof cellbooleandb === 'number' ? cellbooleandb : cellbooleandb.ID;
     const url = `${this.cellbooleansUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -176,7 +171,6 @@ export class CellBooleanService {
 
     return this.http.put<CellBooleanDB>(url, cellbooleandb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`updated cellbooleandb id=${cellbooleandb.ID}`)
       }),
       catchError(this.handleError<CellBooleanDB>('updateCellBoolean'))

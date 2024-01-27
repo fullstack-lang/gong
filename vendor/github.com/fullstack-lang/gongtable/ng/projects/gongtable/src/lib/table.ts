@@ -40,7 +40,7 @@ export function CopyTableToTableDB(table: Table, tableDB: TableDB) {
 	tableDB.CreatedAt = table.CreatedAt
 	tableDB.DeletedAt = table.DeletedAt
 	tableDB.ID = table.ID
-	
+
 	// insertion point for basic fields copy operations
 	tableDB.Name = table.Name
 	tableDB.HasFiltering = table.HasFiltering
@@ -57,23 +57,27 @@ export function CopyTableToTableDB(table: Table, tableDB: TableDB) {
 
 	// insertion point for slice of pointers fields encoding
 	tableDB.TablePointersEncoding.DisplayedColumns = []
-    for (let _displayedcolumn of table.DisplayedColumns) {
+	for (let _displayedcolumn of table.DisplayedColumns) {
 		tableDB.TablePointersEncoding.DisplayedColumns.push(_displayedcolumn.ID)
-    }
-	
+	}
+
 	tableDB.TablePointersEncoding.Rows = []
-    for (let _row of table.Rows) {
+	for (let _row of table.Rows) {
 		tableDB.TablePointersEncoding.Rows.push(_row.ID)
-    }
-	
+	}
+
 }
 
+// CopyTableDBToTable update basic, pointers and slice of pointers fields of table
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of tableDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyTableDBToTable(tableDB: TableDB, table: Table, frontRepo: FrontRepo) {
 
 	table.CreatedAt = tableDB.CreatedAt
 	table.DeletedAt = tableDB.DeletedAt
 	table.ID = tableDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	table.Name = tableDB.Name
 	table.HasFiltering = tableDB.HasFiltering
@@ -91,16 +95,16 @@ export function CopyTableDBToTable(tableDB: TableDB, table: Table, frontRepo: Fr
 	// insertion point for slice of pointers fields encoding
 	table.DisplayedColumns = new Array<DisplayedColumn>()
 	for (let _id of tableDB.TablePointersEncoding.DisplayedColumns) {
-	  let _displayedcolumn = frontRepo.DisplayedColumns.get(_id)
-	  if (_displayedcolumn != undefined) {
-		table.DisplayedColumns.push(_displayedcolumn!)
-	  }
+		let _displayedcolumn = frontRepo.map_ID_DisplayedColumn.get(_id)
+		if (_displayedcolumn != undefined) {
+			table.DisplayedColumns.push(_displayedcolumn!)
+		}
 	}
 	table.Rows = new Array<Row>()
 	for (let _id of tableDB.TablePointersEncoding.Rows) {
-	  let _row = frontRepo.Rows.get(_id)
-	  if (_row != undefined) {
-		table.Rows.push(_row!)
-	  }
+		let _row = frontRepo.map_ID_Row.get(_id)
+		if (_row != undefined) {
+			table.Rows.push(_row!)
+		}
 	}
 }

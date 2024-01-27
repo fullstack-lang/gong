@@ -15,7 +15,7 @@ export class FormSortAssocButtonDB {
 	Name: string = ""
 	Label: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
+	// insertion point for other decls
 
 	FormSortAssocButtonPointersEncoding: FormSortAssocButtonPointersEncoding = new FormSortAssocButtonPointersEncoding
 }

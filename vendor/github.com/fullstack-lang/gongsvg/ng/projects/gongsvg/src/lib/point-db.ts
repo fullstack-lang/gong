@@ -16,7 +16,7 @@ export class PointDB {
 	X: number = 0
 	Y: number = 0
 
-	// insertion point for pointers and slices of pointers declarations
+	// insertion point for other decls
 
 	PointPointersEncoding: PointPointersEncoding = new PointPointersEncoding
 }

@@ -28,7 +28,7 @@ export function CopyCheckBoxToCheckBoxDB(checkbox: CheckBox, checkboxDB: CheckBo
 	checkboxDB.CreatedAt = checkbox.CreatedAt
 	checkboxDB.DeletedAt = checkbox.DeletedAt
 	checkboxDB.ID = checkbox.ID
-	
+
 	// insertion point for basic fields copy operations
 	checkboxDB.Name = checkbox.Name
 	checkboxDB.Value = checkbox.Value
@@ -38,12 +38,16 @@ export function CopyCheckBoxToCheckBoxDB(checkbox: CheckBox, checkboxDB: CheckBo
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyCheckBoxDBToCheckBox update basic, pointers and slice of pointers fields of checkbox
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of checkboxDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyCheckBoxDBToCheckBox(checkboxDB: CheckBoxDB, checkbox: CheckBox, frontRepo: FrontRepo) {
 
 	checkbox.CreatedAt = checkboxDB.CreatedAt
 	checkbox.DeletedAt = checkboxDB.DeletedAt
 	checkbox.ID = checkboxDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	checkbox.Name = checkboxDB.Name
 	checkbox.Value = checkboxDB.Value

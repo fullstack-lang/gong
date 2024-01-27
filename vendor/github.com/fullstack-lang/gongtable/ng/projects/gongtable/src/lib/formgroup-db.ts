@@ -18,8 +18,7 @@ export class FormGroupDB {
 	HasSuppressButton: boolean = false
 	HasSuppressButtonBeenPressed: boolean = false
 
-	// insertion point for pointers and slices of pointers declarations
-	FormDivs: Array<FormDivDB> = []
+	// insertion point for other decls
 
 	FormGroupPointersEncoding: FormGroupPointersEncoding = new FormGroupPointersEncoding
 }

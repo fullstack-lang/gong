@@ -23,8 +23,7 @@ export class PathDB {
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
-	Animates: Array<AnimateDB> = []
+	// insertion point for other decls
 
 	PathPointersEncoding: PathPointersEncoding = new PathPointersEncoding
 }

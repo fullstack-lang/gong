@@ -24,11 +24,7 @@ export class RectLinkLinkDB {
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
-	Start?: RectDB
-
-	End?: LinkDB
-
+	// insertion point for other decls
 
 	RectLinkLinkPointersEncoding: RectLinkLinkPointersEncoding = new RectLinkLinkPointersEncoding
 }

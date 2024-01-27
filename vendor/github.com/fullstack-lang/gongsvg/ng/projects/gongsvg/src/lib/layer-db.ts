@@ -25,17 +25,7 @@ export class LayerDB {
 	Display: boolean = false
 	Name: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
-	Rects: Array<RectDB> = []
-	Texts: Array<TextDB> = []
-	Circles: Array<CircleDB> = []
-	Lines: Array<LineDB> = []
-	Ellipses: Array<EllipseDB> = []
-	Polylines: Array<PolylineDB> = []
-	Polygones: Array<PolygoneDB> = []
-	Paths: Array<PathDB> = []
-	Links: Array<LinkDB> = []
-	RectLinkLinks: Array<RectLinkLinkDB> = []
+	// insertion point for other decls
 
 	LayerPointersEncoding: LayerPointersEncoding = new LayerPointersEncoding
 }

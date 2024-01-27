@@ -28,7 +28,7 @@ export function CopyCellStringToCellStringDB(cellstring: CellString, cellstringD
 	cellstringDB.CreatedAt = cellstring.CreatedAt
 	cellstringDB.DeletedAt = cellstring.DeletedAt
 	cellstringDB.ID = cellstring.ID
-	
+
 	// insertion point for basic fields copy operations
 	cellstringDB.Name = cellstring.Name
 	cellstringDB.Value = cellstring.Value
@@ -38,12 +38,16 @@ export function CopyCellStringToCellStringDB(cellstring: CellString, cellstringD
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyCellStringDBToCellString update basic, pointers and slice of pointers fields of cellstring
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of cellstringDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyCellStringDBToCellString(cellstringDB: CellStringDB, cellstring: CellString, frontRepo: FrontRepo) {
 
 	cellstring.CreatedAt = cellstringDB.CreatedAt
 	cellstring.DeletedAt = cellstringDB.DeletedAt
 	cellstring.ID = cellstringDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	cellstring.Name = cellstringDB.Name
 	cellstring.Value = cellstringDB.Value

@@ -108,7 +108,7 @@ export class MaterialFormComponent implements OnInit {
         this.selectedFormGroup = undefined
 
         // refactorable version
-        for (let form of this.gongtableFrontRepo.getArray<gongtable.FormGroup>(gongtable.FormGroup.GONGSTRUCT_NAME)) {
+        for (let form of this.gongtableFrontRepo.getFrontArray<gongtable.FormGroup>(gongtable.FormGroup.GONGSTRUCT_NAME)) {
           if (form.Name == this.FormName) {
             this.selectedFormGroup = form
           }

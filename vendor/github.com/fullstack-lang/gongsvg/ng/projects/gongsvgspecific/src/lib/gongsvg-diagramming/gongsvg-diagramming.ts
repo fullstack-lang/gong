@@ -113,7 +113,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   }
 
   resetAllLinksPreviousStartEndRects() {
-    for (let link of this.gongsvgFrontRepo!.Links_array) {
+    for (let link of this.gongsvgFrontRepo?.getFrontArray<gongsvg.Link>(gongsvg.Link.GONGSTRUCT_NAME)!) {
       this.map_Link_PreviousStart.set(link, structuredClone(link.Start!))
       this.map_Link_PreviousEnd.set(link, structuredClone(link.End!))
     }
@@ -243,11 +243,9 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
     this.gongsvgFrontRepoService.pull(this.GONG__StackPath).subscribe(
       gongsvgsFrontRepo => {
         this.gongsvgFrontRepo = gongsvgsFrontRepo
-
-        // console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVG.GONGSTRUCT_NAME).length == 1,
         //   "in promise to front repose servive pull", "gongsvgFrontRepo not good")
 
-        if (this.gongsvgFrontRepo.getArray(gongsvg.SVG.GONGSTRUCT_NAME).length == 1) {
+        if (this.gongsvgFrontRepo.getFrontArray(gongsvg.SVG.GONGSTRUCT_NAME).length == 1) {
           this.svg = this.gongsvgFrontRepo.getFrontArray<gongsvg.SVG>(gongsvg.SVG.GONGSTRUCT_NAME)[0]
 
           // set the isEditable
@@ -303,7 +301,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
         // Manually trigger change detection
         this.changeDetectorRef.detectChanges()
 
-        console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVG.GONGSTRUCT_NAME).length == 1,
+        console.assert(this.gongsvgFrontRepo?.getFrontArray(gongsvg.SVG.GONGSTRUCT_NAME).length == 1,
           "in promise to front repose servive pull", "gongsvgFrontRepo not good")
       }
     )
@@ -323,7 +321,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   // Shapes have states. For instance, Rect can be selected or not.
   // The State of shape must be conformed with the component state.
   computeShapeStates() {
-    for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+    for (let layer of this.gongsvgFrontRepo?.getFrontArray<gongsvg.Layer>(gongsvg.Layer.GONGSTRUCT_NAME)!) {
       for (let rect of layer.Rects) {
         let unselectRect = false
         switch (this.State) {
@@ -359,7 +357,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   // processGenericMouseUp performs all mouse up stuff
   processMouseUp(event: MouseEvent) {
     console.log(getFunctionName(), "state at entry", this.State)
-    console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVG.GONGSTRUCT_NAME).length == 1,
+    console.assert(this.gongsvgFrontRepo?.getFrontArray(gongsvg.SVG.GONGSTRUCT_NAME).length == 1,
       getFunctionName(), "gongsvgFrontRepo not good")
 
     // when the mouse has not moved more than a threshold
@@ -499,7 +497,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   }
 
   private unselectAllRects() {
-    for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+    for (let layer of this.gongsvgFrontRepo?.getFrontArray<gongsvg.Layer>(gongsvg.Layer.GONGSTRUCT_NAME)!) {
       for (let rect of layer.Rects) {
         if (rect.IsSelected) {
           this.unselectRect(rect)
@@ -582,7 +580,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
         }
       }
 
-      for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+      for (let layer of this.gongsvgFrontRepo?.getFrontArray<gongsvg.Layer>(gongsvg.Layer.GONGSTRUCT_NAME)!) {
         for (let rect_ of layer.Rects) {
           if (rect_.IsSelected) {
             let rectAtMouseDown_ = this.map_SelectedRectAtMouseDown.get(rect_)
@@ -721,7 +719,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
         }
       }
       this.map_SelectedRectAtMouseDown.clear()
-      for (let layer of this.gongsvgFrontRepo!.Layers_array) {
+      for (let layer of this.gongsvgFrontRepo?.getFrontArray<gongsvg.Layer>(gongsvg.Layer.GONGSTRUCT_NAME)!) {
         for (let rect of layer.Rects) {
           if (rect.IsSelected) {
             this.map_SelectedRectAtMouseDown.set(rect, structuredClone(rect))
@@ -780,7 +778,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
     if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && !event.altKey && !event.shiftKey) {
       this.State = StateEnumType.LINK_DRAGGING
       console.log(getFunctionName(), "state at exit", this.State)
-      console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVG.GONGSTRUCT_NAME).length == 1,
+      console.assert(this.gongsvgFrontRepo?.getFrontArray(gongsvg.SVG.GONGSTRUCT_NAME).length == 1,
         getFunctionName(), "gongsvgFrontRepo not good")
 
       console.assert(link.Start != undefined, getFunctionName(), "dragged link without start rect")

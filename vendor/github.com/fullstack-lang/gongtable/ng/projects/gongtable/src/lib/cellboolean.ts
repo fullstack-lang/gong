@@ -28,7 +28,7 @@ export function CopyCellBooleanToCellBooleanDB(cellboolean: CellBoolean, cellboo
 	cellbooleanDB.CreatedAt = cellboolean.CreatedAt
 	cellbooleanDB.DeletedAt = cellboolean.DeletedAt
 	cellbooleanDB.ID = cellboolean.ID
-	
+
 	// insertion point for basic fields copy operations
 	cellbooleanDB.Name = cellboolean.Name
 	cellbooleanDB.Value = cellboolean.Value
@@ -38,12 +38,16 @@ export function CopyCellBooleanToCellBooleanDB(cellboolean: CellBoolean, cellboo
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyCellBooleanDBToCellBoolean update basic, pointers and slice of pointers fields of cellboolean
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of cellbooleanDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyCellBooleanDBToCellBoolean(cellbooleanDB: CellBooleanDB, cellboolean: CellBoolean, frontRepo: FrontRepo) {
 
 	cellboolean.CreatedAt = cellbooleanDB.CreatedAt
 	cellboolean.DeletedAt = cellbooleanDB.DeletedAt
 	cellboolean.ID = cellbooleanDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	cellboolean.Name = cellbooleanDB.Name
 	cellboolean.Value = cellbooleanDB.Value

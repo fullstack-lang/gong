@@ -102,13 +102,6 @@ export class ButtonService {
   }
   postButton(buttondb: ButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    if (buttondb.SVGIcon != undefined) {
-      buttondb.ButtonPointersEncoding.SVGIconID.Int64 = buttondb.SVGIcon.ID
-      buttondb.ButtonPointersEncoding.SVGIconID.Valid = true
-    }
-    buttondb.SVGIcon = undefined
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,8 +110,6 @@ export class ButtonService {
 
     return this.http.post<ButtonDB>(this.buttonsUrl, buttondb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        buttondb.SVGIcon = frontRepo.SVGIcons.get(buttondb.ButtonPointersEncoding.SVGIconID.Int64)
         // this.log(`posted buttondb id=${buttondb.ID}`)
       }),
       catchError(this.handleError<ButtonDB>('postButton'))
@@ -172,13 +163,6 @@ export class ButtonService {
     const id = typeof buttondb === 'number' ? buttondb : buttondb.ID;
     const url = `${this.buttonsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    if (buttondb.SVGIcon != undefined) {
-      buttondb.ButtonPointersEncoding.SVGIconID.Int64 = buttondb.SVGIcon.ID
-      buttondb.ButtonPointersEncoding.SVGIconID.Valid = true
-    }
-    buttondb.SVGIcon = undefined
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -188,8 +172,6 @@ export class ButtonService {
 
     return this.http.put<ButtonDB>(url, buttondb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        buttondb.SVGIcon = frontRepo.SVGIcons.get(buttondb.ButtonPointersEncoding.SVGIconID.Int64)
         // this.log(`updated buttondb id=${buttondb.ID}`)
       }),
       catchError(this.handleError<ButtonDB>('updateButton'))

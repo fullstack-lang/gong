@@ -103,18 +103,6 @@ export class TableService {
   }
   postTable(tabledb: TableDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    tabledb.TablePointersEncoding.DisplayedColumns = []
-    for (let _displayedcolumn of tabledb.DisplayedColumns) {
-      tabledb.TablePointersEncoding.DisplayedColumns.push(_displayedcolumn.ID)
-    }
-    tabledb.DisplayedColumns = []
-    tabledb.TablePointersEncoding.Rows = []
-    for (let _row of tabledb.Rows) {
-      tabledb.TablePointersEncoding.Rows.push(_row.ID)
-    }
-    tabledb.Rows = []
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -123,21 +111,6 @@ export class TableService {
 
     return this.http.post<TableDB>(this.tablesUrl, tabledb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        tabledb.DisplayedColumns = new Array<DisplayedColumnDB>()
-        for (let _id of tabledb.TablePointersEncoding.DisplayedColumns) {
-          let _displayedcolumn = frontRepo.DisplayedColumns.get(_id)
-          if (_displayedcolumn != undefined) {
-            tabledb.DisplayedColumns.push(_displayedcolumn!)
-          }
-        }
-        tabledb.Rows = new Array<RowDB>()
-        for (let _id of tabledb.TablePointersEncoding.Rows) {
-          let _row = frontRepo.Rows.get(_id)
-          if (_row != undefined) {
-            tabledb.Rows.push(_row!)
-          }
-        }
         // this.log(`posted tabledb id=${tabledb.ID}`)
       }),
       catchError(this.handleError<TableDB>('postTable'))
@@ -191,18 +164,6 @@ export class TableService {
     const id = typeof tabledb === 'number' ? tabledb : tabledb.ID;
     const url = `${this.tablesUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    tabledb.TablePointersEncoding.DisplayedColumns = []
-    for (let _displayedcolumn of tabledb.DisplayedColumns) {
-      tabledb.TablePointersEncoding.DisplayedColumns.push(_displayedcolumn.ID)
-    }
-    tabledb.DisplayedColumns = []
-    tabledb.TablePointersEncoding.Rows = []
-    for (let _row of tabledb.Rows) {
-      tabledb.TablePointersEncoding.Rows.push(_row.ID)
-    }
-    tabledb.Rows = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -212,21 +173,6 @@ export class TableService {
 
     return this.http.put<TableDB>(url, tabledb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        tabledb.DisplayedColumns = new Array<DisplayedColumnDB>()
-        for (let _id of tabledb.TablePointersEncoding.DisplayedColumns) {
-          let _displayedcolumn = frontRepo.DisplayedColumns.get(_id)
-          if (_displayedcolumn != undefined) {
-            tabledb.DisplayedColumns.push(_displayedcolumn!)
-          }
-        }
-        tabledb.Rows = new Array<RowDB>()
-        for (let _id of tabledb.TablePointersEncoding.Rows) {
-          let _row = frontRepo.Rows.get(_id)
-          if (_row != undefined) {
-            tabledb.Rows.push(_row!)
-          }
-        }
         // this.log(`updated tabledb id=${tabledb.ID}`)
       }),
       catchError(this.handleError<TableDB>('updateTable'))

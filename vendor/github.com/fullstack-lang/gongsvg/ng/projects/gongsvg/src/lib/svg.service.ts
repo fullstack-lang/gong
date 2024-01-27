@@ -103,23 +103,6 @@ export class SVGService {
   }
   postSVG(svgdb: SVGDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    svgdb.SVGPointersEncoding.Layers = []
-    for (let _layer of svgdb.Layers) {
-      svgdb.SVGPointersEncoding.Layers.push(_layer.ID)
-    }
-    svgdb.Layers = []
-    if (svgdb.StartRect != undefined) {
-      svgdb.SVGPointersEncoding.StartRectID.Int64 = svgdb.StartRect.ID
-      svgdb.SVGPointersEncoding.StartRectID.Valid = true
-    }
-    svgdb.StartRect = undefined
-    if (svgdb.EndRect != undefined) {
-      svgdb.SVGPointersEncoding.EndRectID.Int64 = svgdb.EndRect.ID
-      svgdb.SVGPointersEncoding.EndRectID.Valid = true
-    }
-    svgdb.EndRect = undefined
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -128,16 +111,6 @@ export class SVGService {
 
     return this.http.post<SVGDB>(this.svgsUrl, svgdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        svgdb.Layers = new Array<LayerDB>()
-        for (let _id of svgdb.SVGPointersEncoding.Layers) {
-          let _layer = frontRepo.Layers.get(_id)
-          if (_layer != undefined) {
-            svgdb.Layers.push(_layer!)
-          }
-        }
-        svgdb.StartRect = frontRepo.Rects.get(svgdb.SVGPointersEncoding.StartRectID.Int64)
-        svgdb.EndRect = frontRepo.Rects.get(svgdb.SVGPointersEncoding.EndRectID.Int64)
         // this.log(`posted svgdb id=${svgdb.ID}`)
       }),
       catchError(this.handleError<SVGDB>('postSVG'))
@@ -191,23 +164,6 @@ export class SVGService {
     const id = typeof svgdb === 'number' ? svgdb : svgdb.ID;
     const url = `${this.svgsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    svgdb.SVGPointersEncoding.Layers = []
-    for (let _layer of svgdb.Layers) {
-      svgdb.SVGPointersEncoding.Layers.push(_layer.ID)
-    }
-    svgdb.Layers = []
-    if (svgdb.StartRect != undefined) {
-      svgdb.SVGPointersEncoding.StartRectID.Int64 = svgdb.StartRect.ID
-      svgdb.SVGPointersEncoding.StartRectID.Valid = true
-    }
-    svgdb.StartRect = undefined
-    if (svgdb.EndRect != undefined) {
-      svgdb.SVGPointersEncoding.EndRectID.Int64 = svgdb.EndRect.ID
-      svgdb.SVGPointersEncoding.EndRectID.Valid = true
-    }
-    svgdb.EndRect = undefined
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -217,16 +173,6 @@ export class SVGService {
 
     return this.http.put<SVGDB>(url, svgdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        svgdb.Layers = new Array<LayerDB>()
-        for (let _id of svgdb.SVGPointersEncoding.Layers) {
-          let _layer = frontRepo.Layers.get(_id)
-          if (_layer != undefined) {
-            svgdb.Layers.push(_layer!)
-          }
-        }
-        svgdb.StartRect = frontRepo.Rects.get(svgdb.SVGPointersEncoding.StartRectID.Int64)
-        svgdb.EndRect = frontRepo.Rects.get(svgdb.SVGPointersEncoding.EndRectID.Int64)
         // this.log(`updated svgdb id=${svgdb.ID}`)
       }),
       catchError(this.handleError<SVGDB>('updateSVG'))

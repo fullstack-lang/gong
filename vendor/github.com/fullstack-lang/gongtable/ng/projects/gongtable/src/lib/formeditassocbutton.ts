@@ -28,7 +28,7 @@ export function CopyFormEditAssocButtonToFormEditAssocButtonDB(formeditassocbutt
 	formeditassocbuttonDB.CreatedAt = formeditassocbutton.CreatedAt
 	formeditassocbuttonDB.DeletedAt = formeditassocbutton.DeletedAt
 	formeditassocbuttonDB.ID = formeditassocbutton.ID
-	
+
 	// insertion point for basic fields copy operations
 	formeditassocbuttonDB.Name = formeditassocbutton.Name
 	formeditassocbuttonDB.Label = formeditassocbutton.Label
@@ -38,12 +38,16 @@ export function CopyFormEditAssocButtonToFormEditAssocButtonDB(formeditassocbutt
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyFormEditAssocButtonDBToFormEditAssocButton update basic, pointers and slice of pointers fields of formeditassocbutton
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of formeditassocbuttonDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyFormEditAssocButtonDBToFormEditAssocButton(formeditassocbuttonDB: FormEditAssocButtonDB, formeditassocbutton: FormEditAssocButton, frontRepo: FrontRepo) {
 
 	formeditassocbutton.CreatedAt = formeditassocbuttonDB.CreatedAt
 	formeditassocbutton.DeletedAt = formeditassocbuttonDB.DeletedAt
 	formeditassocbutton.ID = formeditassocbuttonDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	formeditassocbutton.Name = formeditassocbuttonDB.Name
 	formeditassocbutton.Label = formeditassocbuttonDB.Label

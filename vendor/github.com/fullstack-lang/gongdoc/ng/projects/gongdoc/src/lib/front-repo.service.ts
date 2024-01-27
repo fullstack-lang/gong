@@ -9,41 +9,24 @@ export const StackType = "github.com/fullstack-lang/gongdoc/go/models"
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template
 
-  // getArray allows for a get function that is robust to refactoring of the named struct name
-  // for instance frontRepo.getArray<Astruct>( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
-  // contrary to frontRepo.Astructs_array which is not refactored when Astruct identifier is modified
-  getArray<Type>(gongStructName: string): Array<Type> {
-    switch (gongStructName) { // deprecated
-      // insertion point
-      default:
-        throw new Error("Type not recognized");
-    }
-  }
-
-  getFrontArray<Type>(gongStructName: string): Array<Type> {
-    switch (gongStructName) {
-      // insertion point
-      default:
-        throw new Error("Type not recognized");
-    }
-  }
-
-  // getMap allows for a get function that is robust to refactoring of the named struct name
-  getMap<Type>(gongStructName: string): Map<number, Type> { // deprecated
-    switch (gongStructName) {
-      // insertion point
-      default:
-        throw new Error("Type not recognized");
-    }
-  }
-  
-  getFrontMap<Type>(gongStructName: string): Map<number, Type> {
-    switch (gongStructName) {
-      // insertion point
-      default:
-        throw new Error("Type not recognized");
-    }
-  }
+	// getFrontArray allows for a get function that is robust to refactoring of the named struct name
+	// for instance frontRepo.getArray<Astruct>( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
+	// contrary to frontRepo.Astructs_array which is not refactored when Astruct identifier is modified
+	getFrontArray<Type>(gongStructName: string): Array<Type> {
+		switch (gongStructName) {
+			// insertion point
+			default:
+				throw new Error("Type not recognized");
+		}
+	}
+	
+	getFrontMap<Type>(gongStructName: string): Map<number, Type> {
+		switch (gongStructName) {
+			// insertion point
+			default:
+				throw new Error("Type not recognized");
+		}
+	}
 }
 
 // the table component is called in different ways
@@ -55,150 +38,144 @@ export class FrontRepo { // insertion point sub template
 // DialogData define the interface for information that is forwarded from the calling instance to 
 // the select table
 export class DialogData {
-  ID: number = 0 // ID of the calling instance
+	ID: number = 0 // ID of the calling instance
 
-  // the reverse pointer is the name of the generated field on the destination
-  // struct of the ONE-MANY association
-  ReversePointer: string = "" // field of {{Structname}} that serve as reverse pointer
-  OrderingMode: boolean = false // if true, this is for ordering items
+	// the reverse pointer is the name of the generated field on the destination
+	// struct of the ONE-MANY association
+	ReversePointer: string = "" // field of {{Structname}} that serve as reverse pointer
+	OrderingMode: boolean = false // if true, this is for ordering items
 
-  // there are different selection mode : ONE_MANY or MANY_MANY
-  SelectionMode: SelectionMode = SelectionMode.ONE_MANY_ASSOCIATION_MODE
+	// there are different selection mode : ONE_MANY or MANY_MANY
+	SelectionMode: SelectionMode = SelectionMode.ONE_MANY_ASSOCIATION_MODE
 
-  // used if SelectionMode is MANY_MANY_ASSOCIATION_MODE
-  //
-  // In Gong, a MANY-MANY association is implemented as a ONE-ZERO/ONE followed by a ONE_MANY association
-  // 
-  // in the MANY_MANY_ASSOCIATION_MODE case, we need also the Struct and the FieldName that are
-  // at the end of the ONE-MANY association
-  SourceStruct: string = ""  // The "Aclass"
-  SourceField: string = "" // the "AnarrayofbUse"
-  IntermediateStruct: string = "" // the "AclassBclassUse" 
-  IntermediateStructField: string = "" // the "Bclass" as field
-  NextAssociationStruct: string = "" // the "Bclass"
+	// used if SelectionMode is MANY_MANY_ASSOCIATION_MODE
+	//
+	// In Gong, a MANY-MANY association is implemented as a ONE-ZERO/ONE followed by a ONE_MANY association
+	// 
+	// in the MANY_MANY_ASSOCIATION_MODE case, we need also the Struct and the FieldName that are
+	// at the end of the ONE-MANY association
+	SourceStruct: string = ""	// The "Aclass"
+	SourceField: string = "" // the "AnarrayofbUse"
+	IntermediateStruct: string = "" // the "AclassBclassUse" 
+	IntermediateStructField: string = "" // the "Bclass" as field
+	NextAssociationStruct: string = "" // the "Bclass"
 
-  GONG__StackPath: string = ""
+	GONG__StackPath: string = ""
 }
 
 export enum SelectionMode {
-  ONE_MANY_ASSOCIATION_MODE = "ONE_MANY_ASSOCIATION_MODE",
-  MANY_MANY_ASSOCIATION_MODE = "MANY_MANY_ASSOCIATION_MODE",
+	ONE_MANY_ASSOCIATION_MODE = "ONE_MANY_ASSOCIATION_MODE",
+	MANY_MANY_ASSOCIATION_MODE = "MANY_MANY_ASSOCIATION_MODE",
 }
 
 //
 // observable that fetch all elements of the stack and store them in the FrontRepo
 //
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class FrontRepoService {
 
-  GONG__StackPath: string = ""
+	GONG__StackPath: string = ""
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
+	httpOptions = {
+		headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+	};
 
-  //
-  // Store of all instances of the stack
-  //
-  frontRepo = new (FrontRepo)
+	//
+	// Store of all instances of the stack
+	//
+	frontRepo = new (FrontRepo)
 
-  constructor(
-    private http: HttpClient, // insertion point sub template 
-  ) { }
+	constructor(
+		private http: HttpClient, // insertion point sub template 
+	) { }
 
-  // postService provides a post function for each struct name
-  postService(structName: string, instanceToBePosted: any) {
-    let service = this[structName.toLowerCase() + "Service" + "Service" as keyof FrontRepoService]
-    let servicePostFunction = service[("post" + structName) as keyof typeof service] as (instance: typeof instanceToBePosted) => Observable<typeof instanceToBePosted>
+	// postService provides a post function for each struct name
+	postService(structName: string, instanceToBePosted: any) {
+		let service = this[structName.toLowerCase() + "Service" + "Service" as keyof FrontRepoService]
+		let servicePostFunction = service[("post" + structName) as keyof typeof service] as (instance: typeof instanceToBePosted) => Observable<typeof instanceToBePosted>
 
-    servicePostFunction(instanceToBePosted).subscribe(
-      instance => {
-        let behaviorSubject = instanceToBePosted[(structName + "ServiceChanged") as keyof typeof instanceToBePosted] as unknown as BehaviorSubject<string>
-        behaviorSubject.next("post")
-      }
-    );
-  }
+		servicePostFunction(instanceToBePosted).subscribe(
+			instance => {
+				let behaviorSubject = instanceToBePosted[(structName + "ServiceChanged") as keyof typeof instanceToBePosted] as unknown as BehaviorSubject<string>
+				behaviorSubject.next("post")
+			}
+		);
+	}
 
-  // deleteService provides a delete function for each struct name
-  deleteService(structName: string, instanceToBeDeleted: any) {
-    let service = this[structName.toLowerCase() + "Service" as keyof FrontRepoService]
-    let serviceDeleteFunction = service["delete" + structName as keyof typeof service] as (instance: typeof instanceToBeDeleted) => Observable<typeof instanceToBeDeleted>
+	// deleteService provides a delete function for each struct name
+	deleteService(structName: string, instanceToBeDeleted: any) {
+		let service = this[structName.toLowerCase() + "Service" as keyof FrontRepoService]
+		let serviceDeleteFunction = service["delete" + structName as keyof typeof service] as (instance: typeof instanceToBeDeleted) => Observable<typeof instanceToBeDeleted>
 
-    serviceDeleteFunction(instanceToBeDeleted).subscribe(
-      instance => {
-        let behaviorSubject = instanceToBeDeleted[(structName + "ServiceChanged") as keyof typeof instanceToBeDeleted] as unknown as BehaviorSubject<string>
-        behaviorSubject.next("delete")
-      }
-    );
-  }
+		serviceDeleteFunction(instanceToBeDeleted).subscribe(
+			instance => {
+				let behaviorSubject = instanceToBeDeleted[(structName + "ServiceChanged") as keyof typeof instanceToBeDeleted] as unknown as BehaviorSubject<string>
+				behaviorSubject.next("delete")
+			}
+		);
+	}
 
-  // typing of observable can be messy in typescript. Therefore, one force the type
-  observableFrontRepo: [
-    Observable<null>, // see below for the of(null) observable
-    // insertion point sub template 
-  ] = [
-      // Using "combineLatest" with a placeholder observable.
-      //
-      // This allows the typescript compiler to pass when no GongStruct is present in the front API
-      //
-      // The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
-      // This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
-      // expectation for a non-empty array of observables.
-      of(null), // 
-      // insertion point sub template
-    ];
+	// typing of observable can be messy in typescript. Therefore, one force the type
+	observableFrontRepo: [
+		Observable<null>, // see below for the of(null) observable
+		// insertion point sub template 
+	] = [
+			// Using "combineLatest" with a placeholder observable.
+			//
+			// This allows the typescript compiler to pass when no GongStruct is present in the front API
+			//
+			// The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
+			// This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
+			// expectation for a non-empty array of observables.
+			of(null), // 
+			// insertion point sub template
+		];
 
-  //
-  // pull performs a GET on all struct of the stack and redeem association pointers 
-  //
-  // This is an observable. Therefore, the control flow forks with
-  // - pull() return immediatly the observable
-  // - the observable observer, if it subscribe, is called when all GET calls are performs
-  pull(GONG__StackPath: string = ""): Observable<FrontRepo> {
+	//
+	// pull performs a GET on all struct of the stack and redeem association pointers 
+	//
+	// This is an observable. Therefore, the control flow forks with
+	// - pull() return immediatly the observable
+	// - the observable observer, if it subscribe, is called when all GET calls are performs
+	pull(GONG__StackPath: string = ""): Observable<FrontRepo> {
 
-    this.GONG__StackPath = GONG__StackPath
+		this.GONG__StackPath = GONG__StackPath
 
-    this.observableFrontRepo = [
-      of(null), // see above for justification
-      // insertion point sub template
-    ]
+		this.observableFrontRepo = [
+			of(null), // see above for justification
+			// insertion point sub template
+		]
 
-    return new Observable<FrontRepo>(
-      (observer) => {
-        combineLatest(
-          this.observableFrontRepo
-        ).subscribe(
-          ([
-            ___of_null, // see above for the explanation about of
-            // insertion point sub template for declarations 
-          ]) => {
-            // Typing can be messy with many items. Therefore, type casting is necessary here
-            // insertion point sub template for type casting 
+		return new Observable<FrontRepo>(
+			(observer) => {
+				combineLatest(
+					this.observableFrontRepo
+				).subscribe(
+					([
+						___of_null, // see above for the explanation about of
+						// insertion point sub template for declarations 
+					]) => {
+						let _this = this
+						// Typing can be messy with many items. Therefore, type casting is necessary here
+						// insertion point sub template for type casting 
 
-            // 
-            // First Step: init map of instances
-            // insertion point sub template for init 
+						// 
+						// First Step: init map of instances
+						// insertion point sub template for init 
 
-            // 
-            // Second Step: reddeem slice of pointers fields
-            // insertion point sub template for redeem 
+						// 
+						// Second Step: reddeem front objects
+						// insertion point sub template for redeem 
 
-            // 
-            // Third Step: reddeem front objects
-            // insertion point sub template for redeem 
-
-
-            // hand over control flow to observer
-            observer.next(this.frontRepo)
-          }
-        )
-      }
-    )
-  }
-
-  // insertion point for pull per struct 
+						// hand over control flow to observer
+						observer.next(this.frontRepo)
+					}
+				)
+			}
+		)
+	}
 }
 
 // insertion point for get unique ID per struct 

@@ -102,18 +102,6 @@ export class FormFieldSelectService {
   }
   postFormFieldSelect(formfieldselectdb: FormFieldSelectDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    if (formfieldselectdb.Value != undefined) {
-      formfieldselectdb.FormFieldSelectPointersEncoding.ValueID.Int64 = formfieldselectdb.Value.ID
-      formfieldselectdb.FormFieldSelectPointersEncoding.ValueID.Valid = true
-    }
-    formfieldselectdb.Value = undefined
-    formfieldselectdb.FormFieldSelectPointersEncoding.Options = []
-    for (let _option of formfieldselectdb.Options) {
-      formfieldselectdb.FormFieldSelectPointersEncoding.Options.push(_option.ID)
-    }
-    formfieldselectdb.Options = []
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -122,15 +110,6 @@ export class FormFieldSelectService {
 
     return this.http.post<FormFieldSelectDB>(this.formfieldselectsUrl, formfieldselectdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        formfieldselectdb.Value = frontRepo.Options.get(formfieldselectdb.FormFieldSelectPointersEncoding.ValueID.Int64)
-        formfieldselectdb.Options = new Array<OptionDB>()
-        for (let _id of formfieldselectdb.FormFieldSelectPointersEncoding.Options) {
-          let _option = frontRepo.Options.get(_id)
-          if (_option != undefined) {
-            formfieldselectdb.Options.push(_option!)
-          }
-        }
         // this.log(`posted formfieldselectdb id=${formfieldselectdb.ID}`)
       }),
       catchError(this.handleError<FormFieldSelectDB>('postFormFieldSelect'))
@@ -184,18 +163,6 @@ export class FormFieldSelectService {
     const id = typeof formfieldselectdb === 'number' ? formfieldselectdb : formfieldselectdb.ID;
     const url = `${this.formfieldselectsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    if (formfieldselectdb.Value != undefined) {
-      formfieldselectdb.FormFieldSelectPointersEncoding.ValueID.Int64 = formfieldselectdb.Value.ID
-      formfieldselectdb.FormFieldSelectPointersEncoding.ValueID.Valid = true
-    }
-    formfieldselectdb.Value = undefined
-    formfieldselectdb.FormFieldSelectPointersEncoding.Options = []
-    for (let _option of formfieldselectdb.Options) {
-      formfieldselectdb.FormFieldSelectPointersEncoding.Options.push(_option.ID)
-    }
-    formfieldselectdb.Options = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -205,15 +172,6 @@ export class FormFieldSelectService {
 
     return this.http.put<FormFieldSelectDB>(url, formfieldselectdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        formfieldselectdb.Value = frontRepo.Options.get(formfieldselectdb.FormFieldSelectPointersEncoding.ValueID.Int64)
-        formfieldselectdb.Options = new Array<OptionDB>()
-        for (let _id of formfieldselectdb.FormFieldSelectPointersEncoding.Options) {
-          let _option = frontRepo.Options.get(_id)
-          if (_option != undefined) {
-            formfieldselectdb.Options.push(_option!)
-          }
-        }
         // this.log(`updated formfieldselectdb id=${formfieldselectdb.ID}`)
       }),
       catchError(this.handleError<FormFieldSelectDB>('updateFormFieldSelect'))

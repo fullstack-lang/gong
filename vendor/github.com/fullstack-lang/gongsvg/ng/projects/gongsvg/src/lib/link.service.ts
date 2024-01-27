@@ -104,33 +104,6 @@ export class LinkService {
   }
   postLink(linkdb: LinkDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    if (linkdb.Start != undefined) {
-      linkdb.LinkPointersEncoding.StartID.Int64 = linkdb.Start.ID
-      linkdb.LinkPointersEncoding.StartID.Valid = true
-    }
-    linkdb.Start = undefined
-    if (linkdb.End != undefined) {
-      linkdb.LinkPointersEncoding.EndID.Int64 = linkdb.End.ID
-      linkdb.LinkPointersEncoding.EndID.Valid = true
-    }
-    linkdb.End = undefined
-    linkdb.LinkPointersEncoding.TextAtArrowEnd = []
-    for (let _linkanchoredtext of linkdb.TextAtArrowEnd) {
-      linkdb.LinkPointersEncoding.TextAtArrowEnd.push(_linkanchoredtext.ID)
-    }
-    linkdb.TextAtArrowEnd = []
-    linkdb.LinkPointersEncoding.TextAtArrowStart = []
-    for (let _linkanchoredtext of linkdb.TextAtArrowStart) {
-      linkdb.LinkPointersEncoding.TextAtArrowStart.push(_linkanchoredtext.ID)
-    }
-    linkdb.TextAtArrowStart = []
-    linkdb.LinkPointersEncoding.ControlPoints = []
-    for (let _point of linkdb.ControlPoints) {
-      linkdb.LinkPointersEncoding.ControlPoints.push(_point.ID)
-    }
-    linkdb.ControlPoints = []
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -139,30 +112,6 @@ export class LinkService {
 
     return this.http.post<LinkDB>(this.linksUrl, linkdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        linkdb.Start = frontRepo.Rects.get(linkdb.LinkPointersEncoding.StartID.Int64)
-        linkdb.End = frontRepo.Rects.get(linkdb.LinkPointersEncoding.EndID.Int64)
-        linkdb.TextAtArrowEnd = new Array<LinkAnchoredTextDB>()
-        for (let _id of linkdb.LinkPointersEncoding.TextAtArrowEnd) {
-          let _linkanchoredtext = frontRepo.LinkAnchoredTexts.get(_id)
-          if (_linkanchoredtext != undefined) {
-            linkdb.TextAtArrowEnd.push(_linkanchoredtext!)
-          }
-        }
-        linkdb.TextAtArrowStart = new Array<LinkAnchoredTextDB>()
-        for (let _id of linkdb.LinkPointersEncoding.TextAtArrowStart) {
-          let _linkanchoredtext = frontRepo.LinkAnchoredTexts.get(_id)
-          if (_linkanchoredtext != undefined) {
-            linkdb.TextAtArrowStart.push(_linkanchoredtext!)
-          }
-        }
-        linkdb.ControlPoints = new Array<PointDB>()
-        for (let _id of linkdb.LinkPointersEncoding.ControlPoints) {
-          let _point = frontRepo.Points.get(_id)
-          if (_point != undefined) {
-            linkdb.ControlPoints.push(_point!)
-          }
-        }
         // this.log(`posted linkdb id=${linkdb.ID}`)
       }),
       catchError(this.handleError<LinkDB>('postLink'))
@@ -216,33 +165,6 @@ export class LinkService {
     const id = typeof linkdb === 'number' ? linkdb : linkdb.ID;
     const url = `${this.linksUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    if (linkdb.Start != undefined) {
-      linkdb.LinkPointersEncoding.StartID.Int64 = linkdb.Start.ID
-      linkdb.LinkPointersEncoding.StartID.Valid = true
-    }
-    linkdb.Start = undefined
-    if (linkdb.End != undefined) {
-      linkdb.LinkPointersEncoding.EndID.Int64 = linkdb.End.ID
-      linkdb.LinkPointersEncoding.EndID.Valid = true
-    }
-    linkdb.End = undefined
-    linkdb.LinkPointersEncoding.TextAtArrowEnd = []
-    for (let _linkanchoredtext of linkdb.TextAtArrowEnd) {
-      linkdb.LinkPointersEncoding.TextAtArrowEnd.push(_linkanchoredtext.ID)
-    }
-    linkdb.TextAtArrowEnd = []
-    linkdb.LinkPointersEncoding.TextAtArrowStart = []
-    for (let _linkanchoredtext of linkdb.TextAtArrowStart) {
-      linkdb.LinkPointersEncoding.TextAtArrowStart.push(_linkanchoredtext.ID)
-    }
-    linkdb.TextAtArrowStart = []
-    linkdb.LinkPointersEncoding.ControlPoints = []
-    for (let _point of linkdb.ControlPoints) {
-      linkdb.LinkPointersEncoding.ControlPoints.push(_point.ID)
-    }
-    linkdb.ControlPoints = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -252,30 +174,6 @@ export class LinkService {
 
     return this.http.put<LinkDB>(url, linkdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        linkdb.Start = frontRepo.Rects.get(linkdb.LinkPointersEncoding.StartID.Int64)
-        linkdb.End = frontRepo.Rects.get(linkdb.LinkPointersEncoding.EndID.Int64)
-        linkdb.TextAtArrowEnd = new Array<LinkAnchoredTextDB>()
-        for (let _id of linkdb.LinkPointersEncoding.TextAtArrowEnd) {
-          let _linkanchoredtext = frontRepo.LinkAnchoredTexts.get(_id)
-          if (_linkanchoredtext != undefined) {
-            linkdb.TextAtArrowEnd.push(_linkanchoredtext!)
-          }
-        }
-        linkdb.TextAtArrowStart = new Array<LinkAnchoredTextDB>()
-        for (let _id of linkdb.LinkPointersEncoding.TextAtArrowStart) {
-          let _linkanchoredtext = frontRepo.LinkAnchoredTexts.get(_id)
-          if (_linkanchoredtext != undefined) {
-            linkdb.TextAtArrowStart.push(_linkanchoredtext!)
-          }
-        }
-        linkdb.ControlPoints = new Array<PointDB>()
-        for (let _id of linkdb.LinkPointersEncoding.ControlPoints) {
-          let _point = frontRepo.Points.get(_id)
-          if (_point != undefined) {
-            linkdb.ControlPoints.push(_point!)
-          }
-        }
         // this.log(`updated linkdb id=${linkdb.ID}`)
       }),
       catchError(this.handleError<LinkDB>('updateLink'))

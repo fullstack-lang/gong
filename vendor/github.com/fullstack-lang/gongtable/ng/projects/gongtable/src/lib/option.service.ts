@@ -101,8 +101,6 @@ export class OptionService {
   }
   postOption(optiondb: OptionDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<OptionDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -111,7 +109,6 @@ export class OptionService {
 
     return this.http.post<OptionDB>(this.optionsUrl, optiondb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`posted optiondb id=${optiondb.ID}`)
       }),
       catchError(this.handleError<OptionDB>('postOption'))
@@ -165,8 +162,6 @@ export class OptionService {
     const id = typeof optiondb === 'number' ? optiondb : optiondb.ID;
     const url = `${this.optionsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -176,7 +171,6 @@ export class OptionService {
 
     return this.http.put<OptionDB>(url, optiondb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`updated optiondb id=${optiondb.ID}`)
       }),
       catchError(this.handleError<OptionDB>('updateOption'))
