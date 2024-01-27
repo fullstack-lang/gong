@@ -102,13 +102,6 @@ export class AstructBstruct2UseService {
   }
   postAstructBstruct2Use(astructbstruct2usedb: AstructBstruct2UseDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstruct2UseDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    if (astructbstruct2usedb.Bstrcut2 != undefined) {
-      astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Int64 = astructbstruct2usedb.Bstrcut2.ID
-      astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Valid = true
-    }
-    astructbstruct2usedb.Bstrcut2 = undefined
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,8 +110,6 @@ export class AstructBstruct2UseService {
 
     return this.http.post<AstructBstruct2UseDB>(this.astructbstruct2usesUrl, astructbstruct2usedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        astructbstruct2usedb.Bstrcut2 = frontRepo.Bstructs.get(astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Int64)
         // this.log(`posted astructbstruct2usedb id=${astructbstruct2usedb.ID}`)
       }),
       catchError(this.handleError<AstructBstruct2UseDB>('postAstructBstruct2Use'))
@@ -172,13 +163,6 @@ export class AstructBstruct2UseService {
     const id = typeof astructbstruct2usedb === 'number' ? astructbstruct2usedb : astructbstruct2usedb.ID;
     const url = `${this.astructbstruct2usesUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    if (astructbstruct2usedb.Bstrcut2 != undefined) {
-      astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Int64 = astructbstruct2usedb.Bstrcut2.ID
-      astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Valid = true
-    }
-    astructbstruct2usedb.Bstrcut2 = undefined
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -188,8 +172,6 @@ export class AstructBstruct2UseService {
 
     return this.http.put<AstructBstruct2UseDB>(url, astructbstruct2usedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        astructbstruct2usedb.Bstrcut2 = frontRepo.Bstructs.get(astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Int64)
         // this.log(`updated astructbstruct2usedb id=${astructbstruct2usedb.ID}`)
       }),
       catchError(this.handleError<AstructBstruct2UseDB>('updateAstructBstruct2Use'))
