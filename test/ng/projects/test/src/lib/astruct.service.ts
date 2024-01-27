@@ -105,78 +105,6 @@ export class AstructService {
   }
   postAstruct(astructdb: AstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    if (astructdb.Associationtob != undefined) {
-      astructdb.AstructPointersEncoding.AssociationtobID.Int64 = astructdb.Associationtob.ID
-      astructdb.AstructPointersEncoding.AssociationtobID.Valid = true
-    }
-    astructdb.Associationtob = undefined
-    astructdb.AstructPointersEncoding.Anarrayofb = []
-    for (let _bstruct of astructdb.Anarrayofb) {
-      astructdb.AstructPointersEncoding.Anarrayofb.push(_bstruct.ID)
-    }
-    astructdb.Anarrayofb = []
-    if (astructdb.Anotherassociationtob_2 != undefined) {
-      astructdb.AstructPointersEncoding.Anotherassociationtob_2ID.Int64 = astructdb.Anotherassociationtob_2.ID
-      astructdb.AstructPointersEncoding.Anotherassociationtob_2ID.Valid = true
-    }
-    astructdb.Anotherassociationtob_2 = undefined
-    if (astructdb.Bstruct != undefined) {
-      astructdb.AstructPointersEncoding.BstructID.Int64 = astructdb.Bstruct.ID
-      astructdb.AstructPointersEncoding.BstructID.Valid = true
-    }
-    astructdb.Bstruct = undefined
-    if (astructdb.Bstruct2 != undefined) {
-      astructdb.AstructPointersEncoding.Bstruct2ID.Int64 = astructdb.Bstruct2.ID
-      astructdb.AstructPointersEncoding.Bstruct2ID.Valid = true
-    }
-    astructdb.Bstruct2 = undefined
-    if (astructdb.Dstruct != undefined) {
-      astructdb.AstructPointersEncoding.DstructID.Int64 = astructdb.Dstruct.ID
-      astructdb.AstructPointersEncoding.DstructID.Valid = true
-    }
-    astructdb.Dstruct = undefined
-    if (astructdb.Dstruct2 != undefined) {
-      astructdb.AstructPointersEncoding.Dstruct2ID.Int64 = astructdb.Dstruct2.ID
-      astructdb.AstructPointersEncoding.Dstruct2ID.Valid = true
-    }
-    astructdb.Dstruct2 = undefined
-    if (astructdb.Dstruct3 != undefined) {
-      astructdb.AstructPointersEncoding.Dstruct3ID.Int64 = astructdb.Dstruct3.ID
-      astructdb.AstructPointersEncoding.Dstruct3ID.Valid = true
-    }
-    astructdb.Dstruct3 = undefined
-    if (astructdb.Dstruct4 != undefined) {
-      astructdb.AstructPointersEncoding.Dstruct4ID.Int64 = astructdb.Dstruct4.ID
-      astructdb.AstructPointersEncoding.Dstruct4ID.Valid = true
-    }
-    astructdb.Dstruct4 = undefined
-    astructdb.AstructPointersEncoding.Anarrayofa = []
-    for (let _astruct of astructdb.Anarrayofa) {
-      astructdb.AstructPointersEncoding.Anarrayofa.push(_astruct.ID)
-    }
-    astructdb.Anarrayofa = []
-    astructdb.AstructPointersEncoding.Anotherarrayofb = []
-    for (let _bstruct of astructdb.Anotherarrayofb) {
-      astructdb.AstructPointersEncoding.Anotherarrayofb.push(_bstruct.ID)
-    }
-    astructdb.Anotherarrayofb = []
-    astructdb.AstructPointersEncoding.AnarrayofbUse = []
-    for (let _astructbstructuse of astructdb.AnarrayofbUse) {
-      astructdb.AstructPointersEncoding.AnarrayofbUse.push(_astructbstructuse.ID)
-    }
-    astructdb.AnarrayofbUse = []
-    astructdb.AstructPointersEncoding.Anarrayofb2Use = []
-    for (let _astructbstruct2use of astructdb.Anarrayofb2Use) {
-      astructdb.AstructPointersEncoding.Anarrayofb2Use.push(_astructbstruct2use.ID)
-    }
-    astructdb.Anarrayofb2Use = []
-    if (astructdb.AnAstruct != undefined) {
-      astructdb.AstructPointersEncoding.AnAstructID.Int64 = astructdb.AnAstruct.ID
-      astructdb.AstructPointersEncoding.AnAstructID.Valid = true
-    }
-    astructdb.AnAstruct = undefined
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -185,51 +113,6 @@ export class AstructService {
 
     return this.http.post<AstructDB>(this.astructsUrl, astructdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        astructdb.Associationtob = frontRepo.Bstructs.get(astructdb.AstructPointersEncoding.AssociationtobID.Int64)
-        astructdb.Anarrayofb = new Array<BstructDB>()
-        for (let _id of astructdb.AstructPointersEncoding.Anarrayofb) {
-          let _bstruct = frontRepo.Bstructs.get(_id)
-          if (_bstruct != undefined) {
-            astructdb.Anarrayofb.push(_bstruct!)
-          }
-        }
-        astructdb.Anotherassociationtob_2 = frontRepo.Bstructs.get(astructdb.AstructPointersEncoding.Anotherassociationtob_2ID.Int64)
-        astructdb.Bstruct = frontRepo.Bstructs.get(astructdb.AstructPointersEncoding.BstructID.Int64)
-        astructdb.Bstruct2 = frontRepo.Bstructs.get(astructdb.AstructPointersEncoding.Bstruct2ID.Int64)
-        astructdb.Dstruct = frontRepo.Dstructs.get(astructdb.AstructPointersEncoding.DstructID.Int64)
-        astructdb.Dstruct2 = frontRepo.Dstructs.get(astructdb.AstructPointersEncoding.Dstruct2ID.Int64)
-        astructdb.Dstruct3 = frontRepo.Dstructs.get(astructdb.AstructPointersEncoding.Dstruct3ID.Int64)
-        astructdb.Dstruct4 = frontRepo.Dstructs.get(astructdb.AstructPointersEncoding.Dstruct4ID.Int64)
-        astructdb.Anarrayofa = new Array<AstructDB>()
-        for (let _id of astructdb.AstructPointersEncoding.Anarrayofa) {
-          let _astruct = frontRepo.Astructs.get(_id)
-          if (_astruct != undefined) {
-            astructdb.Anarrayofa.push(_astruct!)
-          }
-        }
-        astructdb.Anotherarrayofb = new Array<BstructDB>()
-        for (let _id of astructdb.AstructPointersEncoding.Anotherarrayofb) {
-          let _bstruct = frontRepo.Bstructs.get(_id)
-          if (_bstruct != undefined) {
-            astructdb.Anotherarrayofb.push(_bstruct!)
-          }
-        }
-        astructdb.AnarrayofbUse = new Array<AstructBstructUseDB>()
-        for (let _id of astructdb.AstructPointersEncoding.AnarrayofbUse) {
-          let _astructbstructuse = frontRepo.AstructBstructUses.get(_id)
-          if (_astructbstructuse != undefined) {
-            astructdb.AnarrayofbUse.push(_astructbstructuse!)
-          }
-        }
-        astructdb.Anarrayofb2Use = new Array<AstructBstruct2UseDB>()
-        for (let _id of astructdb.AstructPointersEncoding.Anarrayofb2Use) {
-          let _astructbstruct2use = frontRepo.AstructBstruct2Uses.get(_id)
-          if (_astructbstruct2use != undefined) {
-            astructdb.Anarrayofb2Use.push(_astructbstruct2use!)
-          }
-        }
-        astructdb.AnAstruct = frontRepo.Astructs.get(astructdb.AstructPointersEncoding.AnAstructID.Int64)
         // this.log(`posted astructdb id=${astructdb.ID}`)
       }),
       catchError(this.handleError<AstructDB>('postAstruct'))
@@ -283,78 +166,6 @@ export class AstructService {
     const id = typeof astructdb === 'number' ? astructdb : astructdb.ID;
     const url = `${this.astructsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    if (astructdb.Associationtob != undefined) {
-      astructdb.AstructPointersEncoding.AssociationtobID.Int64 = astructdb.Associationtob.ID
-      astructdb.AstructPointersEncoding.AssociationtobID.Valid = true
-    }
-    astructdb.Associationtob = undefined
-    astructdb.AstructPointersEncoding.Anarrayofb = []
-    for (let _bstruct of astructdb.Anarrayofb) {
-      astructdb.AstructPointersEncoding.Anarrayofb.push(_bstruct.ID)
-    }
-    astructdb.Anarrayofb = []
-    if (astructdb.Anotherassociationtob_2 != undefined) {
-      astructdb.AstructPointersEncoding.Anotherassociationtob_2ID.Int64 = astructdb.Anotherassociationtob_2.ID
-      astructdb.AstructPointersEncoding.Anotherassociationtob_2ID.Valid = true
-    }
-    astructdb.Anotherassociationtob_2 = undefined
-    if (astructdb.Bstruct != undefined) {
-      astructdb.AstructPointersEncoding.BstructID.Int64 = astructdb.Bstruct.ID
-      astructdb.AstructPointersEncoding.BstructID.Valid = true
-    }
-    astructdb.Bstruct = undefined
-    if (astructdb.Bstruct2 != undefined) {
-      astructdb.AstructPointersEncoding.Bstruct2ID.Int64 = astructdb.Bstruct2.ID
-      astructdb.AstructPointersEncoding.Bstruct2ID.Valid = true
-    }
-    astructdb.Bstruct2 = undefined
-    if (astructdb.Dstruct != undefined) {
-      astructdb.AstructPointersEncoding.DstructID.Int64 = astructdb.Dstruct.ID
-      astructdb.AstructPointersEncoding.DstructID.Valid = true
-    }
-    astructdb.Dstruct = undefined
-    if (astructdb.Dstruct2 != undefined) {
-      astructdb.AstructPointersEncoding.Dstruct2ID.Int64 = astructdb.Dstruct2.ID
-      astructdb.AstructPointersEncoding.Dstruct2ID.Valid = true
-    }
-    astructdb.Dstruct2 = undefined
-    if (astructdb.Dstruct3 != undefined) {
-      astructdb.AstructPointersEncoding.Dstruct3ID.Int64 = astructdb.Dstruct3.ID
-      astructdb.AstructPointersEncoding.Dstruct3ID.Valid = true
-    }
-    astructdb.Dstruct3 = undefined
-    if (astructdb.Dstruct4 != undefined) {
-      astructdb.AstructPointersEncoding.Dstruct4ID.Int64 = astructdb.Dstruct4.ID
-      astructdb.AstructPointersEncoding.Dstruct4ID.Valid = true
-    }
-    astructdb.Dstruct4 = undefined
-    astructdb.AstructPointersEncoding.Anarrayofa = []
-    for (let _astruct of astructdb.Anarrayofa) {
-      astructdb.AstructPointersEncoding.Anarrayofa.push(_astruct.ID)
-    }
-    astructdb.Anarrayofa = []
-    astructdb.AstructPointersEncoding.Anotherarrayofb = []
-    for (let _bstruct of astructdb.Anotherarrayofb) {
-      astructdb.AstructPointersEncoding.Anotherarrayofb.push(_bstruct.ID)
-    }
-    astructdb.Anotherarrayofb = []
-    astructdb.AstructPointersEncoding.AnarrayofbUse = []
-    for (let _astructbstructuse of astructdb.AnarrayofbUse) {
-      astructdb.AstructPointersEncoding.AnarrayofbUse.push(_astructbstructuse.ID)
-    }
-    astructdb.AnarrayofbUse = []
-    astructdb.AstructPointersEncoding.Anarrayofb2Use = []
-    for (let _astructbstruct2use of astructdb.Anarrayofb2Use) {
-      astructdb.AstructPointersEncoding.Anarrayofb2Use.push(_astructbstruct2use.ID)
-    }
-    astructdb.Anarrayofb2Use = []
-    if (astructdb.AnAstruct != undefined) {
-      astructdb.AstructPointersEncoding.AnAstructID.Int64 = astructdb.AnAstruct.ID
-      astructdb.AstructPointersEncoding.AnAstructID.Valid = true
-    }
-    astructdb.AnAstruct = undefined
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -364,51 +175,6 @@ export class AstructService {
 
     return this.http.put<AstructDB>(url, astructdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        astructdb.Associationtob = frontRepo.Bstructs.get(astructdb.AstructPointersEncoding.AssociationtobID.Int64)
-        astructdb.Anarrayofb = new Array<BstructDB>()
-        for (let _id of astructdb.AstructPointersEncoding.Anarrayofb) {
-          let _bstruct = frontRepo.Bstructs.get(_id)
-          if (_bstruct != undefined) {
-            astructdb.Anarrayofb.push(_bstruct!)
-          }
-        }
-        astructdb.Anotherassociationtob_2 = frontRepo.Bstructs.get(astructdb.AstructPointersEncoding.Anotherassociationtob_2ID.Int64)
-        astructdb.Bstruct = frontRepo.Bstructs.get(astructdb.AstructPointersEncoding.BstructID.Int64)
-        astructdb.Bstruct2 = frontRepo.Bstructs.get(astructdb.AstructPointersEncoding.Bstruct2ID.Int64)
-        astructdb.Dstruct = frontRepo.Dstructs.get(astructdb.AstructPointersEncoding.DstructID.Int64)
-        astructdb.Dstruct2 = frontRepo.Dstructs.get(astructdb.AstructPointersEncoding.Dstruct2ID.Int64)
-        astructdb.Dstruct3 = frontRepo.Dstructs.get(astructdb.AstructPointersEncoding.Dstruct3ID.Int64)
-        astructdb.Dstruct4 = frontRepo.Dstructs.get(astructdb.AstructPointersEncoding.Dstruct4ID.Int64)
-        astructdb.Anarrayofa = new Array<AstructDB>()
-        for (let _id of astructdb.AstructPointersEncoding.Anarrayofa) {
-          let _astruct = frontRepo.Astructs.get(_id)
-          if (_astruct != undefined) {
-            astructdb.Anarrayofa.push(_astruct!)
-          }
-        }
-        astructdb.Anotherarrayofb = new Array<BstructDB>()
-        for (let _id of astructdb.AstructPointersEncoding.Anotherarrayofb) {
-          let _bstruct = frontRepo.Bstructs.get(_id)
-          if (_bstruct != undefined) {
-            astructdb.Anotherarrayofb.push(_bstruct!)
-          }
-        }
-        astructdb.AnarrayofbUse = new Array<AstructBstructUseDB>()
-        for (let _id of astructdb.AstructPointersEncoding.AnarrayofbUse) {
-          let _astructbstructuse = frontRepo.AstructBstructUses.get(_id)
-          if (_astructbstructuse != undefined) {
-            astructdb.AnarrayofbUse.push(_astructbstructuse!)
-          }
-        }
-        astructdb.Anarrayofb2Use = new Array<AstructBstruct2UseDB>()
-        for (let _id of astructdb.AstructPointersEncoding.Anarrayofb2Use) {
-          let _astructbstruct2use = frontRepo.AstructBstruct2Uses.get(_id)
-          if (_astructbstruct2use != undefined) {
-            astructdb.Anarrayofb2Use.push(_astructbstruct2use!)
-          }
-        }
-        astructdb.AnAstruct = frontRepo.Astructs.get(astructdb.AstructPointersEncoding.AnAstructID.Int64)
         // this.log(`updated astructdb id=${astructdb.ID}`)
       }),
       catchError(this.handleError<AstructDB>('updateAstruct'))

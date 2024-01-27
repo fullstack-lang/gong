@@ -102,13 +102,6 @@ export class PointerToGongStructFieldService {
   }
   postPointerToGongStructField(pointertogongstructfielddb: PointerToGongStructFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointerToGongStructFieldDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    if (pointertogongstructfielddb.GongStruct != undefined) {
-      pointertogongstructfielddb.PointerToGongStructFieldPointersEncoding.GongStructID.Int64 = pointertogongstructfielddb.GongStruct.ID
-      pointertogongstructfielddb.PointerToGongStructFieldPointersEncoding.GongStructID.Valid = true
-    }
-    pointertogongstructfielddb.GongStruct = undefined
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,8 +110,6 @@ export class PointerToGongStructFieldService {
 
     return this.http.post<PointerToGongStructFieldDB>(this.pointertogongstructfieldsUrl, pointertogongstructfielddb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        pointertogongstructfielddb.GongStruct = frontRepo.GongStructs.get(pointertogongstructfielddb.PointerToGongStructFieldPointersEncoding.GongStructID.Int64)
         // this.log(`posted pointertogongstructfielddb id=${pointertogongstructfielddb.ID}`)
       }),
       catchError(this.handleError<PointerToGongStructFieldDB>('postPointerToGongStructField'))
@@ -172,13 +163,6 @@ export class PointerToGongStructFieldService {
     const id = typeof pointertogongstructfielddb === 'number' ? pointertogongstructfielddb : pointertogongstructfielddb.ID;
     const url = `${this.pointertogongstructfieldsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    if (pointertogongstructfielddb.GongStruct != undefined) {
-      pointertogongstructfielddb.PointerToGongStructFieldPointersEncoding.GongStructID.Int64 = pointertogongstructfielddb.GongStruct.ID
-      pointertogongstructfielddb.PointerToGongStructFieldPointersEncoding.GongStructID.Valid = true
-    }
-    pointertogongstructfielddb.GongStruct = undefined
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -188,8 +172,6 @@ export class PointerToGongStructFieldService {
 
     return this.http.put<PointerToGongStructFieldDB>(url, pointertogongstructfielddb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        pointertogongstructfielddb.GongStruct = frontRepo.GongStructs.get(pointertogongstructfielddb.PointerToGongStructFieldPointersEncoding.GongStructID.Int64)
         // this.log(`updated pointertogongstructfielddb id=${pointertogongstructfielddb.ID}`)
       }),
       catchError(this.handleError<PointerToGongStructFieldDB>('updatePointerToGongStructField'))

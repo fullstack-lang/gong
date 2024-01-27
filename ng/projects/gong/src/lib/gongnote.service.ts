@@ -102,13 +102,6 @@ export class GongNoteService {
   }
   postGongNote(gongnotedb: GongNoteDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    gongnotedb.GongNotePointersEncoding.Links = []
-    for (let _gonglink of gongnotedb.Links) {
-      gongnotedb.GongNotePointersEncoding.Links.push(_gonglink.ID)
-    }
-    gongnotedb.Links = []
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,14 +110,6 @@ export class GongNoteService {
 
     return this.http.post<GongNoteDB>(this.gongnotesUrl, gongnotedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        gongnotedb.Links = new Array<GongLinkDB>()
-        for (let _id of gongnotedb.GongNotePointersEncoding.Links) {
-          let _gonglink = frontRepo.GongLinks.get(_id)
-          if (_gonglink != undefined) {
-            gongnotedb.Links.push(_gonglink!)
-          }
-        }
         // this.log(`posted gongnotedb id=${gongnotedb.ID}`)
       }),
       catchError(this.handleError<GongNoteDB>('postGongNote'))
@@ -178,13 +163,6 @@ export class GongNoteService {
     const id = typeof gongnotedb === 'number' ? gongnotedb : gongnotedb.ID;
     const url = `${this.gongnotesUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    gongnotedb.GongNotePointersEncoding.Links = []
-    for (let _gonglink of gongnotedb.Links) {
-      gongnotedb.GongNotePointersEncoding.Links.push(_gonglink.ID)
-    }
-    gongnotedb.Links = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -194,14 +172,6 @@ export class GongNoteService {
 
     return this.http.put<GongNoteDB>(url, gongnotedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        gongnotedb.Links = new Array<GongLinkDB>()
-        for (let _id of gongnotedb.GongNotePointersEncoding.Links) {
-          let _gonglink = frontRepo.GongLinks.get(_id)
-          if (_gonglink != undefined) {
-            gongnotedb.Links.push(_gonglink!)
-          }
-        }
         // this.log(`updated gongnotedb id=${gongnotedb.ID}`)
       }),
       catchError(this.handleError<GongNoteDB>('updateGongNote'))

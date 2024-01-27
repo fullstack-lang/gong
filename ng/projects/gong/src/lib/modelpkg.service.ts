@@ -101,8 +101,6 @@ export class ModelPkgService {
   }
   postModelPkg(modelpkgdb: ModelPkgDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -111,7 +109,6 @@ export class ModelPkgService {
 
     return this.http.post<ModelPkgDB>(this.modelpkgsUrl, modelpkgdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`posted modelpkgdb id=${modelpkgdb.ID}`)
       }),
       catchError(this.handleError<ModelPkgDB>('postModelPkg'))
@@ -165,8 +162,6 @@ export class ModelPkgService {
     const id = typeof modelpkgdb === 'number' ? modelpkgdb : modelpkgdb.ID;
     const url = `${this.modelpkgsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -176,7 +171,6 @@ export class ModelPkgService {
 
     return this.http.put<ModelPkgDB>(url, modelpkgdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`updated modelpkgdb id=${modelpkgdb.ID}`)
       }),
       catchError(this.handleError<ModelPkgDB>('updateModelPkg'))

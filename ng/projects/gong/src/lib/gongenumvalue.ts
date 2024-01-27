@@ -28,7 +28,7 @@ export function CopyGongEnumValueToGongEnumValueDB(gongenumvalue: GongEnumValue,
 	gongenumvalueDB.CreatedAt = gongenumvalue.CreatedAt
 	gongenumvalueDB.DeletedAt = gongenumvalue.DeletedAt
 	gongenumvalueDB.ID = gongenumvalue.ID
-	
+
 	// insertion point for basic fields copy operations
 	gongenumvalueDB.Name = gongenumvalue.Name
 	gongenumvalueDB.Value = gongenumvalue.Value
@@ -38,12 +38,16 @@ export function CopyGongEnumValueToGongEnumValueDB(gongenumvalue: GongEnumValue,
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyGongEnumValueDBToGongEnumValue update basic, pointers and slice of pointers fields of gongenumvalue
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of gongenumvalueDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyGongEnumValueDBToGongEnumValue(gongenumvalueDB: GongEnumValueDB, gongenumvalue: GongEnumValue, frontRepo: FrontRepo) {
 
 	gongenumvalue.CreatedAt = gongenumvalueDB.CreatedAt
 	gongenumvalue.DeletedAt = gongenumvalueDB.DeletedAt
 	gongenumvalue.ID = gongenumvalueDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	gongenumvalue.Name = gongenumvalueDB.Name
 	gongenumvalue.Value = gongenumvalueDB.Value

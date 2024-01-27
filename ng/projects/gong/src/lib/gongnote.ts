@@ -31,7 +31,7 @@ export function CopyGongNoteToGongNoteDB(gongnote: GongNote, gongnoteDB: GongNot
 	gongnoteDB.CreatedAt = gongnote.CreatedAt
 	gongnoteDB.DeletedAt = gongnote.DeletedAt
 	gongnoteDB.ID = gongnote.ID
-	
+
 	// insertion point for basic fields copy operations
 	gongnoteDB.Name = gongnote.Name
 	gongnoteDB.Body = gongnote.Body
@@ -41,18 +41,22 @@ export function CopyGongNoteToGongNoteDB(gongnote: GongNote, gongnoteDB: GongNot
 
 	// insertion point for slice of pointers fields encoding
 	gongnoteDB.GongNotePointersEncoding.Links = []
-    for (let _gonglink of gongnote.Links) {
+	for (let _gonglink of gongnote.Links) {
 		gongnoteDB.GongNotePointersEncoding.Links.push(_gonglink.ID)
-    }
-	
+	}
+
 }
 
+// CopyGongNoteDBToGongNote update basic, pointers and slice of pointers fields of gongnote
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of gongnoteDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyGongNoteDBToGongNote(gongnoteDB: GongNoteDB, gongnote: GongNote, frontRepo: FrontRepo) {
 
 	gongnote.CreatedAt = gongnoteDB.CreatedAt
 	gongnote.DeletedAt = gongnoteDB.DeletedAt
 	gongnote.ID = gongnoteDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	gongnote.Name = gongnoteDB.Name
 	gongnote.Body = gongnoteDB.Body
@@ -63,9 +67,9 @@ export function CopyGongNoteDBToGongNote(gongnoteDB: GongNoteDB, gongnote: GongN
 	// insertion point for slice of pointers fields encoding
 	gongnote.Links = new Array<GongLink>()
 	for (let _id of gongnoteDB.GongNotePointersEncoding.Links) {
-	  let _gonglink = frontRepo.GongLinks.get(_id)
-	  if (_gonglink != undefined) {
-		gongnote.Links.push(_gonglink!)
-	  }
+		let _gonglink = frontRepo.map_ID_GongLink.get(_id)
+		if (_gonglink != undefined) {
+			gongnote.Links.push(_gonglink!)
+		}
 	}
 }

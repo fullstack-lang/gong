@@ -17,7 +17,7 @@ export class BstructDB {
 	Floatfield2: number = 0
 	Intfield: number = 0
 
-	// insertion point for pointers and slices of pointers declarations
+	// insertion point for other decls
 
 	BstructPointersEncoding: BstructPointersEncoding = new BstructPointersEncoding
 }

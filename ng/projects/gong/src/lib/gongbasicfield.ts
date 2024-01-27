@@ -40,7 +40,7 @@ export function CopyGongBasicFieldToGongBasicFieldDB(gongbasicfield: GongBasicFi
 	gongbasicfieldDB.CreatedAt = gongbasicfield.CreatedAt
 	gongbasicfieldDB.DeletedAt = gongbasicfield.DeletedAt
 	gongbasicfieldDB.ID = gongbasicfield.ID
-	
+
 	// insertion point for basic fields copy operations
 	gongbasicfieldDB.Name = gongbasicfield.Name
 	gongbasicfieldDB.BasicKindName = gongbasicfield.BasicKindName
@@ -55,10 +55,10 @@ export function CopyGongBasicFieldToGongBasicFieldDB(gongbasicfield: GongBasicFi
 	gongbasicfieldDB.BespokeHeight = gongbasicfield.BespokeHeight
 
 	// insertion point for pointer fields encoding
-    gongbasicfieldDB.GongBasicFieldPointersEncoding.GongEnumID.Valid = true
+	gongbasicfieldDB.GongBasicFieldPointersEncoding.GongEnumID.Valid = true
 	if (gongbasicfield.GongEnum != undefined) {
 		gongbasicfieldDB.GongBasicFieldPointersEncoding.GongEnumID.Int64 = gongbasicfield.GongEnum.ID  
-    } else {
+	} else {
 		gongbasicfieldDB.GongBasicFieldPointersEncoding.GongEnumID.Int64 = 0 		
 	}
 
@@ -66,12 +66,16 @@ export function CopyGongBasicFieldToGongBasicFieldDB(gongbasicfield: GongBasicFi
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyGongBasicFieldDBToGongBasicField update basic, pointers and slice of pointers fields of gongbasicfield
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of gongbasicfieldDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyGongBasicFieldDBToGongBasicField(gongbasicfieldDB: GongBasicFieldDB, gongbasicfield: GongBasicField, frontRepo: FrontRepo) {
 
 	gongbasicfield.CreatedAt = gongbasicfieldDB.CreatedAt
 	gongbasicfield.DeletedAt = gongbasicfieldDB.DeletedAt
 	gongbasicfield.ID = gongbasicfieldDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	gongbasicfield.Name = gongbasicfieldDB.Name
 	gongbasicfield.BasicKindName = gongbasicfieldDB.BasicKindName
@@ -86,7 +90,7 @@ export function CopyGongBasicFieldDBToGongBasicField(gongbasicfieldDB: GongBasic
 	gongbasicfield.BespokeHeight = gongbasicfieldDB.BespokeHeight
 
 	// insertion point for pointer fields encoding
-	gongbasicfield.GongEnum = frontRepo.GongEnums.get(gongbasicfieldDB.GongBasicFieldPointersEncoding.GongEnumID.Int64)
+	gongbasicfield.GongEnum = frontRepo.map_ID_GongEnum.get(gongbasicfieldDB.GongBasicFieldPointersEncoding.GongEnumID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 }

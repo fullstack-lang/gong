@@ -16,7 +16,7 @@ export class GongTimeFieldDB {
 	Index: number = 0
 	CompositeStructName: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
+	// insertion point for other decls
 
 	GongTimeFieldPointersEncoding: GongTimeFieldPointersEncoding = new GongTimeFieldPointersEncoding
 }
