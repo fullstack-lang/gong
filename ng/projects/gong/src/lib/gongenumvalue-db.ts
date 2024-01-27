@@ -15,7 +15,7 @@ export class GongEnumValueDB {
 	Name: string = ""
 	Value: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
+	// insertion point for other decls
 
 	GongEnumValuePointersEncoding: GongEnumValuePointersEncoding = new GongEnumValuePointersEncoding
 }

@@ -29,7 +29,7 @@ export function CopyGongLinkToGongLinkDB(gonglink: GongLink, gonglinkDB: GongLin
 	gonglinkDB.CreatedAt = gonglink.CreatedAt
 	gonglinkDB.DeletedAt = gonglink.DeletedAt
 	gonglinkDB.ID = gonglink.ID
-	
+
 	// insertion point for basic fields copy operations
 	gonglinkDB.Name = gonglink.Name
 	gonglinkDB.Recv = gonglink.Recv
@@ -40,12 +40,16 @@ export function CopyGongLinkToGongLinkDB(gonglink: GongLink, gonglinkDB: GongLin
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyGongLinkDBToGongLink update basic, pointers and slice of pointers fields of gonglink
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of gonglinkDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyGongLinkDBToGongLink(gonglinkDB: GongLinkDB, gonglink: GongLink, frontRepo: FrontRepo) {
 
 	gonglink.CreatedAt = gonglinkDB.CreatedAt
 	gonglink.DeletedAt = gonglinkDB.DeletedAt
 	gonglink.ID = gonglinkDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	gonglink.Name = gonglinkDB.Name
 	gonglink.Recv = gonglinkDB.Recv

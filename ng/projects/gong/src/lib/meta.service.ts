@@ -102,13 +102,6 @@ export class MetaService {
   }
   postMeta(metadb: MetaDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    metadb.MetaPointersEncoding.MetaReferences = []
-    for (let _metareference of metadb.MetaReferences) {
-      metadb.MetaPointersEncoding.MetaReferences.push(_metareference.ID)
-    }
-    metadb.MetaReferences = []
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,14 +110,6 @@ export class MetaService {
 
     return this.http.post<MetaDB>(this.metasUrl, metadb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        metadb.MetaReferences = new Array<MetaReferenceDB>()
-        for (let _id of metadb.MetaPointersEncoding.MetaReferences) {
-          let _metareference = frontRepo.MetaReferences.get(_id)
-          if (_metareference != undefined) {
-            metadb.MetaReferences.push(_metareference!)
-          }
-        }
         // this.log(`posted metadb id=${metadb.ID}`)
       }),
       catchError(this.handleError<MetaDB>('postMeta'))
@@ -178,13 +163,6 @@ export class MetaService {
     const id = typeof metadb === 'number' ? metadb : metadb.ID;
     const url = `${this.metasUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    metadb.MetaPointersEncoding.MetaReferences = []
-    for (let _metareference of metadb.MetaReferences) {
-      metadb.MetaPointersEncoding.MetaReferences.push(_metareference.ID)
-    }
-    metadb.MetaReferences = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -194,14 +172,6 @@ export class MetaService {
 
     return this.http.put<MetaDB>(url, metadb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        metadb.MetaReferences = new Array<MetaReferenceDB>()
-        for (let _id of metadb.MetaPointersEncoding.MetaReferences) {
-          let _metareference = frontRepo.MetaReferences.get(_id)
-          if (_metareference != undefined) {
-            metadb.MetaReferences.push(_metareference!)
-          }
-        }
         // this.log(`updated metadb id=${metadb.ID}`)
       }),
       catchError(this.handleError<MetaDB>('updateMeta'))

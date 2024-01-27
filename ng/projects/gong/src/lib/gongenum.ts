@@ -31,7 +31,7 @@ export function CopyGongEnumToGongEnumDB(gongenum: GongEnum, gongenumDB: GongEnu
 	gongenumDB.CreatedAt = gongenum.CreatedAt
 	gongenumDB.DeletedAt = gongenum.DeletedAt
 	gongenumDB.ID = gongenum.ID
-	
+
 	// insertion point for basic fields copy operations
 	gongenumDB.Name = gongenum.Name
 	gongenumDB.Type = gongenum.Type
@@ -40,18 +40,22 @@ export function CopyGongEnumToGongEnumDB(gongenum: GongEnum, gongenumDB: GongEnu
 
 	// insertion point for slice of pointers fields encoding
 	gongenumDB.GongEnumPointersEncoding.GongEnumValues = []
-    for (let _gongenumvalue of gongenum.GongEnumValues) {
+	for (let _gongenumvalue of gongenum.GongEnumValues) {
 		gongenumDB.GongEnumPointersEncoding.GongEnumValues.push(_gongenumvalue.ID)
-    }
-	
+	}
+
 }
 
+// CopyGongEnumDBToGongEnum update basic, pointers and slice of pointers fields of gongenum
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of gongenumDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyGongEnumDBToGongEnum(gongenumDB: GongEnumDB, gongenum: GongEnum, frontRepo: FrontRepo) {
 
 	gongenum.CreatedAt = gongenumDB.CreatedAt
 	gongenum.DeletedAt = gongenumDB.DeletedAt
 	gongenum.ID = gongenumDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	gongenum.Name = gongenumDB.Name
 	gongenum.Type = gongenumDB.Type
@@ -61,9 +65,9 @@ export function CopyGongEnumDBToGongEnum(gongenumDB: GongEnumDB, gongenum: GongE
 	// insertion point for slice of pointers fields encoding
 	gongenum.GongEnumValues = new Array<GongEnumValue>()
 	for (let _id of gongenumDB.GongEnumPointersEncoding.GongEnumValues) {
-	  let _gongenumvalue = frontRepo.GongEnumValues.get(_id)
-	  if (_gongenumvalue != undefined) {
-		gongenum.GongEnumValues.push(_gongenumvalue!)
-	  }
+		let _gongenumvalue = frontRepo.map_ID_GongEnumValue.get(_id)
+		if (_gongenumvalue != undefined) {
+			gongenum.GongEnumValues.push(_gongenumvalue!)
+		}
 	}
 }

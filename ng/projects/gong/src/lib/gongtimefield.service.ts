@@ -101,8 +101,6 @@ export class GongTimeFieldService {
   }
   postGongTimeField(gongtimefielddb: GongTimeFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongTimeFieldDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -111,7 +109,6 @@ export class GongTimeFieldService {
 
     return this.http.post<GongTimeFieldDB>(this.gongtimefieldsUrl, gongtimefielddb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`posted gongtimefielddb id=${gongtimefielddb.ID}`)
       }),
       catchError(this.handleError<GongTimeFieldDB>('postGongTimeField'))
@@ -165,8 +162,6 @@ export class GongTimeFieldService {
     const id = typeof gongtimefielddb === 'number' ? gongtimefielddb : gongtimefielddb.ID;
     const url = `${this.gongtimefieldsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -176,7 +171,6 @@ export class GongTimeFieldService {
 
     return this.http.put<GongTimeFieldDB>(url, gongtimefielddb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`updated gongtimefielddb id=${gongtimefielddb.ID}`)
       }),
       catchError(this.handleError<GongTimeFieldDB>('updateGongTimeField'))
