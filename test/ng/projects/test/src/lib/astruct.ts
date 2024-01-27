@@ -76,7 +76,7 @@ export function CopyAstructToAstructDB(astruct: Astruct, astructDB: AstructDB) {
 	astructDB.CreatedAt = astruct.CreatedAt
 	astructDB.DeletedAt = astruct.DeletedAt
 	astructDB.ID = astruct.ID
-	
+
 	// insertion point for basic fields copy operations
 	astructDB.Name = astruct.Name
 	astructDB.Booleanfield = astruct.Booleanfield
@@ -100,104 +100,108 @@ export function CopyAstructToAstructDB(astruct: Astruct, astructDB: AstructDB) {
 	astructDB.TextArea = astruct.TextArea
 
 	// insertion point for pointer fields encoding
-    astructDB.AstructPointersEncoding.AssociationtobID.Valid = true
+	astructDB.AstructPointersEncoding.AssociationtobID.Valid = true
 	if (astruct.Associationtob != undefined) {
-		astructDB.AstructPointersEncoding.AssociationtobID.Int64 = astruct.Associationtob.ID  
-    } else {
-		astructDB.AstructPointersEncoding.AssociationtobID.Int64 = 0 		
+		astructDB.AstructPointersEncoding.AssociationtobID.Int64 = astruct.Associationtob.ID
+	} else {
+		astructDB.AstructPointersEncoding.AssociationtobID.Int64 = 0
 	}
 
-    astructDB.AstructPointersEncoding.Anotherassociationtob_2ID.Valid = true
+	astructDB.AstructPointersEncoding.Anotherassociationtob_2ID.Valid = true
 	if (astruct.Anotherassociationtob_2 != undefined) {
-		astructDB.AstructPointersEncoding.Anotherassociationtob_2ID.Int64 = astruct.Anotherassociationtob_2.ID  
-    } else {
-		astructDB.AstructPointersEncoding.Anotherassociationtob_2ID.Int64 = 0 		
+		astructDB.AstructPointersEncoding.Anotherassociationtob_2ID.Int64 = astruct.Anotherassociationtob_2.ID
+	} else {
+		astructDB.AstructPointersEncoding.Anotherassociationtob_2ID.Int64 = 0
 	}
 
-    astructDB.AstructPointersEncoding.BstructID.Valid = true
+	astructDB.AstructPointersEncoding.BstructID.Valid = true
 	if (astruct.Bstruct != undefined) {
-		astructDB.AstructPointersEncoding.BstructID.Int64 = astruct.Bstruct.ID  
-    } else {
-		astructDB.AstructPointersEncoding.BstructID.Int64 = 0 		
+		astructDB.AstructPointersEncoding.BstructID.Int64 = astruct.Bstruct.ID
+	} else {
+		astructDB.AstructPointersEncoding.BstructID.Int64 = 0
 	}
 
-    astructDB.AstructPointersEncoding.Bstruct2ID.Valid = true
+	astructDB.AstructPointersEncoding.Bstruct2ID.Valid = true
 	if (astruct.Bstruct2 != undefined) {
-		astructDB.AstructPointersEncoding.Bstruct2ID.Int64 = astruct.Bstruct2.ID  
-    } else {
-		astructDB.AstructPointersEncoding.Bstruct2ID.Int64 = 0 		
+		astructDB.AstructPointersEncoding.Bstruct2ID.Int64 = astruct.Bstruct2.ID
+	} else {
+		astructDB.AstructPointersEncoding.Bstruct2ID.Int64 = 0
 	}
 
-    astructDB.AstructPointersEncoding.DstructID.Valid = true
+	astructDB.AstructPointersEncoding.DstructID.Valid = true
 	if (astruct.Dstruct != undefined) {
-		astructDB.AstructPointersEncoding.DstructID.Int64 = astruct.Dstruct.ID  
-    } else {
-		astructDB.AstructPointersEncoding.DstructID.Int64 = 0 		
+		astructDB.AstructPointersEncoding.DstructID.Int64 = astruct.Dstruct.ID
+	} else {
+		astructDB.AstructPointersEncoding.DstructID.Int64 = 0
 	}
 
-    astructDB.AstructPointersEncoding.Dstruct2ID.Valid = true
+	astructDB.AstructPointersEncoding.Dstruct2ID.Valid = true
 	if (astruct.Dstruct2 != undefined) {
-		astructDB.AstructPointersEncoding.Dstruct2ID.Int64 = astruct.Dstruct2.ID  
-    } else {
-		astructDB.AstructPointersEncoding.Dstruct2ID.Int64 = 0 		
+		astructDB.AstructPointersEncoding.Dstruct2ID.Int64 = astruct.Dstruct2.ID
+	} else {
+		astructDB.AstructPointersEncoding.Dstruct2ID.Int64 = 0
 	}
 
-    astructDB.AstructPointersEncoding.Dstruct3ID.Valid = true
+	astructDB.AstructPointersEncoding.Dstruct3ID.Valid = true
 	if (astruct.Dstruct3 != undefined) {
-		astructDB.AstructPointersEncoding.Dstruct3ID.Int64 = astruct.Dstruct3.ID  
-    } else {
-		astructDB.AstructPointersEncoding.Dstruct3ID.Int64 = 0 		
+		astructDB.AstructPointersEncoding.Dstruct3ID.Int64 = astruct.Dstruct3.ID
+	} else {
+		astructDB.AstructPointersEncoding.Dstruct3ID.Int64 = 0
 	}
 
-    astructDB.AstructPointersEncoding.Dstruct4ID.Valid = true
+	astructDB.AstructPointersEncoding.Dstruct4ID.Valid = true
 	if (astruct.Dstruct4 != undefined) {
-		astructDB.AstructPointersEncoding.Dstruct4ID.Int64 = astruct.Dstruct4.ID  
-    } else {
-		astructDB.AstructPointersEncoding.Dstruct4ID.Int64 = 0 		
+		astructDB.AstructPointersEncoding.Dstruct4ID.Int64 = astruct.Dstruct4.ID
+	} else {
+		astructDB.AstructPointersEncoding.Dstruct4ID.Int64 = 0
 	}
 
-    astructDB.AstructPointersEncoding.AnAstructID.Valid = true
+	astructDB.AstructPointersEncoding.AnAstructID.Valid = true
 	if (astruct.AnAstruct != undefined) {
-		astructDB.AstructPointersEncoding.AnAstructID.Int64 = astruct.AnAstruct.ID  
-    } else {
-		astructDB.AstructPointersEncoding.AnAstructID.Int64 = 0 		
+		astructDB.AstructPointersEncoding.AnAstructID.Int64 = astruct.AnAstruct.ID
+	} else {
+		astructDB.AstructPointersEncoding.AnAstructID.Int64 = 0
 	}
 
 
 	// insertion point for slice of pointers fields encoding
 	astructDB.AstructPointersEncoding.Anarrayofb = []
-    for (let _bstruct of astruct.Anarrayofb) {
+	for (let _bstruct of astruct.Anarrayofb) {
 		astructDB.AstructPointersEncoding.Anarrayofb.push(_bstruct.ID)
-    }
-	
+	}
+
 	astructDB.AstructPointersEncoding.Anarrayofa = []
-    for (let _astruct of astruct.Anarrayofa) {
+	for (let _astruct of astruct.Anarrayofa) {
 		astructDB.AstructPointersEncoding.Anarrayofa.push(_astruct.ID)
-    }
-	
+	}
+
 	astructDB.AstructPointersEncoding.Anotherarrayofb = []
-    for (let _bstruct of astruct.Anotherarrayofb) {
+	for (let _bstruct of astruct.Anotherarrayofb) {
 		astructDB.AstructPointersEncoding.Anotherarrayofb.push(_bstruct.ID)
-    }
-	
+	}
+
 	astructDB.AstructPointersEncoding.AnarrayofbUse = []
-    for (let _astructbstructuse of astruct.AnarrayofbUse) {
+	for (let _astructbstructuse of astruct.AnarrayofbUse) {
 		astructDB.AstructPointersEncoding.AnarrayofbUse.push(_astructbstructuse.ID)
-    }
-	
+	}
+
 	astructDB.AstructPointersEncoding.Anarrayofb2Use = []
-    for (let _astructbstruct2use of astruct.Anarrayofb2Use) {
+	for (let _astructbstruct2use of astruct.Anarrayofb2Use) {
 		astructDB.AstructPointersEncoding.Anarrayofb2Use.push(_astructbstruct2use.ID)
-    }
-	
+	}
+
 }
 
+// CopyAstructDBToAstruct update basic, pointers and slice of pointers fields of astruct
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of astructDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyAstructDBToAstruct(astructDB: AstructDB, astruct: Astruct, frontRepo: FrontRepo) {
 
 	astruct.CreatedAt = astructDB.CreatedAt
 	astruct.DeletedAt = astructDB.DeletedAt
 	astruct.ID = astructDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	astruct.Name = astructDB.Name
 	astruct.Booleanfield = astructDB.Booleanfield
@@ -229,42 +233,42 @@ export function CopyAstructDBToAstruct(astructDB: AstructDB, astruct: Astruct, f
 	astruct.Dstruct2 = frontRepo.Dstructs.get(astructDB.AstructPointersEncoding.Dstruct2ID.Int64)
 	astruct.Dstruct3 = frontRepo.Dstructs.get(astructDB.AstructPointersEncoding.Dstruct3ID.Int64)
 	astruct.Dstruct4 = frontRepo.Dstructs.get(astructDB.AstructPointersEncoding.Dstruct4ID.Int64)
-	astruct.AnAstruct = frontRepo.Astructs.get(astructDB.AstructPointersEncoding.AnAstructID.Int64)
+	astruct.AnAstruct = frontRepo.map_ID_Astruct.get(astructDB.AstructPointersEncoding.AnAstructID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 	astruct.Anarrayofb = new Array<Bstruct>()
 	for (let _id of astructDB.AstructPointersEncoding.Anarrayofb) {
-	  let _bstruct = frontRepo.Bstructs.get(_id)
-	  if (_bstruct != undefined) {
-		astruct.Anarrayofb.push(_bstruct!)
-	  }
+		let _bstruct = frontRepo.Bstructs.get(_id)
+		if (_bstruct != undefined) {
+			astruct.Anarrayofb.push(_bstruct!)
+		}
 	}
 	astruct.Anarrayofa = new Array<Astruct>()
 	for (let _id of astructDB.AstructPointersEncoding.Anarrayofa) {
-	  let _astruct = frontRepo.Astructs.get(_id)
-	  if (_astruct != undefined) {
-		astruct.Anarrayofa.push(_astruct!)
-	  }
+		let _astruct = frontRepo.map_ID_Astruct.get(_id)
+		if (_astruct != undefined) {
+			astruct.Anarrayofa.push(_astruct!)
+		}
 	}
 	astruct.Anotherarrayofb = new Array<Bstruct>()
 	for (let _id of astructDB.AstructPointersEncoding.Anotherarrayofb) {
-	  let _bstruct = frontRepo.Bstructs.get(_id)
-	  if (_bstruct != undefined) {
-		astruct.Anotherarrayofb.push(_bstruct!)
-	  }
+		let _bstruct = frontRepo.Bstructs.get(_id)
+		if (_bstruct != undefined) {
+			astruct.Anotherarrayofb.push(_bstruct!)
+		}
 	}
 	astruct.AnarrayofbUse = new Array<AstructBstructUse>()
 	for (let _id of astructDB.AstructPointersEncoding.AnarrayofbUse) {
-	  let _astructbstructuse = frontRepo.AstructBstructUses.get(_id)
-	  if (_astructbstructuse != undefined) {
-		astruct.AnarrayofbUse.push(_astructbstructuse!)
-	  }
+		let _astructbstructuse = frontRepo.AstructBstructUses.get(_id)
+		if (_astructbstructuse != undefined) {
+			astruct.AnarrayofbUse.push(_astructbstructuse!)
+		}
 	}
 	astruct.Anarrayofb2Use = new Array<AstructBstruct2Use>()
 	for (let _id of astructDB.AstructPointersEncoding.Anarrayofb2Use) {
-	  let _astructbstruct2use = frontRepo.AstructBstruct2Uses.get(_id)
-	  if (_astructbstruct2use != undefined) {
-		astruct.Anarrayofb2Use.push(_astructbstruct2use!)
-	  }
+		let _astructbstruct2use = frontRepo.AstructBstruct2Uses.get(_id)
+		if (_astructbstruct2use != undefined) {
+			astruct.Anarrayofb2Use.push(_astructbstruct2use!)
+		}
 	}
 }
