@@ -15,9 +15,7 @@ export class AstructBstruct2UseDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
-	Bstrcut2?: BstructDB
-
+	// insertion point for other decls
 
 	AstructBstruct2UsePointersEncoding: AstructBstruct2UsePointersEncoding = new AstructBstruct2UsePointersEncoding
 }

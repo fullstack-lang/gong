@@ -38,6 +38,9 @@ export class AstructDB {
 	TextFieldBespokeSize: string = ""
 	TextArea: string = ""
 
+	// insertion point for other decls
+	CEnum_string?: string
+	Duration1_string?: string
 
 	AstructPointersEncoding: AstructPointersEncoding = new AstructPointersEncoding
 }
