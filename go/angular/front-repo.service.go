@@ -246,7 +246,7 @@ import { {{Structname}}Service } from './{{structname}}.service'
 
 	NgLibFrontRepoMapDecl: `
 	{{Structname}}s_array = new Array<{{Structname}}DB>() // array of repo instances
-	{{Structname}}s = new Map<number, {{Structname}}DB>() // map of repo instances
+	{{Structname}}DBs = new Map<number, {{Structname}}DB>() // map of repo instances
 	{{Structname}}s_batch = new Map<number, {{Structname}}DB>() // same but only in last GET (for finding repo instances to delete)
 
 	array_{{Structname}}s = new Array<{{Structname}}>() // array of front instances
@@ -259,7 +259,7 @@ import { {{Structname}}Service } from './{{structname}}.service'
 
 	NgLibFrontRepoSwitchGetMap: `
 			case '{{Structname}}':
-				return this.{{Structname}}s as unknown as Map<number, Type>`,
+				return this.{{Structname}}DBs as unknown as Map<number, Type>`,
 
 	NgLibFrontRepoSwitchGetFrontArray: `
 			case '{{Structname}}':
@@ -286,24 +286,28 @@ import { {{Structname}}Service } from './{{structname}}.service'
 						{{structname}}s = {{structname}}s_ as {{Structname}}DB[]`,
 
 	NgLibFrontRepoInitMapInstances: `
-						// init the array
+						// init the arrays
 						this.frontRepo.{{Structname}}s_array = {{structname}}s
+						this.frontRepo.map_ID_{{Structname}}.clear()
 
 						// clear the map that counts {{Structname}} in the GET
 						this.frontRepo.{{Structname}}s_batch.clear()
 
 						{{structname}}s.forEach(
 							{{structname}}DB => {
-								this.frontRepo.{{Structname}}s.set({{structname}}DB.ID, {{structname}}DB)
+								this.frontRepo.{{Structname}}DBs.set({{structname}}DB.ID, {{structname}}DB)
 								this.frontRepo.{{Structname}}s_batch.set({{structname}}DB.ID, {{structname}}DB)
+								let {{structname}} = new {{Structname}}
+								this.frontRepo.array_{{Structname}}s.push({{structname}})
+								this.frontRepo.map_ID_{{Structname}}.set({{structname}}.ID, {{structname}})
 							}
 						)
 
 						// clear {{structname}}s that are absent from the batch
-						this.frontRepo.{{Structname}}s.forEach(
+						this.frontRepo.{{Structname}}DBs.forEach(
 							{{structname}}DB => {
 								if (this.frontRepo.{{Structname}}s_batch.get({{structname}}DB.ID) == undefined) {
-									this.frontRepo.{{Structname}}s.delete({{structname}}DB.ID)
+									this.frontRepo.{{Structname}}DBs.delete({{structname}}DB.ID)
 								}
 							}
 						)
@@ -320,15 +324,11 @@ import { {{Structname}}Service } from './{{structname}}.service'
 						});
 `,
 	NgLibFrontRepoInitFrontObjects: `
-			      // init front objects
-			      this.frontRepo.array_{{Structname}}s = []
-						this.frontRepo.map_ID_{{Structname}}.clear()
+						// init front objects
 						this.frontRepo.{{Structname}}s_array.forEach(
 							{{structname}}DB => {
-								let {{structname}} = new {{Structname}}
-								Copy{{Structname}}DBTo{{Structname}}({{structname}}DB, {{structname}}, this.frontRepo)
-								this.frontRepo.array_{{Structname}}s.push({{structname}})
-								this.frontRepo.map_ID_{{Structname}}.set({{structname}}.ID, {{structname}})
+								let {{structname}} = this.frontRepo.map_ID_{{Structname}}.get({{structname}}DB.ID)
+								Copy{{Structname}}DBTo{{Structname}}({{structname}}DB, {{structname}}!, this.frontRepo)
 							}
 						)
 `,
@@ -371,16 +371,16 @@ import { {{Structname}}Service } from './{{structname}}.service'
 						// insertion point sub template 
 						{{structname}}s.forEach(
 							{{structname}} => {
-								this.frontRepo.{{Structname}}s.set({{structname}}.ID, {{structname}})
+								this.frontRepo.{{Structname}}DBs.set({{structname}}.ID, {{structname}})
 								this.frontRepo.{{Structname}}s_batch.set({{structname}}.ID, {{structname}})
 							}
 						)
 
 						// clear {{structname}}s that are absent from the GET
-						this.frontRepo.{{Structname}}s.forEach(
+						this.frontRepo.{{Structname}}DBs.forEach(
 							{{structname}} => {
 								if (this.frontRepo.{{Structname}}s_batch.get({{structname}}.ID) == undefined) {
-									this.frontRepo.{{Structname}}s.delete({{structname}}.ID)
+									this.frontRepo.{{Structname}}DBs.delete({{structname}}.ID)
 								}
 							}
 						)
