@@ -101,8 +101,6 @@ export class PointService {
   }
   postPoint(pointdb: PointDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -111,7 +109,6 @@ export class PointService {
 
     return this.http.post<PointDB>(this.pointsUrl, pointdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`posted pointdb id=${pointdb.ID}`)
       }),
       catchError(this.handleError<PointDB>('postPoint'))
@@ -165,8 +162,6 @@ export class PointService {
     const id = typeof pointdb === 'number' ? pointdb : pointdb.ID;
     const url = `${this.pointsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -176,7 +171,6 @@ export class PointService {
 
     return this.http.put<PointDB>(url, pointdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`updated pointdb id=${pointdb.ID}`)
       }),
       catchError(this.handleError<PointDB>('updatePoint'))

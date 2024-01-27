@@ -102,13 +102,6 @@ export class CircleService {
   }
   postCircle(circledb: CircleDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    circledb.CirclePointersEncoding.Animations = []
-    for (let _animate of circledb.Animations) {
-      circledb.CirclePointersEncoding.Animations.push(_animate.ID)
-    }
-    circledb.Animations = []
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,14 +110,6 @@ export class CircleService {
 
     return this.http.post<CircleDB>(this.circlesUrl, circledb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        circledb.Animations = new Array<AnimateDB>()
-        for (let _id of circledb.CirclePointersEncoding.Animations) {
-          let _animate = frontRepo.Animates.get(_id)
-          if (_animate != undefined) {
-            circledb.Animations.push(_animate!)
-          }
-        }
         // this.log(`posted circledb id=${circledb.ID}`)
       }),
       catchError(this.handleError<CircleDB>('postCircle'))
@@ -178,13 +163,6 @@ export class CircleService {
     const id = typeof circledb === 'number' ? circledb : circledb.ID;
     const url = `${this.circlesUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    circledb.CirclePointersEncoding.Animations = []
-    for (let _animate of circledb.Animations) {
-      circledb.CirclePointersEncoding.Animations.push(_animate.ID)
-    }
-    circledb.Animations = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -194,14 +172,6 @@ export class CircleService {
 
     return this.http.put<CircleDB>(url, circledb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        circledb.Animations = new Array<AnimateDB>()
-        for (let _id of circledb.CirclePointersEncoding.Animations) {
-          let _animate = frontRepo.Animates.get(_id)
-          if (_animate != undefined) {
-            circledb.Animations.push(_animate!)
-          }
-        }
         // this.log(`updated circledb id=${circledb.ID}`)
       }),
       catchError(this.handleError<CircleDB>('updateCircle'))

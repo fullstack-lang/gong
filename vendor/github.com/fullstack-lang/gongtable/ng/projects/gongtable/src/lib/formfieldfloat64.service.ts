@@ -101,8 +101,6 @@ export class FormFieldFloat64Service {
   }
   postFormFieldFloat64(formfieldfloat64db: FormFieldFloat64DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldFloat64DB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -111,7 +109,6 @@ export class FormFieldFloat64Service {
 
     return this.http.post<FormFieldFloat64DB>(this.formfieldfloat64sUrl, formfieldfloat64db, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`posted formfieldfloat64db id=${formfieldfloat64db.ID}`)
       }),
       catchError(this.handleError<FormFieldFloat64DB>('postFormFieldFloat64'))
@@ -165,8 +162,6 @@ export class FormFieldFloat64Service {
     const id = typeof formfieldfloat64db === 'number' ? formfieldfloat64db : formfieldfloat64db.ID;
     const url = `${this.formfieldfloat64sUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -176,7 +171,6 @@ export class FormFieldFloat64Service {
 
     return this.http.put<FormFieldFloat64DB>(url, formfieldfloat64db, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`updated formfieldfloat64db id=${formfieldfloat64db.ID}`)
       }),
       catchError(this.handleError<FormFieldFloat64DB>('updateFormFieldFloat64'))

@@ -29,7 +29,7 @@ export function CopyFormFieldTimeToFormFieldTimeDB(formfieldtime: FormFieldTime,
 	formfieldtimeDB.CreatedAt = formfieldtime.CreatedAt
 	formfieldtimeDB.DeletedAt = formfieldtime.DeletedAt
 	formfieldtimeDB.ID = formfieldtime.ID
-	
+
 	// insertion point for basic fields copy operations
 	formfieldtimeDB.Name = formfieldtime.Name
 	formfieldtimeDB.Step = formfieldtime.Step
@@ -39,12 +39,16 @@ export function CopyFormFieldTimeToFormFieldTimeDB(formfieldtime: FormFieldTime,
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyFormFieldTimeDBToFormFieldTime update basic, pointers and slice of pointers fields of formfieldtime
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of formfieldtimeDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyFormFieldTimeDBToFormFieldTime(formfieldtimeDB: FormFieldTimeDB, formfieldtime: FormFieldTime, frontRepo: FrontRepo) {
 
 	formfieldtime.CreatedAt = formfieldtimeDB.CreatedAt
 	formfieldtime.DeletedAt = formfieldtimeDB.DeletedAt
 	formfieldtime.ID = formfieldtimeDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	formfieldtime.Name = formfieldtimeDB.Name
 	formfieldtime.Step = formfieldtimeDB.Step

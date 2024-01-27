@@ -101,8 +101,6 @@ export class CellFloat64Service {
   }
   postCellFloat64(cellfloat64db: CellFloat64DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64DB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -111,7 +109,6 @@ export class CellFloat64Service {
 
     return this.http.post<CellFloat64DB>(this.cellfloat64sUrl, cellfloat64db, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`posted cellfloat64db id=${cellfloat64db.ID}`)
       }),
       catchError(this.handleError<CellFloat64DB>('postCellFloat64'))
@@ -165,8 +162,6 @@ export class CellFloat64Service {
     const id = typeof cellfloat64db === 'number' ? cellfloat64db : cellfloat64db.ID;
     const url = `${this.cellfloat64sUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -176,7 +171,6 @@ export class CellFloat64Service {
 
     return this.http.put<CellFloat64DB>(url, cellfloat64db, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`updated cellfloat64db id=${cellfloat64db.ID}`)
       }),
       catchError(this.handleError<CellFloat64DB>('updateCellFloat64'))

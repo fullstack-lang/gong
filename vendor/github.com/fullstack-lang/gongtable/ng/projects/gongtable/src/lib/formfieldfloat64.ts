@@ -32,7 +32,7 @@ export function CopyFormFieldFloat64ToFormFieldFloat64DB(formfieldfloat64: FormF
 	formfieldfloat64DB.CreatedAt = formfieldfloat64.CreatedAt
 	formfieldfloat64DB.DeletedAt = formfieldfloat64.DeletedAt
 	formfieldfloat64DB.ID = formfieldfloat64.ID
-	
+
 	// insertion point for basic fields copy operations
 	formfieldfloat64DB.Name = formfieldfloat64.Name
 	formfieldfloat64DB.Value = formfieldfloat64.Value
@@ -46,12 +46,16 @@ export function CopyFormFieldFloat64ToFormFieldFloat64DB(formfieldfloat64: FormF
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyFormFieldFloat64DBToFormFieldFloat64 update basic, pointers and slice of pointers fields of formfieldfloat64
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of formfieldfloat64DB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyFormFieldFloat64DBToFormFieldFloat64(formfieldfloat64DB: FormFieldFloat64DB, formfieldfloat64: FormFieldFloat64, frontRepo: FrontRepo) {
 
 	formfieldfloat64.CreatedAt = formfieldfloat64DB.CreatedAt
 	formfieldfloat64.DeletedAt = formfieldfloat64DB.DeletedAt
 	formfieldfloat64.ID = formfieldfloat64DB.ID
-	
+
 	// insertion point for basic fields copy operations
 	formfieldfloat64.Name = formfieldfloat64DB.Name
 	formfieldfloat64.Value = formfieldfloat64DB.Value

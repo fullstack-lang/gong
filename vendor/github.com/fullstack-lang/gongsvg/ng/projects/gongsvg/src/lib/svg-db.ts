@@ -18,12 +18,7 @@ export class SVGDB {
 	DrawingState: string = ""
 	IsEditable: boolean = false
 
-	// insertion point for pointers and slices of pointers declarations
-	Layers: Array<LayerDB> = []
-	StartRect?: RectDB
-
-	EndRect?: RectDB
-
+	// insertion point for other decls
 
 	SVGPointersEncoding: SVGPointersEncoding = new SVGPointersEncoding
 }

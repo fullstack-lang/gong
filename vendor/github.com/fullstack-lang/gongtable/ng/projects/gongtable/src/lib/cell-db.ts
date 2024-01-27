@@ -19,17 +19,7 @@ export class CellDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
-	CellString?: CellStringDB
-
-	CellFloat64?: CellFloat64DB
-
-	CellInt?: CellIntDB
-
-	CellBool?: CellBooleanDB
-
-	CellIcon?: CellIconDB
-
+	// insertion point for other decls
 
 	CellPointersEncoding: CellPointersEncoding = new CellPointersEncoding
 }

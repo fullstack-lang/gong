@@ -26,8 +26,7 @@ export class EllipseDB {
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
-	Animates: Array<AnimateDB> = []
+	// insertion point for other decls
 
 	EllipsePointersEncoding: EllipsePointersEncoding = new EllipsePointersEncoding
 }

@@ -18,13 +18,7 @@ export class FormDivDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
-	FormFields: Array<FormFieldDB> = []
-	CheckBoxs: Array<CheckBoxDB> = []
-	FormEditAssocButton?: FormEditAssocButtonDB
-
-	FormSortAssocButton?: FormSortAssocButtonDB
-
+	// insertion point for other decls
 
 	FormDivPointersEncoding: FormDivPointersEncoding = new FormDivPointersEncoding
 }

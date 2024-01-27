@@ -28,7 +28,7 @@ export function CopyFormSortAssocButtonToFormSortAssocButtonDB(formsortassocbutt
 	formsortassocbuttonDB.CreatedAt = formsortassocbutton.CreatedAt
 	formsortassocbuttonDB.DeletedAt = formsortassocbutton.DeletedAt
 	formsortassocbuttonDB.ID = formsortassocbutton.ID
-	
+
 	// insertion point for basic fields copy operations
 	formsortassocbuttonDB.Name = formsortassocbutton.Name
 	formsortassocbuttonDB.Label = formsortassocbutton.Label
@@ -38,12 +38,16 @@ export function CopyFormSortAssocButtonToFormSortAssocButtonDB(formsortassocbutt
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyFormSortAssocButtonDBToFormSortAssocButton update basic, pointers and slice of pointers fields of formsortassocbutton
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of formsortassocbuttonDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyFormSortAssocButtonDBToFormSortAssocButton(formsortassocbuttonDB: FormSortAssocButtonDB, formsortassocbutton: FormSortAssocButton, frontRepo: FrontRepo) {
 
 	formsortassocbutton.CreatedAt = formsortassocbuttonDB.CreatedAt
 	formsortassocbutton.DeletedAt = formsortassocbuttonDB.DeletedAt
 	formsortassocbutton.ID = formsortassocbuttonDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	formsortassocbutton.Name = formsortassocbuttonDB.Name
 	formsortassocbutton.Label = formsortassocbuttonDB.Label

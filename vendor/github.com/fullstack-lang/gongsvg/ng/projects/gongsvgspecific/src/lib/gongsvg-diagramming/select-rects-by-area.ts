@@ -21,7 +21,7 @@ export function selectRectsByArea(gongsvgDiagrammingComponent: GongsvgDiagrammin
         Math.max(gongsvgDiagrammingComponent.PointAtMouseDown.X, gongsvgDiagrammingComponent.PointAtMouseUp.X),
         Math.max(gongsvgDiagrammingComponent.PointAtMouseDown.Y, gongsvgDiagrammingComponent.PointAtMouseUp.Y)]
 
-    for (let layer of gongsvgDiagrammingComponent.gongsvgFrontRepo!.Layers_array) {
+    for (let layer of gongsvgDiagrammingComponent.gongsvgFrontRepo?.getFrontArray<gongsvg.Layer>(gongsvg.Layer.GONGSTRUCT_NAME)!) {
         for (let rect of layer.Rects) {
             switch (selectAreaConfig.SweepDirection) {
                 case SweepDirection.LEFT_TO_RIGHT:
@@ -44,8 +44,8 @@ export function selectRectsByArea(gongsvgDiagrammingComponent: GongsvgDiagrammin
                         if (!rect.IsSelected) {
                             console.log(getFunctionName(), "selecting rect", rect.Name);
                             rect.IsSelected = true;
-                            gongsvgDiagrammingComponent.manageHandles(rect);
-                            gongsvgDiagrammingComponent.rectService.updateRect(rect, gongsvgDiagrammingComponent.GONG__StackPath, gongsvgDiagrammingComponent.gongsvgFrontRepoService.frontRepo).subscribe(
+                            gongsvgDiagrammingComponent.manageHandles(rect)
+                            gongsvgDiagrammingComponent.rectService.updateFront(rect, gongsvgDiagrammingComponent.GONG__StackPath).subscribe(
                                 _ => {
                                 }
                             );

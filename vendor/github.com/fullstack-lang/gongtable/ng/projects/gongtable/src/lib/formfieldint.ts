@@ -32,7 +32,7 @@ export function CopyFormFieldIntToFormFieldIntDB(formfieldint: FormFieldInt, for
 	formfieldintDB.CreatedAt = formfieldint.CreatedAt
 	formfieldintDB.DeletedAt = formfieldint.DeletedAt
 	formfieldintDB.ID = formfieldint.ID
-	
+
 	// insertion point for basic fields copy operations
 	formfieldintDB.Name = formfieldint.Name
 	formfieldintDB.Value = formfieldint.Value
@@ -46,12 +46,16 @@ export function CopyFormFieldIntToFormFieldIntDB(formfieldint: FormFieldInt, for
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyFormFieldIntDBToFormFieldInt update basic, pointers and slice of pointers fields of formfieldint
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of formfieldintDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyFormFieldIntDBToFormFieldInt(formfieldintDB: FormFieldIntDB, formfieldint: FormFieldInt, frontRepo: FrontRepo) {
 
 	formfieldint.CreatedAt = formfieldintDB.CreatedAt
 	formfieldint.DeletedAt = formfieldintDB.DeletedAt
 	formfieldint.ID = formfieldintDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	formfieldint.Name = formfieldintDB.Name
 	formfieldint.Value = formfieldintDB.Value

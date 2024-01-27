@@ -37,7 +37,7 @@ export function CopyPolylineToPolylineDB(polyline: Polyline, polylineDB: Polylin
 	polylineDB.CreatedAt = polyline.CreatedAt
 	polylineDB.DeletedAt = polyline.DeletedAt
 	polylineDB.ID = polyline.ID
-	
+
 	// insertion point for basic fields copy operations
 	polylineDB.Name = polyline.Name
 	polylineDB.Points = polyline.Points
@@ -53,18 +53,22 @@ export function CopyPolylineToPolylineDB(polyline: Polyline, polylineDB: Polylin
 
 	// insertion point for slice of pointers fields encoding
 	polylineDB.PolylinePointersEncoding.Animates = []
-    for (let _animate of polyline.Animates) {
+	for (let _animate of polyline.Animates) {
 		polylineDB.PolylinePointersEncoding.Animates.push(_animate.ID)
-    }
-	
+	}
+
 }
 
+// CopyPolylineDBToPolyline update basic, pointers and slice of pointers fields of polyline
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of polylineDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyPolylineDBToPolyline(polylineDB: PolylineDB, polyline: Polyline, frontRepo: FrontRepo) {
 
 	polyline.CreatedAt = polylineDB.CreatedAt
 	polyline.DeletedAt = polylineDB.DeletedAt
 	polyline.ID = polylineDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	polyline.Name = polylineDB.Name
 	polyline.Points = polylineDB.Points
@@ -81,9 +85,9 @@ export function CopyPolylineDBToPolyline(polylineDB: PolylineDB, polyline: Polyl
 	// insertion point for slice of pointers fields encoding
 	polyline.Animates = new Array<Animate>()
 	for (let _id of polylineDB.PolylinePointersEncoding.Animates) {
-	  let _animate = frontRepo.Animates.get(_id)
-	  if (_animate != undefined) {
-		polyline.Animates.push(_animate!)
-	  }
+		let _animate = frontRepo.map_ID_Animate.get(_id)
+		if (_animate != undefined) {
+			polyline.Animates.push(_animate!)
+		}
 	}
 }

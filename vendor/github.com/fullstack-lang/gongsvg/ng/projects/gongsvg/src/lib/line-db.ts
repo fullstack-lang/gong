@@ -28,8 +28,7 @@ export class LineDB {
 	MouseClickX: number = 0
 	MouseClickY: number = 0
 
-	// insertion point for pointers and slices of pointers declarations
-	Animates: Array<AnimateDB> = []
+	// insertion point for other decls
 
 	LinePointersEncoding: LinePointersEncoding = new LinePointersEncoding
 }

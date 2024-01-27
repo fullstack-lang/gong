@@ -102,13 +102,6 @@ export class PathService {
   }
   postPath(pathdb: PathDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    pathdb.PathPointersEncoding.Animates = []
-    for (let _animate of pathdb.Animates) {
-      pathdb.PathPointersEncoding.Animates.push(_animate.ID)
-    }
-    pathdb.Animates = []
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,14 +110,6 @@ export class PathService {
 
     return this.http.post<PathDB>(this.pathsUrl, pathdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        pathdb.Animates = new Array<AnimateDB>()
-        for (let _id of pathdb.PathPointersEncoding.Animates) {
-          let _animate = frontRepo.Animates.get(_id)
-          if (_animate != undefined) {
-            pathdb.Animates.push(_animate!)
-          }
-        }
         // this.log(`posted pathdb id=${pathdb.ID}`)
       }),
       catchError(this.handleError<PathDB>('postPath'))
@@ -178,13 +163,6 @@ export class PathService {
     const id = typeof pathdb === 'number' ? pathdb : pathdb.ID;
     const url = `${this.pathsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    pathdb.PathPointersEncoding.Animates = []
-    for (let _animate of pathdb.Animates) {
-      pathdb.PathPointersEncoding.Animates.push(_animate.ID)
-    }
-    pathdb.Animates = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -194,14 +172,6 @@ export class PathService {
 
     return this.http.put<PathDB>(url, pathdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        pathdb.Animates = new Array<AnimateDB>()
-        for (let _id of pathdb.PathPointersEncoding.Animates) {
-          let _animate = frontRepo.Animates.get(_id)
-          if (_animate != undefined) {
-            pathdb.Animates.push(_animate!)
-          }
-        }
         // this.log(`updated pathdb id=${pathdb.ID}`)
       }),
       catchError(this.handleError<PathDB>('updatePath'))

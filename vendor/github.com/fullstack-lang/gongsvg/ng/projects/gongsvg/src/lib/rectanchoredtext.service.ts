@@ -102,13 +102,6 @@ export class RectAnchoredTextService {
   }
   postRectAnchoredText(rectanchoredtextdb: RectAnchoredTextDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    rectanchoredtextdb.RectAnchoredTextPointersEncoding.Animates = []
-    for (let _animate of rectanchoredtextdb.Animates) {
-      rectanchoredtextdb.RectAnchoredTextPointersEncoding.Animates.push(_animate.ID)
-    }
-    rectanchoredtextdb.Animates = []
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,14 +110,6 @@ export class RectAnchoredTextService {
 
     return this.http.post<RectAnchoredTextDB>(this.rectanchoredtextsUrl, rectanchoredtextdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        rectanchoredtextdb.Animates = new Array<AnimateDB>()
-        for (let _id of rectanchoredtextdb.RectAnchoredTextPointersEncoding.Animates) {
-          let _animate = frontRepo.Animates.get(_id)
-          if (_animate != undefined) {
-            rectanchoredtextdb.Animates.push(_animate!)
-          }
-        }
         // this.log(`posted rectanchoredtextdb id=${rectanchoredtextdb.ID}`)
       }),
       catchError(this.handleError<RectAnchoredTextDB>('postRectAnchoredText'))
@@ -178,13 +163,6 @@ export class RectAnchoredTextService {
     const id = typeof rectanchoredtextdb === 'number' ? rectanchoredtextdb : rectanchoredtextdb.ID;
     const url = `${this.rectanchoredtextsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    rectanchoredtextdb.RectAnchoredTextPointersEncoding.Animates = []
-    for (let _animate of rectanchoredtextdb.Animates) {
-      rectanchoredtextdb.RectAnchoredTextPointersEncoding.Animates.push(_animate.ID)
-    }
-    rectanchoredtextdb.Animates = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -194,14 +172,6 @@ export class RectAnchoredTextService {
 
     return this.http.put<RectAnchoredTextDB>(url, rectanchoredtextdb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        rectanchoredtextdb.Animates = new Array<AnimateDB>()
-        for (let _id of rectanchoredtextdb.RectAnchoredTextPointersEncoding.Animates) {
-          let _animate = frontRepo.Animates.get(_id)
-          if (_animate != undefined) {
-            rectanchoredtextdb.Animates.push(_animate!)
-          }
-        }
         // this.log(`updated rectanchoredtextdb id=${rectanchoredtextdb.ID}`)
       }),
       catchError(this.handleError<RectAnchoredTextDB>('updateRectAnchoredText'))

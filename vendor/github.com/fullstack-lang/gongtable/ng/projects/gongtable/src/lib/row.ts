@@ -30,7 +30,7 @@ export function CopyRowToRowDB(row: Row, rowDB: RowDB) {
 	rowDB.CreatedAt = row.CreatedAt
 	rowDB.DeletedAt = row.DeletedAt
 	rowDB.ID = row.ID
-	
+
 	// insertion point for basic fields copy operations
 	rowDB.Name = row.Name
 	rowDB.IsChecked = row.IsChecked
@@ -39,18 +39,22 @@ export function CopyRowToRowDB(row: Row, rowDB: RowDB) {
 
 	// insertion point for slice of pointers fields encoding
 	rowDB.RowPointersEncoding.Cells = []
-    for (let _cell of row.Cells) {
+	for (let _cell of row.Cells) {
 		rowDB.RowPointersEncoding.Cells.push(_cell.ID)
-    }
-	
+	}
+
 }
 
+// CopyRowDBToRow update basic, pointers and slice of pointers fields of row
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of rowDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyRowDBToRow(rowDB: RowDB, row: Row, frontRepo: FrontRepo) {
 
 	row.CreatedAt = rowDB.CreatedAt
 	row.DeletedAt = rowDB.DeletedAt
 	row.ID = rowDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	row.Name = rowDB.Name
 	row.IsChecked = rowDB.IsChecked
@@ -60,9 +64,9 @@ export function CopyRowDBToRow(rowDB: RowDB, row: Row, frontRepo: FrontRepo) {
 	// insertion point for slice of pointers fields encoding
 	row.Cells = new Array<Cell>()
 	for (let _id of rowDB.RowPointersEncoding.Cells) {
-	  let _cell = frontRepo.Cells.get(_id)
-	  if (_cell != undefined) {
-		row.Cells.push(_cell!)
-	  }
+		let _cell = frontRepo.map_ID_Cell.get(_id)
+		if (_cell != undefined) {
+			row.Cells.push(_cell!)
+		}
 	}
 }

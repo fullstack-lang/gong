@@ -44,7 +44,7 @@ export function CopyRectAnchoredRectToRectAnchoredRectDB(rectanchoredrect: RectA
 	rectanchoredrectDB.CreatedAt = rectanchoredrect.CreatedAt
 	rectanchoredrectDB.DeletedAt = rectanchoredrect.DeletedAt
 	rectanchoredrectDB.ID = rectanchoredrect.ID
-	
+
 	// insertion point for basic fields copy operations
 	rectanchoredrectDB.Name = rectanchoredrect.Name
 	rectanchoredrectDB.X = rectanchoredrect.X
@@ -70,12 +70,16 @@ export function CopyRectAnchoredRectToRectAnchoredRectDB(rectanchoredrect: RectA
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyRectAnchoredRectDBToRectAnchoredRect update basic, pointers and slice of pointers fields of rectanchoredrect
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of rectanchoredrectDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyRectAnchoredRectDBToRectAnchoredRect(rectanchoredrectDB: RectAnchoredRectDB, rectanchoredrect: RectAnchoredRect, frontRepo: FrontRepo) {
 
 	rectanchoredrect.CreatedAt = rectanchoredrectDB.CreatedAt
 	rectanchoredrect.DeletedAt = rectanchoredrectDB.DeletedAt
 	rectanchoredrect.ID = rectanchoredrectDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	rectanchoredrect.Name = rectanchoredrectDB.Name
 	rectanchoredrect.X = rectanchoredrectDB.X

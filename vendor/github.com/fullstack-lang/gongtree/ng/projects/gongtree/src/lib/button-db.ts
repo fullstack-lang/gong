@@ -16,9 +16,7 @@ export class ButtonDB {
 	Name: string = ""
 	Icon: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
-	SVGIcon?: SVGIconDB
-
+	// insertion point for other decls
 
 	ButtonPointersEncoding: ButtonPointersEncoding = new ButtonPointersEncoding
 }

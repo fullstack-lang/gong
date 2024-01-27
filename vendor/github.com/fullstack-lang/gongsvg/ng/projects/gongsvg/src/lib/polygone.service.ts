@@ -102,13 +102,6 @@ export class PolygoneService {
   }
   postPolygone(polygonedb: PolygoneDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    polygonedb.PolygonePointersEncoding.Animates = []
-    for (let _animate of polygonedb.Animates) {
-      polygonedb.PolygonePointersEncoding.Animates.push(_animate.ID)
-    }
-    polygonedb.Animates = []
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -117,14 +110,6 @@ export class PolygoneService {
 
     return this.http.post<PolygoneDB>(this.polygonesUrl, polygonedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        polygonedb.Animates = new Array<AnimateDB>()
-        for (let _id of polygonedb.PolygonePointersEncoding.Animates) {
-          let _animate = frontRepo.Animates.get(_id)
-          if (_animate != undefined) {
-            polygonedb.Animates.push(_animate!)
-          }
-        }
         // this.log(`posted polygonedb id=${polygonedb.ID}`)
       }),
       catchError(this.handleError<PolygoneDB>('postPolygone'))
@@ -178,13 +163,6 @@ export class PolygoneService {
     const id = typeof polygonedb === 'number' ? polygonedb : polygonedb.ID;
     const url = `${this.polygonesUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    polygonedb.PolygonePointersEncoding.Animates = []
-    for (let _animate of polygonedb.Animates) {
-      polygonedb.PolygonePointersEncoding.Animates.push(_animate.ID)
-    }
-    polygonedb.Animates = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -194,14 +172,6 @@ export class PolygoneService {
 
     return this.http.put<PolygoneDB>(url, polygonedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        polygonedb.Animates = new Array<AnimateDB>()
-        for (let _id of polygonedb.PolygonePointersEncoding.Animates) {
-          let _animate = frontRepo.Animates.get(_id)
-          if (_animate != undefined) {
-            polygonedb.Animates.push(_animate!)
-          }
-        }
         // this.log(`updated polygonedb id=${polygonedb.ID}`)
       }),
       catchError(this.handleError<PolygoneDB>('updatePolygone'))

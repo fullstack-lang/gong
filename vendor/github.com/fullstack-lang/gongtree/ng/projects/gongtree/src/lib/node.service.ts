@@ -103,23 +103,6 @@ export class NodeService {
   }
   postNode(nodedb: NodeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    if (nodedb.PreceedingSVGIcon != undefined) {
-      nodedb.NodePointersEncoding.PreceedingSVGIconID.Int64 = nodedb.PreceedingSVGIcon.ID
-      nodedb.NodePointersEncoding.PreceedingSVGIconID.Valid = true
-    }
-    nodedb.PreceedingSVGIcon = undefined
-    nodedb.NodePointersEncoding.Children = []
-    for (let _node of nodedb.Children) {
-      nodedb.NodePointersEncoding.Children.push(_node.ID)
-    }
-    nodedb.Children = []
-    nodedb.NodePointersEncoding.Buttons = []
-    for (let _button of nodedb.Buttons) {
-      nodedb.NodePointersEncoding.Buttons.push(_button.ID)
-    }
-    nodedb.Buttons = []
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -128,22 +111,6 @@ export class NodeService {
 
     return this.http.post<NodeDB>(this.nodesUrl, nodedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        nodedb.PreceedingSVGIcon = frontRepo.SVGIcons.get(nodedb.NodePointersEncoding.PreceedingSVGIconID.Int64)
-        nodedb.Children = new Array<NodeDB>()
-        for (let _id of nodedb.NodePointersEncoding.Children) {
-          let _node = frontRepo.Nodes.get(_id)
-          if (_node != undefined) {
-            nodedb.Children.push(_node!)
-          }
-        }
-        nodedb.Buttons = new Array<ButtonDB>()
-        for (let _id of nodedb.NodePointersEncoding.Buttons) {
-          let _button = frontRepo.Buttons.get(_id)
-          if (_button != undefined) {
-            nodedb.Buttons.push(_button!)
-          }
-        }
         // this.log(`posted nodedb id=${nodedb.ID}`)
       }),
       catchError(this.handleError<NodeDB>('postNode'))
@@ -197,23 +164,6 @@ export class NodeService {
     const id = typeof nodedb === 'number' ? nodedb : nodedb.ID;
     const url = `${this.nodesUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
-    if (nodedb.PreceedingSVGIcon != undefined) {
-      nodedb.NodePointersEncoding.PreceedingSVGIconID.Int64 = nodedb.PreceedingSVGIcon.ID
-      nodedb.NodePointersEncoding.PreceedingSVGIconID.Valid = true
-    }
-    nodedb.PreceedingSVGIcon = undefined
-    nodedb.NodePointersEncoding.Children = []
-    for (let _node of nodedb.Children) {
-      nodedb.NodePointersEncoding.Children.push(_node.ID)
-    }
-    nodedb.Children = []
-    nodedb.NodePointersEncoding.Buttons = []
-    for (let _button of nodedb.Buttons) {
-      nodedb.NodePointersEncoding.Buttons.push(_button.ID)
-    }
-    nodedb.Buttons = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -223,22 +173,6 @@ export class NodeService {
 
     return this.http.put<NodeDB>(url, nodedb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-        nodedb.PreceedingSVGIcon = frontRepo.SVGIcons.get(nodedb.NodePointersEncoding.PreceedingSVGIconID.Int64)
-        nodedb.Children = new Array<NodeDB>()
-        for (let _id of nodedb.NodePointersEncoding.Children) {
-          let _node = frontRepo.Nodes.get(_id)
-          if (_node != undefined) {
-            nodedb.Children.push(_node!)
-          }
-        }
-        nodedb.Buttons = new Array<ButtonDB>()
-        for (let _id of nodedb.NodePointersEncoding.Buttons) {
-          let _button = frontRepo.Buttons.get(_id)
-          if (_button != undefined) {
-            nodedb.Buttons.push(_button!)
-          }
-        }
         // this.log(`updated nodedb id=${nodedb.ID}`)
       }),
       catchError(this.handleError<NodeDB>('updateNode'))

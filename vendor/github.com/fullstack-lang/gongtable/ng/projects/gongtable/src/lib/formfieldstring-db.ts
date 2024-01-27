@@ -16,7 +16,7 @@ export class FormFieldStringDB {
 	Value: string = ""
 	IsTextArea: boolean = false
 
-	// insertion point for pointers and slices of pointers declarations
+	// insertion point for other decls
 
 	FormFieldStringPointersEncoding: FormFieldStringPointersEncoding = new FormFieldStringPointersEncoding
 }

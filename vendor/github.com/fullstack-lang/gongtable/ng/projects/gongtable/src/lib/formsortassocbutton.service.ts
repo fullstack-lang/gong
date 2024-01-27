@@ -101,8 +101,6 @@ export class FormSortAssocButtonService {
   }
   postFormSortAssocButton(formsortassocbuttondb: FormSortAssocButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonDB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -111,7 +109,6 @@ export class FormSortAssocButtonService {
 
     return this.http.post<FormSortAssocButtonDB>(this.formsortassocbuttonsUrl, formsortassocbuttondb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`posted formsortassocbuttondb id=${formsortassocbuttondb.ID}`)
       }),
       catchError(this.handleError<FormSortAssocButtonDB>('postFormSortAssocButton'))
@@ -165,8 +162,6 @@ export class FormSortAssocButtonService {
     const id = typeof formsortassocbuttondb === 'number' ? formsortassocbuttondb : formsortassocbuttondb.ID;
     const url = `${this.formsortassocbuttonsUrl}/${id}`;
 
-    // insertion point for reset of pointers (to avoid circular JSON)
-    // and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -176,7 +171,6 @@ export class FormSortAssocButtonService {
 
     return this.http.put<FormSortAssocButtonDB>(url, formsortassocbuttondb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
         // this.log(`updated formsortassocbuttondb id=${formsortassocbuttondb.ID}`)
       }),
       catchError(this.handleError<FormSortAssocButtonDB>('updateFormSortAssocButton'))

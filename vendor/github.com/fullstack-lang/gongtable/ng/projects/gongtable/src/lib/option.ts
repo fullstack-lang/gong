@@ -27,7 +27,7 @@ export function CopyOptionToOptionDB(option: Option, optionDB: OptionDB) {
 	optionDB.CreatedAt = option.CreatedAt
 	optionDB.DeletedAt = option.DeletedAt
 	optionDB.ID = option.ID
-	
+
 	// insertion point for basic fields copy operations
 	optionDB.Name = option.Name
 
@@ -36,12 +36,16 @@ export function CopyOptionToOptionDB(option: Option, optionDB: OptionDB) {
 	// insertion point for slice of pointers fields encoding
 }
 
+// CopyOptionDBToOption update basic, pointers and slice of pointers fields of option
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of optionDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyOptionDBToOption(optionDB: OptionDB, option: Option, frontRepo: FrontRepo) {
 
 	option.CreatedAt = optionDB.CreatedAt
 	option.DeletedAt = optionDB.DeletedAt
 	option.ID = optionDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	option.Name = optionDB.Name
 

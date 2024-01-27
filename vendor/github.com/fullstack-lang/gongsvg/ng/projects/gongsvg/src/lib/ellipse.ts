@@ -40,7 +40,7 @@ export function CopyEllipseToEllipseDB(ellipse: Ellipse, ellipseDB: EllipseDB) {
 	ellipseDB.CreatedAt = ellipse.CreatedAt
 	ellipseDB.DeletedAt = ellipse.DeletedAt
 	ellipseDB.ID = ellipse.ID
-	
+
 	// insertion point for basic fields copy operations
 	ellipseDB.Name = ellipse.Name
 	ellipseDB.CX = ellipse.CX
@@ -59,18 +59,22 @@ export function CopyEllipseToEllipseDB(ellipse: Ellipse, ellipseDB: EllipseDB) {
 
 	// insertion point for slice of pointers fields encoding
 	ellipseDB.EllipsePointersEncoding.Animates = []
-    for (let _animate of ellipse.Animates) {
+	for (let _animate of ellipse.Animates) {
 		ellipseDB.EllipsePointersEncoding.Animates.push(_animate.ID)
-    }
-	
+	}
+
 }
 
+// CopyEllipseDBToEllipse update basic, pointers and slice of pointers fields of ellipse
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of ellipseDB
+// this function uses frontRepo.map_ID_<structname> to decode the encoded fields
+// a condition is that those maps has to be initialized before
 export function CopyEllipseDBToEllipse(ellipseDB: EllipseDB, ellipse: Ellipse, frontRepo: FrontRepo) {
 
 	ellipse.CreatedAt = ellipseDB.CreatedAt
 	ellipse.DeletedAt = ellipseDB.DeletedAt
 	ellipse.ID = ellipseDB.ID
-	
+
 	// insertion point for basic fields copy operations
 	ellipse.Name = ellipseDB.Name
 	ellipse.CX = ellipseDB.CX
@@ -90,9 +94,9 @@ export function CopyEllipseDBToEllipse(ellipseDB: EllipseDB, ellipse: Ellipse, f
 	// insertion point for slice of pointers fields encoding
 	ellipse.Animates = new Array<Animate>()
 	for (let _id of ellipseDB.EllipsePointersEncoding.Animates) {
-	  let _animate = frontRepo.Animates.get(_id)
-	  if (_animate != undefined) {
-		ellipse.Animates.push(_animate!)
-	  }
+		let _animate = frontRepo.map_ID_Animate.get(_id)
+		if (_animate != undefined) {
+			ellipse.Animates.push(_animate!)
+		}
 	}
 }

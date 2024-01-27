@@ -14,7 +14,7 @@ export class DisplayedColumnDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 
-	// insertion point for pointers and slices of pointers declarations
+	// insertion point for other decls
 
 	DisplayedColumnPointersEncoding: DisplayedColumnPointersEncoding = new DisplayedColumnPointersEncoding
 }
