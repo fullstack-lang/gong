@@ -118,6 +118,21 @@ func (controller *Controller) onWebSocketRequest(c *gin.Context) {
 		return
 	}
 	defer wsConnection.Close()
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			// log.Println("GetLastCommitFromBackNb", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/test/go/models, Unkown stack", stackPath)
+	}
+
 }
 
 // swagger:route GET /commitfrombacknb backrepo GetLastCommitFromBackNb
