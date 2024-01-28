@@ -40,6 +40,7 @@ type BackRepoStruct struct {
 
 	stage *models.StageStruct
 
+	// the back repo can broadcast the CommitFromBackNb to all interested subscribers
 	rwMutex     sync.RWMutex
 	subscribers []chan int
 }
@@ -165,9 +166,6 @@ func (backRepo *BackRepoStruct) IncrementCommitFromBackNb() uint {
 		backRepo.stage.OnInitCommitFromBackCallback.BeforeCommit(backRepo.stage)
 	}
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
-
-	backRepo.broadcastNbCommitToBack()
-
 	return backRepo.CommitFromBackNb
 }
 
