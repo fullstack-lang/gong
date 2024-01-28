@@ -9,11 +9,11 @@ func (backRepoStruct *BackRepoStruct) Subscribe() <-chan int {
 	return ch
 }
 
-func (backRepoStruct *BackRepoStruct) broadcastNbCommitToBack(nbCommitToBack int) {
+func (backRepoStruct *BackRepoStruct) broadcastNbCommitToBack() {
 	backRepoStruct.rwMutex.RLock()
 	defer backRepoStruct.rwMutex.RUnlock()
 
 	for _, ch := range backRepoStruct.subscribers {
-		ch <- nbCommitToBack
+		ch <- int(backRepoStruct.CommitFromBackNb)
 	}
 }
