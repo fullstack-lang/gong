@@ -69,7 +69,7 @@ export class TestspecificComponent implements OnInit {
     // let paramString = params.toString(); // Convert HttpParams to string
     // let url = `${basePath}?${paramString}`;
 
-    basePath = 'ws://localhost:8080/ws'
+    basePath = 'ws://localhost:8080/api/github.com/fullstack-lang/gong/test/go/v1/ws'
     let paramString = params.toString()
     let url = `${basePath}?${paramString}`
     this.wsSubject = webSocket(url)
