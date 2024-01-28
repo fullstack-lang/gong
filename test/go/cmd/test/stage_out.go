@@ -45,7 +45,7 @@ func stage_outInjection(stage *models.StageStruct) {
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Astruct
-	__Astruct__000000_A1 := (&models.Astruct{Name: `A1`}).Stage(stage)
+	__Astruct__000000_A1_ := (&models.Astruct{Name: `A1*****************************************************************`}).Stage(stage)
 	__Astruct__000001_A2 := (&models.Astruct{Name: `A2`}).Stage(stage)
 	__Astruct__000002_A3 := (&models.Astruct{Name: `A3`}).Stage(stage)
 
@@ -57,7 +57,7 @@ func stage_outInjection(stage *models.StageStruct) {
 
 	// Declarations of staged instances of Bstruct
 	__Bstruct__000000_B1 := (&models.Bstruct{Name: `B1`}).Stage(stage)
-	__Bstruct__000001_B2 := (&models.Bstruct{Name: `B2`}).Stage(stage)
+	__Bstruct__000001_B2_ := (&models.Bstruct{Name: `B2 *`}).Stage(stage)
 	__Bstruct__000002_B3 := (&models.Bstruct{Name: `B3`}).Stage(stage)
 
 	// Declarations of staged instances of Dstruct
@@ -68,58 +68,58 @@ func stage_outInjection(stage *models.StageStruct) {
 	// Setup of values
 
 	// Astruct values setup
-	__Astruct__000000_A1.Name = `A1`
-	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-23 07:14:50.755 +0000 UTC")
-	__Astruct__000000_A1.Booleanfield = false
-	__Astruct__000000_A1.Aenum = models.ENUM_VAL1
-	__Astruct__000000_A1.Aenum_2 = models.ENUM_VAL2
-	__Astruct__000000_A1.Benum = models.BENUM_VAL2
-	__Astruct__000000_A1.CEnum = models.CENUM_VAL2
-	__Astruct__000000_A1.CName = `CName1
+	__Astruct__000000_A1_.Name = `A1*****************************************************************`
+	__Astruct__000000_A1_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-11-14 03:08:21 +0000 UTC")
+	__Astruct__000000_A1_.Booleanfield = false
+	__Astruct__000000_A1_.Aenum = models.ENUM_VAL1
+	__Astruct__000000_A1_.Aenum_2 = models.ENUM_VAL2
+	__Astruct__000000_A1_.Benum = models.BENUM_VAL2
+	__Astruct__000000_A1_.CEnum = models.CENUM_VAL2
+	__Astruct__000000_A1_.CName = `CName1
 
 	\n"""" fdfsqjfhdqksfhqksf
 Second Line`
-	__Astruct__000000_A1.CFloatfield = 60.500000
-	__Astruct__000000_A1.Floatfield = 0.000000
-	__Astruct__000000_A1.Intfield = 3
-	__Astruct__000000_A1.Anotherbooleanfield = false
-	__Astruct__000000_A1.Duration1 = 79653000000000
+	__Astruct__000000_A1_.CFloatfield = 60.500000
+	__Astruct__000000_A1_.Floatfield = 0.000000
+	__Astruct__000000_A1_.Intfield = 3
+	__Astruct__000000_A1_.Anotherbooleanfield = false
+	__Astruct__000000_A1_.Duration1 = 79653000000000
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [gongdoc_models.GongStructShape]
-	__Astruct__000000_A1.StructRef = `gongdoc_models.GongStructShape`
+	__Astruct__000000_A1_.StructRef = `gongdoc_models.GongStructShape`
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [gongdoc_models.GongStructShape.Name]
-	__Astruct__000000_A1.FieldRef = `gongdoc_models.GongStructShape.Name`
+	__Astruct__000000_A1_.FieldRef = `gongdoc_models.GongStructShape.Name`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [......]
-	__Astruct__000000_A1.EnumIntRef = `......`
+	//gong:ident [........]
+	__Astruct__000000_A1_.EnumIntRef = `........`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [......]
-	__Astruct__000000_A1.EnumStringRef = `......`
+	//gong:ident [........]
+	__Astruct__000000_A1_.EnumStringRef = `........`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [......]
-	__Astruct__000000_A1.EnumValue = `......`
+	//gong:ident [........]
+	__Astruct__000000_A1_.EnumValue = `........`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [......]
-	__Astruct__000000_A1.ConstIdentifierValue = `......`
-	__Astruct__000000_A1.TextFieldBespokeSize = ``
-	__Astruct__000000_A1.TextArea = ``
+	//gong:ident [........]
+	__Astruct__000000_A1_.ConstIdentifierValue = `........`
+	__Astruct__000000_A1_.TextFieldBespokeSize = ``
+	__Astruct__000000_A1_.TextArea = ``
 
 	// Astruct values setup
 	__Astruct__000001_A2.Name = `A2`
-	__Astruct__000001_A2.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Astruct__000001_A2.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 09:59:06.744 +0000 UTC")
 	__Astruct__000001_A2.Booleanfield = false
 	__Astruct__000001_A2.CEnum = models.CENUM_VAL1
 	__Astruct__000001_A2.CName = ``
@@ -131,39 +131,39 @@ Second Line`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000001_A2.StructRef = `.`
+	//gong:ident [...]
+	__Astruct__000001_A2.StructRef = `...`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000001_A2.FieldRef = `.`
+	//gong:ident [...]
+	__Astruct__000001_A2.FieldRef = `...`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000001_A2.EnumIntRef = `.`
+	//gong:ident [...]
+	__Astruct__000001_A2.EnumIntRef = `...`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000001_A2.EnumStringRef = `.`
+	//gong:ident [...]
+	__Astruct__000001_A2.EnumStringRef = `...`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000001_A2.EnumValue = `.`
+	//gong:ident [...]
+	__Astruct__000001_A2.EnumValue = `...`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000001_A2.ConstIdentifierValue = `.`
+	//gong:ident [...]
+	__Astruct__000001_A2.ConstIdentifierValue = `...`
 	__Astruct__000001_A2.TextFieldBespokeSize = ``
 	__Astruct__000001_A2.TextArea = ``
 
 	// Astruct values setup
 	__Astruct__000002_A3.Name = `A3`
-	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-02-10 01:06:11.446 +0000 UTC")
+	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 11:16:35.978 +0000 UTC")
 	__Astruct__000002_A3.Booleanfield = true
 	__Astruct__000002_A3.Benum = models.BENUM_VAL2
 	__Astruct__000002_A3.CEnum = models.CENUM_VAL1
@@ -176,33 +176,33 @@ Second Line`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [......]
-	__Astruct__000002_A3.StructRef = `......`
+	//gong:ident [........]
+	__Astruct__000002_A3.StructRef = `........`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [......]
-	__Astruct__000002_A3.FieldRef = `......`
+	//gong:ident [........]
+	__Astruct__000002_A3.FieldRef = `........`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [......]
-	__Astruct__000002_A3.EnumIntRef = `......`
+	//gong:ident [........]
+	__Astruct__000002_A3.EnumIntRef = `........`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [......]
-	__Astruct__000002_A3.EnumStringRef = `......`
+	//gong:ident [........]
+	__Astruct__000002_A3.EnumStringRef = `........`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [......]
-	__Astruct__000002_A3.EnumValue = `......`
+	//gong:ident [........]
+	__Astruct__000002_A3.EnumValue = `........`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [......]
-	__Astruct__000002_A3.ConstIdentifierValue = `......`
+	//gong:ident [........]
+	__Astruct__000002_A3.ConstIdentifierValue = `........`
 	__Astruct__000002_A3.TextFieldBespokeSize = ``
 	__Astruct__000002_A3.TextArea = ``
 
@@ -219,10 +219,10 @@ Second Line`
 	__Bstruct__000000_B1.Intfield = 0
 
 	// Bstruct values setup
-	__Bstruct__000001_B2.Name = `B2`
-	__Bstruct__000001_B2.Floatfield = 0.000000
-	__Bstruct__000001_B2.Floatfield2 = 0.000000
-	__Bstruct__000001_B2.Intfield = 0
+	__Bstruct__000001_B2_.Name = `B2 *`
+	__Bstruct__000001_B2_.Floatfield = 0.000000
+	__Bstruct__000001_B2_.Floatfield2 = 0.000000
+	__Bstruct__000001_B2_.Intfield = 0
 
 	// Bstruct values setup
 	__Bstruct__000002_B3.Name = `B3`
@@ -234,16 +234,16 @@ Second Line`
 	__Dstruct__000000_D1.Name = `D1`
 
 	// Setup of pointers
-	__Astruct__000000_A1.Associationtob = __Bstruct__000001_B2
-	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B3)
-	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)
-	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
-	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000001_B2)
-	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000002_B3)
-	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000000_)
+	__Astruct__000000_A1_.Associationtob = __Bstruct__000001_B2_
+	__Astruct__000000_A1_.Anarrayofb = append(__Astruct__000000_A1_.Anarrayofb, __Bstruct__000002_B3)
+	__Astruct__000000_A1_.Anarrayofb = append(__Astruct__000000_A1_.Anarrayofb, __Bstruct__000000_B1)
+	__Astruct__000000_A1_.Anarrayofa = append(__Astruct__000000_A1_.Anarrayofa, __Astruct__000000_A1_)
+	__Astruct__000000_A1_.Anotherarrayofb = append(__Astruct__000000_A1_.Anotherarrayofb, __Bstruct__000001_B2_)
+	__Astruct__000000_A1_.Anotherarrayofb = append(__Astruct__000000_A1_.Anotherarrayofb, __Bstruct__000002_B3)
+	__Astruct__000000_A1_.Anarrayofb2Use = append(__Astruct__000000_A1_.Anarrayofb2Use, __AstructBstruct2Use__000001_)
 	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
-	__Dstruct__000000_D1.Anarrayofb = append(__Dstruct__000000_D1.Anarrayofb, __Bstruct__000001_B2)
+	__Dstruct__000000_D1.Anarrayofb = append(__Dstruct__000000_D1.Anarrayofb, __Bstruct__000001_B2_)
 	__Dstruct__000000_D1.Anarrayofb = append(__Dstruct__000000_D1.Anarrayofb, __Bstruct__000002_B3)
 }
 
