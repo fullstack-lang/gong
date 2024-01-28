@@ -89,10 +89,10 @@ func registerControllers(r *gin.Engine) {
 
 		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
-
-		v1.GET("/v1/ws", GetController().onWebSocketRequest)
-
 	}
+
+	r.GET("/ws", GetController().onWebSocketRequest)
+
 }
 
 // onWebSocketRequest is a function that is started each time
@@ -103,6 +103,9 @@ func registerControllers(r *gin.Engine) {
 // 1. it stays live and pool for incomming backend commit number broadcast and forward
 // them on the web socket connection
 func (controller *Controller) onWebSocketRequest(c *gin.Context) {
+
+	log.Println("onWebSocketRequest")
+
 	// Upgrader specifies parameters for upgrading an HTTP connection to a
 	// WebSocket connection.
 	var upgrader = websocket.Upgrader{
@@ -131,6 +134,17 @@ func (controller *Controller) onWebSocketRequest(c *gin.Context) {
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		log.Panic("Stack github.com/fullstack-lang/gong/test/go/models, Unkown stack", stackPath)
+	}
+	updateCommitBackRepoNbChannel := backRepo.Subscribe()
+
+	for nbCommitBackRepo := range updateCommitBackRepoNbChannel {
+
+		// Send elapsed time as a string over the WebSocket connection
+		err = wsConnection.WriteMessage(websocket.TextMessage, []byte(fmt.Sprintf("%d", nbCommitBackRepo)))
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 	}
 
 }
