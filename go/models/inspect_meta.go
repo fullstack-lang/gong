@@ -35,7 +35,7 @@ func inspectMeta(stage *StageStruct, astPackage *ast.Package) {
 						}
 						meta := (&Meta{Name: vs.Names[0].Name}).Stage(stage)
 						_ = meta
-						log.Println("A Meta declaration ", meta.Name)
+						// log.Println("A Meta declaration ", meta.Name)
 						// parse both elements
 						//		Text: `Astruct is the typical gongstruct and it is references Bstruct in different ways`,
 						//	 References: []any{
