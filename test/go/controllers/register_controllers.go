@@ -91,7 +91,7 @@ func registerControllers(r *gin.Engine) {
 		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
 	}
 
-	r.GET("/ws", GetController().onWebSocketRequest)
+	r.GET("/api/github.com/fullstack-lang/gong/test/go/v1/ws", GetController().onWebSocketRequest)
 
 }
 
