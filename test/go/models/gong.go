@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"math"
 	"slices"
-	"sync"
 	"time"
 
 	"golang.org/x/exp/maps"
@@ -54,11 +53,11 @@ type StageStruct struct {
 	Astructs_mapString map[string]*Astruct
 
 	// insertion point for slice of pointers maps
-	Astruct_Anarrayofb_reverseMap      map[*Bstruct]*Astruct
-	Astruct_Anarrayofa_reverseMap      map[*Astruct]*Astruct
+	Astruct_Anarrayofb_reverseMap map[*Bstruct]*Astruct
+	Astruct_Anarrayofa_reverseMap map[*Astruct]*Astruct
 	Astruct_Anotherarrayofb_reverseMap map[*Bstruct]*Astruct
-	Astruct_AnarrayofbUse_reverseMap   map[*AstructBstructUse]*Astruct
-	Astruct_Anarrayofb2Use_reverseMap  map[*AstructBstruct2Use]*Astruct
+	Astruct_AnarrayofbUse_reverseMap map[*AstructBstructUse]*Astruct
+	Astruct_Anarrayofb2Use_reverseMap map[*AstructBstruct2Use]*Astruct
 
 	OnAfterAstructCreateCallback OnAfterCreateInterface[Astruct]
 	OnAfterAstructUpdateCallback OnAfterUpdateInterface[Astruct]
@@ -138,10 +137,6 @@ type StageStruct struct {
 	// map to enable docLink renaming when an identifier is renamed
 	Map_DocLink_Renaming map[string]GONG__Identifier
 	// the to be removed stops here
-
-	// for broadcast of nb commit to back
-	rwMutex     sync.RWMutex
-	subscribers []chan int
 }
 
 func (stage *StageStruct) GetType() string {

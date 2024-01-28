@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"sync"
 
 	"github.com/fullstack-lang/gong/test/go/models"
 
@@ -38,6 +39,9 @@ type BackRepoStruct struct {
 	PushFromFrontNb uint // records commit increments when performed by the front
 
 	stage *models.StageStruct
+
+	rwMutex     sync.RWMutex
+	subscribers []chan int
 }
 
 func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepoStruct) {
