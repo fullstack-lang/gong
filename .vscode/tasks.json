@@ -177,6 +177,13 @@
             ]
         },
         {
+			"label": "03 - ngbuild test",
+			"type": "shell",
+			"command": "cd test/ng; ngbuild",
+			"group": "build",
+			"problemMatcher": []
+		},
+        {
             "label": "03 - ng serve test --host=127.0.0.1",
             "type": "shell",
             "options": {
