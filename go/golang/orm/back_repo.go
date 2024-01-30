@@ -102,6 +102,9 @@ func (backRepo *BackRepoStruct) IncrementCommitFromBackNb() uint {
 		backRepo.stage.OnInitCommitFromBackCallback.BeforeCommit(backRepo.stage)
 	}
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
+
+	backRepo.broadcastNbCommitToBack()
+	
 	return backRepo.CommitFromBackNb
 }
 
