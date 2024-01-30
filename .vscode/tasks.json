@@ -134,7 +134,7 @@
             "group": "build"
         },
         {
-            "label": "04 - go run main.go -marshallOnCommit stage -unmarshallFromCode stage.go -diagrams",
+            "label": "04 - go run main.go -marshallOnCommit stage_out -unmarshallFromCode stage.go -diagrams",
             "type": "shell",
             "options": {
                 "cwd": "./test/go/cmd/test"
@@ -143,7 +143,23 @@
             "args": [
                 "run",
                 "main.go",
-                "-marshallOnCommit=stage",
+                "-marshallOnCommit=stage_out",
+                "-unmarshallFromCode",
+                "stage.go",
+                "-diagrams"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "04 - go run main.go -unmarshallFromCode stage.go -diagrams",
+            "type": "shell",
+            "options": {
+                "cwd": "./test/go/cmd/test"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                "main.go",
                 "-unmarshallFromCode",
                 "stage.go",
                 "-diagrams"
@@ -175,6 +191,13 @@
                 "-marshallOnCommit",
                 "stage2",
             ]
+        },
+        {
+            "label": "03 - ngbuild test",
+            "type": "shell",
+            "command": "cd test/ng; ngbuild",
+            "group": "build",
+            "problemMatcher": []
         },
         {
             "label": "03 - ng serve test --host=127.0.0.1",

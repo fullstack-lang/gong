@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"sync"
 
 	"github.com/fullstack-lang/gong/test/go/models"
 
@@ -38,6 +39,10 @@ type BackRepoStruct struct {
 	PushFromFrontNb uint // records commit increments when performed by the front
 
 	stage *models.StageStruct
+
+	// the back repo can broadcast the CommitFromBackNb to all interested subscribers
+	rwMutex     sync.RWMutex
+	subscribers []chan int
 }
 
 func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepoStruct) {
@@ -161,6 +166,9 @@ func (backRepo *BackRepoStruct) IncrementCommitFromBackNb() uint {
 		backRepo.stage.OnInitCommitFromBackCallback.BeforeCommit(backRepo.stage)
 	}
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
+
+	backRepo.broadcastNbCommitToBack()
+
 	return backRepo.CommitFromBackNb
 }
 
@@ -320,4 +328,22 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.StageStruct, dirPath str
 
 	// commit the restored stage
 	backRepo.stage.Commit()
+}
+
+func (backRepoStruct *BackRepoStruct) Subscribe() <-chan int {
+	backRepoStruct.rwMutex.Lock()
+	defer backRepoStruct.rwMutex.Unlock()
+
+	ch := make(chan int)
+	backRepoStruct.subscribers = append(backRepoStruct.subscribers, ch)
+	return ch
+}
+
+func (backRepoStruct *BackRepoStruct) broadcastNbCommitToBack() {
+	backRepoStruct.rwMutex.RLock()
+	defer backRepoStruct.rwMutex.RUnlock()
+
+	for _, ch := range backRepoStruct.subscribers {
+		ch <- int(backRepoStruct.CommitFromBackNb)
+	}
 }
