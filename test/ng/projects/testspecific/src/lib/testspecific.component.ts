@@ -74,6 +74,10 @@ export class TestspecificComponent implements OnInit {
     let url = `${basePath}?${paramString}`
     this.wsSubject = webSocket(url)
 
+    if (this.wsSubject == undefined) {
+      console.log("webSocket(url) failed")
+    }
+
     if (this.wsSubject != undefined) {
       this.wsSubject.subscribe({
         next: (data) => {
