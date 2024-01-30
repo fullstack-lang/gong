@@ -4,13 +4,13 @@ import (
 	"bytes"
 	"go/doc"
 	"go/doc/comment"
-	"log"
 )
 
 // GenerateDocs populates modelPkg with Gongnote presnt in the docPackage
 func (modelPkg *ModelPkg) GenerateDocs(docPackage *doc.Package) {
 
 	for noteName, notes := range docPackage.Notes {
+		_ = noteName
 
 		for _, note := range notes {
 			// log.Println("note uid : ", note.UID)
@@ -70,7 +70,7 @@ func (modelPkg *ModelPkg) GenerateDocs(docPackage *doc.Package) {
 				}
 			}
 		}
-		log.Println("documenting ", noteName)
+		// log.Println("documenting ", noteName)
 
 	}
 }

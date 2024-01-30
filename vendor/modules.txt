@@ -34,7 +34,7 @@ github.com/dustin/go-humanize
 # github.com/frankban/quicktest v1.14.6
 ## explicit; go 1.13
 github.com/frankban/quicktest
-# github.com/fullstack-lang/gongdoc v0.0.0-20240127175548-e14d21f277fd
+# github.com/fullstack-lang/gongdoc v0.0.0-20240128110654-64e97ef05d0a
 ## explicit; go 1.21.0
 github.com/fullstack-lang/gongdoc/go/controllers
 github.com/fullstack-lang/gongdoc/go/doc2svg
@@ -44,21 +44,21 @@ github.com/fullstack-lang/gongdoc/go/models
 github.com/fullstack-lang/gongdoc/go/node2gongdoc
 github.com/fullstack-lang/gongdoc/go/orm
 github.com/fullstack-lang/gongdoc/ng/projects
-# github.com/fullstack-lang/gongsvg v0.0.0-20240127175549-616185e1147c
+# github.com/fullstack-lang/gongsvg v0.0.0-20240127181104-c073f10e8a74
 ## explicit; go 1.21.0
 github.com/fullstack-lang/gongsvg/go/controllers
 github.com/fullstack-lang/gongsvg/go/fullstack
 github.com/fullstack-lang/gongsvg/go/models
 github.com/fullstack-lang/gongsvg/go/orm
 github.com/fullstack-lang/gongsvg/ng/projects
-# github.com/fullstack-lang/gongtable v0.0.0-20240127175549-6fea7a8bc9ff
+# github.com/fullstack-lang/gongtable v0.0.0-20240127181105-02912bc60ef5
 ## explicit; go 1.21.0
 github.com/fullstack-lang/gongtable/go/controllers
 github.com/fullstack-lang/gongtable/go/fullstack
 github.com/fullstack-lang/gongtable/go/models
 github.com/fullstack-lang/gongtable/go/orm
 github.com/fullstack-lang/gongtable/ng/projects
-# github.com/fullstack-lang/gongtree v0.0.0-20240127175549-0b9c685be7d3
+# github.com/fullstack-lang/gongtree v0.0.0-20240127181105-0cb21355d9f4
 ## explicit; go 1.21.0
 github.com/fullstack-lang/gongtree/go/buttons
 github.com/fullstack-lang/gongtree/go/controllers
@@ -132,6 +132,9 @@ github.com/google/go-cmp/cmp/internal/value
 # github.com/google/uuid v1.6.0
 ## explicit
 github.com/google/uuid
+# github.com/gorilla/websocket v1.5.1
+## explicit; go 1.20
+github.com/gorilla/websocket
 # github.com/jinzhu/inflection v1.0.0
 ## explicit
 github.com/jinzhu/inflection
@@ -255,6 +258,8 @@ golang.org/x/net/http2
 golang.org/x/net/http2/h2c
 golang.org/x/net/http2/hpack
 golang.org/x/net/idna
+golang.org/x/net/internal/socks
+golang.org/x/net/proxy
 # golang.org/x/sys v0.16.0
 ## explicit; go 1.18
 golang.org/x/sys/cpu

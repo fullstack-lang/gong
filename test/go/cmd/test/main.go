@@ -4,7 +4,9 @@ import (
 	"flag"
 	"log"
 	"strconv"
+	"time"
 
+	"github.com/fullstack-lang/gong/test/go/models"
 	test_stack "github.com/fullstack-lang/gong/test/go/stack"
 	test_static "github.com/fullstack-lang/gong/test/go/static"
 )
@@ -36,9 +38,29 @@ func main() {
 	stack := test_stack.NewStack(r, "test", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
 
+	go func() {
+
+		time.Sleep(1 * time.Second)
+
+		// get first element
+		map_A := (*models.GetGongstructInstancesMap[models.Astruct](stack.Stage))
+		if a, ok := map_A["A1"]; ok {
+			for {
+
+				time.Sleep(1 * time.Second)
+				log.Println("a", a.Name)
+				a.Name = a.Name + "*"
+				stack.Stage.Commit()
+
+			}
+		}
+
+	}()
+
 	log.Printf("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
+
 }
