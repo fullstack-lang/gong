@@ -92,7 +92,6 @@ func registerControllers(r *gin.Engine) {
 
 		v1.GET("/v1/ws", GetController().onWebSocketRequest)
 	}
-
 }
 
 // onWebSocketRequest is a function that is started each time
@@ -133,7 +132,7 @@ func (controller *Controller) onWebSocketRequest(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/test/go/models, Unkown stack", stackPath)
+		log.Panic("Stack github.com/fullstack-lang/gong/test/go, Unkown stack", stackPath)
 	}
 	updateCommitBackRepoNbChannel := backRepo.Subscribe()
 
