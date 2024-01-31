@@ -69,7 +69,7 @@ export class TestspecificComponent implements OnInit {
     // let paramString = params.toString(); // Convert HttpParams to string
     // let url = `${basePath}?${paramString}`;
 
-    basePath = 'ws://localhost:8080/api/github.com/fullstack-lang/gong/test/go/v1/ws/commitfrombacknb'
+    basePath = 'ws://localhost:8080/api/github.com/fullstack-lang/gong/test/go/v1/ws/stage'
     let paramString = params.toString()
     let url = `${basePath}?${paramString}`
     this.wsSubject = webSocket(url)
@@ -81,8 +81,7 @@ export class TestspecificComponent implements OnInit {
     if (this.wsSubject != undefined) {
       this.wsSubject.subscribe({
         next: (data) => {
-          let nbCommit = parseInt(data, 10)
-          console.log("test specific", nbCommit)
+          console.log("test specific", data)
         },
         error: handleError.error,
       });
