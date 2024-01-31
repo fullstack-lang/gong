@@ -245,6 +245,19 @@
             ]
         },
         {
+            "label": "03 - ngserve test ",
+            "type": "shell",
+            "options": {
+                "cwd": "test/ng"
+            },
+            "command": "ngserve",
+            "group": "build",
+            "args": [
+                "",
+                ""
+            ]
+        },
+        {
             "label": "03 - ng serve test2",
             "type": "shell",
             "options": {

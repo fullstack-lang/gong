@@ -82,6 +82,8 @@ export class TestspecificComponent implements OnInit {
       this.wsSubject.subscribe({
         next: (data) => {
           console.log("test specific", data)
+          let backRepoData = JSON.parse(data)
+          console.log("test specific", backRepoData)
         },
         error: handleError.error,
       });
