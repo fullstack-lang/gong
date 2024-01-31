@@ -193,7 +193,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	}
 	updateCommitBackRepoNbChannel := backRepo.SubscribeToCommitNb()
 
-	var backRepoData *orm.BackRepoData
+	backRepoData := new(orm.BackRepoData)
 	orm.CopyBackRepoToBackRepoData(backRepo, backRepoData)
 	jsonData, err := json.Marshal(backRepoData)
 	if err != nil {
