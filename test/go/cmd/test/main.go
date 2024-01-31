@@ -44,14 +44,18 @@ func main() {
 
 		// get first element
 		map_A := (*models.GetGongstructInstancesMap[models.Astruct](stack.Stage))
+		index := 0
 		if a, ok := map_A["A1"]; ok {
 			for {
-
 				time.Sleep(1 * time.Second)
 				log.Println("a", a.Name)
-				a.Name = a.Name + "*"
+				index++
+				if index%2 == 1 {
+					a.Name = a.Name + "*"
+				} else {
+					a.Name = "A1"
+				}
 				stack.Stage.Commit()
-
 			}
 		}
 

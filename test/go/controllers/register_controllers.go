@@ -141,6 +141,7 @@ func (controller *Controller) onWebSocketRequest(c *gin.Context) {
 		// Send elapsed time as a string over the WebSocket connection
 		err = wsConnection.WriteMessage(websocket.TextMessage, []byte(fmt.Sprintf("%d", nbCommitBackRepo)))
 		if err != nil {
+			log.Println("client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
 			fmt.Println(err)
 			return
 		}
