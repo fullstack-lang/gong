@@ -448,6 +448,13 @@ func main() {
 		filepath.Join(*pkgPath, "../orm/get_instance_db_from_instance.go"),
 		orm.GetInstanceDBFromInstanceTemplateCode, orm.GetInstanceDBFromInstanceSubTemplate)
 
+	gong_models.SimpleCodeGenerator(
+		modelPkg,
+		modelPkg.Name,
+		modelPkg.PkgPath,
+		filepath.Join(*pkgPath, "../orm/back_repo_data.go"),
+		orm.BackRepoDataTemplateCode, orm.BackRepoDataSubTemplate)
+
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		filepath.Join(*pkgPath, "../orm/int_slice.go"),
