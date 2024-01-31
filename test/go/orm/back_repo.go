@@ -168,7 +168,7 @@ func (backRepo *BackRepoStruct) IncrementCommitFromBackNb() uint {
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 
 	backRepo.broadcastNbCommitToBack()
-
+	
 	return backRepo.CommitFromBackNb
 }
 

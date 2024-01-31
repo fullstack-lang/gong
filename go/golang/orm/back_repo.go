@@ -225,9 +225,19 @@ func (backRepoStruct *BackRepoStruct) broadcastNbCommitToBack() {
 	backRepoStruct.rwMutex.RLock()
 	defer backRepoStruct.rwMutex.RUnlock()
 
+	activeChannels := make([]chan int, 0)
+
 	for _, ch := range backRepoStruct.subscribers {
-		ch <- int(backRepoStruct.CommitFromBackNb)
+		select {
+		case ch <- int(backRepoStruct.CommitFromBackNb):
+			activeChannels = append(activeChannels, ch)
+		default:
+			// Assume channel is no longer active; don't add to activeChannels
+			log.Println("Channel no longer active")
+			close(ch)
+		}
 	}
+	backRepoStruct.subscribers = activeChannels
 }
 `
 
