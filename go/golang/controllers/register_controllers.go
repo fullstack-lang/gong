@@ -8,6 +8,8 @@ import (
 	"log"
 	"net/http"
 
+	"{{PkgPathRoot}}/orm"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/gorilla/websocket"
@@ -151,10 +153,14 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	}
 	updateCommitBackRepoNbChannel := backRepo.SubscribeToCommitNb()
 
-	for nbCommitBackRepo := range updateCommitBackRepoNbChannel {
+	backRepoData := new(orm.BackRepoData)
+	orm.CopyBackRepoToBackRepoData(backRepo, backRepoData)
 
-		// Send elapsed time as a string over the WebSocket connection
-		err = wsConnection.WriteMessage(websocket.TextMessage, []byte(fmt.Sprintf("%d", nbCommitBackRepo)))
+	for nbCommitBackRepo := range updateCommitBackRepoNbChannel {
+		_ = nbCommitBackRepo
+
+		// Send backRepo data
+		err = wsConnection.WriteJSON(backRepoData)
 		if err != nil {
 			log.Println("client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
 			fmt.Println(err)
