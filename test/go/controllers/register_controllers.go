@@ -2,7 +2,6 @@
 package controllers
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -195,16 +194,12 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 
 	backRepoData := new(orm.BackRepoData)
 	orm.CopyBackRepoToBackRepoData(backRepo, backRepoData)
-	jsonData, err := json.Marshal(backRepoData)
-	if err != nil {
-		log.Fatalf("Error serializing to JSON: %v", err)
-	}
 
 	for nbCommitBackRepo := range updateCommitBackRepoNbChannel {
 		_ = nbCommitBackRepo
 
-		// Send elapsed time as a string over the WebSocket connection
-		err = wsConnection.WriteMessage(websocket.TextMessage, []byte(jsonData))
+		// Send backRepo data
+		err = wsConnection.WriteJSON(backRepoData)
 		if err != nil {
 			log.Println("client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
 			fmt.Println(err)
