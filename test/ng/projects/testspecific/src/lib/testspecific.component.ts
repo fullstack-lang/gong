@@ -6,6 +6,7 @@ import { ErrorObserver, Observable, timer } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket'
 
 import * as test from 'test'
+import { WebSocketService } from './web-socket-service';
 
 // Create an error handling function
 const handleError: ErrorObserver<Event> = {
@@ -46,7 +47,8 @@ export class TestspecificComponent implements OnInit {
     private frontRepoService: test.FrontRepoService,
     private astructService: test.AstructService,
     private commitNbFromBackService: test.CommitNbFromBackService,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    private webSocketService: WebSocketService
 
   ) {
 
@@ -55,39 +57,15 @@ export class TestspecificComponent implements OnInit {
 
     console.log("Material component->ngOnInit : GONG__StackPath, " + this.GONG__StackPath)
 
-    let params = new HttpParams().set("GONG__StackPath", this.GONG__StackPath)
-
-    let origin = this.document.location.origin
-
-    // if debugging with ng, replace 4200 with 8080
-    origin = origin.replace("4200", "8080")
-
-    // compute path to the service
-    let basePath = origin + '/api/github.com/fullstack-lang/gong/test/go/v1/ws';
-
-    // Add params to the WebSocket URL
-    // let paramString = params.toString(); // Convert HttpParams to string
-    // let url = `${basePath}?${paramString}`;
-
-    basePath = 'ws://localhost:8080/api/github.com/fullstack-lang/gong/test/go/v1/ws/stage'
-    let paramString = params.toString()
-    let url = `${basePath}?${paramString}`
-    this.wsSubject = webSocket(url)
 
     if (this.wsSubject == undefined) {
       console.log("webSocket(url) failed")
     }
 
-    if (this.wsSubject != undefined) {
-      this.wsSubject.subscribe({
-        next: (data) => {
-          console.log("test specific", data)
-          let backRepoData = JSON.parse(data)
-          console.log("test specific", backRepoData)
-        },
-        error: handleError.error,
-      });
-    }
+    this.webSocketService.connect(this.GONG__StackPath).subscribe(data => {
+      const response = JSON.parse(data.data) as test.BackRepoData
+      console.log(response)
+    })
 
 
     // see above for the explanation
