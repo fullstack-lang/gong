@@ -70,7 +70,7 @@ type BstructDB struct {
 	// Declation for basic field bstructDB.Intfield
 	Intfield_Data sql.NullInt64
 	// encoding of pointers
-	BstructPointersEncoding
+	BstructPointersEncoding BstructPointersEncoding
 }
 
 // BstructDBs arrays bstructDBs

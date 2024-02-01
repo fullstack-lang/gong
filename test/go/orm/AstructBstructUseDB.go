@@ -65,7 +65,7 @@ type AstructBstructUseDB struct {
 	// Declation for basic field astructbstructuseDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
-	AstructBstructUsePointersEncoding
+	AstructBstructUsePointersEncoding AstructBstructUsePointersEncoding
 }
 
 // AstructBstructUseDBs arrays astructbstructuseDBs
@@ -212,16 +212,16 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) CommitPhaseTwo
 		astructbstructuseDB.CopyBasicFieldsFromAstructBstructUse(astructbstructuse)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// commit pointer value astructbstructuse.Bstruct2 translates to updating the astructbstructuse.Bstruct2ID
-		astructbstructuseDB.Bstruct2ID.Valid = true // allow for a 0 value (nil association)
+		// commit pointer value astructbstructuse.Bstruct2 translates to updating the astructbstructuse.AstructBstructUsePointersEncoding.Bstruct2ID
+		astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Valid = true // allow for a 0 value (nil association)
 		if astructbstructuse.Bstruct2 != nil {
 			if Bstruct2Id, ok := backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID[astructbstructuse.Bstruct2]; ok {
-				astructbstructuseDB.Bstruct2ID.Int64 = int64(Bstruct2Id)
-				astructbstructuseDB.Bstruct2ID.Valid = true
+				astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Int64 = int64(Bstruct2Id)
+				astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Valid = true
 			}
 		} else {
-			astructbstructuseDB.Bstruct2ID.Int64 = 0
-			astructbstructuseDB.Bstruct2ID.Valid = true
+			astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Int64 = 0
+			astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Valid = true
 		}
 
 		query := backRepoAstructBstructUse.db.Save(&astructbstructuseDB)
@@ -339,8 +339,8 @@ func (astructbstructuseDB *AstructBstructUseDB) DecodePointers(backRepo *BackRep
 	// insertion point for checkout of pointer encoding
 	// Bstruct2 field
 	astructbstructuse.Bstruct2 = nil
-	if astructbstructuseDB.Bstruct2ID.Int64 != 0 {
-		astructbstructuse.Bstruct2 = backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(astructbstructuseDB.Bstruct2ID.Int64)]
+	if astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Int64 != 0 {
+		astructbstructuse.Bstruct2 = backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Int64)]
 	}
 	return
 }
@@ -571,9 +571,9 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) RestorePhaseTw
 
 		// insertion point for reindexing pointers encoding
 		// reindexing Bstruct2 field
-		if astructbstructuseDB.Bstruct2ID.Int64 != 0 {
-			astructbstructuseDB.Bstruct2ID.Int64 = int64(BackRepoBstructid_atBckpTime_newID[uint(astructbstructuseDB.Bstruct2ID.Int64)])
-			astructbstructuseDB.Bstruct2ID.Valid = true
+		if astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Int64 != 0 {
+			astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Int64 = int64(BackRepoBstructid_atBckpTime_newID[uint(astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Int64)])
+			astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Valid = true
 		}
 
 		// update databse with new index encoding
