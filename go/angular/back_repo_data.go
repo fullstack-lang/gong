@@ -7,12 +7,12 @@ const BackRepoTemplateTS = `// generated code - do not edit
 export class BackRepoData {
 	// insertion point for declarations{{` + string(rune(BackRepoInsertionEnumsExportDeclaration)) + `}}
 
-}
 
-constructor(data?: Partial<BackRepoData>) {
-	// insertion point for copies{{` + string(rune(BackRepoInsertionEnumsExportCopies)) + `}}
-}
-`
+	constructor(data?: Partial<BackRepoData>) {
+		// insertion point for copies{{` + string(rune(BackRepoInsertionEnumsExportCopies)) + `}}
+	}
+
+}`
 
 // insertion points
 type BackRepoDataTSInsertionPoint int
@@ -24,16 +24,15 @@ const (
 	BackRepoNbInsertionPoints
 )
 
-// Sub Templates
-type BackRepoDataTSSubTemplate int
-
-const (
-	BackRepoDataTSImports BackRepoDataTSSubTemplate = iota
-	BackRepoDEnumsExportDeclaration
-)
-
 var BackRepoHtmlSubTemplateCode map[string]string = map[string]string{
-	string(rune(BackRepoDataTSImports)): `
+	string(rune(BackRepoDataImports)): `
 import { {{Structname}}DB } from './{{structname}}-db'
+`,
+
+	string(rune(BackRepoInsertionEnumsExportDeclaration)): `
+	{{Structname}}DBs = new Array<{{Structname}}DB>()
+`,
+	string(rune(BackRepoInsertionEnumsExportCopies)): `
+		this.{{Structname}}DBs = data?.{{Structname}}DBs || [];
 `,
 }
