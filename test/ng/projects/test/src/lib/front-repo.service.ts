@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 
 import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
@@ -23,6 +23,7 @@ import { BstructService } from './bstruct.service'
 import { DstructDB } from './dstruct-db'
 import { Dstruct, CopyDstructDBToDstruct } from './dstruct'
 import { DstructService } from './dstruct.service'
+import { BackRepoData } from './back-repo-data'
 
 export const StackType = "github.com/fullstack-lang/gong/test/go/models"
 
@@ -64,7 +65,7 @@ export class FrontRepo { // insertion point sub template
 				throw new Error("Type not recognized");
 		}
 	}
-	
+
 	getFrontMap<Type>(gongStructName: string): Map<number, Type> {
 		switch (gongStructName) {
 			// insertion point
@@ -132,6 +133,7 @@ export enum SelectionMode {
 export class FrontRepoService {
 
 	GONG__StackPath: string = ""
+	private socket: WebSocket | undefined
 
 	httpOptions = {
 		headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -365,6 +367,149 @@ export class FrontRepoService {
 				)
 			}
 		)
+	}
+
+	public connectToWebSocket(GONG__StackPath: string): Observable<FrontRepo> {
+
+		this.GONG__StackPath = GONG__StackPath
+
+
+		let params = new HttpParams().set("GONG__StackPath", this.GONG__StackPath)
+		let basePath = 'ws://localhost:8080/api/github.com/fullstack-lang/gong/test/go/v1/ws/stage'
+		let paramString = params.toString()
+		let url = `${basePath}?${paramString}`
+		this.socket = new WebSocket(url)
+
+
+		return new Observable(observer => {
+			this.socket!.onmessage = event => {
+				let _this = this
+
+				const backRepoData = new BackRepoData(JSON.parse(event.data))
+
+				let json = event.data
+				console.log(event.data)
+
+				// 
+				// First Step: init map of instances
+				// insertion point sub template for init 
+				// init the arrays
+				this.frontRepo.array_Astructs = []
+				this.frontRepo.map_ID_Astruct.clear()
+
+				backRepoData.AstructDBs?.forEach(
+					astructDB => {
+						let astruct = new Astruct
+						this.frontRepo.array_Astructs.push(astruct)
+						this.frontRepo.map_ID_Astruct.set(astructDB.ID, astruct)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_AstructBstruct2Uses = []
+				this.frontRepo.map_ID_AstructBstruct2Use.clear()
+
+				backRepoData.AstructBstructUseDBs?.forEach(
+					astructbstruct2useDB => {
+						let astructbstruct2use = new AstructBstruct2Use
+						this.frontRepo.array_AstructBstruct2Uses.push(astructbstruct2use)
+						this.frontRepo.map_ID_AstructBstruct2Use.set(astructbstruct2useDB.ID, astructbstruct2use)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_AstructBstructUses = []
+				this.frontRepo.map_ID_AstructBstructUse.clear()
+
+				backRepoData.AstructBstructUseDBs?.forEach(
+					astructbstructuseDB => {
+						let astructbstructuse = new AstructBstructUse
+						this.frontRepo.array_AstructBstructUses.push(astructbstructuse)
+						this.frontRepo.map_ID_AstructBstructUse.set(astructbstructuseDB.ID, astructbstructuse)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_Bstructs = []
+				this.frontRepo.map_ID_Bstruct.clear()
+
+				backRepoData.BstructDBs?.forEach(
+					bstructDB => {
+						let bstruct = new Bstruct
+						this.frontRepo.array_Bstructs.push(bstruct)
+						this.frontRepo.map_ID_Bstruct.set(bstructDB.ID, bstruct)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_Dstructs = []
+				this.frontRepo.map_ID_Dstruct.clear()
+
+				backRepoData.DstructDBs?.forEach(
+					dstructDB => {
+						let dstruct = new Dstruct
+						this.frontRepo.array_Dstructs.push(dstruct)
+						this.frontRepo.map_ID_Dstruct.set(dstructDB.ID, dstruct)
+					}
+				)
+
+				// 
+				// Second Step: reddeem front objects
+				// insertion point sub template for redeem 
+				// fill up front objects
+				backRepoData.AstructDBs?.forEach(
+					astructDB => {
+						let astruct = this.frontRepo.map_ID_Astruct.get(astructDB.ID)
+						CopyAstructDBToAstruct(astructDB, astruct!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.AstructBstruct2UseDBs?.forEach(
+					astructbstruct2useDB => {
+						let astructbstruct2use = this.frontRepo.map_ID_AstructBstruct2Use.get(astructbstruct2useDB.ID)
+						CopyAstructBstruct2UseDBToAstructBstruct2Use(astructbstruct2useDB, astructbstruct2use!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.AstructBstructUseDBs?.forEach(
+					astructbstructuseDB => {
+						let astructbstructuse = this.frontRepo.map_ID_AstructBstructUse.get(astructbstructuseDB.ID)
+						CopyAstructBstructUseDBToAstructBstructUse(astructbstructuseDB, astructbstructuse!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.BstructDBs?.forEach(
+					bstructDB => {
+						let bstruct = this.frontRepo.map_ID_Bstruct.get(bstructDB.ID)
+						CopyBstructDBToBstruct(bstructDB, bstruct!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.DstructDBs?.forEach(
+					dstructDB => {
+						let dstruct = this.frontRepo.map_ID_Dstruct.get(dstructDB.ID)
+						CopyDstructDBToDstruct(dstructDB, dstruct!, this.frontRepo)
+					}
+				)
+
+				observer.next(this.frontRepo)
+			}
+			this.socket!.onerror = event => {
+				observer.error(event)
+			}
+			this.socket!.onclose = event => {
+				observer.complete()
+			}
+
+			return () => {
+				this.socket!.close()
+			}
+		})
+
 	}
 }
 
