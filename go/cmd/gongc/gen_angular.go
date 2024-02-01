@@ -156,6 +156,13 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 		filepath.Join(modelPkg.NgWorkspacePath, "../embed_ng_dist_ng.go"),
 		angular.EmebedNgDistNg)
 
+	gong_models.SimpleCodeGenerator(
+		modelPkg,
+		modelPkg.Name,
+		modelPkg.PkgPath,
+		filepath.Join(modelPkg.NgDataLibrarySourceCodeDirectory, "back-repo-data.ts"),
+		angular.BackRepoTemplateTS, angular.BackRepoHtmlSubTemplateCode)
+
 	// go mod tidy to get the new dependencies
 	if !skipGoModCommands {
 		start := time.Now()
