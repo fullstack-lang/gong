@@ -24,7 +24,7 @@ map[string]string{
 
 	string(rune(BackRepoDataSlice)): `
 
-		{{Structname}}DBs []*{{Structname}}DB`,
+	{{Structname}}DBs []*{{Structname}}DB`,
 
 	string(rune(BackRepoDataSliceCopies)): `
 	for _, {{structname}}DB := range backRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB {
