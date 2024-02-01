@@ -6,7 +6,6 @@ import { ErrorObserver, Observable, timer } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket'
 
 import * as test from 'test'
-import { WebSocketService } from './web-socket-service';
 
 // Create an error handling function
 const handleError: ErrorObserver<Event> = {
@@ -48,7 +47,7 @@ export class TestspecificComponent implements OnInit {
     private astructService: test.AstructService,
     private commitNbFromBackService: test.CommitNbFromBackService,
     @Inject(DOCUMENT) private document: Document,
-    private webSocketService: WebSocketService
+    private webSocketService: test.WebSocketService
 
   ) {
 
