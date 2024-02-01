@@ -61,10 +61,20 @@ export class TestspecificComponent implements OnInit {
       console.log("webSocket(url) failed")
     }
 
-    this.webSocketService.connect(this.GONG__StackPath).subscribe(data => {
-      const response = JSON.parse(data.data) as test.BackRepoData
-      console.log(response)
-    })
+    // this.webSocketService.connect(this.GONG__StackPath).subscribe(data => {
+    //   const response = JSON.parse(data.data) as test.BackRepoData
+    //   console.log(response)
+    // })
+
+    this.frontRepoService.connectToWebSocket(this.GONG__StackPath).subscribe(
+      frontRepo => {
+        this.frontRepo = frontRepo
+        let astructs = this.frontRepo.getFrontArray<test.Astruct>(test.Astruct.GONGSTRUCT_NAME)
+        console.log("Nb of Astruct is ", astructs.length)
+
+        let astruct = astructs[0]
+      }
+    )
 
 
     // see above for the explanation

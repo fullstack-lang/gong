@@ -20,7 +20,7 @@ import { Dstruct, CopyDstructDBToDstruct } from './dstruct'
 import { DstructService } from './dstruct.service'
 
 export class BackRepoData {
-    AstructDBs = new Array<AstructDB>() // array of front instances
+	AstructDBs = new Array<AstructDB>() // array of front instances
 
 	AstructBstruct2UseDBs = new Array<AstructBstruct2UseDB>() // array of front instances
 
@@ -29,5 +29,13 @@ export class BackRepoData {
 	BstructDBs = new Array<BstructDB>() // array of front instances
 
 	DstructDBs = new Array<DstructDB>() // array of front instances
+
+	constructor(data?: Partial<BackRepoData>) {
+		this.AstructDBs = data?.AstructDBs || [];
+		this.AstructBstruct2UseDBs = data?.AstructBstruct2UseDBs || [];
+		this.AstructBstructUseDBs = data?.AstructBstructUseDBs || [];
+		this.BstructDBs = data?.BstructDBs || [];
+		this.DstructDBs = data?.DstructDBs || [];
+	}
 
 }
