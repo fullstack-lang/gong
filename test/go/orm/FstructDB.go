@@ -61,7 +61,7 @@ type FstructDB struct {
 	// Declation for basic field fstructDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
-	FstructPointersEncoding
+	FstructPointersEncoding FstructPointersEncoding
 }
 
 // FstructDBs arrays fstructDBs

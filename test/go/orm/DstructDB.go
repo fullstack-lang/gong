@@ -64,7 +64,7 @@ type DstructDB struct {
 	// Declation for basic field dstructDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
-	DstructPointersEncoding
+	DstructPointersEncoding DstructPointersEncoding
 }
 
 // DstructDBs arrays dstructDBs
@@ -217,14 +217,14 @@ func (backRepoDstruct *BackRepoDstructStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, bstructAssocEnd := range dstruct.Anarrayofb {
 			bstructAssocEnd_DB :=
 				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the bstructAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if bstructAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			dstructDB.DstructPointersEncoding.Anarrayofb =
 				append(dstructDB.DstructPointersEncoding.Anarrayofb, int(bstructAssocEnd_DB.ID))
 		}
