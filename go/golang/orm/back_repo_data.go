@@ -24,11 +24,17 @@ map[string]string{
 
 	string(rune(BackRepoDataSlice)): `
 
-	{{Structname}}DBs []*{{Structname}}DB`,
+	{{Structname}}APIs []*{{Structname}}API`,
 
 	string(rune(BackRepoDataSliceCopies)): `
 	for _, {{structname}}DB := range backRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB {
-		backRepoData.{{Structname}}DBs = append(backRepoData.{{Structname}}DBs, {{structname}}DB)
+
+		var {{structname}}API {{Structname}}API
+		{{structname}}API.ID = {{structname}}DB.ID
+		{{structname}}API.{{Structname}}PointersEncoding = {{structname}}DB.{{Structname}}PointersEncoding
+		{{structname}}DB.CopyBasicFieldsTo{{Structname}}_WOP(&{{structname}}API.{{Structname}}_WOP)
+
+		backRepoData.{{Structname}}APIs = append(backRepoData.{{Structname}}APIs, &{{structname}}API)
 	}
 `,
 }

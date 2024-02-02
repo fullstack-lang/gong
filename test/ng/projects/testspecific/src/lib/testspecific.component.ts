@@ -56,7 +56,6 @@ export class TestspecificComponent implements OnInit {
 
     console.log("Material component->ngOnInit : GONG__StackPath, " + this.GONG__StackPath)
 
-
     if (this.wsSubject == undefined) {
       console.log("webSocket(url) failed")
     }
@@ -70,7 +69,7 @@ export class TestspecificComponent implements OnInit {
       frontRepo => {
         this.frontRepo = frontRepo
         let astructs = this.frontRepo.getFrontArray<test.Astruct>(test.Astruct.GONGSTRUCT_NAME)
-        console.log("Nb of Astruct is ", astructs.length)
+        // console.log("Nb of Astruct is ", astructs.length)
 
         let astruct = astructs[0]
       }
