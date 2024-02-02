@@ -54,6 +54,7 @@ type {{Structname}}API struct {
 	models.{{Structname}}_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	{{Structname}}PointersEncoding {{Structname}}PointersEncoding
 }
 
@@ -73,8 +74,10 @@ type {{Structname}}DB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration{{` + string(rune(BackRepoBasicFieldsDeclaration)) + `}}
+	
 	// encoding of pointers
-	{{Structname}}PointersEncoding {{Structname}}PointersEncoding
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
+	{{Structname}}PointersEncoding
 }
 
 // {{Structname}}DBs arrays {{structname}}DBs
@@ -702,16 +705,16 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	{{structname}}DB.{{FieldName}}_Data.Valid = true`,
 
 	BackRepoCommitPointerToStructField: `
-		// commit pointer value {{structname}}.{{FieldName}} translates to updating the {{structname}}.{{Structname}}PointersEncoding.{{FieldName}}ID
-		{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Valid = true // allow for a 0 value (nil association)
+		// commit pointer value {{structname}}.{{FieldName}} translates to updating the {{structname}}.{{FieldName}}ID
+		{{structname}}DB.{{FieldName}}ID.Valid = true // allow for a 0 value (nil association)
 		if {{structname}}.{{FieldName}} != nil {
 			if {{FieldName}}Id, ok := backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID[{{structname}}.{{FieldName}}]; ok {
-				{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64 = int64({{FieldName}}Id)
-				{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Valid = true
+				{{structname}}DB.{{FieldName}}ID.Int64 = int64({{FieldName}}Id)
+				{{structname}}DB.{{FieldName}}ID.Valid = true
 			}
 		} else {
-			{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64 = 0
-			{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Valid = true
+			{{structname}}DB.{{FieldName}}ID.Int64 = 0
+			{{structname}}DB.{{FieldName}}ID.Valid = true
 		}
 `,
 
@@ -722,14 +725,14 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 		for _, {{associationStructName}}AssocEnd := range {{structname}}.{{FieldName}} {
 			{{associationStructName}}AssocEnd_DB :=
 				backRepo.BackRepo{{AssociationStructName}}.Get{{AssociationStructName}}DBFrom{{AssociationStructName}}Ptr({{associationStructName}}AssocEnd)
-
+			
 			// the stage might be inconsistant, meaning that the {{associationStructName}}AssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if {{associationStructName}}AssocEnd_DB == nil {
 				continue
 			}
-
+			
 			{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}} =
 				append({{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}, int({{associationStructName}}AssocEnd_DB.ID))
 		}
@@ -760,15 +763,15 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	BackRepoCheckoutPointerToStructStageField: `
 	// {{FieldName}} field
 	{{structname}}.{{FieldName}} = nil
-	if {{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64 != 0 {
-		{{structname}}.{{FieldName}} = backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}Ptr[uint({{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64)]
+	if {{structname}}DB.{{FieldName}}ID.Int64 != 0 {
+		{{structname}}.{{FieldName}} = backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}Ptr[uint({{structname}}DB.{{FieldName}}ID.Int64)]
 	}`,
 
 	BackRepoReindexingPointerToStruct: `
 		// reindexing {{FieldName}} field
-		if {{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64 != 0 {
-			{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64 = int64(BackRepo{{AssociationStructName}}id_atBckpTime_newID[uint({{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64)])
-			{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Valid = true
+		if {{structname}}DB.{{FieldName}}ID.Int64 != 0 {
+			{{structname}}DB.{{FieldName}}ID.Int64 = int64(BackRepo{{AssociationStructName}}id_atBckpTime_newID[uint({{structname}}DB.{{FieldName}}ID.Int64)])
+			{{structname}}DB.{{FieldName}}ID.Valid = true
 		}
 `,
 

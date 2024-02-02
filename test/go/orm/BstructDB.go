@@ -38,6 +38,7 @@ type BstructAPI struct {
 	models.Bstruct_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	BstructPointersEncoding BstructPointersEncoding
 }
 
@@ -69,8 +70,10 @@ type BstructDB struct {
 
 	// Declation for basic field bstructDB.Intfield
 	Intfield_Data sql.NullInt64
+	
 	// encoding of pointers
-	BstructPointersEncoding BstructPointersEncoding
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
+	BstructPointersEncoding
 }
 
 // BstructDBs arrays bstructDBs
