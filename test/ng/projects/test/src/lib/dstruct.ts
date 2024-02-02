@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { DstructDB } from './dstruct-db'
+import { DstructAPI } from './dstruct-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -24,43 +24,43 @@ export class Dstruct {
 	Anarrayofb: Array<Bstruct> = []
 }
 
-export function CopyDstructToDstructDB(dstruct: Dstruct, dstructDB: DstructDB) {
+export function CopyDstructToDstructAPI(dstruct: Dstruct, dstructAPI: DstructAPI) {
 
-	dstructDB.CreatedAt = dstruct.CreatedAt
-	dstructDB.DeletedAt = dstruct.DeletedAt
-	dstructDB.ID = dstruct.ID
+	dstructAPI.CreatedAt = dstruct.CreatedAt
+	dstructAPI.DeletedAt = dstruct.DeletedAt
+	dstructAPI.ID = dstruct.ID
 
 	// insertion point for basic fields copy operations
-	dstructDB.Name = dstruct.Name
+	dstructAPI.Name = dstruct.Name
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	dstructDB.DstructPointersEncoding.Anarrayofb = []
+	dstructAPI.DstructPointersEncoding.Anarrayofb = []
 	for (let _bstruct of dstruct.Anarrayofb) {
-		dstructDB.DstructPointersEncoding.Anarrayofb.push(_bstruct.ID)
+		dstructAPI.DstructPointersEncoding.Anarrayofb.push(_bstruct.ID)
 	}
 
 }
 
-// CopyDstructDBToDstruct update basic, pointers and slice of pointers fields of dstruct
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of dstructDB
+// CopyDstructAPIToDstruct update basic, pointers and slice of pointers fields of dstruct
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of dstructAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyDstructDBToDstruct(dstructDB: DstructDB, dstruct: Dstruct, frontRepo: FrontRepo) {
+export function CopyDstructAPIToDstruct(dstructAPI: DstructAPI, dstruct: Dstruct, frontRepo: FrontRepo) {
 
-	dstruct.CreatedAt = dstructDB.CreatedAt
-	dstruct.DeletedAt = dstructDB.DeletedAt
-	dstruct.ID = dstructDB.ID
+	dstruct.CreatedAt = dstructAPI.CreatedAt
+	dstruct.DeletedAt = dstructAPI.DeletedAt
+	dstruct.ID = dstructAPI.ID
 
 	// insertion point for basic fields copy operations
-	dstruct.Name = dstructDB.Name
+	dstruct.Name = dstructAPI.Name
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 	dstruct.Anarrayofb = new Array<Bstruct>()
-	for (let _id of dstructDB.DstructPointersEncoding.Anarrayofb) {
+	for (let _id of dstructAPI.DstructPointersEncoding.Anarrayofb) {
 		let _bstruct = frontRepo.map_ID_Bstruct.get(_id)
 		if (_bstruct != undefined) {
 			dstruct.Anarrayofb.push(_bstruct!)
