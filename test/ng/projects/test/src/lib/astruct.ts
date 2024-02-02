@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { AstructDB } from './astruct-db'
+import { AstructAPI } from './astruct-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -71,201 +71,201 @@ export class Astruct {
 
 }
 
-export function CopyAstructToAstructDB(astruct: Astruct, astructDB: AstructDB) {
+export function CopyAstructToAstructAPI(astruct: Astruct, astructAPI: AstructAPI) {
 
-	astructDB.CreatedAt = astruct.CreatedAt
-	astructDB.DeletedAt = astruct.DeletedAt
-	astructDB.ID = astruct.ID
+	astructAPI.CreatedAt = astruct.CreatedAt
+	astructAPI.DeletedAt = astruct.DeletedAt
+	astructAPI.ID = astruct.ID
 
 	// insertion point for basic fields copy operations
-	astructDB.Name = astruct.Name
-	astructDB.Booleanfield = astruct.Booleanfield
-	astructDB.Aenum = astruct.Aenum
-	astructDB.Aenum_2 = astruct.Aenum_2
-	astructDB.Benum = astruct.Benum
-	astructDB.CEnum = astruct.CEnum
-	astructDB.CName = astruct.CName
-	astructDB.CFloatfield = astruct.CFloatfield
-	astructDB.Floatfield = astruct.Floatfield
-	astructDB.Intfield = astruct.Intfield
-	astructDB.Anotherbooleanfield = astruct.Anotherbooleanfield
-	astructDB.Duration1 = astruct.Duration1
-	astructDB.StructRef = astruct.StructRef
-	astructDB.FieldRef = astruct.FieldRef
-	astructDB.EnumIntRef = astruct.EnumIntRef
-	astructDB.EnumStringRef = astruct.EnumStringRef
-	astructDB.EnumValue = astruct.EnumValue
-	astructDB.ConstIdentifierValue = astruct.ConstIdentifierValue
-	astructDB.TextFieldBespokeSize = astruct.TextFieldBespokeSize
-	astructDB.TextArea = astruct.TextArea
+	astructAPI.Name = astruct.Name
+	astructAPI.Booleanfield = astruct.Booleanfield
+	astructAPI.Aenum = astruct.Aenum
+	astructAPI.Aenum_2 = astruct.Aenum_2
+	astructAPI.Benum = astruct.Benum
+	astructAPI.CEnum = astruct.CEnum
+	astructAPI.CName = astruct.CName
+	astructAPI.CFloatfield = astruct.CFloatfield
+	astructAPI.Floatfield = astruct.Floatfield
+	astructAPI.Intfield = astruct.Intfield
+	astructAPI.Anotherbooleanfield = astruct.Anotherbooleanfield
+	astructAPI.Duration1 = astruct.Duration1
+	astructAPI.StructRef = astruct.StructRef
+	astructAPI.FieldRef = astruct.FieldRef
+	astructAPI.EnumIntRef = astruct.EnumIntRef
+	astructAPI.EnumStringRef = astruct.EnumStringRef
+	astructAPI.EnumValue = astruct.EnumValue
+	astructAPI.ConstIdentifierValue = astruct.ConstIdentifierValue
+	astructAPI.TextFieldBespokeSize = astruct.TextFieldBespokeSize
+	astructAPI.TextArea = astruct.TextArea
 
 	// insertion point for pointer fields encoding
-	astructDB.AstructPointersEncoding.AssociationtobID.Valid = true
+	astructAPI.AstructPointersEncoding.AssociationtobID.Valid = true
 	if (astruct.Associationtob != undefined) {
-		astructDB.AstructPointersEncoding.AssociationtobID.Int64 = astruct.Associationtob.ID  
+		astructAPI.AstructPointersEncoding.AssociationtobID.Int64 = astruct.Associationtob.ID  
 	} else {
-		astructDB.AstructPointersEncoding.AssociationtobID.Int64 = 0 		
+		astructAPI.AstructPointersEncoding.AssociationtobID.Int64 = 0 		
 	}
 
-	astructDB.AstructPointersEncoding.Anotherassociationtob_2ID.Valid = true
+	astructAPI.AstructPointersEncoding.Anotherassociationtob_2ID.Valid = true
 	if (astruct.Anotherassociationtob_2 != undefined) {
-		astructDB.AstructPointersEncoding.Anotherassociationtob_2ID.Int64 = astruct.Anotherassociationtob_2.ID  
+		astructAPI.AstructPointersEncoding.Anotherassociationtob_2ID.Int64 = astruct.Anotherassociationtob_2.ID  
 	} else {
-		astructDB.AstructPointersEncoding.Anotherassociationtob_2ID.Int64 = 0 		
+		astructAPI.AstructPointersEncoding.Anotherassociationtob_2ID.Int64 = 0 		
 	}
 
-	astructDB.AstructPointersEncoding.BstructID.Valid = true
+	astructAPI.AstructPointersEncoding.BstructID.Valid = true
 	if (astruct.Bstruct != undefined) {
-		astructDB.AstructPointersEncoding.BstructID.Int64 = astruct.Bstruct.ID  
+		astructAPI.AstructPointersEncoding.BstructID.Int64 = astruct.Bstruct.ID  
 	} else {
-		astructDB.AstructPointersEncoding.BstructID.Int64 = 0 		
+		astructAPI.AstructPointersEncoding.BstructID.Int64 = 0 		
 	}
 
-	astructDB.AstructPointersEncoding.Bstruct2ID.Valid = true
+	astructAPI.AstructPointersEncoding.Bstruct2ID.Valid = true
 	if (astruct.Bstruct2 != undefined) {
-		astructDB.AstructPointersEncoding.Bstruct2ID.Int64 = astruct.Bstruct2.ID  
+		astructAPI.AstructPointersEncoding.Bstruct2ID.Int64 = astruct.Bstruct2.ID  
 	} else {
-		astructDB.AstructPointersEncoding.Bstruct2ID.Int64 = 0 		
+		astructAPI.AstructPointersEncoding.Bstruct2ID.Int64 = 0 		
 	}
 
-	astructDB.AstructPointersEncoding.DstructID.Valid = true
+	astructAPI.AstructPointersEncoding.DstructID.Valid = true
 	if (astruct.Dstruct != undefined) {
-		astructDB.AstructPointersEncoding.DstructID.Int64 = astruct.Dstruct.ID  
+		astructAPI.AstructPointersEncoding.DstructID.Int64 = astruct.Dstruct.ID  
 	} else {
-		astructDB.AstructPointersEncoding.DstructID.Int64 = 0 		
+		astructAPI.AstructPointersEncoding.DstructID.Int64 = 0 		
 	}
 
-	astructDB.AstructPointersEncoding.Dstruct2ID.Valid = true
+	astructAPI.AstructPointersEncoding.Dstruct2ID.Valid = true
 	if (astruct.Dstruct2 != undefined) {
-		astructDB.AstructPointersEncoding.Dstruct2ID.Int64 = astruct.Dstruct2.ID  
+		astructAPI.AstructPointersEncoding.Dstruct2ID.Int64 = astruct.Dstruct2.ID  
 	} else {
-		astructDB.AstructPointersEncoding.Dstruct2ID.Int64 = 0 		
+		astructAPI.AstructPointersEncoding.Dstruct2ID.Int64 = 0 		
 	}
 
-	astructDB.AstructPointersEncoding.Dstruct3ID.Valid = true
+	astructAPI.AstructPointersEncoding.Dstruct3ID.Valid = true
 	if (astruct.Dstruct3 != undefined) {
-		astructDB.AstructPointersEncoding.Dstruct3ID.Int64 = astruct.Dstruct3.ID  
+		astructAPI.AstructPointersEncoding.Dstruct3ID.Int64 = astruct.Dstruct3.ID  
 	} else {
-		astructDB.AstructPointersEncoding.Dstruct3ID.Int64 = 0 		
+		astructAPI.AstructPointersEncoding.Dstruct3ID.Int64 = 0 		
 	}
 
-	astructDB.AstructPointersEncoding.Dstruct4ID.Valid = true
+	astructAPI.AstructPointersEncoding.Dstruct4ID.Valid = true
 	if (astruct.Dstruct4 != undefined) {
-		astructDB.AstructPointersEncoding.Dstruct4ID.Int64 = astruct.Dstruct4.ID  
+		astructAPI.AstructPointersEncoding.Dstruct4ID.Int64 = astruct.Dstruct4.ID  
 	} else {
-		astructDB.AstructPointersEncoding.Dstruct4ID.Int64 = 0 		
+		astructAPI.AstructPointersEncoding.Dstruct4ID.Int64 = 0 		
 	}
 
-	astructDB.AstructPointersEncoding.AnAstructID.Valid = true
+	astructAPI.AstructPointersEncoding.AnAstructID.Valid = true
 	if (astruct.AnAstruct != undefined) {
-		astructDB.AstructPointersEncoding.AnAstructID.Int64 = astruct.AnAstruct.ID  
+		astructAPI.AstructPointersEncoding.AnAstructID.Int64 = astruct.AnAstruct.ID  
 	} else {
-		astructDB.AstructPointersEncoding.AnAstructID.Int64 = 0 		
+		astructAPI.AstructPointersEncoding.AnAstructID.Int64 = 0 		
 	}
 
 
 	// insertion point for slice of pointers fields encoding
-	astructDB.AstructPointersEncoding.Anarrayofb = []
+	astructAPI.AstructPointersEncoding.Anarrayofb = []
 	for (let _bstruct of astruct.Anarrayofb) {
-		astructDB.AstructPointersEncoding.Anarrayofb.push(_bstruct.ID)
+		astructAPI.AstructPointersEncoding.Anarrayofb.push(_bstruct.ID)
 	}
 
-	astructDB.AstructPointersEncoding.Anarrayofa = []
+	astructAPI.AstructPointersEncoding.Anarrayofa = []
 	for (let _astruct of astruct.Anarrayofa) {
-		astructDB.AstructPointersEncoding.Anarrayofa.push(_astruct.ID)
+		astructAPI.AstructPointersEncoding.Anarrayofa.push(_astruct.ID)
 	}
 
-	astructDB.AstructPointersEncoding.Anotherarrayofb = []
+	astructAPI.AstructPointersEncoding.Anotherarrayofb = []
 	for (let _bstruct of astruct.Anotherarrayofb) {
-		astructDB.AstructPointersEncoding.Anotherarrayofb.push(_bstruct.ID)
+		astructAPI.AstructPointersEncoding.Anotherarrayofb.push(_bstruct.ID)
 	}
 
-	astructDB.AstructPointersEncoding.AnarrayofbUse = []
+	astructAPI.AstructPointersEncoding.AnarrayofbUse = []
 	for (let _astructbstructuse of astruct.AnarrayofbUse) {
-		astructDB.AstructPointersEncoding.AnarrayofbUse.push(_astructbstructuse.ID)
+		astructAPI.AstructPointersEncoding.AnarrayofbUse.push(_astructbstructuse.ID)
 	}
 
-	astructDB.AstructPointersEncoding.Anarrayofb2Use = []
+	astructAPI.AstructPointersEncoding.Anarrayofb2Use = []
 	for (let _astructbstruct2use of astruct.Anarrayofb2Use) {
-		astructDB.AstructPointersEncoding.Anarrayofb2Use.push(_astructbstruct2use.ID)
+		astructAPI.AstructPointersEncoding.Anarrayofb2Use.push(_astructbstruct2use.ID)
 	}
 
 }
 
-// CopyAstructDBToAstruct update basic, pointers and slice of pointers fields of astruct
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of astructDB
+// CopyAstructAPIToAstruct update basic, pointers and slice of pointers fields of astruct
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of astructAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyAstructDBToAstruct(astructDB: AstructDB, astruct: Astruct, frontRepo: FrontRepo) {
+export function CopyAstructAPIToAstruct(astructAPI: AstructAPI, astruct: Astruct, frontRepo: FrontRepo) {
 
-	astruct.CreatedAt = astructDB.CreatedAt
-	astruct.DeletedAt = astructDB.DeletedAt
-	astruct.ID = astructDB.ID
+	astruct.CreatedAt = astructAPI.CreatedAt
+	astruct.DeletedAt = astructAPI.DeletedAt
+	astruct.ID = astructAPI.ID
 
 	// insertion point for basic fields copy operations
-	astruct.Name = astructDB.Name
-	astruct.Booleanfield = astructDB.Booleanfield
-	astruct.Aenum = astructDB.Aenum
-	astruct.Aenum_2 = astructDB.Aenum_2
-	astruct.Benum = astructDB.Benum
-	astruct.CEnum = astructDB.CEnum
-	astruct.CName = astructDB.CName
-	astruct.CFloatfield = astructDB.CFloatfield
-	astruct.Floatfield = astructDB.Floatfield
-	astruct.Intfield = astructDB.Intfield
-	astruct.Anotherbooleanfield = astructDB.Anotherbooleanfield
-	astruct.Duration1 = astructDB.Duration1
-	astruct.StructRef = astructDB.StructRef
-	astruct.FieldRef = astructDB.FieldRef
-	astruct.EnumIntRef = astructDB.EnumIntRef
-	astruct.EnumStringRef = astructDB.EnumStringRef
-	astruct.EnumValue = astructDB.EnumValue
-	astruct.ConstIdentifierValue = astructDB.ConstIdentifierValue
-	astruct.TextFieldBespokeSize = astructDB.TextFieldBespokeSize
-	astruct.TextArea = astructDB.TextArea
+	astruct.Name = astructAPI.Name
+	astruct.Booleanfield = astructAPI.Booleanfield
+	astruct.Aenum = astructAPI.Aenum
+	astruct.Aenum_2 = astructAPI.Aenum_2
+	astruct.Benum = astructAPI.Benum
+	astruct.CEnum = astructAPI.CEnum
+	astruct.CName = astructAPI.CName
+	astruct.CFloatfield = astructAPI.CFloatfield
+	astruct.Floatfield = astructAPI.Floatfield
+	astruct.Intfield = astructAPI.Intfield
+	astruct.Anotherbooleanfield = astructAPI.Anotherbooleanfield
+	astruct.Duration1 = astructAPI.Duration1
+	astruct.StructRef = astructAPI.StructRef
+	astruct.FieldRef = astructAPI.FieldRef
+	astruct.EnumIntRef = astructAPI.EnumIntRef
+	astruct.EnumStringRef = astructAPI.EnumStringRef
+	astruct.EnumValue = astructAPI.EnumValue
+	astruct.ConstIdentifierValue = astructAPI.ConstIdentifierValue
+	astruct.TextFieldBespokeSize = astructAPI.TextFieldBespokeSize
+	astruct.TextArea = astructAPI.TextArea
 
 	// insertion point for pointer fields encoding
-	astruct.Associationtob = frontRepo.map_ID_Bstruct.get(astructDB.AstructPointersEncoding.AssociationtobID.Int64)
-	astruct.Anotherassociationtob_2 = frontRepo.map_ID_Bstruct.get(astructDB.AstructPointersEncoding.Anotherassociationtob_2ID.Int64)
-	astruct.Bstruct = frontRepo.map_ID_Bstruct.get(astructDB.AstructPointersEncoding.BstructID.Int64)
-	astruct.Bstruct2 = frontRepo.map_ID_Bstruct.get(astructDB.AstructPointersEncoding.Bstruct2ID.Int64)
-	astruct.Dstruct = frontRepo.map_ID_Dstruct.get(astructDB.AstructPointersEncoding.DstructID.Int64)
-	astruct.Dstruct2 = frontRepo.map_ID_Dstruct.get(astructDB.AstructPointersEncoding.Dstruct2ID.Int64)
-	astruct.Dstruct3 = frontRepo.map_ID_Dstruct.get(astructDB.AstructPointersEncoding.Dstruct3ID.Int64)
-	astruct.Dstruct4 = frontRepo.map_ID_Dstruct.get(astructDB.AstructPointersEncoding.Dstruct4ID.Int64)
-	astruct.AnAstruct = frontRepo.map_ID_Astruct.get(astructDB.AstructPointersEncoding.AnAstructID.Int64)
+	astruct.Associationtob = frontRepo.map_ID_Bstruct.get(astructAPI.AstructPointersEncoding.AssociationtobID.Int64)
+	astruct.Anotherassociationtob_2 = frontRepo.map_ID_Bstruct.get(astructAPI.AstructPointersEncoding.Anotherassociationtob_2ID.Int64)
+	astruct.Bstruct = frontRepo.map_ID_Bstruct.get(astructAPI.AstructPointersEncoding.BstructID.Int64)
+	astruct.Bstruct2 = frontRepo.map_ID_Bstruct.get(astructAPI.AstructPointersEncoding.Bstruct2ID.Int64)
+	astruct.Dstruct = frontRepo.map_ID_Dstruct.get(astructAPI.AstructPointersEncoding.DstructID.Int64)
+	astruct.Dstruct2 = frontRepo.map_ID_Dstruct.get(astructAPI.AstructPointersEncoding.Dstruct2ID.Int64)
+	astruct.Dstruct3 = frontRepo.map_ID_Dstruct.get(astructAPI.AstructPointersEncoding.Dstruct3ID.Int64)
+	astruct.Dstruct4 = frontRepo.map_ID_Dstruct.get(astructAPI.AstructPointersEncoding.Dstruct4ID.Int64)
+	astruct.AnAstruct = frontRepo.map_ID_Astruct.get(astructAPI.AstructPointersEncoding.AnAstructID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 	astruct.Anarrayofb = new Array<Bstruct>()
-	for (let _id of astructDB.AstructPointersEncoding.Anarrayofb) {
+	for (let _id of astructAPI.AstructPointersEncoding.Anarrayofb) {
 		let _bstruct = frontRepo.map_ID_Bstruct.get(_id)
 		if (_bstruct != undefined) {
 			astruct.Anarrayofb.push(_bstruct!)
 		}
 	}
 	astruct.Anarrayofa = new Array<Astruct>()
-	for (let _id of astructDB.AstructPointersEncoding.Anarrayofa) {
+	for (let _id of astructAPI.AstructPointersEncoding.Anarrayofa) {
 		let _astruct = frontRepo.map_ID_Astruct.get(_id)
 		if (_astruct != undefined) {
 			astruct.Anarrayofa.push(_astruct!)
 		}
 	}
 	astruct.Anotherarrayofb = new Array<Bstruct>()
-	for (let _id of astructDB.AstructPointersEncoding.Anotherarrayofb) {
+	for (let _id of astructAPI.AstructPointersEncoding.Anotherarrayofb) {
 		let _bstruct = frontRepo.map_ID_Bstruct.get(_id)
 		if (_bstruct != undefined) {
 			astruct.Anotherarrayofb.push(_bstruct!)
 		}
 	}
 	astruct.AnarrayofbUse = new Array<AstructBstructUse>()
-	for (let _id of astructDB.AstructPointersEncoding.AnarrayofbUse) {
+	for (let _id of astructAPI.AstructPointersEncoding.AnarrayofbUse) {
 		let _astructbstructuse = frontRepo.map_ID_AstructBstructUse.get(_id)
 		if (_astructbstructuse != undefined) {
 			astruct.AnarrayofbUse.push(_astructbstructuse!)
 		}
 	}
 	astruct.Anarrayofb2Use = new Array<AstructBstruct2Use>()
-	for (let _id of astructDB.AstructPointersEncoding.Anarrayofb2Use) {
+	for (let _id of astructAPI.AstructPointersEncoding.Anarrayofb2Use) {
 		let _astructbstruct2use = frontRepo.map_ID_AstructBstruct2Use.get(_id)
 		if (_astructbstruct2use != undefined) {
 			astruct.Anarrayofb2Use.push(_astructbstruct2use!)

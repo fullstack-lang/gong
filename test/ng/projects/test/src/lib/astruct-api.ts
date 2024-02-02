@@ -1,13 +1,13 @@
 // insertion point for imports
-import { BstructDB } from './bstruct-db'
-import { DstructDB } from './dstruct-db'
-import { AstructBstructUseDB } from './astructbstructuse-db'
-import { AstructBstruct2UseDB } from './astructbstruct2use-db'
+import { BstructAPI } from './bstruct-api'
+import { DstructAPI } from './dstruct-api'
+import { AstructBstructUseAPI } from './astructbstructuse-api'
+import { AstructBstruct2UseAPI } from './astructbstruct2use-api'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
 
-export class AstructDB {
+export class AstructAPI {
 
 	static GONGSTRUCT_NAME = "Astruct"
 

@@ -272,8 +272,8 @@ var NgFrontRepoPerStructTmplCodes map[FrontRepoInsertionPointId]string = // new 
 map[FrontRepoInsertionPointId]string{
 
 	NgLibFrontRepoServiceImports: `
-import { {{Structname}}DB } from './{{structname}}-db'
-import { {{Structname}}, Copy{{Structname}}DBTo{{Structname}} } from './{{structname}}'
+import { {{Structname}}API } from './{{structname}}-api'
+import { {{Structname}}, Copy{{Structname}}APITo{{Structname}} } from './{{structname}}'
 import { {{Structname}}Service } from './{{structname}}.service'
 `,
 
@@ -291,7 +291,7 @@ import { {{Structname}}Service } from './{{structname}}.service'
 				return this.map_ID_{{Structname}} as unknown as Map<number, Type>`,
 
 	NgLibFrontRepoObservableArrayType: `
-		Observable<{{Structname}}DB[]>,`,
+		Observable<{{Structname}}API[]>,`,
 
 	NgLibFrontRepoServiceDecl: `
 		private {{structname}}Service: {{Structname}}Service,`,
@@ -303,8 +303,8 @@ import { {{Structname}}Service } from './{{structname}}.service'
 						{{structname}}s_,`,
 
 	NgLibFrontRepoTypeCasting: `
-						var {{structname}}s: {{Structname}}DB[]
-						{{structname}}s = {{structname}}s_ as {{Structname}}DB[]`,
+						var {{structname}}s: {{Structname}}API[]
+						{{structname}}s = {{structname}}s_ as {{Structname}}API[]`,
 
 	NgLibFrontRepoInitMapInstances: `
 						// init the arrays
@@ -312,10 +312,10 @@ import { {{Structname}}Service } from './{{structname}}.service'
 						this.frontRepo.map_ID_{{Structname}}.clear()
 
 						{{structname}}s.forEach(
-							{{structname}}DB => {
+							{{structname}}API => {
 								let {{structname}} = new {{Structname}}
 								this.frontRepo.array_{{Structname}}s.push({{structname}})
-								this.frontRepo.map_ID_{{Structname}}.set({{structname}}DB.ID, {{structname}})
+								this.frontRepo.map_ID_{{Structname}}.set({{structname}}API.ID, {{structname}})
 							}
 						)
 `,
@@ -325,11 +325,11 @@ import { {{Structname}}Service } from './{{structname}}.service'
 				this.frontRepo.array_{{Structname}}s = []
 				this.frontRepo.map_ID_{{Structname}}.clear()
 
-				backRepoData.{{Structname}}DBs.forEach(
-					{{structname}}DB => {
+				backRepoData.{{Structname}}APIs.forEach(
+					{{structname}}API => {
 						let {{structname}} = new {{Structname}}
 						this.frontRepo.array_{{Structname}}s.push({{structname}})
-						this.frontRepo.map_ID_{{Structname}}.set({{structname}}DB.ID, {{structname}})
+						this.frontRepo.map_ID_{{Structname}}.set({{structname}}API.ID, {{structname}})
 					}
 				)
 `,
@@ -337,19 +337,19 @@ import { {{Structname}}Service } from './{{structname}}.service'
 	NgLibFrontRepoInitFrontObjects: `
 						// fill up front objects
 						{{structname}}s.forEach(
-							{{structname}}DB => {
-								let {{structname}} = this.frontRepo.map_ID_{{Structname}}.get({{structname}}DB.ID)
-								Copy{{Structname}}DBTo{{Structname}}({{structname}}DB, {{structname}}!, this.frontRepo)
+							{{structname}}API => {
+								let {{structname}} = this.frontRepo.map_ID_{{Structname}}.get({{structname}}API.ID)
+								Copy{{Structname}}APITo{{Structname}}({{structname}}API, {{structname}}!, this.frontRepo)
 							}
 						)
 `,
 
 	NgLibFrontRepoInitFrontObjectsFromWebSocket: `
 				// fill up front objects
-				backRepoData.{{Structname}}DBs.forEach(
-					{{structname}}DB => {
-						let {{structname}} = this.frontRepo.map_ID_{{Structname}}.get({{structname}}DB.ID)
-						Copy{{Structname}}DBTo{{Structname}}({{structname}}DB, {{structname}}!, this.frontRepo)
+				backRepoData.{{Structname}}APIs.forEach(
+					{{structname}}API => {
+						let {{structname}} = this.frontRepo.map_ID_{{Structname}}.get({{structname}}API.ID)
+						Copy{{Structname}}APITo{{Structname}}({{structname}}API, {{structname}}!, this.frontRepo)
 					}
 				)
 `,
@@ -399,7 +399,7 @@ map[NgLibFrontRepoServiceSubSubTemplate]string{
 									}
 								}`,
 	NgFrontRepoSliceOfPointerSorting: `
-								{{structname}}.{{FieldName}} = new Array<{{AssocStructName}}DB>()
+								{{structname}}.{{FieldName}} = new Array<{{AssocStructName}}API>()
 								for (let _id of {{structname}}.{{Structname}}PointersEncoding.{{FieldName}}) {
 									let _{{assocStructName}} = this.frontRepo.{{AssocStructName}}s.get(_id)
 									if (_{{assocStructName}} != undefined) {

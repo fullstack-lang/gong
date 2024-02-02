@@ -115,7 +115,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 
 	angular.MultiCodeGeneratorNgClass(modelPkg)
 
-	angular.MultiCodeGeneratorNgClassDB(modelPkg)
+	angular.MultiCodeGeneratorNgClassAPI(modelPkg)
 
 	angular.MultiCodeGeneratorNgService(modelPkg, *addr)
 
