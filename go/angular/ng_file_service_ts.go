@@ -24,8 +24,8 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { {{Structname}}DB } from './{{structname}}-db'
-import { {{Structname}}, Copy{{Structname}}To{{Structname}}DB } from './{{structname}}'
+import { {{Structname}}API } from './{{structname}}-api'
+import { {{Structname}}, Copy{{Structname}}To{{Structname}}API } from './{{structname}}'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
@@ -59,41 +59,41 @@ export class {{Structname}}Service {
 
   /** GET {{structname}}s from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}DB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}API[]> {
     return this.get{{Structname}}s(GONG__StackPath, frontRepo)
   }
-  get{{Structname}}s(GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}DB[]> {
+  get{{Structname}}s(GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}API[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<{{Structname}}DB[]>(this.{{structname}}sUrl, { params: params })
+    return this.http.get<{{Structname}}API[]>(this.{{structname}}sUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<{{Structname}}DB[]>('get{{Structname}}s', []))
+        catchError(this.handleError<{{Structname}}API[]>('get{{Structname}}s', []))
       );
   }
 
   /** GET {{structname}} by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}DB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}API> {
     return this.get{{Structname}}(id, GONG__StackPath, frontRepo)
   }
-  get{{Structname}}(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}DB> {
+  get{{Structname}}(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}API> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
-    return this.http.get<{{Structname}}DB>(url, { params: params }).pipe(
+    return this.http.get<{{Structname}}API>(url, { params: params }).pipe(
       // tap(_ => this.log(` + "`" + `fetched {{structname}} id=${id}` + "`" + `)),
-      catchError(this.handleError<{{Structname}}DB>(` + "`" + `get{{Structname}} id=${id}` + "`" + `))
+      catchError(this.handleError<{{Structname}}API>(` + "`" + `get{{Structname}} id=${id}` + "`" + `))
     );
   }
 
   // postFront copy {{structname}} to a version with encoded pointers and post to the back
-  postFront({{structname}}: {{Structname}}, GONG__StackPath: string): Observable<{{Structname}}DB> {
-    let {{structname}}DB = new {{Structname}}DB
-    Copy{{Structname}}To{{Structname}}DB({{structname}}, {{structname}}DB)
-    const id = typeof {{structname}}DB === 'number' ? {{structname}}DB : {{structname}}DB.ID
+  postFront({{structname}}: {{Structname}}, GONG__StackPath: string): Observable<{{Structname}}API> {
+    let {{structname}}API = new {{Structname}}API
+    Copy{{Structname}}To{{Structname}}API({{structname}}, {{structname}}API)
+    const id = typeof {{structname}}API === 'number' ? {{structname}}API : {{structname}}API.ID
     const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -101,18 +101,18 @@ export class {{Structname}}Service {
       params: params
     }
 
-    return this.http.post<{{Structname}}DB>(url, {{structname}}DB, httpOptions).pipe(
+    return this.http.post<{{Structname}}API>(url, {{structname}}API, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<{{Structname}}DB>('post{{Structname}}'))
+      catchError(this.handleError<{{Structname}}API>('post{{Structname}}'))
     );
   }
   
   /** POST: add a new {{structname}} to the server */
-  post({{structname}}db: {{Structname}}DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}DB> {
+  post({{structname}}db: {{Structname}}API, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}API> {
     return this.post{{Structname}}({{structname}}db, GONG__StackPath, frontRepo)
   }
-  post{{Structname}}({{structname}}db: {{Structname}}DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}DB> {
+  post{{Structname}}({{structname}}db: {{Structname}}API, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}API> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -120,19 +120,19 @@ export class {{Structname}}Service {
       params: params
     }
 
-    return this.http.post<{{Structname}}DB>(this.{{structname}}sUrl, {{structname}}db, httpOptions).pipe(
+    return this.http.post<{{Structname}}API>(this.{{structname}}sUrl, {{structname}}db, httpOptions).pipe(
       tap(_ => {
         // this.log(` + "`" + `posted {{structname}}db id=${{{structname}}db.ID}` + "`" + `)
       }),
-      catchError(this.handleError<{{Structname}}DB>('post{{Structname}}'))
+      catchError(this.handleError<{{Structname}}API>('post{{Structname}}'))
     );
   }
 
   /** DELETE: delete the {{structname}}db from the server */
-  delete({{structname}}db: {{Structname}}DB | number, GONG__StackPath: string): Observable<{{Structname}}DB> {
+  delete({{structname}}db: {{Structname}}API | number, GONG__StackPath: string): Observable<{{Structname}}API> {
     return this.delete{{Structname}}({{structname}}db, GONG__StackPath)
   }
-  delete{{Structname}}({{structname}}db: {{Structname}}DB | number, GONG__StackPath: string): Observable<{{Structname}}DB> {
+  delete{{Structname}}({{structname}}db: {{Structname}}API | number, GONG__StackPath: string): Observable<{{Structname}}API> {
     const id = typeof {{structname}}db === 'number' ? {{structname}}db : {{structname}}db.ID;
     const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
 
@@ -142,17 +142,17 @@ export class {{Structname}}Service {
       params: params
     };
 
-    return this.http.delete<{{Structname}}DB>(url, httpOptions).pipe(
+    return this.http.delete<{{Structname}}API>(url, httpOptions).pipe(
       tap(_ => this.log(` + "`" + `deleted {{structname}}db id=${id}` + "`" + `)),
-      catchError(this.handleError<{{Structname}}DB>('delete{{Structname}}'))
+      catchError(this.handleError<{{Structname}}API>('delete{{Structname}}'))
     );
   }
 
   // updateFront copy {{structname}} to a version with encoded pointers and update to the back
-  updateFront({{structname}}: {{Structname}}, GONG__StackPath: string): Observable<{{Structname}}DB> {
-    let {{structname}}DB = new {{Structname}}DB
-    Copy{{Structname}}To{{Structname}}DB({{structname}}, {{structname}}DB)
-    const id = typeof {{structname}}DB === 'number' ? {{structname}}DB : {{structname}}DB.ID
+  updateFront({{structname}}: {{Structname}}, GONG__StackPath: string): Observable<{{Structname}}API> {
+    let {{structname}}API = new {{Structname}}API
+    Copy{{Structname}}To{{Structname}}API({{structname}}, {{structname}}API)
+    const id = typeof {{structname}}API === 'number' ? {{structname}}API : {{structname}}API.ID
     const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -160,18 +160,18 @@ export class {{Structname}}Service {
       params: params
     }
 
-    return this.http.put<{{Structname}}DB>(url, {{structname}}DB, httpOptions).pipe(
+    return this.http.put<{{Structname}}API>(url, {{structname}}API, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<{{Structname}}DB>('update{{Structname}}'))
+      catchError(this.handleError<{{Structname}}API>('update{{Structname}}'))
     );
   }
 
   /** PUT: update the {{structname}}db on the server */
-  update({{structname}}db: {{Structname}}DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}DB> {
+  update({{structname}}db: {{Structname}}API, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}API> {
     return this.update{{Structname}}({{structname}}db, GONG__StackPath, frontRepo)
   }
-  update{{Structname}}({{structname}}db: {{Structname}}DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}DB> {
+  update{{Structname}}({{structname}}db: {{Structname}}API, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}API> {
     const id = typeof {{structname}}db === 'number' ? {{structname}}db : {{structname}}db.ID;
     const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
 
@@ -182,11 +182,11 @@ export class {{Structname}}Service {
       params: params
     };
 
-    return this.http.put<{{Structname}}DB>(url, {{structname}}db, httpOptions).pipe(
+    return this.http.put<{{Structname}}API>(url, {{structname}}db, httpOptions).pipe(
       tap(_ => {
         // this.log(` + "`" + `updated {{structname}}db id=${{{structname}}db.ID}` + "`" + `)
       }),
-      catchError(this.handleError<{{Structname}}DB>('update{{Structname}}'))
+      catchError(this.handleError<{{Structname}}API>('update{{Structname}}'))
     );
   }
 
@@ -237,7 +237,7 @@ const (
 var NgServiceSubTemplateCode map[NgServiceSubTemplate]string = map[NgServiceSubTemplate]string{
 
 	NgServiceTSPointerToGongStructImports: `
-import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
+import { {{AssocStructName}}API } from './{{assocStructName}}-api'`,
 }
 
 // MultiCodeGeneratorNgService generates the code for the
@@ -284,7 +284,7 @@ func MultiCodeGeneratorNgService(
 					"{{assocStructName}}", strings.ToLower(field.GongStruct.Name))
 
 				// cannot insert twice the same import
-				// or import twice the DB
+				// or import twice the API
 				if !strings.Contains(TSinsertions[NgServiceTsInsertionImports], importToInsert) &&
 					_struct.Name != field.GongStruct.Name {
 					TSinsertions[NgServiceTsInsertionImports] += importToInsert
@@ -297,7 +297,7 @@ func MultiCodeGeneratorNgService(
 					"{{assocStructName}}", strings.ToLower(field.GongStruct.Name))
 
 				// cannot insert twice the same import
-				// or import twice the DB
+				// or import twice the API
 				if !strings.Contains(TSinsertions[NgServiceTsInsertionImports], importToInsert) &&
 					_struct.Name != field.GongStruct.Name {
 					TSinsertions[NgServiceTsInsertionImports] += importToInsert

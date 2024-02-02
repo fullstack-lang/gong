@@ -11,8 +11,8 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { BstructDB } from './bstruct-db'
-import { Bstruct, CopyBstructToBstructDB } from './bstruct'
+import { BstructAPI } from './bstruct-api'
+import { Bstruct, CopyBstructToBstructAPI } from './bstruct'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
@@ -46,41 +46,41 @@ export class BstructService {
 
   /** GET bstructs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructAPI[]> {
     return this.getBstructs(GONG__StackPath, frontRepo)
   }
-  getBstructs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructDB[]> {
+  getBstructs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<BstructDB[]>(this.bstructsUrl, { params: params })
+    return this.http.get<BstructAPI[]>(this.bstructsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<BstructDB[]>('getBstructs', []))
+        catchError(this.handleError<BstructAPI[]>('getBstructs', []))
       );
   }
 
   /** GET bstruct by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructAPI> {
     return this.getBstruct(id, GONG__StackPath, frontRepo)
   }
-  getBstruct(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructDB> {
+  getBstruct(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.bstructsUrl}/${id}`;
-    return this.http.get<BstructDB>(url, { params: params }).pipe(
+    return this.http.get<BstructAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched bstruct id=${id}`)),
-      catchError(this.handleError<BstructDB>(`getBstruct id=${id}`))
+      catchError(this.handleError<BstructAPI>(`getBstruct id=${id}`))
     );
   }
 
   // postFront copy bstruct to a version with encoded pointers and post to the back
-  postFront(bstruct: Bstruct, GONG__StackPath: string): Observable<BstructDB> {
-    let bstructDB = new BstructDB
-    CopyBstructToBstructDB(bstruct, bstructDB)
-    const id = typeof bstructDB === 'number' ? bstructDB : bstructDB.ID
+  postFront(bstruct: Bstruct, GONG__StackPath: string): Observable<BstructAPI> {
+    let bstructAPI = new BstructAPI
+    CopyBstructToBstructAPI(bstruct, bstructAPI)
+    const id = typeof bstructAPI === 'number' ? bstructAPI : bstructAPI.ID
     const url = `${this.bstructsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -88,18 +88,18 @@ export class BstructService {
       params: params
     }
 
-    return this.http.post<BstructDB>(url, bstructDB, httpOptions).pipe(
+    return this.http.post<BstructAPI>(url, bstructAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<BstructDB>('postBstruct'))
+      catchError(this.handleError<BstructAPI>('postBstruct'))
     );
   }
   
   /** POST: add a new bstruct to the server */
-  post(bstructdb: BstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructDB> {
+  post(bstructdb: BstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructAPI> {
     return this.postBstruct(bstructdb, GONG__StackPath, frontRepo)
   }
-  postBstruct(bstructdb: BstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructDB> {
+  postBstruct(bstructdb: BstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -107,19 +107,19 @@ export class BstructService {
       params: params
     }
 
-    return this.http.post<BstructDB>(this.bstructsUrl, bstructdb, httpOptions).pipe(
+    return this.http.post<BstructAPI>(this.bstructsUrl, bstructdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted bstructdb id=${bstructdb.ID}`)
       }),
-      catchError(this.handleError<BstructDB>('postBstruct'))
+      catchError(this.handleError<BstructAPI>('postBstruct'))
     );
   }
 
   /** DELETE: delete the bstructdb from the server */
-  delete(bstructdb: BstructDB | number, GONG__StackPath: string): Observable<BstructDB> {
+  delete(bstructdb: BstructAPI | number, GONG__StackPath: string): Observable<BstructAPI> {
     return this.deleteBstruct(bstructdb, GONG__StackPath)
   }
-  deleteBstruct(bstructdb: BstructDB | number, GONG__StackPath: string): Observable<BstructDB> {
+  deleteBstruct(bstructdb: BstructAPI | number, GONG__StackPath: string): Observable<BstructAPI> {
     const id = typeof bstructdb === 'number' ? bstructdb : bstructdb.ID;
     const url = `${this.bstructsUrl}/${id}`;
 
@@ -129,17 +129,17 @@ export class BstructService {
       params: params
     };
 
-    return this.http.delete<BstructDB>(url, httpOptions).pipe(
+    return this.http.delete<BstructAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted bstructdb id=${id}`)),
-      catchError(this.handleError<BstructDB>('deleteBstruct'))
+      catchError(this.handleError<BstructAPI>('deleteBstruct'))
     );
   }
 
   // updateFront copy bstruct to a version with encoded pointers and update to the back
-  updateFront(bstruct: Bstruct, GONG__StackPath: string): Observable<BstructDB> {
-    let bstructDB = new BstructDB
-    CopyBstructToBstructDB(bstruct, bstructDB)
-    const id = typeof bstructDB === 'number' ? bstructDB : bstructDB.ID
+  updateFront(bstruct: Bstruct, GONG__StackPath: string): Observable<BstructAPI> {
+    let bstructAPI = new BstructAPI
+    CopyBstructToBstructAPI(bstruct, bstructAPI)
+    const id = typeof bstructAPI === 'number' ? bstructAPI : bstructAPI.ID
     const url = `${this.bstructsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,18 +147,18 @@ export class BstructService {
       params: params
     }
 
-    return this.http.put<BstructDB>(url, bstructDB, httpOptions).pipe(
+    return this.http.put<BstructAPI>(url, bstructAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<BstructDB>('updateBstruct'))
+      catchError(this.handleError<BstructAPI>('updateBstruct'))
     );
   }
 
   /** PUT: update the bstructdb on the server */
-  update(bstructdb: BstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructDB> {
+  update(bstructdb: BstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructAPI> {
     return this.updateBstruct(bstructdb, GONG__StackPath, frontRepo)
   }
-  updateBstruct(bstructdb: BstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructDB> {
+  updateBstruct(bstructdb: BstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructAPI> {
     const id = typeof bstructdb === 'number' ? bstructdb : bstructdb.ID;
     const url = `${this.bstructsUrl}/${id}`;
 
@@ -169,11 +169,11 @@ export class BstructService {
       params: params
     };
 
-    return this.http.put<BstructDB>(url, bstructdb, httpOptions).pipe(
+    return this.http.put<BstructAPI>(url, bstructdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated bstructdb id=${bstructdb.ID}`)
       }),
-      catchError(this.handleError<BstructDB>('updateBstruct'))
+      catchError(this.handleError<BstructAPI>('updateBstruct'))
     );
   }
 

@@ -26,13 +26,13 @@ const (
 
 var BackRepoHtmlSubTemplateCode map[string]string = map[string]string{
 	string(rune(BackRepoDataImports)): `
-import { {{Structname}}DB } from './{{structname}}-db'
+import { {{Structname}}API } from './{{structname}}-api'
 `,
 
 	string(rune(BackRepoInsertionEnumsExportDeclaration)): `
-	{{Structname}}DBs = new Array<{{Structname}}DB>()
+	{{Structname}}APIs = new Array<{{Structname}}API>()
 `,
 	string(rune(BackRepoInsertionEnumsExportCopies)): `
-		this.{{Structname}}DBs = data?.{{Structname}}DBs || [];
+		this.{{Structname}}APIs = data?.{{Structname}}APIs || [];
 `,
 }
