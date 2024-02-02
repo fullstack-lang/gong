@@ -388,9 +388,6 @@ export class FrontRepoService {
 
 				const backRepoData = new BackRepoData(JSON.parse(event.data))
 
-				let json = event.data
-				console.log(event.data)
-
 				// 
 				// First Step: init map of instances
 				// insertion point sub template for init 
