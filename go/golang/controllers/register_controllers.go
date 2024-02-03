@@ -156,8 +156,18 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	backRepoData := new(orm.BackRepoData)
 	orm.CopyBackRepoToBackRepoData(backRepo, backRepoData)
 
+	err = wsConnection.WriteJSON(backRepoData)
+	if err != nil {
+		log.Println("client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
+		fmt.Println(err)
+		return
+	}
+
 	for nbCommitBackRepo := range updateCommitBackRepoNbChannel {
 		_ = nbCommitBackRepo
+
+		backRepoData := new(orm.BackRepoData)
+		orm.CopyBackRepoToBackRepoData(backRepo, backRepoData)
 
 		// Send backRepo data
 		err = wsConnection.WriteJSON(backRepoData)
