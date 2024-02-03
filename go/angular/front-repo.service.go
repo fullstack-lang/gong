@@ -201,7 +201,7 @@ export class FrontRepoService {
 
 
 		let params = new HttpParams().set("GONG__StackPath", this.GONG__StackPath)
-		let basePath = 'ws://localhost:8080/api/github.com/fullstack-lang/gong/test/go/v1/ws/stage'
+		let basePath = 'ws://localhost:8080/api/{{PkgPathRoot}}/v1/ws/stage'
 		let paramString = params.toString()
 		let url = ` + "`" + "${basePath}?${paramString}" + "`" + `
 		this.socket = new WebSocket(url)
