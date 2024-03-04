@@ -9,27 +9,27 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 // insertion point
 type Astruct_WOP struct {
 	// insertion point
-	Name                 string
-	Date                 time.Time
-	Booleanfield         bool
-	Aenum                AEnumType
-	Aenum_2              AEnumType
-	Benum                BEnumType
-	CEnum                CEnumTypeInt
-	CName                string
-	CFloatfield          float64
-	Floatfield           float64
-	Intfield             int
-	Anotherbooleanfield  bool
-	Duration1            time.Duration
-	StructRef            string
-	FieldRef             string
-	EnumIntRef           string
-	EnumStringRef        string
-	EnumValue            string
+	Name string
+	Date time.Time
+	Booleanfield bool
+	Aenum AEnumType
+	Aenum_2 AEnumType
+	Benum BEnumType
+	CEnum CEnumTypeInt
+	CName string
+	CFloatfield float64
+	Floatfield float64
+	Intfield int
+	Anotherbooleanfield bool
+	Duration1 time.Duration
+	StructRef string
+	FieldRef string
+	EnumIntRef string
+	EnumStringRef string
+	EnumValue string
 	ConstIdentifierValue string
 	TextFieldBespokeSize string
-	TextArea             string
+	TextArea string
 }
 
 func (from *Astruct) CopyBasicFields(to *Astruct) {
@@ -79,10 +79,10 @@ func (from *AstructBstructUse) CopyBasicFields(to *AstructBstructUse) {
 
 type Bstruct_WOP struct {
 	// insertion point
-	Name        string
-	Floatfield  float64
+	Name string
+	Floatfield float64
 	Floatfield2 float64
-	Intfield    int
+	Intfield int
 }
 
 func (from *Bstruct) CopyBasicFields(to *Bstruct) {
@@ -112,3 +112,4 @@ func (from *Fstruct) CopyBasicFields(to *Fstruct) {
 	// insertion point
 	to.Name = from.Name
 }
+

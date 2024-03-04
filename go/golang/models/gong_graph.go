@@ -29,7 +29,7 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 // insertion point for stage per struct{{` + string(rune(ModelGongGraphStructInsertionIsStagedPerStruct)) + `}}
 
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
-// referenced by pointers or slices of pointers of the insance
+// referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
@@ -42,6 +42,23 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for stage branch per struct{{` + string(rune(ModelGongGraphStructInsertionStageBranchPerStruct)) + `}}
+
+// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// referenced by pointers or slices of pointers of the instance
+//
+// the algorithm stops along the course of graph if a vertex is already staged
+func CopyBranch[Type Gongstruct](stage *StageStruct, from *Type) (to *Type) {
+
+	switch fromT := any(from).(type) {
+	// insertion point for stage branch{{` + string(rune(ModelGongGraphStructInsertionCopyBranch)) + `}}
+	default:
+		_ = fromT // to espace compilation issue when model is empty
+	}
+	return
+}
+
+
+// insertion point for stage branch per struct{{` + string(rune(ModelGongGraphStructInsertionCopyBranchPerStruct)) + `}}
 
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
@@ -68,6 +85,8 @@ const (
 	ModelGongGraphStructInsertionIsStagedPerStruct
 	ModelGongGraphStructInsertionStageBranch
 	ModelGongGraphStructInsertionStageBranchPerStruct
+	ModelGongGraphStructInsertionCopyBranch
+	ModelGongGraphStructInsertionCopyBranchPerStruct
 	ModelGongGraphStructInsertionUnstageBranch
 	ModelGongGraphStructInsertionUnstageBranchPerStruct
 	ModelGongGraphStructInsertionsNb
@@ -106,6 +125,24 @@ func (stage *StageStruct) StageBranch{{Structname}}({{structname}} *{{Structname
 
 	//insertion point for the staging of instances referenced by slice of pointers{{StagingSliceOfPointers}}
 
+}
+`,
+	ModelGongGraphStructInsertionCopyBranch: `
+	case *{{Structname}}:
+		toT := stage.CopyBranch{{Structname}}(fromT)
+		return any(toT).(*Type)
+`,
+	ModelGongGraphStructInsertionCopyBranchPerStruct: `
+func (stage *StageStruct) CopyBranch{{Structname}}({{structname}}From *{{Structname}}) ({{structname}}To  *{{Structname}}){
+
+	{{structname}}To = new({{Structname}})
+	{{structname}}From.CopyBasicFields({{structname}}To)
+
+	//insertion point for the staging of instances referenced by pointers{{CopyingPointers}}
+
+	//insertion point for the staging of instances referenced by slice of pointers{{CopyingSliceOfPointers}}
+
+	return
 }
 `,
 	ModelGongGraphStructInsertionUnstageBranch: `
