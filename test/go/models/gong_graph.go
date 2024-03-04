@@ -251,32 +251,32 @@ func (stage *StageStruct) StageBranchFstruct(fstruct *Fstruct) {
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](stage *StageStruct, from *Type) (to *Type) {
+func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *Astruct:
-		toT := stage.CopyBranchAstruct(fromT)
+		toT := CopyBranchAstruct(fromT)
 		return any(toT).(*Type)
 
 	case *AstructBstruct2Use:
-		toT := stage.CopyBranchAstructBstruct2Use(fromT)
+		toT := CopyBranchAstructBstruct2Use(fromT)
 		return any(toT).(*Type)
 
 	case *AstructBstructUse:
-		toT := stage.CopyBranchAstructBstructUse(fromT)
+		toT := CopyBranchAstructBstructUse(fromT)
 		return any(toT).(*Type)
 
 	case *Bstruct:
-		toT := stage.CopyBranchBstruct(fromT)
+		toT := CopyBranchBstruct(fromT)
 		return any(toT).(*Type)
 
 	case *Dstruct:
-		toT := stage.CopyBranchDstruct(fromT)
+		toT := CopyBranchDstruct(fromT)
 		return any(toT).(*Type)
 
 	case *Fstruct:
-		toT := stage.CopyBranchFstruct(fromT)
+		toT := CopyBranchFstruct(fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -287,7 +287,7 @@ func CopyBranch[Type Gongstruct](stage *StageStruct, from *Type) (to *Type) {
 
 
 // insertion point for stage branch per struct
-func (stage *StageStruct) CopyBranchAstruct(astructFrom *Astruct) (astructTo  *Astruct){
+func CopyBranchAstruct(astructFrom *Astruct) (astructTo  *Astruct){
 
 	astructTo = new(Astruct)
 	astructFrom.CopyBasicFields(astructTo)
@@ -299,7 +299,7 @@ func (stage *StageStruct) CopyBranchAstruct(astructFrom *Astruct) (astructTo  *A
 	return
 }
 
-func (stage *StageStruct) CopyBranchAstructBstruct2Use(astructbstruct2useFrom *AstructBstruct2Use) (astructbstruct2useTo  *AstructBstruct2Use){
+func CopyBranchAstructBstruct2Use(astructbstruct2useFrom *AstructBstruct2Use) (astructbstruct2useTo  *AstructBstruct2Use){
 
 	astructbstruct2useTo = new(AstructBstruct2Use)
 	astructbstruct2useFrom.CopyBasicFields(astructbstruct2useTo)
@@ -311,7 +311,7 @@ func (stage *StageStruct) CopyBranchAstructBstruct2Use(astructbstruct2useFrom *A
 	return
 }
 
-func (stage *StageStruct) CopyBranchAstructBstructUse(astructbstructuseFrom *AstructBstructUse) (astructbstructuseTo  *AstructBstructUse){
+func CopyBranchAstructBstructUse(astructbstructuseFrom *AstructBstructUse) (astructbstructuseTo  *AstructBstructUse){
 
 	astructbstructuseTo = new(AstructBstructUse)
 	astructbstructuseFrom.CopyBasicFields(astructbstructuseTo)
@@ -323,7 +323,7 @@ func (stage *StageStruct) CopyBranchAstructBstructUse(astructbstructuseFrom *Ast
 	return
 }
 
-func (stage *StageStruct) CopyBranchBstruct(bstructFrom *Bstruct) (bstructTo  *Bstruct){
+func CopyBranchBstruct(bstructFrom *Bstruct) (bstructTo  *Bstruct){
 
 	bstructTo = new(Bstruct)
 	bstructFrom.CopyBasicFields(bstructTo)
@@ -335,7 +335,7 @@ func (stage *StageStruct) CopyBranchBstruct(bstructFrom *Bstruct) (bstructTo  *B
 	return
 }
 
-func (stage *StageStruct) CopyBranchDstruct(dstructFrom *Dstruct) (dstructTo  *Dstruct){
+func CopyBranchDstruct(dstructFrom *Dstruct) (dstructTo  *Dstruct){
 
 	dstructTo = new(Dstruct)
 	dstructFrom.CopyBasicFields(dstructTo)
@@ -347,7 +347,7 @@ func (stage *StageStruct) CopyBranchDstruct(dstructFrom *Dstruct) (dstructTo  *D
 	return
 }
 
-func (stage *StageStruct) CopyBranchFstruct(fstructFrom *Fstruct) (fstructTo  *Fstruct){
+func CopyBranchFstruct(fstructFrom *Fstruct) (fstructTo  *Fstruct){
 
 	fstructTo = new(Fstruct)
 	fstructFrom.CopyBasicFields(fstructTo)
