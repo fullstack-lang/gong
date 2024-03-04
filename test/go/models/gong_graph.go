@@ -74,7 +74,7 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 
 
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
-// referenced by pointers or slices of pointers of the insance
+// referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
@@ -244,6 +244,119 @@ func (stage *StageStruct) StageBranchFstruct(fstruct *Fstruct) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+
+// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// referenced by pointers or slices of pointers of the instance
+//
+// the algorithm stops along the course of graph if a vertex is already staged
+func CopyBranch[Type Gongstruct](stage *StageStruct, from *Type) (to *Type) {
+
+	switch fromT := any(from).(type) {
+	// insertion point for stage branch
+	case *Astruct:
+		toT := stage.CopyBranchAstruct(fromT)
+		return any(toT).(*Type)
+
+	case *AstructBstruct2Use:
+		toT := stage.CopyBranchAstructBstruct2Use(fromT)
+		return any(toT).(*Type)
+
+	case *AstructBstructUse:
+		toT := stage.CopyBranchAstructBstructUse(fromT)
+		return any(toT).(*Type)
+
+	case *Bstruct:
+		toT := stage.CopyBranchBstruct(fromT)
+		return any(toT).(*Type)
+
+	case *Dstruct:
+		toT := stage.CopyBranchDstruct(fromT)
+		return any(toT).(*Type)
+
+	case *Fstruct:
+		toT := stage.CopyBranchFstruct(fromT)
+		return any(toT).(*Type)
+
+	default:
+		_ = fromT // to espace compilation issue when model is empty
+	}
+	return
+}
+
+
+// insertion point for stage branch per struct
+func (stage *StageStruct) CopyBranchAstruct(astructFrom *Astruct) (astructTo  *Astruct){
+
+	astructTo = new(Astruct)
+	astructFrom.CopyBasicFields(astructTo)
+
+	//insertion point for the staging of instances referenced by pointers{{CopyingPointers}}
+
+	//insertion point for the staging of instances referenced by slice of pointers{{CopyingSliceOfPointers}}
+
+	return
+}
+
+func (stage *StageStruct) CopyBranchAstructBstruct2Use(astructbstruct2useFrom *AstructBstruct2Use) (astructbstruct2useTo  *AstructBstruct2Use){
+
+	astructbstruct2useTo = new(AstructBstruct2Use)
+	astructbstruct2useFrom.CopyBasicFields(astructbstruct2useTo)
+
+	//insertion point for the staging of instances referenced by pointers{{CopyingPointers}}
+
+	//insertion point for the staging of instances referenced by slice of pointers{{CopyingSliceOfPointers}}
+
+	return
+}
+
+func (stage *StageStruct) CopyBranchAstructBstructUse(astructbstructuseFrom *AstructBstructUse) (astructbstructuseTo  *AstructBstructUse){
+
+	astructbstructuseTo = new(AstructBstructUse)
+	astructbstructuseFrom.CopyBasicFields(astructbstructuseTo)
+
+	//insertion point for the staging of instances referenced by pointers{{CopyingPointers}}
+
+	//insertion point for the staging of instances referenced by slice of pointers{{CopyingSliceOfPointers}}
+
+	return
+}
+
+func (stage *StageStruct) CopyBranchBstruct(bstructFrom *Bstruct) (bstructTo  *Bstruct){
+
+	bstructTo = new(Bstruct)
+	bstructFrom.CopyBasicFields(bstructTo)
+
+	//insertion point for the staging of instances referenced by pointers{{CopyingPointers}}
+
+	//insertion point for the staging of instances referenced by slice of pointers{{CopyingSliceOfPointers}}
+
+	return
+}
+
+func (stage *StageStruct) CopyBranchDstruct(dstructFrom *Dstruct) (dstructTo  *Dstruct){
+
+	dstructTo = new(Dstruct)
+	dstructFrom.CopyBasicFields(dstructTo)
+
+	//insertion point for the staging of instances referenced by pointers{{CopyingPointers}}
+
+	//insertion point for the staging of instances referenced by slice of pointers{{CopyingSliceOfPointers}}
+
+	return
+}
+
+func (stage *StageStruct) CopyBranchFstruct(fstructFrom *Fstruct) (fstructTo  *Fstruct){
+
+	fstructTo = new(Fstruct)
+	fstructFrom.CopyBasicFields(fstructTo)
+
+	//insertion point for the staging of instances referenced by pointers{{CopyingPointers}}
+
+	//insertion point for the staging of instances referenced by slice of pointers{{CopyingSliceOfPointers}}
+
+	return
 }
 
 
