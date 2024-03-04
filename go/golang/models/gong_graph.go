@@ -47,7 +47,7 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func CopyBranch[Type Gongstruct](stage *StageStruct, from *Type) (to *Type) {
+func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch{{` + string(rune(ModelGongGraphStructInsertionCopyBranch)) + `}}
@@ -129,11 +129,11 @@ func (stage *StageStruct) StageBranch{{Structname}}({{structname}} *{{Structname
 `,
 	ModelGongGraphStructInsertionCopyBranch: `
 	case *{{Structname}}:
-		toT := stage.CopyBranch{{Structname}}(fromT)
+		toT := CopyBranch{{Structname}}(fromT)
 		return any(toT).(*Type)
 `,
 	ModelGongGraphStructInsertionCopyBranchPerStruct: `
-func (stage *StageStruct) CopyBranch{{Structname}}({{structname}}From *{{Structname}}) ({{structname}}To  *{{Structname}}){
+func CopyBranch{{Structname}}({{structname}}From *{{Structname}}) ({{structname}}To  *{{Structname}}){
 
 	{{structname}}To = new({{Structname}})
 	{{structname}}From.CopyBasicFields({{structname}}To)
