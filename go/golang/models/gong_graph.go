@@ -49,6 +49,9 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 // the algorithm stops along the course of graph if a vertex is already staged
 func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
+	mapOrigCopy := make(map[any]any)
+	_ = mapOrigCopy
+
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch{{` + string(rune(ModelGongGraphStructInsertionCopyBranch)) + `}}
 	default:
@@ -56,7 +59,6 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	}
 	return
 }
-
 
 // insertion point for stage branch per struct{{` + string(rune(ModelGongGraphStructInsertionCopyBranchPerStruct)) + `}}
 
@@ -100,12 +102,12 @@ map[ModelGongGraphStructInsertionId]string{
 		ok = stage.IsStaged{{Structname}}(target)
 `,
 	ModelGongGraphStructInsertionIsStagedPerStruct: `
-	func (stage *StageStruct) IsStaged{{Structname}}({{structname}} *{{Structname}}) (ok bool) {
+func (stage *StageStruct) IsStaged{{Structname}}({{structname}} *{{Structname}}) (ok bool) {
 
-		_, ok = stage.{{Structname}}s[{{structname}}]
-	
-		return
-	}
+	_, ok = stage.{{Structname}}s[{{structname}}]
+
+	return
+}
 `,
 	ModelGongGraphStructInsertionStageBranch: `
 	case *{{Structname}}:
@@ -129,13 +131,20 @@ func (stage *StageStruct) StageBranch{{Structname}}({{structname}} *{{Structname
 `,
 	ModelGongGraphStructInsertionCopyBranch: `
 	case *{{Structname}}:
-		toT := CopyBranch{{Structname}}(fromT)
+		toT := CopyBranch{{Structname}}(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 `,
 	ModelGongGraphStructInsertionCopyBranchPerStruct: `
-func CopyBranch{{Structname}}({{structname}}From *{{Structname}}) ({{structname}}To  *{{Structname}}){
+func CopyBranch{{Structname}}(mapOrigCopy map[any]any, {{structname}}From *{{Structname}}) ({{structname}}To  *{{Structname}}){
+
+	// {{structname}}From has already been copied
+	if _{{structname}}To, ok := mapOrigCopy[{{structname}}From]; ok {
+		{{structname}}To = _{{structname}}To.(*{{Structname}})
+		return
+	}
 
 	{{structname}}To = new({{Structname}})
+	mapOrigCopy[{{structname}}From] = {{structname}}To
 	{{structname}}From.CopyBasicFields({{structname}}To)
 
 	//insertion point for the staging of instances referenced by pointers{{CopyingPointers}}
@@ -191,11 +200,11 @@ map[GongGraphFilePerStructSubTemplateId]string{
 	}`,
 	GongGraphFileFieldSubTmplCopyPointerField: `
 	if {{structname}}From.{{FieldName}} != nil {
-		{{structname}}To.{{FieldName}} = CopyBranch{{AssocStructName}}({{structname}}From.{{FieldName}})
+		{{structname}}To.{{FieldName}} = CopyBranch{{AssocStructName}}(mapOrigCopy, {{structname}}From.{{FieldName}})
 	}`,
 	GongGraphFileFieldSubTmplCopySliceOfPointersField: `
 	for _, _{{assocstructname}} := range {{structname}}From.{{FieldName}} {
-		{{structname}}To.{{FieldName}} = append( {{structname}}To.{{FieldName}}, CopyBranch{{AssocStructName}}(_{{assocstructname}}))
+		{{structname}}To.{{FieldName}} = append( {{structname}}To.{{FieldName}}, CopyBranch{{AssocStructName}}(mapOrigCopy, _{{assocstructname}}))
 	}`,
 	GongGraphFileFieldSubTmplUnstagePointerField: `
 	if {{structname}}.{{FieldName}} != nil {
