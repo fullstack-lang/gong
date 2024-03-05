@@ -30,48 +30,47 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
-	func (stage *StageStruct) IsStagedAstruct(astruct *Astruct) (ok bool) {
+func (stage *StageStruct) IsStagedAstruct(astruct *Astruct) (ok bool) {
 
-		_, ok = stage.Astructs[astruct]
-	
-		return
-	}
+	_, ok = stage.Astructs[astruct]
 
-	func (stage *StageStruct) IsStagedAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) (ok bool) {
+	return
+}
 
-		_, ok = stage.AstructBstruct2Uses[astructbstruct2use]
-	
-		return
-	}
+func (stage *StageStruct) IsStagedAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) (ok bool) {
 
-	func (stage *StageStruct) IsStagedAstructBstructUse(astructbstructuse *AstructBstructUse) (ok bool) {
+	_, ok = stage.AstructBstruct2Uses[astructbstruct2use]
 
-		_, ok = stage.AstructBstructUses[astructbstructuse]
-	
-		return
-	}
+	return
+}
 
-	func (stage *StageStruct) IsStagedBstruct(bstruct *Bstruct) (ok bool) {
+func (stage *StageStruct) IsStagedAstructBstructUse(astructbstructuse *AstructBstructUse) (ok bool) {
 
-		_, ok = stage.Bstructs[bstruct]
-	
-		return
-	}
+	_, ok = stage.AstructBstructUses[astructbstructuse]
 
-	func (stage *StageStruct) IsStagedDstruct(dstruct *Dstruct) (ok bool) {
+	return
+}
 
-		_, ok = stage.Dstructs[dstruct]
-	
-		return
-	}
+func (stage *StageStruct) IsStagedBstruct(bstruct *Bstruct) (ok bool) {
 
-	func (stage *StageStruct) IsStagedFstruct(fstruct *Fstruct) (ok bool) {
+	_, ok = stage.Bstructs[bstruct]
 
-		_, ok = stage.Fstructs[fstruct]
-	
-		return
-	}
+	return
+}
 
+func (stage *StageStruct) IsStagedDstruct(dstruct *Dstruct) (ok bool) {
+
+	_, ok = stage.Dstructs[dstruct]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedFstruct(fstruct *Fstruct) (ok bool) {
+
+	_, ok = stage.Fstructs[fstruct]
+
+	return
+}
 
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
@@ -246,7 +245,6 @@ func (stage *StageStruct) StageBranchFstruct(fstruct *Fstruct) {
 
 }
 
-
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -285,80 +283,129 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	return
 }
 
-
 // insertion point for stage branch per struct
-func CopyBranchAstruct(astructFrom *Astruct) (astructTo  *Astruct){
+func CopyBranchAstruct(astructFrom *Astruct) (astructTo *Astruct) {
 
 	astructTo = new(Astruct)
 	astructFrom.CopyBasicFields(astructTo)
 
-	//insertion point for the staging of instances referenced by pointers{{CopyingPointers}}
+	//insertion point for the staging of instances referenced by pointers
+	if astructFrom.Associationtob != nil {
+		astructTo.Associationtob = CopyBranchBstruct(astructFrom.Associationtob)
+	}
+	if astructFrom.Anotherassociationtob_2 != nil {
+		astructTo.Anotherassociationtob_2 = CopyBranchBstruct(astructFrom.Anotherassociationtob_2)
+	}
+	if astructFrom.Bstruct != nil {
+		astructTo.Bstruct = CopyBranchBstruct(astructFrom.Bstruct)
+	}
+	if astructFrom.Bstruct2 != nil {
+		astructTo.Bstruct2 = CopyBranchBstruct(astructFrom.Bstruct2)
+	}
+	if astructFrom.Dstruct != nil {
+		astructTo.Dstruct = CopyBranchDstruct(astructFrom.Dstruct)
+	}
+	if astructFrom.Dstruct2 != nil {
+		astructTo.Dstruct2 = CopyBranchDstruct(astructFrom.Dstruct2)
+	}
+	if astructFrom.Dstruct3 != nil {
+		astructTo.Dstruct3 = CopyBranchDstruct(astructFrom.Dstruct3)
+	}
+	if astructFrom.Dstruct4 != nil {
+		astructTo.Dstruct4 = CopyBranchDstruct(astructFrom.Dstruct4)
+	}
+	if astructFrom.AnAstruct != nil {
+		astructTo.AnAstruct = CopyBranchAstruct(astructFrom.AnAstruct)
+	}
 
-	//insertion point for the staging of instances referenced by slice of pointers{{CopyingSliceOfPointers}}
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _bstruct := range astructFrom.Anarrayofb {
+		astructFrom.Anarrayofb = append(astructFrom.Anarrayofb, CopyBranchBstruct(_bstruct))
+	}
+	for _, _astruct := range astructFrom.Anarrayofa {
+		astructFrom.Anarrayofa = append(astructFrom.Anarrayofa, CopyBranchAstruct(_astruct))
+	}
+	for _, _bstruct := range astructFrom.Anotherarrayofb {
+		astructFrom.Anotherarrayofb = append(astructFrom.Anotherarrayofb, CopyBranchBstruct(_bstruct))
+	}
+	for _, _astructbstructuse := range astructFrom.AnarrayofbUse {
+		astructFrom.AnarrayofbUse = append(astructFrom.AnarrayofbUse, CopyBranchAstructBstructUse(_astructbstructuse))
+	}
+	for _, _astructbstruct2use := range astructFrom.Anarrayofb2Use {
+		astructFrom.Anarrayofb2Use = append(astructFrom.Anarrayofb2Use, CopyBranchAstructBstruct2Use(_astructbstruct2use))
+	}
 
 	return
 }
 
-func CopyBranchAstructBstruct2Use(astructbstruct2useFrom *AstructBstruct2Use) (astructbstruct2useTo  *AstructBstruct2Use){
+func CopyBranchAstructBstruct2Use(astructbstruct2useFrom *AstructBstruct2Use) (astructbstruct2useTo *AstructBstruct2Use) {
 
 	astructbstruct2useTo = new(AstructBstruct2Use)
 	astructbstruct2useFrom.CopyBasicFields(astructbstruct2useTo)
 
-	//insertion point for the staging of instances referenced by pointers{{CopyingPointers}}
+	//insertion point for the staging of instances referenced by pointers
+	if astructbstruct2useFrom.Bstrcut2 != nil {
+		astructbstruct2useTo.Bstrcut2 = CopyBranchBstruct(astructbstruct2useFrom.Bstrcut2)
+	}
 
-	//insertion point for the staging of instances referenced by slice of pointers{{CopyingSliceOfPointers}}
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
 
-func CopyBranchAstructBstructUse(astructbstructuseFrom *AstructBstructUse) (astructbstructuseTo  *AstructBstructUse){
+func CopyBranchAstructBstructUse(astructbstructuseFrom *AstructBstructUse) (astructbstructuseTo *AstructBstructUse) {
 
 	astructbstructuseTo = new(AstructBstructUse)
 	astructbstructuseFrom.CopyBasicFields(astructbstructuseTo)
 
-	//insertion point for the staging of instances referenced by pointers{{CopyingPointers}}
+	//insertion point for the staging of instances referenced by pointers
+	if astructbstructuseFrom.Bstruct2 != nil {
+		astructbstructuseTo.Bstruct2 = CopyBranchBstruct(astructbstructuseFrom.Bstruct2)
+	}
 
-	//insertion point for the staging of instances referenced by slice of pointers{{CopyingSliceOfPointers}}
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
 
-func CopyBranchBstruct(bstructFrom *Bstruct) (bstructTo  *Bstruct){
+func CopyBranchBstruct(bstructFrom *Bstruct) (bstructTo *Bstruct) {
 
 	bstructTo = new(Bstruct)
 	bstructFrom.CopyBasicFields(bstructTo)
 
-	//insertion point for the staging of instances referenced by pointers{{CopyingPointers}}
+	//insertion point for the staging of instances referenced by pointers
 
-	//insertion point for the staging of instances referenced by slice of pointers{{CopyingSliceOfPointers}}
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
 
-func CopyBranchDstruct(dstructFrom *Dstruct) (dstructTo  *Dstruct){
+func CopyBranchDstruct(dstructFrom *Dstruct) (dstructTo *Dstruct) {
 
 	dstructTo = new(Dstruct)
 	dstructFrom.CopyBasicFields(dstructTo)
 
-	//insertion point for the staging of instances referenced by pointers{{CopyingPointers}}
+	//insertion point for the staging of instances referenced by pointers
 
-	//insertion point for the staging of instances referenced by slice of pointers{{CopyingSliceOfPointers}}
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _bstruct := range dstructFrom.Anarrayofb {
+		dstructFrom.Anarrayofb = append(dstructFrom.Anarrayofb, CopyBranchBstruct(_bstruct))
+	}
 
 	return
 }
 
-func CopyBranchFstruct(fstructFrom *Fstruct) (fstructTo  *Fstruct){
+func CopyBranchFstruct(fstructFrom *Fstruct) (fstructTo *Fstruct) {
 
 	fstructTo = new(Fstruct)
 	fstructFrom.CopyBasicFields(fstructTo)
 
-	//insertion point for the staging of instances referenced by pointers{{CopyingPointers}}
+	//insertion point for the staging of instances referenced by pointers
 
-	//insertion point for the staging of instances referenced by slice of pointers{{CopyingSliceOfPointers}}
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
-
 
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
@@ -395,7 +442,7 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 func (stage *StageStruct) UnstageBranchAstruct(astruct *Astruct) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, astruct) {
+	if !IsStaged(stage, astruct) {
 		return
 	}
 
@@ -452,7 +499,7 @@ func (stage *StageStruct) UnstageBranchAstruct(astruct *Astruct) {
 func (stage *StageStruct) UnstageBranchAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, astructbstruct2use) {
+	if !IsStaged(stage, astructbstruct2use) {
 		return
 	}
 
@@ -470,7 +517,7 @@ func (stage *StageStruct) UnstageBranchAstructBstruct2Use(astructbstruct2use *As
 func (stage *StageStruct) UnstageBranchAstructBstructUse(astructbstructuse *AstructBstructUse) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, astructbstructuse) {
+	if !IsStaged(stage, astructbstructuse) {
 		return
 	}
 
@@ -488,7 +535,7 @@ func (stage *StageStruct) UnstageBranchAstructBstructUse(astructbstructuse *Astr
 func (stage *StageStruct) UnstageBranchBstruct(bstruct *Bstruct) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, bstruct) {
+	if !IsStaged(stage, bstruct) {
 		return
 	}
 
@@ -503,7 +550,7 @@ func (stage *StageStruct) UnstageBranchBstruct(bstruct *Bstruct) {
 func (stage *StageStruct) UnstageBranchDstruct(dstruct *Dstruct) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, dstruct) {
+	if !IsStaged(stage, dstruct) {
 		return
 	}
 
@@ -521,7 +568,7 @@ func (stage *StageStruct) UnstageBranchDstruct(dstruct *Dstruct) {
 func (stage *StageStruct) UnstageBranchFstruct(fstruct *Fstruct) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, fstruct) {
+	if !IsStaged(stage, fstruct) {
 		return
 	}
 
@@ -532,4 +579,3 @@ func (stage *StageStruct) UnstageBranchFstruct(fstruct *Fstruct) {
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
-
