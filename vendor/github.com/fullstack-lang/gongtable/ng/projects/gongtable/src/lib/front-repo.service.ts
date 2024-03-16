@@ -1,100 +1,103 @@
 import { Injectable } from '@angular/core'
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 
 import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
 // insertion point sub template for services imports
-import { CellDB } from './cell-db'
-import { Cell, CopyCellDBToCell } from './cell'
+import { CellAPI } from './cell-api'
+import { Cell, CopyCellAPIToCell } from './cell'
 import { CellService } from './cell.service'
 
-import { CellBooleanDB } from './cellboolean-db'
-import { CellBoolean, CopyCellBooleanDBToCellBoolean } from './cellboolean'
+import { CellBooleanAPI } from './cellboolean-api'
+import { CellBoolean, CopyCellBooleanAPIToCellBoolean } from './cellboolean'
 import { CellBooleanService } from './cellboolean.service'
 
-import { CellFloat64DB } from './cellfloat64-db'
-import { CellFloat64, CopyCellFloat64DBToCellFloat64 } from './cellfloat64'
+import { CellFloat64API } from './cellfloat64-api'
+import { CellFloat64, CopyCellFloat64APIToCellFloat64 } from './cellfloat64'
 import { CellFloat64Service } from './cellfloat64.service'
 
-import { CellIconDB } from './cellicon-db'
-import { CellIcon, CopyCellIconDBToCellIcon } from './cellicon'
+import { CellIconAPI } from './cellicon-api'
+import { CellIcon, CopyCellIconAPIToCellIcon } from './cellicon'
 import { CellIconService } from './cellicon.service'
 
-import { CellIntDB } from './cellint-db'
-import { CellInt, CopyCellIntDBToCellInt } from './cellint'
+import { CellIntAPI } from './cellint-api'
+import { CellInt, CopyCellIntAPIToCellInt } from './cellint'
 import { CellIntService } from './cellint.service'
 
-import { CellStringDB } from './cellstring-db'
-import { CellString, CopyCellStringDBToCellString } from './cellstring'
+import { CellStringAPI } from './cellstring-api'
+import { CellString, CopyCellStringAPIToCellString } from './cellstring'
 import { CellStringService } from './cellstring.service'
 
-import { CheckBoxDB } from './checkbox-db'
-import { CheckBox, CopyCheckBoxDBToCheckBox } from './checkbox'
+import { CheckBoxAPI } from './checkbox-api'
+import { CheckBox, CopyCheckBoxAPIToCheckBox } from './checkbox'
 import { CheckBoxService } from './checkbox.service'
 
-import { DisplayedColumnDB } from './displayedcolumn-db'
-import { DisplayedColumn, CopyDisplayedColumnDBToDisplayedColumn } from './displayedcolumn'
+import { DisplayedColumnAPI } from './displayedcolumn-api'
+import { DisplayedColumn, CopyDisplayedColumnAPIToDisplayedColumn } from './displayedcolumn'
 import { DisplayedColumnService } from './displayedcolumn.service'
 
-import { FormDivDB } from './formdiv-db'
-import { FormDiv, CopyFormDivDBToFormDiv } from './formdiv'
+import { FormDivAPI } from './formdiv-api'
+import { FormDiv, CopyFormDivAPIToFormDiv } from './formdiv'
 import { FormDivService } from './formdiv.service'
 
-import { FormEditAssocButtonDB } from './formeditassocbutton-db'
-import { FormEditAssocButton, CopyFormEditAssocButtonDBToFormEditAssocButton } from './formeditassocbutton'
+import { FormEditAssocButtonAPI } from './formeditassocbutton-api'
+import { FormEditAssocButton, CopyFormEditAssocButtonAPIToFormEditAssocButton } from './formeditassocbutton'
 import { FormEditAssocButtonService } from './formeditassocbutton.service'
 
-import { FormFieldDB } from './formfield-db'
-import { FormField, CopyFormFieldDBToFormField } from './formfield'
+import { FormFieldAPI } from './formfield-api'
+import { FormField, CopyFormFieldAPIToFormField } from './formfield'
 import { FormFieldService } from './formfield.service'
 
-import { FormFieldDateDB } from './formfielddate-db'
-import { FormFieldDate, CopyFormFieldDateDBToFormFieldDate } from './formfielddate'
+import { FormFieldDateAPI } from './formfielddate-api'
+import { FormFieldDate, CopyFormFieldDateAPIToFormFieldDate } from './formfielddate'
 import { FormFieldDateService } from './formfielddate.service'
 
-import { FormFieldDateTimeDB } from './formfielddatetime-db'
-import { FormFieldDateTime, CopyFormFieldDateTimeDBToFormFieldDateTime } from './formfielddatetime'
+import { FormFieldDateTimeAPI } from './formfielddatetime-api'
+import { FormFieldDateTime, CopyFormFieldDateTimeAPIToFormFieldDateTime } from './formfielddatetime'
 import { FormFieldDateTimeService } from './formfielddatetime.service'
 
-import { FormFieldFloat64DB } from './formfieldfloat64-db'
-import { FormFieldFloat64, CopyFormFieldFloat64DBToFormFieldFloat64 } from './formfieldfloat64'
+import { FormFieldFloat64API } from './formfieldfloat64-api'
+import { FormFieldFloat64, CopyFormFieldFloat64APIToFormFieldFloat64 } from './formfieldfloat64'
 import { FormFieldFloat64Service } from './formfieldfloat64.service'
 
-import { FormFieldIntDB } from './formfieldint-db'
-import { FormFieldInt, CopyFormFieldIntDBToFormFieldInt } from './formfieldint'
+import { FormFieldIntAPI } from './formfieldint-api'
+import { FormFieldInt, CopyFormFieldIntAPIToFormFieldInt } from './formfieldint'
 import { FormFieldIntService } from './formfieldint.service'
 
-import { FormFieldSelectDB } from './formfieldselect-db'
-import { FormFieldSelect, CopyFormFieldSelectDBToFormFieldSelect } from './formfieldselect'
+import { FormFieldSelectAPI } from './formfieldselect-api'
+import { FormFieldSelect, CopyFormFieldSelectAPIToFormFieldSelect } from './formfieldselect'
 import { FormFieldSelectService } from './formfieldselect.service'
 
-import { FormFieldStringDB } from './formfieldstring-db'
-import { FormFieldString, CopyFormFieldStringDBToFormFieldString } from './formfieldstring'
+import { FormFieldStringAPI } from './formfieldstring-api'
+import { FormFieldString, CopyFormFieldStringAPIToFormFieldString } from './formfieldstring'
 import { FormFieldStringService } from './formfieldstring.service'
 
-import { FormFieldTimeDB } from './formfieldtime-db'
-import { FormFieldTime, CopyFormFieldTimeDBToFormFieldTime } from './formfieldtime'
+import { FormFieldTimeAPI } from './formfieldtime-api'
+import { FormFieldTime, CopyFormFieldTimeAPIToFormFieldTime } from './formfieldtime'
 import { FormFieldTimeService } from './formfieldtime.service'
 
-import { FormGroupDB } from './formgroup-db'
-import { FormGroup, CopyFormGroupDBToFormGroup } from './formgroup'
+import { FormGroupAPI } from './formgroup-api'
+import { FormGroup, CopyFormGroupAPIToFormGroup } from './formgroup'
 import { FormGroupService } from './formgroup.service'
 
-import { FormSortAssocButtonDB } from './formsortassocbutton-db'
-import { FormSortAssocButton, CopyFormSortAssocButtonDBToFormSortAssocButton } from './formsortassocbutton'
+import { FormSortAssocButtonAPI } from './formsortassocbutton-api'
+import { FormSortAssocButton, CopyFormSortAssocButtonAPIToFormSortAssocButton } from './formsortassocbutton'
 import { FormSortAssocButtonService } from './formsortassocbutton.service'
 
-import { OptionDB } from './option-db'
-import { Option, CopyOptionDBToOption } from './option'
+import { OptionAPI } from './option-api'
+import { Option, CopyOptionAPIToOption } from './option'
 import { OptionService } from './option.service'
 
-import { RowDB } from './row-db'
-import { Row, CopyRowDBToRow } from './row'
+import { RowAPI } from './row-api'
+import { Row, CopyRowAPIToRow } from './row'
 import { RowService } from './row.service'
 
-import { TableDB } from './table-db'
-import { Table, CopyTableDBToTable } from './table'
+import { TableAPI } from './table-api'
+import { Table, CopyTableAPIToTable } from './table'
 import { TableService } from './table.service'
+
+
+import { BackRepoData } from './back-repo-data'
 
 export const StackType = "github.com/fullstack-lang/gongtable/go/models"
 
@@ -226,7 +229,7 @@ export class FrontRepo { // insertion point sub template
 				throw new Error("Type not recognized");
 		}
 	}
-	
+
 	getFrontMap<Type>(gongStructName: string): Map<number, Type> {
 		switch (gongStructName) {
 			// insertion point
@@ -330,6 +333,7 @@ export enum SelectionMode {
 export class FrontRepoService {
 
 	GONG__StackPath: string = ""
+	private socket: WebSocket | undefined
 
 	httpOptions = {
 		headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -397,29 +401,29 @@ export class FrontRepoService {
 	observableFrontRepo: [
 		Observable<null>, // see below for the of(null) observable
 		// insertion point sub template 
-		Observable<CellDB[]>,
-		Observable<CellBooleanDB[]>,
-		Observable<CellFloat64DB[]>,
-		Observable<CellIconDB[]>,
-		Observable<CellIntDB[]>,
-		Observable<CellStringDB[]>,
-		Observable<CheckBoxDB[]>,
-		Observable<DisplayedColumnDB[]>,
-		Observable<FormDivDB[]>,
-		Observable<FormEditAssocButtonDB[]>,
-		Observable<FormFieldDB[]>,
-		Observable<FormFieldDateDB[]>,
-		Observable<FormFieldDateTimeDB[]>,
-		Observable<FormFieldFloat64DB[]>,
-		Observable<FormFieldIntDB[]>,
-		Observable<FormFieldSelectDB[]>,
-		Observable<FormFieldStringDB[]>,
-		Observable<FormFieldTimeDB[]>,
-		Observable<FormGroupDB[]>,
-		Observable<FormSortAssocButtonDB[]>,
-		Observable<OptionDB[]>,
-		Observable<RowDB[]>,
-		Observable<TableDB[]>,
+		Observable<CellAPI[]>,
+		Observable<CellBooleanAPI[]>,
+		Observable<CellFloat64API[]>,
+		Observable<CellIconAPI[]>,
+		Observable<CellIntAPI[]>,
+		Observable<CellStringAPI[]>,
+		Observable<CheckBoxAPI[]>,
+		Observable<DisplayedColumnAPI[]>,
+		Observable<FormDivAPI[]>,
+		Observable<FormEditAssocButtonAPI[]>,
+		Observable<FormFieldAPI[]>,
+		Observable<FormFieldDateAPI[]>,
+		Observable<FormFieldDateTimeAPI[]>,
+		Observable<FormFieldFloat64API[]>,
+		Observable<FormFieldIntAPI[]>,
+		Observable<FormFieldSelectAPI[]>,
+		Observable<FormFieldStringAPI[]>,
+		Observable<FormFieldTimeAPI[]>,
+		Observable<FormGroupAPI[]>,
+		Observable<FormSortAssocButtonAPI[]>,
+		Observable<OptionAPI[]>,
+		Observable<RowAPI[]>,
+		Observable<TableAPI[]>,
 	] = [
 			// Using "combineLatest" with a placeholder observable.
 			//
@@ -528,52 +532,52 @@ export class FrontRepoService {
 						let _this = this
 						// Typing can be messy with many items. Therefore, type casting is necessary here
 						// insertion point sub template for type casting 
-						var cells: CellDB[]
-						cells = cells_ as CellDB[]
-						var cellbooleans: CellBooleanDB[]
-						cellbooleans = cellbooleans_ as CellBooleanDB[]
-						var cellfloat64s: CellFloat64DB[]
-						cellfloat64s = cellfloat64s_ as CellFloat64DB[]
-						var cellicons: CellIconDB[]
-						cellicons = cellicons_ as CellIconDB[]
-						var cellints: CellIntDB[]
-						cellints = cellints_ as CellIntDB[]
-						var cellstrings: CellStringDB[]
-						cellstrings = cellstrings_ as CellStringDB[]
-						var checkboxs: CheckBoxDB[]
-						checkboxs = checkboxs_ as CheckBoxDB[]
-						var displayedcolumns: DisplayedColumnDB[]
-						displayedcolumns = displayedcolumns_ as DisplayedColumnDB[]
-						var formdivs: FormDivDB[]
-						formdivs = formdivs_ as FormDivDB[]
-						var formeditassocbuttons: FormEditAssocButtonDB[]
-						formeditassocbuttons = formeditassocbuttons_ as FormEditAssocButtonDB[]
-						var formfields: FormFieldDB[]
-						formfields = formfields_ as FormFieldDB[]
-						var formfielddates: FormFieldDateDB[]
-						formfielddates = formfielddates_ as FormFieldDateDB[]
-						var formfielddatetimes: FormFieldDateTimeDB[]
-						formfielddatetimes = formfielddatetimes_ as FormFieldDateTimeDB[]
-						var formfieldfloat64s: FormFieldFloat64DB[]
-						formfieldfloat64s = formfieldfloat64s_ as FormFieldFloat64DB[]
-						var formfieldints: FormFieldIntDB[]
-						formfieldints = formfieldints_ as FormFieldIntDB[]
-						var formfieldselects: FormFieldSelectDB[]
-						formfieldselects = formfieldselects_ as FormFieldSelectDB[]
-						var formfieldstrings: FormFieldStringDB[]
-						formfieldstrings = formfieldstrings_ as FormFieldStringDB[]
-						var formfieldtimes: FormFieldTimeDB[]
-						formfieldtimes = formfieldtimes_ as FormFieldTimeDB[]
-						var formgroups: FormGroupDB[]
-						formgroups = formgroups_ as FormGroupDB[]
-						var formsortassocbuttons: FormSortAssocButtonDB[]
-						formsortassocbuttons = formsortassocbuttons_ as FormSortAssocButtonDB[]
-						var options: OptionDB[]
-						options = options_ as OptionDB[]
-						var rows: RowDB[]
-						rows = rows_ as RowDB[]
-						var tables: TableDB[]
-						tables = tables_ as TableDB[]
+						var cells: CellAPI[]
+						cells = cells_ as CellAPI[]
+						var cellbooleans: CellBooleanAPI[]
+						cellbooleans = cellbooleans_ as CellBooleanAPI[]
+						var cellfloat64s: CellFloat64API[]
+						cellfloat64s = cellfloat64s_ as CellFloat64API[]
+						var cellicons: CellIconAPI[]
+						cellicons = cellicons_ as CellIconAPI[]
+						var cellints: CellIntAPI[]
+						cellints = cellints_ as CellIntAPI[]
+						var cellstrings: CellStringAPI[]
+						cellstrings = cellstrings_ as CellStringAPI[]
+						var checkboxs: CheckBoxAPI[]
+						checkboxs = checkboxs_ as CheckBoxAPI[]
+						var displayedcolumns: DisplayedColumnAPI[]
+						displayedcolumns = displayedcolumns_ as DisplayedColumnAPI[]
+						var formdivs: FormDivAPI[]
+						formdivs = formdivs_ as FormDivAPI[]
+						var formeditassocbuttons: FormEditAssocButtonAPI[]
+						formeditassocbuttons = formeditassocbuttons_ as FormEditAssocButtonAPI[]
+						var formfields: FormFieldAPI[]
+						formfields = formfields_ as FormFieldAPI[]
+						var formfielddates: FormFieldDateAPI[]
+						formfielddates = formfielddates_ as FormFieldDateAPI[]
+						var formfielddatetimes: FormFieldDateTimeAPI[]
+						formfielddatetimes = formfielddatetimes_ as FormFieldDateTimeAPI[]
+						var formfieldfloat64s: FormFieldFloat64API[]
+						formfieldfloat64s = formfieldfloat64s_ as FormFieldFloat64API[]
+						var formfieldints: FormFieldIntAPI[]
+						formfieldints = formfieldints_ as FormFieldIntAPI[]
+						var formfieldselects: FormFieldSelectAPI[]
+						formfieldselects = formfieldselects_ as FormFieldSelectAPI[]
+						var formfieldstrings: FormFieldStringAPI[]
+						formfieldstrings = formfieldstrings_ as FormFieldStringAPI[]
+						var formfieldtimes: FormFieldTimeAPI[]
+						formfieldtimes = formfieldtimes_ as FormFieldTimeAPI[]
+						var formgroups: FormGroupAPI[]
+						formgroups = formgroups_ as FormGroupAPI[]
+						var formsortassocbuttons: FormSortAssocButtonAPI[]
+						formsortassocbuttons = formsortassocbuttons_ as FormSortAssocButtonAPI[]
+						var options: OptionAPI[]
+						options = options_ as OptionAPI[]
+						var rows: RowAPI[]
+						rows = rows_ as RowAPI[]
+						var tables: TableAPI[]
+						tables = tables_ as TableAPI[]
 
 						// 
 						// First Step: init map of instances
@@ -583,10 +587,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_Cell.clear()
 
 						cells.forEach(
-							cellDB => {
+							cellAPI => {
 								let cell = new Cell
 								this.frontRepo.array_Cells.push(cell)
-								this.frontRepo.map_ID_Cell.set(cellDB.ID, cell)
+								this.frontRepo.map_ID_Cell.set(cellAPI.ID, cell)
 							}
 						)
 
@@ -595,10 +599,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_CellBoolean.clear()
 
 						cellbooleans.forEach(
-							cellbooleanDB => {
+							cellbooleanAPI => {
 								let cellboolean = new CellBoolean
 								this.frontRepo.array_CellBooleans.push(cellboolean)
-								this.frontRepo.map_ID_CellBoolean.set(cellbooleanDB.ID, cellboolean)
+								this.frontRepo.map_ID_CellBoolean.set(cellbooleanAPI.ID, cellboolean)
 							}
 						)
 
@@ -607,10 +611,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_CellFloat64.clear()
 
 						cellfloat64s.forEach(
-							cellfloat64DB => {
+							cellfloat64API => {
 								let cellfloat64 = new CellFloat64
 								this.frontRepo.array_CellFloat64s.push(cellfloat64)
-								this.frontRepo.map_ID_CellFloat64.set(cellfloat64DB.ID, cellfloat64)
+								this.frontRepo.map_ID_CellFloat64.set(cellfloat64API.ID, cellfloat64)
 							}
 						)
 
@@ -619,10 +623,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_CellIcon.clear()
 
 						cellicons.forEach(
-							celliconDB => {
+							celliconAPI => {
 								let cellicon = new CellIcon
 								this.frontRepo.array_CellIcons.push(cellicon)
-								this.frontRepo.map_ID_CellIcon.set(celliconDB.ID, cellicon)
+								this.frontRepo.map_ID_CellIcon.set(celliconAPI.ID, cellicon)
 							}
 						)
 
@@ -631,10 +635,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_CellInt.clear()
 
 						cellints.forEach(
-							cellintDB => {
+							cellintAPI => {
 								let cellint = new CellInt
 								this.frontRepo.array_CellInts.push(cellint)
-								this.frontRepo.map_ID_CellInt.set(cellintDB.ID, cellint)
+								this.frontRepo.map_ID_CellInt.set(cellintAPI.ID, cellint)
 							}
 						)
 
@@ -643,10 +647,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_CellString.clear()
 
 						cellstrings.forEach(
-							cellstringDB => {
+							cellstringAPI => {
 								let cellstring = new CellString
 								this.frontRepo.array_CellStrings.push(cellstring)
-								this.frontRepo.map_ID_CellString.set(cellstringDB.ID, cellstring)
+								this.frontRepo.map_ID_CellString.set(cellstringAPI.ID, cellstring)
 							}
 						)
 
@@ -655,10 +659,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_CheckBox.clear()
 
 						checkboxs.forEach(
-							checkboxDB => {
+							checkboxAPI => {
 								let checkbox = new CheckBox
 								this.frontRepo.array_CheckBoxs.push(checkbox)
-								this.frontRepo.map_ID_CheckBox.set(checkboxDB.ID, checkbox)
+								this.frontRepo.map_ID_CheckBox.set(checkboxAPI.ID, checkbox)
 							}
 						)
 
@@ -667,10 +671,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_DisplayedColumn.clear()
 
 						displayedcolumns.forEach(
-							displayedcolumnDB => {
+							displayedcolumnAPI => {
 								let displayedcolumn = new DisplayedColumn
 								this.frontRepo.array_DisplayedColumns.push(displayedcolumn)
-								this.frontRepo.map_ID_DisplayedColumn.set(displayedcolumnDB.ID, displayedcolumn)
+								this.frontRepo.map_ID_DisplayedColumn.set(displayedcolumnAPI.ID, displayedcolumn)
 							}
 						)
 
@@ -679,10 +683,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_FormDiv.clear()
 
 						formdivs.forEach(
-							formdivDB => {
+							formdivAPI => {
 								let formdiv = new FormDiv
 								this.frontRepo.array_FormDivs.push(formdiv)
-								this.frontRepo.map_ID_FormDiv.set(formdivDB.ID, formdiv)
+								this.frontRepo.map_ID_FormDiv.set(formdivAPI.ID, formdiv)
 							}
 						)
 
@@ -691,10 +695,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_FormEditAssocButton.clear()
 
 						formeditassocbuttons.forEach(
-							formeditassocbuttonDB => {
+							formeditassocbuttonAPI => {
 								let formeditassocbutton = new FormEditAssocButton
 								this.frontRepo.array_FormEditAssocButtons.push(formeditassocbutton)
-								this.frontRepo.map_ID_FormEditAssocButton.set(formeditassocbuttonDB.ID, formeditassocbutton)
+								this.frontRepo.map_ID_FormEditAssocButton.set(formeditassocbuttonAPI.ID, formeditassocbutton)
 							}
 						)
 
@@ -703,10 +707,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_FormField.clear()
 
 						formfields.forEach(
-							formfieldDB => {
+							formfieldAPI => {
 								let formfield = new FormField
 								this.frontRepo.array_FormFields.push(formfield)
-								this.frontRepo.map_ID_FormField.set(formfieldDB.ID, formfield)
+								this.frontRepo.map_ID_FormField.set(formfieldAPI.ID, formfield)
 							}
 						)
 
@@ -715,10 +719,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_FormFieldDate.clear()
 
 						formfielddates.forEach(
-							formfielddateDB => {
+							formfielddateAPI => {
 								let formfielddate = new FormFieldDate
 								this.frontRepo.array_FormFieldDates.push(formfielddate)
-								this.frontRepo.map_ID_FormFieldDate.set(formfielddateDB.ID, formfielddate)
+								this.frontRepo.map_ID_FormFieldDate.set(formfielddateAPI.ID, formfielddate)
 							}
 						)
 
@@ -727,10 +731,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_FormFieldDateTime.clear()
 
 						formfielddatetimes.forEach(
-							formfielddatetimeDB => {
+							formfielddatetimeAPI => {
 								let formfielddatetime = new FormFieldDateTime
 								this.frontRepo.array_FormFieldDateTimes.push(formfielddatetime)
-								this.frontRepo.map_ID_FormFieldDateTime.set(formfielddatetimeDB.ID, formfielddatetime)
+								this.frontRepo.map_ID_FormFieldDateTime.set(formfielddatetimeAPI.ID, formfielddatetime)
 							}
 						)
 
@@ -739,10 +743,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_FormFieldFloat64.clear()
 
 						formfieldfloat64s.forEach(
-							formfieldfloat64DB => {
+							formfieldfloat64API => {
 								let formfieldfloat64 = new FormFieldFloat64
 								this.frontRepo.array_FormFieldFloat64s.push(formfieldfloat64)
-								this.frontRepo.map_ID_FormFieldFloat64.set(formfieldfloat64DB.ID, formfieldfloat64)
+								this.frontRepo.map_ID_FormFieldFloat64.set(formfieldfloat64API.ID, formfieldfloat64)
 							}
 						)
 
@@ -751,10 +755,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_FormFieldInt.clear()
 
 						formfieldints.forEach(
-							formfieldintDB => {
+							formfieldintAPI => {
 								let formfieldint = new FormFieldInt
 								this.frontRepo.array_FormFieldInts.push(formfieldint)
-								this.frontRepo.map_ID_FormFieldInt.set(formfieldintDB.ID, formfieldint)
+								this.frontRepo.map_ID_FormFieldInt.set(formfieldintAPI.ID, formfieldint)
 							}
 						)
 
@@ -763,10 +767,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_FormFieldSelect.clear()
 
 						formfieldselects.forEach(
-							formfieldselectDB => {
+							formfieldselectAPI => {
 								let formfieldselect = new FormFieldSelect
 								this.frontRepo.array_FormFieldSelects.push(formfieldselect)
-								this.frontRepo.map_ID_FormFieldSelect.set(formfieldselectDB.ID, formfieldselect)
+								this.frontRepo.map_ID_FormFieldSelect.set(formfieldselectAPI.ID, formfieldselect)
 							}
 						)
 
@@ -775,10 +779,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_FormFieldString.clear()
 
 						formfieldstrings.forEach(
-							formfieldstringDB => {
+							formfieldstringAPI => {
 								let formfieldstring = new FormFieldString
 								this.frontRepo.array_FormFieldStrings.push(formfieldstring)
-								this.frontRepo.map_ID_FormFieldString.set(formfieldstringDB.ID, formfieldstring)
+								this.frontRepo.map_ID_FormFieldString.set(formfieldstringAPI.ID, formfieldstring)
 							}
 						)
 
@@ -787,10 +791,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_FormFieldTime.clear()
 
 						formfieldtimes.forEach(
-							formfieldtimeDB => {
+							formfieldtimeAPI => {
 								let formfieldtime = new FormFieldTime
 								this.frontRepo.array_FormFieldTimes.push(formfieldtime)
-								this.frontRepo.map_ID_FormFieldTime.set(formfieldtimeDB.ID, formfieldtime)
+								this.frontRepo.map_ID_FormFieldTime.set(formfieldtimeAPI.ID, formfieldtime)
 							}
 						)
 
@@ -799,10 +803,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_FormGroup.clear()
 
 						formgroups.forEach(
-							formgroupDB => {
+							formgroupAPI => {
 								let formgroup = new FormGroup
 								this.frontRepo.array_FormGroups.push(formgroup)
-								this.frontRepo.map_ID_FormGroup.set(formgroupDB.ID, formgroup)
+								this.frontRepo.map_ID_FormGroup.set(formgroupAPI.ID, formgroup)
 							}
 						)
 
@@ -811,10 +815,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_FormSortAssocButton.clear()
 
 						formsortassocbuttons.forEach(
-							formsortassocbuttonDB => {
+							formsortassocbuttonAPI => {
 								let formsortassocbutton = new FormSortAssocButton
 								this.frontRepo.array_FormSortAssocButtons.push(formsortassocbutton)
-								this.frontRepo.map_ID_FormSortAssocButton.set(formsortassocbuttonDB.ID, formsortassocbutton)
+								this.frontRepo.map_ID_FormSortAssocButton.set(formsortassocbuttonAPI.ID, formsortassocbutton)
 							}
 						)
 
@@ -823,10 +827,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_Option.clear()
 
 						options.forEach(
-							optionDB => {
+							optionAPI => {
 								let option = new Option
 								this.frontRepo.array_Options.push(option)
-								this.frontRepo.map_ID_Option.set(optionDB.ID, option)
+								this.frontRepo.map_ID_Option.set(optionAPI.ID, option)
 							}
 						)
 
@@ -835,10 +839,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_Row.clear()
 
 						rows.forEach(
-							rowDB => {
+							rowAPI => {
 								let row = new Row
 								this.frontRepo.array_Rows.push(row)
-								this.frontRepo.map_ID_Row.set(rowDB.ID, row)
+								this.frontRepo.map_ID_Row.set(rowAPI.ID, row)
 							}
 						)
 
@@ -847,10 +851,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_Table.clear()
 
 						tables.forEach(
-							tableDB => {
+							tableAPI => {
 								let table = new Table
 								this.frontRepo.array_Tables.push(table)
-								this.frontRepo.map_ID_Table.set(tableDB.ID, table)
+								this.frontRepo.map_ID_Table.set(tableAPI.ID, table)
 							}
 						)
 
@@ -860,185 +864,185 @@ export class FrontRepoService {
 						// insertion point sub template for redeem 
 						// fill up front objects
 						cells.forEach(
-							cellDB => {
-								let cell = this.frontRepo.map_ID_Cell.get(cellDB.ID)
-								CopyCellDBToCell(cellDB, cell!, this.frontRepo)
+							cellAPI => {
+								let cell = this.frontRepo.map_ID_Cell.get(cellAPI.ID)
+								CopyCellAPIToCell(cellAPI, cell!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						cellbooleans.forEach(
-							cellbooleanDB => {
-								let cellboolean = this.frontRepo.map_ID_CellBoolean.get(cellbooleanDB.ID)
-								CopyCellBooleanDBToCellBoolean(cellbooleanDB, cellboolean!, this.frontRepo)
+							cellbooleanAPI => {
+								let cellboolean = this.frontRepo.map_ID_CellBoolean.get(cellbooleanAPI.ID)
+								CopyCellBooleanAPIToCellBoolean(cellbooleanAPI, cellboolean!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						cellfloat64s.forEach(
-							cellfloat64DB => {
-								let cellfloat64 = this.frontRepo.map_ID_CellFloat64.get(cellfloat64DB.ID)
-								CopyCellFloat64DBToCellFloat64(cellfloat64DB, cellfloat64!, this.frontRepo)
+							cellfloat64API => {
+								let cellfloat64 = this.frontRepo.map_ID_CellFloat64.get(cellfloat64API.ID)
+								CopyCellFloat64APIToCellFloat64(cellfloat64API, cellfloat64!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						cellicons.forEach(
-							celliconDB => {
-								let cellicon = this.frontRepo.map_ID_CellIcon.get(celliconDB.ID)
-								CopyCellIconDBToCellIcon(celliconDB, cellicon!, this.frontRepo)
+							celliconAPI => {
+								let cellicon = this.frontRepo.map_ID_CellIcon.get(celliconAPI.ID)
+								CopyCellIconAPIToCellIcon(celliconAPI, cellicon!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						cellints.forEach(
-							cellintDB => {
-								let cellint = this.frontRepo.map_ID_CellInt.get(cellintDB.ID)
-								CopyCellIntDBToCellInt(cellintDB, cellint!, this.frontRepo)
+							cellintAPI => {
+								let cellint = this.frontRepo.map_ID_CellInt.get(cellintAPI.ID)
+								CopyCellIntAPIToCellInt(cellintAPI, cellint!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						cellstrings.forEach(
-							cellstringDB => {
-								let cellstring = this.frontRepo.map_ID_CellString.get(cellstringDB.ID)
-								CopyCellStringDBToCellString(cellstringDB, cellstring!, this.frontRepo)
+							cellstringAPI => {
+								let cellstring = this.frontRepo.map_ID_CellString.get(cellstringAPI.ID)
+								CopyCellStringAPIToCellString(cellstringAPI, cellstring!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						checkboxs.forEach(
-							checkboxDB => {
-								let checkbox = this.frontRepo.map_ID_CheckBox.get(checkboxDB.ID)
-								CopyCheckBoxDBToCheckBox(checkboxDB, checkbox!, this.frontRepo)
+							checkboxAPI => {
+								let checkbox = this.frontRepo.map_ID_CheckBox.get(checkboxAPI.ID)
+								CopyCheckBoxAPIToCheckBox(checkboxAPI, checkbox!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						displayedcolumns.forEach(
-							displayedcolumnDB => {
-								let displayedcolumn = this.frontRepo.map_ID_DisplayedColumn.get(displayedcolumnDB.ID)
-								CopyDisplayedColumnDBToDisplayedColumn(displayedcolumnDB, displayedcolumn!, this.frontRepo)
+							displayedcolumnAPI => {
+								let displayedcolumn = this.frontRepo.map_ID_DisplayedColumn.get(displayedcolumnAPI.ID)
+								CopyDisplayedColumnAPIToDisplayedColumn(displayedcolumnAPI, displayedcolumn!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						formdivs.forEach(
-							formdivDB => {
-								let formdiv = this.frontRepo.map_ID_FormDiv.get(formdivDB.ID)
-								CopyFormDivDBToFormDiv(formdivDB, formdiv!, this.frontRepo)
+							formdivAPI => {
+								let formdiv = this.frontRepo.map_ID_FormDiv.get(formdivAPI.ID)
+								CopyFormDivAPIToFormDiv(formdivAPI, formdiv!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						formeditassocbuttons.forEach(
-							formeditassocbuttonDB => {
-								let formeditassocbutton = this.frontRepo.map_ID_FormEditAssocButton.get(formeditassocbuttonDB.ID)
-								CopyFormEditAssocButtonDBToFormEditAssocButton(formeditassocbuttonDB, formeditassocbutton!, this.frontRepo)
+							formeditassocbuttonAPI => {
+								let formeditassocbutton = this.frontRepo.map_ID_FormEditAssocButton.get(formeditassocbuttonAPI.ID)
+								CopyFormEditAssocButtonAPIToFormEditAssocButton(formeditassocbuttonAPI, formeditassocbutton!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						formfields.forEach(
-							formfieldDB => {
-								let formfield = this.frontRepo.map_ID_FormField.get(formfieldDB.ID)
-								CopyFormFieldDBToFormField(formfieldDB, formfield!, this.frontRepo)
+							formfieldAPI => {
+								let formfield = this.frontRepo.map_ID_FormField.get(formfieldAPI.ID)
+								CopyFormFieldAPIToFormField(formfieldAPI, formfield!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						formfielddates.forEach(
-							formfielddateDB => {
-								let formfielddate = this.frontRepo.map_ID_FormFieldDate.get(formfielddateDB.ID)
-								CopyFormFieldDateDBToFormFieldDate(formfielddateDB, formfielddate!, this.frontRepo)
+							formfielddateAPI => {
+								let formfielddate = this.frontRepo.map_ID_FormFieldDate.get(formfielddateAPI.ID)
+								CopyFormFieldDateAPIToFormFieldDate(formfielddateAPI, formfielddate!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						formfielddatetimes.forEach(
-							formfielddatetimeDB => {
-								let formfielddatetime = this.frontRepo.map_ID_FormFieldDateTime.get(formfielddatetimeDB.ID)
-								CopyFormFieldDateTimeDBToFormFieldDateTime(formfielddatetimeDB, formfielddatetime!, this.frontRepo)
+							formfielddatetimeAPI => {
+								let formfielddatetime = this.frontRepo.map_ID_FormFieldDateTime.get(formfielddatetimeAPI.ID)
+								CopyFormFieldDateTimeAPIToFormFieldDateTime(formfielddatetimeAPI, formfielddatetime!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						formfieldfloat64s.forEach(
-							formfieldfloat64DB => {
-								let formfieldfloat64 = this.frontRepo.map_ID_FormFieldFloat64.get(formfieldfloat64DB.ID)
-								CopyFormFieldFloat64DBToFormFieldFloat64(formfieldfloat64DB, formfieldfloat64!, this.frontRepo)
+							formfieldfloat64API => {
+								let formfieldfloat64 = this.frontRepo.map_ID_FormFieldFloat64.get(formfieldfloat64API.ID)
+								CopyFormFieldFloat64APIToFormFieldFloat64(formfieldfloat64API, formfieldfloat64!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						formfieldints.forEach(
-							formfieldintDB => {
-								let formfieldint = this.frontRepo.map_ID_FormFieldInt.get(formfieldintDB.ID)
-								CopyFormFieldIntDBToFormFieldInt(formfieldintDB, formfieldint!, this.frontRepo)
+							formfieldintAPI => {
+								let formfieldint = this.frontRepo.map_ID_FormFieldInt.get(formfieldintAPI.ID)
+								CopyFormFieldIntAPIToFormFieldInt(formfieldintAPI, formfieldint!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						formfieldselects.forEach(
-							formfieldselectDB => {
-								let formfieldselect = this.frontRepo.map_ID_FormFieldSelect.get(formfieldselectDB.ID)
-								CopyFormFieldSelectDBToFormFieldSelect(formfieldselectDB, formfieldselect!, this.frontRepo)
+							formfieldselectAPI => {
+								let formfieldselect = this.frontRepo.map_ID_FormFieldSelect.get(formfieldselectAPI.ID)
+								CopyFormFieldSelectAPIToFormFieldSelect(formfieldselectAPI, formfieldselect!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						formfieldstrings.forEach(
-							formfieldstringDB => {
-								let formfieldstring = this.frontRepo.map_ID_FormFieldString.get(formfieldstringDB.ID)
-								CopyFormFieldStringDBToFormFieldString(formfieldstringDB, formfieldstring!, this.frontRepo)
+							formfieldstringAPI => {
+								let formfieldstring = this.frontRepo.map_ID_FormFieldString.get(formfieldstringAPI.ID)
+								CopyFormFieldStringAPIToFormFieldString(formfieldstringAPI, formfieldstring!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						formfieldtimes.forEach(
-							formfieldtimeDB => {
-								let formfieldtime = this.frontRepo.map_ID_FormFieldTime.get(formfieldtimeDB.ID)
-								CopyFormFieldTimeDBToFormFieldTime(formfieldtimeDB, formfieldtime!, this.frontRepo)
+							formfieldtimeAPI => {
+								let formfieldtime = this.frontRepo.map_ID_FormFieldTime.get(formfieldtimeAPI.ID)
+								CopyFormFieldTimeAPIToFormFieldTime(formfieldtimeAPI, formfieldtime!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						formgroups.forEach(
-							formgroupDB => {
-								let formgroup = this.frontRepo.map_ID_FormGroup.get(formgroupDB.ID)
-								CopyFormGroupDBToFormGroup(formgroupDB, formgroup!, this.frontRepo)
+							formgroupAPI => {
+								let formgroup = this.frontRepo.map_ID_FormGroup.get(formgroupAPI.ID)
+								CopyFormGroupAPIToFormGroup(formgroupAPI, formgroup!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						formsortassocbuttons.forEach(
-							formsortassocbuttonDB => {
-								let formsortassocbutton = this.frontRepo.map_ID_FormSortAssocButton.get(formsortassocbuttonDB.ID)
-								CopyFormSortAssocButtonDBToFormSortAssocButton(formsortassocbuttonDB, formsortassocbutton!, this.frontRepo)
+							formsortassocbuttonAPI => {
+								let formsortassocbutton = this.frontRepo.map_ID_FormSortAssocButton.get(formsortassocbuttonAPI.ID)
+								CopyFormSortAssocButtonAPIToFormSortAssocButton(formsortassocbuttonAPI, formsortassocbutton!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						options.forEach(
-							optionDB => {
-								let option = this.frontRepo.map_ID_Option.get(optionDB.ID)
-								CopyOptionDBToOption(optionDB, option!, this.frontRepo)
+							optionAPI => {
+								let option = this.frontRepo.map_ID_Option.get(optionAPI.ID)
+								CopyOptionAPIToOption(optionAPI, option!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						rows.forEach(
-							rowDB => {
-								let row = this.frontRepo.map_ID_Row.get(rowDB.ID)
-								CopyRowDBToRow(rowDB, row!, this.frontRepo)
+							rowAPI => {
+								let row = this.frontRepo.map_ID_Row.get(rowAPI.ID)
+								CopyRowAPIToRow(rowAPI, row!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						tables.forEach(
-							tableDB => {
-								let table = this.frontRepo.map_ID_Table.get(tableDB.ID)
-								CopyTableDBToTable(tableDB, table!, this.frontRepo)
+							tableAPI => {
+								let table = this.frontRepo.map_ID_Table.get(tableAPI.ID)
+								CopyTableAPIToTable(tableAPI, table!, this.frontRepo)
 							}
 						)
 
@@ -1049,6 +1053,511 @@ export class FrontRepoService {
 				)
 			}
 		)
+	}
+
+	public connectToWebSocket(GONG__StackPath: string): Observable<FrontRepo> {
+
+		this.GONG__StackPath = GONG__StackPath
+
+
+		let params = new HttpParams().set("GONG__StackPath", this.GONG__StackPath)
+		let basePath = 'ws://localhost:8080/api/github.com/fullstack-lang/gongtable/go/v1/ws/stage'
+		let paramString = params.toString()
+		let url = `${basePath}?${paramString}`
+		this.socket = new WebSocket(url)
+
+		return new Observable(observer => {
+			this.socket!.onmessage = event => {
+				let _this = this
+
+				const backRepoData = new BackRepoData(JSON.parse(event.data))
+
+				// 
+				// First Step: init map of instances
+				// insertion point sub template for init 
+				// init the arrays
+				// insertion point sub template for init 
+				// init the arrays
+				this.frontRepo.array_Cells = []
+				this.frontRepo.map_ID_Cell.clear()
+
+				backRepoData.CellAPIs.forEach(
+					cellAPI => {
+						let cell = new Cell
+						this.frontRepo.array_Cells.push(cell)
+						this.frontRepo.map_ID_Cell.set(cellAPI.ID, cell)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_CellBooleans = []
+				this.frontRepo.map_ID_CellBoolean.clear()
+
+				backRepoData.CellBooleanAPIs.forEach(
+					cellbooleanAPI => {
+						let cellboolean = new CellBoolean
+						this.frontRepo.array_CellBooleans.push(cellboolean)
+						this.frontRepo.map_ID_CellBoolean.set(cellbooleanAPI.ID, cellboolean)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_CellFloat64s = []
+				this.frontRepo.map_ID_CellFloat64.clear()
+
+				backRepoData.CellFloat64APIs.forEach(
+					cellfloat64API => {
+						let cellfloat64 = new CellFloat64
+						this.frontRepo.array_CellFloat64s.push(cellfloat64)
+						this.frontRepo.map_ID_CellFloat64.set(cellfloat64API.ID, cellfloat64)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_CellIcons = []
+				this.frontRepo.map_ID_CellIcon.clear()
+
+				backRepoData.CellIconAPIs.forEach(
+					celliconAPI => {
+						let cellicon = new CellIcon
+						this.frontRepo.array_CellIcons.push(cellicon)
+						this.frontRepo.map_ID_CellIcon.set(celliconAPI.ID, cellicon)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_CellInts = []
+				this.frontRepo.map_ID_CellInt.clear()
+
+				backRepoData.CellIntAPIs.forEach(
+					cellintAPI => {
+						let cellint = new CellInt
+						this.frontRepo.array_CellInts.push(cellint)
+						this.frontRepo.map_ID_CellInt.set(cellintAPI.ID, cellint)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_CellStrings = []
+				this.frontRepo.map_ID_CellString.clear()
+
+				backRepoData.CellStringAPIs.forEach(
+					cellstringAPI => {
+						let cellstring = new CellString
+						this.frontRepo.array_CellStrings.push(cellstring)
+						this.frontRepo.map_ID_CellString.set(cellstringAPI.ID, cellstring)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_CheckBoxs = []
+				this.frontRepo.map_ID_CheckBox.clear()
+
+				backRepoData.CheckBoxAPIs.forEach(
+					checkboxAPI => {
+						let checkbox = new CheckBox
+						this.frontRepo.array_CheckBoxs.push(checkbox)
+						this.frontRepo.map_ID_CheckBox.set(checkboxAPI.ID, checkbox)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_DisplayedColumns = []
+				this.frontRepo.map_ID_DisplayedColumn.clear()
+
+				backRepoData.DisplayedColumnAPIs.forEach(
+					displayedcolumnAPI => {
+						let displayedcolumn = new DisplayedColumn
+						this.frontRepo.array_DisplayedColumns.push(displayedcolumn)
+						this.frontRepo.map_ID_DisplayedColumn.set(displayedcolumnAPI.ID, displayedcolumn)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_FormDivs = []
+				this.frontRepo.map_ID_FormDiv.clear()
+
+				backRepoData.FormDivAPIs.forEach(
+					formdivAPI => {
+						let formdiv = new FormDiv
+						this.frontRepo.array_FormDivs.push(formdiv)
+						this.frontRepo.map_ID_FormDiv.set(formdivAPI.ID, formdiv)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_FormEditAssocButtons = []
+				this.frontRepo.map_ID_FormEditAssocButton.clear()
+
+				backRepoData.FormEditAssocButtonAPIs.forEach(
+					formeditassocbuttonAPI => {
+						let formeditassocbutton = new FormEditAssocButton
+						this.frontRepo.array_FormEditAssocButtons.push(formeditassocbutton)
+						this.frontRepo.map_ID_FormEditAssocButton.set(formeditassocbuttonAPI.ID, formeditassocbutton)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_FormFields = []
+				this.frontRepo.map_ID_FormField.clear()
+
+				backRepoData.FormFieldAPIs.forEach(
+					formfieldAPI => {
+						let formfield = new FormField
+						this.frontRepo.array_FormFields.push(formfield)
+						this.frontRepo.map_ID_FormField.set(formfieldAPI.ID, formfield)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_FormFieldDates = []
+				this.frontRepo.map_ID_FormFieldDate.clear()
+
+				backRepoData.FormFieldDateAPIs.forEach(
+					formfielddateAPI => {
+						let formfielddate = new FormFieldDate
+						this.frontRepo.array_FormFieldDates.push(formfielddate)
+						this.frontRepo.map_ID_FormFieldDate.set(formfielddateAPI.ID, formfielddate)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_FormFieldDateTimes = []
+				this.frontRepo.map_ID_FormFieldDateTime.clear()
+
+				backRepoData.FormFieldDateTimeAPIs.forEach(
+					formfielddatetimeAPI => {
+						let formfielddatetime = new FormFieldDateTime
+						this.frontRepo.array_FormFieldDateTimes.push(formfielddatetime)
+						this.frontRepo.map_ID_FormFieldDateTime.set(formfielddatetimeAPI.ID, formfielddatetime)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_FormFieldFloat64s = []
+				this.frontRepo.map_ID_FormFieldFloat64.clear()
+
+				backRepoData.FormFieldFloat64APIs.forEach(
+					formfieldfloat64API => {
+						let formfieldfloat64 = new FormFieldFloat64
+						this.frontRepo.array_FormFieldFloat64s.push(formfieldfloat64)
+						this.frontRepo.map_ID_FormFieldFloat64.set(formfieldfloat64API.ID, formfieldfloat64)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_FormFieldInts = []
+				this.frontRepo.map_ID_FormFieldInt.clear()
+
+				backRepoData.FormFieldIntAPIs.forEach(
+					formfieldintAPI => {
+						let formfieldint = new FormFieldInt
+						this.frontRepo.array_FormFieldInts.push(formfieldint)
+						this.frontRepo.map_ID_FormFieldInt.set(formfieldintAPI.ID, formfieldint)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_FormFieldSelects = []
+				this.frontRepo.map_ID_FormFieldSelect.clear()
+
+				backRepoData.FormFieldSelectAPIs.forEach(
+					formfieldselectAPI => {
+						let formfieldselect = new FormFieldSelect
+						this.frontRepo.array_FormFieldSelects.push(formfieldselect)
+						this.frontRepo.map_ID_FormFieldSelect.set(formfieldselectAPI.ID, formfieldselect)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_FormFieldStrings = []
+				this.frontRepo.map_ID_FormFieldString.clear()
+
+				backRepoData.FormFieldStringAPIs.forEach(
+					formfieldstringAPI => {
+						let formfieldstring = new FormFieldString
+						this.frontRepo.array_FormFieldStrings.push(formfieldstring)
+						this.frontRepo.map_ID_FormFieldString.set(formfieldstringAPI.ID, formfieldstring)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_FormFieldTimes = []
+				this.frontRepo.map_ID_FormFieldTime.clear()
+
+				backRepoData.FormFieldTimeAPIs.forEach(
+					formfieldtimeAPI => {
+						let formfieldtime = new FormFieldTime
+						this.frontRepo.array_FormFieldTimes.push(formfieldtime)
+						this.frontRepo.map_ID_FormFieldTime.set(formfieldtimeAPI.ID, formfieldtime)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_FormGroups = []
+				this.frontRepo.map_ID_FormGroup.clear()
+
+				backRepoData.FormGroupAPIs.forEach(
+					formgroupAPI => {
+						let formgroup = new FormGroup
+						this.frontRepo.array_FormGroups.push(formgroup)
+						this.frontRepo.map_ID_FormGroup.set(formgroupAPI.ID, formgroup)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_FormSortAssocButtons = []
+				this.frontRepo.map_ID_FormSortAssocButton.clear()
+
+				backRepoData.FormSortAssocButtonAPIs.forEach(
+					formsortassocbuttonAPI => {
+						let formsortassocbutton = new FormSortAssocButton
+						this.frontRepo.array_FormSortAssocButtons.push(formsortassocbutton)
+						this.frontRepo.map_ID_FormSortAssocButton.set(formsortassocbuttonAPI.ID, formsortassocbutton)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_Options = []
+				this.frontRepo.map_ID_Option.clear()
+
+				backRepoData.OptionAPIs.forEach(
+					optionAPI => {
+						let option = new Option
+						this.frontRepo.array_Options.push(option)
+						this.frontRepo.map_ID_Option.set(optionAPI.ID, option)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_Rows = []
+				this.frontRepo.map_ID_Row.clear()
+
+				backRepoData.RowAPIs.forEach(
+					rowAPI => {
+						let row = new Row
+						this.frontRepo.array_Rows.push(row)
+						this.frontRepo.map_ID_Row.set(rowAPI.ID, row)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_Tables = []
+				this.frontRepo.map_ID_Table.clear()
+
+				backRepoData.TableAPIs.forEach(
+					tableAPI => {
+						let table = new Table
+						this.frontRepo.array_Tables.push(table)
+						this.frontRepo.map_ID_Table.set(tableAPI.ID, table)
+					}
+				)
+
+
+				// 
+				// Second Step: reddeem front objects
+				// insertion point sub template for redeem 
+				// fill up front objects
+				// insertion point sub template for redeem 
+				// fill up front objects
+				backRepoData.CellAPIs.forEach(
+					cellAPI => {
+						let cell = this.frontRepo.map_ID_Cell.get(cellAPI.ID)
+						CopyCellAPIToCell(cellAPI, cell!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.CellBooleanAPIs.forEach(
+					cellbooleanAPI => {
+						let cellboolean = this.frontRepo.map_ID_CellBoolean.get(cellbooleanAPI.ID)
+						CopyCellBooleanAPIToCellBoolean(cellbooleanAPI, cellboolean!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.CellFloat64APIs.forEach(
+					cellfloat64API => {
+						let cellfloat64 = this.frontRepo.map_ID_CellFloat64.get(cellfloat64API.ID)
+						CopyCellFloat64APIToCellFloat64(cellfloat64API, cellfloat64!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.CellIconAPIs.forEach(
+					celliconAPI => {
+						let cellicon = this.frontRepo.map_ID_CellIcon.get(celliconAPI.ID)
+						CopyCellIconAPIToCellIcon(celliconAPI, cellicon!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.CellIntAPIs.forEach(
+					cellintAPI => {
+						let cellint = this.frontRepo.map_ID_CellInt.get(cellintAPI.ID)
+						CopyCellIntAPIToCellInt(cellintAPI, cellint!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.CellStringAPIs.forEach(
+					cellstringAPI => {
+						let cellstring = this.frontRepo.map_ID_CellString.get(cellstringAPI.ID)
+						CopyCellStringAPIToCellString(cellstringAPI, cellstring!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.CheckBoxAPIs.forEach(
+					checkboxAPI => {
+						let checkbox = this.frontRepo.map_ID_CheckBox.get(checkboxAPI.ID)
+						CopyCheckBoxAPIToCheckBox(checkboxAPI, checkbox!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.DisplayedColumnAPIs.forEach(
+					displayedcolumnAPI => {
+						let displayedcolumn = this.frontRepo.map_ID_DisplayedColumn.get(displayedcolumnAPI.ID)
+						CopyDisplayedColumnAPIToDisplayedColumn(displayedcolumnAPI, displayedcolumn!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.FormDivAPIs.forEach(
+					formdivAPI => {
+						let formdiv = this.frontRepo.map_ID_FormDiv.get(formdivAPI.ID)
+						CopyFormDivAPIToFormDiv(formdivAPI, formdiv!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.FormEditAssocButtonAPIs.forEach(
+					formeditassocbuttonAPI => {
+						let formeditassocbutton = this.frontRepo.map_ID_FormEditAssocButton.get(formeditassocbuttonAPI.ID)
+						CopyFormEditAssocButtonAPIToFormEditAssocButton(formeditassocbuttonAPI, formeditassocbutton!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.FormFieldAPIs.forEach(
+					formfieldAPI => {
+						let formfield = this.frontRepo.map_ID_FormField.get(formfieldAPI.ID)
+						CopyFormFieldAPIToFormField(formfieldAPI, formfield!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.FormFieldDateAPIs.forEach(
+					formfielddateAPI => {
+						let formfielddate = this.frontRepo.map_ID_FormFieldDate.get(formfielddateAPI.ID)
+						CopyFormFieldDateAPIToFormFieldDate(formfielddateAPI, formfielddate!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.FormFieldDateTimeAPIs.forEach(
+					formfielddatetimeAPI => {
+						let formfielddatetime = this.frontRepo.map_ID_FormFieldDateTime.get(formfielddatetimeAPI.ID)
+						CopyFormFieldDateTimeAPIToFormFieldDateTime(formfielddatetimeAPI, formfielddatetime!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.FormFieldFloat64APIs.forEach(
+					formfieldfloat64API => {
+						let formfieldfloat64 = this.frontRepo.map_ID_FormFieldFloat64.get(formfieldfloat64API.ID)
+						CopyFormFieldFloat64APIToFormFieldFloat64(formfieldfloat64API, formfieldfloat64!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.FormFieldIntAPIs.forEach(
+					formfieldintAPI => {
+						let formfieldint = this.frontRepo.map_ID_FormFieldInt.get(formfieldintAPI.ID)
+						CopyFormFieldIntAPIToFormFieldInt(formfieldintAPI, formfieldint!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.FormFieldSelectAPIs.forEach(
+					formfieldselectAPI => {
+						let formfieldselect = this.frontRepo.map_ID_FormFieldSelect.get(formfieldselectAPI.ID)
+						CopyFormFieldSelectAPIToFormFieldSelect(formfieldselectAPI, formfieldselect!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.FormFieldStringAPIs.forEach(
+					formfieldstringAPI => {
+						let formfieldstring = this.frontRepo.map_ID_FormFieldString.get(formfieldstringAPI.ID)
+						CopyFormFieldStringAPIToFormFieldString(formfieldstringAPI, formfieldstring!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.FormFieldTimeAPIs.forEach(
+					formfieldtimeAPI => {
+						let formfieldtime = this.frontRepo.map_ID_FormFieldTime.get(formfieldtimeAPI.ID)
+						CopyFormFieldTimeAPIToFormFieldTime(formfieldtimeAPI, formfieldtime!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.FormGroupAPIs.forEach(
+					formgroupAPI => {
+						let formgroup = this.frontRepo.map_ID_FormGroup.get(formgroupAPI.ID)
+						CopyFormGroupAPIToFormGroup(formgroupAPI, formgroup!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.FormSortAssocButtonAPIs.forEach(
+					formsortassocbuttonAPI => {
+						let formsortassocbutton = this.frontRepo.map_ID_FormSortAssocButton.get(formsortassocbuttonAPI.ID)
+						CopyFormSortAssocButtonAPIToFormSortAssocButton(formsortassocbuttonAPI, formsortassocbutton!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.OptionAPIs.forEach(
+					optionAPI => {
+						let option = this.frontRepo.map_ID_Option.get(optionAPI.ID)
+						CopyOptionAPIToOption(optionAPI, option!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.RowAPIs.forEach(
+					rowAPI => {
+						let row = this.frontRepo.map_ID_Row.get(rowAPI.ID)
+						CopyRowAPIToRow(rowAPI, row!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.TableAPIs.forEach(
+					tableAPI => {
+						let table = this.frontRepo.map_ID_Table.get(tableAPI.ID)
+						CopyTableAPIToTable(tableAPI, table!, this.frontRepo)
+					}
+				)
+
+
+
+				observer.next(this.frontRepo)
+			}
+			this.socket!.onerror = event => {
+				observer.error(event)
+			}
+			this.socket!.onclose = event => {
+				observer.complete()
+			}
+
+			return () => {
+				this.socket!.close()
+			}
+		})
 	}
 }
 

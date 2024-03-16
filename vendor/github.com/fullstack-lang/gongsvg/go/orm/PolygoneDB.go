@@ -38,6 +38,7 @@ type PolygoneAPI struct {
 	models.Polygone_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	PolygonePointersEncoding PolygonePointersEncoding
 }
 
@@ -87,7 +88,9 @@ type PolygoneDB struct {
 
 	// Declation for basic field polygoneDB.Transform
 	Transform_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	PolygonePointersEncoding
 }
 

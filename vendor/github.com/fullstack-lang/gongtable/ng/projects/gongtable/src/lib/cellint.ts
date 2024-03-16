@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { CellIntDB } from './cellint-db'
+import { CellIntAPI } from './cellint-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -23,34 +23,34 @@ export class CellInt {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyCellIntToCellIntDB(cellint: CellInt, cellintDB: CellIntDB) {
+export function CopyCellIntToCellIntAPI(cellint: CellInt, cellintAPI: CellIntAPI) {
 
-	cellintDB.CreatedAt = cellint.CreatedAt
-	cellintDB.DeletedAt = cellint.DeletedAt
-	cellintDB.ID = cellint.ID
+	cellintAPI.CreatedAt = cellint.CreatedAt
+	cellintAPI.DeletedAt = cellint.DeletedAt
+	cellintAPI.ID = cellint.ID
 
 	// insertion point for basic fields copy operations
-	cellintDB.Name = cellint.Name
-	cellintDB.Value = cellint.Value
+	cellintAPI.Name = cellint.Name
+	cellintAPI.Value = cellint.Value
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyCellIntDBToCellInt update basic, pointers and slice of pointers fields of cellint
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of cellintDB
+// CopyCellIntAPIToCellInt update basic, pointers and slice of pointers fields of cellint
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of cellintAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyCellIntDBToCellInt(cellintDB: CellIntDB, cellint: CellInt, frontRepo: FrontRepo) {
+export function CopyCellIntAPIToCellInt(cellintAPI: CellIntAPI, cellint: CellInt, frontRepo: FrontRepo) {
 
-	cellint.CreatedAt = cellintDB.CreatedAt
-	cellint.DeletedAt = cellintDB.DeletedAt
-	cellint.ID = cellintDB.ID
+	cellint.CreatedAt = cellintAPI.CreatedAt
+	cellint.DeletedAt = cellintAPI.DeletedAt
+	cellint.ID = cellintAPI.ID
 
 	// insertion point for basic fields copy operations
-	cellint.Name = cellintDB.Name
-	cellint.Value = cellintDB.Value
+	cellint.Name = cellintAPI.Name
+	cellint.Value = cellintAPI.Value
 
 	// insertion point for pointer fields encoding
 

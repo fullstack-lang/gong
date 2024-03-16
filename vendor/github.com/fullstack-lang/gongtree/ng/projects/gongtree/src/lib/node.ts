@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { NodeDB } from './node-db'
+import { NodeAPI } from './node-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -38,83 +38,83 @@ export class Node {
 	Buttons: Array<Button> = []
 }
 
-export function CopyNodeToNodeDB(node: Node, nodeDB: NodeDB) {
+export function CopyNodeToNodeAPI(node: Node, nodeAPI: NodeAPI) {
 
-	nodeDB.CreatedAt = node.CreatedAt
-	nodeDB.DeletedAt = node.DeletedAt
-	nodeDB.ID = node.ID
+	nodeAPI.CreatedAt = node.CreatedAt
+	nodeAPI.DeletedAt = node.DeletedAt
+	nodeAPI.ID = node.ID
 
 	// insertion point for basic fields copy operations
-	nodeDB.Name = node.Name
-	nodeDB.FontStyle = node.FontStyle
-	nodeDB.BackgroundColor = node.BackgroundColor
-	nodeDB.IsExpanded = node.IsExpanded
-	nodeDB.HasCheckboxButton = node.HasCheckboxButton
-	nodeDB.IsChecked = node.IsChecked
-	nodeDB.IsCheckboxDisabled = node.IsCheckboxDisabled
-	nodeDB.IsInEditMode = node.IsInEditMode
-	nodeDB.IsNodeClickable = node.IsNodeClickable
-	nodeDB.IsWithPreceedingIcon = node.IsWithPreceedingIcon
-	nodeDB.PreceedingIcon = node.PreceedingIcon
+	nodeAPI.Name = node.Name
+	nodeAPI.FontStyle = node.FontStyle
+	nodeAPI.BackgroundColor = node.BackgroundColor
+	nodeAPI.IsExpanded = node.IsExpanded
+	nodeAPI.HasCheckboxButton = node.HasCheckboxButton
+	nodeAPI.IsChecked = node.IsChecked
+	nodeAPI.IsCheckboxDisabled = node.IsCheckboxDisabled
+	nodeAPI.IsInEditMode = node.IsInEditMode
+	nodeAPI.IsNodeClickable = node.IsNodeClickable
+	nodeAPI.IsWithPreceedingIcon = node.IsWithPreceedingIcon
+	nodeAPI.PreceedingIcon = node.PreceedingIcon
 
 	// insertion point for pointer fields encoding
-	nodeDB.NodePointersEncoding.PreceedingSVGIconID.Valid = true
+	nodeAPI.NodePointersEncoding.PreceedingSVGIconID.Valid = true
 	if (node.PreceedingSVGIcon != undefined) {
-		nodeDB.NodePointersEncoding.PreceedingSVGIconID.Int64 = node.PreceedingSVGIcon.ID  
+		nodeAPI.NodePointersEncoding.PreceedingSVGIconID.Int64 = node.PreceedingSVGIcon.ID  
 	} else {
-		nodeDB.NodePointersEncoding.PreceedingSVGIconID.Int64 = 0 		
+		nodeAPI.NodePointersEncoding.PreceedingSVGIconID.Int64 = 0 		
 	}
 
 
 	// insertion point for slice of pointers fields encoding
-	nodeDB.NodePointersEncoding.Children = []
+	nodeAPI.NodePointersEncoding.Children = []
 	for (let _node of node.Children) {
-		nodeDB.NodePointersEncoding.Children.push(_node.ID)
+		nodeAPI.NodePointersEncoding.Children.push(_node.ID)
 	}
 
-	nodeDB.NodePointersEncoding.Buttons = []
+	nodeAPI.NodePointersEncoding.Buttons = []
 	for (let _button of node.Buttons) {
-		nodeDB.NodePointersEncoding.Buttons.push(_button.ID)
+		nodeAPI.NodePointersEncoding.Buttons.push(_button.ID)
 	}
 
 }
 
-// CopyNodeDBToNode update basic, pointers and slice of pointers fields of node
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of nodeDB
+// CopyNodeAPIToNode update basic, pointers and slice of pointers fields of node
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of nodeAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyNodeDBToNode(nodeDB: NodeDB, node: Node, frontRepo: FrontRepo) {
+export function CopyNodeAPIToNode(nodeAPI: NodeAPI, node: Node, frontRepo: FrontRepo) {
 
-	node.CreatedAt = nodeDB.CreatedAt
-	node.DeletedAt = nodeDB.DeletedAt
-	node.ID = nodeDB.ID
+	node.CreatedAt = nodeAPI.CreatedAt
+	node.DeletedAt = nodeAPI.DeletedAt
+	node.ID = nodeAPI.ID
 
 	// insertion point for basic fields copy operations
-	node.Name = nodeDB.Name
-	node.FontStyle = nodeDB.FontStyle
-	node.BackgroundColor = nodeDB.BackgroundColor
-	node.IsExpanded = nodeDB.IsExpanded
-	node.HasCheckboxButton = nodeDB.HasCheckboxButton
-	node.IsChecked = nodeDB.IsChecked
-	node.IsCheckboxDisabled = nodeDB.IsCheckboxDisabled
-	node.IsInEditMode = nodeDB.IsInEditMode
-	node.IsNodeClickable = nodeDB.IsNodeClickable
-	node.IsWithPreceedingIcon = nodeDB.IsWithPreceedingIcon
-	node.PreceedingIcon = nodeDB.PreceedingIcon
+	node.Name = nodeAPI.Name
+	node.FontStyle = nodeAPI.FontStyle
+	node.BackgroundColor = nodeAPI.BackgroundColor
+	node.IsExpanded = nodeAPI.IsExpanded
+	node.HasCheckboxButton = nodeAPI.HasCheckboxButton
+	node.IsChecked = nodeAPI.IsChecked
+	node.IsCheckboxDisabled = nodeAPI.IsCheckboxDisabled
+	node.IsInEditMode = nodeAPI.IsInEditMode
+	node.IsNodeClickable = nodeAPI.IsNodeClickable
+	node.IsWithPreceedingIcon = nodeAPI.IsWithPreceedingIcon
+	node.PreceedingIcon = nodeAPI.PreceedingIcon
 
 	// insertion point for pointer fields encoding
-	node.PreceedingSVGIcon = frontRepo.map_ID_SVGIcon.get(nodeDB.NodePointersEncoding.PreceedingSVGIconID.Int64)
+	node.PreceedingSVGIcon = frontRepo.map_ID_SVGIcon.get(nodeAPI.NodePointersEncoding.PreceedingSVGIconID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 	node.Children = new Array<Node>()
-	for (let _id of nodeDB.NodePointersEncoding.Children) {
+	for (let _id of nodeAPI.NodePointersEncoding.Children) {
 		let _node = frontRepo.map_ID_Node.get(_id)
 		if (_node != undefined) {
 			node.Children.push(_node!)
 		}
 	}
 	node.Buttons = new Array<Button>()
-	for (let _id of nodeDB.NodePointersEncoding.Buttons) {
+	for (let _id of nodeAPI.NodePointersEncoding.Buttons) {
 		let _button = frontRepo.map_ID_Button.get(_id)
 		if (_button != undefined) {
 			node.Buttons.push(_button!)

@@ -11,13 +11,13 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { CircleDB } from './circle-db'
-import { Circle, CopyCircleToCircleDB } from './circle'
+import { CircleAPI } from './circle-api'
+import { Circle, CopyCircleToCircleAPI } from './circle'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { AnimateDB } from './animate-db'
+import { AnimateAPI } from './animate-api'
 
 @Injectable({
   providedIn: 'root'
@@ -47,41 +47,41 @@ export class CircleService {
 
   /** GET circles from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleAPI[]> {
     return this.getCircles(GONG__StackPath, frontRepo)
   }
-  getCircles(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleDB[]> {
+  getCircles(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<CircleDB[]>(this.circlesUrl, { params: params })
+    return this.http.get<CircleAPI[]>(this.circlesUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<CircleDB[]>('getCircles', []))
+        catchError(this.handleError<CircleAPI[]>('getCircles', []))
       );
   }
 
   /** GET circle by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleAPI> {
     return this.getCircle(id, GONG__StackPath, frontRepo)
   }
-  getCircle(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleDB> {
+  getCircle(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.circlesUrl}/${id}`;
-    return this.http.get<CircleDB>(url, { params: params }).pipe(
+    return this.http.get<CircleAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched circle id=${id}`)),
-      catchError(this.handleError<CircleDB>(`getCircle id=${id}`))
+      catchError(this.handleError<CircleAPI>(`getCircle id=${id}`))
     );
   }
 
   // postFront copy circle to a version with encoded pointers and post to the back
-  postFront(circle: Circle, GONG__StackPath: string): Observable<CircleDB> {
-    let circleDB = new CircleDB
-    CopyCircleToCircleDB(circle, circleDB)
-    const id = typeof circleDB === 'number' ? circleDB : circleDB.ID
+  postFront(circle: Circle, GONG__StackPath: string): Observable<CircleAPI> {
+    let circleAPI = new CircleAPI
+    CopyCircleToCircleAPI(circle, circleAPI)
+    const id = typeof circleAPI === 'number' ? circleAPI : circleAPI.ID
     const url = `${this.circlesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -89,18 +89,18 @@ export class CircleService {
       params: params
     }
 
-    return this.http.post<CircleDB>(url, circleDB, httpOptions).pipe(
+    return this.http.post<CircleAPI>(url, circleAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<CircleDB>('postCircle'))
+      catchError(this.handleError<CircleAPI>('postCircle'))
     );
   }
   
   /** POST: add a new circle to the server */
-  post(circledb: CircleDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleDB> {
+  post(circledb: CircleAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleAPI> {
     return this.postCircle(circledb, GONG__StackPath, frontRepo)
   }
-  postCircle(circledb: CircleDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleDB> {
+  postCircle(circledb: CircleAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -108,19 +108,19 @@ export class CircleService {
       params: params
     }
 
-    return this.http.post<CircleDB>(this.circlesUrl, circledb, httpOptions).pipe(
+    return this.http.post<CircleAPI>(this.circlesUrl, circledb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted circledb id=${circledb.ID}`)
       }),
-      catchError(this.handleError<CircleDB>('postCircle'))
+      catchError(this.handleError<CircleAPI>('postCircle'))
     );
   }
 
   /** DELETE: delete the circledb from the server */
-  delete(circledb: CircleDB | number, GONG__StackPath: string): Observable<CircleDB> {
+  delete(circledb: CircleAPI | number, GONG__StackPath: string): Observable<CircleAPI> {
     return this.deleteCircle(circledb, GONG__StackPath)
   }
-  deleteCircle(circledb: CircleDB | number, GONG__StackPath: string): Observable<CircleDB> {
+  deleteCircle(circledb: CircleAPI | number, GONG__StackPath: string): Observable<CircleAPI> {
     const id = typeof circledb === 'number' ? circledb : circledb.ID;
     const url = `${this.circlesUrl}/${id}`;
 
@@ -130,17 +130,17 @@ export class CircleService {
       params: params
     };
 
-    return this.http.delete<CircleDB>(url, httpOptions).pipe(
+    return this.http.delete<CircleAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted circledb id=${id}`)),
-      catchError(this.handleError<CircleDB>('deleteCircle'))
+      catchError(this.handleError<CircleAPI>('deleteCircle'))
     );
   }
 
   // updateFront copy circle to a version with encoded pointers and update to the back
-  updateFront(circle: Circle, GONG__StackPath: string): Observable<CircleDB> {
-    let circleDB = new CircleDB
-    CopyCircleToCircleDB(circle, circleDB)
-    const id = typeof circleDB === 'number' ? circleDB : circleDB.ID
+  updateFront(circle: Circle, GONG__StackPath: string): Observable<CircleAPI> {
+    let circleAPI = new CircleAPI
+    CopyCircleToCircleAPI(circle, circleAPI)
+    const id = typeof circleAPI === 'number' ? circleAPI : circleAPI.ID
     const url = `${this.circlesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,18 +148,18 @@ export class CircleService {
       params: params
     }
 
-    return this.http.put<CircleDB>(url, circleDB, httpOptions).pipe(
+    return this.http.put<CircleAPI>(url, circleAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<CircleDB>('updateCircle'))
+      catchError(this.handleError<CircleAPI>('updateCircle'))
     );
   }
 
   /** PUT: update the circledb on the server */
-  update(circledb: CircleDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleDB> {
+  update(circledb: CircleAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleAPI> {
     return this.updateCircle(circledb, GONG__StackPath, frontRepo)
   }
-  updateCircle(circledb: CircleDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleDB> {
+  updateCircle(circledb: CircleAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleAPI> {
     const id = typeof circledb === 'number' ? circledb : circledb.ID;
     const url = `${this.circlesUrl}/${id}`;
 
@@ -170,11 +170,11 @@ export class CircleService {
       params: params
     };
 
-    return this.http.put<CircleDB>(url, circledb, httpOptions).pipe(
+    return this.http.put<CircleAPI>(url, circledb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated circledb id=${circledb.ID}`)
       }),
-      catchError(this.handleError<CircleDB>('updateCircle'))
+      catchError(this.handleError<CircleAPI>('updateCircle'))
     );
   }
 

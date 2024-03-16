@@ -38,6 +38,7 @@ type LinkAPI struct {
 	models.Link_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	LinkPointersEncoding LinkPointersEncoding
 }
 
@@ -143,7 +144,9 @@ type LinkDB struct {
 
 	// Declation for basic field linkDB.Transform
 	Transform_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	LinkPointersEncoding
 }
 

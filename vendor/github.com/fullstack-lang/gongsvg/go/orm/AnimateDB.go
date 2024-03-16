@@ -38,6 +38,7 @@ type AnimateAPI struct {
 	models.Animate_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	AnimatePointersEncoding AnimatePointersEncoding
 }
 
@@ -72,7 +73,9 @@ type AnimateDB struct {
 
 	// Declation for basic field animateDB.RepeatCount
 	RepeatCount_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	AnimatePointersEncoding
 }
 

@@ -1,24 +1,27 @@
 import { Injectable } from '@angular/core'
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 
 import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
 // insertion point sub template for services imports
-import { ButtonDB } from './button-db'
-import { Button, CopyButtonDBToButton } from './button'
+import { ButtonAPI } from './button-api'
+import { Button, CopyButtonAPIToButton } from './button'
 import { ButtonService } from './button.service'
 
-import { NodeDB } from './node-db'
-import { Node, CopyNodeDBToNode } from './node'
+import { NodeAPI } from './node-api'
+import { Node, CopyNodeAPIToNode } from './node'
 import { NodeService } from './node.service'
 
-import { SVGIconDB } from './svgicon-db'
-import { SVGIcon, CopySVGIconDBToSVGIcon } from './svgicon'
+import { SVGIconAPI } from './svgicon-api'
+import { SVGIcon, CopySVGIconAPIToSVGIcon } from './svgicon'
 import { SVGIconService } from './svgicon.service'
 
-import { TreeDB } from './tree-db'
-import { Tree, CopyTreeDBToTree } from './tree'
+import { TreeAPI } from './tree-api'
+import { Tree, CopyTreeAPIToTree } from './tree'
 import { TreeService } from './tree.service'
+
+
+import { BackRepoData } from './back-repo-data'
 
 export const StackType = "github.com/fullstack-lang/gongtree/go/models"
 
@@ -55,7 +58,7 @@ export class FrontRepo { // insertion point sub template
 				throw new Error("Type not recognized");
 		}
 	}
-	
+
 	getFrontMap<Type>(gongStructName: string): Map<number, Type> {
 		switch (gongStructName) {
 			// insertion point
@@ -121,6 +124,7 @@ export enum SelectionMode {
 export class FrontRepoService {
 
 	GONG__StackPath: string = ""
+	private socket: WebSocket | undefined
 
 	httpOptions = {
 		headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -169,10 +173,10 @@ export class FrontRepoService {
 	observableFrontRepo: [
 		Observable<null>, // see below for the of(null) observable
 		// insertion point sub template 
-		Observable<ButtonDB[]>,
-		Observable<NodeDB[]>,
-		Observable<SVGIconDB[]>,
-		Observable<TreeDB[]>,
+		Observable<ButtonAPI[]>,
+		Observable<NodeAPI[]>,
+		Observable<SVGIconAPI[]>,
+		Observable<TreeAPI[]>,
 	] = [
 			// Using "combineLatest" with a placeholder observable.
 			//
@@ -224,14 +228,14 @@ export class FrontRepoService {
 						let _this = this
 						// Typing can be messy with many items. Therefore, type casting is necessary here
 						// insertion point sub template for type casting 
-						var buttons: ButtonDB[]
-						buttons = buttons_ as ButtonDB[]
-						var nodes: NodeDB[]
-						nodes = nodes_ as NodeDB[]
-						var svgicons: SVGIconDB[]
-						svgicons = svgicons_ as SVGIconDB[]
-						var trees: TreeDB[]
-						trees = trees_ as TreeDB[]
+						var buttons: ButtonAPI[]
+						buttons = buttons_ as ButtonAPI[]
+						var nodes: NodeAPI[]
+						nodes = nodes_ as NodeAPI[]
+						var svgicons: SVGIconAPI[]
+						svgicons = svgicons_ as SVGIconAPI[]
+						var trees: TreeAPI[]
+						trees = trees_ as TreeAPI[]
 
 						// 
 						// First Step: init map of instances
@@ -241,10 +245,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_Button.clear()
 
 						buttons.forEach(
-							buttonDB => {
+							buttonAPI => {
 								let button = new Button
 								this.frontRepo.array_Buttons.push(button)
-								this.frontRepo.map_ID_Button.set(buttonDB.ID, button)
+								this.frontRepo.map_ID_Button.set(buttonAPI.ID, button)
 							}
 						)
 
@@ -253,10 +257,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_Node.clear()
 
 						nodes.forEach(
-							nodeDB => {
+							nodeAPI => {
 								let node = new Node
 								this.frontRepo.array_Nodes.push(node)
-								this.frontRepo.map_ID_Node.set(nodeDB.ID, node)
+								this.frontRepo.map_ID_Node.set(nodeAPI.ID, node)
 							}
 						)
 
@@ -265,10 +269,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_SVGIcon.clear()
 
 						svgicons.forEach(
-							svgiconDB => {
+							svgiconAPI => {
 								let svgicon = new SVGIcon
 								this.frontRepo.array_SVGIcons.push(svgicon)
-								this.frontRepo.map_ID_SVGIcon.set(svgiconDB.ID, svgicon)
+								this.frontRepo.map_ID_SVGIcon.set(svgiconAPI.ID, svgicon)
 							}
 						)
 
@@ -277,10 +281,10 @@ export class FrontRepoService {
 						this.frontRepo.map_ID_Tree.clear()
 
 						trees.forEach(
-							treeDB => {
+							treeAPI => {
 								let tree = new Tree
 								this.frontRepo.array_Trees.push(tree)
-								this.frontRepo.map_ID_Tree.set(treeDB.ID, tree)
+								this.frontRepo.map_ID_Tree.set(treeAPI.ID, tree)
 							}
 						)
 
@@ -290,33 +294,33 @@ export class FrontRepoService {
 						// insertion point sub template for redeem 
 						// fill up front objects
 						buttons.forEach(
-							buttonDB => {
-								let button = this.frontRepo.map_ID_Button.get(buttonDB.ID)
-								CopyButtonDBToButton(buttonDB, button!, this.frontRepo)
+							buttonAPI => {
+								let button = this.frontRepo.map_ID_Button.get(buttonAPI.ID)
+								CopyButtonAPIToButton(buttonAPI, button!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						nodes.forEach(
-							nodeDB => {
-								let node = this.frontRepo.map_ID_Node.get(nodeDB.ID)
-								CopyNodeDBToNode(nodeDB, node!, this.frontRepo)
+							nodeAPI => {
+								let node = this.frontRepo.map_ID_Node.get(nodeAPI.ID)
+								CopyNodeAPIToNode(nodeAPI, node!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						svgicons.forEach(
-							svgiconDB => {
-								let svgicon = this.frontRepo.map_ID_SVGIcon.get(svgiconDB.ID)
-								CopySVGIconDBToSVGIcon(svgiconDB, svgicon!, this.frontRepo)
+							svgiconAPI => {
+								let svgicon = this.frontRepo.map_ID_SVGIcon.get(svgiconAPI.ID)
+								CopySVGIconAPIToSVGIcon(svgiconAPI, svgicon!, this.frontRepo)
 							}
 						)
 
 						// fill up front objects
 						trees.forEach(
-							treeDB => {
-								let tree = this.frontRepo.map_ID_Tree.get(treeDB.ID)
-								CopyTreeDBToTree(treeDB, tree!, this.frontRepo)
+							treeAPI => {
+								let tree = this.frontRepo.map_ID_Tree.get(treeAPI.ID)
+								CopyTreeAPIToTree(treeAPI, tree!, this.frontRepo)
 							}
 						)
 
@@ -327,6 +331,131 @@ export class FrontRepoService {
 				)
 			}
 		)
+	}
+
+	public connectToWebSocket(GONG__StackPath: string): Observable<FrontRepo> {
+
+		this.GONG__StackPath = GONG__StackPath
+
+
+		let params = new HttpParams().set("GONG__StackPath", this.GONG__StackPath)
+		let basePath = 'ws://localhost:8080/api/github.com/fullstack-lang/gongtree/go/v1/ws/stage'
+		let paramString = params.toString()
+		let url = `${basePath}?${paramString}`
+		this.socket = new WebSocket(url)
+
+		return new Observable(observer => {
+			this.socket!.onmessage = event => {
+				let _this = this
+
+				const backRepoData = new BackRepoData(JSON.parse(event.data))
+
+				// 
+				// First Step: init map of instances
+				// insertion point sub template for init 
+				// init the arrays
+				// insertion point sub template for init 
+				// init the arrays
+				this.frontRepo.array_Buttons = []
+				this.frontRepo.map_ID_Button.clear()
+
+				backRepoData.ButtonAPIs.forEach(
+					buttonAPI => {
+						let button = new Button
+						this.frontRepo.array_Buttons.push(button)
+						this.frontRepo.map_ID_Button.set(buttonAPI.ID, button)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_Nodes = []
+				this.frontRepo.map_ID_Node.clear()
+
+				backRepoData.NodeAPIs.forEach(
+					nodeAPI => {
+						let node = new Node
+						this.frontRepo.array_Nodes.push(node)
+						this.frontRepo.map_ID_Node.set(nodeAPI.ID, node)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_SVGIcons = []
+				this.frontRepo.map_ID_SVGIcon.clear()
+
+				backRepoData.SVGIconAPIs.forEach(
+					svgiconAPI => {
+						let svgicon = new SVGIcon
+						this.frontRepo.array_SVGIcons.push(svgicon)
+						this.frontRepo.map_ID_SVGIcon.set(svgiconAPI.ID, svgicon)
+					}
+				)
+
+				// init the arrays
+				this.frontRepo.array_Trees = []
+				this.frontRepo.map_ID_Tree.clear()
+
+				backRepoData.TreeAPIs.forEach(
+					treeAPI => {
+						let tree = new Tree
+						this.frontRepo.array_Trees.push(tree)
+						this.frontRepo.map_ID_Tree.set(treeAPI.ID, tree)
+					}
+				)
+
+
+				// 
+				// Second Step: reddeem front objects
+				// insertion point sub template for redeem 
+				// fill up front objects
+				// insertion point sub template for redeem 
+				// fill up front objects
+				backRepoData.ButtonAPIs.forEach(
+					buttonAPI => {
+						let button = this.frontRepo.map_ID_Button.get(buttonAPI.ID)
+						CopyButtonAPIToButton(buttonAPI, button!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.NodeAPIs.forEach(
+					nodeAPI => {
+						let node = this.frontRepo.map_ID_Node.get(nodeAPI.ID)
+						CopyNodeAPIToNode(nodeAPI, node!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.SVGIconAPIs.forEach(
+					svgiconAPI => {
+						let svgicon = this.frontRepo.map_ID_SVGIcon.get(svgiconAPI.ID)
+						CopySVGIconAPIToSVGIcon(svgiconAPI, svgicon!, this.frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.TreeAPIs.forEach(
+					treeAPI => {
+						let tree = this.frontRepo.map_ID_Tree.get(treeAPI.ID)
+						CopyTreeAPIToTree(treeAPI, tree!, this.frontRepo)
+					}
+				)
+
+
+
+				observer.next(this.frontRepo)
+			}
+			this.socket!.onerror = event => {
+				observer.error(event)
+			}
+			this.socket!.onclose = event => {
+				observer.complete()
+			}
+
+			return () => {
+				this.socket!.close()
+			}
+		})
 	}
 }
 

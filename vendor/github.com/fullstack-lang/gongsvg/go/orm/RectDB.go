@@ -38,6 +38,7 @@ type RectAPI struct {
 	models.Rect_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	RectPointersEncoding RectPointersEncoding
 }
 
@@ -160,7 +161,9 @@ type RectDB struct {
 	// Declation for basic field rectDB.CanMoveVerticaly
 	// provide the sql storage for the boolan
 	CanMoveVerticaly_Data sql.NullBool
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	RectPointersEncoding
 }
 

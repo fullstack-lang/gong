@@ -11,8 +11,8 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { CheckBoxDB } from './checkbox-db'
-import { CheckBox, CopyCheckBoxToCheckBoxDB } from './checkbox'
+import { CheckBoxAPI } from './checkbox-api'
+import { CheckBox, CopyCheckBoxToCheckBoxAPI } from './checkbox'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
@@ -46,41 +46,41 @@ export class CheckBoxService {
 
   /** GET checkboxs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxAPI[]> {
     return this.getCheckBoxs(GONG__StackPath, frontRepo)
   }
-  getCheckBoxs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxDB[]> {
+  getCheckBoxs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<CheckBoxDB[]>(this.checkboxsUrl, { params: params })
+    return this.http.get<CheckBoxAPI[]>(this.checkboxsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<CheckBoxDB[]>('getCheckBoxs', []))
+        catchError(this.handleError<CheckBoxAPI[]>('getCheckBoxs', []))
       );
   }
 
   /** GET checkbox by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxAPI> {
     return this.getCheckBox(id, GONG__StackPath, frontRepo)
   }
-  getCheckBox(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxDB> {
+  getCheckBox(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.checkboxsUrl}/${id}`;
-    return this.http.get<CheckBoxDB>(url, { params: params }).pipe(
+    return this.http.get<CheckBoxAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched checkbox id=${id}`)),
-      catchError(this.handleError<CheckBoxDB>(`getCheckBox id=${id}`))
+      catchError(this.handleError<CheckBoxAPI>(`getCheckBox id=${id}`))
     );
   }
 
   // postFront copy checkbox to a version with encoded pointers and post to the back
-  postFront(checkbox: CheckBox, GONG__StackPath: string): Observable<CheckBoxDB> {
-    let checkboxDB = new CheckBoxDB
-    CopyCheckBoxToCheckBoxDB(checkbox, checkboxDB)
-    const id = typeof checkboxDB === 'number' ? checkboxDB : checkboxDB.ID
+  postFront(checkbox: CheckBox, GONG__StackPath: string): Observable<CheckBoxAPI> {
+    let checkboxAPI = new CheckBoxAPI
+    CopyCheckBoxToCheckBoxAPI(checkbox, checkboxAPI)
+    const id = typeof checkboxAPI === 'number' ? checkboxAPI : checkboxAPI.ID
     const url = `${this.checkboxsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -88,18 +88,18 @@ export class CheckBoxService {
       params: params
     }
 
-    return this.http.post<CheckBoxDB>(url, checkboxDB, httpOptions).pipe(
+    return this.http.post<CheckBoxAPI>(url, checkboxAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<CheckBoxDB>('postCheckBox'))
+      catchError(this.handleError<CheckBoxAPI>('postCheckBox'))
     );
   }
   
   /** POST: add a new checkbox to the server */
-  post(checkboxdb: CheckBoxDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxDB> {
+  post(checkboxdb: CheckBoxAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxAPI> {
     return this.postCheckBox(checkboxdb, GONG__StackPath, frontRepo)
   }
-  postCheckBox(checkboxdb: CheckBoxDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxDB> {
+  postCheckBox(checkboxdb: CheckBoxAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -107,19 +107,19 @@ export class CheckBoxService {
       params: params
     }
 
-    return this.http.post<CheckBoxDB>(this.checkboxsUrl, checkboxdb, httpOptions).pipe(
+    return this.http.post<CheckBoxAPI>(this.checkboxsUrl, checkboxdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted checkboxdb id=${checkboxdb.ID}`)
       }),
-      catchError(this.handleError<CheckBoxDB>('postCheckBox'))
+      catchError(this.handleError<CheckBoxAPI>('postCheckBox'))
     );
   }
 
   /** DELETE: delete the checkboxdb from the server */
-  delete(checkboxdb: CheckBoxDB | number, GONG__StackPath: string): Observable<CheckBoxDB> {
+  delete(checkboxdb: CheckBoxAPI | number, GONG__StackPath: string): Observable<CheckBoxAPI> {
     return this.deleteCheckBox(checkboxdb, GONG__StackPath)
   }
-  deleteCheckBox(checkboxdb: CheckBoxDB | number, GONG__StackPath: string): Observable<CheckBoxDB> {
+  deleteCheckBox(checkboxdb: CheckBoxAPI | number, GONG__StackPath: string): Observable<CheckBoxAPI> {
     const id = typeof checkboxdb === 'number' ? checkboxdb : checkboxdb.ID;
     const url = `${this.checkboxsUrl}/${id}`;
 
@@ -129,17 +129,17 @@ export class CheckBoxService {
       params: params
     };
 
-    return this.http.delete<CheckBoxDB>(url, httpOptions).pipe(
+    return this.http.delete<CheckBoxAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted checkboxdb id=${id}`)),
-      catchError(this.handleError<CheckBoxDB>('deleteCheckBox'))
+      catchError(this.handleError<CheckBoxAPI>('deleteCheckBox'))
     );
   }
 
   // updateFront copy checkbox to a version with encoded pointers and update to the back
-  updateFront(checkbox: CheckBox, GONG__StackPath: string): Observable<CheckBoxDB> {
-    let checkboxDB = new CheckBoxDB
-    CopyCheckBoxToCheckBoxDB(checkbox, checkboxDB)
-    const id = typeof checkboxDB === 'number' ? checkboxDB : checkboxDB.ID
+  updateFront(checkbox: CheckBox, GONG__StackPath: string): Observable<CheckBoxAPI> {
+    let checkboxAPI = new CheckBoxAPI
+    CopyCheckBoxToCheckBoxAPI(checkbox, checkboxAPI)
+    const id = typeof checkboxAPI === 'number' ? checkboxAPI : checkboxAPI.ID
     const url = `${this.checkboxsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,18 +147,18 @@ export class CheckBoxService {
       params: params
     }
 
-    return this.http.put<CheckBoxDB>(url, checkboxDB, httpOptions).pipe(
+    return this.http.put<CheckBoxAPI>(url, checkboxAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<CheckBoxDB>('updateCheckBox'))
+      catchError(this.handleError<CheckBoxAPI>('updateCheckBox'))
     );
   }
 
   /** PUT: update the checkboxdb on the server */
-  update(checkboxdb: CheckBoxDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxDB> {
+  update(checkboxdb: CheckBoxAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxAPI> {
     return this.updateCheckBox(checkboxdb, GONG__StackPath, frontRepo)
   }
-  updateCheckBox(checkboxdb: CheckBoxDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxDB> {
+  updateCheckBox(checkboxdb: CheckBoxAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxAPI> {
     const id = typeof checkboxdb === 'number' ? checkboxdb : checkboxdb.ID;
     const url = `${this.checkboxsUrl}/${id}`;
 
@@ -169,11 +169,11 @@ export class CheckBoxService {
       params: params
     };
 
-    return this.http.put<CheckBoxDB>(url, checkboxdb, httpOptions).pipe(
+    return this.http.put<CheckBoxAPI>(url, checkboxdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated checkboxdb id=${checkboxdb.ID}`)
       }),
-      catchError(this.handleError<CheckBoxDB>('updateCheckBox'))
+      catchError(this.handleError<CheckBoxAPI>('updateCheckBox'))
     );
   }
 

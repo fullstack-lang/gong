@@ -11,17 +11,17 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { CellDB } from './cell-db'
-import { Cell, CopyCellToCellDB } from './cell'
+import { CellAPI } from './cell-api'
+import { Cell, CopyCellToCellAPI } from './cell'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { CellStringDB } from './cellstring-db'
-import { CellFloat64DB } from './cellfloat64-db'
-import { CellIntDB } from './cellint-db'
-import { CellBooleanDB } from './cellboolean-db'
-import { CellIconDB } from './cellicon-db'
+import { CellStringAPI } from './cellstring-api'
+import { CellFloat64API } from './cellfloat64-api'
+import { CellIntAPI } from './cellint-api'
+import { CellBooleanAPI } from './cellboolean-api'
+import { CellIconAPI } from './cellicon-api'
 
 @Injectable({
   providedIn: 'root'
@@ -51,41 +51,41 @@ export class CellService {
 
   /** GET cells from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellAPI[]> {
     return this.getCells(GONG__StackPath, frontRepo)
   }
-  getCells(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellDB[]> {
+  getCells(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<CellDB[]>(this.cellsUrl, { params: params })
+    return this.http.get<CellAPI[]>(this.cellsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<CellDB[]>('getCells', []))
+        catchError(this.handleError<CellAPI[]>('getCells', []))
       );
   }
 
   /** GET cell by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellAPI> {
     return this.getCell(id, GONG__StackPath, frontRepo)
   }
-  getCell(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellDB> {
+  getCell(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.cellsUrl}/${id}`;
-    return this.http.get<CellDB>(url, { params: params }).pipe(
+    return this.http.get<CellAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched cell id=${id}`)),
-      catchError(this.handleError<CellDB>(`getCell id=${id}`))
+      catchError(this.handleError<CellAPI>(`getCell id=${id}`))
     );
   }
 
   // postFront copy cell to a version with encoded pointers and post to the back
-  postFront(cell: Cell, GONG__StackPath: string): Observable<CellDB> {
-    let cellDB = new CellDB
-    CopyCellToCellDB(cell, cellDB)
-    const id = typeof cellDB === 'number' ? cellDB : cellDB.ID
+  postFront(cell: Cell, GONG__StackPath: string): Observable<CellAPI> {
+    let cellAPI = new CellAPI
+    CopyCellToCellAPI(cell, cellAPI)
+    const id = typeof cellAPI === 'number' ? cellAPI : cellAPI.ID
     const url = `${this.cellsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -93,18 +93,18 @@ export class CellService {
       params: params
     }
 
-    return this.http.post<CellDB>(url, cellDB, httpOptions).pipe(
+    return this.http.post<CellAPI>(url, cellAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<CellDB>('postCell'))
+      catchError(this.handleError<CellAPI>('postCell'))
     );
   }
   
   /** POST: add a new cell to the server */
-  post(celldb: CellDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellDB> {
+  post(celldb: CellAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellAPI> {
     return this.postCell(celldb, GONG__StackPath, frontRepo)
   }
-  postCell(celldb: CellDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellDB> {
+  postCell(celldb: CellAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -112,19 +112,19 @@ export class CellService {
       params: params
     }
 
-    return this.http.post<CellDB>(this.cellsUrl, celldb, httpOptions).pipe(
+    return this.http.post<CellAPI>(this.cellsUrl, celldb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted celldb id=${celldb.ID}`)
       }),
-      catchError(this.handleError<CellDB>('postCell'))
+      catchError(this.handleError<CellAPI>('postCell'))
     );
   }
 
   /** DELETE: delete the celldb from the server */
-  delete(celldb: CellDB | number, GONG__StackPath: string): Observable<CellDB> {
+  delete(celldb: CellAPI | number, GONG__StackPath: string): Observable<CellAPI> {
     return this.deleteCell(celldb, GONG__StackPath)
   }
-  deleteCell(celldb: CellDB | number, GONG__StackPath: string): Observable<CellDB> {
+  deleteCell(celldb: CellAPI | number, GONG__StackPath: string): Observable<CellAPI> {
     const id = typeof celldb === 'number' ? celldb : celldb.ID;
     const url = `${this.cellsUrl}/${id}`;
 
@@ -134,17 +134,17 @@ export class CellService {
       params: params
     };
 
-    return this.http.delete<CellDB>(url, httpOptions).pipe(
+    return this.http.delete<CellAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted celldb id=${id}`)),
-      catchError(this.handleError<CellDB>('deleteCell'))
+      catchError(this.handleError<CellAPI>('deleteCell'))
     );
   }
 
   // updateFront copy cell to a version with encoded pointers and update to the back
-  updateFront(cell: Cell, GONG__StackPath: string): Observable<CellDB> {
-    let cellDB = new CellDB
-    CopyCellToCellDB(cell, cellDB)
-    const id = typeof cellDB === 'number' ? cellDB : cellDB.ID
+  updateFront(cell: Cell, GONG__StackPath: string): Observable<CellAPI> {
+    let cellAPI = new CellAPI
+    CopyCellToCellAPI(cell, cellAPI)
+    const id = typeof cellAPI === 'number' ? cellAPI : cellAPI.ID
     const url = `${this.cellsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -152,18 +152,18 @@ export class CellService {
       params: params
     }
 
-    return this.http.put<CellDB>(url, cellDB, httpOptions).pipe(
+    return this.http.put<CellAPI>(url, cellAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<CellDB>('updateCell'))
+      catchError(this.handleError<CellAPI>('updateCell'))
     );
   }
 
   /** PUT: update the celldb on the server */
-  update(celldb: CellDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellDB> {
+  update(celldb: CellAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellAPI> {
     return this.updateCell(celldb, GONG__StackPath, frontRepo)
   }
-  updateCell(celldb: CellDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellDB> {
+  updateCell(celldb: CellAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellAPI> {
     const id = typeof celldb === 'number' ? celldb : celldb.ID;
     const url = `${this.cellsUrl}/${id}`;
 
@@ -174,11 +174,11 @@ export class CellService {
       params: params
     };
 
-    return this.http.put<CellDB>(url, celldb, httpOptions).pipe(
+    return this.http.put<CellAPI>(url, celldb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated celldb id=${celldb.ID}`)
       }),
-      catchError(this.handleError<CellDB>('updateCell'))
+      catchError(this.handleError<CellAPI>('updateCell'))
     );
   }
 

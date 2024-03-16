@@ -222,25 +222,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
     // computed
     this.changeDetectorRef.detach()
 
-    // see above for the explanation
-    this.gongsvgNbFromBackService.getCommitNbFromBack(500, this.GONG__StackPath).subscribe(
-      commiNbFromBagetCommitNbFromBack => {
-        if (this.lastCommitNbFromBack < commiNbFromBagetCommitNbFromBack) {
-
-          // console.log("last commit nb " + this.lastCommitNbFromBack + " new: " + commiNbFromBagetCommitNbFromBack)
-          this.refresh()
-          this.lastCommitNbFromBack = commiNbFromBagetCommitNbFromBack
-
-          // console.assert(this.gongsvgFrontRepo?.getArray(gongsvg.SVG.GONGSTRUCT_NAME).length == 1,
-          //   "After call to refresh", "gongsvgFrontRepo not good, but that's normal")
-        }
-      }
-    )
-  }
-
-  refresh(): void {
-
-    this.gongsvgFrontRepoService.pull(this.GONG__StackPath).subscribe(
+    this.gongsvgFrontRepoService.connectToWebSocket(this.GONG__StackPath).subscribe(
       gongsvgsFrontRepo => {
         this.gongsvgFrontRepo = gongsvgsFrontRepo
         //   "in promise to front repose servive pull", "gongsvgFrontRepo not good")
@@ -434,11 +416,6 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
       console.log(getFunctionName(), "state at exit", this.State)
       this.linkService.updateFront(this.draggedLink!, this.GONG__StackPath).subscribe(
         () => {
-          // this is necessary because the this.gongsvgFrontRepoService.frontRepo
-          // is empty at this stage
-          // TO DO, understand why this.gongsvgFrontRepoService.frontRepo can be not ok
-          // in this call
-          this.refresh()
         }
       )
       document.body.style.cursor = ''

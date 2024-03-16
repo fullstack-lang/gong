@@ -38,6 +38,7 @@ type FormFieldFloat64API struct {
 	models.FormFieldFloat64_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	FormFieldFloat64PointersEncoding FormFieldFloat64PointersEncoding
 }
 
@@ -77,7 +78,9 @@ type FormFieldFloat64DB struct {
 
 	// Declation for basic field formfieldfloat64DB.MaxValue
 	MaxValue_Data sql.NullFloat64
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormFieldFloat64PointersEncoding
 }
 

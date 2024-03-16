@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { RowDB } from './row-db'
+import { RowAPI } from './row-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -25,45 +25,45 @@ export class Row {
 	Cells: Array<Cell> = []
 }
 
-export function CopyRowToRowDB(row: Row, rowDB: RowDB) {
+export function CopyRowToRowAPI(row: Row, rowAPI: RowAPI) {
 
-	rowDB.CreatedAt = row.CreatedAt
-	rowDB.DeletedAt = row.DeletedAt
-	rowDB.ID = row.ID
+	rowAPI.CreatedAt = row.CreatedAt
+	rowAPI.DeletedAt = row.DeletedAt
+	rowAPI.ID = row.ID
 
 	// insertion point for basic fields copy operations
-	rowDB.Name = row.Name
-	rowDB.IsChecked = row.IsChecked
+	rowAPI.Name = row.Name
+	rowAPI.IsChecked = row.IsChecked
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	rowDB.RowPointersEncoding.Cells = []
+	rowAPI.RowPointersEncoding.Cells = []
 	for (let _cell of row.Cells) {
-		rowDB.RowPointersEncoding.Cells.push(_cell.ID)
+		rowAPI.RowPointersEncoding.Cells.push(_cell.ID)
 	}
 
 }
 
-// CopyRowDBToRow update basic, pointers and slice of pointers fields of row
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of rowDB
+// CopyRowAPIToRow update basic, pointers and slice of pointers fields of row
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of rowAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyRowDBToRow(rowDB: RowDB, row: Row, frontRepo: FrontRepo) {
+export function CopyRowAPIToRow(rowAPI: RowAPI, row: Row, frontRepo: FrontRepo) {
 
-	row.CreatedAt = rowDB.CreatedAt
-	row.DeletedAt = rowDB.DeletedAt
-	row.ID = rowDB.ID
+	row.CreatedAt = rowAPI.CreatedAt
+	row.DeletedAt = rowAPI.DeletedAt
+	row.ID = rowAPI.ID
 
 	// insertion point for basic fields copy operations
-	row.Name = rowDB.Name
-	row.IsChecked = rowDB.IsChecked
+	row.Name = rowAPI.Name
+	row.IsChecked = rowAPI.IsChecked
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 	row.Cells = new Array<Cell>()
-	for (let _id of rowDB.RowPointersEncoding.Cells) {
+	for (let _id of rowAPI.RowPointersEncoding.Cells) {
 		let _cell = frontRepo.map_ID_Cell.get(_id)
 		if (_cell != undefined) {
 			row.Cells.push(_cell!)

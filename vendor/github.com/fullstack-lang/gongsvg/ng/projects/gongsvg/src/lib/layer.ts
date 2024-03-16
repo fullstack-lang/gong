@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { LayerDB } from './layer-db'
+import { LayerAPI } from './layer-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -43,153 +43,153 @@ export class Layer {
 	RectLinkLinks: Array<RectLinkLink> = []
 }
 
-export function CopyLayerToLayerDB(layer: Layer, layerDB: LayerDB) {
+export function CopyLayerToLayerAPI(layer: Layer, layerAPI: LayerAPI) {
 
-	layerDB.CreatedAt = layer.CreatedAt
-	layerDB.DeletedAt = layer.DeletedAt
-	layerDB.ID = layer.ID
+	layerAPI.CreatedAt = layer.CreatedAt
+	layerAPI.DeletedAt = layer.DeletedAt
+	layerAPI.ID = layer.ID
 
 	// insertion point for basic fields copy operations
-	layerDB.Display = layer.Display
-	layerDB.Name = layer.Name
+	layerAPI.Display = layer.Display
+	layerAPI.Name = layer.Name
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	layerDB.LayerPointersEncoding.Rects = []
+	layerAPI.LayerPointersEncoding.Rects = []
 	for (let _rect of layer.Rects) {
-		layerDB.LayerPointersEncoding.Rects.push(_rect.ID)
+		layerAPI.LayerPointersEncoding.Rects.push(_rect.ID)
 	}
 
-	layerDB.LayerPointersEncoding.Texts = []
+	layerAPI.LayerPointersEncoding.Texts = []
 	for (let _text of layer.Texts) {
-		layerDB.LayerPointersEncoding.Texts.push(_text.ID)
+		layerAPI.LayerPointersEncoding.Texts.push(_text.ID)
 	}
 
-	layerDB.LayerPointersEncoding.Circles = []
+	layerAPI.LayerPointersEncoding.Circles = []
 	for (let _circle of layer.Circles) {
-		layerDB.LayerPointersEncoding.Circles.push(_circle.ID)
+		layerAPI.LayerPointersEncoding.Circles.push(_circle.ID)
 	}
 
-	layerDB.LayerPointersEncoding.Lines = []
+	layerAPI.LayerPointersEncoding.Lines = []
 	for (let _line of layer.Lines) {
-		layerDB.LayerPointersEncoding.Lines.push(_line.ID)
+		layerAPI.LayerPointersEncoding.Lines.push(_line.ID)
 	}
 
-	layerDB.LayerPointersEncoding.Ellipses = []
+	layerAPI.LayerPointersEncoding.Ellipses = []
 	for (let _ellipse of layer.Ellipses) {
-		layerDB.LayerPointersEncoding.Ellipses.push(_ellipse.ID)
+		layerAPI.LayerPointersEncoding.Ellipses.push(_ellipse.ID)
 	}
 
-	layerDB.LayerPointersEncoding.Polylines = []
+	layerAPI.LayerPointersEncoding.Polylines = []
 	for (let _polyline of layer.Polylines) {
-		layerDB.LayerPointersEncoding.Polylines.push(_polyline.ID)
+		layerAPI.LayerPointersEncoding.Polylines.push(_polyline.ID)
 	}
 
-	layerDB.LayerPointersEncoding.Polygones = []
+	layerAPI.LayerPointersEncoding.Polygones = []
 	for (let _polygone of layer.Polygones) {
-		layerDB.LayerPointersEncoding.Polygones.push(_polygone.ID)
+		layerAPI.LayerPointersEncoding.Polygones.push(_polygone.ID)
 	}
 
-	layerDB.LayerPointersEncoding.Paths = []
+	layerAPI.LayerPointersEncoding.Paths = []
 	for (let _path of layer.Paths) {
-		layerDB.LayerPointersEncoding.Paths.push(_path.ID)
+		layerAPI.LayerPointersEncoding.Paths.push(_path.ID)
 	}
 
-	layerDB.LayerPointersEncoding.Links = []
+	layerAPI.LayerPointersEncoding.Links = []
 	for (let _link of layer.Links) {
-		layerDB.LayerPointersEncoding.Links.push(_link.ID)
+		layerAPI.LayerPointersEncoding.Links.push(_link.ID)
 	}
 
-	layerDB.LayerPointersEncoding.RectLinkLinks = []
+	layerAPI.LayerPointersEncoding.RectLinkLinks = []
 	for (let _rectlinklink of layer.RectLinkLinks) {
-		layerDB.LayerPointersEncoding.RectLinkLinks.push(_rectlinklink.ID)
+		layerAPI.LayerPointersEncoding.RectLinkLinks.push(_rectlinklink.ID)
 	}
 
 }
 
-// CopyLayerDBToLayer update basic, pointers and slice of pointers fields of layer
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of layerDB
+// CopyLayerAPIToLayer update basic, pointers and slice of pointers fields of layer
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of layerAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyLayerDBToLayer(layerDB: LayerDB, layer: Layer, frontRepo: FrontRepo) {
+export function CopyLayerAPIToLayer(layerAPI: LayerAPI, layer: Layer, frontRepo: FrontRepo) {
 
-	layer.CreatedAt = layerDB.CreatedAt
-	layer.DeletedAt = layerDB.DeletedAt
-	layer.ID = layerDB.ID
+	layer.CreatedAt = layerAPI.CreatedAt
+	layer.DeletedAt = layerAPI.DeletedAt
+	layer.ID = layerAPI.ID
 
 	// insertion point for basic fields copy operations
-	layer.Display = layerDB.Display
-	layer.Name = layerDB.Name
+	layer.Display = layerAPI.Display
+	layer.Name = layerAPI.Name
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 	layer.Rects = new Array<Rect>()
-	for (let _id of layerDB.LayerPointersEncoding.Rects) {
+	for (let _id of layerAPI.LayerPointersEncoding.Rects) {
 		let _rect = frontRepo.map_ID_Rect.get(_id)
 		if (_rect != undefined) {
 			layer.Rects.push(_rect!)
 		}
 	}
 	layer.Texts = new Array<Text>()
-	for (let _id of layerDB.LayerPointersEncoding.Texts) {
+	for (let _id of layerAPI.LayerPointersEncoding.Texts) {
 		let _text = frontRepo.map_ID_Text.get(_id)
 		if (_text != undefined) {
 			layer.Texts.push(_text!)
 		}
 	}
 	layer.Circles = new Array<Circle>()
-	for (let _id of layerDB.LayerPointersEncoding.Circles) {
+	for (let _id of layerAPI.LayerPointersEncoding.Circles) {
 		let _circle = frontRepo.map_ID_Circle.get(_id)
 		if (_circle != undefined) {
 			layer.Circles.push(_circle!)
 		}
 	}
 	layer.Lines = new Array<Line>()
-	for (let _id of layerDB.LayerPointersEncoding.Lines) {
+	for (let _id of layerAPI.LayerPointersEncoding.Lines) {
 		let _line = frontRepo.map_ID_Line.get(_id)
 		if (_line != undefined) {
 			layer.Lines.push(_line!)
 		}
 	}
 	layer.Ellipses = new Array<Ellipse>()
-	for (let _id of layerDB.LayerPointersEncoding.Ellipses) {
+	for (let _id of layerAPI.LayerPointersEncoding.Ellipses) {
 		let _ellipse = frontRepo.map_ID_Ellipse.get(_id)
 		if (_ellipse != undefined) {
 			layer.Ellipses.push(_ellipse!)
 		}
 	}
 	layer.Polylines = new Array<Polyline>()
-	for (let _id of layerDB.LayerPointersEncoding.Polylines) {
+	for (let _id of layerAPI.LayerPointersEncoding.Polylines) {
 		let _polyline = frontRepo.map_ID_Polyline.get(_id)
 		if (_polyline != undefined) {
 			layer.Polylines.push(_polyline!)
 		}
 	}
 	layer.Polygones = new Array<Polygone>()
-	for (let _id of layerDB.LayerPointersEncoding.Polygones) {
+	for (let _id of layerAPI.LayerPointersEncoding.Polygones) {
 		let _polygone = frontRepo.map_ID_Polygone.get(_id)
 		if (_polygone != undefined) {
 			layer.Polygones.push(_polygone!)
 		}
 	}
 	layer.Paths = new Array<Path>()
-	for (let _id of layerDB.LayerPointersEncoding.Paths) {
+	for (let _id of layerAPI.LayerPointersEncoding.Paths) {
 		let _path = frontRepo.map_ID_Path.get(_id)
 		if (_path != undefined) {
 			layer.Paths.push(_path!)
 		}
 	}
 	layer.Links = new Array<Link>()
-	for (let _id of layerDB.LayerPointersEncoding.Links) {
+	for (let _id of layerAPI.LayerPointersEncoding.Links) {
 		let _link = frontRepo.map_ID_Link.get(_id)
 		if (_link != undefined) {
 			layer.Links.push(_link!)
 		}
 	}
 	layer.RectLinkLinks = new Array<RectLinkLink>()
-	for (let _id of layerDB.LayerPointersEncoding.RectLinkLinks) {
+	for (let _id of layerAPI.LayerPointersEncoding.RectLinkLinks) {
 		let _rectlinklink = frontRepo.map_ID_RectLinkLink.get(_id)
 		if (_rectlinklink != undefined) {
 			layer.RectLinkLinks.push(_rectlinklink!)

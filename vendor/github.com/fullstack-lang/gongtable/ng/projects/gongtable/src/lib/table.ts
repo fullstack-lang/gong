@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { TableDB } from './table-db'
+import { TableAPI } from './table-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -35,73 +35,73 @@ export class Table {
 	Rows: Array<Row> = []
 }
 
-export function CopyTableToTableDB(table: Table, tableDB: TableDB) {
+export function CopyTableToTableAPI(table: Table, tableAPI: TableAPI) {
 
-	tableDB.CreatedAt = table.CreatedAt
-	tableDB.DeletedAt = table.DeletedAt
-	tableDB.ID = table.ID
+	tableAPI.CreatedAt = table.CreatedAt
+	tableAPI.DeletedAt = table.DeletedAt
+	tableAPI.ID = table.ID
 
 	// insertion point for basic fields copy operations
-	tableDB.Name = table.Name
-	tableDB.HasFiltering = table.HasFiltering
-	tableDB.HasColumnSorting = table.HasColumnSorting
-	tableDB.HasPaginator = table.HasPaginator
-	tableDB.HasCheckableRows = table.HasCheckableRows
-	tableDB.HasSaveButton = table.HasSaveButton
-	tableDB.CanDragDropRows = table.CanDragDropRows
-	tableDB.HasCloseButton = table.HasCloseButton
-	tableDB.SavingInProgress = table.SavingInProgress
-	tableDB.NbOfStickyColumns = table.NbOfStickyColumns
+	tableAPI.Name = table.Name
+	tableAPI.HasFiltering = table.HasFiltering
+	tableAPI.HasColumnSorting = table.HasColumnSorting
+	tableAPI.HasPaginator = table.HasPaginator
+	tableAPI.HasCheckableRows = table.HasCheckableRows
+	tableAPI.HasSaveButton = table.HasSaveButton
+	tableAPI.CanDragDropRows = table.CanDragDropRows
+	tableAPI.HasCloseButton = table.HasCloseButton
+	tableAPI.SavingInProgress = table.SavingInProgress
+	tableAPI.NbOfStickyColumns = table.NbOfStickyColumns
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	tableDB.TablePointersEncoding.DisplayedColumns = []
+	tableAPI.TablePointersEncoding.DisplayedColumns = []
 	for (let _displayedcolumn of table.DisplayedColumns) {
-		tableDB.TablePointersEncoding.DisplayedColumns.push(_displayedcolumn.ID)
+		tableAPI.TablePointersEncoding.DisplayedColumns.push(_displayedcolumn.ID)
 	}
 
-	tableDB.TablePointersEncoding.Rows = []
+	tableAPI.TablePointersEncoding.Rows = []
 	for (let _row of table.Rows) {
-		tableDB.TablePointersEncoding.Rows.push(_row.ID)
+		tableAPI.TablePointersEncoding.Rows.push(_row.ID)
 	}
 
 }
 
-// CopyTableDBToTable update basic, pointers and slice of pointers fields of table
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of tableDB
+// CopyTableAPIToTable update basic, pointers and slice of pointers fields of table
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of tableAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyTableDBToTable(tableDB: TableDB, table: Table, frontRepo: FrontRepo) {
+export function CopyTableAPIToTable(tableAPI: TableAPI, table: Table, frontRepo: FrontRepo) {
 
-	table.CreatedAt = tableDB.CreatedAt
-	table.DeletedAt = tableDB.DeletedAt
-	table.ID = tableDB.ID
+	table.CreatedAt = tableAPI.CreatedAt
+	table.DeletedAt = tableAPI.DeletedAt
+	table.ID = tableAPI.ID
 
 	// insertion point for basic fields copy operations
-	table.Name = tableDB.Name
-	table.HasFiltering = tableDB.HasFiltering
-	table.HasColumnSorting = tableDB.HasColumnSorting
-	table.HasPaginator = tableDB.HasPaginator
-	table.HasCheckableRows = tableDB.HasCheckableRows
-	table.HasSaveButton = tableDB.HasSaveButton
-	table.CanDragDropRows = tableDB.CanDragDropRows
-	table.HasCloseButton = tableDB.HasCloseButton
-	table.SavingInProgress = tableDB.SavingInProgress
-	table.NbOfStickyColumns = tableDB.NbOfStickyColumns
+	table.Name = tableAPI.Name
+	table.HasFiltering = tableAPI.HasFiltering
+	table.HasColumnSorting = tableAPI.HasColumnSorting
+	table.HasPaginator = tableAPI.HasPaginator
+	table.HasCheckableRows = tableAPI.HasCheckableRows
+	table.HasSaveButton = tableAPI.HasSaveButton
+	table.CanDragDropRows = tableAPI.CanDragDropRows
+	table.HasCloseButton = tableAPI.HasCloseButton
+	table.SavingInProgress = tableAPI.SavingInProgress
+	table.NbOfStickyColumns = tableAPI.NbOfStickyColumns
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 	table.DisplayedColumns = new Array<DisplayedColumn>()
-	for (let _id of tableDB.TablePointersEncoding.DisplayedColumns) {
+	for (let _id of tableAPI.TablePointersEncoding.DisplayedColumns) {
 		let _displayedcolumn = frontRepo.map_ID_DisplayedColumn.get(_id)
 		if (_displayedcolumn != undefined) {
 			table.DisplayedColumns.push(_displayedcolumn!)
 		}
 	}
 	table.Rows = new Array<Row>()
-	for (let _id of tableDB.TablePointersEncoding.Rows) {
+	for (let _id of tableAPI.TablePointersEncoding.Rows) {
 		let _row = frontRepo.map_ID_Row.get(_id)
 		if (_row != undefined) {
 			table.Rows.push(_row!)

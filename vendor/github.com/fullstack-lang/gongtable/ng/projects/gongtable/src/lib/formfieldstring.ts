@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { FormFieldStringDB } from './formfieldstring-db'
+import { FormFieldStringAPI } from './formfieldstring-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -24,36 +24,36 @@ export class FormFieldString {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyFormFieldStringToFormFieldStringDB(formfieldstring: FormFieldString, formfieldstringDB: FormFieldStringDB) {
+export function CopyFormFieldStringToFormFieldStringAPI(formfieldstring: FormFieldString, formfieldstringAPI: FormFieldStringAPI) {
 
-	formfieldstringDB.CreatedAt = formfieldstring.CreatedAt
-	formfieldstringDB.DeletedAt = formfieldstring.DeletedAt
-	formfieldstringDB.ID = formfieldstring.ID
+	formfieldstringAPI.CreatedAt = formfieldstring.CreatedAt
+	formfieldstringAPI.DeletedAt = formfieldstring.DeletedAt
+	formfieldstringAPI.ID = formfieldstring.ID
 
 	// insertion point for basic fields copy operations
-	formfieldstringDB.Name = formfieldstring.Name
-	formfieldstringDB.Value = formfieldstring.Value
-	formfieldstringDB.IsTextArea = formfieldstring.IsTextArea
+	formfieldstringAPI.Name = formfieldstring.Name
+	formfieldstringAPI.Value = formfieldstring.Value
+	formfieldstringAPI.IsTextArea = formfieldstring.IsTextArea
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyFormFieldStringDBToFormFieldString update basic, pointers and slice of pointers fields of formfieldstring
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of formfieldstringDB
+// CopyFormFieldStringAPIToFormFieldString update basic, pointers and slice of pointers fields of formfieldstring
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of formfieldstringAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyFormFieldStringDBToFormFieldString(formfieldstringDB: FormFieldStringDB, formfieldstring: FormFieldString, frontRepo: FrontRepo) {
+export function CopyFormFieldStringAPIToFormFieldString(formfieldstringAPI: FormFieldStringAPI, formfieldstring: FormFieldString, frontRepo: FrontRepo) {
 
-	formfieldstring.CreatedAt = formfieldstringDB.CreatedAt
-	formfieldstring.DeletedAt = formfieldstringDB.DeletedAt
-	formfieldstring.ID = formfieldstringDB.ID
+	formfieldstring.CreatedAt = formfieldstringAPI.CreatedAt
+	formfieldstring.DeletedAt = formfieldstringAPI.DeletedAt
+	formfieldstring.ID = formfieldstringAPI.ID
 
 	// insertion point for basic fields copy operations
-	formfieldstring.Name = formfieldstringDB.Name
-	formfieldstring.Value = formfieldstringDB.Value
-	formfieldstring.IsTextArea = formfieldstringDB.IsTextArea
+	formfieldstring.Name = formfieldstringAPI.Name
+	formfieldstring.Value = formfieldstringAPI.Value
+	formfieldstring.IsTextArea = formfieldstringAPI.IsTextArea
 
 	// insertion point for pointer fields encoding
 

@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { DisplayedColumnDB } from './displayedcolumn-db'
+import { DisplayedColumnAPI } from './displayedcolumn-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -22,32 +22,32 @@ export class DisplayedColumn {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyDisplayedColumnToDisplayedColumnDB(displayedcolumn: DisplayedColumn, displayedcolumnDB: DisplayedColumnDB) {
+export function CopyDisplayedColumnToDisplayedColumnAPI(displayedcolumn: DisplayedColumn, displayedcolumnAPI: DisplayedColumnAPI) {
 
-	displayedcolumnDB.CreatedAt = displayedcolumn.CreatedAt
-	displayedcolumnDB.DeletedAt = displayedcolumn.DeletedAt
-	displayedcolumnDB.ID = displayedcolumn.ID
+	displayedcolumnAPI.CreatedAt = displayedcolumn.CreatedAt
+	displayedcolumnAPI.DeletedAt = displayedcolumn.DeletedAt
+	displayedcolumnAPI.ID = displayedcolumn.ID
 
 	// insertion point for basic fields copy operations
-	displayedcolumnDB.Name = displayedcolumn.Name
+	displayedcolumnAPI.Name = displayedcolumn.Name
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyDisplayedColumnDBToDisplayedColumn update basic, pointers and slice of pointers fields of displayedcolumn
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of displayedcolumnDB
+// CopyDisplayedColumnAPIToDisplayedColumn update basic, pointers and slice of pointers fields of displayedcolumn
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of displayedcolumnAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyDisplayedColumnDBToDisplayedColumn(displayedcolumnDB: DisplayedColumnDB, displayedcolumn: DisplayedColumn, frontRepo: FrontRepo) {
+export function CopyDisplayedColumnAPIToDisplayedColumn(displayedcolumnAPI: DisplayedColumnAPI, displayedcolumn: DisplayedColumn, frontRepo: FrontRepo) {
 
-	displayedcolumn.CreatedAt = displayedcolumnDB.CreatedAt
-	displayedcolumn.DeletedAt = displayedcolumnDB.DeletedAt
-	displayedcolumn.ID = displayedcolumnDB.ID
+	displayedcolumn.CreatedAt = displayedcolumnAPI.CreatedAt
+	displayedcolumn.DeletedAt = displayedcolumnAPI.DeletedAt
+	displayedcolumn.ID = displayedcolumnAPI.ID
 
 	// insertion point for basic fields copy operations
-	displayedcolumn.Name = displayedcolumnDB.Name
+	displayedcolumn.Name = displayedcolumnAPI.Name
 
 	// insertion point for pointer fields encoding
 

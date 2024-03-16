@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { EllipseDB } from './ellipse-db'
+import { EllipseAPI } from './ellipse-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -35,65 +35,65 @@ export class Ellipse {
 	Animates: Array<Animate> = []
 }
 
-export function CopyEllipseToEllipseDB(ellipse: Ellipse, ellipseDB: EllipseDB) {
+export function CopyEllipseToEllipseAPI(ellipse: Ellipse, ellipseAPI: EllipseAPI) {
 
-	ellipseDB.CreatedAt = ellipse.CreatedAt
-	ellipseDB.DeletedAt = ellipse.DeletedAt
-	ellipseDB.ID = ellipse.ID
+	ellipseAPI.CreatedAt = ellipse.CreatedAt
+	ellipseAPI.DeletedAt = ellipse.DeletedAt
+	ellipseAPI.ID = ellipse.ID
 
 	// insertion point for basic fields copy operations
-	ellipseDB.Name = ellipse.Name
-	ellipseDB.CX = ellipse.CX
-	ellipseDB.CY = ellipse.CY
-	ellipseDB.RX = ellipse.RX
-	ellipseDB.RY = ellipse.RY
-	ellipseDB.Color = ellipse.Color
-	ellipseDB.FillOpacity = ellipse.FillOpacity
-	ellipseDB.Stroke = ellipse.Stroke
-	ellipseDB.StrokeWidth = ellipse.StrokeWidth
-	ellipseDB.StrokeDashArray = ellipse.StrokeDashArray
-	ellipseDB.StrokeDashArrayWhenSelected = ellipse.StrokeDashArrayWhenSelected
-	ellipseDB.Transform = ellipse.Transform
+	ellipseAPI.Name = ellipse.Name
+	ellipseAPI.CX = ellipse.CX
+	ellipseAPI.CY = ellipse.CY
+	ellipseAPI.RX = ellipse.RX
+	ellipseAPI.RY = ellipse.RY
+	ellipseAPI.Color = ellipse.Color
+	ellipseAPI.FillOpacity = ellipse.FillOpacity
+	ellipseAPI.Stroke = ellipse.Stroke
+	ellipseAPI.StrokeWidth = ellipse.StrokeWidth
+	ellipseAPI.StrokeDashArray = ellipse.StrokeDashArray
+	ellipseAPI.StrokeDashArrayWhenSelected = ellipse.StrokeDashArrayWhenSelected
+	ellipseAPI.Transform = ellipse.Transform
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	ellipseDB.EllipsePointersEncoding.Animates = []
+	ellipseAPI.EllipsePointersEncoding.Animates = []
 	for (let _animate of ellipse.Animates) {
-		ellipseDB.EllipsePointersEncoding.Animates.push(_animate.ID)
+		ellipseAPI.EllipsePointersEncoding.Animates.push(_animate.ID)
 	}
 
 }
 
-// CopyEllipseDBToEllipse update basic, pointers and slice of pointers fields of ellipse
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of ellipseDB
+// CopyEllipseAPIToEllipse update basic, pointers and slice of pointers fields of ellipse
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of ellipseAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyEllipseDBToEllipse(ellipseDB: EllipseDB, ellipse: Ellipse, frontRepo: FrontRepo) {
+export function CopyEllipseAPIToEllipse(ellipseAPI: EllipseAPI, ellipse: Ellipse, frontRepo: FrontRepo) {
 
-	ellipse.CreatedAt = ellipseDB.CreatedAt
-	ellipse.DeletedAt = ellipseDB.DeletedAt
-	ellipse.ID = ellipseDB.ID
+	ellipse.CreatedAt = ellipseAPI.CreatedAt
+	ellipse.DeletedAt = ellipseAPI.DeletedAt
+	ellipse.ID = ellipseAPI.ID
 
 	// insertion point for basic fields copy operations
-	ellipse.Name = ellipseDB.Name
-	ellipse.CX = ellipseDB.CX
-	ellipse.CY = ellipseDB.CY
-	ellipse.RX = ellipseDB.RX
-	ellipse.RY = ellipseDB.RY
-	ellipse.Color = ellipseDB.Color
-	ellipse.FillOpacity = ellipseDB.FillOpacity
-	ellipse.Stroke = ellipseDB.Stroke
-	ellipse.StrokeWidth = ellipseDB.StrokeWidth
-	ellipse.StrokeDashArray = ellipseDB.StrokeDashArray
-	ellipse.StrokeDashArrayWhenSelected = ellipseDB.StrokeDashArrayWhenSelected
-	ellipse.Transform = ellipseDB.Transform
+	ellipse.Name = ellipseAPI.Name
+	ellipse.CX = ellipseAPI.CX
+	ellipse.CY = ellipseAPI.CY
+	ellipse.RX = ellipseAPI.RX
+	ellipse.RY = ellipseAPI.RY
+	ellipse.Color = ellipseAPI.Color
+	ellipse.FillOpacity = ellipseAPI.FillOpacity
+	ellipse.Stroke = ellipseAPI.Stroke
+	ellipse.StrokeWidth = ellipseAPI.StrokeWidth
+	ellipse.StrokeDashArray = ellipseAPI.StrokeDashArray
+	ellipse.StrokeDashArrayWhenSelected = ellipseAPI.StrokeDashArrayWhenSelected
+	ellipse.Transform = ellipseAPI.Transform
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 	ellipse.Animates = new Array<Animate>()
-	for (let _id of ellipseDB.EllipsePointersEncoding.Animates) {
+	for (let _id of ellipseAPI.EllipsePointersEncoding.Animates) {
 		let _animate = frontRepo.map_ID_Animate.get(_id)
 		if (_animate != undefined) {
 			ellipse.Animates.push(_animate!)

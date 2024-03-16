@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { PolygoneDB } from './polygone-db'
+import { PolygoneAPI } from './polygone-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -32,59 +32,59 @@ export class Polygone {
 	Animates: Array<Animate> = []
 }
 
-export function CopyPolygoneToPolygoneDB(polygone: Polygone, polygoneDB: PolygoneDB) {
+export function CopyPolygoneToPolygoneAPI(polygone: Polygone, polygoneAPI: PolygoneAPI) {
 
-	polygoneDB.CreatedAt = polygone.CreatedAt
-	polygoneDB.DeletedAt = polygone.DeletedAt
-	polygoneDB.ID = polygone.ID
+	polygoneAPI.CreatedAt = polygone.CreatedAt
+	polygoneAPI.DeletedAt = polygone.DeletedAt
+	polygoneAPI.ID = polygone.ID
 
 	// insertion point for basic fields copy operations
-	polygoneDB.Name = polygone.Name
-	polygoneDB.Points = polygone.Points
-	polygoneDB.Color = polygone.Color
-	polygoneDB.FillOpacity = polygone.FillOpacity
-	polygoneDB.Stroke = polygone.Stroke
-	polygoneDB.StrokeWidth = polygone.StrokeWidth
-	polygoneDB.StrokeDashArray = polygone.StrokeDashArray
-	polygoneDB.StrokeDashArrayWhenSelected = polygone.StrokeDashArrayWhenSelected
-	polygoneDB.Transform = polygone.Transform
+	polygoneAPI.Name = polygone.Name
+	polygoneAPI.Points = polygone.Points
+	polygoneAPI.Color = polygone.Color
+	polygoneAPI.FillOpacity = polygone.FillOpacity
+	polygoneAPI.Stroke = polygone.Stroke
+	polygoneAPI.StrokeWidth = polygone.StrokeWidth
+	polygoneAPI.StrokeDashArray = polygone.StrokeDashArray
+	polygoneAPI.StrokeDashArrayWhenSelected = polygone.StrokeDashArrayWhenSelected
+	polygoneAPI.Transform = polygone.Transform
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	polygoneDB.PolygonePointersEncoding.Animates = []
+	polygoneAPI.PolygonePointersEncoding.Animates = []
 	for (let _animate of polygone.Animates) {
-		polygoneDB.PolygonePointersEncoding.Animates.push(_animate.ID)
+		polygoneAPI.PolygonePointersEncoding.Animates.push(_animate.ID)
 	}
 
 }
 
-// CopyPolygoneDBToPolygone update basic, pointers and slice of pointers fields of polygone
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of polygoneDB
+// CopyPolygoneAPIToPolygone update basic, pointers and slice of pointers fields of polygone
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of polygoneAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyPolygoneDBToPolygone(polygoneDB: PolygoneDB, polygone: Polygone, frontRepo: FrontRepo) {
+export function CopyPolygoneAPIToPolygone(polygoneAPI: PolygoneAPI, polygone: Polygone, frontRepo: FrontRepo) {
 
-	polygone.CreatedAt = polygoneDB.CreatedAt
-	polygone.DeletedAt = polygoneDB.DeletedAt
-	polygone.ID = polygoneDB.ID
+	polygone.CreatedAt = polygoneAPI.CreatedAt
+	polygone.DeletedAt = polygoneAPI.DeletedAt
+	polygone.ID = polygoneAPI.ID
 
 	// insertion point for basic fields copy operations
-	polygone.Name = polygoneDB.Name
-	polygone.Points = polygoneDB.Points
-	polygone.Color = polygoneDB.Color
-	polygone.FillOpacity = polygoneDB.FillOpacity
-	polygone.Stroke = polygoneDB.Stroke
-	polygone.StrokeWidth = polygoneDB.StrokeWidth
-	polygone.StrokeDashArray = polygoneDB.StrokeDashArray
-	polygone.StrokeDashArrayWhenSelected = polygoneDB.StrokeDashArrayWhenSelected
-	polygone.Transform = polygoneDB.Transform
+	polygone.Name = polygoneAPI.Name
+	polygone.Points = polygoneAPI.Points
+	polygone.Color = polygoneAPI.Color
+	polygone.FillOpacity = polygoneAPI.FillOpacity
+	polygone.Stroke = polygoneAPI.Stroke
+	polygone.StrokeWidth = polygoneAPI.StrokeWidth
+	polygone.StrokeDashArray = polygoneAPI.StrokeDashArray
+	polygone.StrokeDashArrayWhenSelected = polygoneAPI.StrokeDashArrayWhenSelected
+	polygone.Transform = polygoneAPI.Transform
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 	polygone.Animates = new Array<Animate>()
-	for (let _id of polygoneDB.PolygonePointersEncoding.Animates) {
+	for (let _id of polygoneAPI.PolygonePointersEncoding.Animates) {
 		let _animate = frontRepo.map_ID_Animate.get(_id)
 		if (_animate != undefined) {
 			polygone.Animates.push(_animate!)

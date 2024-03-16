@@ -38,6 +38,7 @@ type RectAnchoredRectAPI struct {
 	models.RectAnchoredRect_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	RectAnchoredRectPointersEncoding RectAnchoredRectPointersEncoding
 }
 
@@ -113,7 +114,9 @@ type RectAnchoredRectDB struct {
 
 	// Declation for basic field rectanchoredrectDB.Transform
 	Transform_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	RectAnchoredRectPointersEncoding
 }
 

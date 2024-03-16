@@ -38,6 +38,7 @@ type FormEditAssocButtonAPI struct {
 	models.FormEditAssocButton_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	FormEditAssocButtonPointersEncoding FormEditAssocButtonPointersEncoding
 }
 
@@ -63,7 +64,9 @@ type FormEditAssocButtonDB struct {
 
 	// Declation for basic field formeditassocbuttonDB.Label
 	Label_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormEditAssocButtonPointersEncoding
 }
 

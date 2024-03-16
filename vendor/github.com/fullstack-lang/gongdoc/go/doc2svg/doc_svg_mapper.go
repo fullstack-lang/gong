@@ -5,7 +5,6 @@ import (
 
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
 	gongsvg_models "github.com/fullstack-lang/gongsvg/go/models"
-	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 )
 
 type DocSVGMapper struct {
@@ -15,16 +14,13 @@ type DocSVGMapper struct {
 	map_Structname_Rect      map[string]*gongsvg_models.Rect
 	map_Fieldname_Link       map[string]*gongsvg_models.Link
 
-	gongtreeStage *gongtree_models.StageStruct
-	gongsvgStage  *gongsvg_models.StageStruct
+	gongsvgStage *gongsvg_models.StageStruct
 }
 
 func NewDocSVGMapper(
-	gongtreeStage *gongtree_models.StageStruct,
 	gongsvgStage *gongsvg_models.StageStruct) (docSVGMapper *DocSVGMapper) {
 
 	docSVGMapper = new(DocSVGMapper)
-	docSVGMapper.gongtreeStage = gongtreeStage
 	docSVGMapper.gongsvgStage = gongsvgStage
 
 	return
@@ -52,8 +48,10 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 	for diagramPackage = range *gongdoc_models.GetGongstructInstancesSet[gongdoc_models.DiagramPackage](gongdocStage) {
 
 		selectedDiagram = diagramPackage.SelectedClassdiagram
+
+		// if no class diagram is selected generate a blank diagram
 		if selectedDiagram == nil {
-			return
+			selectedDiagram = new(gongdoc_models.Classdiagram)
 		}
 	}
 	if diagramPackage == nil {

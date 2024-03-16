@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { PathDB } from './path-db'
+import { PathAPI } from './path-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -32,59 +32,59 @@ export class Path {
 	Animates: Array<Animate> = []
 }
 
-export function CopyPathToPathDB(path: Path, pathDB: PathDB) {
+export function CopyPathToPathAPI(path: Path, pathAPI: PathAPI) {
 
-	pathDB.CreatedAt = path.CreatedAt
-	pathDB.DeletedAt = path.DeletedAt
-	pathDB.ID = path.ID
+	pathAPI.CreatedAt = path.CreatedAt
+	pathAPI.DeletedAt = path.DeletedAt
+	pathAPI.ID = path.ID
 
 	// insertion point for basic fields copy operations
-	pathDB.Name = path.Name
-	pathDB.Definition = path.Definition
-	pathDB.Color = path.Color
-	pathDB.FillOpacity = path.FillOpacity
-	pathDB.Stroke = path.Stroke
-	pathDB.StrokeWidth = path.StrokeWidth
-	pathDB.StrokeDashArray = path.StrokeDashArray
-	pathDB.StrokeDashArrayWhenSelected = path.StrokeDashArrayWhenSelected
-	pathDB.Transform = path.Transform
+	pathAPI.Name = path.Name
+	pathAPI.Definition = path.Definition
+	pathAPI.Color = path.Color
+	pathAPI.FillOpacity = path.FillOpacity
+	pathAPI.Stroke = path.Stroke
+	pathAPI.StrokeWidth = path.StrokeWidth
+	pathAPI.StrokeDashArray = path.StrokeDashArray
+	pathAPI.StrokeDashArrayWhenSelected = path.StrokeDashArrayWhenSelected
+	pathAPI.Transform = path.Transform
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	pathDB.PathPointersEncoding.Animates = []
+	pathAPI.PathPointersEncoding.Animates = []
 	for (let _animate of path.Animates) {
-		pathDB.PathPointersEncoding.Animates.push(_animate.ID)
+		pathAPI.PathPointersEncoding.Animates.push(_animate.ID)
 	}
 
 }
 
-// CopyPathDBToPath update basic, pointers and slice of pointers fields of path
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of pathDB
+// CopyPathAPIToPath update basic, pointers and slice of pointers fields of path
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of pathAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyPathDBToPath(pathDB: PathDB, path: Path, frontRepo: FrontRepo) {
+export function CopyPathAPIToPath(pathAPI: PathAPI, path: Path, frontRepo: FrontRepo) {
 
-	path.CreatedAt = pathDB.CreatedAt
-	path.DeletedAt = pathDB.DeletedAt
-	path.ID = pathDB.ID
+	path.CreatedAt = pathAPI.CreatedAt
+	path.DeletedAt = pathAPI.DeletedAt
+	path.ID = pathAPI.ID
 
 	// insertion point for basic fields copy operations
-	path.Name = pathDB.Name
-	path.Definition = pathDB.Definition
-	path.Color = pathDB.Color
-	path.FillOpacity = pathDB.FillOpacity
-	path.Stroke = pathDB.Stroke
-	path.StrokeWidth = pathDB.StrokeWidth
-	path.StrokeDashArray = pathDB.StrokeDashArray
-	path.StrokeDashArrayWhenSelected = pathDB.StrokeDashArrayWhenSelected
-	path.Transform = pathDB.Transform
+	path.Name = pathAPI.Name
+	path.Definition = pathAPI.Definition
+	path.Color = pathAPI.Color
+	path.FillOpacity = pathAPI.FillOpacity
+	path.Stroke = pathAPI.Stroke
+	path.StrokeWidth = pathAPI.StrokeWidth
+	path.StrokeDashArray = pathAPI.StrokeDashArray
+	path.StrokeDashArrayWhenSelected = pathAPI.StrokeDashArrayWhenSelected
+	path.Transform = pathAPI.Transform
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 	path.Animates = new Array<Animate>()
-	for (let _id of pathDB.PathPointersEncoding.Animates) {
+	for (let _id of pathAPI.PathPointersEncoding.Animates) {
 		let _animate = frontRepo.map_ID_Animate.get(_id)
 		if (_animate != undefined) {
 			path.Animates.push(_animate!)

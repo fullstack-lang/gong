@@ -11,13 +11,13 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { FormFieldSelectDB } from './formfieldselect-db'
-import { FormFieldSelect, CopyFormFieldSelectToFormFieldSelectDB } from './formfieldselect'
+import { FormFieldSelectAPI } from './formfieldselect-api'
+import { FormFieldSelect, CopyFormFieldSelectToFormFieldSelectAPI } from './formfieldselect'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { OptionDB } from './option-db'
+import { OptionAPI } from './option-api'
 
 @Injectable({
   providedIn: 'root'
@@ -47,41 +47,41 @@ export class FormFieldSelectService {
 
   /** GET formfieldselects from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI[]> {
     return this.getFormFieldSelects(GONG__StackPath, frontRepo)
   }
-  getFormFieldSelects(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectDB[]> {
+  getFormFieldSelects(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<FormFieldSelectDB[]>(this.formfieldselectsUrl, { params: params })
+    return this.http.get<FormFieldSelectAPI[]>(this.formfieldselectsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<FormFieldSelectDB[]>('getFormFieldSelects', []))
+        catchError(this.handleError<FormFieldSelectAPI[]>('getFormFieldSelects', []))
       );
   }
 
   /** GET formfieldselect by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI> {
     return this.getFormFieldSelect(id, GONG__StackPath, frontRepo)
   }
-  getFormFieldSelect(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectDB> {
+  getFormFieldSelect(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.formfieldselectsUrl}/${id}`;
-    return this.http.get<FormFieldSelectDB>(url, { params: params }).pipe(
+    return this.http.get<FormFieldSelectAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched formfieldselect id=${id}`)),
-      catchError(this.handleError<FormFieldSelectDB>(`getFormFieldSelect id=${id}`))
+      catchError(this.handleError<FormFieldSelectAPI>(`getFormFieldSelect id=${id}`))
     );
   }
 
   // postFront copy formfieldselect to a version with encoded pointers and post to the back
-  postFront(formfieldselect: FormFieldSelect, GONG__StackPath: string): Observable<FormFieldSelectDB> {
-    let formfieldselectDB = new FormFieldSelectDB
-    CopyFormFieldSelectToFormFieldSelectDB(formfieldselect, formfieldselectDB)
-    const id = typeof formfieldselectDB === 'number' ? formfieldselectDB : formfieldselectDB.ID
+  postFront(formfieldselect: FormFieldSelect, GONG__StackPath: string): Observable<FormFieldSelectAPI> {
+    let formfieldselectAPI = new FormFieldSelectAPI
+    CopyFormFieldSelectToFormFieldSelectAPI(formfieldselect, formfieldselectAPI)
+    const id = typeof formfieldselectAPI === 'number' ? formfieldselectAPI : formfieldselectAPI.ID
     const url = `${this.formfieldselectsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -89,18 +89,18 @@ export class FormFieldSelectService {
       params: params
     }
 
-    return this.http.post<FormFieldSelectDB>(url, formfieldselectDB, httpOptions).pipe(
+    return this.http.post<FormFieldSelectAPI>(url, formfieldselectAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<FormFieldSelectDB>('postFormFieldSelect'))
+      catchError(this.handleError<FormFieldSelectAPI>('postFormFieldSelect'))
     );
   }
   
   /** POST: add a new formfieldselect to the server */
-  post(formfieldselectdb: FormFieldSelectDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectDB> {
+  post(formfieldselectdb: FormFieldSelectAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI> {
     return this.postFormFieldSelect(formfieldselectdb, GONG__StackPath, frontRepo)
   }
-  postFormFieldSelect(formfieldselectdb: FormFieldSelectDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectDB> {
+  postFormFieldSelect(formfieldselectdb: FormFieldSelectAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -108,19 +108,19 @@ export class FormFieldSelectService {
       params: params
     }
 
-    return this.http.post<FormFieldSelectDB>(this.formfieldselectsUrl, formfieldselectdb, httpOptions).pipe(
+    return this.http.post<FormFieldSelectAPI>(this.formfieldselectsUrl, formfieldselectdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted formfieldselectdb id=${formfieldselectdb.ID}`)
       }),
-      catchError(this.handleError<FormFieldSelectDB>('postFormFieldSelect'))
+      catchError(this.handleError<FormFieldSelectAPI>('postFormFieldSelect'))
     );
   }
 
   /** DELETE: delete the formfieldselectdb from the server */
-  delete(formfieldselectdb: FormFieldSelectDB | number, GONG__StackPath: string): Observable<FormFieldSelectDB> {
+  delete(formfieldselectdb: FormFieldSelectAPI | number, GONG__StackPath: string): Observable<FormFieldSelectAPI> {
     return this.deleteFormFieldSelect(formfieldselectdb, GONG__StackPath)
   }
-  deleteFormFieldSelect(formfieldselectdb: FormFieldSelectDB | number, GONG__StackPath: string): Observable<FormFieldSelectDB> {
+  deleteFormFieldSelect(formfieldselectdb: FormFieldSelectAPI | number, GONG__StackPath: string): Observable<FormFieldSelectAPI> {
     const id = typeof formfieldselectdb === 'number' ? formfieldselectdb : formfieldselectdb.ID;
     const url = `${this.formfieldselectsUrl}/${id}`;
 
@@ -130,17 +130,17 @@ export class FormFieldSelectService {
       params: params
     };
 
-    return this.http.delete<FormFieldSelectDB>(url, httpOptions).pipe(
+    return this.http.delete<FormFieldSelectAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted formfieldselectdb id=${id}`)),
-      catchError(this.handleError<FormFieldSelectDB>('deleteFormFieldSelect'))
+      catchError(this.handleError<FormFieldSelectAPI>('deleteFormFieldSelect'))
     );
   }
 
   // updateFront copy formfieldselect to a version with encoded pointers and update to the back
-  updateFront(formfieldselect: FormFieldSelect, GONG__StackPath: string): Observable<FormFieldSelectDB> {
-    let formfieldselectDB = new FormFieldSelectDB
-    CopyFormFieldSelectToFormFieldSelectDB(formfieldselect, formfieldselectDB)
-    const id = typeof formfieldselectDB === 'number' ? formfieldselectDB : formfieldselectDB.ID
+  updateFront(formfieldselect: FormFieldSelect, GONG__StackPath: string): Observable<FormFieldSelectAPI> {
+    let formfieldselectAPI = new FormFieldSelectAPI
+    CopyFormFieldSelectToFormFieldSelectAPI(formfieldselect, formfieldselectAPI)
+    const id = typeof formfieldselectAPI === 'number' ? formfieldselectAPI : formfieldselectAPI.ID
     const url = `${this.formfieldselectsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,18 +148,18 @@ export class FormFieldSelectService {
       params: params
     }
 
-    return this.http.put<FormFieldSelectDB>(url, formfieldselectDB, httpOptions).pipe(
+    return this.http.put<FormFieldSelectAPI>(url, formfieldselectAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<FormFieldSelectDB>('updateFormFieldSelect'))
+      catchError(this.handleError<FormFieldSelectAPI>('updateFormFieldSelect'))
     );
   }
 
   /** PUT: update the formfieldselectdb on the server */
-  update(formfieldselectdb: FormFieldSelectDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectDB> {
+  update(formfieldselectdb: FormFieldSelectAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI> {
     return this.updateFormFieldSelect(formfieldselectdb, GONG__StackPath, frontRepo)
   }
-  updateFormFieldSelect(formfieldselectdb: FormFieldSelectDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectDB> {
+  updateFormFieldSelect(formfieldselectdb: FormFieldSelectAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI> {
     const id = typeof formfieldselectdb === 'number' ? formfieldselectdb : formfieldselectdb.ID;
     const url = `${this.formfieldselectsUrl}/${id}`;
 
@@ -170,11 +170,11 @@ export class FormFieldSelectService {
       params: params
     };
 
-    return this.http.put<FormFieldSelectDB>(url, formfieldselectdb, httpOptions).pipe(
+    return this.http.put<FormFieldSelectAPI>(url, formfieldselectdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated formfieldselectdb id=${formfieldselectdb.ID}`)
       }),
-      catchError(this.handleError<FormFieldSelectDB>('updateFormFieldSelect'))
+      catchError(this.handleError<FormFieldSelectAPI>('updateFormFieldSelect'))
     );
   }
 
