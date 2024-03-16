@@ -37,6 +37,10 @@ map[ModelGongWopStructInsertionId]string{
 type {{Structname}}_WOP struct {
 	// insertion point{{FieldCode}}
 }
+
+func (from *{{Structname}}) CopyBasicFields(to *{{Structname}}) {
+	// insertion point{{FieldsCopyCode}}
+}
 `,
 }
 
@@ -47,6 +51,7 @@ const (
 	GongWopEnumFieldDecl
 	GongWopTimeFieldDecl
 	GongWopDurationFieldDecl
+	GongWopBasicFieldCopy
 )
 
 var GongWopSubSubTemplate map[GongWopSubSubTemplateInsertionsId]string = // new line
@@ -63,6 +68,9 @@ map[GongWopSubSubTemplateInsertionsId]string{
 
 	GongWopDurationFieldDecl: `
 	{{FieldName}} time.Duration`,
+
+	GongWopBasicFieldCopy: `
+	to.{{FieldName}} = from.{{FieldName}}`,
 }
 
 func CodeGeneratorModelGongWop(
@@ -96,11 +104,16 @@ func CodeGeneratorModelGongWop(
 		for subStructTemplate := range ModelGongWopStructSubTemplateCode {
 
 			fieldCode := ""
+			fieldCopyCode := ""
 
 			for _, field := range gongStruct.Fields {
 
 				switch field := field.(type) {
+
 				case *models.GongBasicField:
+					fieldCopyCode += models.Replace1(
+						GongWopSubSubTemplate[GongWopBasicFieldCopy],
+						"{{FieldName}}", field.Name)
 					if field.GongEnum == nil {
 						if field.DeclaredType == "time.Duration" {
 							fieldCode += models.Replace1(
@@ -121,6 +134,9 @@ func CodeGeneratorModelGongWop(
 					}
 
 				case *models.GongTimeField:
+					fieldCopyCode += models.Replace1(
+						GongWopSubSubTemplate[GongWopBasicFieldCopy],
+						"{{FieldName}}", field.Name)
 					fieldCode += models.Replace1(
 						GongWopSubSubTemplate[GongWopTimeFieldDecl],
 						"{{FieldName}}", field.Name)
@@ -135,10 +151,12 @@ func CodeGeneratorModelGongWop(
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			generatedCodeFromSubTemplate := models.Replace3(ModelGongWopStructSubTemplateCode[subStructTemplate],
+			generatedCodeFromSubTemplate := models.Replace4(ModelGongWopStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
-				"{{FieldCode}}", fieldCode)
+				"{{FieldCode}}", fieldCode,
+				"{{FieldsCopyCode}}", fieldCopyCode,
+			)
 
 			subStructCodes[subStructTemplate] += generatedCodeFromSubTemplate
 		}

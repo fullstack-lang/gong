@@ -32,14 +32,49 @@ type Astruct_WOP struct {
 	TextArea string
 }
 
+func (from *Astruct) CopyBasicFields(to *Astruct) {
+	// insertion point
+	to.Name = from.Name
+	to.Date = from.Date
+	to.Booleanfield = from.Booleanfield
+	to.Aenum = from.Aenum
+	to.Aenum_2 = from.Aenum_2
+	to.Benum = from.Benum
+	to.CEnum = from.CEnum
+	to.CName = from.CName
+	to.CFloatfield = from.CFloatfield
+	to.Floatfield = from.Floatfield
+	to.Intfield = from.Intfield
+	to.Anotherbooleanfield = from.Anotherbooleanfield
+	to.Duration1 = from.Duration1
+	to.StructRef = from.StructRef
+	to.FieldRef = from.FieldRef
+	to.EnumIntRef = from.EnumIntRef
+	to.EnumStringRef = from.EnumStringRef
+	to.EnumValue = from.EnumValue
+	to.ConstIdentifierValue = from.ConstIdentifierValue
+	to.TextFieldBespokeSize = from.TextFieldBespokeSize
+	to.TextArea = from.TextArea
+}
+
 type AstructBstruct2Use_WOP struct {
 	// insertion point
 	Name string
 }
 
+func (from *AstructBstruct2Use) CopyBasicFields(to *AstructBstruct2Use) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type AstructBstructUse_WOP struct {
 	// insertion point
 	Name string
+}
+
+func (from *AstructBstructUse) CopyBasicFields(to *AstructBstructUse) {
+	// insertion point
+	to.Name = from.Name
 }
 
 type Bstruct_WOP struct {
@@ -50,13 +85,31 @@ type Bstruct_WOP struct {
 	Intfield int
 }
 
+func (from *Bstruct) CopyBasicFields(to *Bstruct) {
+	// insertion point
+	to.Name = from.Name
+	to.Floatfield = from.Floatfield
+	to.Floatfield2 = from.Floatfield2
+	to.Intfield = from.Intfield
+}
+
 type Dstruct_WOP struct {
 	// insertion point
 	Name string
 }
 
+func (from *Dstruct) CopyBasicFields(to *Dstruct) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type Fstruct_WOP struct {
 	// insertion point
 	Name string
+}
+
+func (from *Fstruct) CopyBasicFields(to *Fstruct) {
+	// insertion point
+	to.Name = from.Name
 }
 
