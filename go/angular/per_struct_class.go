@@ -14,7 +14,7 @@ import (
 
 const NgClassTmpl = `// generated code - do not edit
 
-import { {{Structname}}DB } from './{{structname}}-db'
+import { {{Structname}}API } from './{{structname}}-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports{{` + string(rune(NgClassTsInsertionPerStructImports)) + `}}
@@ -35,34 +35,34 @@ export class {{Structname}} {
 	// insertion point for pointers and slices of pointers declarations{{` + string(rune(NgClassTsInsertionPerStructOtherDecls)) + `}}
 }
 
-export function Copy{{Structname}}To{{Structname}}DB({{structname}}: {{Structname}}, {{structname}}DB: {{Structname}}DB) {
+export function Copy{{Structname}}To{{Structname}}API({{structname}}: {{Structname}}, {{structname}}API: {{Structname}}API) {
 
-	{{structname}}DB.CreatedAt = {{structname}}.CreatedAt
-	{{structname}}DB.DeletedAt = {{structname}}.DeletedAt
-	{{structname}}DB.ID = {{structname}}.ID
+	{{structname}}API.CreatedAt = {{structname}}.CreatedAt
+	{{structname}}API.DeletedAt = {{structname}}.DeletedAt
+	{{structname}}API.ID = {{structname}}.ID
 
-	// insertion point for basic fields copy operations{{` + string(rune(NgClassTsInsertionPerStructBasicFieldsCopyToDB)) + `}}
+	// insertion point for basic fields copy operations{{` + string(rune(NgClassTsInsertionPerStructBasicFieldsCopyToAPI)) + `}}
 
-	// insertion point for pointer fields encoding{{` + string(rune(NgClassTsInsertionPerStructPointerFieldsCopyToDB)) + `}}
+	// insertion point for pointer fields encoding{{` + string(rune(NgClassTsInsertionPerStructPointerFieldsCopyToAPI)) + `}}
 
-	// insertion point for slice of pointers fields encoding{{` + string(rune(NgClassTsInsertionPerStructSliceOfPointersFieldsCopyToDB)) + `}}
+	// insertion point for slice of pointers fields encoding{{` + string(rune(NgClassTsInsertionPerStructSliceOfPointersFieldsCopyToAPI)) + `}}
 }
 
-// Copy{{Structname}}DBTo{{Structname}} update basic, pointers and slice of pointers fields of {{structname}}
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of {{structname}}DB
+// Copy{{Structname}}APITo{{Structname}} update basic, pointers and slice of pointers fields of {{structname}}
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of {{structname}}API
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function Copy{{Structname}}DBTo{{Structname}}({{structname}}DB: {{Structname}}DB, {{structname}}: {{Structname}}, frontRepo: FrontRepo) {
+export function Copy{{Structname}}APITo{{Structname}}({{structname}}API: {{Structname}}API, {{structname}}: {{Structname}}, frontRepo: FrontRepo) {
 
-	{{structname}}.CreatedAt = {{structname}}DB.CreatedAt
-	{{structname}}.DeletedAt = {{structname}}DB.DeletedAt
-	{{structname}}.ID = {{structname}}DB.ID
+	{{structname}}.CreatedAt = {{structname}}API.CreatedAt
+	{{structname}}.DeletedAt = {{structname}}API.DeletedAt
+	{{structname}}.ID = {{structname}}API.ID
 
-	// insertion point for basic fields copy operations{{` + string(rune(NgClassTsInsertionPerStructBasicFieldsCopyFromDB)) + `}}
+	// insertion point for basic fields copy operations{{` + string(rune(NgClassTsInsertionPerStructBasicFieldsCopyFromAPI)) + `}}
 
-	// insertion point for pointer fields encoding{{` + string(rune(NgClassTsInsertionPerStructPointerFieldsCopyFromDB)) + `}}
+	// insertion point for pointer fields encoding{{` + string(rune(NgClassTsInsertionPerStructPointerFieldsCopyFromAPI)) + `}}
 
-	// insertion point for slice of pointers fields encoding{{` + string(rune(NgClassTsInsertionPerStructSliceOfPointersFieldsCopyFromDB)) + `}}
+	// insertion point for slice of pointers fields encoding{{` + string(rune(NgClassTsInsertionPerStructSliceOfPointersFieldsCopyFromAPI)) + `}}
 }
 `
 
@@ -73,12 +73,12 @@ type NgClassTsInsertionPoint int
 const (
 	NgClassTsInsertionPerStructImports NgClassTsInsertionPoint = iota
 	NgClassTsInsertionPerStructBasicFieldsDecl
-	NgClassTsInsertionPerStructBasicFieldsCopyToDB
-	NgClassTsInsertionPerStructPointerFieldsCopyToDB
-	NgClassTsInsertionPerStructSliceOfPointersFieldsCopyToDB
-	NgClassTsInsertionPerStructBasicFieldsCopyFromDB
-	NgClassTsInsertionPerStructPointerFieldsCopyFromDB
-	NgClassTsInsertionPerStructSliceOfPointersFieldsCopyFromDB
+	NgClassTsInsertionPerStructBasicFieldsCopyToAPI
+	NgClassTsInsertionPerStructPointerFieldsCopyToAPI
+	NgClassTsInsertionPerStructSliceOfPointersFieldsCopyToAPI
+	NgClassTsInsertionPerStructBasicFieldsCopyFromAPI
+	NgClassTsInsertionPerStructPointerFieldsCopyFromAPI
+	NgClassTsInsertionPerStructSliceOfPointersFieldsCopyFromAPI
 	NgClassTsInsertionPerStructOtherDecls
 	NgClassTsInsertionsNb
 )
@@ -90,17 +90,17 @@ const (
 
 	NgClassTSBasicFieldDecls
 
-	NgClassTSBasicFieldCopyToDB
+	NgClassTSBasicFieldCopyToAPI
 
-	NgClassTSPointerFieldCopyToDB
+	NgClassTSPointerFieldCopyToAPI
 
-	NgClassTSSliceOfPointersFieldCopyToDB
+	NgClassTSSliceOfPointersFieldCopyToAPI
 
-	NgClassTSBasicFieldCopyFromDB
+	NgClassTSBasicFieldCopyFromAPI
 
-	NgClassTSPointerFieldCopyFromDB
+	NgClassTSPointerFieldCopyFromAPI
 
-	NgClassTSSliceOfPointersFieldCopyFromDB
+	NgClassTSSliceOfPointersFieldCopyFromAPI
 
 	NgClassTSTimeFieldDecls
 
@@ -123,34 +123,34 @@ import { {{AssocStructName}} } from './{{assocStructName}}'`,
 	NgClassTSBasicFieldDecls: `
 	{{FieldName}}: {{TypeInput}} = {{NullValue}}`,
 
-	NgClassTSBasicFieldCopyToDB: `
-	{{structname}}DB.{{FieldName}} = {{structname}}.{{FieldName}}`,
+	NgClassTSBasicFieldCopyToAPI: `
+	{{structname}}API.{{FieldName}} = {{structname}}.{{FieldName}}`,
 
-	NgClassTSPointerFieldCopyToDB: `
-	{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Valid = true
+	NgClassTSPointerFieldCopyToAPI: `
+	{{structname}}API.{{Structname}}PointersEncoding.{{FieldName}}ID.Valid = true
 	if ({{structname}}.{{FieldName}} != undefined) {
-		{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64 = {{structname}}.{{FieldName}}.ID  
+		{{structname}}API.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64 = {{structname}}.{{FieldName}}.ID  
 	} else {
-		{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64 = 0 		
+		{{structname}}API.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64 = 0 		
 	}
 `,
 
-	NgClassTSSliceOfPointersFieldCopyToDB: `
-	{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}} = []
+	NgClassTSSliceOfPointersFieldCopyToAPI: `
+	{{structname}}API.{{Structname}}PointersEncoding.{{FieldName}} = []
 	for (let _{{assocStructName}} of {{structname}}.{{FieldName}}) {
-		{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}.push(_{{assocStructName}}.ID)
+		{{structname}}API.{{Structname}}PointersEncoding.{{FieldName}}.push(_{{assocStructName}}.ID)
 	}
 `,
 
-	NgClassTSBasicFieldCopyFromDB: `
-	{{structname}}.{{FieldName}} = {{structname}}DB.{{FieldName}}`,
+	NgClassTSBasicFieldCopyFromAPI: `
+	{{structname}}.{{FieldName}} = {{structname}}API.{{FieldName}}`,
 
-	NgClassTSPointerFieldCopyFromDB: `
-	{{structname}}.{{FieldName}} = frontRepo.map_ID_{{AssocStructName}}.get({{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64)`,
+	NgClassTSPointerFieldCopyFromAPI: `
+	{{structname}}.{{FieldName}} = frontRepo.map_ID_{{AssocStructName}}.get({{structname}}API.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64)`,
 
-	NgClassTSSliceOfPointersFieldCopyFromDB: `
+	NgClassTSSliceOfPointersFieldCopyFromAPI: `
 	{{structname}}.{{FieldName}} = new Array<{{AssocStructName}}>()
-	for (let _id of {{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}) {
+	for (let _id of {{structname}}API.{{Structname}}PointersEncoding.{{FieldName}}) {
 		let _{{assocStructName}} = frontRepo.map_ID_{{AssocStructName}}.get(_id)
 		if (_{{assocStructName}} != undefined) {
 			{{structname}}.{{FieldName}}.push(_{{assocStructName}}!)
@@ -230,13 +230,13 @@ func MultiCodeGeneratorNgClass(modelPkg *models.ModelPkg) {
 					"{{NullValue}}", nullValue,
 				)
 
-				TSinsertions[NgClassTsInsertionPerStructBasicFieldsCopyToDB] += models.Replace1(
-					NgClassSubTemplateCode[NgClassTSBasicFieldCopyToDB],
+				TSinsertions[NgClassTsInsertionPerStructBasicFieldsCopyToAPI] += models.Replace1(
+					NgClassSubTemplateCode[NgClassTSBasicFieldCopyToAPI],
 					"{{FieldName}}", field.Name,
 				)
 
-				TSinsertions[NgClassTsInsertionPerStructBasicFieldsCopyFromDB] += models.Replace1(
-					NgClassSubTemplateCode[NgClassTSBasicFieldCopyFromDB],
+				TSinsertions[NgClassTsInsertionPerStructBasicFieldsCopyFromAPI] += models.Replace1(
+					NgClassSubTemplateCode[NgClassTSBasicFieldCopyFromAPI],
 					"{{FieldName}}", field.Name,
 				)
 
@@ -275,13 +275,13 @@ func MultiCodeGeneratorNgClass(modelPkg *models.ModelPkg) {
 						"{{FieldName}}", field.Name,
 						"{{TypeInput}}", field.GongStruct.Name)
 
-				TSinsertions[NgClassTsInsertionPerStructPointerFieldsCopyToDB] +=
-					models.Replace2(NgClassSubTemplateCode[NgClassTSPointerFieldCopyToDB],
+				TSinsertions[NgClassTsInsertionPerStructPointerFieldsCopyToAPI] +=
+					models.Replace2(NgClassSubTemplateCode[NgClassTSPointerFieldCopyToAPI],
 						"{{FieldName}}", field.Name,
 						"{{TypeInput}}", field.GongStruct.Name)
 
-				TSinsertions[NgClassTsInsertionPerStructPointerFieldsCopyFromDB] +=
-					models.Replace3(NgClassSubTemplateCode[NgClassTSPointerFieldCopyFromDB],
+				TSinsertions[NgClassTsInsertionPerStructPointerFieldsCopyFromAPI] +=
+					models.Replace3(NgClassSubTemplateCode[NgClassTSPointerFieldCopyFromAPI],
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{FieldName}}", field.Name,
 						"{{TypeInput}}", field.GongStruct.Name)
@@ -303,14 +303,14 @@ func MultiCodeGeneratorNgClass(modelPkg *models.ModelPkg) {
 						"{{FieldName}}", field.Name,
 						"{{TypeInput}}", field.GongStruct.Name)
 
-				TSinsertions[NgClassTsInsertionPerStructSliceOfPointersFieldsCopyToDB] +=
-					models.Replace3(NgClassSubTemplateCode[NgClassTSSliceOfPointersFieldCopyToDB],
+				TSinsertions[NgClassTsInsertionPerStructSliceOfPointersFieldsCopyToAPI] +=
+					models.Replace3(NgClassSubTemplateCode[NgClassTSSliceOfPointersFieldCopyToAPI],
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocStructName}}", strings.ToLower(field.GongStruct.Name),
 						"{{FieldName}}", field.Name)
 
-				TSinsertions[NgClassTsInsertionPerStructSliceOfPointersFieldsCopyFromDB] +=
-					models.Replace3(NgClassSubTemplateCode[NgClassTSSliceOfPointersFieldCopyFromDB],
+				TSinsertions[NgClassTsInsertionPerStructSliceOfPointersFieldsCopyFromAPI] +=
+					models.Replace3(NgClassSubTemplateCode[NgClassTSSliceOfPointersFieldCopyFromAPI],
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocStructName}}", strings.ToLower(field.GongStruct.Name),
 						"{{FieldName}}", field.Name)

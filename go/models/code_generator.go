@@ -107,6 +107,9 @@ func CodeGenerator(
 			!_struct.HasOnAfterUpdateSignature {
 			continue
 		}
+		if strings.HasSuffix(generatedFilePath, ".ts") && _struct.IsIgnoredForFront {
+			continue
+		}
 		structList = append(structList, _struct)
 	}
 	sort.Slice(structList[:], func(i, j int) bool {

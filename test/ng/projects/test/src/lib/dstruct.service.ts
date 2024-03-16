@@ -11,13 +11,13 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { DstructDB } from './dstruct-db'
-import { Dstruct, CopyDstructToDstructDB } from './dstruct'
+import { DstructAPI } from './dstruct-api'
+import { Dstruct, CopyDstructToDstructAPI } from './dstruct'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { BstructDB } from './bstruct-db'
+import { BstructAPI } from './bstruct-api'
 
 @Injectable({
   providedIn: 'root'
@@ -47,41 +47,41 @@ export class DstructService {
 
   /** GET dstructs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructAPI[]> {
     return this.getDstructs(GONG__StackPath, frontRepo)
   }
-  getDstructs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructDB[]> {
+  getDstructs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<DstructDB[]>(this.dstructsUrl, { params: params })
+    return this.http.get<DstructAPI[]>(this.dstructsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<DstructDB[]>('getDstructs', []))
+        catchError(this.handleError<DstructAPI[]>('getDstructs', []))
       );
   }
 
   /** GET dstruct by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructAPI> {
     return this.getDstruct(id, GONG__StackPath, frontRepo)
   }
-  getDstruct(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructDB> {
+  getDstruct(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.dstructsUrl}/${id}`;
-    return this.http.get<DstructDB>(url, { params: params }).pipe(
+    return this.http.get<DstructAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched dstruct id=${id}`)),
-      catchError(this.handleError<DstructDB>(`getDstruct id=${id}`))
+      catchError(this.handleError<DstructAPI>(`getDstruct id=${id}`))
     );
   }
 
   // postFront copy dstruct to a version with encoded pointers and post to the back
-  postFront(dstruct: Dstruct, GONG__StackPath: string): Observable<DstructDB> {
-    let dstructDB = new DstructDB
-    CopyDstructToDstructDB(dstruct, dstructDB)
-    const id = typeof dstructDB === 'number' ? dstructDB : dstructDB.ID
+  postFront(dstruct: Dstruct, GONG__StackPath: string): Observable<DstructAPI> {
+    let dstructAPI = new DstructAPI
+    CopyDstructToDstructAPI(dstruct, dstructAPI)
+    const id = typeof dstructAPI === 'number' ? dstructAPI : dstructAPI.ID
     const url = `${this.dstructsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -89,18 +89,18 @@ export class DstructService {
       params: params
     }
 
-    return this.http.post<DstructDB>(url, dstructDB, httpOptions).pipe(
+    return this.http.post<DstructAPI>(url, dstructAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<DstructDB>('postDstruct'))
+      catchError(this.handleError<DstructAPI>('postDstruct'))
     );
   }
   
   /** POST: add a new dstruct to the server */
-  post(dstructdb: DstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructDB> {
+  post(dstructdb: DstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructAPI> {
     return this.postDstruct(dstructdb, GONG__StackPath, frontRepo)
   }
-  postDstruct(dstructdb: DstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructDB> {
+  postDstruct(dstructdb: DstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -108,19 +108,19 @@ export class DstructService {
       params: params
     }
 
-    return this.http.post<DstructDB>(this.dstructsUrl, dstructdb, httpOptions).pipe(
+    return this.http.post<DstructAPI>(this.dstructsUrl, dstructdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted dstructdb id=${dstructdb.ID}`)
       }),
-      catchError(this.handleError<DstructDB>('postDstruct'))
+      catchError(this.handleError<DstructAPI>('postDstruct'))
     );
   }
 
   /** DELETE: delete the dstructdb from the server */
-  delete(dstructdb: DstructDB | number, GONG__StackPath: string): Observable<DstructDB> {
+  delete(dstructdb: DstructAPI | number, GONG__StackPath: string): Observable<DstructAPI> {
     return this.deleteDstruct(dstructdb, GONG__StackPath)
   }
-  deleteDstruct(dstructdb: DstructDB | number, GONG__StackPath: string): Observable<DstructDB> {
+  deleteDstruct(dstructdb: DstructAPI | number, GONG__StackPath: string): Observable<DstructAPI> {
     const id = typeof dstructdb === 'number' ? dstructdb : dstructdb.ID;
     const url = `${this.dstructsUrl}/${id}`;
 
@@ -130,17 +130,17 @@ export class DstructService {
       params: params
     };
 
-    return this.http.delete<DstructDB>(url, httpOptions).pipe(
+    return this.http.delete<DstructAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted dstructdb id=${id}`)),
-      catchError(this.handleError<DstructDB>('deleteDstruct'))
+      catchError(this.handleError<DstructAPI>('deleteDstruct'))
     );
   }
 
   // updateFront copy dstruct to a version with encoded pointers and update to the back
-  updateFront(dstruct: Dstruct, GONG__StackPath: string): Observable<DstructDB> {
-    let dstructDB = new DstructDB
-    CopyDstructToDstructDB(dstruct, dstructDB)
-    const id = typeof dstructDB === 'number' ? dstructDB : dstructDB.ID
+  updateFront(dstruct: Dstruct, GONG__StackPath: string): Observable<DstructAPI> {
+    let dstructAPI = new DstructAPI
+    CopyDstructToDstructAPI(dstruct, dstructAPI)
+    const id = typeof dstructAPI === 'number' ? dstructAPI : dstructAPI.ID
     const url = `${this.dstructsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,18 +148,18 @@ export class DstructService {
       params: params
     }
 
-    return this.http.put<DstructDB>(url, dstructDB, httpOptions).pipe(
+    return this.http.put<DstructAPI>(url, dstructAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<DstructDB>('updateDstruct'))
+      catchError(this.handleError<DstructAPI>('updateDstruct'))
     );
   }
 
   /** PUT: update the dstructdb on the server */
-  update(dstructdb: DstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructDB> {
+  update(dstructdb: DstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructAPI> {
     return this.updateDstruct(dstructdb, GONG__StackPath, frontRepo)
   }
-  updateDstruct(dstructdb: DstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructDB> {
+  updateDstruct(dstructdb: DstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructAPI> {
     const id = typeof dstructdb === 'number' ? dstructdb : dstructdb.ID;
     const url = `${this.dstructsUrl}/${id}`;
 
@@ -170,11 +170,11 @@ export class DstructService {
       params: params
     };
 
-    return this.http.put<DstructDB>(url, dstructdb, httpOptions).pipe(
+    return this.http.put<DstructAPI>(url, dstructdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated dstructdb id=${dstructdb.ID}`)
       }),
-      catchError(this.handleError<DstructDB>('updateDstruct'))
+      catchError(this.handleError<DstructAPI>('updateDstruct'))
     );
   }
 

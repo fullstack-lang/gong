@@ -1,12 +1,11 @@
 // insertion point for imports
-import { BstructDB } from './bstruct-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
 
-export class AstructBstructUseDB {
+export class BstructAPI {
 
-	static GONGSTRUCT_NAME = "AstructBstructUse"
+	static GONGSTRUCT_NAME = "Bstruct"
 
 	CreatedAt?: string
 	DeletedAt?: string
@@ -14,14 +13,15 @@ export class AstructBstructUseDB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	Floatfield: number = 0
+	Floatfield2: number = 0
+	Intfield: number = 0
 
 	// insertion point for other decls
 
-	AstructBstructUsePointersEncoding: AstructBstructUsePointersEncoding = new AstructBstructUsePointersEncoding
+	BstructPointersEncoding: BstructPointersEncoding = new BstructPointersEncoding
 }
 
-export class AstructBstructUsePointersEncoding {
+export class BstructPointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
-	Bstruct2ID: NullInt64 = new NullInt64 // if pointer is null, Bstruct2.ID = 0
-
 }

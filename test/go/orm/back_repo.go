@@ -330,7 +330,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.StageStruct, dirPath str
 	backRepo.stage.Commit()
 }
 
-func (backRepoStruct *BackRepoStruct) Subscribe() <-chan int {
+func (backRepoStruct *BackRepoStruct) SubscribeToCommitNb() <-chan int {
 	backRepoStruct.rwMutex.Lock()
 	defer backRepoStruct.rwMutex.Unlock()
 

@@ -54,6 +54,7 @@ type {{Structname}}API struct {
 	models.{{Structname}}_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	{{Structname}}PointersEncoding {{Structname}}PointersEncoding
 }
 
@@ -73,7 +74,9 @@ type {{Structname}}DB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration{{` + string(rune(BackRepoBasicFieldsDeclaration)) + `}}
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	{{Structname}}PointersEncoding
 }
 

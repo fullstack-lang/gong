@@ -11,13 +11,13 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { AstructBstructUseDB } from './astructbstructuse-db'
-import { AstructBstructUse, CopyAstructBstructUseToAstructBstructUseDB } from './astructbstructuse'
+import { AstructBstructUseAPI } from './astructbstructuse-api'
+import { AstructBstructUse, CopyAstructBstructUseToAstructBstructUseAPI } from './astructbstructuse'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { BstructDB } from './bstruct-db'
+import { BstructAPI } from './bstruct-api'
 
 @Injectable({
   providedIn: 'root'
@@ -47,41 +47,41 @@ export class AstructBstructUseService {
 
   /** GET astructbstructuses from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstructUseDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstructUseAPI[]> {
     return this.getAstructBstructUses(GONG__StackPath, frontRepo)
   }
-  getAstructBstructUses(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstructUseDB[]> {
+  getAstructBstructUses(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstructUseAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<AstructBstructUseDB[]>(this.astructbstructusesUrl, { params: params })
+    return this.http.get<AstructBstructUseAPI[]>(this.astructbstructusesUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<AstructBstructUseDB[]>('getAstructBstructUses', []))
+        catchError(this.handleError<AstructBstructUseAPI[]>('getAstructBstructUses', []))
       );
   }
 
   /** GET astructbstructuse by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstructUseDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstructUseAPI> {
     return this.getAstructBstructUse(id, GONG__StackPath, frontRepo)
   }
-  getAstructBstructUse(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstructUseDB> {
+  getAstructBstructUse(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstructUseAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.astructbstructusesUrl}/${id}`;
-    return this.http.get<AstructBstructUseDB>(url, { params: params }).pipe(
+    return this.http.get<AstructBstructUseAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched astructbstructuse id=${id}`)),
-      catchError(this.handleError<AstructBstructUseDB>(`getAstructBstructUse id=${id}`))
+      catchError(this.handleError<AstructBstructUseAPI>(`getAstructBstructUse id=${id}`))
     );
   }
 
   // postFront copy astructbstructuse to a version with encoded pointers and post to the back
-  postFront(astructbstructuse: AstructBstructUse, GONG__StackPath: string): Observable<AstructBstructUseDB> {
-    let astructbstructuseDB = new AstructBstructUseDB
-    CopyAstructBstructUseToAstructBstructUseDB(astructbstructuse, astructbstructuseDB)
-    const id = typeof astructbstructuseDB === 'number' ? astructbstructuseDB : astructbstructuseDB.ID
+  postFront(astructbstructuse: AstructBstructUse, GONG__StackPath: string): Observable<AstructBstructUseAPI> {
+    let astructbstructuseAPI = new AstructBstructUseAPI
+    CopyAstructBstructUseToAstructBstructUseAPI(astructbstructuse, astructbstructuseAPI)
+    const id = typeof astructbstructuseAPI === 'number' ? astructbstructuseAPI : astructbstructuseAPI.ID
     const url = `${this.astructbstructusesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -89,18 +89,18 @@ export class AstructBstructUseService {
       params: params
     }
 
-    return this.http.post<AstructBstructUseDB>(url, astructbstructuseDB, httpOptions).pipe(
+    return this.http.post<AstructBstructUseAPI>(url, astructbstructuseAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<AstructBstructUseDB>('postAstructBstructUse'))
+      catchError(this.handleError<AstructBstructUseAPI>('postAstructBstructUse'))
     );
   }
   
   /** POST: add a new astructbstructuse to the server */
-  post(astructbstructusedb: AstructBstructUseDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstructUseDB> {
+  post(astructbstructusedb: AstructBstructUseAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstructUseAPI> {
     return this.postAstructBstructUse(astructbstructusedb, GONG__StackPath, frontRepo)
   }
-  postAstructBstructUse(astructbstructusedb: AstructBstructUseDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstructUseDB> {
+  postAstructBstructUse(astructbstructusedb: AstructBstructUseAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstructUseAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -108,19 +108,19 @@ export class AstructBstructUseService {
       params: params
     }
 
-    return this.http.post<AstructBstructUseDB>(this.astructbstructusesUrl, astructbstructusedb, httpOptions).pipe(
+    return this.http.post<AstructBstructUseAPI>(this.astructbstructusesUrl, astructbstructusedb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted astructbstructusedb id=${astructbstructusedb.ID}`)
       }),
-      catchError(this.handleError<AstructBstructUseDB>('postAstructBstructUse'))
+      catchError(this.handleError<AstructBstructUseAPI>('postAstructBstructUse'))
     );
   }
 
   /** DELETE: delete the astructbstructusedb from the server */
-  delete(astructbstructusedb: AstructBstructUseDB | number, GONG__StackPath: string): Observable<AstructBstructUseDB> {
+  delete(astructbstructusedb: AstructBstructUseAPI | number, GONG__StackPath: string): Observable<AstructBstructUseAPI> {
     return this.deleteAstructBstructUse(astructbstructusedb, GONG__StackPath)
   }
-  deleteAstructBstructUse(astructbstructusedb: AstructBstructUseDB | number, GONG__StackPath: string): Observable<AstructBstructUseDB> {
+  deleteAstructBstructUse(astructbstructusedb: AstructBstructUseAPI | number, GONG__StackPath: string): Observable<AstructBstructUseAPI> {
     const id = typeof astructbstructusedb === 'number' ? astructbstructusedb : astructbstructusedb.ID;
     const url = `${this.astructbstructusesUrl}/${id}`;
 
@@ -130,17 +130,17 @@ export class AstructBstructUseService {
       params: params
     };
 
-    return this.http.delete<AstructBstructUseDB>(url, httpOptions).pipe(
+    return this.http.delete<AstructBstructUseAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted astructbstructusedb id=${id}`)),
-      catchError(this.handleError<AstructBstructUseDB>('deleteAstructBstructUse'))
+      catchError(this.handleError<AstructBstructUseAPI>('deleteAstructBstructUse'))
     );
   }
 
   // updateFront copy astructbstructuse to a version with encoded pointers and update to the back
-  updateFront(astructbstructuse: AstructBstructUse, GONG__StackPath: string): Observable<AstructBstructUseDB> {
-    let astructbstructuseDB = new AstructBstructUseDB
-    CopyAstructBstructUseToAstructBstructUseDB(astructbstructuse, astructbstructuseDB)
-    const id = typeof astructbstructuseDB === 'number' ? astructbstructuseDB : astructbstructuseDB.ID
+  updateFront(astructbstructuse: AstructBstructUse, GONG__StackPath: string): Observable<AstructBstructUseAPI> {
+    let astructbstructuseAPI = new AstructBstructUseAPI
+    CopyAstructBstructUseToAstructBstructUseAPI(astructbstructuse, astructbstructuseAPI)
+    const id = typeof astructbstructuseAPI === 'number' ? astructbstructuseAPI : astructbstructuseAPI.ID
     const url = `${this.astructbstructusesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,18 +148,18 @@ export class AstructBstructUseService {
       params: params
     }
 
-    return this.http.put<AstructBstructUseDB>(url, astructbstructuseDB, httpOptions).pipe(
+    return this.http.put<AstructBstructUseAPI>(url, astructbstructuseAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<AstructBstructUseDB>('updateAstructBstructUse'))
+      catchError(this.handleError<AstructBstructUseAPI>('updateAstructBstructUse'))
     );
   }
 
   /** PUT: update the astructbstructusedb on the server */
-  update(astructbstructusedb: AstructBstructUseDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstructUseDB> {
+  update(astructbstructusedb: AstructBstructUseAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstructUseAPI> {
     return this.updateAstructBstructUse(astructbstructusedb, GONG__StackPath, frontRepo)
   }
-  updateAstructBstructUse(astructbstructusedb: AstructBstructUseDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstructUseDB> {
+  updateAstructBstructUse(astructbstructusedb: AstructBstructUseAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstructUseAPI> {
     const id = typeof astructbstructusedb === 'number' ? astructbstructusedb : astructbstructusedb.ID;
     const url = `${this.astructbstructusesUrl}/${id}`;
 
@@ -170,11 +170,11 @@ export class AstructBstructUseService {
       params: params
     };
 
-    return this.http.put<AstructBstructUseDB>(url, astructbstructusedb, httpOptions).pipe(
+    return this.http.put<AstructBstructUseAPI>(url, astructbstructusedb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated astructbstructusedb id=${astructbstructusedb.ID}`)
       }),
-      catchError(this.handleError<AstructBstructUseDB>('updateAstructBstructUse'))
+      catchError(this.handleError<AstructBstructUseAPI>('updateAstructBstructUse'))
     );
   }
 

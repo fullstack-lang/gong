@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { AstructBstructUseDB } from './astructbstructuse-db'
+import { AstructBstructUseAPI } from './astructbstructuse-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -25,42 +25,42 @@ export class AstructBstructUse {
 
 }
 
-export function CopyAstructBstructUseToAstructBstructUseDB(astructbstructuse: AstructBstructUse, astructbstructuseDB: AstructBstructUseDB) {
+export function CopyAstructBstructUseToAstructBstructUseAPI(astructbstructuse: AstructBstructUse, astructbstructuseAPI: AstructBstructUseAPI) {
 
-	astructbstructuseDB.CreatedAt = astructbstructuse.CreatedAt
-	astructbstructuseDB.DeletedAt = astructbstructuse.DeletedAt
-	astructbstructuseDB.ID = astructbstructuse.ID
+	astructbstructuseAPI.CreatedAt = astructbstructuse.CreatedAt
+	astructbstructuseAPI.DeletedAt = astructbstructuse.DeletedAt
+	astructbstructuseAPI.ID = astructbstructuse.ID
 
 	// insertion point for basic fields copy operations
-	astructbstructuseDB.Name = astructbstructuse.Name
+	astructbstructuseAPI.Name = astructbstructuse.Name
 
 	// insertion point for pointer fields encoding
-	astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Valid = true
+	astructbstructuseAPI.AstructBstructUsePointersEncoding.Bstruct2ID.Valid = true
 	if (astructbstructuse.Bstruct2 != undefined) {
-		astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Int64 = astructbstructuse.Bstruct2.ID  
+		astructbstructuseAPI.AstructBstructUsePointersEncoding.Bstruct2ID.Int64 = astructbstructuse.Bstruct2.ID  
 	} else {
-		astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Int64 = 0 		
+		astructbstructuseAPI.AstructBstructUsePointersEncoding.Bstruct2ID.Int64 = 0 		
 	}
 
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyAstructBstructUseDBToAstructBstructUse update basic, pointers and slice of pointers fields of astructbstructuse
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of astructbstructuseDB
+// CopyAstructBstructUseAPIToAstructBstructUse update basic, pointers and slice of pointers fields of astructbstructuse
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of astructbstructuseAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyAstructBstructUseDBToAstructBstructUse(astructbstructuseDB: AstructBstructUseDB, astructbstructuse: AstructBstructUse, frontRepo: FrontRepo) {
+export function CopyAstructBstructUseAPIToAstructBstructUse(astructbstructuseAPI: AstructBstructUseAPI, astructbstructuse: AstructBstructUse, frontRepo: FrontRepo) {
 
-	astructbstructuse.CreatedAt = astructbstructuseDB.CreatedAt
-	astructbstructuse.DeletedAt = astructbstructuseDB.DeletedAt
-	astructbstructuse.ID = astructbstructuseDB.ID
+	astructbstructuse.CreatedAt = astructbstructuseAPI.CreatedAt
+	astructbstructuse.DeletedAt = astructbstructuseAPI.DeletedAt
+	astructbstructuse.ID = astructbstructuseAPI.ID
 
 	// insertion point for basic fields copy operations
-	astructbstructuse.Name = astructbstructuseDB.Name
+	astructbstructuse.Name = astructbstructuseAPI.Name
 
 	// insertion point for pointer fields encoding
-	astructbstructuse.Bstruct2 = frontRepo.map_ID_Bstruct.get(astructbstructuseDB.AstructBstructUsePointersEncoding.Bstruct2ID.Int64)
+	astructbstructuse.Bstruct2 = frontRepo.map_ID_Bstruct.get(astructbstructuseAPI.AstructBstructUsePointersEncoding.Bstruct2ID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 }

@@ -38,6 +38,7 @@ type AstructAPI struct {
 	models.Astruct_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	AstructPointersEncoding AstructPointersEncoding
 }
 
@@ -173,7 +174,9 @@ type AstructDB struct {
 
 	// Declation for basic field astructDB.TextArea
 	TextArea_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	AstructPointersEncoding
 }
 
