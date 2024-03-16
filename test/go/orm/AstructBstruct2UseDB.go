@@ -38,6 +38,7 @@ type AstructBstruct2UseAPI struct {
 	models.AstructBstruct2Use_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	AstructBstruct2UsePointersEncoding AstructBstruct2UsePointersEncoding
 }
 
@@ -64,7 +65,9 @@ type AstructBstruct2UseDB struct {
 
 	// Declation for basic field astructbstruct2useDB.Name
 	Name_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	AstructBstruct2UsePointersEncoding
 }
 

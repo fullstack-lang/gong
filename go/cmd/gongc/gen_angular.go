@@ -115,7 +115,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 
 	angular.MultiCodeGeneratorNgClass(modelPkg)
 
-	angular.MultiCodeGeneratorNgClassDB(modelPkg)
+	angular.MultiCodeGeneratorNgClassAPI(modelPkg)
 
 	angular.MultiCodeGeneratorNgService(modelPkg, *addr)
 
@@ -146,6 +146,13 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 		filepath.Join(modelPkg.NgDataLibrarySourceCodeDirectory, "app-routing.module.ts"),
 		angular.NgRoutingTemplate)
 
+	gong_models.VerySimpleCodeGeneratorForGongStructWithNameField(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath,
+		filepath.Join(modelPkg.NgDataLibrarySourceCodeDirectory, "web-socket-service.ts"),
+		angular.WebSocketServiceTemplate)
+
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		filepath.Join(modelPkg.NgWorkspacePath, "projects/embed.go"),
@@ -155,6 +162,13 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 		modelPkg,
 		filepath.Join(modelPkg.NgWorkspacePath, "../embed_ng_dist_ng.go"),
 		angular.EmebedNgDistNg)
+
+	gong_models.SimpleCodeGenerator(
+		modelPkg,
+		modelPkg.Name,
+		modelPkg.PkgPath,
+		filepath.Join(modelPkg.NgDataLibrarySourceCodeDirectory, "back-repo-data.ts"),
+		angular.BackRepoTemplateTS, angular.BackRepoHtmlSubTemplateCode)
 
 	// go mod tidy to get the new dependencies
 	if !skipGoModCommands {
