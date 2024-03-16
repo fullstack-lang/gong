@@ -9,11 +9,11 @@
     - [1.3.5. Vscode (optional)](#135-vscode-optional)
 - [2. Gong is a Go sub language](#2-gong-is-a-go-sub-language)
   - [2.1. Gong specification](#21-gong-specification)
-    - [package nomenclature](#package-nomenclature)
-    - [2.1.1. Gongstruct](#211-gongstruct)
-    - [2.1.2. Gongenum](#212-gongenum)
-    - [2.1.3. Gongfields](#213-gongfields)
-    - [2.1.4. Gongnote](#214-gongnote)
+    - [2.1.1. package nomenclature](#211-package-nomenclature)
+    - [2.1.2. Gongstruct](#212-gongstruct)
+    - [2.1.3. Gongenum](#213-gongenum)
+    - [2.1.4. Gongfields](#214-gongfields)
+    - [2.1.5. Gongnote](#215-gongnote)
   - [2.2. Gong library](#22-gong-library)
 - [3. Using gong](#3-using-gong)
   - [3.1. Running the gong test application](#31-running-the-gong-test-application)
@@ -94,7 +94,7 @@ it is transparant to the gong compiler.
 
 There are three objects in gong.
 
-### package nomenclature
+### 2.1.1. package nomenclature
 
 A gong program is a go program (go > 1.20) developped with a go module. The gong code is developed in only
 one package "go/models"
@@ -105,7 +105,7 @@ package models
 
 No particular inmport is necessary.
 
-### 2.1.1. Gongstruct
+### 2.1.2. Gongstruct
 
 ```go
 // Hello is a gongstruct
@@ -131,7 +131,7 @@ type Zong struct {
 }
 ```
 
-### 2.1.2. Gongenum
+### 2.1.3. Gongenum
 
 
 ```go
@@ -153,7 +153,7 @@ const (
 )
 ```
 
-### 2.1.3. Gongfields
+### 2.1.4. Gongfields
 
 Gongfields are fields within a gongstruct.
 
@@ -186,7 +186,7 @@ type Hello struct { // it is exported
 }
 ```
 
-### 2.1.4. Gongnote
+### 2.1.5. Gongnote
 
 ```go
 // A gongnote is a string const with a comment
