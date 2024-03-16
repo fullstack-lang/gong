@@ -11,8 +11,8 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { FormSortAssocButtonDB } from './formsortassocbutton-db'
-import { FormSortAssocButton, CopyFormSortAssocButtonToFormSortAssocButtonDB } from './formsortassocbutton'
+import { FormSortAssocButtonAPI } from './formsortassocbutton-api'
+import { FormSortAssocButton, CopyFormSortAssocButtonToFormSortAssocButtonAPI } from './formsortassocbutton'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
@@ -46,41 +46,41 @@ export class FormSortAssocButtonService {
 
   /** GET formsortassocbuttons from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonAPI[]> {
     return this.getFormSortAssocButtons(GONG__StackPath, frontRepo)
   }
-  getFormSortAssocButtons(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonDB[]> {
+  getFormSortAssocButtons(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<FormSortAssocButtonDB[]>(this.formsortassocbuttonsUrl, { params: params })
+    return this.http.get<FormSortAssocButtonAPI[]>(this.formsortassocbuttonsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<FormSortAssocButtonDB[]>('getFormSortAssocButtons', []))
+        catchError(this.handleError<FormSortAssocButtonAPI[]>('getFormSortAssocButtons', []))
       );
   }
 
   /** GET formsortassocbutton by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonAPI> {
     return this.getFormSortAssocButton(id, GONG__StackPath, frontRepo)
   }
-  getFormSortAssocButton(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonDB> {
+  getFormSortAssocButton(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.formsortassocbuttonsUrl}/${id}`;
-    return this.http.get<FormSortAssocButtonDB>(url, { params: params }).pipe(
+    return this.http.get<FormSortAssocButtonAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched formsortassocbutton id=${id}`)),
-      catchError(this.handleError<FormSortAssocButtonDB>(`getFormSortAssocButton id=${id}`))
+      catchError(this.handleError<FormSortAssocButtonAPI>(`getFormSortAssocButton id=${id}`))
     );
   }
 
   // postFront copy formsortassocbutton to a version with encoded pointers and post to the back
-  postFront(formsortassocbutton: FormSortAssocButton, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
-    let formsortassocbuttonDB = new FormSortAssocButtonDB
-    CopyFormSortAssocButtonToFormSortAssocButtonDB(formsortassocbutton, formsortassocbuttonDB)
-    const id = typeof formsortassocbuttonDB === 'number' ? formsortassocbuttonDB : formsortassocbuttonDB.ID
+  postFront(formsortassocbutton: FormSortAssocButton, GONG__StackPath: string): Observable<FormSortAssocButtonAPI> {
+    let formsortassocbuttonAPI = new FormSortAssocButtonAPI
+    CopyFormSortAssocButtonToFormSortAssocButtonAPI(formsortassocbutton, formsortassocbuttonAPI)
+    const id = typeof formsortassocbuttonAPI === 'number' ? formsortassocbuttonAPI : formsortassocbuttonAPI.ID
     const url = `${this.formsortassocbuttonsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -88,18 +88,18 @@ export class FormSortAssocButtonService {
       params: params
     }
 
-    return this.http.post<FormSortAssocButtonDB>(url, formsortassocbuttonDB, httpOptions).pipe(
+    return this.http.post<FormSortAssocButtonAPI>(url, formsortassocbuttonAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<FormSortAssocButtonDB>('postFormSortAssocButton'))
+      catchError(this.handleError<FormSortAssocButtonAPI>('postFormSortAssocButton'))
     );
   }
   
   /** POST: add a new formsortassocbutton to the server */
-  post(formsortassocbuttondb: FormSortAssocButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonDB> {
+  post(formsortassocbuttondb: FormSortAssocButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonAPI> {
     return this.postFormSortAssocButton(formsortassocbuttondb, GONG__StackPath, frontRepo)
   }
-  postFormSortAssocButton(formsortassocbuttondb: FormSortAssocButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonDB> {
+  postFormSortAssocButton(formsortassocbuttondb: FormSortAssocButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -107,19 +107,19 @@ export class FormSortAssocButtonService {
       params: params
     }
 
-    return this.http.post<FormSortAssocButtonDB>(this.formsortassocbuttonsUrl, formsortassocbuttondb, httpOptions).pipe(
+    return this.http.post<FormSortAssocButtonAPI>(this.formsortassocbuttonsUrl, formsortassocbuttondb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted formsortassocbuttondb id=${formsortassocbuttondb.ID}`)
       }),
-      catchError(this.handleError<FormSortAssocButtonDB>('postFormSortAssocButton'))
+      catchError(this.handleError<FormSortAssocButtonAPI>('postFormSortAssocButton'))
     );
   }
 
   /** DELETE: delete the formsortassocbuttondb from the server */
-  delete(formsortassocbuttondb: FormSortAssocButtonDB | number, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
+  delete(formsortassocbuttondb: FormSortAssocButtonAPI | number, GONG__StackPath: string): Observable<FormSortAssocButtonAPI> {
     return this.deleteFormSortAssocButton(formsortassocbuttondb, GONG__StackPath)
   }
-  deleteFormSortAssocButton(formsortassocbuttondb: FormSortAssocButtonDB | number, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
+  deleteFormSortAssocButton(formsortassocbuttondb: FormSortAssocButtonAPI | number, GONG__StackPath: string): Observable<FormSortAssocButtonAPI> {
     const id = typeof formsortassocbuttondb === 'number' ? formsortassocbuttondb : formsortassocbuttondb.ID;
     const url = `${this.formsortassocbuttonsUrl}/${id}`;
 
@@ -129,17 +129,17 @@ export class FormSortAssocButtonService {
       params: params
     };
 
-    return this.http.delete<FormSortAssocButtonDB>(url, httpOptions).pipe(
+    return this.http.delete<FormSortAssocButtonAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted formsortassocbuttondb id=${id}`)),
-      catchError(this.handleError<FormSortAssocButtonDB>('deleteFormSortAssocButton'))
+      catchError(this.handleError<FormSortAssocButtonAPI>('deleteFormSortAssocButton'))
     );
   }
 
   // updateFront copy formsortassocbutton to a version with encoded pointers and update to the back
-  updateFront(formsortassocbutton: FormSortAssocButton, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
-    let formsortassocbuttonDB = new FormSortAssocButtonDB
-    CopyFormSortAssocButtonToFormSortAssocButtonDB(formsortassocbutton, formsortassocbuttonDB)
-    const id = typeof formsortassocbuttonDB === 'number' ? formsortassocbuttonDB : formsortassocbuttonDB.ID
+  updateFront(formsortassocbutton: FormSortAssocButton, GONG__StackPath: string): Observable<FormSortAssocButtonAPI> {
+    let formsortassocbuttonAPI = new FormSortAssocButtonAPI
+    CopyFormSortAssocButtonToFormSortAssocButtonAPI(formsortassocbutton, formsortassocbuttonAPI)
+    const id = typeof formsortassocbuttonAPI === 'number' ? formsortassocbuttonAPI : formsortassocbuttonAPI.ID
     const url = `${this.formsortassocbuttonsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,18 +147,18 @@ export class FormSortAssocButtonService {
       params: params
     }
 
-    return this.http.put<FormSortAssocButtonDB>(url, formsortassocbuttonDB, httpOptions).pipe(
+    return this.http.put<FormSortAssocButtonAPI>(url, formsortassocbuttonAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<FormSortAssocButtonDB>('updateFormSortAssocButton'))
+      catchError(this.handleError<FormSortAssocButtonAPI>('updateFormSortAssocButton'))
     );
   }
 
   /** PUT: update the formsortassocbuttondb on the server */
-  update(formsortassocbuttondb: FormSortAssocButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonDB> {
+  update(formsortassocbuttondb: FormSortAssocButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonAPI> {
     return this.updateFormSortAssocButton(formsortassocbuttondb, GONG__StackPath, frontRepo)
   }
-  updateFormSortAssocButton(formsortassocbuttondb: FormSortAssocButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonDB> {
+  updateFormSortAssocButton(formsortassocbuttondb: FormSortAssocButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonAPI> {
     const id = typeof formsortassocbuttondb === 'number' ? formsortassocbuttondb : formsortassocbuttondb.ID;
     const url = `${this.formsortassocbuttonsUrl}/${id}`;
 
@@ -169,11 +169,11 @@ export class FormSortAssocButtonService {
       params: params
     };
 
-    return this.http.put<FormSortAssocButtonDB>(url, formsortassocbuttondb, httpOptions).pipe(
+    return this.http.put<FormSortAssocButtonAPI>(url, formsortassocbuttondb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated formsortassocbuttondb id=${formsortassocbuttondb.ID}`)
       }),
-      catchError(this.handleError<FormSortAssocButtonDB>('updateFormSortAssocButton'))
+      catchError(this.handleError<FormSortAssocButtonAPI>('updateFormSortAssocButton'))
     );
   }
 

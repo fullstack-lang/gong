@@ -11,13 +11,13 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { RowDB } from './row-db'
-import { Row, CopyRowToRowDB } from './row'
+import { RowAPI } from './row-api'
+import { Row, CopyRowToRowAPI } from './row'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { CellDB } from './cell-db'
+import { CellAPI } from './cell-api'
 
 @Injectable({
   providedIn: 'root'
@@ -47,41 +47,41 @@ export class RowService {
 
   /** GET rows from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowAPI[]> {
     return this.getRows(GONG__StackPath, frontRepo)
   }
-  getRows(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowDB[]> {
+  getRows(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<RowDB[]>(this.rowsUrl, { params: params })
+    return this.http.get<RowAPI[]>(this.rowsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<RowDB[]>('getRows', []))
+        catchError(this.handleError<RowAPI[]>('getRows', []))
       );
   }
 
   /** GET row by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowAPI> {
     return this.getRow(id, GONG__StackPath, frontRepo)
   }
-  getRow(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowDB> {
+  getRow(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.rowsUrl}/${id}`;
-    return this.http.get<RowDB>(url, { params: params }).pipe(
+    return this.http.get<RowAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched row id=${id}`)),
-      catchError(this.handleError<RowDB>(`getRow id=${id}`))
+      catchError(this.handleError<RowAPI>(`getRow id=${id}`))
     );
   }
 
   // postFront copy row to a version with encoded pointers and post to the back
-  postFront(row: Row, GONG__StackPath: string): Observable<RowDB> {
-    let rowDB = new RowDB
-    CopyRowToRowDB(row, rowDB)
-    const id = typeof rowDB === 'number' ? rowDB : rowDB.ID
+  postFront(row: Row, GONG__StackPath: string): Observable<RowAPI> {
+    let rowAPI = new RowAPI
+    CopyRowToRowAPI(row, rowAPI)
+    const id = typeof rowAPI === 'number' ? rowAPI : rowAPI.ID
     const url = `${this.rowsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -89,18 +89,18 @@ export class RowService {
       params: params
     }
 
-    return this.http.post<RowDB>(url, rowDB, httpOptions).pipe(
+    return this.http.post<RowAPI>(url, rowAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<RowDB>('postRow'))
+      catchError(this.handleError<RowAPI>('postRow'))
     );
   }
   
   /** POST: add a new row to the server */
-  post(rowdb: RowDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowDB> {
+  post(rowdb: RowAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowAPI> {
     return this.postRow(rowdb, GONG__StackPath, frontRepo)
   }
-  postRow(rowdb: RowDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowDB> {
+  postRow(rowdb: RowAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -108,19 +108,19 @@ export class RowService {
       params: params
     }
 
-    return this.http.post<RowDB>(this.rowsUrl, rowdb, httpOptions).pipe(
+    return this.http.post<RowAPI>(this.rowsUrl, rowdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted rowdb id=${rowdb.ID}`)
       }),
-      catchError(this.handleError<RowDB>('postRow'))
+      catchError(this.handleError<RowAPI>('postRow'))
     );
   }
 
   /** DELETE: delete the rowdb from the server */
-  delete(rowdb: RowDB | number, GONG__StackPath: string): Observable<RowDB> {
+  delete(rowdb: RowAPI | number, GONG__StackPath: string): Observable<RowAPI> {
     return this.deleteRow(rowdb, GONG__StackPath)
   }
-  deleteRow(rowdb: RowDB | number, GONG__StackPath: string): Observable<RowDB> {
+  deleteRow(rowdb: RowAPI | number, GONG__StackPath: string): Observable<RowAPI> {
     const id = typeof rowdb === 'number' ? rowdb : rowdb.ID;
     const url = `${this.rowsUrl}/${id}`;
 
@@ -130,17 +130,17 @@ export class RowService {
       params: params
     };
 
-    return this.http.delete<RowDB>(url, httpOptions).pipe(
+    return this.http.delete<RowAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted rowdb id=${id}`)),
-      catchError(this.handleError<RowDB>('deleteRow'))
+      catchError(this.handleError<RowAPI>('deleteRow'))
     );
   }
 
   // updateFront copy row to a version with encoded pointers and update to the back
-  updateFront(row: Row, GONG__StackPath: string): Observable<RowDB> {
-    let rowDB = new RowDB
-    CopyRowToRowDB(row, rowDB)
-    const id = typeof rowDB === 'number' ? rowDB : rowDB.ID
+  updateFront(row: Row, GONG__StackPath: string): Observable<RowAPI> {
+    let rowAPI = new RowAPI
+    CopyRowToRowAPI(row, rowAPI)
+    const id = typeof rowAPI === 'number' ? rowAPI : rowAPI.ID
     const url = `${this.rowsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,18 +148,18 @@ export class RowService {
       params: params
     }
 
-    return this.http.put<RowDB>(url, rowDB, httpOptions).pipe(
+    return this.http.put<RowAPI>(url, rowAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<RowDB>('updateRow'))
+      catchError(this.handleError<RowAPI>('updateRow'))
     );
   }
 
   /** PUT: update the rowdb on the server */
-  update(rowdb: RowDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowDB> {
+  update(rowdb: RowAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowAPI> {
     return this.updateRow(rowdb, GONG__StackPath, frontRepo)
   }
-  updateRow(rowdb: RowDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowDB> {
+  updateRow(rowdb: RowAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowAPI> {
     const id = typeof rowdb === 'number' ? rowdb : rowdb.ID;
     const url = `${this.rowsUrl}/${id}`;
 
@@ -170,11 +170,11 @@ export class RowService {
       params: params
     };
 
-    return this.http.put<RowDB>(url, rowdb, httpOptions).pipe(
+    return this.http.put<RowAPI>(url, rowdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated rowdb id=${rowdb.ID}`)
       }),
-      catchError(this.handleError<RowDB>('updateRow'))
+      catchError(this.handleError<RowAPI>('updateRow'))
     );
   }
 

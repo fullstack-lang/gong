@@ -11,8 +11,8 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { CellIconDB } from './cellicon-db'
-import { CellIcon, CopyCellIconToCellIconDB } from './cellicon'
+import { CellIconAPI } from './cellicon-api'
+import { CellIcon, CopyCellIconToCellIconAPI } from './cellicon'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
@@ -46,41 +46,41 @@ export class CellIconService {
 
   /** GET cellicons from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconAPI[]> {
     return this.getCellIcons(GONG__StackPath, frontRepo)
   }
-  getCellIcons(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconDB[]> {
+  getCellIcons(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<CellIconDB[]>(this.celliconsUrl, { params: params })
+    return this.http.get<CellIconAPI[]>(this.celliconsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<CellIconDB[]>('getCellIcons', []))
+        catchError(this.handleError<CellIconAPI[]>('getCellIcons', []))
       );
   }
 
   /** GET cellicon by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconAPI> {
     return this.getCellIcon(id, GONG__StackPath, frontRepo)
   }
-  getCellIcon(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconDB> {
+  getCellIcon(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.celliconsUrl}/${id}`;
-    return this.http.get<CellIconDB>(url, { params: params }).pipe(
+    return this.http.get<CellIconAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched cellicon id=${id}`)),
-      catchError(this.handleError<CellIconDB>(`getCellIcon id=${id}`))
+      catchError(this.handleError<CellIconAPI>(`getCellIcon id=${id}`))
     );
   }
 
   // postFront copy cellicon to a version with encoded pointers and post to the back
-  postFront(cellicon: CellIcon, GONG__StackPath: string): Observable<CellIconDB> {
-    let celliconDB = new CellIconDB
-    CopyCellIconToCellIconDB(cellicon, celliconDB)
-    const id = typeof celliconDB === 'number' ? celliconDB : celliconDB.ID
+  postFront(cellicon: CellIcon, GONG__StackPath: string): Observable<CellIconAPI> {
+    let celliconAPI = new CellIconAPI
+    CopyCellIconToCellIconAPI(cellicon, celliconAPI)
+    const id = typeof celliconAPI === 'number' ? celliconAPI : celliconAPI.ID
     const url = `${this.celliconsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -88,18 +88,18 @@ export class CellIconService {
       params: params
     }
 
-    return this.http.post<CellIconDB>(url, celliconDB, httpOptions).pipe(
+    return this.http.post<CellIconAPI>(url, celliconAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<CellIconDB>('postCellIcon'))
+      catchError(this.handleError<CellIconAPI>('postCellIcon'))
     );
   }
   
   /** POST: add a new cellicon to the server */
-  post(cellicondb: CellIconDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconDB> {
+  post(cellicondb: CellIconAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconAPI> {
     return this.postCellIcon(cellicondb, GONG__StackPath, frontRepo)
   }
-  postCellIcon(cellicondb: CellIconDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconDB> {
+  postCellIcon(cellicondb: CellIconAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -107,19 +107,19 @@ export class CellIconService {
       params: params
     }
 
-    return this.http.post<CellIconDB>(this.celliconsUrl, cellicondb, httpOptions).pipe(
+    return this.http.post<CellIconAPI>(this.celliconsUrl, cellicondb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted cellicondb id=${cellicondb.ID}`)
       }),
-      catchError(this.handleError<CellIconDB>('postCellIcon'))
+      catchError(this.handleError<CellIconAPI>('postCellIcon'))
     );
   }
 
   /** DELETE: delete the cellicondb from the server */
-  delete(cellicondb: CellIconDB | number, GONG__StackPath: string): Observable<CellIconDB> {
+  delete(cellicondb: CellIconAPI | number, GONG__StackPath: string): Observable<CellIconAPI> {
     return this.deleteCellIcon(cellicondb, GONG__StackPath)
   }
-  deleteCellIcon(cellicondb: CellIconDB | number, GONG__StackPath: string): Observable<CellIconDB> {
+  deleteCellIcon(cellicondb: CellIconAPI | number, GONG__StackPath: string): Observable<CellIconAPI> {
     const id = typeof cellicondb === 'number' ? cellicondb : cellicondb.ID;
     const url = `${this.celliconsUrl}/${id}`;
 
@@ -129,17 +129,17 @@ export class CellIconService {
       params: params
     };
 
-    return this.http.delete<CellIconDB>(url, httpOptions).pipe(
+    return this.http.delete<CellIconAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted cellicondb id=${id}`)),
-      catchError(this.handleError<CellIconDB>('deleteCellIcon'))
+      catchError(this.handleError<CellIconAPI>('deleteCellIcon'))
     );
   }
 
   // updateFront copy cellicon to a version with encoded pointers and update to the back
-  updateFront(cellicon: CellIcon, GONG__StackPath: string): Observable<CellIconDB> {
-    let celliconDB = new CellIconDB
-    CopyCellIconToCellIconDB(cellicon, celliconDB)
-    const id = typeof celliconDB === 'number' ? celliconDB : celliconDB.ID
+  updateFront(cellicon: CellIcon, GONG__StackPath: string): Observable<CellIconAPI> {
+    let celliconAPI = new CellIconAPI
+    CopyCellIconToCellIconAPI(cellicon, celliconAPI)
+    const id = typeof celliconAPI === 'number' ? celliconAPI : celliconAPI.ID
     const url = `${this.celliconsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,18 +147,18 @@ export class CellIconService {
       params: params
     }
 
-    return this.http.put<CellIconDB>(url, celliconDB, httpOptions).pipe(
+    return this.http.put<CellIconAPI>(url, celliconAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<CellIconDB>('updateCellIcon'))
+      catchError(this.handleError<CellIconAPI>('updateCellIcon'))
     );
   }
 
   /** PUT: update the cellicondb on the server */
-  update(cellicondb: CellIconDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconDB> {
+  update(cellicondb: CellIconAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconAPI> {
     return this.updateCellIcon(cellicondb, GONG__StackPath, frontRepo)
   }
-  updateCellIcon(cellicondb: CellIconDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconDB> {
+  updateCellIcon(cellicondb: CellIconAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconAPI> {
     const id = typeof cellicondb === 'number' ? cellicondb : cellicondb.ID;
     const url = `${this.celliconsUrl}/${id}`;
 
@@ -169,11 +169,11 @@ export class CellIconService {
       params: params
     };
 
-    return this.http.put<CellIconDB>(url, cellicondb, httpOptions).pipe(
+    return this.http.put<CellIconAPI>(url, cellicondb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated cellicondb id=${cellicondb.ID}`)
       }),
-      catchError(this.handleError<CellIconDB>('updateCellIcon'))
+      catchError(this.handleError<CellIconAPI>('updateCellIcon'))
     );
   }
 

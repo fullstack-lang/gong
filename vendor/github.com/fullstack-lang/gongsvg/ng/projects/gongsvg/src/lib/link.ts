@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { LinkDB } from './link-db'
+import { LinkAPI } from './link-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -53,125 +53,125 @@ export class Link {
 	ControlPoints: Array<Point> = []
 }
 
-export function CopyLinkToLinkDB(link: Link, linkDB: LinkDB) {
+export function CopyLinkToLinkAPI(link: Link, linkAPI: LinkAPI) {
 
-	linkDB.CreatedAt = link.CreatedAt
-	linkDB.DeletedAt = link.DeletedAt
-	linkDB.ID = link.ID
+	linkAPI.CreatedAt = link.CreatedAt
+	linkAPI.DeletedAt = link.DeletedAt
+	linkAPI.ID = link.ID
 
 	// insertion point for basic fields copy operations
-	linkDB.Name = link.Name
-	linkDB.Type = link.Type
-	linkDB.IsBezierCurve = link.IsBezierCurve
-	linkDB.StartAnchorType = link.StartAnchorType
-	linkDB.EndAnchorType = link.EndAnchorType
-	linkDB.StartOrientation = link.StartOrientation
-	linkDB.StartRatio = link.StartRatio
-	linkDB.EndOrientation = link.EndOrientation
-	linkDB.EndRatio = link.EndRatio
-	linkDB.CornerOffsetRatio = link.CornerOffsetRatio
-	linkDB.CornerRadius = link.CornerRadius
-	linkDB.HasEndArrow = link.HasEndArrow
-	linkDB.EndArrowSize = link.EndArrowSize
-	linkDB.HasStartArrow = link.HasStartArrow
-	linkDB.StartArrowSize = link.StartArrowSize
-	linkDB.Color = link.Color
-	linkDB.FillOpacity = link.FillOpacity
-	linkDB.Stroke = link.Stroke
-	linkDB.StrokeWidth = link.StrokeWidth
-	linkDB.StrokeDashArray = link.StrokeDashArray
-	linkDB.StrokeDashArrayWhenSelected = link.StrokeDashArrayWhenSelected
-	linkDB.Transform = link.Transform
+	linkAPI.Name = link.Name
+	linkAPI.Type = link.Type
+	linkAPI.IsBezierCurve = link.IsBezierCurve
+	linkAPI.StartAnchorType = link.StartAnchorType
+	linkAPI.EndAnchorType = link.EndAnchorType
+	linkAPI.StartOrientation = link.StartOrientation
+	linkAPI.StartRatio = link.StartRatio
+	linkAPI.EndOrientation = link.EndOrientation
+	linkAPI.EndRatio = link.EndRatio
+	linkAPI.CornerOffsetRatio = link.CornerOffsetRatio
+	linkAPI.CornerRadius = link.CornerRadius
+	linkAPI.HasEndArrow = link.HasEndArrow
+	linkAPI.EndArrowSize = link.EndArrowSize
+	linkAPI.HasStartArrow = link.HasStartArrow
+	linkAPI.StartArrowSize = link.StartArrowSize
+	linkAPI.Color = link.Color
+	linkAPI.FillOpacity = link.FillOpacity
+	linkAPI.Stroke = link.Stroke
+	linkAPI.StrokeWidth = link.StrokeWidth
+	linkAPI.StrokeDashArray = link.StrokeDashArray
+	linkAPI.StrokeDashArrayWhenSelected = link.StrokeDashArrayWhenSelected
+	linkAPI.Transform = link.Transform
 
 	// insertion point for pointer fields encoding
-	linkDB.LinkPointersEncoding.StartID.Valid = true
+	linkAPI.LinkPointersEncoding.StartID.Valid = true
 	if (link.Start != undefined) {
-		linkDB.LinkPointersEncoding.StartID.Int64 = link.Start.ID  
+		linkAPI.LinkPointersEncoding.StartID.Int64 = link.Start.ID  
 	} else {
-		linkDB.LinkPointersEncoding.StartID.Int64 = 0 		
+		linkAPI.LinkPointersEncoding.StartID.Int64 = 0 		
 	}
 
-	linkDB.LinkPointersEncoding.EndID.Valid = true
+	linkAPI.LinkPointersEncoding.EndID.Valid = true
 	if (link.End != undefined) {
-		linkDB.LinkPointersEncoding.EndID.Int64 = link.End.ID  
+		linkAPI.LinkPointersEncoding.EndID.Int64 = link.End.ID  
 	} else {
-		linkDB.LinkPointersEncoding.EndID.Int64 = 0 		
+		linkAPI.LinkPointersEncoding.EndID.Int64 = 0 		
 	}
 
 
 	// insertion point for slice of pointers fields encoding
-	linkDB.LinkPointersEncoding.TextAtArrowEnd = []
+	linkAPI.LinkPointersEncoding.TextAtArrowEnd = []
 	for (let _linkanchoredtext of link.TextAtArrowEnd) {
-		linkDB.LinkPointersEncoding.TextAtArrowEnd.push(_linkanchoredtext.ID)
+		linkAPI.LinkPointersEncoding.TextAtArrowEnd.push(_linkanchoredtext.ID)
 	}
 
-	linkDB.LinkPointersEncoding.TextAtArrowStart = []
+	linkAPI.LinkPointersEncoding.TextAtArrowStart = []
 	for (let _linkanchoredtext of link.TextAtArrowStart) {
-		linkDB.LinkPointersEncoding.TextAtArrowStart.push(_linkanchoredtext.ID)
+		linkAPI.LinkPointersEncoding.TextAtArrowStart.push(_linkanchoredtext.ID)
 	}
 
-	linkDB.LinkPointersEncoding.ControlPoints = []
+	linkAPI.LinkPointersEncoding.ControlPoints = []
 	for (let _point of link.ControlPoints) {
-		linkDB.LinkPointersEncoding.ControlPoints.push(_point.ID)
+		linkAPI.LinkPointersEncoding.ControlPoints.push(_point.ID)
 	}
 
 }
 
-// CopyLinkDBToLink update basic, pointers and slice of pointers fields of link
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of linkDB
+// CopyLinkAPIToLink update basic, pointers and slice of pointers fields of link
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of linkAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyLinkDBToLink(linkDB: LinkDB, link: Link, frontRepo: FrontRepo) {
+export function CopyLinkAPIToLink(linkAPI: LinkAPI, link: Link, frontRepo: FrontRepo) {
 
-	link.CreatedAt = linkDB.CreatedAt
-	link.DeletedAt = linkDB.DeletedAt
-	link.ID = linkDB.ID
+	link.CreatedAt = linkAPI.CreatedAt
+	link.DeletedAt = linkAPI.DeletedAt
+	link.ID = linkAPI.ID
 
 	// insertion point for basic fields copy operations
-	link.Name = linkDB.Name
-	link.Type = linkDB.Type
-	link.IsBezierCurve = linkDB.IsBezierCurve
-	link.StartAnchorType = linkDB.StartAnchorType
-	link.EndAnchorType = linkDB.EndAnchorType
-	link.StartOrientation = linkDB.StartOrientation
-	link.StartRatio = linkDB.StartRatio
-	link.EndOrientation = linkDB.EndOrientation
-	link.EndRatio = linkDB.EndRatio
-	link.CornerOffsetRatio = linkDB.CornerOffsetRatio
-	link.CornerRadius = linkDB.CornerRadius
-	link.HasEndArrow = linkDB.HasEndArrow
-	link.EndArrowSize = linkDB.EndArrowSize
-	link.HasStartArrow = linkDB.HasStartArrow
-	link.StartArrowSize = linkDB.StartArrowSize
-	link.Color = linkDB.Color
-	link.FillOpacity = linkDB.FillOpacity
-	link.Stroke = linkDB.Stroke
-	link.StrokeWidth = linkDB.StrokeWidth
-	link.StrokeDashArray = linkDB.StrokeDashArray
-	link.StrokeDashArrayWhenSelected = linkDB.StrokeDashArrayWhenSelected
-	link.Transform = linkDB.Transform
+	link.Name = linkAPI.Name
+	link.Type = linkAPI.Type
+	link.IsBezierCurve = linkAPI.IsBezierCurve
+	link.StartAnchorType = linkAPI.StartAnchorType
+	link.EndAnchorType = linkAPI.EndAnchorType
+	link.StartOrientation = linkAPI.StartOrientation
+	link.StartRatio = linkAPI.StartRatio
+	link.EndOrientation = linkAPI.EndOrientation
+	link.EndRatio = linkAPI.EndRatio
+	link.CornerOffsetRatio = linkAPI.CornerOffsetRatio
+	link.CornerRadius = linkAPI.CornerRadius
+	link.HasEndArrow = linkAPI.HasEndArrow
+	link.EndArrowSize = linkAPI.EndArrowSize
+	link.HasStartArrow = linkAPI.HasStartArrow
+	link.StartArrowSize = linkAPI.StartArrowSize
+	link.Color = linkAPI.Color
+	link.FillOpacity = linkAPI.FillOpacity
+	link.Stroke = linkAPI.Stroke
+	link.StrokeWidth = linkAPI.StrokeWidth
+	link.StrokeDashArray = linkAPI.StrokeDashArray
+	link.StrokeDashArrayWhenSelected = linkAPI.StrokeDashArrayWhenSelected
+	link.Transform = linkAPI.Transform
 
 	// insertion point for pointer fields encoding
-	link.Start = frontRepo.map_ID_Rect.get(linkDB.LinkPointersEncoding.StartID.Int64)
-	link.End = frontRepo.map_ID_Rect.get(linkDB.LinkPointersEncoding.EndID.Int64)
+	link.Start = frontRepo.map_ID_Rect.get(linkAPI.LinkPointersEncoding.StartID.Int64)
+	link.End = frontRepo.map_ID_Rect.get(linkAPI.LinkPointersEncoding.EndID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 	link.TextAtArrowEnd = new Array<LinkAnchoredText>()
-	for (let _id of linkDB.LinkPointersEncoding.TextAtArrowEnd) {
+	for (let _id of linkAPI.LinkPointersEncoding.TextAtArrowEnd) {
 		let _linkanchoredtext = frontRepo.map_ID_LinkAnchoredText.get(_id)
 		if (_linkanchoredtext != undefined) {
 			link.TextAtArrowEnd.push(_linkanchoredtext!)
 		}
 	}
 	link.TextAtArrowStart = new Array<LinkAnchoredText>()
-	for (let _id of linkDB.LinkPointersEncoding.TextAtArrowStart) {
+	for (let _id of linkAPI.LinkPointersEncoding.TextAtArrowStart) {
 		let _linkanchoredtext = frontRepo.map_ID_LinkAnchoredText.get(_id)
 		if (_linkanchoredtext != undefined) {
 			link.TextAtArrowStart.push(_linkanchoredtext!)
 		}
 	}
 	link.ControlPoints = new Array<Point>()
-	for (let _id of linkDB.LinkPointersEncoding.ControlPoints) {
+	for (let _id of linkAPI.LinkPointersEncoding.ControlPoints) {
 		let _point = frontRepo.map_ID_Point.get(_id)
 		if (_point != undefined) {
 			link.ControlPoints.push(_point!)

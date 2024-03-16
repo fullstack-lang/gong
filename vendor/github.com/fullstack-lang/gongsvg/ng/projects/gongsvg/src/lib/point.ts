@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { PointDB } from './point-db'
+import { PointAPI } from './point-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -24,36 +24,36 @@ export class Point {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyPointToPointDB(point: Point, pointDB: PointDB) {
+export function CopyPointToPointAPI(point: Point, pointAPI: PointAPI) {
 
-	pointDB.CreatedAt = point.CreatedAt
-	pointDB.DeletedAt = point.DeletedAt
-	pointDB.ID = point.ID
+	pointAPI.CreatedAt = point.CreatedAt
+	pointAPI.DeletedAt = point.DeletedAt
+	pointAPI.ID = point.ID
 
 	// insertion point for basic fields copy operations
-	pointDB.Name = point.Name
-	pointDB.X = point.X
-	pointDB.Y = point.Y
+	pointAPI.Name = point.Name
+	pointAPI.X = point.X
+	pointAPI.Y = point.Y
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyPointDBToPoint update basic, pointers and slice of pointers fields of point
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of pointDB
+// CopyPointAPIToPoint update basic, pointers and slice of pointers fields of point
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of pointAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyPointDBToPoint(pointDB: PointDB, point: Point, frontRepo: FrontRepo) {
+export function CopyPointAPIToPoint(pointAPI: PointAPI, point: Point, frontRepo: FrontRepo) {
 
-	point.CreatedAt = pointDB.CreatedAt
-	point.DeletedAt = pointDB.DeletedAt
-	point.ID = pointDB.ID
+	point.CreatedAt = pointAPI.CreatedAt
+	point.DeletedAt = pointAPI.DeletedAt
+	point.ID = pointAPI.ID
 
 	// insertion point for basic fields copy operations
-	point.Name = pointDB.Name
-	point.X = pointDB.X
-	point.Y = pointDB.Y
+	point.Name = pointAPI.Name
+	point.X = pointAPI.X
+	point.Y = pointAPI.Y
 
 	// insertion point for pointer fields encoding
 

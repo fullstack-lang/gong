@@ -38,6 +38,7 @@ type FormGroupAPI struct {
 	models.FormGroup_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	FormGroupPointersEncoding FormGroupPointersEncoding
 }
 
@@ -74,7 +75,9 @@ type FormGroupDB struct {
 	// Declation for basic field formgroupDB.HasSuppressButtonBeenPressed
 	// provide the sql storage for the boolan
 	HasSuppressButtonBeenPressed_Data sql.NullBool
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormGroupPointersEncoding
 }
 

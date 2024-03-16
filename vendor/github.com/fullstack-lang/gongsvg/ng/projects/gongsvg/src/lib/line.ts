@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { LineDB } from './line-db'
+import { LineAPI } from './line-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -37,69 +37,69 @@ export class Line {
 	Animates: Array<Animate> = []
 }
 
-export function CopyLineToLineDB(line: Line, lineDB: LineDB) {
+export function CopyLineToLineAPI(line: Line, lineAPI: LineAPI) {
 
-	lineDB.CreatedAt = line.CreatedAt
-	lineDB.DeletedAt = line.DeletedAt
-	lineDB.ID = line.ID
+	lineAPI.CreatedAt = line.CreatedAt
+	lineAPI.DeletedAt = line.DeletedAt
+	lineAPI.ID = line.ID
 
 	// insertion point for basic fields copy operations
-	lineDB.Name = line.Name
-	lineDB.X1 = line.X1
-	lineDB.Y1 = line.Y1
-	lineDB.X2 = line.X2
-	lineDB.Y2 = line.Y2
-	lineDB.Color = line.Color
-	lineDB.FillOpacity = line.FillOpacity
-	lineDB.Stroke = line.Stroke
-	lineDB.StrokeWidth = line.StrokeWidth
-	lineDB.StrokeDashArray = line.StrokeDashArray
-	lineDB.StrokeDashArrayWhenSelected = line.StrokeDashArrayWhenSelected
-	lineDB.Transform = line.Transform
-	lineDB.MouseClickX = line.MouseClickX
-	lineDB.MouseClickY = line.MouseClickY
+	lineAPI.Name = line.Name
+	lineAPI.X1 = line.X1
+	lineAPI.Y1 = line.Y1
+	lineAPI.X2 = line.X2
+	lineAPI.Y2 = line.Y2
+	lineAPI.Color = line.Color
+	lineAPI.FillOpacity = line.FillOpacity
+	lineAPI.Stroke = line.Stroke
+	lineAPI.StrokeWidth = line.StrokeWidth
+	lineAPI.StrokeDashArray = line.StrokeDashArray
+	lineAPI.StrokeDashArrayWhenSelected = line.StrokeDashArrayWhenSelected
+	lineAPI.Transform = line.Transform
+	lineAPI.MouseClickX = line.MouseClickX
+	lineAPI.MouseClickY = line.MouseClickY
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	lineDB.LinePointersEncoding.Animates = []
+	lineAPI.LinePointersEncoding.Animates = []
 	for (let _animate of line.Animates) {
-		lineDB.LinePointersEncoding.Animates.push(_animate.ID)
+		lineAPI.LinePointersEncoding.Animates.push(_animate.ID)
 	}
 
 }
 
-// CopyLineDBToLine update basic, pointers and slice of pointers fields of line
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of lineDB
+// CopyLineAPIToLine update basic, pointers and slice of pointers fields of line
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of lineAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyLineDBToLine(lineDB: LineDB, line: Line, frontRepo: FrontRepo) {
+export function CopyLineAPIToLine(lineAPI: LineAPI, line: Line, frontRepo: FrontRepo) {
 
-	line.CreatedAt = lineDB.CreatedAt
-	line.DeletedAt = lineDB.DeletedAt
-	line.ID = lineDB.ID
+	line.CreatedAt = lineAPI.CreatedAt
+	line.DeletedAt = lineAPI.DeletedAt
+	line.ID = lineAPI.ID
 
 	// insertion point for basic fields copy operations
-	line.Name = lineDB.Name
-	line.X1 = lineDB.X1
-	line.Y1 = lineDB.Y1
-	line.X2 = lineDB.X2
-	line.Y2 = lineDB.Y2
-	line.Color = lineDB.Color
-	line.FillOpacity = lineDB.FillOpacity
-	line.Stroke = lineDB.Stroke
-	line.StrokeWidth = lineDB.StrokeWidth
-	line.StrokeDashArray = lineDB.StrokeDashArray
-	line.StrokeDashArrayWhenSelected = lineDB.StrokeDashArrayWhenSelected
-	line.Transform = lineDB.Transform
-	line.MouseClickX = lineDB.MouseClickX
-	line.MouseClickY = lineDB.MouseClickY
+	line.Name = lineAPI.Name
+	line.X1 = lineAPI.X1
+	line.Y1 = lineAPI.Y1
+	line.X2 = lineAPI.X2
+	line.Y2 = lineAPI.Y2
+	line.Color = lineAPI.Color
+	line.FillOpacity = lineAPI.FillOpacity
+	line.Stroke = lineAPI.Stroke
+	line.StrokeWidth = lineAPI.StrokeWidth
+	line.StrokeDashArray = lineAPI.StrokeDashArray
+	line.StrokeDashArrayWhenSelected = lineAPI.StrokeDashArrayWhenSelected
+	line.Transform = lineAPI.Transform
+	line.MouseClickX = lineAPI.MouseClickX
+	line.MouseClickY = lineAPI.MouseClickY
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 	line.Animates = new Array<Animate>()
-	for (let _id of lineDB.LinePointersEncoding.Animates) {
+	for (let _id of lineAPI.LinePointersEncoding.Animates) {
 		let _animate = frontRepo.map_ID_Animate.get(_id)
 		if (_animate != undefined) {
 			line.Animates.push(_animate!)

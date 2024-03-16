@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { TreeDB } from './tree-db'
+import { TreeAPI } from './tree-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -24,43 +24,43 @@ export class Tree {
 	RootNodes: Array<Node> = []
 }
 
-export function CopyTreeToTreeDB(tree: Tree, treeDB: TreeDB) {
+export function CopyTreeToTreeAPI(tree: Tree, treeAPI: TreeAPI) {
 
-	treeDB.CreatedAt = tree.CreatedAt
-	treeDB.DeletedAt = tree.DeletedAt
-	treeDB.ID = tree.ID
+	treeAPI.CreatedAt = tree.CreatedAt
+	treeAPI.DeletedAt = tree.DeletedAt
+	treeAPI.ID = tree.ID
 
 	// insertion point for basic fields copy operations
-	treeDB.Name = tree.Name
+	treeAPI.Name = tree.Name
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	treeDB.TreePointersEncoding.RootNodes = []
+	treeAPI.TreePointersEncoding.RootNodes = []
 	for (let _node of tree.RootNodes) {
-		treeDB.TreePointersEncoding.RootNodes.push(_node.ID)
+		treeAPI.TreePointersEncoding.RootNodes.push(_node.ID)
 	}
 
 }
 
-// CopyTreeDBToTree update basic, pointers and slice of pointers fields of tree
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of treeDB
+// CopyTreeAPIToTree update basic, pointers and slice of pointers fields of tree
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of treeAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyTreeDBToTree(treeDB: TreeDB, tree: Tree, frontRepo: FrontRepo) {
+export function CopyTreeAPIToTree(treeAPI: TreeAPI, tree: Tree, frontRepo: FrontRepo) {
 
-	tree.CreatedAt = treeDB.CreatedAt
-	tree.DeletedAt = treeDB.DeletedAt
-	tree.ID = treeDB.ID
+	tree.CreatedAt = treeAPI.CreatedAt
+	tree.DeletedAt = treeAPI.DeletedAt
+	tree.ID = treeAPI.ID
 
 	// insertion point for basic fields copy operations
-	tree.Name = treeDB.Name
+	tree.Name = treeAPI.Name
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 	tree.RootNodes = new Array<Node>()
-	for (let _id of treeDB.TreePointersEncoding.RootNodes) {
+	for (let _id of treeAPI.TreePointersEncoding.RootNodes) {
 		let _node = frontRepo.map_ID_Node.get(_id)
 		if (_node != undefined) {
 			tree.RootNodes.push(_node!)

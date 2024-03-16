@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { RectAnchoredTextDB } from './rectanchoredtext-db'
+import { RectAnchoredTextAPI } from './rectanchoredtext-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -38,71 +38,71 @@ export class RectAnchoredText {
 	Animates: Array<Animate> = []
 }
 
-export function CopyRectAnchoredTextToRectAnchoredTextDB(rectanchoredtext: RectAnchoredText, rectanchoredtextDB: RectAnchoredTextDB) {
+export function CopyRectAnchoredTextToRectAnchoredTextAPI(rectanchoredtext: RectAnchoredText, rectanchoredtextAPI: RectAnchoredTextAPI) {
 
-	rectanchoredtextDB.CreatedAt = rectanchoredtext.CreatedAt
-	rectanchoredtextDB.DeletedAt = rectanchoredtext.DeletedAt
-	rectanchoredtextDB.ID = rectanchoredtext.ID
+	rectanchoredtextAPI.CreatedAt = rectanchoredtext.CreatedAt
+	rectanchoredtextAPI.DeletedAt = rectanchoredtext.DeletedAt
+	rectanchoredtextAPI.ID = rectanchoredtext.ID
 
 	// insertion point for basic fields copy operations
-	rectanchoredtextDB.Name = rectanchoredtext.Name
-	rectanchoredtextDB.Content = rectanchoredtext.Content
-	rectanchoredtextDB.FontWeight = rectanchoredtext.FontWeight
-	rectanchoredtextDB.FontSize = rectanchoredtext.FontSize
-	rectanchoredtextDB.X_Offset = rectanchoredtext.X_Offset
-	rectanchoredtextDB.Y_Offset = rectanchoredtext.Y_Offset
-	rectanchoredtextDB.RectAnchorType = rectanchoredtext.RectAnchorType
-	rectanchoredtextDB.TextAnchorType = rectanchoredtext.TextAnchorType
-	rectanchoredtextDB.Color = rectanchoredtext.Color
-	rectanchoredtextDB.FillOpacity = rectanchoredtext.FillOpacity
-	rectanchoredtextDB.Stroke = rectanchoredtext.Stroke
-	rectanchoredtextDB.StrokeWidth = rectanchoredtext.StrokeWidth
-	rectanchoredtextDB.StrokeDashArray = rectanchoredtext.StrokeDashArray
-	rectanchoredtextDB.StrokeDashArrayWhenSelected = rectanchoredtext.StrokeDashArrayWhenSelected
-	rectanchoredtextDB.Transform = rectanchoredtext.Transform
+	rectanchoredtextAPI.Name = rectanchoredtext.Name
+	rectanchoredtextAPI.Content = rectanchoredtext.Content
+	rectanchoredtextAPI.FontWeight = rectanchoredtext.FontWeight
+	rectanchoredtextAPI.FontSize = rectanchoredtext.FontSize
+	rectanchoredtextAPI.X_Offset = rectanchoredtext.X_Offset
+	rectanchoredtextAPI.Y_Offset = rectanchoredtext.Y_Offset
+	rectanchoredtextAPI.RectAnchorType = rectanchoredtext.RectAnchorType
+	rectanchoredtextAPI.TextAnchorType = rectanchoredtext.TextAnchorType
+	rectanchoredtextAPI.Color = rectanchoredtext.Color
+	rectanchoredtextAPI.FillOpacity = rectanchoredtext.FillOpacity
+	rectanchoredtextAPI.Stroke = rectanchoredtext.Stroke
+	rectanchoredtextAPI.StrokeWidth = rectanchoredtext.StrokeWidth
+	rectanchoredtextAPI.StrokeDashArray = rectanchoredtext.StrokeDashArray
+	rectanchoredtextAPI.StrokeDashArrayWhenSelected = rectanchoredtext.StrokeDashArrayWhenSelected
+	rectanchoredtextAPI.Transform = rectanchoredtext.Transform
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	rectanchoredtextDB.RectAnchoredTextPointersEncoding.Animates = []
+	rectanchoredtextAPI.RectAnchoredTextPointersEncoding.Animates = []
 	for (let _animate of rectanchoredtext.Animates) {
-		rectanchoredtextDB.RectAnchoredTextPointersEncoding.Animates.push(_animate.ID)
+		rectanchoredtextAPI.RectAnchoredTextPointersEncoding.Animates.push(_animate.ID)
 	}
 
 }
 
-// CopyRectAnchoredTextDBToRectAnchoredText update basic, pointers and slice of pointers fields of rectanchoredtext
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of rectanchoredtextDB
+// CopyRectAnchoredTextAPIToRectAnchoredText update basic, pointers and slice of pointers fields of rectanchoredtext
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of rectanchoredtextAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyRectAnchoredTextDBToRectAnchoredText(rectanchoredtextDB: RectAnchoredTextDB, rectanchoredtext: RectAnchoredText, frontRepo: FrontRepo) {
+export function CopyRectAnchoredTextAPIToRectAnchoredText(rectanchoredtextAPI: RectAnchoredTextAPI, rectanchoredtext: RectAnchoredText, frontRepo: FrontRepo) {
 
-	rectanchoredtext.CreatedAt = rectanchoredtextDB.CreatedAt
-	rectanchoredtext.DeletedAt = rectanchoredtextDB.DeletedAt
-	rectanchoredtext.ID = rectanchoredtextDB.ID
+	rectanchoredtext.CreatedAt = rectanchoredtextAPI.CreatedAt
+	rectanchoredtext.DeletedAt = rectanchoredtextAPI.DeletedAt
+	rectanchoredtext.ID = rectanchoredtextAPI.ID
 
 	// insertion point for basic fields copy operations
-	rectanchoredtext.Name = rectanchoredtextDB.Name
-	rectanchoredtext.Content = rectanchoredtextDB.Content
-	rectanchoredtext.FontWeight = rectanchoredtextDB.FontWeight
-	rectanchoredtext.FontSize = rectanchoredtextDB.FontSize
-	rectanchoredtext.X_Offset = rectanchoredtextDB.X_Offset
-	rectanchoredtext.Y_Offset = rectanchoredtextDB.Y_Offset
-	rectanchoredtext.RectAnchorType = rectanchoredtextDB.RectAnchorType
-	rectanchoredtext.TextAnchorType = rectanchoredtextDB.TextAnchorType
-	rectanchoredtext.Color = rectanchoredtextDB.Color
-	rectanchoredtext.FillOpacity = rectanchoredtextDB.FillOpacity
-	rectanchoredtext.Stroke = rectanchoredtextDB.Stroke
-	rectanchoredtext.StrokeWidth = rectanchoredtextDB.StrokeWidth
-	rectanchoredtext.StrokeDashArray = rectanchoredtextDB.StrokeDashArray
-	rectanchoredtext.StrokeDashArrayWhenSelected = rectanchoredtextDB.StrokeDashArrayWhenSelected
-	rectanchoredtext.Transform = rectanchoredtextDB.Transform
+	rectanchoredtext.Name = rectanchoredtextAPI.Name
+	rectanchoredtext.Content = rectanchoredtextAPI.Content
+	rectanchoredtext.FontWeight = rectanchoredtextAPI.FontWeight
+	rectanchoredtext.FontSize = rectanchoredtextAPI.FontSize
+	rectanchoredtext.X_Offset = rectanchoredtextAPI.X_Offset
+	rectanchoredtext.Y_Offset = rectanchoredtextAPI.Y_Offset
+	rectanchoredtext.RectAnchorType = rectanchoredtextAPI.RectAnchorType
+	rectanchoredtext.TextAnchorType = rectanchoredtextAPI.TextAnchorType
+	rectanchoredtext.Color = rectanchoredtextAPI.Color
+	rectanchoredtext.FillOpacity = rectanchoredtextAPI.FillOpacity
+	rectanchoredtext.Stroke = rectanchoredtextAPI.Stroke
+	rectanchoredtext.StrokeWidth = rectanchoredtextAPI.StrokeWidth
+	rectanchoredtext.StrokeDashArray = rectanchoredtextAPI.StrokeDashArray
+	rectanchoredtext.StrokeDashArrayWhenSelected = rectanchoredtextAPI.StrokeDashArrayWhenSelected
+	rectanchoredtext.Transform = rectanchoredtextAPI.Transform
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 	rectanchoredtext.Animates = new Array<Animate>()
-	for (let _id of rectanchoredtextDB.RectAnchoredTextPointersEncoding.Animates) {
+	for (let _id of rectanchoredtextAPI.RectAnchoredTextPointersEncoding.Animates) {
 		let _animate = frontRepo.map_ID_Animate.get(_id)
 		if (_animate != undefined) {
 			rectanchoredtext.Animates.push(_animate!)

@@ -38,6 +38,7 @@ type TreeAPI struct {
 	models.Tree_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	TreePointersEncoding TreePointersEncoding
 }
 
@@ -63,7 +64,9 @@ type TreeDB struct {
 
 	// Declation for basic field treeDB.Name
 	Name_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	TreePointersEncoding
 }
 

@@ -38,6 +38,7 @@ type FormFieldStringAPI struct {
 	models.FormFieldString_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	FormFieldStringPointersEncoding FormFieldStringPointersEncoding
 }
 
@@ -67,7 +68,9 @@ type FormFieldStringDB struct {
 	// Declation for basic field formfieldstringDB.IsTextArea
 	// provide the sql storage for the boolan
 	IsTextArea_Data sql.NullBool
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormFieldStringPointersEncoding
 }
 

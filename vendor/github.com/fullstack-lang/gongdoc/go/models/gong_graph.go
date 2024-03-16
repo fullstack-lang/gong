@@ -144,7 +144,7 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 
 
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
-// referenced by pointers or slices of pointers of the insance
+// referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
@@ -431,6 +431,367 @@ func (stage *StageStruct) StageBranchVertice(vertice *Vertice) {
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
+}
+
+
+// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// referenced by pointers or slices of pointers of the instance
+//
+// the algorithm stops along the course of graph if a vertex is already staged
+func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+
+	mapOrigCopy := make(map[any]any)
+	_ = mapOrigCopy
+	
+	switch fromT := any(from).(type) {
+	// insertion point for stage branch
+	case *Classdiagram:
+		toT := CopyBranchClassdiagram(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *DiagramPackage:
+		toT := CopyBranchDiagramPackage(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Field:
+		toT := CopyBranchField(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *GongEnumShape:
+		toT := CopyBranchGongEnumShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *GongEnumValueEntry:
+		toT := CopyBranchGongEnumValueEntry(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *GongStructShape:
+		toT := CopyBranchGongStructShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Link:
+		toT := CopyBranchLink(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *NoteShape:
+		toT := CopyBranchNoteShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *NoteShapeLink:
+		toT := CopyBranchNoteShapeLink(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Position:
+		toT := CopyBranchPosition(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *UmlState:
+		toT := CopyBranchUmlState(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Umlsc:
+		toT := CopyBranchUmlsc(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Vertice:
+		toT := CopyBranchVertice(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	default:
+		_ = fromT // to espace compilation issue when model is empty
+	}
+	return
+}
+
+
+// insertion point for stage branch per struct
+func CopyBranchClassdiagram(mapOrigCopy map[any]any, classdiagramFrom *Classdiagram) (classdiagramTo  *Classdiagram){
+
+	// classdiagramFrom has already been copied
+	if _classdiagramTo, ok := mapOrigCopy[classdiagramFrom]; ok {
+		classdiagramTo = _classdiagramTo.(*Classdiagram)
+		return
+	}
+
+	classdiagramTo = new(Classdiagram)
+	mapOrigCopy[classdiagramFrom] = classdiagramTo
+	classdiagramFrom.CopyBasicFields(classdiagramTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _gongstructshape := range classdiagramFrom.GongStructShapes {
+		classdiagramTo.GongStructShapes = append( classdiagramTo.GongStructShapes, CopyBranchGongStructShape(mapOrigCopy, _gongstructshape))
+	}
+	for _, _gongenumshape := range classdiagramFrom.GongEnumShapes {
+		classdiagramTo.GongEnumShapes = append( classdiagramTo.GongEnumShapes, CopyBranchGongEnumShape(mapOrigCopy, _gongenumshape))
+	}
+	for _, _noteshape := range classdiagramFrom.NoteShapes {
+		classdiagramTo.NoteShapes = append( classdiagramTo.NoteShapes, CopyBranchNoteShape(mapOrigCopy, _noteshape))
+	}
+
+	return
+}
+
+func CopyBranchDiagramPackage(mapOrigCopy map[any]any, diagrampackageFrom *DiagramPackage) (diagrampackageTo  *DiagramPackage){
+
+	// diagrampackageFrom has already been copied
+	if _diagrampackageTo, ok := mapOrigCopy[diagrampackageFrom]; ok {
+		diagrampackageTo = _diagrampackageTo.(*DiagramPackage)
+		return
+	}
+
+	diagrampackageTo = new(DiagramPackage)
+	mapOrigCopy[diagrampackageFrom] = diagrampackageTo
+	diagrampackageFrom.CopyBasicFields(diagrampackageTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if diagrampackageFrom.SelectedClassdiagram != nil {
+		diagrampackageTo.SelectedClassdiagram = CopyBranchClassdiagram(mapOrigCopy, diagrampackageFrom.SelectedClassdiagram)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _classdiagram := range diagrampackageFrom.Classdiagrams {
+		diagrampackageTo.Classdiagrams = append( diagrampackageTo.Classdiagrams, CopyBranchClassdiagram(mapOrigCopy, _classdiagram))
+	}
+	for _, _umlsc := range diagrampackageFrom.Umlscs {
+		diagrampackageTo.Umlscs = append( diagrampackageTo.Umlscs, CopyBranchUmlsc(mapOrigCopy, _umlsc))
+	}
+
+	return
+}
+
+func CopyBranchField(mapOrigCopy map[any]any, fieldFrom *Field) (fieldTo  *Field){
+
+	// fieldFrom has already been copied
+	if _fieldTo, ok := mapOrigCopy[fieldFrom]; ok {
+		fieldTo = _fieldTo.(*Field)
+		return
+	}
+
+	fieldTo = new(Field)
+	mapOrigCopy[fieldFrom] = fieldTo
+	fieldFrom.CopyBasicFields(fieldTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchGongEnumShape(mapOrigCopy map[any]any, gongenumshapeFrom *GongEnumShape) (gongenumshapeTo  *GongEnumShape){
+
+	// gongenumshapeFrom has already been copied
+	if _gongenumshapeTo, ok := mapOrigCopy[gongenumshapeFrom]; ok {
+		gongenumshapeTo = _gongenumshapeTo.(*GongEnumShape)
+		return
+	}
+
+	gongenumshapeTo = new(GongEnumShape)
+	mapOrigCopy[gongenumshapeFrom] = gongenumshapeTo
+	gongenumshapeFrom.CopyBasicFields(gongenumshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if gongenumshapeFrom.Position != nil {
+		gongenumshapeTo.Position = CopyBranchPosition(mapOrigCopy, gongenumshapeFrom.Position)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _gongenumvalueentry := range gongenumshapeFrom.GongEnumValueEntrys {
+		gongenumshapeTo.GongEnumValueEntrys = append( gongenumshapeTo.GongEnumValueEntrys, CopyBranchGongEnumValueEntry(mapOrigCopy, _gongenumvalueentry))
+	}
+
+	return
+}
+
+func CopyBranchGongEnumValueEntry(mapOrigCopy map[any]any, gongenumvalueentryFrom *GongEnumValueEntry) (gongenumvalueentryTo  *GongEnumValueEntry){
+
+	// gongenumvalueentryFrom has already been copied
+	if _gongenumvalueentryTo, ok := mapOrigCopy[gongenumvalueentryFrom]; ok {
+		gongenumvalueentryTo = _gongenumvalueentryTo.(*GongEnumValueEntry)
+		return
+	}
+
+	gongenumvalueentryTo = new(GongEnumValueEntry)
+	mapOrigCopy[gongenumvalueentryFrom] = gongenumvalueentryTo
+	gongenumvalueentryFrom.CopyBasicFields(gongenumvalueentryTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchGongStructShape(mapOrigCopy map[any]any, gongstructshapeFrom *GongStructShape) (gongstructshapeTo  *GongStructShape){
+
+	// gongstructshapeFrom has already been copied
+	if _gongstructshapeTo, ok := mapOrigCopy[gongstructshapeFrom]; ok {
+		gongstructshapeTo = _gongstructshapeTo.(*GongStructShape)
+		return
+	}
+
+	gongstructshapeTo = new(GongStructShape)
+	mapOrigCopy[gongstructshapeFrom] = gongstructshapeTo
+	gongstructshapeFrom.CopyBasicFields(gongstructshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if gongstructshapeFrom.Position != nil {
+		gongstructshapeTo.Position = CopyBranchPosition(mapOrigCopy, gongstructshapeFrom.Position)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _field := range gongstructshapeFrom.Fields {
+		gongstructshapeTo.Fields = append( gongstructshapeTo.Fields, CopyBranchField(mapOrigCopy, _field))
+	}
+	for _, _link := range gongstructshapeFrom.Links {
+		gongstructshapeTo.Links = append( gongstructshapeTo.Links, CopyBranchLink(mapOrigCopy, _link))
+	}
+
+	return
+}
+
+func CopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo  *Link){
+
+	// linkFrom has already been copied
+	if _linkTo, ok := mapOrigCopy[linkFrom]; ok {
+		linkTo = _linkTo.(*Link)
+		return
+	}
+
+	linkTo = new(Link)
+	mapOrigCopy[linkFrom] = linkTo
+	linkFrom.CopyBasicFields(linkTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if linkFrom.Middlevertice != nil {
+		linkTo.Middlevertice = CopyBranchVertice(mapOrigCopy, linkFrom.Middlevertice)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (noteshapeTo  *NoteShape){
+
+	// noteshapeFrom has already been copied
+	if _noteshapeTo, ok := mapOrigCopy[noteshapeFrom]; ok {
+		noteshapeTo = _noteshapeTo.(*NoteShape)
+		return
+	}
+
+	noteshapeTo = new(NoteShape)
+	mapOrigCopy[noteshapeFrom] = noteshapeTo
+	noteshapeFrom.CopyBasicFields(noteshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _noteshapelink := range noteshapeFrom.NoteShapeLinks {
+		noteshapeTo.NoteShapeLinks = append( noteshapeTo.NoteShapeLinks, CopyBranchNoteShapeLink(mapOrigCopy, _noteshapelink))
+	}
+
+	return
+}
+
+func CopyBranchNoteShapeLink(mapOrigCopy map[any]any, noteshapelinkFrom *NoteShapeLink) (noteshapelinkTo  *NoteShapeLink){
+
+	// noteshapelinkFrom has already been copied
+	if _noteshapelinkTo, ok := mapOrigCopy[noteshapelinkFrom]; ok {
+		noteshapelinkTo = _noteshapelinkTo.(*NoteShapeLink)
+		return
+	}
+
+	noteshapelinkTo = new(NoteShapeLink)
+	mapOrigCopy[noteshapelinkFrom] = noteshapelinkTo
+	noteshapelinkFrom.CopyBasicFields(noteshapelinkTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchPosition(mapOrigCopy map[any]any, positionFrom *Position) (positionTo  *Position){
+
+	// positionFrom has already been copied
+	if _positionTo, ok := mapOrigCopy[positionFrom]; ok {
+		positionTo = _positionTo.(*Position)
+		return
+	}
+
+	positionTo = new(Position)
+	mapOrigCopy[positionFrom] = positionTo
+	positionFrom.CopyBasicFields(positionTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchUmlState(mapOrigCopy map[any]any, umlstateFrom *UmlState) (umlstateTo  *UmlState){
+
+	// umlstateFrom has already been copied
+	if _umlstateTo, ok := mapOrigCopy[umlstateFrom]; ok {
+		umlstateTo = _umlstateTo.(*UmlState)
+		return
+	}
+
+	umlstateTo = new(UmlState)
+	mapOrigCopy[umlstateFrom] = umlstateTo
+	umlstateFrom.CopyBasicFields(umlstateTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchUmlsc(mapOrigCopy map[any]any, umlscFrom *Umlsc) (umlscTo  *Umlsc){
+
+	// umlscFrom has already been copied
+	if _umlscTo, ok := mapOrigCopy[umlscFrom]; ok {
+		umlscTo = _umlscTo.(*Umlsc)
+		return
+	}
+
+	umlscTo = new(Umlsc)
+	mapOrigCopy[umlscFrom] = umlscTo
+	umlscFrom.CopyBasicFields(umlscTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _umlstate := range umlscFrom.States {
+		umlscTo.States = append( umlscTo.States, CopyBranchUmlState(mapOrigCopy, _umlstate))
+	}
+
+	return
+}
+
+func CopyBranchVertice(mapOrigCopy map[any]any, verticeFrom *Vertice) (verticeTo  *Vertice){
+
+	// verticeFrom has already been copied
+	if _verticeTo, ok := mapOrigCopy[verticeFrom]; ok {
+		verticeTo = _verticeTo.(*Vertice)
+		return
+	}
+
+	verticeTo = new(Vertice)
+	mapOrigCopy[verticeFrom] = verticeTo
+	verticeFrom.CopyBasicFields(verticeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
 }
 
 

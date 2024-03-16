@@ -38,6 +38,7 @@ type CellFloat64API struct {
 	models.CellFloat64_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	CellFloat64PointersEncoding CellFloat64PointersEncoding
 }
 
@@ -63,7 +64,9 @@ type CellFloat64DB struct {
 
 	// Declation for basic field cellfloat64DB.Value
 	Value_Data sql.NullFloat64
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	CellFloat64PointersEncoding
 }
 

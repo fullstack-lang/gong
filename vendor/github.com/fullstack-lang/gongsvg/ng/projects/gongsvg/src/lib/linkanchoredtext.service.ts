@@ -11,13 +11,13 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { LinkAnchoredTextDB } from './linkanchoredtext-db'
-import { LinkAnchoredText, CopyLinkAnchoredTextToLinkAnchoredTextDB } from './linkanchoredtext'
+import { LinkAnchoredTextAPI } from './linkanchoredtext-api'
+import { LinkAnchoredText, CopyLinkAnchoredTextToLinkAnchoredTextAPI } from './linkanchoredtext'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { AnimateDB } from './animate-db'
+import { AnimateAPI } from './animate-api'
 
 @Injectable({
   providedIn: 'root'
@@ -47,41 +47,41 @@ export class LinkAnchoredTextService {
 
   /** GET linkanchoredtexts from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI[]> {
     return this.getLinkAnchoredTexts(GONG__StackPath, frontRepo)
   }
-  getLinkAnchoredTexts(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextDB[]> {
+  getLinkAnchoredTexts(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<LinkAnchoredTextDB[]>(this.linkanchoredtextsUrl, { params: params })
+    return this.http.get<LinkAnchoredTextAPI[]>(this.linkanchoredtextsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<LinkAnchoredTextDB[]>('getLinkAnchoredTexts', []))
+        catchError(this.handleError<LinkAnchoredTextAPI[]>('getLinkAnchoredTexts', []))
       );
   }
 
   /** GET linkanchoredtext by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI> {
     return this.getLinkAnchoredText(id, GONG__StackPath, frontRepo)
   }
-  getLinkAnchoredText(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextDB> {
+  getLinkAnchoredText(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.linkanchoredtextsUrl}/${id}`;
-    return this.http.get<LinkAnchoredTextDB>(url, { params: params }).pipe(
+    return this.http.get<LinkAnchoredTextAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched linkanchoredtext id=${id}`)),
-      catchError(this.handleError<LinkAnchoredTextDB>(`getLinkAnchoredText id=${id}`))
+      catchError(this.handleError<LinkAnchoredTextAPI>(`getLinkAnchoredText id=${id}`))
     );
   }
 
   // postFront copy linkanchoredtext to a version with encoded pointers and post to the back
-  postFront(linkanchoredtext: LinkAnchoredText, GONG__StackPath: string): Observable<LinkAnchoredTextDB> {
-    let linkanchoredtextDB = new LinkAnchoredTextDB
-    CopyLinkAnchoredTextToLinkAnchoredTextDB(linkanchoredtext, linkanchoredtextDB)
-    const id = typeof linkanchoredtextDB === 'number' ? linkanchoredtextDB : linkanchoredtextDB.ID
+  postFront(linkanchoredtext: LinkAnchoredText, GONG__StackPath: string): Observable<LinkAnchoredTextAPI> {
+    let linkanchoredtextAPI = new LinkAnchoredTextAPI
+    CopyLinkAnchoredTextToLinkAnchoredTextAPI(linkanchoredtext, linkanchoredtextAPI)
+    const id = typeof linkanchoredtextAPI === 'number' ? linkanchoredtextAPI : linkanchoredtextAPI.ID
     const url = `${this.linkanchoredtextsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -89,18 +89,18 @@ export class LinkAnchoredTextService {
       params: params
     }
 
-    return this.http.post<LinkAnchoredTextDB>(url, linkanchoredtextDB, httpOptions).pipe(
+    return this.http.post<LinkAnchoredTextAPI>(url, linkanchoredtextAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<LinkAnchoredTextDB>('postLinkAnchoredText'))
+      catchError(this.handleError<LinkAnchoredTextAPI>('postLinkAnchoredText'))
     );
   }
   
   /** POST: add a new linkanchoredtext to the server */
-  post(linkanchoredtextdb: LinkAnchoredTextDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextDB> {
+  post(linkanchoredtextdb: LinkAnchoredTextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI> {
     return this.postLinkAnchoredText(linkanchoredtextdb, GONG__StackPath, frontRepo)
   }
-  postLinkAnchoredText(linkanchoredtextdb: LinkAnchoredTextDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextDB> {
+  postLinkAnchoredText(linkanchoredtextdb: LinkAnchoredTextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -108,19 +108,19 @@ export class LinkAnchoredTextService {
       params: params
     }
 
-    return this.http.post<LinkAnchoredTextDB>(this.linkanchoredtextsUrl, linkanchoredtextdb, httpOptions).pipe(
+    return this.http.post<LinkAnchoredTextAPI>(this.linkanchoredtextsUrl, linkanchoredtextdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted linkanchoredtextdb id=${linkanchoredtextdb.ID}`)
       }),
-      catchError(this.handleError<LinkAnchoredTextDB>('postLinkAnchoredText'))
+      catchError(this.handleError<LinkAnchoredTextAPI>('postLinkAnchoredText'))
     );
   }
 
   /** DELETE: delete the linkanchoredtextdb from the server */
-  delete(linkanchoredtextdb: LinkAnchoredTextDB | number, GONG__StackPath: string): Observable<LinkAnchoredTextDB> {
+  delete(linkanchoredtextdb: LinkAnchoredTextAPI | number, GONG__StackPath: string): Observable<LinkAnchoredTextAPI> {
     return this.deleteLinkAnchoredText(linkanchoredtextdb, GONG__StackPath)
   }
-  deleteLinkAnchoredText(linkanchoredtextdb: LinkAnchoredTextDB | number, GONG__StackPath: string): Observable<LinkAnchoredTextDB> {
+  deleteLinkAnchoredText(linkanchoredtextdb: LinkAnchoredTextAPI | number, GONG__StackPath: string): Observable<LinkAnchoredTextAPI> {
     const id = typeof linkanchoredtextdb === 'number' ? linkanchoredtextdb : linkanchoredtextdb.ID;
     const url = `${this.linkanchoredtextsUrl}/${id}`;
 
@@ -130,17 +130,17 @@ export class LinkAnchoredTextService {
       params: params
     };
 
-    return this.http.delete<LinkAnchoredTextDB>(url, httpOptions).pipe(
+    return this.http.delete<LinkAnchoredTextAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted linkanchoredtextdb id=${id}`)),
-      catchError(this.handleError<LinkAnchoredTextDB>('deleteLinkAnchoredText'))
+      catchError(this.handleError<LinkAnchoredTextAPI>('deleteLinkAnchoredText'))
     );
   }
 
   // updateFront copy linkanchoredtext to a version with encoded pointers and update to the back
-  updateFront(linkanchoredtext: LinkAnchoredText, GONG__StackPath: string): Observable<LinkAnchoredTextDB> {
-    let linkanchoredtextDB = new LinkAnchoredTextDB
-    CopyLinkAnchoredTextToLinkAnchoredTextDB(linkanchoredtext, linkanchoredtextDB)
-    const id = typeof linkanchoredtextDB === 'number' ? linkanchoredtextDB : linkanchoredtextDB.ID
+  updateFront(linkanchoredtext: LinkAnchoredText, GONG__StackPath: string): Observable<LinkAnchoredTextAPI> {
+    let linkanchoredtextAPI = new LinkAnchoredTextAPI
+    CopyLinkAnchoredTextToLinkAnchoredTextAPI(linkanchoredtext, linkanchoredtextAPI)
+    const id = typeof linkanchoredtextAPI === 'number' ? linkanchoredtextAPI : linkanchoredtextAPI.ID
     const url = `${this.linkanchoredtextsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,18 +148,18 @@ export class LinkAnchoredTextService {
       params: params
     }
 
-    return this.http.put<LinkAnchoredTextDB>(url, linkanchoredtextDB, httpOptions).pipe(
+    return this.http.put<LinkAnchoredTextAPI>(url, linkanchoredtextAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<LinkAnchoredTextDB>('updateLinkAnchoredText'))
+      catchError(this.handleError<LinkAnchoredTextAPI>('updateLinkAnchoredText'))
     );
   }
 
   /** PUT: update the linkanchoredtextdb on the server */
-  update(linkanchoredtextdb: LinkAnchoredTextDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextDB> {
+  update(linkanchoredtextdb: LinkAnchoredTextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI> {
     return this.updateLinkAnchoredText(linkanchoredtextdb, GONG__StackPath, frontRepo)
   }
-  updateLinkAnchoredText(linkanchoredtextdb: LinkAnchoredTextDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextDB> {
+  updateLinkAnchoredText(linkanchoredtextdb: LinkAnchoredTextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI> {
     const id = typeof linkanchoredtextdb === 'number' ? linkanchoredtextdb : linkanchoredtextdb.ID;
     const url = `${this.linkanchoredtextsUrl}/${id}`;
 
@@ -170,11 +170,11 @@ export class LinkAnchoredTextService {
       params: params
     };
 
-    return this.http.put<LinkAnchoredTextDB>(url, linkanchoredtextdb, httpOptions).pipe(
+    return this.http.put<LinkAnchoredTextAPI>(url, linkanchoredtextdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated linkanchoredtextdb id=${linkanchoredtextdb.ID}`)
       }),
-      catchError(this.handleError<LinkAnchoredTextDB>('updateLinkAnchoredText'))
+      catchError(this.handleError<LinkAnchoredTextAPI>('updateLinkAnchoredText'))
     );
   }
 

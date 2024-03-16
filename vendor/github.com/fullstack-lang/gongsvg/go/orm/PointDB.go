@@ -38,6 +38,7 @@ type PointAPI struct {
 	models.Point_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	PointPointersEncoding PointPointersEncoding
 }
 
@@ -66,7 +67,9 @@ type PointDB struct {
 
 	// Declation for basic field pointDB.Y
 	Y_Data sql.NullFloat64
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	PointPointersEncoding
 }
 

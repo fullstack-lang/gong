@@ -11,13 +11,13 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { PolygoneDB } from './polygone-db'
-import { Polygone, CopyPolygoneToPolygoneDB } from './polygone'
+import { PolygoneAPI } from './polygone-api'
+import { Polygone, CopyPolygoneToPolygoneAPI } from './polygone'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { AnimateDB } from './animate-db'
+import { AnimateAPI } from './animate-api'
 
 @Injectable({
   providedIn: 'root'
@@ -47,41 +47,41 @@ export class PolygoneService {
 
   /** GET polygones from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneAPI[]> {
     return this.getPolygones(GONG__StackPath, frontRepo)
   }
-  getPolygones(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneDB[]> {
+  getPolygones(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<PolygoneDB[]>(this.polygonesUrl, { params: params })
+    return this.http.get<PolygoneAPI[]>(this.polygonesUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<PolygoneDB[]>('getPolygones', []))
+        catchError(this.handleError<PolygoneAPI[]>('getPolygones', []))
       );
   }
 
   /** GET polygone by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneAPI> {
     return this.getPolygone(id, GONG__StackPath, frontRepo)
   }
-  getPolygone(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneDB> {
+  getPolygone(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.polygonesUrl}/${id}`;
-    return this.http.get<PolygoneDB>(url, { params: params }).pipe(
+    return this.http.get<PolygoneAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched polygone id=${id}`)),
-      catchError(this.handleError<PolygoneDB>(`getPolygone id=${id}`))
+      catchError(this.handleError<PolygoneAPI>(`getPolygone id=${id}`))
     );
   }
 
   // postFront copy polygone to a version with encoded pointers and post to the back
-  postFront(polygone: Polygone, GONG__StackPath: string): Observable<PolygoneDB> {
-    let polygoneDB = new PolygoneDB
-    CopyPolygoneToPolygoneDB(polygone, polygoneDB)
-    const id = typeof polygoneDB === 'number' ? polygoneDB : polygoneDB.ID
+  postFront(polygone: Polygone, GONG__StackPath: string): Observable<PolygoneAPI> {
+    let polygoneAPI = new PolygoneAPI
+    CopyPolygoneToPolygoneAPI(polygone, polygoneAPI)
+    const id = typeof polygoneAPI === 'number' ? polygoneAPI : polygoneAPI.ID
     const url = `${this.polygonesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -89,18 +89,18 @@ export class PolygoneService {
       params: params
     }
 
-    return this.http.post<PolygoneDB>(url, polygoneDB, httpOptions).pipe(
+    return this.http.post<PolygoneAPI>(url, polygoneAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<PolygoneDB>('postPolygone'))
+      catchError(this.handleError<PolygoneAPI>('postPolygone'))
     );
   }
   
   /** POST: add a new polygone to the server */
-  post(polygonedb: PolygoneDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneDB> {
+  post(polygonedb: PolygoneAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneAPI> {
     return this.postPolygone(polygonedb, GONG__StackPath, frontRepo)
   }
-  postPolygone(polygonedb: PolygoneDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneDB> {
+  postPolygone(polygonedb: PolygoneAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -108,19 +108,19 @@ export class PolygoneService {
       params: params
     }
 
-    return this.http.post<PolygoneDB>(this.polygonesUrl, polygonedb, httpOptions).pipe(
+    return this.http.post<PolygoneAPI>(this.polygonesUrl, polygonedb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted polygonedb id=${polygonedb.ID}`)
       }),
-      catchError(this.handleError<PolygoneDB>('postPolygone'))
+      catchError(this.handleError<PolygoneAPI>('postPolygone'))
     );
   }
 
   /** DELETE: delete the polygonedb from the server */
-  delete(polygonedb: PolygoneDB | number, GONG__StackPath: string): Observable<PolygoneDB> {
+  delete(polygonedb: PolygoneAPI | number, GONG__StackPath: string): Observable<PolygoneAPI> {
     return this.deletePolygone(polygonedb, GONG__StackPath)
   }
-  deletePolygone(polygonedb: PolygoneDB | number, GONG__StackPath: string): Observable<PolygoneDB> {
+  deletePolygone(polygonedb: PolygoneAPI | number, GONG__StackPath: string): Observable<PolygoneAPI> {
     const id = typeof polygonedb === 'number' ? polygonedb : polygonedb.ID;
     const url = `${this.polygonesUrl}/${id}`;
 
@@ -130,17 +130,17 @@ export class PolygoneService {
       params: params
     };
 
-    return this.http.delete<PolygoneDB>(url, httpOptions).pipe(
+    return this.http.delete<PolygoneAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted polygonedb id=${id}`)),
-      catchError(this.handleError<PolygoneDB>('deletePolygone'))
+      catchError(this.handleError<PolygoneAPI>('deletePolygone'))
     );
   }
 
   // updateFront copy polygone to a version with encoded pointers and update to the back
-  updateFront(polygone: Polygone, GONG__StackPath: string): Observable<PolygoneDB> {
-    let polygoneDB = new PolygoneDB
-    CopyPolygoneToPolygoneDB(polygone, polygoneDB)
-    const id = typeof polygoneDB === 'number' ? polygoneDB : polygoneDB.ID
+  updateFront(polygone: Polygone, GONG__StackPath: string): Observable<PolygoneAPI> {
+    let polygoneAPI = new PolygoneAPI
+    CopyPolygoneToPolygoneAPI(polygone, polygoneAPI)
+    const id = typeof polygoneAPI === 'number' ? polygoneAPI : polygoneAPI.ID
     const url = `${this.polygonesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,18 +148,18 @@ export class PolygoneService {
       params: params
     }
 
-    return this.http.put<PolygoneDB>(url, polygoneDB, httpOptions).pipe(
+    return this.http.put<PolygoneAPI>(url, polygoneAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<PolygoneDB>('updatePolygone'))
+      catchError(this.handleError<PolygoneAPI>('updatePolygone'))
     );
   }
 
   /** PUT: update the polygonedb on the server */
-  update(polygonedb: PolygoneDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneDB> {
+  update(polygonedb: PolygoneAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneAPI> {
     return this.updatePolygone(polygonedb, GONG__StackPath, frontRepo)
   }
-  updatePolygone(polygonedb: PolygoneDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneDB> {
+  updatePolygone(polygonedb: PolygoneAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneAPI> {
     const id = typeof polygonedb === 'number' ? polygonedb : polygonedb.ID;
     const url = `${this.polygonesUrl}/${id}`;
 
@@ -170,11 +170,11 @@ export class PolygoneService {
       params: params
     };
 
-    return this.http.put<PolygoneDB>(url, polygonedb, httpOptions).pipe(
+    return this.http.put<PolygoneAPI>(url, polygonedb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated polygonedb id=${polygonedb.ID}`)
       }),
-      catchError(this.handleError<PolygoneDB>('updatePolygone'))
+      catchError(this.handleError<PolygoneAPI>('updatePolygone'))
     );
   }
 

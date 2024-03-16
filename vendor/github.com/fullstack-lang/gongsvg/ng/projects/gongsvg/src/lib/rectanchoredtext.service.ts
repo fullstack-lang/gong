@@ -11,13 +11,13 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { RectAnchoredTextDB } from './rectanchoredtext-db'
-import { RectAnchoredText, CopyRectAnchoredTextToRectAnchoredTextDB } from './rectanchoredtext'
+import { RectAnchoredTextAPI } from './rectanchoredtext-api'
+import { RectAnchoredText, CopyRectAnchoredTextToRectAnchoredTextAPI } from './rectanchoredtext'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { AnimateDB } from './animate-db'
+import { AnimateAPI } from './animate-api'
 
 @Injectable({
   providedIn: 'root'
@@ -47,41 +47,41 @@ export class RectAnchoredTextService {
 
   /** GET rectanchoredtexts from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI[]> {
     return this.getRectAnchoredTexts(GONG__StackPath, frontRepo)
   }
-  getRectAnchoredTexts(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextDB[]> {
+  getRectAnchoredTexts(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<RectAnchoredTextDB[]>(this.rectanchoredtextsUrl, { params: params })
+    return this.http.get<RectAnchoredTextAPI[]>(this.rectanchoredtextsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<RectAnchoredTextDB[]>('getRectAnchoredTexts', []))
+        catchError(this.handleError<RectAnchoredTextAPI[]>('getRectAnchoredTexts', []))
       );
   }
 
   /** GET rectanchoredtext by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI> {
     return this.getRectAnchoredText(id, GONG__StackPath, frontRepo)
   }
-  getRectAnchoredText(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextDB> {
+  getRectAnchoredText(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.rectanchoredtextsUrl}/${id}`;
-    return this.http.get<RectAnchoredTextDB>(url, { params: params }).pipe(
+    return this.http.get<RectAnchoredTextAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched rectanchoredtext id=${id}`)),
-      catchError(this.handleError<RectAnchoredTextDB>(`getRectAnchoredText id=${id}`))
+      catchError(this.handleError<RectAnchoredTextAPI>(`getRectAnchoredText id=${id}`))
     );
   }
 
   // postFront copy rectanchoredtext to a version with encoded pointers and post to the back
-  postFront(rectanchoredtext: RectAnchoredText, GONG__StackPath: string): Observable<RectAnchoredTextDB> {
-    let rectanchoredtextDB = new RectAnchoredTextDB
-    CopyRectAnchoredTextToRectAnchoredTextDB(rectanchoredtext, rectanchoredtextDB)
-    const id = typeof rectanchoredtextDB === 'number' ? rectanchoredtextDB : rectanchoredtextDB.ID
+  postFront(rectanchoredtext: RectAnchoredText, GONG__StackPath: string): Observable<RectAnchoredTextAPI> {
+    let rectanchoredtextAPI = new RectAnchoredTextAPI
+    CopyRectAnchoredTextToRectAnchoredTextAPI(rectanchoredtext, rectanchoredtextAPI)
+    const id = typeof rectanchoredtextAPI === 'number' ? rectanchoredtextAPI : rectanchoredtextAPI.ID
     const url = `${this.rectanchoredtextsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -89,18 +89,18 @@ export class RectAnchoredTextService {
       params: params
     }
 
-    return this.http.post<RectAnchoredTextDB>(url, rectanchoredtextDB, httpOptions).pipe(
+    return this.http.post<RectAnchoredTextAPI>(url, rectanchoredtextAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<RectAnchoredTextDB>('postRectAnchoredText'))
+      catchError(this.handleError<RectAnchoredTextAPI>('postRectAnchoredText'))
     );
   }
   
   /** POST: add a new rectanchoredtext to the server */
-  post(rectanchoredtextdb: RectAnchoredTextDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextDB> {
+  post(rectanchoredtextdb: RectAnchoredTextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI> {
     return this.postRectAnchoredText(rectanchoredtextdb, GONG__StackPath, frontRepo)
   }
-  postRectAnchoredText(rectanchoredtextdb: RectAnchoredTextDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextDB> {
+  postRectAnchoredText(rectanchoredtextdb: RectAnchoredTextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -108,19 +108,19 @@ export class RectAnchoredTextService {
       params: params
     }
 
-    return this.http.post<RectAnchoredTextDB>(this.rectanchoredtextsUrl, rectanchoredtextdb, httpOptions).pipe(
+    return this.http.post<RectAnchoredTextAPI>(this.rectanchoredtextsUrl, rectanchoredtextdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted rectanchoredtextdb id=${rectanchoredtextdb.ID}`)
       }),
-      catchError(this.handleError<RectAnchoredTextDB>('postRectAnchoredText'))
+      catchError(this.handleError<RectAnchoredTextAPI>('postRectAnchoredText'))
     );
   }
 
   /** DELETE: delete the rectanchoredtextdb from the server */
-  delete(rectanchoredtextdb: RectAnchoredTextDB | number, GONG__StackPath: string): Observable<RectAnchoredTextDB> {
+  delete(rectanchoredtextdb: RectAnchoredTextAPI | number, GONG__StackPath: string): Observable<RectAnchoredTextAPI> {
     return this.deleteRectAnchoredText(rectanchoredtextdb, GONG__StackPath)
   }
-  deleteRectAnchoredText(rectanchoredtextdb: RectAnchoredTextDB | number, GONG__StackPath: string): Observable<RectAnchoredTextDB> {
+  deleteRectAnchoredText(rectanchoredtextdb: RectAnchoredTextAPI | number, GONG__StackPath: string): Observable<RectAnchoredTextAPI> {
     const id = typeof rectanchoredtextdb === 'number' ? rectanchoredtextdb : rectanchoredtextdb.ID;
     const url = `${this.rectanchoredtextsUrl}/${id}`;
 
@@ -130,17 +130,17 @@ export class RectAnchoredTextService {
       params: params
     };
 
-    return this.http.delete<RectAnchoredTextDB>(url, httpOptions).pipe(
+    return this.http.delete<RectAnchoredTextAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted rectanchoredtextdb id=${id}`)),
-      catchError(this.handleError<RectAnchoredTextDB>('deleteRectAnchoredText'))
+      catchError(this.handleError<RectAnchoredTextAPI>('deleteRectAnchoredText'))
     );
   }
 
   // updateFront copy rectanchoredtext to a version with encoded pointers and update to the back
-  updateFront(rectanchoredtext: RectAnchoredText, GONG__StackPath: string): Observable<RectAnchoredTextDB> {
-    let rectanchoredtextDB = new RectAnchoredTextDB
-    CopyRectAnchoredTextToRectAnchoredTextDB(rectanchoredtext, rectanchoredtextDB)
-    const id = typeof rectanchoredtextDB === 'number' ? rectanchoredtextDB : rectanchoredtextDB.ID
+  updateFront(rectanchoredtext: RectAnchoredText, GONG__StackPath: string): Observable<RectAnchoredTextAPI> {
+    let rectanchoredtextAPI = new RectAnchoredTextAPI
+    CopyRectAnchoredTextToRectAnchoredTextAPI(rectanchoredtext, rectanchoredtextAPI)
+    const id = typeof rectanchoredtextAPI === 'number' ? rectanchoredtextAPI : rectanchoredtextAPI.ID
     const url = `${this.rectanchoredtextsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,18 +148,18 @@ export class RectAnchoredTextService {
       params: params
     }
 
-    return this.http.put<RectAnchoredTextDB>(url, rectanchoredtextDB, httpOptions).pipe(
+    return this.http.put<RectAnchoredTextAPI>(url, rectanchoredtextAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<RectAnchoredTextDB>('updateRectAnchoredText'))
+      catchError(this.handleError<RectAnchoredTextAPI>('updateRectAnchoredText'))
     );
   }
 
   /** PUT: update the rectanchoredtextdb on the server */
-  update(rectanchoredtextdb: RectAnchoredTextDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextDB> {
+  update(rectanchoredtextdb: RectAnchoredTextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI> {
     return this.updateRectAnchoredText(rectanchoredtextdb, GONG__StackPath, frontRepo)
   }
-  updateRectAnchoredText(rectanchoredtextdb: RectAnchoredTextDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextDB> {
+  updateRectAnchoredText(rectanchoredtextdb: RectAnchoredTextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI> {
     const id = typeof rectanchoredtextdb === 'number' ? rectanchoredtextdb : rectanchoredtextdb.ID;
     const url = `${this.rectanchoredtextsUrl}/${id}`;
 
@@ -170,11 +170,11 @@ export class RectAnchoredTextService {
       params: params
     };
 
-    return this.http.put<RectAnchoredTextDB>(url, rectanchoredtextdb, httpOptions).pipe(
+    return this.http.put<RectAnchoredTextAPI>(url, rectanchoredtextdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated rectanchoredtextdb id=${rectanchoredtextdb.ID}`)
       }),
-      catchError(this.handleError<RectAnchoredTextDB>('updateRectAnchoredText'))
+      catchError(this.handleError<RectAnchoredTextAPI>('updateRectAnchoredText'))
     );
   }
 

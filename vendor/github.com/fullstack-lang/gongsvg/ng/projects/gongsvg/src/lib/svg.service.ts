@@ -11,14 +11,14 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { SVGDB } from './svg-db'
-import { SVG, CopySVGToSVGDB } from './svg'
+import { SVGAPI } from './svg-api'
+import { SVG, CopySVGToSVGAPI } from './svg'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { LayerDB } from './layer-db'
-import { RectDB } from './rect-db'
+import { LayerAPI } from './layer-api'
+import { RectAPI } from './rect-api'
 
 @Injectable({
   providedIn: 'root'
@@ -48,41 +48,41 @@ export class SVGService {
 
   /** GET svgs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGAPI[]> {
     return this.getSVGs(GONG__StackPath, frontRepo)
   }
-  getSVGs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGDB[]> {
+  getSVGs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<SVGDB[]>(this.svgsUrl, { params: params })
+    return this.http.get<SVGAPI[]>(this.svgsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<SVGDB[]>('getSVGs', []))
+        catchError(this.handleError<SVGAPI[]>('getSVGs', []))
       );
   }
 
   /** GET svg by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGAPI> {
     return this.getSVG(id, GONG__StackPath, frontRepo)
   }
-  getSVG(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGDB> {
+  getSVG(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.svgsUrl}/${id}`;
-    return this.http.get<SVGDB>(url, { params: params }).pipe(
+    return this.http.get<SVGAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched svg id=${id}`)),
-      catchError(this.handleError<SVGDB>(`getSVG id=${id}`))
+      catchError(this.handleError<SVGAPI>(`getSVG id=${id}`))
     );
   }
 
   // postFront copy svg to a version with encoded pointers and post to the back
-  postFront(svg: SVG, GONG__StackPath: string): Observable<SVGDB> {
-    let svgDB = new SVGDB
-    CopySVGToSVGDB(svg, svgDB)
-    const id = typeof svgDB === 'number' ? svgDB : svgDB.ID
+  postFront(svg: SVG, GONG__StackPath: string): Observable<SVGAPI> {
+    let svgAPI = new SVGAPI
+    CopySVGToSVGAPI(svg, svgAPI)
+    const id = typeof svgAPI === 'number' ? svgAPI : svgAPI.ID
     const url = `${this.svgsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -90,18 +90,18 @@ export class SVGService {
       params: params
     }
 
-    return this.http.post<SVGDB>(url, svgDB, httpOptions).pipe(
+    return this.http.post<SVGAPI>(url, svgAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<SVGDB>('postSVG'))
+      catchError(this.handleError<SVGAPI>('postSVG'))
     );
   }
   
   /** POST: add a new svg to the server */
-  post(svgdb: SVGDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGDB> {
+  post(svgdb: SVGAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGAPI> {
     return this.postSVG(svgdb, GONG__StackPath, frontRepo)
   }
-  postSVG(svgdb: SVGDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGDB> {
+  postSVG(svgdb: SVGAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -109,19 +109,19 @@ export class SVGService {
       params: params
     }
 
-    return this.http.post<SVGDB>(this.svgsUrl, svgdb, httpOptions).pipe(
+    return this.http.post<SVGAPI>(this.svgsUrl, svgdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted svgdb id=${svgdb.ID}`)
       }),
-      catchError(this.handleError<SVGDB>('postSVG'))
+      catchError(this.handleError<SVGAPI>('postSVG'))
     );
   }
 
   /** DELETE: delete the svgdb from the server */
-  delete(svgdb: SVGDB | number, GONG__StackPath: string): Observable<SVGDB> {
+  delete(svgdb: SVGAPI | number, GONG__StackPath: string): Observable<SVGAPI> {
     return this.deleteSVG(svgdb, GONG__StackPath)
   }
-  deleteSVG(svgdb: SVGDB | number, GONG__StackPath: string): Observable<SVGDB> {
+  deleteSVG(svgdb: SVGAPI | number, GONG__StackPath: string): Observable<SVGAPI> {
     const id = typeof svgdb === 'number' ? svgdb : svgdb.ID;
     const url = `${this.svgsUrl}/${id}`;
 
@@ -131,17 +131,17 @@ export class SVGService {
       params: params
     };
 
-    return this.http.delete<SVGDB>(url, httpOptions).pipe(
+    return this.http.delete<SVGAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted svgdb id=${id}`)),
-      catchError(this.handleError<SVGDB>('deleteSVG'))
+      catchError(this.handleError<SVGAPI>('deleteSVG'))
     );
   }
 
   // updateFront copy svg to a version with encoded pointers and update to the back
-  updateFront(svg: SVG, GONG__StackPath: string): Observable<SVGDB> {
-    let svgDB = new SVGDB
-    CopySVGToSVGDB(svg, svgDB)
-    const id = typeof svgDB === 'number' ? svgDB : svgDB.ID
+  updateFront(svg: SVG, GONG__StackPath: string): Observable<SVGAPI> {
+    let svgAPI = new SVGAPI
+    CopySVGToSVGAPI(svg, svgAPI)
+    const id = typeof svgAPI === 'number' ? svgAPI : svgAPI.ID
     const url = `${this.svgsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -149,18 +149,18 @@ export class SVGService {
       params: params
     }
 
-    return this.http.put<SVGDB>(url, svgDB, httpOptions).pipe(
+    return this.http.put<SVGAPI>(url, svgAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<SVGDB>('updateSVG'))
+      catchError(this.handleError<SVGAPI>('updateSVG'))
     );
   }
 
   /** PUT: update the svgdb on the server */
-  update(svgdb: SVGDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGDB> {
+  update(svgdb: SVGAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGAPI> {
     return this.updateSVG(svgdb, GONG__StackPath, frontRepo)
   }
-  updateSVG(svgdb: SVGDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGDB> {
+  updateSVG(svgdb: SVGAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGAPI> {
     const id = typeof svgdb === 'number' ? svgdb : svgdb.ID;
     const url = `${this.svgsUrl}/${id}`;
 
@@ -171,11 +171,11 @@ export class SVGService {
       params: params
     };
 
-    return this.http.put<SVGDB>(url, svgdb, httpOptions).pipe(
+    return this.http.put<SVGAPI>(url, svgdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated svgdb id=${svgdb.ID}`)
       }),
-      catchError(this.handleError<SVGDB>('updateSVG'))
+      catchError(this.handleError<SVGAPI>('updateSVG'))
     );
   }
 
