@@ -38,6 +38,7 @@ type GongNoteAPI struct {
 	models.GongNote_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	GongNotePointersEncoding GongNotePointersEncoding
 }
 
@@ -69,7 +70,9 @@ type GongNoteDB struct {
 
 	// Declation for basic field gongnoteDB.BodyHTML
 	BodyHTML_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	GongNotePointersEncoding
 }
 

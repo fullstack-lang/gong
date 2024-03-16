@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { ModelPkgDB } from './modelpkg-db'
+import { ModelPkgAPI } from './modelpkg-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -34,56 +34,56 @@ export class ModelPkg {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyModelPkgToModelPkgDB(modelpkg: ModelPkg, modelpkgDB: ModelPkgDB) {
+export function CopyModelPkgToModelPkgAPI(modelpkg: ModelPkg, modelpkgAPI: ModelPkgAPI) {
 
-	modelpkgDB.CreatedAt = modelpkg.CreatedAt
-	modelpkgDB.DeletedAt = modelpkg.DeletedAt
-	modelpkgDB.ID = modelpkg.ID
+	modelpkgAPI.CreatedAt = modelpkg.CreatedAt
+	modelpkgAPI.DeletedAt = modelpkg.DeletedAt
+	modelpkgAPI.ID = modelpkg.ID
 
 	// insertion point for basic fields copy operations
-	modelpkgDB.Name = modelpkg.Name
-	modelpkgDB.PkgPath = modelpkg.PkgPath
-	modelpkgDB.PathToGoSubDirectory = modelpkg.PathToGoSubDirectory
-	modelpkgDB.OrmPkgGenPath = modelpkg.OrmPkgGenPath
-	modelpkgDB.ControllersPkgGenPath = modelpkg.ControllersPkgGenPath
-	modelpkgDB.FullstackPkgGenPath = modelpkg.FullstackPkgGenPath
-	modelpkgDB.StackPkgGenPath = modelpkg.StackPkgGenPath
-	modelpkgDB.StaticPkgGenPath = modelpkg.StaticPkgGenPath
-	modelpkgDB.ProbePkgGenPath = modelpkg.ProbePkgGenPath
-	modelpkgDB.NgWorkspacePath = modelpkg.NgWorkspacePath
-	modelpkgDB.NgDataLibrarySourceCodeDirectory = modelpkg.NgDataLibrarySourceCodeDirectory
-	modelpkgDB.NgSpecificLibrarySourceCodeDirectory = modelpkg.NgSpecificLibrarySourceCodeDirectory
-	modelpkgDB.MaterialLibDatamodelTargetPath = modelpkg.MaterialLibDatamodelTargetPath
+	modelpkgAPI.Name = modelpkg.Name
+	modelpkgAPI.PkgPath = modelpkg.PkgPath
+	modelpkgAPI.PathToGoSubDirectory = modelpkg.PathToGoSubDirectory
+	modelpkgAPI.OrmPkgGenPath = modelpkg.OrmPkgGenPath
+	modelpkgAPI.ControllersPkgGenPath = modelpkg.ControllersPkgGenPath
+	modelpkgAPI.FullstackPkgGenPath = modelpkg.FullstackPkgGenPath
+	modelpkgAPI.StackPkgGenPath = modelpkg.StackPkgGenPath
+	modelpkgAPI.StaticPkgGenPath = modelpkg.StaticPkgGenPath
+	modelpkgAPI.ProbePkgGenPath = modelpkg.ProbePkgGenPath
+	modelpkgAPI.NgWorkspacePath = modelpkg.NgWorkspacePath
+	modelpkgAPI.NgDataLibrarySourceCodeDirectory = modelpkg.NgDataLibrarySourceCodeDirectory
+	modelpkgAPI.NgSpecificLibrarySourceCodeDirectory = modelpkg.NgSpecificLibrarySourceCodeDirectory
+	modelpkgAPI.MaterialLibDatamodelTargetPath = modelpkg.MaterialLibDatamodelTargetPath
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyModelPkgDBToModelPkg update basic, pointers and slice of pointers fields of modelpkg
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of modelpkgDB
+// CopyModelPkgAPIToModelPkg update basic, pointers and slice of pointers fields of modelpkg
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of modelpkgAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyModelPkgDBToModelPkg(modelpkgDB: ModelPkgDB, modelpkg: ModelPkg, frontRepo: FrontRepo) {
+export function CopyModelPkgAPIToModelPkg(modelpkgAPI: ModelPkgAPI, modelpkg: ModelPkg, frontRepo: FrontRepo) {
 
-	modelpkg.CreatedAt = modelpkgDB.CreatedAt
-	modelpkg.DeletedAt = modelpkgDB.DeletedAt
-	modelpkg.ID = modelpkgDB.ID
+	modelpkg.CreatedAt = modelpkgAPI.CreatedAt
+	modelpkg.DeletedAt = modelpkgAPI.DeletedAt
+	modelpkg.ID = modelpkgAPI.ID
 
 	// insertion point for basic fields copy operations
-	modelpkg.Name = modelpkgDB.Name
-	modelpkg.PkgPath = modelpkgDB.PkgPath
-	modelpkg.PathToGoSubDirectory = modelpkgDB.PathToGoSubDirectory
-	modelpkg.OrmPkgGenPath = modelpkgDB.OrmPkgGenPath
-	modelpkg.ControllersPkgGenPath = modelpkgDB.ControllersPkgGenPath
-	modelpkg.FullstackPkgGenPath = modelpkgDB.FullstackPkgGenPath
-	modelpkg.StackPkgGenPath = modelpkgDB.StackPkgGenPath
-	modelpkg.StaticPkgGenPath = modelpkgDB.StaticPkgGenPath
-	modelpkg.ProbePkgGenPath = modelpkgDB.ProbePkgGenPath
-	modelpkg.NgWorkspacePath = modelpkgDB.NgWorkspacePath
-	modelpkg.NgDataLibrarySourceCodeDirectory = modelpkgDB.NgDataLibrarySourceCodeDirectory
-	modelpkg.NgSpecificLibrarySourceCodeDirectory = modelpkgDB.NgSpecificLibrarySourceCodeDirectory
-	modelpkg.MaterialLibDatamodelTargetPath = modelpkgDB.MaterialLibDatamodelTargetPath
+	modelpkg.Name = modelpkgAPI.Name
+	modelpkg.PkgPath = modelpkgAPI.PkgPath
+	modelpkg.PathToGoSubDirectory = modelpkgAPI.PathToGoSubDirectory
+	modelpkg.OrmPkgGenPath = modelpkgAPI.OrmPkgGenPath
+	modelpkg.ControllersPkgGenPath = modelpkgAPI.ControllersPkgGenPath
+	modelpkg.FullstackPkgGenPath = modelpkgAPI.FullstackPkgGenPath
+	modelpkg.StackPkgGenPath = modelpkgAPI.StackPkgGenPath
+	modelpkg.StaticPkgGenPath = modelpkgAPI.StaticPkgGenPath
+	modelpkg.ProbePkgGenPath = modelpkgAPI.ProbePkgGenPath
+	modelpkg.NgWorkspacePath = modelpkgAPI.NgWorkspacePath
+	modelpkg.NgDataLibrarySourceCodeDirectory = modelpkgAPI.NgDataLibrarySourceCodeDirectory
+	modelpkg.NgSpecificLibrarySourceCodeDirectory = modelpkgAPI.NgSpecificLibrarySourceCodeDirectory
+	modelpkg.MaterialLibDatamodelTargetPath = modelpkgAPI.MaterialLibDatamodelTargetPath
 
 	// insertion point for pointer fields encoding
 

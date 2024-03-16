@@ -38,6 +38,7 @@ type MetaAPI struct {
 	models.Meta_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	MetaPointersEncoding MetaPointersEncoding
 }
 
@@ -66,7 +67,9 @@ type MetaDB struct {
 
 	// Declation for basic field metaDB.Text
 	Text_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	MetaPointersEncoding
 }
 

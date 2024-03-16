@@ -38,6 +38,7 @@ type GongTimeFieldAPI struct {
 	models.GongTimeField_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	GongTimeFieldPointersEncoding GongTimeFieldPointersEncoding
 }
 
@@ -66,7 +67,9 @@ type GongTimeFieldDB struct {
 
 	// Declation for basic field gongtimefieldDB.CompositeStructName
 	CompositeStructName_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	GongTimeFieldPointersEncoding
 }
 

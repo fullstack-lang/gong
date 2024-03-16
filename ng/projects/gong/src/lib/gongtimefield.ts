@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { GongTimeFieldDB } from './gongtimefield-db'
+import { GongTimeFieldAPI } from './gongtimefield-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -24,36 +24,36 @@ export class GongTimeField {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyGongTimeFieldToGongTimeFieldDB(gongtimefield: GongTimeField, gongtimefieldDB: GongTimeFieldDB) {
+export function CopyGongTimeFieldToGongTimeFieldAPI(gongtimefield: GongTimeField, gongtimefieldAPI: GongTimeFieldAPI) {
 
-	gongtimefieldDB.CreatedAt = gongtimefield.CreatedAt
-	gongtimefieldDB.DeletedAt = gongtimefield.DeletedAt
-	gongtimefieldDB.ID = gongtimefield.ID
+	gongtimefieldAPI.CreatedAt = gongtimefield.CreatedAt
+	gongtimefieldAPI.DeletedAt = gongtimefield.DeletedAt
+	gongtimefieldAPI.ID = gongtimefield.ID
 
 	// insertion point for basic fields copy operations
-	gongtimefieldDB.Name = gongtimefield.Name
-	gongtimefieldDB.Index = gongtimefield.Index
-	gongtimefieldDB.CompositeStructName = gongtimefield.CompositeStructName
+	gongtimefieldAPI.Name = gongtimefield.Name
+	gongtimefieldAPI.Index = gongtimefield.Index
+	gongtimefieldAPI.CompositeStructName = gongtimefield.CompositeStructName
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyGongTimeFieldDBToGongTimeField update basic, pointers and slice of pointers fields of gongtimefield
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of gongtimefieldDB
+// CopyGongTimeFieldAPIToGongTimeField update basic, pointers and slice of pointers fields of gongtimefield
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of gongtimefieldAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyGongTimeFieldDBToGongTimeField(gongtimefieldDB: GongTimeFieldDB, gongtimefield: GongTimeField, frontRepo: FrontRepo) {
+export function CopyGongTimeFieldAPIToGongTimeField(gongtimefieldAPI: GongTimeFieldAPI, gongtimefield: GongTimeField, frontRepo: FrontRepo) {
 
-	gongtimefield.CreatedAt = gongtimefieldDB.CreatedAt
-	gongtimefield.DeletedAt = gongtimefieldDB.DeletedAt
-	gongtimefield.ID = gongtimefieldDB.ID
+	gongtimefield.CreatedAt = gongtimefieldAPI.CreatedAt
+	gongtimefield.DeletedAt = gongtimefieldAPI.DeletedAt
+	gongtimefield.ID = gongtimefieldAPI.ID
 
 	// insertion point for basic fields copy operations
-	gongtimefield.Name = gongtimefieldDB.Name
-	gongtimefield.Index = gongtimefieldDB.Index
-	gongtimefield.CompositeStructName = gongtimefieldDB.CompositeStructName
+	gongtimefield.Name = gongtimefieldAPI.Name
+	gongtimefield.Index = gongtimefieldAPI.Index
+	gongtimefield.CompositeStructName = gongtimefieldAPI.CompositeStructName
 
 	// insertion point for pointer fields encoding
 

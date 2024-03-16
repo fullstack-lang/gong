@@ -38,6 +38,7 @@ type GongBasicFieldAPI struct {
 	models.GongBasicField_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	GongBasicFieldPointersEncoding GongBasicFieldPointersEncoding
 }
 
@@ -98,7 +99,9 @@ type GongBasicFieldDB struct {
 
 	// Declation for basic field gongbasicfieldDB.BespokeHeight
 	BespokeHeight_Data sql.NullInt64
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	GongBasicFieldPointersEncoding
 }
 

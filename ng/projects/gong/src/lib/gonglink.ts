@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { GongLinkDB } from './gonglink-db'
+import { GongLinkAPI } from './gonglink-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -24,36 +24,36 @@ export class GongLink {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyGongLinkToGongLinkDB(gonglink: GongLink, gonglinkDB: GongLinkDB) {
+export function CopyGongLinkToGongLinkAPI(gonglink: GongLink, gonglinkAPI: GongLinkAPI) {
 
-	gonglinkDB.CreatedAt = gonglink.CreatedAt
-	gonglinkDB.DeletedAt = gonglink.DeletedAt
-	gonglinkDB.ID = gonglink.ID
+	gonglinkAPI.CreatedAt = gonglink.CreatedAt
+	gonglinkAPI.DeletedAt = gonglink.DeletedAt
+	gonglinkAPI.ID = gonglink.ID
 
 	// insertion point for basic fields copy operations
-	gonglinkDB.Name = gonglink.Name
-	gonglinkDB.Recv = gonglink.Recv
-	gonglinkDB.ImportPath = gonglink.ImportPath
+	gonglinkAPI.Name = gonglink.Name
+	gonglinkAPI.Recv = gonglink.Recv
+	gonglinkAPI.ImportPath = gonglink.ImportPath
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyGongLinkDBToGongLink update basic, pointers and slice of pointers fields of gonglink
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of gonglinkDB
+// CopyGongLinkAPIToGongLink update basic, pointers and slice of pointers fields of gonglink
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of gonglinkAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyGongLinkDBToGongLink(gonglinkDB: GongLinkDB, gonglink: GongLink, frontRepo: FrontRepo) {
+export function CopyGongLinkAPIToGongLink(gonglinkAPI: GongLinkAPI, gonglink: GongLink, frontRepo: FrontRepo) {
 
-	gonglink.CreatedAt = gonglinkDB.CreatedAt
-	gonglink.DeletedAt = gonglinkDB.DeletedAt
-	gonglink.ID = gonglinkDB.ID
+	gonglink.CreatedAt = gonglinkAPI.CreatedAt
+	gonglink.DeletedAt = gonglinkAPI.DeletedAt
+	gonglink.ID = gonglinkAPI.ID
 
 	// insertion point for basic fields copy operations
-	gonglink.Name = gonglinkDB.Name
-	gonglink.Recv = gonglinkDB.Recv
-	gonglink.ImportPath = gonglinkDB.ImportPath
+	gonglink.Name = gonglinkAPI.Name
+	gonglink.Recv = gonglinkAPI.Recv
+	gonglink.ImportPath = gonglinkAPI.ImportPath
 
 	// insertion point for pointer fields encoding
 

@@ -11,13 +11,13 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { GongNoteDB } from './gongnote-db'
-import { GongNote, CopyGongNoteToGongNoteDB } from './gongnote'
+import { GongNoteAPI } from './gongnote-api'
+import { GongNote, CopyGongNoteToGongNoteAPI } from './gongnote'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { GongLinkDB } from './gonglink-db'
+import { GongLinkAPI } from './gonglink-api'
 
 @Injectable({
   providedIn: 'root'
@@ -47,41 +47,41 @@ export class GongNoteService {
 
   /** GET gongnotes from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteAPI[]> {
     return this.getGongNotes(GONG__StackPath, frontRepo)
   }
-  getGongNotes(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteDB[]> {
+  getGongNotes(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<GongNoteDB[]>(this.gongnotesUrl, { params: params })
+    return this.http.get<GongNoteAPI[]>(this.gongnotesUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<GongNoteDB[]>('getGongNotes', []))
+        catchError(this.handleError<GongNoteAPI[]>('getGongNotes', []))
       );
   }
 
   /** GET gongnote by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteAPI> {
     return this.getGongNote(id, GONG__StackPath, frontRepo)
   }
-  getGongNote(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteDB> {
+  getGongNote(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.gongnotesUrl}/${id}`;
-    return this.http.get<GongNoteDB>(url, { params: params }).pipe(
+    return this.http.get<GongNoteAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched gongnote id=${id}`)),
-      catchError(this.handleError<GongNoteDB>(`getGongNote id=${id}`))
+      catchError(this.handleError<GongNoteAPI>(`getGongNote id=${id}`))
     );
   }
 
   // postFront copy gongnote to a version with encoded pointers and post to the back
-  postFront(gongnote: GongNote, GONG__StackPath: string): Observable<GongNoteDB> {
-    let gongnoteDB = new GongNoteDB
-    CopyGongNoteToGongNoteDB(gongnote, gongnoteDB)
-    const id = typeof gongnoteDB === 'number' ? gongnoteDB : gongnoteDB.ID
+  postFront(gongnote: GongNote, GONG__StackPath: string): Observable<GongNoteAPI> {
+    let gongnoteAPI = new GongNoteAPI
+    CopyGongNoteToGongNoteAPI(gongnote, gongnoteAPI)
+    const id = typeof gongnoteAPI === 'number' ? gongnoteAPI : gongnoteAPI.ID
     const url = `${this.gongnotesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -89,18 +89,18 @@ export class GongNoteService {
       params: params
     }
 
-    return this.http.post<GongNoteDB>(url, gongnoteDB, httpOptions).pipe(
+    return this.http.post<GongNoteAPI>(url, gongnoteAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<GongNoteDB>('postGongNote'))
+      catchError(this.handleError<GongNoteAPI>('postGongNote'))
     );
   }
   
   /** POST: add a new gongnote to the server */
-  post(gongnotedb: GongNoteDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteDB> {
+  post(gongnotedb: GongNoteAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteAPI> {
     return this.postGongNote(gongnotedb, GONG__StackPath, frontRepo)
   }
-  postGongNote(gongnotedb: GongNoteDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteDB> {
+  postGongNote(gongnotedb: GongNoteAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -108,19 +108,19 @@ export class GongNoteService {
       params: params
     }
 
-    return this.http.post<GongNoteDB>(this.gongnotesUrl, gongnotedb, httpOptions).pipe(
+    return this.http.post<GongNoteAPI>(this.gongnotesUrl, gongnotedb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted gongnotedb id=${gongnotedb.ID}`)
       }),
-      catchError(this.handleError<GongNoteDB>('postGongNote'))
+      catchError(this.handleError<GongNoteAPI>('postGongNote'))
     );
   }
 
   /** DELETE: delete the gongnotedb from the server */
-  delete(gongnotedb: GongNoteDB | number, GONG__StackPath: string): Observable<GongNoteDB> {
+  delete(gongnotedb: GongNoteAPI | number, GONG__StackPath: string): Observable<GongNoteAPI> {
     return this.deleteGongNote(gongnotedb, GONG__StackPath)
   }
-  deleteGongNote(gongnotedb: GongNoteDB | number, GONG__StackPath: string): Observable<GongNoteDB> {
+  deleteGongNote(gongnotedb: GongNoteAPI | number, GONG__StackPath: string): Observable<GongNoteAPI> {
     const id = typeof gongnotedb === 'number' ? gongnotedb : gongnotedb.ID;
     const url = `${this.gongnotesUrl}/${id}`;
 
@@ -130,17 +130,17 @@ export class GongNoteService {
       params: params
     };
 
-    return this.http.delete<GongNoteDB>(url, httpOptions).pipe(
+    return this.http.delete<GongNoteAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted gongnotedb id=${id}`)),
-      catchError(this.handleError<GongNoteDB>('deleteGongNote'))
+      catchError(this.handleError<GongNoteAPI>('deleteGongNote'))
     );
   }
 
   // updateFront copy gongnote to a version with encoded pointers and update to the back
-  updateFront(gongnote: GongNote, GONG__StackPath: string): Observable<GongNoteDB> {
-    let gongnoteDB = new GongNoteDB
-    CopyGongNoteToGongNoteDB(gongnote, gongnoteDB)
-    const id = typeof gongnoteDB === 'number' ? gongnoteDB : gongnoteDB.ID
+  updateFront(gongnote: GongNote, GONG__StackPath: string): Observable<GongNoteAPI> {
+    let gongnoteAPI = new GongNoteAPI
+    CopyGongNoteToGongNoteAPI(gongnote, gongnoteAPI)
+    const id = typeof gongnoteAPI === 'number' ? gongnoteAPI : gongnoteAPI.ID
     const url = `${this.gongnotesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,18 +148,18 @@ export class GongNoteService {
       params: params
     }
 
-    return this.http.put<GongNoteDB>(url, gongnoteDB, httpOptions).pipe(
+    return this.http.put<GongNoteAPI>(url, gongnoteAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<GongNoteDB>('updateGongNote'))
+      catchError(this.handleError<GongNoteAPI>('updateGongNote'))
     );
   }
 
   /** PUT: update the gongnotedb on the server */
-  update(gongnotedb: GongNoteDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteDB> {
+  update(gongnotedb: GongNoteAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteAPI> {
     return this.updateGongNote(gongnotedb, GONG__StackPath, frontRepo)
   }
-  updateGongNote(gongnotedb: GongNoteDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteDB> {
+  updateGongNote(gongnotedb: GongNoteAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteAPI> {
     const id = typeof gongnotedb === 'number' ? gongnotedb : gongnotedb.ID;
     const url = `${this.gongnotesUrl}/${id}`;
 
@@ -170,11 +170,11 @@ export class GongNoteService {
       params: params
     };
 
-    return this.http.put<GongNoteDB>(url, gongnotedb, httpOptions).pipe(
+    return this.http.put<GongNoteAPI>(url, gongnotedb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated gongnotedb id=${gongnotedb.ID}`)
       }),
-      catchError(this.handleError<GongNoteDB>('updateGongNote'))
+      catchError(this.handleError<GongNoteAPI>('updateGongNote'))
     );
   }
 

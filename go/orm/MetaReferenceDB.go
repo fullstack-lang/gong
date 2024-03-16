@@ -38,6 +38,7 @@ type MetaReferenceAPI struct {
 	models.MetaReference_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	MetaReferencePointersEncoding MetaReferencePointersEncoding
 }
 
@@ -60,7 +61,9 @@ type MetaReferenceDB struct {
 
 	// Declation for basic field metareferenceDB.Name
 	Name_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	MetaReferencePointersEncoding
 }
 

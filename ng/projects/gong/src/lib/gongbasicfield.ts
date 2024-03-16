@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { GongBasicFieldDB } from './gongbasicfield-db'
+import { GongBasicFieldAPI } from './gongbasicfield-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -35,62 +35,62 @@ export class GongBasicField {
 
 }
 
-export function CopyGongBasicFieldToGongBasicFieldDB(gongbasicfield: GongBasicField, gongbasicfieldDB: GongBasicFieldDB) {
+export function CopyGongBasicFieldToGongBasicFieldAPI(gongbasicfield: GongBasicField, gongbasicfieldAPI: GongBasicFieldAPI) {
 
-	gongbasicfieldDB.CreatedAt = gongbasicfield.CreatedAt
-	gongbasicfieldDB.DeletedAt = gongbasicfield.DeletedAt
-	gongbasicfieldDB.ID = gongbasicfield.ID
+	gongbasicfieldAPI.CreatedAt = gongbasicfield.CreatedAt
+	gongbasicfieldAPI.DeletedAt = gongbasicfield.DeletedAt
+	gongbasicfieldAPI.ID = gongbasicfield.ID
 
 	// insertion point for basic fields copy operations
-	gongbasicfieldDB.Name = gongbasicfield.Name
-	gongbasicfieldDB.BasicKindName = gongbasicfield.BasicKindName
-	gongbasicfieldDB.DeclaredType = gongbasicfield.DeclaredType
-	gongbasicfieldDB.CompositeStructName = gongbasicfield.CompositeStructName
-	gongbasicfieldDB.Index = gongbasicfield.Index
-	gongbasicfieldDB.IsDocLink = gongbasicfield.IsDocLink
-	gongbasicfieldDB.IsTextArea = gongbasicfield.IsTextArea
-	gongbasicfieldDB.IsBespokeWidth = gongbasicfield.IsBespokeWidth
-	gongbasicfieldDB.BespokeWidth = gongbasicfield.BespokeWidth
-	gongbasicfieldDB.IsBespokeHeight = gongbasicfield.IsBespokeHeight
-	gongbasicfieldDB.BespokeHeight = gongbasicfield.BespokeHeight
+	gongbasicfieldAPI.Name = gongbasicfield.Name
+	gongbasicfieldAPI.BasicKindName = gongbasicfield.BasicKindName
+	gongbasicfieldAPI.DeclaredType = gongbasicfield.DeclaredType
+	gongbasicfieldAPI.CompositeStructName = gongbasicfield.CompositeStructName
+	gongbasicfieldAPI.Index = gongbasicfield.Index
+	gongbasicfieldAPI.IsDocLink = gongbasicfield.IsDocLink
+	gongbasicfieldAPI.IsTextArea = gongbasicfield.IsTextArea
+	gongbasicfieldAPI.IsBespokeWidth = gongbasicfield.IsBespokeWidth
+	gongbasicfieldAPI.BespokeWidth = gongbasicfield.BespokeWidth
+	gongbasicfieldAPI.IsBespokeHeight = gongbasicfield.IsBespokeHeight
+	gongbasicfieldAPI.BespokeHeight = gongbasicfield.BespokeHeight
 
 	// insertion point for pointer fields encoding
-	gongbasicfieldDB.GongBasicFieldPointersEncoding.GongEnumID.Valid = true
+	gongbasicfieldAPI.GongBasicFieldPointersEncoding.GongEnumID.Valid = true
 	if (gongbasicfield.GongEnum != undefined) {
-		gongbasicfieldDB.GongBasicFieldPointersEncoding.GongEnumID.Int64 = gongbasicfield.GongEnum.ID  
+		gongbasicfieldAPI.GongBasicFieldPointersEncoding.GongEnumID.Int64 = gongbasicfield.GongEnum.ID  
 	} else {
-		gongbasicfieldDB.GongBasicFieldPointersEncoding.GongEnumID.Int64 = 0 		
+		gongbasicfieldAPI.GongBasicFieldPointersEncoding.GongEnumID.Int64 = 0 		
 	}
 
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyGongBasicFieldDBToGongBasicField update basic, pointers and slice of pointers fields of gongbasicfield
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of gongbasicfieldDB
+// CopyGongBasicFieldAPIToGongBasicField update basic, pointers and slice of pointers fields of gongbasicfield
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of gongbasicfieldAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyGongBasicFieldDBToGongBasicField(gongbasicfieldDB: GongBasicFieldDB, gongbasicfield: GongBasicField, frontRepo: FrontRepo) {
+export function CopyGongBasicFieldAPIToGongBasicField(gongbasicfieldAPI: GongBasicFieldAPI, gongbasicfield: GongBasicField, frontRepo: FrontRepo) {
 
-	gongbasicfield.CreatedAt = gongbasicfieldDB.CreatedAt
-	gongbasicfield.DeletedAt = gongbasicfieldDB.DeletedAt
-	gongbasicfield.ID = gongbasicfieldDB.ID
+	gongbasicfield.CreatedAt = gongbasicfieldAPI.CreatedAt
+	gongbasicfield.DeletedAt = gongbasicfieldAPI.DeletedAt
+	gongbasicfield.ID = gongbasicfieldAPI.ID
 
 	// insertion point for basic fields copy operations
-	gongbasicfield.Name = gongbasicfieldDB.Name
-	gongbasicfield.BasicKindName = gongbasicfieldDB.BasicKindName
-	gongbasicfield.DeclaredType = gongbasicfieldDB.DeclaredType
-	gongbasicfield.CompositeStructName = gongbasicfieldDB.CompositeStructName
-	gongbasicfield.Index = gongbasicfieldDB.Index
-	gongbasicfield.IsDocLink = gongbasicfieldDB.IsDocLink
-	gongbasicfield.IsTextArea = gongbasicfieldDB.IsTextArea
-	gongbasicfield.IsBespokeWidth = gongbasicfieldDB.IsBespokeWidth
-	gongbasicfield.BespokeWidth = gongbasicfieldDB.BespokeWidth
-	gongbasicfield.IsBespokeHeight = gongbasicfieldDB.IsBespokeHeight
-	gongbasicfield.BespokeHeight = gongbasicfieldDB.BespokeHeight
+	gongbasicfield.Name = gongbasicfieldAPI.Name
+	gongbasicfield.BasicKindName = gongbasicfieldAPI.BasicKindName
+	gongbasicfield.DeclaredType = gongbasicfieldAPI.DeclaredType
+	gongbasicfield.CompositeStructName = gongbasicfieldAPI.CompositeStructName
+	gongbasicfield.Index = gongbasicfieldAPI.Index
+	gongbasicfield.IsDocLink = gongbasicfieldAPI.IsDocLink
+	gongbasicfield.IsTextArea = gongbasicfieldAPI.IsTextArea
+	gongbasicfield.IsBespokeWidth = gongbasicfieldAPI.IsBespokeWidth
+	gongbasicfield.BespokeWidth = gongbasicfieldAPI.BespokeWidth
+	gongbasicfield.IsBespokeHeight = gongbasicfieldAPI.IsBespokeHeight
+	gongbasicfield.BespokeHeight = gongbasicfieldAPI.BespokeHeight
 
 	// insertion point for pointer fields encoding
-	gongbasicfield.GongEnum = frontRepo.map_ID_GongEnum.get(gongbasicfieldDB.GongBasicFieldPointersEncoding.GongEnumID.Int64)
+	gongbasicfield.GongEnum = frontRepo.map_ID_GongEnum.get(gongbasicfieldAPI.GongBasicFieldPointersEncoding.GongEnumID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 }

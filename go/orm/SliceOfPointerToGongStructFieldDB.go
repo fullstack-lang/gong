@@ -38,6 +38,7 @@ type SliceOfPointerToGongStructFieldAPI struct {
 	models.SliceOfPointerToGongStructField_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	SliceOfPointerToGongStructFieldPointersEncoding SliceOfPointerToGongStructFieldPointersEncoding
 }
 
@@ -70,7 +71,9 @@ type SliceOfPointerToGongStructFieldDB struct {
 
 	// Declation for basic field sliceofpointertogongstructfieldDB.CompositeStructName
 	CompositeStructName_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	SliceOfPointerToGongStructFieldPointersEncoding
 }
 

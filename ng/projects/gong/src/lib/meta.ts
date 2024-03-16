@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { MetaDB } from './meta-db'
+import { MetaAPI } from './meta-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -25,45 +25,45 @@ export class Meta {
 	MetaReferences: Array<MetaReference> = []
 }
 
-export function CopyMetaToMetaDB(meta: Meta, metaDB: MetaDB) {
+export function CopyMetaToMetaAPI(meta: Meta, metaAPI: MetaAPI) {
 
-	metaDB.CreatedAt = meta.CreatedAt
-	metaDB.DeletedAt = meta.DeletedAt
-	metaDB.ID = meta.ID
+	metaAPI.CreatedAt = meta.CreatedAt
+	metaAPI.DeletedAt = meta.DeletedAt
+	metaAPI.ID = meta.ID
 
 	// insertion point for basic fields copy operations
-	metaDB.Name = meta.Name
-	metaDB.Text = meta.Text
+	metaAPI.Name = meta.Name
+	metaAPI.Text = meta.Text
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	metaDB.MetaPointersEncoding.MetaReferences = []
+	metaAPI.MetaPointersEncoding.MetaReferences = []
 	for (let _metareference of meta.MetaReferences) {
-		metaDB.MetaPointersEncoding.MetaReferences.push(_metareference.ID)
+		metaAPI.MetaPointersEncoding.MetaReferences.push(_metareference.ID)
 	}
 
 }
 
-// CopyMetaDBToMeta update basic, pointers and slice of pointers fields of meta
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of metaDB
+// CopyMetaAPIToMeta update basic, pointers and slice of pointers fields of meta
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of metaAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyMetaDBToMeta(metaDB: MetaDB, meta: Meta, frontRepo: FrontRepo) {
+export function CopyMetaAPIToMeta(metaAPI: MetaAPI, meta: Meta, frontRepo: FrontRepo) {
 
-	meta.CreatedAt = metaDB.CreatedAt
-	meta.DeletedAt = metaDB.DeletedAt
-	meta.ID = metaDB.ID
+	meta.CreatedAt = metaAPI.CreatedAt
+	meta.DeletedAt = metaAPI.DeletedAt
+	meta.ID = metaAPI.ID
 
 	// insertion point for basic fields copy operations
-	meta.Name = metaDB.Name
-	meta.Text = metaDB.Text
+	meta.Name = metaAPI.Name
+	meta.Text = metaAPI.Text
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 	meta.MetaReferences = new Array<MetaReference>()
-	for (let _id of metaDB.MetaPointersEncoding.MetaReferences) {
+	for (let _id of metaAPI.MetaPointersEncoding.MetaReferences) {
 		let _metareference = frontRepo.map_ID_MetaReference.get(_id)
 		if (_metareference != undefined) {
 			meta.MetaReferences.push(_metareference!)

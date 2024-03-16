@@ -11,8 +11,8 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { MetaReferenceDB } from './metareference-db'
-import { MetaReference, CopyMetaReferenceToMetaReferenceDB } from './metareference'
+import { MetaReferenceAPI } from './metareference-api'
+import { MetaReference, CopyMetaReferenceToMetaReferenceAPI } from './metareference'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
@@ -46,41 +46,41 @@ export class MetaReferenceService {
 
   /** GET metareferences from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI[]> {
     return this.getMetaReferences(GONG__StackPath, frontRepo)
   }
-  getMetaReferences(GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceDB[]> {
+  getMetaReferences(GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<MetaReferenceDB[]>(this.metareferencesUrl, { params: params })
+    return this.http.get<MetaReferenceAPI[]>(this.metareferencesUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<MetaReferenceDB[]>('getMetaReferences', []))
+        catchError(this.handleError<MetaReferenceAPI[]>('getMetaReferences', []))
       );
   }
 
   /** GET metareference by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI> {
     return this.getMetaReference(id, GONG__StackPath, frontRepo)
   }
-  getMetaReference(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceDB> {
+  getMetaReference(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.metareferencesUrl}/${id}`;
-    return this.http.get<MetaReferenceDB>(url, { params: params }).pipe(
+    return this.http.get<MetaReferenceAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched metareference id=${id}`)),
-      catchError(this.handleError<MetaReferenceDB>(`getMetaReference id=${id}`))
+      catchError(this.handleError<MetaReferenceAPI>(`getMetaReference id=${id}`))
     );
   }
 
   // postFront copy metareference to a version with encoded pointers and post to the back
-  postFront(metareference: MetaReference, GONG__StackPath: string): Observable<MetaReferenceDB> {
-    let metareferenceDB = new MetaReferenceDB
-    CopyMetaReferenceToMetaReferenceDB(metareference, metareferenceDB)
-    const id = typeof metareferenceDB === 'number' ? metareferenceDB : metareferenceDB.ID
+  postFront(metareference: MetaReference, GONG__StackPath: string): Observable<MetaReferenceAPI> {
+    let metareferenceAPI = new MetaReferenceAPI
+    CopyMetaReferenceToMetaReferenceAPI(metareference, metareferenceAPI)
+    const id = typeof metareferenceAPI === 'number' ? metareferenceAPI : metareferenceAPI.ID
     const url = `${this.metareferencesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -88,18 +88,18 @@ export class MetaReferenceService {
       params: params
     }
 
-    return this.http.post<MetaReferenceDB>(url, metareferenceDB, httpOptions).pipe(
+    return this.http.post<MetaReferenceAPI>(url, metareferenceAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<MetaReferenceDB>('postMetaReference'))
+      catchError(this.handleError<MetaReferenceAPI>('postMetaReference'))
     );
   }
   
   /** POST: add a new metareference to the server */
-  post(metareferencedb: MetaReferenceDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceDB> {
+  post(metareferencedb: MetaReferenceAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI> {
     return this.postMetaReference(metareferencedb, GONG__StackPath, frontRepo)
   }
-  postMetaReference(metareferencedb: MetaReferenceDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceDB> {
+  postMetaReference(metareferencedb: MetaReferenceAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -107,19 +107,19 @@ export class MetaReferenceService {
       params: params
     }
 
-    return this.http.post<MetaReferenceDB>(this.metareferencesUrl, metareferencedb, httpOptions).pipe(
+    return this.http.post<MetaReferenceAPI>(this.metareferencesUrl, metareferencedb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted metareferencedb id=${metareferencedb.ID}`)
       }),
-      catchError(this.handleError<MetaReferenceDB>('postMetaReference'))
+      catchError(this.handleError<MetaReferenceAPI>('postMetaReference'))
     );
   }
 
   /** DELETE: delete the metareferencedb from the server */
-  delete(metareferencedb: MetaReferenceDB | number, GONG__StackPath: string): Observable<MetaReferenceDB> {
+  delete(metareferencedb: MetaReferenceAPI | number, GONG__StackPath: string): Observable<MetaReferenceAPI> {
     return this.deleteMetaReference(metareferencedb, GONG__StackPath)
   }
-  deleteMetaReference(metareferencedb: MetaReferenceDB | number, GONG__StackPath: string): Observable<MetaReferenceDB> {
+  deleteMetaReference(metareferencedb: MetaReferenceAPI | number, GONG__StackPath: string): Observable<MetaReferenceAPI> {
     const id = typeof metareferencedb === 'number' ? metareferencedb : metareferencedb.ID;
     const url = `${this.metareferencesUrl}/${id}`;
 
@@ -129,17 +129,17 @@ export class MetaReferenceService {
       params: params
     };
 
-    return this.http.delete<MetaReferenceDB>(url, httpOptions).pipe(
+    return this.http.delete<MetaReferenceAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted metareferencedb id=${id}`)),
-      catchError(this.handleError<MetaReferenceDB>('deleteMetaReference'))
+      catchError(this.handleError<MetaReferenceAPI>('deleteMetaReference'))
     );
   }
 
   // updateFront copy metareference to a version with encoded pointers and update to the back
-  updateFront(metareference: MetaReference, GONG__StackPath: string): Observable<MetaReferenceDB> {
-    let metareferenceDB = new MetaReferenceDB
-    CopyMetaReferenceToMetaReferenceDB(metareference, metareferenceDB)
-    const id = typeof metareferenceDB === 'number' ? metareferenceDB : metareferenceDB.ID
+  updateFront(metareference: MetaReference, GONG__StackPath: string): Observable<MetaReferenceAPI> {
+    let metareferenceAPI = new MetaReferenceAPI
+    CopyMetaReferenceToMetaReferenceAPI(metareference, metareferenceAPI)
+    const id = typeof metareferenceAPI === 'number' ? metareferenceAPI : metareferenceAPI.ID
     const url = `${this.metareferencesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,18 +147,18 @@ export class MetaReferenceService {
       params: params
     }
 
-    return this.http.put<MetaReferenceDB>(url, metareferenceDB, httpOptions).pipe(
+    return this.http.put<MetaReferenceAPI>(url, metareferenceAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<MetaReferenceDB>('updateMetaReference'))
+      catchError(this.handleError<MetaReferenceAPI>('updateMetaReference'))
     );
   }
 
   /** PUT: update the metareferencedb on the server */
-  update(metareferencedb: MetaReferenceDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceDB> {
+  update(metareferencedb: MetaReferenceAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI> {
     return this.updateMetaReference(metareferencedb, GONG__StackPath, frontRepo)
   }
-  updateMetaReference(metareferencedb: MetaReferenceDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceDB> {
+  updateMetaReference(metareferencedb: MetaReferenceAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI> {
     const id = typeof metareferencedb === 'number' ? metareferencedb : metareferencedb.ID;
     const url = `${this.metareferencesUrl}/${id}`;
 
@@ -169,11 +169,11 @@ export class MetaReferenceService {
       params: params
     };
 
-    return this.http.put<MetaReferenceDB>(url, metareferencedb, httpOptions).pipe(
+    return this.http.put<MetaReferenceAPI>(url, metareferencedb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated metareferencedb id=${metareferencedb.ID}`)
       }),
-      catchError(this.handleError<MetaReferenceDB>('updateMetaReference'))
+      catchError(this.handleError<MetaReferenceAPI>('updateMetaReference'))
     );
   }
 

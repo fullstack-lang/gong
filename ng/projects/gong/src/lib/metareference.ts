@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { MetaReferenceDB } from './metareference-db'
+import { MetaReferenceAPI } from './metareference-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -22,32 +22,32 @@ export class MetaReference {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyMetaReferenceToMetaReferenceDB(metareference: MetaReference, metareferenceDB: MetaReferenceDB) {
+export function CopyMetaReferenceToMetaReferenceAPI(metareference: MetaReference, metareferenceAPI: MetaReferenceAPI) {
 
-	metareferenceDB.CreatedAt = metareference.CreatedAt
-	metareferenceDB.DeletedAt = metareference.DeletedAt
-	metareferenceDB.ID = metareference.ID
+	metareferenceAPI.CreatedAt = metareference.CreatedAt
+	metareferenceAPI.DeletedAt = metareference.DeletedAt
+	metareferenceAPI.ID = metareference.ID
 
 	// insertion point for basic fields copy operations
-	metareferenceDB.Name = metareference.Name
+	metareferenceAPI.Name = metareference.Name
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyMetaReferenceDBToMetaReference update basic, pointers and slice of pointers fields of metareference
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of metareferenceDB
+// CopyMetaReferenceAPIToMetaReference update basic, pointers and slice of pointers fields of metareference
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of metareferenceAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyMetaReferenceDBToMetaReference(metareferenceDB: MetaReferenceDB, metareference: MetaReference, frontRepo: FrontRepo) {
+export function CopyMetaReferenceAPIToMetaReference(metareferenceAPI: MetaReferenceAPI, metareference: MetaReference, frontRepo: FrontRepo) {
 
-	metareference.CreatedAt = metareferenceDB.CreatedAt
-	metareference.DeletedAt = metareferenceDB.DeletedAt
-	metareference.ID = metareferenceDB.ID
+	metareference.CreatedAt = metareferenceAPI.CreatedAt
+	metareference.DeletedAt = metareferenceAPI.DeletedAt
+	metareference.ID = metareferenceAPI.ID
 
 	// insertion point for basic fields copy operations
-	metareference.Name = metareferenceDB.Name
+	metareference.Name = metareferenceAPI.Name
 
 	// insertion point for pointer fields encoding
 
