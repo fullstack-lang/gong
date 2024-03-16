@@ -1,33 +1,40 @@
 - [1. Gong](#1-gong)
   - [1.1. About Gong](#11-about-gong)
   - [1.2. Gong aims low complexity](#12-gong-aims-low-complexity)
-  - [1.3. Gong is intended for system engineering tooling](#13-gong-is-intended-for-system-engineering-tooling)
-  - [1.4. Prerequisite](#14-prerequisite)
-    - [1.4.1. Go](#141-go)
-    - [1.4.2. go-swagger (optional)](#142-go-swagger-optional)
-    - [1.4.3. npm](#143-npm)
-    - [1.4.4. Angular](#144-angular)
-    - [1.4.5. Vscode (optional)](#145-vscode-optional)
-- [2. Using gong](#2-using-gong)
-  - [2.1. Running the gong test application](#21-running-the-gong-test-application)
-  - [2.2. Testing the generation of the code](#22-testing-the-generation-of-the-code)
-  - [2.3. Reusable stacks](#23-reusable-stacks)
-  - [2.4. Examples](#24-examples)
-- [3. Gong's Features](#3-gongs-features)
-  - [3.1. Gong is a go sub langage for generating a full stack](#31-gong-is-a-go-sub-langage-for-generating-a-full-stack)
-  - [3.2. Back end SQL and go code from gong code](#32-back-end-sql-and-go-code-from-gong-code)
-  - [3.3. Controler go code from gong code](#33-controler-go-code-from-gong-code)
-  - [3.4. Front end angular code from gong code](#34-front-end-angular-code-from-gong-code)
-  - [3.5. Angular material code from gong code](#35-angular-material-code-from-gong-code)
-  - [3.6. Front stage, back stage and repository programming model](#36-front-stage-back-stage-and-repository-programming-model)
-  - [3.7. UML Code documentation as go code](#37-uml-code-documentation-as-go-code)
-  - [3.8. Integrated Stack configuration management](#38-integrated-stack-configuration-management)
-  - [3.9. Persistance as go code for enabling fast refactoring](#39-persistance-as-go-code-for-enabling-fast-refactoring)
-  - [3.10. Further documentation](#310-further-documentation)
-- [4. A "hello world" stack in 5 minutes](#4-a-hello-world-stack-in-5-minutes)
-  - [4.1. Generating the code with the `gongc` command](#41-generating-the-code-with-the-gongc-command)
-  - [4.2. Timing of the `gongc` command](#42-timing-of-the-gongc-command)
-  - [4.3. Injecting Data via REST](#43-injecting-data-via-rest)
+  - [1.3. Prerequisite](#13-prerequisite)
+    - [1.3.1. Go](#131-go)
+    - [1.3.2. go-swagger (optional)](#132-go-swagger-optional)
+    - [1.3.3. npm](#133-npm)
+    - [1.3.4. Angular](#134-angular)
+    - [1.3.5. Vscode (optional)](#135-vscode-optional)
+- [2. Gong is a Go sub language](#2-gong-is-a-go-sub-language)
+  - [2.1. Gong specification](#21-gong-specification)
+    - [package nomenclature](#package-nomenclature)
+    - [2.1.1. Gongstruct](#211-gongstruct)
+    - [2.1.2. Gongenum](#212-gongenum)
+    - [2.1.3. Gongfields](#213-gongfields)
+    - [2.1.4. Gongnote](#214-gongnote)
+  - [2.2. Gong library](#22-gong-library)
+- [3. Using gong](#3-using-gong)
+  - [3.1. Running the gong test application](#31-running-the-gong-test-application)
+  - [3.2. Testing the generation of the code](#32-testing-the-generation-of-the-code)
+  - [3.3. Reusable stacks](#33-reusable-stacks)
+  - [3.4. Examples](#34-examples)
+- [4. Gong's Features](#4-gongs-features)
+  - [4.1. Gong is a go sub langage for generating a full stack](#41-gong-is-a-go-sub-langage-for-generating-a-full-stack)
+  - [4.2. Back end SQL and go code from gong code](#42-back-end-sql-and-go-code-from-gong-code)
+  - [4.3. Controler go code from gong code](#43-controler-go-code-from-gong-code)
+  - [4.4. Front end angular code from gong code](#44-front-end-angular-code-from-gong-code)
+  - [4.5. Angular material code from gong code](#45-angular-material-code-from-gong-code)
+  - [4.6. Front stage, back stage and repository programming model](#46-front-stage-back-stage-and-repository-programming-model)
+  - [4.7. UML Code documentation as go code](#47-uml-code-documentation-as-go-code)
+  - [4.8. Integrated Stack configuration management](#48-integrated-stack-configuration-management)
+  - [4.9. Persistance as go code for enabling fast refactoring](#49-persistance-as-go-code-for-enabling-fast-refactoring)
+  - [4.10. Further documentation](#410-further-documentation)
+- [5. A "hello world" stack in 5 minutes](#5-a-hello-world-stack-in-5-minutes)
+  - [5.1. Generating the code with the `gongc` command](#51-generating-the-code-with-the-gongc-command)
+  - [5.2. Timing of the `gongc` command](#52-timing-of-the-gongc-command)
+  - [5.3. Injecting Data via REST](#53-injecting-data-via-rest)
 
 # 1. Gong
 
@@ -41,51 +48,183 @@ With gong, a web application is a set of stacks. Each stack is based on go and a
 
 Gong (go + ng) is a framework for rapid web application development (a.k.a. full stack development) based on go and angular. The go back-end uses [gin](https://github.com/gin-gonic/gin), [gorm](https://gorm.io/index.html) and sqlite (a pure go sqlite, no cgo needed). The angular front-end uses [angular material](https://material.angular.io/).
 
-The unit of development in gong is the **gong stack** (a "stack" in the rest of this document). A stack can import other stacks (both the front end and the back end of a stack are integrated as a whole). The granularity of a stack is similar to an angular components. There are available stacks for [jointjs](https://www.jointjs.com/) and [leaflet](https://leafletjs.com/).
-
+The unit of development in gong is the **gong stack** (a "stack" in the rest of this document). A stack can import other stacks (both the front end and the back end of a stack are integrated as a whole). The granularity of a stack is similar to an angular components.
 
 ## 1.2. Gong aims low complexity
 
-Gong fullstack approach was inspired by [Ruby on Rails](https://rubyonrails.org/) and a more generaly the idea that complexity facing the programmer should be carefuly managed, as it is described in [conceptual compression concept](https://m.signalvnoise.com/conceptual-compression-means-beginners-dont-need-to-know-sql-hallelujah/) and [Rob Pike's design of Go regarding complexity](https://www.dotconferences.com/2015/11/rob-pike-simplicity-is-complicated).
+Gong fullstack approach was inspired by the idea that complexity facing the programmer should be carefuly managed, as it is described in [conceptual compression concept](https://m.signalvnoise.com/conceptual-compression-means-beginners-dont-need-to-know-sql-hallelujah/) and [Rob Pike's design of Go regarding complexity](https://www.dotconferences.com/2015/11/rob-pike-simplicity-is-complicated).
 
-Gong fullstack approach, with a backend in go, is similar in intent to [lorca](https://github.com/zserge/lorca), [wails](https://github.com/wailsapp/wails) and [fyne](https://github.com/fyne-io/fyne). However, the gong framework approach is different because it includes gongc, a go data model compiler to generate front-end and back-end code. In this sense, it is similar to [ent](https://github.com/ent/ent) which includes a ("shema as code") approach.
+Gong fullstack approach, with a backend in go, is similar in intent to [lorca](https://github.com/zserge/lorca), [wails](https://github.com/wailsapp/wails) and [fyne](https://github.com/fyne-io/fyne). However, the gong framework approach is different because it includes gongc, a go data model compiler to generate front-end and back-end code. Gongc compiles gong code, a go sub-langage. In this sense, it is similar to [ent](https://github.com/ent/ent) which includes a ("shema as code") approach.
 
-## 1.3. Gong is intended for system engineering tooling
+## 1.3. Prerequisite
 
-Gong's goal is the rapid development of web applications for system engineering, a go *low-code* alternative to Excel+visual basic.
-
-Mostly, gong  is for modeling and simulation, planning and project structuring developments. Those developments are made during 
-the developement of the system of interest, therefore the need for fast iterations 
-(see [paper](https://www.researchgate.net/publication/354237095_GONG_an_open_source_MBSE_toolset/references#fullTextFileContent) for details on this goal).
-
-## 1.4. Prerequisite
-
-### 1.4.1. Go
+### 1.3.1. Go
 
 go version equal or above 1.19 is mandatory (cf. use of `embed` package & generics). See https://golang.org for installation.
 
 Gong uses sqlite3 in a cgo free configuration by default.
 
-### 1.4.2. go-swagger (optional)
+### 1.3.2. go-swagger (optional)
 
 [go-swagger](https://github.com/go-swagger/go-swagger) is a go program that is used (as an option) after each `gongc` compilation to generate the project API in a `yml` file. *gongc* is robust to the absence of go-swagger but it is recommanded to use it if you need to document the back-end API with yaml.
 
-### 1.4.3. npm
+### 1.3.3. npm
 
 Gong uses npm version >= 8 (see https://nodejs.org)
 
-### 1.4.4. Angular
+### 1.3.4. Angular
 
 Gong uses angular version 13 (see https://angular.io for installation)
 
-### 1.4.5. Vscode (optional)
+### 1.3.5. Vscode (optional)
 
 Vscode is usefull & handy because the tasks definitions and debug configuration related to gong are provided in the repository.
 
+# 2. Gong is a Go sub language
 
-# 2. Using gong
+Gong is a langage with a compiler and a library.
 
-## 2.1. Running the gong test application
+Gong is also a go sub language because it is not autonomous. It must be developped within a go envionment and
+it needs the tools of the go toolchains. A gong program is a go program.
+
+## 2.1. Gong specification
+
+Gong specification is the go specification with additional constraints. If a go construct does not meet those contraints,
+it is transparant to the gong compiler.
+
+There are three objects in gong.
+
+### package nomenclature
+
+A gong program is a go program (go > 1.20) developped with a go module. The gong code is developed in only
+one package "go/models"
+
+```go
+package models
+```
+
+No particular inmport is necessary.
+
+### 2.1.1. Gongstruct
+
+```go
+// Hello is a gongstruct
+type Hello struct { // it is exported
+  Name string // it has an exported "Name" field
+}
+
+// foo is not a gongstruct
+type foo struct { // it is not exported
+  Name string
+}
+
+// Bar is not a gongstruct
+type Bar struct { // it is not exported
+  name string // it has no exported "Name" field
+}
+
+// Zong is not a gongstruct
+// it has a "ignore" magic code
+// gong:ignore 
+type Zong struct { 
+  Name string
+}
+```
+
+### 2.1.2. Gongenum
+
+
+```go
+// Gongenums can be of type tring or int.
+
+type AEnumType string // It is exported
+
+const (
+	ENUM_VAL1 AEnumType = "ENUM_VAL1_NOT_THE_SAME"
+	ENUM_VAL2 AEnumType = "ENUM_VAL2"
+)
+
+type CEnumTypeInt int
+
+// values for EnumType
+const (
+	CENUM_VAL1 CEnumTypeInt = iota
+	CENUM_VAL2
+)
+```
+
+### 2.1.3. Gongfields
+
+Gongfields are fields within a gongstruct.
+
+```go
+// Hello is a gongstruct
+type Hello struct { // it is exported
+  Name string // it has an exported "Name" field
+
+  // Those are gongfields. They are exported fields of type int, int64, float, float64 bool, string
+  Floatfield float64
+  Intfield int
+  Booleanfield bool
+
+  // Those are gongfields. They are exported fields of type time.Duration or time.Time
+  Duration1 time.Duration
+  Date time.Time
+
+  // HelloP is a gongfield. It is an exported pointer to a gongstruct within the same package
+  HelloP *Hello 
+
+  // HellosP is a gongfield. It is an exported slice of pointers to a gongstruct within the same package
+  HellosP []*Hello 
+
+  // AEnum is a gongfield. It is an exported field of a gongenum type within the same pakage  
+  AEnum AEnumType
+
+  // CEnum is gongfield
+  CEnum CEnumTypeInt
+  
+}
+```
+
+### 2.1.4. Gongnote
+
+```go
+// A gongnote is a string const with a comment
+// that starts with the GONGDOC keyword
+// It follows the "Note" defined in the [go doc](https://pkg.go.dev/go/doc) and 
+// [go doc comment]([]https://pkg.go.dev/go/doc/comment) defined in the
+// standard go library
+//
+// > A Note represents a marked comment starting with "MARKER(uid): note body".
+
+// GONGDOC(NoteExample): Note example
+// It can reference Gongstructs
+// [models.Bstruct],
+// [models.Astruct],
+// Gongenums
+// [models.AEnumType]
+// Gongfields
+// [models.Astruct.Associationtob], 
+// having the following const exported identifier allows for
+// referencing the note from the UML note and allows for
+// renaming
+//
+// # This is heading 1
+//
+// ## This is heading 1.1
+//
+//	-
+const NoteExample = ""
+```
+
+
+## 2.2. Gong library
+
+The gongc compilers generates code within the "go/models" package and within other packages.
+
+# 3. Using gong
+
+## 3.1. Running the gong test application
 
 the `test` directory contains a stack wit the generated code.
 
@@ -101,7 +240,7 @@ Then, browse to [localhost:8080](http://localhost:8080)
 ![test web application](docs/images/test.png)
 *Example of a generated application with gong*
 
-## 2.2. Testing the generation of the code
+## 3.2. Testing the generation of the code
 
 Installing The gong compiler.
 
@@ -113,7 +252,7 @@ Generating the code
 
 > cd test; gongc go/models
 
-## 2.3. Reusable stacks
+## 3.3. Reusable stacks
 
 A gong application is a stack that can integrate other stacks. Below is a list of stacks that can be reused. 
 
@@ -127,7 +266,7 @@ https://github.com/fullstack-lang/gongsvg, a stack for developping application w
 
 https://github.com/fullstack-lang/gongjointjs, a stack for developping application with jointjs interactive graphical component
 
-## 2.4. Examples
+## 3.4. Examples
 
 https://github.com/fullstack-lang/helloworld is a recommanded starting point for understanding gong.
 
@@ -139,10 +278,10 @@ https://github.com/fullstack-lang/gongfly, an airplane simulation that reuses 4 
 
 https://github.com/fullstack-lang/gongproject, a project management application that reuses 3 stacks (gong, gongjointjs, gongdoc)
 
-# 3. Gong's Features
+# 4. Gong's Features
 
 
-## 3.1. Gong is a go sub langage for generating a full stack
+## 4.1. Gong is a go sub langage for generating a full stack
 
 Gong is a sublangage of go (stereotyped go). It is comprised of one or many *gongstruct* and *gongenum*. The *gongc* compiler is based on the *go* compiler.
 
@@ -222,7 +361,7 @@ type Astruct struct {
 ```
 
 
-## 3.2. Back end SQL and go code from gong code
+## 4.2. Back end SQL and go code from gong code
 
 The [gorm](https://gorm.io/index.html) framework is a go API for ORM (Object Realtionship Management). This means you do not need to code SQL to configure/migrate the database. [gorm](https://gorm.io/index.html) acts as a [conceptual compression](https://m.signalvnoise.com/conceptual-compression-means-beginners-dont-need-to-know-sql-hallelujah/) 
 since you do not need to know SQL code to program the database, you only need to master the go API.
@@ -233,7 +372,7 @@ However, *gorm* is still a concept you need to know to program the database in g
  [conceptual compression](https://m.signalvnoise.com/conceptual-compression-means-beginners-dont-need-to-know-sql-hallelujah/) 
  to avoid programming *gorm* code.
 
-## 3.3. Controler go code from gong code
+## 4.3. Controler go code from gong code
 
 The [gin](https://github.com/gin-gonic/gin) framework is an API for programming the controllers that 
 implement the REST web service of the application. [gin](https://github.com/gin-gonic/gin) acts as a 
@@ -243,7 +382,7 @@ since it provides a high level concept to program the REST api.
 However, you need to know to program [gin](https://github.com/gin-gonic/gin) for implementing the REST api. *gong* allows to ignore this conceptual layer since the *gin* code is generated by *gong*. The *gongc* compiles compiles the models (the `go/models` package) 
 to generate the appropriate gin code (in the `go/controllers` package)
 
-## 3.4. Front end angular code from gong code
+## 4.4. Front end angular code from gong code
 
 Angular framework is an API for programming front-end of the application.
 
@@ -252,7 +391,7 @@ follows the data models of the the `go/models` package.
 
 Each gongstruct/gongenum is compiled into an appropriate typescript code.
 
-## 3.5. Angular material code from gong code
+## 4.5. Angular material code from gong code
 
 Angular Material is a set of front-end Angular components.
 
@@ -262,7 +401,7 @@ gongc compiles the models (the `go/models` package) to generate the appropriate 
 - table for each gongstruct of the `go/models` package
 - form for each gongstruct of the `go/models` package
 
-## 3.6. Front stage, back stage and repository programming model 
+## 4.6. Front stage, back stage and repository programming model 
 
 Putting data to the database and retrieving data from the database (CRUD operations) is performed via an
 API that is generated for each *gongstruct*.
@@ -272,11 +411,11 @@ The API follows loosely the [repository pattern](https://docs.microsoft.com/en-u
 The generated API comprises `Stage()`, `Unstage()`, `Commit()`, `Delete()` for each *gongstruct*.
 
 
-## 3.7. UML Code documentation as go code 
+## 4.7. UML Code documentation as go code 
 
 see [gongcode](https://github.com/fullstack-lang/gongdoc).
 
-## 3.8. Integrated Stack configuration management
+## 4.8. Integrated Stack configuration management
 
 The configuration of *both* back-end and front-end code of a stack is a single configuration item.
 
@@ -303,7 +442,7 @@ The third step is another go feature, the  `go mod vendor` command, that makes a
 
 The four step is to define your front-end dependency by using the `tsconfig.json` file and point it the to import path into the `vendor` directory (instead of using the installation by `npm install` of the imported front code module). you are therefore assured that your back-end code and front-end code belong to the same configuration. (see the https://github.com/fullstack-lang/gongproject/blob/master/ng/tsconfig.json for an example of tsconfig.json configuration).
 
-## 3.9. Persistance as go code for enabling fast refactoring
+## 4.9. Persistance as go code for enabling fast refactoring
 
 Gong's goal is to speed up development of full stack applications. Gong's goal is therefore to allow fast iterations of the database model and **content/database**.
 
@@ -322,18 +461,18 @@ With gong, data refactoring is automatic. Gong API provides a `Marshall()` funct
 
 when refactoring the code, the generated go code is refactored. Therefore, no need to manualy refactor the data.
 
-## 3.10. Further documentation
+## 4.10. Further documentation
 
 See [gong back-end API](./docs/gong-go-api.md) for API details.
 
 
 See [gong back-end implementation](./docs/gong-go-impl.md) for implementation details.
-# 4. A "hello world" stack in 5 minutes
+# 5. A "hello world" stack in 5 minutes
 
 If prerequisite and gongc are installed, 
 it is possible to generate a functionning stack in 5 minutes. 
 
-## 4.1. Generating the code with the `gongc` command
+## 5.1. Generating the code with the `gongc` command
 
 In a terminal, below commands :
 
@@ -369,13 +508,13 @@ Then, browse to [localhost:8080](http://localhost:8080) and add data manualy.
 
 With the option `-marshallOnCommit=stage`, a `stage.go` file is generated as each save operation (along the default sqlite database `test.db`). When the application is restarted with the `--unmarshall=stage` , the data is injected from the `stage.go` file, not from the database.
 
-## 4.2. Timing of the `gongc` command
+## 5.2. Timing of the `gongc` command
 
 `gongc go/models` takes a few minutes the first time it is executed. `gongc` can be long the first time it is executed for a stack because it perfoms `npm i` which can be long if it is the first time (3'37'' on a macbook pro with a 2,6 GHz 6-Core Intel Core i7). 
 
 If `gongc` is performed again, it will take a few tens seconds (32'' on a macbook pro with a 2,6 GHz 6-Core Intel Core i7, 1'16'' on a Core I7 windows PC).
 
-## 4.3. Injecting Data via REST
+## 5.3. Injecting Data via REST
 
 The backend of a gong application is a REST server (thanks to gin). You can interact with the server via REST calls.
 
