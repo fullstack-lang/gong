@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { FormFieldDateDB } from './formfielddate-db'
+import { FormFieldDateAPI } from './formfielddate-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -23,32 +23,32 @@ export class FormFieldDate {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyFormFieldDateToFormFieldDateDB(formfielddate: FormFieldDate, formfielddateDB: FormFieldDateDB) {
+export function CopyFormFieldDateToFormFieldDateAPI(formfielddate: FormFieldDate, formfielddateAPI: FormFieldDateAPI) {
 
-	formfielddateDB.CreatedAt = formfielddate.CreatedAt
-	formfielddateDB.DeletedAt = formfielddate.DeletedAt
-	formfielddateDB.ID = formfielddate.ID
+	formfielddateAPI.CreatedAt = formfielddate.CreatedAt
+	formfielddateAPI.DeletedAt = formfielddate.DeletedAt
+	formfielddateAPI.ID = formfielddate.ID
 
 	// insertion point for basic fields copy operations
-	formfielddateDB.Name = formfielddate.Name
+	formfielddateAPI.Name = formfielddate.Name
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyFormFieldDateDBToFormFieldDate update basic, pointers and slice of pointers fields of formfielddate
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of formfielddateDB
+// CopyFormFieldDateAPIToFormFieldDate update basic, pointers and slice of pointers fields of formfielddate
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of formfielddateAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyFormFieldDateDBToFormFieldDate(formfielddateDB: FormFieldDateDB, formfielddate: FormFieldDate, frontRepo: FrontRepo) {
+export function CopyFormFieldDateAPIToFormFieldDate(formfielddateAPI: FormFieldDateAPI, formfielddate: FormFieldDate, frontRepo: FrontRepo) {
 
-	formfielddate.CreatedAt = formfielddateDB.CreatedAt
-	formfielddate.DeletedAt = formfielddateDB.DeletedAt
-	formfielddate.ID = formfielddateDB.ID
+	formfielddate.CreatedAt = formfielddateAPI.CreatedAt
+	formfielddate.DeletedAt = formfielddateAPI.DeletedAt
+	formfielddate.ID = formfielddateAPI.ID
 
 	// insertion point for basic fields copy operations
-	formfielddate.Name = formfielddateDB.Name
+	formfielddate.Name = formfielddateAPI.Name
 
 	// insertion point for pointer fields encoding
 

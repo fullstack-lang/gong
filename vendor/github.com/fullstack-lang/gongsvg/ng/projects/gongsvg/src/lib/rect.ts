@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { RectDB } from './rect-db'
+import { RectAPI } from './rect-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -55,129 +55,129 @@ export class Rect {
 	RectAnchoredPaths: Array<RectAnchoredPath> = []
 }
 
-export function CopyRectToRectDB(rect: Rect, rectDB: RectDB) {
+export function CopyRectToRectAPI(rect: Rect, rectAPI: RectAPI) {
 
-	rectDB.CreatedAt = rect.CreatedAt
-	rectDB.DeletedAt = rect.DeletedAt
-	rectDB.ID = rect.ID
+	rectAPI.CreatedAt = rect.CreatedAt
+	rectAPI.DeletedAt = rect.DeletedAt
+	rectAPI.ID = rect.ID
 
 	// insertion point for basic fields copy operations
-	rectDB.Name = rect.Name
-	rectDB.X = rect.X
-	rectDB.Y = rect.Y
-	rectDB.Width = rect.Width
-	rectDB.Height = rect.Height
-	rectDB.RX = rect.RX
-	rectDB.Color = rect.Color
-	rectDB.FillOpacity = rect.FillOpacity
-	rectDB.Stroke = rect.Stroke
-	rectDB.StrokeWidth = rect.StrokeWidth
-	rectDB.StrokeDashArray = rect.StrokeDashArray
-	rectDB.StrokeDashArrayWhenSelected = rect.StrokeDashArrayWhenSelected
-	rectDB.Transform = rect.Transform
-	rectDB.IsSelectable = rect.IsSelectable
-	rectDB.IsSelected = rect.IsSelected
-	rectDB.CanHaveLeftHandle = rect.CanHaveLeftHandle
-	rectDB.HasLeftHandle = rect.HasLeftHandle
-	rectDB.CanHaveRightHandle = rect.CanHaveRightHandle
-	rectDB.HasRightHandle = rect.HasRightHandle
-	rectDB.CanHaveTopHandle = rect.CanHaveTopHandle
-	rectDB.HasTopHandle = rect.HasTopHandle
-	rectDB.IsScalingProportionally = rect.IsScalingProportionally
-	rectDB.CanHaveBottomHandle = rect.CanHaveBottomHandle
-	rectDB.HasBottomHandle = rect.HasBottomHandle
-	rectDB.CanMoveHorizontaly = rect.CanMoveHorizontaly
-	rectDB.CanMoveVerticaly = rect.CanMoveVerticaly
+	rectAPI.Name = rect.Name
+	rectAPI.X = rect.X
+	rectAPI.Y = rect.Y
+	rectAPI.Width = rect.Width
+	rectAPI.Height = rect.Height
+	rectAPI.RX = rect.RX
+	rectAPI.Color = rect.Color
+	rectAPI.FillOpacity = rect.FillOpacity
+	rectAPI.Stroke = rect.Stroke
+	rectAPI.StrokeWidth = rect.StrokeWidth
+	rectAPI.StrokeDashArray = rect.StrokeDashArray
+	rectAPI.StrokeDashArrayWhenSelected = rect.StrokeDashArrayWhenSelected
+	rectAPI.Transform = rect.Transform
+	rectAPI.IsSelectable = rect.IsSelectable
+	rectAPI.IsSelected = rect.IsSelected
+	rectAPI.CanHaveLeftHandle = rect.CanHaveLeftHandle
+	rectAPI.HasLeftHandle = rect.HasLeftHandle
+	rectAPI.CanHaveRightHandle = rect.CanHaveRightHandle
+	rectAPI.HasRightHandle = rect.HasRightHandle
+	rectAPI.CanHaveTopHandle = rect.CanHaveTopHandle
+	rectAPI.HasTopHandle = rect.HasTopHandle
+	rectAPI.IsScalingProportionally = rect.IsScalingProportionally
+	rectAPI.CanHaveBottomHandle = rect.CanHaveBottomHandle
+	rectAPI.HasBottomHandle = rect.HasBottomHandle
+	rectAPI.CanMoveHorizontaly = rect.CanMoveHorizontaly
+	rectAPI.CanMoveVerticaly = rect.CanMoveVerticaly
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	rectDB.RectPointersEncoding.Animations = []
+	rectAPI.RectPointersEncoding.Animations = []
 	for (let _animate of rect.Animations) {
-		rectDB.RectPointersEncoding.Animations.push(_animate.ID)
+		rectAPI.RectPointersEncoding.Animations.push(_animate.ID)
 	}
 
-	rectDB.RectPointersEncoding.RectAnchoredTexts = []
+	rectAPI.RectPointersEncoding.RectAnchoredTexts = []
 	for (let _rectanchoredtext of rect.RectAnchoredTexts) {
-		rectDB.RectPointersEncoding.RectAnchoredTexts.push(_rectanchoredtext.ID)
+		rectAPI.RectPointersEncoding.RectAnchoredTexts.push(_rectanchoredtext.ID)
 	}
 
-	rectDB.RectPointersEncoding.RectAnchoredRects = []
+	rectAPI.RectPointersEncoding.RectAnchoredRects = []
 	for (let _rectanchoredrect of rect.RectAnchoredRects) {
-		rectDB.RectPointersEncoding.RectAnchoredRects.push(_rectanchoredrect.ID)
+		rectAPI.RectPointersEncoding.RectAnchoredRects.push(_rectanchoredrect.ID)
 	}
 
-	rectDB.RectPointersEncoding.RectAnchoredPaths = []
+	rectAPI.RectPointersEncoding.RectAnchoredPaths = []
 	for (let _rectanchoredpath of rect.RectAnchoredPaths) {
-		rectDB.RectPointersEncoding.RectAnchoredPaths.push(_rectanchoredpath.ID)
+		rectAPI.RectPointersEncoding.RectAnchoredPaths.push(_rectanchoredpath.ID)
 	}
 
 }
 
-// CopyRectDBToRect update basic, pointers and slice of pointers fields of rect
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of rectDB
+// CopyRectAPIToRect update basic, pointers and slice of pointers fields of rect
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of rectAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyRectDBToRect(rectDB: RectDB, rect: Rect, frontRepo: FrontRepo) {
+export function CopyRectAPIToRect(rectAPI: RectAPI, rect: Rect, frontRepo: FrontRepo) {
 
-	rect.CreatedAt = rectDB.CreatedAt
-	rect.DeletedAt = rectDB.DeletedAt
-	rect.ID = rectDB.ID
+	rect.CreatedAt = rectAPI.CreatedAt
+	rect.DeletedAt = rectAPI.DeletedAt
+	rect.ID = rectAPI.ID
 
 	// insertion point for basic fields copy operations
-	rect.Name = rectDB.Name
-	rect.X = rectDB.X
-	rect.Y = rectDB.Y
-	rect.Width = rectDB.Width
-	rect.Height = rectDB.Height
-	rect.RX = rectDB.RX
-	rect.Color = rectDB.Color
-	rect.FillOpacity = rectDB.FillOpacity
-	rect.Stroke = rectDB.Stroke
-	rect.StrokeWidth = rectDB.StrokeWidth
-	rect.StrokeDashArray = rectDB.StrokeDashArray
-	rect.StrokeDashArrayWhenSelected = rectDB.StrokeDashArrayWhenSelected
-	rect.Transform = rectDB.Transform
-	rect.IsSelectable = rectDB.IsSelectable
-	rect.IsSelected = rectDB.IsSelected
-	rect.CanHaveLeftHandle = rectDB.CanHaveLeftHandle
-	rect.HasLeftHandle = rectDB.HasLeftHandle
-	rect.CanHaveRightHandle = rectDB.CanHaveRightHandle
-	rect.HasRightHandle = rectDB.HasRightHandle
-	rect.CanHaveTopHandle = rectDB.CanHaveTopHandle
-	rect.HasTopHandle = rectDB.HasTopHandle
-	rect.IsScalingProportionally = rectDB.IsScalingProportionally
-	rect.CanHaveBottomHandle = rectDB.CanHaveBottomHandle
-	rect.HasBottomHandle = rectDB.HasBottomHandle
-	rect.CanMoveHorizontaly = rectDB.CanMoveHorizontaly
-	rect.CanMoveVerticaly = rectDB.CanMoveVerticaly
+	rect.Name = rectAPI.Name
+	rect.X = rectAPI.X
+	rect.Y = rectAPI.Y
+	rect.Width = rectAPI.Width
+	rect.Height = rectAPI.Height
+	rect.RX = rectAPI.RX
+	rect.Color = rectAPI.Color
+	rect.FillOpacity = rectAPI.FillOpacity
+	rect.Stroke = rectAPI.Stroke
+	rect.StrokeWidth = rectAPI.StrokeWidth
+	rect.StrokeDashArray = rectAPI.StrokeDashArray
+	rect.StrokeDashArrayWhenSelected = rectAPI.StrokeDashArrayWhenSelected
+	rect.Transform = rectAPI.Transform
+	rect.IsSelectable = rectAPI.IsSelectable
+	rect.IsSelected = rectAPI.IsSelected
+	rect.CanHaveLeftHandle = rectAPI.CanHaveLeftHandle
+	rect.HasLeftHandle = rectAPI.HasLeftHandle
+	rect.CanHaveRightHandle = rectAPI.CanHaveRightHandle
+	rect.HasRightHandle = rectAPI.HasRightHandle
+	rect.CanHaveTopHandle = rectAPI.CanHaveTopHandle
+	rect.HasTopHandle = rectAPI.HasTopHandle
+	rect.IsScalingProportionally = rectAPI.IsScalingProportionally
+	rect.CanHaveBottomHandle = rectAPI.CanHaveBottomHandle
+	rect.HasBottomHandle = rectAPI.HasBottomHandle
+	rect.CanMoveHorizontaly = rectAPI.CanMoveHorizontaly
+	rect.CanMoveVerticaly = rectAPI.CanMoveVerticaly
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 	rect.Animations = new Array<Animate>()
-	for (let _id of rectDB.RectPointersEncoding.Animations) {
+	for (let _id of rectAPI.RectPointersEncoding.Animations) {
 		let _animate = frontRepo.map_ID_Animate.get(_id)
 		if (_animate != undefined) {
 			rect.Animations.push(_animate!)
 		}
 	}
 	rect.RectAnchoredTexts = new Array<RectAnchoredText>()
-	for (let _id of rectDB.RectPointersEncoding.RectAnchoredTexts) {
+	for (let _id of rectAPI.RectPointersEncoding.RectAnchoredTexts) {
 		let _rectanchoredtext = frontRepo.map_ID_RectAnchoredText.get(_id)
 		if (_rectanchoredtext != undefined) {
 			rect.RectAnchoredTexts.push(_rectanchoredtext!)
 		}
 	}
 	rect.RectAnchoredRects = new Array<RectAnchoredRect>()
-	for (let _id of rectDB.RectPointersEncoding.RectAnchoredRects) {
+	for (let _id of rectAPI.RectPointersEncoding.RectAnchoredRects) {
 		let _rectanchoredrect = frontRepo.map_ID_RectAnchoredRect.get(_id)
 		if (_rectanchoredrect != undefined) {
 			rect.RectAnchoredRects.push(_rectanchoredrect!)
 		}
 	}
 	rect.RectAnchoredPaths = new Array<RectAnchoredPath>()
-	for (let _id of rectDB.RectPointersEncoding.RectAnchoredPaths) {
+	for (let _id of rectAPI.RectPointersEncoding.RectAnchoredPaths) {
 		let _rectanchoredpath = frontRepo.map_ID_RectAnchoredPath.get(_id)
 		if (_rectanchoredpath != undefined) {
 			rect.RectAnchoredPaths.push(_rectanchoredpath!)

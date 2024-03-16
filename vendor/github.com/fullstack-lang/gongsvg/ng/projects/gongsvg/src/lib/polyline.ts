@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { PolylineDB } from './polyline-db'
+import { PolylineAPI } from './polyline-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -32,59 +32,59 @@ export class Polyline {
 	Animates: Array<Animate> = []
 }
 
-export function CopyPolylineToPolylineDB(polyline: Polyline, polylineDB: PolylineDB) {
+export function CopyPolylineToPolylineAPI(polyline: Polyline, polylineAPI: PolylineAPI) {
 
-	polylineDB.CreatedAt = polyline.CreatedAt
-	polylineDB.DeletedAt = polyline.DeletedAt
-	polylineDB.ID = polyline.ID
+	polylineAPI.CreatedAt = polyline.CreatedAt
+	polylineAPI.DeletedAt = polyline.DeletedAt
+	polylineAPI.ID = polyline.ID
 
 	// insertion point for basic fields copy operations
-	polylineDB.Name = polyline.Name
-	polylineDB.Points = polyline.Points
-	polylineDB.Color = polyline.Color
-	polylineDB.FillOpacity = polyline.FillOpacity
-	polylineDB.Stroke = polyline.Stroke
-	polylineDB.StrokeWidth = polyline.StrokeWidth
-	polylineDB.StrokeDashArray = polyline.StrokeDashArray
-	polylineDB.StrokeDashArrayWhenSelected = polyline.StrokeDashArrayWhenSelected
-	polylineDB.Transform = polyline.Transform
+	polylineAPI.Name = polyline.Name
+	polylineAPI.Points = polyline.Points
+	polylineAPI.Color = polyline.Color
+	polylineAPI.FillOpacity = polyline.FillOpacity
+	polylineAPI.Stroke = polyline.Stroke
+	polylineAPI.StrokeWidth = polyline.StrokeWidth
+	polylineAPI.StrokeDashArray = polyline.StrokeDashArray
+	polylineAPI.StrokeDashArrayWhenSelected = polyline.StrokeDashArrayWhenSelected
+	polylineAPI.Transform = polyline.Transform
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	polylineDB.PolylinePointersEncoding.Animates = []
+	polylineAPI.PolylinePointersEncoding.Animates = []
 	for (let _animate of polyline.Animates) {
-		polylineDB.PolylinePointersEncoding.Animates.push(_animate.ID)
+		polylineAPI.PolylinePointersEncoding.Animates.push(_animate.ID)
 	}
 
 }
 
-// CopyPolylineDBToPolyline update basic, pointers and slice of pointers fields of polyline
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of polylineDB
+// CopyPolylineAPIToPolyline update basic, pointers and slice of pointers fields of polyline
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of polylineAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyPolylineDBToPolyline(polylineDB: PolylineDB, polyline: Polyline, frontRepo: FrontRepo) {
+export function CopyPolylineAPIToPolyline(polylineAPI: PolylineAPI, polyline: Polyline, frontRepo: FrontRepo) {
 
-	polyline.CreatedAt = polylineDB.CreatedAt
-	polyline.DeletedAt = polylineDB.DeletedAt
-	polyline.ID = polylineDB.ID
+	polyline.CreatedAt = polylineAPI.CreatedAt
+	polyline.DeletedAt = polylineAPI.DeletedAt
+	polyline.ID = polylineAPI.ID
 
 	// insertion point for basic fields copy operations
-	polyline.Name = polylineDB.Name
-	polyline.Points = polylineDB.Points
-	polyline.Color = polylineDB.Color
-	polyline.FillOpacity = polylineDB.FillOpacity
-	polyline.Stroke = polylineDB.Stroke
-	polyline.StrokeWidth = polylineDB.StrokeWidth
-	polyline.StrokeDashArray = polylineDB.StrokeDashArray
-	polyline.StrokeDashArrayWhenSelected = polylineDB.StrokeDashArrayWhenSelected
-	polyline.Transform = polylineDB.Transform
+	polyline.Name = polylineAPI.Name
+	polyline.Points = polylineAPI.Points
+	polyline.Color = polylineAPI.Color
+	polyline.FillOpacity = polylineAPI.FillOpacity
+	polyline.Stroke = polylineAPI.Stroke
+	polyline.StrokeWidth = polylineAPI.StrokeWidth
+	polyline.StrokeDashArray = polylineAPI.StrokeDashArray
+	polyline.StrokeDashArrayWhenSelected = polylineAPI.StrokeDashArrayWhenSelected
+	polyline.Transform = polylineAPI.Transform
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 	polyline.Animates = new Array<Animate>()
-	for (let _id of polylineDB.PolylinePointersEncoding.Animates) {
+	for (let _id of polylineAPI.PolylinePointersEncoding.Animates) {
 		let _animate = frontRepo.map_ID_Animate.get(_id)
 		if (_animate != undefined) {
 			polyline.Animates.push(_animate!)

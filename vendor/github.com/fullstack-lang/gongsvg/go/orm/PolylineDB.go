@@ -38,6 +38,7 @@ type PolylineAPI struct {
 	models.Polyline_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	PolylinePointersEncoding PolylinePointersEncoding
 }
 
@@ -87,7 +88,9 @@ type PolylineDB struct {
 
 	// Declation for basic field polylineDB.Transform
 	Transform_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	PolylinePointersEncoding
 }
 

@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { CellBooleanDB } from './cellboolean-db'
+import { CellBooleanAPI } from './cellboolean-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -23,34 +23,34 @@ export class CellBoolean {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyCellBooleanToCellBooleanDB(cellboolean: CellBoolean, cellbooleanDB: CellBooleanDB) {
+export function CopyCellBooleanToCellBooleanAPI(cellboolean: CellBoolean, cellbooleanAPI: CellBooleanAPI) {
 
-	cellbooleanDB.CreatedAt = cellboolean.CreatedAt
-	cellbooleanDB.DeletedAt = cellboolean.DeletedAt
-	cellbooleanDB.ID = cellboolean.ID
+	cellbooleanAPI.CreatedAt = cellboolean.CreatedAt
+	cellbooleanAPI.DeletedAt = cellboolean.DeletedAt
+	cellbooleanAPI.ID = cellboolean.ID
 
 	// insertion point for basic fields copy operations
-	cellbooleanDB.Name = cellboolean.Name
-	cellbooleanDB.Value = cellboolean.Value
+	cellbooleanAPI.Name = cellboolean.Name
+	cellbooleanAPI.Value = cellboolean.Value
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyCellBooleanDBToCellBoolean update basic, pointers and slice of pointers fields of cellboolean
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of cellbooleanDB
+// CopyCellBooleanAPIToCellBoolean update basic, pointers and slice of pointers fields of cellboolean
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of cellbooleanAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyCellBooleanDBToCellBoolean(cellbooleanDB: CellBooleanDB, cellboolean: CellBoolean, frontRepo: FrontRepo) {
+export function CopyCellBooleanAPIToCellBoolean(cellbooleanAPI: CellBooleanAPI, cellboolean: CellBoolean, frontRepo: FrontRepo) {
 
-	cellboolean.CreatedAt = cellbooleanDB.CreatedAt
-	cellboolean.DeletedAt = cellbooleanDB.DeletedAt
-	cellboolean.ID = cellbooleanDB.ID
+	cellboolean.CreatedAt = cellbooleanAPI.CreatedAt
+	cellboolean.DeletedAt = cellbooleanAPI.DeletedAt
+	cellboolean.ID = cellbooleanAPI.ID
 
 	// insertion point for basic fields copy operations
-	cellboolean.Name = cellbooleanDB.Name
-	cellboolean.Value = cellbooleanDB.Value
+	cellboolean.Name = cellbooleanAPI.Name
+	cellboolean.Value = cellbooleanAPI.Value
 
 	// insertion point for pointer fields encoding
 

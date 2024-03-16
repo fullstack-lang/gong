@@ -38,6 +38,7 @@ type CellIconAPI struct {
 	models.CellIcon_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	CellIconPointersEncoding CellIconPointersEncoding
 }
 
@@ -63,7 +64,9 @@ type CellIconDB struct {
 
 	// Declation for basic field celliconDB.Icon
 	Icon_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	CellIconPointersEncoding
 }
 

@@ -11,8 +11,8 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { FormEditAssocButtonDB } from './formeditassocbutton-db'
-import { FormEditAssocButton, CopyFormEditAssocButtonToFormEditAssocButtonDB } from './formeditassocbutton'
+import { FormEditAssocButtonAPI } from './formeditassocbutton-api'
+import { FormEditAssocButton, CopyFormEditAssocButtonToFormEditAssocButtonAPI } from './formeditassocbutton'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
@@ -46,41 +46,41 @@ export class FormEditAssocButtonService {
 
   /** GET formeditassocbuttons from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI[]> {
     return this.getFormEditAssocButtons(GONG__StackPath, frontRepo)
   }
-  getFormEditAssocButtons(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonDB[]> {
+  getFormEditAssocButtons(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<FormEditAssocButtonDB[]>(this.formeditassocbuttonsUrl, { params: params })
+    return this.http.get<FormEditAssocButtonAPI[]>(this.formeditassocbuttonsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<FormEditAssocButtonDB[]>('getFormEditAssocButtons', []))
+        catchError(this.handleError<FormEditAssocButtonAPI[]>('getFormEditAssocButtons', []))
       );
   }
 
   /** GET formeditassocbutton by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI> {
     return this.getFormEditAssocButton(id, GONG__StackPath, frontRepo)
   }
-  getFormEditAssocButton(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonDB> {
+  getFormEditAssocButton(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.formeditassocbuttonsUrl}/${id}`;
-    return this.http.get<FormEditAssocButtonDB>(url, { params: params }).pipe(
+    return this.http.get<FormEditAssocButtonAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched formeditassocbutton id=${id}`)),
-      catchError(this.handleError<FormEditAssocButtonDB>(`getFormEditAssocButton id=${id}`))
+      catchError(this.handleError<FormEditAssocButtonAPI>(`getFormEditAssocButton id=${id}`))
     );
   }
 
   // postFront copy formeditassocbutton to a version with encoded pointers and post to the back
-  postFront(formeditassocbutton: FormEditAssocButton, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
-    let formeditassocbuttonDB = new FormEditAssocButtonDB
-    CopyFormEditAssocButtonToFormEditAssocButtonDB(formeditassocbutton, formeditassocbuttonDB)
-    const id = typeof formeditassocbuttonDB === 'number' ? formeditassocbuttonDB : formeditassocbuttonDB.ID
+  postFront(formeditassocbutton: FormEditAssocButton, GONG__StackPath: string): Observable<FormEditAssocButtonAPI> {
+    let formeditassocbuttonAPI = new FormEditAssocButtonAPI
+    CopyFormEditAssocButtonToFormEditAssocButtonAPI(formeditassocbutton, formeditassocbuttonAPI)
+    const id = typeof formeditassocbuttonAPI === 'number' ? formeditassocbuttonAPI : formeditassocbuttonAPI.ID
     const url = `${this.formeditassocbuttonsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -88,18 +88,18 @@ export class FormEditAssocButtonService {
       params: params
     }
 
-    return this.http.post<FormEditAssocButtonDB>(url, formeditassocbuttonDB, httpOptions).pipe(
+    return this.http.post<FormEditAssocButtonAPI>(url, formeditassocbuttonAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<FormEditAssocButtonDB>('postFormEditAssocButton'))
+      catchError(this.handleError<FormEditAssocButtonAPI>('postFormEditAssocButton'))
     );
   }
   
   /** POST: add a new formeditassocbutton to the server */
-  post(formeditassocbuttondb: FormEditAssocButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonDB> {
+  post(formeditassocbuttondb: FormEditAssocButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI> {
     return this.postFormEditAssocButton(formeditassocbuttondb, GONG__StackPath, frontRepo)
   }
-  postFormEditAssocButton(formeditassocbuttondb: FormEditAssocButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonDB> {
+  postFormEditAssocButton(formeditassocbuttondb: FormEditAssocButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -107,19 +107,19 @@ export class FormEditAssocButtonService {
       params: params
     }
 
-    return this.http.post<FormEditAssocButtonDB>(this.formeditassocbuttonsUrl, formeditassocbuttondb, httpOptions).pipe(
+    return this.http.post<FormEditAssocButtonAPI>(this.formeditassocbuttonsUrl, formeditassocbuttondb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted formeditassocbuttondb id=${formeditassocbuttondb.ID}`)
       }),
-      catchError(this.handleError<FormEditAssocButtonDB>('postFormEditAssocButton'))
+      catchError(this.handleError<FormEditAssocButtonAPI>('postFormEditAssocButton'))
     );
   }
 
   /** DELETE: delete the formeditassocbuttondb from the server */
-  delete(formeditassocbuttondb: FormEditAssocButtonDB | number, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
+  delete(formeditassocbuttondb: FormEditAssocButtonAPI | number, GONG__StackPath: string): Observable<FormEditAssocButtonAPI> {
     return this.deleteFormEditAssocButton(formeditassocbuttondb, GONG__StackPath)
   }
-  deleteFormEditAssocButton(formeditassocbuttondb: FormEditAssocButtonDB | number, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
+  deleteFormEditAssocButton(formeditassocbuttondb: FormEditAssocButtonAPI | number, GONG__StackPath: string): Observable<FormEditAssocButtonAPI> {
     const id = typeof formeditassocbuttondb === 'number' ? formeditassocbuttondb : formeditassocbuttondb.ID;
     const url = `${this.formeditassocbuttonsUrl}/${id}`;
 
@@ -129,17 +129,17 @@ export class FormEditAssocButtonService {
       params: params
     };
 
-    return this.http.delete<FormEditAssocButtonDB>(url, httpOptions).pipe(
+    return this.http.delete<FormEditAssocButtonAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted formeditassocbuttondb id=${id}`)),
-      catchError(this.handleError<FormEditAssocButtonDB>('deleteFormEditAssocButton'))
+      catchError(this.handleError<FormEditAssocButtonAPI>('deleteFormEditAssocButton'))
     );
   }
 
   // updateFront copy formeditassocbutton to a version with encoded pointers and update to the back
-  updateFront(formeditassocbutton: FormEditAssocButton, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
-    let formeditassocbuttonDB = new FormEditAssocButtonDB
-    CopyFormEditAssocButtonToFormEditAssocButtonDB(formeditassocbutton, formeditassocbuttonDB)
-    const id = typeof formeditassocbuttonDB === 'number' ? formeditassocbuttonDB : formeditassocbuttonDB.ID
+  updateFront(formeditassocbutton: FormEditAssocButton, GONG__StackPath: string): Observable<FormEditAssocButtonAPI> {
+    let formeditassocbuttonAPI = new FormEditAssocButtonAPI
+    CopyFormEditAssocButtonToFormEditAssocButtonAPI(formeditassocbutton, formeditassocbuttonAPI)
+    const id = typeof formeditassocbuttonAPI === 'number' ? formeditassocbuttonAPI : formeditassocbuttonAPI.ID
     const url = `${this.formeditassocbuttonsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,18 +147,18 @@ export class FormEditAssocButtonService {
       params: params
     }
 
-    return this.http.put<FormEditAssocButtonDB>(url, formeditassocbuttonDB, httpOptions).pipe(
+    return this.http.put<FormEditAssocButtonAPI>(url, formeditassocbuttonAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<FormEditAssocButtonDB>('updateFormEditAssocButton'))
+      catchError(this.handleError<FormEditAssocButtonAPI>('updateFormEditAssocButton'))
     );
   }
 
   /** PUT: update the formeditassocbuttondb on the server */
-  update(formeditassocbuttondb: FormEditAssocButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonDB> {
+  update(formeditassocbuttondb: FormEditAssocButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI> {
     return this.updateFormEditAssocButton(formeditassocbuttondb, GONG__StackPath, frontRepo)
   }
-  updateFormEditAssocButton(formeditassocbuttondb: FormEditAssocButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonDB> {
+  updateFormEditAssocButton(formeditassocbuttondb: FormEditAssocButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI> {
     const id = typeof formeditassocbuttondb === 'number' ? formeditassocbuttondb : formeditassocbuttondb.ID;
     const url = `${this.formeditassocbuttonsUrl}/${id}`;
 
@@ -169,11 +169,11 @@ export class FormEditAssocButtonService {
       params: params
     };
 
-    return this.http.put<FormEditAssocButtonDB>(url, formeditassocbuttondb, httpOptions).pipe(
+    return this.http.put<FormEditAssocButtonAPI>(url, formeditassocbuttondb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated formeditassocbuttondb id=${formeditassocbuttondb.ID}`)
       }),
-      catchError(this.handleError<FormEditAssocButtonDB>('updateFormEditAssocButton'))
+      catchError(this.handleError<FormEditAssocButtonAPI>('updateFormEditAssocButton'))
     );
   }
 

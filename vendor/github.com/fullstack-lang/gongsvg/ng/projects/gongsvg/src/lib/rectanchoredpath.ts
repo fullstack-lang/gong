@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { RectAnchoredPathDB } from './rectanchoredpath-db'
+import { RectAnchoredPathAPI } from './rectanchoredpath-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -35,58 +35,58 @@ export class RectAnchoredPath {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyRectAnchoredPathToRectAnchoredPathDB(rectanchoredpath: RectAnchoredPath, rectanchoredpathDB: RectAnchoredPathDB) {
+export function CopyRectAnchoredPathToRectAnchoredPathAPI(rectanchoredpath: RectAnchoredPath, rectanchoredpathAPI: RectAnchoredPathAPI) {
 
-	rectanchoredpathDB.CreatedAt = rectanchoredpath.CreatedAt
-	rectanchoredpathDB.DeletedAt = rectanchoredpath.DeletedAt
-	rectanchoredpathDB.ID = rectanchoredpath.ID
+	rectanchoredpathAPI.CreatedAt = rectanchoredpath.CreatedAt
+	rectanchoredpathAPI.DeletedAt = rectanchoredpath.DeletedAt
+	rectanchoredpathAPI.ID = rectanchoredpath.ID
 
 	// insertion point for basic fields copy operations
-	rectanchoredpathDB.Name = rectanchoredpath.Name
-	rectanchoredpathDB.Definition = rectanchoredpath.Definition
-	rectanchoredpathDB.X_Offset = rectanchoredpath.X_Offset
-	rectanchoredpathDB.Y_Offset = rectanchoredpath.Y_Offset
-	rectanchoredpathDB.RectAnchorType = rectanchoredpath.RectAnchorType
-	rectanchoredpathDB.ScalePropotionnally = rectanchoredpath.ScalePropotionnally
-	rectanchoredpathDB.AppliedScaling = rectanchoredpath.AppliedScaling
-	rectanchoredpathDB.Color = rectanchoredpath.Color
-	rectanchoredpathDB.FillOpacity = rectanchoredpath.FillOpacity
-	rectanchoredpathDB.Stroke = rectanchoredpath.Stroke
-	rectanchoredpathDB.StrokeWidth = rectanchoredpath.StrokeWidth
-	rectanchoredpathDB.StrokeDashArray = rectanchoredpath.StrokeDashArray
-	rectanchoredpathDB.StrokeDashArrayWhenSelected = rectanchoredpath.StrokeDashArrayWhenSelected
-	rectanchoredpathDB.Transform = rectanchoredpath.Transform
+	rectanchoredpathAPI.Name = rectanchoredpath.Name
+	rectanchoredpathAPI.Definition = rectanchoredpath.Definition
+	rectanchoredpathAPI.X_Offset = rectanchoredpath.X_Offset
+	rectanchoredpathAPI.Y_Offset = rectanchoredpath.Y_Offset
+	rectanchoredpathAPI.RectAnchorType = rectanchoredpath.RectAnchorType
+	rectanchoredpathAPI.ScalePropotionnally = rectanchoredpath.ScalePropotionnally
+	rectanchoredpathAPI.AppliedScaling = rectanchoredpath.AppliedScaling
+	rectanchoredpathAPI.Color = rectanchoredpath.Color
+	rectanchoredpathAPI.FillOpacity = rectanchoredpath.FillOpacity
+	rectanchoredpathAPI.Stroke = rectanchoredpath.Stroke
+	rectanchoredpathAPI.StrokeWidth = rectanchoredpath.StrokeWidth
+	rectanchoredpathAPI.StrokeDashArray = rectanchoredpath.StrokeDashArray
+	rectanchoredpathAPI.StrokeDashArrayWhenSelected = rectanchoredpath.StrokeDashArrayWhenSelected
+	rectanchoredpathAPI.Transform = rectanchoredpath.Transform
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyRectAnchoredPathDBToRectAnchoredPath update basic, pointers and slice of pointers fields of rectanchoredpath
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of rectanchoredpathDB
+// CopyRectAnchoredPathAPIToRectAnchoredPath update basic, pointers and slice of pointers fields of rectanchoredpath
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of rectanchoredpathAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyRectAnchoredPathDBToRectAnchoredPath(rectanchoredpathDB: RectAnchoredPathDB, rectanchoredpath: RectAnchoredPath, frontRepo: FrontRepo) {
+export function CopyRectAnchoredPathAPIToRectAnchoredPath(rectanchoredpathAPI: RectAnchoredPathAPI, rectanchoredpath: RectAnchoredPath, frontRepo: FrontRepo) {
 
-	rectanchoredpath.CreatedAt = rectanchoredpathDB.CreatedAt
-	rectanchoredpath.DeletedAt = rectanchoredpathDB.DeletedAt
-	rectanchoredpath.ID = rectanchoredpathDB.ID
+	rectanchoredpath.CreatedAt = rectanchoredpathAPI.CreatedAt
+	rectanchoredpath.DeletedAt = rectanchoredpathAPI.DeletedAt
+	rectanchoredpath.ID = rectanchoredpathAPI.ID
 
 	// insertion point for basic fields copy operations
-	rectanchoredpath.Name = rectanchoredpathDB.Name
-	rectanchoredpath.Definition = rectanchoredpathDB.Definition
-	rectanchoredpath.X_Offset = rectanchoredpathDB.X_Offset
-	rectanchoredpath.Y_Offset = rectanchoredpathDB.Y_Offset
-	rectanchoredpath.RectAnchorType = rectanchoredpathDB.RectAnchorType
-	rectanchoredpath.ScalePropotionnally = rectanchoredpathDB.ScalePropotionnally
-	rectanchoredpath.AppliedScaling = rectanchoredpathDB.AppliedScaling
-	rectanchoredpath.Color = rectanchoredpathDB.Color
-	rectanchoredpath.FillOpacity = rectanchoredpathDB.FillOpacity
-	rectanchoredpath.Stroke = rectanchoredpathDB.Stroke
-	rectanchoredpath.StrokeWidth = rectanchoredpathDB.StrokeWidth
-	rectanchoredpath.StrokeDashArray = rectanchoredpathDB.StrokeDashArray
-	rectanchoredpath.StrokeDashArrayWhenSelected = rectanchoredpathDB.StrokeDashArrayWhenSelected
-	rectanchoredpath.Transform = rectanchoredpathDB.Transform
+	rectanchoredpath.Name = rectanchoredpathAPI.Name
+	rectanchoredpath.Definition = rectanchoredpathAPI.Definition
+	rectanchoredpath.X_Offset = rectanchoredpathAPI.X_Offset
+	rectanchoredpath.Y_Offset = rectanchoredpathAPI.Y_Offset
+	rectanchoredpath.RectAnchorType = rectanchoredpathAPI.RectAnchorType
+	rectanchoredpath.ScalePropotionnally = rectanchoredpathAPI.ScalePropotionnally
+	rectanchoredpath.AppliedScaling = rectanchoredpathAPI.AppliedScaling
+	rectanchoredpath.Color = rectanchoredpathAPI.Color
+	rectanchoredpath.FillOpacity = rectanchoredpathAPI.FillOpacity
+	rectanchoredpath.Stroke = rectanchoredpathAPI.Stroke
+	rectanchoredpath.StrokeWidth = rectanchoredpathAPI.StrokeWidth
+	rectanchoredpath.StrokeDashArray = rectanchoredpathAPI.StrokeDashArray
+	rectanchoredpath.StrokeDashArrayWhenSelected = rectanchoredpathAPI.StrokeDashArrayWhenSelected
+	rectanchoredpath.Transform = rectanchoredpathAPI.Transform
 
 	// insertion point for pointer fields encoding
 

@@ -11,8 +11,8 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { FormFieldDateTimeDB } from './formfielddatetime-db'
-import { FormFieldDateTime, CopyFormFieldDateTimeToFormFieldDateTimeDB } from './formfielddatetime'
+import { FormFieldDateTimeAPI } from './formfielddatetime-api'
+import { FormFieldDateTime, CopyFormFieldDateTimeToFormFieldDateTimeAPI } from './formfielddatetime'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
@@ -46,41 +46,41 @@ export class FormFieldDateTimeService {
 
   /** GET formfielddatetimes from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI[]> {
     return this.getFormFieldDateTimes(GONG__StackPath, frontRepo)
   }
-  getFormFieldDateTimes(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeDB[]> {
+  getFormFieldDateTimes(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<FormFieldDateTimeDB[]>(this.formfielddatetimesUrl, { params: params })
+    return this.http.get<FormFieldDateTimeAPI[]>(this.formfielddatetimesUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<FormFieldDateTimeDB[]>('getFormFieldDateTimes', []))
+        catchError(this.handleError<FormFieldDateTimeAPI[]>('getFormFieldDateTimes', []))
       );
   }
 
   /** GET formfielddatetime by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI> {
     return this.getFormFieldDateTime(id, GONG__StackPath, frontRepo)
   }
-  getFormFieldDateTime(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeDB> {
+  getFormFieldDateTime(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.formfielddatetimesUrl}/${id}`;
-    return this.http.get<FormFieldDateTimeDB>(url, { params: params }).pipe(
+    return this.http.get<FormFieldDateTimeAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched formfielddatetime id=${id}`)),
-      catchError(this.handleError<FormFieldDateTimeDB>(`getFormFieldDateTime id=${id}`))
+      catchError(this.handleError<FormFieldDateTimeAPI>(`getFormFieldDateTime id=${id}`))
     );
   }
 
   // postFront copy formfielddatetime to a version with encoded pointers and post to the back
-  postFront(formfielddatetime: FormFieldDateTime, GONG__StackPath: string): Observable<FormFieldDateTimeDB> {
-    let formfielddatetimeDB = new FormFieldDateTimeDB
-    CopyFormFieldDateTimeToFormFieldDateTimeDB(formfielddatetime, formfielddatetimeDB)
-    const id = typeof formfielddatetimeDB === 'number' ? formfielddatetimeDB : formfielddatetimeDB.ID
+  postFront(formfielddatetime: FormFieldDateTime, GONG__StackPath: string): Observable<FormFieldDateTimeAPI> {
+    let formfielddatetimeAPI = new FormFieldDateTimeAPI
+    CopyFormFieldDateTimeToFormFieldDateTimeAPI(formfielddatetime, formfielddatetimeAPI)
+    const id = typeof formfielddatetimeAPI === 'number' ? formfielddatetimeAPI : formfielddatetimeAPI.ID
     const url = `${this.formfielddatetimesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -88,18 +88,18 @@ export class FormFieldDateTimeService {
       params: params
     }
 
-    return this.http.post<FormFieldDateTimeDB>(url, formfielddatetimeDB, httpOptions).pipe(
+    return this.http.post<FormFieldDateTimeAPI>(url, formfielddatetimeAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<FormFieldDateTimeDB>('postFormFieldDateTime'))
+      catchError(this.handleError<FormFieldDateTimeAPI>('postFormFieldDateTime'))
     );
   }
   
   /** POST: add a new formfielddatetime to the server */
-  post(formfielddatetimedb: FormFieldDateTimeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeDB> {
+  post(formfielddatetimedb: FormFieldDateTimeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI> {
     return this.postFormFieldDateTime(formfielddatetimedb, GONG__StackPath, frontRepo)
   }
-  postFormFieldDateTime(formfielddatetimedb: FormFieldDateTimeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeDB> {
+  postFormFieldDateTime(formfielddatetimedb: FormFieldDateTimeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -107,19 +107,19 @@ export class FormFieldDateTimeService {
       params: params
     }
 
-    return this.http.post<FormFieldDateTimeDB>(this.formfielddatetimesUrl, formfielddatetimedb, httpOptions).pipe(
+    return this.http.post<FormFieldDateTimeAPI>(this.formfielddatetimesUrl, formfielddatetimedb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted formfielddatetimedb id=${formfielddatetimedb.ID}`)
       }),
-      catchError(this.handleError<FormFieldDateTimeDB>('postFormFieldDateTime'))
+      catchError(this.handleError<FormFieldDateTimeAPI>('postFormFieldDateTime'))
     );
   }
 
   /** DELETE: delete the formfielddatetimedb from the server */
-  delete(formfielddatetimedb: FormFieldDateTimeDB | number, GONG__StackPath: string): Observable<FormFieldDateTimeDB> {
+  delete(formfielddatetimedb: FormFieldDateTimeAPI | number, GONG__StackPath: string): Observable<FormFieldDateTimeAPI> {
     return this.deleteFormFieldDateTime(formfielddatetimedb, GONG__StackPath)
   }
-  deleteFormFieldDateTime(formfielddatetimedb: FormFieldDateTimeDB | number, GONG__StackPath: string): Observable<FormFieldDateTimeDB> {
+  deleteFormFieldDateTime(formfielddatetimedb: FormFieldDateTimeAPI | number, GONG__StackPath: string): Observable<FormFieldDateTimeAPI> {
     const id = typeof formfielddatetimedb === 'number' ? formfielddatetimedb : formfielddatetimedb.ID;
     const url = `${this.formfielddatetimesUrl}/${id}`;
 
@@ -129,17 +129,17 @@ export class FormFieldDateTimeService {
       params: params
     };
 
-    return this.http.delete<FormFieldDateTimeDB>(url, httpOptions).pipe(
+    return this.http.delete<FormFieldDateTimeAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted formfielddatetimedb id=${id}`)),
-      catchError(this.handleError<FormFieldDateTimeDB>('deleteFormFieldDateTime'))
+      catchError(this.handleError<FormFieldDateTimeAPI>('deleteFormFieldDateTime'))
     );
   }
 
   // updateFront copy formfielddatetime to a version with encoded pointers and update to the back
-  updateFront(formfielddatetime: FormFieldDateTime, GONG__StackPath: string): Observable<FormFieldDateTimeDB> {
-    let formfielddatetimeDB = new FormFieldDateTimeDB
-    CopyFormFieldDateTimeToFormFieldDateTimeDB(formfielddatetime, formfielddatetimeDB)
-    const id = typeof formfielddatetimeDB === 'number' ? formfielddatetimeDB : formfielddatetimeDB.ID
+  updateFront(formfielddatetime: FormFieldDateTime, GONG__StackPath: string): Observable<FormFieldDateTimeAPI> {
+    let formfielddatetimeAPI = new FormFieldDateTimeAPI
+    CopyFormFieldDateTimeToFormFieldDateTimeAPI(formfielddatetime, formfielddatetimeAPI)
+    const id = typeof formfielddatetimeAPI === 'number' ? formfielddatetimeAPI : formfielddatetimeAPI.ID
     const url = `${this.formfielddatetimesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,18 +147,18 @@ export class FormFieldDateTimeService {
       params: params
     }
 
-    return this.http.put<FormFieldDateTimeDB>(url, formfielddatetimeDB, httpOptions).pipe(
+    return this.http.put<FormFieldDateTimeAPI>(url, formfielddatetimeAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<FormFieldDateTimeDB>('updateFormFieldDateTime'))
+      catchError(this.handleError<FormFieldDateTimeAPI>('updateFormFieldDateTime'))
     );
   }
 
   /** PUT: update the formfielddatetimedb on the server */
-  update(formfielddatetimedb: FormFieldDateTimeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeDB> {
+  update(formfielddatetimedb: FormFieldDateTimeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI> {
     return this.updateFormFieldDateTime(formfielddatetimedb, GONG__StackPath, frontRepo)
   }
-  updateFormFieldDateTime(formfielddatetimedb: FormFieldDateTimeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeDB> {
+  updateFormFieldDateTime(formfielddatetimedb: FormFieldDateTimeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI> {
     const id = typeof formfielddatetimedb === 'number' ? formfielddatetimedb : formfielddatetimedb.ID;
     const url = `${this.formfielddatetimesUrl}/${id}`;
 
@@ -169,11 +169,11 @@ export class FormFieldDateTimeService {
       params: params
     };
 
-    return this.http.put<FormFieldDateTimeDB>(url, formfielddatetimedb, httpOptions).pipe(
+    return this.http.put<FormFieldDateTimeAPI>(url, formfielddatetimedb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated formfielddatetimedb id=${formfielddatetimedb.ID}`)
       }),
-      catchError(this.handleError<FormFieldDateTimeDB>('updateFormFieldDateTime'))
+      catchError(this.handleError<FormFieldDateTimeAPI>('updateFormFieldDateTime'))
     );
   }
 

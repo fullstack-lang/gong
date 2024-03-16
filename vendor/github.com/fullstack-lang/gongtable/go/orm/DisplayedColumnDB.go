@@ -38,6 +38,7 @@ type DisplayedColumnAPI struct {
 	models.DisplayedColumn_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	DisplayedColumnPointersEncoding DisplayedColumnPointersEncoding
 }
 
@@ -60,7 +61,9 @@ type DisplayedColumnDB struct {
 
 	// Declation for basic field displayedcolumnDB.Name
 	Name_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	DisplayedColumnPointersEncoding
 }
 

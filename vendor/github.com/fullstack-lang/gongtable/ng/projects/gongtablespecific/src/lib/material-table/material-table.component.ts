@@ -88,7 +88,7 @@ export class MaterialTableComponent implements OnInit {
       this.TableName = this.tableDialogData.TableName
     }
 
-    this.startAutoRefresh(500); // Refresh every 500 ms (half second)
+    this.refresh()
 
     this.filterControl.valueChanges
       .pipe(
@@ -105,37 +105,9 @@ export class MaterialTableComponent implements OnInit {
     }
   }
 
-  ngOnDestroy(): void {
-    this.stopAutoRefresh();
-  }
-
-
-  stopAutoRefresh(): void {
-    if (this.commutNbFromBackSubscription) {
-      this.commutNbFromBackSubscription.unsubscribe();
-    }
-  }
-
-  startAutoRefresh(intervalMs: number): void {
-    this.commutNbFromBackSubscription = this.gongtableCommitNbFromBackService
-      .getCommitNbFromBack(intervalMs, this.DataStack)
-      .subscribe((commitNbFromBack: number) => {
-        // console.log("OutletComponent, last commit nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
-
-        if (this.lastCommitNbFromBack < commitNbFromBack) {
-          const d = new Date()
-          console.log("OutletComponent:", this.DataStack, d.toLocaleTimeString() + `.${d.getMilliseconds()}` +
-            ", last commit increased nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
-          this.lastCommitNbFromBack = commitNbFromBack
-          this.refresh()
-        }
-      }
-      )
-  }
-
   refresh(): void {
 
-    this.gongtableFrontRepoService.pull(this.DataStack).subscribe(
+    this.gongtableFrontRepoService.connectToWebSocket(this.DataStack).subscribe(
       gongtablesFrontRepo => {
         this.gongtableFrontRepo = gongtablesFrontRepo
 

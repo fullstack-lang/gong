@@ -38,6 +38,7 @@ type EllipseAPI struct {
 	models.Ellipse_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	EllipsePointersEncoding EllipsePointersEncoding
 }
 
@@ -96,7 +97,9 @@ type EllipseDB struct {
 
 	// Declation for basic field ellipseDB.Transform
 	Transform_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	EllipsePointersEncoding
 }
 

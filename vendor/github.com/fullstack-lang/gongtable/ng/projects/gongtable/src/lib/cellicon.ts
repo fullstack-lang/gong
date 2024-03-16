@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { CellIconDB } from './cellicon-db'
+import { CellIconAPI } from './cellicon-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -23,34 +23,34 @@ export class CellIcon {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyCellIconToCellIconDB(cellicon: CellIcon, celliconDB: CellIconDB) {
+export function CopyCellIconToCellIconAPI(cellicon: CellIcon, celliconAPI: CellIconAPI) {
 
-	celliconDB.CreatedAt = cellicon.CreatedAt
-	celliconDB.DeletedAt = cellicon.DeletedAt
-	celliconDB.ID = cellicon.ID
+	celliconAPI.CreatedAt = cellicon.CreatedAt
+	celliconAPI.DeletedAt = cellicon.DeletedAt
+	celliconAPI.ID = cellicon.ID
 
 	// insertion point for basic fields copy operations
-	celliconDB.Name = cellicon.Name
-	celliconDB.Icon = cellicon.Icon
+	celliconAPI.Name = cellicon.Name
+	celliconAPI.Icon = cellicon.Icon
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyCellIconDBToCellIcon update basic, pointers and slice of pointers fields of cellicon
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of celliconDB
+// CopyCellIconAPIToCellIcon update basic, pointers and slice of pointers fields of cellicon
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of celliconAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyCellIconDBToCellIcon(celliconDB: CellIconDB, cellicon: CellIcon, frontRepo: FrontRepo) {
+export function CopyCellIconAPIToCellIcon(celliconAPI: CellIconAPI, cellicon: CellIcon, frontRepo: FrontRepo) {
 
-	cellicon.CreatedAt = celliconDB.CreatedAt
-	cellicon.DeletedAt = celliconDB.DeletedAt
-	cellicon.ID = celliconDB.ID
+	cellicon.CreatedAt = celliconAPI.CreatedAt
+	cellicon.DeletedAt = celliconAPI.DeletedAt
+	cellicon.ID = celliconAPI.ID
 
 	// insertion point for basic fields copy operations
-	cellicon.Name = celliconDB.Name
-	cellicon.Icon = celliconDB.Icon
+	cellicon.Name = celliconAPI.Name
+	cellicon.Icon = celliconAPI.Icon
 
 	// insertion point for pointer fields encoding
 

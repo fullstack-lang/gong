@@ -38,6 +38,7 @@ type FormFieldDateTimeAPI struct {
 	models.FormFieldDateTime_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	FormFieldDateTimePointersEncoding FormFieldDateTimePointersEncoding
 }
 
@@ -63,7 +64,9 @@ type FormFieldDateTimeDB struct {
 
 	// Declation for basic field formfielddatetimeDB.Value
 	Value_Data sql.NullTime
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormFieldDateTimePointersEncoding
 }
 

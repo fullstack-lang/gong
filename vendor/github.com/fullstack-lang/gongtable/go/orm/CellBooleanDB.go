@@ -38,6 +38,7 @@ type CellBooleanAPI struct {
 	models.CellBoolean_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	CellBooleanPointersEncoding CellBooleanPointersEncoding
 }
 
@@ -64,7 +65,9 @@ type CellBooleanDB struct {
 	// Declation for basic field cellbooleanDB.Value
 	// provide the sql storage for the boolan
 	Value_Data sql.NullBool
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	CellBooleanPointersEncoding
 }
 

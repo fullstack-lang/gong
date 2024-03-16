@@ -11,13 +11,13 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { PolylineDB } from './polyline-db'
-import { Polyline, CopyPolylineToPolylineDB } from './polyline'
+import { PolylineAPI } from './polyline-api'
+import { Polyline, CopyPolylineToPolylineAPI } from './polyline'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { AnimateDB } from './animate-db'
+import { AnimateAPI } from './animate-api'
 
 @Injectable({
   providedIn: 'root'
@@ -47,41 +47,41 @@ export class PolylineService {
 
   /** GET polylines from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineAPI[]> {
     return this.getPolylines(GONG__StackPath, frontRepo)
   }
-  getPolylines(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineDB[]> {
+  getPolylines(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<PolylineDB[]>(this.polylinesUrl, { params: params })
+    return this.http.get<PolylineAPI[]>(this.polylinesUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<PolylineDB[]>('getPolylines', []))
+        catchError(this.handleError<PolylineAPI[]>('getPolylines', []))
       );
   }
 
   /** GET polyline by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineAPI> {
     return this.getPolyline(id, GONG__StackPath, frontRepo)
   }
-  getPolyline(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineDB> {
+  getPolyline(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.polylinesUrl}/${id}`;
-    return this.http.get<PolylineDB>(url, { params: params }).pipe(
+    return this.http.get<PolylineAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched polyline id=${id}`)),
-      catchError(this.handleError<PolylineDB>(`getPolyline id=${id}`))
+      catchError(this.handleError<PolylineAPI>(`getPolyline id=${id}`))
     );
   }
 
   // postFront copy polyline to a version with encoded pointers and post to the back
-  postFront(polyline: Polyline, GONG__StackPath: string): Observable<PolylineDB> {
-    let polylineDB = new PolylineDB
-    CopyPolylineToPolylineDB(polyline, polylineDB)
-    const id = typeof polylineDB === 'number' ? polylineDB : polylineDB.ID
+  postFront(polyline: Polyline, GONG__StackPath: string): Observable<PolylineAPI> {
+    let polylineAPI = new PolylineAPI
+    CopyPolylineToPolylineAPI(polyline, polylineAPI)
+    const id = typeof polylineAPI === 'number' ? polylineAPI : polylineAPI.ID
     const url = `${this.polylinesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -89,18 +89,18 @@ export class PolylineService {
       params: params
     }
 
-    return this.http.post<PolylineDB>(url, polylineDB, httpOptions).pipe(
+    return this.http.post<PolylineAPI>(url, polylineAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<PolylineDB>('postPolyline'))
+      catchError(this.handleError<PolylineAPI>('postPolyline'))
     );
   }
   
   /** POST: add a new polyline to the server */
-  post(polylinedb: PolylineDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineDB> {
+  post(polylinedb: PolylineAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineAPI> {
     return this.postPolyline(polylinedb, GONG__StackPath, frontRepo)
   }
-  postPolyline(polylinedb: PolylineDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineDB> {
+  postPolyline(polylinedb: PolylineAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -108,19 +108,19 @@ export class PolylineService {
       params: params
     }
 
-    return this.http.post<PolylineDB>(this.polylinesUrl, polylinedb, httpOptions).pipe(
+    return this.http.post<PolylineAPI>(this.polylinesUrl, polylinedb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted polylinedb id=${polylinedb.ID}`)
       }),
-      catchError(this.handleError<PolylineDB>('postPolyline'))
+      catchError(this.handleError<PolylineAPI>('postPolyline'))
     );
   }
 
   /** DELETE: delete the polylinedb from the server */
-  delete(polylinedb: PolylineDB | number, GONG__StackPath: string): Observable<PolylineDB> {
+  delete(polylinedb: PolylineAPI | number, GONG__StackPath: string): Observable<PolylineAPI> {
     return this.deletePolyline(polylinedb, GONG__StackPath)
   }
-  deletePolyline(polylinedb: PolylineDB | number, GONG__StackPath: string): Observable<PolylineDB> {
+  deletePolyline(polylinedb: PolylineAPI | number, GONG__StackPath: string): Observable<PolylineAPI> {
     const id = typeof polylinedb === 'number' ? polylinedb : polylinedb.ID;
     const url = `${this.polylinesUrl}/${id}`;
 
@@ -130,17 +130,17 @@ export class PolylineService {
       params: params
     };
 
-    return this.http.delete<PolylineDB>(url, httpOptions).pipe(
+    return this.http.delete<PolylineAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted polylinedb id=${id}`)),
-      catchError(this.handleError<PolylineDB>('deletePolyline'))
+      catchError(this.handleError<PolylineAPI>('deletePolyline'))
     );
   }
 
   // updateFront copy polyline to a version with encoded pointers and update to the back
-  updateFront(polyline: Polyline, GONG__StackPath: string): Observable<PolylineDB> {
-    let polylineDB = new PolylineDB
-    CopyPolylineToPolylineDB(polyline, polylineDB)
-    const id = typeof polylineDB === 'number' ? polylineDB : polylineDB.ID
+  updateFront(polyline: Polyline, GONG__StackPath: string): Observable<PolylineAPI> {
+    let polylineAPI = new PolylineAPI
+    CopyPolylineToPolylineAPI(polyline, polylineAPI)
+    const id = typeof polylineAPI === 'number' ? polylineAPI : polylineAPI.ID
     const url = `${this.polylinesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,18 +148,18 @@ export class PolylineService {
       params: params
     }
 
-    return this.http.put<PolylineDB>(url, polylineDB, httpOptions).pipe(
+    return this.http.put<PolylineAPI>(url, polylineAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<PolylineDB>('updatePolyline'))
+      catchError(this.handleError<PolylineAPI>('updatePolyline'))
     );
   }
 
   /** PUT: update the polylinedb on the server */
-  update(polylinedb: PolylineDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineDB> {
+  update(polylinedb: PolylineAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineAPI> {
     return this.updatePolyline(polylinedb, GONG__StackPath, frontRepo)
   }
-  updatePolyline(polylinedb: PolylineDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineDB> {
+  updatePolyline(polylinedb: PolylineAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineAPI> {
     const id = typeof polylinedb === 'number' ? polylinedb : polylinedb.ID;
     const url = `${this.polylinesUrl}/${id}`;
 
@@ -170,11 +170,11 @@ export class PolylineService {
       params: params
     };
 
-    return this.http.put<PolylineDB>(url, polylinedb, httpOptions).pipe(
+    return this.http.put<PolylineAPI>(url, polylinedb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated polylinedb id=${polylinedb.ID}`)
       }),
-      catchError(this.handleError<PolylineDB>('updatePolyline'))
+      catchError(this.handleError<PolylineAPI>('updatePolyline'))
     );
   }
 

@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { FormFieldIntDB } from './formfieldint-db'
+import { FormFieldIntAPI } from './formfieldint-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -27,42 +27,42 @@ export class FormFieldInt {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyFormFieldIntToFormFieldIntDB(formfieldint: FormFieldInt, formfieldintDB: FormFieldIntDB) {
+export function CopyFormFieldIntToFormFieldIntAPI(formfieldint: FormFieldInt, formfieldintAPI: FormFieldIntAPI) {
 
-	formfieldintDB.CreatedAt = formfieldint.CreatedAt
-	formfieldintDB.DeletedAt = formfieldint.DeletedAt
-	formfieldintDB.ID = formfieldint.ID
+	formfieldintAPI.CreatedAt = formfieldint.CreatedAt
+	formfieldintAPI.DeletedAt = formfieldint.DeletedAt
+	formfieldintAPI.ID = formfieldint.ID
 
 	// insertion point for basic fields copy operations
-	formfieldintDB.Name = formfieldint.Name
-	formfieldintDB.Value = formfieldint.Value
-	formfieldintDB.HasMinValidator = formfieldint.HasMinValidator
-	formfieldintDB.MinValue = formfieldint.MinValue
-	formfieldintDB.HasMaxValidator = formfieldint.HasMaxValidator
-	formfieldintDB.MaxValue = formfieldint.MaxValue
+	formfieldintAPI.Name = formfieldint.Name
+	formfieldintAPI.Value = formfieldint.Value
+	formfieldintAPI.HasMinValidator = formfieldint.HasMinValidator
+	formfieldintAPI.MinValue = formfieldint.MinValue
+	formfieldintAPI.HasMaxValidator = formfieldint.HasMaxValidator
+	formfieldintAPI.MaxValue = formfieldint.MaxValue
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyFormFieldIntDBToFormFieldInt update basic, pointers and slice of pointers fields of formfieldint
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of formfieldintDB
+// CopyFormFieldIntAPIToFormFieldInt update basic, pointers and slice of pointers fields of formfieldint
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of formfieldintAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyFormFieldIntDBToFormFieldInt(formfieldintDB: FormFieldIntDB, formfieldint: FormFieldInt, frontRepo: FrontRepo) {
+export function CopyFormFieldIntAPIToFormFieldInt(formfieldintAPI: FormFieldIntAPI, formfieldint: FormFieldInt, frontRepo: FrontRepo) {
 
-	formfieldint.CreatedAt = formfieldintDB.CreatedAt
-	formfieldint.DeletedAt = formfieldintDB.DeletedAt
-	formfieldint.ID = formfieldintDB.ID
+	formfieldint.CreatedAt = formfieldintAPI.CreatedAt
+	formfieldint.DeletedAt = formfieldintAPI.DeletedAt
+	formfieldint.ID = formfieldintAPI.ID
 
 	// insertion point for basic fields copy operations
-	formfieldint.Name = formfieldintDB.Name
-	formfieldint.Value = formfieldintDB.Value
-	formfieldint.HasMinValidator = formfieldintDB.HasMinValidator
-	formfieldint.MinValue = formfieldintDB.MinValue
-	formfieldint.HasMaxValidator = formfieldintDB.HasMaxValidator
-	formfieldint.MaxValue = formfieldintDB.MaxValue
+	formfieldint.Name = formfieldintAPI.Name
+	formfieldint.Value = formfieldintAPI.Value
+	formfieldint.HasMinValidator = formfieldintAPI.HasMinValidator
+	formfieldint.MinValue = formfieldintAPI.MinValue
+	formfieldint.HasMaxValidator = formfieldintAPI.HasMaxValidator
+	formfieldint.MaxValue = formfieldintAPI.MaxValue
 
 	// insertion point for pointer fields encoding
 

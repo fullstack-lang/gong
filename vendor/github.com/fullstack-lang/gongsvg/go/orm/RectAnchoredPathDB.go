@@ -38,6 +38,7 @@ type RectAnchoredPathAPI struct {
 	models.RectAnchoredPath_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	RectAnchoredPathPointersEncoding RectAnchoredPathPointersEncoding
 }
 
@@ -100,7 +101,9 @@ type RectAnchoredPathDB struct {
 
 	// Declation for basic field rectanchoredpathDB.Transform
 	Transform_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	RectAnchoredPathPointersEncoding
 }
 

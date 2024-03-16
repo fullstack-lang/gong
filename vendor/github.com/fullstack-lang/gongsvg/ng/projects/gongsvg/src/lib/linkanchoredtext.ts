@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { LinkAnchoredTextDB } from './linkanchoredtext-db'
+import { LinkAnchoredTextAPI } from './linkanchoredtext-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -37,69 +37,69 @@ export class LinkAnchoredText {
 	Animates: Array<Animate> = []
 }
 
-export function CopyLinkAnchoredTextToLinkAnchoredTextDB(linkanchoredtext: LinkAnchoredText, linkanchoredtextDB: LinkAnchoredTextDB) {
+export function CopyLinkAnchoredTextToLinkAnchoredTextAPI(linkanchoredtext: LinkAnchoredText, linkanchoredtextAPI: LinkAnchoredTextAPI) {
 
-	linkanchoredtextDB.CreatedAt = linkanchoredtext.CreatedAt
-	linkanchoredtextDB.DeletedAt = linkanchoredtext.DeletedAt
-	linkanchoredtextDB.ID = linkanchoredtext.ID
+	linkanchoredtextAPI.CreatedAt = linkanchoredtext.CreatedAt
+	linkanchoredtextAPI.DeletedAt = linkanchoredtext.DeletedAt
+	linkanchoredtextAPI.ID = linkanchoredtext.ID
 
 	// insertion point for basic fields copy operations
-	linkanchoredtextDB.Name = linkanchoredtext.Name
-	linkanchoredtextDB.Content = linkanchoredtext.Content
-	linkanchoredtextDB.AutomaticLayout = linkanchoredtext.AutomaticLayout
-	linkanchoredtextDB.LinkAnchorType = linkanchoredtext.LinkAnchorType
-	linkanchoredtextDB.X_Offset = linkanchoredtext.X_Offset
-	linkanchoredtextDB.Y_Offset = linkanchoredtext.Y_Offset
-	linkanchoredtextDB.FontWeight = linkanchoredtext.FontWeight
-	linkanchoredtextDB.Color = linkanchoredtext.Color
-	linkanchoredtextDB.FillOpacity = linkanchoredtext.FillOpacity
-	linkanchoredtextDB.Stroke = linkanchoredtext.Stroke
-	linkanchoredtextDB.StrokeWidth = linkanchoredtext.StrokeWidth
-	linkanchoredtextDB.StrokeDashArray = linkanchoredtext.StrokeDashArray
-	linkanchoredtextDB.StrokeDashArrayWhenSelected = linkanchoredtext.StrokeDashArrayWhenSelected
-	linkanchoredtextDB.Transform = linkanchoredtext.Transform
+	linkanchoredtextAPI.Name = linkanchoredtext.Name
+	linkanchoredtextAPI.Content = linkanchoredtext.Content
+	linkanchoredtextAPI.AutomaticLayout = linkanchoredtext.AutomaticLayout
+	linkanchoredtextAPI.LinkAnchorType = linkanchoredtext.LinkAnchorType
+	linkanchoredtextAPI.X_Offset = linkanchoredtext.X_Offset
+	linkanchoredtextAPI.Y_Offset = linkanchoredtext.Y_Offset
+	linkanchoredtextAPI.FontWeight = linkanchoredtext.FontWeight
+	linkanchoredtextAPI.Color = linkanchoredtext.Color
+	linkanchoredtextAPI.FillOpacity = linkanchoredtext.FillOpacity
+	linkanchoredtextAPI.Stroke = linkanchoredtext.Stroke
+	linkanchoredtextAPI.StrokeWidth = linkanchoredtext.StrokeWidth
+	linkanchoredtextAPI.StrokeDashArray = linkanchoredtext.StrokeDashArray
+	linkanchoredtextAPI.StrokeDashArrayWhenSelected = linkanchoredtext.StrokeDashArrayWhenSelected
+	linkanchoredtextAPI.Transform = linkanchoredtext.Transform
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	linkanchoredtextDB.LinkAnchoredTextPointersEncoding.Animates = []
+	linkanchoredtextAPI.LinkAnchoredTextPointersEncoding.Animates = []
 	for (let _animate of linkanchoredtext.Animates) {
-		linkanchoredtextDB.LinkAnchoredTextPointersEncoding.Animates.push(_animate.ID)
+		linkanchoredtextAPI.LinkAnchoredTextPointersEncoding.Animates.push(_animate.ID)
 	}
 
 }
 
-// CopyLinkAnchoredTextDBToLinkAnchoredText update basic, pointers and slice of pointers fields of linkanchoredtext
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of linkanchoredtextDB
+// CopyLinkAnchoredTextAPIToLinkAnchoredText update basic, pointers and slice of pointers fields of linkanchoredtext
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of linkanchoredtextAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyLinkAnchoredTextDBToLinkAnchoredText(linkanchoredtextDB: LinkAnchoredTextDB, linkanchoredtext: LinkAnchoredText, frontRepo: FrontRepo) {
+export function CopyLinkAnchoredTextAPIToLinkAnchoredText(linkanchoredtextAPI: LinkAnchoredTextAPI, linkanchoredtext: LinkAnchoredText, frontRepo: FrontRepo) {
 
-	linkanchoredtext.CreatedAt = linkanchoredtextDB.CreatedAt
-	linkanchoredtext.DeletedAt = linkanchoredtextDB.DeletedAt
-	linkanchoredtext.ID = linkanchoredtextDB.ID
+	linkanchoredtext.CreatedAt = linkanchoredtextAPI.CreatedAt
+	linkanchoredtext.DeletedAt = linkanchoredtextAPI.DeletedAt
+	linkanchoredtext.ID = linkanchoredtextAPI.ID
 
 	// insertion point for basic fields copy operations
-	linkanchoredtext.Name = linkanchoredtextDB.Name
-	linkanchoredtext.Content = linkanchoredtextDB.Content
-	linkanchoredtext.AutomaticLayout = linkanchoredtextDB.AutomaticLayout
-	linkanchoredtext.LinkAnchorType = linkanchoredtextDB.LinkAnchorType
-	linkanchoredtext.X_Offset = linkanchoredtextDB.X_Offset
-	linkanchoredtext.Y_Offset = linkanchoredtextDB.Y_Offset
-	linkanchoredtext.FontWeight = linkanchoredtextDB.FontWeight
-	linkanchoredtext.Color = linkanchoredtextDB.Color
-	linkanchoredtext.FillOpacity = linkanchoredtextDB.FillOpacity
-	linkanchoredtext.Stroke = linkanchoredtextDB.Stroke
-	linkanchoredtext.StrokeWidth = linkanchoredtextDB.StrokeWidth
-	linkanchoredtext.StrokeDashArray = linkanchoredtextDB.StrokeDashArray
-	linkanchoredtext.StrokeDashArrayWhenSelected = linkanchoredtextDB.StrokeDashArrayWhenSelected
-	linkanchoredtext.Transform = linkanchoredtextDB.Transform
+	linkanchoredtext.Name = linkanchoredtextAPI.Name
+	linkanchoredtext.Content = linkanchoredtextAPI.Content
+	linkanchoredtext.AutomaticLayout = linkanchoredtextAPI.AutomaticLayout
+	linkanchoredtext.LinkAnchorType = linkanchoredtextAPI.LinkAnchorType
+	linkanchoredtext.X_Offset = linkanchoredtextAPI.X_Offset
+	linkanchoredtext.Y_Offset = linkanchoredtextAPI.Y_Offset
+	linkanchoredtext.FontWeight = linkanchoredtextAPI.FontWeight
+	linkanchoredtext.Color = linkanchoredtextAPI.Color
+	linkanchoredtext.FillOpacity = linkanchoredtextAPI.FillOpacity
+	linkanchoredtext.Stroke = linkanchoredtextAPI.Stroke
+	linkanchoredtext.StrokeWidth = linkanchoredtextAPI.StrokeWidth
+	linkanchoredtext.StrokeDashArray = linkanchoredtextAPI.StrokeDashArray
+	linkanchoredtext.StrokeDashArrayWhenSelected = linkanchoredtextAPI.StrokeDashArrayWhenSelected
+	linkanchoredtext.Transform = linkanchoredtextAPI.Transform
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 	linkanchoredtext.Animates = new Array<Animate>()
-	for (let _id of linkanchoredtextDB.LinkAnchoredTextPointersEncoding.Animates) {
+	for (let _id of linkanchoredtextAPI.LinkAnchoredTextPointersEncoding.Animates) {
 		let _animate = frontRepo.map_ID_Animate.get(_id)
 		if (_animate != undefined) {
 			linkanchoredtext.Animates.push(_animate!)

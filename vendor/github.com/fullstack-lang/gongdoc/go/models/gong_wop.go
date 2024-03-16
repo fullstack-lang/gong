@@ -13,6 +13,12 @@ type Classdiagram_WOP struct {
 	IsInDrawMode bool
 }
 
+func (from *Classdiagram) CopyBasicFields(to *Classdiagram) {
+	// insertion point
+	to.Name = from.Name
+	to.IsInDrawMode = from.IsInDrawMode
+}
+
 type DiagramPackage_WOP struct {
 	// insertion point
 	Name string
@@ -21,6 +27,16 @@ type DiagramPackage_WOP struct {
 	IsEditable bool
 	IsReloaded bool
 	AbsolutePathToDiagramPackage string
+}
+
+func (from *DiagramPackage) CopyBasicFields(to *DiagramPackage) {
+	// insertion point
+	to.Name = from.Name
+	to.Path = from.Path
+	to.GongModelPath = from.GongModelPath
+	to.IsEditable = from.IsEditable
+	to.IsReloaded = from.IsReloaded
+	to.AbsolutePathToDiagramPackage = from.AbsolutePathToDiagramPackage
 }
 
 type Field_WOP struct {
@@ -32,6 +48,15 @@ type Field_WOP struct {
 	Fieldtypename string
 }
 
+func (from *Field) CopyBasicFields(to *Field) {
+	// insertion point
+	to.Name = from.Name
+	to.Identifier = from.Identifier
+	to.FieldTypeAsString = from.FieldTypeAsString
+	to.Structname = from.Structname
+	to.Fieldtypename = from.Fieldtypename
+}
+
 type GongEnumShape_WOP struct {
 	// insertion point
 	Name string
@@ -40,10 +65,24 @@ type GongEnumShape_WOP struct {
 	Height float64
 }
 
+func (from *GongEnumShape) CopyBasicFields(to *GongEnumShape) {
+	// insertion point
+	to.Name = from.Name
+	to.Identifier = from.Identifier
+	to.Width = from.Width
+	to.Height = from.Height
+}
+
 type GongEnumValueEntry_WOP struct {
 	// insertion point
 	Name string
 	Identifier string
+}
+
+func (from *GongEnumValueEntry) CopyBasicFields(to *GongEnumValueEntry) {
+	// insertion point
+	to.Name = from.Name
+	to.Identifier = from.Identifier
 }
 
 type GongStructShape_WOP struct {
@@ -55,6 +94,17 @@ type GongStructShape_WOP struct {
 	Width float64
 	Height float64
 	IsSelected bool
+}
+
+func (from *GongStructShape) CopyBasicFields(to *GongStructShape) {
+	// insertion point
+	to.Name = from.Name
+	to.Identifier = from.Identifier
+	to.ShowNbInstances = from.ShowNbInstances
+	to.NbInstances = from.NbInstances
+	to.Width = from.Width
+	to.Height = from.Height
+	to.IsSelected = from.IsSelected
 }
 
 type Link_WOP struct {
@@ -77,6 +127,26 @@ type Link_WOP struct {
 	CornerOffsetRatio float64
 }
 
+func (from *Link) CopyBasicFields(to *Link) {
+	// insertion point
+	to.Name = from.Name
+	to.Identifier = from.Identifier
+	to.Fieldtypename = from.Fieldtypename
+	to.FieldOffsetX = from.FieldOffsetX
+	to.FieldOffsetY = from.FieldOffsetY
+	to.TargetMultiplicity = from.TargetMultiplicity
+	to.TargetMultiplicityOffsetX = from.TargetMultiplicityOffsetX
+	to.TargetMultiplicityOffsetY = from.TargetMultiplicityOffsetY
+	to.SourceMultiplicity = from.SourceMultiplicity
+	to.SourceMultiplicityOffsetX = from.SourceMultiplicityOffsetX
+	to.SourceMultiplicityOffsetY = from.SourceMultiplicityOffsetY
+	to.StartOrientation = from.StartOrientation
+	to.StartRatio = from.StartRatio
+	to.EndOrientation = from.EndOrientation
+	to.EndRatio = from.EndRatio
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+}
+
 type NoteShape_WOP struct {
 	// insertion point
 	Name string
@@ -90,11 +160,31 @@ type NoteShape_WOP struct {
 	Matched bool
 }
 
+func (from *NoteShape) CopyBasicFields(to *NoteShape) {
+	// insertion point
+	to.Name = from.Name
+	to.Identifier = from.Identifier
+	to.Body = from.Body
+	to.BodyHTML = from.BodyHTML
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.Matched = from.Matched
+}
+
 type NoteShapeLink_WOP struct {
 	// insertion point
 	Name string
 	Identifier string
 	Type NoteShapeLinkType
+}
+
+func (from *NoteShapeLink) CopyBasicFields(to *NoteShapeLink) {
+	// insertion point
+	to.Name = from.Name
+	to.Identifier = from.Identifier
+	to.Type = from.Type
 }
 
 type Position_WOP struct {
@@ -104,11 +194,25 @@ type Position_WOP struct {
 	Name string
 }
 
+func (from *Position) CopyBasicFields(to *Position) {
+	// insertion point
+	to.X = from.X
+	to.Y = from.Y
+	to.Name = from.Name
+}
+
 type UmlState_WOP struct {
 	// insertion point
 	Name string
 	X float64
 	Y float64
+}
+
+func (from *UmlState) CopyBasicFields(to *UmlState) {
+	// insertion point
+	to.Name = from.Name
+	to.X = from.X
+	to.Y = from.Y
 }
 
 type Umlsc_WOP struct {
@@ -118,10 +222,24 @@ type Umlsc_WOP struct {
 	IsInDrawMode bool
 }
 
+func (from *Umlsc) CopyBasicFields(to *Umlsc) {
+	// insertion point
+	to.Name = from.Name
+	to.Activestate = from.Activestate
+	to.IsInDrawMode = from.IsInDrawMode
+}
+
 type Vertice_WOP struct {
 	// insertion point
 	X float64
 	Y float64
 	Name string
+}
+
+func (from *Vertice) CopyBasicFields(to *Vertice) {
+	// insertion point
+	to.X = from.X
+	to.Y = from.Y
+	to.Name = from.Name
 }
 

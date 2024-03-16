@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { OptionDB } from './option-db'
+import { OptionAPI } from './option-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -22,32 +22,32 @@ export class Option {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyOptionToOptionDB(option: Option, optionDB: OptionDB) {
+export function CopyOptionToOptionAPI(option: Option, optionAPI: OptionAPI) {
 
-	optionDB.CreatedAt = option.CreatedAt
-	optionDB.DeletedAt = option.DeletedAt
-	optionDB.ID = option.ID
+	optionAPI.CreatedAt = option.CreatedAt
+	optionAPI.DeletedAt = option.DeletedAt
+	optionAPI.ID = option.ID
 
 	// insertion point for basic fields copy operations
-	optionDB.Name = option.Name
+	optionAPI.Name = option.Name
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyOptionDBToOption update basic, pointers and slice of pointers fields of option
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of optionDB
+// CopyOptionAPIToOption update basic, pointers and slice of pointers fields of option
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of optionAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyOptionDBToOption(optionDB: OptionDB, option: Option, frontRepo: FrontRepo) {
+export function CopyOptionAPIToOption(optionAPI: OptionAPI, option: Option, frontRepo: FrontRepo) {
 
-	option.CreatedAt = optionDB.CreatedAt
-	option.DeletedAt = optionDB.DeletedAt
-	option.ID = optionDB.ID
+	option.CreatedAt = optionAPI.CreatedAt
+	option.DeletedAt = optionAPI.DeletedAt
+	option.ID = optionAPI.ID
 
 	// insertion point for basic fields copy operations
-	option.Name = optionDB.Name
+	option.Name = optionAPI.Name
 
 	// insertion point for pointer fields encoding
 

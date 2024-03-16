@@ -38,6 +38,7 @@ type TextAPI struct {
 	models.Text_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	TextPointersEncoding TextPointersEncoding
 }
 
@@ -93,7 +94,9 @@ type TextDB struct {
 
 	// Declation for basic field textDB.Transform
 	Transform_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	TextPointersEncoding
 }
 

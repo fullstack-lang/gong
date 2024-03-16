@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { TextDB } from './text-db'
+import { TextAPI } from './text-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -34,63 +34,63 @@ export class Text {
 	Animates: Array<Animate> = []
 }
 
-export function CopyTextToTextDB(text: Text, textDB: TextDB) {
+export function CopyTextToTextAPI(text: Text, textAPI: TextAPI) {
 
-	textDB.CreatedAt = text.CreatedAt
-	textDB.DeletedAt = text.DeletedAt
-	textDB.ID = text.ID
+	textAPI.CreatedAt = text.CreatedAt
+	textAPI.DeletedAt = text.DeletedAt
+	textAPI.ID = text.ID
 
 	// insertion point for basic fields copy operations
-	textDB.Name = text.Name
-	textDB.X = text.X
-	textDB.Y = text.Y
-	textDB.Content = text.Content
-	textDB.Color = text.Color
-	textDB.FillOpacity = text.FillOpacity
-	textDB.Stroke = text.Stroke
-	textDB.StrokeWidth = text.StrokeWidth
-	textDB.StrokeDashArray = text.StrokeDashArray
-	textDB.StrokeDashArrayWhenSelected = text.StrokeDashArrayWhenSelected
-	textDB.Transform = text.Transform
+	textAPI.Name = text.Name
+	textAPI.X = text.X
+	textAPI.Y = text.Y
+	textAPI.Content = text.Content
+	textAPI.Color = text.Color
+	textAPI.FillOpacity = text.FillOpacity
+	textAPI.Stroke = text.Stroke
+	textAPI.StrokeWidth = text.StrokeWidth
+	textAPI.StrokeDashArray = text.StrokeDashArray
+	textAPI.StrokeDashArrayWhenSelected = text.StrokeDashArrayWhenSelected
+	textAPI.Transform = text.Transform
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	textDB.TextPointersEncoding.Animates = []
+	textAPI.TextPointersEncoding.Animates = []
 	for (let _animate of text.Animates) {
-		textDB.TextPointersEncoding.Animates.push(_animate.ID)
+		textAPI.TextPointersEncoding.Animates.push(_animate.ID)
 	}
 
 }
 
-// CopyTextDBToText update basic, pointers and slice of pointers fields of text
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of textDB
+// CopyTextAPIToText update basic, pointers and slice of pointers fields of text
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of textAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyTextDBToText(textDB: TextDB, text: Text, frontRepo: FrontRepo) {
+export function CopyTextAPIToText(textAPI: TextAPI, text: Text, frontRepo: FrontRepo) {
 
-	text.CreatedAt = textDB.CreatedAt
-	text.DeletedAt = textDB.DeletedAt
-	text.ID = textDB.ID
+	text.CreatedAt = textAPI.CreatedAt
+	text.DeletedAt = textAPI.DeletedAt
+	text.ID = textAPI.ID
 
 	// insertion point for basic fields copy operations
-	text.Name = textDB.Name
-	text.X = textDB.X
-	text.Y = textDB.Y
-	text.Content = textDB.Content
-	text.Color = textDB.Color
-	text.FillOpacity = textDB.FillOpacity
-	text.Stroke = textDB.Stroke
-	text.StrokeWidth = textDB.StrokeWidth
-	text.StrokeDashArray = textDB.StrokeDashArray
-	text.StrokeDashArrayWhenSelected = textDB.StrokeDashArrayWhenSelected
-	text.Transform = textDB.Transform
+	text.Name = textAPI.Name
+	text.X = textAPI.X
+	text.Y = textAPI.Y
+	text.Content = textAPI.Content
+	text.Color = textAPI.Color
+	text.FillOpacity = textAPI.FillOpacity
+	text.Stroke = textAPI.Stroke
+	text.StrokeWidth = textAPI.StrokeWidth
+	text.StrokeDashArray = textAPI.StrokeDashArray
+	text.StrokeDashArrayWhenSelected = textAPI.StrokeDashArrayWhenSelected
+	text.Transform = textAPI.Transform
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 	text.Animates = new Array<Animate>()
-	for (let _id of textDB.TextPointersEncoding.Animates) {
+	for (let _id of textAPI.TextPointersEncoding.Animates) {
 		let _animate = frontRepo.map_ID_Animate.get(_id)
 		if (_animate != undefined) {
 			text.Animates.push(_animate!)

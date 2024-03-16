@@ -38,6 +38,7 @@ type CellIntAPI struct {
 	models.CellInt_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	CellIntPointersEncoding CellIntPointersEncoding
 }
 
@@ -63,7 +64,9 @@ type CellIntDB struct {
 
 	// Declation for basic field cellintDB.Value
 	Value_Data sql.NullInt64
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	CellIntPointersEncoding
 }
 

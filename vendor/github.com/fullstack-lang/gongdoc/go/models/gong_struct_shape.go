@@ -33,5 +33,3 @@ type GongStructShape struct {
 	// this means it is selected by the user
 	IsSelected bool
 }
-
-func (gongStructShape *GongStructShape) diagramElt() {}

@@ -81,54 +81,9 @@ export class TreeComponent implements OnInit {
   }
 
 
-  // the component is refreshed when modification are performed in the back repo 
-  // 
-  // the checkCommitNbFromBackTimer polls the commit number of the back repo
-  // if the commit number has increased, it pulls the front repo and redraw the diagram
-  private commutNbFromBackSubscription: Subscription = new Subscription
-  lastCommitNbFromBack = -1
-  lastPushFromFrontNb = -1
-  currTime: number = 0
-  dateOfLastTimerEmission: Date = new Date
-
   ngOnInit(): void {
-    // console.log("TreeComponent->name : ", this.name)
-    // console.log("TreeComponent->GONG__StackPath : ", this.GONG__StackPath)
-    this.startAutoRefresh(500); // Refresh every 500 ms (half second)
-  }
 
-  ngOnDestroy(): void {
-    this.stopAutoRefresh();
-  }
-
-
-  stopAutoRefresh(): void {
-    if (this.commutNbFromBackSubscription) {
-      this.commutNbFromBackSubscription.unsubscribe();
-    }
-  }
-
-
-  startAutoRefresh(intervalMs: number): void {
-    this.commutNbFromBackSubscription = this.gongtreeCommitNbFromBackService
-      .getCommitNbFromBack(intervalMs, this.GONG__StackPath)
-      .subscribe((commitNbFromBack: number) => {
-        // console.log("TreeComponent, last commit nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
-
-        if (this.lastCommitNbFromBack < commitNbFromBack) {
-          const d = new Date()
-          // console.log("TreeComponent, ", this.GONG__StackPath, " name ", this.name + d.toLocaleTimeString() + `.${d.getMilliseconds()}` +
-          //   ", last commit increased nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
-          this.lastCommitNbFromBack = commitNbFromBack
-          this.refresh()
-        }
-      }
-      )
-  }
-
-  refresh(): void {
-
-    this.gongtreeFrontRepoService.pull(this.GONG__StackPath).subscribe(
+    this.gongtreeFrontRepoService.connectToWebSocket(this.GONG__StackPath).subscribe(
       gongtreesFrontRepo => {
         this.gongtreeFrontRepo = gongtreesFrontRepo
 

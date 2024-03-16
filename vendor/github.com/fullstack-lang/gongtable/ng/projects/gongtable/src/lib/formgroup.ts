@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { FormGroupDB } from './formgroup-db'
+import { FormGroupAPI } from './formgroup-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -27,49 +27,49 @@ export class FormGroup {
 	FormDivs: Array<FormDiv> = []
 }
 
-export function CopyFormGroupToFormGroupDB(formgroup: FormGroup, formgroupDB: FormGroupDB) {
+export function CopyFormGroupToFormGroupAPI(formgroup: FormGroup, formgroupAPI: FormGroupAPI) {
 
-	formgroupDB.CreatedAt = formgroup.CreatedAt
-	formgroupDB.DeletedAt = formgroup.DeletedAt
-	formgroupDB.ID = formgroup.ID
+	formgroupAPI.CreatedAt = formgroup.CreatedAt
+	formgroupAPI.DeletedAt = formgroup.DeletedAt
+	formgroupAPI.ID = formgroup.ID
 
 	// insertion point for basic fields copy operations
-	formgroupDB.Name = formgroup.Name
-	formgroupDB.Label = formgroup.Label
-	formgroupDB.HasSuppressButton = formgroup.HasSuppressButton
-	formgroupDB.HasSuppressButtonBeenPressed = formgroup.HasSuppressButtonBeenPressed
+	formgroupAPI.Name = formgroup.Name
+	formgroupAPI.Label = formgroup.Label
+	formgroupAPI.HasSuppressButton = formgroup.HasSuppressButton
+	formgroupAPI.HasSuppressButtonBeenPressed = formgroup.HasSuppressButtonBeenPressed
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	formgroupDB.FormGroupPointersEncoding.FormDivs = []
+	formgroupAPI.FormGroupPointersEncoding.FormDivs = []
 	for (let _formdiv of formgroup.FormDivs) {
-		formgroupDB.FormGroupPointersEncoding.FormDivs.push(_formdiv.ID)
+		formgroupAPI.FormGroupPointersEncoding.FormDivs.push(_formdiv.ID)
 	}
 
 }
 
-// CopyFormGroupDBToFormGroup update basic, pointers and slice of pointers fields of formgroup
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of formgroupDB
+// CopyFormGroupAPIToFormGroup update basic, pointers and slice of pointers fields of formgroup
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of formgroupAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyFormGroupDBToFormGroup(formgroupDB: FormGroupDB, formgroup: FormGroup, frontRepo: FrontRepo) {
+export function CopyFormGroupAPIToFormGroup(formgroupAPI: FormGroupAPI, formgroup: FormGroup, frontRepo: FrontRepo) {
 
-	formgroup.CreatedAt = formgroupDB.CreatedAt
-	formgroup.DeletedAt = formgroupDB.DeletedAt
-	formgroup.ID = formgroupDB.ID
+	formgroup.CreatedAt = formgroupAPI.CreatedAt
+	formgroup.DeletedAt = formgroupAPI.DeletedAt
+	formgroup.ID = formgroupAPI.ID
 
 	// insertion point for basic fields copy operations
-	formgroup.Name = formgroupDB.Name
-	formgroup.Label = formgroupDB.Label
-	formgroup.HasSuppressButton = formgroupDB.HasSuppressButton
-	formgroup.HasSuppressButtonBeenPressed = formgroupDB.HasSuppressButtonBeenPressed
+	formgroup.Name = formgroupAPI.Name
+	formgroup.Label = formgroupAPI.Label
+	formgroup.HasSuppressButton = formgroupAPI.HasSuppressButton
+	formgroup.HasSuppressButtonBeenPressed = formgroupAPI.HasSuppressButtonBeenPressed
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 	formgroup.FormDivs = new Array<FormDiv>()
-	for (let _id of formgroupDB.FormGroupPointersEncoding.FormDivs) {
+	for (let _id of formgroupAPI.FormGroupPointersEncoding.FormDivs) {
 		let _formdiv = frontRepo.map_ID_FormDiv.get(_id)
 		if (_formdiv != undefined) {
 			formgroup.FormDivs.push(_formdiv!)

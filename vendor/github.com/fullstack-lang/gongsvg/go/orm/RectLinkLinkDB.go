@@ -38,6 +38,7 @@ type RectLinkLinkAPI struct {
 	models.RectLinkLink_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	RectLinkLinkPointersEncoding RectLinkLinkPointersEncoding
 }
 
@@ -92,7 +93,9 @@ type RectLinkLinkDB struct {
 
 	// Declation for basic field rectlinklinkDB.Transform
 	Transform_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	RectLinkLinkPointersEncoding
 }
 

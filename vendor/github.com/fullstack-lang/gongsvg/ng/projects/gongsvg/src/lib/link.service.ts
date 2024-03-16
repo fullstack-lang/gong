@@ -11,15 +11,15 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { LinkDB } from './link-db'
-import { Link, CopyLinkToLinkDB } from './link'
+import { LinkAPI } from './link-api'
+import { Link, CopyLinkToLinkAPI } from './link'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { RectDB } from './rect-db'
-import { LinkAnchoredTextDB } from './linkanchoredtext-db'
-import { PointDB } from './point-db'
+import { RectAPI } from './rect-api'
+import { LinkAnchoredTextAPI } from './linkanchoredtext-api'
+import { PointAPI } from './point-api'
 
 @Injectable({
   providedIn: 'root'
@@ -49,41 +49,41 @@ export class LinkService {
 
   /** GET links from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAPI[]> {
     return this.getLinks(GONG__StackPath, frontRepo)
   }
-  getLinks(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkDB[]> {
+  getLinks(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<LinkDB[]>(this.linksUrl, { params: params })
+    return this.http.get<LinkAPI[]>(this.linksUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<LinkDB[]>('getLinks', []))
+        catchError(this.handleError<LinkAPI[]>('getLinks', []))
       );
   }
 
   /** GET link by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAPI> {
     return this.getLink(id, GONG__StackPath, frontRepo)
   }
-  getLink(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkDB> {
+  getLink(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.linksUrl}/${id}`;
-    return this.http.get<LinkDB>(url, { params: params }).pipe(
+    return this.http.get<LinkAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched link id=${id}`)),
-      catchError(this.handleError<LinkDB>(`getLink id=${id}`))
+      catchError(this.handleError<LinkAPI>(`getLink id=${id}`))
     );
   }
 
   // postFront copy link to a version with encoded pointers and post to the back
-  postFront(link: Link, GONG__StackPath: string): Observable<LinkDB> {
-    let linkDB = new LinkDB
-    CopyLinkToLinkDB(link, linkDB)
-    const id = typeof linkDB === 'number' ? linkDB : linkDB.ID
+  postFront(link: Link, GONG__StackPath: string): Observable<LinkAPI> {
+    let linkAPI = new LinkAPI
+    CopyLinkToLinkAPI(link, linkAPI)
+    const id = typeof linkAPI === 'number' ? linkAPI : linkAPI.ID
     const url = `${this.linksUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -91,18 +91,18 @@ export class LinkService {
       params: params
     }
 
-    return this.http.post<LinkDB>(url, linkDB, httpOptions).pipe(
+    return this.http.post<LinkAPI>(url, linkAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<LinkDB>('postLink'))
+      catchError(this.handleError<LinkAPI>('postLink'))
     );
   }
   
   /** POST: add a new link to the server */
-  post(linkdb: LinkDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkDB> {
+  post(linkdb: LinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAPI> {
     return this.postLink(linkdb, GONG__StackPath, frontRepo)
   }
-  postLink(linkdb: LinkDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkDB> {
+  postLink(linkdb: LinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -110,19 +110,19 @@ export class LinkService {
       params: params
     }
 
-    return this.http.post<LinkDB>(this.linksUrl, linkdb, httpOptions).pipe(
+    return this.http.post<LinkAPI>(this.linksUrl, linkdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted linkdb id=${linkdb.ID}`)
       }),
-      catchError(this.handleError<LinkDB>('postLink'))
+      catchError(this.handleError<LinkAPI>('postLink'))
     );
   }
 
   /** DELETE: delete the linkdb from the server */
-  delete(linkdb: LinkDB | number, GONG__StackPath: string): Observable<LinkDB> {
+  delete(linkdb: LinkAPI | number, GONG__StackPath: string): Observable<LinkAPI> {
     return this.deleteLink(linkdb, GONG__StackPath)
   }
-  deleteLink(linkdb: LinkDB | number, GONG__StackPath: string): Observable<LinkDB> {
+  deleteLink(linkdb: LinkAPI | number, GONG__StackPath: string): Observable<LinkAPI> {
     const id = typeof linkdb === 'number' ? linkdb : linkdb.ID;
     const url = `${this.linksUrl}/${id}`;
 
@@ -132,17 +132,17 @@ export class LinkService {
       params: params
     };
 
-    return this.http.delete<LinkDB>(url, httpOptions).pipe(
+    return this.http.delete<LinkAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted linkdb id=${id}`)),
-      catchError(this.handleError<LinkDB>('deleteLink'))
+      catchError(this.handleError<LinkAPI>('deleteLink'))
     );
   }
 
   // updateFront copy link to a version with encoded pointers and update to the back
-  updateFront(link: Link, GONG__StackPath: string): Observable<LinkDB> {
-    let linkDB = new LinkDB
-    CopyLinkToLinkDB(link, linkDB)
-    const id = typeof linkDB === 'number' ? linkDB : linkDB.ID
+  updateFront(link: Link, GONG__StackPath: string): Observable<LinkAPI> {
+    let linkAPI = new LinkAPI
+    CopyLinkToLinkAPI(link, linkAPI)
+    const id = typeof linkAPI === 'number' ? linkAPI : linkAPI.ID
     const url = `${this.linksUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -150,18 +150,18 @@ export class LinkService {
       params: params
     }
 
-    return this.http.put<LinkDB>(url, linkDB, httpOptions).pipe(
+    return this.http.put<LinkAPI>(url, linkAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<LinkDB>('updateLink'))
+      catchError(this.handleError<LinkAPI>('updateLink'))
     );
   }
 
   /** PUT: update the linkdb on the server */
-  update(linkdb: LinkDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkDB> {
+  update(linkdb: LinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAPI> {
     return this.updateLink(linkdb, GONG__StackPath, frontRepo)
   }
-  updateLink(linkdb: LinkDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkDB> {
+  updateLink(linkdb: LinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAPI> {
     const id = typeof linkdb === 'number' ? linkdb : linkdb.ID;
     const url = `${this.linksUrl}/${id}`;
 
@@ -172,11 +172,11 @@ export class LinkService {
       params: params
     };
 
-    return this.http.put<LinkDB>(url, linkdb, httpOptions).pipe(
+    return this.http.put<LinkAPI>(url, linkdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated linkdb id=${linkdb.ID}`)
       }),
-      catchError(this.handleError<LinkDB>('updateLink'))
+      catchError(this.handleError<LinkAPI>('updateLink'))
     );
   }
 
