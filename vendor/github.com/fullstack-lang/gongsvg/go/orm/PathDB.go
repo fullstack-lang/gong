@@ -38,6 +38,7 @@ type PathAPI struct {
 	models.Path_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	PathPointersEncoding PathPointersEncoding
 }
 
@@ -87,7 +88,9 @@ type PathDB struct {
 
 	// Declation for basic field pathDB.Transform
 	Transform_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	PathPointersEncoding
 }
 

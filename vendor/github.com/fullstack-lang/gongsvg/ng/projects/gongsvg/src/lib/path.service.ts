@@ -11,13 +11,13 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { PathDB } from './path-db'
-import { Path, CopyPathToPathDB } from './path'
+import { PathAPI } from './path-api'
+import { Path, CopyPathToPathAPI } from './path'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { AnimateDB } from './animate-db'
+import { AnimateAPI } from './animate-api'
 
 @Injectable({
   providedIn: 'root'
@@ -47,41 +47,41 @@ export class PathService {
 
   /** GET paths from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathAPI[]> {
     return this.getPaths(GONG__StackPath, frontRepo)
   }
-  getPaths(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathDB[]> {
+  getPaths(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<PathDB[]>(this.pathsUrl, { params: params })
+    return this.http.get<PathAPI[]>(this.pathsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<PathDB[]>('getPaths', []))
+        catchError(this.handleError<PathAPI[]>('getPaths', []))
       );
   }
 
   /** GET path by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathAPI> {
     return this.getPath(id, GONG__StackPath, frontRepo)
   }
-  getPath(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathDB> {
+  getPath(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.pathsUrl}/${id}`;
-    return this.http.get<PathDB>(url, { params: params }).pipe(
+    return this.http.get<PathAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched path id=${id}`)),
-      catchError(this.handleError<PathDB>(`getPath id=${id}`))
+      catchError(this.handleError<PathAPI>(`getPath id=${id}`))
     );
   }
 
   // postFront copy path to a version with encoded pointers and post to the back
-  postFront(path: Path, GONG__StackPath: string): Observable<PathDB> {
-    let pathDB = new PathDB
-    CopyPathToPathDB(path, pathDB)
-    const id = typeof pathDB === 'number' ? pathDB : pathDB.ID
+  postFront(path: Path, GONG__StackPath: string): Observable<PathAPI> {
+    let pathAPI = new PathAPI
+    CopyPathToPathAPI(path, pathAPI)
+    const id = typeof pathAPI === 'number' ? pathAPI : pathAPI.ID
     const url = `${this.pathsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -89,18 +89,18 @@ export class PathService {
       params: params
     }
 
-    return this.http.post<PathDB>(url, pathDB, httpOptions).pipe(
+    return this.http.post<PathAPI>(url, pathAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<PathDB>('postPath'))
+      catchError(this.handleError<PathAPI>('postPath'))
     );
   }
   
   /** POST: add a new path to the server */
-  post(pathdb: PathDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathDB> {
+  post(pathdb: PathAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathAPI> {
     return this.postPath(pathdb, GONG__StackPath, frontRepo)
   }
-  postPath(pathdb: PathDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathDB> {
+  postPath(pathdb: PathAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -108,19 +108,19 @@ export class PathService {
       params: params
     }
 
-    return this.http.post<PathDB>(this.pathsUrl, pathdb, httpOptions).pipe(
+    return this.http.post<PathAPI>(this.pathsUrl, pathdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted pathdb id=${pathdb.ID}`)
       }),
-      catchError(this.handleError<PathDB>('postPath'))
+      catchError(this.handleError<PathAPI>('postPath'))
     );
   }
 
   /** DELETE: delete the pathdb from the server */
-  delete(pathdb: PathDB | number, GONG__StackPath: string): Observable<PathDB> {
+  delete(pathdb: PathAPI | number, GONG__StackPath: string): Observable<PathAPI> {
     return this.deletePath(pathdb, GONG__StackPath)
   }
-  deletePath(pathdb: PathDB | number, GONG__StackPath: string): Observable<PathDB> {
+  deletePath(pathdb: PathAPI | number, GONG__StackPath: string): Observable<PathAPI> {
     const id = typeof pathdb === 'number' ? pathdb : pathdb.ID;
     const url = `${this.pathsUrl}/${id}`;
 
@@ -130,17 +130,17 @@ export class PathService {
       params: params
     };
 
-    return this.http.delete<PathDB>(url, httpOptions).pipe(
+    return this.http.delete<PathAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted pathdb id=${id}`)),
-      catchError(this.handleError<PathDB>('deletePath'))
+      catchError(this.handleError<PathAPI>('deletePath'))
     );
   }
 
   // updateFront copy path to a version with encoded pointers and update to the back
-  updateFront(path: Path, GONG__StackPath: string): Observable<PathDB> {
-    let pathDB = new PathDB
-    CopyPathToPathDB(path, pathDB)
-    const id = typeof pathDB === 'number' ? pathDB : pathDB.ID
+  updateFront(path: Path, GONG__StackPath: string): Observable<PathAPI> {
+    let pathAPI = new PathAPI
+    CopyPathToPathAPI(path, pathAPI)
+    const id = typeof pathAPI === 'number' ? pathAPI : pathAPI.ID
     const url = `${this.pathsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,18 +148,18 @@ export class PathService {
       params: params
     }
 
-    return this.http.put<PathDB>(url, pathDB, httpOptions).pipe(
+    return this.http.put<PathAPI>(url, pathAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<PathDB>('updatePath'))
+      catchError(this.handleError<PathAPI>('updatePath'))
     );
   }
 
   /** PUT: update the pathdb on the server */
-  update(pathdb: PathDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathDB> {
+  update(pathdb: PathAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathAPI> {
     return this.updatePath(pathdb, GONG__StackPath, frontRepo)
   }
-  updatePath(pathdb: PathDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathDB> {
+  updatePath(pathdb: PathAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathAPI> {
     const id = typeof pathdb === 'number' ? pathdb : pathdb.ID;
     const url = `${this.pathsUrl}/${id}`;
 
@@ -170,11 +170,11 @@ export class PathService {
       params: params
     };
 
-    return this.http.put<PathDB>(url, pathdb, httpOptions).pipe(
+    return this.http.put<PathAPI>(url, pathdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated pathdb id=${pathdb.ID}`)
       }),
-      catchError(this.handleError<PathDB>('updatePath'))
+      catchError(this.handleError<PathAPI>('updatePath'))
     );
   }
 

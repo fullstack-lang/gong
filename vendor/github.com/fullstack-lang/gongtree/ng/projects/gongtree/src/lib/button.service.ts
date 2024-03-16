@@ -11,13 +11,13 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { ButtonDB } from './button-db'
-import { Button, CopyButtonToButtonDB } from './button'
+import { ButtonAPI } from './button-api'
+import { Button, CopyButtonToButtonAPI } from './button'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { SVGIconDB } from './svgicon-db'
+import { SVGIconAPI } from './svgicon-api'
 
 @Injectable({
   providedIn: 'root'
@@ -47,41 +47,41 @@ export class ButtonService {
 
   /** GET buttons from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonAPI[]> {
     return this.getButtons(GONG__StackPath, frontRepo)
   }
-  getButtons(GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonDB[]> {
+  getButtons(GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<ButtonDB[]>(this.buttonsUrl, { params: params })
+    return this.http.get<ButtonAPI[]>(this.buttonsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<ButtonDB[]>('getButtons', []))
+        catchError(this.handleError<ButtonAPI[]>('getButtons', []))
       );
   }
 
   /** GET button by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonAPI> {
     return this.getButton(id, GONG__StackPath, frontRepo)
   }
-  getButton(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonDB> {
+  getButton(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.buttonsUrl}/${id}`;
-    return this.http.get<ButtonDB>(url, { params: params }).pipe(
+    return this.http.get<ButtonAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched button id=${id}`)),
-      catchError(this.handleError<ButtonDB>(`getButton id=${id}`))
+      catchError(this.handleError<ButtonAPI>(`getButton id=${id}`))
     );
   }
 
   // postFront copy button to a version with encoded pointers and post to the back
-  postFront(button: Button, GONG__StackPath: string): Observable<ButtonDB> {
-    let buttonDB = new ButtonDB
-    CopyButtonToButtonDB(button, buttonDB)
-    const id = typeof buttonDB === 'number' ? buttonDB : buttonDB.ID
+  postFront(button: Button, GONG__StackPath: string): Observable<ButtonAPI> {
+    let buttonAPI = new ButtonAPI
+    CopyButtonToButtonAPI(button, buttonAPI)
+    const id = typeof buttonAPI === 'number' ? buttonAPI : buttonAPI.ID
     const url = `${this.buttonsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -89,18 +89,18 @@ export class ButtonService {
       params: params
     }
 
-    return this.http.post<ButtonDB>(url, buttonDB, httpOptions).pipe(
+    return this.http.post<ButtonAPI>(url, buttonAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<ButtonDB>('postButton'))
+      catchError(this.handleError<ButtonAPI>('postButton'))
     );
   }
   
   /** POST: add a new button to the server */
-  post(buttondb: ButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonDB> {
+  post(buttondb: ButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonAPI> {
     return this.postButton(buttondb, GONG__StackPath, frontRepo)
   }
-  postButton(buttondb: ButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonDB> {
+  postButton(buttondb: ButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -108,19 +108,19 @@ export class ButtonService {
       params: params
     }
 
-    return this.http.post<ButtonDB>(this.buttonsUrl, buttondb, httpOptions).pipe(
+    return this.http.post<ButtonAPI>(this.buttonsUrl, buttondb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted buttondb id=${buttondb.ID}`)
       }),
-      catchError(this.handleError<ButtonDB>('postButton'))
+      catchError(this.handleError<ButtonAPI>('postButton'))
     );
   }
 
   /** DELETE: delete the buttondb from the server */
-  delete(buttondb: ButtonDB | number, GONG__StackPath: string): Observable<ButtonDB> {
+  delete(buttondb: ButtonAPI | number, GONG__StackPath: string): Observable<ButtonAPI> {
     return this.deleteButton(buttondb, GONG__StackPath)
   }
-  deleteButton(buttondb: ButtonDB | number, GONG__StackPath: string): Observable<ButtonDB> {
+  deleteButton(buttondb: ButtonAPI | number, GONG__StackPath: string): Observable<ButtonAPI> {
     const id = typeof buttondb === 'number' ? buttondb : buttondb.ID;
     const url = `${this.buttonsUrl}/${id}`;
 
@@ -130,17 +130,17 @@ export class ButtonService {
       params: params
     };
 
-    return this.http.delete<ButtonDB>(url, httpOptions).pipe(
+    return this.http.delete<ButtonAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted buttondb id=${id}`)),
-      catchError(this.handleError<ButtonDB>('deleteButton'))
+      catchError(this.handleError<ButtonAPI>('deleteButton'))
     );
   }
 
   // updateFront copy button to a version with encoded pointers and update to the back
-  updateFront(button: Button, GONG__StackPath: string): Observable<ButtonDB> {
-    let buttonDB = new ButtonDB
-    CopyButtonToButtonDB(button, buttonDB)
-    const id = typeof buttonDB === 'number' ? buttonDB : buttonDB.ID
+  updateFront(button: Button, GONG__StackPath: string): Observable<ButtonAPI> {
+    let buttonAPI = new ButtonAPI
+    CopyButtonToButtonAPI(button, buttonAPI)
+    const id = typeof buttonAPI === 'number' ? buttonAPI : buttonAPI.ID
     const url = `${this.buttonsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,18 +148,18 @@ export class ButtonService {
       params: params
     }
 
-    return this.http.put<ButtonDB>(url, buttonDB, httpOptions).pipe(
+    return this.http.put<ButtonAPI>(url, buttonAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<ButtonDB>('updateButton'))
+      catchError(this.handleError<ButtonAPI>('updateButton'))
     );
   }
 
   /** PUT: update the buttondb on the server */
-  update(buttondb: ButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonDB> {
+  update(buttondb: ButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonAPI> {
     return this.updateButton(buttondb, GONG__StackPath, frontRepo)
   }
-  updateButton(buttondb: ButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonDB> {
+  updateButton(buttondb: ButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonAPI> {
     const id = typeof buttondb === 'number' ? buttondb : buttondb.ID;
     const url = `${this.buttonsUrl}/${id}`;
 
@@ -170,11 +170,11 @@ export class ButtonService {
       params: params
     };
 
-    return this.http.put<ButtonDB>(url, buttondb, httpOptions).pipe(
+    return this.http.put<ButtonAPI>(url, buttondb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated buttondb id=${buttondb.ID}`)
       }),
-      catchError(this.handleError<ButtonDB>('updateButton'))
+      catchError(this.handleError<ButtonAPI>('updateButton'))
     );
   }
 

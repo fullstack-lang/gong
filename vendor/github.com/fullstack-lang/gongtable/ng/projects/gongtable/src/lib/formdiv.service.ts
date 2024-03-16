@@ -11,16 +11,16 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { FormDivDB } from './formdiv-db'
-import { FormDiv, CopyFormDivToFormDivDB } from './formdiv'
+import { FormDivAPI } from './formdiv-api'
+import { FormDiv, CopyFormDivToFormDivAPI } from './formdiv'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { FormFieldDB } from './formfield-db'
-import { CheckBoxDB } from './checkbox-db'
-import { FormEditAssocButtonDB } from './formeditassocbutton-db'
-import { FormSortAssocButtonDB } from './formsortassocbutton-db'
+import { FormFieldAPI } from './formfield-api'
+import { CheckBoxAPI } from './checkbox-api'
+import { FormEditAssocButtonAPI } from './formeditassocbutton-api'
+import { FormSortAssocButtonAPI } from './formsortassocbutton-api'
 
 @Injectable({
   providedIn: 'root'
@@ -50,41 +50,41 @@ export class FormDivService {
 
   /** GET formdivs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivAPI[]> {
     return this.getFormDivs(GONG__StackPath, frontRepo)
   }
-  getFormDivs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivDB[]> {
+  getFormDivs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<FormDivDB[]>(this.formdivsUrl, { params: params })
+    return this.http.get<FormDivAPI[]>(this.formdivsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<FormDivDB[]>('getFormDivs', []))
+        catchError(this.handleError<FormDivAPI[]>('getFormDivs', []))
       );
   }
 
   /** GET formdiv by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivAPI> {
     return this.getFormDiv(id, GONG__StackPath, frontRepo)
   }
-  getFormDiv(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivDB> {
+  getFormDiv(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.formdivsUrl}/${id}`;
-    return this.http.get<FormDivDB>(url, { params: params }).pipe(
+    return this.http.get<FormDivAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched formdiv id=${id}`)),
-      catchError(this.handleError<FormDivDB>(`getFormDiv id=${id}`))
+      catchError(this.handleError<FormDivAPI>(`getFormDiv id=${id}`))
     );
   }
 
   // postFront copy formdiv to a version with encoded pointers and post to the back
-  postFront(formdiv: FormDiv, GONG__StackPath: string): Observable<FormDivDB> {
-    let formdivDB = new FormDivDB
-    CopyFormDivToFormDivDB(formdiv, formdivDB)
-    const id = typeof formdivDB === 'number' ? formdivDB : formdivDB.ID
+  postFront(formdiv: FormDiv, GONG__StackPath: string): Observable<FormDivAPI> {
+    let formdivAPI = new FormDivAPI
+    CopyFormDivToFormDivAPI(formdiv, formdivAPI)
+    const id = typeof formdivAPI === 'number' ? formdivAPI : formdivAPI.ID
     const url = `${this.formdivsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -92,18 +92,18 @@ export class FormDivService {
       params: params
     }
 
-    return this.http.post<FormDivDB>(url, formdivDB, httpOptions).pipe(
+    return this.http.post<FormDivAPI>(url, formdivAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<FormDivDB>('postFormDiv'))
+      catchError(this.handleError<FormDivAPI>('postFormDiv'))
     );
   }
   
   /** POST: add a new formdiv to the server */
-  post(formdivdb: FormDivDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivDB> {
+  post(formdivdb: FormDivAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivAPI> {
     return this.postFormDiv(formdivdb, GONG__StackPath, frontRepo)
   }
-  postFormDiv(formdivdb: FormDivDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivDB> {
+  postFormDiv(formdivdb: FormDivAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -111,19 +111,19 @@ export class FormDivService {
       params: params
     }
 
-    return this.http.post<FormDivDB>(this.formdivsUrl, formdivdb, httpOptions).pipe(
+    return this.http.post<FormDivAPI>(this.formdivsUrl, formdivdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted formdivdb id=${formdivdb.ID}`)
       }),
-      catchError(this.handleError<FormDivDB>('postFormDiv'))
+      catchError(this.handleError<FormDivAPI>('postFormDiv'))
     );
   }
 
   /** DELETE: delete the formdivdb from the server */
-  delete(formdivdb: FormDivDB | number, GONG__StackPath: string): Observable<FormDivDB> {
+  delete(formdivdb: FormDivAPI | number, GONG__StackPath: string): Observable<FormDivAPI> {
     return this.deleteFormDiv(formdivdb, GONG__StackPath)
   }
-  deleteFormDiv(formdivdb: FormDivDB | number, GONG__StackPath: string): Observable<FormDivDB> {
+  deleteFormDiv(formdivdb: FormDivAPI | number, GONG__StackPath: string): Observable<FormDivAPI> {
     const id = typeof formdivdb === 'number' ? formdivdb : formdivdb.ID;
     const url = `${this.formdivsUrl}/${id}`;
 
@@ -133,17 +133,17 @@ export class FormDivService {
       params: params
     };
 
-    return this.http.delete<FormDivDB>(url, httpOptions).pipe(
+    return this.http.delete<FormDivAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted formdivdb id=${id}`)),
-      catchError(this.handleError<FormDivDB>('deleteFormDiv'))
+      catchError(this.handleError<FormDivAPI>('deleteFormDiv'))
     );
   }
 
   // updateFront copy formdiv to a version with encoded pointers and update to the back
-  updateFront(formdiv: FormDiv, GONG__StackPath: string): Observable<FormDivDB> {
-    let formdivDB = new FormDivDB
-    CopyFormDivToFormDivDB(formdiv, formdivDB)
-    const id = typeof formdivDB === 'number' ? formdivDB : formdivDB.ID
+  updateFront(formdiv: FormDiv, GONG__StackPath: string): Observable<FormDivAPI> {
+    let formdivAPI = new FormDivAPI
+    CopyFormDivToFormDivAPI(formdiv, formdivAPI)
+    const id = typeof formdivAPI === 'number' ? formdivAPI : formdivAPI.ID
     const url = `${this.formdivsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -151,18 +151,18 @@ export class FormDivService {
       params: params
     }
 
-    return this.http.put<FormDivDB>(url, formdivDB, httpOptions).pipe(
+    return this.http.put<FormDivAPI>(url, formdivAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<FormDivDB>('updateFormDiv'))
+      catchError(this.handleError<FormDivAPI>('updateFormDiv'))
     );
   }
 
   /** PUT: update the formdivdb on the server */
-  update(formdivdb: FormDivDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivDB> {
+  update(formdivdb: FormDivAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivAPI> {
     return this.updateFormDiv(formdivdb, GONG__StackPath, frontRepo)
   }
-  updateFormDiv(formdivdb: FormDivDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivDB> {
+  updateFormDiv(formdivdb: FormDivAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivAPI> {
     const id = typeof formdivdb === 'number' ? formdivdb : formdivdb.ID;
     const url = `${this.formdivsUrl}/${id}`;
 
@@ -173,11 +173,11 @@ export class FormDivService {
       params: params
     };
 
-    return this.http.put<FormDivDB>(url, formdivdb, httpOptions).pipe(
+    return this.http.put<FormDivAPI>(url, formdivdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated formdivdb id=${formdivdb.ID}`)
       }),
-      catchError(this.handleError<FormDivDB>('updateFormDiv'))
+      catchError(this.handleError<FormDivAPI>('updateFormDiv'))
     );
   }
 

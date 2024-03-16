@@ -11,14 +11,14 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { NodeDB } from './node-db'
-import { Node, CopyNodeToNodeDB } from './node'
+import { NodeAPI } from './node-api'
+import { Node, CopyNodeToNodeAPI } from './node'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { SVGIconDB } from './svgicon-db'
-import { ButtonDB } from './button-db'
+import { SVGIconAPI } from './svgicon-api'
+import { ButtonAPI } from './button-api'
 
 @Injectable({
   providedIn: 'root'
@@ -48,41 +48,41 @@ export class NodeService {
 
   /** GET nodes from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeAPI[]> {
     return this.getNodes(GONG__StackPath, frontRepo)
   }
-  getNodes(GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB[]> {
+  getNodes(GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<NodeDB[]>(this.nodesUrl, { params: params })
+    return this.http.get<NodeAPI[]>(this.nodesUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<NodeDB[]>('getNodes', []))
+        catchError(this.handleError<NodeAPI[]>('getNodes', []))
       );
   }
 
   /** GET node by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeAPI> {
     return this.getNode(id, GONG__StackPath, frontRepo)
   }
-  getNode(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB> {
+  getNode(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.nodesUrl}/${id}`;
-    return this.http.get<NodeDB>(url, { params: params }).pipe(
+    return this.http.get<NodeAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched node id=${id}`)),
-      catchError(this.handleError<NodeDB>(`getNode id=${id}`))
+      catchError(this.handleError<NodeAPI>(`getNode id=${id}`))
     );
   }
 
   // postFront copy node to a version with encoded pointers and post to the back
-  postFront(node: Node, GONG__StackPath: string): Observable<NodeDB> {
-    let nodeDB = new NodeDB
-    CopyNodeToNodeDB(node, nodeDB)
-    const id = typeof nodeDB === 'number' ? nodeDB : nodeDB.ID
+  postFront(node: Node, GONG__StackPath: string): Observable<NodeAPI> {
+    let nodeAPI = new NodeAPI
+    CopyNodeToNodeAPI(node, nodeAPI)
+    const id = typeof nodeAPI === 'number' ? nodeAPI : nodeAPI.ID
     const url = `${this.nodesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -90,18 +90,18 @@ export class NodeService {
       params: params
     }
 
-    return this.http.post<NodeDB>(url, nodeDB, httpOptions).pipe(
+    return this.http.post<NodeAPI>(url, nodeAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<NodeDB>('postNode'))
+      catchError(this.handleError<NodeAPI>('postNode'))
     );
   }
   
   /** POST: add a new node to the server */
-  post(nodedb: NodeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB> {
+  post(nodedb: NodeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeAPI> {
     return this.postNode(nodedb, GONG__StackPath, frontRepo)
   }
-  postNode(nodedb: NodeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB> {
+  postNode(nodedb: NodeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -109,19 +109,19 @@ export class NodeService {
       params: params
     }
 
-    return this.http.post<NodeDB>(this.nodesUrl, nodedb, httpOptions).pipe(
+    return this.http.post<NodeAPI>(this.nodesUrl, nodedb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted nodedb id=${nodedb.ID}`)
       }),
-      catchError(this.handleError<NodeDB>('postNode'))
+      catchError(this.handleError<NodeAPI>('postNode'))
     );
   }
 
   /** DELETE: delete the nodedb from the server */
-  delete(nodedb: NodeDB | number, GONG__StackPath: string): Observable<NodeDB> {
+  delete(nodedb: NodeAPI | number, GONG__StackPath: string): Observable<NodeAPI> {
     return this.deleteNode(nodedb, GONG__StackPath)
   }
-  deleteNode(nodedb: NodeDB | number, GONG__StackPath: string): Observable<NodeDB> {
+  deleteNode(nodedb: NodeAPI | number, GONG__StackPath: string): Observable<NodeAPI> {
     const id = typeof nodedb === 'number' ? nodedb : nodedb.ID;
     const url = `${this.nodesUrl}/${id}`;
 
@@ -131,17 +131,17 @@ export class NodeService {
       params: params
     };
 
-    return this.http.delete<NodeDB>(url, httpOptions).pipe(
+    return this.http.delete<NodeAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted nodedb id=${id}`)),
-      catchError(this.handleError<NodeDB>('deleteNode'))
+      catchError(this.handleError<NodeAPI>('deleteNode'))
     );
   }
 
   // updateFront copy node to a version with encoded pointers and update to the back
-  updateFront(node: Node, GONG__StackPath: string): Observable<NodeDB> {
-    let nodeDB = new NodeDB
-    CopyNodeToNodeDB(node, nodeDB)
-    const id = typeof nodeDB === 'number' ? nodeDB : nodeDB.ID
+  updateFront(node: Node, GONG__StackPath: string): Observable<NodeAPI> {
+    let nodeAPI = new NodeAPI
+    CopyNodeToNodeAPI(node, nodeAPI)
+    const id = typeof nodeAPI === 'number' ? nodeAPI : nodeAPI.ID
     const url = `${this.nodesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -149,18 +149,18 @@ export class NodeService {
       params: params
     }
 
-    return this.http.put<NodeDB>(url, nodeDB, httpOptions).pipe(
+    return this.http.put<NodeAPI>(url, nodeAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<NodeDB>('updateNode'))
+      catchError(this.handleError<NodeAPI>('updateNode'))
     );
   }
 
   /** PUT: update the nodedb on the server */
-  update(nodedb: NodeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB> {
+  update(nodedb: NodeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeAPI> {
     return this.updateNode(nodedb, GONG__StackPath, frontRepo)
   }
-  updateNode(nodedb: NodeDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeDB> {
+  updateNode(nodedb: NodeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeAPI> {
     const id = typeof nodedb === 'number' ? nodedb : nodedb.ID;
     const url = `${this.nodesUrl}/${id}`;
 
@@ -171,11 +171,11 @@ export class NodeService {
       params: params
     };
 
-    return this.http.put<NodeDB>(url, nodedb, httpOptions).pipe(
+    return this.http.put<NodeAPI>(url, nodedb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated nodedb id=${nodedb.ID}`)
       }),
-      catchError(this.handleError<NodeDB>('updateNode'))
+      catchError(this.handleError<NodeAPI>('updateNode'))
     );
   }
 

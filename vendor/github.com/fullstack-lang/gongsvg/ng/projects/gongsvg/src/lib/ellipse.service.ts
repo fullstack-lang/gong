@@ -11,13 +11,13 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { EllipseDB } from './ellipse-db'
-import { Ellipse, CopyEllipseToEllipseDB } from './ellipse'
+import { EllipseAPI } from './ellipse-api'
+import { Ellipse, CopyEllipseToEllipseAPI } from './ellipse'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { AnimateDB } from './animate-db'
+import { AnimateAPI } from './animate-api'
 
 @Injectable({
   providedIn: 'root'
@@ -47,41 +47,41 @@ export class EllipseService {
 
   /** GET ellipses from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseAPI[]> {
     return this.getEllipses(GONG__StackPath, frontRepo)
   }
-  getEllipses(GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseDB[]> {
+  getEllipses(GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<EllipseDB[]>(this.ellipsesUrl, { params: params })
+    return this.http.get<EllipseAPI[]>(this.ellipsesUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<EllipseDB[]>('getEllipses', []))
+        catchError(this.handleError<EllipseAPI[]>('getEllipses', []))
       );
   }
 
   /** GET ellipse by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseAPI> {
     return this.getEllipse(id, GONG__StackPath, frontRepo)
   }
-  getEllipse(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseDB> {
+  getEllipse(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.ellipsesUrl}/${id}`;
-    return this.http.get<EllipseDB>(url, { params: params }).pipe(
+    return this.http.get<EllipseAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched ellipse id=${id}`)),
-      catchError(this.handleError<EllipseDB>(`getEllipse id=${id}`))
+      catchError(this.handleError<EllipseAPI>(`getEllipse id=${id}`))
     );
   }
 
   // postFront copy ellipse to a version with encoded pointers and post to the back
-  postFront(ellipse: Ellipse, GONG__StackPath: string): Observable<EllipseDB> {
-    let ellipseDB = new EllipseDB
-    CopyEllipseToEllipseDB(ellipse, ellipseDB)
-    const id = typeof ellipseDB === 'number' ? ellipseDB : ellipseDB.ID
+  postFront(ellipse: Ellipse, GONG__StackPath: string): Observable<EllipseAPI> {
+    let ellipseAPI = new EllipseAPI
+    CopyEllipseToEllipseAPI(ellipse, ellipseAPI)
+    const id = typeof ellipseAPI === 'number' ? ellipseAPI : ellipseAPI.ID
     const url = `${this.ellipsesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -89,18 +89,18 @@ export class EllipseService {
       params: params
     }
 
-    return this.http.post<EllipseDB>(url, ellipseDB, httpOptions).pipe(
+    return this.http.post<EllipseAPI>(url, ellipseAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<EllipseDB>('postEllipse'))
+      catchError(this.handleError<EllipseAPI>('postEllipse'))
     );
   }
   
   /** POST: add a new ellipse to the server */
-  post(ellipsedb: EllipseDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseDB> {
+  post(ellipsedb: EllipseAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseAPI> {
     return this.postEllipse(ellipsedb, GONG__StackPath, frontRepo)
   }
-  postEllipse(ellipsedb: EllipseDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseDB> {
+  postEllipse(ellipsedb: EllipseAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -108,19 +108,19 @@ export class EllipseService {
       params: params
     }
 
-    return this.http.post<EllipseDB>(this.ellipsesUrl, ellipsedb, httpOptions).pipe(
+    return this.http.post<EllipseAPI>(this.ellipsesUrl, ellipsedb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted ellipsedb id=${ellipsedb.ID}`)
       }),
-      catchError(this.handleError<EllipseDB>('postEllipse'))
+      catchError(this.handleError<EllipseAPI>('postEllipse'))
     );
   }
 
   /** DELETE: delete the ellipsedb from the server */
-  delete(ellipsedb: EllipseDB | number, GONG__StackPath: string): Observable<EllipseDB> {
+  delete(ellipsedb: EllipseAPI | number, GONG__StackPath: string): Observable<EllipseAPI> {
     return this.deleteEllipse(ellipsedb, GONG__StackPath)
   }
-  deleteEllipse(ellipsedb: EllipseDB | number, GONG__StackPath: string): Observable<EllipseDB> {
+  deleteEllipse(ellipsedb: EllipseAPI | number, GONG__StackPath: string): Observable<EllipseAPI> {
     const id = typeof ellipsedb === 'number' ? ellipsedb : ellipsedb.ID;
     const url = `${this.ellipsesUrl}/${id}`;
 
@@ -130,17 +130,17 @@ export class EllipseService {
       params: params
     };
 
-    return this.http.delete<EllipseDB>(url, httpOptions).pipe(
+    return this.http.delete<EllipseAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted ellipsedb id=${id}`)),
-      catchError(this.handleError<EllipseDB>('deleteEllipse'))
+      catchError(this.handleError<EllipseAPI>('deleteEllipse'))
     );
   }
 
   // updateFront copy ellipse to a version with encoded pointers and update to the back
-  updateFront(ellipse: Ellipse, GONG__StackPath: string): Observable<EllipseDB> {
-    let ellipseDB = new EllipseDB
-    CopyEllipseToEllipseDB(ellipse, ellipseDB)
-    const id = typeof ellipseDB === 'number' ? ellipseDB : ellipseDB.ID
+  updateFront(ellipse: Ellipse, GONG__StackPath: string): Observable<EllipseAPI> {
+    let ellipseAPI = new EllipseAPI
+    CopyEllipseToEllipseAPI(ellipse, ellipseAPI)
+    const id = typeof ellipseAPI === 'number' ? ellipseAPI : ellipseAPI.ID
     const url = `${this.ellipsesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,18 +148,18 @@ export class EllipseService {
       params: params
     }
 
-    return this.http.put<EllipseDB>(url, ellipseDB, httpOptions).pipe(
+    return this.http.put<EllipseAPI>(url, ellipseAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<EllipseDB>('updateEllipse'))
+      catchError(this.handleError<EllipseAPI>('updateEllipse'))
     );
   }
 
   /** PUT: update the ellipsedb on the server */
-  update(ellipsedb: EllipseDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseDB> {
+  update(ellipsedb: EllipseAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseAPI> {
     return this.updateEllipse(ellipsedb, GONG__StackPath, frontRepo)
   }
-  updateEllipse(ellipsedb: EllipseDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseDB> {
+  updateEllipse(ellipsedb: EllipseAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseAPI> {
     const id = typeof ellipsedb === 'number' ? ellipsedb : ellipsedb.ID;
     const url = `${this.ellipsesUrl}/${id}`;
 
@@ -170,11 +170,11 @@ export class EllipseService {
       params: params
     };
 
-    return this.http.put<EllipseDB>(url, ellipsedb, httpOptions).pipe(
+    return this.http.put<EllipseAPI>(url, ellipsedb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated ellipsedb id=${ellipsedb.ID}`)
       }),
-      catchError(this.handleError<EllipseDB>('updateEllipse'))
+      catchError(this.handleError<EllipseAPI>('updateEllipse'))
     );
   }
 

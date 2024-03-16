@@ -38,6 +38,7 @@ type RowAPI struct {
 	models.Row_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	RowPointersEncoding RowPointersEncoding
 }
 
@@ -67,7 +68,9 @@ type RowDB struct {
 	// Declation for basic field rowDB.IsChecked
 	// provide the sql storage for the boolan
 	IsChecked_Data sql.NullBool
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	RowPointersEncoding
 }
 

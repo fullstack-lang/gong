@@ -11,8 +11,8 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { DisplayedColumnDB } from './displayedcolumn-db'
-import { DisplayedColumn, CopyDisplayedColumnToDisplayedColumnDB } from './displayedcolumn'
+import { DisplayedColumnAPI } from './displayedcolumn-api'
+import { DisplayedColumn, CopyDisplayedColumnToDisplayedColumnAPI } from './displayedcolumn'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
@@ -46,41 +46,41 @@ export class DisplayedColumnService {
 
   /** GET displayedcolumns from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI[]> {
     return this.getDisplayedColumns(GONG__StackPath, frontRepo)
   }
-  getDisplayedColumns(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnDB[]> {
+  getDisplayedColumns(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<DisplayedColumnDB[]>(this.displayedcolumnsUrl, { params: params })
+    return this.http.get<DisplayedColumnAPI[]>(this.displayedcolumnsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<DisplayedColumnDB[]>('getDisplayedColumns', []))
+        catchError(this.handleError<DisplayedColumnAPI[]>('getDisplayedColumns', []))
       );
   }
 
   /** GET displayedcolumn by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI> {
     return this.getDisplayedColumn(id, GONG__StackPath, frontRepo)
   }
-  getDisplayedColumn(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnDB> {
+  getDisplayedColumn(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.displayedcolumnsUrl}/${id}`;
-    return this.http.get<DisplayedColumnDB>(url, { params: params }).pipe(
+    return this.http.get<DisplayedColumnAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched displayedcolumn id=${id}`)),
-      catchError(this.handleError<DisplayedColumnDB>(`getDisplayedColumn id=${id}`))
+      catchError(this.handleError<DisplayedColumnAPI>(`getDisplayedColumn id=${id}`))
     );
   }
 
   // postFront copy displayedcolumn to a version with encoded pointers and post to the back
-  postFront(displayedcolumn: DisplayedColumn, GONG__StackPath: string): Observable<DisplayedColumnDB> {
-    let displayedcolumnDB = new DisplayedColumnDB
-    CopyDisplayedColumnToDisplayedColumnDB(displayedcolumn, displayedcolumnDB)
-    const id = typeof displayedcolumnDB === 'number' ? displayedcolumnDB : displayedcolumnDB.ID
+  postFront(displayedcolumn: DisplayedColumn, GONG__StackPath: string): Observable<DisplayedColumnAPI> {
+    let displayedcolumnAPI = new DisplayedColumnAPI
+    CopyDisplayedColumnToDisplayedColumnAPI(displayedcolumn, displayedcolumnAPI)
+    const id = typeof displayedcolumnAPI === 'number' ? displayedcolumnAPI : displayedcolumnAPI.ID
     const url = `${this.displayedcolumnsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -88,18 +88,18 @@ export class DisplayedColumnService {
       params: params
     }
 
-    return this.http.post<DisplayedColumnDB>(url, displayedcolumnDB, httpOptions).pipe(
+    return this.http.post<DisplayedColumnAPI>(url, displayedcolumnAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<DisplayedColumnDB>('postDisplayedColumn'))
+      catchError(this.handleError<DisplayedColumnAPI>('postDisplayedColumn'))
     );
   }
   
   /** POST: add a new displayedcolumn to the server */
-  post(displayedcolumndb: DisplayedColumnDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnDB> {
+  post(displayedcolumndb: DisplayedColumnAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI> {
     return this.postDisplayedColumn(displayedcolumndb, GONG__StackPath, frontRepo)
   }
-  postDisplayedColumn(displayedcolumndb: DisplayedColumnDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnDB> {
+  postDisplayedColumn(displayedcolumndb: DisplayedColumnAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -107,19 +107,19 @@ export class DisplayedColumnService {
       params: params
     }
 
-    return this.http.post<DisplayedColumnDB>(this.displayedcolumnsUrl, displayedcolumndb, httpOptions).pipe(
+    return this.http.post<DisplayedColumnAPI>(this.displayedcolumnsUrl, displayedcolumndb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted displayedcolumndb id=${displayedcolumndb.ID}`)
       }),
-      catchError(this.handleError<DisplayedColumnDB>('postDisplayedColumn'))
+      catchError(this.handleError<DisplayedColumnAPI>('postDisplayedColumn'))
     );
   }
 
   /** DELETE: delete the displayedcolumndb from the server */
-  delete(displayedcolumndb: DisplayedColumnDB | number, GONG__StackPath: string): Observable<DisplayedColumnDB> {
+  delete(displayedcolumndb: DisplayedColumnAPI | number, GONG__StackPath: string): Observable<DisplayedColumnAPI> {
     return this.deleteDisplayedColumn(displayedcolumndb, GONG__StackPath)
   }
-  deleteDisplayedColumn(displayedcolumndb: DisplayedColumnDB | number, GONG__StackPath: string): Observable<DisplayedColumnDB> {
+  deleteDisplayedColumn(displayedcolumndb: DisplayedColumnAPI | number, GONG__StackPath: string): Observable<DisplayedColumnAPI> {
     const id = typeof displayedcolumndb === 'number' ? displayedcolumndb : displayedcolumndb.ID;
     const url = `${this.displayedcolumnsUrl}/${id}`;
 
@@ -129,17 +129,17 @@ export class DisplayedColumnService {
       params: params
     };
 
-    return this.http.delete<DisplayedColumnDB>(url, httpOptions).pipe(
+    return this.http.delete<DisplayedColumnAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted displayedcolumndb id=${id}`)),
-      catchError(this.handleError<DisplayedColumnDB>('deleteDisplayedColumn'))
+      catchError(this.handleError<DisplayedColumnAPI>('deleteDisplayedColumn'))
     );
   }
 
   // updateFront copy displayedcolumn to a version with encoded pointers and update to the back
-  updateFront(displayedcolumn: DisplayedColumn, GONG__StackPath: string): Observable<DisplayedColumnDB> {
-    let displayedcolumnDB = new DisplayedColumnDB
-    CopyDisplayedColumnToDisplayedColumnDB(displayedcolumn, displayedcolumnDB)
-    const id = typeof displayedcolumnDB === 'number' ? displayedcolumnDB : displayedcolumnDB.ID
+  updateFront(displayedcolumn: DisplayedColumn, GONG__StackPath: string): Observable<DisplayedColumnAPI> {
+    let displayedcolumnAPI = new DisplayedColumnAPI
+    CopyDisplayedColumnToDisplayedColumnAPI(displayedcolumn, displayedcolumnAPI)
+    const id = typeof displayedcolumnAPI === 'number' ? displayedcolumnAPI : displayedcolumnAPI.ID
     const url = `${this.displayedcolumnsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,18 +147,18 @@ export class DisplayedColumnService {
       params: params
     }
 
-    return this.http.put<DisplayedColumnDB>(url, displayedcolumnDB, httpOptions).pipe(
+    return this.http.put<DisplayedColumnAPI>(url, displayedcolumnAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<DisplayedColumnDB>('updateDisplayedColumn'))
+      catchError(this.handleError<DisplayedColumnAPI>('updateDisplayedColumn'))
     );
   }
 
   /** PUT: update the displayedcolumndb on the server */
-  update(displayedcolumndb: DisplayedColumnDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnDB> {
+  update(displayedcolumndb: DisplayedColumnAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI> {
     return this.updateDisplayedColumn(displayedcolumndb, GONG__StackPath, frontRepo)
   }
-  updateDisplayedColumn(displayedcolumndb: DisplayedColumnDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnDB> {
+  updateDisplayedColumn(displayedcolumndb: DisplayedColumnAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI> {
     const id = typeof displayedcolumndb === 'number' ? displayedcolumndb : displayedcolumndb.ID;
     const url = `${this.displayedcolumnsUrl}/${id}`;
 
@@ -169,11 +169,11 @@ export class DisplayedColumnService {
       params: params
     };
 
-    return this.http.put<DisplayedColumnDB>(url, displayedcolumndb, httpOptions).pipe(
+    return this.http.put<DisplayedColumnAPI>(url, displayedcolumndb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated displayedcolumndb id=${displayedcolumndb.ID}`)
       }),
-      catchError(this.handleError<DisplayedColumnDB>('updateDisplayedColumn'))
+      catchError(this.handleError<DisplayedColumnAPI>('updateDisplayedColumn'))
     );
   }
 

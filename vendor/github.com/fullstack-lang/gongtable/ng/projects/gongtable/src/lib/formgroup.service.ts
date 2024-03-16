@@ -11,13 +11,13 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { FormGroupDB } from './formgroup-db'
-import { FormGroup, CopyFormGroupToFormGroupDB } from './formgroup'
+import { FormGroupAPI } from './formgroup-api'
+import { FormGroup, CopyFormGroupToFormGroupAPI } from './formgroup'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { FormDivDB } from './formdiv-db'
+import { FormDivAPI } from './formdiv-api'
 
 @Injectable({
   providedIn: 'root'
@@ -47,41 +47,41 @@ export class FormGroupService {
 
   /** GET formgroups from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupAPI[]> {
     return this.getFormGroups(GONG__StackPath, frontRepo)
   }
-  getFormGroups(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupDB[]> {
+  getFormGroups(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<FormGroupDB[]>(this.formgroupsUrl, { params: params })
+    return this.http.get<FormGroupAPI[]>(this.formgroupsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<FormGroupDB[]>('getFormGroups', []))
+        catchError(this.handleError<FormGroupAPI[]>('getFormGroups', []))
       );
   }
 
   /** GET formgroup by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupAPI> {
     return this.getFormGroup(id, GONG__StackPath, frontRepo)
   }
-  getFormGroup(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupDB> {
+  getFormGroup(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.formgroupsUrl}/${id}`;
-    return this.http.get<FormGroupDB>(url, { params: params }).pipe(
+    return this.http.get<FormGroupAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched formgroup id=${id}`)),
-      catchError(this.handleError<FormGroupDB>(`getFormGroup id=${id}`))
+      catchError(this.handleError<FormGroupAPI>(`getFormGroup id=${id}`))
     );
   }
 
   // postFront copy formgroup to a version with encoded pointers and post to the back
-  postFront(formgroup: FormGroup, GONG__StackPath: string): Observable<FormGroupDB> {
-    let formgroupDB = new FormGroupDB
-    CopyFormGroupToFormGroupDB(formgroup, formgroupDB)
-    const id = typeof formgroupDB === 'number' ? formgroupDB : formgroupDB.ID
+  postFront(formgroup: FormGroup, GONG__StackPath: string): Observable<FormGroupAPI> {
+    let formgroupAPI = new FormGroupAPI
+    CopyFormGroupToFormGroupAPI(formgroup, formgroupAPI)
+    const id = typeof formgroupAPI === 'number' ? formgroupAPI : formgroupAPI.ID
     const url = `${this.formgroupsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -89,18 +89,18 @@ export class FormGroupService {
       params: params
     }
 
-    return this.http.post<FormGroupDB>(url, formgroupDB, httpOptions).pipe(
+    return this.http.post<FormGroupAPI>(url, formgroupAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<FormGroupDB>('postFormGroup'))
+      catchError(this.handleError<FormGroupAPI>('postFormGroup'))
     );
   }
   
   /** POST: add a new formgroup to the server */
-  post(formgroupdb: FormGroupDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupDB> {
+  post(formgroupdb: FormGroupAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupAPI> {
     return this.postFormGroup(formgroupdb, GONG__StackPath, frontRepo)
   }
-  postFormGroup(formgroupdb: FormGroupDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupDB> {
+  postFormGroup(formgroupdb: FormGroupAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -108,19 +108,19 @@ export class FormGroupService {
       params: params
     }
 
-    return this.http.post<FormGroupDB>(this.formgroupsUrl, formgroupdb, httpOptions).pipe(
+    return this.http.post<FormGroupAPI>(this.formgroupsUrl, formgroupdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted formgroupdb id=${formgroupdb.ID}`)
       }),
-      catchError(this.handleError<FormGroupDB>('postFormGroup'))
+      catchError(this.handleError<FormGroupAPI>('postFormGroup'))
     );
   }
 
   /** DELETE: delete the formgroupdb from the server */
-  delete(formgroupdb: FormGroupDB | number, GONG__StackPath: string): Observable<FormGroupDB> {
+  delete(formgroupdb: FormGroupAPI | number, GONG__StackPath: string): Observable<FormGroupAPI> {
     return this.deleteFormGroup(formgroupdb, GONG__StackPath)
   }
-  deleteFormGroup(formgroupdb: FormGroupDB | number, GONG__StackPath: string): Observable<FormGroupDB> {
+  deleteFormGroup(formgroupdb: FormGroupAPI | number, GONG__StackPath: string): Observable<FormGroupAPI> {
     const id = typeof formgroupdb === 'number' ? formgroupdb : formgroupdb.ID;
     const url = `${this.formgroupsUrl}/${id}`;
 
@@ -130,17 +130,17 @@ export class FormGroupService {
       params: params
     };
 
-    return this.http.delete<FormGroupDB>(url, httpOptions).pipe(
+    return this.http.delete<FormGroupAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted formgroupdb id=${id}`)),
-      catchError(this.handleError<FormGroupDB>('deleteFormGroup'))
+      catchError(this.handleError<FormGroupAPI>('deleteFormGroup'))
     );
   }
 
   // updateFront copy formgroup to a version with encoded pointers and update to the back
-  updateFront(formgroup: FormGroup, GONG__StackPath: string): Observable<FormGroupDB> {
-    let formgroupDB = new FormGroupDB
-    CopyFormGroupToFormGroupDB(formgroup, formgroupDB)
-    const id = typeof formgroupDB === 'number' ? formgroupDB : formgroupDB.ID
+  updateFront(formgroup: FormGroup, GONG__StackPath: string): Observable<FormGroupAPI> {
+    let formgroupAPI = new FormGroupAPI
+    CopyFormGroupToFormGroupAPI(formgroup, formgroupAPI)
+    const id = typeof formgroupAPI === 'number' ? formgroupAPI : formgroupAPI.ID
     const url = `${this.formgroupsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,18 +148,18 @@ export class FormGroupService {
       params: params
     }
 
-    return this.http.put<FormGroupDB>(url, formgroupDB, httpOptions).pipe(
+    return this.http.put<FormGroupAPI>(url, formgroupAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<FormGroupDB>('updateFormGroup'))
+      catchError(this.handleError<FormGroupAPI>('updateFormGroup'))
     );
   }
 
   /** PUT: update the formgroupdb on the server */
-  update(formgroupdb: FormGroupDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupDB> {
+  update(formgroupdb: FormGroupAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupAPI> {
     return this.updateFormGroup(formgroupdb, GONG__StackPath, frontRepo)
   }
-  updateFormGroup(formgroupdb: FormGroupDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupDB> {
+  updateFormGroup(formgroupdb: FormGroupAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupAPI> {
     const id = typeof formgroupdb === 'number' ? formgroupdb : formgroupdb.ID;
     const url = `${this.formgroupsUrl}/${id}`;
 
@@ -170,11 +170,11 @@ export class FormGroupService {
       params: params
     };
 
-    return this.http.put<FormGroupDB>(url, formgroupdb, httpOptions).pipe(
+    return this.http.put<FormGroupAPI>(url, formgroupdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated formgroupdb id=${formgroupdb.ID}`)
       }),
-      catchError(this.handleError<FormGroupDB>('updateFormGroup'))
+      catchError(this.handleError<FormGroupAPI>('updateFormGroup'))
     );
   }
 

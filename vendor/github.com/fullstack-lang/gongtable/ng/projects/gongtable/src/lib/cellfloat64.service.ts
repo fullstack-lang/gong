@@ -11,8 +11,8 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { CellFloat64DB } from './cellfloat64-db'
-import { CellFloat64, CopyCellFloat64ToCellFloat64DB } from './cellfloat64'
+import { CellFloat64API } from './cellfloat64-api'
+import { CellFloat64, CopyCellFloat64ToCellFloat64API } from './cellfloat64'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
@@ -46,41 +46,41 @@ export class CellFloat64Service {
 
   /** GET cellfloat64s from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64DB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64API[]> {
     return this.getCellFloat64s(GONG__StackPath, frontRepo)
   }
-  getCellFloat64s(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64DB[]> {
+  getCellFloat64s(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64API[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<CellFloat64DB[]>(this.cellfloat64sUrl, { params: params })
+    return this.http.get<CellFloat64API[]>(this.cellfloat64sUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<CellFloat64DB[]>('getCellFloat64s', []))
+        catchError(this.handleError<CellFloat64API[]>('getCellFloat64s', []))
       );
   }
 
   /** GET cellfloat64 by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64DB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64API> {
     return this.getCellFloat64(id, GONG__StackPath, frontRepo)
   }
-  getCellFloat64(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64DB> {
+  getCellFloat64(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64API> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.cellfloat64sUrl}/${id}`;
-    return this.http.get<CellFloat64DB>(url, { params: params }).pipe(
+    return this.http.get<CellFloat64API>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched cellfloat64 id=${id}`)),
-      catchError(this.handleError<CellFloat64DB>(`getCellFloat64 id=${id}`))
+      catchError(this.handleError<CellFloat64API>(`getCellFloat64 id=${id}`))
     );
   }
 
   // postFront copy cellfloat64 to a version with encoded pointers and post to the back
-  postFront(cellfloat64: CellFloat64, GONG__StackPath: string): Observable<CellFloat64DB> {
-    let cellfloat64DB = new CellFloat64DB
-    CopyCellFloat64ToCellFloat64DB(cellfloat64, cellfloat64DB)
-    const id = typeof cellfloat64DB === 'number' ? cellfloat64DB : cellfloat64DB.ID
+  postFront(cellfloat64: CellFloat64, GONG__StackPath: string): Observable<CellFloat64API> {
+    let cellfloat64API = new CellFloat64API
+    CopyCellFloat64ToCellFloat64API(cellfloat64, cellfloat64API)
+    const id = typeof cellfloat64API === 'number' ? cellfloat64API : cellfloat64API.ID
     const url = `${this.cellfloat64sUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -88,18 +88,18 @@ export class CellFloat64Service {
       params: params
     }
 
-    return this.http.post<CellFloat64DB>(url, cellfloat64DB, httpOptions).pipe(
+    return this.http.post<CellFloat64API>(url, cellfloat64API, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<CellFloat64DB>('postCellFloat64'))
+      catchError(this.handleError<CellFloat64API>('postCellFloat64'))
     );
   }
   
   /** POST: add a new cellfloat64 to the server */
-  post(cellfloat64db: CellFloat64DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64DB> {
+  post(cellfloat64db: CellFloat64API, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64API> {
     return this.postCellFloat64(cellfloat64db, GONG__StackPath, frontRepo)
   }
-  postCellFloat64(cellfloat64db: CellFloat64DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64DB> {
+  postCellFloat64(cellfloat64db: CellFloat64API, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64API> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -107,19 +107,19 @@ export class CellFloat64Service {
       params: params
     }
 
-    return this.http.post<CellFloat64DB>(this.cellfloat64sUrl, cellfloat64db, httpOptions).pipe(
+    return this.http.post<CellFloat64API>(this.cellfloat64sUrl, cellfloat64db, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted cellfloat64db id=${cellfloat64db.ID}`)
       }),
-      catchError(this.handleError<CellFloat64DB>('postCellFloat64'))
+      catchError(this.handleError<CellFloat64API>('postCellFloat64'))
     );
   }
 
   /** DELETE: delete the cellfloat64db from the server */
-  delete(cellfloat64db: CellFloat64DB | number, GONG__StackPath: string): Observable<CellFloat64DB> {
+  delete(cellfloat64db: CellFloat64API | number, GONG__StackPath: string): Observable<CellFloat64API> {
     return this.deleteCellFloat64(cellfloat64db, GONG__StackPath)
   }
-  deleteCellFloat64(cellfloat64db: CellFloat64DB | number, GONG__StackPath: string): Observable<CellFloat64DB> {
+  deleteCellFloat64(cellfloat64db: CellFloat64API | number, GONG__StackPath: string): Observable<CellFloat64API> {
     const id = typeof cellfloat64db === 'number' ? cellfloat64db : cellfloat64db.ID;
     const url = `${this.cellfloat64sUrl}/${id}`;
 
@@ -129,17 +129,17 @@ export class CellFloat64Service {
       params: params
     };
 
-    return this.http.delete<CellFloat64DB>(url, httpOptions).pipe(
+    return this.http.delete<CellFloat64API>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted cellfloat64db id=${id}`)),
-      catchError(this.handleError<CellFloat64DB>('deleteCellFloat64'))
+      catchError(this.handleError<CellFloat64API>('deleteCellFloat64'))
     );
   }
 
   // updateFront copy cellfloat64 to a version with encoded pointers and update to the back
-  updateFront(cellfloat64: CellFloat64, GONG__StackPath: string): Observable<CellFloat64DB> {
-    let cellfloat64DB = new CellFloat64DB
-    CopyCellFloat64ToCellFloat64DB(cellfloat64, cellfloat64DB)
-    const id = typeof cellfloat64DB === 'number' ? cellfloat64DB : cellfloat64DB.ID
+  updateFront(cellfloat64: CellFloat64, GONG__StackPath: string): Observable<CellFloat64API> {
+    let cellfloat64API = new CellFloat64API
+    CopyCellFloat64ToCellFloat64API(cellfloat64, cellfloat64API)
+    const id = typeof cellfloat64API === 'number' ? cellfloat64API : cellfloat64API.ID
     const url = `${this.cellfloat64sUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,18 +147,18 @@ export class CellFloat64Service {
       params: params
     }
 
-    return this.http.put<CellFloat64DB>(url, cellfloat64DB, httpOptions).pipe(
+    return this.http.put<CellFloat64API>(url, cellfloat64API, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<CellFloat64DB>('updateCellFloat64'))
+      catchError(this.handleError<CellFloat64API>('updateCellFloat64'))
     );
   }
 
   /** PUT: update the cellfloat64db on the server */
-  update(cellfloat64db: CellFloat64DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64DB> {
+  update(cellfloat64db: CellFloat64API, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64API> {
     return this.updateCellFloat64(cellfloat64db, GONG__StackPath, frontRepo)
   }
-  updateCellFloat64(cellfloat64db: CellFloat64DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64DB> {
+  updateCellFloat64(cellfloat64db: CellFloat64API, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellFloat64API> {
     const id = typeof cellfloat64db === 'number' ? cellfloat64db : cellfloat64db.ID;
     const url = `${this.cellfloat64sUrl}/${id}`;
 
@@ -169,11 +169,11 @@ export class CellFloat64Service {
       params: params
     };
 
-    return this.http.put<CellFloat64DB>(url, cellfloat64db, httpOptions).pipe(
+    return this.http.put<CellFloat64API>(url, cellfloat64db, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated cellfloat64db id=${cellfloat64db.ID}`)
       }),
-      catchError(this.handleError<CellFloat64DB>('updateCellFloat64'))
+      catchError(this.handleError<CellFloat64API>('updateCellFloat64'))
     );
   }
 

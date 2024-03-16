@@ -38,6 +38,7 @@ type LineAPI struct {
 	models.Line_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	LinePointersEncoding LinePointersEncoding
 }
 
@@ -102,7 +103,9 @@ type LineDB struct {
 
 	// Declation for basic field lineDB.MouseClickY
 	MouseClickY_Data sql.NullFloat64
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	LinePointersEncoding
 }
 

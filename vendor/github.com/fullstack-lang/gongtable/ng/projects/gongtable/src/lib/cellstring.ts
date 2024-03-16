@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { CellStringDB } from './cellstring-db'
+import { CellStringAPI } from './cellstring-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -23,34 +23,34 @@ export class CellString {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyCellStringToCellStringDB(cellstring: CellString, cellstringDB: CellStringDB) {
+export function CopyCellStringToCellStringAPI(cellstring: CellString, cellstringAPI: CellStringAPI) {
 
-	cellstringDB.CreatedAt = cellstring.CreatedAt
-	cellstringDB.DeletedAt = cellstring.DeletedAt
-	cellstringDB.ID = cellstring.ID
+	cellstringAPI.CreatedAt = cellstring.CreatedAt
+	cellstringAPI.DeletedAt = cellstring.DeletedAt
+	cellstringAPI.ID = cellstring.ID
 
 	// insertion point for basic fields copy operations
-	cellstringDB.Name = cellstring.Name
-	cellstringDB.Value = cellstring.Value
+	cellstringAPI.Name = cellstring.Name
+	cellstringAPI.Value = cellstring.Value
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyCellStringDBToCellString update basic, pointers and slice of pointers fields of cellstring
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of cellstringDB
+// CopyCellStringAPIToCellString update basic, pointers and slice of pointers fields of cellstring
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of cellstringAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyCellStringDBToCellString(cellstringDB: CellStringDB, cellstring: CellString, frontRepo: FrontRepo) {
+export function CopyCellStringAPIToCellString(cellstringAPI: CellStringAPI, cellstring: CellString, frontRepo: FrontRepo) {
 
-	cellstring.CreatedAt = cellstringDB.CreatedAt
-	cellstring.DeletedAt = cellstringDB.DeletedAt
-	cellstring.ID = cellstringDB.ID
+	cellstring.CreatedAt = cellstringAPI.CreatedAt
+	cellstring.DeletedAt = cellstringAPI.DeletedAt
+	cellstring.ID = cellstringAPI.ID
 
 	// insertion point for basic fields copy operations
-	cellstring.Name = cellstringDB.Name
-	cellstring.Value = cellstringDB.Value
+	cellstring.Name = cellstringAPI.Name
+	cellstring.Value = cellstringAPI.Value
 
 	// insertion point for pointer fields encoding
 
