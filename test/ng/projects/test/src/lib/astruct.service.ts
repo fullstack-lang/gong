@@ -11,16 +11,16 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { AstructDB } from './astruct-db'
-import { Astruct, CopyAstructToAstructDB } from './astruct'
+import { AstructAPI } from './astruct-api'
+import { Astruct, CopyAstructToAstructAPI } from './astruct'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { BstructDB } from './bstruct-db'
-import { DstructDB } from './dstruct-db'
-import { AstructBstructUseDB } from './astructbstructuse-db'
-import { AstructBstruct2UseDB } from './astructbstruct2use-db'
+import { BstructAPI } from './bstruct-api'
+import { DstructAPI } from './dstruct-api'
+import { AstructBstructUseAPI } from './astructbstructuse-api'
+import { AstructBstruct2UseAPI } from './astructbstruct2use-api'
 
 @Injectable({
   providedIn: 'root'
@@ -50,41 +50,41 @@ export class AstructService {
 
   /** GET astructs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructAPI[]> {
     return this.getAstructs(GONG__StackPath, frontRepo)
   }
-  getAstructs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructDB[]> {
+  getAstructs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<AstructDB[]>(this.astructsUrl, { params: params })
+    return this.http.get<AstructAPI[]>(this.astructsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<AstructDB[]>('getAstructs', []))
+        catchError(this.handleError<AstructAPI[]>('getAstructs', []))
       );
   }
 
   /** GET astruct by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructAPI> {
     return this.getAstruct(id, GONG__StackPath, frontRepo)
   }
-  getAstruct(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructDB> {
+  getAstruct(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.astructsUrl}/${id}`;
-    return this.http.get<AstructDB>(url, { params: params }).pipe(
+    return this.http.get<AstructAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched astruct id=${id}`)),
-      catchError(this.handleError<AstructDB>(`getAstruct id=${id}`))
+      catchError(this.handleError<AstructAPI>(`getAstruct id=${id}`))
     );
   }
 
   // postFront copy astruct to a version with encoded pointers and post to the back
-  postFront(astruct: Astruct, GONG__StackPath: string): Observable<AstructDB> {
-    let astructDB = new AstructDB
-    CopyAstructToAstructDB(astruct, astructDB)
-    const id = typeof astructDB === 'number' ? astructDB : astructDB.ID
+  postFront(astruct: Astruct, GONG__StackPath: string): Observable<AstructAPI> {
+    let astructAPI = new AstructAPI
+    CopyAstructToAstructAPI(astruct, astructAPI)
+    const id = typeof astructAPI === 'number' ? astructAPI : astructAPI.ID
     const url = `${this.astructsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -92,18 +92,18 @@ export class AstructService {
       params: params
     }
 
-    return this.http.post<AstructDB>(url, astructDB, httpOptions).pipe(
+    return this.http.post<AstructAPI>(url, astructAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<AstructDB>('postAstruct'))
+      catchError(this.handleError<AstructAPI>('postAstruct'))
     );
   }
   
   /** POST: add a new astruct to the server */
-  post(astructdb: AstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructDB> {
+  post(astructdb: AstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructAPI> {
     return this.postAstruct(astructdb, GONG__StackPath, frontRepo)
   }
-  postAstruct(astructdb: AstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructDB> {
+  postAstruct(astructdb: AstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -111,19 +111,19 @@ export class AstructService {
       params: params
     }
 
-    return this.http.post<AstructDB>(this.astructsUrl, astructdb, httpOptions).pipe(
+    return this.http.post<AstructAPI>(this.astructsUrl, astructdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted astructdb id=${astructdb.ID}`)
       }),
-      catchError(this.handleError<AstructDB>('postAstruct'))
+      catchError(this.handleError<AstructAPI>('postAstruct'))
     );
   }
 
   /** DELETE: delete the astructdb from the server */
-  delete(astructdb: AstructDB | number, GONG__StackPath: string): Observable<AstructDB> {
+  delete(astructdb: AstructAPI | number, GONG__StackPath: string): Observable<AstructAPI> {
     return this.deleteAstruct(astructdb, GONG__StackPath)
   }
-  deleteAstruct(astructdb: AstructDB | number, GONG__StackPath: string): Observable<AstructDB> {
+  deleteAstruct(astructdb: AstructAPI | number, GONG__StackPath: string): Observable<AstructAPI> {
     const id = typeof astructdb === 'number' ? astructdb : astructdb.ID;
     const url = `${this.astructsUrl}/${id}`;
 
@@ -133,17 +133,17 @@ export class AstructService {
       params: params
     };
 
-    return this.http.delete<AstructDB>(url, httpOptions).pipe(
+    return this.http.delete<AstructAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted astructdb id=${id}`)),
-      catchError(this.handleError<AstructDB>('deleteAstruct'))
+      catchError(this.handleError<AstructAPI>('deleteAstruct'))
     );
   }
 
   // updateFront copy astruct to a version with encoded pointers and update to the back
-  updateFront(astruct: Astruct, GONG__StackPath: string): Observable<AstructDB> {
-    let astructDB = new AstructDB
-    CopyAstructToAstructDB(astruct, astructDB)
-    const id = typeof astructDB === 'number' ? astructDB : astructDB.ID
+  updateFront(astruct: Astruct, GONG__StackPath: string): Observable<AstructAPI> {
+    let astructAPI = new AstructAPI
+    CopyAstructToAstructAPI(astruct, astructAPI)
+    const id = typeof astructAPI === 'number' ? astructAPI : astructAPI.ID
     const url = `${this.astructsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -151,18 +151,18 @@ export class AstructService {
       params: params
     }
 
-    return this.http.put<AstructDB>(url, astructDB, httpOptions).pipe(
+    return this.http.put<AstructAPI>(url, astructAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<AstructDB>('updateAstruct'))
+      catchError(this.handleError<AstructAPI>('updateAstruct'))
     );
   }
 
   /** PUT: update the astructdb on the server */
-  update(astructdb: AstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructDB> {
+  update(astructdb: AstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructAPI> {
     return this.updateAstruct(astructdb, GONG__StackPath, frontRepo)
   }
-  updateAstruct(astructdb: AstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructDB> {
+  updateAstruct(astructdb: AstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructAPI> {
     const id = typeof astructdb === 'number' ? astructdb : astructdb.ID;
     const url = `${this.astructsUrl}/${id}`;
 
@@ -173,11 +173,11 @@ export class AstructService {
       params: params
     };
 
-    return this.http.put<AstructDB>(url, astructdb, httpOptions).pipe(
+    return this.http.put<AstructAPI>(url, astructdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated astructdb id=${astructdb.ID}`)
       }),
-      catchError(this.handleError<AstructDB>('updateAstruct'))
+      catchError(this.handleError<AstructAPI>('updateAstruct'))
     );
   }
 

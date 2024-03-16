@@ -22,6 +22,8 @@ export * from './lib/front-repo.service'
 export * from './lib/null-int64'
 export * from './lib/commitnbfromback.service'
 export * from './lib/push_from_front_nb.service'
+export * from './lib/back-repo-data'
+export * from './lib/web-socket-service'
 
 {{` + string(rune(NgPublicApiInsertionStructComponentsExportDeclaration)) + `}}
 {{` + string(rune(NgPublicApiInsertionEnumsExportDeclaration)) + `}}
@@ -46,7 +48,7 @@ const (
 
 var NgPublicApiHtmlSubTemplateCode map[NgPublicApiSubTemplate]string = map[NgPublicApiSubTemplate]string{
 	NgPublicApiStructComponentsExportDeclaration: `
-export * from './lib/{{structname}}-db'
+export * from './lib/{{structname}}-api'
 export * from './lib/{{structname}}'
 export * from './lib/{{structname}}.service'
 `,

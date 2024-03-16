@@ -13,11 +13,14 @@ import (
 )
 
 const NgLibFrontRepoServiceTemplate = `import { Injectable } from '@angular/core'
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 
 import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
 // insertion point sub template for services imports{{` + string(rune(NgLibFrontRepoServiceImports)) + `}}
+
+import { BackRepoData } from './back-repo-data'
+
 export const StackType = "{{PkgPathRoot}}/models"
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
@@ -33,7 +36,7 @@ export class FrontRepo { // insertion point sub template{{` + string(rune(NgLibF
 				throw new Error("Type not recognized");
 		}
 	}
-	
+
 	getFrontMap<Type>(gongStructName: string): Map<number, Type> {
 		switch (gongStructName) {
 			// insertion point{{` + string(rune(NgLibFrontRepoSwitchGetFrontMap)) + `}}
@@ -91,6 +94,7 @@ export enum SelectionMode {
 export class FrontRepoService {
 
 	GONG__StackPath: string = ""
+	private socket: WebSocket | undefined
 
 	httpOptions = {
 		headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -190,6 +194,51 @@ export class FrontRepoService {
 			}
 		)
 	}
+
+	public connectToWebSocket(GONG__StackPath: string): Observable<FrontRepo> {
+
+		this.GONG__StackPath = GONG__StackPath
+
+
+		let params = new HttpParams().set("GONG__StackPath", this.GONG__StackPath)
+		let basePath = 'ws://localhost:8080/api/{{PkgPathRoot}}/v1/ws/stage'
+		let paramString = params.toString()
+		let url = ` + "`" + "${basePath}?${paramString}" + "`" + `
+		this.socket = new WebSocket(url)
+
+		return new Observable(observer => {
+			this.socket!.onmessage = event => {
+				let _this = this
+
+				const backRepoData = new BackRepoData(JSON.parse(event.data))
+
+				// 
+				// First Step: init map of instances
+				// insertion point sub template for init 
+				// init the arrays
+				// insertion point sub template for init {{` + string(rune(NgLibFrontRepoInitMapInstancesFromWebSocket)) + `}}
+
+				// 
+				// Second Step: reddeem front objects
+				// insertion point sub template for redeem 
+				// fill up front objects
+				// insertion point sub template for redeem {{` + string(rune(NgLibFrontRepoInitFrontObjectsFromWebSocket)) + `}}
+
+
+				observer.next(this.frontRepo)
+			}
+			this.socket!.onerror = event => {
+				observer.error(event)
+			}
+			this.socket!.onclose = event => {
+				observer.complete()
+			}
+
+			return () => {
+				this.socket!.close()
+			}
+		})
+	}
 }
 
 // insertion point for get unique ID per struct {{` + string(rune(NgLibFrontRepoPerStructGetUniqueID)) + `}}
@@ -208,8 +257,10 @@ const (
 	NgLibFrontRepoObservableRefs
 	NgLibFrontRepoArraysDecls
 	NgLibFrontRepoInitMapInstances
+	NgLibFrontRepoInitMapInstancesFromWebSocket
 	NgLibFrontRepoRedeemPointers
 	NgLibFrontRepoInitFrontObjects
+	NgLibFrontRepoInitFrontObjectsFromWebSocket
 	NgLibFrontRepoSlicesOfPointersDecode
 	NgLibFrontRepoPerStructGetUniqueID
 )
@@ -218,8 +269,8 @@ var NgFrontRepoPerStructTmplCodes map[FrontRepoInsertionPointId]string = // new 
 map[FrontRepoInsertionPointId]string{
 
 	NgLibFrontRepoServiceImports: `
-import { {{Structname}}DB } from './{{structname}}-db'
-import { {{Structname}}, Copy{{Structname}}DBTo{{Structname}} } from './{{structname}}'
+import { {{Structname}}API } from './{{structname}}-api'
+import { {{Structname}}, Copy{{Structname}}APITo{{Structname}} } from './{{structname}}'
 import { {{Structname}}Service } from './{{structname}}.service'
 `,
 
@@ -237,7 +288,7 @@ import { {{Structname}}Service } from './{{structname}}.service'
 				return this.map_ID_{{Structname}} as unknown as Map<number, Type>`,
 
 	NgLibFrontRepoObservableArrayType: `
-		Observable<{{Structname}}DB[]>,`,
+		Observable<{{Structname}}API[]>,`,
 
 	NgLibFrontRepoServiceDecl: `
 		private {{structname}}Service: {{Structname}}Service,`,
@@ -249,8 +300,8 @@ import { {{Structname}}Service } from './{{structname}}.service'
 						{{structname}}s_,`,
 
 	NgLibFrontRepoTypeCasting: `
-						var {{structname}}s: {{Structname}}DB[]
-						{{structname}}s = {{structname}}s_ as {{Structname}}DB[]`,
+						var {{structname}}s: {{Structname}}API[]
+						{{structname}}s = {{structname}}s_ as {{Structname}}API[]`,
 
 	NgLibFrontRepoInitMapInstances: `
 						// init the arrays
@@ -258,21 +309,46 @@ import { {{Structname}}Service } from './{{structname}}.service'
 						this.frontRepo.map_ID_{{Structname}}.clear()
 
 						{{structname}}s.forEach(
-							{{structname}}DB => {
+							{{structname}}API => {
 								let {{structname}} = new {{Structname}}
 								this.frontRepo.array_{{Structname}}s.push({{structname}})
-								this.frontRepo.map_ID_{{Structname}}.set({{structname}}DB.ID, {{structname}})
+								this.frontRepo.map_ID_{{Structname}}.set({{structname}}API.ID, {{structname}})
 							}
 						)
 `,
+
+	NgLibFrontRepoInitMapInstancesFromWebSocket: `
+				// init the arrays
+				this.frontRepo.array_{{Structname}}s = []
+				this.frontRepo.map_ID_{{Structname}}.clear()
+
+				backRepoData.{{Structname}}APIs.forEach(
+					{{structname}}API => {
+						let {{structname}} = new {{Structname}}
+						this.frontRepo.array_{{Structname}}s.push({{structname}})
+						this.frontRepo.map_ID_{{Structname}}.set({{structname}}API.ID, {{structname}})
+					}
+				)
+`,
+
 	NgLibFrontRepoInitFrontObjects: `
 						// fill up front objects
 						{{structname}}s.forEach(
-							{{structname}}DB => {
-								let {{structname}} = this.frontRepo.map_ID_{{Structname}}.get({{structname}}DB.ID)
-								Copy{{Structname}}DBTo{{Structname}}({{structname}}DB, {{structname}}!, this.frontRepo)
+							{{structname}}API => {
+								let {{structname}} = this.frontRepo.map_ID_{{Structname}}.get({{structname}}API.ID)
+								Copy{{Structname}}APITo{{Structname}}({{structname}}API, {{structname}}!, this.frontRepo)
 							}
 						)
+`,
+
+	NgLibFrontRepoInitFrontObjectsFromWebSocket: `
+				// fill up front objects
+				backRepoData.{{Structname}}APIs.forEach(
+					{{structname}}API => {
+						let {{structname}} = this.frontRepo.map_ID_{{Structname}}.get({{structname}}API.ID)
+						Copy{{Structname}}APITo{{Structname}}({{structname}}API, {{structname}}!, this.frontRepo)
+					}
+				)
 `,
 
 	NgLibFrontRepoRedeemPointers: `
@@ -320,7 +396,7 @@ map[NgLibFrontRepoServiceSubSubTemplate]string{
 									}
 								}`,
 	NgFrontRepoSliceOfPointerSorting: `
-								{{structname}}.{{FieldName}} = new Array<{{AssocStructName}}DB>()
+								{{structname}}.{{FieldName}} = new Array<{{AssocStructName}}API>()
 								for (let _id of {{structname}}.{{Structname}}PointersEncoding.{{FieldName}}) {
 									let _{{assocStructName}} = this.frontRepo.{{AssocStructName}}s.get(_id)
 									if (_{{assocStructName}} != undefined) {
