@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { FormFieldDB } from './formfield-db'
+import { FormFieldAPI } from './formfield-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -50,104 +50,104 @@ export class FormField {
 
 }
 
-export function CopyFormFieldToFormFieldDB(formfield: FormField, formfieldDB: FormFieldDB) {
+export function CopyFormFieldToFormFieldAPI(formfield: FormField, formfieldAPI: FormFieldAPI) {
 
-	formfieldDB.CreatedAt = formfield.CreatedAt
-	formfieldDB.DeletedAt = formfield.DeletedAt
-	formfieldDB.ID = formfield.ID
+	formfieldAPI.CreatedAt = formfield.CreatedAt
+	formfieldAPI.DeletedAt = formfield.DeletedAt
+	formfieldAPI.ID = formfield.ID
 
 	// insertion point for basic fields copy operations
-	formfieldDB.Name = formfield.Name
-	formfieldDB.InputTypeEnum = formfield.InputTypeEnum
-	formfieldDB.Label = formfield.Label
-	formfieldDB.Placeholder = formfield.Placeholder
-	formfieldDB.HasBespokeWidth = formfield.HasBespokeWidth
-	formfieldDB.BespokeWidthPx = formfield.BespokeWidthPx
-	formfieldDB.HasBespokeHeight = formfield.HasBespokeHeight
-	formfieldDB.BespokeHeightPx = formfield.BespokeHeightPx
+	formfieldAPI.Name = formfield.Name
+	formfieldAPI.InputTypeEnum = formfield.InputTypeEnum
+	formfieldAPI.Label = formfield.Label
+	formfieldAPI.Placeholder = formfield.Placeholder
+	formfieldAPI.HasBespokeWidth = formfield.HasBespokeWidth
+	formfieldAPI.BespokeWidthPx = formfield.BespokeWidthPx
+	formfieldAPI.HasBespokeHeight = formfield.HasBespokeHeight
+	formfieldAPI.BespokeHeightPx = formfield.BespokeHeightPx
 
 	// insertion point for pointer fields encoding
-	formfieldDB.FormFieldPointersEncoding.FormFieldStringID.Valid = true
+	formfieldAPI.FormFieldPointersEncoding.FormFieldStringID.Valid = true
 	if (formfield.FormFieldString != undefined) {
-		formfieldDB.FormFieldPointersEncoding.FormFieldStringID.Int64 = formfield.FormFieldString.ID  
+		formfieldAPI.FormFieldPointersEncoding.FormFieldStringID.Int64 = formfield.FormFieldString.ID  
 	} else {
-		formfieldDB.FormFieldPointersEncoding.FormFieldStringID.Int64 = 0 		
+		formfieldAPI.FormFieldPointersEncoding.FormFieldStringID.Int64 = 0 		
 	}
 
-	formfieldDB.FormFieldPointersEncoding.FormFieldFloat64ID.Valid = true
+	formfieldAPI.FormFieldPointersEncoding.FormFieldFloat64ID.Valid = true
 	if (formfield.FormFieldFloat64 != undefined) {
-		formfieldDB.FormFieldPointersEncoding.FormFieldFloat64ID.Int64 = formfield.FormFieldFloat64.ID  
+		formfieldAPI.FormFieldPointersEncoding.FormFieldFloat64ID.Int64 = formfield.FormFieldFloat64.ID  
 	} else {
-		formfieldDB.FormFieldPointersEncoding.FormFieldFloat64ID.Int64 = 0 		
+		formfieldAPI.FormFieldPointersEncoding.FormFieldFloat64ID.Int64 = 0 		
 	}
 
-	formfieldDB.FormFieldPointersEncoding.FormFieldIntID.Valid = true
+	formfieldAPI.FormFieldPointersEncoding.FormFieldIntID.Valid = true
 	if (formfield.FormFieldInt != undefined) {
-		formfieldDB.FormFieldPointersEncoding.FormFieldIntID.Int64 = formfield.FormFieldInt.ID  
+		formfieldAPI.FormFieldPointersEncoding.FormFieldIntID.Int64 = formfield.FormFieldInt.ID  
 	} else {
-		formfieldDB.FormFieldPointersEncoding.FormFieldIntID.Int64 = 0 		
+		formfieldAPI.FormFieldPointersEncoding.FormFieldIntID.Int64 = 0 		
 	}
 
-	formfieldDB.FormFieldPointersEncoding.FormFieldDateID.Valid = true
+	formfieldAPI.FormFieldPointersEncoding.FormFieldDateID.Valid = true
 	if (formfield.FormFieldDate != undefined) {
-		formfieldDB.FormFieldPointersEncoding.FormFieldDateID.Int64 = formfield.FormFieldDate.ID  
+		formfieldAPI.FormFieldPointersEncoding.FormFieldDateID.Int64 = formfield.FormFieldDate.ID  
 	} else {
-		formfieldDB.FormFieldPointersEncoding.FormFieldDateID.Int64 = 0 		
+		formfieldAPI.FormFieldPointersEncoding.FormFieldDateID.Int64 = 0 		
 	}
 
-	formfieldDB.FormFieldPointersEncoding.FormFieldTimeID.Valid = true
+	formfieldAPI.FormFieldPointersEncoding.FormFieldTimeID.Valid = true
 	if (formfield.FormFieldTime != undefined) {
-		formfieldDB.FormFieldPointersEncoding.FormFieldTimeID.Int64 = formfield.FormFieldTime.ID  
+		formfieldAPI.FormFieldPointersEncoding.FormFieldTimeID.Int64 = formfield.FormFieldTime.ID  
 	} else {
-		formfieldDB.FormFieldPointersEncoding.FormFieldTimeID.Int64 = 0 		
+		formfieldAPI.FormFieldPointersEncoding.FormFieldTimeID.Int64 = 0 		
 	}
 
-	formfieldDB.FormFieldPointersEncoding.FormFieldDateTimeID.Valid = true
+	formfieldAPI.FormFieldPointersEncoding.FormFieldDateTimeID.Valid = true
 	if (formfield.FormFieldDateTime != undefined) {
-		formfieldDB.FormFieldPointersEncoding.FormFieldDateTimeID.Int64 = formfield.FormFieldDateTime.ID  
+		formfieldAPI.FormFieldPointersEncoding.FormFieldDateTimeID.Int64 = formfield.FormFieldDateTime.ID  
 	} else {
-		formfieldDB.FormFieldPointersEncoding.FormFieldDateTimeID.Int64 = 0 		
+		formfieldAPI.FormFieldPointersEncoding.FormFieldDateTimeID.Int64 = 0 		
 	}
 
-	formfieldDB.FormFieldPointersEncoding.FormFieldSelectID.Valid = true
+	formfieldAPI.FormFieldPointersEncoding.FormFieldSelectID.Valid = true
 	if (formfield.FormFieldSelect != undefined) {
-		formfieldDB.FormFieldPointersEncoding.FormFieldSelectID.Int64 = formfield.FormFieldSelect.ID  
+		formfieldAPI.FormFieldPointersEncoding.FormFieldSelectID.Int64 = formfield.FormFieldSelect.ID  
 	} else {
-		formfieldDB.FormFieldPointersEncoding.FormFieldSelectID.Int64 = 0 		
+		formfieldAPI.FormFieldPointersEncoding.FormFieldSelectID.Int64 = 0 		
 	}
 
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyFormFieldDBToFormField update basic, pointers and slice of pointers fields of formfield
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of formfieldDB
+// CopyFormFieldAPIToFormField update basic, pointers and slice of pointers fields of formfield
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of formfieldAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyFormFieldDBToFormField(formfieldDB: FormFieldDB, formfield: FormField, frontRepo: FrontRepo) {
+export function CopyFormFieldAPIToFormField(formfieldAPI: FormFieldAPI, formfield: FormField, frontRepo: FrontRepo) {
 
-	formfield.CreatedAt = formfieldDB.CreatedAt
-	formfield.DeletedAt = formfieldDB.DeletedAt
-	formfield.ID = formfieldDB.ID
+	formfield.CreatedAt = formfieldAPI.CreatedAt
+	formfield.DeletedAt = formfieldAPI.DeletedAt
+	formfield.ID = formfieldAPI.ID
 
 	// insertion point for basic fields copy operations
-	formfield.Name = formfieldDB.Name
-	formfield.InputTypeEnum = formfieldDB.InputTypeEnum
-	formfield.Label = formfieldDB.Label
-	formfield.Placeholder = formfieldDB.Placeholder
-	formfield.HasBespokeWidth = formfieldDB.HasBespokeWidth
-	formfield.BespokeWidthPx = formfieldDB.BespokeWidthPx
-	formfield.HasBespokeHeight = formfieldDB.HasBespokeHeight
-	formfield.BespokeHeightPx = formfieldDB.BespokeHeightPx
+	formfield.Name = formfieldAPI.Name
+	formfield.InputTypeEnum = formfieldAPI.InputTypeEnum
+	formfield.Label = formfieldAPI.Label
+	formfield.Placeholder = formfieldAPI.Placeholder
+	formfield.HasBespokeWidth = formfieldAPI.HasBespokeWidth
+	formfield.BespokeWidthPx = formfieldAPI.BespokeWidthPx
+	formfield.HasBespokeHeight = formfieldAPI.HasBespokeHeight
+	formfield.BespokeHeightPx = formfieldAPI.BespokeHeightPx
 
 	// insertion point for pointer fields encoding
-	formfield.FormFieldString = frontRepo.map_ID_FormFieldString.get(formfieldDB.FormFieldPointersEncoding.FormFieldStringID.Int64)
-	formfield.FormFieldFloat64 = frontRepo.map_ID_FormFieldFloat64.get(formfieldDB.FormFieldPointersEncoding.FormFieldFloat64ID.Int64)
-	formfield.FormFieldInt = frontRepo.map_ID_FormFieldInt.get(formfieldDB.FormFieldPointersEncoding.FormFieldIntID.Int64)
-	formfield.FormFieldDate = frontRepo.map_ID_FormFieldDate.get(formfieldDB.FormFieldPointersEncoding.FormFieldDateID.Int64)
-	formfield.FormFieldTime = frontRepo.map_ID_FormFieldTime.get(formfieldDB.FormFieldPointersEncoding.FormFieldTimeID.Int64)
-	formfield.FormFieldDateTime = frontRepo.map_ID_FormFieldDateTime.get(formfieldDB.FormFieldPointersEncoding.FormFieldDateTimeID.Int64)
-	formfield.FormFieldSelect = frontRepo.map_ID_FormFieldSelect.get(formfieldDB.FormFieldPointersEncoding.FormFieldSelectID.Int64)
+	formfield.FormFieldString = frontRepo.map_ID_FormFieldString.get(formfieldAPI.FormFieldPointersEncoding.FormFieldStringID.Int64)
+	formfield.FormFieldFloat64 = frontRepo.map_ID_FormFieldFloat64.get(formfieldAPI.FormFieldPointersEncoding.FormFieldFloat64ID.Int64)
+	formfield.FormFieldInt = frontRepo.map_ID_FormFieldInt.get(formfieldAPI.FormFieldPointersEncoding.FormFieldIntID.Int64)
+	formfield.FormFieldDate = frontRepo.map_ID_FormFieldDate.get(formfieldAPI.FormFieldPointersEncoding.FormFieldDateID.Int64)
+	formfield.FormFieldTime = frontRepo.map_ID_FormFieldTime.get(formfieldAPI.FormFieldPointersEncoding.FormFieldTimeID.Int64)
+	formfield.FormFieldDateTime = frontRepo.map_ID_FormFieldDateTime.get(formfieldAPI.FormFieldPointersEncoding.FormFieldDateTimeID.Int64)
+	formfield.FormFieldSelect = frontRepo.map_ID_FormFieldSelect.get(formfieldAPI.FormFieldPointersEncoding.FormFieldSelectID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 }

@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { RectAnchoredRectDB } from './rectanchoredrect-db'
+import { RectAnchoredRectAPI } from './rectanchoredrect-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -39,66 +39,66 @@ export class RectAnchoredRect {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyRectAnchoredRectToRectAnchoredRectDB(rectanchoredrect: RectAnchoredRect, rectanchoredrectDB: RectAnchoredRectDB) {
+export function CopyRectAnchoredRectToRectAnchoredRectAPI(rectanchoredrect: RectAnchoredRect, rectanchoredrectAPI: RectAnchoredRectAPI) {
 
-	rectanchoredrectDB.CreatedAt = rectanchoredrect.CreatedAt
-	rectanchoredrectDB.DeletedAt = rectanchoredrect.DeletedAt
-	rectanchoredrectDB.ID = rectanchoredrect.ID
+	rectanchoredrectAPI.CreatedAt = rectanchoredrect.CreatedAt
+	rectanchoredrectAPI.DeletedAt = rectanchoredrect.DeletedAt
+	rectanchoredrectAPI.ID = rectanchoredrect.ID
 
 	// insertion point for basic fields copy operations
-	rectanchoredrectDB.Name = rectanchoredrect.Name
-	rectanchoredrectDB.X = rectanchoredrect.X
-	rectanchoredrectDB.Y = rectanchoredrect.Y
-	rectanchoredrectDB.Width = rectanchoredrect.Width
-	rectanchoredrectDB.Height = rectanchoredrect.Height
-	rectanchoredrectDB.RX = rectanchoredrect.RX
-	rectanchoredrectDB.X_Offset = rectanchoredrect.X_Offset
-	rectanchoredrectDB.Y_Offset = rectanchoredrect.Y_Offset
-	rectanchoredrectDB.RectAnchorType = rectanchoredrect.RectAnchorType
-	rectanchoredrectDB.WidthFollowRect = rectanchoredrect.WidthFollowRect
-	rectanchoredrectDB.HeightFollowRect = rectanchoredrect.HeightFollowRect
-	rectanchoredrectDB.Color = rectanchoredrect.Color
-	rectanchoredrectDB.FillOpacity = rectanchoredrect.FillOpacity
-	rectanchoredrectDB.Stroke = rectanchoredrect.Stroke
-	rectanchoredrectDB.StrokeWidth = rectanchoredrect.StrokeWidth
-	rectanchoredrectDB.StrokeDashArray = rectanchoredrect.StrokeDashArray
-	rectanchoredrectDB.StrokeDashArrayWhenSelected = rectanchoredrect.StrokeDashArrayWhenSelected
-	rectanchoredrectDB.Transform = rectanchoredrect.Transform
+	rectanchoredrectAPI.Name = rectanchoredrect.Name
+	rectanchoredrectAPI.X = rectanchoredrect.X
+	rectanchoredrectAPI.Y = rectanchoredrect.Y
+	rectanchoredrectAPI.Width = rectanchoredrect.Width
+	rectanchoredrectAPI.Height = rectanchoredrect.Height
+	rectanchoredrectAPI.RX = rectanchoredrect.RX
+	rectanchoredrectAPI.X_Offset = rectanchoredrect.X_Offset
+	rectanchoredrectAPI.Y_Offset = rectanchoredrect.Y_Offset
+	rectanchoredrectAPI.RectAnchorType = rectanchoredrect.RectAnchorType
+	rectanchoredrectAPI.WidthFollowRect = rectanchoredrect.WidthFollowRect
+	rectanchoredrectAPI.HeightFollowRect = rectanchoredrect.HeightFollowRect
+	rectanchoredrectAPI.Color = rectanchoredrect.Color
+	rectanchoredrectAPI.FillOpacity = rectanchoredrect.FillOpacity
+	rectanchoredrectAPI.Stroke = rectanchoredrect.Stroke
+	rectanchoredrectAPI.StrokeWidth = rectanchoredrect.StrokeWidth
+	rectanchoredrectAPI.StrokeDashArray = rectanchoredrect.StrokeDashArray
+	rectanchoredrectAPI.StrokeDashArrayWhenSelected = rectanchoredrect.StrokeDashArrayWhenSelected
+	rectanchoredrectAPI.Transform = rectanchoredrect.Transform
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyRectAnchoredRectDBToRectAnchoredRect update basic, pointers and slice of pointers fields of rectanchoredrect
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of rectanchoredrectDB
+// CopyRectAnchoredRectAPIToRectAnchoredRect update basic, pointers and slice of pointers fields of rectanchoredrect
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of rectanchoredrectAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyRectAnchoredRectDBToRectAnchoredRect(rectanchoredrectDB: RectAnchoredRectDB, rectanchoredrect: RectAnchoredRect, frontRepo: FrontRepo) {
+export function CopyRectAnchoredRectAPIToRectAnchoredRect(rectanchoredrectAPI: RectAnchoredRectAPI, rectanchoredrect: RectAnchoredRect, frontRepo: FrontRepo) {
 
-	rectanchoredrect.CreatedAt = rectanchoredrectDB.CreatedAt
-	rectanchoredrect.DeletedAt = rectanchoredrectDB.DeletedAt
-	rectanchoredrect.ID = rectanchoredrectDB.ID
+	rectanchoredrect.CreatedAt = rectanchoredrectAPI.CreatedAt
+	rectanchoredrect.DeletedAt = rectanchoredrectAPI.DeletedAt
+	rectanchoredrect.ID = rectanchoredrectAPI.ID
 
 	// insertion point for basic fields copy operations
-	rectanchoredrect.Name = rectanchoredrectDB.Name
-	rectanchoredrect.X = rectanchoredrectDB.X
-	rectanchoredrect.Y = rectanchoredrectDB.Y
-	rectanchoredrect.Width = rectanchoredrectDB.Width
-	rectanchoredrect.Height = rectanchoredrectDB.Height
-	rectanchoredrect.RX = rectanchoredrectDB.RX
-	rectanchoredrect.X_Offset = rectanchoredrectDB.X_Offset
-	rectanchoredrect.Y_Offset = rectanchoredrectDB.Y_Offset
-	rectanchoredrect.RectAnchorType = rectanchoredrectDB.RectAnchorType
-	rectanchoredrect.WidthFollowRect = rectanchoredrectDB.WidthFollowRect
-	rectanchoredrect.HeightFollowRect = rectanchoredrectDB.HeightFollowRect
-	rectanchoredrect.Color = rectanchoredrectDB.Color
-	rectanchoredrect.FillOpacity = rectanchoredrectDB.FillOpacity
-	rectanchoredrect.Stroke = rectanchoredrectDB.Stroke
-	rectanchoredrect.StrokeWidth = rectanchoredrectDB.StrokeWidth
-	rectanchoredrect.StrokeDashArray = rectanchoredrectDB.StrokeDashArray
-	rectanchoredrect.StrokeDashArrayWhenSelected = rectanchoredrectDB.StrokeDashArrayWhenSelected
-	rectanchoredrect.Transform = rectanchoredrectDB.Transform
+	rectanchoredrect.Name = rectanchoredrectAPI.Name
+	rectanchoredrect.X = rectanchoredrectAPI.X
+	rectanchoredrect.Y = rectanchoredrectAPI.Y
+	rectanchoredrect.Width = rectanchoredrectAPI.Width
+	rectanchoredrect.Height = rectanchoredrectAPI.Height
+	rectanchoredrect.RX = rectanchoredrectAPI.RX
+	rectanchoredrect.X_Offset = rectanchoredrectAPI.X_Offset
+	rectanchoredrect.Y_Offset = rectanchoredrectAPI.Y_Offset
+	rectanchoredrect.RectAnchorType = rectanchoredrectAPI.RectAnchorType
+	rectanchoredrect.WidthFollowRect = rectanchoredrectAPI.WidthFollowRect
+	rectanchoredrect.HeightFollowRect = rectanchoredrectAPI.HeightFollowRect
+	rectanchoredrect.Color = rectanchoredrectAPI.Color
+	rectanchoredrect.FillOpacity = rectanchoredrectAPI.FillOpacity
+	rectanchoredrect.Stroke = rectanchoredrectAPI.Stroke
+	rectanchoredrect.StrokeWidth = rectanchoredrectAPI.StrokeWidth
+	rectanchoredrect.StrokeDashArray = rectanchoredrectAPI.StrokeDashArray
+	rectanchoredrect.StrokeDashArrayWhenSelected = rectanchoredrectAPI.StrokeDashArrayWhenSelected
+	rectanchoredrect.Transform = rectanchoredrectAPI.Transform
 
 	// insertion point for pointer fields encoding
 

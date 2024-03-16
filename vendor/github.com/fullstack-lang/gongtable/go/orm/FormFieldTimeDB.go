@@ -38,6 +38,7 @@ type FormFieldTimeAPI struct {
 	models.FormFieldTime_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	FormFieldTimePointersEncoding FormFieldTimePointersEncoding
 }
 
@@ -66,7 +67,9 @@ type FormFieldTimeDB struct {
 
 	// Declation for basic field formfieldtimeDB.Step
 	Step_Data sql.NullFloat64
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormFieldTimePointersEncoding
 }
 

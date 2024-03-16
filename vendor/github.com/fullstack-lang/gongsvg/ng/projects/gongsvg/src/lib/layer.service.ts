@@ -11,22 +11,22 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { LayerDB } from './layer-db'
-import { Layer, CopyLayerToLayerDB } from './layer'
+import { LayerAPI } from './layer-api'
+import { Layer, CopyLayerToLayerAPI } from './layer'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { RectDB } from './rect-db'
-import { TextDB } from './text-db'
-import { CircleDB } from './circle-db'
-import { LineDB } from './line-db'
-import { EllipseDB } from './ellipse-db'
-import { PolylineDB } from './polyline-db'
-import { PolygoneDB } from './polygone-db'
-import { PathDB } from './path-db'
-import { LinkDB } from './link-db'
-import { RectLinkLinkDB } from './rectlinklink-db'
+import { RectAPI } from './rect-api'
+import { TextAPI } from './text-api'
+import { CircleAPI } from './circle-api'
+import { LineAPI } from './line-api'
+import { EllipseAPI } from './ellipse-api'
+import { PolylineAPI } from './polyline-api'
+import { PolygoneAPI } from './polygone-api'
+import { PathAPI } from './path-api'
+import { LinkAPI } from './link-api'
+import { RectLinkLinkAPI } from './rectlinklink-api'
 
 @Injectable({
   providedIn: 'root'
@@ -56,41 +56,41 @@ export class LayerService {
 
   /** GET layers from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerAPI[]> {
     return this.getLayers(GONG__StackPath, frontRepo)
   }
-  getLayers(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerDB[]> {
+  getLayers(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<LayerDB[]>(this.layersUrl, { params: params })
+    return this.http.get<LayerAPI[]>(this.layersUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<LayerDB[]>('getLayers', []))
+        catchError(this.handleError<LayerAPI[]>('getLayers', []))
       );
   }
 
   /** GET layer by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerAPI> {
     return this.getLayer(id, GONG__StackPath, frontRepo)
   }
-  getLayer(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerDB> {
+  getLayer(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.layersUrl}/${id}`;
-    return this.http.get<LayerDB>(url, { params: params }).pipe(
+    return this.http.get<LayerAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched layer id=${id}`)),
-      catchError(this.handleError<LayerDB>(`getLayer id=${id}`))
+      catchError(this.handleError<LayerAPI>(`getLayer id=${id}`))
     );
   }
 
   // postFront copy layer to a version with encoded pointers and post to the back
-  postFront(layer: Layer, GONG__StackPath: string): Observable<LayerDB> {
-    let layerDB = new LayerDB
-    CopyLayerToLayerDB(layer, layerDB)
-    const id = typeof layerDB === 'number' ? layerDB : layerDB.ID
+  postFront(layer: Layer, GONG__StackPath: string): Observable<LayerAPI> {
+    let layerAPI = new LayerAPI
+    CopyLayerToLayerAPI(layer, layerAPI)
+    const id = typeof layerAPI === 'number' ? layerAPI : layerAPI.ID
     const url = `${this.layersUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -98,18 +98,18 @@ export class LayerService {
       params: params
     }
 
-    return this.http.post<LayerDB>(url, layerDB, httpOptions).pipe(
+    return this.http.post<LayerAPI>(url, layerAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<LayerDB>('postLayer'))
+      catchError(this.handleError<LayerAPI>('postLayer'))
     );
   }
   
   /** POST: add a new layer to the server */
-  post(layerdb: LayerDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerDB> {
+  post(layerdb: LayerAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerAPI> {
     return this.postLayer(layerdb, GONG__StackPath, frontRepo)
   }
-  postLayer(layerdb: LayerDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerDB> {
+  postLayer(layerdb: LayerAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -117,19 +117,19 @@ export class LayerService {
       params: params
     }
 
-    return this.http.post<LayerDB>(this.layersUrl, layerdb, httpOptions).pipe(
+    return this.http.post<LayerAPI>(this.layersUrl, layerdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted layerdb id=${layerdb.ID}`)
       }),
-      catchError(this.handleError<LayerDB>('postLayer'))
+      catchError(this.handleError<LayerAPI>('postLayer'))
     );
   }
 
   /** DELETE: delete the layerdb from the server */
-  delete(layerdb: LayerDB | number, GONG__StackPath: string): Observable<LayerDB> {
+  delete(layerdb: LayerAPI | number, GONG__StackPath: string): Observable<LayerAPI> {
     return this.deleteLayer(layerdb, GONG__StackPath)
   }
-  deleteLayer(layerdb: LayerDB | number, GONG__StackPath: string): Observable<LayerDB> {
+  deleteLayer(layerdb: LayerAPI | number, GONG__StackPath: string): Observable<LayerAPI> {
     const id = typeof layerdb === 'number' ? layerdb : layerdb.ID;
     const url = `${this.layersUrl}/${id}`;
 
@@ -139,17 +139,17 @@ export class LayerService {
       params: params
     };
 
-    return this.http.delete<LayerDB>(url, httpOptions).pipe(
+    return this.http.delete<LayerAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted layerdb id=${id}`)),
-      catchError(this.handleError<LayerDB>('deleteLayer'))
+      catchError(this.handleError<LayerAPI>('deleteLayer'))
     );
   }
 
   // updateFront copy layer to a version with encoded pointers and update to the back
-  updateFront(layer: Layer, GONG__StackPath: string): Observable<LayerDB> {
-    let layerDB = new LayerDB
-    CopyLayerToLayerDB(layer, layerDB)
-    const id = typeof layerDB === 'number' ? layerDB : layerDB.ID
+  updateFront(layer: Layer, GONG__StackPath: string): Observable<LayerAPI> {
+    let layerAPI = new LayerAPI
+    CopyLayerToLayerAPI(layer, layerAPI)
+    const id = typeof layerAPI === 'number' ? layerAPI : layerAPI.ID
     const url = `${this.layersUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -157,18 +157,18 @@ export class LayerService {
       params: params
     }
 
-    return this.http.put<LayerDB>(url, layerDB, httpOptions).pipe(
+    return this.http.put<LayerAPI>(url, layerAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<LayerDB>('updateLayer'))
+      catchError(this.handleError<LayerAPI>('updateLayer'))
     );
   }
 
   /** PUT: update the layerdb on the server */
-  update(layerdb: LayerDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerDB> {
+  update(layerdb: LayerAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerAPI> {
     return this.updateLayer(layerdb, GONG__StackPath, frontRepo)
   }
-  updateLayer(layerdb: LayerDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerDB> {
+  updateLayer(layerdb: LayerAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerAPI> {
     const id = typeof layerdb === 'number' ? layerdb : layerdb.ID;
     const url = `${this.layersUrl}/${id}`;
 
@@ -179,11 +179,11 @@ export class LayerService {
       params: params
     };
 
-    return this.http.put<LayerDB>(url, layerdb, httpOptions).pipe(
+    return this.http.put<LayerAPI>(url, layerdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated layerdb id=${layerdb.ID}`)
       }),
-      catchError(this.handleError<LayerDB>('updateLayer'))
+      catchError(this.handleError<LayerAPI>('updateLayer'))
     );
   }
 

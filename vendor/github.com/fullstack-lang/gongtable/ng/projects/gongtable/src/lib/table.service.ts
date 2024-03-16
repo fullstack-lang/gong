@@ -11,14 +11,14 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { TableDB } from './table-db'
-import { Table, CopyTableToTableDB } from './table'
+import { TableAPI } from './table-api'
+import { Table, CopyTableToTableAPI } from './table'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { DisplayedColumnDB } from './displayedcolumn-db'
-import { RowDB } from './row-db'
+import { DisplayedColumnAPI } from './displayedcolumn-api'
+import { RowAPI } from './row-api'
 
 @Injectable({
   providedIn: 'root'
@@ -48,41 +48,41 @@ export class TableService {
 
   /** GET tables from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableAPI[]> {
     return this.getTables(GONG__StackPath, frontRepo)
   }
-  getTables(GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableDB[]> {
+  getTables(GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<TableDB[]>(this.tablesUrl, { params: params })
+    return this.http.get<TableAPI[]>(this.tablesUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<TableDB[]>('getTables', []))
+        catchError(this.handleError<TableAPI[]>('getTables', []))
       );
   }
 
   /** GET table by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableAPI> {
     return this.getTable(id, GONG__StackPath, frontRepo)
   }
-  getTable(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableDB> {
+  getTable(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.tablesUrl}/${id}`;
-    return this.http.get<TableDB>(url, { params: params }).pipe(
+    return this.http.get<TableAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched table id=${id}`)),
-      catchError(this.handleError<TableDB>(`getTable id=${id}`))
+      catchError(this.handleError<TableAPI>(`getTable id=${id}`))
     );
   }
 
   // postFront copy table to a version with encoded pointers and post to the back
-  postFront(table: Table, GONG__StackPath: string): Observable<TableDB> {
-    let tableDB = new TableDB
-    CopyTableToTableDB(table, tableDB)
-    const id = typeof tableDB === 'number' ? tableDB : tableDB.ID
+  postFront(table: Table, GONG__StackPath: string): Observable<TableAPI> {
+    let tableAPI = new TableAPI
+    CopyTableToTableAPI(table, tableAPI)
+    const id = typeof tableAPI === 'number' ? tableAPI : tableAPI.ID
     const url = `${this.tablesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -90,18 +90,18 @@ export class TableService {
       params: params
     }
 
-    return this.http.post<TableDB>(url, tableDB, httpOptions).pipe(
+    return this.http.post<TableAPI>(url, tableAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<TableDB>('postTable'))
+      catchError(this.handleError<TableAPI>('postTable'))
     );
   }
   
   /** POST: add a new table to the server */
-  post(tabledb: TableDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableDB> {
+  post(tabledb: TableAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableAPI> {
     return this.postTable(tabledb, GONG__StackPath, frontRepo)
   }
-  postTable(tabledb: TableDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableDB> {
+  postTable(tabledb: TableAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -109,19 +109,19 @@ export class TableService {
       params: params
     }
 
-    return this.http.post<TableDB>(this.tablesUrl, tabledb, httpOptions).pipe(
+    return this.http.post<TableAPI>(this.tablesUrl, tabledb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted tabledb id=${tabledb.ID}`)
       }),
-      catchError(this.handleError<TableDB>('postTable'))
+      catchError(this.handleError<TableAPI>('postTable'))
     );
   }
 
   /** DELETE: delete the tabledb from the server */
-  delete(tabledb: TableDB | number, GONG__StackPath: string): Observable<TableDB> {
+  delete(tabledb: TableAPI | number, GONG__StackPath: string): Observable<TableAPI> {
     return this.deleteTable(tabledb, GONG__StackPath)
   }
-  deleteTable(tabledb: TableDB | number, GONG__StackPath: string): Observable<TableDB> {
+  deleteTable(tabledb: TableAPI | number, GONG__StackPath: string): Observable<TableAPI> {
     const id = typeof tabledb === 'number' ? tabledb : tabledb.ID;
     const url = `${this.tablesUrl}/${id}`;
 
@@ -131,17 +131,17 @@ export class TableService {
       params: params
     };
 
-    return this.http.delete<TableDB>(url, httpOptions).pipe(
+    return this.http.delete<TableAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted tabledb id=${id}`)),
-      catchError(this.handleError<TableDB>('deleteTable'))
+      catchError(this.handleError<TableAPI>('deleteTable'))
     );
   }
 
   // updateFront copy table to a version with encoded pointers and update to the back
-  updateFront(table: Table, GONG__StackPath: string): Observable<TableDB> {
-    let tableDB = new TableDB
-    CopyTableToTableDB(table, tableDB)
-    const id = typeof tableDB === 'number' ? tableDB : tableDB.ID
+  updateFront(table: Table, GONG__StackPath: string): Observable<TableAPI> {
+    let tableAPI = new TableAPI
+    CopyTableToTableAPI(table, tableAPI)
+    const id = typeof tableAPI === 'number' ? tableAPI : tableAPI.ID
     const url = `${this.tablesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -149,18 +149,18 @@ export class TableService {
       params: params
     }
 
-    return this.http.put<TableDB>(url, tableDB, httpOptions).pipe(
+    return this.http.put<TableAPI>(url, tableAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<TableDB>('updateTable'))
+      catchError(this.handleError<TableAPI>('updateTable'))
     );
   }
 
   /** PUT: update the tabledb on the server */
-  update(tabledb: TableDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableDB> {
+  update(tabledb: TableAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableAPI> {
     return this.updateTable(tabledb, GONG__StackPath, frontRepo)
   }
-  updateTable(tabledb: TableDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableDB> {
+  updateTable(tabledb: TableAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableAPI> {
     const id = typeof tabledb === 'number' ? tabledb : tabledb.ID;
     const url = `${this.tablesUrl}/${id}`;
 
@@ -171,11 +171,11 @@ export class TableService {
       params: params
     };
 
-    return this.http.put<TableDB>(url, tabledb, httpOptions).pipe(
+    return this.http.put<TableAPI>(url, tabledb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated tabledb id=${tabledb.ID}`)
       }),
-      catchError(this.handleError<TableDB>('updateTable'))
+      catchError(this.handleError<TableAPI>('updateTable'))
     );
   }
 

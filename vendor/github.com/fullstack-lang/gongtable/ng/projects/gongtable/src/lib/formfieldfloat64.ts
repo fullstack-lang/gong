@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { FormFieldFloat64DB } from './formfieldfloat64-db'
+import { FormFieldFloat64API } from './formfieldfloat64-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -27,42 +27,42 @@ export class FormFieldFloat64 {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyFormFieldFloat64ToFormFieldFloat64DB(formfieldfloat64: FormFieldFloat64, formfieldfloat64DB: FormFieldFloat64DB) {
+export function CopyFormFieldFloat64ToFormFieldFloat64API(formfieldfloat64: FormFieldFloat64, formfieldfloat64API: FormFieldFloat64API) {
 
-	formfieldfloat64DB.CreatedAt = formfieldfloat64.CreatedAt
-	formfieldfloat64DB.DeletedAt = formfieldfloat64.DeletedAt
-	formfieldfloat64DB.ID = formfieldfloat64.ID
+	formfieldfloat64API.CreatedAt = formfieldfloat64.CreatedAt
+	formfieldfloat64API.DeletedAt = formfieldfloat64.DeletedAt
+	formfieldfloat64API.ID = formfieldfloat64.ID
 
 	// insertion point for basic fields copy operations
-	formfieldfloat64DB.Name = formfieldfloat64.Name
-	formfieldfloat64DB.Value = formfieldfloat64.Value
-	formfieldfloat64DB.HasMinValidator = formfieldfloat64.HasMinValidator
-	formfieldfloat64DB.MinValue = formfieldfloat64.MinValue
-	formfieldfloat64DB.HasMaxValidator = formfieldfloat64.HasMaxValidator
-	formfieldfloat64DB.MaxValue = formfieldfloat64.MaxValue
+	formfieldfloat64API.Name = formfieldfloat64.Name
+	formfieldfloat64API.Value = formfieldfloat64.Value
+	formfieldfloat64API.HasMinValidator = formfieldfloat64.HasMinValidator
+	formfieldfloat64API.MinValue = formfieldfloat64.MinValue
+	formfieldfloat64API.HasMaxValidator = formfieldfloat64.HasMaxValidator
+	formfieldfloat64API.MaxValue = formfieldfloat64.MaxValue
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyFormFieldFloat64DBToFormFieldFloat64 update basic, pointers and slice of pointers fields of formfieldfloat64
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of formfieldfloat64DB
+// CopyFormFieldFloat64APIToFormFieldFloat64 update basic, pointers and slice of pointers fields of formfieldfloat64
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of formfieldfloat64API
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyFormFieldFloat64DBToFormFieldFloat64(formfieldfloat64DB: FormFieldFloat64DB, formfieldfloat64: FormFieldFloat64, frontRepo: FrontRepo) {
+export function CopyFormFieldFloat64APIToFormFieldFloat64(formfieldfloat64API: FormFieldFloat64API, formfieldfloat64: FormFieldFloat64, frontRepo: FrontRepo) {
 
-	formfieldfloat64.CreatedAt = formfieldfloat64DB.CreatedAt
-	formfieldfloat64.DeletedAt = formfieldfloat64DB.DeletedAt
-	formfieldfloat64.ID = formfieldfloat64DB.ID
+	formfieldfloat64.CreatedAt = formfieldfloat64API.CreatedAt
+	formfieldfloat64.DeletedAt = formfieldfloat64API.DeletedAt
+	formfieldfloat64.ID = formfieldfloat64API.ID
 
 	// insertion point for basic fields copy operations
-	formfieldfloat64.Name = formfieldfloat64DB.Name
-	formfieldfloat64.Value = formfieldfloat64DB.Value
-	formfieldfloat64.HasMinValidator = formfieldfloat64DB.HasMinValidator
-	formfieldfloat64.MinValue = formfieldfloat64DB.MinValue
-	formfieldfloat64.HasMaxValidator = formfieldfloat64DB.HasMaxValidator
-	formfieldfloat64.MaxValue = formfieldfloat64DB.MaxValue
+	formfieldfloat64.Name = formfieldfloat64API.Name
+	formfieldfloat64.Value = formfieldfloat64API.Value
+	formfieldfloat64.HasMinValidator = formfieldfloat64API.HasMinValidator
+	formfieldfloat64.MinValue = formfieldfloat64API.MinValue
+	formfieldfloat64.HasMaxValidator = formfieldfloat64API.HasMaxValidator
+	formfieldfloat64.MaxValue = formfieldfloat64API.MaxValue
 
 	// insertion point for pointer fields encoding
 

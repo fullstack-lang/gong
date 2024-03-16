@@ -11,8 +11,8 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { FormFieldIntDB } from './formfieldint-db'
-import { FormFieldInt, CopyFormFieldIntToFormFieldIntDB } from './formfieldint'
+import { FormFieldIntAPI } from './formfieldint-api'
+import { FormFieldInt, CopyFormFieldIntToFormFieldIntAPI } from './formfieldint'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
@@ -46,41 +46,41 @@ export class FormFieldIntService {
 
   /** GET formfieldints from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldIntDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldIntAPI[]> {
     return this.getFormFieldInts(GONG__StackPath, frontRepo)
   }
-  getFormFieldInts(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldIntDB[]> {
+  getFormFieldInts(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldIntAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<FormFieldIntDB[]>(this.formfieldintsUrl, { params: params })
+    return this.http.get<FormFieldIntAPI[]>(this.formfieldintsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<FormFieldIntDB[]>('getFormFieldInts', []))
+        catchError(this.handleError<FormFieldIntAPI[]>('getFormFieldInts', []))
       );
   }
 
   /** GET formfieldint by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldIntDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldIntAPI> {
     return this.getFormFieldInt(id, GONG__StackPath, frontRepo)
   }
-  getFormFieldInt(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldIntDB> {
+  getFormFieldInt(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldIntAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.formfieldintsUrl}/${id}`;
-    return this.http.get<FormFieldIntDB>(url, { params: params }).pipe(
+    return this.http.get<FormFieldIntAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched formfieldint id=${id}`)),
-      catchError(this.handleError<FormFieldIntDB>(`getFormFieldInt id=${id}`))
+      catchError(this.handleError<FormFieldIntAPI>(`getFormFieldInt id=${id}`))
     );
   }
 
   // postFront copy formfieldint to a version with encoded pointers and post to the back
-  postFront(formfieldint: FormFieldInt, GONG__StackPath: string): Observable<FormFieldIntDB> {
-    let formfieldintDB = new FormFieldIntDB
-    CopyFormFieldIntToFormFieldIntDB(formfieldint, formfieldintDB)
-    const id = typeof formfieldintDB === 'number' ? formfieldintDB : formfieldintDB.ID
+  postFront(formfieldint: FormFieldInt, GONG__StackPath: string): Observable<FormFieldIntAPI> {
+    let formfieldintAPI = new FormFieldIntAPI
+    CopyFormFieldIntToFormFieldIntAPI(formfieldint, formfieldintAPI)
+    const id = typeof formfieldintAPI === 'number' ? formfieldintAPI : formfieldintAPI.ID
     const url = `${this.formfieldintsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -88,18 +88,18 @@ export class FormFieldIntService {
       params: params
     }
 
-    return this.http.post<FormFieldIntDB>(url, formfieldintDB, httpOptions).pipe(
+    return this.http.post<FormFieldIntAPI>(url, formfieldintAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<FormFieldIntDB>('postFormFieldInt'))
+      catchError(this.handleError<FormFieldIntAPI>('postFormFieldInt'))
     );
   }
   
   /** POST: add a new formfieldint to the server */
-  post(formfieldintdb: FormFieldIntDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldIntDB> {
+  post(formfieldintdb: FormFieldIntAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldIntAPI> {
     return this.postFormFieldInt(formfieldintdb, GONG__StackPath, frontRepo)
   }
-  postFormFieldInt(formfieldintdb: FormFieldIntDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldIntDB> {
+  postFormFieldInt(formfieldintdb: FormFieldIntAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldIntAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -107,19 +107,19 @@ export class FormFieldIntService {
       params: params
     }
 
-    return this.http.post<FormFieldIntDB>(this.formfieldintsUrl, formfieldintdb, httpOptions).pipe(
+    return this.http.post<FormFieldIntAPI>(this.formfieldintsUrl, formfieldintdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted formfieldintdb id=${formfieldintdb.ID}`)
       }),
-      catchError(this.handleError<FormFieldIntDB>('postFormFieldInt'))
+      catchError(this.handleError<FormFieldIntAPI>('postFormFieldInt'))
     );
   }
 
   /** DELETE: delete the formfieldintdb from the server */
-  delete(formfieldintdb: FormFieldIntDB | number, GONG__StackPath: string): Observable<FormFieldIntDB> {
+  delete(formfieldintdb: FormFieldIntAPI | number, GONG__StackPath: string): Observable<FormFieldIntAPI> {
     return this.deleteFormFieldInt(formfieldintdb, GONG__StackPath)
   }
-  deleteFormFieldInt(formfieldintdb: FormFieldIntDB | number, GONG__StackPath: string): Observable<FormFieldIntDB> {
+  deleteFormFieldInt(formfieldintdb: FormFieldIntAPI | number, GONG__StackPath: string): Observable<FormFieldIntAPI> {
     const id = typeof formfieldintdb === 'number' ? formfieldintdb : formfieldintdb.ID;
     const url = `${this.formfieldintsUrl}/${id}`;
 
@@ -129,17 +129,17 @@ export class FormFieldIntService {
       params: params
     };
 
-    return this.http.delete<FormFieldIntDB>(url, httpOptions).pipe(
+    return this.http.delete<FormFieldIntAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted formfieldintdb id=${id}`)),
-      catchError(this.handleError<FormFieldIntDB>('deleteFormFieldInt'))
+      catchError(this.handleError<FormFieldIntAPI>('deleteFormFieldInt'))
     );
   }
 
   // updateFront copy formfieldint to a version with encoded pointers and update to the back
-  updateFront(formfieldint: FormFieldInt, GONG__StackPath: string): Observable<FormFieldIntDB> {
-    let formfieldintDB = new FormFieldIntDB
-    CopyFormFieldIntToFormFieldIntDB(formfieldint, formfieldintDB)
-    const id = typeof formfieldintDB === 'number' ? formfieldintDB : formfieldintDB.ID
+  updateFront(formfieldint: FormFieldInt, GONG__StackPath: string): Observable<FormFieldIntAPI> {
+    let formfieldintAPI = new FormFieldIntAPI
+    CopyFormFieldIntToFormFieldIntAPI(formfieldint, formfieldintAPI)
+    const id = typeof formfieldintAPI === 'number' ? formfieldintAPI : formfieldintAPI.ID
     const url = `${this.formfieldintsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,18 +147,18 @@ export class FormFieldIntService {
       params: params
     }
 
-    return this.http.put<FormFieldIntDB>(url, formfieldintDB, httpOptions).pipe(
+    return this.http.put<FormFieldIntAPI>(url, formfieldintAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<FormFieldIntDB>('updateFormFieldInt'))
+      catchError(this.handleError<FormFieldIntAPI>('updateFormFieldInt'))
     );
   }
 
   /** PUT: update the formfieldintdb on the server */
-  update(formfieldintdb: FormFieldIntDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldIntDB> {
+  update(formfieldintdb: FormFieldIntAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldIntAPI> {
     return this.updateFormFieldInt(formfieldintdb, GONG__StackPath, frontRepo)
   }
-  updateFormFieldInt(formfieldintdb: FormFieldIntDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldIntDB> {
+  updateFormFieldInt(formfieldintdb: FormFieldIntAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldIntAPI> {
     const id = typeof formfieldintdb === 'number' ? formfieldintdb : formfieldintdb.ID;
     const url = `${this.formfieldintsUrl}/${id}`;
 
@@ -169,11 +169,11 @@ export class FormFieldIntService {
       params: params
     };
 
-    return this.http.put<FormFieldIntDB>(url, formfieldintdb, httpOptions).pipe(
+    return this.http.put<FormFieldIntAPI>(url, formfieldintdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated formfieldintdb id=${formfieldintdb.ID}`)
       }),
-      catchError(this.handleError<FormFieldIntDB>('updateFormFieldInt'))
+      catchError(this.handleError<FormFieldIntAPI>('updateFormFieldInt'))
     );
   }
 

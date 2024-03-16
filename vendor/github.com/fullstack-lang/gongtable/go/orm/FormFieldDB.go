@@ -38,6 +38,7 @@ type FormFieldAPI struct {
 	models.FormField_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	FormFieldPointersEncoding FormFieldPointersEncoding
 }
 
@@ -111,7 +112,9 @@ type FormFieldDB struct {
 
 	// Declation for basic field formfieldDB.BespokeHeightPx
 	BespokeHeightPx_Data sql.NullInt64
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormFieldPointersEncoding
 }
 
