@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { SliceOfPointerToGongStructFieldDB } from './sliceofpointertogongstructfield-db'
+import { SliceOfPointerToGongStructFieldAPI } from './sliceofpointertogongstructfield-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -27,46 +27,46 @@ export class SliceOfPointerToGongStructField {
 
 }
 
-export function CopySliceOfPointerToGongStructFieldToSliceOfPointerToGongStructFieldDB(sliceofpointertogongstructfield: SliceOfPointerToGongStructField, sliceofpointertogongstructfieldDB: SliceOfPointerToGongStructFieldDB) {
+export function CopySliceOfPointerToGongStructFieldToSliceOfPointerToGongStructFieldAPI(sliceofpointertogongstructfield: SliceOfPointerToGongStructField, sliceofpointertogongstructfieldAPI: SliceOfPointerToGongStructFieldAPI) {
 
-	sliceofpointertogongstructfieldDB.CreatedAt = sliceofpointertogongstructfield.CreatedAt
-	sliceofpointertogongstructfieldDB.DeletedAt = sliceofpointertogongstructfield.DeletedAt
-	sliceofpointertogongstructfieldDB.ID = sliceofpointertogongstructfield.ID
+	sliceofpointertogongstructfieldAPI.CreatedAt = sliceofpointertogongstructfield.CreatedAt
+	sliceofpointertogongstructfieldAPI.DeletedAt = sliceofpointertogongstructfield.DeletedAt
+	sliceofpointertogongstructfieldAPI.ID = sliceofpointertogongstructfield.ID
 
 	// insertion point for basic fields copy operations
-	sliceofpointertogongstructfieldDB.Name = sliceofpointertogongstructfield.Name
-	sliceofpointertogongstructfieldDB.Index = sliceofpointertogongstructfield.Index
-	sliceofpointertogongstructfieldDB.CompositeStructName = sliceofpointertogongstructfield.CompositeStructName
+	sliceofpointertogongstructfieldAPI.Name = sliceofpointertogongstructfield.Name
+	sliceofpointertogongstructfieldAPI.Index = sliceofpointertogongstructfield.Index
+	sliceofpointertogongstructfieldAPI.CompositeStructName = sliceofpointertogongstructfield.CompositeStructName
 
 	// insertion point for pointer fields encoding
-	sliceofpointertogongstructfieldDB.SliceOfPointerToGongStructFieldPointersEncoding.GongStructID.Valid = true
+	sliceofpointertogongstructfieldAPI.SliceOfPointerToGongStructFieldPointersEncoding.GongStructID.Valid = true
 	if (sliceofpointertogongstructfield.GongStruct != undefined) {
-		sliceofpointertogongstructfieldDB.SliceOfPointerToGongStructFieldPointersEncoding.GongStructID.Int64 = sliceofpointertogongstructfield.GongStruct.ID  
+		sliceofpointertogongstructfieldAPI.SliceOfPointerToGongStructFieldPointersEncoding.GongStructID.Int64 = sliceofpointertogongstructfield.GongStruct.ID  
 	} else {
-		sliceofpointertogongstructfieldDB.SliceOfPointerToGongStructFieldPointersEncoding.GongStructID.Int64 = 0 		
+		sliceofpointertogongstructfieldAPI.SliceOfPointerToGongStructFieldPointersEncoding.GongStructID.Int64 = 0 		
 	}
 
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopySliceOfPointerToGongStructFieldDBToSliceOfPointerToGongStructField update basic, pointers and slice of pointers fields of sliceofpointertogongstructfield
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of sliceofpointertogongstructfieldDB
+// CopySliceOfPointerToGongStructFieldAPIToSliceOfPointerToGongStructField update basic, pointers and slice of pointers fields of sliceofpointertogongstructfield
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of sliceofpointertogongstructfieldAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopySliceOfPointerToGongStructFieldDBToSliceOfPointerToGongStructField(sliceofpointertogongstructfieldDB: SliceOfPointerToGongStructFieldDB, sliceofpointertogongstructfield: SliceOfPointerToGongStructField, frontRepo: FrontRepo) {
+export function CopySliceOfPointerToGongStructFieldAPIToSliceOfPointerToGongStructField(sliceofpointertogongstructfieldAPI: SliceOfPointerToGongStructFieldAPI, sliceofpointertogongstructfield: SliceOfPointerToGongStructField, frontRepo: FrontRepo) {
 
-	sliceofpointertogongstructfield.CreatedAt = sliceofpointertogongstructfieldDB.CreatedAt
-	sliceofpointertogongstructfield.DeletedAt = sliceofpointertogongstructfieldDB.DeletedAt
-	sliceofpointertogongstructfield.ID = sliceofpointertogongstructfieldDB.ID
+	sliceofpointertogongstructfield.CreatedAt = sliceofpointertogongstructfieldAPI.CreatedAt
+	sliceofpointertogongstructfield.DeletedAt = sliceofpointertogongstructfieldAPI.DeletedAt
+	sliceofpointertogongstructfield.ID = sliceofpointertogongstructfieldAPI.ID
 
 	// insertion point for basic fields copy operations
-	sliceofpointertogongstructfield.Name = sliceofpointertogongstructfieldDB.Name
-	sliceofpointertogongstructfield.Index = sliceofpointertogongstructfieldDB.Index
-	sliceofpointertogongstructfield.CompositeStructName = sliceofpointertogongstructfieldDB.CompositeStructName
+	sliceofpointertogongstructfield.Name = sliceofpointertogongstructfieldAPI.Name
+	sliceofpointertogongstructfield.Index = sliceofpointertogongstructfieldAPI.Index
+	sliceofpointertogongstructfield.CompositeStructName = sliceofpointertogongstructfieldAPI.CompositeStructName
 
 	// insertion point for pointer fields encoding
-	sliceofpointertogongstructfield.GongStruct = frontRepo.map_ID_GongStruct.get(sliceofpointertogongstructfieldDB.SliceOfPointerToGongStructFieldPointersEncoding.GongStructID.Int64)
+	sliceofpointertogongstructfield.GongStruct = frontRepo.map_ID_GongStruct.get(sliceofpointertogongstructfieldAPI.SliceOfPointerToGongStructFieldPointersEncoding.GongStructID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 }

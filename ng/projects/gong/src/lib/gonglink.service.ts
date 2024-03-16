@@ -11,8 +11,8 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { GongLinkDB } from './gonglink-db'
-import { GongLink, CopyGongLinkToGongLinkDB } from './gonglink'
+import { GongLinkAPI } from './gonglink-api'
+import { GongLink, CopyGongLinkToGongLinkAPI } from './gonglink'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
@@ -46,41 +46,41 @@ export class GongLinkService {
 
   /** GET gonglinks from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkAPI[]> {
     return this.getGongLinks(GONG__StackPath, frontRepo)
   }
-  getGongLinks(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkDB[]> {
+  getGongLinks(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<GongLinkDB[]>(this.gonglinksUrl, { params: params })
+    return this.http.get<GongLinkAPI[]>(this.gonglinksUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<GongLinkDB[]>('getGongLinks', []))
+        catchError(this.handleError<GongLinkAPI[]>('getGongLinks', []))
       );
   }
 
   /** GET gonglink by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkAPI> {
     return this.getGongLink(id, GONG__StackPath, frontRepo)
   }
-  getGongLink(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkDB> {
+  getGongLink(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.gonglinksUrl}/${id}`;
-    return this.http.get<GongLinkDB>(url, { params: params }).pipe(
+    return this.http.get<GongLinkAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched gonglink id=${id}`)),
-      catchError(this.handleError<GongLinkDB>(`getGongLink id=${id}`))
+      catchError(this.handleError<GongLinkAPI>(`getGongLink id=${id}`))
     );
   }
 
   // postFront copy gonglink to a version with encoded pointers and post to the back
-  postFront(gonglink: GongLink, GONG__StackPath: string): Observable<GongLinkDB> {
-    let gonglinkDB = new GongLinkDB
-    CopyGongLinkToGongLinkDB(gonglink, gonglinkDB)
-    const id = typeof gonglinkDB === 'number' ? gonglinkDB : gonglinkDB.ID
+  postFront(gonglink: GongLink, GONG__StackPath: string): Observable<GongLinkAPI> {
+    let gonglinkAPI = new GongLinkAPI
+    CopyGongLinkToGongLinkAPI(gonglink, gonglinkAPI)
+    const id = typeof gonglinkAPI === 'number' ? gonglinkAPI : gonglinkAPI.ID
     const url = `${this.gonglinksUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -88,18 +88,18 @@ export class GongLinkService {
       params: params
     }
 
-    return this.http.post<GongLinkDB>(url, gonglinkDB, httpOptions).pipe(
+    return this.http.post<GongLinkAPI>(url, gonglinkAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<GongLinkDB>('postGongLink'))
+      catchError(this.handleError<GongLinkAPI>('postGongLink'))
     );
   }
   
   /** POST: add a new gonglink to the server */
-  post(gonglinkdb: GongLinkDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkDB> {
+  post(gonglinkdb: GongLinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkAPI> {
     return this.postGongLink(gonglinkdb, GONG__StackPath, frontRepo)
   }
-  postGongLink(gonglinkdb: GongLinkDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkDB> {
+  postGongLink(gonglinkdb: GongLinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -107,19 +107,19 @@ export class GongLinkService {
       params: params
     }
 
-    return this.http.post<GongLinkDB>(this.gonglinksUrl, gonglinkdb, httpOptions).pipe(
+    return this.http.post<GongLinkAPI>(this.gonglinksUrl, gonglinkdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted gonglinkdb id=${gonglinkdb.ID}`)
       }),
-      catchError(this.handleError<GongLinkDB>('postGongLink'))
+      catchError(this.handleError<GongLinkAPI>('postGongLink'))
     );
   }
 
   /** DELETE: delete the gonglinkdb from the server */
-  delete(gonglinkdb: GongLinkDB | number, GONG__StackPath: string): Observable<GongLinkDB> {
+  delete(gonglinkdb: GongLinkAPI | number, GONG__StackPath: string): Observable<GongLinkAPI> {
     return this.deleteGongLink(gonglinkdb, GONG__StackPath)
   }
-  deleteGongLink(gonglinkdb: GongLinkDB | number, GONG__StackPath: string): Observable<GongLinkDB> {
+  deleteGongLink(gonglinkdb: GongLinkAPI | number, GONG__StackPath: string): Observable<GongLinkAPI> {
     const id = typeof gonglinkdb === 'number' ? gonglinkdb : gonglinkdb.ID;
     const url = `${this.gonglinksUrl}/${id}`;
 
@@ -129,17 +129,17 @@ export class GongLinkService {
       params: params
     };
 
-    return this.http.delete<GongLinkDB>(url, httpOptions).pipe(
+    return this.http.delete<GongLinkAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted gonglinkdb id=${id}`)),
-      catchError(this.handleError<GongLinkDB>('deleteGongLink'))
+      catchError(this.handleError<GongLinkAPI>('deleteGongLink'))
     );
   }
 
   // updateFront copy gonglink to a version with encoded pointers and update to the back
-  updateFront(gonglink: GongLink, GONG__StackPath: string): Observable<GongLinkDB> {
-    let gonglinkDB = new GongLinkDB
-    CopyGongLinkToGongLinkDB(gonglink, gonglinkDB)
-    const id = typeof gonglinkDB === 'number' ? gonglinkDB : gonglinkDB.ID
+  updateFront(gonglink: GongLink, GONG__StackPath: string): Observable<GongLinkAPI> {
+    let gonglinkAPI = new GongLinkAPI
+    CopyGongLinkToGongLinkAPI(gonglink, gonglinkAPI)
+    const id = typeof gonglinkAPI === 'number' ? gonglinkAPI : gonglinkAPI.ID
     const url = `${this.gonglinksUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,18 +147,18 @@ export class GongLinkService {
       params: params
     }
 
-    return this.http.put<GongLinkDB>(url, gonglinkDB, httpOptions).pipe(
+    return this.http.put<GongLinkAPI>(url, gonglinkAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<GongLinkDB>('updateGongLink'))
+      catchError(this.handleError<GongLinkAPI>('updateGongLink'))
     );
   }
 
   /** PUT: update the gonglinkdb on the server */
-  update(gonglinkdb: GongLinkDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkDB> {
+  update(gonglinkdb: GongLinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkAPI> {
     return this.updateGongLink(gonglinkdb, GONG__StackPath, frontRepo)
   }
-  updateGongLink(gonglinkdb: GongLinkDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkDB> {
+  updateGongLink(gonglinkdb: GongLinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkAPI> {
     const id = typeof gonglinkdb === 'number' ? gonglinkdb : gonglinkdb.ID;
     const url = `${this.gonglinksUrl}/${id}`;
 
@@ -169,11 +169,11 @@ export class GongLinkService {
       params: params
     };
 
-    return this.http.put<GongLinkDB>(url, gonglinkdb, httpOptions).pipe(
+    return this.http.put<GongLinkAPI>(url, gonglinkdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated gonglinkdb id=${gonglinkdb.ID}`)
       }),
-      catchError(this.handleError<GongLinkDB>('updateGongLink'))
+      catchError(this.handleError<GongLinkAPI>('updateGongLink'))
     );
   }
 

@@ -1,10 +1,10 @@
 // insertion point for imports
-import { GongEnumDB } from './gongenum-db'
+import { GongEnumAPI } from './gongenum-api'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
 
-export class GongBasicFieldDB {
+export class GongBasicFieldAPI {
 
 	static GONGSTRUCT_NAME = "GongBasicField"
 

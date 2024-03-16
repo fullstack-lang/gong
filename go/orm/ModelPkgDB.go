@@ -38,6 +38,7 @@ type ModelPkgAPI struct {
 	models.ModelPkg_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	ModelPkgPointersEncoding ModelPkgPointersEncoding
 }
 
@@ -96,7 +97,9 @@ type ModelPkgDB struct {
 
 	// Declation for basic field modelpkgDB.MaterialLibDatamodelTargetPath
 	MaterialLibDatamodelTargetPath_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	ModelPkgPointersEncoding
 }
 

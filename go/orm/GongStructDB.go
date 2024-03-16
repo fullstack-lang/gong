@@ -38,6 +38,7 @@ type GongStructAPI struct {
 	models.GongStruct_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	GongStructPointersEncoding GongStructPointersEncoding
 }
 
@@ -80,7 +81,9 @@ type GongStructDB struct {
 	// Declation for basic field gongstructDB.IsIgnoredForFront
 	// provide the sql storage for the boolan
 	IsIgnoredForFront_Data sql.NullBool
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	GongStructPointersEncoding
 }
 

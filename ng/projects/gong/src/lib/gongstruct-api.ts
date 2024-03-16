@@ -1,13 +1,13 @@
 // insertion point for imports
-import { GongBasicFieldDB } from './gongbasicfield-db'
-import { GongTimeFieldDB } from './gongtimefield-db'
-import { PointerToGongStructFieldDB } from './pointertogongstructfield-db'
-import { SliceOfPointerToGongStructFieldDB } from './sliceofpointertogongstructfield-db'
+import { GongBasicFieldAPI } from './gongbasicfield-api'
+import { GongTimeFieldAPI } from './gongtimefield-api'
+import { PointerToGongStructFieldAPI } from './pointertogongstructfield-api'
+import { SliceOfPointerToGongStructFieldAPI } from './sliceofpointertogongstructfield-api'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
 
-export class GongStructDB {
+export class GongStructAPI {
 
 	static GONGSTRUCT_NAME = "GongStruct"
 

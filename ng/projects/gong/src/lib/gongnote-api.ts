@@ -1,11 +1,12 @@
 // insertion point for imports
+import { GongLinkAPI } from './gonglink-api'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
 
-export class GongLinkDB {
+export class GongNoteAPI {
 
-	static GONGSTRUCT_NAME = "GongLink"
+	static GONGSTRUCT_NAME = "GongNote"
 
 	CreatedAt?: string
 	DeletedAt?: string
@@ -13,14 +14,15 @@ export class GongLinkDB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
-	Recv: string = ""
-	ImportPath: string = ""
+	Body: string = ""
+	BodyHTML: string = ""
 
 	// insertion point for other decls
 
-	GongLinkPointersEncoding: GongLinkPointersEncoding = new GongLinkPointersEncoding
+	GongNotePointersEncoding: GongNotePointersEncoding = new GongNotePointersEncoding
 }
 
-export class GongLinkPointersEncoding {
+export class GongNotePointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
+	Links: number[] = []
 }

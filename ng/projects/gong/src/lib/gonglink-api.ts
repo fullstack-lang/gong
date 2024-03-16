@@ -3,9 +3,9 @@
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
 
-export class MetaReferenceDB {
+export class GongLinkAPI {
 
-	static GONGSTRUCT_NAME = "MetaReference"
+	static GONGSTRUCT_NAME = "GongLink"
 
 	CreatedAt?: string
 	DeletedAt?: string
@@ -13,12 +13,14 @@ export class MetaReferenceDB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	Recv: string = ""
+	ImportPath: string = ""
 
 	// insertion point for other decls
 
-	MetaReferencePointersEncoding: MetaReferencePointersEncoding = new MetaReferencePointersEncoding
+	GongLinkPointersEncoding: GongLinkPointersEncoding = new GongLinkPointersEncoding
 }
 
-export class MetaReferencePointersEncoding {
+export class GongLinkPointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
 }

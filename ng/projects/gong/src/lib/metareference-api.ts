@@ -1,12 +1,11 @@
 // insertion point for imports
-import { GongEnumValueDB } from './gongenumvalue-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
 
-export class GongEnumDB {
+export class MetaReferenceAPI {
 
-	static GONGSTRUCT_NAME = "GongEnum"
+	static GONGSTRUCT_NAME = "MetaReference"
 
 	CreatedAt?: string
 	DeletedAt?: string
@@ -14,15 +13,12 @@ export class GongEnumDB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
-	Type: number = 0
 
 	// insertion point for other decls
-	Type_string?: string
 
-	GongEnumPointersEncoding: GongEnumPointersEncoding = new GongEnumPointersEncoding
+	MetaReferencePointersEncoding: MetaReferencePointersEncoding = new MetaReferencePointersEncoding
 }
 
-export class GongEnumPointersEncoding {
+export class MetaReferencePointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
-	GongEnumValues: number[] = []
 }
