@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { FormFieldTimeDB } from './formfieldtime-db'
+import { FormFieldTimeAPI } from './formfieldtime-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -24,34 +24,34 @@ export class FormFieldTime {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyFormFieldTimeToFormFieldTimeDB(formfieldtime: FormFieldTime, formfieldtimeDB: FormFieldTimeDB) {
+export function CopyFormFieldTimeToFormFieldTimeAPI(formfieldtime: FormFieldTime, formfieldtimeAPI: FormFieldTimeAPI) {
 
-	formfieldtimeDB.CreatedAt = formfieldtime.CreatedAt
-	formfieldtimeDB.DeletedAt = formfieldtime.DeletedAt
-	formfieldtimeDB.ID = formfieldtime.ID
+	formfieldtimeAPI.CreatedAt = formfieldtime.CreatedAt
+	formfieldtimeAPI.DeletedAt = formfieldtime.DeletedAt
+	formfieldtimeAPI.ID = formfieldtime.ID
 
 	// insertion point for basic fields copy operations
-	formfieldtimeDB.Name = formfieldtime.Name
-	formfieldtimeDB.Step = formfieldtime.Step
+	formfieldtimeAPI.Name = formfieldtime.Name
+	formfieldtimeAPI.Step = formfieldtime.Step
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyFormFieldTimeDBToFormFieldTime update basic, pointers and slice of pointers fields of formfieldtime
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of formfieldtimeDB
+// CopyFormFieldTimeAPIToFormFieldTime update basic, pointers and slice of pointers fields of formfieldtime
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of formfieldtimeAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyFormFieldTimeDBToFormFieldTime(formfieldtimeDB: FormFieldTimeDB, formfieldtime: FormFieldTime, frontRepo: FrontRepo) {
+export function CopyFormFieldTimeAPIToFormFieldTime(formfieldtimeAPI: FormFieldTimeAPI, formfieldtime: FormFieldTime, frontRepo: FrontRepo) {
 
-	formfieldtime.CreatedAt = formfieldtimeDB.CreatedAt
-	formfieldtime.DeletedAt = formfieldtimeDB.DeletedAt
-	formfieldtime.ID = formfieldtimeDB.ID
+	formfieldtime.CreatedAt = formfieldtimeAPI.CreatedAt
+	formfieldtime.DeletedAt = formfieldtimeAPI.DeletedAt
+	formfieldtime.ID = formfieldtimeAPI.ID
 
 	// insertion point for basic fields copy operations
-	formfieldtime.Name = formfieldtimeDB.Name
-	formfieldtime.Step = formfieldtimeDB.Step
+	formfieldtime.Name = formfieldtimeAPI.Name
+	formfieldtime.Step = formfieldtimeAPI.Step
 
 	// insertion point for pointer fields encoding
 

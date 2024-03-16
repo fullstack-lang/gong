@@ -38,6 +38,7 @@ type OptionAPI struct {
 	models.Option_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	OptionPointersEncoding OptionPointersEncoding
 }
 
@@ -60,7 +61,9 @@ type OptionDB struct {
 
 	// Declation for basic field optionDB.Name
 	Name_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	OptionPointersEncoding
 }
 

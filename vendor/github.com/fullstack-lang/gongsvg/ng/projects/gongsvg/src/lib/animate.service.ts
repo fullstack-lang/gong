@@ -11,8 +11,8 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { AnimateDB } from './animate-db'
-import { Animate, CopyAnimateToAnimateDB } from './animate'
+import { AnimateAPI } from './animate-api'
+import { Animate, CopyAnimateToAnimateAPI } from './animate'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
@@ -46,41 +46,41 @@ export class AnimateService {
 
   /** GET animates from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateAPI[]> {
     return this.getAnimates(GONG__StackPath, frontRepo)
   }
-  getAnimates(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateDB[]> {
+  getAnimates(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<AnimateDB[]>(this.animatesUrl, { params: params })
+    return this.http.get<AnimateAPI[]>(this.animatesUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<AnimateDB[]>('getAnimates', []))
+        catchError(this.handleError<AnimateAPI[]>('getAnimates', []))
       );
   }
 
   /** GET animate by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateAPI> {
     return this.getAnimate(id, GONG__StackPath, frontRepo)
   }
-  getAnimate(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateDB> {
+  getAnimate(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.animatesUrl}/${id}`;
-    return this.http.get<AnimateDB>(url, { params: params }).pipe(
+    return this.http.get<AnimateAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched animate id=${id}`)),
-      catchError(this.handleError<AnimateDB>(`getAnimate id=${id}`))
+      catchError(this.handleError<AnimateAPI>(`getAnimate id=${id}`))
     );
   }
 
   // postFront copy animate to a version with encoded pointers and post to the back
-  postFront(animate: Animate, GONG__StackPath: string): Observable<AnimateDB> {
-    let animateDB = new AnimateDB
-    CopyAnimateToAnimateDB(animate, animateDB)
-    const id = typeof animateDB === 'number' ? animateDB : animateDB.ID
+  postFront(animate: Animate, GONG__StackPath: string): Observable<AnimateAPI> {
+    let animateAPI = new AnimateAPI
+    CopyAnimateToAnimateAPI(animate, animateAPI)
+    const id = typeof animateAPI === 'number' ? animateAPI : animateAPI.ID
     const url = `${this.animatesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -88,18 +88,18 @@ export class AnimateService {
       params: params
     }
 
-    return this.http.post<AnimateDB>(url, animateDB, httpOptions).pipe(
+    return this.http.post<AnimateAPI>(url, animateAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<AnimateDB>('postAnimate'))
+      catchError(this.handleError<AnimateAPI>('postAnimate'))
     );
   }
   
   /** POST: add a new animate to the server */
-  post(animatedb: AnimateDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateDB> {
+  post(animatedb: AnimateAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateAPI> {
     return this.postAnimate(animatedb, GONG__StackPath, frontRepo)
   }
-  postAnimate(animatedb: AnimateDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateDB> {
+  postAnimate(animatedb: AnimateAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -107,19 +107,19 @@ export class AnimateService {
       params: params
     }
 
-    return this.http.post<AnimateDB>(this.animatesUrl, animatedb, httpOptions).pipe(
+    return this.http.post<AnimateAPI>(this.animatesUrl, animatedb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted animatedb id=${animatedb.ID}`)
       }),
-      catchError(this.handleError<AnimateDB>('postAnimate'))
+      catchError(this.handleError<AnimateAPI>('postAnimate'))
     );
   }
 
   /** DELETE: delete the animatedb from the server */
-  delete(animatedb: AnimateDB | number, GONG__StackPath: string): Observable<AnimateDB> {
+  delete(animatedb: AnimateAPI | number, GONG__StackPath: string): Observable<AnimateAPI> {
     return this.deleteAnimate(animatedb, GONG__StackPath)
   }
-  deleteAnimate(animatedb: AnimateDB | number, GONG__StackPath: string): Observable<AnimateDB> {
+  deleteAnimate(animatedb: AnimateAPI | number, GONG__StackPath: string): Observable<AnimateAPI> {
     const id = typeof animatedb === 'number' ? animatedb : animatedb.ID;
     const url = `${this.animatesUrl}/${id}`;
 
@@ -129,17 +129,17 @@ export class AnimateService {
       params: params
     };
 
-    return this.http.delete<AnimateDB>(url, httpOptions).pipe(
+    return this.http.delete<AnimateAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted animatedb id=${id}`)),
-      catchError(this.handleError<AnimateDB>('deleteAnimate'))
+      catchError(this.handleError<AnimateAPI>('deleteAnimate'))
     );
   }
 
   // updateFront copy animate to a version with encoded pointers and update to the back
-  updateFront(animate: Animate, GONG__StackPath: string): Observable<AnimateDB> {
-    let animateDB = new AnimateDB
-    CopyAnimateToAnimateDB(animate, animateDB)
-    const id = typeof animateDB === 'number' ? animateDB : animateDB.ID
+  updateFront(animate: Animate, GONG__StackPath: string): Observable<AnimateAPI> {
+    let animateAPI = new AnimateAPI
+    CopyAnimateToAnimateAPI(animate, animateAPI)
+    const id = typeof animateAPI === 'number' ? animateAPI : animateAPI.ID
     const url = `${this.animatesUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,18 +147,18 @@ export class AnimateService {
       params: params
     }
 
-    return this.http.put<AnimateDB>(url, animateDB, httpOptions).pipe(
+    return this.http.put<AnimateAPI>(url, animateAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<AnimateDB>('updateAnimate'))
+      catchError(this.handleError<AnimateAPI>('updateAnimate'))
     );
   }
 
   /** PUT: update the animatedb on the server */
-  update(animatedb: AnimateDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateDB> {
+  update(animatedb: AnimateAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateAPI> {
     return this.updateAnimate(animatedb, GONG__StackPath, frontRepo)
   }
-  updateAnimate(animatedb: AnimateDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateDB> {
+  updateAnimate(animatedb: AnimateAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateAPI> {
     const id = typeof animatedb === 'number' ? animatedb : animatedb.ID;
     const url = `${this.animatesUrl}/${id}`;
 
@@ -169,11 +169,11 @@ export class AnimateService {
       params: params
     };
 
-    return this.http.put<AnimateDB>(url, animatedb, httpOptions).pipe(
+    return this.http.put<AnimateAPI>(url, animatedb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated animatedb id=${animatedb.ID}`)
       }),
-      catchError(this.handleError<AnimateDB>('updateAnimate'))
+      catchError(this.handleError<AnimateAPI>('updateAnimate'))
     );
   }
 

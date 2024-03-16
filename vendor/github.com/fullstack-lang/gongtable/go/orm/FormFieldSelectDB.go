@@ -38,6 +38,7 @@ type FormFieldSelectAPI struct {
 	models.FormFieldSelect_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	FormFieldSelectPointersEncoding FormFieldSelectPointersEncoding
 }
 
@@ -71,7 +72,9 @@ type FormFieldSelectDB struct {
 	// Declation for basic field formfieldselectDB.CanBeEmpty
 	// provide the sql storage for the boolan
 	CanBeEmpty_Data sql.NullBool
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormFieldSelectPointersEncoding
 }
 

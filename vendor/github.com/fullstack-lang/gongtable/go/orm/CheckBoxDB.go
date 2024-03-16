@@ -38,6 +38,7 @@ type CheckBoxAPI struct {
 	models.CheckBox_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	CheckBoxPointersEncoding CheckBoxPointersEncoding
 }
 
@@ -64,7 +65,9 @@ type CheckBoxDB struct {
 	// Declation for basic field checkboxDB.Value
 	// provide the sql storage for the boolan
 	Value_Data sql.NullBool
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	CheckBoxPointersEncoding
 }
 

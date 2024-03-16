@@ -38,6 +38,7 @@ type SVGAPI struct {
 	models.SVG_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	SVGPointersEncoding SVGPointersEncoding
 }
 
@@ -78,7 +79,9 @@ type SVGDB struct {
 	// Declation for basic field svgDB.IsEditable
 	// provide the sql storage for the boolan
 	IsEditable_Data sql.NullBool
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	SVGPointersEncoding
 }
 

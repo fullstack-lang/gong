@@ -38,6 +38,7 @@ type FormSortAssocButtonAPI struct {
 	models.FormSortAssocButton_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	FormSortAssocButtonPointersEncoding FormSortAssocButtonPointersEncoding
 }
 
@@ -63,7 +64,9 @@ type FormSortAssocButtonDB struct {
 
 	// Declation for basic field formsortassocbuttonDB.Label
 	Label_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormSortAssocButtonPointersEncoding
 }
 

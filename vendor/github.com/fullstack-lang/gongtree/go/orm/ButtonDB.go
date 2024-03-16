@@ -38,6 +38,7 @@ type ButtonAPI struct {
 	models.Button_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	ButtonPointersEncoding ButtonPointersEncoding
 }
 
@@ -67,7 +68,9 @@ type ButtonDB struct {
 
 	// Declation for basic field buttonDB.Icon
 	Icon_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	ButtonPointersEncoding
 }
 

@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { ButtonDB } from './button-db'
+import { ButtonAPI } from './button-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -26,44 +26,44 @@ export class Button {
 
 }
 
-export function CopyButtonToButtonDB(button: Button, buttonDB: ButtonDB) {
+export function CopyButtonToButtonAPI(button: Button, buttonAPI: ButtonAPI) {
 
-	buttonDB.CreatedAt = button.CreatedAt
-	buttonDB.DeletedAt = button.DeletedAt
-	buttonDB.ID = button.ID
+	buttonAPI.CreatedAt = button.CreatedAt
+	buttonAPI.DeletedAt = button.DeletedAt
+	buttonAPI.ID = button.ID
 
 	// insertion point for basic fields copy operations
-	buttonDB.Name = button.Name
-	buttonDB.Icon = button.Icon
+	buttonAPI.Name = button.Name
+	buttonAPI.Icon = button.Icon
 
 	// insertion point for pointer fields encoding
-	buttonDB.ButtonPointersEncoding.SVGIconID.Valid = true
+	buttonAPI.ButtonPointersEncoding.SVGIconID.Valid = true
 	if (button.SVGIcon != undefined) {
-		buttonDB.ButtonPointersEncoding.SVGIconID.Int64 = button.SVGIcon.ID  
+		buttonAPI.ButtonPointersEncoding.SVGIconID.Int64 = button.SVGIcon.ID  
 	} else {
-		buttonDB.ButtonPointersEncoding.SVGIconID.Int64 = 0 		
+		buttonAPI.ButtonPointersEncoding.SVGIconID.Int64 = 0 		
 	}
 
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyButtonDBToButton update basic, pointers and slice of pointers fields of button
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of buttonDB
+// CopyButtonAPIToButton update basic, pointers and slice of pointers fields of button
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of buttonAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyButtonDBToButton(buttonDB: ButtonDB, button: Button, frontRepo: FrontRepo) {
+export function CopyButtonAPIToButton(buttonAPI: ButtonAPI, button: Button, frontRepo: FrontRepo) {
 
-	button.CreatedAt = buttonDB.CreatedAt
-	button.DeletedAt = buttonDB.DeletedAt
-	button.ID = buttonDB.ID
+	button.CreatedAt = buttonAPI.CreatedAt
+	button.DeletedAt = buttonAPI.DeletedAt
+	button.ID = buttonAPI.ID
 
 	// insertion point for basic fields copy operations
-	button.Name = buttonDB.Name
-	button.Icon = buttonDB.Icon
+	button.Name = buttonAPI.Name
+	button.Icon = buttonAPI.Icon
 
 	// insertion point for pointer fields encoding
-	button.SVGIcon = frontRepo.map_ID_SVGIcon.get(buttonDB.ButtonPointersEncoding.SVGIconID.Int64)
+	button.SVGIcon = frontRepo.map_ID_SVGIcon.get(buttonAPI.ButtonPointersEncoding.SVGIconID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 }

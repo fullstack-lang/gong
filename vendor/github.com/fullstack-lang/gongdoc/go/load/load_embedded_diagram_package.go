@@ -9,7 +9,6 @@ import (
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
-	gongdoc_node2gongdoc "github.com/fullstack-lang/gongdoc/go/node2gongdoc"
 
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 )
@@ -39,7 +38,6 @@ func LoadEmbeddedDiagramPackage(
 	}
 	diagramPackageAst, ok := pkgsParser["diagrams"]
 	if !ok {
-		gongdoc_node2gongdoc.FillUpNodeTree(gongdocStage, gongtreeStage, diagramPackage)
 		gongdocStage.Commit()
 		return diagramPackage, nil
 	}
@@ -53,6 +51,5 @@ func LoadEmbeddedDiagramPackage(
 		diagramPackage.UnmarshallOneDiagram(gongdocStage, diagramName, inFile, fset)
 	}
 
-	gongdoc_node2gongdoc.FillUpNodeTree(gongdocStage, gongtreeStage, diagramPackage)
 	return diagramPackage, nil
 }

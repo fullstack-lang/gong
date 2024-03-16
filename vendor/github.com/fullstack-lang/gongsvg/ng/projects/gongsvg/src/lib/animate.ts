@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { AnimateDB } from './animate-db'
+import { AnimateAPI } from './animate-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -26,40 +26,40 @@ export class Animate {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyAnimateToAnimateDB(animate: Animate, animateDB: AnimateDB) {
+export function CopyAnimateToAnimateAPI(animate: Animate, animateAPI: AnimateAPI) {
 
-	animateDB.CreatedAt = animate.CreatedAt
-	animateDB.DeletedAt = animate.DeletedAt
-	animateDB.ID = animate.ID
+	animateAPI.CreatedAt = animate.CreatedAt
+	animateAPI.DeletedAt = animate.DeletedAt
+	animateAPI.ID = animate.ID
 
 	// insertion point for basic fields copy operations
-	animateDB.Name = animate.Name
-	animateDB.AttributeName = animate.AttributeName
-	animateDB.Values = animate.Values
-	animateDB.Dur = animate.Dur
-	animateDB.RepeatCount = animate.RepeatCount
+	animateAPI.Name = animate.Name
+	animateAPI.AttributeName = animate.AttributeName
+	animateAPI.Values = animate.Values
+	animateAPI.Dur = animate.Dur
+	animateAPI.RepeatCount = animate.RepeatCount
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyAnimateDBToAnimate update basic, pointers and slice of pointers fields of animate
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of animateDB
+// CopyAnimateAPIToAnimate update basic, pointers and slice of pointers fields of animate
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of animateAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyAnimateDBToAnimate(animateDB: AnimateDB, animate: Animate, frontRepo: FrontRepo) {
+export function CopyAnimateAPIToAnimate(animateAPI: AnimateAPI, animate: Animate, frontRepo: FrontRepo) {
 
-	animate.CreatedAt = animateDB.CreatedAt
-	animate.DeletedAt = animateDB.DeletedAt
-	animate.ID = animateDB.ID
+	animate.CreatedAt = animateAPI.CreatedAt
+	animate.DeletedAt = animateAPI.DeletedAt
+	animate.ID = animateAPI.ID
 
 	// insertion point for basic fields copy operations
-	animate.Name = animateDB.Name
-	animate.AttributeName = animateDB.AttributeName
-	animate.Values = animateDB.Values
-	animate.Dur = animateDB.Dur
-	animate.RepeatCount = animateDB.RepeatCount
+	animate.Name = animateAPI.Name
+	animate.AttributeName = animateAPI.AttributeName
+	animate.Values = animateAPI.Values
+	animate.Dur = animateAPI.Dur
+	animate.RepeatCount = animateAPI.RepeatCount
 
 	// insertion point for pointer fields encoding
 
