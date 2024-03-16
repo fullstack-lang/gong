@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { GongEnumValueDB } from './gongenumvalue-db'
+import { GongEnumValueAPI } from './gongenumvalue-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -23,34 +23,34 @@ export class GongEnumValue {
 	// insertion point for pointers and slices of pointers declarations
 }
 
-export function CopyGongEnumValueToGongEnumValueDB(gongenumvalue: GongEnumValue, gongenumvalueDB: GongEnumValueDB) {
+export function CopyGongEnumValueToGongEnumValueAPI(gongenumvalue: GongEnumValue, gongenumvalueAPI: GongEnumValueAPI) {
 
-	gongenumvalueDB.CreatedAt = gongenumvalue.CreatedAt
-	gongenumvalueDB.DeletedAt = gongenumvalue.DeletedAt
-	gongenumvalueDB.ID = gongenumvalue.ID
+	gongenumvalueAPI.CreatedAt = gongenumvalue.CreatedAt
+	gongenumvalueAPI.DeletedAt = gongenumvalue.DeletedAt
+	gongenumvalueAPI.ID = gongenumvalue.ID
 
 	// insertion point for basic fields copy operations
-	gongenumvalueDB.Name = gongenumvalue.Name
-	gongenumvalueDB.Value = gongenumvalue.Value
+	gongenumvalueAPI.Name = gongenumvalue.Name
+	gongenumvalueAPI.Value = gongenumvalue.Value
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 }
 
-// CopyGongEnumValueDBToGongEnumValue update basic, pointers and slice of pointers fields of gongenumvalue
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of gongenumvalueDB
+// CopyGongEnumValueAPIToGongEnumValue update basic, pointers and slice of pointers fields of gongenumvalue
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of gongenumvalueAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyGongEnumValueDBToGongEnumValue(gongenumvalueDB: GongEnumValueDB, gongenumvalue: GongEnumValue, frontRepo: FrontRepo) {
+export function CopyGongEnumValueAPIToGongEnumValue(gongenumvalueAPI: GongEnumValueAPI, gongenumvalue: GongEnumValue, frontRepo: FrontRepo) {
 
-	gongenumvalue.CreatedAt = gongenumvalueDB.CreatedAt
-	gongenumvalue.DeletedAt = gongenumvalueDB.DeletedAt
-	gongenumvalue.ID = gongenumvalueDB.ID
+	gongenumvalue.CreatedAt = gongenumvalueAPI.CreatedAt
+	gongenumvalue.DeletedAt = gongenumvalueAPI.DeletedAt
+	gongenumvalue.ID = gongenumvalueAPI.ID
 
 	// insertion point for basic fields copy operations
-	gongenumvalue.Name = gongenumvalueDB.Name
-	gongenumvalue.Value = gongenumvalueDB.Value
+	gongenumvalue.Name = gongenumvalueAPI.Name
+	gongenumvalue.Value = gongenumvalueAPI.Value
 
 	// insertion point for pointer fields encoding
 

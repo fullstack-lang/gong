@@ -1,12 +1,11 @@
 // insertion point for imports
-import { GongLinkDB } from './gonglink-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
 
-export class GongNoteDB {
+export class GongTimeFieldAPI {
 
-	static GONGSTRUCT_NAME = "GongNote"
+	static GONGSTRUCT_NAME = "GongTimeField"
 
 	CreatedAt?: string
 	DeletedAt?: string
@@ -14,15 +13,14 @@ export class GongNoteDB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
-	Body: string = ""
-	BodyHTML: string = ""
+	Index: number = 0
+	CompositeStructName: string = ""
 
 	// insertion point for other decls
 
-	GongNotePointersEncoding: GongNotePointersEncoding = new GongNotePointersEncoding
+	GongTimeFieldPointersEncoding: GongTimeFieldPointersEncoding = new GongTimeFieldPointersEncoding
 }
 
-export class GongNotePointersEncoding {
+export class GongTimeFieldPointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
-	Links: number[] = []
 }

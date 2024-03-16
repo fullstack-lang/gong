@@ -38,6 +38,7 @@ type GongLinkAPI struct {
 	models.GongLink_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	GongLinkPointersEncoding GongLinkPointersEncoding
 }
 
@@ -66,7 +67,9 @@ type GongLinkDB struct {
 
 	// Declation for basic field gonglinkDB.ImportPath
 	ImportPath_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	GongLinkPointersEncoding
 }
 

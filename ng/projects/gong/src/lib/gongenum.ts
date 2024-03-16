@@ -1,6 +1,6 @@
 // generated code - do not edit
 
-import { GongEnumDB } from './gongenum-db'
+import { GongEnumAPI } from './gongenum-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
@@ -26,45 +26,45 @@ export class GongEnum {
 	GongEnumValues: Array<GongEnumValue> = []
 }
 
-export function CopyGongEnumToGongEnumDB(gongenum: GongEnum, gongenumDB: GongEnumDB) {
+export function CopyGongEnumToGongEnumAPI(gongenum: GongEnum, gongenumAPI: GongEnumAPI) {
 
-	gongenumDB.CreatedAt = gongenum.CreatedAt
-	gongenumDB.DeletedAt = gongenum.DeletedAt
-	gongenumDB.ID = gongenum.ID
+	gongenumAPI.CreatedAt = gongenum.CreatedAt
+	gongenumAPI.DeletedAt = gongenum.DeletedAt
+	gongenumAPI.ID = gongenum.ID
 
 	// insertion point for basic fields copy operations
-	gongenumDB.Name = gongenum.Name
-	gongenumDB.Type = gongenum.Type
+	gongenumAPI.Name = gongenum.Name
+	gongenumAPI.Type = gongenum.Type
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	gongenumDB.GongEnumPointersEncoding.GongEnumValues = []
+	gongenumAPI.GongEnumPointersEncoding.GongEnumValues = []
 	for (let _gongenumvalue of gongenum.GongEnumValues) {
-		gongenumDB.GongEnumPointersEncoding.GongEnumValues.push(_gongenumvalue.ID)
+		gongenumAPI.GongEnumPointersEncoding.GongEnumValues.push(_gongenumvalue.ID)
 	}
 
 }
 
-// CopyGongEnumDBToGongEnum update basic, pointers and slice of pointers fields of gongenum
-// from respectively the basic fields and encoded fields of pointers and slices of pointers of gongenumDB
+// CopyGongEnumAPIToGongEnum update basic, pointers and slice of pointers fields of gongenum
+// from respectively the basic fields and encoded fields of pointers and slices of pointers of gongenumAPI
 // this function uses frontRepo.map_ID_<structname> to decode the encoded fields
 // a condition is that those maps has to be initialized before
-export function CopyGongEnumDBToGongEnum(gongenumDB: GongEnumDB, gongenum: GongEnum, frontRepo: FrontRepo) {
+export function CopyGongEnumAPIToGongEnum(gongenumAPI: GongEnumAPI, gongenum: GongEnum, frontRepo: FrontRepo) {
 
-	gongenum.CreatedAt = gongenumDB.CreatedAt
-	gongenum.DeletedAt = gongenumDB.DeletedAt
-	gongenum.ID = gongenumDB.ID
+	gongenum.CreatedAt = gongenumAPI.CreatedAt
+	gongenum.DeletedAt = gongenumAPI.DeletedAt
+	gongenum.ID = gongenumAPI.ID
 
 	// insertion point for basic fields copy operations
-	gongenum.Name = gongenumDB.Name
-	gongenum.Type = gongenumDB.Type
+	gongenum.Name = gongenumAPI.Name
+	gongenum.Type = gongenumAPI.Type
 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
 	gongenum.GongEnumValues = new Array<GongEnumValue>()
-	for (let _id of gongenumDB.GongEnumPointersEncoding.GongEnumValues) {
+	for (let _id of gongenumAPI.GongEnumPointersEncoding.GongEnumValues) {
 		let _gongenumvalue = frontRepo.map_ID_GongEnumValue.get(_id)
 		if (_gongenumvalue != undefined) {
 			gongenum.GongEnumValues.push(_gongenumvalue!)

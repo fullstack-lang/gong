@@ -11,8 +11,8 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { ModelPkgDB } from './modelpkg-db'
-import { ModelPkg, CopyModelPkgToModelPkgDB } from './modelpkg'
+import { ModelPkgAPI } from './modelpkg-api'
+import { ModelPkg, CopyModelPkgToModelPkgAPI } from './modelpkg'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
@@ -46,41 +46,41 @@ export class ModelPkgService {
 
   /** GET modelpkgs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgAPI[]> {
     return this.getModelPkgs(GONG__StackPath, frontRepo)
   }
-  getModelPkgs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgDB[]> {
+  getModelPkgs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<ModelPkgDB[]>(this.modelpkgsUrl, { params: params })
+    return this.http.get<ModelPkgAPI[]>(this.modelpkgsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<ModelPkgDB[]>('getModelPkgs', []))
+        catchError(this.handleError<ModelPkgAPI[]>('getModelPkgs', []))
       );
   }
 
   /** GET modelpkg by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgAPI> {
     return this.getModelPkg(id, GONG__StackPath, frontRepo)
   }
-  getModelPkg(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgDB> {
+  getModelPkg(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.modelpkgsUrl}/${id}`;
-    return this.http.get<ModelPkgDB>(url, { params: params }).pipe(
+    return this.http.get<ModelPkgAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched modelpkg id=${id}`)),
-      catchError(this.handleError<ModelPkgDB>(`getModelPkg id=${id}`))
+      catchError(this.handleError<ModelPkgAPI>(`getModelPkg id=${id}`))
     );
   }
 
   // postFront copy modelpkg to a version with encoded pointers and post to the back
-  postFront(modelpkg: ModelPkg, GONG__StackPath: string): Observable<ModelPkgDB> {
-    let modelpkgDB = new ModelPkgDB
-    CopyModelPkgToModelPkgDB(modelpkg, modelpkgDB)
-    const id = typeof modelpkgDB === 'number' ? modelpkgDB : modelpkgDB.ID
+  postFront(modelpkg: ModelPkg, GONG__StackPath: string): Observable<ModelPkgAPI> {
+    let modelpkgAPI = new ModelPkgAPI
+    CopyModelPkgToModelPkgAPI(modelpkg, modelpkgAPI)
+    const id = typeof modelpkgAPI === 'number' ? modelpkgAPI : modelpkgAPI.ID
     const url = `${this.modelpkgsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -88,18 +88,18 @@ export class ModelPkgService {
       params: params
     }
 
-    return this.http.post<ModelPkgDB>(url, modelpkgDB, httpOptions).pipe(
+    return this.http.post<ModelPkgAPI>(url, modelpkgAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<ModelPkgDB>('postModelPkg'))
+      catchError(this.handleError<ModelPkgAPI>('postModelPkg'))
     );
   }
   
   /** POST: add a new modelpkg to the server */
-  post(modelpkgdb: ModelPkgDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgDB> {
+  post(modelpkgdb: ModelPkgAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgAPI> {
     return this.postModelPkg(modelpkgdb, GONG__StackPath, frontRepo)
   }
-  postModelPkg(modelpkgdb: ModelPkgDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgDB> {
+  postModelPkg(modelpkgdb: ModelPkgAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -107,19 +107,19 @@ export class ModelPkgService {
       params: params
     }
 
-    return this.http.post<ModelPkgDB>(this.modelpkgsUrl, modelpkgdb, httpOptions).pipe(
+    return this.http.post<ModelPkgAPI>(this.modelpkgsUrl, modelpkgdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted modelpkgdb id=${modelpkgdb.ID}`)
       }),
-      catchError(this.handleError<ModelPkgDB>('postModelPkg'))
+      catchError(this.handleError<ModelPkgAPI>('postModelPkg'))
     );
   }
 
   /** DELETE: delete the modelpkgdb from the server */
-  delete(modelpkgdb: ModelPkgDB | number, GONG__StackPath: string): Observable<ModelPkgDB> {
+  delete(modelpkgdb: ModelPkgAPI | number, GONG__StackPath: string): Observable<ModelPkgAPI> {
     return this.deleteModelPkg(modelpkgdb, GONG__StackPath)
   }
-  deleteModelPkg(modelpkgdb: ModelPkgDB | number, GONG__StackPath: string): Observable<ModelPkgDB> {
+  deleteModelPkg(modelpkgdb: ModelPkgAPI | number, GONG__StackPath: string): Observable<ModelPkgAPI> {
     const id = typeof modelpkgdb === 'number' ? modelpkgdb : modelpkgdb.ID;
     const url = `${this.modelpkgsUrl}/${id}`;
 
@@ -129,17 +129,17 @@ export class ModelPkgService {
       params: params
     };
 
-    return this.http.delete<ModelPkgDB>(url, httpOptions).pipe(
+    return this.http.delete<ModelPkgAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted modelpkgdb id=${id}`)),
-      catchError(this.handleError<ModelPkgDB>('deleteModelPkg'))
+      catchError(this.handleError<ModelPkgAPI>('deleteModelPkg'))
     );
   }
 
   // updateFront copy modelpkg to a version with encoded pointers and update to the back
-  updateFront(modelpkg: ModelPkg, GONG__StackPath: string): Observable<ModelPkgDB> {
-    let modelpkgDB = new ModelPkgDB
-    CopyModelPkgToModelPkgDB(modelpkg, modelpkgDB)
-    const id = typeof modelpkgDB === 'number' ? modelpkgDB : modelpkgDB.ID
+  updateFront(modelpkg: ModelPkg, GONG__StackPath: string): Observable<ModelPkgAPI> {
+    let modelpkgAPI = new ModelPkgAPI
+    CopyModelPkgToModelPkgAPI(modelpkg, modelpkgAPI)
+    const id = typeof modelpkgAPI === 'number' ? modelpkgAPI : modelpkgAPI.ID
     const url = `${this.modelpkgsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,18 +147,18 @@ export class ModelPkgService {
       params: params
     }
 
-    return this.http.put<ModelPkgDB>(url, modelpkgDB, httpOptions).pipe(
+    return this.http.put<ModelPkgAPI>(url, modelpkgAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<ModelPkgDB>('updateModelPkg'))
+      catchError(this.handleError<ModelPkgAPI>('updateModelPkg'))
     );
   }
 
   /** PUT: update the modelpkgdb on the server */
-  update(modelpkgdb: ModelPkgDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgDB> {
+  update(modelpkgdb: ModelPkgAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgAPI> {
     return this.updateModelPkg(modelpkgdb, GONG__StackPath, frontRepo)
   }
-  updateModelPkg(modelpkgdb: ModelPkgDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgDB> {
+  updateModelPkg(modelpkgdb: ModelPkgAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgAPI> {
     const id = typeof modelpkgdb === 'number' ? modelpkgdb : modelpkgdb.ID;
     const url = `${this.modelpkgsUrl}/${id}`;
 
@@ -169,11 +169,11 @@ export class ModelPkgService {
       params: params
     };
 
-    return this.http.put<ModelPkgDB>(url, modelpkgdb, httpOptions).pipe(
+    return this.http.put<ModelPkgAPI>(url, modelpkgdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated modelpkgdb id=${modelpkgdb.ID}`)
       }),
-      catchError(this.handleError<ModelPkgDB>('updateModelPkg'))
+      catchError(this.handleError<ModelPkgAPI>('updateModelPkg'))
     );
   }
 

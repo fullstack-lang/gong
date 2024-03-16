@@ -11,13 +11,13 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { GongEnumDB } from './gongenum-db'
-import { GongEnum, CopyGongEnumToGongEnumDB } from './gongenum'
+import { GongEnumAPI } from './gongenum-api'
+import { GongEnum, CopyGongEnumToGongEnumAPI } from './gongenum'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { GongEnumValueDB } from './gongenumvalue-db'
+import { GongEnumValueAPI } from './gongenumvalue-api'
 
 @Injectable({
   providedIn: 'root'
@@ -47,41 +47,41 @@ export class GongEnumService {
 
   /** GET gongenums from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumAPI[]> {
     return this.getGongEnums(GONG__StackPath, frontRepo)
   }
-  getGongEnums(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumDB[]> {
+  getGongEnums(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<GongEnumDB[]>(this.gongenumsUrl, { params: params })
+    return this.http.get<GongEnumAPI[]>(this.gongenumsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<GongEnumDB[]>('getGongEnums', []))
+        catchError(this.handleError<GongEnumAPI[]>('getGongEnums', []))
       );
   }
 
   /** GET gongenum by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumAPI> {
     return this.getGongEnum(id, GONG__StackPath, frontRepo)
   }
-  getGongEnum(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumDB> {
+  getGongEnum(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.gongenumsUrl}/${id}`;
-    return this.http.get<GongEnumDB>(url, { params: params }).pipe(
+    return this.http.get<GongEnumAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched gongenum id=${id}`)),
-      catchError(this.handleError<GongEnumDB>(`getGongEnum id=${id}`))
+      catchError(this.handleError<GongEnumAPI>(`getGongEnum id=${id}`))
     );
   }
 
   // postFront copy gongenum to a version with encoded pointers and post to the back
-  postFront(gongenum: GongEnum, GONG__StackPath: string): Observable<GongEnumDB> {
-    let gongenumDB = new GongEnumDB
-    CopyGongEnumToGongEnumDB(gongenum, gongenumDB)
-    const id = typeof gongenumDB === 'number' ? gongenumDB : gongenumDB.ID
+  postFront(gongenum: GongEnum, GONG__StackPath: string): Observable<GongEnumAPI> {
+    let gongenumAPI = new GongEnumAPI
+    CopyGongEnumToGongEnumAPI(gongenum, gongenumAPI)
+    const id = typeof gongenumAPI === 'number' ? gongenumAPI : gongenumAPI.ID
     const url = `${this.gongenumsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -89,18 +89,18 @@ export class GongEnumService {
       params: params
     }
 
-    return this.http.post<GongEnumDB>(url, gongenumDB, httpOptions).pipe(
+    return this.http.post<GongEnumAPI>(url, gongenumAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<GongEnumDB>('postGongEnum'))
+      catchError(this.handleError<GongEnumAPI>('postGongEnum'))
     );
   }
   
   /** POST: add a new gongenum to the server */
-  post(gongenumdb: GongEnumDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumDB> {
+  post(gongenumdb: GongEnumAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumAPI> {
     return this.postGongEnum(gongenumdb, GONG__StackPath, frontRepo)
   }
-  postGongEnum(gongenumdb: GongEnumDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumDB> {
+  postGongEnum(gongenumdb: GongEnumAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -108,19 +108,19 @@ export class GongEnumService {
       params: params
     }
 
-    return this.http.post<GongEnumDB>(this.gongenumsUrl, gongenumdb, httpOptions).pipe(
+    return this.http.post<GongEnumAPI>(this.gongenumsUrl, gongenumdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted gongenumdb id=${gongenumdb.ID}`)
       }),
-      catchError(this.handleError<GongEnumDB>('postGongEnum'))
+      catchError(this.handleError<GongEnumAPI>('postGongEnum'))
     );
   }
 
   /** DELETE: delete the gongenumdb from the server */
-  delete(gongenumdb: GongEnumDB | number, GONG__StackPath: string): Observable<GongEnumDB> {
+  delete(gongenumdb: GongEnumAPI | number, GONG__StackPath: string): Observable<GongEnumAPI> {
     return this.deleteGongEnum(gongenumdb, GONG__StackPath)
   }
-  deleteGongEnum(gongenumdb: GongEnumDB | number, GONG__StackPath: string): Observable<GongEnumDB> {
+  deleteGongEnum(gongenumdb: GongEnumAPI | number, GONG__StackPath: string): Observable<GongEnumAPI> {
     const id = typeof gongenumdb === 'number' ? gongenumdb : gongenumdb.ID;
     const url = `${this.gongenumsUrl}/${id}`;
 
@@ -130,17 +130,17 @@ export class GongEnumService {
       params: params
     };
 
-    return this.http.delete<GongEnumDB>(url, httpOptions).pipe(
+    return this.http.delete<GongEnumAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted gongenumdb id=${id}`)),
-      catchError(this.handleError<GongEnumDB>('deleteGongEnum'))
+      catchError(this.handleError<GongEnumAPI>('deleteGongEnum'))
     );
   }
 
   // updateFront copy gongenum to a version with encoded pointers and update to the back
-  updateFront(gongenum: GongEnum, GONG__StackPath: string): Observable<GongEnumDB> {
-    let gongenumDB = new GongEnumDB
-    CopyGongEnumToGongEnumDB(gongenum, gongenumDB)
-    const id = typeof gongenumDB === 'number' ? gongenumDB : gongenumDB.ID
+  updateFront(gongenum: GongEnum, GONG__StackPath: string): Observable<GongEnumAPI> {
+    let gongenumAPI = new GongEnumAPI
+    CopyGongEnumToGongEnumAPI(gongenum, gongenumAPI)
+    const id = typeof gongenumAPI === 'number' ? gongenumAPI : gongenumAPI.ID
     const url = `${this.gongenumsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,18 +148,18 @@ export class GongEnumService {
       params: params
     }
 
-    return this.http.put<GongEnumDB>(url, gongenumDB, httpOptions).pipe(
+    return this.http.put<GongEnumAPI>(url, gongenumAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<GongEnumDB>('updateGongEnum'))
+      catchError(this.handleError<GongEnumAPI>('updateGongEnum'))
     );
   }
 
   /** PUT: update the gongenumdb on the server */
-  update(gongenumdb: GongEnumDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumDB> {
+  update(gongenumdb: GongEnumAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumAPI> {
     return this.updateGongEnum(gongenumdb, GONG__StackPath, frontRepo)
   }
-  updateGongEnum(gongenumdb: GongEnumDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumDB> {
+  updateGongEnum(gongenumdb: GongEnumAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumAPI> {
     const id = typeof gongenumdb === 'number' ? gongenumdb : gongenumdb.ID;
     const url = `${this.gongenumsUrl}/${id}`;
 
@@ -170,11 +170,11 @@ export class GongEnumService {
       params: params
     };
 
-    return this.http.put<GongEnumDB>(url, gongenumdb, httpOptions).pipe(
+    return this.http.put<GongEnumAPI>(url, gongenumdb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated gongenumdb id=${gongenumdb.ID}`)
       }),
-      catchError(this.handleError<GongEnumDB>('updateGongEnum'))
+      catchError(this.handleError<GongEnumAPI>('updateGongEnum'))
     );
   }
 

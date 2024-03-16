@@ -11,13 +11,13 @@ import { BehaviorSubject } from 'rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
 
-import { SliceOfPointerToGongStructFieldDB } from './sliceofpointertogongstructfield-db'
-import { SliceOfPointerToGongStructField, CopySliceOfPointerToGongStructFieldToSliceOfPointerToGongStructFieldDB } from './sliceofpointertogongstructfield'
+import { SliceOfPointerToGongStructFieldAPI } from './sliceofpointertogongstructfield-api'
+import { SliceOfPointerToGongStructField, CopySliceOfPointerToGongStructFieldToSliceOfPointerToGongStructFieldAPI } from './sliceofpointertogongstructfield'
 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { GongStructDB } from './gongstruct-db'
+import { GongStructAPI } from './gongstruct-api'
 
 @Injectable({
   providedIn: 'root'
@@ -47,41 +47,41 @@ export class SliceOfPointerToGongStructFieldService {
 
   /** GET sliceofpointertogongstructfields from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliceOfPointerToGongStructFieldDB[]> {
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliceOfPointerToGongStructFieldAPI[]> {
     return this.getSliceOfPointerToGongStructFields(GONG__StackPath, frontRepo)
   }
-  getSliceOfPointerToGongStructFields(GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliceOfPointerToGongStructFieldDB[]> {
+  getSliceOfPointerToGongStructFields(GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliceOfPointerToGongStructFieldAPI[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<SliceOfPointerToGongStructFieldDB[]>(this.sliceofpointertogongstructfieldsUrl, { params: params })
+    return this.http.get<SliceOfPointerToGongStructFieldAPI[]>(this.sliceofpointertogongstructfieldsUrl, { params: params })
       .pipe(
         tap(),
-        catchError(this.handleError<SliceOfPointerToGongStructFieldDB[]>('getSliceOfPointerToGongStructFields', []))
+        catchError(this.handleError<SliceOfPointerToGongStructFieldAPI[]>('getSliceOfPointerToGongStructFields', []))
       );
   }
 
   /** GET sliceofpointertogongstructfield by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliceOfPointerToGongStructFieldDB> {
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliceOfPointerToGongStructFieldAPI> {
     return this.getSliceOfPointerToGongStructField(id, GONG__StackPath, frontRepo)
   }
-  getSliceOfPointerToGongStructField(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliceOfPointerToGongStructFieldDB> {
+  getSliceOfPointerToGongStructField(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliceOfPointerToGongStructFieldAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.sliceofpointertogongstructfieldsUrl}/${id}`;
-    return this.http.get<SliceOfPointerToGongStructFieldDB>(url, { params: params }).pipe(
+    return this.http.get<SliceOfPointerToGongStructFieldAPI>(url, { params: params }).pipe(
       // tap(_ => this.log(`fetched sliceofpointertogongstructfield id=${id}`)),
-      catchError(this.handleError<SliceOfPointerToGongStructFieldDB>(`getSliceOfPointerToGongStructField id=${id}`))
+      catchError(this.handleError<SliceOfPointerToGongStructFieldAPI>(`getSliceOfPointerToGongStructField id=${id}`))
     );
   }
 
   // postFront copy sliceofpointertogongstructfield to a version with encoded pointers and post to the back
-  postFront(sliceofpointertogongstructfield: SliceOfPointerToGongStructField, GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldDB> {
-    let sliceofpointertogongstructfieldDB = new SliceOfPointerToGongStructFieldDB
-    CopySliceOfPointerToGongStructFieldToSliceOfPointerToGongStructFieldDB(sliceofpointertogongstructfield, sliceofpointertogongstructfieldDB)
-    const id = typeof sliceofpointertogongstructfieldDB === 'number' ? sliceofpointertogongstructfieldDB : sliceofpointertogongstructfieldDB.ID
+  postFront(sliceofpointertogongstructfield: SliceOfPointerToGongStructField, GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldAPI> {
+    let sliceofpointertogongstructfieldAPI = new SliceOfPointerToGongStructFieldAPI
+    CopySliceOfPointerToGongStructFieldToSliceOfPointerToGongStructFieldAPI(sliceofpointertogongstructfield, sliceofpointertogongstructfieldAPI)
+    const id = typeof sliceofpointertogongstructfieldAPI === 'number' ? sliceofpointertogongstructfieldAPI : sliceofpointertogongstructfieldAPI.ID
     const url = `${this.sliceofpointertogongstructfieldsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -89,18 +89,18 @@ export class SliceOfPointerToGongStructFieldService {
       params: params
     }
 
-    return this.http.post<SliceOfPointerToGongStructFieldDB>(url, sliceofpointertogongstructfieldDB, httpOptions).pipe(
+    return this.http.post<SliceOfPointerToGongStructFieldAPI>(url, sliceofpointertogongstructfieldAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<SliceOfPointerToGongStructFieldDB>('postSliceOfPointerToGongStructField'))
+      catchError(this.handleError<SliceOfPointerToGongStructFieldAPI>('postSliceOfPointerToGongStructField'))
     );
   }
   
   /** POST: add a new sliceofpointertogongstructfield to the server */
-  post(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliceOfPointerToGongStructFieldDB> {
+  post(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliceOfPointerToGongStructFieldAPI> {
     return this.postSliceOfPointerToGongStructField(sliceofpointertogongstructfielddb, GONG__StackPath, frontRepo)
   }
-  postSliceOfPointerToGongStructField(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliceOfPointerToGongStructFieldDB> {
+  postSliceOfPointerToGongStructField(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliceOfPointerToGongStructFieldAPI> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -108,19 +108,19 @@ export class SliceOfPointerToGongStructFieldService {
       params: params
     }
 
-    return this.http.post<SliceOfPointerToGongStructFieldDB>(this.sliceofpointertogongstructfieldsUrl, sliceofpointertogongstructfielddb, httpOptions).pipe(
+    return this.http.post<SliceOfPointerToGongStructFieldAPI>(this.sliceofpointertogongstructfieldsUrl, sliceofpointertogongstructfielddb, httpOptions).pipe(
       tap(_ => {
         // this.log(`posted sliceofpointertogongstructfielddb id=${sliceofpointertogongstructfielddb.ID}`)
       }),
-      catchError(this.handleError<SliceOfPointerToGongStructFieldDB>('postSliceOfPointerToGongStructField'))
+      catchError(this.handleError<SliceOfPointerToGongStructFieldAPI>('postSliceOfPointerToGongStructField'))
     );
   }
 
   /** DELETE: delete the sliceofpointertogongstructfielddb from the server */
-  delete(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldDB | number, GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldDB> {
+  delete(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldAPI | number, GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldAPI> {
     return this.deleteSliceOfPointerToGongStructField(sliceofpointertogongstructfielddb, GONG__StackPath)
   }
-  deleteSliceOfPointerToGongStructField(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldDB | number, GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldDB> {
+  deleteSliceOfPointerToGongStructField(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldAPI | number, GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldAPI> {
     const id = typeof sliceofpointertogongstructfielddb === 'number' ? sliceofpointertogongstructfielddb : sliceofpointertogongstructfielddb.ID;
     const url = `${this.sliceofpointertogongstructfieldsUrl}/${id}`;
 
@@ -130,17 +130,17 @@ export class SliceOfPointerToGongStructFieldService {
       params: params
     };
 
-    return this.http.delete<SliceOfPointerToGongStructFieldDB>(url, httpOptions).pipe(
+    return this.http.delete<SliceOfPointerToGongStructFieldAPI>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted sliceofpointertogongstructfielddb id=${id}`)),
-      catchError(this.handleError<SliceOfPointerToGongStructFieldDB>('deleteSliceOfPointerToGongStructField'))
+      catchError(this.handleError<SliceOfPointerToGongStructFieldAPI>('deleteSliceOfPointerToGongStructField'))
     );
   }
 
   // updateFront copy sliceofpointertogongstructfield to a version with encoded pointers and update to the back
-  updateFront(sliceofpointertogongstructfield: SliceOfPointerToGongStructField, GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldDB> {
-    let sliceofpointertogongstructfieldDB = new SliceOfPointerToGongStructFieldDB
-    CopySliceOfPointerToGongStructFieldToSliceOfPointerToGongStructFieldDB(sliceofpointertogongstructfield, sliceofpointertogongstructfieldDB)
-    const id = typeof sliceofpointertogongstructfieldDB === 'number' ? sliceofpointertogongstructfieldDB : sliceofpointertogongstructfieldDB.ID
+  updateFront(sliceofpointertogongstructfield: SliceOfPointerToGongStructField, GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldAPI> {
+    let sliceofpointertogongstructfieldAPI = new SliceOfPointerToGongStructFieldAPI
+    CopySliceOfPointerToGongStructFieldToSliceOfPointerToGongStructFieldAPI(sliceofpointertogongstructfield, sliceofpointertogongstructfieldAPI)
+    const id = typeof sliceofpointertogongstructfieldAPI === 'number' ? sliceofpointertogongstructfieldAPI : sliceofpointertogongstructfieldAPI.ID
     const url = `${this.sliceofpointertogongstructfieldsUrl}/${id}`;
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,18 +148,18 @@ export class SliceOfPointerToGongStructFieldService {
       params: params
     }
 
-    return this.http.put<SliceOfPointerToGongStructFieldDB>(url, sliceofpointertogongstructfieldDB, httpOptions).pipe(
+    return this.http.put<SliceOfPointerToGongStructFieldAPI>(url, sliceofpointertogongstructfieldAPI, httpOptions).pipe(
       tap(_ => {
       }),
-      catchError(this.handleError<SliceOfPointerToGongStructFieldDB>('updateSliceOfPointerToGongStructField'))
+      catchError(this.handleError<SliceOfPointerToGongStructFieldAPI>('updateSliceOfPointerToGongStructField'))
     );
   }
 
   /** PUT: update the sliceofpointertogongstructfielddb on the server */
-  update(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliceOfPointerToGongStructFieldDB> {
+  update(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliceOfPointerToGongStructFieldAPI> {
     return this.updateSliceOfPointerToGongStructField(sliceofpointertogongstructfielddb, GONG__StackPath, frontRepo)
   }
-  updateSliceOfPointerToGongStructField(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliceOfPointerToGongStructFieldDB> {
+  updateSliceOfPointerToGongStructField(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliceOfPointerToGongStructFieldAPI> {
     const id = typeof sliceofpointertogongstructfielddb === 'number' ? sliceofpointertogongstructfielddb : sliceofpointertogongstructfielddb.ID;
     const url = `${this.sliceofpointertogongstructfieldsUrl}/${id}`;
 
@@ -170,11 +170,11 @@ export class SliceOfPointerToGongStructFieldService {
       params: params
     };
 
-    return this.http.put<SliceOfPointerToGongStructFieldDB>(url, sliceofpointertogongstructfielddb, httpOptions).pipe(
+    return this.http.put<SliceOfPointerToGongStructFieldAPI>(url, sliceofpointertogongstructfielddb, httpOptions).pipe(
       tap(_ => {
         // this.log(`updated sliceofpointertogongstructfielddb id=${sliceofpointertogongstructfielddb.ID}`)
       }),
-      catchError(this.handleError<SliceOfPointerToGongStructFieldDB>('updateSliceOfPointerToGongStructField'))
+      catchError(this.handleError<SliceOfPointerToGongStructFieldAPI>('updateSliceOfPointerToGongStructField'))
     );
   }
 
