@@ -768,6 +768,8 @@ func (fstructFormCallback *FstructFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(fstruct_.Name), formDiv)
+		case "Date":
+			FormDivBasicFieldToField(&(fstruct_.Date), formDiv)
 		}
 	}
 

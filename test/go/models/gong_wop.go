@@ -106,10 +106,12 @@ func (from *Dstruct) CopyBasicFields(to *Dstruct) {
 type Fstruct_WOP struct {
 	// insertion point
 	Name string
+	Date time.Time
 }
 
 func (from *Fstruct) CopyBasicFields(to *Fstruct) {
 	// insertion point
 	to.Name = from.Name
+	to.Date = from.Date
 }
 
