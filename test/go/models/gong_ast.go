@@ -570,6 +570,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						case "Fstruct":
 							switch fieldName {
 							// insertion point for date assign code
+							case "Date":
+								__gong__map_Fstruct[identifier].Date, _ = time.Parse(
+									"2006-01-02 15:04:05.999999999 -0700 MST",
+									date)
 							}
 						}
 					}
