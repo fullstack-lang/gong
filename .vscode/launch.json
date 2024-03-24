@@ -491,6 +491,28 @@
             ]
         },
         {
+            "name": "go run test -unmarshallFromCode=stage.go -marshallOnCommit=stage",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/go/cmd/test",
+            "args": [
+                "-unmarshallFromCode=stage.go",
+                "-marshallOnCommit=stage_out"
+            ]
+        },
+        {
+            "name": "go run test -unmarshallFromCode=issue_476.go -marshallOnCommit=issue_476",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/go/cmd/test",
+            "args": [
+                "-unmarshallFromCode=issue_476.go",
+                "-marshallOnCommit=issue_476"
+            ]
+        },
+        {
             "name": "go run test -unmarshallFromCode=stage.go",
             "type": "go",
             "request": "launch",
