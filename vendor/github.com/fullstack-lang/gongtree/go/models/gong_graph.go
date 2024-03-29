@@ -24,37 +24,37 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
-	func (stage *StageStruct) IsStagedButton(button *Button) (ok bool) {
+func (stage *StageStruct) IsStagedButton(button *Button) (ok bool) {
 
-		_, ok = stage.Buttons[button]
-	
-		return
-	}
+	_, ok = stage.Buttons[button]
 
-	func (stage *StageStruct) IsStagedNode(node *Node) (ok bool) {
+	return
+}
 
-		_, ok = stage.Nodes[node]
-	
-		return
-	}
+func (stage *StageStruct) IsStagedNode(node *Node) (ok bool) {
 
-	func (stage *StageStruct) IsStagedSVGIcon(svgicon *SVGIcon) (ok bool) {
+	_, ok = stage.Nodes[node]
 
-		_, ok = stage.SVGIcons[svgicon]
-	
-		return
-	}
+	return
+}
 
-	func (stage *StageStruct) IsStagedTree(tree *Tree) (ok bool) {
+func (stage *StageStruct) IsStagedSVGIcon(svgicon *SVGIcon) (ok bool) {
 
-		_, ok = stage.Trees[tree]
-	
-		return
-	}
+	_, ok = stage.SVGIcons[svgicon]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedTree(tree *Tree) (ok bool) {
+
+	_, ok = stage.Trees[tree]
+
+	return
+}
 
 
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
-// referenced by pointers or slices of pointers of the insance
+// referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
@@ -152,6 +152,132 @@ func (stage *StageStruct) StageBranchTree(tree *Tree) {
 		StageBranch(stage, _node)
 	}
 
+}
+
+
+// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// referenced by pointers or slices of pointers of the instance
+//
+// the algorithm stops along the course of graph if a vertex is already staged
+func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+
+	mapOrigCopy := make(map[any]any)
+	_ = mapOrigCopy
+
+	switch fromT := any(from).(type) {
+	// insertion point for stage branch
+	case *Button:
+		toT := CopyBranchButton(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Node:
+		toT := CopyBranchNode(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *SVGIcon:
+		toT := CopyBranchSVGIcon(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Tree:
+		toT := CopyBranchTree(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	default:
+		_ = fromT // to espace compilation issue when model is empty
+	}
+	return
+}
+
+// insertion point for stage branch per struct
+func CopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo  *Button){
+
+	// buttonFrom has already been copied
+	if _buttonTo, ok := mapOrigCopy[buttonFrom]; ok {
+		buttonTo = _buttonTo.(*Button)
+		return
+	}
+
+	buttonTo = new(Button)
+	mapOrigCopy[buttonFrom] = buttonTo
+	buttonFrom.CopyBasicFields(buttonTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if buttonFrom.SVGIcon != nil {
+		buttonTo.SVGIcon = CopyBranchSVGIcon(mapOrigCopy, buttonFrom.SVGIcon)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchNode(mapOrigCopy map[any]any, nodeFrom *Node) (nodeTo  *Node){
+
+	// nodeFrom has already been copied
+	if _nodeTo, ok := mapOrigCopy[nodeFrom]; ok {
+		nodeTo = _nodeTo.(*Node)
+		return
+	}
+
+	nodeTo = new(Node)
+	mapOrigCopy[nodeFrom] = nodeTo
+	nodeFrom.CopyBasicFields(nodeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if nodeFrom.PreceedingSVGIcon != nil {
+		nodeTo.PreceedingSVGIcon = CopyBranchSVGIcon(mapOrigCopy, nodeFrom.PreceedingSVGIcon)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _node := range nodeFrom.Children {
+		nodeTo.Children = append( nodeTo.Children, CopyBranchNode(mapOrigCopy, _node))
+	}
+	for _, _button := range nodeFrom.Buttons {
+		nodeTo.Buttons = append( nodeTo.Buttons, CopyBranchButton(mapOrigCopy, _button))
+	}
+
+	return
+}
+
+func CopyBranchSVGIcon(mapOrigCopy map[any]any, svgiconFrom *SVGIcon) (svgiconTo  *SVGIcon){
+
+	// svgiconFrom has already been copied
+	if _svgiconTo, ok := mapOrigCopy[svgiconFrom]; ok {
+		svgiconTo = _svgiconTo.(*SVGIcon)
+		return
+	}
+
+	svgiconTo = new(SVGIcon)
+	mapOrigCopy[svgiconFrom] = svgiconTo
+	svgiconFrom.CopyBasicFields(svgiconTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchTree(mapOrigCopy map[any]any, treeFrom *Tree) (treeTo  *Tree){
+
+	// treeFrom has already been copied
+	if _treeTo, ok := mapOrigCopy[treeFrom]; ok {
+		treeTo = _treeTo.(*Tree)
+		return
+	}
+
+	treeTo = new(Tree)
+	mapOrigCopy[treeFrom] = treeTo
+	treeFrom.CopyBasicFields(treeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _node := range treeFrom.RootNodes {
+		treeTo.RootNodes = append( treeTo.RootNodes, CopyBranchNode(mapOrigCopy, _node))
+	}
+
+	return
 }
 
 

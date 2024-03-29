@@ -38,6 +38,7 @@ type NoteShapeLinkAPI struct {
 	models.NoteShapeLink_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	NoteShapeLinkPointersEncoding NoteShapeLinkPointersEncoding
 }
 
@@ -66,7 +67,9 @@ type NoteShapeLinkDB struct {
 
 	// Declation for basic field noteshapelinkDB.Type
 	Type_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	NoteShapeLinkPointersEncoding
 }
 

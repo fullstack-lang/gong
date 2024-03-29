@@ -38,6 +38,7 @@ type PositionAPI struct {
 	models.Position_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	PositionPointersEncoding PositionPointersEncoding
 }
 
@@ -66,7 +67,9 @@ type PositionDB struct {
 
 	// Declation for basic field positionDB.Name
 	Name_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	PositionPointersEncoding
 }
 

@@ -258,6 +258,16 @@ func MultiCodeGeneratorNgClass(modelPkg *models.ModelPkg) {
 					NgClassSubTemplateCode[NgClassTSTimeFieldDecls],
 					"{{FieldName}}", field.Name)
 
+				TSinsertions[NgClassTsInsertionPerStructBasicFieldsCopyToAPI] += models.Replace1(
+					NgClassSubTemplateCode[NgClassTSBasicFieldCopyToAPI],
+					"{{FieldName}}", field.Name,
+				)
+
+				TSinsertions[NgClassTsInsertionPerStructBasicFieldsCopyFromAPI] += models.Replace1(
+					NgClassSubTemplateCode[NgClassTSBasicFieldCopyFromAPI],
+					"{{FieldName}}", field.Name,
+				)
+
 			case *models.PointerToGongStructField:
 
 				newImport := models.Replace2(NgClassSubTemplateCode[NgClassTSBasicFieldImports],
