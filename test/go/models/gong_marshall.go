@@ -462,6 +462,12 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(fstruct.Name))
 		initializerStatements += setValueField
 
+		setValueField = TimeInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Date")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fstruct.Date.String())
+		initializerStatements += setValueField
+
 	}
 
 	// insertion initialization of objects to stage

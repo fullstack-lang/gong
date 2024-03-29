@@ -61,6 +61,9 @@ type FstructDB struct {
 
 	// Declation for basic field fstructDB.Name
 	Name_Data sql.NullString
+
+	// Declation for basic field fstructDB.Date
+	Date_Data sql.NullTime
 	
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
@@ -85,6 +88,8 @@ type FstructWOP struct {
 	// insertion for WOP basic fields
 
 	Name string `xlsx:"1"`
+
+	Date time.Time `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -92,6 +97,7 @@ var Fstruct_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"Date",
 }
 
 type BackRepoFstructStruct struct {
@@ -360,6 +366,9 @@ func (fstructDB *FstructDB) CopyBasicFieldsFromFstruct(fstruct *models.Fstruct) 
 
 	fstructDB.Name_Data.String = fstruct.Name
 	fstructDB.Name_Data.Valid = true
+
+	fstructDB.Date_Data.Time = fstruct.Date
+	fstructDB.Date_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFstruct_WOP
@@ -368,6 +377,9 @@ func (fstructDB *FstructDB) CopyBasicFieldsFromFstruct_WOP(fstruct *models.Fstru
 
 	fstructDB.Name_Data.String = fstruct.Name
 	fstructDB.Name_Data.Valid = true
+
+	fstructDB.Date_Data.Time = fstruct.Date
+	fstructDB.Date_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFstructWOP
@@ -376,18 +388,23 @@ func (fstructDB *FstructDB) CopyBasicFieldsFromFstructWOP(fstruct *FstructWOP) {
 
 	fstructDB.Name_Data.String = fstruct.Name
 	fstructDB.Name_Data.Valid = true
+
+	fstructDB.Date_Data.Time = fstruct.Date
+	fstructDB.Date_Data.Valid = true
 }
 
 // CopyBasicFieldsToFstruct
 func (fstructDB *FstructDB) CopyBasicFieldsToFstruct(fstruct *models.Fstruct) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	fstruct.Name = fstructDB.Name_Data.String
+	fstruct.Date = fstructDB.Date_Data.Time
 }
 
 // CopyBasicFieldsToFstruct_WOP
 func (fstructDB *FstructDB) CopyBasicFieldsToFstruct_WOP(fstruct *models.Fstruct_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	fstruct.Name = fstructDB.Name_Data.String
+	fstruct.Date = fstructDB.Date_Data.Time
 }
 
 // CopyBasicFieldsToFstructWOP
@@ -395,6 +412,7 @@ func (fstructDB *FstructDB) CopyBasicFieldsToFstructWOP(fstruct *FstructWOP) {
 	fstruct.ID = int(fstructDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	fstruct.Name = fstructDB.Name_Data.String
+	fstruct.Date = fstructDB.Date_Data.Time
 }
 
 // Backup generates a json file from a slice of all FstructDB instances in the backrepo

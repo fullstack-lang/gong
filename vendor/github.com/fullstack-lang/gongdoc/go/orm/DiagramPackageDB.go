@@ -38,6 +38,7 @@ type DiagramPackageAPI struct {
 	models.DiagramPackage_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	DiagramPackagePointersEncoding DiagramPackagePointersEncoding
 }
 
@@ -87,7 +88,9 @@ type DiagramPackageDB struct {
 
 	// Declation for basic field diagrampackageDB.AbsolutePathToDiagramPackage
 	AbsolutePathToDiagramPackage_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	DiagramPackagePointersEncoding
 }
 

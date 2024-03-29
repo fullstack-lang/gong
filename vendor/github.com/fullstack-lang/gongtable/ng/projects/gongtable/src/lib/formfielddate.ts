@@ -31,6 +31,7 @@ export function CopyFormFieldDateToFormFieldDateAPI(formfielddate: FormFieldDate
 
 	// insertion point for basic fields copy operations
 	formfielddateAPI.Name = formfielddate.Name
+	formfielddateAPI.Value = formfielddate.Value
 
 	// insertion point for pointer fields encoding
 
@@ -49,6 +50,7 @@ export function CopyFormFieldDateAPIToFormFieldDate(formfielddateAPI: FormFieldD
 
 	// insertion point for basic fields copy operations
 	formfielddate.Name = formfielddateAPI.Name
+	formfielddate.Value = formfielddateAPI.Value
 
 	// insertion point for pointer fields encoding
 

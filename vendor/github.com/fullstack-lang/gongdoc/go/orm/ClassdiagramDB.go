@@ -38,6 +38,7 @@ type ClassdiagramAPI struct {
 	models.Classdiagram_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	ClassdiagramPointersEncoding ClassdiagramPointersEncoding
 }
 
@@ -73,7 +74,9 @@ type ClassdiagramDB struct {
 	// Declation for basic field classdiagramDB.IsInDrawMode
 	// provide the sql storage for the boolan
 	IsInDrawMode_Data sql.NullBool
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	ClassdiagramPointersEncoding
 }
 
