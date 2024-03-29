@@ -1,4 +1,4 @@
-// Copyright 2022 - 2023 The nfp Authors. All rights reserved. Use of this
+// Copyright 2022 - 2024 The nfp Authors. All rights reserved. Use of this
 // source code is governed by a BSD-style license that can be found in the
 // LICENSE file.
 //
@@ -55,6 +55,7 @@ const (
 	TokenSubTypeLanguageInfo   = "LanguageInfo"
 	TokenTypeColor             = "Color"
 	// Token types
+	TokenTypeAlignment          = "Alignment"
 	TokenTypeCondition          = "Condition"
 	TokenTypeCurrencyLanguage   = "CurrencyLanguage"
 	TokenTypeDateTimes          = "DateTimes"
@@ -443,11 +444,20 @@ func (ps *Parser) getTokens() Tokens {
 		}
 
 		if ps.currentChar() == Underscore {
+			if ps.Token.TType != "" {
+				ps.Tokens.add(ps.Token.TValue, ps.Token.TType, ps.Token.Parts)
+			}
+			ps.Token.TValue = Whitespace
+			ps.Token.TType = TokenTypeAlignment
 			ps.Offset += 2
 			continue
 		}
 
 		if ps.currentChar() == Asterisk {
+			if ps.Token.TValue != "" {
+				ps.Tokens.add(ps.Token.TValue, ps.Token.TType, ps.Token.Parts)
+				ps.Token = Token{}
+			}
 			ps.Tokens.add(ps.nextChar(), TokenTypeRepeatsChar, ps.Token.Parts)
 			ps.Token = Token{}
 			ps.Offset += 2

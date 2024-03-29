@@ -32,6 +32,7 @@ export function CopyFormFieldTimeToFormFieldTimeAPI(formfieldtime: FormFieldTime
 
 	// insertion point for basic fields copy operations
 	formfieldtimeAPI.Name = formfieldtime.Name
+	formfieldtimeAPI.Value = formfieldtime.Value
 	formfieldtimeAPI.Step = formfieldtime.Step
 
 	// insertion point for pointer fields encoding
@@ -51,6 +52,7 @@ export function CopyFormFieldTimeAPIToFormFieldTime(formfieldtimeAPI: FormFieldT
 
 	// insertion point for basic fields copy operations
 	formfieldtime.Name = formfieldtimeAPI.Name
+	formfieldtime.Value = formfieldtimeAPI.Value
 	formfieldtime.Step = formfieldtimeAPI.Step
 
 	// insertion point for pointer fields encoding

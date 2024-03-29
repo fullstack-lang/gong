@@ -79,6 +79,7 @@ export function CopyAstructToAstructAPI(astruct: Astruct, astructAPI: AstructAPI
 
 	// insertion point for basic fields copy operations
 	astructAPI.Name = astruct.Name
+	astructAPI.Date = astruct.Date
 	astructAPI.Booleanfield = astruct.Booleanfield
 	astructAPI.Aenum = astruct.Aenum
 	astructAPI.Aenum_2 = astruct.Aenum_2
@@ -204,6 +205,7 @@ export function CopyAstructAPIToAstruct(astructAPI: AstructAPI, astruct: Astruct
 
 	// insertion point for basic fields copy operations
 	astruct.Name = astructAPI.Name
+	astruct.Date = astructAPI.Date
 	astruct.Booleanfield = astructAPI.Booleanfield
 	astruct.Aenum = astructAPI.Aenum
 	astruct.Aenum_2 = astructAPI.Aenum_2

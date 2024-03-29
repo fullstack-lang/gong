@@ -38,6 +38,7 @@ type FieldAPI struct {
 	models.Field_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	FieldPointersEncoding FieldPointersEncoding
 }
 
@@ -72,7 +73,9 @@ type FieldDB struct {
 
 	// Declation for basic field fieldDB.Fieldtypename
 	Fieldtypename_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FieldPointersEncoding
 }
 

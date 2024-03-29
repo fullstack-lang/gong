@@ -38,6 +38,7 @@ type GongStructShapeAPI struct {
 	models.GongStructShape_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	GongStructShapePointersEncoding GongStructShapePointersEncoding
 }
 
@@ -90,7 +91,9 @@ type GongStructShapeDB struct {
 	// Declation for basic field gongstructshapeDB.IsSelected
 	// provide the sql storage for the boolan
 	IsSelected_Data sql.NullBool
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	GongStructShapePointersEncoding
 }
 

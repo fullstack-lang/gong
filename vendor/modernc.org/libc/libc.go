@@ -2,8 +2,9 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+//go:build !(linux && (amd64 || loong64))
+
 //go.generate echo package libc > ccgo.go
-//go:generate go run generate.go
 //go:generate go fmt ./...
 
 // Package libc provides run time support for ccgo generated programs and
@@ -957,6 +958,18 @@ func Xabs(t *TLS, j int32) int32 {
 	return -j
 }
 
+// long abs(long j);
+func Xlabs(t *TLS, j long) long {
+	if __ccgo_strace {
+		trc("t=%v j=%v, (%v:)", t, j, origin(2))
+	}
+	if j >= 0 {
+		return j
+	}
+
+	return -j
+}
+
 func Xllabs(tls *TLS, a int64) int64 {
 	if __ccgo_strace {
 		trc("tls=%v a=%v, (%v:)", tls, a, origin(2))
@@ -1162,6 +1175,10 @@ func Xlog10(t *TLS, x float64) float64 {
 		trc("t=%v x=%v, (%v:)", t, x, origin(2))
 	}
 	return math.Log10(x)
+}
+
+func X__builtin_log2(t *TLS, x float64) float64 {
+	return Xlog2(t, x)
 }
 
 func Xlog2(t *TLS, x float64) float64 {
@@ -2318,4 +2335,78 @@ func Xffs(tls *TLS, i int32) (r int32) {
 	}
 
 	return int32(mbits.TrailingZeros32(uint32(i))) + 1
+}
+
+var _toint5 = Float32FromInt32(1) / Float32FromFloat32(1.1920928955078125e-07)
+
+func X__builtin_rintf(tls *TLS, x float32) (r float32) {
+	return Xrintf(tls, x)
+}
+
+func Xrintf(tls *TLS, x float32) (r float32) {
+	if __ccgo_strace {
+		trc("tls=%v x=%v, (%v:)", tls, x, origin(2))
+		defer func() { trc("-> %v", r) }()
+	}
+	bp := tls.Alloc(16)
+	defer tls.Free(16)
+	var e, s int32
+	var y float32
+	var v1 float32
+	var _ /* u at bp+0 */ struct {
+		Fi [0]uint32
+		Ff float32
+	}
+	_, _, _, _ = e, s, y, v1
+	*(*struct {
+		Fi [0]uint32
+		Ff float32
+	})(unsafe.Pointer(bp)) = struct {
+		Fi [0]uint32
+		Ff float32
+	}{}
+	*(*float32)(unsafe.Pointer(bp)) = x
+	e = int32(*(*uint32)(unsafe.Pointer(bp)) >> int32(23) & uint32(0xff))
+	s = int32(*(*uint32)(unsafe.Pointer(bp)) >> int32(31))
+	if e >= Int32FromInt32(0x7f)+Int32FromInt32(23) {
+		return x
+	}
+	if s != 0 {
+		y = x - _toint5 + _toint5
+	} else {
+		y = x + _toint5 - _toint5
+	}
+	if y == Float32FromInt32(0) {
+		if s != 0 {
+			v1 = -Float32FromFloat32(0)
+		} else {
+			v1 = Float32FromFloat32(0)
+		}
+		return v1
+	}
+	return y
+}
+
+func X__builtin_lrintf(tls *TLS, x float32) (r long) {
+	return Xlrintf(tls, x)
+}
+
+func Xlrintf(tls *TLS, x float32) (r long) {
+	if __ccgo_strace {
+		trc("tls=%v x=%v, (%v:)", tls, x, origin(2))
+		defer func() { trc("-> %v", r) }()
+	}
+	return long(Xrintf(tls, x))
+}
+
+func X__builtin_lrint(tls *TLS, x float64) (r long) {
+	return Xlrint(tls, x)
+}
+
+func Xlrint(tls *TLS, x float64) (r long) {
+	if __ccgo_strace {
+		trc("tls=%v x=%v, (%v:)", tls, x, origin(2))
+		defer func() { trc("-> %v", r) }()
+	}
+	return long(Xrint(tls, x))
 }
