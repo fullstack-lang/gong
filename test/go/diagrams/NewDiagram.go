@@ -97,6 +97,10 @@ var map_DocLink_Identifier_NewDiagram map[string]any = map[string]any{
 
 	"ref_models.Astruct.StructRef": (ref_models.Astruct{}).StructRef,
 
+	"ref_models.Astruct.TextArea": (ref_models.Astruct{}).TextArea,
+
+	"ref_models.Astruct.TextFieldBespokeSize": (ref_models.Astruct{}).TextFieldBespokeSize,
+
 	"ref_models.AstructBstruct2Use": &(ref_models.AstructBstruct2Use{}),
 
 	"ref_models.AstructBstruct2Use.Bstrcut2": (ref_models.AstructBstruct2Use{}).Bstrcut2,
@@ -133,11 +137,19 @@ var map_DocLink_Identifier_NewDiagram map[string]any = map[string]any{
 
 	"ref_models.Dstruct": &(ref_models.Dstruct{}),
 
+	"ref_models.Dstruct.Anarrayofb": (ref_models.Dstruct{}).Anarrayofb,
+
 	"ref_models.Dstruct.Name": (ref_models.Dstruct{}).Name,
 
 	"ref_models.ENUM_VAL1": ref_models.ENUM_VAL1,
 
 	"ref_models.ENUM_VAL2": ref_models.ENUM_VAL2,
+
+	"ref_models.Fstruct": &(ref_models.Fstruct{}),
+
+	"ref_models.Fstruct.Date": (ref_models.Fstruct{}).Date,
+
+	"ref_models.Fstruct.Name": (ref_models.Fstruct{}).Name,
 
 	"ref_models.GONG__ENUM_CAST_INT": ref_models.GONG__ENUM_CAST_INT,
 
@@ -168,8 +180,6 @@ func NewDiagramInjection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
-	// Declarations of staged instances of Button
-
 	// Declarations of staged instances of Classdiagram
 	__Classdiagram__000000_NewDiagram := (&models.Classdiagram{Name: `NewDiagram`}).Stage(stage)
 
@@ -192,8 +202,6 @@ func NewDiagramInjection(stage *models.StageStruct) {
 	__Link__000000_Anarrayofb := (&models.Link{Name: `Anarrayofb`}).Stage(stage)
 	__Link__000001_Bstruct := (&models.Link{Name: `Bstruct`}).Stage(stage)
 
-	// Declarations of staged instances of Node
-
 	// Declarations of staged instances of NoteShape
 
 	// Declarations of staged instances of NoteShapeLink
@@ -201,8 +209,6 @@ func NewDiagramInjection(stage *models.StageStruct) {
 	// Declarations of staged instances of Position
 	__Position__000000_Pos_NewDiagram_Astruct := (&models.Position{Name: `Pos-NewDiagram-Astruct`}).Stage(stage)
 	__Position__000001_Pos_NewDiagram_Bstruct := (&models.Position{Name: `Pos-NewDiagram-Bstruct`}).Stage(stage)
-
-	// Declarations of staged instances of Tree
 
 	// Declarations of staged instances of UmlState
 
@@ -216,7 +222,7 @@ func NewDiagramInjection(stage *models.StageStruct) {
 
 	// Classdiagram values setup
 	__Classdiagram__000000_NewDiagram.Name = `NewDiagram`
-	__Classdiagram__000000_NewDiagram.IsInDrawMode = true
+	__Classdiagram__000000_NewDiagram.IsInDrawMode = false
 
 	// Field values setup
 	__Field__000000_Aenum.Name = `Aenum`
@@ -258,8 +264,8 @@ func NewDiagramInjection(stage *models.StageStruct) {
 
 	//gong:ident [ref_models.Astruct]
 	__GongStructShape__000000_NewDiagram_Astruct.Identifier = `ref_models.Astruct`
-	__GongStructShape__000000_NewDiagram_Astruct.ShowNbInstances = false
-	__GongStructShape__000000_NewDiagram_Astruct.NbInstances = 0
+	__GongStructShape__000000_NewDiagram_Astruct.ShowNbInstances = true
+	__GongStructShape__000000_NewDiagram_Astruct.NbInstances = 3
 	__GongStructShape__000000_NewDiagram_Astruct.Width = 240.000000
 	__GongStructShape__000000_NewDiagram_Astruct.Height = 108.000000
 	__GongStructShape__000000_NewDiagram_Astruct.IsSelected = false
@@ -271,8 +277,8 @@ func NewDiagramInjection(stage *models.StageStruct) {
 
 	//gong:ident [ref_models.Bstruct]
 	__GongStructShape__000001_NewDiagram_Bstruct.Identifier = `ref_models.Bstruct`
-	__GongStructShape__000001_NewDiagram_Bstruct.ShowNbInstances = false
-	__GongStructShape__000001_NewDiagram_Bstruct.NbInstances = 0
+	__GongStructShape__000001_NewDiagram_Bstruct.ShowNbInstances = true
+	__GongStructShape__000001_NewDiagram_Bstruct.NbInstances = 3
 	__GongStructShape__000001_NewDiagram_Bstruct.Width = 240.000000
 	__GongStructShape__000001_NewDiagram_Bstruct.Height = 63.000000
 	__GongStructShape__000001_NewDiagram_Bstruct.IsSelected = false
@@ -330,8 +336,8 @@ func NewDiagramInjection(stage *models.StageStruct) {
 	__Link__000001_Bstruct.CornerOffsetRatio = 2.370370
 
 	// Position values setup
-	__Position__000000_Pos_NewDiagram_Astruct.X = 70.000000
-	__Position__000000_Pos_NewDiagram_Astruct.Y = 104.000000
+	__Position__000000_Pos_NewDiagram_Astruct.X = 57.000000
+	__Position__000000_Pos_NewDiagram_Astruct.Y = 70.000000
 	__Position__000000_Pos_NewDiagram_Astruct.Name = `Pos-NewDiagram-Astruct`
 
 	// Position values setup
@@ -362,3 +368,5 @@ func NewDiagramInjection(stage *models.StageStruct) {
 	__Link__000000_Anarrayofb.Middlevertice = __Vertice__000000_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_Astruct_and_NewDiagram_Bstruct
 	__Link__000001_Bstruct.Middlevertice = __Vertice__000001_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_Astruct_and_NewDiagram_Bstruct
 }
+
+

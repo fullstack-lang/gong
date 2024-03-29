@@ -38,6 +38,7 @@ type NoteShapeAPI struct {
 	models.NoteShape_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	NoteShapePointersEncoding NoteShapePointersEncoding
 }
 
@@ -88,7 +89,9 @@ type NoteShapeDB struct {
 	// Declation for basic field noteshapeDB.Matched
 	// provide the sql storage for the boolan
 	Matched_Data sql.NullBool
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	NoteShapePointersEncoding
 }
 

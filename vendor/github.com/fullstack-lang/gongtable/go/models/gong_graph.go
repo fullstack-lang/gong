@@ -81,170 +81,170 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
-	func (stage *StageStruct) IsStagedCell(cell *Cell) (ok bool) {
+func (stage *StageStruct) IsStagedCell(cell *Cell) (ok bool) {
 
-		_, ok = stage.Cells[cell]
-	
-		return
-	}
+	_, ok = stage.Cells[cell]
 
-	func (stage *StageStruct) IsStagedCellBoolean(cellboolean *CellBoolean) (ok bool) {
+	return
+}
 
-		_, ok = stage.CellBooleans[cellboolean]
-	
-		return
-	}
+func (stage *StageStruct) IsStagedCellBoolean(cellboolean *CellBoolean) (ok bool) {
 
-	func (stage *StageStruct) IsStagedCellFloat64(cellfloat64 *CellFloat64) (ok bool) {
+	_, ok = stage.CellBooleans[cellboolean]
 
-		_, ok = stage.CellFloat64s[cellfloat64]
-	
-		return
-	}
+	return
+}
 
-	func (stage *StageStruct) IsStagedCellIcon(cellicon *CellIcon) (ok bool) {
+func (stage *StageStruct) IsStagedCellFloat64(cellfloat64 *CellFloat64) (ok bool) {
 
-		_, ok = stage.CellIcons[cellicon]
-	
-		return
-	}
+	_, ok = stage.CellFloat64s[cellfloat64]
 
-	func (stage *StageStruct) IsStagedCellInt(cellint *CellInt) (ok bool) {
+	return
+}
 
-		_, ok = stage.CellInts[cellint]
-	
-		return
-	}
+func (stage *StageStruct) IsStagedCellIcon(cellicon *CellIcon) (ok bool) {
 
-	func (stage *StageStruct) IsStagedCellString(cellstring *CellString) (ok bool) {
+	_, ok = stage.CellIcons[cellicon]
 
-		_, ok = stage.CellStrings[cellstring]
-	
-		return
-	}
+	return
+}
 
-	func (stage *StageStruct) IsStagedCheckBox(checkbox *CheckBox) (ok bool) {
+func (stage *StageStruct) IsStagedCellInt(cellint *CellInt) (ok bool) {
 
-		_, ok = stage.CheckBoxs[checkbox]
-	
-		return
-	}
+	_, ok = stage.CellInts[cellint]
 
-	func (stage *StageStruct) IsStagedDisplayedColumn(displayedcolumn *DisplayedColumn) (ok bool) {
+	return
+}
 
-		_, ok = stage.DisplayedColumns[displayedcolumn]
-	
-		return
-	}
+func (stage *StageStruct) IsStagedCellString(cellstring *CellString) (ok bool) {
 
-	func (stage *StageStruct) IsStagedFormDiv(formdiv *FormDiv) (ok bool) {
+	_, ok = stage.CellStrings[cellstring]
 
-		_, ok = stage.FormDivs[formdiv]
-	
-		return
-	}
+	return
+}
 
-	func (stage *StageStruct) IsStagedFormEditAssocButton(formeditassocbutton *FormEditAssocButton) (ok bool) {
+func (stage *StageStruct) IsStagedCheckBox(checkbox *CheckBox) (ok bool) {
 
-		_, ok = stage.FormEditAssocButtons[formeditassocbutton]
-	
-		return
-	}
+	_, ok = stage.CheckBoxs[checkbox]
 
-	func (stage *StageStruct) IsStagedFormField(formfield *FormField) (ok bool) {
+	return
+}
 
-		_, ok = stage.FormFields[formfield]
-	
-		return
-	}
+func (stage *StageStruct) IsStagedDisplayedColumn(displayedcolumn *DisplayedColumn) (ok bool) {
 
-	func (stage *StageStruct) IsStagedFormFieldDate(formfielddate *FormFieldDate) (ok bool) {
+	_, ok = stage.DisplayedColumns[displayedcolumn]
 
-		_, ok = stage.FormFieldDates[formfielddate]
-	
-		return
-	}
+	return
+}
 
-	func (stage *StageStruct) IsStagedFormFieldDateTime(formfielddatetime *FormFieldDateTime) (ok bool) {
+func (stage *StageStruct) IsStagedFormDiv(formdiv *FormDiv) (ok bool) {
 
-		_, ok = stage.FormFieldDateTimes[formfielddatetime]
-	
-		return
-	}
+	_, ok = stage.FormDivs[formdiv]
 
-	func (stage *StageStruct) IsStagedFormFieldFloat64(formfieldfloat64 *FormFieldFloat64) (ok bool) {
+	return
+}
 
-		_, ok = stage.FormFieldFloat64s[formfieldfloat64]
-	
-		return
-	}
+func (stage *StageStruct) IsStagedFormEditAssocButton(formeditassocbutton *FormEditAssocButton) (ok bool) {
 
-	func (stage *StageStruct) IsStagedFormFieldInt(formfieldint *FormFieldInt) (ok bool) {
+	_, ok = stage.FormEditAssocButtons[formeditassocbutton]
 
-		_, ok = stage.FormFieldInts[formfieldint]
-	
-		return
-	}
+	return
+}
 
-	func (stage *StageStruct) IsStagedFormFieldSelect(formfieldselect *FormFieldSelect) (ok bool) {
+func (stage *StageStruct) IsStagedFormField(formfield *FormField) (ok bool) {
 
-		_, ok = stage.FormFieldSelects[formfieldselect]
-	
-		return
-	}
+	_, ok = stage.FormFields[formfield]
 
-	func (stage *StageStruct) IsStagedFormFieldString(formfieldstring *FormFieldString) (ok bool) {
+	return
+}
 
-		_, ok = stage.FormFieldStrings[formfieldstring]
-	
-		return
-	}
+func (stage *StageStruct) IsStagedFormFieldDate(formfielddate *FormFieldDate) (ok bool) {
 
-	func (stage *StageStruct) IsStagedFormFieldTime(formfieldtime *FormFieldTime) (ok bool) {
+	_, ok = stage.FormFieldDates[formfielddate]
 
-		_, ok = stage.FormFieldTimes[formfieldtime]
-	
-		return
-	}
+	return
+}
 
-	func (stage *StageStruct) IsStagedFormGroup(formgroup *FormGroup) (ok bool) {
+func (stage *StageStruct) IsStagedFormFieldDateTime(formfielddatetime *FormFieldDateTime) (ok bool) {
 
-		_, ok = stage.FormGroups[formgroup]
-	
-		return
-	}
+	_, ok = stage.FormFieldDateTimes[formfielddatetime]
 
-	func (stage *StageStruct) IsStagedFormSortAssocButton(formsortassocbutton *FormSortAssocButton) (ok bool) {
+	return
+}
 
-		_, ok = stage.FormSortAssocButtons[formsortassocbutton]
-	
-		return
-	}
+func (stage *StageStruct) IsStagedFormFieldFloat64(formfieldfloat64 *FormFieldFloat64) (ok bool) {
 
-	func (stage *StageStruct) IsStagedOption(option *Option) (ok bool) {
+	_, ok = stage.FormFieldFloat64s[formfieldfloat64]
 
-		_, ok = stage.Options[option]
-	
-		return
-	}
+	return
+}
 
-	func (stage *StageStruct) IsStagedRow(row *Row) (ok bool) {
+func (stage *StageStruct) IsStagedFormFieldInt(formfieldint *FormFieldInt) (ok bool) {
 
-		_, ok = stage.Rows[row]
-	
-		return
-	}
+	_, ok = stage.FormFieldInts[formfieldint]
 
-	func (stage *StageStruct) IsStagedTable(table *Table) (ok bool) {
+	return
+}
 
-		_, ok = stage.Tables[table]
-	
-		return
-	}
+func (stage *StageStruct) IsStagedFormFieldSelect(formfieldselect *FormFieldSelect) (ok bool) {
+
+	_, ok = stage.FormFieldSelects[formfieldselect]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedFormFieldString(formfieldstring *FormFieldString) (ok bool) {
+
+	_, ok = stage.FormFieldStrings[formfieldstring]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedFormFieldTime(formfieldtime *FormFieldTime) (ok bool) {
+
+	_, ok = stage.FormFieldTimes[formfieldtime]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedFormGroup(formgroup *FormGroup) (ok bool) {
+
+	_, ok = stage.FormGroups[formgroup]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedFormSortAssocButton(formsortassocbutton *FormSortAssocButton) (ok bool) {
+
+	_, ok = stage.FormSortAssocButtons[formsortassocbutton]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedOption(option *Option) (ok bool) {
+
+	_, ok = stage.Options[option]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedRow(row *Row) (ok bool) {
+
+	_, ok = stage.Rows[row]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedTable(table *Table) (ok bool) {
+
+	_, ok = stage.Tables[table]
+
+	return
+}
 
 
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
-// referenced by pointers or slices of pointers of the insance
+// referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
@@ -735,6 +735,620 @@ func (stage *StageStruct) StageBranchTable(table *Table) {
 		StageBranch(stage, _row)
 	}
 
+}
+
+
+// CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
+// referenced by pointers or slices of pointers of the instance
+//
+// the algorithm stops along the course of graph if a vertex is already staged
+func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+
+	mapOrigCopy := make(map[any]any)
+	_ = mapOrigCopy
+
+	switch fromT := any(from).(type) {
+	// insertion point for stage branch
+	case *Cell:
+		toT := CopyBranchCell(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *CellBoolean:
+		toT := CopyBranchCellBoolean(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *CellFloat64:
+		toT := CopyBranchCellFloat64(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *CellIcon:
+		toT := CopyBranchCellIcon(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *CellInt:
+		toT := CopyBranchCellInt(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *CellString:
+		toT := CopyBranchCellString(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *CheckBox:
+		toT := CopyBranchCheckBox(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *DisplayedColumn:
+		toT := CopyBranchDisplayedColumn(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *FormDiv:
+		toT := CopyBranchFormDiv(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *FormEditAssocButton:
+		toT := CopyBranchFormEditAssocButton(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *FormField:
+		toT := CopyBranchFormField(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *FormFieldDate:
+		toT := CopyBranchFormFieldDate(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *FormFieldDateTime:
+		toT := CopyBranchFormFieldDateTime(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *FormFieldFloat64:
+		toT := CopyBranchFormFieldFloat64(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *FormFieldInt:
+		toT := CopyBranchFormFieldInt(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *FormFieldSelect:
+		toT := CopyBranchFormFieldSelect(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *FormFieldString:
+		toT := CopyBranchFormFieldString(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *FormFieldTime:
+		toT := CopyBranchFormFieldTime(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *FormGroup:
+		toT := CopyBranchFormGroup(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *FormSortAssocButton:
+		toT := CopyBranchFormSortAssocButton(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Option:
+		toT := CopyBranchOption(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Row:
+		toT := CopyBranchRow(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Table:
+		toT := CopyBranchTable(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	default:
+		_ = fromT // to espace compilation issue when model is empty
+	}
+	return
+}
+
+// insertion point for stage branch per struct
+func CopyBranchCell(mapOrigCopy map[any]any, cellFrom *Cell) (cellTo  *Cell){
+
+	// cellFrom has already been copied
+	if _cellTo, ok := mapOrigCopy[cellFrom]; ok {
+		cellTo = _cellTo.(*Cell)
+		return
+	}
+
+	cellTo = new(Cell)
+	mapOrigCopy[cellFrom] = cellTo
+	cellFrom.CopyBasicFields(cellTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if cellFrom.CellString != nil {
+		cellTo.CellString = CopyBranchCellString(mapOrigCopy, cellFrom.CellString)
+	}
+	if cellFrom.CellFloat64 != nil {
+		cellTo.CellFloat64 = CopyBranchCellFloat64(mapOrigCopy, cellFrom.CellFloat64)
+	}
+	if cellFrom.CellInt != nil {
+		cellTo.CellInt = CopyBranchCellInt(mapOrigCopy, cellFrom.CellInt)
+	}
+	if cellFrom.CellBool != nil {
+		cellTo.CellBool = CopyBranchCellBoolean(mapOrigCopy, cellFrom.CellBool)
+	}
+	if cellFrom.CellIcon != nil {
+		cellTo.CellIcon = CopyBranchCellIcon(mapOrigCopy, cellFrom.CellIcon)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchCellBoolean(mapOrigCopy map[any]any, cellbooleanFrom *CellBoolean) (cellbooleanTo  *CellBoolean){
+
+	// cellbooleanFrom has already been copied
+	if _cellbooleanTo, ok := mapOrigCopy[cellbooleanFrom]; ok {
+		cellbooleanTo = _cellbooleanTo.(*CellBoolean)
+		return
+	}
+
+	cellbooleanTo = new(CellBoolean)
+	mapOrigCopy[cellbooleanFrom] = cellbooleanTo
+	cellbooleanFrom.CopyBasicFields(cellbooleanTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchCellFloat64(mapOrigCopy map[any]any, cellfloat64From *CellFloat64) (cellfloat64To  *CellFloat64){
+
+	// cellfloat64From has already been copied
+	if _cellfloat64To, ok := mapOrigCopy[cellfloat64From]; ok {
+		cellfloat64To = _cellfloat64To.(*CellFloat64)
+		return
+	}
+
+	cellfloat64To = new(CellFloat64)
+	mapOrigCopy[cellfloat64From] = cellfloat64To
+	cellfloat64From.CopyBasicFields(cellfloat64To)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchCellIcon(mapOrigCopy map[any]any, celliconFrom *CellIcon) (celliconTo  *CellIcon){
+
+	// celliconFrom has already been copied
+	if _celliconTo, ok := mapOrigCopy[celliconFrom]; ok {
+		celliconTo = _celliconTo.(*CellIcon)
+		return
+	}
+
+	celliconTo = new(CellIcon)
+	mapOrigCopy[celliconFrom] = celliconTo
+	celliconFrom.CopyBasicFields(celliconTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchCellInt(mapOrigCopy map[any]any, cellintFrom *CellInt) (cellintTo  *CellInt){
+
+	// cellintFrom has already been copied
+	if _cellintTo, ok := mapOrigCopy[cellintFrom]; ok {
+		cellintTo = _cellintTo.(*CellInt)
+		return
+	}
+
+	cellintTo = new(CellInt)
+	mapOrigCopy[cellintFrom] = cellintTo
+	cellintFrom.CopyBasicFields(cellintTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchCellString(mapOrigCopy map[any]any, cellstringFrom *CellString) (cellstringTo  *CellString){
+
+	// cellstringFrom has already been copied
+	if _cellstringTo, ok := mapOrigCopy[cellstringFrom]; ok {
+		cellstringTo = _cellstringTo.(*CellString)
+		return
+	}
+
+	cellstringTo = new(CellString)
+	mapOrigCopy[cellstringFrom] = cellstringTo
+	cellstringFrom.CopyBasicFields(cellstringTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchCheckBox(mapOrigCopy map[any]any, checkboxFrom *CheckBox) (checkboxTo  *CheckBox){
+
+	// checkboxFrom has already been copied
+	if _checkboxTo, ok := mapOrigCopy[checkboxFrom]; ok {
+		checkboxTo = _checkboxTo.(*CheckBox)
+		return
+	}
+
+	checkboxTo = new(CheckBox)
+	mapOrigCopy[checkboxFrom] = checkboxTo
+	checkboxFrom.CopyBasicFields(checkboxTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchDisplayedColumn(mapOrigCopy map[any]any, displayedcolumnFrom *DisplayedColumn) (displayedcolumnTo  *DisplayedColumn){
+
+	// displayedcolumnFrom has already been copied
+	if _displayedcolumnTo, ok := mapOrigCopy[displayedcolumnFrom]; ok {
+		displayedcolumnTo = _displayedcolumnTo.(*DisplayedColumn)
+		return
+	}
+
+	displayedcolumnTo = new(DisplayedColumn)
+	mapOrigCopy[displayedcolumnFrom] = displayedcolumnTo
+	displayedcolumnFrom.CopyBasicFields(displayedcolumnTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchFormDiv(mapOrigCopy map[any]any, formdivFrom *FormDiv) (formdivTo  *FormDiv){
+
+	// formdivFrom has already been copied
+	if _formdivTo, ok := mapOrigCopy[formdivFrom]; ok {
+		formdivTo = _formdivTo.(*FormDiv)
+		return
+	}
+
+	formdivTo = new(FormDiv)
+	mapOrigCopy[formdivFrom] = formdivTo
+	formdivFrom.CopyBasicFields(formdivTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if formdivFrom.FormEditAssocButton != nil {
+		formdivTo.FormEditAssocButton = CopyBranchFormEditAssocButton(mapOrigCopy, formdivFrom.FormEditAssocButton)
+	}
+	if formdivFrom.FormSortAssocButton != nil {
+		formdivTo.FormSortAssocButton = CopyBranchFormSortAssocButton(mapOrigCopy, formdivFrom.FormSortAssocButton)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _formfield := range formdivFrom.FormFields {
+		formdivTo.FormFields = append( formdivTo.FormFields, CopyBranchFormField(mapOrigCopy, _formfield))
+	}
+	for _, _checkbox := range formdivFrom.CheckBoxs {
+		formdivTo.CheckBoxs = append( formdivTo.CheckBoxs, CopyBranchCheckBox(mapOrigCopy, _checkbox))
+	}
+
+	return
+}
+
+func CopyBranchFormEditAssocButton(mapOrigCopy map[any]any, formeditassocbuttonFrom *FormEditAssocButton) (formeditassocbuttonTo  *FormEditAssocButton){
+
+	// formeditassocbuttonFrom has already been copied
+	if _formeditassocbuttonTo, ok := mapOrigCopy[formeditassocbuttonFrom]; ok {
+		formeditassocbuttonTo = _formeditassocbuttonTo.(*FormEditAssocButton)
+		return
+	}
+
+	formeditassocbuttonTo = new(FormEditAssocButton)
+	mapOrigCopy[formeditassocbuttonFrom] = formeditassocbuttonTo
+	formeditassocbuttonFrom.CopyBasicFields(formeditassocbuttonTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchFormField(mapOrigCopy map[any]any, formfieldFrom *FormField) (formfieldTo  *FormField){
+
+	// formfieldFrom has already been copied
+	if _formfieldTo, ok := mapOrigCopy[formfieldFrom]; ok {
+		formfieldTo = _formfieldTo.(*FormField)
+		return
+	}
+
+	formfieldTo = new(FormField)
+	mapOrigCopy[formfieldFrom] = formfieldTo
+	formfieldFrom.CopyBasicFields(formfieldTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if formfieldFrom.FormFieldString != nil {
+		formfieldTo.FormFieldString = CopyBranchFormFieldString(mapOrigCopy, formfieldFrom.FormFieldString)
+	}
+	if formfieldFrom.FormFieldFloat64 != nil {
+		formfieldTo.FormFieldFloat64 = CopyBranchFormFieldFloat64(mapOrigCopy, formfieldFrom.FormFieldFloat64)
+	}
+	if formfieldFrom.FormFieldInt != nil {
+		formfieldTo.FormFieldInt = CopyBranchFormFieldInt(mapOrigCopy, formfieldFrom.FormFieldInt)
+	}
+	if formfieldFrom.FormFieldDate != nil {
+		formfieldTo.FormFieldDate = CopyBranchFormFieldDate(mapOrigCopy, formfieldFrom.FormFieldDate)
+	}
+	if formfieldFrom.FormFieldTime != nil {
+		formfieldTo.FormFieldTime = CopyBranchFormFieldTime(mapOrigCopy, formfieldFrom.FormFieldTime)
+	}
+	if formfieldFrom.FormFieldDateTime != nil {
+		formfieldTo.FormFieldDateTime = CopyBranchFormFieldDateTime(mapOrigCopy, formfieldFrom.FormFieldDateTime)
+	}
+	if formfieldFrom.FormFieldSelect != nil {
+		formfieldTo.FormFieldSelect = CopyBranchFormFieldSelect(mapOrigCopy, formfieldFrom.FormFieldSelect)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchFormFieldDate(mapOrigCopy map[any]any, formfielddateFrom *FormFieldDate) (formfielddateTo  *FormFieldDate){
+
+	// formfielddateFrom has already been copied
+	if _formfielddateTo, ok := mapOrigCopy[formfielddateFrom]; ok {
+		formfielddateTo = _formfielddateTo.(*FormFieldDate)
+		return
+	}
+
+	formfielddateTo = new(FormFieldDate)
+	mapOrigCopy[formfielddateFrom] = formfielddateTo
+	formfielddateFrom.CopyBasicFields(formfielddateTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchFormFieldDateTime(mapOrigCopy map[any]any, formfielddatetimeFrom *FormFieldDateTime) (formfielddatetimeTo  *FormFieldDateTime){
+
+	// formfielddatetimeFrom has already been copied
+	if _formfielddatetimeTo, ok := mapOrigCopy[formfielddatetimeFrom]; ok {
+		formfielddatetimeTo = _formfielddatetimeTo.(*FormFieldDateTime)
+		return
+	}
+
+	formfielddatetimeTo = new(FormFieldDateTime)
+	mapOrigCopy[formfielddatetimeFrom] = formfielddatetimeTo
+	formfielddatetimeFrom.CopyBasicFields(formfielddatetimeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchFormFieldFloat64(mapOrigCopy map[any]any, formfieldfloat64From *FormFieldFloat64) (formfieldfloat64To  *FormFieldFloat64){
+
+	// formfieldfloat64From has already been copied
+	if _formfieldfloat64To, ok := mapOrigCopy[formfieldfloat64From]; ok {
+		formfieldfloat64To = _formfieldfloat64To.(*FormFieldFloat64)
+		return
+	}
+
+	formfieldfloat64To = new(FormFieldFloat64)
+	mapOrigCopy[formfieldfloat64From] = formfieldfloat64To
+	formfieldfloat64From.CopyBasicFields(formfieldfloat64To)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchFormFieldInt(mapOrigCopy map[any]any, formfieldintFrom *FormFieldInt) (formfieldintTo  *FormFieldInt){
+
+	// formfieldintFrom has already been copied
+	if _formfieldintTo, ok := mapOrigCopy[formfieldintFrom]; ok {
+		formfieldintTo = _formfieldintTo.(*FormFieldInt)
+		return
+	}
+
+	formfieldintTo = new(FormFieldInt)
+	mapOrigCopy[formfieldintFrom] = formfieldintTo
+	formfieldintFrom.CopyBasicFields(formfieldintTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchFormFieldSelect(mapOrigCopy map[any]any, formfieldselectFrom *FormFieldSelect) (formfieldselectTo  *FormFieldSelect){
+
+	// formfieldselectFrom has already been copied
+	if _formfieldselectTo, ok := mapOrigCopy[formfieldselectFrom]; ok {
+		formfieldselectTo = _formfieldselectTo.(*FormFieldSelect)
+		return
+	}
+
+	formfieldselectTo = new(FormFieldSelect)
+	mapOrigCopy[formfieldselectFrom] = formfieldselectTo
+	formfieldselectFrom.CopyBasicFields(formfieldselectTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if formfieldselectFrom.Value != nil {
+		formfieldselectTo.Value = CopyBranchOption(mapOrigCopy, formfieldselectFrom.Value)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _option := range formfieldselectFrom.Options {
+		formfieldselectTo.Options = append( formfieldselectTo.Options, CopyBranchOption(mapOrigCopy, _option))
+	}
+
+	return
+}
+
+func CopyBranchFormFieldString(mapOrigCopy map[any]any, formfieldstringFrom *FormFieldString) (formfieldstringTo  *FormFieldString){
+
+	// formfieldstringFrom has already been copied
+	if _formfieldstringTo, ok := mapOrigCopy[formfieldstringFrom]; ok {
+		formfieldstringTo = _formfieldstringTo.(*FormFieldString)
+		return
+	}
+
+	formfieldstringTo = new(FormFieldString)
+	mapOrigCopy[formfieldstringFrom] = formfieldstringTo
+	formfieldstringFrom.CopyBasicFields(formfieldstringTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchFormFieldTime(mapOrigCopy map[any]any, formfieldtimeFrom *FormFieldTime) (formfieldtimeTo  *FormFieldTime){
+
+	// formfieldtimeFrom has already been copied
+	if _formfieldtimeTo, ok := mapOrigCopy[formfieldtimeFrom]; ok {
+		formfieldtimeTo = _formfieldtimeTo.(*FormFieldTime)
+		return
+	}
+
+	formfieldtimeTo = new(FormFieldTime)
+	mapOrigCopy[formfieldtimeFrom] = formfieldtimeTo
+	formfieldtimeFrom.CopyBasicFields(formfieldtimeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchFormGroup(mapOrigCopy map[any]any, formgroupFrom *FormGroup) (formgroupTo  *FormGroup){
+
+	// formgroupFrom has already been copied
+	if _formgroupTo, ok := mapOrigCopy[formgroupFrom]; ok {
+		formgroupTo = _formgroupTo.(*FormGroup)
+		return
+	}
+
+	formgroupTo = new(FormGroup)
+	mapOrigCopy[formgroupFrom] = formgroupTo
+	formgroupFrom.CopyBasicFields(formgroupTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _formdiv := range formgroupFrom.FormDivs {
+		formgroupTo.FormDivs = append( formgroupTo.FormDivs, CopyBranchFormDiv(mapOrigCopy, _formdiv))
+	}
+
+	return
+}
+
+func CopyBranchFormSortAssocButton(mapOrigCopy map[any]any, formsortassocbuttonFrom *FormSortAssocButton) (formsortassocbuttonTo  *FormSortAssocButton){
+
+	// formsortassocbuttonFrom has already been copied
+	if _formsortassocbuttonTo, ok := mapOrigCopy[formsortassocbuttonFrom]; ok {
+		formsortassocbuttonTo = _formsortassocbuttonTo.(*FormSortAssocButton)
+		return
+	}
+
+	formsortassocbuttonTo = new(FormSortAssocButton)
+	mapOrigCopy[formsortassocbuttonFrom] = formsortassocbuttonTo
+	formsortassocbuttonFrom.CopyBasicFields(formsortassocbuttonTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchOption(mapOrigCopy map[any]any, optionFrom *Option) (optionTo  *Option){
+
+	// optionFrom has already been copied
+	if _optionTo, ok := mapOrigCopy[optionFrom]; ok {
+		optionTo = _optionTo.(*Option)
+		return
+	}
+
+	optionTo = new(Option)
+	mapOrigCopy[optionFrom] = optionTo
+	optionFrom.CopyBasicFields(optionTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchRow(mapOrigCopy map[any]any, rowFrom *Row) (rowTo  *Row){
+
+	// rowFrom has already been copied
+	if _rowTo, ok := mapOrigCopy[rowFrom]; ok {
+		rowTo = _rowTo.(*Row)
+		return
+	}
+
+	rowTo = new(Row)
+	mapOrigCopy[rowFrom] = rowTo
+	rowFrom.CopyBasicFields(rowTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _cell := range rowFrom.Cells {
+		rowTo.Cells = append( rowTo.Cells, CopyBranchCell(mapOrigCopy, _cell))
+	}
+
+	return
+}
+
+func CopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo  *Table){
+
+	// tableFrom has already been copied
+	if _tableTo, ok := mapOrigCopy[tableFrom]; ok {
+		tableTo = _tableTo.(*Table)
+		return
+	}
+
+	tableTo = new(Table)
+	mapOrigCopy[tableFrom] = tableTo
+	tableFrom.CopyBasicFields(tableTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _displayedcolumn := range tableFrom.DisplayedColumns {
+		tableTo.DisplayedColumns = append( tableTo.DisplayedColumns, CopyBranchDisplayedColumn(mapOrigCopy, _displayedcolumn))
+	}
+	for _, _row := range tableFrom.Rows {
+		tableTo.Rows = append( tableTo.Rows, CopyBranchRow(mapOrigCopy, _row))
+	}
+
+	return
 }
 
 

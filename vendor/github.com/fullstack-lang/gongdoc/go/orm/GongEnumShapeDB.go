@@ -38,6 +38,7 @@ type GongEnumShapeAPI struct {
 	models.GongEnumShape_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	GongEnumShapePointersEncoding GongEnumShapePointersEncoding
 }
 
@@ -76,7 +77,9 @@ type GongEnumShapeDB struct {
 
 	// Declation for basic field gongenumshapeDB.Height
 	Height_Data sql.NullFloat64
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	GongEnumShapePointersEncoding
 }
 

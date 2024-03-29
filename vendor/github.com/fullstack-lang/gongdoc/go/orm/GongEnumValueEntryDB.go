@@ -38,6 +38,7 @@ type GongEnumValueEntryAPI struct {
 	models.GongEnumValueEntry_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	GongEnumValueEntryPointersEncoding GongEnumValueEntryPointersEncoding
 }
 
@@ -63,7 +64,9 @@ type GongEnumValueEntryDB struct {
 
 	// Declation for basic field gongenumvalueentryDB.Identifier
 	Identifier_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	GongEnumValueEntryPointersEncoding
 }
 
