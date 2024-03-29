@@ -38,6 +38,7 @@ type VerticeAPI struct {
 	models.Vertice_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	VerticePointersEncoding VerticePointersEncoding
 }
 
@@ -66,7 +67,9 @@ type VerticeDB struct {
 
 	// Declation for basic field verticeDB.Name
 	Name_Data sql.NullString
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	VerticePointersEncoding
 }
 

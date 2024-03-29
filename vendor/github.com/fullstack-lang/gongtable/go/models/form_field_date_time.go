@@ -5,6 +5,11 @@ import "time"
 type FormFieldDateTime struct {
 	Name string
 
-	// we will only update the day
 	Value time.Time
 }
+
+// GONGDOC(NoteOnFormFieldDateTime):
+// [models.FormFieldDateTime]
+// provides two form fields that will
+// make the precision of go time.Time
+const NoteOnFormFieldDateTime = ""
