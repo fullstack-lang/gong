@@ -51,96 +51,96 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
-	func (stage *StageStruct) IsStagedClassdiagram(classdiagram *Classdiagram) (ok bool) {
+func (stage *StageStruct) IsStagedClassdiagram(classdiagram *Classdiagram) (ok bool) {
 
-		_, ok = stage.Classdiagrams[classdiagram]
-	
-		return
-	}
+	_, ok = stage.Classdiagrams[classdiagram]
 
-	func (stage *StageStruct) IsStagedDiagramPackage(diagrampackage *DiagramPackage) (ok bool) {
+	return
+}
 
-		_, ok = stage.DiagramPackages[diagrampackage]
-	
-		return
-	}
+func (stage *StageStruct) IsStagedDiagramPackage(diagrampackage *DiagramPackage) (ok bool) {
 
-	func (stage *StageStruct) IsStagedField(field *Field) (ok bool) {
+	_, ok = stage.DiagramPackages[diagrampackage]
 
-		_, ok = stage.Fields[field]
-	
-		return
-	}
+	return
+}
 
-	func (stage *StageStruct) IsStagedGongEnumShape(gongenumshape *GongEnumShape) (ok bool) {
+func (stage *StageStruct) IsStagedField(field *Field) (ok bool) {
 
-		_, ok = stage.GongEnumShapes[gongenumshape]
-	
-		return
-	}
+	_, ok = stage.Fields[field]
 
-	func (stage *StageStruct) IsStagedGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry) (ok bool) {
+	return
+}
 
-		_, ok = stage.GongEnumValueEntrys[gongenumvalueentry]
-	
-		return
-	}
+func (stage *StageStruct) IsStagedGongEnumShape(gongenumshape *GongEnumShape) (ok bool) {
 
-	func (stage *StageStruct) IsStagedGongStructShape(gongstructshape *GongStructShape) (ok bool) {
+	_, ok = stage.GongEnumShapes[gongenumshape]
 
-		_, ok = stage.GongStructShapes[gongstructshape]
-	
-		return
-	}
+	return
+}
 
-	func (stage *StageStruct) IsStagedLink(link *Link) (ok bool) {
+func (stage *StageStruct) IsStagedGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry) (ok bool) {
 
-		_, ok = stage.Links[link]
-	
-		return
-	}
+	_, ok = stage.GongEnumValueEntrys[gongenumvalueentry]
 
-	func (stage *StageStruct) IsStagedNoteShape(noteshape *NoteShape) (ok bool) {
+	return
+}
 
-		_, ok = stage.NoteShapes[noteshape]
-	
-		return
-	}
+func (stage *StageStruct) IsStagedGongStructShape(gongstructshape *GongStructShape) (ok bool) {
 
-	func (stage *StageStruct) IsStagedNoteShapeLink(noteshapelink *NoteShapeLink) (ok bool) {
+	_, ok = stage.GongStructShapes[gongstructshape]
 
-		_, ok = stage.NoteShapeLinks[noteshapelink]
-	
-		return
-	}
+	return
+}
 
-	func (stage *StageStruct) IsStagedPosition(position *Position) (ok bool) {
+func (stage *StageStruct) IsStagedLink(link *Link) (ok bool) {
 
-		_, ok = stage.Positions[position]
-	
-		return
-	}
+	_, ok = stage.Links[link]
 
-	func (stage *StageStruct) IsStagedUmlState(umlstate *UmlState) (ok bool) {
+	return
+}
 
-		_, ok = stage.UmlStates[umlstate]
-	
-		return
-	}
+func (stage *StageStruct) IsStagedNoteShape(noteshape *NoteShape) (ok bool) {
 
-	func (stage *StageStruct) IsStagedUmlsc(umlsc *Umlsc) (ok bool) {
+	_, ok = stage.NoteShapes[noteshape]
 
-		_, ok = stage.Umlscs[umlsc]
-	
-		return
-	}
+	return
+}
 
-	func (stage *StageStruct) IsStagedVertice(vertice *Vertice) (ok bool) {
+func (stage *StageStruct) IsStagedNoteShapeLink(noteshapelink *NoteShapeLink) (ok bool) {
 
-		_, ok = stage.Vertices[vertice]
-	
-		return
-	}
+	_, ok = stage.NoteShapeLinks[noteshapelink]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedPosition(position *Position) (ok bool) {
+
+	_, ok = stage.Positions[position]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedUmlState(umlstate *UmlState) (ok bool) {
+
+	_, ok = stage.UmlStates[umlstate]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedUmlsc(umlsc *Umlsc) (ok bool) {
+
+	_, ok = stage.Umlscs[umlsc]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedVertice(vertice *Vertice) (ok bool) {
+
+	_, ok = stage.Vertices[vertice]
+
+	return
+}
 
 
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
@@ -442,7 +442,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
-	
+
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
 	case *Classdiagram:
@@ -502,7 +502,6 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	}
 	return
 }
-
 
 // insertion point for stage branch per struct
 func CopyBranchClassdiagram(mapOrigCopy map[any]any, classdiagramFrom *Classdiagram) (classdiagramTo  *Classdiagram){
