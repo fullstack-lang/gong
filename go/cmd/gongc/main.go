@@ -215,7 +215,7 @@ func main() {
 			if _, err := f.WriteString("go/cmd/" + modelPkg.Name + "/" + modelPkg.Name + "\n"); err != nil {
 				log.Fatalf("failed writing to file: %s", err)
 			}
-			if _, err := f.WriteString("__debug_bin" + "\n"); err != nil {
+			if _, err := f.WriteString("__debug_bin*" + "\n"); err != nil {
 				log.Fatalf("failed writing to file: %s", err)
 			}
 			if _, err := f.WriteString("*.exe" + "\n"); err != nil {
