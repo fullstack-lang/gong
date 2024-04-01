@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'lib-testspecific',
+  selector: 'lib-test',
   standalone: true,
   imports: [],
   template: `
     <p>
-      testspecific works!
+      test works!
     </p>
   `,
   styles: ``
 })
-export class TestspecificComponent {
+export class TestComponent {
 
 }

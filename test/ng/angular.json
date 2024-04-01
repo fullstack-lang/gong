@@ -5,15 +5,13 @@
     "ng": {
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "configurations": {
             "development": {
-              "buildOptimizer": false,
               "extractLicenses": false,
-              "namedChunks": true,
               "optimization": false,
               "sourceMap": true,
-              "vendorChunk": true
+              "verbose": true
             },
             "production": {
               "budgets": [
@@ -37,8 +35,8 @@
               "src/favicon.ico",
               "src/assets"
             ],
+            "browser": "src/main.ts",
             "index": "src/index.html",
-            "main": "src/main.ts",
             "outputPath": "dist/ng",
             "polyfills": [
               "zone.js"
@@ -54,17 +52,17 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ng:build"
+            "buildTarget": "ng:build"
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "development": {
-              "browserTarget": "ng:build:development"
+              "buildTarget": "ng:build:development"
             },
             "production": {
-              "browserTarget": "ng:build:production"
+              "buildTarget": "ng:build:production"
             }
           },
           "defaultConfiguration": "development"

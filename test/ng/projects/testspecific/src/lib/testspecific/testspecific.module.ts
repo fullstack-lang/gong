@@ -1,18 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TestspecificComponent } from './testspecific.component';
 
 
 
 @NgModule({
   declarations: [],
   imports: [
-    TestspecificComponent,
     CommonModule
-  ],
-  exports: [
-    TestspecificComponent,
-  ],
-
+  ]
 })
 export class TestspecificModule { }
