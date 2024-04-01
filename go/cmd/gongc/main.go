@@ -221,6 +221,9 @@ func main() {
 			if _, err := f.WriteString("*.exe" + "\n"); err != nil {
 				log.Fatalf("failed writing to file: %s", err)
 			}
+			if _, err := f.WriteString(".DS_Store" + "\n"); err != nil {
+				log.Fatalf("failed writing to file: %s", err)
+			}
 		}
 	}
 
