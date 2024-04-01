@@ -99,7 +99,7 @@ const VsCodeTasksConfig = `{
 		"group": "build",
 		"args": [
 		  "-skipNg",
-		  " -skipGoModCommands"
+		  "-skipGoModCommands"
 		]
 	  },
 	  {
