@@ -73,7 +73,7 @@ Gong uses npm version >= 8 (see https://nodejs.org)
 
 ### 1.3.4. Angular
 
-Gong uses angular version 13 (see https://angular.io for installation)
+Gong uses angular version 16 (see https://angular.io for installation)
 
 ### 1.3.5. Vscode (optional)
 
