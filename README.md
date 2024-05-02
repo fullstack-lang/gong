@@ -50,11 +50,12 @@ Gong (go + ng) is a framework for rapid web application development (a.k.a. full
 
 The unit of development in gong is the **gong stack** (a "stack" in the rest of this document). A stack can import other stacks (both the front end and the back end of a stack are integrated as a whole). The granularity of a stack is similar to an angular components.
 
+Gong includes gongc, a go data model compiler to generate front-end and back-end code. Gongc compiles gong code, a go sub-langage, to go and angular.
+
 ## 1.2. Gong aims low complexity
 
-Gong fullstack approach was inspired by the idea that complexity facing the programmer should be carefuly managed, as it is described in [conceptual compression concept](https://m.signalvnoise.com/conceptual-compression-means-beginners-dont-need-to-know-sql-hallelujah/) and [Rob Pike's design of Go regarding complexity](https://www.dotconferences.com/2015/11/rob-pike-simplicity-is-complicated).
+Gong fullstack approach was inspired by the idea that complexity facing the programmer should be carefuly managed (for the idea, see [conceptual compression concept](https://m.signalvnoise.com/conceptual-compression-means-beginners-dont-need-to-know-sql-hallelujah/) or [Rob Pike's design of Go regarding complexity](https://go.dev/talks/2015/simplicity-is-complicated/).
 
-Gong includes gongc, a go data model compiler to generate front-end and back-end code. Gongc compiles gong code, a go sub-langage.
 ## 1.3. Prerequisite
 
 ### 1.3.1. Go
