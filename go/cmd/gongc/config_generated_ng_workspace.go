@@ -33,7 +33,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 	// Walk down path to target object.
 	v := root
 	var path = []string{"projects",
-		"ng",
+		modelPkg.NgWorkspaceName,
 		"architect",
 		"build",
 		"configurations",
