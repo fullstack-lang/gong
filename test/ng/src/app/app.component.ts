@@ -2,28 +2,85 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable, combineLatest, timer } from 'rxjs'
 
-import * as gongdoc from 'gongdoc'
-import * as test from 'test'
+import { CommonModule } from '@angular/common';
 
-import { GongdocModule } from 'gongdoc'
-import { GongdocspecificModule } from 'gongdocspecific'
+// for angular material
+import { MatSliderModule } from '@angular/material/slider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select'
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatTableModule } from '@angular/material/table'
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatListModule } from '@angular/material/list'
+import { MatCardModule } from '@angular/material/card'
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
-import { GongtreeModule } from 'gongtree'
-import { GongtreespecificModule } from 'gongtreespecific'
+import { FormsModule } from '@angular/forms';
 
-import * as gongtable from 'gongtable'
-import { GongtablespecificModule } from 'gongtablespecific'
+import { AngularSplitModule } from 'angular-split';
+
+import * as test from '../../projects/test/src/public-api'
+
+// to be imported when they are migrated to ng 17 / npm workspaces
+
+// import * as gongtable from '../../../../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtable/src/public-api'
+// import * as gongtablespecific from '../../../../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtablespecific/src/public-api'
+
+// import * as gongtree from '../../../../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtree/src/public-api'
+// import * as gongtreespecific from '../../../../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreespecific/src/public-api'
+
+
+import { TestspecificComponent } from '../../projects/testspecific/src/public-api'
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [
+
+    CommonModule,
+
+    MatSliderModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatListModule,
+    MatCardModule,
+    MatTooltipModule,
+    MatRadioModule,
+    MatSlideToggleModule,
+
+    FormsModule,
+
+    AngularSplitModule,
+
+    // gongtreespecific.GongtreespecificModule,
+    // gongtablespecific.GongtablespecificModule,
+
+    TestspecificComponent
+
+
+  ],
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
 
-  default = 'Test Data/Model'
-  view = this.default
+  test = 'Test'
+  probe = 'Test Probe'
+  view = this.test
 
-  views: string[] = [this.default];
+  views: string[] = [this.test, this.probe];
 
   scrollStyle = {
     'overflow- x': 'auto',
@@ -33,7 +90,7 @@ export class AppComponent implements OnInit {
   StackName = "test"
   StackType = test.StackType
 
-  TableExtraPathEnum = gongtable.TableExtraPathEnum
+  // TableExtraPathEnum = gongtable.TableExtraPathEnum
 
   constructor(
   ) {

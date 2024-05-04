@@ -1,0 +1,6 @@
+{
+    "name": "gong",
+    "workspaces": [
+        "test/ng"
+    ]
+}
