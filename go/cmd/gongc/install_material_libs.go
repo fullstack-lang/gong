@@ -75,8 +75,8 @@ func installMaterialLibs(modelPkg *gong_models.ModelPkg) {
 	{
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
-			filepath.Join(modelPkg.NgWorkspacePath, "src/app/app.module.ts"),
-			angular.NgFileModule)
+			filepath.Join(modelPkg.NgWorkspacePath, "src/app/app.config.ts"),
+			angular.NgFileAppConfig)
 
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
