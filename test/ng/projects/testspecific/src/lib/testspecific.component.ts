@@ -5,7 +5,7 @@ import { ErrorObserver, Observable, timer } from 'rxjs';
 
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket'
 
-import * as test from 'test'
+import * as test from '../../../test/src/public-api'
 
 // Create an error handling function
 const handleError: ErrorObserver<Event> = {
@@ -18,10 +18,14 @@ const handleError: ErrorObserver<Event> = {
 }
 @Component({
   selector: 'lib-testspecific',
+  standalone: true,
   template: `
     <p>
       testspecific works!
     </p>
+    @if (frontRepo.array_Astructs[0] != undefined) {
+      {{frontRepo.array_Astructs[0].Name}}
+    }
   `,
   styles: [
   ]
