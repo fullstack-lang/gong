@@ -27,15 +27,6 @@ import { AngularSplitModule } from 'angular-split';
 
 import * as test from '../../projects/test/src/public-api'
 
-// to be imported when they are migrated to ng 17 / npm workspaces
-
-// import * as gongtable from '../../../../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtable/src/public-api'
-// import * as gongtablespecific from '../../../../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtablespecific/src/public-api'
-
-// import * as gongtree from '../../../../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtree/src/public-api'
-// import * as gongtreespecific from '../../../../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreespecific/src/public-api'
-
-
 import { TestspecificComponent } from '../../projects/testspecific/src/public-api'
 
 @Component({
@@ -70,14 +61,14 @@ import { TestspecificComponent } from '../../projects/testspecific/src/public-ap
 
     TestspecificComponent
 
-
   ],
+
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
 
   test = 'Test'
-  probe = 'Test Probe'
+  probe = 'Test Data/Model'
   view = this.test
 
   views: string[] = [this.test, this.probe];
