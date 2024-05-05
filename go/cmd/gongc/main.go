@@ -117,6 +117,10 @@ func main() {
 			// compute the name of the ng workspace
 			// Convert to lowercase
 			ngWorkspaceName := strings.ToLower(modelPkg.PkgPath)
+
+			// remove trailing "/ng/models"
+			ngWorkspaceName = strings.ReplaceAll(ngWorkspaceName, "/go/models", "")
+
 			// Replace disallowed characters with hyphens
 			re := regexp.MustCompile(`[^a-z0-9\.-]+`)
 			ngWorkspaceName = re.ReplaceAllString(ngWorkspaceName, "-")
