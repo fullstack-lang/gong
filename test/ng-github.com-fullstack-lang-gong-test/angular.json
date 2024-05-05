@@ -2,7 +2,7 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "newProjectRoot": "projects",
   "projects": {
-    "ng-github.com-fullstack-lang-gong-test-go-models": {
+    "ng-github.com-fullstack-lang-gong-test": {
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
@@ -36,7 +36,7 @@
             ],
             "browser": "src/main.ts",
             "index": "src/index.html",
-            "outputPath": "dist/ng-github.com-fullstack-lang-gong-test-go-models",
+            "outputPath": "dist/ng-github.com-fullstack-lang-gong-test",
             "polyfills": [
               "zone.js"
             ],
@@ -51,17 +51,17 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "ng-github.com-fullstack-lang-gong-test-go-models:build"
+            "buildTarget": "ng-github.com-fullstack-lang-gong-test:build"
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "development": {
-              "buildTarget": "ng-github.com-fullstack-lang-gong-test-go-models:build:development"
+              "buildTarget": "ng-github.com-fullstack-lang-gong-test:build:development"
             },
             "production": {
-              "buildTarget": "ng-github.com-fullstack-lang-gong-test-go-models:build:production"
+              "buildTarget": "ng-github.com-fullstack-lang-gong-test:build:production"
             }
           },
           "defaultConfiguration": "development"

@@ -1,6 +1,6 @@
 {
     "name": "gong",
     "workspaces": [
-        "test/ng-github.com-fullstack-lang-gong-test-go-models"
+        "test/ng-github.com-fullstack-lang-gong-test"
     ]
 }
