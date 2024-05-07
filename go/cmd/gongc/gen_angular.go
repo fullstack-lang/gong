@@ -24,7 +24,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 	{
 
 		directory, err := filepath.Abs(
-			filepath.Join(*pkgPath, "../../ng"))
+			filepath.Join(*pkgPath, "../../"+modelPkg.NgWorkspaceName))
 		if err != nil {
 			log.Panic("Problem with frontend target path " + err.Error())
 		}
@@ -39,9 +39,9 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 			// generate ng workspace
 			var cmd *exec.Cmd
 			if !skipNpmInstall {
-				cmd = exec.Command("ng", "new", "ng", "--defaults=true", "--minimal=true")
+				cmd = exec.Command("ng", "new", modelPkg.NgWorkspaceName, "--defaults=true", "--minimal=true")
 			} else {
-				cmd = exec.Command("ng", "new", "ng", "--defaults=true", "--minimal=true", "--skip-install")
+				cmd = exec.Command("ng", "new", modelPkg.NgWorkspaceName, "--defaults=true", "--minimal=true", "--skip-install")
 			}
 			cmd.Dir = filepath.Dir(modelPkg.NgWorkspacePath)
 			log.Printf("Creating angular workspace\n")

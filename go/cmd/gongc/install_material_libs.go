@@ -50,9 +50,7 @@ func installMaterialLibs(modelPkg *gong_models.ModelPkg) {
 		start := time.Now()
 		cmd := exec.Command("npm", "install", "--save",
 			"angular-split",
-			"material-icons",
-			"@fontsource/open-sans",
-			"@fontsource/roboto")
+			"material-icons")
 		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Installing some packages\n")
 
@@ -77,8 +75,8 @@ func installMaterialLibs(modelPkg *gong_models.ModelPkg) {
 	{
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
-			filepath.Join(modelPkg.NgWorkspacePath, "src/app/app.module.ts"),
-			angular.NgFileModule)
+			filepath.Join(modelPkg.NgWorkspacePath, "src/app/app.config.ts"),
+			angular.NgFileAppConfig)
 
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
