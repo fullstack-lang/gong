@@ -31,6 +31,8 @@ github.com/fullstack-lang/gongtable v0.0.0-20240329042029-ce10edb23e2f h1:Yi2nuS
 github.com/fullstack-lang/gongtable v0.0.0-20240329042029-ce10edb23e2f/go.mod h1:wlgNz1rCkxo3HCLeBBDs4FKfFYfIJErZpV8Vm+LHrQo=
 github.com/fullstack-lang/gongtable v0.0.0-20240506162348-207f709f8c97 h1:5uL7fRYVyTC5TO1+oas87qni0Spw/CjO8I7qBNqyk1g=
 github.com/fullstack-lang/gongtable v0.0.0-20240506162348-207f709f8c97/go.mod h1:wXxnsaBQmbOnL1ULk8F2FZ8rXZPxK5+hjJ8cMVBrd5o=
+github.com/fullstack-lang/gongtable v0.0.0-20240507084403-76971575ab75 h1:45v16ajazKHGr2rciJIsWbX1NKkQkoZKLptui10T6E8=
+github.com/fullstack-lang/gongtable v0.0.0-20240507084403-76971575ab75/go.mod h1:rCEd4P7ede7MveC4dTMhOgSAxqSOeGEmH7FdyqFUQcY=
 github.com/fullstack-lang/gongtree v0.0.0-20240316155517-8def383372f2 h1:ChsHCOMDqoTP86d6kTppYsbJ/Bw2y4W7esiGrxqqzSU=
 github.com/fullstack-lang/gongtree v0.0.0-20240316155517-8def383372f2/go.mod h1:wAR+Hk89wvLxv7rzoH+TC8Ry8jjr84GHK0Bope272nU=
 github.com/fullstack-lang/gongtree v0.0.0-20240505075838-18fc8c627c8b h1:SCdkdxJO+ZZ1jx3sMmpw20mUk/KFfQB01GCKxRUKkwE=
