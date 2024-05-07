@@ -243,6 +243,22 @@ func main() {
 			if _, err := f.WriteString(".DS_Store" + "\n"); err != nil {
 				log.Fatalf("failed writing to file: %s", err)
 			}
+			if _, err := f.WriteString("node_modules" + "\n"); err != nil {
+				log.Fatalf("failed writing to file: %s", err)
+			}
+		}
+	}
+
+	{
+		// we need to use npm package (because of angular 17/esbuild)
+		// check wether a package.json is present, otherwise generate it
+		packageJsonFilePath := filepath.Join(*pkgPath, "../../package.json")
+		_, errd := os.Stat(packageJsonFilePath)
+		if os.IsNotExist(errd) {
+			gong_models.VerySimpleCodeGenerator(
+				modelPkg,
+				packageJsonFilePath,
+				golang.NpmPackageJsonTemplate)
 		}
 	}
 
