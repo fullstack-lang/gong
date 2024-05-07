@@ -349,7 +349,8 @@
             "cwd": "/tmp/helloworld",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
-                "go/models"
+                "-skipNpmWorkspaces",
+                "go/models",
             ]
         },
         {
