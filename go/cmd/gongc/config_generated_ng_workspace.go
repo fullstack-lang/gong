@@ -106,13 +106,10 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 			}
 			log.Printf("ng generate library is over and took %s", time.Since(start))
 			{
-				// patch tsconfig file in order to have the path to the public-api of the
-				// generated library (instead of the path to "dist")
-				// filename := filepath.Join(modelPkg.NgWorkspacePath, "tsconfig.json")
-				// gong_models.InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"/src/public-api.ts\",", modelPkg.Name+"\": [")
+				// patch tsconfig file in order to have the @vendored_components
+				filename := filepath.Join(modelPkg.NgWorkspacePath, "tsconfig.json")
 
-				// gong_models.InsertStringToFile(filename, angular.TsConfigInsertForPaths, "\"paths\": {")
-
+				gong_models.InsertStringToFile(filename, angular.TsConfigInsertForPaths, "\"paths\": {")
 			}
 			{
 				// patch styles.css file in order have imports of css stuff and work offline
