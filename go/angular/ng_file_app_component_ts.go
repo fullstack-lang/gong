@@ -4,26 +4,12 @@ const NgFileAppComponentTs = `import { Component, OnInit } from '@angular/core';
 
 import { Observable, combineLatest, timer } from 'rxjs'
 
+// for angular & angular material
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
-// for angular material
-import { MatSliderModule } from '@angular/material/slider';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select'
-import { MatDatepickerModule } from '@angular/material/datepicker'
-import { MatTableModule } from '@angular/material/table'
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatToolbarModule } from '@angular/material/toolbar'
-import { MatListModule } from '@angular/material/list'
-import { MatCardModule } from '@angular/material/card'
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-
-import { FormsModule } from '@angular/forms';
 
 import { AngularSplitModule } from 'angular-split';
 
@@ -31,35 +17,32 @@ import * as {{pkgname}} from '../../projects/{{pkgname}}/src/public-api'
 
 import { {{TitlePkgName}}specificComponent } from '../../projects/{{pkgname}}specific/src/public-api'
 
+import { TreeComponent } from '@vendored_components/github.com/fullstack-lang/gongtree/ng-github.com-fullstack-lang-gongtree/projects/gongtreespecific/src/public-api'
+import { MaterialTableComponent } from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtablespecific/src/lib/material-table/material-table.component';
+import { MaterialFormComponent } from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtablespecific/src/lib/material-form/material-form.component';
+import * as gongtable from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtable/src/public-api';
+import { PanelComponent } from '@vendored_components/github.com/fullstack-lang/gongdoc/ng-github.com-fullstack-lang-gongdoc/projects/gongdocspecific/src/public-api'
+import { GongsvgDiagrammingComponent } from '@vendored_components/github.com/fullstack-lang/gongsvg/ng-github.com-fullstack-lang-gongsvg/projects/gongsvgspecific/src/lib/gongsvg-diagramming/gongsvg-diagramming'
+
+
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
 
     CommonModule,
+    FormsModule,
 
-    MatSliderModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatTableModule,
-    MatCheckboxModule,
+    MatRadioModule,
     MatButtonModule,
     MatIconModule,
-    MatToolbarModule,
-    MatListModule,
-    MatCardModule,
-    MatTooltipModule,
-    MatRadioModule,
-    MatSlideToggleModule,
-
-    FormsModule,
 
     AngularSplitModule,
 
-    // gongtreespecific.GongtreespecificModule,
-    // gongtablespecific.GongtablespecificModule,
+    TreeComponent,
+    MaterialTableComponent,
+    MaterialFormComponent,
+    PanelComponent,
 
     {{TitlePkgName}}specificComponent
 
@@ -83,7 +66,7 @@ export class AppComponent implements OnInit {
   StackName = "{{pkgname}}"
   StackType = {{pkgname}}.StackType
 
-  // TableExtraPathEnum = gongtable.TableExtraPathEnum
+  TableExtraPathEnum = gongtable.TableExtraPathEnum
 
   constructor(
   ) {
