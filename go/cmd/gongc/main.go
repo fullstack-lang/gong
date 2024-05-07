@@ -36,11 +36,12 @@ const COMPUTED_FROM_PKG_PATH string = "computed from pkgPath (path to package fo
 var (
 	pkgPath = flag.String("pkgPath", ".", "path to the models package."+
 		"For instance, gongc go/models")
-	skipSwagger   = flag.Bool("skipSwagger", true, "skip swagger file generation")
-	skipNg        = flag.Bool("skipNg", false, "generates skipNg, skip ng operations")
-	skipFlutter   = flag.Bool("skipFlutter", true, "do not generate flutter front")
-	skipCoder     = flag.Bool("skipCoder", true, "do not generate coder file")
-	skipSerialize = flag.Bool("skipSerialize", false, "do not generate models/gong_serialize code for xl ouput")
+	skipSwagger       = flag.Bool("skipSwagger", true, "skip swagger file generation")
+	skipNg            = flag.Bool("skipNg", false, "generates skipNg, skip ng operations")
+	skipFlutter       = flag.Bool("skipFlutter", true, "do not generate flutter front")
+	skipCoder         = flag.Bool("skipCoder", true, "do not generate coder file")
+	skipSerialize     = flag.Bool("skipSerialize", false, "do not generate models/gong_serialize code for xl ouput")
+	skipNpmWorkspaces = flag.Bool("skipNpmWorkspaces", false, "do not generate package.json at the root for npm workspaces")
 
 	clean = flag.Bool("clean", false, "let gongc remove files & dir that are generated. The program then exits.")
 
@@ -249,7 +250,7 @@ func main() {
 		}
 	}
 
-	{
+	if !*skipNpmWorkspaces {
 		// we need to use npm package (because of angular 17/esbuild)
 		// check wether a package.json is present, otherwise generate it
 		packageJsonFilePath := filepath.Join(*pkgPath, "../../package.json")
