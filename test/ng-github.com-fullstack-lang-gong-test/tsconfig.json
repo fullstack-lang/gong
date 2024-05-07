@@ -24,7 +24,10 @@
       ],
       "testspecific": [
         "./dist/testspecific"
-      ]
+      ],
+      "@vendored_components/*": [
+        "../../vendor/*"
+      ],
     },
     "lib": [
       "ES2022",

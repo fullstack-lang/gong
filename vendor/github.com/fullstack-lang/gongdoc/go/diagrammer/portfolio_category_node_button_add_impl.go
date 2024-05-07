@@ -39,6 +39,7 @@ func (buttonImpl *PortfolioCategoryNodeButtonAddImpl) ButtonUpdated(
 		childrenTreeNode := buttonImpl.diagrammer.portfolioNode2NodeTree(childrenPortfolioNode, buttonImpl.treeStage)
 		buttonImpl.treeNode.Children = append(buttonImpl.treeNode.Children, childrenTreeNode)
 		buttonImpl.diagrammer.AddPortfiolioNodeTreeNodeEntry(childrenPortfolioNode, childrenTreeNode)
+		buttonImpl.diagrammer.generatePortfolioNodesStatusAndButtons()
 		buttonImpl.treeStage.Commit()
 	}
 }

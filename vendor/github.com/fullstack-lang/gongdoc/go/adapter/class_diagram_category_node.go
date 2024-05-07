@@ -19,6 +19,9 @@ type ClassDiagramCategoryNode struct {
 	children         []diagrammer.PortfolioNode
 }
 
+// static check that it meets the intended interface
+var _ diagrammer.PortfolioCategoryNode = &(ClassDiagramCategoryNode{})
+
 func NewClassDiagramCategoryNode(
 	portfolioAdapter *PortfolioAdapter,
 	name string,
@@ -35,9 +38,6 @@ func NewClassDiagramCategoryNode(
 func (classDiagramCategoryNode *ClassDiagramCategoryNode) GetChildren() []diagrammer.PortfolioNode {
 	return classDiagramCategoryNode.children
 }
-
-// static check that it meets the intended interface
-var _ diagrammer.PortfolioCategoryNode = &(ClassDiagramCategoryNode{})
 
 // RemoveChildren implements diagrammer.PortfolioCategoryNode.
 func (classDiagramCategoryNode *ClassDiagramCategoryNode) RemoveChildren(portfolioNode diagrammer.PortfolioNode) {
@@ -149,6 +149,8 @@ func (classDiagramCategoryNode *ClassDiagramCategoryNode) AddDiagram() diagramme
 	gongdocStage.Checkout()
 
 	classDiagramNode := NewClassDiagramNode(classDiagramCategoryNode.portfolioAdapter, classDiagramCategoryNode, newClassdiagram)
+
+	classDiagramCategoryNode.AppendChildren(classDiagramNode)
 
 	return classDiagramNode
 }
