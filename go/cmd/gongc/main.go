@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"time"
 
@@ -113,10 +114,28 @@ func main() {
 		modelPkg.ProbePkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "probe")
 		os.RemoveAll(modelPkg.ProbePkgGenPath)
 		{
+			// compute the name of the ng workspace
+			// Convert to lowercase
+			ngWorkspaceName := strings.ToLower(modelPkg.PkgPath)
+
+			// remove trailing "/ng/models"
+			ngWorkspaceName = strings.ReplaceAll(ngWorkspaceName, "/go/models", "")
+
+			// Replace disallowed characters with hyphens
+			re := regexp.MustCompile(`[^a-z0-9\.-]+`)
+			ngWorkspaceName = re.ReplaceAllString(ngWorkspaceName, "-")
+			// Trim leading and trailing hyphens, handle leading dots
+			ngWorkspaceName = strings.Trim(ngWorkspaceName, "-")
+			ngWorkspaceName = "ng-" + ngWorkspaceName // Prefix with 'ng' if starts with a dot
+			log.Println(ngWorkspaceName)
+			modelPkg.NgWorkspaceName = ngWorkspaceName
+
+		}
+		{
 			directory, err :=
 				filepath.Abs(
 					filepath.Join(*pkgPath,
-						fmt.Sprintf("../../ng/projects/%s/src/lib", modelPkg.Name)))
+						fmt.Sprintf("../../%s/projects/%s/src/lib", modelPkg.NgWorkspaceName, modelPkg.Name)))
 			modelPkg.NgDataLibrarySourceCodeDirectory = directory
 			if err != nil {
 				log.Panic("Problem with frontend target path " + err.Error())
@@ -127,7 +146,7 @@ func main() {
 			directory, err :=
 				filepath.Abs(
 					filepath.Join(*pkgPath,
-						fmt.Sprintf("../../ng/projects/%sspecific/src/lib", modelPkg.Name)))
+						fmt.Sprintf("../../%s/projects/%sspecific/src/lib", modelPkg.NgWorkspaceName, modelPkg.Name)))
 			modelPkg.NgSpecificLibrarySourceCodeDirectory = directory
 			if err != nil {
 				log.Panic("Problem with frontend target path " + err.Error())
@@ -138,7 +157,7 @@ func main() {
 			directory, err :=
 				filepath.Abs(
 					filepath.Join(*pkgPath,
-						fmt.Sprintf("../../ng/projects/%sdatamodel/src/lib", modelPkg.Name)))
+						fmt.Sprintf("../../%s/projects/%sdatamodel/src/lib", modelPkg.NgWorkspaceName, modelPkg.Name)))
 			modelPkg.MaterialLibDatamodelTargetPath = directory
 			if err != nil {
 				log.Panic("Problem with frontend target path " + err.Error())

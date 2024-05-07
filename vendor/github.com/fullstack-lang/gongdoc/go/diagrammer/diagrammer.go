@@ -138,8 +138,6 @@ func (diagrammer *Diagrammer) generatePortfolioNodesStatusAndButtons() {
 
 	for _, portfolioNode := range diagrammer.portfolio.GetChildren() {
 		// log.Printf("generatePortfolioNodesButtons %s %p\n", portfolioNode.GetName(), portfolioNode)
-
-		// here the value of "class diagrams" node has changed, 0xc0014665e8
 		diagrammer.generatePortfolioNodesStatusAndButtonsRecursive(portfolioNode)
 	}
 	diagrammer.treeStage.Commit()

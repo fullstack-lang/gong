@@ -36,33 +36,9 @@ func main() {
 	stack := test_stack.NewStack(r, "test", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
 
-	// go func() {
-
-	// 	time.Sleep(1 * time.Second)
-
-	// 	// get first element
-	// 	map_A := (*models.GetGongstructInstancesMap[models.Astruct](stack.Stage))
-	// 	index := 0
-	// 	if a, ok := map_A["A1"]; ok {
-	// 		for {
-	// 			time.Sleep(1 * time.Second)
-	// 			log.Println("a", a.Name)
-	// 			index++
-	// 			if index%2 == 1 {
-	// 				a.Name = a.Name + "*"
-	// 			} else {
-	// 				a.Name = "A1"
-	// 			}
-	// 			stack.Stage.Commit()
-	// 		}
-	// 	}
-
-	// }()
-
 	log.Printf("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
-
 }

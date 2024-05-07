@@ -9,31 +9,14 @@ const NgFileAppComponentHtml = `<!-- button bar that is present in all tabs -->
     </mat-radio-group>
 </ng-template>
 
-<as-split unit="pixel" *ngIf="view==default" direction="vertical">
+<as-split unit="pixel" *ngIf="view=={{pkgname}}" direction="vertical">
     <as-split-area [size]=40>
         <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
     </as-split-area>
     <as-split-area [size]="$any('*')">
-        <as-split direction="vertical">
-            <as-split-area [size]=50>
-                <as-split direction="horizontal">
-                    <as-split-area [size]="20">
-                        <lib-tree [GONG__StackPath]="StackName+TableExtraPathEnum.StackNamePostFixForTableForMainTree" name="gong"></lib-tree>
-                    </as-split-area>
-                    <as-split-area [size]="50">
-                        <div [ngStyle]="scrollStyle">
-                            <lib-material-table TableName="Table" [DataStack]="StackName+TableExtraPathEnum.StackNamePostFixForTableForMainTable"></lib-material-table>
-                        </div>
-                    </as-split-area>
-                    <as-split-area [size]="30">
-                        <lib-material-form FormName="Form" [DataStack]="StackName+TableExtraPathEnum.StackNamePostFixForTableForMainForm"></lib-material-form>
-                    </as-split-area>
-                </as-split>
-            </as-split-area>
-            <as-split-area [size]=50>
-                <lib-panel [GONG__StackPath]="StackType"></lib-panel>
-            </as-split-area>
-        </as-split>
+        <lib-{{pkgname}}specific GONG__StackPath="{{pkgname}}">
+
+        </lib-{{pkgname}}specific>
     </as-split-area>
 </as-split>
 `

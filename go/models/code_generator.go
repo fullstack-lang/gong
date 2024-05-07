@@ -176,6 +176,7 @@ func CodeGenerator(
 	code = strings.ReplaceAll(code, "{{pkgname}}", strings.ToLower(pkgName))
 	code = strings.ReplaceAll(code, "{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""))
 	code = strings.ReplaceAll(code, "{{PkgPathAboveRoot}}", strings.ReplaceAll(pkgGoPath, "/go/models", ""))
+	code = strings.ReplaceAll(code, "{{NgWorkspaceName}}", mdlPkg.NgWorkspaceName)
 
 	pkgPathRootWithoutSlashes := strings.ReplaceAll(pkgGoPath, "/models", "")
 	pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "/", "_")

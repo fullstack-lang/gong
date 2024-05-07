@@ -40,6 +40,13 @@ type ModelPkg struct {
 	// NgWorkspacePath is the path to the Ng Workspace
 	NgWorkspacePath string
 
+	// NgWorkspaceName is the name of the angular workspace
+	//
+	// note : initialy the name was "ng" for all angular workspace but "npm workspaces"
+	// does not support workspaces that have the same name (it does not know
+	// about aliasing)
+	NgWorkspaceName string
+
 	// NgDataLibrarySourceCodeDirectory is the "<pkgName>/src/lib" directory where,
 	// by angular CLI convention,
 	// the source code for the library's components,
