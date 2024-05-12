@@ -178,6 +178,7 @@ const (
 	GongGraphFileFieldSubTmplStagePointerField GongGraphFilePerStructSubTemplateId = iota
 	GongGraphFileFieldSubTmplStageSliceOfPointersField
 	GongGraphFileFieldSubTmplCopyPointerField
+	GongGraphFileFieldSubTmplCopyPointerFieldAndStop
 	GongGraphFileFieldSubTmplCopySliceOfPointersField
 	GongGraphFileFieldSubTmplUnstagePointerField
 	GongGraphFileFieldSubTmplUnstageSliceOfPointersField
@@ -197,6 +198,10 @@ map[GongGraphFilePerStructSubTemplateId]string{
 	GongGraphFileFieldSubTmplCopyPointerField: `
 	if {{structname}}From.{{FieldName}} != nil {
 		{{structname}}To.{{FieldName}} = CopyBranch{{AssocStructName}}(mapOrigCopy, {{structname}}From.{{FieldName}})
+	}`,
+	GongGraphFileFieldSubTmplCopyPointerFieldAndStop: `
+	if {{structname}}From.{{FieldName}} != nil {
+		{{structname}}To.{{FieldName}} = {{structname}}From.{{FieldName}}
 	}`,
 	GongGraphFileFieldSubTmplCopySliceOfPointersField: `
 	for _, _{{assocstructname}} := range {{structname}}From.{{FieldName}} {
@@ -257,10 +262,18 @@ func CodeGeneratorModelGongGraph(
 						GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplStagePointerField],
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name)
-					pointerCopyingCode += models.Replace2(
-						GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplCopyPointerField],
-						"{{FieldName}}", field.Name,
-						"{{AssocStructName}}", field.GongStruct.Name)
+					if !field.IsType {
+						pointerCopyingCode += models.Replace2(
+							GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplCopyPointerField],
+							"{{FieldName}}", field.Name,
+							"{{AssocStructName}}", field.GongStruct.Name)
+					} else {
+						pointerCopyingCode += models.Replace2(
+							GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplCopyPointerFieldAndStop],
+							"{{FieldName}}", field.Name,
+							"{{AssocStructName}}", field.GongStruct.Name)
+					}
+
 					pointerUnstagingCode += models.Replace2(
 						GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplUnstagePointerField],
 						"{{FieldName}}", field.Name,
