@@ -19,6 +19,9 @@ type Astruct struct {
 	// is related to ZERO/ONE Aclass instance by Arrayofb field
 	Anarrayofb []*Bstruct
 
+	//gong:type this magic node means that the object points to a type
+	// This means that when a branch is copied, the duplicate meachanism
+	// will stop here and only duplicate the pointer, not the type
 	Anotherassociationtob_2 *Bstruct
 
 	// time.Time is a supported type of gong

@@ -72,7 +72,6 @@ func (stage *StageStruct) IsStagedFstruct(fstruct *Fstruct) (ok bool) {
 	return
 }
 
-
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -246,7 +245,6 @@ func (stage *StageStruct) StageBranchFstruct(fstruct *Fstruct) {
 
 }
 
-
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -289,7 +287,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchAstruct(mapOrigCopy map[any]any, astructFrom *Astruct) (astructTo  *Astruct){
+func CopyBranchAstruct(mapOrigCopy map[any]any, astructFrom *Astruct) (astructTo *Astruct) {
 
 	// astructFrom has already been copied
 	if _astructTo, ok := mapOrigCopy[astructFrom]; ok {
@@ -306,7 +304,7 @@ func CopyBranchAstruct(mapOrigCopy map[any]any, astructFrom *Astruct) (astructTo
 		astructTo.Associationtob = CopyBranchBstruct(mapOrigCopy, astructFrom.Associationtob)
 	}
 	if astructFrom.Anotherassociationtob_2 != nil {
-		astructTo.Anotherassociationtob_2 = CopyBranchBstruct(mapOrigCopy, astructFrom.Anotherassociationtob_2)
+		astructTo.Anotherassociationtob_2 = astructFrom.Anotherassociationtob_2
 	}
 	if astructFrom.Bstruct != nil {
 		astructTo.Bstruct = CopyBranchBstruct(mapOrigCopy, astructFrom.Bstruct)
@@ -332,25 +330,25 @@ func CopyBranchAstruct(mapOrigCopy map[any]any, astructFrom *Astruct) (astructTo
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _bstruct := range astructFrom.Anarrayofb {
-		astructTo.Anarrayofb = append( astructTo.Anarrayofb, CopyBranchBstruct(mapOrigCopy, _bstruct))
+		astructTo.Anarrayofb = append(astructTo.Anarrayofb, CopyBranchBstruct(mapOrigCopy, _bstruct))
 	}
 	for _, _astruct := range astructFrom.Anarrayofa {
-		astructTo.Anarrayofa = append( astructTo.Anarrayofa, CopyBranchAstruct(mapOrigCopy, _astruct))
+		astructTo.Anarrayofa = append(astructTo.Anarrayofa, CopyBranchAstruct(mapOrigCopy, _astruct))
 	}
 	for _, _bstruct := range astructFrom.Anotherarrayofb {
-		astructTo.Anotherarrayofb = append( astructTo.Anotherarrayofb, CopyBranchBstruct(mapOrigCopy, _bstruct))
+		astructTo.Anotherarrayofb = append(astructTo.Anotherarrayofb, CopyBranchBstruct(mapOrigCopy, _bstruct))
 	}
 	for _, _astructbstructuse := range astructFrom.AnarrayofbUse {
-		astructTo.AnarrayofbUse = append( astructTo.AnarrayofbUse, CopyBranchAstructBstructUse(mapOrigCopy, _astructbstructuse))
+		astructTo.AnarrayofbUse = append(astructTo.AnarrayofbUse, CopyBranchAstructBstructUse(mapOrigCopy, _astructbstructuse))
 	}
 	for _, _astructbstruct2use := range astructFrom.Anarrayofb2Use {
-		astructTo.Anarrayofb2Use = append( astructTo.Anarrayofb2Use, CopyBranchAstructBstruct2Use(mapOrigCopy, _astructbstruct2use))
+		astructTo.Anarrayofb2Use = append(astructTo.Anarrayofb2Use, CopyBranchAstructBstruct2Use(mapOrigCopy, _astructbstruct2use))
 	}
 
 	return
 }
 
-func CopyBranchAstructBstruct2Use(mapOrigCopy map[any]any, astructbstruct2useFrom *AstructBstruct2Use) (astructbstruct2useTo  *AstructBstruct2Use){
+func CopyBranchAstructBstruct2Use(mapOrigCopy map[any]any, astructbstruct2useFrom *AstructBstruct2Use) (astructbstruct2useTo *AstructBstruct2Use) {
 
 	// astructbstruct2useFrom has already been copied
 	if _astructbstruct2useTo, ok := mapOrigCopy[astructbstruct2useFrom]; ok {
@@ -372,7 +370,7 @@ func CopyBranchAstructBstruct2Use(mapOrigCopy map[any]any, astructbstruct2useFro
 	return
 }
 
-func CopyBranchAstructBstructUse(mapOrigCopy map[any]any, astructbstructuseFrom *AstructBstructUse) (astructbstructuseTo  *AstructBstructUse){
+func CopyBranchAstructBstructUse(mapOrigCopy map[any]any, astructbstructuseFrom *AstructBstructUse) (astructbstructuseTo *AstructBstructUse) {
 
 	// astructbstructuseFrom has already been copied
 	if _astructbstructuseTo, ok := mapOrigCopy[astructbstructuseFrom]; ok {
@@ -394,7 +392,7 @@ func CopyBranchAstructBstructUse(mapOrigCopy map[any]any, astructbstructuseFrom 
 	return
 }
 
-func CopyBranchBstruct(mapOrigCopy map[any]any, bstructFrom *Bstruct) (bstructTo  *Bstruct){
+func CopyBranchBstruct(mapOrigCopy map[any]any, bstructFrom *Bstruct) (bstructTo *Bstruct) {
 
 	// bstructFrom has already been copied
 	if _bstructTo, ok := mapOrigCopy[bstructFrom]; ok {
@@ -413,7 +411,7 @@ func CopyBranchBstruct(mapOrigCopy map[any]any, bstructFrom *Bstruct) (bstructTo
 	return
 }
 
-func CopyBranchDstruct(mapOrigCopy map[any]any, dstructFrom *Dstruct) (dstructTo  *Dstruct){
+func CopyBranchDstruct(mapOrigCopy map[any]any, dstructFrom *Dstruct) (dstructTo *Dstruct) {
 
 	// dstructFrom has already been copied
 	if _dstructTo, ok := mapOrigCopy[dstructFrom]; ok {
@@ -429,13 +427,13 @@ func CopyBranchDstruct(mapOrigCopy map[any]any, dstructFrom *Dstruct) (dstructTo
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _bstruct := range dstructFrom.Anarrayofb {
-		dstructTo.Anarrayofb = append( dstructTo.Anarrayofb, CopyBranchBstruct(mapOrigCopy, _bstruct))
+		dstructTo.Anarrayofb = append(dstructTo.Anarrayofb, CopyBranchBstruct(mapOrigCopy, _bstruct))
 	}
 
 	return
 }
 
-func CopyBranchFstruct(mapOrigCopy map[any]any, fstructFrom *Fstruct) (fstructTo  *Fstruct){
+func CopyBranchFstruct(mapOrigCopy map[any]any, fstructFrom *Fstruct) (fstructTo *Fstruct) {
 
 	// fstructFrom has already been copied
 	if _fstructTo, ok := mapOrigCopy[fstructFrom]; ok {
@@ -453,7 +451,6 @@ func CopyBranchFstruct(mapOrigCopy map[any]any, fstructFrom *Fstruct) (fstructTo
 
 	return
 }
-
 
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
@@ -490,7 +487,7 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 func (stage *StageStruct) UnstageBranchAstruct(astruct *Astruct) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, astruct) {
+	if !IsStaged(stage, astruct) {
 		return
 	}
 
@@ -547,7 +544,7 @@ func (stage *StageStruct) UnstageBranchAstruct(astruct *Astruct) {
 func (stage *StageStruct) UnstageBranchAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, astructbstruct2use) {
+	if !IsStaged(stage, astructbstruct2use) {
 		return
 	}
 
@@ -565,7 +562,7 @@ func (stage *StageStruct) UnstageBranchAstructBstruct2Use(astructbstruct2use *As
 func (stage *StageStruct) UnstageBranchAstructBstructUse(astructbstructuse *AstructBstructUse) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, astructbstructuse) {
+	if !IsStaged(stage, astructbstructuse) {
 		return
 	}
 
@@ -583,7 +580,7 @@ func (stage *StageStruct) UnstageBranchAstructBstructUse(astructbstructuse *Astr
 func (stage *StageStruct) UnstageBranchBstruct(bstruct *Bstruct) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, bstruct) {
+	if !IsStaged(stage, bstruct) {
 		return
 	}
 
@@ -598,7 +595,7 @@ func (stage *StageStruct) UnstageBranchBstruct(bstruct *Bstruct) {
 func (stage *StageStruct) UnstageBranchDstruct(dstruct *Dstruct) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, dstruct) {
+	if !IsStaged(stage, dstruct) {
 		return
 	}
 
@@ -616,7 +613,7 @@ func (stage *StageStruct) UnstageBranchDstruct(dstruct *Dstruct) {
 func (stage *StageStruct) UnstageBranchFstruct(fstruct *Fstruct) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, fstruct) {
+	if !IsStaged(stage, fstruct) {
 		return
 	}
 
@@ -627,4 +624,3 @@ func (stage *StageStruct) UnstageBranchFstruct(fstruct *Fstruct) {
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
-
