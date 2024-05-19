@@ -119,15 +119,15 @@ type foo struct { // it is not exported
 }
 
 // Bar is not a gongstruct
-type Bar struct { // it is not exported
+type Bar struct { // it is exported
   name string // it has no exported "Name" field
 }
 
 // Zong is not a gongstruct
-// it has a "ignore" magic code
-// gong:ignore 
-type Zong struct { 
-  Name string
+//
+// gong:ignore it has a "ignore" magic code
+type Zong struct { // it is exported
+  Name string // it has an exported "Name" field
 }
 ```
 
