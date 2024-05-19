@@ -60,7 +60,7 @@ Gong fullstack approach was inspired by the idea that complexity facing the prog
 
 ### 1.3.1. Go
 
-go version equal or above 1.19 is mandatory (cf. use of `embed` package & generics). See https://golang.org for installation.
+go version equal or above 1.21. See https://golang.org for installation.
 
 Gong uses sqlite3 in a cgo free configuration by default.
 
