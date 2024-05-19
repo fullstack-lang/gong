@@ -27,7 +27,6 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct{{` + string(rune(ModelGongGraphStructInsertionIsStagedPerStruct)) + `}}
-
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -42,7 +41,6 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for stage branch per struct{{` + string(rune(ModelGongGraphStructInsertionStageBranchPerStruct)) + `}}
-
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -61,7 +59,6 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct{{` + string(rune(ModelGongGraphStructInsertionCopyBranchPerStruct)) + `}}
-
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
 //
@@ -75,8 +72,7 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	}
 }
 
-// insertion point for unstage branch per struct{{` + string(rune(ModelGongGraphStructInsertionUnstageBranchPerStruct)) + `}}
-`
+// insertion point for unstage branch per struct{{` + string(rune(ModelGongGraphStructInsertionUnstageBranchPerStruct)) + `}}`
 
 // insertion points are places where the code is
 // generated per gong struct
@@ -135,7 +131,7 @@ func (stage *StageStruct) StageBranch{{Structname}}({{structname}} *{{Structname
 		return any(toT).(*Type)
 `,
 	ModelGongGraphStructInsertionCopyBranchPerStruct: `
-func CopyBranch{{Structname}}(mapOrigCopy map[any]any, {{structname}}From *{{Structname}}) ({{structname}}To  *{{Structname}}){
+func CopyBranch{{Structname}}(mapOrigCopy map[any]any, {{structname}}From *{{Structname}}) ({{structname}}To *{{Structname}}) {
 
 	// {{structname}}From has already been copied
 	if _{{structname}}To, ok := mapOrigCopy[{{structname}}From]; ok {
@@ -162,7 +158,7 @@ func CopyBranch{{Structname}}(mapOrigCopy map[any]any, {{structname}}From *{{Str
 func (stage *StageStruct) UnstageBranch{{Structname}}({{structname}} *{{Structname}}) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, {{structname}}) {
+	if !IsStaged(stage, {{structname}}) {
 		return
 	}
 
@@ -182,6 +178,7 @@ const (
 	GongGraphFileFieldSubTmplStagePointerField GongGraphFilePerStructSubTemplateId = iota
 	GongGraphFileFieldSubTmplStageSliceOfPointersField
 	GongGraphFileFieldSubTmplCopyPointerField
+	GongGraphFileFieldSubTmplCopyPointerFieldAndStop
 	GongGraphFileFieldSubTmplCopySliceOfPointersField
 	GongGraphFileFieldSubTmplUnstagePointerField
 	GongGraphFileFieldSubTmplUnstageSliceOfPointersField
@@ -202,9 +199,13 @@ map[GongGraphFilePerStructSubTemplateId]string{
 	if {{structname}}From.{{FieldName}} != nil {
 		{{structname}}To.{{FieldName}} = CopyBranch{{AssocStructName}}(mapOrigCopy, {{structname}}From.{{FieldName}})
 	}`,
+	GongGraphFileFieldSubTmplCopyPointerFieldAndStop: `
+	if {{structname}}From.{{FieldName}} != nil {
+		{{structname}}To.{{FieldName}} = {{structname}}From.{{FieldName}}
+	}`,
 	GongGraphFileFieldSubTmplCopySliceOfPointersField: `
 	for _, _{{assocstructname}} := range {{structname}}From.{{FieldName}} {
-		{{structname}}To.{{FieldName}} = append( {{structname}}To.{{FieldName}}, CopyBranch{{AssocStructName}}(mapOrigCopy, _{{assocstructname}}))
+		{{structname}}To.{{FieldName}} = append({{structname}}To.{{FieldName}}, CopyBranch{{AssocStructName}}(mapOrigCopy, _{{assocstructname}}))
 	}`,
 	GongGraphFileFieldSubTmplUnstagePointerField: `
 	if {{structname}}.{{FieldName}} != nil {
@@ -261,10 +262,18 @@ func CodeGeneratorModelGongGraph(
 						GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplStagePointerField],
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name)
-					pointerCopyingCode += models.Replace2(
-						GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplCopyPointerField],
-						"{{FieldName}}", field.Name,
-						"{{AssocStructName}}", field.GongStruct.Name)
+					if !field.IsType {
+						pointerCopyingCode += models.Replace2(
+							GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplCopyPointerField],
+							"{{FieldName}}", field.Name,
+							"{{AssocStructName}}", field.GongStruct.Name)
+					} else {
+						pointerCopyingCode += models.Replace2(
+							GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplCopyPointerFieldAndStop],
+							"{{FieldName}}", field.Name,
+							"{{AssocStructName}}", field.GongStruct.Name)
+					}
+
 					pointerUnstagingCode += models.Replace2(
 						GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplUnstagePointerField],
 						"{{FieldName}}", field.Name,

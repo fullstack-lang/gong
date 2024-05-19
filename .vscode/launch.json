@@ -399,7 +399,7 @@
             "args": []
         },
         {
-            "name": "gongc test -skipNg -skipGoModCommands",
+            "name": "gongc test -skipNg -skipGoModCommands -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -408,7 +408,8 @@
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipNg",
-                "-skipGoModCommands"
+                "-skipGoModCommands",
+                "-skipNpmWorkspaces"
             ]
         },
         {
