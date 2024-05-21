@@ -113,5 +113,6 @@ func mini_stage_inInjection(stage *models.StageStruct) {
 	__Bstruct__000000_B1.Intfield = 0
 
 	// Setup of pointers
+	__Astruct__000000_Foo.Bstruct = __Bstruct__000000_B1
 	__Astruct__000000_Foo.Anarrayofb = append(__Astruct__000000_Foo.Anarrayofb, __Bstruct__000000_B1)
 }
