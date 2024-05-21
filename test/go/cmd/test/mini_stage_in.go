@@ -48,33 +48,29 @@ var map_DocLink_Identifier_mini_stage_in map[string]any = map[string]any{
 // mini_stage_inInjection will stage objects of database "mini_stage_in"
 func mini_stage_inInjection(stage *models.StageStruct) {
 
-	// Declaration of instances to stage
-
-	// Declarations of staged instances of Astruct
-	__Astruct__000000_Foo := (&models.Astruct{Name: `Foo`}).Stage(stage)
-
-	// Declarations of staged instances of AstructBstruct2Use
-
-	// Declarations of staged instances of AstructBstructUse
-
-	// Declarations of staged instances of Bstruct
 	__Bstruct__000000_B1 := (&models.Bstruct{Name: `B1`}).Stage(stage)
 
-	// Declarations of staged instances of Dstruct
+	__Astruct__000000_Foo := (&models.Astruct{
+		Name: `Foo`,
+		Date: func() time.Time {
+			t, _ := time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+			return t
+		}(),
+		Booleanfield: false,
+		CEnum:        models.CENUM_VAL1,
+		Cstruct: models.Cstruct{
+			CName:       ``,
+			CFloatfield: 0.000000,
+			Bstruct:     __Bstruct__000000_B1,
+		},
+		Floatfield:          0.000000,
+		Intfield:            0,
+		Anotherbooleanfield: false,
+		Duration1:           0,
+		Associationtob:      __Bstruct__000000_B1,
+	}).Stage(stage)
 
-	// Setup of values
-
-	// Astruct values setup
 	__Astruct__000000_Foo.Name = `Foo`
-	__Astruct__000000_Foo.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Astruct__000000_Foo.Booleanfield = false
-	__Astruct__000000_Foo.CEnum = models.CENUM_VAL1
-	__Astruct__000000_Foo.CName = ``
-	__Astruct__000000_Foo.CFloatfield = 0.000000
-	__Astruct__000000_Foo.Floatfield = 0.000000
-	__Astruct__000000_Foo.Intfield = 0
-	__Astruct__000000_Foo.Anotherbooleanfield = false
-	__Astruct__000000_Foo.Duration1 = 0
 
 	// comment added to overcome the problem with the comment map association
 
@@ -106,7 +102,6 @@ func mini_stage_inInjection(stage *models.StageStruct) {
 	//gong:ident [..]
 	__Astruct__000000_Foo.ConstIdentifierValue = `..`
 
-	// Bstruct values setup
 	__Bstruct__000000_B1.Name = `B1`
 	__Bstruct__000000_B1.Floatfield = 0.000000
 	__Bstruct__000000_B1.Floatfield2 = 0.000000
