@@ -2,6 +2,7 @@
     "name": "gong",
     "workspaces": [
         "test/ng-github.com-fullstack-lang-gong-test",
+        "ng-github.com-fullstack-lang-gong",
         "vendor/github.com/fullstack-lang/gongtree/ng-github.com-fullstack-lang-gongtree",
         "vendor/github.com/fullstack-lang/gongsvg/ng-github.com-fullstack-lang-gongsvg",
         "vendor/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable",
