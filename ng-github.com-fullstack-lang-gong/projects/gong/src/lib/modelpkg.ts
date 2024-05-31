@@ -27,6 +27,7 @@ export class ModelPkg {
 	StaticPkgGenPath: string = ""
 	ProbePkgGenPath: string = ""
 	NgWorkspacePath: string = ""
+	NgWorkspaceName: string = ""
 	NgDataLibrarySourceCodeDirectory: string = ""
 	NgSpecificLibrarySourceCodeDirectory: string = ""
 	MaterialLibDatamodelTargetPath: string = ""
@@ -51,6 +52,7 @@ export function CopyModelPkgToModelPkgAPI(modelpkg: ModelPkg, modelpkgAPI: Model
 	modelpkgAPI.StaticPkgGenPath = modelpkg.StaticPkgGenPath
 	modelpkgAPI.ProbePkgGenPath = modelpkg.ProbePkgGenPath
 	modelpkgAPI.NgWorkspacePath = modelpkg.NgWorkspacePath
+	modelpkgAPI.NgWorkspaceName = modelpkg.NgWorkspaceName
 	modelpkgAPI.NgDataLibrarySourceCodeDirectory = modelpkg.NgDataLibrarySourceCodeDirectory
 	modelpkgAPI.NgSpecificLibrarySourceCodeDirectory = modelpkg.NgSpecificLibrarySourceCodeDirectory
 	modelpkgAPI.MaterialLibDatamodelTargetPath = modelpkg.MaterialLibDatamodelTargetPath
@@ -81,6 +83,7 @@ export function CopyModelPkgAPIToModelPkg(modelpkgAPI: ModelPkgAPI, modelpkg: Mo
 	modelpkg.StaticPkgGenPath = modelpkgAPI.StaticPkgGenPath
 	modelpkg.ProbePkgGenPath = modelpkgAPI.ProbePkgGenPath
 	modelpkg.NgWorkspacePath = modelpkgAPI.NgWorkspacePath
+	modelpkg.NgWorkspaceName = modelpkgAPI.NgWorkspaceName
 	modelpkg.NgDataLibrarySourceCodeDirectory = modelpkgAPI.NgDataLibrarySourceCodeDirectory
 	modelpkg.NgSpecificLibrarySourceCodeDirectory = modelpkgAPI.NgSpecificLibrarySourceCodeDirectory
 	modelpkg.MaterialLibDatamodelTargetPath = modelpkgAPI.MaterialLibDatamodelTargetPath

@@ -244,6 +244,8 @@ func FillUpForm[T models.Gongstruct](
 			false, false, 0, false, 0)
 		BasicFieldtoForm("NgWorkspacePath", instanceWithInferedType.NgWorkspacePath, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("NgWorkspaceName", instanceWithInferedType.NgWorkspaceName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		BasicFieldtoForm("NgDataLibrarySourceCodeDirectory", instanceWithInferedType.NgDataLibrarySourceCodeDirectory, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("NgSpecificLibrarySourceCodeDirectory", instanceWithInferedType.NgSpecificLibrarySourceCodeDirectory, instanceWithInferedType, probe.formStage, formGroup,
@@ -259,6 +261,8 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("Index", instanceWithInferedType.Index, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("CompositeStructName", instanceWithInferedType.CompositeStructName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsType", instanceWithInferedType.IsType, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		{
 			var rf models.ReverseField

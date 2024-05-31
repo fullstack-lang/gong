@@ -1871,9 +1871,9 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case MetaReference:
 		res = []string{"Name"}
 	case ModelPkg:
-		res = []string{"Name", "PkgPath", "PathToGoSubDirectory", "OrmPkgGenPath", "ControllersPkgGenPath", "FullstackPkgGenPath", "StackPkgGenPath", "StaticPkgGenPath", "ProbePkgGenPath", "NgWorkspacePath", "NgDataLibrarySourceCodeDirectory", "NgSpecificLibrarySourceCodeDirectory", "MaterialLibDatamodelTargetPath"}
+		res = []string{"Name", "PkgPath", "PathToGoSubDirectory", "OrmPkgGenPath", "ControllersPkgGenPath", "FullstackPkgGenPath", "StackPkgGenPath", "StaticPkgGenPath", "ProbePkgGenPath", "NgWorkspacePath", "NgWorkspaceName", "NgDataLibrarySourceCodeDirectory", "NgSpecificLibrarySourceCodeDirectory", "MaterialLibDatamodelTargetPath"}
 	case PointerToGongStructField:
-		res = []string{"Name", "GongStruct", "Index", "CompositeStructName"}
+		res = []string{"Name", "GongStruct", "Index", "CompositeStructName", "IsType"}
 	case SliceOfPointerToGongStructField:
 		res = []string{"Name", "GongStruct", "Index", "CompositeStructName"}
 	}
@@ -1981,9 +1981,9 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *MetaReference:
 		res = []string{"Name"}
 	case *ModelPkg:
-		res = []string{"Name", "PkgPath", "PathToGoSubDirectory", "OrmPkgGenPath", "ControllersPkgGenPath", "FullstackPkgGenPath", "StackPkgGenPath", "StaticPkgGenPath", "ProbePkgGenPath", "NgWorkspacePath", "NgDataLibrarySourceCodeDirectory", "NgSpecificLibrarySourceCodeDirectory", "MaterialLibDatamodelTargetPath"}
+		res = []string{"Name", "PkgPath", "PathToGoSubDirectory", "OrmPkgGenPath", "ControllersPkgGenPath", "FullstackPkgGenPath", "StackPkgGenPath", "StaticPkgGenPath", "ProbePkgGenPath", "NgWorkspacePath", "NgWorkspaceName", "NgDataLibrarySourceCodeDirectory", "NgSpecificLibrarySourceCodeDirectory", "MaterialLibDatamodelTargetPath"}
 	case *PointerToGongStructField:
-		res = []string{"Name", "GongStruct", "Index", "CompositeStructName"}
+		res = []string{"Name", "GongStruct", "Index", "CompositeStructName", "IsType"}
 	case *SliceOfPointerToGongStructField:
 		res = []string{"Name", "GongStruct", "Index", "CompositeStructName"}
 	}
@@ -2167,6 +2167,8 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res = inferedInstance.ProbePkgGenPath
 		case "NgWorkspacePath":
 			res = inferedInstance.NgWorkspacePath
+		case "NgWorkspaceName":
+			res = inferedInstance.NgWorkspaceName
 		case "NgDataLibrarySourceCodeDirectory":
 			res = inferedInstance.NgDataLibrarySourceCodeDirectory
 		case "NgSpecificLibrarySourceCodeDirectory":
@@ -2187,6 +2189,8 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res = fmt.Sprintf("%d", inferedInstance.Index)
 		case "CompositeStructName":
 			res = inferedInstance.CompositeStructName
+		case "IsType":
+			res = fmt.Sprintf("%t", inferedInstance.IsType)
 		}
 	case *SliceOfPointerToGongStructField:
 		switch fieldName {
@@ -2385,6 +2389,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = inferedInstance.ProbePkgGenPath
 		case "NgWorkspacePath":
 			res = inferedInstance.NgWorkspacePath
+		case "NgWorkspaceName":
+			res = inferedInstance.NgWorkspaceName
 		case "NgDataLibrarySourceCodeDirectory":
 			res = inferedInstance.NgDataLibrarySourceCodeDirectory
 		case "NgSpecificLibrarySourceCodeDirectory":
@@ -2405,6 +2411,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%d", inferedInstance.Index)
 		case "CompositeStructName":
 			res = inferedInstance.CompositeStructName
+		case "IsType":
+			res = fmt.Sprintf("%t", inferedInstance.IsType)
 		}
 	case SliceOfPointerToGongStructField:
 		switch fieldName {

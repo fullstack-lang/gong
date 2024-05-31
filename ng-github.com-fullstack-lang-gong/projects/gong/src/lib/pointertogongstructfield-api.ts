@@ -16,6 +16,7 @@ export class PointerToGongStructFieldAPI {
 	Name: string = ""
 	Index: number = 0
 	CompositeStructName: string = ""
+	IsType: boolean = false
 
 	// insertion point for other decls
 

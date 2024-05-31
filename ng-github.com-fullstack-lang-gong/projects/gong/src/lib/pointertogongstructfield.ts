@@ -21,6 +21,7 @@ export class PointerToGongStructField {
 	Name: string = ""
 	Index: number = 0
 	CompositeStructName: string = ""
+	IsType: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
 	GongStruct?: GongStruct
@@ -37,6 +38,7 @@ export function CopyPointerToGongStructFieldToPointerToGongStructFieldAPI(pointe
 	pointertogongstructfieldAPI.Name = pointertogongstructfield.Name
 	pointertogongstructfieldAPI.Index = pointertogongstructfield.Index
 	pointertogongstructfieldAPI.CompositeStructName = pointertogongstructfield.CompositeStructName
+	pointertogongstructfieldAPI.IsType = pointertogongstructfield.IsType
 
 	// insertion point for pointer fields encoding
 	pointertogongstructfieldAPI.PointerToGongStructFieldPointersEncoding.GongStructID.Valid = true
@@ -64,6 +66,7 @@ export function CopyPointerToGongStructFieldAPIToPointerToGongStructField(pointe
 	pointertogongstructfield.Name = pointertogongstructfieldAPI.Name
 	pointertogongstructfield.Index = pointertogongstructfieldAPI.Index
 	pointertogongstructfield.CompositeStructName = pointertogongstructfieldAPI.CompositeStructName
+	pointertogongstructfield.IsType = pointertogongstructfieldAPI.IsType
 
 	// insertion point for pointer fields encoding
 	pointertogongstructfield.GongStruct = frontRepo.map_ID_GongStruct.get(pointertogongstructfieldAPI.PointerToGongStructFieldPointersEncoding.GongStructID.Int64)

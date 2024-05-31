@@ -1,6 +1,6 @@
 # Gong
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.0.
+This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.0.
 
 ## Code scaffolding
 

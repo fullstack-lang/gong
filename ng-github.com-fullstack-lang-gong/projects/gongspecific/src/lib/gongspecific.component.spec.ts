@@ -8,10 +8,10 @@ describe('GongspecificComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GongspecificComponent ]
+      imports: [GongspecificComponent]
     })
     .compileComponents();
-
+    
     fixture = TestBed.createComponent(GongspecificComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

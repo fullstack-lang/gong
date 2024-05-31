@@ -2,18 +2,15 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "newProjectRoot": "projects",
   "projects": {
-    "ng": {
+    "ng-github.com-fullstack-lang-gong": {
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "configurations": {
             "development": {
-              "buildOptimizer": false,
               "extractLicenses": false,
-              "namedChunks": true,
               "optimization": false,
-              "sourceMap": true,
-              "vendorChunk": true
+              "sourceMap": true
             },
             "production": {
               "budgets": [
@@ -37,9 +34,9 @@
               "src/favicon.ico",
               "src/assets"
             ],
+            "browser": "src/main.ts",
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "outputPath": "dist/ng",
+            "outputPath": "dist/ng-github.com-fullstack-lang-gong",
             "polyfills": [
               "zone.js"
             ],
@@ -54,17 +51,17 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ng:build"
+            "buildTarget": "ng-github.com-fullstack-lang-gong:build"
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "development": {
-              "browserTarget": "ng:build:development"
+              "buildTarget": "ng-github.com-fullstack-lang-gong:build:development"
             },
             "production": {
-              "browserTarget": "ng:build:production"
+              "buildTarget": "ng-github.com-fullstack-lang-gong:build:production"
             }
           },
           "defaultConfiguration": "development"

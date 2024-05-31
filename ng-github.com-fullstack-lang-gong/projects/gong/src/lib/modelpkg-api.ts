@@ -22,6 +22,7 @@ export class ModelPkgAPI {
 	StaticPkgGenPath: string = ""
 	ProbePkgGenPath: string = ""
 	NgWorkspacePath: string = ""
+	NgWorkspaceName: string = ""
 	NgDataLibrarySourceCodeDirectory: string = ""
 	NgSpecificLibrarySourceCodeDirectory: string = ""
 	MaterialLibDatamodelTargetPath: string = ""
