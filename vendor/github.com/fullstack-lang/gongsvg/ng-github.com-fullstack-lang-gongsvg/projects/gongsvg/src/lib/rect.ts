@@ -30,6 +30,7 @@ export class Rect {
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""
+	StrokeOpacity: number = 0
 	StrokeWidth: number = 0
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
@@ -71,6 +72,7 @@ export function CopyRectToRectAPI(rect: Rect, rectAPI: RectAPI) {
 	rectAPI.Color = rect.Color
 	rectAPI.FillOpacity = rect.FillOpacity
 	rectAPI.Stroke = rect.Stroke
+	rectAPI.StrokeOpacity = rect.StrokeOpacity
 	rectAPI.StrokeWidth = rect.StrokeWidth
 	rectAPI.StrokeDashArray = rect.StrokeDashArray
 	rectAPI.StrokeDashArrayWhenSelected = rect.StrokeDashArrayWhenSelected
@@ -134,6 +136,7 @@ export function CopyRectAPIToRect(rectAPI: RectAPI, rect: Rect, frontRepo: Front
 	rect.Color = rectAPI.Color
 	rect.FillOpacity = rectAPI.FillOpacity
 	rect.Stroke = rectAPI.Stroke
+	rect.StrokeOpacity = rectAPI.StrokeOpacity
 	rect.StrokeWidth = rectAPI.StrokeWidth
 	rect.StrokeDashArray = rectAPI.StrokeDashArray
 	rect.StrokeDashArrayWhenSelected = rectAPI.StrokeDashArrayWhenSelected

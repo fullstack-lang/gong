@@ -82,6 +82,9 @@ type RectLinkLinkDB struct {
 	// Declation for basic field rectlinklinkDB.Stroke
 	Stroke_Data sql.NullString
 
+	// Declation for basic field rectlinklinkDB.StrokeOpacity
+	StrokeOpacity_Data sql.NullFloat64
+
 	// Declation for basic field rectlinklinkDB.StrokeWidth
 	StrokeWidth_Data sql.NullFloat64
 
@@ -126,13 +129,15 @@ type RectLinkLinkWOP struct {
 
 	Stroke string `xlsx:"5"`
 
-	StrokeWidth float64 `xlsx:"6"`
+	StrokeOpacity float64 `xlsx:"6"`
 
-	StrokeDashArray string `xlsx:"7"`
+	StrokeWidth float64 `xlsx:"7"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"8"`
+	StrokeDashArray string `xlsx:"8"`
 
-	Transform string `xlsx:"9"`
+	StrokeDashArrayWhenSelected string `xlsx:"9"`
+
+	Transform string `xlsx:"10"`
 	// insertion for WOP pointer fields
 }
 
@@ -144,6 +149,7 @@ var RectLinkLink_Fields = []string{
 	"Color",
 	"FillOpacity",
 	"Stroke",
+	"StrokeOpacity",
 	"StrokeWidth",
 	"StrokeDashArray",
 	"StrokeDashArrayWhenSelected",
@@ -463,6 +469,9 @@ func (rectlinklinkDB *RectLinkLinkDB) CopyBasicFieldsFromRectLinkLink(rectlinkli
 	rectlinklinkDB.Stroke_Data.String = rectlinklink.Stroke
 	rectlinklinkDB.Stroke_Data.Valid = true
 
+	rectlinklinkDB.StrokeOpacity_Data.Float64 = rectlinklink.StrokeOpacity
+	rectlinklinkDB.StrokeOpacity_Data.Valid = true
+
 	rectlinklinkDB.StrokeWidth_Data.Float64 = rectlinklink.StrokeWidth
 	rectlinklinkDB.StrokeWidth_Data.Valid = true
 
@@ -494,6 +503,9 @@ func (rectlinklinkDB *RectLinkLinkDB) CopyBasicFieldsFromRectLinkLink_WOP(rectli
 
 	rectlinklinkDB.Stroke_Data.String = rectlinklink.Stroke
 	rectlinklinkDB.Stroke_Data.Valid = true
+
+	rectlinklinkDB.StrokeOpacity_Data.Float64 = rectlinklink.StrokeOpacity
+	rectlinklinkDB.StrokeOpacity_Data.Valid = true
 
 	rectlinklinkDB.StrokeWidth_Data.Float64 = rectlinklink.StrokeWidth
 	rectlinklinkDB.StrokeWidth_Data.Valid = true
@@ -527,6 +539,9 @@ func (rectlinklinkDB *RectLinkLinkDB) CopyBasicFieldsFromRectLinkLinkWOP(rectlin
 	rectlinklinkDB.Stroke_Data.String = rectlinklink.Stroke
 	rectlinklinkDB.Stroke_Data.Valid = true
 
+	rectlinklinkDB.StrokeOpacity_Data.Float64 = rectlinklink.StrokeOpacity
+	rectlinklinkDB.StrokeOpacity_Data.Valid = true
+
 	rectlinklinkDB.StrokeWidth_Data.Float64 = rectlinklink.StrokeWidth
 	rectlinklinkDB.StrokeWidth_Data.Valid = true
 
@@ -548,6 +563,7 @@ func (rectlinklinkDB *RectLinkLinkDB) CopyBasicFieldsToRectLinkLink(rectlinklink
 	rectlinklink.Color = rectlinklinkDB.Color_Data.String
 	rectlinklink.FillOpacity = rectlinklinkDB.FillOpacity_Data.Float64
 	rectlinklink.Stroke = rectlinklinkDB.Stroke_Data.String
+	rectlinklink.StrokeOpacity = rectlinklinkDB.StrokeOpacity_Data.Float64
 	rectlinklink.StrokeWidth = rectlinklinkDB.StrokeWidth_Data.Float64
 	rectlinklink.StrokeDashArray = rectlinklinkDB.StrokeDashArray_Data.String
 	rectlinklink.StrokeDashArrayWhenSelected = rectlinklinkDB.StrokeDashArrayWhenSelected_Data.String
@@ -562,6 +578,7 @@ func (rectlinklinkDB *RectLinkLinkDB) CopyBasicFieldsToRectLinkLink_WOP(rectlink
 	rectlinklink.Color = rectlinklinkDB.Color_Data.String
 	rectlinklink.FillOpacity = rectlinklinkDB.FillOpacity_Data.Float64
 	rectlinklink.Stroke = rectlinklinkDB.Stroke_Data.String
+	rectlinklink.StrokeOpacity = rectlinklinkDB.StrokeOpacity_Data.Float64
 	rectlinklink.StrokeWidth = rectlinklinkDB.StrokeWidth_Data.Float64
 	rectlinklink.StrokeDashArray = rectlinklinkDB.StrokeDashArray_Data.String
 	rectlinklink.StrokeDashArrayWhenSelected = rectlinklinkDB.StrokeDashArrayWhenSelected_Data.String
@@ -577,6 +594,7 @@ func (rectlinklinkDB *RectLinkLinkDB) CopyBasicFieldsToRectLinkLinkWOP(rectlinkl
 	rectlinklink.Color = rectlinklinkDB.Color_Data.String
 	rectlinklink.FillOpacity = rectlinklinkDB.FillOpacity_Data.Float64
 	rectlinklink.Stroke = rectlinklinkDB.Stroke_Data.String
+	rectlinklink.StrokeOpacity = rectlinklinkDB.StrokeOpacity_Data.Float64
 	rectlinklink.StrokeWidth = rectlinklinkDB.StrokeWidth_Data.Float64
 	rectlinklink.StrokeDashArray = rectlinklinkDB.StrokeDashArray_Data.String
 	rectlinklink.StrokeDashArrayWhenSelected = rectlinklinkDB.StrokeDashArrayWhenSelected_Data.String

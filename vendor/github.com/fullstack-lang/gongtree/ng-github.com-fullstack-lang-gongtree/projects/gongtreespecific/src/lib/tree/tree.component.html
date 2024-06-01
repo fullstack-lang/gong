@@ -29,7 +29,7 @@
                 </mat-icon>
             </button>
             <ng-container *ngFor="let button of node.gongNode.Buttons">
-                <button mat-icon-button (click)="onButtonClick(node, button)" class="tight-buttons">
+                <button mat-icon-button (click)="onButtonClick($event, node, button)" class="tight-buttons">
                     <mat-icon *ngIf="button.SVGIcon == undefined" [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{button.Icon}}
                     </mat-icon>
                     <mat-icon *ngIf="button.SVGIcon" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" svgIcon="{{button.SVGIcon.Name}}">
@@ -61,7 +61,7 @@
                 {{node.name}}
             </div>
             <ng-container *ngFor="let button of node.gongNode.Buttons">
-                <button mat-icon-button (click)="onButtonClick(node, button)">
+                <button mat-icon-button (click)="onButtonClick($event, node, button)">
                     <mat-icon *ngIf="button.SVGIcon == undefined" [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{button.Icon}}
                     </mat-icon>
                     <mat-icon *ngIf="button.SVGIcon" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" svgIcon="{{button.SVGIcon.Name}}">

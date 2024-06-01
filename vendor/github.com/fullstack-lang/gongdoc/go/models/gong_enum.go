@@ -324,16 +324,94 @@ func (orientationtype OrientationType) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for StacksNames
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (stacksnames StacksNames) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch stacksnames {
+	// insertion code per enum code
+	case SvgStackName:
+		res = "svg"
+	case GongdocStackName:
+		res = "gongdoc"
+	}
+	return
+}
+
+func (stacksnames *StacksNames) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "svg":
+		*stacksnames = SvgStackName
+	case "gongdoc":
+		*stacksnames = GongdocStackName
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (stacksnames *StacksNames) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "SvgStackName":
+		*stacksnames = SvgStackName
+	case "GongdocStackName":
+		*stacksnames = GongdocStackName
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (stacksnames *StacksNames) ToCodeString() (res string) {
+
+	switch *stacksnames {
+	// insertion code per enum code
+	case SvgStackName:
+		res = "SvgStackName"
+	case GongdocStackName:
+		res = "GongdocStackName"
+	}
+	return
+}
+
+func (stacksnames StacksNames) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "SvgStackName")
+	res = append(res, "GongdocStackName")
+
+	return
+}
+
+func (stacksnames StacksNames) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "svg")
+	res = append(res, "gongdoc")
+
+	return
+}
+
 // end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {
-	string | MultiplicityType | NoteShapeLinkType | OrientationType
+	string | MultiplicityType | NoteShapeLinkType | OrientationType | StacksNames
 	Codes() []string
 	CodeValues() []string
 }
 
 type PointerToGongstructEnumStringField interface {
-	*MultiplicityType | *NoteShapeLinkType | *OrientationType
+	*MultiplicityType | *NoteShapeLinkType | *OrientationType | *StacksNames
 	FromCodeString(input string) (err error)
 }
 

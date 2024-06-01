@@ -131,9 +131,12 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
   }
 
   resetAllLinksPreviousStartEndRects() {
+    console.log(getFunctionName())
     for (let link of this.gongsvgFrontRepo?.getFrontArray<gongsvg.Link>(gongsvg.Link.GONGSTRUCT_NAME)!) {
-      this.map_Link_PreviousStart.set(link, structuredClone(link.Start!))
-      this.map_Link_PreviousEnd.set(link, structuredClone(link.End!))
+      // TODO : why do we need to store the previous thing
+      // one remived the srture clone call
+      this.map_Link_PreviousStart.set(link, link.Start!)
+      this.map_Link_PreviousEnd.set(link, link.End!)
     }
   }
 

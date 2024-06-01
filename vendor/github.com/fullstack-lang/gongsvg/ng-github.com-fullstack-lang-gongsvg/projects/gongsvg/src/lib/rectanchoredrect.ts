@@ -31,6 +31,7 @@ export class RectAnchoredRect {
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""
+	StrokeOpacity: number = 0
 	StrokeWidth: number = 0
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
@@ -60,6 +61,7 @@ export function CopyRectAnchoredRectToRectAnchoredRectAPI(rectanchoredrect: Rect
 	rectanchoredrectAPI.Color = rectanchoredrect.Color
 	rectanchoredrectAPI.FillOpacity = rectanchoredrect.FillOpacity
 	rectanchoredrectAPI.Stroke = rectanchoredrect.Stroke
+	rectanchoredrectAPI.StrokeOpacity = rectanchoredrect.StrokeOpacity
 	rectanchoredrectAPI.StrokeWidth = rectanchoredrect.StrokeWidth
 	rectanchoredrectAPI.StrokeDashArray = rectanchoredrect.StrokeDashArray
 	rectanchoredrectAPI.StrokeDashArrayWhenSelected = rectanchoredrect.StrokeDashArrayWhenSelected
@@ -95,6 +97,7 @@ export function CopyRectAnchoredRectAPIToRectAnchoredRect(rectanchoredrectAPI: R
 	rectanchoredrect.Color = rectanchoredrectAPI.Color
 	rectanchoredrect.FillOpacity = rectanchoredrectAPI.FillOpacity
 	rectanchoredrect.Stroke = rectanchoredrectAPI.Stroke
+	rectanchoredrect.StrokeOpacity = rectanchoredrectAPI.StrokeOpacity
 	rectanchoredrect.StrokeWidth = rectanchoredrectAPI.StrokeWidth
 	rectanchoredrect.StrokeDashArray = rectanchoredrectAPI.StrokeDashArray
 	rectanchoredrect.StrokeDashArrayWhenSelected = rectanchoredrectAPI.StrokeDashArrayWhenSelected

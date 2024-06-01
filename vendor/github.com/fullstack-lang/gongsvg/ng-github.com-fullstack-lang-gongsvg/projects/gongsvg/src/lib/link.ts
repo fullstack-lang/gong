@@ -38,6 +38,7 @@ export class Link {
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""
+	StrokeOpacity: number = 0
 	StrokeWidth: number = 0
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
@@ -78,6 +79,7 @@ export function CopyLinkToLinkAPI(link: Link, linkAPI: LinkAPI) {
 	linkAPI.Color = link.Color
 	linkAPI.FillOpacity = link.FillOpacity
 	linkAPI.Stroke = link.Stroke
+	linkAPI.StrokeOpacity = link.StrokeOpacity
 	linkAPI.StrokeWidth = link.StrokeWidth
 	linkAPI.StrokeDashArray = link.StrokeDashArray
 	linkAPI.StrokeDashArrayWhenSelected = link.StrokeDashArrayWhenSelected
@@ -146,6 +148,7 @@ export function CopyLinkAPIToLink(linkAPI: LinkAPI, link: Link, frontRepo: Front
 	link.Color = linkAPI.Color
 	link.FillOpacity = linkAPI.FillOpacity
 	link.Stroke = linkAPI.Stroke
+	link.StrokeOpacity = linkAPI.StrokeOpacity
 	link.StrokeWidth = linkAPI.StrokeWidth
 	link.StrokeDashArray = linkAPI.StrokeDashArray
 	link.StrokeDashArrayWhenSelected = linkAPI.StrokeDashArrayWhenSelected

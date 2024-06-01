@@ -77,6 +77,9 @@ type PolylineDB struct {
 	// Declation for basic field polylineDB.Stroke
 	Stroke_Data sql.NullString
 
+	// Declation for basic field polylineDB.StrokeOpacity
+	StrokeOpacity_Data sql.NullFloat64
+
 	// Declation for basic field polylineDB.StrokeWidth
 	StrokeWidth_Data sql.NullFloat64
 
@@ -121,13 +124,15 @@ type PolylineWOP struct {
 
 	Stroke string `xlsx:"5"`
 
-	StrokeWidth float64 `xlsx:"6"`
+	StrokeOpacity float64 `xlsx:"6"`
 
-	StrokeDashArray string `xlsx:"7"`
+	StrokeWidth float64 `xlsx:"7"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"8"`
+	StrokeDashArray string `xlsx:"8"`
 
-	Transform string `xlsx:"9"`
+	StrokeDashArrayWhenSelected string `xlsx:"9"`
+
+	Transform string `xlsx:"10"`
 	// insertion for WOP pointer fields
 }
 
@@ -139,6 +144,7 @@ var Polyline_Fields = []string{
 	"Color",
 	"FillOpacity",
 	"Stroke",
+	"StrokeOpacity",
 	"StrokeWidth",
 	"StrokeDashArray",
 	"StrokeDashArrayWhenSelected",
@@ -451,6 +457,9 @@ func (polylineDB *PolylineDB) CopyBasicFieldsFromPolyline(polyline *models.Polyl
 	polylineDB.Stroke_Data.String = polyline.Stroke
 	polylineDB.Stroke_Data.Valid = true
 
+	polylineDB.StrokeOpacity_Data.Float64 = polyline.StrokeOpacity
+	polylineDB.StrokeOpacity_Data.Valid = true
+
 	polylineDB.StrokeWidth_Data.Float64 = polyline.StrokeWidth
 	polylineDB.StrokeWidth_Data.Valid = true
 
@@ -482,6 +491,9 @@ func (polylineDB *PolylineDB) CopyBasicFieldsFromPolyline_WOP(polyline *models.P
 
 	polylineDB.Stroke_Data.String = polyline.Stroke
 	polylineDB.Stroke_Data.Valid = true
+
+	polylineDB.StrokeOpacity_Data.Float64 = polyline.StrokeOpacity
+	polylineDB.StrokeOpacity_Data.Valid = true
 
 	polylineDB.StrokeWidth_Data.Float64 = polyline.StrokeWidth
 	polylineDB.StrokeWidth_Data.Valid = true
@@ -515,6 +527,9 @@ func (polylineDB *PolylineDB) CopyBasicFieldsFromPolylineWOP(polyline *PolylineW
 	polylineDB.Stroke_Data.String = polyline.Stroke
 	polylineDB.Stroke_Data.Valid = true
 
+	polylineDB.StrokeOpacity_Data.Float64 = polyline.StrokeOpacity
+	polylineDB.StrokeOpacity_Data.Valid = true
+
 	polylineDB.StrokeWidth_Data.Float64 = polyline.StrokeWidth
 	polylineDB.StrokeWidth_Data.Valid = true
 
@@ -536,6 +551,7 @@ func (polylineDB *PolylineDB) CopyBasicFieldsToPolyline(polyline *models.Polylin
 	polyline.Color = polylineDB.Color_Data.String
 	polyline.FillOpacity = polylineDB.FillOpacity_Data.Float64
 	polyline.Stroke = polylineDB.Stroke_Data.String
+	polyline.StrokeOpacity = polylineDB.StrokeOpacity_Data.Float64
 	polyline.StrokeWidth = polylineDB.StrokeWidth_Data.Float64
 	polyline.StrokeDashArray = polylineDB.StrokeDashArray_Data.String
 	polyline.StrokeDashArrayWhenSelected = polylineDB.StrokeDashArrayWhenSelected_Data.String
@@ -550,6 +566,7 @@ func (polylineDB *PolylineDB) CopyBasicFieldsToPolyline_WOP(polyline *models.Pol
 	polyline.Color = polylineDB.Color_Data.String
 	polyline.FillOpacity = polylineDB.FillOpacity_Data.Float64
 	polyline.Stroke = polylineDB.Stroke_Data.String
+	polyline.StrokeOpacity = polylineDB.StrokeOpacity_Data.Float64
 	polyline.StrokeWidth = polylineDB.StrokeWidth_Data.Float64
 	polyline.StrokeDashArray = polylineDB.StrokeDashArray_Data.String
 	polyline.StrokeDashArrayWhenSelected = polylineDB.StrokeDashArrayWhenSelected_Data.String
@@ -565,6 +582,7 @@ func (polylineDB *PolylineDB) CopyBasicFieldsToPolylineWOP(polyline *PolylineWOP
 	polyline.Color = polylineDB.Color_Data.String
 	polyline.FillOpacity = polylineDB.FillOpacity_Data.Float64
 	polyline.Stroke = polylineDB.Stroke_Data.String
+	polyline.StrokeOpacity = polylineDB.StrokeOpacity_Data.Float64
 	polyline.StrokeWidth = polylineDB.StrokeWidth_Data.Float64
 	polyline.StrokeDashArray = polylineDB.StrokeDashArray_Data.String
 	polyline.StrokeDashArrayWhenSelected = polylineDB.StrokeDashArrayWhenSelected_Data.String

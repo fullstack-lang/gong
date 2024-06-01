@@ -98,6 +98,9 @@ type RectDB struct {
 	// Declation for basic field rectDB.Stroke
 	Stroke_Data sql.NullString
 
+	// Declation for basic field rectDB.StrokeOpacity
+	StrokeOpacity_Data sql.NullFloat64
+
 	// Declation for basic field rectDB.StrokeWidth
 	StrokeWidth_Data sql.NullFloat64
 
@@ -202,39 +205,41 @@ type RectWOP struct {
 
 	Stroke string `xlsx:"9"`
 
-	StrokeWidth float64 `xlsx:"10"`
+	StrokeOpacity float64 `xlsx:"10"`
 
-	StrokeDashArray string `xlsx:"11"`
+	StrokeWidth float64 `xlsx:"11"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"12"`
+	StrokeDashArray string `xlsx:"12"`
 
-	Transform string `xlsx:"13"`
+	StrokeDashArrayWhenSelected string `xlsx:"13"`
 
-	IsSelectable bool `xlsx:"14"`
+	Transform string `xlsx:"14"`
 
-	IsSelected bool `xlsx:"15"`
+	IsSelectable bool `xlsx:"15"`
 
-	CanHaveLeftHandle bool `xlsx:"16"`
+	IsSelected bool `xlsx:"16"`
 
-	HasLeftHandle bool `xlsx:"17"`
+	CanHaveLeftHandle bool `xlsx:"17"`
 
-	CanHaveRightHandle bool `xlsx:"18"`
+	HasLeftHandle bool `xlsx:"18"`
 
-	HasRightHandle bool `xlsx:"19"`
+	CanHaveRightHandle bool `xlsx:"19"`
 
-	CanHaveTopHandle bool `xlsx:"20"`
+	HasRightHandle bool `xlsx:"20"`
 
-	HasTopHandle bool `xlsx:"21"`
+	CanHaveTopHandle bool `xlsx:"21"`
 
-	IsScalingProportionally bool `xlsx:"22"`
+	HasTopHandle bool `xlsx:"22"`
 
-	CanHaveBottomHandle bool `xlsx:"23"`
+	IsScalingProportionally bool `xlsx:"23"`
 
-	HasBottomHandle bool `xlsx:"24"`
+	CanHaveBottomHandle bool `xlsx:"24"`
 
-	CanMoveHorizontaly bool `xlsx:"25"`
+	HasBottomHandle bool `xlsx:"25"`
 
-	CanMoveVerticaly bool `xlsx:"26"`
+	CanMoveHorizontaly bool `xlsx:"26"`
+
+	CanMoveVerticaly bool `xlsx:"27"`
 	// insertion for WOP pointer fields
 }
 
@@ -250,6 +255,7 @@ var Rect_Fields = []string{
 	"Color",
 	"FillOpacity",
 	"Stroke",
+	"StrokeOpacity",
 	"StrokeWidth",
 	"StrokeDashArray",
 	"StrokeDashArrayWhenSelected",
@@ -668,6 +674,9 @@ func (rectDB *RectDB) CopyBasicFieldsFromRect(rect *models.Rect) {
 	rectDB.Stroke_Data.String = rect.Stroke
 	rectDB.Stroke_Data.Valid = true
 
+	rectDB.StrokeOpacity_Data.Float64 = rect.StrokeOpacity
+	rectDB.StrokeOpacity_Data.Valid = true
+
 	rectDB.StrokeWidth_Data.Float64 = rect.StrokeWidth
 	rectDB.StrokeWidth_Data.Valid = true
 
@@ -750,6 +759,9 @@ func (rectDB *RectDB) CopyBasicFieldsFromRect_WOP(rect *models.Rect_WOP) {
 
 	rectDB.Stroke_Data.String = rect.Stroke
 	rectDB.Stroke_Data.Valid = true
+
+	rectDB.StrokeOpacity_Data.Float64 = rect.StrokeOpacity
+	rectDB.StrokeOpacity_Data.Valid = true
 
 	rectDB.StrokeWidth_Data.Float64 = rect.StrokeWidth
 	rectDB.StrokeWidth_Data.Valid = true
@@ -834,6 +846,9 @@ func (rectDB *RectDB) CopyBasicFieldsFromRectWOP(rect *RectWOP) {
 	rectDB.Stroke_Data.String = rect.Stroke
 	rectDB.Stroke_Data.Valid = true
 
+	rectDB.StrokeOpacity_Data.Float64 = rect.StrokeOpacity
+	rectDB.StrokeOpacity_Data.Valid = true
+
 	rectDB.StrokeWidth_Data.Float64 = rect.StrokeWidth
 	rectDB.StrokeWidth_Data.Valid = true
 
@@ -898,6 +913,7 @@ func (rectDB *RectDB) CopyBasicFieldsToRect(rect *models.Rect) {
 	rect.Color = rectDB.Color_Data.String
 	rect.FillOpacity = rectDB.FillOpacity_Data.Float64
 	rect.Stroke = rectDB.Stroke_Data.String
+	rect.StrokeOpacity = rectDB.StrokeOpacity_Data.Float64
 	rect.StrokeWidth = rectDB.StrokeWidth_Data.Float64
 	rect.StrokeDashArray = rectDB.StrokeDashArray_Data.String
 	rect.StrokeDashArrayWhenSelected = rectDB.StrokeDashArrayWhenSelected_Data.String
@@ -929,6 +945,7 @@ func (rectDB *RectDB) CopyBasicFieldsToRect_WOP(rect *models.Rect_WOP) {
 	rect.Color = rectDB.Color_Data.String
 	rect.FillOpacity = rectDB.FillOpacity_Data.Float64
 	rect.Stroke = rectDB.Stroke_Data.String
+	rect.StrokeOpacity = rectDB.StrokeOpacity_Data.Float64
 	rect.StrokeWidth = rectDB.StrokeWidth_Data.Float64
 	rect.StrokeDashArray = rectDB.StrokeDashArray_Data.String
 	rect.StrokeDashArrayWhenSelected = rectDB.StrokeDashArrayWhenSelected_Data.String
@@ -961,6 +978,7 @@ func (rectDB *RectDB) CopyBasicFieldsToRectWOP(rect *RectWOP) {
 	rect.Color = rectDB.Color_Data.String
 	rect.FillOpacity = rectDB.FillOpacity_Data.Float64
 	rect.Stroke = rectDB.Stroke_Data.String
+	rect.StrokeOpacity = rectDB.StrokeOpacity_Data.Float64
 	rect.StrokeWidth = rectDB.StrokeWidth_Data.Float64
 	rect.StrokeDashArray = rectDB.StrokeDashArray_Data.String
 	rect.StrokeDashArrayWhenSelected = rectDB.StrokeDashArrayWhenSelected_Data.String
