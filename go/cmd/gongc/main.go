@@ -250,7 +250,7 @@ func main() {
 		}
 	}
 
-	if !*skipNpmWorkspaces {
+	if !*skipNpmWorkspaces && !*skipNg && !*skipNpmInstall {
 		// we need to use npm package (because of angular 17/esbuild)
 		// check wether a package.json is present, otherwise generate it
 		packageJsonFilePath := filepath.Join(*pkgPath, "../../package.json")
