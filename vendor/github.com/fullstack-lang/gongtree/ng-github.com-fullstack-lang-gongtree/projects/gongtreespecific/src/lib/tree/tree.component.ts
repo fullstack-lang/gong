@@ -204,7 +204,10 @@ export class TreeComponent implements OnInit {
     )
   }
 
-  onButtonClick(node: FlatNode, button: gongtree.Button) {
+  onButtonClick(event: Event, node: FlatNode, button: gongtree.Button) {
+
+    // Stop the click event from propagating to the parent node
+    event.stopPropagation();
 
     this.gongtreeButtonService.updateFront(button, this.GONG__StackPath).subscribe(
       gongtreeButton => {

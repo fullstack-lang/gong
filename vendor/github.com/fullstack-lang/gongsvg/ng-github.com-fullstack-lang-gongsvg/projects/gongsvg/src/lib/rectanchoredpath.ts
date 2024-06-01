@@ -27,6 +27,7 @@ export class RectAnchoredPath {
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""
+	StrokeOpacity: number = 0
 	StrokeWidth: number = 0
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
@@ -52,6 +53,7 @@ export function CopyRectAnchoredPathToRectAnchoredPathAPI(rectanchoredpath: Rect
 	rectanchoredpathAPI.Color = rectanchoredpath.Color
 	rectanchoredpathAPI.FillOpacity = rectanchoredpath.FillOpacity
 	rectanchoredpathAPI.Stroke = rectanchoredpath.Stroke
+	rectanchoredpathAPI.StrokeOpacity = rectanchoredpath.StrokeOpacity
 	rectanchoredpathAPI.StrokeWidth = rectanchoredpath.StrokeWidth
 	rectanchoredpathAPI.StrokeDashArray = rectanchoredpath.StrokeDashArray
 	rectanchoredpathAPI.StrokeDashArrayWhenSelected = rectanchoredpath.StrokeDashArrayWhenSelected
@@ -83,6 +85,7 @@ export function CopyRectAnchoredPathAPIToRectAnchoredPath(rectanchoredpathAPI: R
 	rectanchoredpath.Color = rectanchoredpathAPI.Color
 	rectanchoredpath.FillOpacity = rectanchoredpathAPI.FillOpacity
 	rectanchoredpath.Stroke = rectanchoredpathAPI.Stroke
+	rectanchoredpath.StrokeOpacity = rectanchoredpathAPI.StrokeOpacity
 	rectanchoredpath.StrokeWidth = rectanchoredpathAPI.StrokeWidth
 	rectanchoredpath.StrokeDashArray = rectanchoredpathAPI.StrokeDashArray
 	rectanchoredpath.StrokeDashArrayWhenSelected = rectanchoredpathAPI.StrokeDashArrayWhenSelected

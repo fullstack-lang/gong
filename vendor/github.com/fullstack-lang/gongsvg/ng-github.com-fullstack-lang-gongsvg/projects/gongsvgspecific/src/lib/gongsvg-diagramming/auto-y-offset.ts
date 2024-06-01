@@ -49,5 +49,6 @@ export function auto_Y_offset(
     } else {
         offset += oneEm * 0.4
     }
+
     return offset * offsetSign
 }

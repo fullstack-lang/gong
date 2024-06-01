@@ -25,6 +25,7 @@ export class Text {
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""
+	StrokeOpacity: number = 0
 	StrokeWidth: number = 0
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
@@ -48,6 +49,7 @@ export function CopyTextToTextAPI(text: Text, textAPI: TextAPI) {
 	textAPI.Color = text.Color
 	textAPI.FillOpacity = text.FillOpacity
 	textAPI.Stroke = text.Stroke
+	textAPI.StrokeOpacity = text.StrokeOpacity
 	textAPI.StrokeWidth = text.StrokeWidth
 	textAPI.StrokeDashArray = text.StrokeDashArray
 	textAPI.StrokeDashArrayWhenSelected = text.StrokeDashArrayWhenSelected
@@ -81,6 +83,7 @@ export function CopyTextAPIToText(textAPI: TextAPI, text: Text, frontRepo: Front
 	text.Color = textAPI.Color
 	text.FillOpacity = textAPI.FillOpacity
 	text.Stroke = textAPI.Stroke
+	text.StrokeOpacity = textAPI.StrokeOpacity
 	text.StrokeWidth = textAPI.StrokeWidth
 	text.StrokeDashArray = textAPI.StrokeDashArray
 	text.StrokeDashArrayWhenSelected = textAPI.StrokeDashArrayWhenSelected

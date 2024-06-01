@@ -86,6 +86,9 @@ type EllipseDB struct {
 	// Declation for basic field ellipseDB.Stroke
 	Stroke_Data sql.NullString
 
+	// Declation for basic field ellipseDB.StrokeOpacity
+	StrokeOpacity_Data sql.NullFloat64
+
 	// Declation for basic field ellipseDB.StrokeWidth
 	StrokeWidth_Data sql.NullFloat64
 
@@ -136,13 +139,15 @@ type EllipseWOP struct {
 
 	Stroke string `xlsx:"8"`
 
-	StrokeWidth float64 `xlsx:"9"`
+	StrokeOpacity float64 `xlsx:"9"`
 
-	StrokeDashArray string `xlsx:"10"`
+	StrokeWidth float64 `xlsx:"10"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"11"`
+	StrokeDashArray string `xlsx:"11"`
 
-	Transform string `xlsx:"12"`
+	StrokeDashArrayWhenSelected string `xlsx:"12"`
+
+	Transform string `xlsx:"13"`
 	// insertion for WOP pointer fields
 }
 
@@ -157,6 +162,7 @@ var Ellipse_Fields = []string{
 	"Color",
 	"FillOpacity",
 	"Stroke",
+	"StrokeOpacity",
 	"StrokeWidth",
 	"StrokeDashArray",
 	"StrokeDashArrayWhenSelected",
@@ -478,6 +484,9 @@ func (ellipseDB *EllipseDB) CopyBasicFieldsFromEllipse(ellipse *models.Ellipse) 
 	ellipseDB.Stroke_Data.String = ellipse.Stroke
 	ellipseDB.Stroke_Data.Valid = true
 
+	ellipseDB.StrokeOpacity_Data.Float64 = ellipse.StrokeOpacity
+	ellipseDB.StrokeOpacity_Data.Valid = true
+
 	ellipseDB.StrokeWidth_Data.Float64 = ellipse.StrokeWidth
 	ellipseDB.StrokeWidth_Data.Valid = true
 
@@ -518,6 +527,9 @@ func (ellipseDB *EllipseDB) CopyBasicFieldsFromEllipse_WOP(ellipse *models.Ellip
 
 	ellipseDB.Stroke_Data.String = ellipse.Stroke
 	ellipseDB.Stroke_Data.Valid = true
+
+	ellipseDB.StrokeOpacity_Data.Float64 = ellipse.StrokeOpacity
+	ellipseDB.StrokeOpacity_Data.Valid = true
 
 	ellipseDB.StrokeWidth_Data.Float64 = ellipse.StrokeWidth
 	ellipseDB.StrokeWidth_Data.Valid = true
@@ -560,6 +572,9 @@ func (ellipseDB *EllipseDB) CopyBasicFieldsFromEllipseWOP(ellipse *EllipseWOP) {
 	ellipseDB.Stroke_Data.String = ellipse.Stroke
 	ellipseDB.Stroke_Data.Valid = true
 
+	ellipseDB.StrokeOpacity_Data.Float64 = ellipse.StrokeOpacity
+	ellipseDB.StrokeOpacity_Data.Valid = true
+
 	ellipseDB.StrokeWidth_Data.Float64 = ellipse.StrokeWidth
 	ellipseDB.StrokeWidth_Data.Valid = true
 
@@ -584,6 +599,7 @@ func (ellipseDB *EllipseDB) CopyBasicFieldsToEllipse(ellipse *models.Ellipse) {
 	ellipse.Color = ellipseDB.Color_Data.String
 	ellipse.FillOpacity = ellipseDB.FillOpacity_Data.Float64
 	ellipse.Stroke = ellipseDB.Stroke_Data.String
+	ellipse.StrokeOpacity = ellipseDB.StrokeOpacity_Data.Float64
 	ellipse.StrokeWidth = ellipseDB.StrokeWidth_Data.Float64
 	ellipse.StrokeDashArray = ellipseDB.StrokeDashArray_Data.String
 	ellipse.StrokeDashArrayWhenSelected = ellipseDB.StrokeDashArrayWhenSelected_Data.String
@@ -601,6 +617,7 @@ func (ellipseDB *EllipseDB) CopyBasicFieldsToEllipse_WOP(ellipse *models.Ellipse
 	ellipse.Color = ellipseDB.Color_Data.String
 	ellipse.FillOpacity = ellipseDB.FillOpacity_Data.Float64
 	ellipse.Stroke = ellipseDB.Stroke_Data.String
+	ellipse.StrokeOpacity = ellipseDB.StrokeOpacity_Data.Float64
 	ellipse.StrokeWidth = ellipseDB.StrokeWidth_Data.Float64
 	ellipse.StrokeDashArray = ellipseDB.StrokeDashArray_Data.String
 	ellipse.StrokeDashArrayWhenSelected = ellipseDB.StrokeDashArrayWhenSelected_Data.String
@@ -619,6 +636,7 @@ func (ellipseDB *EllipseDB) CopyBasicFieldsToEllipseWOP(ellipse *EllipseWOP) {
 	ellipse.Color = ellipseDB.Color_Data.String
 	ellipse.FillOpacity = ellipseDB.FillOpacity_Data.Float64
 	ellipse.Stroke = ellipseDB.Stroke_Data.String
+	ellipse.StrokeOpacity = ellipseDB.StrokeOpacity_Data.Float64
 	ellipse.StrokeWidth = ellipseDB.StrokeWidth_Data.Float64
 	ellipse.StrokeDashArray = ellipseDB.StrokeDashArray_Data.String
 	ellipse.StrokeDashArrayWhenSelected = ellipseDB.StrokeDashArrayWhenSelected_Data.String

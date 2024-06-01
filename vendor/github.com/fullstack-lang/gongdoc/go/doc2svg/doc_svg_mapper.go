@@ -26,6 +26,8 @@ func NewDocSVGMapper(
 	return
 }
 
+const ClassBoxStrokeWidth = 3
+
 func (docSVGMapper *DocSVGMapper) GenerateSvg(
 	gongdocStage *gongdoc_models.StageStruct,
 ) {
@@ -85,11 +87,15 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		rect.Height = gongstructShape.Height
 
 		rect.Stroke = gongsvg_models.Lightsalmon.ToString()
-		rect.StrokeWidth = 1
+		rect.Stroke = gongsvg_models.Lightgrey.ToString()
+		rect.StrokeOpacity = 1
+		rect.StrokeWidth = ClassBoxStrokeWidth
 		rect.StrokeDashArrayWhenSelected = "5 5"
 
 		rect.FillOpacity = 100
 		rect.Color = gongsvg_models.Lightsalmon.ToString()
+		rect.Color = "white"
+		rect.RX = 8
 
 		// moveability
 		rect.CanMoveHorizontaly = true
@@ -120,14 +126,20 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		// additional box to hightlight the title
 		titleBox := new(gongsvg_models.RectAnchoredRect).Stage(docSVGMapper.gongsvgStage)
 		titleBox.Name = gongdoc_models.IdentifierToGongObjectName(gongstructShape.Identifier)
-		titleBox.X_Offset = 0
-		titleBox.Y_Offset = 0
-		titleBox.Width = rect.Width
+		titleBox.X_Offset = rect.StrokeWidth
+		titleBox.Y_Offset = rect.StrokeWidth
+		titleBox.Width = rect.Width - 2*rect.StrokeWidth - 30
 		titleBox.Height = 30
+		titleBox.StrokeOpacity = 0
 		titleBox.RectAnchorType = gongsvg_models.RECT_TOP_LEFT
 		titleBox.Color = "#ff8450"
+		titleBox.Color = "white"
 		titleBox.WidthFollowRect = true
-		titleBox.FillOpacity = 100
+		titleBox.FillOpacity = 0
+
+		titleBox.Stroke = "white"
+		titleBox.StrokeOpacity = 1
+		titleBox.StrokeWidth = 0
 
 		rect.RectAnchoredRects = append(rect.RectAnchoredRects, titleBox)
 
@@ -159,7 +171,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 			nbInstancesText.Content = fmt.Sprintf("(x%d)", gongstructShape.NbInstances)
 
 			// text position
-			nbInstancesText.X_Offset = -5
+			nbInstancesText.X_Offset = -5 - 2*rect.StrokeWidth
 			nbInstancesText.Y_Offset = 20
 			nbInstancesText.RectAnchorType = gongsvg_models.RECT_TOP_RIGHT
 			nbInstancesText.TextAnchorType = gongsvg_models.TEXT_ANCHOR_END
@@ -167,9 +179,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 			nbInstancesText.Color = "black"
 			nbInstancesText.FillOpacity = 1.0
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, nbInstancesText)
-
 		}
-
 	}
 
 	// display links between gongstruct shapes
@@ -193,6 +203,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 
 			// configuration
 			link.Stroke = gongsvg_models.Slategray.ToString()
+			link.StrokeOpacity = 1
 			link.StrokeWidth = 3
 			link.HasEndArrow = true
 			link.EndArrowSize = 8
@@ -233,10 +244,13 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 			targetMulitplicity.X_Offset = docLink.TargetMultiplicityOffsetX
 			targetMulitplicity.Y_Offset = docLink.TargetMultiplicityOffsetY
 			targetMulitplicity.Stroke = gongsvg_models.Black.ToString()
+			targetMulitplicity.StrokeOpacity = 1
 			targetMulitplicity.StrokeWidth = 1
 			targetMulitplicity.Color = gongsvg_models.Black.ToString()
 			targetMulitplicity.FillOpacity = 100
-			targetMulitplicity.FontWeight = "normal"
+			targetMulitplicity.FontWeight = "300"
+			targetMulitplicity.FontSize = "15"
+			targetMulitplicity.LetterSpacing = "0.1em"
 
 			fieldName := new(gongsvg_models.LinkAnchoredText).Stage(docSVGMapper.gongsvgStage)
 			fieldName.AutomaticLayout = true
@@ -250,10 +264,13 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 			fieldName.Y_Offset = docLink.FieldOffsetY
 			fieldName.X_Offset = docLink.FieldOffsetX
 			fieldName.Stroke = gongsvg_models.Black.ToString()
+			fieldName.StrokeOpacity = 1
 			fieldName.StrokeWidth = 1
 			fieldName.Color = gongsvg_models.Black.ToString()
 			fieldName.FillOpacity = 100
-			fieldName.FontWeight = "normal"
+			fieldName.FontWeight = "300"
+			fieldName.FontSize = "15"
+			fieldName.LetterSpacing = "0.1em"
 
 			// add the callback
 
@@ -269,7 +286,11 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 			sourceMultiplicity.X_Offset = docLink.SourceMultiplicityOffsetX
 			sourceMultiplicity.Y_Offset = docLink.SourceMultiplicityOffsetY
 			sourceMultiplicity.Stroke = gongsvg_models.Black.ToString()
+			sourceMultiplicity.StrokeOpacity = 1
 			sourceMultiplicity.StrokeWidth = 1
+			sourceMultiplicity.FontWeight = "300"
+			sourceMultiplicity.FontSize = "15"
+			sourceMultiplicity.LetterSpacing = "0.1em"
 		}
 	}
 
@@ -298,7 +319,8 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		rect.Height = gongenumShape.Height
 
 		rect.Stroke = gongsvg_models.Lightsteelblue.ToString()
-		rect.StrokeWidth = 1
+		rect.StrokeOpacity = 1
+		rect.StrokeWidth = ClassBoxStrokeWidth
 		rect.StrokeDashArrayWhenSelected = "5 5"
 
 		rect.FillOpacity = 100
@@ -389,7 +411,8 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		rect.Height = noteShape.Height
 
 		rect.Stroke = gongsvg_models.Lightskyblue.ToString()
-		rect.StrokeWidth = 1
+		rect.StrokeOpacity = 1
+		rect.StrokeWidth = ClassBoxStrokeWidth
 		rect.StrokeDashArrayWhenSelected = "5 5"
 
 		rect.FillOpacity = 100
@@ -478,6 +501,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 
 					// configuration
 					link.Stroke = gongsvg_models.Slategray.ToString()
+					link.StrokeOpacity = 1
 					link.StrokeWidth = 2
 					link.StrokeDashArray = "2 2"
 
@@ -519,6 +543,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 
 					// configuration
 					rectLinkLink.Stroke = gongsvg_models.Slategray.ToString()
+					rectLinkLink.StrokeOpacity = 1
 					rectLinkLink.StrokeWidth = 2
 					rectLinkLink.StrokeDashArray = "2 2"
 					rectLinkLink.TargetAnchorPosition = 0.5
