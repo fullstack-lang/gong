@@ -189,17 +189,7 @@
             "args": []
         },
         {
-            "name": "gongc test with remove main.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "preLaunchTask": "01 - remove test main.go",
-            "cwd": "${workspaceFolder}/test/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": []
-        },
-        {
-            "name": "gongc test -skipGoModCommands -skipNpmInstall with rm main.go",
+            "name": "gongc test -skipGoModCommands -skipNpmInstall  with rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -208,7 +198,7 @@
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipGoModCommands",
-                "-skipNpmInstall"
+                "-skipNpmInstall",
             ]
         },
         {
@@ -281,7 +271,7 @@
             ]
         },
         {
-            "name": "gongc test -skipGoModCommands -skipNpmInstall",
+            "name": "gongc test -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -290,7 +280,8 @@
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipGoModCommands",
-                "-skipNpmInstall"
+                "-skipNpmInstall",
+                "-skipNpmWorkspaces"
             ]
         },
         {
@@ -685,72 +676,6 @@
             "args": [
                 "-test.run",
                 "TestStageCallBack"
-            ]
-        },
-        {
-            "name": "Launch appv firefox localhost:4200 on test",
-            "type": "firefox",
-            "request": "launch",
-            "reAttach": true,
-            "url": "http://localhost:4200/",
-            "webRoot": "${workspaceFolder}/test/ng",
-            "firefoxExecutable": "C:/Users/peugeot/AppData/Local/Microsoft/AppV/Client/Integration/F8B22858-413B-4241-955C-7CDA2C0B6696/Root/VFS/ProgramFilesX64/Mozilla Firefox/firefox.exe",
-            "pathMappings": [
-                {
-                    "url": "webpack:///vendor",
-                    "path": "${workspaceFolder}/vendor"
-                },
-                {
-                    "url": "webpack:///projects",
-                    "path": "${workspaceFolder}/test/ng/projects"
-                }
-            ]
-        },
-        {
-            "name": "Launch appv firefox localhost:4200 on test2",
-            "type": "firefox",
-            "request": "launch",
-            "reAttach": true,
-            "url": "http://localhost:4200/",
-            "webRoot": "${workspaceFolder}/test/ng",
-            "firefoxExecutable": "C:/Users/peugeot/AppData/Local/Microsoft/AppV/Client/Integration/F8B22858-413B-4241-955C-7CDA2C0B6696/Root/VFS/ProgramFilesX64/Mozilla Firefox/firefox.exe",
-            "pathMappings": [
-                {
-                    "url": "webpack:///projects",
-                    "path": "${workspaceFolder}/test2/ng/projects"
-                }
-            ]
-        },
-        {
-            "name": "Launch firefox localhost:4200 for test",
-            "type": "firefox",
-            "request": "launch",
-            "reAttach": true,
-            "url": "http://localhost:4200/",
-            "webRoot": "${workspaceFolder}/test/ng",
-            "pathMappings": [
-                {
-                    "url": "webpack:///vendor",
-                    "path": "${workspaceFolder}/vendor"
-                },
-                {
-                    "url": "webpack:///projects",
-                    "path": "${workspaceFolder}/test/ng/projects"
-                }
-            ]
-        },
-        {
-            "name": "Launch firefox localhost:4200 for test2",
-            "type": "firefox",
-            "request": "launch",
-            "reAttach": true,
-            "url": "http://localhost:4200/",
-            "webRoot": "${workspaceFolder}/test2/ng",
-            "pathMappings": [
-                {
-                    "url": "webpack:///projects",
-                    "path": "${workspaceFolder}/test2/ng/projects"
-                }
             ]
         },
     ]

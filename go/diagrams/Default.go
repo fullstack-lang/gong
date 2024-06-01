@@ -155,8 +155,6 @@ var map_DocLink_Identifier_Default map[string]any = map[string]any{
 
 	"ref_models.ModelPkg.StaticPkgGenPath": (ref_models.ModelPkg{}).StaticPkgGenPath,
 
-	"ref_models.NoteOnOrganizationOfLineAndPoints": ref_models.NoteOnOrganizationOfLineAndPoints,
-
 	"ref_models.PointerToGongStructField": &(ref_models.PointerToGongStructField{}),
 
 	"ref_models.PointerToGongStructField.CompositeStructName": (ref_models.PointerToGongStructField{}).CompositeStructName,
@@ -958,5 +956,3 @@ func DefaultInjection(stage *models.StageStruct) {
 	__Link__000004_PointerToGongStructFields.Middlevertice = __Vertice__000004_Verticle_in_class_diagram_Default_in_middle_between_Default_GongStruct_and_Default_PointerToGongStructField
 	__Link__000005_SliceOfPointerToGongStructFields.Middlevertice = __Vertice__000005_Verticle_in_class_diagram_Default_in_middle_between_Default_GongStruct_and_Default_SliceOfPointerToGongStructField
 }
-
-

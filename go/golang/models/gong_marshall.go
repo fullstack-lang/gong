@@ -38,7 +38,6 @@ map[ModelGongMarshallStructInsertionId]string{
 	sort.Slice({{structname}}Ordered[:], func(i, j int) bool {
 		return {{structname}}Ordered[i].Name < {{structname}}Ordered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of {{Structname}}"
 	for idx, {{structname}} := range {{structname}}Ordered {
 
 		id = generatesIdentifier("{{Structname}}", idx, {{structname}}.Name)
@@ -50,7 +49,6 @@ map[ModelGongMarshallStructInsertionId]string{
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// {{Structname}} values setup"
 		// Initialisation of values{{ValuesInitialization}}
 	}
 `,
@@ -140,7 +138,7 @@ map[GongMarshallFilePerStructSubTemplateId]string{
 	GongMarshallFileFieldSubTmplSetBasicFieldStringDocLink: `
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
-			fmt.Sprintf("\n\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+			fmt.Sprintf("\n\n\t//gong:ident [%s] comment added to overcome the problem with the comment map association\n\t{{Identifier}}",
 				string({{structname}}.{{FieldName}})))
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")

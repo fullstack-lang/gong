@@ -291,17 +291,7 @@
             ]
         },
         {
-            "label": "01 - gongc test",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/test/go/models"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": []
-        },
-        {
-            "label": "01 - gongc test -skipGoModCommands",
+            "label": "01 - gongc test -skipNpmWorkspaces",
             "type": "shell",
             "options": {
                 "cwd": "${workspaceFolder}/test/go/models"
@@ -309,11 +299,24 @@
             "command": "gongc",
             "group": "build",
             "args": [
-                "-skipGoModCommands"
+                "-skipNpmWorkspaces"
             ]
         },
         {
-            "label": "01 - gongc test2",
+            "label": "01 - gongc test -skipGoModCommands -skipNpmWorkspaces",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/test/go/models"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmWorkspaces"
+            ]
+        },
+        {
+            "label": "01 - gongc test2 -skipNpmWorkspaces",
             "type": "shell",
             "options": {
                 "cwd": "${workspaceFolder}/test2/go/models"
