@@ -132,7 +132,6 @@ func (stage *StageStruct) IsStagedSliceOfPointerToGongStructField(sliceofpointer
 	return
 }
 
-
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -393,7 +392,6 @@ func (stage *StageStruct) StageBranchSliceOfPointerToGongStructField(sliceofpoin
 
 }
 
-
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -460,7 +458,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchGongBasicField(mapOrigCopy map[any]any, gongbasicfieldFrom *GongBasicField) (gongbasicfieldTo  *GongBasicField){
+func CopyBranchGongBasicField(mapOrigCopy map[any]any, gongbasicfieldFrom *GongBasicField) (gongbasicfieldTo *GongBasicField) {
 
 	// gongbasicfieldFrom has already been copied
 	if _gongbasicfieldTo, ok := mapOrigCopy[gongbasicfieldFrom]; ok {
@@ -482,7 +480,7 @@ func CopyBranchGongBasicField(mapOrigCopy map[any]any, gongbasicfieldFrom *GongB
 	return
 }
 
-func CopyBranchGongEnum(mapOrigCopy map[any]any, gongenumFrom *GongEnum) (gongenumTo  *GongEnum){
+func CopyBranchGongEnum(mapOrigCopy map[any]any, gongenumFrom *GongEnum) (gongenumTo *GongEnum) {
 
 	// gongenumFrom has already been copied
 	if _gongenumTo, ok := mapOrigCopy[gongenumFrom]; ok {
@@ -498,13 +496,13 @@ func CopyBranchGongEnum(mapOrigCopy map[any]any, gongenumFrom *GongEnum) (gongen
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _gongenumvalue := range gongenumFrom.GongEnumValues {
-		gongenumTo.GongEnumValues = append( gongenumTo.GongEnumValues, CopyBranchGongEnumValue(mapOrigCopy, _gongenumvalue))
+		gongenumTo.GongEnumValues = append(gongenumTo.GongEnumValues, CopyBranchGongEnumValue(mapOrigCopy, _gongenumvalue))
 	}
 
 	return
 }
 
-func CopyBranchGongEnumValue(mapOrigCopy map[any]any, gongenumvalueFrom *GongEnumValue) (gongenumvalueTo  *GongEnumValue){
+func CopyBranchGongEnumValue(mapOrigCopy map[any]any, gongenumvalueFrom *GongEnumValue) (gongenumvalueTo *GongEnumValue) {
 
 	// gongenumvalueFrom has already been copied
 	if _gongenumvalueTo, ok := mapOrigCopy[gongenumvalueFrom]; ok {
@@ -523,7 +521,7 @@ func CopyBranchGongEnumValue(mapOrigCopy map[any]any, gongenumvalueFrom *GongEnu
 	return
 }
 
-func CopyBranchGongLink(mapOrigCopy map[any]any, gonglinkFrom *GongLink) (gonglinkTo  *GongLink){
+func CopyBranchGongLink(mapOrigCopy map[any]any, gonglinkFrom *GongLink) (gonglinkTo *GongLink) {
 
 	// gonglinkFrom has already been copied
 	if _gonglinkTo, ok := mapOrigCopy[gonglinkFrom]; ok {
@@ -542,7 +540,7 @@ func CopyBranchGongLink(mapOrigCopy map[any]any, gonglinkFrom *GongLink) (gongli
 	return
 }
 
-func CopyBranchGongNote(mapOrigCopy map[any]any, gongnoteFrom *GongNote) (gongnoteTo  *GongNote){
+func CopyBranchGongNote(mapOrigCopy map[any]any, gongnoteFrom *GongNote) (gongnoteTo *GongNote) {
 
 	// gongnoteFrom has already been copied
 	if _gongnoteTo, ok := mapOrigCopy[gongnoteFrom]; ok {
@@ -558,13 +556,13 @@ func CopyBranchGongNote(mapOrigCopy map[any]any, gongnoteFrom *GongNote) (gongno
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _gonglink := range gongnoteFrom.Links {
-		gongnoteTo.Links = append( gongnoteTo.Links, CopyBranchGongLink(mapOrigCopy, _gonglink))
+		gongnoteTo.Links = append(gongnoteTo.Links, CopyBranchGongLink(mapOrigCopy, _gonglink))
 	}
 
 	return
 }
 
-func CopyBranchGongStruct(mapOrigCopy map[any]any, gongstructFrom *GongStruct) (gongstructTo  *GongStruct){
+func CopyBranchGongStruct(mapOrigCopy map[any]any, gongstructFrom *GongStruct) (gongstructTo *GongStruct) {
 
 	// gongstructFrom has already been copied
 	if _gongstructTo, ok := mapOrigCopy[gongstructFrom]; ok {
@@ -580,22 +578,22 @@ func CopyBranchGongStruct(mapOrigCopy map[any]any, gongstructFrom *GongStruct) (
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _gongbasicfield := range gongstructFrom.GongBasicFields {
-		gongstructTo.GongBasicFields = append( gongstructTo.GongBasicFields, CopyBranchGongBasicField(mapOrigCopy, _gongbasicfield))
+		gongstructTo.GongBasicFields = append(gongstructTo.GongBasicFields, CopyBranchGongBasicField(mapOrigCopy, _gongbasicfield))
 	}
 	for _, _gongtimefield := range gongstructFrom.GongTimeFields {
-		gongstructTo.GongTimeFields = append( gongstructTo.GongTimeFields, CopyBranchGongTimeField(mapOrigCopy, _gongtimefield))
+		gongstructTo.GongTimeFields = append(gongstructTo.GongTimeFields, CopyBranchGongTimeField(mapOrigCopy, _gongtimefield))
 	}
 	for _, _pointertogongstructfield := range gongstructFrom.PointerToGongStructFields {
-		gongstructTo.PointerToGongStructFields = append( gongstructTo.PointerToGongStructFields, CopyBranchPointerToGongStructField(mapOrigCopy, _pointertogongstructfield))
+		gongstructTo.PointerToGongStructFields = append(gongstructTo.PointerToGongStructFields, CopyBranchPointerToGongStructField(mapOrigCopy, _pointertogongstructfield))
 	}
 	for _, _sliceofpointertogongstructfield := range gongstructFrom.SliceOfPointerToGongStructFields {
-		gongstructTo.SliceOfPointerToGongStructFields = append( gongstructTo.SliceOfPointerToGongStructFields, CopyBranchSliceOfPointerToGongStructField(mapOrigCopy, _sliceofpointertogongstructfield))
+		gongstructTo.SliceOfPointerToGongStructFields = append(gongstructTo.SliceOfPointerToGongStructFields, CopyBranchSliceOfPointerToGongStructField(mapOrigCopy, _sliceofpointertogongstructfield))
 	}
 
 	return
 }
 
-func CopyBranchGongTimeField(mapOrigCopy map[any]any, gongtimefieldFrom *GongTimeField) (gongtimefieldTo  *GongTimeField){
+func CopyBranchGongTimeField(mapOrigCopy map[any]any, gongtimefieldFrom *GongTimeField) (gongtimefieldTo *GongTimeField) {
 
 	// gongtimefieldFrom has already been copied
 	if _gongtimefieldTo, ok := mapOrigCopy[gongtimefieldFrom]; ok {
@@ -614,7 +612,7 @@ func CopyBranchGongTimeField(mapOrigCopy map[any]any, gongtimefieldFrom *GongTim
 	return
 }
 
-func CopyBranchMeta(mapOrigCopy map[any]any, metaFrom *Meta) (metaTo  *Meta){
+func CopyBranchMeta(mapOrigCopy map[any]any, metaFrom *Meta) (metaTo *Meta) {
 
 	// metaFrom has already been copied
 	if _metaTo, ok := mapOrigCopy[metaFrom]; ok {
@@ -630,13 +628,13 @@ func CopyBranchMeta(mapOrigCopy map[any]any, metaFrom *Meta) (metaTo  *Meta){
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _metareference := range metaFrom.MetaReferences {
-		metaTo.MetaReferences = append( metaTo.MetaReferences, CopyBranchMetaReference(mapOrigCopy, _metareference))
+		metaTo.MetaReferences = append(metaTo.MetaReferences, CopyBranchMetaReference(mapOrigCopy, _metareference))
 	}
 
 	return
 }
 
-func CopyBranchMetaReference(mapOrigCopy map[any]any, metareferenceFrom *MetaReference) (metareferenceTo  *MetaReference){
+func CopyBranchMetaReference(mapOrigCopy map[any]any, metareferenceFrom *MetaReference) (metareferenceTo *MetaReference) {
 
 	// metareferenceFrom has already been copied
 	if _metareferenceTo, ok := mapOrigCopy[metareferenceFrom]; ok {
@@ -655,7 +653,7 @@ func CopyBranchMetaReference(mapOrigCopy map[any]any, metareferenceFrom *MetaRef
 	return
 }
 
-func CopyBranchModelPkg(mapOrigCopy map[any]any, modelpkgFrom *ModelPkg) (modelpkgTo  *ModelPkg){
+func CopyBranchModelPkg(mapOrigCopy map[any]any, modelpkgFrom *ModelPkg) (modelpkgTo *ModelPkg) {
 
 	// modelpkgFrom has already been copied
 	if _modelpkgTo, ok := mapOrigCopy[modelpkgFrom]; ok {
@@ -674,7 +672,7 @@ func CopyBranchModelPkg(mapOrigCopy map[any]any, modelpkgFrom *ModelPkg) (modelp
 	return
 }
 
-func CopyBranchPointerToGongStructField(mapOrigCopy map[any]any, pointertogongstructfieldFrom *PointerToGongStructField) (pointertogongstructfieldTo  *PointerToGongStructField){
+func CopyBranchPointerToGongStructField(mapOrigCopy map[any]any, pointertogongstructfieldFrom *PointerToGongStructField) (pointertogongstructfieldTo *PointerToGongStructField) {
 
 	// pointertogongstructfieldFrom has already been copied
 	if _pointertogongstructfieldTo, ok := mapOrigCopy[pointertogongstructfieldFrom]; ok {
@@ -696,7 +694,7 @@ func CopyBranchPointerToGongStructField(mapOrigCopy map[any]any, pointertogongst
 	return
 }
 
-func CopyBranchSliceOfPointerToGongStructField(mapOrigCopy map[any]any, sliceofpointertogongstructfieldFrom *SliceOfPointerToGongStructField) (sliceofpointertogongstructfieldTo  *SliceOfPointerToGongStructField){
+func CopyBranchSliceOfPointerToGongStructField(mapOrigCopy map[any]any, sliceofpointertogongstructfieldFrom *SliceOfPointerToGongStructField) (sliceofpointertogongstructfieldTo *SliceOfPointerToGongStructField) {
 
 	// sliceofpointertogongstructfieldFrom has already been copied
 	if _sliceofpointertogongstructfieldTo, ok := mapOrigCopy[sliceofpointertogongstructfieldFrom]; ok {
@@ -717,7 +715,6 @@ func CopyBranchSliceOfPointerToGongStructField(mapOrigCopy map[any]any, sliceofp
 
 	return
 }
-
 
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
@@ -772,7 +769,7 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 func (stage *StageStruct) UnstageBranchGongBasicField(gongbasicfield *GongBasicField) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, gongbasicfield) {
+	if !IsStaged(stage, gongbasicfield) {
 		return
 	}
 
@@ -790,7 +787,7 @@ func (stage *StageStruct) UnstageBranchGongBasicField(gongbasicfield *GongBasicF
 func (stage *StageStruct) UnstageBranchGongEnum(gongenum *GongEnum) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, gongenum) {
+	if !IsStaged(stage, gongenum) {
 		return
 	}
 
@@ -808,7 +805,7 @@ func (stage *StageStruct) UnstageBranchGongEnum(gongenum *GongEnum) {
 func (stage *StageStruct) UnstageBranchGongEnumValue(gongenumvalue *GongEnumValue) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, gongenumvalue) {
+	if !IsStaged(stage, gongenumvalue) {
 		return
 	}
 
@@ -823,7 +820,7 @@ func (stage *StageStruct) UnstageBranchGongEnumValue(gongenumvalue *GongEnumValu
 func (stage *StageStruct) UnstageBranchGongLink(gonglink *GongLink) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, gonglink) {
+	if !IsStaged(stage, gonglink) {
 		return
 	}
 
@@ -838,7 +835,7 @@ func (stage *StageStruct) UnstageBranchGongLink(gonglink *GongLink) {
 func (stage *StageStruct) UnstageBranchGongNote(gongnote *GongNote) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, gongnote) {
+	if !IsStaged(stage, gongnote) {
 		return
 	}
 
@@ -856,7 +853,7 @@ func (stage *StageStruct) UnstageBranchGongNote(gongnote *GongNote) {
 func (stage *StageStruct) UnstageBranchGongStruct(gongstruct *GongStruct) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, gongstruct) {
+	if !IsStaged(stage, gongstruct) {
 		return
 	}
 
@@ -883,7 +880,7 @@ func (stage *StageStruct) UnstageBranchGongStruct(gongstruct *GongStruct) {
 func (stage *StageStruct) UnstageBranchGongTimeField(gongtimefield *GongTimeField) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, gongtimefield) {
+	if !IsStaged(stage, gongtimefield) {
 		return
 	}
 
@@ -898,7 +895,7 @@ func (stage *StageStruct) UnstageBranchGongTimeField(gongtimefield *GongTimeFiel
 func (stage *StageStruct) UnstageBranchMeta(meta *Meta) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, meta) {
+	if !IsStaged(stage, meta) {
 		return
 	}
 
@@ -916,7 +913,7 @@ func (stage *StageStruct) UnstageBranchMeta(meta *Meta) {
 func (stage *StageStruct) UnstageBranchMetaReference(metareference *MetaReference) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, metareference) {
+	if !IsStaged(stage, metareference) {
 		return
 	}
 
@@ -931,7 +928,7 @@ func (stage *StageStruct) UnstageBranchMetaReference(metareference *MetaReferenc
 func (stage *StageStruct) UnstageBranchModelPkg(modelpkg *ModelPkg) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, modelpkg) {
+	if !IsStaged(stage, modelpkg) {
 		return
 	}
 
@@ -946,7 +943,7 @@ func (stage *StageStruct) UnstageBranchModelPkg(modelpkg *ModelPkg) {
 func (stage *StageStruct) UnstageBranchPointerToGongStructField(pointertogongstructfield *PointerToGongStructField) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, pointertogongstructfield) {
+	if !IsStaged(stage, pointertogongstructfield) {
 		return
 	}
 
@@ -964,7 +961,7 @@ func (stage *StageStruct) UnstageBranchPointerToGongStructField(pointertogongstr
 func (stage *StageStruct) UnstageBranchSliceOfPointerToGongStructField(sliceofpointertogongstructfield *SliceOfPointerToGongStructField) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, sliceofpointertogongstructfield) {
+	if !IsStaged(stage, sliceofpointertogongstructfield) {
 		return
 	}
 
@@ -978,4 +975,3 @@ func (stage *StageStruct) UnstageBranchSliceOfPointerToGongStructField(sliceofpo
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
-

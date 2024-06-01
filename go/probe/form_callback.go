@@ -1028,6 +1028,8 @@ func (modelpkgFormCallback *ModelPkgFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(modelpkg_.ProbePkgGenPath), formDiv)
 		case "NgWorkspacePath":
 			FormDivBasicFieldToField(&(modelpkg_.NgWorkspacePath), formDiv)
+		case "NgWorkspaceName":
+			FormDivBasicFieldToField(&(modelpkg_.NgWorkspaceName), formDiv)
 		case "NgDataLibrarySourceCodeDirectory":
 			FormDivBasicFieldToField(&(modelpkg_.NgDataLibrarySourceCodeDirectory), formDiv)
 		case "NgSpecificLibrarySourceCodeDirectory":
@@ -1117,6 +1119,8 @@ func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback
 			FormDivBasicFieldToField(&(pointertogongstructfield_.Index), formDiv)
 		case "CompositeStructName":
 			FormDivBasicFieldToField(&(pointertogongstructfield_.CompositeStructName), formDiv)
+		case "IsType":
+			FormDivBasicFieldToField(&(pointertogongstructfield_.IsType), formDiv)
 		case "GongStruct:PointerToGongStructFields":
 			// we need to retrieve the field owner before the change
 			var pastGongStructOwner *models.GongStruct
