@@ -1,5 +1,6 @@
 import * as gongsvg from '../../../gongsvg/src/public-api'
 import { Segment } from './draw.segments'
+import { getFunctionName } from './gongsvg-diagramming/get.function.name'
 
 
 
@@ -11,8 +12,8 @@ export function updateLinkFromCursor(
     draggedSegmentNumber: number,
     segments: Segment[],
 
-
     // for change detection, we need to store start and end rect
+    // TODO : understand why we need this previous start
     previousStart: gongsvg.Rect | undefined,
     previousEnd: gongsvg.Rect | undefined,
 
@@ -96,6 +97,7 @@ export function updateLinkFromCursor(
         // last segment
         if (draggedSegmentNumber == segments!.length - 1 && deltaY != 0) {
 
+            // console.log(getFunctionName(), previousEnd?.Y)
             let newRatio = (pointAtMouseMove.Y - previousEnd!.Y) / previousEnd!.Height
 
             if (newRatio < 0 || newRatio > 1) {

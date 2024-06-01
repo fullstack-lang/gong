@@ -90,6 +90,9 @@ type RectAnchoredPathDB struct {
 	// Declation for basic field rectanchoredpathDB.Stroke
 	Stroke_Data sql.NullString
 
+	// Declation for basic field rectanchoredpathDB.StrokeOpacity
+	StrokeOpacity_Data sql.NullFloat64
+
 	// Declation for basic field rectanchoredpathDB.StrokeWidth
 	StrokeWidth_Data sql.NullFloat64
 
@@ -144,13 +147,15 @@ type RectAnchoredPathWOP struct {
 
 	Stroke string `xlsx:"10"`
 
-	StrokeWidth float64 `xlsx:"11"`
+	StrokeOpacity float64 `xlsx:"11"`
 
-	StrokeDashArray string `xlsx:"12"`
+	StrokeWidth float64 `xlsx:"12"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"13"`
+	StrokeDashArray string `xlsx:"13"`
 
-	Transform string `xlsx:"14"`
+	StrokeDashArrayWhenSelected string `xlsx:"14"`
+
+	Transform string `xlsx:"15"`
 	// insertion for WOP pointer fields
 }
 
@@ -167,6 +172,7 @@ var RectAnchoredPath_Fields = []string{
 	"Color",
 	"FillOpacity",
 	"Stroke",
+	"StrokeOpacity",
 	"StrokeWidth",
 	"StrokeDashArray",
 	"StrokeDashArrayWhenSelected",
@@ -467,6 +473,9 @@ func (rectanchoredpathDB *RectAnchoredPathDB) CopyBasicFieldsFromRectAnchoredPat
 	rectanchoredpathDB.Stroke_Data.String = rectanchoredpath.Stroke
 	rectanchoredpathDB.Stroke_Data.Valid = true
 
+	rectanchoredpathDB.StrokeOpacity_Data.Float64 = rectanchoredpath.StrokeOpacity
+	rectanchoredpathDB.StrokeOpacity_Data.Valid = true
+
 	rectanchoredpathDB.StrokeWidth_Data.Float64 = rectanchoredpath.StrokeWidth
 	rectanchoredpathDB.StrokeWidth_Data.Valid = true
 
@@ -513,6 +522,9 @@ func (rectanchoredpathDB *RectAnchoredPathDB) CopyBasicFieldsFromRectAnchoredPat
 
 	rectanchoredpathDB.Stroke_Data.String = rectanchoredpath.Stroke
 	rectanchoredpathDB.Stroke_Data.Valid = true
+
+	rectanchoredpathDB.StrokeOpacity_Data.Float64 = rectanchoredpath.StrokeOpacity
+	rectanchoredpathDB.StrokeOpacity_Data.Valid = true
 
 	rectanchoredpathDB.StrokeWidth_Data.Float64 = rectanchoredpath.StrokeWidth
 	rectanchoredpathDB.StrokeWidth_Data.Valid = true
@@ -561,6 +573,9 @@ func (rectanchoredpathDB *RectAnchoredPathDB) CopyBasicFieldsFromRectAnchoredPat
 	rectanchoredpathDB.Stroke_Data.String = rectanchoredpath.Stroke
 	rectanchoredpathDB.Stroke_Data.Valid = true
 
+	rectanchoredpathDB.StrokeOpacity_Data.Float64 = rectanchoredpath.StrokeOpacity
+	rectanchoredpathDB.StrokeOpacity_Data.Valid = true
+
 	rectanchoredpathDB.StrokeWidth_Data.Float64 = rectanchoredpath.StrokeWidth
 	rectanchoredpathDB.StrokeWidth_Data.Valid = true
 
@@ -587,6 +602,7 @@ func (rectanchoredpathDB *RectAnchoredPathDB) CopyBasicFieldsToRectAnchoredPath(
 	rectanchoredpath.Color = rectanchoredpathDB.Color_Data.String
 	rectanchoredpath.FillOpacity = rectanchoredpathDB.FillOpacity_Data.Float64
 	rectanchoredpath.Stroke = rectanchoredpathDB.Stroke_Data.String
+	rectanchoredpath.StrokeOpacity = rectanchoredpathDB.StrokeOpacity_Data.Float64
 	rectanchoredpath.StrokeWidth = rectanchoredpathDB.StrokeWidth_Data.Float64
 	rectanchoredpath.StrokeDashArray = rectanchoredpathDB.StrokeDashArray_Data.String
 	rectanchoredpath.StrokeDashArrayWhenSelected = rectanchoredpathDB.StrokeDashArrayWhenSelected_Data.String
@@ -606,6 +622,7 @@ func (rectanchoredpathDB *RectAnchoredPathDB) CopyBasicFieldsToRectAnchoredPath_
 	rectanchoredpath.Color = rectanchoredpathDB.Color_Data.String
 	rectanchoredpath.FillOpacity = rectanchoredpathDB.FillOpacity_Data.Float64
 	rectanchoredpath.Stroke = rectanchoredpathDB.Stroke_Data.String
+	rectanchoredpath.StrokeOpacity = rectanchoredpathDB.StrokeOpacity_Data.Float64
 	rectanchoredpath.StrokeWidth = rectanchoredpathDB.StrokeWidth_Data.Float64
 	rectanchoredpath.StrokeDashArray = rectanchoredpathDB.StrokeDashArray_Data.String
 	rectanchoredpath.StrokeDashArrayWhenSelected = rectanchoredpathDB.StrokeDashArrayWhenSelected_Data.String
@@ -626,6 +643,7 @@ func (rectanchoredpathDB *RectAnchoredPathDB) CopyBasicFieldsToRectAnchoredPathW
 	rectanchoredpath.Color = rectanchoredpathDB.Color_Data.String
 	rectanchoredpath.FillOpacity = rectanchoredpathDB.FillOpacity_Data.Float64
 	rectanchoredpath.Stroke = rectanchoredpathDB.Stroke_Data.String
+	rectanchoredpath.StrokeOpacity = rectanchoredpathDB.StrokeOpacity_Data.Float64
 	rectanchoredpath.StrokeWidth = rectanchoredpathDB.StrokeWidth_Data.Float64
 	rectanchoredpath.StrokeDashArray = rectanchoredpathDB.StrokeDashArray_Data.String
 	rectanchoredpath.StrokeDashArrayWhenSelected = rectanchoredpathDB.StrokeDashArrayWhenSelected_Data.String

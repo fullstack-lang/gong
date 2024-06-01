@@ -4,6 +4,7 @@ type Presentation struct {
 	Color                       string
 	FillOpacity                 float64
 	Stroke                      string
+	StrokeOpacity               float64
 	StrokeWidth                 float64
 	StrokeDashArray             string
 	StrokeDashArrayWhenSelected string

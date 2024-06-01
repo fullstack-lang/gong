@@ -20,9 +20,12 @@ export class LinkAnchoredTextAPI {
 	X_Offset: number = 0
 	Y_Offset: number = 0
 	FontWeight: string = ""
+	FontSize: string = ""
+	LetterSpacing: string = ""
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""
+	StrokeOpacity: number = 0
 	StrokeWidth: number = 0
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""

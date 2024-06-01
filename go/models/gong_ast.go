@@ -968,6 +968,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_ModelPkg[identifier].NgWorkspacePath = fielValue
+				case "NgWorkspaceName":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_ModelPkg[identifier].NgWorkspaceName = fielValue
 				case "NgDataLibrarySourceCodeDirectory":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -1124,6 +1128,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 				case "GongStruct":
 					targetIdentifier := ident.Name
 					__gong__map_PointerToGongStructField[identifier].GongStruct = __gong__map_GongStruct[targetIdentifier]
+				case "IsType":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_PointerToGongStructField[identifier].IsType = fielValue
 				}
 			case "SliceOfPointerToGongStructField":
 				switch fieldName {

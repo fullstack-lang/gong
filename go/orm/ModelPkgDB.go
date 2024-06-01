@@ -89,6 +89,9 @@ type ModelPkgDB struct {
 	// Declation for basic field modelpkgDB.NgWorkspacePath
 	NgWorkspacePath_Data sql.NullString
 
+	// Declation for basic field modelpkgDB.NgWorkspaceName
+	NgWorkspaceName_Data sql.NullString
+
 	// Declation for basic field modelpkgDB.NgDataLibrarySourceCodeDirectory
 	NgDataLibrarySourceCodeDirectory_Data sql.NullString
 
@@ -140,11 +143,13 @@ type ModelPkgWOP struct {
 
 	NgWorkspacePath string `xlsx:"10"`
 
-	NgDataLibrarySourceCodeDirectory string `xlsx:"11"`
+	NgWorkspaceName string `xlsx:"11"`
 
-	NgSpecificLibrarySourceCodeDirectory string `xlsx:"12"`
+	NgDataLibrarySourceCodeDirectory string `xlsx:"12"`
 
-	MaterialLibDatamodelTargetPath string `xlsx:"13"`
+	NgSpecificLibrarySourceCodeDirectory string `xlsx:"13"`
+
+	MaterialLibDatamodelTargetPath string `xlsx:"14"`
 	// insertion for WOP pointer fields
 }
 
@@ -161,6 +166,7 @@ var ModelPkg_Fields = []string{
 	"StaticPkgGenPath",
 	"ProbePkgGenPath",
 	"NgWorkspacePath",
+	"NgWorkspaceName",
 	"NgDataLibrarySourceCodeDirectory",
 	"NgSpecificLibrarySourceCodeDirectory",
 	"MaterialLibDatamodelTargetPath",
@@ -460,6 +466,9 @@ func (modelpkgDB *ModelPkgDB) CopyBasicFieldsFromModelPkg(modelpkg *models.Model
 	modelpkgDB.NgWorkspacePath_Data.String = modelpkg.NgWorkspacePath
 	modelpkgDB.NgWorkspacePath_Data.Valid = true
 
+	modelpkgDB.NgWorkspaceName_Data.String = modelpkg.NgWorkspaceName
+	modelpkgDB.NgWorkspaceName_Data.Valid = true
+
 	modelpkgDB.NgDataLibrarySourceCodeDirectory_Data.String = modelpkg.NgDataLibrarySourceCodeDirectory
 	modelpkgDB.NgDataLibrarySourceCodeDirectory_Data.Valid = true
 
@@ -503,6 +512,9 @@ func (modelpkgDB *ModelPkgDB) CopyBasicFieldsFromModelPkg_WOP(modelpkg *models.M
 
 	modelpkgDB.NgWorkspacePath_Data.String = modelpkg.NgWorkspacePath
 	modelpkgDB.NgWorkspacePath_Data.Valid = true
+
+	modelpkgDB.NgWorkspaceName_Data.String = modelpkg.NgWorkspaceName
+	modelpkgDB.NgWorkspaceName_Data.Valid = true
 
 	modelpkgDB.NgDataLibrarySourceCodeDirectory_Data.String = modelpkg.NgDataLibrarySourceCodeDirectory
 	modelpkgDB.NgDataLibrarySourceCodeDirectory_Data.Valid = true
@@ -548,6 +560,9 @@ func (modelpkgDB *ModelPkgDB) CopyBasicFieldsFromModelPkgWOP(modelpkg *ModelPkgW
 	modelpkgDB.NgWorkspacePath_Data.String = modelpkg.NgWorkspacePath
 	modelpkgDB.NgWorkspacePath_Data.Valid = true
 
+	modelpkgDB.NgWorkspaceName_Data.String = modelpkg.NgWorkspaceName
+	modelpkgDB.NgWorkspaceName_Data.Valid = true
+
 	modelpkgDB.NgDataLibrarySourceCodeDirectory_Data.String = modelpkg.NgDataLibrarySourceCodeDirectory
 	modelpkgDB.NgDataLibrarySourceCodeDirectory_Data.Valid = true
 
@@ -571,6 +586,7 @@ func (modelpkgDB *ModelPkgDB) CopyBasicFieldsToModelPkg(modelpkg *models.ModelPk
 	modelpkg.StaticPkgGenPath = modelpkgDB.StaticPkgGenPath_Data.String
 	modelpkg.ProbePkgGenPath = modelpkgDB.ProbePkgGenPath_Data.String
 	modelpkg.NgWorkspacePath = modelpkgDB.NgWorkspacePath_Data.String
+	modelpkg.NgWorkspaceName = modelpkgDB.NgWorkspaceName_Data.String
 	modelpkg.NgDataLibrarySourceCodeDirectory = modelpkgDB.NgDataLibrarySourceCodeDirectory_Data.String
 	modelpkg.NgSpecificLibrarySourceCodeDirectory = modelpkgDB.NgSpecificLibrarySourceCodeDirectory_Data.String
 	modelpkg.MaterialLibDatamodelTargetPath = modelpkgDB.MaterialLibDatamodelTargetPath_Data.String
@@ -589,6 +605,7 @@ func (modelpkgDB *ModelPkgDB) CopyBasicFieldsToModelPkg_WOP(modelpkg *models.Mod
 	modelpkg.StaticPkgGenPath = modelpkgDB.StaticPkgGenPath_Data.String
 	modelpkg.ProbePkgGenPath = modelpkgDB.ProbePkgGenPath_Data.String
 	modelpkg.NgWorkspacePath = modelpkgDB.NgWorkspacePath_Data.String
+	modelpkg.NgWorkspaceName = modelpkgDB.NgWorkspaceName_Data.String
 	modelpkg.NgDataLibrarySourceCodeDirectory = modelpkgDB.NgDataLibrarySourceCodeDirectory_Data.String
 	modelpkg.NgSpecificLibrarySourceCodeDirectory = modelpkgDB.NgSpecificLibrarySourceCodeDirectory_Data.String
 	modelpkg.MaterialLibDatamodelTargetPath = modelpkgDB.MaterialLibDatamodelTargetPath_Data.String
@@ -608,6 +625,7 @@ func (modelpkgDB *ModelPkgDB) CopyBasicFieldsToModelPkgWOP(modelpkg *ModelPkgWOP
 	modelpkg.StaticPkgGenPath = modelpkgDB.StaticPkgGenPath_Data.String
 	modelpkg.ProbePkgGenPath = modelpkgDB.ProbePkgGenPath_Data.String
 	modelpkg.NgWorkspacePath = modelpkgDB.NgWorkspacePath_Data.String
+	modelpkg.NgWorkspaceName = modelpkgDB.NgWorkspaceName_Data.String
 	modelpkg.NgDataLibrarySourceCodeDirectory = modelpkgDB.NgDataLibrarySourceCodeDirectory_Data.String
 	modelpkg.NgSpecificLibrarySourceCodeDirectory = modelpkgDB.NgSpecificLibrarySourceCodeDirectory_Data.String
 	modelpkg.MaterialLibDatamodelTargetPath = modelpkgDB.MaterialLibDatamodelTargetPath_Data.String
