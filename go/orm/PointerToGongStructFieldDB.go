@@ -71,6 +71,10 @@ type PointerToGongStructFieldDB struct {
 
 	// Declation for basic field pointertogongstructfieldDB.CompositeStructName
 	CompositeStructName_Data sql.NullString
+
+	// Declation for basic field pointertogongstructfieldDB.IsType
+	// provide the sql storage for the boolan
+	IsType_Data sql.NullBool
 	
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
@@ -99,6 +103,8 @@ type PointerToGongStructFieldWOP struct {
 	Index int `xlsx:"2"`
 
 	CompositeStructName string `xlsx:"3"`
+
+	IsType bool `xlsx:"4"`
 	// insertion for WOP pointer fields
 }
 
@@ -108,6 +114,7 @@ var PointerToGongStructField_Fields = []string{
 	"Name",
 	"Index",
 	"CompositeStructName",
+	"IsType",
 }
 
 type BackRepoPointerToGongStructFieldStruct struct {
@@ -399,6 +406,9 @@ func (pointertogongstructfieldDB *PointerToGongStructFieldDB) CopyBasicFieldsFro
 
 	pointertogongstructfieldDB.CompositeStructName_Data.String = pointertogongstructfield.CompositeStructName
 	pointertogongstructfieldDB.CompositeStructName_Data.Valid = true
+
+	pointertogongstructfieldDB.IsType_Data.Bool = pointertogongstructfield.IsType
+	pointertogongstructfieldDB.IsType_Data.Valid = true
 }
 
 // CopyBasicFieldsFromPointerToGongStructField_WOP
@@ -413,6 +423,9 @@ func (pointertogongstructfieldDB *PointerToGongStructFieldDB) CopyBasicFieldsFro
 
 	pointertogongstructfieldDB.CompositeStructName_Data.String = pointertogongstructfield.CompositeStructName
 	pointertogongstructfieldDB.CompositeStructName_Data.Valid = true
+
+	pointertogongstructfieldDB.IsType_Data.Bool = pointertogongstructfield.IsType
+	pointertogongstructfieldDB.IsType_Data.Valid = true
 }
 
 // CopyBasicFieldsFromPointerToGongStructFieldWOP
@@ -427,6 +440,9 @@ func (pointertogongstructfieldDB *PointerToGongStructFieldDB) CopyBasicFieldsFro
 
 	pointertogongstructfieldDB.CompositeStructName_Data.String = pointertogongstructfield.CompositeStructName
 	pointertogongstructfieldDB.CompositeStructName_Data.Valid = true
+
+	pointertogongstructfieldDB.IsType_Data.Bool = pointertogongstructfield.IsType
+	pointertogongstructfieldDB.IsType_Data.Valid = true
 }
 
 // CopyBasicFieldsToPointerToGongStructField
@@ -435,6 +451,7 @@ func (pointertogongstructfieldDB *PointerToGongStructFieldDB) CopyBasicFieldsToP
 	pointertogongstructfield.Name = pointertogongstructfieldDB.Name_Data.String
 	pointertogongstructfield.Index = int(pointertogongstructfieldDB.Index_Data.Int64)
 	pointertogongstructfield.CompositeStructName = pointertogongstructfieldDB.CompositeStructName_Data.String
+	pointertogongstructfield.IsType = pointertogongstructfieldDB.IsType_Data.Bool
 }
 
 // CopyBasicFieldsToPointerToGongStructField_WOP
@@ -443,6 +460,7 @@ func (pointertogongstructfieldDB *PointerToGongStructFieldDB) CopyBasicFieldsToP
 	pointertogongstructfield.Name = pointertogongstructfieldDB.Name_Data.String
 	pointertogongstructfield.Index = int(pointertogongstructfieldDB.Index_Data.Int64)
 	pointertogongstructfield.CompositeStructName = pointertogongstructfieldDB.CompositeStructName_Data.String
+	pointertogongstructfield.IsType = pointertogongstructfieldDB.IsType_Data.Bool
 }
 
 // CopyBasicFieldsToPointerToGongStructFieldWOP
@@ -452,6 +470,7 @@ func (pointertogongstructfieldDB *PointerToGongStructFieldDB) CopyBasicFieldsToP
 	pointertogongstructfield.Name = pointertogongstructfieldDB.Name_Data.String
 	pointertogongstructfield.Index = int(pointertogongstructfieldDB.Index_Data.Int64)
 	pointertogongstructfield.CompositeStructName = pointertogongstructfieldDB.CompositeStructName_Data.String
+	pointertogongstructfield.IsType = pointertogongstructfieldDB.IsType_Data.Bool
 }
 
 // Backup generates a json file from a slice of all PointerToGongStructFieldDB instances in the backrepo
