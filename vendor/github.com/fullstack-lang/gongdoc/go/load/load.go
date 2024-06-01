@@ -130,7 +130,7 @@ func Load(
 				nbInstances, ok := diagramPackage.Map_Identifier_NbInstances[gongStructName]
 
 				if ok {
-					classshape.ShowNbInstances = true
+					classshape.ShowNbInstances = false
 					classshape.NbInstances = nbInstances
 				}
 			}

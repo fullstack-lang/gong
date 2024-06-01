@@ -23,6 +23,7 @@ export class Polyline {
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""
+	StrokeOpacity: number = 0
 	StrokeWidth: number = 0
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
@@ -44,6 +45,7 @@ export function CopyPolylineToPolylineAPI(polyline: Polyline, polylineAPI: Polyl
 	polylineAPI.Color = polyline.Color
 	polylineAPI.FillOpacity = polyline.FillOpacity
 	polylineAPI.Stroke = polyline.Stroke
+	polylineAPI.StrokeOpacity = polyline.StrokeOpacity
 	polylineAPI.StrokeWidth = polyline.StrokeWidth
 	polylineAPI.StrokeDashArray = polyline.StrokeDashArray
 	polylineAPI.StrokeDashArrayWhenSelected = polyline.StrokeDashArrayWhenSelected
@@ -75,6 +77,7 @@ export function CopyPolylineAPIToPolyline(polylineAPI: PolylineAPI, polyline: Po
 	polyline.Color = polylineAPI.Color
 	polyline.FillOpacity = polylineAPI.FillOpacity
 	polyline.Stroke = polylineAPI.Stroke
+	polyline.StrokeOpacity = polylineAPI.StrokeOpacity
 	polyline.StrokeWidth = polylineAPI.StrokeWidth
 	polyline.StrokeDashArray = polylineAPI.StrokeDashArray
 	polyline.StrokeDashArrayWhenSelected = polylineAPI.StrokeDashArrayWhenSelected

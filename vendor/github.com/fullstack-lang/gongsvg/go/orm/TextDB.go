@@ -83,6 +83,9 @@ type TextDB struct {
 	// Declation for basic field textDB.Stroke
 	Stroke_Data sql.NullString
 
+	// Declation for basic field textDB.StrokeOpacity
+	StrokeOpacity_Data sql.NullFloat64
+
 	// Declation for basic field textDB.StrokeWidth
 	StrokeWidth_Data sql.NullFloat64
 
@@ -131,13 +134,15 @@ type TextWOP struct {
 
 	Stroke string `xlsx:"7"`
 
-	StrokeWidth float64 `xlsx:"8"`
+	StrokeOpacity float64 `xlsx:"8"`
 
-	StrokeDashArray string `xlsx:"9"`
+	StrokeWidth float64 `xlsx:"9"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"10"`
+	StrokeDashArray string `xlsx:"10"`
 
-	Transform string `xlsx:"11"`
+	StrokeDashArrayWhenSelected string `xlsx:"11"`
+
+	Transform string `xlsx:"12"`
 	// insertion for WOP pointer fields
 }
 
@@ -151,6 +156,7 @@ var Text_Fields = []string{
 	"Color",
 	"FillOpacity",
 	"Stroke",
+	"StrokeOpacity",
 	"StrokeWidth",
 	"StrokeDashArray",
 	"StrokeDashArrayWhenSelected",
@@ -469,6 +475,9 @@ func (textDB *TextDB) CopyBasicFieldsFromText(text *models.Text) {
 	textDB.Stroke_Data.String = text.Stroke
 	textDB.Stroke_Data.Valid = true
 
+	textDB.StrokeOpacity_Data.Float64 = text.StrokeOpacity
+	textDB.StrokeOpacity_Data.Valid = true
+
 	textDB.StrokeWidth_Data.Float64 = text.StrokeWidth
 	textDB.StrokeWidth_Data.Valid = true
 
@@ -506,6 +515,9 @@ func (textDB *TextDB) CopyBasicFieldsFromText_WOP(text *models.Text_WOP) {
 
 	textDB.Stroke_Data.String = text.Stroke
 	textDB.Stroke_Data.Valid = true
+
+	textDB.StrokeOpacity_Data.Float64 = text.StrokeOpacity
+	textDB.StrokeOpacity_Data.Valid = true
 
 	textDB.StrokeWidth_Data.Float64 = text.StrokeWidth
 	textDB.StrokeWidth_Data.Valid = true
@@ -545,6 +557,9 @@ func (textDB *TextDB) CopyBasicFieldsFromTextWOP(text *TextWOP) {
 	textDB.Stroke_Data.String = text.Stroke
 	textDB.Stroke_Data.Valid = true
 
+	textDB.StrokeOpacity_Data.Float64 = text.StrokeOpacity
+	textDB.StrokeOpacity_Data.Valid = true
+
 	textDB.StrokeWidth_Data.Float64 = text.StrokeWidth
 	textDB.StrokeWidth_Data.Valid = true
 
@@ -568,6 +583,7 @@ func (textDB *TextDB) CopyBasicFieldsToText(text *models.Text) {
 	text.Color = textDB.Color_Data.String
 	text.FillOpacity = textDB.FillOpacity_Data.Float64
 	text.Stroke = textDB.Stroke_Data.String
+	text.StrokeOpacity = textDB.StrokeOpacity_Data.Float64
 	text.StrokeWidth = textDB.StrokeWidth_Data.Float64
 	text.StrokeDashArray = textDB.StrokeDashArray_Data.String
 	text.StrokeDashArrayWhenSelected = textDB.StrokeDashArrayWhenSelected_Data.String
@@ -584,6 +600,7 @@ func (textDB *TextDB) CopyBasicFieldsToText_WOP(text *models.Text_WOP) {
 	text.Color = textDB.Color_Data.String
 	text.FillOpacity = textDB.FillOpacity_Data.Float64
 	text.Stroke = textDB.Stroke_Data.String
+	text.StrokeOpacity = textDB.StrokeOpacity_Data.Float64
 	text.StrokeWidth = textDB.StrokeWidth_Data.Float64
 	text.StrokeDashArray = textDB.StrokeDashArray_Data.String
 	text.StrokeDashArrayWhenSelected = textDB.StrokeDashArrayWhenSelected_Data.String
@@ -601,6 +618,7 @@ func (textDB *TextDB) CopyBasicFieldsToTextWOP(text *TextWOP) {
 	text.Color = textDB.Color_Data.String
 	text.FillOpacity = textDB.FillOpacity_Data.Float64
 	text.Stroke = textDB.Stroke_Data.String
+	text.StrokeOpacity = textDB.StrokeOpacity_Data.Float64
 	text.StrokeWidth = textDB.StrokeWidth_Data.Float64
 	text.StrokeDashArray = textDB.StrokeDashArray_Data.String
 	text.StrokeDashArrayWhenSelected = textDB.StrokeDashArrayWhenSelected_Data.String

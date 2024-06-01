@@ -77,6 +77,9 @@ type PolygoneDB struct {
 	// Declation for basic field polygoneDB.Stroke
 	Stroke_Data sql.NullString
 
+	// Declation for basic field polygoneDB.StrokeOpacity
+	StrokeOpacity_Data sql.NullFloat64
+
 	// Declation for basic field polygoneDB.StrokeWidth
 	StrokeWidth_Data sql.NullFloat64
 
@@ -121,13 +124,15 @@ type PolygoneWOP struct {
 
 	Stroke string `xlsx:"5"`
 
-	StrokeWidth float64 `xlsx:"6"`
+	StrokeOpacity float64 `xlsx:"6"`
 
-	StrokeDashArray string `xlsx:"7"`
+	StrokeWidth float64 `xlsx:"7"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"8"`
+	StrokeDashArray string `xlsx:"8"`
 
-	Transform string `xlsx:"9"`
+	StrokeDashArrayWhenSelected string `xlsx:"9"`
+
+	Transform string `xlsx:"10"`
 	// insertion for WOP pointer fields
 }
 
@@ -139,6 +144,7 @@ var Polygone_Fields = []string{
 	"Color",
 	"FillOpacity",
 	"Stroke",
+	"StrokeOpacity",
 	"StrokeWidth",
 	"StrokeDashArray",
 	"StrokeDashArrayWhenSelected",
@@ -451,6 +457,9 @@ func (polygoneDB *PolygoneDB) CopyBasicFieldsFromPolygone(polygone *models.Polyg
 	polygoneDB.Stroke_Data.String = polygone.Stroke
 	polygoneDB.Stroke_Data.Valid = true
 
+	polygoneDB.StrokeOpacity_Data.Float64 = polygone.StrokeOpacity
+	polygoneDB.StrokeOpacity_Data.Valid = true
+
 	polygoneDB.StrokeWidth_Data.Float64 = polygone.StrokeWidth
 	polygoneDB.StrokeWidth_Data.Valid = true
 
@@ -482,6 +491,9 @@ func (polygoneDB *PolygoneDB) CopyBasicFieldsFromPolygone_WOP(polygone *models.P
 
 	polygoneDB.Stroke_Data.String = polygone.Stroke
 	polygoneDB.Stroke_Data.Valid = true
+
+	polygoneDB.StrokeOpacity_Data.Float64 = polygone.StrokeOpacity
+	polygoneDB.StrokeOpacity_Data.Valid = true
 
 	polygoneDB.StrokeWidth_Data.Float64 = polygone.StrokeWidth
 	polygoneDB.StrokeWidth_Data.Valid = true
@@ -515,6 +527,9 @@ func (polygoneDB *PolygoneDB) CopyBasicFieldsFromPolygoneWOP(polygone *PolygoneW
 	polygoneDB.Stroke_Data.String = polygone.Stroke
 	polygoneDB.Stroke_Data.Valid = true
 
+	polygoneDB.StrokeOpacity_Data.Float64 = polygone.StrokeOpacity
+	polygoneDB.StrokeOpacity_Data.Valid = true
+
 	polygoneDB.StrokeWidth_Data.Float64 = polygone.StrokeWidth
 	polygoneDB.StrokeWidth_Data.Valid = true
 
@@ -536,6 +551,7 @@ func (polygoneDB *PolygoneDB) CopyBasicFieldsToPolygone(polygone *models.Polygon
 	polygone.Color = polygoneDB.Color_Data.String
 	polygone.FillOpacity = polygoneDB.FillOpacity_Data.Float64
 	polygone.Stroke = polygoneDB.Stroke_Data.String
+	polygone.StrokeOpacity = polygoneDB.StrokeOpacity_Data.Float64
 	polygone.StrokeWidth = polygoneDB.StrokeWidth_Data.Float64
 	polygone.StrokeDashArray = polygoneDB.StrokeDashArray_Data.String
 	polygone.StrokeDashArrayWhenSelected = polygoneDB.StrokeDashArrayWhenSelected_Data.String
@@ -550,6 +566,7 @@ func (polygoneDB *PolygoneDB) CopyBasicFieldsToPolygone_WOP(polygone *models.Pol
 	polygone.Color = polygoneDB.Color_Data.String
 	polygone.FillOpacity = polygoneDB.FillOpacity_Data.Float64
 	polygone.Stroke = polygoneDB.Stroke_Data.String
+	polygone.StrokeOpacity = polygoneDB.StrokeOpacity_Data.Float64
 	polygone.StrokeWidth = polygoneDB.StrokeWidth_Data.Float64
 	polygone.StrokeDashArray = polygoneDB.StrokeDashArray_Data.String
 	polygone.StrokeDashArrayWhenSelected = polygoneDB.StrokeDashArrayWhenSelected_Data.String
@@ -565,6 +582,7 @@ func (polygoneDB *PolygoneDB) CopyBasicFieldsToPolygoneWOP(polygone *PolygoneWOP
 	polygone.Color = polygoneDB.Color_Data.String
 	polygone.FillOpacity = polygoneDB.FillOpacity_Data.Float64
 	polygone.Stroke = polygoneDB.Stroke_Data.String
+	polygone.StrokeOpacity = polygoneDB.StrokeOpacity_Data.Float64
 	polygone.StrokeWidth = polygoneDB.StrokeWidth_Data.Float64
 	polygone.StrokeDashArray = polygoneDB.StrokeDashArray_Data.String
 	polygone.StrokeDashArrayWhenSelected = polygoneDB.StrokeDashArrayWhenSelected_Data.String
