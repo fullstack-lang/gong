@@ -23,6 +23,7 @@ export class Path {
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""
+	StrokeOpacity: number = 0
 	StrokeWidth: number = 0
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
@@ -44,6 +45,7 @@ export function CopyPathToPathAPI(path: Path, pathAPI: PathAPI) {
 	pathAPI.Color = path.Color
 	pathAPI.FillOpacity = path.FillOpacity
 	pathAPI.Stroke = path.Stroke
+	pathAPI.StrokeOpacity = path.StrokeOpacity
 	pathAPI.StrokeWidth = path.StrokeWidth
 	pathAPI.StrokeDashArray = path.StrokeDashArray
 	pathAPI.StrokeDashArrayWhenSelected = path.StrokeDashArrayWhenSelected
@@ -75,6 +77,7 @@ export function CopyPathAPIToPath(pathAPI: PathAPI, path: Path, frontRepo: Front
 	path.Color = pathAPI.Color
 	path.FillOpacity = pathAPI.FillOpacity
 	path.Stroke = pathAPI.Stroke
+	path.StrokeOpacity = pathAPI.StrokeOpacity
 	path.StrokeWidth = pathAPI.StrokeWidth
 	path.StrokeDashArray = pathAPI.StrokeDashArray
 	path.StrokeDashArrayWhenSelected = pathAPI.StrokeDashArrayWhenSelected

@@ -84,6 +84,12 @@ type LinkAnchoredTextDB struct {
 	// Declation for basic field linkanchoredtextDB.FontWeight
 	FontWeight_Data sql.NullString
 
+	// Declation for basic field linkanchoredtextDB.FontSize
+	FontSize_Data sql.NullString
+
+	// Declation for basic field linkanchoredtextDB.LetterSpacing
+	LetterSpacing_Data sql.NullString
+
 	// Declation for basic field linkanchoredtextDB.Color
 	Color_Data sql.NullString
 
@@ -92,6 +98,9 @@ type LinkAnchoredTextDB struct {
 
 	// Declation for basic field linkanchoredtextDB.Stroke
 	Stroke_Data sql.NullString
+
+	// Declation for basic field linkanchoredtextDB.StrokeOpacity
+	StrokeOpacity_Data sql.NullFloat64
 
 	// Declation for basic field linkanchoredtextDB.StrokeWidth
 	StrokeWidth_Data sql.NullFloat64
@@ -141,19 +150,25 @@ type LinkAnchoredTextWOP struct {
 
 	FontWeight string `xlsx:"7"`
 
-	Color string `xlsx:"8"`
+	FontSize string `xlsx:"8"`
 
-	FillOpacity float64 `xlsx:"9"`
+	LetterSpacing string `xlsx:"9"`
 
-	Stroke string `xlsx:"10"`
+	Color string `xlsx:"10"`
 
-	StrokeWidth float64 `xlsx:"11"`
+	FillOpacity float64 `xlsx:"11"`
 
-	StrokeDashArray string `xlsx:"12"`
+	Stroke string `xlsx:"12"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"13"`
+	StrokeOpacity float64 `xlsx:"13"`
 
-	Transform string `xlsx:"14"`
+	StrokeWidth float64 `xlsx:"14"`
+
+	StrokeDashArray string `xlsx:"15"`
+
+	StrokeDashArrayWhenSelected string `xlsx:"16"`
+
+	Transform string `xlsx:"17"`
 	// insertion for WOP pointer fields
 }
 
@@ -167,9 +182,12 @@ var LinkAnchoredText_Fields = []string{
 	"X_Offset",
 	"Y_Offset",
 	"FontWeight",
+	"FontSize",
+	"LetterSpacing",
 	"Color",
 	"FillOpacity",
 	"Stroke",
+	"StrokeOpacity",
 	"StrokeWidth",
 	"StrokeDashArray",
 	"StrokeDashArrayWhenSelected",
@@ -488,6 +506,12 @@ func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsFromLinkAnchoredTex
 	linkanchoredtextDB.FontWeight_Data.String = linkanchoredtext.FontWeight
 	linkanchoredtextDB.FontWeight_Data.Valid = true
 
+	linkanchoredtextDB.FontSize_Data.String = linkanchoredtext.FontSize
+	linkanchoredtextDB.FontSize_Data.Valid = true
+
+	linkanchoredtextDB.LetterSpacing_Data.String = linkanchoredtext.LetterSpacing
+	linkanchoredtextDB.LetterSpacing_Data.Valid = true
+
 	linkanchoredtextDB.Color_Data.String = linkanchoredtext.Color
 	linkanchoredtextDB.Color_Data.Valid = true
 
@@ -496,6 +520,9 @@ func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsFromLinkAnchoredTex
 
 	linkanchoredtextDB.Stroke_Data.String = linkanchoredtext.Stroke
 	linkanchoredtextDB.Stroke_Data.Valid = true
+
+	linkanchoredtextDB.StrokeOpacity_Data.Float64 = linkanchoredtext.StrokeOpacity
+	linkanchoredtextDB.StrokeOpacity_Data.Valid = true
 
 	linkanchoredtextDB.StrokeWidth_Data.Float64 = linkanchoredtext.StrokeWidth
 	linkanchoredtextDB.StrokeWidth_Data.Valid = true
@@ -535,6 +562,12 @@ func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsFromLinkAnchoredTex
 	linkanchoredtextDB.FontWeight_Data.String = linkanchoredtext.FontWeight
 	linkanchoredtextDB.FontWeight_Data.Valid = true
 
+	linkanchoredtextDB.FontSize_Data.String = linkanchoredtext.FontSize
+	linkanchoredtextDB.FontSize_Data.Valid = true
+
+	linkanchoredtextDB.LetterSpacing_Data.String = linkanchoredtext.LetterSpacing
+	linkanchoredtextDB.LetterSpacing_Data.Valid = true
+
 	linkanchoredtextDB.Color_Data.String = linkanchoredtext.Color
 	linkanchoredtextDB.Color_Data.Valid = true
 
@@ -543,6 +576,9 @@ func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsFromLinkAnchoredTex
 
 	linkanchoredtextDB.Stroke_Data.String = linkanchoredtext.Stroke
 	linkanchoredtextDB.Stroke_Data.Valid = true
+
+	linkanchoredtextDB.StrokeOpacity_Data.Float64 = linkanchoredtext.StrokeOpacity
+	linkanchoredtextDB.StrokeOpacity_Data.Valid = true
 
 	linkanchoredtextDB.StrokeWidth_Data.Float64 = linkanchoredtext.StrokeWidth
 	linkanchoredtextDB.StrokeWidth_Data.Valid = true
@@ -582,6 +618,12 @@ func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsFromLinkAnchoredTex
 	linkanchoredtextDB.FontWeight_Data.String = linkanchoredtext.FontWeight
 	linkanchoredtextDB.FontWeight_Data.Valid = true
 
+	linkanchoredtextDB.FontSize_Data.String = linkanchoredtext.FontSize
+	linkanchoredtextDB.FontSize_Data.Valid = true
+
+	linkanchoredtextDB.LetterSpacing_Data.String = linkanchoredtext.LetterSpacing
+	linkanchoredtextDB.LetterSpacing_Data.Valid = true
+
 	linkanchoredtextDB.Color_Data.String = linkanchoredtext.Color
 	linkanchoredtextDB.Color_Data.Valid = true
 
@@ -590,6 +632,9 @@ func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsFromLinkAnchoredTex
 
 	linkanchoredtextDB.Stroke_Data.String = linkanchoredtext.Stroke
 	linkanchoredtextDB.Stroke_Data.Valid = true
+
+	linkanchoredtextDB.StrokeOpacity_Data.Float64 = linkanchoredtext.StrokeOpacity
+	linkanchoredtextDB.StrokeOpacity_Data.Valid = true
 
 	linkanchoredtextDB.StrokeWidth_Data.Float64 = linkanchoredtext.StrokeWidth
 	linkanchoredtextDB.StrokeWidth_Data.Valid = true
@@ -614,9 +659,12 @@ func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsToLinkAnchoredText(
 	linkanchoredtext.X_Offset = linkanchoredtextDB.X_Offset_Data.Float64
 	linkanchoredtext.Y_Offset = linkanchoredtextDB.Y_Offset_Data.Float64
 	linkanchoredtext.FontWeight = linkanchoredtextDB.FontWeight_Data.String
+	linkanchoredtext.FontSize = linkanchoredtextDB.FontSize_Data.String
+	linkanchoredtext.LetterSpacing = linkanchoredtextDB.LetterSpacing_Data.String
 	linkanchoredtext.Color = linkanchoredtextDB.Color_Data.String
 	linkanchoredtext.FillOpacity = linkanchoredtextDB.FillOpacity_Data.Float64
 	linkanchoredtext.Stroke = linkanchoredtextDB.Stroke_Data.String
+	linkanchoredtext.StrokeOpacity = linkanchoredtextDB.StrokeOpacity_Data.Float64
 	linkanchoredtext.StrokeWidth = linkanchoredtextDB.StrokeWidth_Data.Float64
 	linkanchoredtext.StrokeDashArray = linkanchoredtextDB.StrokeDashArray_Data.String
 	linkanchoredtext.StrokeDashArrayWhenSelected = linkanchoredtextDB.StrokeDashArrayWhenSelected_Data.String
@@ -633,9 +681,12 @@ func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsToLinkAnchoredText_
 	linkanchoredtext.X_Offset = linkanchoredtextDB.X_Offset_Data.Float64
 	linkanchoredtext.Y_Offset = linkanchoredtextDB.Y_Offset_Data.Float64
 	linkanchoredtext.FontWeight = linkanchoredtextDB.FontWeight_Data.String
+	linkanchoredtext.FontSize = linkanchoredtextDB.FontSize_Data.String
+	linkanchoredtext.LetterSpacing = linkanchoredtextDB.LetterSpacing_Data.String
 	linkanchoredtext.Color = linkanchoredtextDB.Color_Data.String
 	linkanchoredtext.FillOpacity = linkanchoredtextDB.FillOpacity_Data.Float64
 	linkanchoredtext.Stroke = linkanchoredtextDB.Stroke_Data.String
+	linkanchoredtext.StrokeOpacity = linkanchoredtextDB.StrokeOpacity_Data.Float64
 	linkanchoredtext.StrokeWidth = linkanchoredtextDB.StrokeWidth_Data.Float64
 	linkanchoredtext.StrokeDashArray = linkanchoredtextDB.StrokeDashArray_Data.String
 	linkanchoredtext.StrokeDashArrayWhenSelected = linkanchoredtextDB.StrokeDashArrayWhenSelected_Data.String
@@ -653,9 +704,12 @@ func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsToLinkAnchoredTextW
 	linkanchoredtext.X_Offset = linkanchoredtextDB.X_Offset_Data.Float64
 	linkanchoredtext.Y_Offset = linkanchoredtextDB.Y_Offset_Data.Float64
 	linkanchoredtext.FontWeight = linkanchoredtextDB.FontWeight_Data.String
+	linkanchoredtext.FontSize = linkanchoredtextDB.FontSize_Data.String
+	linkanchoredtext.LetterSpacing = linkanchoredtextDB.LetterSpacing_Data.String
 	linkanchoredtext.Color = linkanchoredtextDB.Color_Data.String
 	linkanchoredtext.FillOpacity = linkanchoredtextDB.FillOpacity_Data.Float64
 	linkanchoredtext.Stroke = linkanchoredtextDB.Stroke_Data.String
+	linkanchoredtext.StrokeOpacity = linkanchoredtextDB.StrokeOpacity_Data.Float64
 	linkanchoredtext.StrokeWidth = linkanchoredtextDB.StrokeWidth_Data.Float64
 	linkanchoredtext.StrokeDashArray = linkanchoredtextDB.StrokeDashArray_Data.String
 	linkanchoredtext.StrokeDashArrayWhenSelected = linkanchoredtextDB.StrokeDashArrayWhenSelected_Data.String

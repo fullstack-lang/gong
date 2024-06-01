@@ -77,6 +77,9 @@ type PathDB struct {
 	// Declation for basic field pathDB.Stroke
 	Stroke_Data sql.NullString
 
+	// Declation for basic field pathDB.StrokeOpacity
+	StrokeOpacity_Data sql.NullFloat64
+
 	// Declation for basic field pathDB.StrokeWidth
 	StrokeWidth_Data sql.NullFloat64
 
@@ -121,13 +124,15 @@ type PathWOP struct {
 
 	Stroke string `xlsx:"5"`
 
-	StrokeWidth float64 `xlsx:"6"`
+	StrokeOpacity float64 `xlsx:"6"`
 
-	StrokeDashArray string `xlsx:"7"`
+	StrokeWidth float64 `xlsx:"7"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"8"`
+	StrokeDashArray string `xlsx:"8"`
 
-	Transform string `xlsx:"9"`
+	StrokeDashArrayWhenSelected string `xlsx:"9"`
+
+	Transform string `xlsx:"10"`
 	// insertion for WOP pointer fields
 }
 
@@ -139,6 +144,7 @@ var Path_Fields = []string{
 	"Color",
 	"FillOpacity",
 	"Stroke",
+	"StrokeOpacity",
 	"StrokeWidth",
 	"StrokeDashArray",
 	"StrokeDashArrayWhenSelected",
@@ -451,6 +457,9 @@ func (pathDB *PathDB) CopyBasicFieldsFromPath(path *models.Path) {
 	pathDB.Stroke_Data.String = path.Stroke
 	pathDB.Stroke_Data.Valid = true
 
+	pathDB.StrokeOpacity_Data.Float64 = path.StrokeOpacity
+	pathDB.StrokeOpacity_Data.Valid = true
+
 	pathDB.StrokeWidth_Data.Float64 = path.StrokeWidth
 	pathDB.StrokeWidth_Data.Valid = true
 
@@ -482,6 +491,9 @@ func (pathDB *PathDB) CopyBasicFieldsFromPath_WOP(path *models.Path_WOP) {
 
 	pathDB.Stroke_Data.String = path.Stroke
 	pathDB.Stroke_Data.Valid = true
+
+	pathDB.StrokeOpacity_Data.Float64 = path.StrokeOpacity
+	pathDB.StrokeOpacity_Data.Valid = true
 
 	pathDB.StrokeWidth_Data.Float64 = path.StrokeWidth
 	pathDB.StrokeWidth_Data.Valid = true
@@ -515,6 +527,9 @@ func (pathDB *PathDB) CopyBasicFieldsFromPathWOP(path *PathWOP) {
 	pathDB.Stroke_Data.String = path.Stroke
 	pathDB.Stroke_Data.Valid = true
 
+	pathDB.StrokeOpacity_Data.Float64 = path.StrokeOpacity
+	pathDB.StrokeOpacity_Data.Valid = true
+
 	pathDB.StrokeWidth_Data.Float64 = path.StrokeWidth
 	pathDB.StrokeWidth_Data.Valid = true
 
@@ -536,6 +551,7 @@ func (pathDB *PathDB) CopyBasicFieldsToPath(path *models.Path) {
 	path.Color = pathDB.Color_Data.String
 	path.FillOpacity = pathDB.FillOpacity_Data.Float64
 	path.Stroke = pathDB.Stroke_Data.String
+	path.StrokeOpacity = pathDB.StrokeOpacity_Data.Float64
 	path.StrokeWidth = pathDB.StrokeWidth_Data.Float64
 	path.StrokeDashArray = pathDB.StrokeDashArray_Data.String
 	path.StrokeDashArrayWhenSelected = pathDB.StrokeDashArrayWhenSelected_Data.String
@@ -550,6 +566,7 @@ func (pathDB *PathDB) CopyBasicFieldsToPath_WOP(path *models.Path_WOP) {
 	path.Color = pathDB.Color_Data.String
 	path.FillOpacity = pathDB.FillOpacity_Data.Float64
 	path.Stroke = pathDB.Stroke_Data.String
+	path.StrokeOpacity = pathDB.StrokeOpacity_Data.Float64
 	path.StrokeWidth = pathDB.StrokeWidth_Data.Float64
 	path.StrokeDashArray = pathDB.StrokeDashArray_Data.String
 	path.StrokeDashArrayWhenSelected = pathDB.StrokeDashArrayWhenSelected_Data.String
@@ -565,6 +582,7 @@ func (pathDB *PathDB) CopyBasicFieldsToPathWOP(path *PathWOP) {
 	path.Color = pathDB.Color_Data.String
 	path.FillOpacity = pathDB.FillOpacity_Data.Float64
 	path.Stroke = pathDB.Stroke_Data.String
+	path.StrokeOpacity = pathDB.StrokeOpacity_Data.Float64
 	path.StrokeWidth = pathDB.StrokeWidth_Data.Float64
 	path.StrokeDashArray = pathDB.StrokeDashArray_Data.String
 	path.StrokeDashArrayWhenSelected = pathDB.StrokeDashArrayWhenSelected_Data.String

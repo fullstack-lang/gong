@@ -23,6 +23,7 @@ export class Polygone {
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""
+	StrokeOpacity: number = 0
 	StrokeWidth: number = 0
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
@@ -44,6 +45,7 @@ export function CopyPolygoneToPolygoneAPI(polygone: Polygone, polygoneAPI: Polyg
 	polygoneAPI.Color = polygone.Color
 	polygoneAPI.FillOpacity = polygone.FillOpacity
 	polygoneAPI.Stroke = polygone.Stroke
+	polygoneAPI.StrokeOpacity = polygone.StrokeOpacity
 	polygoneAPI.StrokeWidth = polygone.StrokeWidth
 	polygoneAPI.StrokeDashArray = polygone.StrokeDashArray
 	polygoneAPI.StrokeDashArrayWhenSelected = polygone.StrokeDashArrayWhenSelected
@@ -75,6 +77,7 @@ export function CopyPolygoneAPIToPolygone(polygoneAPI: PolygoneAPI, polygone: Po
 	polygone.Color = polygoneAPI.Color
 	polygone.FillOpacity = polygoneAPI.FillOpacity
 	polygone.Stroke = polygoneAPI.Stroke
+	polygone.StrokeOpacity = polygoneAPI.StrokeOpacity
 	polygone.StrokeWidth = polygoneAPI.StrokeWidth
 	polygone.StrokeDashArray = polygoneAPI.StrokeDashArray
 	polygone.StrokeDashArrayWhenSelected = polygoneAPI.StrokeDashArrayWhenSelected

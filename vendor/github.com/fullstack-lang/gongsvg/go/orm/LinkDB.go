@@ -133,6 +133,9 @@ type LinkDB struct {
 	// Declation for basic field linkDB.Stroke
 	Stroke_Data sql.NullString
 
+	// Declation for basic field linkDB.StrokeOpacity
+	StrokeOpacity_Data sql.NullFloat64
+
 	// Declation for basic field linkDB.StrokeWidth
 	StrokeWidth_Data sql.NullFloat64
 
@@ -203,13 +206,15 @@ type LinkWOP struct {
 
 	Stroke string `xlsx:"18"`
 
-	StrokeWidth float64 `xlsx:"19"`
+	StrokeOpacity float64 `xlsx:"19"`
 
-	StrokeDashArray string `xlsx:"20"`
+	StrokeWidth float64 `xlsx:"20"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"21"`
+	StrokeDashArray string `xlsx:"21"`
 
-	Transform string `xlsx:"22"`
+	StrokeDashArrayWhenSelected string `xlsx:"22"`
+
+	Transform string `xlsx:"23"`
 	// insertion for WOP pointer fields
 }
 
@@ -234,6 +239,7 @@ var Link_Fields = []string{
 	"Color",
 	"FillOpacity",
 	"Stroke",
+	"StrokeOpacity",
 	"StrokeWidth",
 	"StrokeDashArray",
 	"StrokeDashArrayWhenSelected",
@@ -673,6 +679,9 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLink(link *models.Link) {
 	linkDB.Stroke_Data.String = link.Stroke
 	linkDB.Stroke_Data.Valid = true
 
+	linkDB.StrokeOpacity_Data.Float64 = link.StrokeOpacity
+	linkDB.StrokeOpacity_Data.Valid = true
+
 	linkDB.StrokeWidth_Data.Float64 = link.StrokeWidth
 	linkDB.StrokeWidth_Data.Valid = true
 
@@ -743,6 +752,9 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLink_WOP(link *models.Link_WOP) {
 
 	linkDB.Stroke_Data.String = link.Stroke
 	linkDB.Stroke_Data.Valid = true
+
+	linkDB.StrokeOpacity_Data.Float64 = link.StrokeOpacity
+	linkDB.StrokeOpacity_Data.Valid = true
 
 	linkDB.StrokeWidth_Data.Float64 = link.StrokeWidth
 	linkDB.StrokeWidth_Data.Valid = true
@@ -815,6 +827,9 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLinkWOP(link *LinkWOP) {
 	linkDB.Stroke_Data.String = link.Stroke
 	linkDB.Stroke_Data.Valid = true
 
+	linkDB.StrokeOpacity_Data.Float64 = link.StrokeOpacity
+	linkDB.StrokeOpacity_Data.Valid = true
+
 	linkDB.StrokeWidth_Data.Float64 = link.StrokeWidth
 	linkDB.StrokeWidth_Data.Valid = true
 
@@ -849,6 +864,7 @@ func (linkDB *LinkDB) CopyBasicFieldsToLink(link *models.Link) {
 	link.Color = linkDB.Color_Data.String
 	link.FillOpacity = linkDB.FillOpacity_Data.Float64
 	link.Stroke = linkDB.Stroke_Data.String
+	link.StrokeOpacity = linkDB.StrokeOpacity_Data.Float64
 	link.StrokeWidth = linkDB.StrokeWidth_Data.Float64
 	link.StrokeDashArray = linkDB.StrokeDashArray_Data.String
 	link.StrokeDashArrayWhenSelected = linkDB.StrokeDashArrayWhenSelected_Data.String
@@ -876,6 +892,7 @@ func (linkDB *LinkDB) CopyBasicFieldsToLink_WOP(link *models.Link_WOP) {
 	link.Color = linkDB.Color_Data.String
 	link.FillOpacity = linkDB.FillOpacity_Data.Float64
 	link.Stroke = linkDB.Stroke_Data.String
+	link.StrokeOpacity = linkDB.StrokeOpacity_Data.Float64
 	link.StrokeWidth = linkDB.StrokeWidth_Data.Float64
 	link.StrokeDashArray = linkDB.StrokeDashArray_Data.String
 	link.StrokeDashArrayWhenSelected = linkDB.StrokeDashArrayWhenSelected_Data.String
@@ -904,6 +921,7 @@ func (linkDB *LinkDB) CopyBasicFieldsToLinkWOP(link *LinkWOP) {
 	link.Color = linkDB.Color_Data.String
 	link.FillOpacity = linkDB.FillOpacity_Data.Float64
 	link.Stroke = linkDB.Stroke_Data.String
+	link.StrokeOpacity = linkDB.StrokeOpacity_Data.Float64
 	link.StrokeWidth = linkDB.StrokeWidth_Data.Float64
 	link.StrokeDashArray = linkDB.StrokeDashArray_Data.String
 	link.StrokeDashArrayWhenSelected = linkDB.StrokeDashArrayWhenSelected_Data.String
