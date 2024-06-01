@@ -24,6 +24,7 @@ export class RectLinkLink {
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""
+	StrokeOpacity: number = 0
 	StrokeWidth: number = 0
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
@@ -48,6 +49,7 @@ export function CopyRectLinkLinkToRectLinkLinkAPI(rectlinklink: RectLinkLink, re
 	rectlinklinkAPI.Color = rectlinklink.Color
 	rectlinklinkAPI.FillOpacity = rectlinklink.FillOpacity
 	rectlinklinkAPI.Stroke = rectlinklink.Stroke
+	rectlinklinkAPI.StrokeOpacity = rectlinklink.StrokeOpacity
 	rectlinklinkAPI.StrokeWidth = rectlinklink.StrokeWidth
 	rectlinklinkAPI.StrokeDashArray = rectlinklink.StrokeDashArray
 	rectlinklinkAPI.StrokeDashArrayWhenSelected = rectlinklink.StrokeDashArrayWhenSelected
@@ -88,6 +90,7 @@ export function CopyRectLinkLinkAPIToRectLinkLink(rectlinklinkAPI: RectLinkLinkA
 	rectlinklink.Color = rectlinklinkAPI.Color
 	rectlinklink.FillOpacity = rectlinklinkAPI.FillOpacity
 	rectlinklink.Stroke = rectlinklinkAPI.Stroke
+	rectlinklink.StrokeOpacity = rectlinklinkAPI.StrokeOpacity
 	rectlinklink.StrokeWidth = rectlinklinkAPI.StrokeWidth
 	rectlinklink.StrokeDashArray = rectlinklinkAPI.StrokeDashArray
 	rectlinklink.StrokeDashArrayWhenSelected = rectlinklinkAPI.StrokeDashArrayWhenSelected

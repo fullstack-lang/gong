@@ -26,6 +26,7 @@ export class Ellipse {
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""
+	StrokeOpacity: number = 0
 	StrokeWidth: number = 0
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
@@ -50,6 +51,7 @@ export function CopyEllipseToEllipseAPI(ellipse: Ellipse, ellipseAPI: EllipseAPI
 	ellipseAPI.Color = ellipse.Color
 	ellipseAPI.FillOpacity = ellipse.FillOpacity
 	ellipseAPI.Stroke = ellipse.Stroke
+	ellipseAPI.StrokeOpacity = ellipse.StrokeOpacity
 	ellipseAPI.StrokeWidth = ellipse.StrokeWidth
 	ellipseAPI.StrokeDashArray = ellipse.StrokeDashArray
 	ellipseAPI.StrokeDashArrayWhenSelected = ellipse.StrokeDashArrayWhenSelected
@@ -84,6 +86,7 @@ export function CopyEllipseAPIToEllipse(ellipseAPI: EllipseAPI, ellipse: Ellipse
 	ellipse.Color = ellipseAPI.Color
 	ellipse.FillOpacity = ellipseAPI.FillOpacity
 	ellipse.Stroke = ellipseAPI.Stroke
+	ellipse.StrokeOpacity = ellipseAPI.StrokeOpacity
 	ellipse.StrokeWidth = ellipseAPI.StrokeWidth
 	ellipse.StrokeDashArray = ellipseAPI.StrokeDashArray
 	ellipse.StrokeDashArrayWhenSelected = ellipseAPI.StrokeDashArrayWhenSelected

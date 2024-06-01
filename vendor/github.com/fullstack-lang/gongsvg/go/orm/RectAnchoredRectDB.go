@@ -103,6 +103,9 @@ type RectAnchoredRectDB struct {
 	// Declation for basic field rectanchoredrectDB.Stroke
 	Stroke_Data sql.NullString
 
+	// Declation for basic field rectanchoredrectDB.StrokeOpacity
+	StrokeOpacity_Data sql.NullFloat64
+
 	// Declation for basic field rectanchoredrectDB.StrokeWidth
 	StrokeWidth_Data sql.NullFloat64
 
@@ -165,13 +168,15 @@ type RectAnchoredRectWOP struct {
 
 	Stroke string `xlsx:"14"`
 
-	StrokeWidth float64 `xlsx:"15"`
+	StrokeOpacity float64 `xlsx:"15"`
 
-	StrokeDashArray string `xlsx:"16"`
+	StrokeWidth float64 `xlsx:"16"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"17"`
+	StrokeDashArray string `xlsx:"17"`
 
-	Transform string `xlsx:"18"`
+	StrokeDashArrayWhenSelected string `xlsx:"18"`
+
+	Transform string `xlsx:"19"`
 	// insertion for WOP pointer fields
 }
 
@@ -192,6 +197,7 @@ var RectAnchoredRect_Fields = []string{
 	"Color",
 	"FillOpacity",
 	"Stroke",
+	"StrokeOpacity",
 	"StrokeWidth",
 	"StrokeDashArray",
 	"StrokeDashArrayWhenSelected",
@@ -504,6 +510,9 @@ func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsFromRectAnchoredRec
 	rectanchoredrectDB.Stroke_Data.String = rectanchoredrect.Stroke
 	rectanchoredrectDB.Stroke_Data.Valid = true
 
+	rectanchoredrectDB.StrokeOpacity_Data.Float64 = rectanchoredrect.StrokeOpacity
+	rectanchoredrectDB.StrokeOpacity_Data.Valid = true
+
 	rectanchoredrectDB.StrokeWidth_Data.Float64 = rectanchoredrect.StrokeWidth
 	rectanchoredrectDB.StrokeWidth_Data.Valid = true
 
@@ -562,6 +571,9 @@ func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsFromRectAnchoredRec
 
 	rectanchoredrectDB.Stroke_Data.String = rectanchoredrect.Stroke
 	rectanchoredrectDB.Stroke_Data.Valid = true
+
+	rectanchoredrectDB.StrokeOpacity_Data.Float64 = rectanchoredrect.StrokeOpacity
+	rectanchoredrectDB.StrokeOpacity_Data.Valid = true
 
 	rectanchoredrectDB.StrokeWidth_Data.Float64 = rectanchoredrect.StrokeWidth
 	rectanchoredrectDB.StrokeWidth_Data.Valid = true
@@ -622,6 +634,9 @@ func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsFromRectAnchoredRec
 	rectanchoredrectDB.Stroke_Data.String = rectanchoredrect.Stroke
 	rectanchoredrectDB.Stroke_Data.Valid = true
 
+	rectanchoredrectDB.StrokeOpacity_Data.Float64 = rectanchoredrect.StrokeOpacity
+	rectanchoredrectDB.StrokeOpacity_Data.Valid = true
+
 	rectanchoredrectDB.StrokeWidth_Data.Float64 = rectanchoredrect.StrokeWidth
 	rectanchoredrectDB.StrokeWidth_Data.Valid = true
 
@@ -652,6 +667,7 @@ func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsToRectAnchoredRect(
 	rectanchoredrect.Color = rectanchoredrectDB.Color_Data.String
 	rectanchoredrect.FillOpacity = rectanchoredrectDB.FillOpacity_Data.Float64
 	rectanchoredrect.Stroke = rectanchoredrectDB.Stroke_Data.String
+	rectanchoredrect.StrokeOpacity = rectanchoredrectDB.StrokeOpacity_Data.Float64
 	rectanchoredrect.StrokeWidth = rectanchoredrectDB.StrokeWidth_Data.Float64
 	rectanchoredrect.StrokeDashArray = rectanchoredrectDB.StrokeDashArray_Data.String
 	rectanchoredrect.StrokeDashArrayWhenSelected = rectanchoredrectDB.StrokeDashArrayWhenSelected_Data.String
@@ -675,6 +691,7 @@ func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsToRectAnchoredRect_
 	rectanchoredrect.Color = rectanchoredrectDB.Color_Data.String
 	rectanchoredrect.FillOpacity = rectanchoredrectDB.FillOpacity_Data.Float64
 	rectanchoredrect.Stroke = rectanchoredrectDB.Stroke_Data.String
+	rectanchoredrect.StrokeOpacity = rectanchoredrectDB.StrokeOpacity_Data.Float64
 	rectanchoredrect.StrokeWidth = rectanchoredrectDB.StrokeWidth_Data.Float64
 	rectanchoredrect.StrokeDashArray = rectanchoredrectDB.StrokeDashArray_Data.String
 	rectanchoredrect.StrokeDashArrayWhenSelected = rectanchoredrectDB.StrokeDashArrayWhenSelected_Data.String
@@ -699,6 +716,7 @@ func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsToRectAnchoredRectW
 	rectanchoredrect.Color = rectanchoredrectDB.Color_Data.String
 	rectanchoredrect.FillOpacity = rectanchoredrectDB.FillOpacity_Data.Float64
 	rectanchoredrect.Stroke = rectanchoredrectDB.Stroke_Data.String
+	rectanchoredrect.StrokeOpacity = rectanchoredrectDB.StrokeOpacity_Data.Float64
 	rectanchoredrect.StrokeWidth = rectanchoredrectDB.StrokeWidth_Data.Float64
 	rectanchoredrect.StrokeDashArray = rectanchoredrectDB.StrokeDashArray_Data.String
 	rectanchoredrect.StrokeDashArrayWhenSelected = rectanchoredrectDB.StrokeDashArrayWhenSelected_Data.String

@@ -83,6 +83,9 @@ type CircleDB struct {
 	// Declation for basic field circleDB.Stroke
 	Stroke_Data sql.NullString
 
+	// Declation for basic field circleDB.StrokeOpacity
+	StrokeOpacity_Data sql.NullFloat64
+
 	// Declation for basic field circleDB.StrokeWidth
 	StrokeWidth_Data sql.NullFloat64
 
@@ -131,13 +134,15 @@ type CircleWOP struct {
 
 	Stroke string `xlsx:"7"`
 
-	StrokeWidth float64 `xlsx:"8"`
+	StrokeOpacity float64 `xlsx:"8"`
 
-	StrokeDashArray string `xlsx:"9"`
+	StrokeWidth float64 `xlsx:"9"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"10"`
+	StrokeDashArray string `xlsx:"10"`
 
-	Transform string `xlsx:"11"`
+	StrokeDashArrayWhenSelected string `xlsx:"11"`
+
+	Transform string `xlsx:"12"`
 	// insertion for WOP pointer fields
 }
 
@@ -151,6 +156,7 @@ var Circle_Fields = []string{
 	"Color",
 	"FillOpacity",
 	"Stroke",
+	"StrokeOpacity",
 	"StrokeWidth",
 	"StrokeDashArray",
 	"StrokeDashArrayWhenSelected",
@@ -469,6 +475,9 @@ func (circleDB *CircleDB) CopyBasicFieldsFromCircle(circle *models.Circle) {
 	circleDB.Stroke_Data.String = circle.Stroke
 	circleDB.Stroke_Data.Valid = true
 
+	circleDB.StrokeOpacity_Data.Float64 = circle.StrokeOpacity
+	circleDB.StrokeOpacity_Data.Valid = true
+
 	circleDB.StrokeWidth_Data.Float64 = circle.StrokeWidth
 	circleDB.StrokeWidth_Data.Valid = true
 
@@ -506,6 +515,9 @@ func (circleDB *CircleDB) CopyBasicFieldsFromCircle_WOP(circle *models.Circle_WO
 
 	circleDB.Stroke_Data.String = circle.Stroke
 	circleDB.Stroke_Data.Valid = true
+
+	circleDB.StrokeOpacity_Data.Float64 = circle.StrokeOpacity
+	circleDB.StrokeOpacity_Data.Valid = true
 
 	circleDB.StrokeWidth_Data.Float64 = circle.StrokeWidth
 	circleDB.StrokeWidth_Data.Valid = true
@@ -545,6 +557,9 @@ func (circleDB *CircleDB) CopyBasicFieldsFromCircleWOP(circle *CircleWOP) {
 	circleDB.Stroke_Data.String = circle.Stroke
 	circleDB.Stroke_Data.Valid = true
 
+	circleDB.StrokeOpacity_Data.Float64 = circle.StrokeOpacity
+	circleDB.StrokeOpacity_Data.Valid = true
+
 	circleDB.StrokeWidth_Data.Float64 = circle.StrokeWidth
 	circleDB.StrokeWidth_Data.Valid = true
 
@@ -568,6 +583,7 @@ func (circleDB *CircleDB) CopyBasicFieldsToCircle(circle *models.Circle) {
 	circle.Color = circleDB.Color_Data.String
 	circle.FillOpacity = circleDB.FillOpacity_Data.Float64
 	circle.Stroke = circleDB.Stroke_Data.String
+	circle.StrokeOpacity = circleDB.StrokeOpacity_Data.Float64
 	circle.StrokeWidth = circleDB.StrokeWidth_Data.Float64
 	circle.StrokeDashArray = circleDB.StrokeDashArray_Data.String
 	circle.StrokeDashArrayWhenSelected = circleDB.StrokeDashArrayWhenSelected_Data.String
@@ -584,6 +600,7 @@ func (circleDB *CircleDB) CopyBasicFieldsToCircle_WOP(circle *models.Circle_WOP)
 	circle.Color = circleDB.Color_Data.String
 	circle.FillOpacity = circleDB.FillOpacity_Data.Float64
 	circle.Stroke = circleDB.Stroke_Data.String
+	circle.StrokeOpacity = circleDB.StrokeOpacity_Data.Float64
 	circle.StrokeWidth = circleDB.StrokeWidth_Data.Float64
 	circle.StrokeDashArray = circleDB.StrokeDashArray_Data.String
 	circle.StrokeDashArrayWhenSelected = circleDB.StrokeDashArrayWhenSelected_Data.String
@@ -601,6 +618,7 @@ func (circleDB *CircleDB) CopyBasicFieldsToCircleWOP(circle *CircleWOP) {
 	circle.Color = circleDB.Color_Data.String
 	circle.FillOpacity = circleDB.FillOpacity_Data.Float64
 	circle.Stroke = circleDB.Stroke_Data.String
+	circle.StrokeOpacity = circleDB.StrokeOpacity_Data.Float64
 	circle.StrokeWidth = circleDB.StrokeWidth_Data.Float64
 	circle.StrokeDashArray = circleDB.StrokeDashArray_Data.String
 	circle.StrokeDashArrayWhenSelected = circleDB.StrokeDashArrayWhenSelected_Data.String

@@ -151,6 +151,7 @@ type ModelPkg_WOP struct {
 	StaticPkgGenPath string
 	ProbePkgGenPath string
 	NgWorkspacePath string
+	NgWorkspaceName string
 	NgDataLibrarySourceCodeDirectory string
 	NgSpecificLibrarySourceCodeDirectory string
 	MaterialLibDatamodelTargetPath string
@@ -168,6 +169,7 @@ func (from *ModelPkg) CopyBasicFields(to *ModelPkg) {
 	to.StaticPkgGenPath = from.StaticPkgGenPath
 	to.ProbePkgGenPath = from.ProbePkgGenPath
 	to.NgWorkspacePath = from.NgWorkspacePath
+	to.NgWorkspaceName = from.NgWorkspaceName
 	to.NgDataLibrarySourceCodeDirectory = from.NgDataLibrarySourceCodeDirectory
 	to.NgSpecificLibrarySourceCodeDirectory = from.NgSpecificLibrarySourceCodeDirectory
 	to.MaterialLibDatamodelTargetPath = from.MaterialLibDatamodelTargetPath
@@ -178,6 +180,7 @@ type PointerToGongStructField_WOP struct {
 	Name string
 	Index int
 	CompositeStructName string
+	IsType bool
 }
 
 func (from *PointerToGongStructField) CopyBasicFields(to *PointerToGongStructField) {
@@ -185,6 +188,7 @@ func (from *PointerToGongStructField) CopyBasicFields(to *PointerToGongStructFie
 	to.Name = from.Name
 	to.Index = from.Index
 	to.CompositeStructName = from.CompositeStructName
+	to.IsType = from.IsType
 }
 
 type SliceOfPointerToGongStructField_WOP struct {

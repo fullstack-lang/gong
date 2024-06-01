@@ -25,6 +25,7 @@ export class Circle {
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""
+	StrokeOpacity: number = 0
 	StrokeWidth: number = 0
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
@@ -48,6 +49,7 @@ export function CopyCircleToCircleAPI(circle: Circle, circleAPI: CircleAPI) {
 	circleAPI.Color = circle.Color
 	circleAPI.FillOpacity = circle.FillOpacity
 	circleAPI.Stroke = circle.Stroke
+	circleAPI.StrokeOpacity = circle.StrokeOpacity
 	circleAPI.StrokeWidth = circle.StrokeWidth
 	circleAPI.StrokeDashArray = circle.StrokeDashArray
 	circleAPI.StrokeDashArrayWhenSelected = circle.StrokeDashArrayWhenSelected
@@ -81,6 +83,7 @@ export function CopyCircleAPIToCircle(circleAPI: CircleAPI, circle: Circle, fron
 	circle.Color = circleAPI.Color
 	circle.FillOpacity = circleAPI.FillOpacity
 	circle.Stroke = circleAPI.Stroke
+	circle.StrokeOpacity = circleAPI.StrokeOpacity
 	circle.StrokeWidth = circleAPI.StrokeWidth
 	circle.StrokeDashArray = circleAPI.StrokeDashArray
 	circle.StrokeDashArrayWhenSelected = circleAPI.StrokeDashArrayWhenSelected

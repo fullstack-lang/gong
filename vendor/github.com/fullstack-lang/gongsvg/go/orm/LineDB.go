@@ -86,6 +86,9 @@ type LineDB struct {
 	// Declation for basic field lineDB.Stroke
 	Stroke_Data sql.NullString
 
+	// Declation for basic field lineDB.StrokeOpacity
+	StrokeOpacity_Data sql.NullFloat64
+
 	// Declation for basic field lineDB.StrokeWidth
 	StrokeWidth_Data sql.NullFloat64
 
@@ -142,17 +145,19 @@ type LineWOP struct {
 
 	Stroke string `xlsx:"8"`
 
-	StrokeWidth float64 `xlsx:"9"`
+	StrokeOpacity float64 `xlsx:"9"`
 
-	StrokeDashArray string `xlsx:"10"`
+	StrokeWidth float64 `xlsx:"10"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"11"`
+	StrokeDashArray string `xlsx:"11"`
 
-	Transform string `xlsx:"12"`
+	StrokeDashArrayWhenSelected string `xlsx:"12"`
 
-	MouseClickX float64 `xlsx:"13"`
+	Transform string `xlsx:"13"`
 
-	MouseClickY float64 `xlsx:"14"`
+	MouseClickX float64 `xlsx:"14"`
+
+	MouseClickY float64 `xlsx:"15"`
 	// insertion for WOP pointer fields
 }
 
@@ -167,6 +172,7 @@ var Line_Fields = []string{
 	"Color",
 	"FillOpacity",
 	"Stroke",
+	"StrokeOpacity",
 	"StrokeWidth",
 	"StrokeDashArray",
 	"StrokeDashArrayWhenSelected",
@@ -490,6 +496,9 @@ func (lineDB *LineDB) CopyBasicFieldsFromLine(line *models.Line) {
 	lineDB.Stroke_Data.String = line.Stroke
 	lineDB.Stroke_Data.Valid = true
 
+	lineDB.StrokeOpacity_Data.Float64 = line.StrokeOpacity
+	lineDB.StrokeOpacity_Data.Valid = true
+
 	lineDB.StrokeWidth_Data.Float64 = line.StrokeWidth
 	lineDB.StrokeWidth_Data.Valid = true
 
@@ -536,6 +545,9 @@ func (lineDB *LineDB) CopyBasicFieldsFromLine_WOP(line *models.Line_WOP) {
 
 	lineDB.Stroke_Data.String = line.Stroke
 	lineDB.Stroke_Data.Valid = true
+
+	lineDB.StrokeOpacity_Data.Float64 = line.StrokeOpacity
+	lineDB.StrokeOpacity_Data.Valid = true
 
 	lineDB.StrokeWidth_Data.Float64 = line.StrokeWidth
 	lineDB.StrokeWidth_Data.Valid = true
@@ -584,6 +596,9 @@ func (lineDB *LineDB) CopyBasicFieldsFromLineWOP(line *LineWOP) {
 	lineDB.Stroke_Data.String = line.Stroke
 	lineDB.Stroke_Data.Valid = true
 
+	lineDB.StrokeOpacity_Data.Float64 = line.StrokeOpacity
+	lineDB.StrokeOpacity_Data.Valid = true
+
 	lineDB.StrokeWidth_Data.Float64 = line.StrokeWidth
 	lineDB.StrokeWidth_Data.Valid = true
 
@@ -614,6 +629,7 @@ func (lineDB *LineDB) CopyBasicFieldsToLine(line *models.Line) {
 	line.Color = lineDB.Color_Data.String
 	line.FillOpacity = lineDB.FillOpacity_Data.Float64
 	line.Stroke = lineDB.Stroke_Data.String
+	line.StrokeOpacity = lineDB.StrokeOpacity_Data.Float64
 	line.StrokeWidth = lineDB.StrokeWidth_Data.Float64
 	line.StrokeDashArray = lineDB.StrokeDashArray_Data.String
 	line.StrokeDashArrayWhenSelected = lineDB.StrokeDashArrayWhenSelected_Data.String
@@ -633,6 +649,7 @@ func (lineDB *LineDB) CopyBasicFieldsToLine_WOP(line *models.Line_WOP) {
 	line.Color = lineDB.Color_Data.String
 	line.FillOpacity = lineDB.FillOpacity_Data.Float64
 	line.Stroke = lineDB.Stroke_Data.String
+	line.StrokeOpacity = lineDB.StrokeOpacity_Data.Float64
 	line.StrokeWidth = lineDB.StrokeWidth_Data.Float64
 	line.StrokeDashArray = lineDB.StrokeDashArray_Data.String
 	line.StrokeDashArrayWhenSelected = lineDB.StrokeDashArrayWhenSelected_Data.String
@@ -653,6 +670,7 @@ func (lineDB *LineDB) CopyBasicFieldsToLineWOP(line *LineWOP) {
 	line.Color = lineDB.Color_Data.String
 	line.FillOpacity = lineDB.FillOpacity_Data.Float64
 	line.Stroke = lineDB.Stroke_Data.String
+	line.StrokeOpacity = lineDB.StrokeOpacity_Data.Float64
 	line.StrokeWidth = lineDB.StrokeWidth_Data.Float64
 	line.StrokeDashArray = lineDB.StrokeDashArray_Data.String
 	line.StrokeDashArrayWhenSelected = lineDB.StrokeDashArrayWhenSelected_Data.String

@@ -26,6 +26,7 @@ export class Line {
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""
+	StrokeOpacity: number = 0
 	StrokeWidth: number = 0
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
@@ -52,6 +53,7 @@ export function CopyLineToLineAPI(line: Line, lineAPI: LineAPI) {
 	lineAPI.Color = line.Color
 	lineAPI.FillOpacity = line.FillOpacity
 	lineAPI.Stroke = line.Stroke
+	lineAPI.StrokeOpacity = line.StrokeOpacity
 	lineAPI.StrokeWidth = line.StrokeWidth
 	lineAPI.StrokeDashArray = line.StrokeDashArray
 	lineAPI.StrokeDashArrayWhenSelected = line.StrokeDashArrayWhenSelected
@@ -88,6 +90,7 @@ export function CopyLineAPIToLine(lineAPI: LineAPI, line: Line, frontRepo: Front
 	line.Color = lineAPI.Color
 	line.FillOpacity = lineAPI.FillOpacity
 	line.Stroke = lineAPI.Stroke
+	line.StrokeOpacity = lineAPI.StrokeOpacity
 	line.StrokeWidth = lineAPI.StrokeWidth
 	line.StrokeDashArray = lineAPI.StrokeDashArray
 	line.StrokeDashArrayWhenSelected = lineAPI.StrokeDashArrayWhenSelected
