@@ -38,6 +38,9 @@ map[ModelGongMarshallStructInsertionId]string{
 	sort.Slice({{structname}}Ordered[:], func(i, j int) bool {
 		return {{structname}}Ordered[i].Name < {{structname}}Ordered[j].Name
 	})
+	if len({{structname}}Ordered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, {{structname}} := range {{structname}}Ordered {
 
 		id = generatesIdentifier("{{Structname}}", idx, {{structname}}.Name)
@@ -49,6 +52,7 @@ map[ModelGongMarshallStructInsertionId]string{
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
 		identifiersDecl += decl
 
+		initializerStatements += "\n"
 		// Initialisation of values{{ValuesInitialization}}
 	}
 `,
