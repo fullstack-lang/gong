@@ -187,7 +187,6 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 	sort.Slice({{structname}}Ordered[:], func(i, j int) bool {
 		return {{structname}}Ordered[i].Name < {{structname}}Ordered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of {{Structname}}"
 	for idx, {{structname}} := range {{structname}}Ordered {
 
 		id = generatesIdentifier("{{Structname}}", idx, {{structname}}.Name)
@@ -199,7 +198,6 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// {{Structname}} values setup"
 		// Initialisation of values{{ValuesInitialization}}
 	}
 `,
