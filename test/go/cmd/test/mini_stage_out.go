@@ -49,22 +49,10 @@ var map_DocLink_Identifier_mini_stage_out map[string]any = map[string]any{
 func mini_stage_outInjection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
-
-	// Declarations of staged instances of Astruct
 	__Astruct__000000_Foo := (&models.Astruct{Name: `Foo`}).Stage(stage)
-
-	// Declarations of staged instances of AstructBstruct2Use
-
-	// Declarations of staged instances of AstructBstructUse
-
-	// Declarations of staged instances of Bstruct
 	__Bstruct__000000_B1 := (&models.Bstruct{Name: `B1`}).Stage(stage)
 
-	// Declarations of staged instances of Dstruct
-
 	// Setup of values
-
-	// Astruct values setup
 	__Astruct__000000_Foo.Name = `Foo`
 	__Astruct__000000_Foo.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Astruct__000000_Foo.Booleanfield = false
@@ -76,37 +64,25 @@ func mini_stage_outInjection(stage *models.StageStruct) {
 	__Astruct__000000_Foo.Anotherbooleanfield = false
 	__Astruct__000000_Foo.Duration1 = 0
 
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [dummy.Dummy2]
+	//gong:ident [dummy.Dummy2] comment added to overcome the problem with the comment map association
 	__Astruct__000000_Foo.StructRef = `dummy.Dummy2`
 
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [dummy.Dummy2.Name]
+	//gong:ident [dummy.Dummy2.Name] comment added to overcome the problem with the comment map association
 	__Astruct__000000_Foo.FieldRef = `dummy.Dummy2.Name`
 
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [dummy.DummyTypeInt]
+	//gong:ident [dummy.DummyTypeInt] comment added to overcome the problem with the comment map association
 	__Astruct__000000_Foo.EnumIntRef = `dummy.DummyTypeInt`
 
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [dummy.DummyTypeString]
+	//gong:ident [dummy.DummyTypeString] comment added to overcome the problem with the comment map association
 	__Astruct__000000_Foo.EnumStringRef = `dummy.DummyTypeString`
 
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [dummy.A]
+	//gong:ident [dummy.A] comment added to overcome the problem with the comment map association
 	__Astruct__000000_Foo.EnumValue = `dummy.A`
 
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [...]
+	//gong:ident [...] comment added to overcome the problem with the comment map association
 	__Astruct__000000_Foo.ConstIdentifierValue = `...`
-
-	// Bstruct values setup
+	__Astruct__000000_Foo.TextFieldBespokeSize = ``
+	__Astruct__000000_Foo.TextArea = ``
 	__Bstruct__000000_B1.Name = `B1`
 	__Bstruct__000000_B1.Floatfield = 0.000000
 	__Bstruct__000000_B1.Floatfield2 = 0.000000
