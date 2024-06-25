@@ -11,11 +11,11 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_mini_stage_in models.StageStruct
-var ___dummy__Time_mini_stage_in time.Time
+var _ models.StageStruct
+var _ time.Time
 
 // Injection point for meta package dummy declaration
-var ___dummy__dummy_mini_stage_in dummy.StageStruct
+var _ dummy.StageStruct
 
 // currently, DocLink renaming is not enabled in gopls
 // the following map are devised to overcome this limitation
@@ -24,7 +24,7 @@ var ___dummy__dummy_mini_stage_in dummy.StageStruct
 // [Corresponding Issue](https://github.com/golang/go/issues/57559)
 //
 // When parsed, those maps will help with the renaming process
-var map_DocLink_Identifier_mini_stage_in map[string]any = map[string]any{
+var _ map[string]any = map[string]any{
 	// injection point for docLink to identifiers
 
 	"dummy.A": dummy.A,
@@ -46,7 +46,7 @@ var map_DocLink_Identifier_mini_stage_in map[string]any = map[string]any{
 // }
 
 // mini_stage_inInjection will stage objects of database "mini_stage_in"
-func mini_stage_inInjection(stage *models.StageStruct) {
+var _ = func(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
@@ -66,7 +66,6 @@ func mini_stage_inInjection(stage *models.StageStruct) {
 
 	// Astruct values setup
 	__Astruct__000000_Foo.Name = `Foo`
-	__Astruct__000000_Foo.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Astruct__000000_Foo.Booleanfield = false
 	__Astruct__000000_Foo.CEnum = models.CENUM_VAL1
 	__Astruct__000000_Foo.CName = ``
