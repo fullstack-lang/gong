@@ -11,11 +11,11 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_mini_stage_out models.StageStruct
-var ___dummy__Time_mini_stage_out time.Time
+var _ models.StageStruct
+var _ time.Time
 
 // Injection point for meta package dummy declaration
-var ___dummy__dummy_mini_stage_out dummy.StageStruct
+var _ dummy.StageStruct
 
 // currently, DocLink renaming is not enabled in gopls
 // the following map are devised to overcome this limitation
@@ -24,7 +24,7 @@ var ___dummy__dummy_mini_stage_out dummy.StageStruct
 // [Corresponding Issue](https://github.com/golang/go/issues/57559)
 //
 // When parsed, those maps will help with the renaming process
-var map_DocLink_Identifier_mini_stage_out map[string]any = map[string]any{
+var _ map[string]any = map[string]any{
 	// injection point for docLink to identifiers
 
 	"dummy.A": dummy.A,
@@ -46,7 +46,7 @@ var map_DocLink_Identifier_mini_stage_out map[string]any = map[string]any{
 // }
 
 // mini_stage_outInjection will stage objects of database "mini_stage_out"
-func mini_stage_outInjection(stage *models.StageStruct) {
+var _ = func(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 	__Astruct__000000_Foo := (&models.Astruct{Name: `Foo`}).Stage(stage)
@@ -91,5 +91,3 @@ func mini_stage_outInjection(stage *models.StageStruct) {
 	// Setup of pointers
 	__Astruct__000000_Foo.Anarrayofb = append(__Astruct__000000_Foo.Anarrayofb, __Bstruct__000000_B1)
 }
-
-
