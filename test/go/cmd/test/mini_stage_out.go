@@ -22,7 +22,7 @@ var _ map[string]any = map[string]any{
 }
 
 // function will stage objects
-var _ = func(stage *models.StageStruct) {
+func _(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
@@ -41,23 +41,23 @@ var _ = func(stage *models.StageStruct) {
 	__Astruct__000000_.Anotherbooleanfield = false
 	__Astruct__000000_.Duration1 = 0
 
-	//gong:ident [] comment added to overcome the problem with the comment map association
-	__Astruct__000000_.StructRef = ``
+	//gong:ident [.] comment added to overcome the problem with the comment map association
+	__Astruct__000000_.StructRef = `.`
 
-	//gong:ident [] comment added to overcome the problem with the comment map association
-	__Astruct__000000_.FieldRef = ``
+	//gong:ident [.] comment added to overcome the problem with the comment map association
+	__Astruct__000000_.FieldRef = `.`
 
-	//gong:ident [] comment added to overcome the problem with the comment map association
-	__Astruct__000000_.EnumIntRef = ``
+	//gong:ident [.] comment added to overcome the problem with the comment map association
+	__Astruct__000000_.EnumIntRef = `.`
 
-	//gong:ident [] comment added to overcome the problem with the comment map association
-	__Astruct__000000_.EnumStringRef = ``
+	//gong:ident [.] comment added to overcome the problem with the comment map association
+	__Astruct__000000_.EnumStringRef = `.`
 
-	//gong:ident [] comment added to overcome the problem with the comment map association
-	__Astruct__000000_.EnumValue = ``
+	//gong:ident [.] comment added to overcome the problem with the comment map association
+	__Astruct__000000_.EnumValue = `.`
 
-	//gong:ident [] comment added to overcome the problem with the comment map association
-	__Astruct__000000_.ConstIdentifierValue = ``
+	//gong:ident [.] comment added to overcome the problem with the comment map association
+	__Astruct__000000_.ConstIdentifierValue = `.`
 	__Astruct__000000_.TextFieldBespokeSize = ``
 	__Astruct__000000_.TextArea = ``
 
