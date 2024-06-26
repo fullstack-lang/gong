@@ -72,7 +72,7 @@ func ParseAstFileFromAst(stage *StageStruct, inFile *ast.File, fset *token.FileS
 			funcDecl := decl
 			// astCoordinate := // astCoordinate + "\tFunction " + funcDecl.Name.Name
 			if name := funcDecl.Name; name != nil {
-				isOfInterest := strings.Contains(funcDecl.Name.Name, "Injection")
+				isOfInterest := strings.Contains(funcDecl.Name.Name, "_")
 				if !isOfInterest {
 					continue
 				}

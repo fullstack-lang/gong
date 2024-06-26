@@ -35,7 +35,7 @@ var _ map[string]any = map[string]any{
 }
 
 // function will stage objects
-var _ = func(stage *models.StageStruct) {
+func _(stage *models.StageStruct) {
 
 	// Declaration of instances to stage{{Identifiers}}
 
