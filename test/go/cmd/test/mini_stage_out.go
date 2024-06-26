@@ -25,9 +25,11 @@ var _ map[string]any = map[string]any{
 var _ = func(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
+
 	__Astruct__000000_ := (&models.Astruct{Name: ``}).Stage(stage)
 
 	// Setup of values
+
 	__Astruct__000000_.Name = ``
 	__Astruct__000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Astruct__000000_.Booleanfield = false
