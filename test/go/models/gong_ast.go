@@ -140,7 +140,7 @@ func ParseAstFileFromAst(stage *StageStruct, inFile *ast.File, fset *token.FileS
 				case *ast.ValueSpec:
 					ident := spec.Names[0]
 					_ = ident
-					if !strings.HasPrefix(ident.Name, "map_DocLink_Identifier") {
+					if !strings.HasPrefix(ident.Name, "_") {
 						continue
 					}
 					switch compLit := spec.Values[0].(type) {
