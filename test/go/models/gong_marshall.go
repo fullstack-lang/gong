@@ -104,6 +104,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(astructOrdered[:], func(i, j int) bool {
 		return astructOrdered[i].Name < astructOrdered[j].Name
 	})
+	if len(astructOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, astruct := range astructOrdered {
 
 		id = generatesIdentifier("Astruct", idx, astruct.Name)
@@ -115,6 +118,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astruct.Name)
 		identifiersDecl += decl
 
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -278,6 +282,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(astructbstruct2useOrdered[:], func(i, j int) bool {
 		return astructbstruct2useOrdered[i].Name < astructbstruct2useOrdered[j].Name
 	})
+	if len(astructbstruct2useOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, astructbstruct2use := range astructbstruct2useOrdered {
 
 		id = generatesIdentifier("AstructBstruct2Use", idx, astructbstruct2use.Name)
@@ -289,6 +296,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astructbstruct2use.Name)
 		identifiersDecl += decl
 
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -308,6 +316,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(astructbstructuseOrdered[:], func(i, j int) bool {
 		return astructbstructuseOrdered[i].Name < astructbstructuseOrdered[j].Name
 	})
+	if len(astructbstructuseOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, astructbstructuse := range astructbstructuseOrdered {
 
 		id = generatesIdentifier("AstructBstructUse", idx, astructbstructuse.Name)
@@ -319,6 +330,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astructbstructuse.Name)
 		identifiersDecl += decl
 
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -338,6 +350,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(bstructOrdered[:], func(i, j int) bool {
 		return bstructOrdered[i].Name < bstructOrdered[j].Name
 	})
+	if len(bstructOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, bstruct := range bstructOrdered {
 
 		id = generatesIdentifier("Bstruct", idx, bstruct.Name)
@@ -349,6 +364,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", bstruct.Name)
 		identifiersDecl += decl
 
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -386,6 +402,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(dstructOrdered[:], func(i, j int) bool {
 		return dstructOrdered[i].Name < dstructOrdered[j].Name
 	})
+	if len(dstructOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, dstruct := range dstructOrdered {
 
 		id = generatesIdentifier("Dstruct", idx, dstruct.Name)
@@ -397,6 +416,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", dstruct.Name)
 		identifiersDecl += decl
 
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -416,6 +436,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(fstructOrdered[:], func(i, j int) bool {
 		return fstructOrdered[i].Name < fstructOrdered[j].Name
 	})
+	if len(fstructOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, fstruct := range fstructOrdered {
 
 		id = generatesIdentifier("Fstruct", idx, fstruct.Name)
@@ -427,6 +450,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fstruct.Name)
 		identifiersDecl += decl
 
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -649,8 +673,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		res = strings.ReplaceAll(res, "{{ImportPackageDummyDeclaration}}",
 			fmt.Sprintf("\nvar _ %s.StageStruct",
-				// stage.MetaPackageImportAlias,
-				// strings.ReplaceAll(filepath.Base(name), ".go", ""),
 				stage.MetaPackageImportAlias))
 
 		var entries string
