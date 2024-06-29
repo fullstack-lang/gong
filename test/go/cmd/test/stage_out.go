@@ -11,20 +11,13 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_stage_out models.StageStruct
-var ___dummy__Time_stage_out time.Time
+var _ time.Time
 
 // Injection point for meta package dummy declaration
-var ___dummy__gongdoc_models_stage_out gongdoc_models.StageStruct
+var _ gongdoc_models.StageStruct
 
-// currently, DocLink renaming is not enabled in gopls
-// the following map are devised to overcome this limitation
-// those maps and the processing code will be eleminated when
-// DocLink renaming will be enabled in gopls
-// [Corresponding Issue](https://github.com/golang/go/issues/57559)
-//
 // When parsed, those maps will help with the renaming process
-var map_DocLink_Identifier_stage_out map[string]any = map[string]any{
+var _ map[string]any = map[string]any{
 	// injection point for docLink to identifiers
 
 	"gongdoc_models.GongStructShape": &(gongdoc_models.GongStructShape{}),
@@ -32,28 +25,26 @@ var map_DocLink_Identifier_stage_out map[string]any = map[string]any{
 	"gongdoc_models.GongStructShape.Name": (gongdoc_models.GongStructShape{}).Name,
 }
 
-// init might be handy if one want to have the data embedded in the binary
-// but it has to properly reference the Injection gateway in the main package
-// func init() {
-// 	_ = __Dummy_time_variable
-// 	InjectionGateway["stage_out"] = stage_outInjection
-// }
-
-// stage_outInjection will stage objects of database "stage_out"
-func stage_outInjection(stage *models.StageStruct) {
+// function will stage objects
+func _(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
+
 	__Astruct__000000_A1 := (&models.Astruct{Name: `A1`}).Stage(stage)
 	__Astruct__000001_A2 := (&models.Astruct{Name: `A2`}).Stage(stage)
 	__Astruct__000002_A3 := (&models.Astruct{Name: `A3`}).Stage(stage)
+
 	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{Name: ``}).Stage(stage)
 	__AstructBstruct2Use__000001_ := (&models.AstructBstruct2Use{Name: ``}).Stage(stage)
+
 	__Bstruct__000000_B1 := (&models.Bstruct{Name: `B1`}).Stage(stage)
 	__Bstruct__000001_B2_ := (&models.Bstruct{Name: `B2 *`}).Stage(stage)
 	__Bstruct__000002_B3 := (&models.Bstruct{Name: `B3`}).Stage(stage)
+
 	__Dstruct__000000_D1 := (&models.Dstruct{Name: `D1`}).Stage(stage)
 
 	// Setup of values
+
 	__Astruct__000000_A1.Name = `A1`
 	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-11-14 03:08:21 +0000 UTC")
 	__Astruct__000000_A1.Booleanfield = false
@@ -69,7 +60,7 @@ Second Line`
 	__Astruct__000000_A1.Floatfield = 0.000000
 	__Astruct__000000_A1.Intfield = 3
 	__Astruct__000000_A1.Anotherbooleanfield = false
-	__Astruct__000000_A1.Duration1 = -79653000000000
+	__Astruct__000000_A1.Duration1 = 79653000000000
 
 	//gong:ident [gongdoc_models.GongStructShape] comment added to overcome the problem with the comment map association
 	__Astruct__000000_A1.StructRef = `gongdoc_models.GongStructShape`
@@ -90,6 +81,7 @@ Second Line`
 	__Astruct__000000_A1.ConstIdentifierValue = `........`
 	__Astruct__000000_A1.TextFieldBespokeSize = ``
 	__Astruct__000000_A1.TextArea = ``
+
 	__Astruct__000001_A2.Name = `A2`
 	__Astruct__000001_A2.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 09:59:06.744 +0000 UTC")
 	__Astruct__000001_A2.Booleanfield = false
@@ -120,6 +112,7 @@ Second Line`
 	__Astruct__000001_A2.ConstIdentifierValue = `...`
 	__Astruct__000001_A2.TextFieldBespokeSize = ``
 	__Astruct__000001_A2.TextArea = ``
+
 	__Astruct__000002_A3.Name = `A3`
 	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 11:16:35.978 +0000 UTC")
 	__Astruct__000002_A3.Booleanfield = true
@@ -151,20 +144,26 @@ Second Line`
 	__Astruct__000002_A3.ConstIdentifierValue = `........`
 	__Astruct__000002_A3.TextFieldBespokeSize = ``
 	__Astruct__000002_A3.TextArea = ``
+
 	__AstructBstruct2Use__000000_.Name = ``
+
 	__AstructBstruct2Use__000001_.Name = ``
+
 	__Bstruct__000000_B1.Name = `B1`
 	__Bstruct__000000_B1.Floatfield = 0.000000
 	__Bstruct__000000_B1.Floatfield2 = 0.000000
 	__Bstruct__000000_B1.Intfield = 0
+
 	__Bstruct__000001_B2_.Name = `B2 *`
 	__Bstruct__000001_B2_.Floatfield = 0.000000
 	__Bstruct__000001_B2_.Floatfield2 = 0.000000
 	__Bstruct__000001_B2_.Intfield = 0
+
 	__Bstruct__000002_B3.Name = `B3`
 	__Bstruct__000002_B3.Floatfield = 0.000000
 	__Bstruct__000002_B3.Floatfield2 = 0.000000
 	__Bstruct__000002_B3.Intfield = 0
+
 	__Dstruct__000000_D1.Name = `D1`
 
 	// Setup of pointers
@@ -180,5 +179,3 @@ Second Line`
 	__Dstruct__000000_D1.Anarrayofb = append(__Dstruct__000000_D1.Anarrayofb, __Bstruct__000001_B2_)
 	__Dstruct__000000_D1.Anarrayofb = append(__Dstruct__000000_D1.Anarrayofb, __Bstruct__000002_B3)
 }
-
-
