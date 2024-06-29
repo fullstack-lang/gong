@@ -19,6 +19,15 @@ var _ dummy.StageStruct
 // When parsed, those maps will help with the renaming process
 var _ map[string]any = map[string]any{
 	// injection point for docLink to identifiers
+	"dummy.A": dummy.A,
+
+	"dummy.Dummy": &(dummy.Dummy{}),
+
+	"dummy.Dummy.Name": (dummy.Dummy{}).Name,
+
+	"dummy.DummyTypeInt": dummy.DummyTypeInt(0),
+
+	"dummy.DummyTypeString": dummy.DummyTypeString(""),
 }
 
 // function will stage objects
@@ -41,23 +50,29 @@ func _(stage *models.StageStruct) {
 	__Astruct__000000_.Anotherbooleanfield = false
 	__Astruct__000000_.Duration1 = 0
 
-	//gong:ident [dummy.Dummy] comment added to overcome the problem with the comment map association
-	__Astruct__000000_.StructRef = `dummy.Dummy`
+	//gong:ident [dummy.Dummy2]
+	__Astruct__000000_.StructRef = `dummy.Dummy2`
 
-	//gong:ident [] comment added to overcome the problem with the comment map association
-	__Astruct__000000_.FieldRef = ``
+	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [] comment added to overcome the problem with the comment map association
-	__Astruct__000000_.EnumIntRef = ``
+	//gong:ident [dummy.Dummy2.Name]
+	__Astruct__000000_.FieldRef = `dummy.Dummy2.Name`
 
-	//gong:ident [] comment added to overcome the problem with the comment map association
-	__Astruct__000000_.EnumStringRef = ``
+	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [] comment added to overcome the problem with the comment map association
-	__Astruct__000000_.EnumValue = ``
+	//gong:ident [dummy.DummyTypeInt]
+	__Astruct__000000_.EnumIntRef = `dummy.DummyTypeInt`
 
-	//gong:ident [] comment added to overcome the problem with the comment map association
-	__Astruct__000000_.ConstIdentifierValue = ``
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [dummy.DummyTypeString]
+	__Astruct__000000_.EnumStringRef = `dummy.DummyTypeString`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [dummy.A]
+	__Astruct__000000_.EnumValue = `dummy.A`
+
 	__Astruct__000000_.TextFieldBespokeSize = ``
 	__Astruct__000000_.TextArea = ``
 
