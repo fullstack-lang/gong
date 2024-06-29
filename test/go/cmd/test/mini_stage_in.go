@@ -41,8 +41,8 @@ func _(stage *models.StageStruct) {
 	__Astruct__000000_.Anotherbooleanfield = false
 	__Astruct__000000_.Duration1 = 0
 
-	//gong:ident [] comment added to overcome the problem with the comment map association
-	__Astruct__000000_.StructRef = ``
+	//gong:ident [dummy.Dummy] comment added to overcome the problem with the comment map association
+	__Astruct__000000_.StructRef = `dummy.Dummy`
 
 	//gong:ident [] comment added to overcome the problem with the comment map association
 	__Astruct__000000_.FieldRef = ``
