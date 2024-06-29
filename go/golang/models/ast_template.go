@@ -145,6 +145,10 @@ func ParseAstFileFromAst(stage *StageStruct, inFile *ast.File, fset *token.FileS
 					if !strings.HasPrefix(ident.Name, "_") {
 						continue
 					}
+					// declaration of a variable without initial value
+					if len(spec.Values) == 0 {
+						continue
+					}
 					switch compLit := spec.Values[0].(type) {
 					case *ast.CompositeLit:
 						var key string
