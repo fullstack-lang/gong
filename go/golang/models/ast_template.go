@@ -72,7 +72,7 @@ func ParseAstFileFromAst(stage *StageStruct, inFile *ast.File, fset *token.FileS
 			funcDecl := decl
 			// astCoordinate := // astCoordinate + "\tFunction " + funcDecl.Name.Name
 			if name := funcDecl.Name; name != nil {
-				isOfInterest := strings.Contains(funcDecl.Name.Name, "Injection")
+				isOfInterest := strings.Contains(funcDecl.Name.Name, "_")
 				if !isOfInterest {
 					continue
 				}
@@ -142,7 +142,11 @@ func ParseAstFileFromAst(stage *StageStruct, inFile *ast.File, fset *token.FileS
 				case *ast.ValueSpec:
 					ident := spec.Names[0]
 					_ = ident
-					if !strings.HasPrefix(ident.Name, "map_DocLink_Identifier") {
+					if !strings.HasPrefix(ident.Name, "_") {
+						continue
+					}
+					// declaration of a variable without initial value
+					if len(spec.Values) == 0 {
 						continue
 					}
 					switch compLit := spec.Values[0].(type) {
