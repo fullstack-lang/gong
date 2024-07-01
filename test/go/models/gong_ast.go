@@ -36,7 +36,7 @@ const (
 // declared in the file
 func ParseAstFile(stage *StageStruct, pathToFile string) error {
 
-	replaceOldDeclarationsInFile(pathToFile)
+	ReplaceOldDeclarationsInFile(pathToFile)
 
 	fileOfInterest, err := filepath.Abs(pathToFile)
 	if err != nil {
@@ -1023,8 +1023,8 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 	return
 }
 
-// replaceOldDeclarationsInFile replaces specific text in a file at the given path.
-func replaceOldDeclarationsInFile(pathToFile string) error {
+// ReplaceOldDeclarationsInFile replaces specific text in a file at the given path.
+func ReplaceOldDeclarationsInFile(pathToFile string) error {
 	// Open the file for reading.
 	file, err := os.Open(pathToFile)
 	if err != nil {
