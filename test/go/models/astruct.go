@@ -2,6 +2,8 @@ package models
 
 import (
 	"time"
+
+	"github.com/fullstack-lang/gong/test/go/dummy"
 )
 
 // Astruct demonstrate basic gong features
@@ -9,6 +11,8 @@ type Astruct struct {
 
 	// a "Name" field is necessary to generate a GongStruct
 	Name string
+
+	DummyField dummy.DummyField
 
 	// ONE-ZERO/ONE association is a supported type of gong
 	Associationtob *Bstruct

@@ -30,3 +30,7 @@ const ShortNote = ""
 type StageStruct struct {
 	Name string
 }
+
+type DummyField struct {
+	DummyField string
+}

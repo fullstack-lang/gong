@@ -12,6 +12,7 @@ import (
 	"math"
 	"path/filepath"
 	"slices"
+	"sort"
 	"strings"
 	"unicode"
 
@@ -111,10 +112,18 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, goGitign
 		}
 	}
 
+	// sort files in astPackage.Files in order to have a reproductible generation order
+	var filePaths []string
+	for k := range astPackage.Files {
+		filePaths = append(filePaths, k)
+	}
+	sort.Strings(filePaths)
+
 	// first pass : get "type" definition for enum & struct
 	//
 	// search all files
-	for filePath, file := range astPackage.Files {
+	for _, filePath := range filePaths {
+		file := astPackage.Files[filePath]
 
 		var isFileFrontIgnored bool
 		fileName := filepath.Base(filePath)
@@ -244,7 +253,8 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, goGitign
 	}
 
 	// second pass
-	for filePath, file := range astPackage.Files {
+	for _, filePath := range filePaths {
+		file := astPackage.Files[filePath]
 
 		if slices.Contains(GeneratedModelFiles, filepath.Base(filePath)) {
 			continue
@@ -353,7 +363,8 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, goGitign
 	}
 
 	// pass to detect if there a function that matches the OnAfterUpdate signature
-	for filePath, file := range astPackage.Files {
+	for _, filePath := range filePaths {
+		file := astPackage.Files[filePath]
 
 		if slices.Contains(GeneratedModelFiles, filepath.Base(filePath)) {
 			continue
