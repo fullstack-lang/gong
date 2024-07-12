@@ -71,10 +71,10 @@ func (controller *Controller) Get{{Structname}}s(c *gin.Context) {
 	// source slice
 	var {{structname}}DBs []orm.{{Structname}}DB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("Get{{Structname}}s", "GONG__StackPath", stackPath)
@@ -134,10 +134,10 @@ func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 	mutex{{Structname}}.Lock()
 	defer mutex{{Structname}}.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("Post{{Structname}}s", "GONG__StackPath", stackPath)
@@ -204,10 +204,10 @@ func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 //	200: {{structname}}DBResponse
 func (controller *Controller) Get{{Structname}}(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("Get{{Structname}}", "GONG__StackPath", stackPath)
@@ -253,10 +253,10 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 	mutex{{Structname}}.Lock()
 	defer mutex{{Structname}}.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("Update{{Structname}}", "GONG__StackPath", stackPath)
@@ -342,10 +342,10 @@ func (controller *Controller) Delete{{Structname}}(c *gin.Context) {
 	mutex{{Structname}}.Lock()
 	defer mutex{{Structname}}.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("Delete{{Structname}}", "GONG__StackPath", stackPath)
