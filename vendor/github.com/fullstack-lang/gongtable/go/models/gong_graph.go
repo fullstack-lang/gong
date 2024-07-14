@@ -242,7 +242,6 @@ func (stage *StageStruct) IsStagedTable(table *Table) (ok bool) {
 	return
 }
 
-
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -737,7 +736,6 @@ func (stage *StageStruct) StageBranchTable(table *Table) {
 
 }
 
-
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -848,7 +846,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchCell(mapOrigCopy map[any]any, cellFrom *Cell) (cellTo  *Cell){
+func CopyBranchCell(mapOrigCopy map[any]any, cellFrom *Cell) (cellTo *Cell) {
 
 	// cellFrom has already been copied
 	if _cellTo, ok := mapOrigCopy[cellFrom]; ok {
@@ -882,7 +880,7 @@ func CopyBranchCell(mapOrigCopy map[any]any, cellFrom *Cell) (cellTo  *Cell){
 	return
 }
 
-func CopyBranchCellBoolean(mapOrigCopy map[any]any, cellbooleanFrom *CellBoolean) (cellbooleanTo  *CellBoolean){
+func CopyBranchCellBoolean(mapOrigCopy map[any]any, cellbooleanFrom *CellBoolean) (cellbooleanTo *CellBoolean) {
 
 	// cellbooleanFrom has already been copied
 	if _cellbooleanTo, ok := mapOrigCopy[cellbooleanFrom]; ok {
@@ -901,7 +899,7 @@ func CopyBranchCellBoolean(mapOrigCopy map[any]any, cellbooleanFrom *CellBoolean
 	return
 }
 
-func CopyBranchCellFloat64(mapOrigCopy map[any]any, cellfloat64From *CellFloat64) (cellfloat64To  *CellFloat64){
+func CopyBranchCellFloat64(mapOrigCopy map[any]any, cellfloat64From *CellFloat64) (cellfloat64To *CellFloat64) {
 
 	// cellfloat64From has already been copied
 	if _cellfloat64To, ok := mapOrigCopy[cellfloat64From]; ok {
@@ -920,7 +918,7 @@ func CopyBranchCellFloat64(mapOrigCopy map[any]any, cellfloat64From *CellFloat64
 	return
 }
 
-func CopyBranchCellIcon(mapOrigCopy map[any]any, celliconFrom *CellIcon) (celliconTo  *CellIcon){
+func CopyBranchCellIcon(mapOrigCopy map[any]any, celliconFrom *CellIcon) (celliconTo *CellIcon) {
 
 	// celliconFrom has already been copied
 	if _celliconTo, ok := mapOrigCopy[celliconFrom]; ok {
@@ -939,7 +937,7 @@ func CopyBranchCellIcon(mapOrigCopy map[any]any, celliconFrom *CellIcon) (cellic
 	return
 }
 
-func CopyBranchCellInt(mapOrigCopy map[any]any, cellintFrom *CellInt) (cellintTo  *CellInt){
+func CopyBranchCellInt(mapOrigCopy map[any]any, cellintFrom *CellInt) (cellintTo *CellInt) {
 
 	// cellintFrom has already been copied
 	if _cellintTo, ok := mapOrigCopy[cellintFrom]; ok {
@@ -958,7 +956,7 @@ func CopyBranchCellInt(mapOrigCopy map[any]any, cellintFrom *CellInt) (cellintTo
 	return
 }
 
-func CopyBranchCellString(mapOrigCopy map[any]any, cellstringFrom *CellString) (cellstringTo  *CellString){
+func CopyBranchCellString(mapOrigCopy map[any]any, cellstringFrom *CellString) (cellstringTo *CellString) {
 
 	// cellstringFrom has already been copied
 	if _cellstringTo, ok := mapOrigCopy[cellstringFrom]; ok {
@@ -977,7 +975,7 @@ func CopyBranchCellString(mapOrigCopy map[any]any, cellstringFrom *CellString) (
 	return
 }
 
-func CopyBranchCheckBox(mapOrigCopy map[any]any, checkboxFrom *CheckBox) (checkboxTo  *CheckBox){
+func CopyBranchCheckBox(mapOrigCopy map[any]any, checkboxFrom *CheckBox) (checkboxTo *CheckBox) {
 
 	// checkboxFrom has already been copied
 	if _checkboxTo, ok := mapOrigCopy[checkboxFrom]; ok {
@@ -996,7 +994,7 @@ func CopyBranchCheckBox(mapOrigCopy map[any]any, checkboxFrom *CheckBox) (checkb
 	return
 }
 
-func CopyBranchDisplayedColumn(mapOrigCopy map[any]any, displayedcolumnFrom *DisplayedColumn) (displayedcolumnTo  *DisplayedColumn){
+func CopyBranchDisplayedColumn(mapOrigCopy map[any]any, displayedcolumnFrom *DisplayedColumn) (displayedcolumnTo *DisplayedColumn) {
 
 	// displayedcolumnFrom has already been copied
 	if _displayedcolumnTo, ok := mapOrigCopy[displayedcolumnFrom]; ok {
@@ -1015,7 +1013,7 @@ func CopyBranchDisplayedColumn(mapOrigCopy map[any]any, displayedcolumnFrom *Dis
 	return
 }
 
-func CopyBranchFormDiv(mapOrigCopy map[any]any, formdivFrom *FormDiv) (formdivTo  *FormDiv){
+func CopyBranchFormDiv(mapOrigCopy map[any]any, formdivFrom *FormDiv) (formdivTo *FormDiv) {
 
 	// formdivFrom has already been copied
 	if _formdivTo, ok := mapOrigCopy[formdivFrom]; ok {
@@ -1037,16 +1035,16 @@ func CopyBranchFormDiv(mapOrigCopy map[any]any, formdivFrom *FormDiv) (formdivTo
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _formfield := range formdivFrom.FormFields {
-		formdivTo.FormFields = append( formdivTo.FormFields, CopyBranchFormField(mapOrigCopy, _formfield))
+		formdivTo.FormFields = append(formdivTo.FormFields, CopyBranchFormField(mapOrigCopy, _formfield))
 	}
 	for _, _checkbox := range formdivFrom.CheckBoxs {
-		formdivTo.CheckBoxs = append( formdivTo.CheckBoxs, CopyBranchCheckBox(mapOrigCopy, _checkbox))
+		formdivTo.CheckBoxs = append(formdivTo.CheckBoxs, CopyBranchCheckBox(mapOrigCopy, _checkbox))
 	}
 
 	return
 }
 
-func CopyBranchFormEditAssocButton(mapOrigCopy map[any]any, formeditassocbuttonFrom *FormEditAssocButton) (formeditassocbuttonTo  *FormEditAssocButton){
+func CopyBranchFormEditAssocButton(mapOrigCopy map[any]any, formeditassocbuttonFrom *FormEditAssocButton) (formeditassocbuttonTo *FormEditAssocButton) {
 
 	// formeditassocbuttonFrom has already been copied
 	if _formeditassocbuttonTo, ok := mapOrigCopy[formeditassocbuttonFrom]; ok {
@@ -1065,7 +1063,7 @@ func CopyBranchFormEditAssocButton(mapOrigCopy map[any]any, formeditassocbuttonF
 	return
 }
 
-func CopyBranchFormField(mapOrigCopy map[any]any, formfieldFrom *FormField) (formfieldTo  *FormField){
+func CopyBranchFormField(mapOrigCopy map[any]any, formfieldFrom *FormField) (formfieldTo *FormField) {
 
 	// formfieldFrom has already been copied
 	if _formfieldTo, ok := mapOrigCopy[formfieldFrom]; ok {
@@ -1105,7 +1103,7 @@ func CopyBranchFormField(mapOrigCopy map[any]any, formfieldFrom *FormField) (for
 	return
 }
 
-func CopyBranchFormFieldDate(mapOrigCopy map[any]any, formfielddateFrom *FormFieldDate) (formfielddateTo  *FormFieldDate){
+func CopyBranchFormFieldDate(mapOrigCopy map[any]any, formfielddateFrom *FormFieldDate) (formfielddateTo *FormFieldDate) {
 
 	// formfielddateFrom has already been copied
 	if _formfielddateTo, ok := mapOrigCopy[formfielddateFrom]; ok {
@@ -1124,7 +1122,7 @@ func CopyBranchFormFieldDate(mapOrigCopy map[any]any, formfielddateFrom *FormFie
 	return
 }
 
-func CopyBranchFormFieldDateTime(mapOrigCopy map[any]any, formfielddatetimeFrom *FormFieldDateTime) (formfielddatetimeTo  *FormFieldDateTime){
+func CopyBranchFormFieldDateTime(mapOrigCopy map[any]any, formfielddatetimeFrom *FormFieldDateTime) (formfielddatetimeTo *FormFieldDateTime) {
 
 	// formfielddatetimeFrom has already been copied
 	if _formfielddatetimeTo, ok := mapOrigCopy[formfielddatetimeFrom]; ok {
@@ -1143,7 +1141,7 @@ func CopyBranchFormFieldDateTime(mapOrigCopy map[any]any, formfielddatetimeFrom 
 	return
 }
 
-func CopyBranchFormFieldFloat64(mapOrigCopy map[any]any, formfieldfloat64From *FormFieldFloat64) (formfieldfloat64To  *FormFieldFloat64){
+func CopyBranchFormFieldFloat64(mapOrigCopy map[any]any, formfieldfloat64From *FormFieldFloat64) (formfieldfloat64To *FormFieldFloat64) {
 
 	// formfieldfloat64From has already been copied
 	if _formfieldfloat64To, ok := mapOrigCopy[formfieldfloat64From]; ok {
@@ -1162,7 +1160,7 @@ func CopyBranchFormFieldFloat64(mapOrigCopy map[any]any, formfieldfloat64From *F
 	return
 }
 
-func CopyBranchFormFieldInt(mapOrigCopy map[any]any, formfieldintFrom *FormFieldInt) (formfieldintTo  *FormFieldInt){
+func CopyBranchFormFieldInt(mapOrigCopy map[any]any, formfieldintFrom *FormFieldInt) (formfieldintTo *FormFieldInt) {
 
 	// formfieldintFrom has already been copied
 	if _formfieldintTo, ok := mapOrigCopy[formfieldintFrom]; ok {
@@ -1181,7 +1179,7 @@ func CopyBranchFormFieldInt(mapOrigCopy map[any]any, formfieldintFrom *FormField
 	return
 }
 
-func CopyBranchFormFieldSelect(mapOrigCopy map[any]any, formfieldselectFrom *FormFieldSelect) (formfieldselectTo  *FormFieldSelect){
+func CopyBranchFormFieldSelect(mapOrigCopy map[any]any, formfieldselectFrom *FormFieldSelect) (formfieldselectTo *FormFieldSelect) {
 
 	// formfieldselectFrom has already been copied
 	if _formfieldselectTo, ok := mapOrigCopy[formfieldselectFrom]; ok {
@@ -1200,13 +1198,13 @@ func CopyBranchFormFieldSelect(mapOrigCopy map[any]any, formfieldselectFrom *For
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _option := range formfieldselectFrom.Options {
-		formfieldselectTo.Options = append( formfieldselectTo.Options, CopyBranchOption(mapOrigCopy, _option))
+		formfieldselectTo.Options = append(formfieldselectTo.Options, CopyBranchOption(mapOrigCopy, _option))
 	}
 
 	return
 }
 
-func CopyBranchFormFieldString(mapOrigCopy map[any]any, formfieldstringFrom *FormFieldString) (formfieldstringTo  *FormFieldString){
+func CopyBranchFormFieldString(mapOrigCopy map[any]any, formfieldstringFrom *FormFieldString) (formfieldstringTo *FormFieldString) {
 
 	// formfieldstringFrom has already been copied
 	if _formfieldstringTo, ok := mapOrigCopy[formfieldstringFrom]; ok {
@@ -1225,7 +1223,7 @@ func CopyBranchFormFieldString(mapOrigCopy map[any]any, formfieldstringFrom *For
 	return
 }
 
-func CopyBranchFormFieldTime(mapOrigCopy map[any]any, formfieldtimeFrom *FormFieldTime) (formfieldtimeTo  *FormFieldTime){
+func CopyBranchFormFieldTime(mapOrigCopy map[any]any, formfieldtimeFrom *FormFieldTime) (formfieldtimeTo *FormFieldTime) {
 
 	// formfieldtimeFrom has already been copied
 	if _formfieldtimeTo, ok := mapOrigCopy[formfieldtimeFrom]; ok {
@@ -1244,7 +1242,7 @@ func CopyBranchFormFieldTime(mapOrigCopy map[any]any, formfieldtimeFrom *FormFie
 	return
 }
 
-func CopyBranchFormGroup(mapOrigCopy map[any]any, formgroupFrom *FormGroup) (formgroupTo  *FormGroup){
+func CopyBranchFormGroup(mapOrigCopy map[any]any, formgroupFrom *FormGroup) (formgroupTo *FormGroup) {
 
 	// formgroupFrom has already been copied
 	if _formgroupTo, ok := mapOrigCopy[formgroupFrom]; ok {
@@ -1260,13 +1258,13 @@ func CopyBranchFormGroup(mapOrigCopy map[any]any, formgroupFrom *FormGroup) (for
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _formdiv := range formgroupFrom.FormDivs {
-		formgroupTo.FormDivs = append( formgroupTo.FormDivs, CopyBranchFormDiv(mapOrigCopy, _formdiv))
+		formgroupTo.FormDivs = append(formgroupTo.FormDivs, CopyBranchFormDiv(mapOrigCopy, _formdiv))
 	}
 
 	return
 }
 
-func CopyBranchFormSortAssocButton(mapOrigCopy map[any]any, formsortassocbuttonFrom *FormSortAssocButton) (formsortassocbuttonTo  *FormSortAssocButton){
+func CopyBranchFormSortAssocButton(mapOrigCopy map[any]any, formsortassocbuttonFrom *FormSortAssocButton) (formsortassocbuttonTo *FormSortAssocButton) {
 
 	// formsortassocbuttonFrom has already been copied
 	if _formsortassocbuttonTo, ok := mapOrigCopy[formsortassocbuttonFrom]; ok {
@@ -1285,7 +1283,7 @@ func CopyBranchFormSortAssocButton(mapOrigCopy map[any]any, formsortassocbuttonF
 	return
 }
 
-func CopyBranchOption(mapOrigCopy map[any]any, optionFrom *Option) (optionTo  *Option){
+func CopyBranchOption(mapOrigCopy map[any]any, optionFrom *Option) (optionTo *Option) {
 
 	// optionFrom has already been copied
 	if _optionTo, ok := mapOrigCopy[optionFrom]; ok {
@@ -1304,7 +1302,7 @@ func CopyBranchOption(mapOrigCopy map[any]any, optionFrom *Option) (optionTo  *O
 	return
 }
 
-func CopyBranchRow(mapOrigCopy map[any]any, rowFrom *Row) (rowTo  *Row){
+func CopyBranchRow(mapOrigCopy map[any]any, rowFrom *Row) (rowTo *Row) {
 
 	// rowFrom has already been copied
 	if _rowTo, ok := mapOrigCopy[rowFrom]; ok {
@@ -1320,13 +1318,13 @@ func CopyBranchRow(mapOrigCopy map[any]any, rowFrom *Row) (rowTo  *Row){
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _cell := range rowFrom.Cells {
-		rowTo.Cells = append( rowTo.Cells, CopyBranchCell(mapOrigCopy, _cell))
+		rowTo.Cells = append(rowTo.Cells, CopyBranchCell(mapOrigCopy, _cell))
 	}
 
 	return
 }
 
-func CopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo  *Table){
+func CopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table) {
 
 	// tableFrom has already been copied
 	if _tableTo, ok := mapOrigCopy[tableFrom]; ok {
@@ -1342,15 +1340,14 @@ func CopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo  *Table
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _displayedcolumn := range tableFrom.DisplayedColumns {
-		tableTo.DisplayedColumns = append( tableTo.DisplayedColumns, CopyBranchDisplayedColumn(mapOrigCopy, _displayedcolumn))
+		tableTo.DisplayedColumns = append(tableTo.DisplayedColumns, CopyBranchDisplayedColumn(mapOrigCopy, _displayedcolumn))
 	}
 	for _, _row := range tableFrom.Rows {
-		tableTo.Rows = append( tableTo.Rows, CopyBranchRow(mapOrigCopy, _row))
+		tableTo.Rows = append(tableTo.Rows, CopyBranchRow(mapOrigCopy, _row))
 	}
 
 	return
 }
-
 
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
@@ -1438,7 +1435,7 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 func (stage *StageStruct) UnstageBranchCell(cell *Cell) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, cell) {
+	if !IsStaged(stage, cell) {
 		return
 	}
 
@@ -1468,7 +1465,7 @@ func (stage *StageStruct) UnstageBranchCell(cell *Cell) {
 func (stage *StageStruct) UnstageBranchCellBoolean(cellboolean *CellBoolean) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, cellboolean) {
+	if !IsStaged(stage, cellboolean) {
 		return
 	}
 
@@ -1483,7 +1480,7 @@ func (stage *StageStruct) UnstageBranchCellBoolean(cellboolean *CellBoolean) {
 func (stage *StageStruct) UnstageBranchCellFloat64(cellfloat64 *CellFloat64) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, cellfloat64) {
+	if !IsStaged(stage, cellfloat64) {
 		return
 	}
 
@@ -1498,7 +1495,7 @@ func (stage *StageStruct) UnstageBranchCellFloat64(cellfloat64 *CellFloat64) {
 func (stage *StageStruct) UnstageBranchCellIcon(cellicon *CellIcon) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, cellicon) {
+	if !IsStaged(stage, cellicon) {
 		return
 	}
 
@@ -1513,7 +1510,7 @@ func (stage *StageStruct) UnstageBranchCellIcon(cellicon *CellIcon) {
 func (stage *StageStruct) UnstageBranchCellInt(cellint *CellInt) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, cellint) {
+	if !IsStaged(stage, cellint) {
 		return
 	}
 
@@ -1528,7 +1525,7 @@ func (stage *StageStruct) UnstageBranchCellInt(cellint *CellInt) {
 func (stage *StageStruct) UnstageBranchCellString(cellstring *CellString) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, cellstring) {
+	if !IsStaged(stage, cellstring) {
 		return
 	}
 
@@ -1543,7 +1540,7 @@ func (stage *StageStruct) UnstageBranchCellString(cellstring *CellString) {
 func (stage *StageStruct) UnstageBranchCheckBox(checkbox *CheckBox) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, checkbox) {
+	if !IsStaged(stage, checkbox) {
 		return
 	}
 
@@ -1558,7 +1555,7 @@ func (stage *StageStruct) UnstageBranchCheckBox(checkbox *CheckBox) {
 func (stage *StageStruct) UnstageBranchDisplayedColumn(displayedcolumn *DisplayedColumn) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, displayedcolumn) {
+	if !IsStaged(stage, displayedcolumn) {
 		return
 	}
 
@@ -1573,7 +1570,7 @@ func (stage *StageStruct) UnstageBranchDisplayedColumn(displayedcolumn *Displaye
 func (stage *StageStruct) UnstageBranchFormDiv(formdiv *FormDiv) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, formdiv) {
+	if !IsStaged(stage, formdiv) {
 		return
 	}
 
@@ -1600,7 +1597,7 @@ func (stage *StageStruct) UnstageBranchFormDiv(formdiv *FormDiv) {
 func (stage *StageStruct) UnstageBranchFormEditAssocButton(formeditassocbutton *FormEditAssocButton) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, formeditassocbutton) {
+	if !IsStaged(stage, formeditassocbutton) {
 		return
 	}
 
@@ -1615,7 +1612,7 @@ func (stage *StageStruct) UnstageBranchFormEditAssocButton(formeditassocbutton *
 func (stage *StageStruct) UnstageBranchFormField(formfield *FormField) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, formfield) {
+	if !IsStaged(stage, formfield) {
 		return
 	}
 
@@ -1651,7 +1648,7 @@ func (stage *StageStruct) UnstageBranchFormField(formfield *FormField) {
 func (stage *StageStruct) UnstageBranchFormFieldDate(formfielddate *FormFieldDate) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, formfielddate) {
+	if !IsStaged(stage, formfielddate) {
 		return
 	}
 
@@ -1666,7 +1663,7 @@ func (stage *StageStruct) UnstageBranchFormFieldDate(formfielddate *FormFieldDat
 func (stage *StageStruct) UnstageBranchFormFieldDateTime(formfielddatetime *FormFieldDateTime) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, formfielddatetime) {
+	if !IsStaged(stage, formfielddatetime) {
 		return
 	}
 
@@ -1681,7 +1678,7 @@ func (stage *StageStruct) UnstageBranchFormFieldDateTime(formfielddatetime *Form
 func (stage *StageStruct) UnstageBranchFormFieldFloat64(formfieldfloat64 *FormFieldFloat64) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, formfieldfloat64) {
+	if !IsStaged(stage, formfieldfloat64) {
 		return
 	}
 
@@ -1696,7 +1693,7 @@ func (stage *StageStruct) UnstageBranchFormFieldFloat64(formfieldfloat64 *FormFi
 func (stage *StageStruct) UnstageBranchFormFieldInt(formfieldint *FormFieldInt) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, formfieldint) {
+	if !IsStaged(stage, formfieldint) {
 		return
 	}
 
@@ -1711,7 +1708,7 @@ func (stage *StageStruct) UnstageBranchFormFieldInt(formfieldint *FormFieldInt) 
 func (stage *StageStruct) UnstageBranchFormFieldSelect(formfieldselect *FormFieldSelect) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, formfieldselect) {
+	if !IsStaged(stage, formfieldselect) {
 		return
 	}
 
@@ -1732,7 +1729,7 @@ func (stage *StageStruct) UnstageBranchFormFieldSelect(formfieldselect *FormFiel
 func (stage *StageStruct) UnstageBranchFormFieldString(formfieldstring *FormFieldString) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, formfieldstring) {
+	if !IsStaged(stage, formfieldstring) {
 		return
 	}
 
@@ -1747,7 +1744,7 @@ func (stage *StageStruct) UnstageBranchFormFieldString(formfieldstring *FormFiel
 func (stage *StageStruct) UnstageBranchFormFieldTime(formfieldtime *FormFieldTime) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, formfieldtime) {
+	if !IsStaged(stage, formfieldtime) {
 		return
 	}
 
@@ -1762,7 +1759,7 @@ func (stage *StageStruct) UnstageBranchFormFieldTime(formfieldtime *FormFieldTim
 func (stage *StageStruct) UnstageBranchFormGroup(formgroup *FormGroup) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, formgroup) {
+	if !IsStaged(stage, formgroup) {
 		return
 	}
 
@@ -1780,7 +1777,7 @@ func (stage *StageStruct) UnstageBranchFormGroup(formgroup *FormGroup) {
 func (stage *StageStruct) UnstageBranchFormSortAssocButton(formsortassocbutton *FormSortAssocButton) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, formsortassocbutton) {
+	if !IsStaged(stage, formsortassocbutton) {
 		return
 	}
 
@@ -1795,7 +1792,7 @@ func (stage *StageStruct) UnstageBranchFormSortAssocButton(formsortassocbutton *
 func (stage *StageStruct) UnstageBranchOption(option *Option) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, option) {
+	if !IsStaged(stage, option) {
 		return
 	}
 
@@ -1810,7 +1807,7 @@ func (stage *StageStruct) UnstageBranchOption(option *Option) {
 func (stage *StageStruct) UnstageBranchRow(row *Row) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, row) {
+	if !IsStaged(stage, row) {
 		return
 	}
 
@@ -1828,7 +1825,7 @@ func (stage *StageStruct) UnstageBranchRow(row *Row) {
 func (stage *StageStruct) UnstageBranchTable(table *Table) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, table) {
+	if !IsStaged(stage, table) {
 		return
 	}
 
@@ -1845,4 +1842,3 @@ func (stage *StageStruct) UnstageBranchTable(table *Table) {
 	}
 
 }
-

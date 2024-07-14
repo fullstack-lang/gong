@@ -23,40 +23,24 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_{{databaseName}} models.StageStruct
-var ___dummy__Time_{{databaseName}} time.Time
+var _ time.Time
 
 // Injection point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
-// currently, DocLink renaming is not enabled in gopls
-// the following map are devised to overcome this limitation
-// those maps and the processing code will be eleminated when
-// DocLink renaming will be enabled in gopls
-// [Corresponding Issue](https://github.com/golang/go/issues/57559)
-//
 // When parsed, those maps will help with the renaming process
-var map_DocLink_Identifier_{{databaseName}} map[string]any = map[string]any{
+var _ map[string]any = map[string]any{
 	// injection point for docLink to identifiers{{EntriesDocLinkStringDocLinkIdentifier}}
 }
 
-// init might be handy if one want to have the data embedded in the binary
-// but it has to properly reference the Injection gateway in the main package
-// func init() {
-// 	_ = __Dummy_time_variable
-// 	InjectionGateway["{{databaseName}}"] = {{databaseName}}Injection
-// }
-
-// {{databaseName}}Injection will stage objects of database "{{databaseName}}"
-func {{databaseName}}Injection(stage *models.StageStruct) {
+// function will stage objects
+func _(stage *models.StageStruct) {
 
 	// Declaration of instances to stage{{Identifiers}}
 
 	// Setup of values{{ValueInitializers}}
 
 	// Setup of pointers{{PointersInitializers}}
-}
-
-`
+}`
 
 const IdentifiersDecls = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
@@ -107,7 +91,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	decl := ""
 	_ = decl
 	setValueField := ""
-	_ = setValueField 
+	_ = setValueField
 
 	// insertion initialization of objects to stage
 	map_Cell_Identifiers := make(map[*Cell]string)
@@ -120,7 +104,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(cellOrdered[:], func(i, j int) bool {
 		return cellOrdered[i].Name < cellOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Cell"
+	if len(cellOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, cell := range cellOrdered {
 
 		id = generatesIdentifier("Cell", idx, cell.Name)
@@ -132,7 +118,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cell.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// Cell values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -152,7 +138,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(cellbooleanOrdered[:], func(i, j int) bool {
 		return cellbooleanOrdered[i].Name < cellbooleanOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of CellBoolean"
+	if len(cellbooleanOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, cellboolean := range cellbooleanOrdered {
 
 		id = generatesIdentifier("CellBoolean", idx, cellboolean.Name)
@@ -164,7 +152,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cellboolean.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// CellBoolean values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -190,7 +178,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(cellfloat64Ordered[:], func(i, j int) bool {
 		return cellfloat64Ordered[i].Name < cellfloat64Ordered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of CellFloat64"
+	if len(cellfloat64Ordered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, cellfloat64 := range cellfloat64Ordered {
 
 		id = generatesIdentifier("CellFloat64", idx, cellfloat64.Name)
@@ -202,7 +192,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cellfloat64.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// CellFloat64 values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -228,7 +218,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(celliconOrdered[:], func(i, j int) bool {
 		return celliconOrdered[i].Name < celliconOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of CellIcon"
+	if len(celliconOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, cellicon := range celliconOrdered {
 
 		id = generatesIdentifier("CellIcon", idx, cellicon.Name)
@@ -240,7 +232,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cellicon.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// CellIcon values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -266,7 +258,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(cellintOrdered[:], func(i, j int) bool {
 		return cellintOrdered[i].Name < cellintOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of CellInt"
+	if len(cellintOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, cellint := range cellintOrdered {
 
 		id = generatesIdentifier("CellInt", idx, cellint.Name)
@@ -278,7 +272,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cellint.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// CellInt values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -304,7 +298,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(cellstringOrdered[:], func(i, j int) bool {
 		return cellstringOrdered[i].Name < cellstringOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of CellString"
+	if len(cellstringOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, cellstring := range cellstringOrdered {
 
 		id = generatesIdentifier("CellString", idx, cellstring.Name)
@@ -316,7 +312,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cellstring.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// CellString values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -342,7 +338,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(checkboxOrdered[:], func(i, j int) bool {
 		return checkboxOrdered[i].Name < checkboxOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of CheckBox"
+	if len(checkboxOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, checkbox := range checkboxOrdered {
 
 		id = generatesIdentifier("CheckBox", idx, checkbox.Name)
@@ -354,7 +352,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", checkbox.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// CheckBox values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -380,7 +378,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(displayedcolumnOrdered[:], func(i, j int) bool {
 		return displayedcolumnOrdered[i].Name < displayedcolumnOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of DisplayedColumn"
+	if len(displayedcolumnOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, displayedcolumn := range displayedcolumnOrdered {
 
 		id = generatesIdentifier("DisplayedColumn", idx, displayedcolumn.Name)
@@ -392,7 +392,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", displayedcolumn.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// DisplayedColumn values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -412,7 +412,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(formdivOrdered[:], func(i, j int) bool {
 		return formdivOrdered[i].Name < formdivOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of FormDiv"
+	if len(formdivOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, formdiv := range formdivOrdered {
 
 		id = generatesIdentifier("FormDiv", idx, formdiv.Name)
@@ -424,7 +426,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formdiv.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// FormDiv values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -444,7 +446,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(formeditassocbuttonOrdered[:], func(i, j int) bool {
 		return formeditassocbuttonOrdered[i].Name < formeditassocbuttonOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of FormEditAssocButton"
+	if len(formeditassocbuttonOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, formeditassocbutton := range formeditassocbuttonOrdered {
 
 		id = generatesIdentifier("FormEditAssocButton", idx, formeditassocbutton.Name)
@@ -456,7 +460,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formeditassocbutton.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// FormEditAssocButton values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -482,7 +486,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(formfieldOrdered[:], func(i, j int) bool {
 		return formfieldOrdered[i].Name < formfieldOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of FormField"
+	if len(formfieldOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, formfield := range formfieldOrdered {
 
 		id = generatesIdentifier("FormField", idx, formfield.Name)
@@ -494,7 +500,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfield.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// FormField values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -558,7 +564,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(formfielddateOrdered[:], func(i, j int) bool {
 		return formfielddateOrdered[i].Name < formfielddateOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of FormFieldDate"
+	if len(formfielddateOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, formfielddate := range formfielddateOrdered {
 
 		id = generatesIdentifier("FormFieldDate", idx, formfielddate.Name)
@@ -570,7 +578,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfielddate.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// FormFieldDate values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -596,7 +604,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(formfielddatetimeOrdered[:], func(i, j int) bool {
 		return formfielddatetimeOrdered[i].Name < formfielddatetimeOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of FormFieldDateTime"
+	if len(formfielddatetimeOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, formfielddatetime := range formfielddatetimeOrdered {
 
 		id = generatesIdentifier("FormFieldDateTime", idx, formfielddatetime.Name)
@@ -608,7 +618,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfielddatetime.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// FormFieldDateTime values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -634,7 +644,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(formfieldfloat64Ordered[:], func(i, j int) bool {
 		return formfieldfloat64Ordered[i].Name < formfieldfloat64Ordered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of FormFieldFloat64"
+	if len(formfieldfloat64Ordered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, formfieldfloat64 := range formfieldfloat64Ordered {
 
 		id = generatesIdentifier("FormFieldFloat64", idx, formfieldfloat64.Name)
@@ -646,7 +658,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfieldfloat64.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// FormFieldFloat64 values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -696,7 +708,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(formfieldintOrdered[:], func(i, j int) bool {
 		return formfieldintOrdered[i].Name < formfieldintOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of FormFieldInt"
+	if len(formfieldintOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, formfieldint := range formfieldintOrdered {
 
 		id = generatesIdentifier("FormFieldInt", idx, formfieldint.Name)
@@ -708,7 +722,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfieldint.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// FormFieldInt values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -758,7 +772,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(formfieldselectOrdered[:], func(i, j int) bool {
 		return formfieldselectOrdered[i].Name < formfieldselectOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of FormFieldSelect"
+	if len(formfieldselectOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, formfieldselect := range formfieldselectOrdered {
 
 		id = generatesIdentifier("FormFieldSelect", idx, formfieldselect.Name)
@@ -770,7 +786,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfieldselect.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// FormFieldSelect values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -796,7 +812,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(formfieldstringOrdered[:], func(i, j int) bool {
 		return formfieldstringOrdered[i].Name < formfieldstringOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of FormFieldString"
+	if len(formfieldstringOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, formfieldstring := range formfieldstringOrdered {
 
 		id = generatesIdentifier("FormFieldString", idx, formfieldstring.Name)
@@ -808,7 +826,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfieldstring.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// FormFieldString values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -840,7 +858,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(formfieldtimeOrdered[:], func(i, j int) bool {
 		return formfieldtimeOrdered[i].Name < formfieldtimeOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of FormFieldTime"
+	if len(formfieldtimeOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, formfieldtime := range formfieldtimeOrdered {
 
 		id = generatesIdentifier("FormFieldTime", idx, formfieldtime.Name)
@@ -852,7 +872,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfieldtime.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// FormFieldTime values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -884,7 +904,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(formgroupOrdered[:], func(i, j int) bool {
 		return formgroupOrdered[i].Name < formgroupOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of FormGroup"
+	if len(formgroupOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, formgroup := range formgroupOrdered {
 
 		id = generatesIdentifier("FormGroup", idx, formgroup.Name)
@@ -896,7 +918,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formgroup.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// FormGroup values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -934,7 +956,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(formsortassocbuttonOrdered[:], func(i, j int) bool {
 		return formsortassocbuttonOrdered[i].Name < formsortassocbuttonOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of FormSortAssocButton"
+	if len(formsortassocbuttonOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, formsortassocbutton := range formsortassocbuttonOrdered {
 
 		id = generatesIdentifier("FormSortAssocButton", idx, formsortassocbutton.Name)
@@ -946,7 +970,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formsortassocbutton.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// FormSortAssocButton values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -972,7 +996,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(optionOrdered[:], func(i, j int) bool {
 		return optionOrdered[i].Name < optionOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Option"
+	if len(optionOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, option := range optionOrdered {
 
 		id = generatesIdentifier("Option", idx, option.Name)
@@ -984,7 +1010,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", option.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// Option values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1004,7 +1030,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(rowOrdered[:], func(i, j int) bool {
 		return rowOrdered[i].Name < rowOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Row"
+	if len(rowOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, row := range rowOrdered {
 
 		id = generatesIdentifier("Row", idx, row.Name)
@@ -1016,7 +1044,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", row.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// Row values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1042,7 +1070,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(tableOrdered[:], func(i, j int) bool {
 		return tableOrdered[i].Name < tableOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Table"
+	if len(tableOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, table := range tableOrdered {
 
 		id = generatesIdentifier("Table", idx, table.Name)
@@ -1054,7 +1084,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", table.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// Table values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1534,9 +1564,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
 
 		res = strings.ReplaceAll(res, "{{ImportPackageDummyDeclaration}}",
-			fmt.Sprintf("\nvar ___dummy__%s_%s %s.StageStruct",
-				stage.MetaPackageImportAlias,
-				strings.ReplaceAll(filepath.Base(name), ".go", ""),
+			fmt.Sprintf("\nvar _ %s.StageStruct",
 				stage.MetaPackageImportAlias))
 
 		var entries string

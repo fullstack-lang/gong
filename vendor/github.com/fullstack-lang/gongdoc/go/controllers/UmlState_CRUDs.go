@@ -55,10 +55,10 @@ func (controller *Controller) GetUmlStates(c *gin.Context) {
 	// source slice
 	var umlstateDBs []orm.UmlStateDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetUmlStates", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostUmlState(c *gin.Context) {
 	mutexUmlState.Lock()
 	defer mutexUmlState.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostUmlStates", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostUmlState(c *gin.Context) {
 //	200: umlstateDBResponse
 func (controller *Controller) GetUmlState(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetUmlState", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdateUmlState(c *gin.Context) {
 	mutexUmlState.Lock()
 	defer mutexUmlState.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdateUmlState", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeleteUmlState(c *gin.Context) {
 	mutexUmlState.Lock()
 	defer mutexUmlState.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeleteUmlState", "GONG__StackPath", stackPath)
