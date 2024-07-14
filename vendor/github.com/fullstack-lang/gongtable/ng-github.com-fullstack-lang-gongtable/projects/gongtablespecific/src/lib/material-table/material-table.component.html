@@ -1,6 +1,6 @@
 <section class="container mat-elevation-z8" tabindex="0">
     <!-- <input [formControl]="filterControl" placeholder="Filter"> -->
-    <div *ngIf="selectedTable && (selectedTable.HasFiltering || selectedTable.HasSaveButton || selectedTable.HasCloseButton)" class="toolbar">
+    <div *ngIf="selectedTable && (selectedTable.HasFiltering || selectedTable.HasSaveButton || selectedTable.HasCloseButton)" class="toolbar">
         <div class="left-toolbar">
             <!-- Filter -->
             <mat-form-field *ngIf="selectedTable.HasFiltering">
@@ -24,7 +24,7 @@
             <mat-paginator *ngIf="selectedTable.HasPaginator" [pageSizeOptions]="[50, 100, 500, 1000]" showFirstLastButtons></mat-paginator>
         </div>
     </div>
-    <ng-container *ngIf="selectedTable">
+    <ng-container>
         <!-- Main table element. 
         The mat-table directive applies Angular Material styling and functionality.
         The [dataSource] input specifies the data for the table, which is stored in the dataSource variable.
@@ -56,16 +56,15 @@
                 <ng-container [matColumnDef]="column" [sticky]="i < this.selectedTable!.NbOfStickyColumns">
 
                     <!-- Header cell for each column. 
-                The mat-header-cell directive applies Angular Material styling. 
-                The *matHeaderCellDef directive specifies that this is a header cell.
-                {{ column }} will display the name of the column. -->
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{
-                        column }}</th>
+                    The mat-header-cell directive applies Angular Material styling. 
+                    The *matHeaderCellDef directive specifies that this is a header cell.
+                    {{ column }} will display the name of the column. -->
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{column}}</th>
 
                     <!-- Data cell for each row in each column.
-                The mat-cell directive applies Angular Material styling.
-                The *matCellDef directive defines a cell for each row, with the row stored in the element variable.
-                {{ element[column] }} will display the data in this cell for the current row. -->
+                    The mat-cell directive applies Angular Material styling.
+                    The *matCellDef directive defines a cell for each row, with the row stored in the element variable.
+                    {{ element[column] }} will display the data in this cell for the current row. -->
                     <td mat-cell *matCellDef="let element">
                         <ng-container *ngIf="element.Cells[i]?.CellString">
                             {{ element.Cells[i].CellString.Value }}

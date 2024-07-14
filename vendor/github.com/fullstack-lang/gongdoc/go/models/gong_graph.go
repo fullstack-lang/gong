@@ -142,7 +142,6 @@ func (stage *StageStruct) IsStagedVertice(vertice *Vertice) (ok bool) {
 	return
 }
 
-
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -433,7 +432,6 @@ func (stage *StageStruct) StageBranchVertice(vertice *Vertice) {
 
 }
 
-
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -504,7 +502,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchClassdiagram(mapOrigCopy map[any]any, classdiagramFrom *Classdiagram) (classdiagramTo  *Classdiagram){
+func CopyBranchClassdiagram(mapOrigCopy map[any]any, classdiagramFrom *Classdiagram) (classdiagramTo *Classdiagram) {
 
 	// classdiagramFrom has already been copied
 	if _classdiagramTo, ok := mapOrigCopy[classdiagramFrom]; ok {
@@ -520,19 +518,19 @@ func CopyBranchClassdiagram(mapOrigCopy map[any]any, classdiagramFrom *Classdiag
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _gongstructshape := range classdiagramFrom.GongStructShapes {
-		classdiagramTo.GongStructShapes = append( classdiagramTo.GongStructShapes, CopyBranchGongStructShape(mapOrigCopy, _gongstructshape))
+		classdiagramTo.GongStructShapes = append(classdiagramTo.GongStructShapes, CopyBranchGongStructShape(mapOrigCopy, _gongstructshape))
 	}
 	for _, _gongenumshape := range classdiagramFrom.GongEnumShapes {
-		classdiagramTo.GongEnumShapes = append( classdiagramTo.GongEnumShapes, CopyBranchGongEnumShape(mapOrigCopy, _gongenumshape))
+		classdiagramTo.GongEnumShapes = append(classdiagramTo.GongEnumShapes, CopyBranchGongEnumShape(mapOrigCopy, _gongenumshape))
 	}
 	for _, _noteshape := range classdiagramFrom.NoteShapes {
-		classdiagramTo.NoteShapes = append( classdiagramTo.NoteShapes, CopyBranchNoteShape(mapOrigCopy, _noteshape))
+		classdiagramTo.NoteShapes = append(classdiagramTo.NoteShapes, CopyBranchNoteShape(mapOrigCopy, _noteshape))
 	}
 
 	return
 }
 
-func CopyBranchDiagramPackage(mapOrigCopy map[any]any, diagrampackageFrom *DiagramPackage) (diagrampackageTo  *DiagramPackage){
+func CopyBranchDiagramPackage(mapOrigCopy map[any]any, diagrampackageFrom *DiagramPackage) (diagrampackageTo *DiagramPackage) {
 
 	// diagrampackageFrom has already been copied
 	if _diagrampackageTo, ok := mapOrigCopy[diagrampackageFrom]; ok {
@@ -551,16 +549,16 @@ func CopyBranchDiagramPackage(mapOrigCopy map[any]any, diagrampackageFrom *Diagr
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _classdiagram := range diagrampackageFrom.Classdiagrams {
-		diagrampackageTo.Classdiagrams = append( diagrampackageTo.Classdiagrams, CopyBranchClassdiagram(mapOrigCopy, _classdiagram))
+		diagrampackageTo.Classdiagrams = append(diagrampackageTo.Classdiagrams, CopyBranchClassdiagram(mapOrigCopy, _classdiagram))
 	}
 	for _, _umlsc := range diagrampackageFrom.Umlscs {
-		diagrampackageTo.Umlscs = append( diagrampackageTo.Umlscs, CopyBranchUmlsc(mapOrigCopy, _umlsc))
+		diagrampackageTo.Umlscs = append(diagrampackageTo.Umlscs, CopyBranchUmlsc(mapOrigCopy, _umlsc))
 	}
 
 	return
 }
 
-func CopyBranchField(mapOrigCopy map[any]any, fieldFrom *Field) (fieldTo  *Field){
+func CopyBranchField(mapOrigCopy map[any]any, fieldFrom *Field) (fieldTo *Field) {
 
 	// fieldFrom has already been copied
 	if _fieldTo, ok := mapOrigCopy[fieldFrom]; ok {
@@ -579,7 +577,7 @@ func CopyBranchField(mapOrigCopy map[any]any, fieldFrom *Field) (fieldTo  *Field
 	return
 }
 
-func CopyBranchGongEnumShape(mapOrigCopy map[any]any, gongenumshapeFrom *GongEnumShape) (gongenumshapeTo  *GongEnumShape){
+func CopyBranchGongEnumShape(mapOrigCopy map[any]any, gongenumshapeFrom *GongEnumShape) (gongenumshapeTo *GongEnumShape) {
 
 	// gongenumshapeFrom has already been copied
 	if _gongenumshapeTo, ok := mapOrigCopy[gongenumshapeFrom]; ok {
@@ -598,13 +596,13 @@ func CopyBranchGongEnumShape(mapOrigCopy map[any]any, gongenumshapeFrom *GongEnu
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _gongenumvalueentry := range gongenumshapeFrom.GongEnumValueEntrys {
-		gongenumshapeTo.GongEnumValueEntrys = append( gongenumshapeTo.GongEnumValueEntrys, CopyBranchGongEnumValueEntry(mapOrigCopy, _gongenumvalueentry))
+		gongenumshapeTo.GongEnumValueEntrys = append(gongenumshapeTo.GongEnumValueEntrys, CopyBranchGongEnumValueEntry(mapOrigCopy, _gongenumvalueentry))
 	}
 
 	return
 }
 
-func CopyBranchGongEnumValueEntry(mapOrigCopy map[any]any, gongenumvalueentryFrom *GongEnumValueEntry) (gongenumvalueentryTo  *GongEnumValueEntry){
+func CopyBranchGongEnumValueEntry(mapOrigCopy map[any]any, gongenumvalueentryFrom *GongEnumValueEntry) (gongenumvalueentryTo *GongEnumValueEntry) {
 
 	// gongenumvalueentryFrom has already been copied
 	if _gongenumvalueentryTo, ok := mapOrigCopy[gongenumvalueentryFrom]; ok {
@@ -623,7 +621,7 @@ func CopyBranchGongEnumValueEntry(mapOrigCopy map[any]any, gongenumvalueentryFro
 	return
 }
 
-func CopyBranchGongStructShape(mapOrigCopy map[any]any, gongstructshapeFrom *GongStructShape) (gongstructshapeTo  *GongStructShape){
+func CopyBranchGongStructShape(mapOrigCopy map[any]any, gongstructshapeFrom *GongStructShape) (gongstructshapeTo *GongStructShape) {
 
 	// gongstructshapeFrom has already been copied
 	if _gongstructshapeTo, ok := mapOrigCopy[gongstructshapeFrom]; ok {
@@ -642,16 +640,16 @@ func CopyBranchGongStructShape(mapOrigCopy map[any]any, gongstructshapeFrom *Gon
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _field := range gongstructshapeFrom.Fields {
-		gongstructshapeTo.Fields = append( gongstructshapeTo.Fields, CopyBranchField(mapOrigCopy, _field))
+		gongstructshapeTo.Fields = append(gongstructshapeTo.Fields, CopyBranchField(mapOrigCopy, _field))
 	}
 	for _, _link := range gongstructshapeFrom.Links {
-		gongstructshapeTo.Links = append( gongstructshapeTo.Links, CopyBranchLink(mapOrigCopy, _link))
+		gongstructshapeTo.Links = append(gongstructshapeTo.Links, CopyBranchLink(mapOrigCopy, _link))
 	}
 
 	return
 }
 
-func CopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo  *Link){
+func CopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo *Link) {
 
 	// linkFrom has already been copied
 	if _linkTo, ok := mapOrigCopy[linkFrom]; ok {
@@ -673,7 +671,7 @@ func CopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo  *Link){
 	return
 }
 
-func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (noteshapeTo  *NoteShape){
+func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (noteshapeTo *NoteShape) {
 
 	// noteshapeFrom has already been copied
 	if _noteshapeTo, ok := mapOrigCopy[noteshapeFrom]; ok {
@@ -689,13 +687,13 @@ func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (not
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _noteshapelink := range noteshapeFrom.NoteShapeLinks {
-		noteshapeTo.NoteShapeLinks = append( noteshapeTo.NoteShapeLinks, CopyBranchNoteShapeLink(mapOrigCopy, _noteshapelink))
+		noteshapeTo.NoteShapeLinks = append(noteshapeTo.NoteShapeLinks, CopyBranchNoteShapeLink(mapOrigCopy, _noteshapelink))
 	}
 
 	return
 }
 
-func CopyBranchNoteShapeLink(mapOrigCopy map[any]any, noteshapelinkFrom *NoteShapeLink) (noteshapelinkTo  *NoteShapeLink){
+func CopyBranchNoteShapeLink(mapOrigCopy map[any]any, noteshapelinkFrom *NoteShapeLink) (noteshapelinkTo *NoteShapeLink) {
 
 	// noteshapelinkFrom has already been copied
 	if _noteshapelinkTo, ok := mapOrigCopy[noteshapelinkFrom]; ok {
@@ -714,7 +712,7 @@ func CopyBranchNoteShapeLink(mapOrigCopy map[any]any, noteshapelinkFrom *NoteSha
 	return
 }
 
-func CopyBranchPosition(mapOrigCopy map[any]any, positionFrom *Position) (positionTo  *Position){
+func CopyBranchPosition(mapOrigCopy map[any]any, positionFrom *Position) (positionTo *Position) {
 
 	// positionFrom has already been copied
 	if _positionTo, ok := mapOrigCopy[positionFrom]; ok {
@@ -733,7 +731,7 @@ func CopyBranchPosition(mapOrigCopy map[any]any, positionFrom *Position) (positi
 	return
 }
 
-func CopyBranchUmlState(mapOrigCopy map[any]any, umlstateFrom *UmlState) (umlstateTo  *UmlState){
+func CopyBranchUmlState(mapOrigCopy map[any]any, umlstateFrom *UmlState) (umlstateTo *UmlState) {
 
 	// umlstateFrom has already been copied
 	if _umlstateTo, ok := mapOrigCopy[umlstateFrom]; ok {
@@ -752,7 +750,7 @@ func CopyBranchUmlState(mapOrigCopy map[any]any, umlstateFrom *UmlState) (umlsta
 	return
 }
 
-func CopyBranchUmlsc(mapOrigCopy map[any]any, umlscFrom *Umlsc) (umlscTo  *Umlsc){
+func CopyBranchUmlsc(mapOrigCopy map[any]any, umlscFrom *Umlsc) (umlscTo *Umlsc) {
 
 	// umlscFrom has already been copied
 	if _umlscTo, ok := mapOrigCopy[umlscFrom]; ok {
@@ -768,13 +766,13 @@ func CopyBranchUmlsc(mapOrigCopy map[any]any, umlscFrom *Umlsc) (umlscTo  *Umlsc
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _umlstate := range umlscFrom.States {
-		umlscTo.States = append( umlscTo.States, CopyBranchUmlState(mapOrigCopy, _umlstate))
+		umlscTo.States = append(umlscTo.States, CopyBranchUmlState(mapOrigCopy, _umlstate))
 	}
 
 	return
 }
 
-func CopyBranchVertice(mapOrigCopy map[any]any, verticeFrom *Vertice) (verticeTo  *Vertice){
+func CopyBranchVertice(mapOrigCopy map[any]any, verticeFrom *Vertice) (verticeTo *Vertice) {
 
 	// verticeFrom has already been copied
 	if _verticeTo, ok := mapOrigCopy[verticeFrom]; ok {
@@ -792,7 +790,6 @@ func CopyBranchVertice(mapOrigCopy map[any]any, verticeFrom *Vertice) (verticeTo
 
 	return
 }
-
 
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
@@ -850,7 +847,7 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 func (stage *StageStruct) UnstageBranchClassdiagram(classdiagram *Classdiagram) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, classdiagram) {
+	if !IsStaged(stage, classdiagram) {
 		return
 	}
 
@@ -874,7 +871,7 @@ func (stage *StageStruct) UnstageBranchClassdiagram(classdiagram *Classdiagram) 
 func (stage *StageStruct) UnstageBranchDiagramPackage(diagrampackage *DiagramPackage) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, diagrampackage) {
+	if !IsStaged(stage, diagrampackage) {
 		return
 	}
 
@@ -898,7 +895,7 @@ func (stage *StageStruct) UnstageBranchDiagramPackage(diagrampackage *DiagramPac
 func (stage *StageStruct) UnstageBranchField(field *Field) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, field) {
+	if !IsStaged(stage, field) {
 		return
 	}
 
@@ -913,7 +910,7 @@ func (stage *StageStruct) UnstageBranchField(field *Field) {
 func (stage *StageStruct) UnstageBranchGongEnumShape(gongenumshape *GongEnumShape) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, gongenumshape) {
+	if !IsStaged(stage, gongenumshape) {
 		return
 	}
 
@@ -934,7 +931,7 @@ func (stage *StageStruct) UnstageBranchGongEnumShape(gongenumshape *GongEnumShap
 func (stage *StageStruct) UnstageBranchGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, gongenumvalueentry) {
+	if !IsStaged(stage, gongenumvalueentry) {
 		return
 	}
 
@@ -949,7 +946,7 @@ func (stage *StageStruct) UnstageBranchGongEnumValueEntry(gongenumvalueentry *Go
 func (stage *StageStruct) UnstageBranchGongStructShape(gongstructshape *GongStructShape) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, gongstructshape) {
+	if !IsStaged(stage, gongstructshape) {
 		return
 	}
 
@@ -973,7 +970,7 @@ func (stage *StageStruct) UnstageBranchGongStructShape(gongstructshape *GongStru
 func (stage *StageStruct) UnstageBranchLink(link *Link) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, link) {
+	if !IsStaged(stage, link) {
 		return
 	}
 
@@ -991,7 +988,7 @@ func (stage *StageStruct) UnstageBranchLink(link *Link) {
 func (stage *StageStruct) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, noteshape) {
+	if !IsStaged(stage, noteshape) {
 		return
 	}
 
@@ -1009,7 +1006,7 @@ func (stage *StageStruct) UnstageBranchNoteShape(noteshape *NoteShape) {
 func (stage *StageStruct) UnstageBranchNoteShapeLink(noteshapelink *NoteShapeLink) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, noteshapelink) {
+	if !IsStaged(stage, noteshapelink) {
 		return
 	}
 
@@ -1024,7 +1021,7 @@ func (stage *StageStruct) UnstageBranchNoteShapeLink(noteshapelink *NoteShapeLin
 func (stage *StageStruct) UnstageBranchPosition(position *Position) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, position) {
+	if !IsStaged(stage, position) {
 		return
 	}
 
@@ -1039,7 +1036,7 @@ func (stage *StageStruct) UnstageBranchPosition(position *Position) {
 func (stage *StageStruct) UnstageBranchUmlState(umlstate *UmlState) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, umlstate) {
+	if !IsStaged(stage, umlstate) {
 		return
 	}
 
@@ -1054,7 +1051,7 @@ func (stage *StageStruct) UnstageBranchUmlState(umlstate *UmlState) {
 func (stage *StageStruct) UnstageBranchUmlsc(umlsc *Umlsc) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, umlsc) {
+	if !IsStaged(stage, umlsc) {
 		return
 	}
 
@@ -1072,7 +1069,7 @@ func (stage *StageStruct) UnstageBranchUmlsc(umlsc *Umlsc) {
 func (stage *StageStruct) UnstageBranchVertice(vertice *Vertice) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, vertice) {
+	if !IsStaged(stage, vertice) {
 		return
 	}
 
@@ -1083,4 +1080,3 @@ func (stage *StageStruct) UnstageBranchVertice(vertice *Vertice) {
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
-

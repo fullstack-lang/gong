@@ -55,10 +55,10 @@ func (controller *Controller) GetGongBasicFields(c *gin.Context) {
 	// source slice
 	var gongbasicfieldDBs []orm.GongBasicFieldDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetGongBasicFields", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostGongBasicField(c *gin.Context) {
 	mutexGongBasicField.Lock()
 	defer mutexGongBasicField.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostGongBasicFields", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostGongBasicField(c *gin.Context) {
 //	200: gongbasicfieldDBResponse
 func (controller *Controller) GetGongBasicField(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetGongBasicField", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdateGongBasicField(c *gin.Context) {
 	mutexGongBasicField.Lock()
 	defer mutexGongBasicField.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdateGongBasicField", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeleteGongBasicField(c *gin.Context) {
 	mutexGongBasicField.Lock()
 	defer mutexGongBasicField.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeleteGongBasicField", "GONG__StackPath", stackPath)
