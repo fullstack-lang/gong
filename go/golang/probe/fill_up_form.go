@@ -32,6 +32,8 @@ func FillUpForm[T models.PointerToGongstruct](
 	probe *Probe,
 ) {
 
+	// ugly (a cast would be better) but it is a workaround to
+	// https://github.com/golang/go/issues/65097
 	switch instance.GetMetaName() {
 	// insertion point{{` + string(rune(ButtonImplPerGongstructCallToFormGenerator)) + `}}
 	default:
