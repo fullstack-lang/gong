@@ -10,15 +10,16 @@ import (
 
 var __dummy_orm_fillup_form = orm.BackRepoStruct{}
 
-func FillUpForm[T models.Gongstruct](
-	instance *T,
+func FillUpForm[T models.PointerToGongstruct](
+	instance T,
 	formGroup *form.FormGroup,
 	probe *Probe,
 ) {
 
-	switch instanceWithInferedType := any(instance).(type) {
+	switch instance.GetMetaName() {
 	// insertion point
-	case *models.Astruct:
+	case "Astruct":
+		instanceWithInferedType := any(instance).(*models.Astruct)
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -95,7 +96,8 @@ func FillUpForm[T models.Gongstruct](
 			}
 		}
 
-	case *models.AstructBstruct2Use:
+	case "AstructBstruct2Use":
+		instanceWithInferedType := any(instance).(*models.AstructBstruct2Use)
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -123,7 +125,8 @@ func FillUpForm[T models.Gongstruct](
 			}
 		}
 
-	case *models.AstructBstructUse:
+	case "AstructBstructUse":
+		instanceWithInferedType := any(instance).(*models.AstructBstructUse)
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -151,7 +154,8 @@ func FillUpForm[T models.Gongstruct](
 			}
 		}
 
-	case *models.Bstruct:
+	case "Bstruct":
+		instanceWithInferedType := any(instance).(*models.Bstruct)
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -228,13 +232,15 @@ func FillUpForm[T models.Gongstruct](
 			}
 		}
 
-	case *models.Dstruct:
+	case "Dstruct":
+		instanceWithInferedType := any(instance).(*models.Dstruct)
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("Anarrayofb", instanceWithInferedType, &instanceWithInferedType.Anarrayofb, formGroup, probe)
 
-	case *models.Fstruct:
+	case "Fstruct":
+		instanceWithInferedType := any(instance).(*models.Fstruct)
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -242,6 +248,6 @@ func FillUpForm[T models.Gongstruct](
 			false, false, 0, false, 0)
 
 	default:
-		_ = instanceWithInferedType
+		_ = instance
 	}
 }

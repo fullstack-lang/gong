@@ -239,6 +239,7 @@ type PointerToGongstruct interface {
 	// insertion point for generic types
 	{{` + string(rune(ModelGongStructInsertionGenericPointerToGongstructTypes)) + `}}
 	GetName() string
+	GetMetaName() string
 	CommitVoid(*StageStruct)
 	UnstageVoid(stage *StageStruct)
 }

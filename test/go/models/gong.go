@@ -741,6 +741,7 @@ type PointerToGongstruct interface {
 	// insertion point for generic types
 	*Astruct | *AstructBstruct2Use | *AstructBstructUse | *Bstruct | *Dstruct | *Fstruct
 	GetName() string
+	GetMetaName() string
 	CommitVoid(*StageStruct)
 	UnstageVoid(stage *StageStruct)
 }

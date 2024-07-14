@@ -26,16 +26,16 @@ import (
 
 var __dummy_orm_fillup_form = orm.BackRepoStruct{}
 
-func FillUpForm[T models.Gongstruct](
-	instance *T,
+func FillUpForm[T models.PointerToGongstruct](
+	instance T,
 	formGroup *form.FormGroup,
 	probe *Probe,
 ) {
 
-	switch instanceWithInferedType := any(instance).(type) {
+	switch instance.GetMetaName() {
 	// insertion point{{` + string(rune(ButtonImplPerGongstructCallToFormGenerator)) + `}}
 	default:
-		_ = instanceWithInferedType
+		_ = instance
 	}
 }
 `
@@ -50,7 +50,8 @@ const (
 var FillUpFormSubTemplateCode map[FillUpFormInsertionId]string = // new line
 map[FillUpFormInsertionId]string{
 	ButtonImplPerGongstructCallToFormGenerator: `
-	case *models.{{Structname}}:
+	case "{{Structname}}":
+		instanceWithInferedType := any(instance).(*models.{{Structname}})
 		// insertion point{{fieldToFormCode}}
 `,
 }
