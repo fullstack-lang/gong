@@ -137,6 +137,10 @@ func ({{structname}} *{{Structname}}) Checkout(stage *StageStruct) *{{Structname
 func ({{structname}} *{{Structname}}) GetName() (res string) {
 	return {{structname}}.Name
 }
+
+func ({{structname}} *{{Structname}}) GetMetaName() (res string) {
+	return "{{Structname}}"
+}
 `,
 
 	ModelGongStructInsertionCreateCallback: `

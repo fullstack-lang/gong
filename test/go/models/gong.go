@@ -38,6 +38,7 @@ var __member __void
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
 type GongStructInterface interface {
 	GetName() (res string)
+	GetMetaName() (res string)
 	// GetID() (res int)
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
@@ -357,6 +358,10 @@ func (astruct *Astruct) GetName() (res string) {
 	return astruct.Name
 }
 
+func (astruct *Astruct) GetMetaName() (res string) {
+	return "Astruct"
+}
+
 // Stage puts astructbstruct2use to the model stage
 func (astructbstruct2use *AstructBstruct2Use) Stage(stage *StageStruct) *AstructBstruct2Use {
 	stage.AstructBstruct2Uses[astructbstruct2use] = __member
@@ -405,6 +410,10 @@ func (astructbstruct2use *AstructBstruct2Use) Checkout(stage *StageStruct) *Astr
 // for satisfaction of GongStruct interface
 func (astructbstruct2use *AstructBstruct2Use) GetName() (res string) {
 	return astructbstruct2use.Name
+}
+
+func (astructbstruct2use *AstructBstruct2Use) GetMetaName() (res string) {
+	return "AstructBstruct2Use"
 }
 
 // Stage puts astructbstructuse to the model stage
@@ -457,6 +466,10 @@ func (astructbstructuse *AstructBstructUse) GetName() (res string) {
 	return astructbstructuse.Name
 }
 
+func (astructbstructuse *AstructBstructUse) GetMetaName() (res string) {
+	return "AstructBstructUse"
+}
+
 // Stage puts bstruct to the model stage
 func (bstruct *Bstruct) Stage(stage *StageStruct) *Bstruct {
 	stage.Bstructs[bstruct] = __member
@@ -505,6 +518,10 @@ func (bstruct *Bstruct) Checkout(stage *StageStruct) *Bstruct {
 // for satisfaction of GongStruct interface
 func (bstruct *Bstruct) GetName() (res string) {
 	return bstruct.Name
+}
+
+func (bstruct *Bstruct) GetMetaName() (res string) {
+	return "Bstruct"
 }
 
 // Stage puts dstruct to the model stage
@@ -557,6 +574,10 @@ func (dstruct *Dstruct) GetName() (res string) {
 	return dstruct.Name
 }
 
+func (dstruct *Dstruct) GetMetaName() (res string) {
+	return "Dstruct"
+}
+
 // Stage puts fstruct to the model stage
 func (fstruct *Fstruct) Stage(stage *StageStruct) *Fstruct {
 	stage.Fstructs[fstruct] = __member
@@ -605,6 +626,10 @@ func (fstruct *Fstruct) Checkout(stage *StageStruct) *Fstruct {
 // for satisfaction of GongStruct interface
 func (fstruct *Fstruct) GetName() (res string) {
 	return fstruct.Name
+}
+
+func (fstruct *Fstruct) GetMetaName() (res string) {
+	return "Fstruct"
 }
 
 // swagger:ignore
