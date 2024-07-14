@@ -55,10 +55,10 @@ func (controller *Controller) GetAstructBstruct2Uses(c *gin.Context) {
 	// source slice
 	var astructbstruct2useDBs []orm.AstructBstruct2UseDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetAstructBstruct2Uses", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostAstructBstruct2Use(c *gin.Context) {
 	mutexAstructBstruct2Use.Lock()
 	defer mutexAstructBstruct2Use.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostAstructBstruct2Uses", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostAstructBstruct2Use(c *gin.Context) {
 //	200: astructbstruct2useDBResponse
 func (controller *Controller) GetAstructBstruct2Use(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetAstructBstruct2Use", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdateAstructBstruct2Use(c *gin.Context) {
 	mutexAstructBstruct2Use.Lock()
 	defer mutexAstructBstruct2Use.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdateAstructBstruct2Use", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeleteAstructBstruct2Use(c *gin.Context) {
 	mutexAstructBstruct2Use.Lock()
 	defer mutexAstructBstruct2Use.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeleteAstructBstruct2Use", "GONG__StackPath", stackPath)
