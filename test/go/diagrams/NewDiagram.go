@@ -11,20 +11,13 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_NewDiagram models.StageStruct
-var ___dummy__Time_NewDiagram time.Time
+var _ time.Time
 
 // Injection point for meta package dummy declaration
-var ___dummy__ref_models_NewDiagram ref_models.StageStruct
+var _ ref_models.StageStruct
 
-// currently, DocLink renaming is not enabled in gopls
-// the following map are devised to overcome this limitation
-// those maps and the processing code will be eleminated when
-// DocLink renaming will be enabled in gopls
-// [Corresponding Issue](https://github.com/golang/go/issues/57559)
-//
 // When parsed, those maps will help with the renaming process
-var map_DocLink_Identifier_NewDiagram map[string]any = map[string]any{
+var _ map[string]any = map[string]any{
 	// injection point for docLink to identifiers
 
 	"ref_models.AEnumType": ref_models.AEnumType(""),
@@ -168,132 +161,84 @@ var map_DocLink_Identifier_NewDiagram map[string]any = map[string]any{
 	"ref_models.NoteOnOrganisation": ref_models.NoteOnOrganisation,
 }
 
-// init might be handy if one want to have the data embedded in the binary
-// but it has to properly reference the Injection gateway in the main package
-// func init() {
-// 	_ = __Dummy_time_variable
-// 	InjectionGateway["NewDiagram"] = NewDiagramInjection
-// }
-
-// NewDiagramInjection will stage objects of database "NewDiagram"
-func NewDiagramInjection(stage *models.StageStruct) {
+// function will stage objects
+func _(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
-	// Declarations of staged instances of Classdiagram
 	__Classdiagram__000000_NewDiagram := (&models.Classdiagram{Name: `NewDiagram`}).Stage(stage)
 
-	// Declarations of staged instances of DiagramPackage
-
-	// Declarations of staged instances of Field
 	__Field__000000_Aenum := (&models.Field{Name: `Aenum`}).Stage(stage)
 	__Field__000001_Aenum_2 := (&models.Field{Name: `Aenum_2`}).Stage(stage)
 	__Field__000002_Date := (&models.Field{Name: `Date`}).Stage(stage)
 
-	// Declarations of staged instances of GongEnumShape
-
-	// Declarations of staged instances of GongEnumValueEntry
-
-	// Declarations of staged instances of GongStructShape
 	__GongStructShape__000000_NewDiagram_Astruct := (&models.GongStructShape{Name: `NewDiagram-Astruct`}).Stage(stage)
 	__GongStructShape__000001_NewDiagram_Bstruct := (&models.GongStructShape{Name: `NewDiagram-Bstruct`}).Stage(stage)
 
-	// Declarations of staged instances of Link
 	__Link__000000_Anarrayofb := (&models.Link{Name: `Anarrayofb`}).Stage(stage)
 	__Link__000001_Bstruct := (&models.Link{Name: `Bstruct`}).Stage(stage)
 
-	// Declarations of staged instances of NoteShape
-
-	// Declarations of staged instances of NoteShapeLink
-
-	// Declarations of staged instances of Position
 	__Position__000000_Pos_NewDiagram_Astruct := (&models.Position{Name: `Pos-NewDiagram-Astruct`}).Stage(stage)
 	__Position__000001_Pos_NewDiagram_Bstruct := (&models.Position{Name: `Pos-NewDiagram-Bstruct`}).Stage(stage)
 
-	// Declarations of staged instances of UmlState
-
-	// Declarations of staged instances of Umlsc
-
-	// Declarations of staged instances of Vertice
 	__Vertice__000000_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_Astruct_and_NewDiagram_Bstruct := (&models.Vertice{Name: `Verticle in class diagram NewDiagram in middle between NewDiagram-Astruct and NewDiagram-Bstruct`}).Stage(stage)
 	__Vertice__000001_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_Astruct_and_NewDiagram_Bstruct := (&models.Vertice{Name: `Verticle in class diagram NewDiagram in middle between NewDiagram-Astruct and NewDiagram-Bstruct`}).Stage(stage)
 
 	// Setup of values
 
-	// Classdiagram values setup
 	__Classdiagram__000000_NewDiagram.Name = `NewDiagram`
 	__Classdiagram__000000_NewDiagram.IsInDrawMode = false
 
-	// Field values setup
 	__Field__000000_Aenum.Name = `Aenum`
 
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [ref_models.Astruct.Aenum]
+	//gong:ident [ref_models.Astruct.Aenum] comment added to overcome the problem with the comment map association
 	__Field__000000_Aenum.Identifier = `ref_models.Astruct.Aenum`
 	__Field__000000_Aenum.FieldTypeAsString = ``
 	__Field__000000_Aenum.Structname = `Astruct`
 	__Field__000000_Aenum.Fieldtypename = `AEnumType`
 
-	// Field values setup
 	__Field__000001_Aenum_2.Name = `Aenum_2`
 
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [ref_models.Astruct.Aenum_2]
+	//gong:ident [ref_models.Astruct.Aenum_2] comment added to overcome the problem with the comment map association
 	__Field__000001_Aenum_2.Identifier = `ref_models.Astruct.Aenum_2`
 	__Field__000001_Aenum_2.FieldTypeAsString = ``
 	__Field__000001_Aenum_2.Structname = `Astruct`
 	__Field__000001_Aenum_2.Fieldtypename = `AEnumType`
 
-	// Field values setup
 	__Field__000002_Date.Name = `Date`
 
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [ref_models.Astruct.Date]
+	//gong:ident [ref_models.Astruct.Date] comment added to overcome the problem with the comment map association
 	__Field__000002_Date.Identifier = `ref_models.Astruct.Date`
 	__Field__000002_Date.FieldTypeAsString = ``
 	__Field__000002_Date.Structname = `Astruct`
 	__Field__000002_Date.Fieldtypename = `Time`
 
-	// GongStructShape values setup
 	__GongStructShape__000000_NewDiagram_Astruct.Name = `NewDiagram-Astruct`
 
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [ref_models.Astruct]
+	//gong:ident [ref_models.Astruct] comment added to overcome the problem with the comment map association
 	__GongStructShape__000000_NewDiagram_Astruct.Identifier = `ref_models.Astruct`
-	__GongStructShape__000000_NewDiagram_Astruct.ShowNbInstances = true
+	__GongStructShape__000000_NewDiagram_Astruct.ShowNbInstances = false
 	__GongStructShape__000000_NewDiagram_Astruct.NbInstances = 3
 	__GongStructShape__000000_NewDiagram_Astruct.Width = 240.000000
 	__GongStructShape__000000_NewDiagram_Astruct.Height = 108.000000
 	__GongStructShape__000000_NewDiagram_Astruct.IsSelected = false
 
-	// GongStructShape values setup
 	__GongStructShape__000001_NewDiagram_Bstruct.Name = `NewDiagram-Bstruct`
 
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [ref_models.Bstruct]
+	//gong:ident [ref_models.Bstruct] comment added to overcome the problem with the comment map association
 	__GongStructShape__000001_NewDiagram_Bstruct.Identifier = `ref_models.Bstruct`
-	__GongStructShape__000001_NewDiagram_Bstruct.ShowNbInstances = true
+	__GongStructShape__000001_NewDiagram_Bstruct.ShowNbInstances = false
 	__GongStructShape__000001_NewDiagram_Bstruct.NbInstances = 3
 	__GongStructShape__000001_NewDiagram_Bstruct.Width = 240.000000
 	__GongStructShape__000001_NewDiagram_Bstruct.Height = 63.000000
 	__GongStructShape__000001_NewDiagram_Bstruct.IsSelected = false
 
-	// Link values setup
 	__Link__000000_Anarrayofb.Name = `Anarrayofb`
 
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [ref_models.Astruct.Anarrayofb]
+	//gong:ident [ref_models.Astruct.Anarrayofb] comment added to overcome the problem with the comment map association
 	__Link__000000_Anarrayofb.Identifier = `ref_models.Astruct.Anarrayofb`
 
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [ref_models.Bstruct]
+	//gong:ident [ref_models.Bstruct] comment added to overcome the problem with the comment map association
 	__Link__000000_Anarrayofb.Fieldtypename = `ref_models.Bstruct`
 	__Link__000000_Anarrayofb.FieldOffsetX = -92.000000
 	__Link__000000_Anarrayofb.FieldOffsetY = 26.000000
@@ -309,17 +254,12 @@ func NewDiagramInjection(stage *models.StageStruct) {
 	__Link__000000_Anarrayofb.EndRatio = 0.428571
 	__Link__000000_Anarrayofb.CornerOffsetRatio = 1.157407
 
-	// Link values setup
 	__Link__000001_Bstruct.Name = `Bstruct`
 
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [ref_models.Astruct.Bstruct]
+	//gong:ident [ref_models.Astruct.Bstruct] comment added to overcome the problem with the comment map association
 	__Link__000001_Bstruct.Identifier = `ref_models.Astruct.Bstruct`
 
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [ref_models.Bstruct]
+	//gong:ident [ref_models.Bstruct] comment added to overcome the problem with the comment map association
 	__Link__000001_Bstruct.Fieldtypename = `ref_models.Bstruct`
 	__Link__000001_Bstruct.FieldOffsetX = 21.000000
 	__Link__000001_Bstruct.FieldOffsetY = -16.000000
@@ -335,22 +275,18 @@ func NewDiagramInjection(stage *models.StageStruct) {
 	__Link__000001_Bstruct.EndRatio = 0.642778
 	__Link__000001_Bstruct.CornerOffsetRatio = 2.370370
 
-	// Position values setup
 	__Position__000000_Pos_NewDiagram_Astruct.X = 57.000000
 	__Position__000000_Pos_NewDiagram_Astruct.Y = 70.000000
 	__Position__000000_Pos_NewDiagram_Astruct.Name = `Pos-NewDiagram-Astruct`
 
-	// Position values setup
 	__Position__000001_Pos_NewDiagram_Bstruct.X = 485.000000
 	__Position__000001_Pos_NewDiagram_Bstruct.Y = 292.000000
 	__Position__000001_Pos_NewDiagram_Bstruct.Name = `Pos-NewDiagram-Bstruct`
 
-	// Vertice values setup
 	__Vertice__000000_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_Astruct_and_NewDiagram_Bstruct.X = 433.000000
 	__Vertice__000000_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_Astruct_and_NewDiagram_Bstruct.Y = 110.000000
 	__Vertice__000000_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_Astruct_and_NewDiagram_Bstruct.Name = `Verticle in class diagram NewDiagram in middle between NewDiagram-Astruct and NewDiagram-Bstruct`
 
-	// Vertice values setup
 	__Vertice__000001_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_Astruct_and_NewDiagram_Bstruct.X = 350.000000
 	__Vertice__000001_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_Astruct_and_NewDiagram_Bstruct.Y = 298.500000
 	__Vertice__000001_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_Astruct_and_NewDiagram_Bstruct.Name = `Verticle in class diagram NewDiagram in middle between NewDiagram-Astruct and NewDiagram-Bstruct`
@@ -368,5 +304,3 @@ func NewDiagramInjection(stage *models.StageStruct) {
 	__Link__000000_Anarrayofb.Middlevertice = __Vertice__000000_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_Astruct_and_NewDiagram_Bstruct
 	__Link__000001_Bstruct.Middlevertice = __Vertice__000001_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_Astruct_and_NewDiagram_Bstruct
 }
-
-
