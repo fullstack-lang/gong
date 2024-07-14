@@ -55,10 +55,10 @@ func (controller *Controller) GetMetaReferences(c *gin.Context) {
 	// source slice
 	var metareferenceDBs []orm.MetaReferenceDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetMetaReferences", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostMetaReference(c *gin.Context) {
 	mutexMetaReference.Lock()
 	defer mutexMetaReference.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostMetaReferences", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostMetaReference(c *gin.Context) {
 //	200: metareferenceDBResponse
 func (controller *Controller) GetMetaReference(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetMetaReference", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdateMetaReference(c *gin.Context) {
 	mutexMetaReference.Lock()
 	defer mutexMetaReference.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdateMetaReference", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeleteMetaReference(c *gin.Context) {
 	mutexMetaReference.Lock()
 	defer mutexMetaReference.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeleteMetaReference", "GONG__StackPath", stackPath)

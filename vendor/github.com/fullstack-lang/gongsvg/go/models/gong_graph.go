@@ -192,7 +192,6 @@ func (stage *StageStruct) IsStagedText(text *Text) (ok bool) {
 	return
 }
 
-
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -630,7 +629,6 @@ func (stage *StageStruct) StageBranchText(text *Text) {
 
 }
 
-
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -721,7 +719,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchAnimate(mapOrigCopy map[any]any, animateFrom *Animate) (animateTo  *Animate){
+func CopyBranchAnimate(mapOrigCopy map[any]any, animateFrom *Animate) (animateTo *Animate) {
 
 	// animateFrom has already been copied
 	if _animateTo, ok := mapOrigCopy[animateFrom]; ok {
@@ -740,7 +738,7 @@ func CopyBranchAnimate(mapOrigCopy map[any]any, animateFrom *Animate) (animateTo
 	return
 }
 
-func CopyBranchCircle(mapOrigCopy map[any]any, circleFrom *Circle) (circleTo  *Circle){
+func CopyBranchCircle(mapOrigCopy map[any]any, circleFrom *Circle) (circleTo *Circle) {
 
 	// circleFrom has already been copied
 	if _circleTo, ok := mapOrigCopy[circleFrom]; ok {
@@ -756,13 +754,13 @@ func CopyBranchCircle(mapOrigCopy map[any]any, circleFrom *Circle) (circleTo  *C
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _animate := range circleFrom.Animations {
-		circleTo.Animations = append( circleTo.Animations, CopyBranchAnimate(mapOrigCopy, _animate))
+		circleTo.Animations = append(circleTo.Animations, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
 
 	return
 }
 
-func CopyBranchEllipse(mapOrigCopy map[any]any, ellipseFrom *Ellipse) (ellipseTo  *Ellipse){
+func CopyBranchEllipse(mapOrigCopy map[any]any, ellipseFrom *Ellipse) (ellipseTo *Ellipse) {
 
 	// ellipseFrom has already been copied
 	if _ellipseTo, ok := mapOrigCopy[ellipseFrom]; ok {
@@ -778,13 +776,13 @@ func CopyBranchEllipse(mapOrigCopy map[any]any, ellipseFrom *Ellipse) (ellipseTo
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _animate := range ellipseFrom.Animates {
-		ellipseTo.Animates = append( ellipseTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
+		ellipseTo.Animates = append(ellipseTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
 
 	return
 }
 
-func CopyBranchLayer(mapOrigCopy map[any]any, layerFrom *Layer) (layerTo  *Layer){
+func CopyBranchLayer(mapOrigCopy map[any]any, layerFrom *Layer) (layerTo *Layer) {
 
 	// layerFrom has already been copied
 	if _layerTo, ok := mapOrigCopy[layerFrom]; ok {
@@ -800,40 +798,40 @@ func CopyBranchLayer(mapOrigCopy map[any]any, layerFrom *Layer) (layerTo  *Layer
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _rect := range layerFrom.Rects {
-		layerTo.Rects = append( layerTo.Rects, CopyBranchRect(mapOrigCopy, _rect))
+		layerTo.Rects = append(layerTo.Rects, CopyBranchRect(mapOrigCopy, _rect))
 	}
 	for _, _text := range layerFrom.Texts {
-		layerTo.Texts = append( layerTo.Texts, CopyBranchText(mapOrigCopy, _text))
+		layerTo.Texts = append(layerTo.Texts, CopyBranchText(mapOrigCopy, _text))
 	}
 	for _, _circle := range layerFrom.Circles {
-		layerTo.Circles = append( layerTo.Circles, CopyBranchCircle(mapOrigCopy, _circle))
+		layerTo.Circles = append(layerTo.Circles, CopyBranchCircle(mapOrigCopy, _circle))
 	}
 	for _, _line := range layerFrom.Lines {
-		layerTo.Lines = append( layerTo.Lines, CopyBranchLine(mapOrigCopy, _line))
+		layerTo.Lines = append(layerTo.Lines, CopyBranchLine(mapOrigCopy, _line))
 	}
 	for _, _ellipse := range layerFrom.Ellipses {
-		layerTo.Ellipses = append( layerTo.Ellipses, CopyBranchEllipse(mapOrigCopy, _ellipse))
+		layerTo.Ellipses = append(layerTo.Ellipses, CopyBranchEllipse(mapOrigCopy, _ellipse))
 	}
 	for _, _polyline := range layerFrom.Polylines {
-		layerTo.Polylines = append( layerTo.Polylines, CopyBranchPolyline(mapOrigCopy, _polyline))
+		layerTo.Polylines = append(layerTo.Polylines, CopyBranchPolyline(mapOrigCopy, _polyline))
 	}
 	for _, _polygone := range layerFrom.Polygones {
-		layerTo.Polygones = append( layerTo.Polygones, CopyBranchPolygone(mapOrigCopy, _polygone))
+		layerTo.Polygones = append(layerTo.Polygones, CopyBranchPolygone(mapOrigCopy, _polygone))
 	}
 	for _, _path := range layerFrom.Paths {
-		layerTo.Paths = append( layerTo.Paths, CopyBranchPath(mapOrigCopy, _path))
+		layerTo.Paths = append(layerTo.Paths, CopyBranchPath(mapOrigCopy, _path))
 	}
 	for _, _link := range layerFrom.Links {
-		layerTo.Links = append( layerTo.Links, CopyBranchLink(mapOrigCopy, _link))
+		layerTo.Links = append(layerTo.Links, CopyBranchLink(mapOrigCopy, _link))
 	}
 	for _, _rectlinklink := range layerFrom.RectLinkLinks {
-		layerTo.RectLinkLinks = append( layerTo.RectLinkLinks, CopyBranchRectLinkLink(mapOrigCopy, _rectlinklink))
+		layerTo.RectLinkLinks = append(layerTo.RectLinkLinks, CopyBranchRectLinkLink(mapOrigCopy, _rectlinklink))
 	}
 
 	return
 }
 
-func CopyBranchLine(mapOrigCopy map[any]any, lineFrom *Line) (lineTo  *Line){
+func CopyBranchLine(mapOrigCopy map[any]any, lineFrom *Line) (lineTo *Line) {
 
 	// lineFrom has already been copied
 	if _lineTo, ok := mapOrigCopy[lineFrom]; ok {
@@ -849,13 +847,13 @@ func CopyBranchLine(mapOrigCopy map[any]any, lineFrom *Line) (lineTo  *Line){
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _animate := range lineFrom.Animates {
-		lineTo.Animates = append( lineTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
+		lineTo.Animates = append(lineTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
 
 	return
 }
 
-func CopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo  *Link){
+func CopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo *Link) {
 
 	// linkFrom has already been copied
 	if _linkTo, ok := mapOrigCopy[linkFrom]; ok {
@@ -877,19 +875,19 @@ func CopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo  *Link){
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _linkanchoredtext := range linkFrom.TextAtArrowEnd {
-		linkTo.TextAtArrowEnd = append( linkTo.TextAtArrowEnd, CopyBranchLinkAnchoredText(mapOrigCopy, _linkanchoredtext))
+		linkTo.TextAtArrowEnd = append(linkTo.TextAtArrowEnd, CopyBranchLinkAnchoredText(mapOrigCopy, _linkanchoredtext))
 	}
 	for _, _linkanchoredtext := range linkFrom.TextAtArrowStart {
-		linkTo.TextAtArrowStart = append( linkTo.TextAtArrowStart, CopyBranchLinkAnchoredText(mapOrigCopy, _linkanchoredtext))
+		linkTo.TextAtArrowStart = append(linkTo.TextAtArrowStart, CopyBranchLinkAnchoredText(mapOrigCopy, _linkanchoredtext))
 	}
 	for _, _point := range linkFrom.ControlPoints {
-		linkTo.ControlPoints = append( linkTo.ControlPoints, CopyBranchPoint(mapOrigCopy, _point))
+		linkTo.ControlPoints = append(linkTo.ControlPoints, CopyBranchPoint(mapOrigCopy, _point))
 	}
 
 	return
 }
 
-func CopyBranchLinkAnchoredText(mapOrigCopy map[any]any, linkanchoredtextFrom *LinkAnchoredText) (linkanchoredtextTo  *LinkAnchoredText){
+func CopyBranchLinkAnchoredText(mapOrigCopy map[any]any, linkanchoredtextFrom *LinkAnchoredText) (linkanchoredtextTo *LinkAnchoredText) {
 
 	// linkanchoredtextFrom has already been copied
 	if _linkanchoredtextTo, ok := mapOrigCopy[linkanchoredtextFrom]; ok {
@@ -905,13 +903,13 @@ func CopyBranchLinkAnchoredText(mapOrigCopy map[any]any, linkanchoredtextFrom *L
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _animate := range linkanchoredtextFrom.Animates {
-		linkanchoredtextTo.Animates = append( linkanchoredtextTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
+		linkanchoredtextTo.Animates = append(linkanchoredtextTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
 
 	return
 }
 
-func CopyBranchPath(mapOrigCopy map[any]any, pathFrom *Path) (pathTo  *Path){
+func CopyBranchPath(mapOrigCopy map[any]any, pathFrom *Path) (pathTo *Path) {
 
 	// pathFrom has already been copied
 	if _pathTo, ok := mapOrigCopy[pathFrom]; ok {
@@ -927,13 +925,13 @@ func CopyBranchPath(mapOrigCopy map[any]any, pathFrom *Path) (pathTo  *Path){
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _animate := range pathFrom.Animates {
-		pathTo.Animates = append( pathTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
+		pathTo.Animates = append(pathTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
 
 	return
 }
 
-func CopyBranchPoint(mapOrigCopy map[any]any, pointFrom *Point) (pointTo  *Point){
+func CopyBranchPoint(mapOrigCopy map[any]any, pointFrom *Point) (pointTo *Point) {
 
 	// pointFrom has already been copied
 	if _pointTo, ok := mapOrigCopy[pointFrom]; ok {
@@ -952,7 +950,7 @@ func CopyBranchPoint(mapOrigCopy map[any]any, pointFrom *Point) (pointTo  *Point
 	return
 }
 
-func CopyBranchPolygone(mapOrigCopy map[any]any, polygoneFrom *Polygone) (polygoneTo  *Polygone){
+func CopyBranchPolygone(mapOrigCopy map[any]any, polygoneFrom *Polygone) (polygoneTo *Polygone) {
 
 	// polygoneFrom has already been copied
 	if _polygoneTo, ok := mapOrigCopy[polygoneFrom]; ok {
@@ -968,13 +966,13 @@ func CopyBranchPolygone(mapOrigCopy map[any]any, polygoneFrom *Polygone) (polygo
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _animate := range polygoneFrom.Animates {
-		polygoneTo.Animates = append( polygoneTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
+		polygoneTo.Animates = append(polygoneTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
 
 	return
 }
 
-func CopyBranchPolyline(mapOrigCopy map[any]any, polylineFrom *Polyline) (polylineTo  *Polyline){
+func CopyBranchPolyline(mapOrigCopy map[any]any, polylineFrom *Polyline) (polylineTo *Polyline) {
 
 	// polylineFrom has already been copied
 	if _polylineTo, ok := mapOrigCopy[polylineFrom]; ok {
@@ -990,13 +988,13 @@ func CopyBranchPolyline(mapOrigCopy map[any]any, polylineFrom *Polyline) (polyli
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _animate := range polylineFrom.Animates {
-		polylineTo.Animates = append( polylineTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
+		polylineTo.Animates = append(polylineTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
 
 	return
 }
 
-func CopyBranchRect(mapOrigCopy map[any]any, rectFrom *Rect) (rectTo  *Rect){
+func CopyBranchRect(mapOrigCopy map[any]any, rectFrom *Rect) (rectTo *Rect) {
 
 	// rectFrom has already been copied
 	if _rectTo, ok := mapOrigCopy[rectFrom]; ok {
@@ -1012,22 +1010,22 @@ func CopyBranchRect(mapOrigCopy map[any]any, rectFrom *Rect) (rectTo  *Rect){
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _animate := range rectFrom.Animations {
-		rectTo.Animations = append( rectTo.Animations, CopyBranchAnimate(mapOrigCopy, _animate))
+		rectTo.Animations = append(rectTo.Animations, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
 	for _, _rectanchoredtext := range rectFrom.RectAnchoredTexts {
-		rectTo.RectAnchoredTexts = append( rectTo.RectAnchoredTexts, CopyBranchRectAnchoredText(mapOrigCopy, _rectanchoredtext))
+		rectTo.RectAnchoredTexts = append(rectTo.RectAnchoredTexts, CopyBranchRectAnchoredText(mapOrigCopy, _rectanchoredtext))
 	}
 	for _, _rectanchoredrect := range rectFrom.RectAnchoredRects {
-		rectTo.RectAnchoredRects = append( rectTo.RectAnchoredRects, CopyBranchRectAnchoredRect(mapOrigCopy, _rectanchoredrect))
+		rectTo.RectAnchoredRects = append(rectTo.RectAnchoredRects, CopyBranchRectAnchoredRect(mapOrigCopy, _rectanchoredrect))
 	}
 	for _, _rectanchoredpath := range rectFrom.RectAnchoredPaths {
-		rectTo.RectAnchoredPaths = append( rectTo.RectAnchoredPaths, CopyBranchRectAnchoredPath(mapOrigCopy, _rectanchoredpath))
+		rectTo.RectAnchoredPaths = append(rectTo.RectAnchoredPaths, CopyBranchRectAnchoredPath(mapOrigCopy, _rectanchoredpath))
 	}
 
 	return
 }
 
-func CopyBranchRectAnchoredPath(mapOrigCopy map[any]any, rectanchoredpathFrom *RectAnchoredPath) (rectanchoredpathTo  *RectAnchoredPath){
+func CopyBranchRectAnchoredPath(mapOrigCopy map[any]any, rectanchoredpathFrom *RectAnchoredPath) (rectanchoredpathTo *RectAnchoredPath) {
 
 	// rectanchoredpathFrom has already been copied
 	if _rectanchoredpathTo, ok := mapOrigCopy[rectanchoredpathFrom]; ok {
@@ -1046,7 +1044,7 @@ func CopyBranchRectAnchoredPath(mapOrigCopy map[any]any, rectanchoredpathFrom *R
 	return
 }
 
-func CopyBranchRectAnchoredRect(mapOrigCopy map[any]any, rectanchoredrectFrom *RectAnchoredRect) (rectanchoredrectTo  *RectAnchoredRect){
+func CopyBranchRectAnchoredRect(mapOrigCopy map[any]any, rectanchoredrectFrom *RectAnchoredRect) (rectanchoredrectTo *RectAnchoredRect) {
 
 	// rectanchoredrectFrom has already been copied
 	if _rectanchoredrectTo, ok := mapOrigCopy[rectanchoredrectFrom]; ok {
@@ -1065,7 +1063,7 @@ func CopyBranchRectAnchoredRect(mapOrigCopy map[any]any, rectanchoredrectFrom *R
 	return
 }
 
-func CopyBranchRectAnchoredText(mapOrigCopy map[any]any, rectanchoredtextFrom *RectAnchoredText) (rectanchoredtextTo  *RectAnchoredText){
+func CopyBranchRectAnchoredText(mapOrigCopy map[any]any, rectanchoredtextFrom *RectAnchoredText) (rectanchoredtextTo *RectAnchoredText) {
 
 	// rectanchoredtextFrom has already been copied
 	if _rectanchoredtextTo, ok := mapOrigCopy[rectanchoredtextFrom]; ok {
@@ -1081,13 +1079,13 @@ func CopyBranchRectAnchoredText(mapOrigCopy map[any]any, rectanchoredtextFrom *R
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _animate := range rectanchoredtextFrom.Animates {
-		rectanchoredtextTo.Animates = append( rectanchoredtextTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
+		rectanchoredtextTo.Animates = append(rectanchoredtextTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
 
 	return
 }
 
-func CopyBranchRectLinkLink(mapOrigCopy map[any]any, rectlinklinkFrom *RectLinkLink) (rectlinklinkTo  *RectLinkLink){
+func CopyBranchRectLinkLink(mapOrigCopy map[any]any, rectlinklinkFrom *RectLinkLink) (rectlinklinkTo *RectLinkLink) {
 
 	// rectlinklinkFrom has already been copied
 	if _rectlinklinkTo, ok := mapOrigCopy[rectlinklinkFrom]; ok {
@@ -1112,7 +1110,7 @@ func CopyBranchRectLinkLink(mapOrigCopy map[any]any, rectlinklinkFrom *RectLinkL
 	return
 }
 
-func CopyBranchSVG(mapOrigCopy map[any]any, svgFrom *SVG) (svgTo  *SVG){
+func CopyBranchSVG(mapOrigCopy map[any]any, svgFrom *SVG) (svgTo *SVG) {
 
 	// svgFrom has already been copied
 	if _svgTo, ok := mapOrigCopy[svgFrom]; ok {
@@ -1134,13 +1132,13 @@ func CopyBranchSVG(mapOrigCopy map[any]any, svgFrom *SVG) (svgTo  *SVG){
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _layer := range svgFrom.Layers {
-		svgTo.Layers = append( svgTo.Layers, CopyBranchLayer(mapOrigCopy, _layer))
+		svgTo.Layers = append(svgTo.Layers, CopyBranchLayer(mapOrigCopy, _layer))
 	}
 
 	return
 }
 
-func CopyBranchText(mapOrigCopy map[any]any, textFrom *Text) (textTo  *Text){
+func CopyBranchText(mapOrigCopy map[any]any, textFrom *Text) (textTo *Text) {
 
 	// textFrom has already been copied
 	if _textTo, ok := mapOrigCopy[textFrom]; ok {
@@ -1156,12 +1154,11 @@ func CopyBranchText(mapOrigCopy map[any]any, textFrom *Text) (textTo  *Text){
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _animate := range textFrom.Animates {
-		textTo.Animates = append( textTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
+		textTo.Animates = append(textTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
 
 	return
 }
-
 
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
@@ -1234,7 +1231,7 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 func (stage *StageStruct) UnstageBranchAnimate(animate *Animate) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, animate) {
+	if !IsStaged(stage, animate) {
 		return
 	}
 
@@ -1249,7 +1246,7 @@ func (stage *StageStruct) UnstageBranchAnimate(animate *Animate) {
 func (stage *StageStruct) UnstageBranchCircle(circle *Circle) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, circle) {
+	if !IsStaged(stage, circle) {
 		return
 	}
 
@@ -1267,7 +1264,7 @@ func (stage *StageStruct) UnstageBranchCircle(circle *Circle) {
 func (stage *StageStruct) UnstageBranchEllipse(ellipse *Ellipse) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, ellipse) {
+	if !IsStaged(stage, ellipse) {
 		return
 	}
 
@@ -1285,7 +1282,7 @@ func (stage *StageStruct) UnstageBranchEllipse(ellipse *Ellipse) {
 func (stage *StageStruct) UnstageBranchLayer(layer *Layer) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, layer) {
+	if !IsStaged(stage, layer) {
 		return
 	}
 
@@ -1330,7 +1327,7 @@ func (stage *StageStruct) UnstageBranchLayer(layer *Layer) {
 func (stage *StageStruct) UnstageBranchLine(line *Line) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, line) {
+	if !IsStaged(stage, line) {
 		return
 	}
 
@@ -1348,7 +1345,7 @@ func (stage *StageStruct) UnstageBranchLine(line *Line) {
 func (stage *StageStruct) UnstageBranchLink(link *Link) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, link) {
+	if !IsStaged(stage, link) {
 		return
 	}
 
@@ -1378,7 +1375,7 @@ func (stage *StageStruct) UnstageBranchLink(link *Link) {
 func (stage *StageStruct) UnstageBranchLinkAnchoredText(linkanchoredtext *LinkAnchoredText) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, linkanchoredtext) {
+	if !IsStaged(stage, linkanchoredtext) {
 		return
 	}
 
@@ -1396,7 +1393,7 @@ func (stage *StageStruct) UnstageBranchLinkAnchoredText(linkanchoredtext *LinkAn
 func (stage *StageStruct) UnstageBranchPath(path *Path) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, path) {
+	if !IsStaged(stage, path) {
 		return
 	}
 
@@ -1414,7 +1411,7 @@ func (stage *StageStruct) UnstageBranchPath(path *Path) {
 func (stage *StageStruct) UnstageBranchPoint(point *Point) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, point) {
+	if !IsStaged(stage, point) {
 		return
 	}
 
@@ -1429,7 +1426,7 @@ func (stage *StageStruct) UnstageBranchPoint(point *Point) {
 func (stage *StageStruct) UnstageBranchPolygone(polygone *Polygone) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, polygone) {
+	if !IsStaged(stage, polygone) {
 		return
 	}
 
@@ -1447,7 +1444,7 @@ func (stage *StageStruct) UnstageBranchPolygone(polygone *Polygone) {
 func (stage *StageStruct) UnstageBranchPolyline(polyline *Polyline) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, polyline) {
+	if !IsStaged(stage, polyline) {
 		return
 	}
 
@@ -1465,7 +1462,7 @@ func (stage *StageStruct) UnstageBranchPolyline(polyline *Polyline) {
 func (stage *StageStruct) UnstageBranchRect(rect *Rect) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, rect) {
+	if !IsStaged(stage, rect) {
 		return
 	}
 
@@ -1492,7 +1489,7 @@ func (stage *StageStruct) UnstageBranchRect(rect *Rect) {
 func (stage *StageStruct) UnstageBranchRectAnchoredPath(rectanchoredpath *RectAnchoredPath) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, rectanchoredpath) {
+	if !IsStaged(stage, rectanchoredpath) {
 		return
 	}
 
@@ -1507,7 +1504,7 @@ func (stage *StageStruct) UnstageBranchRectAnchoredPath(rectanchoredpath *RectAn
 func (stage *StageStruct) UnstageBranchRectAnchoredRect(rectanchoredrect *RectAnchoredRect) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, rectanchoredrect) {
+	if !IsStaged(stage, rectanchoredrect) {
 		return
 	}
 
@@ -1522,7 +1519,7 @@ func (stage *StageStruct) UnstageBranchRectAnchoredRect(rectanchoredrect *RectAn
 func (stage *StageStruct) UnstageBranchRectAnchoredText(rectanchoredtext *RectAnchoredText) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, rectanchoredtext) {
+	if !IsStaged(stage, rectanchoredtext) {
 		return
 	}
 
@@ -1540,7 +1537,7 @@ func (stage *StageStruct) UnstageBranchRectAnchoredText(rectanchoredtext *RectAn
 func (stage *StageStruct) UnstageBranchRectLinkLink(rectlinklink *RectLinkLink) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, rectlinklink) {
+	if !IsStaged(stage, rectlinklink) {
 		return
 	}
 
@@ -1561,7 +1558,7 @@ func (stage *StageStruct) UnstageBranchRectLinkLink(rectlinklink *RectLinkLink) 
 func (stage *StageStruct) UnstageBranchSVG(svg *SVG) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, svg) {
+	if !IsStaged(stage, svg) {
 		return
 	}
 
@@ -1585,7 +1582,7 @@ func (stage *StageStruct) UnstageBranchSVG(svg *SVG) {
 func (stage *StageStruct) UnstageBranchText(text *Text) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, text) {
+	if !IsStaged(stage, text) {
 		return
 	}
 
@@ -1599,4 +1596,3 @@ func (stage *StageStruct) UnstageBranchText(text *Text) {
 	}
 
 }
-
