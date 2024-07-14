@@ -27,6 +27,7 @@
         <ng-container *ngFor="let layer of svg.Layers" class="noevents-area">
             <ng-container *ngFor="let circle of layer.Circles">
                 <circle
+                    class="click-through"
                     [attr.cx]="circle.CX" 
                     [attr.cy]="circle.CY" 
                     [attr.r]="circle.Radius" 
@@ -46,7 +47,8 @@
             </circle>
             </ng-container>
             <ng-container *ngFor="let ellipse of layer.Ellipses">
-                <ellipse 
+                <ellipse
+                    class="click-through"
                     [attr.rx]="ellipse.RX"
                     [attr.ry]="ellipse.RY"
                     [attr.cx]="ellipse.CX"
@@ -65,7 +67,8 @@
                     [attr.repeatCount]="animate.RepeatCount" />
             </ng-container>
             <ng-container *ngFor="let line of layer.Lines">
-                <line 
+                <line
+                    class="click-through"
                     [attr.x1]="line.X1"
                     [attr.y1]="line.Y1"
                     [attr.x2]="line.X2"
@@ -84,7 +87,8 @@
                     [attr.repeatCount]="animate.RepeatCount" />
             </ng-container>
             <ng-container *ngFor="let text of layer.Texts">
-                <text 
+                <text
+                    class="click-through"
                     [attr.x]="text.X" 
                     [attr.y]="text.Y" 
                     [attr.fill]="text.Color" 
@@ -100,6 +104,7 @@
             </ng-container>
             <ng-container *ngFor="let path of layer.Paths">
                 <path [attr.d]="path.Definition"
+                    class="click-through"
                     [attr.fill]="path.Color"
                     [attr.fill-opacity]="path.FillOpacity"
                     [attr.stroke]="path.Stroke"
@@ -116,6 +121,7 @@
             </ng-container>
             <ng-container *ngFor="let polygone of layer.Polygones">
                 <polygon 
+                    class="click-through"
                     [attr.points]="polygone.Points"
                     [attr.fill]="polygone.Color"
                     [attr.fill-opacity]="polygone.FillOpacity"
@@ -131,7 +137,9 @@
                     [attr.repeatCount]="animate.RepeatCount" />
             </ng-container>
             <ng-container *ngFor="let polyline of layer.Polylines">
-                <polyline [attr.points]="polyline.Points"
+                <polyline 
+                    class="click-through"
+                    [attr.points]="polyline.Points"
                     [attr.fill]="polyline.Color"
                     [attr.fill-opacity]="polyline.FillOpacity"
                     [attr.stroke]="polyline.Stroke"
@@ -456,7 +464,7 @@
                         <ng-container *ngIf="(i == (segments.length - 1))">
                             <ng-container *ngFor='let text of this.link.TextAtArrowEnd!; let k = index'>
                                 <ng-container *ngIf='!text.AutomaticLayout && splitTextIntoLines(text.Content) as lines'>
-                                    <text class="movable-text"
+                                    <text class="click-through"
                                         [attr.x]="segment.EndPoint.X + text.X_Offset" 
                                         [attr.y]="segment.EndPoint.Y + text.Y_Offset" 
                                         [attr.font-weight]="text.FontWeight"
@@ -506,7 +514,7 @@
                         <ng-container *ngIf="i == 0">
                             <ng-container *ngFor='let text of this.link.TextAtArrowStart!; let k = index'>
                                 <ng-container *ngIf='!text.AutomaticLayout && splitTextIntoLines(text.Content) as lines'>
-                                    <text class="movable-text"
+                                    <text class="click-through"
                                         [attr.x]="segment.StartPoint.X + text.X_Offset" 
                                         [attr.y]="segment.StartPoint.Y + text.Y_Offset" 
                                         [attr.font-weight]="text.FontWeight"
@@ -614,6 +622,7 @@
 <ng-template #anchoredText let-text="text" let-anchorX="anchorX" let-anchorY="anchorY">
     <ng-container *ngIf='splitTextIntoLines(text.Content) as lines'>
             <svg:text class="anchored-text"
+            class="click-through"
             [attr.x]="anchorX" 
             [attr.y]="anchorY" 
             [attr.fill]="text.Color"    
@@ -637,7 +646,7 @@
 
 <ng-template #anchoredRect let-rect="rect" let-anchorX="anchorX" let-anchorY="anchorY" let-width="width">
     <svg:rect   
-        pointer-events="none"
+        class="click-through"
         [attr.x]="anchorX"
         [attr.y]="anchorY"
         [attr.width]="width"

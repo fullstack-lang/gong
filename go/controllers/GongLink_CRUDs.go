@@ -55,10 +55,10 @@ func (controller *Controller) GetGongLinks(c *gin.Context) {
 	// source slice
 	var gonglinkDBs []orm.GongLinkDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetGongLinks", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostGongLink(c *gin.Context) {
 	mutexGongLink.Lock()
 	defer mutexGongLink.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostGongLinks", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostGongLink(c *gin.Context) {
 //	200: gonglinkDBResponse
 func (controller *Controller) GetGongLink(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetGongLink", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdateGongLink(c *gin.Context) {
 	mutexGongLink.Lock()
 	defer mutexGongLink.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdateGongLink", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeleteGongLink(c *gin.Context) {
 	mutexGongLink.Lock()
 	defer mutexGongLink.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeleteGongLink", "GONG__StackPath", stackPath)

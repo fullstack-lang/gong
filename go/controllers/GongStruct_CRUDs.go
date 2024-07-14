@@ -55,10 +55,10 @@ func (controller *Controller) GetGongStructs(c *gin.Context) {
 	// source slice
 	var gongstructDBs []orm.GongStructDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetGongStructs", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostGongStruct(c *gin.Context) {
 	mutexGongStruct.Lock()
 	defer mutexGongStruct.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostGongStructs", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostGongStruct(c *gin.Context) {
 //	200: gongstructDBResponse
 func (controller *Controller) GetGongStruct(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetGongStruct", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdateGongStruct(c *gin.Context) {
 	mutexGongStruct.Lock()
 	defer mutexGongStruct.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdateGongStruct", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeleteGongStruct(c *gin.Context) {
 	mutexGongStruct.Lock()
 	defer mutexGongStruct.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeleteGongStruct", "GONG__StackPath", stackPath)

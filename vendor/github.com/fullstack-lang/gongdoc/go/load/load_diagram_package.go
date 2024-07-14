@@ -14,6 +14,23 @@ import (
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 )
 
+// processFiles applies replaceOldDeclarationsInFile to all files in a given directory
+func processFiles(directory string) error {
+	err := filepath.Walk(directory, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err // propagate the error
+		}
+		if !info.IsDir() {
+			err = gongdoc_models.ReplaceOldDeclarationsInFile(path)
+			if err != nil {
+				return err // handle failure in processing a file
+			}
+		}
+		return nil
+	})
+	return err
+}
+
 // LoadDiagramPackage fill up the stage with the diagrams elements
 func LoadDiagramPackage(
 	gongdocStage *gongdoc_models.StageStruct,
@@ -34,6 +51,9 @@ func LoadDiagramPackage(
 	// parse the diagram package
 	diagramPkgPath := filepath.Join(pkgPath, "../diagrams")
 	diagramPackage.AbsolutePathToDiagramPackage, _ = filepath.Abs(diagramPkgPath)
+
+	processFiles(diagramPkgPath)
+
 	diagramPackage.Path = diagramPkgPath
 	diagramPackage.GongModelPath = modelPkg.PkgPath
 

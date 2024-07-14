@@ -52,7 +52,6 @@ func (stage *StageStruct) IsStagedTree(tree *Tree) (ok bool) {
 	return
 }
 
-
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -154,7 +153,6 @@ func (stage *StageStruct) StageBranchTree(tree *Tree) {
 
 }
 
-
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -189,7 +187,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo  *Button){
+func CopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Button) {
 
 	// buttonFrom has already been copied
 	if _buttonTo, ok := mapOrigCopy[buttonFrom]; ok {
@@ -211,7 +209,7 @@ func CopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo  *B
 	return
 }
 
-func CopyBranchNode(mapOrigCopy map[any]any, nodeFrom *Node) (nodeTo  *Node){
+func CopyBranchNode(mapOrigCopy map[any]any, nodeFrom *Node) (nodeTo *Node) {
 
 	// nodeFrom has already been copied
 	if _nodeTo, ok := mapOrigCopy[nodeFrom]; ok {
@@ -230,16 +228,16 @@ func CopyBranchNode(mapOrigCopy map[any]any, nodeFrom *Node) (nodeTo  *Node){
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _node := range nodeFrom.Children {
-		nodeTo.Children = append( nodeTo.Children, CopyBranchNode(mapOrigCopy, _node))
+		nodeTo.Children = append(nodeTo.Children, CopyBranchNode(mapOrigCopy, _node))
 	}
 	for _, _button := range nodeFrom.Buttons {
-		nodeTo.Buttons = append( nodeTo.Buttons, CopyBranchButton(mapOrigCopy, _button))
+		nodeTo.Buttons = append(nodeTo.Buttons, CopyBranchButton(mapOrigCopy, _button))
 	}
 
 	return
 }
 
-func CopyBranchSVGIcon(mapOrigCopy map[any]any, svgiconFrom *SVGIcon) (svgiconTo  *SVGIcon){
+func CopyBranchSVGIcon(mapOrigCopy map[any]any, svgiconFrom *SVGIcon) (svgiconTo *SVGIcon) {
 
 	// svgiconFrom has already been copied
 	if _svgiconTo, ok := mapOrigCopy[svgiconFrom]; ok {
@@ -258,7 +256,7 @@ func CopyBranchSVGIcon(mapOrigCopy map[any]any, svgiconFrom *SVGIcon) (svgiconTo
 	return
 }
 
-func CopyBranchTree(mapOrigCopy map[any]any, treeFrom *Tree) (treeTo  *Tree){
+func CopyBranchTree(mapOrigCopy map[any]any, treeFrom *Tree) (treeTo *Tree) {
 
 	// treeFrom has already been copied
 	if _treeTo, ok := mapOrigCopy[treeFrom]; ok {
@@ -274,12 +272,11 @@ func CopyBranchTree(mapOrigCopy map[any]any, treeFrom *Tree) (treeTo  *Tree){
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _node := range treeFrom.RootNodes {
-		treeTo.RootNodes = append( treeTo.RootNodes, CopyBranchNode(mapOrigCopy, _node))
+		treeTo.RootNodes = append(treeTo.RootNodes, CopyBranchNode(mapOrigCopy, _node))
 	}
 
 	return
 }
-
 
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
@@ -310,7 +307,7 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 func (stage *StageStruct) UnstageBranchButton(button *Button) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, button) {
+	if !IsStaged(stage, button) {
 		return
 	}
 
@@ -328,7 +325,7 @@ func (stage *StageStruct) UnstageBranchButton(button *Button) {
 func (stage *StageStruct) UnstageBranchNode(node *Node) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, node) {
+	if !IsStaged(stage, node) {
 		return
 	}
 
@@ -352,7 +349,7 @@ func (stage *StageStruct) UnstageBranchNode(node *Node) {
 func (stage *StageStruct) UnstageBranchSVGIcon(svgicon *SVGIcon) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, svgicon) {
+	if !IsStaged(stage, svgicon) {
 		return
 	}
 
@@ -367,7 +364,7 @@ func (stage *StageStruct) UnstageBranchSVGIcon(svgicon *SVGIcon) {
 func (stage *StageStruct) UnstageBranchTree(tree *Tree) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, tree) {
+	if !IsStaged(stage, tree) {
 		return
 	}
 
@@ -381,4 +378,3 @@ func (stage *StageStruct) UnstageBranchTree(tree *Tree) {
 	}
 
 }
-

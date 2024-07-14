@@ -55,10 +55,10 @@ func (controller *Controller) GetSVGIcons(c *gin.Context) {
 	// source slice
 	var svgiconDBs []orm.SVGIconDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetSVGIcons", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostSVGIcon(c *gin.Context) {
 	mutexSVGIcon.Lock()
 	defer mutexSVGIcon.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostSVGIcons", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostSVGIcon(c *gin.Context) {
 //	200: svgiconDBResponse
 func (controller *Controller) GetSVGIcon(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetSVGIcon", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdateSVGIcon(c *gin.Context) {
 	mutexSVGIcon.Lock()
 	defer mutexSVGIcon.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdateSVGIcon", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeleteSVGIcon(c *gin.Context) {
 	mutexSVGIcon.Lock()
 	defer mutexSVGIcon.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeleteSVGIcon", "GONG__StackPath", stackPath)

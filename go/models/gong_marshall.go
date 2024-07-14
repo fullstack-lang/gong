@@ -23,40 +23,24 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_{{databaseName}} models.StageStruct
-var ___dummy__Time_{{databaseName}} time.Time
+var _ time.Time
 
 // Injection point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
-// currently, DocLink renaming is not enabled in gopls
-// the following map are devised to overcome this limitation
-// those maps and the processing code will be eleminated when
-// DocLink renaming will be enabled in gopls
-// [Corresponding Issue](https://github.com/golang/go/issues/57559)
-//
 // When parsed, those maps will help with the renaming process
-var map_DocLink_Identifier_{{databaseName}} map[string]any = map[string]any{
+var _ map[string]any = map[string]any{
 	// injection point for docLink to identifiers{{EntriesDocLinkStringDocLinkIdentifier}}
 }
 
-// init might be handy if one want to have the data embedded in the binary
-// but it has to properly reference the Injection gateway in the main package
-// func init() {
-// 	_ = __Dummy_time_variable
-// 	InjectionGateway["{{databaseName}}"] = {{databaseName}}Injection
-// }
-
-// {{databaseName}}Injection will stage objects of database "{{databaseName}}"
-func {{databaseName}}Injection(stage *models.StageStruct) {
+// function will stage objects
+func _(stage *models.StageStruct) {
 
 	// Declaration of instances to stage{{Identifiers}}
 
 	// Setup of values{{ValueInitializers}}
 
 	// Setup of pointers{{PointersInitializers}}
-}
-
-`
+}`
 
 const IdentifiersDecls = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
@@ -107,7 +91,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	decl := ""
 	_ = decl
 	setValueField := ""
-	_ = setValueField 
+	_ = setValueField
 
 	// insertion initialization of objects to stage
 	map_GongBasicField_Identifiers := make(map[*GongBasicField]string)
@@ -120,7 +104,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(gongbasicfieldOrdered[:], func(i, j int) bool {
 		return gongbasicfieldOrdered[i].Name < gongbasicfieldOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of GongBasicField"
+	if len(gongbasicfieldOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, gongbasicfield := range gongbasicfieldOrdered {
 
 		id = generatesIdentifier("GongBasicField", idx, gongbasicfield.Name)
@@ -132,7 +118,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongbasicfield.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// GongBasicField values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -212,7 +198,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(gongenumOrdered[:], func(i, j int) bool {
 		return gongenumOrdered[i].Name < gongenumOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of GongEnum"
+	if len(gongenumOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, gongenum := range gongenumOrdered {
 
 		id = generatesIdentifier("GongEnum", idx, gongenum.Name)
@@ -224,7 +212,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongenum.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// GongEnum values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -250,7 +238,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(gongenumvalueOrdered[:], func(i, j int) bool {
 		return gongenumvalueOrdered[i].Name < gongenumvalueOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of GongEnumValue"
+	if len(gongenumvalueOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, gongenumvalue := range gongenumvalueOrdered {
 
 		id = generatesIdentifier("GongEnumValue", idx, gongenumvalue.Name)
@@ -262,7 +252,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongenumvalue.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// GongEnumValue values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -288,7 +278,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(gonglinkOrdered[:], func(i, j int) bool {
 		return gonglinkOrdered[i].Name < gonglinkOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of GongLink"
+	if len(gonglinkOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, gonglink := range gonglinkOrdered {
 
 		id = generatesIdentifier("GongLink", idx, gonglink.Name)
@@ -300,7 +292,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gonglink.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// GongLink values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -332,7 +324,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(gongnoteOrdered[:], func(i, j int) bool {
 		return gongnoteOrdered[i].Name < gongnoteOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of GongNote"
+	if len(gongnoteOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, gongnote := range gongnoteOrdered {
 
 		id = generatesIdentifier("GongNote", idx, gongnote.Name)
@@ -344,7 +338,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongnote.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// GongNote values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -376,7 +370,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(gongstructOrdered[:], func(i, j int) bool {
 		return gongstructOrdered[i].Name < gongstructOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of GongStruct"
+	if len(gongstructOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, gongstruct := range gongstructOrdered {
 
 		id = generatesIdentifier("GongStruct", idx, gongstruct.Name)
@@ -388,7 +384,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongstruct.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// GongStruct values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -420,7 +416,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(gongtimefieldOrdered[:], func(i, j int) bool {
 		return gongtimefieldOrdered[i].Name < gongtimefieldOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of GongTimeField"
+	if len(gongtimefieldOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, gongtimefield := range gongtimefieldOrdered {
 
 		id = generatesIdentifier("GongTimeField", idx, gongtimefield.Name)
@@ -432,7 +430,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongtimefield.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// GongTimeField values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -464,7 +462,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(metaOrdered[:], func(i, j int) bool {
 		return metaOrdered[i].Name < metaOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Meta"
+	if len(metaOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, meta := range metaOrdered {
 
 		id = generatesIdentifier("Meta", idx, meta.Name)
@@ -476,7 +476,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", meta.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// Meta values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -502,7 +502,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(metareferenceOrdered[:], func(i, j int) bool {
 		return metareferenceOrdered[i].Name < metareferenceOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of MetaReference"
+	if len(metareferenceOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, metareference := range metareferenceOrdered {
 
 		id = generatesIdentifier("MetaReference", idx, metareference.Name)
@@ -514,7 +516,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", metareference.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// MetaReference values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -534,7 +536,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(modelpkgOrdered[:], func(i, j int) bool {
 		return modelpkgOrdered[i].Name < modelpkgOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of ModelPkg"
+	if len(modelpkgOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, modelpkg := range modelpkgOrdered {
 
 		id = generatesIdentifier("ModelPkg", idx, modelpkg.Name)
@@ -546,7 +550,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", modelpkg.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// ModelPkg values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -644,7 +648,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(pointertogongstructfieldOrdered[:], func(i, j int) bool {
 		return pointertogongstructfieldOrdered[i].Name < pointertogongstructfieldOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of PointerToGongStructField"
+	if len(pointertogongstructfieldOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, pointertogongstructfield := range pointertogongstructfieldOrdered {
 
 		id = generatesIdentifier("PointerToGongStructField", idx, pointertogongstructfield.Name)
@@ -656,7 +662,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", pointertogongstructfield.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// PointerToGongStructField values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -694,7 +700,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(sliceofpointertogongstructfieldOrdered[:], func(i, j int) bool {
 		return sliceofpointertogongstructfieldOrdered[i].Name < sliceofpointertogongstructfieldOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of SliceOfPointerToGongStructField"
+	if len(sliceofpointertogongstructfieldOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, sliceofpointertogongstructfield := range sliceofpointertogongstructfieldOrdered {
 
 		id = generatesIdentifier("SliceOfPointerToGongStructField", idx, sliceofpointertogongstructfield.Name)
@@ -706,7 +714,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", sliceofpointertogongstructfield.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// SliceOfPointerToGongStructField values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -938,9 +946,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
 
 		res = strings.ReplaceAll(res, "{{ImportPackageDummyDeclaration}}",
-			fmt.Sprintf("\nvar ___dummy__%s_%s %s.StageStruct",
-				stage.MetaPackageImportAlias,
-				strings.ReplaceAll(filepath.Base(name), ".go", ""),
+			fmt.Sprintf("\nvar _ %s.StageStruct",
 				stage.MetaPackageImportAlias))
 
 		var entries string

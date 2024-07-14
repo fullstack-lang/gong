@@ -55,10 +55,10 @@ func (controller *Controller) GetPointerToGongStructFields(c *gin.Context) {
 	// source slice
 	var pointertogongstructfieldDBs []orm.PointerToGongStructFieldDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetPointerToGongStructFields", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostPointerToGongStructField(c *gin.Context) {
 	mutexPointerToGongStructField.Lock()
 	defer mutexPointerToGongStructField.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostPointerToGongStructFields", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostPointerToGongStructField(c *gin.Context) {
 //	200: pointertogongstructfieldDBResponse
 func (controller *Controller) GetPointerToGongStructField(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetPointerToGongStructField", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdatePointerToGongStructField(c *gin.Context) {
 	mutexPointerToGongStructField.Lock()
 	defer mutexPointerToGongStructField.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdatePointerToGongStructField", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeletePointerToGongStructField(c *gin.Context) {
 	mutexPointerToGongStructField.Lock()
 	defer mutexPointerToGongStructField.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeletePointerToGongStructField", "GONG__StackPath", stackPath)

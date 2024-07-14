@@ -55,10 +55,10 @@ func (controller *Controller) GetModelPkgs(c *gin.Context) {
 	// source slice
 	var modelpkgDBs []orm.ModelPkgDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetModelPkgs", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostModelPkg(c *gin.Context) {
 	mutexModelPkg.Lock()
 	defer mutexModelPkg.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostModelPkgs", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostModelPkg(c *gin.Context) {
 //	200: modelpkgDBResponse
 func (controller *Controller) GetModelPkg(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetModelPkg", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdateModelPkg(c *gin.Context) {
 	mutexModelPkg.Lock()
 	defer mutexModelPkg.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdateModelPkg", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeleteModelPkg(c *gin.Context) {
 	mutexModelPkg.Lock()
 	defer mutexModelPkg.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeleteModelPkg", "GONG__StackPath", stackPath)

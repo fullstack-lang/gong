@@ -23,40 +23,24 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_{{databaseName}} models.StageStruct
-var ___dummy__Time_{{databaseName}} time.Time
+var _ time.Time
 
 // Injection point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
-// currently, DocLink renaming is not enabled in gopls
-// the following map are devised to overcome this limitation
-// those maps and the processing code will be eleminated when
-// DocLink renaming will be enabled in gopls
-// [Corresponding Issue](https://github.com/golang/go/issues/57559)
-//
 // When parsed, those maps will help with the renaming process
-var map_DocLink_Identifier_{{databaseName}} map[string]any = map[string]any{
+var _ map[string]any = map[string]any{
 	// injection point for docLink to identifiers{{EntriesDocLinkStringDocLinkIdentifier}}
 }
 
-// init might be handy if one want to have the data embedded in the binary
-// but it has to properly reference the Injection gateway in the main package
-// func init() {
-// 	_ = __Dummy_time_variable
-// 	InjectionGateway["{{databaseName}}"] = {{databaseName}}Injection
-// }
-
-// {{databaseName}}Injection will stage objects of database "{{databaseName}}"
-func {{databaseName}}Injection(stage *models.StageStruct) {
+// function will stage objects
+func _(stage *models.StageStruct) {
 
 	// Declaration of instances to stage{{Identifiers}}
 
 	// Setup of values{{ValueInitializers}}
 
 	// Setup of pointers{{PointersInitializers}}
-}
-
-`
+}`
 
 const IdentifiersDecls = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
@@ -107,7 +91,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	decl := ""
 	_ = decl
 	setValueField := ""
-	_ = setValueField 
+	_ = setValueField
 
 	// insertion initialization of objects to stage
 	map_Classdiagram_Identifiers := make(map[*Classdiagram]string)
@@ -120,7 +104,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(classdiagramOrdered[:], func(i, j int) bool {
 		return classdiagramOrdered[i].Name < classdiagramOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Classdiagram"
+	if len(classdiagramOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, classdiagram := range classdiagramOrdered {
 
 		id = generatesIdentifier("Classdiagram", idx, classdiagram.Name)
@@ -132,7 +118,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", classdiagram.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// Classdiagram values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -158,7 +144,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(diagrampackageOrdered[:], func(i, j int) bool {
 		return diagrampackageOrdered[i].Name < diagrampackageOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of DiagramPackage"
+	if len(diagrampackageOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, diagrampackage := range diagrampackageOrdered {
 
 		id = generatesIdentifier("DiagramPackage", idx, diagrampackage.Name)
@@ -170,7 +158,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", diagrampackage.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// DiagramPackage values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -220,7 +208,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(fieldOrdered[:], func(i, j int) bool {
 		return fieldOrdered[i].Name < fieldOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Field"
+	if len(fieldOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, field := range fieldOrdered {
 
 		id = generatesIdentifier("Field", idx, field.Name)
@@ -232,7 +222,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", field.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// Field values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -242,7 +232,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
-			fmt.Sprintf("\n\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+			fmt.Sprintf("\n\n\t//gong:ident [%s] comment added to overcome the problem with the comment map association\n\t{{Identifier}}",
 				string(field.Identifier)))
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Identifier")
@@ -279,7 +269,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(gongenumshapeOrdered[:], func(i, j int) bool {
 		return gongenumshapeOrdered[i].Name < gongenumshapeOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of GongEnumShape"
+	if len(gongenumshapeOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, gongenumshape := range gongenumshapeOrdered {
 
 		id = generatesIdentifier("GongEnumShape", idx, gongenumshape.Name)
@@ -291,7 +283,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongenumshape.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// GongEnumShape values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -301,7 +293,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
-			fmt.Sprintf("\n\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+			fmt.Sprintf("\n\n\t//gong:ident [%s] comment added to overcome the problem with the comment map association\n\t{{Identifier}}",
 				string(gongenumshape.Identifier)))
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Identifier")
@@ -332,7 +324,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(gongenumvalueentryOrdered[:], func(i, j int) bool {
 		return gongenumvalueentryOrdered[i].Name < gongenumvalueentryOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of GongEnumValueEntry"
+	if len(gongenumvalueentryOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, gongenumvalueentry := range gongenumvalueentryOrdered {
 
 		id = generatesIdentifier("GongEnumValueEntry", idx, gongenumvalueentry.Name)
@@ -344,7 +338,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongenumvalueentry.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// GongEnumValueEntry values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -354,7 +348,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
-			fmt.Sprintf("\n\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+			fmt.Sprintf("\n\n\t//gong:ident [%s] comment added to overcome the problem with the comment map association\n\t{{Identifier}}",
 				string(gongenumvalueentry.Identifier)))
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Identifier")
@@ -373,7 +367,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(gongstructshapeOrdered[:], func(i, j int) bool {
 		return gongstructshapeOrdered[i].Name < gongstructshapeOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of GongStructShape"
+	if len(gongstructshapeOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, gongstructshape := range gongstructshapeOrdered {
 
 		id = generatesIdentifier("GongStructShape", idx, gongstructshape.Name)
@@ -385,7 +381,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongstructshape.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// GongStructShape values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -395,7 +391,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
-			fmt.Sprintf("\n\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+			fmt.Sprintf("\n\n\t//gong:ident [%s] comment added to overcome the problem with the comment map association\n\t{{Identifier}}",
 				string(gongstructshape.Identifier)))
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Identifier")
@@ -444,7 +440,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(linkOrdered[:], func(i, j int) bool {
 		return linkOrdered[i].Name < linkOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Link"
+	if len(linkOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, link := range linkOrdered {
 
 		id = generatesIdentifier("Link", idx, link.Name)
@@ -456,7 +454,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", link.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// Link values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -466,7 +464,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
-			fmt.Sprintf("\n\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+			fmt.Sprintf("\n\n\t//gong:ident [%s] comment added to overcome the problem with the comment map association\n\t{{Identifier}}",
 				string(link.Identifier)))
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Identifier")
@@ -475,7 +473,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
-			fmt.Sprintf("\n\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+			fmt.Sprintf("\n\n\t//gong:ident [%s] comment added to overcome the problem with the comment map association\n\t{{Identifier}}",
 				string(link.Fieldtypename)))
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Fieldtypename")
@@ -580,7 +578,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(noteshapeOrdered[:], func(i, j int) bool {
 		return noteshapeOrdered[i].Name < noteshapeOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of NoteShape"
+	if len(noteshapeOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, noteshape := range noteshapeOrdered {
 
 		id = generatesIdentifier("NoteShape", idx, noteshape.Name)
@@ -592,7 +592,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", noteshape.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// NoteShape values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -602,7 +602,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
-			fmt.Sprintf("\n\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+			fmt.Sprintf("\n\n\t//gong:ident [%s] comment added to overcome the problem with the comment map association\n\t{{Identifier}}",
 				string(noteshape.Identifier)))
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Identifier")
@@ -663,7 +663,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(noteshapelinkOrdered[:], func(i, j int) bool {
 		return noteshapelinkOrdered[i].Name < noteshapelinkOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of NoteShapeLink"
+	if len(noteshapelinkOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, noteshapelink := range noteshapelinkOrdered {
 
 		id = generatesIdentifier("NoteShapeLink", idx, noteshapelink.Name)
@@ -675,7 +677,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", noteshapelink.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// NoteShapeLink values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -685,7 +687,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
-			fmt.Sprintf("\n\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+			fmt.Sprintf("\n\n\t//gong:ident [%s] comment added to overcome the problem with the comment map association\n\t{{Identifier}}",
 				string(noteshapelink.Identifier)))
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Identifier")
@@ -712,7 +714,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(positionOrdered[:], func(i, j int) bool {
 		return positionOrdered[i].Name < positionOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Position"
+	if len(positionOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, position := range positionOrdered {
 
 		id = generatesIdentifier("Position", idx, position.Name)
@@ -724,7 +728,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", position.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// Position values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -756,7 +760,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(umlstateOrdered[:], func(i, j int) bool {
 		return umlstateOrdered[i].Name < umlstateOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of UmlState"
+	if len(umlstateOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, umlstate := range umlstateOrdered {
 
 		id = generatesIdentifier("UmlState", idx, umlstate.Name)
@@ -768,7 +774,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", umlstate.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// UmlState values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -800,7 +806,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(umlscOrdered[:], func(i, j int) bool {
 		return umlscOrdered[i].Name < umlscOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Umlsc"
+	if len(umlscOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, umlsc := range umlscOrdered {
 
 		id = generatesIdentifier("Umlsc", idx, umlsc.Name)
@@ -812,7 +820,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", umlsc.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// Umlsc values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -844,7 +852,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(verticeOrdered[:], func(i, j int) bool {
 		return verticeOrdered[i].Name < verticeOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Vertice"
+	if len(verticeOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
 	for idx, vertice := range verticeOrdered {
 
 		id = generatesIdentifier("Vertice", idx, vertice.Name)
@@ -856,7 +866,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", vertice.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// Vertice values setup"
+		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1130,9 +1140,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
 
 		res = strings.ReplaceAll(res, "{{ImportPackageDummyDeclaration}}",
-			fmt.Sprintf("\nvar ___dummy__%s_%s %s.StageStruct",
-				stage.MetaPackageImportAlias,
-				strings.ReplaceAll(filepath.Base(name), ".go", ""),
+			fmt.Sprintf("\nvar _ %s.StageStruct",
 				stage.MetaPackageImportAlias))
 
 		var entries string
