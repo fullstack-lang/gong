@@ -63,20 +63,12 @@ var GetReverseFieldOwnerNameSubTemplateCode map[GetReverseFieldOwnerNameId]strin
 map[GetReverseFieldOwnerNameId]string{
 	GetReverseFieldOwnerNameSwitch: `
 	case *models.{{Structname}}:
-		tmp := GetInstanceDBFromInstance[models.{{Structname}}, {{Structname}}DB](
-			stage, backRepo, inst,
-		)
-		_ = tmp
 		switch reverseField.GongstructName {
 		// insertion point{{fieldToFormCodeName}}
 		}
 `,
 	GetReverseFieldOwnerSwitch: `
 	case *models.{{Structname}}:
-		tmp := GetInstanceDBFromInstance[models.{{Structname}}, {{Structname}}DB](
-			stage, backRepo, inst,
-		)
-		_ = tmp
 		switch reverseField.GongstructName {
 		// insertion point{{fieldToFormCode}}
 		}
@@ -151,6 +143,24 @@ func CodeGeneratorGetReverseFieldOwnerName(
 			// Parse all fields from other structs that points to this struct
 			//
 			for _, __struct := range gongStructs {
+
+				// count the number of cases
+				nbCases := 0
+				for _, field := range __struct.Fields {
+					switch field := field.(type) {
+					case *models.SliceOfPointerToGongStructField:
+						if field.GongStruct == gongStruct {
+							nbCases += 1
+						}
+						if field.GongStruct == gongStruct {
+							nbCases += 1
+						}
+					}
+				}
+
+				if nbCases == 0 {
+					continue
+				}
 
 				fieldToFormCode += models.Replace1(
 					GetReverseFieldOwnerNameSubSubTemplateCode[GetReverseFieldOwnerNameMasterSwitchCodeStart],
