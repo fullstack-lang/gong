@@ -3,7 +3,6 @@ package models
 import (
 	"go/ast"
 	"go/types"
-	"log"
 	"strings"
 )
 
@@ -280,7 +279,7 @@ func GenerateFieldParser(
 				}
 			case *ast.StructType:
 				// we are in an anonymous struct
-				log.Println("Anonymous struct", fieldName)
+				// log.Println("Anonymous struct", fieldName)
 				list := __fieldType.Fields.List
 				GenerateFieldParser(&list,
 					owningGongstruct,
