@@ -32,15 +32,6 @@ var dummy_Astruct_sort sort.Float64Slice
 // fullfill the ORM requirements for associations
 //
 // swagger:model astructAPI
-type AstructAPI struct {
-	gorm.Model
-
-	models.Astruct_WOP
-
-	// encoding of pointers
-	// for API, it cannot be embedded
-	AstructPointersEncoding AstructPointersEncoding
-}
 
 // AstructPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
@@ -405,16 +396,16 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		astructDB.CopyBasicFieldsFromAstruct(astruct)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// commit pointer value astruct.AnonymousStructField1.Associationtob4 translates to updating the astruct.AnonymousStructField1.Associationtob4ID
-		astructDB.AstructPointersEncoding.AnonymousStructField1.Associationtob4ID.Valid = true // allow for a 0 value (nil association)
+		// commit pointer value astruct.Associationtob4 translates to updating the astruct.Associationtob4ID
+		astructDB.AnonymousStructField1.Associationtob4ID.Valid = true // allow for a 0 value (nil association)
 		if astruct.AnonymousStructField1.Associationtob4 != nil {
-			if AnonymousStructField1_Associationtob4Id, ok := backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID[astruct.AnonymousStructField1.Associationtob4]; ok {
-				astructDB.AstructPointersEncoding.AnonymousStructField1.Associationtob4ID.Int64 = int64(AnonymousStructField1_Associationtob4Id)
-				astructDB.AstructPointersEncoding.AnonymousStructField1.Associationtob4ID.Valid = true
+			if Associationtob4Id, ok := backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID[astruct.AnonymousStructField1.Associationtob4]; ok {
+				astructDB.AnonymousStructField1.Associationtob4ID.Int64 = int64(Associationtob4Id)
+				astructDB.AnonymousStructField1.Associationtob4ID.Valid = true
 			}
 		} else {
-			astructDB.AstructPointersEncoding.AnonymousStructField1.Associationtob4ID.Int64 = 0
-			astructDB.AstructPointersEncoding.AnonymousStructField1.Associationtob4ID.Valid = true
+			astructDB.AnonymousStructField1.Associationtob4ID.Int64 = 0
+			astructDB.AnonymousStructField1.Associationtob4ID.Valid = true
 		}
 
 		// commit pointer value astruct.Associationtob translates to updating the astruct.AssociationtobID
