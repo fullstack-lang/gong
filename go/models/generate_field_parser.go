@@ -3,6 +3,7 @@ package models
 import (
 	"go/ast"
 	"go/types"
+	"log"
 	"strings"
 )
 
@@ -10,10 +11,14 @@ import (
 //
 // by using the map_Structname_fieldList for embedded struct fields
 // and modelPkg for access existing gongstructs and gongenums
-func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
+func GenerateFieldParser(
+	fieldList *[]*ast.Field,
+	owningGongstruct *GongStruct,
 	map_Structname_fieldList *map[string]*[]*ast.Field,
 	modelPkg *ModelPkg,
-	compositeTypeStructName string) {
+	compositeTypeStructName string, // when it is composed
+	prefix string, // used in anonymous struct
+) {
 
 	for _, field := range *fieldList {
 
@@ -85,7 +90,8 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 					owningGongstruct,
 					map_Structname_fieldList,
 					modelPkg,
-					embedType.Name)
+					embedType.Name,
+					"")
 			default:
 			}
 			continue
@@ -98,6 +104,9 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 		// }
 		for _, fieldNameIdent := range field.Names {
 			fieldName := fieldNameIdent.Name
+			if prefix != "" {
+				fieldName = prefix + "." + fieldName
+			}
 			switch __fieldType := field.Type.(type) {
 			case *ast.Ident:
 				switch __fieldType.Name {
@@ -269,6 +278,17 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 						}
 					}
 				}
+			case *ast.StructType:
+				// we are in an anonymous struct
+				log.Println("Anonymous struct", fieldName)
+				list := __fieldType.Fields.List
+				GenerateFieldParser(&list,
+					owningGongstruct,
+					map_Structname_fieldList,
+					modelPkg,
+					"",
+					fieldName)
+
 			default:
 				// log.Println("Field ", fieldName, " of struct ", owningGongstruct.Name, " is not a gong type")
 			}

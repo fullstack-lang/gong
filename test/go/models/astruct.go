@@ -11,12 +11,13 @@ type Astruct struct {
 	Name string
 
 	AnonymousStructField1 struct {
-		TheName string
+		TheName  string
+		TheName2 string
 	}
 
-	AnonymousStructField2 struct {
-		TheName string
-	}
+	// AnonymousStructField2 struct {
+	// 	TheName string
+	// }
 
 	// ONE-ZERO/ONE association is a supported type of gong
 	Associationtob *Bstruct
