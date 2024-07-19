@@ -494,6 +494,48 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(bstruct_.Floatfield2), formDiv)
 		case "Intfield":
 			FormDivBasicFieldToField(&(bstruct_.Intfield), formDiv)
+		case "Astruct:AnonymousStructField1.SliceOfB4":
+			// we need to retrieve the field owner before the change
+			var pastAstructOwner *models.Astruct
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Astruct"
+			rf.Fieldname = "AnonymousStructField1.SliceOfB4"
+			reverseFieldOwner := orm.GetReverseFieldOwner(
+				bstructFormCallback.probe.stageOfInterest,
+				bstructFormCallback.probe.backRepoOfInterest,
+				bstruct_,
+				&rf)
+
+			if reverseFieldOwner != nil {
+				pastAstructOwner = reverseFieldOwner.(*models.Astruct)
+			}
+			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+				if pastAstructOwner != nil {
+					idx := slices.Index(pastAstructOwner.AnonymousStructField1.SliceOfB4, bstruct_)
+					pastAstructOwner.AnonymousStructField1.SliceOfB4 = slices.Delete(pastAstructOwner.AnonymousStructField1.SliceOfB4, idx, idx+1)
+				}
+			} else {
+				// we need to retrieve the field owner after the change
+				// parse all astrcut and get the one with the name in the
+				// div
+				for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](bstructFormCallback.probe.stageOfInterest) {
+
+					// the match is base on the name
+					if _astruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
+						newAstructOwner := _astruct // we have a match
+						if pastAstructOwner != nil {
+							if newAstructOwner != pastAstructOwner {
+								idx := slices.Index(pastAstructOwner.AnonymousStructField1.SliceOfB4, bstruct_)
+								pastAstructOwner.AnonymousStructField1.SliceOfB4 = slices.Delete(pastAstructOwner.AnonymousStructField1.SliceOfB4, idx, idx+1)
+								newAstructOwner.AnonymousStructField1.SliceOfB4 = append(newAstructOwner.AnonymousStructField1.SliceOfB4, bstruct_)
+							}
+						} else {
+							newAstructOwner.AnonymousStructField1.SliceOfB4 = append(newAstructOwner.AnonymousStructField1.SliceOfB4, bstruct_)
+						}
+					}
+				}
+			}
 		case "Astruct:Anarrayofb":
 			// we need to retrieve the field owner before the change
 			var pastAstructOwner *models.Astruct
