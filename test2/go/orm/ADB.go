@@ -38,6 +38,7 @@ type AAPI struct {
 	models.A_WOP
 
 	// encoding of pointers
+	// for API, it cannot be embedded
 	APointersEncoding APointersEncoding
 }
 
@@ -70,7 +71,9 @@ type ADB struct {
 
 	// Declation for basic field aDB.NumberField
 	NumberField_Data sql.NullInt64
+	
 	// encoding of pointers
+	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	APointersEncoding
 }
 
@@ -239,6 +242,14 @@ func (backRepoA *BackRepoAStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruc
 		for _, bAssocEnd := range a.Bs {
 			bAssocEnd_DB :=
 				backRepo.BackRepoB.GetBDBFromBPtr(bAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the bAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if bAssocEnd_DB == nil {
+				continue
+			}
+			
 			aDB.APointersEncoding.Bs =
 				append(aDB.APointersEncoding.Bs, int(bAssocEnd_DB.ID))
 		}
