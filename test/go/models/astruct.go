@@ -11,8 +11,8 @@ type Astruct struct {
 	Name string
 
 	AnonymousStructField1 struct {
-		// TheName1        string
-		// TheName2        string
+		TheName1        string
+		TheName2        string
 		Associationtob4 *Bstruct
 	}
 
