@@ -11,8 +11,8 @@ type Astruct struct {
 	Name string
 
 	AnonymousStructField1 struct {
-		TheName  string
-		TheName2 string
+		TheName string
+		//		TheName2 string
 	}
 
 	// AnonymousStructField2 struct {

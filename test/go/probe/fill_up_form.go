@@ -24,8 +24,6 @@ func FillUpForm[T models.Gongstruct](
 			false, false, 0, false, 0)
 		BasicFieldtoForm("AnonymousStructField1.TheName", instanceWithInferedType.AnonymousStructField1.TheName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("AnonymousStructField1.TheName2", instanceWithInferedType.AnonymousStructField1.TheName2, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 		AssociationFieldToForm("Associationtob", instanceWithInferedType.Associationtob, formGroup, probe)
 		AssociationSliceToForm("Anarrayofb", instanceWithInferedType, &instanceWithInferedType.Anarrayofb, formGroup, probe)
 		AssociationFieldToForm("Anotherassociationtob_2", instanceWithInferedType.Anotherassociationtob_2, formGroup, probe)

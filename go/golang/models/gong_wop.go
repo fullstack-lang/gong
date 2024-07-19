@@ -106,40 +106,66 @@ func CodeGeneratorModelGongWop(
 			fieldCode := ""
 			fieldCopyCode := ""
 
+			runningPrefix := ""
 			for _, field := range gongStruct.Fields {
+
+				fieldName := field.GetName()
+				fieldNameForDeclation := fieldName
+
+				// in case of a field within an anonymous struct, one needs
+				// to strip the prefix
+				fieldNameSplitted := strings.Split(fieldName, ".")
+				prefix := ""
+				if len(fieldNameSplitted) > 1 {
+					prefix = fieldNameSplitted[0]
+					fieldNameForDeclation = fieldNameSplitted[1]
+				}
+				if prefix != runningPrefix {
+					// add the anonymous struct stuff
+					if prefix != "" {
+						fieldCode += "\n	" + prefix + " struct {"
+					} else {
+						fieldCode += "\n	}"
+					}
+					runningPrefix = prefix
+				}
+
+				if prefix != "" {
+					fieldNameForDeclation = "\t" + fieldNameForDeclation
+				}
 
 				switch field := field.(type) {
 
 				case *models.GongBasicField:
 					fieldCopyCode += models.Replace1(
 						GongWopSubSubTemplate[GongWopBasicFieldCopy],
-						"{{FieldName}}", field.Name)
+						"{{FieldName}}", fieldName)
 					if field.GongEnum == nil {
 						if field.DeclaredType == "time.Duration" {
 							fieldCode += models.Replace1(
 								GongWopSubSubTemplate[GongWopDurationFieldDecl],
-								"{{FieldName}}", field.Name)
+								"{{FieldName}}", fieldNameForDeclation)
 						} else {
 							fieldCode += models.Replace2(
 								GongWopSubSubTemplate[GongWopBasicFieldDecl],
-								"{{FieldName}}", field.Name,
+								"{{FieldName}}", fieldNameForDeclation,
 								"{{BasicKindName}}", field.BasicKindName)
 						}
 
 					} else {
 						fieldCode += models.Replace2(
 							GongWopSubSubTemplate[GongWopEnumFieldDecl],
-							"{{FieldName}}", field.Name,
+							"{{FieldName}}", fieldNameForDeclation,
 							"{{EnumType}}", field.GongEnum.GetName())
 					}
 
 				case *models.GongTimeField:
 					fieldCopyCode += models.Replace1(
 						GongWopSubSubTemplate[GongWopBasicFieldCopy],
-						"{{FieldName}}", field.Name)
+						"{{FieldName}}", fieldName)
 					fieldCode += models.Replace1(
 						GongWopSubSubTemplate[GongWopTimeFieldDecl],
-						"{{FieldName}}", field.Name)
+						"{{FieldName}}", fieldNameForDeclation)
 
 				default:
 					_ = field
