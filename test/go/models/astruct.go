@@ -10,6 +10,14 @@ type Astruct struct {
 	// a "Name" field is necessary to generate a GongStruct
 	Name string
 
+	AnonymousStructField1 struct {
+		TheName string
+	}
+
+	AnonymousStructField2 struct {
+		TheName string
+	}
+
 	// ONE-ZERO/ONE association is a supported type of gong
 	Associationtob *Bstruct
 

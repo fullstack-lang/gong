@@ -55,10 +55,10 @@ func (controller *Controller) GetAs(c *gin.Context) {
 	// source slice
 	var aDBs []orm.ADB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetAs", "GONG__StackPath", stackPath)
@@ -116,11 +116,12 @@ func (controller *Controller) GetAs(c *gin.Context) {
 func (controller *Controller) PostA(c *gin.Context) {
 
 	mutexA.Lock()
+	defer mutexA.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostAs", "GONG__StackPath", stackPath)
@@ -173,8 +174,6 @@ func (controller *Controller) PostA(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, aDB)
-
-	mutexA.Unlock()
 }
 
 // GetA
@@ -189,10 +188,10 @@ func (controller *Controller) PostA(c *gin.Context) {
 //	200: aDBResponse
 func (controller *Controller) GetA(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetA", "GONG__StackPath", stackPath)
@@ -236,11 +235,12 @@ func (controller *Controller) GetA(c *gin.Context) {
 func (controller *Controller) UpdateA(c *gin.Context) {
 
 	mutexA.Lock()
+	defer mutexA.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdateA", "GONG__StackPath", stackPath)
@@ -310,8 +310,6 @@ func (controller *Controller) UpdateA(c *gin.Context) {
 
 	// return status OK with the marshalling of the the aDB
 	c.JSON(http.StatusOK, aDB)
-
-	mutexA.Unlock()
 }
 
 // DeleteA
@@ -326,11 +324,12 @@ func (controller *Controller) UpdateA(c *gin.Context) {
 func (controller *Controller) DeleteA(c *gin.Context) {
 
 	mutexA.Lock()
+	defer mutexA.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeleteA", "GONG__StackPath", stackPath)
@@ -371,6 +370,4 @@ func (controller *Controller) DeleteA(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
-
-	mutexA.Unlock()
 }

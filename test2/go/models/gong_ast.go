@@ -2,19 +2,23 @@
 package models
 
 import (
+	"bufio"
 	"errors"
 	"go/ast"
 	"go/doc/comment"
 	"go/parser"
 	"go/token"
 	"log"
+	"os"
 	"path/filepath"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
 )
 
 var dummy_strconv_import strconv.NumError
+var dummy_time_import time.Time
 
 // swagger:ignore
 type GONG__ExpressionType string
@@ -32,15 +36,17 @@ const (
 // declared in the file
 func ParseAstFile(stage *StageStruct, pathToFile string) error {
 
+	ReplaceOldDeclarationsInFile(pathToFile)
+
 	fileOfInterest, err := filepath.Abs(pathToFile)
 	if err != nil {
 		return errors.New("Path does not exist %s ;" + fileOfInterest)
 	}
 
 	fset := token.NewFileSet()
-	startParser := time.Now()
+	// startParser := time.Now()
 	inFile, errParser := parser.ParseFile(fset, fileOfInterest, nil, parser.ParseComments)
-	log.Printf("Parser took %s", time.Since(startParser))
+	// log.Printf("Parser took %s", time.Since(startParser))
 
 	if errParser != nil {
 		return errors.New("Unable to parser " + errParser.Error())
@@ -69,7 +75,7 @@ func ParseAstFileFromAst(stage *StageStruct, inFile *ast.File, fset *token.FileS
 			funcDecl := decl
 			// astCoordinate := // astCoordinate + "\tFunction " + funcDecl.Name.Name
 			if name := funcDecl.Name; name != nil {
-				isOfInterest := strings.Contains(funcDecl.Name.Name, "Injection")
+				isOfInterest := strings.Contains(funcDecl.Name.Name, "_")
 				if !isOfInterest {
 					continue
 				}
@@ -139,7 +145,11 @@ func ParseAstFileFromAst(stage *StageStruct, inFile *ast.File, fset *token.FileS
 				case *ast.ValueSpec:
 					ident := spec.Names[0]
 					_ = ident
-					if !strings.HasPrefix(ident.Name, "map_DocLink_Identifier") {
+					if !strings.HasPrefix(ident.Name, "_") {
+						continue
+					}
+					// declaration of a variable without initial value
+					if len(spec.Values) == 0 {
 						continue
 					}
 					switch compLit := spec.Values[0].(type) {
@@ -707,4 +717,51 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 		}
 	}
 	return
+}
+
+// ReplaceOldDeclarationsInFile replaces specific text in a file at the given path.
+func ReplaceOldDeclarationsInFile(pathToFile string) error {
+	// Open the file for reading.
+	file, err := os.Open(pathToFile)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	// replacing function with Injection
+	pattern := regexp.MustCompile(`\b\w*Injection\b`)
+	pattern2 := regexp.MustCompile(`\bmap_DocLink_Identifier_\w*\b`)
+
+	// Temporary slice to hold lines from the file.
+	var lines []string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		// Replace the target text with the desired text.
+		line := strings.Replace(scanner.Text(), "var ___dummy__Time_stage time.Time", "var _ time.Time", -1)
+		line = pattern.ReplaceAllString(line, "_")
+		line = pattern2.ReplaceAllString(line, "_")
+
+		lines = append(lines, line)
+	}
+
+	if err := scanner.Err(); err != nil {
+		return err
+	}
+
+	// Re-open the file for writing.
+	file, err = os.Create(pathToFile)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	// Write the modified lines back to the file.
+	writer := bufio.NewWriter(file)
+	for _, line := range lines {
+		_, err := writer.WriteString(line + "\n")
+		if err != nil {
+			return err
+		}
+	}
+	return writer.Flush()
 }

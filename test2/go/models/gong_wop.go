@@ -13,8 +13,19 @@ type A_WOP struct {
 	NumberField int
 }
 
+func (from *A) CopyBasicFields(to *A) {
+	// insertion point
+	to.Name = from.Name
+	to.NumberField = from.NumberField
+}
+
 type B_WOP struct {
 	// insertion point
 	Name string
+}
+
+func (from *B) CopyBasicFields(to *B) {
+	// insertion point
+	to.Name = from.Name
 }
 

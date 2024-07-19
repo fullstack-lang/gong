@@ -30,12 +30,12 @@ func ServeStaticFiles(logGINFlag bool) (r *gin.Engine) {
 	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"} // Allow specific HTTP methods
 
 	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"} // Allow specific headers
-	
+
 	r.Use(cors.New(config))
 
 	// insertion point for serving the static file
 	// provide the static route for the angular pages
-	r.Use(static.Serve("/", EmbedFolder(test2.NgDistNg, "ng/dist/ng")))
+	r.Use(static.Serve("/", EmbedFolder(test2.NgDistNg, "ng-github.com-fullstack-lang-gong-test2/dist/ng-github.com-fullstack-lang-gong-test2/browser")))
 	r.NoRoute(func(c *gin.Context) {
 		fmt.Println(c.Request.URL.Path, "doesn't exists, redirect on /")
 		c.Redirect(http.StatusMovedPermanently, "/")
