@@ -112,9 +112,9 @@ type AstructDB struct {
 
 	// Declation for basic field astructDB.Name
 	Name_Data sql.NullString
-
-	// Declation for basic field astructDB.AnonymousStructField1.TheName
 	AnonymousStructField1 struct {
+
+		// Declation for basic field astructDB.TheName
 		TheName_Data sql.NullString
 	}
 
@@ -179,7 +179,7 @@ type AstructDB struct {
 
 	// Declation for basic field astructDB.TextArea
 	TextArea_Data sql.NullString
-
+	
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	AstructPointersEncoding
@@ -203,8 +203,8 @@ type AstructWOP struct {
 	// insertion for WOP basic fields
 
 	Name string `xlsx:"1"`
-
 	AnonymousStructField1 struct {
+
 		TheName string `xlsx:"2"`
 	}
 
@@ -412,14 +412,14 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, bstructAssocEnd := range astruct.Anarrayofb {
 			bstructAssocEnd_DB :=
 				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
-
+			
 			// the stage might be inconsistant, meaning that the bstructAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if bstructAssocEnd_DB == nil {
 				continue
 			}
-
+			
 			astructDB.AstructPointersEncoding.Anarrayofb =
 				append(astructDB.AstructPointersEncoding.Anarrayofb, int(bstructAssocEnd_DB.ID))
 		}
@@ -514,14 +514,14 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, astructAssocEnd := range astruct.Anarrayofa {
 			astructAssocEnd_DB :=
 				backRepo.BackRepoAstruct.GetAstructDBFromAstructPtr(astructAssocEnd)
-
+			
 			// the stage might be inconsistant, meaning that the astructAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if astructAssocEnd_DB == nil {
 				continue
 			}
-
+			
 			astructDB.AstructPointersEncoding.Anarrayofa =
 				append(astructDB.AstructPointersEncoding.Anarrayofa, int(astructAssocEnd_DB.ID))
 		}
@@ -532,14 +532,14 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, bstructAssocEnd := range astruct.Anotherarrayofb {
 			bstructAssocEnd_DB :=
 				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
-
+			
 			// the stage might be inconsistant, meaning that the bstructAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if bstructAssocEnd_DB == nil {
 				continue
 			}
-
+			
 			astructDB.AstructPointersEncoding.Anotherarrayofb =
 				append(astructDB.AstructPointersEncoding.Anotherarrayofb, int(bstructAssocEnd_DB.ID))
 		}
@@ -550,14 +550,14 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, astructbstructuseAssocEnd := range astruct.AnarrayofbUse {
 			astructbstructuseAssocEnd_DB :=
 				backRepo.BackRepoAstructBstructUse.GetAstructBstructUseDBFromAstructBstructUsePtr(astructbstructuseAssocEnd)
-
+			
 			// the stage might be inconsistant, meaning that the astructbstructuseAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if astructbstructuseAssocEnd_DB == nil {
 				continue
 			}
-
+			
 			astructDB.AstructPointersEncoding.AnarrayofbUse =
 				append(astructDB.AstructPointersEncoding.AnarrayofbUse, int(astructbstructuseAssocEnd_DB.ID))
 		}
@@ -568,14 +568,14 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, astructbstruct2useAssocEnd := range astruct.Anarrayofb2Use {
 			astructbstruct2useAssocEnd_DB :=
 				backRepo.BackRepoAstructBstruct2Use.GetAstructBstruct2UseDBFromAstructBstruct2UsePtr(astructbstruct2useAssocEnd)
-
+			
 			// the stage might be inconsistant, meaning that the astructbstruct2useAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if astructbstruct2useAssocEnd_DB == nil {
 				continue
 			}
-
+			
 			astructDB.AstructPointersEncoding.Anarrayofb2Use =
 				append(astructDB.AstructPointersEncoding.Anarrayofb2Use, int(astructbstruct2useAssocEnd_DB.ID))
 		}
