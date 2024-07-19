@@ -116,7 +116,7 @@ type AstructDB struct {
 
 		// Declation for basic field astructDB.TheName
 		TheName_Data sql.NullString
-	}
+	} `gorm:"embedded"`
 
 	// Declation for basic field astructDB.Date
 	Date_Data sql.NullTime
@@ -206,7 +206,7 @@ type AstructWOP struct {
 	AnonymousStructField1 struct {
 
 		TheName string `xlsx:"2"`
-	}
+	} `gorm:"embedded"`
 
 	Date time.Time `xlsx:"3"`
 

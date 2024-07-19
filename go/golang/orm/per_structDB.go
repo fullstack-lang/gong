@@ -847,7 +847,7 @@ func MultiCodeGeneratorBackRepo(
 					switch field := field.(type) {
 					case *models.GongBasicField, *models.GongTimeField:
 						_ = field
-						declarationPrefix += "\n	}"
+						declarationPrefix += "\n	} `gorm:\"embedded\"`"
 						runningPrefix = prefix
 					}
 				}
