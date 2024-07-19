@@ -19,9 +19,9 @@ func FillUpFormFromGongstructName(
 	var prefix string
 
 	if isNewInstance {
-		prefix = "New"
+		prefix = ""
 	} else {
-		prefix = "Update"
+		prefix = ""
 	}
 
 	switch gongstructName {
@@ -29,24 +29,28 @@ func FillUpFormFromGongstructName(
 	case "A":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
-			Label: prefix + " A Form",
-			OnSave: __gong__New__AFormCallback(
-				nil,
-				probe,
-			),
+			Label: prefix + "A Form",
 		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__AFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
 		a := new(models.A)
+		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(a, formGroup, probe)
 	case "B":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
-			Label: prefix + " B Form",
-			OnSave: __gong__New__BFormCallback(
-				nil,
-				probe,
-			),
+			Label: prefix + "B Form",
 		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__BFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
 		b := new(models.B)
+		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(b, formGroup, probe)
 	}
 	formStage.Commit()

@@ -15,25 +15,11 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 	switch inst := any(instance).(type) {
 	// insertion point
 	case *models.A:
-		tmp := GetInstanceDBFromInstance[models.A, ADB](
-			stage, backRepo, inst,
-		)
-		_ = tmp
 		switch reverseField.GongstructName {
 		// insertion point
-		case "A":
-			switch reverseField.Fieldname {
-			}
-		case "B":
-			switch reverseField.Fieldname {
-			}
 		}
 
 	case *models.B:
-		tmp := GetInstanceDBFromInstance[models.B, BDB](
-			stage, backRepo, inst,
-		)
-		_ = tmp
 		switch reverseField.GongstructName {
 		// insertion point
 		case "A":
@@ -42,9 +28,6 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 				if _a, ok := stage.A_Bs_reverseMap[inst]; ok {
 					res = _a.Name
 				}
-			}
-		case "B":
-			switch reverseField.Fieldname {
 			}
 		}
 
@@ -64,34 +47,17 @@ func GetReverseFieldOwner[T models.Gongstruct](
 	switch inst := any(instance).(type) {
 	// insertion point
 	case *models.A:
-		tmp := GetInstanceDBFromInstance[models.A, ADB](
-			stage, backRepo, inst,
-		)
-		_ = tmp
 		switch reverseField.GongstructName {
 		// insertion point
-		case "A":
-			switch reverseField.Fieldname {
-			}
-		case "B":
-			switch reverseField.Fieldname {
-			}
 		}
 
 	case *models.B:
-		tmp := GetInstanceDBFromInstance[models.B, BDB](
-			stage, backRepo, inst,
-		)
-		_ = tmp
 		switch reverseField.GongstructName {
 		// insertion point
 		case "A":
 			switch reverseField.Fieldname {
 			case "Bs":
 				res = stage.A_Bs_reverseMap[inst]
-			}
-		case "B":
-			switch reverseField.Fieldname {
 			}
 		}
 
