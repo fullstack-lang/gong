@@ -35,6 +35,25 @@ func EvictInOtherSlices[OwningType PointerToGongstruct, FieldType PointerToGongs
 	// insertion point
 	case *Astruct:
 		// insertion point per field
+		if fieldName == "AnonymousStructField1.SliceOfB4" {
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
+				if any(_instance).(*Astruct) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Astruct)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.AnonymousStructField1.SliceOfB4).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.AnonymousStructField1.SliceOfB4 = _inferedTypeInstance.AnonymousStructField1.SliceOfB4[0:]
+					for _, fieldInstance := range reference {
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.AnonymousStructField1.SliceOfB4 =
+								append(_inferedTypeInstance.AnonymousStructField1.SliceOfB4, any(fieldInstance).(*Bstruct))
+						}
+					}
+				}
+			}
+		}
 		if fieldName == "Anarrayofb" {
 
 			// walk all instances of the owning type
@@ -176,6 +195,14 @@ func (stage *StageStruct) ComputeReverseMaps() {
 	// insertion point per named struct
 	// Compute reverse map for named struct Astruct
 	// insertion point per field
+	clear(stage.Astruct_AnonymousStructField1_SliceOfB4_reverseMap)
+	stage.Astruct_AnonymousStructField1_SliceOfB4_reverseMap = make(map[*Bstruct]*Astruct)
+	for astruct := range stage.Astructs {
+		_ = astruct
+		for _, _bstruct := range astruct.AnonymousStructField1.SliceOfB4 {
+			stage.Astruct_AnonymousStructField1_SliceOfB4_reverseMap[_bstruct] = astruct
+		}
+	}
 	clear(stage.Astruct_Anarrayofb_reverseMap)
 	stage.Astruct_Anarrayofb_reverseMap = make(map[*Bstruct]*Astruct)
 	for astruct := range stage.Astructs {

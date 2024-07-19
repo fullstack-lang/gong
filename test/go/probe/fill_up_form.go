@@ -27,6 +27,7 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("AnonymousStructField1.TheName2", instanceWithInferedType.AnonymousStructField1.TheName2, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationFieldToForm("AnonymousStructField1.Associationtob4", instanceWithInferedType.AnonymousStructField1.Associationtob4, formGroup, probe)
+		AssociationSliceToForm("AnonymousStructField1.SliceOfB4", instanceWithInferedType, &instanceWithInferedType.AnonymousStructField1.SliceOfB4, formGroup, probe)
 		AssociationFieldToForm("Associationtob", instanceWithInferedType.Associationtob, formGroup, probe)
 		AssociationSliceToForm("Anarrayofb", instanceWithInferedType, &instanceWithInferedType.Anarrayofb, formGroup, probe)
 		AssociationFieldToForm("Anotherassociationtob_2", instanceWithInferedType.Anotherassociationtob_2, formGroup, probe)
@@ -166,6 +167,28 @@ func FillUpForm[T models.Gongstruct](
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Intfield", instanceWithInferedType.Intfield, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Astruct"
+			rf.Fieldname = "AnonymousStructField1.SliceOfB4"
+			reverseFieldOwner := orm.GetReverseFieldOwner(probe.stageOfInterest, probe.backRepoOfInterest, instanceWithInferedType, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Astruct),
+					"AnonymousStructField1.SliceOfB4",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Astruct, *models.Bstruct](
+					nil,
+					"AnonymousStructField1.SliceOfB4",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
 		{
 			var rf models.ReverseField
 			_ = rf

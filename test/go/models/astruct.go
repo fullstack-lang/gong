@@ -14,6 +14,7 @@ type Astruct struct {
 		TheName1        string
 		TheName2        string
 		Associationtob4 *Bstruct
+		SliceOfB4       []*Bstruct
 	}
 
 	// AnonymousStructField2 struct {
