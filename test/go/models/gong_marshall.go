@@ -128,8 +128,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "AnonymousStructField1.TheName")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.AnonymousStructField1.TheName))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "AnonymousStructField1.TheName1")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.AnonymousStructField1.TheName1))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "AnonymousStructField1.TheName2")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.AnonymousStructField1.TheName2))
 		initializerStatements += setValueField
 
 		setValueField = TimeInitStatement
@@ -481,6 +487,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		map_Astruct_Identifiers[astruct] = id
 
 		// Initialisation of values
+		if astruct.AnonymousStructField1.Associationtob4 != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "AnonymousStructField1.Associationtob4")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bstruct_Identifiers[astruct.AnonymousStructField1.Associationtob4])
+			pointersInitializesStatements += setPointerField
+		}
+
 		if astruct.Associationtob != nil {
 			setPointerField = PointerFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)

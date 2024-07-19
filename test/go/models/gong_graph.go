@@ -114,6 +114,9 @@ func (stage *StageStruct) StageBranchAstruct(astruct *Astruct) {
 	astruct.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if astruct.AnonymousStructField1.Associationtob4 != nil {
+		StageBranch(stage, astruct.AnonymousStructField1.Associationtob4)
+	}
 	if astruct.Associationtob != nil {
 		StageBranch(stage, astruct.Associationtob)
 	}
@@ -300,6 +303,9 @@ func CopyBranchAstruct(mapOrigCopy map[any]any, astructFrom *Astruct) (astructTo
 	astructFrom.CopyBasicFields(astructTo)
 
 	//insertion point for the staging of instances referenced by pointers
+	if astructFrom.AnonymousStructField1.Associationtob4 != nil {
+		astructTo.AnonymousStructField1.Associationtob4 = CopyBranchBstruct(mapOrigCopy, astructFrom.AnonymousStructField1.Associationtob4)
+	}
 	if astructFrom.Associationtob != nil {
 		astructTo.Associationtob = CopyBranchBstruct(mapOrigCopy, astructFrom.Associationtob)
 	}
@@ -494,6 +500,9 @@ func (stage *StageStruct) UnstageBranchAstruct(astruct *Astruct) {
 	astruct.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if astruct.AnonymousStructField1.Associationtob4 != nil {
+		UnstageBranch(stage, astruct.AnonymousStructField1.Associationtob4)
+	}
 	if astruct.Associationtob != nil {
 		UnstageBranch(stage, astruct.Associationtob)
 	}

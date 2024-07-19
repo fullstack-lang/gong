@@ -11,7 +11,8 @@ type Astruct_WOP struct {
 	// insertion point
 	Name string
 	AnonymousStructField1 struct {
-		TheName string
+		TheName1 string
+		TheName2 string
 	}
 	Date time.Time
 	Booleanfield bool
@@ -38,7 +39,8 @@ type Astruct_WOP struct {
 func (from *Astruct) CopyBasicFields(to *Astruct) {
 	// insertion point
 	to.Name = from.Name
-	to.AnonymousStructField1.TheName = from.AnonymousStructField1.TheName
+	to.AnonymousStructField1.TheName1 = from.AnonymousStructField1.TheName1
+	to.AnonymousStructField1.TheName2 = from.AnonymousStructField1.TheName2
 	to.Date = from.Date
 	to.Booleanfield = from.Booleanfield
 	to.Aenum = from.Aenum
