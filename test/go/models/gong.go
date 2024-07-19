@@ -53,11 +53,11 @@ type StageStruct struct {
 	Astructs_mapString map[string]*Astruct
 
 	// insertion point for slice of pointers maps
-	Astruct_Anarrayofb_reverseMap      map[*Bstruct]*Astruct
-	Astruct_Anarrayofa_reverseMap      map[*Astruct]*Astruct
+	Astruct_Anarrayofb_reverseMap map[*Bstruct]*Astruct
+	Astruct_Anarrayofa_reverseMap map[*Astruct]*Astruct
 	Astruct_Anotherarrayofb_reverseMap map[*Bstruct]*Astruct
-	Astruct_AnarrayofbUse_reverseMap   map[*AstructBstructUse]*Astruct
-	Astruct_Anarrayofb2Use_reverseMap  map[*AstructBstruct2Use]*Astruct
+	Astruct_AnarrayofbUse_reverseMap map[*AstructBstructUse]*Astruct
+	Astruct_Anarrayofb2Use_reverseMap map[*AstructBstruct2Use]*Astruct
 
 	OnAfterAstructCreateCallback OnAfterCreateInterface[Astruct]
 	OnAfterAstructUpdateCallback OnAfterUpdateInterface[Astruct]
@@ -897,18 +897,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&Astruct{
 			// Initialisation of associations
 			// field is initialized with an instance of Bstruct with the name of the field
-			AnonymousStructField1: struct {
-				TheName1        string
-				TheName2        string
-				Associationtob4 *Bstruct
-			}{
-				TheName1:        "TheName1",
-				TheName2:        "TheName2",
-				Associationtob4: &Bstruct{Name: "AnonymousStructField1.Associationtob4"},
-			},
-
-			// ,
-			// field is initialized with an instance of Bstruct with the name of the field
 			Associationtob: &Bstruct{Name: "Associationtob"},
 			// field is initialized with an instance of Bstruct with the name of the field
 			Anarrayofb: []*Bstruct{{Name: "Anarrayofb"}},
@@ -1377,7 +1365,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case Astruct:
-		res = []string{"Name", "AnonymousStructField1.TheName1", "AnonymousStructField1.TheName2", "AnonymousStructField1.Associationtob4", "Associationtob", "Anarrayofb", "Anotherassociationtob_2", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofa", "Anotherarrayofb", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue", "TextFieldBespokeSize", "TextArea"}
+		res = []string{"Name", "AnonymousStructField1.Associationtob4", "Associationtob", "Anarrayofb", "Anotherassociationtob_2", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofa", "Anotherarrayofb", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue", "TextFieldBespokeSize", "TextArea"}
 	case AstructBstruct2Use:
 		res = []string{"Name", "Bstrcut2"}
 	case AstructBstructUse:
@@ -1454,7 +1442,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *Astruct:
-		res = []string{"Name", "AnonymousStructField1.TheName1", "AnonymousStructField1.TheName2", "AnonymousStructField1.Associationtob4", "Associationtob", "Anarrayofb", "Anotherassociationtob_2", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofa", "Anotherarrayofb", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue", "TextFieldBespokeSize", "TextArea"}
+		res = []string{"Name", "AnonymousStructField1.Associationtob4", "Associationtob", "Anarrayofb", "Anotherassociationtob_2", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofa", "Anotherarrayofb", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue", "TextFieldBespokeSize", "TextArea"}
 	case *AstructBstruct2Use:
 		res = []string{"Name", "Bstrcut2"}
 	case *AstructBstructUse:
@@ -1478,10 +1466,6 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
-		case "AnonymousStructField1.TheName1":
-			res = inferedInstance.AnonymousStructField1.TheName1
-		case "AnonymousStructField1.TheName2":
-			res = inferedInstance.AnonymousStructField1.TheName2
 		case "AnonymousStructField1.Associationtob4":
 			if inferedInstance.AnonymousStructField1.Associationtob4 != nil {
 				res = inferedInstance.AnonymousStructField1.Associationtob4.Name
@@ -1709,10 +1693,6 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
-		case "AnonymousStructField1.TheName1":
-			res = inferedInstance.AnonymousStructField1.TheName1
-		case "AnonymousStructField1.TheName2":
-			res = inferedInstance.AnonymousStructField1.TheName2
 		case "AnonymousStructField1.Associationtob4":
 			if inferedInstance.AnonymousStructField1.Associationtob4 != nil {
 				res = inferedInstance.AnonymousStructField1.Associationtob4.Name

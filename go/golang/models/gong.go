@@ -493,6 +493,13 @@ func CodeGeneratorModelGong(
 
 			for idx, field := range gongStruct.Fields {
 
+				fieldName := field.GetName()
+
+				// in case of a field within an anonymous struct, one needs
+				// to strip the prefix
+				fieldNameSplitted := strings.Split(fieldName, ".")
+				isWithinAnonymousStruct := len(fieldNameSplitted) > 1
+
 				switch field := field.(type) {
 				case *models.GongBasicField:
 
@@ -546,19 +553,21 @@ func CodeGeneratorModelGong(
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
-					if field.CompositeStructName == "" {
+					if field.CompositeStructName == "" && !isWithinAnonymousStruct {
 						associationFieldInitialization += models.Replace3(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNamePointerField],
 							"{{FieldName}}", field.Name,
 							"{{AssocStructName}}", field.GongStruct.Name,
 							"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 					} else {
-						associationFieldInitializationPerCompositeStruct[field.CompositeStructName] += models.Replace4(
-							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNameCompositePointerField],
-							"{{FieldName}}", field.Name,
-							"{{AssocStructName}}", field.GongStruct.Name,
-							"{{AssocCompositeStructName}}", field.CompositeStructName,
-							"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
+						if !isWithinAnonymousStruct {
+							associationFieldInitializationPerCompositeStruct[field.CompositeStructName] += models.Replace4(
+								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNameCompositePointerField],
+								"{{FieldName}}", field.Name,
+								"{{AssocStructName}}", field.GongStruct.Name,
+								"{{AssocCompositeStructName}}", field.CompositeStructName,
+								"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
+						}
 					}
 				case *models.SliceOfPointerToGongStructField:
 					fieldStringValues += models.Replace1(
@@ -575,11 +584,15 @@ func CodeGeneratorModelGong(
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
-					associationFieldInitialization += models.Replace3(
-						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNameSliceOfPointersField],
-						"{{FieldName}}", field.Name,
-						"{{AssocStructName}}", field.GongStruct.Name,
-						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
+
+					if !isWithinAnonymousStruct {
+						associationFieldInitialization += models.Replace3(
+							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNameSliceOfPointersField],
+							"{{FieldName}}", field.Name,
+							"{{AssocStructName}}", field.GongStruct.Name,
+							"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
+					}
+
 				default:
 				}
 
