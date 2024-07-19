@@ -47,6 +47,12 @@ type AstructAPI struct {
 type AstructPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
+	AnonymousStructField1 struct {
+		// field AnonymousStructField1.Associationtob4 is a pointer to another Struct (optional or 0..1)
+		// This field is generated into another field to enable AS ONE association
+		Associationtob4ID sql.NullInt64
+	} `gorm:"embedded"`
+
 	// field Associationtob is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	AssociationtobID sql.NullInt64
@@ -111,11 +117,14 @@ type AstructDB struct {
 	// insertion for basic fields declaration
 
 	// Declation for basic field astructDB.Name
-	Name_Data sql.NullString
+	Name_Data             sql.NullString
 	AnonymousStructField1 struct {
 
-		// Declation for basic field astructDB.TheName
-		TheName_Data sql.NullString
+		// Declation for basic field astructDB.TheName1
+		TheName1_Data sql.NullString
+
+		// Declation for basic field astructDB.TheName2
+		TheName2_Data sql.NullString
 	} `gorm:"embedded"`
 
 	// Declation for basic field astructDB.Date
@@ -179,7 +188,7 @@ type AstructDB struct {
 
 	// Declation for basic field astructDB.TextArea
 	TextArea_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	AstructPointersEncoding
@@ -202,51 +211,52 @@ type AstructWOP struct {
 
 	// insertion for WOP basic fields
 
-	Name string `xlsx:"1"`
+	Name                  string `xlsx:"1"`
 	AnonymousStructField1 struct {
+		TheName1 string `xlsx:"2"`
 
-		TheName string `xlsx:"2"`
+		TheName2 string `xlsx:"3"`
 	} `gorm:"embedded"`
 
-	Date time.Time `xlsx:"3"`
+	Date time.Time `xlsx:"4"`
 
-	Booleanfield bool `xlsx:"4"`
+	Booleanfield bool `xlsx:"5"`
 
-	Aenum models.AEnumType `xlsx:"5"`
+	Aenum models.AEnumType `xlsx:"6"`
 
-	Aenum_2 models.AEnumType `xlsx:"6"`
+	Aenum_2 models.AEnumType `xlsx:"7"`
 
-	Benum models.BEnumType `xlsx:"7"`
+	Benum models.BEnumType `xlsx:"8"`
 
-	CEnum models.CEnumTypeInt `xlsx:"8"`
+	CEnum models.CEnumTypeInt `xlsx:"9"`
 
-	CName string `xlsx:"9"`
+	CName string `xlsx:"10"`
 
-	CFloatfield float64 `xlsx:"10"`
+	CFloatfield float64 `xlsx:"11"`
 
-	Floatfield float64 `xlsx:"11"`
+	Floatfield float64 `xlsx:"12"`
 
-	Intfield int `xlsx:"12"`
+	Intfield int `xlsx:"13"`
 
-	Anotherbooleanfield bool `xlsx:"13"`
+	Anotherbooleanfield bool `xlsx:"14"`
 
-	Duration1 time.Duration `xlsx:"14"`
+	Duration1 time.Duration `xlsx:"15"`
 
-	StructRef string `xlsx:"15"`
+	StructRef string `xlsx:"16"`
 
-	FieldRef string `xlsx:"16"`
+	FieldRef string `xlsx:"17"`
 
-	EnumIntRef string `xlsx:"17"`
+	EnumIntRef string `xlsx:"18"`
 
-	EnumStringRef string `xlsx:"18"`
+	EnumStringRef string `xlsx:"19"`
 
-	EnumValue string `xlsx:"19"`
+	EnumValue string `xlsx:"20"`
 
-	ConstIdentifierValue string `xlsx:"20"`
+	ConstIdentifierValue string `xlsx:"21"`
 
-	TextFieldBespokeSize string `xlsx:"21"`
+	TextFieldBespokeSize string `xlsx:"22"`
 
-	TextArea string `xlsx:"22"`
+	TextArea string `xlsx:"23"`
 	// insertion for WOP pointer fields
 }
 
@@ -254,7 +264,8 @@ var Astruct_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
-	"AnonymousStructField1.TheName",
+	"AnonymousStructField1.TheName1",
+	"AnonymousStructField1.TheName2",
 	"Date",
 	"Booleanfield",
 	"Aenum",
@@ -394,6 +405,18 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		astructDB.CopyBasicFieldsFromAstruct(astruct)
 
 		// insertion point for translating pointers encodings into actual pointers
+		// commit pointer value astruct.AnonymousStructField1.Associationtob4 translates to updating the astruct.AnonymousStructField1.Associationtob4ID
+		astructDB.AstructPointersEncoding.AnonymousStructField1.Associationtob4ID.Valid = true // allow for a 0 value (nil association)
+		if astruct.AnonymousStructField1.Associationtob4 != nil {
+			if AnonymousStructField1_Associationtob4Id, ok := backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID[astruct.AnonymousStructField1.Associationtob4]; ok {
+				astructDB.AstructPointersEncoding.AnonymousStructField1.Associationtob4ID.Int64 = int64(AnonymousStructField1_Associationtob4Id)
+				astructDB.AstructPointersEncoding.AnonymousStructField1.Associationtob4ID.Valid = true
+			}
+		} else {
+			astructDB.AstructPointersEncoding.AnonymousStructField1.Associationtob4ID.Int64 = 0
+			astructDB.AstructPointersEncoding.AnonymousStructField1.Associationtob4ID.Valid = true
+		}
+
 		// commit pointer value astruct.Associationtob translates to updating the astruct.AssociationtobID
 		astructDB.AssociationtobID.Valid = true // allow for a 0 value (nil association)
 		if astruct.Associationtob != nil {
@@ -412,14 +435,14 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, bstructAssocEnd := range astruct.Anarrayofb {
 			bstructAssocEnd_DB :=
 				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the bstructAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if bstructAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			astructDB.AstructPointersEncoding.Anarrayofb =
 				append(astructDB.AstructPointersEncoding.Anarrayofb, int(bstructAssocEnd_DB.ID))
 		}
@@ -514,14 +537,14 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, astructAssocEnd := range astruct.Anarrayofa {
 			astructAssocEnd_DB :=
 				backRepo.BackRepoAstruct.GetAstructDBFromAstructPtr(astructAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the astructAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if astructAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			astructDB.AstructPointersEncoding.Anarrayofa =
 				append(astructDB.AstructPointersEncoding.Anarrayofa, int(astructAssocEnd_DB.ID))
 		}
@@ -532,14 +555,14 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, bstructAssocEnd := range astruct.Anotherarrayofb {
 			bstructAssocEnd_DB :=
 				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the bstructAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if bstructAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			astructDB.AstructPointersEncoding.Anotherarrayofb =
 				append(astructDB.AstructPointersEncoding.Anotherarrayofb, int(bstructAssocEnd_DB.ID))
 		}
@@ -550,14 +573,14 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, astructbstructuseAssocEnd := range astruct.AnarrayofbUse {
 			astructbstructuseAssocEnd_DB :=
 				backRepo.BackRepoAstructBstructUse.GetAstructBstructUseDBFromAstructBstructUsePtr(astructbstructuseAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the astructbstructuseAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if astructbstructuseAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			astructDB.AstructPointersEncoding.AnarrayofbUse =
 				append(astructDB.AstructPointersEncoding.AnarrayofbUse, int(astructbstructuseAssocEnd_DB.ID))
 		}
@@ -568,14 +591,14 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, astructbstruct2useAssocEnd := range astruct.Anarrayofb2Use {
 			astructbstruct2useAssocEnd_DB :=
 				backRepo.BackRepoAstructBstruct2Use.GetAstructBstruct2UseDBFromAstructBstruct2UsePtr(astructbstruct2useAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the astructbstruct2useAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if astructbstruct2useAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			astructDB.AstructPointersEncoding.Anarrayofb2Use =
 				append(astructDB.AstructPointersEncoding.Anarrayofb2Use, int(astructbstruct2useAssocEnd_DB.ID))
 		}
@@ -705,6 +728,11 @@ func (backRepoAstruct *BackRepoAstructStruct) CheckoutPhaseTwoInstance(backRepo 
 func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *models.Astruct) {
 
 	// insertion point for checkout of pointer encoding
+	// AnonymousStructField1.Associationtob4 field
+	astruct.AnonymousStructField1.Associationtob4 = nil
+	if astructDB.AstructPointersEncoding.AnonymousStructField1.Associationtob4ID.Int64 != 0 {
+		astruct.AnonymousStructField1.Associationtob4 = backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(astructDB.AstructPointersEncoding.AnonymousStructField1.Associationtob4ID.Int64)]
+	}
 	// Associationtob field
 	astruct.Associationtob = nil
 	if astructDB.AssociationtobID.Int64 != 0 {
@@ -832,8 +860,11 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstruct(astruct *models.Astruct) 
 	astructDB.Name_Data.String = astruct.Name
 	astructDB.Name_Data.Valid = true
 
-	astructDB.AnonymousStructField1.TheName_Data.String = astruct.AnonymousStructField1.TheName
-	astructDB.AnonymousStructField1.TheName_Data.Valid = true
+	astructDB.AnonymousStructField1.TheName1_Data.String = astruct.AnonymousStructField1.TheName1
+	astructDB.AnonymousStructField1.TheName1_Data.Valid = true
+
+	astructDB.AnonymousStructField1.TheName2_Data.String = astruct.AnonymousStructField1.TheName2
+	astructDB.AnonymousStructField1.TheName2_Data.Valid = true
 
 	astructDB.Date_Data.Time = astruct.Date
 	astructDB.Date_Data.Valid = true
@@ -903,8 +934,11 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstruct_WOP(astruct *models.Astru
 	astructDB.Name_Data.String = astruct.Name
 	astructDB.Name_Data.Valid = true
 
-	astructDB.AnonymousStructField1.TheName_Data.String = astruct.AnonymousStructField1.TheName
-	astructDB.AnonymousStructField1.TheName_Data.Valid = true
+	astructDB.AnonymousStructField1.TheName1_Data.String = astruct.AnonymousStructField1.TheName1
+	astructDB.AnonymousStructField1.TheName1_Data.Valid = true
+
+	astructDB.AnonymousStructField1.TheName2_Data.String = astruct.AnonymousStructField1.TheName2
+	astructDB.AnonymousStructField1.TheName2_Data.Valid = true
 
 	astructDB.Date_Data.Time = astruct.Date
 	astructDB.Date_Data.Valid = true
@@ -974,8 +1008,11 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstructWOP(astruct *AstructWOP) {
 	astructDB.Name_Data.String = astruct.Name
 	astructDB.Name_Data.Valid = true
 
-	astructDB.AnonymousStructField1.TheName_Data.String = astruct.AnonymousStructField1.TheName
-	astructDB.AnonymousStructField1.TheName_Data.Valid = true
+	astructDB.AnonymousStructField1.TheName1_Data.String = astruct.AnonymousStructField1.TheName1
+	astructDB.AnonymousStructField1.TheName1_Data.Valid = true
+
+	astructDB.AnonymousStructField1.TheName2_Data.String = astruct.AnonymousStructField1.TheName2
+	astructDB.AnonymousStructField1.TheName2_Data.Valid = true
 
 	astructDB.Date_Data.Time = astruct.Date
 	astructDB.Date_Data.Valid = true
@@ -1042,7 +1079,8 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstructWOP(astruct *AstructWOP) {
 func (astructDB *AstructDB) CopyBasicFieldsToAstruct(astruct *models.Astruct) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	astruct.Name = astructDB.Name_Data.String
-	astruct.AnonymousStructField1.TheName = astructDB.AnonymousStructField1.TheName_Data.String
+	astruct.AnonymousStructField1.TheName1 = astructDB.AnonymousStructField1.TheName1_Data.String
+	astruct.AnonymousStructField1.TheName2 = astructDB.AnonymousStructField1.TheName2_Data.String
 	astruct.Date = astructDB.Date_Data.Time
 	astruct.Booleanfield = astructDB.Booleanfield_Data.Bool
 	astruct.Aenum.FromString(astructDB.Aenum_Data.String)
@@ -1069,7 +1107,8 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstruct(astruct *models.Astruct) {
 func (astructDB *AstructDB) CopyBasicFieldsToAstruct_WOP(astruct *models.Astruct_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	astruct.Name = astructDB.Name_Data.String
-	astruct.AnonymousStructField1.TheName = astructDB.AnonymousStructField1.TheName_Data.String
+	astruct.AnonymousStructField1.TheName1 = astructDB.AnonymousStructField1.TheName1_Data.String
+	astruct.AnonymousStructField1.TheName2 = astructDB.AnonymousStructField1.TheName2_Data.String
 	astruct.Date = astructDB.Date_Data.Time
 	astruct.Booleanfield = astructDB.Booleanfield_Data.Bool
 	astruct.Aenum.FromString(astructDB.Aenum_Data.String)
@@ -1097,7 +1136,8 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstructWOP(astruct *AstructWOP) {
 	astruct.ID = int(astructDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	astruct.Name = astructDB.Name_Data.String
-	astruct.AnonymousStructField1.TheName = astructDB.AnonymousStructField1.TheName_Data.String
+	astruct.AnonymousStructField1.TheName1 = astructDB.AnonymousStructField1.TheName1_Data.String
+	astruct.AnonymousStructField1.TheName2 = astructDB.AnonymousStructField1.TheName2_Data.String
 	astruct.Date = astructDB.Date_Data.Time
 	astruct.Booleanfield = astructDB.Booleanfield_Data.Bool
 	astruct.Aenum.FromString(astructDB.Aenum_Data.String)
@@ -1275,6 +1315,12 @@ func (backRepoAstruct *BackRepoAstructStruct) RestorePhaseTwo() {
 		_ = astructDB
 
 		// insertion point for reindexing pointers encoding
+		// reindexing AnonymousStructField1.Associationtob4 field
+		if astructDB.AstructPointersEncoding.AnonymousStructField1.Associationtob4ID.Int64 != 0 {
+			astructDB.AstructPointersEncoding.AnonymousStructField1.Associationtob4ID.Int64 = int64(BackRepoBstructid_atBckpTime_newID[uint(astructDB.AstructPointersEncoding.AnonymousStructField1.Associationtob4ID.Int64)])
+			astructDB.AstructPointersEncoding.AnonymousStructField1.Associationtob4ID.Valid = true
+		}
+
 		// reindexing Associationtob field
 		if astructDB.AssociationtobID.Int64 != 0 {
 			astructDB.AssociationtobID.Int64 = int64(BackRepoBstructid_atBckpTime_newID[uint(astructDB.AssociationtobID.Int64)])
