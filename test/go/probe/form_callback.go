@@ -65,6 +65,8 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(astruct_.Name), formDiv)
 		case "AnonymousStructField1.TheName":
 			FormDivBasicFieldToField(&(astruct_.AnonymousStructField1.TheName), formDiv)
+		case "AnonymousStructField1.TheName2":
+			FormDivBasicFieldToField(&(astruct_.AnonymousStructField1.TheName2), formDiv)
 		case "Associationtob":
 			FormDivSelectFieldToField(&(astruct_.Associationtob), astructFormCallback.probe.stageOfInterest, formDiv)
 		case "Anotherassociationtob_2":
