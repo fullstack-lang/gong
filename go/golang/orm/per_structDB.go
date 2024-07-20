@@ -1030,7 +1030,7 @@ func MultiCodeGeneratorBackRepo(
 
 				insertions[BackRepoPointerEncodingFieldsDeclaration] += models.Replace4(
 					BackRepoFieldSubTemplateCode[BackRepoSliceOfPointersEncoding],
-					"{{FieldName}}", fieldName,
+					"{{FieldName}}", fieldNameForDeclaration,
 					"{{AssociationStructName}}", field.GongStruct.Name,
 					"{{DeclarationPrefixProlog}}", declarationPrefixForNonPointerFields,
 					"{{DeclarationPrefixPadding}}", prefixPadding,

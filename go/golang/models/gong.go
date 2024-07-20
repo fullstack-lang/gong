@@ -494,11 +494,15 @@ func CodeGeneratorModelGong(
 			for idx, field := range gongStruct.Fields {
 
 				fieldName := field.GetName()
+				fieldNameForReverseMapField := fieldName
 
 				// in case of a field within an anonymous struct, one needs
 				// to strip the prefix
 				fieldNameSplitted := strings.Split(fieldName, ".")
 				isWithinAnonymousStruct := len(fieldNameSplitted) > 1
+				if isWithinAnonymousStruct {
+					fieldNameForReverseMapField = fieldNameSplitted[0] + "_" + fieldNameSplitted[1]
+				}
 
 				switch field := field.(type) {
 				case *models.GongBasicField:
@@ -581,7 +585,7 @@ func CodeGeneratorModelGong(
 
 					sliceOfPointersReverseMapStorageCode += models.Replace3(
 						GongFileFieldFieldSubTemplateCode[GongFileSliceOfPointersReverseMap],
-						"{{FieldName}}", field.Name,
+						"{{FieldName}}", fieldNameForReverseMapField,
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 

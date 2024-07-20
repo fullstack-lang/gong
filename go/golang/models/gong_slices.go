@@ -111,12 +111,12 @@ map[GongSliceSubTemplateId]string{
 			}
 		}`,
 	GongSliceSubTmplSliceOfPointersReverseMapComputation: `
-	clear(stage.{{Structname}}_{{FieldName}}_reverseMap)
-	stage.{{Structname}}_{{FieldName}}_reverseMap = make(map[*{{AssociationStructName}}]*{{Structname}})
+	clear(stage.{{Structname}}_{{FieldNameForReverseMapField}}_reverseMap)
+	stage.{{Structname}}_{{FieldNameForReverseMapField}}_reverseMap = make(map[*{{AssociationStructName}}]*{{Structname}})
 	for {{structname}} := range stage.{{Structname}}s {
 		_ = {{structname}}
 		for _, _{{associationStructName}} := range {{structname}}.{{FieldName}} {
-			stage.{{Structname}}_{{FieldName}}_reverseMap[_{{associationStructName}}] = {{structname}}
+			stage.{{Structname}}_{{FieldNameForReverseMapField}}_reverseMap[_{{associationStructName}}] = {{structname}}
 		}
 	}`,
 }
@@ -163,6 +163,17 @@ func CodeGeneratorModelGongSlice(
 
 			for _, field := range gongStruct.Fields {
 
+				fieldName := field.GetName()
+				fieldNameForReverseMapField := fieldName
+
+				// in case of a field within an anonymous struct, one needs
+				// to strip the prefix
+				fieldNameSplitted := strings.Split(fieldName, ".")
+				isWithinAnonymousStruct := len(fieldNameSplitted) > 1
+				if isWithinAnonymousStruct {
+					fieldNameForReverseMapField = fieldNameSplitted[0] + "_" + fieldNameSplitted[1]
+				}
+
 				switch field := field.(type) {
 				case *models.SliceOfPointerToGongStructField:
 					perFieldCode += models.Replace3(
@@ -170,9 +181,10 @@ func CodeGeneratorModelGongSlice(
 						"{{FieldName}}", field.Name,
 						"{{AssociationStructName}}", field.GongStruct.Name,
 						"{{associationStructName}}", strings.ToLower(field.GongStruct.Name))
-					sliceOfPointerFieldReverseMapComputationCode += models.Replace3(
+					sliceOfPointerFieldReverseMapComputationCode += models.Replace4(
 						GongSliceFileFieldFieldSubTemplateCode[GongSliceSubTmplSliceOfPointersReverseMapComputation],
-						"{{FieldName}}", field.Name,
+						"{{FieldNameForReverseMapField}}", fieldNameForReverseMapField,
+						"{{FieldName}}", fieldName,
 						"{{AssociationStructName}}", field.GongStruct.Name,
 						"{{associationStructName}}", strings.ToLower(field.GongStruct.Name))
 
