@@ -46,8 +46,8 @@ func _(stage *models.StageStruct) {
 	// Setup of values
 
 	__Astruct__000000_A1.Name = `A1`
-	__Astruct__000000_A1.AnonymousStructField1.TheName1 = `A`
-	__Astruct__000000_A1.AnonymousStructField1.TheName2 = `B`
+	__Astruct__000000_A1.AnonymousStructField1.TheName1 = ``
+	__Astruct__000000_A1.AnonymousStructField1.TheName2 = ``
 	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-11-14 03:08:21 +0000 UTC")
 	__Astruct__000000_A1.Booleanfield = false
 	__Astruct__000000_A1.Aenum = models.ENUM_VAL1
@@ -173,7 +173,9 @@ Second Line`
 	__Dstruct__000000_D1.Name = `D1`
 
 	// Setup of pointers
-	__Astruct__000000_A1.AnonymousStructField1.Associationtob4 = __Bstruct__000002_B3
+	__Astruct__000000_A1.AnonymousStructField1.Associationtob4 = __Bstruct__000001_B2_
+	__Astruct__000000_A1.AnonymousStructField1.SliceOfB4 = append(__Astruct__000000_A1.AnonymousStructField1.SliceOfB4, __Bstruct__000000_B1)
+	__Astruct__000000_A1.AnonymousStructField1.SliceOfB4 = append(__Astruct__000000_A1.AnonymousStructField1.SliceOfB4, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Associationtob = __Bstruct__000001_B2_
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)

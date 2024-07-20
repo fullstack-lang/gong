@@ -54,11 +54,11 @@ type StageStruct struct {
 
 	// insertion point for slice of pointers maps
 	Astruct_AnonymousStructField1_SliceOfB4_reverseMap map[*Bstruct]*Astruct
-	Astruct_Anarrayofb_reverseMap                      map[*Bstruct]*Astruct
-	Astruct_Anarrayofa_reverseMap                      map[*Astruct]*Astruct
-	Astruct_Anotherarrayofb_reverseMap                 map[*Bstruct]*Astruct
-	Astruct_AnarrayofbUse_reverseMap                   map[*AstructBstructUse]*Astruct
-	Astruct_Anarrayofb2Use_reverseMap                  map[*AstructBstruct2Use]*Astruct
+	Astruct_Anarrayofb_reverseMap map[*Bstruct]*Astruct
+	Astruct_Anarrayofa_reverseMap map[*Astruct]*Astruct
+	Astruct_Anotherarrayofb_reverseMap map[*Bstruct]*Astruct
+	Astruct_AnarrayofbUse_reverseMap map[*AstructBstructUse]*Astruct
+	Astruct_Anarrayofb2Use_reverseMap map[*AstructBstruct2Use]*Astruct
 
 	OnAfterAstructCreateCallback OnAfterCreateInterface[Astruct]
 	OnAfterAstructUpdateCallback OnAfterUpdateInterface[Astruct]
