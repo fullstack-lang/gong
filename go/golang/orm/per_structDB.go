@@ -834,10 +834,6 @@ func MultiCodeGeneratorBackRepo(
 			}
 		}
 
-		runningPrefixForNonPointerFields := ""
-		runningPrefixForPointerFields := ""
-		nonPointerFieldsCounter := 0
-		pointerFieldsCounter := 0
 		for _, field := range _struct.Fields {
 
 			fieldName := field.GetName()
@@ -847,51 +843,27 @@ func MultiCodeGeneratorBackRepo(
 			// in case of a field within an anonymous struct, one needs
 			// to strip the prefix
 			fieldNameSplitted := strings.Split(fieldName, ".")
-			prefix := ""
+
 			prefixPadding := ""
+			var prologueDB, epilogueDB,
+				prologuePointerEncoding, epiloguePointerEncoding,
+				prologueWOP, epilogueWOP string
 			if len(fieldNameSplitted) > 1 {
-				prefix = fieldNameSplitted[0]
 				fieldNameForDeclaration = fieldNameSplitted[1]
 				prefixPadding = "\t"
-			}
-			declarationForNonPointerFieldsPrologue := ""
-			declarationForNonPointerFieldsEpilogue := ""
-			_ = declarationForNonPointerFieldsEpilogue
-
-			switch field.(type) {
-
-			case *models.PointerToGongStructField, *models.SliceOfPointerToGongStructField:
-				fieldNameForAssignment = "{{Structname}}PointersEncoding" + "." + fieldName
-				if prefix != runningPrefixForPointerFields {
-					// add the anonymous struct stuff
-					if prefix != "" {
-						declarationForNonPointerFieldsPrologue += "\n	" + prefix + " struct {"
-					} else {
-						// declarationForNonPointerFieldsPrologue += "\n	} `gorm:\"embedded\"`"
-					}
-					runningPrefixForPointerFields = prefix
-				}
-				nonPointerFieldsCounter++
-			default:
-				if prefix != runningPrefixForNonPointerFields {
-					// add the anonymous struct stuff
-					if prefix != "" {
-						declarationForNonPointerFieldsPrologue += "\n	" + prefix + " struct {"
-					} else {
-						// declarationForNonPointerFieldsPrologue += "\n	} `gorm:\"embedded\"`"
-					}
-					runningPrefixForNonPointerFields = prefix
-				}
-				pointerFieldsCounter++
-
+				prologueDB, epilogueDB,
+					prologuePointerEncoding, epiloguePointerEncoding,
+					prologueWOP, epilogueWOP =
+					_struct.ComputeFielProloguesEpilogues(field)
 			}
 
 			switch field := field.(type) {
 			case *models.GongBasicField:
 
-				insertions[BackRepoBasicAndTimeFieldsWOPDeclaration] += declarationForNonPointerFieldsPrologue +
+				insertions[BackRepoBasicAndTimeFieldsWOPDeclaration] += prologueWOP +
 					"\n\n\t" + prefixPadding + fieldNameForDeclaration + " " +
-					strings.ReplaceAll(field.DeclaredType, pkgGoPath+".", "models.") + fmt.Sprintf(" `xlsx:\"%d\"`", fieldWOPindex)
+					strings.ReplaceAll(field.DeclaredType, pkgGoPath+".", "models.") +
+					fmt.Sprintf(" `xlsx:\"%d\"`", fieldWOPindex) + epilogueWOP
 				fieldWOPindex = fieldWOPindex + 1
 
 				insertions[BackRepoBasicAndTimeFieldsName] += "\n\t\"" +
@@ -902,8 +874,8 @@ func MultiCodeGeneratorBackRepo(
 					insertions[BackRepoBasicFieldsDeclaration] += models.Replace4(
 						BackRepoFieldSubTemplateCode[BackRepoDeclarationBasicBooleanField],
 						"{{FieldName}}", fieldNameForDeclaration,
-						"{{DeclarationPrefixPrologue}}", declarationForNonPointerFieldsPrologue,
-						"{{DeclarationPrefixEpilogue}}", declarationForNonPointerFieldsEpilogue,
+						"{{DeclarationPrefixPrologue}}", prologueWOP,
+						"{{DeclarationPrefixEpilogue}}", epilogueWOP,
 						"{{DeclarationPrefixPadding}}", prefixPadding)
 
 					insertions[BackRepoBasicFieldsCommit] += models.Replace1(
@@ -921,8 +893,8 @@ func MultiCodeGeneratorBackRepo(
 							BackRepoFieldSubTemplateCode[BackRepoDeclarationBasicField],
 							"{{FieldName}}", fieldNameForDeclaration,
 							"{{SqlNullType}}", "NullString",
-							"{{DeclarationPrefixPrologue}}", declarationForNonPointerFieldsPrologue,
-							"{{DeclarationPrefixEpilogue}}", declarationForNonPointerFieldsEpilogue,
+							"{{DeclarationPrefixPrologue}}", prologueWOP,
+							"{{DeclarationPrefixEpilogue}}", epilogueWOP,
 							"{{DeclarationPrefixPadding}}", prefixPadding)
 
 						if field.GongEnum != nil {
@@ -952,8 +924,8 @@ func MultiCodeGeneratorBackRepo(
 							BackRepoFieldSubTemplateCode[BackRepoDeclarationBasicField],
 							"{{FieldName}}", fieldNameForDeclaration,
 							"{{SqlNullType}}", "NullFloat64",
-							"{{DeclarationPrefixPrologue}}", declarationForNonPointerFieldsPrologue,
-							"{{DeclarationPrefixEpilogue}}", declarationForNonPointerFieldsEpilogue,
+							"{{DeclarationPrefixPrologue}}", prologueDB,
+							"{{DeclarationPrefixEpilogue}}", epilogueDB,
 							"{{DeclarationPrefixPadding}}", prefixPadding)
 
 						insertions[BackRepoBasicFieldsCommit] += models.Replace2(
@@ -970,8 +942,8 @@ func MultiCodeGeneratorBackRepo(
 							BackRepoFieldSubTemplateCode[BackRepoDeclarationBasicField],
 							"{{FieldName}}", fieldNameForDeclaration,
 							"{{SqlNullType}}", "NullInt64",
-							"{{DeclarationPrefixPrologue}}", declarationForNonPointerFieldsPrologue,
-							"{{DeclarationPrefixEpilogue}}", declarationForNonPointerFieldsEpilogue,
+							"{{DeclarationPrefixPrologue}}", prologueDB,
+							"{{DeclarationPrefixEpilogue}}", epilogueDB,
 							"{{DeclarationPrefixPadding}}", prefixPadding)
 
 						insertions[BackRepoBasicFieldsCommit] += models.Replace1(
@@ -995,8 +967,9 @@ func MultiCodeGeneratorBackRepo(
 
 			case *models.GongTimeField:
 
-				insertions[BackRepoBasicAndTimeFieldsWOPDeclaration] += declarationForNonPointerFieldsPrologue +
-					"\n\n\t" + prefixPadding + fieldNameForDeclaration + " " + "time.Time" + fmt.Sprintf(" `xlsx:\"%d\"`", fieldWOPindex)
+				insertions[BackRepoBasicAndTimeFieldsWOPDeclaration] += prologueWOP +
+					"\n\n\t" + prefixPadding + fieldNameForDeclaration + " " + "time.Time" +
+					fmt.Sprintf(" `xlsx:\"%d\"`", fieldWOPindex) + epilogueWOP
 				fieldWOPindex = fieldWOPindex + 1
 
 				insertions[BackRepoBasicAndTimeFieldsName] += "\n\t\"" + fieldName + "\","
@@ -1004,8 +977,8 @@ func MultiCodeGeneratorBackRepo(
 				insertions[BackRepoBasicFieldsDeclaration] += models.Replace4(
 					BackRepoFieldSubTemplateCode[BackRepoDeclarationTimeField],
 					"{{FieldName}}", fieldName,
-					"{{DeclarationPrefixPrologue}}", declarationForNonPointerFieldsPrologue,
-					"{{DeclarationPrefixEpilogue}}", declarationForNonPointerFieldsEpilogue,
+					"{{DeclarationPrefixPrologue}}", prologueDB,
+					"{{DeclarationPrefixEpilogue}}", epilogueDB,
 					"{{DeclarationPrefixPadding}}", prefixPadding)
 
 				insertions[BackRepoBasicFieldsCheckout] += models.Replace1(
@@ -1021,8 +994,8 @@ func MultiCodeGeneratorBackRepo(
 				insertions[BackRepoPointerEncodingFieldsDeclaration] += models.Replace4(
 					BackRepoFieldSubTemplateCode[BackRepoPointerEncoding],
 					"{{FieldName}}", fieldNameForDeclaration,
-					"{{DeclarationPrefixPrologue}}", declarationForNonPointerFieldsPrologue,
-					"{{DeclarationPrefixEpilogue}}", declarationForNonPointerFieldsEpilogue,
+					"{{DeclarationPrefixPrologue}}", prologuePointerEncoding,
+					"{{DeclarationPrefixEpilogue}}", epiloguePointerEncoding,
 					"{{DeclarationPrefixPadding}}", prefixPadding)
 
 				insertions[BackRepoPointerEncodingFieldsCommit] += models.Replace5(
@@ -1058,8 +1031,8 @@ func MultiCodeGeneratorBackRepo(
 					BackRepoFieldSubTemplateCode[BackRepoSliceOfPointersEncoding],
 					"{{FieldName}}", fieldNameForDeclaration,
 					"{{AssociationStructName}}", field.GongStruct.Name,
-					"{{DeclarationPrefixPrologue}}", declarationForNonPointerFieldsPrologue,
-					"{{DeclarationPrefixEpilogue}}", declarationForNonPointerFieldsEpilogue,
+					"{{DeclarationPrefixPrologue}}", prologuePointerEncoding,
+					"{{DeclarationPrefixEpilogue}}", epiloguePointerEncoding,
 					"{{DeclarationPrefixPadding}}", prefixPadding,
 				)
 
