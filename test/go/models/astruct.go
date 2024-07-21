@@ -11,18 +11,19 @@ type Astruct struct {
 	Name string
 
 	AnonymousStructField1 struct {
-		// Bollean         bool
-		// Timevar         time.Time
+		// Timevar time.Time
+		// Bollean bool
+
+		// Associationtob4 *Bstruct
+		TheName1 string
+		// TheName2        string
+		// SliceOfB4       []*Bstruct
 		// Duration2       time.Duration
-		Associationtob4 *Bstruct
-		TheName1        string
-		TheName2        string
-		SliceOfB4       []*Bstruct
 	}
 
-	// AnonymousStructField2 struct {
-	// 	TheName string
-	// }
+	AnonymousStructField2 struct {
+		TheName1 string
+	}
 
 	// ONE-ZERO/ONE association is a supported type of gong
 	Associationtob *Bstruct

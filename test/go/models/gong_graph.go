@@ -114,9 +114,6 @@ func (stage *StageStruct) StageBranchAstruct(astruct *Astruct) {
 	astruct.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if astruct.AnonymousStructField1.Associationtob4 != nil {
-		StageBranch(stage, astruct.AnonymousStructField1.Associationtob4)
-	}
 	if astruct.Associationtob != nil {
 		StageBranch(stage, astruct.Associationtob)
 	}
@@ -146,9 +143,6 @@ func (stage *StageStruct) StageBranchAstruct(astruct *Astruct) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _bstruct := range astruct.AnonymousStructField1.SliceOfB4 {
-		StageBranch(stage, _bstruct)
-	}
 	for _, _bstruct := range astruct.Anarrayofb {
 		StageBranch(stage, _bstruct)
 	}
@@ -306,9 +300,6 @@ func CopyBranchAstruct(mapOrigCopy map[any]any, astructFrom *Astruct) (astructTo
 	astructFrom.CopyBasicFields(astructTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if astructFrom.AnonymousStructField1.Associationtob4 != nil {
-		astructTo.AnonymousStructField1.Associationtob4 = CopyBranchBstruct(mapOrigCopy, astructFrom.AnonymousStructField1.Associationtob4)
-	}
 	if astructFrom.Associationtob != nil {
 		astructTo.Associationtob = CopyBranchBstruct(mapOrigCopy, astructFrom.Associationtob)
 	}
@@ -338,9 +329,6 @@ func CopyBranchAstruct(mapOrigCopy map[any]any, astructFrom *Astruct) (astructTo
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _bstruct := range astructFrom.AnonymousStructField1.SliceOfB4 {
-		astructTo.AnonymousStructField1.SliceOfB4 = append(astructTo.AnonymousStructField1.SliceOfB4, CopyBranchBstruct(mapOrigCopy, _bstruct))
-	}
 	for _, _bstruct := range astructFrom.Anarrayofb {
 		astructTo.Anarrayofb = append(astructTo.Anarrayofb, CopyBranchBstruct(mapOrigCopy, _bstruct))
 	}
@@ -506,9 +494,6 @@ func (stage *StageStruct) UnstageBranchAstruct(astruct *Astruct) {
 	astruct.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if astruct.AnonymousStructField1.Associationtob4 != nil {
-		UnstageBranch(stage, astruct.AnonymousStructField1.Associationtob4)
-	}
 	if astruct.Associationtob != nil {
 		UnstageBranch(stage, astruct.Associationtob)
 	}
@@ -538,9 +523,6 @@ func (stage *StageStruct) UnstageBranchAstruct(astruct *Astruct) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _bstruct := range astruct.AnonymousStructField1.SliceOfB4 {
-		UnstageBranch(stage, _bstruct)
-	}
 	for _, _bstruct := range astruct.Anarrayofb {
 		UnstageBranch(stage, _bstruct)
 	}

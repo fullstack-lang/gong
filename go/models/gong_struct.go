@@ -81,7 +81,7 @@ func (gongStruct *GongStruct) ComputeFielProloguesEpilogues(field FieldInterface
 		_fieldName := _field.GetName()
 		_fieldNameSplitted := strings.Split(_fieldName, ".")
 		_isWithinAnAnonymousStruct := len(_fieldNameSplitted) > 1
-		if _isWithinAnAnonymousStruct && fieldNameSplitted[0] == prefix {
+		if _isWithinAnAnonymousStruct && _fieldNameSplitted[0] == prefix {
 			indexesOfFieldsWithPrefix = append(indexesOfFieldsWithPrefix, idx)
 		}
 		if _field == field {
@@ -90,14 +90,14 @@ func (gongStruct *GongStruct) ComputeFielProloguesEpilogues(field FieldInterface
 
 		switch _field.(type) {
 		case *PointerToGongStructField, *SliceOfPointerToGongStructField:
-			if _isWithinAnAnonymousStruct && fieldNameSplitted[0] == prefix {
+			if _isWithinAnAnonymousStruct && _fieldNameSplitted[0] == prefix {
 				indexesOfFieldsWithPrefixPointerEncoding = append(indexesOfFieldsWithPrefixPointerEncoding, idx)
 			}
 			if _field == field {
 				indexOfTheFieldOfInterestPointerEncoding = idx
 			}
 		default:
-			if _isWithinAnAnonymousStruct && fieldNameSplitted[0] == prefix {
+			if _isWithinAnAnonymousStruct && _fieldNameSplitted[0] == prefix {
 				indexesOfFieldsWithPrefixWOP = append(indexesOfFieldsWithPrefixWOP, idx)
 			}
 			if _field == field {
