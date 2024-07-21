@@ -57,17 +57,17 @@ const (
 var GongWopSubSubTemplate map[GongWopSubSubTemplateInsertionsId]string = // new line
 map[GongWopSubSubTemplateInsertionsId]string{
 
-	GongWopBasicFieldDecl: `
-	{{FieldName}} {{BasicKindName}}`,
+	GongWopBasicFieldDecl: `{{DeclarationPrefixPrologue}}
+	{{FieldName}} {{BasicKindName}}{{DeclarationPrefixEpilogue}}`,
 
-	GongWopEnumFieldDecl: `
-	{{FieldName}} {{EnumType}}`,
+	GongWopEnumFieldDecl: `{{DeclarationPrefixPrologue}}
+	{{FieldName}} {{EnumType}}{{DeclarationPrefixEpilogue}}`,
 
-	GongWopTimeFieldDecl: `
-	{{FieldName}} time.Time`,
+	GongWopTimeFieldDecl: `{{DeclarationPrefixPrologue}}
+	{{FieldName}} time.Time{{DeclarationPrefixEpilogue}}`,
 
-	GongWopDurationFieldDecl: `
-	{{FieldName}} time.Duration`,
+	GongWopDurationFieldDecl: `{{DeclarationPrefixPrologue}}
+	{{FieldName}} time.Duration{{DeclarationPrefixEpilogue}}`,
 
 	GongWopBasicFieldCopy: `
 	to.{{FieldName}} = from.{{FieldName}}`,
@@ -106,7 +106,6 @@ func CodeGeneratorModelGongWop(
 			fieldCode := ""
 			fieldCopyCode := ""
 
-			runningPrefix := ""
 			for _, field := range gongStruct.Fields {
 
 				fieldName := field.GetName()
@@ -115,23 +114,17 @@ func CodeGeneratorModelGongWop(
 				// in case of a field within an anonymous struct, one needs
 				// to strip the prefix
 				fieldNameSplitted := strings.Split(fieldName, ".")
-				prefix := ""
-				if len(fieldNameSplitted) > 1 {
-					prefix = fieldNameSplitted[0]
-					fieldNameForDeclation = fieldNameSplitted[1]
-				}
-				if prefix != runningPrefix {
-					// add the anonymous struct stuff
-					if prefix != "" {
-						fieldCode += "\n	" + prefix + " struct {"
-					} else {
-						fieldCode += "\n	}"
-					}
-					runningPrefix = prefix
-				}
 
-				if prefix != "" {
-					fieldNameForDeclation = "\t" + fieldNameForDeclation
+				var _, _,
+					_, _,
+					prologueWOP, epilogueWOP string
+				if len(fieldNameSplitted) > 1 {
+					fieldNameForDeclation = fieldNameSplitted[1]
+					_, _,
+						_, _,
+						prologueWOP, epilogueWOP =
+						gongStruct.ComputeFielProloguesEpilogues(field)
+
 				}
 
 				switch field := field.(type) {
@@ -142,19 +135,25 @@ func CodeGeneratorModelGongWop(
 						"{{FieldName}}", fieldName)
 					if field.GongEnum == nil {
 						if field.DeclaredType == "time.Duration" {
-							fieldCode += models.Replace1(
+							fieldCode += models.Replace3(
 								GongWopSubSubTemplate[GongWopDurationFieldDecl],
+								"{{DeclarationPrefixPrologue}}", prologueWOP,
+								"{{DeclarationPrefixEpilogue}}", epilogueWOP,
 								"{{FieldName}}", fieldNameForDeclation)
 						} else {
-							fieldCode += models.Replace2(
+							fieldCode += models.Replace4(
 								GongWopSubSubTemplate[GongWopBasicFieldDecl],
+								"{{DeclarationPrefixPrologue}}", prologueWOP,
+								"{{DeclarationPrefixEpilogue}}", epilogueWOP,
 								"{{FieldName}}", fieldNameForDeclation,
 								"{{BasicKindName}}", field.BasicKindName)
 						}
 
 					} else {
-						fieldCode += models.Replace2(
+						fieldCode += models.Replace4(
 							GongWopSubSubTemplate[GongWopEnumFieldDecl],
+							"{{DeclarationPrefixPrologue}}", prologueWOP,
+							"{{DeclarationPrefixEpilogue}}", epilogueWOP,
 							"{{FieldName}}", fieldNameForDeclation,
 							"{{EnumType}}", field.GongEnum.GetName())
 					}
@@ -163,8 +162,10 @@ func CodeGeneratorModelGongWop(
 					fieldCopyCode += models.Replace1(
 						GongWopSubSubTemplate[GongWopBasicFieldCopy],
 						"{{FieldName}}", fieldName)
-					fieldCode += models.Replace1(
+					fieldCode += models.Replace3(
 						GongWopSubSubTemplate[GongWopTimeFieldDecl],
+						"{{DeclarationPrefixPrologue}}", prologueWOP,
+						"{{DeclarationPrefixEpilogue}}", epilogueWOP,
 						"{{FieldName}}", fieldNameForDeclation)
 
 				default:

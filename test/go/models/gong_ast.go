@@ -612,12 +612,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					case "Astruct":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "AnonymousStructField1.SliceOfB4":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							target := __gong__map_Bstruct[targetIdentifier]
-							__gong__map_Astruct[identifier].AnonymousStructField1.SliceOfB4 =
-								append(__gong__map_Astruct[identifier].AnonymousStructField1.SliceOfB4, target)
 						case "Anarrayofb":
 							// remove first and last char
 							targetIdentifier := ident.Name
@@ -735,10 +729,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Astruct[identifier].AnonymousStructField1.TheName1 = fielValue
-				case "AnonymousStructField1.TheName2":
+				case "AnonymousStructField2.TheName1":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Astruct[identifier].AnonymousStructField1.TheName2 = fielValue
+					__gong__map_Astruct[identifier].AnonymousStructField2.TheName1 = fielValue
 				case "CName":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -882,9 +876,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 			case "Astruct":
 				switch fieldName {
 				// insertion point for field dependant code
-				case "AnonymousStructField1.Associationtob4":
-					targetIdentifier := ident.Name
-					__gong__map_Astruct[identifier].AnonymousStructField1.Associationtob4 = __gong__map_Bstruct[targetIdentifier]
 				case "Associationtob":
 					targetIdentifier := ident.Name
 					__gong__map_Astruct[identifier].Associationtob = __gong__map_Bstruct[targetIdentifier]

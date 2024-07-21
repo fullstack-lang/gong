@@ -55,10 +55,6 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		// insertion point
 		case "Astruct":
 			switch reverseField.Fieldname {
-			case "AnonymousStructField1_SliceOfB4":
-				if _astruct, ok := stage.Astruct_AnonymousStructField1_SliceOfB4_reverseMap[inst]; ok {
-					res = _astruct.Name
-				}
 			case "Anarrayofb":
 				if _astruct, ok := stage.Astruct_Anarrayofb_reverseMap[inst]; ok {
 					res = _astruct.Name
@@ -137,8 +133,6 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		// insertion point
 		case "Astruct":
 			switch reverseField.Fieldname {
-			case "AnonymousStructField1_SliceOfB4":
-				res = stage.Astruct_AnonymousStructField1_SliceOfB4_reverseMap[inst]
 			case "Anarrayofb":
 				res = stage.Astruct_Anarrayofb_reverseMap[inst]
 			case "Anotherarrayofb":
