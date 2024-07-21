@@ -1,7 +1,6 @@
 package models
 
 import (
-	"log"
 	"strings"
 )
 
@@ -132,12 +131,12 @@ func (gongStruct *GongStruct) ComputeFielProloguesEpilogues(field FieldInterface
 		}
 	}
 
-	log.Println("ComputeFielProloguesEpilogues",
-		"\nField", field.GetName(), field.GetIndex(),
-		"\nDB", prologueDB, epilogueDB,
-		"\nPointerEncoding", prologuePointerEncoding, epiloguePointerEncoding,
-		"\nWOP", prologueWOP, epilogueWOP,
-	)
+	// log.Println("ComputeFielProloguesEpilogues",
+	// 	"\nField", field.GetName(), field.GetIndex(),
+	// 	"\nDB", prologueDB, epilogueDB,
+	// 	"\nPointerEncoding", prologuePointerEncoding, epiloguePointerEncoding,
+	// 	"\nWOP", prologueWOP, epilogueWOP,
+	// )
 
 	return
 }
