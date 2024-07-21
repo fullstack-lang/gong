@@ -855,6 +855,8 @@ func MultiCodeGeneratorBackRepo(
 					prologuePointerEncoding, epiloguePointerEncoding,
 					prologueWOP, epilogueWOP =
 					_struct.ComputeFielProloguesEpilogues(field)
+
+				fieldNameForAssignment = "{{Structname}}PointersEncoding." + fieldNameForAssignment
 			}
 
 			switch field := field.(type) {
