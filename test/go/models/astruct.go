@@ -11,9 +11,12 @@ type Astruct struct {
 	Name string
 
 	AnonymousStructField1 struct {
+		// Bollean         bool
+		// Timevar         time.Time
+		// Duration2       time.Duration
+		Associationtob4 *Bstruct
 		TheName1        string
 		TheName2        string
-		Associationtob4 *Bstruct
 		SliceOfB4       []*Bstruct
 	}
 

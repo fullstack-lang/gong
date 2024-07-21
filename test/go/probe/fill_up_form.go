@@ -22,11 +22,11 @@ func FillUpForm[T models.Gongstruct](
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationFieldToForm("AnonymousStructField1.Associationtob4", instanceWithInferedType.AnonymousStructField1.Associationtob4, formGroup, probe)
 		BasicFieldtoForm("AnonymousStructField1.TheName1", instanceWithInferedType.AnonymousStructField1.TheName1, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("AnonymousStructField1.TheName2", instanceWithInferedType.AnonymousStructField1.TheName2, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationFieldToForm("AnonymousStructField1.Associationtob4", instanceWithInferedType.AnonymousStructField1.Associationtob4, formGroup, probe)
 		AssociationSliceToForm("AnonymousStructField1.SliceOfB4", instanceWithInferedType, &instanceWithInferedType.AnonymousStructField1.SliceOfB4, formGroup, probe)
 		AssociationFieldToForm("Associationtob", instanceWithInferedType.Associationtob, formGroup, probe)
 		AssociationSliceToForm("Anarrayofb", instanceWithInferedType, &instanceWithInferedType.Anarrayofb, formGroup, probe)

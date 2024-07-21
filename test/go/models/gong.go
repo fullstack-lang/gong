@@ -1374,7 +1374,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case Astruct:
-		res = []string{"Name", "AnonymousStructField1.TheName1", "AnonymousStructField1.TheName2", "AnonymousStructField1.Associationtob4", "AnonymousStructField1.SliceOfB4", "Associationtob", "Anarrayofb", "Anotherassociationtob_2", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofa", "Anotherarrayofb", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue", "TextFieldBespokeSize", "TextArea"}
+		res = []string{"Name", "AnonymousStructField1.Associationtob4", "AnonymousStructField1.TheName1", "AnonymousStructField1.TheName2", "AnonymousStructField1.SliceOfB4", "Associationtob", "Anarrayofb", "Anotherassociationtob_2", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofa", "Anotherarrayofb", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue", "TextFieldBespokeSize", "TextArea"}
 	case AstructBstruct2Use:
 		res = []string{"Name", "Bstrcut2"}
 	case AstructBstructUse:
@@ -1454,7 +1454,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *Astruct:
-		res = []string{"Name", "AnonymousStructField1.TheName1", "AnonymousStructField1.TheName2", "AnonymousStructField1.Associationtob4", "AnonymousStructField1.SliceOfB4", "Associationtob", "Anarrayofb", "Anotherassociationtob_2", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofa", "Anotherarrayofb", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue", "TextFieldBespokeSize", "TextArea"}
+		res = []string{"Name", "AnonymousStructField1.Associationtob4", "AnonymousStructField1.TheName1", "AnonymousStructField1.TheName2", "AnonymousStructField1.SliceOfB4", "Associationtob", "Anarrayofb", "Anotherassociationtob_2", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofa", "Anotherarrayofb", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue", "TextFieldBespokeSize", "TextArea"}
 	case *AstructBstruct2Use:
 		res = []string{"Name", "Bstrcut2"}
 	case *AstructBstructUse:
@@ -1478,14 +1478,14 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
-		case "AnonymousStructField1.TheName1":
-			res = inferedInstance.AnonymousStructField1.TheName1
-		case "AnonymousStructField1.TheName2":
-			res = inferedInstance.AnonymousStructField1.TheName2
 		case "AnonymousStructField1.Associationtob4":
 			if inferedInstance.AnonymousStructField1.Associationtob4 != nil {
 				res = inferedInstance.AnonymousStructField1.Associationtob4.Name
 			}
+		case "AnonymousStructField1.TheName1":
+			res = inferedInstance.AnonymousStructField1.TheName1
+		case "AnonymousStructField1.TheName2":
+			res = inferedInstance.AnonymousStructField1.TheName2
 		case "AnonymousStructField1.SliceOfB4":
 			for idx, __instance__ := range inferedInstance.AnonymousStructField1.SliceOfB4 {
 				if idx > 0 {
@@ -1716,14 +1716,14 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
-		case "AnonymousStructField1.TheName1":
-			res = inferedInstance.AnonymousStructField1.TheName1
-		case "AnonymousStructField1.TheName2":
-			res = inferedInstance.AnonymousStructField1.TheName2
 		case "AnonymousStructField1.Associationtob4":
 			if inferedInstance.AnonymousStructField1.Associationtob4 != nil {
 				res = inferedInstance.AnonymousStructField1.Associationtob4.Name
 			}
+		case "AnonymousStructField1.TheName1":
+			res = inferedInstance.AnonymousStructField1.TheName1
+		case "AnonymousStructField1.TheName2":
+			res = inferedInstance.AnonymousStructField1.TheName2
 		case "AnonymousStructField1.SliceOfB4":
 			for idx, __instance__ := range inferedInstance.AnonymousStructField1.SliceOfB4 {
 				if idx > 0 {
