@@ -115,6 +115,10 @@ func (self *Parser) lspace(sp int) int {
     return sp
 }
 
+func (self *Parser) backward() {
+    for ; self.p >= 0 && isSpace(self.s[self.p]); self.p-=1 {}
+}
+
 func (self *Parser) decodeArray(ret *linkedNodes) (Node, types.ParsingError) {
     sp := self.p
     ns := len(self.s)
@@ -652,4 +656,9 @@ func (self *Parser) ExportError(err types.ParsingError) error {
         Src : self.s,
         Code: err,
     }.Description())
+}
+
+func backward(src string, i int) int {
+    for ; i>=0 && isSpace(src[i]); i-- {}
+    return i
 }

@@ -55,10 +55,10 @@ func (controller *Controller) GetPositions(c *gin.Context) {
 	// source slice
 	var positionDBs []orm.PositionDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetPositions", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostPosition(c *gin.Context) {
 	mutexPosition.Lock()
 	defer mutexPosition.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostPositions", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostPosition(c *gin.Context) {
 //	200: positionDBResponse
 func (controller *Controller) GetPosition(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetPosition", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdatePosition(c *gin.Context) {
 	mutexPosition.Lock()
 	defer mutexPosition.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdatePosition", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeletePosition(c *gin.Context) {
 	mutexPosition.Lock()
 	defer mutexPosition.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeletePosition", "GONG__StackPath", stackPath)
