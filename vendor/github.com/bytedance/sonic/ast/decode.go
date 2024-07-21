@@ -26,7 +26,8 @@ import (
     `github.com/bytedance/sonic/internal/rt`
 )
 
-const _blankCharsMask = (1 << ' ') | (1 << '\t') | (1 << '\r') | (1 << '\n')
+// Hack: this is used for both checking space and cause firendly compile errors in 32-bit arch.
+const _Sonic_Not_Support_32Bit_Arch__Checking_32Bit_Arch_Here = (1 << ' ') | (1 << '\t') | (1 << '\r') | (1 << '\n')
 
 const (
     bytesNull   = "null"
@@ -37,7 +38,7 @@ const (
 )
 
 func isSpace(c byte) bool {
-    return (int(1<<c) & _blankCharsMask) != 0
+    return (int(1<<c) & _Sonic_Not_Support_32Bit_Arch__Checking_32Bit_Arch_Here) != 0
 }
 
 //go:nocheckptr
@@ -581,5 +582,38 @@ func skipArray(src string, pos int) (ret int, start int) {
             return -int(types.ERR_INVALID_CHAR), -1
         }
         pos++
+    }
+}
+
+// DecodeString decodes a JSON string from pos and return golang string.
+//   - needEsc indicates if to unescaped escaping chars
+//   - hasEsc tells if the returned string has escaping chars
+//   - validStr enables validating UTF8 charset
+//
+func _DecodeString(src string, pos int, needEsc bool, validStr bool) (v string, ret int, hasEsc bool) {
+    p := NewParserObj(src)
+    p.p = pos
+    switch val := p.decodeValue(); val.Vt {
+    case types.V_STRING:
+        str := p.s[val.Iv : p.p-1]
+        if validStr && !validate_utf8(str) {
+           return "", -int(types.ERR_INVALID_UTF8), false
+        }
+        /* fast path: no escape sequence */
+        if val.Ep == -1 {
+            return str, p.p, false
+        } else if !needEsc {
+            return str, p.p, true
+        }
+        /* unquote the string */
+        out, err := unquote(str)
+        /* check for errors */
+        if err != 0 {
+            return "", -int(err), true
+        } else {
+            return out, p.p, true
+        }
+    default:
+        return "", -int(_ERR_UNSUPPORT_TYPE), false
     }
 }

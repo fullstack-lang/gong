@@ -22,12 +22,12 @@ import (
     `unsafe`
     `reflect`
 
-    _ `github.com/chenzhuoyu/base64x`
+    _ `github.com/cloudwego/base64x`
 
     `github.com/bytedance/sonic/internal/rt`
 )
 
-//go:linkname _subr__b64decode github.com/chenzhuoyu/base64x._subr__b64decode
+//go:linkname _subr__b64decode github.com/cloudwego/base64x._subr__b64decode
 var _subr__b64decode uintptr
 
 // runtime.maxElementSize
@@ -71,11 +71,6 @@ func mallocgc(size uintptr, typ *rt.GoType, needzero bool) unsafe.Pointer
 //go:linkname makeslice runtime.makeslice
 //goland:noinspection GoUnusedParameter
 func makeslice(et *rt.GoType, len int, cap int) unsafe.Pointer
-
-//go:noescape
-//go:linkname growslice runtime.growslice
-//goland:noinspection GoUnusedParameter
-func growslice(et *rt.GoType, old rt.GoSlice, cap int) rt.GoSlice
 
 //go:linkname makemap_small runtime.makemap_small
 func makemap_small() unsafe.Pointer

@@ -1179,7 +1179,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			}
 		}
 
-		res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries)
+		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries)
 	}
 
 	fmt.Fprintln(file, res)

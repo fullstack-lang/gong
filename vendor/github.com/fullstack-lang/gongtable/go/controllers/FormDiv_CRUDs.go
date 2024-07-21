@@ -55,10 +55,10 @@ func (controller *Controller) GetFormDivs(c *gin.Context) {
 	// source slice
 	var formdivDBs []orm.FormDivDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetFormDivs", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostFormDiv(c *gin.Context) {
 	mutexFormDiv.Lock()
 	defer mutexFormDiv.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostFormDivs", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostFormDiv(c *gin.Context) {
 //	200: formdivDBResponse
 func (controller *Controller) GetFormDiv(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetFormDiv", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdateFormDiv(c *gin.Context) {
 	mutexFormDiv.Lock()
 	defer mutexFormDiv.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdateFormDiv", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeleteFormDiv(c *gin.Context) {
 	mutexFormDiv.Lock()
 	defer mutexFormDiv.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeleteFormDiv", "GONG__StackPath", stackPath)

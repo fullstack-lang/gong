@@ -143,7 +143,20 @@ func registerControllers(r *gin.Engine) {
 
 		v1.GET("/v1/ws/commitfrombacknb", GetController().onWebSocketRequestForCommitFromBackNb)
 		v1.GET("/v1/ws/stage", GetController().onWebSocketRequestForBackRepoContent)
+
+		v1.GET("/v1/stacks", GetController().stacks)
 	}
+}
+
+func (controller *Controller) stacks(c *gin.Context) {
+
+	var res []string
+
+	for k, _ := range controller.Map_BackRepos {
+		res = append(res, k)
+	}
+
+	c.JSON(http.StatusOK, res)
 }
 
 // onWebSocketRequestForCommitFromBackNb is a function that is started each time

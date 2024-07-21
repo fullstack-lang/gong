@@ -55,10 +55,10 @@ func (controller *Controller) GetFormFieldTimes(c *gin.Context) {
 	// source slice
 	var formfieldtimeDBs []orm.FormFieldTimeDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetFormFieldTimes", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostFormFieldTime(c *gin.Context) {
 	mutexFormFieldTime.Lock()
 	defer mutexFormFieldTime.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostFormFieldTimes", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostFormFieldTime(c *gin.Context) {
 //	200: formfieldtimeDBResponse
 func (controller *Controller) GetFormFieldTime(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetFormFieldTime", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdateFormFieldTime(c *gin.Context) {
 	mutexFormFieldTime.Lock()
 	defer mutexFormFieldTime.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdateFormFieldTime", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeleteFormFieldTime(c *gin.Context) {
 	mutexFormFieldTime.Lock()
 	defer mutexFormFieldTime.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeleteFormFieldTime", "GONG__StackPath", stackPath)
