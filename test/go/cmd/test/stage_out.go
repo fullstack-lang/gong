@@ -46,8 +46,8 @@ func _(stage *models.StageStruct) {
 	// Setup of values
 
 	__Astruct__000000_A1.Name = `A1`
-	__Astruct__000000_A1.AnonymousStructField1.TheName1 = `R2`
-	__Astruct__000000_A1.AnonymousStructField1.TheName2 = `R4`
+	__Astruct__000000_A1.AnonymousStructField1.TheName1 = `A`
+	__Astruct__000000_A1.AnonymousStructField2.TheName1 = ``
 	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-11-14 03:08:21 +0000 UTC")
 	__Astruct__000000_A1.Booleanfield = false
 	__Astruct__000000_A1.Aenum = models.ENUM_VAL1
@@ -86,7 +86,7 @@ Second Line`
 
 	__Astruct__000001_A2.Name = `A2`
 	__Astruct__000001_A2.AnonymousStructField1.TheName1 = ``
-	__Astruct__000001_A2.AnonymousStructField1.TheName2 = ``
+	__Astruct__000001_A2.AnonymousStructField2.TheName1 = ``
 	__Astruct__000001_A2.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 09:59:06.744 +0000 UTC")
 	__Astruct__000001_A2.Booleanfield = false
 	__Astruct__000001_A2.CEnum = models.CENUM_VAL1
@@ -119,7 +119,7 @@ Second Line`
 
 	__Astruct__000002_A3.Name = `A3`
 	__Astruct__000002_A3.AnonymousStructField1.TheName1 = ``
-	__Astruct__000002_A3.AnonymousStructField1.TheName2 = ``
+	__Astruct__000002_A3.AnonymousStructField2.TheName1 = ``
 	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 11:16:35.978 +0000 UTC")
 	__Astruct__000002_A3.Booleanfield = true
 	__Astruct__000002_A3.Benum = models.BENUM_VAL2
@@ -173,9 +173,6 @@ Second Line`
 	__Dstruct__000000_D1.Name = `D1`
 
 	// Setup of pointers
-	__Astruct__000000_A1.AnonymousStructField1.Associationtob4 = __Bstruct__000000_B1
-	__Astruct__000000_A1.AnonymousStructField1.SliceOfB4 = append(__Astruct__000000_A1.AnonymousStructField1.SliceOfB4, __Bstruct__000001_B2_)
-	__Astruct__000000_A1.AnonymousStructField1.SliceOfB4 = append(__Astruct__000000_A1.AnonymousStructField1.SliceOfB4, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Associationtob = __Bstruct__000001_B2_
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)

@@ -978,7 +978,7 @@ func MultiCodeGeneratorBackRepo(
 
 				insertions[BackRepoBasicFieldsDeclaration] += models.Replace4(
 					BackRepoFieldSubTemplateCode[BackRepoDeclarationTimeField],
-					"{{FieldName}}", fieldName,
+					"{{FieldName}}", fieldNameForDeclaration,
 					"{{DeclarationPrefixPrologue}}", prologueDB,
 					"{{DeclarationPrefixEpilogue}}", epilogueDB,
 					"{{DeclarationPrefixPadding}}", prefixPadding)
