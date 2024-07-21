@@ -46,6 +46,8 @@ func _(stage *models.StageStruct) {
 	// Setup of values
 
 	__Astruct__000000_A1.Name = `A1`
+	__Astruct__000000_A1.AnonymousStructField1.TheName1 = `A`
+	__Astruct__000000_A1.AnonymousStructField2.TheName1 = ``
 	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-11-14 03:08:21 +0000 UTC")
 	__Astruct__000000_A1.Booleanfield = false
 	__Astruct__000000_A1.Aenum = models.ENUM_VAL1
@@ -60,7 +62,7 @@ Second Line`
 	__Astruct__000000_A1.Floatfield = 0.000000
 	__Astruct__000000_A1.Intfield = 3
 	__Astruct__000000_A1.Anotherbooleanfield = false
-	__Astruct__000000_A1.Duration1 = 79653000000000
+	__Astruct__000000_A1.Duration1 = -79653000000000
 
 	//gong:ident [gongdoc_models.GongStructShape] comment added to overcome the problem with the comment map association
 	__Astruct__000000_A1.StructRef = `gongdoc_models.GongStructShape`
@@ -83,6 +85,8 @@ Second Line`
 	__Astruct__000000_A1.TextArea = ``
 
 	__Astruct__000001_A2.Name = `A2`
+	__Astruct__000001_A2.AnonymousStructField1.TheName1 = ``
+	__Astruct__000001_A2.AnonymousStructField2.TheName1 = ``
 	__Astruct__000001_A2.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 09:59:06.744 +0000 UTC")
 	__Astruct__000001_A2.Booleanfield = false
 	__Astruct__000001_A2.CEnum = models.CENUM_VAL1
@@ -114,6 +118,8 @@ Second Line`
 	__Astruct__000001_A2.TextArea = ``
 
 	__Astruct__000002_A3.Name = `A3`
+	__Astruct__000002_A3.AnonymousStructField1.TheName1 = ``
+	__Astruct__000002_A3.AnonymousStructField2.TheName1 = ``
 	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 11:16:35.978 +0000 UTC")
 	__Astruct__000002_A3.Booleanfield = true
 	__Astruct__000002_A3.Benum = models.BENUM_VAL2

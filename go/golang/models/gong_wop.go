@@ -57,17 +57,17 @@ const (
 var GongWopSubSubTemplate map[GongWopSubSubTemplateInsertionsId]string = // new line
 map[GongWopSubSubTemplateInsertionsId]string{
 
-	GongWopBasicFieldDecl: `
-	{{FieldName}} {{BasicKindName}}`,
+	GongWopBasicFieldDecl: `{{DeclarationPrefixPrologue}}
+	{{FieldName}} {{BasicKindName}}{{DeclarationPrefixEpilogue}}`,
 
-	GongWopEnumFieldDecl: `
-	{{FieldName}} {{EnumType}}`,
+	GongWopEnumFieldDecl: `{{DeclarationPrefixPrologue}}
+	{{FieldName}} {{EnumType}}{{DeclarationPrefixEpilogue}}`,
 
-	GongWopTimeFieldDecl: `
-	{{FieldName}} time.Time`,
+	GongWopTimeFieldDecl: `{{DeclarationPrefixPrologue}}
+	{{FieldName}} time.Time{{DeclarationPrefixEpilogue}}`,
 
-	GongWopDurationFieldDecl: `
-	{{FieldName}} time.Duration`,
+	GongWopDurationFieldDecl: `{{DeclarationPrefixPrologue}}
+	{{FieldName}} time.Duration{{DeclarationPrefixEpilogue}}`,
 
 	GongWopBasicFieldCopy: `
 	to.{{FieldName}} = from.{{FieldName}}`,
@@ -108,38 +108,65 @@ func CodeGeneratorModelGongWop(
 
 			for _, field := range gongStruct.Fields {
 
+				fieldName := field.GetName()
+				fieldNameForDeclation := fieldName
+
+				// in case of a field within an anonymous struct, one needs
+				// to strip the prefix
+				fieldNameSplitted := strings.Split(fieldName, ".")
+
+				var _, _,
+					_, _,
+					prologueWOP, epilogueWOP string
+				if len(fieldNameSplitted) > 1 {
+					fieldNameForDeclation = fieldNameSplitted[1]
+					_, _,
+						_, _,
+						prologueWOP, epilogueWOP =
+						gongStruct.ComputeFielProloguesEpilogues(field)
+
+				}
+
 				switch field := field.(type) {
 
 				case *models.GongBasicField:
 					fieldCopyCode += models.Replace1(
 						GongWopSubSubTemplate[GongWopBasicFieldCopy],
-						"{{FieldName}}", field.Name)
+						"{{FieldName}}", fieldName)
 					if field.GongEnum == nil {
 						if field.DeclaredType == "time.Duration" {
-							fieldCode += models.Replace1(
+							fieldCode += models.Replace3(
 								GongWopSubSubTemplate[GongWopDurationFieldDecl],
-								"{{FieldName}}", field.Name)
+								"{{DeclarationPrefixPrologue}}", prologueWOP,
+								"{{DeclarationPrefixEpilogue}}", epilogueWOP,
+								"{{FieldName}}", fieldNameForDeclation)
 						} else {
-							fieldCode += models.Replace2(
+							fieldCode += models.Replace4(
 								GongWopSubSubTemplate[GongWopBasicFieldDecl],
-								"{{FieldName}}", field.Name,
+								"{{DeclarationPrefixPrologue}}", prologueWOP,
+								"{{DeclarationPrefixEpilogue}}", epilogueWOP,
+								"{{FieldName}}", fieldNameForDeclation,
 								"{{BasicKindName}}", field.BasicKindName)
 						}
 
 					} else {
-						fieldCode += models.Replace2(
+						fieldCode += models.Replace4(
 							GongWopSubSubTemplate[GongWopEnumFieldDecl],
-							"{{FieldName}}", field.Name,
+							"{{DeclarationPrefixPrologue}}", prologueWOP,
+							"{{DeclarationPrefixEpilogue}}", epilogueWOP,
+							"{{FieldName}}", fieldNameForDeclation,
 							"{{EnumType}}", field.GongEnum.GetName())
 					}
 
 				case *models.GongTimeField:
 					fieldCopyCode += models.Replace1(
 						GongWopSubSubTemplate[GongWopBasicFieldCopy],
-						"{{FieldName}}", field.Name)
-					fieldCode += models.Replace1(
+						"{{FieldName}}", fieldName)
+					fieldCode += models.Replace3(
 						GongWopSubSubTemplate[GongWopTimeFieldDecl],
-						"{{FieldName}}", field.Name)
+						"{{DeclarationPrefixPrologue}}", prologueWOP,
+						"{{DeclarationPrefixEpilogue}}", epilogueWOP,
+						"{{FieldName}}", fieldNameForDeclation)
 
 				default:
 					_ = field

@@ -63,6 +63,10 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(astruct_.Name), formDiv)
+		case "AnonymousStructField1.TheName1":
+			FormDivBasicFieldToField(&(astruct_.AnonymousStructField1.TheName1), formDiv)
+		case "AnonymousStructField2.TheName1":
+			FormDivBasicFieldToField(&(astruct_.AnonymousStructField2.TheName1), formDiv)
 		case "Associationtob":
 			FormDivSelectFieldToField(&(astruct_.Associationtob), astructFormCallback.probe.stageOfInterest, formDiv)
 		case "Anotherassociationtob_2":
