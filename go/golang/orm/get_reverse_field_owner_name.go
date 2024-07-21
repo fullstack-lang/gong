@@ -170,6 +170,18 @@ func CodeGeneratorGetReverseFieldOwnerName(
 					"{{AssocStructName}}", __struct.Name)
 
 				for _, field := range __struct.Fields {
+
+					fieldName := field.GetName()
+					fieldNameForReverseMapField := fieldName
+
+					// in case of a field within an anonymous struct, one needs
+					// to strip the prefix
+					fieldNameSplitted := strings.Split(fieldName, ".")
+					isWithinAnonymousStruct := len(fieldNameSplitted) > 1
+					if isWithinAnonymousStruct {
+						fieldNameForReverseMapField = fieldNameSplitted[0] + "_" + fieldNameSplitted[1]
+					}
+
 					switch field := field.(type) {
 					case *models.SliceOfPointerToGongStructField:
 
@@ -177,14 +189,14 @@ func CodeGeneratorGetReverseFieldOwnerName(
 							fieldToFormCode += models.Replace2(
 								GetReverseFieldOwnerNameSubSubTemplateCode[GetReverseFieldOwnerSwitchCode],
 								"{{AssocStructName}}", __struct.Name,
-								"{{FieldName}}", field.GetName())
+								"{{FieldName}}", fieldNameForReverseMapField)
 						}
 						if field.GongStruct == gongStruct {
 							fieldToFormCodeName += models.Replace3(
 								GetReverseFieldOwnerNameSubSubTemplateCode[GetReverseFieldOwnerNameSwitchCode],
 								"{{AssocStructName}}", __struct.Name,
 								"{{assocStructName}}", strings.ToLower(__struct.Name),
-								"{{FieldName}}", field.GetName())
+								"{{FieldName}}", fieldNameForReverseMapField)
 						}
 					}
 				}

@@ -1,5 +1,9 @@
 package models
 
+import (
+	"strings"
+)
+
 // GongStruct is a go struct that is selected by the gongc compiler
 // swagger:model
 type GongStruct struct {
@@ -42,6 +46,97 @@ func (gongStruct *GongStruct) HasNameField() (hasNameField bool) {
 			}
 		}
 	}
+
+	return
+}
+
+// ComputeFielProloguesEpilogues computes wether the field shall
+// be preceded by the prologue declaring the containing anonymous struct
+func (gongStruct *GongStruct) ComputeFielProloguesEpilogues(field FieldInterface) (
+	prologueDB, epilogueDB,
+	prologuePointerEncoding, epiloguePointerEncoding,
+	prologueWOP, epilogueWOP string) {
+
+	// is the field within an anomous struct
+	fieldName := field.GetName()
+	fieldNameSplitted := strings.Split(fieldName, ".")
+	isWithinAnAnonymousStruct := len(fieldNameSplitted) > 1
+
+	if !isWithinAnAnonymousStruct {
+		return "", "", "", "", "", ""
+	}
+
+	prefix := fieldNameSplitted[0]
+
+	// among all fields, records the index of fields with this prefix
+	var indexesOfFieldsWithPrefix []int
+	var indexOfTheFieldOfInterest int
+	var indexesOfFieldsWithPrefixPointerEncoding []int
+	var indexOfTheFieldOfInterestPointerEncoding int
+	var indexesOfFieldsWithPrefixWOP []int
+	var indexOfTheFieldOfInterestWOP int
+	for idx, _field := range gongStruct.Fields {
+
+		_fieldName := _field.GetName()
+		_fieldNameSplitted := strings.Split(_fieldName, ".")
+		_isWithinAnAnonymousStruct := len(_fieldNameSplitted) > 1
+		if _isWithinAnAnonymousStruct && _fieldNameSplitted[0] == prefix {
+			indexesOfFieldsWithPrefix = append(indexesOfFieldsWithPrefix, idx)
+		}
+		if _field == field {
+			indexOfTheFieldOfInterest = idx
+		}
+
+		switch _field.(type) {
+		case *PointerToGongStructField, *SliceOfPointerToGongStructField:
+			if _isWithinAnAnonymousStruct && _fieldNameSplitted[0] == prefix {
+				indexesOfFieldsWithPrefixPointerEncoding = append(indexesOfFieldsWithPrefixPointerEncoding, idx)
+			}
+			if _field == field {
+				indexOfTheFieldOfInterestPointerEncoding = idx
+			}
+		default:
+			if _isWithinAnAnonymousStruct && _fieldNameSplitted[0] == prefix {
+				indexesOfFieldsWithPrefixWOP = append(indexesOfFieldsWithPrefixWOP, idx)
+			}
+			if _field == field {
+				indexOfTheFieldOfInterestWOP = idx
+			}
+		}
+	}
+
+	// compute within all fields wether this field is the first with this prefix
+
+	if indexOfTheFieldOfInterest == indexesOfFieldsWithPrefix[0] {
+		prologueDB = "\n\n	" + prefix + " struct {"
+	}
+	if indexOfTheFieldOfInterest == indexesOfFieldsWithPrefix[len(indexesOfFieldsWithPrefix)-1] {
+		epilogueDB = "\n\n	} `gorm:\"embedded\"`"
+	}
+
+	switch field.(type) {
+	case *PointerToGongStructField, *SliceOfPointerToGongStructField:
+		if indexOfTheFieldOfInterestPointerEncoding == indexesOfFieldsWithPrefixPointerEncoding[0] {
+			prologuePointerEncoding = "\n\n	" + prefix + " struct {"
+		}
+		if indexOfTheFieldOfInterestPointerEncoding == indexesOfFieldsWithPrefixPointerEncoding[len(indexesOfFieldsWithPrefixPointerEncoding)-1] {
+			epiloguePointerEncoding = "\n\n	} `gorm:\"embedded\"`"
+		}
+	default:
+		if indexOfTheFieldOfInterestWOP == indexesOfFieldsWithPrefixWOP[0] {
+			prologueWOP = "\n\n	" + prefix + " struct {"
+		}
+		if indexOfTheFieldOfInterestWOP == indexesOfFieldsWithPrefixWOP[len(indexesOfFieldsWithPrefixWOP)-1] {
+			epilogueWOP = "\n\n	} `gorm:\"embedded\"`"
+		}
+	}
+
+	// log.Println("ComputeFielProloguesEpilogues",
+	// 	"\nField", field.GetName(), field.GetIndex(),
+	// 	"\nDB", prologueDB, epilogueDB,
+	// 	"\nPointerEncoding", prologuePointerEncoding, epiloguePointerEncoding,
+	// 	"\nWOP", prologueWOP, epilogueWOP,
+	// )
 
 	return
 }
