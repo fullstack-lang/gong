@@ -55,10 +55,10 @@ func (controller *Controller) GetFormFieldInts(c *gin.Context) {
 	// source slice
 	var formfieldintDBs []orm.FormFieldIntDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetFormFieldInts", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostFormFieldInt(c *gin.Context) {
 	mutexFormFieldInt.Lock()
 	defer mutexFormFieldInt.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostFormFieldInts", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostFormFieldInt(c *gin.Context) {
 //	200: formfieldintDBResponse
 func (controller *Controller) GetFormFieldInt(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetFormFieldInt", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdateFormFieldInt(c *gin.Context) {
 	mutexFormFieldInt.Lock()
 	defer mutexFormFieldInt.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdateFormFieldInt", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeleteFormFieldInt(c *gin.Context) {
 	mutexFormFieldInt.Lock()
 	defer mutexFormFieldInt.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeleteFormFieldInt", "GONG__StackPath", stackPath)

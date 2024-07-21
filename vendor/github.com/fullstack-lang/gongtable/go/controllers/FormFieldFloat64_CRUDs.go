@@ -55,10 +55,10 @@ func (controller *Controller) GetFormFieldFloat64s(c *gin.Context) {
 	// source slice
 	var formfieldfloat64DBs []orm.FormFieldFloat64DB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetFormFieldFloat64s", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostFormFieldFloat64(c *gin.Context) {
 	mutexFormFieldFloat64.Lock()
 	defer mutexFormFieldFloat64.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostFormFieldFloat64s", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostFormFieldFloat64(c *gin.Context) {
 //	200: formfieldfloat64DBResponse
 func (controller *Controller) GetFormFieldFloat64(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetFormFieldFloat64", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdateFormFieldFloat64(c *gin.Context) {
 	mutexFormFieldFloat64.Lock()
 	defer mutexFormFieldFloat64.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdateFormFieldFloat64", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeleteFormFieldFloat64(c *gin.Context) {
 	mutexFormFieldFloat64.Lock()
 	defer mutexFormFieldFloat64.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeleteFormFieldFloat64", "GONG__StackPath", stackPath)

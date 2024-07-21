@@ -55,10 +55,10 @@ func (controller *Controller) GetCellFloat64s(c *gin.Context) {
 	// source slice
 	var cellfloat64DBs []orm.CellFloat64DB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetCellFloat64s", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostCellFloat64(c *gin.Context) {
 	mutexCellFloat64.Lock()
 	defer mutexCellFloat64.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostCellFloat64s", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostCellFloat64(c *gin.Context) {
 //	200: cellfloat64DBResponse
 func (controller *Controller) GetCellFloat64(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetCellFloat64", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdateCellFloat64(c *gin.Context) {
 	mutexCellFloat64.Lock()
 	defer mutexCellFloat64.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdateCellFloat64", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeleteCellFloat64(c *gin.Context) {
 	mutexCellFloat64.Lock()
 	defer mutexCellFloat64.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeleteCellFloat64", "GONG__StackPath", stackPath)

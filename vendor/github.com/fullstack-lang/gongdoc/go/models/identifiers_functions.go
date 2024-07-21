@@ -19,9 +19,9 @@ func IdentifierToFieldName(fieldIdentifier string) (fieldName string) {
 	structNameWithFieldName := strings.TrimPrefix(fieldIdentifier, RefPrefixReferencedPackage+RefPackagePlusPeriod)
 
 	subStrings := strings.Split(structNameWithFieldName, ".")
-	if len(subStrings) != 2 {
-		log.Fatalln("IdentifierToFieldName: wrong number of substrings in ", structNameWithFieldName)
-	}
+	// if len(subStrings) != 2 {
+	// 	log.Fatalln("IdentifierToFieldName: wrong number of substrings in ", structNameWithFieldName)
+	// }
 
 	fieldName = subStrings[1]
 

@@ -55,10 +55,10 @@ func (controller *Controller) GetDisplayedColumns(c *gin.Context) {
 	// source slice
 	var displayedcolumnDBs []orm.DisplayedColumnDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetDisplayedColumns", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostDisplayedColumn(c *gin.Context) {
 	mutexDisplayedColumn.Lock()
 	defer mutexDisplayedColumn.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostDisplayedColumns", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostDisplayedColumn(c *gin.Context) {
 //	200: displayedcolumnDBResponse
 func (controller *Controller) GetDisplayedColumn(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetDisplayedColumn", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdateDisplayedColumn(c *gin.Context) {
 	mutexDisplayedColumn.Lock()
 	defer mutexDisplayedColumn.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdateDisplayedColumn", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeleteDisplayedColumn(c *gin.Context) {
 	mutexDisplayedColumn.Lock()
 	defer mutexDisplayedColumn.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeleteDisplayedColumn", "GONG__StackPath", stackPath)

@@ -55,10 +55,10 @@ func (controller *Controller) GetCheckBoxs(c *gin.Context) {
 	// source slice
 	var checkboxDBs []orm.CheckBoxDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetCheckBoxs", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostCheckBox(c *gin.Context) {
 	mutexCheckBox.Lock()
 	defer mutexCheckBox.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostCheckBoxs", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostCheckBox(c *gin.Context) {
 //	200: checkboxDBResponse
 func (controller *Controller) GetCheckBox(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetCheckBox", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdateCheckBox(c *gin.Context) {
 	mutexCheckBox.Lock()
 	defer mutexCheckBox.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdateCheckBox", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeleteCheckBox(c *gin.Context) {
 	mutexCheckBox.Lock()
 	defer mutexCheckBox.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeleteCheckBox", "GONG__StackPath", stackPath)

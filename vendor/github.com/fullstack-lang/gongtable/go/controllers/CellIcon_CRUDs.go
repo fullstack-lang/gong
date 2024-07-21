@@ -55,10 +55,10 @@ func (controller *Controller) GetCellIcons(c *gin.Context) {
 	// source slice
 	var celliconDBs []orm.CellIconDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetCellIcons", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostCellIcon(c *gin.Context) {
 	mutexCellIcon.Lock()
 	defer mutexCellIcon.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostCellIcons", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostCellIcon(c *gin.Context) {
 //	200: celliconDBResponse
 func (controller *Controller) GetCellIcon(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetCellIcon", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdateCellIcon(c *gin.Context) {
 	mutexCellIcon.Lock()
 	defer mutexCellIcon.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdateCellIcon", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeleteCellIcon(c *gin.Context) {
 	mutexCellIcon.Lock()
 	defer mutexCellIcon.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeleteCellIcon", "GONG__StackPath", stackPath)
