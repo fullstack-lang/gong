@@ -55,10 +55,10 @@ func (controller *Controller) GetPaths(c *gin.Context) {
 	// source slice
 	var pathDBs []orm.PathDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetPaths", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostPath(c *gin.Context) {
 	mutexPath.Lock()
 	defer mutexPath.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostPaths", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostPath(c *gin.Context) {
 //	200: pathDBResponse
 func (controller *Controller) GetPath(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetPath", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdatePath(c *gin.Context) {
 	mutexPath.Lock()
 	defer mutexPath.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdatePath", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeletePath(c *gin.Context) {
 	mutexPath.Lock()
 	defer mutexPath.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeletePath", "GONG__StackPath", stackPath)

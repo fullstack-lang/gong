@@ -55,10 +55,10 @@ func (controller *Controller) GetPolylines(c *gin.Context) {
 	// source slice
 	var polylineDBs []orm.PolylineDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetPolylines", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostPolyline(c *gin.Context) {
 	mutexPolyline.Lock()
 	defer mutexPolyline.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostPolylines", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostPolyline(c *gin.Context) {
 //	200: polylineDBResponse
 func (controller *Controller) GetPolyline(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetPolyline", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdatePolyline(c *gin.Context) {
 	mutexPolyline.Lock()
 	defer mutexPolyline.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdatePolyline", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeletePolyline(c *gin.Context) {
 	mutexPolyline.Lock()
 	defer mutexPolyline.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeletePolyline", "GONG__StackPath", stackPath)
