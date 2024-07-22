@@ -55,10 +55,10 @@ func (controller *Controller) GetPoints(c *gin.Context) {
 	// source slice
 	var pointDBs []orm.PointDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetPoints", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostPoint(c *gin.Context) {
 	mutexPoint.Lock()
 	defer mutexPoint.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostPoints", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostPoint(c *gin.Context) {
 //	200: pointDBResponse
 func (controller *Controller) GetPoint(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetPoint", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdatePoint(c *gin.Context) {
 	mutexPoint.Lock()
 	defer mutexPoint.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdatePoint", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeletePoint(c *gin.Context) {
 	mutexPoint.Lock()
 	defer mutexPoint.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeletePoint", "GONG__StackPath", stackPath)

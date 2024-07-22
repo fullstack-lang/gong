@@ -15,15 +15,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 	switch inst := any(instance).(type) {
 	// insertion point
 	case *models.Button:
-		tmp := GetInstanceDBFromInstance[models.Button, ButtonDB](
-			stage, backRepo, inst,
-		)
-		_ = tmp
 		switch reverseField.GongstructName {
 		// insertion point
-		case "Button":
-			switch reverseField.Fieldname {
-			}
 		case "Node":
 			switch reverseField.Fieldname {
 			case "Buttons":
@@ -31,33 +24,17 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 					res = _node.Name
 				}
 			}
-		case "SVGIcon":
-			switch reverseField.Fieldname {
-			}
-		case "Tree":
-			switch reverseField.Fieldname {
-			}
 		}
 
 	case *models.Node:
-		tmp := GetInstanceDBFromInstance[models.Node, NodeDB](
-			stage, backRepo, inst,
-		)
-		_ = tmp
 		switch reverseField.GongstructName {
 		// insertion point
-		case "Button":
-			switch reverseField.Fieldname {
-			}
 		case "Node":
 			switch reverseField.Fieldname {
 			case "Children":
 				if _node, ok := stage.Node_Children_reverseMap[inst]; ok {
 					res = _node.Name
 				}
-			}
-		case "SVGIcon":
-			switch reverseField.Fieldname {
 			}
 		case "Tree":
 			switch reverseField.Fieldname {
@@ -69,45 +46,13 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		}
 
 	case *models.SVGIcon:
-		tmp := GetInstanceDBFromInstance[models.SVGIcon, SVGIconDB](
-			stage, backRepo, inst,
-		)
-		_ = tmp
 		switch reverseField.GongstructName {
 		// insertion point
-		case "Button":
-			switch reverseField.Fieldname {
-			}
-		case "Node":
-			switch reverseField.Fieldname {
-			}
-		case "SVGIcon":
-			switch reverseField.Fieldname {
-			}
-		case "Tree":
-			switch reverseField.Fieldname {
-			}
 		}
 
 	case *models.Tree:
-		tmp := GetInstanceDBFromInstance[models.Tree, TreeDB](
-			stage, backRepo, inst,
-		)
-		_ = tmp
 		switch reverseField.GongstructName {
 		// insertion point
-		case "Button":
-			switch reverseField.Fieldname {
-			}
-		case "Node":
-			switch reverseField.Fieldname {
-			}
-		case "SVGIcon":
-			switch reverseField.Fieldname {
-			}
-		case "Tree":
-			switch reverseField.Fieldname {
-			}
 		}
 
 	default:
@@ -126,45 +71,22 @@ func GetReverseFieldOwner[T models.Gongstruct](
 	switch inst := any(instance).(type) {
 	// insertion point
 	case *models.Button:
-		tmp := GetInstanceDBFromInstance[models.Button, ButtonDB](
-			stage, backRepo, inst,
-		)
-		_ = tmp
 		switch reverseField.GongstructName {
 		// insertion point
-		case "Button":
-			switch reverseField.Fieldname {
-			}
 		case "Node":
 			switch reverseField.Fieldname {
 			case "Buttons":
 				res = stage.Node_Buttons_reverseMap[inst]
 			}
-		case "SVGIcon":
-			switch reverseField.Fieldname {
-			}
-		case "Tree":
-			switch reverseField.Fieldname {
-			}
 		}
 
 	case *models.Node:
-		tmp := GetInstanceDBFromInstance[models.Node, NodeDB](
-			stage, backRepo, inst,
-		)
-		_ = tmp
 		switch reverseField.GongstructName {
 		// insertion point
-		case "Button":
-			switch reverseField.Fieldname {
-			}
 		case "Node":
 			switch reverseField.Fieldname {
 			case "Children":
 				res = stage.Node_Children_reverseMap[inst]
-			}
-		case "SVGIcon":
-			switch reverseField.Fieldname {
 			}
 		case "Tree":
 			switch reverseField.Fieldname {
@@ -174,45 +96,13 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		}
 
 	case *models.SVGIcon:
-		tmp := GetInstanceDBFromInstance[models.SVGIcon, SVGIconDB](
-			stage, backRepo, inst,
-		)
-		_ = tmp
 		switch reverseField.GongstructName {
 		// insertion point
-		case "Button":
-			switch reverseField.Fieldname {
-			}
-		case "Node":
-			switch reverseField.Fieldname {
-			}
-		case "SVGIcon":
-			switch reverseField.Fieldname {
-			}
-		case "Tree":
-			switch reverseField.Fieldname {
-			}
 		}
 
 	case *models.Tree:
-		tmp := GetInstanceDBFromInstance[models.Tree, TreeDB](
-			stage, backRepo, inst,
-		)
-		_ = tmp
 		switch reverseField.GongstructName {
 		// insertion point
-		case "Button":
-			switch reverseField.Fieldname {
-			}
-		case "Node":
-			switch reverseField.Fieldname {
-			}
-		case "SVGIcon":
-			switch reverseField.Fieldname {
-			}
-		case "Tree":
-			switch reverseField.Fieldname {
-			}
 		}
 
 	default:
