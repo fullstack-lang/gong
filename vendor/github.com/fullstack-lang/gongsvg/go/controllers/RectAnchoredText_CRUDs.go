@@ -55,10 +55,10 @@ func (controller *Controller) GetRectAnchoredTexts(c *gin.Context) {
 	// source slice
 	var rectanchoredtextDBs []orm.RectAnchoredTextDB
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetRectAnchoredTexts", "GONG__StackPath", stackPath)
@@ -118,10 +118,10 @@ func (controller *Controller) PostRectAnchoredText(c *gin.Context) {
 	mutexRectAnchoredText.Lock()
 	defer mutexRectAnchoredText.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("PostRectAnchoredTexts", "GONG__StackPath", stackPath)
@@ -188,10 +188,10 @@ func (controller *Controller) PostRectAnchoredText(c *gin.Context) {
 //	200: rectanchoredtextDBResponse
 func (controller *Controller) GetRectAnchoredText(c *gin.Context) {
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("GetRectAnchoredText", "GONG__StackPath", stackPath)
@@ -237,10 +237,10 @@ func (controller *Controller) UpdateRectAnchoredText(c *gin.Context) {
 	mutexRectAnchoredText.Lock()
 	defer mutexRectAnchoredText.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("UpdateRectAnchoredText", "GONG__StackPath", stackPath)
@@ -326,10 +326,10 @@ func (controller *Controller) DeleteRectAnchoredText(c *gin.Context) {
 	mutexRectAnchoredText.Lock()
 	defer mutexRectAnchoredText.Unlock()
 
-	values := c.Request.URL.Query()
+	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+	if len(_values) == 1 {
+		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
 			// log.Println("DeleteRectAnchoredText", "GONG__StackPath", stackPath)
