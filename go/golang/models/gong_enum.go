@@ -20,13 +20,12 @@ package models
 // end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {
-	string{{` + string(rune(ModelGongStructInsertionGenericEnumStringTypes)) + `}}
 	Codes() []string
 	CodeValues() []string
+	ToString() string
 }
 
 type PointerToGongstructEnumStringField interface {
-	{{` + string(rune(ModelGongStructInsertionGenericPointerToEnumStringTypes)) + `}}
 	FromCodeString(input string) (err error)
 }
 
@@ -52,7 +51,6 @@ const (
 	ModelGongEnumUtilityFunctions ModelGongEnumInsertionId = iota + 40
 
 	ModelGongStructInsertionGenericEnumStringTypes
-	ModelGongStructInsertionGenericPointerToEnumStringTypes
 	ModelGongStructInsertionGenericEnumIntTypes
 	ModelGongStructInsertionGenericPointerToEnumIntTypes
 
@@ -120,10 +118,9 @@ func ({{enumName}} {{EnumName}}) CodeValues() (res []{{type}}) {
 	return
 }
 `,
-	ModelGongStructInsertionGenericEnumStringTypes:          ` | {{EnumName}}`,
-	ModelGongStructInsertionGenericPointerToEnumStringTypes: ` | *{{EnumName}}`,
-	ModelGongStructInsertionGenericEnumIntTypes:             ` | {{EnumName}}`,
-	ModelGongStructInsertionGenericPointerToEnumIntTypes:    ` | *{{EnumName}}`,
+	ModelGongStructInsertionGenericEnumStringTypes:       ` | {{EnumName}}`,
+	ModelGongStructInsertionGenericEnumIntTypes:          ` | {{EnumName}}`,
+	ModelGongStructInsertionGenericPointerToEnumIntTypes: ` | *{{EnumName}}`,
 }
 
 // gongenum value template
@@ -245,8 +242,7 @@ func CodeGeneratorModelGongEnum(
 			switch subEnumTemplate {
 			case ModelGongEnumUtilityFunctions:
 				subEnumCodes[subEnumTemplate] += generatedCodeFromSubTemplate
-			case ModelGongStructInsertionGenericEnumStringTypes,
-				ModelGongStructInsertionGenericPointerToEnumStringTypes:
+			case ModelGongStructInsertionGenericEnumStringTypes:
 				if gongEnum.Type == models.String {
 					subEnumCodes[subEnumTemplate] += generatedCodeFromSubTemplate
 				}
