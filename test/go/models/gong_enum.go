@@ -239,13 +239,12 @@ func (cenumtypeint CEnumTypeInt) CodeValues() (res []int) {
 // end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {
-	string | AEnumType | BEnumType
 	Codes() []string
 	CodeValues() []string
+	ToString() string
 }
 
 type PointerToGongstructEnumStringField interface {
-	*AEnumType | *BEnumType
 	FromCodeString(input string) (err error)
 }
 
