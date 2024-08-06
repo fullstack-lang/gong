@@ -24,12 +24,13 @@ func (aenumtype *AEnumType) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "ENUM_VAL1_NOT_THE_SAME":
 		*aenumtype = ENUM_VAL1
+		return
 	case "ENUM_VAL2":
 		*aenumtype = ENUM_VAL2
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (aenumtype *AEnumType) FromCodeString(input string) (err error) {
@@ -102,12 +103,13 @@ func (benumtype *BEnumType) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "BENUM_VAL1_NOT_THE_SAME":
 		*benumtype = BENUM_VAL1
+		return
 	case "BENUM_VAL2":
 		*benumtype = BENUM_VAL2
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (benumtype *BEnumType) FromCodeString(input string) (err error) {
@@ -180,12 +182,13 @@ func (cenumtypeint *CEnumTypeInt) FromInt(input int) (err error) {
 	// insertion code per enum code
 	case 0:
 		*cenumtypeint = CENUM_VAL1
+		return
 	case 1:
 		*cenumtypeint = CENUM_VAL2
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (cenumtypeint *CEnumTypeInt) FromCodeString(input string) (err error) {
