@@ -79,7 +79,6 @@ func ({{enumName}} *{{EnumName}}) From{{Type}}(input {{type}}) (err error) {
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func ({{enumName}} *{{EnumName}}) FromCodeString(input string) (err error) {
@@ -140,7 +139,8 @@ map[GongModelEnumValueSubTemplateId]string{
 
 	GongModelEnumValueFromString: `
 	case {{GongEnumValue}}:
-		*{{enumName}} = {{GongEnumCode}}`,
+		*{{enumName}} = {{GongEnumCode}}
+		return`,
 	GongModelEnumValueFromCodeString: `
 	case "{{GongEnumCode}}":
 		*{{enumName}} = {{GongEnumCode}}`,
