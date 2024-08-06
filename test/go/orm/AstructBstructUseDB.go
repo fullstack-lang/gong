@@ -340,7 +340,7 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) CheckoutPhaseT
 func (astructbstructuseDB *AstructBstructUseDB) DecodePointers(backRepo *BackRepoStruct, astructbstructuse *models.AstructBstructUse) {
 
 	// insertion point for checkout of pointer encoding
-	// Bstruct2 field, hello here
+	// Bstruct2 field
 	astructbstructuse.Bstruct2 = nil
 	if astructbstructuseDB.Bstruct2ID.Int64 != 0 {
 		astructbstructuse.Bstruct2 = backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(astructbstructuseDB.Bstruct2ID.Int64)]
