@@ -53,7 +53,6 @@ type StageStruct struct {
 	GongBasicFields_mapString map[string]*GongBasicField
 
 	// insertion point for slice of pointers maps
-
 	OnAfterGongBasicFieldCreateCallback OnAfterCreateInterface[GongBasicField]
 	OnAfterGongBasicFieldUpdateCallback OnAfterUpdateInterface[GongBasicField]
 	OnAfterGongBasicFieldDeleteCallback OnAfterDeleteInterface[GongBasicField]
@@ -74,7 +73,6 @@ type StageStruct struct {
 	GongEnumValues_mapString map[string]*GongEnumValue
 
 	// insertion point for slice of pointers maps
-
 	OnAfterGongEnumValueCreateCallback OnAfterCreateInterface[GongEnumValue]
 	OnAfterGongEnumValueUpdateCallback OnAfterUpdateInterface[GongEnumValue]
 	OnAfterGongEnumValueDeleteCallback OnAfterDeleteInterface[GongEnumValue]
@@ -84,7 +82,6 @@ type StageStruct struct {
 	GongLinks_mapString map[string]*GongLink
 
 	// insertion point for slice of pointers maps
-
 	OnAfterGongLinkCreateCallback OnAfterCreateInterface[GongLink]
 	OnAfterGongLinkUpdateCallback OnAfterUpdateInterface[GongLink]
 	OnAfterGongLinkDeleteCallback OnAfterDeleteInterface[GongLink]
@@ -106,8 +103,11 @@ type StageStruct struct {
 
 	// insertion point for slice of pointers maps
 	GongStruct_GongBasicFields_reverseMap map[*GongBasicField]*GongStruct
+
 	GongStruct_GongTimeFields_reverseMap map[*GongTimeField]*GongStruct
+
 	GongStruct_PointerToGongStructFields_reverseMap map[*PointerToGongStructField]*GongStruct
+
 	GongStruct_SliceOfPointerToGongStructFields_reverseMap map[*SliceOfPointerToGongStructField]*GongStruct
 
 	OnAfterGongStructCreateCallback OnAfterCreateInterface[GongStruct]
@@ -119,7 +119,6 @@ type StageStruct struct {
 	GongTimeFields_mapString map[string]*GongTimeField
 
 	// insertion point for slice of pointers maps
-
 	OnAfterGongTimeFieldCreateCallback OnAfterCreateInterface[GongTimeField]
 	OnAfterGongTimeFieldUpdateCallback OnAfterUpdateInterface[GongTimeField]
 	OnAfterGongTimeFieldDeleteCallback OnAfterDeleteInterface[GongTimeField]
@@ -140,7 +139,6 @@ type StageStruct struct {
 	MetaReferences_mapString map[string]*MetaReference
 
 	// insertion point for slice of pointers maps
-
 	OnAfterMetaReferenceCreateCallback OnAfterCreateInterface[MetaReference]
 	OnAfterMetaReferenceUpdateCallback OnAfterUpdateInterface[MetaReference]
 	OnAfterMetaReferenceDeleteCallback OnAfterDeleteInterface[MetaReference]
@@ -150,7 +148,6 @@ type StageStruct struct {
 	ModelPkgs_mapString map[string]*ModelPkg
 
 	// insertion point for slice of pointers maps
-
 	OnAfterModelPkgCreateCallback OnAfterCreateInterface[ModelPkg]
 	OnAfterModelPkgUpdateCallback OnAfterUpdateInterface[ModelPkg]
 	OnAfterModelPkgDeleteCallback OnAfterDeleteInterface[ModelPkg]
@@ -160,7 +157,6 @@ type StageStruct struct {
 	PointerToGongStructFields_mapString map[string]*PointerToGongStructField
 
 	// insertion point for slice of pointers maps
-
 	OnAfterPointerToGongStructFieldCreateCallback OnAfterCreateInterface[PointerToGongStructField]
 	OnAfterPointerToGongStructFieldUpdateCallback OnAfterUpdateInterface[PointerToGongStructField]
 	OnAfterPointerToGongStructFieldDeleteCallback OnAfterDeleteInterface[PointerToGongStructField]
@@ -170,7 +166,6 @@ type StageStruct struct {
 	SliceOfPointerToGongStructFields_mapString map[string]*SliceOfPointerToGongStructField
 
 	// insertion point for slice of pointers maps
-
 	OnAfterSliceOfPointerToGongStructFieldCreateCallback OnAfterCreateInterface[SliceOfPointerToGongStructField]
 	OnAfterSliceOfPointerToGongStructFieldUpdateCallback OnAfterUpdateInterface[SliceOfPointerToGongStructField]
 	OnAfterSliceOfPointerToGongStructFieldDeleteCallback OnAfterDeleteInterface[SliceOfPointerToGongStructField]
@@ -1175,8 +1170,7 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
-	// insertion point for generic types
-	GongBasicField | GongEnum | GongEnumValue | GongLink | GongNote | GongStruct | GongTimeField | Meta | MetaReference | ModelPkg | PointerToGongStructField | SliceOfPointerToGongStructField
+
 }
 
 type GongtructBasicField interface {
@@ -1188,11 +1182,10 @@ type GongtructBasicField interface {
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type PointerToGongstruct interface {
-	// insertion point for generic types
-	*GongBasicField | *GongEnum | *GongEnumValue | *GongLink | *GongNote | *GongStruct | *GongTimeField | *Meta | *MetaReference | *ModelPkg | *PointerToGongStructField | *SliceOfPointerToGongStructField
 	GetName() string
 	CommitVoid(*StageStruct)
 	UnstageVoid(stage *StageStruct)
+	comparable
 }
 
 func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
@@ -1216,39 +1209,11 @@ func GetGongstrucsSorted[T PointerToGongstruct](stage *StageStruct) (sortedSlice
 }
 
 type GongstructSet interface {
-	map[any]any |
-		// insertion point for generic types
-		map[*GongBasicField]any |
-		map[*GongEnum]any |
-		map[*GongEnumValue]any |
-		map[*GongLink]any |
-		map[*GongNote]any |
-		map[*GongStruct]any |
-		map[*GongTimeField]any |
-		map[*Meta]any |
-		map[*MetaReference]any |
-		map[*ModelPkg]any |
-		map[*PointerToGongStructField]any |
-		map[*SliceOfPointerToGongStructField]any |
-		map[*any]any // because go does not support an extra "|" at the end of type specifications
+	map[any]any
 }
 
 type GongstructMapString interface {
-	map[any]any |
-		// insertion point for generic types
-		map[string]*GongBasicField |
-		map[string]*GongEnum |
-		map[string]*GongEnumValue |
-		map[string]*GongLink |
-		map[string]*GongNote |
-		map[string]*GongStruct |
-		map[string]*GongTimeField |
-		map[string]*Meta |
-		map[string]*MetaReference |
-		map[string]*ModelPkg |
-		map[string]*PointerToGongStructField |
-		map[string]*SliceOfPointerToGongStructField |
-		map[*any]any // because go does not support an extra "|" at the end of type specifications
+	map[any]any
 }
 
 // GongGetSet returns the set staged GongstructType instances

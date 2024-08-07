@@ -222,8 +222,7 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil{{` + stri
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
-	// insertion point for generic types
-	{{` + string(rune(ModelGongStructInsertionGenericGongstructTypes)) + `}}
+
 }
 
 type GongtructBasicField interface {
@@ -235,11 +234,10 @@ type GongtructBasicField interface {
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type PointerToGongstruct interface {
-	// insertion point for generic types
-	{{` + string(rune(ModelGongStructInsertionGenericPointerToGongstructTypes)) + `}}
 	GetName() string
 	CommitVoid(*StageStruct)
 	UnstageVoid(stage *StageStruct)
+	comparable
 }
 
 func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
@@ -263,15 +261,11 @@ func GetGongstrucsSorted[T PointerToGongstruct](stage *StageStruct) (sortedSlice
 }
 
 type GongstructSet interface {
-	map[any]any |
-		// insertion point for generic types{{` + string(rune(ModelGongStructInsertionGenericGongSetTypes)) + `}}
-		map[*any]any // because go does not support an extra "|" at the end of type specifications
+	map[any]any
 }
 
 type GongstructMapString interface {
-	map[any]any |
-		// insertion point for generic types{{` + string(rune(ModelGongStructInsertionGenericGongMapTypes)) + `}}
-		map[*any]any // because go does not support an extra "|" at the end of type specifications
+	map[any]any
 }
 
 // GongGetSet returns the set staged GongstructType instances
