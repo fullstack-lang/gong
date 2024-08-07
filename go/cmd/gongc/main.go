@@ -263,6 +263,19 @@ func main() {
 		}
 	}
 
+	if !*skipNpmWorkspaces && !*skipNg && !*skipNpmInstall {
+		// we need to use npm package (because of angular 17/esbuild)
+		// check wether a package.json is present, otherwise generate it
+		packageJsonFilePath := filepath.Join(*pkgPath, "../../.gitignore")
+		_, errd := os.Stat(packageJsonFilePath)
+		if os.IsNotExist(errd) {
+			gong_models.VerySimpleCodeGenerator(
+				modelPkg,
+				packageJsonFilePath,
+				golang.GitIgnoreTempl)
+		}
+	}
+
 	// generate diagrams/docs.go if absent
 	{
 		diagramsDocFilePath := filepath.Join(*pkgPath, "../diagrams/docs.go")
