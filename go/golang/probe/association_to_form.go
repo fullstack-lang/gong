@@ -82,7 +82,7 @@ func AssociationReverseFieldToForm[OwnerType models.PointerToGongstruct, FieldTy
 		}).Stage(probe.formStage)
 
 		// set up select value if field matches the instance
-		if owner != nil && _instance == owner {
+		if any(owner) != nil && _instance == owner {
 			formFieldSelect.Value = option
 		}
 

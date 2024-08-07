@@ -41,10 +41,8 @@ const (
 	ModelGongStructInsertionGenericReversePointerAssociationsMaps
 	ModelGongStructInsertionGenericReverseSliceOfPointersAssociationsMaps
 
-	ModelGongStructInsertionGenericGongSetTypes
 	ModelGongStructInsertionGenericGongstructName
 	ModelGongStructInsertionGenericPointerToGongstructName
-	ModelGongStructInsertionGenericGongMapTypes
 	ModelGongStructInsertionGenericGetSetFunctions
 	ModelGongStructInsertionGenericGetMapFunctions
 	ModelGongStructInsertionGenericInstancesSetFunctions
@@ -53,9 +51,6 @@ const (
 
 	ModelGongStructInsertionGenericInstancesMapFunctions
 	ModelGongStructInsertionGenericGetAssociationNameFunctions
-
-	ModelGongStructInsertionGenericGongstructTypes
-	ModelGongStructInsertionGenericPointerToGongstructTypes
 
 	ModelGongStructInsertionsNb
 )
@@ -150,7 +145,6 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 	{{Structname}}s_mapString map[string]*{{Structname}}
 
 	// insertion point for slice of pointers maps{{SliceOfPointersReverseMaps}}
-
 	OnAfter{{Structname}}CreateCallback OnAfterCreateInterface[{{Structname}}]
 	OnAfter{{Structname}}UpdateCallback OnAfterUpdateInterface[{{Structname}}]
 	OnAfter{{Structname}}DeleteCallback OnAfterDeleteInterface[{{Structname}}]
@@ -231,13 +225,6 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 		// insertion point for per direct association field{{fieldReverseSliceOfPointersAssociationMapCode}}
 		}`,
 
-	ModelGongStructInsertionGenericGongstructTypes: ` | {{Structname}}`,
-
-	ModelGongStructInsertionGenericPointerToGongstructTypes: ` | *{{Structname}}`,
-
-	ModelGongStructInsertionGenericGongSetTypes: `
-		map[*{{Structname}}]any |`,
-
 	ModelGongStructInsertionGenericGongstructName: `
 	case {{Structname}}:
 		res = "{{Structname}}"`,
@@ -245,9 +232,6 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 	ModelGongStructInsertionGenericPointerToGongstructName: `
 	case *{{Structname}}:
 		res = "{{Structname}}"`,
-
-	ModelGongStructInsertionGenericGongMapTypes: `
-		map[string]*{{Structname}} |`,
 
 	ModelGongStructInsertionGenericGetSetFunctions: `
 	case map[*{{Structname}}]any:
@@ -434,7 +418,8 @@ map[GongFilePerStructSubTemplateId]string{
 			return any(res).(map[*End][]*Start)`,
 
 	GongFileSliceOfPointersReverseMap: `
-	{{Structname}}_{{FieldName}}_reverseMap map[*{{AssocStructName}}]*{{Structname}}`,
+	{{Structname}}_{{FieldName}}_reverseMap map[*{{AssocStructName}}]*{{Structname}}
+`,
 
 	GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction: `
 		case "{{FieldName}}":

@@ -723,7 +723,7 @@ func (backRepoAstruct *BackRepoAstructStruct) CheckoutPhaseTwoInstance(backRepo 
 func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *models.Astruct) {
 
 	// insertion point for checkout of pointer encoding
-	// Associationtob field, hello here
+	// Associationtob field
 	astruct.Associationtob = nil
 	if astructDB.AssociationtobID.Int64 != 0 {
 		astruct.Associationtob = backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(astructDB.AssociationtobID.Int64)]
@@ -737,37 +737,37 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 		astruct.Anarrayofb = append(astruct.Anarrayofb, backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(_Bstructid)])
 	}
 
-	// Anotherassociationtob_2 field, hello here
+	// Anotherassociationtob_2 field
 	astruct.Anotherassociationtob_2 = nil
 	if astructDB.Anotherassociationtob_2ID.Int64 != 0 {
 		astruct.Anotherassociationtob_2 = backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(astructDB.Anotherassociationtob_2ID.Int64)]
 	}
-	// Bstruct field, hello here
+	// Bstruct field
 	astruct.Bstruct = nil
 	if astructDB.BstructID.Int64 != 0 {
 		astruct.Bstruct = backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(astructDB.BstructID.Int64)]
 	}
-	// Bstruct2 field, hello here
+	// Bstruct2 field
 	astruct.Bstruct2 = nil
 	if astructDB.Bstruct2ID.Int64 != 0 {
 		astruct.Bstruct2 = backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(astructDB.Bstruct2ID.Int64)]
 	}
-	// Dstruct field, hello here
+	// Dstruct field
 	astruct.Dstruct = nil
 	if astructDB.DstructID.Int64 != 0 {
 		astruct.Dstruct = backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[uint(astructDB.DstructID.Int64)]
 	}
-	// Dstruct2 field, hello here
+	// Dstruct2 field
 	astruct.Dstruct2 = nil
 	if astructDB.Dstruct2ID.Int64 != 0 {
 		astruct.Dstruct2 = backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[uint(astructDB.Dstruct2ID.Int64)]
 	}
-	// Dstruct3 field, hello here
+	// Dstruct3 field
 	astruct.Dstruct3 = nil
 	if astructDB.Dstruct3ID.Int64 != 0 {
 		astruct.Dstruct3 = backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[uint(astructDB.Dstruct3ID.Int64)]
 	}
-	// Dstruct4 field, hello here
+	// Dstruct4 field
 	astruct.Dstruct4 = nil
 	if astructDB.Dstruct4ID.Int64 != 0 {
 		astruct.Dstruct4 = backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[uint(astructDB.Dstruct4ID.Int64)]
@@ -808,7 +808,7 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 		astruct.Anarrayofb2Use = append(astruct.Anarrayofb2Use, backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr[uint(_AstructBstruct2Useid)])
 	}
 
-	// AnAstruct field, hello here
+	// AnAstruct field
 	astruct.AnAstruct = nil
 	if astructDB.AnAstructID.Int64 != 0 {
 		astruct.AnAstruct = backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[uint(astructDB.AnAstructID.Int64)]

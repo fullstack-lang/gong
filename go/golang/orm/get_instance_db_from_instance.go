@@ -8,9 +8,6 @@ import (
 )
 
 type GongstructDB interface {
-	// insertion point for generic types
-	// "int" is present to handle the case when no struct is present
-	int{{` + string(rune(GetInstanceDBFromInstanceGonstructDBDefinition)) + `}}
 }
 
 func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
@@ -58,7 +55,6 @@ type GetInstanceDBFromInstanceSubTemplateInsertion int
 const (
 	GetInstanceDBFromInstanceSwitchCaseGetID GetInstanceDBFromInstanceSubTemplateInsertion = iota
 	GetInstanceDBFromInstanceSwitchCaseGet
-	GetInstanceDBFromInstanceGonstructDBDefinition
 )
 
 var GetInstanceDBFromInstanceSubTemplate map[string]string = // new line
@@ -75,5 +71,4 @@ map[string]string{
 		{{structname}}Instance := any(concreteInstance).(*models.{{Structname}})
 		ret2 := backRepo.BackRepo{{Structname}}.Get{{Structname}}DBFrom{{Structname}}Ptr({{structname}}Instance)
 		ret = any(ret2).(*T2)`,
-	string(rune(GetInstanceDBFromInstanceGonstructDBDefinition)): ` | {{Structname}}DB`,
 }

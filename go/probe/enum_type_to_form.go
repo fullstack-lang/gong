@@ -34,7 +34,7 @@ func EnumTypeStringToForm[T models.PointerToGongstruct, TF models.GongstructEnum
 			Name: optionCode,
 		}).Stage(formStage)
 
-		if string(field) == optionValue {
+		if field.ToString() == optionValue {
 			formFieldSelect.Value = option
 		}
 
