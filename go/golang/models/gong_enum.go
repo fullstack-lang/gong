@@ -20,13 +20,12 @@ package models
 // end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {
-	string{{` + string(rune(ModelGongStructInsertionGenericEnumStringTypes)) + `}}
 	Codes() []string
 	CodeValues() []string
+	ToString() string
 }
 
 type PointerToGongstructEnumStringField interface {
-	{{` + string(rune(ModelGongStructInsertionGenericPointerToEnumStringTypes)) + `}}
 	FromCodeString(input string) (err error)
 }
 
@@ -52,7 +51,6 @@ const (
 	ModelGongEnumUtilityFunctions ModelGongEnumInsertionId = iota + 40
 
 	ModelGongStructInsertionGenericEnumStringTypes
-	ModelGongStructInsertionGenericPointerToEnumStringTypes
 	ModelGongStructInsertionGenericEnumIntTypes
 	ModelGongStructInsertionGenericPointerToEnumIntTypes
 
@@ -81,7 +79,6 @@ func ({{enumName}} *{{EnumName}}) From{{Type}}(input {{type}}) (err error) {
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func ({{enumName}} *{{EnumName}}) FromCodeString(input string) (err error) {
@@ -120,10 +117,9 @@ func ({{enumName}} {{EnumName}}) CodeValues() (res []{{type}}) {
 	return
 }
 `,
-	ModelGongStructInsertionGenericEnumStringTypes:          ` | {{EnumName}}`,
-	ModelGongStructInsertionGenericPointerToEnumStringTypes: ` | *{{EnumName}}`,
-	ModelGongStructInsertionGenericEnumIntTypes:             ` | {{EnumName}}`,
-	ModelGongStructInsertionGenericPointerToEnumIntTypes:    ` | *{{EnumName}}`,
+	ModelGongStructInsertionGenericEnumStringTypes:       ` | {{EnumName}}`,
+	ModelGongStructInsertionGenericEnumIntTypes:          ` | {{EnumName}}`,
+	ModelGongStructInsertionGenericPointerToEnumIntTypes: ` | *{{EnumName}}`,
 }
 
 // gongenum value template
@@ -143,7 +139,8 @@ map[GongModelEnumValueSubTemplateId]string{
 
 	GongModelEnumValueFromString: `
 	case {{GongEnumValue}}:
-		*{{enumName}} = {{GongEnumCode}}`,
+		*{{enumName}} = {{GongEnumCode}}
+		return`,
 	GongModelEnumValueFromCodeString: `
 	case "{{GongEnumCode}}":
 		*{{enumName}} = {{GongEnumCode}}`,
@@ -245,8 +242,7 @@ func CodeGeneratorModelGongEnum(
 			switch subEnumTemplate {
 			case ModelGongEnumUtilityFunctions:
 				subEnumCodes[subEnumTemplate] += generatedCodeFromSubTemplate
-			case ModelGongStructInsertionGenericEnumStringTypes,
-				ModelGongStructInsertionGenericPointerToEnumStringTypes:
+			case ModelGongStructInsertionGenericEnumStringTypes:
 				if gongEnum.Type == models.String {
 					subEnumCodes[subEnumTemplate] += generatedCodeFromSubTemplate
 				}
