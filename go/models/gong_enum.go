@@ -24,12 +24,13 @@ func (gongenumtype *GongEnumType) FromInt(input int) (err error) {
 	// insertion code per enum code
 	case 0:
 		*gongenumtype = Int
+		return
 	case 1:
 		*gongenumtype = String
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (gongenumtype *GongEnumType) FromCodeString(input string) (err error) {
@@ -83,13 +84,12 @@ func (gongenumtype GongEnumType) CodeValues() (res []int) {
 // end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {
-	string
 	Codes() []string
 	CodeValues() []string
+	ToString() string
 }
 
 type PointerToGongstructEnumStringField interface {
-	
 	FromCodeString(input string) (err error)
 }
 

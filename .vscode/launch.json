@@ -128,6 +128,19 @@
             ]
         },
         {
+            "name": "gongc gongmusicxml -skipGoModCommands -skipNpmInstall -compileForDebug",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/../biggong/gongmusicxml/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmInstall",
+                "-compileForDebug"
+            ]
+        },
+        {
             "name": "gongc gongdoc -skipGoModCommands -compileForDebug -skipNg",
             "type": "go",
             "request": "launch",
