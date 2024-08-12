@@ -146,6 +146,9 @@ func (stage *StageStruct) StageBranchAstruct(astruct *Astruct) {
 	for _, _bstruct := range astruct.Anarrayofb {
 		StageBranch(stage, _bstruct)
 	}
+	for _, _dstruct := range astruct.Dstruct4s {
+		StageBranch(stage, _dstruct)
+	}
 	for _, _astruct := range astruct.Anarrayofa {
 		StageBranch(stage, _astruct)
 	}
@@ -331,6 +334,9 @@ func CopyBranchAstruct(mapOrigCopy map[any]any, astructFrom *Astruct) (astructTo
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _bstruct := range astructFrom.Anarrayofb {
 		astructTo.Anarrayofb = append(astructTo.Anarrayofb, CopyBranchBstruct(mapOrigCopy, _bstruct))
+	}
+	for _, _dstruct := range astructFrom.Dstruct4s {
+		astructTo.Dstruct4s = append(astructTo.Dstruct4s, CopyBranchDstruct(mapOrigCopy, _dstruct))
 	}
 	for _, _astruct := range astructFrom.Anarrayofa {
 		astructTo.Anarrayofa = append(astructTo.Anarrayofa, CopyBranchAstruct(mapOrigCopy, _astruct))
@@ -525,6 +531,9 @@ func (stage *StageStruct) UnstageBranchAstruct(astruct *Astruct) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _bstruct := range astruct.Anarrayofb {
 		UnstageBranch(stage, _bstruct)
+	}
+	for _, _dstruct := range astruct.Dstruct4s {
+		UnstageBranch(stage, _dstruct)
 	}
 	for _, _astruct := range astruct.Anarrayofa {
 		UnstageBranch(stage, _astruct)

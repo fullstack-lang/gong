@@ -574,7 +574,7 @@ func CodeGeneratorModelGong(
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 
-					if !isWithinAnonymousStruct {
+					if field.CompositeStructName == "" && !isWithinAnonymousStruct {
 						associationFieldInitialization += models.Replace3(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNameSliceOfPointersField],
 							"{{FieldName}}", field.Name,

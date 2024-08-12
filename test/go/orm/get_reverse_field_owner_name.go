@@ -76,6 +76,13 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 	case *models.Dstruct:
 		switch reverseField.GongstructName {
 		// insertion point
+		case "Astruct":
+			switch reverseField.Fieldname {
+			case "Dstruct4s":
+				if _astruct, ok := stage.Astruct_Dstruct4s_reverseMap[inst]; ok {
+					res = _astruct.Name
+				}
+			}
 		}
 
 	case *models.Fstruct:
@@ -148,6 +155,11 @@ func GetReverseFieldOwner[T models.Gongstruct](
 	case *models.Dstruct:
 		switch reverseField.GongstructName {
 		// insertion point
+		case "Astruct":
+			switch reverseField.Fieldname {
+			case "Dstruct4s":
+				res = stage.Astruct_Dstruct4s_reverseMap[inst]
+			}
 		}
 
 	case *models.Fstruct:

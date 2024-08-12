@@ -22,10 +22,6 @@ func FillUpForm[T models.Gongstruct](
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("AnonymousStructField1.TheName1", instanceWithInferedType.AnonymousStructField1.TheName1, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("AnonymousStructField2.TheName1", instanceWithInferedType.AnonymousStructField2.TheName1, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 		AssociationFieldToForm("Associationtob", instanceWithInferedType.Associationtob, formGroup, probe)
 		AssociationSliceToForm("Anarrayofb", instanceWithInferedType, &instanceWithInferedType.Anarrayofb, formGroup, probe)
 		AssociationFieldToForm("Anotherassociationtob_2", instanceWithInferedType.Anotherassociationtob_2, formGroup, probe)
@@ -47,6 +43,7 @@ func FillUpForm[T models.Gongstruct](
 		AssociationFieldToForm("Dstruct2", instanceWithInferedType.Dstruct2, formGroup, probe)
 		AssociationFieldToForm("Dstruct3", instanceWithInferedType.Dstruct3, formGroup, probe)
 		AssociationFieldToForm("Dstruct4", instanceWithInferedType.Dstruct4, formGroup, probe)
+		AssociationSliceToForm("Dstruct4s", instanceWithInferedType, &instanceWithInferedType.Dstruct4s, formGroup, probe)
 		BasicFieldtoForm("Floatfield", instanceWithInferedType.Floatfield, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Intfield", instanceWithInferedType.Intfield, instanceWithInferedType, probe.formStage, formGroup,
@@ -237,6 +234,28 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("Anarrayofb", instanceWithInferedType, &instanceWithInferedType.Anarrayofb, formGroup, probe)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Astruct"
+			rf.Fieldname = "Dstruct4s"
+			reverseFieldOwner := orm.GetReverseFieldOwner(probe.stageOfInterest, probe.backRepoOfInterest, instanceWithInferedType, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Astruct),
+					"Dstruct4s",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Astruct, *models.Dstruct](
+					nil,
+					"Dstruct4s",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
 
 	case *models.Fstruct:
 		// insertion point

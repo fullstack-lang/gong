@@ -4,4 +4,6 @@ package models
 type Estruct struct {
 	Dstruct3 *Dstruct
 	Dstruct4 *Dstruct
+
+	Dstruct4s []*Dstruct
 }

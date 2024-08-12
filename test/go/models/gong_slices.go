@@ -54,6 +54,25 @@ func EvictInOtherSlices[OwningType PointerToGongstruct, FieldType PointerToGongs
 				}
 			}
 		}
+		if fieldName == "Dstruct4s" {
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
+				if any(_instance).(*Astruct) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Astruct)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Dstruct4s).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Dstruct4s = _inferedTypeInstance.Dstruct4s[0:]
+					for _, fieldInstance := range reference {
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Dstruct4s =
+								append(_inferedTypeInstance.Dstruct4s, any(fieldInstance).(*Dstruct))
+						}
+					}
+				}
+			}
+		}
 		if fieldName == "Anarrayofa" {
 
 			// walk all instances of the owning type
@@ -182,6 +201,14 @@ func (stage *StageStruct) ComputeReverseMaps() {
 		_ = astruct
 		for _, _bstruct := range astruct.Anarrayofb {
 			stage.Astruct_Anarrayofb_reverseMap[_bstruct] = astruct
+		}
+	}
+	clear(stage.Astruct_Dstruct4s_reverseMap)
+	stage.Astruct_Dstruct4s_reverseMap = make(map[*Dstruct]*Astruct)
+	for astruct := range stage.Astructs {
+		_ = astruct
+		for _, _dstruct := range astruct.Dstruct4s {
+			stage.Astruct_Dstruct4s_reverseMap[_dstruct] = astruct
 		}
 	}
 	clear(stage.Astruct_Anarrayofa_reverseMap)
