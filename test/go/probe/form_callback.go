@@ -63,10 +63,6 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(astruct_.Name), formDiv)
-		case "AnonymousStructField1.TheName1":
-			FormDivBasicFieldToField(&(astruct_.AnonymousStructField1.TheName1), formDiv)
-		case "AnonymousStructField2.TheName1":
-			FormDivBasicFieldToField(&(astruct_.AnonymousStructField2.TheName1), formDiv)
 		case "Associationtob":
 			FormDivSelectFieldToField(&(astruct_.Associationtob), astructFormCallback.probe.stageOfInterest, formDiv)
 		case "Anotherassociationtob_2":
@@ -695,6 +691,48 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(dstruct_.Name), formDiv)
+		case "Astruct:Dstruct4s":
+			// we need to retrieve the field owner before the change
+			var pastAstructOwner *models.Astruct
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Astruct"
+			rf.Fieldname = "Dstruct4s"
+			reverseFieldOwner := orm.GetReverseFieldOwner(
+				dstructFormCallback.probe.stageOfInterest,
+				dstructFormCallback.probe.backRepoOfInterest,
+				dstruct_,
+				&rf)
+
+			if reverseFieldOwner != nil {
+				pastAstructOwner = reverseFieldOwner.(*models.Astruct)
+			}
+			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+				if pastAstructOwner != nil {
+					idx := slices.Index(pastAstructOwner.Dstruct4s, dstruct_)
+					pastAstructOwner.Dstruct4s = slices.Delete(pastAstructOwner.Dstruct4s, idx, idx+1)
+				}
+			} else {
+				// we need to retrieve the field owner after the change
+				// parse all astrcut and get the one with the name in the
+				// div
+				for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](dstructFormCallback.probe.stageOfInterest) {
+
+					// the match is base on the name
+					if _astruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
+						newAstructOwner := _astruct // we have a match
+						if pastAstructOwner != nil {
+							if newAstructOwner != pastAstructOwner {
+								idx := slices.Index(pastAstructOwner.Dstruct4s, dstruct_)
+								pastAstructOwner.Dstruct4s = slices.Delete(pastAstructOwner.Dstruct4s, idx, idx+1)
+								newAstructOwner.Dstruct4s = append(newAstructOwner.Dstruct4s, dstruct_)
+							}
+						} else {
+							newAstructOwner.Dstruct4s = append(newAstructOwner.Dstruct4s, dstruct_)
+						}
+					}
+				}
+			}
 		}
 	}
 

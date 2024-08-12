@@ -618,6 +618,12 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							target := __gong__map_Bstruct[targetIdentifier]
 							__gong__map_Astruct[identifier].Anarrayofb =
 								append(__gong__map_Astruct[identifier].Anarrayofb, target)
+						case "Dstruct4s":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_Dstruct[targetIdentifier]
+							__gong__map_Astruct[identifier].Dstruct4s =
+								append(__gong__map_Astruct[identifier].Dstruct4s, target)
 						case "Anarrayofa":
 							// remove first and last char
 							targetIdentifier := ident.Name
@@ -725,14 +731,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Astruct[identifier].Name = fielValue
-				case "AnonymousStructField1.TheName1":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Astruct[identifier].AnonymousStructField1.TheName1 = fielValue
-				case "AnonymousStructField2.TheName1":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Astruct[identifier].AnonymousStructField2.TheName1 = fielValue
 				case "CName":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
