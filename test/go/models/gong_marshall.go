@@ -126,18 +126,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.Name))
 		initializerStatements += setValueField
 
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "AnonymousStructField1.TheName1")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.AnonymousStructField1.TheName1))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "AnonymousStructField2.TheName1")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.AnonymousStructField2.TheName1))
-		initializerStatements += setValueField
-
 		setValueField = TimeInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Date")
@@ -556,6 +544,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Dstruct4")
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Dstruct_Identifiers[astruct.Dstruct4])
+			pointersInitializesStatements += setPointerField
+		}
+
+		for _, _dstruct := range astruct.Dstruct4s {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Dstruct4s")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Dstruct_Identifiers[_dstruct])
 			pointersInitializesStatements += setPointerField
 		}
 

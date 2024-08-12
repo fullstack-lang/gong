@@ -54,9 +54,15 @@ type StageStruct struct {
 
 	// insertion point for slice of pointers maps
 	Astruct_Anarrayofb_reverseMap map[*Bstruct]*Astruct
+
+	Astruct_Dstruct4s_reverseMap map[*Dstruct]*Astruct
+
 	Astruct_Anarrayofa_reverseMap map[*Astruct]*Astruct
+
 	Astruct_Anotherarrayofb_reverseMap map[*Bstruct]*Astruct
+
 	Astruct_AnarrayofbUse_reverseMap map[*AstructBstructUse]*Astruct
+
 	Astruct_Anarrayofb2Use_reverseMap map[*AstructBstruct2Use]*Astruct
 
 	OnAfterAstructCreateCallback OnAfterCreateInterface[Astruct]
@@ -68,7 +74,6 @@ type StageStruct struct {
 	AstructBstruct2Uses_mapString map[string]*AstructBstruct2Use
 
 	// insertion point for slice of pointers maps
-
 	OnAfterAstructBstruct2UseCreateCallback OnAfterCreateInterface[AstructBstruct2Use]
 	OnAfterAstructBstruct2UseUpdateCallback OnAfterUpdateInterface[AstructBstruct2Use]
 	OnAfterAstructBstruct2UseDeleteCallback OnAfterDeleteInterface[AstructBstruct2Use]
@@ -78,7 +83,6 @@ type StageStruct struct {
 	AstructBstructUses_mapString map[string]*AstructBstructUse
 
 	// insertion point for slice of pointers maps
-
 	OnAfterAstructBstructUseCreateCallback OnAfterCreateInterface[AstructBstructUse]
 	OnAfterAstructBstructUseUpdateCallback OnAfterUpdateInterface[AstructBstructUse]
 	OnAfterAstructBstructUseDeleteCallback OnAfterDeleteInterface[AstructBstructUse]
@@ -88,7 +92,6 @@ type StageStruct struct {
 	Bstructs_mapString map[string]*Bstruct
 
 	// insertion point for slice of pointers maps
-
 	OnAfterBstructCreateCallback OnAfterCreateInterface[Bstruct]
 	OnAfterBstructUpdateCallback OnAfterUpdateInterface[Bstruct]
 	OnAfterBstructDeleteCallback OnAfterDeleteInterface[Bstruct]
@@ -109,7 +112,6 @@ type StageStruct struct {
 	Fstructs_mapString map[string]*Fstruct
 
 	// insertion point for slice of pointers maps
-
 	OnAfterFstructCreateCallback OnAfterCreateInterface[Fstruct]
 	OnAfterFstructUpdateCallback OnAfterUpdateInterface[Fstruct]
 	OnAfterFstructDeleteCallback OnAfterDeleteInterface[Fstruct]
@@ -700,8 +702,7 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
-	// insertion point for generic types
-	Astruct | AstructBstruct2Use | AstructBstructUse | Bstruct | Dstruct | Fstruct
+
 }
 
 type GongtructBasicField interface {
@@ -713,11 +714,10 @@ type GongtructBasicField interface {
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type PointerToGongstruct interface {
-	// insertion point for generic types
-	*Astruct | *AstructBstruct2Use | *AstructBstructUse | *Bstruct | *Dstruct | *Fstruct
 	GetName() string
 	CommitVoid(*StageStruct)
 	UnstageVoid(stage *StageStruct)
+	comparable
 }
 
 func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
@@ -741,27 +741,11 @@ func GetGongstrucsSorted[T PointerToGongstruct](stage *StageStruct) (sortedSlice
 }
 
 type GongstructSet interface {
-	map[any]any |
-		// insertion point for generic types
-		map[*Astruct]any |
-		map[*AstructBstruct2Use]any |
-		map[*AstructBstructUse]any |
-		map[*Bstruct]any |
-		map[*Dstruct]any |
-		map[*Fstruct]any |
-		map[*any]any // because go does not support an extra "|" at the end of type specifications
+	map[any]any
 }
 
 type GongstructMapString interface {
-	map[any]any |
-		// insertion point for generic types
-		map[string]*Astruct |
-		map[string]*AstructBstruct2Use |
-		map[string]*AstructBstructUse |
-		map[string]*Bstruct |
-		map[string]*Dstruct |
-		map[string]*Fstruct |
-		map[*any]any // because go does not support an extra "|" at the end of type specifications
+	map[any]any
 }
 
 // GongGetSet returns the set staged GongstructType instances
@@ -1222,6 +1206,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End]*Start)
+		case "Dstruct4s":
+			res := make(map[*Dstruct]*Astruct)
+			for astruct := range stage.Astructs {
+				for _, dstruct_ := range astruct.Dstruct4s {
+					res[dstruct_] = astruct
+				}
+			}
+			return any(res).(map[*End]*Start)
 		case "Anarrayofa":
 			res := make(map[*Astruct]*Astruct)
 			for astruct := range stage.Astructs {
@@ -1348,7 +1340,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case Astruct:
-		res = []string{"Name", "AnonymousStructField1.TheName1", "AnonymousStructField2.TheName1", "Associationtob", "Anarrayofb", "Anotherassociationtob_2", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofa", "Anotherarrayofb", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue", "TextFieldBespokeSize", "TextArea"}
+		res = []string{"Name", "Associationtob", "Anarrayofb", "Anotherassociationtob_2", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Dstruct4s", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofa", "Anotherarrayofb", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue", "TextFieldBespokeSize", "TextArea"}
 	case AstructBstruct2Use:
 		res = []string{"Name", "Bstrcut2"}
 	case AstructBstructUse:
@@ -1410,6 +1402,9 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	case Dstruct:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Astruct"
+		rf.Fieldname = "Dstruct4s"
+		res = append(res, rf)
 	case Fstruct:
 		var rf ReverseField
 		_ = rf
@@ -1425,7 +1420,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *Astruct:
-		res = []string{"Name", "AnonymousStructField1.TheName1", "AnonymousStructField2.TheName1", "Associationtob", "Anarrayofb", "Anotherassociationtob_2", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofa", "Anotherarrayofb", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue", "TextFieldBespokeSize", "TextArea"}
+		res = []string{"Name", "Associationtob", "Anarrayofb", "Anotherassociationtob_2", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Dstruct4s", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofa", "Anotherarrayofb", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue", "TextFieldBespokeSize", "TextArea"}
 	case *AstructBstruct2Use:
 		res = []string{"Name", "Bstrcut2"}
 	case *AstructBstructUse:
@@ -1449,10 +1444,6 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
-		case "AnonymousStructField1.TheName1":
-			res = inferedInstance.AnonymousStructField1.TheName1
-		case "AnonymousStructField2.TheName1":
-			res = inferedInstance.AnonymousStructField2.TheName1
 		case "Associationtob":
 			if inferedInstance.Associationtob != nil {
 				res = inferedInstance.Associationtob.Name
@@ -1511,6 +1502,13 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 		case "Dstruct4":
 			if inferedInstance.Dstruct4 != nil {
 				res = inferedInstance.Dstruct4.Name
+			}
+		case "Dstruct4s":
+			for idx, __instance__ := range inferedInstance.Dstruct4s {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
 			}
 		case "Floatfield":
 			res = fmt.Sprintf("%f", inferedInstance.Floatfield)
@@ -1676,10 +1674,6 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
-		case "AnonymousStructField1.TheName1":
-			res = inferedInstance.AnonymousStructField1.TheName1
-		case "AnonymousStructField2.TheName1":
-			res = inferedInstance.AnonymousStructField2.TheName1
 		case "Associationtob":
 			if inferedInstance.Associationtob != nil {
 				res = inferedInstance.Associationtob.Name
@@ -1738,6 +1732,13 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		case "Dstruct4":
 			if inferedInstance.Dstruct4 != nil {
 				res = inferedInstance.Dstruct4.Name
+			}
+		case "Dstruct4s":
+			for idx, __instance__ := range inferedInstance.Dstruct4s {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
 			}
 		case "Floatfield":
 			res = fmt.Sprintf("%f", inferedInstance.Floatfield)

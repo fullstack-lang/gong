@@ -10,20 +10,20 @@ type Astruct struct {
 	// a "Name" field is necessary to generate a GongStruct
 	Name string
 
-	AnonymousStructField1 struct {
-		// Timevar time.Time
-		// Bollean bool
+	// AnonymousStructField1 struct {
+	// 	// Timevar time.Time
+	// 	// Bollean bool
 
-		// Associationtob4 *Bstruct
-		TheName1 string
-		// TheName2        string
-		// SliceOfB4       []*Bstruct
-		// Duration2       time.Duration
-	}
+	// 	// Associationtob4 *Bstruct
+	// 	TheName1 string
+	// 	// TheName2        string
+	// 	// SliceOfB4       []*Bstruct
+	// 	// Duration2       time.Duration
+	// }
 
-	AnonymousStructField2 struct {
-		TheName1 string
-	}
+	// AnonymousStructField2 struct {
+	// 	TheName1 string
+	// }
 
 	// ONE-ZERO/ONE association is a supported type of gong
 	Associationtob *Bstruct

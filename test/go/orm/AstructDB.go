@@ -82,6 +82,9 @@ type AstructPointersEncoding struct {
 	// This field is generated into another field to enable AS ONE association
 	Dstruct4ID sql.NullInt64
 
+	// field Dstruct4s is a slice of pointers to another Struct (optional or 0..1)
+	Dstruct4s IntSlice `gorm:"type:TEXT"`
+
 	// field Anarrayofa is a slice of pointers to another Struct (optional or 0..1)
 	Anarrayofa IntSlice `gorm:"type:TEXT"`
 
@@ -112,20 +115,6 @@ type AstructDB struct {
 
 	// Declation for basic field astructDB.Name
 	Name_Data sql.NullString
-
-	AnonymousStructField1 struct {
-
-		// Declation for basic field astructDB.TheName1
-		TheName1_Data sql.NullString
-
-	} `gorm:"embedded"`
-
-	AnonymousStructField2 struct {
-
-		// Declation for basic field astructDB.TheName1
-		TheName1_Data sql.NullString
-
-	} `gorm:"embedded"`
 
 	// Declation for basic field astructDB.Date
 	Date_Data sql.NullTime
@@ -213,57 +202,45 @@ type AstructWOP struct {
 
 	Name string `xlsx:"1"`
 
-	AnonymousStructField1 struct {
+	Date time.Time `xlsx:"2"`
 
-		TheName1 string `xlsx:"2"`
+	Booleanfield bool `xlsx:"3"`
 
-	} `gorm:"embedded"`
+	Aenum models.AEnumType `xlsx:"4"`
 
-	AnonymousStructField2 struct {
+	Aenum_2 models.AEnumType `xlsx:"5"`
 
-		TheName1 string `xlsx:"3"`
+	Benum models.BEnumType `xlsx:"6"`
 
-	} `gorm:"embedded"`
+	CEnum models.CEnumTypeInt `xlsx:"7"`
 
-	Date time.Time `xlsx:"4"`
+	CName string `xlsx:"8"`
 
-	Booleanfield bool `xlsx:"5"`
+	CFloatfield float64 `xlsx:"9"`
 
-	Aenum models.AEnumType `xlsx:"6"`
+	Floatfield float64 `xlsx:"10"`
 
-	Aenum_2 models.AEnumType `xlsx:"7"`
+	Intfield int `xlsx:"11"`
 
-	Benum models.BEnumType `xlsx:"8"`
+	Anotherbooleanfield bool `xlsx:"12"`
 
-	CEnum models.CEnumTypeInt `xlsx:"9"`
+	Duration1 time.Duration `xlsx:"13"`
 
-	CName string `xlsx:"10"`
+	StructRef string `xlsx:"14"`
 
-	CFloatfield float64 `xlsx:"11"`
+	FieldRef string `xlsx:"15"`
 
-	Floatfield float64 `xlsx:"12"`
+	EnumIntRef string `xlsx:"16"`
 
-	Intfield int `xlsx:"13"`
+	EnumStringRef string `xlsx:"17"`
 
-	Anotherbooleanfield bool `xlsx:"14"`
+	EnumValue string `xlsx:"18"`
 
-	Duration1 time.Duration `xlsx:"15"`
+	ConstIdentifierValue string `xlsx:"19"`
 
-	StructRef string `xlsx:"16"`
+	TextFieldBespokeSize string `xlsx:"20"`
 
-	FieldRef string `xlsx:"17"`
-
-	EnumIntRef string `xlsx:"18"`
-
-	EnumStringRef string `xlsx:"19"`
-
-	EnumValue string `xlsx:"20"`
-
-	ConstIdentifierValue string `xlsx:"21"`
-
-	TextFieldBespokeSize string `xlsx:"22"`
-
-	TextArea string `xlsx:"23"`
+	TextArea string `xlsx:"21"`
 	// insertion for WOP pointer fields
 }
 
@@ -271,8 +248,6 @@ var Astruct_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
-	"AnonymousStructField1.TheName1",
-	"AnonymousStructField2.TheName1",
 	"Date",
 	"Booleanfield",
 	"Aenum",
@@ -527,6 +502,24 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		}
 
 		// 1. reset
+		astructDB.AstructPointersEncoding.Dstruct4s = make([]int, 0)
+		// 2. encode
+		for _, dstructAssocEnd := range astruct.Dstruct4s {
+			dstructAssocEnd_DB :=
+				backRepo.BackRepoDstruct.GetDstructDBFromDstructPtr(dstructAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the dstructAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if dstructAssocEnd_DB == nil {
+				continue
+			}
+			
+			astructDB.AstructPointersEncoding.Dstruct4s =
+				append(astructDB.AstructPointersEncoding.Dstruct4s, int(dstructAssocEnd_DB.ID))
+		}
+
+		// 1. reset
 		astructDB.AstructPointersEncoding.Anarrayofa = make([]int, 0)
 		// 2. encode
 		for _, astructAssocEnd := range astruct.Anarrayofa {
@@ -772,6 +765,15 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 	if astructDB.Dstruct4ID.Int64 != 0 {
 		astruct.Dstruct4 = backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[uint(astructDB.Dstruct4ID.Int64)]
 	}
+	// This loop redeem astruct.Dstruct4s in the stage from the encode in the back repo
+	// It parses all DstructDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	astruct.Dstruct4s = astruct.Dstruct4s[:0]
+	for _, _Dstructid := range astructDB.AstructPointersEncoding.Dstruct4s {
+		astruct.Dstruct4s = append(astruct.Dstruct4s, backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[uint(_Dstructid)])
+	}
+
 	// This loop redeem astruct.Anarrayofa in the stage from the encode in the back repo
 	// It parses all AstructDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
@@ -850,12 +852,6 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstruct(astruct *models.Astruct) 
 	astructDB.Name_Data.String = astruct.Name
 	astructDB.Name_Data.Valid = true
 
-	astructDB.AnonymousStructField1.TheName1_Data.String = astruct.AnonymousStructField1.TheName1
-	astructDB.AnonymousStructField1.TheName1_Data.Valid = true
-
-	astructDB.AnonymousStructField2.TheName1_Data.String = astruct.AnonymousStructField2.TheName1
-	astructDB.AnonymousStructField2.TheName1_Data.Valid = true
-
 	astructDB.Date_Data.Time = astruct.Date
 	astructDB.Date_Data.Valid = true
 
@@ -923,12 +919,6 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstruct_WOP(astruct *models.Astru
 
 	astructDB.Name_Data.String = astruct.Name
 	astructDB.Name_Data.Valid = true
-
-	astructDB.AnonymousStructField1.TheName1_Data.String = astruct.AnonymousStructField1.TheName1
-	astructDB.AnonymousStructField1.TheName1_Data.Valid = true
-
-	astructDB.AnonymousStructField2.TheName1_Data.String = astruct.AnonymousStructField2.TheName1
-	astructDB.AnonymousStructField2.TheName1_Data.Valid = true
 
 	astructDB.Date_Data.Time = astruct.Date
 	astructDB.Date_Data.Valid = true
@@ -998,12 +988,6 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstructWOP(astruct *AstructWOP) {
 	astructDB.Name_Data.String = astruct.Name
 	astructDB.Name_Data.Valid = true
 
-	astructDB.AnonymousStructField1.TheName1_Data.String = astruct.AnonymousStructField1.TheName1
-	astructDB.AnonymousStructField1.TheName1_Data.Valid = true
-
-	astructDB.AnonymousStructField2.TheName1_Data.String = astruct.AnonymousStructField2.TheName1
-	astructDB.AnonymousStructField2.TheName1_Data.Valid = true
-
 	astructDB.Date_Data.Time = astruct.Date
 	astructDB.Date_Data.Valid = true
 
@@ -1069,8 +1053,6 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstructWOP(astruct *AstructWOP) {
 func (astructDB *AstructDB) CopyBasicFieldsToAstruct(astruct *models.Astruct) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	astruct.Name = astructDB.Name_Data.String
-	astruct.AnonymousStructField1.TheName1 = astructDB.AnonymousStructField1.TheName1_Data.String
-	astruct.AnonymousStructField2.TheName1 = astructDB.AnonymousStructField2.TheName1_Data.String
 	astruct.Date = astructDB.Date_Data.Time
 	astruct.Booleanfield = astructDB.Booleanfield_Data.Bool
 	astruct.Aenum.FromString(astructDB.Aenum_Data.String)
@@ -1097,8 +1079,6 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstruct(astruct *models.Astruct) {
 func (astructDB *AstructDB) CopyBasicFieldsToAstruct_WOP(astruct *models.Astruct_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	astruct.Name = astructDB.Name_Data.String
-	astruct.AnonymousStructField1.TheName1 = astructDB.AnonymousStructField1.TheName1_Data.String
-	astruct.AnonymousStructField2.TheName1 = astructDB.AnonymousStructField2.TheName1_Data.String
 	astruct.Date = astructDB.Date_Data.Time
 	astruct.Booleanfield = astructDB.Booleanfield_Data.Bool
 	astruct.Aenum.FromString(astructDB.Aenum_Data.String)
@@ -1126,8 +1106,6 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstructWOP(astruct *AstructWOP) {
 	astruct.ID = int(astructDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	astruct.Name = astructDB.Name_Data.String
-	astruct.AnonymousStructField1.TheName1 = astructDB.AnonymousStructField1.TheName1_Data.String
-	astruct.AnonymousStructField2.TheName1 = astructDB.AnonymousStructField2.TheName1_Data.String
 	astruct.Date = astructDB.Date_Data.Time
 	astruct.Booleanfield = astructDB.Booleanfield_Data.Bool
 	astruct.Aenum.FromString(astructDB.Aenum_Data.String)

@@ -10,16 +10,6 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 type Astruct_WOP struct {
 	// insertion point
 	Name string
-
-	AnonymousStructField1 struct {
-	TheName1 string
-
-	} `gorm:"embedded"`
-
-	AnonymousStructField2 struct {
-	TheName1 string
-
-	} `gorm:"embedded"`
 	Date time.Time
 	Booleanfield bool
 	Aenum AEnumType
@@ -45,8 +35,6 @@ type Astruct_WOP struct {
 func (from *Astruct) CopyBasicFields(to *Astruct) {
 	// insertion point
 	to.Name = from.Name
-	to.AnonymousStructField1.TheName1 = from.AnonymousStructField1.TheName1
-	to.AnonymousStructField2.TheName1 = from.AnonymousStructField2.TheName1
 	to.Date = from.Date
 	to.Booleanfield = from.Booleanfield
 	to.Aenum = from.Aenum
