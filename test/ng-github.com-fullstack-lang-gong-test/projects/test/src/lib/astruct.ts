@@ -62,6 +62,7 @@ export class Astruct {
 
 	Dstruct4?: Dstruct
 
+	Dstruct4s: Array<Dstruct> = []
 	Duration1_string?: string
 	Anarrayofa: Array<Astruct> = []
 	Anotherarrayofb: Array<Bstruct> = []
@@ -171,6 +172,11 @@ export function CopyAstructToAstructAPI(astruct: Astruct, astructAPI: AstructAPI
 		astructAPI.AstructPointersEncoding.Anarrayofb.push(_bstruct.ID)
 	}
 
+	astructAPI.AstructPointersEncoding.Dstruct4s = []
+	for (let _dstruct of astruct.Dstruct4s) {
+		astructAPI.AstructPointersEncoding.Dstruct4s.push(_dstruct.ID)
+	}
+
 	astructAPI.AstructPointersEncoding.Anarrayofa = []
 	for (let _astruct of astruct.Anarrayofa) {
 		astructAPI.AstructPointersEncoding.Anarrayofa.push(_astruct.ID)
@@ -243,6 +249,13 @@ export function CopyAstructAPIToAstruct(astructAPI: AstructAPI, astruct: Astruct
 		let _bstruct = frontRepo.map_ID_Bstruct.get(_id)
 		if (_bstruct != undefined) {
 			astruct.Anarrayofb.push(_bstruct!)
+		}
+	}
+	astruct.Dstruct4s = new Array<Dstruct>()
+	for (let _id of astructAPI.AstructPointersEncoding.Dstruct4s) {
+		let _dstruct = frontRepo.map_ID_Dstruct.get(_id)
+		if (_dstruct != undefined) {
+			astruct.Dstruct4s.push(_dstruct!)
 		}
 	}
 	astruct.Anarrayofa = new Array<Astruct>()
