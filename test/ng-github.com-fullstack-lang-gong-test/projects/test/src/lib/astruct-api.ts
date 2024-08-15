@@ -64,6 +64,7 @@ export class AstructPointersEncoding {
 
 	Dstruct4ID: NullInt64 = new NullInt64 // if pointer is null, Dstruct4.ID = 0
 
+	Dstruct4s: number[] = []
 	Anarrayofa: number[] = []
 	Anotherarrayofb: number[] = []
 	AnarrayofbUse: number[] = []
