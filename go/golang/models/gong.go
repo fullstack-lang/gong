@@ -389,11 +389,14 @@ map[GongFilePerStructSubTemplateId]string{
 			// field is initialized with an instance of {{AssocStructName}} with the name of the field
 			{{FieldName}}: []*{{AssocStructName}}{{Name: "{{FieldName}}"}},`,
 
+	// GongFileFieldSubTmplAssociationNameEnclosingCompositePointerField: `
+	// 		// field is initialized with {{AssocCompositeStructName}} as it is a composite
+	// 		{{AssocCompositeStructName}}: {{AssocCompositeStructName}}{
+	// 			// per field init{{PerCompositeFieldInit}}
+	// 		},`,
 	GongFileFieldSubTmplAssociationNameEnclosingCompositePointerField: `
-			// field is initialized with {{AssocCompositeStructName}} as it is a composite
-			{{AssocCompositeStructName}}: {{AssocCompositeStructName}}{
-				// per field init{{PerCompositeFieldInit}}
-			},`,
+			// field is initialized with {{AssocCompositeStructName}} problem with composites
+			`,
 	GongFileFieldSubTmplAssociationNameCompositePointerField: `
 				//
 				{{FieldName}}: &{{AssocStructName}}{Name: "{{FieldName}}"},`,
