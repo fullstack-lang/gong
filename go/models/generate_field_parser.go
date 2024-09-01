@@ -85,7 +85,7 @@ func GenerateFieldParser(
 			// This is the case for struct embeding
 			switch embedType := field.Type.(type) {
 			case *ast.Ident:
-				log.Println("processing embedded struct ", embedType.Name)
+				// log.Println("processing embedded struct ", embedType.Name)
 				if _fieldList, ok := (*map_Structname_fieldList)[embedType.Name]; ok {
 					GenerateFieldParser(_fieldList,
 						owningGongstruct,
