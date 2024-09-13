@@ -1,7 +1,5 @@
 package models
 
-import "log"
-
 // Node is a node in the tree for selecting items to display
 // Node implements the visual artifacts of a node (the name, the buttons, the checkbocks, ...)
 // The font end read the fields of the node and display the node accordingly
@@ -55,8 +53,6 @@ type Node struct {
 
 // OnAfterUpdate, notice that node == stagedNode
 func (node *Node) OnAfterUpdate(stage *StageStruct, _, frontNode *Node) {
-
-	log.Println("Node, OnAfterUpdate", node.Name)
 
 	if node.Impl != nil {
 		node.Impl.OnAfterUpdate(stage, node, frontNode)
