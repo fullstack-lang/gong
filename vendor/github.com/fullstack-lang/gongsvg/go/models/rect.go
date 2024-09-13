@@ -1,7 +1,5 @@
 package models
 
-import "log"
-
 type Rect struct {
 	Name string
 
@@ -39,8 +37,6 @@ type Rect struct {
 
 // OnAfterUpdate, notice that rect == stagedRect
 func (rect *Rect) OnAfterUpdate(stage *StageStruct, _, frontRect *Rect) {
-
-	log.Println("Rect, OnAfterUpdate", rect.Name)
 
 	if rect.Impl != nil {
 		rect.Impl.RectUpdated(frontRect)

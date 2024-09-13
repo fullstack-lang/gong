@@ -17,16 +17,10 @@ github.com/frankban/quicktest v1.14.6 h1:7Xjx+VpznH+oBnejlPUj8oUpdxnVs4f8XU8WnHk
 github.com/frankban/quicktest v1.14.6/go.mod h1:4ptaffx2x8+WTWXmUCuVU6aPUX1/Mz7zb5vbUoiM6w0=
 github.com/fullstack-lang/gongdoc v0.0.0-20240913010244-325e50c2e494 h1:IlioHu3a0Q3MEr8HtX/g14VrjMKF10P5jgsvZX0D9l0=
 github.com/fullstack-lang/gongdoc v0.0.0-20240913010244-325e50c2e494/go.mod h1:BKr6zLgM8PVfPDzD7cdweNaomv/8STUFgM32Qk/PtU4=
-github.com/fullstack-lang/gongsvg v0.0.0-20240913010245-ccb1279f6f6f h1:plA5gbbpPx9/IHlqeTcf+2bx6a70q5KiXzAbaMoEnHw=
-github.com/fullstack-lang/gongsvg v0.0.0-20240913010245-ccb1279f6f6f/go.mod h1:Rs+By5Cxz2i67M0Zgf8C+GiEh3wseyPsCjLa3tejzJA=
 github.com/fullstack-lang/gongsvg v0.0.0-20240913010932-e9b7ccb0a930 h1:wSYVc1LVgETDU82d6qJsH8Fs9BD4f/sk9QeKBn2xvH4=
 github.com/fullstack-lang/gongsvg v0.0.0-20240913010932-e9b7ccb0a930/go.mod h1:Rs+By5Cxz2i67M0Zgf8C+GiEh3wseyPsCjLa3tejzJA=
-github.com/fullstack-lang/gongtable v0.0.0-20240913010246-a47336318777 h1:c1+VEsb5VClF1h1QpZBXaJaiXd0uzNSP5Koa9K5YcGE=
-github.com/fullstack-lang/gongtable v0.0.0-20240913010246-a47336318777/go.mod h1:tSnIRypg3OCSdt51fDwgoQygEbTom4lNryDQOrcTixw=
 github.com/fullstack-lang/gongtable v0.0.0-20240913011207-ce6d25b2b86a h1:w7GEBQIPr6QrPZxSNe2At6uFBP0dHG1dSZwxzxvG1hg=
 github.com/fullstack-lang/gongtable v0.0.0-20240913011207-ce6d25b2b86a/go.mod h1:tSnIRypg3OCSdt51fDwgoQygEbTom4lNryDQOrcTixw=
-github.com/fullstack-lang/gongtree v0.0.0-20240913010246-570db5b749b2 h1:B3g/9c+ps2KpY9WTPiCdkCCH4wugRhqz5N9ZsIkeQrQ=
-github.com/fullstack-lang/gongtree v0.0.0-20240913010246-570db5b749b2/go.mod h1:vZ1qc+I9vvDfyZriP9srfFqK3L9yhIi1yYX3McFwgkA=
 github.com/fullstack-lang/gongtree v0.0.0-20240913011303-c1f196b43034 h1:zowZ7TFVg9Qu/NuC+DwmejCa7/4qTx4JBL8mfTxX+iM=
 github.com/fullstack-lang/gongtree v0.0.0-20240913011303-c1f196b43034/go.mod h1:vZ1qc+I9vvDfyZriP9srfFqK3L9yhIi1yYX3McFwgkA=
 github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00 h1:F693/CX+8lG6/JswPfx812Gc4PMSqczsIG2wRQN+sPw=

@@ -1,7 +1,6 @@
 package models
 
 import (
-	"log"
 	"math"
 )
 
@@ -28,8 +27,6 @@ type SVG struct {
 
 // OnAfterUpdate, notice that rect == stagedRect
 func (svg *SVG) OnAfterUpdate(stage *StageStruct, _, frontSVG *SVG) {
-
-	log.Println("SVG, OnAfterUpdate", svg.Name)
 
 	if svg.Impl != nil {
 		svg.Impl.SVGUpdated(frontSVG)

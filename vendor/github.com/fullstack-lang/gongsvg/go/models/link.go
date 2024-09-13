@@ -1,7 +1,5 @@
 package models
 
-import "log"
-
 type Link struct {
 	Name string
 
@@ -54,8 +52,6 @@ type Link struct {
 }
 
 func (link *Link) OnAfterUpdate(stage *StageStruct, _, frontLink *Link) {
-
-	log.Println("Link, OnAfterUpdate", link.Name)
 
 	if link.Impl != nil {
 		link.Impl.LinkUpdated(frontLink)

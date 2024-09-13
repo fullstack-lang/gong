@@ -1,7 +1,5 @@
 package models
 
-import "log"
-
 type FormGroup struct {
 	Name     string
 	Label    string
@@ -23,8 +21,6 @@ type FormGroup struct {
 func (formGroup *FormGroup) OnAfterUpdate(
 	stage *StageStruct,
 	stagedInstance, frontInstance *FormGroup) {
-
-	log.Println("FormGroup: OnAfterUpdate")
 
 	if stagedInstance.OnSave != nil {
 		stagedInstance.OnSave.OnSave()
