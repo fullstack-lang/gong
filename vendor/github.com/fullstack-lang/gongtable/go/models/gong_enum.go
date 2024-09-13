@@ -22,10 +22,10 @@ func (formgroupname *FormGroupName) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "Form":
 		*formgroupname = FormGroupDefaultName
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (formgroupname *FormGroupName) FromCodeString(input string) (err error) {
@@ -120,40 +120,55 @@ func (inputtypeenum *InputTypeEnum) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "text":
 		*inputtypeenum = Text
+		return
 	case "password":
 		*inputtypeenum = Password
+		return
 	case "number":
 		*inputtypeenum = Number
+		return
 	case "email":
 		*inputtypeenum = Email
+		return
 	case "tel":
 		*inputtypeenum = Tel
+		return
 	case "date":
 		*inputtypeenum = Date
+		return
 	case "datetime-local":
 		*inputtypeenum = Datetime
+		return
 	case "time":
 		*inputtypeenum = Time
+		return
 	case "url":
 		*inputtypeenum = URL
+		return
 	case "search":
 		*inputtypeenum = Search
+		return
 	case "range":
 		*inputtypeenum = Range
+		return
 	case "color":
 		*inputtypeenum = Color
+		return
 	case "file":
 		*inputtypeenum = File
+		return
 	case "hidden":
 		*inputtypeenum = Hidden
+		return
 	case "month":
 		*inputtypeenum = Month
+		return
 	case "week":
 		*inputtypeenum = Week
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (inputtypeenum *InputTypeEnum) FromCodeString(input string) (err error) {
@@ -310,12 +325,13 @@ func (tableextranameenum *TableExtraNameEnum) FromString(input string) (err erro
 	// insertion code per enum code
 	case "tmp-picker":
 		*tableextranameenum = TableSelectExtraName
+		return
 	case "tmp-sort":
 		*tableextranameenum = TableSortExtraName
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (tableextranameenum *TableExtraNameEnum) FromCodeString(input string) (err error) {
@@ -394,18 +410,22 @@ func (tableextrapathenum *TableExtraPathEnum) FromString(input string) (err erro
 	// insertion code per enum code
 	case "-table":
 		*tableextrapathenum = StackNamePostFixForTableForMainTable
+		return
 	case "-form":
 		*tableextrapathenum = StackNamePostFixForTableForMainForm
+		return
 	case "-sidebar":
 		*tableextrapathenum = StackNamePostFixForTableForMainTree
+		return
 	case "-table-pick":
 		*tableextrapathenum = StackNamePostFixForTableForAssociation
+		return
 	case "-table-sort":
 		*tableextrapathenum = StackNamePostFixForTableForAssociationSorting
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (tableextrapathenum *TableExtraPathEnum) FromCodeString(input string) (err error) {
@@ -494,10 +514,10 @@ func (tablename *TableName) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "Table":
 		*tablename = TableDefaultName
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (tablename *TableName) FromCodeString(input string) (err error) {
@@ -566,14 +586,16 @@ func (tabletestnameenum *TableTestNameEnum) FromString(input string) (err error)
 	// insertion code per enum code
 	case "manualy edited table":
 		*tabletestnameenum = ManualyEditedTableStackName
+		return
 	case "manualy edited form":
 		*tabletestnameenum = ManualyEditedFormStackName
+		return
 	case "generated table":
 		*tabletestnameenum = GeneratedTableStackName
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (tabletestnameenum *TableTestNameEnum) FromCodeString(input string) (err error) {
@@ -633,13 +655,12 @@ func (tabletestnameenum TableTestNameEnum) CodeValues() (res []string) {
 // end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {
-	string | FormGroupName | InputTypeEnum | TableExtraNameEnum | TableExtraPathEnum | TableName | TableTestNameEnum
 	Codes() []string
 	CodeValues() []string
+	ToString() string
 }
 
 type PointerToGongstructEnumStringField interface {
-	*FormGroupName | *InputTypeEnum | *TableExtraNameEnum | *TableExtraPathEnum | *TableName | *TableTestNameEnum
 	FromCodeString(input string) (err error)
 }
 

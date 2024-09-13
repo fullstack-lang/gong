@@ -203,6 +203,18 @@ export class TreeComponent implements OnInit {
       }
     )
   }
+  // toggling behavior is controlled from the back
+  toggleNodeSecondCheckbox(node: FlatNode): void {
+    let buttons = node.gongNode.Buttons
+
+    const d = new Date()
+    // console.log("TreeComponent ", this.GONG__StackPath, " name ", this.name, " toggleNodeCheckbox, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` + " " + this.name)
+    node.gongNode.IsSecondCheckboxChecked = !node.gongNode.IsSecondCheckboxChecked
+    this.gongtreeNodeService.updateFront(node.gongNode, this.GONG__StackPath).subscribe(
+      gongtreeNode => {
+      }
+    )
+  }
 
   onButtonClick(event: Event, node: FlatNode, button: gongtree.Button) {
 

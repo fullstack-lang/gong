@@ -53,7 +53,6 @@ type StageStruct struct {
 	Buttons_mapString map[string]*Button
 
 	// insertion point for slice of pointers maps
-
 	OnAfterButtonCreateCallback OnAfterCreateInterface[Button]
 	OnAfterButtonUpdateCallback OnAfterUpdateInterface[Button]
 	OnAfterButtonDeleteCallback OnAfterDeleteInterface[Button]
@@ -64,6 +63,7 @@ type StageStruct struct {
 
 	// insertion point for slice of pointers maps
 	Node_Children_reverseMap map[*Node]*Node
+
 	Node_Buttons_reverseMap map[*Button]*Node
 
 	OnAfterNodeCreateCallback OnAfterCreateInterface[Node]
@@ -75,7 +75,6 @@ type StageStruct struct {
 	SVGIcons_mapString map[string]*SVGIcon
 
 	// insertion point for slice of pointers maps
-
 	OnAfterSVGIconCreateCallback OnAfterCreateInterface[SVGIcon]
 	OnAfterSVGIconUpdateCallback OnAfterUpdateInterface[SVGIcon]
 	OnAfterSVGIconDeleteCallback OnAfterDeleteInterface[SVGIcon]
@@ -539,8 +538,7 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
-	// insertion point for generic types
-	Button | Node | SVGIcon | Tree
+
 }
 
 type GongtructBasicField interface {
@@ -552,11 +550,10 @@ type GongtructBasicField interface {
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type PointerToGongstruct interface {
-	// insertion point for generic types
-	*Button | *Node | *SVGIcon | *Tree
 	GetName() string
 	CommitVoid(*StageStruct)
 	UnstageVoid(stage *StageStruct)
+	comparable
 }
 
 func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
@@ -580,23 +577,11 @@ func GetGongstrucsSorted[T PointerToGongstruct](stage *StageStruct) (sortedSlice
 }
 
 type GongstructSet interface {
-	map[any]any |
-		// insertion point for generic types
-		map[*Button]any |
-		map[*Node]any |
-		map[*SVGIcon]any |
-		map[*Tree]any |
-		map[*any]any // because go does not support an extra "|" at the end of type specifications
+	map[any]any
 }
 
 type GongstructMapString interface {
-	map[any]any |
-		// insertion point for generic types
-		map[string]*Button |
-		map[string]*Node |
-		map[string]*SVGIcon |
-		map[string]*Tree |
-		map[*any]any // because go does not support an extra "|" at the end of type specifications
+	map[any]any
 }
 
 // GongGetSet returns the set staged GongstructType instances
@@ -920,7 +905,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Button:
 		res = []string{"Name", "Icon", "SVGIcon"}
 	case Node:
-		res = []string{"Name", "FontStyle", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "PreceedingSVGIcon", "Children", "Buttons"}
+		res = []string{"Name", "FontStyle", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "HasSecondCheckboxButton", "IsSecondCheckboxChecked", "IsSecondCheckboxDisabled", "TextAfterSecondCheckbox", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "PreceedingSVGIcon", "Children", "Buttons"}
 	case SVGIcon:
 		res = []string{"Name", "SVG"}
 	case Tree:
@@ -978,7 +963,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Button:
 		res = []string{"Name", "Icon", "SVGIcon"}
 	case *Node:
-		res = []string{"Name", "FontStyle", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "PreceedingSVGIcon", "Children", "Buttons"}
+		res = []string{"Name", "FontStyle", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "HasSecondCheckboxButton", "IsSecondCheckboxChecked", "IsSecondCheckboxDisabled", "TextAfterSecondCheckbox", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "PreceedingSVGIcon", "Children", "Buttons"}
 	case *SVGIcon:
 		res = []string{"Name", "SVG"}
 	case *Tree:
@@ -1021,6 +1006,14 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res = fmt.Sprintf("%t", inferedInstance.IsChecked)
 		case "IsCheckboxDisabled":
 			res = fmt.Sprintf("%t", inferedInstance.IsCheckboxDisabled)
+		case "HasSecondCheckboxButton":
+			res = fmt.Sprintf("%t", inferedInstance.HasSecondCheckboxButton)
+		case "IsSecondCheckboxChecked":
+			res = fmt.Sprintf("%t", inferedInstance.IsSecondCheckboxChecked)
+		case "IsSecondCheckboxDisabled":
+			res = fmt.Sprintf("%t", inferedInstance.IsSecondCheckboxDisabled)
+		case "TextAfterSecondCheckbox":
+			res = inferedInstance.TextAfterSecondCheckbox
 		case "IsInEditMode":
 			res = fmt.Sprintf("%t", inferedInstance.IsInEditMode)
 		case "IsNodeClickable":
@@ -1109,6 +1102,14 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%t", inferedInstance.IsChecked)
 		case "IsCheckboxDisabled":
 			res = fmt.Sprintf("%t", inferedInstance.IsCheckboxDisabled)
+		case "HasSecondCheckboxButton":
+			res = fmt.Sprintf("%t", inferedInstance.HasSecondCheckboxButton)
+		case "IsSecondCheckboxChecked":
+			res = fmt.Sprintf("%t", inferedInstance.IsSecondCheckboxChecked)
+		case "IsSecondCheckboxDisabled":
+			res = fmt.Sprintf("%t", inferedInstance.IsSecondCheckboxDisabled)
+		case "TextAfterSecondCheckbox":
+			res = inferedInstance.TextAfterSecondCheckbox
 		case "IsInEditMode":
 			res = fmt.Sprintf("%t", inferedInstance.IsInEditMode)
 		case "IsNodeClickable":

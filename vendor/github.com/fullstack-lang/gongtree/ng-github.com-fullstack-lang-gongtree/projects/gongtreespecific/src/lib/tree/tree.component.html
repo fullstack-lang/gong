@@ -28,6 +28,14 @@
                 <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}">save
                 </mat-icon>
             </button>
+            <mat-checkbox *ngIf="node.gongNode.HasSecondCheckboxButton" [disabled]="node.gongNode.IsSecondCheckboxDisabled" [checked]="node.gongNode.IsSecondCheckboxChecked" (change)="toggleNodeSecondCheckbox(node)">
+            </mat-checkbox>
+            @if (!node.gongNode.HasSecondCheckboxButton && node.gongNode.TextAfterSecondCheckbox != "") {
+                &nbsp;&nbsp;
+            }
+            <div [ngStyle]="getStyle(node)">
+                {{node.gongNode.TextAfterSecondCheckbox}}
+            </div>
             <ng-container *ngFor="let button of node.gongNode.Buttons">
                 <button mat-icon-button (click)="onButtonClick($event, node, button)" class="tight-buttons">
                     <mat-icon *ngIf="button.SVGIcon == undefined" [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{button.Icon}}
@@ -60,6 +68,14 @@
             <div [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode'>
                 {{node.name}}
             </div>
+            <mat-checkbox *ngIf="node.gongNode.HasSecondCheckboxButton" [disabled]="node.gongNode.IsSecondCheckboxDisabled" [checked]="node.gongNode.IsSecondCheckboxChecked" (change)="toggleNodeSecondCheckbox(node)">
+            </mat-checkbox>
+            @if (!node.gongNode.HasSecondCheckboxButton && node.gongNode.TextAfterSecondCheckbox != "") {
+                &nbsp;&nbsp;
+            }
+            <div [ngStyle]="getStyle(node)">
+                {{node.gongNode.TextAfterSecondCheckbox}}
+            </div>
             <ng-container *ngFor="let button of node.gongNode.Buttons">
                 <button mat-icon-button (click)="onButtonClick($event, node, button)">
                     <mat-icon *ngIf="button.SVGIcon == undefined" [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{button.Icon}}
@@ -68,6 +84,7 @@
                     </mat-icon>
                 </button>
             </ng-container>
+
         </mat-tree-node>
     </mat-tree>
 </div>
