@@ -10,8 +10,6 @@ import (
 	"math"
 	"slices"
 	"time"
-
-	"golang.org/x/exp/maps"
 )
 
 func __Gong__Abs(x int) int {
@@ -222,7 +220,6 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil{{` + stri
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
-
 }
 
 type GongtructBasicField interface {
@@ -246,7 +243,9 @@ func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
 
 func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice []T) {
 
-	sortedSlice = maps.Keys(set)
+	for key := range set {
+		sortedSlice = append(sortedSlice, key)
+	}
 	slices.SortFunc(sortedSlice, CompareGongstructByName)
 
 	return
