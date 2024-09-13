@@ -1,6 +1,6 @@
 module github.com/fullstack-lang/gong
 
-go 1.21.0
+go 1.23.1
 
 require (
 	github.com/frankban/quicktest v1.14.6 // indirect

@@ -896,26 +896,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Anarrayofb2Use: []*AstructBstruct2Use{{Name: "Anarrayofb2Use"}},
 			// field is initialized with an instance of Astruct with the name of the field
 			AnAstruct: &Astruct{Name: "AnAstruct"},
-			// field is initialized with Cstruct as it is a composite
-			Cstruct: Cstruct{
-				// per field init
-				//
-				Bstruct: &Bstruct{Name: "Bstruct"},
-				//
-				Bstruct2: &Bstruct{Name: "Bstruct2"},
-				//
-				Dstruct: &Dstruct{Name: "Dstruct"},
-				//
-				Dstruct2: &Dstruct{Name: "Dstruct2"},
-			},
-			// field is initialized with Estruct as it is a composite
-			Estruct: Estruct{
-				// per field init
-				//
-				Dstruct3: &Dstruct{Name: "Dstruct3"},
-				//
-				Dstruct4: &Dstruct{Name: "Dstruct4"},
-			},
+			// field is initialized with Cstruct problem with composites
+			
+			// field is initialized with Estruct problem with composites
+			
 		}).(*Type)
 	case AstructBstruct2Use:
 		return any(&AstructBstruct2Use{
