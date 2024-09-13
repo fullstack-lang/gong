@@ -8,6 +8,9 @@ type RectAnchoredText struct {
 	FontWeight string
 	FontSize   int
 
+	// Specifies the style of the font (e.g., normal, italic, oblique).
+	FontStyle string
+
 	X_Offset float64
 	Y_Offset float64
 

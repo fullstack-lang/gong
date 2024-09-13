@@ -28,3 +28,19 @@ func (base *ElementNodeBase) GetChildren() []diagrammer.ModelNode {
 func (base *ElementNodeBase) GetParent() diagrammer.ModelNode {
 	return nil
 }
+
+func (base *ElementNodeBase) HasSecondCheckbox() bool {
+	return false
+}
+
+func (base *ElementNodeBase) HasSecondName() bool {
+	return false
+}
+
+func (base *ElementNodeBase) GetSecondName() string {
+	return ""
+}
+
+func (base *ElementNodeBase) GetLinkedNode() diagrammer.ModelElementNode {
+	return nil
+}

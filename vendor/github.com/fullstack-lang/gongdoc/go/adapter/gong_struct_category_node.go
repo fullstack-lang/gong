@@ -10,10 +10,19 @@ import (
 
 type GongStructCategoryNode struct {
 	ModelCategoryNodeBase
+
+	map_Gongtruct_GongstructNode map[*gong_models.GongStruct]*GongStructNode
 }
 
-func NewGongStructCategoryNode(portfolioAdapter *PortfolioAdapter, name string) *GongStructCategoryNode {
-	return &GongStructCategoryNode{ModelCategoryNodeBase: ModelCategoryNodeBase{portfolioAdapter: portfolioAdapter, Name: name}}
+func NewGongStructCategoryNode(portfolioAdapter *PortfolioAdapter, name string) (
+	gongstructCategoryNode *GongStructCategoryNode) {
+
+	gongstructCategoryNode = &GongStructCategoryNode{
+		ModelCategoryNodeBase:        ModelCategoryNodeBase{portfolioAdapter: portfolioAdapter, Name: name},
+		map_Gongtruct_GongstructNode: make(map[*gong_models.GongStruct]*GongStructNode),
+	}
+
+	return
 }
 
 // GenerateProgeny implements diagrammer.Node.
@@ -24,6 +33,7 @@ func (categoryNode *GongStructCategoryNode) GenerateProgeny() []diagrammer.Model
 		gongStructNode := NewGongStructNode(categoryNode.portfolioAdapter, gongStruct)
 		gongStructNode.GenerateProgeny()
 		categoryNode.children = append(categoryNode.children, gongStructNode)
+		categoryNode.map_Gongtruct_GongstructNode[gongStruct] = gongStructNode
 	}
 
 	slices.SortFunc(categoryNode.children, func(a, b diagrammer.ModelNode) int {

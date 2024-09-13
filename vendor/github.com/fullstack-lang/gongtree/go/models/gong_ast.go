@@ -689,6 +689,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Node[identifier].BackgroundColor = fielValue
+				case "TextAfterSecondCheckbox":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Node[identifier].TextAfterSecondCheckbox = fielValue
 				case "PreceedingIcon":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -766,6 +770,27 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_Node[identifier].IsCheckboxDisabled = fielValue
+				case "HasSecondCheckboxButton":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Node[identifier].HasSecondCheckboxButton = fielValue
+				case "IsSecondCheckboxChecked":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Node[identifier].IsSecondCheckboxChecked = fielValue
+				case "IsSecondCheckboxDisabled":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Node[identifier].IsSecondCheckboxDisabled = fielValue
 				case "IsInEditMode":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)

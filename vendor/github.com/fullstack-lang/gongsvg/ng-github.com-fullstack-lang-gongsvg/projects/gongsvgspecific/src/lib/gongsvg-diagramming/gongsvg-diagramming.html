@@ -634,6 +634,7 @@
             [attr.transform]="text.Transform"
             [attr.text-anchor]="text.TextAnchorType"
             [attr.font-weight]="text.FontWeight"
+            [attr.font-style]="text.FontStyle"
             [attr.font-size]="text.FontSize !== 0 ? text.FontSize + 'px' : null"
             >
             <tspan *ngFor='let line of lines; let j = index' 

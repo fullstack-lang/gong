@@ -21,6 +21,10 @@ export class NodeAPI {
 	HasCheckboxButton: boolean = false
 	IsChecked: boolean = false
 	IsCheckboxDisabled: boolean = false
+	HasSecondCheckboxButton: boolean = false
+	IsSecondCheckboxChecked: boolean = false
+	IsSecondCheckboxDisabled: boolean = false
+	TextAfterSecondCheckbox: string = ""
 	IsInEditMode: boolean = false
 	IsNodeClickable: boolean = false
 	IsWithPreceedingIcon: boolean = false

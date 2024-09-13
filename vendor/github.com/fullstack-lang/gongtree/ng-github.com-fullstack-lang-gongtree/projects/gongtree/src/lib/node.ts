@@ -26,6 +26,10 @@ export class Node {
 	HasCheckboxButton: boolean = false
 	IsChecked: boolean = false
 	IsCheckboxDisabled: boolean = false
+	HasSecondCheckboxButton: boolean = false
+	IsSecondCheckboxChecked: boolean = false
+	IsSecondCheckboxDisabled: boolean = false
+	TextAfterSecondCheckbox: string = ""
 	IsInEditMode: boolean = false
 	IsNodeClickable: boolean = false
 	IsWithPreceedingIcon: boolean = false
@@ -52,6 +56,10 @@ export function CopyNodeToNodeAPI(node: Node, nodeAPI: NodeAPI) {
 	nodeAPI.HasCheckboxButton = node.HasCheckboxButton
 	nodeAPI.IsChecked = node.IsChecked
 	nodeAPI.IsCheckboxDisabled = node.IsCheckboxDisabled
+	nodeAPI.HasSecondCheckboxButton = node.HasSecondCheckboxButton
+	nodeAPI.IsSecondCheckboxChecked = node.IsSecondCheckboxChecked
+	nodeAPI.IsSecondCheckboxDisabled = node.IsSecondCheckboxDisabled
+	nodeAPI.TextAfterSecondCheckbox = node.TextAfterSecondCheckbox
 	nodeAPI.IsInEditMode = node.IsInEditMode
 	nodeAPI.IsNodeClickable = node.IsNodeClickable
 	nodeAPI.IsWithPreceedingIcon = node.IsWithPreceedingIcon
@@ -97,6 +105,10 @@ export function CopyNodeAPIToNode(nodeAPI: NodeAPI, node: Node, frontRepo: Front
 	node.HasCheckboxButton = nodeAPI.HasCheckboxButton
 	node.IsChecked = nodeAPI.IsChecked
 	node.IsCheckboxDisabled = nodeAPI.IsCheckboxDisabled
+	node.HasSecondCheckboxButton = nodeAPI.HasSecondCheckboxButton
+	node.IsSecondCheckboxChecked = nodeAPI.IsSecondCheckboxChecked
+	node.IsSecondCheckboxDisabled = nodeAPI.IsSecondCheckboxDisabled
+	node.TextAfterSecondCheckbox = nodeAPI.TextAfterSecondCheckbox
 	node.IsInEditMode = nodeAPI.IsInEditMode
 	node.IsNodeClickable = nodeAPI.IsNodeClickable
 	node.IsWithPreceedingIcon = nodeAPI.IsWithPreceedingIcon

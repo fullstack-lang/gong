@@ -24,12 +24,13 @@ func (gongenumshapetype *GongEnumShapeType) FromInt(input int) (err error) {
 	// insertion code per enum code
 	case 0:
 		*gongenumshapetype = Int
+		return
 	case 1:
 		*gongenumshapetype = String
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (gongenumshapetype *GongEnumShapeType) FromCodeString(input string) (err error) {
@@ -104,14 +105,16 @@ func (multiplicitytype *MultiplicityType) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "0..1":
 		*multiplicitytype = ZERO_ONE
+		return
 	case "1":
 		*multiplicitytype = ONE
+		return
 	case "*":
 		*multiplicitytype = MANY
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (multiplicitytype *MultiplicityType) FromCodeString(input string) (err error) {
@@ -190,12 +193,13 @@ func (noteshapelinktype *NoteShapeLinkType) FromString(input string) (err error)
 	// insertion code per enum code
 	case "NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE":
 		*noteshapelinktype = NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE
+		return
 	case "NOTE_SHAPE_LINK_TO_GONG_FIELD":
 		*noteshapelinktype = NOTE_SHAPE_LINK_TO_GONG_FIELD
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (noteshapelinktype *NoteShapeLinkType) FromCodeString(input string) (err error) {
@@ -268,12 +272,13 @@ func (orientationtype *OrientationType) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "ORIENTATION_HORIZONTAL":
 		*orientationtype = ORIENTATION_HORIZONTAL
+		return
 	case "ORIENTATION_VERTICAL":
 		*orientationtype = ORIENTATION_VERTICAL
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (orientationtype *OrientationType) FromCodeString(input string) (err error) {
@@ -346,12 +351,13 @@ func (stacksnames *StacksNames) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "svg":
 		*stacksnames = SvgStackName
+		return
 	case "gongdoc":
 		*stacksnames = GongdocStackName
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (stacksnames *StacksNames) FromCodeString(input string) (err error) {
@@ -405,13 +411,12 @@ func (stacksnames StacksNames) CodeValues() (res []string) {
 // end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {
-	string | MultiplicityType | NoteShapeLinkType | OrientationType | StacksNames
 	Codes() []string
 	CodeValues() []string
+	ToString() string
 }
 
 type PointerToGongstructEnumStringField interface {
-	*MultiplicityType | *NoteShapeLinkType | *OrientationType | *StacksNames
 	FromCodeString(input string) (err error)
 }
 

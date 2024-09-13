@@ -9,4 +9,7 @@ type ModelElementNode interface {
 	CanBeAddedToDiagram() bool
 	AddToDiagram()
 	RemoveFromDiagram()
+
+	// GetLinkedNode returns a node to navigate to
+	GetLinkedNode() ModelElementNode
 }
