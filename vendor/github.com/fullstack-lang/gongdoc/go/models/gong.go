@@ -54,7 +54,9 @@ type StageStruct struct {
 
 	// insertion point for slice of pointers maps
 	Classdiagram_GongStructShapes_reverseMap map[*GongStructShape]*Classdiagram
+
 	Classdiagram_GongEnumShapes_reverseMap map[*GongEnumShape]*Classdiagram
+
 	Classdiagram_NoteShapes_reverseMap map[*NoteShape]*Classdiagram
 
 	OnAfterClassdiagramCreateCallback OnAfterCreateInterface[Classdiagram]
@@ -67,6 +69,7 @@ type StageStruct struct {
 
 	// insertion point for slice of pointers maps
 	DiagramPackage_Classdiagrams_reverseMap map[*Classdiagram]*DiagramPackage
+
 	DiagramPackage_Umlscs_reverseMap map[*Umlsc]*DiagramPackage
 
 	OnAfterDiagramPackageCreateCallback OnAfterCreateInterface[DiagramPackage]
@@ -78,7 +81,6 @@ type StageStruct struct {
 	Fields_mapString map[string]*Field
 
 	// insertion point for slice of pointers maps
-
 	OnAfterFieldCreateCallback OnAfterCreateInterface[Field]
 	OnAfterFieldUpdateCallback OnAfterUpdateInterface[Field]
 	OnAfterFieldDeleteCallback OnAfterDeleteInterface[Field]
@@ -99,7 +101,6 @@ type StageStruct struct {
 	GongEnumValueEntrys_mapString map[string]*GongEnumValueEntry
 
 	// insertion point for slice of pointers maps
-
 	OnAfterGongEnumValueEntryCreateCallback OnAfterCreateInterface[GongEnumValueEntry]
 	OnAfterGongEnumValueEntryUpdateCallback OnAfterUpdateInterface[GongEnumValueEntry]
 	OnAfterGongEnumValueEntryDeleteCallback OnAfterDeleteInterface[GongEnumValueEntry]
@@ -110,6 +111,7 @@ type StageStruct struct {
 
 	// insertion point for slice of pointers maps
 	GongStructShape_Fields_reverseMap map[*Field]*GongStructShape
+
 	GongStructShape_Links_reverseMap map[*Link]*GongStructShape
 
 	OnAfterGongStructShapeCreateCallback OnAfterCreateInterface[GongStructShape]
@@ -121,7 +123,6 @@ type StageStruct struct {
 	Links_mapString map[string]*Link
 
 	// insertion point for slice of pointers maps
-
 	OnAfterLinkCreateCallback OnAfterCreateInterface[Link]
 	OnAfterLinkUpdateCallback OnAfterUpdateInterface[Link]
 	OnAfterLinkDeleteCallback OnAfterDeleteInterface[Link]
@@ -142,7 +143,6 @@ type StageStruct struct {
 	NoteShapeLinks_mapString map[string]*NoteShapeLink
 
 	// insertion point for slice of pointers maps
-
 	OnAfterNoteShapeLinkCreateCallback OnAfterCreateInterface[NoteShapeLink]
 	OnAfterNoteShapeLinkUpdateCallback OnAfterUpdateInterface[NoteShapeLink]
 	OnAfterNoteShapeLinkDeleteCallback OnAfterDeleteInterface[NoteShapeLink]
@@ -152,7 +152,6 @@ type StageStruct struct {
 	Positions_mapString map[string]*Position
 
 	// insertion point for slice of pointers maps
-
 	OnAfterPositionCreateCallback OnAfterCreateInterface[Position]
 	OnAfterPositionUpdateCallback OnAfterUpdateInterface[Position]
 	OnAfterPositionDeleteCallback OnAfterDeleteInterface[Position]
@@ -162,7 +161,6 @@ type StageStruct struct {
 	UmlStates_mapString map[string]*UmlState
 
 	// insertion point for slice of pointers maps
-
 	OnAfterUmlStateCreateCallback OnAfterCreateInterface[UmlState]
 	OnAfterUmlStateUpdateCallback OnAfterUpdateInterface[UmlState]
 	OnAfterUmlStateDeleteCallback OnAfterDeleteInterface[UmlState]
@@ -183,7 +181,6 @@ type StageStruct struct {
 	Vertices_mapString map[string]*Vertice
 
 	// insertion point for slice of pointers maps
-
 	OnAfterVerticeCreateCallback OnAfterCreateInterface[Vertice]
 	OnAfterVerticeUpdateCallback OnAfterUpdateInterface[Vertice]
 	OnAfterVerticeDeleteCallback OnAfterDeleteInterface[Vertice]
@@ -1257,8 +1254,7 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
-	// insertion point for generic types
-	Classdiagram | DiagramPackage | Field | GongEnumShape | GongEnumValueEntry | GongStructShape | Link | NoteShape | NoteShapeLink | Position | UmlState | Umlsc | Vertice
+
 }
 
 type GongtructBasicField interface {
@@ -1270,11 +1266,10 @@ type GongtructBasicField interface {
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type PointerToGongstruct interface {
-	// insertion point for generic types
-	*Classdiagram | *DiagramPackage | *Field | *GongEnumShape | *GongEnumValueEntry | *GongStructShape | *Link | *NoteShape | *NoteShapeLink | *Position | *UmlState | *Umlsc | *Vertice
 	GetName() string
 	CommitVoid(*StageStruct)
 	UnstageVoid(stage *StageStruct)
+	comparable
 }
 
 func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
@@ -1298,41 +1293,11 @@ func GetGongstrucsSorted[T PointerToGongstruct](stage *StageStruct) (sortedSlice
 }
 
 type GongstructSet interface {
-	map[any]any |
-		// insertion point for generic types
-		map[*Classdiagram]any |
-		map[*DiagramPackage]any |
-		map[*Field]any |
-		map[*GongEnumShape]any |
-		map[*GongEnumValueEntry]any |
-		map[*GongStructShape]any |
-		map[*Link]any |
-		map[*NoteShape]any |
-		map[*NoteShapeLink]any |
-		map[*Position]any |
-		map[*UmlState]any |
-		map[*Umlsc]any |
-		map[*Vertice]any |
-		map[*any]any // because go does not support an extra "|" at the end of type specifications
+	map[any]any
 }
 
 type GongstructMapString interface {
-	map[any]any |
-		// insertion point for generic types
-		map[string]*Classdiagram |
-		map[string]*DiagramPackage |
-		map[string]*Field |
-		map[string]*GongEnumShape |
-		map[string]*GongEnumValueEntry |
-		map[string]*GongStructShape |
-		map[string]*Link |
-		map[string]*NoteShape |
-		map[string]*NoteShapeLink |
-		map[string]*Position |
-		map[string]*UmlState |
-		map[string]*Umlsc |
-		map[string]*Vertice |
-		map[*any]any // because go does not support an extra "|" at the end of type specifications
+	map[any]any
 }
 
 // GongGetSet returns the set staged GongstructType instances

@@ -22,6 +22,7 @@ export class RectAnchoredText {
 	Content: string = ""
 	FontWeight: string = ""
 	FontSize: number = 0
+	FontStyle: string = ""
 	X_Offset: number = 0
 	Y_Offset: number = 0
 	RectAnchorType: string = ""
@@ -50,6 +51,7 @@ export function CopyRectAnchoredTextToRectAnchoredTextAPI(rectanchoredtext: Rect
 	rectanchoredtextAPI.Content = rectanchoredtext.Content
 	rectanchoredtextAPI.FontWeight = rectanchoredtext.FontWeight
 	rectanchoredtextAPI.FontSize = rectanchoredtext.FontSize
+	rectanchoredtextAPI.FontStyle = rectanchoredtext.FontStyle
 	rectanchoredtextAPI.X_Offset = rectanchoredtext.X_Offset
 	rectanchoredtextAPI.Y_Offset = rectanchoredtext.Y_Offset
 	rectanchoredtextAPI.RectAnchorType = rectanchoredtext.RectAnchorType
@@ -88,6 +90,7 @@ export function CopyRectAnchoredTextAPIToRectAnchoredText(rectanchoredtextAPI: R
 	rectanchoredtext.Content = rectanchoredtextAPI.Content
 	rectanchoredtext.FontWeight = rectanchoredtextAPI.FontWeight
 	rectanchoredtext.FontSize = rectanchoredtextAPI.FontSize
+	rectanchoredtext.FontStyle = rectanchoredtextAPI.FontStyle
 	rectanchoredtext.X_Offset = rectanchoredtextAPI.X_Offset
 	rectanchoredtext.Y_Offset = rectanchoredtextAPI.Y_Offset
 	rectanchoredtext.RectAnchorType = rectanchoredtextAPI.RectAnchorType

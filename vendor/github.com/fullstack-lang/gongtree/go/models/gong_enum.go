@@ -24,12 +24,13 @@ func (fontstyleenum *FontStyleEnum) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "NORMAL":
 		*fontstyleenum = NORMAL
+		return
 	case "ITALIC":
 		*fontstyleenum = ITALIC
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (fontstyleenum *FontStyleEnum) FromCodeString(input string) (err error) {
@@ -100,10 +101,10 @@ func (treestackname *TreeStackName) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "Tree":
 		*treestackname = TreeStackDefaultName
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (treestackname *TreeStackName) FromCodeString(input string) (err error) {
@@ -151,13 +152,12 @@ func (treestackname TreeStackName) CodeValues() (res []string) {
 // end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {
-	string | FontStyleEnum | TreeStackName
 	Codes() []string
 	CodeValues() []string
+	ToString() string
 }
 
 type PointerToGongstructEnumStringField interface {
-	*FontStyleEnum | *TreeStackName
 	FromCodeString(input string) (err error)
 }
 

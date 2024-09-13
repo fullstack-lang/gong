@@ -487,6 +487,7 @@ type RectAnchoredText_WOP struct {
 	Content string
 	FontWeight string
 	FontSize int
+	FontStyle string
 	X_Offset float64
 	Y_Offset float64
 	RectAnchorType RectAnchorType
@@ -507,6 +508,7 @@ func (from *RectAnchoredText) CopyBasicFields(to *RectAnchoredText) {
 	to.Content = from.Content
 	to.FontWeight = from.FontWeight
 	to.FontSize = from.FontSize
+	to.FontStyle = from.FontStyle
 	to.X_Offset = from.X_Offset
 	to.Y_Offset = from.Y_Offset
 	to.RectAnchorType = from.RectAnchorType

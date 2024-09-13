@@ -53,7 +53,6 @@ type StageStruct struct {
 	Animates_mapString map[string]*Animate
 
 	// insertion point for slice of pointers maps
-
 	OnAfterAnimateCreateCallback OnAfterCreateInterface[Animate]
 	OnAfterAnimateUpdateCallback OnAfterUpdateInterface[Animate]
 	OnAfterAnimateDeleteCallback OnAfterDeleteInterface[Animate]
@@ -86,14 +85,23 @@ type StageStruct struct {
 
 	// insertion point for slice of pointers maps
 	Layer_Rects_reverseMap map[*Rect]*Layer
+
 	Layer_Texts_reverseMap map[*Text]*Layer
+
 	Layer_Circles_reverseMap map[*Circle]*Layer
+
 	Layer_Lines_reverseMap map[*Line]*Layer
+
 	Layer_Ellipses_reverseMap map[*Ellipse]*Layer
+
 	Layer_Polylines_reverseMap map[*Polyline]*Layer
+
 	Layer_Polygones_reverseMap map[*Polygone]*Layer
+
 	Layer_Paths_reverseMap map[*Path]*Layer
+
 	Layer_Links_reverseMap map[*Link]*Layer
+
 	Layer_RectLinkLinks_reverseMap map[*RectLinkLink]*Layer
 
 	OnAfterLayerCreateCallback OnAfterCreateInterface[Layer]
@@ -117,7 +125,9 @@ type StageStruct struct {
 
 	// insertion point for slice of pointers maps
 	Link_TextAtArrowEnd_reverseMap map[*LinkAnchoredText]*Link
+
 	Link_TextAtArrowStart_reverseMap map[*LinkAnchoredText]*Link
+
 	Link_ControlPoints_reverseMap map[*Point]*Link
 
 	OnAfterLinkCreateCallback OnAfterCreateInterface[Link]
@@ -151,7 +161,6 @@ type StageStruct struct {
 	Points_mapString map[string]*Point
 
 	// insertion point for slice of pointers maps
-
 	OnAfterPointCreateCallback OnAfterCreateInterface[Point]
 	OnAfterPointUpdateCallback OnAfterUpdateInterface[Point]
 	OnAfterPointDeleteCallback OnAfterDeleteInterface[Point]
@@ -184,8 +193,11 @@ type StageStruct struct {
 
 	// insertion point for slice of pointers maps
 	Rect_Animations_reverseMap map[*Animate]*Rect
+
 	Rect_RectAnchoredTexts_reverseMap map[*RectAnchoredText]*Rect
+
 	Rect_RectAnchoredRects_reverseMap map[*RectAnchoredRect]*Rect
+
 	Rect_RectAnchoredPaths_reverseMap map[*RectAnchoredPath]*Rect
 
 	OnAfterRectCreateCallback OnAfterCreateInterface[Rect]
@@ -197,7 +209,6 @@ type StageStruct struct {
 	RectAnchoredPaths_mapString map[string]*RectAnchoredPath
 
 	// insertion point for slice of pointers maps
-
 	OnAfterRectAnchoredPathCreateCallback OnAfterCreateInterface[RectAnchoredPath]
 	OnAfterRectAnchoredPathUpdateCallback OnAfterUpdateInterface[RectAnchoredPath]
 	OnAfterRectAnchoredPathDeleteCallback OnAfterDeleteInterface[RectAnchoredPath]
@@ -207,7 +218,6 @@ type StageStruct struct {
 	RectAnchoredRects_mapString map[string]*RectAnchoredRect
 
 	// insertion point for slice of pointers maps
-
 	OnAfterRectAnchoredRectCreateCallback OnAfterCreateInterface[RectAnchoredRect]
 	OnAfterRectAnchoredRectUpdateCallback OnAfterUpdateInterface[RectAnchoredRect]
 	OnAfterRectAnchoredRectDeleteCallback OnAfterDeleteInterface[RectAnchoredRect]
@@ -228,7 +238,6 @@ type StageStruct struct {
 	RectLinkLinks_mapString map[string]*RectLinkLink
 
 	// insertion point for slice of pointers maps
-
 	OnAfterRectLinkLinkCreateCallback OnAfterCreateInterface[RectLinkLink]
 	OnAfterRectLinkLinkUpdateCallback OnAfterUpdateInterface[RectLinkLink]
 	OnAfterRectLinkLinkDeleteCallback OnAfterDeleteInterface[RectLinkLink]
@@ -1669,8 +1678,7 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
-	// insertion point for generic types
-	Animate | Circle | Ellipse | Layer | Line | Link | LinkAnchoredText | Path | Point | Polygone | Polyline | Rect | RectAnchoredPath | RectAnchoredRect | RectAnchoredText | RectLinkLink | SVG | Text
+
 }
 
 type GongtructBasicField interface {
@@ -1682,11 +1690,10 @@ type GongtructBasicField interface {
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type PointerToGongstruct interface {
-	// insertion point for generic types
-	*Animate | *Circle | *Ellipse | *Layer | *Line | *Link | *LinkAnchoredText | *Path | *Point | *Polygone | *Polyline | *Rect | *RectAnchoredPath | *RectAnchoredRect | *RectAnchoredText | *RectLinkLink | *SVG | *Text
 	GetName() string
 	CommitVoid(*StageStruct)
 	UnstageVoid(stage *StageStruct)
+	comparable
 }
 
 func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
@@ -1710,51 +1717,11 @@ func GetGongstrucsSorted[T PointerToGongstruct](stage *StageStruct) (sortedSlice
 }
 
 type GongstructSet interface {
-	map[any]any |
-		// insertion point for generic types
-		map[*Animate]any |
-		map[*Circle]any |
-		map[*Ellipse]any |
-		map[*Layer]any |
-		map[*Line]any |
-		map[*Link]any |
-		map[*LinkAnchoredText]any |
-		map[*Path]any |
-		map[*Point]any |
-		map[*Polygone]any |
-		map[*Polyline]any |
-		map[*Rect]any |
-		map[*RectAnchoredPath]any |
-		map[*RectAnchoredRect]any |
-		map[*RectAnchoredText]any |
-		map[*RectLinkLink]any |
-		map[*SVG]any |
-		map[*Text]any |
-		map[*any]any // because go does not support an extra "|" at the end of type specifications
+	map[any]any
 }
 
 type GongstructMapString interface {
-	map[any]any |
-		// insertion point for generic types
-		map[string]*Animate |
-		map[string]*Circle |
-		map[string]*Ellipse |
-		map[string]*Layer |
-		map[string]*Line |
-		map[string]*Link |
-		map[string]*LinkAnchoredText |
-		map[string]*Path |
-		map[string]*Point |
-		map[string]*Polygone |
-		map[string]*Polyline |
-		map[string]*Rect |
-		map[string]*RectAnchoredPath |
-		map[string]*RectAnchoredRect |
-		map[string]*RectAnchoredText |
-		map[string]*RectLinkLink |
-		map[string]*SVG |
-		map[string]*Text |
-		map[*any]any // because go does not support an extra "|" at the end of type specifications
+	map[any]any
 }
 
 // GongGetSet returns the set staged GongstructType instances
@@ -2812,7 +2779,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case RectAnchoredRect:
 		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "X_Offset", "Y_Offset", "RectAnchorType", "WidthFollowRect", "HeightFollowRect", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case RectAnchoredText:
-		res = []string{"Name", "Content", "FontWeight", "FontSize", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Content", "FontWeight", "FontSize", "FontStyle", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case RectLinkLink:
 		res = []string{"Name", "Start", "End", "TargetAnchorPosition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case SVG:
@@ -3012,7 +2979,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *RectAnchoredRect:
 		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "X_Offset", "Y_Offset", "RectAnchorType", "WidthFollowRect", "HeightFollowRect", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case *RectAnchoredText:
-		res = []string{"Name", "Content", "FontWeight", "FontSize", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Content", "FontWeight", "FontSize", "FontStyle", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case *RectLinkLink:
 		res = []string{"Name", "Start", "End", "TargetAnchorPosition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case *SVG:
@@ -3640,6 +3607,8 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res = inferedInstance.FontWeight
 		case "FontSize":
 			res = fmt.Sprintf("%d", inferedInstance.FontSize)
+		case "FontStyle":
+			res = inferedInstance.FontStyle
 		case "X_Offset":
 			res = fmt.Sprintf("%f", inferedInstance.X_Offset)
 		case "Y_Offset":
@@ -4390,6 +4359,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = inferedInstance.FontWeight
 		case "FontSize":
 			res = fmt.Sprintf("%d", inferedInstance.FontSize)
+		case "FontStyle":
+			res = inferedInstance.FontStyle
 		case "X_Offset":
 			res = fmt.Sprintf("%f", inferedInstance.X_Offset)
 		case "Y_Offset":

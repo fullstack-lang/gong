@@ -43,6 +43,30 @@ func (modelNodeImpl *ModelNodeImpl) OnAfterUpdate(stage *gongtree_models.StageSt
 			modelNodeImpl.diagrammer.computeModelNodeStatus(map_ModelNode_Shape)
 			modelNodeImpl.diagrammer.treeStage.Commit()
 		}
+	}
+
+	if stagedNode.IsSecondCheckboxChecked && !frontNode.IsSecondCheckboxChecked {
+
+		if modelElementNode, ok := modelNodeImpl.modelNode.(ModelElementNode); ok {
+			_ = modelElementNode
+		}
 
 	}
+
+	if !stagedNode.IsSecondCheckboxChecked && frontNode.IsSecondCheckboxChecked {
+
+		if modelElementNode, ok := modelNodeImpl.modelNode.(ModelElementNode); ok {
+			_ = modelElementNode
+
+			map_ModelNode_Shape := modelNodeImpl.diagrammer.portfolio.AddElementToDiagram(
+				modelElementNode)
+
+			stagedNode.IsChecked = frontNode.IsChecked
+			modelNodeImpl.diagrammer.generatePortfolioNodesStatusAndButtons()
+			modelNodeImpl.diagrammer.computeModelNodeStatus(map_ModelNode_Shape)
+			modelNodeImpl.diagrammer.treeStage.Commit()
+		}
+
+	}
+
 }

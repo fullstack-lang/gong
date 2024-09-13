@@ -267,3 +267,46 @@ func (fieldNode *FieldNode) CanBeAddedToDiagram() (result bool) {
 
 	return
 }
+
+func (fieldNode *FieldNode) HasSecondCheckbox() (result bool) {
+
+	// if pointerToGongStructField, ok := fieldNode.Field.(*gong_models.PointerToGongStructField); ok {
+	// 	_ = pointerToGongStructField
+	// 	result = !fieldNode.CanBeAddedToDiagram()
+	// }
+
+	// if sliceOfPointerToGongStructField, ok := fieldNode.Field.(*gong_models.SliceOfPointerToGongStructField); ok {
+	// 	_ = sliceOfPointerToGongStructField
+	// 	result = !fieldNode.CanBeAddedToDiagram()
+	// }
+	return
+}
+
+func (fieldNode *FieldNode) HasSecondName() (result bool) {
+
+	if pointerToGongStructField, ok := fieldNode.Field.(*gong_models.PointerToGongStructField); ok {
+		_ = pointerToGongStructField
+		result = true
+	}
+
+	if sliceOfPointerToGongStructField, ok := fieldNode.Field.(*gong_models.SliceOfPointerToGongStructField); ok {
+		_ = sliceOfPointerToGongStructField
+		result = true
+	}
+	return
+}
+
+func (fieldNode *FieldNode) GetSecondName() (result string) {
+
+	if pointerToGongStructField, ok := fieldNode.Field.(*gong_models.PointerToGongStructField); ok {
+		_ = pointerToGongStructField
+		result = pointerToGongStructField.GongStruct.GetName()
+	}
+
+	if sliceOfPointerToGongStructField, ok := fieldNode.Field.(*gong_models.SliceOfPointerToGongStructField); ok {
+		_ = sliceOfPointerToGongStructField
+		result = sliceOfPointerToGongStructField.GongStruct.GetName()
+	}
+
+	return
+}

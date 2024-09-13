@@ -53,7 +53,6 @@ type StageStruct struct {
 	Cells_mapString map[string]*Cell
 
 	// insertion point for slice of pointers maps
-
 	OnAfterCellCreateCallback OnAfterCreateInterface[Cell]
 	OnAfterCellUpdateCallback OnAfterUpdateInterface[Cell]
 	OnAfterCellDeleteCallback OnAfterDeleteInterface[Cell]
@@ -63,7 +62,6 @@ type StageStruct struct {
 	CellBooleans_mapString map[string]*CellBoolean
 
 	// insertion point for slice of pointers maps
-
 	OnAfterCellBooleanCreateCallback OnAfterCreateInterface[CellBoolean]
 	OnAfterCellBooleanUpdateCallback OnAfterUpdateInterface[CellBoolean]
 	OnAfterCellBooleanDeleteCallback OnAfterDeleteInterface[CellBoolean]
@@ -73,7 +71,6 @@ type StageStruct struct {
 	CellFloat64s_mapString map[string]*CellFloat64
 
 	// insertion point for slice of pointers maps
-
 	OnAfterCellFloat64CreateCallback OnAfterCreateInterface[CellFloat64]
 	OnAfterCellFloat64UpdateCallback OnAfterUpdateInterface[CellFloat64]
 	OnAfterCellFloat64DeleteCallback OnAfterDeleteInterface[CellFloat64]
@@ -83,7 +80,6 @@ type StageStruct struct {
 	CellIcons_mapString map[string]*CellIcon
 
 	// insertion point for slice of pointers maps
-
 	OnAfterCellIconCreateCallback OnAfterCreateInterface[CellIcon]
 	OnAfterCellIconUpdateCallback OnAfterUpdateInterface[CellIcon]
 	OnAfterCellIconDeleteCallback OnAfterDeleteInterface[CellIcon]
@@ -93,7 +89,6 @@ type StageStruct struct {
 	CellInts_mapString map[string]*CellInt
 
 	// insertion point for slice of pointers maps
-
 	OnAfterCellIntCreateCallback OnAfterCreateInterface[CellInt]
 	OnAfterCellIntUpdateCallback OnAfterUpdateInterface[CellInt]
 	OnAfterCellIntDeleteCallback OnAfterDeleteInterface[CellInt]
@@ -103,7 +98,6 @@ type StageStruct struct {
 	CellStrings_mapString map[string]*CellString
 
 	// insertion point for slice of pointers maps
-
 	OnAfterCellStringCreateCallback OnAfterCreateInterface[CellString]
 	OnAfterCellStringUpdateCallback OnAfterUpdateInterface[CellString]
 	OnAfterCellStringDeleteCallback OnAfterDeleteInterface[CellString]
@@ -113,7 +107,6 @@ type StageStruct struct {
 	CheckBoxs_mapString map[string]*CheckBox
 
 	// insertion point for slice of pointers maps
-
 	OnAfterCheckBoxCreateCallback OnAfterCreateInterface[CheckBox]
 	OnAfterCheckBoxUpdateCallback OnAfterUpdateInterface[CheckBox]
 	OnAfterCheckBoxDeleteCallback OnAfterDeleteInterface[CheckBox]
@@ -123,7 +116,6 @@ type StageStruct struct {
 	DisplayedColumns_mapString map[string]*DisplayedColumn
 
 	// insertion point for slice of pointers maps
-
 	OnAfterDisplayedColumnCreateCallback OnAfterCreateInterface[DisplayedColumn]
 	OnAfterDisplayedColumnUpdateCallback OnAfterUpdateInterface[DisplayedColumn]
 	OnAfterDisplayedColumnDeleteCallback OnAfterDeleteInterface[DisplayedColumn]
@@ -134,6 +126,7 @@ type StageStruct struct {
 
 	// insertion point for slice of pointers maps
 	FormDiv_FormFields_reverseMap map[*FormField]*FormDiv
+
 	FormDiv_CheckBoxs_reverseMap map[*CheckBox]*FormDiv
 
 	OnAfterFormDivCreateCallback OnAfterCreateInterface[FormDiv]
@@ -145,7 +138,6 @@ type StageStruct struct {
 	FormEditAssocButtons_mapString map[string]*FormEditAssocButton
 
 	// insertion point for slice of pointers maps
-
 	OnAfterFormEditAssocButtonCreateCallback OnAfterCreateInterface[FormEditAssocButton]
 	OnAfterFormEditAssocButtonUpdateCallback OnAfterUpdateInterface[FormEditAssocButton]
 	OnAfterFormEditAssocButtonDeleteCallback OnAfterDeleteInterface[FormEditAssocButton]
@@ -155,7 +147,6 @@ type StageStruct struct {
 	FormFields_mapString map[string]*FormField
 
 	// insertion point for slice of pointers maps
-
 	OnAfterFormFieldCreateCallback OnAfterCreateInterface[FormField]
 	OnAfterFormFieldUpdateCallback OnAfterUpdateInterface[FormField]
 	OnAfterFormFieldDeleteCallback OnAfterDeleteInterface[FormField]
@@ -165,7 +156,6 @@ type StageStruct struct {
 	FormFieldDates_mapString map[string]*FormFieldDate
 
 	// insertion point for slice of pointers maps
-
 	OnAfterFormFieldDateCreateCallback OnAfterCreateInterface[FormFieldDate]
 	OnAfterFormFieldDateUpdateCallback OnAfterUpdateInterface[FormFieldDate]
 	OnAfterFormFieldDateDeleteCallback OnAfterDeleteInterface[FormFieldDate]
@@ -175,7 +165,6 @@ type StageStruct struct {
 	FormFieldDateTimes_mapString map[string]*FormFieldDateTime
 
 	// insertion point for slice of pointers maps
-
 	OnAfterFormFieldDateTimeCreateCallback OnAfterCreateInterface[FormFieldDateTime]
 	OnAfterFormFieldDateTimeUpdateCallback OnAfterUpdateInterface[FormFieldDateTime]
 	OnAfterFormFieldDateTimeDeleteCallback OnAfterDeleteInterface[FormFieldDateTime]
@@ -185,7 +174,6 @@ type StageStruct struct {
 	FormFieldFloat64s_mapString map[string]*FormFieldFloat64
 
 	// insertion point for slice of pointers maps
-
 	OnAfterFormFieldFloat64CreateCallback OnAfterCreateInterface[FormFieldFloat64]
 	OnAfterFormFieldFloat64UpdateCallback OnAfterUpdateInterface[FormFieldFloat64]
 	OnAfterFormFieldFloat64DeleteCallback OnAfterDeleteInterface[FormFieldFloat64]
@@ -195,7 +183,6 @@ type StageStruct struct {
 	FormFieldInts_mapString map[string]*FormFieldInt
 
 	// insertion point for slice of pointers maps
-
 	OnAfterFormFieldIntCreateCallback OnAfterCreateInterface[FormFieldInt]
 	OnAfterFormFieldIntUpdateCallback OnAfterUpdateInterface[FormFieldInt]
 	OnAfterFormFieldIntDeleteCallback OnAfterDeleteInterface[FormFieldInt]
@@ -216,7 +203,6 @@ type StageStruct struct {
 	FormFieldStrings_mapString map[string]*FormFieldString
 
 	// insertion point for slice of pointers maps
-
 	OnAfterFormFieldStringCreateCallback OnAfterCreateInterface[FormFieldString]
 	OnAfterFormFieldStringUpdateCallback OnAfterUpdateInterface[FormFieldString]
 	OnAfterFormFieldStringDeleteCallback OnAfterDeleteInterface[FormFieldString]
@@ -226,7 +212,6 @@ type StageStruct struct {
 	FormFieldTimes_mapString map[string]*FormFieldTime
 
 	// insertion point for slice of pointers maps
-
 	OnAfterFormFieldTimeCreateCallback OnAfterCreateInterface[FormFieldTime]
 	OnAfterFormFieldTimeUpdateCallback OnAfterUpdateInterface[FormFieldTime]
 	OnAfterFormFieldTimeDeleteCallback OnAfterDeleteInterface[FormFieldTime]
@@ -247,7 +232,6 @@ type StageStruct struct {
 	FormSortAssocButtons_mapString map[string]*FormSortAssocButton
 
 	// insertion point for slice of pointers maps
-
 	OnAfterFormSortAssocButtonCreateCallback OnAfterCreateInterface[FormSortAssocButton]
 	OnAfterFormSortAssocButtonUpdateCallback OnAfterUpdateInterface[FormSortAssocButton]
 	OnAfterFormSortAssocButtonDeleteCallback OnAfterDeleteInterface[FormSortAssocButton]
@@ -257,7 +241,6 @@ type StageStruct struct {
 	Options_mapString map[string]*Option
 
 	// insertion point for slice of pointers maps
-
 	OnAfterOptionCreateCallback OnAfterCreateInterface[Option]
 	OnAfterOptionUpdateCallback OnAfterUpdateInterface[Option]
 	OnAfterOptionDeleteCallback OnAfterDeleteInterface[Option]
@@ -279,6 +262,7 @@ type StageStruct struct {
 
 	// insertion point for slice of pointers maps
 	Table_DisplayedColumns_reverseMap map[*DisplayedColumn]*Table
+
 	Table_Rows_reverseMap map[*Row]*Table
 
 	OnAfterTableCreateCallback OnAfterCreateInterface[Table]
@@ -2044,8 +2028,7 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
-	// insertion point for generic types
-	Cell | CellBoolean | CellFloat64 | CellIcon | CellInt | CellString | CheckBox | DisplayedColumn | FormDiv | FormEditAssocButton | FormField | FormFieldDate | FormFieldDateTime | FormFieldFloat64 | FormFieldInt | FormFieldSelect | FormFieldString | FormFieldTime | FormGroup | FormSortAssocButton | Option | Row | Table
+
 }
 
 type GongtructBasicField interface {
@@ -2057,11 +2040,10 @@ type GongtructBasicField interface {
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type PointerToGongstruct interface {
-	// insertion point for generic types
-	*Cell | *CellBoolean | *CellFloat64 | *CellIcon | *CellInt | *CellString | *CheckBox | *DisplayedColumn | *FormDiv | *FormEditAssocButton | *FormField | *FormFieldDate | *FormFieldDateTime | *FormFieldFloat64 | *FormFieldInt | *FormFieldSelect | *FormFieldString | *FormFieldTime | *FormGroup | *FormSortAssocButton | *Option | *Row | *Table
 	GetName() string
 	CommitVoid(*StageStruct)
 	UnstageVoid(stage *StageStruct)
+	comparable
 }
 
 func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
@@ -2085,61 +2067,11 @@ func GetGongstrucsSorted[T PointerToGongstruct](stage *StageStruct) (sortedSlice
 }
 
 type GongstructSet interface {
-	map[any]any |
-		// insertion point for generic types
-		map[*Cell]any |
-		map[*CellBoolean]any |
-		map[*CellFloat64]any |
-		map[*CellIcon]any |
-		map[*CellInt]any |
-		map[*CellString]any |
-		map[*CheckBox]any |
-		map[*DisplayedColumn]any |
-		map[*FormDiv]any |
-		map[*FormEditAssocButton]any |
-		map[*FormField]any |
-		map[*FormFieldDate]any |
-		map[*FormFieldDateTime]any |
-		map[*FormFieldFloat64]any |
-		map[*FormFieldInt]any |
-		map[*FormFieldSelect]any |
-		map[*FormFieldString]any |
-		map[*FormFieldTime]any |
-		map[*FormGroup]any |
-		map[*FormSortAssocButton]any |
-		map[*Option]any |
-		map[*Row]any |
-		map[*Table]any |
-		map[*any]any // because go does not support an extra "|" at the end of type specifications
+	map[any]any
 }
 
 type GongstructMapString interface {
-	map[any]any |
-		// insertion point for generic types
-		map[string]*Cell |
-		map[string]*CellBoolean |
-		map[string]*CellFloat64 |
-		map[string]*CellIcon |
-		map[string]*CellInt |
-		map[string]*CellString |
-		map[string]*CheckBox |
-		map[string]*DisplayedColumn |
-		map[string]*FormDiv |
-		map[string]*FormEditAssocButton |
-		map[string]*FormField |
-		map[string]*FormFieldDate |
-		map[string]*FormFieldDateTime |
-		map[string]*FormFieldFloat64 |
-		map[string]*FormFieldInt |
-		map[string]*FormFieldSelect |
-		map[string]*FormFieldString |
-		map[string]*FormFieldTime |
-		map[string]*FormGroup |
-		map[string]*FormSortAssocButton |
-		map[string]*Option |
-		map[string]*Row |
-		map[string]*Table |
-		map[*any]any // because go does not support an extra "|" at the end of type specifications
+	map[any]any
 }
 
 // GongGetSet returns the set staged GongstructType instances

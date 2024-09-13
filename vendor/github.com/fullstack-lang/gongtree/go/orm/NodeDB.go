@@ -94,6 +94,21 @@ type NodeDB struct {
 	// provide the sql storage for the boolan
 	IsCheckboxDisabled_Data sql.NullBool
 
+	// Declation for basic field nodeDB.HasSecondCheckboxButton
+	// provide the sql storage for the boolan
+	HasSecondCheckboxButton_Data sql.NullBool
+
+	// Declation for basic field nodeDB.IsSecondCheckboxChecked
+	// provide the sql storage for the boolan
+	IsSecondCheckboxChecked_Data sql.NullBool
+
+	// Declation for basic field nodeDB.IsSecondCheckboxDisabled
+	// provide the sql storage for the boolan
+	IsSecondCheckboxDisabled_Data sql.NullBool
+
+	// Declation for basic field nodeDB.TextAfterSecondCheckbox
+	TextAfterSecondCheckbox_Data sql.NullString
+
 	// Declation for basic field nodeDB.IsInEditMode
 	// provide the sql storage for the boolan
 	IsInEditMode_Data sql.NullBool
@@ -145,13 +160,21 @@ type NodeWOP struct {
 
 	IsCheckboxDisabled bool `xlsx:"7"`
 
-	IsInEditMode bool `xlsx:"8"`
+	HasSecondCheckboxButton bool `xlsx:"8"`
 
-	IsNodeClickable bool `xlsx:"9"`
+	IsSecondCheckboxChecked bool `xlsx:"9"`
 
-	IsWithPreceedingIcon bool `xlsx:"10"`
+	IsSecondCheckboxDisabled bool `xlsx:"10"`
 
-	PreceedingIcon string `xlsx:"11"`
+	TextAfterSecondCheckbox string `xlsx:"11"`
+
+	IsInEditMode bool `xlsx:"12"`
+
+	IsNodeClickable bool `xlsx:"13"`
+
+	IsWithPreceedingIcon bool `xlsx:"14"`
+
+	PreceedingIcon string `xlsx:"15"`
 	// insertion for WOP pointer fields
 }
 
@@ -165,6 +188,10 @@ var Node_Fields = []string{
 	"HasCheckboxButton",
 	"IsChecked",
 	"IsCheckboxDisabled",
+	"HasSecondCheckboxButton",
+	"IsSecondCheckboxChecked",
+	"IsSecondCheckboxDisabled",
+	"TextAfterSecondCheckbox",
 	"IsInEditMode",
 	"IsNodeClickable",
 	"IsWithPreceedingIcon",
@@ -527,6 +554,18 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNode(node *models.Node) {
 	nodeDB.IsCheckboxDisabled_Data.Bool = node.IsCheckboxDisabled
 	nodeDB.IsCheckboxDisabled_Data.Valid = true
 
+	nodeDB.HasSecondCheckboxButton_Data.Bool = node.HasSecondCheckboxButton
+	nodeDB.HasSecondCheckboxButton_Data.Valid = true
+
+	nodeDB.IsSecondCheckboxChecked_Data.Bool = node.IsSecondCheckboxChecked
+	nodeDB.IsSecondCheckboxChecked_Data.Valid = true
+
+	nodeDB.IsSecondCheckboxDisabled_Data.Bool = node.IsSecondCheckboxDisabled
+	nodeDB.IsSecondCheckboxDisabled_Data.Valid = true
+
+	nodeDB.TextAfterSecondCheckbox_Data.String = node.TextAfterSecondCheckbox
+	nodeDB.TextAfterSecondCheckbox_Data.Valid = true
+
 	nodeDB.IsInEditMode_Data.Bool = node.IsInEditMode
 	nodeDB.IsInEditMode_Data.Valid = true
 
@@ -564,6 +603,18 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNode_WOP(node *models.Node_WOP) {
 
 	nodeDB.IsCheckboxDisabled_Data.Bool = node.IsCheckboxDisabled
 	nodeDB.IsCheckboxDisabled_Data.Valid = true
+
+	nodeDB.HasSecondCheckboxButton_Data.Bool = node.HasSecondCheckboxButton
+	nodeDB.HasSecondCheckboxButton_Data.Valid = true
+
+	nodeDB.IsSecondCheckboxChecked_Data.Bool = node.IsSecondCheckboxChecked
+	nodeDB.IsSecondCheckboxChecked_Data.Valid = true
+
+	nodeDB.IsSecondCheckboxDisabled_Data.Bool = node.IsSecondCheckboxDisabled
+	nodeDB.IsSecondCheckboxDisabled_Data.Valid = true
+
+	nodeDB.TextAfterSecondCheckbox_Data.String = node.TextAfterSecondCheckbox
+	nodeDB.TextAfterSecondCheckbox_Data.Valid = true
 
 	nodeDB.IsInEditMode_Data.Bool = node.IsInEditMode
 	nodeDB.IsInEditMode_Data.Valid = true
@@ -603,6 +654,18 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNodeWOP(node *NodeWOP) {
 	nodeDB.IsCheckboxDisabled_Data.Bool = node.IsCheckboxDisabled
 	nodeDB.IsCheckboxDisabled_Data.Valid = true
 
+	nodeDB.HasSecondCheckboxButton_Data.Bool = node.HasSecondCheckboxButton
+	nodeDB.HasSecondCheckboxButton_Data.Valid = true
+
+	nodeDB.IsSecondCheckboxChecked_Data.Bool = node.IsSecondCheckboxChecked
+	nodeDB.IsSecondCheckboxChecked_Data.Valid = true
+
+	nodeDB.IsSecondCheckboxDisabled_Data.Bool = node.IsSecondCheckboxDisabled
+	nodeDB.IsSecondCheckboxDisabled_Data.Valid = true
+
+	nodeDB.TextAfterSecondCheckbox_Data.String = node.TextAfterSecondCheckbox
+	nodeDB.TextAfterSecondCheckbox_Data.Valid = true
+
 	nodeDB.IsInEditMode_Data.Bool = node.IsInEditMode
 	nodeDB.IsInEditMode_Data.Valid = true
 
@@ -626,6 +689,10 @@ func (nodeDB *NodeDB) CopyBasicFieldsToNode(node *models.Node) {
 	node.HasCheckboxButton = nodeDB.HasCheckboxButton_Data.Bool
 	node.IsChecked = nodeDB.IsChecked_Data.Bool
 	node.IsCheckboxDisabled = nodeDB.IsCheckboxDisabled_Data.Bool
+	node.HasSecondCheckboxButton = nodeDB.HasSecondCheckboxButton_Data.Bool
+	node.IsSecondCheckboxChecked = nodeDB.IsSecondCheckboxChecked_Data.Bool
+	node.IsSecondCheckboxDisabled = nodeDB.IsSecondCheckboxDisabled_Data.Bool
+	node.TextAfterSecondCheckbox = nodeDB.TextAfterSecondCheckbox_Data.String
 	node.IsInEditMode = nodeDB.IsInEditMode_Data.Bool
 	node.IsNodeClickable = nodeDB.IsNodeClickable_Data.Bool
 	node.IsWithPreceedingIcon = nodeDB.IsWithPreceedingIcon_Data.Bool
@@ -642,6 +709,10 @@ func (nodeDB *NodeDB) CopyBasicFieldsToNode_WOP(node *models.Node_WOP) {
 	node.HasCheckboxButton = nodeDB.HasCheckboxButton_Data.Bool
 	node.IsChecked = nodeDB.IsChecked_Data.Bool
 	node.IsCheckboxDisabled = nodeDB.IsCheckboxDisabled_Data.Bool
+	node.HasSecondCheckboxButton = nodeDB.HasSecondCheckboxButton_Data.Bool
+	node.IsSecondCheckboxChecked = nodeDB.IsSecondCheckboxChecked_Data.Bool
+	node.IsSecondCheckboxDisabled = nodeDB.IsSecondCheckboxDisabled_Data.Bool
+	node.TextAfterSecondCheckbox = nodeDB.TextAfterSecondCheckbox_Data.String
 	node.IsInEditMode = nodeDB.IsInEditMode_Data.Bool
 	node.IsNodeClickable = nodeDB.IsNodeClickable_Data.Bool
 	node.IsWithPreceedingIcon = nodeDB.IsWithPreceedingIcon_Data.Bool
@@ -659,6 +730,10 @@ func (nodeDB *NodeDB) CopyBasicFieldsToNodeWOP(node *NodeWOP) {
 	node.HasCheckboxButton = nodeDB.HasCheckboxButton_Data.Bool
 	node.IsChecked = nodeDB.IsChecked_Data.Bool
 	node.IsCheckboxDisabled = nodeDB.IsCheckboxDisabled_Data.Bool
+	node.HasSecondCheckboxButton = nodeDB.HasSecondCheckboxButton_Data.Bool
+	node.IsSecondCheckboxChecked = nodeDB.IsSecondCheckboxChecked_Data.Bool
+	node.IsSecondCheckboxDisabled = nodeDB.IsSecondCheckboxDisabled_Data.Bool
+	node.TextAfterSecondCheckbox = nodeDB.TextAfterSecondCheckbox_Data.String
 	node.IsInEditMode = nodeDB.IsInEditMode_Data.Bool
 	node.IsNodeClickable = nodeDB.IsNodeClickable_Data.Bool
 	node.IsWithPreceedingIcon = nodeDB.IsWithPreceedingIcon_Data.Bool

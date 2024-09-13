@@ -30,18 +30,22 @@ func (anchortype *AnchorType) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "ANCHOR_TOP":
 		*anchortype = ANCHOR_TOP
+		return
 	case "ANCHOR_BOTTOM":
 		*anchortype = ANCHOR_BOTTOM
+		return
 	case "ANCHOR_LEFT":
 		*anchortype = ANCHOR_LEFT
+		return
 	case "ANCHOR_RIGHT":
 		*anchortype = ANCHOR_RIGHT
+		return
 	case "ANCHOR_CENTER":
 		*anchortype = ANCHOR_CENTER
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (anchortype *AnchorType) FromCodeString(input string) (err error) {
@@ -422,302 +426,448 @@ func (colortype *ColorType) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "aliceblue":
 		*colortype = Aliceblue
+		return
 	case "antiquewhite":
 		*colortype = Antiquewhite
+		return
 	case "aqua":
 		*colortype = Aqua
+		return
 	case "aquamarine ":
 		*colortype = Aquamarine
+		return
 	case "azure":
 		*colortype = Azure
+		return
 	case "beige":
 		*colortype = Beige
+		return
 	case "bisque ":
 		*colortype = Bisque
+		return
 	case "black":
 		*colortype = Black
+		return
 	case "blanchedalmond ":
 		*colortype = Blanchedalmond
+		return
 	case "blue":
 		*colortype = Blue
+		return
 	case "blueviolet ":
 		*colortype = Blueviolet
+		return
 	case "brown":
 		*colortype = Brown
+		return
 	case "burlywood":
 		*colortype = Burlywood
+		return
 	case "cadetblue":
 		*colortype = Cadetblue
+		return
 	case "chartreuse ":
 		*colortype = Chartreuse
+		return
 	case "chocolate":
 		*colortype = Chocolate
+		return
 	case "coral":
 		*colortype = Coral
+		return
 	case "cornflowerblue ":
 		*colortype = Cornflowerblue
+		return
 	case "cornsilk":
 		*colortype = Cornsilk
+		return
 	case "crimson":
 		*colortype = Crimson
+		return
 	case "cyan":
 		*colortype = Cyan
+		return
 	case "darkblue":
 		*colortype = Darkblue
+		return
 	case "darkcyan":
 		*colortype = Darkcyan
+		return
 	case "darkgoldenrod":
 		*colortype = Darkgoldenrod
+		return
 	case "darkgray":
 		*colortype = Darkgray
+		return
 	case "darkgreen":
 		*colortype = Darkgreen
+		return
 	case "darkgrey":
 		*colortype = Darkgrey
+		return
 	case "darkkhaki":
 		*colortype = Darkkhaki
+		return
 	case "darkmagenta":
 		*colortype = Darkmagenta
+		return
 	case "darkolivegreen ":
 		*colortype = Darkolivegreen
+		return
 	case "darkorange ":
 		*colortype = Darkorange
+		return
 	case "darkorchid ":
 		*colortype = Darkorchid
+		return
 	case "darkred":
 		*colortype = Darkred
+		return
 	case "darksalmon ":
 		*colortype = Darksalmon
+		return
 	case "darkseagreen":
 		*colortype = Darkseagreen
+		return
 	case "darkslateblue":
 		*colortype = Darkslateblue
+		return
 	case "darkslategray":
 		*colortype = Darkslategray
+		return
 	case "darkslategrey":
 		*colortype = Darkslategrey
+		return
 	case "darkturquoise":
 		*colortype = Darkturquoise
+		return
 	case "darkviolet ":
 		*colortype = Darkviolet
+		return
 	case "deeppink":
 		*colortype = Deeppink
+		return
 	case "deepskyblue":
 		*colortype = Deepskyblue
+		return
 	case "dimgray":
 		*colortype = Dimgray
+		return
 	case "dimgrey":
 		*colortype = Dimgrey
+		return
 	case "dodgerblue ":
 		*colortype = Dodgerblue
+		return
 	case "firebrick":
 		*colortype = Firebrick
+		return
 	case "floralwhite":
 		*colortype = Floralwhite
+		return
 	case "forestgreen":
 		*colortype = Forestgreen
+		return
 	case "fuchsia":
 		*colortype = Fuchsia
+		return
 	case "gainsboro":
 		*colortype = Gainsboro
+		return
 	case "ghostwhite ":
 		*colortype = Ghostwhite
+		return
 	case "gold":
 		*colortype = Gold
+		return
 	case "goldenrod":
 		*colortype = Goldenrod
+		return
 	case "gray":
 		*colortype = Gray
+		return
 	case "green":
 		*colortype = Green
+		return
 	case "greenyellow":
 		*colortype = Greenyellow
+		return
 	case "grey":
 		*colortype = Grey
+		return
 	case "honeydew":
 		*colortype = Honeydew
+		return
 	case "hotpink":
 		*colortype = Hotpink
+		return
 	case "indianred":
 		*colortype = Indianred
+		return
 	case "indigo ":
 		*colortype = Indigo
+		return
 	case "ivory":
 		*colortype = Ivory
+		return
 	case "khaki":
 		*colortype = Khaki
+		return
 	case "lavender":
 		*colortype = Lavender
+		return
 	case "lavenderblush":
 		*colortype = Lavenderblush
+		return
 	case "lawngreen":
 		*colortype = Lawngreen
+		return
 	case "lemonchiffon":
 		*colortype = Lemonchiffon
+		return
 	case "lightblue":
 		*colortype = Lightblue
+		return
 	case "lightcoral ":
 		*colortype = Lightcoral
+		return
 	case "lightcyan":
 		*colortype = Lightcyan
+		return
 	case "lightgoldenrodyellow":
 		*colortype = Lightgoldenrodyellow
+		return
 	case "lightgray":
 		*colortype = Lightgray
+		return
 	case "lightgreen ":
 		*colortype = Lightgreen
+		return
 	case "lightgrey":
 		*colortype = Lightgrey
+		return
 	case "lightpink":
 		*colortype = Lightpink
+		return
 	case "lightsalmon":
 		*colortype = Lightsalmon
+		return
 	case "lightseagreen":
 		*colortype = Lightseagreen
+		return
 	case "lightskyblue":
 		*colortype = Lightskyblue
+		return
 	case "lightslategray ":
 		*colortype = Lightslategray
+		return
 	case "lightslategrey ":
 		*colortype = Lightslategrey
+		return
 	case "lightsteelblue ":
 		*colortype = Lightsteelblue
+		return
 	case "lightyellow":
 		*colortype = Lightyellow
+		return
 	case "lime":
 		*colortype = Lime
+		return
 	case "limegreen":
 		*colortype = Limegreen
+		return
 	case "linen":
 		*colortype = Linen
+		return
 	case "magenta":
 		*colortype = Magenta
+		return
 	case "maroon ":
 		*colortype = Maroon
+		return
 	case "mediumaquamarine":
 		*colortype = Mediumaquamarine
+		return
 	case "mediumblue ":
 		*colortype = Mediumblue
+		return
 	case "mediumorchid":
 		*colortype = Mediumorchid
+		return
 	case "mediumpurple":
 		*colortype = Mediumpurple
+		return
 	case "mediumseagreen ":
 		*colortype = Mediumseagreen
+		return
 	case "mediumslateblue":
 		*colortype = Mediumslateblue
+		return
 	case "mediumspringgreen":
 		*colortype = Mediumspringgreen
+		return
 	case "mediumturquoise":
 		*colortype = Mediumturquoise
+		return
 	case "mediumvioletred":
 		*colortype = Mediumvioletred
+		return
 	case "midnightblue":
 		*colortype = Midnightblue
+		return
 	case "mintcream":
 		*colortype = Mintcream
+		return
 	case "mistyrose":
 		*colortype = Mistyrose
+		return
 	case "moccasin":
 		*colortype = Moccasin
+		return
 	case "navajowhite":
 		*colortype = Navajowhite
+		return
 	case "navy":
 		*colortype = Navy
+		return
 	case "oldlace":
 		*colortype = Oldlace
+		return
 	case "olive":
 		*colortype = Olive
+		return
 	case "olivedrab":
 		*colortype = Olivedrab
+		return
 	case "orange ":
 		*colortype = Orange
+		return
 	case "orangered":
 		*colortype = Orangered
+		return
 	case "orchid ":
 		*colortype = Orchid
+		return
 	case "palegoldenrod":
 		*colortype = Palegoldenrod
+		return
 	case "palegreen":
 		*colortype = Palegreen
+		return
 	case "paleturquoise":
 		*colortype = Paleturquoise
+		return
 	case "palevioletred":
 		*colortype = Palevioletred
+		return
 	case "papayawhip ":
 		*colortype = Papayawhip
+		return
 	case "peachpuff":
 		*colortype = Peachpuff
+		return
 	case "peru":
 		*colortype = Peru
+		return
 	case "pink":
 		*colortype = Pink
+		return
 	case "plum":
 		*colortype = Plum
+		return
 	case "powderblue ":
 		*colortype = Powderblue
+		return
 	case "purple ":
 		*colortype = Purple
+		return
 	case "red":
 		*colortype = Red
+		return
 	case "rosybrown":
 		*colortype = Rosybrown
+		return
 	case "royalblue":
 		*colortype = Royalblue
+		return
 	case "saddlebrown":
 		*colortype = Saddlebrown
+		return
 	case "salmon ":
 		*colortype = Salmon
+		return
 	case "sandybrown ":
 		*colortype = Sandybrown
+		return
 	case "seagreen":
 		*colortype = Seagreen
+		return
 	case "seashell":
 		*colortype = Seashell
+		return
 	case "sienna ":
 		*colortype = Sienna
+		return
 	case "silver ":
 		*colortype = Silver
+		return
 	case "skyblue":
 		*colortype = Skyblue
+		return
 	case "slateblue":
 		*colortype = Slateblue
+		return
 	case "slategray":
 		*colortype = Slategray
+		return
 	case "slategrey":
 		*colortype = Slategrey
+		return
 	case "snow":
 		*colortype = Snow
+		return
 	case "springgreen":
 		*colortype = Springgreen
+		return
 	case "steelblue":
 		*colortype = Steelblue
+		return
 	case "tan":
 		*colortype = Tan
+		return
 	case "teal":
 		*colortype = Teal
+		return
 	case "thistle":
 		*colortype = Thistle
+		return
 	case "tomato ":
 		*colortype = Tomato
+		return
 	case "turquoise":
 		*colortype = Turquoise
+		return
 	case "violet ":
 		*colortype = Violet
+		return
 	case "wheat":
 		*colortype = Wheat
+		return
 	case "white":
 		*colortype = White
+		return
 	case "whitesmoke ":
 		*colortype = Whitesmoke
+		return
 	case "yellow ":
 		*colortype = Yellow
+		return
 	case "yellowgreen":
 		*colortype = Yellowgreen
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (colortype *ColorType) FromCodeString(input string) (err error) {
@@ -1660,12 +1810,13 @@ func (drawingstate *DrawingState) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "NOT_DRAWING_LINK":
 		*drawingstate = NOT_DRAWING_LINK
+		return
 	case "DRAWING_LINK":
 		*drawingstate = DRAWING_LINK
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (drawingstate *DrawingState) FromCodeString(input string) (err error) {
@@ -1738,12 +1889,13 @@ func (linkanchortype *LinkAnchorType) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "LINK_LEFT_OR_TOP":
 		*linkanchortype = LINK_LEFT_OR_TOP
+		return
 	case "LINK_RIGHT_OR_BOTTOM":
 		*linkanchortype = LINK_RIGHT_OR_BOTTOM
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (linkanchortype *LinkAnchorType) FromCodeString(input string) (err error) {
@@ -1816,12 +1968,13 @@ func (linktype *LinkType) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "LINK_TYPE_LINE_WITH_CONTROL_POINTS":
 		*linktype = LINK_TYPE_LINE_WITH_CONTROL_POINTS
+		return
 	case "LINK_TYPE_FLOATING_ORTHOGONAL":
 		*linktype = LINK_TYPE_FLOATING_ORTHOGONAL
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (linktype *LinkType) FromCodeString(input string) (err error) {
@@ -1894,12 +2047,13 @@ func (orientationtype *OrientationType) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "ORIENTATION_HORIZONTAL":
 		*orientationtype = ORIENTATION_HORIZONTAL
+		return
 	case "ORIENTATION_VERTICAL":
 		*orientationtype = ORIENTATION_VERTICAL
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (orientationtype *OrientationType) FromCodeString(input string) (err error) {
@@ -1972,12 +2126,13 @@ func (positiononarrowtype *PositionOnArrowType) FromString(input string) (err er
 	// insertion code per enum code
 	case "POSITION_ON_ARROW_START":
 		*positiononarrowtype = POSITION_ON_ARROW_START
+		return
 	case "POSITION_ON_ARROW_END":
 		*positiononarrowtype = POSITION_ON_ARROW_END
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (positiononarrowtype *PositionOnArrowType) FromCodeString(input string) (err error) {
@@ -2070,32 +2225,43 @@ func (rectanchortype *RectAnchorType) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "RECT_TOP":
 		*rectanchortype = RECT_TOP
+		return
 	case "RECT_TOP_LEFT":
 		*rectanchortype = RECT_TOP_LEFT
+		return
 	case "RECT_TOP_RIGHT":
 		*rectanchortype = RECT_TOP_RIGHT
+		return
 	case "RECT_BOTTOM":
 		*rectanchortype = RECT_BOTTOM
+		return
 	case "RECT_BOTTOM_LEFT":
 		*rectanchortype = RECT_BOTTOM_LEFT
+		return
 	case "RECT_BOTTOM_LEFT_LEFT":
 		*rectanchortype = RECT_BOTTOM_LEFT_LEFT
+		return
 	case "RECT_BOTTOM_BOTTOM_LEFT":
 		*rectanchortype = RECT_BOTTOM_BOTTOM_LEFT
+		return
 	case "RECT_BOTTOM_RIGHT":
 		*rectanchortype = RECT_BOTTOM_RIGHT
+		return
 	case "RECT_BOTTOM_INSIDE_RIGHT":
 		*rectanchortype = RECT_BOTTOM_INSIDE_RIGHT
+		return
 	case "RECT_LEFT":
 		*rectanchortype = RECT_LEFT
+		return
 	case "RECT_RIGHT":
 		*rectanchortype = RECT_RIGHT
+		return
 	case "RECT_CENTER":
 		*rectanchortype = RECT_CENTER
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (rectanchortype *RectAnchorType) FromCodeString(input string) (err error) {
@@ -2232,16 +2398,19 @@ func (sidetype *SideType) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "SIDE_TOP":
 		*sidetype = SIDE_TOP
+		return
 	case "SIDE_BOTTOM":
 		*sidetype = SIDE_BOTTOM
+		return
 	case "SIDE_LEFT":
 		*sidetype = SIDE_LEFT
+		return
 	case "SIDE_RIGHT":
 		*sidetype = SIDE_RIGHT
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (sidetype *SideType) FromCodeString(input string) (err error) {
@@ -2324,10 +2493,10 @@ func (stackname *StackName) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "gongsvg":
 		*stackname = StackNameDefault
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (stackname *StackName) FromCodeString(input string) (err error) {
@@ -2396,14 +2565,16 @@ func (textanchortype *TextAnchorType) FromString(input string) (err error) {
 	// insertion code per enum code
 	case "start":
 		*textanchortype = TEXT_ANCHOR_START
+		return
 	case "middle":
 		*textanchortype = TEXT_ANCHOR_CENTER
+		return
 	case "end":
 		*textanchortype = TEXT_ANCHOR_END
+		return
 	default:
 		return errUnkownEnum
 	}
-	return
 }
 
 func (textanchortype *TextAnchorType) FromCodeString(input string) (err error) {
@@ -2463,13 +2634,12 @@ func (textanchortype TextAnchorType) CodeValues() (res []string) {
 // end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {
-	string | AnchorType | ColorType | DrawingState | LinkAnchorType | LinkType | OrientationType | PositionOnArrowType | RectAnchorType | SideType | StackName | TextAnchorType
 	Codes() []string
 	CodeValues() []string
+	ToString() string
 }
 
 type PointerToGongstructEnumStringField interface {
-	*AnchorType | *ColorType | *DrawingState | *LinkAnchorType | *LinkType | *OrientationType | *PositionOnArrowType | *RectAnchorType | *SideType | *StackName | *TextAnchorType
 	FromCodeString(input string) (err error)
 }
 
