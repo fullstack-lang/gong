@@ -114,7 +114,6 @@ const VsCodeTasksConfig = `{
 		"command": "go",
 		"args": [
 		  "get",
-		  "-d",
 		  "github.com/fullstack-lang/gong@HEAD",
 		  "github.com/fullstack-lang/gongtable@HEAD",
 		  "github.com/fullstack-lang/gongtree@HEAD",
