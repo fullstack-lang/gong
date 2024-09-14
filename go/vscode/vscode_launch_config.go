@@ -8,14 +8,14 @@ const VsCodeLaunchConfig = `{
             "request": "launch",
             "type": "msedge",
             "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/ng"
+            "webRoot": "${workspaceFolder}/{{NgWorkspaceName}}"
         },
         {
             "name": "Launch Chrome",
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/ng"
+            "webRoot": "${workspaceFolder}/{{NgWorkspaceName}}"
         },
         {
             "name": "go server -unmarshallFromCode=stage.go -marshallOnCommit=stage",

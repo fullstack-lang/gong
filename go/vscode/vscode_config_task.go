@@ -44,14 +44,14 @@ const VsCodeTasksConfig = `{
 	  {
 		"label": "03 - ng build",
 		"type": "shell",
-		"command": "cd ng; ng build",
+		"command": "cd {{NgWorkspaceName}}; ng build",
 		"group": "build",
 		"problemMatcher": []
 	  },
 	  {
 		"label": "04 - ng serve --host=127.0.0.1",
 		"type": "shell",
-		"command": "cd ng; ng serve --host=127.0.0.1",
+		"command": "cd {{NgWorkspaceName}}; ng serve --host=127.0.0.1",
 		"group": "build",
 		"problemMatcher": []
 	  },
