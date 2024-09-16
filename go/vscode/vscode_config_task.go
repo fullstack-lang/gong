@@ -103,12 +103,6 @@ const VsCodeTasksConfig = `{
 		]
 	  },
 	  {
-		"label": "00 - go mod vendor",
-		"type": "shell",
-		"group": "build",
-		"command": "go mod vendor"
-	  },
-	  {
 		"label": "00 - update dependencies",
 		"type": "shell",
 		"command": "go",
@@ -123,32 +117,6 @@ const VsCodeTasksConfig = `{
 		"group": "build"
 	  },
 	  {
-		"label": "00 - go get -d github.com/fullstack-lang/gong@HEAD",
-		"type": "shell",
-		"command": "go",
-		"args": [
-		  "get",
-		  "-d",
-		  "github.com/fullstack-lang/gong@HEAD",
-		  "github.com/fullstack-lang/gongdoc@HEAD",
-		  "github.com/fullstack-lang/gongrouter@HEAD",
-		  "github.com/fullstack-lang/gongsvg@HEAD",
-		  "github.com/fullstack-lang/gongtree@HEAD",
-		],
-		"group": "build"
-	  },
-	  {
-		"label": "00 - go get -d github.com/fullstack-lang/gongdoc@HEAD",
-		"type": "shell",
-		"command": "go",
-		"args": [
-		  "get",
-		  "-d",
-		  "github.com/fullstack-lang/gongdoc@HEAD",
-		],
-		"group": "build"
-	  },
-	  {
 		"label": "00 - go mod tidy",
 		"type": "shell",
 		"command": "go",
@@ -157,6 +125,16 @@ const VsCodeTasksConfig = `{
 		  "tidy"
 		],
 		"group": "build"
+	  },
+	  	  {
+		"label": "00 - go mod vendor",
+		"type": "shell",
+		"group": "build",
+		"command": "go",
+		"args": [
+		  "mod",
+		  "vendor"
+		],
 	  },
 	  {
 		"label": "00 - go build",
