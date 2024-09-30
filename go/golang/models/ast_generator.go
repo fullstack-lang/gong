@@ -35,7 +35,9 @@ map[ModelGongAstStructInsertionId]string{
 var __gong__map_{{Structname}} = make(map[string]*{{Structname}})`,
 	ModelGongAstStageProcessing: `
 									case "{{Structname}}":
-										instance{{Structname}} := (&{{Structname}}{Name: instanceName}).Stage(stage)
+										instance{{Structname}} := new({{Structname}})
+										instance{{Structname}}.Name = instanceName
+										instance{{Structname}}.Stage(stage)
 										instance = any(instance{{Structname}})
 										__gong__map_{{Structname}}[identifier] = instance{{Structname}}`,
 	ModelGongAstBasicLitAssignment: `
