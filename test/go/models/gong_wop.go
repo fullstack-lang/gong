@@ -115,3 +115,19 @@ func (from *Fstruct) CopyBasicFields(to *Fstruct) {
 	to.Date = from.Date
 }
 
+type Gstruct_WOP struct {
+	// insertion point
+	Name string
+	Floatfield float64
+	Floatfield2 float64
+	Intfield int
+}
+
+func (from *Gstruct) CopyBasicFields(to *Gstruct) {
+	// insertion point
+	to.Name = from.Name
+	to.Floatfield = from.Floatfield
+	to.Floatfield2 = from.Floatfield2
+	to.Intfield = from.Intfield
+}
+

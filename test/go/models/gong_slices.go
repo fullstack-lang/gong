@@ -184,6 +184,9 @@ func EvictInOtherSlices[OwningType PointerToGongstruct, FieldType PointerToGongs
 	case *Fstruct:
 		// insertion point per field
 
+	case *Gstruct:
+		// insertion point per field
+
 	default:
 		_ = owningInstanceInfered // to avoid "declared and not used" error if no named struct has slices
 	}
@@ -265,6 +268,9 @@ func (stage *StageStruct) ComputeReverseMaps() {
 	}
 
 	// Compute reverse map for named struct Fstruct
+	// insertion point per field
+
+	// Compute reverse map for named struct Gstruct
 	// insertion point per field
 
 }
