@@ -43,7 +43,9 @@ func _(stage *models.StageStruct) {
 }`
 
 const IdentifiersDecls = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+	{{Identifier}} := new(models.{{GeneratedStructName}})
+	{{Identifier}}.Name = ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `
+	{{Identifier}}.Stage(stage)`
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
