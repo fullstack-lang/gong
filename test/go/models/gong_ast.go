@@ -494,31 +494,45 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 									switch gongstructName {
 									// insertion point for identifiers
 									case "Astruct":
-										instanceAstruct := (&Astruct{Name: instanceName}).Stage(stage)
+										instanceAstruct := new(Astruct)
+										instanceAstruct.Name = instanceName
+										instanceAstruct.Stage(stage)
 										instance = any(instanceAstruct)
 										__gong__map_Astruct[identifier] = instanceAstruct
 									case "AstructBstruct2Use":
-										instanceAstructBstruct2Use := (&AstructBstruct2Use{Name: instanceName}).Stage(stage)
+										instanceAstructBstruct2Use := new(AstructBstruct2Use)
+										instanceAstructBstruct2Use.Name = instanceName
+										instanceAstructBstruct2Use.Stage(stage)
 										instance = any(instanceAstructBstruct2Use)
 										__gong__map_AstructBstruct2Use[identifier] = instanceAstructBstruct2Use
 									case "AstructBstructUse":
-										instanceAstructBstructUse := (&AstructBstructUse{Name: instanceName}).Stage(stage)
+										instanceAstructBstructUse := new(AstructBstructUse)
+										instanceAstructBstructUse.Name = instanceName
+										instanceAstructBstructUse.Stage(stage)
 										instance = any(instanceAstructBstructUse)
 										__gong__map_AstructBstructUse[identifier] = instanceAstructBstructUse
 									case "Bstruct":
-										instanceBstruct := (&Bstruct{Name: instanceName}).Stage(stage)
+										instanceBstruct := new(Bstruct)
+										instanceBstruct.Name = instanceName
+										instanceBstruct.Stage(stage)
 										instance = any(instanceBstruct)
 										__gong__map_Bstruct[identifier] = instanceBstruct
 									case "Dstruct":
-										instanceDstruct := (&Dstruct{Name: instanceName}).Stage(stage)
+										instanceDstruct := new(Dstruct)
+										instanceDstruct.Name = instanceName
+										instanceDstruct.Stage(stage)
 										instance = any(instanceDstruct)
 										__gong__map_Dstruct[identifier] = instanceDstruct
 									case "Fstruct":
-										instanceFstruct := (&Fstruct{Name: instanceName}).Stage(stage)
+										instanceFstruct := new(Fstruct)
+										instanceFstruct.Name = instanceName
+										instanceFstruct.Stage(stage)
 										instance = any(instanceFstruct)
 										__gong__map_Fstruct[identifier] = instanceFstruct
 									case "Gstruct":
-										instanceGstruct := (&Gstruct{Name: instanceName}).Stage(stage)
+										instanceGstruct := new(Gstruct)
+										instanceGstruct.Name = instanceName
+										instanceGstruct.Stage(stage)
 										instance = any(instanceGstruct)
 										__gong__map_Gstruct[identifier] = instanceGstruct
 									}
