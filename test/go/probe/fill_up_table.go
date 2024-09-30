@@ -32,6 +32,8 @@ func fillUpTablePointerToGongstruct[T models.PointerToGongstruct](
 		fillUpTable[models.Dstruct](probe)
 	case *models.Fstruct:
 		fillUpTable[models.Fstruct](probe)
+	case *models.Gstruct:
+		fillUpTable[models.Gstruct](probe)
 	default:
 		log.Println("unknow type")
 	}

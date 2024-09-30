@@ -20,6 +20,7 @@ func SerializeStage(stage *StageStruct, filename string) {
 		SerializeExcelize[Bstruct](stage, f)
 		SerializeExcelize[Dstruct](stage, f)
 		SerializeExcelize[Fstruct](stage, f)
+		SerializeExcelize[Gstruct](stage, f)
 	}
 
 	var tab ExcelizeTabulator

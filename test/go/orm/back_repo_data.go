@@ -15,6 +15,8 @@ type BackRepoData struct {
 	DstructAPIs []*DstructAPI
 
 	FstructAPIs []*FstructAPI
+
+	GstructAPIs []*GstructAPI
 }
 
 func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepoData) {
@@ -77,6 +79,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		fstructDB.CopyBasicFieldsToFstruct_WOP(&fstructAPI.Fstruct_WOP)
 
 		backRepoData.FstructAPIs = append(backRepoData.FstructAPIs, &fstructAPI)
+	}
+
+	for _, gstructDB := range backRepo.BackRepoGstruct.Map_GstructDBID_GstructDB {
+
+		var gstructAPI GstructAPI
+		gstructAPI.ID = gstructDB.ID
+		gstructAPI.GstructPointersEncoding = gstructDB.GstructPointersEncoding
+		gstructDB.CopyBasicFieldsToGstruct_WOP(&gstructAPI.Gstruct_WOP)
+
+		backRepoData.GstructAPIs = append(backRepoData.GstructAPIs, &gstructAPI)
 	}
 
 }

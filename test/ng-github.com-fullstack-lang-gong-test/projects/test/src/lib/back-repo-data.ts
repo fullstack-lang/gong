@@ -11,6 +11,8 @@ import { BstructAPI } from './bstruct-api'
 
 import { DstructAPI } from './dstruct-api'
 
+import { GstructAPI } from './gstruct-api'
+
 
 export class BackRepoData {
 	// insertion point for declarations
@@ -23,6 +25,8 @@ export class BackRepoData {
 	BstructAPIs = new Array<BstructAPI>()
 
 	DstructAPIs = new Array<DstructAPI>()
+
+	GstructAPIs = new Array<GstructAPI>()
 
 
 
@@ -37,6 +41,8 @@ export class BackRepoData {
 		this.BstructAPIs = data?.BstructAPIs || [];
 
 		this.DstructAPIs = data?.DstructAPIs || [];
+
+		this.GstructAPIs = data?.GstructAPIs || [];
 
 	}
 
