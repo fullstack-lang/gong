@@ -1011,6 +1011,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Bstruct with the name of the field
 			Anarrayofb: []*Bstruct{{Name: "Anarrayofb"}},
+			// field is initialized with an instance of Gstruct with the name of the field
+			Gstruct: &Gstruct{Bstruct: Bstruct {Name: "Gstruct"}},
+			// field is initialized with an instance of Gstruct with the name of the field
+			Gstructs: []*Gstruct{{Bstruct: Bstruct {Name: "Gstructs"}}},
 		}).(*Type)
 	case Fstruct:
 		return any(&Fstruct{
