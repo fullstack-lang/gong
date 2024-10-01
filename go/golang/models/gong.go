@@ -282,6 +282,8 @@ const (
 
 	GongFileFieldSubTmplAssociationNamePointerField
 	GongFileFieldSubTmplAssociationNameSliceOfPointersField
+	GongFileFieldSubTmplAssociationPromotedNamePointerField
+	GongFileFieldSubTmplAssociationPromotedNameSliceOfPointersField
 	GongFileFieldSubTmplAssociationNameEnclosingCompositePointerField
 	GongFileFieldSubTmplAssociationNameCompositePointerField
 
@@ -388,6 +390,14 @@ map[GongFilePerStructSubTemplateId]string{
 	GongFileFieldSubTmplAssociationNameSliceOfPointersField: `
 			// field is initialized with an instance of {{AssocStructName}} with the name of the field
 			{{FieldName}}: []*{{AssocStructName}}{{Name: "{{FieldName}}"}},`,
+
+	GongFileFieldSubTmplAssociationPromotedNamePointerField: `
+			// field is initialized with an instance of {{AssocStructName}} with the name of the field
+			{{FieldName}}: &{{AssocStructName}}{{{CompositeAssocStructName}}: {{CompositeAssocStructName}} {Name: "{{FieldName}}"}},`,
+
+	GongFileFieldSubTmplAssociationPromotedNameSliceOfPointersField: `
+			// field is initialized with an instance of {{AssocStructName}} with the name of the field
+			{{FieldName}}: []*{{AssocStructName}}{{{{CompositeAssocStructName}}: {{CompositeAssocStructName}} {Name: "{{FieldName}}"}}},`,
 
 	// GongFileFieldSubTmplAssociationNameEnclosingCompositePointerField: `
 	// 		// field is initialized with {{AssocCompositeStructName}} as it is a composite
@@ -549,9 +559,11 @@ func CodeGeneratorModelGong(
 					// for the case where the "Name" is a promoted field, one cannot generate
 					// the code (cf. waiting for https://github.com/golang/go/issues/9859)
 					var assocStructNameHasNameAsPromotedField bool
+					var assocCompositeStrucName string
 					for _, __field := range field.GongStruct.Fields {
 						if __field.GetName() == "Name" && __field.GetCompositeStructName() != "" {
 							assocStructNameHasNameAsPromotedField = true
+							assocCompositeStrucName = __field.GetCompositeStructName()
 						}
 					}
 					if field.CompositeStructName == "" && !isWithinAnonymousStruct && !assocStructNameHasNameAsPromotedField {
@@ -569,6 +581,15 @@ func CodeGeneratorModelGong(
 								"{{AssocCompositeStructName}}", field.CompositeStructName,
 								"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 						}
+					}
+					if assocStructNameHasNameAsPromotedField {
+						associationFieldInitialization += models.Replace4(
+							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationPromotedNamePointerField],
+							"{{FieldName}}", field.Name,
+							"{{AssocStructName}}", field.GongStruct.Name,
+							"{{assocstructname}}", strings.ToLower(field.GongStruct.Name),
+							"{{CompositeAssocStructName}}", assocCompositeStrucName,
+						)
 					}
 				case *models.SliceOfPointerToGongStructField:
 					fieldStringValues += models.Replace1(
@@ -589,9 +610,11 @@ func CodeGeneratorModelGong(
 					// for the case where the "Name" is a promoted field, one cannot generate
 					// the code (cf. waiting for https://github.com/golang/go/issues/9859)
 					var assocStructNameHasNameAsPromotedField bool
+					var assocCompositeStrucName string
 					for _, __field := range field.GongStruct.Fields {
 						if __field.GetName() == "Name" && __field.GetCompositeStructName() != "" {
 							assocStructNameHasNameAsPromotedField = true
+							assocCompositeStrucName = __field.GetCompositeStructName()
 						}
 					}
 					if field.CompositeStructName == "" && !isWithinAnonymousStruct && !assocStructNameHasNameAsPromotedField {
@@ -601,7 +624,15 @@ func CodeGeneratorModelGong(
 							"{{AssocStructName}}", field.GongStruct.Name,
 							"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 					}
-
+					if assocStructNameHasNameAsPromotedField {
+						associationFieldInitialization += models.Replace4(
+							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationPromotedNameSliceOfPointersField],
+							"{{FieldName}}", field.Name,
+							"{{AssocStructName}}", field.GongStruct.Name,
+							"{{assocstructname}}", strings.ToLower(field.GongStruct.Name),
+							"{{CompositeAssocStructName}}", assocCompositeStrucName,
+						)
+					}
 				default:
 				}
 
