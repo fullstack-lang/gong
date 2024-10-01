@@ -11,63 +11,39 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_stage models.StageStruct
 var _ time.Time
 
-// _ point for meta package dummy declaration
-var ___dummy__gongdoc_models_stage gongdoc_models.StageStruct
+// Injection point for meta package dummy declaration
+var _ gongdoc_models.StageStruct
 
-// currently, DocLink renaming is not enabled in gopls
-// the following map are devised to overcome this limitation
-// those maps and the processing code will be eleminated when
-// DocLink renaming will be enabled in gopls
-// [Corresponding Issue](https://github.com/golang/go/issues/57559)
-//
 // When parsed, those maps will help with the renaming process
 var _ map[string]any = map[string]any{
-	// injection point for docLink to identifiers
-
-	"gongdoc_models.GongStructShape": &(gongdoc_models.GongStructShape{}),
-
-	"gongdoc_models.GongStructShape.Name": (gongdoc_models.GongStructShape{}).Name,
+	// injection point for docLink to identifiers{{EntriesDocLinkStringDocLinkIdentifier}}
 }
 
-// init might be handy if one want to have the data embedded in the binary
-// but it has to properly reference the _ gateway in the main package
-// func init() {
-// 	_ = __Dummy_time_variable
-// 	InjectionGateway["stage"] = _
-// }
-
-// _ will stage objects of database "stage"
+// function will stage objects
 func _(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
-	// Declarations of staged instances of Astruct
-	__Astruct__000000_A1 := (&models.Astruct{Name: `A1`}).Stage(stage)
-	__Astruct__000001_A2 := (&models.Astruct{Name: `A2`}).Stage(stage)
-	__Astruct__000002_A3 := (&models.Astruct{Name: `A3`}).Stage(stage)
+	__Astruct__000000_A1 := (&models.Astruct{}).Stage(stage)
+	__Astruct__000001_A2 := (&models.Astruct{}).Stage(stage)
+	__Astruct__000002_A3 := (&models.Astruct{}).Stage(stage)
 
-	// Declarations of staged instances of AstructBstruct2Use
-	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{Name: ``}).Stage(stage)
-	__AstructBstruct2Use__000001_ := (&models.AstructBstruct2Use{Name: ``}).Stage(stage)
+	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{}).Stage(stage)
+	__AstructBstruct2Use__000001_ := (&models.AstructBstruct2Use{}).Stage(stage)
 
-	// Declarations of staged instances of AstructBstructUse
+	__Bstruct__000000_B1 := (&models.Bstruct{}).Stage(stage)
+	__Bstruct__000001_B2_ := (&models.Bstruct{}).Stage(stage)
+	__Bstruct__000002_B3 := (&models.Bstruct{}).Stage(stage)
 
-	// Declarations of staged instances of Bstruct
-	__Bstruct__000000_B1 := (&models.Bstruct{Name: `B1`}).Stage(stage)
-	__Bstruct__000001_B2_ := (&models.Bstruct{Name: `B2 *`}).Stage(stage)
-	__Bstruct__000002_B3 := (&models.Bstruct{Name: `B3`}).Stage(stage)
+	__Dstruct__000000_D1 := (&models.Dstruct{}).Stage(stage)
 
-	// Declarations of staged instances of Dstruct
-	__Dstruct__000000_D1 := (&models.Dstruct{Name: `D1`}).Stage(stage)
-
-	// Declarations of staged instances of Fstruct
+	__Gstruct__000000_ := (&models.Gstruct{}).Stage(stage)
+	__Gstruct__000001_g2 := (&models.Gstruct{}).Stage(stage)
 
 	// Setup of values
 
-	// Astruct values setup
 	__Astruct__000000_A1.Name = `A1`
 	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-11-14 03:08:21 +0000 UTC")
 	__Astruct__000000_A1.Booleanfield = false
@@ -85,39 +61,26 @@ Second Line`
 	__Astruct__000000_A1.Anotherbooleanfield = false
 	__Astruct__000000_A1.Duration1 = 79653000000000
 
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [gongdoc_models.GongStructShape]
+	//gong:ident [gongdoc_models.GongStructShape] comment added to overcome the problem with the comment map association
 	__Astruct__000000_A1.StructRef = `gongdoc_models.GongStructShape`
 
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [gongdoc_models.GongStructShape.Name]
+	//gong:ident [gongdoc_models.GongStructShape.Name] comment added to overcome the problem with the comment map association
 	__Astruct__000000_A1.FieldRef = `gongdoc_models.GongStructShape.Name`
 
-	// comment added to overcome the problem with the comment map association
+	//gong:ident [.........] comment added to overcome the problem with the comment map association
+	__Astruct__000000_A1.EnumIntRef = `.........`
 
-	//gong:ident [.......]
-	__Astruct__000000_A1.EnumIntRef = `.......`
+	//gong:ident [.........] comment added to overcome the problem with the comment map association
+	__Astruct__000000_A1.EnumStringRef = `.........`
 
-	// comment added to overcome the problem with the comment map association
+	//gong:ident [.........] comment added to overcome the problem with the comment map association
+	__Astruct__000000_A1.EnumValue = `.........`
 
-	//gong:ident [.......]
-	__Astruct__000000_A1.EnumStringRef = `.......`
-
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [.......]
-	__Astruct__000000_A1.EnumValue = `.......`
-
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [.......]
-	__Astruct__000000_A1.ConstIdentifierValue = `.......`
+	//gong:ident [.........] comment added to overcome the problem with the comment map association
+	__Astruct__000000_A1.ConstIdentifierValue = `.........`
 	__Astruct__000000_A1.TextFieldBespokeSize = ``
 	__Astruct__000000_A1.TextArea = ``
 
-	// Astruct values setup
 	__Astruct__000001_A2.Name = `A2`
 	__Astruct__000001_A2.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 09:59:06.744 +0000 UTC")
 	__Astruct__000001_A2.Booleanfield = false
@@ -129,39 +92,26 @@ Second Line`
 	__Astruct__000001_A2.Anotherbooleanfield = false
 	__Astruct__000001_A2.Duration1 = 796530000000000000
 
-	// comment added to overcome the problem with the comment map association
+	//gong:ident [....] comment added to overcome the problem with the comment map association
+	__Astruct__000001_A2.StructRef = `....`
 
-	//gong:ident [..]
-	__Astruct__000001_A2.StructRef = `..`
+	//gong:ident [....] comment added to overcome the problem with the comment map association
+	__Astruct__000001_A2.FieldRef = `....`
 
-	// comment added to overcome the problem with the comment map association
+	//gong:ident [....] comment added to overcome the problem with the comment map association
+	__Astruct__000001_A2.EnumIntRef = `....`
 
-	//gong:ident [..]
-	__Astruct__000001_A2.FieldRef = `..`
+	//gong:ident [....] comment added to overcome the problem with the comment map association
+	__Astruct__000001_A2.EnumStringRef = `....`
 
-	// comment added to overcome the problem with the comment map association
+	//gong:ident [....] comment added to overcome the problem with the comment map association
+	__Astruct__000001_A2.EnumValue = `....`
 
-	//gong:ident [..]
-	__Astruct__000001_A2.EnumIntRef = `..`
-
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [..]
-	__Astruct__000001_A2.EnumStringRef = `..`
-
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [..]
-	__Astruct__000001_A2.EnumValue = `..`
-
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [..]
-	__Astruct__000001_A2.ConstIdentifierValue = `..`
+	//gong:ident [....] comment added to overcome the problem with the comment map association
+	__Astruct__000001_A2.ConstIdentifierValue = `....`
 	__Astruct__000001_A2.TextFieldBespokeSize = ``
 	__Astruct__000001_A2.TextArea = ``
 
-	// Astruct values setup
 	__Astruct__000002_A3.Name = `A3`
 	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 11:16:35.978 +0000 UTC")
 	__Astruct__000002_A3.Booleanfield = true
@@ -174,64 +124,56 @@ Second Line`
 	__Astruct__000002_A3.Anotherbooleanfield = false
 	__Astruct__000002_A3.Duration1 = -79653000000000
 
-	// comment added to overcome the problem with the comment map association
+	//gong:ident [.........] comment added to overcome the problem with the comment map association
+	__Astruct__000002_A3.StructRef = `.........`
 
-	//gong:ident [.......]
-	__Astruct__000002_A3.StructRef = `.......`
+	//gong:ident [.........] comment added to overcome the problem with the comment map association
+	__Astruct__000002_A3.FieldRef = `.........`
 
-	// comment added to overcome the problem with the comment map association
+	//gong:ident [.........] comment added to overcome the problem with the comment map association
+	__Astruct__000002_A3.EnumIntRef = `.........`
 
-	//gong:ident [.......]
-	__Astruct__000002_A3.FieldRef = `.......`
+	//gong:ident [.........] comment added to overcome the problem with the comment map association
+	__Astruct__000002_A3.EnumStringRef = `.........`
 
-	// comment added to overcome the problem with the comment map association
+	//gong:ident [.........] comment added to overcome the problem with the comment map association
+	__Astruct__000002_A3.EnumValue = `.........`
 
-	//gong:ident [.......]
-	__Astruct__000002_A3.EnumIntRef = `.......`
-
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [.......]
-	__Astruct__000002_A3.EnumStringRef = `.......`
-
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [.......]
-	__Astruct__000002_A3.EnumValue = `.......`
-
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [.......]
-	__Astruct__000002_A3.ConstIdentifierValue = `.......`
+	//gong:ident [.........] comment added to overcome the problem with the comment map association
+	__Astruct__000002_A3.ConstIdentifierValue = `.........`
 	__Astruct__000002_A3.TextFieldBespokeSize = ``
 	__Astruct__000002_A3.TextArea = ``
 
-	// AstructBstruct2Use values setup
 	__AstructBstruct2Use__000000_.Name = ``
 
-	// AstructBstruct2Use values setup
 	__AstructBstruct2Use__000001_.Name = ``
 
-	// Bstruct values setup
 	__Bstruct__000000_B1.Name = `B1`
 	__Bstruct__000000_B1.Floatfield = 0.000000
 	__Bstruct__000000_B1.Floatfield2 = 0.000000
 	__Bstruct__000000_B1.Intfield = 0
 
-	// Bstruct values setup
 	__Bstruct__000001_B2_.Name = `B2 *`
 	__Bstruct__000001_B2_.Floatfield = 0.000000
 	__Bstruct__000001_B2_.Floatfield2 = 0.000000
 	__Bstruct__000001_B2_.Intfield = 0
 
-	// Bstruct values setup
 	__Bstruct__000002_B3.Name = `B3`
 	__Bstruct__000002_B3.Floatfield = 0.000000
 	__Bstruct__000002_B3.Floatfield2 = 0.000000
 	__Bstruct__000002_B3.Intfield = 0
 
-	// Dstruct values setup
 	__Dstruct__000000_D1.Name = `D1`
+
+	__Gstruct__000000_.Name = ``
+	__Gstruct__000000_.Floatfield = 0.000000
+	__Gstruct__000000_.Floatfield2 = 0.000000
+	__Gstruct__000000_.Intfield = 0
+
+	__Gstruct__000001_g2.Name = `g2`
+	__Gstruct__000001_g2.Floatfield = 0.000000
+	__Gstruct__000001_g2.Floatfield2 = 0.000000
+	__Gstruct__000001_g2.Intfield = 0
 
 	// Setup of pointers
 	__Astruct__000000_A1.Associationtob = __Bstruct__000001_B2_

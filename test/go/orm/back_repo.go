@@ -34,6 +34,8 @@ type BackRepoStruct struct {
 
 	BackRepoFstruct BackRepoFstructStruct
 
+	BackRepoGstruct BackRepoGstructStruct
+
 	CommitFromBackNb uint // records commit increments when performed by the back
 
 	PushFromFrontNb uint // records commit increments when performed by the front
@@ -80,6 +82,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		&BstructDB{},
 		&DstructDB{},
 		&FstructDB{},
+		&GstructDB{},
 	)
 
 	if err != nil {
@@ -138,6 +141,14 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		db:    db,
 		stage: stage,
 	}
+	backRepo.BackRepoGstruct = BackRepoGstructStruct{
+		Map_GstructDBID_GstructPtr: make(map[uint]*models.Gstruct, 0),
+		Map_GstructDBID_GstructDB:  make(map[uint]*GstructDB, 0),
+		Map_GstructPtr_GstructDBID: make(map[*models.Gstruct]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
 
 	stage.BackRepo = backRepo
 	backRepo.stage = stage
@@ -192,6 +203,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	backRepo.BackRepoBstruct.CommitPhaseOne(stage)
 	backRepo.BackRepoDstruct.CommitPhaseOne(stage)
 	backRepo.BackRepoFstruct.CommitPhaseOne(stage)
+	backRepo.BackRepoGstruct.CommitPhaseOne(stage)
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoAstruct.CommitPhaseTwo(backRepo)
@@ -200,6 +212,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	backRepo.BackRepoBstruct.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoDstruct.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoFstruct.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoGstruct.CommitPhaseTwo(backRepo)
 
 	backRepo.IncrementCommitFromBackNb()
 }
@@ -213,6 +226,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	backRepo.BackRepoBstruct.CheckoutPhaseOne()
 	backRepo.BackRepoDstruct.CheckoutPhaseOne()
 	backRepo.BackRepoFstruct.CheckoutPhaseOne()
+	backRepo.BackRepoGstruct.CheckoutPhaseOne()
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoAstruct.CheckoutPhaseTwo(backRepo)
@@ -221,6 +235,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	backRepo.BackRepoBstruct.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoDstruct.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoFstruct.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoGstruct.CheckoutPhaseTwo(backRepo)
 }
 
 // Backup the BackRepoStruct
@@ -234,6 +249,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string
 	backRepo.BackRepoBstruct.Backup(dirPath)
 	backRepo.BackRepoDstruct.Backup(dirPath)
 	backRepo.BackRepoFstruct.Backup(dirPath)
+	backRepo.BackRepoGstruct.Backup(dirPath)
 }
 
 // Backup in XL the BackRepoStruct
@@ -250,6 +266,7 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.StageStruct, dirPath stri
 	backRepo.BackRepoBstruct.BackupXL(file)
 	backRepo.BackRepoDstruct.BackupXL(file)
 	backRepo.BackRepoFstruct.BackupXL(file)
+	backRepo.BackRepoGstruct.BackupXL(file)
 
 	var b bytes.Buffer
 	writer := bufio.NewWriter(&b)
@@ -280,6 +297,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	backRepo.BackRepoBstruct.RestorePhaseOne(dirPath)
 	backRepo.BackRepoDstruct.RestorePhaseOne(dirPath)
 	backRepo.BackRepoFstruct.RestorePhaseOne(dirPath)
+	backRepo.BackRepoGstruct.RestorePhaseOne(dirPath)
 
 	//
 	// restauration second phase (reindex pointers with the new ID)
@@ -292,6 +310,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	backRepo.BackRepoBstruct.RestorePhaseTwo()
 	backRepo.BackRepoDstruct.RestorePhaseTwo()
 	backRepo.BackRepoFstruct.RestorePhaseTwo()
+	backRepo.BackRepoGstruct.RestorePhaseTwo()
 
 	backRepo.stage.Checkout()
 }
@@ -325,6 +344,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.StageStruct, dirPath str
 	backRepo.BackRepoBstruct.RestoreXLPhaseOne(file)
 	backRepo.BackRepoDstruct.RestoreXLPhaseOne(file)
 	backRepo.BackRepoFstruct.RestoreXLPhaseOne(file)
+	backRepo.BackRepoGstruct.RestoreXLPhaseOne(file)
 
 	// commit the restored stage
 	backRepo.stage.Commit()
