@@ -24,6 +24,10 @@ import { DstructAPI } from './dstruct-api'
 import { Dstruct, CopyDstructAPIToDstruct } from './dstruct'
 import { DstructService } from './dstruct.service'
 
+import { GstructAPI } from './gstruct-api'
+import { Gstruct, CopyGstructAPIToGstruct } from './gstruct'
+import { GstructService } from './gstruct.service'
+
 
 import { BackRepoData } from './back-repo-data'
 
@@ -46,6 +50,9 @@ export class FrontRepo { // insertion point sub template
 	array_Dstructs = new Array<Dstruct>() // array of front instances
 	map_ID_Dstruct = new Map<number, Dstruct>() // map of front instances
 
+	array_Gstructs = new Array<Gstruct>() // array of front instances
+	map_ID_Gstruct = new Map<number, Gstruct>() // map of front instances
+
 
 	// getFrontArray allows for a get function that is robust to refactoring of the named struct name
 	// for instance frontRepo.getArray<Astruct>( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
@@ -63,6 +70,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_Bstructs as unknown as Array<Type>
 			case 'Dstruct':
 				return this.array_Dstructs as unknown as Array<Type>
+			case 'Gstruct':
+				return this.array_Gstructs as unknown as Array<Type>
 			default:
 				throw new Error("Type not recognized");
 		}
@@ -81,6 +90,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_Bstruct as unknown as Map<number, Type>
 			case 'Dstruct':
 				return this.map_ID_Dstruct as unknown as Map<number, Type>
+			case 'Gstruct':
+				return this.map_ID_Gstruct as unknown as Map<number, Type>
 			default:
 				throw new Error("Type not recognized");
 		}
@@ -153,6 +164,7 @@ export class FrontRepoService {
 		private astructbstructuseService: AstructBstructUseService,
 		private bstructService: BstructService,
 		private dstructService: DstructService,
+		private gstructService: GstructService,
 	) { }
 
 	// postService provides a post function for each struct name
@@ -190,6 +202,7 @@ export class FrontRepoService {
 		Observable<AstructBstructUseAPI[]>,
 		Observable<BstructAPI[]>,
 		Observable<DstructAPI[]>,
+		Observable<GstructAPI[]>,
 	] = [
 			// Using "combineLatest" with a placeholder observable.
 			//
@@ -205,6 +218,7 @@ export class FrontRepoService {
 			this.astructbstructuseService.getAstructBstructUses(this.GONG__StackPath, this.frontRepo),
 			this.bstructService.getBstructs(this.GONG__StackPath, this.frontRepo),
 			this.dstructService.getDstructs(this.GONG__StackPath, this.frontRepo),
+			this.gstructService.getGstructs(this.GONG__StackPath, this.frontRepo),
 		];
 
 	//
@@ -225,6 +239,7 @@ export class FrontRepoService {
 			this.astructbstructuseService.getAstructBstructUses(this.GONG__StackPath, this.frontRepo),
 			this.bstructService.getBstructs(this.GONG__StackPath, this.frontRepo),
 			this.dstructService.getDstructs(this.GONG__StackPath, this.frontRepo),
+			this.gstructService.getGstructs(this.GONG__StackPath, this.frontRepo),
 		]
 
 		return new Observable<FrontRepo>(
@@ -240,6 +255,7 @@ export class FrontRepoService {
 						astructbstructuses_,
 						bstructs_,
 						dstructs_,
+						gstructs_,
 					]) => {
 						let _this = this
 						// Typing can be messy with many items. Therefore, type casting is necessary here
@@ -254,6 +270,8 @@ export class FrontRepoService {
 						bstructs = bstructs_ as BstructAPI[]
 						var dstructs: DstructAPI[]
 						dstructs = dstructs_ as DstructAPI[]
+						var gstructs: GstructAPI[]
+						gstructs = gstructs_ as GstructAPI[]
 
 						// 
 						// First Step: init map of instances
@@ -318,6 +336,18 @@ export class FrontRepoService {
 							}
 						)
 
+						// init the arrays
+						this.frontRepo.array_Gstructs = []
+						this.frontRepo.map_ID_Gstruct.clear()
+
+						gstructs.forEach(
+							gstructAPI => {
+								let gstruct = new Gstruct
+								this.frontRepo.array_Gstructs.push(gstruct)
+								this.frontRepo.map_ID_Gstruct.set(gstructAPI.ID, gstruct)
+							}
+						)
+
 
 						// 
 						// Second Step: reddeem front objects
@@ -359,6 +389,14 @@ export class FrontRepoService {
 							dstructAPI => {
 								let dstruct = this.frontRepo.map_ID_Dstruct.get(dstructAPI.ID)
 								CopyDstructAPIToDstruct(dstructAPI, dstruct!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						gstructs.forEach(
+							gstructAPI => {
+								let gstruct = this.frontRepo.map_ID_Gstruct.get(gstructAPI.ID)
+								CopyGstructAPIToGstruct(gstructAPI, gstruct!, this.frontRepo)
 							}
 						)
 
@@ -453,6 +491,18 @@ export class FrontRepoService {
 					}
 				)
 
+				// init the arrays
+				this.frontRepo.array_Gstructs = []
+				this.frontRepo.map_ID_Gstruct.clear()
+
+				backRepoData.GstructAPIs.forEach(
+					gstructAPI => {
+						let gstruct = new Gstruct
+						this.frontRepo.array_Gstructs.push(gstruct)
+						this.frontRepo.map_ID_Gstruct.set(gstructAPI.ID, gstruct)
+					}
+				)
+
 
 				// 
 				// Second Step: reddeem front objects
@@ -499,6 +549,14 @@ export class FrontRepoService {
 					}
 				)
 
+				// fill up front objects
+				backRepoData.GstructAPIs.forEach(
+					gstructAPI => {
+						let gstruct = this.frontRepo.map_ID_Gstruct.get(gstructAPI.ID)
+						CopyGstructAPIToGstruct(gstructAPI, gstruct!, this.frontRepo)
+					}
+				)
+
 
 
 				observer.next(this.frontRepo)
@@ -532,4 +590,7 @@ export function getBstructUniqueID(id: number): number {
 }
 export function getDstructUniqueID(id: number): number {
 	return 47 * id
+}
+export function getGstructUniqueID(id: number): number {
+	return 53 * id
 }

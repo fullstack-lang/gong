@@ -844,3 +844,86 @@ func (fstructFormCallback *FstructFormCallback) OnSave() {
 
 	fillUpTree(fstructFormCallback.probe)
 }
+func __gong__New__GstructFormCallback(
+	gstruct *models.Gstruct,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (gstructFormCallback *GstructFormCallback) {
+	gstructFormCallback = new(GstructFormCallback)
+	gstructFormCallback.probe = probe
+	gstructFormCallback.gstruct = gstruct
+	gstructFormCallback.formGroup = formGroup
+
+	gstructFormCallback.CreationMode = (gstruct == nil)
+
+	return
+}
+
+type GstructFormCallback struct {
+	gstruct *models.Gstruct
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (gstructFormCallback *GstructFormCallback) OnSave() {
+
+	log.Println("GstructFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	gstructFormCallback.probe.formStage.Checkout()
+
+	if gstructFormCallback.gstruct == nil {
+		gstructFormCallback.gstruct = new(models.Gstruct).Stage(gstructFormCallback.probe.stageOfInterest)
+	}
+	gstruct_ := gstructFormCallback.gstruct
+	_ = gstruct_
+
+	for _, formDiv := range gstructFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(gstruct_.Name), formDiv)
+		case "Floatfield":
+			FormDivBasicFieldToField(&(gstruct_.Floatfield), formDiv)
+		case "Floatfield2":
+			FormDivBasicFieldToField(&(gstruct_.Floatfield2), formDiv)
+		case "Intfield":
+			FormDivBasicFieldToField(&(gstruct_.Intfield), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if gstructFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		gstruct_.Unstage(gstructFormCallback.probe.stageOfInterest)
+	}
+
+	gstructFormCallback.probe.stageOfInterest.Commit()
+	fillUpTable[models.Gstruct](
+		gstructFormCallback.probe,
+	)
+	gstructFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if gstructFormCallback.CreationMode || gstructFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		gstructFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: table.FormGroupDefaultName.ToString(),
+		}).Stage(gstructFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__GstructFormCallback(
+			nil,
+			gstructFormCallback.probe,
+			newFormGroup,
+		)
+		gstruct := new(models.Gstruct)
+		FillUpForm(gstruct, newFormGroup, gstructFormCallback.probe)
+		gstructFormCallback.probe.formStage.Commit()
+	}
+
+	fillUpTree(gstructFormCallback.probe)
+}
