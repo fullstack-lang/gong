@@ -126,7 +126,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, goGitign
 							if hasName {
 								mapStructWithNameField[typeSpec.Name.Name] = true
 							}
-							log.Println("file ", typeSpec.Name.Name, hasName)
+							// log.Println("file ", typeSpec.Name.Name, hasName)
 						}
 
 					}
