@@ -693,6 +693,12 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							target := __gong__map_Bstruct[targetIdentifier]
 							__gong__map_Dstruct[identifier].Anarrayofb =
 								append(__gong__map_Dstruct[identifier].Anarrayofb, target)
+						case "Gstructs":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_Gstruct[targetIdentifier]
+							__gong__map_Dstruct[identifier].Gstructs =
+								append(__gong__map_Dstruct[identifier].Gstructs, target)
 						}
 					case "Fstruct":
 						switch fieldName {
@@ -993,6 +999,9 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 			case "Dstruct":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "Gstruct":
+					targetIdentifier := ident.Name
+					__gong__map_Dstruct[identifier].Gstruct = __gong__map_Gstruct[targetIdentifier]
 				}
 			case "Fstruct":
 				switch fieldName {

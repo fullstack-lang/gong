@@ -49,6 +49,13 @@ type DstructPointersEncoding struct {
 
 	// field Anarrayofb is a slice of pointers to another Struct (optional or 0..1)
 	Anarrayofb IntSlice `gorm:"type:TEXT"`
+
+	// field Gstruct is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	GstructID sql.NullInt64
+
+	// field Gstructs is a slice of pointers to another Struct (optional or 0..1)
+	Gstructs IntSlice `gorm:"type:TEXT"`
 }
 
 // DstructDB describes a dstruct in the database
@@ -232,6 +239,36 @@ func (backRepoDstruct *BackRepoDstructStruct) CommitPhaseTwoInstance(backRepo *B
 				append(dstructDB.DstructPointersEncoding.Anarrayofb, int(bstructAssocEnd_DB.ID))
 		}
 
+		// commit pointer value dstruct.Gstruct translates to updating the dstruct.GstructID
+		dstructDB.GstructID.Valid = true // allow for a 0 value (nil association)
+		if dstruct.Gstruct != nil {
+			if GstructId, ok := backRepo.BackRepoGstruct.Map_GstructPtr_GstructDBID[dstruct.Gstruct]; ok {
+				dstructDB.GstructID.Int64 = int64(GstructId)
+				dstructDB.GstructID.Valid = true
+			}
+		} else {
+			dstructDB.GstructID.Int64 = 0
+			dstructDB.GstructID.Valid = true
+		}
+
+		// 1. reset
+		dstructDB.DstructPointersEncoding.Gstructs = make([]int, 0)
+		// 2. encode
+		for _, gstructAssocEnd := range dstruct.Gstructs {
+			gstructAssocEnd_DB :=
+				backRepo.BackRepoGstruct.GetGstructDBFromGstructPtr(gstructAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the gstructAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if gstructAssocEnd_DB == nil {
+				continue
+			}
+			
+			dstructDB.DstructPointersEncoding.Gstructs =
+				append(dstructDB.DstructPointersEncoding.Gstructs, int(gstructAssocEnd_DB.ID))
+		}
+
 		query := backRepoDstruct.db.Save(&dstructDB)
 		if query.Error != nil {
 			log.Fatalln(query.Error)
@@ -352,6 +389,20 @@ func (dstructDB *DstructDB) DecodePointers(backRepo *BackRepoStruct, dstruct *mo
 	dstruct.Anarrayofb = dstruct.Anarrayofb[:0]
 	for _, _Bstructid := range dstructDB.DstructPointersEncoding.Anarrayofb {
 		dstruct.Anarrayofb = append(dstruct.Anarrayofb, backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(_Bstructid)])
+	}
+
+	// Gstruct field
+	dstruct.Gstruct = nil
+	if dstructDB.GstructID.Int64 != 0 {
+		dstruct.Gstruct = backRepo.BackRepoGstruct.Map_GstructDBID_GstructPtr[uint(dstructDB.GstructID.Int64)]
+	}
+	// This loop redeem dstruct.Gstructs in the stage from the encode in the back repo
+	// It parses all GstructDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	dstruct.Gstructs = dstruct.Gstructs[:0]
+	for _, _Gstructid := range dstructDB.DstructPointersEncoding.Gstructs {
+		dstruct.Gstructs = append(dstruct.Gstructs, backRepo.BackRepoGstruct.Map_GstructDBID_GstructPtr[uint(_Gstructid)])
 	}
 
 	return
@@ -582,6 +633,12 @@ func (backRepoDstruct *BackRepoDstructStruct) RestorePhaseTwo() {
 		_ = dstructDB
 
 		// insertion point for reindexing pointers encoding
+		// reindexing Gstruct field
+		if dstructDB.GstructID.Int64 != 0 {
+			dstructDB.GstructID.Int64 = int64(BackRepoGstructid_atBckpTime_newID[uint(dstructDB.GstructID.Int64)])
+			dstructDB.GstructID.Valid = true
+		}
+
 		// update databse with new index encoding
 		query := backRepoDstruct.db.Model(dstructDB).Updates(*dstructDB)
 		if query.Error != nil {
