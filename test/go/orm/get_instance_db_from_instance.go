@@ -39,6 +39,10 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		fstructInstance := any(concreteInstance).(*models.Fstruct)
 		ret2 := backRepo.BackRepoFstruct.GetFstructDBFromFstructPtr(fstructInstance)
 		ret = any(ret2).(*T2)
+	case *models.Gstruct:
+		gstructInstance := any(concreteInstance).(*models.Gstruct)
+		ret2 := backRepo.BackRepoGstruct.GetGstructDBFromGstructPtr(gstructInstance)
+		ret = any(ret2).(*T2)
 	default:
 		_ = concreteInstance
 	}
@@ -82,6 +86,11 @@ func GetID[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
+	case *models.Gstruct:
+		tmp := GetInstanceDBFromInstance[models.Gstruct, GstructDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
 	default:
 		_ = inst
 	}
@@ -122,6 +131,11 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.Fstruct:
 		tmp := GetInstanceDBFromInstance[models.Fstruct, FstructDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Gstruct:
+		tmp := GetInstanceDBFromInstance[models.Gstruct, GstructDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

@@ -23,6 +23,9 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	case *Fstruct:
 		ok = stage.IsStagedFstruct(target)
 
+	case *Gstruct:
+		ok = stage.IsStagedGstruct(target)
+
 	default:
 		_ = target
 	}
@@ -72,6 +75,13 @@ func (stage *StageStruct) IsStagedFstruct(fstruct *Fstruct) (ok bool) {
 	return
 }
 
+func (stage *StageStruct) IsStagedGstruct(gstruct *Gstruct) (ok bool) {
+
+	_, ok = stage.Gstructs[gstruct]
+
+	return
+}
+
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -97,6 +107,9 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	case *Fstruct:
 		stage.StageBranchFstruct(target)
+
+	case *Gstruct:
+		stage.StageBranchGstruct(target)
 
 	default:
 		_ = target
@@ -248,6 +261,21 @@ func (stage *StageStruct) StageBranchFstruct(fstruct *Fstruct) {
 
 }
 
+func (stage *StageStruct) StageBranchGstruct(gstruct *Gstruct) {
+
+	// check if instance is already staged
+	if IsStaged(stage, gstruct) {
+		return
+	}
+
+	gstruct.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -281,6 +309,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *Fstruct:
 		toT := CopyBranchFstruct(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Gstruct:
+		toT := CopyBranchGstruct(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -458,6 +490,25 @@ func CopyBranchFstruct(mapOrigCopy map[any]any, fstructFrom *Fstruct) (fstructTo
 	return
 }
 
+func CopyBranchGstruct(mapOrigCopy map[any]any, gstructFrom *Gstruct) (gstructTo *Gstruct) {
+
+	// gstructFrom has already been copied
+	if _gstructTo, ok := mapOrigCopy[gstructFrom]; ok {
+		gstructTo = _gstructTo.(*Gstruct)
+		return
+	}
+
+	gstructTo = new(Gstruct)
+	mapOrigCopy[gstructFrom] = gstructTo
+	gstructFrom.CopyBasicFields(gstructTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
 //
@@ -483,6 +534,9 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	case *Fstruct:
 		stage.UnstageBranchFstruct(target)
+
+	case *Gstruct:
+		stage.UnstageBranchGstruct(target)
 
 	default:
 		_ = target
@@ -627,6 +681,21 @@ func (stage *StageStruct) UnstageBranchFstruct(fstruct *Fstruct) {
 	}
 
 	fstruct.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *StageStruct) UnstageBranchGstruct(gstruct *Gstruct) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, gstruct) {
+		return
+	}
+
+	gstruct.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 

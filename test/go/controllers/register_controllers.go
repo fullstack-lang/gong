@@ -89,6 +89,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/fstructs/:id", GetController().UpdateFstruct)
 		v1.DELETE("/v1/fstructs/:id", GetController().DeleteFstruct)
 
+		v1.GET("/v1/gstructs", GetController().GetGstructs)
+		v1.GET("/v1/gstructs/:id", GetController().GetGstruct)
+		v1.POST("/v1/gstructs", GetController().PostGstruct)
+		v1.PATCH("/v1/gstructs/:id", GetController().UpdateGstruct)
+		v1.PUT("/v1/gstructs/:id", GetController().UpdateGstruct)
+		v1.DELETE("/v1/gstructs/:id", GetController().DeleteGstruct)
+
 		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
 

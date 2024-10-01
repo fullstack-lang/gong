@@ -43,7 +43,7 @@ func _(stage *models.StageStruct) {
 }`
 
 const IdentifiersDecls = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)`
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
@@ -466,6 +466,58 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	map_Gstruct_Identifiers := make(map[*Gstruct]string)
+	_ = map_Gstruct_Identifiers
+
+	gstructOrdered := []*Gstruct{}
+	for gstruct := range stage.Gstructs {
+		gstructOrdered = append(gstructOrdered, gstruct)
+	}
+	sort.Slice(gstructOrdered[:], func(i, j int) bool {
+		return gstructOrdered[i].Name < gstructOrdered[j].Name
+	})
+	if len(gstructOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, gstruct := range gstructOrdered {
+
+		id = generatesIdentifier("Gstruct", idx, gstruct.Name)
+		map_Gstruct_Identifiers[gstruct] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Gstruct")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gstruct.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gstruct.Name))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Floatfield")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gstruct.Floatfield))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Floatfield2")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gstruct.Floatfield2))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Intfield")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", gstruct.Intfield))
+		initializerStatements += setValueField
+
+	}
+
 	// insertion initialization of objects to stage
 	for idx, astruct := range astructOrdered {
 		var setPointerField string
@@ -667,6 +719,16 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		id = generatesIdentifier("Fstruct", idx, fstruct.Name)
 		map_Fstruct_Identifiers[fstruct] = id
+
+		// Initialisation of values
+	}
+
+	for idx, gstruct := range gstructOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Gstruct", idx, gstruct.Name)
+		map_Gstruct_Identifiers[gstruct] = id
 
 		// Initialisation of values
 	}

@@ -104,6 +104,19 @@ func FillUpFormFromGongstructName(
 		fstruct := new(models.Fstruct)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(fstruct, formGroup, probe)
+	case "Gstruct":
+		formGroup := (&form.FormGroup{
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: prefix + "Gstruct Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GstructFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		gstruct := new(models.Gstruct)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(gstruct, formGroup, probe)
 	}
 	formStage.Commit()
 }

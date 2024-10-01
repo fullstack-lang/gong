@@ -33,6 +33,10 @@ export * from './lib/dstruct-api'
 export * from './lib/dstruct'
 export * from './lib/dstruct.service'
 
+export * from './lib/gstruct-api'
+export * from './lib/gstruct'
+export * from './lib/gstruct.service'
+
 
 export * from './lib/AEnumType'
 export * from './lib/BEnumType'

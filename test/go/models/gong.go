@@ -115,6 +115,15 @@ type StageStruct struct {
 	OnAfterFstructDeleteCallback OnAfterDeleteInterface[Fstruct]
 	OnAfterFstructReadCallback   OnAfterReadInterface[Fstruct]
 
+	Gstructs           map[*Gstruct]any
+	Gstructs_mapString map[string]*Gstruct
+
+	// insertion point for slice of pointers maps
+	OnAfterGstructCreateCallback OnAfterCreateInterface[Gstruct]
+	OnAfterGstructUpdateCallback OnAfterUpdateInterface[Gstruct]
+	OnAfterGstructDeleteCallback OnAfterDeleteInterface[Gstruct]
+	OnAfterGstructReadCallback   OnAfterReadInterface[Gstruct]
+
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
@@ -195,6 +204,8 @@ type BackRepoInterface interface {
 	CheckoutDstruct(dstruct *Dstruct)
 	CommitFstruct(fstruct *Fstruct)
 	CheckoutFstruct(fstruct *Fstruct)
+	CommitGstruct(gstruct *Gstruct)
+	CheckoutGstruct(gstruct *Gstruct)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -219,6 +230,9 @@ func NewStage(path string) (stage *StageStruct) {
 
 		Fstructs:           make(map[*Fstruct]any),
 		Fstructs_mapString: make(map[string]*Fstruct),
+
+		Gstructs:           make(map[*Gstruct]any),
+		Gstructs_mapString: make(map[string]*Gstruct),
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
@@ -259,6 +273,7 @@ func (stage *StageStruct) Commit() {
 	stage.Map_GongStructName_InstancesNb["Bstruct"] = len(stage.Bstructs)
 	stage.Map_GongStructName_InstancesNb["Dstruct"] = len(stage.Dstructs)
 	stage.Map_GongStructName_InstancesNb["Fstruct"] = len(stage.Fstructs)
+	stage.Map_GongStructName_InstancesNb["Gstruct"] = len(stage.Gstructs)
 
 }
 
@@ -275,6 +290,7 @@ func (stage *StageStruct) Checkout() {
 	stage.Map_GongStructName_InstancesNb["Bstruct"] = len(stage.Bstructs)
 	stage.Map_GongStructName_InstancesNb["Dstruct"] = len(stage.Dstructs)
 	stage.Map_GongStructName_InstancesNb["Fstruct"] = len(stage.Fstructs)
+	stage.Map_GongStructName_InstancesNb["Gstruct"] = len(stage.Gstructs)
 
 }
 
@@ -607,6 +623,56 @@ func (fstruct *Fstruct) GetName() (res string) {
 	return fstruct.Name
 }
 
+// Stage puts gstruct to the model stage
+func (gstruct *Gstruct) Stage(stage *StageStruct) *Gstruct {
+	stage.Gstructs[gstruct] = __member
+	stage.Gstructs_mapString[gstruct.Name] = gstruct
+
+	return gstruct
+}
+
+// Unstage removes gstruct off the model stage
+func (gstruct *Gstruct) Unstage(stage *StageStruct) *Gstruct {
+	delete(stage.Gstructs, gstruct)
+	delete(stage.Gstructs_mapString, gstruct.Name)
+	return gstruct
+}
+
+// UnstageVoid removes gstruct off the model stage
+func (gstruct *Gstruct) UnstageVoid(stage *StageStruct) {
+	delete(stage.Gstructs, gstruct)
+	delete(stage.Gstructs_mapString, gstruct.Name)
+}
+
+// commit gstruct to the back repo (if it is already staged)
+func (gstruct *Gstruct) Commit(stage *StageStruct) *Gstruct {
+	if _, ok := stage.Gstructs[gstruct]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitGstruct(gstruct)
+		}
+	}
+	return gstruct
+}
+
+func (gstruct *Gstruct) CommitVoid(stage *StageStruct) {
+	gstruct.Commit(stage)
+}
+
+// Checkout gstruct to the back repo (if it is already staged)
+func (gstruct *Gstruct) Checkout(stage *StageStruct) *Gstruct {
+	if _, ok := stage.Gstructs[gstruct]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutGstruct(gstruct)
+		}
+	}
+	return gstruct
+}
+
+// for satisfaction of GongStruct interface
+func (gstruct *Gstruct) GetName() (res string) {
+	return gstruct.Name
+}
+
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAstruct(Astruct *Astruct)
@@ -615,6 +681,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMBstruct(Bstruct *Bstruct)
 	CreateORMDstruct(Dstruct *Dstruct)
 	CreateORMFstruct(Fstruct *Fstruct)
+	CreateORMGstruct(Gstruct *Gstruct)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
@@ -624,6 +691,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMBstruct(Bstruct *Bstruct)
 	DeleteORMDstruct(Dstruct *Dstruct)
 	DeleteORMFstruct(Fstruct *Fstruct)
+	DeleteORMGstruct(Gstruct *Gstruct)
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
@@ -645,6 +713,9 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Fstructs = make(map[*Fstruct]any)
 	stage.Fstructs_mapString = make(map[string]*Fstruct)
 
+	stage.Gstructs = make(map[*Gstruct]any)
+	stage.Gstructs_mapString = make(map[string]*Gstruct)
+
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
@@ -665,6 +736,9 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 
 	stage.Fstructs = nil
 	stage.Fstructs_mapString = nil
+
+	stage.Gstructs = nil
+	stage.Gstructs_mapString = nil
 
 }
 
@@ -691,6 +765,10 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 
 	for fstruct := range stage.Fstructs {
 		fstruct.Unstage(stage)
+	}
+
+	for gstruct := range stage.Gstructs {
+		gstruct.Unstage(stage)
 	}
 
 }
@@ -766,6 +844,8 @@ func GongGetSet[Type GongstructSet](stage *StageStruct) *Type {
 		return any(&stage.Dstructs).(*Type)
 	case map[*Fstruct]any:
 		return any(&stage.Fstructs).(*Type)
+	case map[*Gstruct]any:
+		return any(&stage.Gstructs).(*Type)
 	default:
 		return nil
 	}
@@ -790,6 +870,8 @@ func GongGetMap[Type GongstructMapString](stage *StageStruct) *Type {
 		return any(&stage.Dstructs_mapString).(*Type)
 	case map[string]*Fstruct:
 		return any(&stage.Fstructs_mapString).(*Type)
+	case map[string]*Gstruct:
+		return any(&stage.Gstructs_mapString).(*Type)
 	default:
 		return nil
 	}
@@ -814,6 +896,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *StageStruct) *map[*Type]a
 		return any(&stage.Dstructs).(*map[*Type]any)
 	case Fstruct:
 		return any(&stage.Fstructs).(*map[*Type]any)
+	case Gstruct:
+		return any(&stage.Gstructs).(*map[*Type]any)
 	default:
 		return nil
 	}
@@ -838,6 +922,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Dstructs).(*map[Type]any)
 	case *Fstruct:
 		return any(&stage.Fstructs).(*map[Type]any)
+	case *Gstruct:
+		return any(&stage.Gstructs).(*map[Type]any)
 	default:
 		return nil
 	}
@@ -862,6 +948,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *StageStruct) *map[string]
 		return any(&stage.Dstructs_mapString).(*map[string]*Type)
 	case Fstruct:
 		return any(&stage.Fstructs_mapString).(*map[string]*Type)
+	case Gstruct:
+		return any(&stage.Gstructs_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -924,6 +1012,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		}).(*Type)
 	case Fstruct:
 		return any(&Fstruct{
+			// Initialisation of associations
+		}).(*Type)
+	case Gstruct:
+		return any(&Gstruct{
 			// Initialisation of associations
 		}).(*Type)
 	default:
@@ -1161,6 +1253,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Gstruct
+	case Gstruct:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	}
 	return nil
 }
@@ -1263,6 +1360,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Gstruct
+	case Gstruct:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	}
 	return nil
 }
@@ -1287,6 +1389,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "Dstruct"
 	case Fstruct:
 		res = "Fstruct"
+	case Gstruct:
+		res = "Gstruct"
 	}
 	return res
 }
@@ -1311,6 +1415,8 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "Dstruct"
 	case *Fstruct:
 		res = "Fstruct"
+	case *Gstruct:
+		res = "Gstruct"
 	}
 	return res
 }
@@ -1334,6 +1440,8 @@ func GetFields[Type Gongstruct]() (res []string) {
 		res = []string{"Name", "Anarrayofb"}
 	case Fstruct:
 		res = []string{"Name", "Date"}
+	case Gstruct:
+		res = []string{"Name", "Floatfield", "Floatfield2", "Intfield"}
 	}
 	return
 }
@@ -1391,6 +1499,9 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	case Fstruct:
 		var rf ReverseField
 		_ = rf
+	case Gstruct:
+		var rf ReverseField
+		_ = rf
 	}
 	return
 }
@@ -1414,6 +1525,8 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 		res = []string{"Name", "Anarrayofb"}
 	case *Fstruct:
 		res = []string{"Name", "Date"}
+	case *Gstruct:
+		res = []string{"Name", "Floatfield", "Floatfield2", "Intfield"}
 	}
 	return
 }
@@ -1641,6 +1754,18 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res = inferedInstance.Name
 		case "Date":
 			res = inferedInstance.Date.String()
+		}
+	case *Gstruct:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = inferedInstance.Name
+		case "Floatfield":
+			res = fmt.Sprintf("%f", inferedInstance.Floatfield)
+		case "Floatfield2":
+			res = fmt.Sprintf("%f", inferedInstance.Floatfield2)
+		case "Intfield":
+			res = fmt.Sprintf("%d", inferedInstance.Intfield)
 		}
 	default:
 		_ = inferedInstance
@@ -1871,6 +1996,18 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = inferedInstance.Name
 		case "Date":
 			res = inferedInstance.Date.String()
+		}
+	case Gstruct:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = inferedInstance.Name
+		case "Floatfield":
+			res = fmt.Sprintf("%f", inferedInstance.Floatfield)
+		case "Floatfield2":
+			res = fmt.Sprintf("%f", inferedInstance.Floatfield2)
+		case "Intfield":
+			res = fmt.Sprintf("%d", inferedInstance.Intfield)
 		}
 	default:
 		_ = inferedInstance

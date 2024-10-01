@@ -30,6 +30,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 		if stage.OnAfterFstructCreateCallback != nil {
 			stage.OnAfterFstructCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Gstruct:
+		if stage.OnAfterGstructCreateCallback != nil {
+			stage.OnAfterGstructCreateCallback.OnAfterCreate(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -69,6 +73,11 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 		newTarget := any(new).(*Fstruct)
 		if stage.OnAfterFstructUpdateCallback != nil {
 			stage.OnAfterFstructUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Gstruct:
+		newTarget := any(new).(*Gstruct)
+		if stage.OnAfterGstructUpdateCallback != nil {
+			stage.OnAfterGstructUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	default:
 		_ = oldTarget
@@ -110,6 +119,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Ty
 			staged := any(staged).(*Fstruct)
 			stage.OnAfterFstructDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Gstruct:
+		if stage.OnAfterGstructDeleteCallback != nil {
+			staged := any(staged).(*Gstruct)
+			stage.OnAfterGstructDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	default:
 		_ = front
 	}
@@ -144,6 +158,10 @@ func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 		if stage.OnAfterFstructReadCallback != nil {
 			stage.OnAfterFstructReadCallback.OnAfterRead(stage, target)
 		}
+	case *Gstruct:
+		if stage.OnAfterGstructReadCallback != nil {
+			stage.OnAfterGstructReadCallback.OnAfterRead(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -173,6 +191,9 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *Fstruct:
 		stage.OnAfterFstructUpdateCallback = any(callback).(OnAfterUpdateInterface[Fstruct])
 	
+	case *Gstruct:
+		stage.OnAfterGstructUpdateCallback = any(callback).(OnAfterUpdateInterface[Gstruct])
+	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *StageStruct, callback OnAfterCreateInterface[Type]) {
@@ -197,6 +218,9 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *StageStruct, callba
 	
 	case *Fstruct:
 		stage.OnAfterFstructCreateCallback = any(callback).(OnAfterCreateInterface[Fstruct])
+	
+	case *Gstruct:
+		stage.OnAfterGstructCreateCallback = any(callback).(OnAfterCreateInterface[Gstruct])
 	
 	}
 }
@@ -223,6 +247,9 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *Fstruct:
 		stage.OnAfterFstructDeleteCallback = any(callback).(OnAfterDeleteInterface[Fstruct])
 	
+	case *Gstruct:
+		stage.OnAfterGstructDeleteCallback = any(callback).(OnAfterDeleteInterface[Gstruct])
+	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *StageStruct, callback OnAfterReadInterface[Type]) {
@@ -247,6 +274,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *StageStruct, callback
 	
 	case *Fstruct:
 		stage.OnAfterFstructReadCallback = any(callback).(OnAfterReadInterface[Fstruct])
+	
+	case *Gstruct:
+		stage.OnAfterGstructReadCallback = any(callback).(OnAfterReadInterface[Gstruct])
 	
 	}
 }

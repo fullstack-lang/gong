@@ -111,6 +111,30 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, goGitign
 		}
 	}
 
+	// pre pass to identity all struct with a NameField
+	mapStructWithNameField := make(map[string]any)
+	for _, file := range astPackage.Files {
+		for _, decl := range file.Decls {
+			switch genDecl := decl.(type) {
+			case *ast.GenDecl:
+				for _, spec := range genDecl.Specs {
+					switch typeSpec := spec.(type) {
+					case *ast.TypeSpec:
+						switch _type := typeSpec.Type.(type) {
+						case *ast.StructType:
+							hasName := IsNamedStructWithoutEmbedded(_type, nil)
+							if hasName {
+								mapStructWithNameField[typeSpec.Name.Name] = true
+							}
+							// log.Println("file ", typeSpec.Name.Name, hasName)
+						}
+
+					}
+				}
+			}
+		}
+	}
+
 	// first pass : get "type" definition for enum & struct
 	//
 	// search all files
@@ -162,7 +186,6 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, goGitign
 
 		// first pass for gathering the "type" definitions
 		for _, decl := range file.Decls {
-			_ = decl
 
 			switch genDecl := decl.(type) {
 			case *ast.GenDecl:
@@ -213,21 +236,17 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, goGitign
 						case *ast.StructType:
 
 							// fetch the name of the Gongstruct by identifying if there is a field with name "Name"
-							var hasNameField bool
-							for _, field := range _type.Fields.List {
-								if len(field.Names) > 0 && field.Names[0].Name == "Name" {
-									hasNameField = true
-								}
-							}
+							IsNamedStruct := IsNamedStructWithoutEmbedded(_type, mapStructWithNameField)
 							hasIgnoreStatement := map_StructName_hasIgnoreStatement[typeSpec.Name.Name]
 
-							if hasNameField && !hasIgnoreStatement {
+							if IsNamedStruct && !hasIgnoreStatement {
 								gongstruct := (&GongStruct{
 									Name:              typeSpec.Name.Name,
 									IsIgnoredForFront: isFileFrontIgnored}).
 									Stage(modelPkg.GetStage())
 								modelPkg.GongStructs[modelPkg.PkgPath+"."+typeSpec.Name.Name] = gongstruct
-							} else {
+							}
+							if !hasIgnoreStatement {
 								map_Structname_fieldList[typeSpec.Name.Name] = &_type.Fields.List
 							}
 						default:
@@ -325,14 +344,9 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, goGitign
 							// log.Println("Parsing fields of gongstruct ", spec.Name.Name)
 
 							// fetch the name of the Gongstruct by identifying if there is a field with name "Name"
-							var isGongStruct bool
-							for _, field := range _type.Fields.List {
-								if len(field.Names) > 0 && field.Names[0].Name == "Name" {
-									isGongStruct = true
-								}
-							}
+							IsNamedStruct := IsNamedStructWithoutEmbedded(_type, mapStructWithNameField)
 							hasIgnoreStatement := map_StructName_hasIgnoreStatement[spec.Name.Name]
-							if isGongStruct && !hasIgnoreStatement {
+							if IsNamedStruct && !hasIgnoreStatement {
 								gongstruct, ok := modelPkg.GongStructs[modelPkg.PkgPath+"."+spec.Name.Name]
 								structName := spec.Name.Name
 								if !ok {
