@@ -26,40 +26,20 @@ func _(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
-	__Astruct__000000_A1 := new(models.Astruct)
-	__Astruct__000000_A1.Name = `A1`
-	__Astruct__000000_A1.Stage(stage)
-	__Astruct__000001_A2 := new(models.Astruct)
-	__Astruct__000001_A2.Name = `A2`
-	__Astruct__000001_A2.Stage(stage)
-	__Astruct__000002_A3 := new(models.Astruct)
-	__Astruct__000002_A3.Name = `A3`
-	__Astruct__000002_A3.Stage(stage)
+	__Astruct__000000_A1 := (&models.Astruct{}).Stage(stage)
+	__Astruct__000001_A2 := (&models.Astruct{}).Stage(stage)
+	__Astruct__000002_A3 := (&models.Astruct{}).Stage(stage)
 
-	__AstructBstruct2Use__000000_ := new(models.AstructBstruct2Use)
-	__AstructBstruct2Use__000000_.Name = ``
-	__AstructBstruct2Use__000000_.Stage(stage)
-	__AstructBstruct2Use__000001_ := new(models.AstructBstruct2Use)
-	__AstructBstruct2Use__000001_.Name = ``
-	__AstructBstruct2Use__000001_.Stage(stage)
+	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{}).Stage(stage)
+	__AstructBstruct2Use__000001_ := (&models.AstructBstruct2Use{}).Stage(stage)
 
-	__Bstruct__000000_B1 := new(models.Bstruct)
-	__Bstruct__000000_B1.Name = `B1`
-	__Bstruct__000000_B1.Stage(stage)
-	__Bstruct__000001_B2_ := new(models.Bstruct)
-	__Bstruct__000001_B2_.Name = `B2 *`
-	__Bstruct__000001_B2_.Stage(stage)
-	__Bstruct__000002_B3 := new(models.Bstruct)
-	__Bstruct__000002_B3.Name = `B3`
-	__Bstruct__000002_B3.Stage(stage)
+	__Bstruct__000000_B1 := (&models.Bstruct{}).Stage(stage)
+	__Bstruct__000001_B2_ := (&models.Bstruct{}).Stage(stage)
+	__Bstruct__000002_B3 := (&models.Bstruct{}).Stage(stage)
 
-	__Dstruct__000000_D1 := new(models.Dstruct)
-	__Dstruct__000000_D1.Name = `D1`
-	__Dstruct__000000_D1.Stage(stage)
+	__Dstruct__000000_D1 := (&models.Dstruct{}).Stage(stage)
 
-	__Gstruct__000000_ := new(models.Gstruct)
-	__Gstruct__000000_.Name = ``
-	__Gstruct__000000_.Stage(stage)
+	__Gstruct__000000_ := (&models.Gstruct{}).Stage(stage)
 
 	// Setup of values
 
