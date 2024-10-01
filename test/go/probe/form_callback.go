@@ -691,6 +691,8 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(dstruct_.Name), formDiv)
+		case "Gstruct":
+			FormDivSelectFieldToField(&(dstruct_.Gstruct), dstructFormCallback.probe.stageOfInterest, formDiv)
 		case "Astruct:Dstruct4s":
 			// we need to retrieve the field owner before the change
 			var pastAstructOwner *models.Astruct
@@ -895,6 +897,48 @@ func (gstructFormCallback *GstructFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gstruct_.Floatfield2), formDiv)
 		case "Intfield":
 			FormDivBasicFieldToField(&(gstruct_.Intfield), formDiv)
+		case "Dstruct:Gstructs":
+			// we need to retrieve the field owner before the change
+			var pastDstructOwner *models.Dstruct
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Dstruct"
+			rf.Fieldname = "Gstructs"
+			reverseFieldOwner := orm.GetReverseFieldOwner(
+				gstructFormCallback.probe.stageOfInterest,
+				gstructFormCallback.probe.backRepoOfInterest,
+				gstruct_,
+				&rf)
+
+			if reverseFieldOwner != nil {
+				pastDstructOwner = reverseFieldOwner.(*models.Dstruct)
+			}
+			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+				if pastDstructOwner != nil {
+					idx := slices.Index(pastDstructOwner.Gstructs, gstruct_)
+					pastDstructOwner.Gstructs = slices.Delete(pastDstructOwner.Gstructs, idx, idx+1)
+				}
+			} else {
+				// we need to retrieve the field owner after the change
+				// parse all astrcut and get the one with the name in the
+				// div
+				for _dstruct := range *models.GetGongstructInstancesSet[models.Dstruct](gstructFormCallback.probe.stageOfInterest) {
+
+					// the match is base on the name
+					if _dstruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
+						newDstructOwner := _dstruct // we have a match
+						if pastDstructOwner != nil {
+							if newDstructOwner != pastDstructOwner {
+								idx := slices.Index(pastDstructOwner.Gstructs, gstruct_)
+								pastDstructOwner.Gstructs = slices.Delete(pastDstructOwner.Gstructs, idx, idx+1)
+								newDstructOwner.Gstructs = append(newDstructOwner.Gstructs, gstruct_)
+							}
+						} else {
+							newDstructOwner.Gstructs = append(newDstructOwner.Gstructs, gstruct_)
+						}
+					}
+				}
+			}
 		}
 	}
 

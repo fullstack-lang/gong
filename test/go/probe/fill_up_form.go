@@ -234,6 +234,8 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("Anarrayofb", instanceWithInferedType, &instanceWithInferedType.Anarrayofb, formGroup, probe)
+		AssociationFieldToForm("Gstruct", instanceWithInferedType.Gstruct, formGroup, probe)
+		AssociationSliceToForm("Gstructs", instanceWithInferedType, &instanceWithInferedType.Gstructs, formGroup, probe)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -274,6 +276,28 @@ func FillUpForm[T models.Gongstruct](
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Intfield", instanceWithInferedType.Intfield, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Dstruct"
+			rf.Fieldname = "Gstructs"
+			reverseFieldOwner := orm.GetReverseFieldOwner(probe.stageOfInterest, probe.backRepoOfInterest, instanceWithInferedType, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Dstruct),
+					"Gstructs",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Dstruct, *models.Gstruct](
+					nil,
+					"Gstructs",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
 
 	default:
 		_ = instanceWithInferedType

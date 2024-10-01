@@ -238,10 +238,16 @@ func (stage *StageStruct) StageBranchDstruct(dstruct *Dstruct) {
 	dstruct.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if dstruct.Gstruct != nil {
+		StageBranch(stage, dstruct.Gstruct)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _bstruct := range dstruct.Anarrayofb {
 		StageBranch(stage, _bstruct)
+	}
+	for _, _gstruct := range dstruct.Gstructs {
+		StageBranch(stage, _gstruct)
 	}
 
 }
@@ -462,10 +468,16 @@ func CopyBranchDstruct(mapOrigCopy map[any]any, dstructFrom *Dstruct) (dstructTo
 	dstructFrom.CopyBasicFields(dstructTo)
 
 	//insertion point for the staging of instances referenced by pointers
+	if dstructFrom.Gstruct != nil {
+		dstructTo.Gstruct = CopyBranchGstruct(mapOrigCopy, dstructFrom.Gstruct)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _bstruct := range dstructFrom.Anarrayofb {
 		dstructTo.Anarrayofb = append(dstructTo.Anarrayofb, CopyBranchBstruct(mapOrigCopy, _bstruct))
+	}
+	for _, _gstruct := range dstructFrom.Gstructs {
+		dstructTo.Gstructs = append(dstructTo.Gstructs, CopyBranchGstruct(mapOrigCopy, _gstruct))
 	}
 
 	return
@@ -665,10 +677,16 @@ func (stage *StageStruct) UnstageBranchDstruct(dstruct *Dstruct) {
 	dstruct.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if dstruct.Gstruct != nil {
+		UnstageBranch(stage, dstruct.Gstruct)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _bstruct := range dstruct.Anarrayofb {
 		UnstageBranch(stage, _bstruct)
+	}
+	for _, _gstruct := range dstruct.Gstructs {
+		UnstageBranch(stage, _gstruct)
 	}
 
 }
