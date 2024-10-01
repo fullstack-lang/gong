@@ -18,6 +18,7 @@ import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
 import { BstructAPI } from './bstruct-api'
+import { GstructAPI } from './gstruct-api'
 
 @Injectable({
   providedIn: 'root'

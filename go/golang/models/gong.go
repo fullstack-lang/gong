@@ -545,14 +545,23 @@ func CodeGeneratorModelGong(
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
-					if field.CompositeStructName == "" && !isWithinAnonymousStruct {
+
+					// for the case where the "Name" is a promoted field, one cannot generate
+					// the code (cf. waiting for https://github.com/golang/go/issues/9859)
+					var assocStructNameHasNameAsPromotedField bool
+					for _, __field := range field.GongStruct.Fields {
+						if __field.GetName() == "Name" && __field.GetCompositeStructName() != "" {
+							assocStructNameHasNameAsPromotedField = true
+						}
+					}
+					if field.CompositeStructName == "" && !isWithinAnonymousStruct && !assocStructNameHasNameAsPromotedField {
 						associationFieldInitialization += models.Replace3(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNamePointerField],
 							"{{FieldName}}", field.Name,
 							"{{AssocStructName}}", field.GongStruct.Name,
 							"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 					} else {
-						if !isWithinAnonymousStruct {
+						if !isWithinAnonymousStruct && !assocStructNameHasNameAsPromotedField {
 							associationFieldInitializationPerCompositeStruct[field.CompositeStructName] += models.Replace4(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNameCompositePointerField],
 								"{{FieldName}}", field.Name,
@@ -577,7 +586,15 @@ func CodeGeneratorModelGong(
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 
-					if field.CompositeStructName == "" && !isWithinAnonymousStruct {
+					// for the case where the "Name" is a promoted field, one cannot generate
+					// the code (cf. waiting for https://github.com/golang/go/issues/9859)
+					var assocStructNameHasNameAsPromotedField bool
+					for _, __field := range field.GongStruct.Fields {
+						if __field.GetName() == "Name" && __field.GetCompositeStructName() != "" {
+							assocStructNameHasNameAsPromotedField = true
+						}
+					}
+					if field.CompositeStructName == "" && !isWithinAnonymousStruct && !assocStructNameHasNameAsPromotedField {
 						associationFieldInitialization += models.Replace3(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNameSliceOfPointersField],
 							"{{FieldName}}", field.Name,

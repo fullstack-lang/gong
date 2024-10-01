@@ -5,6 +5,7 @@ import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
 import { Bstruct } from './bstruct'
+import { Gstruct } from './gstruct'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -22,6 +23,9 @@ export class Dstruct {
 
 	// insertion point for pointers and slices of pointers declarations
 	Anarrayofb: Array<Bstruct> = []
+	Gstruct?: Gstruct
+
+	Gstructs: Array<Gstruct> = []
 }
 
 export function CopyDstructToDstructAPI(dstruct: Dstruct, dstructAPI: DstructAPI) {
@@ -34,11 +38,23 @@ export function CopyDstructToDstructAPI(dstruct: Dstruct, dstructAPI: DstructAPI
 	dstructAPI.Name = dstruct.Name
 
 	// insertion point for pointer fields encoding
+	dstructAPI.DstructPointersEncoding.GstructID.Valid = true
+	if (dstruct.Gstruct != undefined) {
+		dstructAPI.DstructPointersEncoding.GstructID.Int64 = dstruct.Gstruct.ID  
+	} else {
+		dstructAPI.DstructPointersEncoding.GstructID.Int64 = 0 		
+	}
+
 
 	// insertion point for slice of pointers fields encoding
 	dstructAPI.DstructPointersEncoding.Anarrayofb = []
 	for (let _bstruct of dstruct.Anarrayofb) {
 		dstructAPI.DstructPointersEncoding.Anarrayofb.push(_bstruct.ID)
+	}
+
+	dstructAPI.DstructPointersEncoding.Gstructs = []
+	for (let _gstruct of dstruct.Gstructs) {
+		dstructAPI.DstructPointersEncoding.Gstructs.push(_gstruct.ID)
 	}
 
 }
@@ -57,6 +73,7 @@ export function CopyDstructAPIToDstruct(dstructAPI: DstructAPI, dstruct: Dstruct
 	dstruct.Name = dstructAPI.Name
 
 	// insertion point for pointer fields encoding
+	dstruct.Gstruct = frontRepo.map_ID_Gstruct.get(dstructAPI.DstructPointersEncoding.GstructID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 	dstruct.Anarrayofb = new Array<Bstruct>()
@@ -64,6 +81,13 @@ export function CopyDstructAPIToDstruct(dstructAPI: DstructAPI, dstruct: Dstruct
 		let _bstruct = frontRepo.map_ID_Bstruct.get(_id)
 		if (_bstruct != undefined) {
 			dstruct.Anarrayofb.push(_bstruct!)
+		}
+	}
+	dstruct.Gstructs = new Array<Gstruct>()
+	for (let _id of dstructAPI.DstructPointersEncoding.Gstructs) {
+		let _gstruct = frontRepo.map_ID_Gstruct.get(_id)
+		if (_gstruct != undefined) {
+			dstruct.Gstructs.push(_gstruct!)
 		}
 	}
 }

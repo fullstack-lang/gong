@@ -711,6 +711,22 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			pointersInitializesStatements += setPointerField
 		}
 
+		if dstruct.Gstruct != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Gstruct")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Gstruct_Identifiers[dstruct.Gstruct])
+			pointersInitializesStatements += setPointerField
+		}
+
+		for _, _gstruct := range dstruct.Gstructs {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Gstructs")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Gstruct_Identifiers[_gstruct])
+			pointersInitializesStatements += setPointerField
+		}
+
 	}
 
 	for idx, fstruct := range fstructOrdered {

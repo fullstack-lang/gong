@@ -101,6 +101,8 @@ type StageStruct struct {
 	// insertion point for slice of pointers maps
 	Dstruct_Anarrayofb_reverseMap map[*Bstruct]*Dstruct
 
+	Dstruct_Gstructs_reverseMap map[*Gstruct]*Dstruct
+
 	OnAfterDstructCreateCallback OnAfterCreateInterface[Dstruct]
 	OnAfterDstructUpdateCallback OnAfterUpdateInterface[Dstruct]
 	OnAfterDstructDeleteCallback OnAfterDeleteInterface[Dstruct]
@@ -1247,6 +1249,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 	case Dstruct:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Gstruct":
+			res := make(map[*Gstruct][]*Dstruct)
+			for dstruct := range stage.Dstructs {
+				if dstruct.Gstruct != nil {
+					gstruct_ := dstruct.Gstruct
+					var dstructs []*Dstruct
+					_, ok := res[gstruct_]
+					if ok {
+						dstructs = res[gstruct_]
+					} else {
+						dstructs = make([]*Dstruct, 0)
+					}
+					dstructs = append(dstructs, dstruct)
+					res[gstruct_] = dstructs
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Fstruct
 	case Fstruct:
@@ -1354,6 +1373,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End]*Start)
+		case "Gstructs":
+			res := make(map[*Gstruct]*Dstruct)
+			for dstruct := range stage.Dstructs {
+				for _, gstruct_ := range dstruct.Gstructs {
+					res[gstruct_] = dstruct
+				}
+			}
+			return any(res).(map[*End]*Start)
 		}
 	// reverse maps of direct associations of Fstruct
 	case Fstruct:
@@ -1437,7 +1464,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Bstruct:
 		res = []string{"Name", "Floatfield", "Floatfield2", "Intfield"}
 	case Dstruct:
-		res = []string{"Name", "Anarrayofb"}
+		res = []string{"Name", "Anarrayofb", "Gstruct", "Gstructs"}
 	case Fstruct:
 		res = []string{"Name", "Date"}
 	case Gstruct:
@@ -1502,6 +1529,9 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	case Gstruct:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Dstruct"
+		rf.Fieldname = "Gstructs"
+		res = append(res, rf)
 	}
 	return
 }
@@ -1522,7 +1552,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Bstruct:
 		res = []string{"Name", "Floatfield", "Floatfield2", "Intfield"}
 	case *Dstruct:
-		res = []string{"Name", "Anarrayofb"}
+		res = []string{"Name", "Anarrayofb", "Gstruct", "Gstructs"}
 	case *Fstruct:
 		res = []string{"Name", "Date"}
 	case *Gstruct:
@@ -1741,6 +1771,17 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res = inferedInstance.Name
 		case "Anarrayofb":
 			for idx, __instance__ := range inferedInstance.Anarrayofb {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "Gstruct":
+			if inferedInstance.Gstruct != nil {
+				res = inferedInstance.Gstruct.Name
+			}
+		case "Gstructs":
+			for idx, __instance__ := range inferedInstance.Gstructs {
 				if idx > 0 {
 					res += "\n"
 				}
@@ -1983,6 +2024,17 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = inferedInstance.Name
 		case "Anarrayofb":
 			for idx, __instance__ := range inferedInstance.Anarrayofb {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "Gstruct":
+			if inferedInstance.Gstruct != nil {
+				res = inferedInstance.Gstruct.Name
+			}
+		case "Gstructs":
+			for idx, __instance__ := range inferedInstance.Gstructs {
 				if idx > 0 {
 					res += "\n"
 				}
