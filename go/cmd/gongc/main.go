@@ -18,6 +18,7 @@ import (
 
 	"github.com/fullstack-lang/gong/go/golang"
 	"github.com/fullstack-lang/gong/go/golang/controllers"
+	"github.com/fullstack-lang/gong/go/golang/db"
 	"github.com/fullstack-lang/gong/go/golang/diagrams"
 	"github.com/fullstack-lang/gong/go/golang/fullstack"
 	"github.com/fullstack-lang/gong/go/golang/models"
@@ -104,6 +105,10 @@ func main() {
 
 		modelPkg.OrmPkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "orm")
 		os.RemoveAll(modelPkg.OrmPkgGenPath)
+		modelPkg.DbOrmPkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "orm/dbgorm")
+		os.RemoveAll(modelPkg.DbOrmPkgGenPath)
+		modelPkg.DbPkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "db")
+		os.RemoveAll(modelPkg.DbPkgGenPath)
 		modelPkg.ControllersPkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "controllers")
 		os.RemoveAll(modelPkg.ControllersPkgGenPath)
 		modelPkg.FullstackPkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "fullstack")
@@ -372,8 +377,24 @@ func main() {
 	}
 	if os.IsExist(errd) {
 		log.Println("directory " + modelPkg.OrmPkgGenPath + " allready exists")
+	}
 
-		// supppress all files in it
+	// generate directory for orm package
+	errd = os.MkdirAll(modelPkg.DbOrmPkgGenPath, os.ModePerm)
+	if os.IsNotExist(errd) {
+		log.Println("creating directory : " + modelPkg.DbOrmPkgGenPath)
+	}
+	if os.IsExist(errd) {
+		log.Println("directory " + modelPkg.DbOrmPkgGenPath + " allready exists")
+	}
+
+	// generate directory for orm package
+	errd = os.MkdirAll(modelPkg.DbPkgGenPath, os.ModePerm)
+	if os.IsNotExist(errd) {
+		log.Println("creating directory : " + modelPkg.DbPkgGenPath)
+	}
+	if os.IsExist(errd) {
+		log.Println("directory " + modelPkg.DbPkgGenPath + " allready exists")
 	}
 
 	// generate directory for controllers package
@@ -506,6 +527,11 @@ func main() {
 		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../orm/back_repo_data.go"),
 		orm.BackRepoDataTemplateCode, orm.BackRepoDataSubTemplate)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		filepath.Join(*pkgPath, "../db/db_interface.go"),
+		db.DbInterfaceTmpl)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
