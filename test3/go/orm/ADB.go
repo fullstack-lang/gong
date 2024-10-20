@@ -61,7 +61,7 @@ type ADB struct {
 
 	// Declation for basic field aDB.Name
 	Name_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	APointersEncoding
