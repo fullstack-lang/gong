@@ -32,7 +32,7 @@ func NewDBWrapper(filename, table_prefix string, dst ...interface{}) *DBWrapper 
 
 	// adjust naming strategy to the stack
 	db.Config.NamingStrategy = &schema.NamingStrategy{
-		TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
+		TablePrefix: table_prefix, // table name prefix
 	}
 
 	err = db.AutoMigrate( // insertion point for reference to structs
