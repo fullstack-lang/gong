@@ -725,5 +725,28 @@
                 "TestStageCallBack"
             ]
         },
+        {
+            "name": "gongc test3",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/test3/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmInstall",
+            ]
+        },
+        {
+            "name": "go run test3 -unmarshallFromCode=stage.go -marshallOnCommit=stage_out",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test3/go/cmd/test3",
+            "args": [
+                "-unmarshallFromCode=stage.go",
+                "-marshallOnCommit=stage_out"
+            ]
+        },
     ]
 }
