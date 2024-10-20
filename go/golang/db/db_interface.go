@@ -1,4 +1,6 @@
-// generated code - do not edit
+package db
+
+const DbInterfaceTmpl = `// generated code - do not edit
 package db
 
 type DBInterface interface {
@@ -11,3 +13,4 @@ type DBInterface interface {
 	Find(instanceDBs any) (DBInterface, error)
 	First(instanceDB any, conds ...any) (DBInterface, error)
 }
+`
