@@ -1,8 +1,10 @@
-// generated code - do not edit
+package dbgorm
+
+const DbTmpl = `// generated code - do not edit
 package dbgorm
 
 import (
-	"github.com/fullstack-lang/gong/test3/go/db"
+	"{{PkgPathRoot}}/db"
 	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -101,3 +103,4 @@ func (dbw *DBWrapper) First(instanceDB any, conds ...any) (db.DBInterface, error
 	tx := dbw.db.First(instanceDB, conds...)
 	return &DBWrapper{db: tx}, tx.Error
 }
+`
