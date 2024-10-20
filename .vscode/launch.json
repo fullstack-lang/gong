@@ -734,7 +734,7 @@
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipGoModCommands",
-                "-skipNpmInstall",
+                "-skipNg",
             ]
         },
         {
