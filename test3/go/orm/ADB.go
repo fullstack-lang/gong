@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gong/test3/go/db"
 	"github.com/fullstack-lang/gong/test3/go/models"
 )
 
@@ -104,7 +105,7 @@ type BackRepoAStruct struct {
 	// stores A according to their gorm ID
 	Map_ADBID_APtr map[uint]*models.A
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -114,7 +115,7 @@ func (backRepoA *BackRepoAStruct) GetStage() (stage *models.StageStruct) {
 	return
 }
 
-func (backRepoA *BackRepoAStruct) GetDB() *gorm.DB {
+func (backRepoA *BackRepoAStruct) GetDB() db.DBInterface {
 	return backRepoA.db
 }
 
@@ -151,9 +152,10 @@ func (backRepoA *BackRepoAStruct) CommitDeleteInstance(id uint) (Error error) {
 
 	// a is not staged anymore, remove aDB
 	aDB := backRepoA.Map_ADBID_ADB[id]
-	query := backRepoA.db.Unscoped().Delete(&aDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoA.db.Unscoped()
+	_, err := db.Delete(&aDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -177,9 +179,9 @@ func (backRepoA *BackRepoAStruct) CommitPhaseOneInstance(a *models.A) (Error err
 	var aDB ADB
 	aDB.CopyBasicFieldsFromA(a)
 
-	query := backRepoA.db.Create(&aDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoA.db.Create(&aDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -211,9 +213,9 @@ func (backRepoA *BackRepoAStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruc
 		aDB.CopyBasicFieldsFromA(a)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoA.db.Save(&aDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoA.db.Save(&aDB)
+		if err != nil {
+			log.Fatalln(err)
 		}
 
 	} else {
@@ -232,9 +234,9 @@ func (backRepoA *BackRepoAStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruc
 func (backRepoA *BackRepoAStruct) CheckoutPhaseOne() (Error error) {
 
 	aDBArray := make([]ADB, 0)
-	query := backRepoA.db.Find(&aDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoA.db.Find(&aDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -345,7 +347,7 @@ func (backRepo *BackRepoStruct) CheckoutA(a *models.A) {
 			var aDB ADB
 			aDB.ID = id
 
-			if err := backRepo.BackRepoA.db.First(&aDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoA.db.First(&aDB, id); err != nil {
 				log.Fatalln("CheckoutA : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoA.CheckoutPhaseOneInstance(&aDB)
@@ -492,9 +494,9 @@ func (backRepoA *BackRepoAStruct) rowVisitorA(row *xlsx.Row) error {
 
 		aDB_ID_atBackupTime := aDB.ID
 		aDB.ID = 0
-		query := backRepoA.db.Create(aDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoA.db.Create(aDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoA.Map_ADBID_ADB[aDB.ID] = aDB
 		BackRepoAid_atBckpTime_newID[aDB_ID_atBackupTime] = aDB.ID
@@ -529,9 +531,9 @@ func (backRepoA *BackRepoAStruct) RestorePhaseOne(dirPath string) {
 
 		aDB_ID_atBackupTime := aDB.ID
 		aDB.ID = 0
-		query := backRepoA.db.Create(aDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoA.db.Create(aDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoA.Map_ADBID_ADB[aDB.ID] = aDB
 		BackRepoAid_atBckpTime_newID[aDB_ID_atBackupTime] = aDB.ID
@@ -553,9 +555,10 @@ func (backRepoA *BackRepoAStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoA.db.Model(aDB).Updates(*aDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoA.db.Model(aDB)
+		_, err := db.Updates(*aDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

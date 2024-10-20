@@ -70,12 +70,12 @@ func (controller *Controller) GetAs(c *gin.Context) {
 	}
 	db := backRepo.BackRepoA.GetDB()
 
-	query := db.Find(&aDBs)
-	if query.Error != nil {
+	_, err := db.Find(&aDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostA(c *gin.Context) {
 	aDB.APointersEncoding = input.APointersEncoding
 	aDB.CopyBasicFieldsFromA_WOP(&input.A_WOP)
 
-	query := db.Create(&aDB)
-	if query.Error != nil {
+	_, err = db.Create(&aDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetA(c *gin.Context) {
 
 	// Get aDB in DB
 	var aDB orm.ADB
-	if err := db.First(&aDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&aDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateA(c *gin.Context) {
 	var aDB orm.ADB
 
 	// fetch the a
-	query := db.First(&aDB, c.Param("id"))
+	_, err := db.First(&aDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateA(c *gin.Context) {
 	aDB.CopyBasicFieldsFromA_WOP(&input.A_WOP)
 	aDB.APointersEncoding = input.APointersEncoding
 
-	query = db.Model(&aDB).Updates(aDB)
-	if query.Error != nil {
+	db, _ = db.Model(&aDB)
+	_, err = db.Updates(aDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteA(c *gin.Context) {
 
 	// Get model if exist
 	var aDB orm.ADB
-	if err := db.First(&aDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&aDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteA(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&aDB)
+	db.Unscoped()
+	db.Delete(&aDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	aDeleted := new(models.A)
