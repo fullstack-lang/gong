@@ -11,24 +11,10 @@ import (
 	"sync"
 
 	"github.com/fullstack-lang/gong/test3/go/models"
+	"github.com/fullstack-lang/gong/test3/go/orm/dbgorm"
 
 	"github.com/tealeg/xlsx/v3"
-
-	"github.com/glebarez/sqlite"
-	"gorm.io/gorm"
-	"gorm.io/gorm/schema"
 )
-
-type DBInterface interface {
-	Create(instanceDB any) (DBInterface, error)
-	Unscoped() (DBInterface, error)
-	Model(instanceDB any) (DBInterface, error)
-	Delete(instanceDB any) (DBInterface, error)
-	Save(instanceDB any) (DBInterface, error)
-	Updates(instanceDB any) (DBInterface, error)
-	Find(instanceDBs any) (DBInterface, error)
-	First(instanceDB any, conds ...any) (DBInterface, error)
-}
 
 // BackRepoStruct supports callback functions
 type BackRepoStruct struct {
@@ -48,36 +34,7 @@ type BackRepoStruct struct {
 
 func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepoStruct) {
 
-	// adjust naming strategy to the stack
-	gormConfig := &gorm.Config{
-		NamingStrategy: schema.NamingStrategy{
-			TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
-		},
-	}
-	db, err := gorm.Open(sqlite.Open(filename), gormConfig)
-
-	// since testsim is a multi threaded application. It is important to set up
-	// only one open connexion at a time
-	dbDB_inMemory, err := db.DB()
-	if err != nil {
-		panic("cannot access DB of db" + err.Error())
-	}
-	// it is mandatory to allow parallel access, otherwise, bizarre errors occurs
-	dbDB_inMemory.SetMaxOpenConns(1)
-
-	// adjust naming strategy to the stack
-	db.Config.NamingStrategy = &schema.NamingStrategy{
-		TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
-	}
-
-	err = db.AutoMigrate( // insertion point for reference to structs
-		&ADB{},
-	)
-
-	if err != nil {
-		msg := err.Error()
-		panic("problem with migration " + msg + " on package github.com/fullstack-lang/gong/test/go")
-	}
+	dbWrapper := dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gong_test_go_", &ADB{})
 
 	backRepo = new(BackRepoStruct)
 
@@ -87,7 +44,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_ADBID_ADB:  make(map[uint]*ADB, 0),
 		Map_APtr_ADBID: make(map[*models.A]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 
