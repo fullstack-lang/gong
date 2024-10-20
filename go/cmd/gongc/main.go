@@ -23,6 +23,7 @@ import (
 	"github.com/fullstack-lang/gong/go/golang/fullstack"
 	"github.com/fullstack-lang/gong/go/golang/models"
 	"github.com/fullstack-lang/gong/go/golang/orm"
+	"github.com/fullstack-lang/gong/go/golang/orm/dbgorm"
 	"github.com/fullstack-lang/gong/go/golang/probe"
 	"github.com/fullstack-lang/gong/go/golang/stack"
 	"github.com/fullstack-lang/gong/go/golang/static"
@@ -532,6 +533,11 @@ func main() {
 		modelPkg,
 		filepath.Join(*pkgPath, "../db/db_interface.go"),
 		db.DbInterfaceTmpl)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		filepath.Join(*pkgPath, "../orm/dbgorm/db.go"),
+		dbgorm.DbTmpl)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
