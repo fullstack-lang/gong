@@ -34,7 +34,9 @@ type BackRepoStruct struct {
 
 func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepoStruct) {
 
-	dbWrapper := dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gong_test_go_", &ADB{})
+	dbWrapper := dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gong_test3_go",
+		&ADB{},
+	)
 
 	backRepo = new(BackRepoStruct)
 

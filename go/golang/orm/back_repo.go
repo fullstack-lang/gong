@@ -13,12 +13,9 @@ import (
 	"sync"
 
 	"{{PkgPathRoot}}/models"
+	"{{PkgPathRoot}}/orm/dbgorm"
 
 	"github.com/tealeg/xlsx/v3"
-
-	"github.com/glebarez/sqlite"
-	"gorm.io/gorm"
-	"gorm.io/gorm/schema"
 )
 
 // BackRepoStruct supports callback functions
@@ -37,35 +34,8 @@ type BackRepoStruct struct {
 
 func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepoStruct) {
 
-	// adjust naming strategy to the stack
-	gormConfig := &gorm.Config{
-		NamingStrategy: schema.NamingStrategy{
-			TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
-		},
-	}
-	db, err := gorm.Open(sqlite.Open(filename), gormConfig)
-
-	// since testsim is a multi threaded application. It is important to set up
-	// only one open connexion at a time
-	dbDB_inMemory, err := db.DB()
-	if err != nil {
-		panic("cannot access DB of db" + err.Error())
-	}
-	// it is mandatory to allow parallel access, otherwise, bizarre errors occurs
-	dbDB_inMemory.SetMaxOpenConns(1)
-
-	// adjust naming strategy to the stack
-	db.Config.NamingStrategy = &schema.NamingStrategy{
-		TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
-	}
-
-	err = db.AutoMigrate( // insertion point for reference to structs{{` + string(rune(BackRepoPerStructRefToStructDB)) + `}}
+	dbWrapper := dbgorm.NewDBWrapper(filename, "{{PkgPathRootWithoutSlashes}}", {{` + string(rune(BackRepoPerStructRefToStructDB)) + `}}
 	)
-
-	if err != nil {
-		msg := err.Error()
-		panic("problem with migration " + msg + " on package github.com/fullstack-lang/gong/test/go")
-	}
 
 	backRepo = new(BackRepoStruct)
 
@@ -271,7 +241,7 @@ map[string]string{
 		Map_{{Structname}}DBID_{{Structname}}DB:  make(map[uint]*{{Structname}}DB, 0),
 		Map_{{Structname}}Ptr_{{Structname}}DBID: make(map[*models.{{Structname}}]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}`,
 
