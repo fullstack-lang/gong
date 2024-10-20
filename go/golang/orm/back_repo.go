@@ -34,7 +34,7 @@ type BackRepoStruct struct {
 
 func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepoStruct) {
 
-	dbWrapper := dbgorm.NewDBWrapper(filename, "{{PkgPathRootWithoutSlashes}}", {{` + string(rune(BackRepoPerStructRefToStructDB)) + `}}
+	dbWrapper := dbgorm.NewDBWrapper(filename, "{{PkgPathRootWithoutSlashes}}",{{` + string(rune(BackRepoPerStructRefToStructDB)) + `}}
 	)
 
 	backRepo = new(BackRepoStruct)
@@ -70,7 +70,7 @@ func (backRepo *BackRepoStruct) IncrementCommitFromBackNb() uint {
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 
 	backRepo.broadcastNbCommitToBack()
-	
+
 	return backRepo.CommitFromBackNb
 }
 
