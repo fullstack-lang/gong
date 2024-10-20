@@ -19,6 +19,17 @@ import (
 	"gorm.io/gorm/schema"
 )
 
+type DBInterface interface {
+	Create(instanceDB any) (DBInterface, error)
+	Unscoped() (DBInterface, error)
+	Model(instanceDB any) (DBInterface, error)
+	Delete(instanceDB any) (DBInterface, error)
+	Save(instanceDB any) (DBInterface, error)
+	Updates(instanceDB any) (DBInterface, error)
+	Find(instanceDBs any) (DBInterface, error)
+	First(instanceDB any, conds ...any) (DBInterface, error)
+}
+
 // BackRepoStruct supports callback functions
 type BackRepoStruct struct {
 	// insertion point for per struct back repo declarations
@@ -53,10 +64,6 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 	}
 	// it is mandatory to allow parallel access, otherwise, bizarre errors occurs
 	dbDB_inMemory.SetMaxOpenConns(1)
-
-	if err != nil {
-		panic("Failed to connect to database!")
-	}
 
 	// adjust naming strategy to the stack
 	db.Config.NamingStrategy = &schema.NamingStrategy{
@@ -113,7 +120,7 @@ func (backRepo *BackRepoStruct) IncrementCommitFromBackNb() uint {
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 
 	backRepo.broadcastNbCommitToBack()
-	
+
 	return backRepo.CommitFromBackNb
 }
 

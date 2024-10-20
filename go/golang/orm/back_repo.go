@@ -54,10 +54,6 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 	// it is mandatory to allow parallel access, otherwise, bizarre errors occurs
 	dbDB_inMemory.SetMaxOpenConns(1)
 
-	if err != nil {
-		panic("Failed to connect to database!")
-	}
-
 	// adjust naming strategy to the stack
 	db.Config.NamingStrategy = &schema.NamingStrategy{
 		TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
