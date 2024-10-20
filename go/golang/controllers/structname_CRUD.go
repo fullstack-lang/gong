@@ -86,12 +86,12 @@ func (controller *Controller) Get{{Structname}}s(c *gin.Context) {
 	}
 	db := backRepo.BackRepo{{Structname}}.GetDB()
 
-	query := db.Find(&{{structname}}DBs)
-	if query.Error != nil {
+	_, err := db.Find(&{{structname}}DBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -167,12 +167,12 @@ func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 	{{structname}}DB.{{Structname}}PointersEncoding = input.{{Structname}}PointersEncoding
 	{{structname}}DB.CopyBasicFieldsFrom{{Structname}}_WOP(&input.{{Structname}}_WOP)
 
-	query := db.Create(&{{structname}}DB)
-	if query.Error != nil {
+	_, err = db.Create(&{{structname}}DB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -221,7 +221,7 @@ func (controller *Controller) Get{{Structname}}(c *gin.Context) {
 
 	// Get {{structname}}DB in DB
 	var {{structname}}DB orm.{{Structname}}DB
-	if err := db.First(&{{structname}}DB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&{{structname}}DB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -280,13 +280,13 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 	var {{structname}}DB orm.{{Structname}}DB
 
 	// fetch the {{structname}}
-	query := db.First(&{{structname}}DB, c.Param("id"))
+	_, err := db.First(&{{structname}}DB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -295,12 +295,13 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 	{{structname}}DB.CopyBasicFieldsFrom{{Structname}}_WOP(&input.{{Structname}}_WOP)
 	{{structname}}DB.{{Structname}}PointersEncoding = input.{{Structname}}PointersEncoding
 
-	query = db.Model(&{{structname}}DB).Updates({{structname}}DB)
-	if query.Error != nil {
+	db, _ = db.Model(&{{structname}}DB)
+	_, err = db.Updates({{structname}}DB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -359,7 +360,7 @@ func (controller *Controller) Delete{{Structname}}(c *gin.Context) {
 
 	// Get model if exist
 	var {{structname}}DB orm.{{Structname}}DB
-	if err := db.First(&{{structname}}DB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&{{structname}}DB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -369,7 +370,8 @@ func (controller *Controller) Delete{{Structname}}(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&{{structname}}DB)
+	db.Unscoped()
+	db.Delete(&{{structname}}DB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	{{structname}}Deleted := new(models.{{Structname}})
