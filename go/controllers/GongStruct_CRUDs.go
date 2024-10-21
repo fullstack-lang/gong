@@ -70,12 +70,12 @@ func (controller *Controller) GetGongStructs(c *gin.Context) {
 	}
 	db := backRepo.BackRepoGongStruct.GetDB()
 
-	query := db.Find(&gongstructDBs)
-	if query.Error != nil {
+	_, err := db.Find(&gongstructDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostGongStruct(c *gin.Context) {
 	gongstructDB.GongStructPointersEncoding = input.GongStructPointersEncoding
 	gongstructDB.CopyBasicFieldsFromGongStruct_WOP(&input.GongStruct_WOP)
 
-	query := db.Create(&gongstructDB)
-	if query.Error != nil {
+	_, err = db.Create(&gongstructDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetGongStruct(c *gin.Context) {
 
 	// Get gongstructDB in DB
 	var gongstructDB orm.GongStructDB
-	if err := db.First(&gongstructDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&gongstructDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateGongStruct(c *gin.Context) {
 	var gongstructDB orm.GongStructDB
 
 	// fetch the gongstruct
-	query := db.First(&gongstructDB, c.Param("id"))
+	_, err := db.First(&gongstructDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateGongStruct(c *gin.Context) {
 	gongstructDB.CopyBasicFieldsFromGongStruct_WOP(&input.GongStruct_WOP)
 	gongstructDB.GongStructPointersEncoding = input.GongStructPointersEncoding
 
-	query = db.Model(&gongstructDB).Updates(gongstructDB)
-	if query.Error != nil {
+	db, _ = db.Model(&gongstructDB)
+	_, err = db.Updates(gongstructDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteGongStruct(c *gin.Context) {
 
 	// Get model if exist
 	var gongstructDB orm.GongStructDB
-	if err := db.First(&gongstructDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&gongstructDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteGongStruct(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&gongstructDB)
+	db.Unscoped()
+	db.Delete(&gongstructDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	gongstructDeleted := new(models.GongStruct)

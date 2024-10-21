@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gong/go/db"
 	"github.com/fullstack-lang/gong/go/models"
 )
 
@@ -70,7 +71,7 @@ type GongNoteDB struct {
 
 	// Declation for basic field gongnoteDB.BodyHTML
 	BodyHTML_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	GongNotePointersEncoding
@@ -119,7 +120,7 @@ type BackRepoGongNoteStruct struct {
 	// stores GongNote according to their gorm ID
 	Map_GongNoteDBID_GongNotePtr map[uint]*models.GongNote
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -129,7 +130,7 @@ func (backRepoGongNote *BackRepoGongNoteStruct) GetStage() (stage *models.StageS
 	return
 }
 
-func (backRepoGongNote *BackRepoGongNoteStruct) GetDB() *gorm.DB {
+func (backRepoGongNote *BackRepoGongNoteStruct) GetDB() db.DBInterface {
 	return backRepoGongNote.db
 }
 
@@ -166,9 +167,10 @@ func (backRepoGongNote *BackRepoGongNoteStruct) CommitDeleteInstance(id uint) (E
 
 	// gongnote is not staged anymore, remove gongnoteDB
 	gongnoteDB := backRepoGongNote.Map_GongNoteDBID_GongNoteDB[id]
-	query := backRepoGongNote.db.Unscoped().Delete(&gongnoteDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoGongNote.db.Unscoped()
+	_, err := db.Delete(&gongnoteDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -192,9 +194,9 @@ func (backRepoGongNote *BackRepoGongNoteStruct) CommitPhaseOneInstance(gongnote 
 	var gongnoteDB GongNoteDB
 	gongnoteDB.CopyBasicFieldsFromGongNote(gongnote)
 
-	query := backRepoGongNote.db.Create(&gongnoteDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoGongNote.db.Create(&gongnoteDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -244,9 +246,9 @@ func (backRepoGongNote *BackRepoGongNoteStruct) CommitPhaseTwoInstance(backRepo 
 				append(gongnoteDB.GongNotePointersEncoding.Links, int(gonglinkAssocEnd_DB.ID))
 		}
 
-		query := backRepoGongNote.db.Save(&gongnoteDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoGongNote.db.Save(&gongnoteDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -265,9 +267,9 @@ func (backRepoGongNote *BackRepoGongNoteStruct) CommitPhaseTwoInstance(backRepo 
 func (backRepoGongNote *BackRepoGongNoteStruct) CheckoutPhaseOne() (Error error) {
 
 	gongnoteDBArray := make([]GongNoteDB, 0)
-	query := backRepoGongNote.db.Find(&gongnoteDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoGongNote.db.Find(&gongnoteDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -387,7 +389,7 @@ func (backRepo *BackRepoStruct) CheckoutGongNote(gongnote *models.GongNote) {
 			var gongnoteDB GongNoteDB
 			gongnoteDB.ID = id
 
-			if err := backRepo.BackRepoGongNote.db.First(&gongnoteDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoGongNote.db.First(&gongnoteDB, id); err != nil {
 				log.Fatalln("CheckoutGongNote : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoGongNote.CheckoutPhaseOneInstance(&gongnoteDB)
@@ -558,9 +560,9 @@ func (backRepoGongNote *BackRepoGongNoteStruct) rowVisitorGongNote(row *xlsx.Row
 
 		gongnoteDB_ID_atBackupTime := gongnoteDB.ID
 		gongnoteDB.ID = 0
-		query := backRepoGongNote.db.Create(gongnoteDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoGongNote.db.Create(gongnoteDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoGongNote.Map_GongNoteDBID_GongNoteDB[gongnoteDB.ID] = gongnoteDB
 		BackRepoGongNoteid_atBckpTime_newID[gongnoteDB_ID_atBackupTime] = gongnoteDB.ID
@@ -595,9 +597,9 @@ func (backRepoGongNote *BackRepoGongNoteStruct) RestorePhaseOne(dirPath string) 
 
 		gongnoteDB_ID_atBackupTime := gongnoteDB.ID
 		gongnoteDB.ID = 0
-		query := backRepoGongNote.db.Create(gongnoteDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoGongNote.db.Create(gongnoteDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoGongNote.Map_GongNoteDBID_GongNoteDB[gongnoteDB.ID] = gongnoteDB
 		BackRepoGongNoteid_atBckpTime_newID[gongnoteDB_ID_atBackupTime] = gongnoteDB.ID
@@ -619,9 +621,10 @@ func (backRepoGongNote *BackRepoGongNoteStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoGongNote.db.Model(gongnoteDB).Updates(*gongnoteDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoGongNote.db.Model(gongnoteDB)
+		_, err := db.Updates(*gongnoteDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

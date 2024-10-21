@@ -70,12 +70,12 @@ func (controller *Controller) GetMetas(c *gin.Context) {
 	}
 	db := backRepo.BackRepoMeta.GetDB()
 
-	query := db.Find(&metaDBs)
-	if query.Error != nil {
+	_, err := db.Find(&metaDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostMeta(c *gin.Context) {
 	metaDB.MetaPointersEncoding = input.MetaPointersEncoding
 	metaDB.CopyBasicFieldsFromMeta_WOP(&input.Meta_WOP)
 
-	query := db.Create(&metaDB)
-	if query.Error != nil {
+	_, err = db.Create(&metaDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetMeta(c *gin.Context) {
 
 	// Get metaDB in DB
 	var metaDB orm.MetaDB
-	if err := db.First(&metaDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&metaDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateMeta(c *gin.Context) {
 	var metaDB orm.MetaDB
 
 	// fetch the meta
-	query := db.First(&metaDB, c.Param("id"))
+	_, err := db.First(&metaDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateMeta(c *gin.Context) {
 	metaDB.CopyBasicFieldsFromMeta_WOP(&input.Meta_WOP)
 	metaDB.MetaPointersEncoding = input.MetaPointersEncoding
 
-	query = db.Model(&metaDB).Updates(metaDB)
-	if query.Error != nil {
+	db, _ = db.Model(&metaDB)
+	_, err = db.Updates(metaDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteMeta(c *gin.Context) {
 
 	// Get model if exist
 	var metaDB orm.MetaDB
-	if err := db.First(&metaDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&metaDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteMeta(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&metaDB)
+	db.Unscoped()
+	db.Delete(&metaDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	metaDeleted := new(models.Meta)

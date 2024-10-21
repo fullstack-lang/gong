@@ -70,12 +70,12 @@ func (controller *Controller) GetGongNotes(c *gin.Context) {
 	}
 	db := backRepo.BackRepoGongNote.GetDB()
 
-	query := db.Find(&gongnoteDBs)
-	if query.Error != nil {
+	_, err := db.Find(&gongnoteDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostGongNote(c *gin.Context) {
 	gongnoteDB.GongNotePointersEncoding = input.GongNotePointersEncoding
 	gongnoteDB.CopyBasicFieldsFromGongNote_WOP(&input.GongNote_WOP)
 
-	query := db.Create(&gongnoteDB)
-	if query.Error != nil {
+	_, err = db.Create(&gongnoteDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetGongNote(c *gin.Context) {
 
 	// Get gongnoteDB in DB
 	var gongnoteDB orm.GongNoteDB
-	if err := db.First(&gongnoteDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&gongnoteDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateGongNote(c *gin.Context) {
 	var gongnoteDB orm.GongNoteDB
 
 	// fetch the gongnote
-	query := db.First(&gongnoteDB, c.Param("id"))
+	_, err := db.First(&gongnoteDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateGongNote(c *gin.Context) {
 	gongnoteDB.CopyBasicFieldsFromGongNote_WOP(&input.GongNote_WOP)
 	gongnoteDB.GongNotePointersEncoding = input.GongNotePointersEncoding
 
-	query = db.Model(&gongnoteDB).Updates(gongnoteDB)
-	if query.Error != nil {
+	db, _ = db.Model(&gongnoteDB)
+	_, err = db.Updates(gongnoteDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteGongNote(c *gin.Context) {
 
 	// Get model if exist
 	var gongnoteDB orm.GongNoteDB
-	if err := db.First(&gongnoteDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&gongnoteDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteGongNote(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&gongnoteDB)
+	db.Unscoped()
+	db.Delete(&gongnoteDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	gongnoteDeleted := new(models.GongNote)

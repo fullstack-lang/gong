@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gong/go/db"
 	"github.com/fullstack-lang/gong/go/models"
 )
 
@@ -67,7 +68,7 @@ type GongLinkDB struct {
 
 	// Declation for basic field gonglinkDB.ImportPath
 	ImportPath_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	GongLinkPointersEncoding
@@ -116,7 +117,7 @@ type BackRepoGongLinkStruct struct {
 	// stores GongLink according to their gorm ID
 	Map_GongLinkDBID_GongLinkPtr map[uint]*models.GongLink
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -126,7 +127,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) GetStage() (stage *models.StageS
 	return
 }
 
-func (backRepoGongLink *BackRepoGongLinkStruct) GetDB() *gorm.DB {
+func (backRepoGongLink *BackRepoGongLinkStruct) GetDB() db.DBInterface {
 	return backRepoGongLink.db
 }
 
@@ -163,9 +164,10 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CommitDeleteInstance(id uint) (E
 
 	// gonglink is not staged anymore, remove gonglinkDB
 	gonglinkDB := backRepoGongLink.Map_GongLinkDBID_GongLinkDB[id]
-	query := backRepoGongLink.db.Unscoped().Delete(&gonglinkDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoGongLink.db.Unscoped()
+	_, err := db.Delete(&gonglinkDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -189,9 +191,9 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CommitPhaseOneInstance(gonglink 
 	var gonglinkDB GongLinkDB
 	gonglinkDB.CopyBasicFieldsFromGongLink(gonglink)
 
-	query := backRepoGongLink.db.Create(&gonglinkDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoGongLink.db.Create(&gonglinkDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -223,9 +225,9 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CommitPhaseTwoInstance(backRepo 
 		gonglinkDB.CopyBasicFieldsFromGongLink(gonglink)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoGongLink.db.Save(&gonglinkDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoGongLink.db.Save(&gonglinkDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -244,9 +246,9 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CommitPhaseTwoInstance(backRepo 
 func (backRepoGongLink *BackRepoGongLinkStruct) CheckoutPhaseOne() (Error error) {
 
 	gonglinkDBArray := make([]GongLinkDB, 0)
-	query := backRepoGongLink.db.Find(&gonglinkDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoGongLink.db.Find(&gonglinkDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -357,7 +359,7 @@ func (backRepo *BackRepoStruct) CheckoutGongLink(gonglink *models.GongLink) {
 			var gonglinkDB GongLinkDB
 			gonglinkDB.ID = id
 
-			if err := backRepo.BackRepoGongLink.db.First(&gonglinkDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoGongLink.db.First(&gonglinkDB, id); err != nil {
 				log.Fatalln("CheckoutGongLink : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoGongLink.CheckoutPhaseOneInstance(&gonglinkDB)
@@ -528,9 +530,9 @@ func (backRepoGongLink *BackRepoGongLinkStruct) rowVisitorGongLink(row *xlsx.Row
 
 		gonglinkDB_ID_atBackupTime := gonglinkDB.ID
 		gonglinkDB.ID = 0
-		query := backRepoGongLink.db.Create(gonglinkDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoGongLink.db.Create(gonglinkDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoGongLink.Map_GongLinkDBID_GongLinkDB[gonglinkDB.ID] = gonglinkDB
 		BackRepoGongLinkid_atBckpTime_newID[gonglinkDB_ID_atBackupTime] = gonglinkDB.ID
@@ -565,9 +567,9 @@ func (backRepoGongLink *BackRepoGongLinkStruct) RestorePhaseOne(dirPath string) 
 
 		gonglinkDB_ID_atBackupTime := gonglinkDB.ID
 		gonglinkDB.ID = 0
-		query := backRepoGongLink.db.Create(gonglinkDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoGongLink.db.Create(gonglinkDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoGongLink.Map_GongLinkDBID_GongLinkDB[gonglinkDB.ID] = gonglinkDB
 		BackRepoGongLinkid_atBckpTime_newID[gonglinkDB_ID_atBackupTime] = gonglinkDB.ID
@@ -589,9 +591,10 @@ func (backRepoGongLink *BackRepoGongLinkStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoGongLink.db.Model(gonglinkDB).Updates(*gonglinkDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoGongLink.db.Model(gonglinkDB)
+		_, err := db.Updates(*gonglinkDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

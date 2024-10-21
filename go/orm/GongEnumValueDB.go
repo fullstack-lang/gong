@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gong/go/db"
 	"github.com/fullstack-lang/gong/go/models"
 )
 
@@ -64,7 +65,7 @@ type GongEnumValueDB struct {
 
 	// Declation for basic field gongenumvalueDB.Value
 	Value_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	GongEnumValuePointersEncoding
@@ -110,7 +111,7 @@ type BackRepoGongEnumValueStruct struct {
 	// stores GongEnumValue according to their gorm ID
 	Map_GongEnumValueDBID_GongEnumValuePtr map[uint]*models.GongEnumValue
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -120,7 +121,7 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) GetStage() (stage *mod
 	return
 }
 
-func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) GetDB() *gorm.DB {
+func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) GetDB() db.DBInterface {
 	return backRepoGongEnumValue.db
 }
 
@@ -157,9 +158,10 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) CommitDeleteInstance(i
 
 	// gongenumvalue is not staged anymore, remove gongenumvalueDB
 	gongenumvalueDB := backRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValueDB[id]
-	query := backRepoGongEnumValue.db.Unscoped().Delete(&gongenumvalueDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoGongEnumValue.db.Unscoped()
+	_, err := db.Delete(&gongenumvalueDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -183,9 +185,9 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) CommitPhaseOneInstance
 	var gongenumvalueDB GongEnumValueDB
 	gongenumvalueDB.CopyBasicFieldsFromGongEnumValue(gongenumvalue)
 
-	query := backRepoGongEnumValue.db.Create(&gongenumvalueDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoGongEnumValue.db.Create(&gongenumvalueDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -217,9 +219,9 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) CommitPhaseTwoInstance
 		gongenumvalueDB.CopyBasicFieldsFromGongEnumValue(gongenumvalue)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoGongEnumValue.db.Save(&gongenumvalueDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoGongEnumValue.db.Save(&gongenumvalueDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -238,9 +240,9 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) CommitPhaseTwoInstance
 func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) CheckoutPhaseOne() (Error error) {
 
 	gongenumvalueDBArray := make([]GongEnumValueDB, 0)
-	query := backRepoGongEnumValue.db.Find(&gongenumvalueDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoGongEnumValue.db.Find(&gongenumvalueDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -351,7 +353,7 @@ func (backRepo *BackRepoStruct) CheckoutGongEnumValue(gongenumvalue *models.Gong
 			var gongenumvalueDB GongEnumValueDB
 			gongenumvalueDB.ID = id
 
-			if err := backRepo.BackRepoGongEnumValue.db.First(&gongenumvalueDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoGongEnumValue.db.First(&gongenumvalueDB, id); err != nil {
 				log.Fatalln("CheckoutGongEnumValue : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoGongEnumValue.CheckoutPhaseOneInstance(&gongenumvalueDB)
@@ -510,9 +512,9 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) rowVisitorGongEnumValu
 
 		gongenumvalueDB_ID_atBackupTime := gongenumvalueDB.ID
 		gongenumvalueDB.ID = 0
-		query := backRepoGongEnumValue.db.Create(gongenumvalueDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoGongEnumValue.db.Create(gongenumvalueDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValueDB[gongenumvalueDB.ID] = gongenumvalueDB
 		BackRepoGongEnumValueid_atBckpTime_newID[gongenumvalueDB_ID_atBackupTime] = gongenumvalueDB.ID
@@ -547,9 +549,9 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) RestorePhaseOne(dirPat
 
 		gongenumvalueDB_ID_atBackupTime := gongenumvalueDB.ID
 		gongenumvalueDB.ID = 0
-		query := backRepoGongEnumValue.db.Create(gongenumvalueDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoGongEnumValue.db.Create(gongenumvalueDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValueDB[gongenumvalueDB.ID] = gongenumvalueDB
 		BackRepoGongEnumValueid_atBckpTime_newID[gongenumvalueDB_ID_atBackupTime] = gongenumvalueDB.ID
@@ -571,9 +573,10 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoGongEnumValue.db.Model(gongenumvalueDB).Updates(*gongenumvalueDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoGongEnumValue.db.Model(gongenumvalueDB)
+		_, err := db.Updates(*gongenumvalueDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

@@ -70,12 +70,12 @@ func (controller *Controller) GetSliceOfPointerToGongStructFields(c *gin.Context
 	}
 	db := backRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
 
-	query := db.Find(&sliceofpointertogongstructfieldDBs)
-	if query.Error != nil {
+	_, err := db.Find(&sliceofpointertogongstructfieldDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostSliceOfPointerToGongStructField(c *gin.Context
 	sliceofpointertogongstructfieldDB.SliceOfPointerToGongStructFieldPointersEncoding = input.SliceOfPointerToGongStructFieldPointersEncoding
 	sliceofpointertogongstructfieldDB.CopyBasicFieldsFromSliceOfPointerToGongStructField_WOP(&input.SliceOfPointerToGongStructField_WOP)
 
-	query := db.Create(&sliceofpointertogongstructfieldDB)
-	if query.Error != nil {
+	_, err = db.Create(&sliceofpointertogongstructfieldDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetSliceOfPointerToGongStructField(c *gin.Context)
 
 	// Get sliceofpointertogongstructfieldDB in DB
 	var sliceofpointertogongstructfieldDB orm.SliceOfPointerToGongStructFieldDB
-	if err := db.First(&sliceofpointertogongstructfieldDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&sliceofpointertogongstructfieldDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateSliceOfPointerToGongStructField(c *gin.Conte
 	var sliceofpointertogongstructfieldDB orm.SliceOfPointerToGongStructFieldDB
 
 	// fetch the sliceofpointertogongstructfield
-	query := db.First(&sliceofpointertogongstructfieldDB, c.Param("id"))
+	_, err := db.First(&sliceofpointertogongstructfieldDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateSliceOfPointerToGongStructField(c *gin.Conte
 	sliceofpointertogongstructfieldDB.CopyBasicFieldsFromSliceOfPointerToGongStructField_WOP(&input.SliceOfPointerToGongStructField_WOP)
 	sliceofpointertogongstructfieldDB.SliceOfPointerToGongStructFieldPointersEncoding = input.SliceOfPointerToGongStructFieldPointersEncoding
 
-	query = db.Model(&sliceofpointertogongstructfieldDB).Updates(sliceofpointertogongstructfieldDB)
-	if query.Error != nil {
+	db, _ = db.Model(&sliceofpointertogongstructfieldDB)
+	_, err = db.Updates(sliceofpointertogongstructfieldDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteSliceOfPointerToGongStructField(c *gin.Conte
 
 	// Get model if exist
 	var sliceofpointertogongstructfieldDB orm.SliceOfPointerToGongStructFieldDB
-	if err := db.First(&sliceofpointertogongstructfieldDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&sliceofpointertogongstructfieldDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteSliceOfPointerToGongStructField(c *gin.Conte
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&sliceofpointertogongstructfieldDB)
+	db.Unscoped()
+	db.Delete(&sliceofpointertogongstructfieldDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	sliceofpointertogongstructfieldDeleted := new(models.SliceOfPointerToGongStructField)
