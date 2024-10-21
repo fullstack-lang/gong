@@ -33,6 +33,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"{{PkgPathDb}}"
 	"{{PkgPathRoot}}"
 )
 
@@ -74,7 +75,7 @@ type {{Structname}}DB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration{{` + string(rune(BackRepoBasicFieldsDeclaration)) + `}}
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	{{Structname}}PointersEncoding
@@ -113,7 +114,7 @@ type BackRepo{{Structname}}Struct struct {
 	// stores {{Structname}} according to their gorm ID
 	Map_{{Structname}}DBID_{{Structname}}Ptr map[uint]*models.{{Structname}}
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -123,7 +124,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) GetStage() (stage *m
 	return
 }
 
-func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) GetDB() *gorm.DB {
+func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) GetDB() db.DBInterface {
 	return backRepo{{Structname}}.db
 }
 
@@ -160,9 +161,10 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitDeleteInstance
 
 	// {{structname}} is not staged anymore, remove {{structname}}DB
 	{{structname}}DB := backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB[id]
-	query := backRepo{{Structname}}.db.Unscoped().Delete(&{{structname}}DB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepo{{Structname}}.db.Unscoped()
+	_, err := db.Delete(&{{structname}}DB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -186,9 +188,9 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitPhaseOneInstan
 	var {{structname}}DB {{Structname}}DB
 	{{structname}}DB.CopyBasicFieldsFrom{{Structname}}({{structname}})
 
-	query := backRepo{{Structname}}.db.Create(&{{structname}}DB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepo{{Structname}}.db.Create(&{{structname}}DB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -220,9 +222,9 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitPhaseTwoInstan
 		{{structname}}DB.CopyBasicFieldsFrom{{Structname}}({{structname}})
 
 		// insertion point for translating pointers encodings into actual pointers{{` + string(rune(BackRepoPointerEncodingFieldsCommit)) + `}}
-		query := backRepo{{Structname}}.db.Save(&{{structname}}DB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepo{{Structname}}.db.Save(&{{structname}}DB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -241,9 +243,9 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitPhaseTwoInstan
 func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CheckoutPhaseOne() (Error error) {
 
 	{{structname}}DBArray := make([]{{Structname}}DB, 0)
-	query := backRepo{{Structname}}.db.Find(&{{structname}}DBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepo{{Structname}}.db.Find(&{{structname}}DBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -354,7 +356,7 @@ func (backRepo *BackRepoStruct) Checkout{{Structname}}({{structname}} *models.{{
 			var {{structname}}DB {{Structname}}DB
 			{{structname}}DB.ID = id
 
-			if err := backRepo.BackRepo{{Structname}}.db.First(&{{structname}}DB, id).Error; err != nil {
+			if _, err := backRepo.BackRepo{{Structname}}.db.First(&{{structname}}DB, id); err != nil {
 				log.Fatalln("Checkout{{Structname}} : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepo{{Structname}}.CheckoutPhaseOneInstance(&{{structname}}DB)
@@ -489,9 +491,9 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) rowVisitor{{Structna
 
 		{{structname}}DB_ID_atBackupTime := {{structname}}DB.ID
 		{{structname}}DB.ID = 0
-		query := backRepo{{Structname}}.db.Create({{structname}}DB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepo{{Structname}}.db.Create({{structname}}DB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB[{{structname}}DB.ID] = {{structname}}DB
 		BackRepo{{Structname}}id_atBckpTime_newID[{{structname}}DB_ID_atBackupTime] = {{structname}}DB.ID
@@ -526,9 +528,9 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) RestorePhaseOne(dirP
 
 		{{structname}}DB_ID_atBackupTime := {{structname}}DB.ID
 		{{structname}}DB.ID = 0
-		query := backRepo{{Structname}}.db.Create({{structname}}DB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepo{{Structname}}.db.Create({{structname}}DB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB[{{structname}}DB.ID] = {{structname}}DB
 		BackRepo{{Structname}}id_atBckpTime_newID[{{structname}}DB_ID_atBackupTime] = {{structname}}DB.ID
@@ -550,9 +552,10 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding{{` + string(rune(BackRepoPointerEncodingFieldsReindexing)) + `}}
 		// update databse with new index encoding
-		query := backRepo{{Structname}}.db.Model({{structname}}DB).Updates(*{{structname}}DB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepo{{Structname}}.db.Model({{structname}}DB)
+		_, err := db.Updates(*{{structname}}DB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 
@@ -1061,11 +1064,12 @@ func MultiCodeGeneratorBackRepo(
 
 		// substitutes struct level {{<...>}} stuff
 		caserEnglish := cases.Title(language.English)
-		codeGO = models.Replace6(codeGO,
+		codeGO = models.Replace7(codeGO,
 			"{{PkgName}}", pkgName,
 			"{{TitlePkgName}}", caserEnglish.String(pkgName),
 			"{{pkgname}}", strings.ToLower(pkgName),
 			"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/orm", ""),
+			"{{PkgPathDb}}", strings.ReplaceAll(pkgGoPath, "/models", "/db"),
 			"{{Structname}}", _struct.Name,
 			"{{structname}}", strings.ToLower(_struct.Name))
 

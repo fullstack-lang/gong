@@ -70,12 +70,12 @@ func (controller *Controller) GetModelPkgs(c *gin.Context) {
 	}
 	db := backRepo.BackRepoModelPkg.GetDB()
 
-	query := db.Find(&modelpkgDBs)
-	if query.Error != nil {
+	_, err := db.Find(&modelpkgDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostModelPkg(c *gin.Context) {
 	modelpkgDB.ModelPkgPointersEncoding = input.ModelPkgPointersEncoding
 	modelpkgDB.CopyBasicFieldsFromModelPkg_WOP(&input.ModelPkg_WOP)
 
-	query := db.Create(&modelpkgDB)
-	if query.Error != nil {
+	_, err = db.Create(&modelpkgDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetModelPkg(c *gin.Context) {
 
 	// Get modelpkgDB in DB
 	var modelpkgDB orm.ModelPkgDB
-	if err := db.First(&modelpkgDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&modelpkgDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateModelPkg(c *gin.Context) {
 	var modelpkgDB orm.ModelPkgDB
 
 	// fetch the modelpkg
-	query := db.First(&modelpkgDB, c.Param("id"))
+	_, err := db.First(&modelpkgDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateModelPkg(c *gin.Context) {
 	modelpkgDB.CopyBasicFieldsFromModelPkg_WOP(&input.ModelPkg_WOP)
 	modelpkgDB.ModelPkgPointersEncoding = input.ModelPkgPointersEncoding
 
-	query = db.Model(&modelpkgDB).Updates(modelpkgDB)
-	if query.Error != nil {
+	db, _ = db.Model(&modelpkgDB)
+	_, err = db.Updates(modelpkgDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteModelPkg(c *gin.Context) {
 
 	// Get model if exist
 	var modelpkgDB orm.ModelPkgDB
-	if err := db.First(&modelpkgDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&modelpkgDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteModelPkg(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&modelpkgDB)
+	db.Unscoped()
+	db.Delete(&modelpkgDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	modelpkgDeleted := new(models.ModelPkg)
