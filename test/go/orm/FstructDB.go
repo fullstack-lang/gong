@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gong/test/go/db"
 	"github.com/fullstack-lang/gong/test/go/models"
 )
 
@@ -64,7 +65,7 @@ type FstructDB struct {
 
 	// Declation for basic field fstructDB.Date
 	Date_Data sql.NullTime
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FstructPointersEncoding
@@ -110,7 +111,7 @@ type BackRepoFstructStruct struct {
 	// stores Fstruct according to their gorm ID
 	Map_FstructDBID_FstructPtr map[uint]*models.Fstruct
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -120,7 +121,7 @@ func (backRepoFstruct *BackRepoFstructStruct) GetStage() (stage *models.StageStr
 	return
 }
 
-func (backRepoFstruct *BackRepoFstructStruct) GetDB() *gorm.DB {
+func (backRepoFstruct *BackRepoFstructStruct) GetDB() db.DBInterface {
 	return backRepoFstruct.db
 }
 
@@ -157,9 +158,10 @@ func (backRepoFstruct *BackRepoFstructStruct) CommitDeleteInstance(id uint) (Err
 
 	// fstruct is not staged anymore, remove fstructDB
 	fstructDB := backRepoFstruct.Map_FstructDBID_FstructDB[id]
-	query := backRepoFstruct.db.Unscoped().Delete(&fstructDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoFstruct.db.Unscoped()
+	_, err := db.Delete(&fstructDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -183,9 +185,9 @@ func (backRepoFstruct *BackRepoFstructStruct) CommitPhaseOneInstance(fstruct *mo
 	var fstructDB FstructDB
 	fstructDB.CopyBasicFieldsFromFstruct(fstruct)
 
-	query := backRepoFstruct.db.Create(&fstructDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoFstruct.db.Create(&fstructDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -217,9 +219,9 @@ func (backRepoFstruct *BackRepoFstructStruct) CommitPhaseTwoInstance(backRepo *B
 		fstructDB.CopyBasicFieldsFromFstruct(fstruct)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoFstruct.db.Save(&fstructDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoFstruct.db.Save(&fstructDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -238,9 +240,9 @@ func (backRepoFstruct *BackRepoFstructStruct) CommitPhaseTwoInstance(backRepo *B
 func (backRepoFstruct *BackRepoFstructStruct) CheckoutPhaseOne() (Error error) {
 
 	fstructDBArray := make([]FstructDB, 0)
-	query := backRepoFstruct.db.Find(&fstructDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoFstruct.db.Find(&fstructDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -351,7 +353,7 @@ func (backRepo *BackRepoStruct) CheckoutFstruct(fstruct *models.Fstruct) {
 			var fstructDB FstructDB
 			fstructDB.ID = id
 
-			if err := backRepo.BackRepoFstruct.db.First(&fstructDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoFstruct.db.First(&fstructDB, id); err != nil {
 				log.Fatalln("CheckoutFstruct : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoFstruct.CheckoutPhaseOneInstance(&fstructDB)
@@ -510,9 +512,9 @@ func (backRepoFstruct *BackRepoFstructStruct) rowVisitorFstruct(row *xlsx.Row) e
 
 		fstructDB_ID_atBackupTime := fstructDB.ID
 		fstructDB.ID = 0
-		query := backRepoFstruct.db.Create(fstructDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoFstruct.db.Create(fstructDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoFstruct.Map_FstructDBID_FstructDB[fstructDB.ID] = fstructDB
 		BackRepoFstructid_atBckpTime_newID[fstructDB_ID_atBackupTime] = fstructDB.ID
@@ -547,9 +549,9 @@ func (backRepoFstruct *BackRepoFstructStruct) RestorePhaseOne(dirPath string) {
 
 		fstructDB_ID_atBackupTime := fstructDB.ID
 		fstructDB.ID = 0
-		query := backRepoFstruct.db.Create(fstructDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoFstruct.db.Create(fstructDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoFstruct.Map_FstructDBID_FstructDB[fstructDB.ID] = fstructDB
 		BackRepoFstructid_atBckpTime_newID[fstructDB_ID_atBackupTime] = fstructDB.ID
@@ -571,9 +573,10 @@ func (backRepoFstruct *BackRepoFstructStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoFstruct.db.Model(fstructDB).Updates(*fstructDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoFstruct.db.Model(fstructDB)
+		_, err := db.Updates(*fstructDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 
