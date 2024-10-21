@@ -11,12 +11,9 @@ import (
 	"sync"
 
 	"github.com/fullstack-lang/gong/go/models"
+	"github.com/fullstack-lang/gong/go/orm/dbgorm"
 
 	"github.com/tealeg/xlsx/v3"
-
-	"github.com/glebarez/sqlite"
-	"gorm.io/gorm"
-	"gorm.io/gorm/schema"
 )
 
 // BackRepoStruct supports callback functions
@@ -59,33 +56,7 @@ type BackRepoStruct struct {
 
 func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepoStruct) {
 
-	// adjust naming strategy to the stack
-	gormConfig := &gorm.Config{
-		NamingStrategy: schema.NamingStrategy{
-			TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
-		},
-	}
-	db, err := gorm.Open(sqlite.Open(filename), gormConfig)
-
-	// since testsim is a multi threaded application. It is important to set up
-	// only one open connexion at a time
-	dbDB_inMemory, err := db.DB()
-	if err != nil {
-		panic("cannot access DB of db" + err.Error())
-	}
-	// it is mandatory to allow parallel access, otherwise, bizarre errors occurs
-	dbDB_inMemory.SetMaxOpenConns(1)
-
-	if err != nil {
-		panic("Failed to connect to database!")
-	}
-
-	// adjust naming strategy to the stack
-	db.Config.NamingStrategy = &schema.NamingStrategy{
-		TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
-	}
-
-	err = db.AutoMigrate( // insertion point for reference to structs
+	dbWrapper := dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gong_go",
 		&GongBasicFieldDB{},
 		&GongEnumDB{},
 		&GongEnumValueDB{},
@@ -100,11 +71,6 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		&SliceOfPointerToGongStructFieldDB{},
 	)
 
-	if err != nil {
-		msg := err.Error()
-		panic("problem with migration " + msg + " on package github.com/fullstack-lang/gong/test/go")
-	}
-
 	backRepo = new(BackRepoStruct)
 
 	// insertion point for per struct back repo declarations
@@ -113,7 +79,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_GongBasicFieldDBID_GongBasicFieldDB:  make(map[uint]*GongBasicFieldDB, 0),
 		Map_GongBasicFieldPtr_GongBasicFieldDBID: make(map[*models.GongBasicField]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoGongEnum = BackRepoGongEnumStruct{
@@ -121,7 +87,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_GongEnumDBID_GongEnumDB:  make(map[uint]*GongEnumDB, 0),
 		Map_GongEnumPtr_GongEnumDBID: make(map[*models.GongEnum]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoGongEnumValue = BackRepoGongEnumValueStruct{
@@ -129,7 +95,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_GongEnumValueDBID_GongEnumValueDB:  make(map[uint]*GongEnumValueDB, 0),
 		Map_GongEnumValuePtr_GongEnumValueDBID: make(map[*models.GongEnumValue]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoGongLink = BackRepoGongLinkStruct{
@@ -137,7 +103,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_GongLinkDBID_GongLinkDB:  make(map[uint]*GongLinkDB, 0),
 		Map_GongLinkPtr_GongLinkDBID: make(map[*models.GongLink]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoGongNote = BackRepoGongNoteStruct{
@@ -145,7 +111,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_GongNoteDBID_GongNoteDB:  make(map[uint]*GongNoteDB, 0),
 		Map_GongNotePtr_GongNoteDBID: make(map[*models.GongNote]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoGongStruct = BackRepoGongStructStruct{
@@ -153,7 +119,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_GongStructDBID_GongStructDB:  make(map[uint]*GongStructDB, 0),
 		Map_GongStructPtr_GongStructDBID: make(map[*models.GongStruct]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoGongTimeField = BackRepoGongTimeFieldStruct{
@@ -161,7 +127,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_GongTimeFieldDBID_GongTimeFieldDB:  make(map[uint]*GongTimeFieldDB, 0),
 		Map_GongTimeFieldPtr_GongTimeFieldDBID: make(map[*models.GongTimeField]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoMeta = BackRepoMetaStruct{
@@ -169,7 +135,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_MetaDBID_MetaDB:  make(map[uint]*MetaDB, 0),
 		Map_MetaPtr_MetaDBID: make(map[*models.Meta]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoMetaReference = BackRepoMetaReferenceStruct{
@@ -177,7 +143,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_MetaReferenceDBID_MetaReferenceDB:  make(map[uint]*MetaReferenceDB, 0),
 		Map_MetaReferencePtr_MetaReferenceDBID: make(map[*models.MetaReference]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoModelPkg = BackRepoModelPkgStruct{
@@ -185,7 +151,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_ModelPkgDBID_ModelPkgDB:  make(map[uint]*ModelPkgDB, 0),
 		Map_ModelPkgPtr_ModelPkgDBID: make(map[*models.ModelPkg]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoPointerToGongStructField = BackRepoPointerToGongStructFieldStruct{
@@ -193,7 +159,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB:  make(map[uint]*PointerToGongStructFieldDB, 0),
 		Map_PointerToGongStructFieldPtr_PointerToGongStructFieldDBID: make(map[*models.PointerToGongStructField]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoSliceOfPointerToGongStructField = BackRepoSliceOfPointerToGongStructFieldStruct{
@@ -201,7 +167,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB:  make(map[uint]*SliceOfPointerToGongStructFieldDB, 0),
 		Map_SliceOfPointerToGongStructFieldPtr_SliceOfPointerToGongStructFieldDBID: make(map[*models.SliceOfPointerToGongStructField]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 
@@ -234,7 +200,7 @@ func (backRepo *BackRepoStruct) IncrementCommitFromBackNb() uint {
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 
 	backRepo.broadcastNbCommitToBack()
-	
+
 	return backRepo.CommitFromBackNb
 }
 
