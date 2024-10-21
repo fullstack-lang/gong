@@ -70,12 +70,12 @@ func (controller *Controller) GetAstructBstructUses(c *gin.Context) {
 	}
 	db := backRepo.BackRepoAstructBstructUse.GetDB()
 
-	query := db.Find(&astructbstructuseDBs)
-	if query.Error != nil {
+	_, err := db.Find(&astructbstructuseDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostAstructBstructUse(c *gin.Context) {
 	astructbstructuseDB.AstructBstructUsePointersEncoding = input.AstructBstructUsePointersEncoding
 	astructbstructuseDB.CopyBasicFieldsFromAstructBstructUse_WOP(&input.AstructBstructUse_WOP)
 
-	query := db.Create(&astructbstructuseDB)
-	if query.Error != nil {
+	_, err = db.Create(&astructbstructuseDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetAstructBstructUse(c *gin.Context) {
 
 	// Get astructbstructuseDB in DB
 	var astructbstructuseDB orm.AstructBstructUseDB
-	if err := db.First(&astructbstructuseDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&astructbstructuseDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateAstructBstructUse(c *gin.Context) {
 	var astructbstructuseDB orm.AstructBstructUseDB
 
 	// fetch the astructbstructuse
-	query := db.First(&astructbstructuseDB, c.Param("id"))
+	_, err := db.First(&astructbstructuseDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateAstructBstructUse(c *gin.Context) {
 	astructbstructuseDB.CopyBasicFieldsFromAstructBstructUse_WOP(&input.AstructBstructUse_WOP)
 	astructbstructuseDB.AstructBstructUsePointersEncoding = input.AstructBstructUsePointersEncoding
 
-	query = db.Model(&astructbstructuseDB).Updates(astructbstructuseDB)
-	if query.Error != nil {
+	db, _ = db.Model(&astructbstructuseDB)
+	_, err = db.Updates(astructbstructuseDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteAstructBstructUse(c *gin.Context) {
 
 	// Get model if exist
 	var astructbstructuseDB orm.AstructBstructUseDB
-	if err := db.First(&astructbstructuseDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&astructbstructuseDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteAstructBstructUse(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&astructbstructuseDB)
+	db.Unscoped()
+	db.Delete(&astructbstructuseDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	astructbstructuseDeleted := new(models.AstructBstructUse)

@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gong/go/db"
 	"github.com/fullstack-lang/gong/go/models"
 )
 
@@ -61,7 +62,7 @@ type MetaReferenceDB struct {
 
 	// Declation for basic field metareferenceDB.Name
 	Name_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	MetaReferencePointersEncoding
@@ -104,7 +105,7 @@ type BackRepoMetaReferenceStruct struct {
 	// stores MetaReference according to their gorm ID
 	Map_MetaReferenceDBID_MetaReferencePtr map[uint]*models.MetaReference
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -114,7 +115,7 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) GetStage() (stage *mod
 	return
 }
 
-func (backRepoMetaReference *BackRepoMetaReferenceStruct) GetDB() *gorm.DB {
+func (backRepoMetaReference *BackRepoMetaReferenceStruct) GetDB() db.DBInterface {
 	return backRepoMetaReference.db
 }
 
@@ -151,9 +152,10 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) CommitDeleteInstance(i
 
 	// metareference is not staged anymore, remove metareferenceDB
 	metareferenceDB := backRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB[id]
-	query := backRepoMetaReference.db.Unscoped().Delete(&metareferenceDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoMetaReference.db.Unscoped()
+	_, err := db.Delete(&metareferenceDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -177,9 +179,9 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) CommitPhaseOneInstance
 	var metareferenceDB MetaReferenceDB
 	metareferenceDB.CopyBasicFieldsFromMetaReference(metareference)
 
-	query := backRepoMetaReference.db.Create(&metareferenceDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoMetaReference.db.Create(&metareferenceDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -211,9 +213,9 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) CommitPhaseTwoInstance
 		metareferenceDB.CopyBasicFieldsFromMetaReference(metareference)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoMetaReference.db.Save(&metareferenceDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoMetaReference.db.Save(&metareferenceDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -232,9 +234,9 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) CommitPhaseTwoInstance
 func (backRepoMetaReference *BackRepoMetaReferenceStruct) CheckoutPhaseOne() (Error error) {
 
 	metareferenceDBArray := make([]MetaReferenceDB, 0)
-	query := backRepoMetaReference.db.Find(&metareferenceDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoMetaReference.db.Find(&metareferenceDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -345,7 +347,7 @@ func (backRepo *BackRepoStruct) CheckoutMetaReference(metareference *models.Meta
 			var metareferenceDB MetaReferenceDB
 			metareferenceDB.ID = id
 
-			if err := backRepo.BackRepoMetaReference.db.First(&metareferenceDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoMetaReference.db.First(&metareferenceDB, id); err != nil {
 				log.Fatalln("CheckoutMetaReference : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoMetaReference.CheckoutPhaseOneInstance(&metareferenceDB)
@@ -492,9 +494,9 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) rowVisitorMetaReferenc
 
 		metareferenceDB_ID_atBackupTime := metareferenceDB.ID
 		metareferenceDB.ID = 0
-		query := backRepoMetaReference.db.Create(metareferenceDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoMetaReference.db.Create(metareferenceDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB[metareferenceDB.ID] = metareferenceDB
 		BackRepoMetaReferenceid_atBckpTime_newID[metareferenceDB_ID_atBackupTime] = metareferenceDB.ID
@@ -529,9 +531,9 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) RestorePhaseOne(dirPat
 
 		metareferenceDB_ID_atBackupTime := metareferenceDB.ID
 		metareferenceDB.ID = 0
-		query := backRepoMetaReference.db.Create(metareferenceDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoMetaReference.db.Create(metareferenceDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB[metareferenceDB.ID] = metareferenceDB
 		BackRepoMetaReferenceid_atBckpTime_newID[metareferenceDB_ID_atBackupTime] = metareferenceDB.ID
@@ -553,9 +555,10 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoMetaReference.db.Model(metareferenceDB).Updates(*metareferenceDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoMetaReference.db.Model(metareferenceDB)
+		_, err := db.Updates(*metareferenceDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

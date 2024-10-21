@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gong/go/db"
 	"github.com/fullstack-lang/gong/go/models"
 )
 
@@ -71,7 +72,7 @@ type SliceOfPointerToGongStructFieldDB struct {
 
 	// Declation for basic field sliceofpointertogongstructfieldDB.CompositeStructName
 	CompositeStructName_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	SliceOfPointerToGongStructFieldPointersEncoding
@@ -120,7 +121,7 @@ type BackRepoSliceOfPointerToGongStructFieldStruct struct {
 	// stores SliceOfPointerToGongStructField according to their gorm ID
 	Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr map[uint]*models.SliceOfPointerToGongStructField
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -130,7 +131,7 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 	return
 }
 
-func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStructFieldStruct) GetDB() *gorm.DB {
+func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStructFieldStruct) GetDB() db.DBInterface {
 	return backRepoSliceOfPointerToGongStructField.db
 }
 
@@ -167,9 +168,10 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 
 	// sliceofpointertogongstructfield is not staged anymore, remove sliceofpointertogongstructfieldDB
 	sliceofpointertogongstructfieldDB := backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB[id]
-	query := backRepoSliceOfPointerToGongStructField.db.Unscoped().Delete(&sliceofpointertogongstructfieldDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoSliceOfPointerToGongStructField.db.Unscoped()
+	_, err := db.Delete(&sliceofpointertogongstructfieldDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -193,9 +195,9 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 	var sliceofpointertogongstructfieldDB SliceOfPointerToGongStructFieldDB
 	sliceofpointertogongstructfieldDB.CopyBasicFieldsFromSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
 
-	query := backRepoSliceOfPointerToGongStructField.db.Create(&sliceofpointertogongstructfieldDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoSliceOfPointerToGongStructField.db.Create(&sliceofpointertogongstructfieldDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -239,9 +241,9 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 			sliceofpointertogongstructfieldDB.GongStructID.Valid = true
 		}
 
-		query := backRepoSliceOfPointerToGongStructField.db.Save(&sliceofpointertogongstructfieldDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoSliceOfPointerToGongStructField.db.Save(&sliceofpointertogongstructfieldDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -260,9 +262,9 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStructFieldStruct) CheckoutPhaseOne() (Error error) {
 
 	sliceofpointertogongstructfieldDBArray := make([]SliceOfPointerToGongStructFieldDB, 0)
-	query := backRepoSliceOfPointerToGongStructField.db.Find(&sliceofpointertogongstructfieldDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoSliceOfPointerToGongStructField.db.Find(&sliceofpointertogongstructfieldDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -378,7 +380,7 @@ func (backRepo *BackRepoStruct) CheckoutSliceOfPointerToGongStructField(sliceofp
 			var sliceofpointertogongstructfieldDB SliceOfPointerToGongStructFieldDB
 			sliceofpointertogongstructfieldDB.ID = id
 
-			if err := backRepo.BackRepoSliceOfPointerToGongStructField.db.First(&sliceofpointertogongstructfieldDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoSliceOfPointerToGongStructField.db.First(&sliceofpointertogongstructfieldDB, id); err != nil {
 				log.Fatalln("CheckoutSliceOfPointerToGongStructField : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoSliceOfPointerToGongStructField.CheckoutPhaseOneInstance(&sliceofpointertogongstructfieldDB)
@@ -549,9 +551,9 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 
 		sliceofpointertogongstructfieldDB_ID_atBackupTime := sliceofpointertogongstructfieldDB.ID
 		sliceofpointertogongstructfieldDB.ID = 0
-		query := backRepoSliceOfPointerToGongStructField.db.Create(sliceofpointertogongstructfieldDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoSliceOfPointerToGongStructField.db.Create(sliceofpointertogongstructfieldDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB[sliceofpointertogongstructfieldDB.ID] = sliceofpointertogongstructfieldDB
 		BackRepoSliceOfPointerToGongStructFieldid_atBckpTime_newID[sliceofpointertogongstructfieldDB_ID_atBackupTime] = sliceofpointertogongstructfieldDB.ID
@@ -586,9 +588,9 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 
 		sliceofpointertogongstructfieldDB_ID_atBackupTime := sliceofpointertogongstructfieldDB.ID
 		sliceofpointertogongstructfieldDB.ID = 0
-		query := backRepoSliceOfPointerToGongStructField.db.Create(sliceofpointertogongstructfieldDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoSliceOfPointerToGongStructField.db.Create(sliceofpointertogongstructfieldDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB[sliceofpointertogongstructfieldDB.ID] = sliceofpointertogongstructfieldDB
 		BackRepoSliceOfPointerToGongStructFieldid_atBckpTime_newID[sliceofpointertogongstructfieldDB_ID_atBackupTime] = sliceofpointertogongstructfieldDB.ID
@@ -616,9 +618,10 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 		}
 
 		// update databse with new index encoding
-		query := backRepoSliceOfPointerToGongStructField.db.Model(sliceofpointertogongstructfieldDB).Updates(*sliceofpointertogongstructfieldDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoSliceOfPointerToGongStructField.db.Model(sliceofpointertogongstructfieldDB)
+		_, err := db.Updates(*sliceofpointertogongstructfieldDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 
