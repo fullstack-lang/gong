@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gong/test/go/db"
 	"github.com/fullstack-lang/gong/test/go/models"
 )
 
@@ -70,7 +71,7 @@ type GstructDB struct {
 
 	// Declation for basic field gstructDB.Intfield
 	Intfield_Data sql.NullInt64
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	GstructPointersEncoding
@@ -122,7 +123,7 @@ type BackRepoGstructStruct struct {
 	// stores Gstruct according to their gorm ID
 	Map_GstructDBID_GstructPtr map[uint]*models.Gstruct
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -132,7 +133,7 @@ func (backRepoGstruct *BackRepoGstructStruct) GetStage() (stage *models.StageStr
 	return
 }
 
-func (backRepoGstruct *BackRepoGstructStruct) GetDB() *gorm.DB {
+func (backRepoGstruct *BackRepoGstructStruct) GetDB() db.DBInterface {
 	return backRepoGstruct.db
 }
 
@@ -169,9 +170,10 @@ func (backRepoGstruct *BackRepoGstructStruct) CommitDeleteInstance(id uint) (Err
 
 	// gstruct is not staged anymore, remove gstructDB
 	gstructDB := backRepoGstruct.Map_GstructDBID_GstructDB[id]
-	query := backRepoGstruct.db.Unscoped().Delete(&gstructDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoGstruct.db.Unscoped()
+	_, err := db.Delete(&gstructDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -195,9 +197,9 @@ func (backRepoGstruct *BackRepoGstructStruct) CommitPhaseOneInstance(gstruct *mo
 	var gstructDB GstructDB
 	gstructDB.CopyBasicFieldsFromGstruct(gstruct)
 
-	query := backRepoGstruct.db.Create(&gstructDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoGstruct.db.Create(&gstructDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -229,9 +231,9 @@ func (backRepoGstruct *BackRepoGstructStruct) CommitPhaseTwoInstance(backRepo *B
 		gstructDB.CopyBasicFieldsFromGstruct(gstruct)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoGstruct.db.Save(&gstructDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoGstruct.db.Save(&gstructDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -250,9 +252,9 @@ func (backRepoGstruct *BackRepoGstructStruct) CommitPhaseTwoInstance(backRepo *B
 func (backRepoGstruct *BackRepoGstructStruct) CheckoutPhaseOne() (Error error) {
 
 	gstructDBArray := make([]GstructDB, 0)
-	query := backRepoGstruct.db.Find(&gstructDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoGstruct.db.Find(&gstructDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -363,7 +365,7 @@ func (backRepo *BackRepoStruct) CheckoutGstruct(gstruct *models.Gstruct) {
 			var gstructDB GstructDB
 			gstructDB.ID = id
 
-			if err := backRepo.BackRepoGstruct.db.First(&gstructDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoGstruct.db.First(&gstructDB, id); err != nil {
 				log.Fatalln("CheckoutGstruct : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoGstruct.CheckoutPhaseOneInstance(&gstructDB)
@@ -546,9 +548,9 @@ func (backRepoGstruct *BackRepoGstructStruct) rowVisitorGstruct(row *xlsx.Row) e
 
 		gstructDB_ID_atBackupTime := gstructDB.ID
 		gstructDB.ID = 0
-		query := backRepoGstruct.db.Create(gstructDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoGstruct.db.Create(gstructDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoGstruct.Map_GstructDBID_GstructDB[gstructDB.ID] = gstructDB
 		BackRepoGstructid_atBckpTime_newID[gstructDB_ID_atBackupTime] = gstructDB.ID
@@ -583,9 +585,9 @@ func (backRepoGstruct *BackRepoGstructStruct) RestorePhaseOne(dirPath string) {
 
 		gstructDB_ID_atBackupTime := gstructDB.ID
 		gstructDB.ID = 0
-		query := backRepoGstruct.db.Create(gstructDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoGstruct.db.Create(gstructDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoGstruct.Map_GstructDBID_GstructDB[gstructDB.ID] = gstructDB
 		BackRepoGstructid_atBckpTime_newID[gstructDB_ID_atBackupTime] = gstructDB.ID
@@ -607,9 +609,10 @@ func (backRepoGstruct *BackRepoGstructStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoGstruct.db.Model(gstructDB).Updates(*gstructDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoGstruct.db.Model(gstructDB)
+		_, err := db.Updates(*gstructDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

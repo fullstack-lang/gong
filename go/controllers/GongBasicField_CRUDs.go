@@ -70,12 +70,12 @@ func (controller *Controller) GetGongBasicFields(c *gin.Context) {
 	}
 	db := backRepo.BackRepoGongBasicField.GetDB()
 
-	query := db.Find(&gongbasicfieldDBs)
-	if query.Error != nil {
+	_, err := db.Find(&gongbasicfieldDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostGongBasicField(c *gin.Context) {
 	gongbasicfieldDB.GongBasicFieldPointersEncoding = input.GongBasicFieldPointersEncoding
 	gongbasicfieldDB.CopyBasicFieldsFromGongBasicField_WOP(&input.GongBasicField_WOP)
 
-	query := db.Create(&gongbasicfieldDB)
-	if query.Error != nil {
+	_, err = db.Create(&gongbasicfieldDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetGongBasicField(c *gin.Context) {
 
 	// Get gongbasicfieldDB in DB
 	var gongbasicfieldDB orm.GongBasicFieldDB
-	if err := db.First(&gongbasicfieldDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&gongbasicfieldDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateGongBasicField(c *gin.Context) {
 	var gongbasicfieldDB orm.GongBasicFieldDB
 
 	// fetch the gongbasicfield
-	query := db.First(&gongbasicfieldDB, c.Param("id"))
+	_, err := db.First(&gongbasicfieldDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateGongBasicField(c *gin.Context) {
 	gongbasicfieldDB.CopyBasicFieldsFromGongBasicField_WOP(&input.GongBasicField_WOP)
 	gongbasicfieldDB.GongBasicFieldPointersEncoding = input.GongBasicFieldPointersEncoding
 
-	query = db.Model(&gongbasicfieldDB).Updates(gongbasicfieldDB)
-	if query.Error != nil {
+	db, _ = db.Model(&gongbasicfieldDB)
+	_, err = db.Updates(gongbasicfieldDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteGongBasicField(c *gin.Context) {
 
 	// Get model if exist
 	var gongbasicfieldDB orm.GongBasicFieldDB
-	if err := db.First(&gongbasicfieldDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&gongbasicfieldDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteGongBasicField(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&gongbasicfieldDB)
+	db.Unscoped()
+	db.Delete(&gongbasicfieldDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	gongbasicfieldDeleted := new(models.GongBasicField)

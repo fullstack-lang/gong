@@ -70,12 +70,12 @@ func (controller *Controller) GetGstructs(c *gin.Context) {
 	}
 	db := backRepo.BackRepoGstruct.GetDB()
 
-	query := db.Find(&gstructDBs)
-	if query.Error != nil {
+	_, err := db.Find(&gstructDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostGstruct(c *gin.Context) {
 	gstructDB.GstructPointersEncoding = input.GstructPointersEncoding
 	gstructDB.CopyBasicFieldsFromGstruct_WOP(&input.Gstruct_WOP)
 
-	query := db.Create(&gstructDB)
-	if query.Error != nil {
+	_, err = db.Create(&gstructDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetGstruct(c *gin.Context) {
 
 	// Get gstructDB in DB
 	var gstructDB orm.GstructDB
-	if err := db.First(&gstructDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&gstructDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateGstruct(c *gin.Context) {
 	var gstructDB orm.GstructDB
 
 	// fetch the gstruct
-	query := db.First(&gstructDB, c.Param("id"))
+	_, err := db.First(&gstructDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateGstruct(c *gin.Context) {
 	gstructDB.CopyBasicFieldsFromGstruct_WOP(&input.Gstruct_WOP)
 	gstructDB.GstructPointersEncoding = input.GstructPointersEncoding
 
-	query = db.Model(&gstructDB).Updates(gstructDB)
-	if query.Error != nil {
+	db, _ = db.Model(&gstructDB)
+	_, err = db.Updates(gstructDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteGstruct(c *gin.Context) {
 
 	// Get model if exist
 	var gstructDB orm.GstructDB
-	if err := db.First(&gstructDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&gstructDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteGstruct(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&gstructDB)
+	db.Unscoped()
+	db.Delete(&gstructDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	gstructDeleted := new(models.Gstruct)

@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gong/go/db"
 	"github.com/fullstack-lang/gong/go/models"
 )
 
@@ -67,7 +68,7 @@ type MetaDB struct {
 
 	// Declation for basic field metaDB.Text
 	Text_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	MetaPointersEncoding
@@ -113,7 +114,7 @@ type BackRepoMetaStruct struct {
 	// stores Meta according to their gorm ID
 	Map_MetaDBID_MetaPtr map[uint]*models.Meta
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -123,7 +124,7 @@ func (backRepoMeta *BackRepoMetaStruct) GetStage() (stage *models.StageStruct) {
 	return
 }
 
-func (backRepoMeta *BackRepoMetaStruct) GetDB() *gorm.DB {
+func (backRepoMeta *BackRepoMetaStruct) GetDB() db.DBInterface {
 	return backRepoMeta.db
 }
 
@@ -160,9 +161,10 @@ func (backRepoMeta *BackRepoMetaStruct) CommitDeleteInstance(id uint) (Error err
 
 	// meta is not staged anymore, remove metaDB
 	metaDB := backRepoMeta.Map_MetaDBID_MetaDB[id]
-	query := backRepoMeta.db.Unscoped().Delete(&metaDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoMeta.db.Unscoped()
+	_, err := db.Delete(&metaDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -186,9 +188,9 @@ func (backRepoMeta *BackRepoMetaStruct) CommitPhaseOneInstance(meta *models.Meta
 	var metaDB MetaDB
 	metaDB.CopyBasicFieldsFromMeta(meta)
 
-	query := backRepoMeta.db.Create(&metaDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoMeta.db.Create(&metaDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -238,9 +240,9 @@ func (backRepoMeta *BackRepoMetaStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				append(metaDB.MetaPointersEncoding.MetaReferences, int(metareferenceAssocEnd_DB.ID))
 		}
 
-		query := backRepoMeta.db.Save(&metaDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoMeta.db.Save(&metaDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -259,9 +261,9 @@ func (backRepoMeta *BackRepoMetaStruct) CommitPhaseTwoInstance(backRepo *BackRep
 func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseOne() (Error error) {
 
 	metaDBArray := make([]MetaDB, 0)
-	query := backRepoMeta.db.Find(&metaDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoMeta.db.Find(&metaDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -381,7 +383,7 @@ func (backRepo *BackRepoStruct) CheckoutMeta(meta *models.Meta) {
 			var metaDB MetaDB
 			metaDB.ID = id
 
-			if err := backRepo.BackRepoMeta.db.First(&metaDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoMeta.db.First(&metaDB, id); err != nil {
 				log.Fatalln("CheckoutMeta : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoMeta.CheckoutPhaseOneInstance(&metaDB)
@@ -540,9 +542,9 @@ func (backRepoMeta *BackRepoMetaStruct) rowVisitorMeta(row *xlsx.Row) error {
 
 		metaDB_ID_atBackupTime := metaDB.ID
 		metaDB.ID = 0
-		query := backRepoMeta.db.Create(metaDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoMeta.db.Create(metaDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoMeta.Map_MetaDBID_MetaDB[metaDB.ID] = metaDB
 		BackRepoMetaid_atBckpTime_newID[metaDB_ID_atBackupTime] = metaDB.ID
@@ -577,9 +579,9 @@ func (backRepoMeta *BackRepoMetaStruct) RestorePhaseOne(dirPath string) {
 
 		metaDB_ID_atBackupTime := metaDB.ID
 		metaDB.ID = 0
-		query := backRepoMeta.db.Create(metaDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoMeta.db.Create(metaDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoMeta.Map_MetaDBID_MetaDB[metaDB.ID] = metaDB
 		BackRepoMetaid_atBckpTime_newID[metaDB_ID_atBackupTime] = metaDB.ID
@@ -601,9 +603,10 @@ func (backRepoMeta *BackRepoMetaStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoMeta.db.Model(metaDB).Updates(*metaDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoMeta.db.Model(metaDB)
+		_, err := db.Updates(*metaDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

@@ -70,12 +70,12 @@ func (controller *Controller) GetGongLinks(c *gin.Context) {
 	}
 	db := backRepo.BackRepoGongLink.GetDB()
 
-	query := db.Find(&gonglinkDBs)
-	if query.Error != nil {
+	_, err := db.Find(&gonglinkDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostGongLink(c *gin.Context) {
 	gonglinkDB.GongLinkPointersEncoding = input.GongLinkPointersEncoding
 	gonglinkDB.CopyBasicFieldsFromGongLink_WOP(&input.GongLink_WOP)
 
-	query := db.Create(&gonglinkDB)
-	if query.Error != nil {
+	_, err = db.Create(&gonglinkDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetGongLink(c *gin.Context) {
 
 	// Get gonglinkDB in DB
 	var gonglinkDB orm.GongLinkDB
-	if err := db.First(&gonglinkDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&gonglinkDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateGongLink(c *gin.Context) {
 	var gonglinkDB orm.GongLinkDB
 
 	// fetch the gonglink
-	query := db.First(&gonglinkDB, c.Param("id"))
+	_, err := db.First(&gonglinkDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateGongLink(c *gin.Context) {
 	gonglinkDB.CopyBasicFieldsFromGongLink_WOP(&input.GongLink_WOP)
 	gonglinkDB.GongLinkPointersEncoding = input.GongLinkPointersEncoding
 
-	query = db.Model(&gonglinkDB).Updates(gonglinkDB)
-	if query.Error != nil {
+	db, _ = db.Model(&gonglinkDB)
+	_, err = db.Updates(gonglinkDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteGongLink(c *gin.Context) {
 
 	// Get model if exist
 	var gonglinkDB orm.GongLinkDB
-	if err := db.First(&gonglinkDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&gonglinkDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteGongLink(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&gonglinkDB)
+	db.Unscoped()
+	db.Delete(&gonglinkDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	gonglinkDeleted := new(models.GongLink)
