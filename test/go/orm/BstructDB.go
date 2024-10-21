@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gong/test/go/db"
 	"github.com/fullstack-lang/gong/test/go/models"
 )
 
@@ -70,7 +71,7 @@ type BstructDB struct {
 
 	// Declation for basic field bstructDB.Intfield
 	Intfield_Data sql.NullInt64
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	BstructPointersEncoding
@@ -122,7 +123,7 @@ type BackRepoBstructStruct struct {
 	// stores Bstruct according to their gorm ID
 	Map_BstructDBID_BstructPtr map[uint]*models.Bstruct
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -132,7 +133,7 @@ func (backRepoBstruct *BackRepoBstructStruct) GetStage() (stage *models.StageStr
 	return
 }
 
-func (backRepoBstruct *BackRepoBstructStruct) GetDB() *gorm.DB {
+func (backRepoBstruct *BackRepoBstructStruct) GetDB() db.DBInterface {
 	return backRepoBstruct.db
 }
 
@@ -169,9 +170,10 @@ func (backRepoBstruct *BackRepoBstructStruct) CommitDeleteInstance(id uint) (Err
 
 	// bstruct is not staged anymore, remove bstructDB
 	bstructDB := backRepoBstruct.Map_BstructDBID_BstructDB[id]
-	query := backRepoBstruct.db.Unscoped().Delete(&bstructDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoBstruct.db.Unscoped()
+	_, err := db.Delete(&bstructDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -195,9 +197,9 @@ func (backRepoBstruct *BackRepoBstructStruct) CommitPhaseOneInstance(bstruct *mo
 	var bstructDB BstructDB
 	bstructDB.CopyBasicFieldsFromBstruct(bstruct)
 
-	query := backRepoBstruct.db.Create(&bstructDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoBstruct.db.Create(&bstructDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -229,9 +231,9 @@ func (backRepoBstruct *BackRepoBstructStruct) CommitPhaseTwoInstance(backRepo *B
 		bstructDB.CopyBasicFieldsFromBstruct(bstruct)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoBstruct.db.Save(&bstructDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoBstruct.db.Save(&bstructDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -250,9 +252,9 @@ func (backRepoBstruct *BackRepoBstructStruct) CommitPhaseTwoInstance(backRepo *B
 func (backRepoBstruct *BackRepoBstructStruct) CheckoutPhaseOne() (Error error) {
 
 	bstructDBArray := make([]BstructDB, 0)
-	query := backRepoBstruct.db.Find(&bstructDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoBstruct.db.Find(&bstructDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -363,7 +365,7 @@ func (backRepo *BackRepoStruct) CheckoutBstruct(bstruct *models.Bstruct) {
 			var bstructDB BstructDB
 			bstructDB.ID = id
 
-			if err := backRepo.BackRepoBstruct.db.First(&bstructDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoBstruct.db.First(&bstructDB, id); err != nil {
 				log.Fatalln("CheckoutBstruct : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoBstruct.CheckoutPhaseOneInstance(&bstructDB)
@@ -546,9 +548,9 @@ func (backRepoBstruct *BackRepoBstructStruct) rowVisitorBstruct(row *xlsx.Row) e
 
 		bstructDB_ID_atBackupTime := bstructDB.ID
 		bstructDB.ID = 0
-		query := backRepoBstruct.db.Create(bstructDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoBstruct.db.Create(bstructDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoBstruct.Map_BstructDBID_BstructDB[bstructDB.ID] = bstructDB
 		BackRepoBstructid_atBckpTime_newID[bstructDB_ID_atBackupTime] = bstructDB.ID
@@ -583,9 +585,9 @@ func (backRepoBstruct *BackRepoBstructStruct) RestorePhaseOne(dirPath string) {
 
 		bstructDB_ID_atBackupTime := bstructDB.ID
 		bstructDB.ID = 0
-		query := backRepoBstruct.db.Create(bstructDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoBstruct.db.Create(bstructDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoBstruct.Map_BstructDBID_BstructDB[bstructDB.ID] = bstructDB
 		BackRepoBstructid_atBckpTime_newID[bstructDB_ID_atBackupTime] = bstructDB.ID
@@ -607,9 +609,10 @@ func (backRepoBstruct *BackRepoBstructStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoBstruct.db.Model(bstructDB).Updates(*bstructDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoBstruct.db.Model(bstructDB)
+		_, err := db.Updates(*bstructDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 
