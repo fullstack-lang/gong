@@ -215,7 +215,7 @@ func (backRepoA *BackRepoAStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruc
 		// insertion point for translating pointers encodings into actual pointers
 		_, err := backRepoA.db.Save(&aDB)
 		if err != nil {
-			log.Fatalln(err)
+			log.Fatal(err)
 		}
 
 	} else {
