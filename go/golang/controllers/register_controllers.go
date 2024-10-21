@@ -63,7 +63,7 @@ func (controller *Controller) stacks(c *gin.Context) {
 
 	var res []string
 
-	for k, _ := range controller.Map_BackRepos {
+	for k := range controller.Map_BackRepos {
 		res = append(res, k)
 	}
 

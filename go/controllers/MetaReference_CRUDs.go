@@ -70,12 +70,12 @@ func (controller *Controller) GetMetaReferences(c *gin.Context) {
 	}
 	db := backRepo.BackRepoMetaReference.GetDB()
 
-	query := db.Find(&metareferenceDBs)
-	if query.Error != nil {
+	_, err := db.Find(&metareferenceDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostMetaReference(c *gin.Context) {
 	metareferenceDB.MetaReferencePointersEncoding = input.MetaReferencePointersEncoding
 	metareferenceDB.CopyBasicFieldsFromMetaReference_WOP(&input.MetaReference_WOP)
 
-	query := db.Create(&metareferenceDB)
-	if query.Error != nil {
+	_, err = db.Create(&metareferenceDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetMetaReference(c *gin.Context) {
 
 	// Get metareferenceDB in DB
 	var metareferenceDB orm.MetaReferenceDB
-	if err := db.First(&metareferenceDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&metareferenceDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateMetaReference(c *gin.Context) {
 	var metareferenceDB orm.MetaReferenceDB
 
 	// fetch the metareference
-	query := db.First(&metareferenceDB, c.Param("id"))
+	_, err := db.First(&metareferenceDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateMetaReference(c *gin.Context) {
 	metareferenceDB.CopyBasicFieldsFromMetaReference_WOP(&input.MetaReference_WOP)
 	metareferenceDB.MetaReferencePointersEncoding = input.MetaReferencePointersEncoding
 
-	query = db.Model(&metareferenceDB).Updates(metareferenceDB)
-	if query.Error != nil {
+	db, _ = db.Model(&metareferenceDB)
+	_, err = db.Updates(metareferenceDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteMetaReference(c *gin.Context) {
 
 	// Get model if exist
 	var metareferenceDB orm.MetaReferenceDB
-	if err := db.First(&metareferenceDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&metareferenceDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteMetaReference(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&metareferenceDB)
+	db.Unscoped()
+	db.Delete(&metareferenceDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	metareferenceDeleted := new(models.MetaReference)

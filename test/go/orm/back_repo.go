@@ -11,12 +11,9 @@ import (
 	"sync"
 
 	"github.com/fullstack-lang/gong/test/go/models"
+	"github.com/fullstack-lang/gong/test/go/orm/dbgorm"
 
 	"github.com/tealeg/xlsx/v3"
-
-	"github.com/glebarez/sqlite"
-	"gorm.io/gorm"
-	"gorm.io/gorm/schema"
 )
 
 // BackRepoStruct supports callback functions
@@ -49,33 +46,7 @@ type BackRepoStruct struct {
 
 func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepoStruct) {
 
-	// adjust naming strategy to the stack
-	gormConfig := &gorm.Config{
-		NamingStrategy: schema.NamingStrategy{
-			TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
-		},
-	}
-	db, err := gorm.Open(sqlite.Open(filename), gormConfig)
-
-	// since testsim is a multi threaded application. It is important to set up
-	// only one open connexion at a time
-	dbDB_inMemory, err := db.DB()
-	if err != nil {
-		panic("cannot access DB of db" + err.Error())
-	}
-	// it is mandatory to allow parallel access, otherwise, bizarre errors occurs
-	dbDB_inMemory.SetMaxOpenConns(1)
-
-	if err != nil {
-		panic("Failed to connect to database!")
-	}
-
-	// adjust naming strategy to the stack
-	db.Config.NamingStrategy = &schema.NamingStrategy{
-		TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
-	}
-
-	err = db.AutoMigrate( // insertion point for reference to structs
+	dbWrapper := dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gong_test_go",
 		&AstructDB{},
 		&AstructBstruct2UseDB{},
 		&AstructBstructUseDB{},
@@ -85,11 +56,6 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		&GstructDB{},
 	)
 
-	if err != nil {
-		msg := err.Error()
-		panic("problem with migration " + msg + " on package github.com/fullstack-lang/gong/test/go")
-	}
-
 	backRepo = new(BackRepoStruct)
 
 	// insertion point for per struct back repo declarations
@@ -98,7 +64,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_AstructDBID_AstructDB:  make(map[uint]*AstructDB, 0),
 		Map_AstructPtr_AstructDBID: make(map[*models.Astruct]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoAstructBstruct2Use = BackRepoAstructBstruct2UseStruct{
@@ -106,7 +72,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_AstructBstruct2UseDBID_AstructBstruct2UseDB:  make(map[uint]*AstructBstruct2UseDB, 0),
 		Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID: make(map[*models.AstructBstruct2Use]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoAstructBstructUse = BackRepoAstructBstructUseStruct{
@@ -114,7 +80,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_AstructBstructUseDBID_AstructBstructUseDB:  make(map[uint]*AstructBstructUseDB, 0),
 		Map_AstructBstructUsePtr_AstructBstructUseDBID: make(map[*models.AstructBstructUse]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoBstruct = BackRepoBstructStruct{
@@ -122,7 +88,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_BstructDBID_BstructDB:  make(map[uint]*BstructDB, 0),
 		Map_BstructPtr_BstructDBID: make(map[*models.Bstruct]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoDstruct = BackRepoDstructStruct{
@@ -130,7 +96,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_DstructDBID_DstructDB:  make(map[uint]*DstructDB, 0),
 		Map_DstructPtr_DstructDBID: make(map[*models.Dstruct]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoFstruct = BackRepoFstructStruct{
@@ -138,7 +104,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_FstructDBID_FstructDB:  make(map[uint]*FstructDB, 0),
 		Map_FstructPtr_FstructDBID: make(map[*models.Fstruct]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoGstruct = BackRepoGstructStruct{
@@ -146,7 +112,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_GstructDBID_GstructDB:  make(map[uint]*GstructDB, 0),
 		Map_GstructPtr_GstructDBID: make(map[*models.Gstruct]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 
@@ -179,7 +145,7 @@ func (backRepo *BackRepoStruct) IncrementCommitFromBackNb() uint {
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 
 	backRepo.broadcastNbCommitToBack()
-	
+
 	return backRepo.CommitFromBackNb
 }
 
