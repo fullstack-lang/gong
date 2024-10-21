@@ -499,51 +499,75 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 									switch gongstructName {
 									// insertion point for identifiers
 									case "GongBasicField":
-										instanceGongBasicField := (&GongBasicField{Name: instanceName}).Stage(stage)
+										instanceGongBasicField := new(GongBasicField)
+										instanceGongBasicField.Name = instanceName
+										instanceGongBasicField.Stage(stage)
 										instance = any(instanceGongBasicField)
 										__gong__map_GongBasicField[identifier] = instanceGongBasicField
 									case "GongEnum":
-										instanceGongEnum := (&GongEnum{Name: instanceName}).Stage(stage)
+										instanceGongEnum := new(GongEnum)
+										instanceGongEnum.Name = instanceName
+										instanceGongEnum.Stage(stage)
 										instance = any(instanceGongEnum)
 										__gong__map_GongEnum[identifier] = instanceGongEnum
 									case "GongEnumValue":
-										instanceGongEnumValue := (&GongEnumValue{Name: instanceName}).Stage(stage)
+										instanceGongEnumValue := new(GongEnumValue)
+										instanceGongEnumValue.Name = instanceName
+										instanceGongEnumValue.Stage(stage)
 										instance = any(instanceGongEnumValue)
 										__gong__map_GongEnumValue[identifier] = instanceGongEnumValue
 									case "GongLink":
-										instanceGongLink := (&GongLink{Name: instanceName}).Stage(stage)
+										instanceGongLink := new(GongLink)
+										instanceGongLink.Name = instanceName
+										instanceGongLink.Stage(stage)
 										instance = any(instanceGongLink)
 										__gong__map_GongLink[identifier] = instanceGongLink
 									case "GongNote":
-										instanceGongNote := (&GongNote{Name: instanceName}).Stage(stage)
+										instanceGongNote := new(GongNote)
+										instanceGongNote.Name = instanceName
+										instanceGongNote.Stage(stage)
 										instance = any(instanceGongNote)
 										__gong__map_GongNote[identifier] = instanceGongNote
 									case "GongStruct":
-										instanceGongStruct := (&GongStruct{Name: instanceName}).Stage(stage)
+										instanceGongStruct := new(GongStruct)
+										instanceGongStruct.Name = instanceName
+										instanceGongStruct.Stage(stage)
 										instance = any(instanceGongStruct)
 										__gong__map_GongStruct[identifier] = instanceGongStruct
 									case "GongTimeField":
-										instanceGongTimeField := (&GongTimeField{Name: instanceName}).Stage(stage)
+										instanceGongTimeField := new(GongTimeField)
+										instanceGongTimeField.Name = instanceName
+										instanceGongTimeField.Stage(stage)
 										instance = any(instanceGongTimeField)
 										__gong__map_GongTimeField[identifier] = instanceGongTimeField
 									case "Meta":
-										instanceMeta := (&Meta{Name: instanceName}).Stage(stage)
+										instanceMeta := new(Meta)
+										instanceMeta.Name = instanceName
+										instanceMeta.Stage(stage)
 										instance = any(instanceMeta)
 										__gong__map_Meta[identifier] = instanceMeta
 									case "MetaReference":
-										instanceMetaReference := (&MetaReference{Name: instanceName}).Stage(stage)
+										instanceMetaReference := new(MetaReference)
+										instanceMetaReference.Name = instanceName
+										instanceMetaReference.Stage(stage)
 										instance = any(instanceMetaReference)
 										__gong__map_MetaReference[identifier] = instanceMetaReference
 									case "ModelPkg":
-										instanceModelPkg := (&ModelPkg{Name: instanceName}).Stage(stage)
+										instanceModelPkg := new(ModelPkg)
+										instanceModelPkg.Name = instanceName
+										instanceModelPkg.Stage(stage)
 										instance = any(instanceModelPkg)
 										__gong__map_ModelPkg[identifier] = instanceModelPkg
 									case "PointerToGongStructField":
-										instancePointerToGongStructField := (&PointerToGongStructField{Name: instanceName}).Stage(stage)
+										instancePointerToGongStructField := new(PointerToGongStructField)
+										instancePointerToGongStructField.Name = instanceName
+										instancePointerToGongStructField.Stage(stage)
 										instance = any(instancePointerToGongStructField)
 										__gong__map_PointerToGongStructField[identifier] = instancePointerToGongStructField
 									case "SliceOfPointerToGongStructField":
-										instanceSliceOfPointerToGongStructField := (&SliceOfPointerToGongStructField{Name: instanceName}).Stage(stage)
+										instanceSliceOfPointerToGongStructField := new(SliceOfPointerToGongStructField)
+										instanceSliceOfPointerToGongStructField.Name = instanceName
+										instanceSliceOfPointerToGongStructField.Stage(stage)
 										instance = any(instanceSliceOfPointerToGongStructField)
 										__gong__map_SliceOfPointerToGongStructField[identifier] = instanceSliceOfPointerToGongStructField
 									}
@@ -953,6 +977,14 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_ModelPkg[identifier].OrmPkgGenPath = fielValue
+				case "DbOrmPkgGenPath":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_ModelPkg[identifier].DbOrmPkgGenPath = fielValue
+				case "DbPkgGenPath":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_ModelPkg[identifier].DbPkgGenPath = fielValue
 				case "ControllersPkgGenPath":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]

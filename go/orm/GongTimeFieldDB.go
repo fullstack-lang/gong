@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gong/go/db"
 	"github.com/fullstack-lang/gong/go/models"
 )
 
@@ -67,7 +68,7 @@ type GongTimeFieldDB struct {
 
 	// Declation for basic field gongtimefieldDB.CompositeStructName
 	CompositeStructName_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	GongTimeFieldPointersEncoding
@@ -116,7 +117,7 @@ type BackRepoGongTimeFieldStruct struct {
 	// stores GongTimeField according to their gorm ID
 	Map_GongTimeFieldDBID_GongTimeFieldPtr map[uint]*models.GongTimeField
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -126,7 +127,7 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) GetStage() (stage *mod
 	return
 }
 
-func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) GetDB() *gorm.DB {
+func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) GetDB() db.DBInterface {
 	return backRepoGongTimeField.db
 }
 
@@ -163,9 +164,10 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CommitDeleteInstance(i
 
 	// gongtimefield is not staged anymore, remove gongtimefieldDB
 	gongtimefieldDB := backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB[id]
-	query := backRepoGongTimeField.db.Unscoped().Delete(&gongtimefieldDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoGongTimeField.db.Unscoped()
+	_, err := db.Delete(&gongtimefieldDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -189,9 +191,9 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CommitPhaseOneInstance
 	var gongtimefieldDB GongTimeFieldDB
 	gongtimefieldDB.CopyBasicFieldsFromGongTimeField(gongtimefield)
 
-	query := backRepoGongTimeField.db.Create(&gongtimefieldDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoGongTimeField.db.Create(&gongtimefieldDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -223,9 +225,9 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CommitPhaseTwoInstance
 		gongtimefieldDB.CopyBasicFieldsFromGongTimeField(gongtimefield)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoGongTimeField.db.Save(&gongtimefieldDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoGongTimeField.db.Save(&gongtimefieldDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -244,9 +246,9 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CommitPhaseTwoInstance
 func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CheckoutPhaseOne() (Error error) {
 
 	gongtimefieldDBArray := make([]GongTimeFieldDB, 0)
-	query := backRepoGongTimeField.db.Find(&gongtimefieldDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoGongTimeField.db.Find(&gongtimefieldDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -357,7 +359,7 @@ func (backRepo *BackRepoStruct) CheckoutGongTimeField(gongtimefield *models.Gong
 			var gongtimefieldDB GongTimeFieldDB
 			gongtimefieldDB.ID = id
 
-			if err := backRepo.BackRepoGongTimeField.db.First(&gongtimefieldDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoGongTimeField.db.First(&gongtimefieldDB, id); err != nil {
 				log.Fatalln("CheckoutGongTimeField : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoGongTimeField.CheckoutPhaseOneInstance(&gongtimefieldDB)
@@ -528,9 +530,9 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) rowVisitorGongTimeFiel
 
 		gongtimefieldDB_ID_atBackupTime := gongtimefieldDB.ID
 		gongtimefieldDB.ID = 0
-		query := backRepoGongTimeField.db.Create(gongtimefieldDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoGongTimeField.db.Create(gongtimefieldDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB[gongtimefieldDB.ID] = gongtimefieldDB
 		BackRepoGongTimeFieldid_atBckpTime_newID[gongtimefieldDB_ID_atBackupTime] = gongtimefieldDB.ID
@@ -565,9 +567,9 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) RestorePhaseOne(dirPat
 
 		gongtimefieldDB_ID_atBackupTime := gongtimefieldDB.ID
 		gongtimefieldDB.ID = 0
-		query := backRepoGongTimeField.db.Create(gongtimefieldDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoGongTimeField.db.Create(gongtimefieldDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB[gongtimefieldDB.ID] = gongtimefieldDB
 		BackRepoGongTimeFieldid_atBckpTime_newID[gongtimefieldDB_ID_atBackupTime] = gongtimefieldDB.ID
@@ -589,9 +591,10 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoGongTimeField.db.Model(gongtimefieldDB).Updates(*gongtimefieldDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoGongTimeField.db.Model(gongtimefieldDB)
+		_, err := db.Updates(*gongtimefieldDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 
