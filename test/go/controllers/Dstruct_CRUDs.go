@@ -70,12 +70,12 @@ func (controller *Controller) GetDstructs(c *gin.Context) {
 	}
 	db := backRepo.BackRepoDstruct.GetDB()
 
-	query := db.Find(&dstructDBs)
-	if query.Error != nil {
+	_, err := db.Find(&dstructDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostDstruct(c *gin.Context) {
 	dstructDB.DstructPointersEncoding = input.DstructPointersEncoding
 	dstructDB.CopyBasicFieldsFromDstruct_WOP(&input.Dstruct_WOP)
 
-	query := db.Create(&dstructDB)
-	if query.Error != nil {
+	_, err = db.Create(&dstructDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetDstruct(c *gin.Context) {
 
 	// Get dstructDB in DB
 	var dstructDB orm.DstructDB
-	if err := db.First(&dstructDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&dstructDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateDstruct(c *gin.Context) {
 	var dstructDB orm.DstructDB
 
 	// fetch the dstruct
-	query := db.First(&dstructDB, c.Param("id"))
+	_, err := db.First(&dstructDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateDstruct(c *gin.Context) {
 	dstructDB.CopyBasicFieldsFromDstruct_WOP(&input.Dstruct_WOP)
 	dstructDB.DstructPointersEncoding = input.DstructPointersEncoding
 
-	query = db.Model(&dstructDB).Updates(dstructDB)
-	if query.Error != nil {
+	db, _ = db.Model(&dstructDB)
+	_, err = db.Updates(dstructDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteDstruct(c *gin.Context) {
 
 	// Get model if exist
 	var dstructDB orm.DstructDB
-	if err := db.First(&dstructDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&dstructDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteDstruct(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&dstructDB)
+	db.Unscoped()
+	db.Delete(&dstructDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	dstructDeleted := new(models.Dstruct)

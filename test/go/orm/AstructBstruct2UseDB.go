@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gong/test/go/db"
 	"github.com/fullstack-lang/gong/test/go/models"
 )
 
@@ -65,7 +66,7 @@ type AstructBstruct2UseDB struct {
 
 	// Declation for basic field astructbstruct2useDB.Name
 	Name_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	AstructBstruct2UsePointersEncoding
@@ -108,7 +109,7 @@ type BackRepoAstructBstruct2UseStruct struct {
 	// stores AstructBstruct2Use according to their gorm ID
 	Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr map[uint]*models.AstructBstruct2Use
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -118,7 +119,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) GetStage() (
 	return
 }
 
-func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) GetDB() *gorm.DB {
+func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) GetDB() db.DBInterface {
 	return backRepoAstructBstruct2Use.db
 }
 
@@ -155,9 +156,10 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitDelete
 
 	// astructbstruct2use is not staged anymore, remove astructbstruct2useDB
 	astructbstruct2useDB := backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB[id]
-	query := backRepoAstructBstruct2Use.db.Unscoped().Delete(&astructbstruct2useDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoAstructBstruct2Use.db.Unscoped()
+	_, err := db.Delete(&astructbstruct2useDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -181,9 +183,9 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitPhaseO
 	var astructbstruct2useDB AstructBstruct2UseDB
 	astructbstruct2useDB.CopyBasicFieldsFromAstructBstruct2Use(astructbstruct2use)
 
-	query := backRepoAstructBstruct2Use.db.Create(&astructbstruct2useDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoAstructBstruct2Use.db.Create(&astructbstruct2useDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -227,9 +229,9 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitPhaseT
 			astructbstruct2useDB.Bstrcut2ID.Valid = true
 		}
 
-		query := backRepoAstructBstruct2Use.db.Save(&astructbstruct2useDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoAstructBstruct2Use.db.Save(&astructbstruct2useDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -248,9 +250,9 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitPhaseT
 func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CheckoutPhaseOne() (Error error) {
 
 	astructbstruct2useDBArray := make([]AstructBstruct2UseDB, 0)
-	query := backRepoAstructBstruct2Use.db.Find(&astructbstruct2useDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoAstructBstruct2Use.db.Find(&astructbstruct2useDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -366,7 +368,7 @@ func (backRepo *BackRepoStruct) CheckoutAstructBstruct2Use(astructbstruct2use *m
 			var astructbstruct2useDB AstructBstruct2UseDB
 			astructbstruct2useDB.ID = id
 
-			if err := backRepo.BackRepoAstructBstruct2Use.db.First(&astructbstruct2useDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoAstructBstruct2Use.db.First(&astructbstruct2useDB, id); err != nil {
 				log.Fatalln("CheckoutAstructBstruct2Use : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoAstructBstruct2Use.CheckoutPhaseOneInstance(&astructbstruct2useDB)
@@ -513,9 +515,9 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) rowVisitorAs
 
 		astructbstruct2useDB_ID_atBackupTime := astructbstruct2useDB.ID
 		astructbstruct2useDB.ID = 0
-		query := backRepoAstructBstruct2Use.db.Create(astructbstruct2useDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoAstructBstruct2Use.db.Create(astructbstruct2useDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB[astructbstruct2useDB.ID] = astructbstruct2useDB
 		BackRepoAstructBstruct2Useid_atBckpTime_newID[astructbstruct2useDB_ID_atBackupTime] = astructbstruct2useDB.ID
@@ -550,9 +552,9 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) RestorePhase
 
 		astructbstruct2useDB_ID_atBackupTime := astructbstruct2useDB.ID
 		astructbstruct2useDB.ID = 0
-		query := backRepoAstructBstruct2Use.db.Create(astructbstruct2useDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoAstructBstruct2Use.db.Create(astructbstruct2useDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB[astructbstruct2useDB.ID] = astructbstruct2useDB
 		BackRepoAstructBstruct2Useid_atBckpTime_newID[astructbstruct2useDB_ID_atBackupTime] = astructbstruct2useDB.ID
@@ -580,9 +582,10 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) RestorePhase
 		}
 
 		// update databse with new index encoding
-		query := backRepoAstructBstruct2Use.db.Model(astructbstruct2useDB).Updates(*astructbstruct2useDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoAstructBstruct2Use.db.Model(astructbstruct2useDB)
+		_, err := db.Updates(*astructbstruct2useDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 
