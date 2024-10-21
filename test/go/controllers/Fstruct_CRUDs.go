@@ -70,12 +70,12 @@ func (controller *Controller) GetFstructs(c *gin.Context) {
 	}
 	db := backRepo.BackRepoFstruct.GetDB()
 
-	query := db.Find(&fstructDBs)
-	if query.Error != nil {
+	_, err := db.Find(&fstructDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostFstruct(c *gin.Context) {
 	fstructDB.FstructPointersEncoding = input.FstructPointersEncoding
 	fstructDB.CopyBasicFieldsFromFstruct_WOP(&input.Fstruct_WOP)
 
-	query := db.Create(&fstructDB)
-	if query.Error != nil {
+	_, err = db.Create(&fstructDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetFstruct(c *gin.Context) {
 
 	// Get fstructDB in DB
 	var fstructDB orm.FstructDB
-	if err := db.First(&fstructDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&fstructDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateFstruct(c *gin.Context) {
 	var fstructDB orm.FstructDB
 
 	// fetch the fstruct
-	query := db.First(&fstructDB, c.Param("id"))
+	_, err := db.First(&fstructDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateFstruct(c *gin.Context) {
 	fstructDB.CopyBasicFieldsFromFstruct_WOP(&input.Fstruct_WOP)
 	fstructDB.FstructPointersEncoding = input.FstructPointersEncoding
 
-	query = db.Model(&fstructDB).Updates(fstructDB)
-	if query.Error != nil {
+	db, _ = db.Model(&fstructDB)
+	_, err = db.Updates(fstructDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteFstruct(c *gin.Context) {
 
 	// Get model if exist
 	var fstructDB orm.FstructDB
-	if err := db.First(&fstructDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&fstructDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteFstruct(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&fstructDB)
+	db.Unscoped()
+	db.Delete(&fstructDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	fstructDeleted := new(models.Fstruct)
