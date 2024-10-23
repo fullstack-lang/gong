@@ -153,7 +153,7 @@ func (backRepoB *BackRepoBStruct) CommitDeleteInstance(id uint) (Error error) {
 	// b is not staged anymore, remove bDB
 	bDB := backRepoB.Map_BDBID_BDB[id]
 	db, _ := backRepoB.db.Unscoped()
-	_, err := db.Delete(&bDB)
+	_, err := db.Delete(bDB)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -162,7 +162,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitDeleteInstance
 	// {{structname}} is not staged anymore, remove {{structname}}DB
 	{{structname}}DB := backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB[id]
 	db, _ := backRepo{{Structname}}.db.Unscoped()
-	_, err := db.Delete(&{{structname}}DB)
+	_, err := db.Delete({{structname}}DB)
 	if err != nil {
 		log.Fatal(err)
 	}

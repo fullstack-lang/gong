@@ -26,9 +26,9 @@ func _(stage *models.StageStruct) {
 
 	__A__000000_ := (&models.A{}).Stage(stage)
 	__A__000001_ := (&models.A{}).Stage(stage)
-	__A__000002_a := (&models.A{}).Stage(stage)
-	__A__000003_b := (&models.A{}).Stage(stage)
-	__A__000004_c := (&models.A{}).Stage(stage)
+	__A__000002_ := (&models.A{}).Stage(stage)
+	__A__000003_ := (&models.A{}).Stage(stage)
+	__A__000004_ddd := (&models.A{}).Stage(stage)
 
 	// Setup of values
 
@@ -36,11 +36,11 @@ func _(stage *models.StageStruct) {
 
 	__A__000001_.Name = ``
 
-	__A__000002_a.Name = `a`
+	__A__000002_.Name = ``
 
-	__A__000003_b.Name = `b`
+	__A__000003_.Name = ``
 
-	__A__000004_c.Name = `c`
+	__A__000004_ddd.Name = `ddd`
 
 	// Setup of pointers
 }
