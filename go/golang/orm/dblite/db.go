@@ -1,4 +1,6 @@
-// generated code - do not edit
+package dblite
+
+const DbTmpl = `// generated code - do not edit
 package dblite
 
 import (
@@ -6,8 +8,8 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/fullstack-lang/gong/test3/go/db"
-	"github.com/fullstack-lang/gong/test3/go/orm"
+	"{{PkgPathRoot}}/db"
+	"{{PkgPathRoot}}/orm"
 )
 
 // Ensure DBLite implements DBInterface
@@ -15,25 +17,13 @@ var _ db.DBInterface = &DBLite{}
 
 // DBLite is an in-memory database implementation of DBInterface
 type DBLite struct {
-	// insertion point definitions
-
-	aDBs map[uint]*orm.ADB
-
-	nextIDADB uint
-
-	bDBs map[uint]*orm.BDB
-
-	nextIDBDB uint
+	// insertion point definitions{{` + string(rune(DBliteMapFieldDefinition)) + `}}
 }
 
 // NewDBLite creates a new instance of DBLite
 func NewDBLite() *DBLite {
 	return &DBLite{
-		// insertion point maps init
-
-		aDBs: make(map[uint]*orm.ADB),
-
-		bDBs: make(map[uint]*orm.BDB),
+		// insertion point maps init{{` + string(rune(DBliteMapFieldInit)) + `}}
 	}
 }
 
@@ -43,15 +33,7 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		return nil, errors.New("instanceDB cannot be nil")
 	}
 	switch v := instanceDB.(type) {
-	// insertion point create
-	case *orm.ADB:
-		db.nextIDADB++
-		v.ID = db.nextIDADB
-		db.aDBs[v.ID] = v
-	case *orm.BDB:
-		db.nextIDBDB++
-		v.ID = db.nextIDBDB
-		db.bDBs[v.ID] = v
+	// insertion point create{{` + string(rune(DBliteMapFieldCreate)) + `}}
 	default:
 		return nil, errors.New("unsupported type in Create")
 	}
@@ -75,11 +57,7 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		return nil, errors.New("instanceDB cannot be nil")
 	}
 	switch v := instanceDB.(type) {
-	// insertion point delete
-	case *orm.ADB:
-		delete(db.aDBs, v.ID)
-	case *orm.BDB:
-		delete(db.bDBs, v.ID)
+	// insertion point delete{{` + string(rune(DBliteMapFieldDelete)) + `}}
 	default:
 		return nil, errors.New("unsupported type in Delete")
 	}
@@ -97,19 +75,7 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		return nil, errors.New("instanceDB cannot be nil")
 	}
 	switch v := instanceDB.(type) {
-	// insertion point delete
-	case *orm.ADB:
-		if existing, ok := db.aDBs[v.ID]; ok {
-			*existing = *v
-		} else {
-			return nil, errors.New("record not found")
-		}
-	case *orm.BDB:
-		if existing, ok := db.bDBs[v.ID]; ok {
-			*existing = *v
-		} else {
-			return nil, errors.New("record not found")
-		}
+	// insertion point delete{{` + string(rune(DBliteMapFieldUpdate)) + `}}
 	default:
 		return nil, errors.New("unsupported type in Updates")
 	}
@@ -119,19 +85,7 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 // Find retrieves all records of a type from the database
 func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	switch ptr := instanceDBs.(type) {
-	// insertion point find
-	case *[]orm.ADB:
-        *ptr = make([]orm.ADB, 0, len(db.aDBs))
-        for _, v := range db.aDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
-	case *[]orm.BDB:
-        *ptr = make([]orm.BDB, 0, len(db.bDBs))
-        for _, v := range db.bDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+	// insertion point find{{` + string(rune(DBliteMapFieldFind)) + `}}
     default:
         return nil, errors.New("Find: unsupported type")
     }
@@ -155,23 +109,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 	}
 
 	switch instanceDB.(type) {
-	// insertion point first
-	case *orm.ADB:
-		tmp, ok := db.aDBs[uint(i)]
-
-		aDB, _ := instanceDB.(*orm.ADB)
-		*aDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
-	case *orm.BDB:
-		tmp, ok := db.bDBs[uint(i)]
-
-		bDB, _ := instanceDB.(*orm.BDB)
-		*bDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+	// insertion point first{{` + string(rune(DBliteMapFieldFirst)) + `}}
 	default:
 		return nil, errors.New("Unkown type")
 	}
@@ -179,3 +117,66 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 	return db, nil
 }
 
+`
+
+type DBliteInsertionPointId int
+
+const (
+	DBliteMapFieldDefinition DBliteInsertionPointId = iota
+	DBliteMapFieldInit
+	DBliteMapFieldCreate
+	DBliteMapFieldDelete
+	DBliteMapFieldUpdate
+	DBliteMapFieldFind
+	DBliteMapFieldFirst
+)
+
+var DBliteSubTemplates map[string]string = // new line
+map[string]string{
+
+	string(rune(DBliteMapFieldDefinition)): `
+
+	{{structname}}DBs map[uint]*orm.{{Structname}}DB
+
+	nextID{{Structname}}DB uint`,
+
+	string(rune(DBliteMapFieldInit)): `
+
+		{{structname}}DBs: make(map[uint]*orm.{{Structname}}DB),`,
+
+	string(rune(DBliteMapFieldCreate)): `
+	case *orm.{{Structname}}DB:
+		db.nextID{{Structname}}DB++
+		v.ID = db.nextID{{Structname}}DB
+		db.{{structname}}DBs[v.ID] = v`,
+
+	string(rune(DBliteMapFieldDelete)): `
+	case *orm.{{Structname}}DB:
+		delete(db.{{structname}}DBs, v.ID)`,
+
+	string(rune(DBliteMapFieldUpdate)): `
+	case *orm.{{Structname}}DB:
+		if existing, ok := db.{{structname}}DBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("record not found")
+		}`,
+
+	string(rune(DBliteMapFieldFind)): `
+	case *[]orm.{{Structname}}DB:
+        *ptr = make([]orm.{{Structname}}DB, 0, len(db.{{structname}}DBs))
+        for _, v := range db.{{structname}}DBs {
+            *ptr = append(*ptr, *v)
+        }
+        return db, nil`,
+
+	string(rune(DBliteMapFieldFirst)): `
+	case *orm.{{Structname}}DB:
+		tmp, ok := db.{{structname}}DBs[uint(i)]
+
+		{{structname}}DB, _ := instanceDB.(*orm.{{Structname}}DB)
+		*{{structname}}DB = *tmp
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
+		}`,
+}
