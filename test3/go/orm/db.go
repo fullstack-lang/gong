@@ -43,14 +43,14 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 	}
 	switch v := instanceDB.(type) {
 	// insertion point create
-	case **ADB:
+	case *ADB:
 		db.nextIDADB++
-		(*v).ID = db.nextIDADB
-		db.aDBs[(*v).ID] = *v
-	case **BDB:
+		v.ID = db.nextIDADB
+		db.aDBs[v.ID] = v
+	case *BDB:
 		db.nextIDBDB++
-		(*v).ID = db.nextIDBDB
-		db.bDBs[(*v).ID] = *v
+		v.ID = db.nextIDBDB
+		db.bDBs[v.ID] = v
 	default:
 		return nil, errors.New("unsupported type in Create")
 	}
@@ -87,7 +87,14 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 
 // Save updates or inserts a record into the database
 func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
-	return db.Create(instanceDB)
+	switch v := instanceDB.(type) {
+	case *ADB:
+		db.aDBs[v.ID] = v
+		return db, nil
+	default:
+		return nil, errors.New("Save: unsupported type")
+	}
+
 }
 
 // Updates modifies an existing record in the database
