@@ -153,7 +153,7 @@ func (backRepoA *BackRepoAStruct) CommitDeleteInstance(id uint) (Error error) {
 	// a is not staged anymore, remove aDB
 	aDB := backRepoA.Map_ADBID_ADB[id]
 	db, _ := backRepoA.db.Unscoped()
-	_, err := db.Delete(&aDB)
+	_, err := db.Delete(aDB)
 	if err != nil {
 		log.Fatal(err)
 	}
