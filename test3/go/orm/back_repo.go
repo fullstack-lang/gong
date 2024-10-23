@@ -10,7 +10,9 @@ import (
 	"path/filepath"
 	"sync"
 
+	"github.com/fullstack-lang/gong/test3/go/db"
 	"github.com/fullstack-lang/gong/test3/go/models"
+	"github.com/fullstack-lang/gong/test3/go/orm/dbgorm"
 
 	"github.com/tealeg/xlsx/v3"
 )
@@ -35,7 +37,16 @@ type BackRepoStruct struct {
 
 func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepoStruct) {
 
-	dbLite := NewDBLite()
+	var db db.DBInterface
+
+	if true {
+		db = NewDBLite()
+	} else {
+		db = dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gong_test3_go",
+			&ADB{},
+			&BDB{},
+		)
+	}
 
 	backRepo = new(BackRepoStruct)
 
@@ -45,7 +56,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_ADBID_ADB:  make(map[uint]*ADB, 0),
 		Map_APtr_ADBID: make(map[*models.A]uint, 0),
 
-		db:    dbLite,
+		db:    db,
 		stage: stage,
 	}
 	backRepo.BackRepoB = BackRepoBStruct{
@@ -53,7 +64,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_BDBID_BDB:  make(map[uint]*BDB, 0),
 		Map_BPtr_BDBID: make(map[*models.B]uint, 0),
 
-		db:    dbLite,
+		db:    db,
 		stage: stage,
 	}
 

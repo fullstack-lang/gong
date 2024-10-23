@@ -145,10 +145,10 @@ map[string]string{
 		{{structname}}DBs: make(map[uint]*orm.{{Structname}}DB),`,
 
 	string(rune(DBliteMapFieldCreate)): `
-	case *orm.{{Structname}}DB:
+	case **orm.{{Structname}}DB:
 		db.nextID{{Structname}}DB++
-		v.ID = db.nextID{{Structname}}DB
-		db.{{structname}}DBs[v.ID] = v`,
+		(*v).ID = db.nextID{{Structname}}DB
+		db.{{structname}}DBs[(*v).ID] = *v`,
 
 	string(rune(DBliteMapFieldDelete)): `
 	case *orm.{{Structname}}DB:
