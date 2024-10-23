@@ -39,7 +39,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 
 	var db db.DBInterface
 
-	if false {
+	if true {
 		db = NewDBLite()
 	} else {
 		db = dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gong_test3_go",
@@ -47,6 +47,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 			&BDB{},
 		)
 	}
+
 
 	backRepo = new(BackRepoStruct)
 

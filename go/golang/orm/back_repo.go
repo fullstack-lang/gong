@@ -254,7 +254,7 @@ map[string]string{
 	}`,
 
 	string(rune(BackRepoPerStructRefToStructDB)): `
-		&{{Structname}}DB{},`,
+			&{{Structname}}DB{},`,
 
 	string(rune(BackRepoPerStructPhaseOneCommits)): `
 	backRepo.BackRepo{{Structname}}.CommitPhaseOne(stage)`,

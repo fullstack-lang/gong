@@ -222,7 +222,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitPhaseTwoInstan
 		{{structname}}DB.CopyBasicFieldsFrom{{Structname}}({{structname}})
 
 		// insertion point for translating pointers encodings into actual pointers{{` + string(rune(BackRepoPointerEncodingFieldsCommit)) + `}}
-		_, err := backRepo{{Structname}}.db.Save(&{{structname}}DB)
+		_, err := backRepo{{Structname}}.db.Save({{structname}}DB)
 		if err != nil {
 			log.Fatal(err)
 		}
