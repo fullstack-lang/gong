@@ -1,5 +1,5 @@
 // generated code - do not edit
-package orm
+package dblite
 
 import (
 	"errors"
@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/fullstack-lang/gong/test3/go/db"
+	"github.com/fullstack-lang/gong/test3/go/orm"
 )
 
 // Ensure DBLite implements DBInterface
@@ -16,11 +17,11 @@ var _ db.DBInterface = &DBLite{}
 type DBLite struct {
 	// insertion point definitions
 
-	aDBs map[uint]*ADB
+	aDBs map[uint]*orm.ADB
 
 	nextIDADB uint
 
-	bDBs map[uint]*BDB
+	bDBs map[uint]*orm.BDB
 
 	nextIDBDB uint
 }
@@ -30,9 +31,9 @@ func NewDBLite() *DBLite {
 	return &DBLite{
 		// insertion point maps init
 
-		aDBs: make(map[uint]*ADB),
+		aDBs: make(map[uint]*orm.ADB),
 
-		bDBs: make(map[uint]*BDB),
+		bDBs: make(map[uint]*orm.BDB),
 	}
 }
 
@@ -43,11 +44,11 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 	}
 	switch v := instanceDB.(type) {
 	// insertion point create
-	case **ADB:
+	case **orm.ADB:
 		db.nextIDADB++
 		(*v).ID = db.nextIDADB
 		db.aDBs[(*v).ID] = *v
-	case **BDB:
+	case **orm.BDB:
 		db.nextIDBDB++
 		(*v).ID = db.nextIDBDB
 		db.bDBs[(*v).ID] = *v
@@ -75,9 +76,9 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 	}
 	switch v := instanceDB.(type) {
 	// insertion point delete
-	case *ADB:
+	case *orm.ADB:
 		delete(db.aDBs, v.ID)
-	case *BDB:
+	case *orm.BDB:
 		delete(db.bDBs, v.ID)
 	default:
 		return nil, errors.New("unsupported type in Delete")
@@ -97,13 +98,13 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 	}
 	switch v := instanceDB.(type) {
 	// insertion point delete
-	case *ADB:
+	case *orm.ADB:
 		if existing, ok := db.aDBs[v.ID]; ok {
 			*existing = *v
 		} else {
 			return nil, errors.New("record not found")
 		}
-	case *BDB:
+	case *orm.BDB:
 		if existing, ok := db.bDBs[v.ID]; ok {
 			*existing = *v
 		} else {
@@ -119,21 +120,21 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	switch ptr := instanceDBs.(type) {
 	// insertion point find
-	case *[]ADB:
-		*ptr = make([]ADB, 0, len(db.aDBs))
-		for _, v := range db.aDBs {
-			*ptr = append(*ptr, *v)
-		}
-		return db, nil
-	case *[]BDB:
-		*ptr = make([]BDB, 0, len(db.bDBs))
-		for _, v := range db.bDBs {
-			*ptr = append(*ptr, *v)
-		}
-		return db, nil
-	default:
-		return nil, errors.New("Find: unsupported type")
-	}
+	case *[]orm.ADB:
+        *ptr = make([]orm.ADB, 0, len(db.aDBs))
+        for _, v := range db.aDBs {
+            *ptr = append(*ptr, *v)
+        }
+        return db, nil
+	case *[]orm.BDB:
+        *ptr = make([]orm.BDB, 0, len(db.bDBs))
+        for _, v := range db.bDBs {
+            *ptr = append(*ptr, *v)
+        }
+        return db, nil
+    default:
+        return nil, errors.New("Find: unsupported type")
+    }
 }
 
 // First retrieves the first record of a type from the database
@@ -155,18 +156,18 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 	switch instanceDB.(type) {
 	// insertion point first
-	case *ADB:
+	case *orm.ADB:
 		tmp, ok := db.aDBs[uint(i)]
 
-		aDB, _ := instanceDB.(*ADB)
+		aDB, _ := instanceDB.(*orm.ADB)
 		*aDB = *tmp
 		if !ok {
 			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
 		}
-	case *BDB:
+	case *orm.BDB:
 		tmp, ok := db.bDBs[uint(i)]
 
-		bDB, _ := instanceDB.(*BDB)
+		bDB, _ := instanceDB.(*orm.BDB)
 		*bDB = *tmp
 		if !ok {
 			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
@@ -174,6 +175,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 	default:
 		return nil, errors.New("Unkown type")
 	}
-
+	
 	return db, nil
 }
+
