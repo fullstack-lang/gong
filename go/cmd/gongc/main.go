@@ -24,6 +24,7 @@ import (
 	"github.com/fullstack-lang/gong/go/golang/models"
 	"github.com/fullstack-lang/gong/go/golang/orm"
 	"github.com/fullstack-lang/gong/go/golang/orm/dbgorm"
+	"github.com/fullstack-lang/gong/go/golang/orm/dblite"
 	"github.com/fullstack-lang/gong/go/golang/probe"
 	"github.com/fullstack-lang/gong/go/golang/stack"
 	"github.com/fullstack-lang/gong/go/golang/static"
@@ -108,6 +109,8 @@ func main() {
 		os.RemoveAll(modelPkg.OrmPkgGenPath)
 		modelPkg.DbOrmPkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "orm/dbgorm")
 		os.RemoveAll(modelPkg.DbOrmPkgGenPath)
+		modelPkg.DbLiteOrmPkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "orm/dblite")
+		os.RemoveAll(modelPkg.DbLiteOrmPkgGenPath)
 		modelPkg.DbPkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "db")
 		os.RemoveAll(modelPkg.DbPkgGenPath)
 		modelPkg.ControllersPkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "controllers")
@@ -390,6 +393,15 @@ func main() {
 	}
 
 	// generate directory for orm package
+	errd = os.MkdirAll(modelPkg.DbLiteOrmPkgGenPath, os.ModePerm)
+	if os.IsNotExist(errd) {
+		log.Println("creating directory : " + modelPkg.DbLiteOrmPkgGenPath)
+	}
+	if os.IsExist(errd) {
+		log.Println("directory " + modelPkg.DbLiteOrmPkgGenPath + " allready exists")
+	}
+
+	// generate directory for orm package
 	errd = os.MkdirAll(modelPkg.DbPkgGenPath, os.ModePerm)
 	if os.IsNotExist(errd) {
 		log.Println("creating directory : " + modelPkg.DbPkgGenPath)
@@ -538,6 +550,13 @@ func main() {
 		modelPkg,
 		filepath.Join(*pkgPath, "../orm/dbgorm/db.go"),
 		dbgorm.DbTmpl)
+
+	gong_models.SimpleCodeGenerator(
+		modelPkg,
+		modelPkg.Name,
+		modelPkg.PkgPath,
+		filepath.Join(*pkgPath, "../orm/dblite/db.go"),
+		dblite.DbTmpl, dblite.DBliteSubTemplates)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
