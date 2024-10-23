@@ -12,6 +12,7 @@ import (
 	"path/filepath"
 	"sync"
 
+	"{{PkgPathRoot}}/db"
 	"{{PkgPathRoot}}/models"
 	"{{PkgPathRoot}}/orm/dbgorm"
 
@@ -34,8 +35,15 @@ type BackRepoStruct struct {
 
 func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepoStruct) {
 
-	dbWrapper := dbgorm.NewDBWrapper(filename, "{{PkgPathRootWithoutSlashes}}",{{` + string(rune(BackRepoPerStructRefToStructDB)) + `}}
-	)
+	var db db.DBInterface
+
+	if true {
+		db = NewDBLite()
+	} else {
+		db = dbgorm.NewDBWrapper(filename, "{{PkgPathRootWithoutSlashes}}",{{` + string(rune(BackRepoPerStructRefToStructDB)) + `}}
+		)
+	}
+
 
 	backRepo = new(BackRepoStruct)
 
@@ -241,7 +249,7 @@ map[string]string{
 		Map_{{Structname}}DBID_{{Structname}}DB:  make(map[uint]*{{Structname}}DB, 0),
 		Map_{{Structname}}Ptr_{{Structname}}DBID: make(map[*models.{{Structname}}]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}`,
 
