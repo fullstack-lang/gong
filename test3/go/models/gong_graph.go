@@ -8,6 +8,9 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	case *A:
 		ok = stage.IsStagedA(target)
 
+	case *B:
+		ok = stage.IsStagedB(target)
+
 	default:
 		_ = target
 	}
@@ -22,6 +25,13 @@ func (stage *StageStruct) IsStagedA(a *A) (ok bool) {
 	return
 }
 
+func (stage *StageStruct) IsStagedB(b *B) (ok bool) {
+
+	_, ok = stage.Bs[b]
+
+	return
+}
+
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -32,6 +42,9 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	// insertion point for stage branch
 	case *A:
 		stage.StageBranchA(target)
+
+	case *B:
+		stage.StageBranchB(target)
 
 	default:
 		_ = target
@@ -54,6 +67,21 @@ func (stage *StageStruct) StageBranchA(a *A) {
 
 }
 
+func (stage *StageStruct) StageBranchB(b *B) {
+
+	// check if instance is already staged
+	if IsStaged(stage, b) {
+		return
+	}
+
+	b.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -67,6 +95,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	// insertion point for stage branch
 	case *A:
 		toT := CopyBranchA(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *B:
+		toT := CopyBranchB(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -95,6 +127,25 @@ func CopyBranchA(mapOrigCopy map[any]any, aFrom *A) (aTo *A) {
 	return
 }
 
+func CopyBranchB(mapOrigCopy map[any]any, bFrom *B) (bTo *B) {
+
+	// bFrom has already been copied
+	if _bTo, ok := mapOrigCopy[bFrom]; ok {
+		bTo = _bTo.(*B)
+		return
+	}
+
+	bTo = new(B)
+	mapOrigCopy[bFrom] = bTo
+	bFrom.CopyBasicFields(bTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
 //
@@ -105,6 +156,9 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	// insertion point for unstage branch
 	case *A:
 		stage.UnstageBranchA(target)
+
+	case *B:
+		stage.UnstageBranchB(target)
 
 	default:
 		_ = target
@@ -120,6 +174,21 @@ func (stage *StageStruct) UnstageBranchA(a *A) {
 	}
 
 	a.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *StageStruct) UnstageBranchB(b *B) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, b) {
+		return
+	}
+
+	b.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 

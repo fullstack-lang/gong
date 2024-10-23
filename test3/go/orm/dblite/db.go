@@ -2,136 +2,155 @@ package dblite
 
 import (
 	"errors"
-	"sync"
+	"reflect"
 
 	"github.com/fullstack-lang/gong/test3/go/db"
 	"github.com/fullstack-lang/gong/test3/go/orm"
 )
 
-// Ensure DBlite implements db.DBInterface
-var _ db.DBInterface = &DBlite{}
+// Ensure DBLite implements DBInterface
+var _ db.DBInterface = &DBLite{}
 
-// DBlite represents an in-memory database for ADB instances
-type DBlite struct {
-	data   map[uint]*orm.ADB
-	mutex  sync.RWMutex
-	nextID uint
+// DBLite is an in-memory database implementation of DBInterface
+type DBLite struct {
+	adbs     map[uint]*orm.ADB
+	bdbs     map[uint]*orm.BDB
+	unscoped bool
+
+	nextIDADB uint
+	nextIDBDB uint
 }
 
-// NewDBlite creates a new instance of DBlite
-func NewDBlite() *DBlite {
-	return &DBlite{
-		data:   make(map[uint]*orm.ADB),
-		nextID: 1,
+// NewDBLite creates a new instance of DBLite
+func NewDBLite() *DBLite {
+	return &DBLite{
+		adbs: make(map[uint]*orm.ADB),
+		bdbs: make(map[uint]*orm.BDB),
 	}
 }
 
-// Create adds a new ADB instance to the database
-func (db *DBlite) Create(instanceDB any) (db.DBInterface, error) {
-	adb, ok := instanceDB.(*orm.ADB)
-	if !ok {
-		return db, errors.New("Create: instanceDB is not *orm.ADB")
+// Create inserts a new record into the database
+func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
+	if instanceDB == nil {
+		return nil, errors.New("instanceDB cannot be nil")
 	}
-	db.mutex.Lock()
-	defer db.mutex.Unlock()
-	adb.ID = db.nextID
-	db.nextID++
-	db.data[adb.ID] = adb
-	return db, nil
-}
-
-// Unscoped returns the database instance (no operation needed for in-memory DB)
-func (db *DBlite) Unscoped() (db.DBInterface, error) {
-	return db, nil
-}
-
-// Model sets the model type (not needed here as we only deal with ADB)
-func (db *DBlite) Model(instanceDB any) (db.DBInterface, error) {
-	return db, nil
-}
-
-// Delete removes an ADB instance from the database
-func (db *DBlite) Delete(instanceDB any) (db.DBInterface, error) {
-	adb, ok := instanceDB.(*orm.ADB)
-	if !ok {
-		return db, errors.New("Delete: instanceDB is not *orm.ADB")
-	}
-	db.mutex.Lock()
-	defer db.mutex.Unlock()
-	delete(db.data, adb.ID)
-	return db, nil
-}
-
-// Save adds or updates an ADB instance in the database
-func (db *DBlite) Save(instanceDB any) (db.DBInterface, error) {
-	adb, ok := instanceDB.(*orm.ADB)
-	if !ok {
-		return db, errors.New("Save: instanceDB is not *orm.ADB")
-	}
-	db.mutex.Lock()
-	defer db.mutex.Unlock()
-	if adb.ID == 0 {
-		adb.ID = db.nextID
-		db.nextID++
-	}
-	db.data[adb.ID] = adb
-	return db, nil
-}
-
-// Updates modifies an existing ADB instance in the database
-func (db *DBlite) Updates(instanceDB any) (db.DBInterface, error) {
-	adb, ok := instanceDB.(*orm.ADB)
-	if !ok {
-		return db, errors.New("Updates: instanceDB is not *orm.ADB")
-	}
-	db.mutex.Lock()
-	defer db.mutex.Unlock()
-	existing, exists := db.data[adb.ID]
-	if !exists {
-		return db, errors.New("Updates: record not found")
-	}
-	existing.Name_Data = adb.Name_Data
-	return db, nil
-}
-
-// Find retrieves all ADB instances from the database
-func (db *DBlite) Find(instanceDBs any) (db.DBInterface, error) {
-	slice, ok := instanceDBs.(*[]orm.ADB)
-	if !ok {
-		return db, errors.New("Find: instanceDBs is not *[]orm.ADB")
-	}
-	db.mutex.RLock()
-	defer db.mutex.RUnlock()
-	*slice = make([]orm.ADB, 0, len(db.data))
-	for _, adb := range db.data {
-		*slice = append(*slice, *adb)
+	switch v := instanceDB.(type) {
+	case *orm.ADB:
+		db.nextIDADB++
+		v.ID = db.nextIDADB
+		db.adbs[v.ID] = v
+	case *orm.BDB:
+		db.nextIDBDB++
+		v.ID = db.nextIDBDB
+		db.bdbs[v.ID] = v
+	default:
+		return nil, errors.New("unsupported type in Create")
 	}
 	return db, nil
 }
 
-// First retrieves the first ADB instance matching the condition
-func (db *DBlite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
-	adb, ok := instanceDB.(*orm.ADB)
-	if !ok {
-		return db, errors.New("First: instanceDB is not *orm.ADB")
+// Unscoped sets the unscoped flag for soft-deletes (not used in this implementation)
+func (db *DBLite) Unscoped() (db.DBInterface, error) {
+	db.unscoped = true
+	return db, nil
+}
+
+// Model is a placeholder in this implementation
+func (db *DBLite) Model(instanceDB any) (db.DBInterface, error) {
+	// Not implemented as types are handled directly
+	return db, nil
+}
+
+// Delete removes a record from the database
+func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
+	if instanceDB == nil {
+		return nil, errors.New("instanceDB cannot be nil")
 	}
-	db.mutex.RLock()
-	defer db.mutex.RUnlock()
-	if len(conds) > 0 {
-		id, ok := conds[0].(uint)
-		if !ok {
-			return db, errors.New("First: conds[0] is not uint ID")
+	switch v := instanceDB.(type) {
+	case *orm.ADB:
+		delete(db.adbs, v.ID)
+	case *orm.BDB:
+		delete(db.bdbs, v.ID)
+	default:
+		return nil, errors.New("unsupported type in Delete")
+	}
+	return db, nil
+}
+
+// Save updates or inserts a record into the database
+func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
+	return db.Create(instanceDB)
+}
+
+// Updates modifies an existing record in the database
+func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
+	if instanceDB == nil {
+		return nil, errors.New("instanceDB cannot be nil")
+	}
+	switch v := instanceDB.(type) {
+	case *orm.ADB:
+		if existing, ok := db.adbs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("record not found")
 		}
-		record, exists := db.data[id]
-		if !exists {
-			return db, errors.New("First: record not found")
+	case *orm.BDB:
+		if existing, ok := db.bdbs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("record not found")
 		}
-		*adb = *record
-		return db, nil
+	default:
+		return nil, errors.New("unsupported type in Updates")
 	}
-	for _, record := range db.data {
-		*adb = *record
-		return db, nil
+	return db, nil
+}
+
+// Find retrieves all records of a type from the database
+func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
+	if instanceDBs == nil {
+		return nil, errors.New("instanceDBs cannot be nil")
 	}
-	return db, errors.New("First: no records found")
+	val := reflect.ValueOf(instanceDBs)
+	if val.Kind() != reflect.Ptr || val.Elem().Kind() != reflect.Slice {
+		return nil, errors.New("instanceDBs must be a pointer to a slice")
+	}
+	sliceVal := val.Elem()
+	elemType := sliceVal.Type().Elem()
+
+	switch elemType {
+	case reflect.TypeOf(&orm.ADB{}):
+		for _, v := range db.adbs {
+			sliceVal.Set(reflect.Append(sliceVal, reflect.ValueOf(v)))
+		}
+	case reflect.TypeOf(&orm.BDB{}):
+		for _, v := range db.bdbs {
+			sliceVal.Set(reflect.Append(sliceVal, reflect.ValueOf(v)))
+		}
+	default:
+		return nil, errors.New("unsupported type in Find")
+	}
+	return db, nil
+}
+
+// First retrieves the first record of a type from the database
+func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
+	if instanceDB == nil {
+		return nil, errors.New("instanceDB cannot be nil")
+	}
+	switch v := instanceDB.(type) {
+	case *orm.ADB:
+		for _, adb := range db.adbs {
+			*v = *adb
+			return db, nil
+		}
+	case *orm.BDB:
+		for _, bdb := range db.bdbs {
+			*v = *bdb
+			return db, nil
+		}
+	default:
+		return nil, errors.New("unsupported type in First")
+	}
+	return nil, errors.New("no records found")
 }

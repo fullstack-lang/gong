@@ -54,6 +54,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/as/:id", GetController().UpdateA)
 		v1.DELETE("/v1/as/:id", GetController().DeleteA)
 
+		v1.GET("/v1/bs", GetController().GetBs)
+		v1.GET("/v1/bs/:id", GetController().GetB)
+		v1.POST("/v1/bs", GetController().PostB)
+		v1.PATCH("/v1/bs/:id", GetController().UpdateB)
+		v1.PUT("/v1/bs/:id", GetController().UpdateB)
+		v1.DELETE("/v1/bs/:id", GetController().DeleteB)
+
 		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
 
