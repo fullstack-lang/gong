@@ -24,11 +24,11 @@ func _(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
-	__B__000000_b := (&models.B{}).Stage(stage)
+	__A__000000_eee := (&models.A{}).Stage(stage)
 
 	// Setup of values
 
-	__B__000000_b.Name = `b`
+	__A__000000_eee.Name = `eee`
 
 	// Setup of pointers
 }
