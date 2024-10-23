@@ -213,7 +213,7 @@ func (backRepoB *BackRepoBStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruc
 		bDB.CopyBasicFieldsFromB(b)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoB.db.Save(&bDB)
+		_, err := backRepoB.db.Save(bDB)
 		if err != nil {
 			log.Fatal(err)
 		}

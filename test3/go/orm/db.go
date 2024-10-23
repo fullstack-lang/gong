@@ -87,14 +87,7 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 
 // Save updates or inserts a record into the database
 func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
-	switch v := instanceDB.(type) {
-	case *ADB:
-		db.aDBs[v.ID] = v
-		return db, nil
-	default:
-		return nil, errors.New("Save: unsupported type")
-	}
-
+	return db.Create(instanceDB)
 }
 
 // Updates modifies an existing record in the database
@@ -127,20 +120,20 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	switch ptr := instanceDBs.(type) {
 	// insertion point find
 	case *[]ADB:
-		*ptr = make([]ADB, 0, len(db.aDBs))
-		for _, v := range db.aDBs {
-			*ptr = append(*ptr, *v)
-		}
-		return db, nil
+        *ptr = make([]ADB, 0, len(db.aDBs))
+        for _, v := range db.aDBs {
+            *ptr = append(*ptr, *v)
+        }
+        return db, nil
 	case *[]BDB:
-		*ptr = make([]BDB, 0, len(db.bDBs))
-		for _, v := range db.bDBs {
-			*ptr = append(*ptr, *v)
-		}
-		return db, nil
-	default:
-		return nil, errors.New("Find: unsupported type")
-	}
+        *ptr = make([]BDB, 0, len(db.bDBs))
+        for _, v := range db.bDBs {
+            *ptr = append(*ptr, *v)
+        }
+        return db, nil
+    default:
+        return nil, errors.New("Find: unsupported type")
+    }
 }
 
 // First retrieves the first record of a type from the database
@@ -181,6 +174,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 	default:
 		return nil, errors.New("Unkown type")
 	}
-
+	
 	return db, nil
 }
+
