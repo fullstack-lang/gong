@@ -48,7 +48,6 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		)
 	}
 
-
 	backRepo = new(BackRepoStruct)
 
 	// insertion point for per struct back repo declarations

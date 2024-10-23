@@ -65,7 +65,11 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 
 // Save updates or inserts a record into the database
 func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
-	return db.Create(instanceDB)
+	switch v := instanceDB.(type) {
+	// insertion point delete{{` + string(rune(DBliteMapFieldSave)) + `}}
+	default:
+		return nil, errors.New("Save: unsupported type")
+	}
 }
 
 // Updates modifies an existing record in the database
@@ -125,6 +129,7 @@ const (
 	DBliteMapFieldInit
 	DBliteMapFieldCreate
 	DBliteMapFieldDelete
+	DBliteMapFieldSave
 	DBliteMapFieldUpdate
 	DBliteMapFieldFind
 	DBliteMapFieldFirst
@@ -152,6 +157,11 @@ map[string]string{
 	string(rune(DBliteMapFieldDelete)): `
 	case *{{Structname}}DB:
 		delete(db.{{structname}}DBs, v.ID)`,
+
+	string(rune(DBliteMapFieldSave)): `
+	case *{{Structname}}DB:
+		db.{{structname}}DBs[v.ID] = v
+		return db, nil`,
 
 	string(rune(DBliteMapFieldUpdate)): `
 	case *{{Structname}}DB:

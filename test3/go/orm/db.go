@@ -87,7 +87,17 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 
 // Save updates or inserts a record into the database
 func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
-	return db.Create(instanceDB)
+	switch v := instanceDB.(type) {
+	// insertion point delete
+	case *ADB:
+		db.aDBs[v.ID] = v
+		return db, nil
+	case *BDB:
+		db.bDBs[v.ID] = v
+		return db, nil
+	default:
+		return nil, errors.New("Save: unsupported type")
+	}
 }
 
 // Updates modifies an existing record in the database
