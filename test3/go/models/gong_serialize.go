@@ -15,6 +15,7 @@ func SerializeStage(stage *StageStruct, filename string) {
 	{
 		// insertion point
 		SerializeExcelize[A](stage, f)
+		SerializeExcelize[B](stage, f)
 	}
 
 	var tab ExcelizeTabulator
