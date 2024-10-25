@@ -165,7 +165,7 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CommitDeleteInstance(i
 	// gongtimefield is not staged anymore, remove gongtimefieldDB
 	gongtimefieldDB := backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB[id]
 	db, _ := backRepoGongTimeField.db.Unscoped()
-	_, err := db.Delete(&gongtimefieldDB)
+	_, err := db.Delete(gongtimefieldDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -225,7 +225,7 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CommitPhaseTwoInstance
 		gongtimefieldDB.CopyBasicFieldsFromGongTimeField(gongtimefield)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoGongTimeField.db.Save(&gongtimefieldDB)
+		_, err := backRepoGongTimeField.db.Save(gongtimefieldDB)
 		if err != nil {
 			log.Fatal(err)
 		}

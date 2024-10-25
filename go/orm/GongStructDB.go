@@ -179,7 +179,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitDeleteInstance(id uint
 	// gongstruct is not staged anymore, remove gongstructDB
 	gongstructDB := backRepoGongStruct.Map_GongStructDBID_GongStructDB[id]
 	db, _ := backRepoGongStruct.db.Unscoped()
-	_, err := db.Delete(&gongstructDB)
+	_, err := db.Delete(gongstructDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -311,7 +311,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 				append(gongstructDB.GongStructPointersEncoding.SliceOfPointerToGongStructFields, int(sliceofpointertogongstructfieldAssocEnd_DB.ID))
 		}
 
-		_, err := backRepoGongStruct.db.Save(&gongstructDB)
+		_, err := backRepoGongStruct.db.Save(gongstructDB)
 		if err != nil {
 			log.Fatal(err)
 		}

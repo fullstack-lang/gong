@@ -981,6 +981,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_ModelPkg[identifier].DbOrmPkgGenPath = fielValue
+				case "DbLiteOrmPkgGenPath":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_ModelPkg[identifier].DbLiteOrmPkgGenPath = fielValue
 				case "DbPkgGenPath":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]

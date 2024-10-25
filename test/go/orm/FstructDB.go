@@ -159,7 +159,7 @@ func (backRepoFstruct *BackRepoFstructStruct) CommitDeleteInstance(id uint) (Err
 	// fstruct is not staged anymore, remove fstructDB
 	fstructDB := backRepoFstruct.Map_FstructDBID_FstructDB[id]
 	db, _ := backRepoFstruct.db.Unscoped()
-	_, err := db.Delete(&fstructDB)
+	_, err := db.Delete(fstructDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -219,7 +219,7 @@ func (backRepoFstruct *BackRepoFstructStruct) CommitPhaseTwoInstance(backRepo *B
 		fstructDB.CopyBasicFieldsFromFstruct(fstruct)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoFstruct.db.Save(&fstructDB)
+		_, err := backRepoFstruct.db.Save(fstructDB)
 		if err != nil {
 			log.Fatal(err)
 		}

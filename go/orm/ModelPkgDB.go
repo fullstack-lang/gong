@@ -75,6 +75,9 @@ type ModelPkgDB struct {
 	// Declation for basic field modelpkgDB.DbOrmPkgGenPath
 	DbOrmPkgGenPath_Data sql.NullString
 
+	// Declation for basic field modelpkgDB.DbLiteOrmPkgGenPath
+	DbLiteOrmPkgGenPath_Data sql.NullString
+
 	// Declation for basic field modelpkgDB.DbPkgGenPath
 	DbPkgGenPath_Data sql.NullString
 
@@ -140,27 +143,29 @@ type ModelPkgWOP struct {
 
 	DbOrmPkgGenPath string `xlsx:"5"`
 
-	DbPkgGenPath string `xlsx:"6"`
+	DbLiteOrmPkgGenPath string `xlsx:"6"`
 
-	ControllersPkgGenPath string `xlsx:"7"`
+	DbPkgGenPath string `xlsx:"7"`
 
-	FullstackPkgGenPath string `xlsx:"8"`
+	ControllersPkgGenPath string `xlsx:"8"`
 
-	StackPkgGenPath string `xlsx:"9"`
+	FullstackPkgGenPath string `xlsx:"9"`
 
-	StaticPkgGenPath string `xlsx:"10"`
+	StackPkgGenPath string `xlsx:"10"`
 
-	ProbePkgGenPath string `xlsx:"11"`
+	StaticPkgGenPath string `xlsx:"11"`
 
-	NgWorkspacePath string `xlsx:"12"`
+	ProbePkgGenPath string `xlsx:"12"`
 
-	NgWorkspaceName string `xlsx:"13"`
+	NgWorkspacePath string `xlsx:"13"`
 
-	NgDataLibrarySourceCodeDirectory string `xlsx:"14"`
+	NgWorkspaceName string `xlsx:"14"`
 
-	NgSpecificLibrarySourceCodeDirectory string `xlsx:"15"`
+	NgDataLibrarySourceCodeDirectory string `xlsx:"15"`
 
-	MaterialLibDatamodelTargetPath string `xlsx:"16"`
+	NgSpecificLibrarySourceCodeDirectory string `xlsx:"16"`
+
+	MaterialLibDatamodelTargetPath string `xlsx:"17"`
 	// insertion for WOP pointer fields
 }
 
@@ -172,6 +177,7 @@ var ModelPkg_Fields = []string{
 	"PathToGoSubDirectory",
 	"OrmPkgGenPath",
 	"DbOrmPkgGenPath",
+	"DbLiteOrmPkgGenPath",
 	"DbPkgGenPath",
 	"ControllersPkgGenPath",
 	"FullstackPkgGenPath",
@@ -243,7 +249,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CommitDeleteInstance(id uint) (E
 	// modelpkg is not staged anymore, remove modelpkgDB
 	modelpkgDB := backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB[id]
 	db, _ := backRepoModelPkg.db.Unscoped()
-	_, err := db.Delete(&modelpkgDB)
+	_, err := db.Delete(modelpkgDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -303,7 +309,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CommitPhaseTwoInstance(backRepo 
 		modelpkgDB.CopyBasicFieldsFromModelPkg(modelpkg)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoModelPkg.db.Save(&modelpkgDB)
+		_, err := backRepoModelPkg.db.Save(modelpkgDB)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -465,6 +471,9 @@ func (modelpkgDB *ModelPkgDB) CopyBasicFieldsFromModelPkg(modelpkg *models.Model
 	modelpkgDB.DbOrmPkgGenPath_Data.String = modelpkg.DbOrmPkgGenPath
 	modelpkgDB.DbOrmPkgGenPath_Data.Valid = true
 
+	modelpkgDB.DbLiteOrmPkgGenPath_Data.String = modelpkg.DbLiteOrmPkgGenPath
+	modelpkgDB.DbLiteOrmPkgGenPath_Data.Valid = true
+
 	modelpkgDB.DbPkgGenPath_Data.String = modelpkg.DbPkgGenPath
 	modelpkgDB.DbPkgGenPath_Data.Valid = true
 
@@ -517,6 +526,9 @@ func (modelpkgDB *ModelPkgDB) CopyBasicFieldsFromModelPkg_WOP(modelpkg *models.M
 
 	modelpkgDB.DbOrmPkgGenPath_Data.String = modelpkg.DbOrmPkgGenPath
 	modelpkgDB.DbOrmPkgGenPath_Data.Valid = true
+
+	modelpkgDB.DbLiteOrmPkgGenPath_Data.String = modelpkg.DbLiteOrmPkgGenPath
+	modelpkgDB.DbLiteOrmPkgGenPath_Data.Valid = true
 
 	modelpkgDB.DbPkgGenPath_Data.String = modelpkg.DbPkgGenPath
 	modelpkgDB.DbPkgGenPath_Data.Valid = true
@@ -571,6 +583,9 @@ func (modelpkgDB *ModelPkgDB) CopyBasicFieldsFromModelPkgWOP(modelpkg *ModelPkgW
 	modelpkgDB.DbOrmPkgGenPath_Data.String = modelpkg.DbOrmPkgGenPath
 	modelpkgDB.DbOrmPkgGenPath_Data.Valid = true
 
+	modelpkgDB.DbLiteOrmPkgGenPath_Data.String = modelpkg.DbLiteOrmPkgGenPath
+	modelpkgDB.DbLiteOrmPkgGenPath_Data.Valid = true
+
 	modelpkgDB.DbPkgGenPath_Data.String = modelpkg.DbPkgGenPath
 	modelpkgDB.DbPkgGenPath_Data.Valid = true
 
@@ -613,6 +628,7 @@ func (modelpkgDB *ModelPkgDB) CopyBasicFieldsToModelPkg(modelpkg *models.ModelPk
 	modelpkg.PathToGoSubDirectory = modelpkgDB.PathToGoSubDirectory_Data.String
 	modelpkg.OrmPkgGenPath = modelpkgDB.OrmPkgGenPath_Data.String
 	modelpkg.DbOrmPkgGenPath = modelpkgDB.DbOrmPkgGenPath_Data.String
+	modelpkg.DbLiteOrmPkgGenPath = modelpkgDB.DbLiteOrmPkgGenPath_Data.String
 	modelpkg.DbPkgGenPath = modelpkgDB.DbPkgGenPath_Data.String
 	modelpkg.ControllersPkgGenPath = modelpkgDB.ControllersPkgGenPath_Data.String
 	modelpkg.FullstackPkgGenPath = modelpkgDB.FullstackPkgGenPath_Data.String
@@ -634,6 +650,7 @@ func (modelpkgDB *ModelPkgDB) CopyBasicFieldsToModelPkg_WOP(modelpkg *models.Mod
 	modelpkg.PathToGoSubDirectory = modelpkgDB.PathToGoSubDirectory_Data.String
 	modelpkg.OrmPkgGenPath = modelpkgDB.OrmPkgGenPath_Data.String
 	modelpkg.DbOrmPkgGenPath = modelpkgDB.DbOrmPkgGenPath_Data.String
+	modelpkg.DbLiteOrmPkgGenPath = modelpkgDB.DbLiteOrmPkgGenPath_Data.String
 	modelpkg.DbPkgGenPath = modelpkgDB.DbPkgGenPath_Data.String
 	modelpkg.ControllersPkgGenPath = modelpkgDB.ControllersPkgGenPath_Data.String
 	modelpkg.FullstackPkgGenPath = modelpkgDB.FullstackPkgGenPath_Data.String
@@ -656,6 +673,7 @@ func (modelpkgDB *ModelPkgDB) CopyBasicFieldsToModelPkgWOP(modelpkg *ModelPkgWOP
 	modelpkg.PathToGoSubDirectory = modelpkgDB.PathToGoSubDirectory_Data.String
 	modelpkg.OrmPkgGenPath = modelpkgDB.OrmPkgGenPath_Data.String
 	modelpkg.DbOrmPkgGenPath = modelpkgDB.DbOrmPkgGenPath_Data.String
+	modelpkg.DbLiteOrmPkgGenPath = modelpkgDB.DbLiteOrmPkgGenPath_Data.String
 	modelpkg.DbPkgGenPath = modelpkgDB.DbPkgGenPath_Data.String
 	modelpkg.ControllersPkgGenPath = modelpkgDB.ControllersPkgGenPath_Data.String
 	modelpkg.FullstackPkgGenPath = modelpkgDB.FullstackPkgGenPath_Data.String
