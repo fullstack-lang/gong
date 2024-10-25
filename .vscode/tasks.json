@@ -111,10 +111,10 @@
             "command": "go",
             "args": [
                 "get",
-                "-d",
                 "github.com/fullstack-lang/gongdoc@HEAD",
                 "github.com/fullstack-lang/gongtree@HEAD",
                 "github.com/fullstack-lang/gongtable@HEAD",
+                "github.com/fullstack-lang/gongsvg@HEAD",
             ],
             "group": "build"
         },
@@ -384,6 +384,21 @@
             },
             "group": "build",
             "command": "find . -type d -name vendor -prune -o -name gong.go -print -execdir gongc -skipNg -skipGoModCommands \\;"
+        },
+        {
+            "label": "00 - go mod vendor",
+            "type": "shell",
+            "group": "build",
+            "command": "go mod vendor"
+        },
+        {
+            "label": "00 - go wasm",
+            "type": "shell",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/test3/go/cmd/test3"
+            },
+            "command": "GOOS=js GOARCH=wasm go build -o wasmworkbench.wasm"
         },
     ]
 }

@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongsvg/go/db"
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
@@ -91,7 +92,7 @@ type PolylineDB struct {
 
 	// Declation for basic field polylineDB.Transform
 	Transform_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	PolylinePointersEncoding
@@ -161,7 +162,7 @@ type BackRepoPolylineStruct struct {
 	// stores Polyline according to their gorm ID
 	Map_PolylineDBID_PolylinePtr map[uint]*models.Polyline
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -171,7 +172,7 @@ func (backRepoPolyline *BackRepoPolylineStruct) GetStage() (stage *models.StageS
 	return
 }
 
-func (backRepoPolyline *BackRepoPolylineStruct) GetDB() *gorm.DB {
+func (backRepoPolyline *BackRepoPolylineStruct) GetDB() db.DBInterface {
 	return backRepoPolyline.db
 }
 
@@ -208,9 +209,10 @@ func (backRepoPolyline *BackRepoPolylineStruct) CommitDeleteInstance(id uint) (E
 
 	// polyline is not staged anymore, remove polylineDB
 	polylineDB := backRepoPolyline.Map_PolylineDBID_PolylineDB[id]
-	query := backRepoPolyline.db.Unscoped().Delete(&polylineDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoPolyline.db.Unscoped()
+	_, err := db.Delete(polylineDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -234,9 +236,9 @@ func (backRepoPolyline *BackRepoPolylineStruct) CommitPhaseOneInstance(polyline 
 	var polylineDB PolylineDB
 	polylineDB.CopyBasicFieldsFromPolyline(polyline)
 
-	query := backRepoPolyline.db.Create(&polylineDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoPolyline.db.Create(&polylineDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -286,9 +288,9 @@ func (backRepoPolyline *BackRepoPolylineStruct) CommitPhaseTwoInstance(backRepo 
 				append(polylineDB.PolylinePointersEncoding.Animates, int(animateAssocEnd_DB.ID))
 		}
 
-		query := backRepoPolyline.db.Save(&polylineDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoPolyline.db.Save(polylineDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -307,9 +309,9 @@ func (backRepoPolyline *BackRepoPolylineStruct) CommitPhaseTwoInstance(backRepo 
 func (backRepoPolyline *BackRepoPolylineStruct) CheckoutPhaseOne() (Error error) {
 
 	polylineDBArray := make([]PolylineDB, 0)
-	query := backRepoPolyline.db.Find(&polylineDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoPolyline.db.Find(&polylineDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -429,7 +431,7 @@ func (backRepo *BackRepoStruct) CheckoutPolyline(polyline *models.Polyline) {
 			var polylineDB PolylineDB
 			polylineDB.ID = id
 
-			if err := backRepo.BackRepoPolyline.db.First(&polylineDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoPolyline.db.First(&polylineDB, id); err != nil {
 				log.Fatalln("CheckoutPolyline : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoPolyline.CheckoutPhaseOneInstance(&polylineDB)
@@ -684,9 +686,9 @@ func (backRepoPolyline *BackRepoPolylineStruct) rowVisitorPolyline(row *xlsx.Row
 
 		polylineDB_ID_atBackupTime := polylineDB.ID
 		polylineDB.ID = 0
-		query := backRepoPolyline.db.Create(polylineDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoPolyline.db.Create(polylineDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoPolyline.Map_PolylineDBID_PolylineDB[polylineDB.ID] = polylineDB
 		BackRepoPolylineid_atBckpTime_newID[polylineDB_ID_atBackupTime] = polylineDB.ID
@@ -721,9 +723,9 @@ func (backRepoPolyline *BackRepoPolylineStruct) RestorePhaseOne(dirPath string) 
 
 		polylineDB_ID_atBackupTime := polylineDB.ID
 		polylineDB.ID = 0
-		query := backRepoPolyline.db.Create(polylineDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoPolyline.db.Create(polylineDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoPolyline.Map_PolylineDBID_PolylineDB[polylineDB.ID] = polylineDB
 		BackRepoPolylineid_atBckpTime_newID[polylineDB_ID_atBackupTime] = polylineDB.ID
@@ -745,9 +747,10 @@ func (backRepoPolyline *BackRepoPolylineStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoPolyline.db.Model(polylineDB).Updates(*polylineDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoPolyline.db.Model(polylineDB)
+		_, err := db.Updates(*polylineDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

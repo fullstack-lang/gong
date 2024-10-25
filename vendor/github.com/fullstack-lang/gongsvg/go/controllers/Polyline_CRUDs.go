@@ -70,12 +70,12 @@ func (controller *Controller) GetPolylines(c *gin.Context) {
 	}
 	db := backRepo.BackRepoPolyline.GetDB()
 
-	query := db.Find(&polylineDBs)
-	if query.Error != nil {
+	_, err := db.Find(&polylineDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostPolyline(c *gin.Context) {
 	polylineDB.PolylinePointersEncoding = input.PolylinePointersEncoding
 	polylineDB.CopyBasicFieldsFromPolyline_WOP(&input.Polyline_WOP)
 
-	query := db.Create(&polylineDB)
-	if query.Error != nil {
+	_, err = db.Create(&polylineDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetPolyline(c *gin.Context) {
 
 	// Get polylineDB in DB
 	var polylineDB orm.PolylineDB
-	if err := db.First(&polylineDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&polylineDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdatePolyline(c *gin.Context) {
 	var polylineDB orm.PolylineDB
 
 	// fetch the polyline
-	query := db.First(&polylineDB, c.Param("id"))
+	_, err := db.First(&polylineDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdatePolyline(c *gin.Context) {
 	polylineDB.CopyBasicFieldsFromPolyline_WOP(&input.Polyline_WOP)
 	polylineDB.PolylinePointersEncoding = input.PolylinePointersEncoding
 
-	query = db.Model(&polylineDB).Updates(polylineDB)
-	if query.Error != nil {
+	db, _ = db.Model(&polylineDB)
+	_, err = db.Updates(&polylineDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeletePolyline(c *gin.Context) {
 
 	// Get model if exist
 	var polylineDB orm.PolylineDB
-	if err := db.First(&polylineDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&polylineDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeletePolyline(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&polylineDB)
+	db.Unscoped()
+	db.Delete(&polylineDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	polylineDeleted := new(models.Polyline)

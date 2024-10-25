@@ -70,12 +70,12 @@ func (controller *Controller) GetRectAnchoredTexts(c *gin.Context) {
 	}
 	db := backRepo.BackRepoRectAnchoredText.GetDB()
 
-	query := db.Find(&rectanchoredtextDBs)
-	if query.Error != nil {
+	_, err := db.Find(&rectanchoredtextDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostRectAnchoredText(c *gin.Context) {
 	rectanchoredtextDB.RectAnchoredTextPointersEncoding = input.RectAnchoredTextPointersEncoding
 	rectanchoredtextDB.CopyBasicFieldsFromRectAnchoredText_WOP(&input.RectAnchoredText_WOP)
 
-	query := db.Create(&rectanchoredtextDB)
-	if query.Error != nil {
+	_, err = db.Create(&rectanchoredtextDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetRectAnchoredText(c *gin.Context) {
 
 	// Get rectanchoredtextDB in DB
 	var rectanchoredtextDB orm.RectAnchoredTextDB
-	if err := db.First(&rectanchoredtextDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&rectanchoredtextDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateRectAnchoredText(c *gin.Context) {
 	var rectanchoredtextDB orm.RectAnchoredTextDB
 
 	// fetch the rectanchoredtext
-	query := db.First(&rectanchoredtextDB, c.Param("id"))
+	_, err := db.First(&rectanchoredtextDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateRectAnchoredText(c *gin.Context) {
 	rectanchoredtextDB.CopyBasicFieldsFromRectAnchoredText_WOP(&input.RectAnchoredText_WOP)
 	rectanchoredtextDB.RectAnchoredTextPointersEncoding = input.RectAnchoredTextPointersEncoding
 
-	query = db.Model(&rectanchoredtextDB).Updates(rectanchoredtextDB)
-	if query.Error != nil {
+	db, _ = db.Model(&rectanchoredtextDB)
+	_, err = db.Updates(&rectanchoredtextDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteRectAnchoredText(c *gin.Context) {
 
 	// Get model if exist
 	var rectanchoredtextDB orm.RectAnchoredTextDB
-	if err := db.First(&rectanchoredtextDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&rectanchoredtextDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteRectAnchoredText(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&rectanchoredtextDB)
+	db.Unscoped()
+	db.Delete(&rectanchoredtextDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	rectanchoredtextDeleted := new(models.RectAnchoredText)

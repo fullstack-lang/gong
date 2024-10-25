@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongsvg/go/db"
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
@@ -67,7 +68,7 @@ type PointDB struct {
 
 	// Declation for basic field pointDB.Y
 	Y_Data sql.NullFloat64
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	PointPointersEncoding
@@ -116,7 +117,7 @@ type BackRepoPointStruct struct {
 	// stores Point according to their gorm ID
 	Map_PointDBID_PointPtr map[uint]*models.Point
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -126,7 +127,7 @@ func (backRepoPoint *BackRepoPointStruct) GetStage() (stage *models.StageStruct)
 	return
 }
 
-func (backRepoPoint *BackRepoPointStruct) GetDB() *gorm.DB {
+func (backRepoPoint *BackRepoPointStruct) GetDB() db.DBInterface {
 	return backRepoPoint.db
 }
 
@@ -163,9 +164,10 @@ func (backRepoPoint *BackRepoPointStruct) CommitDeleteInstance(id uint) (Error e
 
 	// point is not staged anymore, remove pointDB
 	pointDB := backRepoPoint.Map_PointDBID_PointDB[id]
-	query := backRepoPoint.db.Unscoped().Delete(&pointDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoPoint.db.Unscoped()
+	_, err := db.Delete(pointDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -189,9 +191,9 @@ func (backRepoPoint *BackRepoPointStruct) CommitPhaseOneInstance(point *models.P
 	var pointDB PointDB
 	pointDB.CopyBasicFieldsFromPoint(point)
 
-	query := backRepoPoint.db.Create(&pointDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoPoint.db.Create(&pointDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -223,9 +225,9 @@ func (backRepoPoint *BackRepoPointStruct) CommitPhaseTwoInstance(backRepo *BackR
 		pointDB.CopyBasicFieldsFromPoint(point)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoPoint.db.Save(&pointDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoPoint.db.Save(pointDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -244,9 +246,9 @@ func (backRepoPoint *BackRepoPointStruct) CommitPhaseTwoInstance(backRepo *BackR
 func (backRepoPoint *BackRepoPointStruct) CheckoutPhaseOne() (Error error) {
 
 	pointDBArray := make([]PointDB, 0)
-	query := backRepoPoint.db.Find(&pointDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoPoint.db.Find(&pointDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -357,7 +359,7 @@ func (backRepo *BackRepoStruct) CheckoutPoint(point *models.Point) {
 			var pointDB PointDB
 			pointDB.ID = id
 
-			if err := backRepo.BackRepoPoint.db.First(&pointDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoPoint.db.First(&pointDB, id); err != nil {
 				log.Fatalln("CheckoutPoint : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoPoint.CheckoutPhaseOneInstance(&pointDB)
@@ -528,9 +530,9 @@ func (backRepoPoint *BackRepoPointStruct) rowVisitorPoint(row *xlsx.Row) error {
 
 		pointDB_ID_atBackupTime := pointDB.ID
 		pointDB.ID = 0
-		query := backRepoPoint.db.Create(pointDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoPoint.db.Create(pointDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoPoint.Map_PointDBID_PointDB[pointDB.ID] = pointDB
 		BackRepoPointid_atBckpTime_newID[pointDB_ID_atBackupTime] = pointDB.ID
@@ -565,9 +567,9 @@ func (backRepoPoint *BackRepoPointStruct) RestorePhaseOne(dirPath string) {
 
 		pointDB_ID_atBackupTime := pointDB.ID
 		pointDB.ID = 0
-		query := backRepoPoint.db.Create(pointDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoPoint.db.Create(pointDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoPoint.Map_PointDBID_PointDB[pointDB.ID] = pointDB
 		BackRepoPointid_atBckpTime_newID[pointDB_ID_atBackupTime] = pointDB.ID
@@ -589,9 +591,10 @@ func (backRepoPoint *BackRepoPointStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoPoint.db.Model(pointDB).Updates(*pointDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoPoint.db.Model(pointDB)
+		_, err := db.Updates(*pointDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

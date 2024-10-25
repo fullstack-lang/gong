@@ -70,12 +70,12 @@ func (controller *Controller) GetTexts(c *gin.Context) {
 	}
 	db := backRepo.BackRepoText.GetDB()
 
-	query := db.Find(&textDBs)
-	if query.Error != nil {
+	_, err := db.Find(&textDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostText(c *gin.Context) {
 	textDB.TextPointersEncoding = input.TextPointersEncoding
 	textDB.CopyBasicFieldsFromText_WOP(&input.Text_WOP)
 
-	query := db.Create(&textDB)
-	if query.Error != nil {
+	_, err = db.Create(&textDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetText(c *gin.Context) {
 
 	// Get textDB in DB
 	var textDB orm.TextDB
-	if err := db.First(&textDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&textDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateText(c *gin.Context) {
 	var textDB orm.TextDB
 
 	// fetch the text
-	query := db.First(&textDB, c.Param("id"))
+	_, err := db.First(&textDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateText(c *gin.Context) {
 	textDB.CopyBasicFieldsFromText_WOP(&input.Text_WOP)
 	textDB.TextPointersEncoding = input.TextPointersEncoding
 
-	query = db.Model(&textDB).Updates(textDB)
-	if query.Error != nil {
+	db, _ = db.Model(&textDB)
+	_, err = db.Updates(&textDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteText(c *gin.Context) {
 
 	// Get model if exist
 	var textDB orm.TextDB
-	if err := db.First(&textDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&textDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteText(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&textDB)
+	db.Unscoped()
+	db.Delete(&textDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	textDeleted := new(models.Text)

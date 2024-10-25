@@ -70,12 +70,12 @@ func (controller *Controller) GetRectAnchoredPaths(c *gin.Context) {
 	}
 	db := backRepo.BackRepoRectAnchoredPath.GetDB()
 
-	query := db.Find(&rectanchoredpathDBs)
-	if query.Error != nil {
+	_, err := db.Find(&rectanchoredpathDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostRectAnchoredPath(c *gin.Context) {
 	rectanchoredpathDB.RectAnchoredPathPointersEncoding = input.RectAnchoredPathPointersEncoding
 	rectanchoredpathDB.CopyBasicFieldsFromRectAnchoredPath_WOP(&input.RectAnchoredPath_WOP)
 
-	query := db.Create(&rectanchoredpathDB)
-	if query.Error != nil {
+	_, err = db.Create(&rectanchoredpathDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetRectAnchoredPath(c *gin.Context) {
 
 	// Get rectanchoredpathDB in DB
 	var rectanchoredpathDB orm.RectAnchoredPathDB
-	if err := db.First(&rectanchoredpathDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&rectanchoredpathDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateRectAnchoredPath(c *gin.Context) {
 	var rectanchoredpathDB orm.RectAnchoredPathDB
 
 	// fetch the rectanchoredpath
-	query := db.First(&rectanchoredpathDB, c.Param("id"))
+	_, err := db.First(&rectanchoredpathDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateRectAnchoredPath(c *gin.Context) {
 	rectanchoredpathDB.CopyBasicFieldsFromRectAnchoredPath_WOP(&input.RectAnchoredPath_WOP)
 	rectanchoredpathDB.RectAnchoredPathPointersEncoding = input.RectAnchoredPathPointersEncoding
 
-	query = db.Model(&rectanchoredpathDB).Updates(rectanchoredpathDB)
-	if query.Error != nil {
+	db, _ = db.Model(&rectanchoredpathDB)
+	_, err = db.Updates(&rectanchoredpathDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteRectAnchoredPath(c *gin.Context) {
 
 	// Get model if exist
 	var rectanchoredpathDB orm.RectAnchoredPathDB
-	if err := db.First(&rectanchoredpathDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&rectanchoredpathDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteRectAnchoredPath(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&rectanchoredpathDB)
+	db.Unscoped()
+	db.Delete(&rectanchoredpathDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	rectanchoredpathDeleted := new(models.RectAnchoredPath)

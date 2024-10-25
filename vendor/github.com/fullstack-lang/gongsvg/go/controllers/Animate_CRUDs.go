@@ -70,12 +70,12 @@ func (controller *Controller) GetAnimates(c *gin.Context) {
 	}
 	db := backRepo.BackRepoAnimate.GetDB()
 
-	query := db.Find(&animateDBs)
-	if query.Error != nil {
+	_, err := db.Find(&animateDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostAnimate(c *gin.Context) {
 	animateDB.AnimatePointersEncoding = input.AnimatePointersEncoding
 	animateDB.CopyBasicFieldsFromAnimate_WOP(&input.Animate_WOP)
 
-	query := db.Create(&animateDB)
-	if query.Error != nil {
+	_, err = db.Create(&animateDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetAnimate(c *gin.Context) {
 
 	// Get animateDB in DB
 	var animateDB orm.AnimateDB
-	if err := db.First(&animateDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&animateDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateAnimate(c *gin.Context) {
 	var animateDB orm.AnimateDB
 
 	// fetch the animate
-	query := db.First(&animateDB, c.Param("id"))
+	_, err := db.First(&animateDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateAnimate(c *gin.Context) {
 	animateDB.CopyBasicFieldsFromAnimate_WOP(&input.Animate_WOP)
 	animateDB.AnimatePointersEncoding = input.AnimatePointersEncoding
 
-	query = db.Model(&animateDB).Updates(animateDB)
-	if query.Error != nil {
+	db, _ = db.Model(&animateDB)
+	_, err = db.Updates(&animateDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteAnimate(c *gin.Context) {
 
 	// Get model if exist
 	var animateDB orm.AnimateDB
-	if err := db.First(&animateDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&animateDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteAnimate(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&animateDB)
+	db.Unscoped()
+	db.Delete(&animateDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	animateDeleted := new(models.Animate)

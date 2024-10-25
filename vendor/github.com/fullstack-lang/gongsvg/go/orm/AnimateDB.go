@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongsvg/go/db"
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
@@ -73,7 +74,7 @@ type AnimateDB struct {
 
 	// Declation for basic field animateDB.RepeatCount
 	RepeatCount_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	AnimatePointersEncoding
@@ -128,7 +129,7 @@ type BackRepoAnimateStruct struct {
 	// stores Animate according to their gorm ID
 	Map_AnimateDBID_AnimatePtr map[uint]*models.Animate
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -138,7 +139,7 @@ func (backRepoAnimate *BackRepoAnimateStruct) GetStage() (stage *models.StageStr
 	return
 }
 
-func (backRepoAnimate *BackRepoAnimateStruct) GetDB() *gorm.DB {
+func (backRepoAnimate *BackRepoAnimateStruct) GetDB() db.DBInterface {
 	return backRepoAnimate.db
 }
 
@@ -175,9 +176,10 @@ func (backRepoAnimate *BackRepoAnimateStruct) CommitDeleteInstance(id uint) (Err
 
 	// animate is not staged anymore, remove animateDB
 	animateDB := backRepoAnimate.Map_AnimateDBID_AnimateDB[id]
-	query := backRepoAnimate.db.Unscoped().Delete(&animateDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoAnimate.db.Unscoped()
+	_, err := db.Delete(animateDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -201,9 +203,9 @@ func (backRepoAnimate *BackRepoAnimateStruct) CommitPhaseOneInstance(animate *mo
 	var animateDB AnimateDB
 	animateDB.CopyBasicFieldsFromAnimate(animate)
 
-	query := backRepoAnimate.db.Create(&animateDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoAnimate.db.Create(&animateDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -235,9 +237,9 @@ func (backRepoAnimate *BackRepoAnimateStruct) CommitPhaseTwoInstance(backRepo *B
 		animateDB.CopyBasicFieldsFromAnimate(animate)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoAnimate.db.Save(&animateDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoAnimate.db.Save(animateDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -256,9 +258,9 @@ func (backRepoAnimate *BackRepoAnimateStruct) CommitPhaseTwoInstance(backRepo *B
 func (backRepoAnimate *BackRepoAnimateStruct) CheckoutPhaseOne() (Error error) {
 
 	animateDBArray := make([]AnimateDB, 0)
-	query := backRepoAnimate.db.Find(&animateDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoAnimate.db.Find(&animateDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -369,7 +371,7 @@ func (backRepo *BackRepoStruct) CheckoutAnimate(animate *models.Animate) {
 			var animateDB AnimateDB
 			animateDB.ID = id
 
-			if err := backRepo.BackRepoAnimate.db.First(&animateDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoAnimate.db.First(&animateDB, id); err != nil {
 				log.Fatalln("CheckoutAnimate : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoAnimate.CheckoutPhaseOneInstance(&animateDB)
@@ -564,9 +566,9 @@ func (backRepoAnimate *BackRepoAnimateStruct) rowVisitorAnimate(row *xlsx.Row) e
 
 		animateDB_ID_atBackupTime := animateDB.ID
 		animateDB.ID = 0
-		query := backRepoAnimate.db.Create(animateDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoAnimate.db.Create(animateDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoAnimate.Map_AnimateDBID_AnimateDB[animateDB.ID] = animateDB
 		BackRepoAnimateid_atBckpTime_newID[animateDB_ID_atBackupTime] = animateDB.ID
@@ -601,9 +603,9 @@ func (backRepoAnimate *BackRepoAnimateStruct) RestorePhaseOne(dirPath string) {
 
 		animateDB_ID_atBackupTime := animateDB.ID
 		animateDB.ID = 0
-		query := backRepoAnimate.db.Create(animateDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoAnimate.db.Create(animateDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoAnimate.Map_AnimateDBID_AnimateDB[animateDB.ID] = animateDB
 		BackRepoAnimateid_atBckpTime_newID[animateDB_ID_atBackupTime] = animateDB.ID
@@ -625,9 +627,10 @@ func (backRepoAnimate *BackRepoAnimateStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoAnimate.db.Model(animateDB).Updates(*animateDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoAnimate.db.Model(animateDB)
+		_, err := db.Updates(*animateDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

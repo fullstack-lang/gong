@@ -70,12 +70,12 @@ func (controller *Controller) GetEllipses(c *gin.Context) {
 	}
 	db := backRepo.BackRepoEllipse.GetDB()
 
-	query := db.Find(&ellipseDBs)
-	if query.Error != nil {
+	_, err := db.Find(&ellipseDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostEllipse(c *gin.Context) {
 	ellipseDB.EllipsePointersEncoding = input.EllipsePointersEncoding
 	ellipseDB.CopyBasicFieldsFromEllipse_WOP(&input.Ellipse_WOP)
 
-	query := db.Create(&ellipseDB)
-	if query.Error != nil {
+	_, err = db.Create(&ellipseDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetEllipse(c *gin.Context) {
 
 	// Get ellipseDB in DB
 	var ellipseDB orm.EllipseDB
-	if err := db.First(&ellipseDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&ellipseDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateEllipse(c *gin.Context) {
 	var ellipseDB orm.EllipseDB
 
 	// fetch the ellipse
-	query := db.First(&ellipseDB, c.Param("id"))
+	_, err := db.First(&ellipseDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateEllipse(c *gin.Context) {
 	ellipseDB.CopyBasicFieldsFromEllipse_WOP(&input.Ellipse_WOP)
 	ellipseDB.EllipsePointersEncoding = input.EllipsePointersEncoding
 
-	query = db.Model(&ellipseDB).Updates(ellipseDB)
-	if query.Error != nil {
+	db, _ = db.Model(&ellipseDB)
+	_, err = db.Updates(&ellipseDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteEllipse(c *gin.Context) {
 
 	// Get model if exist
 	var ellipseDB orm.EllipseDB
-	if err := db.First(&ellipseDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&ellipseDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteEllipse(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&ellipseDB)
+	db.Unscoped()
+	db.Delete(&ellipseDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	ellipseDeleted := new(models.Ellipse)
