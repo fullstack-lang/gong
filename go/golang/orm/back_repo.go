@@ -12,8 +12,12 @@ import (
 	"path/filepath"
 	"sync"
 
+	"{{PkgPathRoot}}/db"
 	"{{PkgPathRoot}}/models"
+
+	` + gormFirstLineToBeRemoved + `
 	"{{PkgPathRoot}}/orm/dbgorm"
+	` + gormLastLineToBeRemoved + `
 
 	"github.com/tealeg/xlsx/v3"
 )
@@ -34,8 +38,16 @@ type BackRepoStruct struct {
 
 func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepoStruct) {
 
-	dbWrapper := dbgorm.NewDBWrapper(filename, "{{PkgPathRootWithoutSlashes}}",{{` + string(rune(BackRepoPerStructRefToStructDB)) + `}}
+	var db db.DBInterface
+
+	` + liteFirstLineToBeRemoved + `
+	db = NewDBLite()
+	` + liteLastLineToBeRemoved + `
+
+	` + gormFirstLineToBeRemoved + `
+	db = dbgorm.NewDBWrapper(filename, "{{PkgPathRootWithoutSlashes}}",{{` + string(rune(BackRepoPerStructRefToStructDB)) + `}}
 	)
+	` + gormLastLineToBeRemoved + `
 
 	backRepo = new(BackRepoStruct)
 
@@ -241,7 +253,7 @@ map[string]string{
 		Map_{{Structname}}DBID_{{Structname}}DB:  make(map[uint]*{{Structname}}DB, 0),
 		Map_{{Structname}}Ptr_{{Structname}}DBID: make(map[*models.{{Structname}}]uint, 0),
 
-		db:    dbWrapper,
+		db:    db,
 		stage: stage,
 	}`,
 
