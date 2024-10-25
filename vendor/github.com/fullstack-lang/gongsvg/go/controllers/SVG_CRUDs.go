@@ -70,12 +70,12 @@ func (controller *Controller) GetSVGs(c *gin.Context) {
 	}
 	db := backRepo.BackRepoSVG.GetDB()
 
-	query := db.Find(&svgDBs)
-	if query.Error != nil {
+	_, err := db.Find(&svgDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostSVG(c *gin.Context) {
 	svgDB.SVGPointersEncoding = input.SVGPointersEncoding
 	svgDB.CopyBasicFieldsFromSVG_WOP(&input.SVG_WOP)
 
-	query := db.Create(&svgDB)
-	if query.Error != nil {
+	_, err = db.Create(&svgDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetSVG(c *gin.Context) {
 
 	// Get svgDB in DB
 	var svgDB orm.SVGDB
-	if err := db.First(&svgDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&svgDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateSVG(c *gin.Context) {
 	var svgDB orm.SVGDB
 
 	// fetch the svg
-	query := db.First(&svgDB, c.Param("id"))
+	_, err := db.First(&svgDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateSVG(c *gin.Context) {
 	svgDB.CopyBasicFieldsFromSVG_WOP(&input.SVG_WOP)
 	svgDB.SVGPointersEncoding = input.SVGPointersEncoding
 
-	query = db.Model(&svgDB).Updates(svgDB)
-	if query.Error != nil {
+	db, _ = db.Model(&svgDB)
+	_, err = db.Updates(&svgDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteSVG(c *gin.Context) {
 
 	// Get model if exist
 	var svgDB orm.SVGDB
-	if err := db.First(&svgDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&svgDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteSVG(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&svgDB)
+	db.Unscoped()
+	db.Delete(&svgDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	svgDeleted := new(models.SVG)

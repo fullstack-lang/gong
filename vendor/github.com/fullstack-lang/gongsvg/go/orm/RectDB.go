@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongsvg/go/db"
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
@@ -164,7 +165,7 @@ type RectDB struct {
 	// Declation for basic field rectDB.CanMoveVerticaly
 	// provide the sql storage for the boolan
 	CanMoveVerticaly_Data sql.NullBool
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	RectPointersEncoding
@@ -285,7 +286,7 @@ type BackRepoRectStruct struct {
 	// stores Rect according to their gorm ID
 	Map_RectDBID_RectPtr map[uint]*models.Rect
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -295,7 +296,7 @@ func (backRepoRect *BackRepoRectStruct) GetStage() (stage *models.StageStruct) {
 	return
 }
 
-func (backRepoRect *BackRepoRectStruct) GetDB() *gorm.DB {
+func (backRepoRect *BackRepoRectStruct) GetDB() db.DBInterface {
 	return backRepoRect.db
 }
 
@@ -332,9 +333,10 @@ func (backRepoRect *BackRepoRectStruct) CommitDeleteInstance(id uint) (Error err
 
 	// rect is not staged anymore, remove rectDB
 	rectDB := backRepoRect.Map_RectDBID_RectDB[id]
-	query := backRepoRect.db.Unscoped().Delete(&rectDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoRect.db.Unscoped()
+	_, err := db.Delete(rectDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -358,9 +360,9 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseOneInstance(rect *models.Rect
 	var rectDB RectDB
 	rectDB.CopyBasicFieldsFromRect(rect)
 
-	query := backRepoRect.db.Create(&rectDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoRect.db.Create(&rectDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -464,9 +466,9 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				append(rectDB.RectPointersEncoding.RectAnchoredPaths, int(rectanchoredpathAssocEnd_DB.ID))
 		}
 
-		query := backRepoRect.db.Save(&rectDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoRect.db.Save(rectDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -485,9 +487,9 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 func (backRepoRect *BackRepoRectStruct) CheckoutPhaseOne() (Error error) {
 
 	rectDBArray := make([]RectDB, 0)
-	query := backRepoRect.db.Find(&rectDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoRect.db.Find(&rectDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -634,7 +636,7 @@ func (backRepo *BackRepoStruct) CheckoutRect(rect *models.Rect) {
 			var rectDB RectDB
 			rectDB.ID = id
 
-			if err := backRepo.BackRepoRect.db.First(&rectDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoRect.db.First(&rectDB, id); err != nil {
 				log.Fatalln("CheckoutRect : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoRect.CheckoutPhaseOneInstance(&rectDB)
@@ -1093,9 +1095,9 @@ func (backRepoRect *BackRepoRectStruct) rowVisitorRect(row *xlsx.Row) error {
 
 		rectDB_ID_atBackupTime := rectDB.ID
 		rectDB.ID = 0
-		query := backRepoRect.db.Create(rectDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoRect.db.Create(rectDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoRect.Map_RectDBID_RectDB[rectDB.ID] = rectDB
 		BackRepoRectid_atBckpTime_newID[rectDB_ID_atBackupTime] = rectDB.ID
@@ -1130,9 +1132,9 @@ func (backRepoRect *BackRepoRectStruct) RestorePhaseOne(dirPath string) {
 
 		rectDB_ID_atBackupTime := rectDB.ID
 		rectDB.ID = 0
-		query := backRepoRect.db.Create(rectDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoRect.db.Create(rectDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoRect.Map_RectDBID_RectDB[rectDB.ID] = rectDB
 		BackRepoRectid_atBckpTime_newID[rectDB_ID_atBackupTime] = rectDB.ID
@@ -1154,9 +1156,10 @@ func (backRepoRect *BackRepoRectStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoRect.db.Model(rectDB).Updates(*rectDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoRect.db.Model(rectDB)
+		_, err := db.Updates(*rectDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

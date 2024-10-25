@@ -70,12 +70,12 @@ func (controller *Controller) GetLinkAnchoredTexts(c *gin.Context) {
 	}
 	db := backRepo.BackRepoLinkAnchoredText.GetDB()
 
-	query := db.Find(&linkanchoredtextDBs)
-	if query.Error != nil {
+	_, err := db.Find(&linkanchoredtextDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostLinkAnchoredText(c *gin.Context) {
 	linkanchoredtextDB.LinkAnchoredTextPointersEncoding = input.LinkAnchoredTextPointersEncoding
 	linkanchoredtextDB.CopyBasicFieldsFromLinkAnchoredText_WOP(&input.LinkAnchoredText_WOP)
 
-	query := db.Create(&linkanchoredtextDB)
-	if query.Error != nil {
+	_, err = db.Create(&linkanchoredtextDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetLinkAnchoredText(c *gin.Context) {
 
 	// Get linkanchoredtextDB in DB
 	var linkanchoredtextDB orm.LinkAnchoredTextDB
-	if err := db.First(&linkanchoredtextDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&linkanchoredtextDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateLinkAnchoredText(c *gin.Context) {
 	var linkanchoredtextDB orm.LinkAnchoredTextDB
 
 	// fetch the linkanchoredtext
-	query := db.First(&linkanchoredtextDB, c.Param("id"))
+	_, err := db.First(&linkanchoredtextDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateLinkAnchoredText(c *gin.Context) {
 	linkanchoredtextDB.CopyBasicFieldsFromLinkAnchoredText_WOP(&input.LinkAnchoredText_WOP)
 	linkanchoredtextDB.LinkAnchoredTextPointersEncoding = input.LinkAnchoredTextPointersEncoding
 
-	query = db.Model(&linkanchoredtextDB).Updates(linkanchoredtextDB)
-	if query.Error != nil {
+	db, _ = db.Model(&linkanchoredtextDB)
+	_, err = db.Updates(&linkanchoredtextDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteLinkAnchoredText(c *gin.Context) {
 
 	// Get model if exist
 	var linkanchoredtextDB orm.LinkAnchoredTextDB
-	if err := db.First(&linkanchoredtextDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&linkanchoredtextDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteLinkAnchoredText(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&linkanchoredtextDB)
+	db.Unscoped()
+	db.Delete(&linkanchoredtextDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	linkanchoredtextDeleted := new(models.LinkAnchoredText)

@@ -70,12 +70,12 @@ func (controller *Controller) GetPoints(c *gin.Context) {
 	}
 	db := backRepo.BackRepoPoint.GetDB()
 
-	query := db.Find(&pointDBs)
-	if query.Error != nil {
+	_, err := db.Find(&pointDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostPoint(c *gin.Context) {
 	pointDB.PointPointersEncoding = input.PointPointersEncoding
 	pointDB.CopyBasicFieldsFromPoint_WOP(&input.Point_WOP)
 
-	query := db.Create(&pointDB)
-	if query.Error != nil {
+	_, err = db.Create(&pointDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetPoint(c *gin.Context) {
 
 	// Get pointDB in DB
 	var pointDB orm.PointDB
-	if err := db.First(&pointDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&pointDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdatePoint(c *gin.Context) {
 	var pointDB orm.PointDB
 
 	// fetch the point
-	query := db.First(&pointDB, c.Param("id"))
+	_, err := db.First(&pointDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdatePoint(c *gin.Context) {
 	pointDB.CopyBasicFieldsFromPoint_WOP(&input.Point_WOP)
 	pointDB.PointPointersEncoding = input.PointPointersEncoding
 
-	query = db.Model(&pointDB).Updates(pointDB)
-	if query.Error != nil {
+	db, _ = db.Model(&pointDB)
+	_, err = db.Updates(&pointDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeletePoint(c *gin.Context) {
 
 	// Get model if exist
 	var pointDB orm.PointDB
-	if err := db.First(&pointDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&pointDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeletePoint(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&pointDB)
+	db.Unscoped()
+	db.Delete(&pointDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	pointDeleted := new(models.Point)

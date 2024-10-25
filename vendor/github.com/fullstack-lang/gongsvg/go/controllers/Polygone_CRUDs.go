@@ -70,12 +70,12 @@ func (controller *Controller) GetPolygones(c *gin.Context) {
 	}
 	db := backRepo.BackRepoPolygone.GetDB()
 
-	query := db.Find(&polygoneDBs)
-	if query.Error != nil {
+	_, err := db.Find(&polygoneDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostPolygone(c *gin.Context) {
 	polygoneDB.PolygonePointersEncoding = input.PolygonePointersEncoding
 	polygoneDB.CopyBasicFieldsFromPolygone_WOP(&input.Polygone_WOP)
 
-	query := db.Create(&polygoneDB)
-	if query.Error != nil {
+	_, err = db.Create(&polygoneDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetPolygone(c *gin.Context) {
 
 	// Get polygoneDB in DB
 	var polygoneDB orm.PolygoneDB
-	if err := db.First(&polygoneDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&polygoneDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdatePolygone(c *gin.Context) {
 	var polygoneDB orm.PolygoneDB
 
 	// fetch the polygone
-	query := db.First(&polygoneDB, c.Param("id"))
+	_, err := db.First(&polygoneDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdatePolygone(c *gin.Context) {
 	polygoneDB.CopyBasicFieldsFromPolygone_WOP(&input.Polygone_WOP)
 	polygoneDB.PolygonePointersEncoding = input.PolygonePointersEncoding
 
-	query = db.Model(&polygoneDB).Updates(polygoneDB)
-	if query.Error != nil {
+	db, _ = db.Model(&polygoneDB)
+	_, err = db.Updates(&polygoneDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeletePolygone(c *gin.Context) {
 
 	// Get model if exist
 	var polygoneDB orm.PolygoneDB
-	if err := db.First(&polygoneDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&polygoneDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeletePolygone(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&polygoneDB)
+	db.Unscoped()
+	db.Delete(&polygoneDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	polygoneDeleted := new(models.Polygone)

@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongsvg/go/db"
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
@@ -91,7 +92,7 @@ type PathDB struct {
 
 	// Declation for basic field pathDB.Transform
 	Transform_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	PathPointersEncoding
@@ -161,7 +162,7 @@ type BackRepoPathStruct struct {
 	// stores Path according to their gorm ID
 	Map_PathDBID_PathPtr map[uint]*models.Path
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -171,7 +172,7 @@ func (backRepoPath *BackRepoPathStruct) GetStage() (stage *models.StageStruct) {
 	return
 }
 
-func (backRepoPath *BackRepoPathStruct) GetDB() *gorm.DB {
+func (backRepoPath *BackRepoPathStruct) GetDB() db.DBInterface {
 	return backRepoPath.db
 }
 
@@ -208,9 +209,10 @@ func (backRepoPath *BackRepoPathStruct) CommitDeleteInstance(id uint) (Error err
 
 	// path is not staged anymore, remove pathDB
 	pathDB := backRepoPath.Map_PathDBID_PathDB[id]
-	query := backRepoPath.db.Unscoped().Delete(&pathDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoPath.db.Unscoped()
+	_, err := db.Delete(pathDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -234,9 +236,9 @@ func (backRepoPath *BackRepoPathStruct) CommitPhaseOneInstance(path *models.Path
 	var pathDB PathDB
 	pathDB.CopyBasicFieldsFromPath(path)
 
-	query := backRepoPath.db.Create(&pathDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoPath.db.Create(&pathDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -286,9 +288,9 @@ func (backRepoPath *BackRepoPathStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				append(pathDB.PathPointersEncoding.Animates, int(animateAssocEnd_DB.ID))
 		}
 
-		query := backRepoPath.db.Save(&pathDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoPath.db.Save(pathDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -307,9 +309,9 @@ func (backRepoPath *BackRepoPathStruct) CommitPhaseTwoInstance(backRepo *BackRep
 func (backRepoPath *BackRepoPathStruct) CheckoutPhaseOne() (Error error) {
 
 	pathDBArray := make([]PathDB, 0)
-	query := backRepoPath.db.Find(&pathDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoPath.db.Find(&pathDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -429,7 +431,7 @@ func (backRepo *BackRepoStruct) CheckoutPath(path *models.Path) {
 			var pathDB PathDB
 			pathDB.ID = id
 
-			if err := backRepo.BackRepoPath.db.First(&pathDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoPath.db.First(&pathDB, id); err != nil {
 				log.Fatalln("CheckoutPath : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoPath.CheckoutPhaseOneInstance(&pathDB)
@@ -684,9 +686,9 @@ func (backRepoPath *BackRepoPathStruct) rowVisitorPath(row *xlsx.Row) error {
 
 		pathDB_ID_atBackupTime := pathDB.ID
 		pathDB.ID = 0
-		query := backRepoPath.db.Create(pathDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoPath.db.Create(pathDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoPath.Map_PathDBID_PathDB[pathDB.ID] = pathDB
 		BackRepoPathid_atBckpTime_newID[pathDB_ID_atBackupTime] = pathDB.ID
@@ -721,9 +723,9 @@ func (backRepoPath *BackRepoPathStruct) RestorePhaseOne(dirPath string) {
 
 		pathDB_ID_atBackupTime := pathDB.ID
 		pathDB.ID = 0
-		query := backRepoPath.db.Create(pathDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoPath.db.Create(pathDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoPath.Map_PathDBID_PathDB[pathDB.ID] = pathDB
 		BackRepoPathid_atBckpTime_newID[pathDB_ID_atBackupTime] = pathDB.ID
@@ -745,9 +747,10 @@ func (backRepoPath *BackRepoPathStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoPath.db.Model(pathDB).Updates(*pathDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoPath.db.Model(pathDB)
+		_, err := db.Updates(*pathDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

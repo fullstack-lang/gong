@@ -234,7 +234,7 @@ export class GongsvgDiagrammingComponent implements OnInit, OnDestroy, AfterView
 
   ngOnInit(): void {
 
-    console.log("Material component->ngOnInit : GONG__StackPath, " + this.GONG__StackPath)
+    // console.log("Material component->ngOnInit : GONG__StackPath, " + this.GONG__StackPath)
 
     // this component is a "push mode component"
     // because the template calls many functions whose state cannot be computed

@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongsvg/go/db"
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
@@ -113,7 +114,7 @@ type LinkAnchoredTextDB struct {
 
 	// Declation for basic field linkanchoredtextDB.Transform
 	Transform_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	LinkAnchoredTextPointersEncoding
@@ -204,7 +205,7 @@ type BackRepoLinkAnchoredTextStruct struct {
 	// stores LinkAnchoredText according to their gorm ID
 	Map_LinkAnchoredTextDBID_LinkAnchoredTextPtr map[uint]*models.LinkAnchoredText
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -214,7 +215,7 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) GetStage() (stag
 	return
 }
 
-func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) GetDB() *gorm.DB {
+func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) GetDB() db.DBInterface {
 	return backRepoLinkAnchoredText.db
 }
 
@@ -251,9 +252,10 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CommitDeleteInst
 
 	// linkanchoredtext is not staged anymore, remove linkanchoredtextDB
 	linkanchoredtextDB := backRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextDB[id]
-	query := backRepoLinkAnchoredText.db.Unscoped().Delete(&linkanchoredtextDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoLinkAnchoredText.db.Unscoped()
+	_, err := db.Delete(linkanchoredtextDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -277,9 +279,9 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CommitPhaseOneIn
 	var linkanchoredtextDB LinkAnchoredTextDB
 	linkanchoredtextDB.CopyBasicFieldsFromLinkAnchoredText(linkanchoredtext)
 
-	query := backRepoLinkAnchoredText.db.Create(&linkanchoredtextDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoLinkAnchoredText.db.Create(&linkanchoredtextDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -329,9 +331,9 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CommitPhaseTwoIn
 				append(linkanchoredtextDB.LinkAnchoredTextPointersEncoding.Animates, int(animateAssocEnd_DB.ID))
 		}
 
-		query := backRepoLinkAnchoredText.db.Save(&linkanchoredtextDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoLinkAnchoredText.db.Save(linkanchoredtextDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -350,9 +352,9 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CommitPhaseTwoIn
 func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CheckoutPhaseOne() (Error error) {
 
 	linkanchoredtextDBArray := make([]LinkAnchoredTextDB, 0)
-	query := backRepoLinkAnchoredText.db.Find(&linkanchoredtextDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoLinkAnchoredText.db.Find(&linkanchoredtextDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -472,7 +474,7 @@ func (backRepo *BackRepoStruct) CheckoutLinkAnchoredText(linkanchoredtext *model
 			var linkanchoredtextDB LinkAnchoredTextDB
 			linkanchoredtextDB.ID = id
 
-			if err := backRepo.BackRepoLinkAnchoredText.db.First(&linkanchoredtextDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoLinkAnchoredText.db.First(&linkanchoredtextDB, id); err != nil {
 				log.Fatalln("CheckoutLinkAnchoredText : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoLinkAnchoredText.CheckoutPhaseOneInstance(&linkanchoredtextDB)
@@ -811,9 +813,9 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) rowVisitorLinkAn
 
 		linkanchoredtextDB_ID_atBackupTime := linkanchoredtextDB.ID
 		linkanchoredtextDB.ID = 0
-		query := backRepoLinkAnchoredText.db.Create(linkanchoredtextDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoLinkAnchoredText.db.Create(linkanchoredtextDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextDB[linkanchoredtextDB.ID] = linkanchoredtextDB
 		BackRepoLinkAnchoredTextid_atBckpTime_newID[linkanchoredtextDB_ID_atBackupTime] = linkanchoredtextDB.ID
@@ -848,9 +850,9 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) RestorePhaseOne(
 
 		linkanchoredtextDB_ID_atBackupTime := linkanchoredtextDB.ID
 		linkanchoredtextDB.ID = 0
-		query := backRepoLinkAnchoredText.db.Create(linkanchoredtextDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoLinkAnchoredText.db.Create(linkanchoredtextDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextDB[linkanchoredtextDB.ID] = linkanchoredtextDB
 		BackRepoLinkAnchoredTextid_atBckpTime_newID[linkanchoredtextDB_ID_atBackupTime] = linkanchoredtextDB.ID
@@ -872,9 +874,10 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) RestorePhaseTwo(
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoLinkAnchoredText.db.Model(linkanchoredtextDB).Updates(*linkanchoredtextDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoLinkAnchoredText.db.Model(linkanchoredtextDB)
+		_, err := db.Updates(*linkanchoredtextDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

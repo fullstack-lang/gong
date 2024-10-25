@@ -70,12 +70,12 @@ func (controller *Controller) GetPaths(c *gin.Context) {
 	}
 	db := backRepo.BackRepoPath.GetDB()
 
-	query := db.Find(&pathDBs)
-	if query.Error != nil {
+	_, err := db.Find(&pathDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostPath(c *gin.Context) {
 	pathDB.PathPointersEncoding = input.PathPointersEncoding
 	pathDB.CopyBasicFieldsFromPath_WOP(&input.Path_WOP)
 
-	query := db.Create(&pathDB)
-	if query.Error != nil {
+	_, err = db.Create(&pathDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetPath(c *gin.Context) {
 
 	// Get pathDB in DB
 	var pathDB orm.PathDB
-	if err := db.First(&pathDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&pathDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdatePath(c *gin.Context) {
 	var pathDB orm.PathDB
 
 	// fetch the path
-	query := db.First(&pathDB, c.Param("id"))
+	_, err := db.First(&pathDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdatePath(c *gin.Context) {
 	pathDB.CopyBasicFieldsFromPath_WOP(&input.Path_WOP)
 	pathDB.PathPointersEncoding = input.PathPointersEncoding
 
-	query = db.Model(&pathDB).Updates(pathDB)
-	if query.Error != nil {
+	db, _ = db.Model(&pathDB)
+	_, err = db.Updates(&pathDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeletePath(c *gin.Context) {
 
 	// Get model if exist
 	var pathDB orm.PathDB
-	if err := db.First(&pathDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&pathDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeletePath(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&pathDB)
+	db.Unscoped()
+	db.Delete(&pathDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	pathDeleted := new(models.Path)

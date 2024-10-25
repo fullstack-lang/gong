@@ -70,12 +70,12 @@ func (controller *Controller) GetCircles(c *gin.Context) {
 	}
 	db := backRepo.BackRepoCircle.GetDB()
 
-	query := db.Find(&circleDBs)
-	if query.Error != nil {
+	_, err := db.Find(&circleDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostCircle(c *gin.Context) {
 	circleDB.CirclePointersEncoding = input.CirclePointersEncoding
 	circleDB.CopyBasicFieldsFromCircle_WOP(&input.Circle_WOP)
 
-	query := db.Create(&circleDB)
-	if query.Error != nil {
+	_, err = db.Create(&circleDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetCircle(c *gin.Context) {
 
 	// Get circleDB in DB
 	var circleDB orm.CircleDB
-	if err := db.First(&circleDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&circleDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateCircle(c *gin.Context) {
 	var circleDB orm.CircleDB
 
 	// fetch the circle
-	query := db.First(&circleDB, c.Param("id"))
+	_, err := db.First(&circleDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateCircle(c *gin.Context) {
 	circleDB.CopyBasicFieldsFromCircle_WOP(&input.Circle_WOP)
 	circleDB.CirclePointersEncoding = input.CirclePointersEncoding
 
-	query = db.Model(&circleDB).Updates(circleDB)
-	if query.Error != nil {
+	db, _ = db.Model(&circleDB)
+	_, err = db.Updates(&circleDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteCircle(c *gin.Context) {
 
 	// Get model if exist
 	var circleDB orm.CircleDB
-	if err := db.First(&circleDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&circleDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteCircle(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&circleDB)
+	db.Unscoped()
+	db.Delete(&circleDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	circleDeleted := new(models.Circle)

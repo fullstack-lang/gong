@@ -22,3 +22,4 @@ test/go/tests/serialize_test.xlsx
 
 node_modules
 test3/go/cmd/test3/test3
+test3/go/cmd/test3/wasmworkbench.wasm

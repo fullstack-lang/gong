@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongsvg/go/db"
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
@@ -117,7 +118,7 @@ type RectAnchoredRectDB struct {
 
 	// Declation for basic field rectanchoredrectDB.Transform
 	Transform_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	RectAnchoredRectPointersEncoding
@@ -214,7 +215,7 @@ type BackRepoRectAnchoredRectStruct struct {
 	// stores RectAnchoredRect according to their gorm ID
 	Map_RectAnchoredRectDBID_RectAnchoredRectPtr map[uint]*models.RectAnchoredRect
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -224,7 +225,7 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) GetStage() (stag
 	return
 }
 
-func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) GetDB() *gorm.DB {
+func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) GetDB() db.DBInterface {
 	return backRepoRectAnchoredRect.db
 }
 
@@ -261,9 +262,10 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) CommitDeleteInst
 
 	// rectanchoredrect is not staged anymore, remove rectanchoredrectDB
 	rectanchoredrectDB := backRepoRectAnchoredRect.Map_RectAnchoredRectDBID_RectAnchoredRectDB[id]
-	query := backRepoRectAnchoredRect.db.Unscoped().Delete(&rectanchoredrectDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoRectAnchoredRect.db.Unscoped()
+	_, err := db.Delete(rectanchoredrectDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -287,9 +289,9 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) CommitPhaseOneIn
 	var rectanchoredrectDB RectAnchoredRectDB
 	rectanchoredrectDB.CopyBasicFieldsFromRectAnchoredRect(rectanchoredrect)
 
-	query := backRepoRectAnchoredRect.db.Create(&rectanchoredrectDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoRectAnchoredRect.db.Create(&rectanchoredrectDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -321,9 +323,9 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) CommitPhaseTwoIn
 		rectanchoredrectDB.CopyBasicFieldsFromRectAnchoredRect(rectanchoredrect)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoRectAnchoredRect.db.Save(&rectanchoredrectDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoRectAnchoredRect.db.Save(rectanchoredrectDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -342,9 +344,9 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) CommitPhaseTwoIn
 func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) CheckoutPhaseOne() (Error error) {
 
 	rectanchoredrectDBArray := make([]RectAnchoredRectDB, 0)
-	query := backRepoRectAnchoredRect.db.Find(&rectanchoredrectDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoRectAnchoredRect.db.Find(&rectanchoredrectDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -455,7 +457,7 @@ func (backRepo *BackRepoStruct) CheckoutRectAnchoredRect(rectanchoredrect *model
 			var rectanchoredrectDB RectAnchoredRectDB
 			rectanchoredrectDB.ID = id
 
-			if err := backRepo.BackRepoRectAnchoredRect.db.First(&rectanchoredrectDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoRectAnchoredRect.db.First(&rectanchoredrectDB, id); err != nil {
 				log.Fatalln("CheckoutRectAnchoredRect : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoRectAnchoredRect.CheckoutPhaseOneInstance(&rectanchoredrectDB)
@@ -818,9 +820,9 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) rowVisitorRectAn
 
 		rectanchoredrectDB_ID_atBackupTime := rectanchoredrectDB.ID
 		rectanchoredrectDB.ID = 0
-		query := backRepoRectAnchoredRect.db.Create(rectanchoredrectDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoRectAnchoredRect.db.Create(rectanchoredrectDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoRectAnchoredRect.Map_RectAnchoredRectDBID_RectAnchoredRectDB[rectanchoredrectDB.ID] = rectanchoredrectDB
 		BackRepoRectAnchoredRectid_atBckpTime_newID[rectanchoredrectDB_ID_atBackupTime] = rectanchoredrectDB.ID
@@ -855,9 +857,9 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) RestorePhaseOne(
 
 		rectanchoredrectDB_ID_atBackupTime := rectanchoredrectDB.ID
 		rectanchoredrectDB.ID = 0
-		query := backRepoRectAnchoredRect.db.Create(rectanchoredrectDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoRectAnchoredRect.db.Create(rectanchoredrectDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoRectAnchoredRect.Map_RectAnchoredRectDBID_RectAnchoredRectDB[rectanchoredrectDB.ID] = rectanchoredrectDB
 		BackRepoRectAnchoredRectid_atBckpTime_newID[rectanchoredrectDB_ID_atBackupTime] = rectanchoredrectDB.ID
@@ -879,9 +881,10 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) RestorePhaseTwo(
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoRectAnchoredRect.db.Model(rectanchoredrectDB).Updates(*rectanchoredrectDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoRectAnchoredRect.db.Model(rectanchoredrectDB)
+		_, err := db.Updates(*rectanchoredrectDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 
