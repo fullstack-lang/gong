@@ -280,7 +280,7 @@ func (controller *Controller) UpdateVertice(c *gin.Context) {
 	verticeDB.VerticePointersEncoding = input.VerticePointersEncoding
 
 	db, _ = db.Model(&verticeDB)
-	_, err = db.Updates(verticeDB)
+	_, err = db.Updates(&verticeDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

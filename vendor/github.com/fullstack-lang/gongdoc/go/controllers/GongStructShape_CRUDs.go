@@ -280,7 +280,7 @@ func (controller *Controller) UpdateGongStructShape(c *gin.Context) {
 	gongstructshapeDB.GongStructShapePointersEncoding = input.GongStructShapePointersEncoding
 
 	db, _ = db.Model(&gongstructshapeDB)
-	_, err = db.Updates(gongstructshapeDB)
+	_, err = db.Updates(&gongstructshapeDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
