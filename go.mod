@@ -23,9 +23,9 @@ require (
 )
 
 require (
-	github.com/fullstack-lang/gongdoc v0.0.0-20241025024528-d1af3c9aa831
-	github.com/fullstack-lang/gongtable v0.0.0-20241025024529-e952c85ebc7a
-	github.com/fullstack-lang/gongtree v0.0.0-20241025024035-5eba8179bc4d
+	github.com/fullstack-lang/gongdoc v0.0.0-20241025025257-b524e3b83d4d
+	github.com/fullstack-lang/gongtable v0.0.0-20241025025259-7eaf46211db5
+	github.com/fullstack-lang/gongtree v0.0.0-20241025025259-5166fba94dcc
 	github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00
 	github.com/glebarez/sqlite v1.11.0
 	github.com/gorilla/websocket v1.5.3
