@@ -14,7 +14,10 @@ import (
 
 	"{{PkgPathRoot}}/db"
 	"{{PkgPathRoot}}/models"
+
+	` + gormFirstLineToBeRemoved + `
 	"{{PkgPathRoot}}/orm/dbgorm"
+	` + gormLastLineToBeRemoved + `
 
 	"github.com/tealeg/xlsx/v3"
 )
@@ -37,13 +40,14 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 
 	var db db.DBInterface
 
-	if true {
-		db = NewDBLite()
-	} else {
-		db = dbgorm.NewDBWrapper(filename, "{{PkgPathRootWithoutSlashes}}",{{` + string(rune(BackRepoPerStructRefToStructDB)) + `}}
-		)
-	}
+	` + liteFirstLineToBeRemoved + `
+	db = NewDBLite()
+	` + liteLastLineToBeRemoved + `
 
+	` + gormFirstLineToBeRemoved + `
+	db = dbgorm.NewDBWrapper(filename, "{{PkgPathRootWithoutSlashes}}",{{` + string(rune(BackRepoPerStructRefToStructDB)) + `}}
+	)
+	` + gormLastLineToBeRemoved + `
 
 	backRepo = new(BackRepoStruct)
 
@@ -254,7 +258,7 @@ map[string]string{
 	}`,
 
 	string(rune(BackRepoPerStructRefToStructDB)): `
-			&{{Structname}}DB{},`,
+		&{{Structname}}DB{},`,
 
 	string(rune(BackRepoPerStructPhaseOneCommits)): `
 	backRepo.BackRepo{{Structname}}.CommitPhaseOne(stage)`,
