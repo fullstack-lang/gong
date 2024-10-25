@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"sync"
 
 	"{{PkgPathRoot}}/db"
 )
@@ -16,6 +17,9 @@ var _ db.DBInterface = &DBLite{}
 
 // DBLite is an in-memory database implementation of DBInterface
 type DBLite struct {
+	// Mutex to protect shared resources
+	mu sync.RWMutex
+
 	// insertion point definitions{{` + string(rune(DBliteMapFieldDefinition)) + `}}
 }
 
@@ -31,6 +35,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 	if instanceDB == nil {
 		return nil, errors.New("instanceDB cannot be nil")
 	}
+
+	db.mu.Lock()
+	defer db.mu.Unlock()
+
 	switch v := instanceDB.(type) {
 	// insertion point create{{` + string(rune(DBliteMapFieldCreate)) + `}}
 	default:
@@ -55,6 +63,10 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 	if instanceDB == nil {
 		return nil, errors.New("instanceDB cannot be nil")
 	}
+
+	db.mu.Lock()
+	defer db.mu.Unlock()
+
 	switch v := instanceDB.(type) {
 	// insertion point delete{{` + string(rune(DBliteMapFieldDelete)) + `}}
 	default:
@@ -65,6 +77,14 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 
 // Save updates or inserts a record into the database
 func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
+
+	if instanceDB == nil {
+		return nil, errors.New("instanceDB cannot be nil")
+	}
+
+	db.mu.Lock()
+	defer db.mu.Unlock()
+
 	switch v := instanceDB.(type) {
 	// insertion point delete{{` + string(rune(DBliteMapFieldSave)) + `}}
 	default:
@@ -77,6 +97,10 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 	if instanceDB == nil {
 		return nil, errors.New("instanceDB cannot be nil")
 	}
+
+	db.mu.Lock()
+	defer db.mu.Unlock()
+
 	switch v := instanceDB.(type) {
 	// insertion point delete{{` + string(rune(DBliteMapFieldUpdate)) + `}}
 	default:
@@ -87,6 +111,10 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 
 // Find retrieves all records of a type from the database
 func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
+
+	db.mu.RLock()
+	defer db.mu.RUnlock()
+
 	switch ptr := instanceDBs.(type) {
 	// insertion point find{{` + string(rune(DBliteMapFieldFind)) + `}}
     default:
@@ -110,6 +138,9 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 	if err != nil {
 		return nil, errors.New("conds[0] is not a string number")
 	}
+
+	db.mu.RLock()
+	defer db.mu.RUnlock()
 
 	switch instanceDB.(type) {
 	// insertion point first{{` + string(rune(DBliteMapFieldFirst)) + `}}
