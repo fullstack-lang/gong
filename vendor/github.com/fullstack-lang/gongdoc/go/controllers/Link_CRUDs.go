@@ -280,7 +280,7 @@ func (controller *Controller) UpdateLink(c *gin.Context) {
 	linkDB.LinkPointersEncoding = input.LinkPointersEncoding
 
 	db, _ = db.Model(&linkDB)
-	_, err = db.Updates(linkDB)
+	_, err = db.Updates(&linkDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

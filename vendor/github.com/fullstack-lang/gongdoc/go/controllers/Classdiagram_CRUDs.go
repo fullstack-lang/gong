@@ -280,7 +280,7 @@ func (controller *Controller) UpdateClassdiagram(c *gin.Context) {
 	classdiagramDB.ClassdiagramPointersEncoding = input.ClassdiagramPointersEncoding
 
 	db, _ = db.Model(&classdiagramDB)
-	_, err = db.Updates(classdiagramDB)
+	_, err = db.Updates(&classdiagramDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

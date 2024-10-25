@@ -280,7 +280,7 @@ func (controller *Controller) UpdateDisplayedColumn(c *gin.Context) {
 	displayedcolumnDB.DisplayedColumnPointersEncoding = input.DisplayedColumnPointersEncoding
 
 	db, _ = db.Model(&displayedcolumnDB)
-	_, err = db.Updates(displayedcolumnDB)
+	_, err = db.Updates(&displayedcolumnDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
