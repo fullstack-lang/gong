@@ -280,7 +280,7 @@ func (controller *Controller) UpdateDiagramPackage(c *gin.Context) {
 	diagrampackageDB.DiagramPackagePointersEncoding = input.DiagramPackagePointersEncoding
 
 	db, _ = db.Model(&diagrampackageDB)
-	_, err = db.Updates(diagrampackageDB)
+	_, err = db.Updates(&diagrampackageDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

@@ -280,7 +280,7 @@ func (controller *Controller) UpdateNoteShapeLink(c *gin.Context) {
 	noteshapelinkDB.NoteShapeLinkPointersEncoding = input.NoteShapeLinkPointersEncoding
 
 	db, _ = db.Model(&noteshapelinkDB)
-	_, err = db.Updates(noteshapelinkDB)
+	_, err = db.Updates(&noteshapelinkDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

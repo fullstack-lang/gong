@@ -280,7 +280,7 @@ func (controller *Controller) UpdateFormFieldTime(c *gin.Context) {
 	formfieldtimeDB.FormFieldTimePointersEncoding = input.FormFieldTimePointersEncoding
 
 	db, _ = db.Model(&formfieldtimeDB)
-	_, err = db.Updates(formfieldtimeDB)
+	_, err = db.Updates(&formfieldtimeDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

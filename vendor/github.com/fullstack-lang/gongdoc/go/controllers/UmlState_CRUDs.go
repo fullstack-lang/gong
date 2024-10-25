@@ -280,7 +280,7 @@ func (controller *Controller) UpdateUmlState(c *gin.Context) {
 	umlstateDB.UmlStatePointersEncoding = input.UmlStatePointersEncoding
 
 	db, _ = db.Model(&umlstateDB)
-	_, err = db.Updates(umlstateDB)
+	_, err = db.Updates(&umlstateDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

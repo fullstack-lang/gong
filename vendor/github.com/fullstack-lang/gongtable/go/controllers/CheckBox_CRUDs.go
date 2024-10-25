@@ -280,7 +280,7 @@ func (controller *Controller) UpdateCheckBox(c *gin.Context) {
 	checkboxDB.CheckBoxPointersEncoding = input.CheckBoxPointersEncoding
 
 	db, _ = db.Model(&checkboxDB)
-	_, err = db.Updates(checkboxDB)
+	_, err = db.Updates(&checkboxDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
