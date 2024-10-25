@@ -247,7 +247,7 @@ func (backRepoStruct *BackRepoStruct) broadcastNbCommitToBack() {
 			activeChannels = append(activeChannels, ch)
 		default:
 			// Assume channel is no longer active; don't add to activeChannels
-			log.Println("Channel no longer active", backRepoStruct.stage.GetPath())
+			log.Println("github.com/fullstack-lang/gong/test3/go: Channel no longer active", backRepoStruct.stage.GetPath())
 			close(ch)
 		}
 	}

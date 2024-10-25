@@ -505,75 +505,111 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 									switch gongstructName {
 									// insertion point for identifiers
 									case "Animate":
-										instanceAnimate := (&Animate{Name: instanceName}).Stage(stage)
+										instanceAnimate := new(Animate)
+										instanceAnimate.Name = instanceName
+										instanceAnimate.Stage(stage)
 										instance = any(instanceAnimate)
 										__gong__map_Animate[identifier] = instanceAnimate
 									case "Circle":
-										instanceCircle := (&Circle{Name: instanceName}).Stage(stage)
+										instanceCircle := new(Circle)
+										instanceCircle.Name = instanceName
+										instanceCircle.Stage(stage)
 										instance = any(instanceCircle)
 										__gong__map_Circle[identifier] = instanceCircle
 									case "Ellipse":
-										instanceEllipse := (&Ellipse{Name: instanceName}).Stage(stage)
+										instanceEllipse := new(Ellipse)
+										instanceEllipse.Name = instanceName
+										instanceEllipse.Stage(stage)
 										instance = any(instanceEllipse)
 										__gong__map_Ellipse[identifier] = instanceEllipse
 									case "Layer":
-										instanceLayer := (&Layer{Name: instanceName}).Stage(stage)
+										instanceLayer := new(Layer)
+										instanceLayer.Name = instanceName
+										instanceLayer.Stage(stage)
 										instance = any(instanceLayer)
 										__gong__map_Layer[identifier] = instanceLayer
 									case "Line":
-										instanceLine := (&Line{Name: instanceName}).Stage(stage)
+										instanceLine := new(Line)
+										instanceLine.Name = instanceName
+										instanceLine.Stage(stage)
 										instance = any(instanceLine)
 										__gong__map_Line[identifier] = instanceLine
 									case "Link":
-										instanceLink := (&Link{Name: instanceName}).Stage(stage)
+										instanceLink := new(Link)
+										instanceLink.Name = instanceName
+										instanceLink.Stage(stage)
 										instance = any(instanceLink)
 										__gong__map_Link[identifier] = instanceLink
 									case "LinkAnchoredText":
-										instanceLinkAnchoredText := (&LinkAnchoredText{Name: instanceName}).Stage(stage)
+										instanceLinkAnchoredText := new(LinkAnchoredText)
+										instanceLinkAnchoredText.Name = instanceName
+										instanceLinkAnchoredText.Stage(stage)
 										instance = any(instanceLinkAnchoredText)
 										__gong__map_LinkAnchoredText[identifier] = instanceLinkAnchoredText
 									case "Path":
-										instancePath := (&Path{Name: instanceName}).Stage(stage)
+										instancePath := new(Path)
+										instancePath.Name = instanceName
+										instancePath.Stage(stage)
 										instance = any(instancePath)
 										__gong__map_Path[identifier] = instancePath
 									case "Point":
-										instancePoint := (&Point{Name: instanceName}).Stage(stage)
+										instancePoint := new(Point)
+										instancePoint.Name = instanceName
+										instancePoint.Stage(stage)
 										instance = any(instancePoint)
 										__gong__map_Point[identifier] = instancePoint
 									case "Polygone":
-										instancePolygone := (&Polygone{Name: instanceName}).Stage(stage)
+										instancePolygone := new(Polygone)
+										instancePolygone.Name = instanceName
+										instancePolygone.Stage(stage)
 										instance = any(instancePolygone)
 										__gong__map_Polygone[identifier] = instancePolygone
 									case "Polyline":
-										instancePolyline := (&Polyline{Name: instanceName}).Stage(stage)
+										instancePolyline := new(Polyline)
+										instancePolyline.Name = instanceName
+										instancePolyline.Stage(stage)
 										instance = any(instancePolyline)
 										__gong__map_Polyline[identifier] = instancePolyline
 									case "Rect":
-										instanceRect := (&Rect{Name: instanceName}).Stage(stage)
+										instanceRect := new(Rect)
+										instanceRect.Name = instanceName
+										instanceRect.Stage(stage)
 										instance = any(instanceRect)
 										__gong__map_Rect[identifier] = instanceRect
 									case "RectAnchoredPath":
-										instanceRectAnchoredPath := (&RectAnchoredPath{Name: instanceName}).Stage(stage)
+										instanceRectAnchoredPath := new(RectAnchoredPath)
+										instanceRectAnchoredPath.Name = instanceName
+										instanceRectAnchoredPath.Stage(stage)
 										instance = any(instanceRectAnchoredPath)
 										__gong__map_RectAnchoredPath[identifier] = instanceRectAnchoredPath
 									case "RectAnchoredRect":
-										instanceRectAnchoredRect := (&RectAnchoredRect{Name: instanceName}).Stage(stage)
+										instanceRectAnchoredRect := new(RectAnchoredRect)
+										instanceRectAnchoredRect.Name = instanceName
+										instanceRectAnchoredRect.Stage(stage)
 										instance = any(instanceRectAnchoredRect)
 										__gong__map_RectAnchoredRect[identifier] = instanceRectAnchoredRect
 									case "RectAnchoredText":
-										instanceRectAnchoredText := (&RectAnchoredText{Name: instanceName}).Stage(stage)
+										instanceRectAnchoredText := new(RectAnchoredText)
+										instanceRectAnchoredText.Name = instanceName
+										instanceRectAnchoredText.Stage(stage)
 										instance = any(instanceRectAnchoredText)
 										__gong__map_RectAnchoredText[identifier] = instanceRectAnchoredText
 									case "RectLinkLink":
-										instanceRectLinkLink := (&RectLinkLink{Name: instanceName}).Stage(stage)
+										instanceRectLinkLink := new(RectLinkLink)
+										instanceRectLinkLink.Name = instanceName
+										instanceRectLinkLink.Stage(stage)
 										instance = any(instanceRectLinkLink)
 										__gong__map_RectLinkLink[identifier] = instanceRectLinkLink
 									case "SVG":
-										instanceSVG := (&SVG{Name: instanceName}).Stage(stage)
+										instanceSVG := new(SVG)
+										instanceSVG.Name = instanceName
+										instanceSVG.Stage(stage)
 										instance = any(instanceSVG)
 										__gong__map_SVG[identifier] = instanceSVG
 									case "Text":
-										instanceText := (&Text{Name: instanceName}).Stage(stage)
+										instanceText := new(Text)
+										instanceText.Name = instanceName
+										instanceText.Stage(stage)
 										instance = any(instanceText)
 										__gong__map_Text[identifier] = instanceText
 									}

@@ -70,12 +70,12 @@ func (controller *Controller) GetLayers(c *gin.Context) {
 	}
 	db := backRepo.BackRepoLayer.GetDB()
 
-	query := db.Find(&layerDBs)
-	if query.Error != nil {
+	_, err := db.Find(&layerDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostLayer(c *gin.Context) {
 	layerDB.LayerPointersEncoding = input.LayerPointersEncoding
 	layerDB.CopyBasicFieldsFromLayer_WOP(&input.Layer_WOP)
 
-	query := db.Create(&layerDB)
-	if query.Error != nil {
+	_, err = db.Create(&layerDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetLayer(c *gin.Context) {
 
 	// Get layerDB in DB
 	var layerDB orm.LayerDB
-	if err := db.First(&layerDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&layerDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateLayer(c *gin.Context) {
 	var layerDB orm.LayerDB
 
 	// fetch the layer
-	query := db.First(&layerDB, c.Param("id"))
+	_, err := db.First(&layerDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateLayer(c *gin.Context) {
 	layerDB.CopyBasicFieldsFromLayer_WOP(&input.Layer_WOP)
 	layerDB.LayerPointersEncoding = input.LayerPointersEncoding
 
-	query = db.Model(&layerDB).Updates(layerDB)
-	if query.Error != nil {
+	db, _ = db.Model(&layerDB)
+	_, err = db.Updates(&layerDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteLayer(c *gin.Context) {
 
 	// Get model if exist
 	var layerDB orm.LayerDB
-	if err := db.First(&layerDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&layerDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteLayer(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&layerDB)
+	db.Unscoped()
+	db.Delete(&layerDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	layerDeleted := new(models.Layer)

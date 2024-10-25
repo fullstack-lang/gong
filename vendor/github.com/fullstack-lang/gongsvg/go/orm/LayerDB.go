@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongsvg/go/db"
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
@@ -95,7 +96,7 @@ type LayerDB struct {
 
 	// Declation for basic field layerDB.Name
 	Name_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	LayerPointersEncoding
@@ -141,7 +142,7 @@ type BackRepoLayerStruct struct {
 	// stores Layer according to their gorm ID
 	Map_LayerDBID_LayerPtr map[uint]*models.Layer
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -151,7 +152,7 @@ func (backRepoLayer *BackRepoLayerStruct) GetStage() (stage *models.StageStruct)
 	return
 }
 
-func (backRepoLayer *BackRepoLayerStruct) GetDB() *gorm.DB {
+func (backRepoLayer *BackRepoLayerStruct) GetDB() db.DBInterface {
 	return backRepoLayer.db
 }
 
@@ -188,9 +189,10 @@ func (backRepoLayer *BackRepoLayerStruct) CommitDeleteInstance(id uint) (Error e
 
 	// layer is not staged anymore, remove layerDB
 	layerDB := backRepoLayer.Map_LayerDBID_LayerDB[id]
-	query := backRepoLayer.db.Unscoped().Delete(&layerDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoLayer.db.Unscoped()
+	_, err := db.Delete(layerDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -214,9 +216,9 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseOneInstance(layer *models.L
 	var layerDB LayerDB
 	layerDB.CopyBasicFieldsFromLayer(layer)
 
-	query := backRepoLayer.db.Create(&layerDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoLayer.db.Create(&layerDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -428,9 +430,9 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 				append(layerDB.LayerPointersEncoding.RectLinkLinks, int(rectlinklinkAssocEnd_DB.ID))
 		}
 
-		query := backRepoLayer.db.Save(&layerDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoLayer.db.Save(layerDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -449,9 +451,9 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 func (backRepoLayer *BackRepoLayerStruct) CheckoutPhaseOne() (Error error) {
 
 	layerDBArray := make([]LayerDB, 0)
-	query := backRepoLayer.db.Find(&layerDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoLayer.db.Find(&layerDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -652,7 +654,7 @@ func (backRepo *BackRepoStruct) CheckoutLayer(layer *models.Layer) {
 			var layerDB LayerDB
 			layerDB.ID = id
 
-			if err := backRepo.BackRepoLayer.db.First(&layerDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoLayer.db.First(&layerDB, id); err != nil {
 				log.Fatalln("CheckoutLayer : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoLayer.CheckoutPhaseOneInstance(&layerDB)
@@ -811,9 +813,9 @@ func (backRepoLayer *BackRepoLayerStruct) rowVisitorLayer(row *xlsx.Row) error {
 
 		layerDB_ID_atBackupTime := layerDB.ID
 		layerDB.ID = 0
-		query := backRepoLayer.db.Create(layerDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoLayer.db.Create(layerDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoLayer.Map_LayerDBID_LayerDB[layerDB.ID] = layerDB
 		BackRepoLayerid_atBckpTime_newID[layerDB_ID_atBackupTime] = layerDB.ID
@@ -848,9 +850,9 @@ func (backRepoLayer *BackRepoLayerStruct) RestorePhaseOne(dirPath string) {
 
 		layerDB_ID_atBackupTime := layerDB.ID
 		layerDB.ID = 0
-		query := backRepoLayer.db.Create(layerDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoLayer.db.Create(layerDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoLayer.Map_LayerDBID_LayerDB[layerDB.ID] = layerDB
 		BackRepoLayerid_atBckpTime_newID[layerDB_ID_atBackupTime] = layerDB.ID
@@ -872,9 +874,10 @@ func (backRepoLayer *BackRepoLayerStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoLayer.db.Model(layerDB).Updates(*layerDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoLayer.db.Model(layerDB)
+		_, err := db.Updates(*layerDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

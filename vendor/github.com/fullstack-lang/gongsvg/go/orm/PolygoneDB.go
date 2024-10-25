@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongsvg/go/db"
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
@@ -91,7 +92,7 @@ type PolygoneDB struct {
 
 	// Declation for basic field polygoneDB.Transform
 	Transform_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	PolygonePointersEncoding
@@ -161,7 +162,7 @@ type BackRepoPolygoneStruct struct {
 	// stores Polygone according to their gorm ID
 	Map_PolygoneDBID_PolygonePtr map[uint]*models.Polygone
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -171,7 +172,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) GetStage() (stage *models.StageS
 	return
 }
 
-func (backRepoPolygone *BackRepoPolygoneStruct) GetDB() *gorm.DB {
+func (backRepoPolygone *BackRepoPolygoneStruct) GetDB() db.DBInterface {
 	return backRepoPolygone.db
 }
 
@@ -208,9 +209,10 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CommitDeleteInstance(id uint) (E
 
 	// polygone is not staged anymore, remove polygoneDB
 	polygoneDB := backRepoPolygone.Map_PolygoneDBID_PolygoneDB[id]
-	query := backRepoPolygone.db.Unscoped().Delete(&polygoneDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoPolygone.db.Unscoped()
+	_, err := db.Delete(polygoneDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -234,9 +236,9 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CommitPhaseOneInstance(polygone 
 	var polygoneDB PolygoneDB
 	polygoneDB.CopyBasicFieldsFromPolygone(polygone)
 
-	query := backRepoPolygone.db.Create(&polygoneDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoPolygone.db.Create(&polygoneDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -286,9 +288,9 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CommitPhaseTwoInstance(backRepo 
 				append(polygoneDB.PolygonePointersEncoding.Animates, int(animateAssocEnd_DB.ID))
 		}
 
-		query := backRepoPolygone.db.Save(&polygoneDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoPolygone.db.Save(polygoneDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -307,9 +309,9 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CommitPhaseTwoInstance(backRepo 
 func (backRepoPolygone *BackRepoPolygoneStruct) CheckoutPhaseOne() (Error error) {
 
 	polygoneDBArray := make([]PolygoneDB, 0)
-	query := backRepoPolygone.db.Find(&polygoneDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoPolygone.db.Find(&polygoneDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -429,7 +431,7 @@ func (backRepo *BackRepoStruct) CheckoutPolygone(polygone *models.Polygone) {
 			var polygoneDB PolygoneDB
 			polygoneDB.ID = id
 
-			if err := backRepo.BackRepoPolygone.db.First(&polygoneDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoPolygone.db.First(&polygoneDB, id); err != nil {
 				log.Fatalln("CheckoutPolygone : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoPolygone.CheckoutPhaseOneInstance(&polygoneDB)
@@ -684,9 +686,9 @@ func (backRepoPolygone *BackRepoPolygoneStruct) rowVisitorPolygone(row *xlsx.Row
 
 		polygoneDB_ID_atBackupTime := polygoneDB.ID
 		polygoneDB.ID = 0
-		query := backRepoPolygone.db.Create(polygoneDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoPolygone.db.Create(polygoneDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoPolygone.Map_PolygoneDBID_PolygoneDB[polygoneDB.ID] = polygoneDB
 		BackRepoPolygoneid_atBckpTime_newID[polygoneDB_ID_atBackupTime] = polygoneDB.ID
@@ -721,9 +723,9 @@ func (backRepoPolygone *BackRepoPolygoneStruct) RestorePhaseOne(dirPath string) 
 
 		polygoneDB_ID_atBackupTime := polygoneDB.ID
 		polygoneDB.ID = 0
-		query := backRepoPolygone.db.Create(polygoneDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoPolygone.db.Create(polygoneDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoPolygone.Map_PolygoneDBID_PolygoneDB[polygoneDB.ID] = polygoneDB
 		BackRepoPolygoneid_atBckpTime_newID[polygoneDB_ID_atBackupTime] = polygoneDB.ID
@@ -745,9 +747,10 @@ func (backRepoPolygone *BackRepoPolygoneStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoPolygone.db.Model(polygoneDB).Updates(*polygoneDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoPolygone.db.Model(polygoneDB)
+		_, err := db.Updates(*polygoneDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 
