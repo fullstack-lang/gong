@@ -70,12 +70,12 @@ func (controller *Controller) GetTrees(c *gin.Context) {
 	}
 	db := backRepo.BackRepoTree.GetDB()
 
-	query := db.Find(&treeDBs)
-	if query.Error != nil {
+	_, err := db.Find(&treeDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostTree(c *gin.Context) {
 	treeDB.TreePointersEncoding = input.TreePointersEncoding
 	treeDB.CopyBasicFieldsFromTree_WOP(&input.Tree_WOP)
 
-	query := db.Create(&treeDB)
-	if query.Error != nil {
+	_, err = db.Create(&treeDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetTree(c *gin.Context) {
 
 	// Get treeDB in DB
 	var treeDB orm.TreeDB
-	if err := db.First(&treeDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&treeDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateTree(c *gin.Context) {
 	var treeDB orm.TreeDB
 
 	// fetch the tree
-	query := db.First(&treeDB, c.Param("id"))
+	_, err := db.First(&treeDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateTree(c *gin.Context) {
 	treeDB.CopyBasicFieldsFromTree_WOP(&input.Tree_WOP)
 	treeDB.TreePointersEncoding = input.TreePointersEncoding
 
-	query = db.Model(&treeDB).Updates(treeDB)
-	if query.Error != nil {
+	db, _ = db.Model(&treeDB)
+	_, err = db.Updates(&treeDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteTree(c *gin.Context) {
 
 	// Get model if exist
 	var treeDB orm.TreeDB
-	if err := db.First(&treeDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&treeDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteTree(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&treeDB)
+	db.Unscoped()
+	db.Delete(&treeDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	treeDeleted := new(models.Tree)

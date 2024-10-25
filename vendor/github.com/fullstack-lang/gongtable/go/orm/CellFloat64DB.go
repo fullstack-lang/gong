@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtable/go/db"
 	"github.com/fullstack-lang/gongtable/go/models"
 )
 
@@ -64,7 +65,7 @@ type CellFloat64DB struct {
 
 	// Declation for basic field cellfloat64DB.Value
 	Value_Data sql.NullFloat64
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	CellFloat64PointersEncoding
@@ -110,7 +111,7 @@ type BackRepoCellFloat64Struct struct {
 	// stores CellFloat64 according to their gorm ID
 	Map_CellFloat64DBID_CellFloat64Ptr map[uint]*models.CellFloat64
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -120,7 +121,7 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) GetStage() (stage *models.
 	return
 }
 
-func (backRepoCellFloat64 *BackRepoCellFloat64Struct) GetDB() *gorm.DB {
+func (backRepoCellFloat64 *BackRepoCellFloat64Struct) GetDB() db.DBInterface {
 	return backRepoCellFloat64.db
 }
 
@@ -157,9 +158,10 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) CommitDeleteInstance(id ui
 
 	// cellfloat64 is not staged anymore, remove cellfloat64DB
 	cellfloat64DB := backRepoCellFloat64.Map_CellFloat64DBID_CellFloat64DB[id]
-	query := backRepoCellFloat64.db.Unscoped().Delete(&cellfloat64DB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoCellFloat64.db.Unscoped()
+	_, err := db.Delete(cellfloat64DB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -183,9 +185,9 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) CommitPhaseOneInstance(cel
 	var cellfloat64DB CellFloat64DB
 	cellfloat64DB.CopyBasicFieldsFromCellFloat64(cellfloat64)
 
-	query := backRepoCellFloat64.db.Create(&cellfloat64DB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoCellFloat64.db.Create(&cellfloat64DB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -217,9 +219,9 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) CommitPhaseTwoInstance(bac
 		cellfloat64DB.CopyBasicFieldsFromCellFloat64(cellfloat64)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoCellFloat64.db.Save(&cellfloat64DB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoCellFloat64.db.Save(cellfloat64DB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -238,9 +240,9 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) CommitPhaseTwoInstance(bac
 func (backRepoCellFloat64 *BackRepoCellFloat64Struct) CheckoutPhaseOne() (Error error) {
 
 	cellfloat64DBArray := make([]CellFloat64DB, 0)
-	query := backRepoCellFloat64.db.Find(&cellfloat64DBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoCellFloat64.db.Find(&cellfloat64DBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -351,7 +353,7 @@ func (backRepo *BackRepoStruct) CheckoutCellFloat64(cellfloat64 *models.CellFloa
 			var cellfloat64DB CellFloat64DB
 			cellfloat64DB.ID = id
 
-			if err := backRepo.BackRepoCellFloat64.db.First(&cellfloat64DB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoCellFloat64.db.First(&cellfloat64DB, id); err != nil {
 				log.Fatalln("CheckoutCellFloat64 : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoCellFloat64.CheckoutPhaseOneInstance(&cellfloat64DB)
@@ -510,9 +512,9 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) rowVisitorCellFloat64(row 
 
 		cellfloat64DB_ID_atBackupTime := cellfloat64DB.ID
 		cellfloat64DB.ID = 0
-		query := backRepoCellFloat64.db.Create(cellfloat64DB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoCellFloat64.db.Create(cellfloat64DB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoCellFloat64.Map_CellFloat64DBID_CellFloat64DB[cellfloat64DB.ID] = cellfloat64DB
 		BackRepoCellFloat64id_atBckpTime_newID[cellfloat64DB_ID_atBackupTime] = cellfloat64DB.ID
@@ -547,9 +549,9 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) RestorePhaseOne(dirPath st
 
 		cellfloat64DB_ID_atBackupTime := cellfloat64DB.ID
 		cellfloat64DB.ID = 0
-		query := backRepoCellFloat64.db.Create(cellfloat64DB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoCellFloat64.db.Create(cellfloat64DB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoCellFloat64.Map_CellFloat64DBID_CellFloat64DB[cellfloat64DB.ID] = cellfloat64DB
 		BackRepoCellFloat64id_atBckpTime_newID[cellfloat64DB_ID_atBackupTime] = cellfloat64DB.ID
@@ -571,9 +573,10 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoCellFloat64.db.Model(cellfloat64DB).Updates(*cellfloat64DB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoCellFloat64.db.Model(cellfloat64DB)
+		_, err := db.Updates(*cellfloat64DB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

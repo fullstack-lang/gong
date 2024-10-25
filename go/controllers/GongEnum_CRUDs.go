@@ -280,7 +280,7 @@ func (controller *Controller) UpdateGongEnum(c *gin.Context) {
 	gongenumDB.GongEnumPointersEncoding = input.GongEnumPointersEncoding
 
 	db, _ = db.Model(&gongenumDB)
-	_, err = db.Updates(gongenumDB)
+	_, err = db.Updates(&gongenumDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

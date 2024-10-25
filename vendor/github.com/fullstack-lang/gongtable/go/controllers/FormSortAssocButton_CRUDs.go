@@ -70,12 +70,12 @@ func (controller *Controller) GetFormSortAssocButtons(c *gin.Context) {
 	}
 	db := backRepo.BackRepoFormSortAssocButton.GetDB()
 
-	query := db.Find(&formsortassocbuttonDBs)
-	if query.Error != nil {
+	_, err := db.Find(&formsortassocbuttonDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostFormSortAssocButton(c *gin.Context) {
 	formsortassocbuttonDB.FormSortAssocButtonPointersEncoding = input.FormSortAssocButtonPointersEncoding
 	formsortassocbuttonDB.CopyBasicFieldsFromFormSortAssocButton_WOP(&input.FormSortAssocButton_WOP)
 
-	query := db.Create(&formsortassocbuttonDB)
-	if query.Error != nil {
+	_, err = db.Create(&formsortassocbuttonDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetFormSortAssocButton(c *gin.Context) {
 
 	// Get formsortassocbuttonDB in DB
 	var formsortassocbuttonDB orm.FormSortAssocButtonDB
-	if err := db.First(&formsortassocbuttonDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&formsortassocbuttonDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateFormSortAssocButton(c *gin.Context) {
 	var formsortassocbuttonDB orm.FormSortAssocButtonDB
 
 	// fetch the formsortassocbutton
-	query := db.First(&formsortassocbuttonDB, c.Param("id"))
+	_, err := db.First(&formsortassocbuttonDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateFormSortAssocButton(c *gin.Context) {
 	formsortassocbuttonDB.CopyBasicFieldsFromFormSortAssocButton_WOP(&input.FormSortAssocButton_WOP)
 	formsortassocbuttonDB.FormSortAssocButtonPointersEncoding = input.FormSortAssocButtonPointersEncoding
 
-	query = db.Model(&formsortassocbuttonDB).Updates(formsortassocbuttonDB)
-	if query.Error != nil {
+	db, _ = db.Model(&formsortassocbuttonDB)
+	_, err = db.Updates(formsortassocbuttonDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteFormSortAssocButton(c *gin.Context) {
 
 	// Get model if exist
 	var formsortassocbuttonDB orm.FormSortAssocButtonDB
-	if err := db.First(&formsortassocbuttonDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&formsortassocbuttonDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteFormSortAssocButton(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&formsortassocbuttonDB)
+	db.Unscoped()
+	db.Delete(&formsortassocbuttonDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	formsortassocbuttonDeleted := new(models.FormSortAssocButton)

@@ -70,12 +70,12 @@ func (controller *Controller) GetDiagramPackages(c *gin.Context) {
 	}
 	db := backRepo.BackRepoDiagramPackage.GetDB()
 
-	query := db.Find(&diagrampackageDBs)
-	if query.Error != nil {
+	_, err := db.Find(&diagrampackageDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostDiagramPackage(c *gin.Context) {
 	diagrampackageDB.DiagramPackagePointersEncoding = input.DiagramPackagePointersEncoding
 	diagrampackageDB.CopyBasicFieldsFromDiagramPackage_WOP(&input.DiagramPackage_WOP)
 
-	query := db.Create(&diagrampackageDB)
-	if query.Error != nil {
+	_, err = db.Create(&diagrampackageDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetDiagramPackage(c *gin.Context) {
 
 	// Get diagrampackageDB in DB
 	var diagrampackageDB orm.DiagramPackageDB
-	if err := db.First(&diagrampackageDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&diagrampackageDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateDiagramPackage(c *gin.Context) {
 	var diagrampackageDB orm.DiagramPackageDB
 
 	// fetch the diagrampackage
-	query := db.First(&diagrampackageDB, c.Param("id"))
+	_, err := db.First(&diagrampackageDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateDiagramPackage(c *gin.Context) {
 	diagrampackageDB.CopyBasicFieldsFromDiagramPackage_WOP(&input.DiagramPackage_WOP)
 	diagrampackageDB.DiagramPackagePointersEncoding = input.DiagramPackagePointersEncoding
 
-	query = db.Model(&diagrampackageDB).Updates(diagrampackageDB)
-	if query.Error != nil {
+	db, _ = db.Model(&diagrampackageDB)
+	_, err = db.Updates(diagrampackageDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteDiagramPackage(c *gin.Context) {
 
 	// Get model if exist
 	var diagrampackageDB orm.DiagramPackageDB
-	if err := db.First(&diagrampackageDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&diagrampackageDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteDiagramPackage(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&diagrampackageDB)
+	db.Unscoped()
+	db.Delete(&diagrampackageDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	diagrampackageDeleted := new(models.DiagramPackage)

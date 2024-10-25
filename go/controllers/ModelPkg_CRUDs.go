@@ -280,7 +280,7 @@ func (controller *Controller) UpdateModelPkg(c *gin.Context) {
 	modelpkgDB.ModelPkgPointersEncoding = input.ModelPkgPointersEncoding
 
 	db, _ = db.Model(&modelpkgDB)
-	_, err = db.Updates(modelpkgDB)
+	_, err = db.Updates(&modelpkgDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

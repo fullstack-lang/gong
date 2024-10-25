@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtable/go/db"
 	"github.com/fullstack-lang/gongtable/go/models"
 )
 
@@ -65,7 +66,7 @@ type CheckBoxDB struct {
 	// Declation for basic field checkboxDB.Value
 	// provide the sql storage for the boolan
 	Value_Data sql.NullBool
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	CheckBoxPointersEncoding
@@ -111,7 +112,7 @@ type BackRepoCheckBoxStruct struct {
 	// stores CheckBox according to their gorm ID
 	Map_CheckBoxDBID_CheckBoxPtr map[uint]*models.CheckBox
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -121,7 +122,7 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) GetStage() (stage *models.StageS
 	return
 }
 
-func (backRepoCheckBox *BackRepoCheckBoxStruct) GetDB() *gorm.DB {
+func (backRepoCheckBox *BackRepoCheckBoxStruct) GetDB() db.DBInterface {
 	return backRepoCheckBox.db
 }
 
@@ -158,9 +159,10 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) CommitDeleteInstance(id uint) (E
 
 	// checkbox is not staged anymore, remove checkboxDB
 	checkboxDB := backRepoCheckBox.Map_CheckBoxDBID_CheckBoxDB[id]
-	query := backRepoCheckBox.db.Unscoped().Delete(&checkboxDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoCheckBox.db.Unscoped()
+	_, err := db.Delete(checkboxDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -184,9 +186,9 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) CommitPhaseOneInstance(checkbox 
 	var checkboxDB CheckBoxDB
 	checkboxDB.CopyBasicFieldsFromCheckBox(checkbox)
 
-	query := backRepoCheckBox.db.Create(&checkboxDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoCheckBox.db.Create(&checkboxDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -218,9 +220,9 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) CommitPhaseTwoInstance(backRepo 
 		checkboxDB.CopyBasicFieldsFromCheckBox(checkbox)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoCheckBox.db.Save(&checkboxDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoCheckBox.db.Save(checkboxDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -239,9 +241,9 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) CommitPhaseTwoInstance(backRepo 
 func (backRepoCheckBox *BackRepoCheckBoxStruct) CheckoutPhaseOne() (Error error) {
 
 	checkboxDBArray := make([]CheckBoxDB, 0)
-	query := backRepoCheckBox.db.Find(&checkboxDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoCheckBox.db.Find(&checkboxDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -352,7 +354,7 @@ func (backRepo *BackRepoStruct) CheckoutCheckBox(checkbox *models.CheckBox) {
 			var checkboxDB CheckBoxDB
 			checkboxDB.ID = id
 
-			if err := backRepo.BackRepoCheckBox.db.First(&checkboxDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoCheckBox.db.First(&checkboxDB, id); err != nil {
 				log.Fatalln("CheckoutCheckBox : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoCheckBox.CheckoutPhaseOneInstance(&checkboxDB)
@@ -511,9 +513,9 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) rowVisitorCheckBox(row *xlsx.Row
 
 		checkboxDB_ID_atBackupTime := checkboxDB.ID
 		checkboxDB.ID = 0
-		query := backRepoCheckBox.db.Create(checkboxDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoCheckBox.db.Create(checkboxDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoCheckBox.Map_CheckBoxDBID_CheckBoxDB[checkboxDB.ID] = checkboxDB
 		BackRepoCheckBoxid_atBckpTime_newID[checkboxDB_ID_atBackupTime] = checkboxDB.ID
@@ -548,9 +550,9 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) RestorePhaseOne(dirPath string) 
 
 		checkboxDB_ID_atBackupTime := checkboxDB.ID
 		checkboxDB.ID = 0
-		query := backRepoCheckBox.db.Create(checkboxDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoCheckBox.db.Create(checkboxDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoCheckBox.Map_CheckBoxDBID_CheckBoxDB[checkboxDB.ID] = checkboxDB
 		BackRepoCheckBoxid_atBckpTime_newID[checkboxDB_ID_atBackupTime] = checkboxDB.ID
@@ -572,9 +574,10 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoCheckBox.db.Model(checkboxDB).Updates(*checkboxDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoCheckBox.db.Model(checkboxDB)
+		_, err := db.Updates(*checkboxDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

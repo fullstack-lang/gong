@@ -70,12 +70,12 @@ func (controller *Controller) GetCheckBoxs(c *gin.Context) {
 	}
 	db := backRepo.BackRepoCheckBox.GetDB()
 
-	query := db.Find(&checkboxDBs)
-	if query.Error != nil {
+	_, err := db.Find(&checkboxDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostCheckBox(c *gin.Context) {
 	checkboxDB.CheckBoxPointersEncoding = input.CheckBoxPointersEncoding
 	checkboxDB.CopyBasicFieldsFromCheckBox_WOP(&input.CheckBox_WOP)
 
-	query := db.Create(&checkboxDB)
-	if query.Error != nil {
+	_, err = db.Create(&checkboxDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetCheckBox(c *gin.Context) {
 
 	// Get checkboxDB in DB
 	var checkboxDB orm.CheckBoxDB
-	if err := db.First(&checkboxDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&checkboxDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateCheckBox(c *gin.Context) {
 	var checkboxDB orm.CheckBoxDB
 
 	// fetch the checkbox
-	query := db.First(&checkboxDB, c.Param("id"))
+	_, err := db.First(&checkboxDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateCheckBox(c *gin.Context) {
 	checkboxDB.CopyBasicFieldsFromCheckBox_WOP(&input.CheckBox_WOP)
 	checkboxDB.CheckBoxPointersEncoding = input.CheckBoxPointersEncoding
 
-	query = db.Model(&checkboxDB).Updates(checkboxDB)
-	if query.Error != nil {
+	db, _ = db.Model(&checkboxDB)
+	_, err = db.Updates(checkboxDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteCheckBox(c *gin.Context) {
 
 	// Get model if exist
 	var checkboxDB orm.CheckBoxDB
-	if err := db.First(&checkboxDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&checkboxDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteCheckBox(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&checkboxDB)
+	db.Unscoped()
+	db.Delete(&checkboxDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	checkboxDeleted := new(models.CheckBox)

@@ -70,12 +70,12 @@ func (controller *Controller) GetButtons(c *gin.Context) {
 	}
 	db := backRepo.BackRepoButton.GetDB()
 
-	query := db.Find(&buttonDBs)
-	if query.Error != nil {
+	_, err := db.Find(&buttonDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostButton(c *gin.Context) {
 	buttonDB.ButtonPointersEncoding = input.ButtonPointersEncoding
 	buttonDB.CopyBasicFieldsFromButton_WOP(&input.Button_WOP)
 
-	query := db.Create(&buttonDB)
-	if query.Error != nil {
+	_, err = db.Create(&buttonDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetButton(c *gin.Context) {
 
 	// Get buttonDB in DB
 	var buttonDB orm.ButtonDB
-	if err := db.First(&buttonDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&buttonDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateButton(c *gin.Context) {
 	var buttonDB orm.ButtonDB
 
 	// fetch the button
-	query := db.First(&buttonDB, c.Param("id"))
+	_, err := db.First(&buttonDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateButton(c *gin.Context) {
 	buttonDB.CopyBasicFieldsFromButton_WOP(&input.Button_WOP)
 	buttonDB.ButtonPointersEncoding = input.ButtonPointersEncoding
 
-	query = db.Model(&buttonDB).Updates(buttonDB)
-	if query.Error != nil {
+	db, _ = db.Model(&buttonDB)
+	_, err = db.Updates(&buttonDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteButton(c *gin.Context) {
 
 	// Get model if exist
 	var buttonDB orm.ButtonDB
-	if err := db.First(&buttonDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&buttonDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteButton(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&buttonDB)
+	db.Unscoped()
+	db.Delete(&buttonDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	buttonDeleted := new(models.Button)

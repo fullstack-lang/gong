@@ -70,12 +70,12 @@ func (controller *Controller) GetUmlStates(c *gin.Context) {
 	}
 	db := backRepo.BackRepoUmlState.GetDB()
 
-	query := db.Find(&umlstateDBs)
-	if query.Error != nil {
+	_, err := db.Find(&umlstateDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostUmlState(c *gin.Context) {
 	umlstateDB.UmlStatePointersEncoding = input.UmlStatePointersEncoding
 	umlstateDB.CopyBasicFieldsFromUmlState_WOP(&input.UmlState_WOP)
 
-	query := db.Create(&umlstateDB)
-	if query.Error != nil {
+	_, err = db.Create(&umlstateDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetUmlState(c *gin.Context) {
 
 	// Get umlstateDB in DB
 	var umlstateDB orm.UmlStateDB
-	if err := db.First(&umlstateDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&umlstateDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateUmlState(c *gin.Context) {
 	var umlstateDB orm.UmlStateDB
 
 	// fetch the umlstate
-	query := db.First(&umlstateDB, c.Param("id"))
+	_, err := db.First(&umlstateDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateUmlState(c *gin.Context) {
 	umlstateDB.CopyBasicFieldsFromUmlState_WOP(&input.UmlState_WOP)
 	umlstateDB.UmlStatePointersEncoding = input.UmlStatePointersEncoding
 
-	query = db.Model(&umlstateDB).Updates(umlstateDB)
-	if query.Error != nil {
+	db, _ = db.Model(&umlstateDB)
+	_, err = db.Updates(umlstateDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteUmlState(c *gin.Context) {
 
 	// Get model if exist
 	var umlstateDB orm.UmlStateDB
-	if err := db.First(&umlstateDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&umlstateDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteUmlState(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&umlstateDB)
+	db.Unscoped()
+	db.Delete(&umlstateDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	umlstateDeleted := new(models.UmlState)

@@ -491,19 +491,27 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 									switch gongstructName {
 									// insertion point for identifiers
 									case "Button":
-										instanceButton := (&Button{Name: instanceName}).Stage(stage)
+										instanceButton := new(Button)
+										instanceButton.Name = instanceName
+										instanceButton.Stage(stage)
 										instance = any(instanceButton)
 										__gong__map_Button[identifier] = instanceButton
 									case "Node":
-										instanceNode := (&Node{Name: instanceName}).Stage(stage)
+										instanceNode := new(Node)
+										instanceNode.Name = instanceName
+										instanceNode.Stage(stage)
 										instance = any(instanceNode)
 										__gong__map_Node[identifier] = instanceNode
 									case "SVGIcon":
-										instanceSVGIcon := (&SVGIcon{Name: instanceName}).Stage(stage)
+										instanceSVGIcon := new(SVGIcon)
+										instanceSVGIcon.Name = instanceName
+										instanceSVGIcon.Stage(stage)
 										instance = any(instanceSVGIcon)
 										__gong__map_SVGIcon[identifier] = instanceSVGIcon
 									case "Tree":
-										instanceTree := (&Tree{Name: instanceName}).Stage(stage)
+										instanceTree := new(Tree)
+										instanceTree.Name = instanceName
+										instanceTree.Stage(stage)
 										instance = any(instanceTree)
 										__gong__map_Tree[identifier] = instanceTree
 									}

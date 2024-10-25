@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongdoc/go/db"
 	"github.com/fullstack-lang/gongdoc/go/models"
 )
 
@@ -71,7 +72,7 @@ type UmlscDB struct {
 	// Declation for basic field umlscDB.IsInDrawMode
 	// provide the sql storage for the boolan
 	IsInDrawMode_Data sql.NullBool
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	UmlscPointersEncoding
@@ -120,7 +121,7 @@ type BackRepoUmlscStruct struct {
 	// stores Umlsc according to their gorm ID
 	Map_UmlscDBID_UmlscPtr map[uint]*models.Umlsc
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -130,7 +131,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) GetStage() (stage *models.StageStruct)
 	return
 }
 
-func (backRepoUmlsc *BackRepoUmlscStruct) GetDB() *gorm.DB {
+func (backRepoUmlsc *BackRepoUmlscStruct) GetDB() db.DBInterface {
 	return backRepoUmlsc.db
 }
 
@@ -167,9 +168,10 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CommitDeleteInstance(id uint) (Error e
 
 	// umlsc is not staged anymore, remove umlscDB
 	umlscDB := backRepoUmlsc.Map_UmlscDBID_UmlscDB[id]
-	query := backRepoUmlsc.db.Unscoped().Delete(&umlscDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoUmlsc.db.Unscoped()
+	_, err := db.Delete(umlscDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -193,9 +195,9 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseOneInstance(umlsc *models.U
 	var umlscDB UmlscDB
 	umlscDB.CopyBasicFieldsFromUmlsc(umlsc)
 
-	query := backRepoUmlsc.db.Create(&umlscDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoUmlsc.db.Create(&umlscDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -245,9 +247,9 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseTwoInstance(backRepo *BackR
 				append(umlscDB.UmlscPointersEncoding.States, int(umlstateAssocEnd_DB.ID))
 		}
 
-		query := backRepoUmlsc.db.Save(&umlscDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoUmlsc.db.Save(umlscDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -266,9 +268,9 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseTwoInstance(backRepo *BackR
 func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseOne() (Error error) {
 
 	umlscDBArray := make([]UmlscDB, 0)
-	query := backRepoUmlsc.db.Find(&umlscDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoUmlsc.db.Find(&umlscDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -388,7 +390,7 @@ func (backRepo *BackRepoStruct) CheckoutUmlsc(umlsc *models.Umlsc) {
 			var umlscDB UmlscDB
 			umlscDB.ID = id
 
-			if err := backRepo.BackRepoUmlsc.db.First(&umlscDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoUmlsc.db.First(&umlscDB, id); err != nil {
 				log.Fatalln("CheckoutUmlsc : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoUmlsc.CheckoutPhaseOneInstance(&umlscDB)
@@ -559,9 +561,9 @@ func (backRepoUmlsc *BackRepoUmlscStruct) rowVisitorUmlsc(row *xlsx.Row) error {
 
 		umlscDB_ID_atBackupTime := umlscDB.ID
 		umlscDB.ID = 0
-		query := backRepoUmlsc.db.Create(umlscDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoUmlsc.db.Create(umlscDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoUmlsc.Map_UmlscDBID_UmlscDB[umlscDB.ID] = umlscDB
 		BackRepoUmlscid_atBckpTime_newID[umlscDB_ID_atBackupTime] = umlscDB.ID
@@ -596,9 +598,9 @@ func (backRepoUmlsc *BackRepoUmlscStruct) RestorePhaseOne(dirPath string) {
 
 		umlscDB_ID_atBackupTime := umlscDB.ID
 		umlscDB.ID = 0
-		query := backRepoUmlsc.db.Create(umlscDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoUmlsc.db.Create(umlscDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoUmlsc.Map_UmlscDBID_UmlscDB[umlscDB.ID] = umlscDB
 		BackRepoUmlscid_atBckpTime_newID[umlscDB_ID_atBackupTime] = umlscDB.ID
@@ -620,9 +622,10 @@ func (backRepoUmlsc *BackRepoUmlscStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoUmlsc.db.Model(umlscDB).Updates(*umlscDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoUmlsc.db.Model(umlscDB)
+		_, err := db.Updates(*umlscDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

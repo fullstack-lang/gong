@@ -70,12 +70,12 @@ func (controller *Controller) GetClassdiagrams(c *gin.Context) {
 	}
 	db := backRepo.BackRepoClassdiagram.GetDB()
 
-	query := db.Find(&classdiagramDBs)
-	if query.Error != nil {
+	_, err := db.Find(&classdiagramDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostClassdiagram(c *gin.Context) {
 	classdiagramDB.ClassdiagramPointersEncoding = input.ClassdiagramPointersEncoding
 	classdiagramDB.CopyBasicFieldsFromClassdiagram_WOP(&input.Classdiagram_WOP)
 
-	query := db.Create(&classdiagramDB)
-	if query.Error != nil {
+	_, err = db.Create(&classdiagramDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetClassdiagram(c *gin.Context) {
 
 	// Get classdiagramDB in DB
 	var classdiagramDB orm.ClassdiagramDB
-	if err := db.First(&classdiagramDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&classdiagramDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateClassdiagram(c *gin.Context) {
 	var classdiagramDB orm.ClassdiagramDB
 
 	// fetch the classdiagram
-	query := db.First(&classdiagramDB, c.Param("id"))
+	_, err := db.First(&classdiagramDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateClassdiagram(c *gin.Context) {
 	classdiagramDB.CopyBasicFieldsFromClassdiagram_WOP(&input.Classdiagram_WOP)
 	classdiagramDB.ClassdiagramPointersEncoding = input.ClassdiagramPointersEncoding
 
-	query = db.Model(&classdiagramDB).Updates(classdiagramDB)
-	if query.Error != nil {
+	db, _ = db.Model(&classdiagramDB)
+	_, err = db.Updates(classdiagramDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteClassdiagram(c *gin.Context) {
 
 	// Get model if exist
 	var classdiagramDB orm.ClassdiagramDB
-	if err := db.First(&classdiagramDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&classdiagramDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteClassdiagram(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&classdiagramDB)
+	db.Unscoped()
+	db.Delete(&classdiagramDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	classdiagramDeleted := new(models.Classdiagram)

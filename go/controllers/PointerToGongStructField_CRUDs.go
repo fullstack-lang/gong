@@ -280,7 +280,7 @@ func (controller *Controller) UpdatePointerToGongStructField(c *gin.Context) {
 	pointertogongstructfieldDB.PointerToGongStructFieldPointersEncoding = input.PointerToGongStructFieldPointersEncoding
 
 	db, _ = db.Model(&pointertogongstructfieldDB)
-	_, err = db.Updates(pointertogongstructfieldDB)
+	_, err = db.Updates(&pointertogongstructfieldDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

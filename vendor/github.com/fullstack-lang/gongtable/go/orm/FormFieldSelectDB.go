@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtable/go/db"
 	"github.com/fullstack-lang/gongtable/go/models"
 )
 
@@ -72,7 +73,7 @@ type FormFieldSelectDB struct {
 	// Declation for basic field formfieldselectDB.CanBeEmpty
 	// provide the sql storage for the boolan
 	CanBeEmpty_Data sql.NullBool
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormFieldSelectPointersEncoding
@@ -118,7 +119,7 @@ type BackRepoFormFieldSelectStruct struct {
 	// stores FormFieldSelect according to their gorm ID
 	Map_FormFieldSelectDBID_FormFieldSelectPtr map[uint]*models.FormFieldSelect
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -128,7 +129,7 @@ func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) GetStage() (stage 
 	return
 }
 
-func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) GetDB() *gorm.DB {
+func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) GetDB() db.DBInterface {
 	return backRepoFormFieldSelect.db
 }
 
@@ -165,9 +166,10 @@ func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) CommitDeleteInstan
 
 	// formfieldselect is not staged anymore, remove formfieldselectDB
 	formfieldselectDB := backRepoFormFieldSelect.Map_FormFieldSelectDBID_FormFieldSelectDB[id]
-	query := backRepoFormFieldSelect.db.Unscoped().Delete(&formfieldselectDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoFormFieldSelect.db.Unscoped()
+	_, err := db.Delete(formfieldselectDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -191,9 +193,9 @@ func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) CommitPhaseOneInst
 	var formfieldselectDB FormFieldSelectDB
 	formfieldselectDB.CopyBasicFieldsFromFormFieldSelect(formfieldselect)
 
-	query := backRepoFormFieldSelect.db.Create(&formfieldselectDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoFormFieldSelect.db.Create(&formfieldselectDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -255,9 +257,9 @@ func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) CommitPhaseTwoInst
 				append(formfieldselectDB.FormFieldSelectPointersEncoding.Options, int(optionAssocEnd_DB.ID))
 		}
 
-		query := backRepoFormFieldSelect.db.Save(&formfieldselectDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoFormFieldSelect.db.Save(formfieldselectDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -276,9 +278,9 @@ func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) CommitPhaseTwoInst
 func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) CheckoutPhaseOne() (Error error) {
 
 	formfieldselectDBArray := make([]FormFieldSelectDB, 0)
-	query := backRepoFormFieldSelect.db.Find(&formfieldselectDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoFormFieldSelect.db.Find(&formfieldselectDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -403,7 +405,7 @@ func (backRepo *BackRepoStruct) CheckoutFormFieldSelect(formfieldselect *models.
 			var formfieldselectDB FormFieldSelectDB
 			formfieldselectDB.ID = id
 
-			if err := backRepo.BackRepoFormFieldSelect.db.First(&formfieldselectDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoFormFieldSelect.db.First(&formfieldselectDB, id); err != nil {
 				log.Fatalln("CheckoutFormFieldSelect : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoFormFieldSelect.CheckoutPhaseOneInstance(&formfieldselectDB)
@@ -562,9 +564,9 @@ func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) rowVisitorFormFiel
 
 		formfieldselectDB_ID_atBackupTime := formfieldselectDB.ID
 		formfieldselectDB.ID = 0
-		query := backRepoFormFieldSelect.db.Create(formfieldselectDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoFormFieldSelect.db.Create(formfieldselectDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoFormFieldSelect.Map_FormFieldSelectDBID_FormFieldSelectDB[formfieldselectDB.ID] = formfieldselectDB
 		BackRepoFormFieldSelectid_atBckpTime_newID[formfieldselectDB_ID_atBackupTime] = formfieldselectDB.ID
@@ -599,9 +601,9 @@ func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) RestorePhaseOne(di
 
 		formfieldselectDB_ID_atBackupTime := formfieldselectDB.ID
 		formfieldselectDB.ID = 0
-		query := backRepoFormFieldSelect.db.Create(formfieldselectDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoFormFieldSelect.db.Create(formfieldselectDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoFormFieldSelect.Map_FormFieldSelectDBID_FormFieldSelectDB[formfieldselectDB.ID] = formfieldselectDB
 		BackRepoFormFieldSelectid_atBckpTime_newID[formfieldselectDB_ID_atBackupTime] = formfieldselectDB.ID
@@ -629,9 +631,10 @@ func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) RestorePhaseTwo() 
 		}
 
 		// update databse with new index encoding
-		query := backRepoFormFieldSelect.db.Model(formfieldselectDB).Updates(*formfieldselectDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoFormFieldSelect.db.Model(formfieldselectDB)
+		_, err := db.Updates(*formfieldselectDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

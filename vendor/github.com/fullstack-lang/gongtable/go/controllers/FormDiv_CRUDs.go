@@ -70,12 +70,12 @@ func (controller *Controller) GetFormDivs(c *gin.Context) {
 	}
 	db := backRepo.BackRepoFormDiv.GetDB()
 
-	query := db.Find(&formdivDBs)
-	if query.Error != nil {
+	_, err := db.Find(&formdivDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostFormDiv(c *gin.Context) {
 	formdivDB.FormDivPointersEncoding = input.FormDivPointersEncoding
 	formdivDB.CopyBasicFieldsFromFormDiv_WOP(&input.FormDiv_WOP)
 
-	query := db.Create(&formdivDB)
-	if query.Error != nil {
+	_, err = db.Create(&formdivDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetFormDiv(c *gin.Context) {
 
 	// Get formdivDB in DB
 	var formdivDB orm.FormDivDB
-	if err := db.First(&formdivDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&formdivDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateFormDiv(c *gin.Context) {
 	var formdivDB orm.FormDivDB
 
 	// fetch the formdiv
-	query := db.First(&formdivDB, c.Param("id"))
+	_, err := db.First(&formdivDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateFormDiv(c *gin.Context) {
 	formdivDB.CopyBasicFieldsFromFormDiv_WOP(&input.FormDiv_WOP)
 	formdivDB.FormDivPointersEncoding = input.FormDivPointersEncoding
 
-	query = db.Model(&formdivDB).Updates(formdivDB)
-	if query.Error != nil {
+	db, _ = db.Model(&formdivDB)
+	_, err = db.Updates(formdivDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteFormDiv(c *gin.Context) {
 
 	// Get model if exist
 	var formdivDB orm.FormDivDB
-	if err := db.First(&formdivDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&formdivDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteFormDiv(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&formdivDB)
+	db.Unscoped()
+	db.Delete(&formdivDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	formdivDeleted := new(models.FormDiv)

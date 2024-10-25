@@ -280,7 +280,7 @@ func (controller *Controller) UpdateSliceOfPointerToGongStructField(c *gin.Conte
 	sliceofpointertogongstructfieldDB.SliceOfPointerToGongStructFieldPointersEncoding = input.SliceOfPointerToGongStructFieldPointersEncoding
 
 	db, _ = db.Model(&sliceofpointertogongstructfieldDB)
-	_, err = db.Updates(sliceofpointertogongstructfieldDB)
+	_, err = db.Updates(&sliceofpointertogongstructfieldDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

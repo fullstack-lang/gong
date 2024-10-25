@@ -70,12 +70,12 @@ func (controller *Controller) GetLinks(c *gin.Context) {
 	}
 	db := backRepo.BackRepoLink.GetDB()
 
-	query := db.Find(&linkDBs)
-	if query.Error != nil {
+	_, err := db.Find(&linkDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostLink(c *gin.Context) {
 	linkDB.LinkPointersEncoding = input.LinkPointersEncoding
 	linkDB.CopyBasicFieldsFromLink_WOP(&input.Link_WOP)
 
-	query := db.Create(&linkDB)
-	if query.Error != nil {
+	_, err = db.Create(&linkDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetLink(c *gin.Context) {
 
 	// Get linkDB in DB
 	var linkDB orm.LinkDB
-	if err := db.First(&linkDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&linkDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateLink(c *gin.Context) {
 	var linkDB orm.LinkDB
 
 	// fetch the link
-	query := db.First(&linkDB, c.Param("id"))
+	_, err := db.First(&linkDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateLink(c *gin.Context) {
 	linkDB.CopyBasicFieldsFromLink_WOP(&input.Link_WOP)
 	linkDB.LinkPointersEncoding = input.LinkPointersEncoding
 
-	query = db.Model(&linkDB).Updates(linkDB)
-	if query.Error != nil {
+	db, _ = db.Model(&linkDB)
+	_, err = db.Updates(linkDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteLink(c *gin.Context) {
 
 	// Get model if exist
 	var linkDB orm.LinkDB
-	if err := db.First(&linkDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&linkDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteLink(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&linkDB)
+	db.Unscoped()
+	db.Delete(&linkDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	linkDeleted := new(models.Link)

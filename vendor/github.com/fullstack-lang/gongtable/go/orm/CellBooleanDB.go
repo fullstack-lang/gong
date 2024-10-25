@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtable/go/db"
 	"github.com/fullstack-lang/gongtable/go/models"
 )
 
@@ -65,7 +66,7 @@ type CellBooleanDB struct {
 	// Declation for basic field cellbooleanDB.Value
 	// provide the sql storage for the boolan
 	Value_Data sql.NullBool
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	CellBooleanPointersEncoding
@@ -111,7 +112,7 @@ type BackRepoCellBooleanStruct struct {
 	// stores CellBoolean according to their gorm ID
 	Map_CellBooleanDBID_CellBooleanPtr map[uint]*models.CellBoolean
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -121,7 +122,7 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) GetStage() (stage *models.
 	return
 }
 
-func (backRepoCellBoolean *BackRepoCellBooleanStruct) GetDB() *gorm.DB {
+func (backRepoCellBoolean *BackRepoCellBooleanStruct) GetDB() db.DBInterface {
 	return backRepoCellBoolean.db
 }
 
@@ -158,9 +159,10 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) CommitDeleteInstance(id ui
 
 	// cellboolean is not staged anymore, remove cellbooleanDB
 	cellbooleanDB := backRepoCellBoolean.Map_CellBooleanDBID_CellBooleanDB[id]
-	query := backRepoCellBoolean.db.Unscoped().Delete(&cellbooleanDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoCellBoolean.db.Unscoped()
+	_, err := db.Delete(cellbooleanDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -184,9 +186,9 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) CommitPhaseOneInstance(cel
 	var cellbooleanDB CellBooleanDB
 	cellbooleanDB.CopyBasicFieldsFromCellBoolean(cellboolean)
 
-	query := backRepoCellBoolean.db.Create(&cellbooleanDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoCellBoolean.db.Create(&cellbooleanDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -218,9 +220,9 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) CommitPhaseTwoInstance(bac
 		cellbooleanDB.CopyBasicFieldsFromCellBoolean(cellboolean)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoCellBoolean.db.Save(&cellbooleanDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoCellBoolean.db.Save(cellbooleanDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -239,9 +241,9 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) CommitPhaseTwoInstance(bac
 func (backRepoCellBoolean *BackRepoCellBooleanStruct) CheckoutPhaseOne() (Error error) {
 
 	cellbooleanDBArray := make([]CellBooleanDB, 0)
-	query := backRepoCellBoolean.db.Find(&cellbooleanDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoCellBoolean.db.Find(&cellbooleanDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -352,7 +354,7 @@ func (backRepo *BackRepoStruct) CheckoutCellBoolean(cellboolean *models.CellBool
 			var cellbooleanDB CellBooleanDB
 			cellbooleanDB.ID = id
 
-			if err := backRepo.BackRepoCellBoolean.db.First(&cellbooleanDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoCellBoolean.db.First(&cellbooleanDB, id); err != nil {
 				log.Fatalln("CheckoutCellBoolean : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoCellBoolean.CheckoutPhaseOneInstance(&cellbooleanDB)
@@ -511,9 +513,9 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) rowVisitorCellBoolean(row 
 
 		cellbooleanDB_ID_atBackupTime := cellbooleanDB.ID
 		cellbooleanDB.ID = 0
-		query := backRepoCellBoolean.db.Create(cellbooleanDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoCellBoolean.db.Create(cellbooleanDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoCellBoolean.Map_CellBooleanDBID_CellBooleanDB[cellbooleanDB.ID] = cellbooleanDB
 		BackRepoCellBooleanid_atBckpTime_newID[cellbooleanDB_ID_atBackupTime] = cellbooleanDB.ID
@@ -548,9 +550,9 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) RestorePhaseOne(dirPath st
 
 		cellbooleanDB_ID_atBackupTime := cellbooleanDB.ID
 		cellbooleanDB.ID = 0
-		query := backRepoCellBoolean.db.Create(cellbooleanDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoCellBoolean.db.Create(cellbooleanDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoCellBoolean.Map_CellBooleanDBID_CellBooleanDB[cellbooleanDB.ID] = cellbooleanDB
 		BackRepoCellBooleanid_atBckpTime_newID[cellbooleanDB_ID_atBackupTime] = cellbooleanDB.ID
@@ -572,9 +574,10 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoCellBoolean.db.Model(cellbooleanDB).Updates(*cellbooleanDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoCellBoolean.db.Model(cellbooleanDB)
+		_, err := db.Updates(*cellbooleanDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

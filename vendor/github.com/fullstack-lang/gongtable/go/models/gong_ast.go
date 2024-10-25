@@ -510,95 +510,141 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 									switch gongstructName {
 									// insertion point for identifiers
 									case "Cell":
-										instanceCell := (&Cell{Name: instanceName}).Stage(stage)
+										instanceCell := new(Cell)
+										instanceCell.Name = instanceName
+										instanceCell.Stage(stage)
 										instance = any(instanceCell)
 										__gong__map_Cell[identifier] = instanceCell
 									case "CellBoolean":
-										instanceCellBoolean := (&CellBoolean{Name: instanceName}).Stage(stage)
+										instanceCellBoolean := new(CellBoolean)
+										instanceCellBoolean.Name = instanceName
+										instanceCellBoolean.Stage(stage)
 										instance = any(instanceCellBoolean)
 										__gong__map_CellBoolean[identifier] = instanceCellBoolean
 									case "CellFloat64":
-										instanceCellFloat64 := (&CellFloat64{Name: instanceName}).Stage(stage)
+										instanceCellFloat64 := new(CellFloat64)
+										instanceCellFloat64.Name = instanceName
+										instanceCellFloat64.Stage(stage)
 										instance = any(instanceCellFloat64)
 										__gong__map_CellFloat64[identifier] = instanceCellFloat64
 									case "CellIcon":
-										instanceCellIcon := (&CellIcon{Name: instanceName}).Stage(stage)
+										instanceCellIcon := new(CellIcon)
+										instanceCellIcon.Name = instanceName
+										instanceCellIcon.Stage(stage)
 										instance = any(instanceCellIcon)
 										__gong__map_CellIcon[identifier] = instanceCellIcon
 									case "CellInt":
-										instanceCellInt := (&CellInt{Name: instanceName}).Stage(stage)
+										instanceCellInt := new(CellInt)
+										instanceCellInt.Name = instanceName
+										instanceCellInt.Stage(stage)
 										instance = any(instanceCellInt)
 										__gong__map_CellInt[identifier] = instanceCellInt
 									case "CellString":
-										instanceCellString := (&CellString{Name: instanceName}).Stage(stage)
+										instanceCellString := new(CellString)
+										instanceCellString.Name = instanceName
+										instanceCellString.Stage(stage)
 										instance = any(instanceCellString)
 										__gong__map_CellString[identifier] = instanceCellString
 									case "CheckBox":
-										instanceCheckBox := (&CheckBox{Name: instanceName}).Stage(stage)
+										instanceCheckBox := new(CheckBox)
+										instanceCheckBox.Name = instanceName
+										instanceCheckBox.Stage(stage)
 										instance = any(instanceCheckBox)
 										__gong__map_CheckBox[identifier] = instanceCheckBox
 									case "DisplayedColumn":
-										instanceDisplayedColumn := (&DisplayedColumn{Name: instanceName}).Stage(stage)
+										instanceDisplayedColumn := new(DisplayedColumn)
+										instanceDisplayedColumn.Name = instanceName
+										instanceDisplayedColumn.Stage(stage)
 										instance = any(instanceDisplayedColumn)
 										__gong__map_DisplayedColumn[identifier] = instanceDisplayedColumn
 									case "FormDiv":
-										instanceFormDiv := (&FormDiv{Name: instanceName}).Stage(stage)
+										instanceFormDiv := new(FormDiv)
+										instanceFormDiv.Name = instanceName
+										instanceFormDiv.Stage(stage)
 										instance = any(instanceFormDiv)
 										__gong__map_FormDiv[identifier] = instanceFormDiv
 									case "FormEditAssocButton":
-										instanceFormEditAssocButton := (&FormEditAssocButton{Name: instanceName}).Stage(stage)
+										instanceFormEditAssocButton := new(FormEditAssocButton)
+										instanceFormEditAssocButton.Name = instanceName
+										instanceFormEditAssocButton.Stage(stage)
 										instance = any(instanceFormEditAssocButton)
 										__gong__map_FormEditAssocButton[identifier] = instanceFormEditAssocButton
 									case "FormField":
-										instanceFormField := (&FormField{Name: instanceName}).Stage(stage)
+										instanceFormField := new(FormField)
+										instanceFormField.Name = instanceName
+										instanceFormField.Stage(stage)
 										instance = any(instanceFormField)
 										__gong__map_FormField[identifier] = instanceFormField
 									case "FormFieldDate":
-										instanceFormFieldDate := (&FormFieldDate{Name: instanceName}).Stage(stage)
+										instanceFormFieldDate := new(FormFieldDate)
+										instanceFormFieldDate.Name = instanceName
+										instanceFormFieldDate.Stage(stage)
 										instance = any(instanceFormFieldDate)
 										__gong__map_FormFieldDate[identifier] = instanceFormFieldDate
 									case "FormFieldDateTime":
-										instanceFormFieldDateTime := (&FormFieldDateTime{Name: instanceName}).Stage(stage)
+										instanceFormFieldDateTime := new(FormFieldDateTime)
+										instanceFormFieldDateTime.Name = instanceName
+										instanceFormFieldDateTime.Stage(stage)
 										instance = any(instanceFormFieldDateTime)
 										__gong__map_FormFieldDateTime[identifier] = instanceFormFieldDateTime
 									case "FormFieldFloat64":
-										instanceFormFieldFloat64 := (&FormFieldFloat64{Name: instanceName}).Stage(stage)
+										instanceFormFieldFloat64 := new(FormFieldFloat64)
+										instanceFormFieldFloat64.Name = instanceName
+										instanceFormFieldFloat64.Stage(stage)
 										instance = any(instanceFormFieldFloat64)
 										__gong__map_FormFieldFloat64[identifier] = instanceFormFieldFloat64
 									case "FormFieldInt":
-										instanceFormFieldInt := (&FormFieldInt{Name: instanceName}).Stage(stage)
+										instanceFormFieldInt := new(FormFieldInt)
+										instanceFormFieldInt.Name = instanceName
+										instanceFormFieldInt.Stage(stage)
 										instance = any(instanceFormFieldInt)
 										__gong__map_FormFieldInt[identifier] = instanceFormFieldInt
 									case "FormFieldSelect":
-										instanceFormFieldSelect := (&FormFieldSelect{Name: instanceName}).Stage(stage)
+										instanceFormFieldSelect := new(FormFieldSelect)
+										instanceFormFieldSelect.Name = instanceName
+										instanceFormFieldSelect.Stage(stage)
 										instance = any(instanceFormFieldSelect)
 										__gong__map_FormFieldSelect[identifier] = instanceFormFieldSelect
 									case "FormFieldString":
-										instanceFormFieldString := (&FormFieldString{Name: instanceName}).Stage(stage)
+										instanceFormFieldString := new(FormFieldString)
+										instanceFormFieldString.Name = instanceName
+										instanceFormFieldString.Stage(stage)
 										instance = any(instanceFormFieldString)
 										__gong__map_FormFieldString[identifier] = instanceFormFieldString
 									case "FormFieldTime":
-										instanceFormFieldTime := (&FormFieldTime{Name: instanceName}).Stage(stage)
+										instanceFormFieldTime := new(FormFieldTime)
+										instanceFormFieldTime.Name = instanceName
+										instanceFormFieldTime.Stage(stage)
 										instance = any(instanceFormFieldTime)
 										__gong__map_FormFieldTime[identifier] = instanceFormFieldTime
 									case "FormGroup":
-										instanceFormGroup := (&FormGroup{Name: instanceName}).Stage(stage)
+										instanceFormGroup := new(FormGroup)
+										instanceFormGroup.Name = instanceName
+										instanceFormGroup.Stage(stage)
 										instance = any(instanceFormGroup)
 										__gong__map_FormGroup[identifier] = instanceFormGroup
 									case "FormSortAssocButton":
-										instanceFormSortAssocButton := (&FormSortAssocButton{Name: instanceName}).Stage(stage)
+										instanceFormSortAssocButton := new(FormSortAssocButton)
+										instanceFormSortAssocButton.Name = instanceName
+										instanceFormSortAssocButton.Stage(stage)
 										instance = any(instanceFormSortAssocButton)
 										__gong__map_FormSortAssocButton[identifier] = instanceFormSortAssocButton
 									case "Option":
-										instanceOption := (&Option{Name: instanceName}).Stage(stage)
+										instanceOption := new(Option)
+										instanceOption.Name = instanceName
+										instanceOption.Stage(stage)
 										instance = any(instanceOption)
 										__gong__map_Option[identifier] = instanceOption
 									case "Row":
-										instanceRow := (&Row{Name: instanceName}).Stage(stage)
+										instanceRow := new(Row)
+										instanceRow.Name = instanceName
+										instanceRow.Stage(stage)
 										instance = any(instanceRow)
 										__gong__map_Row[identifier] = instanceRow
 									case "Table":
-										instanceTable := (&Table{Name: instanceName}).Stage(stage)
+										instanceTable := new(Table)
+										instanceTable.Name = instanceName
+										instanceTable.Stage(stage)
 										instance = any(instanceTable)
 										__gong__map_Table[identifier] = instanceTable
 									}

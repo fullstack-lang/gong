@@ -70,12 +70,12 @@ func (controller *Controller) GetCellStrings(c *gin.Context) {
 	}
 	db := backRepo.BackRepoCellString.GetDB()
 
-	query := db.Find(&cellstringDBs)
-	if query.Error != nil {
+	_, err := db.Find(&cellstringDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostCellString(c *gin.Context) {
 	cellstringDB.CellStringPointersEncoding = input.CellStringPointersEncoding
 	cellstringDB.CopyBasicFieldsFromCellString_WOP(&input.CellString_WOP)
 
-	query := db.Create(&cellstringDB)
-	if query.Error != nil {
+	_, err = db.Create(&cellstringDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetCellString(c *gin.Context) {
 
 	// Get cellstringDB in DB
 	var cellstringDB orm.CellStringDB
-	if err := db.First(&cellstringDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&cellstringDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateCellString(c *gin.Context) {
 	var cellstringDB orm.CellStringDB
 
 	// fetch the cellstring
-	query := db.First(&cellstringDB, c.Param("id"))
+	_, err := db.First(&cellstringDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateCellString(c *gin.Context) {
 	cellstringDB.CopyBasicFieldsFromCellString_WOP(&input.CellString_WOP)
 	cellstringDB.CellStringPointersEncoding = input.CellStringPointersEncoding
 
-	query = db.Model(&cellstringDB).Updates(cellstringDB)
-	if query.Error != nil {
+	db, _ = db.Model(&cellstringDB)
+	_, err = db.Updates(cellstringDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteCellString(c *gin.Context) {
 
 	// Get model if exist
 	var cellstringDB orm.CellStringDB
-	if err := db.First(&cellstringDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&cellstringDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteCellString(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&cellstringDB)
+	db.Unscoped()
+	db.Delete(&cellstringDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	cellstringDeleted := new(models.CellString)

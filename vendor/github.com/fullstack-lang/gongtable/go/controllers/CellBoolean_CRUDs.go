@@ -70,12 +70,12 @@ func (controller *Controller) GetCellBooleans(c *gin.Context) {
 	}
 	db := backRepo.BackRepoCellBoolean.GetDB()
 
-	query := db.Find(&cellbooleanDBs)
-	if query.Error != nil {
+	_, err := db.Find(&cellbooleanDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostCellBoolean(c *gin.Context) {
 	cellbooleanDB.CellBooleanPointersEncoding = input.CellBooleanPointersEncoding
 	cellbooleanDB.CopyBasicFieldsFromCellBoolean_WOP(&input.CellBoolean_WOP)
 
-	query := db.Create(&cellbooleanDB)
-	if query.Error != nil {
+	_, err = db.Create(&cellbooleanDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetCellBoolean(c *gin.Context) {
 
 	// Get cellbooleanDB in DB
 	var cellbooleanDB orm.CellBooleanDB
-	if err := db.First(&cellbooleanDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&cellbooleanDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateCellBoolean(c *gin.Context) {
 	var cellbooleanDB orm.CellBooleanDB
 
 	// fetch the cellboolean
-	query := db.First(&cellbooleanDB, c.Param("id"))
+	_, err := db.First(&cellbooleanDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateCellBoolean(c *gin.Context) {
 	cellbooleanDB.CopyBasicFieldsFromCellBoolean_WOP(&input.CellBoolean_WOP)
 	cellbooleanDB.CellBooleanPointersEncoding = input.CellBooleanPointersEncoding
 
-	query = db.Model(&cellbooleanDB).Updates(cellbooleanDB)
-	if query.Error != nil {
+	db, _ = db.Model(&cellbooleanDB)
+	_, err = db.Updates(cellbooleanDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteCellBoolean(c *gin.Context) {
 
 	// Get model if exist
 	var cellbooleanDB orm.CellBooleanDB
-	if err := db.First(&cellbooleanDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&cellbooleanDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteCellBoolean(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&cellbooleanDB)
+	db.Unscoped()
+	db.Delete(&cellbooleanDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	cellbooleanDeleted := new(models.CellBoolean)

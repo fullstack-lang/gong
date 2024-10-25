@@ -70,12 +70,12 @@ func (controller *Controller) GetUmlscs(c *gin.Context) {
 	}
 	db := backRepo.BackRepoUmlsc.GetDB()
 
-	query := db.Find(&umlscDBs)
-	if query.Error != nil {
+	_, err := db.Find(&umlscDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostUmlsc(c *gin.Context) {
 	umlscDB.UmlscPointersEncoding = input.UmlscPointersEncoding
 	umlscDB.CopyBasicFieldsFromUmlsc_WOP(&input.Umlsc_WOP)
 
-	query := db.Create(&umlscDB)
-	if query.Error != nil {
+	_, err = db.Create(&umlscDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetUmlsc(c *gin.Context) {
 
 	// Get umlscDB in DB
 	var umlscDB orm.UmlscDB
-	if err := db.First(&umlscDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&umlscDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateUmlsc(c *gin.Context) {
 	var umlscDB orm.UmlscDB
 
 	// fetch the umlsc
-	query := db.First(&umlscDB, c.Param("id"))
+	_, err := db.First(&umlscDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateUmlsc(c *gin.Context) {
 	umlscDB.CopyBasicFieldsFromUmlsc_WOP(&input.Umlsc_WOP)
 	umlscDB.UmlscPointersEncoding = input.UmlscPointersEncoding
 
-	query = db.Model(&umlscDB).Updates(umlscDB)
-	if query.Error != nil {
+	db, _ = db.Model(&umlscDB)
+	_, err = db.Updates(umlscDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteUmlsc(c *gin.Context) {
 
 	// Get model if exist
 	var umlscDB orm.UmlscDB
-	if err := db.First(&umlscDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&umlscDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteUmlsc(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&umlscDB)
+	db.Unscoped()
+	db.Delete(&umlscDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	umlscDeleted := new(models.Umlsc)
