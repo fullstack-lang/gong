@@ -56,6 +56,9 @@ var (
 
 	compileForDebug = flag.Bool("compileForDebug", false, "The go debugger can be slow to start (more than 60')."+
 		"A workaround is to generate a go build with with '-N -l' options")
+
+	dbLite = flag.Bool("dbLite", true, "If true, the database in all stack instances are purely in memory."+
+		"If false, it is sqlite and can be persisted to a sqlite file")
 )
 
 func main() {
@@ -527,7 +530,11 @@ func main() {
 		orm.BackRepoTemplateCode, orm.BackRepoSubTemplate)
 
 	// back repo is either with gorm + sqlite or with lite
-	orm.RemoveTargetedLines(filepath.Join(*pkgPath, "../orm/back_repo.go"), orm.Lite)
+	if *dbLite {
+		orm.RemoveTargetedLines(filepath.Join(*pkgPath, "../orm/back_repo.go"), orm.Lite)
+	} else {
+		orm.RemoveTargetedLines(filepath.Join(*pkgPath, "../orm/back_repo.go"), orm.Gorm)
+	}
 
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
