@@ -70,12 +70,12 @@ func (controller *Controller) GetSVGIcons(c *gin.Context) {
 	}
 	db := backRepo.BackRepoSVGIcon.GetDB()
 
-	query := db.Find(&svgiconDBs)
-	if query.Error != nil {
+	_, err := db.Find(&svgiconDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostSVGIcon(c *gin.Context) {
 	svgiconDB.SVGIconPointersEncoding = input.SVGIconPointersEncoding
 	svgiconDB.CopyBasicFieldsFromSVGIcon_WOP(&input.SVGIcon_WOP)
 
-	query := db.Create(&svgiconDB)
-	if query.Error != nil {
+	_, err = db.Create(&svgiconDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetSVGIcon(c *gin.Context) {
 
 	// Get svgiconDB in DB
 	var svgiconDB orm.SVGIconDB
-	if err := db.First(&svgiconDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&svgiconDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateSVGIcon(c *gin.Context) {
 	var svgiconDB orm.SVGIconDB
 
 	// fetch the svgicon
-	query := db.First(&svgiconDB, c.Param("id"))
+	_, err := db.First(&svgiconDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateSVGIcon(c *gin.Context) {
 	svgiconDB.CopyBasicFieldsFromSVGIcon_WOP(&input.SVGIcon_WOP)
 	svgiconDB.SVGIconPointersEncoding = input.SVGIconPointersEncoding
 
-	query = db.Model(&svgiconDB).Updates(svgiconDB)
-	if query.Error != nil {
+	db, _ = db.Model(&svgiconDB)
+	_, err = db.Updates(&svgiconDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteSVGIcon(c *gin.Context) {
 
 	// Get model if exist
 	var svgiconDB orm.SVGIconDB
-	if err := db.First(&svgiconDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&svgiconDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteSVGIcon(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&svgiconDB)
+	db.Unscoped()
+	db.Delete(&svgiconDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	svgiconDeleted := new(models.SVGIcon)

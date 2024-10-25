@@ -70,12 +70,12 @@ func (controller *Controller) GetFormFieldDateTimes(c *gin.Context) {
 	}
 	db := backRepo.BackRepoFormFieldDateTime.GetDB()
 
-	query := db.Find(&formfielddatetimeDBs)
-	if query.Error != nil {
+	_, err := db.Find(&formfielddatetimeDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostFormFieldDateTime(c *gin.Context) {
 	formfielddatetimeDB.FormFieldDateTimePointersEncoding = input.FormFieldDateTimePointersEncoding
 	formfielddatetimeDB.CopyBasicFieldsFromFormFieldDateTime_WOP(&input.FormFieldDateTime_WOP)
 
-	query := db.Create(&formfielddatetimeDB)
-	if query.Error != nil {
+	_, err = db.Create(&formfielddatetimeDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetFormFieldDateTime(c *gin.Context) {
 
 	// Get formfielddatetimeDB in DB
 	var formfielddatetimeDB orm.FormFieldDateTimeDB
-	if err := db.First(&formfielddatetimeDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&formfielddatetimeDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateFormFieldDateTime(c *gin.Context) {
 	var formfielddatetimeDB orm.FormFieldDateTimeDB
 
 	// fetch the formfielddatetime
-	query := db.First(&formfielddatetimeDB, c.Param("id"))
+	_, err := db.First(&formfielddatetimeDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateFormFieldDateTime(c *gin.Context) {
 	formfielddatetimeDB.CopyBasicFieldsFromFormFieldDateTime_WOP(&input.FormFieldDateTime_WOP)
 	formfielddatetimeDB.FormFieldDateTimePointersEncoding = input.FormFieldDateTimePointersEncoding
 
-	query = db.Model(&formfielddatetimeDB).Updates(formfielddatetimeDB)
-	if query.Error != nil {
+	db, _ = db.Model(&formfielddatetimeDB)
+	_, err = db.Updates(formfielddatetimeDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteFormFieldDateTime(c *gin.Context) {
 
 	// Get model if exist
 	var formfielddatetimeDB orm.FormFieldDateTimeDB
-	if err := db.First(&formfielddatetimeDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&formfielddatetimeDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteFormFieldDateTime(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&formfielddatetimeDB)
+	db.Unscoped()
+	db.Delete(&formfielddatetimeDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	formfielddatetimeDeleted := new(models.FormFieldDateTime)

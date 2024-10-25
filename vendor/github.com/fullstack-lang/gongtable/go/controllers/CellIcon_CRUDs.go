@@ -70,12 +70,12 @@ func (controller *Controller) GetCellIcons(c *gin.Context) {
 	}
 	db := backRepo.BackRepoCellIcon.GetDB()
 
-	query := db.Find(&celliconDBs)
-	if query.Error != nil {
+	_, err := db.Find(&celliconDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostCellIcon(c *gin.Context) {
 	celliconDB.CellIconPointersEncoding = input.CellIconPointersEncoding
 	celliconDB.CopyBasicFieldsFromCellIcon_WOP(&input.CellIcon_WOP)
 
-	query := db.Create(&celliconDB)
-	if query.Error != nil {
+	_, err = db.Create(&celliconDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetCellIcon(c *gin.Context) {
 
 	// Get celliconDB in DB
 	var celliconDB orm.CellIconDB
-	if err := db.First(&celliconDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&celliconDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateCellIcon(c *gin.Context) {
 	var celliconDB orm.CellIconDB
 
 	// fetch the cellicon
-	query := db.First(&celliconDB, c.Param("id"))
+	_, err := db.First(&celliconDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateCellIcon(c *gin.Context) {
 	celliconDB.CopyBasicFieldsFromCellIcon_WOP(&input.CellIcon_WOP)
 	celliconDB.CellIconPointersEncoding = input.CellIconPointersEncoding
 
-	query = db.Model(&celliconDB).Updates(celliconDB)
-	if query.Error != nil {
+	db, _ = db.Model(&celliconDB)
+	_, err = db.Updates(celliconDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteCellIcon(c *gin.Context) {
 
 	// Get model if exist
 	var celliconDB orm.CellIconDB
-	if err := db.First(&celliconDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&celliconDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteCellIcon(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&celliconDB)
+	db.Unscoped()
+	db.Delete(&celliconDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	celliconDeleted := new(models.CellIcon)

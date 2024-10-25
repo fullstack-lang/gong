@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtable/go/db"
 	"github.com/fullstack-lang/gongtable/go/models"
 )
 
@@ -64,7 +65,7 @@ type FormEditAssocButtonDB struct {
 
 	// Declation for basic field formeditassocbuttonDB.Label
 	Label_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormEditAssocButtonPointersEncoding
@@ -110,7 +111,7 @@ type BackRepoFormEditAssocButtonStruct struct {
 	// stores FormEditAssocButton according to their gorm ID
 	Map_FormEditAssocButtonDBID_FormEditAssocButtonPtr map[uint]*models.FormEditAssocButton
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -120,7 +121,7 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) GetStage()
 	return
 }
 
-func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) GetDB() *gorm.DB {
+func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) GetDB() db.DBInterface {
 	return backRepoFormEditAssocButton.db
 }
 
@@ -157,9 +158,10 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) CommitDele
 
 	// formeditassocbutton is not staged anymore, remove formeditassocbuttonDB
 	formeditassocbuttonDB := backRepoFormEditAssocButton.Map_FormEditAssocButtonDBID_FormEditAssocButtonDB[id]
-	query := backRepoFormEditAssocButton.db.Unscoped().Delete(&formeditassocbuttonDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoFormEditAssocButton.db.Unscoped()
+	_, err := db.Delete(formeditassocbuttonDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -183,9 +185,9 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) CommitPhas
 	var formeditassocbuttonDB FormEditAssocButtonDB
 	formeditassocbuttonDB.CopyBasicFieldsFromFormEditAssocButton(formeditassocbutton)
 
-	query := backRepoFormEditAssocButton.db.Create(&formeditassocbuttonDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoFormEditAssocButton.db.Create(&formeditassocbuttonDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -217,9 +219,9 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) CommitPhas
 		formeditassocbuttonDB.CopyBasicFieldsFromFormEditAssocButton(formeditassocbutton)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoFormEditAssocButton.db.Save(&formeditassocbuttonDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoFormEditAssocButton.db.Save(formeditassocbuttonDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -238,9 +240,9 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) CommitPhas
 func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) CheckoutPhaseOne() (Error error) {
 
 	formeditassocbuttonDBArray := make([]FormEditAssocButtonDB, 0)
-	query := backRepoFormEditAssocButton.db.Find(&formeditassocbuttonDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoFormEditAssocButton.db.Find(&formeditassocbuttonDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -351,7 +353,7 @@ func (backRepo *BackRepoStruct) CheckoutFormEditAssocButton(formeditassocbutton 
 			var formeditassocbuttonDB FormEditAssocButtonDB
 			formeditassocbuttonDB.ID = id
 
-			if err := backRepo.BackRepoFormEditAssocButton.db.First(&formeditassocbuttonDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoFormEditAssocButton.db.First(&formeditassocbuttonDB, id); err != nil {
 				log.Fatalln("CheckoutFormEditAssocButton : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoFormEditAssocButton.CheckoutPhaseOneInstance(&formeditassocbuttonDB)
@@ -510,9 +512,9 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) rowVisitor
 
 		formeditassocbuttonDB_ID_atBackupTime := formeditassocbuttonDB.ID
 		formeditassocbuttonDB.ID = 0
-		query := backRepoFormEditAssocButton.db.Create(formeditassocbuttonDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoFormEditAssocButton.db.Create(formeditassocbuttonDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoFormEditAssocButton.Map_FormEditAssocButtonDBID_FormEditAssocButtonDB[formeditassocbuttonDB.ID] = formeditassocbuttonDB
 		BackRepoFormEditAssocButtonid_atBckpTime_newID[formeditassocbuttonDB_ID_atBackupTime] = formeditassocbuttonDB.ID
@@ -547,9 +549,9 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) RestorePha
 
 		formeditassocbuttonDB_ID_atBackupTime := formeditassocbuttonDB.ID
 		formeditassocbuttonDB.ID = 0
-		query := backRepoFormEditAssocButton.db.Create(formeditassocbuttonDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoFormEditAssocButton.db.Create(formeditassocbuttonDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoFormEditAssocButton.Map_FormEditAssocButtonDBID_FormEditAssocButtonDB[formeditassocbuttonDB.ID] = formeditassocbuttonDB
 		BackRepoFormEditAssocButtonid_atBckpTime_newID[formeditassocbuttonDB_ID_atBackupTime] = formeditassocbuttonDB.ID
@@ -571,9 +573,10 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) RestorePha
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoFormEditAssocButton.db.Model(formeditassocbuttonDB).Updates(*formeditassocbuttonDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoFormEditAssocButton.db.Model(formeditassocbuttonDB)
+		_, err := db.Updates(*formeditassocbuttonDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

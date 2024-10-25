@@ -70,12 +70,12 @@ func (controller *Controller) GetNodes(c *gin.Context) {
 	}
 	db := backRepo.BackRepoNode.GetDB()
 
-	query := db.Find(&nodeDBs)
-	if query.Error != nil {
+	_, err := db.Find(&nodeDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostNode(c *gin.Context) {
 	nodeDB.NodePointersEncoding = input.NodePointersEncoding
 	nodeDB.CopyBasicFieldsFromNode_WOP(&input.Node_WOP)
 
-	query := db.Create(&nodeDB)
-	if query.Error != nil {
+	_, err = db.Create(&nodeDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetNode(c *gin.Context) {
 
 	// Get nodeDB in DB
 	var nodeDB orm.NodeDB
-	if err := db.First(&nodeDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&nodeDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateNode(c *gin.Context) {
 	var nodeDB orm.NodeDB
 
 	// fetch the node
-	query := db.First(&nodeDB, c.Param("id"))
+	_, err := db.First(&nodeDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateNode(c *gin.Context) {
 	nodeDB.CopyBasicFieldsFromNode_WOP(&input.Node_WOP)
 	nodeDB.NodePointersEncoding = input.NodePointersEncoding
 
-	query = db.Model(&nodeDB).Updates(nodeDB)
-	if query.Error != nil {
+	db, _ = db.Model(&nodeDB)
+	_, err = db.Updates(&nodeDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteNode(c *gin.Context) {
 
 	// Get model if exist
 	var nodeDB orm.NodeDB
-	if err := db.First(&nodeDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&nodeDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteNode(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&nodeDB)
+	db.Unscoped()
+	db.Delete(&nodeDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	nodeDeleted := new(models.Node)

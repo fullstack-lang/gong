@@ -70,12 +70,12 @@ func (controller *Controller) GetNoteShapes(c *gin.Context) {
 	}
 	db := backRepo.BackRepoNoteShape.GetDB()
 
-	query := db.Find(&noteshapeDBs)
-	if query.Error != nil {
+	_, err := db.Find(&noteshapeDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostNoteShape(c *gin.Context) {
 	noteshapeDB.NoteShapePointersEncoding = input.NoteShapePointersEncoding
 	noteshapeDB.CopyBasicFieldsFromNoteShape_WOP(&input.NoteShape_WOP)
 
-	query := db.Create(&noteshapeDB)
-	if query.Error != nil {
+	_, err = db.Create(&noteshapeDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetNoteShape(c *gin.Context) {
 
 	// Get noteshapeDB in DB
 	var noteshapeDB orm.NoteShapeDB
-	if err := db.First(&noteshapeDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&noteshapeDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateNoteShape(c *gin.Context) {
 	var noteshapeDB orm.NoteShapeDB
 
 	// fetch the noteshape
-	query := db.First(&noteshapeDB, c.Param("id"))
+	_, err := db.First(&noteshapeDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateNoteShape(c *gin.Context) {
 	noteshapeDB.CopyBasicFieldsFromNoteShape_WOP(&input.NoteShape_WOP)
 	noteshapeDB.NoteShapePointersEncoding = input.NoteShapePointersEncoding
 
-	query = db.Model(&noteshapeDB).Updates(noteshapeDB)
-	if query.Error != nil {
+	db, _ = db.Model(&noteshapeDB)
+	_, err = db.Updates(noteshapeDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteNoteShape(c *gin.Context) {
 
 	// Get model if exist
 	var noteshapeDB orm.NoteShapeDB
-	if err := db.First(&noteshapeDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&noteshapeDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteNoteShape(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&noteshapeDB)
+	db.Unscoped()
+	db.Delete(&noteshapeDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	noteshapeDeleted := new(models.NoteShape)

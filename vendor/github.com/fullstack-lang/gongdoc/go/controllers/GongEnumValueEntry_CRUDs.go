@@ -70,12 +70,12 @@ func (controller *Controller) GetGongEnumValueEntrys(c *gin.Context) {
 	}
 	db := backRepo.BackRepoGongEnumValueEntry.GetDB()
 
-	query := db.Find(&gongenumvalueentryDBs)
-	if query.Error != nil {
+	_, err := db.Find(&gongenumvalueentryDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostGongEnumValueEntry(c *gin.Context) {
 	gongenumvalueentryDB.GongEnumValueEntryPointersEncoding = input.GongEnumValueEntryPointersEncoding
 	gongenumvalueentryDB.CopyBasicFieldsFromGongEnumValueEntry_WOP(&input.GongEnumValueEntry_WOP)
 
-	query := db.Create(&gongenumvalueentryDB)
-	if query.Error != nil {
+	_, err = db.Create(&gongenumvalueentryDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetGongEnumValueEntry(c *gin.Context) {
 
 	// Get gongenumvalueentryDB in DB
 	var gongenumvalueentryDB orm.GongEnumValueEntryDB
-	if err := db.First(&gongenumvalueentryDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&gongenumvalueentryDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateGongEnumValueEntry(c *gin.Context) {
 	var gongenumvalueentryDB orm.GongEnumValueEntryDB
 
 	// fetch the gongenumvalueentry
-	query := db.First(&gongenumvalueentryDB, c.Param("id"))
+	_, err := db.First(&gongenumvalueentryDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateGongEnumValueEntry(c *gin.Context) {
 	gongenumvalueentryDB.CopyBasicFieldsFromGongEnumValueEntry_WOP(&input.GongEnumValueEntry_WOP)
 	gongenumvalueentryDB.GongEnumValueEntryPointersEncoding = input.GongEnumValueEntryPointersEncoding
 
-	query = db.Model(&gongenumvalueentryDB).Updates(gongenumvalueentryDB)
-	if query.Error != nil {
+	db, _ = db.Model(&gongenumvalueentryDB)
+	_, err = db.Updates(gongenumvalueentryDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteGongEnumValueEntry(c *gin.Context) {
 
 	// Get model if exist
 	var gongenumvalueentryDB orm.GongEnumValueEntryDB
-	if err := db.First(&gongenumvalueentryDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&gongenumvalueentryDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteGongEnumValueEntry(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&gongenumvalueentryDB)
+	db.Unscoped()
+	db.Delete(&gongenumvalueentryDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	gongenumvalueentryDeleted := new(models.GongEnumValueEntry)

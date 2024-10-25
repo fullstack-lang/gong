@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtable/go/db"
 	"github.com/fullstack-lang/gongtable/go/models"
 )
 
@@ -81,7 +82,7 @@ type CellDB struct {
 
 	// Declation for basic field cellDB.Name
 	Name_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	CellPointersEncoding
@@ -124,7 +125,7 @@ type BackRepoCellStruct struct {
 	// stores Cell according to their gorm ID
 	Map_CellDBID_CellPtr map[uint]*models.Cell
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -134,7 +135,7 @@ func (backRepoCell *BackRepoCellStruct) GetStage() (stage *models.StageStruct) {
 	return
 }
 
-func (backRepoCell *BackRepoCellStruct) GetDB() *gorm.DB {
+func (backRepoCell *BackRepoCellStruct) GetDB() db.DBInterface {
 	return backRepoCell.db
 }
 
@@ -171,9 +172,10 @@ func (backRepoCell *BackRepoCellStruct) CommitDeleteInstance(id uint) (Error err
 
 	// cell is not staged anymore, remove cellDB
 	cellDB := backRepoCell.Map_CellDBID_CellDB[id]
-	query := backRepoCell.db.Unscoped().Delete(&cellDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoCell.db.Unscoped()
+	_, err := db.Delete(cellDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -197,9 +199,9 @@ func (backRepoCell *BackRepoCellStruct) CommitPhaseOneInstance(cell *models.Cell
 	var cellDB CellDB
 	cellDB.CopyBasicFieldsFromCell(cell)
 
-	query := backRepoCell.db.Create(&cellDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoCell.db.Create(&cellDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -291,9 +293,9 @@ func (backRepoCell *BackRepoCellStruct) CommitPhaseTwoInstance(backRepo *BackRep
 			cellDB.CellIconID.Valid = true
 		}
 
-		query := backRepoCell.db.Save(&cellDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoCell.db.Save(cellDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -312,9 +314,9 @@ func (backRepoCell *BackRepoCellStruct) CommitPhaseTwoInstance(backRepo *BackRep
 func (backRepoCell *BackRepoCellStruct) CheckoutPhaseOne() (Error error) {
 
 	cellDBArray := make([]CellDB, 0)
-	query := backRepoCell.db.Find(&cellDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoCell.db.Find(&cellDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -450,7 +452,7 @@ func (backRepo *BackRepoStruct) CheckoutCell(cell *models.Cell) {
 			var cellDB CellDB
 			cellDB.ID = id
 
-			if err := backRepo.BackRepoCell.db.First(&cellDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoCell.db.First(&cellDB, id); err != nil {
 				log.Fatalln("CheckoutCell : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoCell.CheckoutPhaseOneInstance(&cellDB)
@@ -597,9 +599,9 @@ func (backRepoCell *BackRepoCellStruct) rowVisitorCell(row *xlsx.Row) error {
 
 		cellDB_ID_atBackupTime := cellDB.ID
 		cellDB.ID = 0
-		query := backRepoCell.db.Create(cellDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoCell.db.Create(cellDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoCell.Map_CellDBID_CellDB[cellDB.ID] = cellDB
 		BackRepoCellid_atBckpTime_newID[cellDB_ID_atBackupTime] = cellDB.ID
@@ -634,9 +636,9 @@ func (backRepoCell *BackRepoCellStruct) RestorePhaseOne(dirPath string) {
 
 		cellDB_ID_atBackupTime := cellDB.ID
 		cellDB.ID = 0
-		query := backRepoCell.db.Create(cellDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoCell.db.Create(cellDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoCell.Map_CellDBID_CellDB[cellDB.ID] = cellDB
 		BackRepoCellid_atBckpTime_newID[cellDB_ID_atBackupTime] = cellDB.ID
@@ -688,9 +690,10 @@ func (backRepoCell *BackRepoCellStruct) RestorePhaseTwo() {
 		}
 
 		// update databse with new index encoding
-		query := backRepoCell.db.Model(cellDB).Updates(*cellDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoCell.db.Model(cellDB)
+		_, err := db.Updates(*cellDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

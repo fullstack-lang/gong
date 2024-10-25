@@ -70,12 +70,12 @@ func (controller *Controller) GetPositions(c *gin.Context) {
 	}
 	db := backRepo.BackRepoPosition.GetDB()
 
-	query := db.Find(&positionDBs)
-	if query.Error != nil {
+	_, err := db.Find(&positionDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostPosition(c *gin.Context) {
 	positionDB.PositionPointersEncoding = input.PositionPointersEncoding
 	positionDB.CopyBasicFieldsFromPosition_WOP(&input.Position_WOP)
 
-	query := db.Create(&positionDB)
-	if query.Error != nil {
+	_, err = db.Create(&positionDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetPosition(c *gin.Context) {
 
 	// Get positionDB in DB
 	var positionDB orm.PositionDB
-	if err := db.First(&positionDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&positionDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdatePosition(c *gin.Context) {
 	var positionDB orm.PositionDB
 
 	// fetch the position
-	query := db.First(&positionDB, c.Param("id"))
+	_, err := db.First(&positionDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdatePosition(c *gin.Context) {
 	positionDB.CopyBasicFieldsFromPosition_WOP(&input.Position_WOP)
 	positionDB.PositionPointersEncoding = input.PositionPointersEncoding
 
-	query = db.Model(&positionDB).Updates(positionDB)
-	if query.Error != nil {
+	db, _ = db.Model(&positionDB)
+	_, err = db.Updates(positionDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeletePosition(c *gin.Context) {
 
 	// Get model if exist
 	var positionDB orm.PositionDB
-	if err := db.First(&positionDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&positionDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeletePosition(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&positionDB)
+	db.Unscoped()
+	db.Delete(&positionDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	positionDeleted := new(models.Position)

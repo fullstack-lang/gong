@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtree/go/db"
 	"github.com/fullstack-lang/gongtree/go/models"
 )
 
@@ -64,7 +65,7 @@ type TreeDB struct {
 
 	// Declation for basic field treeDB.Name
 	Name_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	TreePointersEncoding
@@ -107,7 +108,7 @@ type BackRepoTreeStruct struct {
 	// stores Tree according to their gorm ID
 	Map_TreeDBID_TreePtr map[uint]*models.Tree
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -117,7 +118,7 @@ func (backRepoTree *BackRepoTreeStruct) GetStage() (stage *models.StageStruct) {
 	return
 }
 
-func (backRepoTree *BackRepoTreeStruct) GetDB() *gorm.DB {
+func (backRepoTree *BackRepoTreeStruct) GetDB() db.DBInterface {
 	return backRepoTree.db
 }
 
@@ -154,9 +155,10 @@ func (backRepoTree *BackRepoTreeStruct) CommitDeleteInstance(id uint) (Error err
 
 	// tree is not staged anymore, remove treeDB
 	treeDB := backRepoTree.Map_TreeDBID_TreeDB[id]
-	query := backRepoTree.db.Unscoped().Delete(&treeDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoTree.db.Unscoped()
+	_, err := db.Delete(treeDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -180,9 +182,9 @@ func (backRepoTree *BackRepoTreeStruct) CommitPhaseOneInstance(tree *models.Tree
 	var treeDB TreeDB
 	treeDB.CopyBasicFieldsFromTree(tree)
 
-	query := backRepoTree.db.Create(&treeDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoTree.db.Create(&treeDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -232,9 +234,9 @@ func (backRepoTree *BackRepoTreeStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				append(treeDB.TreePointersEncoding.RootNodes, int(nodeAssocEnd_DB.ID))
 		}
 
-		query := backRepoTree.db.Save(&treeDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoTree.db.Save(treeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -253,9 +255,9 @@ func (backRepoTree *BackRepoTreeStruct) CommitPhaseTwoInstance(backRepo *BackRep
 func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseOne() (Error error) {
 
 	treeDBArray := make([]TreeDB, 0)
-	query := backRepoTree.db.Find(&treeDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoTree.db.Find(&treeDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -375,7 +377,7 @@ func (backRepo *BackRepoStruct) CheckoutTree(tree *models.Tree) {
 			var treeDB TreeDB
 			treeDB.ID = id
 
-			if err := backRepo.BackRepoTree.db.First(&treeDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoTree.db.First(&treeDB, id); err != nil {
 				log.Fatalln("CheckoutTree : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoTree.CheckoutPhaseOneInstance(&treeDB)
@@ -522,9 +524,9 @@ func (backRepoTree *BackRepoTreeStruct) rowVisitorTree(row *xlsx.Row) error {
 
 		treeDB_ID_atBackupTime := treeDB.ID
 		treeDB.ID = 0
-		query := backRepoTree.db.Create(treeDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoTree.db.Create(treeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoTree.Map_TreeDBID_TreeDB[treeDB.ID] = treeDB
 		BackRepoTreeid_atBckpTime_newID[treeDB_ID_atBackupTime] = treeDB.ID
@@ -559,9 +561,9 @@ func (backRepoTree *BackRepoTreeStruct) RestorePhaseOne(dirPath string) {
 
 		treeDB_ID_atBackupTime := treeDB.ID
 		treeDB.ID = 0
-		query := backRepoTree.db.Create(treeDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoTree.db.Create(treeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoTree.Map_TreeDBID_TreeDB[treeDB.ID] = treeDB
 		BackRepoTreeid_atBckpTime_newID[treeDB_ID_atBackupTime] = treeDB.ID
@@ -583,9 +585,10 @@ func (backRepoTree *BackRepoTreeStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoTree.db.Model(treeDB).Updates(*treeDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoTree.db.Model(treeDB)
+		_, err := db.Updates(*treeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

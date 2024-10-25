@@ -70,12 +70,12 @@ func (controller *Controller) GetFields(c *gin.Context) {
 	}
 	db := backRepo.BackRepoField.GetDB()
 
-	query := db.Find(&fieldDBs)
-	if query.Error != nil {
+	_, err := db.Find(&fieldDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostField(c *gin.Context) {
 	fieldDB.FieldPointersEncoding = input.FieldPointersEncoding
 	fieldDB.CopyBasicFieldsFromField_WOP(&input.Field_WOP)
 
-	query := db.Create(&fieldDB)
-	if query.Error != nil {
+	_, err = db.Create(&fieldDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetField(c *gin.Context) {
 
 	// Get fieldDB in DB
 	var fieldDB orm.FieldDB
-	if err := db.First(&fieldDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&fieldDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateField(c *gin.Context) {
 	var fieldDB orm.FieldDB
 
 	// fetch the field
-	query := db.First(&fieldDB, c.Param("id"))
+	_, err := db.First(&fieldDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateField(c *gin.Context) {
 	fieldDB.CopyBasicFieldsFromField_WOP(&input.Field_WOP)
 	fieldDB.FieldPointersEncoding = input.FieldPointersEncoding
 
-	query = db.Model(&fieldDB).Updates(fieldDB)
-	if query.Error != nil {
+	db, _ = db.Model(&fieldDB)
+	_, err = db.Updates(fieldDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteField(c *gin.Context) {
 
 	// Get model if exist
 	var fieldDB orm.FieldDB
-	if err := db.First(&fieldDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&fieldDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteField(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&fieldDB)
+	db.Unscoped()
+	db.Delete(&fieldDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	fieldDeleted := new(models.Field)

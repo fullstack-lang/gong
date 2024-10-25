@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtable/go/db"
 	"github.com/fullstack-lang/gongtable/go/models"
 )
 
@@ -112,7 +113,7 @@ type FormFieldDB struct {
 
 	// Declation for basic field formfieldDB.BespokeHeightPx
 	BespokeHeightPx_Data sql.NullInt64
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormFieldPointersEncoding
@@ -176,7 +177,7 @@ type BackRepoFormFieldStruct struct {
 	// stores FormField according to their gorm ID
 	Map_FormFieldDBID_FormFieldPtr map[uint]*models.FormField
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -186,7 +187,7 @@ func (backRepoFormField *BackRepoFormFieldStruct) GetStage() (stage *models.Stag
 	return
 }
 
-func (backRepoFormField *BackRepoFormFieldStruct) GetDB() *gorm.DB {
+func (backRepoFormField *BackRepoFormFieldStruct) GetDB() db.DBInterface {
 	return backRepoFormField.db
 }
 
@@ -223,9 +224,10 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitDeleteInstance(id uint) 
 
 	// formfield is not staged anymore, remove formfieldDB
 	formfieldDB := backRepoFormField.Map_FormFieldDBID_FormFieldDB[id]
-	query := backRepoFormField.db.Unscoped().Delete(&formfieldDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoFormField.db.Unscoped()
+	_, err := db.Delete(formfieldDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -249,9 +251,9 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseOneInstance(formfie
 	var formfieldDB FormFieldDB
 	formfieldDB.CopyBasicFieldsFromFormField(formfield)
 
-	query := backRepoFormField.db.Create(&formfieldDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoFormField.db.Create(&formfieldDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -367,9 +369,9 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseTwoInstance(backRep
 			formfieldDB.FormFieldSelectID.Valid = true
 		}
 
-		query := backRepoFormField.db.Save(&formfieldDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoFormField.db.Save(formfieldDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -388,9 +390,9 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseTwoInstance(backRep
 func (backRepoFormField *BackRepoFormFieldStruct) CheckoutPhaseOne() (Error error) {
 
 	formfieldDBArray := make([]FormFieldDB, 0)
-	query := backRepoFormField.db.Find(&formfieldDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoFormField.db.Find(&formfieldDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -536,7 +538,7 @@ func (backRepo *BackRepoStruct) CheckoutFormField(formfield *models.FormField) {
 			var formfieldDB FormFieldDB
 			formfieldDB.ID = id
 
-			if err := backRepo.BackRepoFormField.db.First(&formfieldDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoFormField.db.First(&formfieldDB, id); err != nil {
 				log.Fatalln("CheckoutFormField : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoFormField.CheckoutPhaseOneInstance(&formfieldDB)
@@ -767,9 +769,9 @@ func (backRepoFormField *BackRepoFormFieldStruct) rowVisitorFormField(row *xlsx.
 
 		formfieldDB_ID_atBackupTime := formfieldDB.ID
 		formfieldDB.ID = 0
-		query := backRepoFormField.db.Create(formfieldDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoFormField.db.Create(formfieldDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoFormField.Map_FormFieldDBID_FormFieldDB[formfieldDB.ID] = formfieldDB
 		BackRepoFormFieldid_atBckpTime_newID[formfieldDB_ID_atBackupTime] = formfieldDB.ID
@@ -804,9 +806,9 @@ func (backRepoFormField *BackRepoFormFieldStruct) RestorePhaseOne(dirPath string
 
 		formfieldDB_ID_atBackupTime := formfieldDB.ID
 		formfieldDB.ID = 0
-		query := backRepoFormField.db.Create(formfieldDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoFormField.db.Create(formfieldDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoFormField.Map_FormFieldDBID_FormFieldDB[formfieldDB.ID] = formfieldDB
 		BackRepoFormFieldid_atBckpTime_newID[formfieldDB_ID_atBackupTime] = formfieldDB.ID
@@ -870,9 +872,10 @@ func (backRepoFormField *BackRepoFormFieldStruct) RestorePhaseTwo() {
 		}
 
 		// update databse with new index encoding
-		query := backRepoFormField.db.Model(formfieldDB).Updates(*formfieldDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoFormField.db.Model(formfieldDB)
+		_, err := db.Updates(*formfieldDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

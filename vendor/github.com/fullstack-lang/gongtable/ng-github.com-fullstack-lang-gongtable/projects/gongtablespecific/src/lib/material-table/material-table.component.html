@@ -53,7 +53,7 @@
             cell and the data cell definitions.
             -->
             <ng-container *ngFor="let column of displayedColumns; let i = index">
-                <ng-container [matColumnDef]="column" [sticky]="i < this.selectedTable!.NbOfStickyColumns">
+                <ng-container [matColumnDef]="column" [sticky]="this.selectedTable && i < this.selectedTable.NbOfStickyColumns">
 
                     <!-- Header cell for each column. 
                     The mat-header-cell directive applies Angular Material styling. 
@@ -95,7 +95,7 @@
             <!-- Data row for each row in dataSource.
                 The mat-row directive applies Angular Material styling.
                 The *matRowDef directive defines a row for each row object in dataSource and sets its columns. -->
-            <tr mat-row *matRowDef="let row; columns: allDisplayedColumns" (click)="onClick( row )" cdkDrag [cdkDragDisabled]="!selectedTable!.CanDragDropRows"></tr>
+            <tr mat-row *matRowDef="let row; columns: allDisplayedColumns" (click)="onClick( row )" cdkDrag [cdkDragDisabled]="selectedTable && !selectedTable!.CanDragDropRows"></tr>
         </table>
     </ng-container>
 </section>

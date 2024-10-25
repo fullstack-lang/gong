@@ -296,7 +296,7 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 	{{structname}}DB.{{Structname}}PointersEncoding = input.{{Structname}}PointersEncoding
 
 	db, _ = db.Model(&{{structname}}DB)
-	_, err = db.Updates({{structname}}DB)
+	_, err = db.Updates(&{{structname}}DB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

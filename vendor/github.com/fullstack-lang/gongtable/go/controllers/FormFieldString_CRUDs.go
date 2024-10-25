@@ -70,12 +70,12 @@ func (controller *Controller) GetFormFieldStrings(c *gin.Context) {
 	}
 	db := backRepo.BackRepoFormFieldString.GetDB()
 
-	query := db.Find(&formfieldstringDBs)
-	if query.Error != nil {
+	_, err := db.Find(&formfieldstringDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostFormFieldString(c *gin.Context) {
 	formfieldstringDB.FormFieldStringPointersEncoding = input.FormFieldStringPointersEncoding
 	formfieldstringDB.CopyBasicFieldsFromFormFieldString_WOP(&input.FormFieldString_WOP)
 
-	query := db.Create(&formfieldstringDB)
-	if query.Error != nil {
+	_, err = db.Create(&formfieldstringDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetFormFieldString(c *gin.Context) {
 
 	// Get formfieldstringDB in DB
 	var formfieldstringDB orm.FormFieldStringDB
-	if err := db.First(&formfieldstringDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&formfieldstringDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateFormFieldString(c *gin.Context) {
 	var formfieldstringDB orm.FormFieldStringDB
 
 	// fetch the formfieldstring
-	query := db.First(&formfieldstringDB, c.Param("id"))
+	_, err := db.First(&formfieldstringDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateFormFieldString(c *gin.Context) {
 	formfieldstringDB.CopyBasicFieldsFromFormFieldString_WOP(&input.FormFieldString_WOP)
 	formfieldstringDB.FormFieldStringPointersEncoding = input.FormFieldStringPointersEncoding
 
-	query = db.Model(&formfieldstringDB).Updates(formfieldstringDB)
-	if query.Error != nil {
+	db, _ = db.Model(&formfieldstringDB)
+	_, err = db.Updates(formfieldstringDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteFormFieldString(c *gin.Context) {
 
 	// Get model if exist
 	var formfieldstringDB orm.FormFieldStringDB
-	if err := db.First(&formfieldstringDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&formfieldstringDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteFormFieldString(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&formfieldstringDB)
+	db.Unscoped()
+	db.Delete(&formfieldstringDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	formfieldstringDeleted := new(models.FormFieldString)
