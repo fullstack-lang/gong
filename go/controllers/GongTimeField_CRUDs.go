@@ -280,7 +280,7 @@ func (controller *Controller) UpdateGongTimeField(c *gin.Context) {
 	gongtimefieldDB.GongTimeFieldPointersEncoding = input.GongTimeFieldPointersEncoding
 
 	db, _ = db.Model(&gongtimefieldDB)
-	_, err = db.Updates(gongtimefieldDB)
+	_, err = db.Updates(&gongtimefieldDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

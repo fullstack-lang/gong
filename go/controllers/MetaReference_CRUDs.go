@@ -280,7 +280,7 @@ func (controller *Controller) UpdateMetaReference(c *gin.Context) {
 	metareferenceDB.MetaReferencePointersEncoding = input.MetaReferencePointersEncoding
 
 	db, _ = db.Model(&metareferenceDB)
-	_, err = db.Updates(metareferenceDB)
+	_, err = db.Updates(&metareferenceDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

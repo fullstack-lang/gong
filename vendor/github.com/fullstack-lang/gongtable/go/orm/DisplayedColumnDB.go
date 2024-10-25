@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtable/go/db"
 	"github.com/fullstack-lang/gongtable/go/models"
 )
 
@@ -61,7 +62,7 @@ type DisplayedColumnDB struct {
 
 	// Declation for basic field displayedcolumnDB.Name
 	Name_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	DisplayedColumnPointersEncoding
@@ -104,7 +105,7 @@ type BackRepoDisplayedColumnStruct struct {
 	// stores DisplayedColumn according to their gorm ID
 	Map_DisplayedColumnDBID_DisplayedColumnPtr map[uint]*models.DisplayedColumn
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -114,7 +115,7 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) GetStage() (stage 
 	return
 }
 
-func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) GetDB() *gorm.DB {
+func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) GetDB() db.DBInterface {
 	return backRepoDisplayedColumn.db
 }
 
@@ -151,9 +152,10 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) CommitDeleteInstan
 
 	// displayedcolumn is not staged anymore, remove displayedcolumnDB
 	displayedcolumnDB := backRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnDB[id]
-	query := backRepoDisplayedColumn.db.Unscoped().Delete(&displayedcolumnDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoDisplayedColumn.db.Unscoped()
+	_, err := db.Delete(displayedcolumnDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -177,9 +179,9 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) CommitPhaseOneInst
 	var displayedcolumnDB DisplayedColumnDB
 	displayedcolumnDB.CopyBasicFieldsFromDisplayedColumn(displayedcolumn)
 
-	query := backRepoDisplayedColumn.db.Create(&displayedcolumnDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoDisplayedColumn.db.Create(&displayedcolumnDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -211,9 +213,9 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) CommitPhaseTwoInst
 		displayedcolumnDB.CopyBasicFieldsFromDisplayedColumn(displayedcolumn)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoDisplayedColumn.db.Save(&displayedcolumnDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoDisplayedColumn.db.Save(displayedcolumnDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -232,9 +234,9 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) CommitPhaseTwoInst
 func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) CheckoutPhaseOne() (Error error) {
 
 	displayedcolumnDBArray := make([]DisplayedColumnDB, 0)
-	query := backRepoDisplayedColumn.db.Find(&displayedcolumnDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoDisplayedColumn.db.Find(&displayedcolumnDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -345,7 +347,7 @@ func (backRepo *BackRepoStruct) CheckoutDisplayedColumn(displayedcolumn *models.
 			var displayedcolumnDB DisplayedColumnDB
 			displayedcolumnDB.ID = id
 
-			if err := backRepo.BackRepoDisplayedColumn.db.First(&displayedcolumnDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoDisplayedColumn.db.First(&displayedcolumnDB, id); err != nil {
 				log.Fatalln("CheckoutDisplayedColumn : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoDisplayedColumn.CheckoutPhaseOneInstance(&displayedcolumnDB)
@@ -492,9 +494,9 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) rowVisitorDisplaye
 
 		displayedcolumnDB_ID_atBackupTime := displayedcolumnDB.ID
 		displayedcolumnDB.ID = 0
-		query := backRepoDisplayedColumn.db.Create(displayedcolumnDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoDisplayedColumn.db.Create(displayedcolumnDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnDB[displayedcolumnDB.ID] = displayedcolumnDB
 		BackRepoDisplayedColumnid_atBckpTime_newID[displayedcolumnDB_ID_atBackupTime] = displayedcolumnDB.ID
@@ -529,9 +531,9 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) RestorePhaseOne(di
 
 		displayedcolumnDB_ID_atBackupTime := displayedcolumnDB.ID
 		displayedcolumnDB.ID = 0
-		query := backRepoDisplayedColumn.db.Create(displayedcolumnDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoDisplayedColumn.db.Create(displayedcolumnDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnDB[displayedcolumnDB.ID] = displayedcolumnDB
 		BackRepoDisplayedColumnid_atBckpTime_newID[displayedcolumnDB_ID_atBackupTime] = displayedcolumnDB.ID
@@ -553,9 +555,10 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) RestorePhaseTwo() 
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoDisplayedColumn.db.Model(displayedcolumnDB).Updates(*displayedcolumnDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoDisplayedColumn.db.Model(displayedcolumnDB)
+		_, err := db.Updates(*displayedcolumnDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

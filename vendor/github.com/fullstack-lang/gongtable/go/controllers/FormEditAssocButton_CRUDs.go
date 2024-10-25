@@ -70,12 +70,12 @@ func (controller *Controller) GetFormEditAssocButtons(c *gin.Context) {
 	}
 	db := backRepo.BackRepoFormEditAssocButton.GetDB()
 
-	query := db.Find(&formeditassocbuttonDBs)
-	if query.Error != nil {
+	_, err := db.Find(&formeditassocbuttonDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostFormEditAssocButton(c *gin.Context) {
 	formeditassocbuttonDB.FormEditAssocButtonPointersEncoding = input.FormEditAssocButtonPointersEncoding
 	formeditassocbuttonDB.CopyBasicFieldsFromFormEditAssocButton_WOP(&input.FormEditAssocButton_WOP)
 
-	query := db.Create(&formeditassocbuttonDB)
-	if query.Error != nil {
+	_, err = db.Create(&formeditassocbuttonDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetFormEditAssocButton(c *gin.Context) {
 
 	// Get formeditassocbuttonDB in DB
 	var formeditassocbuttonDB orm.FormEditAssocButtonDB
-	if err := db.First(&formeditassocbuttonDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&formeditassocbuttonDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateFormEditAssocButton(c *gin.Context) {
 	var formeditassocbuttonDB orm.FormEditAssocButtonDB
 
 	// fetch the formeditassocbutton
-	query := db.First(&formeditassocbuttonDB, c.Param("id"))
+	_, err := db.First(&formeditassocbuttonDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateFormEditAssocButton(c *gin.Context) {
 	formeditassocbuttonDB.CopyBasicFieldsFromFormEditAssocButton_WOP(&input.FormEditAssocButton_WOP)
 	formeditassocbuttonDB.FormEditAssocButtonPointersEncoding = input.FormEditAssocButtonPointersEncoding
 
-	query = db.Model(&formeditassocbuttonDB).Updates(formeditassocbuttonDB)
-	if query.Error != nil {
+	db, _ = db.Model(&formeditassocbuttonDB)
+	_, err = db.Updates(formeditassocbuttonDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteFormEditAssocButton(c *gin.Context) {
 
 	// Get model if exist
 	var formeditassocbuttonDB orm.FormEditAssocButtonDB
-	if err := db.First(&formeditassocbuttonDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&formeditassocbuttonDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteFormEditAssocButton(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&formeditassocbuttonDB)
+	db.Unscoped()
+	db.Delete(&formeditassocbuttonDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	formeditassocbuttonDeleted := new(models.FormEditAssocButton)

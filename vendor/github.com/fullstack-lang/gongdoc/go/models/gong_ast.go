@@ -500,55 +500,81 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 									switch gongstructName {
 									// insertion point for identifiers
 									case "Classdiagram":
-										instanceClassdiagram := (&Classdiagram{Name: instanceName}).Stage(stage)
+										instanceClassdiagram := new(Classdiagram)
+										instanceClassdiagram.Name = instanceName
+										instanceClassdiagram.Stage(stage)
 										instance = any(instanceClassdiagram)
 										__gong__map_Classdiagram[identifier] = instanceClassdiagram
 									case "DiagramPackage":
-										instanceDiagramPackage := (&DiagramPackage{Name: instanceName}).Stage(stage)
+										instanceDiagramPackage := new(DiagramPackage)
+										instanceDiagramPackage.Name = instanceName
+										instanceDiagramPackage.Stage(stage)
 										instance = any(instanceDiagramPackage)
 										__gong__map_DiagramPackage[identifier] = instanceDiagramPackage
 									case "Field":
-										instanceField := (&Field{Name: instanceName}).Stage(stage)
+										instanceField := new(Field)
+										instanceField.Name = instanceName
+										instanceField.Stage(stage)
 										instance = any(instanceField)
 										__gong__map_Field[identifier] = instanceField
 									case "GongEnumShape":
-										instanceGongEnumShape := (&GongEnumShape{Name: instanceName}).Stage(stage)
+										instanceGongEnumShape := new(GongEnumShape)
+										instanceGongEnumShape.Name = instanceName
+										instanceGongEnumShape.Stage(stage)
 										instance = any(instanceGongEnumShape)
 										__gong__map_GongEnumShape[identifier] = instanceGongEnumShape
 									case "GongEnumValueEntry":
-										instanceGongEnumValueEntry := (&GongEnumValueEntry{Name: instanceName}).Stage(stage)
+										instanceGongEnumValueEntry := new(GongEnumValueEntry)
+										instanceGongEnumValueEntry.Name = instanceName
+										instanceGongEnumValueEntry.Stage(stage)
 										instance = any(instanceGongEnumValueEntry)
 										__gong__map_GongEnumValueEntry[identifier] = instanceGongEnumValueEntry
 									case "GongStructShape":
-										instanceGongStructShape := (&GongStructShape{Name: instanceName}).Stage(stage)
+										instanceGongStructShape := new(GongStructShape)
+										instanceGongStructShape.Name = instanceName
+										instanceGongStructShape.Stage(stage)
 										instance = any(instanceGongStructShape)
 										__gong__map_GongStructShape[identifier] = instanceGongStructShape
 									case "Link":
-										instanceLink := (&Link{Name: instanceName}).Stage(stage)
+										instanceLink := new(Link)
+										instanceLink.Name = instanceName
+										instanceLink.Stage(stage)
 										instance = any(instanceLink)
 										__gong__map_Link[identifier] = instanceLink
 									case "NoteShape":
-										instanceNoteShape := (&NoteShape{Name: instanceName}).Stage(stage)
+										instanceNoteShape := new(NoteShape)
+										instanceNoteShape.Name = instanceName
+										instanceNoteShape.Stage(stage)
 										instance = any(instanceNoteShape)
 										__gong__map_NoteShape[identifier] = instanceNoteShape
 									case "NoteShapeLink":
-										instanceNoteShapeLink := (&NoteShapeLink{Name: instanceName}).Stage(stage)
+										instanceNoteShapeLink := new(NoteShapeLink)
+										instanceNoteShapeLink.Name = instanceName
+										instanceNoteShapeLink.Stage(stage)
 										instance = any(instanceNoteShapeLink)
 										__gong__map_NoteShapeLink[identifier] = instanceNoteShapeLink
 									case "Position":
-										instancePosition := (&Position{Name: instanceName}).Stage(stage)
+										instancePosition := new(Position)
+										instancePosition.Name = instanceName
+										instancePosition.Stage(stage)
 										instance = any(instancePosition)
 										__gong__map_Position[identifier] = instancePosition
 									case "UmlState":
-										instanceUmlState := (&UmlState{Name: instanceName}).Stage(stage)
+										instanceUmlState := new(UmlState)
+										instanceUmlState.Name = instanceName
+										instanceUmlState.Stage(stage)
 										instance = any(instanceUmlState)
 										__gong__map_UmlState[identifier] = instanceUmlState
 									case "Umlsc":
-										instanceUmlsc := (&Umlsc{Name: instanceName}).Stage(stage)
+										instanceUmlsc := new(Umlsc)
+										instanceUmlsc.Name = instanceName
+										instanceUmlsc.Stage(stage)
 										instance = any(instanceUmlsc)
 										__gong__map_Umlsc[identifier] = instanceUmlsc
 									case "Vertice":
-										instanceVertice := (&Vertice{Name: instanceName}).Stage(stage)
+										instanceVertice := new(Vertice)
+										instanceVertice.Name = instanceName
+										instanceVertice.Stage(stage)
 										instance = any(instanceVertice)
 										__gong__map_Vertice[identifier] = instanceVertice
 									}

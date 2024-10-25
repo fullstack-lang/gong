@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtable/go/db"
 	"github.com/fullstack-lang/gongtable/go/models"
 )
 
@@ -64,7 +65,7 @@ type CellIntDB struct {
 
 	// Declation for basic field cellintDB.Value
 	Value_Data sql.NullInt64
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	CellIntPointersEncoding
@@ -110,7 +111,7 @@ type BackRepoCellIntStruct struct {
 	// stores CellInt according to their gorm ID
 	Map_CellIntDBID_CellIntPtr map[uint]*models.CellInt
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -120,7 +121,7 @@ func (backRepoCellInt *BackRepoCellIntStruct) GetStage() (stage *models.StageStr
 	return
 }
 
-func (backRepoCellInt *BackRepoCellIntStruct) GetDB() *gorm.DB {
+func (backRepoCellInt *BackRepoCellIntStruct) GetDB() db.DBInterface {
 	return backRepoCellInt.db
 }
 
@@ -157,9 +158,10 @@ func (backRepoCellInt *BackRepoCellIntStruct) CommitDeleteInstance(id uint) (Err
 
 	// cellint is not staged anymore, remove cellintDB
 	cellintDB := backRepoCellInt.Map_CellIntDBID_CellIntDB[id]
-	query := backRepoCellInt.db.Unscoped().Delete(&cellintDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoCellInt.db.Unscoped()
+	_, err := db.Delete(cellintDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -183,9 +185,9 @@ func (backRepoCellInt *BackRepoCellIntStruct) CommitPhaseOneInstance(cellint *mo
 	var cellintDB CellIntDB
 	cellintDB.CopyBasicFieldsFromCellInt(cellint)
 
-	query := backRepoCellInt.db.Create(&cellintDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoCellInt.db.Create(&cellintDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -217,9 +219,9 @@ func (backRepoCellInt *BackRepoCellIntStruct) CommitPhaseTwoInstance(backRepo *B
 		cellintDB.CopyBasicFieldsFromCellInt(cellint)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoCellInt.db.Save(&cellintDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoCellInt.db.Save(cellintDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -238,9 +240,9 @@ func (backRepoCellInt *BackRepoCellIntStruct) CommitPhaseTwoInstance(backRepo *B
 func (backRepoCellInt *BackRepoCellIntStruct) CheckoutPhaseOne() (Error error) {
 
 	cellintDBArray := make([]CellIntDB, 0)
-	query := backRepoCellInt.db.Find(&cellintDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoCellInt.db.Find(&cellintDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -351,7 +353,7 @@ func (backRepo *BackRepoStruct) CheckoutCellInt(cellint *models.CellInt) {
 			var cellintDB CellIntDB
 			cellintDB.ID = id
 
-			if err := backRepo.BackRepoCellInt.db.First(&cellintDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoCellInt.db.First(&cellintDB, id); err != nil {
 				log.Fatalln("CheckoutCellInt : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoCellInt.CheckoutPhaseOneInstance(&cellintDB)
@@ -510,9 +512,9 @@ func (backRepoCellInt *BackRepoCellIntStruct) rowVisitorCellInt(row *xlsx.Row) e
 
 		cellintDB_ID_atBackupTime := cellintDB.ID
 		cellintDB.ID = 0
-		query := backRepoCellInt.db.Create(cellintDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoCellInt.db.Create(cellintDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoCellInt.Map_CellIntDBID_CellIntDB[cellintDB.ID] = cellintDB
 		BackRepoCellIntid_atBckpTime_newID[cellintDB_ID_atBackupTime] = cellintDB.ID
@@ -547,9 +549,9 @@ func (backRepoCellInt *BackRepoCellIntStruct) RestorePhaseOne(dirPath string) {
 
 		cellintDB_ID_atBackupTime := cellintDB.ID
 		cellintDB.ID = 0
-		query := backRepoCellInt.db.Create(cellintDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoCellInt.db.Create(cellintDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoCellInt.Map_CellIntDBID_CellIntDB[cellintDB.ID] = cellintDB
 		BackRepoCellIntid_atBckpTime_newID[cellintDB_ID_atBackupTime] = cellintDB.ID
@@ -571,9 +573,10 @@ func (backRepoCellInt *BackRepoCellIntStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoCellInt.db.Model(cellintDB).Updates(*cellintDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoCellInt.db.Model(cellintDB)
+		_, err := db.Updates(*cellintDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

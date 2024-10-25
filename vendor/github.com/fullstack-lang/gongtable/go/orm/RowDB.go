@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtable/go/db"
 	"github.com/fullstack-lang/gongtable/go/models"
 )
 
@@ -68,7 +69,7 @@ type RowDB struct {
 	// Declation for basic field rowDB.IsChecked
 	// provide the sql storage for the boolan
 	IsChecked_Data sql.NullBool
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	RowPointersEncoding
@@ -114,7 +115,7 @@ type BackRepoRowStruct struct {
 	// stores Row according to their gorm ID
 	Map_RowDBID_RowPtr map[uint]*models.Row
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -124,7 +125,7 @@ func (backRepoRow *BackRepoRowStruct) GetStage() (stage *models.StageStruct) {
 	return
 }
 
-func (backRepoRow *BackRepoRowStruct) GetDB() *gorm.DB {
+func (backRepoRow *BackRepoRowStruct) GetDB() db.DBInterface {
 	return backRepoRow.db
 }
 
@@ -161,9 +162,10 @@ func (backRepoRow *BackRepoRowStruct) CommitDeleteInstance(id uint) (Error error
 
 	// row is not staged anymore, remove rowDB
 	rowDB := backRepoRow.Map_RowDBID_RowDB[id]
-	query := backRepoRow.db.Unscoped().Delete(&rowDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoRow.db.Unscoped()
+	_, err := db.Delete(rowDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -187,9 +189,9 @@ func (backRepoRow *BackRepoRowStruct) CommitPhaseOneInstance(row *models.Row) (E
 	var rowDB RowDB
 	rowDB.CopyBasicFieldsFromRow(row)
 
-	query := backRepoRow.db.Create(&rowDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoRow.db.Create(&rowDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -239,9 +241,9 @@ func (backRepoRow *BackRepoRowStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 				append(rowDB.RowPointersEncoding.Cells, int(cellAssocEnd_DB.ID))
 		}
 
-		query := backRepoRow.db.Save(&rowDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoRow.db.Save(rowDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -260,9 +262,9 @@ func (backRepoRow *BackRepoRowStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 func (backRepoRow *BackRepoRowStruct) CheckoutPhaseOne() (Error error) {
 
 	rowDBArray := make([]RowDB, 0)
-	query := backRepoRow.db.Find(&rowDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoRow.db.Find(&rowDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -382,7 +384,7 @@ func (backRepo *BackRepoStruct) CheckoutRow(row *models.Row) {
 			var rowDB RowDB
 			rowDB.ID = id
 
-			if err := backRepo.BackRepoRow.db.First(&rowDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoRow.db.First(&rowDB, id); err != nil {
 				log.Fatalln("CheckoutRow : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoRow.CheckoutPhaseOneInstance(&rowDB)
@@ -541,9 +543,9 @@ func (backRepoRow *BackRepoRowStruct) rowVisitorRow(row *xlsx.Row) error {
 
 		rowDB_ID_atBackupTime := rowDB.ID
 		rowDB.ID = 0
-		query := backRepoRow.db.Create(rowDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoRow.db.Create(rowDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoRow.Map_RowDBID_RowDB[rowDB.ID] = rowDB
 		BackRepoRowid_atBckpTime_newID[rowDB_ID_atBackupTime] = rowDB.ID
@@ -578,9 +580,9 @@ func (backRepoRow *BackRepoRowStruct) RestorePhaseOne(dirPath string) {
 
 		rowDB_ID_atBackupTime := rowDB.ID
 		rowDB.ID = 0
-		query := backRepoRow.db.Create(rowDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoRow.db.Create(rowDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoRow.Map_RowDBID_RowDB[rowDB.ID] = rowDB
 		BackRepoRowid_atBckpTime_newID[rowDB_ID_atBackupTime] = rowDB.ID
@@ -602,9 +604,10 @@ func (backRepoRow *BackRepoRowStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoRow.db.Model(rowDB).Updates(*rowDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoRow.db.Model(rowDB)
+		_, err := db.Updates(*rowDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

@@ -280,7 +280,7 @@ func (controller *Controller) UpdateGongLink(c *gin.Context) {
 	gonglinkDB.GongLinkPointersEncoding = input.GongLinkPointersEncoding
 
 	db, _ = db.Model(&gonglinkDB)
-	_, err = db.Updates(gonglinkDB)
+	_, err = db.Updates(&gonglinkDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

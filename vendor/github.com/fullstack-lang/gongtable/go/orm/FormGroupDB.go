@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtable/go/db"
 	"github.com/fullstack-lang/gongtable/go/models"
 )
 
@@ -75,7 +76,7 @@ type FormGroupDB struct {
 	// Declation for basic field formgroupDB.HasSuppressButtonBeenPressed
 	// provide the sql storage for the boolan
 	HasSuppressButtonBeenPressed_Data sql.NullBool
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormGroupPointersEncoding
@@ -127,7 +128,7 @@ type BackRepoFormGroupStruct struct {
 	// stores FormGroup according to their gorm ID
 	Map_FormGroupDBID_FormGroupPtr map[uint]*models.FormGroup
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -137,7 +138,7 @@ func (backRepoFormGroup *BackRepoFormGroupStruct) GetStage() (stage *models.Stag
 	return
 }
 
-func (backRepoFormGroup *BackRepoFormGroupStruct) GetDB() *gorm.DB {
+func (backRepoFormGroup *BackRepoFormGroupStruct) GetDB() db.DBInterface {
 	return backRepoFormGroup.db
 }
 
@@ -174,9 +175,10 @@ func (backRepoFormGroup *BackRepoFormGroupStruct) CommitDeleteInstance(id uint) 
 
 	// formgroup is not staged anymore, remove formgroupDB
 	formgroupDB := backRepoFormGroup.Map_FormGroupDBID_FormGroupDB[id]
-	query := backRepoFormGroup.db.Unscoped().Delete(&formgroupDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoFormGroup.db.Unscoped()
+	_, err := db.Delete(formgroupDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -200,9 +202,9 @@ func (backRepoFormGroup *BackRepoFormGroupStruct) CommitPhaseOneInstance(formgro
 	var formgroupDB FormGroupDB
 	formgroupDB.CopyBasicFieldsFromFormGroup(formgroup)
 
-	query := backRepoFormGroup.db.Create(&formgroupDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoFormGroup.db.Create(&formgroupDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -252,9 +254,9 @@ func (backRepoFormGroup *BackRepoFormGroupStruct) CommitPhaseTwoInstance(backRep
 				append(formgroupDB.FormGroupPointersEncoding.FormDivs, int(formdivAssocEnd_DB.ID))
 		}
 
-		query := backRepoFormGroup.db.Save(&formgroupDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoFormGroup.db.Save(formgroupDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -273,9 +275,9 @@ func (backRepoFormGroup *BackRepoFormGroupStruct) CommitPhaseTwoInstance(backRep
 func (backRepoFormGroup *BackRepoFormGroupStruct) CheckoutPhaseOne() (Error error) {
 
 	formgroupDBArray := make([]FormGroupDB, 0)
-	query := backRepoFormGroup.db.Find(&formgroupDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoFormGroup.db.Find(&formgroupDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -395,7 +397,7 @@ func (backRepo *BackRepoStruct) CheckoutFormGroup(formgroup *models.FormGroup) {
 			var formgroupDB FormGroupDB
 			formgroupDB.ID = id
 
-			if err := backRepo.BackRepoFormGroup.db.First(&formgroupDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoFormGroup.db.First(&formgroupDB, id); err != nil {
 				log.Fatalln("CheckoutFormGroup : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoFormGroup.CheckoutPhaseOneInstance(&formgroupDB)
@@ -578,9 +580,9 @@ func (backRepoFormGroup *BackRepoFormGroupStruct) rowVisitorFormGroup(row *xlsx.
 
 		formgroupDB_ID_atBackupTime := formgroupDB.ID
 		formgroupDB.ID = 0
-		query := backRepoFormGroup.db.Create(formgroupDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoFormGroup.db.Create(formgroupDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoFormGroup.Map_FormGroupDBID_FormGroupDB[formgroupDB.ID] = formgroupDB
 		BackRepoFormGroupid_atBckpTime_newID[formgroupDB_ID_atBackupTime] = formgroupDB.ID
@@ -615,9 +617,9 @@ func (backRepoFormGroup *BackRepoFormGroupStruct) RestorePhaseOne(dirPath string
 
 		formgroupDB_ID_atBackupTime := formgroupDB.ID
 		formgroupDB.ID = 0
-		query := backRepoFormGroup.db.Create(formgroupDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoFormGroup.db.Create(formgroupDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoFormGroup.Map_FormGroupDBID_FormGroupDB[formgroupDB.ID] = formgroupDB
 		BackRepoFormGroupid_atBckpTime_newID[formgroupDB_ID_atBackupTime] = formgroupDB.ID
@@ -639,9 +641,10 @@ func (backRepoFormGroup *BackRepoFormGroupStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoFormGroup.db.Model(formgroupDB).Updates(*formgroupDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoFormGroup.db.Model(formgroupDB)
+		_, err := db.Updates(*formgroupDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

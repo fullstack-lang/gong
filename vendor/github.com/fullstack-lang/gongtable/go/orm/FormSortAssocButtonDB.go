@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtable/go/db"
 	"github.com/fullstack-lang/gongtable/go/models"
 )
 
@@ -64,7 +65,7 @@ type FormSortAssocButtonDB struct {
 
 	// Declation for basic field formsortassocbuttonDB.Label
 	Label_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormSortAssocButtonPointersEncoding
@@ -110,7 +111,7 @@ type BackRepoFormSortAssocButtonStruct struct {
 	// stores FormSortAssocButton according to their gorm ID
 	Map_FormSortAssocButtonDBID_FormSortAssocButtonPtr map[uint]*models.FormSortAssocButton
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -120,7 +121,7 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) GetStage()
 	return
 }
 
-func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) GetDB() *gorm.DB {
+func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) GetDB() db.DBInterface {
 	return backRepoFormSortAssocButton.db
 }
 
@@ -157,9 +158,10 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) CommitDele
 
 	// formsortassocbutton is not staged anymore, remove formsortassocbuttonDB
 	formsortassocbuttonDB := backRepoFormSortAssocButton.Map_FormSortAssocButtonDBID_FormSortAssocButtonDB[id]
-	query := backRepoFormSortAssocButton.db.Unscoped().Delete(&formsortassocbuttonDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoFormSortAssocButton.db.Unscoped()
+	_, err := db.Delete(formsortassocbuttonDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -183,9 +185,9 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) CommitPhas
 	var formsortassocbuttonDB FormSortAssocButtonDB
 	formsortassocbuttonDB.CopyBasicFieldsFromFormSortAssocButton(formsortassocbutton)
 
-	query := backRepoFormSortAssocButton.db.Create(&formsortassocbuttonDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoFormSortAssocButton.db.Create(&formsortassocbuttonDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -217,9 +219,9 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) CommitPhas
 		formsortassocbuttonDB.CopyBasicFieldsFromFormSortAssocButton(formsortassocbutton)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoFormSortAssocButton.db.Save(&formsortassocbuttonDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoFormSortAssocButton.db.Save(formsortassocbuttonDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -238,9 +240,9 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) CommitPhas
 func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) CheckoutPhaseOne() (Error error) {
 
 	formsortassocbuttonDBArray := make([]FormSortAssocButtonDB, 0)
-	query := backRepoFormSortAssocButton.db.Find(&formsortassocbuttonDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoFormSortAssocButton.db.Find(&formsortassocbuttonDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -351,7 +353,7 @@ func (backRepo *BackRepoStruct) CheckoutFormSortAssocButton(formsortassocbutton 
 			var formsortassocbuttonDB FormSortAssocButtonDB
 			formsortassocbuttonDB.ID = id
 
-			if err := backRepo.BackRepoFormSortAssocButton.db.First(&formsortassocbuttonDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoFormSortAssocButton.db.First(&formsortassocbuttonDB, id); err != nil {
 				log.Fatalln("CheckoutFormSortAssocButton : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoFormSortAssocButton.CheckoutPhaseOneInstance(&formsortassocbuttonDB)
@@ -510,9 +512,9 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) rowVisitor
 
 		formsortassocbuttonDB_ID_atBackupTime := formsortassocbuttonDB.ID
 		formsortassocbuttonDB.ID = 0
-		query := backRepoFormSortAssocButton.db.Create(formsortassocbuttonDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoFormSortAssocButton.db.Create(formsortassocbuttonDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoFormSortAssocButton.Map_FormSortAssocButtonDBID_FormSortAssocButtonDB[formsortassocbuttonDB.ID] = formsortassocbuttonDB
 		BackRepoFormSortAssocButtonid_atBckpTime_newID[formsortassocbuttonDB_ID_atBackupTime] = formsortassocbuttonDB.ID
@@ -547,9 +549,9 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) RestorePha
 
 		formsortassocbuttonDB_ID_atBackupTime := formsortassocbuttonDB.ID
 		formsortassocbuttonDB.ID = 0
-		query := backRepoFormSortAssocButton.db.Create(formsortassocbuttonDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoFormSortAssocButton.db.Create(formsortassocbuttonDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoFormSortAssocButton.Map_FormSortAssocButtonDBID_FormSortAssocButtonDB[formsortassocbuttonDB.ID] = formsortassocbuttonDB
 		BackRepoFormSortAssocButtonid_atBckpTime_newID[formsortassocbuttonDB_ID_atBackupTime] = formsortassocbuttonDB.ID
@@ -571,9 +573,10 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) RestorePha
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoFormSortAssocButton.db.Model(formsortassocbuttonDB).Updates(*formsortassocbuttonDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoFormSortAssocButton.db.Model(formsortassocbuttonDB)
+		_, err := db.Updates(*formsortassocbuttonDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

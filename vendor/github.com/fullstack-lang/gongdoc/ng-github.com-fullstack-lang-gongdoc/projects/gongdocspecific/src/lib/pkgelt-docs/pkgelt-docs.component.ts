@@ -28,6 +28,6 @@ export class PkgeltDocsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log("PkgeltDocsComponent->GONG__StackPath : ", this.GONG__StackPath)
+    // console.log("PkgeltDocsComponent->GONG__StackPath : ", this.GONG__StackPath)
   }
 }

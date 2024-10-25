@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtable/go/db"
 	"github.com/fullstack-lang/gongtable/go/models"
 )
 
@@ -75,7 +76,7 @@ type FormDivDB struct {
 
 	// Declation for basic field formdivDB.Name
 	Name_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormDivPointersEncoding
@@ -118,7 +119,7 @@ type BackRepoFormDivStruct struct {
 	// stores FormDiv according to their gorm ID
 	Map_FormDivDBID_FormDivPtr map[uint]*models.FormDiv
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -128,7 +129,7 @@ func (backRepoFormDiv *BackRepoFormDivStruct) GetStage() (stage *models.StageStr
 	return
 }
 
-func (backRepoFormDiv *BackRepoFormDivStruct) GetDB() *gorm.DB {
+func (backRepoFormDiv *BackRepoFormDivStruct) GetDB() db.DBInterface {
 	return backRepoFormDiv.db
 }
 
@@ -165,9 +166,10 @@ func (backRepoFormDiv *BackRepoFormDivStruct) CommitDeleteInstance(id uint) (Err
 
 	// formdiv is not staged anymore, remove formdivDB
 	formdivDB := backRepoFormDiv.Map_FormDivDBID_FormDivDB[id]
-	query := backRepoFormDiv.db.Unscoped().Delete(&formdivDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoFormDiv.db.Unscoped()
+	_, err := db.Delete(formdivDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -191,9 +193,9 @@ func (backRepoFormDiv *BackRepoFormDivStruct) CommitPhaseOneInstance(formdiv *mo
 	var formdivDB FormDivDB
 	formdivDB.CopyBasicFieldsFromFormDiv(formdiv)
 
-	query := backRepoFormDiv.db.Create(&formdivDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoFormDiv.db.Create(&formdivDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -285,9 +287,9 @@ func (backRepoFormDiv *BackRepoFormDivStruct) CommitPhaseTwoInstance(backRepo *B
 			formdivDB.FormSortAssocButtonID.Valid = true
 		}
 
-		query := backRepoFormDiv.db.Save(&formdivDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoFormDiv.db.Save(formdivDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -306,9 +308,9 @@ func (backRepoFormDiv *BackRepoFormDivStruct) CommitPhaseTwoInstance(backRepo *B
 func (backRepoFormDiv *BackRepoFormDivStruct) CheckoutPhaseOne() (Error error) {
 
 	formdivDBArray := make([]FormDivDB, 0)
-	query := backRepoFormDiv.db.Find(&formdivDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoFormDiv.db.Find(&formdivDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -447,7 +449,7 @@ func (backRepo *BackRepoStruct) CheckoutFormDiv(formdiv *models.FormDiv) {
 			var formdivDB FormDivDB
 			formdivDB.ID = id
 
-			if err := backRepo.BackRepoFormDiv.db.First(&formdivDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoFormDiv.db.First(&formdivDB, id); err != nil {
 				log.Fatalln("CheckoutFormDiv : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoFormDiv.CheckoutPhaseOneInstance(&formdivDB)
@@ -594,9 +596,9 @@ func (backRepoFormDiv *BackRepoFormDivStruct) rowVisitorFormDiv(row *xlsx.Row) e
 
 		formdivDB_ID_atBackupTime := formdivDB.ID
 		formdivDB.ID = 0
-		query := backRepoFormDiv.db.Create(formdivDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoFormDiv.db.Create(formdivDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoFormDiv.Map_FormDivDBID_FormDivDB[formdivDB.ID] = formdivDB
 		BackRepoFormDivid_atBckpTime_newID[formdivDB_ID_atBackupTime] = formdivDB.ID
@@ -631,9 +633,9 @@ func (backRepoFormDiv *BackRepoFormDivStruct) RestorePhaseOne(dirPath string) {
 
 		formdivDB_ID_atBackupTime := formdivDB.ID
 		formdivDB.ID = 0
-		query := backRepoFormDiv.db.Create(formdivDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoFormDiv.db.Create(formdivDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoFormDiv.Map_FormDivDBID_FormDivDB[formdivDB.ID] = formdivDB
 		BackRepoFormDivid_atBckpTime_newID[formdivDB_ID_atBackupTime] = formdivDB.ID
@@ -667,9 +669,10 @@ func (backRepoFormDiv *BackRepoFormDivStruct) RestorePhaseTwo() {
 		}
 
 		// update databse with new index encoding
-		query := backRepoFormDiv.db.Model(formdivDB).Updates(*formdivDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoFormDiv.db.Model(formdivDB)
+		_, err := db.Updates(*formdivDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

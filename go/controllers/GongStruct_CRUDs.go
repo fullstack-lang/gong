@@ -280,7 +280,7 @@ func (controller *Controller) UpdateGongStruct(c *gin.Context) {
 	gongstructDB.GongStructPointersEncoding = input.GongStructPointersEncoding
 
 	db, _ = db.Model(&gongstructDB)
-	_, err = db.Updates(gongstructDB)
+	_, err = db.Updates(&gongstructDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

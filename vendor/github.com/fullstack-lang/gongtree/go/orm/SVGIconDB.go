@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtree/go/db"
 	"github.com/fullstack-lang/gongtree/go/models"
 )
 
@@ -64,7 +65,7 @@ type SVGIconDB struct {
 
 	// Declation for basic field svgiconDB.SVG
 	SVG_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	SVGIconPointersEncoding
@@ -110,7 +111,7 @@ type BackRepoSVGIconStruct struct {
 	// stores SVGIcon according to their gorm ID
 	Map_SVGIconDBID_SVGIconPtr map[uint]*models.SVGIcon
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -120,7 +121,7 @@ func (backRepoSVGIcon *BackRepoSVGIconStruct) GetStage() (stage *models.StageStr
 	return
 }
 
-func (backRepoSVGIcon *BackRepoSVGIconStruct) GetDB() *gorm.DB {
+func (backRepoSVGIcon *BackRepoSVGIconStruct) GetDB() db.DBInterface {
 	return backRepoSVGIcon.db
 }
 
@@ -157,9 +158,10 @@ func (backRepoSVGIcon *BackRepoSVGIconStruct) CommitDeleteInstance(id uint) (Err
 
 	// svgicon is not staged anymore, remove svgiconDB
 	svgiconDB := backRepoSVGIcon.Map_SVGIconDBID_SVGIconDB[id]
-	query := backRepoSVGIcon.db.Unscoped().Delete(&svgiconDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoSVGIcon.db.Unscoped()
+	_, err := db.Delete(svgiconDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -183,9 +185,9 @@ func (backRepoSVGIcon *BackRepoSVGIconStruct) CommitPhaseOneInstance(svgicon *mo
 	var svgiconDB SVGIconDB
 	svgiconDB.CopyBasicFieldsFromSVGIcon(svgicon)
 
-	query := backRepoSVGIcon.db.Create(&svgiconDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoSVGIcon.db.Create(&svgiconDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -217,9 +219,9 @@ func (backRepoSVGIcon *BackRepoSVGIconStruct) CommitPhaseTwoInstance(backRepo *B
 		svgiconDB.CopyBasicFieldsFromSVGIcon(svgicon)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoSVGIcon.db.Save(&svgiconDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoSVGIcon.db.Save(svgiconDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -238,9 +240,9 @@ func (backRepoSVGIcon *BackRepoSVGIconStruct) CommitPhaseTwoInstance(backRepo *B
 func (backRepoSVGIcon *BackRepoSVGIconStruct) CheckoutPhaseOne() (Error error) {
 
 	svgiconDBArray := make([]SVGIconDB, 0)
-	query := backRepoSVGIcon.db.Find(&svgiconDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoSVGIcon.db.Find(&svgiconDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -351,7 +353,7 @@ func (backRepo *BackRepoStruct) CheckoutSVGIcon(svgicon *models.SVGIcon) {
 			var svgiconDB SVGIconDB
 			svgiconDB.ID = id
 
-			if err := backRepo.BackRepoSVGIcon.db.First(&svgiconDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoSVGIcon.db.First(&svgiconDB, id); err != nil {
 				log.Fatalln("CheckoutSVGIcon : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoSVGIcon.CheckoutPhaseOneInstance(&svgiconDB)
@@ -510,9 +512,9 @@ func (backRepoSVGIcon *BackRepoSVGIconStruct) rowVisitorSVGIcon(row *xlsx.Row) e
 
 		svgiconDB_ID_atBackupTime := svgiconDB.ID
 		svgiconDB.ID = 0
-		query := backRepoSVGIcon.db.Create(svgiconDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoSVGIcon.db.Create(svgiconDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoSVGIcon.Map_SVGIconDBID_SVGIconDB[svgiconDB.ID] = svgiconDB
 		BackRepoSVGIconid_atBckpTime_newID[svgiconDB_ID_atBackupTime] = svgiconDB.ID
@@ -547,9 +549,9 @@ func (backRepoSVGIcon *BackRepoSVGIconStruct) RestorePhaseOne(dirPath string) {
 
 		svgiconDB_ID_atBackupTime := svgiconDB.ID
 		svgiconDB.ID = 0
-		query := backRepoSVGIcon.db.Create(svgiconDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoSVGIcon.db.Create(svgiconDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoSVGIcon.Map_SVGIconDBID_SVGIconDB[svgiconDB.ID] = svgiconDB
 		BackRepoSVGIconid_atBckpTime_newID[svgiconDB_ID_atBackupTime] = svgiconDB.ID
@@ -571,9 +573,10 @@ func (backRepoSVGIcon *BackRepoSVGIconStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoSVGIcon.db.Model(svgiconDB).Updates(*svgiconDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoSVGIcon.db.Model(svgiconDB)
+		_, err := db.Updates(*svgiconDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtable/go/db"
 	"github.com/fullstack-lang/gongtable/go/models"
 )
 
@@ -64,7 +65,7 @@ type CellStringDB struct {
 
 	// Declation for basic field cellstringDB.Value
 	Value_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	CellStringPointersEncoding
@@ -110,7 +111,7 @@ type BackRepoCellStringStruct struct {
 	// stores CellString according to their gorm ID
 	Map_CellStringDBID_CellStringPtr map[uint]*models.CellString
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -120,7 +121,7 @@ func (backRepoCellString *BackRepoCellStringStruct) GetStage() (stage *models.St
 	return
 }
 
-func (backRepoCellString *BackRepoCellStringStruct) GetDB() *gorm.DB {
+func (backRepoCellString *BackRepoCellStringStruct) GetDB() db.DBInterface {
 	return backRepoCellString.db
 }
 
@@ -157,9 +158,10 @@ func (backRepoCellString *BackRepoCellStringStruct) CommitDeleteInstance(id uint
 
 	// cellstring is not staged anymore, remove cellstringDB
 	cellstringDB := backRepoCellString.Map_CellStringDBID_CellStringDB[id]
-	query := backRepoCellString.db.Unscoped().Delete(&cellstringDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoCellString.db.Unscoped()
+	_, err := db.Delete(cellstringDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -183,9 +185,9 @@ func (backRepoCellString *BackRepoCellStringStruct) CommitPhaseOneInstance(cells
 	var cellstringDB CellStringDB
 	cellstringDB.CopyBasicFieldsFromCellString(cellstring)
 
-	query := backRepoCellString.db.Create(&cellstringDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoCellString.db.Create(&cellstringDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -217,9 +219,9 @@ func (backRepoCellString *BackRepoCellStringStruct) CommitPhaseTwoInstance(backR
 		cellstringDB.CopyBasicFieldsFromCellString(cellstring)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoCellString.db.Save(&cellstringDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoCellString.db.Save(cellstringDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -238,9 +240,9 @@ func (backRepoCellString *BackRepoCellStringStruct) CommitPhaseTwoInstance(backR
 func (backRepoCellString *BackRepoCellStringStruct) CheckoutPhaseOne() (Error error) {
 
 	cellstringDBArray := make([]CellStringDB, 0)
-	query := backRepoCellString.db.Find(&cellstringDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoCellString.db.Find(&cellstringDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -351,7 +353,7 @@ func (backRepo *BackRepoStruct) CheckoutCellString(cellstring *models.CellString
 			var cellstringDB CellStringDB
 			cellstringDB.ID = id
 
-			if err := backRepo.BackRepoCellString.db.First(&cellstringDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoCellString.db.First(&cellstringDB, id); err != nil {
 				log.Fatalln("CheckoutCellString : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoCellString.CheckoutPhaseOneInstance(&cellstringDB)
@@ -510,9 +512,9 @@ func (backRepoCellString *BackRepoCellStringStruct) rowVisitorCellString(row *xl
 
 		cellstringDB_ID_atBackupTime := cellstringDB.ID
 		cellstringDB.ID = 0
-		query := backRepoCellString.db.Create(cellstringDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoCellString.db.Create(cellstringDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoCellString.Map_CellStringDBID_CellStringDB[cellstringDB.ID] = cellstringDB
 		BackRepoCellStringid_atBckpTime_newID[cellstringDB_ID_atBackupTime] = cellstringDB.ID
@@ -547,9 +549,9 @@ func (backRepoCellString *BackRepoCellStringStruct) RestorePhaseOne(dirPath stri
 
 		cellstringDB_ID_atBackupTime := cellstringDB.ID
 		cellstringDB.ID = 0
-		query := backRepoCellString.db.Create(cellstringDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoCellString.db.Create(cellstringDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoCellString.Map_CellStringDBID_CellStringDB[cellstringDB.ID] = cellstringDB
 		BackRepoCellStringid_atBckpTime_newID[cellstringDB_ID_atBackupTime] = cellstringDB.ID
@@ -571,9 +573,10 @@ func (backRepoCellString *BackRepoCellStringStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoCellString.db.Model(cellstringDB).Updates(*cellstringDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoCellString.db.Model(cellstringDB)
+		_, err := db.Updates(*cellstringDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

@@ -70,12 +70,12 @@ func (controller *Controller) GetCellFloat64s(c *gin.Context) {
 	}
 	db := backRepo.BackRepoCellFloat64.GetDB()
 
-	query := db.Find(&cellfloat64DBs)
-	if query.Error != nil {
+	_, err := db.Find(&cellfloat64DBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostCellFloat64(c *gin.Context) {
 	cellfloat64DB.CellFloat64PointersEncoding = input.CellFloat64PointersEncoding
 	cellfloat64DB.CopyBasicFieldsFromCellFloat64_WOP(&input.CellFloat64_WOP)
 
-	query := db.Create(&cellfloat64DB)
-	if query.Error != nil {
+	_, err = db.Create(&cellfloat64DB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetCellFloat64(c *gin.Context) {
 
 	// Get cellfloat64DB in DB
 	var cellfloat64DB orm.CellFloat64DB
-	if err := db.First(&cellfloat64DB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&cellfloat64DB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateCellFloat64(c *gin.Context) {
 	var cellfloat64DB orm.CellFloat64DB
 
 	// fetch the cellfloat64
-	query := db.First(&cellfloat64DB, c.Param("id"))
+	_, err := db.First(&cellfloat64DB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateCellFloat64(c *gin.Context) {
 	cellfloat64DB.CopyBasicFieldsFromCellFloat64_WOP(&input.CellFloat64_WOP)
 	cellfloat64DB.CellFloat64PointersEncoding = input.CellFloat64PointersEncoding
 
-	query = db.Model(&cellfloat64DB).Updates(cellfloat64DB)
-	if query.Error != nil {
+	db, _ = db.Model(&cellfloat64DB)
+	_, err = db.Updates(cellfloat64DB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteCellFloat64(c *gin.Context) {
 
 	// Get model if exist
 	var cellfloat64DB orm.CellFloat64DB
-	if err := db.First(&cellfloat64DB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&cellfloat64DB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteCellFloat64(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&cellfloat64DB)
+	db.Unscoped()
+	db.Delete(&cellfloat64DB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	cellfloat64Deleted := new(models.CellFloat64)

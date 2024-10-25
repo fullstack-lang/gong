@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongdoc/go/db"
 	"github.com/fullstack-lang/gongdoc/go/models"
 )
 
@@ -67,7 +68,7 @@ type NoteShapeLinkDB struct {
 
 	// Declation for basic field noteshapelinkDB.Type
 	Type_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	NoteShapeLinkPointersEncoding
@@ -116,7 +117,7 @@ type BackRepoNoteShapeLinkStruct struct {
 	// stores NoteShapeLink according to their gorm ID
 	Map_NoteShapeLinkDBID_NoteShapeLinkPtr map[uint]*models.NoteShapeLink
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -126,7 +127,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) GetStage() (stage *mod
 	return
 }
 
-func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) GetDB() *gorm.DB {
+func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) GetDB() db.DBInterface {
 	return backRepoNoteShapeLink.db
 }
 
@@ -163,9 +164,10 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CommitDeleteInstance(i
 
 	// noteshapelink is not staged anymore, remove noteshapelinkDB
 	noteshapelinkDB := backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB[id]
-	query := backRepoNoteShapeLink.db.Unscoped().Delete(&noteshapelinkDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoNoteShapeLink.db.Unscoped()
+	_, err := db.Delete(noteshapelinkDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -189,9 +191,9 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CommitPhaseOneInstance
 	var noteshapelinkDB NoteShapeLinkDB
 	noteshapelinkDB.CopyBasicFieldsFromNoteShapeLink(noteshapelink)
 
-	query := backRepoNoteShapeLink.db.Create(&noteshapelinkDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoNoteShapeLink.db.Create(&noteshapelinkDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -223,9 +225,9 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CommitPhaseTwoInstance
 		noteshapelinkDB.CopyBasicFieldsFromNoteShapeLink(noteshapelink)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoNoteShapeLink.db.Save(&noteshapelinkDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoNoteShapeLink.db.Save(noteshapelinkDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -244,9 +246,9 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CommitPhaseTwoInstance
 func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CheckoutPhaseOne() (Error error) {
 
 	noteshapelinkDBArray := make([]NoteShapeLinkDB, 0)
-	query := backRepoNoteShapeLink.db.Find(&noteshapelinkDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoNoteShapeLink.db.Find(&noteshapelinkDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -357,7 +359,7 @@ func (backRepo *BackRepoStruct) CheckoutNoteShapeLink(noteshapelink *models.Note
 			var noteshapelinkDB NoteShapeLinkDB
 			noteshapelinkDB.ID = id
 
-			if err := backRepo.BackRepoNoteShapeLink.db.First(&noteshapelinkDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoNoteShapeLink.db.First(&noteshapelinkDB, id); err != nil {
 				log.Fatalln("CheckoutNoteShapeLink : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoNoteShapeLink.CheckoutPhaseOneInstance(&noteshapelinkDB)
@@ -528,9 +530,9 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) rowVisitorNoteShapeLin
 
 		noteshapelinkDB_ID_atBackupTime := noteshapelinkDB.ID
 		noteshapelinkDB.ID = 0
-		query := backRepoNoteShapeLink.db.Create(noteshapelinkDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoNoteShapeLink.db.Create(noteshapelinkDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB[noteshapelinkDB.ID] = noteshapelinkDB
 		BackRepoNoteShapeLinkid_atBckpTime_newID[noteshapelinkDB_ID_atBackupTime] = noteshapelinkDB.ID
@@ -565,9 +567,9 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) RestorePhaseOne(dirPat
 
 		noteshapelinkDB_ID_atBackupTime := noteshapelinkDB.ID
 		noteshapelinkDB.ID = 0
-		query := backRepoNoteShapeLink.db.Create(noteshapelinkDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoNoteShapeLink.db.Create(noteshapelinkDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB[noteshapelinkDB.ID] = noteshapelinkDB
 		BackRepoNoteShapeLinkid_atBckpTime_newID[noteshapelinkDB_ID_atBackupTime] = noteshapelinkDB.ID
@@ -589,9 +591,10 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoNoteShapeLink.db.Model(noteshapelinkDB).Updates(*noteshapelinkDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoNoteShapeLink.db.Model(noteshapelinkDB)
+		_, err := db.Updates(*noteshapelinkDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

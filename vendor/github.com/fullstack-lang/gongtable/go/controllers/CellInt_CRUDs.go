@@ -70,12 +70,12 @@ func (controller *Controller) GetCellInts(c *gin.Context) {
 	}
 	db := backRepo.BackRepoCellInt.GetDB()
 
-	query := db.Find(&cellintDBs)
-	if query.Error != nil {
+	_, err := db.Find(&cellintDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostCellInt(c *gin.Context) {
 	cellintDB.CellIntPointersEncoding = input.CellIntPointersEncoding
 	cellintDB.CopyBasicFieldsFromCellInt_WOP(&input.CellInt_WOP)
 
-	query := db.Create(&cellintDB)
-	if query.Error != nil {
+	_, err = db.Create(&cellintDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetCellInt(c *gin.Context) {
 
 	// Get cellintDB in DB
 	var cellintDB orm.CellIntDB
-	if err := db.First(&cellintDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&cellintDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateCellInt(c *gin.Context) {
 	var cellintDB orm.CellIntDB
 
 	// fetch the cellint
-	query := db.First(&cellintDB, c.Param("id"))
+	_, err := db.First(&cellintDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateCellInt(c *gin.Context) {
 	cellintDB.CopyBasicFieldsFromCellInt_WOP(&input.CellInt_WOP)
 	cellintDB.CellIntPointersEncoding = input.CellIntPointersEncoding
 
-	query = db.Model(&cellintDB).Updates(cellintDB)
-	if query.Error != nil {
+	db, _ = db.Model(&cellintDB)
+	_, err = db.Updates(cellintDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteCellInt(c *gin.Context) {
 
 	// Get model if exist
 	var cellintDB orm.CellIntDB
-	if err := db.First(&cellintDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&cellintDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteCellInt(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&cellintDB)
+	db.Unscoped()
+	db.Delete(&cellintDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	cellintDeleted := new(models.CellInt)

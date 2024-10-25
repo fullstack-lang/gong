@@ -70,12 +70,12 @@ func (controller *Controller) GetFormFieldFloat64s(c *gin.Context) {
 	}
 	db := backRepo.BackRepoFormFieldFloat64.GetDB()
 
-	query := db.Find(&formfieldfloat64DBs)
-	if query.Error != nil {
+	_, err := db.Find(&formfieldfloat64DBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostFormFieldFloat64(c *gin.Context) {
 	formfieldfloat64DB.FormFieldFloat64PointersEncoding = input.FormFieldFloat64PointersEncoding
 	formfieldfloat64DB.CopyBasicFieldsFromFormFieldFloat64_WOP(&input.FormFieldFloat64_WOP)
 
-	query := db.Create(&formfieldfloat64DB)
-	if query.Error != nil {
+	_, err = db.Create(&formfieldfloat64DB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetFormFieldFloat64(c *gin.Context) {
 
 	// Get formfieldfloat64DB in DB
 	var formfieldfloat64DB orm.FormFieldFloat64DB
-	if err := db.First(&formfieldfloat64DB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&formfieldfloat64DB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateFormFieldFloat64(c *gin.Context) {
 	var formfieldfloat64DB orm.FormFieldFloat64DB
 
 	// fetch the formfieldfloat64
-	query := db.First(&formfieldfloat64DB, c.Param("id"))
+	_, err := db.First(&formfieldfloat64DB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateFormFieldFloat64(c *gin.Context) {
 	formfieldfloat64DB.CopyBasicFieldsFromFormFieldFloat64_WOP(&input.FormFieldFloat64_WOP)
 	formfieldfloat64DB.FormFieldFloat64PointersEncoding = input.FormFieldFloat64PointersEncoding
 
-	query = db.Model(&formfieldfloat64DB).Updates(formfieldfloat64DB)
-	if query.Error != nil {
+	db, _ = db.Model(&formfieldfloat64DB)
+	_, err = db.Updates(formfieldfloat64DB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteFormFieldFloat64(c *gin.Context) {
 
 	// Get model if exist
 	var formfieldfloat64DB orm.FormFieldFloat64DB
-	if err := db.First(&formfieldfloat64DB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&formfieldfloat64DB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteFormFieldFloat64(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&formfieldfloat64DB)
+	db.Unscoped()
+	db.Delete(&formfieldfloat64DB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	formfieldfloat64Deleted := new(models.FormFieldFloat64)
