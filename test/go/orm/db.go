@@ -1,0 +1,396 @@
+// generated code - do not edit
+package orm
+
+import (
+	"errors"
+	"fmt"
+	"strconv"
+	"sync"
+
+	"github.com/fullstack-lang/gong/test/go/db"
+)
+
+// Ensure DBLite implements DBInterface
+var _ db.DBInterface = &DBLite{}
+
+// DBLite is an in-memory database implementation of DBInterface
+type DBLite struct {
+	// Mutex to protect shared resources
+	mu sync.RWMutex
+
+	// insertion point definitions
+
+	astructDBs map[uint]*AstructDB
+
+	nextIDAstructDB uint
+
+	astructbstruct2useDBs map[uint]*AstructBstruct2UseDB
+
+	nextIDAstructBstruct2UseDB uint
+
+	astructbstructuseDBs map[uint]*AstructBstructUseDB
+
+	nextIDAstructBstructUseDB uint
+
+	bstructDBs map[uint]*BstructDB
+
+	nextIDBstructDB uint
+
+	dstructDBs map[uint]*DstructDB
+
+	nextIDDstructDB uint
+
+	fstructDBs map[uint]*FstructDB
+
+	nextIDFstructDB uint
+
+	gstructDBs map[uint]*GstructDB
+
+	nextIDGstructDB uint
+}
+
+// NewDBLite creates a new instance of DBLite
+func NewDBLite() *DBLite {
+	return &DBLite{
+		// insertion point maps init
+
+		astructDBs: make(map[uint]*AstructDB),
+
+		astructbstruct2useDBs: make(map[uint]*AstructBstruct2UseDB),
+
+		astructbstructuseDBs: make(map[uint]*AstructBstructUseDB),
+
+		bstructDBs: make(map[uint]*BstructDB),
+
+		dstructDBs: make(map[uint]*DstructDB),
+
+		fstructDBs: make(map[uint]*FstructDB),
+
+		gstructDBs: make(map[uint]*GstructDB),
+	}
+}
+
+// Create inserts a new record into the database
+func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
+	if instanceDB == nil {
+		return nil, errors.New("instanceDB cannot be nil")
+	}
+
+	db.mu.Lock()
+	defer db.mu.Unlock()
+
+	switch v := instanceDB.(type) {
+	// insertion point create
+	case *AstructDB:
+		db.nextIDAstructDB++
+		v.ID = db.nextIDAstructDB
+		db.astructDBs[v.ID] = v
+	case *AstructBstruct2UseDB:
+		db.nextIDAstructBstruct2UseDB++
+		v.ID = db.nextIDAstructBstruct2UseDB
+		db.astructbstruct2useDBs[v.ID] = v
+	case *AstructBstructUseDB:
+		db.nextIDAstructBstructUseDB++
+		v.ID = db.nextIDAstructBstructUseDB
+		db.astructbstructuseDBs[v.ID] = v
+	case *BstructDB:
+		db.nextIDBstructDB++
+		v.ID = db.nextIDBstructDB
+		db.bstructDBs[v.ID] = v
+	case *DstructDB:
+		db.nextIDDstructDB++
+		v.ID = db.nextIDDstructDB
+		db.dstructDBs[v.ID] = v
+	case *FstructDB:
+		db.nextIDFstructDB++
+		v.ID = db.nextIDFstructDB
+		db.fstructDBs[v.ID] = v
+	case *GstructDB:
+		db.nextIDGstructDB++
+		v.ID = db.nextIDGstructDB
+		db.gstructDBs[v.ID] = v
+	default:
+		return nil, errors.New("unsupported type in Create")
+	}
+	return db, nil
+}
+
+// Unscoped sets the unscoped flag for soft-deletes (not used in this implementation)
+func (db *DBLite) Unscoped() (db.DBInterface, error) {
+	return db, nil
+}
+
+// Model is a placeholder in this implementation
+func (db *DBLite) Model(instanceDB any) (db.DBInterface, error) {
+	// Not implemented as types are handled directly
+	return db, nil
+}
+
+// Delete removes a record from the database
+func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
+	if instanceDB == nil {
+		return nil, errors.New("instanceDB cannot be nil")
+	}
+
+	db.mu.Lock()
+	defer db.mu.Unlock()
+
+	switch v := instanceDB.(type) {
+	// insertion point delete
+	case *AstructDB:
+		delete(db.astructDBs, v.ID)
+	case *AstructBstruct2UseDB:
+		delete(db.astructbstruct2useDBs, v.ID)
+	case *AstructBstructUseDB:
+		delete(db.astructbstructuseDBs, v.ID)
+	case *BstructDB:
+		delete(db.bstructDBs, v.ID)
+	case *DstructDB:
+		delete(db.dstructDBs, v.ID)
+	case *FstructDB:
+		delete(db.fstructDBs, v.ID)
+	case *GstructDB:
+		delete(db.gstructDBs, v.ID)
+	default:
+		return nil, errors.New("unsupported type in Delete")
+	}
+	return db, nil
+}
+
+// Save updates or inserts a record into the database
+func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
+
+	if instanceDB == nil {
+		return nil, errors.New("instanceDB cannot be nil")
+	}
+
+	db.mu.Lock()
+	defer db.mu.Unlock()
+
+	switch v := instanceDB.(type) {
+	// insertion point delete
+	case *AstructDB:
+		db.astructDBs[v.ID] = v
+		return db, nil
+	case *AstructBstruct2UseDB:
+		db.astructbstruct2useDBs[v.ID] = v
+		return db, nil
+	case *AstructBstructUseDB:
+		db.astructbstructuseDBs[v.ID] = v
+		return db, nil
+	case *BstructDB:
+		db.bstructDBs[v.ID] = v
+		return db, nil
+	case *DstructDB:
+		db.dstructDBs[v.ID] = v
+		return db, nil
+	case *FstructDB:
+		db.fstructDBs[v.ID] = v
+		return db, nil
+	case *GstructDB:
+		db.gstructDBs[v.ID] = v
+		return db, nil
+	default:
+		return nil, errors.New("Save: unsupported type")
+	}
+}
+
+// Updates modifies an existing record in the database
+func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
+	if instanceDB == nil {
+		return nil, errors.New("instanceDB cannot be nil")
+	}
+
+	db.mu.Lock()
+	defer db.mu.Unlock()
+
+	switch v := instanceDB.(type) {
+	// insertion point delete
+	case *AstructDB:
+		if existing, ok := db.astructDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("record not found")
+		}
+	case *AstructBstruct2UseDB:
+		if existing, ok := db.astructbstruct2useDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("record not found")
+		}
+	case *AstructBstructUseDB:
+		if existing, ok := db.astructbstructuseDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("record not found")
+		}
+	case *BstructDB:
+		if existing, ok := db.bstructDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("record not found")
+		}
+	case *DstructDB:
+		if existing, ok := db.dstructDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("record not found")
+		}
+	case *FstructDB:
+		if existing, ok := db.fstructDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("record not found")
+		}
+	case *GstructDB:
+		if existing, ok := db.gstructDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("record not found")
+		}
+	default:
+		return nil, errors.New("unsupported type in Updates")
+	}
+	return db, nil
+}
+
+// Find retrieves all records of a type from the database
+func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
+
+	db.mu.RLock()
+	defer db.mu.RUnlock()
+
+	switch ptr := instanceDBs.(type) {
+	// insertion point find
+	case *[]AstructDB:
+        *ptr = make([]AstructDB, 0, len(db.astructDBs))
+        for _, v := range db.astructDBs {
+            *ptr = append(*ptr, *v)
+        }
+        return db, nil
+	case *[]AstructBstruct2UseDB:
+        *ptr = make([]AstructBstruct2UseDB, 0, len(db.astructbstruct2useDBs))
+        for _, v := range db.astructbstruct2useDBs {
+            *ptr = append(*ptr, *v)
+        }
+        return db, nil
+	case *[]AstructBstructUseDB:
+        *ptr = make([]AstructBstructUseDB, 0, len(db.astructbstructuseDBs))
+        for _, v := range db.astructbstructuseDBs {
+            *ptr = append(*ptr, *v)
+        }
+        return db, nil
+	case *[]BstructDB:
+        *ptr = make([]BstructDB, 0, len(db.bstructDBs))
+        for _, v := range db.bstructDBs {
+            *ptr = append(*ptr, *v)
+        }
+        return db, nil
+	case *[]DstructDB:
+        *ptr = make([]DstructDB, 0, len(db.dstructDBs))
+        for _, v := range db.dstructDBs {
+            *ptr = append(*ptr, *v)
+        }
+        return db, nil
+	case *[]FstructDB:
+        *ptr = make([]FstructDB, 0, len(db.fstructDBs))
+        for _, v := range db.fstructDBs {
+            *ptr = append(*ptr, *v)
+        }
+        return db, nil
+	case *[]GstructDB:
+        *ptr = make([]GstructDB, 0, len(db.gstructDBs))
+        for _, v := range db.gstructDBs {
+            *ptr = append(*ptr, *v)
+        }
+        return db, nil
+    default:
+        return nil, errors.New("Find: unsupported type")
+    }
+}
+
+// First retrieves the first record of a type from the database
+func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
+	if len(conds) != 1 {
+		return nil, errors.New("Do not process when conds is not a single parameter")
+	}
+
+	str, ok := conds[0].(string)
+
+	if !ok {
+		return nil, errors.New("conds[0] is not a string")
+	}
+
+	i, err := strconv.ParseUint(str, 10, 32) // Base 10, 32-bit unsigned int
+	if err != nil {
+		return nil, errors.New("conds[0] is not a string number")
+	}
+
+	db.mu.RLock()
+	defer db.mu.RUnlock()
+
+	switch instanceDB.(type) {
+	// insertion point first
+	case *AstructDB:
+		tmp, ok := db.astructDBs[uint(i)]
+
+		astructDB, _ := instanceDB.(*AstructDB)
+		*astructDB = *tmp
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
+		}
+	case *AstructBstruct2UseDB:
+		tmp, ok := db.astructbstruct2useDBs[uint(i)]
+
+		astructbstruct2useDB, _ := instanceDB.(*AstructBstruct2UseDB)
+		*astructbstruct2useDB = *tmp
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
+		}
+	case *AstructBstructUseDB:
+		tmp, ok := db.astructbstructuseDBs[uint(i)]
+
+		astructbstructuseDB, _ := instanceDB.(*AstructBstructUseDB)
+		*astructbstructuseDB = *tmp
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
+		}
+	case *BstructDB:
+		tmp, ok := db.bstructDBs[uint(i)]
+
+		bstructDB, _ := instanceDB.(*BstructDB)
+		*bstructDB = *tmp
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
+		}
+	case *DstructDB:
+		tmp, ok := db.dstructDBs[uint(i)]
+
+		dstructDB, _ := instanceDB.(*DstructDB)
+		*dstructDB = *tmp
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
+		}
+	case *FstructDB:
+		tmp, ok := db.fstructDBs[uint(i)]
+
+		fstructDB, _ := instanceDB.(*FstructDB)
+		*fstructDB = *tmp
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
+		}
+	case *GstructDB:
+		tmp, ok := db.gstructDBs[uint(i)]
+
+		gstructDB, _ := instanceDB.(*GstructDB)
+		*gstructDB = *tmp
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
+		}
+	default:
+		return nil, errors.New("Unkown type")
+	}
+	
+	return db, nil
+}
+

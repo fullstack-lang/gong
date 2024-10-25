@@ -1,0 +1,4 @@
+node_modules
+
+go/cmd/test/test
+go/cmd/test/__debug_bin*

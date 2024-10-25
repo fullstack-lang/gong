@@ -153,7 +153,7 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) CommitDeleteInstance(i
 	// metareference is not staged anymore, remove metareferenceDB
 	metareferenceDB := backRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB[id]
 	db, _ := backRepoMetaReference.db.Unscoped()
-	_, err := db.Delete(&metareferenceDB)
+	_, err := db.Delete(metareferenceDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -213,7 +213,7 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) CommitPhaseTwoInstance
 		metareferenceDB.CopyBasicFieldsFromMetaReference(metareference)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoMetaReference.db.Save(&metareferenceDB)
+		_, err := backRepoMetaReference.db.Save(metareferenceDB)
 		if err != nil {
 			log.Fatal(err)
 		}

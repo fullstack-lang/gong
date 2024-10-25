@@ -146,6 +146,7 @@ type ModelPkg_WOP struct {
 	PathToGoSubDirectory string
 	OrmPkgGenPath string
 	DbOrmPkgGenPath string
+	DbLiteOrmPkgGenPath string
 	DbPkgGenPath string
 	ControllersPkgGenPath string
 	FullstackPkgGenPath string
@@ -166,6 +167,7 @@ func (from *ModelPkg) CopyBasicFields(to *ModelPkg) {
 	to.PathToGoSubDirectory = from.PathToGoSubDirectory
 	to.OrmPkgGenPath = from.OrmPkgGenPath
 	to.DbOrmPkgGenPath = from.DbOrmPkgGenPath
+	to.DbLiteOrmPkgGenPath = from.DbLiteOrmPkgGenPath
 	to.DbPkgGenPath = from.DbPkgGenPath
 	to.ControllersPkgGenPath = from.ControllersPkgGenPath
 	to.FullstackPkgGenPath = from.FullstackPkgGenPath

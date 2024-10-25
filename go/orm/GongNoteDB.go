@@ -168,7 +168,7 @@ func (backRepoGongNote *BackRepoGongNoteStruct) CommitDeleteInstance(id uint) (E
 	// gongnote is not staged anymore, remove gongnoteDB
 	gongnoteDB := backRepoGongNote.Map_GongNoteDBID_GongNoteDB[id]
 	db, _ := backRepoGongNote.db.Unscoped()
-	_, err := db.Delete(&gongnoteDB)
+	_, err := db.Delete(gongnoteDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -246,7 +246,7 @@ func (backRepoGongNote *BackRepoGongNoteStruct) CommitPhaseTwoInstance(backRepo 
 				append(gongnoteDB.GongNotePointersEncoding.Links, int(gonglinkAssocEnd_DB.ID))
 		}
 
-		_, err := backRepoGongNote.db.Save(&gongnoteDB)
+		_, err := backRepoGongNote.db.Save(gongnoteDB)
 		if err != nil {
 			log.Fatal(err)
 		}
