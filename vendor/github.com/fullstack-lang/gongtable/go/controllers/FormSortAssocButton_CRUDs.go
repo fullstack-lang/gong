@@ -280,7 +280,7 @@ func (controller *Controller) UpdateFormSortAssocButton(c *gin.Context) {
 	formsortassocbuttonDB.FormSortAssocButtonPointersEncoding = input.FormSortAssocButtonPointersEncoding
 
 	db, _ = db.Model(&formsortassocbuttonDB)
-	_, err = db.Updates(formsortassocbuttonDB)
+	_, err = db.Updates(&formsortassocbuttonDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

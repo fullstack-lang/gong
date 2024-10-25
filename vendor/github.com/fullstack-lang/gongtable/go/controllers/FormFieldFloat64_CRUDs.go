@@ -280,7 +280,7 @@ func (controller *Controller) UpdateFormFieldFloat64(c *gin.Context) {
 	formfieldfloat64DB.FormFieldFloat64PointersEncoding = input.FormFieldFloat64PointersEncoding
 
 	db, _ = db.Model(&formfieldfloat64DB)
-	_, err = db.Updates(formfieldfloat64DB)
+	_, err = db.Updates(&formfieldfloat64DB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

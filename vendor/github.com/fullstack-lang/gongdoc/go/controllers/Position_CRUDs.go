@@ -280,7 +280,7 @@ func (controller *Controller) UpdatePosition(c *gin.Context) {
 	positionDB.PositionPointersEncoding = input.PositionPointersEncoding
 
 	db, _ = db.Model(&positionDB)
-	_, err = db.Updates(positionDB)
+	_, err = db.Updates(&positionDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

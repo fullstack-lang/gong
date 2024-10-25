@@ -280,7 +280,7 @@ func (controller *Controller) UpdateUmlsc(c *gin.Context) {
 	umlscDB.UmlscPointersEncoding = input.UmlscPointersEncoding
 
 	db, _ = db.Model(&umlscDB)
-	_, err = db.Updates(umlscDB)
+	_, err = db.Updates(&umlscDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
