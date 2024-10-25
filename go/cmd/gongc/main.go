@@ -526,6 +526,9 @@ func main() {
 		filepath.Join(*pkgPath, "../orm/back_repo.go"),
 		orm.BackRepoTemplateCode, orm.BackRepoSubTemplate)
 
+	// back repo is either with gorm + sqlite or with lite
+	orm.RemoveTargetedLines(filepath.Join(*pkgPath, "../orm/back_repo.go"), orm.Lite)
+
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		modelPkg.Name,
