@@ -329,7 +329,7 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitDeleteInstance(id uint) (Err
 	// astruct is not staged anymore, remove astructDB
 	astructDB := backRepoAstruct.Map_AstructDBID_AstructDB[id]
 	db, _ := backRepoAstruct.db.Unscoped()
-	_, err := db.Delete(&astructDB)
+	_, err := db.Delete(astructDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -605,7 +605,7 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 			astructDB.AnAstructID.Valid = true
 		}
 
-		_, err := backRepoAstruct.db.Save(&astructDB)
+		_, err := backRepoAstruct.db.Save(astructDB)
 		if err != nil {
 			log.Fatal(err)
 		}

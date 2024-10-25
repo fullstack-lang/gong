@@ -21,6 +21,9 @@ export class ModelPkg {
 	PkgPath: string = ""
 	PathToGoSubDirectory: string = ""
 	OrmPkgGenPath: string = ""
+	DbOrmPkgGenPath: string = ""
+	DbLiteOrmPkgGenPath: string = ""
+	DbPkgGenPath: string = ""
 	ControllersPkgGenPath: string = ""
 	FullstackPkgGenPath: string = ""
 	StackPkgGenPath: string = ""
@@ -46,6 +49,9 @@ export function CopyModelPkgToModelPkgAPI(modelpkg: ModelPkg, modelpkgAPI: Model
 	modelpkgAPI.PkgPath = modelpkg.PkgPath
 	modelpkgAPI.PathToGoSubDirectory = modelpkg.PathToGoSubDirectory
 	modelpkgAPI.OrmPkgGenPath = modelpkg.OrmPkgGenPath
+	modelpkgAPI.DbOrmPkgGenPath = modelpkg.DbOrmPkgGenPath
+	modelpkgAPI.DbLiteOrmPkgGenPath = modelpkg.DbLiteOrmPkgGenPath
+	modelpkgAPI.DbPkgGenPath = modelpkg.DbPkgGenPath
 	modelpkgAPI.ControllersPkgGenPath = modelpkg.ControllersPkgGenPath
 	modelpkgAPI.FullstackPkgGenPath = modelpkg.FullstackPkgGenPath
 	modelpkgAPI.StackPkgGenPath = modelpkg.StackPkgGenPath
@@ -77,6 +83,9 @@ export function CopyModelPkgAPIToModelPkg(modelpkgAPI: ModelPkgAPI, modelpkg: Mo
 	modelpkg.PkgPath = modelpkgAPI.PkgPath
 	modelpkg.PathToGoSubDirectory = modelpkgAPI.PathToGoSubDirectory
 	modelpkg.OrmPkgGenPath = modelpkgAPI.OrmPkgGenPath
+	modelpkg.DbOrmPkgGenPath = modelpkgAPI.DbOrmPkgGenPath
+	modelpkg.DbLiteOrmPkgGenPath = modelpkgAPI.DbLiteOrmPkgGenPath
+	modelpkg.DbPkgGenPath = modelpkgAPI.DbPkgGenPath
 	modelpkg.ControllersPkgGenPath = modelpkgAPI.ControllersPkgGenPath
 	modelpkg.FullstackPkgGenPath = modelpkgAPI.FullstackPkgGenPath
 	modelpkg.StackPkgGenPath = modelpkgAPI.StackPkgGenPath

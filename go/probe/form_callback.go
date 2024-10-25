@@ -1018,6 +1018,8 @@ func (modelpkgFormCallback *ModelPkgFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(modelpkg_.OrmPkgGenPath), formDiv)
 		case "DbOrmPkgGenPath":
 			FormDivBasicFieldToField(&(modelpkg_.DbOrmPkgGenPath), formDiv)
+		case "DbLiteOrmPkgGenPath":
+			FormDivBasicFieldToField(&(modelpkg_.DbLiteOrmPkgGenPath), formDiv)
 		case "DbPkgGenPath":
 			FormDivBasicFieldToField(&(modelpkg_.DbPkgGenPath), formDiv)
 		case "ControllersPkgGenPath":

@@ -157,7 +157,7 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) CommitDeleteIn
 	// astructbstructuse is not staged anymore, remove astructbstructuseDB
 	astructbstructuseDB := backRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUseDB[id]
 	db, _ := backRepoAstructBstructUse.db.Unscoped()
-	_, err := db.Delete(&astructbstructuseDB)
+	_, err := db.Delete(astructbstructuseDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -229,7 +229,7 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) CommitPhaseTwo
 			astructbstructuseDB.Bstruct2ID.Valid = true
 		}
 
-		_, err := backRepoAstructBstructUse.db.Save(&astructbstructuseDB)
+		_, err := backRepoAstructBstructUse.db.Save(astructbstructuseDB)
 		if err != nil {
 			log.Fatal(err)
 		}

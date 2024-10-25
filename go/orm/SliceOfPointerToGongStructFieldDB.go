@@ -169,7 +169,7 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 	// sliceofpointertogongstructfield is not staged anymore, remove sliceofpointertogongstructfieldDB
 	sliceofpointertogongstructfieldDB := backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB[id]
 	db, _ := backRepoSliceOfPointerToGongStructField.db.Unscoped()
-	_, err := db.Delete(&sliceofpointertogongstructfieldDB)
+	_, err := db.Delete(sliceofpointertogongstructfieldDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -241,7 +241,7 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 			sliceofpointertogongstructfieldDB.GongStructID.Valid = true
 		}
 
-		_, err := backRepoSliceOfPointerToGongStructField.db.Save(&sliceofpointertogongstructfieldDB)
+		_, err := backRepoSliceOfPointerToGongStructField.db.Save(sliceofpointertogongstructfieldDB)
 		if err != nil {
 			log.Fatal(err)
 		}

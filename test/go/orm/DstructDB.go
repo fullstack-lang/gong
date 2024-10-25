@@ -163,7 +163,7 @@ func (backRepoDstruct *BackRepoDstructStruct) CommitDeleteInstance(id uint) (Err
 	// dstruct is not staged anymore, remove dstructDB
 	dstructDB := backRepoDstruct.Map_DstructDBID_DstructDB[id]
 	db, _ := backRepoDstruct.db.Unscoped()
-	_, err := db.Delete(&dstructDB)
+	_, err := db.Delete(dstructDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -271,7 +271,7 @@ func (backRepoDstruct *BackRepoDstructStruct) CommitPhaseTwoInstance(backRepo *B
 				append(dstructDB.DstructPointersEncoding.Gstructs, int(gstructAssocEnd_DB.ID))
 		}
 
-		_, err := backRepoDstruct.db.Save(&dstructDB)
+		_, err := backRepoDstruct.db.Save(dstructDB)
 		if err != nil {
 			log.Fatal(err)
 		}

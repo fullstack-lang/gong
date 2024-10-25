@@ -162,7 +162,7 @@ func (backRepoMeta *BackRepoMetaStruct) CommitDeleteInstance(id uint) (Error err
 	// meta is not staged anymore, remove metaDB
 	metaDB := backRepoMeta.Map_MetaDBID_MetaDB[id]
 	db, _ := backRepoMeta.db.Unscoped()
-	_, err := db.Delete(&metaDB)
+	_, err := db.Delete(metaDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -240,7 +240,7 @@ func (backRepoMeta *BackRepoMetaStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				append(metaDB.MetaPointersEncoding.MetaReferences, int(metareferenceAssocEnd_DB.ID))
 		}
 
-		_, err := backRepoMeta.db.Save(&metaDB)
+		_, err := backRepoMeta.db.Save(metaDB)
 		if err != nil {
 			log.Fatal(err)
 		}
