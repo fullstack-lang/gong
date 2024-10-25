@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongdoc/go/db"
 	"github.com/fullstack-lang/gongdoc/go/models"
 )
 
@@ -89,7 +90,7 @@ type NoteShapeDB struct {
 	// Declation for basic field noteshapeDB.Matched
 	// provide the sql storage for the boolan
 	Matched_Data sql.NullBool
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	NoteShapePointersEncoding
@@ -156,7 +157,7 @@ type BackRepoNoteShapeStruct struct {
 	// stores NoteShape according to their gorm ID
 	Map_NoteShapeDBID_NoteShapePtr map[uint]*models.NoteShape
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -166,7 +167,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) GetStage() (stage *models.Stag
 	return
 }
 
-func (backRepoNoteShape *BackRepoNoteShapeStruct) GetDB() *gorm.DB {
+func (backRepoNoteShape *BackRepoNoteShapeStruct) GetDB() db.DBInterface {
 	return backRepoNoteShape.db
 }
 
@@ -203,9 +204,10 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitDeleteInstance(id uint) 
 
 	// noteshape is not staged anymore, remove noteshapeDB
 	noteshapeDB := backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB[id]
-	query := backRepoNoteShape.db.Unscoped().Delete(&noteshapeDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoNoteShape.db.Unscoped()
+	_, err := db.Delete(noteshapeDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -229,9 +231,9 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseOneInstance(notesha
 	var noteshapeDB NoteShapeDB
 	noteshapeDB.CopyBasicFieldsFromNoteShape(noteshape)
 
-	query := backRepoNoteShape.db.Create(&noteshapeDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoNoteShape.db.Create(&noteshapeDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -281,9 +283,9 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseTwoInstance(backRep
 				append(noteshapeDB.NoteShapePointersEncoding.NoteShapeLinks, int(noteshapelinkAssocEnd_DB.ID))
 		}
 
-		query := backRepoNoteShape.db.Save(&noteshapeDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoNoteShape.db.Save(noteshapeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -302,9 +304,9 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseTwoInstance(backRep
 func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseOne() (Error error) {
 
 	noteshapeDBArray := make([]NoteShapeDB, 0)
-	query := backRepoNoteShape.db.Find(&noteshapeDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoNoteShape.db.Find(&noteshapeDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -424,7 +426,7 @@ func (backRepo *BackRepoStruct) CheckoutNoteShape(noteshape *models.NoteShape) {
 			var noteshapeDB NoteShapeDB
 			noteshapeDB.ID = id
 
-			if err := backRepo.BackRepoNoteShape.db.First(&noteshapeDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoNoteShape.db.First(&noteshapeDB, id); err != nil {
 				log.Fatalln("CheckoutNoteShape : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoNoteShape.CheckoutPhaseOneInstance(&noteshapeDB)
@@ -667,9 +669,9 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) rowVisitorNoteShape(row *xlsx.
 
 		noteshapeDB_ID_atBackupTime := noteshapeDB.ID
 		noteshapeDB.ID = 0
-		query := backRepoNoteShape.db.Create(noteshapeDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoNoteShape.db.Create(noteshapeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB[noteshapeDB.ID] = noteshapeDB
 		BackRepoNoteShapeid_atBckpTime_newID[noteshapeDB_ID_atBackupTime] = noteshapeDB.ID
@@ -704,9 +706,9 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) RestorePhaseOne(dirPath string
 
 		noteshapeDB_ID_atBackupTime := noteshapeDB.ID
 		noteshapeDB.ID = 0
-		query := backRepoNoteShape.db.Create(noteshapeDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoNoteShape.db.Create(noteshapeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB[noteshapeDB.ID] = noteshapeDB
 		BackRepoNoteShapeid_atBckpTime_newID[noteshapeDB_ID_atBackupTime] = noteshapeDB.ID
@@ -728,9 +730,10 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoNoteShape.db.Model(noteshapeDB).Updates(*noteshapeDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoNoteShape.db.Model(noteshapeDB)
+		_, err := db.Updates(*noteshapeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

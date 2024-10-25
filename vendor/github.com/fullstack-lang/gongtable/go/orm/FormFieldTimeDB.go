@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtable/go/db"
 	"github.com/fullstack-lang/gongtable/go/models"
 )
 
@@ -67,7 +68,7 @@ type FormFieldTimeDB struct {
 
 	// Declation for basic field formfieldtimeDB.Step
 	Step_Data sql.NullFloat64
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormFieldTimePointersEncoding
@@ -116,7 +117,7 @@ type BackRepoFormFieldTimeStruct struct {
 	// stores FormFieldTime according to their gorm ID
 	Map_FormFieldTimeDBID_FormFieldTimePtr map[uint]*models.FormFieldTime
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -126,7 +127,7 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) GetStage() (stage *mod
 	return
 }
 
-func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) GetDB() *gorm.DB {
+func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) GetDB() db.DBInterface {
 	return backRepoFormFieldTime.db
 }
 
@@ -163,9 +164,10 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) CommitDeleteInstance(i
 
 	// formfieldtime is not staged anymore, remove formfieldtimeDB
 	formfieldtimeDB := backRepoFormFieldTime.Map_FormFieldTimeDBID_FormFieldTimeDB[id]
-	query := backRepoFormFieldTime.db.Unscoped().Delete(&formfieldtimeDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoFormFieldTime.db.Unscoped()
+	_, err := db.Delete(formfieldtimeDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -189,9 +191,9 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) CommitPhaseOneInstance
 	var formfieldtimeDB FormFieldTimeDB
 	formfieldtimeDB.CopyBasicFieldsFromFormFieldTime(formfieldtime)
 
-	query := backRepoFormFieldTime.db.Create(&formfieldtimeDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoFormFieldTime.db.Create(&formfieldtimeDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -223,9 +225,9 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) CommitPhaseTwoInstance
 		formfieldtimeDB.CopyBasicFieldsFromFormFieldTime(formfieldtime)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoFormFieldTime.db.Save(&formfieldtimeDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoFormFieldTime.db.Save(formfieldtimeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -244,9 +246,9 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) CommitPhaseTwoInstance
 func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) CheckoutPhaseOne() (Error error) {
 
 	formfieldtimeDBArray := make([]FormFieldTimeDB, 0)
-	query := backRepoFormFieldTime.db.Find(&formfieldtimeDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoFormFieldTime.db.Find(&formfieldtimeDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -357,7 +359,7 @@ func (backRepo *BackRepoStruct) CheckoutFormFieldTime(formfieldtime *models.Form
 			var formfieldtimeDB FormFieldTimeDB
 			formfieldtimeDB.ID = id
 
-			if err := backRepo.BackRepoFormFieldTime.db.First(&formfieldtimeDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoFormFieldTime.db.First(&formfieldtimeDB, id); err != nil {
 				log.Fatalln("CheckoutFormFieldTime : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoFormFieldTime.CheckoutPhaseOneInstance(&formfieldtimeDB)
@@ -528,9 +530,9 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) rowVisitorFormFieldTim
 
 		formfieldtimeDB_ID_atBackupTime := formfieldtimeDB.ID
 		formfieldtimeDB.ID = 0
-		query := backRepoFormFieldTime.db.Create(formfieldtimeDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoFormFieldTime.db.Create(formfieldtimeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoFormFieldTime.Map_FormFieldTimeDBID_FormFieldTimeDB[formfieldtimeDB.ID] = formfieldtimeDB
 		BackRepoFormFieldTimeid_atBckpTime_newID[formfieldtimeDB_ID_atBackupTime] = formfieldtimeDB.ID
@@ -565,9 +567,9 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) RestorePhaseOne(dirPat
 
 		formfieldtimeDB_ID_atBackupTime := formfieldtimeDB.ID
 		formfieldtimeDB.ID = 0
-		query := backRepoFormFieldTime.db.Create(formfieldtimeDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoFormFieldTime.db.Create(formfieldtimeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoFormFieldTime.Map_FormFieldTimeDBID_FormFieldTimeDB[formfieldtimeDB.ID] = formfieldtimeDB
 		BackRepoFormFieldTimeid_atBckpTime_newID[formfieldtimeDB_ID_atBackupTime] = formfieldtimeDB.ID
@@ -589,9 +591,10 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoFormFieldTime.db.Model(formfieldtimeDB).Updates(*formfieldtimeDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoFormFieldTime.db.Model(formfieldtimeDB)
+		_, err := db.Updates(*formfieldtimeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

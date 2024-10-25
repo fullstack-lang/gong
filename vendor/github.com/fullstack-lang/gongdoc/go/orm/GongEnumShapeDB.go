@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongdoc/go/db"
 	"github.com/fullstack-lang/gongdoc/go/models"
 )
 
@@ -77,7 +78,7 @@ type GongEnumShapeDB struct {
 
 	// Declation for basic field gongenumshapeDB.Height
 	Height_Data sql.NullFloat64
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	GongEnumShapePointersEncoding
@@ -129,7 +130,7 @@ type BackRepoGongEnumShapeStruct struct {
 	// stores GongEnumShape according to their gorm ID
 	Map_GongEnumShapeDBID_GongEnumShapePtr map[uint]*models.GongEnumShape
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -139,7 +140,7 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) GetStage() (stage *mod
 	return
 }
 
-func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) GetDB() *gorm.DB {
+func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) GetDB() db.DBInterface {
 	return backRepoGongEnumShape.db
 }
 
@@ -176,9 +177,10 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CommitDeleteInstance(i
 
 	// gongenumshape is not staged anymore, remove gongenumshapeDB
 	gongenumshapeDB := backRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapeDB[id]
-	query := backRepoGongEnumShape.db.Unscoped().Delete(&gongenumshapeDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoGongEnumShape.db.Unscoped()
+	_, err := db.Delete(gongenumshapeDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -202,9 +204,9 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CommitPhaseOneInstance
 	var gongenumshapeDB GongEnumShapeDB
 	gongenumshapeDB.CopyBasicFieldsFromGongEnumShape(gongenumshape)
 
-	query := backRepoGongEnumShape.db.Create(&gongenumshapeDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoGongEnumShape.db.Create(&gongenumshapeDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -266,9 +268,9 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CommitPhaseTwoInstance
 				append(gongenumshapeDB.GongEnumShapePointersEncoding.GongEnumValueEntrys, int(gongenumvalueentryAssocEnd_DB.ID))
 		}
 
-		query := backRepoGongEnumShape.db.Save(&gongenumshapeDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoGongEnumShape.db.Save(gongenumshapeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -287,9 +289,9 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CommitPhaseTwoInstance
 func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CheckoutPhaseOne() (Error error) {
 
 	gongenumshapeDBArray := make([]GongEnumShapeDB, 0)
-	query := backRepoGongEnumShape.db.Find(&gongenumshapeDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoGongEnumShape.db.Find(&gongenumshapeDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -414,7 +416,7 @@ func (backRepo *BackRepoStruct) CheckoutGongEnumShape(gongenumshape *models.Gong
 			var gongenumshapeDB GongEnumShapeDB
 			gongenumshapeDB.ID = id
 
-			if err := backRepo.BackRepoGongEnumShape.db.First(&gongenumshapeDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoGongEnumShape.db.First(&gongenumshapeDB, id); err != nil {
 				log.Fatalln("CheckoutGongEnumShape : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoGongEnumShape.CheckoutPhaseOneInstance(&gongenumshapeDB)
@@ -597,9 +599,9 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) rowVisitorGongEnumShap
 
 		gongenumshapeDB_ID_atBackupTime := gongenumshapeDB.ID
 		gongenumshapeDB.ID = 0
-		query := backRepoGongEnumShape.db.Create(gongenumshapeDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoGongEnumShape.db.Create(gongenumshapeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapeDB[gongenumshapeDB.ID] = gongenumshapeDB
 		BackRepoGongEnumShapeid_atBckpTime_newID[gongenumshapeDB_ID_atBackupTime] = gongenumshapeDB.ID
@@ -634,9 +636,9 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) RestorePhaseOne(dirPat
 
 		gongenumshapeDB_ID_atBackupTime := gongenumshapeDB.ID
 		gongenumshapeDB.ID = 0
-		query := backRepoGongEnumShape.db.Create(gongenumshapeDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoGongEnumShape.db.Create(gongenumshapeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapeDB[gongenumshapeDB.ID] = gongenumshapeDB
 		BackRepoGongEnumShapeid_atBckpTime_newID[gongenumshapeDB_ID_atBackupTime] = gongenumshapeDB.ID
@@ -664,9 +666,10 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) RestorePhaseTwo() {
 		}
 
 		// update databse with new index encoding
-		query := backRepoGongEnumShape.db.Model(gongenumshapeDB).Updates(*gongenumshapeDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoGongEnumShape.db.Model(gongenumshapeDB)
+		_, err := db.Updates(*gongenumshapeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

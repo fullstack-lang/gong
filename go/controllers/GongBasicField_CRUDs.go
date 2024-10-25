@@ -280,7 +280,7 @@ func (controller *Controller) UpdateGongBasicField(c *gin.Context) {
 	gongbasicfieldDB.GongBasicFieldPointersEncoding = input.GongBasicFieldPointersEncoding
 
 	db, _ = db.Model(&gongbasicfieldDB)
-	_, err = db.Updates(gongbasicfieldDB)
+	_, err = db.Updates(&gongbasicfieldDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

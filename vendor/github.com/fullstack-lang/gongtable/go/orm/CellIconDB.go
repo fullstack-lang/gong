@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtable/go/db"
 	"github.com/fullstack-lang/gongtable/go/models"
 )
 
@@ -64,7 +65,7 @@ type CellIconDB struct {
 
 	// Declation for basic field celliconDB.Icon
 	Icon_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	CellIconPointersEncoding
@@ -110,7 +111,7 @@ type BackRepoCellIconStruct struct {
 	// stores CellIcon according to their gorm ID
 	Map_CellIconDBID_CellIconPtr map[uint]*models.CellIcon
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -120,7 +121,7 @@ func (backRepoCellIcon *BackRepoCellIconStruct) GetStage() (stage *models.StageS
 	return
 }
 
-func (backRepoCellIcon *BackRepoCellIconStruct) GetDB() *gorm.DB {
+func (backRepoCellIcon *BackRepoCellIconStruct) GetDB() db.DBInterface {
 	return backRepoCellIcon.db
 }
 
@@ -157,9 +158,10 @@ func (backRepoCellIcon *BackRepoCellIconStruct) CommitDeleteInstance(id uint) (E
 
 	// cellicon is not staged anymore, remove celliconDB
 	celliconDB := backRepoCellIcon.Map_CellIconDBID_CellIconDB[id]
-	query := backRepoCellIcon.db.Unscoped().Delete(&celliconDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoCellIcon.db.Unscoped()
+	_, err := db.Delete(celliconDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -183,9 +185,9 @@ func (backRepoCellIcon *BackRepoCellIconStruct) CommitPhaseOneInstance(cellicon 
 	var celliconDB CellIconDB
 	celliconDB.CopyBasicFieldsFromCellIcon(cellicon)
 
-	query := backRepoCellIcon.db.Create(&celliconDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoCellIcon.db.Create(&celliconDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -217,9 +219,9 @@ func (backRepoCellIcon *BackRepoCellIconStruct) CommitPhaseTwoInstance(backRepo 
 		celliconDB.CopyBasicFieldsFromCellIcon(cellicon)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoCellIcon.db.Save(&celliconDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoCellIcon.db.Save(celliconDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -238,9 +240,9 @@ func (backRepoCellIcon *BackRepoCellIconStruct) CommitPhaseTwoInstance(backRepo 
 func (backRepoCellIcon *BackRepoCellIconStruct) CheckoutPhaseOne() (Error error) {
 
 	celliconDBArray := make([]CellIconDB, 0)
-	query := backRepoCellIcon.db.Find(&celliconDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoCellIcon.db.Find(&celliconDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -351,7 +353,7 @@ func (backRepo *BackRepoStruct) CheckoutCellIcon(cellicon *models.CellIcon) {
 			var celliconDB CellIconDB
 			celliconDB.ID = id
 
-			if err := backRepo.BackRepoCellIcon.db.First(&celliconDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoCellIcon.db.First(&celliconDB, id); err != nil {
 				log.Fatalln("CheckoutCellIcon : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoCellIcon.CheckoutPhaseOneInstance(&celliconDB)
@@ -510,9 +512,9 @@ func (backRepoCellIcon *BackRepoCellIconStruct) rowVisitorCellIcon(row *xlsx.Row
 
 		celliconDB_ID_atBackupTime := celliconDB.ID
 		celliconDB.ID = 0
-		query := backRepoCellIcon.db.Create(celliconDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoCellIcon.db.Create(celliconDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoCellIcon.Map_CellIconDBID_CellIconDB[celliconDB.ID] = celliconDB
 		BackRepoCellIconid_atBckpTime_newID[celliconDB_ID_atBackupTime] = celliconDB.ID
@@ -547,9 +549,9 @@ func (backRepoCellIcon *BackRepoCellIconStruct) RestorePhaseOne(dirPath string) 
 
 		celliconDB_ID_atBackupTime := celliconDB.ID
 		celliconDB.ID = 0
-		query := backRepoCellIcon.db.Create(celliconDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoCellIcon.db.Create(celliconDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoCellIcon.Map_CellIconDBID_CellIconDB[celliconDB.ID] = celliconDB
 		BackRepoCellIconid_atBckpTime_newID[celliconDB_ID_atBackupTime] = celliconDB.ID
@@ -571,9 +573,10 @@ func (backRepoCellIcon *BackRepoCellIconStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoCellIcon.db.Model(celliconDB).Updates(*celliconDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoCellIcon.db.Model(celliconDB)
+		_, err := db.Updates(*celliconDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

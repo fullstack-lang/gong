@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtable/go/db"
 	"github.com/fullstack-lang/gongtable/go/models"
 )
 
@@ -78,7 +79,7 @@ type FormFieldFloat64DB struct {
 
 	// Declation for basic field formfieldfloat64DB.MaxValue
 	MaxValue_Data sql.NullFloat64
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormFieldFloat64PointersEncoding
@@ -136,7 +137,7 @@ type BackRepoFormFieldFloat64Struct struct {
 	// stores FormFieldFloat64 according to their gorm ID
 	Map_FormFieldFloat64DBID_FormFieldFloat64Ptr map[uint]*models.FormFieldFloat64
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -146,7 +147,7 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) GetStage() (stag
 	return
 }
 
-func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) GetDB() *gorm.DB {
+func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) GetDB() db.DBInterface {
 	return backRepoFormFieldFloat64.db
 }
 
@@ -183,9 +184,10 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) CommitDeleteInst
 
 	// formfieldfloat64 is not staged anymore, remove formfieldfloat64DB
 	formfieldfloat64DB := backRepoFormFieldFloat64.Map_FormFieldFloat64DBID_FormFieldFloat64DB[id]
-	query := backRepoFormFieldFloat64.db.Unscoped().Delete(&formfieldfloat64DB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoFormFieldFloat64.db.Unscoped()
+	_, err := db.Delete(formfieldfloat64DB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -209,9 +211,9 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) CommitPhaseOneIn
 	var formfieldfloat64DB FormFieldFloat64DB
 	formfieldfloat64DB.CopyBasicFieldsFromFormFieldFloat64(formfieldfloat64)
 
-	query := backRepoFormFieldFloat64.db.Create(&formfieldfloat64DB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoFormFieldFloat64.db.Create(&formfieldfloat64DB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -243,9 +245,9 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) CommitPhaseTwoIn
 		formfieldfloat64DB.CopyBasicFieldsFromFormFieldFloat64(formfieldfloat64)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoFormFieldFloat64.db.Save(&formfieldfloat64DB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoFormFieldFloat64.db.Save(formfieldfloat64DB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -264,9 +266,9 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) CommitPhaseTwoIn
 func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) CheckoutPhaseOne() (Error error) {
 
 	formfieldfloat64DBArray := make([]FormFieldFloat64DB, 0)
-	query := backRepoFormFieldFloat64.db.Find(&formfieldfloat64DBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoFormFieldFloat64.db.Find(&formfieldfloat64DBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -377,7 +379,7 @@ func (backRepo *BackRepoStruct) CheckoutFormFieldFloat64(formfieldfloat64 *model
 			var formfieldfloat64DB FormFieldFloat64DB
 			formfieldfloat64DB.ID = id
 
-			if err := backRepo.BackRepoFormFieldFloat64.db.First(&formfieldfloat64DB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoFormFieldFloat64.db.First(&formfieldfloat64DB, id); err != nil {
 				log.Fatalln("CheckoutFormFieldFloat64 : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoFormFieldFloat64.CheckoutPhaseOneInstance(&formfieldfloat64DB)
@@ -584,9 +586,9 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) rowVisitorFormFi
 
 		formfieldfloat64DB_ID_atBackupTime := formfieldfloat64DB.ID
 		formfieldfloat64DB.ID = 0
-		query := backRepoFormFieldFloat64.db.Create(formfieldfloat64DB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoFormFieldFloat64.db.Create(formfieldfloat64DB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoFormFieldFloat64.Map_FormFieldFloat64DBID_FormFieldFloat64DB[formfieldfloat64DB.ID] = formfieldfloat64DB
 		BackRepoFormFieldFloat64id_atBckpTime_newID[formfieldfloat64DB_ID_atBackupTime] = formfieldfloat64DB.ID
@@ -621,9 +623,9 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) RestorePhaseOne(
 
 		formfieldfloat64DB_ID_atBackupTime := formfieldfloat64DB.ID
 		formfieldfloat64DB.ID = 0
-		query := backRepoFormFieldFloat64.db.Create(formfieldfloat64DB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoFormFieldFloat64.db.Create(formfieldfloat64DB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoFormFieldFloat64.Map_FormFieldFloat64DBID_FormFieldFloat64DB[formfieldfloat64DB.ID] = formfieldfloat64DB
 		BackRepoFormFieldFloat64id_atBckpTime_newID[formfieldfloat64DB_ID_atBackupTime] = formfieldfloat64DB.ID
@@ -645,9 +647,10 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) RestorePhaseTwo(
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoFormFieldFloat64.db.Model(formfieldfloat64DB).Updates(*formfieldfloat64DB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoFormFieldFloat64.db.Model(formfieldfloat64DB)
+		_, err := db.Updates(*formfieldfloat64DB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

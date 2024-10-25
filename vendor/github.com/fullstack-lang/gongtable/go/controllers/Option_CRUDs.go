@@ -70,12 +70,12 @@ func (controller *Controller) GetOptions(c *gin.Context) {
 	}
 	db := backRepo.BackRepoOption.GetDB()
 
-	query := db.Find(&optionDBs)
-	if query.Error != nil {
+	_, err := db.Find(&optionDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostOption(c *gin.Context) {
 	optionDB.OptionPointersEncoding = input.OptionPointersEncoding
 	optionDB.CopyBasicFieldsFromOption_WOP(&input.Option_WOP)
 
-	query := db.Create(&optionDB)
-	if query.Error != nil {
+	_, err = db.Create(&optionDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetOption(c *gin.Context) {
 
 	// Get optionDB in DB
 	var optionDB orm.OptionDB
-	if err := db.First(&optionDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&optionDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateOption(c *gin.Context) {
 	var optionDB orm.OptionDB
 
 	// fetch the option
-	query := db.First(&optionDB, c.Param("id"))
+	_, err := db.First(&optionDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateOption(c *gin.Context) {
 	optionDB.CopyBasicFieldsFromOption_WOP(&input.Option_WOP)
 	optionDB.OptionPointersEncoding = input.OptionPointersEncoding
 
-	query = db.Model(&optionDB).Updates(optionDB)
-	if query.Error != nil {
+	db, _ = db.Model(&optionDB)
+	_, err = db.Updates(optionDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteOption(c *gin.Context) {
 
 	// Get model if exist
 	var optionDB orm.OptionDB
-	if err := db.First(&optionDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&optionDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteOption(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&optionDB)
+	db.Unscoped()
+	db.Delete(&optionDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	optionDeleted := new(models.Option)

@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongdoc/go/db"
 	"github.com/fullstack-lang/gongdoc/go/models"
 )
 
@@ -67,7 +68,7 @@ type VerticeDB struct {
 
 	// Declation for basic field verticeDB.Name
 	Name_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	VerticePointersEncoding
@@ -116,7 +117,7 @@ type BackRepoVerticeStruct struct {
 	// stores Vertice according to their gorm ID
 	Map_VerticeDBID_VerticePtr map[uint]*models.Vertice
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -126,7 +127,7 @@ func (backRepoVertice *BackRepoVerticeStruct) GetStage() (stage *models.StageStr
 	return
 }
 
-func (backRepoVertice *BackRepoVerticeStruct) GetDB() *gorm.DB {
+func (backRepoVertice *BackRepoVerticeStruct) GetDB() db.DBInterface {
 	return backRepoVertice.db
 }
 
@@ -163,9 +164,10 @@ func (backRepoVertice *BackRepoVerticeStruct) CommitDeleteInstance(id uint) (Err
 
 	// vertice is not staged anymore, remove verticeDB
 	verticeDB := backRepoVertice.Map_VerticeDBID_VerticeDB[id]
-	query := backRepoVertice.db.Unscoped().Delete(&verticeDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoVertice.db.Unscoped()
+	_, err := db.Delete(verticeDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -189,9 +191,9 @@ func (backRepoVertice *BackRepoVerticeStruct) CommitPhaseOneInstance(vertice *mo
 	var verticeDB VerticeDB
 	verticeDB.CopyBasicFieldsFromVertice(vertice)
 
-	query := backRepoVertice.db.Create(&verticeDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoVertice.db.Create(&verticeDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -223,9 +225,9 @@ func (backRepoVertice *BackRepoVerticeStruct) CommitPhaseTwoInstance(backRepo *B
 		verticeDB.CopyBasicFieldsFromVertice(vertice)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoVertice.db.Save(&verticeDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoVertice.db.Save(verticeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -244,9 +246,9 @@ func (backRepoVertice *BackRepoVerticeStruct) CommitPhaseTwoInstance(backRepo *B
 func (backRepoVertice *BackRepoVerticeStruct) CheckoutPhaseOne() (Error error) {
 
 	verticeDBArray := make([]VerticeDB, 0)
-	query := backRepoVertice.db.Find(&verticeDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoVertice.db.Find(&verticeDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -357,7 +359,7 @@ func (backRepo *BackRepoStruct) CheckoutVertice(vertice *models.Vertice) {
 			var verticeDB VerticeDB
 			verticeDB.ID = id
 
-			if err := backRepo.BackRepoVertice.db.First(&verticeDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoVertice.db.First(&verticeDB, id); err != nil {
 				log.Fatalln("CheckoutVertice : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoVertice.CheckoutPhaseOneInstance(&verticeDB)
@@ -528,9 +530,9 @@ func (backRepoVertice *BackRepoVerticeStruct) rowVisitorVertice(row *xlsx.Row) e
 
 		verticeDB_ID_atBackupTime := verticeDB.ID
 		verticeDB.ID = 0
-		query := backRepoVertice.db.Create(verticeDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoVertice.db.Create(verticeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoVertice.Map_VerticeDBID_VerticeDB[verticeDB.ID] = verticeDB
 		BackRepoVerticeid_atBckpTime_newID[verticeDB_ID_atBackupTime] = verticeDB.ID
@@ -565,9 +567,9 @@ func (backRepoVertice *BackRepoVerticeStruct) RestorePhaseOne(dirPath string) {
 
 		verticeDB_ID_atBackupTime := verticeDB.ID
 		verticeDB.ID = 0
-		query := backRepoVertice.db.Create(verticeDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoVertice.db.Create(verticeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoVertice.Map_VerticeDBID_VerticeDB[verticeDB.ID] = verticeDB
 		BackRepoVerticeid_atBckpTime_newID[verticeDB_ID_atBackupTime] = verticeDB.ID
@@ -589,9 +591,10 @@ func (backRepoVertice *BackRepoVerticeStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoVertice.db.Model(verticeDB).Updates(*verticeDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoVertice.db.Model(verticeDB)
+		_, err := db.Updates(*verticeDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

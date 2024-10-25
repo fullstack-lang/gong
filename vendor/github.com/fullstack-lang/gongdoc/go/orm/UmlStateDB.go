@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongdoc/go/db"
 	"github.com/fullstack-lang/gongdoc/go/models"
 )
 
@@ -67,7 +68,7 @@ type UmlStateDB struct {
 
 	// Declation for basic field umlstateDB.Y
 	Y_Data sql.NullFloat64
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	UmlStatePointersEncoding
@@ -116,7 +117,7 @@ type BackRepoUmlStateStruct struct {
 	// stores UmlState according to their gorm ID
 	Map_UmlStateDBID_UmlStatePtr map[uint]*models.UmlState
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -126,7 +127,7 @@ func (backRepoUmlState *BackRepoUmlStateStruct) GetStage() (stage *models.StageS
 	return
 }
 
-func (backRepoUmlState *BackRepoUmlStateStruct) GetDB() *gorm.DB {
+func (backRepoUmlState *BackRepoUmlStateStruct) GetDB() db.DBInterface {
 	return backRepoUmlState.db
 }
 
@@ -163,9 +164,10 @@ func (backRepoUmlState *BackRepoUmlStateStruct) CommitDeleteInstance(id uint) (E
 
 	// umlstate is not staged anymore, remove umlstateDB
 	umlstateDB := backRepoUmlState.Map_UmlStateDBID_UmlStateDB[id]
-	query := backRepoUmlState.db.Unscoped().Delete(&umlstateDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoUmlState.db.Unscoped()
+	_, err := db.Delete(umlstateDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -189,9 +191,9 @@ func (backRepoUmlState *BackRepoUmlStateStruct) CommitPhaseOneInstance(umlstate 
 	var umlstateDB UmlStateDB
 	umlstateDB.CopyBasicFieldsFromUmlState(umlstate)
 
-	query := backRepoUmlState.db.Create(&umlstateDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoUmlState.db.Create(&umlstateDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -223,9 +225,9 @@ func (backRepoUmlState *BackRepoUmlStateStruct) CommitPhaseTwoInstance(backRepo 
 		umlstateDB.CopyBasicFieldsFromUmlState(umlstate)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoUmlState.db.Save(&umlstateDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoUmlState.db.Save(umlstateDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -244,9 +246,9 @@ func (backRepoUmlState *BackRepoUmlStateStruct) CommitPhaseTwoInstance(backRepo 
 func (backRepoUmlState *BackRepoUmlStateStruct) CheckoutPhaseOne() (Error error) {
 
 	umlstateDBArray := make([]UmlStateDB, 0)
-	query := backRepoUmlState.db.Find(&umlstateDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoUmlState.db.Find(&umlstateDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -357,7 +359,7 @@ func (backRepo *BackRepoStruct) CheckoutUmlState(umlstate *models.UmlState) {
 			var umlstateDB UmlStateDB
 			umlstateDB.ID = id
 
-			if err := backRepo.BackRepoUmlState.db.First(&umlstateDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoUmlState.db.First(&umlstateDB, id); err != nil {
 				log.Fatalln("CheckoutUmlState : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoUmlState.CheckoutPhaseOneInstance(&umlstateDB)
@@ -528,9 +530,9 @@ func (backRepoUmlState *BackRepoUmlStateStruct) rowVisitorUmlState(row *xlsx.Row
 
 		umlstateDB_ID_atBackupTime := umlstateDB.ID
 		umlstateDB.ID = 0
-		query := backRepoUmlState.db.Create(umlstateDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoUmlState.db.Create(umlstateDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoUmlState.Map_UmlStateDBID_UmlStateDB[umlstateDB.ID] = umlstateDB
 		BackRepoUmlStateid_atBckpTime_newID[umlstateDB_ID_atBackupTime] = umlstateDB.ID
@@ -565,9 +567,9 @@ func (backRepoUmlState *BackRepoUmlStateStruct) RestorePhaseOne(dirPath string) 
 
 		umlstateDB_ID_atBackupTime := umlstateDB.ID
 		umlstateDB.ID = 0
-		query := backRepoUmlState.db.Create(umlstateDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoUmlState.db.Create(umlstateDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoUmlState.Map_UmlStateDBID_UmlStateDB[umlstateDB.ID] = umlstateDB
 		BackRepoUmlStateid_atBckpTime_newID[umlstateDB_ID_atBackupTime] = umlstateDB.ID
@@ -589,9 +591,10 @@ func (backRepoUmlState *BackRepoUmlStateStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoUmlState.db.Model(umlstateDB).Updates(*umlstateDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoUmlState.db.Model(umlstateDB)
+		_, err := db.Updates(*umlstateDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongdoc/go/db"
 	"github.com/fullstack-lang/gongdoc/go/models"
 )
 
@@ -88,7 +89,7 @@ type DiagramPackageDB struct {
 
 	// Declation for basic field diagrampackageDB.AbsolutePathToDiagramPackage
 	AbsolutePathToDiagramPackage_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	DiagramPackagePointersEncoding
@@ -146,7 +147,7 @@ type BackRepoDiagramPackageStruct struct {
 	// stores DiagramPackage according to their gorm ID
 	Map_DiagramPackageDBID_DiagramPackagePtr map[uint]*models.DiagramPackage
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -156,7 +157,7 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) GetStage() (stage *m
 	return
 }
 
-func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) GetDB() *gorm.DB {
+func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) GetDB() db.DBInterface {
 	return backRepoDiagramPackage.db
 }
 
@@ -193,9 +194,10 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CommitDeleteInstance
 
 	// diagrampackage is not staged anymore, remove diagrampackageDB
 	diagrampackageDB := backRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackageDB[id]
-	query := backRepoDiagramPackage.db.Unscoped().Delete(&diagrampackageDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoDiagramPackage.db.Unscoped()
+	_, err := db.Delete(diagrampackageDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -219,9 +221,9 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CommitPhaseOneInstan
 	var diagrampackageDB DiagramPackageDB
 	diagrampackageDB.CopyBasicFieldsFromDiagramPackage(diagrampackage)
 
-	query := backRepoDiagramPackage.db.Create(&diagrampackageDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoDiagramPackage.db.Create(&diagrampackageDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -301,9 +303,9 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CommitPhaseTwoInstan
 				append(diagrampackageDB.DiagramPackagePointersEncoding.Umlscs, int(umlscAssocEnd_DB.ID))
 		}
 
-		query := backRepoDiagramPackage.db.Save(&diagrampackageDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoDiagramPackage.db.Save(diagrampackageDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -322,9 +324,9 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CommitPhaseTwoInstan
 func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CheckoutPhaseOne() (Error error) {
 
 	diagrampackageDBArray := make([]DiagramPackageDB, 0)
-	query := backRepoDiagramPackage.db.Find(&diagrampackageDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoDiagramPackage.db.Find(&diagrampackageDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -458,7 +460,7 @@ func (backRepo *BackRepoStruct) CheckoutDiagramPackage(diagrampackage *models.Di
 			var diagrampackageDB DiagramPackageDB
 			diagrampackageDB.ID = id
 
-			if err := backRepo.BackRepoDiagramPackage.db.First(&diagrampackageDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoDiagramPackage.db.First(&diagrampackageDB, id); err != nil {
 				log.Fatalln("CheckoutDiagramPackage : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoDiagramPackage.CheckoutPhaseOneInstance(&diagrampackageDB)
@@ -665,9 +667,9 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) rowVisitorDiagramPac
 
 		diagrampackageDB_ID_atBackupTime := diagrampackageDB.ID
 		diagrampackageDB.ID = 0
-		query := backRepoDiagramPackage.db.Create(diagrampackageDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoDiagramPackage.db.Create(diagrampackageDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackageDB[diagrampackageDB.ID] = diagrampackageDB
 		BackRepoDiagramPackageid_atBckpTime_newID[diagrampackageDB_ID_atBackupTime] = diagrampackageDB.ID
@@ -702,9 +704,9 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) RestorePhaseOne(dirP
 
 		diagrampackageDB_ID_atBackupTime := diagrampackageDB.ID
 		diagrampackageDB.ID = 0
-		query := backRepoDiagramPackage.db.Create(diagrampackageDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoDiagramPackage.db.Create(diagrampackageDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackageDB[diagrampackageDB.ID] = diagrampackageDB
 		BackRepoDiagramPackageid_atBckpTime_newID[diagrampackageDB_ID_atBackupTime] = diagrampackageDB.ID
@@ -732,9 +734,10 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) RestorePhaseTwo() {
 		}
 
 		// update databse with new index encoding
-		query := backRepoDiagramPackage.db.Model(diagrampackageDB).Updates(*diagrampackageDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoDiagramPackage.db.Model(diagrampackageDB)
+		_, err := db.Updates(*diagrampackageDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

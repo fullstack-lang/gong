@@ -10,13 +10,14 @@ import (
 	"path/filepath"
 	"sync"
 
+	"github.com/fullstack-lang/gongtree/go/db"
 	"github.com/fullstack-lang/gongtree/go/models"
 
-	"github.com/tealeg/xlsx/v3"
+	/* THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm
+	"github.com/fullstack-lang/gongtree/go/orm/dbgorm"
+	THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm */
 
-	"github.com/glebarez/sqlite"
-	"gorm.io/gorm"
-	"gorm.io/gorm/schema"
+	"github.com/tealeg/xlsx/v3"
 )
 
 // BackRepoStruct supports callback functions
@@ -43,43 +44,18 @@ type BackRepoStruct struct {
 
 func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepoStruct) {
 
-	// adjust naming strategy to the stack
-	gormConfig := &gorm.Config{
-		NamingStrategy: schema.NamingStrategy{
-			TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
-		},
-	}
-	db, err := gorm.Open(sqlite.Open(filename), gormConfig)
+	var db db.DBInterface
 
-	// since testsim is a multi threaded application. It is important to set up
-	// only one open connexion at a time
-	dbDB_inMemory, err := db.DB()
-	if err != nil {
-		panic("cannot access DB of db" + err.Error())
-	}
-	// it is mandatory to allow parallel access, otherwise, bizarre errors occurs
-	dbDB_inMemory.SetMaxOpenConns(1)
+	db = NewDBLite()
 
-	if err != nil {
-		panic("Failed to connect to database!")
-	}
-
-	// adjust naming strategy to the stack
-	db.Config.NamingStrategy = &schema.NamingStrategy{
-		TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
-	}
-
-	err = db.AutoMigrate( // insertion point for reference to structs
+	/* THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm
+	db = dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gongtree_go",
 		&ButtonDB{},
 		&NodeDB{},
 		&SVGIconDB{},
 		&TreeDB{},
 	)
-
-	if err != nil {
-		msg := err.Error()
-		panic("problem with migration " + msg + " on package github.com/fullstack-lang/gong/test/go")
-	}
+	THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm */
 
 	backRepo = new(BackRepoStruct)
 
@@ -146,7 +122,7 @@ func (backRepo *BackRepoStruct) IncrementCommitFromBackNb() uint {
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 
 	backRepo.broadcastNbCommitToBack()
-	
+
 	return backRepo.CommitFromBackNb
 }
 

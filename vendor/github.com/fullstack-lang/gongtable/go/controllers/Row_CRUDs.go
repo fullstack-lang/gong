@@ -70,12 +70,12 @@ func (controller *Controller) GetRows(c *gin.Context) {
 	}
 	db := backRepo.BackRepoRow.GetDB()
 
-	query := db.Find(&rowDBs)
-	if query.Error != nil {
+	_, err := db.Find(&rowDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostRow(c *gin.Context) {
 	rowDB.RowPointersEncoding = input.RowPointersEncoding
 	rowDB.CopyBasicFieldsFromRow_WOP(&input.Row_WOP)
 
-	query := db.Create(&rowDB)
-	if query.Error != nil {
+	_, err = db.Create(&rowDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetRow(c *gin.Context) {
 
 	// Get rowDB in DB
 	var rowDB orm.RowDB
-	if err := db.First(&rowDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&rowDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateRow(c *gin.Context) {
 	var rowDB orm.RowDB
 
 	// fetch the row
-	query := db.First(&rowDB, c.Param("id"))
+	_, err := db.First(&rowDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateRow(c *gin.Context) {
 	rowDB.CopyBasicFieldsFromRow_WOP(&input.Row_WOP)
 	rowDB.RowPointersEncoding = input.RowPointersEncoding
 
-	query = db.Model(&rowDB).Updates(rowDB)
-	if query.Error != nil {
+	db, _ = db.Model(&rowDB)
+	_, err = db.Updates(rowDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteRow(c *gin.Context) {
 
 	// Get model if exist
 	var rowDB orm.RowDB
-	if err := db.First(&rowDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&rowDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteRow(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&rowDB)
+	db.Unscoped()
+	db.Delete(&rowDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	rowDeleted := new(models.Row)

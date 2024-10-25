@@ -70,12 +70,12 @@ func (controller *Controller) GetFormFieldSelects(c *gin.Context) {
 	}
 	db := backRepo.BackRepoFormFieldSelect.GetDB()
 
-	query := db.Find(&formfieldselectDBs)
-	if query.Error != nil {
+	_, err := db.Find(&formfieldselectDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostFormFieldSelect(c *gin.Context) {
 	formfieldselectDB.FormFieldSelectPointersEncoding = input.FormFieldSelectPointersEncoding
 	formfieldselectDB.CopyBasicFieldsFromFormFieldSelect_WOP(&input.FormFieldSelect_WOP)
 
-	query := db.Create(&formfieldselectDB)
-	if query.Error != nil {
+	_, err = db.Create(&formfieldselectDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetFormFieldSelect(c *gin.Context) {
 
 	// Get formfieldselectDB in DB
 	var formfieldselectDB orm.FormFieldSelectDB
-	if err := db.First(&formfieldselectDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&formfieldselectDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateFormFieldSelect(c *gin.Context) {
 	var formfieldselectDB orm.FormFieldSelectDB
 
 	// fetch the formfieldselect
-	query := db.First(&formfieldselectDB, c.Param("id"))
+	_, err := db.First(&formfieldselectDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateFormFieldSelect(c *gin.Context) {
 	formfieldselectDB.CopyBasicFieldsFromFormFieldSelect_WOP(&input.FormFieldSelect_WOP)
 	formfieldselectDB.FormFieldSelectPointersEncoding = input.FormFieldSelectPointersEncoding
 
-	query = db.Model(&formfieldselectDB).Updates(formfieldselectDB)
-	if query.Error != nil {
+	db, _ = db.Model(&formfieldselectDB)
+	_, err = db.Updates(formfieldselectDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteFormFieldSelect(c *gin.Context) {
 
 	// Get model if exist
 	var formfieldselectDB orm.FormFieldSelectDB
-	if err := db.First(&formfieldselectDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&formfieldselectDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteFormFieldSelect(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&formfieldselectDB)
+	db.Unscoped()
+	db.Delete(&formfieldselectDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	formfieldselectDeleted := new(models.FormFieldSelect)

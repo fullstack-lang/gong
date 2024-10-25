@@ -70,12 +70,12 @@ func (controller *Controller) GetVertices(c *gin.Context) {
 	}
 	db := backRepo.BackRepoVertice.GetDB()
 
-	query := db.Find(&verticeDBs)
-	if query.Error != nil {
+	_, err := db.Find(&verticeDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostVertice(c *gin.Context) {
 	verticeDB.VerticePointersEncoding = input.VerticePointersEncoding
 	verticeDB.CopyBasicFieldsFromVertice_WOP(&input.Vertice_WOP)
 
-	query := db.Create(&verticeDB)
-	if query.Error != nil {
+	_, err = db.Create(&verticeDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetVertice(c *gin.Context) {
 
 	// Get verticeDB in DB
 	var verticeDB orm.VerticeDB
-	if err := db.First(&verticeDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&verticeDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateVertice(c *gin.Context) {
 	var verticeDB orm.VerticeDB
 
 	// fetch the vertice
-	query := db.First(&verticeDB, c.Param("id"))
+	_, err := db.First(&verticeDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateVertice(c *gin.Context) {
 	verticeDB.CopyBasicFieldsFromVertice_WOP(&input.Vertice_WOP)
 	verticeDB.VerticePointersEncoding = input.VerticePointersEncoding
 
-	query = db.Model(&verticeDB).Updates(verticeDB)
-	if query.Error != nil {
+	db, _ = db.Model(&verticeDB)
+	_, err = db.Updates(verticeDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteVertice(c *gin.Context) {
 
 	// Get model if exist
 	var verticeDB orm.VerticeDB
-	if err := db.First(&verticeDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&verticeDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteVertice(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&verticeDB)
+	db.Unscoped()
+	db.Delete(&verticeDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	verticeDeleted := new(models.Vertice)

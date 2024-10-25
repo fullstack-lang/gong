@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongtable/go/db"
 	"github.com/fullstack-lang/gongtable/go/models"
 )
 
@@ -61,7 +62,7 @@ type OptionDB struct {
 
 	// Declation for basic field optionDB.Name
 	Name_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	OptionPointersEncoding
@@ -104,7 +105,7 @@ type BackRepoOptionStruct struct {
 	// stores Option according to their gorm ID
 	Map_OptionDBID_OptionPtr map[uint]*models.Option
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -114,7 +115,7 @@ func (backRepoOption *BackRepoOptionStruct) GetStage() (stage *models.StageStruc
 	return
 }
 
-func (backRepoOption *BackRepoOptionStruct) GetDB() *gorm.DB {
+func (backRepoOption *BackRepoOptionStruct) GetDB() db.DBInterface {
 	return backRepoOption.db
 }
 
@@ -151,9 +152,10 @@ func (backRepoOption *BackRepoOptionStruct) CommitDeleteInstance(id uint) (Error
 
 	// option is not staged anymore, remove optionDB
 	optionDB := backRepoOption.Map_OptionDBID_OptionDB[id]
-	query := backRepoOption.db.Unscoped().Delete(&optionDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoOption.db.Unscoped()
+	_, err := db.Delete(optionDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -177,9 +179,9 @@ func (backRepoOption *BackRepoOptionStruct) CommitPhaseOneInstance(option *model
 	var optionDB OptionDB
 	optionDB.CopyBasicFieldsFromOption(option)
 
-	query := backRepoOption.db.Create(&optionDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoOption.db.Create(&optionDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -211,9 +213,9 @@ func (backRepoOption *BackRepoOptionStruct) CommitPhaseTwoInstance(backRepo *Bac
 		optionDB.CopyBasicFieldsFromOption(option)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoOption.db.Save(&optionDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoOption.db.Save(optionDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -232,9 +234,9 @@ func (backRepoOption *BackRepoOptionStruct) CommitPhaseTwoInstance(backRepo *Bac
 func (backRepoOption *BackRepoOptionStruct) CheckoutPhaseOne() (Error error) {
 
 	optionDBArray := make([]OptionDB, 0)
-	query := backRepoOption.db.Find(&optionDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoOption.db.Find(&optionDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -345,7 +347,7 @@ func (backRepo *BackRepoStruct) CheckoutOption(option *models.Option) {
 			var optionDB OptionDB
 			optionDB.ID = id
 
-			if err := backRepo.BackRepoOption.db.First(&optionDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoOption.db.First(&optionDB, id); err != nil {
 				log.Fatalln("CheckoutOption : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoOption.CheckoutPhaseOneInstance(&optionDB)
@@ -492,9 +494,9 @@ func (backRepoOption *BackRepoOptionStruct) rowVisitorOption(row *xlsx.Row) erro
 
 		optionDB_ID_atBackupTime := optionDB.ID
 		optionDB.ID = 0
-		query := backRepoOption.db.Create(optionDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoOption.db.Create(optionDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoOption.Map_OptionDBID_OptionDB[optionDB.ID] = optionDB
 		BackRepoOptionid_atBckpTime_newID[optionDB_ID_atBackupTime] = optionDB.ID
@@ -529,9 +531,9 @@ func (backRepoOption *BackRepoOptionStruct) RestorePhaseOne(dirPath string) {
 
 		optionDB_ID_atBackupTime := optionDB.ID
 		optionDB.ID = 0
-		query := backRepoOption.db.Create(optionDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoOption.db.Create(optionDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoOption.Map_OptionDBID_OptionDB[optionDB.ID] = optionDB
 		BackRepoOptionid_atBckpTime_newID[optionDB_ID_atBackupTime] = optionDB.ID
@@ -553,9 +555,10 @@ func (backRepoOption *BackRepoOptionStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoOption.db.Model(optionDB).Updates(*optionDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoOption.db.Model(optionDB)
+		_, err := db.Updates(*optionDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

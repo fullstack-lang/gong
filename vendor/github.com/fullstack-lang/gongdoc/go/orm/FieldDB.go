@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongdoc/go/db"
 	"github.com/fullstack-lang/gongdoc/go/models"
 )
 
@@ -73,7 +74,7 @@ type FieldDB struct {
 
 	// Declation for basic field fieldDB.Fieldtypename
 	Fieldtypename_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FieldPointersEncoding
@@ -128,7 +129,7 @@ type BackRepoFieldStruct struct {
 	// stores Field according to their gorm ID
 	Map_FieldDBID_FieldPtr map[uint]*models.Field
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -138,7 +139,7 @@ func (backRepoField *BackRepoFieldStruct) GetStage() (stage *models.StageStruct)
 	return
 }
 
-func (backRepoField *BackRepoFieldStruct) GetDB() *gorm.DB {
+func (backRepoField *BackRepoFieldStruct) GetDB() db.DBInterface {
 	return backRepoField.db
 }
 
@@ -175,9 +176,10 @@ func (backRepoField *BackRepoFieldStruct) CommitDeleteInstance(id uint) (Error e
 
 	// field is not staged anymore, remove fieldDB
 	fieldDB := backRepoField.Map_FieldDBID_FieldDB[id]
-	query := backRepoField.db.Unscoped().Delete(&fieldDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoField.db.Unscoped()
+	_, err := db.Delete(fieldDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -201,9 +203,9 @@ func (backRepoField *BackRepoFieldStruct) CommitPhaseOneInstance(field *models.F
 	var fieldDB FieldDB
 	fieldDB.CopyBasicFieldsFromField(field)
 
-	query := backRepoField.db.Create(&fieldDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoField.db.Create(&fieldDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -235,9 +237,9 @@ func (backRepoField *BackRepoFieldStruct) CommitPhaseTwoInstance(backRepo *BackR
 		fieldDB.CopyBasicFieldsFromField(field)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoField.db.Save(&fieldDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoField.db.Save(fieldDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -256,9 +258,9 @@ func (backRepoField *BackRepoFieldStruct) CommitPhaseTwoInstance(backRepo *BackR
 func (backRepoField *BackRepoFieldStruct) CheckoutPhaseOne() (Error error) {
 
 	fieldDBArray := make([]FieldDB, 0)
-	query := backRepoField.db.Find(&fieldDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoField.db.Find(&fieldDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -369,7 +371,7 @@ func (backRepo *BackRepoStruct) CheckoutField(field *models.Field) {
 			var fieldDB FieldDB
 			fieldDB.ID = id
 
-			if err := backRepo.BackRepoField.db.First(&fieldDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoField.db.First(&fieldDB, id); err != nil {
 				log.Fatalln("CheckoutField : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoField.CheckoutPhaseOneInstance(&fieldDB)
@@ -564,9 +566,9 @@ func (backRepoField *BackRepoFieldStruct) rowVisitorField(row *xlsx.Row) error {
 
 		fieldDB_ID_atBackupTime := fieldDB.ID
 		fieldDB.ID = 0
-		query := backRepoField.db.Create(fieldDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoField.db.Create(fieldDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoField.Map_FieldDBID_FieldDB[fieldDB.ID] = fieldDB
 		BackRepoFieldid_atBckpTime_newID[fieldDB_ID_atBackupTime] = fieldDB.ID
@@ -601,9 +603,9 @@ func (backRepoField *BackRepoFieldStruct) RestorePhaseOne(dirPath string) {
 
 		fieldDB_ID_atBackupTime := fieldDB.ID
 		fieldDB.ID = 0
-		query := backRepoField.db.Create(fieldDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoField.db.Create(fieldDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoField.Map_FieldDBID_FieldDB[fieldDB.ID] = fieldDB
 		BackRepoFieldid_atBckpTime_newID[fieldDB_ID_atBackupTime] = fieldDB.ID
@@ -625,9 +627,10 @@ func (backRepoField *BackRepoFieldStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoField.db.Model(fieldDB).Updates(*fieldDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoField.db.Model(fieldDB)
+		_, err := db.Updates(*fieldDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

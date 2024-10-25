@@ -70,12 +70,12 @@ func (controller *Controller) GetNoteShapeLinks(c *gin.Context) {
 	}
 	db := backRepo.BackRepoNoteShapeLink.GetDB()
 
-	query := db.Find(&noteshapelinkDBs)
-	if query.Error != nil {
+	_, err := db.Find(&noteshapelinkDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostNoteShapeLink(c *gin.Context) {
 	noteshapelinkDB.NoteShapeLinkPointersEncoding = input.NoteShapeLinkPointersEncoding
 	noteshapelinkDB.CopyBasicFieldsFromNoteShapeLink_WOP(&input.NoteShapeLink_WOP)
 
-	query := db.Create(&noteshapelinkDB)
-	if query.Error != nil {
+	_, err = db.Create(&noteshapelinkDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetNoteShapeLink(c *gin.Context) {
 
 	// Get noteshapelinkDB in DB
 	var noteshapelinkDB orm.NoteShapeLinkDB
-	if err := db.First(&noteshapelinkDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&noteshapelinkDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateNoteShapeLink(c *gin.Context) {
 	var noteshapelinkDB orm.NoteShapeLinkDB
 
 	// fetch the noteshapelink
-	query := db.First(&noteshapelinkDB, c.Param("id"))
+	_, err := db.First(&noteshapelinkDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateNoteShapeLink(c *gin.Context) {
 	noteshapelinkDB.CopyBasicFieldsFromNoteShapeLink_WOP(&input.NoteShapeLink_WOP)
 	noteshapelinkDB.NoteShapeLinkPointersEncoding = input.NoteShapeLinkPointersEncoding
 
-	query = db.Model(&noteshapelinkDB).Updates(noteshapelinkDB)
-	if query.Error != nil {
+	db, _ = db.Model(&noteshapelinkDB)
+	_, err = db.Updates(noteshapelinkDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteNoteShapeLink(c *gin.Context) {
 
 	// Get model if exist
 	var noteshapelinkDB orm.NoteShapeLinkDB
-	if err := db.First(&noteshapelinkDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&noteshapelinkDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteNoteShapeLink(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&noteshapelinkDB)
+	db.Unscoped()
+	db.Delete(&noteshapelinkDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	noteshapelinkDeleted := new(models.NoteShapeLink)

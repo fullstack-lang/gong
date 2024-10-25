@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongdoc/go/db"
 	"github.com/fullstack-lang/gongdoc/go/models"
 )
 
@@ -67,7 +68,7 @@ type PositionDB struct {
 
 	// Declation for basic field positionDB.Name
 	Name_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	PositionPointersEncoding
@@ -116,7 +117,7 @@ type BackRepoPositionStruct struct {
 	// stores Position according to their gorm ID
 	Map_PositionDBID_PositionPtr map[uint]*models.Position
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -126,7 +127,7 @@ func (backRepoPosition *BackRepoPositionStruct) GetStage() (stage *models.StageS
 	return
 }
 
-func (backRepoPosition *BackRepoPositionStruct) GetDB() *gorm.DB {
+func (backRepoPosition *BackRepoPositionStruct) GetDB() db.DBInterface {
 	return backRepoPosition.db
 }
 
@@ -163,9 +164,10 @@ func (backRepoPosition *BackRepoPositionStruct) CommitDeleteInstance(id uint) (E
 
 	// position is not staged anymore, remove positionDB
 	positionDB := backRepoPosition.Map_PositionDBID_PositionDB[id]
-	query := backRepoPosition.db.Unscoped().Delete(&positionDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoPosition.db.Unscoped()
+	_, err := db.Delete(positionDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -189,9 +191,9 @@ func (backRepoPosition *BackRepoPositionStruct) CommitPhaseOneInstance(position 
 	var positionDB PositionDB
 	positionDB.CopyBasicFieldsFromPosition(position)
 
-	query := backRepoPosition.db.Create(&positionDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoPosition.db.Create(&positionDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -223,9 +225,9 @@ func (backRepoPosition *BackRepoPositionStruct) CommitPhaseTwoInstance(backRepo 
 		positionDB.CopyBasicFieldsFromPosition(position)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoPosition.db.Save(&positionDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoPosition.db.Save(positionDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -244,9 +246,9 @@ func (backRepoPosition *BackRepoPositionStruct) CommitPhaseTwoInstance(backRepo 
 func (backRepoPosition *BackRepoPositionStruct) CheckoutPhaseOne() (Error error) {
 
 	positionDBArray := make([]PositionDB, 0)
-	query := backRepoPosition.db.Find(&positionDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoPosition.db.Find(&positionDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -357,7 +359,7 @@ func (backRepo *BackRepoStruct) CheckoutPosition(position *models.Position) {
 			var positionDB PositionDB
 			positionDB.ID = id
 
-			if err := backRepo.BackRepoPosition.db.First(&positionDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoPosition.db.First(&positionDB, id); err != nil {
 				log.Fatalln("CheckoutPosition : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoPosition.CheckoutPhaseOneInstance(&positionDB)
@@ -528,9 +530,9 @@ func (backRepoPosition *BackRepoPositionStruct) rowVisitorPosition(row *xlsx.Row
 
 		positionDB_ID_atBackupTime := positionDB.ID
 		positionDB.ID = 0
-		query := backRepoPosition.db.Create(positionDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoPosition.db.Create(positionDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoPosition.Map_PositionDBID_PositionDB[positionDB.ID] = positionDB
 		BackRepoPositionid_atBckpTime_newID[positionDB_ID_atBackupTime] = positionDB.ID
@@ -565,9 +567,9 @@ func (backRepoPosition *BackRepoPositionStruct) RestorePhaseOne(dirPath string) 
 
 		positionDB_ID_atBackupTime := positionDB.ID
 		positionDB.ID = 0
-		query := backRepoPosition.db.Create(positionDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoPosition.db.Create(positionDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoPosition.Map_PositionDBID_PositionDB[positionDB.ID] = positionDB
 		BackRepoPositionid_atBckpTime_newID[positionDB_ID_atBackupTime] = positionDB.ID
@@ -589,9 +591,10 @@ func (backRepoPosition *BackRepoPositionStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoPosition.db.Model(positionDB).Updates(*positionDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoPosition.db.Model(positionDB)
+		_, err := db.Updates(*positionDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

@@ -70,12 +70,12 @@ func (controller *Controller) GetFormGroups(c *gin.Context) {
 	}
 	db := backRepo.BackRepoFormGroup.GetDB()
 
-	query := db.Find(&formgroupDBs)
-	if query.Error != nil {
+	_, err := db.Find(&formgroupDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostFormGroup(c *gin.Context) {
 	formgroupDB.FormGroupPointersEncoding = input.FormGroupPointersEncoding
 	formgroupDB.CopyBasicFieldsFromFormGroup_WOP(&input.FormGroup_WOP)
 
-	query := db.Create(&formgroupDB)
-	if query.Error != nil {
+	_, err = db.Create(&formgroupDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetFormGroup(c *gin.Context) {
 
 	// Get formgroupDB in DB
 	var formgroupDB orm.FormGroupDB
-	if err := db.First(&formgroupDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&formgroupDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateFormGroup(c *gin.Context) {
 	var formgroupDB orm.FormGroupDB
 
 	// fetch the formgroup
-	query := db.First(&formgroupDB, c.Param("id"))
+	_, err := db.First(&formgroupDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateFormGroup(c *gin.Context) {
 	formgroupDB.CopyBasicFieldsFromFormGroup_WOP(&input.FormGroup_WOP)
 	formgroupDB.FormGroupPointersEncoding = input.FormGroupPointersEncoding
 
-	query = db.Model(&formgroupDB).Updates(formgroupDB)
-	if query.Error != nil {
+	db, _ = db.Model(&formgroupDB)
+	_, err = db.Updates(formgroupDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteFormGroup(c *gin.Context) {
 
 	// Get model if exist
 	var formgroupDB orm.FormGroupDB
-	if err := db.First(&formgroupDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&formgroupDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteFormGroup(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&formgroupDB)
+	db.Unscoped()
+	db.Delete(&formgroupDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	formgroupDeleted := new(models.FormGroup)
