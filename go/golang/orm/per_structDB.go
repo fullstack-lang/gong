@@ -162,7 +162,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitDeleteInstance
 	// {{structname}} is not staged anymore, remove {{structname}}DB
 	{{structname}}DB := backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB[id]
 	db, _ := backRepo{{Structname}}.db.Unscoped()
-	_, err := db.Delete(&{{structname}}DB)
+	_, err := db.Delete({{structname}}DB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -222,7 +222,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitPhaseTwoInstan
 		{{structname}}DB.CopyBasicFieldsFrom{{Structname}}({{structname}})
 
 		// insertion point for translating pointers encodings into actual pointers{{` + string(rune(BackRepoPointerEncodingFieldsCommit)) + `}}
-		_, err := backRepo{{Structname}}.db.Save(&{{structname}}DB)
+		_, err := backRepo{{Structname}}.db.Save({{structname}}DB)
 		if err != nil {
 			log.Fatal(err)
 		}
