@@ -165,7 +165,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CommitDeleteInstance(id uint) (E
 	// gonglink is not staged anymore, remove gonglinkDB
 	gonglinkDB := backRepoGongLink.Map_GongLinkDBID_GongLinkDB[id]
 	db, _ := backRepoGongLink.db.Unscoped()
-	_, err := db.Delete(&gonglinkDB)
+	_, err := db.Delete(gonglinkDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -225,7 +225,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CommitPhaseTwoInstance(backRepo 
 		gonglinkDB.CopyBasicFieldsFromGongLink(gonglink)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoGongLink.db.Save(&gonglinkDB)
+		_, err := backRepoGongLink.db.Save(gonglinkDB)
 		if err != nil {
 			log.Fatal(err)
 		}

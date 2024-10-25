@@ -234,6 +234,8 @@ func FillUpForm[T models.Gongstruct](
 			false, false, 0, false, 0)
 		BasicFieldtoForm("DbOrmPkgGenPath", instanceWithInferedType.DbOrmPkgGenPath, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("DbLiteOrmPkgGenPath", instanceWithInferedType.DbLiteOrmPkgGenPath, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		BasicFieldtoForm("DbPkgGenPath", instanceWithInferedType.DbPkgGenPath, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("ControllersPkgGenPath", instanceWithInferedType.ControllersPkgGenPath, instanceWithInferedType, probe.formStage, formGroup,

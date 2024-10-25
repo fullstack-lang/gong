@@ -171,7 +171,7 @@ func (backRepoGstruct *BackRepoGstructStruct) CommitDeleteInstance(id uint) (Err
 	// gstruct is not staged anymore, remove gstructDB
 	gstructDB := backRepoGstruct.Map_GstructDBID_GstructDB[id]
 	db, _ := backRepoGstruct.db.Unscoped()
-	_, err := db.Delete(&gstructDB)
+	_, err := db.Delete(gstructDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -231,7 +231,7 @@ func (backRepoGstruct *BackRepoGstructStruct) CommitPhaseTwoInstance(backRepo *B
 		gstructDB.CopyBasicFieldsFromGstruct(gstruct)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoGstruct.db.Save(&gstructDB)
+		_, err := backRepoGstruct.db.Save(gstructDB)
 		if err != nil {
 			log.Fatal(err)
 		}

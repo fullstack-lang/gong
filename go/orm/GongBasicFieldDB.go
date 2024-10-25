@@ -221,7 +221,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CommitDeleteInstance
 	// gongbasicfield is not staged anymore, remove gongbasicfieldDB
 	gongbasicfieldDB := backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB[id]
 	db, _ := backRepoGongBasicField.db.Unscoped()
-	_, err := db.Delete(&gongbasicfieldDB)
+	_, err := db.Delete(gongbasicfieldDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -293,7 +293,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CommitPhaseTwoInstan
 			gongbasicfieldDB.GongEnumID.Valid = true
 		}
 
-		_, err := backRepoGongBasicField.db.Save(&gongbasicfieldDB)
+		_, err := backRepoGongBasicField.db.Save(gongbasicfieldDB)
 		if err != nil {
 			log.Fatal(err)
 		}
