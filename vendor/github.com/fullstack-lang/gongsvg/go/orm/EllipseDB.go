@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongsvg/go/db"
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
@@ -100,7 +101,7 @@ type EllipseDB struct {
 
 	// Declation for basic field ellipseDB.Transform
 	Transform_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	EllipsePointersEncoding
@@ -179,7 +180,7 @@ type BackRepoEllipseStruct struct {
 	// stores Ellipse according to their gorm ID
 	Map_EllipseDBID_EllipsePtr map[uint]*models.Ellipse
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -189,7 +190,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) GetStage() (stage *models.StageStr
 	return
 }
 
-func (backRepoEllipse *BackRepoEllipseStruct) GetDB() *gorm.DB {
+func (backRepoEllipse *BackRepoEllipseStruct) GetDB() db.DBInterface {
 	return backRepoEllipse.db
 }
 
@@ -226,9 +227,10 @@ func (backRepoEllipse *BackRepoEllipseStruct) CommitDeleteInstance(id uint) (Err
 
 	// ellipse is not staged anymore, remove ellipseDB
 	ellipseDB := backRepoEllipse.Map_EllipseDBID_EllipseDB[id]
-	query := backRepoEllipse.db.Unscoped().Delete(&ellipseDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoEllipse.db.Unscoped()
+	_, err := db.Delete(ellipseDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -252,9 +254,9 @@ func (backRepoEllipse *BackRepoEllipseStruct) CommitPhaseOneInstance(ellipse *mo
 	var ellipseDB EllipseDB
 	ellipseDB.CopyBasicFieldsFromEllipse(ellipse)
 
-	query := backRepoEllipse.db.Create(&ellipseDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoEllipse.db.Create(&ellipseDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -304,9 +306,9 @@ func (backRepoEllipse *BackRepoEllipseStruct) CommitPhaseTwoInstance(backRepo *B
 				append(ellipseDB.EllipsePointersEncoding.Animates, int(animateAssocEnd_DB.ID))
 		}
 
-		query := backRepoEllipse.db.Save(&ellipseDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoEllipse.db.Save(ellipseDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -325,9 +327,9 @@ func (backRepoEllipse *BackRepoEllipseStruct) CommitPhaseTwoInstance(backRepo *B
 func (backRepoEllipse *BackRepoEllipseStruct) CheckoutPhaseOne() (Error error) {
 
 	ellipseDBArray := make([]EllipseDB, 0)
-	query := backRepoEllipse.db.Find(&ellipseDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoEllipse.db.Find(&ellipseDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -447,7 +449,7 @@ func (backRepo *BackRepoStruct) CheckoutEllipse(ellipse *models.Ellipse) {
 			var ellipseDB EllipseDB
 			ellipseDB.ID = id
 
-			if err := backRepo.BackRepoEllipse.db.First(&ellipseDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoEllipse.db.First(&ellipseDB, id); err != nil {
 				log.Fatalln("CheckoutEllipse : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoEllipse.CheckoutPhaseOneInstance(&ellipseDB)
@@ -738,9 +740,9 @@ func (backRepoEllipse *BackRepoEllipseStruct) rowVisitorEllipse(row *xlsx.Row) e
 
 		ellipseDB_ID_atBackupTime := ellipseDB.ID
 		ellipseDB.ID = 0
-		query := backRepoEllipse.db.Create(ellipseDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoEllipse.db.Create(ellipseDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoEllipse.Map_EllipseDBID_EllipseDB[ellipseDB.ID] = ellipseDB
 		BackRepoEllipseid_atBckpTime_newID[ellipseDB_ID_atBackupTime] = ellipseDB.ID
@@ -775,9 +777,9 @@ func (backRepoEllipse *BackRepoEllipseStruct) RestorePhaseOne(dirPath string) {
 
 		ellipseDB_ID_atBackupTime := ellipseDB.ID
 		ellipseDB.ID = 0
-		query := backRepoEllipse.db.Create(ellipseDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoEllipse.db.Create(ellipseDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoEllipse.Map_EllipseDBID_EllipseDB[ellipseDB.ID] = ellipseDB
 		BackRepoEllipseid_atBckpTime_newID[ellipseDB_ID_atBackupTime] = ellipseDB.ID
@@ -799,9 +801,10 @@ func (backRepoEllipse *BackRepoEllipseStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoEllipse.db.Model(ellipseDB).Updates(*ellipseDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoEllipse.db.Model(ellipseDB)
+		_, err := db.Updates(*ellipseDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

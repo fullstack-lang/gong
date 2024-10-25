@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongsvg/go/db"
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
@@ -104,7 +105,7 @@ type RectAnchoredPathDB struct {
 
 	// Declation for basic field rectanchoredpathDB.Transform
 	Transform_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	RectAnchoredPathPointersEncoding
@@ -189,7 +190,7 @@ type BackRepoRectAnchoredPathStruct struct {
 	// stores RectAnchoredPath according to their gorm ID
 	Map_RectAnchoredPathDBID_RectAnchoredPathPtr map[uint]*models.RectAnchoredPath
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -199,7 +200,7 @@ func (backRepoRectAnchoredPath *BackRepoRectAnchoredPathStruct) GetStage() (stag
 	return
 }
 
-func (backRepoRectAnchoredPath *BackRepoRectAnchoredPathStruct) GetDB() *gorm.DB {
+func (backRepoRectAnchoredPath *BackRepoRectAnchoredPathStruct) GetDB() db.DBInterface {
 	return backRepoRectAnchoredPath.db
 }
 
@@ -236,9 +237,10 @@ func (backRepoRectAnchoredPath *BackRepoRectAnchoredPathStruct) CommitDeleteInst
 
 	// rectanchoredpath is not staged anymore, remove rectanchoredpathDB
 	rectanchoredpathDB := backRepoRectAnchoredPath.Map_RectAnchoredPathDBID_RectAnchoredPathDB[id]
-	query := backRepoRectAnchoredPath.db.Unscoped().Delete(&rectanchoredpathDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoRectAnchoredPath.db.Unscoped()
+	_, err := db.Delete(rectanchoredpathDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -262,9 +264,9 @@ func (backRepoRectAnchoredPath *BackRepoRectAnchoredPathStruct) CommitPhaseOneIn
 	var rectanchoredpathDB RectAnchoredPathDB
 	rectanchoredpathDB.CopyBasicFieldsFromRectAnchoredPath(rectanchoredpath)
 
-	query := backRepoRectAnchoredPath.db.Create(&rectanchoredpathDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoRectAnchoredPath.db.Create(&rectanchoredpathDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -296,9 +298,9 @@ func (backRepoRectAnchoredPath *BackRepoRectAnchoredPathStruct) CommitPhaseTwoIn
 		rectanchoredpathDB.CopyBasicFieldsFromRectAnchoredPath(rectanchoredpath)
 
 		// insertion point for translating pointers encodings into actual pointers
-		query := backRepoRectAnchoredPath.db.Save(&rectanchoredpathDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoRectAnchoredPath.db.Save(rectanchoredpathDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -317,9 +319,9 @@ func (backRepoRectAnchoredPath *BackRepoRectAnchoredPathStruct) CommitPhaseTwoIn
 func (backRepoRectAnchoredPath *BackRepoRectAnchoredPathStruct) CheckoutPhaseOne() (Error error) {
 
 	rectanchoredpathDBArray := make([]RectAnchoredPathDB, 0)
-	query := backRepoRectAnchoredPath.db.Find(&rectanchoredpathDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoRectAnchoredPath.db.Find(&rectanchoredpathDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -430,7 +432,7 @@ func (backRepo *BackRepoStruct) CheckoutRectAnchoredPath(rectanchoredpath *model
 			var rectanchoredpathDB RectAnchoredPathDB
 			rectanchoredpathDB.ID = id
 
-			if err := backRepo.BackRepoRectAnchoredPath.db.First(&rectanchoredpathDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoRectAnchoredPath.db.First(&rectanchoredpathDB, id); err != nil {
 				log.Fatalln("CheckoutRectAnchoredPath : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoRectAnchoredPath.CheckoutPhaseOneInstance(&rectanchoredpathDB)
@@ -745,9 +747,9 @@ func (backRepoRectAnchoredPath *BackRepoRectAnchoredPathStruct) rowVisitorRectAn
 
 		rectanchoredpathDB_ID_atBackupTime := rectanchoredpathDB.ID
 		rectanchoredpathDB.ID = 0
-		query := backRepoRectAnchoredPath.db.Create(rectanchoredpathDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoRectAnchoredPath.db.Create(rectanchoredpathDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoRectAnchoredPath.Map_RectAnchoredPathDBID_RectAnchoredPathDB[rectanchoredpathDB.ID] = rectanchoredpathDB
 		BackRepoRectAnchoredPathid_atBckpTime_newID[rectanchoredpathDB_ID_atBackupTime] = rectanchoredpathDB.ID
@@ -782,9 +784,9 @@ func (backRepoRectAnchoredPath *BackRepoRectAnchoredPathStruct) RestorePhaseOne(
 
 		rectanchoredpathDB_ID_atBackupTime := rectanchoredpathDB.ID
 		rectanchoredpathDB.ID = 0
-		query := backRepoRectAnchoredPath.db.Create(rectanchoredpathDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoRectAnchoredPath.db.Create(rectanchoredpathDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoRectAnchoredPath.Map_RectAnchoredPathDBID_RectAnchoredPathDB[rectanchoredpathDB.ID] = rectanchoredpathDB
 		BackRepoRectAnchoredPathid_atBckpTime_newID[rectanchoredpathDB_ID_atBackupTime] = rectanchoredpathDB.ID
@@ -806,9 +808,10 @@ func (backRepoRectAnchoredPath *BackRepoRectAnchoredPathStruct) RestorePhaseTwo(
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoRectAnchoredPath.db.Model(rectanchoredpathDB).Updates(*rectanchoredpathDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoRectAnchoredPath.db.Model(rectanchoredpathDB)
+		_, err := db.Updates(*rectanchoredpathDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

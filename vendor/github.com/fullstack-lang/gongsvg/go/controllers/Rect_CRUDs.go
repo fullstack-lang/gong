@@ -70,12 +70,12 @@ func (controller *Controller) GetRects(c *gin.Context) {
 	}
 	db := backRepo.BackRepoRect.GetDB()
 
-	query := db.Find(&rectDBs)
-	if query.Error != nil {
+	_, err := db.Find(&rectDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostRect(c *gin.Context) {
 	rectDB.RectPointersEncoding = input.RectPointersEncoding
 	rectDB.CopyBasicFieldsFromRect_WOP(&input.Rect_WOP)
 
-	query := db.Create(&rectDB)
-	if query.Error != nil {
+	_, err = db.Create(&rectDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetRect(c *gin.Context) {
 
 	// Get rectDB in DB
 	var rectDB orm.RectDB
-	if err := db.First(&rectDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&rectDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateRect(c *gin.Context) {
 	var rectDB orm.RectDB
 
 	// fetch the rect
-	query := db.First(&rectDB, c.Param("id"))
+	_, err := db.First(&rectDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateRect(c *gin.Context) {
 	rectDB.CopyBasicFieldsFromRect_WOP(&input.Rect_WOP)
 	rectDB.RectPointersEncoding = input.RectPointersEncoding
 
-	query = db.Model(&rectDB).Updates(rectDB)
-	if query.Error != nil {
+	db, _ = db.Model(&rectDB)
+	_, err = db.Updates(&rectDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteRect(c *gin.Context) {
 
 	// Get model if exist
 	var rectDB orm.RectDB
-	if err := db.First(&rectDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&rectDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteRect(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&rectDB)
+	db.Unscoped()
+	db.Delete(&rectDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	rectDeleted := new(models.Rect)

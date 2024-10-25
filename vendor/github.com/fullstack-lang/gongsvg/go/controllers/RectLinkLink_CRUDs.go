@@ -70,12 +70,12 @@ func (controller *Controller) GetRectLinkLinks(c *gin.Context) {
 	}
 	db := backRepo.BackRepoRectLinkLink.GetDB()
 
-	query := db.Find(&rectlinklinkDBs)
-	if query.Error != nil {
+	_, err := db.Find(&rectlinklinkDBs)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -151,12 +151,12 @@ func (controller *Controller) PostRectLinkLink(c *gin.Context) {
 	rectlinklinkDB.RectLinkLinkPointersEncoding = input.RectLinkLinkPointersEncoding
 	rectlinklinkDB.CopyBasicFieldsFromRectLinkLink_WOP(&input.RectLinkLink_WOP)
 
-	query := db.Create(&rectlinklinkDB)
-	if query.Error != nil {
+	_, err = db.Create(&rectlinklinkDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -205,7 +205,7 @@ func (controller *Controller) GetRectLinkLink(c *gin.Context) {
 
 	// Get rectlinklinkDB in DB
 	var rectlinklinkDB orm.RectLinkLinkDB
-	if err := db.First(&rectlinklinkDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&rectlinklinkDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -264,13 +264,13 @@ func (controller *Controller) UpdateRectLinkLink(c *gin.Context) {
 	var rectlinklinkDB orm.RectLinkLinkDB
 
 	// fetch the rectlinklink
-	query := db.First(&rectlinklinkDB, c.Param("id"))
+	_, err := db.First(&rectlinklinkDB, c.Param("id"))
 
-	if query.Error != nil {
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -279,12 +279,13 @@ func (controller *Controller) UpdateRectLinkLink(c *gin.Context) {
 	rectlinklinkDB.CopyBasicFieldsFromRectLinkLink_WOP(&input.RectLinkLink_WOP)
 	rectlinklinkDB.RectLinkLinkPointersEncoding = input.RectLinkLinkPointersEncoding
 
-	query = db.Model(&rectlinklinkDB).Updates(rectlinklinkDB)
-	if query.Error != nil {
+	db, _ = db.Model(&rectlinklinkDB)
+	_, err = db.Updates(&rectlinklinkDB)
+	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
-		returnError.Body.Message = query.Error.Error()
-		log.Println(query.Error.Error())
+		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -343,7 +344,7 @@ func (controller *Controller) DeleteRectLinkLink(c *gin.Context) {
 
 	// Get model if exist
 	var rectlinklinkDB orm.RectLinkLinkDB
-	if err := db.First(&rectlinklinkDB, c.Param("id")).Error; err != nil {
+	if _, err := db.First(&rectlinklinkDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -353,7 +354,8 @@ func (controller *Controller) DeleteRectLinkLink(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&rectlinklinkDB)
+	db.Unscoped()
+	db.Delete(&rectlinklinkDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
 	rectlinklinkDeleted := new(models.RectLinkLink)

@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongsvg/go/db"
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
@@ -79,7 +80,7 @@ type SVGDB struct {
 	// Declation for basic field svgDB.IsEditable
 	// provide the sql storage for the boolan
 	IsEditable_Data sql.NullBool
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	SVGPointersEncoding
@@ -128,7 +129,7 @@ type BackRepoSVGStruct struct {
 	// stores SVG according to their gorm ID
 	Map_SVGDBID_SVGPtr map[uint]*models.SVG
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -138,7 +139,7 @@ func (backRepoSVG *BackRepoSVGStruct) GetStage() (stage *models.StageStruct) {
 	return
 }
 
-func (backRepoSVG *BackRepoSVGStruct) GetDB() *gorm.DB {
+func (backRepoSVG *BackRepoSVGStruct) GetDB() db.DBInterface {
 	return backRepoSVG.db
 }
 
@@ -175,9 +176,10 @@ func (backRepoSVG *BackRepoSVGStruct) CommitDeleteInstance(id uint) (Error error
 
 	// svg is not staged anymore, remove svgDB
 	svgDB := backRepoSVG.Map_SVGDBID_SVGDB[id]
-	query := backRepoSVG.db.Unscoped().Delete(&svgDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoSVG.db.Unscoped()
+	_, err := db.Delete(svgDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -201,9 +203,9 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseOneInstance(svg *models.SVG) (E
 	var svgDB SVGDB
 	svgDB.CopyBasicFieldsFromSVG(svg)
 
-	query := backRepoSVG.db.Create(&svgDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoSVG.db.Create(&svgDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -277,9 +279,9 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 			svgDB.EndRectID.Valid = true
 		}
 
-		query := backRepoSVG.db.Save(&svgDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoSVG.db.Save(svgDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -298,9 +300,9 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 func (backRepoSVG *BackRepoSVGStruct) CheckoutPhaseOne() (Error error) {
 
 	svgDBArray := make([]SVGDB, 0)
-	query := backRepoSVG.db.Find(&svgDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoSVG.db.Find(&svgDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -430,7 +432,7 @@ func (backRepo *BackRepoStruct) CheckoutSVG(svg *models.SVG) {
 			var svgDB SVGDB
 			svgDB.ID = id
 
-			if err := backRepo.BackRepoSVG.db.First(&svgDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoSVG.db.First(&svgDB, id); err != nil {
 				log.Fatalln("CheckoutSVG : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoSVG.CheckoutPhaseOneInstance(&svgDB)
@@ -601,9 +603,9 @@ func (backRepoSVG *BackRepoSVGStruct) rowVisitorSVG(row *xlsx.Row) error {
 
 		svgDB_ID_atBackupTime := svgDB.ID
 		svgDB.ID = 0
-		query := backRepoSVG.db.Create(svgDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoSVG.db.Create(svgDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoSVG.Map_SVGDBID_SVGDB[svgDB.ID] = svgDB
 		BackRepoSVGid_atBckpTime_newID[svgDB_ID_atBackupTime] = svgDB.ID
@@ -638,9 +640,9 @@ func (backRepoSVG *BackRepoSVGStruct) RestorePhaseOne(dirPath string) {
 
 		svgDB_ID_atBackupTime := svgDB.ID
 		svgDB.ID = 0
-		query := backRepoSVG.db.Create(svgDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoSVG.db.Create(svgDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoSVG.Map_SVGDBID_SVGDB[svgDB.ID] = svgDB
 		BackRepoSVGid_atBckpTime_newID[svgDB_ID_atBackupTime] = svgDB.ID
@@ -674,9 +676,10 @@ func (backRepoSVG *BackRepoSVGStruct) RestorePhaseTwo() {
 		}
 
 		// update databse with new index encoding
-		query := backRepoSVG.db.Model(svgDB).Updates(*svgDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoSVG.db.Model(svgDB)
+		_, err := db.Updates(*svgDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

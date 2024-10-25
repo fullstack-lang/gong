@@ -17,6 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
+	"github.com/fullstack-lang/gongsvg/go/db"
 	"github.com/fullstack-lang/gongsvg/go/models"
 )
 
@@ -97,7 +98,7 @@ type TextDB struct {
 
 	// Declation for basic field textDB.Transform
 	Transform_Data sql.NullString
-	
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	TextPointersEncoding
@@ -173,7 +174,7 @@ type BackRepoTextStruct struct {
 	// stores Text according to their gorm ID
 	Map_TextDBID_TextPtr map[uint]*models.Text
 
-	db *gorm.DB
+	db db.DBInterface
 
 	stage *models.StageStruct
 }
@@ -183,7 +184,7 @@ func (backRepoText *BackRepoTextStruct) GetStage() (stage *models.StageStruct) {
 	return
 }
 
-func (backRepoText *BackRepoTextStruct) GetDB() *gorm.DB {
+func (backRepoText *BackRepoTextStruct) GetDB() db.DBInterface {
 	return backRepoText.db
 }
 
@@ -220,9 +221,10 @@ func (backRepoText *BackRepoTextStruct) CommitDeleteInstance(id uint) (Error err
 
 	// text is not staged anymore, remove textDB
 	textDB := backRepoText.Map_TextDBID_TextDB[id]
-	query := backRepoText.db.Unscoped().Delete(&textDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	db, _ := backRepoText.db.Unscoped()
+	_, err := db.Delete(textDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -246,9 +248,9 @@ func (backRepoText *BackRepoTextStruct) CommitPhaseOneInstance(text *models.Text
 	var textDB TextDB
 	textDB.CopyBasicFieldsFromText(text)
 
-	query := backRepoText.db.Create(&textDB)
-	if query.Error != nil {
-		log.Fatal(query.Error)
+	_, err := backRepoText.db.Create(&textDB)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// update stores
@@ -298,9 +300,9 @@ func (backRepoText *BackRepoTextStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				append(textDB.TextPointersEncoding.Animates, int(animateAssocEnd_DB.ID))
 		}
 
-		query := backRepoText.db.Save(&textDB)
-		if query.Error != nil {
-			log.Fatalln(query.Error)
+		_, err := backRepoText.db.Save(textDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 	} else {
@@ -319,9 +321,9 @@ func (backRepoText *BackRepoTextStruct) CommitPhaseTwoInstance(backRepo *BackRep
 func (backRepoText *BackRepoTextStruct) CheckoutPhaseOne() (Error error) {
 
 	textDBArray := make([]TextDB, 0)
-	query := backRepoText.db.Find(&textDBArray)
-	if query.Error != nil {
-		return query.Error
+	_, err := backRepoText.db.Find(&textDBArray)
+	if err != nil {
+		return err
 	}
 
 	// list of instances to be removed
@@ -441,7 +443,7 @@ func (backRepo *BackRepoStruct) CheckoutText(text *models.Text) {
 			var textDB TextDB
 			textDB.ID = id
 
-			if err := backRepo.BackRepoText.db.First(&textDB, id).Error; err != nil {
+			if _, err := backRepo.BackRepoText.db.First(&textDB, id); err != nil {
 				log.Fatalln("CheckoutText : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoText.CheckoutPhaseOneInstance(&textDB)
@@ -720,9 +722,9 @@ func (backRepoText *BackRepoTextStruct) rowVisitorText(row *xlsx.Row) error {
 
 		textDB_ID_atBackupTime := textDB.ID
 		textDB.ID = 0
-		query := backRepoText.db.Create(textDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoText.db.Create(textDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoText.Map_TextDBID_TextDB[textDB.ID] = textDB
 		BackRepoTextid_atBckpTime_newID[textDB_ID_atBackupTime] = textDB.ID
@@ -757,9 +759,9 @@ func (backRepoText *BackRepoTextStruct) RestorePhaseOne(dirPath string) {
 
 		textDB_ID_atBackupTime := textDB.ID
 		textDB.ID = 0
-		query := backRepoText.db.Create(textDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		_, err := backRepoText.db.Create(textDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 		backRepoText.Map_TextDBID_TextDB[textDB.ID] = textDB
 		BackRepoTextid_atBckpTime_newID[textDB_ID_atBackupTime] = textDB.ID
@@ -781,9 +783,10 @@ func (backRepoText *BackRepoTextStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// update databse with new index encoding
-		query := backRepoText.db.Model(textDB).Updates(*textDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
+		db, _ := backRepoText.db.Model(textDB)
+		_, err := db.Updates(*textDB)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 

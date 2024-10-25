@@ -10,7 +10,7 @@ export class TextWidthCalculatorComponent implements OnInit, AfterViewInit {
   @ViewChild('measureElement') measureElement!: ElementRef;
 
   ngAfterViewInit() {
-    console.log("measure text width", "ngAfterViewInit")
+    // console.log("measure text width", "ngAfterViewInit")
     // Use this method to measure the text width
   }
 
@@ -34,7 +34,7 @@ export class TextWidthCalculatorComponent implements OnInit, AfterViewInit {
   }
 
   measureTextHeight(text: string): number {
-    console.log("measure text height")
+    // console.log("measure text height")
     const element = this.measureElement.nativeElement;
     element.textContent = text;
     return element.offsetHeight
