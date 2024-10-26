@@ -400,5 +400,14 @@
             },
             "command": "GOOS=js GOARCH=wasm go build -o wasmworkbench.wasm"
         },
+        {
+            "label": "00 - cypress on test3",
+            "type": "shell",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/test3/ng-github.com-fullstack-lang-gong-test3"
+            },
+            "command": "npx cypress open --e2e"
+        },
     ]
 }
