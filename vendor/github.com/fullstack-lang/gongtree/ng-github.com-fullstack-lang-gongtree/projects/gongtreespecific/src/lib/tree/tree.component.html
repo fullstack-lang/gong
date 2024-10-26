@@ -15,7 +15,7 @@
                 <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}" svgIcon="{{node.gongNode.PreceedingSVGIcon.Name}}"></mat-icon>
                 &nbsp;&nbsp;
             </ng-container>
-            <mat-checkbox *ngIf="node.gongNode.HasCheckboxButton" [disabled]="node.gongNode.IsCheckboxDisabled" [checked]="node.gongNode.IsChecked" (change)="toggleNodeCheckbox(node)">
+            <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" *ngIf="node.gongNode.HasCheckboxButton" [disabled]="node.gongNode.IsCheckboxDisabled" [checked]="node.gongNode.IsChecked" (change)="toggleNodeCheckbox(node)">
             </mat-checkbox>
             <div [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode'>
                 {{node.name}}
@@ -28,7 +28,7 @@
                 <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}">save
                 </mat-icon>
             </button>
-            <mat-checkbox *ngIf="node.gongNode.HasSecondCheckboxButton" [disabled]="node.gongNode.IsSecondCheckboxDisabled" [checked]="node.gongNode.IsSecondCheckboxChecked" (change)="toggleNodeSecondCheckbox(node)">
+            <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" *ngIf="node.gongNode.HasSecondCheckboxButton" [disabled]="node.gongNode.IsSecondCheckboxDisabled" [checked]="node.gongNode.IsSecondCheckboxChecked" (change)="toggleNodeSecondCheckbox(node)">
             </mat-checkbox>
             @if (!node.gongNode.HasSecondCheckboxButton && node.gongNode.TextAfterSecondCheckbox != "") {
                 &nbsp;&nbsp;
@@ -63,12 +63,12 @@
                 </mat-icon>
                 &nbsp;&nbsp;
             </ng-container>
-            <mat-checkbox *ngIf="node.gongNode.HasCheckboxButton" [disabled]="node.gongNode.IsCheckboxDisabled" [checked]="node.gongNode.IsChecked" (change)="toggleNodeCheckbox(node)">
+            <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" *ngIf="node.gongNode.HasCheckboxButton" [disabled]="node.gongNode.IsCheckboxDisabled" [checked]="node.gongNode.IsChecked" (change)="toggleNodeCheckbox(node)">
             </mat-checkbox>
             <div [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode'>
                 {{node.name}}
             </div>
-            <mat-checkbox *ngIf="node.gongNode.HasSecondCheckboxButton" [disabled]="node.gongNode.IsSecondCheckboxDisabled" [checked]="node.gongNode.IsSecondCheckboxChecked" (change)="toggleNodeSecondCheckbox(node)">
+            <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" *ngIf="node.gongNode.HasSecondCheckboxButton" [disabled]="node.gongNode.IsSecondCheckboxDisabled" [checked]="node.gongNode.IsSecondCheckboxChecked" (change)="toggleNodeSecondCheckbox(node)">
             </mat-checkbox>
             @if (!node.gongNode.HasSecondCheckboxButton && node.gongNode.TextAfterSecondCheckbox != "") {
                 &nbsp;&nbsp;
