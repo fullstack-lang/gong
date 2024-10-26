@@ -211,7 +211,7 @@ func (backRepoStruct *BackRepoStruct) broadcastNbCommitToBack() {
 			activeChannels = append(activeChannels, ch)
 		default:
 			// Assume channel is no longer active; don't add to activeChannels
-			log.Println("{{PkgPathRoot}}: Channel no longer active", backRepoStruct.stage.GetPath())
+			log.Println("Channel no longer active : Stack {{PkgPathRoot}}:", backRepoStruct.stage.GetPath())
 			close(ch)
 		}
 	}
