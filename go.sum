@@ -29,6 +29,8 @@ github.com/fullstack-lang/gongtree v0.0.0-20241025025259-5166fba94dcc h1:h/9fGVK
 github.com/fullstack-lang/gongtree v0.0.0-20241025025259-5166fba94dcc/go.mod h1:zude1M0xC8cVmauUG2gNWahU5cZeJ+nqjamDsY8VjW8=
 github.com/fullstack-lang/gongtree v0.0.0-20241025062159-7c5e4112c474 h1:1bWX37KRa75rqWpIrhmWzlb8MlzgPGfnRrR5tEjB8IQ=
 github.com/fullstack-lang/gongtree v0.0.0-20241025062159-7c5e4112c474/go.mod h1:zude1M0xC8cVmauUG2gNWahU5cZeJ+nqjamDsY8VjW8=
+github.com/fullstack-lang/gongtree v0.0.0-20241026093118-49bb468fc18b h1:z7O7yiPnc1IuK6iGe8p6IkSNGq5zaeCSBzSFCF7S/18=
+github.com/fullstack-lang/gongtree v0.0.0-20241026093118-49bb468fc18b/go.mod h1:zude1M0xC8cVmauUG2gNWahU5cZeJ+nqjamDsY8VjW8=
 github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00 h1:F693/CX+8lG6/JswPfx812Gc4PMSqczsIG2wRQN+sPw=
 github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00/go.mod h1:zjUpGcg6CWgd9nU4VUEQEPtHdyZ4+bCb7hwrvyscpis=
 github.com/gabriel-vasile/mimetype v1.4.5 h1:J7wGKdGu33ocBOhGy0z653k/lFKLFDPJMG8Gql0kxn4=
