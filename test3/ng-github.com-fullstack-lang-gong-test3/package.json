@@ -29,6 +29,7 @@
     "@angular-devkit/build-angular": "^17.3.6",
     "@angular/cli": "^17.3.6",
     "@angular/compiler-cli": "^17.3.0",
+    "cypress": "^13.15.1",
     "ng-packagr": "^17.3.0",
     "typescript": "~5.4.2"
   }
