@@ -245,6 +245,19 @@
             ]
         },
         {
+            "label": "03 - ng serve test3 ",
+            "type": "shell",
+            "options": {
+                "cwd": "test3/ng-github.com-fullstack-lang-gong-test3"
+            },
+            "command": "ng",
+            "group": "build",
+            "args": [
+                "serve",
+                ""
+            ]
+        },
+        {
             "label": "03 - ngserve test ",
             "type": "shell",
             "options": {
@@ -407,7 +420,7 @@
             "options": {
                 "cwd": "${workspaceFolder}/test3/ng-github.com-fullstack-lang-gong-test3"
             },
-            "command": "npx cypress open --e2e"
+            "command": "npx cypress run --browser chrome --spec 'cypress/e2e/Issue 519.cy.ts'"
         },
     ]
 }
