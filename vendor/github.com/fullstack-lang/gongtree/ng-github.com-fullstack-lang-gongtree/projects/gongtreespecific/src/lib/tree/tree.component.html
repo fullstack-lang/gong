@@ -17,7 +17,7 @@
             </ng-container>
             <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" *ngIf="node.gongNode.HasCheckboxButton" [disabled]="node.gongNode.IsCheckboxDisabled" [checked]="node.gongNode.IsChecked" (change)="toggleNodeCheckbox(node)">
             </mat-checkbox>
-            <div [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode'>
+            <div [id]="'node' + node.gongNode.Name" [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode'>
                 {{node.name}}
             </div>
             <mat-form-field *ngIf='node.gongNode.IsInEditMode' mat-form-field class="mat-mdc-form-field">
@@ -65,7 +65,7 @@
             </ng-container>
             <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" *ngIf="node.gongNode.HasCheckboxButton" [disabled]="node.gongNode.IsCheckboxDisabled" [checked]="node.gongNode.IsChecked" (change)="toggleNodeCheckbox(node)">
             </mat-checkbox>
-            <div [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode'>
+            <div [id]="'node' + node.gongNode.Name" [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode'>
                 {{node.name}}
             </div>
             <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" *ngIf="node.gongNode.HasSecondCheckboxButton" [disabled]="node.gongNode.IsSecondCheckboxDisabled" [checked]="node.gongNode.IsSecondCheckboxChecked" (change)="toggleNodeSecondCheckbox(node)">

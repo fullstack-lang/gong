@@ -422,5 +422,23 @@
             },
             "command": "npx cypress run --browser chrome --spec 'cypress/e2e/Issue 519.cy.ts'"
         },
+        {
+            "label": "00 - cypress on delete table row",
+            "type": "shell",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/test3/ng-github.com-fullstack-lang-gong-test3"
+            },
+            "command": "npx cypress run --browser chrome --spec 'cypress/e2e/issue delete table.cy.ts'"
+        },
+        {
+            "label": "00 - cypress open on test3",
+            "type": "shell",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/test3/ng-github.com-fullstack-lang-gong-test3"
+            },
+            "command": "npx cypress open"
+        },
     ]
 }
