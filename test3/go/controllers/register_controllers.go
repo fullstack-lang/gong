@@ -129,7 +129,7 @@ func (controller *Controller) onWebSocketRequestForCommitFromBackNb(c *gin.Conte
 		// Send elapsed time as a string over the WebSocket connection
 		err = wsConnection.WriteMessage(websocket.TextMessage, []byte(fmt.Sprintf("%d", nbCommitBackRepo)))
 		if err != nil {
-			log.Println("client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
+			log.Println("github.com/fullstack-lang/gong/test3/go:\n","client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
 			fmt.Println(err)
 			return
 		}
@@ -184,7 +184,8 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	err = wsConnection.WriteJSON(backRepoData)
 	// log.Println("Stack github.com/fullstack-lang/gong/test3/go, onWebSocketRequestForBackRepoContent, first sent back repo of", stackPath)
 	if err != nil {
-		log.Println("client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
+		log.Println("github.com/fullstack-lang/gong/test3/go:\n",
+		"client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
 		fmt.Println(err)
 		return
 	}
