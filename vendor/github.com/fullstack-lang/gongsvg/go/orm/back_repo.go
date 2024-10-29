@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"sync"
+	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/db"
 	"github.com/fullstack-lang/gongsvg/go/models"
@@ -559,17 +560,32 @@ func (backRepoStruct *BackRepoStruct) broadcastNbCommitToBack() {
 	backRepoStruct.rwMutex.RLock()
 	defer backRepoStruct.rwMutex.RUnlock()
 
+	log.Println("github.com/fullstack-lang/gongsvg/go, begin of broadcastNbCommitToBack", backRepoStruct.CommitFromBackNb)
+
 	activeChannels := make([]chan int, 0)
 
 	for _, ch := range backRepoStruct.subscribers {
+		startTime := time.Now()
+		sent := make(chan struct{})
+		go func(ch chan int) {
+			ch <- int(backRepoStruct.CommitFromBackNb)
+			close(sent)
+		}(ch)
+
 		select {
-		case ch <- int(backRepoStruct.CommitFromBackNb):
+		case <-sent:
+			elapsedTime := time.Since(startTime)
+			log.Printf("Send succeeded, time taken: %v\n", elapsedTime)
 			activeChannels = append(activeChannels, ch)
-		default:
-			// Assume channel is no longer active; don't add to activeChannels
-			log.Println("github.com/fullstack-lang/gongsvg/go: Channel no longer active", backRepoStruct.stage.GetPath())
+		case <-time.After(5 * time.Second): // Adjust the timeout as needed
+			elapsedTime := time.Since(startTime)
+			log.Printf("Timeout after %v waiting to send to channel\n", elapsedTime)
+			// Handle the timeout case, e.g., close the channel or keep it
 			close(ch)
 		}
 	}
+
+	log.Println("github.com/fullstack-lang/gongsvg/go, end of broadcastNbCommitToBack", backRepoStruct.CommitFromBackNb)
+
 	backRepoStruct.subscribers = activeChannels
 }
