@@ -73,7 +73,7 @@ func NewDBLite() *DBLite {
 // Create inserts a new record into the database
 func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 	if instanceDB == nil {
-		return nil, errors.New("instanceDB cannot be nil")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/go, instanceDB cannot be nil")
 	}
 
 	db.mu.Lock()
@@ -110,7 +110,7 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		v.ID = db.nextIDGstructDB
 		db.gstructDBs[v.ID] = v
 	default:
-		return nil, errors.New("unsupported type in Create")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/go, unsupported type in Create")
 	}
 	return db, nil
 }
@@ -129,7 +129,7 @@ func (db *DBLite) Model(instanceDB any) (db.DBInterface, error) {
 // Delete removes a record from the database
 func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 	if instanceDB == nil {
-		return nil, errors.New("instanceDB cannot be nil")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/go, instanceDB cannot be nil")
 	}
 
 	db.mu.Lock()
@@ -152,7 +152,7 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 	case *GstructDB:
 		delete(db.gstructDBs, v.ID)
 	default:
-		return nil, errors.New("unsupported type in Delete")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/go, unsupported type in Delete")
 	}
 	return db, nil
 }
@@ -161,7 +161,7 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 
 	if instanceDB == nil {
-		return nil, errors.New("instanceDB cannot be nil")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/go, instanceDB cannot be nil")
 	}
 
 	db.mu.Lock()
@@ -191,14 +191,14 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		db.gstructDBs[v.ID] = v
 		return db, nil
 	default:
-		return nil, errors.New("Save: unsupported type")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/go, Save: unsupported type")
 	}
 }
 
 // Updates modifies an existing record in the database
 func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 	if instanceDB == nil {
-		return nil, errors.New("instanceDB cannot be nil")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/go, instanceDB cannot be nil")
 	}
 
 	db.mu.Lock()
@@ -210,46 +210,46 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		if existing, ok := db.astructDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("record not found")
+			return nil, errors.New("db Astruct github.com/fullstack-lang/gong/test/go, record not found")
 		}
 	case *AstructBstruct2UseDB:
 		if existing, ok := db.astructbstruct2useDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("record not found")
+			return nil, errors.New("db AstructBstruct2Use github.com/fullstack-lang/gong/test/go, record not found")
 		}
 	case *AstructBstructUseDB:
 		if existing, ok := db.astructbstructuseDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("record not found")
+			return nil, errors.New("db AstructBstructUse github.com/fullstack-lang/gong/test/go, record not found")
 		}
 	case *BstructDB:
 		if existing, ok := db.bstructDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("record not found")
+			return nil, errors.New("db Bstruct github.com/fullstack-lang/gong/test/go, record not found")
 		}
 	case *DstructDB:
 		if existing, ok := db.dstructDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("record not found")
+			return nil, errors.New("db Dstruct github.com/fullstack-lang/gong/test/go, record not found")
 		}
 	case *FstructDB:
 		if existing, ok := db.fstructDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("record not found")
+			return nil, errors.New("db Fstruct github.com/fullstack-lang/gong/test/go, record not found")
 		}
 	case *GstructDB:
 		if existing, ok := db.gstructDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("record not found")
+			return nil, errors.New("db Gstruct github.com/fullstack-lang/gong/test/go, record not found")
 		}
 	default:
-		return nil, errors.New("unsupported type in Updates")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/go, unsupported type in Updates")
 	}
 	return db, nil
 }
@@ -263,67 +263,67 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	switch ptr := instanceDBs.(type) {
 	// insertion point find
 	case *[]AstructDB:
-        *ptr = make([]AstructDB, 0, len(db.astructDBs))
-        for _, v := range db.astructDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]AstructDB, 0, len(db.astructDBs))
+		for _, v := range db.astructDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]AstructBstruct2UseDB:
-        *ptr = make([]AstructBstruct2UseDB, 0, len(db.astructbstruct2useDBs))
-        for _, v := range db.astructbstruct2useDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]AstructBstruct2UseDB, 0, len(db.astructbstruct2useDBs))
+		for _, v := range db.astructbstruct2useDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]AstructBstructUseDB:
-        *ptr = make([]AstructBstructUseDB, 0, len(db.astructbstructuseDBs))
-        for _, v := range db.astructbstructuseDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]AstructBstructUseDB, 0, len(db.astructbstructuseDBs))
+		for _, v := range db.astructbstructuseDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]BstructDB:
-        *ptr = make([]BstructDB, 0, len(db.bstructDBs))
-        for _, v := range db.bstructDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]BstructDB, 0, len(db.bstructDBs))
+		for _, v := range db.bstructDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]DstructDB:
-        *ptr = make([]DstructDB, 0, len(db.dstructDBs))
-        for _, v := range db.dstructDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]DstructDB, 0, len(db.dstructDBs))
+		for _, v := range db.dstructDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]FstructDB:
-        *ptr = make([]FstructDB, 0, len(db.fstructDBs))
-        for _, v := range db.fstructDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]FstructDB, 0, len(db.fstructDBs))
+		for _, v := range db.fstructDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]GstructDB:
-        *ptr = make([]GstructDB, 0, len(db.gstructDBs))
-        for _, v := range db.gstructDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
-    default:
-        return nil, errors.New("Find: unsupported type")
-    }
+		*ptr = make([]GstructDB, 0, len(db.gstructDBs))
+		for _, v := range db.gstructDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	default:
+		return nil, errors.New("github.com/fullstack-lang/gong/test/go, Find: unsupported type")
+	}
 }
 
 // First retrieves the first record of a type from the database
 func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 	if len(conds) != 1 {
-		return nil, errors.New("Do not process when conds is not a single parameter")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/go, Do not process when conds is not a single parameter")
 	}
 
 	str, ok := conds[0].(string)
 
 	if !ok {
-		return nil, errors.New("conds[0] is not a string")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/go, conds[0] is not a string")
 	}
 
 	i, err := strconv.ParseUint(str, 10, 32) // Base 10, 32-bit unsigned int
 	if err != nil {
-		return nil, errors.New("conds[0] is not a string number")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/go, conds[0] is not a string number")
 	}
 
 	db.mu.RLock()
@@ -334,61 +334,75 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 	case *AstructDB:
 		tmp, ok := db.astructDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Astruct Unkown entry %d", i))
+		}
+
 		astructDB, _ := instanceDB.(*AstructDB)
 		*astructDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *AstructBstruct2UseDB:
 		tmp, ok := db.astructbstruct2useDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First AstructBstruct2Use Unkown entry %d", i))
+		}
+
 		astructbstruct2useDB, _ := instanceDB.(*AstructBstruct2UseDB)
 		*astructbstruct2useDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *AstructBstructUseDB:
 		tmp, ok := db.astructbstructuseDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First AstructBstructUse Unkown entry %d", i))
+		}
+
 		astructbstructuseDB, _ := instanceDB.(*AstructBstructUseDB)
 		*astructbstructuseDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *BstructDB:
 		tmp, ok := db.bstructDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Bstruct Unkown entry %d", i))
+		}
+
 		bstructDB, _ := instanceDB.(*BstructDB)
 		*bstructDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *DstructDB:
 		tmp, ok := db.dstructDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Dstruct Unkown entry %d", i))
+		}
+
 		dstructDB, _ := instanceDB.(*DstructDB)
 		*dstructDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *FstructDB:
 		tmp, ok := db.fstructDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Fstruct Unkown entry %d", i))
+		}
+
 		fstructDB, _ := instanceDB.(*FstructDB)
 		*fstructDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *GstructDB:
 		tmp, ok := db.gstructDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Gstruct Unkown entry %d", i))
+		}
+
 		gstructDB, _ := instanceDB.(*GstructDB)
 		*gstructDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	default:
-		return nil, errors.New("Unkown type")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/go, Unkown type")
 	}
 	
 	return db, nil
