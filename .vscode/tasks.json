@@ -420,16 +420,16 @@
             "options": {
                 "cwd": "${workspaceFolder}/test3/ng-github.com-fullstack-lang-gong-test3"
             },
-            "command": "npx cypress run --browser chrome --spec 'cypress/e2e/Issue 519.cy.ts'"
+            "command": "npx cypress run --browser chrome --spec 'cypress/e2e/issue 519.cy.ts'"
         },
         {
-            "label": "00 - cypress on delete table row",
+            "label": "00 - cypress on issue 520 - delete table row",
             "type": "shell",
             "group": "build",
             "options": {
                 "cwd": "${workspaceFolder}/test3/ng-github.com-fullstack-lang-gong-test3"
             },
-            "command": "npx cypress run --browser chrome --spec 'cypress/e2e/issue delete table.cy.ts'"
+            "command": "npx cypress run --browser chrome --spec 'cypress/e2e/issue 520.cy.ts'"
         },
         {
             "label": "00 - cypress open on test3",
