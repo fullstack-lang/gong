@@ -158,20 +158,20 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	switch ptr := instanceDBs.(type) {
 	// insertion point find
 	case *[]ADB:
-        *ptr = make([]ADB, 0, len(db.aDBs))
-        for _, v := range db.aDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]ADB, 0, len(db.aDBs))
+		for _, v := range db.aDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]BDB:
-        *ptr = make([]BDB, 0, len(db.bDBs))
-        for _, v := range db.bDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
-    default:
-        return nil, errors.New("github.com/fullstack-lang/gong/test3/go, Find: unsupported type")
-    }
+		*ptr = make([]BDB, 0, len(db.bDBs))
+		for _, v := range db.bDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	default:
+		return nil, errors.New("github.com/fullstack-lang/gong/test3/go, Find: unsupported type")
+	}
 }
 
 // First retrieves the first record of a type from the database
@@ -199,19 +199,23 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 	case *ADB:
 		tmp, ok := db.aDBs[uint(i)]
 
-		aDB, _ := instanceDB.(*ADB)
-		*aDB = *tmp
 		if !ok {
 			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
 		}
+
+		aDB, _ := instanceDB.(*ADB)
+		*aDB = *tmp
+		
 	case *BDB:
 		tmp, ok := db.bDBs[uint(i)]
 
-		bDB, _ := instanceDB.(*BDB)
-		*bDB = *tmp
 		if !ok {
 			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
 		}
+
+		bDB, _ := instanceDB.(*BDB)
+		*bDB = *tmp
+		
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/test3/go, Unkown type")
 	}

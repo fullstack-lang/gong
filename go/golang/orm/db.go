@@ -117,9 +117,9 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 
 	switch ptr := instanceDBs.(type) {
 	// insertion point find{{` + string(rune(DBliteMapFieldFind)) + `}}
-    default:
-        return nil, errors.New("{{PkgPathRoot}}, Find: unsupported type")
-    }
+	default:
+		return nil, errors.New("{{PkgPathRoot}}, Find: unsupported type")
+	}
 }
 
 // First retrieves the first record of a type from the database
@@ -199,24 +199,26 @@ map[string]string{
 		if existing, ok := db.{{structname}}DBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("{{PkgPathRoot}}, record not found")
+			return nil, errors.New("db {{Structname}} {{PkgPathRoot}}, record not found")
 		}`,
 
 	string(rune(DBliteMapFieldFind)): `
 	case *[]{{Structname}}DB:
-        *ptr = make([]{{Structname}}DB, 0, len(db.{{structname}}DBs))
-        for _, v := range db.{{structname}}DBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil`,
+		*ptr = make([]{{Structname}}DB, 0, len(db.{{structname}}DBs))
+		for _, v := range db.{{structname}}DBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil`,
 
 	string(rune(DBliteMapFieldFirst)): `
 	case *{{Structname}}DB:
 		tmp, ok := db.{{structname}}DBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db {{Structname}} Unkown entry %d", i))
+		}
+
 		{{structname}}DB, _ := instanceDB.(*{{Structname}}DB)
 		*{{structname}}DB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}`,
+		`,
 }
