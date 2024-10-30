@@ -23,3 +23,4 @@ test/go/tests/serialize_test.xlsx
 node_modules
 test3/go/cmd/test3/test3
 test3/go/cmd/test3/wasmworkbench.wasm
+test3/ng-github.com-fullstack-lang-gong-test3/cypress/screenshots/issue delete table.cy.ts/template spec -- Test delete (failed).png
