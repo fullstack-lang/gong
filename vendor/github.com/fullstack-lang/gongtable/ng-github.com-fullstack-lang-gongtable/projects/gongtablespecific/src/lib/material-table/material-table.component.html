@@ -79,7 +79,10 @@
                             <mat-checkbox [checked]="element.Cells[i].CellBool.Value" disabled=true></mat-checkbox>
                         </ng-container>
                         <ng-container *ngIf="element.Cells[i]?.CellIcon">
-                            <i [id]="element.Cells[i]?.CellIcon.Name" class="material-icons my-button" (click)="onClickCellIcon(element.Cells[i]?.CellIcon)" [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{
+                            <i [id]="element.Cells[i]?.CellIcon.Name" 
+                               class="material-icons my-button" 
+                               (click)="onClickCellIcon(element.Cells[i]?.CellIcon); $event.stopPropagation()" 
+                               [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{
                                 element.Cells[i].CellIcon.Icon }}</i>
                         </ng-container>
                     </td>
