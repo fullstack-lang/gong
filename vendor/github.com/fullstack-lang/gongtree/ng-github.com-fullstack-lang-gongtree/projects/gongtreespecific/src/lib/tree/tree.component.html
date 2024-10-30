@@ -33,7 +33,7 @@
             @if (!node.gongNode.HasSecondCheckboxButton && node.gongNode.TextAfterSecondCheckbox != "") {
                 &nbsp;&nbsp;
             }
-            <div [ngStyle]="getStyle(node)">
+            <div [id]="'node' + node.gongNode.TextAfterSecondCheckbox" [ngStyle]="getStyle(node)">
                 {{node.gongNode.TextAfterSecondCheckbox}}
             </div>
             <ng-container *ngFor="let button of node.gongNode.Buttons">
@@ -73,7 +73,7 @@
             @if (!node.gongNode.HasSecondCheckboxButton && node.gongNode.TextAfterSecondCheckbox != "") {
                 &nbsp;&nbsp;
             }
-            <div [ngStyle]="getStyle(node)">
+            <div [id]="'node' + node.gongNode.TextAfterSecondCheckbox" [ngStyle]="getStyle(node)">
                 {{node.gongNode.TextAfterSecondCheckbox}}
             </div>
             <ng-container *ngFor="let button of node.gongNode.Buttons">

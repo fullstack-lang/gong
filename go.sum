@@ -29,6 +29,8 @@ github.com/fullstack-lang/gongtable v0.0.0-20241025062159-e8f81f8e65c6 h1:cuoY9L
 github.com/fullstack-lang/gongtable v0.0.0-20241025062159-e8f81f8e65c6/go.mod h1:HFsQEUwpxTL85DbaPfxeGPXKQqV8r1aqO5L9eZvRHzg=
 github.com/fullstack-lang/gongtable v0.0.0-20241029102049-825572aa080e h1:0Yiywx5bM9NSSVKSfHQNjNA2F60GPol2tMX8zLi+bco=
 github.com/fullstack-lang/gongtable v0.0.0-20241029102049-825572aa080e/go.mod h1:HFsQEUwpxTL85DbaPfxeGPXKQqV8r1aqO5L9eZvRHzg=
+github.com/fullstack-lang/gongtable v0.0.0-20241029130911-49605088eb6e h1:ExnlnXKZlJgbcYvjHZj4Sbkx93y6C3d9pWTMJR7yef8=
+github.com/fullstack-lang/gongtable v0.0.0-20241029130911-49605088eb6e/go.mod h1:HFsQEUwpxTL85DbaPfxeGPXKQqV8r1aqO5L9eZvRHzg=
 github.com/fullstack-lang/gongtree v0.0.0-20241025025259-5166fba94dcc h1:h/9fGVKVxm0FKe4cq5HxWasWvO0zz8eiOIMpmVz0pFk=
 github.com/fullstack-lang/gongtree v0.0.0-20241025025259-5166fba94dcc/go.mod h1:zude1M0xC8cVmauUG2gNWahU5cZeJ+nqjamDsY8VjW8=
 github.com/fullstack-lang/gongtree v0.0.0-20241025062159-7c5e4112c474 h1:1bWX37KRa75rqWpIrhmWzlb8MlzgPGfnRrR5tEjB8IQ=
@@ -37,6 +39,8 @@ github.com/fullstack-lang/gongtree v0.0.0-20241026093118-49bb468fc18b h1:z7O7yiP
 github.com/fullstack-lang/gongtree v0.0.0-20241026093118-49bb468fc18b/go.mod h1:zude1M0xC8cVmauUG2gNWahU5cZeJ+nqjamDsY8VjW8=
 github.com/fullstack-lang/gongtree v0.0.0-20241029101748-1538ec2e2623 h1:vxLQv6yq13YoOFXp1iNQ85tplf8Mo9iwMyIPIaICNF8=
 github.com/fullstack-lang/gongtree v0.0.0-20241029101748-1538ec2e2623/go.mod h1:zude1M0xC8cVmauUG2gNWahU5cZeJ+nqjamDsY8VjW8=
+github.com/fullstack-lang/gongtree v0.0.0-20241029130806-470966afb221 h1:aHWk9urxW4RCZy5o46y5CD3VMQqYD90zZ6bd30LJVJw=
+github.com/fullstack-lang/gongtree v0.0.0-20241029130806-470966afb221/go.mod h1:zude1M0xC8cVmauUG2gNWahU5cZeJ+nqjamDsY8VjW8=
 github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00 h1:F693/CX+8lG6/JswPfx812Gc4PMSqczsIG2wRQN+sPw=
 github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00/go.mod h1:zjUpGcg6CWgd9nU4VUEQEPtHdyZ4+bCb7hwrvyscpis=
 github.com/gabriel-vasile/mimetype v1.4.5 h1:J7wGKdGu33ocBOhGy0z653k/lFKLFDPJMG8Gql0kxn4=
