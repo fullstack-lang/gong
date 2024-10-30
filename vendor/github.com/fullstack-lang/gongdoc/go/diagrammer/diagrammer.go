@@ -200,7 +200,7 @@ func (diagrammer *Diagrammer) generatePortfolioNodesStatusAndButtonsRecursive(po
 			case IDLE:
 				if portfolioDiagramNode.HasDrawButton() {
 					editDiagramButton := (&gongtree_models.Button{
-						Name: portfolioDiagramNode.GetName() + " " + string(maticons.BUTTON_add),
+						Name: portfolioDiagramNode.GetName() + " " + string(maticons.BUTTON_draw),
 						Icon: string(maticons.BUTTON_draw)}).Stage(diagrammer.treeStage)
 					treeNode.Buttons = append(treeNode.Buttons, editDiagramButton)
 					editDiagramButton.Impl = NewPortfolioDiagramNodeButtonImpl(
@@ -213,7 +213,7 @@ func (diagrammer *Diagrammer) generatePortfolioNodesStatusAndButtonsRecursive(po
 				}
 				if portfolioDiagramNode.HasDiagramRenameButton() {
 					renameDiagramButton := (&gongtree_models.Button{
-						Name: portfolioDiagramNode.GetName() + " " + string(maticons.BUTTON_add),
+						Name: portfolioDiagramNode.GetName() + " " + string(maticons.BUTTON_edit),
 						Icon: string(maticons.BUTTON_edit)}).Stage(diagrammer.treeStage)
 					treeNode.Buttons = append(treeNode.Buttons, renameDiagramButton)
 					renameDiagramButton.Impl = NewPortfolioDiagramNodeButtonImpl(
@@ -239,7 +239,7 @@ func (diagrammer *Diagrammer) generatePortfolioNodesStatusAndButtonsRecursive(po
 				}
 				if portfolioDiagramNode.HasDeleteButton() {
 					button := (&gongtree_models.Button{
-						Name: portfolioDiagramNode.GetName() + " " + string(maticons.BUTTON_file_copy),
+						Name: portfolioDiagramNode.GetName() + " " + string(maticons.BUTTON_delete),
 						Icon: string(maticons.BUTTON_delete)}).Stage(diagrammer.treeStage)
 					treeNode.Buttons = append(treeNode.Buttons, button)
 					button.Impl = NewPortfolioDiagramNodeButtonImpl(
@@ -252,7 +252,7 @@ func (diagrammer *Diagrammer) generatePortfolioNodesStatusAndButtonsRecursive(po
 				}
 			case IN_EDIT_MODE:
 				saveDiagramButton := (&gongtree_models.Button{
-					Name: portfolioDiagramNode.GetName() + " " + string(maticons.BUTTON_add),
+					Name: portfolioDiagramNode.GetName() + " " + string(maticons.BUTTON_save),
 					Icon: string(maticons.BUTTON_save)}).Stage(diagrammer.treeStage)
 				treeNode.Buttons = append(treeNode.Buttons, saveDiagramButton)
 				saveDiagramButton.Impl = NewPortfolioDiagramNodeButtonImpl(
@@ -263,7 +263,7 @@ func (diagrammer *Diagrammer) generatePortfolioNodesStatusAndButtonsRecursive(po
 					SAVE,
 				)
 				editCancelDiagramButton := (&gongtree_models.Button{
-					Name: portfolioDiagramNode.GetName() + " " + string(maticons.BUTTON_add),
+					Name: portfolioDiagramNode.GetName() + " " + string(maticons.BUTTON_edit_off),
 					Icon: string(maticons.BUTTON_edit_off)}).Stage(diagrammer.treeStage)
 				treeNode.Buttons = append(treeNode.Buttons, editCancelDiagramButton)
 				editCancelDiagramButton.Impl = NewPortfolioDiagramNodeButtonImpl(
@@ -275,7 +275,7 @@ func (diagrammer *Diagrammer) generatePortfolioNodesStatusAndButtonsRecursive(po
 				)
 			case IN_RENAME_MODE:
 				renameCancelDiagramButton := (&gongtree_models.Button{
-					Name: portfolioDiagramNode.GetName() + " " + string(maticons.BUTTON_add),
+					Name: portfolioDiagramNode.GetName() + " " + string(maticons.BUTTON_edit_off),
 					Icon: string(maticons.BUTTON_edit_off)}).Stage(diagrammer.treeStage)
 				treeNode.Buttons = append(treeNode.Buttons, renameCancelDiagramButton)
 				renameCancelDiagramButton.Impl = NewPortfolioDiagramNodeButtonImpl(
