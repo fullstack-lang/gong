@@ -24,7 +24,7 @@
                 <mat-label>Name</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="node.gongNode.Name">
             </mat-form-field>
-            <button *ngIf='node.gongNode.IsInEditMode' mat-icon-button (click)="update(node)">
+            <button [id]="'button-save-' + node.gongNode.Name" *ngIf='node.gongNode.IsInEditMode' mat-icon-button (click)="update(node)">
                 <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}">save
                 </mat-icon>
             </button>
@@ -37,7 +37,7 @@
                 {{node.gongNode.TextAfterSecondCheckbox}}
             </div>
             <ng-container *ngFor="let button of node.gongNode.Buttons">
-                <button mat-icon-button (click)="onButtonClick($event, node, button)" class="tight-buttons">
+                <button [id]="'button-' + button.Name" mat-icon-button (click)="onButtonClick($event, node, button)" class="tight-buttons">
                     <mat-icon *ngIf="button.SVGIcon == undefined" [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{button.Icon}}
                     </mat-icon>
                     <mat-icon *ngIf="button.SVGIcon" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" svgIcon="{{button.SVGIcon.Name}}">
@@ -77,7 +77,8 @@
                 {{node.gongNode.TextAfterSecondCheckbox}}
             </div>
             <ng-container *ngFor="let button of node.gongNode.Buttons">
-                <button mat-icon-button (click)="onButtonClick($event, node, button)">
+                <button [id]="'button-' + button.Name" 
+                        mat-icon-button (click)="onButtonClick($event, node, button)">
                     <mat-icon *ngIf="button.SVGIcon == undefined" [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{button.Icon}}
                     </mat-icon>
                     <mat-icon *ngIf="button.SVGIcon" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" svgIcon="{{button.SVGIcon.Name}}">

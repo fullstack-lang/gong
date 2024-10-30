@@ -414,7 +414,7 @@
             "command": "GOOS=js GOARCH=wasm go build -o wasmworkbench.wasm"
         },
         {
-            "label": "00 - cypress on test3",
+            "label": "00 - cypress issue 519 on test3",
             "type": "shell",
             "group": "build",
             "options": {
