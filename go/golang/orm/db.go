@@ -215,7 +215,7 @@ map[string]string{
 		tmp, ok := db.{{structname}}DBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db {{Structname}} Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First {{Structname}} Unkown entry %d", i))
 		}
 
 		{{structname}}DB, _ := instanceDB.(*{{Structname}}DB)
