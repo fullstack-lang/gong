@@ -4,7 +4,7 @@ describe('template spec', () => {
 
     // Set zoom level to 50%
     cy.document().then((doc) => {
-      doc.body.style.zoom = '0.5';
+      doc.body.style.zoom = '0.7';
     });
 
     cy.get('#nodeA\\ \\(5\\)').click();
