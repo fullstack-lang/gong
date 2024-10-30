@@ -280,7 +280,7 @@ func (controller *Controller) UpdateDstruct(c *gin.Context) {
 	dstructDB.DstructPointersEncoding = input.DstructPointersEncoding
 
 	db, _ = db.Model(&dstructDB)
-	_, err = db.Updates(dstructDB)
+	_, err = db.Updates(&dstructDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
