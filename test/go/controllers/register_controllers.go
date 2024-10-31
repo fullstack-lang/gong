@@ -126,9 +126,6 @@ func (controller *Controller) stacks(c *gin.Context) {
 // 1. it stays live and pool for incomming backend commit number broadcast and forward
 // them on the web socket connection
 func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Context) {
-	log.Println("Stack github.com/fullstack-lang/gong/test/go: onWebSocketRequestForBackRepoContent",
-		"index", controller.listenerIndex)
-	controller.listenerIndex++
 
 	// log.Println("Stack github.com/fullstack-lang/gong/test/go, onWebSocketRequestForBackRepoContent")
 
@@ -161,6 +158,12 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 			// log.Println("GetLastCommitFromBackNb", "GONG__StackPath", stackPath)
 		}
 	}
+
+	log.Printf("Stack github.com/fullstack-lang/gong/test/go: stack path: '%s', new ws index %d",
+		stackPath, controller.listenerIndex,
+	)
+	controller.listenerIndex++
+
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		log.Panic("Stack github.com/fullstack-lang/gong/test/go, Unkown stack", stackPath)
