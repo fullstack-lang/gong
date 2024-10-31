@@ -49,7 +49,7 @@ github.com/dustin/go-humanize
 # github.com/frankban/quicktest v1.14.6
 ## explicit; go 1.13
 github.com/frankban/quicktest
-# github.com/fullstack-lang/gongdoc v0.0.0-20241031123431-4da42e4f85ca
+# github.com/fullstack-lang/gongdoc v0.0.0-20241031124552-87194e04585f
 ## explicit; go 1.23.1
 github.com/fullstack-lang/gongdoc/go/adapter
 github.com/fullstack-lang/gongdoc/go/controllers
@@ -61,7 +61,7 @@ github.com/fullstack-lang/gongdoc/go/load
 github.com/fullstack-lang/gongdoc/go/models
 github.com/fullstack-lang/gongdoc/go/orm
 github.com/fullstack-lang/gongdoc/ng-github.com-fullstack-lang-gongdoc/projects
-# github.com/fullstack-lang/gongsvg v0.0.0-20241031123432-d7bca6016816
+# github.com/fullstack-lang/gongsvg v0.0.0-20241031124553-17851ccfdf6a
 ## explicit; go 1.23.1
 github.com/fullstack-lang/gongsvg/go/controllers
 github.com/fullstack-lang/gongsvg/go/db
@@ -69,7 +69,7 @@ github.com/fullstack-lang/gongsvg/go/fullstack
 github.com/fullstack-lang/gongsvg/go/models
 github.com/fullstack-lang/gongsvg/go/orm
 github.com/fullstack-lang/gongsvg/ng-github.com-fullstack-lang-gongsvg/projects
-# github.com/fullstack-lang/gongtable v0.0.0-20241031123432-45fc0bc829a0
+# github.com/fullstack-lang/gongtable v0.0.0-20241031124553-2308340c60fb
 ## explicit; go 1.23.1
 github.com/fullstack-lang/gongtable/go/controllers
 github.com/fullstack-lang/gongtable/go/db
@@ -77,7 +77,7 @@ github.com/fullstack-lang/gongtable/go/fullstack
 github.com/fullstack-lang/gongtable/go/models
 github.com/fullstack-lang/gongtable/go/orm
 github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects
-# github.com/fullstack-lang/gongtree v0.0.0-20241031123432-de6d9e9f4df2
+# github.com/fullstack-lang/gongtree v0.0.0-20241031124554-35c7c1b9e103
 ## explicit; go 1.23.1
 github.com/fullstack-lang/gongtree/go/buttons
 github.com/fullstack-lang/gongtree/go/controllers
