@@ -129,7 +129,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 			// ReadMessage is used to detect client disconnection
 			_, _, err := wsConnection.ReadMessage()
 			if err != nil {
-				log.Println("{{PkgPathRoot}}", stackPath, "WebSocket read error (client disconnected):", err)
+				log.Println("{{PkgPathRoot}}", stackPath, "WS client disconnected:", err)
 				cancel() // Cancel the context
 				return
 			}
