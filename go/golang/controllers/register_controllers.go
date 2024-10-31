@@ -165,11 +165,13 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 				// Send backRepo data
 				err = wsConnection.WriteJSON(backRepoData)
 				if err != nil {
-					log.Println("{{PkgPathRoot}}:\n",
-						"client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
+					log.Println("{{PkgPathRoot}}:\n", stackPath,
+						"client no longer receiver web socket message,closing websocket handler")
 					fmt.Println(err)
 					cancel() // Cancel the context
 					return
+				} else {
+					log.Println("{{PkgPathRoot}}:", stackPath, "sent backRepoData")
 				}
 			}
 		}
