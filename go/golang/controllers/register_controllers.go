@@ -4,9 +4,11 @@ const ControllersRegisterTemplate = `// generated code - do not edit
 package controllers
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"{{PkgPathRoot}}/orm"
 
@@ -52,7 +54,6 @@ func registerControllers(r *gin.Engine) {
 		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
 
-		v1.GET("/v1/ws/commitfrombacknb", GetController().onWebSocketRequestForCommitFromBackNb)
 		v1.GET("/v1/ws/stage", GetController().onWebSocketRequestForBackRepoContent)
 
 		v1.GET("/v1/stacks", GetController().stacks)
@@ -68,60 +69,6 @@ func (controller *Controller) stacks(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, res)
-}
-
-// onWebSocketRequestForCommitFromBackNb is a function that is started each time
-// a web socket request is received
-//
-// 1. upgrade the incomming web connection to a web socket
-// 1. it subscribe to the backend commit number broadcaster
-// 1. it stays live and pool for incomming backend commit number broadcast and forward
-// them on the web socket connection
-func (controller *Controller) onWebSocketRequestForCommitFromBackNb(c *gin.Context) {
-
-	// log.Println("Stack {{PkgPathRoot}}, onWebSocketRequestForCommitFromBackNb")
-
-	// Upgrader specifies parameters for upgrading an HTTP connection to a
-	// WebSocket connection.
-	var upgrader = websocket.Upgrader{
-		CheckOrigin: func(r *http.Request) bool {
-			origin := r.Header.Get("Origin")
-			return origin == "http://localhost:8080" || origin == "http://localhost:4200"
-		},
-	}
-
-	wsConnection, err := upgrader.Upgrade(c.Writer, c.Request, nil)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	defer wsConnection.Close()
-
-	values := c.Request.URL.Query()
-	stackPath := ""
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
-		if len(value) == 1 {
-			stackPath = value[0]
-			// log.Println("GetLastCommitFromBackNb", "GONG__StackPath", stackPath)
-		}
-	}
-	backRepo := controller.Map_BackRepos[stackPath]
-	if backRepo == nil {
-		log.Panic("Stack {{PkgPathRoot}}, Unkown stack", stackPath)
-	}
-	updateCommitBackRepoNbChannel := backRepo.SubscribeToCommitNb()
-
-	for nbCommitBackRepo := range updateCommitBackRepoNbChannel {
-
-		// Send elapsed time as a string over the WebSocket connection
-		err = wsConnection.WriteMessage(websocket.TextMessage, []byte(fmt.Sprintf("%d", nbCommitBackRepo)))
-		if err != nil {
-			log.Println("{{PkgPathRoot}}:\n","client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
-			fmt.Println(err)
-			return
-		}
-	}
 }
 
 // onWebSocketRequestForBackRepoContent is a function that is started each time
@@ -151,6 +98,10 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	}
 	defer wsConnection.Close()
 
+	// Create a context that is canceled when the connection is closed
+	ctx, cancel := context.WithCancel(c.Request.Context())
+	defer cancel()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -160,11 +111,30 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 			// log.Println("GetLastCommitFromBackNb", "GONG__StackPath", stackPath)
 		}
 	}
+
+	log.Printf("Stack {{PkgPathRoot}}: stack path: '%s', new ws index %d",
+		stackPath, controller.listenerIndex,
+	)
+	controller.listenerIndex++
+
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		log.Panic("Stack {{PkgPathRoot}}, Unkown stack", stackPath)
 	}
-	updateCommitBackRepoNbChannel := backRepo.SubscribeToCommitNb()
+	updateCommitBackRepoNbChannel := backRepo.SubscribeToCommitNb(ctx)
+
+	// Start a goroutine to read from the WebSocket to detect disconnection
+	go func() {
+		for {
+			// ReadMessage is used to detect client disconnection
+			_, _, err := wsConnection.ReadMessage()
+			if err != nil {
+				log.Println("WebSocket read error (client disconnected):", err)
+				cancel() // Cancel the context
+				return
+			}
+		}
+	}()
 
 	backRepoData := new(orm.BackRepoData)
 	orm.CopyBackRepoToBackRepoData(backRepo, backRepoData)
@@ -173,26 +143,35 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	// log.Println("Stack {{PkgPathRoot}}, onWebSocketRequestForBackRepoContent, first sent back repo of", stackPath)
 	if err != nil {
 		log.Println("{{PkgPathRoot}}:\n",
-		"client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
+			"client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
 		fmt.Println(err)
 		return
 	}
-
-	for nbCommitBackRepo := range updateCommitBackRepoNbChannel {
-		_ = nbCommitBackRepo
-
-		backRepoData := new(orm.BackRepoData)
-		orm.CopyBackRepoToBackRepoData(backRepo, backRepoData)
-
-		// Send backRepo data
-		err = wsConnection.WriteJSON(backRepoData)
-
-		// log.Println("Stack {{PkgPathRoot}}, onWebSocketRequestForBackRepoContent, sent back repo of", stackPath)
-
-		if err != nil {
-			log.Println("client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
-			fmt.Println(err)
+	for {
+		select {
+		case <-ctx.Done():
+			// Context canceled, exit the loop
 			return
+		default:
+			for nbCommitBackRepo := range updateCommitBackRepoNbChannel {
+				_ = nbCommitBackRepo
+
+				backRepoData := new(orm.BackRepoData)
+				orm.CopyBackRepoToBackRepoData(backRepo, backRepoData)
+
+				// Set write deadline to prevent blocking indefinitely
+				wsConnection.SetWriteDeadline(time.Now().Add(10 * time.Second))
+
+				// Send backRepo data
+				err = wsConnection.WriteJSON(backRepoData)
+				if err != nil {
+					log.Println("{{PkgPathRoot}}:\n",
+						"client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
+					fmt.Println(err)
+					cancel() // Cancel the context
+					return
+				}
+			}
 		}
 	}
 }
