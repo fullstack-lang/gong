@@ -358,7 +358,6 @@ func (backRepoStruct *BackRepoStruct) unsubscribe(ch chan int) {
 }
 
 func (backRepoStruct *BackRepoStruct) broadcastNbCommitToBack() {
-
 	backRepoStruct.rwMutex.RLock()
 	subscribers := make([]chan int, len(backRepoStruct.subscribers))
 	copy(subscribers, backRepoStruct.subscribers)
