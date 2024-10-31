@@ -285,73 +285,73 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		if existing, ok := db.gongbasicfieldDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gong/go, record not found")
+			return nil, errors.New("db GongBasicField github.com/fullstack-lang/gong/go, record not found")
 		}
 	case *GongEnumDB:
 		if existing, ok := db.gongenumDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gong/go, record not found")
+			return nil, errors.New("db GongEnum github.com/fullstack-lang/gong/go, record not found")
 		}
 	case *GongEnumValueDB:
 		if existing, ok := db.gongenumvalueDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gong/go, record not found")
+			return nil, errors.New("db GongEnumValue github.com/fullstack-lang/gong/go, record not found")
 		}
 	case *GongLinkDB:
 		if existing, ok := db.gonglinkDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gong/go, record not found")
+			return nil, errors.New("db GongLink github.com/fullstack-lang/gong/go, record not found")
 		}
 	case *GongNoteDB:
 		if existing, ok := db.gongnoteDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gong/go, record not found")
+			return nil, errors.New("db GongNote github.com/fullstack-lang/gong/go, record not found")
 		}
 	case *GongStructDB:
 		if existing, ok := db.gongstructDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gong/go, record not found")
+			return nil, errors.New("db GongStruct github.com/fullstack-lang/gong/go, record not found")
 		}
 	case *GongTimeFieldDB:
 		if existing, ok := db.gongtimefieldDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gong/go, record not found")
+			return nil, errors.New("db GongTimeField github.com/fullstack-lang/gong/go, record not found")
 		}
 	case *MetaDB:
 		if existing, ok := db.metaDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gong/go, record not found")
+			return nil, errors.New("db Meta github.com/fullstack-lang/gong/go, record not found")
 		}
 	case *MetaReferenceDB:
 		if existing, ok := db.metareferenceDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gong/go, record not found")
+			return nil, errors.New("db MetaReference github.com/fullstack-lang/gong/go, record not found")
 		}
 	case *ModelPkgDB:
 		if existing, ok := db.modelpkgDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gong/go, record not found")
+			return nil, errors.New("db ModelPkg github.com/fullstack-lang/gong/go, record not found")
 		}
 	case *PointerToGongStructFieldDB:
 		if existing, ok := db.pointertogongstructfieldDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gong/go, record not found")
+			return nil, errors.New("db PointerToGongStructField github.com/fullstack-lang/gong/go, record not found")
 		}
 	case *SliceOfPointerToGongStructFieldDB:
 		if existing, ok := db.sliceofpointertogongstructfieldDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gong/go, record not found")
+			return nil, errors.New("db SliceOfPointerToGongStructField github.com/fullstack-lang/gong/go, record not found")
 		}
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/go, unsupported type in Updates")
@@ -368,80 +368,80 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	switch ptr := instanceDBs.(type) {
 	// insertion point find
 	case *[]GongBasicFieldDB:
-        *ptr = make([]GongBasicFieldDB, 0, len(db.gongbasicfieldDBs))
-        for _, v := range db.gongbasicfieldDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]GongBasicFieldDB, 0, len(db.gongbasicfieldDBs))
+		for _, v := range db.gongbasicfieldDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]GongEnumDB:
-        *ptr = make([]GongEnumDB, 0, len(db.gongenumDBs))
-        for _, v := range db.gongenumDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]GongEnumDB, 0, len(db.gongenumDBs))
+		for _, v := range db.gongenumDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]GongEnumValueDB:
-        *ptr = make([]GongEnumValueDB, 0, len(db.gongenumvalueDBs))
-        for _, v := range db.gongenumvalueDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]GongEnumValueDB, 0, len(db.gongenumvalueDBs))
+		for _, v := range db.gongenumvalueDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]GongLinkDB:
-        *ptr = make([]GongLinkDB, 0, len(db.gonglinkDBs))
-        for _, v := range db.gonglinkDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]GongLinkDB, 0, len(db.gonglinkDBs))
+		for _, v := range db.gonglinkDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]GongNoteDB:
-        *ptr = make([]GongNoteDB, 0, len(db.gongnoteDBs))
-        for _, v := range db.gongnoteDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]GongNoteDB, 0, len(db.gongnoteDBs))
+		for _, v := range db.gongnoteDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]GongStructDB:
-        *ptr = make([]GongStructDB, 0, len(db.gongstructDBs))
-        for _, v := range db.gongstructDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]GongStructDB, 0, len(db.gongstructDBs))
+		for _, v := range db.gongstructDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]GongTimeFieldDB:
-        *ptr = make([]GongTimeFieldDB, 0, len(db.gongtimefieldDBs))
-        for _, v := range db.gongtimefieldDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]GongTimeFieldDB, 0, len(db.gongtimefieldDBs))
+		for _, v := range db.gongtimefieldDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]MetaDB:
-        *ptr = make([]MetaDB, 0, len(db.metaDBs))
-        for _, v := range db.metaDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]MetaDB, 0, len(db.metaDBs))
+		for _, v := range db.metaDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]MetaReferenceDB:
-        *ptr = make([]MetaReferenceDB, 0, len(db.metareferenceDBs))
-        for _, v := range db.metareferenceDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]MetaReferenceDB, 0, len(db.metareferenceDBs))
+		for _, v := range db.metareferenceDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]ModelPkgDB:
-        *ptr = make([]ModelPkgDB, 0, len(db.modelpkgDBs))
-        for _, v := range db.modelpkgDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]ModelPkgDB, 0, len(db.modelpkgDBs))
+		for _, v := range db.modelpkgDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]PointerToGongStructFieldDB:
-        *ptr = make([]PointerToGongStructFieldDB, 0, len(db.pointertogongstructfieldDBs))
-        for _, v := range db.pointertogongstructfieldDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]PointerToGongStructFieldDB, 0, len(db.pointertogongstructfieldDBs))
+		for _, v := range db.pointertogongstructfieldDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]SliceOfPointerToGongStructFieldDB:
-        *ptr = make([]SliceOfPointerToGongStructFieldDB, 0, len(db.sliceofpointertogongstructfieldDBs))
-        for _, v := range db.sliceofpointertogongstructfieldDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
-    default:
-        return nil, errors.New("github.com/fullstack-lang/gong/go, Find: unsupported type")
-    }
+		*ptr = make([]SliceOfPointerToGongStructFieldDB, 0, len(db.sliceofpointertogongstructfieldDBs))
+		for _, v := range db.sliceofpointertogongstructfieldDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	default:
+		return nil, errors.New("github.com/fullstack-lang/gong/go, Find: unsupported type")
+	}
 }
 
 // First retrieves the first record of a type from the database
@@ -469,99 +469,123 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 	case *GongBasicFieldDB:
 		tmp, ok := db.gongbasicfieldDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First GongBasicField Unkown entry %d", i))
+		}
+
 		gongbasicfieldDB, _ := instanceDB.(*GongBasicFieldDB)
 		*gongbasicfieldDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *GongEnumDB:
 		tmp, ok := db.gongenumDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First GongEnum Unkown entry %d", i))
+		}
+
 		gongenumDB, _ := instanceDB.(*GongEnumDB)
 		*gongenumDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *GongEnumValueDB:
 		tmp, ok := db.gongenumvalueDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First GongEnumValue Unkown entry %d", i))
+		}
+
 		gongenumvalueDB, _ := instanceDB.(*GongEnumValueDB)
 		*gongenumvalueDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *GongLinkDB:
 		tmp, ok := db.gonglinkDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First GongLink Unkown entry %d", i))
+		}
+
 		gonglinkDB, _ := instanceDB.(*GongLinkDB)
 		*gonglinkDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *GongNoteDB:
 		tmp, ok := db.gongnoteDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First GongNote Unkown entry %d", i))
+		}
+
 		gongnoteDB, _ := instanceDB.(*GongNoteDB)
 		*gongnoteDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *GongStructDB:
 		tmp, ok := db.gongstructDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First GongStruct Unkown entry %d", i))
+		}
+
 		gongstructDB, _ := instanceDB.(*GongStructDB)
 		*gongstructDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *GongTimeFieldDB:
 		tmp, ok := db.gongtimefieldDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First GongTimeField Unkown entry %d", i))
+		}
+
 		gongtimefieldDB, _ := instanceDB.(*GongTimeFieldDB)
 		*gongtimefieldDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *MetaDB:
 		tmp, ok := db.metaDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Meta Unkown entry %d", i))
+		}
+
 		metaDB, _ := instanceDB.(*MetaDB)
 		*metaDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *MetaReferenceDB:
 		tmp, ok := db.metareferenceDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First MetaReference Unkown entry %d", i))
+		}
+
 		metareferenceDB, _ := instanceDB.(*MetaReferenceDB)
 		*metareferenceDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *ModelPkgDB:
 		tmp, ok := db.modelpkgDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First ModelPkg Unkown entry %d", i))
+		}
+
 		modelpkgDB, _ := instanceDB.(*ModelPkgDB)
 		*modelpkgDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *PointerToGongStructFieldDB:
 		tmp, ok := db.pointertogongstructfieldDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First PointerToGongStructField Unkown entry %d", i))
+		}
+
 		pointertogongstructfieldDB, _ := instanceDB.(*PointerToGongStructFieldDB)
 		*pointertogongstructfieldDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *SliceOfPointerToGongStructFieldDB:
 		tmp, ok := db.sliceofpointertogongstructfieldDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First SliceOfPointerToGongStructField Unkown entry %d", i))
+		}
+
 		sliceofpointertogongstructfieldDB, _ := instanceDB.(*SliceOfPointerToGongStructFieldDB)
 		*sliceofpointertogongstructfieldDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/go, Unkown type")
 	}
