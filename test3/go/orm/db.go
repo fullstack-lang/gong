@@ -135,13 +135,13 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		if existing, ok := db.aDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gong/test3/go, record not found")
+			return nil, errors.New("db A github.com/fullstack-lang/gong/test3/go, record not found")
 		}
 	case *BDB:
 		if existing, ok := db.bDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gong/test3/go, record not found")
+			return nil, errors.New("db B github.com/fullstack-lang/gong/test3/go, record not found")
 		}
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/test3/go, unsupported type in Updates")
@@ -200,7 +200,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.aDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First A Unkown entry %d", i))
 		}
 
 		aDB, _ := instanceDB.(*ADB)
@@ -210,7 +210,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.bDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First B Unkown entry %d", i))
 		}
 
 		bDB, _ := instanceDB.(*BDB)

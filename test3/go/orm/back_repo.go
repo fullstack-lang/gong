@@ -4,12 +4,12 @@ package orm
 import (
 	"bufio"
 	"bytes"
+	"context"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
 	"sync"
-	"time"
 
 	"github.com/fullstack-lang/gong/test3/go/db"
 	"github.com/fullstack-lang/gong/test3/go/models"
@@ -227,45 +227,48 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.StageStruct, dirPath str
 	backRepo.stage.Commit()
 }
 
-func (backRepoStruct *BackRepoStruct) SubscribeToCommitNb() <-chan int {
+func (backRepoStruct *BackRepoStruct) SubscribeToCommitNb(ctx context.Context) <-chan int {
+	ch := make(chan int)
+
+	backRepoStruct.rwMutex.Lock()
+	backRepoStruct.subscribers = append(backRepoStruct.subscribers, ch)
+	backRepoStruct.rwMutex.Unlock()
+
+	// Goroutine to remove subscriber when context is done
+	go func() {
+		<-ctx.Done()
+		backRepoStruct.unsubscribe(ch)
+	}()
+	return ch
+}
+
+// unsubscribe removes a subscriber's channel from the subscribers slice.
+func (backRepoStruct *BackRepoStruct) unsubscribe(ch chan int) {
 	backRepoStruct.rwMutex.Lock()
 	defer backRepoStruct.rwMutex.Unlock()
-
-	ch := make(chan int)
-	backRepoStruct.subscribers = append(backRepoStruct.subscribers, ch)
-	return ch
+	for i, subscriber := range backRepoStruct.subscribers {
+		if subscriber == ch {
+			backRepoStruct.subscribers =
+				append(backRepoStruct.subscribers[:i],
+					backRepoStruct.subscribers[i+1:]...)
+			close(ch) // Close the channel to signal completion
+			break
+		}
+	}
 }
 
 func (backRepoStruct *BackRepoStruct) broadcastNbCommitToBack() {
 	backRepoStruct.rwMutex.RLock()
-	defer backRepoStruct.rwMutex.RUnlock()
+	subscribers := make([]chan int, len(backRepoStruct.subscribers))
+	copy(subscribers, backRepoStruct.subscribers)
+	backRepoStruct.rwMutex.RUnlock()
 
-	log.Println("github.com/fullstack-lang/gong/test3/go, begin of broadcastNbCommitToBack", backRepoStruct.CommitFromBackNb)
-
-	activeChannels := make([]chan int, 0)
-
-	for _, ch := range backRepoStruct.subscribers {
-		startTime := time.Now()
-		sent := make(chan struct{})
-		go func(ch chan int) {
-			ch <- int(backRepoStruct.CommitFromBackNb)
-			close(sent)
-		}(ch)
-
+	for _, ch := range subscribers {
 		select {
-		case <-sent:
-			elapsedTime := time.Since(startTime)
-			log.Printf("Send succeeded, time taken: %v\n", elapsedTime)
-			activeChannels = append(activeChannels, ch)
-		case <-time.After(5 * time.Second): // Adjust the timeout as needed
-			elapsedTime := time.Since(startTime)
-			log.Printf("Timeout after %v waiting to send to channel\n", elapsedTime)
-			// Handle the timeout case, e.g., close the channel or keep it
-			close(ch)
+		case ch <- int(backRepoStruct.CommitFromBackNb):
+			// Successfully sent commit from back
+		default:
+			// Subscriber is not ready to receive; skip to avoid blocking
 		}
 	}
-
-	log.Println("github.com/fullstack-lang/gong/test3/go, end of broadcastNbCommitToBack", backRepoStruct.CommitFromBackNb)
-
-	backRepoStruct.subscribers = activeChannels
 }
