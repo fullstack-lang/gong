@@ -49,7 +49,7 @@ func main() {
 		if a, ok := map_A["A1"]; ok {
 			for {
 				time.Sleep(1 * time.Second)
-				log.Println("a", a.Name)
+				// log.Println("a", a.Name)
 				index++
 				if index%2 == 1 {
 					a.Name = a.Name + "*"
