@@ -767,7 +767,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.cellDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db Cell Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First Cell Unkown entry %d", i))
 		}
 
 		cellDB, _ := instanceDB.(*CellDB)
@@ -777,7 +777,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.cellbooleanDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db CellBoolean Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First CellBoolean Unkown entry %d", i))
 		}
 
 		cellbooleanDB, _ := instanceDB.(*CellBooleanDB)
@@ -787,7 +787,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.cellfloat64DBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db CellFloat64 Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First CellFloat64 Unkown entry %d", i))
 		}
 
 		cellfloat64DB, _ := instanceDB.(*CellFloat64DB)
@@ -797,7 +797,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.celliconDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db CellIcon Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First CellIcon Unkown entry %d", i))
 		}
 
 		celliconDB, _ := instanceDB.(*CellIconDB)
@@ -807,7 +807,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.cellintDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db CellInt Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First CellInt Unkown entry %d", i))
 		}
 
 		cellintDB, _ := instanceDB.(*CellIntDB)
@@ -817,7 +817,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.cellstringDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db CellString Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First CellString Unkown entry %d", i))
 		}
 
 		cellstringDB, _ := instanceDB.(*CellStringDB)
@@ -827,7 +827,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.checkboxDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db CheckBox Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First CheckBox Unkown entry %d", i))
 		}
 
 		checkboxDB, _ := instanceDB.(*CheckBoxDB)
@@ -837,7 +837,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.displayedcolumnDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db DisplayedColumn Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First DisplayedColumn Unkown entry %d", i))
 		}
 
 		displayedcolumnDB, _ := instanceDB.(*DisplayedColumnDB)
@@ -847,7 +847,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.formdivDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db FormDiv Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First FormDiv Unkown entry %d", i))
 		}
 
 		formdivDB, _ := instanceDB.(*FormDivDB)
@@ -857,7 +857,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.formeditassocbuttonDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db FormEditAssocButton Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First FormEditAssocButton Unkown entry %d", i))
 		}
 
 		formeditassocbuttonDB, _ := instanceDB.(*FormEditAssocButtonDB)
@@ -867,7 +867,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.formfieldDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db FormField Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First FormField Unkown entry %d", i))
 		}
 
 		formfieldDB, _ := instanceDB.(*FormFieldDB)
@@ -877,7 +877,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.formfielddateDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db FormFieldDate Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First FormFieldDate Unkown entry %d", i))
 		}
 
 		formfielddateDB, _ := instanceDB.(*FormFieldDateDB)
@@ -887,7 +887,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.formfielddatetimeDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db FormFieldDateTime Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First FormFieldDateTime Unkown entry %d", i))
 		}
 
 		formfielddatetimeDB, _ := instanceDB.(*FormFieldDateTimeDB)
@@ -897,7 +897,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.formfieldfloat64DBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db FormFieldFloat64 Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First FormFieldFloat64 Unkown entry %d", i))
 		}
 
 		formfieldfloat64DB, _ := instanceDB.(*FormFieldFloat64DB)
@@ -907,7 +907,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.formfieldintDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db FormFieldInt Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First FormFieldInt Unkown entry %d", i))
 		}
 
 		formfieldintDB, _ := instanceDB.(*FormFieldIntDB)
@@ -917,7 +917,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.formfieldselectDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db FormFieldSelect Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First FormFieldSelect Unkown entry %d", i))
 		}
 
 		formfieldselectDB, _ := instanceDB.(*FormFieldSelectDB)
@@ -927,7 +927,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.formfieldstringDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db FormFieldString Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First FormFieldString Unkown entry %d", i))
 		}
 
 		formfieldstringDB, _ := instanceDB.(*FormFieldStringDB)
@@ -937,7 +937,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.formfieldtimeDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db FormFieldTime Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First FormFieldTime Unkown entry %d", i))
 		}
 
 		formfieldtimeDB, _ := instanceDB.(*FormFieldTimeDB)
@@ -947,7 +947,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.formgroupDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db FormGroup Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First FormGroup Unkown entry %d", i))
 		}
 
 		formgroupDB, _ := instanceDB.(*FormGroupDB)
@@ -957,7 +957,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.formsortassocbuttonDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db FormSortAssocButton Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First FormSortAssocButton Unkown entry %d", i))
 		}
 
 		formsortassocbuttonDB, _ := instanceDB.(*FormSortAssocButtonDB)
@@ -967,7 +967,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.optionDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db Option Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First Option Unkown entry %d", i))
 		}
 
 		optionDB, _ := instanceDB.(*OptionDB)
@@ -977,7 +977,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.rowDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db Row Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First Row Unkown entry %d", i))
 		}
 
 		rowDB, _ := instanceDB.(*RowDB)
@@ -987,7 +987,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		tmp, ok := db.tableDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db Table Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First Table Unkown entry %d", i))
 		}
 
 		tableDB, _ := instanceDB.(*TableDB)
