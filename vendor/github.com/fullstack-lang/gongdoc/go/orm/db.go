@@ -300,79 +300,79 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		if existing, ok := db.classdiagramDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongdoc/go, record not found")
+			return nil, errors.New("db Classdiagram github.com/fullstack-lang/gongdoc/go, record not found")
 		}
 	case *DiagramPackageDB:
 		if existing, ok := db.diagrampackageDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongdoc/go, record not found")
+			return nil, errors.New("db DiagramPackage github.com/fullstack-lang/gongdoc/go, record not found")
 		}
 	case *FieldDB:
 		if existing, ok := db.fieldDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongdoc/go, record not found")
+			return nil, errors.New("db Field github.com/fullstack-lang/gongdoc/go, record not found")
 		}
 	case *GongEnumShapeDB:
 		if existing, ok := db.gongenumshapeDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongdoc/go, record not found")
+			return nil, errors.New("db GongEnumShape github.com/fullstack-lang/gongdoc/go, record not found")
 		}
 	case *GongEnumValueEntryDB:
 		if existing, ok := db.gongenumvalueentryDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongdoc/go, record not found")
+			return nil, errors.New("db GongEnumValueEntry github.com/fullstack-lang/gongdoc/go, record not found")
 		}
 	case *GongStructShapeDB:
 		if existing, ok := db.gongstructshapeDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongdoc/go, record not found")
+			return nil, errors.New("db GongStructShape github.com/fullstack-lang/gongdoc/go, record not found")
 		}
 	case *LinkDB:
 		if existing, ok := db.linkDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongdoc/go, record not found")
+			return nil, errors.New("db Link github.com/fullstack-lang/gongdoc/go, record not found")
 		}
 	case *NoteShapeDB:
 		if existing, ok := db.noteshapeDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongdoc/go, record not found")
+			return nil, errors.New("db NoteShape github.com/fullstack-lang/gongdoc/go, record not found")
 		}
 	case *NoteShapeLinkDB:
 		if existing, ok := db.noteshapelinkDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongdoc/go, record not found")
+			return nil, errors.New("db NoteShapeLink github.com/fullstack-lang/gongdoc/go, record not found")
 		}
 	case *PositionDB:
 		if existing, ok := db.positionDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongdoc/go, record not found")
+			return nil, errors.New("db Position github.com/fullstack-lang/gongdoc/go, record not found")
 		}
 	case *UmlStateDB:
 		if existing, ok := db.umlstateDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongdoc/go, record not found")
+			return nil, errors.New("db UmlState github.com/fullstack-lang/gongdoc/go, record not found")
 		}
 	case *UmlscDB:
 		if existing, ok := db.umlscDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongdoc/go, record not found")
+			return nil, errors.New("db Umlsc github.com/fullstack-lang/gongdoc/go, record not found")
 		}
 	case *VerticeDB:
 		if existing, ok := db.verticeDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongdoc/go, record not found")
+			return nil, errors.New("db Vertice github.com/fullstack-lang/gongdoc/go, record not found")
 		}
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gongdoc/go, unsupported type in Updates")
@@ -389,86 +389,86 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	switch ptr := instanceDBs.(type) {
 	// insertion point find
 	case *[]ClassdiagramDB:
-        *ptr = make([]ClassdiagramDB, 0, len(db.classdiagramDBs))
-        for _, v := range db.classdiagramDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]ClassdiagramDB, 0, len(db.classdiagramDBs))
+		for _, v := range db.classdiagramDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]DiagramPackageDB:
-        *ptr = make([]DiagramPackageDB, 0, len(db.diagrampackageDBs))
-        for _, v := range db.diagrampackageDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]DiagramPackageDB, 0, len(db.diagrampackageDBs))
+		for _, v := range db.diagrampackageDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]FieldDB:
-        *ptr = make([]FieldDB, 0, len(db.fieldDBs))
-        for _, v := range db.fieldDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]FieldDB, 0, len(db.fieldDBs))
+		for _, v := range db.fieldDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]GongEnumShapeDB:
-        *ptr = make([]GongEnumShapeDB, 0, len(db.gongenumshapeDBs))
-        for _, v := range db.gongenumshapeDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]GongEnumShapeDB, 0, len(db.gongenumshapeDBs))
+		for _, v := range db.gongenumshapeDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]GongEnumValueEntryDB:
-        *ptr = make([]GongEnumValueEntryDB, 0, len(db.gongenumvalueentryDBs))
-        for _, v := range db.gongenumvalueentryDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]GongEnumValueEntryDB, 0, len(db.gongenumvalueentryDBs))
+		for _, v := range db.gongenumvalueentryDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]GongStructShapeDB:
-        *ptr = make([]GongStructShapeDB, 0, len(db.gongstructshapeDBs))
-        for _, v := range db.gongstructshapeDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]GongStructShapeDB, 0, len(db.gongstructshapeDBs))
+		for _, v := range db.gongstructshapeDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]LinkDB:
-        *ptr = make([]LinkDB, 0, len(db.linkDBs))
-        for _, v := range db.linkDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]LinkDB, 0, len(db.linkDBs))
+		for _, v := range db.linkDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]NoteShapeDB:
-        *ptr = make([]NoteShapeDB, 0, len(db.noteshapeDBs))
-        for _, v := range db.noteshapeDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]NoteShapeDB, 0, len(db.noteshapeDBs))
+		for _, v := range db.noteshapeDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]NoteShapeLinkDB:
-        *ptr = make([]NoteShapeLinkDB, 0, len(db.noteshapelinkDBs))
-        for _, v := range db.noteshapelinkDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]NoteShapeLinkDB, 0, len(db.noteshapelinkDBs))
+		for _, v := range db.noteshapelinkDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]PositionDB:
-        *ptr = make([]PositionDB, 0, len(db.positionDBs))
-        for _, v := range db.positionDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]PositionDB, 0, len(db.positionDBs))
+		for _, v := range db.positionDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]UmlStateDB:
-        *ptr = make([]UmlStateDB, 0, len(db.umlstateDBs))
-        for _, v := range db.umlstateDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]UmlStateDB, 0, len(db.umlstateDBs))
+		for _, v := range db.umlstateDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]UmlscDB:
-        *ptr = make([]UmlscDB, 0, len(db.umlscDBs))
-        for _, v := range db.umlscDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]UmlscDB, 0, len(db.umlscDBs))
+		for _, v := range db.umlscDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]VerticeDB:
-        *ptr = make([]VerticeDB, 0, len(db.verticeDBs))
-        for _, v := range db.verticeDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
-    default:
-        return nil, errors.New("github.com/fullstack-lang/gongdoc/go, Find: unsupported type")
-    }
+		*ptr = make([]VerticeDB, 0, len(db.verticeDBs))
+		for _, v := range db.verticeDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	default:
+		return nil, errors.New("github.com/fullstack-lang/gongdoc/go, Find: unsupported type")
+	}
 }
 
 // First retrieves the first record of a type from the database
@@ -496,107 +496,133 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 	case *ClassdiagramDB:
 		tmp, ok := db.classdiagramDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Classdiagram Unkown entry %d", i))
+		}
+
 		classdiagramDB, _ := instanceDB.(*ClassdiagramDB)
 		*classdiagramDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *DiagramPackageDB:
 		tmp, ok := db.diagrampackageDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First DiagramPackage Unkown entry %d", i))
+		}
+
 		diagrampackageDB, _ := instanceDB.(*DiagramPackageDB)
 		*diagrampackageDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *FieldDB:
 		tmp, ok := db.fieldDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Field Unkown entry %d", i))
+		}
+
 		fieldDB, _ := instanceDB.(*FieldDB)
 		*fieldDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *GongEnumShapeDB:
 		tmp, ok := db.gongenumshapeDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First GongEnumShape Unkown entry %d", i))
+		}
+
 		gongenumshapeDB, _ := instanceDB.(*GongEnumShapeDB)
 		*gongenumshapeDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *GongEnumValueEntryDB:
 		tmp, ok := db.gongenumvalueentryDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First GongEnumValueEntry Unkown entry %d", i))
+		}
+
 		gongenumvalueentryDB, _ := instanceDB.(*GongEnumValueEntryDB)
 		*gongenumvalueentryDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *GongStructShapeDB:
 		tmp, ok := db.gongstructshapeDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First GongStructShape Unkown entry %d", i))
+		}
+
 		gongstructshapeDB, _ := instanceDB.(*GongStructShapeDB)
 		*gongstructshapeDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *LinkDB:
 		tmp, ok := db.linkDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Link Unkown entry %d", i))
+		}
+
 		linkDB, _ := instanceDB.(*LinkDB)
 		*linkDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *NoteShapeDB:
 		tmp, ok := db.noteshapeDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First NoteShape Unkown entry %d", i))
+		}
+
 		noteshapeDB, _ := instanceDB.(*NoteShapeDB)
 		*noteshapeDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *NoteShapeLinkDB:
 		tmp, ok := db.noteshapelinkDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First NoteShapeLink Unkown entry %d", i))
+		}
+
 		noteshapelinkDB, _ := instanceDB.(*NoteShapeLinkDB)
 		*noteshapelinkDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *PositionDB:
 		tmp, ok := db.positionDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Position Unkown entry %d", i))
+		}
+
 		positionDB, _ := instanceDB.(*PositionDB)
 		*positionDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *UmlStateDB:
 		tmp, ok := db.umlstateDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First UmlState Unkown entry %d", i))
+		}
+
 		umlstateDB, _ := instanceDB.(*UmlStateDB)
 		*umlstateDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *UmlscDB:
 		tmp, ok := db.umlscDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Umlsc Unkown entry %d", i))
+		}
+
 		umlscDB, _ := instanceDB.(*UmlscDB)
 		*umlscDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *VerticeDB:
 		tmp, ok := db.verticeDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Vertice Unkown entry %d", i))
+		}
+
 		verticeDB, _ := instanceDB.(*VerticeDB)
 		*verticeDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gongdoc/go, Unkown type")
 	}

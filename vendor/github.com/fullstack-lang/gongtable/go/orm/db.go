@@ -450,139 +450,139 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		if existing, ok := db.cellDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db Cell github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *CellBooleanDB:
 		if existing, ok := db.cellbooleanDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db CellBoolean github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *CellFloat64DB:
 		if existing, ok := db.cellfloat64DBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db CellFloat64 github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *CellIconDB:
 		if existing, ok := db.celliconDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db CellIcon github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *CellIntDB:
 		if existing, ok := db.cellintDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db CellInt github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *CellStringDB:
 		if existing, ok := db.cellstringDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db CellString github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *CheckBoxDB:
 		if existing, ok := db.checkboxDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db CheckBox github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *DisplayedColumnDB:
 		if existing, ok := db.displayedcolumnDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db DisplayedColumn github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *FormDivDB:
 		if existing, ok := db.formdivDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db FormDiv github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *FormEditAssocButtonDB:
 		if existing, ok := db.formeditassocbuttonDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db FormEditAssocButton github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *FormFieldDB:
 		if existing, ok := db.formfieldDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db FormField github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *FormFieldDateDB:
 		if existing, ok := db.formfielddateDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db FormFieldDate github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *FormFieldDateTimeDB:
 		if existing, ok := db.formfielddatetimeDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db FormFieldDateTime github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *FormFieldFloat64DB:
 		if existing, ok := db.formfieldfloat64DBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db FormFieldFloat64 github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *FormFieldIntDB:
 		if existing, ok := db.formfieldintDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db FormFieldInt github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *FormFieldSelectDB:
 		if existing, ok := db.formfieldselectDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db FormFieldSelect github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *FormFieldStringDB:
 		if existing, ok := db.formfieldstringDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db FormFieldString github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *FormFieldTimeDB:
 		if existing, ok := db.formfieldtimeDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db FormFieldTime github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *FormGroupDB:
 		if existing, ok := db.formgroupDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db FormGroup github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *FormSortAssocButtonDB:
 		if existing, ok := db.formsortassocbuttonDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db FormSortAssocButton github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *OptionDB:
 		if existing, ok := db.optionDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db Option github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *RowDB:
 		if existing, ok := db.rowDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db Row github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	case *TableDB:
 		if existing, ok := db.tableDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtable/go, record not found")
+			return nil, errors.New("db Table github.com/fullstack-lang/gongtable/go, record not found")
 		}
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gongtable/go, unsupported type in Updates")
@@ -599,146 +599,146 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	switch ptr := instanceDBs.(type) {
 	// insertion point find
 	case *[]CellDB:
-        *ptr = make([]CellDB, 0, len(db.cellDBs))
-        for _, v := range db.cellDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]CellDB, 0, len(db.cellDBs))
+		for _, v := range db.cellDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]CellBooleanDB:
-        *ptr = make([]CellBooleanDB, 0, len(db.cellbooleanDBs))
-        for _, v := range db.cellbooleanDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]CellBooleanDB, 0, len(db.cellbooleanDBs))
+		for _, v := range db.cellbooleanDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]CellFloat64DB:
-        *ptr = make([]CellFloat64DB, 0, len(db.cellfloat64DBs))
-        for _, v := range db.cellfloat64DBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]CellFloat64DB, 0, len(db.cellfloat64DBs))
+		for _, v := range db.cellfloat64DBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]CellIconDB:
-        *ptr = make([]CellIconDB, 0, len(db.celliconDBs))
-        for _, v := range db.celliconDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]CellIconDB, 0, len(db.celliconDBs))
+		for _, v := range db.celliconDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]CellIntDB:
-        *ptr = make([]CellIntDB, 0, len(db.cellintDBs))
-        for _, v := range db.cellintDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]CellIntDB, 0, len(db.cellintDBs))
+		for _, v := range db.cellintDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]CellStringDB:
-        *ptr = make([]CellStringDB, 0, len(db.cellstringDBs))
-        for _, v := range db.cellstringDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]CellStringDB, 0, len(db.cellstringDBs))
+		for _, v := range db.cellstringDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]CheckBoxDB:
-        *ptr = make([]CheckBoxDB, 0, len(db.checkboxDBs))
-        for _, v := range db.checkboxDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]CheckBoxDB, 0, len(db.checkboxDBs))
+		for _, v := range db.checkboxDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]DisplayedColumnDB:
-        *ptr = make([]DisplayedColumnDB, 0, len(db.displayedcolumnDBs))
-        for _, v := range db.displayedcolumnDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]DisplayedColumnDB, 0, len(db.displayedcolumnDBs))
+		for _, v := range db.displayedcolumnDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]FormDivDB:
-        *ptr = make([]FormDivDB, 0, len(db.formdivDBs))
-        for _, v := range db.formdivDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]FormDivDB, 0, len(db.formdivDBs))
+		for _, v := range db.formdivDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]FormEditAssocButtonDB:
-        *ptr = make([]FormEditAssocButtonDB, 0, len(db.formeditassocbuttonDBs))
-        for _, v := range db.formeditassocbuttonDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]FormEditAssocButtonDB, 0, len(db.formeditassocbuttonDBs))
+		for _, v := range db.formeditassocbuttonDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]FormFieldDB:
-        *ptr = make([]FormFieldDB, 0, len(db.formfieldDBs))
-        for _, v := range db.formfieldDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]FormFieldDB, 0, len(db.formfieldDBs))
+		for _, v := range db.formfieldDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]FormFieldDateDB:
-        *ptr = make([]FormFieldDateDB, 0, len(db.formfielddateDBs))
-        for _, v := range db.formfielddateDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]FormFieldDateDB, 0, len(db.formfielddateDBs))
+		for _, v := range db.formfielddateDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]FormFieldDateTimeDB:
-        *ptr = make([]FormFieldDateTimeDB, 0, len(db.formfielddatetimeDBs))
-        for _, v := range db.formfielddatetimeDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]FormFieldDateTimeDB, 0, len(db.formfielddatetimeDBs))
+		for _, v := range db.formfielddatetimeDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]FormFieldFloat64DB:
-        *ptr = make([]FormFieldFloat64DB, 0, len(db.formfieldfloat64DBs))
-        for _, v := range db.formfieldfloat64DBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]FormFieldFloat64DB, 0, len(db.formfieldfloat64DBs))
+		for _, v := range db.formfieldfloat64DBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]FormFieldIntDB:
-        *ptr = make([]FormFieldIntDB, 0, len(db.formfieldintDBs))
-        for _, v := range db.formfieldintDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]FormFieldIntDB, 0, len(db.formfieldintDBs))
+		for _, v := range db.formfieldintDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]FormFieldSelectDB:
-        *ptr = make([]FormFieldSelectDB, 0, len(db.formfieldselectDBs))
-        for _, v := range db.formfieldselectDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]FormFieldSelectDB, 0, len(db.formfieldselectDBs))
+		for _, v := range db.formfieldselectDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]FormFieldStringDB:
-        *ptr = make([]FormFieldStringDB, 0, len(db.formfieldstringDBs))
-        for _, v := range db.formfieldstringDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]FormFieldStringDB, 0, len(db.formfieldstringDBs))
+		for _, v := range db.formfieldstringDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]FormFieldTimeDB:
-        *ptr = make([]FormFieldTimeDB, 0, len(db.formfieldtimeDBs))
-        for _, v := range db.formfieldtimeDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]FormFieldTimeDB, 0, len(db.formfieldtimeDBs))
+		for _, v := range db.formfieldtimeDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]FormGroupDB:
-        *ptr = make([]FormGroupDB, 0, len(db.formgroupDBs))
-        for _, v := range db.formgroupDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]FormGroupDB, 0, len(db.formgroupDBs))
+		for _, v := range db.formgroupDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]FormSortAssocButtonDB:
-        *ptr = make([]FormSortAssocButtonDB, 0, len(db.formsortassocbuttonDBs))
-        for _, v := range db.formsortassocbuttonDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]FormSortAssocButtonDB, 0, len(db.formsortassocbuttonDBs))
+		for _, v := range db.formsortassocbuttonDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]OptionDB:
-        *ptr = make([]OptionDB, 0, len(db.optionDBs))
-        for _, v := range db.optionDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]OptionDB, 0, len(db.optionDBs))
+		for _, v := range db.optionDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]RowDB:
-        *ptr = make([]RowDB, 0, len(db.rowDBs))
-        for _, v := range db.rowDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]RowDB, 0, len(db.rowDBs))
+		for _, v := range db.rowDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]TableDB:
-        *ptr = make([]TableDB, 0, len(db.tableDBs))
-        for _, v := range db.tableDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
-    default:
-        return nil, errors.New("github.com/fullstack-lang/gongtable/go, Find: unsupported type")
-    }
+		*ptr = make([]TableDB, 0, len(db.tableDBs))
+		for _, v := range db.tableDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	default:
+		return nil, errors.New("github.com/fullstack-lang/gongtable/go, Find: unsupported type")
+	}
 }
 
 // First retrieves the first record of a type from the database
@@ -766,187 +766,233 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 	case *CellDB:
 		tmp, ok := db.cellDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Cell Unkown entry %d", i))
+		}
+
 		cellDB, _ := instanceDB.(*CellDB)
 		*cellDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *CellBooleanDB:
 		tmp, ok := db.cellbooleanDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First CellBoolean Unkown entry %d", i))
+		}
+
 		cellbooleanDB, _ := instanceDB.(*CellBooleanDB)
 		*cellbooleanDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *CellFloat64DB:
 		tmp, ok := db.cellfloat64DBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First CellFloat64 Unkown entry %d", i))
+		}
+
 		cellfloat64DB, _ := instanceDB.(*CellFloat64DB)
 		*cellfloat64DB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *CellIconDB:
 		tmp, ok := db.celliconDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First CellIcon Unkown entry %d", i))
+		}
+
 		celliconDB, _ := instanceDB.(*CellIconDB)
 		*celliconDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *CellIntDB:
 		tmp, ok := db.cellintDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First CellInt Unkown entry %d", i))
+		}
+
 		cellintDB, _ := instanceDB.(*CellIntDB)
 		*cellintDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *CellStringDB:
 		tmp, ok := db.cellstringDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First CellString Unkown entry %d", i))
+		}
+
 		cellstringDB, _ := instanceDB.(*CellStringDB)
 		*cellstringDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *CheckBoxDB:
 		tmp, ok := db.checkboxDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First CheckBox Unkown entry %d", i))
+		}
+
 		checkboxDB, _ := instanceDB.(*CheckBoxDB)
 		*checkboxDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *DisplayedColumnDB:
 		tmp, ok := db.displayedcolumnDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First DisplayedColumn Unkown entry %d", i))
+		}
+
 		displayedcolumnDB, _ := instanceDB.(*DisplayedColumnDB)
 		*displayedcolumnDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *FormDivDB:
 		tmp, ok := db.formdivDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First FormDiv Unkown entry %d", i))
+		}
+
 		formdivDB, _ := instanceDB.(*FormDivDB)
 		*formdivDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *FormEditAssocButtonDB:
 		tmp, ok := db.formeditassocbuttonDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First FormEditAssocButton Unkown entry %d", i))
+		}
+
 		formeditassocbuttonDB, _ := instanceDB.(*FormEditAssocButtonDB)
 		*formeditassocbuttonDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *FormFieldDB:
 		tmp, ok := db.formfieldDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First FormField Unkown entry %d", i))
+		}
+
 		formfieldDB, _ := instanceDB.(*FormFieldDB)
 		*formfieldDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *FormFieldDateDB:
 		tmp, ok := db.formfielddateDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First FormFieldDate Unkown entry %d", i))
+		}
+
 		formfielddateDB, _ := instanceDB.(*FormFieldDateDB)
 		*formfielddateDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *FormFieldDateTimeDB:
 		tmp, ok := db.formfielddatetimeDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First FormFieldDateTime Unkown entry %d", i))
+		}
+
 		formfielddatetimeDB, _ := instanceDB.(*FormFieldDateTimeDB)
 		*formfielddatetimeDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *FormFieldFloat64DB:
 		tmp, ok := db.formfieldfloat64DBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First FormFieldFloat64 Unkown entry %d", i))
+		}
+
 		formfieldfloat64DB, _ := instanceDB.(*FormFieldFloat64DB)
 		*formfieldfloat64DB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *FormFieldIntDB:
 		tmp, ok := db.formfieldintDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First FormFieldInt Unkown entry %d", i))
+		}
+
 		formfieldintDB, _ := instanceDB.(*FormFieldIntDB)
 		*formfieldintDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *FormFieldSelectDB:
 		tmp, ok := db.formfieldselectDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First FormFieldSelect Unkown entry %d", i))
+		}
+
 		formfieldselectDB, _ := instanceDB.(*FormFieldSelectDB)
 		*formfieldselectDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *FormFieldStringDB:
 		tmp, ok := db.formfieldstringDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First FormFieldString Unkown entry %d", i))
+		}
+
 		formfieldstringDB, _ := instanceDB.(*FormFieldStringDB)
 		*formfieldstringDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *FormFieldTimeDB:
 		tmp, ok := db.formfieldtimeDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First FormFieldTime Unkown entry %d", i))
+		}
+
 		formfieldtimeDB, _ := instanceDB.(*FormFieldTimeDB)
 		*formfieldtimeDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *FormGroupDB:
 		tmp, ok := db.formgroupDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First FormGroup Unkown entry %d", i))
+		}
+
 		formgroupDB, _ := instanceDB.(*FormGroupDB)
 		*formgroupDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *FormSortAssocButtonDB:
 		tmp, ok := db.formsortassocbuttonDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First FormSortAssocButton Unkown entry %d", i))
+		}
+
 		formsortassocbuttonDB, _ := instanceDB.(*FormSortAssocButtonDB)
 		*formsortassocbuttonDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *OptionDB:
 		tmp, ok := db.optionDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Option Unkown entry %d", i))
+		}
+
 		optionDB, _ := instanceDB.(*OptionDB)
 		*optionDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *RowDB:
 		tmp, ok := db.rowDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Row Unkown entry %d", i))
+		}
+
 		rowDB, _ := instanceDB.(*RowDB)
 		*rowDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *TableDB:
 		tmp, ok := db.tableDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Table Unkown entry %d", i))
+		}
+
 		tableDB, _ := instanceDB.(*TableDB)
 		*tableDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gongtable/go, Unkown type")
 	}
