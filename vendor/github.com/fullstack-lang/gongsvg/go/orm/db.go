@@ -375,109 +375,109 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		if existing, ok := db.animateDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongsvg/go, record not found")
+			return nil, errors.New("db Animate github.com/fullstack-lang/gongsvg/go, record not found")
 		}
 	case *CircleDB:
 		if existing, ok := db.circleDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongsvg/go, record not found")
+			return nil, errors.New("db Circle github.com/fullstack-lang/gongsvg/go, record not found")
 		}
 	case *EllipseDB:
 		if existing, ok := db.ellipseDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongsvg/go, record not found")
+			return nil, errors.New("db Ellipse github.com/fullstack-lang/gongsvg/go, record not found")
 		}
 	case *LayerDB:
 		if existing, ok := db.layerDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongsvg/go, record not found")
+			return nil, errors.New("db Layer github.com/fullstack-lang/gongsvg/go, record not found")
 		}
 	case *LineDB:
 		if existing, ok := db.lineDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongsvg/go, record not found")
+			return nil, errors.New("db Line github.com/fullstack-lang/gongsvg/go, record not found")
 		}
 	case *LinkDB:
 		if existing, ok := db.linkDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongsvg/go, record not found")
+			return nil, errors.New("db Link github.com/fullstack-lang/gongsvg/go, record not found")
 		}
 	case *LinkAnchoredTextDB:
 		if existing, ok := db.linkanchoredtextDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongsvg/go, record not found")
+			return nil, errors.New("db LinkAnchoredText github.com/fullstack-lang/gongsvg/go, record not found")
 		}
 	case *PathDB:
 		if existing, ok := db.pathDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongsvg/go, record not found")
+			return nil, errors.New("db Path github.com/fullstack-lang/gongsvg/go, record not found")
 		}
 	case *PointDB:
 		if existing, ok := db.pointDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongsvg/go, record not found")
+			return nil, errors.New("db Point github.com/fullstack-lang/gongsvg/go, record not found")
 		}
 	case *PolygoneDB:
 		if existing, ok := db.polygoneDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongsvg/go, record not found")
+			return nil, errors.New("db Polygone github.com/fullstack-lang/gongsvg/go, record not found")
 		}
 	case *PolylineDB:
 		if existing, ok := db.polylineDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongsvg/go, record not found")
+			return nil, errors.New("db Polyline github.com/fullstack-lang/gongsvg/go, record not found")
 		}
 	case *RectDB:
 		if existing, ok := db.rectDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongsvg/go, record not found")
+			return nil, errors.New("db Rect github.com/fullstack-lang/gongsvg/go, record not found")
 		}
 	case *RectAnchoredPathDB:
 		if existing, ok := db.rectanchoredpathDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongsvg/go, record not found")
+			return nil, errors.New("db RectAnchoredPath github.com/fullstack-lang/gongsvg/go, record not found")
 		}
 	case *RectAnchoredRectDB:
 		if existing, ok := db.rectanchoredrectDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongsvg/go, record not found")
+			return nil, errors.New("db RectAnchoredRect github.com/fullstack-lang/gongsvg/go, record not found")
 		}
 	case *RectAnchoredTextDB:
 		if existing, ok := db.rectanchoredtextDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongsvg/go, record not found")
+			return nil, errors.New("db RectAnchoredText github.com/fullstack-lang/gongsvg/go, record not found")
 		}
 	case *RectLinkLinkDB:
 		if existing, ok := db.rectlinklinkDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongsvg/go, record not found")
+			return nil, errors.New("db RectLinkLink github.com/fullstack-lang/gongsvg/go, record not found")
 		}
 	case *SVGDB:
 		if existing, ok := db.svgDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongsvg/go, record not found")
+			return nil, errors.New("db SVG github.com/fullstack-lang/gongsvg/go, record not found")
 		}
 	case *TextDB:
 		if existing, ok := db.textDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongsvg/go, record not found")
+			return nil, errors.New("db Text github.com/fullstack-lang/gongsvg/go, record not found")
 		}
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gongsvg/go, unsupported type in Updates")
@@ -494,116 +494,116 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	switch ptr := instanceDBs.(type) {
 	// insertion point find
 	case *[]AnimateDB:
-        *ptr = make([]AnimateDB, 0, len(db.animateDBs))
-        for _, v := range db.animateDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]AnimateDB, 0, len(db.animateDBs))
+		for _, v := range db.animateDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]CircleDB:
-        *ptr = make([]CircleDB, 0, len(db.circleDBs))
-        for _, v := range db.circleDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]CircleDB, 0, len(db.circleDBs))
+		for _, v := range db.circleDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]EllipseDB:
-        *ptr = make([]EllipseDB, 0, len(db.ellipseDBs))
-        for _, v := range db.ellipseDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]EllipseDB, 0, len(db.ellipseDBs))
+		for _, v := range db.ellipseDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]LayerDB:
-        *ptr = make([]LayerDB, 0, len(db.layerDBs))
-        for _, v := range db.layerDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]LayerDB, 0, len(db.layerDBs))
+		for _, v := range db.layerDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]LineDB:
-        *ptr = make([]LineDB, 0, len(db.lineDBs))
-        for _, v := range db.lineDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]LineDB, 0, len(db.lineDBs))
+		for _, v := range db.lineDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]LinkDB:
-        *ptr = make([]LinkDB, 0, len(db.linkDBs))
-        for _, v := range db.linkDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]LinkDB, 0, len(db.linkDBs))
+		for _, v := range db.linkDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]LinkAnchoredTextDB:
-        *ptr = make([]LinkAnchoredTextDB, 0, len(db.linkanchoredtextDBs))
-        for _, v := range db.linkanchoredtextDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]LinkAnchoredTextDB, 0, len(db.linkanchoredtextDBs))
+		for _, v := range db.linkanchoredtextDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]PathDB:
-        *ptr = make([]PathDB, 0, len(db.pathDBs))
-        for _, v := range db.pathDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]PathDB, 0, len(db.pathDBs))
+		for _, v := range db.pathDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]PointDB:
-        *ptr = make([]PointDB, 0, len(db.pointDBs))
-        for _, v := range db.pointDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]PointDB, 0, len(db.pointDBs))
+		for _, v := range db.pointDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]PolygoneDB:
-        *ptr = make([]PolygoneDB, 0, len(db.polygoneDBs))
-        for _, v := range db.polygoneDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]PolygoneDB, 0, len(db.polygoneDBs))
+		for _, v := range db.polygoneDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]PolylineDB:
-        *ptr = make([]PolylineDB, 0, len(db.polylineDBs))
-        for _, v := range db.polylineDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]PolylineDB, 0, len(db.polylineDBs))
+		for _, v := range db.polylineDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]RectDB:
-        *ptr = make([]RectDB, 0, len(db.rectDBs))
-        for _, v := range db.rectDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]RectDB, 0, len(db.rectDBs))
+		for _, v := range db.rectDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]RectAnchoredPathDB:
-        *ptr = make([]RectAnchoredPathDB, 0, len(db.rectanchoredpathDBs))
-        for _, v := range db.rectanchoredpathDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]RectAnchoredPathDB, 0, len(db.rectanchoredpathDBs))
+		for _, v := range db.rectanchoredpathDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]RectAnchoredRectDB:
-        *ptr = make([]RectAnchoredRectDB, 0, len(db.rectanchoredrectDBs))
-        for _, v := range db.rectanchoredrectDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]RectAnchoredRectDB, 0, len(db.rectanchoredrectDBs))
+		for _, v := range db.rectanchoredrectDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]RectAnchoredTextDB:
-        *ptr = make([]RectAnchoredTextDB, 0, len(db.rectanchoredtextDBs))
-        for _, v := range db.rectanchoredtextDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]RectAnchoredTextDB, 0, len(db.rectanchoredtextDBs))
+		for _, v := range db.rectanchoredtextDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]RectLinkLinkDB:
-        *ptr = make([]RectLinkLinkDB, 0, len(db.rectlinklinkDBs))
-        for _, v := range db.rectlinklinkDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]RectLinkLinkDB, 0, len(db.rectlinklinkDBs))
+		for _, v := range db.rectlinklinkDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]SVGDB:
-        *ptr = make([]SVGDB, 0, len(db.svgDBs))
-        for _, v := range db.svgDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]SVGDB, 0, len(db.svgDBs))
+		for _, v := range db.svgDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]TextDB:
-        *ptr = make([]TextDB, 0, len(db.textDBs))
-        for _, v := range db.textDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
-    default:
-        return nil, errors.New("github.com/fullstack-lang/gongsvg/go, Find: unsupported type")
-    }
+		*ptr = make([]TextDB, 0, len(db.textDBs))
+		for _, v := range db.textDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	default:
+		return nil, errors.New("github.com/fullstack-lang/gongsvg/go, Find: unsupported type")
+	}
 }
 
 // First retrieves the first record of a type from the database
@@ -631,147 +631,183 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 	case *AnimateDB:
 		tmp, ok := db.animateDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Animate Unkown entry %d", i))
+		}
+
 		animateDB, _ := instanceDB.(*AnimateDB)
 		*animateDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *CircleDB:
 		tmp, ok := db.circleDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Circle Unkown entry %d", i))
+		}
+
 		circleDB, _ := instanceDB.(*CircleDB)
 		*circleDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *EllipseDB:
 		tmp, ok := db.ellipseDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Ellipse Unkown entry %d", i))
+		}
+
 		ellipseDB, _ := instanceDB.(*EllipseDB)
 		*ellipseDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *LayerDB:
 		tmp, ok := db.layerDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Layer Unkown entry %d", i))
+		}
+
 		layerDB, _ := instanceDB.(*LayerDB)
 		*layerDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *LineDB:
 		tmp, ok := db.lineDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Line Unkown entry %d", i))
+		}
+
 		lineDB, _ := instanceDB.(*LineDB)
 		*lineDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *LinkDB:
 		tmp, ok := db.linkDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Link Unkown entry %d", i))
+		}
+
 		linkDB, _ := instanceDB.(*LinkDB)
 		*linkDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *LinkAnchoredTextDB:
 		tmp, ok := db.linkanchoredtextDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First LinkAnchoredText Unkown entry %d", i))
+		}
+
 		linkanchoredtextDB, _ := instanceDB.(*LinkAnchoredTextDB)
 		*linkanchoredtextDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *PathDB:
 		tmp, ok := db.pathDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Path Unkown entry %d", i))
+		}
+
 		pathDB, _ := instanceDB.(*PathDB)
 		*pathDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *PointDB:
 		tmp, ok := db.pointDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Point Unkown entry %d", i))
+		}
+
 		pointDB, _ := instanceDB.(*PointDB)
 		*pointDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *PolygoneDB:
 		tmp, ok := db.polygoneDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Polygone Unkown entry %d", i))
+		}
+
 		polygoneDB, _ := instanceDB.(*PolygoneDB)
 		*polygoneDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *PolylineDB:
 		tmp, ok := db.polylineDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Polyline Unkown entry %d", i))
+		}
+
 		polylineDB, _ := instanceDB.(*PolylineDB)
 		*polylineDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *RectDB:
 		tmp, ok := db.rectDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Rect Unkown entry %d", i))
+		}
+
 		rectDB, _ := instanceDB.(*RectDB)
 		*rectDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *RectAnchoredPathDB:
 		tmp, ok := db.rectanchoredpathDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First RectAnchoredPath Unkown entry %d", i))
+		}
+
 		rectanchoredpathDB, _ := instanceDB.(*RectAnchoredPathDB)
 		*rectanchoredpathDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *RectAnchoredRectDB:
 		tmp, ok := db.rectanchoredrectDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First RectAnchoredRect Unkown entry %d", i))
+		}
+
 		rectanchoredrectDB, _ := instanceDB.(*RectAnchoredRectDB)
 		*rectanchoredrectDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *RectAnchoredTextDB:
 		tmp, ok := db.rectanchoredtextDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First RectAnchoredText Unkown entry %d", i))
+		}
+
 		rectanchoredtextDB, _ := instanceDB.(*RectAnchoredTextDB)
 		*rectanchoredtextDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *RectLinkLinkDB:
 		tmp, ok := db.rectlinklinkDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First RectLinkLink Unkown entry %d", i))
+		}
+
 		rectlinklinkDB, _ := instanceDB.(*RectLinkLinkDB)
 		*rectlinklinkDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *SVGDB:
 		tmp, ok := db.svgDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First SVG Unkown entry %d", i))
+		}
+
 		svgDB, _ := instanceDB.(*SVGDB)
 		*svgDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *TextDB:
 		tmp, ok := db.textDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Text Unkown entry %d", i))
+		}
+
 		textDB, _ := instanceDB.(*TextDB)
 		*textDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gongsvg/go, Unkown type")
 	}

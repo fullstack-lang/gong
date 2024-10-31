@@ -165,25 +165,25 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		if existing, ok := db.buttonDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtree/go, record not found")
+			return nil, errors.New("db Button github.com/fullstack-lang/gongtree/go, record not found")
 		}
 	case *NodeDB:
 		if existing, ok := db.nodeDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtree/go, record not found")
+			return nil, errors.New("db Node github.com/fullstack-lang/gongtree/go, record not found")
 		}
 	case *SVGIconDB:
 		if existing, ok := db.svgiconDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtree/go, record not found")
+			return nil, errors.New("db SVGIcon github.com/fullstack-lang/gongtree/go, record not found")
 		}
 	case *TreeDB:
 		if existing, ok := db.treeDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("github.com/fullstack-lang/gongtree/go, record not found")
+			return nil, errors.New("db Tree github.com/fullstack-lang/gongtree/go, record not found")
 		}
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gongtree/go, unsupported type in Updates")
@@ -200,32 +200,32 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	switch ptr := instanceDBs.(type) {
 	// insertion point find
 	case *[]ButtonDB:
-        *ptr = make([]ButtonDB, 0, len(db.buttonDBs))
-        for _, v := range db.buttonDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]ButtonDB, 0, len(db.buttonDBs))
+		for _, v := range db.buttonDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]NodeDB:
-        *ptr = make([]NodeDB, 0, len(db.nodeDBs))
-        for _, v := range db.nodeDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]NodeDB, 0, len(db.nodeDBs))
+		for _, v := range db.nodeDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]SVGIconDB:
-        *ptr = make([]SVGIconDB, 0, len(db.svgiconDBs))
-        for _, v := range db.svgiconDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
+		*ptr = make([]SVGIconDB, 0, len(db.svgiconDBs))
+		for _, v := range db.svgiconDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]TreeDB:
-        *ptr = make([]TreeDB, 0, len(db.treeDBs))
-        for _, v := range db.treeDBs {
-            *ptr = append(*ptr, *v)
-        }
-        return db, nil
-    default:
-        return nil, errors.New("github.com/fullstack-lang/gongtree/go, Find: unsupported type")
-    }
+		*ptr = make([]TreeDB, 0, len(db.treeDBs))
+		for _, v := range db.treeDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	default:
+		return nil, errors.New("github.com/fullstack-lang/gongtree/go, Find: unsupported type")
+	}
 }
 
 // First retrieves the first record of a type from the database
@@ -253,35 +253,43 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 	case *ButtonDB:
 		tmp, ok := db.buttonDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Button Unkown entry %d", i))
+		}
+
 		buttonDB, _ := instanceDB.(*ButtonDB)
 		*buttonDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *NodeDB:
 		tmp, ok := db.nodeDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Node Unkown entry %d", i))
+		}
+
 		nodeDB, _ := instanceDB.(*NodeDB)
 		*nodeDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *SVGIconDB:
 		tmp, ok := db.svgiconDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First SVGIcon Unkown entry %d", i))
+		}
+
 		svgiconDB, _ := instanceDB.(*SVGIconDB)
 		*svgiconDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	case *TreeDB:
 		tmp, ok := db.treeDBs[uint(i)]
 
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Tree Unkown entry %d", i))
+		}
+
 		treeDB, _ := instanceDB.(*TreeDB)
 		*treeDB = *tmp
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("Unkown entry %d", i))
-		}
+		
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gongtree/go, Unkown type")
 	}

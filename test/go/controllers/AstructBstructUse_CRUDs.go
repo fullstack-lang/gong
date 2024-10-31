@@ -280,7 +280,7 @@ func (controller *Controller) UpdateAstructBstructUse(c *gin.Context) {
 	astructbstructuseDB.AstructBstructUsePointersEncoding = input.AstructBstructUsePointersEncoding
 
 	db, _ = db.Model(&astructbstructuseDB)
-	_, err = db.Updates(astructbstructuseDB)
+	_, err = db.Updates(&astructbstructuseDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
