@@ -2,9 +2,11 @@
 package controllers
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/fullstack-lang/gong/test/go/orm"
 
@@ -144,6 +146,10 @@ func (controller *Controller) onWebSocketRequestForCommitFromBackNb(c *gin.Conte
 	}
 	defer wsConnection.Close()
 
+	// Create a context that is canceled when the connection is closed
+	ctx, cancel := context.WithCancel(c.Request.Context())
+	defer cancel()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -157,16 +163,41 @@ func (controller *Controller) onWebSocketRequestForCommitFromBackNb(c *gin.Conte
 	if backRepo == nil {
 		log.Panic("Stack github.com/fullstack-lang/gong/test/go, Unkown stack", stackPath)
 	}
-	updateCommitBackRepoNbChannel := backRepo.SubscribeToCommitNb()
+	updateCommitBackRepoNbChannel := backRepo.SubscribeToCommitNb(ctx)
 
-	for nbCommitBackRepo := range updateCommitBackRepoNbChannel {
+	// Start a goroutine to read from the WebSocket to detect disconnection
+	go func() {
+		for {
+			// ReadMessage is used to detect client disconnection
+			_, _, err := wsConnection.ReadMessage()
+			if err != nil {
+				log.Println("WebSocket read error (client disconnected):", err)
+				cancel() // Cancel the context
+				return
+			}
+		}
+	}()
 
-		// Send elapsed time as a string over the WebSocket connection
-		err = wsConnection.WriteMessage(websocket.TextMessage, []byte(fmt.Sprintf("%d", nbCommitBackRepo)))
-		if err != nil {
-			log.Println("github.com/fullstack-lang/gong/test/go:\n","client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
-			fmt.Println(err)
+	for {
+		select {
+		case <-ctx.Done():
+			// Context canceled, exit the loop
 			return
+		default:
+			for nbCommitBackRepo := range updateCommitBackRepoNbChannel {
+
+				// Set write deadline to prevent blocking indefinitely
+				wsConnection.SetWriteDeadline(time.Now().Add(10 * time.Second))
+
+				// Send elapsed time as a string over the WebSocket connection
+				err = wsConnection.WriteMessage(websocket.TextMessage, []byte(fmt.Sprintf("%d", nbCommitBackRepo)))
+				if err != nil {
+					log.Println("github.com/fullstack-lang/gong/test/go:\n", "client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
+					fmt.Println(err)
+					cancel() // Cancel the context
+					return
+				}
+			}
 		}
 	}
 }
@@ -198,6 +229,10 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	}
 	defer wsConnection.Close()
 
+	// Create a context that is canceled when the connection is closed
+	ctx, cancel := context.WithCancel(c.Request.Context())
+	defer cancel()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -211,7 +246,20 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	if backRepo == nil {
 		log.Panic("Stack github.com/fullstack-lang/gong/test/go, Unkown stack", stackPath)
 	}
-	updateCommitBackRepoNbChannel := backRepo.SubscribeToCommitNb()
+	updateCommitBackRepoNbChannel := backRepo.SubscribeToCommitNb(ctx)
+
+	// Start a goroutine to read from the WebSocket to detect disconnection
+	go func() {
+		for {
+			// ReadMessage is used to detect client disconnection
+			_, _, err := wsConnection.ReadMessage()
+			if err != nil {
+				log.Println("WebSocket read error (client disconnected):", err)
+				cancel() // Cancel the context
+				return
+			}
+		}
+	}()
 
 	backRepoData := new(orm.BackRepoData)
 	orm.CopyBackRepoToBackRepoData(backRepo, backRepoData)
@@ -220,26 +268,35 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	// log.Println("Stack github.com/fullstack-lang/gong/test/go, onWebSocketRequestForBackRepoContent, first sent back repo of", stackPath)
 	if err != nil {
 		log.Println("github.com/fullstack-lang/gong/test/go:\n",
-		"client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
+			"client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
 		fmt.Println(err)
 		return
 	}
-
-	for nbCommitBackRepo := range updateCommitBackRepoNbChannel {
-		_ = nbCommitBackRepo
-
-		backRepoData := new(orm.BackRepoData)
-		orm.CopyBackRepoToBackRepoData(backRepo, backRepoData)
-
-		// Send backRepo data
-		err = wsConnection.WriteJSON(backRepoData)
-
-		// log.Println("Stack github.com/fullstack-lang/gong/test/go, onWebSocketRequestForBackRepoContent, sent back repo of", stackPath)
-
-		if err != nil {
-			log.Println("client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
-			fmt.Println(err)
+	for {
+		select {
+		case <-ctx.Done():
+			// Context canceled, exit the loop
 			return
+		default:
+			for nbCommitBackRepo := range updateCommitBackRepoNbChannel {
+				_ = nbCommitBackRepo
+
+				backRepoData := new(orm.BackRepoData)
+				orm.CopyBackRepoToBackRepoData(backRepo, backRepoData)
+
+				// Set write deadline to prevent blocking indefinitely
+				wsConnection.SetWriteDeadline(time.Now().Add(10 * time.Second))
+
+				// Send backRepo data
+				err = wsConnection.WriteJSON(backRepoData)
+				if err != nil {
+					log.Println("github.com/fullstack-lang/gong/test/go:\n",
+						"client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
+					fmt.Println(err)
+					cancel() // Cancel the context
+					return
+				}
+			}
 		}
 	}
 }
