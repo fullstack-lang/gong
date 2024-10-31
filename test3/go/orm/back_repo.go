@@ -4,6 +4,7 @@ package orm
 import (
 	"bufio"
 	"bytes"
+	"context"
 	"io/ioutil"
 	"log"
 	"os"
@@ -226,30 +227,48 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.StageStruct, dirPath str
 	backRepo.stage.Commit()
 }
 
-func (backRepoStruct *BackRepoStruct) SubscribeToCommitNb() <-chan int {
+func (backRepoStruct *BackRepoStruct) SubscribeToCommitNb(ctx context.Context) <-chan int {
+	ch := make(chan int)
+
+	backRepoStruct.rwMutex.Lock()
+	backRepoStruct.subscribers = append(backRepoStruct.subscribers, ch)
+	backRepoStruct.rwMutex.Unlock()
+
+	// Goroutine to remove subscriber when context is done
+	go func() {
+		<-ctx.Done()
+		backRepoStruct.unsubscribe(ch)
+	}()
+	return ch
+}
+
+// unsubscribe removes a subscriber's channel from the subscribers slice.
+func (backRepoStruct *BackRepoStruct) unsubscribe(ch chan int) {
 	backRepoStruct.rwMutex.Lock()
 	defer backRepoStruct.rwMutex.Unlock()
-
-	ch := make(chan int)
-	backRepoStruct.subscribers = append(backRepoStruct.subscribers, ch)
-	return ch
+	for i, subscriber := range backRepoStruct.subscribers {
+		if subscriber == ch {
+			backRepoStruct.subscribers =
+				append(backRepoStruct.subscribers[:i],
+					backRepoStruct.subscribers[i+1:]...)
+			close(ch) // Close the channel to signal completion
+			break
+		}
+	}
 }
 
 func (backRepoStruct *BackRepoStruct) broadcastNbCommitToBack() {
 	backRepoStruct.rwMutex.RLock()
-	defer backRepoStruct.rwMutex.RUnlock()
+	subscribers := make([]chan int, len(backRepoStruct.subscribers))
+	copy(subscribers, backRepoStruct.subscribers)
+	backRepoStruct.rwMutex.RUnlock()
 
-	activeChannels := make([]chan int, 0)
-
-	for _, ch := range backRepoStruct.subscribers {
+	for _, ch := range subscribers {
 		select {
 		case ch <- int(backRepoStruct.CommitFromBackNb):
-			activeChannels = append(activeChannels, ch)
+			// Successfully sent commit from back
 		default:
-			// Assume channel is no longer active; don't add to activeChannels
-			log.Println("github.com/fullstack-lang/gong/test3/go: Channel no longer active", backRepoStruct.stage.GetPath())
-			close(ch)
+			// Subscriber is not ready to receive; skip to avoid blocking
 		}
 	}
-	backRepoStruct.subscribers = activeChannels
 }
