@@ -101,6 +101,11 @@ export function CopyLineAPIToLine(lineAPI: LineAPI, line: Line, frontRepo: Front
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(lineAPI.LinePointersEncoding.Animates)) {
+		console.error('Rects is not an array:', lineAPI.LinePointersEncoding.Animates);
+		return;
+	}
+
 	line.Animates = new Array<Animate>()
 	for (let _id of lineAPI.LinePointersEncoding.Animates) {
 		let _animate = frontRepo.map_ID_Animate.get(_id)

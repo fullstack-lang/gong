@@ -86,6 +86,11 @@ export function CopySVGAPIToSVG(svgAPI: SVGAPI, svg: SVG, frontRepo: FrontRepo) 
 	svg.EndRect = frontRepo.map_ID_Rect.get(svgAPI.SVGPointersEncoding.EndRectID.Int64)
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(svgAPI.SVGPointersEncoding.Layers)) {
+		console.error('Rects is not an array:', svgAPI.SVGPointersEncoding.Layers);
+		return;
+	}
+
 	svg.Layers = new Array<Layer>()
 	for (let _id of svgAPI.SVGPointersEncoding.Layers) {
 		let _layer = frontRepo.map_ID_Layer.get(_id)
