@@ -28,10 +28,59 @@ func _(stage *models.StageStruct) {
 
 	__Classdiagram__000000_Default := (&models.Classdiagram{}).Stage(stage)
 
+	__Field__000000_Name := (&models.Field{}).Stage(stage)
+
+	__GongStructShape__000000_Default_A := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000001_Default_B := (&models.GongStructShape{}).Stage(stage)
+
+	__Position__000000_Pos_Default_A := (&models.Position{}).Stage(stage)
+	__Position__000001_Pos_Default_B := (&models.Position{}).Stage(stage)
+
 	// Setup of values
 
 	__Classdiagram__000000_Default.Name = `Default`
 	__Classdiagram__000000_Default.IsInDrawMode = false
 
+	__Field__000000_Name.Name = `Name`
+
+	//gong:ident [ref_models.A.Name] comment added to overcome the problem with the comment map association
+	__Field__000000_Name.Identifier = `ref_models.A.Name`
+	__Field__000000_Name.FieldTypeAsString = ``
+	__Field__000000_Name.Structname = `A`
+	__Field__000000_Name.Fieldtypename = `string`
+
+	__GongStructShape__000000_Default_A.Name = `Default-A`
+
+	//gong:ident [ref_models.A] comment added to overcome the problem with the comment map association
+	__GongStructShape__000000_Default_A.Identifier = `ref_models.A`
+	__GongStructShape__000000_Default_A.ShowNbInstances = false
+	__GongStructShape__000000_Default_A.NbInstances = 0
+	__GongStructShape__000000_Default_A.Width = 240.000000
+	__GongStructShape__000000_Default_A.Height = 78.000000
+	__GongStructShape__000000_Default_A.IsSelected = false
+
+	__GongStructShape__000001_Default_B.Name = `Default-B`
+
+	//gong:ident [ref_models.B] comment added to overcome the problem with the comment map association
+	__GongStructShape__000001_Default_B.Identifier = `ref_models.B`
+	__GongStructShape__000001_Default_B.ShowNbInstances = false
+	__GongStructShape__000001_Default_B.NbInstances = 0
+	__GongStructShape__000001_Default_B.Width = 240.000000
+	__GongStructShape__000001_Default_B.Height = 63.000000
+	__GongStructShape__000001_Default_B.IsSelected = false
+
+	__Position__000000_Pos_Default_A.X = 101.000000
+	__Position__000000_Pos_Default_A.Y = 92.000000
+	__Position__000000_Pos_Default_A.Name = `Pos-Default-A`
+
+	__Position__000001_Pos_Default_B.X = 35.000000
+	__Position__000001_Pos_Default_B.Y = 40.000000
+	__Position__000001_Pos_Default_B.Name = `Pos-Default-B`
+
 	// Setup of pointers
+	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000000_Default_A)
+	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000001_Default_B)
+	__GongStructShape__000000_Default_A.Position = __Position__000000_Pos_Default_A
+	__GongStructShape__000000_Default_A.Fields = append(__GongStructShape__000000_Default_A.Fields, __Field__000000_Name)
+	__GongStructShape__000001_Default_B.Position = __Position__000001_Pos_Default_B
 }

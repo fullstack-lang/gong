@@ -7,6 +7,14 @@ describe('Issue 519.cy.ts', () => {
       doc.body.style.zoom = '0.7';
     });
 
+    cy.get('#nodeA\\ \\(5\\)').click();
+
+    cy.wait(500);
+
+    cy.get('#Delete\\ Icon\\ 5').click();
+
+    cy.wait(500);
+
     // Locate the checkbox element by CSS selector, id, or another suitable selector
     cy.get('#checkbox-Default-input')  // select "Default" diagram
       .check(); // Clicks or checks the checkbox

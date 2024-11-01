@@ -42,7 +42,6 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 	docSVGMapper.map_Fieldname_Link = make(map[string]*gongsvg_models.Link)
 
 	docSVGMapper.gongsvgStage.Reset()
-	docSVGMapper.gongsvgStage.Commit()
 
 	var selectedDiagram *gongdoc_models.Classdiagram
 
