@@ -27,14 +27,6 @@
             "sourceMaps": true,
         },
         {
-            "name": "Launch Chrome (test3) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/test3/ng-github.com-fullstack-lang-gong-test3",
-            "sourceMaps": true,
-        },
-        {
             "name": "gongc laundromat",
             "type": "go",
             "request": "launch",
@@ -755,6 +747,14 @@
                 "-unmarshallFromCode=stage.go",
                 "-marshallOnCommit=stage_out"
             ]
+        },
+        {
+            "name": "Launch Chrome (test3) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/test3/ng-github.com-fullstack-lang-gong-test3",
+            "sourceMaps": true,
         },
     ]
 }

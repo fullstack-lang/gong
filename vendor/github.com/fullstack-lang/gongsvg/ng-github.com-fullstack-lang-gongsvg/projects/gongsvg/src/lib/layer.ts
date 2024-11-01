@@ -125,6 +125,11 @@ export function CopyLayerAPIToLayer(layerAPI: LayerAPI, layer: Layer, frontRepo:
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.Rects)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.Rects);
+		return;
+	}
+
 	layer.Rects = new Array<Rect>()
 	for (let _id of layerAPI.LayerPointersEncoding.Rects) {
 		let _rect = frontRepo.map_ID_Rect.get(_id)
@@ -132,6 +137,11 @@ export function CopyLayerAPIToLayer(layerAPI: LayerAPI, layer: Layer, frontRepo:
 			layer.Rects.push(_rect!)
 		}
 	}
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.Texts)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.Texts);
+		return;
+	}
+
 	layer.Texts = new Array<Text>()
 	for (let _id of layerAPI.LayerPointersEncoding.Texts) {
 		let _text = frontRepo.map_ID_Text.get(_id)
@@ -139,6 +149,11 @@ export function CopyLayerAPIToLayer(layerAPI: LayerAPI, layer: Layer, frontRepo:
 			layer.Texts.push(_text!)
 		}
 	}
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.Circles)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.Circles);
+		return;
+	}
+
 	layer.Circles = new Array<Circle>()
 	for (let _id of layerAPI.LayerPointersEncoding.Circles) {
 		let _circle = frontRepo.map_ID_Circle.get(_id)
@@ -146,6 +161,11 @@ export function CopyLayerAPIToLayer(layerAPI: LayerAPI, layer: Layer, frontRepo:
 			layer.Circles.push(_circle!)
 		}
 	}
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.Lines)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.Lines);
+		return;
+	}
+
 	layer.Lines = new Array<Line>()
 	for (let _id of layerAPI.LayerPointersEncoding.Lines) {
 		let _line = frontRepo.map_ID_Line.get(_id)
@@ -153,6 +173,11 @@ export function CopyLayerAPIToLayer(layerAPI: LayerAPI, layer: Layer, frontRepo:
 			layer.Lines.push(_line!)
 		}
 	}
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.Ellipses)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.Ellipses);
+		return;
+	}
+
 	layer.Ellipses = new Array<Ellipse>()
 	for (let _id of layerAPI.LayerPointersEncoding.Ellipses) {
 		let _ellipse = frontRepo.map_ID_Ellipse.get(_id)
@@ -160,6 +185,11 @@ export function CopyLayerAPIToLayer(layerAPI: LayerAPI, layer: Layer, frontRepo:
 			layer.Ellipses.push(_ellipse!)
 		}
 	}
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.Polylines)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.Polylines);
+		return;
+	}
+
 	layer.Polylines = new Array<Polyline>()
 	for (let _id of layerAPI.LayerPointersEncoding.Polylines) {
 		let _polyline = frontRepo.map_ID_Polyline.get(_id)
@@ -167,6 +197,11 @@ export function CopyLayerAPIToLayer(layerAPI: LayerAPI, layer: Layer, frontRepo:
 			layer.Polylines.push(_polyline!)
 		}
 	}
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.Polygones)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.Polygones);
+		return;
+	}
+
 	layer.Polygones = new Array<Polygone>()
 	for (let _id of layerAPI.LayerPointersEncoding.Polygones) {
 		let _polygone = frontRepo.map_ID_Polygone.get(_id)
@@ -174,6 +209,11 @@ export function CopyLayerAPIToLayer(layerAPI: LayerAPI, layer: Layer, frontRepo:
 			layer.Polygones.push(_polygone!)
 		}
 	}
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.Paths)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.Paths);
+		return;
+	}
+
 	layer.Paths = new Array<Path>()
 	for (let _id of layerAPI.LayerPointersEncoding.Paths) {
 		let _path = frontRepo.map_ID_Path.get(_id)
@@ -181,6 +221,11 @@ export function CopyLayerAPIToLayer(layerAPI: LayerAPI, layer: Layer, frontRepo:
 			layer.Paths.push(_path!)
 		}
 	}
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.Links)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.Links);
+		return;
+	}
+
 	layer.Links = new Array<Link>()
 	for (let _id of layerAPI.LayerPointersEncoding.Links) {
 		let _link = frontRepo.map_ID_Link.get(_id)
@@ -188,6 +233,11 @@ export function CopyLayerAPIToLayer(layerAPI: LayerAPI, layer: Layer, frontRepo:
 			layer.Links.push(_link!)
 		}
 	}
+	if (!Array.isArray(layerAPI.LayerPointersEncoding.RectLinkLinks)) {
+		console.error('Rects is not an array:', layerAPI.LayerPointersEncoding.RectLinkLinks);
+		return;
+	}
+
 	layer.RectLinkLinks = new Array<RectLinkLink>()
 	for (let _id of layerAPI.LayerPointersEncoding.RectLinkLinks) {
 		let _rectlinklink = frontRepo.map_ID_RectLinkLink.get(_id)

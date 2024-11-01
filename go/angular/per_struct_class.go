@@ -149,6 +149,11 @@ import { {{AssocStructName}} } from './{{assocStructName}}'`,
 	{{structname}}.{{FieldName}} = frontRepo.map_ID_{{AssocStructName}}.get({{structname}}API.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64)`,
 
 	NgClassTSSliceOfPointersFieldCopyFromAPI: `
+	if (!Array.isArray({{structname}}API.{{Structname}}PointersEncoding.{{FieldName}})) {
+		console.error('Rects is not an array:', {{structname}}API.{{Structname}}PointersEncoding.{{FieldName}});
+		return;
+	}
+
 	{{structname}}.{{FieldName}} = new Array<{{AssocStructName}}>()
 	for (let _id of {{structname}}API.{{Structname}}PointersEncoding.{{FieldName}}) {
 		let _{{assocStructName}} = frontRepo.map_ID_{{AssocStructName}}.get(_id)

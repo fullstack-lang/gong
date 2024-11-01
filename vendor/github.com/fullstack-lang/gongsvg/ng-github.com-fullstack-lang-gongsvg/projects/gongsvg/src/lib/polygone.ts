@@ -86,6 +86,11 @@ export function CopyPolygoneAPIToPolygone(polygoneAPI: PolygoneAPI, polygone: Po
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(polygoneAPI.PolygonePointersEncoding.Animates)) {
+		console.error('Rects is not an array:', polygoneAPI.PolygonePointersEncoding.Animates);
+		return;
+	}
+
 	polygone.Animates = new Array<Animate>()
 	for (let _id of polygoneAPI.PolygonePointersEncoding.Animates) {
 		let _animate = frontRepo.map_ID_Animate.get(_id)

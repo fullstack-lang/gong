@@ -107,6 +107,11 @@ export function CopyLinkAnchoredTextAPIToLinkAnchoredText(linkanchoredtextAPI: L
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(linkanchoredtextAPI.LinkAnchoredTextPointersEncoding.Animates)) {
+		console.error('Rects is not an array:', linkanchoredtextAPI.LinkAnchoredTextPointersEncoding.Animates);
+		return;
+	}
+
 	linkanchoredtext.Animates = new Array<Animate>()
 	for (let _id of linkanchoredtextAPI.LinkAnchoredTextPointersEncoding.Animates) {
 		let _animate = frontRepo.map_ID_Animate.get(_id)
