@@ -25,6 +25,8 @@ github.com/fullstack-lang/gongdoc v0.0.0-20241031124552-87194e04585f h1:r2B+EkXg
 github.com/fullstack-lang/gongdoc v0.0.0-20241031124552-87194e04585f/go.mod h1:D7rKzSO9/djynwUiAuQI3QQBwEe9vDw8BHmr66xAtjs=
 github.com/fullstack-lang/gongdoc v0.0.0-20241031184521-6e84b422316f h1:gVM+MPtPcPb94il40vkvJ5Kxg/HFkbOcp6QaEuAuas8=
 github.com/fullstack-lang/gongdoc v0.0.0-20241031184521-6e84b422316f/go.mod h1:D7rKzSO9/djynwUiAuQI3QQBwEe9vDw8BHmr66xAtjs=
+github.com/fullstack-lang/gongdoc v0.0.0-20241101203142-505e7a35b303 h1:s1v6V8Wz4QDAHy3AJ034cx268nr2l94xo0Qh3aHOID4=
+github.com/fullstack-lang/gongdoc v0.0.0-20241101203142-505e7a35b303/go.mod h1:D7rKzSO9/djynwUiAuQI3QQBwEe9vDw8BHmr66xAtjs=
 github.com/fullstack-lang/gongsvg v0.0.0-20240913010932-e9b7ccb0a930 h1:wSYVc1LVgETDU82d6qJsH8Fs9BD4f/sk9QeKBn2xvH4=
 github.com/fullstack-lang/gongsvg v0.0.0-20240913010932-e9b7ccb0a930/go.mod h1:Rs+By5Cxz2i67M0Zgf8C+GiEh3wseyPsCjLa3tejzJA=
 github.com/fullstack-lang/gongsvg v0.0.0-20241025062159-c267c4e7a68c h1:ljQwelvrky9WhFLBdjnhSdaK2o4EKrtqsll0rg6HsnM=
@@ -37,6 +39,10 @@ github.com/fullstack-lang/gongsvg v0.0.0-20241031124553-17851ccfdf6a h1:xjDns4+o
 github.com/fullstack-lang/gongsvg v0.0.0-20241031124553-17851ccfdf6a/go.mod h1:2pnFNNjbO1CL+KUmyPxeuN31U5PGjsIfF+LkC4JJTTc=
 github.com/fullstack-lang/gongsvg v0.0.0-20241031184522-75991d7975be h1:+tSTlkzKugdbaoC97Z7ycEpc9zi1yQCcAYwaaJnmBFY=
 github.com/fullstack-lang/gongsvg v0.0.0-20241031184522-75991d7975be/go.mod h1:2pnFNNjbO1CL+KUmyPxeuN31U5PGjsIfF+LkC4JJTTc=
+github.com/fullstack-lang/gongsvg v0.0.0-20241101191632-93bd8b93ea1c h1:Uts8FdKpAwLqZaiwGj7sFobN3HVvvZ2gnnVYfYpQP6o=
+github.com/fullstack-lang/gongsvg v0.0.0-20241101191632-93bd8b93ea1c/go.mod h1:2pnFNNjbO1CL+KUmyPxeuN31U5PGjsIfF+LkC4JJTTc=
+github.com/fullstack-lang/gongsvg v0.0.0-20241101192025-48ea2132263a h1:W3sBBN1k/vFIQOzWZekGnGP+mh6FDg6kvFNZDzpCfUs=
+github.com/fullstack-lang/gongsvg v0.0.0-20241101192025-48ea2132263a/go.mod h1:2pnFNNjbO1CL+KUmyPxeuN31U5PGjsIfF+LkC4JJTTc=
 github.com/fullstack-lang/gongtable v0.0.0-20241025025259-7eaf46211db5 h1:94HlzW5MOscbU2X3ZoLdYtHzFMebrkQzp4/cpGBCRtw=
 github.com/fullstack-lang/gongtable v0.0.0-20241025025259-7eaf46211db5/go.mod h1:HFsQEUwpxTL85DbaPfxeGPXKQqV8r1aqO5L9eZvRHzg=
 github.com/fullstack-lang/gongtable v0.0.0-20241025062159-e8f81f8e65c6 h1:cuoY9LAczU9Ag7+9QNtx1sbZZpkcNxRGBhJ9lOGlp10=

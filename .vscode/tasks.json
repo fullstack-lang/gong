@@ -245,7 +245,7 @@
             ]
         },
         {
-            "label": "03 - ng serve test3 ",
+            "label": "03 - ng serve test3 --host=127.0.0.1",
             "type": "shell",
             "options": {
                 "cwd": "test3/ng-github.com-fullstack-lang-gong-test3"
@@ -254,7 +254,7 @@
             "group": "build",
             "args": [
                 "serve",
-                ""
+                "--host=127.0.0.1",
             ]
         },
         {
@@ -439,6 +439,22 @@
                 "cwd": "${workspaceFolder}/test3/ng-github.com-fullstack-lang-gong-test3"
             },
             "command": "npx cypress open"
+        },
+        {
+            "label": "04 - go run test3 -marshallOnCommit stage_out -unmarshallFromCode stage.go",
+            "type": "shell",
+            "options": {
+                "cwd": "./test3/go/cmd/test3"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                "main.go",
+                "-marshallOnCommit=stage_out",
+                "-unmarshallFromCode",
+                "stage.go",
+            ],
+            "group": "build"
         },
     ]
 }
