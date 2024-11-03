@@ -100,6 +100,11 @@ func (backRepo *BackRepoStruct) IncrementPushFromFrontNb() uint {
 
 // Commit the BackRepoStruct inner variables and link to the database
 func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
+
+	// forbid read of back repo during commit
+	backRepo.rwMutex.Lock()
+	defer backRepo.rwMutex.Unlock()
+
 	// insertion point for per struct back repo phase one commit{{` + string(rune(BackRepoPerStructPhaseOneCommits)) + `}}
 
 	// insertion point for per struct back repo phase two commit{{` + string(rune(BackRepoPerStructPhaseTwoCommits)) + `}}
@@ -236,6 +241,7 @@ func (backRepoStruct *BackRepoStruct) broadcastNbCommitToBack() {
 		}
 	}
 }
+
 `
 
 type BackRepoSubTemplateInsertion int
