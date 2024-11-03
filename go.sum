@@ -27,6 +27,8 @@ github.com/fullstack-lang/gongdoc v0.0.0-20241031184521-6e84b422316f h1:gVM+MPtP
 github.com/fullstack-lang/gongdoc v0.0.0-20241031184521-6e84b422316f/go.mod h1:D7rKzSO9/djynwUiAuQI3QQBwEe9vDw8BHmr66xAtjs=
 github.com/fullstack-lang/gongdoc v0.0.0-20241101203142-505e7a35b303 h1:s1v6V8Wz4QDAHy3AJ034cx268nr2l94xo0Qh3aHOID4=
 github.com/fullstack-lang/gongdoc v0.0.0-20241101203142-505e7a35b303/go.mod h1:D7rKzSO9/djynwUiAuQI3QQBwEe9vDw8BHmr66xAtjs=
+github.com/fullstack-lang/gongdoc v0.0.0-20241103103254-a2ab96eb521d h1:KrjQ4LCJUKTsb+E9fn4/KfrvKIO7WcRjWG6LCFaPKNs=
+github.com/fullstack-lang/gongdoc v0.0.0-20241103103254-a2ab96eb521d/go.mod h1:D7rKzSO9/djynwUiAuQI3QQBwEe9vDw8BHmr66xAtjs=
 github.com/fullstack-lang/gongsvg v0.0.0-20240913010932-e9b7ccb0a930 h1:wSYVc1LVgETDU82d6qJsH8Fs9BD4f/sk9QeKBn2xvH4=
 github.com/fullstack-lang/gongsvg v0.0.0-20240913010932-e9b7ccb0a930/go.mod h1:Rs+By5Cxz2i67M0Zgf8C+GiEh3wseyPsCjLa3tejzJA=
 github.com/fullstack-lang/gongsvg v0.0.0-20241025062159-c267c4e7a68c h1:ljQwelvrky9WhFLBdjnhSdaK2o4EKrtqsll0rg6HsnM=
@@ -43,6 +45,8 @@ github.com/fullstack-lang/gongsvg v0.0.0-20241101191632-93bd8b93ea1c h1:Uts8FdKp
 github.com/fullstack-lang/gongsvg v0.0.0-20241101191632-93bd8b93ea1c/go.mod h1:2pnFNNjbO1CL+KUmyPxeuN31U5PGjsIfF+LkC4JJTTc=
 github.com/fullstack-lang/gongsvg v0.0.0-20241101192025-48ea2132263a h1:W3sBBN1k/vFIQOzWZekGnGP+mh6FDg6kvFNZDzpCfUs=
 github.com/fullstack-lang/gongsvg v0.0.0-20241101192025-48ea2132263a/go.mod h1:2pnFNNjbO1CL+KUmyPxeuN31U5PGjsIfF+LkC4JJTTc=
+github.com/fullstack-lang/gongsvg v0.0.0-20241103103255-cba67dd674a4 h1:msB8pW//j8870UiJmbiQbmxJPzcT5oaRtMfqnI/p6wg=
+github.com/fullstack-lang/gongsvg v0.0.0-20241103103255-cba67dd674a4/go.mod h1:2pnFNNjbO1CL+KUmyPxeuN31U5PGjsIfF+LkC4JJTTc=
 github.com/fullstack-lang/gongtable v0.0.0-20241025025259-7eaf46211db5 h1:94HlzW5MOscbU2X3ZoLdYtHzFMebrkQzp4/cpGBCRtw=
 github.com/fullstack-lang/gongtable v0.0.0-20241025025259-7eaf46211db5/go.mod h1:HFsQEUwpxTL85DbaPfxeGPXKQqV8r1aqO5L9eZvRHzg=
 github.com/fullstack-lang/gongtable v0.0.0-20241025062159-e8f81f8e65c6 h1:cuoY9LAczU9Ag7+9QNtx1sbZZpkcNxRGBhJ9lOGlp10=
@@ -63,6 +67,8 @@ github.com/fullstack-lang/gongtable v0.0.0-20241031124553-2308340c60fb h1:bA6adx
 github.com/fullstack-lang/gongtable v0.0.0-20241031124553-2308340c60fb/go.mod h1:HFsQEUwpxTL85DbaPfxeGPXKQqV8r1aqO5L9eZvRHzg=
 github.com/fullstack-lang/gongtable v0.0.0-20241031184522-3c6d4c764008 h1:DC8Ls6OJA1jHD+qoo89x4TSdB0+kgPsvz2/Y/XKNAc0=
 github.com/fullstack-lang/gongtable v0.0.0-20241031184522-3c6d4c764008/go.mod h1:HFsQEUwpxTL85DbaPfxeGPXKQqV8r1aqO5L9eZvRHzg=
+github.com/fullstack-lang/gongtable v0.0.0-20241103103256-8bcc378a002b h1:OctBgHRwjfn4z/qjvv93ctNbMVDhVCDCislZlebjmLc=
+github.com/fullstack-lang/gongtable v0.0.0-20241103103256-8bcc378a002b/go.mod h1:HFsQEUwpxTL85DbaPfxeGPXKQqV8r1aqO5L9eZvRHzg=
 github.com/fullstack-lang/gongtree v0.0.0-20241025025259-5166fba94dcc h1:h/9fGVKVxm0FKe4cq5HxWasWvO0zz8eiOIMpmVz0pFk=
 github.com/fullstack-lang/gongtree v0.0.0-20241025025259-5166fba94dcc/go.mod h1:zude1M0xC8cVmauUG2gNWahU5cZeJ+nqjamDsY8VjW8=
 github.com/fullstack-lang/gongtree v0.0.0-20241025062159-7c5e4112c474 h1:1bWX37KRa75rqWpIrhmWzlb8MlzgPGfnRrR5tEjB8IQ=
@@ -83,6 +89,8 @@ github.com/fullstack-lang/gongtree v0.0.0-20241031124554-35c7c1b9e103 h1:JbkEXgB
 github.com/fullstack-lang/gongtree v0.0.0-20241031124554-35c7c1b9e103/go.mod h1:zude1M0xC8cVmauUG2gNWahU5cZeJ+nqjamDsY8VjW8=
 github.com/fullstack-lang/gongtree v0.0.0-20241031184522-44f8d052dedf h1:HGEToICiHSpqo60E1DrmXe0iAsV8pN2bVit4ZNkYVhI=
 github.com/fullstack-lang/gongtree v0.0.0-20241031184522-44f8d052dedf/go.mod h1:zude1M0xC8cVmauUG2gNWahU5cZeJ+nqjamDsY8VjW8=
+github.com/fullstack-lang/gongtree v0.0.0-20241103103256-c937e8fcd0cf h1:vPf83UVTpwr7lAOF9gNGulohZz3IUusjFJ0SoELqw9I=
+github.com/fullstack-lang/gongtree v0.0.0-20241103103256-c937e8fcd0cf/go.mod h1:zude1M0xC8cVmauUG2gNWahU5cZeJ+nqjamDsY8VjW8=
 github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00 h1:F693/CX+8lG6/JswPfx812Gc4PMSqczsIG2wRQN+sPw=
 github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00/go.mod h1:zjUpGcg6CWgd9nU4VUEQEPtHdyZ4+bCb7hwrvyscpis=
 github.com/gabriel-vasile/mimetype v1.4.5 h1:J7wGKdGu33ocBOhGy0z653k/lFKLFDPJMG8Gql0kxn4=
