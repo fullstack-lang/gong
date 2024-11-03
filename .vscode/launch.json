@@ -528,7 +528,8 @@
             "args": [
                 "-unmarshallFromCode=stage.go",
                 "-marshallOnCommit=stage_out"
-            ]
+            ],
+            "buildFlags": "-race"
         },
         {
             "name": "go run test -unmarshallFromCode=stage.go -marshallOnCommit=stage",
