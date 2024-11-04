@@ -153,7 +153,7 @@ func (backRepoOption *BackRepoOptionStruct) CommitDeleteInstance(id uint) (Error
 	// option is not staged anymore, remove optionDB
 	optionDB := backRepoOption.Map_OptionDBID_OptionDB[id]
 	db, _ := backRepoOption.db.Unscoped()
-	_, err := db.Delete(&optionDB)
+	_, err := db.Delete(optionDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -213,7 +213,7 @@ func (backRepoOption *BackRepoOptionStruct) CommitPhaseTwoInstance(backRepo *Bac
 		optionDB.CopyBasicFieldsFromOption(option)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoOption.db.Save(&optionDB)
+		_, err := backRepoOption.db.Save(optionDB)
 		if err != nil {
 			log.Fatal(err)
 		}

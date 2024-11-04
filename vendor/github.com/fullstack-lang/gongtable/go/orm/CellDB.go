@@ -173,7 +173,7 @@ func (backRepoCell *BackRepoCellStruct) CommitDeleteInstance(id uint) (Error err
 	// cell is not staged anymore, remove cellDB
 	cellDB := backRepoCell.Map_CellDBID_CellDB[id]
 	db, _ := backRepoCell.db.Unscoped()
-	_, err := db.Delete(&cellDB)
+	_, err := db.Delete(cellDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -293,7 +293,7 @@ func (backRepoCell *BackRepoCellStruct) CommitPhaseTwoInstance(backRepo *BackRep
 			cellDB.CellIconID.Valid = true
 		}
 
-		_, err := backRepoCell.db.Save(&cellDB)
+		_, err := backRepoCell.db.Save(cellDB)
 		if err != nil {
 			log.Fatal(err)
 		}

@@ -280,7 +280,7 @@ func (controller *Controller) UpdateButton(c *gin.Context) {
 	buttonDB.ButtonPointersEncoding = input.ButtonPointersEncoding
 
 	db, _ = db.Model(&buttonDB)
-	_, err = db.Updates(buttonDB)
+	_, err = db.Updates(&buttonDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

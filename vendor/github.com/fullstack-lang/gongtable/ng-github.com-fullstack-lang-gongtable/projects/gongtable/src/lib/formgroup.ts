@@ -68,6 +68,11 @@ export function CopyFormGroupAPIToFormGroup(formgroupAPI: FormGroupAPI, formgrou
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(formgroupAPI.FormGroupPointersEncoding.FormDivs)) {
+		console.error('Rects is not an array:', formgroupAPI.FormGroupPointersEncoding.FormDivs);
+		return;
+	}
+
 	formgroup.FormDivs = new Array<FormDiv>()
 	for (let _id of formgroupAPI.FormGroupPointersEncoding.FormDivs) {
 		let _formdiv = frontRepo.map_ID_FormDiv.get(_id)

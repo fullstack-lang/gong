@@ -159,7 +159,7 @@ func (backRepoCellIcon *BackRepoCellIconStruct) CommitDeleteInstance(id uint) (E
 	// cellicon is not staged anymore, remove celliconDB
 	celliconDB := backRepoCellIcon.Map_CellIconDBID_CellIconDB[id]
 	db, _ := backRepoCellIcon.db.Unscoped()
-	_, err := db.Delete(&celliconDB)
+	_, err := db.Delete(celliconDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -219,7 +219,7 @@ func (backRepoCellIcon *BackRepoCellIconStruct) CommitPhaseTwoInstance(backRepo 
 		celliconDB.CopyBasicFieldsFromCellIcon(cellicon)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoCellIcon.db.Save(&celliconDB)
+		_, err := backRepoCellIcon.db.Save(celliconDB)
 		if err != nil {
 			log.Fatal(err)
 		}

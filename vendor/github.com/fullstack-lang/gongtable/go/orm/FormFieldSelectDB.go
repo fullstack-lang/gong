@@ -167,7 +167,7 @@ func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) CommitDeleteInstan
 	// formfieldselect is not staged anymore, remove formfieldselectDB
 	formfieldselectDB := backRepoFormFieldSelect.Map_FormFieldSelectDBID_FormFieldSelectDB[id]
 	db, _ := backRepoFormFieldSelect.db.Unscoped()
-	_, err := db.Delete(&formfieldselectDB)
+	_, err := db.Delete(formfieldselectDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -257,7 +257,7 @@ func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) CommitPhaseTwoInst
 				append(formfieldselectDB.FormFieldSelectPointersEncoding.Options, int(optionAssocEnd_DB.ID))
 		}
 
-		_, err := backRepoFormFieldSelect.db.Save(&formfieldselectDB)
+		_, err := backRepoFormFieldSelect.db.Save(formfieldselectDB)
 		if err != nil {
 			log.Fatal(err)
 		}

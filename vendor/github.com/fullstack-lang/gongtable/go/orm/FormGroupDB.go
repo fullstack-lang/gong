@@ -176,7 +176,7 @@ func (backRepoFormGroup *BackRepoFormGroupStruct) CommitDeleteInstance(id uint) 
 	// formgroup is not staged anymore, remove formgroupDB
 	formgroupDB := backRepoFormGroup.Map_FormGroupDBID_FormGroupDB[id]
 	db, _ := backRepoFormGroup.db.Unscoped()
-	_, err := db.Delete(&formgroupDB)
+	_, err := db.Delete(formgroupDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -254,7 +254,7 @@ func (backRepoFormGroup *BackRepoFormGroupStruct) CommitPhaseTwoInstance(backRep
 				append(formgroupDB.FormGroupPointersEncoding.FormDivs, int(formdivAssocEnd_DB.ID))
 		}
 
-		_, err := backRepoFormGroup.db.Save(&formgroupDB)
+		_, err := backRepoFormGroup.db.Save(formgroupDB)
 		if err != nil {
 			log.Fatal(err)
 		}
