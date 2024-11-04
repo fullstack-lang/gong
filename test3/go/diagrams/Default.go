@@ -13,7 +13,7 @@ import (
 // if there are no elements in the stage to marshall
 var _ time.Time
 
-// _ point for meta package dummy declaration
+// Injection point for meta package dummy declaration
 var _ ref_models.StageStruct
 
 // When parsed, those maps will help with the renaming process
@@ -69,12 +69,12 @@ func _(stage *models.StageStruct) {
 	__GongStructShape__000001_Default_B.Height = 63.000000
 	__GongStructShape__000001_Default_B.IsSelected = false
 
-	__Position__000000_Pos_Default_A.X = 101.000000
-	__Position__000000_Pos_Default_A.Y = 92.000000
+	__Position__000000_Pos_Default_A.X = 485.000000
+	__Position__000000_Pos_Default_A.Y = 71.000000
 	__Position__000000_Pos_Default_A.Name = `Pos-Default-A`
 
-	__Position__000001_Pos_Default_B.X = 35.000000
-	__Position__000001_Pos_Default_B.Y = 40.000000
+	__Position__000001_Pos_Default_B.X = 16.000000
+	__Position__000001_Pos_Default_B.Y = 91.000000
 	__Position__000001_Pos_Default_B.Name = `Pos-Default-B`
 
 	// Setup of pointers
