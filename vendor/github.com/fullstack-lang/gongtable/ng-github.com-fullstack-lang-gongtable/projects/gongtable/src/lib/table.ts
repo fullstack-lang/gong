@@ -93,6 +93,11 @@ export function CopyTableAPIToTable(tableAPI: TableAPI, table: Table, frontRepo:
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(tableAPI.TablePointersEncoding.DisplayedColumns)) {
+		console.error('Rects is not an array:', tableAPI.TablePointersEncoding.DisplayedColumns);
+		return;
+	}
+
 	table.DisplayedColumns = new Array<DisplayedColumn>()
 	for (let _id of tableAPI.TablePointersEncoding.DisplayedColumns) {
 		let _displayedcolumn = frontRepo.map_ID_DisplayedColumn.get(_id)
@@ -100,6 +105,11 @@ export function CopyTableAPIToTable(tableAPI: TableAPI, table: Table, frontRepo:
 			table.DisplayedColumns.push(_displayedcolumn!)
 		}
 	}
+	if (!Array.isArray(tableAPI.TablePointersEncoding.Rows)) {
+		console.error('Rects is not an array:', tableAPI.TablePointersEncoding.Rows);
+		return;
+	}
+
 	table.Rows = new Array<Row>()
 	for (let _id of tableAPI.TablePointersEncoding.Rows) {
 		let _row = frontRepo.map_ID_Row.get(_id)

@@ -163,7 +163,7 @@ func (backRepoRow *BackRepoRowStruct) CommitDeleteInstance(id uint) (Error error
 	// row is not staged anymore, remove rowDB
 	rowDB := backRepoRow.Map_RowDBID_RowDB[id]
 	db, _ := backRepoRow.db.Unscoped()
-	_, err := db.Delete(&rowDB)
+	_, err := db.Delete(rowDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -241,7 +241,7 @@ func (backRepoRow *BackRepoRowStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 				append(rowDB.RowPointersEncoding.Cells, int(cellAssocEnd_DB.ID))
 		}
 
-		_, err := backRepoRow.db.Save(&rowDB)
+		_, err := backRepoRow.db.Save(rowDB)
 		if err != nil {
 			log.Fatal(err)
 		}

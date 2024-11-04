@@ -88,6 +88,11 @@ export function CopyFormDivAPIToFormDiv(formdivAPI: FormDivAPI, formdiv: FormDiv
 	formdiv.FormSortAssocButton = frontRepo.map_ID_FormSortAssocButton.get(formdivAPI.FormDivPointersEncoding.FormSortAssocButtonID.Int64)
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(formdivAPI.FormDivPointersEncoding.FormFields)) {
+		console.error('Rects is not an array:', formdivAPI.FormDivPointersEncoding.FormFields);
+		return;
+	}
+
 	formdiv.FormFields = new Array<FormField>()
 	for (let _id of formdivAPI.FormDivPointersEncoding.FormFields) {
 		let _formfield = frontRepo.map_ID_FormField.get(_id)
@@ -95,6 +100,11 @@ export function CopyFormDivAPIToFormDiv(formdivAPI: FormDivAPI, formdiv: FormDiv
 			formdiv.FormFields.push(_formfield!)
 		}
 	}
+	if (!Array.isArray(formdivAPI.FormDivPointersEncoding.CheckBoxs)) {
+		console.error('Rects is not an array:', formdivAPI.FormDivPointersEncoding.CheckBoxs);
+		return;
+	}
+
 	formdiv.CheckBoxs = new Array<CheckBox>()
 	for (let _id of formdivAPI.FormDivPointersEncoding.CheckBoxs) {
 		let _checkbox = frontRepo.map_ID_CheckBox.get(_id)

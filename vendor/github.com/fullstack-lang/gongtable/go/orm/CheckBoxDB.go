@@ -160,7 +160,7 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) CommitDeleteInstance(id uint) (E
 	// checkbox is not staged anymore, remove checkboxDB
 	checkboxDB := backRepoCheckBox.Map_CheckBoxDBID_CheckBoxDB[id]
 	db, _ := backRepoCheckBox.db.Unscoped()
-	_, err := db.Delete(&checkboxDB)
+	_, err := db.Delete(checkboxDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -220,7 +220,7 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) CommitPhaseTwoInstance(backRepo 
 		checkboxDB.CopyBasicFieldsFromCheckBox(checkbox)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoCheckBox.db.Save(&checkboxDB)
+		_, err := backRepoCheckBox.db.Save(checkboxDB)
 		if err != nil {
 			log.Fatal(err)
 		}

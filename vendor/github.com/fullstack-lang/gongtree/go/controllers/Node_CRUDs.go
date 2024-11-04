@@ -280,7 +280,7 @@ func (controller *Controller) UpdateNode(c *gin.Context) {
 	nodeDB.NodePointersEncoding = input.NodePointersEncoding
 
 	db, _ = db.Model(&nodeDB)
-	_, err = db.Updates(nodeDB)
+	_, err = db.Updates(&nodeDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

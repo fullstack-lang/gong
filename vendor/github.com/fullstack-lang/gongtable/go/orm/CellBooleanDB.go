@@ -160,7 +160,7 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) CommitDeleteInstance(id ui
 	// cellboolean is not staged anymore, remove cellbooleanDB
 	cellbooleanDB := backRepoCellBoolean.Map_CellBooleanDBID_CellBooleanDB[id]
 	db, _ := backRepoCellBoolean.db.Unscoped()
-	_, err := db.Delete(&cellbooleanDB)
+	_, err := db.Delete(cellbooleanDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -220,7 +220,7 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) CommitPhaseTwoInstance(bac
 		cellbooleanDB.CopyBasicFieldsFromCellBoolean(cellboolean)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoCellBoolean.db.Save(&cellbooleanDB)
+		_, err := backRepoCellBoolean.db.Save(cellbooleanDB)
 		if err != nil {
 			log.Fatal(err)
 		}

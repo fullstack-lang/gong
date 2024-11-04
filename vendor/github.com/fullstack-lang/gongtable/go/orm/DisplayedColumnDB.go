@@ -153,7 +153,7 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) CommitDeleteInstan
 	// displayedcolumn is not staged anymore, remove displayedcolumnDB
 	displayedcolumnDB := backRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnDB[id]
 	db, _ := backRepoDisplayedColumn.db.Unscoped()
-	_, err := db.Delete(&displayedcolumnDB)
+	_, err := db.Delete(displayedcolumnDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -213,7 +213,7 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) CommitPhaseTwoInst
 		displayedcolumnDB.CopyBasicFieldsFromDisplayedColumn(displayedcolumn)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoDisplayedColumn.db.Save(&displayedcolumnDB)
+		_, err := backRepoDisplayedColumn.db.Save(displayedcolumnDB)
 		if err != nil {
 			log.Fatal(err)
 		}
