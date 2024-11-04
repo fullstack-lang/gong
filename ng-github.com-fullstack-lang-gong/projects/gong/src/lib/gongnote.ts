@@ -65,6 +65,11 @@ export function CopyGongNoteAPIToGongNote(gongnoteAPI: GongNoteAPI, gongnote: Go
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(gongnoteAPI.GongNotePointersEncoding.Links)) {
+		console.error('Rects is not an array:', gongnoteAPI.GongNotePointersEncoding.Links);
+		return;
+	}
+
 	gongnote.Links = new Array<GongLink>()
 	for (let _id of gongnoteAPI.GongNotePointersEncoding.Links) {
 		let _gonglink = frontRepo.map_ID_GongLink.get(_id)

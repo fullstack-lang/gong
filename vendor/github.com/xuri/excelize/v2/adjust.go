@@ -201,13 +201,13 @@ func (f *File) adjustRowDimensions(sheet string, ws *xlsxWorksheet, row, offset 
 		return nil
 	}
 	lastRow := &ws.SheetData.Row[totalRows-1]
-	if newRow := *lastRow.R + offset; *lastRow.R >= row && newRow > 0 && newRow > TotalRows {
+	if newRow := lastRow.R + offset; lastRow.R >= row && newRow > 0 && newRow > TotalRows {
 		return ErrMaxRows
 	}
 	numOfRows := len(ws.SheetData.Row)
 	for i := 0; i < numOfRows; i++ {
 		r := &ws.SheetData.Row[i]
-		if newRow := *r.R + offset; *r.R >= row && newRow > 0 {
+		if newRow := r.R + offset; r.R >= row && newRow > 0 {
 			r.adjustSingleRowDimensions(offset)
 		}
 		if err := f.adjustSingleRowFormulas(sheet, sheet, r, row, offset, false); err != nil {
@@ -219,10 +219,10 @@ func (f *File) adjustRowDimensions(sheet string, ws *xlsxWorksheet, row, offset 
 
 // adjustSingleRowDimensions provides a function to adjust single row dimensions.
 func (r *xlsxRow) adjustSingleRowDimensions(offset int) {
-	r.R = intPtr(*r.R + offset)
+	r.R += offset
 	for i, col := range r.C {
 		colName, _, _ := SplitCellName(col.R)
-		r.C[i].R, _ = JoinCellName(colName, *r.R)
+		r.C[i].R, _ = JoinCellName(colName, r.R)
 	}
 }
 
@@ -237,38 +237,44 @@ func (f *File) adjustSingleRowFormulas(sheet, sheetN string, r *xlsxRow, num, of
 }
 
 // adjustCellRef provides a function to adjust cell reference.
-func (f *File) adjustCellRef(ref string, dir adjustDirection, num, offset int) (string, bool, error) {
-	if !strings.Contains(ref, ":") {
-		ref += ":" + ref
+func (f *File) adjustCellRef(cellRef string, dir adjustDirection, num, offset int) (string, error) {
+	var SQRef []string
+	applyOffset := func(coordinates []int, idx1, idx2, maxVal int) []int {
+		if coordinates[idx1] >= num {
+			coordinates[idx1] += offset
+		}
+		if coordinates[idx2] >= num {
+			if coordinates[idx2] += offset; coordinates[idx2] > maxVal {
+				coordinates[idx2] = maxVal
+			}
+		}
+		return coordinates
 	}
-	var delete bool
-	coordinates, err := rangeRefToCoordinates(ref)
-	if err != nil {
-		return ref, delete, err
+	for _, ref := range strings.Split(cellRef, " ") {
+		if !strings.Contains(ref, ":") {
+			ref += ":" + ref
+		}
+		coordinates, err := rangeRefToCoordinates(ref)
+		if err != nil {
+			return "", err
+		}
+		if dir == columns {
+			if offset < 0 && coordinates[0] == coordinates[2] && num == coordinates[0] {
+				continue
+			}
+			coordinates = applyOffset(coordinates, 0, 2, MaxColumns)
+		} else {
+			if offset < 0 && coordinates[1] == coordinates[3] && num == coordinates[1] {
+				continue
+			}
+			coordinates = applyOffset(coordinates, 1, 3, TotalRows)
+		}
+		if ref, err = coordinatesToRangeRef(coordinates); err != nil {
+			return "", err
+		}
+		SQRef = append(SQRef, ref)
 	}
-	if dir == columns {
-		if offset < 0 && coordinates[0] == coordinates[2] {
-			delete = true
-		}
-		if coordinates[0] >= num {
-			coordinates[0] += offset
-		}
-		if coordinates[2] >= num {
-			coordinates[2] += offset
-		}
-	} else {
-		if offset < 0 && coordinates[1] == coordinates[3] {
-			delete = true
-		}
-		if coordinates[1] >= num {
-			coordinates[1] += offset
-		}
-		if coordinates[3] >= num {
-			coordinates[3] += offset
-		}
-	}
-	ref, err = f.coordinatesToRangeRef(coordinates)
-	return ref, delete, err
+	return strings.Join(SQRef, " "), nil
 }
 
 // adjustFormula provides a function to adjust formula reference and shared
@@ -284,7 +290,7 @@ func (f *File) adjustFormula(sheet, sheetN string, cell *xlsxC, dir adjustDirect
 		return nil
 	}
 	if cell.F.Ref != "" && sheet == sheetN {
-		if cell.F.Ref, _, err = f.adjustCellRef(cell.F.Ref, dir, num, offset); err != nil {
+		if cell.F.Ref, err = f.adjustCellRef(cell.F.Ref, dir, num, offset); err != nil {
 			return err
 		}
 		if si && cell.F.Si != nil {
@@ -320,7 +326,9 @@ func adjustFormulaColumnName(name, operand string, abs, keepRelative bool, dir a
 		return "", operand, false, err
 	}
 	if dir == columns && col >= num {
-		col += offset
+		if col += offset; col < 1 {
+			col = 1
+		}
 		colName, err := ColumnNumberToName(col)
 		return "", operand + colName, false, err
 	}
@@ -334,8 +342,10 @@ func adjustFormulaRowNumber(name, operand string, abs, keepRelative bool, dir ad
 	}
 	row, _ := strconv.Atoi(name)
 	if dir == rows && row >= num {
-		row += offset
-		if row <= 0 || row > TotalRows {
+		if row += offset; row < 1 {
+			row = 1
+		}
+		if row > TotalRows {
 			return "", operand + name, false, ErrMaxRows
 		}
 		return "", operand + strconv.Itoa(row), false, nil
@@ -437,12 +447,8 @@ func (f *File) adjustFormulaRef(sheet, sheetN, formula string, keepRelative bool
 			val += operand
 			continue
 		}
-		if isFunctionStartToken(token) {
-			val += token.TValue + string(efp.ParenOpen)
-			continue
-		}
-		if isFunctionStopToken(token) {
-			val += token.TValue + string(efp.ParenClose)
+		if paren := transformParenthesesToken(token); paren != "" {
+			val += transformParenthesesToken(token)
 			continue
 		}
 		if token.TType == efp.TokenTypeOperand && token.TSubType == efp.TokenSubTypeText {
@@ -452,6 +458,18 @@ func (f *File) adjustFormulaRef(sheet, sheetN, formula string, keepRelative bool
 		val += token.TValue
 	}
 	return val, nil
+}
+
+// transformParenthesesToken returns formula part with parentheses by given
+// token.
+func transformParenthesesToken(token efp.Token) string {
+	if isFunctionStartToken(token) || isBeginParenthesesToken(token) {
+		return token.TValue + string(efp.ParenOpen)
+	}
+	if isFunctionStopToken(token) || isEndParenthesesToken(token) {
+		return token.TValue + string(efp.ParenClose)
+	}
+	return ""
 }
 
 // adjustRangeSheetName returns replaced range reference by given source and
@@ -542,12 +560,8 @@ func transformArrayFormula(tokens []efp.Token, afs []arrayFormulaOperandToken) s
 		if skip {
 			continue
 		}
-		if isFunctionStartToken(token) {
-			val += token.TValue + string(efp.ParenOpen)
-			continue
-		}
-		if isFunctionStopToken(token) {
-			val += token.TValue + string(efp.ParenClose)
+		if paren := transformParenthesesToken(token); paren != "" {
+			val += transformParenthesesToken(token)
 			continue
 		}
 		if token.TType == efp.TokenTypeOperand && token.TSubType == efp.TokenSubTypeText {
@@ -662,7 +676,7 @@ func (f *File) adjustTable(ws *xlsxWorksheet, sheet string, dir adjustDirection,
 			idx--
 			continue
 		}
-		t.Ref, _ = f.coordinatesToRangeRef([]int{x1, y1, x2, y2})
+		t.Ref, _ = coordinatesToRangeRef([]int{x1, y1, x2, y2})
 		if t.AutoFilter != nil {
 			t.AutoFilter.Ref = t.Ref
 		}
@@ -692,7 +706,7 @@ func (f *File) adjustAutoFilter(ws *xlsxWorksheet, sheet string, dir adjustDirec
 		ws.AutoFilter = nil
 		for rowIdx := range ws.SheetData.Row {
 			rowData := &ws.SheetData.Row[rowIdx]
-			if rowData.R != nil && *rowData.R > y1 && *rowData.R <= y2 {
+			if rowData.R > y1 && rowData.R <= y2 {
 				rowData.Hidden = false
 			}
 		}
@@ -702,7 +716,7 @@ func (f *File) adjustAutoFilter(ws *xlsxWorksheet, sheet string, dir adjustDirec
 	coordinates = f.adjustAutoFilterHelper(dir, coordinates, num, offset)
 	x1, y1, x2, y2 = coordinates[0], coordinates[1], coordinates[2], coordinates[3]
 
-	ws.AutoFilter.Ref, err = f.coordinatesToRangeRef([]int{x1, y1, x2, y2})
+	ws.AutoFilter.Ref, err = coordinatesToRangeRef([]int{x1, y1, x2, y2})
 	return err
 }
 
@@ -769,7 +783,7 @@ func (f *File) adjustMergeCells(ws *xlsxWorksheet, sheet string, dir adjustDirec
 			continue
 		}
 		mergedCells.rect = []int{x1, y1, x2, y2}
-		if mergedCells.Ref, err = f.coordinatesToRangeRef([]int{x1, y1, x2, y2}); err != nil {
+		if mergedCells.Ref, err = coordinatesToRangeRef([]int{x1, y1, x2, y2}); err != nil {
 			return err
 		}
 	}
@@ -928,11 +942,11 @@ func (f *File) adjustConditionalFormats(ws *xlsxWorksheet, sheet string, dir adj
 		if cf == nil {
 			continue
 		}
-		ref, del, err := f.adjustCellRef(cf.SQRef, dir, num, offset)
+		ref, err := f.adjustCellRef(cf.SQRef, dir, num, offset)
 		if err != nil {
 			return err
 		}
-		if del {
+		if ref == "" {
 			ws.ConditionalFormatting = append(ws.ConditionalFormatting[:i],
 				ws.ConditionalFormatting[i+1:]...)
 			i--
@@ -963,11 +977,11 @@ func (f *File) adjustDataValidations(ws *xlsxWorksheet, sheet string, dir adjust
 				continue
 			}
 			if sheet == sheetN {
-				ref, del, err := f.adjustCellRef(dv.Sqref, dir, num, offset)
+				ref, err := f.adjustCellRef(dv.Sqref, dir, num, offset)
 				if err != nil {
 					return err
 				}
-				if del {
+				if ref == "" {
 					worksheet.DataValidations.DataValidation = append(worksheet.DataValidations.DataValidation[:i],
 						worksheet.DataValidations.DataValidation[i+1:]...)
 					i--
@@ -975,15 +989,15 @@ func (f *File) adjustDataValidations(ws *xlsxWorksheet, sheet string, dir adjust
 				}
 				worksheet.DataValidations.DataValidation[i].Sqref = ref
 			}
-			if worksheet.DataValidations.DataValidation[i].Formula1 != nil {
-				formula := unescapeDataValidationFormula(worksheet.DataValidations.DataValidation[i].Formula1.Content)
+			if worksheet.DataValidations.DataValidation[i].Formula1.isFormula() {
+				formula := formulaUnescaper.Replace(worksheet.DataValidations.DataValidation[i].Formula1.Content)
 				if formula, err = f.adjustFormulaRef(sheet, sheetN, formula, false, dir, num, offset); err != nil {
 					return err
 				}
 				worksheet.DataValidations.DataValidation[i].Formula1 = &xlsxInnerXML{Content: formulaEscaper.Replace(formula)}
 			}
-			if worksheet.DataValidations.DataValidation[i].Formula2 != nil {
-				formula := unescapeDataValidationFormula(worksheet.DataValidations.DataValidation[i].Formula2.Content)
+			if worksheet.DataValidations.DataValidation[i].Formula2.isFormula() {
+				formula := formulaUnescaper.Replace(worksheet.DataValidations.DataValidation[i].Formula2.Content)
 				if formula, err = f.adjustFormulaRef(sheet, sheetN, formula, false, dir, num, offset); err != nil {
 					return err
 				}

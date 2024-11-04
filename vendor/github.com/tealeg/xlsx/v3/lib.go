@@ -735,7 +735,13 @@ func readSheetFromFile(rsheet xlsxSheet, fi *File, sheetXMLMap map[string]string
 	sheet.SheetViews = readSheetViews(worksheet.SheetViews)
 	if worksheet.AutoFilter != nil {
 		autoFilterBounds := strings.Split(worksheet.AutoFilter.Ref, ":")
-		sheet.AutoFilter = &AutoFilter{autoFilterBounds[0], autoFilterBounds[1]}
+
+		bottomRightCell := autoFilterBounds[0]
+		if len(autoFilterBounds) > 1 {
+			bottomRightCell = autoFilterBounds[1]
+		}
+
+		sheet.AutoFilter = &AutoFilter{autoFilterBounds[0], bottomRightCell}
 	}
 
 	sheet.SheetFormat.DefaultColWidth = worksheet.SheetFormatPr.DefaultColWidth
@@ -810,22 +816,33 @@ func readSheetsFromZipFile(f *zip.File, file *File, sheetXMLMap map[string]strin
 		}()
 	}
 
+	var sb strings.Builder
+	errFound := false
+	err = nil
 	for j := 0; j < sheetCount; j++ {
 		sheet := <-sheetChan
 		if sheet == nil {
-			// FIXME channel leak
-			return wrap(fmt.Errorf("No sheet returnded from readSheetFromFile"))
+			errFound = true
+			sb.WriteString("{SheetIndex: ")
+			sb.WriteString(strconv.Itoa(j))
+			sb.WriteString("} No sheet returned from readSheetFromFile\n")
 		}
 		if sheet.Error != nil {
-			// FIXME channel leak
-			return wrap(sheet.Error)
+			errFound = true
+			sb.WriteString("{SheetIndex: ")
+			sb.WriteString(strconv.Itoa(sheet.Index))
+			sb.WriteString("} ")
+			sb.WriteString(sheet.Error.Error())
 		}
 		sheetName := sheet.Sheet.Name
 		sheetsByName[sheetName] = sheet.Sheet
 		sheets[sheet.Index] = sheet.Sheet
 	}
 	close(sheetChan)
-	return sheetsByName, sheets, nil
+	if errFound {
+		err = fmt.Errorf(sb.String())
+	}
+	return sheetsByName, sheets, err
 }
 
 // readSharedStringsFromZipFile() is an internal helper function to

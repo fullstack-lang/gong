@@ -225,7 +225,7 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitDeleteInstance(id uint) 
 	// formfield is not staged anymore, remove formfieldDB
 	formfieldDB := backRepoFormField.Map_FormFieldDBID_FormFieldDB[id]
 	db, _ := backRepoFormField.db.Unscoped()
-	_, err := db.Delete(formfieldDB)
+	_, err := db.Delete(&formfieldDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -369,7 +369,7 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseTwoInstance(backRep
 			formfieldDB.FormFieldSelectID.Valid = true
 		}
 
-		_, err := backRepoFormField.db.Save(formfieldDB)
+		_, err := backRepoFormField.db.Save(&formfieldDB)
 		if err != nil {
 			log.Fatal(err)
 		}

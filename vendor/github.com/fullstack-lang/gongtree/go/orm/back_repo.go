@@ -4,19 +4,14 @@ package orm
 import (
 	"bufio"
 	"bytes"
-	"context"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
 	"sync"
 
-	"github.com/fullstack-lang/gongtree/go/db"
 	"github.com/fullstack-lang/gongtree/go/models"
-
-	/* THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm
 	"github.com/fullstack-lang/gongtree/go/orm/dbgorm"
-	THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm */
 
 	"github.com/tealeg/xlsx/v3"
 )
@@ -45,18 +40,12 @@ type BackRepoStruct struct {
 
 func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepoStruct) {
 
-	var db db.DBInterface
-
-	db = NewDBLite()
-
-	/* THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm
-	db = dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gongtree_go",
+	dbWrapper := dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gongtree_go",
 		&ButtonDB{},
 		&NodeDB{},
 		&SVGIconDB{},
 		&TreeDB{},
 	)
-	THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm */
 
 	backRepo = new(BackRepoStruct)
 
@@ -66,7 +55,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_ButtonDBID_ButtonDB:  make(map[uint]*ButtonDB, 0),
 		Map_ButtonPtr_ButtonDBID: make(map[*models.Button]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoNode = BackRepoNodeStruct{
@@ -74,7 +63,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_NodeDBID_NodeDB:  make(map[uint]*NodeDB, 0),
 		Map_NodePtr_NodeDBID: make(map[*models.Node]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoSVGIcon = BackRepoSVGIconStruct{
@@ -82,7 +71,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_SVGIconDBID_SVGIconDB:  make(map[uint]*SVGIconDB, 0),
 		Map_SVGIconPtr_SVGIconDBID: make(map[*models.SVGIcon]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 	backRepo.BackRepoTree = BackRepoTreeStruct{
@@ -90,7 +79,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_TreeDBID_TreeDB:  make(map[uint]*TreeDB, 0),
 		Map_TreePtr_TreeDBID: make(map[*models.Tree]uint, 0),
 
-		db:    db,
+		db:    dbWrapper,
 		stage: stage,
 	}
 
@@ -267,48 +256,30 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.StageStruct, dirPath str
 	backRepo.stage.Commit()
 }
 
-func (backRepoStruct *BackRepoStruct) SubscribeToCommitNb(ctx context.Context) <-chan int {
-	ch := make(chan int)
-
-	backRepoStruct.rwMutex.Lock()
-	backRepoStruct.subscribers = append(backRepoStruct.subscribers, ch)
-	backRepoStruct.rwMutex.Unlock()
-
-	// Goroutine to remove subscriber when context is done
-	go func() {
-		<-ctx.Done()
-		backRepoStruct.unsubscribe(ch)
-	}()
-	return ch
-}
-
-// unsubscribe removes a subscriber's channel from the subscribers slice.
-func (backRepoStruct *BackRepoStruct) unsubscribe(ch chan int) {
+func (backRepoStruct *BackRepoStruct) SubscribeToCommitNb() <-chan int {
 	backRepoStruct.rwMutex.Lock()
 	defer backRepoStruct.rwMutex.Unlock()
-	for i, subscriber := range backRepoStruct.subscribers {
-		if subscriber == ch {
-			backRepoStruct.subscribers =
-				append(backRepoStruct.subscribers[:i],
-					backRepoStruct.subscribers[i+1:]...)
-			close(ch) // Close the channel to signal completion
-			break
-		}
-	}
+
+	ch := make(chan int)
+	backRepoStruct.subscribers = append(backRepoStruct.subscribers, ch)
+	return ch
 }
 
 func (backRepoStruct *BackRepoStruct) broadcastNbCommitToBack() {
 	backRepoStruct.rwMutex.RLock()
-	subscribers := make([]chan int, len(backRepoStruct.subscribers))
-	copy(subscribers, backRepoStruct.subscribers)
-	backRepoStruct.rwMutex.RUnlock()
+	defer backRepoStruct.rwMutex.RUnlock()
 
-	for _, ch := range subscribers {
+	activeChannels := make([]chan int, 0)
+
+	for _, ch := range backRepoStruct.subscribers {
 		select {
 		case ch <- int(backRepoStruct.CommitFromBackNb):
-			// Successfully sent commit from back
+			activeChannels = append(activeChannels, ch)
 		default:
-			// Subscriber is not ready to receive; skip to avoid blocking
+			// Assume channel is no longer active; don't add to activeChannels
+			log.Println("Channel no longer active")
+			close(ch)
 		}
 	}
+	backRepoStruct.subscribers = activeChannels
 }

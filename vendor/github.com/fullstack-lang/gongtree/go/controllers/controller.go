@@ -16,8 +16,6 @@ type Controller struct {
 
 	// Map_BackRepos is the map to the backRepo instance according to the stack instance path
 	Map_BackRepos map[string]*gongtree_orm.BackRepoStruct
-
-	listenerIndex int // Counter to track the number of listeners
 }
 
 var _controllerSingloton *Controller

@@ -159,7 +159,7 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) CommitDeleteInstance(id ui
 	// cellfloat64 is not staged anymore, remove cellfloat64DB
 	cellfloat64DB := backRepoCellFloat64.Map_CellFloat64DBID_CellFloat64DB[id]
 	db, _ := backRepoCellFloat64.db.Unscoped()
-	_, err := db.Delete(cellfloat64DB)
+	_, err := db.Delete(&cellfloat64DB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -219,7 +219,7 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) CommitPhaseTwoInstance(bac
 		cellfloat64DB.CopyBasicFieldsFromCellFloat64(cellfloat64)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoCellFloat64.db.Save(cellfloat64DB)
+		_, err := backRepoCellFloat64.db.Save(&cellfloat64DB)
 		if err != nil {
 			log.Fatal(err)
 		}

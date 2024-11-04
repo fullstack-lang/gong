@@ -280,7 +280,7 @@ func (controller *Controller) UpdateFormFieldString(c *gin.Context) {
 	formfieldstringDB.FormFieldStringPointersEncoding = input.FormFieldStringPointersEncoding
 
 	db, _ = db.Model(&formfieldstringDB)
-	_, err = db.Updates(&formfieldstringDB)
+	_, err = db.Updates(formfieldstringDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
