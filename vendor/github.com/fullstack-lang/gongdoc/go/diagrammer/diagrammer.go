@@ -140,7 +140,6 @@ func (diagrammer *Diagrammer) generatePortfolioNodesStatusAndButtons() {
 		// log.Printf("generatePortfolioNodesButtons %s %p\n", portfolioNode.GetName(), portfolioNode)
 		diagrammer.generatePortfolioNodesStatusAndButtonsRecursive(portfolioNode)
 	}
-	diagrammer.treeStage.Commit()
 }
 
 func (diagrammer *Diagrammer) generatePortfolioNodesStatusAndButtonsRecursive(portfolioNode PortfolioNode) {
