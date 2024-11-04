@@ -280,7 +280,7 @@ func (controller *Controller) UpdateCell(c *gin.Context) {
 	cellDB.CellPointersEncoding = input.CellPointersEncoding
 
 	db, _ = db.Model(&cellDB)
-	_, err = db.Updates(&cellDB)
+	_, err = db.Updates(cellDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

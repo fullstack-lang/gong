@@ -167,7 +167,7 @@ func (backRepoFormDiv *BackRepoFormDivStruct) CommitDeleteInstance(id uint) (Err
 	// formdiv is not staged anymore, remove formdivDB
 	formdivDB := backRepoFormDiv.Map_FormDivDBID_FormDivDB[id]
 	db, _ := backRepoFormDiv.db.Unscoped()
-	_, err := db.Delete(formdivDB)
+	_, err := db.Delete(&formdivDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -287,7 +287,7 @@ func (backRepoFormDiv *BackRepoFormDivStruct) CommitPhaseTwoInstance(backRepo *B
 			formdivDB.FormSortAssocButtonID.Valid = true
 		}
 
-		_, err := backRepoFormDiv.db.Save(formdivDB)
+		_, err := backRepoFormDiv.db.Save(&formdivDB)
 		if err != nil {
 			log.Fatal(err)
 		}

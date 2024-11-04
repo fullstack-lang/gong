@@ -232,12 +232,18 @@ func ColumnNumberToName(num int) (string, error) {
 	if num < MinColumns || num > MaxColumns {
 		return "", ErrColumnNumber
 	}
-	var col string
+	estimatedLength := 0
+	for n := num; n > 0; n = (n - 1) / 26 {
+		estimatedLength++
+	}
+
+	result := make([]byte, estimatedLength)
 	for num > 0 {
-		col = string(rune((num-1)%26+65)) + col
+		estimatedLength--
+		result[estimatedLength] = byte((num-1)%26 + 'A')
 		num = (num - 1) / 26
 	}
-	return col, nil
+	return string(result), nil
 }
 
 // CellNameToCoordinates converts alphanumeric cell name to [X, Y] coordinates
@@ -323,7 +329,7 @@ func sortCoordinates(coordinates []int) error {
 
 // coordinatesToRangeRef provides a function to convert a pair of coordinates
 // to range reference.
-func (f *File) coordinatesToRangeRef(coordinates []int, abs ...bool) (string, error) {
+func coordinatesToRangeRef(coordinates []int, abs ...bool) (string, error) {
 	if len(coordinates) != 4 {
 		return "", ErrCoordinates
 	}
@@ -360,7 +366,7 @@ func (f *File) getDefinedNameRefTo(definedNameName, currentSheet string) (refTo 
 }
 
 // flatSqref convert reference sequence to cell reference list.
-func (f *File) flatSqref(sqref string) (cells map[int][][]int, err error) {
+func flatSqref(sqref string) (cells map[int][][]int, err error) {
 	var coordinates []int
 	cells = make(map[int][][]int)
 	for _, ref := range strings.Fields(sqref) {
@@ -646,6 +652,11 @@ func getRootElement(d *xml.Decoder) []xml.Attr {
 		case xml.StartElement:
 			tokenIdx++
 			if tokenIdx == 1 {
+				for i := 0; i < len(startElement.Attr); i++ {
+					if startElement.Attr[i].Value == NameSpaceSpreadSheet.Value {
+						startElement.Attr[i] = NameSpaceSpreadSheet
+					}
+				}
 				return startElement.Attr
 			}
 		}

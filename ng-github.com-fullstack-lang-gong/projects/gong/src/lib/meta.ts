@@ -62,6 +62,11 @@ export function CopyMetaAPIToMeta(metaAPI: MetaAPI, meta: Meta, frontRepo: Front
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(metaAPI.MetaPointersEncoding.MetaReferences)) {
+		console.error('Rects is not an array:', metaAPI.MetaPointersEncoding.MetaReferences);
+		return;
+	}
+
 	meta.MetaReferences = new Array<MetaReference>()
 	for (let _id of metaAPI.MetaPointersEncoding.MetaReferences) {
 		let _metareference = frontRepo.map_ID_MetaReference.get(_id)
