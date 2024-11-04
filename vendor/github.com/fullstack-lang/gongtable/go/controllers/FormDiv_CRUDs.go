@@ -280,7 +280,7 @@ func (controller *Controller) UpdateFormDiv(c *gin.Context) {
 	formdivDB.FormDivPointersEncoding = input.FormDivPointersEncoding
 
 	db, _ = db.Model(&formdivDB)
-	_, err = db.Updates(&formdivDB)
+	_, err = db.Updates(formdivDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

@@ -159,7 +159,7 @@ func (backRepoCellString *BackRepoCellStringStruct) CommitDeleteInstance(id uint
 	// cellstring is not staged anymore, remove cellstringDB
 	cellstringDB := backRepoCellString.Map_CellStringDBID_CellStringDB[id]
 	db, _ := backRepoCellString.db.Unscoped()
-	_, err := db.Delete(cellstringDB)
+	_, err := db.Delete(&cellstringDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -219,7 +219,7 @@ func (backRepoCellString *BackRepoCellStringStruct) CommitPhaseTwoInstance(backR
 		cellstringDB.CopyBasicFieldsFromCellString(cellstring)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoCellString.db.Save(cellstringDB)
+		_, err := backRepoCellString.db.Save(&cellstringDB)
 		if err != nil {
 			log.Fatal(err)
 		}

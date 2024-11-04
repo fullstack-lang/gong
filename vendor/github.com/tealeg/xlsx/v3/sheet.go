@@ -30,8 +30,8 @@ type Sheet struct {
 	cellStore       CellStore
 	currentRow      *Row
 	cellStoreName   string // The first part of the key used in
-			       // the cellStore.  This name is stable,
-			       // unlike the Name, which can change
+	// the cellStore.  This name is stable,
+	// unlike the Name, which can change
 }
 
 // NewSheet constructs a Sheet with the default CellStore and returns
@@ -47,8 +47,8 @@ func NewSheetWithCellStore(name string, constructor CellStoreConstructor) (*Shee
 		return nil, fmt.Errorf("sheet name is invalid: %w", err)
 	}
 	sheet := &Sheet{
-		Name: name,
-		Cols: &ColStore{},
+		Name:          name,
+		Cols:          &ColStore{},
 		cellStoreName: name,
 	}
 	var err error
@@ -288,7 +288,7 @@ func (s *Sheet) maybeAddRow(rowCount int) {
 		loopCnt := rowCount - s.MaxRow
 		for i := 0; i < loopCnt; i++ {
 			row := s.cellStore.MakeRow(s)
-			row.num = i
+			row.num = s.MaxRow + i
 			s.setCurrentRow(row)
 		}
 		s.MaxRow = rowCount
@@ -298,10 +298,15 @@ func (s *Sheet) maybeAddRow(rowCount int) {
 // Make sure we always have as many Rows as we do cells.
 func (s *Sheet) Row(idx int) (*Row, error) {
 	s.mustBeOpen()
+
 	s.maybeAddRow(idx + 1)
-	if s.currentRow != nil && idx == s.currentRow.num {
-		return s.currentRow, nil
+	if s.currentRow != nil {
+		if idx == s.currentRow.num {
+			return s.currentRow, nil
+		}
+		s.cellStore.WriteRow(s.currentRow)
 	}
+
 	r, err := s.cellStore.ReadRow(makeRowKey(s, idx), s)
 	if err != nil {
 		if _, ok := err.(*RowNotFoundError); !ok {
@@ -319,6 +324,7 @@ func (s *Sheet) Row(idx int) (*Row, error) {
 }
 
 // Return the Col that applies to this Column index, or return nil if no such Col exists
+// Column numbers start from 1.
 func (s *Sheet) Col(idx int) *Col {
 	s.mustBeOpen()
 	if s.Cols == nil {
@@ -354,6 +360,7 @@ func (s *Sheet) Cell(row, col int) (*Cell, error) {
 
 // Set the parameters of a column.  Parameters are passed as a pointer
 // to a Col structure which you much construct yourself.
+// Column numbers start from 1.
 func (s *Sheet) SetColParameters(col *Col) {
 	s.mustBeOpen()
 	if s.Cols == nil {
@@ -410,6 +417,7 @@ func (s *Sheet) setCol(min, max int, setter func(col *Col)) {
 }
 
 // Set the width of a range of columns.
+// Column numbers start from 1.
 func (s *Sheet) SetColWidth(min, max int, width float64) {
 	s.mustBeOpen()
 	s.setCol(min, max, func(col *Col) {
@@ -425,6 +433,7 @@ func DefaultAutoWidth(s string) float64 {
 
 // Tries to guess the best width for a column, based on the largest
 // cell content. A scale function needs to be provided.
+// Column numbers start from 1.
 func (s *Sheet) SetColAutoWidth(colIndex int, width func(string) float64) error {
 	s.mustBeOpen()
 	largestWidth := 0.0
@@ -944,7 +953,6 @@ func handleNumFmtIdForXLSX(NumFmtId int, styles *xlsxStyleSheet) (XfId int) {
 	XfId = styles.addCellXf(xCellXf)
 	return
 }
-
 
 func IsSaneSheetName(sheetName string) error {
 	runeLength := utf8.RuneCountInString(sheetName)

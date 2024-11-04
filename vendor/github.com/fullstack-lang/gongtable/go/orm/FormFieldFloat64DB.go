@@ -185,7 +185,7 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) CommitDeleteInst
 	// formfieldfloat64 is not staged anymore, remove formfieldfloat64DB
 	formfieldfloat64DB := backRepoFormFieldFloat64.Map_FormFieldFloat64DBID_FormFieldFloat64DB[id]
 	db, _ := backRepoFormFieldFloat64.db.Unscoped()
-	_, err := db.Delete(formfieldfloat64DB)
+	_, err := db.Delete(&formfieldfloat64DB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -245,7 +245,7 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) CommitPhaseTwoIn
 		formfieldfloat64DB.CopyBasicFieldsFromFormFieldFloat64(formfieldfloat64)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoFormFieldFloat64.db.Save(formfieldfloat64DB)
+		_, err := backRepoFormFieldFloat64.db.Save(&formfieldfloat64DB)
 		if err != nil {
 			log.Fatal(err)
 		}

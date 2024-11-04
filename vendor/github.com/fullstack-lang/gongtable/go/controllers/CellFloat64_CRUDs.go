@@ -280,7 +280,7 @@ func (controller *Controller) UpdateCellFloat64(c *gin.Context) {
 	cellfloat64DB.CellFloat64PointersEncoding = input.CellFloat64PointersEncoding
 
 	db, _ = db.Model(&cellfloat64DB)
-	_, err = db.Updates(&cellfloat64DB)
+	_, err = db.Updates(cellfloat64DB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

@@ -63,6 +63,11 @@ export function CopyGongEnumAPIToGongEnum(gongenumAPI: GongEnumAPI, gongenum: Go
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(gongenumAPI.GongEnumPointersEncoding.GongEnumValues)) {
+		console.error('Rects is not an array:', gongenumAPI.GongEnumPointersEncoding.GongEnumValues);
+		return;
+	}
+
 	gongenum.GongEnumValues = new Array<GongEnumValue>()
 	for (let _id of gongenumAPI.GongEnumPointersEncoding.GongEnumValues) {
 		let _gongenumvalue = frontRepo.map_ID_GongEnumValue.get(_id)

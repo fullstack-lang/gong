@@ -280,7 +280,7 @@ func (controller *Controller) UpdateOption(c *gin.Context) {
 	optionDB.OptionPointersEncoding = input.OptionPointersEncoding
 
 	db, _ = db.Model(&optionDB)
-	_, err = db.Updates(&optionDB)
+	_, err = db.Updates(optionDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
