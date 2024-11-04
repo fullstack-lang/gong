@@ -159,7 +159,7 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) CommitDele
 	// formsortassocbutton is not staged anymore, remove formsortassocbuttonDB
 	formsortassocbuttonDB := backRepoFormSortAssocButton.Map_FormSortAssocButtonDBID_FormSortAssocButtonDB[id]
 	db, _ := backRepoFormSortAssocButton.db.Unscoped()
-	_, err := db.Delete(&formsortassocbuttonDB)
+	_, err := db.Delete(formsortassocbuttonDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -219,7 +219,7 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) CommitPhas
 		formsortassocbuttonDB.CopyBasicFieldsFromFormSortAssocButton(formsortassocbutton)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoFormSortAssocButton.db.Save(&formsortassocbuttonDB)
+		_, err := backRepoFormSortAssocButton.db.Save(formsortassocbuttonDB)
 		if err != nil {
 			log.Fatal(err)
 		}

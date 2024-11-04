@@ -159,7 +159,7 @@ func (backRepoFormFieldDateTime *BackRepoFormFieldDateTimeStruct) CommitDeleteIn
 	// formfielddatetime is not staged anymore, remove formfielddatetimeDB
 	formfielddatetimeDB := backRepoFormFieldDateTime.Map_FormFieldDateTimeDBID_FormFieldDateTimeDB[id]
 	db, _ := backRepoFormFieldDateTime.db.Unscoped()
-	_, err := db.Delete(&formfielddatetimeDB)
+	_, err := db.Delete(formfielddatetimeDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -219,7 +219,7 @@ func (backRepoFormFieldDateTime *BackRepoFormFieldDateTimeStruct) CommitPhaseTwo
 		formfielddatetimeDB.CopyBasicFieldsFromFormFieldDateTime(formfielddatetime)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoFormFieldDateTime.db.Save(&formfielddatetimeDB)
+		_, err := backRepoFormFieldDateTime.db.Save(formfielddatetimeDB)
 		if err != nil {
 			log.Fatal(err)
 		}

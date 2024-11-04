@@ -59,6 +59,11 @@ export function CopyTreeAPIToTree(treeAPI: TreeAPI, tree: Tree, frontRepo: Front
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(treeAPI.TreePointersEncoding.RootNodes)) {
+		console.error('Rects is not an array:', treeAPI.TreePointersEncoding.RootNodes);
+		return;
+	}
+
 	tree.RootNodes = new Array<Node>()
 	for (let _id of treeAPI.TreePointersEncoding.RootNodes) {
 		let _node = frontRepo.map_ID_Node.get(_id)

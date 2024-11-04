@@ -72,6 +72,11 @@ export function CopyFormFieldSelectAPIToFormFieldSelect(formfieldselectAPI: Form
 	formfieldselect.Value = frontRepo.map_ID_Option.get(formfieldselectAPI.FormFieldSelectPointersEncoding.ValueID.Int64)
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(formfieldselectAPI.FormFieldSelectPointersEncoding.Options)) {
+		console.error('Rects is not an array:', formfieldselectAPI.FormFieldSelectPointersEncoding.Options);
+		return;
+	}
+
 	formfieldselect.Options = new Array<Option>()
 	for (let _id of formfieldselectAPI.FormFieldSelectPointersEncoding.Options) {
 		let _option = frontRepo.map_ID_Option.get(_id)

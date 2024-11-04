@@ -68,8 +68,6 @@ type BackRepoStruct struct {
 
 	// the back repo can broadcast the CommitFromBackNb to all interested subscribers
 	rwMutex     sync.RWMutex
-
-	subscribersRwMutex sync.RWMutex
 	subscribers []chan int
 }
 
@@ -296,11 +294,6 @@ func (backRepo *BackRepoStruct) IncrementPushFromFrontNb() uint {
 
 // Commit the BackRepoStruct inner variables and link to the database
 func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
-
-	// forbid read of back repo during commit
-	backRepo.rwMutex.Lock()
-	defer backRepo.rwMutex.Unlock()
-
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoAnimate.CommitPhaseOne(stage)
 	backRepo.BackRepoCircle.CommitPhaseOne(stage)
@@ -557,9 +550,9 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.StageStruct, dirPath str
 func (backRepoStruct *BackRepoStruct) SubscribeToCommitNb(ctx context.Context) <-chan int {
 	ch := make(chan int)
 
-	backRepoStruct.subscribersRwMutex.Lock()
+	backRepoStruct.rwMutex.Lock()
 	backRepoStruct.subscribers = append(backRepoStruct.subscribers, ch)
-	backRepoStruct.subscribersRwMutex.Unlock()
+	backRepoStruct.rwMutex.Unlock()
 
 	// Goroutine to remove subscriber when context is done
 	go func() {
@@ -571,8 +564,8 @@ func (backRepoStruct *BackRepoStruct) SubscribeToCommitNb(ctx context.Context) <
 
 // unsubscribe removes a subscriber's channel from the subscribers slice.
 func (backRepoStruct *BackRepoStruct) unsubscribe(ch chan int) {
-	backRepoStruct.subscribersRwMutex.Lock()
-	defer backRepoStruct.subscribersRwMutex.Unlock()
+	backRepoStruct.rwMutex.Lock()
+	defer backRepoStruct.rwMutex.Unlock()
 	for i, subscriber := range backRepoStruct.subscribers {
 		if subscriber == ch {
 			backRepoStruct.subscribers =
@@ -585,10 +578,10 @@ func (backRepoStruct *BackRepoStruct) unsubscribe(ch chan int) {
 }
 
 func (backRepoStruct *BackRepoStruct) broadcastNbCommitToBack() {
-	backRepoStruct.subscribersRwMutex.RLock()
+	backRepoStruct.rwMutex.RLock()
 	subscribers := make([]chan int, len(backRepoStruct.subscribers))
 	copy(subscribers, backRepoStruct.subscribers)
-	backRepoStruct.subscribersRwMutex.RUnlock()
+	backRepoStruct.rwMutex.RUnlock()
 
 	for _, ch := range subscribers {
 		select {

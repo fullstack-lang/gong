@@ -13,7 +13,7 @@ import (
 // if there are no elements in the stage to marshall
 var _ time.Time
 
-// Injection point for meta package dummy declaration
+// _ point for meta package dummy declaration
 var _ ref_models.StageStruct
 
 // When parsed, those maps will help with the renaming process
