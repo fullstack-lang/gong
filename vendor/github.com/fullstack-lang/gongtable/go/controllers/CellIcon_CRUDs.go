@@ -280,7 +280,7 @@ func (controller *Controller) UpdateCellIcon(c *gin.Context) {
 	celliconDB.CellIconPointersEncoding = input.CellIconPointersEncoding
 
 	db, _ = db.Model(&celliconDB)
-	_, err = db.Updates(&celliconDB)
+	_, err = db.Updates(celliconDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

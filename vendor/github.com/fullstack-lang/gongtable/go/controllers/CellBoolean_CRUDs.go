@@ -280,7 +280,7 @@ func (controller *Controller) UpdateCellBoolean(c *gin.Context) {
 	cellbooleanDB.CellBooleanPointersEncoding = input.CellBooleanPointersEncoding
 
 	db, _ = db.Model(&cellbooleanDB)
-	_, err = db.Updates(&cellbooleanDB)
+	_, err = db.Updates(cellbooleanDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

@@ -308,7 +308,7 @@ type xlsxSheetData struct {
 // particular row in the worksheet.
 type xlsxRow struct {
 	C            []xlsxC  `xml:"c"`
-	R            *int     `xml:"r,attr"`
+	R            int      `xml:"r,attr,omitempty"`
 	Spans        string   `xml:"spans,attr,omitempty"`
 	S            int      `xml:"s,attr,omitempty"`
 	CustomFormat bool     `xml:"customFormat,attr,omitempty"`
@@ -441,6 +441,7 @@ type xlsxDataValidation struct {
 	ShowErrorMessage bool          `xml:"showErrorMessage,attr,omitempty"`
 	ShowInputMessage bool          `xml:"showInputMessage,attr,omitempty"`
 	Sqref            string        `xml:"sqref,attr"`
+	XMSqref          string        `xml:"sqref,omitempty"`
 	Type             string        `xml:"type,attr,omitempty"`
 	Formula1         *xlsxInnerXML `xml:"formula1"`
 	Formula2         *xlsxInnerXML `xml:"formula2"`
@@ -916,7 +917,7 @@ type ConditionalFormatOptions struct {
 	Type           string
 	AboveAverage   bool
 	Percent        bool
-	Format         int
+	Format         *int
 	Criteria       string
 	Value          string
 	MinType        string

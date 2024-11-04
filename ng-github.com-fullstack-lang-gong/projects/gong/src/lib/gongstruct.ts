@@ -86,6 +86,11 @@ export function CopyGongStructAPIToGongStruct(gongstructAPI: GongStructAPI, gong
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(gongstructAPI.GongStructPointersEncoding.GongBasicFields)) {
+		console.error('Rects is not an array:', gongstructAPI.GongStructPointersEncoding.GongBasicFields);
+		return;
+	}
+
 	gongstruct.GongBasicFields = new Array<GongBasicField>()
 	for (let _id of gongstructAPI.GongStructPointersEncoding.GongBasicFields) {
 		let _gongbasicfield = frontRepo.map_ID_GongBasicField.get(_id)
@@ -93,6 +98,11 @@ export function CopyGongStructAPIToGongStruct(gongstructAPI: GongStructAPI, gong
 			gongstruct.GongBasicFields.push(_gongbasicfield!)
 		}
 	}
+	if (!Array.isArray(gongstructAPI.GongStructPointersEncoding.GongTimeFields)) {
+		console.error('Rects is not an array:', gongstructAPI.GongStructPointersEncoding.GongTimeFields);
+		return;
+	}
+
 	gongstruct.GongTimeFields = new Array<GongTimeField>()
 	for (let _id of gongstructAPI.GongStructPointersEncoding.GongTimeFields) {
 		let _gongtimefield = frontRepo.map_ID_GongTimeField.get(_id)
@@ -100,6 +110,11 @@ export function CopyGongStructAPIToGongStruct(gongstructAPI: GongStructAPI, gong
 			gongstruct.GongTimeFields.push(_gongtimefield!)
 		}
 	}
+	if (!Array.isArray(gongstructAPI.GongStructPointersEncoding.PointerToGongStructFields)) {
+		console.error('Rects is not an array:', gongstructAPI.GongStructPointersEncoding.PointerToGongStructFields);
+		return;
+	}
+
 	gongstruct.PointerToGongStructFields = new Array<PointerToGongStructField>()
 	for (let _id of gongstructAPI.GongStructPointersEncoding.PointerToGongStructFields) {
 		let _pointertogongstructfield = frontRepo.map_ID_PointerToGongStructField.get(_id)
@@ -107,6 +122,11 @@ export function CopyGongStructAPIToGongStruct(gongstructAPI: GongStructAPI, gong
 			gongstruct.PointerToGongStructFields.push(_pointertogongstructfield!)
 		}
 	}
+	if (!Array.isArray(gongstructAPI.GongStructPointersEncoding.SliceOfPointerToGongStructFields)) {
+		console.error('Rects is not an array:', gongstructAPI.GongStructPointersEncoding.SliceOfPointerToGongStructFields);
+		return;
+	}
+
 	gongstruct.SliceOfPointerToGongStructFields = new Array<SliceOfPointerToGongStructField>()
 	for (let _id of gongstructAPI.GongStructPointersEncoding.SliceOfPointerToGongStructFields) {
 		let _sliceofpointertogongstructfield = frontRepo.map_ID_SliceOfPointerToGongStructField.get(_id)

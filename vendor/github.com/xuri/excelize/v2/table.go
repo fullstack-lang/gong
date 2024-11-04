@@ -173,11 +173,11 @@ func (f *File) DeleteTable(name string) error {
 	if err := checkDefinedName(name); err != nil {
 		return err
 	}
-	for _, sheet := range f.GetSheetList() {
-		tables, err := f.GetTables(sheet)
-		if err != nil {
-			return err
-		}
+	tbls, err := f.getTables()
+	if err != nil {
+		return err
+	}
+	for sheet, tables := range tbls {
 		for _, table := range tables {
 			if table.Name != name {
 				continue
@@ -199,6 +199,20 @@ func (f *File) DeleteTable(name string) error {
 		}
 	}
 	return newNoExistTableError(name)
+}
+
+// getTables provides a function to get all tables in a workbook.
+func (f *File) getTables() (map[string][]Table, error) {
+	tables := map[string][]Table{}
+	for _, sheetName := range f.GetSheetList() {
+		tbls, err := f.GetTables(sheetName)
+		e := ErrSheetNotExist{sheetName}
+		if err != nil && err.Error() != newNotWorksheetError(sheetName).Error() && err.Error() != e.Error() {
+			return tables, err
+		}
+		tables[sheetName] = append(tables[sheetName], tbls...)
+	}
+	return tables, nil
 }
 
 // countTables provides a function to get table files count storage in the
@@ -350,7 +364,7 @@ func (f *File) addTable(sheet, tableXML string, x1, y1, x2, y2, i int, opts *Tab
 		y1++
 	}
 	// Correct table range reference, such correct C1:B3 to B1:C3.
-	ref, err := f.coordinatesToRangeRef([]int{x1, y1, x2, y2})
+	ref, err := coordinatesToRangeRef([]int{x1, y1, x2, y2})
 	if err != nil {
 		return err
 	}
@@ -463,7 +477,7 @@ func (f *File) AutoFilter(sheet, rangeRef string, opts []AutoFilterOptions) erro
 	}
 	_ = sortCoordinates(coordinates)
 	// Correct reference range, such correct C1:B3 to B1:C3.
-	ref, _ := f.coordinatesToRangeRef(coordinates, true)
+	ref, _ := coordinatesToRangeRef(coordinates, true)
 	wb, err := f.workbookReader()
 	if err != nil {
 		return err
@@ -474,7 +488,7 @@ func (f *File) AutoFilter(sheet, rangeRef string, opts []AutoFilterOptions) erro
 	}
 	filterRange := fmt.Sprintf("'%s'!%s", sheet, ref)
 	d := xlsxDefinedName{
-		Name:         builtInDefinedNames[2],
+		Name:         builtInDefinedNames[3],
 		Hidden:       true,
 		LocalSheetID: intPtr(sheetID),
 		Data:         filterRange,
@@ -490,7 +504,7 @@ func (f *File) AutoFilter(sheet, rangeRef string, opts []AutoFilterOptions) erro
 			if definedName.LocalSheetID != nil {
 				localSheetID = *definedName.LocalSheetID
 			}
-			if definedName.Name == builtInDefinedNames[2] && localSheetID == sheetID && definedName.Hidden {
+			if definedName.Name == builtInDefinedNames[3] && localSheetID == sheetID && definedName.Hidden {
 				wb.DefinedNames.DefinedName[idx].Data = filterRange
 				definedNameExists = true
 			}

@@ -185,7 +185,7 @@ func (backRepoFormFieldInt *BackRepoFormFieldIntStruct) CommitDeleteInstance(id 
 	// formfieldint is not staged anymore, remove formfieldintDB
 	formfieldintDB := backRepoFormFieldInt.Map_FormFieldIntDBID_FormFieldIntDB[id]
 	db, _ := backRepoFormFieldInt.db.Unscoped()
-	_, err := db.Delete(formfieldintDB)
+	_, err := db.Delete(&formfieldintDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -245,7 +245,7 @@ func (backRepoFormFieldInt *BackRepoFormFieldIntStruct) CommitPhaseTwoInstance(b
 		formfieldintDB.CopyBasicFieldsFromFormFieldInt(formfieldint)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoFormFieldInt.db.Save(formfieldintDB)
+		_, err := backRepoFormFieldInt.db.Save(&formfieldintDB)
 		if err != nil {
 			log.Fatal(err)
 		}

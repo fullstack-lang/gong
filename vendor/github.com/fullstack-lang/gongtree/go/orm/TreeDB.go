@@ -156,7 +156,7 @@ func (backRepoTree *BackRepoTreeStruct) CommitDeleteInstance(id uint) (Error err
 	// tree is not staged anymore, remove treeDB
 	treeDB := backRepoTree.Map_TreeDBID_TreeDB[id]
 	db, _ := backRepoTree.db.Unscoped()
-	_, err := db.Delete(treeDB)
+	_, err := db.Delete(&treeDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -234,7 +234,7 @@ func (backRepoTree *BackRepoTreeStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				append(treeDB.TreePointersEncoding.RootNodes, int(nodeAssocEnd_DB.ID))
 		}
 
-		_, err := backRepoTree.db.Save(treeDB)
+		_, err := backRepoTree.db.Save(&treeDB)
 		if err != nil {
 			log.Fatal(err)
 		}

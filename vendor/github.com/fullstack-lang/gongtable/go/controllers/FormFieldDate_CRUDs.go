@@ -280,7 +280,7 @@ func (controller *Controller) UpdateFormFieldDate(c *gin.Context) {
 	formfielddateDB.FormFieldDatePointersEncoding = input.FormFieldDatePointersEncoding
 
 	db, _ = db.Model(&formfielddateDB)
-	_, err = db.Updates(&formfielddateDB)
+	_, err = db.Updates(formfielddateDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

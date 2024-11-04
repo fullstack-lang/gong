@@ -166,7 +166,7 @@ func (backRepoFormFieldString *BackRepoFormFieldStringStruct) CommitDeleteInstan
 	// formfieldstring is not staged anymore, remove formfieldstringDB
 	formfieldstringDB := backRepoFormFieldString.Map_FormFieldStringDBID_FormFieldStringDB[id]
 	db, _ := backRepoFormFieldString.db.Unscoped()
-	_, err := db.Delete(formfieldstringDB)
+	_, err := db.Delete(&formfieldstringDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -226,7 +226,7 @@ func (backRepoFormFieldString *BackRepoFormFieldStringStruct) CommitPhaseTwoInst
 		formfieldstringDB.CopyBasicFieldsFromFormFieldString(formfieldstring)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoFormFieldString.db.Save(formfieldstringDB)
+		_, err := backRepoFormFieldString.db.Save(&formfieldstringDB)
 		if err != nil {
 			log.Fatal(err)
 		}
