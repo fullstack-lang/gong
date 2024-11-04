@@ -62,6 +62,11 @@ export function CopyRowAPIToRow(rowAPI: RowAPI, row: Row, frontRepo: FrontRepo) 
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(rowAPI.RowPointersEncoding.Cells)) {
+		console.error('Rects is not an array:', rowAPI.RowPointersEncoding.Cells);
+		return;
+	}
+
 	row.Cells = new Array<Cell>()
 	for (let _id of rowAPI.RowPointersEncoding.Cells) {
 		let _cell = frontRepo.map_ID_Cell.get(_id)

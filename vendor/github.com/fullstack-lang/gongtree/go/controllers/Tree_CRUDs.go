@@ -280,7 +280,7 @@ func (controller *Controller) UpdateTree(c *gin.Context) {
 	treeDB.TreePointersEncoding = input.TreePointersEncoding
 
 	db, _ = db.Model(&treeDB)
-	_, err = db.Updates(treeDB)
+	_, err = db.Updates(&treeDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

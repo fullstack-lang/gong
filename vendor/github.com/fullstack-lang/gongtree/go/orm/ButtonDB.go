@@ -163,7 +163,7 @@ func (backRepoButton *BackRepoButtonStruct) CommitDeleteInstance(id uint) (Error
 	// button is not staged anymore, remove buttonDB
 	buttonDB := backRepoButton.Map_ButtonDBID_ButtonDB[id]
 	db, _ := backRepoButton.db.Unscoped()
-	_, err := db.Delete(&buttonDB)
+	_, err := db.Delete(buttonDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -235,7 +235,7 @@ func (backRepoButton *BackRepoButtonStruct) CommitPhaseTwoInstance(backRepo *Bac
 			buttonDB.SVGIconID.Valid = true
 		}
 
-		_, err := backRepoButton.db.Save(&buttonDB)
+		_, err := backRepoButton.db.Save(buttonDB)
 		if err != nil {
 			log.Fatal(err)
 		}

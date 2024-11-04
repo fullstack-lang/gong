@@ -159,7 +159,7 @@ func (backRepoSVGIcon *BackRepoSVGIconStruct) CommitDeleteInstance(id uint) (Err
 	// svgicon is not staged anymore, remove svgiconDB
 	svgiconDB := backRepoSVGIcon.Map_SVGIconDBID_SVGIconDB[id]
 	db, _ := backRepoSVGIcon.db.Unscoped()
-	_, err := db.Delete(&svgiconDB)
+	_, err := db.Delete(svgiconDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -219,7 +219,7 @@ func (backRepoSVGIcon *BackRepoSVGIconStruct) CommitPhaseTwoInstance(backRepo *B
 		svgiconDB.CopyBasicFieldsFromSVGIcon(svgicon)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoSVGIcon.db.Save(&svgiconDB)
+		_, err := backRepoSVGIcon.db.Save(svgiconDB)
 		if err != nil {
 			log.Fatal(err)
 		}

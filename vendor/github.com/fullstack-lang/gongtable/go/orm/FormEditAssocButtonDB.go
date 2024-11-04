@@ -159,7 +159,7 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) CommitDele
 	// formeditassocbutton is not staged anymore, remove formeditassocbuttonDB
 	formeditassocbuttonDB := backRepoFormEditAssocButton.Map_FormEditAssocButtonDBID_FormEditAssocButtonDB[id]
 	db, _ := backRepoFormEditAssocButton.db.Unscoped()
-	_, err := db.Delete(&formeditassocbuttonDB)
+	_, err := db.Delete(formeditassocbuttonDB)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -219,7 +219,7 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) CommitPhas
 		formeditassocbuttonDB.CopyBasicFieldsFromFormEditAssocButton(formeditassocbutton)
 
 		// insertion point for translating pointers encodings into actual pointers
-		_, err := backRepoFormEditAssocButton.db.Save(&formeditassocbuttonDB)
+		_, err := backRepoFormEditAssocButton.db.Save(formeditassocbuttonDB)
 		if err != nil {
 			log.Fatal(err)
 		}
