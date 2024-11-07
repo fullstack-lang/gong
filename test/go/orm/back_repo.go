@@ -45,10 +45,10 @@ type BackRepoStruct struct {
 	stage *models.StageStruct
 
 	// the back repo can broadcast the CommitFromBackNb to all interested subscribers
-	rwMutex sync.RWMutex
+	rwMutex     sync.RWMutex
 
 	subscribersRwMutex sync.RWMutex
-	subscribers        []chan int
+	subscribers []chan int
 }
 
 func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepoStruct) {
