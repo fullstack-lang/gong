@@ -137,8 +137,10 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		if err != nil {
 			return nil, errors.New("{{PkgPathRoot}}, conds[0] is not a string number")
 		}
-	case uint64:
+	case uint64, uint:
 		i = cond
+	case uint:
+		i = uint64(cond)
 	default:
 		return nil, errors.New("{{PkgPathRoot}}, conds[0] is not a string or uint64")
 	}
