@@ -477,15 +477,21 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		return nil, errors.New("github.com/fullstack-lang/gongdoc/go, Do not process when conds is not a single parameter")
 	}
 
-	str, ok := conds[0].(string)
+	var i uint64
+	var err error
 
-	if !ok {
-		return nil, errors.New("github.com/fullstack-lang/gongdoc/go, conds[0] is not a string")
-	}
-
-	i, err := strconv.ParseUint(str, 10, 32) // Base 10, 32-bit unsigned int
-	if err != nil {
-		return nil, errors.New("github.com/fullstack-lang/gongdoc/go, conds[0] is not a string number")
+	switch cond := conds[0].(type) {
+	case string:
+		i, err = strconv.ParseUint(cond, 10, 32) // Base 10, 32-bit unsigned int
+		if err != nil {
+			return nil, errors.New("github.com/fullstack-lang/gongdoc/go, conds[0] is not a string number")
+		}
+	case uint64:
+		i = cond
+	case uint:
+		i = uint64(cond)
+	default:
+		return nil, errors.New("github.com/fullstack-lang/gongdoc/go, conds[0] is not a string or uint64")
 	}
 
 	db.mu.RLock()
