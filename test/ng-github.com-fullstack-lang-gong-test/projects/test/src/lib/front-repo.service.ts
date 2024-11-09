@@ -422,9 +422,11 @@ export class FrontRepoService {
 
 		return new Observable(observer => {
 			this.socket!.onmessage = event => {
-				let _this = this
+
 
 				const backRepoData = new BackRepoData(JSON.parse(event.data))
+
+				let frontRepo = new (FrontRepo)
 
 				// 
 				// First Step: init map of instances
@@ -432,74 +434,74 @@ export class FrontRepoService {
 				// init the arrays
 				// insertion point sub template for init 
 				// init the arrays
-				this.frontRepo.array_Astructs = []
-				this.frontRepo.map_ID_Astruct.clear()
+				frontRepo.array_Astructs = []
+				frontRepo.map_ID_Astruct.clear()
 
 				backRepoData.AstructAPIs.forEach(
 					astructAPI => {
 						let astruct = new Astruct
-						this.frontRepo.array_Astructs.push(astruct)
-						this.frontRepo.map_ID_Astruct.set(astructAPI.ID, astruct)
+						frontRepo.array_Astructs.push(astruct)
+						frontRepo.map_ID_Astruct.set(astructAPI.ID, astruct)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_AstructBstruct2Uses = []
-				this.frontRepo.map_ID_AstructBstruct2Use.clear()
+				frontRepo.array_AstructBstruct2Uses = []
+				frontRepo.map_ID_AstructBstruct2Use.clear()
 
 				backRepoData.AstructBstruct2UseAPIs.forEach(
 					astructbstruct2useAPI => {
 						let astructbstruct2use = new AstructBstruct2Use
-						this.frontRepo.array_AstructBstruct2Uses.push(astructbstruct2use)
-						this.frontRepo.map_ID_AstructBstruct2Use.set(astructbstruct2useAPI.ID, astructbstruct2use)
+						frontRepo.array_AstructBstruct2Uses.push(astructbstruct2use)
+						frontRepo.map_ID_AstructBstruct2Use.set(astructbstruct2useAPI.ID, astructbstruct2use)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_AstructBstructUses = []
-				this.frontRepo.map_ID_AstructBstructUse.clear()
+				frontRepo.array_AstructBstructUses = []
+				frontRepo.map_ID_AstructBstructUse.clear()
 
 				backRepoData.AstructBstructUseAPIs.forEach(
 					astructbstructuseAPI => {
 						let astructbstructuse = new AstructBstructUse
-						this.frontRepo.array_AstructBstructUses.push(astructbstructuse)
-						this.frontRepo.map_ID_AstructBstructUse.set(astructbstructuseAPI.ID, astructbstructuse)
+						frontRepo.array_AstructBstructUses.push(astructbstructuse)
+						frontRepo.map_ID_AstructBstructUse.set(astructbstructuseAPI.ID, astructbstructuse)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_Bstructs = []
-				this.frontRepo.map_ID_Bstruct.clear()
+				frontRepo.array_Bstructs = []
+				frontRepo.map_ID_Bstruct.clear()
 
 				backRepoData.BstructAPIs.forEach(
 					bstructAPI => {
 						let bstruct = new Bstruct
-						this.frontRepo.array_Bstructs.push(bstruct)
-						this.frontRepo.map_ID_Bstruct.set(bstructAPI.ID, bstruct)
+						frontRepo.array_Bstructs.push(bstruct)
+						frontRepo.map_ID_Bstruct.set(bstructAPI.ID, bstruct)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_Dstructs = []
-				this.frontRepo.map_ID_Dstruct.clear()
+				frontRepo.array_Dstructs = []
+				frontRepo.map_ID_Dstruct.clear()
 
 				backRepoData.DstructAPIs.forEach(
 					dstructAPI => {
 						let dstruct = new Dstruct
-						this.frontRepo.array_Dstructs.push(dstruct)
-						this.frontRepo.map_ID_Dstruct.set(dstructAPI.ID, dstruct)
+						frontRepo.array_Dstructs.push(dstruct)
+						frontRepo.map_ID_Dstruct.set(dstructAPI.ID, dstruct)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_Gstructs = []
-				this.frontRepo.map_ID_Gstruct.clear()
+				frontRepo.array_Gstructs = []
+				frontRepo.map_ID_Gstruct.clear()
 
 				backRepoData.GstructAPIs.forEach(
 					gstructAPI => {
 						let gstruct = new Gstruct
-						this.frontRepo.array_Gstructs.push(gstruct)
-						this.frontRepo.map_ID_Gstruct.set(gstructAPI.ID, gstruct)
+						frontRepo.array_Gstructs.push(gstruct)
+						frontRepo.map_ID_Gstruct.set(gstructAPI.ID, gstruct)
 					}
 				)
 
@@ -512,48 +514,48 @@ export class FrontRepoService {
 				// fill up front objects
 				backRepoData.AstructAPIs.forEach(
 					astructAPI => {
-						let astruct = this.frontRepo.map_ID_Astruct.get(astructAPI.ID)
-						CopyAstructAPIToAstruct(astructAPI, astruct!, this.frontRepo)
+						let astruct = frontRepo.map_ID_Astruct.get(astructAPI.ID)
+						CopyAstructAPIToAstruct(astructAPI, astruct!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.AstructBstruct2UseAPIs.forEach(
 					astructbstruct2useAPI => {
-						let astructbstruct2use = this.frontRepo.map_ID_AstructBstruct2Use.get(astructbstruct2useAPI.ID)
-						CopyAstructBstruct2UseAPIToAstructBstruct2Use(astructbstruct2useAPI, astructbstruct2use!, this.frontRepo)
+						let astructbstruct2use = frontRepo.map_ID_AstructBstruct2Use.get(astructbstruct2useAPI.ID)
+						CopyAstructBstruct2UseAPIToAstructBstruct2Use(astructbstruct2useAPI, astructbstruct2use!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.AstructBstructUseAPIs.forEach(
 					astructbstructuseAPI => {
-						let astructbstructuse = this.frontRepo.map_ID_AstructBstructUse.get(astructbstructuseAPI.ID)
-						CopyAstructBstructUseAPIToAstructBstructUse(astructbstructuseAPI, astructbstructuse!, this.frontRepo)
+						let astructbstructuse = frontRepo.map_ID_AstructBstructUse.get(astructbstructuseAPI.ID)
+						CopyAstructBstructUseAPIToAstructBstructUse(astructbstructuseAPI, astructbstructuse!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.BstructAPIs.forEach(
 					bstructAPI => {
-						let bstruct = this.frontRepo.map_ID_Bstruct.get(bstructAPI.ID)
-						CopyBstructAPIToBstruct(bstructAPI, bstruct!, this.frontRepo)
+						let bstruct = frontRepo.map_ID_Bstruct.get(bstructAPI.ID)
+						CopyBstructAPIToBstruct(bstructAPI, bstruct!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.DstructAPIs.forEach(
 					dstructAPI => {
-						let dstruct = this.frontRepo.map_ID_Dstruct.get(dstructAPI.ID)
-						CopyDstructAPIToDstruct(dstructAPI, dstruct!, this.frontRepo)
+						let dstruct = frontRepo.map_ID_Dstruct.get(dstructAPI.ID)
+						CopyDstructAPIToDstruct(dstructAPI, dstruct!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.GstructAPIs.forEach(
 					gstructAPI => {
-						let gstruct = this.frontRepo.map_ID_Gstruct.get(gstructAPI.ID)
-						CopyGstructAPIToGstruct(gstructAPI, gstruct!, this.frontRepo)
+						let gstruct = frontRepo.map_ID_Gstruct.get(gstructAPI.ID)
+						CopyGstructAPIToGstruct(gstructAPI, gstruct!, frontRepo)
 					}
 				)
 

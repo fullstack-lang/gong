@@ -76,6 +76,11 @@ export function CopyDstructAPIToDstruct(dstructAPI: DstructAPI, dstruct: Dstruct
 	dstruct.Gstruct = frontRepo.map_ID_Gstruct.get(dstructAPI.DstructPointersEncoding.GstructID.Int64)
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(dstructAPI.DstructPointersEncoding.Anarrayofb)) {
+		console.error('Rects is not an array:', dstructAPI.DstructPointersEncoding.Anarrayofb);
+		return;
+	}
+
 	dstruct.Anarrayofb = new Array<Bstruct>()
 	for (let _id of dstructAPI.DstructPointersEncoding.Anarrayofb) {
 		let _bstruct = frontRepo.map_ID_Bstruct.get(_id)
@@ -83,6 +88,11 @@ export function CopyDstructAPIToDstruct(dstructAPI: DstructAPI, dstruct: Dstruct
 			dstruct.Anarrayofb.push(_bstruct!)
 		}
 	}
+	if (!Array.isArray(dstructAPI.DstructPointersEncoding.Gstructs)) {
+		console.error('Rects is not an array:', dstructAPI.DstructPointersEncoding.Gstructs);
+		return;
+	}
+
 	dstruct.Gstructs = new Array<Gstruct>()
 	for (let _id of dstructAPI.DstructPointersEncoding.Gstructs) {
 		let _gstruct = frontRepo.map_ID_Gstruct.get(_id)
