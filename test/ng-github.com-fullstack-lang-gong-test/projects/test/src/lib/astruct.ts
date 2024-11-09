@@ -244,6 +244,11 @@ export function CopyAstructAPIToAstruct(astructAPI: AstructAPI, astruct: Astruct
 	astruct.AnAstruct = frontRepo.map_ID_Astruct.get(astructAPI.AstructPointersEncoding.AnAstructID.Int64)
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(astructAPI.AstructPointersEncoding.Anarrayofb)) {
+		console.error('Rects is not an array:', astructAPI.AstructPointersEncoding.Anarrayofb);
+		return;
+	}
+
 	astruct.Anarrayofb = new Array<Bstruct>()
 	for (let _id of astructAPI.AstructPointersEncoding.Anarrayofb) {
 		let _bstruct = frontRepo.map_ID_Bstruct.get(_id)
@@ -251,6 +256,11 @@ export function CopyAstructAPIToAstruct(astructAPI: AstructAPI, astruct: Astruct
 			astruct.Anarrayofb.push(_bstruct!)
 		}
 	}
+	if (!Array.isArray(astructAPI.AstructPointersEncoding.Dstruct4s)) {
+		console.error('Rects is not an array:', astructAPI.AstructPointersEncoding.Dstruct4s);
+		return;
+	}
+
 	astruct.Dstruct4s = new Array<Dstruct>()
 	for (let _id of astructAPI.AstructPointersEncoding.Dstruct4s) {
 		let _dstruct = frontRepo.map_ID_Dstruct.get(_id)
@@ -258,6 +268,11 @@ export function CopyAstructAPIToAstruct(astructAPI: AstructAPI, astruct: Astruct
 			astruct.Dstruct4s.push(_dstruct!)
 		}
 	}
+	if (!Array.isArray(astructAPI.AstructPointersEncoding.Anarrayofa)) {
+		console.error('Rects is not an array:', astructAPI.AstructPointersEncoding.Anarrayofa);
+		return;
+	}
+
 	astruct.Anarrayofa = new Array<Astruct>()
 	for (let _id of astructAPI.AstructPointersEncoding.Anarrayofa) {
 		let _astruct = frontRepo.map_ID_Astruct.get(_id)
@@ -265,6 +280,11 @@ export function CopyAstructAPIToAstruct(astructAPI: AstructAPI, astruct: Astruct
 			astruct.Anarrayofa.push(_astruct!)
 		}
 	}
+	if (!Array.isArray(astructAPI.AstructPointersEncoding.Anotherarrayofb)) {
+		console.error('Rects is not an array:', astructAPI.AstructPointersEncoding.Anotherarrayofb);
+		return;
+	}
+
 	astruct.Anotherarrayofb = new Array<Bstruct>()
 	for (let _id of astructAPI.AstructPointersEncoding.Anotherarrayofb) {
 		let _bstruct = frontRepo.map_ID_Bstruct.get(_id)
@@ -272,6 +292,11 @@ export function CopyAstructAPIToAstruct(astructAPI: AstructAPI, astruct: Astruct
 			astruct.Anotherarrayofb.push(_bstruct!)
 		}
 	}
+	if (!Array.isArray(astructAPI.AstructPointersEncoding.AnarrayofbUse)) {
+		console.error('Rects is not an array:', astructAPI.AstructPointersEncoding.AnarrayofbUse);
+		return;
+	}
+
 	astruct.AnarrayofbUse = new Array<AstructBstructUse>()
 	for (let _id of astructAPI.AstructPointersEncoding.AnarrayofbUse) {
 		let _astructbstructuse = frontRepo.map_ID_AstructBstructUse.get(_id)
@@ -279,6 +304,11 @@ export function CopyAstructAPIToAstruct(astructAPI: AstructAPI, astruct: Astruct
 			astruct.AnarrayofbUse.push(_astructbstructuse!)
 		}
 	}
+	if (!Array.isArray(astructAPI.AstructPointersEncoding.Anarrayofb2Use)) {
+		console.error('Rects is not an array:', astructAPI.AstructPointersEncoding.Anarrayofb2Use);
+		return;
+	}
+
 	astruct.Anarrayofb2Use = new Array<AstructBstruct2Use>()
 	for (let _id of astructAPI.AstructPointersEncoding.Anarrayofb2Use) {
 		let _astructbstruct2use = frontRepo.map_ID_AstructBstruct2Use.get(_id)
