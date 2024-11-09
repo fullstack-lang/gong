@@ -208,9 +208,11 @@ export class FrontRepoService {
 
 		return new Observable(observer => {
 			this.socket!.onmessage = event => {
-				let _this = this
+
 
 				const backRepoData = new BackRepoData(JSON.parse(event.data))
+
+				let frontRepo = new (FrontRepo)
 
 				// 
 				// First Step: init map of instances
@@ -319,14 +321,14 @@ import { {{Structname}}Service } from './{{structname}}.service'
 
 	NgLibFrontRepoInitMapInstancesFromWebSocket: `
 				// init the arrays
-				this.frontRepo.array_{{Structname}}s = []
-				this.frontRepo.map_ID_{{Structname}}.clear()
+				frontRepo.array_{{Structname}}s = []
+				frontRepo.map_ID_{{Structname}}.clear()
 
 				backRepoData.{{Structname}}APIs.forEach(
 					{{structname}}API => {
 						let {{structname}} = new {{Structname}}
-						this.frontRepo.array_{{Structname}}s.push({{structname}})
-						this.frontRepo.map_ID_{{Structname}}.set({{structname}}API.ID, {{structname}})
+						frontRepo.array_{{Structname}}s.push({{structname}})
+						frontRepo.map_ID_{{Structname}}.set({{structname}}API.ID, {{structname}})
 					}
 				)
 `,
@@ -345,8 +347,8 @@ import { {{Structname}}Service } from './{{structname}}.service'
 				// fill up front objects
 				backRepoData.{{Structname}}APIs.forEach(
 					{{structname}}API => {
-						let {{structname}} = this.frontRepo.map_ID_{{Structname}}.get({{structname}}API.ID)
-						Copy{{Structname}}APITo{{Structname}}({{structname}}API, {{structname}}!, this.frontRepo)
+						let {{structname}} = frontRepo.map_ID_{{Structname}}.get({{structname}}API.ID)
+						Copy{{Structname}}APITo{{Structname}}({{structname}}API, {{structname}}!, frontRepo)
 					}
 				)
 `,
