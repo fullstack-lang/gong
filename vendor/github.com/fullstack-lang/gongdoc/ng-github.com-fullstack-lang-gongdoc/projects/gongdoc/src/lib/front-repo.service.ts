@@ -194,9 +194,11 @@ export class FrontRepoService {
 
 		return new Observable(observer => {
 			this.socket!.onmessage = event => {
-				let _this = this
+
 
 				const backRepoData = new BackRepoData(JSON.parse(event.data))
+
+				let frontRepo = new (FrontRepo)
 
 				// 
 				// First Step: init map of instances
@@ -211,7 +213,7 @@ export class FrontRepoService {
 				// insertion point sub template for redeem 
 
 
-				observer.next(this.frontRepo)
+				observer.next(frontRepo)
 			}
 			this.socket!.onerror = event => {
 				observer.error(event)
