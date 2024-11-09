@@ -346,9 +346,11 @@ export class FrontRepoService {
 
 		return new Observable(observer => {
 			this.socket!.onmessage = event => {
-				let _this = this
+
 
 				const backRepoData = new BackRepoData(JSON.parse(event.data))
+
+				let frontRepo = new (FrontRepo)
 
 				// 
 				// First Step: init map of instances
@@ -356,50 +358,50 @@ export class FrontRepoService {
 				// init the arrays
 				// insertion point sub template for init 
 				// init the arrays
-				this.frontRepo.array_Buttons = []
-				this.frontRepo.map_ID_Button.clear()
+				frontRepo.array_Buttons = []
+				frontRepo.map_ID_Button.clear()
 
 				backRepoData.ButtonAPIs.forEach(
 					buttonAPI => {
 						let button = new Button
-						this.frontRepo.array_Buttons.push(button)
-						this.frontRepo.map_ID_Button.set(buttonAPI.ID, button)
+						frontRepo.array_Buttons.push(button)
+						frontRepo.map_ID_Button.set(buttonAPI.ID, button)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_Nodes = []
-				this.frontRepo.map_ID_Node.clear()
+				frontRepo.array_Nodes = []
+				frontRepo.map_ID_Node.clear()
 
 				backRepoData.NodeAPIs.forEach(
 					nodeAPI => {
 						let node = new Node
-						this.frontRepo.array_Nodes.push(node)
-						this.frontRepo.map_ID_Node.set(nodeAPI.ID, node)
+						frontRepo.array_Nodes.push(node)
+						frontRepo.map_ID_Node.set(nodeAPI.ID, node)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_SVGIcons = []
-				this.frontRepo.map_ID_SVGIcon.clear()
+				frontRepo.array_SVGIcons = []
+				frontRepo.map_ID_SVGIcon.clear()
 
 				backRepoData.SVGIconAPIs.forEach(
 					svgiconAPI => {
 						let svgicon = new SVGIcon
-						this.frontRepo.array_SVGIcons.push(svgicon)
-						this.frontRepo.map_ID_SVGIcon.set(svgiconAPI.ID, svgicon)
+						frontRepo.array_SVGIcons.push(svgicon)
+						frontRepo.map_ID_SVGIcon.set(svgiconAPI.ID, svgicon)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_Trees = []
-				this.frontRepo.map_ID_Tree.clear()
+				frontRepo.array_Trees = []
+				frontRepo.map_ID_Tree.clear()
 
 				backRepoData.TreeAPIs.forEach(
 					treeAPI => {
 						let tree = new Tree
-						this.frontRepo.array_Trees.push(tree)
-						this.frontRepo.map_ID_Tree.set(treeAPI.ID, tree)
+						frontRepo.array_Trees.push(tree)
+						frontRepo.map_ID_Tree.set(treeAPI.ID, tree)
 					}
 				)
 
@@ -412,38 +414,38 @@ export class FrontRepoService {
 				// fill up front objects
 				backRepoData.ButtonAPIs.forEach(
 					buttonAPI => {
-						let button = this.frontRepo.map_ID_Button.get(buttonAPI.ID)
-						CopyButtonAPIToButton(buttonAPI, button!, this.frontRepo)
+						let button = frontRepo.map_ID_Button.get(buttonAPI.ID)
+						CopyButtonAPIToButton(buttonAPI, button!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.NodeAPIs.forEach(
 					nodeAPI => {
-						let node = this.frontRepo.map_ID_Node.get(nodeAPI.ID)
-						CopyNodeAPIToNode(nodeAPI, node!, this.frontRepo)
+						let node = frontRepo.map_ID_Node.get(nodeAPI.ID)
+						CopyNodeAPIToNode(nodeAPI, node!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.SVGIconAPIs.forEach(
 					svgiconAPI => {
-						let svgicon = this.frontRepo.map_ID_SVGIcon.get(svgiconAPI.ID)
-						CopySVGIconAPIToSVGIcon(svgiconAPI, svgicon!, this.frontRepo)
+						let svgicon = frontRepo.map_ID_SVGIcon.get(svgiconAPI.ID)
+						CopySVGIconAPIToSVGIcon(svgiconAPI, svgicon!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.TreeAPIs.forEach(
 					treeAPI => {
-						let tree = this.frontRepo.map_ID_Tree.get(treeAPI.ID)
-						CopyTreeAPIToTree(treeAPI, tree!, this.frontRepo)
+						let tree = frontRepo.map_ID_Tree.get(treeAPI.ID)
+						CopyTreeAPIToTree(treeAPI, tree!, frontRepo)
 					}
 				)
 
 
 
-				observer.next(this.frontRepo)
+				observer.next(frontRepo)
 			}
 			this.socket!.onerror = event => {
 				observer.error(event)

@@ -23,14 +23,14 @@ require (
 )
 
 require (
-	github.com/fullstack-lang/gongdoc v0.0.0-20241108071829-c73b6fceec60
-	github.com/fullstack-lang/gongtable v0.0.0-20241108071830-788340bf2abe
-	github.com/fullstack-lang/gongtree v0.0.0-20241108071831-578278020971
+	github.com/fullstack-lang/gongdoc v0.0.0-20241109111535-aa1796f001aa
+	github.com/fullstack-lang/gongtable v0.0.0-20241109111536-c8032ca0d89a
+	github.com/fullstack-lang/gongtree v0.0.0-20241109111537-49632f43fd28
 	github.com/fullstack-lang/maticons v0.0.0-20240913013021-27a7b8fd9369
 	github.com/glebarez/sqlite v1.11.0
 	github.com/gorilla/websocket v1.5.3
 	github.com/xuri/excelize/v2 v2.9.0
-	golang.org/x/exp v0.0.0-20241009180824-f66d83c29e7c
+	golang.org/x/exp v0.0.0-20241108190413-2d47ceb2692f
 )
 
 require (
@@ -39,7 +39,7 @@ require (
 	github.com/cloudwego/base64x v0.1.4 // indirect
 	github.com/cloudwego/iasm v0.2.0 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
-	github.com/fullstack-lang/gongsvg v0.0.0-20241108071830-2c1a42b52d69 // indirect
+	github.com/fullstack-lang/gongsvg v0.0.0-20241109111536-5f07426906ae // indirect
 	github.com/gabriel-vasile/mimetype v1.4.6 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/glebarez/go-sqlite v1.22.0 // indirect
@@ -69,7 +69,7 @@ require (
 	github.com/xuri/efp v0.0.0-20240408161823-9ad904a10d6d // indirect
 	github.com/xuri/nfp v0.0.0-20240318013403-ab9948c2c4a7 // indirect
 	golang.org/x/arch v0.12.0 // indirect
-	golang.org/x/net v0.30.0 // indirect
+	golang.org/x/net v0.31.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	modernc.org/libc v1.61.0 // indirect
 	modernc.org/mathutil v1.6.0 // indirect
