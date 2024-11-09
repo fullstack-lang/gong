@@ -878,9 +878,11 @@ export class FrontRepoService {
 
 		return new Observable(observer => {
 			this.socket!.onmessage = event => {
-				let _this = this
+
 
 				const backRepoData = new BackRepoData(JSON.parse(event.data))
+
+				let frontRepo = new (FrontRepo)
 
 				// 
 				// First Step: init map of instances
@@ -888,218 +890,218 @@ export class FrontRepoService {
 				// init the arrays
 				// insertion point sub template for init 
 				// init the arrays
-				this.frontRepo.array_Animates = []
-				this.frontRepo.map_ID_Animate.clear()
+				frontRepo.array_Animates = []
+				frontRepo.map_ID_Animate.clear()
 
 				backRepoData.AnimateAPIs.forEach(
 					animateAPI => {
 						let animate = new Animate
-						this.frontRepo.array_Animates.push(animate)
-						this.frontRepo.map_ID_Animate.set(animateAPI.ID, animate)
+						frontRepo.array_Animates.push(animate)
+						frontRepo.map_ID_Animate.set(animateAPI.ID, animate)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_Circles = []
-				this.frontRepo.map_ID_Circle.clear()
+				frontRepo.array_Circles = []
+				frontRepo.map_ID_Circle.clear()
 
 				backRepoData.CircleAPIs.forEach(
 					circleAPI => {
 						let circle = new Circle
-						this.frontRepo.array_Circles.push(circle)
-						this.frontRepo.map_ID_Circle.set(circleAPI.ID, circle)
+						frontRepo.array_Circles.push(circle)
+						frontRepo.map_ID_Circle.set(circleAPI.ID, circle)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_Ellipses = []
-				this.frontRepo.map_ID_Ellipse.clear()
+				frontRepo.array_Ellipses = []
+				frontRepo.map_ID_Ellipse.clear()
 
 				backRepoData.EllipseAPIs.forEach(
 					ellipseAPI => {
 						let ellipse = new Ellipse
-						this.frontRepo.array_Ellipses.push(ellipse)
-						this.frontRepo.map_ID_Ellipse.set(ellipseAPI.ID, ellipse)
+						frontRepo.array_Ellipses.push(ellipse)
+						frontRepo.map_ID_Ellipse.set(ellipseAPI.ID, ellipse)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_Layers = []
-				this.frontRepo.map_ID_Layer.clear()
+				frontRepo.array_Layers = []
+				frontRepo.map_ID_Layer.clear()
 
 				backRepoData.LayerAPIs.forEach(
 					layerAPI => {
 						let layer = new Layer
-						this.frontRepo.array_Layers.push(layer)
-						this.frontRepo.map_ID_Layer.set(layerAPI.ID, layer)
+						frontRepo.array_Layers.push(layer)
+						frontRepo.map_ID_Layer.set(layerAPI.ID, layer)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_Lines = []
-				this.frontRepo.map_ID_Line.clear()
+				frontRepo.array_Lines = []
+				frontRepo.map_ID_Line.clear()
 
 				backRepoData.LineAPIs.forEach(
 					lineAPI => {
 						let line = new Line
-						this.frontRepo.array_Lines.push(line)
-						this.frontRepo.map_ID_Line.set(lineAPI.ID, line)
+						frontRepo.array_Lines.push(line)
+						frontRepo.map_ID_Line.set(lineAPI.ID, line)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_Links = []
-				this.frontRepo.map_ID_Link.clear()
+				frontRepo.array_Links = []
+				frontRepo.map_ID_Link.clear()
 
 				backRepoData.LinkAPIs.forEach(
 					linkAPI => {
 						let link = new Link
-						this.frontRepo.array_Links.push(link)
-						this.frontRepo.map_ID_Link.set(linkAPI.ID, link)
+						frontRepo.array_Links.push(link)
+						frontRepo.map_ID_Link.set(linkAPI.ID, link)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_LinkAnchoredTexts = []
-				this.frontRepo.map_ID_LinkAnchoredText.clear()
+				frontRepo.array_LinkAnchoredTexts = []
+				frontRepo.map_ID_LinkAnchoredText.clear()
 
 				backRepoData.LinkAnchoredTextAPIs.forEach(
 					linkanchoredtextAPI => {
 						let linkanchoredtext = new LinkAnchoredText
-						this.frontRepo.array_LinkAnchoredTexts.push(linkanchoredtext)
-						this.frontRepo.map_ID_LinkAnchoredText.set(linkanchoredtextAPI.ID, linkanchoredtext)
+						frontRepo.array_LinkAnchoredTexts.push(linkanchoredtext)
+						frontRepo.map_ID_LinkAnchoredText.set(linkanchoredtextAPI.ID, linkanchoredtext)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_Paths = []
-				this.frontRepo.map_ID_Path.clear()
+				frontRepo.array_Paths = []
+				frontRepo.map_ID_Path.clear()
 
 				backRepoData.PathAPIs.forEach(
 					pathAPI => {
 						let path = new Path
-						this.frontRepo.array_Paths.push(path)
-						this.frontRepo.map_ID_Path.set(pathAPI.ID, path)
+						frontRepo.array_Paths.push(path)
+						frontRepo.map_ID_Path.set(pathAPI.ID, path)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_Points = []
-				this.frontRepo.map_ID_Point.clear()
+				frontRepo.array_Points = []
+				frontRepo.map_ID_Point.clear()
 
 				backRepoData.PointAPIs.forEach(
 					pointAPI => {
 						let point = new Point
-						this.frontRepo.array_Points.push(point)
-						this.frontRepo.map_ID_Point.set(pointAPI.ID, point)
+						frontRepo.array_Points.push(point)
+						frontRepo.map_ID_Point.set(pointAPI.ID, point)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_Polygones = []
-				this.frontRepo.map_ID_Polygone.clear()
+				frontRepo.array_Polygones = []
+				frontRepo.map_ID_Polygone.clear()
 
 				backRepoData.PolygoneAPIs.forEach(
 					polygoneAPI => {
 						let polygone = new Polygone
-						this.frontRepo.array_Polygones.push(polygone)
-						this.frontRepo.map_ID_Polygone.set(polygoneAPI.ID, polygone)
+						frontRepo.array_Polygones.push(polygone)
+						frontRepo.map_ID_Polygone.set(polygoneAPI.ID, polygone)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_Polylines = []
-				this.frontRepo.map_ID_Polyline.clear()
+				frontRepo.array_Polylines = []
+				frontRepo.map_ID_Polyline.clear()
 
 				backRepoData.PolylineAPIs.forEach(
 					polylineAPI => {
 						let polyline = new Polyline
-						this.frontRepo.array_Polylines.push(polyline)
-						this.frontRepo.map_ID_Polyline.set(polylineAPI.ID, polyline)
+						frontRepo.array_Polylines.push(polyline)
+						frontRepo.map_ID_Polyline.set(polylineAPI.ID, polyline)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_Rects = []
-				this.frontRepo.map_ID_Rect.clear()
+				frontRepo.array_Rects = []
+				frontRepo.map_ID_Rect.clear()
 
 				backRepoData.RectAPIs.forEach(
 					rectAPI => {
 						let rect = new Rect
-						this.frontRepo.array_Rects.push(rect)
-						this.frontRepo.map_ID_Rect.set(rectAPI.ID, rect)
+						frontRepo.array_Rects.push(rect)
+						frontRepo.map_ID_Rect.set(rectAPI.ID, rect)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_RectAnchoredPaths = []
-				this.frontRepo.map_ID_RectAnchoredPath.clear()
+				frontRepo.array_RectAnchoredPaths = []
+				frontRepo.map_ID_RectAnchoredPath.clear()
 
 				backRepoData.RectAnchoredPathAPIs.forEach(
 					rectanchoredpathAPI => {
 						let rectanchoredpath = new RectAnchoredPath
-						this.frontRepo.array_RectAnchoredPaths.push(rectanchoredpath)
-						this.frontRepo.map_ID_RectAnchoredPath.set(rectanchoredpathAPI.ID, rectanchoredpath)
+						frontRepo.array_RectAnchoredPaths.push(rectanchoredpath)
+						frontRepo.map_ID_RectAnchoredPath.set(rectanchoredpathAPI.ID, rectanchoredpath)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_RectAnchoredRects = []
-				this.frontRepo.map_ID_RectAnchoredRect.clear()
+				frontRepo.array_RectAnchoredRects = []
+				frontRepo.map_ID_RectAnchoredRect.clear()
 
 				backRepoData.RectAnchoredRectAPIs.forEach(
 					rectanchoredrectAPI => {
 						let rectanchoredrect = new RectAnchoredRect
-						this.frontRepo.array_RectAnchoredRects.push(rectanchoredrect)
-						this.frontRepo.map_ID_RectAnchoredRect.set(rectanchoredrectAPI.ID, rectanchoredrect)
+						frontRepo.array_RectAnchoredRects.push(rectanchoredrect)
+						frontRepo.map_ID_RectAnchoredRect.set(rectanchoredrectAPI.ID, rectanchoredrect)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_RectAnchoredTexts = []
-				this.frontRepo.map_ID_RectAnchoredText.clear()
+				frontRepo.array_RectAnchoredTexts = []
+				frontRepo.map_ID_RectAnchoredText.clear()
 
 				backRepoData.RectAnchoredTextAPIs.forEach(
 					rectanchoredtextAPI => {
 						let rectanchoredtext = new RectAnchoredText
-						this.frontRepo.array_RectAnchoredTexts.push(rectanchoredtext)
-						this.frontRepo.map_ID_RectAnchoredText.set(rectanchoredtextAPI.ID, rectanchoredtext)
+						frontRepo.array_RectAnchoredTexts.push(rectanchoredtext)
+						frontRepo.map_ID_RectAnchoredText.set(rectanchoredtextAPI.ID, rectanchoredtext)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_RectLinkLinks = []
-				this.frontRepo.map_ID_RectLinkLink.clear()
+				frontRepo.array_RectLinkLinks = []
+				frontRepo.map_ID_RectLinkLink.clear()
 
 				backRepoData.RectLinkLinkAPIs.forEach(
 					rectlinklinkAPI => {
 						let rectlinklink = new RectLinkLink
-						this.frontRepo.array_RectLinkLinks.push(rectlinklink)
-						this.frontRepo.map_ID_RectLinkLink.set(rectlinklinkAPI.ID, rectlinklink)
+						frontRepo.array_RectLinkLinks.push(rectlinklink)
+						frontRepo.map_ID_RectLinkLink.set(rectlinklinkAPI.ID, rectlinklink)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_SVGs = []
-				this.frontRepo.map_ID_SVG.clear()
+				frontRepo.array_SVGs = []
+				frontRepo.map_ID_SVG.clear()
 
 				backRepoData.SVGAPIs.forEach(
 					svgAPI => {
 						let svg = new SVG
-						this.frontRepo.array_SVGs.push(svg)
-						this.frontRepo.map_ID_SVG.set(svgAPI.ID, svg)
+						frontRepo.array_SVGs.push(svg)
+						frontRepo.map_ID_SVG.set(svgAPI.ID, svg)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_Texts = []
-				this.frontRepo.map_ID_Text.clear()
+				frontRepo.array_Texts = []
+				frontRepo.map_ID_Text.clear()
 
 				backRepoData.TextAPIs.forEach(
 					textAPI => {
 						let text = new Text
-						this.frontRepo.array_Texts.push(text)
-						this.frontRepo.map_ID_Text.set(textAPI.ID, text)
+						frontRepo.array_Texts.push(text)
+						frontRepo.map_ID_Text.set(textAPI.ID, text)
 					}
 				)
 
@@ -1112,150 +1114,150 @@ export class FrontRepoService {
 				// fill up front objects
 				backRepoData.AnimateAPIs.forEach(
 					animateAPI => {
-						let animate = this.frontRepo.map_ID_Animate.get(animateAPI.ID)
-						CopyAnimateAPIToAnimate(animateAPI, animate!, this.frontRepo)
+						let animate = frontRepo.map_ID_Animate.get(animateAPI.ID)
+						CopyAnimateAPIToAnimate(animateAPI, animate!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.CircleAPIs.forEach(
 					circleAPI => {
-						let circle = this.frontRepo.map_ID_Circle.get(circleAPI.ID)
-						CopyCircleAPIToCircle(circleAPI, circle!, this.frontRepo)
+						let circle = frontRepo.map_ID_Circle.get(circleAPI.ID)
+						CopyCircleAPIToCircle(circleAPI, circle!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.EllipseAPIs.forEach(
 					ellipseAPI => {
-						let ellipse = this.frontRepo.map_ID_Ellipse.get(ellipseAPI.ID)
-						CopyEllipseAPIToEllipse(ellipseAPI, ellipse!, this.frontRepo)
+						let ellipse = frontRepo.map_ID_Ellipse.get(ellipseAPI.ID)
+						CopyEllipseAPIToEllipse(ellipseAPI, ellipse!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.LayerAPIs.forEach(
 					layerAPI => {
-						let layer = this.frontRepo.map_ID_Layer.get(layerAPI.ID)
-						CopyLayerAPIToLayer(layerAPI, layer!, this.frontRepo)
+						let layer = frontRepo.map_ID_Layer.get(layerAPI.ID)
+						CopyLayerAPIToLayer(layerAPI, layer!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.LineAPIs.forEach(
 					lineAPI => {
-						let line = this.frontRepo.map_ID_Line.get(lineAPI.ID)
-						CopyLineAPIToLine(lineAPI, line!, this.frontRepo)
+						let line = frontRepo.map_ID_Line.get(lineAPI.ID)
+						CopyLineAPIToLine(lineAPI, line!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.LinkAPIs.forEach(
 					linkAPI => {
-						let link = this.frontRepo.map_ID_Link.get(linkAPI.ID)
-						CopyLinkAPIToLink(linkAPI, link!, this.frontRepo)
+						let link = frontRepo.map_ID_Link.get(linkAPI.ID)
+						CopyLinkAPIToLink(linkAPI, link!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.LinkAnchoredTextAPIs.forEach(
 					linkanchoredtextAPI => {
-						let linkanchoredtext = this.frontRepo.map_ID_LinkAnchoredText.get(linkanchoredtextAPI.ID)
-						CopyLinkAnchoredTextAPIToLinkAnchoredText(linkanchoredtextAPI, linkanchoredtext!, this.frontRepo)
+						let linkanchoredtext = frontRepo.map_ID_LinkAnchoredText.get(linkanchoredtextAPI.ID)
+						CopyLinkAnchoredTextAPIToLinkAnchoredText(linkanchoredtextAPI, linkanchoredtext!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.PathAPIs.forEach(
 					pathAPI => {
-						let path = this.frontRepo.map_ID_Path.get(pathAPI.ID)
-						CopyPathAPIToPath(pathAPI, path!, this.frontRepo)
+						let path = frontRepo.map_ID_Path.get(pathAPI.ID)
+						CopyPathAPIToPath(pathAPI, path!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.PointAPIs.forEach(
 					pointAPI => {
-						let point = this.frontRepo.map_ID_Point.get(pointAPI.ID)
-						CopyPointAPIToPoint(pointAPI, point!, this.frontRepo)
+						let point = frontRepo.map_ID_Point.get(pointAPI.ID)
+						CopyPointAPIToPoint(pointAPI, point!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.PolygoneAPIs.forEach(
 					polygoneAPI => {
-						let polygone = this.frontRepo.map_ID_Polygone.get(polygoneAPI.ID)
-						CopyPolygoneAPIToPolygone(polygoneAPI, polygone!, this.frontRepo)
+						let polygone = frontRepo.map_ID_Polygone.get(polygoneAPI.ID)
+						CopyPolygoneAPIToPolygone(polygoneAPI, polygone!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.PolylineAPIs.forEach(
 					polylineAPI => {
-						let polyline = this.frontRepo.map_ID_Polyline.get(polylineAPI.ID)
-						CopyPolylineAPIToPolyline(polylineAPI, polyline!, this.frontRepo)
+						let polyline = frontRepo.map_ID_Polyline.get(polylineAPI.ID)
+						CopyPolylineAPIToPolyline(polylineAPI, polyline!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.RectAPIs.forEach(
 					rectAPI => {
-						let rect = this.frontRepo.map_ID_Rect.get(rectAPI.ID)
-						CopyRectAPIToRect(rectAPI, rect!, this.frontRepo)
+						let rect = frontRepo.map_ID_Rect.get(rectAPI.ID)
+						CopyRectAPIToRect(rectAPI, rect!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.RectAnchoredPathAPIs.forEach(
 					rectanchoredpathAPI => {
-						let rectanchoredpath = this.frontRepo.map_ID_RectAnchoredPath.get(rectanchoredpathAPI.ID)
-						CopyRectAnchoredPathAPIToRectAnchoredPath(rectanchoredpathAPI, rectanchoredpath!, this.frontRepo)
+						let rectanchoredpath = frontRepo.map_ID_RectAnchoredPath.get(rectanchoredpathAPI.ID)
+						CopyRectAnchoredPathAPIToRectAnchoredPath(rectanchoredpathAPI, rectanchoredpath!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.RectAnchoredRectAPIs.forEach(
 					rectanchoredrectAPI => {
-						let rectanchoredrect = this.frontRepo.map_ID_RectAnchoredRect.get(rectanchoredrectAPI.ID)
-						CopyRectAnchoredRectAPIToRectAnchoredRect(rectanchoredrectAPI, rectanchoredrect!, this.frontRepo)
+						let rectanchoredrect = frontRepo.map_ID_RectAnchoredRect.get(rectanchoredrectAPI.ID)
+						CopyRectAnchoredRectAPIToRectAnchoredRect(rectanchoredrectAPI, rectanchoredrect!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.RectAnchoredTextAPIs.forEach(
 					rectanchoredtextAPI => {
-						let rectanchoredtext = this.frontRepo.map_ID_RectAnchoredText.get(rectanchoredtextAPI.ID)
-						CopyRectAnchoredTextAPIToRectAnchoredText(rectanchoredtextAPI, rectanchoredtext!, this.frontRepo)
+						let rectanchoredtext = frontRepo.map_ID_RectAnchoredText.get(rectanchoredtextAPI.ID)
+						CopyRectAnchoredTextAPIToRectAnchoredText(rectanchoredtextAPI, rectanchoredtext!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.RectLinkLinkAPIs.forEach(
 					rectlinklinkAPI => {
-						let rectlinklink = this.frontRepo.map_ID_RectLinkLink.get(rectlinklinkAPI.ID)
-						CopyRectLinkLinkAPIToRectLinkLink(rectlinklinkAPI, rectlinklink!, this.frontRepo)
+						let rectlinklink = frontRepo.map_ID_RectLinkLink.get(rectlinklinkAPI.ID)
+						CopyRectLinkLinkAPIToRectLinkLink(rectlinklinkAPI, rectlinklink!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.SVGAPIs.forEach(
 					svgAPI => {
-						let svg = this.frontRepo.map_ID_SVG.get(svgAPI.ID)
-						CopySVGAPIToSVG(svgAPI, svg!, this.frontRepo)
+						let svg = frontRepo.map_ID_SVG.get(svgAPI.ID)
+						CopySVGAPIToSVG(svgAPI, svg!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.TextAPIs.forEach(
 					textAPI => {
-						let text = this.frontRepo.map_ID_Text.get(textAPI.ID)
-						CopyTextAPIToText(textAPI, text!, this.frontRepo)
+						let text = frontRepo.map_ID_Text.get(textAPI.ID)
+						CopyTextAPIToText(textAPI, text!, frontRepo)
 					}
 				)
 
 
 
-				observer.next(this.frontRepo)
+				observer.next(frontRepo)
 			}
 			this.socket!.onerror = event => {
 				observer.error(event)
