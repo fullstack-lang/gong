@@ -650,9 +650,11 @@ export class FrontRepoService {
 
 		return new Observable(observer => {
 			this.socket!.onmessage = event => {
-				let _this = this
+
 
 				const backRepoData = new BackRepoData(JSON.parse(event.data))
+
+				let frontRepo = new (FrontRepo)
 
 				// 
 				// First Step: init map of instances
@@ -660,146 +662,146 @@ export class FrontRepoService {
 				// init the arrays
 				// insertion point sub template for init 
 				// init the arrays
-				this.frontRepo.array_GongBasicFields = []
-				this.frontRepo.map_ID_GongBasicField.clear()
+				frontRepo.array_GongBasicFields = []
+				frontRepo.map_ID_GongBasicField.clear()
 
 				backRepoData.GongBasicFieldAPIs.forEach(
 					gongbasicfieldAPI => {
 						let gongbasicfield = new GongBasicField
-						this.frontRepo.array_GongBasicFields.push(gongbasicfield)
-						this.frontRepo.map_ID_GongBasicField.set(gongbasicfieldAPI.ID, gongbasicfield)
+						frontRepo.array_GongBasicFields.push(gongbasicfield)
+						frontRepo.map_ID_GongBasicField.set(gongbasicfieldAPI.ID, gongbasicfield)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_GongEnums = []
-				this.frontRepo.map_ID_GongEnum.clear()
+				frontRepo.array_GongEnums = []
+				frontRepo.map_ID_GongEnum.clear()
 
 				backRepoData.GongEnumAPIs.forEach(
 					gongenumAPI => {
 						let gongenum = new GongEnum
-						this.frontRepo.array_GongEnums.push(gongenum)
-						this.frontRepo.map_ID_GongEnum.set(gongenumAPI.ID, gongenum)
+						frontRepo.array_GongEnums.push(gongenum)
+						frontRepo.map_ID_GongEnum.set(gongenumAPI.ID, gongenum)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_GongEnumValues = []
-				this.frontRepo.map_ID_GongEnumValue.clear()
+				frontRepo.array_GongEnumValues = []
+				frontRepo.map_ID_GongEnumValue.clear()
 
 				backRepoData.GongEnumValueAPIs.forEach(
 					gongenumvalueAPI => {
 						let gongenumvalue = new GongEnumValue
-						this.frontRepo.array_GongEnumValues.push(gongenumvalue)
-						this.frontRepo.map_ID_GongEnumValue.set(gongenumvalueAPI.ID, gongenumvalue)
+						frontRepo.array_GongEnumValues.push(gongenumvalue)
+						frontRepo.map_ID_GongEnumValue.set(gongenumvalueAPI.ID, gongenumvalue)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_GongLinks = []
-				this.frontRepo.map_ID_GongLink.clear()
+				frontRepo.array_GongLinks = []
+				frontRepo.map_ID_GongLink.clear()
 
 				backRepoData.GongLinkAPIs.forEach(
 					gonglinkAPI => {
 						let gonglink = new GongLink
-						this.frontRepo.array_GongLinks.push(gonglink)
-						this.frontRepo.map_ID_GongLink.set(gonglinkAPI.ID, gonglink)
+						frontRepo.array_GongLinks.push(gonglink)
+						frontRepo.map_ID_GongLink.set(gonglinkAPI.ID, gonglink)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_GongNotes = []
-				this.frontRepo.map_ID_GongNote.clear()
+				frontRepo.array_GongNotes = []
+				frontRepo.map_ID_GongNote.clear()
 
 				backRepoData.GongNoteAPIs.forEach(
 					gongnoteAPI => {
 						let gongnote = new GongNote
-						this.frontRepo.array_GongNotes.push(gongnote)
-						this.frontRepo.map_ID_GongNote.set(gongnoteAPI.ID, gongnote)
+						frontRepo.array_GongNotes.push(gongnote)
+						frontRepo.map_ID_GongNote.set(gongnoteAPI.ID, gongnote)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_GongStructs = []
-				this.frontRepo.map_ID_GongStruct.clear()
+				frontRepo.array_GongStructs = []
+				frontRepo.map_ID_GongStruct.clear()
 
 				backRepoData.GongStructAPIs.forEach(
 					gongstructAPI => {
 						let gongstruct = new GongStruct
-						this.frontRepo.array_GongStructs.push(gongstruct)
-						this.frontRepo.map_ID_GongStruct.set(gongstructAPI.ID, gongstruct)
+						frontRepo.array_GongStructs.push(gongstruct)
+						frontRepo.map_ID_GongStruct.set(gongstructAPI.ID, gongstruct)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_GongTimeFields = []
-				this.frontRepo.map_ID_GongTimeField.clear()
+				frontRepo.array_GongTimeFields = []
+				frontRepo.map_ID_GongTimeField.clear()
 
 				backRepoData.GongTimeFieldAPIs.forEach(
 					gongtimefieldAPI => {
 						let gongtimefield = new GongTimeField
-						this.frontRepo.array_GongTimeFields.push(gongtimefield)
-						this.frontRepo.map_ID_GongTimeField.set(gongtimefieldAPI.ID, gongtimefield)
+						frontRepo.array_GongTimeFields.push(gongtimefield)
+						frontRepo.map_ID_GongTimeField.set(gongtimefieldAPI.ID, gongtimefield)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_Metas = []
-				this.frontRepo.map_ID_Meta.clear()
+				frontRepo.array_Metas = []
+				frontRepo.map_ID_Meta.clear()
 
 				backRepoData.MetaAPIs.forEach(
 					metaAPI => {
 						let meta = new Meta
-						this.frontRepo.array_Metas.push(meta)
-						this.frontRepo.map_ID_Meta.set(metaAPI.ID, meta)
+						frontRepo.array_Metas.push(meta)
+						frontRepo.map_ID_Meta.set(metaAPI.ID, meta)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_MetaReferences = []
-				this.frontRepo.map_ID_MetaReference.clear()
+				frontRepo.array_MetaReferences = []
+				frontRepo.map_ID_MetaReference.clear()
 
 				backRepoData.MetaReferenceAPIs.forEach(
 					metareferenceAPI => {
 						let metareference = new MetaReference
-						this.frontRepo.array_MetaReferences.push(metareference)
-						this.frontRepo.map_ID_MetaReference.set(metareferenceAPI.ID, metareference)
+						frontRepo.array_MetaReferences.push(metareference)
+						frontRepo.map_ID_MetaReference.set(metareferenceAPI.ID, metareference)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_ModelPkgs = []
-				this.frontRepo.map_ID_ModelPkg.clear()
+				frontRepo.array_ModelPkgs = []
+				frontRepo.map_ID_ModelPkg.clear()
 
 				backRepoData.ModelPkgAPIs.forEach(
 					modelpkgAPI => {
 						let modelpkg = new ModelPkg
-						this.frontRepo.array_ModelPkgs.push(modelpkg)
-						this.frontRepo.map_ID_ModelPkg.set(modelpkgAPI.ID, modelpkg)
+						frontRepo.array_ModelPkgs.push(modelpkg)
+						frontRepo.map_ID_ModelPkg.set(modelpkgAPI.ID, modelpkg)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_PointerToGongStructFields = []
-				this.frontRepo.map_ID_PointerToGongStructField.clear()
+				frontRepo.array_PointerToGongStructFields = []
+				frontRepo.map_ID_PointerToGongStructField.clear()
 
 				backRepoData.PointerToGongStructFieldAPIs.forEach(
 					pointertogongstructfieldAPI => {
 						let pointertogongstructfield = new PointerToGongStructField
-						this.frontRepo.array_PointerToGongStructFields.push(pointertogongstructfield)
-						this.frontRepo.map_ID_PointerToGongStructField.set(pointertogongstructfieldAPI.ID, pointertogongstructfield)
+						frontRepo.array_PointerToGongStructFields.push(pointertogongstructfield)
+						frontRepo.map_ID_PointerToGongStructField.set(pointertogongstructfieldAPI.ID, pointertogongstructfield)
 					}
 				)
 
 				// init the arrays
-				this.frontRepo.array_SliceOfPointerToGongStructFields = []
-				this.frontRepo.map_ID_SliceOfPointerToGongStructField.clear()
+				frontRepo.array_SliceOfPointerToGongStructFields = []
+				frontRepo.map_ID_SliceOfPointerToGongStructField.clear()
 
 				backRepoData.SliceOfPointerToGongStructFieldAPIs.forEach(
 					sliceofpointertogongstructfieldAPI => {
 						let sliceofpointertogongstructfield = new SliceOfPointerToGongStructField
-						this.frontRepo.array_SliceOfPointerToGongStructFields.push(sliceofpointertogongstructfield)
-						this.frontRepo.map_ID_SliceOfPointerToGongStructField.set(sliceofpointertogongstructfieldAPI.ID, sliceofpointertogongstructfield)
+						frontRepo.array_SliceOfPointerToGongStructFields.push(sliceofpointertogongstructfield)
+						frontRepo.map_ID_SliceOfPointerToGongStructField.set(sliceofpointertogongstructfieldAPI.ID, sliceofpointertogongstructfield)
 					}
 				)
 
@@ -812,102 +814,102 @@ export class FrontRepoService {
 				// fill up front objects
 				backRepoData.GongBasicFieldAPIs.forEach(
 					gongbasicfieldAPI => {
-						let gongbasicfield = this.frontRepo.map_ID_GongBasicField.get(gongbasicfieldAPI.ID)
-						CopyGongBasicFieldAPIToGongBasicField(gongbasicfieldAPI, gongbasicfield!, this.frontRepo)
+						let gongbasicfield = frontRepo.map_ID_GongBasicField.get(gongbasicfieldAPI.ID)
+						CopyGongBasicFieldAPIToGongBasicField(gongbasicfieldAPI, gongbasicfield!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.GongEnumAPIs.forEach(
 					gongenumAPI => {
-						let gongenum = this.frontRepo.map_ID_GongEnum.get(gongenumAPI.ID)
-						CopyGongEnumAPIToGongEnum(gongenumAPI, gongenum!, this.frontRepo)
+						let gongenum = frontRepo.map_ID_GongEnum.get(gongenumAPI.ID)
+						CopyGongEnumAPIToGongEnum(gongenumAPI, gongenum!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.GongEnumValueAPIs.forEach(
 					gongenumvalueAPI => {
-						let gongenumvalue = this.frontRepo.map_ID_GongEnumValue.get(gongenumvalueAPI.ID)
-						CopyGongEnumValueAPIToGongEnumValue(gongenumvalueAPI, gongenumvalue!, this.frontRepo)
+						let gongenumvalue = frontRepo.map_ID_GongEnumValue.get(gongenumvalueAPI.ID)
+						CopyGongEnumValueAPIToGongEnumValue(gongenumvalueAPI, gongenumvalue!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.GongLinkAPIs.forEach(
 					gonglinkAPI => {
-						let gonglink = this.frontRepo.map_ID_GongLink.get(gonglinkAPI.ID)
-						CopyGongLinkAPIToGongLink(gonglinkAPI, gonglink!, this.frontRepo)
+						let gonglink = frontRepo.map_ID_GongLink.get(gonglinkAPI.ID)
+						CopyGongLinkAPIToGongLink(gonglinkAPI, gonglink!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.GongNoteAPIs.forEach(
 					gongnoteAPI => {
-						let gongnote = this.frontRepo.map_ID_GongNote.get(gongnoteAPI.ID)
-						CopyGongNoteAPIToGongNote(gongnoteAPI, gongnote!, this.frontRepo)
+						let gongnote = frontRepo.map_ID_GongNote.get(gongnoteAPI.ID)
+						CopyGongNoteAPIToGongNote(gongnoteAPI, gongnote!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.GongStructAPIs.forEach(
 					gongstructAPI => {
-						let gongstruct = this.frontRepo.map_ID_GongStruct.get(gongstructAPI.ID)
-						CopyGongStructAPIToGongStruct(gongstructAPI, gongstruct!, this.frontRepo)
+						let gongstruct = frontRepo.map_ID_GongStruct.get(gongstructAPI.ID)
+						CopyGongStructAPIToGongStruct(gongstructAPI, gongstruct!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.GongTimeFieldAPIs.forEach(
 					gongtimefieldAPI => {
-						let gongtimefield = this.frontRepo.map_ID_GongTimeField.get(gongtimefieldAPI.ID)
-						CopyGongTimeFieldAPIToGongTimeField(gongtimefieldAPI, gongtimefield!, this.frontRepo)
+						let gongtimefield = frontRepo.map_ID_GongTimeField.get(gongtimefieldAPI.ID)
+						CopyGongTimeFieldAPIToGongTimeField(gongtimefieldAPI, gongtimefield!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.MetaAPIs.forEach(
 					metaAPI => {
-						let meta = this.frontRepo.map_ID_Meta.get(metaAPI.ID)
-						CopyMetaAPIToMeta(metaAPI, meta!, this.frontRepo)
+						let meta = frontRepo.map_ID_Meta.get(metaAPI.ID)
+						CopyMetaAPIToMeta(metaAPI, meta!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.MetaReferenceAPIs.forEach(
 					metareferenceAPI => {
-						let metareference = this.frontRepo.map_ID_MetaReference.get(metareferenceAPI.ID)
-						CopyMetaReferenceAPIToMetaReference(metareferenceAPI, metareference!, this.frontRepo)
+						let metareference = frontRepo.map_ID_MetaReference.get(metareferenceAPI.ID)
+						CopyMetaReferenceAPIToMetaReference(metareferenceAPI, metareference!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.ModelPkgAPIs.forEach(
 					modelpkgAPI => {
-						let modelpkg = this.frontRepo.map_ID_ModelPkg.get(modelpkgAPI.ID)
-						CopyModelPkgAPIToModelPkg(modelpkgAPI, modelpkg!, this.frontRepo)
+						let modelpkg = frontRepo.map_ID_ModelPkg.get(modelpkgAPI.ID)
+						CopyModelPkgAPIToModelPkg(modelpkgAPI, modelpkg!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.PointerToGongStructFieldAPIs.forEach(
 					pointertogongstructfieldAPI => {
-						let pointertogongstructfield = this.frontRepo.map_ID_PointerToGongStructField.get(pointertogongstructfieldAPI.ID)
-						CopyPointerToGongStructFieldAPIToPointerToGongStructField(pointertogongstructfieldAPI, pointertogongstructfield!, this.frontRepo)
+						let pointertogongstructfield = frontRepo.map_ID_PointerToGongStructField.get(pointertogongstructfieldAPI.ID)
+						CopyPointerToGongStructFieldAPIToPointerToGongStructField(pointertogongstructfieldAPI, pointertogongstructfield!, frontRepo)
 					}
 				)
 
 				// fill up front objects
 				backRepoData.SliceOfPointerToGongStructFieldAPIs.forEach(
 					sliceofpointertogongstructfieldAPI => {
-						let sliceofpointertogongstructfield = this.frontRepo.map_ID_SliceOfPointerToGongStructField.get(sliceofpointertogongstructfieldAPI.ID)
-						CopySliceOfPointerToGongStructFieldAPIToSliceOfPointerToGongStructField(sliceofpointertogongstructfieldAPI, sliceofpointertogongstructfield!, this.frontRepo)
+						let sliceofpointertogongstructfield = frontRepo.map_ID_SliceOfPointerToGongStructField.get(sliceofpointertogongstructfieldAPI.ID)
+						CopySliceOfPointerToGongStructFieldAPIToSliceOfPointerToGongStructField(sliceofpointertogongstructfieldAPI, sliceofpointertogongstructfield!, frontRepo)
 					}
 				)
 
 
 
-				observer.next(this.frontRepo)
+				observer.next(frontRepo)
 			}
 			this.socket!.onerror = event => {
 				observer.error(event)
