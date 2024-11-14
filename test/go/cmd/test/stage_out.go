@@ -113,7 +113,7 @@ Second Line`
 	__Astruct__000001_A2.TextArea = ``
 
 	__Astruct__000002_A3.Name = `A3`
-	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 11:16:35.978 +0000 UTC")
+	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 11:16:35 +0000 UTC")
 	__Astruct__000002_A3.Booleanfield = true
 	__Astruct__000002_A3.Benum = models.BENUM_VAL2
 	__Astruct__000002_A3.CEnum = models.CENUM_VAL1
@@ -122,7 +122,7 @@ Second Line`
 	__Astruct__000002_A3.Floatfield = 2.000000
 	__Astruct__000002_A3.Intfield = 0
 	__Astruct__000002_A3.Anotherbooleanfield = false
-	__Astruct__000002_A3.Duration1 = -79653000000000
+	__Astruct__000002_A3.Duration1 = 79653000000000
 
 	//gong:ident [..........] comment added to overcome the problem with the comment map association
 	__Astruct__000002_A3.StructRef = `..........`

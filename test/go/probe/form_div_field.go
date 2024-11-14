@@ -75,8 +75,9 @@ func FormDivEnumIntFieldToField[TF models.PointerToGongstructEnumIntField](field
 func FormDivSelectFieldToField[TF models.PointerToGongstruct](field *TF, stageOfInterest *models.StageStruct, formDiv *form.FormDiv) {
 
 	if formDiv.FormFields[0].FormFieldSelect.Value == nil {
-		if field != (*TF)(nil) {
-			field = (*TF)(nil)
+		var zero TF
+		if *field != zero {
+			*field = zero
 		}
 	} else {
 		for _instance := range *models.GetGongstructInstancesSetFromPointerType[TF](stageOfInterest) {
