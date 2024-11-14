@@ -764,11 +764,25 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	{{structname}}.{{FieldName}} = {{structname}}DB.{{FieldName}}_Data.Bool`,
 
 	BackRepoCheckoutPointerToStructStageField: `
-	// {{FieldName}} field
-	{{structname}}.{{FieldName}} = nil
-	if {{structname}}DB.{{FieldNameForAssignment}}ID.Int64 != 0 {
-		{{structname}}.{{FieldName}} = backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}Ptr[uint({{structname}}DB.{{FieldNameForAssignment}}ID.Int64)]
-	}`,
+	// {{FieldName}} field	
+	{
+		id := {{structname}}DB.{{FieldNameForAssignment}}ID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}Ptr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: {{structname}}.{{FieldName}}, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if {{structname}}.{{FieldName}} == nil || {{structname}}.{{FieldName}} != tmp {
+				{{structname}}.{{FieldName}} = tmp
+			}
+		} else {
+			{{structname}}.{{FieldName}} = nil
+		}
+	}
+	`,
 
 	BackRepoReindexingPointerToStruct: `
 		// reindexing {{FieldName}} field

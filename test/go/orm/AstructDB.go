@@ -718,11 +718,25 @@ func (backRepoAstruct *BackRepoAstructStruct) CheckoutPhaseTwoInstance(backRepo 
 func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *models.Astruct) {
 
 	// insertion point for checkout of pointer encoding
-	// Associationtob field
-	astruct.Associationtob = nil
-	if astructDB.AssociationtobID.Int64 != 0 {
-		astruct.Associationtob = backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(astructDB.AssociationtobID.Int64)]
+	// Associationtob field	
+	{
+		id := astructDB.AssociationtobID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: astruct.Associationtob, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if astruct.Associationtob == nil || astruct.Associationtob != tmp {
+				astruct.Associationtob = tmp
+			}
+		} else {
+			astruct.Associationtob = nil
+		}
 	}
+	
 	// This loop redeem astruct.Anarrayofb in the stage from the encode in the back repo
 	// It parses all BstructDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
@@ -732,41 +746,139 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 		astruct.Anarrayofb = append(astruct.Anarrayofb, backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(_Bstructid)])
 	}
 
-	// Anotherassociationtob_2 field
-	astruct.Anotherassociationtob_2 = nil
-	if astructDB.Anotherassociationtob_2ID.Int64 != 0 {
-		astruct.Anotherassociationtob_2 = backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(astructDB.Anotherassociationtob_2ID.Int64)]
+	// Anotherassociationtob_2 field	
+	{
+		id := astructDB.Anotherassociationtob_2ID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: astruct.Anotherassociationtob_2, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if astruct.Anotherassociationtob_2 == nil || astruct.Anotherassociationtob_2 != tmp {
+				astruct.Anotherassociationtob_2 = tmp
+			}
+		} else {
+			astruct.Anotherassociationtob_2 = nil
+		}
 	}
-	// Bstruct field
-	astruct.Bstruct = nil
-	if astructDB.BstructID.Int64 != 0 {
-		astruct.Bstruct = backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(astructDB.BstructID.Int64)]
+	
+	// Bstruct field	
+	{
+		id := astructDB.BstructID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: astruct.Bstruct, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if astruct.Bstruct == nil || astruct.Bstruct != tmp {
+				astruct.Bstruct = tmp
+			}
+		} else {
+			astruct.Bstruct = nil
+		}
 	}
-	// Bstruct2 field
-	astruct.Bstruct2 = nil
-	if astructDB.Bstruct2ID.Int64 != 0 {
-		astruct.Bstruct2 = backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(astructDB.Bstruct2ID.Int64)]
+	
+	// Bstruct2 field	
+	{
+		id := astructDB.Bstruct2ID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: astruct.Bstruct2, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if astruct.Bstruct2 == nil || astruct.Bstruct2 != tmp {
+				astruct.Bstruct2 = tmp
+			}
+		} else {
+			astruct.Bstruct2 = nil
+		}
 	}
-	// Dstruct field
-	astruct.Dstruct = nil
-	if astructDB.DstructID.Int64 != 0 {
-		astruct.Dstruct = backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[uint(astructDB.DstructID.Int64)]
+	
+	// Dstruct field	
+	{
+		id := astructDB.DstructID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: astruct.Dstruct, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if astruct.Dstruct == nil || astruct.Dstruct != tmp {
+				astruct.Dstruct = tmp
+			}
+		} else {
+			astruct.Dstruct = nil
+		}
 	}
-	// Dstruct2 field
-	astruct.Dstruct2 = nil
-	if astructDB.Dstruct2ID.Int64 != 0 {
-		astruct.Dstruct2 = backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[uint(astructDB.Dstruct2ID.Int64)]
+	
+	// Dstruct2 field	
+	{
+		id := astructDB.Dstruct2ID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: astruct.Dstruct2, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if astruct.Dstruct2 == nil || astruct.Dstruct2 != tmp {
+				astruct.Dstruct2 = tmp
+			}
+		} else {
+			astruct.Dstruct2 = nil
+		}
 	}
-	// Dstruct3 field
-	astruct.Dstruct3 = nil
-	if astructDB.Dstruct3ID.Int64 != 0 {
-		astruct.Dstruct3 = backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[uint(astructDB.Dstruct3ID.Int64)]
+	
+	// Dstruct3 field	
+	{
+		id := astructDB.Dstruct3ID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: astruct.Dstruct3, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if astruct.Dstruct3 == nil || astruct.Dstruct3 != tmp {
+				astruct.Dstruct3 = tmp
+			}
+		} else {
+			astruct.Dstruct3 = nil
+		}
 	}
-	// Dstruct4 field
-	astruct.Dstruct4 = nil
-	if astructDB.Dstruct4ID.Int64 != 0 {
-		astruct.Dstruct4 = backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[uint(astructDB.Dstruct4ID.Int64)]
+	
+	// Dstruct4 field	
+	{
+		id := astructDB.Dstruct4ID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: astruct.Dstruct4, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if astruct.Dstruct4 == nil || astruct.Dstruct4 != tmp {
+				astruct.Dstruct4 = tmp
+			}
+		} else {
+			astruct.Dstruct4 = nil
+		}
 	}
+	
 	// This loop redeem astruct.Dstruct4s in the stage from the encode in the back repo
 	// It parses all DstructDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
@@ -812,11 +924,25 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 		astruct.Anarrayofb2Use = append(astruct.Anarrayofb2Use, backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr[uint(_AstructBstruct2Useid)])
 	}
 
-	// AnAstruct field
-	astruct.AnAstruct = nil
-	if astructDB.AnAstructID.Int64 != 0 {
-		astruct.AnAstruct = backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[uint(astructDB.AnAstructID.Int64)]
+	// AnAstruct field	
+	{
+		id := astructDB.AnAstructID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: astruct.AnAstruct, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if astruct.AnAstruct == nil || astruct.AnAstruct != tmp {
+				astruct.AnAstruct = tmp
+			}
+		} else {
+			astruct.AnAstruct = nil
+		}
 	}
+	
 	return
 }
 
