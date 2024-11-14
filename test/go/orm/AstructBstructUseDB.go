@@ -342,11 +342,25 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) CheckoutPhaseT
 func (astructbstructuseDB *AstructBstructUseDB) DecodePointers(backRepo *BackRepoStruct, astructbstructuse *models.AstructBstructUse) {
 
 	// insertion point for checkout of pointer encoding
-	// Bstruct2 field
-	astructbstructuse.Bstruct2 = nil
-	if astructbstructuseDB.Bstruct2ID.Int64 != 0 {
-		astructbstructuse.Bstruct2 = backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(astructbstructuseDB.Bstruct2ID.Int64)]
+	// Bstruct2 field	
+	{
+		id := astructbstructuseDB.Bstruct2ID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: astructbstructuse.Bstruct2, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if astructbstructuse.Bstruct2 == nil || astructbstructuse.Bstruct2 != tmp {
+				astructbstructuse.Bstruct2 = tmp
+			}
+		} else {
+			astructbstructuse.Bstruct2 = nil
+		}
 	}
+	
 	return
 }
 

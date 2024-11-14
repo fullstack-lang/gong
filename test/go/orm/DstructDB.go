@@ -393,11 +393,25 @@ func (dstructDB *DstructDB) DecodePointers(backRepo *BackRepoStruct, dstruct *mo
 		dstruct.Anarrayofb = append(dstruct.Anarrayofb, backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(_Bstructid)])
 	}
 
-	// Gstruct field
-	dstruct.Gstruct = nil
-	if dstructDB.GstructID.Int64 != 0 {
-		dstruct.Gstruct = backRepo.BackRepoGstruct.Map_GstructDBID_GstructPtr[uint(dstructDB.GstructID.Int64)]
+	// Gstruct field	
+	{
+		id := dstructDB.GstructID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoGstruct.Map_GstructDBID_GstructPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: dstruct.Gstruct, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if dstruct.Gstruct == nil || dstruct.Gstruct != tmp {
+				dstruct.Gstruct = tmp
+			}
+		} else {
+			dstruct.Gstruct = nil
+		}
 	}
+	
 	// This loop redeem dstruct.Gstructs in the stage from the encode in the back repo
 	// It parses all GstructDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
