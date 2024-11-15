@@ -146,7 +146,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 		fmt.Println(err)
 		return
 	} else {
-		log.Println(time.Now().Format(time.RFC3339Nano), "{{PkgPathRoot}}: 1st sent backRepoData of stack:", stackPath)
+		log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "{{PkgPathRoot}}: 1st sent backRepoData of stack:", stackPath)
 	}
 	for {
 		select {
@@ -172,7 +172,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 					cancel() // Cancel the context
 					return
 				} else {
-					log.Println(time.Now().Format(time.RFC3339Nano), "{{PkgPathRoot}}: sent backRepoData of stack:", stackPath)
+					log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "{{PkgPathRoot}}: sent backRepoData of stack:", stackPath)
 				}
 			}
 		}
