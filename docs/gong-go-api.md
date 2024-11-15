@@ -15,6 +15,7 @@
     - [Init the back repo](#init-the-back-repo)
     - [Registring controllers](#registring-controllers)
     - [Serving angular file with gin and embedding](#serving-angular-file-with-gin-and-embedding)
+  - [OnAfterUpdate](#onafterupdate)
 
 ## Stack organization
 
@@ -296,3 +297,17 @@ func EmbedFolder(fsEmbed embed.FS, targetPath string) static.ServeFileSystem {
     }
 }
 ```
+
+## OnAfterUpdate
+
+Code like this
+
+```go
+func (command *Command) OnAfterUpdate(stage *StageStruct, stagedCommand, frontCommand *Command) {
+
+	log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "received command update",
+		frontCommand.Command.ToString())
+}
+```
+
+will have the compiler to orchestrate calls to this function when the update from the front.
