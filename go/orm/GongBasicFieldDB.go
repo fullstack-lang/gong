@@ -406,11 +406,25 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseTwoInst
 func (gongbasicfieldDB *GongBasicFieldDB) DecodePointers(backRepo *BackRepoStruct, gongbasicfield *models.GongBasicField) {
 
 	// insertion point for checkout of pointer encoding
-	// GongEnum field
-	gongbasicfield.GongEnum = nil
-	if gongbasicfieldDB.GongEnumID.Int64 != 0 {
-		gongbasicfield.GongEnum = backRepo.BackRepoGongEnum.Map_GongEnumDBID_GongEnumPtr[uint(gongbasicfieldDB.GongEnumID.Int64)]
+	// GongEnum field	
+	{
+		id := gongbasicfieldDB.GongEnumID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoGongEnum.Map_GongEnumDBID_GongEnumPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: gongbasicfield.GongEnum, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if gongbasicfield.GongEnum == nil || gongbasicfield.GongEnum != tmp {
+				gongbasicfield.GongEnum = tmp
+			}
+		} else {
+			gongbasicfield.GongEnum = nil
+		}
 	}
+	
 	return
 }
 
