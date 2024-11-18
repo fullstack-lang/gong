@@ -354,11 +354,25 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 func (sliceofpointertogongstructfieldDB *SliceOfPointerToGongStructFieldDB) DecodePointers(backRepo *BackRepoStruct, sliceofpointertogongstructfield *models.SliceOfPointerToGongStructField) {
 
 	// insertion point for checkout of pointer encoding
-	// GongStruct field
-	sliceofpointertogongstructfield.GongStruct = nil
-	if sliceofpointertogongstructfieldDB.GongStructID.Int64 != 0 {
-		sliceofpointertogongstructfield.GongStruct = backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr[uint(sliceofpointertogongstructfieldDB.GongStructID.Int64)]
+	// GongStruct field	
+	{
+		id := sliceofpointertogongstructfieldDB.GongStructID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: sliceofpointertogongstructfield.GongStruct, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if sliceofpointertogongstructfield.GongStruct == nil || sliceofpointertogongstructfield.GongStruct != tmp {
+				sliceofpointertogongstructfield.GongStruct = tmp
+			}
+		} else {
+			sliceofpointertogongstructfield.GongStruct = nil
+		}
 	}
+	
 	return
 }
 
