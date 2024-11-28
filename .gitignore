@@ -26,4 +26,5 @@ test3/go/cmd/test3/wasmworkbench.wasm
 test3/ng-github.com-fullstack-lang-gong-test3/cypress/screenshots/issue delete table.cy.ts/template spec -- Test delete (failed).png
 
 
-test3/ng-github.com-fullstack-lang-gong-test3/cypress/screenshots/issue 519.cy.ts/Issue 519.cy.ts -- Test check box (failed).png
+test3/ng-github.com-fullstack-lang-gong-test3/cypress/screenshots/issue 519.cy.ts/Issue 519.cy.ts -- Test check box (failed).pn
+~*.pptx
