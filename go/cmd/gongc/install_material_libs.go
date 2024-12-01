@@ -25,7 +25,7 @@ func installMaterialLibs(modelPkg *gong_models.ModelPkg) {
 		// otherwise, one meet the error
 		// "No terminal detected. '--skip-confirmation' can be used to bypass installation confirmation.
 		// Ensure package name is correct prior to '--skip-confirmation' option usage."
-		cmd := exec.Command("ng", "add", "@angular/material", "--skip-confirmation")
+		cmd := exec.Command("ng", "add", "@angular/material@17", "--skip-confirmation")
 		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Adding angular material\n")
 
