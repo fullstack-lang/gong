@@ -29,6 +29,7 @@ func GenerateFieldParser(
 		var bespokeWidth int
 		var isBespokeHeight bool
 		var bespokeHeight int
+		var bespokeTimeFormat string
 		if field.Comment != nil {
 			for _, comment := range field.Comment.List {
 				if strings.Contains(comment.Text, "swagger:ignore") || strings.Contains(comment.Text, "gong:ignore") {
@@ -50,6 +51,9 @@ func GenerateFieldParser(
 						isBespokeHeight = true
 						bespokeHeight = height
 					}
+				}
+				if strings.Contains(comment.Text, "gong:bespoketimeserializeformat") {
+					bespokeTimeFormat, _ = extractTimeFormat(comment.Text)
 				}
 			}
 		}
@@ -74,6 +78,9 @@ func GenerateFieldParser(
 						isBespokeHeight = true
 						bespokeHeight = height
 					}
+				}
+				if strings.Contains(comment.Text, "gong:bespoketimeserializeformat") {
+					bespokeTimeFormat, _ = extractTimeFormat(comment.Text)
 				}
 			}
 		}
@@ -222,6 +229,7 @@ func GenerateFieldParser(
 									Name:                fieldName,
 									Index:               len(owningGongstruct.Fields),
 									CompositeStructName: compositeTypeStructName,
+									BespokeTimeFormat:   bespokeTimeFormat,
 								}
 							owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
 						case "Duration":
