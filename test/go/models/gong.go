@@ -986,9 +986,9 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Astruct with the name of the field
 			AnAstruct: &Astruct{Name: "AnAstruct"},
 			// field is initialized with Cstruct problem with composites
-
+			
 			// field is initialized with Estruct problem with composites
-
+			
 		}).(*Type)
 	case AstructBstruct2Use:
 		return any(&AstructBstruct2Use{
@@ -1012,9 +1012,9 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Bstruct with the name of the field
 			Anarrayofb: []*Bstruct{{Name: "Anarrayofb"}},
 			// field is initialized with an instance of Gstruct with the name of the field
-			Gstruct: &Gstruct{Bstruct: Bstruct{Name: "Gstruct"}},
+			Gstruct: &Gstruct{Bstruct: Bstruct {Name: "Gstruct"}},
 			// field is initialized with an instance of Gstruct with the name of the field
-			Gstructs: []*Gstruct{{Bstruct: Bstruct{Name: "Gstructs"}}},
+			Gstructs: []*Gstruct{{Bstruct: Bstruct {Name: "Gstructs"}}},
 		}).(*Type)
 	case Fstruct:
 		return any(&Fstruct{
@@ -1847,7 +1847,7 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		case "Date":
 			res = inferedInstance.Date.String()
 		case "Date2":
-			res = inferedInstance.Date2.String()
+			res = inferedInstance.Date2.Format("2006-01-02")
 		case "Booleanfield":
 			res = fmt.Sprintf("%t", inferedInstance.Booleanfield)
 		case "Aenum":
