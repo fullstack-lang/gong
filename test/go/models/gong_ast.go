@@ -578,6 +578,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 								__gong__map_Astruct[identifier].Date, _ = time.Parse(
 									"2006-01-02 15:04:05.999999999 -0700 MST",
 									date)
+							case "Date2":
+								__gong__map_Astruct[identifier].Date2, _ = time.Parse(
+									"2006-01-02 15:04:05.999999999 -0700 MST",
+									date)
 							}
 						case "AstructBstruct2Use":
 							switch fieldName {
