@@ -277,6 +277,7 @@ const (
 	GongFileFieldSubTmplStringValueBasicFieldFloat64
 	GongFileFieldSubTmplStringValueBasicFieldString
 	GongFileFieldSubTmplStringValueTimeField
+	GongFileFieldSubTmplStringValueTimeFieldBespokeFormat
 	GongFileFieldSubTmplStringValuePointerField
 	GongFileFieldSubTmplStringValueSliceOfPointersField
 
@@ -369,6 +370,9 @@ map[GongFilePerStructSubTemplateId]string{
 	GongFileFieldSubTmplStringValueTimeField: `
 		case "{{FieldName}}":
 			res = inferedInstance.{{FieldName}}.String()`,
+	GongFileFieldSubTmplStringValueTimeFieldBespokeFormat: `
+		case "{{FieldName}}":
+			res = inferedInstance.{{FieldName}}.Format("{{TimeFormat}}")`,
 	GongFileFieldSubTmplStringValuePointerField: `
 		case "{{FieldName}}":
 			if inferedInstance.{{FieldName}} != nil {
@@ -543,9 +547,17 @@ func CodeGeneratorModelGong(
 					default:
 					}
 				case *models.GongTimeField:
-					fieldStringValues += models.Replace1(
-						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueTimeField],
-						"{{FieldName}}", field.Name)
+					if field.BespokeTimeFormat == "" {
+						fieldStringValues += models.Replace1(
+							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueTimeField],
+							"{{FieldName}}", field.Name)
+					} else {
+						fieldStringValues += models.Replace2(
+							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueTimeFieldBespokeFormat],
+							"{{FieldName}}", field.Name,
+							"{{TimeFormat}}", field.BespokeTimeFormat,
+						)
+					}
 				case *models.PointerToGongStructField:
 					fieldStringValues += models.Replace1(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValuePointerField],
