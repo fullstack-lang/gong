@@ -33,3 +33,13 @@ func extractHeightNumber(s string) (int, error) {
 	}
 	return height, nil
 }
+
+func extractTimeFormat(s string) (string, error) {
+	re := regexp.MustCompile(`gong:bespoketimeserializeformat "([^"]*)"`)
+	matches := re.FindStringSubmatch(s)
+	if len(matches) < 2 {
+		return "", fmt.Errorf("No time format found")
+	}
+	format := matches[1]
+	return format, nil
+}
