@@ -27,6 +27,8 @@ func FillUpForm[T models.Gongstruct](
 		AssociationFieldToForm("Anotherassociationtob_2", instanceWithInferedType.Anotherassociationtob_2, formGroup, probe)
 		BasicFieldtoForm("Date", instanceWithInferedType.Date, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("Date2", instanceWithInferedType.Date2, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		BasicFieldtoForm("Booleanfield", instanceWithInferedType.Booleanfield, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		EnumTypeStringToForm("Aenum", instanceWithInferedType.Aenum, instanceWithInferedType, probe.formStage, formGroup)

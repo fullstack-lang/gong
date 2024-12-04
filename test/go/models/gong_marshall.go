@@ -132,6 +132,12 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", astruct.Date.String())
 		initializerStatements += setValueField
 
+		setValueField = TimeInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Date2")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", astruct.Date2.String())
+		initializerStatements += setValueField
+
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Booleanfield")
