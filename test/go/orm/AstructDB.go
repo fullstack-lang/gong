@@ -120,6 +120,9 @@ type AstructDB struct {
 	// Declation for basic field astructDB.Date
 	Date_Data sql.NullTime
 
+	// Declation for basic field astructDB.Date2
+	Date2_Data sql.NullTime
+
 	// Declation for basic field astructDB.Booleanfield
 	// provide the sql storage for the boolan
 	Booleanfield_Data sql.NullBool
@@ -205,43 +208,45 @@ type AstructWOP struct {
 
 	Date time.Time `xlsx:"2"`
 
-	Booleanfield bool `xlsx:"3"`
+	Date2 time.Time `xlsx:"3"`
 
-	Aenum models.AEnumType `xlsx:"4"`
+	Booleanfield bool `xlsx:"4"`
 
-	Aenum_2 models.AEnumType `xlsx:"5"`
+	Aenum models.AEnumType `xlsx:"5"`
 
-	Benum models.BEnumType `xlsx:"6"`
+	Aenum_2 models.AEnumType `xlsx:"6"`
 
-	CEnum models.CEnumTypeInt `xlsx:"7"`
+	Benum models.BEnumType `xlsx:"7"`
 
-	CName string `xlsx:"8"`
+	CEnum models.CEnumTypeInt `xlsx:"8"`
 
-	CFloatfield float64 `xlsx:"9"`
+	CName string `xlsx:"9"`
 
-	Floatfield float64 `xlsx:"10"`
+	CFloatfield float64 `xlsx:"10"`
 
-	Intfield int `xlsx:"11"`
+	Floatfield float64 `xlsx:"11"`
 
-	Anotherbooleanfield bool `xlsx:"12"`
+	Intfield int `xlsx:"12"`
 
-	Duration1 time.Duration `xlsx:"13"`
+	Anotherbooleanfield bool `xlsx:"13"`
 
-	StructRef string `xlsx:"14"`
+	Duration1 time.Duration `xlsx:"14"`
 
-	FieldRef string `xlsx:"15"`
+	StructRef string `xlsx:"15"`
 
-	EnumIntRef string `xlsx:"16"`
+	FieldRef string `xlsx:"16"`
 
-	EnumStringRef string `xlsx:"17"`
+	EnumIntRef string `xlsx:"17"`
 
-	EnumValue string `xlsx:"18"`
+	EnumStringRef string `xlsx:"18"`
 
-	ConstIdentifierValue string `xlsx:"19"`
+	EnumValue string `xlsx:"19"`
 
-	TextFieldBespokeSize string `xlsx:"20"`
+	ConstIdentifierValue string `xlsx:"20"`
 
-	TextArea string `xlsx:"21"`
+	TextFieldBespokeSize string `xlsx:"21"`
+
+	TextArea string `xlsx:"22"`
 	// insertion for WOP pointer fields
 }
 
@@ -250,6 +255,7 @@ var Astruct_Fields = []string{
 	"ID",
 	"Name",
 	"Date",
+	"Date2",
 	"Booleanfield",
 	"Aenum",
 	"Aenum_2",
@@ -983,6 +989,9 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstruct(astruct *models.Astruct) 
 	astructDB.Date_Data.Time = astruct.Date
 	astructDB.Date_Data.Valid = true
 
+	astructDB.Date2_Data.Time = astruct.Date2
+	astructDB.Date2_Data.Valid = true
+
 	astructDB.Booleanfield_Data.Bool = astruct.Booleanfield
 	astructDB.Booleanfield_Data.Valid = true
 
@@ -1050,6 +1059,9 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstruct_WOP(astruct *models.Astru
 
 	astructDB.Date_Data.Time = astruct.Date
 	astructDB.Date_Data.Valid = true
+
+	astructDB.Date2_Data.Time = astruct.Date2
+	astructDB.Date2_Data.Valid = true
 
 	astructDB.Booleanfield_Data.Bool = astruct.Booleanfield
 	astructDB.Booleanfield_Data.Valid = true
@@ -1119,6 +1131,9 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstructWOP(astruct *AstructWOP) {
 	astructDB.Date_Data.Time = astruct.Date
 	astructDB.Date_Data.Valid = true
 
+	astructDB.Date2_Data.Time = astruct.Date2
+	astructDB.Date2_Data.Valid = true
+
 	astructDB.Booleanfield_Data.Bool = astruct.Booleanfield
 	astructDB.Booleanfield_Data.Valid = true
 
@@ -1182,6 +1197,7 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstruct(astruct *models.Astruct) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	astruct.Name = astructDB.Name_Data.String
 	astruct.Date = astructDB.Date_Data.Time
+	astruct.Date2 = astructDB.Date2_Data.Time
 	astruct.Booleanfield = astructDB.Booleanfield_Data.Bool
 	astruct.Aenum.FromString(astructDB.Aenum_Data.String)
 	astruct.Aenum_2.FromString(astructDB.Aenum_2_Data.String)
@@ -1208,6 +1224,7 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstruct_WOP(astruct *models.Astruct
 	// insertion point for checkout of basic fields (back repo to stage)
 	astruct.Name = astructDB.Name_Data.String
 	astruct.Date = astructDB.Date_Data.Time
+	astruct.Date2 = astructDB.Date2_Data.Time
 	astruct.Booleanfield = astructDB.Booleanfield_Data.Bool
 	astruct.Aenum.FromString(astructDB.Aenum_Data.String)
 	astruct.Aenum_2.FromString(astructDB.Aenum_2_Data.String)
@@ -1235,6 +1252,7 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstructWOP(astruct *AstructWOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	astruct.Name = astructDB.Name_Data.String
 	astruct.Date = astructDB.Date_Data.Time
+	astruct.Date2 = astructDB.Date2_Data.Time
 	astruct.Booleanfield = astructDB.Booleanfield_Data.Bool
 	astruct.Aenum.FromString(astructDB.Aenum_Data.String)
 	astruct.Aenum_2.FromString(astructDB.Aenum_2_Data.String)

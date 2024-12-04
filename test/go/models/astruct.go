@@ -42,6 +42,9 @@ type Astruct struct {
 	// time.Time is a supported type of gong
 	Date time.Time
 
+	// gong:bespoketimeserializeformat "2006-01-02"
+	Date2 time.Time
+
 	// bool is a supported type of gong
 	Booleanfield bool
 
