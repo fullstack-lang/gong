@@ -986,9 +986,9 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Astruct with the name of the field
 			AnAstruct: &Astruct{Name: "AnAstruct"},
 			// field is initialized with Cstruct problem with composites
-
+			
 			// field is initialized with Estruct problem with composites
-
+			
 		}).(*Type)
 	case AstructBstruct2Use:
 		return any(&AstructBstruct2Use{
@@ -1565,6 +1565,28 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	return
 }
 
+
+type GongFieldValueType string
+
+const (
+	GongFieldValueTypeInt     GongFieldValueType = "GongFieldValueTypeInt"
+	GongFieldValueTypeFloat   GongFieldValueType = "GongFieldValueTypeFloat"
+	GongFieldValueTypeBoolean GongFieldValueType = "GongFieldValueTypeBoolean"
+	GongFieldValueTypeOthers  GongFieldValueType = "GongFieldValueTypeOthers"
+)
+
+type GongFieldValue struct {
+	valueString string
+	GongFieldValueType
+	valueInt   int
+	valueFloat float64
+	valueBool  bool
+}
+
+func (gongValueField *GongFieldValue) GetValueString() string {
+	return gongValueField.valueString
+}
+
 func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fieldName string) (res GongFieldValue) {
 
 	switch inferedInstance := any(instance).(type) {
@@ -1818,27 +1840,6 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 		_ = inferedInstance
 	}
 	return
-}
-
-type GongFieldValueType string
-
-const (
-	GongFieldValueTypeInt     GongFieldValueType = "GongFieldValueTypeInt"
-	GongFieldValueTypeFloat   GongFieldValueType = "GongFieldValueTypeFloat"
-	GongFieldValueTypeBoolean GongFieldValueType = "GongFieldValueTypeBoolean"
-	GongFieldValueTypeOthers  GongFieldValueType = "GongFieldValueTypeOthers"
-)
-
-type GongFieldValue struct {
-	valueString string
-	GongFieldValueType
-	valueInt   int
-	valueFloat float64
-	valueBool  bool
-}
-
-func (gongValueField *GongFieldValue) GetValueString() string {
-	return gongValueField.valueString
 }
 
 func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res GongFieldValue) {
