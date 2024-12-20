@@ -310,7 +310,9 @@ map[GongFilePerStructSubTemplateId]string{
 			res.valueString = fmt.Sprintf("%t", inferedInstance.{{FieldName}})`,
 	GongFileFieldSubTmplStringValueBasicFieldInt: `
 		case "{{FieldName}}":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.{{FieldName}})`,
+			res.valueString = fmt.Sprintf("%d", inferedInstance.{{FieldName}})
+			res.valueInt = inferedInstance.{{FieldName}}
+			res.GongFieldValueType = GongFieldValueTypeInt`,
 	GongFileFieldSubTmplStringValueBasicFieldIntDuration: `
 		case "{{FieldName}}":
 			if math.Abs(inferedInstance.{{FieldName}}.Hours()) >= 24 {
