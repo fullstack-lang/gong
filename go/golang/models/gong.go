@@ -307,10 +307,14 @@ map[GongFilePerStructSubTemplateId]string{
 
 	GongFileFieldSubTmplStringValueBasicFieldBool: `
 		case "{{FieldName}}":
-			res = fmt.Sprintf("%t", inferedInstance.{{FieldName}})`,
+			res.valueString = fmt.Sprintf("%t", inferedInstance.{{FieldName}})
+			res.valueBool = inferedInstance.{{FieldName}}
+			res.GongFieldValueType = GongFieldValueTypeBool`,
 	GongFileFieldSubTmplStringValueBasicFieldInt: `
 		case "{{FieldName}}":
-			res = fmt.Sprintf("%d", inferedInstance.{{FieldName}})`,
+			res.valueString = fmt.Sprintf("%d", inferedInstance.{{FieldName}})
+			res.valueInt = inferedInstance.{{FieldName}}
+			res.GongFieldValueType = GongFieldValueTypeInt`,
 	GongFileFieldSubTmplStringValueBasicFieldIntDuration: `
 		case "{{FieldName}}":
 			if math.Abs(inferedInstance.{{FieldName}}.Hours()) >= 24 {
@@ -323,68 +327,70 @@ map[GongFilePerStructSubTemplateId]string{
 				remainingSeconds := int(inferedInstance.{{FieldName}}.Seconds()) % 60
 
 				if inferedInstance.{{FieldName}}.Hours() < 0 {
-					res = "- "
+					res.valueString = "- "
 				}
 
 				if months > 0 {
 					if months > 1 {
-						res = res + fmt.Sprintf("%d months", months)
+						res.valueString = res.valueString + fmt.Sprintf("%d months", months)
 					} else {
-						res = res + fmt.Sprintf("%d month", months)
+						res.valueString = res.valueString + fmt.Sprintf("%d month", months)
 					}
 				}
 				if days > 0 {
 					if months != 0 {
-						res = res + ", "
+						res.valueString = res.valueString + ", "
 					}
 					if days > 1 {
-						res = res + fmt.Sprintf("%d days", days)
+						res.valueString = res.valueString + fmt.Sprintf("%d days", days)
 					} else {
-						res = res + fmt.Sprintf("%d day", days)
+						res.valueString = res.valueString + fmt.Sprintf("%d day", days)
 					}
 
 				}
 				if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
 					if days != 0 || (days == 0 && months != 0) {
-						res = res + ", "
+						res.valueString = res.valueString + ", "
 					}
-					res = res + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
+					res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
 				}
 			} else {
-				res = fmt.Sprintf("%s\n", inferedInstance.{{FieldName}}.String())
+				res.valueString = fmt.Sprintf("%s\n", inferedInstance.{{FieldName}}.String())
 			}`,
 	GongFileFieldSubTmplStringValueBasicFieldEnumString: `
 		case "{{FieldName}}":
 			enum := inferedInstance.{{FieldName}}
-			res = enum.ToCodeString()`,
+			res.valueString = enum.ToCodeString()`,
 	GongFileFieldSubTmplStringValueBasicFieldEnumInt: `
 		case "{{FieldName}}":
 			enum := inferedInstance.{{FieldName}}
-			res = enum.ToCodeString()`,
+			res.valueString = enum.ToCodeString()`,
 	GongFileFieldSubTmplStringValueBasicFieldFloat64: `
 		case "{{FieldName}}":
-			res = fmt.Sprintf("%f", inferedInstance.{{FieldName}})`,
+			res.valueString = fmt.Sprintf("%f", inferedInstance.{{FieldName}})
+			res.valueFloat = inferedInstance.{{FieldName}}
+			res.GongFieldValueType = GongFieldValueTypeFloat`,
 	GongFileFieldSubTmplStringValueBasicFieldString: `
 		case "{{FieldName}}":
-			res = inferedInstance.{{FieldName}}`,
+			res.valueString = inferedInstance.{{FieldName}}`,
 	GongFileFieldSubTmplStringValueTimeField: `
 		case "{{FieldName}}":
-			res = inferedInstance.{{FieldName}}.String()`,
+			res.valueString = inferedInstance.{{FieldName}}.String()`,
 	GongFileFieldSubTmplStringValueTimeFieldBespokeFormat: `
 		case "{{FieldName}}":
-			res = inferedInstance.{{FieldName}}.Format("{{TimeFormat}}")`,
+			res.valueString = inferedInstance.{{FieldName}}.Format("{{TimeFormat}}")`,
 	GongFileFieldSubTmplStringValuePointerField: `
 		case "{{FieldName}}":
 			if inferedInstance.{{FieldName}} != nil {
-				res = inferedInstance.{{FieldName}}.Name
+				res.valueString = inferedInstance.{{FieldName}}.Name
 			}`,
 	GongFileFieldSubTmplStringValueSliceOfPointersField: `
 		case "{{FieldName}}":
 			for idx, __instance__ := range inferedInstance.{{FieldName}} {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}`,
 
 	GongFileFieldSubTmplAssociationNamePointerField: `
@@ -397,11 +403,11 @@ map[GongFilePerStructSubTemplateId]string{
 
 	GongFileFieldSubTmplAssociationPromotedNamePointerField: `
 			// field is initialized with an instance of {{AssocStructName}} with the name of the field
-			{{FieldName}}: &{{AssocStructName}}{{{CompositeAssocStructName}}: {{CompositeAssocStructName}} {Name: "{{FieldName}}"}},`,
+			{{FieldName}}: &{{AssocStructName}}{{{CompositeAssocStructName}}: {{CompositeAssocStructName}}{Name: "{{FieldName}}"}},`,
 
 	GongFileFieldSubTmplAssociationPromotedNameSliceOfPointersField: `
 			// field is initialized with an instance of {{AssocStructName}} with the name of the field
-			{{FieldName}}: []*{{AssocStructName}}{{{{CompositeAssocStructName}}: {{CompositeAssocStructName}} {Name: "{{FieldName}}"}}},`,
+			{{FieldName}}: []*{{AssocStructName}}{{{{CompositeAssocStructName}}: {{CompositeAssocStructName}}{Name: "{{FieldName}}"}}},`,
 
 	// GongFileFieldSubTmplAssociationNameEnclosingCompositePointerField: `
 	// 		// field is initialized with {{AssocCompositeStructName}} as it is a composite
