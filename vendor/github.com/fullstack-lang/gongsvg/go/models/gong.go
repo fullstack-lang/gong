@@ -2750,7 +2750,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case Animate:
-		res = []string{"Name", "AttributeName", "Values", "Dur", "RepeatCount"}
+		res = []string{"Name", "AttributeName", "Values", "From", "To", "Dur", "RepeatCount"}
 	case Circle:
 		res = []string{"Name", "CX", "CY", "Radius", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations"}
 	case Ellipse:
@@ -2950,7 +2950,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *Animate:
-		res = []string{"Name", "AttributeName", "Values", "Dur", "RepeatCount"}
+		res = []string{"Name", "AttributeName", "Values", "From", "To", "Dur", "RepeatCount"}
 	case *Circle:
 		res = []string{"Name", "CX", "CY", "Radius", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations"}
 	case *Ellipse:
@@ -3002,6 +3002,10 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res = inferedInstance.AttributeName
 		case "Values":
 			res = inferedInstance.Values
+		case "From":
+			res = inferedInstance.From
+		case "To":
+			res = inferedInstance.To
 		case "Dur":
 			res = inferedInstance.Dur
 		case "RepeatCount":
@@ -3754,6 +3758,10 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = inferedInstance.AttributeName
 		case "Values":
 			res = inferedInstance.Values
+		case "From":
+			res = inferedInstance.From
+		case "To":
+			res = inferedInstance.To
 		case "Dur":
 			res = inferedInstance.Dur
 		case "RepeatCount":
