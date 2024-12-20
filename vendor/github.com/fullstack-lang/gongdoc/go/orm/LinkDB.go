@@ -432,11 +432,25 @@ func (backRepoLink *BackRepoLinkStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 func (linkDB *LinkDB) DecodePointers(backRepo *BackRepoStruct, link *models.Link) {
 
 	// insertion point for checkout of pointer encoding
-	// Middlevertice field
-	link.Middlevertice = nil
-	if linkDB.MiddleverticeID.Int64 != 0 {
-		link.Middlevertice = backRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr[uint(linkDB.MiddleverticeID.Int64)]
+	// Middlevertice field	
+	{
+		id := linkDB.MiddleverticeID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: link.Middlevertice, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if link.Middlevertice == nil || link.Middlevertice != tmp {
+				link.Middlevertice = tmp
+			}
+		} else {
+			link.Middlevertice = nil
+		}
 	}
+	
 	return
 }
 

@@ -20,6 +20,8 @@ export class Animate {
 	Name: string = ""
 	AttributeName: string = ""
 	Values: string = ""
+	From: string = ""
+	To: string = ""
 	Dur: string = ""
 	RepeatCount: string = ""
 
@@ -36,6 +38,8 @@ export function CopyAnimateToAnimateAPI(animate: Animate, animateAPI: AnimateAPI
 	animateAPI.Name = animate.Name
 	animateAPI.AttributeName = animate.AttributeName
 	animateAPI.Values = animate.Values
+	animateAPI.From = animate.From
+	animateAPI.To = animate.To
 	animateAPI.Dur = animate.Dur
 	animateAPI.RepeatCount = animate.RepeatCount
 
@@ -58,6 +62,8 @@ export function CopyAnimateAPIToAnimate(animateAPI: AnimateAPI, animate: Animate
 	animate.Name = animateAPI.Name
 	animate.AttributeName = animateAPI.AttributeName
 	animate.Values = animateAPI.Values
+	animate.From = animateAPI.From
+	animate.To = animateAPI.To
 	animate.Dur = animateAPI.Dur
 	animate.RepeatCount = animateAPI.RepeatCount
 

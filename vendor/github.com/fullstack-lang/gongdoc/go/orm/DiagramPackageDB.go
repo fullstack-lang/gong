@@ -425,11 +425,25 @@ func (diagrampackageDB *DiagramPackageDB) DecodePointers(backRepo *BackRepoStruc
 		diagrampackage.Classdiagrams = append(diagrampackage.Classdiagrams, backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr[uint(_Classdiagramid)])
 	}
 
-	// SelectedClassdiagram field
-	diagrampackage.SelectedClassdiagram = nil
-	if diagrampackageDB.SelectedClassdiagramID.Int64 != 0 {
-		diagrampackage.SelectedClassdiagram = backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr[uint(diagrampackageDB.SelectedClassdiagramID.Int64)]
+	// SelectedClassdiagram field	
+	{
+		id := diagrampackageDB.SelectedClassdiagramID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: diagrampackage.SelectedClassdiagram, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if diagrampackage.SelectedClassdiagram == nil || diagrampackage.SelectedClassdiagram != tmp {
+				diagrampackage.SelectedClassdiagram = tmp
+			}
+		} else {
+			diagrampackage.SelectedClassdiagram = nil
+		}
 	}
+	
 	// This loop redeem diagrampackage.Umlscs in the stage from the encode in the back repo
 	// It parses all UmlscDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance

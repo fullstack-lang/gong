@@ -478,11 +478,25 @@ func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 func (nodeDB *NodeDB) DecodePointers(backRepo *BackRepoStruct, node *models.Node) {
 
 	// insertion point for checkout of pointer encoding
-	// PreceedingSVGIcon field
-	node.PreceedingSVGIcon = nil
-	if nodeDB.PreceedingSVGIconID.Int64 != 0 {
-		node.PreceedingSVGIcon = backRepo.BackRepoSVGIcon.Map_SVGIconDBID_SVGIconPtr[uint(nodeDB.PreceedingSVGIconID.Int64)]
+	// PreceedingSVGIcon field	
+	{
+		id := nodeDB.PreceedingSVGIconID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoSVGIcon.Map_SVGIconDBID_SVGIconPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: node.PreceedingSVGIcon, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if node.PreceedingSVGIcon == nil || node.PreceedingSVGIcon != tmp {
+				node.PreceedingSVGIcon = tmp
+			}
+		} else {
+			node.PreceedingSVGIcon = nil
+		}
 	}
+	
 	// This loop redeem node.Children in the stage from the encode in the back repo
 	// It parses all NodeDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance

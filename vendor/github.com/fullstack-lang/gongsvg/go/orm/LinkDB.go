@@ -556,16 +556,44 @@ func (backRepoLink *BackRepoLinkStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 func (linkDB *LinkDB) DecodePointers(backRepo *BackRepoStruct, link *models.Link) {
 
 	// insertion point for checkout of pointer encoding
-	// Start field
-	link.Start = nil
-	if linkDB.StartID.Int64 != 0 {
-		link.Start = backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(linkDB.StartID.Int64)]
+	// Start field	
+	{
+		id := linkDB.StartID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: link.Start, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if link.Start == nil || link.Start != tmp {
+				link.Start = tmp
+			}
+		} else {
+			link.Start = nil
+		}
 	}
-	// End field
-	link.End = nil
-	if linkDB.EndID.Int64 != 0 {
-		link.End = backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(linkDB.EndID.Int64)]
+	
+	// End field	
+	{
+		id := linkDB.EndID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: link.End, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if link.End == nil || link.End != tmp {
+				link.End = tmp
+			}
+		} else {
+			link.End = nil
+		}
 	}
+	
 	// This loop redeem link.TextAtArrowEnd in the stage from the encode in the back repo
 	// It parses all LinkAnchoredTextDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance

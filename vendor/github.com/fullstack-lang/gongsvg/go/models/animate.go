@@ -5,6 +5,10 @@ type Animate struct {
 
 	AttributeName string
 	Values        string
-	Dur           string
-	RepeatCount   string
+
+	From string
+	To   string
+
+	Dur         string
+	RepeatCount string
 }

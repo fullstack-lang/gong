@@ -12,6 +12,8 @@ type Animate_WOP struct {
 	Name string
 	AttributeName string
 	Values string
+	From string
+	To string
 	Dur string
 	RepeatCount string
 }
@@ -21,6 +23,8 @@ func (from *Animate) CopyBasicFields(to *Animate) {
 	to.Name = from.Name
 	to.AttributeName = from.AttributeName
 	to.Values = from.Values
+	to.From = from.From
+	to.To = from.To
 	to.Dur = from.Dur
 	to.RepeatCount = from.RepeatCount
 }

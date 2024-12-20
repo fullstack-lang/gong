@@ -401,16 +401,44 @@ func (svgDB *SVGDB) DecodePointers(backRepo *BackRepoStruct, svg *models.SVG) {
 		svg.Layers = append(svg.Layers, backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[uint(_Layerid)])
 	}
 
-	// StartRect field
-	svg.StartRect = nil
-	if svgDB.StartRectID.Int64 != 0 {
-		svg.StartRect = backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(svgDB.StartRectID.Int64)]
+	// StartRect field	
+	{
+		id := svgDB.StartRectID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: svg.StartRect, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if svg.StartRect == nil || svg.StartRect != tmp {
+				svg.StartRect = tmp
+			}
+		} else {
+			svg.StartRect = nil
+		}
 	}
-	// EndRect field
-	svg.EndRect = nil
-	if svgDB.EndRectID.Int64 != 0 {
-		svg.EndRect = backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(svgDB.EndRectID.Int64)]
+	
+	// EndRect field	
+	{
+		id := svgDB.EndRectID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: svg.EndRect, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if svg.EndRect == nil || svg.EndRect != tmp {
+				svg.EndRect = tmp
+			}
+		} else {
+			svg.EndRect = nil
+		}
 	}
+	
 	return
 }
 
