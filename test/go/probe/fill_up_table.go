@@ -152,11 +152,21 @@ func fillUpTable[T models.Gongstruct](
 			}).Stage(probe.tableStage)
 			row.Cells = append(row.Cells, cell)
 
-			cellString := (&gongtable.CellString{
-				Name:  name,
-				Value: value.GetValueString(),
-			}).Stage(probe.tableStage)
-			cell.CellString = cellString
+			if value.GongFieldValueType == models.GongFieldValueTypeInt {
+				cellInt := (&gongtable.CellInt{
+					Name:  name,
+					Value: value.GetValueInt(),
+				}).Stage(probe.tableStage)
+				cell.CellInt = cellInt
+
+			} else {
+				cellString := (&gongtable.CellString{
+					Name:  name,
+					Value: value.GetValueString(),
+				}).Stage(probe.tableStage)
+				cell.CellString = cellString
+
+			}
 		}
 		for _, reverseField := range reverseFields {
 
