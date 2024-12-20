@@ -439,7 +439,6 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	return
 }
 
-
 type GongFieldValueType string
 
 const (
@@ -459,6 +458,10 @@ type GongFieldValue struct {
 
 func (gongValueField *GongFieldValue) GetValueString() string {
 	return gongValueField.valueString
+}
+
+func (gongValueField *GongFieldValue) GetValueInt() int {
+	return gongValueField.valueInt
 }
 
 func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fieldName string) (res GongFieldValue) {
