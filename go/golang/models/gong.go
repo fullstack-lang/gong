@@ -307,7 +307,9 @@ map[GongFilePerStructSubTemplateId]string{
 
 	GongFileFieldSubTmplStringValueBasicFieldBool: `
 		case "{{FieldName}}":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.{{FieldName}})`,
+			res.valueString = fmt.Sprintf("%t", inferedInstance.{{FieldName}})
+			res.valueBool = inferedInstance.{{FieldName}}
+			res.GongFieldValueType = GongFieldValueTypeBool`,
 	GongFileFieldSubTmplStringValueBasicFieldInt: `
 		case "{{FieldName}}":
 			res.valueString = fmt.Sprintf("%d", inferedInstance.{{FieldName}})
@@ -365,7 +367,9 @@ map[GongFilePerStructSubTemplateId]string{
 			res.valueString = enum.ToCodeString()`,
 	GongFileFieldSubTmplStringValueBasicFieldFloat64: `
 		case "{{FieldName}}":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.{{FieldName}})`,
+			res.valueString = fmt.Sprintf("%f", inferedInstance.{{FieldName}})
+			res.valueFloat = inferedInstance.{{FieldName}}
+			res.GongFieldValueType = GongFieldValueTypeFloat`,
 	GongFileFieldSubTmplStringValueBasicFieldString: `
 		case "{{FieldName}}":
 			res.valueString = inferedInstance.{{FieldName}}`,
