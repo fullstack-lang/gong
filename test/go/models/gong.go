@@ -1565,7 +1565,6 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	return
 }
 
-
 type GongFieldValueType string
 
 const (
@@ -1586,6 +1585,11 @@ type GongFieldValue struct {
 func (gongValueField *GongFieldValue) GetValueString() string {
 	return gongValueField.valueString
 }
+
+func (gongValueField *GongFieldValue) GetValueInt() int {
+	return gongValueField.valueInt
+}
+
 
 func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fieldName string) (res GongFieldValue) {
 
@@ -1668,6 +1672,8 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Floatfield)
 		case "Intfield":
 			res.valueString = fmt.Sprintf("%d", inferedInstance.Intfield)
+			res.valueInt = inferedInstance.Intfield
+			res.GongFieldValueType = GongFieldValueTypeInt
 		case "Anotherbooleanfield":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.Anotherbooleanfield)
 		case "Duration1":
@@ -1791,6 +1797,8 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Floatfield2)
 		case "Intfield":
 			res.valueString = fmt.Sprintf("%d", inferedInstance.Intfield)
+			res.valueInt = inferedInstance.Intfield
+			res.GongFieldValueType = GongFieldValueTypeInt
 		}
 	case *Dstruct:
 		switch fieldName {
@@ -1835,6 +1843,8 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Floatfield2)
 		case "Intfield":
 			res.valueString = fmt.Sprintf("%d", inferedInstance.Intfield)
+			res.valueInt = inferedInstance.Intfield
+			res.GongFieldValueType = GongFieldValueTypeInt
 		}
 	default:
 		_ = inferedInstance
@@ -1923,6 +1933,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Floatfield)
 		case "Intfield":
 			res.valueString = fmt.Sprintf("%d", inferedInstance.Intfield)
+			res.valueInt = inferedInstance.Intfield
+			res.GongFieldValueType = GongFieldValueTypeInt
 		case "Anotherbooleanfield":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.Anotherbooleanfield)
 		case "Duration1":
@@ -2046,6 +2058,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Floatfield2)
 		case "Intfield":
 			res.valueString = fmt.Sprintf("%d", inferedInstance.Intfield)
+			res.valueInt = inferedInstance.Intfield
+			res.GongFieldValueType = GongFieldValueTypeInt
 		}
 	case Dstruct:
 		switch fieldName {
@@ -2090,6 +2104,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Floatfield2)
 		case "Intfield":
 			res.valueString = fmt.Sprintf("%d", inferedInstance.Intfield)
+			res.valueInt = inferedInstance.Intfield
+			res.GongFieldValueType = GongFieldValueTypeInt
 		}
 	default:
 		_ = inferedInstance
