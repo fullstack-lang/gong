@@ -6,7 +6,7 @@
             (dragover)="backgroundDragOver($event)" -->
             <lib-text-width-calculator #textWidthCalculator></lib-text-width-calculator>
 
-<svg [attr.width]="svgWidth" [attr.height]="svgHeight" >
+<svg #svgContainer [attr.width]="svgWidth" [attr.height]="svgHeight" >
     <g>
 
         <!-- this rect is for catching mouse event that are in the void -->
@@ -68,23 +68,41 @@
             </ng-container>
             <ng-container *ngFor="let line of layer.Lines">
                 <line
-                    class="click-through"
-                    [attr.x1]="line.X1"
-                    [attr.y1]="line.Y1"
-                    [attr.x2]="line.X2"
-                    [attr.y2]="line.Y2"
-                    [attr.fill]="line.Color"
-                    [attr.fill-opacity]="line.FillOpacity"
-                    [attr.stroke]="line.Stroke"
-                    [attr.stroke-opacity]="line.StrokeOpacity"
-                    [attr.stroke-width]="line.StrokeWidth"
-                    [attr.stroke-dasharray]="line.StrokeDashArray"
-                    [attr.transform]="line.Transform" />
-                <animate *ngFor="let animate of line.Animates" 
-                    [attr.attributeName]="animate.AttributeName" 
-                    [attr.values]="animate.Values" 
-                    [attr.dur]="animate.Dur" 
-                    [attr.repeatCount]="animate.RepeatCount" />
+                class="click-through"
+                [attr.x1]="line.X1"
+                [attr.y1]="line.Y1"
+                [attr.x2]="line.X2"
+                [attr.y2]="line.Y2"
+                [attr.fill]="line.Color"
+                [attr.fill-opacity]="line.FillOpacity"
+                [attr.stroke]="line.Stroke"
+                [attr.stroke-opacity]="line.StrokeOpacity"
+                [attr.stroke-width]="line.StrokeWidth"
+                [attr.stroke-dasharray]="line.StrokeDashArray"
+                [attr.transform]="line.Transform">
+                
+                <!-- Use ng-container to repeat animate tags -->
+                <ng-container *ngFor="let animate of line.Animates">
+                    @if (animate.Values != "") {
+                        <animate 
+                        [attr.attributeName]="animate.AttributeName" 
+                        [attr.values]="animate.Values" 
+                        [attr.dur]="animate.Dur" 
+                        [attr.repeatCount]="animate.RepeatCount"
+                        begin="0" />
+                    }
+                    @if (animate.From != "") {
+                        <animate 
+                        [attr.attributeName]="animate.AttributeName" 
+                        [attr.from]="animate.From" 
+                        [attr.to]="animate.To" 
+                        [attr.dur]="animate.Dur" 
+                        [attr.repeatCount]="animate.RepeatCount" />
+                    }
+
+                </ng-container>
+              </line>
+              
             </ng-container>
             <ng-container *ngFor="let text of layer.Texts">
                 <text

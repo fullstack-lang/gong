@@ -412,16 +412,44 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) CheckoutPhaseTwoInstance
 func (rectlinklinkDB *RectLinkLinkDB) DecodePointers(backRepo *BackRepoStruct, rectlinklink *models.RectLinkLink) {
 
 	// insertion point for checkout of pointer encoding
-	// Start field
-	rectlinklink.Start = nil
-	if rectlinklinkDB.StartID.Int64 != 0 {
-		rectlinklink.Start = backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(rectlinklinkDB.StartID.Int64)]
+	// Start field	
+	{
+		id := rectlinklinkDB.StartID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: rectlinklink.Start, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if rectlinklink.Start == nil || rectlinklink.Start != tmp {
+				rectlinklink.Start = tmp
+			}
+		} else {
+			rectlinklink.Start = nil
+		}
 	}
-	// End field
-	rectlinklink.End = nil
-	if rectlinklinkDB.EndID.Int64 != 0 {
-		rectlinklink.End = backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[uint(rectlinklinkDB.EndID.Int64)]
+	
+	// End field	
+	{
+		id := rectlinklinkDB.EndID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: rectlinklink.End, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if rectlinklink.End == nil || rectlinklink.End != tmp {
+				rectlinklink.End = tmp
+			}
+		} else {
+			rectlinklink.End = nil
+		}
 	}
+	
 	return
 }
 
