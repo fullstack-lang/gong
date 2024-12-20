@@ -15,6 +15,8 @@ export class AnimateAPI {
 	Name: string = ""
 	AttributeName: string = ""
 	Values: string = ""
+	From: string = ""
+	To: string = ""
 	Dur: string = ""
 	RepeatCount: string = ""
 

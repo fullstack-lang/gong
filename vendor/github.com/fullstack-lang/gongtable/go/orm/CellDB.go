@@ -406,31 +406,101 @@ func (backRepoCell *BackRepoCellStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 func (cellDB *CellDB) DecodePointers(backRepo *BackRepoStruct, cell *models.Cell) {
 
 	// insertion point for checkout of pointer encoding
-	// CellString field
-	cell.CellString = nil
-	if cellDB.CellStringID.Int64 != 0 {
-		cell.CellString = backRepo.BackRepoCellString.Map_CellStringDBID_CellStringPtr[uint(cellDB.CellStringID.Int64)]
+	// CellString field	
+	{
+		id := cellDB.CellStringID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoCellString.Map_CellStringDBID_CellStringPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: cell.CellString, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if cell.CellString == nil || cell.CellString != tmp {
+				cell.CellString = tmp
+			}
+		} else {
+			cell.CellString = nil
+		}
 	}
-	// CellFloat64 field
-	cell.CellFloat64 = nil
-	if cellDB.CellFloat64ID.Int64 != 0 {
-		cell.CellFloat64 = backRepo.BackRepoCellFloat64.Map_CellFloat64DBID_CellFloat64Ptr[uint(cellDB.CellFloat64ID.Int64)]
+	
+	// CellFloat64 field	
+	{
+		id := cellDB.CellFloat64ID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoCellFloat64.Map_CellFloat64DBID_CellFloat64Ptr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: cell.CellFloat64, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if cell.CellFloat64 == nil || cell.CellFloat64 != tmp {
+				cell.CellFloat64 = tmp
+			}
+		} else {
+			cell.CellFloat64 = nil
+		}
 	}
-	// CellInt field
-	cell.CellInt = nil
-	if cellDB.CellIntID.Int64 != 0 {
-		cell.CellInt = backRepo.BackRepoCellInt.Map_CellIntDBID_CellIntPtr[uint(cellDB.CellIntID.Int64)]
+	
+	// CellInt field	
+	{
+		id := cellDB.CellIntID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoCellInt.Map_CellIntDBID_CellIntPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: cell.CellInt, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if cell.CellInt == nil || cell.CellInt != tmp {
+				cell.CellInt = tmp
+			}
+		} else {
+			cell.CellInt = nil
+		}
 	}
-	// CellBool field
-	cell.CellBool = nil
-	if cellDB.CellBoolID.Int64 != 0 {
-		cell.CellBool = backRepo.BackRepoCellBoolean.Map_CellBooleanDBID_CellBooleanPtr[uint(cellDB.CellBoolID.Int64)]
+	
+	// CellBool field	
+	{
+		id := cellDB.CellBoolID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoCellBoolean.Map_CellBooleanDBID_CellBooleanPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: cell.CellBool, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if cell.CellBool == nil || cell.CellBool != tmp {
+				cell.CellBool = tmp
+			}
+		} else {
+			cell.CellBool = nil
+		}
 	}
-	// CellIcon field
-	cell.CellIcon = nil
-	if cellDB.CellIconID.Int64 != 0 {
-		cell.CellIcon = backRepo.BackRepoCellIcon.Map_CellIconDBID_CellIconPtr[uint(cellDB.CellIconID.Int64)]
+	
+	// CellIcon field	
+	{
+		id := cellDB.CellIconID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoCellIcon.Map_CellIconDBID_CellIconPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: cell.CellIcon, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if cell.CellIcon == nil || cell.CellIcon != tmp {
+				cell.CellIcon = tmp
+			}
+		} else {
+			cell.CellIcon = nil
+		}
 	}
+	
 	return
 }
 

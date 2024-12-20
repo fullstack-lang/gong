@@ -370,11 +370,25 @@ func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) CheckoutPhaseTwoIn
 func (formfieldselectDB *FormFieldSelectDB) DecodePointers(backRepo *BackRepoStruct, formfieldselect *models.FormFieldSelect) {
 
 	// insertion point for checkout of pointer encoding
-	// Value field
-	formfieldselect.Value = nil
-	if formfieldselectDB.ValueID.Int64 != 0 {
-		formfieldselect.Value = backRepo.BackRepoOption.Map_OptionDBID_OptionPtr[uint(formfieldselectDB.ValueID.Int64)]
+	// Value field	
+	{
+		id := formfieldselectDB.ValueID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoOption.Map_OptionDBID_OptionPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: formfieldselect.Value, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if formfieldselect.Value == nil || formfieldselect.Value != tmp {
+				formfieldselect.Value = tmp
+			}
+		} else {
+			formfieldselect.Value = nil
+		}
 	}
+	
 	// This loop redeem formfieldselect.Options in the stage from the encode in the back repo
 	// It parses all OptionDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance

@@ -381,11 +381,25 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CheckoutPhaseTwoInstan
 func (gongenumshapeDB *GongEnumShapeDB) DecodePointers(backRepo *BackRepoStruct, gongenumshape *models.GongEnumShape) {
 
 	// insertion point for checkout of pointer encoding
-	// Position field
-	gongenumshape.Position = nil
-	if gongenumshapeDB.PositionID.Int64 != 0 {
-		gongenumshape.Position = backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr[uint(gongenumshapeDB.PositionID.Int64)]
+	// Position field	
+	{
+		id := gongenumshapeDB.PositionID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr[uint(id)]
+
+			if !ok {
+				log.Fatalln("DecodePointers: gongenumshape.Position, unknown pointer id", id)
+			}
+
+			// updates only if field has changed
+			if gongenumshape.Position == nil || gongenumshape.Position != tmp {
+				gongenumshape.Position = tmp
+			}
+		} else {
+			gongenumshape.Position = nil
+		}
 	}
+	
 	// This loop redeem gongenumshape.GongEnumValueEntrys in the stage from the encode in the back repo
 	// It parses all GongEnumValueEntryDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance

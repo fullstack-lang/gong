@@ -69,6 +69,12 @@ type AnimateDB struct {
 	// Declation for basic field animateDB.Values
 	Values_Data sql.NullString
 
+	// Declation for basic field animateDB.From
+	From_Data sql.NullString
+
+	// Declation for basic field animateDB.To
+	To_Data sql.NullString
+
 	// Declation for basic field animateDB.Dur
 	Dur_Data sql.NullString
 
@@ -103,9 +109,13 @@ type AnimateWOP struct {
 
 	Values string `xlsx:"3"`
 
-	Dur string `xlsx:"4"`
+	From string `xlsx:"4"`
 
-	RepeatCount string `xlsx:"5"`
+	To string `xlsx:"5"`
+
+	Dur string `xlsx:"6"`
+
+	RepeatCount string `xlsx:"7"`
 	// insertion for WOP pointer fields
 }
 
@@ -115,6 +125,8 @@ var Animate_Fields = []string{
 	"Name",
 	"AttributeName",
 	"Values",
+	"From",
+	"To",
 	"Dur",
 	"RepeatCount",
 }
@@ -393,6 +405,12 @@ func (animateDB *AnimateDB) CopyBasicFieldsFromAnimate(animate *models.Animate) 
 	animateDB.Values_Data.String = animate.Values
 	animateDB.Values_Data.Valid = true
 
+	animateDB.From_Data.String = animate.From
+	animateDB.From_Data.Valid = true
+
+	animateDB.To_Data.String = animate.To
+	animateDB.To_Data.Valid = true
+
 	animateDB.Dur_Data.String = animate.Dur
 	animateDB.Dur_Data.Valid = true
 
@@ -412,6 +430,12 @@ func (animateDB *AnimateDB) CopyBasicFieldsFromAnimate_WOP(animate *models.Anima
 
 	animateDB.Values_Data.String = animate.Values
 	animateDB.Values_Data.Valid = true
+
+	animateDB.From_Data.String = animate.From
+	animateDB.From_Data.Valid = true
+
+	animateDB.To_Data.String = animate.To
+	animateDB.To_Data.Valid = true
 
 	animateDB.Dur_Data.String = animate.Dur
 	animateDB.Dur_Data.Valid = true
@@ -433,6 +457,12 @@ func (animateDB *AnimateDB) CopyBasicFieldsFromAnimateWOP(animate *AnimateWOP) {
 	animateDB.Values_Data.String = animate.Values
 	animateDB.Values_Data.Valid = true
 
+	animateDB.From_Data.String = animate.From
+	animateDB.From_Data.Valid = true
+
+	animateDB.To_Data.String = animate.To
+	animateDB.To_Data.Valid = true
+
 	animateDB.Dur_Data.String = animate.Dur
 	animateDB.Dur_Data.Valid = true
 
@@ -446,6 +476,8 @@ func (animateDB *AnimateDB) CopyBasicFieldsToAnimate(animate *models.Animate) {
 	animate.Name = animateDB.Name_Data.String
 	animate.AttributeName = animateDB.AttributeName_Data.String
 	animate.Values = animateDB.Values_Data.String
+	animate.From = animateDB.From_Data.String
+	animate.To = animateDB.To_Data.String
 	animate.Dur = animateDB.Dur_Data.String
 	animate.RepeatCount = animateDB.RepeatCount_Data.String
 }
@@ -456,6 +488,8 @@ func (animateDB *AnimateDB) CopyBasicFieldsToAnimate_WOP(animate *models.Animate
 	animate.Name = animateDB.Name_Data.String
 	animate.AttributeName = animateDB.AttributeName_Data.String
 	animate.Values = animateDB.Values_Data.String
+	animate.From = animateDB.From_Data.String
+	animate.To = animateDB.To_Data.String
 	animate.Dur = animateDB.Dur_Data.String
 	animate.RepeatCount = animateDB.RepeatCount_Data.String
 }
@@ -467,6 +501,8 @@ func (animateDB *AnimateDB) CopyBasicFieldsToAnimateWOP(animate *AnimateWOP) {
 	animate.Name = animateDB.Name_Data.String
 	animate.AttributeName = animateDB.AttributeName_Data.String
 	animate.Values = animateDB.Values_Data.String
+	animate.From = animateDB.From_Data.String
+	animate.To = animateDB.To_Data.String
 	animate.Dur = animateDB.Dur_Data.String
 	animate.RepeatCount = animateDB.RepeatCount_Data.String
 }

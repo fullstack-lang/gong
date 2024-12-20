@@ -15,7 +15,12 @@
                 <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}" svgIcon="{{node.gongNode.PreceedingSVGIcon.Name}}"></mat-icon>
                 &nbsp;&nbsp;
             </ng-container>
-            <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" *ngIf="node.gongNode.HasCheckboxButton" [disabled]="node.gongNode.IsCheckboxDisabled" [checked]="node.gongNode.IsChecked" (change)="toggleNodeCheckbox(node)">
+            <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" 
+                *ngIf="node.gongNode.HasCheckboxButton" 
+                [disabled]="node.gongNode.IsCheckboxDisabled" 
+                [checked]="node.gongNode.IsChecked" 
+                (change)="toggleNodeCheckbox(node)"
+                (click)="$event.stopPropagation()">
             </mat-checkbox>
             <div [id]="'node' + node.gongNode.Name" [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode'>
                 {{node.name}}
@@ -28,7 +33,12 @@
                 <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}">save
                 </mat-icon>
             </button>
-            <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" *ngIf="node.gongNode.HasSecondCheckboxButton" [disabled]="node.gongNode.IsSecondCheckboxDisabled" [checked]="node.gongNode.IsSecondCheckboxChecked" (change)="toggleNodeSecondCheckbox(node)">
+            <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" 
+                *ngIf="node.gongNode.HasSecondCheckboxButton" 
+                [disabled]="node.gongNode.IsSecondCheckboxDisabled" 
+                [checked]="node.gongNode.IsSecondCheckboxChecked" 
+                (change)="toggleNodeSecondCheckbox(node)"
+                (click)="$event.stopPropagation()">
             </mat-checkbox>
             @if (!node.gongNode.HasSecondCheckboxButton && node.gongNode.TextAfterSecondCheckbox != "") {
                 &nbsp;&nbsp;
@@ -46,9 +56,14 @@
             </ng-container>
         </mat-tree-node>
         <!-- This is the tree node template for expandable nodes -->
-        <mat-tree-node class="custom-tree-node" [ngStyle]="{'background-color': getNodeBackgroundColor(node)}" *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding (click)="onNodeClick(node)">
+        <mat-tree-node class="custom-tree-node" 
+            [ngStyle]="{'background-color': getNodeBackgroundColor(node)}" 
+            *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding 
+            (click)="onNodeClick(node)">
 
-            <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name" (click)="toggleNodeExpansion(node)">
+            <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name" 
+            (click)="toggleNodeExpansion(node)"
+            (click)="$event.stopPropagation()">
                 <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}" class="mat-icon-rtl-mirror">
                     {{treeControl.isExpanded(node) ?
                     'expand_more' : 'chevron_right'}}
@@ -63,7 +78,12 @@
                 </mat-icon>
                 &nbsp;&nbsp;
             </ng-container>
-            <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" *ngIf="node.gongNode.HasCheckboxButton" [disabled]="node.gongNode.IsCheckboxDisabled" [checked]="node.gongNode.IsChecked" (change)="toggleNodeCheckbox(node)">
+            <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" 
+                *ngIf="node.gongNode.HasCheckboxButton" 
+                [disabled]="node.gongNode.IsCheckboxDisabled" 
+                [checked]="node.gongNode.IsChecked" 
+                (change)="toggleNodeCheckbox(node)"
+                (click)="$event.stopPropagation()">
             </mat-checkbox>
             <div [id]="'node' + node.gongNode.Name" [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode'>
                 {{node.name}}
