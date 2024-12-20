@@ -30,9 +30,9 @@ func NewOnSortingEditon[InstanceType models.PointerToGongstruct, FieldType model
 }
 
 type OnSortingEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
-	instance   InstanceType
-	field      *[]FieldType
-	probe *Probe
+	instance InstanceType
+	field    *[]FieldType
+	probe    *Probe
 }
 
 func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed() {
@@ -70,7 +70,8 @@ func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed
 			cell.Name = fmt.Sprintf("Row %s - Column %s", instance.GetName(), fieldName)
 
 			cellString := new(gongtable_models.CellString).Stage(tableStageForSelection)
-			cellString.Name = models.GetFieldStringValueFromPointer(instance, fieldName)
+			value := models.GetFieldStringValueFromPointer(instance, fieldName)
+			cellString.Name = value.GetValueString()
 			cellString.Value = cellString.Name
 			cell.CellString = cellString
 
