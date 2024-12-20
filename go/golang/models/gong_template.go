@@ -444,7 +444,7 @@ type GongFieldValueType string
 const (
 	GongFieldValueTypeInt     GongFieldValueType = "GongFieldValueTypeInt"
 	GongFieldValueTypeFloat   GongFieldValueType = "GongFieldValueTypeFloat"
-	GongFieldValueTypeBoolean GongFieldValueType = "GongFieldValueTypeBoolean"
+	GongFieldValueTypeBool    GongFieldValueType = "GongFieldValueTypeBool"
 	GongFieldValueTypeOthers  GongFieldValueType = "GongFieldValueTypeOthers"
 )
 
@@ -462,6 +462,14 @@ func (gongValueField *GongFieldValue) GetValueString() string {
 
 func (gongValueField *GongFieldValue) GetValueInt() int {
 	return gongValueField.valueInt
+}
+	
+func (gongValueField *GongFieldValue) GetValueFloat() float64 {
+	return gongValueField.valueFloat
+}
+	
+func (gongValueField *GongFieldValue) GetValueBool() bool {
+	return gongValueField.valueBool
 }
 
 func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fieldName string) (res GongFieldValue) {

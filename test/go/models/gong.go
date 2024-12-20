@@ -1570,7 +1570,7 @@ type GongFieldValueType string
 const (
 	GongFieldValueTypeInt     GongFieldValueType = "GongFieldValueTypeInt"
 	GongFieldValueTypeFloat   GongFieldValueType = "GongFieldValueTypeFloat"
-	GongFieldValueTypeBoolean GongFieldValueType = "GongFieldValueTypeBoolean"
+	GongFieldValueTypeBool    GongFieldValueType = "GongFieldValueTypeBool"
 	GongFieldValueTypeOthers  GongFieldValueType = "GongFieldValueTypeOthers"
 )
 
@@ -1589,7 +1589,14 @@ func (gongValueField *GongFieldValue) GetValueString() string {
 func (gongValueField *GongFieldValue) GetValueInt() int {
 	return gongValueField.valueInt
 }
-
+	
+func (gongValueField *GongFieldValue) GetValueFloat() float64 {
+	return gongValueField.valueFloat
+}
+	
+func (gongValueField *GongFieldValue) GetValueBool() bool {
+	return gongValueField.valueBool
+}
 
 func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fieldName string) (res GongFieldValue) {
 
@@ -1621,6 +1628,8 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res.valueString = inferedInstance.Date2.Format("2006-01-02")
 		case "Booleanfield":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.Booleanfield)
+			res.valueBool = inferedInstance.Booleanfield
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "Aenum":
 			enum := inferedInstance.Aenum
 			res.valueString = enum.ToCodeString()
@@ -1637,6 +1646,8 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res.valueString = inferedInstance.CName
 		case "CFloatfield":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.CFloatfield)
+			res.valueFloat = inferedInstance.CFloatfield
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Bstruct":
 			if inferedInstance.Bstruct != nil {
 				res.valueString = inferedInstance.Bstruct.Name
@@ -1670,12 +1681,16 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			}
 		case "Floatfield":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Floatfield)
+			res.valueFloat = inferedInstance.Floatfield
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Intfield":
 			res.valueString = fmt.Sprintf("%d", inferedInstance.Intfield)
 			res.valueInt = inferedInstance.Intfield
 			res.GongFieldValueType = GongFieldValueTypeInt
 		case "Anotherbooleanfield":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.Anotherbooleanfield)
+			res.valueBool = inferedInstance.Anotherbooleanfield
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "Duration1":
 			if math.Abs(inferedInstance.Duration1.Hours()) >= 24 {
 				days := __Gong__Abs(int(int(inferedInstance.Duration1.Hours()) / 24))
@@ -1793,8 +1808,12 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res.valueString = inferedInstance.Name
 		case "Floatfield":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Floatfield)
+			res.valueFloat = inferedInstance.Floatfield
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Floatfield2":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Floatfield2)
+			res.valueFloat = inferedInstance.Floatfield2
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Intfield":
 			res.valueString = fmt.Sprintf("%d", inferedInstance.Intfield)
 			res.valueInt = inferedInstance.Intfield
@@ -1839,8 +1858,12 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res.valueString = inferedInstance.Name
 		case "Floatfield":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Floatfield)
+			res.valueFloat = inferedInstance.Floatfield
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Floatfield2":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Floatfield2)
+			res.valueFloat = inferedInstance.Floatfield2
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Intfield":
 			res.valueString = fmt.Sprintf("%d", inferedInstance.Intfield)
 			res.valueInt = inferedInstance.Intfield
@@ -1882,6 +1905,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res.valueString = inferedInstance.Date2.Format("2006-01-02")
 		case "Booleanfield":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.Booleanfield)
+			res.valueBool = inferedInstance.Booleanfield
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "Aenum":
 			enum := inferedInstance.Aenum
 			res.valueString = enum.ToCodeString()
@@ -1898,6 +1923,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res.valueString = inferedInstance.CName
 		case "CFloatfield":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.CFloatfield)
+			res.valueFloat = inferedInstance.CFloatfield
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Bstruct":
 			if inferedInstance.Bstruct != nil {
 				res.valueString = inferedInstance.Bstruct.Name
@@ -1931,12 +1958,16 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			}
 		case "Floatfield":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Floatfield)
+			res.valueFloat = inferedInstance.Floatfield
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Intfield":
 			res.valueString = fmt.Sprintf("%d", inferedInstance.Intfield)
 			res.valueInt = inferedInstance.Intfield
 			res.GongFieldValueType = GongFieldValueTypeInt
 		case "Anotherbooleanfield":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.Anotherbooleanfield)
+			res.valueBool = inferedInstance.Anotherbooleanfield
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "Duration1":
 			if math.Abs(inferedInstance.Duration1.Hours()) >= 24 {
 				days := __Gong__Abs(int(int(inferedInstance.Duration1.Hours()) / 24))
@@ -2054,8 +2085,12 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res.valueString = inferedInstance.Name
 		case "Floatfield":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Floatfield)
+			res.valueFloat = inferedInstance.Floatfield
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Floatfield2":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Floatfield2)
+			res.valueFloat = inferedInstance.Floatfield2
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Intfield":
 			res.valueString = fmt.Sprintf("%d", inferedInstance.Intfield)
 			res.valueInt = inferedInstance.Intfield
@@ -2100,8 +2135,12 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res.valueString = inferedInstance.Name
 		case "Floatfield":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Floatfield)
+			res.valueFloat = inferedInstance.Floatfield
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Floatfield2":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Floatfield2)
+			res.valueFloat = inferedInstance.Floatfield2
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Intfield":
 			res.valueString = fmt.Sprintf("%d", inferedInstance.Intfield)
 			res.valueInt = inferedInstance.Intfield
