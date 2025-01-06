@@ -28,3 +28,9 @@ After removal of EvictInOtherSlices
 
 50 59700681 69.813106
 100 108425161 388.656933
+
+After make GetFieldStringValue and GetFieldStringValue non generic 
+Fixes #535
+
+50 53928905 56.486943
+100 84599753 294.560962
