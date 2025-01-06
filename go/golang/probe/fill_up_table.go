@@ -92,7 +92,7 @@ func fillUpTable[T models.Gongstruct](
 	fieldIndex := 0
 	for _, structInstance := range sliceOfGongStructsSorted {
 		row := new(gongtable.Row).Stage(probe.tableStage)
-		value := models.GetFieldStringValue[T](*structInstance, "Name")
+		value := models.GetFieldStringValue(*structInstance, "Name")
 		row.Name = value.GetValueString()
 
 		updater := NewRowUpdate[T](structInstance, probe)
@@ -131,7 +131,7 @@ func fillUpTable[T models.Gongstruct](
 		cell.CellIcon = cellIcon
 
 		for _, fieldName := range fields {
-			value := models.GetFieldStringValue[T](*structInstance, fieldName)
+			value := models.GetFieldStringValue(*structInstance, fieldName)
 			name := fmt.Sprintf("%d", fieldIndex) + " " + value.GetValueString()
 			fieldIndex++
 			// log.Println(fieldName, value)
