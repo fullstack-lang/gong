@@ -60,7 +60,7 @@ Second Line`
 	__Astruct__000000_A1.Floatfield = 0.000000
 	__Astruct__000000_A1.Intfield = 3
 	__Astruct__000000_A1.Anotherbooleanfield = false
-	__Astruct__000000_A1.Duration1 = 79653000000000
+	__Astruct__000000_A1.Duration1 = -79653000000000
 
 	//gong:ident [gongdoc_models.GongStructShape] comment added to overcome the problem with the comment map association
 	__Astruct__000000_A1.StructRef = `gongdoc_models.GongStructShape`
@@ -83,16 +83,16 @@ Second Line`
 	__Astruct__000000_A1.TextArea = ``
 
 	__Astruct__000001_A2.Name = `A2`
-	__Astruct__000001_A2.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 09:59:06 +0000 UTC")
+	__Astruct__000001_A2.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 09:59:06.744 +0000 UTC")
 	__Astruct__000001_A2.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Astruct__000001_A2.Booleanfield = false
 	__Astruct__000001_A2.CEnum = models.CENUM_VAL1
 	__Astruct__000001_A2.CName = ``
 	__Astruct__000001_A2.CFloatfield = 0.000000
 	__Astruct__000001_A2.Floatfield = 0.000000
-	__Astruct__000001_A2.Intfield = 10
+	__Astruct__000001_A2.Intfield = 0
 	__Astruct__000001_A2.Anotherbooleanfield = false
-	__Astruct__000001_A2.Duration1 = -796530000000000000
+	__Astruct__000001_A2.Duration1 = 796530000000000000
 
 	//gong:ident [.....] comment added to overcome the problem with the comment map association
 	__Astruct__000001_A2.StructRef = `.....`
