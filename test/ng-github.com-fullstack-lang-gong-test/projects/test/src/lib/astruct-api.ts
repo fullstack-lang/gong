@@ -18,6 +18,7 @@ export class AstructAPI {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Date: Date = new Date
+	Date2: Date = new Date
 	Booleanfield: boolean = false
 	Aenum: string = ""
 	Aenum_2: string = ""
