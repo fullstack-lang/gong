@@ -10,8 +10,8 @@ import (
 
 var __dummy_orm_fillup_form = orm.BackRepoStruct{}
 
-func FillUpForm[T models.Gongstruct](
-	instance *T,
+func FillUpForm(
+	instance any,
 	formGroup *form.FormGroup,
 	probe *Probe,
 ) {
