@@ -1,15 +1,15 @@
 #!/bin/bash
 
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <n>"
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 <start> <end> <step>"
     exit 1
 fi
 
-n=$1
+n=$2
 output_file="size_measurements.txt"
 mkdir -p go/models
 
-for ((i=200; i<=$n; i=i+10)); do
+for ((i=$1; i<=$n; i=i+$3)); do
     # Generate Go file with i structs
     cat > go/models/model.go << EOF
 package models
