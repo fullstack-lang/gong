@@ -46,7 +46,7 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 	formSortAssocButton.OnSortEdition = onSortingEditon
 
 }
-	
+
 type OnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
 	instance  InstanceType
 	field     *[]FieldType
@@ -187,13 +187,6 @@ func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(
 			*tablePickSaver.field = append(*tablePickSaver.field, instance)
 		}
 	}
-
-	// first, force commit of instance for taking into account the slice
-	models.EvictInOtherSlices(
-		tablePickSaver.probe.stageOfInterest,
-		tablePickSaver.instance,
-		*tablePickSaver.field,
-		tablePickSaver.fieldName)
 
 	// commit the whole
 	tablePickSaver.probe.stageOfInterest.Commit()
