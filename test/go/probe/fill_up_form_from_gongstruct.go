@@ -7,16 +7,16 @@ import (
 	"github.com/fullstack-lang/gong/test/go/models"
 )
 
-func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, probe *Probe) {
+func FillUpFormFromGongstruct(instance any, probe *Probe) {
 	formStage := probe.formStage
 	formStage.Reset()
 	formStage.Commit()
 
-	FillUpNamedFormFromGongstruct[T](instance, probe, formStage, gongtable.FormGroupDefaultName.ToString())
+	FillUpNamedFormFromGongstruct(instance, probe, formStage, gongtable.FormGroupDefaultName.ToString())
 
 }
 
-func FillUpNamedFormFromGongstruct[T models.Gongstruct](instance *T, probe *Probe, formStage *gongtable.StageStruct, formName string) {
+func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongtable.StageStruct, formName string) {
 
 	switch instancesTyped := any(instance).(type) {
 	// insertion point
