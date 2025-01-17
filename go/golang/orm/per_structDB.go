@@ -770,13 +770,15 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 		if id != 0 {
 			tmp, ok := backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}Ptr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: {{structname}}.{{FieldName}}, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if {{structname}}.{{FieldName}} == nil || {{structname}}.{{FieldName}} != tmp {
-				{{structname}}.{{FieldName}} = tmp
+				log.Println("DecodePointers: {{structname}}.{{FieldName}}, unknown pointer id", id)
+				{{structname}}.{{FieldName}} = nil
+			} else {
+				// updates only if field has changed
+				if {{structname}}.{{FieldName}} == nil || {{structname}}.{{FieldName}} != tmp {
+					{{structname}}.{{FieldName}} = tmp
+				}
 			}
 		} else {
 			{{structname}}.{{FieldName}} = nil

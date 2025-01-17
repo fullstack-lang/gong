@@ -399,13 +399,15 @@ func (dstructDB *DstructDB) DecodePointers(backRepo *BackRepoStruct, dstruct *mo
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoGstruct.Map_GstructDBID_GstructPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: dstruct.Gstruct, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if dstruct.Gstruct == nil || dstruct.Gstruct != tmp {
-				dstruct.Gstruct = tmp
+				log.Println("DecodePointers: dstruct.Gstruct, unknown pointer id", id)
+				dstruct.Gstruct = nil
+			} else {
+				// updates only if field has changed
+				if dstruct.Gstruct == nil || dstruct.Gstruct != tmp {
+					dstruct.Gstruct = tmp
+				}
 			}
 		} else {
 			dstruct.Gstruct = nil
