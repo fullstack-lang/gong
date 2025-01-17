@@ -348,13 +348,15 @@ func (astructbstructuseDB *AstructBstructUseDB) DecodePointers(backRepo *BackRep
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: astructbstructuse.Bstruct2, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if astructbstructuse.Bstruct2 == nil || astructbstructuse.Bstruct2 != tmp {
-				astructbstructuse.Bstruct2 = tmp
+				log.Println("DecodePointers: astructbstructuse.Bstruct2, unknown pointer id", id)
+				astructbstructuse.Bstruct2 = nil
+			} else {
+				// updates only if field has changed
+				if astructbstructuse.Bstruct2 == nil || astructbstructuse.Bstruct2 != tmp {
+					astructbstructuse.Bstruct2 = tmp
+				}
 			}
 		} else {
 			astructbstructuse.Bstruct2 = nil

@@ -730,13 +730,15 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: astruct.Associationtob, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if astruct.Associationtob == nil || astruct.Associationtob != tmp {
-				astruct.Associationtob = tmp
+				log.Println("DecodePointers: astruct.Associationtob, unknown pointer id", id)
+				astruct.Associationtob = nil
+			} else {
+				// updates only if field has changed
+				if astruct.Associationtob == nil || astruct.Associationtob != tmp {
+					astruct.Associationtob = tmp
+				}
 			}
 		} else {
 			astruct.Associationtob = nil
@@ -758,13 +760,15 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: astruct.Anotherassociationtob_2, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if astruct.Anotherassociationtob_2 == nil || astruct.Anotherassociationtob_2 != tmp {
-				astruct.Anotherassociationtob_2 = tmp
+				log.Println("DecodePointers: astruct.Anotherassociationtob_2, unknown pointer id", id)
+				astruct.Anotherassociationtob_2 = nil
+			} else {
+				// updates only if field has changed
+				if astruct.Anotherassociationtob_2 == nil || astruct.Anotherassociationtob_2 != tmp {
+					astruct.Anotherassociationtob_2 = tmp
+				}
 			}
 		} else {
 			astruct.Anotherassociationtob_2 = nil
@@ -777,13 +781,15 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: astruct.Bstruct, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if astruct.Bstruct == nil || astruct.Bstruct != tmp {
-				astruct.Bstruct = tmp
+				log.Println("DecodePointers: astruct.Bstruct, unknown pointer id", id)
+				astruct.Bstruct = nil
+			} else {
+				// updates only if field has changed
+				if astruct.Bstruct == nil || astruct.Bstruct != tmp {
+					astruct.Bstruct = tmp
+				}
 			}
 		} else {
 			astruct.Bstruct = nil
@@ -796,13 +802,15 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: astruct.Bstruct2, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if astruct.Bstruct2 == nil || astruct.Bstruct2 != tmp {
-				astruct.Bstruct2 = tmp
+				log.Println("DecodePointers: astruct.Bstruct2, unknown pointer id", id)
+				astruct.Bstruct2 = nil
+			} else {
+				// updates only if field has changed
+				if astruct.Bstruct2 == nil || astruct.Bstruct2 != tmp {
+					astruct.Bstruct2 = tmp
+				}
 			}
 		} else {
 			astruct.Bstruct2 = nil
@@ -815,13 +823,15 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: astruct.Dstruct, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if astruct.Dstruct == nil || astruct.Dstruct != tmp {
-				astruct.Dstruct = tmp
+				log.Println("DecodePointers: astruct.Dstruct, unknown pointer id", id)
+				astruct.Dstruct = nil
+			} else {
+				// updates only if field has changed
+				if astruct.Dstruct == nil || astruct.Dstruct != tmp {
+					astruct.Dstruct = tmp
+				}
 			}
 		} else {
 			astruct.Dstruct = nil
@@ -834,13 +844,15 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: astruct.Dstruct2, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if astruct.Dstruct2 == nil || astruct.Dstruct2 != tmp {
-				astruct.Dstruct2 = tmp
+				log.Println("DecodePointers: astruct.Dstruct2, unknown pointer id", id)
+				astruct.Dstruct2 = nil
+			} else {
+				// updates only if field has changed
+				if astruct.Dstruct2 == nil || astruct.Dstruct2 != tmp {
+					astruct.Dstruct2 = tmp
+				}
 			}
 		} else {
 			astruct.Dstruct2 = nil
@@ -853,13 +865,15 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: astruct.Dstruct3, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if astruct.Dstruct3 == nil || astruct.Dstruct3 != tmp {
-				astruct.Dstruct3 = tmp
+				log.Println("DecodePointers: astruct.Dstruct3, unknown pointer id", id)
+				astruct.Dstruct3 = nil
+			} else {
+				// updates only if field has changed
+				if astruct.Dstruct3 == nil || astruct.Dstruct3 != tmp {
+					astruct.Dstruct3 = tmp
+				}
 			}
 		} else {
 			astruct.Dstruct3 = nil
@@ -872,13 +886,15 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: astruct.Dstruct4, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if astruct.Dstruct4 == nil || astruct.Dstruct4 != tmp {
-				astruct.Dstruct4 = tmp
+				log.Println("DecodePointers: astruct.Dstruct4, unknown pointer id", id)
+				astruct.Dstruct4 = nil
+			} else {
+				// updates only if field has changed
+				if astruct.Dstruct4 == nil || astruct.Dstruct4 != tmp {
+					astruct.Dstruct4 = tmp
+				}
 			}
 		} else {
 			astruct.Dstruct4 = nil
@@ -936,13 +952,15 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: astruct.AnAstruct, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if astruct.AnAstruct == nil || astruct.AnAstruct != tmp {
-				astruct.AnAstruct = tmp
+				log.Println("DecodePointers: astruct.AnAstruct, unknown pointer id", id)
+				astruct.AnAstruct = nil
+			} else {
+				// updates only if field has changed
+				if astruct.AnAstruct == nil || astruct.AnAstruct != tmp {
+					astruct.AnAstruct = tmp
+				}
 			}
 		} else {
 			astruct.AnAstruct = nil
