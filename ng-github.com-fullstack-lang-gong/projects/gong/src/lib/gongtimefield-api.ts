@@ -15,6 +15,7 @@ export class GongTimeFieldAPI {
 	Name: string = ""
 	Index: number = 0
 	CompositeStructName: string = ""
+	BespokeTimeFormat: string = ""
 
 	// insertion point for other decls
 

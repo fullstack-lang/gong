@@ -367,13 +367,15 @@ func (pointertogongstructfieldDB *PointerToGongStructFieldDB) DecodePointers(bac
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: pointertogongstructfield.GongStruct, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if pointertogongstructfield.GongStruct == nil || pointertogongstructfield.GongStruct != tmp {
-				pointertogongstructfield.GongStruct = tmp
+				log.Println("DecodePointers: pointertogongstructfield.GongStruct, unknown pointer id", id)
+				pointertogongstructfield.GongStruct = nil
+			} else {
+				// updates only if field has changed
+				if pointertogongstructfield.GongStruct == nil || pointertogongstructfield.GongStruct != tmp {
+					pointertogongstructfield.GongStruct = tmp
+				}
 			}
 		} else {
 			pointertogongstructfield.GongStruct = nil

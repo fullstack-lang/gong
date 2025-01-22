@@ -69,6 +69,9 @@ type GongTimeFieldDB struct {
 	// Declation for basic field gongtimefieldDB.CompositeStructName
 	CompositeStructName_Data sql.NullString
 
+	// Declation for basic field gongtimefieldDB.BespokeTimeFormat
+	BespokeTimeFormat_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	GongTimeFieldPointersEncoding
@@ -96,6 +99,8 @@ type GongTimeFieldWOP struct {
 	Index int `xlsx:"2"`
 
 	CompositeStructName string `xlsx:"3"`
+
+	BespokeTimeFormat string `xlsx:"4"`
 	// insertion for WOP pointer fields
 }
 
@@ -105,6 +110,7 @@ var GongTimeField_Fields = []string{
 	"Name",
 	"Index",
 	"CompositeStructName",
+	"BespokeTimeFormat",
 }
 
 type BackRepoGongTimeFieldStruct struct {
@@ -380,6 +386,9 @@ func (gongtimefieldDB *GongTimeFieldDB) CopyBasicFieldsFromGongTimeField(gongtim
 
 	gongtimefieldDB.CompositeStructName_Data.String = gongtimefield.CompositeStructName
 	gongtimefieldDB.CompositeStructName_Data.Valid = true
+
+	gongtimefieldDB.BespokeTimeFormat_Data.String = gongtimefield.BespokeTimeFormat
+	gongtimefieldDB.BespokeTimeFormat_Data.Valid = true
 }
 
 // CopyBasicFieldsFromGongTimeField_WOP
@@ -394,6 +403,9 @@ func (gongtimefieldDB *GongTimeFieldDB) CopyBasicFieldsFromGongTimeField_WOP(gon
 
 	gongtimefieldDB.CompositeStructName_Data.String = gongtimefield.CompositeStructName
 	gongtimefieldDB.CompositeStructName_Data.Valid = true
+
+	gongtimefieldDB.BespokeTimeFormat_Data.String = gongtimefield.BespokeTimeFormat
+	gongtimefieldDB.BespokeTimeFormat_Data.Valid = true
 }
 
 // CopyBasicFieldsFromGongTimeFieldWOP
@@ -408,6 +420,9 @@ func (gongtimefieldDB *GongTimeFieldDB) CopyBasicFieldsFromGongTimeFieldWOP(gong
 
 	gongtimefieldDB.CompositeStructName_Data.String = gongtimefield.CompositeStructName
 	gongtimefieldDB.CompositeStructName_Data.Valid = true
+
+	gongtimefieldDB.BespokeTimeFormat_Data.String = gongtimefield.BespokeTimeFormat
+	gongtimefieldDB.BespokeTimeFormat_Data.Valid = true
 }
 
 // CopyBasicFieldsToGongTimeField
@@ -416,6 +431,7 @@ func (gongtimefieldDB *GongTimeFieldDB) CopyBasicFieldsToGongTimeField(gongtimef
 	gongtimefield.Name = gongtimefieldDB.Name_Data.String
 	gongtimefield.Index = int(gongtimefieldDB.Index_Data.Int64)
 	gongtimefield.CompositeStructName = gongtimefieldDB.CompositeStructName_Data.String
+	gongtimefield.BespokeTimeFormat = gongtimefieldDB.BespokeTimeFormat_Data.String
 }
 
 // CopyBasicFieldsToGongTimeField_WOP
@@ -424,6 +440,7 @@ func (gongtimefieldDB *GongTimeFieldDB) CopyBasicFieldsToGongTimeField_WOP(gongt
 	gongtimefield.Name = gongtimefieldDB.Name_Data.String
 	gongtimefield.Index = int(gongtimefieldDB.Index_Data.Int64)
 	gongtimefield.CompositeStructName = gongtimefieldDB.CompositeStructName_Data.String
+	gongtimefield.BespokeTimeFormat = gongtimefieldDB.BespokeTimeFormat_Data.String
 }
 
 // CopyBasicFieldsToGongTimeFieldWOP
@@ -433,6 +450,7 @@ func (gongtimefieldDB *GongTimeFieldDB) CopyBasicFieldsToGongTimeFieldWOP(gongti
 	gongtimefield.Name = gongtimefieldDB.Name_Data.String
 	gongtimefield.Index = int(gongtimefieldDB.Index_Data.Int64)
 	gongtimefield.CompositeStructName = gongtimefieldDB.CompositeStructName_Data.String
+	gongtimefield.BespokeTimeFormat = gongtimefieldDB.BespokeTimeFormat_Data.String
 }
 
 // Backup generates a json file from a slice of all GongTimeFieldDB instances in the backrepo
