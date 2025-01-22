@@ -412,13 +412,15 @@ func (gongbasicfieldDB *GongBasicFieldDB) DecodePointers(backRepo *BackRepoStruc
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoGongEnum.Map_GongEnumDBID_GongEnumPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: gongbasicfield.GongEnum, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if gongbasicfield.GongEnum == nil || gongbasicfield.GongEnum != tmp {
-				gongbasicfield.GongEnum = tmp
+				log.Println("DecodePointers: gongbasicfield.GongEnum, unknown pointer id", id)
+				gongbasicfield.GongEnum = nil
+			} else {
+				// updates only if field has changed
+				if gongbasicfield.GongEnum == nil || gongbasicfield.GongEnum != tmp {
+					gongbasicfield.GongEnum = tmp
+				}
 			}
 		} else {
 			gongbasicfield.GongEnum = nil
