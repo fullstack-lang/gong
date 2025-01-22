@@ -46,11 +46,12 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 	formSortAssocButton.OnSortEdition = onSortingEditon
 
 }
+	
 type OnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
-	instance   InstanceType
-	field      *[]FieldType
-	fieldName  string
-	probe *Probe
+	instance  InstanceType
+	field     *[]FieldType
+	fieldName string
+	probe     *Probe
 }
 
 func NewOnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct](
@@ -118,7 +119,8 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 			cell.Name = fmt.Sprintf("Row %s - Column %s", instance.GetName(), fieldName)
 
 			cellString := new(gongtable_models.CellString).Stage(tableStageForSelection)
-			cellString.Name = models.GetFieldStringValueFromPointer(instance, fieldName)
+			value := models.GetFieldStringValueFromPointer(instance, fieldName)
+			cellString.Name = value.GetValueString()
 			cellString.Value = cellString.Name
 			cell.CellString = cellString
 
@@ -154,10 +156,10 @@ func NewTablePickSaver[InstanceType models.PointerToGongstruct, FieldType models
 }
 
 type TablePickSaver[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
-	instance   InstanceType
-	field      *[]FieldType
-	fieldName  string
-	probe *Probe
+	instance  InstanceType
+	field     *[]FieldType
+	fieldName string
+	probe     *Probe
 }
 
 func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(
@@ -185,13 +187,6 @@ func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(
 			*tablePickSaver.field = append(*tablePickSaver.field, instance)
 		}
 	}
-
-	// first, force commit of instance for taking into account the slice
-	models.EvictInOtherSlices(
-		tablePickSaver.probe.stageOfInterest,
-		tablePickSaver.instance,
-		*tablePickSaver.field,
-		tablePickSaver.fieldName)
 
 	// commit the whole
 	tablePickSaver.probe.stageOfInterest.Commit()

@@ -20,6 +20,7 @@ export class GongTimeField {
 	Name: string = ""
 	Index: number = 0
 	CompositeStructName: string = ""
+	BespokeTimeFormat: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 }
@@ -34,6 +35,7 @@ export function CopyGongTimeFieldToGongTimeFieldAPI(gongtimefield: GongTimeField
 	gongtimefieldAPI.Name = gongtimefield.Name
 	gongtimefieldAPI.Index = gongtimefield.Index
 	gongtimefieldAPI.CompositeStructName = gongtimefield.CompositeStructName
+	gongtimefieldAPI.BespokeTimeFormat = gongtimefield.BespokeTimeFormat
 
 	// insertion point for pointer fields encoding
 
@@ -54,6 +56,7 @@ export function CopyGongTimeFieldAPIToGongTimeField(gongtimefieldAPI: GongTimeFi
 	gongtimefield.Name = gongtimefieldAPI.Name
 	gongtimefield.Index = gongtimefieldAPI.Index
 	gongtimefield.CompositeStructName = gongtimefieldAPI.CompositeStructName
+	gongtimefield.BespokeTimeFormat = gongtimefieldAPI.BespokeTimeFormat
 
 	// insertion point for pointer fields encoding
 

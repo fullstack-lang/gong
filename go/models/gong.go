@@ -1829,7 +1829,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case GongStruct:
 		res = []string{"Name", "GongBasicFields", "GongTimeFields", "PointerToGongStructFields", "SliceOfPointerToGongStructFields", "HasOnAfterUpdateSignature", "IsIgnoredForFront"}
 	case GongTimeField:
-		res = []string{"Name", "Index", "CompositeStructName"}
+		res = []string{"Name", "Index", "CompositeStructName", "BespokeTimeFormat"}
 	case Meta:
 		res = []string{"Name", "Text", "MetaReferences"}
 	case MetaReference:
@@ -1939,7 +1939,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *GongStruct:
 		res = []string{"Name", "GongBasicFields", "GongTimeFields", "PointerToGongStructFields", "SliceOfPointerToGongStructFields", "HasOnAfterUpdateSignature", "IsIgnoredForFront"}
 	case *GongTimeField:
-		res = []string{"Name", "Index", "CompositeStructName"}
+		res = []string{"Name", "Index", "CompositeStructName", "BespokeTimeFormat"}
 	case *Meta:
 		res = []string{"Name", "Text", "MetaReferences"}
 	case *MetaReference:
@@ -1954,7 +1954,40 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	return
 }
 
-func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fieldName string) (res string) {
+type GongFieldValueType string
+
+const (
+	GongFieldValueTypeInt     GongFieldValueType = "GongFieldValueTypeInt"
+	GongFieldValueTypeFloat   GongFieldValueType = "GongFieldValueTypeFloat"
+	GongFieldValueTypeBool    GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypeOthers  GongFieldValueType = "GongFieldValueTypeOthers"
+)
+
+type GongFieldValue struct {
+	valueString string
+	GongFieldValueType
+	valueInt   int
+	valueFloat float64
+	valueBool  bool
+}
+
+func (gongValueField *GongFieldValue) GetValueString() string {
+	return gongValueField.valueString
+}
+
+func (gongValueField *GongFieldValue) GetValueInt() int {
+	return gongValueField.valueInt
+}
+	
+func (gongValueField *GongFieldValue) GetValueFloat() float64 {
+	return gongValueField.valueFloat
+}
+	
+func (gongValueField *GongFieldValue) GetValueBool() bool {
+	return gongValueField.valueBool
+}
+
+func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFieldValue) {
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
@@ -1962,219 +1995,247 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "BasicKindName":
-			res = inferedInstance.BasicKindName
+			res.valueString = inferedInstance.BasicKindName
 		case "GongEnum":
 			if inferedInstance.GongEnum != nil {
-				res = inferedInstance.GongEnum.Name
+				res.valueString = inferedInstance.GongEnum.Name
 			}
 		case "DeclaredType":
-			res = inferedInstance.DeclaredType
+			res.valueString = inferedInstance.DeclaredType
 		case "CompositeStructName":
-			res = inferedInstance.CompositeStructName
+			res.valueString = inferedInstance.CompositeStructName
 		case "Index":
-			res = fmt.Sprintf("%d", inferedInstance.Index)
+			res.valueString = fmt.Sprintf("%d", inferedInstance.Index)
+			res.valueInt = inferedInstance.Index
+			res.GongFieldValueType = GongFieldValueTypeInt
 		case "IsDocLink":
-			res = fmt.Sprintf("%t", inferedInstance.IsDocLink)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsDocLink)
+			res.valueBool = inferedInstance.IsDocLink
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsTextArea":
-			res = fmt.Sprintf("%t", inferedInstance.IsTextArea)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsTextArea)
+			res.valueBool = inferedInstance.IsTextArea
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsBespokeWidth":
-			res = fmt.Sprintf("%t", inferedInstance.IsBespokeWidth)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsBespokeWidth)
+			res.valueBool = inferedInstance.IsBespokeWidth
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "BespokeWidth":
-			res = fmt.Sprintf("%d", inferedInstance.BespokeWidth)
+			res.valueString = fmt.Sprintf("%d", inferedInstance.BespokeWidth)
+			res.valueInt = inferedInstance.BespokeWidth
+			res.GongFieldValueType = GongFieldValueTypeInt
 		case "IsBespokeHeight":
-			res = fmt.Sprintf("%t", inferedInstance.IsBespokeHeight)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsBespokeHeight)
+			res.valueBool = inferedInstance.IsBespokeHeight
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "BespokeHeight":
-			res = fmt.Sprintf("%d", inferedInstance.BespokeHeight)
+			res.valueString = fmt.Sprintf("%d", inferedInstance.BespokeHeight)
+			res.valueInt = inferedInstance.BespokeHeight
+			res.GongFieldValueType = GongFieldValueTypeInt
 		}
 	case *GongEnum:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Type":
 			enum := inferedInstance.Type
-			res = enum.ToCodeString()
+			res.valueString = enum.ToCodeString()
 		case "GongEnumValues":
 			for idx, __instance__ := range inferedInstance.GongEnumValues {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		}
 	case *GongEnumValue:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Value":
-			res = inferedInstance.Value
+			res.valueString = inferedInstance.Value
 		}
 	case *GongLink:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Recv":
-			res = inferedInstance.Recv
+			res.valueString = inferedInstance.Recv
 		case "ImportPath":
-			res = inferedInstance.ImportPath
+			res.valueString = inferedInstance.ImportPath
 		}
 	case *GongNote:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Body":
-			res = inferedInstance.Body
+			res.valueString = inferedInstance.Body
 		case "BodyHTML":
-			res = inferedInstance.BodyHTML
+			res.valueString = inferedInstance.BodyHTML
 		case "Links":
 			for idx, __instance__ := range inferedInstance.Links {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		}
 	case *GongStruct:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "GongBasicFields":
 			for idx, __instance__ := range inferedInstance.GongBasicFields {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "GongTimeFields":
 			for idx, __instance__ := range inferedInstance.GongTimeFields {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "PointerToGongStructFields":
 			for idx, __instance__ := range inferedInstance.PointerToGongStructFields {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "SliceOfPointerToGongStructFields":
 			for idx, __instance__ := range inferedInstance.SliceOfPointerToGongStructFields {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "HasOnAfterUpdateSignature":
-			res = fmt.Sprintf("%t", inferedInstance.HasOnAfterUpdateSignature)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasOnAfterUpdateSignature)
+			res.valueBool = inferedInstance.HasOnAfterUpdateSignature
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsIgnoredForFront":
-			res = fmt.Sprintf("%t", inferedInstance.IsIgnoredForFront)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsIgnoredForFront)
+			res.valueBool = inferedInstance.IsIgnoredForFront
+			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case *GongTimeField:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Index":
-			res = fmt.Sprintf("%d", inferedInstance.Index)
+			res.valueString = fmt.Sprintf("%d", inferedInstance.Index)
+			res.valueInt = inferedInstance.Index
+			res.GongFieldValueType = GongFieldValueTypeInt
 		case "CompositeStructName":
-			res = inferedInstance.CompositeStructName
+			res.valueString = inferedInstance.CompositeStructName
+		case "BespokeTimeFormat":
+			res.valueString = inferedInstance.BespokeTimeFormat
 		}
 	case *Meta:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Text":
-			res = inferedInstance.Text
+			res.valueString = inferedInstance.Text
 		case "MetaReferences":
 			for idx, __instance__ := range inferedInstance.MetaReferences {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		}
 	case *MetaReference:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		}
 	case *ModelPkg:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "PkgPath":
-			res = inferedInstance.PkgPath
+			res.valueString = inferedInstance.PkgPath
 		case "PathToGoSubDirectory":
-			res = inferedInstance.PathToGoSubDirectory
+			res.valueString = inferedInstance.PathToGoSubDirectory
 		case "OrmPkgGenPath":
-			res = inferedInstance.OrmPkgGenPath
+			res.valueString = inferedInstance.OrmPkgGenPath
 		case "DbOrmPkgGenPath":
-			res = inferedInstance.DbOrmPkgGenPath
+			res.valueString = inferedInstance.DbOrmPkgGenPath
 		case "DbLiteOrmPkgGenPath":
-			res = inferedInstance.DbLiteOrmPkgGenPath
+			res.valueString = inferedInstance.DbLiteOrmPkgGenPath
 		case "DbPkgGenPath":
-			res = inferedInstance.DbPkgGenPath
+			res.valueString = inferedInstance.DbPkgGenPath
 		case "ControllersPkgGenPath":
-			res = inferedInstance.ControllersPkgGenPath
+			res.valueString = inferedInstance.ControllersPkgGenPath
 		case "FullstackPkgGenPath":
-			res = inferedInstance.FullstackPkgGenPath
+			res.valueString = inferedInstance.FullstackPkgGenPath
 		case "StackPkgGenPath":
-			res = inferedInstance.StackPkgGenPath
+			res.valueString = inferedInstance.StackPkgGenPath
 		case "StaticPkgGenPath":
-			res = inferedInstance.StaticPkgGenPath
+			res.valueString = inferedInstance.StaticPkgGenPath
 		case "ProbePkgGenPath":
-			res = inferedInstance.ProbePkgGenPath
+			res.valueString = inferedInstance.ProbePkgGenPath
 		case "NgWorkspacePath":
-			res = inferedInstance.NgWorkspacePath
+			res.valueString = inferedInstance.NgWorkspacePath
 		case "NgWorkspaceName":
-			res = inferedInstance.NgWorkspaceName
+			res.valueString = inferedInstance.NgWorkspaceName
 		case "NgDataLibrarySourceCodeDirectory":
-			res = inferedInstance.NgDataLibrarySourceCodeDirectory
+			res.valueString = inferedInstance.NgDataLibrarySourceCodeDirectory
 		case "NgSpecificLibrarySourceCodeDirectory":
-			res = inferedInstance.NgSpecificLibrarySourceCodeDirectory
+			res.valueString = inferedInstance.NgSpecificLibrarySourceCodeDirectory
 		case "MaterialLibDatamodelTargetPath":
-			res = inferedInstance.MaterialLibDatamodelTargetPath
+			res.valueString = inferedInstance.MaterialLibDatamodelTargetPath
 		}
 	case *PointerToGongStructField:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "GongStruct":
 			if inferedInstance.GongStruct != nil {
-				res = inferedInstance.GongStruct.Name
+				res.valueString = inferedInstance.GongStruct.Name
 			}
 		case "Index":
-			res = fmt.Sprintf("%d", inferedInstance.Index)
+			res.valueString = fmt.Sprintf("%d", inferedInstance.Index)
+			res.valueInt = inferedInstance.Index
+			res.GongFieldValueType = GongFieldValueTypeInt
 		case "CompositeStructName":
-			res = inferedInstance.CompositeStructName
+			res.valueString = inferedInstance.CompositeStructName
 		case "IsType":
-			res = fmt.Sprintf("%t", inferedInstance.IsType)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsType)
+			res.valueBool = inferedInstance.IsType
+			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case *SliceOfPointerToGongStructField:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "GongStruct":
 			if inferedInstance.GongStruct != nil {
-				res = inferedInstance.GongStruct.Name
+				res.valueString = inferedInstance.GongStruct.Name
 			}
 		case "Index":
-			res = fmt.Sprintf("%d", inferedInstance.Index)
+			res.valueString = fmt.Sprintf("%d", inferedInstance.Index)
+			res.valueInt = inferedInstance.Index
+			res.GongFieldValueType = GongFieldValueTypeInt
 		case "CompositeStructName":
-			res = inferedInstance.CompositeStructName
+			res.valueString = inferedInstance.CompositeStructName
 		}
 	default:
 		_ = inferedInstance
@@ -2182,7 +2243,7 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 	return
 }
 
-func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res string) {
+func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
@@ -2190,219 +2251,247 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "BasicKindName":
-			res = inferedInstance.BasicKindName
+			res.valueString = inferedInstance.BasicKindName
 		case "GongEnum":
 			if inferedInstance.GongEnum != nil {
-				res = inferedInstance.GongEnum.Name
+				res.valueString = inferedInstance.GongEnum.Name
 			}
 		case "DeclaredType":
-			res = inferedInstance.DeclaredType
+			res.valueString = inferedInstance.DeclaredType
 		case "CompositeStructName":
-			res = inferedInstance.CompositeStructName
+			res.valueString = inferedInstance.CompositeStructName
 		case "Index":
-			res = fmt.Sprintf("%d", inferedInstance.Index)
+			res.valueString = fmt.Sprintf("%d", inferedInstance.Index)
+			res.valueInt = inferedInstance.Index
+			res.GongFieldValueType = GongFieldValueTypeInt
 		case "IsDocLink":
-			res = fmt.Sprintf("%t", inferedInstance.IsDocLink)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsDocLink)
+			res.valueBool = inferedInstance.IsDocLink
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsTextArea":
-			res = fmt.Sprintf("%t", inferedInstance.IsTextArea)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsTextArea)
+			res.valueBool = inferedInstance.IsTextArea
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsBespokeWidth":
-			res = fmt.Sprintf("%t", inferedInstance.IsBespokeWidth)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsBespokeWidth)
+			res.valueBool = inferedInstance.IsBespokeWidth
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "BespokeWidth":
-			res = fmt.Sprintf("%d", inferedInstance.BespokeWidth)
+			res.valueString = fmt.Sprintf("%d", inferedInstance.BespokeWidth)
+			res.valueInt = inferedInstance.BespokeWidth
+			res.GongFieldValueType = GongFieldValueTypeInt
 		case "IsBespokeHeight":
-			res = fmt.Sprintf("%t", inferedInstance.IsBespokeHeight)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsBespokeHeight)
+			res.valueBool = inferedInstance.IsBespokeHeight
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "BespokeHeight":
-			res = fmt.Sprintf("%d", inferedInstance.BespokeHeight)
+			res.valueString = fmt.Sprintf("%d", inferedInstance.BespokeHeight)
+			res.valueInt = inferedInstance.BespokeHeight
+			res.GongFieldValueType = GongFieldValueTypeInt
 		}
 	case GongEnum:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Type":
 			enum := inferedInstance.Type
-			res = enum.ToCodeString()
+			res.valueString = enum.ToCodeString()
 		case "GongEnumValues":
 			for idx, __instance__ := range inferedInstance.GongEnumValues {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		}
 	case GongEnumValue:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Value":
-			res = inferedInstance.Value
+			res.valueString = inferedInstance.Value
 		}
 	case GongLink:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Recv":
-			res = inferedInstance.Recv
+			res.valueString = inferedInstance.Recv
 		case "ImportPath":
-			res = inferedInstance.ImportPath
+			res.valueString = inferedInstance.ImportPath
 		}
 	case GongNote:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Body":
-			res = inferedInstance.Body
+			res.valueString = inferedInstance.Body
 		case "BodyHTML":
-			res = inferedInstance.BodyHTML
+			res.valueString = inferedInstance.BodyHTML
 		case "Links":
 			for idx, __instance__ := range inferedInstance.Links {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		}
 	case GongStruct:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "GongBasicFields":
 			for idx, __instance__ := range inferedInstance.GongBasicFields {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "GongTimeFields":
 			for idx, __instance__ := range inferedInstance.GongTimeFields {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "PointerToGongStructFields":
 			for idx, __instance__ := range inferedInstance.PointerToGongStructFields {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "SliceOfPointerToGongStructFields":
 			for idx, __instance__ := range inferedInstance.SliceOfPointerToGongStructFields {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "HasOnAfterUpdateSignature":
-			res = fmt.Sprintf("%t", inferedInstance.HasOnAfterUpdateSignature)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasOnAfterUpdateSignature)
+			res.valueBool = inferedInstance.HasOnAfterUpdateSignature
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsIgnoredForFront":
-			res = fmt.Sprintf("%t", inferedInstance.IsIgnoredForFront)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsIgnoredForFront)
+			res.valueBool = inferedInstance.IsIgnoredForFront
+			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case GongTimeField:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Index":
-			res = fmt.Sprintf("%d", inferedInstance.Index)
+			res.valueString = fmt.Sprintf("%d", inferedInstance.Index)
+			res.valueInt = inferedInstance.Index
+			res.GongFieldValueType = GongFieldValueTypeInt
 		case "CompositeStructName":
-			res = inferedInstance.CompositeStructName
+			res.valueString = inferedInstance.CompositeStructName
+		case "BespokeTimeFormat":
+			res.valueString = inferedInstance.BespokeTimeFormat
 		}
 	case Meta:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Text":
-			res = inferedInstance.Text
+			res.valueString = inferedInstance.Text
 		case "MetaReferences":
 			for idx, __instance__ := range inferedInstance.MetaReferences {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		}
 	case MetaReference:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		}
 	case ModelPkg:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "PkgPath":
-			res = inferedInstance.PkgPath
+			res.valueString = inferedInstance.PkgPath
 		case "PathToGoSubDirectory":
-			res = inferedInstance.PathToGoSubDirectory
+			res.valueString = inferedInstance.PathToGoSubDirectory
 		case "OrmPkgGenPath":
-			res = inferedInstance.OrmPkgGenPath
+			res.valueString = inferedInstance.OrmPkgGenPath
 		case "DbOrmPkgGenPath":
-			res = inferedInstance.DbOrmPkgGenPath
+			res.valueString = inferedInstance.DbOrmPkgGenPath
 		case "DbLiteOrmPkgGenPath":
-			res = inferedInstance.DbLiteOrmPkgGenPath
+			res.valueString = inferedInstance.DbLiteOrmPkgGenPath
 		case "DbPkgGenPath":
-			res = inferedInstance.DbPkgGenPath
+			res.valueString = inferedInstance.DbPkgGenPath
 		case "ControllersPkgGenPath":
-			res = inferedInstance.ControllersPkgGenPath
+			res.valueString = inferedInstance.ControllersPkgGenPath
 		case "FullstackPkgGenPath":
-			res = inferedInstance.FullstackPkgGenPath
+			res.valueString = inferedInstance.FullstackPkgGenPath
 		case "StackPkgGenPath":
-			res = inferedInstance.StackPkgGenPath
+			res.valueString = inferedInstance.StackPkgGenPath
 		case "StaticPkgGenPath":
-			res = inferedInstance.StaticPkgGenPath
+			res.valueString = inferedInstance.StaticPkgGenPath
 		case "ProbePkgGenPath":
-			res = inferedInstance.ProbePkgGenPath
+			res.valueString = inferedInstance.ProbePkgGenPath
 		case "NgWorkspacePath":
-			res = inferedInstance.NgWorkspacePath
+			res.valueString = inferedInstance.NgWorkspacePath
 		case "NgWorkspaceName":
-			res = inferedInstance.NgWorkspaceName
+			res.valueString = inferedInstance.NgWorkspaceName
 		case "NgDataLibrarySourceCodeDirectory":
-			res = inferedInstance.NgDataLibrarySourceCodeDirectory
+			res.valueString = inferedInstance.NgDataLibrarySourceCodeDirectory
 		case "NgSpecificLibrarySourceCodeDirectory":
-			res = inferedInstance.NgSpecificLibrarySourceCodeDirectory
+			res.valueString = inferedInstance.NgSpecificLibrarySourceCodeDirectory
 		case "MaterialLibDatamodelTargetPath":
-			res = inferedInstance.MaterialLibDatamodelTargetPath
+			res.valueString = inferedInstance.MaterialLibDatamodelTargetPath
 		}
 	case PointerToGongStructField:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "GongStruct":
 			if inferedInstance.GongStruct != nil {
-				res = inferedInstance.GongStruct.Name
+				res.valueString = inferedInstance.GongStruct.Name
 			}
 		case "Index":
-			res = fmt.Sprintf("%d", inferedInstance.Index)
+			res.valueString = fmt.Sprintf("%d", inferedInstance.Index)
+			res.valueInt = inferedInstance.Index
+			res.GongFieldValueType = GongFieldValueTypeInt
 		case "CompositeStructName":
-			res = inferedInstance.CompositeStructName
+			res.valueString = inferedInstance.CompositeStructName
 		case "IsType":
-			res = fmt.Sprintf("%t", inferedInstance.IsType)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsType)
+			res.valueBool = inferedInstance.IsType
+			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case SliceOfPointerToGongStructField:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "GongStruct":
 			if inferedInstance.GongStruct != nil {
-				res = inferedInstance.GongStruct.Name
+				res.valueString = inferedInstance.GongStruct.Name
 			}
 		case "Index":
-			res = fmt.Sprintf("%d", inferedInstance.Index)
+			res.valueString = fmt.Sprintf("%d", inferedInstance.Index)
+			res.valueInt = inferedInstance.Index
+			res.GongFieldValueType = GongFieldValueTypeInt
 		case "CompositeStructName":
-			res = inferedInstance.CompositeStructName
+			res.valueString = inferedInstance.CompositeStructName
 		}
 	default:
 		_ = inferedInstance
