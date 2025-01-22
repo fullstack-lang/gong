@@ -10,8 +10,8 @@ import (
 
 var __dummy_orm_fillup_form = orm.BackRepoStruct{}
 
-func FillUpForm[T models.Gongstruct](
-	instance *T,
+func FillUpForm(
+	instance any,
 	formGroup *form.FormGroup,
 	probe *Probe,
 ) {
@@ -163,6 +163,8 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("Index", instanceWithInferedType.Index, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("CompositeStructName", instanceWithInferedType.CompositeStructName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("BespokeTimeFormat", instanceWithInferedType.BespokeTimeFormat, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		{
 			var rf models.ReverseField

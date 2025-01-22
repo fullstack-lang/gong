@@ -693,6 +693,8 @@ func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongtimefield_.Index), formDiv)
 		case "CompositeStructName":
 			FormDivBasicFieldToField(&(gongtimefield_.CompositeStructName), formDiv)
+		case "BespokeTimeFormat":
+			FormDivBasicFieldToField(&(gongtimefield_.BespokeTimeFormat), formDiv)
 		case "GongStruct:GongTimeFields":
 			// we need to retrieve the field owner before the change
 			var pastGongStructOwner *models.GongStruct

@@ -108,6 +108,7 @@ type GongTimeField_WOP struct {
 	Name string
 	Index int
 	CompositeStructName string
+	BespokeTimeFormat string
 }
 
 func (from *GongTimeField) CopyBasicFields(to *GongTimeField) {
@@ -115,6 +116,7 @@ func (from *GongTimeField) CopyBasicFields(to *GongTimeField) {
 	to.Name = from.Name
 	to.Index = from.Index
 	to.CompositeStructName = from.CompositeStructName
+	to.BespokeTimeFormat = from.BespokeTimeFormat
 }
 
 type Meta_WOP struct {
