@@ -50,5 +50,5 @@ export function auto_Y_offset(
         offset += oneEm * 0.4
     }
 
-    return offset * offsetSign
+    return offset * offsetSign + text.Y_Offset
 }

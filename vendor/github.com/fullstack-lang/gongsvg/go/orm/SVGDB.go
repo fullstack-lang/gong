@@ -407,13 +407,15 @@ func (svgDB *SVGDB) DecodePointers(backRepo *BackRepoStruct, svg *models.SVG) {
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: svg.StartRect, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if svg.StartRect == nil || svg.StartRect != tmp {
-				svg.StartRect = tmp
+				log.Println("DecodePointers: svg.StartRect, unknown pointer id", id)
+				svg.StartRect = nil
+			} else {
+				// updates only if field has changed
+				if svg.StartRect == nil || svg.StartRect != tmp {
+					svg.StartRect = tmp
+				}
 			}
 		} else {
 			svg.StartRect = nil
@@ -426,13 +428,15 @@ func (svgDB *SVGDB) DecodePointers(backRepo *BackRepoStruct, svg *models.SVG) {
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: svg.EndRect, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if svg.EndRect == nil || svg.EndRect != tmp {
-				svg.EndRect = tmp
+				log.Println("DecodePointers: svg.EndRect, unknown pointer id", id)
+				svg.EndRect = nil
+			} else {
+				// updates only if field has changed
+				if svg.EndRect == nil || svg.EndRect != tmp {
+					svg.EndRect = tmp
+				}
 			}
 		} else {
 			svg.EndRect = nil

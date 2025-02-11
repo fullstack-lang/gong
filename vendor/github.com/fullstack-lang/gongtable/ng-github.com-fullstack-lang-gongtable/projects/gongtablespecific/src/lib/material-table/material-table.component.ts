@@ -354,6 +354,8 @@ export class MaterialTableComponent implements OnInit, AfterViewInit {
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.selectedTable?.Rows!, event.previousIndex, event.currentIndex)
 
+    this.dataSource = new MatTableDataSource(this.selectedTable?.Rows!)
+
     this.tableService.updateFront(this.selectedTable!, this.DataStack).subscribe(
       () => {
         console.log("table", this.selectedTable?.Name, "rows shuffled")

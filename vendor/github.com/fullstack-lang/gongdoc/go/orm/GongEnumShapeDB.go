@@ -387,13 +387,15 @@ func (gongenumshapeDB *GongEnumShapeDB) DecodePointers(backRepo *BackRepoStruct,
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: gongenumshape.Position, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if gongenumshape.Position == nil || gongenumshape.Position != tmp {
-				gongenumshape.Position = tmp
+				log.Println("DecodePointers: gongenumshape.Position, unknown pointer id", id)
+				gongenumshape.Position = nil
+			} else {
+				// updates only if field has changed
+				if gongenumshape.Position == nil || gongenumshape.Position != tmp {
+					gongenumshape.Position = tmp
+				}
 			}
 		} else {
 			gongenumshape.Position = nil
