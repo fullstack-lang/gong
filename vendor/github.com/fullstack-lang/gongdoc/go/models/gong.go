@@ -2131,7 +2131,40 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	return
 }
 
-func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fieldName string) (res string) {
+type GongFieldValueType string
+
+const (
+	GongFieldValueTypeInt     GongFieldValueType = "GongFieldValueTypeInt"
+	GongFieldValueTypeFloat   GongFieldValueType = "GongFieldValueTypeFloat"
+	GongFieldValueTypeBool    GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypeOthers  GongFieldValueType = "GongFieldValueTypeOthers"
+)
+
+type GongFieldValue struct {
+	valueString string
+	GongFieldValueType
+	valueInt   int
+	valueFloat float64
+	valueBool  bool
+}
+
+func (gongValueField *GongFieldValue) GetValueString() string {
+	return gongValueField.valueString
+}
+
+func (gongValueField *GongFieldValue) GetValueInt() int {
+	return gongValueField.valueInt
+}
+	
+func (gongValueField *GongFieldValue) GetValueFloat() float64 {
+	return gongValueField.valueFloat
+}
+	
+func (gongValueField *GongFieldValue) GetValueBool() bool {
+	return gongValueField.valueBool
+}
+
+func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFieldValue) {
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
@@ -2139,276 +2172,338 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "GongStructShapes":
 			for idx, __instance__ := range inferedInstance.GongStructShapes {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "GongEnumShapes":
 			for idx, __instance__ := range inferedInstance.GongEnumShapes {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "NoteShapes":
 			for idx, __instance__ := range inferedInstance.NoteShapes {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "IsInDrawMode":
-			res = fmt.Sprintf("%t", inferedInstance.IsInDrawMode)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInDrawMode)
+			res.valueBool = inferedInstance.IsInDrawMode
+			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case *DiagramPackage:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Path":
-			res = inferedInstance.Path
+			res.valueString = inferedInstance.Path
 		case "GongModelPath":
-			res = inferedInstance.GongModelPath
+			res.valueString = inferedInstance.GongModelPath
 		case "Classdiagrams":
 			for idx, __instance__ := range inferedInstance.Classdiagrams {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "SelectedClassdiagram":
 			if inferedInstance.SelectedClassdiagram != nil {
-				res = inferedInstance.SelectedClassdiagram.Name
+				res.valueString = inferedInstance.SelectedClassdiagram.Name
 			}
 		case "Umlscs":
 			for idx, __instance__ := range inferedInstance.Umlscs {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "IsEditable":
-			res = fmt.Sprintf("%t", inferedInstance.IsEditable)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsEditable)
+			res.valueBool = inferedInstance.IsEditable
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsReloaded":
-			res = fmt.Sprintf("%t", inferedInstance.IsReloaded)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsReloaded)
+			res.valueBool = inferedInstance.IsReloaded
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "AbsolutePathToDiagramPackage":
-			res = inferedInstance.AbsolutePathToDiagramPackage
+			res.valueString = inferedInstance.AbsolutePathToDiagramPackage
 		}
 	case *Field:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Identifier":
-			res = inferedInstance.Identifier
+			res.valueString = inferedInstance.Identifier
 		case "FieldTypeAsString":
-			res = inferedInstance.FieldTypeAsString
+			res.valueString = inferedInstance.FieldTypeAsString
 		case "Structname":
-			res = inferedInstance.Structname
+			res.valueString = inferedInstance.Structname
 		case "Fieldtypename":
-			res = inferedInstance.Fieldtypename
+			res.valueString = inferedInstance.Fieldtypename
 		}
 	case *GongEnumShape:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Position":
 			if inferedInstance.Position != nil {
-				res = inferedInstance.Position.Name
+				res.valueString = inferedInstance.Position.Name
 			}
 		case "Identifier":
-			res = inferedInstance.Identifier
+			res.valueString = inferedInstance.Identifier
 		case "GongEnumValueEntrys":
 			for idx, __instance__ := range inferedInstance.GongEnumValueEntrys {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "Width":
-			res = fmt.Sprintf("%f", inferedInstance.Width)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Width)
+			res.valueFloat = inferedInstance.Width
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Height":
-			res = fmt.Sprintf("%f", inferedInstance.Height)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Height)
+			res.valueFloat = inferedInstance.Height
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		}
 	case *GongEnumValueEntry:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Identifier":
-			res = inferedInstance.Identifier
+			res.valueString = inferedInstance.Identifier
 		}
 	case *GongStructShape:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Position":
 			if inferedInstance.Position != nil {
-				res = inferedInstance.Position.Name
+				res.valueString = inferedInstance.Position.Name
 			}
 		case "Identifier":
-			res = inferedInstance.Identifier
+			res.valueString = inferedInstance.Identifier
 		case "ShowNbInstances":
-			res = fmt.Sprintf("%t", inferedInstance.ShowNbInstances)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.ShowNbInstances)
+			res.valueBool = inferedInstance.ShowNbInstances
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "NbInstances":
-			res = fmt.Sprintf("%d", inferedInstance.NbInstances)
+			res.valueString = fmt.Sprintf("%d", inferedInstance.NbInstances)
+			res.valueInt = inferedInstance.NbInstances
+			res.GongFieldValueType = GongFieldValueTypeInt
 		case "Fields":
 			for idx, __instance__ := range inferedInstance.Fields {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "Links":
 			for idx, __instance__ := range inferedInstance.Links {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "Width":
-			res = fmt.Sprintf("%f", inferedInstance.Width)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Width)
+			res.valueFloat = inferedInstance.Width
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Height":
-			res = fmt.Sprintf("%f", inferedInstance.Height)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Height)
+			res.valueFloat = inferedInstance.Height
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "IsSelected":
-			res = fmt.Sprintf("%t", inferedInstance.IsSelected)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsSelected)
+			res.valueBool = inferedInstance.IsSelected
+			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case *Link:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Identifier":
-			res = inferedInstance.Identifier
+			res.valueString = inferedInstance.Identifier
 		case "Fieldtypename":
-			res = inferedInstance.Fieldtypename
+			res.valueString = inferedInstance.Fieldtypename
 		case "FieldOffsetX":
-			res = fmt.Sprintf("%f", inferedInstance.FieldOffsetX)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.FieldOffsetX)
+			res.valueFloat = inferedInstance.FieldOffsetX
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "FieldOffsetY":
-			res = fmt.Sprintf("%f", inferedInstance.FieldOffsetY)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.FieldOffsetY)
+			res.valueFloat = inferedInstance.FieldOffsetY
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "TargetMultiplicity":
 			enum := inferedInstance.TargetMultiplicity
-			res = enum.ToCodeString()
+			res.valueString = enum.ToCodeString()
 		case "TargetMultiplicityOffsetX":
-			res = fmt.Sprintf("%f", inferedInstance.TargetMultiplicityOffsetX)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.TargetMultiplicityOffsetX)
+			res.valueFloat = inferedInstance.TargetMultiplicityOffsetX
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "TargetMultiplicityOffsetY":
-			res = fmt.Sprintf("%f", inferedInstance.TargetMultiplicityOffsetY)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.TargetMultiplicityOffsetY)
+			res.valueFloat = inferedInstance.TargetMultiplicityOffsetY
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "SourceMultiplicity":
 			enum := inferedInstance.SourceMultiplicity
-			res = enum.ToCodeString()
+			res.valueString = enum.ToCodeString()
 		case "SourceMultiplicityOffsetX":
-			res = fmt.Sprintf("%f", inferedInstance.SourceMultiplicityOffsetX)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.SourceMultiplicityOffsetX)
+			res.valueFloat = inferedInstance.SourceMultiplicityOffsetX
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "SourceMultiplicityOffsetY":
-			res = fmt.Sprintf("%f", inferedInstance.SourceMultiplicityOffsetY)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.SourceMultiplicityOffsetY)
+			res.valueFloat = inferedInstance.SourceMultiplicityOffsetY
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Middlevertice":
 			if inferedInstance.Middlevertice != nil {
-				res = inferedInstance.Middlevertice.Name
+				res.valueString = inferedInstance.Middlevertice.Name
 			}
 		case "StartOrientation":
 			enum := inferedInstance.StartOrientation
-			res = enum.ToCodeString()
+			res.valueString = enum.ToCodeString()
 		case "StartRatio":
-			res = fmt.Sprintf("%f", inferedInstance.StartRatio)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.StartRatio)
+			res.valueFloat = inferedInstance.StartRatio
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "EndOrientation":
 			enum := inferedInstance.EndOrientation
-			res = enum.ToCodeString()
+			res.valueString = enum.ToCodeString()
 		case "EndRatio":
-			res = fmt.Sprintf("%f", inferedInstance.EndRatio)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.EndRatio)
+			res.valueFloat = inferedInstance.EndRatio
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "CornerOffsetRatio":
-			res = fmt.Sprintf("%f", inferedInstance.CornerOffsetRatio)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.CornerOffsetRatio)
+			res.valueFloat = inferedInstance.CornerOffsetRatio
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		}
 	case *NoteShape:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Identifier":
-			res = inferedInstance.Identifier
+			res.valueString = inferedInstance.Identifier
 		case "Body":
-			res = inferedInstance.Body
+			res.valueString = inferedInstance.Body
 		case "BodyHTML":
-			res = inferedInstance.BodyHTML
+			res.valueString = inferedInstance.BodyHTML
 		case "X":
-			res = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueFloat = inferedInstance.X
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Y":
-			res = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueFloat = inferedInstance.Y
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Width":
-			res = fmt.Sprintf("%f", inferedInstance.Width)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Width)
+			res.valueFloat = inferedInstance.Width
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Height":
-			res = fmt.Sprintf("%f", inferedInstance.Height)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Height)
+			res.valueFloat = inferedInstance.Height
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Matched":
-			res = fmt.Sprintf("%t", inferedInstance.Matched)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.Matched)
+			res.valueBool = inferedInstance.Matched
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "NoteShapeLinks":
 			for idx, __instance__ := range inferedInstance.NoteShapeLinks {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		}
 	case *NoteShapeLink:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Identifier":
-			res = inferedInstance.Identifier
+			res.valueString = inferedInstance.Identifier
 		case "Type":
 			enum := inferedInstance.Type
-			res = enum.ToCodeString()
+			res.valueString = enum.ToCodeString()
 		}
 	case *Position:
 		switch fieldName {
 		// string value of fields
 		case "X":
-			res = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueFloat = inferedInstance.X
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Y":
-			res = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueFloat = inferedInstance.Y
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		}
 	case *UmlState:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "X":
-			res = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueFloat = inferedInstance.X
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Y":
-			res = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueFloat = inferedInstance.Y
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		}
 	case *Umlsc:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "States":
 			for idx, __instance__ := range inferedInstance.States {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "Activestate":
-			res = inferedInstance.Activestate
+			res.valueString = inferedInstance.Activestate
 		case "IsInDrawMode":
-			res = fmt.Sprintf("%t", inferedInstance.IsInDrawMode)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInDrawMode)
+			res.valueBool = inferedInstance.IsInDrawMode
+			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case *Vertice:
 		switch fieldName {
 		// string value of fields
 		case "X":
-			res = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueFloat = inferedInstance.X
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Y":
-			res = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueFloat = inferedInstance.Y
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		}
 	default:
 		_ = inferedInstance
@@ -2416,7 +2511,7 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 	return
 }
 
-func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res string) {
+func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
@@ -2424,276 +2519,338 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "GongStructShapes":
 			for idx, __instance__ := range inferedInstance.GongStructShapes {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "GongEnumShapes":
 			for idx, __instance__ := range inferedInstance.GongEnumShapes {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "NoteShapes":
 			for idx, __instance__ := range inferedInstance.NoteShapes {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "IsInDrawMode":
-			res = fmt.Sprintf("%t", inferedInstance.IsInDrawMode)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInDrawMode)
+			res.valueBool = inferedInstance.IsInDrawMode
+			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case DiagramPackage:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Path":
-			res = inferedInstance.Path
+			res.valueString = inferedInstance.Path
 		case "GongModelPath":
-			res = inferedInstance.GongModelPath
+			res.valueString = inferedInstance.GongModelPath
 		case "Classdiagrams":
 			for idx, __instance__ := range inferedInstance.Classdiagrams {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "SelectedClassdiagram":
 			if inferedInstance.SelectedClassdiagram != nil {
-				res = inferedInstance.SelectedClassdiagram.Name
+				res.valueString = inferedInstance.SelectedClassdiagram.Name
 			}
 		case "Umlscs":
 			for idx, __instance__ := range inferedInstance.Umlscs {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "IsEditable":
-			res = fmt.Sprintf("%t", inferedInstance.IsEditable)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsEditable)
+			res.valueBool = inferedInstance.IsEditable
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsReloaded":
-			res = fmt.Sprintf("%t", inferedInstance.IsReloaded)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsReloaded)
+			res.valueBool = inferedInstance.IsReloaded
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "AbsolutePathToDiagramPackage":
-			res = inferedInstance.AbsolutePathToDiagramPackage
+			res.valueString = inferedInstance.AbsolutePathToDiagramPackage
 		}
 	case Field:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Identifier":
-			res = inferedInstance.Identifier
+			res.valueString = inferedInstance.Identifier
 		case "FieldTypeAsString":
-			res = inferedInstance.FieldTypeAsString
+			res.valueString = inferedInstance.FieldTypeAsString
 		case "Structname":
-			res = inferedInstance.Structname
+			res.valueString = inferedInstance.Structname
 		case "Fieldtypename":
-			res = inferedInstance.Fieldtypename
+			res.valueString = inferedInstance.Fieldtypename
 		}
 	case GongEnumShape:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Position":
 			if inferedInstance.Position != nil {
-				res = inferedInstance.Position.Name
+				res.valueString = inferedInstance.Position.Name
 			}
 		case "Identifier":
-			res = inferedInstance.Identifier
+			res.valueString = inferedInstance.Identifier
 		case "GongEnumValueEntrys":
 			for idx, __instance__ := range inferedInstance.GongEnumValueEntrys {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "Width":
-			res = fmt.Sprintf("%f", inferedInstance.Width)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Width)
+			res.valueFloat = inferedInstance.Width
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Height":
-			res = fmt.Sprintf("%f", inferedInstance.Height)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Height)
+			res.valueFloat = inferedInstance.Height
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		}
 	case GongEnumValueEntry:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Identifier":
-			res = inferedInstance.Identifier
+			res.valueString = inferedInstance.Identifier
 		}
 	case GongStructShape:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Position":
 			if inferedInstance.Position != nil {
-				res = inferedInstance.Position.Name
+				res.valueString = inferedInstance.Position.Name
 			}
 		case "Identifier":
-			res = inferedInstance.Identifier
+			res.valueString = inferedInstance.Identifier
 		case "ShowNbInstances":
-			res = fmt.Sprintf("%t", inferedInstance.ShowNbInstances)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.ShowNbInstances)
+			res.valueBool = inferedInstance.ShowNbInstances
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "NbInstances":
-			res = fmt.Sprintf("%d", inferedInstance.NbInstances)
+			res.valueString = fmt.Sprintf("%d", inferedInstance.NbInstances)
+			res.valueInt = inferedInstance.NbInstances
+			res.GongFieldValueType = GongFieldValueTypeInt
 		case "Fields":
 			for idx, __instance__ := range inferedInstance.Fields {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "Links":
 			for idx, __instance__ := range inferedInstance.Links {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "Width":
-			res = fmt.Sprintf("%f", inferedInstance.Width)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Width)
+			res.valueFloat = inferedInstance.Width
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Height":
-			res = fmt.Sprintf("%f", inferedInstance.Height)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Height)
+			res.valueFloat = inferedInstance.Height
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "IsSelected":
-			res = fmt.Sprintf("%t", inferedInstance.IsSelected)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsSelected)
+			res.valueBool = inferedInstance.IsSelected
+			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case Link:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Identifier":
-			res = inferedInstance.Identifier
+			res.valueString = inferedInstance.Identifier
 		case "Fieldtypename":
-			res = inferedInstance.Fieldtypename
+			res.valueString = inferedInstance.Fieldtypename
 		case "FieldOffsetX":
-			res = fmt.Sprintf("%f", inferedInstance.FieldOffsetX)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.FieldOffsetX)
+			res.valueFloat = inferedInstance.FieldOffsetX
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "FieldOffsetY":
-			res = fmt.Sprintf("%f", inferedInstance.FieldOffsetY)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.FieldOffsetY)
+			res.valueFloat = inferedInstance.FieldOffsetY
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "TargetMultiplicity":
 			enum := inferedInstance.TargetMultiplicity
-			res = enum.ToCodeString()
+			res.valueString = enum.ToCodeString()
 		case "TargetMultiplicityOffsetX":
-			res = fmt.Sprintf("%f", inferedInstance.TargetMultiplicityOffsetX)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.TargetMultiplicityOffsetX)
+			res.valueFloat = inferedInstance.TargetMultiplicityOffsetX
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "TargetMultiplicityOffsetY":
-			res = fmt.Sprintf("%f", inferedInstance.TargetMultiplicityOffsetY)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.TargetMultiplicityOffsetY)
+			res.valueFloat = inferedInstance.TargetMultiplicityOffsetY
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "SourceMultiplicity":
 			enum := inferedInstance.SourceMultiplicity
-			res = enum.ToCodeString()
+			res.valueString = enum.ToCodeString()
 		case "SourceMultiplicityOffsetX":
-			res = fmt.Sprintf("%f", inferedInstance.SourceMultiplicityOffsetX)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.SourceMultiplicityOffsetX)
+			res.valueFloat = inferedInstance.SourceMultiplicityOffsetX
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "SourceMultiplicityOffsetY":
-			res = fmt.Sprintf("%f", inferedInstance.SourceMultiplicityOffsetY)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.SourceMultiplicityOffsetY)
+			res.valueFloat = inferedInstance.SourceMultiplicityOffsetY
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Middlevertice":
 			if inferedInstance.Middlevertice != nil {
-				res = inferedInstance.Middlevertice.Name
+				res.valueString = inferedInstance.Middlevertice.Name
 			}
 		case "StartOrientation":
 			enum := inferedInstance.StartOrientation
-			res = enum.ToCodeString()
+			res.valueString = enum.ToCodeString()
 		case "StartRatio":
-			res = fmt.Sprintf("%f", inferedInstance.StartRatio)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.StartRatio)
+			res.valueFloat = inferedInstance.StartRatio
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "EndOrientation":
 			enum := inferedInstance.EndOrientation
-			res = enum.ToCodeString()
+			res.valueString = enum.ToCodeString()
 		case "EndRatio":
-			res = fmt.Sprintf("%f", inferedInstance.EndRatio)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.EndRatio)
+			res.valueFloat = inferedInstance.EndRatio
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "CornerOffsetRatio":
-			res = fmt.Sprintf("%f", inferedInstance.CornerOffsetRatio)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.CornerOffsetRatio)
+			res.valueFloat = inferedInstance.CornerOffsetRatio
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		}
 	case NoteShape:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Identifier":
-			res = inferedInstance.Identifier
+			res.valueString = inferedInstance.Identifier
 		case "Body":
-			res = inferedInstance.Body
+			res.valueString = inferedInstance.Body
 		case "BodyHTML":
-			res = inferedInstance.BodyHTML
+			res.valueString = inferedInstance.BodyHTML
 		case "X":
-			res = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueFloat = inferedInstance.X
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Y":
-			res = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueFloat = inferedInstance.Y
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Width":
-			res = fmt.Sprintf("%f", inferedInstance.Width)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Width)
+			res.valueFloat = inferedInstance.Width
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Height":
-			res = fmt.Sprintf("%f", inferedInstance.Height)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Height)
+			res.valueFloat = inferedInstance.Height
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Matched":
-			res = fmt.Sprintf("%t", inferedInstance.Matched)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.Matched)
+			res.valueBool = inferedInstance.Matched
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "NoteShapeLinks":
 			for idx, __instance__ := range inferedInstance.NoteShapeLinks {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		}
 	case NoteShapeLink:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Identifier":
-			res = inferedInstance.Identifier
+			res.valueString = inferedInstance.Identifier
 		case "Type":
 			enum := inferedInstance.Type
-			res = enum.ToCodeString()
+			res.valueString = enum.ToCodeString()
 		}
 	case Position:
 		switch fieldName {
 		// string value of fields
 		case "X":
-			res = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueFloat = inferedInstance.X
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Y":
-			res = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueFloat = inferedInstance.Y
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		}
 	case UmlState:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "X":
-			res = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueFloat = inferedInstance.X
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Y":
-			res = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueFloat = inferedInstance.Y
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		}
 	case Umlsc:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "States":
 			for idx, __instance__ := range inferedInstance.States {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "Activestate":
-			res = inferedInstance.Activestate
+			res.valueString = inferedInstance.Activestate
 		case "IsInDrawMode":
-			res = fmt.Sprintf("%t", inferedInstance.IsInDrawMode)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInDrawMode)
+			res.valueBool = inferedInstance.IsInDrawMode
+			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case Vertice:
 		switch fieldName {
 		// string value of fields
 		case "X":
-			res = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueFloat = inferedInstance.X
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Y":
-			res = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueFloat = inferedInstance.Y
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		}
 	default:
 		_ = inferedInstance

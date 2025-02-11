@@ -424,13 +424,15 @@ func (formdivDB *FormDivDB) DecodePointers(backRepo *BackRepoStruct, formdiv *mo
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoFormEditAssocButton.Map_FormEditAssocButtonDBID_FormEditAssocButtonPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: formdiv.FormEditAssocButton, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if formdiv.FormEditAssocButton == nil || formdiv.FormEditAssocButton != tmp {
-				formdiv.FormEditAssocButton = tmp
+				log.Println("DecodePointers: formdiv.FormEditAssocButton, unknown pointer id", id)
+				formdiv.FormEditAssocButton = nil
+			} else {
+				// updates only if field has changed
+				if formdiv.FormEditAssocButton == nil || formdiv.FormEditAssocButton != tmp {
+					formdiv.FormEditAssocButton = tmp
+				}
 			}
 		} else {
 			formdiv.FormEditAssocButton = nil
@@ -443,13 +445,15 @@ func (formdivDB *FormDivDB) DecodePointers(backRepo *BackRepoStruct, formdiv *mo
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoFormSortAssocButton.Map_FormSortAssocButtonDBID_FormSortAssocButtonPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: formdiv.FormSortAssocButton, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if formdiv.FormSortAssocButton == nil || formdiv.FormSortAssocButton != tmp {
-				formdiv.FormSortAssocButton = tmp
+				log.Println("DecodePointers: formdiv.FormSortAssocButton, unknown pointer id", id)
+				formdiv.FormSortAssocButton = nil
+			} else {
+				// updates only if field has changed
+				if formdiv.FormSortAssocButton == nil || formdiv.FormSortAssocButton != tmp {
+					formdiv.FormSortAssocButton = tmp
+				}
 			}
 		} else {
 			formdiv.FormSortAssocButton = nil

@@ -176,6 +176,7 @@ export class MaterialFormComponent implements OnInit {
                 generatedFormGroupConfig[formField.Name] = [timeStr, Validators.required]
               }
               if (formField.FormFieldSelect) {
+                formField.FormFieldSelect.Options.sort((a, b) => a.Name.localeCompare(b.Name))
                 if (formField.FormFieldSelect.CanBeEmpty) {
                   generatedFormGroupConfig[formField.Name] = [formField.FormFieldSelect.Value?.Name, []]
                 } else {

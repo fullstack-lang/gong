@@ -488,7 +488,6 @@ const (
 	BUTTON_control_point_duplicate                       ButtonType = "control_point_duplicate"
 	BUTTON_conveyor_belt                                 ButtonType = "conveyor_belt"
 	BUTTON_cookie                                        ButtonType = "cookie"
-	BUTTON_copy                                          ButtonType = "copy"
 	BUTTON_copy_all                                      ButtonType = "copy_all"
 	BUTTON_copyright                                     ButtonType = "copyright"
 	BUTTON_coronavirus                                   ButtonType = "coronavirus"

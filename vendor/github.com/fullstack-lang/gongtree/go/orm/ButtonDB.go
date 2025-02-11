@@ -354,13 +354,15 @@ func (buttonDB *ButtonDB) DecodePointers(backRepo *BackRepoStruct, button *model
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoSVGIcon.Map_SVGIconDBID_SVGIconPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: button.SVGIcon, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if button.SVGIcon == nil || button.SVGIcon != tmp {
-				button.SVGIcon = tmp
+				log.Println("DecodePointers: button.SVGIcon, unknown pointer id", id)
+				button.SVGIcon = nil
+			} else {
+				// updates only if field has changed
+				if button.SVGIcon == nil || button.SVGIcon != tmp {
+					button.SVGIcon = tmp
+				}
 			}
 		} else {
 			button.SVGIcon = nil
