@@ -20,8 +20,8 @@ github.com/fullstack-lang/gongsvg v0.0.0-20250211023429-c127bf76f676 h1:YrwjP7rT
 github.com/fullstack-lang/gongsvg v0.0.0-20250211023429-c127bf76f676/go.mod h1:QCClmEkjTm4Yyu/v3Xei2HmVkXl8CTH3t029leMJRsw=
 github.com/fullstack-lang/gongtable v0.0.0-20250210172415-c00082e756fe h1:JnCkj7P6LtCUIald6hZt/BrQKqTeJyBG1I2wda8BjIs=
 github.com/fullstack-lang/gongtable v0.0.0-20250210172415-c00082e756fe/go.mod h1:BlblJqx/9ttatp8huzgZvUjXSGduFMsqY/7SeEk4/lU=
-github.com/fullstack-lang/gongtree v0.0.0-20250131164534-16327a85fa35 h1:FB8Sh966TlNNn7pVTR5IAdCi5oFTw/kfN/tLSqoS2oE=
-github.com/fullstack-lang/gongtree v0.0.0-20250131164534-16327a85fa35/go.mod h1:AwJau9+cqiWS8HQLS8vAe4c4XdzSPDOs44RbvalRSCQ=
+github.com/fullstack-lang/gongtree v0.0.0-20250211023854-6a055011abfb h1:NRS2ofyk3ZYEJmXd3DS6YehvrhZiDR/4fWI8W8Klkjo=
+github.com/fullstack-lang/gongtree v0.0.0-20250211023854-6a055011abfb/go.mod h1:g0IlwI8jI+PFCisZKHL8JtBjIhdLIV1+i54ajGIyQXI=
 github.com/fullstack-lang/maticons v0.0.0-20240913013021-27a7b8fd9369 h1:tnlpjk07ksmzjPSoMBZ8FW088WI1VdnJ5d/lbNUHqBw=
 github.com/fullstack-lang/maticons v0.0.0-20240913013021-27a7b8fd9369/go.mod h1:kgbZUObfs2TDNCGjvgb/hL/3cZz9jWeKE7yhQ1V7GJI=
 github.com/gabriel-vasile/mimetype v1.4.8 h1:FfZ3gj38NjllZIeJAmMhr+qKL8Wu+nOoI3GqacKw1NM=
