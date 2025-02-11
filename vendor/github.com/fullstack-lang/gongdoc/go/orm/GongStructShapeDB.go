@@ -428,13 +428,15 @@ func (gongstructshapeDB *GongStructShapeDB) DecodePointers(backRepo *BackRepoStr
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: gongstructshape.Position, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if gongstructshape.Position == nil || gongstructshape.Position != tmp {
-				gongstructshape.Position = tmp
+				log.Println("DecodePointers: gongstructshape.Position, unknown pointer id", id)
+				gongstructshape.Position = nil
+			} else {
+				// updates only if field has changed
+				if gongstructshape.Position == nil || gongstructshape.Position != tmp {
+					gongstructshape.Position = tmp
+				}
 			}
 		} else {
 			gongstructshape.Position = nil

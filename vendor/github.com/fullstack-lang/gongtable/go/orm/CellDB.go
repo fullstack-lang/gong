@@ -412,13 +412,15 @@ func (cellDB *CellDB) DecodePointers(backRepo *BackRepoStruct, cell *models.Cell
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoCellString.Map_CellStringDBID_CellStringPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: cell.CellString, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if cell.CellString == nil || cell.CellString != tmp {
-				cell.CellString = tmp
+				log.Println("DecodePointers: cell.CellString, unknown pointer id", id)
+				cell.CellString = nil
+			} else {
+				// updates only if field has changed
+				if cell.CellString == nil || cell.CellString != tmp {
+					cell.CellString = tmp
+				}
 			}
 		} else {
 			cell.CellString = nil
@@ -431,13 +433,15 @@ func (cellDB *CellDB) DecodePointers(backRepo *BackRepoStruct, cell *models.Cell
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoCellFloat64.Map_CellFloat64DBID_CellFloat64Ptr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: cell.CellFloat64, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if cell.CellFloat64 == nil || cell.CellFloat64 != tmp {
-				cell.CellFloat64 = tmp
+				log.Println("DecodePointers: cell.CellFloat64, unknown pointer id", id)
+				cell.CellFloat64 = nil
+			} else {
+				// updates only if field has changed
+				if cell.CellFloat64 == nil || cell.CellFloat64 != tmp {
+					cell.CellFloat64 = tmp
+				}
 			}
 		} else {
 			cell.CellFloat64 = nil
@@ -450,13 +454,15 @@ func (cellDB *CellDB) DecodePointers(backRepo *BackRepoStruct, cell *models.Cell
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoCellInt.Map_CellIntDBID_CellIntPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: cell.CellInt, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if cell.CellInt == nil || cell.CellInt != tmp {
-				cell.CellInt = tmp
+				log.Println("DecodePointers: cell.CellInt, unknown pointer id", id)
+				cell.CellInt = nil
+			} else {
+				// updates only if field has changed
+				if cell.CellInt == nil || cell.CellInt != tmp {
+					cell.CellInt = tmp
+				}
 			}
 		} else {
 			cell.CellInt = nil
@@ -469,13 +475,15 @@ func (cellDB *CellDB) DecodePointers(backRepo *BackRepoStruct, cell *models.Cell
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoCellBoolean.Map_CellBooleanDBID_CellBooleanPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: cell.CellBool, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if cell.CellBool == nil || cell.CellBool != tmp {
-				cell.CellBool = tmp
+				log.Println("DecodePointers: cell.CellBool, unknown pointer id", id)
+				cell.CellBool = nil
+			} else {
+				// updates only if field has changed
+				if cell.CellBool == nil || cell.CellBool != tmp {
+					cell.CellBool = tmp
+				}
 			}
 		} else {
 			cell.CellBool = nil
@@ -488,13 +496,15 @@ func (cellDB *CellDB) DecodePointers(backRepo *BackRepoStruct, cell *models.Cell
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoCellIcon.Map_CellIconDBID_CellIconPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: cell.CellIcon, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if cell.CellIcon == nil || cell.CellIcon != tmp {
-				cell.CellIcon = tmp
+				log.Println("DecodePointers: cell.CellIcon, unknown pointer id", id)
+				cell.CellIcon = nil
+			} else {
+				// updates only if field has changed
+				if cell.CellIcon == nil || cell.CellIcon != tmp {
+					cell.CellIcon = tmp
+				}
 			}
 		} else {
 			cell.CellIcon = nil

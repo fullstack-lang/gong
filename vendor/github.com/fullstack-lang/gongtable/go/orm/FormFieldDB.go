@@ -488,13 +488,15 @@ func (formfieldDB *FormFieldDB) DecodePointers(backRepo *BackRepoStruct, formfie
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoFormFieldString.Map_FormFieldStringDBID_FormFieldStringPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: formfield.FormFieldString, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if formfield.FormFieldString == nil || formfield.FormFieldString != tmp {
-				formfield.FormFieldString = tmp
+				log.Println("DecodePointers: formfield.FormFieldString, unknown pointer id", id)
+				formfield.FormFieldString = nil
+			} else {
+				// updates only if field has changed
+				if formfield.FormFieldString == nil || formfield.FormFieldString != tmp {
+					formfield.FormFieldString = tmp
+				}
 			}
 		} else {
 			formfield.FormFieldString = nil
@@ -507,13 +509,15 @@ func (formfieldDB *FormFieldDB) DecodePointers(backRepo *BackRepoStruct, formfie
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoFormFieldFloat64.Map_FormFieldFloat64DBID_FormFieldFloat64Ptr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: formfield.FormFieldFloat64, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if formfield.FormFieldFloat64 == nil || formfield.FormFieldFloat64 != tmp {
-				formfield.FormFieldFloat64 = tmp
+				log.Println("DecodePointers: formfield.FormFieldFloat64, unknown pointer id", id)
+				formfield.FormFieldFloat64 = nil
+			} else {
+				// updates only if field has changed
+				if formfield.FormFieldFloat64 == nil || formfield.FormFieldFloat64 != tmp {
+					formfield.FormFieldFloat64 = tmp
+				}
 			}
 		} else {
 			formfield.FormFieldFloat64 = nil
@@ -526,13 +530,15 @@ func (formfieldDB *FormFieldDB) DecodePointers(backRepo *BackRepoStruct, formfie
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoFormFieldInt.Map_FormFieldIntDBID_FormFieldIntPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: formfield.FormFieldInt, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if formfield.FormFieldInt == nil || formfield.FormFieldInt != tmp {
-				formfield.FormFieldInt = tmp
+				log.Println("DecodePointers: formfield.FormFieldInt, unknown pointer id", id)
+				formfield.FormFieldInt = nil
+			} else {
+				// updates only if field has changed
+				if formfield.FormFieldInt == nil || formfield.FormFieldInt != tmp {
+					formfield.FormFieldInt = tmp
+				}
 			}
 		} else {
 			formfield.FormFieldInt = nil
@@ -545,13 +551,15 @@ func (formfieldDB *FormFieldDB) DecodePointers(backRepo *BackRepoStruct, formfie
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoFormFieldDate.Map_FormFieldDateDBID_FormFieldDatePtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: formfield.FormFieldDate, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if formfield.FormFieldDate == nil || formfield.FormFieldDate != tmp {
-				formfield.FormFieldDate = tmp
+				log.Println("DecodePointers: formfield.FormFieldDate, unknown pointer id", id)
+				formfield.FormFieldDate = nil
+			} else {
+				// updates only if field has changed
+				if formfield.FormFieldDate == nil || formfield.FormFieldDate != tmp {
+					formfield.FormFieldDate = tmp
+				}
 			}
 		} else {
 			formfield.FormFieldDate = nil
@@ -564,13 +572,15 @@ func (formfieldDB *FormFieldDB) DecodePointers(backRepo *BackRepoStruct, formfie
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoFormFieldTime.Map_FormFieldTimeDBID_FormFieldTimePtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: formfield.FormFieldTime, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if formfield.FormFieldTime == nil || formfield.FormFieldTime != tmp {
-				formfield.FormFieldTime = tmp
+				log.Println("DecodePointers: formfield.FormFieldTime, unknown pointer id", id)
+				formfield.FormFieldTime = nil
+			} else {
+				// updates only if field has changed
+				if formfield.FormFieldTime == nil || formfield.FormFieldTime != tmp {
+					formfield.FormFieldTime = tmp
+				}
 			}
 		} else {
 			formfield.FormFieldTime = nil
@@ -583,13 +593,15 @@ func (formfieldDB *FormFieldDB) DecodePointers(backRepo *BackRepoStruct, formfie
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoFormFieldDateTime.Map_FormFieldDateTimeDBID_FormFieldDateTimePtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: formfield.FormFieldDateTime, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if formfield.FormFieldDateTime == nil || formfield.FormFieldDateTime != tmp {
-				formfield.FormFieldDateTime = tmp
+				log.Println("DecodePointers: formfield.FormFieldDateTime, unknown pointer id", id)
+				formfield.FormFieldDateTime = nil
+			} else {
+				// updates only if field has changed
+				if formfield.FormFieldDateTime == nil || formfield.FormFieldDateTime != tmp {
+					formfield.FormFieldDateTime = tmp
+				}
 			}
 		} else {
 			formfield.FormFieldDateTime = nil
@@ -602,13 +614,15 @@ func (formfieldDB *FormFieldDB) DecodePointers(backRepo *BackRepoStruct, formfie
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoFormFieldSelect.Map_FormFieldSelectDBID_FormFieldSelectPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: formfield.FormFieldSelect, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if formfield.FormFieldSelect == nil || formfield.FormFieldSelect != tmp {
-				formfield.FormFieldSelect = tmp
+				log.Println("DecodePointers: formfield.FormFieldSelect, unknown pointer id", id)
+				formfield.FormFieldSelect = nil
+			} else {
+				// updates only if field has changed
+				if formfield.FormFieldSelect == nil || formfield.FormFieldSelect != tmp {
+					formfield.FormFieldSelect = tmp
+				}
 			}
 		} else {
 			formfield.FormFieldSelect = nil

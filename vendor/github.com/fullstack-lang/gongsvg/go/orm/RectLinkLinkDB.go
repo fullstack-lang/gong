@@ -418,13 +418,15 @@ func (rectlinklinkDB *RectLinkLinkDB) DecodePointers(backRepo *BackRepoStruct, r
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: rectlinklink.Start, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if rectlinklink.Start == nil || rectlinklink.Start != tmp {
-				rectlinklink.Start = tmp
+				log.Println("DecodePointers: rectlinklink.Start, unknown pointer id", id)
+				rectlinklink.Start = nil
+			} else {
+				// updates only if field has changed
+				if rectlinklink.Start == nil || rectlinklink.Start != tmp {
+					rectlinklink.Start = tmp
+				}
 			}
 		} else {
 			rectlinklink.Start = nil
@@ -437,13 +439,15 @@ func (rectlinklinkDB *RectLinkLinkDB) DecodePointers(backRepo *BackRepoStruct, r
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: rectlinklink.End, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if rectlinklink.End == nil || rectlinklink.End != tmp {
-				rectlinklink.End = tmp
+				log.Println("DecodePointers: rectlinklink.End, unknown pointer id", id)
+				rectlinklink.End = nil
+			} else {
+				// updates only if field has changed
+				if rectlinklink.End == nil || rectlinklink.End != tmp {
+					rectlinklink.End = tmp
+				}
 			}
 		} else {
 			rectlinklink.End = nil

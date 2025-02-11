@@ -431,13 +431,15 @@ func (diagrampackageDB *DiagramPackageDB) DecodePointers(backRepo *BackRepoStruc
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: diagrampackage.SelectedClassdiagram, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if diagrampackage.SelectedClassdiagram == nil || diagrampackage.SelectedClassdiagram != tmp {
-				diagrampackage.SelectedClassdiagram = tmp
+				log.Println("DecodePointers: diagrampackage.SelectedClassdiagram, unknown pointer id", id)
+				diagrampackage.SelectedClassdiagram = nil
+			} else {
+				// updates only if field has changed
+				if diagrampackage.SelectedClassdiagram == nil || diagrampackage.SelectedClassdiagram != tmp {
+					diagrampackage.SelectedClassdiagram = tmp
+				}
 			}
 		} else {
 			diagrampackage.SelectedClassdiagram = nil

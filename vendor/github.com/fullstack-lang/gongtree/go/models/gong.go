@@ -971,7 +971,40 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	return
 }
 
-func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fieldName string) (res string) {
+type GongFieldValueType string
+
+const (
+	GongFieldValueTypeInt     GongFieldValueType = "GongFieldValueTypeInt"
+	GongFieldValueTypeFloat   GongFieldValueType = "GongFieldValueTypeFloat"
+	GongFieldValueTypeBool    GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypeOthers  GongFieldValueType = "GongFieldValueTypeOthers"
+)
+
+type GongFieldValue struct {
+	valueString string
+	GongFieldValueType
+	valueInt   int
+	valueFloat float64
+	valueBool  bool
+}
+
+func (gongValueField *GongFieldValue) GetValueString() string {
+	return gongValueField.valueString
+}
+
+func (gongValueField *GongFieldValue) GetValueInt() int {
+	return gongValueField.valueInt
+}
+	
+func (gongValueField *GongFieldValue) GetValueFloat() float64 {
+	return gongValueField.valueFloat
+}
+	
+func (gongValueField *GongFieldValue) GetValueBool() bool {
+	return gongValueField.valueBool
+}
+
+func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFieldValue) {
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
@@ -979,86 +1012,106 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Icon":
-			res = inferedInstance.Icon
+			res.valueString = inferedInstance.Icon
 		case "SVGIcon":
 			if inferedInstance.SVGIcon != nil {
-				res = inferedInstance.SVGIcon.Name
+				res.valueString = inferedInstance.SVGIcon.Name
 			}
 		}
 	case *Node:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "FontStyle":
 			enum := inferedInstance.FontStyle
-			res = enum.ToCodeString()
+			res.valueString = enum.ToCodeString()
 		case "BackgroundColor":
-			res = inferedInstance.BackgroundColor
+			res.valueString = inferedInstance.BackgroundColor
 		case "IsExpanded":
-			res = fmt.Sprintf("%t", inferedInstance.IsExpanded)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsExpanded)
+			res.valueBool = inferedInstance.IsExpanded
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "HasCheckboxButton":
-			res = fmt.Sprintf("%t", inferedInstance.HasCheckboxButton)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasCheckboxButton)
+			res.valueBool = inferedInstance.HasCheckboxButton
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsChecked":
-			res = fmt.Sprintf("%t", inferedInstance.IsChecked)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsChecked)
+			res.valueBool = inferedInstance.IsChecked
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsCheckboxDisabled":
-			res = fmt.Sprintf("%t", inferedInstance.IsCheckboxDisabled)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsCheckboxDisabled)
+			res.valueBool = inferedInstance.IsCheckboxDisabled
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "HasSecondCheckboxButton":
-			res = fmt.Sprintf("%t", inferedInstance.HasSecondCheckboxButton)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasSecondCheckboxButton)
+			res.valueBool = inferedInstance.HasSecondCheckboxButton
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsSecondCheckboxChecked":
-			res = fmt.Sprintf("%t", inferedInstance.IsSecondCheckboxChecked)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsSecondCheckboxChecked)
+			res.valueBool = inferedInstance.IsSecondCheckboxChecked
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsSecondCheckboxDisabled":
-			res = fmt.Sprintf("%t", inferedInstance.IsSecondCheckboxDisabled)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsSecondCheckboxDisabled)
+			res.valueBool = inferedInstance.IsSecondCheckboxDisabled
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "TextAfterSecondCheckbox":
-			res = inferedInstance.TextAfterSecondCheckbox
+			res.valueString = inferedInstance.TextAfterSecondCheckbox
 		case "IsInEditMode":
-			res = fmt.Sprintf("%t", inferedInstance.IsInEditMode)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInEditMode)
+			res.valueBool = inferedInstance.IsInEditMode
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsNodeClickable":
-			res = fmt.Sprintf("%t", inferedInstance.IsNodeClickable)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsNodeClickable)
+			res.valueBool = inferedInstance.IsNodeClickable
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsWithPreceedingIcon":
-			res = fmt.Sprintf("%t", inferedInstance.IsWithPreceedingIcon)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsWithPreceedingIcon)
+			res.valueBool = inferedInstance.IsWithPreceedingIcon
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "PreceedingIcon":
-			res = inferedInstance.PreceedingIcon
+			res.valueString = inferedInstance.PreceedingIcon
 		case "PreceedingSVGIcon":
 			if inferedInstance.PreceedingSVGIcon != nil {
-				res = inferedInstance.PreceedingSVGIcon.Name
+				res.valueString = inferedInstance.PreceedingSVGIcon.Name
 			}
 		case "Children":
 			for idx, __instance__ := range inferedInstance.Children {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "Buttons":
 			for idx, __instance__ := range inferedInstance.Buttons {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		}
 	case *SVGIcon:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "SVG":
-			res = inferedInstance.SVG
+			res.valueString = inferedInstance.SVG
 		}
 	case *Tree:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "RootNodes":
 			for idx, __instance__ := range inferedInstance.RootNodes {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		}
 	default:
@@ -1067,7 +1120,7 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 	return
 }
 
-func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res string) {
+func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
@@ -1075,86 +1128,106 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "Icon":
-			res = inferedInstance.Icon
+			res.valueString = inferedInstance.Icon
 		case "SVGIcon":
 			if inferedInstance.SVGIcon != nil {
-				res = inferedInstance.SVGIcon.Name
+				res.valueString = inferedInstance.SVGIcon.Name
 			}
 		}
 	case Node:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "FontStyle":
 			enum := inferedInstance.FontStyle
-			res = enum.ToCodeString()
+			res.valueString = enum.ToCodeString()
 		case "BackgroundColor":
-			res = inferedInstance.BackgroundColor
+			res.valueString = inferedInstance.BackgroundColor
 		case "IsExpanded":
-			res = fmt.Sprintf("%t", inferedInstance.IsExpanded)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsExpanded)
+			res.valueBool = inferedInstance.IsExpanded
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "HasCheckboxButton":
-			res = fmt.Sprintf("%t", inferedInstance.HasCheckboxButton)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasCheckboxButton)
+			res.valueBool = inferedInstance.HasCheckboxButton
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsChecked":
-			res = fmt.Sprintf("%t", inferedInstance.IsChecked)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsChecked)
+			res.valueBool = inferedInstance.IsChecked
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsCheckboxDisabled":
-			res = fmt.Sprintf("%t", inferedInstance.IsCheckboxDisabled)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsCheckboxDisabled)
+			res.valueBool = inferedInstance.IsCheckboxDisabled
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "HasSecondCheckboxButton":
-			res = fmt.Sprintf("%t", inferedInstance.HasSecondCheckboxButton)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasSecondCheckboxButton)
+			res.valueBool = inferedInstance.HasSecondCheckboxButton
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsSecondCheckboxChecked":
-			res = fmt.Sprintf("%t", inferedInstance.IsSecondCheckboxChecked)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsSecondCheckboxChecked)
+			res.valueBool = inferedInstance.IsSecondCheckboxChecked
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsSecondCheckboxDisabled":
-			res = fmt.Sprintf("%t", inferedInstance.IsSecondCheckboxDisabled)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsSecondCheckboxDisabled)
+			res.valueBool = inferedInstance.IsSecondCheckboxDisabled
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "TextAfterSecondCheckbox":
-			res = inferedInstance.TextAfterSecondCheckbox
+			res.valueString = inferedInstance.TextAfterSecondCheckbox
 		case "IsInEditMode":
-			res = fmt.Sprintf("%t", inferedInstance.IsInEditMode)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInEditMode)
+			res.valueBool = inferedInstance.IsInEditMode
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsNodeClickable":
-			res = fmt.Sprintf("%t", inferedInstance.IsNodeClickable)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsNodeClickable)
+			res.valueBool = inferedInstance.IsNodeClickable
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsWithPreceedingIcon":
-			res = fmt.Sprintf("%t", inferedInstance.IsWithPreceedingIcon)
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsWithPreceedingIcon)
+			res.valueBool = inferedInstance.IsWithPreceedingIcon
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "PreceedingIcon":
-			res = inferedInstance.PreceedingIcon
+			res.valueString = inferedInstance.PreceedingIcon
 		case "PreceedingSVGIcon":
 			if inferedInstance.PreceedingSVGIcon != nil {
-				res = inferedInstance.PreceedingSVGIcon.Name
+				res.valueString = inferedInstance.PreceedingSVGIcon.Name
 			}
 		case "Children":
 			for idx, __instance__ := range inferedInstance.Children {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		case "Buttons":
 			for idx, __instance__ := range inferedInstance.Buttons {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		}
 	case SVGIcon:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "SVG":
-			res = inferedInstance.SVG
+			res.valueString = inferedInstance.SVG
 		}
 	case Tree:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = inferedInstance.Name
+			res.valueString = inferedInstance.Name
 		case "RootNodes":
 			for idx, __instance__ := range inferedInstance.RootNodes {
 				if idx > 0 {
-					res += "\n"
+					res.valueString += "\n"
 				}
-				res += __instance__.Name
+				res.valueString += __instance__.Name
 			}
 		}
 	default:

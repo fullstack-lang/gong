@@ -376,13 +376,15 @@ func (formfieldselectDB *FormFieldSelectDB) DecodePointers(backRepo *BackRepoStr
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoOption.Map_OptionDBID_OptionPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: formfieldselect.Value, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if formfieldselect.Value == nil || formfieldselect.Value != tmp {
-				formfieldselect.Value = tmp
+				log.Println("DecodePointers: formfieldselect.Value, unknown pointer id", id)
+				formfieldselect.Value = nil
+			} else {
+				// updates only if field has changed
+				if formfieldselect.Value == nil || formfieldselect.Value != tmp {
+					formfieldselect.Value = tmp
+				}
 			}
 		} else {
 			formfieldselect.Value = nil

@@ -82,5 +82,5 @@ export function auto_X_offset(
         }
     }
 
-    return offset * offsetSign
+    return offset * offsetSign + text.X_Offset
 }

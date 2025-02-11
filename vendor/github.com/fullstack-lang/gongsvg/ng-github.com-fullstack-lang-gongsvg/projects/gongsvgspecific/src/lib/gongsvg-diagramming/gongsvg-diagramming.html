@@ -559,7 +559,8 @@
                                 <ng-container *ngIf='text.AutomaticLayout && splitTextIntoLines(text.Content) as lines'>
                                     <text class="noevents-area"
                                         [attr.x]="segment.StartPoint.X" 
-                                        [attr.y]="segment.StartPoint.Y + auto_Y_offset(link, segment, text, PositionOnArrowType.POSITION_ON_ARROW_START)" 
+                                        [attr.y]="segment.StartPoint.Y + 
+                                          auto_Y_offset(link, segment, text, PositionOnArrowType.POSITION_ON_ARROW_START)" 
                                         [attr.font-weight]="text.FontWeight"
                                         [attr.font-size]="text.FontSize"
                                         [attr.letter-spacing]="text.LetterSpacing"
