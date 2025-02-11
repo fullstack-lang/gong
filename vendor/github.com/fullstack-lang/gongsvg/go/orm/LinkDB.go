@@ -562,13 +562,15 @@ func (linkDB *LinkDB) DecodePointers(backRepo *BackRepoStruct, link *models.Link
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: link.Start, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if link.Start == nil || link.Start != tmp {
-				link.Start = tmp
+				log.Println("DecodePointers: link.Start, unknown pointer id", id)
+				link.Start = nil
+			} else {
+				// updates only if field has changed
+				if link.Start == nil || link.Start != tmp {
+					link.Start = tmp
+				}
 			}
 		} else {
 			link.Start = nil
@@ -581,13 +583,15 @@ func (linkDB *LinkDB) DecodePointers(backRepo *BackRepoStruct, link *models.Link
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: link.End, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if link.End == nil || link.End != tmp {
-				link.End = tmp
+				log.Println("DecodePointers: link.End, unknown pointer id", id)
+				link.End = nil
+			} else {
+				// updates only if field has changed
+				if link.End == nil || link.End != tmp {
+					link.End = tmp
+				}
 			}
 		} else {
 			link.End = nil

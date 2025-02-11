@@ -484,13 +484,15 @@ func (nodeDB *NodeDB) DecodePointers(backRepo *BackRepoStruct, node *models.Node
 		if id != 0 {
 			tmp, ok := backRepo.BackRepoSVGIcon.Map_SVGIconDBID_SVGIconPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
 			if !ok {
-				log.Fatalln("DecodePointers: node.PreceedingSVGIcon, unknown pointer id", id)
-			}
-
-			// updates only if field has changed
-			if node.PreceedingSVGIcon == nil || node.PreceedingSVGIcon != tmp {
-				node.PreceedingSVGIcon = tmp
+				log.Println("DecodePointers: node.PreceedingSVGIcon, unknown pointer id", id)
+				node.PreceedingSVGIcon = nil
+			} else {
+				// updates only if field has changed
+				if node.PreceedingSVGIcon == nil || node.PreceedingSVGIcon != tmp {
+					node.PreceedingSVGIcon = tmp
+				}
 			}
 		} else {
 			node.PreceedingSVGIcon = nil
