@@ -137,15 +137,15 @@
             ]
         },
         {
-            "name": "gongc gongmusicxml -skipGoModCommands -skipNpmInstall -compileForDebug",
+            "name": "gongc phyllotaxymusic sliders -skipGoModCommands -skipNg -compileForDebug",
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "cwd": "${workspaceFolder}/../biggong/gongmusicxml/go/models",
+            "cwd": "${workspaceFolder}/../../thomaspeugeot/phyllotaxymusic/sliders/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipGoModCommands",
-                "-skipNpmInstall",
+                "-skipNg",
                 "-compileForDebug"
             ]
         },
