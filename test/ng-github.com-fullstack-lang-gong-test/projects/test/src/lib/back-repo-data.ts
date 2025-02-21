@@ -29,6 +29,8 @@ export class BackRepoData {
 	GstructAPIs = new Array<GstructAPI>()
 
 
+	// index of the web socket for this stack type (unique among all stack instances)
+	GONG__Index : number
 
 	constructor(data?: Partial<BackRepoData>) {
 		// insertion point for copies
@@ -44,6 +46,7 @@ export class BackRepoData {
 
 		this.GstructAPIs = data?.GstructAPIs || [];
 
+		this.GONG__Index = data?.GONG__Index ?? -1;   // Assign Index here
 	}
 
 }
