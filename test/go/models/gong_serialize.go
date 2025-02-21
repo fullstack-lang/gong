@@ -2,8 +2,10 @@
 package models
 
 import (
+	"cmp"
 	"fmt"
 	"log"
+	"slices"
 	"unicode/utf8"
 
 	"github.com/xuri/excelize/v2"
@@ -83,6 +85,60 @@ func (tab *ExcelizeTabulator) AddRow(sheetName string) (rowId int) {
 
 func (tab *ExcelizeTabulator) AddCell(sheetName string, rowId, columnIndex int, value string) {
 
+}
+
+func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *StageStruct, f *excelize.File) {
+	sheetName := GetPointerToGongstructName[Type]()
+
+	// Create a new sheet.
+	f.NewSheet(sheetName)
+
+	set := *GetGongstructInstancesSetFromPointerType[Type](stage)
+
+	var sortedSlice []Type
+	for key := range set {
+		sortedSlice = append(sortedSlice, key)
+	}
+	slices.SortFunc(sortedSlice, func(a, b Type) int {
+		return cmp.Compare(a.GetName(), b.GetName())
+	})
+
+	line := 1
+
+	for index, fieldName := range GetFieldsFromPointer[Type]() {
+		f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), fieldName)
+	}
+	f.AutoFilter(sheetName,
+		fmt.Sprintf("%s%d", IntToLetters(int32(1)), line),
+		[]excelize.AutoFilterOptions{})
+
+	for _, instance := range sortedSlice {
+		line = line + 1
+		for index, fieldName := range GetFieldsFromPointer[Type]() {
+			fieldStringValue := GetFieldStringValueFromPointer(instance, fieldName)
+			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), fieldStringValue.GetValueString())
+		}
+	}
+
+	// Autofit all columns according to their text content
+	cols, err := f.GetCols(sheetName)
+	if err != nil {
+		log.Panicln("SerializeExcelize")
+	}
+	for idx, col := range cols {
+		largestWidth := 0
+		for _, rowCell := range col {
+			cellWidth := utf8.RuneCountInString(rowCell) + 2 // + 2 for margin
+			if cellWidth > largestWidth {
+				largestWidth = cellWidth
+			}
+		}
+		name, err := excelize.ColumnNumberToName(idx + 1)
+		if err != nil {
+			log.Panicln("SerializeExcelize")
+		}
+		f.SetColWidth(sheetName, name, name, float64(largestWidth))
+	}
 }
 
 func SerializeExcelize[Type Gongstruct](stage *StageStruct, f *excelize.File) {
