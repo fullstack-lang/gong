@@ -29,3 +29,5 @@ test3/ng-github.com-fullstack-lang-gong-test3/cypress/screenshots/issue delete t
 test3/ng-github.com-fullstack-lang-gong-test3/cypress/screenshots/issue 519.cy.ts/Issue 519.cy.ts -- Test check box (failed).pn
 ~*.pptx
 test/go/tests/serialize_test.xlsx
+test/go/tests/serialize_test.xlsx
+test/go/tests/wrap_text.xlsx
