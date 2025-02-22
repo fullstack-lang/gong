@@ -25,6 +25,28 @@ func SerializeStage(stage *StageStruct, filename string) {
 		SerializeExcelizePointerToGongstruct[*Gstruct](stage, f)
 	}
 
+	// Create a style with wrap text enabled
+	styleID, err := f.NewStyle(&excelize.Style{
+		Alignment: &excelize.Alignment{
+			WrapText: true,
+		},
+	})
+	if err != nil {
+		fmt.Println("failed to create style:", err)
+		return
+	}
+
+	// Get all sheet names
+	sheetList := f.GetSheetList()
+
+	// Apply the style to all columns (A through XFD) on each sheet
+	for _, sheet := range sheetList {
+		if err := f.SetColStyle(sheet, "A:XFD", styleID); err != nil {
+			fmt.Println("failed to set column style:", err)
+			return
+		}
+	}
+
 	var tab ExcelizeTabulator
 	tab.SetExcelizeFile(f)
 	{
