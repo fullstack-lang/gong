@@ -32,7 +32,6 @@ func fillUpTable[T models.Gongstruct](
 ) {
 
 	probe.tableStage.Reset()
-	probe.tableStage.Commit()
 
 	table := new(gongtable.Table).Stage(probe.tableStage)
 	table.Name = "Table"

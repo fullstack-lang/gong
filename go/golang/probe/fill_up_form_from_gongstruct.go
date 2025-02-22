@@ -12,7 +12,6 @@ import (
 func FillUpFormFromGongstruct(instance any, probe *Probe) {
 	formStage := probe.formStage
 	formStage.Reset()
-	formStage.Commit()
 
 	FillUpNamedFormFromGongstruct(instance, probe, formStage, gongtable.FormGroupDefaultName.ToString())
 
