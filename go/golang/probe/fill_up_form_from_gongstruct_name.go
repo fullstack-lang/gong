@@ -16,7 +16,6 @@ func FillUpFormFromGongstructName(
 ) {
 	formStage := probe.formStage
 	formStage.Reset()
-	formStage.Commit()
 
 	var prefix string
 
