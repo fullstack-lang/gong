@@ -16,13 +16,13 @@ func SerializeStage(stage *StageStruct, filename string) {
 	f := excelize.NewFile()
 	{
 		// insertion point
-		SerializeExcelize[Astruct](stage, f)
-		SerializeExcelize[AstructBstruct2Use](stage, f)
-		SerializeExcelize[AstructBstructUse](stage, f)
-		SerializeExcelize[Bstruct](stage, f)
-		SerializeExcelize[Dstruct](stage, f)
-		SerializeExcelize[Fstruct](stage, f)
-		SerializeExcelize[Gstruct](stage, f)
+		SerializeExcelizePointerToGongstruct[*Astruct](stage, f)
+		SerializeExcelizePointerToGongstruct[*AstructBstruct2Use](stage, f)
+		SerializeExcelizePointerToGongstruct[*AstructBstructUse](stage, f)
+		SerializeExcelizePointerToGongstruct[*Bstruct](stage, f)
+		SerializeExcelizePointerToGongstruct[*Dstruct](stage, f)
+		SerializeExcelizePointerToGongstruct[*Fstruct](stage, f)
+		SerializeExcelizePointerToGongstruct[*Gstruct](stage, f)
 	}
 
 	var tab ExcelizeTabulator

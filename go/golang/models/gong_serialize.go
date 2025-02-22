@@ -203,5 +203,5 @@ const (
 var ModelGongSerializeStructSubTemplateCode map[string]string = // new line
 map[string]string{
 	string(rune(ModelGongSerializeStruct)): `
-		SerializeExcelize[{{Structname}}](stage, f)`,
+		SerializeExcelizePointerToGongstruct[*{{Structname}}](stage, f)`,
 }

@@ -31,5 +31,25 @@ func TestSerialize(t *testing.T) {
 	aclass1.Anarrayofb = append(aclass1.Anarrayofb, bclass2)
 	aclass1.Anarrayofb = append(aclass1.Anarrayofb, bclass1)
 
+	aclass3 := (&models.Astruct{
+		Name:                "A3",
+		Floatfield:          10.3,
+		Booleanfield:        true,
+		Anotherbooleanfield: true,
+		Associationtob:      bclass1,
+	}).Stage(stage).Commit(stage)
+
+	aclass3.Anarrayofb = append(aclass1.Anarrayofb, bclass2)
+
+	aclass2 := (&models.Astruct{
+		Name:                "A2",
+		Floatfield:          10.2,
+		Booleanfield:        true,
+		Anotherbooleanfield: true,
+		Associationtob:      bclass1,
+	}).Stage(stage).Commit(stage)
+
+	aclass2.Anarrayofb = append(aclass1.Anarrayofb, bclass2)
+
 	models.SerializeStage(stage, "serialize_test.xlsx")
 }
