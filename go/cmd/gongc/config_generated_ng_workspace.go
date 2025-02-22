@@ -127,7 +127,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 			start := time.Now()
 			cmd := exec.Command("ng", "generate", "library", modelPkg.Name+"specific", "--defaults=true", "--skip-install=true")
 			cmd.Dir = modelPkg.NgWorkspacePath
-			log.Printf("Creating a specific library %s in the angular workspace\n", modelPkg.Name)
+			log.Printf("Creating a specific library %s in the angular workspace\n", modelPkg.Name+"specific")
 
 			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
 			var stdBuffer bytes.Buffer
@@ -144,8 +144,32 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 				log.Panic(err)
 			}
 			log.Printf("ng generate library is over and took %s", time.Since(start))
-			{
 
+			// generate c
+			// ng generate component my-component --inlineTemplate=false --inlineStyle=false
+			{
+				componentName := modelPkg.Name + "-" + "specific"
+				start := time.Now()
+				cmd := exec.Command("ng", "generate", "component", componentName,
+					"--inline-template=false", "--inline-style=false", "--project="+modelPkg.Name+"specific")
+				cmd.Dir = modelPkg.NgWorkspacePath
+				log.Printf("Creating a component %s in the angular workspace\n", componentName)
+
+				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+				var stdBuffer bytes.Buffer
+				mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+				cmd.Stdout = mw
+				cmd.Stderr = mw
+
+				log.Println(cmd.String())
+				log.Println(stdBuffer.String())
+
+				// Execute the command
+				if err := cmd.Run(); err != nil {
+					log.Panic(err)
+				}
+				log.Printf("ng generate library is over and took %s", time.Since(start))
 			}
 		}
 
