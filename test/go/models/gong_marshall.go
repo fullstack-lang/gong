@@ -25,7 +25,7 @@ import (
 // if there are no elements in the stage to marshall
 var _ time.Time
 
-// Injection point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
+// _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
 // When parsed, those maps will help with the renaming process
 var _ map[string]any = map[string]any{
