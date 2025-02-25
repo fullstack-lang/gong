@@ -81,6 +81,10 @@ export * from './lib/svg-api'
 export * from './lib/svg'
 export * from './lib/svg.service'
 
+export * from './lib/svgtext-api'
+export * from './lib/svgtext'
+export * from './lib/svgtext.service'
+
 export * from './lib/text-api'
 export * from './lib/text'
 export * from './lib/text.service'

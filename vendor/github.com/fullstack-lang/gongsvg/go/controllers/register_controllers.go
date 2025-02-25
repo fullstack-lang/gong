@@ -168,6 +168,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/svgs/:id", GetController().UpdateSVG)
 		v1.DELETE("/v1/svgs/:id", GetController().DeleteSVG)
 
+		v1.GET("/v1/svgtexts", GetController().GetSvgTexts)
+		v1.GET("/v1/svgtexts/:id", GetController().GetSvgText)
+		v1.POST("/v1/svgtexts", GetController().PostSvgText)
+		v1.PATCH("/v1/svgtexts/:id", GetController().UpdateSvgText)
+		v1.PUT("/v1/svgtexts/:id", GetController().UpdateSvgText)
+		v1.DELETE("/v1/svgtexts/:id", GetController().DeleteSvgText)
+
 		v1.GET("/v1/texts", GetController().GetTexts)
 		v1.GET("/v1/texts/:id", GetController().GetText)
 		v1.POST("/v1/texts", GetController().PostText)
@@ -263,6 +270,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 
 	backRepoData := new(orm.BackRepoData)
 	orm.CopyBackRepoToBackRepoData(backRepo, backRepoData)
+	backRepoData.GONG__Index = index
 
 	err = wsConnection.WriteJSON(backRepoData)
 	if err != nil {
@@ -284,6 +292,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 
 				backRepoData := new(orm.BackRepoData)
 				orm.CopyBackRepoToBackRepoData(backRepo, backRepoData)
+				backRepoData.GONG__Index = index
 
 				// Set write deadline to prevent blocking indefinitely
 				wsConnection.SetWriteDeadline(time.Now().Add(10 * time.Second))

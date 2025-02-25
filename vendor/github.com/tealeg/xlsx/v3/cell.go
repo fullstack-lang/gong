@@ -376,11 +376,11 @@ func (c *Cell) SetHyperlink(hyperlink string, displayText string, tooltip string
 	h := strings.ToLower(hyperlink)
 	if strings.HasPrefix(h, "http:") || strings.HasPrefix(h, "https://") {
 		c.Hyperlink = Hyperlink{Link: hyperlink}
+		c.Row.Sheet.addRelation(RelationshipTypeHyperlink, hyperlink, RelationshipTargetModeExternal)
 	} else {
-		c.Hyperlink = Hyperlink{Link: hyperlink, Location: hyperlink}
+		c.Hyperlink = Hyperlink{Location: hyperlink}
 	}
 	c.SetString(hyperlink)
-	c.Row.Sheet.addRelation(RelationshipTypeHyperlink, hyperlink, RelationshipTargetModeExternal)
 	if displayText != "" {
 		c.Hyperlink.DisplayString = displayText
 		c.SetString(displayText)
@@ -396,7 +396,7 @@ func (c *Cell) SetValue(n interface{}) {
 	switch t := n.(type) {
 	case time.Time:
 		c.SetDateTime(t)
-	case int, int8, int16, int32, int64:
+	case int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64:
 		c.SetNumeric(fmt.Sprintf("%d", n))
 	case float64:
 		// When formatting floats, do not use fmt.Sprintf("%v", n), this will cause numbers below 1e-4 to be printed in
@@ -507,22 +507,6 @@ func (c *Cell) SetStyle(style *Style) {
 // GetNumberFormat returns the number format string for a cell.
 func (c *Cell) GetNumberFormat() string {
 	return c.NumFmt
-}
-
-func (c *Cell) formatToFloat(format string) (string, error) {
-	f, err := strconv.ParseFloat(c.Value, 64)
-	if err != nil {
-		return c.Value, err
-	}
-	return fmt.Sprintf(format, f), nil
-}
-
-func (c *Cell) formatToInt(format string) (string, error) {
-	f, err := strconv.ParseFloat(c.Value, 64)
-	if err != nil {
-		return c.Value, err
-	}
-	return fmt.Sprintf(format, int(f)), nil
 }
 
 // getNumberFormat will update the parsedNumFmt struct if it has become out of date, since a cell's NumFmt string is a
