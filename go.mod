@@ -24,8 +24,8 @@ require (
 
 require (
 	github.com/fullstack-lang/gongdoc v0.0.0-20250225033104-c23cfc82aae7
-	github.com/fullstack-lang/gongtable v0.0.0-20250211024907-6cd6fe50e09c
-	github.com/fullstack-lang/gongtree v0.0.0-20250211024555-99c014eeb3a0
+	github.com/fullstack-lang/gongtable v0.0.0-20250225033727-02f8dc020e2a
+	github.com/fullstack-lang/gongtree v0.0.0-20250225033732-dfabd01241e7
 	github.com/fullstack-lang/maticons v0.0.0-20240913013021-27a7b8fd9369
 	github.com/glebarez/sqlite v1.11.0
 	github.com/gorilla/websocket v1.5.3
@@ -38,7 +38,7 @@ require (
 	github.com/bytedance/sonic/loader v0.2.3 // indirect
 	github.com/cloudwego/base64x v0.1.5 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
-	github.com/fullstack-lang/gongsvg v0.0.0-20250222194830-e68acc7d8003 // indirect
+	github.com/fullstack-lang/gongsvg v0.0.0-20250225033726-7b247f261f4f // indirect
 	github.com/gabriel-vasile/mimetype v1.4.8 // indirect
 	github.com/gin-contrib/sse v1.0.0 // indirect
 	github.com/glebarez/go-sqlite v1.22.0 // indirect
