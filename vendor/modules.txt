@@ -52,7 +52,7 @@ github.com/dustin/go-humanize
 # github.com/frankban/quicktest v1.14.6
 ## explicit; go 1.13
 github.com/frankban/quicktest
-# github.com/fullstack-lang/gongdoc v0.0.0-20250225033717-69aacb2e9996
+# github.com/fullstack-lang/gongdoc v0.0.0-20250225040736-abee855f85a8
 ## explicit; go 1.23.1
 github.com/fullstack-lang/gongdoc/go/adapter
 github.com/fullstack-lang/gongdoc/go/controllers
@@ -63,24 +63,24 @@ github.com/fullstack-lang/gongdoc/go/fullstack
 github.com/fullstack-lang/gongdoc/go/load
 github.com/fullstack-lang/gongdoc/go/models
 github.com/fullstack-lang/gongdoc/go/orm
-github.com/fullstack-lang/gongdoc/ng-github.com-fullstack-lang-gongdoc/projects
-# github.com/fullstack-lang/gongsvg v0.0.0-20250225033726-7b247f261f4f
+github.com/fullstack-lang/gongdoc/ng-github.com-fullstack-lang-gongdoc
+# github.com/fullstack-lang/gongsvg v0.0.0-20250225041422-4c2bee5e4226
 ## explicit; go 1.23.1
 github.com/fullstack-lang/gongsvg/go/controllers
 github.com/fullstack-lang/gongsvg/go/db
 github.com/fullstack-lang/gongsvg/go/fullstack
 github.com/fullstack-lang/gongsvg/go/models
 github.com/fullstack-lang/gongsvg/go/orm
-github.com/fullstack-lang/gongsvg/ng-github.com-fullstack-lang-gongsvg/projects
-# github.com/fullstack-lang/gongtable v0.0.0-20250225033727-02f8dc020e2a
+github.com/fullstack-lang/gongsvg/ng-github.com-fullstack-lang-gongsvg
+# github.com/fullstack-lang/gongtable v0.0.0-20250225041423-0cbce4df35cd
 ## explicit; go 1.23.1
 github.com/fullstack-lang/gongtable/go/controllers
 github.com/fullstack-lang/gongtable/go/db
 github.com/fullstack-lang/gongtable/go/fullstack
 github.com/fullstack-lang/gongtable/go/models
 github.com/fullstack-lang/gongtable/go/orm
-github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects
-# github.com/fullstack-lang/gongtree v0.0.0-20250225033732-dfabd01241e7
+github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable
+# github.com/fullstack-lang/gongtree v0.0.0-20250225041424-1235b232a399
 ## explicit; go 1.23.1
 github.com/fullstack-lang/gongtree/go/buttons
 github.com/fullstack-lang/gongtree/go/controllers
@@ -88,7 +88,7 @@ github.com/fullstack-lang/gongtree/go/db
 github.com/fullstack-lang/gongtree/go/fullstack
 github.com/fullstack-lang/gongtree/go/models
 github.com/fullstack-lang/gongtree/go/orm
-github.com/fullstack-lang/gongtree/ng-github.com-fullstack-lang-gongtree/projects
+github.com/fullstack-lang/gongtree/ng-github.com-fullstack-lang-gongtree
 # github.com/fullstack-lang/maticons v0.0.0-20240913013021-27a7b8fd9369
 ## explicit; go 1.23.1
 github.com/fullstack-lang/maticons/maticons

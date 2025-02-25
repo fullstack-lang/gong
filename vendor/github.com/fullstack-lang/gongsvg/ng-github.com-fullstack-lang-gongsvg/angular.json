@@ -1,0 +1,171 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "newProjectRoot": "projects",
+  "projects": {
+    "ng-github.com-fullstack-lang-gongsvg": {
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "configurations": {
+            "development": {
+              "extractLicenses": false,
+              "optimization": false,
+              "sourceMap": true
+            },
+            "production": {
+              "budgets": [
+                {
+                  "maximumError": "10mb",
+                  "maximumWarning": "500kb",
+                  "type": "initial"
+                },
+                {
+                  "maximumError": "4kb",
+                  "maximumWarning": "2kb",
+                  "type": "anyComponentStyle"
+                }
+              ],
+              "outputHashing": "all"
+            }
+          },
+          "defaultConfiguration": "production",
+          "options": {
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "browser": "src/main.ts",
+            "index": "src/index.html",
+            "outputPath": "dist/ng-github.com-fullstack-lang-gongsvg",
+            "polyfills": [
+              "zone.js"
+            ],
+            "scripts": [],
+            "styles": [
+              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/styles.css"
+            ],
+            "tsConfig": "tsconfig.app.json"
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "buildTarget": "ng-github.com-fullstack-lang-gongsvg:build"
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "development": {
+              "buildTarget": "ng-github.com-fullstack-lang-gongsvg:build:development"
+            },
+            "production": {
+              "buildTarget": "ng-github.com-fullstack-lang-gongsvg:build:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        }
+      },
+      "prefix": "app",
+      "projectType": "application",
+      "root": "",
+      "schematics": {
+        "@schematics/angular:class": {
+          "skipTests": true
+        },
+        "@schematics/angular:component": {
+          "inlineStyle": true,
+          "inlineTemplate": true,
+          "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "skipTests": true
+        },
+        "@schematics/angular:guard": {
+          "skipTests": true
+        },
+        "@schematics/angular:interceptor": {
+          "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": true
+        },
+        "@schematics/angular:resolver": {
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true
+        }
+      },
+      "sourceRoot": "src"
+    },
+    "gongsvg": {
+      "projectType": "library",
+      "root": "projects/gongsvg",
+      "sourceRoot": "projects/gongsvg/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/gongsvg/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/gongsvg/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/gongsvg/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/gongsvg/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "gongsvgspecific": {
+      "projectType": "library",
+      "root": "projects/gongsvgspecific",
+      "sourceRoot": "projects/gongsvgspecific/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/gongsvgspecific/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/gongsvgspecific/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/gongsvgspecific/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/gongsvgspecific/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "version": 1
+}
