@@ -155,7 +155,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		filepath.Join(modelPkg.NgWorkspacePath, "projects/embed.go"),
+		filepath.Join(modelPkg.NgWorkspacePath, "embed.go"),
 		golang.GoProjectsGo)
 
 	gong_models.VerySimpleCodeGenerator(
