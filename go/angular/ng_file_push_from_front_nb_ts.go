@@ -11,7 +11,7 @@ import (
 )
 
 const NgPushFromFrontTemplateTS = `import { Injectable, Component, Inject } from '@angular/core';
-import { HttpClientModule, HttpParams } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DOCUMENT, Location } from '@angular/common'
 
