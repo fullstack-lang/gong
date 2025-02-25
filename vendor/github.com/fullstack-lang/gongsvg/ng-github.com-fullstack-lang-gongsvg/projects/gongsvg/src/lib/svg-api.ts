@@ -17,6 +17,7 @@ export class SVGAPI {
 	Name: string = ""
 	DrawingState: string = ""
 	IsEditable: boolean = false
+	IsSVGFileGenerated: boolean = false
 
 	// insertion point for other decls
 

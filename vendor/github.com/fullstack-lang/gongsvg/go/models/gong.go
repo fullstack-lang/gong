@@ -252,6 +252,15 @@ type StageStruct struct {
 	OnAfterSVGDeleteCallback OnAfterDeleteInterface[SVG]
 	OnAfterSVGReadCallback   OnAfterReadInterface[SVG]
 
+	SvgTexts           map[*SvgText]any
+	SvgTexts_mapString map[string]*SvgText
+
+	// insertion point for slice of pointers maps
+	OnAfterSvgTextCreateCallback OnAfterCreateInterface[SvgText]
+	OnAfterSvgTextUpdateCallback OnAfterUpdateInterface[SvgText]
+	OnAfterSvgTextDeleteCallback OnAfterDeleteInterface[SvgText]
+	OnAfterSvgTextReadCallback   OnAfterReadInterface[SvgText]
+
 	Texts           map[*Text]any
 	Texts_mapString map[string]*Text
 
@@ -365,6 +374,8 @@ type BackRepoInterface interface {
 	CheckoutRectLinkLink(rectlinklink *RectLinkLink)
 	CommitSVG(svg *SVG)
 	CheckoutSVG(svg *SVG)
+	CommitSvgText(svgtext *SvgText)
+	CheckoutSvgText(svgtext *SvgText)
 	CommitText(text *Text)
 	CheckoutText(text *Text)
 	GetLastCommitFromBackNb() uint
@@ -425,6 +436,9 @@ func NewStage(path string) (stage *StageStruct) {
 		SVGs:           make(map[*SVG]any),
 		SVGs_mapString: make(map[string]*SVG),
 
+		SvgTexts:           make(map[*SvgText]any),
+		SvgTexts_mapString: make(map[string]*SvgText),
+
 		Texts:           make(map[*Text]any),
 		Texts_mapString: make(map[string]*Text),
 
@@ -478,6 +492,7 @@ func (stage *StageStruct) Commit() {
 	stage.Map_GongStructName_InstancesNb["RectAnchoredText"] = len(stage.RectAnchoredTexts)
 	stage.Map_GongStructName_InstancesNb["RectLinkLink"] = len(stage.RectLinkLinks)
 	stage.Map_GongStructName_InstancesNb["SVG"] = len(stage.SVGs)
+	stage.Map_GongStructName_InstancesNb["SvgText"] = len(stage.SvgTexts)
 	stage.Map_GongStructName_InstancesNb["Text"] = len(stage.Texts)
 
 }
@@ -506,6 +521,7 @@ func (stage *StageStruct) Checkout() {
 	stage.Map_GongStructName_InstancesNb["RectAnchoredText"] = len(stage.RectAnchoredTexts)
 	stage.Map_GongStructName_InstancesNb["RectLinkLink"] = len(stage.RectLinkLinks)
 	stage.Map_GongStructName_InstancesNb["SVG"] = len(stage.SVGs)
+	stage.Map_GongStructName_InstancesNb["SvgText"] = len(stage.SvgTexts)
 	stage.Map_GongStructName_InstancesNb["Text"] = len(stage.Texts)
 
 }
@@ -1389,6 +1405,56 @@ func (svg *SVG) GetName() (res string) {
 	return svg.Name
 }
 
+// Stage puts svgtext to the model stage
+func (svgtext *SvgText) Stage(stage *StageStruct) *SvgText {
+	stage.SvgTexts[svgtext] = __member
+	stage.SvgTexts_mapString[svgtext.Name] = svgtext
+
+	return svgtext
+}
+
+// Unstage removes svgtext off the model stage
+func (svgtext *SvgText) Unstage(stage *StageStruct) *SvgText {
+	delete(stage.SvgTexts, svgtext)
+	delete(stage.SvgTexts_mapString, svgtext.Name)
+	return svgtext
+}
+
+// UnstageVoid removes svgtext off the model stage
+func (svgtext *SvgText) UnstageVoid(stage *StageStruct) {
+	delete(stage.SvgTexts, svgtext)
+	delete(stage.SvgTexts_mapString, svgtext.Name)
+}
+
+// commit svgtext to the back repo (if it is already staged)
+func (svgtext *SvgText) Commit(stage *StageStruct) *SvgText {
+	if _, ok := stage.SvgTexts[svgtext]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitSvgText(svgtext)
+		}
+	}
+	return svgtext
+}
+
+func (svgtext *SvgText) CommitVoid(stage *StageStruct) {
+	svgtext.Commit(stage)
+}
+
+// Checkout svgtext to the back repo (if it is already staged)
+func (svgtext *SvgText) Checkout(stage *StageStruct) *SvgText {
+	if _, ok := stage.SvgTexts[svgtext]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutSvgText(svgtext)
+		}
+	}
+	return svgtext
+}
+
+// for satisfaction of GongStruct interface
+func (svgtext *SvgText) GetName() (res string) {
+	return svgtext.Name
+}
+
 // Stage puts text to the model stage
 func (text *Text) Stage(stage *StageStruct) *Text {
 	stage.Texts[text] = __member
@@ -1458,6 +1524,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMRectAnchoredText(RectAnchoredText *RectAnchoredText)
 	CreateORMRectLinkLink(RectLinkLink *RectLinkLink)
 	CreateORMSVG(SVG *SVG)
+	CreateORMSvgText(SvgText *SvgText)
 	CreateORMText(Text *Text)
 }
 
@@ -1479,6 +1546,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMRectAnchoredText(RectAnchoredText *RectAnchoredText)
 	DeleteORMRectLinkLink(RectLinkLink *RectLinkLink)
 	DeleteORMSVG(SVG *SVG)
+	DeleteORMSvgText(SvgText *SvgText)
 	DeleteORMText(Text *Text)
 }
 
@@ -1533,6 +1601,9 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 
 	stage.SVGs = make(map[*SVG]any)
 	stage.SVGs_mapString = make(map[string]*SVG)
+
+	stage.SvgTexts = make(map[*SvgText]any)
+	stage.SvgTexts_mapString = make(map[string]*SvgText)
 
 	stage.Texts = make(map[*Text]any)
 	stage.Texts_mapString = make(map[string]*Text)
@@ -1590,6 +1661,9 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 
 	stage.SVGs = nil
 	stage.SVGs_mapString = nil
+
+	stage.SvgTexts = nil
+	stage.SvgTexts_mapString = nil
 
 	stage.Texts = nil
 	stage.Texts_mapString = nil
@@ -1663,6 +1737,10 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 
 	for svg := range stage.SVGs {
 		svg.Unstage(stage)
+	}
+
+	for svgtext := range stage.SvgTexts {
+		svgtext.Unstage(stage)
 	}
 
 	for text := range stage.Texts {
@@ -1764,6 +1842,8 @@ func GongGetSet[Type GongstructSet](stage *StageStruct) *Type {
 		return any(&stage.RectLinkLinks).(*Type)
 	case map[*SVG]any:
 		return any(&stage.SVGs).(*Type)
+	case map[*SvgText]any:
+		return any(&stage.SvgTexts).(*Type)
 	case map[*Text]any:
 		return any(&stage.Texts).(*Type)
 	default:
@@ -1812,6 +1892,8 @@ func GongGetMap[Type GongstructMapString](stage *StageStruct) *Type {
 		return any(&stage.RectLinkLinks_mapString).(*Type)
 	case map[string]*SVG:
 		return any(&stage.SVGs_mapString).(*Type)
+	case map[string]*SvgText:
+		return any(&stage.SvgTexts_mapString).(*Type)
 	case map[string]*Text:
 		return any(&stage.Texts_mapString).(*Type)
 	default:
@@ -1860,6 +1942,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *StageStruct) *map[*Type]a
 		return any(&stage.RectLinkLinks).(*map[*Type]any)
 	case SVG:
 		return any(&stage.SVGs).(*map[*Type]any)
+	case SvgText:
+		return any(&stage.SvgTexts).(*map[*Type]any)
 	case Text:
 		return any(&stage.Texts).(*map[*Type]any)
 	default:
@@ -1908,6 +1992,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.RectLinkLinks).(*map[Type]any)
 	case *SVG:
 		return any(&stage.SVGs).(*map[Type]any)
+	case *SvgText:
+		return any(&stage.SvgTexts).(*map[Type]any)
 	case *Text:
 		return any(&stage.Texts).(*map[Type]any)
 	default:
@@ -1956,6 +2042,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *StageStruct) *map[string]
 		return any(&stage.RectLinkLinks_mapString).(*map[string]*Type)
 	case SVG:
 		return any(&stage.SVGs_mapString).(*map[string]*Type)
+	case SvgText:
+		return any(&stage.SvgTexts_mapString).(*map[string]*Type)
 	case Text:
 		return any(&stage.Texts_mapString).(*map[string]*Type)
 	default:
@@ -2103,6 +2191,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			StartRect: &Rect{Name: "StartRect"},
 			// field is initialized with an instance of Rect with the name of the field
 			EndRect: &Rect{Name: "EndRect"},
+		}).(*Type)
+	case SvgText:
+		return any(&SvgText{
+			// Initialisation of associations
 		}).(*Type)
 	case Text:
 		return any(&Text{
@@ -2314,6 +2406,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of SvgText
+	case SvgText:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Text
 	case Text:
@@ -2629,6 +2726,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End]*Start)
 		}
+	// reverse maps of direct associations of SvgText
+	case SvgText:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Text
 	case Text:
 		switch fieldname {
@@ -2688,6 +2790,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "RectLinkLink"
 	case SVG:
 		res = "SVG"
+	case SvgText:
+		res = "SvgText"
 	case Text:
 		res = "Text"
 	}
@@ -2736,6 +2840,8 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "RectLinkLink"
 	case *SVG:
 		res = "SVG"
+	case *SvgText:
+		res = "SvgText"
 	case *Text:
 		res = "Text"
 	}
@@ -2782,7 +2888,9 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case RectLinkLink:
 		res = []string{"Name", "Start", "End", "TargetAnchorPosition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case SVG:
-		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable"}
+		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable", "IsSVGFileGenerated"}
+	case SvgText:
+		res = []string{"Name", "Text"}
 	case Text:
 		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	}
@@ -2932,6 +3040,9 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	case SVG:
 		var rf ReverseField
 		_ = rf
+	case SvgText:
+		var rf ReverseField
+		_ = rf
 	case Text:
 		var rf ReverseField
 		_ = rf
@@ -2982,7 +3093,9 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *RectLinkLink:
 		res = []string{"Name", "Start", "End", "TargetAnchorPosition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case *SVG:
-		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable"}
+		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable", "IsSVGFileGenerated"}
+	case *SvgText:
+		res = []string{"Name", "Text"}
 	case *Text:
 		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	}
@@ -3942,6 +4055,18 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsEditable)
 			res.valueBool = inferedInstance.IsEditable
 			res.GongFieldValueType = GongFieldValueTypeBool
+		case "IsSVGFileGenerated":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsSVGFileGenerated)
+			res.valueBool = inferedInstance.IsSVGFileGenerated
+			res.GongFieldValueType = GongFieldValueTypeBool
+		}
+	case *SvgText:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "Text":
+			res.valueString = inferedInstance.Text
 		}
 	case *Text:
 		switch fieldName {
@@ -4914,6 +5039,18 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsEditable)
 			res.valueBool = inferedInstance.IsEditable
 			res.GongFieldValueType = GongFieldValueTypeBool
+		case "IsSVGFileGenerated":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsSVGFileGenerated)
+			res.valueBool = inferedInstance.IsSVGFileGenerated
+			res.GongFieldValueType = GongFieldValueTypeBool
+		}
+	case SvgText:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "Text":
+			res.valueString = inferedInstance.Text
 		}
 	case Text:
 		switch fieldName {

@@ -35,6 +35,8 @@ import { RectLinkLinkAPI } from './rectlinklink-api'
 
 import { SVGAPI } from './svg-api'
 
+import { SvgTextAPI } from './svgtext-api'
+
 import { TextAPI } from './text-api'
 
 
@@ -74,9 +76,13 @@ export class BackRepoData {
 
 	SVGAPIs = new Array<SVGAPI>()
 
+	SvgTextAPIs = new Array<SvgTextAPI>()
+
 	TextAPIs = new Array<TextAPI>()
 
 
+	// index of the web socket for this stack type (unique among all stack instances)
+	GONG__Index : number
 
 	constructor(data?: Partial<BackRepoData>) {
 		// insertion point for copies
@@ -114,8 +120,11 @@ export class BackRepoData {
 
 		this.SVGAPIs = data?.SVGAPIs || [];
 
+		this.SvgTextAPIs = data?.SvgTextAPIs || [];
+
 		this.TextAPIs = data?.TextAPIs || [];
 
+		this.GONG__Index = data?.GONG__Index ?? -1;   // Assign Index here
 	}
 
 }

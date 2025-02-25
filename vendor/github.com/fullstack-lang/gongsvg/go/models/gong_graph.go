@@ -56,6 +56,9 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	case *SVG:
 		ok = stage.IsStagedSVG(target)
 
+	case *SvgText:
+		ok = stage.IsStagedSvgText(target)
+
 	case *Text:
 		ok = stage.IsStagedText(target)
 
@@ -185,6 +188,13 @@ func (stage *StageStruct) IsStagedSVG(svg *SVG) (ok bool) {
 	return
 }
 
+func (stage *StageStruct) IsStagedSvgText(svgtext *SvgText) (ok bool) {
+
+	_, ok = stage.SvgTexts[svgtext]
+
+	return
+}
+
 func (stage *StageStruct) IsStagedText(text *Text) (ok bool) {
 
 	_, ok = stage.Texts[text]
@@ -250,6 +260,9 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	case *SVG:
 		stage.StageBranchSVG(target)
+
+	case *SvgText:
+		stage.StageBranchSvgText(target)
 
 	case *Text:
 		stage.StageBranchText(target)
@@ -611,6 +624,21 @@ func (stage *StageStruct) StageBranchSVG(svg *SVG) {
 
 }
 
+func (stage *StageStruct) StageBranchSvgText(svgtext *SvgText) {
+
+	// check if instance is already staged
+	if IsStaged(stage, svgtext) {
+		return
+	}
+
+	svgtext.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *StageStruct) StageBranchText(text *Text) {
 
 	// check if instance is already staged
@@ -706,6 +734,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *SVG:
 		toT := CopyBranchSVG(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *SvgText:
+		toT := CopyBranchSvgText(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Text:
@@ -1138,6 +1170,25 @@ func CopyBranchSVG(mapOrigCopy map[any]any, svgFrom *SVG) (svgTo *SVG) {
 	return
 }
 
+func CopyBranchSvgText(mapOrigCopy map[any]any, svgtextFrom *SvgText) (svgtextTo *SvgText) {
+
+	// svgtextFrom has already been copied
+	if _svgtextTo, ok := mapOrigCopy[svgtextFrom]; ok {
+		svgtextTo = _svgtextTo.(*SvgText)
+		return
+	}
+
+	svgtextTo = new(SvgText)
+	mapOrigCopy[svgtextFrom] = svgtextTo
+	svgtextFrom.CopyBasicFields(svgtextTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchText(mapOrigCopy map[any]any, textFrom *Text) (textTo *Text) {
 
 	// textFrom has already been copied
@@ -1218,6 +1269,9 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	case *SVG:
 		stage.UnstageBranchSVG(target)
+
+	case *SvgText:
+		stage.UnstageBranchSvgText(target)
 
 	case *Text:
 		stage.UnstageBranchText(target)
@@ -1576,6 +1630,21 @@ func (stage *StageStruct) UnstageBranchSVG(svg *SVG) {
 	for _, _layer := range svg.Layers {
 		UnstageBranch(stage, _layer)
 	}
+
+}
+
+func (stage *StageStruct) UnstageBranchSvgText(svgtext *SvgText) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, svgtext) {
+		return
+	}
+
+	svgtext.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 

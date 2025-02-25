@@ -22,6 +22,10 @@ type SVG struct {
 
 	IsEditable bool
 
+	// IsSVGFileGenerated means the SVG file is grabbed from the rendering engine
+	// and is download with a <name of the svg>.svg
+	IsSVGFileGenerated bool
+
 	Impl SVGImplInterface
 }
 

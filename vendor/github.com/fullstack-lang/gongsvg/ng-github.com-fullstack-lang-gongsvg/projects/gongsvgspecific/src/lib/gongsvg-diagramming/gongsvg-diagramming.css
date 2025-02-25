@@ -21,3 +21,13 @@ line.moveable-line[segment-orientation='vertical'] {
 .movable-text {
     cursor: move;
 }
+
+
+
+line.hit-area[segment-orientation='horizontal'] {
+    cursor: ns-resize;
+}
+
+line.hit-area[segment-orientation='vertical'] {
+    cursor: ew-resize;
+}

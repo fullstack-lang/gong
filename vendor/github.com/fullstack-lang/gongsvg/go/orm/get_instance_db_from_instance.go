@@ -83,6 +83,10 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		svgInstance := any(concreteInstance).(*models.SVG)
 		ret2 := backRepo.BackRepoSVG.GetSVGDBFromSVGPtr(svgInstance)
 		ret = any(ret2).(*T2)
+	case *models.SvgText:
+		svgtextInstance := any(concreteInstance).(*models.SvgText)
+		ret2 := backRepo.BackRepoSvgText.GetSvgTextDBFromSvgTextPtr(svgtextInstance)
+		ret = any(ret2).(*T2)
 	case *models.Text:
 		textInstance := any(concreteInstance).(*models.Text)
 		ret2 := backRepo.BackRepoText.GetTextDBFromTextPtr(textInstance)
@@ -182,6 +186,11 @@ func GetID[T models.Gongstruct](
 		id = int(tmp.ID)
 	case *models.SVG:
 		tmp := GetInstanceDBFromInstance[models.SVG, SVGDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.SvgText:
+		tmp := GetInstanceDBFromInstance[models.SvgText, SvgTextDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -285,6 +294,11 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.SVG:
 		tmp := GetInstanceDBFromInstance[models.SVG, SVGDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.SvgText:
+		tmp := GetInstanceDBFromInstance[models.SvgText, SvgTextDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
