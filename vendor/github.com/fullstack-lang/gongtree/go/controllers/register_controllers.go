@@ -165,6 +165,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 
 	backRepoData := new(orm.BackRepoData)
 	orm.CopyBackRepoToBackRepoData(backRepo, backRepoData)
+	backRepoData.GONG__Index = index
 
 	err = wsConnection.WriteJSON(backRepoData)
 	if err != nil {
@@ -186,6 +187,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 
 				backRepoData := new(orm.BackRepoData)
 				orm.CopyBackRepoToBackRepoData(backRepo, backRepoData)
+				backRepoData.GONG__Index = index
 
 				// Set write deadline to prevent blocking indefinitely
 				wsConnection.SetWriteDeadline(time.Now().Add(10 * time.Second))
