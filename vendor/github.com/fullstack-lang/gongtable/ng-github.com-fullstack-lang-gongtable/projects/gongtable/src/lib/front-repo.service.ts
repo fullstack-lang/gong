@@ -400,7 +400,7 @@ export class FrontRepoService {
 	}
 
 	// typing of observable can be messy in typescript. Therefore, one force the type
-	observableFrontRepo: [
+	observableFrontRepo!: [
 		Observable<null>, // see below for the of(null) observable
 		// insertion point sub template 
 		Observable<CellAPI[]>,
@@ -426,40 +426,7 @@ export class FrontRepoService {
 		Observable<OptionAPI[]>,
 		Observable<RowAPI[]>,
 		Observable<TableAPI[]>,
-	] = [
-			// Using "combineLatest" with a placeholder observable.
-			//
-			// This allows the typescript compiler to pass when no GongStruct is present in the front API
-			//
-			// The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
-			// This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
-			// expectation for a non-empty array of observables.
-			of(null), // 
-			// insertion point sub template
-			this.cellService.getCells(this.GONG__StackPath, this.frontRepo),
-			this.cellbooleanService.getCellBooleans(this.GONG__StackPath, this.frontRepo),
-			this.cellfloat64Service.getCellFloat64s(this.GONG__StackPath, this.frontRepo),
-			this.celliconService.getCellIcons(this.GONG__StackPath, this.frontRepo),
-			this.cellintService.getCellInts(this.GONG__StackPath, this.frontRepo),
-			this.cellstringService.getCellStrings(this.GONG__StackPath, this.frontRepo),
-			this.checkboxService.getCheckBoxs(this.GONG__StackPath, this.frontRepo),
-			this.displayedcolumnService.getDisplayedColumns(this.GONG__StackPath, this.frontRepo),
-			this.formdivService.getFormDivs(this.GONG__StackPath, this.frontRepo),
-			this.formeditassocbuttonService.getFormEditAssocButtons(this.GONG__StackPath, this.frontRepo),
-			this.formfieldService.getFormFields(this.GONG__StackPath, this.frontRepo),
-			this.formfielddateService.getFormFieldDates(this.GONG__StackPath, this.frontRepo),
-			this.formfielddatetimeService.getFormFieldDateTimes(this.GONG__StackPath, this.frontRepo),
-			this.formfieldfloat64Service.getFormFieldFloat64s(this.GONG__StackPath, this.frontRepo),
-			this.formfieldintService.getFormFieldInts(this.GONG__StackPath, this.frontRepo),
-			this.formfieldselectService.getFormFieldSelects(this.GONG__StackPath, this.frontRepo),
-			this.formfieldstringService.getFormFieldStrings(this.GONG__StackPath, this.frontRepo),
-			this.formfieldtimeService.getFormFieldTimes(this.GONG__StackPath, this.frontRepo),
-			this.formgroupService.getFormGroups(this.GONG__StackPath, this.frontRepo),
-			this.formsortassocbuttonService.getFormSortAssocButtons(this.GONG__StackPath, this.frontRepo),
-			this.optionService.getOptions(this.GONG__StackPath, this.frontRepo),
-			this.rowService.getRows(this.GONG__StackPath, this.frontRepo),
-			this.tableService.getTables(this.GONG__StackPath, this.frontRepo),
-		];
+	];
 
 	//
 	// pull performs a GET on all struct of the stack and redeem association pointers 
