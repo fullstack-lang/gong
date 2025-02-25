@@ -13,7 +13,7 @@ import (
 	// this will import the angular front end source code directory (versionned with git) in the vendor directory
 	// this path will be included in the "tsconfig.json" front end compilation paths
 	// to include this stack front end code
-	_ "{{PkgPathAboveRoot}}/{{NgWorkspaceName}}/projects"
+	_ "{{PkgPathAboveRoot}}/{{NgWorkspaceName}}"
 )
 
 // NewStackInstance creates a new stack instance from the Stack Model
