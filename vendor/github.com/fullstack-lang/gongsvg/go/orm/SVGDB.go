@@ -81,6 +81,10 @@ type SVGDB struct {
 	// provide the sql storage for the boolan
 	IsEditable_Data sql.NullBool
 
+	// Declation for basic field svgDB.IsSVGFileGenerated
+	// provide the sql storage for the boolan
+	IsSVGFileGenerated_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	SVGPointersEncoding
@@ -108,6 +112,8 @@ type SVGWOP struct {
 	DrawingState models.DrawingState `xlsx:"2"`
 
 	IsEditable bool `xlsx:"3"`
+
+	IsSVGFileGenerated bool `xlsx:"4"`
 	// insertion for WOP pointer fields
 }
 
@@ -117,6 +123,7 @@ var SVG_Fields = []string{
 	"Name",
 	"DrawingState",
 	"IsEditable",
+	"IsSVGFileGenerated",
 }
 
 type BackRepoSVGStruct struct {
@@ -485,6 +492,9 @@ func (svgDB *SVGDB) CopyBasicFieldsFromSVG(svg *models.SVG) {
 
 	svgDB.IsEditable_Data.Bool = svg.IsEditable
 	svgDB.IsEditable_Data.Valid = true
+
+	svgDB.IsSVGFileGenerated_Data.Bool = svg.IsSVGFileGenerated
+	svgDB.IsSVGFileGenerated_Data.Valid = true
 }
 
 // CopyBasicFieldsFromSVG_WOP
@@ -499,6 +509,9 @@ func (svgDB *SVGDB) CopyBasicFieldsFromSVG_WOP(svg *models.SVG_WOP) {
 
 	svgDB.IsEditable_Data.Bool = svg.IsEditable
 	svgDB.IsEditable_Data.Valid = true
+
+	svgDB.IsSVGFileGenerated_Data.Bool = svg.IsSVGFileGenerated
+	svgDB.IsSVGFileGenerated_Data.Valid = true
 }
 
 // CopyBasicFieldsFromSVGWOP
@@ -513,6 +526,9 @@ func (svgDB *SVGDB) CopyBasicFieldsFromSVGWOP(svg *SVGWOP) {
 
 	svgDB.IsEditable_Data.Bool = svg.IsEditable
 	svgDB.IsEditable_Data.Valid = true
+
+	svgDB.IsSVGFileGenerated_Data.Bool = svg.IsSVGFileGenerated
+	svgDB.IsSVGFileGenerated_Data.Valid = true
 }
 
 // CopyBasicFieldsToSVG
@@ -521,6 +537,7 @@ func (svgDB *SVGDB) CopyBasicFieldsToSVG(svg *models.SVG) {
 	svg.Name = svgDB.Name_Data.String
 	svg.DrawingState.FromString(svgDB.DrawingState_Data.String)
 	svg.IsEditable = svgDB.IsEditable_Data.Bool
+	svg.IsSVGFileGenerated = svgDB.IsSVGFileGenerated_Data.Bool
 }
 
 // CopyBasicFieldsToSVG_WOP
@@ -529,6 +546,7 @@ func (svgDB *SVGDB) CopyBasicFieldsToSVG_WOP(svg *models.SVG_WOP) {
 	svg.Name = svgDB.Name_Data.String
 	svg.DrawingState.FromString(svgDB.DrawingState_Data.String)
 	svg.IsEditable = svgDB.IsEditable_Data.Bool
+	svg.IsSVGFileGenerated = svgDB.IsSVGFileGenerated_Data.Bool
 }
 
 // CopyBasicFieldsToSVGWOP
@@ -538,6 +556,7 @@ func (svgDB *SVGDB) CopyBasicFieldsToSVGWOP(svg *SVGWOP) {
 	svg.Name = svgDB.Name_Data.String
 	svg.DrawingState.FromString(svgDB.DrawingState_Data.String)
 	svg.IsEditable = svgDB.IsEditable_Data.Bool
+	svg.IsSVGFileGenerated = svgDB.IsSVGFileGenerated_Data.Bool
 }
 
 // Backup generates a json file from a slice of all SVGDB instances in the backrepo

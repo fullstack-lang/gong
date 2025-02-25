@@ -141,7 +141,7 @@ type xlsxDefinedName struct {
 	Help              string `xml:"help,attr,omitempty"`
 	ShortcutKey       string `xml:"shortcutKey,attr,omitempty"`
 	StatusBar         string `xml:"statusBar,attr,omitempty"`
-	LocalSheetID      int    `xml:"localSheetId,attr"`
+	LocalSheetID      *int   `xml:"localSheetId,attr"`
 	FunctionGroupID   int    `xml:"functionGroupId,attr,omitempty"`
 	Function          bool   `xml:"function,attr,omitempty"`
 	Hidden            bool   `xml:"hidden,attr,omitempty"`
@@ -193,7 +193,7 @@ func getWorksheetFromSheet(sheet xlsxSheet, worksheets map[string]*zip.File, she
 
 	f := worksheetFileForSheet(sheet, worksheets, sheetXMLMap)
 	if f == nil {
-		return wrap(fmt.Errorf("Unable to find sheet '%s'", sheet))
+		return wrap(fmt.Errorf("unable to find sheet '%s'", sheet))
 	}
 	if rc, err := f.Open(); err != nil {
 		return wrap(fmt.Errorf("file.Open: %w", err))

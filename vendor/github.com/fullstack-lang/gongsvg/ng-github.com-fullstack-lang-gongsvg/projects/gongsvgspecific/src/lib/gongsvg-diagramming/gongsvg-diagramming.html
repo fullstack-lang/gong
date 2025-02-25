@@ -6,6 +6,8 @@
             (dragover)="backgroundDragOver($event)" -->
             <lib-text-width-calculator #textWidthCalculator></lib-text-width-calculator>
 
+            <button mat-raised-button color="primary" (click)="downloadSVG()" style="transform: scale(0.5);">Save</button>
+            
 <svg #svgContainer [attr.width]="svgWidth" [attr.height]="svgHeight" >
     <g>
 
@@ -405,7 +407,7 @@
                     </ng-container>
                     <ng-container *ngIf="link | linkSegments: map_Link_Segment as segments">
                         <ng-container *ngIf="!link.IsBezierCurve || svg.IsEditable">
-                            <line *ngFor='let segment of segments;' class="moveable-line" 
+                            <g *ngFor='let segment of segments; let i = index'>  <line class="moveable-line" 
                                 [attr.x1]="segment.StartPoint.X" 
                                 [attr.y1]="segment.StartPoint.Y" 
                                 [attr.x2]="segment.EndPoint.X" 
@@ -417,28 +419,19 @@
                                 [attr.stroke-width]="link.StrokeWidth"
                                 [attr.stroke-dasharray]="link.StrokeDashArray" 
                                 [attr.segment-orientation]="getOrientation(segment)"
-                                [attr.segment-number]="segment.Number"
-                                
-                                (mousedown)="linkMouseDown($event, segment.Number, link)" 
-                                (mousemove)="onmousemove($event)" 
-                                (mouseup)="linkMouseUp($event, link)"/>
-                            <line *ngFor='let segment of segments;' class="moveable-line" 
-                                [attr.x1]="segment.StartPoint.X" 
+                                [attr.segment-number]="segment.Number" />
+                        
+                              <line class="hit-area"  [attr.x1]="segment.StartPoint.X" 
                                 [attr.y1]="segment.StartPoint.Y" 
                                 [attr.x2]="segment.EndPoint.X" 
                                 [attr.y2]="segment.EndPoint.Y"
-                                [attr.fill]="link.Color"
-                                [attr.fill-opacity]="link.FillOpacity" 
-                                [attr.stroke]="link.Stroke" 
-                                [attr.stroke-opacity]="link.StrokeOpacity"
-                                [attr.stroke-width]="link.StrokeWidth"
-                                [attr.stroke-dasharray]="link.StrokeDashArray" 
-                                [attr.segment-orientation]="getOrientation(segment)"
-                                [attr.segment-number]="segment.Number"
-                                
+                                [attr.stroke]="'transparent'"  
+                                [attr.stroke-width]="link.StrokeWidth + 10" 
+                                [attr.segment-orientation]="getOrientation(segment)" 
                                 (mousedown)="linkMouseDown($event, segment.Number, link)" 
                                 (mousemove)="onmousemove($event)" 
-                                (mouseup)="linkMouseUp($event, link)"/>
+                                (mouseup)="linkMouseUp($event, link)" />
+                            </g>
                     </ng-container>
             
                     <ng-container *ngFor='let segment of segments; let i = index'>

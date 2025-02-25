@@ -264,6 +264,9 @@ func (stage *StageStruct) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct SvgText
+	// insertion point per field
+
 	// Compute reverse map for named struct Text
 	// insertion point per field
 	clear(stage.Text_Animates_reverseMap)

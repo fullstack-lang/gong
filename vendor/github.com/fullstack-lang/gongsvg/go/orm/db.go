@@ -88,6 +88,10 @@ type DBLite struct {
 
 	nextIDSVGDB uint
 
+	svgtextDBs map[uint]*SvgTextDB
+
+	nextIDSvgTextDB uint
+
 	textDBs map[uint]*TextDB
 
 	nextIDTextDB uint
@@ -131,6 +135,8 @@ func NewDBLite() *DBLite {
 		rectlinklinkDBs: make(map[uint]*RectLinkLinkDB),
 
 		svgDBs: make(map[uint]*SVGDB),
+
+		svgtextDBs: make(map[uint]*SvgTextDB),
 
 		textDBs: make(map[uint]*TextDB),
 	}
@@ -215,6 +221,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDSVGDB++
 		v.ID = db.nextIDSVGDB
 		db.svgDBs[v.ID] = v
+	case *SvgTextDB:
+		db.nextIDSvgTextDB++
+		v.ID = db.nextIDSvgTextDB
+		db.svgtextDBs[v.ID] = v
 	case *TextDB:
 		db.nextIDTextDB++
 		v.ID = db.nextIDTextDB
@@ -281,6 +291,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.rectlinklinkDBs, v.ID)
 	case *SVGDB:
 		delete(db.svgDBs, v.ID)
+	case *SvgTextDB:
+		delete(db.svgtextDBs, v.ID)
 	case *TextDB:
 		delete(db.textDBs, v.ID)
 	default:
@@ -351,6 +363,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *SVGDB:
 		db.svgDBs[v.ID] = v
+		return db, nil
+	case *SvgTextDB:
+		db.svgtextDBs[v.ID] = v
 		return db, nil
 	case *TextDB:
 		db.textDBs[v.ID] = v
@@ -473,6 +488,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db SVG github.com/fullstack-lang/gongsvg/go, record not found")
 		}
+	case *SvgTextDB:
+		if existing, ok := db.svgtextDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db SvgText github.com/fullstack-lang/gongsvg/go, record not found")
+		}
 	case *TextDB:
 		if existing, ok := db.textDBs[v.ID]; ok {
 			*existing = *v
@@ -592,6 +613,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]SVGDB:
 		*ptr = make([]SVGDB, 0, len(db.svgDBs))
 		for _, v := range db.svgDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]SvgTextDB:
+		*ptr = make([]SvgTextDB, 0, len(db.svgtextDBs))
+		for _, v := range db.svgtextDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -803,6 +830,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		svgDB, _ := instanceDB.(*SVGDB)
 		*svgDB = *tmp
+		
+	case *SvgTextDB:
+		tmp, ok := db.svgtextDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First SvgText Unkown entry %d", i))
+		}
+
+		svgtextDB, _ := instanceDB.(*SvgTextDB)
+		*svgtextDB = *tmp
 		
 	case *TextDB:
 		tmp, ok := db.textDBs[uint(i)]
