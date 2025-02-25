@@ -14,8 +14,8 @@ github.com/dustin/go-humanize v1.0.1 h1:GzkhY7T5VNhEkwH0PVJgjz+fX1rhBrR7pRT3mDkp
 github.com/dustin/go-humanize v1.0.1/go.mod h1:Mu1zIs6XwVuF/gI1OepvI0qD18qycQx+mFykh5fBlto=
 github.com/frankban/quicktest v1.14.6 h1:7Xjx+VpznH+oBnejlPUj8oUpdxnVs4f8XU8WnHkI4W8=
 github.com/frankban/quicktest v1.14.6/go.mod h1:4ptaffx2x8+WTWXmUCuVU6aPUX1/Mz7zb5vbUoiM6w0=
-github.com/fullstack-lang/gongdoc v0.0.0-20250225044213-210701a73ec5 h1:Ieh2lzDi2MIUZozkGSXzC+icZJJSPskOPWx4XS7kihI=
-github.com/fullstack-lang/gongdoc v0.0.0-20250225044213-210701a73ec5/go.mod h1:pFhr4iYCtXDVXDiJWv93o4qg4OjF3zZYuy5FW+/NBrk=
+github.com/fullstack-lang/gongdoc v0.0.0-20250225232856-54eb23cef02b h1:pNShmWWrrQpUvuR99KOi7K2UXWI7ywdIbtaJ7LDhhNc=
+github.com/fullstack-lang/gongdoc v0.0.0-20250225232856-54eb23cef02b/go.mod h1:hatGrBN9KsI00fao31e5eGriVOXyv9oSBKjhFcBV9aU=
 github.com/fullstack-lang/gongsvg v0.0.0-20250225232044-4904671c6cf9 h1:HTX18MgFm1vZjgKPsr/a2kF49rJR6fI9fCuKbaR5SIM=
 github.com/fullstack-lang/gongsvg v0.0.0-20250225232044-4904671c6cf9/go.mod h1:a1JeBGD9dG5QO/+JxahWmkb1yF4EesJezyF0XHgTlAU=
 github.com/fullstack-lang/gongtable v0.0.0-20250225232532-6f2091eed23f h1:mp9r2pnUuUW4bZl6AYzKuTTN3VawBwEFp8tDIRuvTZg=
