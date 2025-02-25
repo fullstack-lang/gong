@@ -143,13 +143,6 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath,
-		filepath.Join(modelPkg.NgDataLibrarySourceCodeDirectory, "app-routing.module.ts"),
-		angular.NgRoutingTemplate)
-
-	gong_models.VerySimpleCodeGeneratorForGongStructWithNameField(
-		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath,
 		filepath.Join(modelPkg.NgDataLibrarySourceCodeDirectory, "web-socket-service.ts"),
 		angular.WebSocketServiceTemplate)
 
