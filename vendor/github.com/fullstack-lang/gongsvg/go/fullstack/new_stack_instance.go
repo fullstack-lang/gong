@@ -61,6 +61,7 @@ func NewStackInstance(
 	models.SetOrchestratorOnAfterUpdate[models.RectAnchoredText](stage)
 	models.SetOrchestratorOnAfterUpdate[models.RectLinkLink](stage)
 	models.SetOrchestratorOnAfterUpdate[models.SVG](stage)
+	models.SetOrchestratorOnAfterUpdate[models.SvgText](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Text](stage)
 
 	return

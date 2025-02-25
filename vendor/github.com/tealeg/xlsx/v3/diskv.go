@@ -5,7 +5,6 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"math"
 	"os"
 	"strings"
@@ -125,6 +124,9 @@ func (dvr *DiskVRow) readCell(key string) (*Cell, error) {
 	if c.Hyperlink.Link, err = readString(buf); err != nil {
 		return c, err
 	}
+	if c.Hyperlink.Location, err = readString(buf); err != nil {
+		return c, err
+	}
 	if c.Hyperlink.Tooltip, err = readString(buf); err != nil {
 		return c, err
 	}
@@ -197,6 +199,9 @@ func (dvr *DiskVRow) writeCell(c *Cell) error {
 		return err
 	}
 	if err = writeString(&dvr.buf, c.Hyperlink.Link); err != nil {
+		return err
+	}
+	if err = writeString(&dvr.buf, c.Hyperlink.Location); err != nil {
 		return err
 	}
 	if err = writeString(&dvr.buf, c.Hyperlink.Tooltip); err != nil {
@@ -333,7 +338,6 @@ func (dvr *DiskVRow) CellCount() int {
 type DiskVCellStore struct {
 	baseDir string
 	buf     *bytes.Buffer
-	reader  *bytes.Reader
 	store   *diskv.Diskv
 }
 
@@ -354,7 +358,7 @@ func NewDiskVCellStore() (CellStore, error) {
 		buf: bytes.NewBuffer([]byte{}),
 	}
 
-	dir, err := ioutil.TempDir("", cellStorePrefix+generator.Hex128())
+	dir, err := os.MkdirTemp("", cellStorePrefix+generator.Hex128())
 	if err != nil {
 		return nil, err
 	}
@@ -402,7 +406,7 @@ func (cs *DiskVCellStore) MoveRow(r *Row, index int) error {
 	r.num = index
 	newKey := r.key()
 	if cs.store.Has(newKey) {
-		return fmt.Errorf("Target index for row (%d) would overwrite a row already exists", index)
+		return fmt.Errorf("target index for row (%d) would overwrite a row already exists", index)
 	}
 	err := cs.store.Erase(oldKey)
 	if err != nil {
@@ -508,7 +512,7 @@ func readUnitSeparator(reader *bytes.Reader) error {
 		return err
 	}
 	if us != US {
-		return errors.New("Invalid format in cellstore, no unit separator found")
+		return errors.New("invalid format in cellstore, no unit separator found")
 	}
 	return nil
 }
@@ -519,17 +523,6 @@ func writeUnitSeparator(buf *bytes.Buffer) error {
 
 func writeGroupSeparator(buf *bytes.Buffer) error {
 	return buf.WriteByte(GS)
-}
-
-func readGroupSeparator(reader *bytes.Reader) error {
-	gs, err := reader.ReadByte()
-	if err != nil {
-		return err
-	}
-	if gs != GS {
-		return errors.New("Invalid format in cellstore, no group separator found")
-	}
-	return nil
 }
 
 func readBool(reader *bytes.Reader) (bool, error) {
@@ -656,7 +649,7 @@ func readEndOfRecord(reader *bytes.Reader) error {
 		return err
 	}
 	if b != RS {
-		return errors.New("Expected end of record, but not found")
+		return errors.New("expected end of record, but not found")
 	}
 	return nil
 }
@@ -1087,6 +1080,9 @@ func writeCell(buf *bytes.Buffer, c *Cell) error {
 	if err = writeString(buf, c.Hyperlink.Link); err != nil {
 		return err
 	}
+	if err = writeString(buf, c.Hyperlink.Location); err != nil {
+		return err
+	}
 	if err = writeString(buf, c.Hyperlink.Tooltip); err != nil {
 		return err
 	}
@@ -1209,6 +1205,9 @@ func readCell(reader *bytes.Reader) (*Cell, error) {
 	if c.Hyperlink.Link, err = readString(reader); err != nil {
 		return c, err
 	}
+	if c.Hyperlink.Location, err = readString(reader); err != nil {
+		return c, err
+	}
 	if c.Hyperlink.Tooltip, err = readString(reader); err != nil {
 		return c, err
 	}
@@ -1238,7 +1237,7 @@ func readCell(reader *bytes.Reader) (*Cell, error) {
 func (cs *DiskVCellStore) WriteRow(r *Row) error {
 	dvr, ok := r.cellStoreRow.(*DiskVRow)
 	if !ok {
-		return fmt.Errorf("cellStoreRow for a DiskVCellStore is not DiskVRow (%T)!", r.cellStoreRow)
+		return fmt.Errorf("cellStoreRow for a DiskVCellStore is not DiskVRow (%T)", r.cellStoreRow)
 	}
 	if dvr.currentCell != nil {
 		err := dvr.writeCell(dvr.currentCell)
@@ -1253,10 +1252,6 @@ func (cs *DiskVCellStore) WriteRow(r *Row) error {
 	}
 	key := r.key()
 	return cs.store.WriteStream(key, cs.buf, true)
-}
-
-func cellTransform(s string) []string {
-	return strings.Split(s, ":")
 }
 
 func writeRichTextColor(buf *bytes.Buffer, c *RichTextColor) error {
@@ -1354,9 +1349,7 @@ func readRichTextColor(reader *bytes.Reader) (*RichTextColor, error) {
 
 func writeRichTextFont(buf *bytes.Buffer, f *RichTextFont) error {
 	var err error
-	var hasColor bool
-
-	hasColor = f.Color != nil
+	var hasColor bool = f.Color != nil
 
 	if err = writeString(buf, f.Name); err != nil {
 		return err
@@ -1460,9 +1453,7 @@ func readRichTextFont(reader *bytes.Reader) (*RichTextFont, error) {
 
 func writeRichTextRun(buf *bytes.Buffer, r *RichTextRun) error {
 	var err error
-	var hasFont bool
-
-	hasFont = r.Font != nil
+	var hasFont bool = r.Font != nil
 
 	if err = writeBool(buf, hasFont); err != nil {
 		return err
@@ -1510,9 +1501,7 @@ func readRichTextRun(reader *bytes.Reader) (*RichTextRun, error) {
 
 func writeRichText(buf *bytes.Buffer, rt []RichTextRun) error {
 	var err error
-	var length int
-
-	length = len(rt)
+	var length int = len(rt)
 
 	if err = writeInt(buf, length); err != nil {
 		return err

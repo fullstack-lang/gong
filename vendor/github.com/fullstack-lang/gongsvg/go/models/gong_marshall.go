@@ -1868,6 +1868,52 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", svg.IsEditable))
 		initializerStatements += setValueField
 
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsSVGFileGenerated")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", svg.IsSVGFileGenerated))
+		initializerStatements += setValueField
+
+	}
+
+	map_SvgText_Identifiers := make(map[*SvgText]string)
+	_ = map_SvgText_Identifiers
+
+	svgtextOrdered := []*SvgText{}
+	for svgtext := range stage.SvgTexts {
+		svgtextOrdered = append(svgtextOrdered, svgtext)
+	}
+	sort.Slice(svgtextOrdered[:], func(i, j int) bool {
+		return svgtextOrdered[i].Name < svgtextOrdered[j].Name
+	})
+	if len(svgtextOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, svgtext := range svgtextOrdered {
+
+		id = generatesIdentifier("SvgText", idx, svgtext.Name)
+		map_SvgText_Identifiers[svgtext] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SvgText")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", svgtext.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(svgtext.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Text")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(svgtext.Text))
+		initializerStatements += setValueField
+
 	}
 
 	map_Text_Identifiers := make(map[*Text]string)
@@ -2395,6 +2441,16 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			pointersInitializesStatements += setPointerField
 		}
 
+	}
+
+	for idx, svgtext := range svgtextOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("SvgText", idx, svgtext.Name)
+		map_SvgText_Identifiers[svgtext] = id
+
+		// Initialisation of values
 	}
 
 	for idx, text := range textOrdered {

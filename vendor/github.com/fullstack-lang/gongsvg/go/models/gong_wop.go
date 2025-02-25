@@ -560,6 +560,7 @@ type SVG_WOP struct {
 	Name string
 	DrawingState DrawingState
 	IsEditable bool
+	IsSVGFileGenerated bool
 }
 
 func (from *SVG) CopyBasicFields(to *SVG) {
@@ -567,6 +568,19 @@ func (from *SVG) CopyBasicFields(to *SVG) {
 	to.Name = from.Name
 	to.DrawingState = from.DrawingState
 	to.IsEditable = from.IsEditable
+	to.IsSVGFileGenerated = from.IsSVGFileGenerated
+}
+
+type SvgText_WOP struct {
+	// insertion point
+	Name string
+	Text string
+}
+
+func (from *SvgText) CopyBasicFields(to *SvgText) {
+	// insertion point
+	to.Name = from.Name
+	to.Text = from.Text
 }
 
 type Text_WOP struct {
