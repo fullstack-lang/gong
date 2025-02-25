@@ -23,7 +23,7 @@ require (
 )
 
 require (
-	github.com/fullstack-lang/gongdoc v0.0.0-20250225044213-210701a73ec5
+	github.com/fullstack-lang/gongdoc v0.0.0-20250225232856-54eb23cef02b
 	github.com/fullstack-lang/gongtable v0.0.0-20250225232532-6f2091eed23f
 	github.com/fullstack-lang/gongtree v0.0.0-20250225232047-6e68f3f06ba8
 	github.com/fullstack-lang/maticons v0.0.0-20240913013021-27a7b8fd9369
