@@ -352,7 +352,7 @@ export class FrontRepoService {
 	}
 
 	// typing of observable can be messy in typescript. Therefore, one force the type
-	observableFrontRepo: [
+	observableFrontRepo!: [
 		Observable<null>, // see below for the of(null) observable
 		// insertion point sub template 
 		Observable<AnimateAPI[]>,
@@ -374,36 +374,7 @@ export class FrontRepoService {
 		Observable<SVGAPI[]>,
 		Observable<SvgTextAPI[]>,
 		Observable<TextAPI[]>,
-	] = [
-			// Using "combineLatest" with a placeholder observable.
-			//
-			// This allows the typescript compiler to pass when no GongStruct is present in the front API
-			//
-			// The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
-			// This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
-			// expectation for a non-empty array of observables.
-			of(null), // 
-			// insertion point sub template
-			this.animateService.getAnimates(this.GONG__StackPath, this.frontRepo),
-			this.circleService.getCircles(this.GONG__StackPath, this.frontRepo),
-			this.ellipseService.getEllipses(this.GONG__StackPath, this.frontRepo),
-			this.layerService.getLayers(this.GONG__StackPath, this.frontRepo),
-			this.lineService.getLines(this.GONG__StackPath, this.frontRepo),
-			this.linkService.getLinks(this.GONG__StackPath, this.frontRepo),
-			this.linkanchoredtextService.getLinkAnchoredTexts(this.GONG__StackPath, this.frontRepo),
-			this.pathService.getPaths(this.GONG__StackPath, this.frontRepo),
-			this.pointService.getPoints(this.GONG__StackPath, this.frontRepo),
-			this.polygoneService.getPolygones(this.GONG__StackPath, this.frontRepo),
-			this.polylineService.getPolylines(this.GONG__StackPath, this.frontRepo),
-			this.rectService.getRects(this.GONG__StackPath, this.frontRepo),
-			this.rectanchoredpathService.getRectAnchoredPaths(this.GONG__StackPath, this.frontRepo),
-			this.rectanchoredrectService.getRectAnchoredRects(this.GONG__StackPath, this.frontRepo),
-			this.rectanchoredtextService.getRectAnchoredTexts(this.GONG__StackPath, this.frontRepo),
-			this.rectlinklinkService.getRectLinkLinks(this.GONG__StackPath, this.frontRepo),
-			this.svgService.getSVGs(this.GONG__StackPath, this.frontRepo),
-			this.svgtextService.getSvgTexts(this.GONG__StackPath, this.frontRepo),
-			this.textService.getTexts(this.GONG__StackPath, this.frontRepo),
-		];
+	];
 
 	//
 	// pull performs a GET on all struct of the stack and redeem association pointers 
