@@ -268,7 +268,7 @@ export class FrontRepoService {
 	}
 
 	// typing of observable can be messy in typescript. Therefore, one force the type
-	observableFrontRepo: [
+	observableFrontRepo!: [
 		Observable<null>, // see below for the of(null) observable
 		// insertion point sub template 
 		Observable<GongBasicFieldAPI[]>,
@@ -283,29 +283,7 @@ export class FrontRepoService {
 		Observable<ModelPkgAPI[]>,
 		Observable<PointerToGongStructFieldAPI[]>,
 		Observable<SliceOfPointerToGongStructFieldAPI[]>,
-	] = [
-			// Using "combineLatest" with a placeholder observable.
-			//
-			// This allows the typescript compiler to pass when no GongStruct is present in the front API
-			//
-			// The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
-			// This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
-			// expectation for a non-empty array of observables.
-			of(null), // 
-			// insertion point sub template
-			this.gongbasicfieldService.getGongBasicFields(this.GONG__StackPath, this.frontRepo),
-			this.gongenumService.getGongEnums(this.GONG__StackPath, this.frontRepo),
-			this.gongenumvalueService.getGongEnumValues(this.GONG__StackPath, this.frontRepo),
-			this.gonglinkService.getGongLinks(this.GONG__StackPath, this.frontRepo),
-			this.gongnoteService.getGongNotes(this.GONG__StackPath, this.frontRepo),
-			this.gongstructService.getGongStructs(this.GONG__StackPath, this.frontRepo),
-			this.gongtimefieldService.getGongTimeFields(this.GONG__StackPath, this.frontRepo),
-			this.metaService.getMetas(this.GONG__StackPath, this.frontRepo),
-			this.metareferenceService.getMetaReferences(this.GONG__StackPath, this.frontRepo),
-			this.modelpkgService.getModelPkgs(this.GONG__StackPath, this.frontRepo),
-			this.pointertogongstructfieldService.getPointerToGongStructFields(this.GONG__StackPath, this.frontRepo),
-			this.sliceofpointertogongstructfieldService.getSliceOfPointerToGongStructFields(this.GONG__StackPath, this.frontRepo),
-		];
+	];
 
 	//
 	// pull performs a GET on all struct of the stack and redeem association pointers 
