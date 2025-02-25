@@ -198,7 +198,10 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 	// it has to be done after the go mod tidy and ust before the ng build
 	if !skipGoModCommands {
 		start := time.Now()
+
 		cmd := exec.Command("go", "mod", "vendor")
+		// Copy the current environment and then add "GOWORK=off"
+		cmd.Env = append(os.Environ(), "GOWORK=off")
 		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
