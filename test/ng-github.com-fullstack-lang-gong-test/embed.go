@@ -1,6 +1,4 @@
-package golang
-
-const GoProjectsGo = `package ng
+package ng
 
 import "embed"
 
@@ -17,4 +15,3 @@ import "embed"
 //
 //go:embed projects
 var Projects embed.FS
-`
