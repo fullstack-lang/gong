@@ -500,7 +500,8 @@ Hello *Hello
 AlternateHellos []*Hello
 }" > go/models/country.go
 gongc go/models
-./go/cmd/helloworld/helloworld -unmarshallFromCode=./go/cmd/helloworld/stage.go -marshallOnCommit=./go/cmd/helloworld/stage
+cd go/cmd/helloworld
+./helloworld -unmarshallFromCode=stage.go -marshallOnCommit=stage 
 ```
 
 Then, browse to [localhost:8080](http://localhost:8080) and add data manualy.
