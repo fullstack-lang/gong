@@ -54,25 +54,25 @@ func _(stage *models.StageStruct) {
 	__Astruct__000000_A2.Floatfield = 0.000000
 	__Astruct__000000_A2.Intfield = 0
 	__Astruct__000000_A2.Anotherbooleanfield = false
-	__Astruct__000000_A2.Duration1 = -796530000000000000
+	__Astruct__000000_A2.Duration1 = 796530000000000000
 
-	//gong:ident [......] comment added to overcome the problem with the comment map association
-	__Astruct__000000_A2.StructRef = `......`
+	//gong:ident [.......] comment added to overcome the problem with the comment map association
+	__Astruct__000000_A2.StructRef = `.......`
 
-	//gong:ident [......] comment added to overcome the problem with the comment map association
-	__Astruct__000000_A2.FieldRef = `......`
+	//gong:ident [.......] comment added to overcome the problem with the comment map association
+	__Astruct__000000_A2.FieldRef = `.......`
 
-	//gong:ident [......] comment added to overcome the problem with the comment map association
-	__Astruct__000000_A2.EnumIntRef = `......`
+	//gong:ident [.......] comment added to overcome the problem with the comment map association
+	__Astruct__000000_A2.EnumIntRef = `.......`
 
-	//gong:ident [......] comment added to overcome the problem with the comment map association
-	__Astruct__000000_A2.EnumStringRef = `......`
+	//gong:ident [.......] comment added to overcome the problem with the comment map association
+	__Astruct__000000_A2.EnumStringRef = `.......`
 
-	//gong:ident [......] comment added to overcome the problem with the comment map association
-	__Astruct__000000_A2.EnumValue = `......`
+	//gong:ident [.......] comment added to overcome the problem with the comment map association
+	__Astruct__000000_A2.EnumValue = `.......`
 
-	//gong:ident [......] comment added to overcome the problem with the comment map association
-	__Astruct__000000_A2.ConstIdentifierValue = `......`
+	//gong:ident [.......] comment added to overcome the problem with the comment map association
+	__Astruct__000000_A2.ConstIdentifierValue = `.......`
 	__Astruct__000000_A2.TextFieldBespokeSize = ``
 	__Astruct__000000_A2.TextArea = ``
 
@@ -100,17 +100,17 @@ Second Line`
 	//gong:ident [gongdoc_models.GongStructShape.Name] comment added to overcome the problem with the comment map association
 	__Astruct__000001_A1.FieldRef = `gongdoc_models.GongStructShape.Name`
 
-	//gong:ident [...........] comment added to overcome the problem with the comment map association
-	__Astruct__000001_A1.EnumIntRef = `...........`
+	//gong:ident [............] comment added to overcome the problem with the comment map association
+	__Astruct__000001_A1.EnumIntRef = `............`
 
-	//gong:ident [...........] comment added to overcome the problem with the comment map association
-	__Astruct__000001_A1.EnumStringRef = `...........`
+	//gong:ident [............] comment added to overcome the problem with the comment map association
+	__Astruct__000001_A1.EnumStringRef = `............`
 
-	//gong:ident [...........] comment added to overcome the problem with the comment map association
-	__Astruct__000001_A1.EnumValue = `...........`
+	//gong:ident [............] comment added to overcome the problem with the comment map association
+	__Astruct__000001_A1.EnumValue = `............`
 
-	//gong:ident [...........] comment added to overcome the problem with the comment map association
-	__Astruct__000001_A1.ConstIdentifierValue = `...........`
+	//gong:ident [............] comment added to overcome the problem with the comment map association
+	__Astruct__000001_A1.ConstIdentifierValue = `............`
 	__Astruct__000001_A1.TextFieldBespokeSize = ``
 	__Astruct__000001_A1.TextArea = ``
 
@@ -127,23 +127,23 @@ Second Line`
 	__Astruct__000002_A3.Anotherbooleanfield = false
 	__Astruct__000002_A3.Duration1 = -79653000000000
 
-	//gong:ident [...........] comment added to overcome the problem with the comment map association
-	__Astruct__000002_A3.StructRef = `...........`
+	//gong:ident [............] comment added to overcome the problem with the comment map association
+	__Astruct__000002_A3.StructRef = `............`
 
-	//gong:ident [...........] comment added to overcome the problem with the comment map association
-	__Astruct__000002_A3.FieldRef = `...........`
+	//gong:ident [............] comment added to overcome the problem with the comment map association
+	__Astruct__000002_A3.FieldRef = `............`
 
-	//gong:ident [...........] comment added to overcome the problem with the comment map association
-	__Astruct__000002_A3.EnumIntRef = `...........`
+	//gong:ident [............] comment added to overcome the problem with the comment map association
+	__Astruct__000002_A3.EnumIntRef = `............`
 
-	//gong:ident [...........] comment added to overcome the problem with the comment map association
-	__Astruct__000002_A3.EnumStringRef = `...........`
+	//gong:ident [............] comment added to overcome the problem with the comment map association
+	__Astruct__000002_A3.EnumStringRef = `............`
 
-	//gong:ident [...........] comment added to overcome the problem with the comment map association
-	__Astruct__000002_A3.EnumValue = `...........`
+	//gong:ident [............] comment added to overcome the problem with the comment map association
+	__Astruct__000002_A3.EnumValue = `............`
 
-	//gong:ident [...........] comment added to overcome the problem with the comment map association
-	__Astruct__000002_A3.ConstIdentifierValue = `...........`
+	//gong:ident [............] comment added to overcome the problem with the comment map association
+	__Astruct__000002_A3.ConstIdentifierValue = `............`
 	__Astruct__000002_A3.TextFieldBespokeSize = ``
 	__Astruct__000002_A3.TextArea = ``
 
@@ -179,7 +179,7 @@ Second Line`
 	__Gstruct__000001_g2.Intfield = 0
 
 	// Setup of pointers
-
+	// setup of Astruct instances pointers
 	__Astruct__000001_A1.Associationtob = __Bstruct__000001_B2_
 	__Astruct__000001_A1.Anarrayofb = append(__Astruct__000001_A1.Anarrayofb, __Bstruct__000002_B3)
 	__Astruct__000001_A1.Anarrayofb = append(__Astruct__000001_A1.Anarrayofb, __Bstruct__000000_B1)
@@ -187,9 +187,12 @@ Second Line`
 	__Astruct__000001_A1.Anotherarrayofb = append(__Astruct__000001_A1.Anotherarrayofb, __Bstruct__000001_B2_)
 	__Astruct__000001_A1.Anotherarrayofb = append(__Astruct__000001_A1.Anotherarrayofb, __Bstruct__000002_B3)
 	__Astruct__000001_A1.Anarrayofb2Use = append(__Astruct__000001_A1.Anarrayofb2Use, __AstructBstruct2Use__000001_)
-
+	// setup of AstructBstruct2Use instances pointers
 	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
+	// setup of Bstruct instances pointers
+	// setup of Dstruct instances pointers
 	__Dstruct__000000_D1.Anarrayofb = append(__Dstruct__000000_D1.Anarrayofb, __Bstruct__000001_B2_)
 	__Dstruct__000000_D1.Anarrayofb = append(__Dstruct__000000_D1.Anarrayofb, __Bstruct__000002_B3)
+	// setup of Gstruct instances pointers
 }
