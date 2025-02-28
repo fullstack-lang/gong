@@ -1,708 +1,661 @@
-<!-- <div>Width: {{ svgWidth}}</div>
-<div>Height: {{ svgHeight }}</div> -->
+<lib-text-width-calculator #textWidthCalculator></lib-text-width-calculator>
 
-            <!-- (dragend)="backgroundOnDragEnd($event)"
-            (click)="backgroundOnClick($event)"
-            (dragover)="backgroundDragOver($event)" -->
-            <lib-text-width-calculator #textWidthCalculator></lib-text-width-calculator>
+<button mat-raised-button color="primary" (click)="downloadSVG()" style="transform: scale(0.5);">Save</button>
 
-            <button mat-raised-button color="primary" (click)="downloadSVG()" style="transform: scale(0.5);">Save</button>
-            
-<svg #svgContainer [attr.width]="svgWidth" [attr.height]="svgHeight" >
-    <g>
+<svg #svgContainer [attr.width]="svgWidth" [attr.height]="svgHeight">
+  <g>
+    <!-- this rect is for catching mouse events in the void -->
+    <rect
+      [attr.x]="0"
+      [attr.y]="0"
+      [attr.width]="svgWidth"
+      [attr.height]="svgHeight"
+      [attr.fill-opacity]="0"
+      (mousedown)="backgroundOnMouseDown($event)"
+      (mousemove)="onmousemove($event, 'background')"
+      (mouseup)="backgroundOnMouseUp($event)">
+    </rect>
 
-        <!-- this rect is for catching mouse event that are in the void -->
-        <rect
-            [attr.x]=0
-            [attr.y]=0
-            [attr.width]="svgWidth"
-            [attr.height]="svgHeight"
+    @for(layer of svg.Layers; track layer) {
+      <ng-container class="noevents-area">
+        @for(circle of layer.Circles; track circle) {
+          <circle
+            class="click-through"
+            [attr.cx]="circle.CX" 
+            [attr.cy]="circle.CY" 
+            [attr.r]="circle.Radius" 
+            [attr.fill]="circle.Color" 
+            [attr.fill-opacity]="circle.FillOpacity"
+            [attr.stroke]="circle.Stroke" 
+            [attr.stroke-opacity]="circle.StrokeOpacity"
+            [attr.stroke-width]="circle.StrokeWidth" 
+            [attr.stroke-dasharray]="circle.StrokeDashArray"
+            [attr.transform]="circle.Transform">
+            @for(animate of circle.Animations; track animate) {
+              <animate 
+                [attr.attributeName]="animate.AttributeName" 
+                [attr.values]="animate.Values" 
+                [attr.dur]="animate.Dur" 
+                [attr.repeatCount]="animate.RepeatCount" />
+            }
+          </circle>
+        }
 
-            [attr.fill-opacity]=0
+        @for(ellipse of layer.Ellipses; track ellipse) {
+          <ellipse
+            class="click-through"
+            [attr.rx]="ellipse.RX"
+            [attr.ry]="ellipse.RY"
+            [attr.cx]="ellipse.CX"
+            [attr.cy]="ellipse.CY"
+            [attr.fill]="ellipse.Color"
+            [attr.fill-opacity]="ellipse.FillOpacity"
+            [attr.stroke]="ellipse.Stroke"
+            [attr.stroke-opacity]="ellipse.StrokeOpacity"
+            [attr.stroke-width]="ellipse.StrokeWidth"
+            [attr.stroke-dasharray]="ellipse.StrokeDashArray" />
+          @for(animate of ellipse.Animates; track animate) {
+            <animate 
+              [attr.attributeName]="animate.AttributeName" 
+              [attr.values]="animate.Values" 
+              [attr.dur]="animate.Dur" 
+              [attr.repeatCount]="animate.RepeatCount" />
+          }
+        }
 
-            (mousedown)="backgroundOnMouseDown($event)"
-            (mousemove)="onmousemove($event, 'background')"
-            (mouseup)="backgroundOnMouseUp($event)"
+        @for(line of layer.Lines; track line) {
+          <line
+            class="click-through"
+            [attr.x1]="line.X1"
+            [attr.y1]="line.Y1"
+            [attr.x2]="line.X2"
+            [attr.y2]="line.Y2"
+            [attr.fill]="line.Color"
+            [attr.fill-opacity]="line.FillOpacity"
+            [attr.stroke]="line.Stroke"
+            [attr.stroke-opacity]="line.StrokeOpacity"
+            [attr.stroke-width]="line.StrokeWidth"
+            [attr.stroke-dasharray]="line.StrokeDashArray"
+            [attr.transform]="line.Transform">
+            @for(animate of line.Animates; track animate) {
+              @if(animate.Values != "") {
+                <animate 
+                  [attr.attributeName]="animate.AttributeName" 
+                  [attr.values]="animate.Values" 
+                  [attr.dur]="animate.Dur" 
+                  [attr.repeatCount]="animate.RepeatCount"
+                  begin="0" />
+              }
+              @if(animate.From != "") {
+                <animate 
+                  [attr.attributeName]="animate.AttributeName" 
+                  [attr.from]="animate.From" 
+                  [attr.to]="animate.To" 
+                  [attr.dur]="animate.Dur" 
+                  [attr.repeatCount]="animate.RepeatCount" />
+              }
+            }
+          </line>
+        }
 
-            >
-        </rect>
-        <ng-container *ngFor="let layer of svg.Layers" class="noevents-area">
-            <ng-container *ngFor="let circle of layer.Circles">
-                <circle
-                    class="click-through"
-                    [attr.cx]="circle.CX" 
-                    [attr.cy]="circle.CY" 
-                    [attr.r]="circle.Radius" 
-                    [attr.fill]="circle.Color!" 
-                    [attr.fill-opacity]="circle.FillOpacity"
-                    [attr.stroke]="circle.Stroke" 
-                    [attr.stroke-opacity]="circle.StrokeOpacity"
-                    [attr.stroke-width]="circle.StrokeWidth" 
-                    [attr.stroke-dasharray]="circle.StrokeDashArray"
-                    [attr.transform]="circle.Transform">
-    
-                <animate *ngFor="let animate of circle.Animations" 
-                    [attr.attributeName]="animate.AttributeName" 
-                    [attr.values]="animate.Values" 
-                    [attr.dur]="animate.Dur" 
-                    [attr.repeatCount]="animate.RepeatCount" />
-            </circle>
-            </ng-container>
-            <ng-container *ngFor="let ellipse of layer.Ellipses">
-                <ellipse
-                    class="click-through"
-                    [attr.rx]="ellipse.RX"
-                    [attr.ry]="ellipse.RY"
-                    [attr.cx]="ellipse.CX"
-                    [attr.cy]="ellipse.CY"
-                    [attr.fill]="ellipse.Color"
-                    [attr.fill-opacity]="ellipse.FillOpacity"
-                    [attr.stroke]="ellipse.Stroke"
-                    [attr.stroke-opacity]="ellipse.StrokeOpacity"
-                    [attr.stroke-width]="ellipse.StrokeWidth"
-                    [attr.stroke-dasharray]="ellipse.StrokeDashArray" />
+        @for(text of layer.Texts; track text) {
+          <text
+            class="click-through"
+            [attr.x]="text.X" 
+            [attr.y]="text.Y" 
+            [attr.fill]="text.Color" 
+            [attr.fill-opacity]="text.FillOpacity"
+            [attr.stroke]="text.Stroke" 
+            [attr.stroke-opacity]="text.StrokeOpacity"
+            [attr.stroke-width]="text.StrokeWidth" 
+            [attr.stroke-dasharray]="text.StrokeDashArray"
+            [attr.transform]="text.Transform">{{text.Content}}</text>
+        }
 
-                <animate *ngFor="let animate of ellipse.Animates" 
-                    [attr.attributeName]="animate.AttributeName" 
-                    [attr.values]="animate.Values" 
-                    [attr.dur]="animate.Dur" 
-                    [attr.repeatCount]="animate.RepeatCount" />
-            </ng-container>
-            <ng-container *ngFor="let line of layer.Lines">
-                <line
-                class="click-through"
-                [attr.x1]="line.X1"
-                [attr.y1]="line.Y1"
-                [attr.x2]="line.X2"
-                [attr.y2]="line.Y2"
-                [attr.fill]="line.Color"
-                [attr.fill-opacity]="line.FillOpacity"
-                [attr.stroke]="line.Stroke"
-                [attr.stroke-opacity]="line.StrokeOpacity"
-                [attr.stroke-width]="line.StrokeWidth"
-                [attr.stroke-dasharray]="line.StrokeDashArray"
-                [attr.transform]="line.Transform">
+        @for(path of layer.Paths; track path) {
+          <path [attr.d]="path.Definition"
+            class="click-through"
+            [attr.fill]="path.Color"
+            [attr.fill-opacity]="path.FillOpacity"
+            [attr.stroke]="path.Stroke"
+            [attr.stroke-opacity]="path.StrokeOpacity"
+            [attr.stroke-width]="path.StrokeWidth"
+            [attr.stroke-dasharray]="path.StrokeDashArray"
+            [attr.transform]="path.Transform" />
+          @for(animate of path.Animates; track animate) {
+            <animate 
+              [attr.attributeName]="animate.AttributeName" 
+              [attr.values]="animate.Values" 
+              [attr.dur]="animate.Dur" 
+              [attr.repeatCount]="animate.RepeatCount" />
+          }
+        }
+
+        @for(polygone of layer.Polygones; track polygone) {
+          <polygon 
+            class="click-through"
+            [attr.points]="polygone.Points"
+            [attr.fill]="polygone.Color"
+            [attr.fill-opacity]="polygone.FillOpacity"
+            [attr.stroke]="polygone.Stroke"
+            [attr.stroke-opacity]="polygone.StrokeOpacity"
+            [attr.stroke-width]="polygone.StrokeWidth"
+            [attr.stroke-dasharray]="polygone.StrokeDashArray" />
+          @for(animate of polygone.Animates; track animate) {
+            <animate 
+              [attr.attributeName]="animate.AttributeName" 
+              [attr.values]="animate.Values" 
+              [attr.dur]="animate.Dur" 
+              [attr.repeatCount]="animate.RepeatCount" />
+          }
+        }
+
+        @for(polyline of layer.Polylines; track polyline) {
+          <polyline 
+            class="click-through"
+            [attr.points]="polyline.Points"
+            [attr.fill]="polyline.Color"
+            [attr.fill-opacity]="polyline.FillOpacity"
+            [attr.stroke]="polyline.Stroke"
+            [attr.stroke-opacity]="polyline.StrokeOpacity"
+            [attr.stroke-width]="polyline.StrokeWidth"
+            [attr.stroke-dasharray]="polyline.StrokeDashArray"
+          />
+          @for(animate of polyline.Animates; track animate) {
+            <animate 
+              [attr.attributeName]="animate.AttributeName" 
+              [attr.values]="animate.Values" 
+              [attr.dur]="animate.Dur" 
+              [attr.repeatCount]="animate.RepeatCount" />
+          }
+        }
+
+        @for(rect of layer.Rects; track rect) {
+          <rect
+            [attr.x]="rect.X"
+            [attr.y]="rect.Y"
+            [attr.width]="rect.Width"
+            [attr.height]="rect.Height"
+            [attr.rx]="rect.RX"
+            [attr.fill]="rect.Color"
+            [attr.fill-opacity]="rect.FillOpacity"
+            [attr.stroke]="rect.Stroke"
+            [attr.stroke-opacity]="rect.StrokeOpacity"
+            [attr.stroke-width]="rect.StrokeWidth"
+            [attr.stroke-dasharray]="rect.IsSelected ? rect.StrokeDashArrayWhenSelected : rect.StrokeDashArray"
+            [attr.transform]="rect.Transform"
+            (mousedown)="rectMouseDown($event, rect)"
+            (mousemove)="onmousemove($event)"
+            (mouseup)="rectMouseUp($event, rect)">
+            @for(animate of rect.Animations; track animate) {
+              <animate
+                [attr.attributeName]="animate.AttributeName"
+                [attr.values]="animate.Values"
+                [attr.dur]="animate.Dur"
+                [attr.repeatCount]="animate.RepeatCount" />
+            }
+          </rect>
+          @for(rectAnchoredRect of rect.RectAnchoredRects!; track rectAnchoredRect) {
+            @if(rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_TOP) {
+              <ng-container [ngTemplateOutlet]="anchoredRect" [ngTemplateOutletContext]="{ 
+                      rect: rectAnchoredRect, 
+                      anchorX: rect.X + rect.Width/2 + rectAnchoredRect.X_Offset, 
+                      anchorY: rect.Y + rectAnchoredRect.Y_Offset,
+                      width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }">
+              </ng-container>
+            }
+            @if(rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_TOP_LEFT) {
+              <ng-container [ngTemplateOutlet]="anchoredRect" [ngTemplateOutletContext]="{ 
+                      rect: rectAnchoredRect, 
+                      anchorX: rect.X + rectAnchoredRect.X_Offset, 
+                      anchorY: rect.Y + rectAnchoredRect.Y_Offset,
+                      width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }">
+              </ng-container>
+            }
+            @if(rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_BOTTOM) {
+              <ng-container [ngTemplateOutlet]="anchoredRect" [ngTemplateOutletContext]="{ 
+                      rect: rectAnchoredRect, 
+                      anchorX: rect.X + rect.Width/2 + rectAnchoredRect.X_Offset, 
+                      anchorY: rect.Y + rect.Height + rectAnchoredRect.Y_Offset,
+                      width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }">
+              </ng-container>
+            }
+          }
+          @for(rectAnchoredPath of rect.RectAnchoredPaths!; track rectAnchoredPath) {
+            @if(rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_TOP) {
+              <ng-container [ngTemplateOutlet]="anchoredPath" [ngTemplateOutletContext]="{ 
+                      path: rectAnchoredPath, 
+                      anchorX: rect.X + rect.Width/2 + rectAnchoredPath.X_Offset, 
+                      anchorY: rect.Y + rectAnchoredPath.Y_Offset }">
+              </ng-container>
+            }
+            @if(rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_TOP_LEFT) {
+              <ng-container [ngTemplateOutlet]="anchoredPath" [ngTemplateOutletContext]="{ 
+                      path: rectAnchoredPath, 
+                      anchorX: rect.X + rectAnchoredPath.X_Offset, 
+                      anchorY: rect.Y + rectAnchoredPath.Y_Offset }">
+              </ng-container>
+            }
+            @if(rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM) {
+              <ng-container [ngTemplateOutlet]="anchoredPath" [ngTemplateOutletContext]="{ 
+                      path: rectAnchoredPath, 
+                      anchorX: rect.X + rect.Width/2 + rectAnchoredPath.X_Offset, 
+                      anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset }">
+              </ng-container>
+            }
+            @if(rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM_LEFT) {
+              <ng-container [ngTemplateOutlet]="anchoredPath" [ngTemplateOutletContext]="{ 
+                      path: rectAnchoredPath, 
+                      anchorX: rect.X + rectAnchoredPath.X_Offset, 
+                      anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset }">
+              </ng-container>
+            }
+            @if(rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM_LEFT_LEFT) {
+              <ng-container [ngTemplateOutlet]="anchoredPath" [ngTemplateOutletContext]="{ 
+                      path: rectAnchoredPath, 
+                      anchorX: rect.X - rect.Height + rectAnchoredPath.X_Offset, 
+                      anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset }">
+              </ng-container>
+            }
+            @if(rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM_BOTTOM_LEFT) {
+              <ng-container [ngTemplateOutlet]="anchoredPath" [ngTemplateOutletContext]="{ 
+                      path: rectAnchoredPath, 
+                      anchorX: rect.X + rectAnchoredPath.X_Offset, 
+                      anchorY: rect.Y + rect.Height + rect.Height + rectAnchoredPath.Y_Offset }">
+              </ng-container>
+            }
+            @if(rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM_RIGHT) {
+              <ng-container [ngTemplateOutlet]="anchoredPath" [ngTemplateOutletContext]="{ 
+                      path: rectAnchoredPath, 
+                      anchorX: rect.X + rect.Width + rectAnchoredPath.X_Offset, 
+                      anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset }">
+              </ng-container>
+            }
+            @if(rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_CENTER) {
+              <ng-container [ngTemplateOutlet]="anchoredPath" [ngTemplateOutletContext]="{ 
+                      path: rectAnchoredPath, 
+                      anchorX: rect.X + rect.Width/2 + rectAnchoredPath.X_Offset, 
+                      anchorY: rect.Y + rect.Height/2 + rectAnchoredPath.Y_Offset }">
+              </ng-container>
+            }
+            @if(rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM_INSIDE_RIGHT) {
+              <ng-container [ngTemplateOutlet]="anchoredPath" [ngTemplateOutletContext]="{ 
+                      path: rectAnchoredPath, 
+                      anchorX: rect.X + rect.Width - rect.Height + rectAnchoredPath.X_Offset, 
+                      anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset }">
+              </ng-container>
+            }
+          }
+          @for(text of rect.RectAnchoredTexts!; track text) {
+            @if(text.RectAnchorType == RectAnchorType.RECT_TOP_LEFT) {
+              <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
+                      text: text, 
+                      anchorX: rect.X + text.X_Offset, 
+                      anchorY: rect.Y + text.Y_Offset }">
+              </ng-container>
+            }
+            @if(text.RectAnchorType == RectAnchorType.RECT_TOP) {
+              <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
+                      text: text, 
+                      anchorX: rect.X + rect.Width/2 + text.X_Offset, 
+                      anchorY: rect.Y + text.Y_Offset }">
+              </ng-container>
+            }
+            @if(text.RectAnchorType == RectAnchorType.RECT_TOP_RIGHT) {
+              <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
+                      text: text, 
+                      anchorX: rect.X + rect.Width + text.X_Offset, 
+                      anchorY: rect.Y + text.Y_Offset }">
+              </ng-container>
+            }
+            @if(text.RectAnchorType == RectAnchorType.RECT_BOTTOM) {
+              <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
+                      text: text, 
+                      anchorX: rect.X + rect.Width/2 + text.X_Offset, 
+                      anchorY: rect.Y + rect.Height + text.Y_Offset }">
+              </ng-container>
+            }
+          }
+          <ng-container>
+            @if(rect.HasLeftHandle) {
+              <circle class="overlay"
+                [attr.cx]="rect.X"
+                [attr.cy]="rect.Y + rect.Height / 2"
+                [attr.r]="anchorRadius"
+                [attr.fill]="(anchorDragging && activeAnchor === 'left') ? draggingAnchorFillColor : anchorFillColor"
+                (mousedown)="anchorMouseDown($event, 'left', rect)"
+                (mousemove)="onmousemove($event)"
+                (mouseup)="anchorMouseUp($event, rect)"/>
+            }
+            @if(rect.HasRightHandle) {
+              <circle class="overlay"
+                [attr.cx]="rect.X + rect.Width"
+                [attr.cy]="rect.Y + rect.Height/2"
+                [attr.r]="anchorRadius"
+                [attr.fill]="(anchorDragging && activeAnchor === 'right') ? draggingAnchorFillColor : anchorFillColor"
+                (mousedown)="anchorMouseDown($event, 'right', rect)"
+                (mousemove)="onmousemove($event)"
+                (mouseup)="anchorMouseUp($event, rect)"/>
+            }
+            @if(rect.HasTopHandle) {
+              <circle class="overlay"
+                [attr.cx]="rect.X + rect.Width/2"
+                [attr.cy]="rect.Y"
+                [attr.r]="anchorRadius"
+                [attr.fill]="(anchorDragging && activeAnchor === 'top') ? draggingAnchorFillColor : anchorFillColor"
+                (mousedown)="anchorMouseDown($event, 'top', rect)"
+                (mousemove)="onmousemove($event)"
+                (mouseup)="anchorMouseUp($event, rect)"/>
+            }
+            @if(rect.HasBottomHandle) {
+              <circle class="overlay"
+                [attr.cx]="rect.X + rect.Width/2"
+                [attr.cy]="rect.Y + rect.Height"
+                [attr.r]="anchorRadius"
+                [attr.fill]="(anchorDragging && activeAnchor === 'bottom') ? draggingAnchorFillColor : anchorFillColor"
+                (mousedown)="anchorMouseDown($event, 'bottom', rect)"
+                (mousemove)="onmousemove($event)"
+                (mouseup)="anchorMouseUp($event, rect)"/>
+            }
+          </ng-container>
+        }
+
+        @for(link of layer.Links; track link) {
+          @if(link.Type == LinkType.LINK_TYPE_FLOATING_ORTHOGONAL) {
+            @if(link.IsBezierCurve) {
+              <path
+                [attr.d]="getBezierPath(link)" 
+                [attr.fill]="link.Color"
+                [attr.fill-opacity]="link.FillOpacity" 
+                [attr.stroke]="link.Stroke" 
+                [attr.stroke-opacity]="link.StrokeOpacity"
+                [attr.stroke-width]="link.StrokeWidth"
+                [attr.stroke-dasharray]="link.StrokeDashArray" />
+            }
+            @let segments = link | linkSegments: map_Link_Segment;
+            @if(segments) {
+              @if(!link.IsBezierCurve || svg.IsEditable) {
+                <g>
+                  @for(segment of segments; track segment) {
+                    <line class="moveable-line" 
+                      [attr.x1]="segment.StartPoint.X" 
+                      [attr.y1]="segment.StartPoint.Y" 
+                      [attr.x2]="segment.EndPoint.X" 
+                      [attr.y2]="segment.EndPoint.Y"
+                      [attr.fill]="link.Color"
+                      [attr.fill-opacity]="link.FillOpacity" 
+                      [attr.stroke]="link.Stroke" 
+                      [attr.stroke-opacity]="link.StrokeOpacity"
+                      [attr.stroke-width]="link.StrokeWidth"
+                      [attr.stroke-dasharray]="link.StrokeDashArray" 
+                      [attr.segment-orientation]="getOrientation(segment)"
+                      [attr.segment-number]="segment.Number" />
+                    <line class="hit-area"  
+                      [attr.x1]="segment.StartPoint.X" 
+                      [attr.y1]="segment.StartPoint.Y" 
+                      [attr.x2]="segment.EndPoint.X" 
+                      [attr.y2]="segment.EndPoint.Y"
+                      [attr.stroke]="'transparent'"  
+                      [attr.stroke-width]="link.StrokeWidth + 10" 
+                      [attr.segment-orientation]="getOrientation(segment)"
+                      (mousedown)="linkMouseDown($event, segment.Number, link)" 
+                      (mousemove)="onmousemove($event)" 
+                      (mouseup)="linkMouseUp($event, link)" />
+                  }
+                </g>
+              }
+              @for(segment of segments; track segment) {
+                @if(!link.IsBezierCurve) {
                 
-                <!-- Use ng-container to repeat animate tags -->
-                <ng-container *ngFor="let animate of line.Animates">
-                    @if (animate.Values != "") {
-                        <animate 
-                        [attr.attributeName]="animate.AttributeName" 
-                        [attr.values]="animate.Values" 
-                        [attr.dur]="animate.Dur" 
-                        [attr.repeatCount]="animate.RepeatCount"
-                        begin="0" />
+                    @let nextSegment = segments[segments.indexOf(segment) + 1];
+                    @if(nextSegment) {                    <path
+                      [attr.d]="getArcPath(link, segment, nextSegment)" 
+                      [attr.fill]="link.Color"
+                      [attr.fill-opacity]="link.FillOpacity" 
+                      [attr.stroke]="link.Stroke" 
+                      [attr.stroke-opacity]="link.StrokeOpacity"
+                      [attr.stroke-width]="link.StrokeWidth"
+                      [attr.stroke-dasharray]="link.StrokeDashArray" />
+                  }
+                }
+                @if((segments.indexOf(segment) == (segments.length - 1)) && link.HasEndArrow) {
+                  <path
+                    [attr.d]="getEndArrowPath(link, segment, link.EndArrowSize)"
+                    [attr.fill]="link.Color"
+                    [attr.fill-opacity]="link.FillOpacity" 
+                    [attr.stroke]="link.Stroke" 
+                    [attr.stroke-opacity]="link.StrokeOpacity"
+                    [attr.stroke-width]="link.StrokeWidth"
+                    [attr.stroke-dasharray]="link.StrokeDashArray" />
+                }
+                @if((segments.indexOf(segment) == 0) && link.HasStartArrow) {
+                  <path
+                    [attr.d]="getStartArrowPath(link, segment, link.StartArrowSize)"
+                    [attr.fill]="link.Color"
+                    [attr.fill-opacity]="link.FillOpacity" 
+                    [attr.stroke]="link.Stroke" 
+                    [attr.stroke-opacity]="link.StrokeOpacity"
+                    [attr.stroke-width]="link.StrokeWidth"
+                    [attr.stroke-dasharray]="link.StrokeDashArray" />
+                }
+                @if(segments.indexOf(segment) == (segments.length - 1)) {
+                  @for(text of link.TextAtArrowEnd!; track text; let k = $index) {
+                    @let lines = splitTextIntoLines(text.Content);
+                    @if(!text.AutomaticLayout) {
+                        <text class="click-through"
+                        [attr.x]="segment.EndPoint.X + text.X_Offset" 
+                        [attr.y]="segment.EndPoint.Y + text.Y_Offset" 
+                        [attr.font-weight]="text.FontWeight"
+                        [attr.font-size]="text.FontSize"
+                        [attr.letter-spacing]="text.LetterSpacing"
+                        [attr.fill]="text.Color"    
+                        [attr.fill-opacity]="text.FillOpacity"
+                        [attr.stroke]="text.Stroke"
+                        [attr.stroke-opacity]="text.StrokeOpacity"
+                        [attr.stroke-width]="text.StrokeWidth"
+                        [attr.stroke-dasharray]="text.StrokeDashArray"
+                        [attr.transform]="text.Transform"
+                        (mousedown)="textAnchoredMouseDown(link, $event, k, PositionOnArrowType.POSITION_ON_ARROW_END)" 
+                        (mousemove)="onmousemove($event)" 
+                        (mouseup)="textAnchoredMouseUp(link, $event)">
+                        @for(line of lines; track line) {
+                          <tspan [attr.x]="segment.EndPoint.X + text.X_Offset"
+                                 [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'">{{line}}</tspan>
+                        }
+                      </text>
+                    } @else {
+                      <text class="noevents-area"
+                        [attr.x]="segment.EndPoint.X" 
+                        [attr.y]="segment.EndPoint.Y + auto_Y_offset(link, segment, text, PositionOnArrowType.POSITION_ON_ARROW_END)" 
+                        [attr.font-weight]="text.FontWeight"
+                        [attr.font-size]="text.FontSize"
+                        [attr.letter-spacing]="text.LetterSpacing"
+                        [attr.fill]="text.Color"    
+                        [attr.fill-opacity]="text.FillOpacity"
+                        [attr.stroke]="text.Stroke"
+                        [attr.stroke-opacity]="text.StrokeOpacity"
+                        [attr.stroke-width]="text.StrokeWidth"
+                        [attr.stroke-dasharray]="text.StrokeDashArray"
+                        [attr.transform]="text.Transform">
+                        @for(line of lines; track line) {
+                          <tspan [attr.x]="segment.EndPoint.X + auto_X_offset(link, segment, text, line, PositionOnArrowType.POSITION_ON_ARROW_END)"
+                                 [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'">{{line}}</tspan>
+                        }
+                      </text>
                     }
-                    @if (animate.From != "") {
-                        <animate 
-                        [attr.attributeName]="animate.AttributeName" 
-                        [attr.from]="animate.From" 
-                        [attr.to]="animate.To" 
-                        [attr.dur]="animate.Dur" 
-                        [attr.repeatCount]="animate.RepeatCount" />
+                  }
+                }
+                @if(segments.indexOf(segment) == 0) {
+                  @for(text of link.TextAtArrowStart!; track text; let k = $index) {
+                    @let lines = splitTextIntoLines(text.Content);
+                    @if(!text.AutomaticLayout) {
+                      <text class="click-through"
+                        [attr.x]="segment.StartPoint.X + text.X_Offset" 
+                        [attr.y]="segment.StartPoint.Y + text.Y_Offset" 
+                        [attr.font-weight]="text.FontWeight"
+                        [attr.font-size]="text.FontSize"
+                        [attr.letter-spacing]="text.LetterSpacing"
+                        [attr.fill]="text.Color"    
+                        [attr.fill-opacity]="text.FillOpacity"
+                        [attr.stroke]="text.Stroke"
+                        [attr.stroke-opacity]="text.StrokeOpacity"
+                        [attr.stroke-width]="text.StrokeWidth"
+                        [attr.stroke-dasharray]="text.StrokeDashArray"
+                        [attr.transform]="text.Transform"
+                        (mousedown)="textAnchoredMouseDown(link, $event, k, PositionOnArrowType.POSITION_ON_ARROW_START)" 
+                        (mousemove)="onmousemove($event)" 
+                        (mouseup)="textAnchoredMouseUp(link, $event)">
+                        @for(line of lines; track line) {
+                          <tspan [attr.x]="segment.StartPoint.X + text.X_Offset"
+                                 [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'">{{line}}</tspan>
+                        }
+                      </text>
+                    } @else {
+                      <text class="noevents-area"
+                        [attr.x]="segment.StartPoint.X" 
+                        [attr.y]="segment.StartPoint.Y + auto_Y_offset(link, segment, text, PositionOnArrowType.POSITION_ON_ARROW_START)" 
+                        [attr.font-weight]="text.FontWeight"
+                        [attr.font-size]="text.FontSize"
+                        [attr.letter-spacing]="text.LetterSpacing"
+                        [attr.fill]="text.Color"    
+                        [attr.fill-opacity]="text.FillOpacity"
+                        [attr.stroke]="text.Stroke"
+                        [attr.stroke-opacity]="text.StrokeOpacity"
+                        [attr.stroke-width]="text.StrokeWidth"
+                        [attr.stroke-dasharray]="text.StrokeDashArray"
+                        [attr.transform]="text.Transform">
+                        @for(line of lines; track line) {
+                          <tspan [attr.x]="segment.StartPoint.X + auto_X_offset(link, segment, text, line, PositionOnArrowType.POSITION_ON_ARROW_START)"
+                                 [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'">{{line}}</tspan>
+                        }
+                      </text>
                     }
+                  }
+                }
+              }
+            }
+          }
+          @if(link.Type == LinkType.LINK_TYPE_LINE_WITH_CONTROL_POINTS) {
+            @if(link.ControlPoints.length == 0) {
+              <line 
+                [attr.x1]="getPosition(link.Start, link.StartAnchorType, link.End)[0]" 
+                [attr.y1]="getPosition(link.Start, link.StartAnchorType, link.End)[1]" 
+                [attr.x2]="getPosition(link.End, link.EndAnchorType, link.Start)[0]" 
+                [attr.y2]="getPosition(link.End, link.EndAnchorType, link.Start)[1]"
+                [attr.fill]="link.Color"
+                [attr.fill-opacity]="link.FillOpacity" 
+                [attr.stroke]="link.Stroke" 
+                [attr.stroke-opacity]="link.StrokeOpacity"
+                [attr.stroke-width]="link.StrokeWidth"
+                [attr.stroke-dasharray]="link.StrokeDashArray" 
+                [attr.transform]="link.Transform" />
+            }
+          }
+        }
 
-                </ng-container>
-              </line>
-              
-            </ng-container>
-            <ng-container *ngFor="let text of layer.Texts">
-                <text
-                    class="click-through"
-                    [attr.x]="text.X" 
-                    [attr.y]="text.Y" 
-                    [attr.fill]="text.Color" 
-                    [attr.fill]="text.Color" 
-                    [attr.fill-opacity]="text.FillOpacity"
-                    
-                    [attr.stroke]="text.Stroke" 
-                    [attr.stroke-opacity]="text.StrokeOpacity"
-                    [attr.stroke-width]="text.StrokeWidth" 
-                    [attr.stroke-dasharray]="text.StrokeDashArray"
-                    [attr.transform]="text.Transform">{{text.Content}}</text>
+        @for(rectLinkLink of layer.RectLinkLinks; track rectLinkLink) {
+          @if(rectLinkLink.Start && rectLinkLink.End) {
+            <line class="rect-link-link" 
+              [attr.x1]="getStartPosition(rectLinkLink)[0]" 
+              [attr.y1]="getStartPosition(rectLinkLink)[1]" 
+              [attr.x2]="getEndPosition(rectLinkLink)[0]" 
+              [attr.y2]="getEndPosition(rectLinkLink)[1]"
+              [attr.fill]="rectLinkLink.Color"
+              [attr.fill-opacity]="rectLinkLink.FillOpacity" 
+              [attr.stroke]="rectLinkLink.Stroke" 
+              [attr.stroke-opacity]="rectLinkLink.StrokeOpacity"
+              [attr.stroke-width]="rectLinkLink.StrokeWidth"
+              [attr.stroke-dasharray]="rectLinkLink.StrokeDashArray" 
+              [attr.transform]="rectLinkLink.Transform" />
+          }
+        }
+      </ng-container>
+    }
 
-            </ng-container>
-            <ng-container *ngFor="let path of layer.Paths">
-                <path [attr.d]="path.Definition"
-                    class="click-through"
-                    [attr.fill]="path.Color"
-                    [attr.fill-opacity]="path.FillOpacity"
-                    [attr.stroke]="path.Stroke"
-                    [attr.stroke-opacity]="path.StrokeOpacity"
-                    [attr.stroke-width]="path.StrokeWidth"
-                    [attr.stroke-dasharray]="path.StrokeDashArray"
-                    [attr.transform]="path.Transform" />
-    
-                <animate *ngFor="let animate of path.Animates" 
-                    [attr.attributeName]="animate.AttributeName" 
-                    [attr.values]="animate.Values" 
-                    [attr.dur]="animate.Dur" 
-                    [attr.repeatCount]="animate.RepeatCount" />
-            </ng-container>
-            <ng-container *ngFor="let polygone of layer.Polygones">
-                <polygon 
-                    class="click-through"
-                    [attr.points]="polygone.Points"
-                    [attr.fill]="polygone.Color"
-                    [attr.fill-opacity]="polygone.FillOpacity"
-                    [attr.stroke]="polygone.Stroke"
-                    [attr.stroke-opacity]="polygone.StrokeOpacity"
-                    [attr.stroke-width]="polygone.StrokeWidth"
-                    [attr.stroke-dasharray]="polygone.StrokeDashArray" />
-    
-                <animate *ngFor="let animate of polygone.Animates" 
-                    [attr.attributeName]="animate.AttributeName" 
-                    [attr.values]="animate.Values" 
-                    [attr.dur]="animate.Dur" 
-                    [attr.repeatCount]="animate.RepeatCount" />
-            </ng-container>
-            <ng-container *ngFor="let polyline of layer.Polylines">
-                <polyline 
-                    class="click-through"
-                    [attr.points]="polyline.Points"
-                    [attr.fill]="polyline.Color"
-                    [attr.fill-opacity]="polyline.FillOpacity"
-                    [attr.stroke]="polyline.Stroke"
-                    [attr.stroke-opacity]="polyline.StrokeOpacity"
-                    [attr.stroke-width]="polyline.StrokeWidth"
-                    [attr.stroke-dasharray]="polyline.StrokeDashArray"
-                />
-    
-                <animate *ngFor="let animate of polyline.Animates" 
-                    [attr.attributeName]="animate.AttributeName" 
-                    [attr.values]="animate.Values" 
-                    [attr.dur]="animate.Dur" 
-                    [attr.repeatCount]="animate.RepeatCount" />
-            </ng-container>
-            <ng-container *ngFor="let rect of layer.Rects">
-                <rect
-                    [attr.x]="rect.X"
-                    [attr.y]="rect.Y"
-                    [attr.width]="rect.Width"
-                    [attr.height]="rect.Height"
-                    [attr.rx]="rect.RX"
-                    [attr.fill]="rect.Color"
-                    [attr.fill-opacity]="rect.FillOpacity"
-                    [attr.stroke]="rect.Stroke"
-                    [attr.stroke-opacity]="rect.StrokeOpacity"
-                    [attr.stroke-width]="rect.StrokeWidth"
-                    [attr.stroke-dasharray]="rect.IsSelected ? rect.StrokeDashArrayWhenSelected : rect.StrokeDashArray"
-                    [attr.transform]="rect.Transform"
-
-                    (mousedown)="rectMouseDown($event, rect)"
-                    (mousemove)="onmousemove($event)"
-                    (mouseup)="rectMouseUp($event, rect)">
-
-                    <animate
-                            *ngFor="let animate of rect.Animations"
-                            [attr.attributeName]="animate.AttributeName"
-                            [attr.values]="animate.Values"
-                            [attr.dur]="animate.Dur"
-                            [attr.repeatCount]="animate.RepeatCount" />
-
-                </rect>
-                <ng-container *ngFor='let rectAnchoredRect of rect.RectAnchoredRects!; let i = index'>
-                    <ng-container *ngIf="rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_TOP" 
-                            [ngTemplateOutlet]="anchoredRect" 
-                            [ngTemplateOutletContext]="{ 
-                                    rect: rectAnchoredRect, 
-                                    anchorX: rect.X + rect.Width/2 + rectAnchoredRect.X_Offset, 
-                                    anchorY: rect.Y + rectAnchoredRect.Y_Offset,
-                                    width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }
-                            ">
-                    </ng-container>
-                    <ng-container *ngIf="rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_TOP_LEFT" 
-                            [ngTemplateOutlet]="anchoredRect" 
-                            [ngTemplateOutletContext]="{ 
-                                    rect: rectAnchoredRect, 
-                                    anchorX: rect.X + rectAnchoredRect.X_Offset, 
-                                    anchorY: rect.Y + rectAnchoredRect.Y_Offset ,
-                                    width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }
-                            ">
-                    </ng-container>
-                    <ng-container *ngIf="rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_BOTTOM" 
-                            [ngTemplateOutlet]="anchoredRect" 
-                            [ngTemplateOutletContext]="{ 
-                                    rect: rectAnchoredRect, 
-                                    anchorX: rect.X + rect.Width/2 + rectAnchoredRect.X_Offset, 
-                                    anchorY: rect.Y + rect.Height + rectAnchoredRect.Y_Offset ,
-                                    width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }
-                            ">
-                    </ng-container>
-                </ng-container>
-                <ng-container *ngFor='let rectAnchoredPath of rect.RectAnchoredPaths!; let i = index'>
-                    <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_TOP" 
-                        [ngTemplateOutlet]="anchoredPath" 
-                        [ngTemplateOutletContext]="{ 
-                            path: rectAnchoredPath, 
-                            anchorX: rect.X + rect.Width/2 + rectAnchoredPath.X_Offset, 
-                            anchorY: rect.Y + rectAnchoredPath.Y_Offset,}
-                        ">
-                    </ng-container>
-                    <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_TOP_LEFT" 
-                        [ngTemplateOutlet]="anchoredPath" 
-                        [ngTemplateOutletContext]="{ 
-                            path: rectAnchoredPath, 
-                            anchorX: rect.X + rectAnchoredPath.X_Offset, 
-                            anchorY: rect.Y + rectAnchoredPath.Y_Offset ,}
-                        ">
-                    </ng-container>
-                    <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM" 
-                        [ngTemplateOutlet]="anchoredPath" 
-                        [ngTemplateOutletContext]="{ 
-                            path: rectAnchoredPath, 
-                            anchorX: rect.X + rect.Width/2 + rectAnchoredPath.X_Offset, 
-                            anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset , }
-                        ">
-                    </ng-container>
-                    <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM_LEFT" 
-                        [ngTemplateOutlet]="anchoredPath" 
-                        [ngTemplateOutletContext]="{ 
-                            path: rectAnchoredPath, 
-                            anchorX: rect.X + rectAnchoredPath.X_Offset, 
-                            anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset ,}
-                        ">
-                    </ng-container>
-                    <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM_LEFT_LEFT" 
-                        [ngTemplateOutlet]="anchoredPath" 
-                        [ngTemplateOutletContext]="{ 
-                            path: rectAnchoredPath, 
-                            anchorX: rect.X - rect.Height + rectAnchoredPath.X_Offset, 
-                            anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset ,}
-                        ">
-                    </ng-container>
-                    <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM_BOTTOM_LEFT" 
-                        [ngTemplateOutlet]="anchoredPath" 
-                        [ngTemplateOutletContext]="{ 
-                            path: rectAnchoredPath, 
-                            anchorX: rect.X + rectAnchoredPath.X_Offset, 
-                            anchorY: rect.Y + rect.Height + rect.Height + rectAnchoredPath.Y_Offset ,}
-                        ">
-                    </ng-container>
-                    <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM_RIGHT" 
-                        [ngTemplateOutlet]="anchoredPath" 
-                        [ngTemplateOutletContext]="{ 
-                            path: rectAnchoredPath, 
-                            anchorX: rect.X + +rect.Width + rectAnchoredPath.X_Offset, 
-                            anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset ,}
-                        ">
-                    </ng-container>
-                    <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_CENTER" 
-                        [ngTemplateOutlet]="anchoredPath" 
-                        [ngTemplateOutletContext]="{ 
-                            path: rectAnchoredPath, 
-                            anchorX: rect.X + rect.Width/2 + rectAnchoredPath.X_Offset, 
-                            anchorY: rect.Y + rect.Height/2 + rectAnchoredPath.Y_Offset , }
-                        ">
-                    </ng-container>
-                    <ng-container *ngIf="rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM_INSIDE_RIGHT" 
-                        [ngTemplateOutlet]="anchoredPath" 
-                        [ngTemplateOutletContext]="{ 
-                            path: rectAnchoredPath, 
-                            anchorX: rect.X + rect.Width - rect.Height + rectAnchoredPath.X_Offset, 
-                            anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset , }
-                        ">
-                    </ng-container>
-                </ng-container>
-                <ng-container *ngFor='let text of rect.RectAnchoredTexts!; let i = index'>
-                    <ng-container *ngIf="text.RectAnchorType == RectAnchorType.RECT_TOP_LEFT" 
-                            [ngTemplateOutlet]="anchoredText" 
-                            [ngTemplateOutletContext]="{ 
-                                    text: text, 
-                                    anchorX: rect.X + text.X_Offset, 
-                                    anchorY: rect.Y + text.Y_Offset,
-                                }
-                            ">
-                    </ng-container>
-                    <ng-container *ngIf="text.RectAnchorType == RectAnchorType.RECT_TOP" 
-                            [ngTemplateOutlet]="anchoredText" 
-                            [ngTemplateOutletContext]="{ 
-                                    text: text, 
-                                    anchorX: rect.X + rect.Width/2 + text.X_Offset, 
-                                    anchorY: rect.Y + text.Y_Offset }
-                            ">
-                    </ng-container>
-                    <ng-container *ngIf="text.RectAnchorType == RectAnchorType.RECT_TOP_RIGHT" 
-                            [ngTemplateOutlet]="anchoredText" 
-                            [ngTemplateOutletContext]="{ 
-                                    text: text, 
-                                    anchorX: rect.X + rect.Width + text.X_Offset, 
-                                    anchorY: rect.Y + text.Y_Offset }
-                            ">
-                    </ng-container>
-                    <ng-container *ngIf="text.RectAnchorType == RectAnchorType.RECT_BOTTOM" 
-                            [ngTemplateOutlet]="anchoredText" 
-                            [ngTemplateOutletContext]="{ 
-                                    text: text, 
-                                    anchorX: rect.X + rect.Width/2 + text.X_Offset, 
-                                    anchorY: rect.Y + rect.Height + text.Y_Offset }
-                            ">
-                    </ng-container>
-                </ng-container>
-                <ng-container>
-                    <!-- Left anchor -->
-                    <circle class="overlay"
-                        *ngIf="rect.HasLeftHandle"
-                        [attr.cx]="rect.X"
-                        [attr.cy]="rect.Y + rect.Height / 2"
-                        [attr.r]="anchorRadius"
-                        [attr.fill]="(anchorDragging && activeAnchor === 'left') ? draggingAnchorFillColor : anchorFillColor"
-
-                        (mousedown)="anchorMouseDown($event, 'left', rect)"
-                        (mousemove)="onmousemove($event)"
-                        (mouseup)="anchorMouseUp($event, rect)"/>
-
-                    <!-- Right anchor -->
-                    <circle
-                            class="overlay"
-                            *ngIf="rect.HasRightHandle"
-                            [attr.cx]="rect.X+ rect.Width"
-                            [attr.cy]="rect.Y+ rect.Height/2"
-                            [attr.r]="anchorRadius"
-                            [attr.fill]="(anchorDragging && activeAnchor === 'right') ? draggingAnchorFillColor : anchorFillColor"
-
-                            (mousedown)="anchorMouseDown($event, 'right', rect)"
-                            (mousemove)="onmousemove($event)"
-                            (mouseup)="anchorMouseUp($event, rect)"/>
-
-                    <!-- Top anchor -->
-                    <circle
-                            class="overlay"
-                            *ngIf="rect.HasTopHandle"
-                            [attr.cx]="rect.X + rect.Width / 2"
-                            [attr.cy]="rect.Y "
-                            [attr.r]="anchorRadius"
-                            [attr.fill]="(anchorDragging && activeAnchor === 'top') ? draggingAnchorFillColor : anchorFillColor"
-
-                            (mousedown)="anchorMouseDown($event, 'top', rect)"
-                            (mousemove)="onmousemove($event)"
-                            (mouseup)="anchorMouseUp($event, rect)"/>
-
-                    <!-- Bottom anchor -->
-                    <circle
-                            class="overlay"
-                            *ngIf="rect.HasBottomHandle"
-                            [attr.cx]="rect.X+ rect.Width / 2"
-                            [attr.cy]="rect.Y+ rect.Height"
-                            [attr.r]="anchorRadius"
-                            [attr.fill]="(anchorDragging && activeAnchor === 'bottom') ? draggingAnchorFillColor : anchorFillColor"
-
-                            (mousedown)="anchorMouseDown($event, 'bottom', rect)"
-                            (mousemove)="onmousemove($event)"
-                            (mouseup)="anchorMouseUp($event, rect)"/>
-                </ng-container>
-            </ng-container>
-            <ng-container *ngFor="let link of layer.Links">
-                <ng-container *ngIf="link.Type == LinkType.LINK_TYPE_FLOATING_ORTHOGONAL" >
-                    <ng-container *ngIf="link.IsBezierCurve">
-                        <path
-                            [attr.d]="getBezierPath(link)" 
-                            [attr.fill]="link.Color"
-                            [attr.fill-opacity]="link.FillOpacity" 
-                            [attr.stroke]="link.Stroke" 
-                            [attr.stroke-opacity]="link.StrokeOpacity"
-                            [attr.stroke-width]="link.StrokeWidth"
-                            [attr.stroke-dasharray]="link.StrokeDashArray" 
-                            />
-                    </ng-container>
-                    <ng-container *ngIf="link | linkSegments: map_Link_Segment as segments">
-                        <ng-container *ngIf="!link.IsBezierCurve || svg.IsEditable">
-                            <g *ngFor='let segment of segments; let i = index'>  <line class="moveable-line" 
-                                [attr.x1]="segment.StartPoint.X" 
-                                [attr.y1]="segment.StartPoint.Y" 
-                                [attr.x2]="segment.EndPoint.X" 
-                                [attr.y2]="segment.EndPoint.Y"
-                                [attr.fill]="link.Color"
-                                [attr.fill-opacity]="link.FillOpacity" 
-                                [attr.stroke]="link.Stroke" 
-                                [attr.stroke-opacity]="link.StrokeOpacity"
-                                [attr.stroke-width]="link.StrokeWidth"
-                                [attr.stroke-dasharray]="link.StrokeDashArray" 
-                                [attr.segment-orientation]="getOrientation(segment)"
-                                [attr.segment-number]="segment.Number" />
-                        
-                              <line class="hit-area"  [attr.x1]="segment.StartPoint.X" 
-                                [attr.y1]="segment.StartPoint.Y" 
-                                [attr.x2]="segment.EndPoint.X" 
-                                [attr.y2]="segment.EndPoint.Y"
-                                [attr.stroke]="'transparent'"  
-                                [attr.stroke-width]="link.StrokeWidth + 10" 
-                                [attr.segment-orientation]="getOrientation(segment)" 
-                                (mousedown)="linkMouseDown($event, segment.Number, link)" 
-                                (mousemove)="onmousemove($event)" 
-                                (mouseup)="linkMouseUp($event, link)" />
-                            </g>
-                    </ng-container>
-            
-                    <ng-container *ngFor='let segment of segments; let i = index'>
-                        <ng-container *ngIf="!link.IsBezierCurve">
-                        
-                            <path *ngIf="segments[i + 1] as nextSegment"
-                            [attr.d]="getArcPath(link, segment, nextSegment)" 
-                            [attr.fill]="link.Color"
-                            [attr.fill-opacity]="link.FillOpacity" 
-                            [attr.stroke]="link.Stroke" 
-                            [attr.stroke-opacity]="link.StrokeOpacity"
-                            [attr.stroke-width]="link.StrokeWidth"
-                            [attr.stroke-dasharray]="link.StrokeDashArray" 
-                            />
-                        </ng-container>
-                        <ng-container *ngIf="(i == (segments.length - 1)) && this.link!.HasEndArrow">
-                            <path
-                                [attr.d]="getEndArrowPath(link, segment, this.link!.EndArrowSize)"
-                                [attr.fill]="link.Color"
-                                [attr.fill-opacity]="link.FillOpacity" 
-                                [attr.stroke]="link.Stroke" 
-                                [attr.stroke-opacity]="link.StrokeOpacity"
-                                [attr.stroke-width]="link.StrokeWidth"
-                                [attr.stroke-dasharray]="link.StrokeDashArray" 
-                            />
-                        </ng-container>
-                        <ng-container *ngIf="(i == 0) && this.link!.HasStartArrow">
-                            <path
-                                [attr.d]="getStartArrowPath(link, segment, this.link!.StartArrowSize)"
-                                [attr.fill]="link.Color"
-                                [attr.fill-opacity]="link.FillOpacity" 
-                                [attr.stroke]="link.Stroke" 
-                                [attr.stroke-opacity]="link.StrokeOpacity"
-                                [attr.stroke-width]="link.StrokeWidth"
-                                [attr.stroke-dasharray]="link.StrokeDashArray" 
-                            />
-                        </ng-container>
-
-                        <!-- text at arrow ends -->
-
-                        <ng-container *ngIf="(i == (segments.length - 1))">
-                            <ng-container *ngFor='let text of this.link.TextAtArrowEnd!; let k = index'>
-                                <ng-container *ngIf='!text.AutomaticLayout && splitTextIntoLines(text.Content) as lines'>
-                                    <text class="click-through"
-                                        [attr.x]="segment.EndPoint.X + text.X_Offset" 
-                                        [attr.y]="segment.EndPoint.Y + text.Y_Offset" 
-                                        [attr.font-weight]="text.FontWeight"
-                                        [attr.font-size]="text.FontSize"
-                                        [attr.letter-spacing]="text.LetterSpacing"
-
-                                        [attr.fill]="text.Color"    
-                                        [attr.fill-opacity]="text.FillOpacity"
-                                        [attr.stroke]="text.Stroke"
-                                        [attr.stroke-opacity]="text.StrokeOpacity"
-                                        [attr.stroke-width]="text.StrokeWidth"
-                                        [attr.stroke-dasharray]="text.StrokeDashArray"
-                                        [attr.transform]="text.Transform"
-
-                                        (mousedown)="textAnchoredMouseDown(link, $event, k, PositionOnArrowType.POSITION_ON_ARROW_END)" 
-                                        (mousemove)="onmousemove($event)" 
-                                        (mouseup)="textAnchoredMouseUp(link, $event)"
-                                        >
-                                        <tspan *ngFor='let line of lines; let j = index' 
-                                            [attr.x]="segment.EndPoint.X + text.X_Offset"
-                                            [attr.dy]="j > 0 ? '1em' : '0'">{{line}}</tspan>  
-                                        </text>
-                                </ng-container>
-                                <ng-container *ngIf='text.AutomaticLayout && splitTextIntoLines(text.Content) as lines'>
-                                    <text class="noevents-area"
-                                        [attr.x]="segment.EndPoint.X" 
-                                        [attr.y]="segment.EndPoint.Y + auto_Y_offset(link, segment, text, PositionOnArrowType.POSITION_ON_ARROW_END)" 
-                                        [attr.font-weight]="text.FontWeight"
-                                        [attr.font-size]="text.FontSize"
-                                        [attr.letter-spacing]="text.LetterSpacing"
-                                       
-                                        [attr.fill]="text.Color"    
-                                        [attr.fill-opacity]="text.FillOpacity"
-                                        [attr.stroke]="text.Stroke"
-                                        [attr.stroke-opacity]="text.StrokeOpacity"
-                                        [attr.stroke-width]="text.StrokeWidth"
-                                        [attr.stroke-dasharray]="text.StrokeDashArray"
-                                        [attr.transform]="text.Transform"
-                                        >
-                                        <tspan *ngFor='let line of lines; let j = index' 
-                                            [attr.x]="segment.EndPoint.X + auto_X_offset(link, segment, text, line, PositionOnArrowType.POSITION_ON_ARROW_END)"
-                                            [attr.dy]="j > 0 ? '1em' : '0'">{{line}}</tspan>  
-                                        </text>
-                                </ng-container>
-                            </ng-container>
-                        </ng-container>
-                        <ng-container *ngIf="i == 0">
-                            <ng-container *ngFor='let text of this.link.TextAtArrowStart!; let k = index'>
-                                <ng-container *ngIf='!text.AutomaticLayout && splitTextIntoLines(text.Content) as lines'>
-                                    <text class="click-through"
-                                        [attr.x]="segment.StartPoint.X + text.X_Offset" 
-                                        [attr.y]="segment.StartPoint.Y + text.Y_Offset" 
-                                        [attr.font-weight]="text.FontWeight"
-                                        [attr.font-size]="text.FontSize"
-                                        [attr.letter-spacing]="text.LetterSpacing"
-
-                                        [attr.fill]="text.Color"    
-                                        [attr.fill-opacity]="text.FillOpacity"
-                                        [attr.stroke]="text.Stroke"
-                                        [attr.stroke-opacity]="text.StrokeOpacity"
-                                        [attr.stroke-width]="text.StrokeWidth"
-                                        [attr.stroke-dasharray]="text.StrokeDashArray"
-                                        [attr.transform]="text.Transform"
-                                        
-                                        (mousedown)="textAnchoredMouseDown(link, $event, k, PositionOnArrowType.POSITION_ON_ARROW_START)" 
-                                        (mousemove)="onmousemove($event)" 
-                                        (mouseup)="textAnchoredMouseUp(link, $event)"
-                                        >
-                                        <tspan *ngFor='let line of lines; let j = index' 
-                                            [attr.x]="segment.StartPoint.X + text.X_Offset"
-                                            [attr.dy]="j > 0 ? '1em' : '0'">{{line}}</tspan>                        
-                                    </text>
-                                </ng-container>
-                                <ng-container *ngIf='text.AutomaticLayout && splitTextIntoLines(text.Content) as lines'>
-                                    <text class="noevents-area"
-                                        [attr.x]="segment.StartPoint.X" 
-                                        [attr.y]="segment.StartPoint.Y + 
-                                          auto_Y_offset(link, segment, text, PositionOnArrowType.POSITION_ON_ARROW_START)" 
-                                        [attr.font-weight]="text.FontWeight"
-                                        [attr.font-size]="text.FontSize"
-                                        [attr.letter-spacing]="text.LetterSpacing"
-
-                                        [attr.fill]="text.Color"    
-                                        [attr.fill-opacity]="text.FillOpacity"
-                                        [attr.stroke]="text.Stroke"
-                                        [attr.stroke-opacity]="text.StrokeOpacity"
-                                        [attr.stroke-width]="text.StrokeWidth"
-                                        [attr.stroke-dasharray]="text.StrokeDashArray"
-                                        [attr.transform]="text.Transform"
-                                        >
-                                        <tspan *ngFor='let line of lines; let j = index' 
-                                            [attr.x]="segment.StartPoint.X + auto_X_offset(link, segment, text, line, PositionOnArrowType.POSITION_ON_ARROW_START)"
-                                            [attr.dy]="j > 0 ? '1em' : '0'">{{line}}</tspan>                        
-                                    </text>
-                                </ng-container>
-                            </ng-container> 
-                        </ng-container>
-                    </ng-container>
-                    </ng-container>
-                </ng-container>
-                <ng-container *ngIf="link.Type == LinkType.LINK_TYPE_LINE_WITH_CONTROL_POINTS" >
-                    <ng-container *ngIf="link.ControlPoints.length == 0">
-                        <line 
-                            [attr.x1]="getPosition(link.Start, link.StartAnchorType, link.End)[0]" 
-                            [attr.y1]="getPosition(link.Start, link.StartAnchorType, link.End)[1]" 
-                            [attr.x2]="getPosition(link.End, link.EndAnchorType, link.Start)[0]" 
-                            [attr.y2]="getPosition(link.End, link.EndAnchorType, link.Start)[1]"
-                            [attr.fill]="link.Color"
-                            [attr.fill-opacity]="link.FillOpacity" 
-                            [attr.stroke]="link.Stroke" 
-                            [attr.stroke-opacity]="link.StrokeOpacity"
-                            [attr.stroke-width]="link.StrokeWidth"
-                            [attr.stroke-dasharray]="link.StrokeDashArray" 
-                            [attr.transform]="link.Transform" 
-                        />
-                    </ng-container>
-                </ng-container>
-            </ng-container>
-            <ng-container *ngFor="let rectLinkLink of layer.RectLinkLinks">
-                <ng-container *ngIf="rectLinkLink.Start && rectLinkLink.End">
-                    <line class="rect-link-link" 
-                        [attr.x1]="getStartPosition(rectLinkLink)[0]" 
-                        [attr.y1]="getStartPosition(rectLinkLink)[1]" 
-                        [attr.x2]="getEndPosition(rectLinkLink)[0]" 
-                        [attr.y2]="getEndPosition(rectLinkLink)[1]"
-                        [attr.fill]="rectLinkLink.Color"
-                        [attr.fill-opacity]="rectLinkLink.FillOpacity" 
-                        [attr.stroke]="rectLinkLink.Stroke" 
-                        [attr.stroke-opacity]="rectLinkLink.StrokeOpacity"
-                        [attr.stroke-width]="rectLinkLink.StrokeWidth"
-                        [attr.stroke-dasharray]="rectLinkLink.StrokeDashArray" 
-                        [attr.transform]="rectLinkLink.Transform" 
-                    />
-                </ng-container>
-            </ng-container>
-        </ng-container>
-        <!-- the following rect is drawn when a user multi select rects -->
-        <rect *ngIf="State == StateEnumType.MULTI_RECTS_SELECTION" 
-            pointer-events="none"
-            [attr.x]="Math.min(PointAtMouseDown.X, PointAtMouseMove.X)" 
-            [attr.y]="Math.min(PointAtMouseDown.Y, PointAtMouseMove.Y)" 
-            [attr.width]="Math.abs(PointAtMouseMove.X - PointAtMouseDown.X)" 
-            [attr.height]="Math.abs(PointAtMouseMove.Y - PointAtMouseDown.Y)" 
-            stroke-dasharray="5,5" stroke="black" stroke-width="2" fill="none" 
-            />
-        <!-- the following line is drawn when a user draws a link between rects -->
-        <line *ngIf="State == StateEnumType.LINK_DRAWING"
-            pointer-events="none"
-            [attr.x1]="PointAtMouseDown.X" [attr.y1]="PointAtMouseDown.Y" 
-            [attr.x2]="PointAtMouseMove.X" [attr.y2]="PointAtMouseMove.Y" 
-            stroke="black" stroke-dasharray="5,5" 
-            [attr.stroke-width]="2"/>
-    </g>
+    @if(State == StateEnumType.MULTI_RECTS_SELECTION) {
+      <rect pointer-events="none"
+        [attr.x]="Math.min(PointAtMouseDown.X, PointAtMouseMove.X)" 
+        [attr.y]="Math.min(PointAtMouseDown.Y, PointAtMouseMove.Y)" 
+        [attr.width]="Math.abs(PointAtMouseMove.X - PointAtMouseDown.X)" 
+        [attr.height]="Math.abs(PointAtMouseMove.Y - PointAtMouseDown.Y)" 
+        stroke-dasharray="5,5" stroke="black" stroke-width="2" fill="none" />
+    }
+    @if(State == StateEnumType.LINK_DRAWING) {
+      <line pointer-events="none"
+        [attr.x1]="PointAtMouseDown.X" [attr.y1]="PointAtMouseDown.Y" 
+        [attr.x2]="PointAtMouseMove.X" [attr.y2]="PointAtMouseMove.Y" 
+        stroke="black" stroke-dasharray="5,5" 
+        [attr.stroke-width]="2"/>
+    }
+  </g>
 </svg>
 
 <ng-template #anchoredText let-text="text" let-anchorX="anchorX" let-anchorY="anchorY">
-    <ng-container *ngIf='splitTextIntoLines(text.Content) as lines'>
-            <svg:text class="anchored-text"
-            class="click-through"
-            [attr.x]="anchorX" 
-            [attr.y]="anchorY" 
-            [attr.fill]="text.Color"    
-            [attr.fill-opacity]="text.FillOpacity"
-            [attr.stroke]="text.Stroke"
-            [attr.stroke-opacity]="text.StrokeOpacity"
-            [attr.stroke-width]="text.StrokeWidth != 0 ? text.StrokeWidth : null"
-            [attr.stroke-dasharray]="text.StrokeDashArray"
-            [attr.transform]="text.Transform"
-            [attr.text-anchor]="text.TextAnchorType"
-            [attr.font-weight]="text.FontWeight"
-            [attr.font-style]="text.FontStyle"
-            [attr.font-size]="text.FontSize !== 0 ? text.FontSize + 'px' : null"
-            >
-            <tspan *ngFor='let line of lines; let j = index' 
-                    [attr.x]="anchorX"
-                    [attr.dy]="j > 0 ? '1em' : '0'"
-                    [attr.text-anchor]="text.TextAnchorType">{{line}}</tspan>  
-            </text>
-    </ng-container>
+    @let lines = splitTextIntoLines(text.Content);
+    <svg:text class="anchored-text click-through"
+      [attr.x]="anchorX" 
+      [attr.y]="anchorY" 
+      [attr.fill]="text.Color"    
+      [attr.fill-opacity]="text.FillOpacity"
+      [attr.stroke]="text.Stroke"
+      [attr.stroke-opacity]="text.StrokeOpacity"
+      [attr.stroke-width]="text.StrokeWidth != 0 ? text.StrokeWidth : null"
+      [attr.stroke-dasharray]="text.StrokeDashArray"
+      [attr.transform]="text.Transform"
+      [attr.text-anchor]="text.TextAnchorType"
+      [attr.font-weight]="text.FontWeight"
+      [attr.font-style]="text.FontStyle"
+      [attr.font-size]="text.FontSize !== 0 ? text.FontSize + 'px' : null">
+      @for(line of lines; track line) {
+        <tspan [attr.x]="anchorX"
+               [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'"
+               [attr.text-anchor]="text.TextAnchorType">{{line}}</tspan>
+      }
+    </svg:text>
 </ng-template>
 
 <ng-template #anchoredRect let-rect="rect" let-anchorX="anchorX" let-anchorY="anchorY" let-width="width">
-    <svg:rect   
-        class="click-through"
-        [attr.x]="anchorX"
-        [attr.y]="anchorY"
-        [attr.width]="width"
-        [attr.height]="rect.Height"
-        [attr.rx]="rect.RX"
-        [attr.fill]="rect.Color"
-        [attr.fill-opacity]="rect.FillOpacity"
-        [attr.stroke]="rect.Stroke"
-        [attr.stroke-opacity]="rect.StrokeOpacity"
-        [attr.stroke-width]="rect.StrokeWidth"
-    > </rect>
+  <svg:rect
+    class="click-through"
+    [attr.x]="anchorX"
+    [attr.y]="anchorY"
+    [attr.width]="width"
+    [attr.height]="rect.Height"
+    [attr.rx]="rect.RX"
+    [attr.fill]="rect.Color"
+    [attr.fill-opacity]="rect.FillOpacity"
+    [attr.stroke]="rect.Stroke"
+    [attr.stroke-opacity]="rect.StrokeOpacity"
+    [attr.stroke-width]="rect.StrokeWidth">
+  </svg:rect>
 </ng-template>
 
 <ng-template #anchoredPath let-path="path" let-anchorX="anchorX" let-anchorY="anchorY">
-    <ng-container *ngIf="!path.ScalePropotionnally">
-        <svg:g [attr.transform]="'translate(' + anchorX + ' ' + anchorY + ')'">
-            <svg:path   
-                class="click-through"
-                [attr.d]="path.Definition"
-                [attr.fill]="path.Color"
-                [attr.fill-opacity]="path.FillOpacity"
-                [attr.stroke]="path.Stroke"
-                [attr.stroke-opacity]="path.StrokeOpacity"
-                [attr.stroke-width]="path.StrokeWidth"
-                [attr.transform]="path.Transform"
-            > </path>
-        </svg:g>
-    </ng-container>
-    <ng-container *ngIf="path.ScalePropotionnally">
-        <!-- <svg:g [attr.transform]="'translate(-' + anchorX + ' -' + anchorY + ') scale( ' + path.AppliedScaling + ' ' + path.AppliedScaling + ') translate(' + anchorX + ' ' + anchorY + ') translate(' + anchorX + ' ' + anchorY + ')'"> -->
-
-        <svg:g >
-            <svg:path   
-                class="click-through"
-                [attr.d]="path.Definition"
-                [attr.fill]="path.Color"
-                [attr.fill-opacity]="path.FillOpacity"
-                [attr.stroke]="path.Stroke"
-                [attr.stroke-opacity]="path.StrokeOpacity"
-                [attr.stroke-width]="path.StrokeWidth"
-                [attr.transform]="path.Transform + ' translate(' + anchorX + ' ' + anchorY + ') scale(' + path.AppliedScaling + ' ' + path.AppliedScaling + ')'"
-            > </path>
-        </svg:g>
-    </ng-container>
+  @if(!path.ScalePropotionnally) {
+    <svg:g [attr.transform]="'translate(' + anchorX + ' ' + anchorY + ')'">
+      <svg:path
+        class="click-through"
+        [attr.d]="path.Definition"
+        [attr.fill]="path.Color"
+        [attr.fill-opacity]="path.FillOpacity"
+        [attr.stroke]="path.Stroke"
+        [attr.stroke-opacity]="path.StrokeOpacity"
+        [attr.stroke-width]="path.StrokeWidth"
+        [attr.transform]="path.Transform">
+      </svg:path>
+    </svg:g>
+  } @else {
+    <svg:g>
+      <svg:path
+        class="click-through"
+        [attr.d]="path.Definition"
+        [attr.fill]="path.Color"
+        [attr.fill-opacity]="path.FillOpacity"
+        [attr.stroke]="path.Stroke"
+        [attr.stroke-opacity]="path.StrokeOpacity"
+        [attr.stroke-width]="path.StrokeWidth"
+        [attr.transform]="path.Transform + ' translate(' + anchorX + ' ' + anchorY + ') scale(' + path.AppliedScaling + ' ' + path.AppliedScaling + ')'">
+      </svg:path>
+    </svg:g>
+  }
 </ng-template>
-
