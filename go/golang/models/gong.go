@@ -85,7 +85,12 @@ map[ModelGongStructInsertionId]string{
 	ModelGongStructInsertionStageFunctions: `
 // Stage puts {{structname}} to the model stage
 func ({{structname}} *{{Structname}}) Stage(stage *StageStruct) *{{Structname}} {
-	stage.{{Structname}}s[{{structname}}] = __member
+
+	if _, ok := stage.{{Structname}}s[{{structname}}]; !ok {
+		stage.{{Structname}}s[{{structname}}] = __member
+		stage.Map_Staged_Order[{{structname}}] = stage.Order
+		stage.Order++
+	}
 	stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
 
 	return {{structname}}
