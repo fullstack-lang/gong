@@ -581,3 +581,22 @@ find ../.. -name "package-lock.json" -prune -exec rm -rf '{}' +
 npm i
 ng build
 ```
+
+```bash
+mv ../package.json ../package.json.tmp
+find .. -type d -name "node_modules" -prune -exec rm -rf '{}' +
+find .. -type d -name "dist" -prune -exec rm -rf '{}' +
+find .. -type d -name ".angular" -prune -exec rm -rf '{}' +
+find .. -name "package-lock.json" -prune -exec rm -rf '{}' +
+npm i
+ng update @angular/core@19 @angular/cli@19 --allow-dirty
+ng update @angular/material@19 --allow-dirty
+ng update angular-split@19 --allow-dirty
+mv ../package.json.tmp ../package.json
+find .. -type d -name "node_modules" -prune -exec rm -rf '{}' +
+find .. -type d -name "dist" -prune -exec rm -rf '{}' +
+find .. -type d -name ".angular" -prune -exec rm -rf '{}' +
+find .. -name "package-lock.json" -prune -exec rm -rf '{}' +
+npm i
+ng build
+```
