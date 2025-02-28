@@ -102,7 +102,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		astructOrdered = append(astructOrdered, astruct)
 	}
 	sort.Slice(astructOrdered[:], func(i, j int) bool {
-		return astructOrdered[i].Name < astructOrdered[j].Name
+		astructi := astructOrdered[i]
+		astructj := astructOrdered[j]
+		astructi_order, oki := stage.Map_Staged_Order[astructi]
+		astructj_order, okj := stage.Map_Staged_Order[astructj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return astructi_order < astructj_order
 	})
 	if len(astructOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -286,7 +293,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		astructbstruct2useOrdered = append(astructbstruct2useOrdered, astructbstruct2use)
 	}
 	sort.Slice(astructbstruct2useOrdered[:], func(i, j int) bool {
-		return astructbstruct2useOrdered[i].Name < astructbstruct2useOrdered[j].Name
+		astructbstruct2usei := astructbstruct2useOrdered[i]
+		astructbstruct2usej := astructbstruct2useOrdered[j]
+		astructbstruct2usei_order, oki := stage.Map_Staged_Order[astructbstruct2usei]
+		astructbstruct2usej_order, okj := stage.Map_Staged_Order[astructbstruct2usej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return astructbstruct2usei_order < astructbstruct2usej_order
 	})
 	if len(astructbstruct2useOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -320,7 +334,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		astructbstructuseOrdered = append(astructbstructuseOrdered, astructbstructuse)
 	}
 	sort.Slice(astructbstructuseOrdered[:], func(i, j int) bool {
-		return astructbstructuseOrdered[i].Name < astructbstructuseOrdered[j].Name
+		astructbstructusei := astructbstructuseOrdered[i]
+		astructbstructusej := astructbstructuseOrdered[j]
+		astructbstructusei_order, oki := stage.Map_Staged_Order[astructbstructusei]
+		astructbstructusej_order, okj := stage.Map_Staged_Order[astructbstructusej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return astructbstructusei_order < astructbstructusej_order
 	})
 	if len(astructbstructuseOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -354,7 +375,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		bstructOrdered = append(bstructOrdered, bstruct)
 	}
 	sort.Slice(bstructOrdered[:], func(i, j int) bool {
-		return bstructOrdered[i].Name < bstructOrdered[j].Name
+		bstructi := bstructOrdered[i]
+		bstructj := bstructOrdered[j]
+		bstructi_order, oki := stage.Map_Staged_Order[bstructi]
+		bstructj_order, okj := stage.Map_Staged_Order[bstructj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return bstructi_order < bstructj_order
 	})
 	if len(bstructOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -406,7 +434,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		dstructOrdered = append(dstructOrdered, dstruct)
 	}
 	sort.Slice(dstructOrdered[:], func(i, j int) bool {
-		return dstructOrdered[i].Name < dstructOrdered[j].Name
+		dstructi := dstructOrdered[i]
+		dstructj := dstructOrdered[j]
+		dstructi_order, oki := stage.Map_Staged_Order[dstructi]
+		dstructj_order, okj := stage.Map_Staged_Order[dstructj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return dstructi_order < dstructj_order
 	})
 	if len(dstructOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -440,7 +475,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		fstructOrdered = append(fstructOrdered, fstruct)
 	}
 	sort.Slice(fstructOrdered[:], func(i, j int) bool {
-		return fstructOrdered[i].Name < fstructOrdered[j].Name
+		fstructi := fstructOrdered[i]
+		fstructj := fstructOrdered[j]
+		fstructi_order, oki := stage.Map_Staged_Order[fstructi]
+		fstructj_order, okj := stage.Map_Staged_Order[fstructj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return fstructi_order < fstructj_order
 	})
 	if len(fstructOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -480,7 +522,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		gstructOrdered = append(gstructOrdered, gstruct)
 	}
 	sort.Slice(gstructOrdered[:], func(i, j int) bool {
-		return gstructOrdered[i].Name < gstructOrdered[j].Name
+		gstructi := gstructOrdered[i]
+		gstructj := gstructOrdered[j]
+		gstructi_order, oki := stage.Map_Staged_Order[gstructi]
+		gstructj_order, okj := stage.Map_Staged_Order[gstructj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return gstructi_order < gstructj_order
 	})
 	if len(gstructOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -525,6 +574,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	}
 
 	// insertion initialization of objects to stage
+	if len(astructOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Astruct instances pointers"
+	}
 	for idx, astruct := range astructOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -655,6 +707,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	if len(astructbstruct2useOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of AstructBstruct2Use instances pointers"
+	}
 	for idx, astructbstruct2use := range astructbstruct2useOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -673,6 +728,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	if len(astructbstructuseOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of AstructBstructUse instances pointers"
+	}
 	for idx, astructbstructuse := range astructbstructuseOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -691,6 +749,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	if len(bstructOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Bstruct instances pointers"
+	}
 	for idx, bstruct := range bstructOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -701,6 +762,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		// Initialisation of values
 	}
 
+	if len(dstructOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Dstruct instances pointers"
+	}
 	for idx, dstruct := range dstructOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -735,6 +799,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	if len(fstructOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Fstruct instances pointers"
+	}
 	for idx, fstruct := range fstructOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -745,6 +812,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		// Initialisation of values
 	}
 
+	if len(gstructOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Gstruct instances pointers"
+	}
 	for idx, gstruct := range gstructOrdered {
 		var setPointerField string
 		_ = setPointerField

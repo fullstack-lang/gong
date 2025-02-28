@@ -36,7 +36,14 @@ map[ModelGongMarshallStructInsertionId]string{
 		{{structname}}Ordered = append({{structname}}Ordered, {{structname}})
 	}
 	sort.Slice({{structname}}Ordered[:], func(i, j int) bool {
-		return {{structname}}Ordered[i].Name < {{structname}}Ordered[j].Name
+		{{structname}}i := {{structname}}Ordered[i]
+		{{structname}}j := {{structname}}Ordered[j]
+		{{structname}}i_order, oki := stage.Map_Staged_Order[{{structname}}i]
+		{{structname}}j_order, okj := stage.Map_Staged_Order[{{structname}}j]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return {{structname}}i_order < {{structname}}j_order
 	})
 	if len({{structname}}Ordered) > 0 {
 		identifiersDecl += "\n"
@@ -58,6 +65,9 @@ map[ModelGongMarshallStructInsertionId]string{
 `,
 
 	ModelGongMarshallStructInsertionUnmarshallPointersInitializations: `
+	if len({{structname}}Ordered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of {{Structname}} instances pointers"
+	}
 	for idx, {{structname}} := range {{structname}}Ordered {
 		var setPointerField string
 		_ = setPointerField
