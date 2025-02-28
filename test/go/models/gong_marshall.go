@@ -102,7 +102,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		astructOrdered = append(astructOrdered, astruct)
 	}
 	sort.Slice(astructOrdered[:], func(i, j int) bool {
-		return astructOrdered[i].Name < astructOrdered[j].Name
+		ai := astructOrdered[i]
+		aj := astructOrdered[j]
+		aid, oki := stage.Map_Staged_Order[ai]
+		ajd, okj := stage.Map_Staged_Order[aj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return aid < ajd
 	})
 	if len(astructOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -525,6 +532,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	}
 
 	// insertion initialization of objects to stage
+	if len(astructOrdered) > 0 {
+		pointersInitializesStatements += "\n"
+	}
 	for idx, astruct := range astructOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -655,6 +665,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	if len(astructbstruct2useOrdered) > 0 {
+		pointersInitializesStatements += "\n"
+	}
 	for idx, astructbstruct2use := range astructbstruct2useOrdered {
 		var setPointerField string
 		_ = setPointerField
