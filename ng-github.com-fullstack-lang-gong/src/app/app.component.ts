@@ -24,29 +24,21 @@ import { GongsvgDiagrammingComponent } from '@vendored_components/github.com/ful
 
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [
-
-    CommonModule,
-    FormsModule,
-
-    MatRadioModule,
-    MatButtonModule,
-    MatIconModule,
-
-    AngularSplitModule,
-
-    TreeComponent,
-    MaterialTableComponent,
-    MaterialFormComponent,
-    PanelComponent,
-
-    GongspecificComponent
-
-  ],
-
-  templateUrl: './app.component.html',
+    selector: 'app-root',
+    imports: [
+        CommonModule,
+        FormsModule,
+        MatRadioModule,
+        MatButtonModule,
+        MatIconModule,
+        AngularSplitModule,
+        TreeComponent,
+        MaterialTableComponent,
+        MaterialFormComponent,
+        PanelComponent,
+        GongspecificComponent
+    ],
+    templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
 
