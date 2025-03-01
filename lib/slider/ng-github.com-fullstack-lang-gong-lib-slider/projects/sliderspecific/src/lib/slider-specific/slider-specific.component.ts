@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { AngularSplitModule } from 'angular-split';
 
@@ -33,6 +33,7 @@ import { MatIconModule } from '@angular/material/icon'
 })
 export class SliderSpecificComponent {
 
+  @Input() GONG__StackPath: string = ""
 
   rowHeight: string = "30px"
 
@@ -40,7 +41,7 @@ export class SliderSpecificComponent {
   public frontRepo?: slider.FrontRepo;
   splitAreaSize = 0
 
-  layout : slider.Layout | undefined
+  layout: slider.Layout | undefined
 
   constructor(
     private frontRepoService: slider.FrontRepoService,
@@ -59,7 +60,7 @@ export class SliderSpecificComponent {
   ngOnInit(): void {
     console.log("ngOnInit");
 
-    this.frontRepoService.connectToWebSocket(this.StacksNames.SliderStackName).subscribe({
+    this.frontRepoService.connectToWebSocket(this.GONG__StackPath).subscribe({
       next: (frontRepo) => {
         this.frontRepo = frontRepo;
 
@@ -74,7 +75,7 @@ export class SliderSpecificComponent {
   }
 
   input($event: Event, slider: slider.Slider) {
-    this.sliderService.updateFront(slider, this.StacksNames.SliderStackName).subscribe(
+    this.sliderService.updateFront(slider, this.GONG__StackPath).subscribe(
       () => {
         console.log("slider updated")
       }
@@ -82,7 +83,7 @@ export class SliderSpecificComponent {
   }
 
   inputMatRadio($event: MatRadioChange, checkbox: slider.Checkbox) {
-    this.checkboxService.updateFront(checkbox, this.StacksNames.SliderStackName).subscribe(
+    this.checkboxService.updateFront(checkbox, this.GONG__StackPath).subscribe(
       () => {
         console.log("checkbox updated")
       }
