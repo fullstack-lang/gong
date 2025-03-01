@@ -2,7 +2,7 @@
 package dbgorm
 
 import (
-	"github.com/fullstack-lang/gong/go/db"
+	"github.com/fullstack-lang/gong/test/test/go/db"
 	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -41,7 +41,7 @@ func NewDBWrapper(filename, table_prefix string, dst ...interface{}) *DBWrapper 
 
 	if err != nil {
 		msg := err.Error()
-		panic("problem with migration " + msg + " on package github.com/fullstack-lang/gong/test/test/go")
+		panic("problem with migration " + msg + " on package github.com/fullstack-lang/gong/test/go")
 	}
 
 	dbWrapper.db = db
