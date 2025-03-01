@@ -2,7 +2,7 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "newProjectRoot": "projects",
   "projects": {
-    "ng-github.com-fullstack-lang-gong-test": {
+    "ng-github.com-fullstack-lang-gong-test-test": {
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
@@ -36,7 +36,7 @@
             ],
             "browser": "src/main.ts",
             "index": "src/index.html",
-            "outputPath": "dist/ng-github.com-fullstack-lang-gong-test",
+            "outputPath": "dist/ng-github.com-fullstack-lang-gong-test-test",
             "polyfills": [
               "zone.js"
             ],

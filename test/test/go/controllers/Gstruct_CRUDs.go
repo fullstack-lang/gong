@@ -7,8 +7,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/fullstack-lang/gong/test/go/models"
-	"github.com/fullstack-lang/gong/test/go/orm"
+	"github.com/fullstack-lang/gong/test/test/go/models"
+	"github.com/fullstack-lang/gong/test/test/go/orm"
 
 	"github.com/gin-gonic/gin"
 )
@@ -66,7 +66,7 @@ func (controller *Controller) GetGstructs(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/test/go/models, Unkown stack", stackPath)
+		log.Panic("Stack github.com/fullstack-lang/gong/test/test/go/models, Unkown stack", stackPath)
 	}
 	db := backRepo.BackRepoGstruct.GetDB()
 
@@ -129,7 +129,7 @@ func (controller *Controller) PostGstruct(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/test/go/models, Unkown stack", stackPath)
+		log.Panic("Stack github.com/fullstack-lang/gong/test/test/go/models, Unkown stack", stackPath)
 	}
 	db := backRepo.BackRepoGstruct.GetDB()
 
@@ -199,7 +199,7 @@ func (controller *Controller) GetGstruct(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/test/go/models, Unkown stack", stackPath)
+		log.Panic("Stack github.com/fullstack-lang/gong/test/test/go/models, Unkown stack", stackPath)
 	}
 	db := backRepo.BackRepoGstruct.GetDB()
 
@@ -248,7 +248,7 @@ func (controller *Controller) UpdateGstruct(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/test/go/models, Unkown stack", stackPath)
+		log.Panic("Stack github.com/fullstack-lang/gong/test/test/go/models, Unkown stack", stackPath)
 	}
 	db := backRepo.BackRepoGstruct.GetDB()
 
@@ -338,7 +338,7 @@ func (controller *Controller) DeleteGstruct(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/test/go/models, Unkown stack", stackPath)
+		log.Panic("Stack github.com/fullstack-lang/gong/test/test/go/models, Unkown stack", stackPath)
 	}
 	db := backRepo.BackRepoGstruct.GetDB()
 

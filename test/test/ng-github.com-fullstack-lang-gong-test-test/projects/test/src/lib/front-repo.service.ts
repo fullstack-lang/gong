@@ -31,7 +31,7 @@ import { GstructService } from './gstruct.service'
 
 import { BackRepoData } from './back-repo-data'
 
-export const StackType = "github.com/fullstack-lang/gong/test/go/models"
+export const StackType = "github.com/fullstack-lang/gong/test/test/go/models"
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template
@@ -401,7 +401,7 @@ export class FrontRepoService {
 
 
 		let params = new HttpParams().set("GONG__StackPath", this.GONG__StackPath)
-		let basePath = 'ws://localhost:8080/api/github.com/fullstack-lang/gong/test/go/v1/ws/stage'
+		let basePath = 'ws://localhost:8080/api/github.com/fullstack-lang/gong/test/test/go/v1/ws/stage'
 		let paramString = params.toString()
 		let url = `${basePath}?${paramString}`
 		this.socket = new WebSocket(url)

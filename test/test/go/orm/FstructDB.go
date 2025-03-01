@@ -17,8 +17,8 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
-	"github.com/fullstack-lang/gong/test/go/db"
-	"github.com/fullstack-lang/gong/test/go/models"
+	"github.com/fullstack-lang/gong/test/test/go/db"
+	"github.com/fullstack-lang/gong/test/test/go/models"
 )
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)

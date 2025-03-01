@@ -33,7 +33,7 @@ export class PushFromFrontNbService {
         origin = origin.replace("4200", "8080")
 
         // compute path to the service
-        this.pushFromFrontNbURL = origin + '/api/github.com/fullstack-lang/gong/test/go/v1/pushfromfrontnb';
+        this.pushFromFrontNbURL = origin + '/api/github.com/fullstack-lang/gong/test/test/go/v1/pushfromfrontnb';
     }
 
     // observable of the commit nb getter

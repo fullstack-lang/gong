@@ -3,8 +3,8 @@ package stage_test
 import (
 	"testing"
 
-	"github.com/fullstack-lang/gong/test/go/fullstack"
-	"github.com/fullstack-lang/gong/test/go/models"
+	"github.com/fullstack-lang/gong/test/test/go/fullstack"
+	"github.com/fullstack-lang/gong/test/test/go/models"
 )
 
 // TestStageCount

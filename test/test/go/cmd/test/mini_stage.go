@@ -3,10 +3,10 @@ package main
 import (
 	"time"
 
-	"github.com/fullstack-lang/gong/test/go/models"
+	"github.com/fullstack-lang/gong/test/test/go/models"
 
 	// injection point for ident package import declaration
-	dummy "github.com/fullstack-lang/gong/test/go/dummy"
+	dummy "github.com/fullstack-lang/gong/test/test/go/dummy"
 )
 
 // Injection point for meta package dummy declaration

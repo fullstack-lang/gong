@@ -4,7 +4,7 @@ package probe
 import (
 	form "github.com/fullstack-lang/gongtable/go/models"
 
-	"github.com/fullstack-lang/gong/test/go/models"
+	"github.com/fullstack-lang/gong/test/test/go/models"
 )
 
 func EnumTypeStringToForm[T models.PointerToGongstruct, TF models.GongstructEnumStringField](

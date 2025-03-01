@@ -4,7 +4,7 @@ package controllers
 import (
 	"sync"
 
-	test_orm "github.com/fullstack-lang/gong/test/go/orm"
+	test_orm "github.com/fullstack-lang/gong/test/test/go/orm"
 
 	"github.com/gin-gonic/gin"
 )
