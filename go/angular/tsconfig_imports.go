@@ -4,4 +4,5 @@ const TsConfigInsertForPaths = `      // with gong, some angular standalone comp
       "@vendored_components/*": [
         "../vendor/*",
         "../../vendor/*",
+        "../../../vendor/*",
       ],`
