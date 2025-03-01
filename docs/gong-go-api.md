@@ -218,9 +218,9 @@ By default, all tree generated packages have to be imported.
 ```go
 import (
 
-    "github.com/fullstack-lang/gong/test/go/models"
-    "github.com/fullstack-lang/gong/test/go/orm"
-    "github.com/fullstack-lang/gong/test/go/controllers"
+    "github.com/fullstack-lang/gong/test/test/go/models"
+    "github.com/fullstack-lang/gong/test/test/go/orm"
+    "github.com/fullstack-lang/gong/test/test/go/controllers"
 )
 ```
 

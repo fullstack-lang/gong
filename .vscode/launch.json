@@ -5,37 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch Edge (on test)",
-            "request": "launch",
-            "type": "msedge",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/test/ng"
-        },
-        {
-            "name": "Launch Edge (on test2)",
-            "request": "launch",
-            "type": "msedge",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/test2/ng"
-        },
-        {
-            "name": "Launch Chrome on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/test/ng",
-            "sourceMaps": true,
-        },
-        {
-            "name": "gongc laundromat",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../laundromat/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": []
-        },
-        {
             "name": "gongc gongsvg",
             "type": "go",
             "request": "launch",
@@ -241,7 +210,7 @@
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go",
-            "cwd": "${workspaceFolder}/test/go/models",
+            "cwd": "${workspaceFolder}/test/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipGoModCommands",
@@ -254,7 +223,7 @@
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go",
-            "cwd": "${workspaceFolder}/test/go/models",
+            "cwd": "${workspaceFolder}/test/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipNg",
@@ -282,7 +251,7 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "cwd": "${workspaceFolder}/test/go/models",
+            "cwd": "${workspaceFolder}/test/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipGoModCommands",
@@ -294,7 +263,7 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "cwd": "${workspaceFolder}/test/go/models",
+            "cwd": "${workspaceFolder}/test/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-compileForDebug",
@@ -309,7 +278,7 @@
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go",
-            "cwd": "${workspaceFolder}/test/go/models",
+            "cwd": "${workspaceFolder}/test/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipNpmInstall",
@@ -323,7 +292,7 @@
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go",
-            "cwd": "${workspaceFolder}/test/go/models",
+            "cwd": "${workspaceFolder}/test/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipGoModCommands",
@@ -337,7 +306,7 @@
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go",
-            "cwd": "${workspaceFolder}/test/go/models",
+            "cwd": "${workspaceFolder}/test/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipGoModCommands",
@@ -359,27 +328,6 @@
             ]
         },
         {
-            "name": "gongc ppstdb -skipGoModCommands -skipNg",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "../../../r/DEV_COHERENCE/ppstdb/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNg"
-            ]
-        },
-        {
-            "name": "gongc test2",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/test2/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": []
-        },
-        {
             "name": "gongc /tmp/helloworld",
             "type": "go",
             "request": "launch",
@@ -392,57 +340,12 @@
             ]
         },
         {
-            "name": "gongc /tmp/helloworld on windows",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "../../../../../dev/helloworld",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "go/models"
-            ]
-        },
-        {
-            "name": "gongc /tmp/helloworld on windows -skipNg -skipGoModCommands ",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "../../../../../dev/helloworld",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipNg",
-                "-skipGoModCommands",
-                "go/models"
-            ]
-        },
-        {
-            "name": "gongc /tmp/helloworld on windows -skipNg",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "../../../../../dev/helloworld",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipNg",
-                "go/models"
-            ]
-        },
-        {
-            "name": "gongc /tmp/helloworld in 'go/models' directory",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "/tmp/helloworld/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": []
-        },
-        {
             "name": "gongc test -skipNg -skipGoModCommands -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go",
-            "cwd": "${workspaceFolder}/test/go/models",
+            "cwd": "${workspaceFolder}/test/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipNg",
@@ -524,7 +427,7 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/test/go/cmd/test",
+            "program": "${workspaceFolder}/test/test/go/cmd/test",
             "args": [
                 "-unmarshallFromCode=stage.go",
                 "-marshallOnCommit=stage_out"
@@ -535,31 +438,10 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/test/go/cmd/test",
+            "program": "${workspaceFolder}/test/test/go/cmd/test",
             "args": [
                 "-unmarshallFromCode=stage.go",
                 "-marshallOnCommit=stage_out"
-            ]
-        },
-        {
-            "name": "go run test -unmarshallFromCode=issue_476.go -marshallOnCommit=issue_476",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/go/cmd/test",
-            "args": [
-                "-unmarshallFromCode=issue_476.go",
-                "-marshallOnCommit=issue_476"
-            ]
-        },
-        {
-            "name": "go run test -unmarshallFromCode=stage.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/go/cmd/test",
-            "args": [
-                "-unmarshallFromCode=stage.go",
             ]
         },
         {
@@ -567,7 +449,7 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/test/go/cmd/test",
+            "program": "${workspaceFolder}/test/test/go/cmd/test",
             "args": [
                 "-unmarshallFromCode=mini_stage_in.go",
                 "-marshallOnCommit=mini_stage_out"
@@ -578,7 +460,7 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/test/go/cmd/test",
+            "program": "${workspaceFolder}/test/test/go/cmd/test",
             "args": [
                 "-port=8082",
                 "-unmarshallFromCode=stage.go",
@@ -590,7 +472,7 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/test/go/cmd/test",
+            "program": "${workspaceFolder}/test/test/go/cmd/test",
             "args": [
                 "-marshallOnCommit=stage"
             ]
@@ -642,7 +524,7 @@
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceFolder}/test/go/tests",
+            "program": "${workspaceFolder}/test/test/go/tests",
             "args": [
                 "-test.run",
                 "BclassOrder"
@@ -653,7 +535,7 @@
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceFolder}/test/go/tests",
+            "program": "${workspaceFolder}/test/test/go/tests",
             "args": [
                 "-test.run",
                 "TestBackup"
@@ -664,7 +546,7 @@
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceFolder}/test/go/tests",
+            "program": "${workspaceFolder}/test/test/go/tests",
             "args": [
                 "-test.run",
                 "Serialize"
@@ -675,7 +557,7 @@
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceFolder}/test/go/tests",
+            "program": "${workspaceFolder}/test/test/go/tests",
             "args": [
                 "-test.run",
                 "TestXLBackup"
@@ -686,7 +568,7 @@
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceFolder}/test/go/tests",
+            "program": "${workspaceFolder}/test/test/go/tests",
             "args": [
                 "-test.run",
                 "TestRestore"
@@ -697,32 +579,10 @@
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceFolder}/test/go/tests/parse_tests",
+            "program": "${workspaceFolder}/test/test/go/tests/parse_tests",
             "args": [
                 "-test.run",
                 "TestParseTest"
-            ]
-        },
-        {
-            "name": "go test Stage Count",
-            "type": "go",
-            "request": "launch",
-            "mode": "test",
-            "program": "${workspaceFolder}/test/go/tests/stage_tests",
-            "args": [
-                "-test.run",
-                "TestStageCount"
-            ]
-        },
-        {
-            "name": "go test TestStageCallBack",
-            "type": "go",
-            "request": "launch",
-            "mode": "test",
-            "program": "${workspaceFolder}/test/go/tests",
-            "args": [
-                "-test.run",
-                "TestStageCallBack"
             ]
         },
         {
