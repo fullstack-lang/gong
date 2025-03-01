@@ -41,7 +41,7 @@ export class GstructService {
     origin = origin.replace("4200", "8080")
 
     // compute path to the service
-    this.gstructsUrl = origin + '/api/github.com/fullstack-lang/gong/test/go/v1/gstructs';
+    this.gstructsUrl = origin + '/api/github.com/fullstack-lang/gong/test/test/go/v1/gstructs';
   }
 
   /** GET gstructs from the server */

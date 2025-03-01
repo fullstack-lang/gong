@@ -148,15 +148,10 @@ type StageStruct struct {
 	// map to enable docLink renaming when an identifier is renamed
 	Map_DocLink_Renaming map[string]GONG__Identifier
 	// the to be removed stops here
-	
-	// store the stage order of each instance in order to
-	// preserve this order when serializing them
-	Order            uint
-	Map_Staged_Order map[any]uint
 }
 
 func (stage *StageStruct) GetType() string {
-	return "github.com/fullstack-lang/gong/test/go/models"
+	return "github.com/fullstack-lang/gong/test/test/go/models"
 }
 
 type GONG__Identifier struct {
@@ -249,8 +244,6 @@ func NewStage(path string) (stage *StageStruct) {
 		// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
 		Map_DocLink_Renaming: make(map[string]GONG__Identifier),
 		// the to be removed stops here
-
-		Map_Staged_Order: make(map[any]uint),
 	}
 
 	return
@@ -334,12 +327,7 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 // insertion point for cumulative sub template with model space calls
 // Stage puts astruct to the model stage
 func (astruct *Astruct) Stage(stage *StageStruct) *Astruct {
-
-	if _, ok := stage.Astructs[astruct]; !ok {
-		stage.Astructs[astruct] = __member
-		stage.Map_Staged_Order[astruct] = stage.Order
-		stage.Order++
-	}
+	stage.Astructs[astruct] = __member
 	stage.Astructs_mapString[astruct.Name] = astruct
 
 	return astruct
@@ -389,12 +377,7 @@ func (astruct *Astruct) GetName() (res string) {
 
 // Stage puts astructbstruct2use to the model stage
 func (astructbstruct2use *AstructBstruct2Use) Stage(stage *StageStruct) *AstructBstruct2Use {
-
-	if _, ok := stage.AstructBstruct2Uses[astructbstruct2use]; !ok {
-		stage.AstructBstruct2Uses[astructbstruct2use] = __member
-		stage.Map_Staged_Order[astructbstruct2use] = stage.Order
-		stage.Order++
-	}
+	stage.AstructBstruct2Uses[astructbstruct2use] = __member
 	stage.AstructBstruct2Uses_mapString[astructbstruct2use.Name] = astructbstruct2use
 
 	return astructbstruct2use
@@ -444,12 +427,7 @@ func (astructbstruct2use *AstructBstruct2Use) GetName() (res string) {
 
 // Stage puts astructbstructuse to the model stage
 func (astructbstructuse *AstructBstructUse) Stage(stage *StageStruct) *AstructBstructUse {
-
-	if _, ok := stage.AstructBstructUses[astructbstructuse]; !ok {
-		stage.AstructBstructUses[astructbstructuse] = __member
-		stage.Map_Staged_Order[astructbstructuse] = stage.Order
-		stage.Order++
-	}
+	stage.AstructBstructUses[astructbstructuse] = __member
 	stage.AstructBstructUses_mapString[astructbstructuse.Name] = astructbstructuse
 
 	return astructbstructuse
@@ -499,12 +477,7 @@ func (astructbstructuse *AstructBstructUse) GetName() (res string) {
 
 // Stage puts bstruct to the model stage
 func (bstruct *Bstruct) Stage(stage *StageStruct) *Bstruct {
-
-	if _, ok := stage.Bstructs[bstruct]; !ok {
-		stage.Bstructs[bstruct] = __member
-		stage.Map_Staged_Order[bstruct] = stage.Order
-		stage.Order++
-	}
+	stage.Bstructs[bstruct] = __member
 	stage.Bstructs_mapString[bstruct.Name] = bstruct
 
 	return bstruct
@@ -554,12 +527,7 @@ func (bstruct *Bstruct) GetName() (res string) {
 
 // Stage puts dstruct to the model stage
 func (dstruct *Dstruct) Stage(stage *StageStruct) *Dstruct {
-
-	if _, ok := stage.Dstructs[dstruct]; !ok {
-		stage.Dstructs[dstruct] = __member
-		stage.Map_Staged_Order[dstruct] = stage.Order
-		stage.Order++
-	}
+	stage.Dstructs[dstruct] = __member
 	stage.Dstructs_mapString[dstruct.Name] = dstruct
 
 	return dstruct
@@ -609,12 +577,7 @@ func (dstruct *Dstruct) GetName() (res string) {
 
 // Stage puts fstruct to the model stage
 func (fstruct *Fstruct) Stage(stage *StageStruct) *Fstruct {
-
-	if _, ok := stage.Fstructs[fstruct]; !ok {
-		stage.Fstructs[fstruct] = __member
-		stage.Map_Staged_Order[fstruct] = stage.Order
-		stage.Order++
-	}
+	stage.Fstructs[fstruct] = __member
 	stage.Fstructs_mapString[fstruct.Name] = fstruct
 
 	return fstruct
@@ -664,12 +627,7 @@ func (fstruct *Fstruct) GetName() (res string) {
 
 // Stage puts gstruct to the model stage
 func (gstruct *Gstruct) Stage(stage *StageStruct) *Gstruct {
-
-	if _, ok := stage.Gstructs[gstruct]; !ok {
-		stage.Gstructs[gstruct] = __member
-		stage.Map_Staged_Order[gstruct] = stage.Order
-		stage.Order++
-	}
+	stage.Gstructs[gstruct] = __member
 	stage.Gstructs_mapString[gstruct.Name] = gstruct
 
 	return gstruct
@@ -1610,10 +1568,10 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 type GongFieldValueType string
 
 const (
-	GongFieldValueTypeInt    GongFieldValueType = "GongFieldValueTypeInt"
-	GongFieldValueTypeFloat  GongFieldValueType = "GongFieldValueTypeFloat"
-	GongFieldValueTypeBool   GongFieldValueType = "GongFieldValueTypeBool"
-	GongFieldValueTypeOthers GongFieldValueType = "GongFieldValueTypeOthers"
+	GongFieldValueTypeInt     GongFieldValueType = "GongFieldValueTypeInt"
+	GongFieldValueTypeFloat   GongFieldValueType = "GongFieldValueTypeFloat"
+	GongFieldValueTypeBool    GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypeOthers  GongFieldValueType = "GongFieldValueTypeOthers"
 )
 
 type GongFieldValue struct {

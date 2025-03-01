@@ -42,7 +42,7 @@ export class AstructBstruct2UseService {
     origin = origin.replace("4200", "8080")
 
     // compute path to the service
-    this.astructbstruct2usesUrl = origin + '/api/github.com/fullstack-lang/gong/test/go/v1/astructbstruct2uses';
+    this.astructbstruct2usesUrl = origin + '/api/github.com/fullstack-lang/gong/test/test/go/v1/astructbstruct2uses';
   }
 
   /** GET astructbstruct2uses from the server */

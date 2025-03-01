@@ -3,10 +3,10 @@ package tests
 import (
 	"testing"
 
-	test_stack "github.com/fullstack-lang/gong/test/go/stack"
-	test_static "github.com/fullstack-lang/gong/test/go/static"
+	test_stack "github.com/fullstack-lang/gong/test/test/go/stack"
+	test_static "github.com/fullstack-lang/gong/test/test/go/static"
 
-	"github.com/fullstack-lang/gong/test/go/models"
+	"github.com/fullstack-lang/gong/test/test/go/models"
 )
 
 func TestSerialize(t *testing.T) {

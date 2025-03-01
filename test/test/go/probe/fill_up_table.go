@@ -10,8 +10,8 @@ import (
 
 	"github.com/fullstack-lang/maticons/maticons"
 
-	"github.com/fullstack-lang/gong/test/go/models"
-	"github.com/fullstack-lang/gong/test/go/orm"
+	"github.com/fullstack-lang/gong/test/test/go/models"
+	"github.com/fullstack-lang/gong/test/test/go/orm"
 )
 
 func fillUpTablePointerToGongstruct[T models.PointerToGongstruct](

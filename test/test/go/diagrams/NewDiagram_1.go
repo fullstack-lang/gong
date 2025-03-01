@@ -6,7 +6,7 @@ import (
 	"github.com/fullstack-lang/gongdoc/go/models"
 
 	// injection point for ident package import declaration
-	ref_models "github.com/fullstack-lang/gong/test/go/models"
+	ref_models "github.com/fullstack-lang/gong/test/test/go/models"
 )
 
 // generated in order to avoid error in the package import
@@ -79,5 +79,3 @@ func _(stage *models.StageStruct) {
 
 	// Setup of pointers
 }
-
-

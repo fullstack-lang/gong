@@ -43,7 +43,7 @@ export class DstructService {
     origin = origin.replace("4200", "8080")
 
     // compute path to the service
-    this.dstructsUrl = origin + '/api/github.com/fullstack-lang/gong/test/go/v1/dstructs';
+    this.dstructsUrl = origin + '/api/github.com/fullstack-lang/gong/test/test/go/v1/dstructs';
   }
 
   /** GET dstructs from the server */

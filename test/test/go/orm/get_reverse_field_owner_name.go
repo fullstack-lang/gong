@@ -2,7 +2,7 @@
 package orm
 
 import (
-	"github.com/fullstack-lang/gong/test/go/models"
+	"github.com/fullstack-lang/gong/test/test/go/models"
 )
 
 func GetReverseFieldOwnerName(
