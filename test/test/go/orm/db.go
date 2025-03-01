@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/fullstack-lang/gong/test/go/db"
+	"github.com/fullstack-lang/gong/test/test/go/db"
 )
 
 // Ensure DBLite implements DBInterface
@@ -73,7 +73,7 @@ func NewDBLite() *DBLite {
 // Create inserts a new record into the database
 func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 	if instanceDB == nil {
-		return nil, errors.New("github.com/fullstack-lang/gong/test/go, instanceDB cannot be nil")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/test/go, instanceDB cannot be nil")
 	}
 
 	db.mu.Lock()
@@ -110,7 +110,7 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		v.ID = db.nextIDGstructDB
 		db.gstructDBs[v.ID] = v
 	default:
-		return nil, errors.New("github.com/fullstack-lang/gong/test/go, unsupported type in Create")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/test/go, unsupported type in Create")
 	}
 	return db, nil
 }
@@ -129,7 +129,7 @@ func (db *DBLite) Model(instanceDB any) (db.DBInterface, error) {
 // Delete removes a record from the database
 func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 	if instanceDB == nil {
-		return nil, errors.New("github.com/fullstack-lang/gong/test/go, instanceDB cannot be nil")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/test/go, instanceDB cannot be nil")
 	}
 
 	db.mu.Lock()
@@ -152,7 +152,7 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 	case *GstructDB:
 		delete(db.gstructDBs, v.ID)
 	default:
-		return nil, errors.New("github.com/fullstack-lang/gong/test/go, unsupported type in Delete")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/test/go, unsupported type in Delete")
 	}
 	return db, nil
 }
@@ -161,7 +161,7 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 
 	if instanceDB == nil {
-		return nil, errors.New("github.com/fullstack-lang/gong/test/go, instanceDB cannot be nil")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/test/go, instanceDB cannot be nil")
 	}
 
 	db.mu.Lock()
@@ -191,14 +191,14 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		db.gstructDBs[v.ID] = v
 		return db, nil
 	default:
-		return nil, errors.New("github.com/fullstack-lang/gong/test/go, Save: unsupported type")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/test/go, Save: unsupported type")
 	}
 }
 
 // Updates modifies an existing record in the database
 func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 	if instanceDB == nil {
-		return nil, errors.New("github.com/fullstack-lang/gong/test/go, instanceDB cannot be nil")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/test/go, instanceDB cannot be nil")
 	}
 
 	db.mu.Lock()
@@ -210,46 +210,46 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		if existing, ok := db.astructDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("db Astruct github.com/fullstack-lang/gong/test/go, record not found")
+			return nil, errors.New("db Astruct github.com/fullstack-lang/gong/test/test/go, record not found")
 		}
 	case *AstructBstruct2UseDB:
 		if existing, ok := db.astructbstruct2useDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("db AstructBstruct2Use github.com/fullstack-lang/gong/test/go, record not found")
+			return nil, errors.New("db AstructBstruct2Use github.com/fullstack-lang/gong/test/test/go, record not found")
 		}
 	case *AstructBstructUseDB:
 		if existing, ok := db.astructbstructuseDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("db AstructBstructUse github.com/fullstack-lang/gong/test/go, record not found")
+			return nil, errors.New("db AstructBstructUse github.com/fullstack-lang/gong/test/test/go, record not found")
 		}
 	case *BstructDB:
 		if existing, ok := db.bstructDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("db Bstruct github.com/fullstack-lang/gong/test/go, record not found")
+			return nil, errors.New("db Bstruct github.com/fullstack-lang/gong/test/test/go, record not found")
 		}
 	case *DstructDB:
 		if existing, ok := db.dstructDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("db Dstruct github.com/fullstack-lang/gong/test/go, record not found")
+			return nil, errors.New("db Dstruct github.com/fullstack-lang/gong/test/test/go, record not found")
 		}
 	case *FstructDB:
 		if existing, ok := db.fstructDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("db Fstruct github.com/fullstack-lang/gong/test/go, record not found")
+			return nil, errors.New("db Fstruct github.com/fullstack-lang/gong/test/test/go, record not found")
 		}
 	case *GstructDB:
 		if existing, ok := db.gstructDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("db Gstruct github.com/fullstack-lang/gong/test/go, record not found")
+			return nil, errors.New("db Gstruct github.com/fullstack-lang/gong/test/test/go, record not found")
 		}
 	default:
-		return nil, errors.New("github.com/fullstack-lang/gong/test/go, unsupported type in Updates")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/test/go, unsupported type in Updates")
 	}
 	return db, nil
 }
@@ -305,14 +305,14 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 		}
 		return db, nil
 	default:
-		return nil, errors.New("github.com/fullstack-lang/gong/test/go, Find: unsupported type")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/test/go, Find: unsupported type")
 	}
 }
 
 // First retrieves the first record of a type from the database
 func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 	if len(conds) != 1 {
-		return nil, errors.New("github.com/fullstack-lang/gong/test/go, Do not process when conds is not a single parameter")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/test/go, Do not process when conds is not a single parameter")
 	}
 
 	var i uint64
@@ -322,14 +322,14 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 	case string:
 		i, err = strconv.ParseUint(cond, 10, 32) // Base 10, 32-bit unsigned int
 		if err != nil {
-			return nil, errors.New("github.com/fullstack-lang/gong/test/go, conds[0] is not a string number")
+			return nil, errors.New("github.com/fullstack-lang/gong/test/test/go, conds[0] is not a string number")
 		}
 	case uint64:
 		i = cond
 	case uint:
 		i = uint64(cond)
 	default:
-		return nil, errors.New("github.com/fullstack-lang/gong/test/go, conds[0] is not a string or uint64")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/test/go, conds[0] is not a string or uint64")
 	}
 
 	db.mu.RLock()
@@ -408,7 +408,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		*gstructDB = *tmp
 		
 	default:
-		return nil, errors.New("github.com/fullstack-lang/gong/test/go, Unkown type")
+		return nil, errors.New("github.com/fullstack-lang/gong/test/test/go, Unkown type")
 	}
 	
 	return db, nil

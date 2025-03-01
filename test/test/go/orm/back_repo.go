@@ -11,11 +11,11 @@ import (
 	"path/filepath"
 	"sync"
 
-	"github.com/fullstack-lang/gong/test/go/db"
-	"github.com/fullstack-lang/gong/test/go/models"
+	"github.com/fullstack-lang/gong/test/test/go/db"
+	"github.com/fullstack-lang/gong/test/test/go/models"
 
 	/* THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm
-	"github.com/fullstack-lang/gong/test/go/orm/dbgorm"
+	"github.com/fullstack-lang/gong/test/test/go/orm/dbgorm"
 	THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm */
 
 	"github.com/tealeg/xlsx/v3"
@@ -58,7 +58,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 	db = NewDBLite()
 
 	/* THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm
-	db = dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gong_test_go",
+	db = dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gong_test_test_go",
 		&AstructDB{},
 		&AstructBstruct2UseDB{},
 		&AstructBstructUseDB{},

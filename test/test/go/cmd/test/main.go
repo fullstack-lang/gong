@@ -5,8 +5,8 @@ import (
 	"log"
 	"strconv"
 
-	test_stack "github.com/fullstack-lang/gong/test/go/stack"
-	test_static "github.com/fullstack-lang/gong/test/go/static"
+	test_stack "github.com/fullstack-lang/gong/test/test/go/stack"
+	test_static "github.com/fullstack-lang/gong/test/test/go/static"
 )
 
 var (

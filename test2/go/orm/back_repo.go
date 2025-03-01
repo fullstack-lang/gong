@@ -72,7 +72,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 
 	if err != nil {
 		msg := err.Error()
-		panic("problem with migration " + msg + " on package github.com/fullstack-lang/gong/test/go")
+		panic("problem with migration " + msg + " on package github.com/fullstack-lang/gong/test/test/go")
 	}
 
 	backRepo = new(BackRepoStruct)
@@ -124,7 +124,7 @@ func (backRepo *BackRepoStruct) IncrementCommitFromBackNb() uint {
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 
 	backRepo.broadcastNbCommitToBack()
-	
+
 	return backRepo.CommitFromBackNb
 }
 
