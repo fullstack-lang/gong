@@ -59,7 +59,7 @@
             "label": "04 - go run test",
             "type": "shell",
             "options": {
-                "cwd": "./test/go/cmd/test"
+                "cwd": "./test/test/go/cmd/test"
             },
             "command": "go",
             "args": [
@@ -122,7 +122,7 @@
             "label": "04 - go run test -marshallOnStartup=stage",
             "type": "shell",
             "options": {
-                "cwd": "./test/go/cmd/test"
+                "cwd": "./test/test/go/cmd/test"
             },
             "command": "go",
             "args": [
@@ -137,7 +137,7 @@
             "label": "04 - go run main.go -marshallOnCommit stage_out -unmarshallFromCode stage.go -diagrams",
             "type": "shell",
             "options": {
-                "cwd": "./test/go/cmd/test"
+                "cwd": "./test/test/go/cmd/test"
             },
             "command": "go",
             "args": [
@@ -154,7 +154,7 @@
             "label": "04 - go run main.go -unmarshallFromCode stage.go -diagrams",
             "type": "shell",
             "options": {
-                "cwd": "./test/go/cmd/test"
+                "cwd": "./test/test/go/cmd/test"
             },
             "command": "go",
             "args": [
@@ -261,7 +261,7 @@
             "label": "03 - ngserve test ",
             "type": "shell",
             "options": {
-                "cwd": "test/ng"
+                "cwd": "test/test/ng"
             },
             "command": "ngserve",
             "group": "build",
@@ -283,7 +283,7 @@
             "label": "01 - gongc test -skipNg",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/test/go/models"
+                "cwd": "${workspaceFolder}/test/test/go/models"
             },
             "command": "gongc",
             "group": "build",
@@ -295,7 +295,7 @@
             "label": "01 - remove test main.go",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/test/go/cmd/test",
+                "cwd": "${workspaceFolder}/test/test/go/cmd/test",
             },
             "command": "rm",
             "group": "build",
@@ -307,7 +307,7 @@
             "label": "01 - gongc test -skipNpmWorkspaces",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/test/go/models"
+                "cwd": "${workspaceFolder}/test/test/go/models"
             },
             "command": "gongc",
             "group": "build",
@@ -319,7 +319,7 @@
             "label": "01 - gongc test -skipGoModCommands -skipNpmWorkspaces",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/test/go/models"
+                "cwd": "${workspaceFolder}/test/test/go/models"
             },
             "command": "gongc",
             "group": "build",
