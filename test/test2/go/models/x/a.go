@@ -1,7 +1,7 @@
 package x
 
 import (
-	"github.com/fullstack-lang/gong/test2/go/models"
+	"github.com/fullstack-lang/gong/test/test2/go/models"
 )
 
 // A is the same identifier as in the models
