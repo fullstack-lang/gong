@@ -1,7 +1,7 @@
 {
     "name": "gong",
     "workspaces": [
-        "test/ng-github.com-fullstack-lang-gong-test",
+        "test/test/ng-github.com-fullstack-lang-gong-test-test",
         "test2/ng-github.com-fullstack-lang-gong-test2",
         "test3/ng-github.com-fullstack-lang-gong-test3",
         "ng-github.com-fullstack-lang-gong",
