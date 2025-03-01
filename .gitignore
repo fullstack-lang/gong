@@ -5,7 +5,6 @@ __debug_bin*
 **/.DS_Store
 
 go/controllers/gongapi.yml
-test/test
 test2/test2
 test/go/controllers/testapi.yml
 test2/go/controllers/test2api.yml
