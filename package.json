@@ -1,14 +1,17 @@
 {
     "name": "gong",
     "workspaces": [
-        "test/test/ng-github.com-fullstack-lang-gong-test-test",
-        "test2/ng-github.com-fullstack-lang-gong-test2",
-        "test3/ng-github.com-fullstack-lang-gong-test3",
+        "lib/button/ng-github.com-fullstack-lang-gong-lib-button",
         "ng-github.com-fullstack-lang-gong",
+        "test/test/ng-github.com-fullstack-lang-gong-test-test",
+        "test/test2/ng-github.com-fullstack-lang-gong-test2",
+        "test/test3/ng-github.com-fullstack-lang-gong-test3",
+        "test/toomuchslocs/ng-github.com-fullstack-lang-gong-toomuchslocs",
         "vendor/github.com/fullstack-lang/gongtree/ng-github.com-fullstack-lang-gongtree",
         "vendor/github.com/fullstack-lang/gongsvg/ng-github.com-fullstack-lang-gongsvg",
         "vendor/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable",
-        "vendor/github.com/fullstack-lang/gongdoc/ng-github.com-fullstack-lang-gongdoc",
-        "toomuchslocs/ng-github.com-fullstack-lang-gong-toomuchslocs"
+        "vendor/github.com/fullstack-lang/gongdoc/ng-github.com-fullstack-lang-gongdoc"
+
+
     ]
 }
