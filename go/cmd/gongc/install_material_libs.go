@@ -25,7 +25,7 @@ func installMaterialLibs(modelPkg *gong_models.ModelPkg) {
 		// otherwise, one meet the error
 		// "No terminal detected. '--skip-confirmation' can be used to bypass installation confirmation.
 		// Ensure package name is correct prior to '--skip-confirmation' option usage."
-		cmd := exec.Command("ng", "add", "@angular/material@18", "--skip-confirmation")
+		cmd := exec.Command("ng", "add", "@angular/material@19", "--skip-confirmation")
 		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Adding angular material\n")
 
@@ -43,13 +43,39 @@ func installMaterialLibs(modelPkg *gong_models.ModelPkg) {
 		if err := cmd.Run(); err != nil {
 			log.Panic(err)
 		}
-		log.Printf("ng add is over and took %s", time.Since(start))
+		log.Printf("ng add material is over and took %s", time.Since(start))
+	}
+	{
+		start := time.Now()
+		//  --skip-confirmation is necessary when executing angular without user interaction
+		// otherwise, one meet the error
+		// "No terminal detected. '--skip-confirmation' can be used to bypass installation confirmation.
+		// Ensure package name is correct prior to '--skip-confirmation' option usage."
+		cmd := exec.Command("npm", "install", "@angular/animations@19")
+		cmd.Dir = modelPkg.NgWorkspacePath
+		log.Printf("Adding angular animation\n")
+
+		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+		var stdBuffer bytes.Buffer
+		mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+		cmd.Stdout = mw
+		cmd.Stderr = mw
+
+		log.Println(cmd.String())
+		log.Println(stdBuffer.String())
+
+		// Execute the command
+		if err := cmd.Run(); err != nil {
+			log.Panic(err)
+		}
+		log.Printf("ng add animation is over and took %s", time.Since(start))
 	}
 
 	{
 		start := time.Now()
 		cmd := exec.Command("npm", "install", "--save",
-			"angular-split@18",
+			"angular-split@19",
 			"material-icons")
 		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Installing some packages\n")

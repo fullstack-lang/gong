@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	test2_models "github.com/fullstack-lang/gong/test2/go/models"
+	test2_models "github.com/fullstack-lang/gong/test/test2/go/models"
 )
 
 // errUnkownEnum is returns when a value cannot match enum values
