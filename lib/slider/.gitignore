@@ -1,0 +1,7 @@
+node_modules
+
+go/cmd/slider/slider
+go/cmd/slider/slider.exe
+go/cmd/slider/__debug_bin*
+
+.DS_Store

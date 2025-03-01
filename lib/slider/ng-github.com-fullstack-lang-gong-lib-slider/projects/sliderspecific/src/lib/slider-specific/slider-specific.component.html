@@ -1,0 +1,49 @@
+<as-split direction="vertical">
+    @for (group of layout?.Groups; track group) {
+        <as-split-area [size]="group.Percentage">
+            <p>{{group.Name}}</p>
+            <mat-grid-list cols="12" [rowHeight]="rowHeight" gutterSize="16px">
+            @for (slider of group.Sliders; track slider) {
+                <mat-grid-tile colspan="3" rowspan="1" class="bottom-tile">
+                    <p style="margin-left: 8px; width: 100%;">{{slider.Name}}</p>
+                  </mat-grid-tile>
+                  <mat-grid-tile colspan="2" rowspan="1" class="bottom-tile">
+                    @if( slider.IsInt ) {
+                      <p style="margin-left: 8px; width: 100%;">{{slider.ValueInt}}</p>
+                    }
+                    @if( slider.IsFloat64 ) {
+                      <p style="margin-left: 8px; width: 100%;">{{slider.ValueFloat64}}</p>
+                    }
+                  </mat-grid-tile>
+                  <mat-grid-tile colspan="7" rowspan="1" class="bottom-tile">
+                    @if( slider.IsInt ) {
+                      <mat-slider style="width: 100%;" 
+                      [min]="slider.MinInt" [max]="slider.MaxInt" [step]="slider.StepInt" showTickMarks discrete [displayWith]="formatLabel">
+                        <input matSliderThumb [(ngModel)]="slider.ValueInt" (input)="input($event, slider)">
+                      </mat-slider>
+                    }
+                    @if( slider.IsFloat64 ) {
+                      <mat-slider style="width: 100%;" 
+                      [min]="slider.MinFloat64" [max]="slider.MaxFloat64" [step]="slider.StepFloat64" showTickMarks discrete [displayWith]="formatLabel">
+                        <input matSliderThumb [(ngModel)]="slider.ValueFloat64" (input)="input($event, slider)">
+                      </mat-slider>
+                    }
+                  </mat-grid-tile>
+            }
+            @for (checkbox of group.Checkboxes; track checkbox) {
+              <mat-grid-tile colspan="3" rowspan="1" class="bottom-tile">
+                <p style="margin-left: 8px; width: 100%;">{{checkbox.Name}}</p>
+              </mat-grid-tile>
+              <mat-grid-tile colspan="9" rowspan="1">
+
+                <mat-radio-group [(ngModel)]="checkbox.ValueBool" (change)="inputMatRadio($event, checkbox)">
+                  <mat-radio-button [value]="false">{{checkbox.LabelForFalse}}</mat-radio-button>
+                  <mat-radio-button [value]="true">{{checkbox.LabelForTrue}}</mat-radio-button>
+                </mat-radio-group>
+          
+              </mat-grid-tile>
+            }
+            </mat-grid-list>
+        </as-split-area>
+      }
+</as-split>
