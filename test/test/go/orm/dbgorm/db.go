@@ -2,7 +2,7 @@
 package dbgorm
 
 import (
-	"github.com/fullstack-lang/gong/test/go/db"
+	"github.com/fullstack-lang/gong/test/test/go/db"
 	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"

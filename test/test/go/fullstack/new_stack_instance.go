@@ -2,16 +2,16 @@
 package fullstack
 
 import (
-	"github.com/fullstack-lang/gong/test/go/controllers"
-	"github.com/fullstack-lang/gong/test/go/models"
-	"github.com/fullstack-lang/gong/test/go/orm"
+	"github.com/fullstack-lang/gong/test/test/go/controllers"
+	"github.com/fullstack-lang/gong/test/test/go/models"
+	"github.com/fullstack-lang/gong/test/test/go/orm"
 
 	"github.com/gin-gonic/gin"
 
 	// this will import the angular front end source code directory (versionned with git) in the vendor directory
 	// this path will be included in the "tsconfig.json" front end compilation paths
 	// to include this stack front end code
-	_ "github.com/fullstack-lang/gong/test/ng-github.com-fullstack-lang-gong-test"
+	_ "github.com/fullstack-lang/gong/test/test/ng-github.com-fullstack-lang-gong-test-test"
 )
 
 // NewStackInstance creates a new stack instance from the Stack Model

@@ -6,12 +6,12 @@ import (
 	"log"
 	"os"
 
-	"github.com/fullstack-lang/gong/test/go/fullstack"
-	"github.com/fullstack-lang/gong/test/go/models"
-	"github.com/fullstack-lang/gong/test/go/orm"
-	"github.com/fullstack-lang/gong/test/go/probe"
+	"github.com/fullstack-lang/gong/test/test/go/fullstack"
+	"github.com/fullstack-lang/gong/test/test/go/models"
+	"github.com/fullstack-lang/gong/test/test/go/orm"
+	"github.com/fullstack-lang/gong/test/test/go/probe"
 
-	test_go "github.com/fullstack-lang/gong/test/go"
+	test_go "github.com/fullstack-lang/gong/test/test/go"
 
 	"github.com/gin-gonic/gin"
 )
@@ -29,7 +29,7 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) 
 	defer file.Close()
 
 	stage.Checkout()
-	stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main")
+	stage.Marshall(file, "github.com/fullstack-lang/gong/test/test/go/models", "main")
 }
 
 type Stack struct {

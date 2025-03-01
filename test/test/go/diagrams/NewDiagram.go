@@ -6,7 +6,7 @@ import (
 	"github.com/fullstack-lang/gongdoc/go/models"
 
 	// injection point for ident package import declaration
-	ref_models "github.com/fullstack-lang/gong/test/go/models"
+	ref_models "github.com/fullstack-lang/gong/test/test/go/models"
 )
 
 // generated in order to avoid error in the package import
@@ -368,5 +368,3 @@ func _(stage *models.StageStruct) {
 	__Link__000000_Anarrayofb.Middlevertice = __Vertice__000000_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_Astruct_and_NewDiagram_Bstruct
 	__Link__000001_Bstruct.Middlevertice = __Vertice__000001_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_Astruct_and_NewDiagram_Bstruct
 }
-
-
