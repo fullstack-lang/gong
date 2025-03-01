@@ -15,7 +15,7 @@ import { AngularSplitModule } from 'angular-split';
 
 import * as {{pkgname}} from '../../projects/{{pkgname}}/src/public-api'
 
-import { {{TitlePkgName}}specificComponent } from '../../projects/{{pkgname}}specific/src/public-api'
+import { {{TitlePkgName}}SpecificComponent } from '../../projects/{{pkgname}}specific/src/lib/{{pkgname}}-specific/{{pkgname}}-specific.component'
 
 import { TreeComponent } from '@vendored_components/github.com/fullstack-lang/gongtree/ng-github.com-fullstack-lang-gongtree/projects/gongtreespecific/src/public-api'
 import { MaterialTableComponent } from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtablespecific/src/lib/material-table/material-table.component';
@@ -44,7 +44,7 @@ import { GongsvgDiagrammingComponent } from '@vendored_components/github.com/ful
     MaterialFormComponent,
     PanelComponent,
 
-    {{TitlePkgName}}specificComponent
+    {{TitlePkgName}}SpecificComponent
 
   ],
 
