@@ -1,0 +1,74 @@
+// generated code - do not edit
+package probe
+
+import (
+	gongtable "github.com/fullstack-lang/gongtable/go/models"
+
+	"github.com/fullstack-lang/gong/lib/slider/go/models"
+)
+
+func FillUpFormFromGongstruct(instance any, probe *Probe) {
+	formStage := probe.formStage
+	formStage.Reset()
+
+	FillUpNamedFormFromGongstruct(instance, probe, formStage, gongtable.FormGroupDefaultName.ToString())
+
+}
+
+func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongtable.StageStruct, formName string) {
+
+	switch instancesTyped := any(instance).(type) {
+	// insertion point
+	case *models.Checkbox:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "Checkbox Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__CheckboxFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Group:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "Group Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GroupFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Layout:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "Layout Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__LayoutFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Slider:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "Slider Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__SliderFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	default:
+		_ = instancesTyped
+	}
+	formStage.Commit()
+}
