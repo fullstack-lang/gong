@@ -268,7 +268,6 @@ golang.org/x/crypto/sha3
 # golang.org/x/exp v0.0.0-20250218142911-aa4b98e5adaa
 ## explicit; go 1.23.0
 golang.org/x/exp/constraints
-golang.org/x/exp/maps
 # golang.org/x/mod v0.23.0
 ## explicit; go 1.22.0
 golang.org/x/mod/internal/lazyregexp
