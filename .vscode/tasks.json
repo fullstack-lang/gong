@@ -235,7 +235,7 @@
             "label": "03 - ng serve test ",
             "type": "shell",
             "options": {
-                "cwd": "test/ng-github.com-fullstack-lang-gong-test"
+                "cwd": "test/test/ng-github.com-fullstack-lang-gong-test-test"
             },
             "command": "ng",
             "group": "build",
