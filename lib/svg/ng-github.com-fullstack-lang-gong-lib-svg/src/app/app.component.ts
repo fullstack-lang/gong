@@ -37,9 +37,7 @@ import { GongsvgDiagrammingComponent } from '@vendored_components/github.com/ful
 
     AngularSplitModule,
 
-    TreeComponent,
-    MaterialTableComponent,
-    MaterialFormComponent,
+
     // PanelComponent,
 
     SvgSpecificComponent

@@ -189,6 +189,15 @@
             ],
         },
         {
+            "name": "go run table -unmarshallFromCode=rectangle.go -marshallOnCommit=rectangle_out",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/table/go/cmd/table",
+            "args": [
+            ],
+        },
+        {
             "name": "go run test -unmarshallFromCode=stage.go -marshallOnCommit=stage_out",
             "type": "go",
             "request": "launch",
