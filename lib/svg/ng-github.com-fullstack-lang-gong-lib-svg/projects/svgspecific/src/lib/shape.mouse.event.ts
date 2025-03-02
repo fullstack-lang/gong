@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Point } from '../../../gongsvg/src/lib/point'
-import { Subject } from 'rxjs';
+import * as svg from '../../../svg/src/public-api'
 
 export interface ShapeMouseEvent {
   ShapeID: number
   ShapeType: string
-  Point: Point
+  Point: svg.Point
 }

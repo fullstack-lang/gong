@@ -1,5 +1,5 @@
 
-import * as gongsvg from '../../../gongsvg/src/public-api'
+import * as svg from '../../../svg/src/public-api'
 
 
 export function compareLinkGeometries(instance1: svg.Link, instance2: svg.Link): boolean {
