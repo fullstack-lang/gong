@@ -1,4 +1,4 @@
-import * as gongsvg from '../../../gongsvg/src/public-api'; // Replace 'gongsvg' with the correct module name
+import * as svg from '../../../svg/src/public-api'; // Replace 'gongsvg' with the correct module name
 import { Segment, createPoint } from './draw.segments';
 import { drawPointPointSegment } from './draw.point.point.segment';
 import { swapSegment } from './swap.segment';

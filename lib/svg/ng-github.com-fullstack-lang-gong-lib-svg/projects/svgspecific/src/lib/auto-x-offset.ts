@@ -1,6 +1,6 @@
-import * as svg from '../../../../svg/src/public-api'i'
-import { Segment } from '../draw.segments'
-import { TextWidthCalculatorComponent } from '../text-width-calculator/text-width-calculator.component'
+import * as svg from '../../../svg/src/public-api'
+import { Segment } from './draw.segments'
+import { TextWidthCalculatorComponent } from './text-width-calculator/text-width-calculator.component'
 
 
 export function auto_X_offset(

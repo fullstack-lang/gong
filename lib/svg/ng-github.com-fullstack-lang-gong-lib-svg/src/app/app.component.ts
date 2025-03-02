@@ -40,10 +40,9 @@ import { GongsvgDiagrammingComponent } from '@vendored_components/github.com/ful
     TreeComponent,
     MaterialTableComponent,
     MaterialFormComponent,
-    PanelComponent,
+    // PanelComponent,
 
     SvgSpecificComponent
-
   ],
 
   templateUrl: './app.component.html',
@@ -61,7 +60,7 @@ export class AppComponent implements OnInit {
     'width': '100%',  // Ensure the div takes the full width of its parent container
   }
 
-  StackName = "svg"
+  StackName = svg.StackName
   StackType = svg.StackType
 
   TableExtraPathEnum = gongtable.TableExtraPathEnum
