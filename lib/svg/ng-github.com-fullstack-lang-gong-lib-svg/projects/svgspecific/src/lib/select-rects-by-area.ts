@@ -1,27 +1,27 @@
 
-import { SelectAreaConfig, SweepDirection } from "../svg-event.service";
-import { GongsvgDiagrammingComponent } from "./gongsvg-diagramming"
+import { SelectAreaConfig, SweepDirection } from "./svg-event.service";
+import { SvgSpecificComponent } from "./svg-specific/svg-specific.component"
 
-import * as svg from '../../../../svg/src/public-api'i'
+import * as svg from '../../../svg/src/public-api'
 import { getFunctionName } from "./get.function.name";
 
-export function selectRectsByArea(gongsvgDiagrammingComponent: GongsvgDiagrammingComponent) {
+export function selectRectsByArea(svgSpecificComponent: SvgSpecificComponent) {
     let selectAreaConfig: SelectAreaConfig = new SelectAreaConfig()
 
-    if (gongsvgDiagrammingComponent.PointAtMouseUp.X > gongsvgDiagrammingComponent.PointAtMouseDown.X) {
+    if (svgSpecificComponent.PointAtMouseUp.X > svgSpecificComponent.PointAtMouseDown.X) {
         selectAreaConfig.SweepDirection = SweepDirection.LEFT_TO_RIGHT
     } else {
         selectAreaConfig.SweepDirection = SweepDirection.RIGHT_TO_LEFT
     }
 
     selectAreaConfig.TopLeft = [
-        Math.min(gongsvgDiagrammingComponent.PointAtMouseDown.X, gongsvgDiagrammingComponent.PointAtMouseUp.X),
-        Math.min(gongsvgDiagrammingComponent.PointAtMouseDown.Y, gongsvgDiagrammingComponent.PointAtMouseUp.Y)]
+        Math.min(svgSpecificComponent.PointAtMouseDown.X, svgSpecificComponent.PointAtMouseUp.X),
+        Math.min(svgSpecificComponent.PointAtMouseDown.Y, svgSpecificComponent.PointAtMouseUp.Y)]
     selectAreaConfig.BottomRigth = [
-        Math.max(gongsvgDiagrammingComponent.PointAtMouseDown.X, gongsvgDiagrammingComponent.PointAtMouseUp.X),
-        Math.max(gongsvgDiagrammingComponent.PointAtMouseDown.Y, gongsvgDiagrammingComponent.PointAtMouseUp.Y)]
+        Math.max(svgSpecificComponent.PointAtMouseDown.X, svgSpecificComponent.PointAtMouseUp.X),
+        Math.max(svgSpecificComponent.PointAtMouseDown.Y, svgSpecificComponent.PointAtMouseUp.Y)]
 
-    for (let layer of gongsvgDiagrammingComponent.gongsvgFrontRepo?.getFrontArray<svg.Layer>(svg.Layer.GONGSTRUCT_NAME)!) {
+    for (let layer of svgSpecificComponent.gongsvgFrontRepo?.getFrontArray<svg.Layer>(svg.Layer.GONGSTRUCT_NAME)!) {
         for (let rect of layer.Rects) {
             switch (selectAreaConfig.SweepDirection) {
                 case SweepDirection.LEFT_TO_RIGHT:
@@ -30,7 +30,7 @@ export function selectRectsByArea(gongsvgDiagrammingComponent: GongsvgDiagrammin
                         rect.Y > selectAreaConfig.TopLeft[1] &&
                         rect.Y + rect.Height < selectAreaConfig.BottomRigth[1]) {
                         if (!rect.IsSelected) {
-                            gongsvgDiagrammingComponent.selectRect(rect);
+                            svgSpecificComponent.selectRect(rect);
                         }
                     }
                     break;
@@ -44,8 +44,8 @@ export function selectRectsByArea(gongsvgDiagrammingComponent: GongsvgDiagrammin
                         if (!rect.IsSelected) {
                             console.log(getFunctionName(), "selecting rect", rect.Name);
                             rect.IsSelected = true;
-                            gongsvgDiagrammingComponent.manageHandles(rect)
-                            gongsvgDiagrammingComponent.rectService.updateFront(rect, gongsvgDiagrammingComponent.GONG__StackPath).subscribe(
+                            svgSpecificComponent.manageHandles(rect)
+                            svgSpecificComponent.rectService.updateFront(rect, svgSpecificComponent.GONG__StackPath).subscribe(
                                 _ => {
                                 }
                             );

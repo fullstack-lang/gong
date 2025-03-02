@@ -1,6 +1,6 @@
-import * as gongsvg from '../../../gongsvg/src/public-api'
+import * as svg from '../../../svg/src/public-api'
 import { Segment } from './draw.segments'
-import { getFunctionName } from './gongsvg-diagramming/get.function.name'
+import { getFunctionName } from './get.function.name'
 
 
 
