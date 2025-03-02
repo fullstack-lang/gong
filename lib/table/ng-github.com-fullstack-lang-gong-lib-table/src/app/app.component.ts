@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable, combineLatest, timer } from 'rxjs'
-
 // for angular & angular material
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -14,47 +12,47 @@ import { AngularSplitModule } from 'angular-split';
 import * as table from '../../projects/table/src/public-api'
 
 import { TableSpecificComponent } from '../../projects/tablespecific/src/lib/table-specific/table-specific.component'
-
-import { TreeComponent } from '@vendored_components/github.com/fullstack-lang/gongtree/ng-github.com-fullstack-lang-gongtree/projects/gongtreespecific/src/public-api'
-import { MaterialTableComponent } from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtablespecific/src/lib/material-table/material-table.component';
-import { MaterialFormComponent } from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtablespecific/src/lib/material-form/material-form.component';
-import * as gongtable from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtable/src/public-api';
-import { PanelComponent } from '@vendored_components/github.com/fullstack-lang/gongdoc/ng-github.com-fullstack-lang-gongdoc/projects/gongdocspecific/src/public-api'
-import { GongsvgDiagrammingComponent } from '@vendored_components/github.com/fullstack-lang/gongsvg/ng-github.com-fullstack-lang-gongsvg/projects/gongsvgspecific/src/lib/gongsvg-diagramming/gongsvg-diagramming'
+import { FormSpecificComponent } from "../../projects/tablespecific/src/lib/form-specific/form-specific.component";
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-
     CommonModule,
     FormsModule,
-
     MatRadioModule,
     MatButtonModule,
     MatIconModule,
-
     AngularSplitModule,
-
-    TreeComponent,
-    MaterialTableComponent,
-    MaterialFormComponent,
-    PanelComponent,
-
-    TableSpecificComponent
-
-  ],
+    TableSpecificComponent,
+    FormSpecificComponent
+],
 
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
 
-  table = 'Table'
-  probe = 'Table Data/Model'
-  view = this.table
+  table_view = table.TableName.TableDefaultName.toString()
+  manualy_edited_table_probe = 'Manual Edited Table Stack Probe'
 
-  views: string[] = [this.table, this.probe];
+  form_view = table.FormGroupName.FormGroupDefaultName.toString()
+  manualy_edited_form_probe = 'Manual Edited Form Probe'
+
+  generated_table_probe_stack = 'Generated Table Stack Probe'
+
+  view = this.form_view
+
+  TableTestNameEnum = table.TableTestNameEnum
+
+  views: string[] = [
+    this.table_view,
+    this.form_view,
+    this.manualy_edited_table_probe,
+    this.manualy_edited_form_probe,
+    this.generated_table_probe_stack];
+
+  FormName = "Form 1"
 
   scrollStyle = {
     'overflow- x': 'auto',
@@ -64,7 +62,7 @@ export class AppComponent implements OnInit {
   StackName = "table"
   StackType = table.StackType
 
-  TableExtraPathEnum = gongtable.TableExtraPathEnum
+  TableExtraPathEnum = table.TableExtraPathEnum
 
   constructor(
   ) {

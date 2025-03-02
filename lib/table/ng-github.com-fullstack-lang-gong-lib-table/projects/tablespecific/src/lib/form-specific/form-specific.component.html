@@ -1,0 +1,77 @@
+<form *ngIf="angularFormGroup" [formGroup]="angularFormGroup" (ngSubmit)="submitForm()">
+    <div *ngIf="selectedFormGroup" class="flex-align-items-center sticky-container">
+        <p class="custom-text">{{selectedFormGroup.Label}}</p>
+        <button class="table__save custom-button" mat-raised-button type="submit">Submit</button>
+        <button *ngIf="selectedFormGroup.HasSuppressButton" 
+            class="table__save custom-button" 
+            color="warn" 
+            mat-raised-button 
+            type="button"
+            (click)="openDialog()"
+            >Suppress</button>
+    </div>
+    <div *ngFor="let div of this.selectedFormGroup?.FormDivs">
+        <ng-container *ngFor="let formField of div.FormFields">
+            <mat-form-field [ngStyle]="getDynamicStyles(formField)" 
+            >
+                <mat-label>{{formField.Label}}</mat-label>
+                <ng-container *ngIf="formField.FormFieldInt">
+                    <mat-error *ngIf="angularFormGroup.controls[formField.Name].hasError('min')">
+                        The number must be at least {{formField.FormFieldInt.MinValue}}
+                    </mat-error>
+                    <mat-error *ngIf="angularFormGroup.controls[formField.Name].hasError('max')">
+                        The number must be at most {{formField.FormFieldInt.MaxValue}}
+                    </mat-error>
+                    <mat-error *ngIf="angularFormGroup.controls[formField.Name].hasError('integer')">
+                        Input must be an integer
+                    </mat-error>
+                    <input matInput type="number" [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
+                </ng-container>
+                <ng-container *ngIf="formField.FormFieldFloat64">
+                    <mat-error *ngIf="angularFormGroup.controls[formField.Name].hasError('min')">
+                        The number must be at least {{formField.FormFieldFloat64.MinValue}}
+                    </mat-error>
+                    <mat-error *ngIf="angularFormGroup.controls[formField.Name].hasError('max')">
+                        The number must be at most {{formField.FormFieldFloat64.MaxValue}}
+                    </mat-error>
+                    <input matInput type="number" [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
+                </ng-container>
+                <input *ngIf="formField.FormFieldString && !formField.FormFieldString.IsTextArea" 
+                    matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
+                <textarea *ngIf="formField.FormFieldString && formField.FormFieldString.IsTextArea" 
+                    matInput [formControlName]="formField.Name" 
+                    [placeholder]="formField.Placeholder">
+                </textarea>
+                <input *ngIf="formField.FormFieldDate" type="date" matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
+                <input *ngIf="formField.FormFieldTime" type="time" matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder" [step]="formField.FormFieldTime.Step">
+                <input *ngIf="formField.FormFieldDateTime" matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
+                <mat-select *ngIf="formField.FormFieldSelect" [formControlName]="formField.Name">
+                    <mat-option *ngIf="formField.FormFieldSelect.CanBeEmpty">
+                        Empty
+                    </mat-option>
+                    <mat-option *ngFor="let option of formField.FormFieldSelect.Options" [value]="option.Name">
+                        {{ option.Name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </ng-container>
+
+        <mat-checkbox class="custom-checkbox" *ngFor="let checkBox of div.CheckBoxs" [formControlName]="checkBox.Name">{{checkBox.Name}}</mat-checkbox>
+
+        <!-- Flexbox container starts here -->
+        <div *ngIf="div.FormEditAssocButton || div.FormSortAssocButton" class="flex-align-items-center">
+            <p class="custom-text" *ngIf="div.FormEditAssocButton">{{div.FormEditAssocButton.Label}}</p>
+            <button *ngIf="div.FormEditAssocButton" (click)="openTableAssociation(div.FormEditAssocButton.Name)" mat-raised-button class="custom-button">
+                <mat-icon>
+                    list
+                </mat-icon>
+            </button>
+            <button *ngIf="div.FormSortAssocButton" (click)="openTableSort(div.FormSortAssocButton.Name)" mat-raised-button class="custom-button">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </div>
+        <!-- Flexbox container ends here -->
+    </div>
+</form>
