@@ -1,5 +1,5 @@
 
-import * as gongsvg from '../../../gongsvg/src/public-api'
+import * as svg from '../../../svg/src/public-api'
 
 
 export function compareRectGeometries(instance1: svg.Rect, instance2: svg.Rect): boolean {
