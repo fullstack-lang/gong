@@ -2,6 +2,7 @@
     "name": "gong",
     "workspaces": [
         "lib/button/ng-github.com-fullstack-lang-gong-lib-button",
+        "lib/doc/ng-github.com-fullstack-lang-gong-lib-doc",
         "lib/slider/ng-github.com-fullstack-lang-gong-lib-slider",
         "lib/svg/ng-github.com-fullstack-lang-gong-lib-svg",
         "lib/table/ng-github.com-fullstack-lang-gong-lib-table",

@@ -1,0 +1,7 @@
+node_modules
+
+go/cmd/doc/doc
+go/cmd/doc/doc.exe
+go/cmd/doc/__debug_bin*
+
+.DS_Store
