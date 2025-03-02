@@ -206,7 +206,7 @@ type StageStruct struct {
 	// map to enable docLink renaming when an identifier is renamed
 	Map_DocLink_Renaming map[string]GONG__Identifier
 	// the to be removed stops here
-
+	
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	Order            uint
@@ -2227,11 +2227,11 @@ func (gongValueField *GongFieldValue) GetValueString() string {
 func (gongValueField *GongFieldValue) GetValueInt() int {
 	return gongValueField.valueInt
 }
-
+	
 func (gongValueField *GongFieldValue) GetValueFloat() float64 {
 	return gongValueField.valueFloat
 }
-
+	
 func (gongValueField *GongFieldValue) GetValueBool() bool {
 	return gongValueField.valueBool
 }
