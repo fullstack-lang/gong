@@ -292,6 +292,18 @@
             ]
         },
         {
+            "label": "01 - gongc table",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/table"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "go/models"
+            ]
+        },
+        {
             "label": "01 - remove test main.go",
             "type": "shell",
             "options": {

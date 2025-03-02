@@ -3,8 +3,9 @@
     "workspaces": [
         "lib/button/ng-github.com-fullstack-lang-gong-lib-button",
         "lib/slider/ng-github.com-fullstack-lang-gong-lib-slider",
-        "lib/tree/ng-github.com-fullstack-lang-gong-lib-tree",
         "lib/svg/ng-github.com-fullstack-lang-gong-lib-svg",
+        "lib/table/ng-github.com-fullstack-lang-gong-lib-table",
+        "lib/tree/ng-github.com-fullstack-lang-gong-lib-tree",
         "ng-github.com-fullstack-lang-gong",
         "test/test/ng-github.com-fullstack-lang-gong-test-test",
         "test/test2/ng-github.com-fullstack-lang-gong-test2",
