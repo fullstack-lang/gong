@@ -1,0 +1,7 @@
+node_modules
+
+go/cmd/tree/tree
+go/cmd/tree/tree.exe
+go/cmd/tree/__debug_bin*
+
+.DS_Store
