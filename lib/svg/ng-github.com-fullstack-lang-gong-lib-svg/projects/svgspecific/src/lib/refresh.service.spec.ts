@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GongspecificService } from './gongspecific.service';
+import { RefreshService } from './refresh.service';
 
-describe('GongspecificService', () => {
-  let service: GongspecificService;
+describe('RefreshService', () => {
+  let service: RefreshService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(GongspecificService);
+    service = TestBed.inject(RefreshService);
   });
 
   it('should be created', () => {

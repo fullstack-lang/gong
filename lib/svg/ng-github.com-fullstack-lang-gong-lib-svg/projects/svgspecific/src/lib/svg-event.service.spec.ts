@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SvgspecificService } from './svgspecific.service';
+import { SvgEventService } from './svg-event.service';
 
-describe('SvgspecificService', () => {
-  let service: SvgspecificService;
+describe('SvgEventService', () => {
+  let service: SvgEventService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(SvgspecificService);
+    service = TestBed.inject(SvgEventService);
   });
 
   it('should be created', () => {
