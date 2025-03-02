@@ -1,0 +1,50 @@
+.custom-form-field {
+    margin-bottom: 16px;
+    /* Adjust this value to get the desired spacing */
+}
+
+.custom-checkbox {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    /* Adjust this value to get the desired spacing */
+}
+
+.custom-button {
+    /* margin-top: 16px; */
+    margin-bottom: 32px;
+    /* Adjust this value to get the desired spacing */
+}
+
+.flex-align-items-center {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    /* This is to provide a little spacing between the elements. Adjust as needed */
+}
+
+.custom-text {
+    font-size: 14px;
+    /* this is an approximation */
+    font-weight: 400;
+    /* regular weight */
+    color: rgba(0, 0, 0, 0.87);
+    /* default text color from Angular Material */
+    margin-bottom: 50px;
+    margin-left: 16px;
+    gap: 20px;
+    line-height: 1.5;
+    /* making the line height similar to material */
+}
+
+.sticky-container {
+    position: sticky;
+
+    top: 0;
+    z-index: 100;
+    background-color: white;
+    /* Sets the background color to white */
+    padding: 2px;
+    /* Adds some space inside the container */
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+    /* Optional: Adds a subtle shadow for a raised effect */
+}

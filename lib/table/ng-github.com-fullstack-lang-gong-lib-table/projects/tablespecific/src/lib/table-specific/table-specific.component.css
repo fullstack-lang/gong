@@ -1,0 +1,53 @@
+.container {
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    overflow: auto;
+}
+
+.my-button:hover {
+    animation: pulse 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.mat-mdc-row {
+    background-color: white;
+}
+
+.table .mat-mdc-row:hover {
+    background-color: #F8F8F8;
+    cursor: pointer;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    height: 50px;
+}
+
+.left-toolbar,
+.center-toolbar,
+.right-toolbar {
+    display: flex;
+    align-items: center;
+}
+
+.center-toolbar {
+    justify-content: center;
+    flex-grow: 1;
+}
