@@ -1,0 +1,7 @@
+node_modules
+
+go/cmd/svg/svg
+go/cmd/svg/svg.exe
+go/cmd/svg/__debug_bin*
+
+.DS_Store
