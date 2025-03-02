@@ -1,0 +1,7 @@
+node_modules
+
+go/cmd/table/table
+go/cmd/table/table.exe
+go/cmd/table/__debug_bin*
+
+.DS_Store
