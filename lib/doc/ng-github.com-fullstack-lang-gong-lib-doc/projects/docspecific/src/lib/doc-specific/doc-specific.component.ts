@@ -18,6 +18,14 @@ import { SvgSpecificComponent } from '../../../../../../../svg/ng-github.com-ful
   templateUrl: './doc-specific.component.html',
   styleUrl: './doc-specific.component.css'
 })
-export class DocSpecificComponent {
+export class DocSpecificComponent implements OnInit {
   @Input() GONG__StackPath: string = ""
+
+  constructor(
+    private router: Router,
+  ) { }
+
+  ngOnInit(): void {
+    console.log("PkgeltDocsComponent->GONG__StackPath : ", this.GONG__StackPath)
+  }
 }
