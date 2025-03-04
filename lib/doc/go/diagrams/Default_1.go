@@ -26,19 +26,19 @@ func _(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
-	__Classdiagram__000000_Default_1 := (&models.Classdiagram{Name: `Default_1`}).Stage(stage)
+	__Classdiagram__000000_Default_1 := (&models.Classdiagram{}).Stage(stage)
 
-	__Field__000000_Name := (&models.Field{Name: `Name`}).Stage(stage)
+	__Field__000000_Name := (&models.Field{}).Stage(stage)
 
-	__GongStructShape__000000_Default_1_Classdiagram := (&models.GongStructShape{Name: `Default_1-Classdiagram`}).Stage(stage)
-	__GongStructShape__000001_Default_1_GongStructShape := (&models.GongStructShape{Name: `Default_1-GongStructShape`}).Stage(stage)
+	__GongStructShape__000000_Default_1_Classdiagram := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000001_Default_1_GongStructShape := (&models.GongStructShape{}).Stage(stage)
 
-	__Link__000000_GongStructShapes := (&models.Link{Name: `GongStructShapes`}).Stage(stage)
+	__Link__000000_GongStructShapes := (&models.Link{}).Stage(stage)
 
-	__Position__000000_Pos_Default_1_Classdiagram := (&models.Position{Name: `Pos-Default_1-Classdiagram`}).Stage(stage)
-	__Position__000001_Pos_Default_1_GongStructShape := (&models.Position{Name: `Pos-Default_1-GongStructShape`}).Stage(stage)
+	__Position__000000_Pos_Default_1_Classdiagram := (&models.Position{}).Stage(stage)
+	__Position__000001_Pos_Default_1_GongStructShape := (&models.Position{}).Stage(stage)
 
-	__Vertice__000000_Verticle_in_class_diagram_Default_1_in_middle_between_Default_1_Classdiagram_and_Default_1_GongStructShape := (&models.Vertice{Name: `Verticle in class diagram Default_1 in middle between Default_1-Classdiagram and Default_1-GongStructShape`}).Stage(stage)
+	__Vertice__000000_Verticle_in_class_diagram_Default_1_in_middle_between_Default_1_Classdiagram_and_Default_1_GongStructShape := (&models.Vertice{}).Stage(stage)
 
 	// Setup of values
 
@@ -107,11 +107,17 @@ func _(stage *models.StageStruct) {
 	__Vertice__000000_Verticle_in_class_diagram_Default_1_in_middle_between_Default_1_Classdiagram_and_Default_1_GongStructShape.Name = `Verticle in class diagram Default_1 in middle between Default_1-Classdiagram and Default_1-GongStructShape`
 
 	// Setup of pointers
+	// setup of Classdiagram instances pointers
 	__Classdiagram__000000_Default_1.GongStructShapes = append(__Classdiagram__000000_Default_1.GongStructShapes, __GongStructShape__000000_Default_1_Classdiagram)
 	__Classdiagram__000000_Default_1.GongStructShapes = append(__Classdiagram__000000_Default_1.GongStructShapes, __GongStructShape__000001_Default_1_GongStructShape)
+	// setup of Field instances pointers
+	// setup of GongStructShape instances pointers
 	__GongStructShape__000000_Default_1_Classdiagram.Position = __Position__000000_Pos_Default_1_Classdiagram
 	__GongStructShape__000000_Default_1_Classdiagram.Fields = append(__GongStructShape__000000_Default_1_Classdiagram.Fields, __Field__000000_Name)
 	__GongStructShape__000000_Default_1_Classdiagram.Links = append(__GongStructShape__000000_Default_1_Classdiagram.Links, __Link__000000_GongStructShapes)
 	__GongStructShape__000001_Default_1_GongStructShape.Position = __Position__000001_Pos_Default_1_GongStructShape
+	// setup of Link instances pointers
 	__Link__000000_GongStructShapes.Middlevertice = __Vertice__000000_Verticle_in_class_diagram_Default_1_in_middle_between_Default_1_Classdiagram_and_Default_1_GongStructShape
+	// setup of Position instances pointers
+	// setup of Vertice instances pointers
 }

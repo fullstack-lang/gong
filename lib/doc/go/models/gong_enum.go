@@ -329,81 +329,81 @@ func (orientationtype OrientationType) CodeValues() (res []string) {
 	return
 }
 
-// Utility function for StacksNames
+// Utility function for TreeNames
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
-func (stacksnames StacksNames) ToString() (res string) {
+func (treenames TreeNames) ToString() (res string) {
 
 	// migration of former implementation of enum
-	switch stacksnames {
+	switch treenames {
 	// insertion code per enum code
-	case SvgStackName:
-		res = "svg"
-	case GongdocStackName:
-		res = "gongdoc"
+	case Portfolio:
+		res = "portfolio"
+	case Model:
+		res = "model"
 	}
 	return
 }
 
-func (stacksnames *StacksNames) FromString(input string) (err error) {
+func (treenames *TreeNames) FromString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "svg":
-		*stacksnames = SvgStackName
+	case "portfolio":
+		*treenames = Portfolio
 		return
-	case "gongdoc":
-		*stacksnames = GongdocStackName
+	case "model":
+		*treenames = Model
 		return
 	default:
 		return errUnkownEnum
 	}
 }
 
-func (stacksnames *StacksNames) FromCodeString(input string) (err error) {
+func (treenames *TreeNames) FromCodeString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "SvgStackName":
-		*stacksnames = SvgStackName
-	case "GongdocStackName":
-		*stacksnames = GongdocStackName
+	case "Portfolio":
+		*treenames = Portfolio
+	case "Model":
+		*treenames = Model
 	default:
 		return errUnkownEnum
 	}
 	return
 }
 
-func (stacksnames *StacksNames) ToCodeString() (res string) {
+func (treenames *TreeNames) ToCodeString() (res string) {
 
-	switch *stacksnames {
+	switch *treenames {
 	// insertion code per enum code
-	case SvgStackName:
-		res = "SvgStackName"
-	case GongdocStackName:
-		res = "GongdocStackName"
+	case Portfolio:
+		res = "Portfolio"
+	case Model:
+		res = "Model"
 	}
 	return
 }
 
-func (stacksnames StacksNames) Codes() (res []string) {
+func (treenames TreeNames) Codes() (res []string) {
 
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "SvgStackName")
-	res = append(res, "GongdocStackName")
+	res = append(res, "Portfolio")
+	res = append(res, "Model")
 
 	return
 }
 
-func (stacksnames StacksNames) CodeValues() (res []string) {
+func (treenames TreeNames) CodeValues() (res []string) {
 
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "svg")
-	res = append(res, "gongdoc")
+	res = append(res, "portfolio")
+	res = append(res, "model")
 
 	return
 }

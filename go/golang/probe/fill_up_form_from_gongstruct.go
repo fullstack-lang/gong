@@ -4,7 +4,7 @@ const FillUpFormFromGongstructTemplate = `// generated code - do not edit
 package probe
 
 import (
-	gongtable "github.com/fullstack-lang/gongtable/go/models"
+	gongtable "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"{{PkgPathRoot}}/models"
 )

@@ -12,7 +12,7 @@ import (
 type ButtonImplGongstruct struct {
 	gongStruct *gong_models.GongStruct
 	Icon       gongtree_buttons.ButtonType
-	probe      *Probe
+	probe *Probe
 }
 
 func NewButtonImplGongstruct(
