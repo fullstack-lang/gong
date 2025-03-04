@@ -25,7 +25,8 @@
                   "type": "anyComponentStyle"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "sourceMap": false
             }
           },
           "defaultConfiguration": "production",

@@ -28,5 +28,6 @@ export class DocSpecificComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log("DocSpecificComponent:ngOnInit")
   }
 }
