@@ -343,6 +343,19 @@
             ]
         },
         {
+            "label": "01 - gongc svg",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/svg"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "-skipNpmInstall",
+                "go/models"
+            ]
+        },
+        {
             "label": "01 - remove test main.go",
             "type": "shell",
             "options": {

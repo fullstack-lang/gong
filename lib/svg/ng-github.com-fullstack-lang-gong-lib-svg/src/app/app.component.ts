@@ -15,12 +15,11 @@ import * as svg from '../../projects/svg/src/public-api'
 
 import { SvgSpecificComponent } from '../../projects/svgspecific/src/lib/svg-specific/svg-specific.component'
 
-import { TreeComponent } from '@vendored_components/github.com/fullstack-lang/gongtree/ng-github.com-fullstack-lang-gongtree/projects/gongtreespecific/src/public-api'
-import { MaterialTableComponent } from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtablespecific/src/lib/material-table/material-table.component';
-import { MaterialFormComponent } from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtablespecific/src/lib/material-form/material-form.component';
+import { TreeSpecificComponent } from '../../../../tree/ng-github.com-fullstack-lang-gong-lib-tree/projects/treespecific/src/lib/tree-specific/tree-specific.component'
+import { TableSpecificComponent } from '../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/table-specific/table-specific.component'
+import { FormSpecificComponent} from '../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/form-specific/form-specific.component'
+
 import * as gongtable from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtable/src/public-api';
-import { PanelComponent } from '@vendored_components/github.com/fullstack-lang/gongdoc/ng-github.com-fullstack-lang-gongdoc/projects/gongdocspecific/src/public-api'
-import { GongsvgDiagrammingComponent } from '@vendored_components/github.com/fullstack-lang/gongsvg/ng-github.com-fullstack-lang-gongsvg/projects/gongsvgspecific/src/lib/gongsvg-diagramming/gongsvg-diagramming'
 
 
 @Component({
@@ -37,9 +36,10 @@ import { GongsvgDiagrammingComponent } from '@vendored_components/github.com/ful
 
     AngularSplitModule,
 
-
-    // PanelComponent,
-
+    TreeSpecificComponent,
+    TableSpecificComponent,
+    FormSpecificComponent,
+    
     SvgSpecificComponent
   ],
 
