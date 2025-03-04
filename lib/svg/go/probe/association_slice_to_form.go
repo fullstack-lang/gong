@@ -6,9 +6,9 @@ import (
 	"log"
 	"sort"
 
-	gongtable_fullstack "github.com/fullstack-lang/gongtable/go/fullstack"
-	form "github.com/fullstack-lang/gongtable/go/models"
-	gongtable_models "github.com/fullstack-lang/gongtable/go/models"
+	gongtable_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
+	gongtable_models "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 )
