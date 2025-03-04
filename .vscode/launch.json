@@ -189,11 +189,20 @@
             ],
         },
         {
-            "name": "go run table -unmarshallFromCode=rectangle.go -marshallOnCommit=rectangle_out",
+            "name": "go run table",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/table/go/cmd/table",
+            "args": [
+            ],
+        },
+        {
+            "name": "go run doc",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/doc/go/cmd/doc",
             "args": [
             ],
         },
@@ -389,6 +398,14 @@
             "type": "chrome",
             "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}/test3/ng-github.com-fullstack-lang-gong-test3",
+            "sourceMaps": true,
+        },
+        {
+            "name": "Launch Chrome (doc) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/doc/ng-github.com-fullstack-lang-gong-lib-doc",
             "sourceMaps": true,
         },
         {
