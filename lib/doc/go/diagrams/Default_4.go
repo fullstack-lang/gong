@@ -26,11 +26,11 @@ func _(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
-	__Classdiagram__000000_Default_4 := (&models.Classdiagram{Name: `Default_4`}).Stage(stage)
+	__Classdiagram__000000_Default_4 := (&models.Classdiagram{}).Stage(stage)
 
-	__GongEnumShape__000000_Default_4_MultiplicityType := (&models.GongEnumShape{Name: `Default_4-MultiplicityType`}).Stage(stage)
+	__GongEnumShape__000000_Default_4_MultiplicityType := (&models.GongEnumShape{}).Stage(stage)
 
-	__Position__000000_Pos_Default_4_MultiplicityType := (&models.Position{Name: `Pos-Default_4-MultiplicityType`}).Stage(stage)
+	__Position__000000_Pos_Default_4_MultiplicityType := (&models.Position{}).Stage(stage)
 
 	// Setup of values
 
@@ -49,6 +49,9 @@ func _(stage *models.StageStruct) {
 	__Position__000000_Pos_Default_4_MultiplicityType.Name = `Pos-Default_4-MultiplicityType`
 
 	// Setup of pointers
+	// setup of Classdiagram instances pointers
 	__Classdiagram__000000_Default_4.GongEnumShapes = append(__Classdiagram__000000_Default_4.GongEnumShapes, __GongEnumShape__000000_Default_4_MultiplicityType)
+	// setup of GongEnumShape instances pointers
 	__GongEnumShape__000000_Default_4_MultiplicityType.Position = __Position__000000_Pos_Default_4_MultiplicityType
+	// setup of Position instances pointers
 }

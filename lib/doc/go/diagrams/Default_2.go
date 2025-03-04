@@ -18,227 +18,7 @@ var _ ref_models.StageStruct
 
 // When parsed, those maps will help with the renaming process
 var _ map[string]any = map[string]any{
-	// injection point for docLink to identifiers
-
-	"ref_models.Classdiagram": &(ref_models.Classdiagram{}),
-
-	"ref_models.Classdiagram.GongEnumShapes": (ref_models.Classdiagram{}).GongEnumShapes,
-
-	"ref_models.Classdiagram.GongStructShapes": (ref_models.Classdiagram{}).GongStructShapes,
-
-	"ref_models.Classdiagram.IsInDrawMode": (ref_models.Classdiagram{}).IsInDrawMode,
-
-	"ref_models.Classdiagram.Name": (ref_models.Classdiagram{}).Name,
-
-	"ref_models.Classdiagram.NoteShapes": (ref_models.Classdiagram{}).NoteShapes,
-
-	"ref_models.DiagramPackage": &(ref_models.DiagramPackage{}),
-
-	"ref_models.DiagramPackage.AbsolutePathToDiagramPackage": (ref_models.DiagramPackage{}).AbsolutePathToDiagramPackage,
-
-	"ref_models.DiagramPackage.Classdiagrams": (ref_models.DiagramPackage{}).Classdiagrams,
-
-	"ref_models.DiagramPackage.GongModelPath": (ref_models.DiagramPackage{}).GongModelPath,
-
-	"ref_models.DiagramPackage.IsEditable": (ref_models.DiagramPackage{}).IsEditable,
-
-	"ref_models.DiagramPackage.IsReloaded": (ref_models.DiagramPackage{}).IsReloaded,
-
-	"ref_models.DiagramPackage.Name": (ref_models.DiagramPackage{}).Name,
-
-	"ref_models.DiagramPackage.Path": (ref_models.DiagramPackage{}).Path,
-
-	"ref_models.DiagramPackage.SelectedClassdiagram": (ref_models.DiagramPackage{}).SelectedClassdiagram,
-
-	"ref_models.DiagramPackage.Umlscs": (ref_models.DiagramPackage{}).Umlscs,
-
-	"ref_models.Field": &(ref_models.Field{}),
-
-	"ref_models.Field.FieldTypeAsString": (ref_models.Field{}).FieldTypeAsString,
-
-	"ref_models.Field.Fieldtypename": (ref_models.Field{}).Fieldtypename,
-
-	"ref_models.Field.Identifier": (ref_models.Field{}).Identifier,
-
-	"ref_models.Field.Name": (ref_models.Field{}).Name,
-
-	"ref_models.Field.Structname": (ref_models.Field{}).Structname,
-
-	"ref_models.GongEnumShape": &(ref_models.GongEnumShape{}),
-
-	"ref_models.GongEnumShape.GongEnumValueEntrys": (ref_models.GongEnumShape{}).GongEnumValueEntrys,
-
-	"ref_models.GongEnumShape.Height": (ref_models.GongEnumShape{}).Height,
-
-	"ref_models.GongEnumShape.Identifier": (ref_models.GongEnumShape{}).Identifier,
-
-	"ref_models.GongEnumShape.Name": (ref_models.GongEnumShape{}).Name,
-
-	"ref_models.GongEnumShape.Position": (ref_models.GongEnumShape{}).Position,
-
-	"ref_models.GongEnumShape.Width": (ref_models.GongEnumShape{}).Width,
-
-	"ref_models.GongEnumShapeType": ref_models.GongEnumShapeType(0),
-
-	"ref_models.GongEnumValueEntry": &(ref_models.GongEnumValueEntry{}),
-
-	"ref_models.GongEnumValueEntry.Identifier": (ref_models.GongEnumValueEntry{}).Identifier,
-
-	"ref_models.GongEnumValueEntry.Name": (ref_models.GongEnumValueEntry{}).Name,
-
-	"ref_models.GongStructShape": &(ref_models.GongStructShape{}),
-
-	"ref_models.GongStructShape.Fields": (ref_models.GongStructShape{}).Fields,
-
-	"ref_models.GongStructShape.Height": (ref_models.GongStructShape{}).Height,
-
-	"ref_models.GongStructShape.Identifier": (ref_models.GongStructShape{}).Identifier,
-
-	"ref_models.GongStructShape.IsSelected": (ref_models.GongStructShape{}).IsSelected,
-
-	"ref_models.GongStructShape.Links": (ref_models.GongStructShape{}).Links,
-
-	"ref_models.GongStructShape.Name": (ref_models.GongStructShape{}).Name,
-
-	"ref_models.GongStructShape.NbInstances": (ref_models.GongStructShape{}).NbInstances,
-
-	"ref_models.GongStructShape.Position": (ref_models.GongStructShape{}).Position,
-
-	"ref_models.GongStructShape.ShowNbInstances": (ref_models.GongStructShape{}).ShowNbInstances,
-
-	"ref_models.GongStructShape.Width": (ref_models.GongStructShape{}).Width,
-
-	"ref_models.GongdocStackName": ref_models.GongdocStackName,
-
-	"ref_models.Int": ref_models.Int,
-
-	"ref_models.Link": &(ref_models.Link{}),
-
-	"ref_models.Link.CornerOffsetRatio": (ref_models.Link{}).CornerOffsetRatio,
-
-	"ref_models.Link.EndOrientation": (ref_models.Link{}).EndOrientation,
-
-	"ref_models.Link.EndRatio": (ref_models.Link{}).EndRatio,
-
-	"ref_models.Link.FieldOffsetX": (ref_models.Link{}).FieldOffsetX,
-
-	"ref_models.Link.FieldOffsetY": (ref_models.Link{}).FieldOffsetY,
-
-	"ref_models.Link.Fieldtypename": (ref_models.Link{}).Fieldtypename,
-
-	"ref_models.Link.Identifier": (ref_models.Link{}).Identifier,
-
-	"ref_models.Link.Middlevertice": (ref_models.Link{}).Middlevertice,
-
-	"ref_models.Link.Name": (ref_models.Link{}).Name,
-
-	"ref_models.Link.SourceMultiplicity": (ref_models.Link{}).SourceMultiplicity,
-
-	"ref_models.Link.SourceMultiplicityOffsetX": (ref_models.Link{}).SourceMultiplicityOffsetX,
-
-	"ref_models.Link.SourceMultiplicityOffsetY": (ref_models.Link{}).SourceMultiplicityOffsetY,
-
-	"ref_models.Link.StartOrientation": (ref_models.Link{}).StartOrientation,
-
-	"ref_models.Link.StartRatio": (ref_models.Link{}).StartRatio,
-
-	"ref_models.Link.TargetMultiplicity": (ref_models.Link{}).TargetMultiplicity,
-
-	"ref_models.Link.TargetMultiplicityOffsetX": (ref_models.Link{}).TargetMultiplicityOffsetX,
-
-	"ref_models.Link.TargetMultiplicityOffsetY": (ref_models.Link{}).TargetMultiplicityOffsetY,
-
-	"ref_models.MANY": ref_models.MANY,
-
-	"ref_models.MultiplicityType": ref_models.MultiplicityType(""),
-
-	"ref_models.NOTE_SHAPE_LINK_TO_GONG_FIELD": ref_models.NOTE_SHAPE_LINK_TO_GONG_FIELD,
-
-	"ref_models.NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE": ref_models.NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE,
-
-	"ref_models.NoteOnGongdoc": ref_models.NoteOnGongdoc,
-
-	"ref_models.NoteShape": &(ref_models.NoteShape{}),
-
-	"ref_models.NoteShape.Body": (ref_models.NoteShape{}).Body,
-
-	"ref_models.NoteShape.BodyHTML": (ref_models.NoteShape{}).BodyHTML,
-
-	"ref_models.NoteShape.Height": (ref_models.NoteShape{}).Height,
-
-	"ref_models.NoteShape.Identifier": (ref_models.NoteShape{}).Identifier,
-
-	"ref_models.NoteShape.Matched": (ref_models.NoteShape{}).Matched,
-
-	"ref_models.NoteShape.Name": (ref_models.NoteShape{}).Name,
-
-	"ref_models.NoteShape.NoteShapeLinks": (ref_models.NoteShape{}).NoteShapeLinks,
-
-	"ref_models.NoteShape.Width": (ref_models.NoteShape{}).Width,
-
-	"ref_models.NoteShape.X": (ref_models.NoteShape{}).X,
-
-	"ref_models.NoteShape.Y": (ref_models.NoteShape{}).Y,
-
-	"ref_models.NoteShapeLink": &(ref_models.NoteShapeLink{}),
-
-	"ref_models.NoteShapeLink.Identifier": (ref_models.NoteShapeLink{}).Identifier,
-
-	"ref_models.NoteShapeLink.Name": (ref_models.NoteShapeLink{}).Name,
-
-	"ref_models.NoteShapeLink.Type": (ref_models.NoteShapeLink{}).Type,
-
-	"ref_models.NoteShapeLinkType": ref_models.NoteShapeLinkType(""),
-
-	"ref_models.ONE": ref_models.ONE,
-
-	"ref_models.ORIENTATION_HORIZONTAL": ref_models.ORIENTATION_HORIZONTAL,
-
-	"ref_models.ORIENTATION_VERTICAL": ref_models.ORIENTATION_VERTICAL,
-
-	"ref_models.OrientationType": ref_models.OrientationType(""),
-
-	"ref_models.Position": &(ref_models.Position{}),
-
-	"ref_models.Position.Name": (ref_models.Position{}).Name,
-
-	"ref_models.Position.X": (ref_models.Position{}).X,
-
-	"ref_models.Position.Y": (ref_models.Position{}).Y,
-
-	"ref_models.StacksNames": ref_models.StacksNames(""),
-
-	"ref_models.String": ref_models.String,
-
-	"ref_models.SvgStackName": ref_models.SvgStackName,
-
-	"ref_models.UmlState": &(ref_models.UmlState{}),
-
-	"ref_models.UmlState.Name": (ref_models.UmlState{}).Name,
-
-	"ref_models.UmlState.X": (ref_models.UmlState{}).X,
-
-	"ref_models.UmlState.Y": (ref_models.UmlState{}).Y,
-
-	"ref_models.Umlsc": &(ref_models.Umlsc{}),
-
-	"ref_models.Umlsc.Activestate": (ref_models.Umlsc{}).Activestate,
-
-	"ref_models.Umlsc.IsInDrawMode": (ref_models.Umlsc{}).IsInDrawMode,
-
-	"ref_models.Umlsc.Name": (ref_models.Umlsc{}).Name,
-
-	"ref_models.Umlsc.States": (ref_models.Umlsc{}).States,
-
-	"ref_models.Vertice": &(ref_models.Vertice{}),
-
-	"ref_models.Vertice.Name": (ref_models.Vertice{}).Name,
-
-	"ref_models.Vertice.X": (ref_models.Vertice{}).X,
-
-	"ref_models.Vertice.Y": (ref_models.Vertice{}).Y,
-
-	"ref_models.ZERO_ONE": ref_models.ZERO_ONE,
+	// injection point for docLink to identifiers{{EntriesDocLinkStringDocLinkIdentifier}}
 }
 
 // function will stage objects
@@ -246,28 +26,28 @@ func _(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
-	__Classdiagram__000000_Default_2 := (&models.Classdiagram{Name: `Default_2`}).Stage(stage)
+	__Classdiagram__000000_Default_2 := (&models.Classdiagram{}).Stage(stage)
 
-	__GongEnumShape__000000_Default_2_OrientationType := (&models.GongEnumShape{Name: `Default_2-OrientationType`}).Stage(stage)
+	__GongEnumShape__000000_Default_2_OrientationType := (&models.GongEnumShape{}).Stage(stage)
 
-	__GongStructShape__000000_Default_2_Classdiagram := (&models.GongStructShape{Name: `Default_2-Classdiagram`}).Stage(stage)
-	__GongStructShape__000001_Default_2_Field := (&models.GongStructShape{Name: `Default_2-Field`}).Stage(stage)
-	__GongStructShape__000002_Default_2_NoteShape := (&models.GongStructShape{Name: `Default_2-NoteShape`}).Stage(stage)
+	__GongStructShape__000000_Default_2_Classdiagram := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000001_Default_2_Field := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000002_Default_2_NoteShape := (&models.GongStructShape{}).Stage(stage)
 
-	__Link__000000_NoteShapes := (&models.Link{Name: `NoteShapes`}).Stage(stage)
+	__Link__000000_NoteShapes := (&models.Link{}).Stage(stage)
 
-	__NoteShape__000000_NoteOnGongdoc := (&models.NoteShape{Name: `NoteOnGongdoc`}).Stage(stage)
+	__NoteShape__000000_NoteOnGongdoc := (&models.NoteShape{}).Stage(stage)
 
-	__NoteShapeLink__000000_NoteShape := (&models.NoteShapeLink{Name: `NoteShape`}).Stage(stage)
-	__NoteShapeLink__000001_NoteShapes := (&models.NoteShapeLink{Name: `NoteShapes`}).Stage(stage)
-	__NoteShapeLink__000002_OrientationType := (&models.NoteShapeLink{Name: `OrientationType`}).Stage(stage)
+	__NoteShapeLink__000000_NoteShape := (&models.NoteShapeLink{}).Stage(stage)
+	__NoteShapeLink__000001_OrientationType := (&models.NoteShapeLink{}).Stage(stage)
+	__NoteShapeLink__000002_NoteShapes := (&models.NoteShapeLink{}).Stage(stage)
 
-	__Position__000000_Pos_Default_2_Classdiagram := (&models.Position{Name: `Pos-Default_2-Classdiagram`}).Stage(stage)
-	__Position__000001_Pos_Default_2_Field := (&models.Position{Name: `Pos-Default_2-Field`}).Stage(stage)
-	__Position__000002_Pos_Default_2_NoteShape := (&models.Position{Name: `Pos-Default_2-NoteShape`}).Stage(stage)
-	__Position__000003_Pos_Default_2_OrientationType := (&models.Position{Name: `Pos-Default_2-OrientationType`}).Stage(stage)
+	__Position__000000_Pos_Default_2_Classdiagram := (&models.Position{}).Stage(stage)
+	__Position__000001_Pos_Default_2_Field := (&models.Position{}).Stage(stage)
+	__Position__000002_Pos_Default_2_NoteShape := (&models.Position{}).Stage(stage)
+	__Position__000003_Pos_Default_2_OrientationType := (&models.Position{}).Stage(stage)
 
-	__Vertice__000000_Verticle_in_class_diagram_Default_2_in_middle_between_Default_2_Classdiagram_and_Default_2_NoteShape := (&models.Vertice{Name: `Verticle in class diagram Default_2 in middle between Default_2-Classdiagram and Default_2-NoteShape`}).Stage(stage)
+	__Vertice__000000_Verticle_in_class_diagram_Default_2_in_middle_between_Default_2_Classdiagram_and_Default_2_NoteShape := (&models.Vertice{}).Stage(stage)
 
 	// Setup of values
 
@@ -359,17 +139,17 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__NoteShapeLink__000000_NoteShape.Identifier = `ref_models.NoteShape`
 	__NoteShapeLink__000000_NoteShape.Type = models.NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE
 
-	__NoteShapeLink__000001_NoteShapes.Name = `NoteShapes`
-
-	//gong:ident [ref_models.Classdiagram.NoteShapes] comment added to overcome the problem with the comment map association
-	__NoteShapeLink__000001_NoteShapes.Identifier = `ref_models.Classdiagram.NoteShapes`
-	__NoteShapeLink__000001_NoteShapes.Type = models.NOTE_SHAPE_LINK_TO_GONG_FIELD
-
-	__NoteShapeLink__000002_OrientationType.Name = `OrientationType`
+	__NoteShapeLink__000001_OrientationType.Name = `OrientationType`
 
 	//gong:ident [ref_models.OrientationType] comment added to overcome the problem with the comment map association
-	__NoteShapeLink__000002_OrientationType.Identifier = `ref_models.OrientationType`
-	__NoteShapeLink__000002_OrientationType.Type = models.NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE
+	__NoteShapeLink__000001_OrientationType.Identifier = `ref_models.OrientationType`
+	__NoteShapeLink__000001_OrientationType.Type = models.NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE
+
+	__NoteShapeLink__000002_NoteShapes.Name = `NoteShapes`
+
+	//gong:ident [ref_models.Classdiagram.NoteShapes] comment added to overcome the problem with the comment map association
+	__NoteShapeLink__000002_NoteShapes.Identifier = `ref_models.Classdiagram.NoteShapes`
+	__NoteShapeLink__000002_NoteShapes.Type = models.NOTE_SHAPE_LINK_TO_GONG_FIELD
 
 	__Position__000000_Pos_Default_2_Classdiagram.X = 78.000000
 	__Position__000000_Pos_Default_2_Classdiagram.Y = 27.000000
@@ -392,18 +172,26 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__Vertice__000000_Verticle_in_class_diagram_Default_2_in_middle_between_Default_2_Classdiagram_and_Default_2_NoteShape.Name = `Verticle in class diagram Default_2 in middle between Default_2-Classdiagram and Default_2-NoteShape`
 
 	// Setup of pointers
+	// setup of Classdiagram instances pointers
 	__Classdiagram__000000_Default_2.GongStructShapes = append(__Classdiagram__000000_Default_2.GongStructShapes, __GongStructShape__000000_Default_2_Classdiagram)
 	__Classdiagram__000000_Default_2.GongStructShapes = append(__Classdiagram__000000_Default_2.GongStructShapes, __GongStructShape__000001_Default_2_Field)
 	__Classdiagram__000000_Default_2.GongStructShapes = append(__Classdiagram__000000_Default_2.GongStructShapes, __GongStructShape__000002_Default_2_NoteShape)
 	__Classdiagram__000000_Default_2.GongEnumShapes = append(__Classdiagram__000000_Default_2.GongEnumShapes, __GongEnumShape__000000_Default_2_OrientationType)
 	__Classdiagram__000000_Default_2.NoteShapes = append(__Classdiagram__000000_Default_2.NoteShapes, __NoteShape__000000_NoteOnGongdoc)
+	// setup of GongEnumShape instances pointers
 	__GongEnumShape__000000_Default_2_OrientationType.Position = __Position__000003_Pos_Default_2_OrientationType
+	// setup of GongStructShape instances pointers
 	__GongStructShape__000000_Default_2_Classdiagram.Position = __Position__000000_Pos_Default_2_Classdiagram
 	__GongStructShape__000000_Default_2_Classdiagram.Links = append(__GongStructShape__000000_Default_2_Classdiagram.Links, __Link__000000_NoteShapes)
 	__GongStructShape__000001_Default_2_Field.Position = __Position__000001_Pos_Default_2_Field
 	__GongStructShape__000002_Default_2_NoteShape.Position = __Position__000002_Pos_Default_2_NoteShape
+	// setup of Link instances pointers
 	__Link__000000_NoteShapes.Middlevertice = __Vertice__000000_Verticle_in_class_diagram_Default_2_in_middle_between_Default_2_Classdiagram_and_Default_2_NoteShape
+	// setup of NoteShape instances pointers
 	__NoteShape__000000_NoteOnGongdoc.NoteShapeLinks = append(__NoteShape__000000_NoteOnGongdoc.NoteShapeLinks, __NoteShapeLink__000000_NoteShape)
-	__NoteShape__000000_NoteOnGongdoc.NoteShapeLinks = append(__NoteShape__000000_NoteOnGongdoc.NoteShapeLinks, __NoteShapeLink__000002_OrientationType)
-	__NoteShape__000000_NoteOnGongdoc.NoteShapeLinks = append(__NoteShape__000000_NoteOnGongdoc.NoteShapeLinks, __NoteShapeLink__000001_NoteShapes)
+	__NoteShape__000000_NoteOnGongdoc.NoteShapeLinks = append(__NoteShape__000000_NoteOnGongdoc.NoteShapeLinks, __NoteShapeLink__000001_OrientationType)
+	__NoteShape__000000_NoteOnGongdoc.NoteShapeLinks = append(__NoteShape__000000_NoteOnGongdoc.NoteShapeLinks, __NoteShapeLink__000002_NoteShapes)
+	// setup of NoteShapeLink instances pointers
+	// setup of Position instances pointers
+	// setup of Vertice instances pointers
 }

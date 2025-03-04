@@ -95,10 +95,10 @@ func Load(
 	diagrammer := diagrammer.NewDiagrammer(modelAdapter, portfolioAdapter, gongtreeStage)
 	portfolioAdapter.SetDiagrammer(diagrammer)
 
-	treeOfModelObjects := (&gongtree_models.Tree{Name: "model"}).Stage(gongtreeStage)
+	treeOfModelObjects := (&gongtree_models.Tree{Name: gongdoc_models.Model.ToString()}).Stage(gongtreeStage)
 	diagrammer.FillUpModelTree(treeOfModelObjects)
 
-	treeOfPortfolioObjects := (&gongtree_models.Tree{Name: "portfolio"}).Stage(gongtreeStage)
+	treeOfPortfolioObjects := (&gongtree_models.Tree{Name: gongdoc_models.Portfolio.ToString()}).Stage(gongtreeStage)
 	diagrammer.FillUpPortfolioUITree(treeOfPortfolioObjects)
 	diagrammer.CommitTreeStage()
 

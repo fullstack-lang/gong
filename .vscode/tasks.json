@@ -258,6 +258,19 @@
             ]
         },
         {
+            "label": "03 - ng serve doc ",
+            "type": "shell",
+            "options": {
+                "cwd": "lib/doc/ng-github.com-fullstack-lang-gong-lib-doc"
+            },
+            "command": "ng",
+            "group": "build",
+            "args": [
+                "serve",
+                ""
+            ]
+        },
+        {
             "label": "03 - ng serve test3 --host=127.0.0.1",
             "type": "shell",
             "options": {
@@ -313,6 +326,19 @@
             "command": "gongc",
             "group": "build",
             "args": [
+                "go/models"
+            ]
+        },
+        {
+            "label": "01 - gongc doc",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/doc"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "-skipNpmInstall",
                 "go/models"
             ]
         },
