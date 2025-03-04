@@ -4,7 +4,7 @@ const AssociationFieldToFormTemplate = `// generated code - do not edit
 package probe
 
 import (
-	form "github.com/fullstack-lang/gongtable/go/models"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"{{PkgPathRoot}}/models"
 )

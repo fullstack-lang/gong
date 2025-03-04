@@ -12,7 +12,7 @@ import (
 	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
-	gongdoc_load "github.com/fullstack-lang/gongdoc/go/load"
+	gongdoc_load "github.com/fullstack-lang/gong/lib/doc/go/load"
 
 	form "github.com/fullstack-lang/gong/lib/table/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"

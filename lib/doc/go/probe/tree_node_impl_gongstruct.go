@@ -12,7 +12,7 @@ import (
 
 type TreeNodeImplGongstruct struct {
 	gongStruct *gong_models.GongStruct
-	probe      *Probe
+	probe *Probe
 }
 
 func NewTreeNodeImplGongstruct(
