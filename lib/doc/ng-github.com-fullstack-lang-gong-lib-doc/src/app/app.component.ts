@@ -11,6 +11,10 @@ import * as doc from '../../projects/doc/src/public-api'
       DocSpecificComponent,
     ]
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   StackType = doc.StackType
+
+  ngOnInit(): void {
+    console.log("AppComponent:ngOnInit")
+  }
 }

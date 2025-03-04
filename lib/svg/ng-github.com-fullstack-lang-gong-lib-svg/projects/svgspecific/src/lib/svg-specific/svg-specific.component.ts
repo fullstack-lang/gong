@@ -47,7 +47,7 @@ import { formatSVG, processSVG } from '../cleanandresizesvg'
   templateUrl: './svg-specific.component.html',
   styleUrl: './svg-specific.component.css'
 })
-export class SvgSpecificComponent {
+export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
 @ViewChild('svgContainer', { static: true })
   private svgContainer!: ElementRef<SVGSVGElement>
 
