@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'lib-testspecific',
+  selector: 'lib-test',
   imports: [],
   template: `
     <p>
-      testspecific works!
+      test works!
     </p>
   `,
   styles: ``
 })
-export class TestspecificComponent {
+export class TestComponent {
 
 }
