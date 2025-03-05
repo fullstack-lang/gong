@@ -356,6 +356,19 @@
             ]
         },
         {
+            "label": "01 - gongc split",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/split"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "-skipNpmWorkspaces",
+                "go/models"
+            ]
+        },
+        {
             "label": "01 - remove test main.go",
             "type": "shell",
             "options": {
