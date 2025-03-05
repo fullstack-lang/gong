@@ -41,7 +41,7 @@ func NewDBWrapper(filename, table_prefix string, dst ...interface{}) *DBWrapper 
 
 	if err != nil {
 		msg := err.Error()
-		panic("problem with migration " + msg + " on package github.com/fullstack-lang/gong/test/go")
+		panic("problem with migration " + msg + " on package" + table_prefix)
 	}
 
 	dbWrapper.db = db
