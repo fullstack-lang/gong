@@ -1,0 +1,26 @@
+button {
+    width: 100%; /* Make buttons full width */
+    padding: 10px 5px; /* Increased vertical padding for better touch target */
+    border: none;
+    border-radius: 5px;
+    background-color: #95c3e2;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    gap: 8px; /* Space between icon and text */
+}
+
+button:hover {
+    background-color: #3e8e41;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%; /* Ensure full width container */
+}   
