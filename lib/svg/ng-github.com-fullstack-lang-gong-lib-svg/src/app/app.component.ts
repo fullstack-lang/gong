@@ -19,9 +19,6 @@ import { TreeSpecificComponent } from '../../../../tree/ng-github.com-fullstack-
 import { TableSpecificComponent } from '../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/table-specific/table-specific.component'
 import { FormSpecificComponent} from '../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/form-specific/form-specific.component'
 
-import * as gongtable from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtable/src/public-api';
-
-
 @Component({
   selector: 'app-root',
   standalone: true,

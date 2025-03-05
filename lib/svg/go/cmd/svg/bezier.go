@@ -3,8 +3,7 @@ package main
 import (
 	"time"
 
-	"github.com/fullstack-lang/gongsvg/go/models"
-
+	"github.com/fullstack-lang/gong/lib/svg/go/models"
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -207,5 +206,3 @@ func bezierInjection(stage *models.StageStruct) {
 	__Link__000000_Test.End = __Rect__000000_End
 	__SVG__000000_beizer.Layers = append(__SVG__000000_beizer.Layers, __Layer__000000_bezier)
 }
-
-

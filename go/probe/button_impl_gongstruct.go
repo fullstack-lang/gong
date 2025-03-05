@@ -5,8 +5,8 @@ import (
 	"log"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
-	gongtree_buttons "github.com/fullstack-lang/gongtree/go/buttons"
-	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
+	gongtree_buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
+	gongtree_models "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
 type ButtonImplGongstruct struct {

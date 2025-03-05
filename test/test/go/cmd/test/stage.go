@@ -6,7 +6,7 @@ import (
 	"github.com/fullstack-lang/gong/test/test/go/models"
 
 	// injection point for ident package import declaration
-	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
+	gongdoc_models "github.com/fullstack-lang/gong/lib/doc/go/models"
 )
 
 // generated in order to avoid error in the package import

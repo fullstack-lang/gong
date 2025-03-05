@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	form "github.com/fullstack-lang/gongtable/go/models"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/lib/button/go/models"
 )
