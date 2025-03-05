@@ -3,9 +3,11 @@ package angular
 const NgFileAppComponentHtml = `<!-- button bar that is present in all tabs -->
 <ng-template #radioToolbar>
     <mat-radio-group aria-label="Select an option" [(ngModel)]="view">
-        <mat-radio-button *ngFor="let view of views" [value]="view">
-            {{view}}&nbsp;&nbsp;&nbsp;
+      @for (view of views; track view) {
+        <mat-radio-button [value]="view">
+          {{view}}&nbsp;&nbsp;&nbsp;
         </mat-radio-button>
+      }
     </mat-radio-group>
 </ng-template>
 
