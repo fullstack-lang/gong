@@ -180,6 +180,17 @@
             ],
         },
         {
+            "name": "go run split -unmarshallFromCode=stage.go -marshallOnCommit=stage",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/split/go/cmd/split",
+            "args": [
+                "-unmarshallFromCode=stage.go",
+                "-marshallOnCommit=stage"
+            ],
+        },
+        {
             "name": "go run svg -unmarshallFromCode=stage.go -marshallOnCommit=stage_out",
             "type": "go",
             "request": "launch",

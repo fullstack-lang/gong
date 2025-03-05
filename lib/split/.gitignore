@@ -1,0 +1,7 @@
+node_modules
+
+go/cmd/split/split
+go/cmd/split/split.exe
+go/cmd/split/__debug_bin*
+
+.DS_Store
