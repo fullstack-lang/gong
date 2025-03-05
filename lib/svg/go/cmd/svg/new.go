@@ -3,7 +3,7 @@ package main
 import (
 	"time"
 
-	"github.com/fullstack-lang/gongsvg/go/models"
+	"github.com/fullstack-lang/gong/lib/svg/go/models"
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 

@@ -5,14 +5,14 @@ import (
 	"log"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
-	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
+	gongtree_models "github.com/fullstack-lang/gong/lib/tree/go/models"
 
 	"github.com/fullstack-lang/gong/lib/slider/go/models"
 )
 
 type TreeNodeImplGongstruct struct {
 	gongStruct *gong_models.GongStruct
-	probe *Probe
+	probe      *Probe
 }
 
 func NewTreeNodeImplGongstruct(

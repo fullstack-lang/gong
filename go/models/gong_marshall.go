@@ -102,7 +102,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		gongbasicfieldOrdered = append(gongbasicfieldOrdered, gongbasicfield)
 	}
 	sort.Slice(gongbasicfieldOrdered[:], func(i, j int) bool {
-		return gongbasicfieldOrdered[i].Name < gongbasicfieldOrdered[j].Name
+		gongbasicfieldi := gongbasicfieldOrdered[i]
+		gongbasicfieldj := gongbasicfieldOrdered[j]
+		gongbasicfieldi_order, oki := stage.Map_Staged_Order[gongbasicfieldi]
+		gongbasicfieldj_order, okj := stage.Map_Staged_Order[gongbasicfieldj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return gongbasicfieldi_order < gongbasicfieldj_order
 	})
 	if len(gongbasicfieldOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -196,7 +203,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		gongenumOrdered = append(gongenumOrdered, gongenum)
 	}
 	sort.Slice(gongenumOrdered[:], func(i, j int) bool {
-		return gongenumOrdered[i].Name < gongenumOrdered[j].Name
+		gongenumi := gongenumOrdered[i]
+		gongenumj := gongenumOrdered[j]
+		gongenumi_order, oki := stage.Map_Staged_Order[gongenumi]
+		gongenumj_order, okj := stage.Map_Staged_Order[gongenumj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return gongenumi_order < gongenumj_order
 	})
 	if len(gongenumOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -236,7 +250,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		gongenumvalueOrdered = append(gongenumvalueOrdered, gongenumvalue)
 	}
 	sort.Slice(gongenumvalueOrdered[:], func(i, j int) bool {
-		return gongenumvalueOrdered[i].Name < gongenumvalueOrdered[j].Name
+		gongenumvaluei := gongenumvalueOrdered[i]
+		gongenumvaluej := gongenumvalueOrdered[j]
+		gongenumvaluei_order, oki := stage.Map_Staged_Order[gongenumvaluei]
+		gongenumvaluej_order, okj := stage.Map_Staged_Order[gongenumvaluej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return gongenumvaluei_order < gongenumvaluej_order
 	})
 	if len(gongenumvalueOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -276,7 +297,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		gonglinkOrdered = append(gonglinkOrdered, gonglink)
 	}
 	sort.Slice(gonglinkOrdered[:], func(i, j int) bool {
-		return gonglinkOrdered[i].Name < gonglinkOrdered[j].Name
+		gonglinki := gonglinkOrdered[i]
+		gonglinkj := gonglinkOrdered[j]
+		gonglinki_order, oki := stage.Map_Staged_Order[gonglinki]
+		gonglinkj_order, okj := stage.Map_Staged_Order[gonglinkj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return gonglinki_order < gonglinkj_order
 	})
 	if len(gonglinkOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -322,7 +350,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		gongnoteOrdered = append(gongnoteOrdered, gongnote)
 	}
 	sort.Slice(gongnoteOrdered[:], func(i, j int) bool {
-		return gongnoteOrdered[i].Name < gongnoteOrdered[j].Name
+		gongnotei := gongnoteOrdered[i]
+		gongnotej := gongnoteOrdered[j]
+		gongnotei_order, oki := stage.Map_Staged_Order[gongnotei]
+		gongnotej_order, okj := stage.Map_Staged_Order[gongnotej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return gongnotei_order < gongnotej_order
 	})
 	if len(gongnoteOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -368,7 +403,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		gongstructOrdered = append(gongstructOrdered, gongstruct)
 	}
 	sort.Slice(gongstructOrdered[:], func(i, j int) bool {
-		return gongstructOrdered[i].Name < gongstructOrdered[j].Name
+		gongstructi := gongstructOrdered[i]
+		gongstructj := gongstructOrdered[j]
+		gongstructi_order, oki := stage.Map_Staged_Order[gongstructi]
+		gongstructj_order, okj := stage.Map_Staged_Order[gongstructj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return gongstructi_order < gongstructj_order
 	})
 	if len(gongstructOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -414,7 +456,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		gongtimefieldOrdered = append(gongtimefieldOrdered, gongtimefield)
 	}
 	sort.Slice(gongtimefieldOrdered[:], func(i, j int) bool {
-		return gongtimefieldOrdered[i].Name < gongtimefieldOrdered[j].Name
+		gongtimefieldi := gongtimefieldOrdered[i]
+		gongtimefieldj := gongtimefieldOrdered[j]
+		gongtimefieldi_order, oki := stage.Map_Staged_Order[gongtimefieldi]
+		gongtimefieldj_order, okj := stage.Map_Staged_Order[gongtimefieldj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return gongtimefieldi_order < gongtimefieldj_order
 	})
 	if len(gongtimefieldOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -466,7 +515,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		metaOrdered = append(metaOrdered, meta)
 	}
 	sort.Slice(metaOrdered[:], func(i, j int) bool {
-		return metaOrdered[i].Name < metaOrdered[j].Name
+		metai := metaOrdered[i]
+		metaj := metaOrdered[j]
+		metai_order, oki := stage.Map_Staged_Order[metai]
+		metaj_order, okj := stage.Map_Staged_Order[metaj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return metai_order < metaj_order
 	})
 	if len(metaOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -506,7 +562,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		metareferenceOrdered = append(metareferenceOrdered, metareference)
 	}
 	sort.Slice(metareferenceOrdered[:], func(i, j int) bool {
-		return metareferenceOrdered[i].Name < metareferenceOrdered[j].Name
+		metareferencei := metareferenceOrdered[i]
+		metareferencej := metareferenceOrdered[j]
+		metareferencei_order, oki := stage.Map_Staged_Order[metareferencei]
+		metareferencej_order, okj := stage.Map_Staged_Order[metareferencej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return metareferencei_order < metareferencej_order
 	})
 	if len(metareferenceOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -540,7 +603,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		modelpkgOrdered = append(modelpkgOrdered, modelpkg)
 	}
 	sort.Slice(modelpkgOrdered[:], func(i, j int) bool {
-		return modelpkgOrdered[i].Name < modelpkgOrdered[j].Name
+		modelpkgi := modelpkgOrdered[i]
+		modelpkgj := modelpkgOrdered[j]
+		modelpkgi_order, oki := stage.Map_Staged_Order[modelpkgi]
+		modelpkgj_order, okj := stage.Map_Staged_Order[modelpkgj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return modelpkgi_order < modelpkgj_order
 	})
 	if len(modelpkgOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -670,7 +740,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		pointertogongstructfieldOrdered = append(pointertogongstructfieldOrdered, pointertogongstructfield)
 	}
 	sort.Slice(pointertogongstructfieldOrdered[:], func(i, j int) bool {
-		return pointertogongstructfieldOrdered[i].Name < pointertogongstructfieldOrdered[j].Name
+		pointertogongstructfieldi := pointertogongstructfieldOrdered[i]
+		pointertogongstructfieldj := pointertogongstructfieldOrdered[j]
+		pointertogongstructfieldi_order, oki := stage.Map_Staged_Order[pointertogongstructfieldi]
+		pointertogongstructfieldj_order, okj := stage.Map_Staged_Order[pointertogongstructfieldj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return pointertogongstructfieldi_order < pointertogongstructfieldj_order
 	})
 	if len(pointertogongstructfieldOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -722,7 +799,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		sliceofpointertogongstructfieldOrdered = append(sliceofpointertogongstructfieldOrdered, sliceofpointertogongstructfield)
 	}
 	sort.Slice(sliceofpointertogongstructfieldOrdered[:], func(i, j int) bool {
-		return sliceofpointertogongstructfieldOrdered[i].Name < sliceofpointertogongstructfieldOrdered[j].Name
+		sliceofpointertogongstructfieldi := sliceofpointertogongstructfieldOrdered[i]
+		sliceofpointertogongstructfieldj := sliceofpointertogongstructfieldOrdered[j]
+		sliceofpointertogongstructfieldi_order, oki := stage.Map_Staged_Order[sliceofpointertogongstructfieldi]
+		sliceofpointertogongstructfieldj_order, okj := stage.Map_Staged_Order[sliceofpointertogongstructfieldj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return sliceofpointertogongstructfieldi_order < sliceofpointertogongstructfieldj_order
 	})
 	if len(sliceofpointertogongstructfieldOrdered) > 0 {
 		identifiersDecl += "\n"
@@ -761,6 +845,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	}
 
 	// insertion initialization of objects to stage
+	if len(gongbasicfieldOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of GongBasicField instances pointers"
+	}
 	for idx, gongbasicfield := range gongbasicfieldOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -779,6 +866,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	if len(gongenumOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of GongEnum instances pointers"
+	}
 	for idx, gongenum := range gongenumOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -797,6 +887,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	if len(gongenumvalueOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of GongEnumValue instances pointers"
+	}
 	for idx, gongenumvalue := range gongenumvalueOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -807,6 +900,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		// Initialisation of values
 	}
 
+	if len(gonglinkOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of GongLink instances pointers"
+	}
 	for idx, gonglink := range gonglinkOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -817,6 +913,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		// Initialisation of values
 	}
 
+	if len(gongnoteOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of GongNote instances pointers"
+	}
 	for idx, gongnote := range gongnoteOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -835,6 +934,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	if len(gongstructOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of GongStruct instances pointers"
+	}
 	for idx, gongstruct := range gongstructOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -877,6 +979,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	if len(gongtimefieldOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of GongTimeField instances pointers"
+	}
 	for idx, gongtimefield := range gongtimefieldOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -887,6 +992,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		// Initialisation of values
 	}
 
+	if len(metaOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Meta instances pointers"
+	}
 	for idx, meta := range metaOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -905,6 +1013,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	if len(metareferenceOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of MetaReference instances pointers"
+	}
 	for idx, metareference := range metareferenceOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -915,6 +1026,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		// Initialisation of values
 	}
 
+	if len(modelpkgOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of ModelPkg instances pointers"
+	}
 	for idx, modelpkg := range modelpkgOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -925,6 +1039,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		// Initialisation of values
 	}
 
+	if len(pointertogongstructfieldOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of PointerToGongStructField instances pointers"
+	}
 	for idx, pointertogongstructfield := range pointertogongstructfieldOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -943,6 +1060,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	if len(sliceofpointertogongstructfieldOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of SliceOfPointerToGongStructField instances pointers"
+	}
 	for idx, sliceofpointertogongstructfield := range sliceofpointertogongstructfieldOrdered {
 		var setPointerField string
 		_ = setPointerField
