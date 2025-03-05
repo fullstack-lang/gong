@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"log"
 
-	gongtable_fullstack "github.com/fullstack-lang/gongtable/go/fullstack"
-	form "github.com/fullstack-lang/gongtable/go/models"
-	gongtable_models "github.com/fullstack-lang/gongtable/go/models"
+	gongtable_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
+	gongtable_models "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/lib/slider/go/models"
 )
@@ -102,9 +102,9 @@ func NewTableSortSaver[InstanceType models.PointerToGongstruct, FieldType models
 }
 
 type TableSortSaver[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
-	instance   InstanceType
-	field      *[]FieldType
-	probe *Probe
+	instance InstanceType
+	field    *[]FieldType
+	probe    *Probe
 
 	// map giving the relation between the row ID and the instance
 	map_RowID_instance *map[*gongtable_models.Row]FieldType

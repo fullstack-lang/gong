@@ -14,14 +14,6 @@ github.com/dustin/go-humanize v1.0.1 h1:GzkhY7T5VNhEkwH0PVJgjz+fX1rhBrR7pRT3mDkp
 github.com/dustin/go-humanize v1.0.1/go.mod h1:Mu1zIs6XwVuF/gI1OepvI0qD18qycQx+mFykh5fBlto=
 github.com/frankban/quicktest v1.14.6 h1:7Xjx+VpznH+oBnejlPUj8oUpdxnVs4f8XU8WnHkI4W8=
 github.com/frankban/quicktest v1.14.6/go.mod h1:4ptaffx2x8+WTWXmUCuVU6aPUX1/Mz7zb5vbUoiM6w0=
-github.com/fullstack-lang/gongdoc v0.0.0-20250228015737-2b85c5f57bb8 h1:BsRg151BElVTNdxJduXTWeA2ZtFj4mwXFOHKid4kLpU=
-github.com/fullstack-lang/gongdoc v0.0.0-20250228015737-2b85c5f57bb8/go.mod h1:8KWlBINy6guqYqJcaVRmPl4Yi2sQ7fDJiNICtRnrWmQ=
-github.com/fullstack-lang/gongsvg v0.0.0-20250228015811-ca84f5f68f48 h1:AROS7bn4+OHZwP9K+yz8nDX/ix6+Sd3qn2LGhtyujLk=
-github.com/fullstack-lang/gongsvg v0.0.0-20250228015811-ca84f5f68f48/go.mod h1:UmXF/yiJrhjjQhISWyGJxQhZ/7gp8IjAtZgtCKSDD68=
-github.com/fullstack-lang/gongtable v0.0.0-20250228015820-9014f126a754 h1:ruNm+YXZJHxQPPuMremIUfAUALEHe5hTdj4DJIgO27k=
-github.com/fullstack-lang/gongtable v0.0.0-20250228015820-9014f126a754/go.mod h1:LDcYglXNaJ8AQ8dPfw0Lb4rNCGISjee7eL4snIOCih8=
-github.com/fullstack-lang/gongtree v0.0.0-20250228015837-888a66e7bf0c h1:1CVzUSULmcwGwobHXsg0IZv4mMREVdJsL1cjxidaoxs=
-github.com/fullstack-lang/gongtree v0.0.0-20250228015837-888a66e7bf0c/go.mod h1:pRRtBHN1OWhAOEYRARHT2fUp7Z5gyOni/nAOJxf6e7s=
 github.com/fullstack-lang/maticons v0.0.0-20240913013021-27a7b8fd9369 h1:tnlpjk07ksmzjPSoMBZ8FW088WI1VdnJ5d/lbNUHqBw=
 github.com/fullstack-lang/maticons v0.0.0-20240913013021-27a7b8fd9369/go.mod h1:kgbZUObfs2TDNCGjvgb/hL/3cZz9jWeKE7yhQ1V7GJI=
 github.com/gabriel-vasile/mimetype v1.4.8 h1:FfZ3gj38NjllZIeJAmMhr+qKL8Wu+nOoI3GqacKw1NM=
