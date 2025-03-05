@@ -2,48 +2,52 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable, combineLatest, timer } from 'rxjs'
 
+// for angular & angular material
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
-// for angular material
+import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatRadioModule } from '@angular/material/radio';
-
-import { FormsModule } from '@angular/forms';
 
 import { AngularSplitModule } from 'angular-split';
 
 import * as test from '../../projects/test/src/public-api'
 
+import { TestSpecificComponent } from '../../projects/testspecific/src/lib/test-specific/test-specific.component'
 
-import { TreeComponent } from '@vendored_components/github.com/fullstack-lang/gongtree/ng-github.com-fullstack-lang-gongtree/projects/gongtreespecific/src/public-api'
-import { MaterialTableComponent } from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtablespecific/src/lib/material-table/material-table.component';
-import { MaterialFormComponent } from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtablespecific/src/lib/material-form/material-form.component';
-import * as gongtable from '@vendored_components/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable/projects/gongtable/src/public-api';
-import { PanelComponent } from '@vendored_components/github.com/fullstack-lang/gongdoc/ng-github.com-fullstack-lang-gongdoc/projects/gongdocspecific/src/public-api'
+import { TreeSpecificComponent } from '../../../../../lib/tree/ng-github.com-fullstack-lang-gong-lib-tree/projects/treespecific/src/lib/tree-specific/tree-specific.component'
+import { TableSpecificComponent } from '../../../../../lib/table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/table-specific/table-specific.component'
+import { FormSpecificComponent } from '../../../../../lib/table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/form-specific/form-specific.component'
+import { SvgSpecificComponent } from '../../../../../lib/svg/ng-github.com-fullstack-lang-gong-lib-svg/projects/svgspecific/src/lib/svg-specific/svg-specific.component'
+import { DocSpecificComponent } from '../../../../../lib/doc/ng-github.com-fullstack-lang-gong-lib-doc/projects/docspecific/src/lib/doc-specific/doc-specific.component'
 
-import { TestspecificComponent } from '../../projects/testspecific/src/public-api'
+import * as svg from '../../../../../lib/svg/ng-github.com-fullstack-lang-gong-lib-svg/projects/svg/src/public-api'
+import * as tree from '../../../../../lib/tree/ng-github.com-fullstack-lang-gong-lib-tree/projects/tree/src/public-api'
+import * as table from '../../../../../lib/table/ng-github.com-fullstack-lang-gong-lib-table/projects/table/src/public-api'
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
+
     CommonModule,
+    FormsModule,
 
     MatRadioModule,
-    FormsModule,
-    CommonModule,
     MatButtonModule,
     MatIconModule,
 
     AngularSplitModule,
 
-    TreeComponent,
-    MaterialTableComponent,
-    MaterialFormComponent,
-    PanelComponent,
+    TreeSpecificComponent,
+    TableSpecificComponent,
+    FormSpecificComponent,
+    SvgSpecificComponent,
+    DocSpecificComponent,
 
-    TestspecificComponent,
+    TestSpecificComponent
+
   ],
 
   templateUrl: './app.component.html',
@@ -64,7 +68,7 @@ export class AppComponent implements OnInit {
   StackName = "test"
   StackType = test.StackType
 
-  TableExtraPathEnum = gongtable.TableExtraPathEnum
+  TableExtraPathEnum = table.TableExtraPathEnum
 
   constructor(
   ) {

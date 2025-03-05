@@ -4,10 +4,10 @@ const NpmPackageJsonTemplate = `{
     "name": "{{pkgname}}",
     "workspaces": [
         "{{NgWorkspaceName}}",
-        "vendor/github.com/fullstack-lang/gongtree/ng-github.com-fullstack-lang-gongtree",
-        "vendor/github.com/fullstack-lang/gongsvg/ng-github.com-fullstack-lang-gongsvg",
-        "vendor/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable",
-        "vendor/github.com/fullstack-lang/gongdoc/ng-github.com-fullstack-lang-gongdoc",
+        "vendor/github.com/fullstack-lang/gong/lib/tree/ng-github.com-fullstack-lang-gong-lib-tree",
+        "vendor/github.com/fullstack-lang/gong/lib/svg/ng-github.com-fullstack-lang-gong-lib-svg",
+        "vendor/github.com/fullstack-lang/gong/lib/table/ng-github.com-fullstack-lang-gong-lib-table",
+        "vendor/github.com/fullstack-lang/gong/lib/doc/ng-github.com-fullstack-lang-gong-lib-doc",
         ""
     ]
 }
