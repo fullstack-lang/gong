@@ -20,7 +20,6 @@ import { {{TitlePkgName}}SpecificComponent } from '../../projects/{{pkgname}}spe
 import { TreeSpecificComponent } from '@vendored_components/github.com/fullstack-lang/gong/lib/tree/ng-github.com-fullstack-lang-gong-lib-tree/projects/treespecific/src/lib/tree-specific/tree-specific.component'
 import { TableSpecificComponent } from '@vendored_components/github.com/fullstack-lang/gong/lib/table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/table-specific/table-specific.component'
 import { FormSpecificComponent } from '@vendored_components/github.com/fullstack-lang/gong/lib/table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/form-specific/form-specific.component'
-import { SvgSpecificComponent } from '@vendored_components/github.com/fullstack-lang/gong/lib/svg/ng-github.com-fullstack-lang-gong-lib-svg/projects/svgspecific/src/lib/svg-specific/svg-specific.component'
 import { DocSpecificComponent } from '@vendored_components/github.com/fullstack-lang/gong/lib/doc/ng-github.com-fullstack-lang-gong-lib-doc/projects/docspecific/src/lib/doc-specific/doc-specific.component'
 
 import * as svg from '@vendored_components/github.com/fullstack-lang/gong/lib/svg/ng-github.com-fullstack-lang-gong-lib-svg/projects/svg/src/public-api'
@@ -45,7 +44,6 @@ import * as table from '@vendored_components/github.com/fullstack-lang/gong/lib/
     TreeSpecificComponent,
     TableSpecificComponent,
     FormSpecificComponent,
-    SvgSpecificComponent,
     DocSpecificComponent,
 
     {{TitlePkgName}}SpecificComponent
