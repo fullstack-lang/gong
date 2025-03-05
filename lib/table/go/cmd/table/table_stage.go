@@ -3,8 +3,7 @@ package main
 import (
 	"time"
 
-	"github.com/fullstack-lang/gongtable/go/models"
-
+	"github.com/fullstack-lang/gong/lib/table/go/models"
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 

@@ -3,8 +3,7 @@ package main
 import (
 	"time"
 
-	"github.com/fullstack-lang/gongsvg/go/models"
-
+	"github.com/fullstack-lang/gong/lib/svg/go/models"
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -117,5 +116,3 @@ func issue_triangleInjection(stage *models.StageStruct) {
 	__Layer__000000_.Polygones = append(__Layer__000000_.Polygones, __Polygone__000000_)
 	__SVG__000000_.Layers = append(__SVG__000000_.Layers, __Layer__000000_)
 }
-
-
