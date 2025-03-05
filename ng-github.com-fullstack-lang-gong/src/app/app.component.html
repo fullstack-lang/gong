@@ -16,7 +16,26 @@
     </as-split-area>
     <as-split-area [size]="$any('*')">
 
-   
+        <as-split direction="vertical">
+            <as-split-area [size]=50>
+                <as-split direction="horizontal">
+                    <as-split-area [size]="20">
+                        <lib-tree-specific [GONG__StackPath]="StackName+TableExtraPathEnum.StackNamePostFixForTableForMainTree" name="gong"></lib-tree-specific>
+                    </as-split-area>
+                    <as-split-area [size]="50">
+                        <div [ngStyle]="scrollStyle">
+                            <lib-table-specific TableName="Table" [DataStack]="StackName+TableExtraPathEnum.StackNamePostFixForTableForMainTable"></lib-table-specific>
+                        </div>
+                    </as-split-area>
+                    <as-split-area [size]="30">
+                        <lib-form-specific FormName="Form" [DataStack]="StackName+TableExtraPathEnum.StackNamePostFixForTableForMainForm"></lib-form-specific>
+                    </as-split-area>
+                </as-split>
+            </as-split-area>
+            <as-split-area [size]=50>
+                <lib-doc-specific [GONG__StackPath]="StackType"></lib-doc-specific>
+            </as-split-area>
+        </as-split>
 
     </as-split-area>
 </as-split>
@@ -27,7 +46,27 @@
     </as-split-area>
     <as-split-area [size]="$any('*')">
     
-   
+        <as-split direction="vertical">
+            <as-split-area [size]=50>
+                <as-split direction="horizontal">
+                    <as-split-area [size]="20">
+                        <lib-tree-specific [GONG__StackPath]="StackName+TableExtraPathEnum.StackNamePostFixForTableForMainTree" name="gong"></lib-tree-specific>
+                    </as-split-area>
+                    <as-split-area [size]="50">
+                        <div [ngStyle]="scrollStyle">
+                            <lib-table-specific TableName="Table" [DataStack]="StackName+TableExtraPathEnum.StackNamePostFixForTableForMainTable"></lib-table-specific>
+                        </div>
+                    </as-split-area>
+                    <as-split-area [size]="30">
+                        <lib-form-specific FormName="Form" [DataStack]="StackName+TableExtraPathEnum.StackNamePostFixForTableForMainForm"></lib-form-specific>
+                    </as-split-area>
+                </as-split>
+            </as-split-area>
+            <as-split-area [size]=50>
+                <lib-doc-specific [GONG__StackPath]="StackType"></lib-doc-specific>
+            </as-split-area>
+        </as-split>
+
     </as-split-area>
 
 </as-split>
