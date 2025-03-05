@@ -16,8 +16,10 @@ import * as gong from '../../projects/gong/src/public-api'
 import { TreeSpecificComponent } from '../../../lib/tree/ng-github.com-fullstack-lang-gong-lib-tree/projects/treespecific/src/lib/tree-specific/tree-specific.component'
 import { TableSpecificComponent } from '../../../lib/table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/table-specific/table-specific.component'
 import { FormSpecificComponent } from '../../../lib/table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/form-specific/form-specific.component'
-import { SvgSpecificComponent } from '../../../lib/svg/ng-github.com-fullstack-lang-gong-lib-svg/projects/svgspecific/src/lib/svg-specific/svg-specific.component'
+// import { SvgSpecificComponent } from '../../../lib/svg/ng-github.com-fullstack-lang-gong-lib-svg/projects/svgspecific/src/lib/svg-specific/svg-specific.component'
+import { DocSpecificComponent } from '../../../lib/doc/ng-github.com-fullstack-lang-gong-lib-doc/projects/docspecific/src/lib/doc-specific/doc-specific.component'
 
+import * as table from '../../../lib/table/ng-github.com-fullstack-lang-gong-lib-table/projects/table/src/public-api'
 
 @Component({
   selector: 'app-root',
@@ -32,7 +34,8 @@ import { SvgSpecificComponent } from '../../../lib/svg/ng-github.com-fullstack-l
     TreeSpecificComponent,
     TableSpecificComponent,
     FormSpecificComponent,
-    SvgSpecificComponent,
+    // SvgSpecificComponent,
+    DocSpecificComponent,
 
   ],
   templateUrl: './app.component.html'
@@ -53,6 +56,7 @@ export class AppComponent implements OnInit {
   StackName = "gong"
   StackType = gong.StackType
 
+  TableExtraPathEnum = table.TableExtraPathEnum
 
   constructor(
   ) {
