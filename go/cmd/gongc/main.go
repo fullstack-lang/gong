@@ -17,6 +17,7 @@ import (
 	"golang.org/x/text/language"
 
 	"github.com/fullstack-lang/gong/go/golang"
+	"github.com/fullstack-lang/gong/go/golang/cmd"
 	"github.com/fullstack-lang/gong/go/golang/controllers"
 	"github.com/fullstack-lang/gong/go/golang/db"
 	"github.com/fullstack-lang/gong/go/golang/diagrams"
@@ -334,7 +335,7 @@ func main() {
 			// sometimes on windows, directory creation is not completed before creation of file/directory (this
 			// leads to non reproductible "access denied")
 			time.Sleep(1000 * time.Millisecond)
-			golang.CodeGeneratorPackageMain(
+			cmd.CodeGeneratorPackageMain(
 				modelPkg,
 				modelPkg.Name,
 				modelPkg.PkgPath,
