@@ -24,7 +24,11 @@ import (
 // BackRepoStruct supports callback functions
 type BackRepoStruct struct {
 	// insertion point for per struct back repo declarations
-	BackRepoSplitArea BackRepoSplitAreaStruct
+	BackRepoAsSplit BackRepoAsSplitStruct
+
+	BackRepoAsSplitArea BackRepoAsSplitAreaStruct
+
+	BackRepoView BackRepoViewStruct
 
 	CommitFromBackNb uint // records commit increments when performed by the back
 
@@ -47,17 +51,35 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 
 	/* THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm
 	db = dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gong_lib_split_go",
-		&SplitAreaDB{},
+		&AsSplitDB{},
+		&AsSplitAreaDB{},
+		&ViewDB{},
 	)
 	THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm */
 
 	backRepo = new(BackRepoStruct)
 
 	// insertion point for per struct back repo declarations
-	backRepo.BackRepoSplitArea = BackRepoSplitAreaStruct{
-		Map_SplitAreaDBID_SplitAreaPtr: make(map[uint]*models.SplitArea, 0),
-		Map_SplitAreaDBID_SplitAreaDB:  make(map[uint]*SplitAreaDB, 0),
-		Map_SplitAreaPtr_SplitAreaDBID: make(map[*models.SplitArea]uint, 0),
+	backRepo.BackRepoAsSplit = BackRepoAsSplitStruct{
+		Map_AsSplitDBID_AsSplitPtr: make(map[uint]*models.AsSplit, 0),
+		Map_AsSplitDBID_AsSplitDB:  make(map[uint]*AsSplitDB, 0),
+		Map_AsSplitPtr_AsSplitDBID: make(map[*models.AsSplit]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoAsSplitArea = BackRepoAsSplitAreaStruct{
+		Map_AsSplitAreaDBID_AsSplitAreaPtr: make(map[uint]*models.AsSplitArea, 0),
+		Map_AsSplitAreaDBID_AsSplitAreaDB:  make(map[uint]*AsSplitAreaDB, 0),
+		Map_AsSplitAreaPtr_AsSplitAreaDBID: make(map[*models.AsSplitArea]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoView = BackRepoViewStruct{
+		Map_ViewDBID_ViewPtr: make(map[uint]*models.View, 0),
+		Map_ViewDBID_ViewDB:  make(map[uint]*ViewDB, 0),
+		Map_ViewPtr_ViewDBID: make(map[*models.View]uint, 0),
 
 		db:    db,
 		stage: stage,
@@ -115,10 +137,14 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	defer backRepo.rwMutex.Unlock()
 
 	// insertion point for per struct back repo phase one commit
-	backRepo.BackRepoSplitArea.CommitPhaseOne(stage)
+	backRepo.BackRepoAsSplit.CommitPhaseOne(stage)
+	backRepo.BackRepoAsSplitArea.CommitPhaseOne(stage)
+	backRepo.BackRepoView.CommitPhaseOne(stage)
 
 	// insertion point for per struct back repo phase two commit
-	backRepo.BackRepoSplitArea.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoAsSplit.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoAsSplitArea.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoView.CommitPhaseTwo(backRepo)
 
 	backRepo.IncrementCommitFromBackNb()
 }
@@ -126,10 +152,14 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 // Checkout the database into the stage
 func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	// insertion point for per struct back repo phase one commit
-	backRepo.BackRepoSplitArea.CheckoutPhaseOne()
+	backRepo.BackRepoAsSplit.CheckoutPhaseOne()
+	backRepo.BackRepoAsSplitArea.CheckoutPhaseOne()
+	backRepo.BackRepoView.CheckoutPhaseOne()
 
 	// insertion point for per struct back repo phase two commit
-	backRepo.BackRepoSplitArea.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoAsSplit.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoAsSplitArea.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoView.CheckoutPhaseTwo(backRepo)
 }
 
 // Backup the BackRepoStruct
@@ -137,7 +167,9 @@ func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string
 	os.MkdirAll(dirPath, os.ModePerm)
 
 	// insertion point for per struct backup
-	backRepo.BackRepoSplitArea.Backup(dirPath)
+	backRepo.BackRepoAsSplit.Backup(dirPath)
+	backRepo.BackRepoAsSplitArea.Backup(dirPath)
+	backRepo.BackRepoView.Backup(dirPath)
 }
 
 // Backup in XL the BackRepoStruct
@@ -148,7 +180,9 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.StageStruct, dirPath stri
 	file := xlsx.NewFile()
 
 	// insertion point for per struct backup
-	backRepo.BackRepoSplitArea.BackupXL(file)
+	backRepo.BackRepoAsSplit.BackupXL(file)
+	backRepo.BackRepoAsSplitArea.BackupXL(file)
+	backRepo.BackRepoView.BackupXL(file)
 
 	var b bytes.Buffer
 	writer := bufio.NewWriter(&b)
@@ -173,14 +207,18 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	//
 
 	// insertion point for per struct backup
-	backRepo.BackRepoSplitArea.RestorePhaseOne(dirPath)
+	backRepo.BackRepoAsSplit.RestorePhaseOne(dirPath)
+	backRepo.BackRepoAsSplitArea.RestorePhaseOne(dirPath)
+	backRepo.BackRepoView.RestorePhaseOne(dirPath)
 
 	//
 	// restauration second phase (reindex pointers with the new ID)
 	//
 
 	// insertion point for per struct backup
-	backRepo.BackRepoSplitArea.RestorePhaseTwo()
+	backRepo.BackRepoAsSplit.RestorePhaseTwo()
+	backRepo.BackRepoAsSplitArea.RestorePhaseTwo()
+	backRepo.BackRepoView.RestorePhaseTwo()
 
 	backRepo.stage.Checkout()
 }
@@ -208,7 +246,9 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.StageStruct, dirPath str
 	//
 
 	// insertion point for per struct backup
-	backRepo.BackRepoSplitArea.RestoreXLPhaseOne(file)
+	backRepo.BackRepoAsSplit.RestoreXLPhaseOne(file)
+	backRepo.BackRepoAsSplitArea.RestoreXLPhaseOne(file)
+	backRepo.BackRepoView.RestoreXLPhaseOne(file)
 
 	// commit the restored stage
 	backRepo.stage.Commit()

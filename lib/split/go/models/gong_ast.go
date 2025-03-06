@@ -314,7 +314,9 @@ func ParseAstFileFromAst(stage *StageStruct, inFile *ast.File, fset *token.FileS
 var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 
 // insertion point for identifiers maps
-var __gong__map_SplitArea = make(map[string]*SplitArea)
+var __gong__map_AsSplit = make(map[string]*AsSplit)
+var __gong__map_AsSplitArea = make(map[string]*AsSplitArea)
+var __gong__map_View = make(map[string]*View)
 
 // Parser needs to be configured for having the [Name1.Name2] or [pkg.Name1] ...
 // to be recognized as a proper identifier.
@@ -487,12 +489,24 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 									// this is the place where an instance is created
 									switch gongstructName {
 									// insertion point for identifiers
-									case "SplitArea":
-										instanceSplitArea := new(SplitArea)
-										instanceSplitArea.Name = instanceName
-										instanceSplitArea.Stage(stage)
-										instance = any(instanceSplitArea)
-										__gong__map_SplitArea[identifier] = instanceSplitArea
+									case "AsSplit":
+										instanceAsSplit := new(AsSplit)
+										instanceAsSplit.Name = instanceName
+										instanceAsSplit.Stage(stage)
+										instance = any(instanceAsSplit)
+										__gong__map_AsSplit[identifier] = instanceAsSplit
+									case "AsSplitArea":
+										instanceAsSplitArea := new(AsSplitArea)
+										instanceAsSplitArea.Name = instanceName
+										instanceAsSplitArea.Stage(stage)
+										instance = any(instanceAsSplitArea)
+										__gong__map_AsSplitArea[identifier] = instanceAsSplitArea
+									case "View":
+										instanceView := new(View)
+										instanceView.Name = instanceName
+										instanceView.Stage(stage)
+										instance = any(instanceView)
+										__gong__map_View[identifier] = instanceView
 									}
 									__gong__map_Indentifiers_gongstructName[identifier] = gongstructName
 									return
@@ -529,7 +543,15 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						}
 						switch gongstructName {
 						// insertion point for basic lit assignments
-						case "SplitArea":
+						case "AsSplit":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "AsSplitArea":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "View":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -558,9 +580,35 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					}
 					switch gongstructName {
 					// insertion point for slice of pointers assignments
-					case "SplitArea":
+					case "AsSplit":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
+						case "AsSplitAreas":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_AsSplitArea[targetIdentifier]
+							__gong__map_AsSplit[identifier].AsSplitAreas =
+								append(__gong__map_AsSplit[identifier].AsSplitAreas, target)
+						}
+					case "AsSplitArea":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						case "AsSplits":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_AsSplit[targetIdentifier]
+							__gong__map_AsSplitArea[identifier].AsSplits =
+								append(__gong__map_AsSplitArea[identifier].AsSplits, target)
+						}
+					case "View":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						case "RootAsSplitAreas":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_AsSplitArea[targetIdentifier]
+							__gong__map_View[identifier].RootAsSplitAreas =
+								append(__gong__map_View[identifier].RootAsSplitAreas, target)
 						}
 					}
 				case *ast.SelectorExpr:
@@ -611,13 +659,36 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 
 			switch gongstructName {
 			// insertion point for basic lit assignments
-			case "SplitArea":
+			case "AsSplit":
 				switch fieldName {
 				// insertion point for field dependant code
 				case "Name":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_SplitArea[identifier].Name = fielValue
+					__gong__map_AsSplit[identifier].Name = fielValue
+				}
+			case "AsSplitArea":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_AsSplitArea[identifier].Name = fielValue
+				case "Size":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_AsSplitArea[identifier].Size = exprSign * fielValue
+				}
+			case "View":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_View[identifier].Name = fielValue
 				}
 			}
 		case *ast.Ident:
@@ -633,7 +704,22 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 			}
 			switch gongstructName {
 			// insertion point for bool & pointers assignments
-			case "SplitArea":
+			case "AsSplit":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
+			case "AsSplitArea":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "IsAny":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_AsSplitArea[identifier].IsAny = fielValue
+				}
+			case "View":
 				switch fieldName {
 				// insertion point for field dependant code
 				}
@@ -665,7 +751,22 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 				_ = enumValue
 				switch gongstructName {
 				// insertion point for enums assignments
-				case "SplitArea":
+				case "AsSplit":
+					switch fieldName {
+					// insertion point for enum assign code
+					case "Direction":
+						var val Direction
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_AsSplit[identifier].Direction = Direction(val)
+					}
+				case "AsSplitArea":
+					switch fieldName {
+					// insertion point for enum assign code
+					}
+				case "View":
 					switch fieldName {
 					// insertion point for enum assign code
 					}

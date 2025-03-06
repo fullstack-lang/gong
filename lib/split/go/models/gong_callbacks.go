@@ -6,9 +6,17 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
-	case *SplitArea:
-		if stage.OnAfterSplitAreaCreateCallback != nil {
-			stage.OnAfterSplitAreaCreateCallback.OnAfterCreate(stage, target)
+	case *AsSplit:
+		if stage.OnAfterAsSplitCreateCallback != nil {
+			stage.OnAfterAsSplitCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *AsSplitArea:
+		if stage.OnAfterAsSplitAreaCreateCallback != nil {
+			stage.OnAfterAsSplitAreaCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *View:
+		if stage.OnAfterViewCreateCallback != nil {
+			stage.OnAfterViewCreateCallback.OnAfterCreate(stage, target)
 		}
 	default:
 		_ = target
@@ -20,10 +28,20 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
-	case *SplitArea:
-		newTarget := any(new).(*SplitArea)
-		if stage.OnAfterSplitAreaUpdateCallback != nil {
-			stage.OnAfterSplitAreaUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+	case *AsSplit:
+		newTarget := any(new).(*AsSplit)
+		if stage.OnAfterAsSplitUpdateCallback != nil {
+			stage.OnAfterAsSplitUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *AsSplitArea:
+		newTarget := any(new).(*AsSplitArea)
+		if stage.OnAfterAsSplitAreaUpdateCallback != nil {
+			stage.OnAfterAsSplitAreaUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *View:
+		newTarget := any(new).(*View)
+		if stage.OnAfterViewUpdateCallback != nil {
+			stage.OnAfterViewUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	default:
 		_ = oldTarget
@@ -35,10 +53,20 @@ func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Ty
 
 	switch front := any(front).(type) {
 	// insertion point
-	case *SplitArea:
-		if stage.OnAfterSplitAreaDeleteCallback != nil {
-			staged := any(staged).(*SplitArea)
-			stage.OnAfterSplitAreaDeleteCallback.OnAfterDelete(stage, staged, front)
+	case *AsSplit:
+		if stage.OnAfterAsSplitDeleteCallback != nil {
+			staged := any(staged).(*AsSplit)
+			stage.OnAfterAsSplitDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *AsSplitArea:
+		if stage.OnAfterAsSplitAreaDeleteCallback != nil {
+			staged := any(staged).(*AsSplitArea)
+			stage.OnAfterAsSplitAreaDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *View:
+		if stage.OnAfterViewDeleteCallback != nil {
+			staged := any(staged).(*View)
+			stage.OnAfterViewDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	default:
 		_ = front
@@ -50,9 +78,17 @@ func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
-	case *SplitArea:
-		if stage.OnAfterSplitAreaReadCallback != nil {
-			stage.OnAfterSplitAreaReadCallback.OnAfterRead(stage, target)
+	case *AsSplit:
+		if stage.OnAfterAsSplitReadCallback != nil {
+			stage.OnAfterAsSplitReadCallback.OnAfterRead(stage, target)
+		}
+	case *AsSplitArea:
+		if stage.OnAfterAsSplitAreaReadCallback != nil {
+			stage.OnAfterAsSplitAreaReadCallback.OnAfterRead(stage, target)
+		}
+	case *View:
+		if stage.OnAfterViewReadCallback != nil {
+			stage.OnAfterViewReadCallback.OnAfterRead(stage, target)
 		}
 	default:
 		_ = target
@@ -65,8 +101,14 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *StageStruct, callba
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
-	case *SplitArea:
-		stage.OnAfterSplitAreaUpdateCallback = any(callback).(OnAfterUpdateInterface[SplitArea])
+	case *AsSplit:
+		stage.OnAfterAsSplitUpdateCallback = any(callback).(OnAfterUpdateInterface[AsSplit])
+	
+	case *AsSplitArea:
+		stage.OnAfterAsSplitAreaUpdateCallback = any(callback).(OnAfterUpdateInterface[AsSplitArea])
+	
+	case *View:
+		stage.OnAfterViewUpdateCallback = any(callback).(OnAfterUpdateInterface[View])
 	
 	}
 }
@@ -75,8 +117,14 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *StageStruct, callba
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
-	case *SplitArea:
-		stage.OnAfterSplitAreaCreateCallback = any(callback).(OnAfterCreateInterface[SplitArea])
+	case *AsSplit:
+		stage.OnAfterAsSplitCreateCallback = any(callback).(OnAfterCreateInterface[AsSplit])
+	
+	case *AsSplitArea:
+		stage.OnAfterAsSplitAreaCreateCallback = any(callback).(OnAfterCreateInterface[AsSplitArea])
+	
+	case *View:
+		stage.OnAfterViewCreateCallback = any(callback).(OnAfterCreateInterface[View])
 	
 	}
 }
@@ -85,8 +133,14 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *StageStruct, callba
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
-	case *SplitArea:
-		stage.OnAfterSplitAreaDeleteCallback = any(callback).(OnAfterDeleteInterface[SplitArea])
+	case *AsSplit:
+		stage.OnAfterAsSplitDeleteCallback = any(callback).(OnAfterDeleteInterface[AsSplit])
+	
+	case *AsSplitArea:
+		stage.OnAfterAsSplitAreaDeleteCallback = any(callback).(OnAfterDeleteInterface[AsSplitArea])
+	
+	case *View:
+		stage.OnAfterViewDeleteCallback = any(callback).(OnAfterDeleteInterface[View])
 	
 	}
 }
@@ -95,8 +149,14 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *StageStruct, callback
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
-	case *SplitArea:
-		stage.OnAfterSplitAreaReadCallback = any(callback).(OnAfterReadInterface[SplitArea])
+	case *AsSplit:
+		stage.OnAfterAsSplitReadCallback = any(callback).(OnAfterReadInterface[AsSplit])
+	
+	case *AsSplitArea:
+		stage.OnAfterAsSplitAreaReadCallback = any(callback).(OnAfterReadInterface[AsSplitArea])
+	
+	case *View:
+		stage.OnAfterViewReadCallback = any(callback).(OnAfterReadInterface[View])
 	
 	}
 }

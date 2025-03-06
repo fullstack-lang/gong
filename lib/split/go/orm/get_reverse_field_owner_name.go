@@ -14,7 +14,38 @@ func GetReverseFieldOwnerName(
 	res = ""
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.SplitArea:
+	case *models.AsSplit:
+		switch reverseField.GongstructName {
+		// insertion point
+		case "AsSplitArea":
+			switch reverseField.Fieldname {
+			case "AsSplits":
+				if _assplitarea, ok := stage.AsSplitArea_AsSplits_reverseMap[inst]; ok {
+					res = _assplitarea.Name
+				}
+			}
+		}
+
+	case *models.AsSplitArea:
+		switch reverseField.GongstructName {
+		// insertion point
+		case "AsSplit":
+			switch reverseField.Fieldname {
+			case "AsSplitAreas":
+				if _assplit, ok := stage.AsSplit_AsSplitAreas_reverseMap[inst]; ok {
+					res = _assplit.Name
+				}
+			}
+		case "View":
+			switch reverseField.Fieldname {
+			case "RootAsSplitAreas":
+				if _view, ok := stage.View_RootAsSplitAreas_reverseMap[inst]; ok {
+					res = _view.Name
+				}
+			}
+		}
+
+	case *models.View:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
@@ -34,7 +65,32 @@ func GetReverseFieldOwner[T models.Gongstruct](
 	res = nil
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.SplitArea:
+	case *models.AsSplit:
+		switch reverseField.GongstructName {
+		// insertion point
+		case "AsSplitArea":
+			switch reverseField.Fieldname {
+			case "AsSplits":
+				res = stage.AsSplitArea_AsSplits_reverseMap[inst]
+			}
+		}
+
+	case *models.AsSplitArea:
+		switch reverseField.GongstructName {
+		// insertion point
+		case "AsSplit":
+			switch reverseField.Fieldname {
+			case "AsSplitAreas":
+				res = stage.AsSplit_AsSplitAreas_reverseMap[inst]
+			}
+		case "View":
+			switch reverseField.Fieldname {
+			case "RootAsSplitAreas":
+				res = stage.View_RootAsSplitAreas_reverseMap[inst]
+			}
+		}
+
+	case *models.View:
 		switch reverseField.GongstructName {
 		// insertion point
 		}

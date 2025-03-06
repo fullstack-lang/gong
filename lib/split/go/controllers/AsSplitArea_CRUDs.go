@@ -14,16 +14,16 @@ import (
 )
 
 // declaration in order to justify use of the models import
-var __SplitArea__dummysDeclaration__ models.SplitArea
-var __SplitArea_time__dummyDeclaration time.Duration
+var __AsSplitArea__dummysDeclaration__ models.AsSplitArea
+var __AsSplitArea_time__dummyDeclaration time.Duration
 
-var mutexSplitArea sync.Mutex
+var mutexAsSplitArea sync.Mutex
 
-// An SplitAreaID parameter model.
+// An AsSplitAreaID parameter model.
 //
 // This is used for operations that want the ID of an order in the path
-// swagger:parameters getSplitArea updateSplitArea deleteSplitArea
-type SplitAreaID struct {
+// swagger:parameters getAsSplitArea updateAsSplitArea deleteAsSplitArea
+type AsSplitAreaID struct {
 	// The ID of the order
 	//
 	// in: path
@@ -31,29 +31,29 @@ type SplitAreaID struct {
 	ID int64
 }
 
-// SplitAreaInput is a schema that can validate the user’s
+// AsSplitAreaInput is a schema that can validate the user’s
 // input to prevent us from getting invalid data
-// swagger:parameters postSplitArea updateSplitArea
-type SplitAreaInput struct {
-	// The SplitArea to submit or modify
+// swagger:parameters postAsSplitArea updateAsSplitArea
+type AsSplitAreaInput struct {
+	// The AsSplitArea to submit or modify
 	// in: body
-	SplitArea *orm.SplitAreaAPI
+	AsSplitArea *orm.AsSplitAreaAPI
 }
 
-// GetSplitAreas
+// GetAsSplitAreas
 //
-// swagger:route GET /splitareas splitareas getSplitAreas
+// swagger:route GET /assplitareas assplitareas getAsSplitAreas
 //
-// # Get all splitareas
+// # Get all assplitareas
 //
 // Responses:
 // default: genericError
 //
-//	200: splitareaDBResponse
-func (controller *Controller) GetSplitAreas(c *gin.Context) {
+//	200: assplitareaDBResponse
+func (controller *Controller) GetAsSplitAreas(c *gin.Context) {
 
 	// source slice
-	var splitareaDBs []orm.SplitAreaDB
+	var assplitareaDBs []orm.AsSplitAreaDB
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -61,16 +61,16 @@ func (controller *Controller) GetSplitAreas(c *gin.Context) {
 		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetSplitAreas", "GONG__StackPath", stackPath)
+			// log.Println("GetAsSplitAreas", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		log.Panic("Stack github.com/fullstack-lang/gong/lib/split/go/models, Unkown stack", stackPath)
 	}
-	db := backRepo.BackRepoSplitArea.GetDB()
+	db := backRepo.BackRepoAsSplitArea.GetDB()
 
-	_, err := db.Find(&splitareaDBs)
+	_, err := db.Find(&assplitareaDBs)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -81,29 +81,29 @@ func (controller *Controller) GetSplitAreas(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	splitareaAPIs := make([]orm.SplitAreaAPI, 0)
+	assplitareaAPIs := make([]orm.AsSplitAreaAPI, 0)
 
-	// for each splitarea, update fields from the database nullable fields
-	for idx := range splitareaDBs {
-		splitareaDB := &splitareaDBs[idx]
-		_ = splitareaDB
-		var splitareaAPI orm.SplitAreaAPI
+	// for each assplitarea, update fields from the database nullable fields
+	for idx := range assplitareaDBs {
+		assplitareaDB := &assplitareaDBs[idx]
+		_ = assplitareaDB
+		var assplitareaAPI orm.AsSplitAreaAPI
 
 		// insertion point for updating fields
-		splitareaAPI.ID = splitareaDB.ID
-		splitareaDB.CopyBasicFieldsToSplitArea_WOP(&splitareaAPI.SplitArea_WOP)
-		splitareaAPI.SplitAreaPointersEncoding = splitareaDB.SplitAreaPointersEncoding
-		splitareaAPIs = append(splitareaAPIs, splitareaAPI)
+		assplitareaAPI.ID = assplitareaDB.ID
+		assplitareaDB.CopyBasicFieldsToAsSplitArea_WOP(&assplitareaAPI.AsSplitArea_WOP)
+		assplitareaAPI.AsSplitAreaPointersEncoding = assplitareaDB.AsSplitAreaPointersEncoding
+		assplitareaAPIs = append(assplitareaAPIs, assplitareaAPI)
 	}
 
-	c.JSON(http.StatusOK, splitareaAPIs)
+	c.JSON(http.StatusOK, assplitareaAPIs)
 }
 
-// PostSplitArea
+// PostAsSplitArea
 //
-// swagger:route POST /splitareas splitareas postSplitArea
+// swagger:route POST /assplitareas assplitareas postAsSplitArea
 //
-// Creates a splitarea
+// Creates a assplitarea
 //
 //	Consumes:
 //	- application/json
@@ -113,10 +113,10 @@ func (controller *Controller) GetSplitAreas(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostSplitArea(c *gin.Context) {
+func (controller *Controller) PostAsSplitArea(c *gin.Context) {
 
-	mutexSplitArea.Lock()
-	defer mutexSplitArea.Unlock()
+	mutexAsSplitArea.Lock()
+	defer mutexAsSplitArea.Unlock()
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -124,17 +124,17 @@ func (controller *Controller) PostSplitArea(c *gin.Context) {
 		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("PostSplitAreas", "GONG__StackPath", stackPath)
+			// log.Println("PostAsSplitAreas", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		log.Panic("Stack github.com/fullstack-lang/gong/lib/split/go/models, Unkown stack", stackPath)
 	}
-	db := backRepo.BackRepoSplitArea.GetDB()
+	db := backRepo.BackRepoAsSplitArea.GetDB()
 
 	// Validate input
-	var input orm.SplitAreaAPI
+	var input orm.AsSplitAreaAPI
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -146,12 +146,12 @@ func (controller *Controller) PostSplitArea(c *gin.Context) {
 		return
 	}
 
-	// Create splitarea
-	splitareaDB := orm.SplitAreaDB{}
-	splitareaDB.SplitAreaPointersEncoding = input.SplitAreaPointersEncoding
-	splitareaDB.CopyBasicFieldsFromSplitArea_WOP(&input.SplitArea_WOP)
+	// Create assplitarea
+	assplitareaDB := orm.AsSplitAreaDB{}
+	assplitareaDB.AsSplitAreaPointersEncoding = input.AsSplitAreaPointersEncoding
+	assplitareaDB.CopyBasicFieldsFromAsSplitArea_WOP(&input.AsSplitArea_WOP)
 
-	_, err = db.Create(&splitareaDB)
+	_, err = db.Create(&assplitareaDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -162,31 +162,31 @@ func (controller *Controller) PostSplitArea(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	backRepo.BackRepoSplitArea.CheckoutPhaseOneInstance(&splitareaDB)
-	splitarea := backRepo.BackRepoSplitArea.Map_SplitAreaDBID_SplitAreaPtr[splitareaDB.ID]
+	backRepo.BackRepoAsSplitArea.CheckoutPhaseOneInstance(&assplitareaDB)
+	assplitarea := backRepo.BackRepoAsSplitArea.Map_AsSplitAreaDBID_AsSplitAreaPtr[assplitareaDB.ID]
 
-	if splitarea != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), splitarea)
+	if assplitarea != nil {
+		models.AfterCreateFromFront(backRepo.GetStage(), assplitarea)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, splitareaDB)
+	c.JSON(http.StatusOK, assplitareaDB)
 }
 
-// GetSplitArea
+// GetAsSplitArea
 //
-// swagger:route GET /splitareas/{ID} splitareas getSplitArea
+// swagger:route GET /assplitareas/{ID} assplitareas getAsSplitArea
 //
-// Gets the details for a splitarea.
+// Gets the details for a assplitarea.
 //
 // Responses:
 // default: genericError
 //
-//	200: splitareaDBResponse
-func (controller *Controller) GetSplitArea(c *gin.Context) {
+//	200: assplitareaDBResponse
+func (controller *Controller) GetAsSplitArea(c *gin.Context) {
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -194,18 +194,18 @@ func (controller *Controller) GetSplitArea(c *gin.Context) {
 		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetSplitArea", "GONG__StackPath", stackPath)
+			// log.Println("GetAsSplitArea", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		log.Panic("Stack github.com/fullstack-lang/gong/lib/split/go/models, Unkown stack", stackPath)
 	}
-	db := backRepo.BackRepoSplitArea.GetDB()
+	db := backRepo.BackRepoAsSplitArea.GetDB()
 
-	// Get splitareaDB in DB
-	var splitareaDB orm.SplitAreaDB
-	if _, err := db.First(&splitareaDB, c.Param("id")); err != nil {
+	// Get assplitareaDB in DB
+	var assplitareaDB orm.AsSplitAreaDB
+	if _, err := db.First(&assplitareaDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -214,28 +214,28 @@ func (controller *Controller) GetSplitArea(c *gin.Context) {
 		return
 	}
 
-	var splitareaAPI orm.SplitAreaAPI
-	splitareaAPI.ID = splitareaDB.ID
-	splitareaAPI.SplitAreaPointersEncoding = splitareaDB.SplitAreaPointersEncoding
-	splitareaDB.CopyBasicFieldsToSplitArea_WOP(&splitareaAPI.SplitArea_WOP)
+	var assplitareaAPI orm.AsSplitAreaAPI
+	assplitareaAPI.ID = assplitareaDB.ID
+	assplitareaAPI.AsSplitAreaPointersEncoding = assplitareaDB.AsSplitAreaPointersEncoding
+	assplitareaDB.CopyBasicFieldsToAsSplitArea_WOP(&assplitareaAPI.AsSplitArea_WOP)
 
-	c.JSON(http.StatusOK, splitareaAPI)
+	c.JSON(http.StatusOK, assplitareaAPI)
 }
 
-// UpdateSplitArea
+// UpdateAsSplitArea
 //
-// swagger:route PATCH /splitareas/{ID} splitareas updateSplitArea
+// swagger:route PATCH /assplitareas/{ID} assplitareas updateAsSplitArea
 //
-// # Update a splitarea
+// # Update a assplitarea
 //
 // Responses:
 // default: genericError
 //
-//	200: splitareaDBResponse
-func (controller *Controller) UpdateSplitArea(c *gin.Context) {
+//	200: assplitareaDBResponse
+func (controller *Controller) UpdateAsSplitArea(c *gin.Context) {
 
-	mutexSplitArea.Lock()
-	defer mutexSplitArea.Unlock()
+	mutexAsSplitArea.Lock()
+	defer mutexAsSplitArea.Unlock()
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -243,17 +243,17 @@ func (controller *Controller) UpdateSplitArea(c *gin.Context) {
 		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("UpdateSplitArea", "GONG__StackPath", stackPath)
+			// log.Println("UpdateAsSplitArea", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		log.Panic("Stack github.com/fullstack-lang/gong/lib/split/go/models, Unkown stack", stackPath)
 	}
-	db := backRepo.BackRepoSplitArea.GetDB()
+	db := backRepo.BackRepoAsSplitArea.GetDB()
 
 	// Validate input
-	var input orm.SplitAreaAPI
+	var input orm.AsSplitAreaAPI
 	if err := c.ShouldBindJSON(&input); err != nil {
 		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -261,10 +261,10 @@ func (controller *Controller) UpdateSplitArea(c *gin.Context) {
 	}
 
 	// Get model if exist
-	var splitareaDB orm.SplitAreaDB
+	var assplitareaDB orm.AsSplitAreaDB
 
-	// fetch the splitarea
-	_, err := db.First(&splitareaDB, c.Param("id"))
+	// fetch the assplitarea
+	_, err := db.First(&assplitareaDB, c.Param("id"))
 
 	if err != nil {
 		var returnError GenericError
@@ -276,11 +276,11 @@ func (controller *Controller) UpdateSplitArea(c *gin.Context) {
 	}
 
 	// update
-	splitareaDB.CopyBasicFieldsFromSplitArea_WOP(&input.SplitArea_WOP)
-	splitareaDB.SplitAreaPointersEncoding = input.SplitAreaPointersEncoding
+	assplitareaDB.CopyBasicFieldsFromAsSplitArea_WOP(&input.AsSplitArea_WOP)
+	assplitareaDB.AsSplitAreaPointersEncoding = input.AsSplitAreaPointersEncoding
 
-	db, _ = db.Model(&splitareaDB)
-	_, err = db.Updates(&splitareaDB)
+	db, _ = db.Model(&assplitareaDB)
+	_, err = db.Updates(&assplitareaDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -291,16 +291,16 @@ func (controller *Controller) UpdateSplitArea(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	splitareaNew := new(models.SplitArea)
-	splitareaDB.CopyBasicFieldsToSplitArea(splitareaNew)
+	assplitareaNew := new(models.AsSplitArea)
+	assplitareaDB.CopyBasicFieldsToAsSplitArea(assplitareaNew)
 
 	// redeem pointers
-	splitareaDB.DecodePointers(backRepo, splitareaNew)
+	assplitareaDB.DecodePointers(backRepo, assplitareaNew)
 
 	// get stage instance from DB instance, and call callback function
-	splitareaOld := backRepo.BackRepoSplitArea.Map_SplitAreaDBID_SplitAreaPtr[splitareaDB.ID]
-	if splitareaOld != nil {
-		models.AfterUpdateFromFront(backRepo.GetStage(), splitareaOld, splitareaNew)
+	assplitareaOld := backRepo.BackRepoAsSplitArea.Map_AsSplitAreaDBID_AsSplitAreaPtr[assplitareaDB.ID]
+	if assplitareaOld != nil {
+		models.AfterUpdateFromFront(backRepo.GetStage(), assplitareaOld, assplitareaNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -309,23 +309,23 @@ func (controller *Controller) UpdateSplitArea(c *gin.Context) {
 	// generates a checkout
 	backRepo.IncrementPushFromFrontNb()
 
-	// return status OK with the marshalling of the the splitareaDB
-	c.JSON(http.StatusOK, splitareaDB)
+	// return status OK with the marshalling of the the assplitareaDB
+	c.JSON(http.StatusOK, assplitareaDB)
 }
 
-// DeleteSplitArea
+// DeleteAsSplitArea
 //
-// swagger:route DELETE /splitareas/{ID} splitareas deleteSplitArea
+// swagger:route DELETE /assplitareas/{ID} assplitareas deleteAsSplitArea
 //
-// # Delete a splitarea
+// # Delete a assplitarea
 //
 // default: genericError
 //
-//	200: splitareaDBResponse
-func (controller *Controller) DeleteSplitArea(c *gin.Context) {
+//	200: assplitareaDBResponse
+func (controller *Controller) DeleteAsSplitArea(c *gin.Context) {
 
-	mutexSplitArea.Lock()
-	defer mutexSplitArea.Unlock()
+	mutexAsSplitArea.Lock()
+	defer mutexAsSplitArea.Unlock()
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -333,18 +333,18 @@ func (controller *Controller) DeleteSplitArea(c *gin.Context) {
 		value := _values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("DeleteSplitArea", "GONG__StackPath", stackPath)
+			// log.Println("DeleteAsSplitArea", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		log.Panic("Stack github.com/fullstack-lang/gong/lib/split/go/models, Unkown stack", stackPath)
 	}
-	db := backRepo.BackRepoSplitArea.GetDB()
+	db := backRepo.BackRepoAsSplitArea.GetDB()
 
 	// Get model if exist
-	var splitareaDB orm.SplitAreaDB
-	if _, err := db.First(&splitareaDB, c.Param("id")); err != nil {
+	var assplitareaDB orm.AsSplitAreaDB
+	if _, err := db.First(&assplitareaDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -355,16 +355,16 @@ func (controller *Controller) DeleteSplitArea(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped()
-	db.Delete(&splitareaDB)
+	db.Delete(&assplitareaDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
-	splitareaDeleted := new(models.SplitArea)
-	splitareaDB.CopyBasicFieldsToSplitArea(splitareaDeleted)
+	assplitareaDeleted := new(models.AsSplitArea)
+	assplitareaDB.CopyBasicFieldsToAsSplitArea(assplitareaDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	splitareaStaged := backRepo.BackRepoSplitArea.Map_SplitAreaDBID_SplitAreaPtr[splitareaDB.ID]
-	if splitareaStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), splitareaStaged, splitareaDeleted)
+	assplitareaStaged := backRepo.BackRepoAsSplitArea.Map_AsSplitAreaDBID_AsSplitAreaPtr[assplitareaDB.ID]
+	if assplitareaStaged != nil {
+		models.AfterDeleteFromFront(backRepo.GetStage(), assplitareaStaged, assplitareaDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
