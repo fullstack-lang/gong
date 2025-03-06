@@ -1,12 +1,20 @@
 // generated code - do not edit
 
 //insertion point for imports
-import { SplitAreaAPI } from './splitarea-api'
+import { AsSplitAPI } from './assplit-api'
+
+import { AsSplitAreaAPI } from './assplitarea-api'
+
+import { ViewAPI } from './view-api'
 
 
 export class BackRepoData {
 	// insertion point for declarations
-	SplitAreaAPIs = new Array<SplitAreaAPI>()
+	AsSplitAPIs = new Array<AsSplitAPI>()
+
+	AsSplitAreaAPIs = new Array<AsSplitAreaAPI>()
+
+	ViewAPIs = new Array<ViewAPI>()
 
 
 	// index of the web socket for this stack type (unique among all stack instances)
@@ -14,7 +22,11 @@ export class BackRepoData {
 
 	constructor(data?: Partial<BackRepoData>) {
 		// insertion point for copies
-		this.SplitAreaAPIs = data?.SplitAreaAPIs || [];
+		this.AsSplitAPIs = data?.AsSplitAPIs || [];
+
+		this.AsSplitAreaAPIs = data?.AsSplitAreaAPIs || [];
+
+		this.ViewAPIs = data?.ViewAPIs || [];
 
 		this.GONG__Index = data?.GONG__Index ?? -1;   // Assign Index here
 	}

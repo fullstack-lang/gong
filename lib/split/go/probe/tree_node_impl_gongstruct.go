@@ -52,8 +52,14 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	log.Println("NodeImplGongstruct:OnAfterUpdate with: ", nodeImplGongstruct.gongStruct.GetName())
 
 	// insertion point
-	if nodeImplGongstruct.gongStruct.GetName() == "SplitArea" {
-		fillUpTable[models.SplitArea](nodeImplGongstruct.probe)
+	if nodeImplGongstruct.gongStruct.GetName() == "AsSplit" {
+		fillUpTable[models.AsSplit](nodeImplGongstruct.probe)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "AsSplitArea" {
+		fillUpTable[models.AsSplitArea](nodeImplGongstruct.probe)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "View" {
+		fillUpTable[models.View](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

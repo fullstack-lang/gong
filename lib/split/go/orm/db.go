@@ -20,9 +20,17 @@ type DBLite struct {
 
 	// insertion point definitions
 
-	splitareaDBs map[uint]*SplitAreaDB
+	assplitDBs map[uint]*AsSplitDB
 
-	nextIDSplitAreaDB uint
+	nextIDAsSplitDB uint
+
+	assplitareaDBs map[uint]*AsSplitAreaDB
+
+	nextIDAsSplitAreaDB uint
+
+	viewDBs map[uint]*ViewDB
+
+	nextIDViewDB uint
 }
 
 // NewDBLite creates a new instance of DBLite
@@ -30,7 +38,11 @@ func NewDBLite() *DBLite {
 	return &DBLite{
 		// insertion point maps init
 
-		splitareaDBs: make(map[uint]*SplitAreaDB),
+		assplitDBs: make(map[uint]*AsSplitDB),
+
+		assplitareaDBs: make(map[uint]*AsSplitAreaDB),
+
+		viewDBs: make(map[uint]*ViewDB),
 	}
 }
 
@@ -45,10 +57,18 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 
 	switch v := instanceDB.(type) {
 	// insertion point create
-	case *SplitAreaDB:
-		db.nextIDSplitAreaDB++
-		v.ID = db.nextIDSplitAreaDB
-		db.splitareaDBs[v.ID] = v
+	case *AsSplitDB:
+		db.nextIDAsSplitDB++
+		v.ID = db.nextIDAsSplitDB
+		db.assplitDBs[v.ID] = v
+	case *AsSplitAreaDB:
+		db.nextIDAsSplitAreaDB++
+		v.ID = db.nextIDAsSplitAreaDB
+		db.assplitareaDBs[v.ID] = v
+	case *ViewDB:
+		db.nextIDViewDB++
+		v.ID = db.nextIDViewDB
+		db.viewDBs[v.ID] = v
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/split/go, unsupported type in Create")
 	}
@@ -77,8 +97,12 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 
 	switch v := instanceDB.(type) {
 	// insertion point delete
-	case *SplitAreaDB:
-		delete(db.splitareaDBs, v.ID)
+	case *AsSplitDB:
+		delete(db.assplitDBs, v.ID)
+	case *AsSplitAreaDB:
+		delete(db.assplitareaDBs, v.ID)
+	case *ViewDB:
+		delete(db.viewDBs, v.ID)
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/split/go, unsupported type in Delete")
 	}
@@ -97,8 +121,14 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 
 	switch v := instanceDB.(type) {
 	// insertion point delete
-	case *SplitAreaDB:
-		db.splitareaDBs[v.ID] = v
+	case *AsSplitDB:
+		db.assplitDBs[v.ID] = v
+		return db, nil
+	case *AsSplitAreaDB:
+		db.assplitareaDBs[v.ID] = v
+		return db, nil
+	case *ViewDB:
+		db.viewDBs[v.ID] = v
 		return db, nil
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/split/go, Save: unsupported type")
@@ -116,11 +146,23 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 
 	switch v := instanceDB.(type) {
 	// insertion point delete
-	case *SplitAreaDB:
-		if existing, ok := db.splitareaDBs[v.ID]; ok {
+	case *AsSplitDB:
+		if existing, ok := db.assplitDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("db SplitArea github.com/fullstack-lang/gong/lib/split/go, record not found")
+			return nil, errors.New("db AsSplit github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
+	case *AsSplitAreaDB:
+		if existing, ok := db.assplitareaDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db AsSplitArea github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
+	case *ViewDB:
+		if existing, ok := db.viewDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db View github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/split/go, unsupported type in Updates")
@@ -136,9 +178,21 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 
 	switch ptr := instanceDBs.(type) {
 	// insertion point find
-	case *[]SplitAreaDB:
-		*ptr = make([]SplitAreaDB, 0, len(db.splitareaDBs))
-		for _, v := range db.splitareaDBs {
+	case *[]AsSplitDB:
+		*ptr = make([]AsSplitDB, 0, len(db.assplitDBs))
+		for _, v := range db.assplitDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]AsSplitAreaDB:
+		*ptr = make([]AsSplitAreaDB, 0, len(db.assplitareaDBs))
+		for _, v := range db.assplitareaDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]ViewDB:
+		*ptr = make([]ViewDB, 0, len(db.viewDBs))
+		for _, v := range db.viewDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -175,15 +229,35 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 	switch instanceDB.(type) {
 	// insertion point first
-	case *SplitAreaDB:
-		tmp, ok := db.splitareaDBs[uint(i)]
+	case *AsSplitDB:
+		tmp, ok := db.assplitDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db.First SplitArea Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First AsSplit Unkown entry %d", i))
 		}
 
-		splitareaDB, _ := instanceDB.(*SplitAreaDB)
-		*splitareaDB = *tmp
+		assplitDB, _ := instanceDB.(*AsSplitDB)
+		*assplitDB = *tmp
+		
+	case *AsSplitAreaDB:
+		tmp, ok := db.assplitareaDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First AsSplitArea Unkown entry %d", i))
+		}
+
+		assplitareaDB, _ := instanceDB.(*AsSplitAreaDB)
+		*assplitareaDB = *tmp
+		
+	case *ViewDB:
+		tmp, ok := db.viewDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First View Unkown entry %d", i))
+		}
+
+		viewDB, _ := instanceDB.(*ViewDB)
+		*viewDB = *tmp
 		
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/split/go, Unkown type")

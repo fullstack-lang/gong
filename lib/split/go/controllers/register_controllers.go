@@ -49,12 +49,26 @@ type ValidationError struct {
 func registerControllers(r *gin.Engine) {
 	v1 := r.Group("/api/github.com/fullstack-lang/gong/lib/split/go")
 	{ // insertion point for registrations
-		v1.GET("/v1/splitareas", GetController().GetSplitAreas)
-		v1.GET("/v1/splitareas/:id", GetController().GetSplitArea)
-		v1.POST("/v1/splitareas", GetController().PostSplitArea)
-		v1.PATCH("/v1/splitareas/:id", GetController().UpdateSplitArea)
-		v1.PUT("/v1/splitareas/:id", GetController().UpdateSplitArea)
-		v1.DELETE("/v1/splitareas/:id", GetController().DeleteSplitArea)
+		v1.GET("/v1/assplits", GetController().GetAsSplits)
+		v1.GET("/v1/assplits/:id", GetController().GetAsSplit)
+		v1.POST("/v1/assplits", GetController().PostAsSplit)
+		v1.PATCH("/v1/assplits/:id", GetController().UpdateAsSplit)
+		v1.PUT("/v1/assplits/:id", GetController().UpdateAsSplit)
+		v1.DELETE("/v1/assplits/:id", GetController().DeleteAsSplit)
+
+		v1.GET("/v1/assplitareas", GetController().GetAsSplitAreas)
+		v1.GET("/v1/assplitareas/:id", GetController().GetAsSplitArea)
+		v1.POST("/v1/assplitareas", GetController().PostAsSplitArea)
+		v1.PATCH("/v1/assplitareas/:id", GetController().UpdateAsSplitArea)
+		v1.PUT("/v1/assplitareas/:id", GetController().UpdateAsSplitArea)
+		v1.DELETE("/v1/assplitareas/:id", GetController().DeleteAsSplitArea)
+
+		v1.GET("/v1/views", GetController().GetViews)
+		v1.GET("/v1/views/:id", GetController().GetView)
+		v1.POST("/v1/views", GetController().PostView)
+		v1.PATCH("/v1/views/:id", GetController().UpdateView)
+		v1.PUT("/v1/views/:id", GetController().UpdateView)
+		v1.DELETE("/v1/views/:id", GetController().DeleteView)
 
 		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)

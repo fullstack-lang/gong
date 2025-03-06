@@ -7,12 +7,38 @@ import "time"
 var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 
 // insertion point
-type SplitArea_WOP struct {
+type AsSplit_WOP struct {
+	// insertion point
+	Name string
+	Direction Direction
+}
+
+func (from *AsSplit) CopyBasicFields(to *AsSplit) {
+	// insertion point
+	to.Name = from.Name
+	to.Direction = from.Direction
+}
+
+type AsSplitArea_WOP struct {
+	// insertion point
+	Name string
+	Size float64
+	IsAny bool
+}
+
+func (from *AsSplitArea) CopyBasicFields(to *AsSplitArea) {
+	// insertion point
+	to.Name = from.Name
+	to.Size = from.Size
+	to.IsAny = from.IsAny
+}
+
+type View_WOP struct {
 	// insertion point
 	Name string
 }
 
-func (from *SplitArea) CopyBasicFields(to *SplitArea) {
+func (from *View) CopyBasicFields(to *View) {
 	// insertion point
 	to.Name = from.Name
 }

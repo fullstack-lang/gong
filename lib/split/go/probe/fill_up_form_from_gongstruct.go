@@ -19,12 +19,36 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 
 	switch instancesTyped := any(instance).(type) {
 	// insertion point
-	case *models.SplitArea:
+	case *models.AsSplit:
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,
-			Label: "SplitArea Form",
+			Label: "AsSplit Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__SplitAreaFormCallback(
+		formGroup.OnSave = __gong__New__AsSplitFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.AsSplitArea:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "AsSplitArea Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__AsSplitAreaFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.View:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "View Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ViewFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
