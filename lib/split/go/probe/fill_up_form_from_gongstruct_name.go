@@ -25,19 +25,45 @@ func FillUpFormFromGongstructName(
 
 	switch gongstructName {
 	// insertion point
-	case "SplitArea":
+	case "AsSplit":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
-			Label: prefix + "SplitArea Form",
+			Label: prefix + "AsSplit Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__SplitAreaFormCallback(
+		formGroup.OnSave = __gong__New__AsSplitFormCallback(
 			nil,
 			probe,
 			formGroup,
 		)
-		splitarea := new(models.SplitArea)
+		assplit := new(models.AsSplit)
 		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(splitarea, formGroup, probe)
+		FillUpForm(assplit, formGroup, probe)
+	case "AsSplitArea":
+		formGroup := (&form.FormGroup{
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: prefix + "AsSplitArea Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__AsSplitAreaFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		assplitarea := new(models.AsSplitArea)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(assplitarea, formGroup, probe)
+	case "View":
+		formGroup := (&form.FormGroup{
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: prefix + "View Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ViewFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		view := new(models.View)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(view, formGroup, probe)
 	}
 	formStage.Commit()
 }

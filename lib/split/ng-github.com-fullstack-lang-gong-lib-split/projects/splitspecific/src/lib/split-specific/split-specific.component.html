@@ -1,1 +1,37 @@
-<p>split-specific works!</p>
+<ng-template #radioToolbar>
+    <mat-radio-group aria-label="Select an option" [(ngModel)]="view">
+        @for (view_ of frontRepo?.array_Views; track view_) {
+        <mat-radio-button [value]="view_.Name">
+            {{view_.Name}}&nbsp;&nbsp;&nbsp;
+        </mat-radio-button>
+        }
+    </mat-radio-group>
+</ng-template>
+
+@for (view_ of frontRepo?.array_Views; track view_) {
+    @if (view_.Name == view) {
+        <as-split unit="pixel" direction="vertical">
+            <as-split-area [size]=40>
+                <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
+            </as-split-area>
+
+            @for (asSplitArea of view_.RootAsSplitAreas; track asSplitArea) {
+                <as-split-area [size]="asSplitArea.IsAny ? $any('*') : asSplitArea.Size">
+                    <p>{{asSplitArea.Name}}</p>
+                    @for (asSplit of asSplitArea.AsSplits; track asSplit) {
+                        <as-split (direction)="asSplit.Direction">
+                            @for (asSplitArea of asSplit.AsSplitAreas; track asSplitArea) {
+                                <as-split-area [size]="asSplitArea.IsAny ? $any('*') : asSplitArea.Size">
+                                    <p>{{asSplitArea.Name}}</p>
+                                </as-split-area>
+                            }
+                        </as-split>
+                    }
+                </as-split-area>
+            }
+
+
+        </as-split>
+    }
+    
+}

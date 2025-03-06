@@ -15,9 +15,17 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 
 	switch concreteInstance := any(instance).(type) {
 	// insertion point for per struct backup
-	case *models.SplitArea:
-		splitareaInstance := any(concreteInstance).(*models.SplitArea)
-		ret2 := backRepo.BackRepoSplitArea.GetSplitAreaDBFromSplitAreaPtr(splitareaInstance)
+	case *models.AsSplit:
+		assplitInstance := any(concreteInstance).(*models.AsSplit)
+		ret2 := backRepo.BackRepoAsSplit.GetAsSplitDBFromAsSplitPtr(assplitInstance)
+		ret = any(ret2).(*T2)
+	case *models.AsSplitArea:
+		assplitareaInstance := any(concreteInstance).(*models.AsSplitArea)
+		ret2 := backRepo.BackRepoAsSplitArea.GetAsSplitAreaDBFromAsSplitAreaPtr(assplitareaInstance)
+		ret = any(ret2).(*T2)
+	case *models.View:
+		viewInstance := any(concreteInstance).(*models.View)
+		ret2 := backRepo.BackRepoView.GetViewDBFromViewPtr(viewInstance)
 		ret = any(ret2).(*T2)
 	default:
 		_ = concreteInstance
@@ -32,8 +40,18 @@ func GetID[T models.Gongstruct](
 
 	switch inst := any(instance).(type) {
 	// insertion point for per struct backup
-	case *models.SplitArea:
-		tmp := GetInstanceDBFromInstance[models.SplitArea, SplitAreaDB](
+	case *models.AsSplit:
+		tmp := GetInstanceDBFromInstance[models.AsSplit, AsSplitDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.AsSplitArea:
+		tmp := GetInstanceDBFromInstance[models.AsSplitArea, AsSplitAreaDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.View:
+		tmp := GetInstanceDBFromInstance[models.View, ViewDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -50,8 +68,18 @@ func GetIDPointer[T models.PointerToGongstruct](
 
 	switch inst := any(instance).(type) {
 	// insertion point for per struct backup
-	case *models.SplitArea:
-		tmp := GetInstanceDBFromInstance[models.SplitArea, SplitAreaDB](
+	case *models.AsSplit:
+		tmp := GetInstanceDBFromInstance[models.AsSplit, AsSplitDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.AsSplitArea:
+		tmp := GetInstanceDBFromInstance[models.AsSplitArea, AsSplitAreaDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.View:
+		tmp := GetInstanceDBFromInstance[models.View, ViewDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

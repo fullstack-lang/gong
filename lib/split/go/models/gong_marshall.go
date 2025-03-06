@@ -94,35 +94,35 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	_ = setValueField
 
 	// insertion initialization of objects to stage
-	map_SplitArea_Identifiers := make(map[*SplitArea]string)
-	_ = map_SplitArea_Identifiers
+	map_AsSplit_Identifiers := make(map[*AsSplit]string)
+	_ = map_AsSplit_Identifiers
 
-	splitareaOrdered := []*SplitArea{}
-	for splitarea := range stage.SplitAreas {
-		splitareaOrdered = append(splitareaOrdered, splitarea)
+	assplitOrdered := []*AsSplit{}
+	for assplit := range stage.AsSplits {
+		assplitOrdered = append(assplitOrdered, assplit)
 	}
-	sort.Slice(splitareaOrdered[:], func(i, j int) bool {
-		splitareai := splitareaOrdered[i]
-		splitareaj := splitareaOrdered[j]
-		splitareai_order, oki := stage.Map_Staged_Order[splitareai]
-		splitareaj_order, okj := stage.Map_Staged_Order[splitareaj]
+	sort.Slice(assplitOrdered[:], func(i, j int) bool {
+		asspliti := assplitOrdered[i]
+		assplitj := assplitOrdered[j]
+		asspliti_order, oki := stage.Map_Staged_Order[asspliti]
+		assplitj_order, okj := stage.Map_Staged_Order[assplitj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
-		return splitareai_order < splitareaj_order
+		return asspliti_order < assplitj_order
 	})
-	if len(splitareaOrdered) > 0 {
+	if len(assplitOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, splitarea := range splitareaOrdered {
+	for idx, assplit := range assplitOrdered {
 
-		id = generatesIdentifier("SplitArea", idx, splitarea.Name)
-		map_SplitArea_Identifiers[splitarea] = id
+		id = generatesIdentifier("AsSplit", idx, assplit.Name)
+		map_AsSplit_Identifiers[assplit] = id
 
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SplitArea")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", splitarea.Name)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "AsSplit")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", assplit.Name)
 		identifiersDecl += decl
 
 		initializerStatements += "\n"
@@ -130,23 +130,175 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(splitarea.Name))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(assplit.Name))
+		initializerStatements += setValueField
+
+		if assplit.Direction != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Direction")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+assplit.Direction.ToCodeString())
+			initializerStatements += setValueField
+		}
+
+	}
+
+	map_AsSplitArea_Identifiers := make(map[*AsSplitArea]string)
+	_ = map_AsSplitArea_Identifiers
+
+	assplitareaOrdered := []*AsSplitArea{}
+	for assplitarea := range stage.AsSplitAreas {
+		assplitareaOrdered = append(assplitareaOrdered, assplitarea)
+	}
+	sort.Slice(assplitareaOrdered[:], func(i, j int) bool {
+		assplitareai := assplitareaOrdered[i]
+		assplitareaj := assplitareaOrdered[j]
+		assplitareai_order, oki := stage.Map_Staged_Order[assplitareai]
+		assplitareaj_order, okj := stage.Map_Staged_Order[assplitareaj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return assplitareai_order < assplitareaj_order
+	})
+	if len(assplitareaOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, assplitarea := range assplitareaOrdered {
+
+		id = generatesIdentifier("AsSplitArea", idx, assplitarea.Name)
+		map_AsSplitArea_Identifiers[assplitarea] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "AsSplitArea")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", assplitarea.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(assplitarea.Name))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Size")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", assplitarea.Size))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsAny")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", assplitarea.IsAny))
+		initializerStatements += setValueField
+
+	}
+
+	map_View_Identifiers := make(map[*View]string)
+	_ = map_View_Identifiers
+
+	viewOrdered := []*View{}
+	for view := range stage.Views {
+		viewOrdered = append(viewOrdered, view)
+	}
+	sort.Slice(viewOrdered[:], func(i, j int) bool {
+		viewi := viewOrdered[i]
+		viewj := viewOrdered[j]
+		viewi_order, oki := stage.Map_Staged_Order[viewi]
+		viewj_order, okj := stage.Map_Staged_Order[viewj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return viewi_order < viewj_order
+	})
+	if len(viewOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, view := range viewOrdered {
+
+		id = generatesIdentifier("View", idx, view.Name)
+		map_View_Identifiers[view] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "View")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", view.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(view.Name))
 		initializerStatements += setValueField
 
 	}
 
 	// insertion initialization of objects to stage
-	if len(splitareaOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of SplitArea instances pointers"
+	if len(assplitOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of AsSplit instances pointers"
 	}
-	for idx, splitarea := range splitareaOrdered {
+	for idx, assplit := range assplitOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("SplitArea", idx, splitarea.Name)
-		map_SplitArea_Identifiers[splitarea] = id
+		id = generatesIdentifier("AsSplit", idx, assplit.Name)
+		map_AsSplit_Identifiers[assplit] = id
 
 		// Initialisation of values
+		for _, _assplitarea := range assplit.AsSplitAreas {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "AsSplitAreas")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_AsSplitArea_Identifiers[_assplitarea])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
+	if len(assplitareaOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of AsSplitArea instances pointers"
+	}
+	for idx, assplitarea := range assplitareaOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("AsSplitArea", idx, assplitarea.Name)
+		map_AsSplitArea_Identifiers[assplitarea] = id
+
+		// Initialisation of values
+		for _, _assplit := range assplitarea.AsSplits {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "AsSplits")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_AsSplit_Identifiers[_assplit])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
+	if len(viewOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of View instances pointers"
+	}
+	for idx, view := range viewOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("View", idx, view.Name)
+		map_View_Identifiers[view] = id
+
+		// Initialisation of values
+		for _, _assplitarea := range view.RootAsSplitAreas {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "RootAsSplitAreas")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_AsSplitArea_Identifiers[_assplitarea])
+			pointersInitializesStatements += setPointerField
+		}
+
 	}
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)

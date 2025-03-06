@@ -47,14 +47,38 @@ type StageStruct struct {
 	path string
 
 	// insertion point for definition of arrays registering instances
-	SplitAreas           map[*SplitArea]any
-	SplitAreas_mapString map[string]*SplitArea
+	AsSplits           map[*AsSplit]any
+	AsSplits_mapString map[string]*AsSplit
 
 	// insertion point for slice of pointers maps
-	OnAfterSplitAreaCreateCallback OnAfterCreateInterface[SplitArea]
-	OnAfterSplitAreaUpdateCallback OnAfterUpdateInterface[SplitArea]
-	OnAfterSplitAreaDeleteCallback OnAfterDeleteInterface[SplitArea]
-	OnAfterSplitAreaReadCallback   OnAfterReadInterface[SplitArea]
+	AsSplit_AsSplitAreas_reverseMap map[*AsSplitArea]*AsSplit
+
+	OnAfterAsSplitCreateCallback OnAfterCreateInterface[AsSplit]
+	OnAfterAsSplitUpdateCallback OnAfterUpdateInterface[AsSplit]
+	OnAfterAsSplitDeleteCallback OnAfterDeleteInterface[AsSplit]
+	OnAfterAsSplitReadCallback   OnAfterReadInterface[AsSplit]
+
+	AsSplitAreas           map[*AsSplitArea]any
+	AsSplitAreas_mapString map[string]*AsSplitArea
+
+	// insertion point for slice of pointers maps
+	AsSplitArea_AsSplits_reverseMap map[*AsSplit]*AsSplitArea
+
+	OnAfterAsSplitAreaCreateCallback OnAfterCreateInterface[AsSplitArea]
+	OnAfterAsSplitAreaUpdateCallback OnAfterUpdateInterface[AsSplitArea]
+	OnAfterAsSplitAreaDeleteCallback OnAfterDeleteInterface[AsSplitArea]
+	OnAfterAsSplitAreaReadCallback   OnAfterReadInterface[AsSplitArea]
+
+	Views           map[*View]any
+	Views_mapString map[string]*View
+
+	// insertion point for slice of pointers maps
+	View_RootAsSplitAreas_reverseMap map[*AsSplitArea]*View
+
+	OnAfterViewCreateCallback OnAfterCreateInterface[View]
+	OnAfterViewUpdateCallback OnAfterUpdateInterface[View]
+	OnAfterViewDeleteCallback OnAfterDeleteInterface[View]
+	OnAfterViewReadCallback   OnAfterReadInterface[View]
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -129,8 +153,12 @@ type BackRepoInterface interface {
 	BackupXL(stage *StageStruct, dirPath string)
 	RestoreXL(stage *StageStruct, dirPath string)
 	// insertion point for Commit and Checkout signatures
-	CommitSplitArea(splitarea *SplitArea)
-	CheckoutSplitArea(splitarea *SplitArea)
+	CommitAsSplit(assplit *AsSplit)
+	CheckoutAsSplit(assplit *AsSplit)
+	CommitAsSplitArea(assplitarea *AsSplitArea)
+	CheckoutAsSplitArea(assplitarea *AsSplitArea)
+	CommitView(view *View)
+	CheckoutView(view *View)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -138,8 +166,14 @@ type BackRepoInterface interface {
 func NewStage(path string) (stage *StageStruct) {
 
 	stage = &StageStruct{ // insertion point for array initiatialisation
-		SplitAreas:           make(map[*SplitArea]any),
-		SplitAreas_mapString: make(map[string]*SplitArea),
+		AsSplits:           make(map[*AsSplit]any),
+		AsSplits_mapString: make(map[string]*AsSplit),
+
+		AsSplitAreas:           make(map[*AsSplitArea]any),
+		AsSplitAreas_mapString: make(map[string]*AsSplitArea),
+
+		Views:           make(map[*View]any),
+		Views_mapString: make(map[string]*View),
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
@@ -176,7 +210,9 @@ func (stage *StageStruct) Commit() {
 	}
 
 	// insertion point for computing the map of number of instances per gongstruct
-	stage.Map_GongStructName_InstancesNb["SplitArea"] = len(stage.SplitAreas)
+	stage.Map_GongStructName_InstancesNb["AsSplit"] = len(stage.AsSplits)
+	stage.Map_GongStructName_InstancesNb["AsSplitArea"] = len(stage.AsSplitAreas)
+	stage.Map_GongStructName_InstancesNb["View"] = len(stage.Views)
 
 }
 
@@ -187,7 +223,9 @@ func (stage *StageStruct) Checkout() {
 
 	stage.ComputeReverseMaps()
 	// insertion point for computing the map of number of instances per gongstruct
-	stage.Map_GongStructName_InstancesNb["SplitArea"] = len(stage.SplitAreas)
+	stage.Map_GongStructName_InstancesNb["AsSplit"] = len(stage.AsSplits)
+	stage.Map_GongStructName_InstancesNb["AsSplitArea"] = len(stage.AsSplitAreas)
+	stage.Map_GongStructName_InstancesNb["View"] = len(stage.Views)
 
 }
 
@@ -220,85 +258,219 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
-// Stage puts splitarea to the model stage
-func (splitarea *SplitArea) Stage(stage *StageStruct) *SplitArea {
+// Stage puts assplit to the model stage
+func (assplit *AsSplit) Stage(stage *StageStruct) *AsSplit {
 
-	if _, ok := stage.SplitAreas[splitarea]; !ok {
-		stage.SplitAreas[splitarea] = __member
-		stage.Map_Staged_Order[splitarea] = stage.Order
+	if _, ok := stage.AsSplits[assplit]; !ok {
+		stage.AsSplits[assplit] = __member
+		stage.Map_Staged_Order[assplit] = stage.Order
 		stage.Order++
 	}
-	stage.SplitAreas_mapString[splitarea.Name] = splitarea
+	stage.AsSplits_mapString[assplit.Name] = assplit
 
-	return splitarea
+	return assplit
 }
 
-// Unstage removes splitarea off the model stage
-func (splitarea *SplitArea) Unstage(stage *StageStruct) *SplitArea {
-	delete(stage.SplitAreas, splitarea)
-	delete(stage.SplitAreas_mapString, splitarea.Name)
-	return splitarea
+// Unstage removes assplit off the model stage
+func (assplit *AsSplit) Unstage(stage *StageStruct) *AsSplit {
+	delete(stage.AsSplits, assplit)
+	delete(stage.AsSplits_mapString, assplit.Name)
+	return assplit
 }
 
-// UnstageVoid removes splitarea off the model stage
-func (splitarea *SplitArea) UnstageVoid(stage *StageStruct) {
-	delete(stage.SplitAreas, splitarea)
-	delete(stage.SplitAreas_mapString, splitarea.Name)
+// UnstageVoid removes assplit off the model stage
+func (assplit *AsSplit) UnstageVoid(stage *StageStruct) {
+	delete(stage.AsSplits, assplit)
+	delete(stage.AsSplits_mapString, assplit.Name)
 }
 
-// commit splitarea to the back repo (if it is already staged)
-func (splitarea *SplitArea) Commit(stage *StageStruct) *SplitArea {
-	if _, ok := stage.SplitAreas[splitarea]; ok {
+// commit assplit to the back repo (if it is already staged)
+func (assplit *AsSplit) Commit(stage *StageStruct) *AsSplit {
+	if _, ok := stage.AsSplits[assplit]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CommitSplitArea(splitarea)
+			stage.BackRepo.CommitAsSplit(assplit)
 		}
 	}
-	return splitarea
+	return assplit
 }
 
-func (splitarea *SplitArea) CommitVoid(stage *StageStruct) {
-	splitarea.Commit(stage)
+func (assplit *AsSplit) CommitVoid(stage *StageStruct) {
+	assplit.Commit(stage)
 }
 
-// Checkout splitarea to the back repo (if it is already staged)
-func (splitarea *SplitArea) Checkout(stage *StageStruct) *SplitArea {
-	if _, ok := stage.SplitAreas[splitarea]; ok {
+// Checkout assplit to the back repo (if it is already staged)
+func (assplit *AsSplit) Checkout(stage *StageStruct) *AsSplit {
+	if _, ok := stage.AsSplits[assplit]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutSplitArea(splitarea)
+			stage.BackRepo.CheckoutAsSplit(assplit)
 		}
 	}
-	return splitarea
+	return assplit
 }
 
 // for satisfaction of GongStruct interface
-func (splitarea *SplitArea) GetName() (res string) {
-	return splitarea.Name
+func (assplit *AsSplit) GetName() (res string) {
+	return assplit.Name
+}
+
+// Stage puts assplitarea to the model stage
+func (assplitarea *AsSplitArea) Stage(stage *StageStruct) *AsSplitArea {
+
+	if _, ok := stage.AsSplitAreas[assplitarea]; !ok {
+		stage.AsSplitAreas[assplitarea] = __member
+		stage.Map_Staged_Order[assplitarea] = stage.Order
+		stage.Order++
+	}
+	stage.AsSplitAreas_mapString[assplitarea.Name] = assplitarea
+
+	return assplitarea
+}
+
+// Unstage removes assplitarea off the model stage
+func (assplitarea *AsSplitArea) Unstage(stage *StageStruct) *AsSplitArea {
+	delete(stage.AsSplitAreas, assplitarea)
+	delete(stage.AsSplitAreas_mapString, assplitarea.Name)
+	return assplitarea
+}
+
+// UnstageVoid removes assplitarea off the model stage
+func (assplitarea *AsSplitArea) UnstageVoid(stage *StageStruct) {
+	delete(stage.AsSplitAreas, assplitarea)
+	delete(stage.AsSplitAreas_mapString, assplitarea.Name)
+}
+
+// commit assplitarea to the back repo (if it is already staged)
+func (assplitarea *AsSplitArea) Commit(stage *StageStruct) *AsSplitArea {
+	if _, ok := stage.AsSplitAreas[assplitarea]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitAsSplitArea(assplitarea)
+		}
+	}
+	return assplitarea
+}
+
+func (assplitarea *AsSplitArea) CommitVoid(stage *StageStruct) {
+	assplitarea.Commit(stage)
+}
+
+// Checkout assplitarea to the back repo (if it is already staged)
+func (assplitarea *AsSplitArea) Checkout(stage *StageStruct) *AsSplitArea {
+	if _, ok := stage.AsSplitAreas[assplitarea]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutAsSplitArea(assplitarea)
+		}
+	}
+	return assplitarea
+}
+
+// for satisfaction of GongStruct interface
+func (assplitarea *AsSplitArea) GetName() (res string) {
+	return assplitarea.Name
+}
+
+// Stage puts view to the model stage
+func (view *View) Stage(stage *StageStruct) *View {
+
+	if _, ok := stage.Views[view]; !ok {
+		stage.Views[view] = __member
+		stage.Map_Staged_Order[view] = stage.Order
+		stage.Order++
+	}
+	stage.Views_mapString[view.Name] = view
+
+	return view
+}
+
+// Unstage removes view off the model stage
+func (view *View) Unstage(stage *StageStruct) *View {
+	delete(stage.Views, view)
+	delete(stage.Views_mapString, view.Name)
+	return view
+}
+
+// UnstageVoid removes view off the model stage
+func (view *View) UnstageVoid(stage *StageStruct) {
+	delete(stage.Views, view)
+	delete(stage.Views_mapString, view.Name)
+}
+
+// commit view to the back repo (if it is already staged)
+func (view *View) Commit(stage *StageStruct) *View {
+	if _, ok := stage.Views[view]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitView(view)
+		}
+	}
+	return view
+}
+
+func (view *View) CommitVoid(stage *StageStruct) {
+	view.Commit(stage)
+}
+
+// Checkout view to the back repo (if it is already staged)
+func (view *View) Checkout(stage *StageStruct) *View {
+	if _, ok := stage.Views[view]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutView(view)
+		}
+	}
+	return view
+}
+
+// for satisfaction of GongStruct interface
+func (view *View) GetName() (res string) {
+	return view.Name
 }
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMSplitArea(SplitArea *SplitArea)
+	CreateORMAsSplit(AsSplit *AsSplit)
+	CreateORMAsSplitArea(AsSplitArea *AsSplitArea)
+	CreateORMView(View *View)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMSplitArea(SplitArea *SplitArea)
+	DeleteORMAsSplit(AsSplit *AsSplit)
+	DeleteORMAsSplitArea(AsSplitArea *AsSplitArea)
+	DeleteORMView(View *View)
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
-	stage.SplitAreas = make(map[*SplitArea]any)
-	stage.SplitAreas_mapString = make(map[string]*SplitArea)
+	stage.AsSplits = make(map[*AsSplit]any)
+	stage.AsSplits_mapString = make(map[string]*AsSplit)
+
+	stage.AsSplitAreas = make(map[*AsSplitArea]any)
+	stage.AsSplitAreas_mapString = make(map[string]*AsSplitArea)
+
+	stage.Views = make(map[*View]any)
+	stage.Views_mapString = make(map[string]*View)
 
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
-	stage.SplitAreas = nil
-	stage.SplitAreas_mapString = nil
+	stage.AsSplits = nil
+	stage.AsSplits_mapString = nil
+
+	stage.AsSplitAreas = nil
+	stage.AsSplitAreas_mapString = nil
+
+	stage.Views = nil
+	stage.Views_mapString = nil
 
 }
 
 func (stage *StageStruct) Unstage() { // insertion point for array nil
-	for splitarea := range stage.SplitAreas {
-		splitarea.Unstage(stage)
+	for assplit := range stage.AsSplits {
+		assplit.Unstage(stage)
+	}
+
+	for assplitarea := range stage.AsSplitAreas {
+		assplitarea.Unstage(stage)
+	}
+
+	for view := range stage.Views {
+		view.Unstage(stage)
 	}
 
 }
@@ -362,8 +534,12 @@ func GongGetSet[Type GongstructSet](stage *StageStruct) *Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case map[*SplitArea]any:
-		return any(&stage.SplitAreas).(*Type)
+	case map[*AsSplit]any:
+		return any(&stage.AsSplits).(*Type)
+	case map[*AsSplitArea]any:
+		return any(&stage.AsSplitAreas).(*Type)
+	case map[*View]any:
+		return any(&stage.Views).(*Type)
 	default:
 		return nil
 	}
@@ -376,8 +552,12 @@ func GongGetMap[Type GongstructMapString](stage *StageStruct) *Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case map[string]*SplitArea:
-		return any(&stage.SplitAreas_mapString).(*Type)
+	case map[string]*AsSplit:
+		return any(&stage.AsSplits_mapString).(*Type)
+	case map[string]*AsSplitArea:
+		return any(&stage.AsSplitAreas_mapString).(*Type)
+	case map[string]*View:
+		return any(&stage.Views_mapString).(*Type)
 	default:
 		return nil
 	}
@@ -390,8 +570,12 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *StageStruct) *map[*Type]a
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case SplitArea:
-		return any(&stage.SplitAreas).(*map[*Type]any)
+	case AsSplit:
+		return any(&stage.AsSplits).(*map[*Type]any)
+	case AsSplitArea:
+		return any(&stage.AsSplitAreas).(*map[*Type]any)
+	case View:
+		return any(&stage.Views).(*map[*Type]any)
 	default:
 		return nil
 	}
@@ -404,8 +588,12 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case *SplitArea:
-		return any(&stage.SplitAreas).(*map[Type]any)
+	case *AsSplit:
+		return any(&stage.AsSplits).(*map[Type]any)
+	case *AsSplitArea:
+		return any(&stage.AsSplitAreas).(*map[Type]any)
+	case *View:
+		return any(&stage.Views).(*map[Type]any)
 	default:
 		return nil
 	}
@@ -418,8 +606,12 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *StageStruct) *map[string]
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case SplitArea:
-		return any(&stage.SplitAreas_mapString).(*map[string]*Type)
+	case AsSplit:
+		return any(&stage.AsSplits_mapString).(*map[string]*Type)
+	case AsSplitArea:
+		return any(&stage.AsSplitAreas_mapString).(*map[string]*Type)
+	case View:
+		return any(&stage.Views_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -434,9 +626,23 @@ func GetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case SplitArea:
-		return any(&SplitArea{
+	case AsSplit:
+		return any(&AsSplit{
 			// Initialisation of associations
+			// field is initialized with an instance of AsSplitArea with the name of the field
+			AsSplitAreas: []*AsSplitArea{{Name: "AsSplitAreas"}},
+		}).(*Type)
+	case AsSplitArea:
+		return any(&AsSplitArea{
+			// Initialisation of associations
+			// field is initialized with an instance of AsSplit with the name of the field
+			AsSplits: []*AsSplit{{Name: "AsSplits"}},
+		}).(*Type)
+	case View:
+		return any(&View{
+			// Initialisation of associations
+			// field is initialized with an instance of AsSplitArea with the name of the field
+			RootAsSplitAreas: []*AsSplitArea{{Name: "RootAsSplitAreas"}},
 		}).(*Type)
 	default:
 		return nil
@@ -456,8 +662,18 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
-	// reverse maps of direct associations of SplitArea
-	case SplitArea:
+	// reverse maps of direct associations of AsSplit
+	case AsSplit:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of AsSplitArea
+	case AsSplitArea:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of View
+	case View:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -477,10 +693,44 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
-	// reverse maps of direct associations of SplitArea
-	case SplitArea:
+	// reverse maps of direct associations of AsSplit
+	case AsSplit:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "AsSplitAreas":
+			res := make(map[*AsSplitArea]*AsSplit)
+			for assplit := range stage.AsSplits {
+				for _, assplitarea_ := range assplit.AsSplitAreas {
+					res[assplitarea_] = assplit
+				}
+			}
+			return any(res).(map[*End]*Start)
+		}
+	// reverse maps of direct associations of AsSplitArea
+	case AsSplitArea:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "AsSplits":
+			res := make(map[*AsSplit]*AsSplitArea)
+			for assplitarea := range stage.AsSplitAreas {
+				for _, assplit_ := range assplitarea.AsSplits {
+					res[assplit_] = assplitarea
+				}
+			}
+			return any(res).(map[*End]*Start)
+		}
+	// reverse maps of direct associations of View
+	case View:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "RootAsSplitAreas":
+			res := make(map[*AsSplitArea]*View)
+			for view := range stage.Views {
+				for _, assplitarea_ := range view.RootAsSplitAreas {
+					res[assplitarea_] = view
+				}
+			}
+			return any(res).(map[*End]*Start)
 		}
 	}
 	return nil
@@ -494,8 +744,12 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
-	case SplitArea:
-		res = "SplitArea"
+	case AsSplit:
+		res = "AsSplit"
+	case AsSplitArea:
+		res = "AsSplitArea"
+	case View:
+		res = "View"
 	}
 	return res
 }
@@ -508,8 +762,12 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
-	case *SplitArea:
-		res = "SplitArea"
+	case *AsSplit:
+		res = "AsSplit"
+	case *AsSplitArea:
+		res = "AsSplitArea"
+	case *View:
+		res = "View"
 	}
 	return res
 }
@@ -521,8 +779,12 @@ func GetFields[Type Gongstruct]() (res []string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
-	case SplitArea:
-		res = []string{"Name"}
+	case AsSplit:
+		res = []string{"Name", "Direction", "AsSplitAreas"}
+	case AsSplitArea:
+		res = []string{"Name", "Size", "IsAny", "AsSplits"}
+	case View:
+		res = []string{"Name", "RootAsSplitAreas"}
 	}
 	return
 }
@@ -541,7 +803,22 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
-	case SplitArea:
+	case AsSplit:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "AsSplitArea"
+		rf.Fieldname = "AsSplits"
+		res = append(res, rf)
+	case AsSplitArea:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "AsSplit"
+		rf.Fieldname = "AsSplitAreas"
+		res = append(res, rf)
+		rf.GongstructName = "View"
+		rf.Fieldname = "RootAsSplitAreas"
+		res = append(res, rf)
+	case View:
 		var rf ReverseField
 		_ = rf
 	}
@@ -555,8 +832,12 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
-	case *SplitArea:
-		res = []string{"Name"}
+	case *AsSplit:
+		res = []string{"Name", "Direction", "AsSplitAreas"}
+	case *AsSplitArea:
+		res = []string{"Name", "Size", "IsAny", "AsSplits"}
+	case *View:
+		res = []string{"Name", "RootAsSplitAreas"}
 	}
 	return
 }
@@ -598,11 +879,55 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
-	case *SplitArea:
+	case *AsSplit:
 		switch fieldName {
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
+		case "Direction":
+			enum := inferedInstance.Direction
+			res.valueString = enum.ToCodeString()
+		case "AsSplitAreas":
+			for idx, __instance__ := range inferedInstance.AsSplitAreas {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		}
+	case *AsSplitArea:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "Size":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Size)
+			res.valueFloat = inferedInstance.Size
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "IsAny":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsAny)
+			res.valueBool = inferedInstance.IsAny
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "AsSplits":
+			for idx, __instance__ := range inferedInstance.AsSplits {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		}
+	case *View:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "RootAsSplitAreas":
+			for idx, __instance__ := range inferedInstance.RootAsSplitAreas {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		}
 	default:
 		_ = inferedInstance
@@ -614,11 +939,55 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
-	case SplitArea:
+	case AsSplit:
 		switch fieldName {
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
+		case "Direction":
+			enum := inferedInstance.Direction
+			res.valueString = enum.ToCodeString()
+		case "AsSplitAreas":
+			for idx, __instance__ := range inferedInstance.AsSplitAreas {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		}
+	case AsSplitArea:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "Size":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Size)
+			res.valueFloat = inferedInstance.Size
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "IsAny":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsAny)
+			res.valueBool = inferedInstance.IsAny
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "AsSplits":
+			for idx, __instance__ := range inferedInstance.AsSplits {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		}
+	case View:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "RootAsSplitAreas":
+			for idx, __instance__ := range inferedInstance.RootAsSplitAreas {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		}
 	default:
 		_ = inferedInstance

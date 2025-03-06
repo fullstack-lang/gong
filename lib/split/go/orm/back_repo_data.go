@@ -4,7 +4,11 @@ package orm
 type BackRepoData struct {
 	// insertion point for slices
 
-	SplitAreaAPIs []*SplitAreaAPI
+	AsSplitAPIs []*AsSplitAPI
+
+	AsSplitAreaAPIs []*AsSplitAreaAPI
+
+	ViewAPIs []*ViewAPI
 
 	// index of the web socket for this stack type (unique among all stack instances)
 	GONG__Index int
@@ -17,14 +21,34 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 	defer backRepo.rwMutex.RUnlock()
 
 	// insertion point for slices copies
-	for _, splitareaDB := range backRepo.BackRepoSplitArea.Map_SplitAreaDBID_SplitAreaDB {
+	for _, assplitDB := range backRepo.BackRepoAsSplit.Map_AsSplitDBID_AsSplitDB {
 
-		var splitareaAPI SplitAreaAPI
-		splitareaAPI.ID = splitareaDB.ID
-		splitareaAPI.SplitAreaPointersEncoding = splitareaDB.SplitAreaPointersEncoding
-		splitareaDB.CopyBasicFieldsToSplitArea_WOP(&splitareaAPI.SplitArea_WOP)
+		var assplitAPI AsSplitAPI
+		assplitAPI.ID = assplitDB.ID
+		assplitAPI.AsSplitPointersEncoding = assplitDB.AsSplitPointersEncoding
+		assplitDB.CopyBasicFieldsToAsSplit_WOP(&assplitAPI.AsSplit_WOP)
 
-		backRepoData.SplitAreaAPIs = append(backRepoData.SplitAreaAPIs, &splitareaAPI)
+		backRepoData.AsSplitAPIs = append(backRepoData.AsSplitAPIs, &assplitAPI)
+	}
+
+	for _, assplitareaDB := range backRepo.BackRepoAsSplitArea.Map_AsSplitAreaDBID_AsSplitAreaDB {
+
+		var assplitareaAPI AsSplitAreaAPI
+		assplitareaAPI.ID = assplitareaDB.ID
+		assplitareaAPI.AsSplitAreaPointersEncoding = assplitareaDB.AsSplitAreaPointersEncoding
+		assplitareaDB.CopyBasicFieldsToAsSplitArea_WOP(&assplitareaAPI.AsSplitArea_WOP)
+
+		backRepoData.AsSplitAreaAPIs = append(backRepoData.AsSplitAreaAPIs, &assplitareaAPI)
+	}
+
+	for _, viewDB := range backRepo.BackRepoView.Map_ViewDBID_ViewDB {
+
+		var viewAPI ViewAPI
+		viewAPI.ID = viewDB.ID
+		viewAPI.ViewPointersEncoding = viewDB.ViewPointersEncoding
+		viewDB.CopyBasicFieldsToView_WOP(&viewAPI.View_WOP)
+
+		backRepoData.ViewAPIs = append(backRepoData.ViewAPIs, &viewAPI)
 	}
 
 }
