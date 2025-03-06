@@ -13,8 +13,17 @@ export * from './lib/back-repo-data'
 export * from './lib/web-socket-service'
 
 
-export * from './lib/splitarea-api'
-export * from './lib/splitarea'
-export * from './lib/splitarea.service'
+export * from './lib/assplit-api'
+export * from './lib/assplit'
+export * from './lib/assplit.service'
+
+export * from './lib/assplitarea-api'
+export * from './lib/assplitarea'
+export * from './lib/assplitarea.service'
+
+export * from './lib/view-api'
+export * from './lib/view'
+export * from './lib/view.service'
 
 
+export * from './lib/Direction'

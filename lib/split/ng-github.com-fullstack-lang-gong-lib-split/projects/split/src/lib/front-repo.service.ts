@@ -4,9 +4,17 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
 // insertion point sub template for services imports
-import { SplitAreaAPI } from './splitarea-api'
-import { SplitArea, CopySplitAreaAPIToSplitArea } from './splitarea'
-import { SplitAreaService } from './splitarea.service'
+import { AsSplitAPI } from './assplit-api'
+import { AsSplit, CopyAsSplitAPIToAsSplit } from './assplit'
+import { AsSplitService } from './assplit.service'
+
+import { AsSplitAreaAPI } from './assplitarea-api'
+import { AsSplitArea, CopyAsSplitAreaAPIToAsSplitArea } from './assplitarea'
+import { AsSplitAreaService } from './assplitarea.service'
+
+import { ViewAPI } from './view-api'
+import { View, CopyViewAPIToView } from './view'
+import { ViewService } from './view.service'
 
 
 import { BackRepoData } from './back-repo-data'
@@ -15,8 +23,14 @@ export const StackType = "github.com/fullstack-lang/gong/lib/split/go/models"
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template
-	array_SplitAreas = new Array<SplitArea>() // array of front instances
-	map_ID_SplitArea = new Map<number, SplitArea>() // map of front instances
+	array_AsSplits = new Array<AsSplit>() // array of front instances
+	map_ID_AsSplit = new Map<number, AsSplit>() // map of front instances
+
+	array_AsSplitAreas = new Array<AsSplitArea>() // array of front instances
+	map_ID_AsSplitArea = new Map<number, AsSplitArea>() // map of front instances
+
+	array_Views = new Array<View>() // array of front instances
+	map_ID_View = new Map<number, View>() // map of front instances
 
 
 	public GONG__Index = -1
@@ -27,8 +41,12 @@ export class FrontRepo { // insertion point sub template
 	getFrontArray<Type>(gongStructName: string): Array<Type> {
 		switch (gongStructName) {
 			// insertion point
-			case 'SplitArea':
-				return this.array_SplitAreas as unknown as Array<Type>
+			case 'AsSplit':
+				return this.array_AsSplits as unknown as Array<Type>
+			case 'AsSplitArea':
+				return this.array_AsSplitAreas as unknown as Array<Type>
+			case 'View':
+				return this.array_Views as unknown as Array<Type>
 			default:
 				throw new Error("Type not recognized");
 		}
@@ -37,8 +55,12 @@ export class FrontRepo { // insertion point sub template
 	getFrontMap<Type>(gongStructName: string): Map<number, Type> {
 		switch (gongStructName) {
 			// insertion point
-			case 'SplitArea':
-				return this.map_ID_SplitArea as unknown as Map<number, Type>
+			case 'AsSplit':
+				return this.map_ID_AsSplit as unknown as Map<number, Type>
+			case 'AsSplitArea':
+				return this.map_ID_AsSplitArea as unknown as Map<number, Type>
+			case 'View':
+				return this.map_ID_View as unknown as Map<number, Type>
 			default:
 				throw new Error("Type not recognized");
 		}
@@ -106,7 +128,9 @@ export class FrontRepoService {
 
 	constructor(
 		private http: HttpClient, // insertion point sub template 
-		private splitareaService: SplitAreaService,
+		private assplitService: AsSplitService,
+		private assplitareaService: AsSplitAreaService,
+		private viewService: ViewService,
 	) { }
 
 	// postService provides a post function for each struct name
@@ -139,7 +163,9 @@ export class FrontRepoService {
 	observableFrontRepo!: [
 		Observable<null>, // see below for the of(null) observable
 		// insertion point sub template 
-		Observable<SplitAreaAPI[]>,
+		Observable<AsSplitAPI[]>,
+		Observable<AsSplitAreaAPI[]>,
+		Observable<ViewAPI[]>,
 	];
 
 	//
@@ -155,7 +181,9 @@ export class FrontRepoService {
 		this.observableFrontRepo = [
 			of(null), // see above for justification
 			// insertion point sub template
-			this.splitareaService.getSplitAreas(this.GONG__StackPath, this.frontRepo),
+			this.assplitService.getAsSplits(this.GONG__StackPath, this.frontRepo),
+			this.assplitareaService.getAsSplitAreas(this.GONG__StackPath, this.frontRepo),
+			this.viewService.getViews(this.GONG__StackPath, this.frontRepo),
 		]
 
 		return new Observable<FrontRepo>(
@@ -166,26 +194,56 @@ export class FrontRepoService {
 					([
 						___of_null, // see above for the explanation about of
 						// insertion point sub template for declarations 
-						splitareas_,
+						assplits_,
+						assplitareas_,
+						views_,
 					]) => {
 						let _this = this
 						// Typing can be messy with many items. Therefore, type casting is necessary here
 						// insertion point sub template for type casting 
-						var splitareas: SplitAreaAPI[]
-						splitareas = splitareas_ as SplitAreaAPI[]
+						var assplits: AsSplitAPI[]
+						assplits = assplits_ as AsSplitAPI[]
+						var assplitareas: AsSplitAreaAPI[]
+						assplitareas = assplitareas_ as AsSplitAreaAPI[]
+						var views: ViewAPI[]
+						views = views_ as ViewAPI[]
 
 						// 
 						// First Step: init map of instances
 						// insertion point sub template for init 
 						// init the arrays
-						this.frontRepo.array_SplitAreas = []
-						this.frontRepo.map_ID_SplitArea.clear()
+						this.frontRepo.array_AsSplits = []
+						this.frontRepo.map_ID_AsSplit.clear()
 
-						splitareas.forEach(
-							splitareaAPI => {
-								let splitarea = new SplitArea
-								this.frontRepo.array_SplitAreas.push(splitarea)
-								this.frontRepo.map_ID_SplitArea.set(splitareaAPI.ID, splitarea)
+						assplits.forEach(
+							assplitAPI => {
+								let assplit = new AsSplit
+								this.frontRepo.array_AsSplits.push(assplit)
+								this.frontRepo.map_ID_AsSplit.set(assplitAPI.ID, assplit)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_AsSplitAreas = []
+						this.frontRepo.map_ID_AsSplitArea.clear()
+
+						assplitareas.forEach(
+							assplitareaAPI => {
+								let assplitarea = new AsSplitArea
+								this.frontRepo.array_AsSplitAreas.push(assplitarea)
+								this.frontRepo.map_ID_AsSplitArea.set(assplitareaAPI.ID, assplitarea)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_Views = []
+						this.frontRepo.map_ID_View.clear()
+
+						views.forEach(
+							viewAPI => {
+								let view = new View
+								this.frontRepo.array_Views.push(view)
+								this.frontRepo.map_ID_View.set(viewAPI.ID, view)
 							}
 						)
 
@@ -194,10 +252,26 @@ export class FrontRepoService {
 						// Second Step: reddeem front objects
 						// insertion point sub template for redeem 
 						// fill up front objects
-						splitareas.forEach(
-							splitareaAPI => {
-								let splitarea = this.frontRepo.map_ID_SplitArea.get(splitareaAPI.ID)
-								CopySplitAreaAPIToSplitArea(splitareaAPI, splitarea!, this.frontRepo)
+						assplits.forEach(
+							assplitAPI => {
+								let assplit = this.frontRepo.map_ID_AsSplit.get(assplitAPI.ID)
+								CopyAsSplitAPIToAsSplit(assplitAPI, assplit!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						assplitareas.forEach(
+							assplitareaAPI => {
+								let assplitarea = this.frontRepo.map_ID_AsSplitArea.get(assplitareaAPI.ID)
+								CopyAsSplitAreaAPIToAsSplitArea(assplitareaAPI, assplitarea!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						views.forEach(
+							viewAPI => {
+								let view = this.frontRepo.map_ID_View.get(viewAPI.ID)
+								CopyViewAPIToView(viewAPI, view!, this.frontRepo)
 							}
 						)
 
@@ -236,14 +310,38 @@ export class FrontRepoService {
 				// init the arrays
 				// insertion point sub template for init 
 				// init the arrays
-				frontRepo.array_SplitAreas = []
-				frontRepo.map_ID_SplitArea.clear()
+				frontRepo.array_AsSplits = []
+				frontRepo.map_ID_AsSplit.clear()
 
-				backRepoData.SplitAreaAPIs.forEach(
-					splitareaAPI => {
-						let splitarea = new SplitArea
-						frontRepo.array_SplitAreas.push(splitarea)
-						frontRepo.map_ID_SplitArea.set(splitareaAPI.ID, splitarea)
+				backRepoData.AsSplitAPIs.forEach(
+					assplitAPI => {
+						let assplit = new AsSplit
+						frontRepo.array_AsSplits.push(assplit)
+						frontRepo.map_ID_AsSplit.set(assplitAPI.ID, assplit)
+					}
+				)
+
+				// init the arrays
+				frontRepo.array_AsSplitAreas = []
+				frontRepo.map_ID_AsSplitArea.clear()
+
+				backRepoData.AsSplitAreaAPIs.forEach(
+					assplitareaAPI => {
+						let assplitarea = new AsSplitArea
+						frontRepo.array_AsSplitAreas.push(assplitarea)
+						frontRepo.map_ID_AsSplitArea.set(assplitareaAPI.ID, assplitarea)
+					}
+				)
+
+				// init the arrays
+				frontRepo.array_Views = []
+				frontRepo.map_ID_View.clear()
+
+				backRepoData.ViewAPIs.forEach(
+					viewAPI => {
+						let view = new View
+						frontRepo.array_Views.push(view)
+						frontRepo.map_ID_View.set(viewAPI.ID, view)
 					}
 				)
 
@@ -254,10 +352,26 @@ export class FrontRepoService {
 				// fill up front objects
 				// insertion point sub template for redeem 
 				// fill up front objects
-				backRepoData.SplitAreaAPIs.forEach(
-					splitareaAPI => {
-						let splitarea = frontRepo.map_ID_SplitArea.get(splitareaAPI.ID)
-						CopySplitAreaAPIToSplitArea(splitareaAPI, splitarea!, frontRepo)
+				backRepoData.AsSplitAPIs.forEach(
+					assplitAPI => {
+						let assplit = frontRepo.map_ID_AsSplit.get(assplitAPI.ID)
+						CopyAsSplitAPIToAsSplit(assplitAPI, assplit!, frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.AsSplitAreaAPIs.forEach(
+					assplitareaAPI => {
+						let assplitarea = frontRepo.map_ID_AsSplitArea.get(assplitareaAPI.ID)
+						CopyAsSplitAreaAPIToAsSplitArea(assplitareaAPI, assplitarea!, frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.ViewAPIs.forEach(
+					viewAPI => {
+						let view = frontRepo.map_ID_View.get(viewAPI.ID)
+						CopyViewAPIToView(viewAPI, view!, frontRepo)
 					}
 				)
 
@@ -280,6 +394,12 @@ export class FrontRepoService {
 }
 
 // insertion point for get unique ID per struct 
-export function getSplitAreaUniqueID(id: number): number {
+export function getAsSplitUniqueID(id: number): number {
 	return 31 * id
+}
+export function getAsSplitAreaUniqueID(id: number): number {
+	return 37 * id
+}
+export function getViewUniqueID(id: number): number {
+	return 41 * id
 }

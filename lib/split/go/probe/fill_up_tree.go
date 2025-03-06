@@ -62,13 +62,33 @@ func fillUpTree(
 
 		switch gongStruct.Name {
 		// insertion point
-		case "SplitArea":
+		case "AsSplit":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.SplitArea](probe.stageOfInterest)
-			for _splitarea := range set {
-				nodeInstance := (&tree.Node{Name: _splitarea.GetName()}).Stage(probe.treeStage)
+			set := *models.GetGongstructInstancesSet[models.AsSplit](probe.stageOfInterest)
+			for _assplit := range set {
+				nodeInstance := (&tree.Node{Name: _assplit.GetName()}).Stage(probe.treeStage)
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_splitarea, "SplitArea", probe)
+				nodeInstance.Impl = NewInstanceNodeCallback(_assplit, "AsSplit", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "AsSplitArea":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.AsSplitArea](probe.stageOfInterest)
+			for _assplitarea := range set {
+				nodeInstance := (&tree.Node{Name: _assplitarea.GetName()}).Stage(probe.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_assplitarea, "AsSplitArea", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "View":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.View](probe.stageOfInterest)
+			for _view := range set {
+				nodeInstance := (&tree.Node{Name: _view.GetName()}).Stage(probe.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_view, "View", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
