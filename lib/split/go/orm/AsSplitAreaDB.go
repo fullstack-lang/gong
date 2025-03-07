@@ -58,6 +58,10 @@ type AsSplitAreaPointersEncoding struct {
 	// field Table is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	TableID sql.NullInt64
+
+	// field Form is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	FormID sql.NullInt64
 }
 
 // AsSplitAreaDB describes a assplitarea in the database
@@ -289,6 +293,18 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseTwoInstance(bac
 			assplitareaDB.TableID.Valid = true
 		}
 
+		// commit pointer value assplitarea.Form translates to updating the assplitarea.FormID
+		assplitareaDB.FormID.Valid = true // allow for a 0 value (nil association)
+		if assplitarea.Form != nil {
+			if FormId, ok := backRepo.BackRepoForm.Map_FormPtr_FormDBID[assplitarea.Form]; ok {
+				assplitareaDB.FormID.Int64 = int64(FormId)
+				assplitareaDB.FormID.Valid = true
+			}
+		} else {
+			assplitareaDB.FormID.Int64 = 0
+			assplitareaDB.FormID.Valid = true
+		}
+
 		_, err := backRepoAsSplitArea.db.Save(assplitareaDB)
 		if err != nil {
 			log.Fatal(err)
@@ -450,6 +466,27 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			}
 		} else {
 			assplitarea.Table = nil
+		}
+	}
+	
+	// Form field	
+	{
+		id := assplitareaDB.FormID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoForm.Map_FormDBID_FormPtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: assplitarea.Form, unknown pointer id", id)
+				assplitarea.Form = nil
+			} else {
+				// updates only if field has changed
+				if assplitarea.Form == nil || assplitarea.Form != tmp {
+					assplitarea.Form = tmp
+				}
+			}
+		} else {
+			assplitarea.Form = nil
 		}
 	}
 	
@@ -715,6 +752,12 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) RestorePhaseTwo() {
 		if assplitareaDB.TableID.Int64 != 0 {
 			assplitareaDB.TableID.Int64 = int64(BackRepoTableid_atBckpTime_newID[uint(assplitareaDB.TableID.Int64)])
 			assplitareaDB.TableID.Valid = true
+		}
+
+		// reindexing Form field
+		if assplitareaDB.FormID.Int64 != 0 {
+			assplitareaDB.FormID.Int64 = int64(BackRepoFormid_atBckpTime_newID[uint(assplitareaDB.FormID.Int64)])
+			assplitareaDB.FormID.Valid = true
 		}
 
 		// update databse with new index encoding

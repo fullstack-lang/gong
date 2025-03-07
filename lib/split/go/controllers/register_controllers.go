@@ -63,6 +63,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/assplitareas/:id", GetController().UpdateAsSplitArea)
 		v1.DELETE("/v1/assplitareas/:id", GetController().DeleteAsSplitArea)
 
+		v1.GET("/v1/forms", GetController().GetForms)
+		v1.GET("/v1/forms/:id", GetController().GetForm)
+		v1.POST("/v1/forms", GetController().PostForm)
+		v1.PATCH("/v1/forms/:id", GetController().UpdateForm)
+		v1.PUT("/v1/forms/:id", GetController().UpdateForm)
+		v1.DELETE("/v1/forms/:id", GetController().DeleteForm)
+
 		v1.GET("/v1/tables", GetController().GetTables)
 		v1.GET("/v1/tables/:id", GetController().GetTable)
 		v1.POST("/v1/tables", GetController().PostTable)

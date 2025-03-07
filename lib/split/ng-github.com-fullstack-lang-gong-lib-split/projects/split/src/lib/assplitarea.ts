@@ -7,6 +7,7 @@ import { FrontRepo } from './front-repo.service';
 import { AsSplit } from './assplit'
 import { Tree } from './tree'
 import { Table } from './table'
+import { Form } from './form'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -29,6 +30,8 @@ export class AsSplitArea {
 	Tree?: Tree
 
 	Table?: Table
+
+	Form?: Form
 
 }
 
@@ -58,6 +61,13 @@ export function CopyAsSplitAreaToAsSplitAreaAPI(assplitarea: AsSplitArea, asspli
 		assplitareaAPI.AsSplitAreaPointersEncoding.TableID.Int64 = 0 		
 	}
 
+	assplitareaAPI.AsSplitAreaPointersEncoding.FormID.Valid = true
+	if (assplitarea.Form != undefined) {
+		assplitareaAPI.AsSplitAreaPointersEncoding.FormID.Int64 = assplitarea.Form.ID  
+	} else {
+		assplitareaAPI.AsSplitAreaPointersEncoding.FormID.Int64 = 0 		
+	}
+
 
 	// insertion point for slice of pointers fields encoding
 	assplitareaAPI.AsSplitAreaPointersEncoding.AsSplits = []
@@ -85,6 +95,7 @@ export function CopyAsSplitAreaAPIToAsSplitArea(assplitareaAPI: AsSplitAreaAPI, 
 	// insertion point for pointer fields encoding
 	assplitarea.Tree = frontRepo.map_ID_Tree.get(assplitareaAPI.AsSplitAreaPointersEncoding.TreeID.Int64)
 	assplitarea.Table = frontRepo.map_ID_Table.get(assplitareaAPI.AsSplitAreaPointersEncoding.TableID.Int64)
+	assplitarea.Form = frontRepo.map_ID_Form.get(assplitareaAPI.AsSplitAreaPointersEncoding.FormID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 	if (!Array.isArray(assplitareaAPI.AsSplitAreaPointersEncoding.AsSplits)) {
