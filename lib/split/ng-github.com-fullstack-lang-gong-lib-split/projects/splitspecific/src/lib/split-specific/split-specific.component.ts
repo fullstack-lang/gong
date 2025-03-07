@@ -8,6 +8,9 @@ import { CommonModule } from '@angular/common';
 
 import { AngularSplitModule } from 'angular-split';
 
+import { TreeSpecificComponent } from '../../../../../../../tree/ng-github.com-fullstack-lang-gong-lib-tree/projects/treespecific/src/lib/tree-specific/tree-specific.component'
+import { SvgSpecificComponent } from '../../../../../../../svg/ng-github.com-fullstack-lang-gong-lib-svg/projects/svgspecific/src/lib/svg-specific/svg-specific.component'
+
 
 @Component({
   selector: 'lib-split-specific',
@@ -16,7 +19,11 @@ import { AngularSplitModule } from 'angular-split';
     CommonModule,
     FormsModule,
 
-    AngularSplitModule
+    AngularSplitModule,
+
+    TreeSpecificComponent,
+    // SvgSpecificComponent,
+  
   ],
   templateUrl: './split-specific.component.html',
   styleUrl: './split-specific.component.css'

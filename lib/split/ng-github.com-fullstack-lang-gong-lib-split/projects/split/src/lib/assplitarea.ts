@@ -5,6 +5,7 @@ import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
 import { AsSplit } from './assplit'
+import { Tree } from './tree'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -24,6 +25,8 @@ export class AsSplitArea {
 
 	// insertion point for pointers and slices of pointers declarations
 	AsSplits: Array<AsSplit> = []
+	Tree?: Tree
+
 }
 
 export function CopyAsSplitAreaToAsSplitAreaAPI(assplitarea: AsSplitArea, assplitareaAPI: AsSplitAreaAPI) {
@@ -38,6 +41,13 @@ export function CopyAsSplitAreaToAsSplitAreaAPI(assplitarea: AsSplitArea, asspli
 	assplitareaAPI.IsAny = assplitarea.IsAny
 
 	// insertion point for pointer fields encoding
+	assplitareaAPI.AsSplitAreaPointersEncoding.TreeID.Valid = true
+	if (assplitarea.Tree != undefined) {
+		assplitareaAPI.AsSplitAreaPointersEncoding.TreeID.Int64 = assplitarea.Tree.ID  
+	} else {
+		assplitareaAPI.AsSplitAreaPointersEncoding.TreeID.Int64 = 0 		
+	}
+
 
 	// insertion point for slice of pointers fields encoding
 	assplitareaAPI.AsSplitAreaPointersEncoding.AsSplits = []
@@ -63,6 +73,7 @@ export function CopyAsSplitAreaAPIToAsSplitArea(assplitareaAPI: AsSplitAreaAPI, 
 	assplitarea.IsAny = assplitareaAPI.IsAny
 
 	// insertion point for pointer fields encoding
+	assplitarea.Tree = frontRepo.map_ID_Tree.get(assplitareaAPI.AsSplitAreaPointersEncoding.TreeID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 	if (!Array.isArray(assplitareaAPI.AsSplitAreaPointersEncoding.AsSplits)) {

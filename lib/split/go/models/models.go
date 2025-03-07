@@ -24,10 +24,19 @@ type AsSplitArea struct {
 	IsAny bool
 
 	AsSplits []*AsSplit
+
+	Tree *Tree
 }
 
 type View struct {
 	Name string
 
 	RootAsSplitAreas []*AsSplitArea
+}
+
+type Tree struct {
+	Name string // name of the stack
+
+	StackName string
+	TreeName  string
 }

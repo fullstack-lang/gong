@@ -69,6 +69,15 @@ type StageStruct struct {
 	OnAfterAsSplitAreaDeleteCallback OnAfterDeleteInterface[AsSplitArea]
 	OnAfterAsSplitAreaReadCallback   OnAfterReadInterface[AsSplitArea]
 
+	Trees           map[*Tree]any
+	Trees_mapString map[string]*Tree
+
+	// insertion point for slice of pointers maps
+	OnAfterTreeCreateCallback OnAfterCreateInterface[Tree]
+	OnAfterTreeUpdateCallback OnAfterUpdateInterface[Tree]
+	OnAfterTreeDeleteCallback OnAfterDeleteInterface[Tree]
+	OnAfterTreeReadCallback   OnAfterReadInterface[Tree]
+
 	Views           map[*View]any
 	Views_mapString map[string]*View
 
@@ -157,6 +166,8 @@ type BackRepoInterface interface {
 	CheckoutAsSplit(assplit *AsSplit)
 	CommitAsSplitArea(assplitarea *AsSplitArea)
 	CheckoutAsSplitArea(assplitarea *AsSplitArea)
+	CommitTree(tree *Tree)
+	CheckoutTree(tree *Tree)
 	CommitView(view *View)
 	CheckoutView(view *View)
 	GetLastCommitFromBackNb() uint
@@ -171,6 +182,9 @@ func NewStage(path string) (stage *StageStruct) {
 
 		AsSplitAreas:           make(map[*AsSplitArea]any),
 		AsSplitAreas_mapString: make(map[string]*AsSplitArea),
+
+		Trees:           make(map[*Tree]any),
+		Trees_mapString: make(map[string]*Tree),
 
 		Views:           make(map[*View]any),
 		Views_mapString: make(map[string]*View),
@@ -212,6 +226,7 @@ func (stage *StageStruct) Commit() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["AsSplit"] = len(stage.AsSplits)
 	stage.Map_GongStructName_InstancesNb["AsSplitArea"] = len(stage.AsSplitAreas)
+	stage.Map_GongStructName_InstancesNb["Tree"] = len(stage.Trees)
 	stage.Map_GongStructName_InstancesNb["View"] = len(stage.Views)
 
 }
@@ -225,6 +240,7 @@ func (stage *StageStruct) Checkout() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["AsSplit"] = len(stage.AsSplits)
 	stage.Map_GongStructName_InstancesNb["AsSplitArea"] = len(stage.AsSplitAreas)
+	stage.Map_GongStructName_InstancesNb["Tree"] = len(stage.Trees)
 	stage.Map_GongStructName_InstancesNb["View"] = len(stage.Views)
 
 }
@@ -368,6 +384,61 @@ func (assplitarea *AsSplitArea) GetName() (res string) {
 	return assplitarea.Name
 }
 
+// Stage puts tree to the model stage
+func (tree *Tree) Stage(stage *StageStruct) *Tree {
+
+	if _, ok := stage.Trees[tree]; !ok {
+		stage.Trees[tree] = __member
+		stage.Map_Staged_Order[tree] = stage.Order
+		stage.Order++
+	}
+	stage.Trees_mapString[tree.Name] = tree
+
+	return tree
+}
+
+// Unstage removes tree off the model stage
+func (tree *Tree) Unstage(stage *StageStruct) *Tree {
+	delete(stage.Trees, tree)
+	delete(stage.Trees_mapString, tree.Name)
+	return tree
+}
+
+// UnstageVoid removes tree off the model stage
+func (tree *Tree) UnstageVoid(stage *StageStruct) {
+	delete(stage.Trees, tree)
+	delete(stage.Trees_mapString, tree.Name)
+}
+
+// commit tree to the back repo (if it is already staged)
+func (tree *Tree) Commit(stage *StageStruct) *Tree {
+	if _, ok := stage.Trees[tree]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTree(tree)
+		}
+	}
+	return tree
+}
+
+func (tree *Tree) CommitVoid(stage *StageStruct) {
+	tree.Commit(stage)
+}
+
+// Checkout tree to the back repo (if it is already staged)
+func (tree *Tree) Checkout(stage *StageStruct) *Tree {
+	if _, ok := stage.Trees[tree]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTree(tree)
+		}
+	}
+	return tree
+}
+
+// for satisfaction of GongStruct interface
+func (tree *Tree) GetName() (res string) {
+	return tree.Name
+}
+
 // Stage puts view to the model stage
 func (view *View) Stage(stage *StageStruct) *View {
 
@@ -427,12 +498,14 @@ func (view *View) GetName() (res string) {
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAsSplit(AsSplit *AsSplit)
 	CreateORMAsSplitArea(AsSplitArea *AsSplitArea)
+	CreateORMTree(Tree *Tree)
 	CreateORMView(View *View)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMAsSplit(AsSplit *AsSplit)
 	DeleteORMAsSplitArea(AsSplitArea *AsSplitArea)
+	DeleteORMTree(Tree *Tree)
 	DeleteORMView(View *View)
 }
 
@@ -442,6 +515,9 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 
 	stage.AsSplitAreas = make(map[*AsSplitArea]any)
 	stage.AsSplitAreas_mapString = make(map[string]*AsSplitArea)
+
+	stage.Trees = make(map[*Tree]any)
+	stage.Trees_mapString = make(map[string]*Tree)
 
 	stage.Views = make(map[*View]any)
 	stage.Views_mapString = make(map[string]*View)
@@ -455,6 +531,9 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 	stage.AsSplitAreas = nil
 	stage.AsSplitAreas_mapString = nil
 
+	stage.Trees = nil
+	stage.Trees_mapString = nil
+
 	stage.Views = nil
 	stage.Views_mapString = nil
 
@@ -467,6 +546,10 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 
 	for assplitarea := range stage.AsSplitAreas {
 		assplitarea.Unstage(stage)
+	}
+
+	for tree := range stage.Trees {
+		tree.Unstage(stage)
 	}
 
 	for view := range stage.Views {
@@ -538,6 +621,8 @@ func GongGetSet[Type GongstructSet](stage *StageStruct) *Type {
 		return any(&stage.AsSplits).(*Type)
 	case map[*AsSplitArea]any:
 		return any(&stage.AsSplitAreas).(*Type)
+	case map[*Tree]any:
+		return any(&stage.Trees).(*Type)
 	case map[*View]any:
 		return any(&stage.Views).(*Type)
 	default:
@@ -556,6 +641,8 @@ func GongGetMap[Type GongstructMapString](stage *StageStruct) *Type {
 		return any(&stage.AsSplits_mapString).(*Type)
 	case map[string]*AsSplitArea:
 		return any(&stage.AsSplitAreas_mapString).(*Type)
+	case map[string]*Tree:
+		return any(&stage.Trees_mapString).(*Type)
 	case map[string]*View:
 		return any(&stage.Views_mapString).(*Type)
 	default:
@@ -574,6 +661,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *StageStruct) *map[*Type]a
 		return any(&stage.AsSplits).(*map[*Type]any)
 	case AsSplitArea:
 		return any(&stage.AsSplitAreas).(*map[*Type]any)
+	case Tree:
+		return any(&stage.Trees).(*map[*Type]any)
 	case View:
 		return any(&stage.Views).(*map[*Type]any)
 	default:
@@ -592,6 +681,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.AsSplits).(*map[Type]any)
 	case *AsSplitArea:
 		return any(&stage.AsSplitAreas).(*map[Type]any)
+	case *Tree:
+		return any(&stage.Trees).(*map[Type]any)
 	case *View:
 		return any(&stage.Views).(*map[Type]any)
 	default:
@@ -610,6 +701,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *StageStruct) *map[string]
 		return any(&stage.AsSplits_mapString).(*map[string]*Type)
 	case AsSplitArea:
 		return any(&stage.AsSplitAreas_mapString).(*map[string]*Type)
+	case Tree:
+		return any(&stage.Trees_mapString).(*map[string]*Type)
 	case View:
 		return any(&stage.Views_mapString).(*map[string]*Type)
 	default:
@@ -637,6 +730,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of AsSplit with the name of the field
 			AsSplits: []*AsSplit{{Name: "AsSplits"}},
+			// field is initialized with an instance of Tree with the name of the field
+			Tree: &Tree{Name: "Tree"},
+		}).(*Type)
+	case Tree:
+		return any(&Tree{
+			// Initialisation of associations
 		}).(*Type)
 	case View:
 		return any(&View{
@@ -669,6 +768,28 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 		}
 	// reverse maps of direct associations of AsSplitArea
 	case AsSplitArea:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Tree":
+			res := make(map[*Tree][]*AsSplitArea)
+			for assplitarea := range stage.AsSplitAreas {
+				if assplitarea.Tree != nil {
+					tree_ := assplitarea.Tree
+					var assplitareas []*AsSplitArea
+					_, ok := res[tree_]
+					if ok {
+						assplitareas = res[tree_]
+					} else {
+						assplitareas = make([]*AsSplitArea, 0)
+					}
+					assplitareas = append(assplitareas, assplitarea)
+					res[tree_] = assplitareas
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of Tree
+	case Tree:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -719,6 +840,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End]*Start)
 		}
+	// reverse maps of direct associations of Tree
+	case Tree:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of View
 	case View:
 		switch fieldname {
@@ -748,6 +874,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "AsSplit"
 	case AsSplitArea:
 		res = "AsSplitArea"
+	case Tree:
+		res = "Tree"
 	case View:
 		res = "View"
 	}
@@ -766,6 +894,8 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "AsSplit"
 	case *AsSplitArea:
 		res = "AsSplitArea"
+	case *Tree:
+		res = "Tree"
 	case *View:
 		res = "View"
 	}
@@ -782,7 +912,9 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case AsSplit:
 		res = []string{"Name", "Direction", "AsSplitAreas"}
 	case AsSplitArea:
-		res = []string{"Name", "Size", "IsAny", "AsSplits"}
+		res = []string{"Name", "Size", "IsAny", "AsSplits", "Tree"}
+	case Tree:
+		res = []string{"Name", "StackName", "TreeName"}
 	case View:
 		res = []string{"Name", "RootAsSplitAreas"}
 	}
@@ -818,6 +950,9 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		rf.GongstructName = "View"
 		rf.Fieldname = "RootAsSplitAreas"
 		res = append(res, rf)
+	case Tree:
+		var rf ReverseField
+		_ = rf
 	case View:
 		var rf ReverseField
 		_ = rf
@@ -835,7 +970,9 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *AsSplit:
 		res = []string{"Name", "Direction", "AsSplitAreas"}
 	case *AsSplitArea:
-		res = []string{"Name", "Size", "IsAny", "AsSplits"}
+		res = []string{"Name", "Size", "IsAny", "AsSplits", "Tree"}
+	case *Tree:
+		res = []string{"Name", "StackName", "TreeName"}
 	case *View:
 		res = []string{"Name", "RootAsSplitAreas"}
 	}
@@ -915,6 +1052,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 				}
 				res.valueString += __instance__.Name
 			}
+		case "Tree":
+			if inferedInstance.Tree != nil {
+				res.valueString = inferedInstance.Tree.Name
+			}
+		}
+	case *Tree:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "StackName":
+			res.valueString = inferedInstance.StackName
+		case "TreeName":
+			res.valueString = inferedInstance.TreeName
 		}
 	case *View:
 		switch fieldName {
@@ -975,6 +1126,20 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 				}
 				res.valueString += __instance__.Name
 			}
+		case "Tree":
+			if inferedInstance.Tree != nil {
+				res.valueString = inferedInstance.Tree.Name
+			}
+		}
+	case Tree:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "StackName":
+			res.valueString = inferedInstance.StackName
+		case "TreeName":
+			res.valueString = inferedInstance.TreeName
 		}
 	case View:
 		switch fieldName {

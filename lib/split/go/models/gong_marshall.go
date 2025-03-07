@@ -196,6 +196,59 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	map_Tree_Identifiers := make(map[*Tree]string)
+	_ = map_Tree_Identifiers
+
+	treeOrdered := []*Tree{}
+	for tree := range stage.Trees {
+		treeOrdered = append(treeOrdered, tree)
+	}
+	sort.Slice(treeOrdered[:], func(i, j int) bool {
+		treei := treeOrdered[i]
+		treej := treeOrdered[j]
+		treei_order, oki := stage.Map_Staged_Order[treei]
+		treej_order, okj := stage.Map_Staged_Order[treej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return treei_order < treej_order
+	})
+	if len(treeOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, tree := range treeOrdered {
+
+		id = generatesIdentifier("Tree", idx, tree.Name)
+		map_Tree_Identifiers[tree] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Tree")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", tree.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(tree.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StackName")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(tree.StackName))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "TreeName")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(tree.TreeName))
+		initializerStatements += setValueField
+
+	}
+
 	map_View_Identifiers := make(map[*View]string)
 	_ = map_View_Identifiers
 
@@ -278,6 +331,27 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			pointersInitializesStatements += setPointerField
 		}
 
+		if assplitarea.Tree != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Tree")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Tree_Identifiers[assplitarea.Tree])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
+	if len(treeOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Tree instances pointers"
+	}
+	for idx, tree := range treeOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Tree", idx, tree.Name)
+		map_Tree_Identifiers[tree] = id
+
+		// Initialisation of values
 	}
 
 	if len(viewOrdered) > 0 {

@@ -50,6 +50,10 @@ type AsSplitAreaPointersEncoding struct {
 
 	// field AsSplits is a slice of pointers to another Struct (optional or 0..1)
 	AsSplits IntSlice `gorm:"type:TEXT"`
+
+	// field Tree is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	TreeID sql.NullInt64
 }
 
 // AsSplitAreaDB describes a assplitarea in the database
@@ -146,7 +150,17 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) GetAsSplitAreaDBFromAsSpli
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var assplitareas []*models.AsSplitArea
 	for assplitarea := range stage.AsSplitAreas {
+		assplitareas = append(assplitareas, assplitarea)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(assplitareas, func(i, j int) bool {
+		return stage.Map_Staged_Order[assplitareas[i]] < stage.Map_Staged_Order[assplitareas[j]]
+	})
+
+	for _, assplitarea := range assplitareas {
 		backRepoAsSplitArea.CommitPhaseOneInstance(assplitarea)
 	}
 
@@ -245,6 +259,18 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseTwoInstance(bac
 			
 			assplitareaDB.AsSplitAreaPointersEncoding.AsSplits =
 				append(assplitareaDB.AsSplitAreaPointersEncoding.AsSplits, int(assplitAssocEnd_DB.ID))
+		}
+
+		// commit pointer value assplitarea.Tree translates to updating the assplitarea.TreeID
+		assplitareaDB.TreeID.Valid = true // allow for a 0 value (nil association)
+		if assplitarea.Tree != nil {
+			if TreeId, ok := backRepo.BackRepoTree.Map_TreePtr_TreeDBID[assplitarea.Tree]; ok {
+				assplitareaDB.TreeID.Int64 = int64(TreeId)
+				assplitareaDB.TreeID.Valid = true
+			}
+		} else {
+			assplitareaDB.TreeID.Int64 = 0
+			assplitareaDB.TreeID.Valid = true
 		}
 
 		_, err := backRepoAsSplitArea.db.Save(assplitareaDB)
@@ -369,6 +395,27 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 		assplitarea.AsSplits = append(assplitarea.AsSplits, backRepo.BackRepoAsSplit.Map_AsSplitDBID_AsSplitPtr[uint(_AsSplitid)])
 	}
 
+	// Tree field	
+	{
+		id := assplitareaDB.TreeID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoTree.Map_TreeDBID_TreePtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: assplitarea.Tree, unknown pointer id", id)
+				assplitarea.Tree = nil
+			} else {
+				// updates only if field has changed
+				if assplitarea.Tree == nil || assplitarea.Tree != tmp {
+					assplitarea.Tree = tmp
+				}
+			}
+		} else {
+			assplitarea.Tree = nil
+		}
+	}
+	
 	return
 }
 
@@ -621,6 +668,12 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) RestorePhaseTwo() {
 		_ = assplitareaDB
 
 		// insertion point for reindexing pointers encoding
+		// reindexing Tree field
+		if assplitareaDB.TreeID.Int64 != 0 {
+			assplitareaDB.TreeID.Int64 = int64(BackRepoTreeid_atBckpTime_newID[uint(assplitareaDB.TreeID.Int64)])
+			assplitareaDB.TreeID.Valid = true
+		}
+
 		// update databse with new index encoding
 		db, _ := backRepoAsSplitArea.db.Model(assplitareaDB)
 		_, err := db.Updates(*assplitareaDB)

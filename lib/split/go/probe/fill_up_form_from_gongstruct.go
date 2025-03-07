@@ -43,6 +43,18 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Tree:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "Tree Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TreeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.View:
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,
