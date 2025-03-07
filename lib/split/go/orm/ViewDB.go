@@ -133,7 +133,17 @@ func (backRepoView *BackRepoViewStruct) GetViewDBFromViewPtr(view *models.View) 
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoView *BackRepoViewStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var views []*models.View
 	for view := range stage.Views {
+		views = append(views, view)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(views, func(i, j int) bool {
+		return stage.Map_Staged_Order[views[i]] < stage.Map_Staged_Order[views[j]]
+	})
+
+	for _, view := range views {
 		backRepoView.CommitPhaseOneInstance(view)
 	}
 

@@ -316,6 +316,7 @@ var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 // insertion point for identifiers maps
 var __gong__map_AsSplit = make(map[string]*AsSplit)
 var __gong__map_AsSplitArea = make(map[string]*AsSplitArea)
+var __gong__map_Tree = make(map[string]*Tree)
 var __gong__map_View = make(map[string]*View)
 
 // Parser needs to be configured for having the [Name1.Name2] or [pkg.Name1] ...
@@ -501,6 +502,12 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 										instanceAsSplitArea.Stage(stage)
 										instance = any(instanceAsSplitArea)
 										__gong__map_AsSplitArea[identifier] = instanceAsSplitArea
+									case "Tree":
+										instanceTree := new(Tree)
+										instanceTree.Name = instanceName
+										instanceTree.Stage(stage)
+										instance = any(instanceTree)
+										__gong__map_Tree[identifier] = instanceTree
 									case "View":
 										instanceView := new(View)
 										instanceView.Name = instanceName
@@ -548,6 +555,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							// insertion point for date assign code
 							}
 						case "AsSplitArea":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "Tree":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -599,6 +610,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							target := __gong__map_AsSplit[targetIdentifier]
 							__gong__map_AsSplitArea[identifier].AsSplits =
 								append(__gong__map_AsSplitArea[identifier].AsSplits, target)
+						}
+					case "Tree":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
 						}
 					case "View":
 						switch fieldName {
@@ -682,6 +697,22 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					}
 					__gong__map_AsSplitArea[identifier].Size = exprSign * fielValue
 				}
+			case "Tree":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Tree[identifier].Name = fielValue
+				case "StackName":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Tree[identifier].StackName = fielValue
+				case "TreeName":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Tree[identifier].TreeName = fielValue
+				}
 			case "View":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -718,6 +749,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_AsSplitArea[identifier].IsAny = fielValue
+				case "Tree":
+					targetIdentifier := ident.Name
+					__gong__map_AsSplitArea[identifier].Tree = __gong__map_Tree[targetIdentifier]
+				}
+			case "Tree":
+				switch fieldName {
+				// insertion point for field dependant code
 				}
 			case "View":
 				switch fieldName {
@@ -763,6 +801,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						__gong__map_AsSplit[identifier].Direction = Direction(val)
 					}
 				case "AsSplitArea":
+					switch fieldName {
+					// insertion point for enum assign code
+					}
+				case "Tree":
 					switch fieldName {
 					// insertion point for enum assign code
 					}

@@ -21,6 +21,10 @@ export * from './lib/assplitarea-api'
 export * from './lib/assplitarea'
 export * from './lib/assplitarea.service'
 
+export * from './lib/tree-api'
+export * from './lib/tree'
+export * from './lib/tree.service'
+
 export * from './lib/view-api'
 export * from './lib/view'
 export * from './lib/view.service'

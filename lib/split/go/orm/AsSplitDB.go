@@ -139,7 +139,17 @@ func (backRepoAsSplit *BackRepoAsSplitStruct) GetAsSplitDBFromAsSplitPtr(assplit
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoAsSplit *BackRepoAsSplitStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var assplits []*models.AsSplit
 	for assplit := range stage.AsSplits {
+		assplits = append(assplits, assplit)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(assplits, func(i, j int) bool {
+		return stage.Map_Staged_Order[assplits[i]] < stage.Map_Staged_Order[assplits[j]]
+	})
+
+	for _, assplit := range assplits {
 		backRepoAsSplit.CommitPhaseOneInstance(assplit)
 	}
 
