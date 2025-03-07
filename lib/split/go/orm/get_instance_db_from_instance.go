@@ -23,6 +23,10 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		assplitareaInstance := any(concreteInstance).(*models.AsSplitArea)
 		ret2 := backRepo.BackRepoAsSplitArea.GetAsSplitAreaDBFromAsSplitAreaPtr(assplitareaInstance)
 		ret = any(ret2).(*T2)
+	case *models.Tree:
+		treeInstance := any(concreteInstance).(*models.Tree)
+		ret2 := backRepo.BackRepoTree.GetTreeDBFromTreePtr(treeInstance)
+		ret = any(ret2).(*T2)
 	case *models.View:
 		viewInstance := any(concreteInstance).(*models.View)
 		ret2 := backRepo.BackRepoView.GetViewDBFromViewPtr(viewInstance)
@@ -47,6 +51,11 @@ func GetID[T models.Gongstruct](
 		id = int(tmp.ID)
 	case *models.AsSplitArea:
 		tmp := GetInstanceDBFromInstance[models.AsSplitArea, AsSplitAreaDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Tree:
+		tmp := GetInstanceDBFromInstance[models.Tree, TreeDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -75,6 +84,11 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.AsSplitArea:
 		tmp := GetInstanceDBFromInstance[models.AsSplitArea, AsSplitAreaDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Tree:
+		tmp := GetInstanceDBFromInstance[models.Tree, TreeDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

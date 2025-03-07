@@ -5,6 +5,8 @@ import { AsSplitAPI } from './assplit-api'
 
 import { AsSplitAreaAPI } from './assplitarea-api'
 
+import { TreeAPI } from './tree-api'
+
 import { ViewAPI } from './view-api'
 
 
@@ -13,6 +15,8 @@ export class BackRepoData {
 	AsSplitAPIs = new Array<AsSplitAPI>()
 
 	AsSplitAreaAPIs = new Array<AsSplitAreaAPI>()
+
+	TreeAPIs = new Array<TreeAPI>()
 
 	ViewAPIs = new Array<ViewAPI>()
 
@@ -25,6 +29,8 @@ export class BackRepoData {
 		this.AsSplitAPIs = data?.AsSplitAPIs || [];
 
 		this.AsSplitAreaAPIs = data?.AsSplitAreaAPIs || [];
+
+		this.TreeAPIs = data?.TreeAPIs || [];
 
 		this.ViewAPIs = data?.ViewAPIs || [];
 
