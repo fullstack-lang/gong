@@ -5,6 +5,8 @@ import { AsSplitAPI } from './assplit-api'
 
 import { AsSplitAreaAPI } from './assplitarea-api'
 
+import { FormAPI } from './form-api'
+
 import { TableAPI } from './table-api'
 
 import { TreeAPI } from './tree-api'
@@ -17,6 +19,8 @@ export class BackRepoData {
 	AsSplitAPIs = new Array<AsSplitAPI>()
 
 	AsSplitAreaAPIs = new Array<AsSplitAreaAPI>()
+
+	FormAPIs = new Array<FormAPI>()
 
 	TableAPIs = new Array<TableAPI>()
 
@@ -33,6 +37,8 @@ export class BackRepoData {
 		this.AsSplitAPIs = data?.AsSplitAPIs || [];
 
 		this.AsSplitAreaAPIs = data?.AsSplitAreaAPIs || [];
+
+		this.FormAPIs = data?.FormAPIs || [];
 
 		this.TableAPIs = data?.TableAPIs || [];
 

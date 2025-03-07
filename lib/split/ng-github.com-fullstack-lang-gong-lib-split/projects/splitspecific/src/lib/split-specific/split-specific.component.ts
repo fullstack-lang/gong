@@ -10,6 +10,7 @@ import { AngularSplitModule } from 'angular-split';
 
 import { TreeSpecificComponent } from '../../../../../../../tree/ng-github.com-fullstack-lang-gong-lib-tree/projects/treespecific/src/lib/tree-specific/tree-specific.component'
 import { TableSpecificComponent } from '../../../../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/table-specific/table-specific.component'
+import { FormSpecificComponent } from '../../../../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/form-specific/form-specific.component'
 
 import { SvgSpecificComponent } from '../../../../../../../svg/ng-github.com-fullstack-lang-gong-lib-svg/projects/svgspecific/src/lib/svg-specific/svg-specific.component'
 
@@ -25,6 +26,7 @@ import { SvgSpecificComponent } from '../../../../../../../svg/ng-github.com-ful
 
     TreeSpecificComponent,
     TableSpecificComponent,
+    FormSpecificComponent,
     // SvgSpecificComponent,
   
   ],

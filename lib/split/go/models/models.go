@@ -27,6 +27,7 @@ type AsSplitArea struct {
 
 	Tree  *Tree
 	Table *Table
+	Form  *Form
 }
 
 type View struct {
@@ -47,4 +48,11 @@ type Table struct {
 
 	StackName string
 	TableName string
+}
+
+type Form struct {
+	Name string // name of the stack
+
+	StackName string
+	FormName  string
 }

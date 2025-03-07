@@ -33,6 +33,8 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000004_table := (&models.AsSplitArea{}).Stage(stage)
 	__AsSplitArea__000005_form := (&models.AsSplitArea{}).Stage(stage)
 
+	__Form__000000_Form_for_Panel_Form := (&models.Form{}).Stage(stage)
+
 	__Table__000000_Table_within_panel := (&models.Table{}).Stage(stage)
 
 	__Tree__000000_Tree := (&models.Tree{}).Stage(stage)
@@ -70,6 +72,10 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000005_form.Size = 30.000000
 	__AsSplitArea__000005_form.IsAny = false
 
+	__Form__000000_Form_for_Panel_Form.Name = `Form for Panel Form`
+	__Form__000000_Form_for_Panel_Form.StackName = `split-form`
+	__Form__000000_Form_for_Panel_Form.FormName = `Form`
+
 	__Table__000000_Table_within_panel.Name = `Table within panel`
 	__Table__000000_Table_within_panel.StackName = `split-table`
 	__Table__000000_Table_within_panel.TableName = `Table`
@@ -93,6 +99,8 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000002_extra.AsSplits = append(__AsSplitArea__000002_extra.AsSplits, __AsSplit__000000_planel_root)
 	__AsSplitArea__000003_sidebar_tree.Tree = __Tree__000000_Tree
 	__AsSplitArea__000004_table.Table = __Table__000000_Table_within_panel
+	__AsSplitArea__000005_form.Form = __Form__000000_Form_for_Panel_Form
+	// setup of Form instances pointers
 	// setup of Table instances pointers
 	// setup of Tree instances pointers
 	// setup of View instances pointers

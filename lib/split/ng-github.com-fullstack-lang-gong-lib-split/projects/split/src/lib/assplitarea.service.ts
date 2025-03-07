@@ -20,6 +20,7 @@ import { FrontRepo, FrontRepoService } from './front-repo.service';
 import { AsSplitAPI } from './assplit-api'
 import { TreeAPI } from './tree-api'
 import { TableAPI } from './table-api'
+import { FormAPI } from './form-api'
 
 @Injectable({
   providedIn: 'root'
