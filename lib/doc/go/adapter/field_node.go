@@ -187,15 +187,15 @@ func (fieldNode *FieldNode) AddToDiagram() {
 		link := new(gongdoc_models.Link).Stage(gongdocStage)
 		link.Name = fieldNode.GetName()
 		link.SourceMultiplicity = sourceMultiplicity
-		link.SourceMultiplicityOffsetX = 10
-		link.SourceMultiplicityOffsetY = -50
+		link.SourceMultiplicityOffsetX = 0
+		link.SourceMultiplicityOffsetY = 0
 
 		link.TargetMultiplicity = targetMultiplicity
-		link.TargetMultiplicityOffsetX = -50
-		link.TargetMultiplicityOffsetY = 16
+		link.TargetMultiplicityOffsetX = 0
+		link.TargetMultiplicityOffsetY = 0
 
-		link.FieldOffsetX = -50
-		link.FieldOffsetY = -16
+		link.FieldOffsetX = 0
+		link.FieldOffsetY = 0
 
 		link.Identifier =
 			gongdoc_models.GongstructAndFieldnameToFieldIdentifier(fieldNode.gongStructNode.gongStruct.Name, fieldNode.GetName())
