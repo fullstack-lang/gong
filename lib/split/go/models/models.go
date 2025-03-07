@@ -25,7 +25,8 @@ type AsSplitArea struct {
 
 	AsSplits []*AsSplit
 
-	Tree *Tree
+	Tree  *Tree
+	Table *Table
 }
 
 type View struct {
@@ -39,4 +40,11 @@ type Tree struct {
 
 	StackName string
 	TreeName  string
+}
+
+type Table struct {
+	Name string // name of the stack
+
+	StackName string
+	TableName string
 }
