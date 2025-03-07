@@ -28,6 +28,10 @@ type DBLite struct {
 
 	nextIDAsSplitAreaDB uint
 
+	tableDBs map[uint]*TableDB
+
+	nextIDTableDB uint
+
 	treeDBs map[uint]*TreeDB
 
 	nextIDTreeDB uint
@@ -45,6 +49,8 @@ func NewDBLite() *DBLite {
 		assplitDBs: make(map[uint]*AsSplitDB),
 
 		assplitareaDBs: make(map[uint]*AsSplitAreaDB),
+
+		tableDBs: make(map[uint]*TableDB),
 
 		treeDBs: make(map[uint]*TreeDB),
 
@@ -71,6 +77,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDAsSplitAreaDB++
 		v.ID = db.nextIDAsSplitAreaDB
 		db.assplitareaDBs[v.ID] = v
+	case *TableDB:
+		db.nextIDTableDB++
+		v.ID = db.nextIDTableDB
+		db.tableDBs[v.ID] = v
 	case *TreeDB:
 		db.nextIDTreeDB++
 		v.ID = db.nextIDTreeDB
@@ -111,6 +121,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.assplitDBs, v.ID)
 	case *AsSplitAreaDB:
 		delete(db.assplitareaDBs, v.ID)
+	case *TableDB:
+		delete(db.tableDBs, v.ID)
 	case *TreeDB:
 		delete(db.treeDBs, v.ID)
 	case *ViewDB:
@@ -138,6 +150,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *AsSplitAreaDB:
 		db.assplitareaDBs[v.ID] = v
+		return db, nil
+	case *TableDB:
+		db.tableDBs[v.ID] = v
 		return db, nil
 	case *TreeDB:
 		db.treeDBs[v.ID] = v
@@ -172,6 +187,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db AsSplitArea github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
+	case *TableDB:
+		if existing, ok := db.tableDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Table github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
 	case *TreeDB:
 		if existing, ok := db.treeDBs[v.ID]; ok {
@@ -208,6 +229,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]AsSplitAreaDB:
 		*ptr = make([]AsSplitAreaDB, 0, len(db.assplitareaDBs))
 		for _, v := range db.assplitareaDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]TableDB:
+		*ptr = make([]TableDB, 0, len(db.tableDBs))
+		for _, v := range db.tableDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -275,6 +302,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		assplitareaDB, _ := instanceDB.(*AsSplitAreaDB)
 		*assplitareaDB = *tmp
+		
+	case *TableDB:
+		tmp, ok := db.tableDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Table Unkown entry %d", i))
+		}
+
+		tableDB, _ := instanceDB.(*TableDB)
+		*tableDB = *tmp
 		
 	case *TreeDB:
 		tmp, ok := db.treeDBs[uint(i)]

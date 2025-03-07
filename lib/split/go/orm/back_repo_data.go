@@ -8,6 +8,8 @@ type BackRepoData struct {
 
 	AsSplitAreaAPIs []*AsSplitAreaAPI
 
+	TableAPIs []*TableAPI
+
 	TreeAPIs []*TreeAPI
 
 	ViewAPIs []*ViewAPI
@@ -41,6 +43,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		assplitareaDB.CopyBasicFieldsToAsSplitArea_WOP(&assplitareaAPI.AsSplitArea_WOP)
 
 		backRepoData.AsSplitAreaAPIs = append(backRepoData.AsSplitAreaAPIs, &assplitareaAPI)
+	}
+
+	for _, tableDB := range backRepo.BackRepoTable.Map_TableDBID_TableDB {
+
+		var tableAPI TableAPI
+		tableAPI.ID = tableDB.ID
+		tableAPI.TablePointersEncoding = tableDB.TablePointersEncoding
+		tableDB.CopyBasicFieldsToTable_WOP(&tableAPI.Table_WOP)
+
+		backRepoData.TableAPIs = append(backRepoData.TableAPIs, &tableAPI)
 	}
 
 	for _, treeDB := range backRepo.BackRepoTree.Map_TreeDBID_TreeDB {
