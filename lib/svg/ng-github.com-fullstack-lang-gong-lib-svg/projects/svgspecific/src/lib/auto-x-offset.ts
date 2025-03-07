@@ -42,7 +42,7 @@ export function auto_X_offset(
                 // console.log("cache hit")
             } else {
                 if (textWidthCalculator != undefined) {
-                    const width = textWidthCalculator.measureTextWidth(line);
+                    const width = 1.1 * textWidthCalculator.measureTextWidth(line);
                     // console.log(`Width of the text, "` + line + `" : ${width}px`);
                     // const height = textWidthCalculator.measureTextHeight(line);
                     // console.log(`Width of the text, "` + line + `" : ${height}px`);
@@ -70,7 +70,7 @@ export function auto_X_offset(
                 // console.log("cache hit")
             } else {
                 if (textWidthCalculator != undefined) {
-                    const width = textWidthCalculator.measureTextWidth(line);
+                    const width = 1.1 * textWidthCalculator.measureTextWidth(line);
                     // console.log(`Width of the text, "` + line + `" : ${width}px`);
                     // const height =textWidthCalculator.measureTextHeight(line);
                     // console.log(`Width of the text, "` + line + `" : ${height}px`);
