@@ -196,6 +196,59 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	map_Form_Identifiers := make(map[*Form]string)
+	_ = map_Form_Identifiers
+
+	formOrdered := []*Form{}
+	for form := range stage.Forms {
+		formOrdered = append(formOrdered, form)
+	}
+	sort.Slice(formOrdered[:], func(i, j int) bool {
+		formi := formOrdered[i]
+		formj := formOrdered[j]
+		formi_order, oki := stage.Map_Staged_Order[formi]
+		formj_order, okj := stage.Map_Staged_Order[formj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return formi_order < formj_order
+	})
+	if len(formOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, form := range formOrdered {
+
+		id = generatesIdentifier("Form", idx, form.Name)
+		map_Form_Identifiers[form] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Form")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", form.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(form.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StackName")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(form.StackName))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "FormName")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(form.FormName))
+		initializerStatements += setValueField
+
+	}
+
 	map_Table_Identifiers := make(map[*Table]string)
 	_ = map_Table_Identifiers
 
@@ -400,6 +453,27 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			pointersInitializesStatements += setPointerField
 		}
 
+		if assplitarea.Form != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Form")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Form_Identifiers[assplitarea.Form])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
+	if len(formOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Form instances pointers"
+	}
+	for idx, form := range formOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Form", idx, form.Name)
+		map_Form_Identifiers[form] = id
+
+		// Initialisation of values
 	}
 
 	if len(tableOrdered) > 0 {

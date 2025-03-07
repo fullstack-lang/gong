@@ -14,6 +14,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 		if stage.OnAfterAsSplitAreaCreateCallback != nil {
 			stage.OnAfterAsSplitAreaCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Form:
+		if stage.OnAfterFormCreateCallback != nil {
+			stage.OnAfterFormCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Table:
 		if stage.OnAfterTableCreateCallback != nil {
 			stage.OnAfterTableCreateCallback.OnAfterCreate(stage, target)
@@ -45,6 +49,11 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 		newTarget := any(new).(*AsSplitArea)
 		if stage.OnAfterAsSplitAreaUpdateCallback != nil {
 			stage.OnAfterAsSplitAreaUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Form:
+		newTarget := any(new).(*Form)
+		if stage.OnAfterFormUpdateCallback != nil {
+			stage.OnAfterFormUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Table:
 		newTarget := any(new).(*Table)
@@ -81,6 +90,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Ty
 			staged := any(staged).(*AsSplitArea)
 			stage.OnAfterAsSplitAreaDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Form:
+		if stage.OnAfterFormDeleteCallback != nil {
+			staged := any(staged).(*Form)
+			stage.OnAfterFormDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Table:
 		if stage.OnAfterTableDeleteCallback != nil {
 			staged := any(staged).(*Table)
@@ -114,6 +128,10 @@ func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 		if stage.OnAfterAsSplitAreaReadCallback != nil {
 			stage.OnAfterAsSplitAreaReadCallback.OnAfterRead(stage, target)
 		}
+	case *Form:
+		if stage.OnAfterFormReadCallback != nil {
+			stage.OnAfterFormReadCallback.OnAfterRead(stage, target)
+		}
 	case *Table:
 		if stage.OnAfterTableReadCallback != nil {
 			stage.OnAfterTableReadCallback.OnAfterRead(stage, target)
@@ -143,6 +161,9 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *AsSplitArea:
 		stage.OnAfterAsSplitAreaUpdateCallback = any(callback).(OnAfterUpdateInterface[AsSplitArea])
 	
+	case *Form:
+		stage.OnAfterFormUpdateCallback = any(callback).(OnAfterUpdateInterface[Form])
+	
 	case *Table:
 		stage.OnAfterTableUpdateCallback = any(callback).(OnAfterUpdateInterface[Table])
 	
@@ -164,6 +185,9 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *StageStruct, callba
 	
 	case *AsSplitArea:
 		stage.OnAfterAsSplitAreaCreateCallback = any(callback).(OnAfterCreateInterface[AsSplitArea])
+	
+	case *Form:
+		stage.OnAfterFormCreateCallback = any(callback).(OnAfterCreateInterface[Form])
 	
 	case *Table:
 		stage.OnAfterTableCreateCallback = any(callback).(OnAfterCreateInterface[Table])
@@ -187,6 +211,9 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *AsSplitArea:
 		stage.OnAfterAsSplitAreaDeleteCallback = any(callback).(OnAfterDeleteInterface[AsSplitArea])
 	
+	case *Form:
+		stage.OnAfterFormDeleteCallback = any(callback).(OnAfterDeleteInterface[Form])
+	
 	case *Table:
 		stage.OnAfterTableDeleteCallback = any(callback).(OnAfterDeleteInterface[Table])
 	
@@ -208,6 +235,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *StageStruct, callback
 	
 	case *AsSplitArea:
 		stage.OnAfterAsSplitAreaReadCallback = any(callback).(OnAfterReadInterface[AsSplitArea])
+	
+	case *Form:
+		stage.OnAfterFormReadCallback = any(callback).(OnAfterReadInterface[Form])
 	
 	case *Table:
 		stage.OnAfterTableReadCallback = any(callback).(OnAfterReadInterface[Table])

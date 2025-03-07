@@ -11,6 +11,9 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	case *AsSplitArea:
 		ok = stage.IsStagedAsSplitArea(target)
 
+	case *Form:
+		ok = stage.IsStagedForm(target)
+
 	case *Table:
 		ok = stage.IsStagedTable(target)
 
@@ -37,6 +40,13 @@ func (stage *StageStruct) IsStagedAsSplit(assplit *AsSplit) (ok bool) {
 func (stage *StageStruct) IsStagedAsSplitArea(assplitarea *AsSplitArea) (ok bool) {
 
 	_, ok = stage.AsSplitAreas[assplitarea]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedForm(form *Form) (ok bool) {
+
+	_, ok = stage.Forms[form]
 
 	return
 }
@@ -75,6 +85,9 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	case *AsSplitArea:
 		stage.StageBranchAsSplitArea(target)
+
+	case *Form:
+		stage.StageBranchForm(target)
 
 	case *Table:
 		stage.StageBranchTable(target)
@@ -125,11 +138,29 @@ func (stage *StageStruct) StageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	if assplitarea.Table != nil {
 		StageBranch(stage, assplitarea.Table)
 	}
+	if assplitarea.Form != nil {
+		StageBranch(stage, assplitarea.Form)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _assplit := range assplitarea.AsSplits {
 		StageBranch(stage, _assplit)
 	}
+
+}
+
+func (stage *StageStruct) StageBranchForm(form *Form) {
+
+	// check if instance is already staged
+	if IsStaged(stage, form) {
+		return
+	}
+
+	form.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -200,6 +231,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchAsSplitArea(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Form:
+		toT := CopyBranchForm(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Table:
 		toT := CopyBranchTable(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -260,11 +295,33 @@ func CopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplitArea
 	if assplitareaFrom.Table != nil {
 		assplitareaTo.Table = CopyBranchTable(mapOrigCopy, assplitareaFrom.Table)
 	}
+	if assplitareaFrom.Form != nil {
+		assplitareaTo.Form = CopyBranchForm(mapOrigCopy, assplitareaFrom.Form)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _assplit := range assplitareaFrom.AsSplits {
 		assplitareaTo.AsSplits = append(assplitareaTo.AsSplits, CopyBranchAsSplit(mapOrigCopy, _assplit))
 	}
+
+	return
+}
+
+func CopyBranchForm(mapOrigCopy map[any]any, formFrom *Form) (formTo *Form) {
+
+	// formFrom has already been copied
+	if _formTo, ok := mapOrigCopy[formFrom]; ok {
+		formTo = _formTo.(*Form)
+		return
+	}
+
+	formTo = new(Form)
+	mapOrigCopy[formFrom] = formTo
+	formFrom.CopyBasicFields(formTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -343,6 +400,9 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *AsSplitArea:
 		stage.UnstageBranchAsSplitArea(target)
 
+	case *Form:
+		stage.UnstageBranchForm(target)
+
 	case *Table:
 		stage.UnstageBranchTable(target)
 
@@ -392,11 +452,29 @@ func (stage *StageStruct) UnstageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	if assplitarea.Table != nil {
 		UnstageBranch(stage, assplitarea.Table)
 	}
+	if assplitarea.Form != nil {
+		UnstageBranch(stage, assplitarea.Form)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _assplit := range assplitarea.AsSplits {
 		UnstageBranch(stage, _assplit)
 	}
+
+}
+
+func (stage *StageStruct) UnstageBranchForm(form *Form) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, form) {
+		return
+	}
+
+	form.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 

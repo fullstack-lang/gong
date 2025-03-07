@@ -12,6 +12,10 @@ import { AsSplitAreaAPI } from './assplitarea-api'
 import { AsSplitArea, CopyAsSplitAreaAPIToAsSplitArea } from './assplitarea'
 import { AsSplitAreaService } from './assplitarea.service'
 
+import { FormAPI } from './form-api'
+import { Form, CopyFormAPIToForm } from './form'
+import { FormService } from './form.service'
+
 import { TableAPI } from './table-api'
 import { Table, CopyTableAPIToTable } from './table'
 import { TableService } from './table.service'
@@ -37,6 +41,9 @@ export class FrontRepo { // insertion point sub template
 	array_AsSplitAreas = new Array<AsSplitArea>() // array of front instances
 	map_ID_AsSplitArea = new Map<number, AsSplitArea>() // map of front instances
 
+	array_Forms = new Array<Form>() // array of front instances
+	map_ID_Form = new Map<number, Form>() // map of front instances
+
 	array_Tables = new Array<Table>() // array of front instances
 	map_ID_Table = new Map<number, Table>() // map of front instances
 
@@ -59,6 +66,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_AsSplits as unknown as Array<Type>
 			case 'AsSplitArea':
 				return this.array_AsSplitAreas as unknown as Array<Type>
+			case 'Form':
+				return this.array_Forms as unknown as Array<Type>
 			case 'Table':
 				return this.array_Tables as unknown as Array<Type>
 			case 'Tree':
@@ -77,6 +86,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_AsSplit as unknown as Map<number, Type>
 			case 'AsSplitArea':
 				return this.map_ID_AsSplitArea as unknown as Map<number, Type>
+			case 'Form':
+				return this.map_ID_Form as unknown as Map<number, Type>
 			case 'Table':
 				return this.map_ID_Table as unknown as Map<number, Type>
 			case 'Tree':
@@ -152,6 +163,7 @@ export class FrontRepoService {
 		private http: HttpClient, // insertion point sub template 
 		private assplitService: AsSplitService,
 		private assplitareaService: AsSplitAreaService,
+		private formService: FormService,
 		private tableService: TableService,
 		private treeService: TreeService,
 		private viewService: ViewService,
@@ -189,6 +201,7 @@ export class FrontRepoService {
 		// insertion point sub template 
 		Observable<AsSplitAPI[]>,
 		Observable<AsSplitAreaAPI[]>,
+		Observable<FormAPI[]>,
 		Observable<TableAPI[]>,
 		Observable<TreeAPI[]>,
 		Observable<ViewAPI[]>,
@@ -209,6 +222,7 @@ export class FrontRepoService {
 			// insertion point sub template
 			this.assplitService.getAsSplits(this.GONG__StackPath, this.frontRepo),
 			this.assplitareaService.getAsSplitAreas(this.GONG__StackPath, this.frontRepo),
+			this.formService.getForms(this.GONG__StackPath, this.frontRepo),
 			this.tableService.getTables(this.GONG__StackPath, this.frontRepo),
 			this.treeService.getTrees(this.GONG__StackPath, this.frontRepo),
 			this.viewService.getViews(this.GONG__StackPath, this.frontRepo),
@@ -224,6 +238,7 @@ export class FrontRepoService {
 						// insertion point sub template for declarations 
 						assplits_,
 						assplitareas_,
+						forms_,
 						tables_,
 						trees_,
 						views_,
@@ -235,6 +250,8 @@ export class FrontRepoService {
 						assplits = assplits_ as AsSplitAPI[]
 						var assplitareas: AsSplitAreaAPI[]
 						assplitareas = assplitareas_ as AsSplitAreaAPI[]
+						var forms: FormAPI[]
+						forms = forms_ as FormAPI[]
 						var tables: TableAPI[]
 						tables = tables_ as TableAPI[]
 						var trees: TreeAPI[]
@@ -266,6 +283,18 @@ export class FrontRepoService {
 								let assplitarea = new AsSplitArea
 								this.frontRepo.array_AsSplitAreas.push(assplitarea)
 								this.frontRepo.map_ID_AsSplitArea.set(assplitareaAPI.ID, assplitarea)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_Forms = []
+						this.frontRepo.map_ID_Form.clear()
+
+						forms.forEach(
+							formAPI => {
+								let form = new Form
+								this.frontRepo.array_Forms.push(form)
+								this.frontRepo.map_ID_Form.set(formAPI.ID, form)
 							}
 						)
 
@@ -322,6 +351,14 @@ export class FrontRepoService {
 							assplitareaAPI => {
 								let assplitarea = this.frontRepo.map_ID_AsSplitArea.get(assplitareaAPI.ID)
 								CopyAsSplitAreaAPIToAsSplitArea(assplitareaAPI, assplitarea!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						forms.forEach(
+							formAPI => {
+								let form = this.frontRepo.map_ID_Form.get(formAPI.ID)
+								CopyFormAPIToForm(formAPI, form!, this.frontRepo)
 							}
 						)
 
@@ -408,6 +445,18 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
+				frontRepo.array_Forms = []
+				frontRepo.map_ID_Form.clear()
+
+				backRepoData.FormAPIs.forEach(
+					formAPI => {
+						let form = new Form
+						frontRepo.array_Forms.push(form)
+						frontRepo.map_ID_Form.set(formAPI.ID, form)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_Tables = []
 				frontRepo.map_ID_Table.clear()
 
@@ -466,6 +515,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.FormAPIs.forEach(
+					formAPI => {
+						let form = frontRepo.map_ID_Form.get(formAPI.ID)
+						CopyFormAPIToForm(formAPI, form!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.TableAPIs.forEach(
 					tableAPI => {
 						let table = frontRepo.map_ID_Table.get(tableAPI.ID)
@@ -514,12 +571,15 @@ export function getAsSplitUniqueID(id: number): number {
 export function getAsSplitAreaUniqueID(id: number): number {
 	return 37 * id
 }
-export function getTableUniqueID(id: number): number {
+export function getFormUniqueID(id: number): number {
 	return 41 * id
 }
-export function getTreeUniqueID(id: number): number {
+export function getTableUniqueID(id: number): number {
 	return 43 * id
 }
-export function getViewUniqueID(id: number): number {
+export function getTreeUniqueID(id: number): number {
 	return 47 * id
+}
+export function getViewUniqueID(id: number): number {
+	return 53 * id
 }

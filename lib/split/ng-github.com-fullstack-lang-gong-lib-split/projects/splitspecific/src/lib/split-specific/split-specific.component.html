@@ -31,6 +31,10 @@
                     <lib-table-specific [DataStack]="asSplitArea.Table.StackName" 
                     [TableName]="asSplitArea.Table.TableName"></lib-table-specific>
                 }
+                @if (asSplitArea.Form) {
+                    <lib-form-specific [DataStack]="asSplitArea.Form.StackName" 
+                    [FormName]="asSplitArea.Form.FormName"></lib-form-specific>
+                }
             </as-split-area>
             }
         </as-split>

@@ -58,6 +58,7 @@ func FillUpForm(
 		AssociationSliceToForm("AsSplits", instanceWithInferedType, &instanceWithInferedType.AsSplits, formGroup, probe)
 		AssociationFieldToForm("Tree", instanceWithInferedType.Tree, formGroup, probe)
 		AssociationFieldToForm("Table", instanceWithInferedType.Table, formGroup, probe)
+		AssociationFieldToForm("Form", instanceWithInferedType.Form, formGroup, probe)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -102,6 +103,15 @@ func FillUpForm(
 					probe)
 			}
 		}
+
+	case *models.Form:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("StackName", instanceWithInferedType.StackName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("FormName", instanceWithInferedType.FormName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 
 	case *models.Table:
 		// insertion point
