@@ -190,6 +190,8 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(assplitarea_.IsAny), formDiv)
 		case "Tree":
 			FormDivSelectFieldToField(&(assplitarea_.Tree), assplitareaFormCallback.probe.stageOfInterest, formDiv)
+		case "Table":
+			FormDivSelectFieldToField(&(assplitarea_.Table), assplitareaFormCallback.probe.stageOfInterest, formDiv)
 		case "AsSplit:AsSplitAreas":
 			// we need to retrieve the field owner before the change
 			var pastAsSplitOwner *models.AsSplit
@@ -305,6 +307,87 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 	}
 
 	fillUpTree(assplitareaFormCallback.probe)
+}
+func __gong__New__TableFormCallback(
+	table *models.Table,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (tableFormCallback *TableFormCallback) {
+	tableFormCallback = new(TableFormCallback)
+	tableFormCallback.probe = probe
+	tableFormCallback.table = table
+	tableFormCallback.formGroup = formGroup
+
+	tableFormCallback.CreationMode = (table == nil)
+
+	return
+}
+
+type TableFormCallback struct {
+	table *models.Table
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (tableFormCallback *TableFormCallback) OnSave() {
+
+	log.Println("TableFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	tableFormCallback.probe.formStage.Checkout()
+
+	if tableFormCallback.table == nil {
+		tableFormCallback.table = new(models.Table).Stage(tableFormCallback.probe.stageOfInterest)
+	}
+	table_ := tableFormCallback.table
+	_ = table_
+
+	for _, formDiv := range tableFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(table_.Name), formDiv)
+		case "StackName":
+			FormDivBasicFieldToField(&(table_.StackName), formDiv)
+		case "TableName":
+			FormDivBasicFieldToField(&(table_.TableName), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if tableFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		table_.Unstage(tableFormCallback.probe.stageOfInterest)
+	}
+
+	tableFormCallback.probe.stageOfInterest.Commit()
+	fillUpTable[models.Table](
+		tableFormCallback.probe,
+	)
+	tableFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if tableFormCallback.CreationMode || tableFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		tableFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: table.FormGroupDefaultName.ToString(),
+		}).Stage(tableFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__TableFormCallback(
+			nil,
+			tableFormCallback.probe,
+			newFormGroup,
+		)
+		table := new(models.Table)
+		FillUpForm(table, newFormGroup, tableFormCallback.probe)
+		tableFormCallback.probe.formStage.Commit()
+	}
+
+	fillUpTree(tableFormCallback.probe)
 }
 func __gong__New__TreeFormCallback(
 	tree *models.Tree,

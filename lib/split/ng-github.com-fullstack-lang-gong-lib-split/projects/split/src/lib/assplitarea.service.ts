@@ -19,6 +19,7 @@ import { FrontRepo, FrontRepoService } from './front-repo.service';
 // insertion point for imports
 import { AsSplitAPI } from './assplit-api'
 import { TreeAPI } from './tree-api'
+import { TableAPI } from './table-api'
 
 @Injectable({
   providedIn: 'root'

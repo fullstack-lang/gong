@@ -54,6 +54,10 @@ type AsSplitAreaPointersEncoding struct {
 	// field Tree is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	TreeID sql.NullInt64
+
+	// field Table is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	TableID sql.NullInt64
 }
 
 // AsSplitAreaDB describes a assplitarea in the database
@@ -273,6 +277,18 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseTwoInstance(bac
 			assplitareaDB.TreeID.Valid = true
 		}
 
+		// commit pointer value assplitarea.Table translates to updating the assplitarea.TableID
+		assplitareaDB.TableID.Valid = true // allow for a 0 value (nil association)
+		if assplitarea.Table != nil {
+			if TableId, ok := backRepo.BackRepoTable.Map_TablePtr_TableDBID[assplitarea.Table]; ok {
+				assplitareaDB.TableID.Int64 = int64(TableId)
+				assplitareaDB.TableID.Valid = true
+			}
+		} else {
+			assplitareaDB.TableID.Int64 = 0
+			assplitareaDB.TableID.Valid = true
+		}
+
 		_, err := backRepoAsSplitArea.db.Save(assplitareaDB)
 		if err != nil {
 			log.Fatal(err)
@@ -413,6 +429,27 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			}
 		} else {
 			assplitarea.Tree = nil
+		}
+	}
+	
+	// Table field	
+	{
+		id := assplitareaDB.TableID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoTable.Map_TableDBID_TablePtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: assplitarea.Table, unknown pointer id", id)
+				assplitarea.Table = nil
+			} else {
+				// updates only if field has changed
+				if assplitarea.Table == nil || assplitarea.Table != tmp {
+					assplitarea.Table = tmp
+				}
+			}
+		} else {
+			assplitarea.Table = nil
 		}
 	}
 	
@@ -672,6 +709,12 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) RestorePhaseTwo() {
 		if assplitareaDB.TreeID.Int64 != 0 {
 			assplitareaDB.TreeID.Int64 = int64(BackRepoTreeid_atBckpTime_newID[uint(assplitareaDB.TreeID.Int64)])
 			assplitareaDB.TreeID.Valid = true
+		}
+
+		// reindexing Table field
+		if assplitareaDB.TableID.Int64 != 0 {
+			assplitareaDB.TableID.Int64 = int64(BackRepoTableid_atBckpTime_newID[uint(assplitareaDB.TableID.Int64)])
+			assplitareaDB.TableID.Valid = true
 		}
 
 		// update databse with new index encoding
