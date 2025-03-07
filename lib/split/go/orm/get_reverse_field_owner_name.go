@@ -45,6 +45,11 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
+	case *models.Tree:
+		switch reverseField.GongstructName {
+		// insertion point
+		}
+
 	case *models.View:
 		switch reverseField.GongstructName {
 		// insertion point
@@ -88,6 +93,11 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			case "RootAsSplitAreas":
 				res = stage.View_RootAsSplitAreas_reverseMap[inst]
 			}
+		}
+
+	case *models.Tree:
+		switch reverseField.GongstructName {
+		// insertion point
 		}
 
 	case *models.View:

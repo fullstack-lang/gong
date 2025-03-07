@@ -27,6 +27,9 @@ func (stage *StageStruct) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct Tree
+	// insertion point per field
+
 	// Compute reverse map for named struct View
 	// insertion point per field
 	clear(stage.View_RootAsSplitAreas_reverseMap)

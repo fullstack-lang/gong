@@ -8,6 +8,8 @@ type BackRepoData struct {
 
 	AsSplitAreaAPIs []*AsSplitAreaAPI
 
+	TreeAPIs []*TreeAPI
+
 	ViewAPIs []*ViewAPI
 
 	// index of the web socket for this stack type (unique among all stack instances)
@@ -39,6 +41,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		assplitareaDB.CopyBasicFieldsToAsSplitArea_WOP(&assplitareaAPI.AsSplitArea_WOP)
 
 		backRepoData.AsSplitAreaAPIs = append(backRepoData.AsSplitAreaAPIs, &assplitareaAPI)
+	}
+
+	for _, treeDB := range backRepo.BackRepoTree.Map_TreeDBID_TreeDB {
+
+		var treeAPI TreeAPI
+		treeAPI.ID = treeDB.ID
+		treeAPI.TreePointersEncoding = treeDB.TreePointersEncoding
+		treeDB.CopyBasicFieldsToTree_WOP(&treeAPI.Tree_WOP)
+
+		backRepoData.TreeAPIs = append(backRepoData.TreeAPIs, &treeAPI)
 	}
 
 	for _, viewDB := range backRepo.BackRepoView.Map_ViewDBID_ViewDB {
