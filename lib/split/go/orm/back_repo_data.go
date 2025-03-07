@@ -8,6 +8,8 @@ type BackRepoData struct {
 
 	AsSplitAreaAPIs []*AsSplitAreaAPI
 
+	FormAPIs []*FormAPI
+
 	TableAPIs []*TableAPI
 
 	TreeAPIs []*TreeAPI
@@ -43,6 +45,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		assplitareaDB.CopyBasicFieldsToAsSplitArea_WOP(&assplitareaAPI.AsSplitArea_WOP)
 
 		backRepoData.AsSplitAreaAPIs = append(backRepoData.AsSplitAreaAPIs, &assplitareaAPI)
+	}
+
+	for _, formDB := range backRepo.BackRepoForm.Map_FormDBID_FormDB {
+
+		var formAPI FormAPI
+		formAPI.ID = formDB.ID
+		formAPI.FormPointersEncoding = formDB.FormPointersEncoding
+		formDB.CopyBasicFieldsToForm_WOP(&formAPI.Form_WOP)
+
+		backRepoData.FormAPIs = append(backRepoData.FormAPIs, &formAPI)
 	}
 
 	for _, tableDB := range backRepo.BackRepoTable.Map_TableDBID_TableDB {

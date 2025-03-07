@@ -28,6 +28,10 @@ type DBLite struct {
 
 	nextIDAsSplitAreaDB uint
 
+	formDBs map[uint]*FormDB
+
+	nextIDFormDB uint
+
 	tableDBs map[uint]*TableDB
 
 	nextIDTableDB uint
@@ -49,6 +53,8 @@ func NewDBLite() *DBLite {
 		assplitDBs: make(map[uint]*AsSplitDB),
 
 		assplitareaDBs: make(map[uint]*AsSplitAreaDB),
+
+		formDBs: make(map[uint]*FormDB),
 
 		tableDBs: make(map[uint]*TableDB),
 
@@ -77,6 +83,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDAsSplitAreaDB++
 		v.ID = db.nextIDAsSplitAreaDB
 		db.assplitareaDBs[v.ID] = v
+	case *FormDB:
+		db.nextIDFormDB++
+		v.ID = db.nextIDFormDB
+		db.formDBs[v.ID] = v
 	case *TableDB:
 		db.nextIDTableDB++
 		v.ID = db.nextIDTableDB
@@ -121,6 +131,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.assplitDBs, v.ID)
 	case *AsSplitAreaDB:
 		delete(db.assplitareaDBs, v.ID)
+	case *FormDB:
+		delete(db.formDBs, v.ID)
 	case *TableDB:
 		delete(db.tableDBs, v.ID)
 	case *TreeDB:
@@ -150,6 +162,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *AsSplitAreaDB:
 		db.assplitareaDBs[v.ID] = v
+		return db, nil
+	case *FormDB:
+		db.formDBs[v.ID] = v
 		return db, nil
 	case *TableDB:
 		db.tableDBs[v.ID] = v
@@ -187,6 +202,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db AsSplitArea github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
+	case *FormDB:
+		if existing, ok := db.formDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Form github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
 	case *TableDB:
 		if existing, ok := db.tableDBs[v.ID]; ok {
@@ -229,6 +250,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]AsSplitAreaDB:
 		*ptr = make([]AsSplitAreaDB, 0, len(db.assplitareaDBs))
 		for _, v := range db.assplitareaDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]FormDB:
+		*ptr = make([]FormDB, 0, len(db.formDBs))
+		for _, v := range db.formDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -302,6 +329,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		assplitareaDB, _ := instanceDB.(*AsSplitAreaDB)
 		*assplitareaDB = *tmp
+		
+	case *FormDB:
+		tmp, ok := db.formDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Form Unkown entry %d", i))
+		}
+
+		formDB, _ := instanceDB.(*FormDB)
+		*formDB = *tmp
 		
 	case *TableDB:
 		tmp, ok := db.tableDBs[uint(i)]

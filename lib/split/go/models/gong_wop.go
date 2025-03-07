@@ -33,6 +33,20 @@ func (from *AsSplitArea) CopyBasicFields(to *AsSplitArea) {
 	to.IsAny = from.IsAny
 }
 
+type Form_WOP struct {
+	// insertion point
+	Name string
+	StackName string
+	FormName string
+}
+
+func (from *Form) CopyBasicFields(to *Form) {
+	// insertion point
+	to.Name = from.Name
+	to.StackName = from.StackName
+	to.FormName = from.FormName
+}
+
 type Table_WOP struct {
 	// insertion point
 	Name string
