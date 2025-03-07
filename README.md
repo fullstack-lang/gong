@@ -620,7 +620,7 @@ npm i
 ng build
 ```
 
-
+To be performed from the lib/<lib name>/ng<path> directory
 ```bash
 find ../../.. -type d -name "node_modules" -prune -exec rm -rf '{}' +
 find ../../.. -type d -name "dist" -prune -exec rm -rf '{}' +

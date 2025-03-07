@@ -425,6 +425,18 @@
             ]
         },
         {
+            "label": "01 - gongc doc -clean",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/doc/go/models"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "-clean"
+            ]
+        },
+        {
             "label": "01 - gongc gong -skipGoModCommands -skipNg",
             "type": "shell",
             "options": {
