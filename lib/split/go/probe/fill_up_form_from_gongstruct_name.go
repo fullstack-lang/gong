@@ -51,6 +51,19 @@ func FillUpFormFromGongstructName(
 		assplitarea := new(models.AsSplitArea)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(assplitarea, formGroup, probe)
+	case "Table":
+		formGroup := (&form.FormGroup{
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: prefix + "Table Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TableFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		table := new(models.Table)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(table, formGroup, probe)
 	case "Tree":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),

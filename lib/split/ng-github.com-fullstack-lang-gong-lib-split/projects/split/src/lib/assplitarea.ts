@@ -6,6 +6,7 @@ import { FrontRepo } from './front-repo.service';
 // insertion point for imports
 import { AsSplit } from './assplit'
 import { Tree } from './tree'
+import { Table } from './table'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -27,6 +28,8 @@ export class AsSplitArea {
 	AsSplits: Array<AsSplit> = []
 	Tree?: Tree
 
+	Table?: Table
+
 }
 
 export function CopyAsSplitAreaToAsSplitAreaAPI(assplitarea: AsSplitArea, assplitareaAPI: AsSplitAreaAPI) {
@@ -46,6 +49,13 @@ export function CopyAsSplitAreaToAsSplitAreaAPI(assplitarea: AsSplitArea, asspli
 		assplitareaAPI.AsSplitAreaPointersEncoding.TreeID.Int64 = assplitarea.Tree.ID  
 	} else {
 		assplitareaAPI.AsSplitAreaPointersEncoding.TreeID.Int64 = 0 		
+	}
+
+	assplitareaAPI.AsSplitAreaPointersEncoding.TableID.Valid = true
+	if (assplitarea.Table != undefined) {
+		assplitareaAPI.AsSplitAreaPointersEncoding.TableID.Int64 = assplitarea.Table.ID  
+	} else {
+		assplitareaAPI.AsSplitAreaPointersEncoding.TableID.Int64 = 0 		
 	}
 
 
@@ -74,6 +84,7 @@ export function CopyAsSplitAreaAPIToAsSplitArea(assplitareaAPI: AsSplitAreaAPI, 
 
 	// insertion point for pointer fields encoding
 	assplitarea.Tree = frontRepo.map_ID_Tree.get(assplitareaAPI.AsSplitAreaPointersEncoding.TreeID.Int64)
+	assplitarea.Table = frontRepo.map_ID_Table.get(assplitareaAPI.AsSplitAreaPointersEncoding.TableID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 	if (!Array.isArray(assplitareaAPI.AsSplitAreaPointersEncoding.AsSplits)) {

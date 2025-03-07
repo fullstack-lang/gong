@@ -14,6 +14,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 		if stage.OnAfterAsSplitAreaCreateCallback != nil {
 			stage.OnAfterAsSplitAreaCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Table:
+		if stage.OnAfterTableCreateCallback != nil {
+			stage.OnAfterTableCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Tree:
 		if stage.OnAfterTreeCreateCallback != nil {
 			stage.OnAfterTreeCreateCallback.OnAfterCreate(stage, target)
@@ -41,6 +45,11 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 		newTarget := any(new).(*AsSplitArea)
 		if stage.OnAfterAsSplitAreaUpdateCallback != nil {
 			stage.OnAfterAsSplitAreaUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Table:
+		newTarget := any(new).(*Table)
+		if stage.OnAfterTableUpdateCallback != nil {
+			stage.OnAfterTableUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Tree:
 		newTarget := any(new).(*Tree)
@@ -72,6 +81,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Ty
 			staged := any(staged).(*AsSplitArea)
 			stage.OnAfterAsSplitAreaDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Table:
+		if stage.OnAfterTableDeleteCallback != nil {
+			staged := any(staged).(*Table)
+			stage.OnAfterTableDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Tree:
 		if stage.OnAfterTreeDeleteCallback != nil {
 			staged := any(staged).(*Tree)
@@ -100,6 +114,10 @@ func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 		if stage.OnAfterAsSplitAreaReadCallback != nil {
 			stage.OnAfterAsSplitAreaReadCallback.OnAfterRead(stage, target)
 		}
+	case *Table:
+		if stage.OnAfterTableReadCallback != nil {
+			stage.OnAfterTableReadCallback.OnAfterRead(stage, target)
+		}
 	case *Tree:
 		if stage.OnAfterTreeReadCallback != nil {
 			stage.OnAfterTreeReadCallback.OnAfterRead(stage, target)
@@ -125,6 +143,9 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *AsSplitArea:
 		stage.OnAfterAsSplitAreaUpdateCallback = any(callback).(OnAfterUpdateInterface[AsSplitArea])
 	
+	case *Table:
+		stage.OnAfterTableUpdateCallback = any(callback).(OnAfterUpdateInterface[Table])
+	
 	case *Tree:
 		stage.OnAfterTreeUpdateCallback = any(callback).(OnAfterUpdateInterface[Tree])
 	
@@ -143,6 +164,9 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *StageStruct, callba
 	
 	case *AsSplitArea:
 		stage.OnAfterAsSplitAreaCreateCallback = any(callback).(OnAfterCreateInterface[AsSplitArea])
+	
+	case *Table:
+		stage.OnAfterTableCreateCallback = any(callback).(OnAfterCreateInterface[Table])
 	
 	case *Tree:
 		stage.OnAfterTreeCreateCallback = any(callback).(OnAfterCreateInterface[Tree])
@@ -163,6 +187,9 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *AsSplitArea:
 		stage.OnAfterAsSplitAreaDeleteCallback = any(callback).(OnAfterDeleteInterface[AsSplitArea])
 	
+	case *Table:
+		stage.OnAfterTableDeleteCallback = any(callback).(OnAfterDeleteInterface[Table])
+	
 	case *Tree:
 		stage.OnAfterTreeDeleteCallback = any(callback).(OnAfterDeleteInterface[Tree])
 	
@@ -181,6 +208,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *StageStruct, callback
 	
 	case *AsSplitArea:
 		stage.OnAfterAsSplitAreaReadCallback = any(callback).(OnAfterReadInterface[AsSplitArea])
+	
+	case *Table:
+		stage.OnAfterTableReadCallback = any(callback).(OnAfterReadInterface[Table])
 	
 	case *Tree:
 		stage.OnAfterTreeReadCallback = any(callback).(OnAfterReadInterface[Tree])

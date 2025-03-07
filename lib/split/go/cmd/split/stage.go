@@ -33,6 +33,8 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000004_table := (&models.AsSplitArea{}).Stage(stage)
 	__AsSplitArea__000005_form := (&models.AsSplitArea{}).Stage(stage)
 
+	__Table__000000_Table_within_panel := (&models.Table{}).Stage(stage)
+
 	__Tree__000000_Tree := (&models.Tree{}).Stage(stage)
 
 	__View__000000_a := (&models.View{}).Stage(stage)
@@ -68,6 +70,10 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000005_form.Size = 30.000000
 	__AsSplitArea__000005_form.IsAny = false
 
+	__Table__000000_Table_within_panel.Name = `Table within panel`
+	__Table__000000_Table_within_panel.StackName = `split-table`
+	__Table__000000_Table_within_panel.TableName = `Table`
+
 	__Tree__000000_Tree.Name = `Tree`
 	__Tree__000000_Tree.StackName = `split-sidebar`
 	__Tree__000000_Tree.TreeName = `gong`
@@ -86,6 +92,8 @@ func _(stage *models.StageStruct) {
 	// setup of AsSplitArea instances pointers
 	__AsSplitArea__000002_extra.AsSplits = append(__AsSplitArea__000002_extra.AsSplits, __AsSplit__000000_planel_root)
 	__AsSplitArea__000003_sidebar_tree.Tree = __Tree__000000_Tree
+	__AsSplitArea__000004_table.Table = __Table__000000_Table_within_panel
+	// setup of Table instances pointers
 	// setup of Tree instances pointers
 	// setup of View instances pointers
 	__View__000000_a.RootAsSplitAreas = append(__View__000000_a.RootAsSplitAreas, __AsSplitArea__000000_top)

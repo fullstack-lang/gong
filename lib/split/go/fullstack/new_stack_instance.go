@@ -46,6 +46,7 @@ func NewStackInstance(
 	// insertion point
 	models.SetOrchestratorOnAfterUpdate[models.AsSplit](stage)
 	models.SetOrchestratorOnAfterUpdate[models.AsSplitArea](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Table](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Tree](stage)
 	models.SetOrchestratorOnAfterUpdate[models.View](stage)
 

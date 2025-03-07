@@ -27,7 +27,10 @@
                 <lib-tree-specific [GONG__StackPath]="asSplitArea.Tree.StackName" 
                 [name]="asSplitArea.Tree.TreeName"></lib-tree-specific>
                 }
-
+                @if (asSplitArea.Table) {
+                    <lib-table-specific [DataStack]="asSplitArea.Table.StackName" 
+                    [TableName]="asSplitArea.Table.TableName"></lib-table-specific>
+                }
             </as-split-area>
             }
         </as-split>
