@@ -3,6 +3,8 @@ import { AsSplitAPI } from './assplit-api'
 import { TreeAPI } from './tree-api'
 import { TableAPI } from './table-api'
 import { FormAPI } from './form-api'
+import { SvgAPI } from './svg-api'
+import { DocAPI } from './doc-api'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -33,5 +35,9 @@ export class AsSplitAreaPointersEncoding {
 	TableID: NullInt64 = new NullInt64 // if pointer is null, Table.ID = 0
 
 	FormID: NullInt64 = new NullInt64 // if pointer is null, Form.ID = 0
+
+	SvgID: NullInt64 = new NullInt64 // if pointer is null, Svg.ID = 0
+
+	DocID: NullInt64 = new NullInt64 // if pointer is null, Doc.ID = 0
 
 }

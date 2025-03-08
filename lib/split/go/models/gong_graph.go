@@ -11,8 +11,14 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	case *AsSplitArea:
 		ok = stage.IsStagedAsSplitArea(target)
 
+	case *Doc:
+		ok = stage.IsStagedDoc(target)
+
 	case *Form:
 		ok = stage.IsStagedForm(target)
+
+	case *Svg:
+		ok = stage.IsStagedSvg(target)
 
 	case *Table:
 		ok = stage.IsStagedTable(target)
@@ -44,9 +50,23 @@ func (stage *StageStruct) IsStagedAsSplitArea(assplitarea *AsSplitArea) (ok bool
 	return
 }
 
+func (stage *StageStruct) IsStagedDoc(doc *Doc) (ok bool) {
+
+	_, ok = stage.Docs[doc]
+
+	return
+}
+
 func (stage *StageStruct) IsStagedForm(form *Form) (ok bool) {
 
 	_, ok = stage.Forms[form]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedSvg(svg *Svg) (ok bool) {
+
+	_, ok = stage.Svgs[svg]
 
 	return
 }
@@ -86,8 +106,14 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *AsSplitArea:
 		stage.StageBranchAsSplitArea(target)
 
+	case *Doc:
+		stage.StageBranchDoc(target)
+
 	case *Form:
 		stage.StageBranchForm(target)
+
+	case *Svg:
+		stage.StageBranchSvg(target)
 
 	case *Table:
 		stage.StageBranchTable(target)
@@ -141,11 +167,32 @@ func (stage *StageStruct) StageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	if assplitarea.Form != nil {
 		StageBranch(stage, assplitarea.Form)
 	}
+	if assplitarea.Svg != nil {
+		StageBranch(stage, assplitarea.Svg)
+	}
+	if assplitarea.Doc != nil {
+		StageBranch(stage, assplitarea.Doc)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _assplit := range assplitarea.AsSplits {
 		StageBranch(stage, _assplit)
 	}
+
+}
+
+func (stage *StageStruct) StageBranchDoc(doc *Doc) {
+
+	// check if instance is already staged
+	if IsStaged(stage, doc) {
+		return
+	}
+
+	doc.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -157,6 +204,21 @@ func (stage *StageStruct) StageBranchForm(form *Form) {
 	}
 
 	form.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *StageStruct) StageBranchSvg(svg *Svg) {
+
+	// check if instance is already staged
+	if IsStaged(stage, svg) {
+		return
+	}
+
+	svg.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -231,8 +293,16 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchAsSplitArea(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Doc:
+		toT := CopyBranchDoc(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Form:
 		toT := CopyBranchForm(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Svg:
+		toT := CopyBranchSvg(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Table:
@@ -298,11 +368,36 @@ func CopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplitArea
 	if assplitareaFrom.Form != nil {
 		assplitareaTo.Form = CopyBranchForm(mapOrigCopy, assplitareaFrom.Form)
 	}
+	if assplitareaFrom.Svg != nil {
+		assplitareaTo.Svg = CopyBranchSvg(mapOrigCopy, assplitareaFrom.Svg)
+	}
+	if assplitareaFrom.Doc != nil {
+		assplitareaTo.Doc = CopyBranchDoc(mapOrigCopy, assplitareaFrom.Doc)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _assplit := range assplitareaFrom.AsSplits {
 		assplitareaTo.AsSplits = append(assplitareaTo.AsSplits, CopyBranchAsSplit(mapOrigCopy, _assplit))
 	}
+
+	return
+}
+
+func CopyBranchDoc(mapOrigCopy map[any]any, docFrom *Doc) (docTo *Doc) {
+
+	// docFrom has already been copied
+	if _docTo, ok := mapOrigCopy[docFrom]; ok {
+		docTo = _docTo.(*Doc)
+		return
+	}
+
+	docTo = new(Doc)
+	mapOrigCopy[docFrom] = docTo
+	docFrom.CopyBasicFields(docTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -318,6 +413,25 @@ func CopyBranchForm(mapOrigCopy map[any]any, formFrom *Form) (formTo *Form) {
 	formTo = new(Form)
 	mapOrigCopy[formFrom] = formTo
 	formFrom.CopyBasicFields(formTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchSvg(mapOrigCopy map[any]any, svgFrom *Svg) (svgTo *Svg) {
+
+	// svgFrom has already been copied
+	if _svgTo, ok := mapOrigCopy[svgFrom]; ok {
+		svgTo = _svgTo.(*Svg)
+		return
+	}
+
+	svgTo = new(Svg)
+	mapOrigCopy[svgFrom] = svgTo
+	svgFrom.CopyBasicFields(svgTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -400,8 +514,14 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *AsSplitArea:
 		stage.UnstageBranchAsSplitArea(target)
 
+	case *Doc:
+		stage.UnstageBranchDoc(target)
+
 	case *Form:
 		stage.UnstageBranchForm(target)
+
+	case *Svg:
+		stage.UnstageBranchSvg(target)
 
 	case *Table:
 		stage.UnstageBranchTable(target)
@@ -455,11 +575,32 @@ func (stage *StageStruct) UnstageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	if assplitarea.Form != nil {
 		UnstageBranch(stage, assplitarea.Form)
 	}
+	if assplitarea.Svg != nil {
+		UnstageBranch(stage, assplitarea.Svg)
+	}
+	if assplitarea.Doc != nil {
+		UnstageBranch(stage, assplitarea.Doc)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _assplit := range assplitarea.AsSplits {
 		UnstageBranch(stage, _assplit)
 	}
+
+}
+
+func (stage *StageStruct) UnstageBranchDoc(doc *Doc) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, doc) {
+		return
+	}
+
+	doc.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -471,6 +612,21 @@ func (stage *StageStruct) UnstageBranchForm(form *Form) {
 	}
 
 	form.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *StageStruct) UnstageBranchSvg(svg *Svg) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, svg) {
+		return
+	}
+
+	svg.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 

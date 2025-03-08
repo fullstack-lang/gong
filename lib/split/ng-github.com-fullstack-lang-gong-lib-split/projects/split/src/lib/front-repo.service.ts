@@ -12,9 +12,17 @@ import { AsSplitAreaAPI } from './assplitarea-api'
 import { AsSplitArea, CopyAsSplitAreaAPIToAsSplitArea } from './assplitarea'
 import { AsSplitAreaService } from './assplitarea.service'
 
+import { DocAPI } from './doc-api'
+import { Doc, CopyDocAPIToDoc } from './doc'
+import { DocService } from './doc.service'
+
 import { FormAPI } from './form-api'
 import { Form, CopyFormAPIToForm } from './form'
 import { FormService } from './form.service'
+
+import { SvgAPI } from './svg-api'
+import { Svg, CopySvgAPIToSvg } from './svg'
+import { SvgService } from './svg.service'
 
 import { TableAPI } from './table-api'
 import { Table, CopyTableAPIToTable } from './table'
@@ -41,8 +49,14 @@ export class FrontRepo { // insertion point sub template
 	array_AsSplitAreas = new Array<AsSplitArea>() // array of front instances
 	map_ID_AsSplitArea = new Map<number, AsSplitArea>() // map of front instances
 
+	array_Docs = new Array<Doc>() // array of front instances
+	map_ID_Doc = new Map<number, Doc>() // map of front instances
+
 	array_Forms = new Array<Form>() // array of front instances
 	map_ID_Form = new Map<number, Form>() // map of front instances
+
+	array_Svgs = new Array<Svg>() // array of front instances
+	map_ID_Svg = new Map<number, Svg>() // map of front instances
 
 	array_Tables = new Array<Table>() // array of front instances
 	map_ID_Table = new Map<number, Table>() // map of front instances
@@ -66,8 +80,12 @@ export class FrontRepo { // insertion point sub template
 				return this.array_AsSplits as unknown as Array<Type>
 			case 'AsSplitArea':
 				return this.array_AsSplitAreas as unknown as Array<Type>
+			case 'Doc':
+				return this.array_Docs as unknown as Array<Type>
 			case 'Form':
 				return this.array_Forms as unknown as Array<Type>
+			case 'Svg':
+				return this.array_Svgs as unknown as Array<Type>
 			case 'Table':
 				return this.array_Tables as unknown as Array<Type>
 			case 'Tree':
@@ -86,8 +104,12 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_AsSplit as unknown as Map<number, Type>
 			case 'AsSplitArea':
 				return this.map_ID_AsSplitArea as unknown as Map<number, Type>
+			case 'Doc':
+				return this.map_ID_Doc as unknown as Map<number, Type>
 			case 'Form':
 				return this.map_ID_Form as unknown as Map<number, Type>
+			case 'Svg':
+				return this.map_ID_Svg as unknown as Map<number, Type>
 			case 'Table':
 				return this.map_ID_Table as unknown as Map<number, Type>
 			case 'Tree':
@@ -163,7 +185,9 @@ export class FrontRepoService {
 		private http: HttpClient, // insertion point sub template 
 		private assplitService: AsSplitService,
 		private assplitareaService: AsSplitAreaService,
+		private docService: DocService,
 		private formService: FormService,
+		private svgService: SvgService,
 		private tableService: TableService,
 		private treeService: TreeService,
 		private viewService: ViewService,
@@ -201,7 +225,9 @@ export class FrontRepoService {
 		// insertion point sub template 
 		Observable<AsSplitAPI[]>,
 		Observable<AsSplitAreaAPI[]>,
+		Observable<DocAPI[]>,
 		Observable<FormAPI[]>,
+		Observable<SvgAPI[]>,
 		Observable<TableAPI[]>,
 		Observable<TreeAPI[]>,
 		Observable<ViewAPI[]>,
@@ -222,7 +248,9 @@ export class FrontRepoService {
 			// insertion point sub template
 			this.assplitService.getAsSplits(this.GONG__StackPath, this.frontRepo),
 			this.assplitareaService.getAsSplitAreas(this.GONG__StackPath, this.frontRepo),
+			this.docService.getDocs(this.GONG__StackPath, this.frontRepo),
 			this.formService.getForms(this.GONG__StackPath, this.frontRepo),
+			this.svgService.getSvgs(this.GONG__StackPath, this.frontRepo),
 			this.tableService.getTables(this.GONG__StackPath, this.frontRepo),
 			this.treeService.getTrees(this.GONG__StackPath, this.frontRepo),
 			this.viewService.getViews(this.GONG__StackPath, this.frontRepo),
@@ -238,7 +266,9 @@ export class FrontRepoService {
 						// insertion point sub template for declarations 
 						assplits_,
 						assplitareas_,
+						docs_,
 						forms_,
+						svgs_,
 						tables_,
 						trees_,
 						views_,
@@ -250,8 +280,12 @@ export class FrontRepoService {
 						assplits = assplits_ as AsSplitAPI[]
 						var assplitareas: AsSplitAreaAPI[]
 						assplitareas = assplitareas_ as AsSplitAreaAPI[]
+						var docs: DocAPI[]
+						docs = docs_ as DocAPI[]
 						var forms: FormAPI[]
 						forms = forms_ as FormAPI[]
+						var svgs: SvgAPI[]
+						svgs = svgs_ as SvgAPI[]
 						var tables: TableAPI[]
 						tables = tables_ as TableAPI[]
 						var trees: TreeAPI[]
@@ -287,6 +321,18 @@ export class FrontRepoService {
 						)
 
 						// init the arrays
+						this.frontRepo.array_Docs = []
+						this.frontRepo.map_ID_Doc.clear()
+
+						docs.forEach(
+							docAPI => {
+								let doc = new Doc
+								this.frontRepo.array_Docs.push(doc)
+								this.frontRepo.map_ID_Doc.set(docAPI.ID, doc)
+							}
+						)
+
+						// init the arrays
 						this.frontRepo.array_Forms = []
 						this.frontRepo.map_ID_Form.clear()
 
@@ -295,6 +341,18 @@ export class FrontRepoService {
 								let form = new Form
 								this.frontRepo.array_Forms.push(form)
 								this.frontRepo.map_ID_Form.set(formAPI.ID, form)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_Svgs = []
+						this.frontRepo.map_ID_Svg.clear()
+
+						svgs.forEach(
+							svgAPI => {
+								let svg = new Svg
+								this.frontRepo.array_Svgs.push(svg)
+								this.frontRepo.map_ID_Svg.set(svgAPI.ID, svg)
 							}
 						)
 
@@ -355,10 +413,26 @@ export class FrontRepoService {
 						)
 
 						// fill up front objects
+						docs.forEach(
+							docAPI => {
+								let doc = this.frontRepo.map_ID_Doc.get(docAPI.ID)
+								CopyDocAPIToDoc(docAPI, doc!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
 						forms.forEach(
 							formAPI => {
 								let form = this.frontRepo.map_ID_Form.get(formAPI.ID)
 								CopyFormAPIToForm(formAPI, form!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						svgs.forEach(
+							svgAPI => {
+								let svg = this.frontRepo.map_ID_Svg.get(svgAPI.ID)
+								CopySvgAPIToSvg(svgAPI, svg!, this.frontRepo)
 							}
 						)
 
@@ -445,6 +519,18 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
+				frontRepo.array_Docs = []
+				frontRepo.map_ID_Doc.clear()
+
+				backRepoData.DocAPIs.forEach(
+					docAPI => {
+						let doc = new Doc
+						frontRepo.array_Docs.push(doc)
+						frontRepo.map_ID_Doc.set(docAPI.ID, doc)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_Forms = []
 				frontRepo.map_ID_Form.clear()
 
@@ -453,6 +539,18 @@ export class FrontRepoService {
 						let form = new Form
 						frontRepo.array_Forms.push(form)
 						frontRepo.map_ID_Form.set(formAPI.ID, form)
+					}
+				)
+
+				// init the arrays
+				frontRepo.array_Svgs = []
+				frontRepo.map_ID_Svg.clear()
+
+				backRepoData.SvgAPIs.forEach(
+					svgAPI => {
+						let svg = new Svg
+						frontRepo.array_Svgs.push(svg)
+						frontRepo.map_ID_Svg.set(svgAPI.ID, svg)
 					}
 				)
 
@@ -515,10 +613,26 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.DocAPIs.forEach(
+					docAPI => {
+						let doc = frontRepo.map_ID_Doc.get(docAPI.ID)
+						CopyDocAPIToDoc(docAPI, doc!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.FormAPIs.forEach(
 					formAPI => {
 						let form = frontRepo.map_ID_Form.get(formAPI.ID)
 						CopyFormAPIToForm(formAPI, form!, frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.SvgAPIs.forEach(
+					svgAPI => {
+						let svg = frontRepo.map_ID_Svg.get(svgAPI.ID)
+						CopySvgAPIToSvg(svgAPI, svg!, frontRepo)
 					}
 				)
 
@@ -571,15 +685,21 @@ export function getAsSplitUniqueID(id: number): number {
 export function getAsSplitAreaUniqueID(id: number): number {
 	return 37 * id
 }
-export function getFormUniqueID(id: number): number {
+export function getDocUniqueID(id: number): number {
 	return 41 * id
 }
-export function getTableUniqueID(id: number): number {
+export function getFormUniqueID(id: number): number {
 	return 43 * id
 }
-export function getTreeUniqueID(id: number): number {
+export function getSvgUniqueID(id: number): number {
 	return 47 * id
 }
-export function getViewUniqueID(id: number): number {
+export function getTableUniqueID(id: number): number {
 	return 53 * id
+}
+export function getTreeUniqueID(id: number): number {
+	return 59 * id
+}
+export function getViewUniqueID(id: number): number {
+	return 61 * id
 }

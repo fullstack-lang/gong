@@ -82,6 +82,16 @@ func fillUpTree(
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
+		case "Doc":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.Doc](probe.stageOfInterest)
+			for _doc := range set {
+				nodeInstance := (&tree.Node{Name: _doc.GetName()}).Stage(probe.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_doc, "Doc", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
 		case "Form":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSet[models.Form](probe.stageOfInterest)
@@ -89,6 +99,16 @@ func fillUpTree(
 				nodeInstance := (&tree.Node{Name: _form.GetName()}).Stage(probe.treeStage)
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_form, "Form", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "Svg":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.Svg](probe.stageOfInterest)
+			for _svg := range set {
+				nodeInstance := (&tree.Node{Name: _svg.GetName()}).Stage(probe.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_svg, "Svg", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}

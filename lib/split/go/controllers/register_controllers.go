@@ -63,12 +63,26 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/assplitareas/:id", GetController().UpdateAsSplitArea)
 		v1.DELETE("/v1/assplitareas/:id", GetController().DeleteAsSplitArea)
 
+		v1.GET("/v1/docs", GetController().GetDocs)
+		v1.GET("/v1/docs/:id", GetController().GetDoc)
+		v1.POST("/v1/docs", GetController().PostDoc)
+		v1.PATCH("/v1/docs/:id", GetController().UpdateDoc)
+		v1.PUT("/v1/docs/:id", GetController().UpdateDoc)
+		v1.DELETE("/v1/docs/:id", GetController().DeleteDoc)
+
 		v1.GET("/v1/forms", GetController().GetForms)
 		v1.GET("/v1/forms/:id", GetController().GetForm)
 		v1.POST("/v1/forms", GetController().PostForm)
 		v1.PATCH("/v1/forms/:id", GetController().UpdateForm)
 		v1.PUT("/v1/forms/:id", GetController().UpdateForm)
 		v1.DELETE("/v1/forms/:id", GetController().DeleteForm)
+
+		v1.GET("/v1/svgs", GetController().GetSvgs)
+		v1.GET("/v1/svgs/:id", GetController().GetSvg)
+		v1.POST("/v1/svgs", GetController().PostSvg)
+		v1.PATCH("/v1/svgs/:id", GetController().UpdateSvg)
+		v1.PUT("/v1/svgs/:id", GetController().UpdateSvg)
+		v1.DELETE("/v1/svgs/:id", GetController().DeleteSvg)
 
 		v1.GET("/v1/tables", GetController().GetTables)
 		v1.GET("/v1/tables/:id", GetController().GetTable)
