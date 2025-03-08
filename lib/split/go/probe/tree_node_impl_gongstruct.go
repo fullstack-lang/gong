@@ -58,8 +58,14 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "AsSplitArea" {
 		fillUpTable[models.AsSplitArea](nodeImplGongstruct.probe)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Doc" {
+		fillUpTable[models.Doc](nodeImplGongstruct.probe)
+	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Form" {
 		fillUpTable[models.Form](nodeImplGongstruct.probe)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Svg" {
+		fillUpTable[models.Svg](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Table" {
 		fillUpTable[models.Table](nodeImplGongstruct.probe)

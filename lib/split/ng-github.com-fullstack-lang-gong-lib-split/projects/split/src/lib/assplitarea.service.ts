@@ -21,6 +21,8 @@ import { AsSplitAPI } from './assplit-api'
 import { TreeAPI } from './tree-api'
 import { TableAPI } from './table-api'
 import { FormAPI } from './form-api'
+import { SvgAPI } from './svg-api'
+import { DocAPI } from './doc-api'
 
 @Injectable({
   providedIn: 'root'

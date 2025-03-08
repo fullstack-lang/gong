@@ -24,8 +24,12 @@ func fillUpTablePointerToGongstruct[T models.PointerToGongstruct](
 		fillUpTable[models.AsSplit](probe)
 	case *models.AsSplitArea:
 		fillUpTable[models.AsSplitArea](probe)
+	case *models.Doc:
+		fillUpTable[models.Doc](probe)
 	case *models.Form:
 		fillUpTable[models.Form](probe)
+	case *models.Svg:
+		fillUpTable[models.Svg](probe)
 	case *models.Table:
 		fillUpTable[models.Table](probe)
 	case *models.Tree:

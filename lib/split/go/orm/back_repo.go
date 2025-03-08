@@ -28,7 +28,11 @@ type BackRepoStruct struct {
 
 	BackRepoAsSplitArea BackRepoAsSplitAreaStruct
 
+	BackRepoDoc BackRepoDocStruct
+
 	BackRepoForm BackRepoFormStruct
+
+	BackRepoSvg BackRepoSvgStruct
 
 	BackRepoTable BackRepoTableStruct
 
@@ -59,7 +63,9 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 	db = dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gong_lib_split_go",
 		&AsSplitDB{},
 		&AsSplitAreaDB{},
+		&DocDB{},
 		&FormDB{},
+		&SvgDB{},
 		&TableDB{},
 		&TreeDB{},
 		&ViewDB{},
@@ -85,10 +91,26 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		db:    db,
 		stage: stage,
 	}
+	backRepo.BackRepoDoc = BackRepoDocStruct{
+		Map_DocDBID_DocPtr: make(map[uint]*models.Doc, 0),
+		Map_DocDBID_DocDB:  make(map[uint]*DocDB, 0),
+		Map_DocPtr_DocDBID: make(map[*models.Doc]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
 	backRepo.BackRepoForm = BackRepoFormStruct{
 		Map_FormDBID_FormPtr: make(map[uint]*models.Form, 0),
 		Map_FormDBID_FormDB:  make(map[uint]*FormDB, 0),
 		Map_FormPtr_FormDBID: make(map[*models.Form]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoSvg = BackRepoSvgStruct{
+		Map_SvgDBID_SvgPtr: make(map[uint]*models.Svg, 0),
+		Map_SvgDBID_SvgDB:  make(map[uint]*SvgDB, 0),
+		Map_SvgPtr_SvgDBID: make(map[*models.Svg]uint, 0),
 
 		db:    db,
 		stage: stage,
@@ -172,7 +194,9 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoAsSplit.CommitPhaseOne(stage)
 	backRepo.BackRepoAsSplitArea.CommitPhaseOne(stage)
+	backRepo.BackRepoDoc.CommitPhaseOne(stage)
 	backRepo.BackRepoForm.CommitPhaseOne(stage)
+	backRepo.BackRepoSvg.CommitPhaseOne(stage)
 	backRepo.BackRepoTable.CommitPhaseOne(stage)
 	backRepo.BackRepoTree.CommitPhaseOne(stage)
 	backRepo.BackRepoView.CommitPhaseOne(stage)
@@ -180,7 +204,9 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoAsSplit.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoAsSplitArea.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoDoc.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoForm.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoSvg.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoTable.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoTree.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoView.CommitPhaseTwo(backRepo)
@@ -193,7 +219,9 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoAsSplit.CheckoutPhaseOne()
 	backRepo.BackRepoAsSplitArea.CheckoutPhaseOne()
+	backRepo.BackRepoDoc.CheckoutPhaseOne()
 	backRepo.BackRepoForm.CheckoutPhaseOne()
+	backRepo.BackRepoSvg.CheckoutPhaseOne()
 	backRepo.BackRepoTable.CheckoutPhaseOne()
 	backRepo.BackRepoTree.CheckoutPhaseOne()
 	backRepo.BackRepoView.CheckoutPhaseOne()
@@ -201,7 +229,9 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoAsSplit.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoAsSplitArea.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoDoc.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoForm.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoSvg.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoTable.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoTree.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoView.CheckoutPhaseTwo(backRepo)
@@ -214,7 +244,9 @@ func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string
 	// insertion point for per struct backup
 	backRepo.BackRepoAsSplit.Backup(dirPath)
 	backRepo.BackRepoAsSplitArea.Backup(dirPath)
+	backRepo.BackRepoDoc.Backup(dirPath)
 	backRepo.BackRepoForm.Backup(dirPath)
+	backRepo.BackRepoSvg.Backup(dirPath)
 	backRepo.BackRepoTable.Backup(dirPath)
 	backRepo.BackRepoTree.Backup(dirPath)
 	backRepo.BackRepoView.Backup(dirPath)
@@ -230,7 +262,9 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.StageStruct, dirPath stri
 	// insertion point for per struct backup
 	backRepo.BackRepoAsSplit.BackupXL(file)
 	backRepo.BackRepoAsSplitArea.BackupXL(file)
+	backRepo.BackRepoDoc.BackupXL(file)
 	backRepo.BackRepoForm.BackupXL(file)
+	backRepo.BackRepoSvg.BackupXL(file)
 	backRepo.BackRepoTable.BackupXL(file)
 	backRepo.BackRepoTree.BackupXL(file)
 	backRepo.BackRepoView.BackupXL(file)
@@ -260,7 +294,9 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	// insertion point for per struct backup
 	backRepo.BackRepoAsSplit.RestorePhaseOne(dirPath)
 	backRepo.BackRepoAsSplitArea.RestorePhaseOne(dirPath)
+	backRepo.BackRepoDoc.RestorePhaseOne(dirPath)
 	backRepo.BackRepoForm.RestorePhaseOne(dirPath)
+	backRepo.BackRepoSvg.RestorePhaseOne(dirPath)
 	backRepo.BackRepoTable.RestorePhaseOne(dirPath)
 	backRepo.BackRepoTree.RestorePhaseOne(dirPath)
 	backRepo.BackRepoView.RestorePhaseOne(dirPath)
@@ -272,7 +308,9 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	// insertion point for per struct backup
 	backRepo.BackRepoAsSplit.RestorePhaseTwo()
 	backRepo.BackRepoAsSplitArea.RestorePhaseTwo()
+	backRepo.BackRepoDoc.RestorePhaseTwo()
 	backRepo.BackRepoForm.RestorePhaseTwo()
+	backRepo.BackRepoSvg.RestorePhaseTwo()
 	backRepo.BackRepoTable.RestorePhaseTwo()
 	backRepo.BackRepoTree.RestorePhaseTwo()
 	backRepo.BackRepoView.RestorePhaseTwo()
@@ -305,7 +343,9 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.StageStruct, dirPath str
 	// insertion point for per struct backup
 	backRepo.BackRepoAsSplit.RestoreXLPhaseOne(file)
 	backRepo.BackRepoAsSplitArea.RestoreXLPhaseOne(file)
+	backRepo.BackRepoDoc.RestoreXLPhaseOne(file)
 	backRepo.BackRepoForm.RestoreXLPhaseOne(file)
+	backRepo.BackRepoSvg.RestoreXLPhaseOne(file)
 	backRepo.BackRepoTable.RestoreXLPhaseOne(file)
 	backRepo.BackRepoTree.RestoreXLPhaseOne(file)
 	backRepo.BackRepoView.RestoreXLPhaseOne(file)

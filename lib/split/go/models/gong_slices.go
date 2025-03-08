@@ -27,7 +27,13 @@ func (stage *StageStruct) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct Doc
+	// insertion point per field
+
 	// Compute reverse map for named struct Form
+	// insertion point per field
+
+	// Compute reverse map for named struct Svg
 	// insertion point per field
 
 	// Compute reverse map for named struct Table

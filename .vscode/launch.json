@@ -169,7 +169,7 @@
         },
         
         {
-            "name": "go run tree -unmarshallFromCode=stage.go -marshallOnCommit=stage_out",
+            "name": "go run tree",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -180,7 +180,7 @@
             ],
         },
         {
-            "name": "go run split -unmarshallFromCode=stage.go -marshallOnCommit=stage",
+            "name": "go run split",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -191,7 +191,7 @@
             ],
         },
         {
-            "name": "go run svg -unmarshallFromCode=stage.go -marshallOnCommit=stage_out",
+            "name": "go run svg",
             "type": "go",
             "request": "launch",
             "mode": "auto",
