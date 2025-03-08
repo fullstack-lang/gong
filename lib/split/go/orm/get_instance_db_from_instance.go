@@ -23,9 +23,17 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		assplitareaInstance := any(concreteInstance).(*models.AsSplitArea)
 		ret2 := backRepo.BackRepoAsSplitArea.GetAsSplitAreaDBFromAsSplitAreaPtr(assplitareaInstance)
 		ret = any(ret2).(*T2)
+	case *models.Doc:
+		docInstance := any(concreteInstance).(*models.Doc)
+		ret2 := backRepo.BackRepoDoc.GetDocDBFromDocPtr(docInstance)
+		ret = any(ret2).(*T2)
 	case *models.Form:
 		formInstance := any(concreteInstance).(*models.Form)
 		ret2 := backRepo.BackRepoForm.GetFormDBFromFormPtr(formInstance)
+		ret = any(ret2).(*T2)
+	case *models.Svg:
+		svgInstance := any(concreteInstance).(*models.Svg)
+		ret2 := backRepo.BackRepoSvg.GetSvgDBFromSvgPtr(svgInstance)
 		ret = any(ret2).(*T2)
 	case *models.Table:
 		tableInstance := any(concreteInstance).(*models.Table)
@@ -62,8 +70,18 @@ func GetID[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
+	case *models.Doc:
+		tmp := GetInstanceDBFromInstance[models.Doc, DocDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
 	case *models.Form:
 		tmp := GetInstanceDBFromInstance[models.Form, FormDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Svg:
+		tmp := GetInstanceDBFromInstance[models.Svg, SvgDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -105,8 +123,18 @@ func GetIDPointer[T models.PointerToGongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
+	case *models.Doc:
+		tmp := GetInstanceDBFromInstance[models.Doc, DocDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
 	case *models.Form:
 		tmp := GetInstanceDBFromInstance[models.Form, FormDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Svg:
+		tmp := GetInstanceDBFromInstance[models.Svg, SvgDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

@@ -8,7 +8,11 @@ type BackRepoData struct {
 
 	AsSplitAreaAPIs []*AsSplitAreaAPI
 
+	DocAPIs []*DocAPI
+
 	FormAPIs []*FormAPI
+
+	SvgAPIs []*SvgAPI
 
 	TableAPIs []*TableAPI
 
@@ -47,6 +51,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		backRepoData.AsSplitAreaAPIs = append(backRepoData.AsSplitAreaAPIs, &assplitareaAPI)
 	}
 
+	for _, docDB := range backRepo.BackRepoDoc.Map_DocDBID_DocDB {
+
+		var docAPI DocAPI
+		docAPI.ID = docDB.ID
+		docAPI.DocPointersEncoding = docDB.DocPointersEncoding
+		docDB.CopyBasicFieldsToDoc_WOP(&docAPI.Doc_WOP)
+
+		backRepoData.DocAPIs = append(backRepoData.DocAPIs, &docAPI)
+	}
+
 	for _, formDB := range backRepo.BackRepoForm.Map_FormDBID_FormDB {
 
 		var formAPI FormAPI
@@ -55,6 +69,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		formDB.CopyBasicFieldsToForm_WOP(&formAPI.Form_WOP)
 
 		backRepoData.FormAPIs = append(backRepoData.FormAPIs, &formAPI)
+	}
+
+	for _, svgDB := range backRepo.BackRepoSvg.Map_SvgDBID_SvgDB {
+
+		var svgAPI SvgAPI
+		svgAPI.ID = svgDB.ID
+		svgAPI.SvgPointersEncoding = svgDB.SvgPointersEncoding
+		svgDB.CopyBasicFieldsToSvg_WOP(&svgAPI.Svg_WOP)
+
+		backRepoData.SvgAPIs = append(backRepoData.SvgAPIs, &svgAPI)
 	}
 
 	for _, tableDB := range backRepo.BackRepoTable.Map_TableDBID_TableDB {

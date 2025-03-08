@@ -21,9 +21,17 @@ export * from './lib/assplitarea-api'
 export * from './lib/assplitarea'
 export * from './lib/assplitarea.service'
 
+export * from './lib/doc-api'
+export * from './lib/doc'
+export * from './lib/doc.service'
+
 export * from './lib/form-api'
 export * from './lib/form'
 export * from './lib/form.service'
+
+export * from './lib/svg-api'
+export * from './lib/svg'
+export * from './lib/svg.service'
 
 export * from './lib/table-api'
 export * from './lib/table'

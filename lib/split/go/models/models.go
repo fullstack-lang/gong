@@ -28,6 +28,8 @@ type AsSplitArea struct {
 	Tree  *Tree
 	Table *Table
 	Form  *Form
+	Svg   *Svg
+	Doc   *Doc
 }
 
 type View struct {
@@ -55,4 +57,16 @@ type Form struct {
 
 	StackName string
 	FormName  string
+}
+
+type Svg struct {
+	Name string // name of the stack
+
+	StackName string
+}
+
+type Doc struct {
+	Name string // name of the stack
+
+	StackName string
 }

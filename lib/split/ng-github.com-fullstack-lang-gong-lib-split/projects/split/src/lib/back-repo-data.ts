@@ -5,7 +5,11 @@ import { AsSplitAPI } from './assplit-api'
 
 import { AsSplitAreaAPI } from './assplitarea-api'
 
+import { DocAPI } from './doc-api'
+
 import { FormAPI } from './form-api'
+
+import { SvgAPI } from './svg-api'
 
 import { TableAPI } from './table-api'
 
@@ -20,7 +24,11 @@ export class BackRepoData {
 
 	AsSplitAreaAPIs = new Array<AsSplitAreaAPI>()
 
+	DocAPIs = new Array<DocAPI>()
+
 	FormAPIs = new Array<FormAPI>()
+
+	SvgAPIs = new Array<SvgAPI>()
 
 	TableAPIs = new Array<TableAPI>()
 
@@ -38,7 +46,11 @@ export class BackRepoData {
 
 		this.AsSplitAreaAPIs = data?.AsSplitAreaAPIs || [];
 
+		this.DocAPIs = data?.DocAPIs || [];
+
 		this.FormAPIs = data?.FormAPIs || [];
+
+		this.SvgAPIs = data?.SvgAPIs || [];
 
 		this.TableAPIs = data?.TableAPIs || [];
 

@@ -8,6 +8,8 @@ import { AsSplit } from './assplit'
 import { Tree } from './tree'
 import { Table } from './table'
 import { Form } from './form'
+import { Svg } from './svg'
+import { Doc } from './doc'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -32,6 +34,10 @@ export class AsSplitArea {
 	Table?: Table
 
 	Form?: Form
+
+	Svg?: Svg
+
+	Doc?: Doc
 
 }
 
@@ -68,6 +74,20 @@ export function CopyAsSplitAreaToAsSplitAreaAPI(assplitarea: AsSplitArea, asspli
 		assplitareaAPI.AsSplitAreaPointersEncoding.FormID.Int64 = 0 		
 	}
 
+	assplitareaAPI.AsSplitAreaPointersEncoding.SvgID.Valid = true
+	if (assplitarea.Svg != undefined) {
+		assplitareaAPI.AsSplitAreaPointersEncoding.SvgID.Int64 = assplitarea.Svg.ID  
+	} else {
+		assplitareaAPI.AsSplitAreaPointersEncoding.SvgID.Int64 = 0 		
+	}
+
+	assplitareaAPI.AsSplitAreaPointersEncoding.DocID.Valid = true
+	if (assplitarea.Doc != undefined) {
+		assplitareaAPI.AsSplitAreaPointersEncoding.DocID.Int64 = assplitarea.Doc.ID  
+	} else {
+		assplitareaAPI.AsSplitAreaPointersEncoding.DocID.Int64 = 0 		
+	}
+
 
 	// insertion point for slice of pointers fields encoding
 	assplitareaAPI.AsSplitAreaPointersEncoding.AsSplits = []
@@ -96,6 +116,8 @@ export function CopyAsSplitAreaAPIToAsSplitArea(assplitareaAPI: AsSplitAreaAPI, 
 	assplitarea.Tree = frontRepo.map_ID_Tree.get(assplitareaAPI.AsSplitAreaPointersEncoding.TreeID.Int64)
 	assplitarea.Table = frontRepo.map_ID_Table.get(assplitareaAPI.AsSplitAreaPointersEncoding.TableID.Int64)
 	assplitarea.Form = frontRepo.map_ID_Form.get(assplitareaAPI.AsSplitAreaPointersEncoding.FormID.Int64)
+	assplitarea.Svg = frontRepo.map_ID_Svg.get(assplitareaAPI.AsSplitAreaPointersEncoding.SvgID.Int64)
+	assplitarea.Doc = frontRepo.map_ID_Doc.get(assplitareaAPI.AsSplitAreaPointersEncoding.DocID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 	if (!Array.isArray(assplitareaAPI.AsSplitAreaPointersEncoding.AsSplits)) {

@@ -28,9 +28,17 @@ type DBLite struct {
 
 	nextIDAsSplitAreaDB uint
 
+	docDBs map[uint]*DocDB
+
+	nextIDDocDB uint
+
 	formDBs map[uint]*FormDB
 
 	nextIDFormDB uint
+
+	svgDBs map[uint]*SvgDB
+
+	nextIDSvgDB uint
 
 	tableDBs map[uint]*TableDB
 
@@ -54,7 +62,11 @@ func NewDBLite() *DBLite {
 
 		assplitareaDBs: make(map[uint]*AsSplitAreaDB),
 
+		docDBs: make(map[uint]*DocDB),
+
 		formDBs: make(map[uint]*FormDB),
+
+		svgDBs: make(map[uint]*SvgDB),
 
 		tableDBs: make(map[uint]*TableDB),
 
@@ -83,10 +95,18 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDAsSplitAreaDB++
 		v.ID = db.nextIDAsSplitAreaDB
 		db.assplitareaDBs[v.ID] = v
+	case *DocDB:
+		db.nextIDDocDB++
+		v.ID = db.nextIDDocDB
+		db.docDBs[v.ID] = v
 	case *FormDB:
 		db.nextIDFormDB++
 		v.ID = db.nextIDFormDB
 		db.formDBs[v.ID] = v
+	case *SvgDB:
+		db.nextIDSvgDB++
+		v.ID = db.nextIDSvgDB
+		db.svgDBs[v.ID] = v
 	case *TableDB:
 		db.nextIDTableDB++
 		v.ID = db.nextIDTableDB
@@ -131,8 +151,12 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.assplitDBs, v.ID)
 	case *AsSplitAreaDB:
 		delete(db.assplitareaDBs, v.ID)
+	case *DocDB:
+		delete(db.docDBs, v.ID)
 	case *FormDB:
 		delete(db.formDBs, v.ID)
+	case *SvgDB:
+		delete(db.svgDBs, v.ID)
 	case *TableDB:
 		delete(db.tableDBs, v.ID)
 	case *TreeDB:
@@ -163,8 +187,14 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 	case *AsSplitAreaDB:
 		db.assplitareaDBs[v.ID] = v
 		return db, nil
+	case *DocDB:
+		db.docDBs[v.ID] = v
+		return db, nil
 	case *FormDB:
 		db.formDBs[v.ID] = v
+		return db, nil
+	case *SvgDB:
+		db.svgDBs[v.ID] = v
 		return db, nil
 	case *TableDB:
 		db.tableDBs[v.ID] = v
@@ -203,11 +233,23 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db AsSplitArea github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
+	case *DocDB:
+		if existing, ok := db.docDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Doc github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
 	case *FormDB:
 		if existing, ok := db.formDBs[v.ID]; ok {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Form github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
+	case *SvgDB:
+		if existing, ok := db.svgDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Svg github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
 	case *TableDB:
 		if existing, ok := db.tableDBs[v.ID]; ok {
@@ -253,9 +295,21 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
+	case *[]DocDB:
+		*ptr = make([]DocDB, 0, len(db.docDBs))
+		for _, v := range db.docDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]FormDB:
 		*ptr = make([]FormDB, 0, len(db.formDBs))
 		for _, v := range db.formDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]SvgDB:
+		*ptr = make([]SvgDB, 0, len(db.svgDBs))
+		for _, v := range db.svgDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -330,6 +384,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		assplitareaDB, _ := instanceDB.(*AsSplitAreaDB)
 		*assplitareaDB = *tmp
 		
+	case *DocDB:
+		tmp, ok := db.docDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Doc Unkown entry %d", i))
+		}
+
+		docDB, _ := instanceDB.(*DocDB)
+		*docDB = *tmp
+		
 	case *FormDB:
 		tmp, ok := db.formDBs[uint(i)]
 
@@ -339,6 +403,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		formDB, _ := instanceDB.(*FormDB)
 		*formDB = *tmp
+		
+	case *SvgDB:
+		tmp, ok := db.svgDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Svg Unkown entry %d", i))
+		}
+
+		svgDB, _ := instanceDB.(*SvgDB)
+		*svgDB = *tmp
 		
 	case *TableDB:
 		tmp, ok := db.tableDBs[uint(i)]

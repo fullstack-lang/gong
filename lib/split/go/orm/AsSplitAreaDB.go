@@ -62,6 +62,14 @@ type AsSplitAreaPointersEncoding struct {
 	// field Form is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	FormID sql.NullInt64
+
+	// field Svg is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	SvgID sql.NullInt64
+
+	// field Doc is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	DocID sql.NullInt64
 }
 
 // AsSplitAreaDB describes a assplitarea in the database
@@ -305,6 +313,30 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseTwoInstance(bac
 			assplitareaDB.FormID.Valid = true
 		}
 
+		// commit pointer value assplitarea.Svg translates to updating the assplitarea.SvgID
+		assplitareaDB.SvgID.Valid = true // allow for a 0 value (nil association)
+		if assplitarea.Svg != nil {
+			if SvgId, ok := backRepo.BackRepoSvg.Map_SvgPtr_SvgDBID[assplitarea.Svg]; ok {
+				assplitareaDB.SvgID.Int64 = int64(SvgId)
+				assplitareaDB.SvgID.Valid = true
+			}
+		} else {
+			assplitareaDB.SvgID.Int64 = 0
+			assplitareaDB.SvgID.Valid = true
+		}
+
+		// commit pointer value assplitarea.Doc translates to updating the assplitarea.DocID
+		assplitareaDB.DocID.Valid = true // allow for a 0 value (nil association)
+		if assplitarea.Doc != nil {
+			if DocId, ok := backRepo.BackRepoDoc.Map_DocPtr_DocDBID[assplitarea.Doc]; ok {
+				assplitareaDB.DocID.Int64 = int64(DocId)
+				assplitareaDB.DocID.Valid = true
+			}
+		} else {
+			assplitareaDB.DocID.Int64 = 0
+			assplitareaDB.DocID.Valid = true
+		}
+
 		_, err := backRepoAsSplitArea.db.Save(assplitareaDB)
 		if err != nil {
 			log.Fatal(err)
@@ -487,6 +519,48 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			}
 		} else {
 			assplitarea.Form = nil
+		}
+	}
+	
+	// Svg field	
+	{
+		id := assplitareaDB.SvgID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoSvg.Map_SvgDBID_SvgPtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: assplitarea.Svg, unknown pointer id", id)
+				assplitarea.Svg = nil
+			} else {
+				// updates only if field has changed
+				if assplitarea.Svg == nil || assplitarea.Svg != tmp {
+					assplitarea.Svg = tmp
+				}
+			}
+		} else {
+			assplitarea.Svg = nil
+		}
+	}
+	
+	// Doc field	
+	{
+		id := assplitareaDB.DocID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoDoc.Map_DocDBID_DocPtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: assplitarea.Doc, unknown pointer id", id)
+				assplitarea.Doc = nil
+			} else {
+				// updates only if field has changed
+				if assplitarea.Doc == nil || assplitarea.Doc != tmp {
+					assplitarea.Doc = tmp
+				}
+			}
+		} else {
+			assplitarea.Doc = nil
 		}
 	}
 	
@@ -758,6 +832,18 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) RestorePhaseTwo() {
 		if assplitareaDB.FormID.Int64 != 0 {
 			assplitareaDB.FormID.Int64 = int64(BackRepoFormid_atBckpTime_newID[uint(assplitareaDB.FormID.Int64)])
 			assplitareaDB.FormID.Valid = true
+		}
+
+		// reindexing Svg field
+		if assplitareaDB.SvgID.Int64 != 0 {
+			assplitareaDB.SvgID.Int64 = int64(BackRepoSvgid_atBckpTime_newID[uint(assplitareaDB.SvgID.Int64)])
+			assplitareaDB.SvgID.Valid = true
+		}
+
+		// reindexing Doc field
+		if assplitareaDB.DocID.Int64 != 0 {
+			assplitareaDB.DocID.Int64 = int64(BackRepoDocid_atBckpTime_newID[uint(assplitareaDB.DocID.Int64)])
+			assplitareaDB.DocID.Valid = true
 		}
 
 		// update databse with new index encoding
