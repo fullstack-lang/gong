@@ -17,15 +17,27 @@
 
     @for (asSplitArea of view_.RootAsSplitAreas; track asSplitArea) {
     <as-split-area [size]="asSplitArea.IsAny ? $any('*') : asSplitArea.Size">
-        <p>{{asSplitArea.Name}}</p>
+        <p>{{asSplitArea.Name}}: {{asSplitArea.Table?.Name}} {{asSplitArea.Tree?.Name}} {{asSplitArea.Svg?.Name}}</p>
+        @if (asSplitArea.Tree) {
+            <lib-tree-specific [GONG__StackPath]="asSplitArea.Tree.StackName" 
+            [name]="asSplitArea.Tree.TreeName"></lib-tree-specific>
+        }
+        @if (asSplitArea.Table) {
+            <lib-table-specific [DataStack]="asSplitArea.Table.StackName" 
+            [TableName]="asSplitArea.Table.TableName"></lib-table-specific>
+        }
+        @if (asSplitArea.Form) {
+            <lib-form-specific [DataStack]="asSplitArea.Form.StackName" 
+            [FormName]="asSplitArea.Form.FormName"></lib-form-specific>
+        }
         @for (asSplit of asSplitArea.AsSplits; track asSplit) {
         <as-split (direction)="asSplit.Direction">
             @for (asSplitArea of asSplit.AsSplitAreas; track asSplitArea) {
             <as-split-area [size]="asSplitArea.IsAny ? $any('*') : asSplitArea.Size">
-                <p>{{asSplitArea.Name}}</p>
+                <p>{{asSplitArea.Name}}: {{asSplitArea.Table?.Name}} {{asSplitArea.Tree?.Name}} {{asSplitArea.Svg?.Name}}</p>
                 @if (asSplitArea.Tree) {
-                <lib-tree-specific [GONG__StackPath]="asSplitArea.Tree.StackName" 
-                [name]="asSplitArea.Tree.TreeName"></lib-tree-specific>
+                    <lib-tree-specific [GONG__StackPath]="asSplitArea.Tree.StackName" 
+                    [name]="asSplitArea.Tree.TreeName"></lib-tree-specific>
                 }
                 @if (asSplitArea.Table) {
                     <lib-table-specific [DataStack]="asSplitArea.Table.StackName" 
@@ -35,6 +47,7 @@
                     <lib-form-specific [DataStack]="asSplitArea.Form.StackName" 
                     [FormName]="asSplitArea.Form.FormName"></lib-form-specific>
                 }
+
             </as-split-area>
             }
         </as-split>

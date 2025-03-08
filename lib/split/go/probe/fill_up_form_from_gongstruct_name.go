@@ -51,6 +51,19 @@ func FillUpFormFromGongstructName(
 		assplitarea := new(models.AsSplitArea)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(assplitarea, formGroup, probe)
+	case "Doc":
+		formGroup := (&form.FormGroup{
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: prefix + "Doc Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DocFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		doc := new(models.Doc)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(doc, formGroup, probe)
 	case "Form":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
@@ -64,6 +77,19 @@ func FillUpFormFromGongstructName(
 		form := new(models.Form)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(form, formGroup, probe)
+	case "Svg":
+		formGroup := (&form.FormGroup{
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: prefix + "Svg Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__SvgFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		svg := new(models.Svg)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(svg, formGroup, probe)
 	case "Table":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
