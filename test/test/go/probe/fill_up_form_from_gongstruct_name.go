@@ -27,7 +27,7 @@ func FillUpFormFromGongstructName(
 	// insertion point
 	case "Astruct":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Astruct Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__AstructFormCallback(
@@ -40,7 +40,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(astruct, formGroup, probe)
 	case "AstructBstruct2Use":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "AstructBstruct2Use Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__AstructBstruct2UseFormCallback(
@@ -53,7 +53,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(astructbstruct2use, formGroup, probe)
 	case "AstructBstructUse":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "AstructBstructUse Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__AstructBstructUseFormCallback(
@@ -66,7 +66,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(astructbstructuse, formGroup, probe)
 	case "Bstruct":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Bstruct Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__BstructFormCallback(
@@ -79,7 +79,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(bstruct, formGroup, probe)
 	case "Dstruct":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Dstruct Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__DstructFormCallback(
@@ -92,7 +92,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(dstruct, formGroup, probe)
 	case "Fstruct":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Fstruct Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FstructFormCallback(
@@ -105,7 +105,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(fstruct, formGroup, probe)
 	case "Gstruct":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Gstruct Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__GstructFormCallback(

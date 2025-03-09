@@ -183,7 +183,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 	if astructFormCallback.CreationMode || astructFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		astructFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(astructFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__AstructFormCallback(
 			nil,
@@ -304,7 +304,7 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 	if astructbstruct2useFormCallback.CreationMode || astructbstruct2useFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		astructbstruct2useFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(astructbstruct2useFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__AstructBstruct2UseFormCallback(
 			nil,
@@ -425,7 +425,7 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 	if astructbstructuseFormCallback.CreationMode || astructbstructuseFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		astructbstructuseFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(astructbstructuseFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__AstructBstructUseFormCallback(
 			nil,
@@ -634,7 +634,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 	if bstructFormCallback.CreationMode || bstructFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		bstructFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(bstructFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__BstructFormCallback(
 			nil,
@@ -755,7 +755,7 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 	if dstructFormCallback.CreationMode || dstructFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		dstructFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(dstructFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__DstructFormCallback(
 			nil,
@@ -834,7 +834,7 @@ func (fstructFormCallback *FstructFormCallback) OnSave() {
 	if fstructFormCallback.CreationMode || fstructFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		fstructFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(fstructFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__FstructFormCallback(
 			nil,
@@ -959,7 +959,7 @@ func (gstructFormCallback *GstructFormCallback) OnSave() {
 	if gstructFormCallback.CreationMode || gstructFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		gstructFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(gstructFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__GstructFormCallback(
 			nil,

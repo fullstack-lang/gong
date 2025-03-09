@@ -148,7 +148,17 @@ func (backRepoGstruct *BackRepoGstructStruct) GetGstructDBFromGstructPtr(gstruct
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoGstruct *BackRepoGstructStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var gstructs []*models.Gstruct
 	for gstruct := range stage.Gstructs {
+		gstructs = append(gstructs, gstruct)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(gstructs, func(i, j int) bool {
+		return stage.Map_Staged_Order[gstructs[i]] < stage.Map_Staged_Order[gstructs[j]]
+	})
+
+	for _, gstruct := range gstructs {
 		backRepoGstruct.CommitPhaseOneInstance(gstruct)
 	}
 
