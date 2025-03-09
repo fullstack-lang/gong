@@ -26,6 +26,8 @@ import (
 
 var __dummy_orm_fillup_form = orm.BackRepoStruct{}
 
+const FormName = "Form"
+
 func FillUpForm(
 	instance any,
 	formGroup *form.FormGroup,

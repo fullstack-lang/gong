@@ -64,7 +64,9 @@
             "command": "go",
             "args": [
                 "run",
-                "main.go"
+                ".",
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage_out"
             ],
             "group": "build"
         },
@@ -91,8 +93,8 @@
             "args": [
                 "run",
                 ".",
-                "-unmarshallFromCode=stage.go",
-                "-marshallOnCommit=stage"
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnComdata/mit=stage"
             ],
             "group": "build"
         },
@@ -171,7 +173,7 @@
             "args": [
                 "run",
                 "main.go",
-                "-marshallOnCommit=stage_out",
+                "-marshallOnCommit=sdata/tage_out",
                 "-unmarshallFromCode",
                 "stage.go",
                 "-diagrams"
@@ -204,7 +206,7 @@
             "group": "build"
         },
         {
-            "label": "04 - go run test2 -unmarshallFromCode=stage2.go -marshallOnCommit=stage2",
+            "label": "04 - go run test2 -unmarshallFromCode=data/stage2.go -marshallOnCommidata/t=stage2",
             "type": "shell",
             "options": {
                 "cwd": "./test2/go/cmd/test2"
@@ -221,9 +223,12 @@
             ]
         },
         {
-            "label": "03 - ngbuild test",
+            "label": "03 - ng build test",
             "type": "shell",
-            "command": "cd test/ng; ngbuild",
+            "options": {
+                "cwd": "test/test/ng-github.com-fullstack-lang-gong-test-test"
+            },
+            "command": "ng build",
             "group": "build",
             "problemMatcher": []
         },
@@ -231,7 +236,7 @@
             "label": "03 - ng serve test --host=127.0.0.1",
             "type": "shell",
             "options": {
-                "cwd": "test/ng"
+                "cwd": "test/test/ng-github.com-fullstack-lang-gong-test-test"
             },
             "command": "ng",
             "group": "build",
@@ -567,7 +572,7 @@
             "args": [
                 "run",
                 "main.go",
-                "-marshallOnCommit=stage_out",
+                "-marshallOnCommit=sdata/tage_out",
                 "-unmarshallFromCode",
                 "stage.go",
             ],
