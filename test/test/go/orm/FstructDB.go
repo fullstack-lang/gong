@@ -136,7 +136,17 @@ func (backRepoFstruct *BackRepoFstructStruct) GetFstructDBFromFstructPtr(fstruct
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoFstruct *BackRepoFstructStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var fstructs []*models.Fstruct
 	for fstruct := range stage.Fstructs {
+		fstructs = append(fstructs, fstruct)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(fstructs, func(i, j int) bool {
+		return stage.Map_Staged_Order[fstructs[i]] < stage.Map_Staged_Order[fstructs[j]]
+	})
+
+	for _, fstruct := range fstructs {
 		backRepoFstruct.CommitPhaseOneInstance(fstruct)
 	}
 
