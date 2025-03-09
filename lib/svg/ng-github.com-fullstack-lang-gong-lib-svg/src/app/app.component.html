@@ -1,73 +1,9 @@
-<!-- button bar that is present in all tabs -->
-<ng-template #radioToolbar>
-    <mat-radio-group aria-label="Select an option" [(ngModel)]="view">
-        <mat-radio-button *ngFor="let view of views" [value]="view">
-            {{view}}&nbsp;&nbsp;&nbsp;
-        </mat-radio-button>
-    </mat-radio-group>
-</ng-template>
-
-<as-split unit="pixel" *ngIf="view==svg" direction="vertical">
-    <as-split-area [size]=40>
-        <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
-    </as-split-area>
-    <as-split-area [size]="400">
-        <lib-svg-specific [GONG__StackPath]="StackName.StackNameDefault">
+<as-split unit="pixel" direction="horizontal">
+    <as-split-area [size]="900">
+        <lib-svg-specific [GONG__StackPath]="StackName">
         </lib-svg-specific>
     </as-split-area>
     <as-split-area [size]="$any('*')">
-
-        <as-split direction="vertical">
-            <as-split-area [size]=50>
-                <as-split direction="horizontal">
-                    <as-split-area [size]="20">
-                        <lib-tree-specific [GONG__StackPath]="StackName.StackNameDefault+TableExtraPathEnum.StackNamePostFixForTableForMainTree" name="gong"></lib-tree-specific>
-                    </as-split-area>
-                    <as-split-area [size]="50">
-                        <div [ngStyle]="scrollStyle">
-                            <lib-table-specific TableName="Table" [DataStack]="StackName.StackNameDefault+TableExtraPathEnum.StackNamePostFixForTableForMainTable"></lib-table-specific>
-                        </div>
-                    </as-split-area>
-                    <as-split-area [size]="30">
-                        <lib-form-specific FormName="Form" [DataStack]="StackName.StackNameDefault+TableExtraPathEnum.StackNamePostFixForTableForMainForm"></lib-form-specific>
-                    </as-split-area>
-                </as-split>
-            </as-split-area>
-            <as-split-area [size]=50>
-                <!-- <lib-panel [GONG__StackPath]="StackType"></lib-panel> -->
-            </as-split-area>
-        </as-split>
-
+        <lib-split-specific [GONG__StackPath]="StackName"></lib-split-specific>
     </as-split-area>
-</as-split>
-
-<as-split unit="pixel" *ngIf="view==probe" direction="vertical">
-    <as-split-area [size]=40>
-        <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
-    </as-split-area>
-    <as-split-area [size]="$any('*')">
-    
-        <as-split direction="vertical">
-            <as-split-area [size]=50>
-                <as-split direction="horizontal">
-                    <as-split-area [size]="20">
-                        <!-- <lib-tree [GONG__StackPath]="StackName.StackNameDefault+TableExtraPathEnum.StackNamePostFixForTableForMainTree" name="gong"></lib-tree> -->
-                    </as-split-area>
-                    <as-split-area [size]="50">
-                        <div [ngStyle]="scrollStyle">
-                            <!-- <lib-material-table TableName="Table" [DataStack]="StackName.StackNameDefault+TableExtraPathEnum.StackNamePostFixForTableForMainTable"></lib-material-table> -->
-                        </div>
-                    </as-split-area>
-                    <as-split-area [size]="30">
-                        <!-- <lib-material-form FormName="Form" [DataStack]="StackName.StackNameDefault+TableExtraPathEnum.StackNamePostFixForTableForMainForm"></lib-material-form> -->
-                    </as-split-area>
-                </as-split>
-            </as-split-area>
-            <as-split-area [size]=50>
-                <!-- <lib-panel [GONG__StackPath]="StackType"></lib-panel> -->
-            </as-split-area>
-        </as-split>
-
-    </as-split-area>
-
 </as-split>

@@ -187,7 +187,17 @@ func (backRepoPolyline *BackRepoPolylineStruct) GetPolylineDBFromPolylinePtr(pol
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoPolyline *BackRepoPolylineStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var polylines []*models.Polyline
 	for polyline := range stage.Polylines {
+		polylines = append(polylines, polyline)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(polylines, func(i, j int) bool {
+		return stage.Map_Staged_Order[polylines[i]] < stage.Map_Staged_Order[polylines[j]]
+	})
+
+	for _, polyline := range polylines {
 		backRepoPolyline.CommitPhaseOneInstance(polyline)
 	}
 

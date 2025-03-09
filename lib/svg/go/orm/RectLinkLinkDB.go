@@ -192,7 +192,17 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) GetRectLinkLinkDBFromRec
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var rectlinklinks []*models.RectLinkLink
 	for rectlinklink := range stage.RectLinkLinks {
+		rectlinklinks = append(rectlinklinks, rectlinklink)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(rectlinklinks, func(i, j int) bool {
+		return stage.Map_Staged_Order[rectlinklinks[i]] < stage.Map_Staged_Order[rectlinklinks[j]]
+	})
+
+	for _, rectlinklink := range rectlinklinks {
 		backRepoRectLinkLink.CommitPhaseOneInstance(rectlinklink)
 	}
 

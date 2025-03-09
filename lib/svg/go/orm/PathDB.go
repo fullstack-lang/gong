@@ -187,7 +187,17 @@ func (backRepoPath *BackRepoPathStruct) GetPathDBFromPathPtr(path *models.Path) 
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoPath *BackRepoPathStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var paths []*models.Path
 	for path := range stage.Paths {
+		paths = append(paths, path)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(paths, func(i, j int) bool {
+		return stage.Map_Staged_Order[paths[i]] < stage.Map_Staged_Order[paths[j]]
+	})
+
+	for _, path := range paths {
 		backRepoPath.CommitPhaseOneInstance(path)
 	}
 
