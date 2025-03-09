@@ -129,7 +129,7 @@ func (checkboxFormCallback *CheckboxFormCallback) OnSave() {
 	if checkboxFormCallback.CreationMode || checkboxFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		checkboxFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(checkboxFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__CheckboxFormCallback(
 			nil,
@@ -250,7 +250,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 	if groupFormCallback.CreationMode || groupFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		groupFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(groupFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__GroupFormCallback(
 			nil,
@@ -327,7 +327,7 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 	if layoutFormCallback.CreationMode || layoutFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		layoutFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(layoutFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__LayoutFormCallback(
 			nil,
@@ -466,7 +466,7 @@ func (sliderFormCallback *SliderFormCallback) OnSave() {
 	if sliderFormCallback.CreationMode || sliderFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		sliderFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(sliderFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__SliderFormCallback(
 			nil,

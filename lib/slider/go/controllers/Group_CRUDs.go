@@ -66,7 +66,8 @@ func (controller *Controller) GetGroups(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/slider/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/slider/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoGroup.GetDB()
 
@@ -129,7 +130,8 @@ func (controller *Controller) PostGroup(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/slider/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/slider/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoGroup.GetDB()
 
@@ -199,7 +201,8 @@ func (controller *Controller) GetGroup(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/slider/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/slider/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoGroup.GetDB()
 
@@ -248,7 +251,8 @@ func (controller *Controller) UpdateGroup(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/slider/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/slider/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoGroup.GetDB()
 
@@ -338,7 +342,8 @@ func (controller *Controller) DeleteGroup(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/slider/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/slider/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoGroup.GetDB()
 
