@@ -66,7 +66,8 @@ func (controller *Controller) GetTrees(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/tree/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/tree/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoTree.GetDB()
 
@@ -129,7 +130,8 @@ func (controller *Controller) PostTree(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/tree/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/tree/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoTree.GetDB()
 
@@ -199,7 +201,8 @@ func (controller *Controller) GetTree(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/tree/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/tree/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoTree.GetDB()
 
@@ -248,7 +251,8 @@ func (controller *Controller) UpdateTree(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/tree/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/tree/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoTree.GetDB()
 
@@ -338,7 +342,8 @@ func (controller *Controller) DeleteTree(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/tree/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/tree/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoTree.GetDB()
 
