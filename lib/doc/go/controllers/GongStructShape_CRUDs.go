@@ -66,7 +66,8 @@ func (controller *Controller) GetGongStructShapes(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/doc/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/doc/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoGongStructShape.GetDB()
 
@@ -129,7 +130,8 @@ func (controller *Controller) PostGongStructShape(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/doc/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/doc/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoGongStructShape.GetDB()
 
@@ -199,7 +201,8 @@ func (controller *Controller) GetGongStructShape(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/doc/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/doc/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoGongStructShape.GetDB()
 
@@ -248,7 +251,8 @@ func (controller *Controller) UpdateGongStructShape(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/doc/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/doc/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoGongStructShape.GetDB()
 
@@ -338,7 +342,8 @@ func (controller *Controller) DeleteGongStructShape(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/doc/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/doc/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoGongStructShape.GetDB()
 

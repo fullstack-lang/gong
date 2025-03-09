@@ -513,6 +513,19 @@
             ]
         },
         {
+            "label": "01 - gongc test3",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/test/test3/go/models"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmWorkspaces"
+            ]
+        },
+        {
             "label": "01 - gongc gong -clean",
             "type": "shell",
             "options": {
