@@ -332,6 +332,16 @@ func main() {
 				log.Println("directory " + mainFileDirAbsPath + " allready exists")
 			}
 
+			// creates a "data" directory as well to store the stage.go files
+			dataDirPath := filepath.Join(mainFileDirAbsPath, "data")
+			errd = os.MkdirAll(dataDirPath, os.ModePerm)
+			if os.IsNotExist(errd) {
+				log.Println("creating directory : " + dataDirPath)
+			}
+			if os.IsExist(errd) {
+				log.Println("directory " + dataDirPath + " allready exists")
+			}
+
 			// sometimes on windows, directory creation is not completed before creation of file/directory (this
 			// leads to non reproductible "access denied")
 			time.Sleep(1000 * time.Millisecond)
