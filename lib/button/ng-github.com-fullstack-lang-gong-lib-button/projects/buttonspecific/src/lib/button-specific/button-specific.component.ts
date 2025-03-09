@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import * as button from '../../../../button/src/public-api'
 
@@ -18,7 +18,7 @@ import { MatIconModule } from '@angular/material/icon'
   templateUrl: './button-specific.component.html',
   styleUrl: './button-specific.component.css'
 })
-export class ButtonSpecificComponent {
+export class ButtonSpecificComponent implements OnInit {
 
   @Input() GONG__StackPath: string = ""
 

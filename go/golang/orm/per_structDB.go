@@ -139,7 +139,17 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Get{{Structname}}DBF
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var {{structname}}s []*models.{{Structname}}
 	for {{structname}} := range stage.{{Structname}}s {
+		{{structname}}s = append({{structname}}s, {{structname}})
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice({{structname}}s, func(i, j int) bool {
+		return stage.Map_Staged_Order[{{structname}}s[i]] < stage.Map_Staged_Order[{{structname}}s[j]]
+	})
+
+	for _, {{structname}} := range {{structname}}s {
 		backRepo{{Structname}}.CommitPhaseOneInstance({{structname}})
 	}
 
