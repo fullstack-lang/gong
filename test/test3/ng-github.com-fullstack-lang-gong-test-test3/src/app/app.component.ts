@@ -1,33 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-
-import { AngularSplitModule } from 'angular-split';
-
-import * as test3 from '../../projects/test3/src/public-api'
-
-import { Test3SpecificComponent } from '../../projects/test3specific/src/lib/test3-specific/test3-specific.component'
-
-import { SplitSpecificComponent } from '@vendored_components/github.com/fullstack-lang/gong/lib/split/ng-github.com-fullstack-lang-gong-lib-split/projects/splitspecific/src/lib/split-specific/split-specific.component'
-
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [
-    AngularSplitModule,
-    SplitSpecificComponent,
-    Test3SpecificComponent
-  ],
+  imports: [RouterOutlet],
+  template: `
+    <h1>Welcome to {{title}}!</h1>
 
-  templateUrl: './app.component.html',
+    <router-outlet />
+  `,
+  styles: [],
 })
-export class AppComponent implements OnInit {
-
-  StackName = "test3"
-
-  constructor(
-  ) {
-  }
-
-  ngOnInit(): void {
-  }
+export class AppComponent {
+  title = 'ng-github.com-fullstack-lang-gong-test-test3';
 }
