@@ -82,6 +82,21 @@
             "group": "build"
         },
         {
+            "label": "04 - go run split",
+            "type": "shell",
+            "options": {
+                "cwd": "./lib/split/go/cmd/split"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "-unmarshallFromCode=stage.go",
+                "-marshallOnCommit=stage"
+            ],
+            "group": "build"
+        },
+        {
             "label": "Sleepdelay",
             "type": "shell",
             "command": "sleep 1",

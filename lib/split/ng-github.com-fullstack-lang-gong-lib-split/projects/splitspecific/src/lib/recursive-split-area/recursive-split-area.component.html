@@ -1,0 +1,26 @@
+<p>{{splitArea.Name}}: {{splitArea.Table?.Name}} {{splitArea.Tree?.Name}} {{splitArea.Svg?.Name}}</p>
+
+@if (splitArea.Tree) {
+<lib-tree-specific [GONG__StackPath]="splitArea.Tree.StackName" [name]="splitArea.Tree.TreeName">
+</lib-tree-specific>
+}
+
+@if (splitArea.Table) {
+<lib-table-specific [DataStack]="splitArea.Table.StackName" [TableName]="splitArea.Table.TableName">
+</lib-table-specific>
+}
+
+@if (splitArea.Form) {
+<lib-form-specific [DataStack]="splitArea.Form.StackName" [FormName]="splitArea.Form.FormName">
+</lib-form-specific>
+}
+
+@for (asSplit of splitArea.AsSplits; track asSplit) {
+<as-split (direction)="asSplit.Direction">
+    @for (childSplitArea of asSplit.AsSplitAreas; track childSplitArea) {
+    <as-split-area [size]="childSplitArea.IsAny ? $any('*') : childSplitArea.Size">
+        <lib-recursive-split-area [splitArea]="childSplitArea"></lib-recursive-split-area>
+    </as-split-area>
+    }
+</as-split>
+}
