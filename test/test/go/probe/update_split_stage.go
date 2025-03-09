@@ -43,17 +43,37 @@ func updateSplitStage(probe *Probe) {
 	}).Stage(probe.splitStage)
 	horizontalSplit.AsSplitAreas = append(horizontalSplit.AsSplitAreas, tableArea)
 
+	table := (&split.Table{
+		Name:      "Table",
+		StackName: probe.stackPath + ProbeTableSuffix,
+		TableName: TableName,
+	}).Stage(probe.splitStage)
+	tableArea.Table = table
+
 	formArea := (&split.AsSplitArea{
 		Name: "form",
 		Size: 30,
 	}).Stage(probe.splitStage)
 	horizontalSplit.AsSplitAreas = append(horizontalSplit.AsSplitAreas, formArea)
 
+	form := (&split.Form{
+		Name:      "Form",
+		StackName: probe.stackPath + ProbeFormSuffix,
+		FormName:  FormName,
+	}).Stage(probe.splitStage)
+	formArea.Form = form
+
 	bottomSplitArea := (&split.AsSplitArea{
 		Name: "Bottom",
 		Size: 50,
 	}).Stage(probe.splitStage)
 	mainView.RootAsSplitAreas = append(mainView.RootAsSplitAreas, bottomSplitArea)
+
+	doc := (&split.Doc{
+		Name:      "Doc",
+		StackName: probe.stageOfInterest.GetType(),
+	}).Stage(probe.splitStage)
+	bottomSplitArea.Doc = doc
 
 	probe.splitStage.Commit()
 }
