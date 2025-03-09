@@ -66,7 +66,8 @@ func (controller *Controller) GetNoteShapes(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/doc/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/doc/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoNoteShape.GetDB()
 
@@ -129,7 +130,8 @@ func (controller *Controller) PostNoteShape(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/doc/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/doc/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoNoteShape.GetDB()
 
@@ -199,7 +201,8 @@ func (controller *Controller) GetNoteShape(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/doc/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/doc/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoNoteShape.GetDB()
 
@@ -248,7 +251,8 @@ func (controller *Controller) UpdateNoteShape(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/doc/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/doc/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoNoteShape.GetDB()
 
@@ -338,7 +342,8 @@ func (controller *Controller) DeleteNoteShape(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/doc/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/doc/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoNoteShape.GetDB()
 
