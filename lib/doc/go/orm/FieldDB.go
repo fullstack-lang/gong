@@ -154,7 +154,17 @@ func (backRepoField *BackRepoFieldStruct) GetFieldDBFromFieldPtr(field *models.F
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoField *BackRepoFieldStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var fields []*models.Field
 	for field := range stage.Fields {
+		fields = append(fields, field)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(fields, func(i, j int) bool {
+		return stage.Map_Staged_Order[fields[i]] < stage.Map_Staged_Order[fields[j]]
+	})
+
+	for _, field := range fields {
 		backRepoField.CommitPhaseOneInstance(field)
 	}
 

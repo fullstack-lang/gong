@@ -27,7 +27,7 @@ func FillUpFormFromGongstructName(
 	// insertion point
 	case "Classdiagram":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Classdiagram Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__ClassdiagramFormCallback(
@@ -40,7 +40,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(classdiagram, formGroup, probe)
 	case "DiagramPackage":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "DiagramPackage Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__DiagramPackageFormCallback(
@@ -53,7 +53,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(diagrampackage, formGroup, probe)
 	case "Field":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Field Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FieldFormCallback(
@@ -66,7 +66,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(field, formGroup, probe)
 	case "GongEnumShape":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "GongEnumShape Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__GongEnumShapeFormCallback(
@@ -79,7 +79,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(gongenumshape, formGroup, probe)
 	case "GongEnumValueEntry":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "GongEnumValueEntry Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__GongEnumValueEntryFormCallback(
@@ -92,7 +92,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(gongenumvalueentry, formGroup, probe)
 	case "GongStructShape":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "GongStructShape Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__GongStructShapeFormCallback(
@@ -105,7 +105,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(gongstructshape, formGroup, probe)
 	case "Link":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Link Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__LinkFormCallback(
@@ -118,7 +118,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(link, formGroup, probe)
 	case "NoteShape":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "NoteShape Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__NoteShapeFormCallback(
@@ -131,7 +131,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(noteshape, formGroup, probe)
 	case "NoteShapeLink":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "NoteShapeLink Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__NoteShapeLinkFormCallback(
@@ -144,7 +144,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(noteshapelink, formGroup, probe)
 	case "Position":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Position Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__PositionFormCallback(
@@ -157,7 +157,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(position, formGroup, probe)
 	case "UmlState":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "UmlState Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__UmlStateFormCallback(
@@ -170,7 +170,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(umlstate, formGroup, probe)
 	case "Umlsc":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Umlsc Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__UmlscFormCallback(
@@ -183,7 +183,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(umlsc, formGroup, probe)
 	case "Vertice":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Vertice Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__VerticeFormCallback(

@@ -142,7 +142,17 @@ func (backRepoUmlState *BackRepoUmlStateStruct) GetUmlStateDBFromUmlStatePtr(uml
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoUmlState *BackRepoUmlStateStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var umlstates []*models.UmlState
 	for umlstate := range stage.UmlStates {
+		umlstates = append(umlstates, umlstate)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(umlstates, func(i, j int) bool {
+		return stage.Map_Staged_Order[umlstates[i]] < stage.Map_Staged_Order[umlstates[j]]
+	})
+
+	for _, umlstate := range umlstates {
 		backRepoUmlState.CommitPhaseOneInstance(umlstate)
 	}
 
