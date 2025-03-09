@@ -102,9 +102,9 @@ func NewTableSortSaver[InstanceType models.PointerToGongstruct, FieldType models
 }
 
 type TableSortSaver[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
-	instance InstanceType
-	field    *[]FieldType
-	probe    *Probe
+	instance   InstanceType
+	field      *[]FieldType
+	probe *Probe
 
 	// map giving the relation between the row ID and the instance
 	map_RowID_instance *map[*gongtable_models.Row]FieldType

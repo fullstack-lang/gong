@@ -130,7 +130,17 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) GetDisplayedColumn
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var displayedcolumns []*models.DisplayedColumn
 	for displayedcolumn := range stage.DisplayedColumns {
+		displayedcolumns = append(displayedcolumns, displayedcolumn)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(displayedcolumns, func(i, j int) bool {
+		return stage.Map_Staged_Order[displayedcolumns[i]] < stage.Map_Staged_Order[displayedcolumns[j]]
+	})
+
+	for _, displayedcolumn := range displayedcolumns {
 		backRepoDisplayedColumn.CommitPhaseOneInstance(displayedcolumn)
 	}
 

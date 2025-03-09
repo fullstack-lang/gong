@@ -198,7 +198,17 @@ func (backRepoTable *BackRepoTableStruct) GetTableDBFromTablePtr(table *models.T
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoTable *BackRepoTableStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var tables []*models.Table
 	for table := range stage.Tables {
+		tables = append(tables, table)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(tables, func(i, j int) bool {
+		return stage.Map_Staged_Order[tables[i]] < stage.Map_Staged_Order[tables[j]]
+	})
+
+	for _, table := range tables {
 		backRepoTable.CommitPhaseOneInstance(table)
 	}
 

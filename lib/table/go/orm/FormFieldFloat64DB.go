@@ -162,7 +162,17 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) GetFormFieldFloa
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var formfieldfloat64s []*models.FormFieldFloat64
 	for formfieldfloat64 := range stage.FormFieldFloat64s {
+		formfieldfloat64s = append(formfieldfloat64s, formfieldfloat64)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(formfieldfloat64s, func(i, j int) bool {
+		return stage.Map_Staged_Order[formfieldfloat64s[i]] < stage.Map_Staged_Order[formfieldfloat64s[j]]
+	})
+
+	for _, formfieldfloat64 := range formfieldfloat64s {
 		backRepoFormFieldFloat64.CommitPhaseOneInstance(formfieldfloat64)
 	}
 

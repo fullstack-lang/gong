@@ -150,7 +150,17 @@ func (backRepoCell *BackRepoCellStruct) GetCellDBFromCellPtr(cell *models.Cell) 
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoCell *BackRepoCellStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var cells []*models.Cell
 	for cell := range stage.Cells {
+		cells = append(cells, cell)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(cells, func(i, j int) bool {
+		return stage.Map_Staged_Order[cells[i]] < stage.Map_Staged_Order[cells[j]]
+	})
+
+	for _, cell := range cells {
 		backRepoCell.CommitPhaseOneInstance(cell)
 	}
 

@@ -136,7 +136,17 @@ func (backRepoFormFieldDate *BackRepoFormFieldDateStruct) GetFormFieldDateDBFrom
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoFormFieldDate *BackRepoFormFieldDateStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var formfielddates []*models.FormFieldDate
 	for formfielddate := range stage.FormFieldDates {
+		formfielddates = append(formfielddates, formfielddate)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(formfielddates, func(i, j int) bool {
+		return stage.Map_Staged_Order[formfielddates[i]] < stage.Map_Staged_Order[formfielddates[j]]
+	})
+
+	for _, formfielddate := range formfielddates {
 		backRepoFormFieldDate.CommitPhaseOneInstance(formfielddate)
 	}
 

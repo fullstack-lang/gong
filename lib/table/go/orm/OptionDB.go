@@ -130,7 +130,17 @@ func (backRepoOption *BackRepoOptionStruct) GetOptionDBFromOptionPtr(option *mod
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoOption *BackRepoOptionStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var options []*models.Option
 	for option := range stage.Options {
+		options = append(options, option)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(options, func(i, j int) bool {
+		return stage.Map_Staged_Order[options[i]] < stage.Map_Staged_Order[options[j]]
+	})
+
+	for _, option := range options {
 		backRepoOption.CommitPhaseOneInstance(option)
 	}
 
