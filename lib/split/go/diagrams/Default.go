@@ -59,7 +59,7 @@ func _(stage *models.StageStruct) {
 	__GongStructShape__000001_Default_AsSplitArea.Height = 63.000000
 	__GongStructShape__000001_Default_AsSplitArea.IsSelected = false
 
-	__Position__000000_Pos_Default_AsSplit.X = 80.000000
+	__Position__000000_Pos_Default_AsSplit.X = 334.000000
 	__Position__000000_Pos_Default_AsSplit.Y = 91.000000
 	__Position__000000_Pos_Default_AsSplit.Name = `Pos-Default-AsSplit`
 
