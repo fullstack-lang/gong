@@ -142,7 +142,17 @@ func (backRepoButton *BackRepoButtonStruct) GetButtonDBFromButtonPtr(button *mod
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoButton *BackRepoButtonStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var buttons []*models.Button
 	for button := range stage.Buttons {
+		buttons = append(buttons, button)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(buttons, func(i, j int) bool {
+		return stage.Map_Staged_Order[buttons[i]] < stage.Map_Staged_Order[buttons[j]]
+	})
+
+	for _, button := range buttons {
 		backRepoButton.CommitPhaseOneInstance(button)
 	}
 
