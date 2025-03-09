@@ -205,7 +205,17 @@ func (backRepoEllipse *BackRepoEllipseStruct) GetEllipseDBFromEllipsePtr(ellipse
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoEllipse *BackRepoEllipseStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var ellipses []*models.Ellipse
 	for ellipse := range stage.Ellipses {
+		ellipses = append(ellipses, ellipse)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(ellipses, func(i, j int) bool {
+		return stage.Map_Staged_Order[ellipses[i]] < stage.Map_Staged_Order[ellipses[j]]
+	})
+
+	for _, ellipse := range ellipses {
 		backRepoEllipse.CommitPhaseOneInstance(ellipse)
 	}
 

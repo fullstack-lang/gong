@@ -166,7 +166,17 @@ func (backRepoAnimate *BackRepoAnimateStruct) GetAnimateDBFromAnimatePtr(animate
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoAnimate *BackRepoAnimateStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var animates []*models.Animate
 	for animate := range stage.Animates {
+		animates = append(animates, animate)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(animates, func(i, j int) bool {
+		return stage.Map_Staged_Order[animates[i]] < stage.Map_Staged_Order[animates[j]]
+	})
+
+	for _, animate := range animates {
 		backRepoAnimate.CommitPhaseOneInstance(animate)
 	}
 

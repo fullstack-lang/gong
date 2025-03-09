@@ -187,7 +187,17 @@ func (backRepoPolygone *BackRepoPolygoneStruct) GetPolygoneDBFromPolygonePtr(pol
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoPolygone *BackRepoPolygoneStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var polygones []*models.Polygone
 	for polygone := range stage.Polygones {
+		polygones = append(polygones, polygone)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(polygones, func(i, j int) bool {
+		return stage.Map_Staged_Order[polygones[i]] < stage.Map_Staged_Order[polygones[j]]
+	})
+
+	for _, polygone := range polygones {
 		backRepoPolygone.CommitPhaseOneInstance(polygone)
 	}
 

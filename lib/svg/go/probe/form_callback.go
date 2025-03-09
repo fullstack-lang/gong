@@ -513,7 +513,7 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 	if animateFormCallback.CreationMode || animateFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		animateFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(animateFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__AnimateFormCallback(
 			nil,
@@ -654,7 +654,7 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 	if circleFormCallback.CreationMode || circleFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		circleFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(circleFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__CircleFormCallback(
 			nil,
@@ -797,7 +797,7 @@ func (ellipseFormCallback *EllipseFormCallback) OnSave() {
 	if ellipseFormCallback.CreationMode || ellipseFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		ellipseFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(ellipseFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__EllipseFormCallback(
 			nil,
@@ -918,7 +918,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 	if layerFormCallback.CreationMode || layerFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		layerFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(layerFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__LayerFormCallback(
 			nil,
@@ -1065,7 +1065,7 @@ func (lineFormCallback *LineFormCallback) OnSave() {
 	if lineFormCallback.CreationMode || lineFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		lineFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(lineFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__LineFormCallback(
 			nil,
@@ -1232,7 +1232,7 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 	if linkFormCallback.CreationMode || linkFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		linkFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(linkFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__LinkFormCallback(
 			nil,
@@ -1425,7 +1425,7 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 	if linkanchoredtextFormCallback.CreationMode || linkanchoredtextFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		linkanchoredtextFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(linkanchoredtextFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__LinkAnchoredTextFormCallback(
 			nil,
@@ -1562,7 +1562,7 @@ func (pathFormCallback *PathFormCallback) OnSave() {
 	if pathFormCallback.CreationMode || pathFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		pathFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(pathFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__PathFormCallback(
 			nil,
@@ -1685,7 +1685,7 @@ func (pointFormCallback *PointFormCallback) OnSave() {
 	if pointFormCallback.CreationMode || pointFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		pointFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(pointFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__PointFormCallback(
 			nil,
@@ -1822,7 +1822,7 @@ func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
 	if polygoneFormCallback.CreationMode || polygoneFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		polygoneFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(polygoneFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__PolygoneFormCallback(
 			nil,
@@ -1959,7 +1959,7 @@ func (polylineFormCallback *PolylineFormCallback) OnSave() {
 	if polylineFormCallback.CreationMode || polylineFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		polylineFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(polylineFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__PolylineFormCallback(
 			nil,
@@ -2130,7 +2130,7 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 	if rectFormCallback.CreationMode || rectFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		rectFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(rectFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__RectFormCallback(
 			nil,
@@ -2277,7 +2277,7 @@ func (rectanchoredpathFormCallback *RectAnchoredPathFormCallback) OnSave() {
 	if rectanchoredpathFormCallback.CreationMode || rectanchoredpathFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		rectanchoredpathFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(rectanchoredpathFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__RectAnchoredPathFormCallback(
 			nil,
@@ -2432,7 +2432,7 @@ func (rectanchoredrectFormCallback *RectAnchoredRectFormCallback) OnSave() {
 	if rectanchoredrectFormCallback.CreationMode || rectanchoredrectFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		rectanchoredrectFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(rectanchoredrectFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__RectAnchoredRectFormCallback(
 			nil,
@@ -2583,7 +2583,7 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 	if rectanchoredtextFormCallback.CreationMode || rectanchoredtextFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		rectanchoredtextFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(rectanchoredtextFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__RectAnchoredTextFormCallback(
 			nil,
@@ -2724,7 +2724,7 @@ func (rectlinklinkFormCallback *RectLinkLinkFormCallback) OnSave() {
 	if rectlinklinkFormCallback.CreationMode || rectlinklinkFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		rectlinklinkFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(rectlinklinkFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__RectLinkLinkFormCallback(
 			nil,
@@ -2811,7 +2811,7 @@ func (svgFormCallback *SVGFormCallback) OnSave() {
 	if svgFormCallback.CreationMode || svgFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		svgFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(svgFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__SVGFormCallback(
 			nil,
@@ -2890,7 +2890,7 @@ func (svgtextFormCallback *SvgTextFormCallback) OnSave() {
 	if svgtextFormCallback.CreationMode || svgtextFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		svgtextFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(svgtextFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__SvgTextFormCallback(
 			nil,
@@ -3031,7 +3031,7 @@ func (textFormCallback *TextFormCallback) OnSave() {
 	if textFormCallback.CreationMode || textFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		textFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(textFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__TextFormCallback(
 			nil,

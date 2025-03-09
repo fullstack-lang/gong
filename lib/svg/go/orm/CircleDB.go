@@ -199,7 +199,17 @@ func (backRepoCircle *BackRepoCircleStruct) GetCircleDBFromCirclePtr(circle *mod
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoCircle *BackRepoCircleStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var circles []*models.Circle
 	for circle := range stage.Circles {
+		circles = append(circles, circle)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(circles, func(i, j int) bool {
+		return stage.Map_Staged_Order[circles[i]] < stage.Map_Staged_Order[circles[j]]
+	})
+
+	for _, circle := range circles {
 		backRepoCircle.CommitPhaseOneInstance(circle)
 	}
 

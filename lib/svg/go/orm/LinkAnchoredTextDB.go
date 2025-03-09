@@ -230,7 +230,17 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) GetLinkAnchoredT
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var linkanchoredtexts []*models.LinkAnchoredText
 	for linkanchoredtext := range stage.LinkAnchoredTexts {
+		linkanchoredtexts = append(linkanchoredtexts, linkanchoredtext)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(linkanchoredtexts, func(i, j int) bool {
+		return stage.Map_Staged_Order[linkanchoredtexts[i]] < stage.Map_Staged_Order[linkanchoredtexts[j]]
+	})
+
+	for _, linkanchoredtext := range linkanchoredtexts {
 		backRepoLinkAnchoredText.CommitPhaseOneInstance(linkanchoredtext)
 	}
 

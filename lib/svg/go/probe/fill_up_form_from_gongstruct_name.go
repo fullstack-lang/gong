@@ -27,7 +27,7 @@ func FillUpFormFromGongstructName(
 	// insertion point
 	case "Animate":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Animate Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__AnimateFormCallback(
@@ -40,7 +40,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(animate, formGroup, probe)
 	case "Circle":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Circle Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__CircleFormCallback(
@@ -53,7 +53,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(circle, formGroup, probe)
 	case "Ellipse":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Ellipse Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__EllipseFormCallback(
@@ -66,7 +66,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(ellipse, formGroup, probe)
 	case "Layer":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Layer Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__LayerFormCallback(
@@ -79,7 +79,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(layer, formGroup, probe)
 	case "Line":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Line Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__LineFormCallback(
@@ -92,7 +92,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(line, formGroup, probe)
 	case "Link":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Link Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__LinkFormCallback(
@@ -105,7 +105,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(link, formGroup, probe)
 	case "LinkAnchoredText":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "LinkAnchoredText Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__LinkAnchoredTextFormCallback(
@@ -118,7 +118,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(linkanchoredtext, formGroup, probe)
 	case "Path":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Path Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__PathFormCallback(
@@ -131,7 +131,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(path, formGroup, probe)
 	case "Point":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Point Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__PointFormCallback(
@@ -144,7 +144,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(point, formGroup, probe)
 	case "Polygone":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Polygone Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__PolygoneFormCallback(
@@ -157,7 +157,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(polygone, formGroup, probe)
 	case "Polyline":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Polyline Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__PolylineFormCallback(
@@ -170,7 +170,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(polyline, formGroup, probe)
 	case "Rect":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Rect Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__RectFormCallback(
@@ -183,7 +183,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(rect, formGroup, probe)
 	case "RectAnchoredPath":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "RectAnchoredPath Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__RectAnchoredPathFormCallback(
@@ -196,7 +196,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(rectanchoredpath, formGroup, probe)
 	case "RectAnchoredRect":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "RectAnchoredRect Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__RectAnchoredRectFormCallback(
@@ -209,7 +209,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(rectanchoredrect, formGroup, probe)
 	case "RectAnchoredText":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "RectAnchoredText Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__RectAnchoredTextFormCallback(
@@ -222,7 +222,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(rectanchoredtext, formGroup, probe)
 	case "RectLinkLink":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "RectLinkLink Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__RectLinkLinkFormCallback(
@@ -235,7 +235,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(rectlinklink, formGroup, probe)
 	case "SVG":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "SVG Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__SVGFormCallback(
@@ -248,7 +248,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(svg, formGroup, probe)
 	case "SvgText":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "SvgText Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__SvgTextFormCallback(
@@ -261,7 +261,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(svgtext, formGroup, probe)
 	case "Text":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Text Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__TextFormCallback(

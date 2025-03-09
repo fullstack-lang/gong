@@ -284,8 +284,8 @@ Third Line`
 	__LinkAnchoredText__000005_Start_Right_Bottom.Transform = ``
 
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 331.000000
-	__Rect__000000_Bottom.Y = 56.000000
+	__Rect__000000_Bottom.X = 355.000000
+	__Rect__000000_Bottom.Y = 80.000000
 	__Rect__000000_Bottom.Width = 565.000000
 	__Rect__000000_Bottom.Height = 266.999985
 	__Rect__000000_Bottom.RX = 5.000000
@@ -340,8 +340,8 @@ Third Line`
 	__Rect__000001_Middle_Rect.CanMoveVerticaly = true
 
 	__Rect__000002_Top.Name = `Top`
-	__Rect__000002_Top.X = 485.999969
-	__Rect__000002_Top.Y = 587.000000
+	__Rect__000002_Top.X = 531.999969
+	__Rect__000002_Top.Y = 625.000000
 	__Rect__000002_Top.Width = 237.000000
 	__Rect__000002_Top.Height = 237.000000
 	__Rect__000002_Top.RX = 3.000000
@@ -538,80 +538,88 @@ line 3`
 	__SVG__000000_SVG.IsSVGFileGenerated = false
 
 	__SvgText__000000_Essai.Name = `Essai`
-	__SvgText__000000_Essai.Text = `<svg xmlns="http://www.w3.org/2000/svg" width="1306" height="844" viewBox="-400 -10 1306 844">
+	__SvgText__000000_Essai.Text = `<svg xmlns="http://www.w3.org/2000/svg" width="1376" height="882" viewBox="-400 -10 1376 882">
   <g>
-  <rect x="331" y="56" width="565" height="266.999985" rx="5" fill="bisque" fill-opacity="50" stroke="lightcoral" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform=""/>
-  <rect class="click-through" x="331" y="56" width="565" height="50" rx="0" fill="lightblue" fill-opacity="100" stroke="" stroke-opacity="1" stroke-width="0"/>
+  <rect x="401" y="38" width="565" height="266.999985" rx="5" fill="bisque" fill-opacity="50" stroke="lightcoral" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform=""/>
+  <rect class="click-through" x="401" y="38" width="565" height="50" rx="0" fill="lightblue" fill-opacity="100" stroke="" stroke-opacity="1" stroke-width="0"/>
   <g>
-  <path class="click-through" d="M532-131q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-90T395-320q0-37 11-78t38-106q23-57 32-87.5t9-56.5q0-34-15-63.5T423-771q-6-6-9.5-14t-3.5-16q0-8 3-14.5t8-12.5q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T518-474q-25 60-34 92t-9 61q0 35 14.5 67.5T534-188q5 6 8 13t3 15q0 8-3 15.5T532-131Zm195 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T590-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T618-771q-6-6-9-13.5t-3-15.5q0-8 2.5-14.5T616-827q6-6 14-9.5t16-3.5q8 0 14.5 3t12.5 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T713-473q-25 60-34 92t-9 60q0 35 15 68.5t45 65.5q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Zm-390 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T200-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T228-771q-7-6-10-13.5t-3-15.5q0-8 3-15t8-13q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 85.5T370-648q0 35-10 73.5T324-474q-25 60-34 92t-9 61q0 35 14.5 68.5T340-187q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Z" fill="" fill-opacity="0" stroke="blue" stroke-opacity="1" stroke-width="2" transform=" translate(331 322.999985) scale(0.2 0.2)"/>
+  <path class="click-through" d="M532-131q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-90T395-320q0-37 11-78t38-106q23-57 32-87.5t9-56.5q0-34-15-63.5T423-771q-6-6-9.5-14t-3.5-16q0-8 3-14.5t8-12.5q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T518-474q-25 60-34 92t-9 61q0 35 14.5 67.5T534-188q5 6 8 13t3 15q0 8-3 15.5T532-131Zm195 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T590-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T618-771q-6-6-9-13.5t-3-15.5q0-8 2.5-14.5T616-827q6-6 14-9.5t16-3.5q8 0 14.5 3t12.5 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T713-473q-25 60-34 92t-9 60q0 35 15 68.5t45 65.5q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Zm-390 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T200-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T228-771q-7-6-10-13.5t-3-15.5q0-8 3-15t8-13q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 85.5T370-648q0 35-10 73.5T324-474q-25 60-34 92t-9 61q0 35 14.5 68.5T340-187q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Z" fill="" fill-opacity="0" stroke="blue" stroke-opacity="1" stroke-width="2" transform=" translate(401 304.999985) scale(0.2 0.2)"/>
 </g>
 <g>
-<path class="click-through" d="M532-131q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-90T395-320q0-37 11-78t38-106q23-57 32-87.5t9-56.5q0-34-15-63.5T423-771q-6-6-9.5-14t-3.5-16q0-8 3-14.5t8-12.5q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T518-474q-25 60-34 92t-9 61q0 35 14.5 67.5T534-188q5 6 8 13t3 15q0 8-3 15.5T532-131Zm195 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T590-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T618-771q-6-6-9-13.5t-3-15.5q0-8 2.5-14.5T616-827q6-6 14-9.5t16-3.5q8 0 14.5 3t12.5 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T713-473q-25 60-34 92t-9 60q0 35 15 68.5t45 65.5q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Zm-390 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T200-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T228-771q-7-6-10-13.5t-3-15.5q0-8 3-15t8-13q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 85.5T370-648q0 35-10 73.5T324-474q-25 60-34 92t-9 61q0 35 14.5 68.5T340-187q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Z" fill="" fill-opacity="0" stroke="blue" stroke-opacity="1" stroke-width="2" transform=" translate(331 322.999985) scale(0.2 0.2)"/>
+<path class="click-through" d="M532-131q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-90T395-320q0-37 11-78t38-106q23-57 32-87.5t9-56.5q0-34-15-63.5T423-771q-6-6-9.5-14t-3.5-16q0-8 3-14.5t8-12.5q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T518-474q-25 60-34 92t-9 61q0 35 14.5 67.5T534-188q5 6 8 13t3 15q0 8-3 15.5T532-131Zm195 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T590-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T618-771q-6-6-9-13.5t-3-15.5q0-8 2.5-14.5T616-827q6-6 14-9.5t16-3.5q8 0 14.5 3t12.5 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T713-473q-25 60-34 92t-9 60q0 35 15 68.5t45 65.5q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Zm-390 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T200-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T228-771q-7-6-10-13.5t-3-15.5q0-8 3-15t8-13q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 85.5T370-648q0 35-10 73.5T324-474q-25 60-34 92t-9 61q0 35 14.5 68.5T340-187q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Z" fill="" fill-opacity="0" stroke="blue" stroke-opacity="1" stroke-width="2" transform=" translate(401 304.999985) scale(0.2 0.2)"/>
 </g>
-<text class="anchored-text click-through" x="613.5" y="76" fill="black" fill-opacity="100" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" text-anchor="middle" font-weight="100" font-style="">
-  <tspan x="613.5" dy="0" text-anchor="middle">This is an example of a note that</tspan>
-  <tspan x="613.5" dy="1em" text-anchor="middle">could be displayed on a diagram.</tspan>
-  <tspan x="613.5" dy="1em" text-anchor="middle"/>
-  <tspan x="613.5" dy="1em" text-anchor="middle">It could explain one aspect of the model</tspan>
-  <tspan x="613.5" dy="1em" text-anchor="middle">for instance, describing relations between structs</tspan>
-  <tspan x="613.5" dy="1em" text-anchor="middle"/>
-  <tspan x="613.5" dy="1em" text-anchor="middle">The text of a UML note refers a comment with the GONGNOTE keyword which is</tspan>
-  <tspan x="613.5" dy="1em" text-anchor="middle">a special case of go Note convention. See example</tspan>
-  <tspan x="613.5" dy="1em" text-anchor="middle">for details in the go code of the models.</tspan>
-  <tspan x="613.5" dy="1em" text-anchor="middle"/>
+<text class="click-through" x="683.5" y="58" fill="black" fill-opacity="100" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" text-anchor="middle" font-weight="100" font-style="">
+  <tspan x="683.5" dy="0" text-anchor="middle">This is an example of a note that</tspan>
+  <tspan x="683.5" dy="1em" text-anchor="middle">could be displayed on a diagram.</tspan>
+  <tspan x="683.5" dy="1em" text-anchor="middle"/>
+  <tspan x="683.5" dy="1em" text-anchor="middle">It could explain one aspect of the model</tspan>
+  <tspan x="683.5" dy="1em" text-anchor="middle">for instance, describing relations between structs</tspan>
+  <tspan x="683.5" dy="1em" text-anchor="middle"/>
+  <tspan x="683.5" dy="1em" text-anchor="middle">The text of a UML note refers a comment with the GONGNOTE keyword which is</tspan>
+  <tspan x="683.5" dy="1em" text-anchor="middle">a special case of go Note convention. See example</tspan>
+  <tspan x="683.5" dy="1em" text-anchor="middle">for details in the go code of the models.</tspan>
+  <tspan x="683.5" dy="1em" text-anchor="middle"/>
 </text>
-<rect x="485.99996899999996" y="587" width="237" height="237" rx="3" fill="lightcyan" fill-opacity="100" stroke="darkcyan" stroke-opacity="1" stroke-width="2" stroke-dasharray="" transform=""/>
-<rect class="click-through" x="604.499969" y="627" width="100" height="30" rx="3" fill="lightgrey" fill-opacity="40" stroke="bisque" stroke-opacity="1" stroke-width="1"/>
+<rect x="531.999969" y="625" width="237" height="237" rx="3" fill="lightcyan" fill-opacity="100" stroke="darkcyan" stroke-opacity="1" stroke-width="2" stroke-dasharray="" transform=""/>
+<rect class="click-through" x="650.499969" y="665" width="100" height="30" rx="3" fill="lightgrey" fill-opacity="40" stroke="bisque" stroke-opacity="1" stroke-width="1"/>
 <g>
-<path class="click-through" d="M532-131q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-90T395-320q0-37 11-78t38-106q23-57 32-87.5t9-56.5q0-34-15-63.5T423-771q-6-6-9.5-14t-3.5-16q0-8 3-14.5t8-12.5q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T518-474q-25 60-34 92t-9 61q0 35 14.5 67.5T534-188q5 6 8 13t3 15q0 8-3 15.5T532-131Zm195 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T590-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T618-771q-6-6-9-13.5t-3-15.5q0-8 2.5-14.5T616-827q6-6 14-9.5t16-3.5q8 0 14.5 3t12.5 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T713-473q-25 60-34 92t-9 60q0 35 15 68.5t45 65.5q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Zm-390 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T200-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T228-771q-7-6-10-13.5t-3-15.5q0-8 3-15t8-13q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 85.5T370-648q0 35-10 73.5T324-474q-25 60-34 92t-9 61q0 35 14.5 68.5T340-187q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Z" fill="black" fill-opacity="0.5" stroke="black" stroke-opacity="1" stroke-width="1" transform=" translate(485.99996899999996 824) scale(0.246875 0.246875)"/>
+<path class="click-through" d="M532-131q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-90T395-320q0-37 11-78t38-106q23-57 32-87.5t9-56.5q0-34-15-63.5T423-771q-6-6-9.5-14t-3.5-16q0-8 3-14.5t8-12.5q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T518-474q-25 60-34 92t-9 61q0 35 14.5 67.5T534-188q5 6 8 13t3 15q0 8-3 15.5T532-131Zm195 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T590-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T618-771q-6-6-9-13.5t-3-15.5q0-8 2.5-14.5T616-827q6-6 14-9.5t16-3.5q8 0 14.5 3t12.5 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T713-473q-25 60-34 92t-9 60q0 35 15 68.5t45 65.5q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Zm-390 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T200-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T228-771q-7-6-10-13.5t-3-15.5q0-8 3-15t8-13q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 85.5T370-648q0 35-10 73.5T324-474q-25 60-34 92t-9 61q0 35 14.5 68.5T340-187q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Z" fill="black" fill-opacity="0.5" stroke="black" stroke-opacity="1" stroke-width="1" transform=" translate(531.999969 862) scale(0.246875 0.246875)"/>
 </g>
 <rect x="521" y="404" width="200" height="132" rx="3" fill="lavender" fill-opacity="50" stroke="turquoise" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform=""/>
-<text class="anchored-text click-through" x="621" y="424" fill="" fill-opacity="100" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" text-anchor="start" font-weight="bold" font-style="italic">
+<text class="click-through" x="621" y="424" fill="" fill-opacity="100" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" text-anchor="start" font-weight="bold" font-style="italic">
   <tspan x="621" dy="0" text-anchor="start">Top anchored</tspan>
   <tspan x="621" dy="1em" text-anchor="start">top middle</tspan>
   <tspan x="621" dy="1em" text-anchor="start">line 3</tspan>
 </text>
 <g>
-<line class="moveable-line" x1="485.99996899999996" y1="762.431192" x2="124.99997499999995" y2="762.431192" fill="" fill-opacity="0" stroke="green" stroke-opacity="1" stroke-width="4" stroke-dasharray="" segment-orientation="horizontal" segment-number="0"/>
-<line class="hit-area" x1="485.99996899999996" y1="762.431192" x2="124.99997499999995" y2="762.431192" stroke="transparent" stroke-width="14" segment-orientation="horizontal"/>
-<line class="moveable-line" x1="116.99997499999995" y1="754.431192" x2="116.99997499999995" y2="240.126273105265" fill="" fill-opacity="0" stroke="green" stroke-opacity="1" stroke-width="4" stroke-dasharray="" segment-orientation="vertical" segment-number="1"/>
-<line class="hit-area" x1="116.99997499999995" y1="754.431192" x2="116.99997499999995" y2="240.126273105265" stroke="transparent" stroke-width="14" segment-orientation="vertical"/>
-<line class="moveable-line" x1="124.99997499999995" y1="232.126273105265" x2="331" y2="232.126273105265" fill="" fill-opacity="0" stroke="green" stroke-opacity="1" stroke-width="4" stroke-dasharray="" segment-orientation="horizontal" segment-number="2"/>
-<line class="hit-area" x1="124.99997499999995" y1="232.126273105265" x2="331" y2="232.126273105265" stroke="transparent" stroke-width="14" segment-orientation="horizontal"/>
+<line class="moveable-line" x1="531.999969" y1="800.431192" x2="170.99997499999995" y2="800.431192" fill="" fill-opacity="0" stroke="green" stroke-opacity="1" stroke-width="4" stroke-dasharray="" segment-orientation="horizontal" segment-number="0"/>
+<line class="hit-area" x1="531.999969" y1="800.431192" x2="170.99997499999995" y2="800.431192" stroke="transparent" stroke-width="14" segment-orientation="horizontal"/>
 </g>
-<path d="M 124.99997499999995 762.431192 A 8 8 0 0 1 116.99997499999995 754.431192" fill="" fill-opacity="0" stroke="green" stroke-opacity="1" stroke-width="4" stroke-dasharray=""/>
-<text class="click-through" x="356.99993799999993" y="799.443704" font-weight="light" font-size="" letter-spacing="" fill="cyan" fill-opacity="100" stroke="cyan" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
-  <tspan x="356.99993799999993" dy="0">Start Anchored 1</tspan>
-  <tspan x="356.99993799999993" dy="1em">Second line</tspan>
-  <tspan x="356.99993799999993" dy="1em">Third Line</tspan>
+<g>
+<line class="moveable-line" x1="162.99997499999995" y1="792.431192" x2="162.99997499999995" y2="222.126273105265" fill="" fill-opacity="0" stroke="green" stroke-opacity="1" stroke-width="4" stroke-dasharray="" segment-orientation="vertical" segment-number="1"/>
+<line class="hit-area" x1="162.99997499999995" y1="792.431192" x2="162.99997499999995" y2="222.126273105265" stroke="transparent" stroke-width="14" segment-orientation="vertical"/>
+</g>
+<g>
+<line class="moveable-line" x1="170.99997499999995" y1="214.126273105265" x2="401" y2="214.126273105265" fill="" fill-opacity="0" stroke="green" stroke-opacity="1" stroke-width="4" stroke-dasharray="" segment-orientation="horizontal" segment-number="2"/>
+<line class="hit-area" x1="170.99997499999995" y1="214.126273105265" x2="401" y2="214.126273105265" stroke="transparent" stroke-width="14" segment-orientation="horizontal"/>
+</g>
+<path d="M 170.99997499999995 800.431192 A 8 8 0 0 1 162.99997499999995 792.431192" fill="" fill-opacity="0" stroke="green" stroke-opacity="1" stroke-width="4" stroke-dasharray=""/>
+<text class="click-through" x="402.99993799999993" y="837.443704" font-weight="light" font-size="" letter-spacing="" fill="cyan" fill-opacity="100" stroke="cyan" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
+  <tspan x="402.99993799999993" dy="0">Start Anchored 1</tspan>
+  <tspan x="402.99993799999993" dy="1em">Second line</tspan>
+  <tspan x="402.99993799999993" dy="1em">Third Line</tspan>
 </text>
-<path d="M 116.99997499999995 240.126273105265 A 8 8 0 0 1 124.99997499999995 232.126273105265" fill="" fill-opacity="0" stroke="green" stroke-opacity="1" stroke-width="4" stroke-dasharray=""/>
-<path d="M 332.414213562 233.540486667265 L 321 222.126273105265 M 332.414213562 230.712059543265 L 321 242.126273105265" fill="" fill-opacity="0" stroke="green" stroke-opacity="1" stroke-width="4" stroke-dasharray=""/>
-<text class="click-through" x="270" y="197.126273105265" font-weight="100" font-size="16" letter-spacing="0.1em" fill="black" fill-opacity="100" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
-  <tspan x="270" dy="0">Liine 1</tspan>
-  <tspan x="270" dy="1em">Line 2</tspan>
+<path d="M 162.99997499999995 222.126273105265 A 8 8 0 0 1 170.99997499999995 214.126273105265" fill="" fill-opacity="0" stroke="green" stroke-opacity="1" stroke-width="4" stroke-dasharray=""/>
+<path d="M 402.414213562 215.540486667265 L 391 204.126273105265 M 402.414213562 212.712059543265 L 391 224.126273105265" fill="" fill-opacity="0" stroke="green" stroke-opacity="1" stroke-width="4" stroke-dasharray=""/>
+<text class="click-through" x="340" y="179.126273105265" font-weight="100" font-size="16" letter-spacing="0.1em" fill="black" fill-opacity="100" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
+  <tspan x="340" dy="0">Liine 1</tspan>
+  <tspan x="340" dy="1em">Line 2</tspan>
 </text>
-<text class="click-through" x="270" y="197.126273105265" font-weight="100" font-size="16" letter-spacing="0.1em" fill="black" fill-opacity="100" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
-  <tspan x="270" dy="0">Liine 1</tspan>
-  <tspan x="270" dy="1em">Line 2</tspan>
+<text class="click-through" x="340" y="179.126273105265" font-weight="100" font-size="16" letter-spacing="0.1em" fill="black" fill-opacity="100" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
+  <tspan x="340" dy="0">Liine 1</tspan>
+  <tspan x="340" dy="1em">Line 2</tspan>
 </text>
 <g>
-<line class="moveable-line" x1="485.99996899999996" y1="638.847542" x2="244.00002399999994" y2="638.847542" fill="" fill-opacity="0" stroke="red" stroke-opacity="0.7" stroke-width="5" stroke-dasharray="" segment-orientation="horizontal" segment-number="0"/>
-<line class="hit-area" x1="485.99996899999996" y1="638.847542" x2="244.00002399999994" y2="638.847542" stroke="transparent" stroke-width="15" segment-orientation="horizontal"/>
-<line class="moveable-line" x1="224.00002399999994" y1="618.847542" x2="224.00002399999994" y2="487.109332" fill="" fill-opacity="0" stroke="red" stroke-opacity="0.7" stroke-width="5" stroke-dasharray="" segment-orientation="vertical" segment-number="1"/>
-<line class="hit-area" x1="224.00002399999994" y1="618.847542" x2="224.00002399999994" y2="487.109332" stroke="transparent" stroke-width="15" segment-orientation="vertical"/>
-<line class="moveable-line" x1="244.00002399999994" y1="467.109332" x2="521" y2="467.109332" fill="" fill-opacity="0" stroke="red" stroke-opacity="0.7" stroke-width="5" stroke-dasharray="" segment-orientation="horizontal" segment-number="2"/>
-<line class="hit-area" x1="244.00002399999994" y1="467.109332" x2="521" y2="467.109332" stroke="transparent" stroke-width="15" segment-orientation="horizontal"/>
+<line class="moveable-line" x1="531.999969" y1="676.847542" x2="290.00002399999994" y2="676.847542" fill="" fill-opacity="0" stroke="red" stroke-opacity="0.7" stroke-width="5" stroke-dasharray="" segment-orientation="horizontal" segment-number="0"/>
+<line class="hit-area" x1="531.999969" y1="676.847542" x2="290.00002399999994" y2="676.847542" stroke="transparent" stroke-width="15" segment-orientation="horizontal"/>
 </g>
-<path d="M 244.00002399999994 638.847542 A 20 20 0 0 1 224.00002399999994 618.847542" fill="" fill-opacity="0" stroke="red" stroke-opacity="0.7" stroke-width="5" stroke-dasharray=""/>
-<path d="M 487.76773595249995 640.6153089525 L 475.99996899999996 628.847542 M 487.76773595249995 637.0797750475 L 475.99996899999996 648.847542" fill="" fill-opacity="0" stroke="red" stroke-opacity="0.7" stroke-width="5" stroke-dasharray=""/>
-<text class="noevents-area" x="485.99996899999996" y="621.247542" font-weight="normal" font-size="" letter-spacing="" fill="black" fill-opacity="0" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
-  <tspan x="369.99996899999996" dy="0">Start Left/Top</tspan>
+<g>
+<line class="moveable-line" x1="270.00002399999994" y1="656.847542" x2="270.00002399999994" y2="487.109332" fill="" fill-opacity="0" stroke="red" stroke-opacity="0.7" stroke-width="5" stroke-dasharray="" segment-orientation="vertical" segment-number="1"/>
+<line class="hit-area" x1="270.00002399999994" y1="656.847542" x2="270.00002399999994" y2="487.109332" stroke="transparent" stroke-width="15" segment-orientation="vertical"/>
+</g>
+<g>
+<line class="moveable-line" x1="290.00002399999994" y1="467.109332" x2="521" y2="467.109332" fill="" fill-opacity="0" stroke="red" stroke-opacity="0.7" stroke-width="5" stroke-dasharray="" segment-orientation="horizontal" segment-number="2"/>
+<line class="hit-area" x1="290.00002399999994" y1="467.109332" x2="521" y2="467.109332" stroke="transparent" stroke-width="15" segment-orientation="horizontal"/>
+</g>
+<path d="M 290.00002399999994 676.847542 A 20 20 0 0 1 270.00002399999994 656.847542" fill="" fill-opacity="0" stroke="red" stroke-opacity="0.7" stroke-width="5" stroke-dasharray=""/>
+<path d="M 533.7677359525 678.6153089525 L 521.999969 666.847542 M 533.7677359525 675.0797750475 L 521.999969 686.847542" fill="" fill-opacity="0" stroke="red" stroke-opacity="0.7" stroke-width="5" stroke-dasharray=""/>
+<text class="noevents-area" x="531.999969" y="659.247542" font-weight="normal" font-size="" letter-spacing="" fill="black" fill-opacity="0" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
+  <tspan x="415.99996899999996" dy="0">Start Left/Top</tspan>
 </text>
-<text class="noevents-area" x="485.99996899999996" y="667.847542" font-weight="normal" font-size="" letter-spacing="" fill="black" fill-opacity="1" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
-  <tspan x="331.99996899999996" dy="0">Start Right/Bottom</tspan>
+<text class="noevents-area" x="531.999969" y="705.847542" font-weight="normal" font-size="" letter-spacing="" fill="black" fill-opacity="1" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
+  <tspan x="377.99996899999996" dy="0">Start Right/Bottom</tspan>
 </text>
-<path d="M 224.00002399999994 487.109332 A 20 20 0 0 1 244.00002399999994 467.109332" fill="" fill-opacity="0" stroke="red" stroke-opacity="0.7" stroke-width="5" stroke-dasharray=""/>
+<path d="M 270.00002399999994 487.109332 A 20 20 0 0 1 290.00002399999994 467.109332" fill="" fill-opacity="0" stroke="red" stroke-opacity="0.7" stroke-width="5" stroke-dasharray=""/>
 <path d="M 522.7677669525 468.8770989525 L 511 457.109332 M 522.7677669525 465.3415650475 L 511 477.109332" fill="" fill-opacity="0" stroke="red" stroke-opacity="0.7" stroke-width="5" stroke-dasharray=""/>
 <text class="noevents-area" x="521" y="516.109332" font-weight="normal" font-size="" letter-spacing="" fill="black" fill-opacity="1" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
   <tspan x="373" dy="0">End Right/Bottom</tspan>
@@ -619,7 +627,7 @@ line 3`
 <text class="noevents-area" x="521" y="449.509332" font-weight="normal" font-size="" letter-spacing="" fill="blue" fill-opacity="0" stroke="blue" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
   <tspan x="371" dy="0">End Left/Top</tspan>
 </text>
-<line class="rect-link-link" x1="521" y1="468.70004436272774" x2="116.99997499999995" y2="463.448223263159" fill="" fill-opacity="0" stroke="lightgreen" stroke-opacity="1" stroke-width="4" stroke-dasharray="" transform=""/>
+<line class="rect-link-link" x1="521" y1="466.3860751455546" x2="162.99997499999995" y2="453.448223263159" fill="" fill-opacity="0" stroke="lightgreen" stroke-opacity="1" stroke-width="4" stroke-dasharray="" transform=""/>
 </g>
 </svg>`
 

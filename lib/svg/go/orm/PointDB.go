@@ -142,7 +142,17 @@ func (backRepoPoint *BackRepoPointStruct) GetPointDBFromPointPtr(point *models.P
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoPoint *BackRepoPointStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var points []*models.Point
 	for point := range stage.Points {
+		points = append(points, point)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(points, func(i, j int) bool {
+		return stage.Map_Staged_Order[points[i]] < stage.Map_Staged_Order[points[j]]
+	})
+
+	for _, point := range points {
 		backRepoPoint.CommitPhaseOneInstance(point)
 	}
 
