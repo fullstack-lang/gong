@@ -66,7 +66,8 @@ func (controller *Controller) GetBs(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/test/test3/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/test/test3/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoB.GetDB()
 
@@ -129,7 +130,8 @@ func (controller *Controller) PostB(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/test/test3/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/test/test3/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoB.GetDB()
 
@@ -199,7 +201,8 @@ func (controller *Controller) GetB(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/test/test3/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/test/test3/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoB.GetDB()
 
@@ -248,7 +251,8 @@ func (controller *Controller) UpdateB(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/test/test3/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/test/test3/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoB.GetDB()
 
@@ -338,7 +342,8 @@ func (controller *Controller) DeleteB(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/test/test3/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/test/test3/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoB.GetDB()
 

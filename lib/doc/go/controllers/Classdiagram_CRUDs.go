@@ -66,7 +66,8 @@ func (controller *Controller) GetClassdiagrams(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/doc/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/doc/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoClassdiagram.GetDB()
 
@@ -129,7 +130,8 @@ func (controller *Controller) PostClassdiagram(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/doc/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/doc/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoClassdiagram.GetDB()
 
@@ -199,7 +201,8 @@ func (controller *Controller) GetClassdiagram(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/doc/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/doc/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoClassdiagram.GetDB()
 
@@ -248,7 +251,8 @@ func (controller *Controller) UpdateClassdiagram(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/doc/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/doc/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoClassdiagram.GetDB()
 
@@ -338,7 +342,8 @@ func (controller *Controller) DeleteClassdiagram(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/doc/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/doc/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoClassdiagram.GetDB()
 
