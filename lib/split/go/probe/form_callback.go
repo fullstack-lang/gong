@@ -125,7 +125,7 @@ func (assplitFormCallback *AsSplitFormCallback) OnSave() {
 	if assplitFormCallback.CreationMode || assplitFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		assplitFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(assplitFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__AsSplitFormCallback(
 			nil,
@@ -300,7 +300,7 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 	if assplitareaFormCallback.CreationMode || assplitareaFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		assplitareaFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(assplitareaFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__AsSplitAreaFormCallback(
 			nil,
@@ -379,7 +379,7 @@ func (docFormCallback *DocFormCallback) OnSave() {
 	if docFormCallback.CreationMode || docFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		docFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(docFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__DocFormCallback(
 			nil,
@@ -460,7 +460,7 @@ func (formFormCallback *FormFormCallback) OnSave() {
 	if formFormCallback.CreationMode || formFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		formFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(formFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__FormFormCallback(
 			nil,
@@ -539,7 +539,7 @@ func (svgFormCallback *SvgFormCallback) OnSave() {
 	if svgFormCallback.CreationMode || svgFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		svgFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(svgFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__SvgFormCallback(
 			nil,
@@ -620,7 +620,7 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 	if tableFormCallback.CreationMode || tableFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		tableFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(tableFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__TableFormCallback(
 			nil,
@@ -701,7 +701,7 @@ func (treeFormCallback *TreeFormCallback) OnSave() {
 	if treeFormCallback.CreationMode || treeFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		treeFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(treeFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__TreeFormCallback(
 			nil,
@@ -778,7 +778,7 @@ func (viewFormCallback *ViewFormCallback) OnSave() {
 	if viewFormCallback.CreationMode || viewFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		viewFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(viewFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__ViewFormCallback(
 			nil,
