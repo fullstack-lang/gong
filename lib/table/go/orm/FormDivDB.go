@@ -144,7 +144,17 @@ func (backRepoFormDiv *BackRepoFormDivStruct) GetFormDivDBFromFormDivPtr(formdiv
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoFormDiv *BackRepoFormDivStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var formdivs []*models.FormDiv
 	for formdiv := range stage.FormDivs {
+		formdivs = append(formdivs, formdiv)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(formdivs, func(i, j int) bool {
+		return stage.Map_Staged_Order[formdivs[i]] < stage.Map_Staged_Order[formdivs[j]]
+	})
+
+	for _, formdiv := range formdivs {
 		backRepoFormDiv.CommitPhaseOneInstance(formdiv)
 	}
 

@@ -136,7 +136,17 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) GetFormEdi
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var formeditassocbuttons []*models.FormEditAssocButton
 	for formeditassocbutton := range stage.FormEditAssocButtons {
+		formeditassocbuttons = append(formeditassocbuttons, formeditassocbutton)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(formeditassocbuttons, func(i, j int) bool {
+		return stage.Map_Staged_Order[formeditassocbuttons[i]] < stage.Map_Staged_Order[formeditassocbuttons[j]]
+	})
+
+	for _, formeditassocbutton := range formeditassocbuttons {
 		backRepoFormEditAssocButton.CommitPhaseOneInstance(formeditassocbutton)
 	}
 

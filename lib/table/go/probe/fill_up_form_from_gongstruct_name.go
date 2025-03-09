@@ -27,7 +27,7 @@ func FillUpFormFromGongstructName(
 	// insertion point
 	case "Cell":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Cell Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__CellFormCallback(
@@ -40,7 +40,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(cell, formGroup, probe)
 	case "CellBoolean":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "CellBoolean Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__CellBooleanFormCallback(
@@ -53,7 +53,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(cellboolean, formGroup, probe)
 	case "CellFloat64":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "CellFloat64 Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__CellFloat64FormCallback(
@@ -66,7 +66,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(cellfloat64, formGroup, probe)
 	case "CellIcon":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "CellIcon Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__CellIconFormCallback(
@@ -79,7 +79,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(cellicon, formGroup, probe)
 	case "CellInt":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "CellInt Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__CellIntFormCallback(
@@ -92,7 +92,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(cellint, formGroup, probe)
 	case "CellString":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "CellString Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__CellStringFormCallback(
@@ -105,7 +105,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(cellstring, formGroup, probe)
 	case "CheckBox":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "CheckBox Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__CheckBoxFormCallback(
@@ -118,7 +118,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(checkbox, formGroup, probe)
 	case "DisplayedColumn":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "DisplayedColumn Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__DisplayedColumnFormCallback(
@@ -131,7 +131,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(displayedcolumn, formGroup, probe)
 	case "FormDiv":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "FormDiv Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormDivFormCallback(
@@ -144,7 +144,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(formdiv, formGroup, probe)
 	case "FormEditAssocButton":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "FormEditAssocButton Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormEditAssocButtonFormCallback(
@@ -157,7 +157,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(formeditassocbutton, formGroup, probe)
 	case "FormField":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "FormField Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormFieldFormCallback(
@@ -170,7 +170,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(formfield, formGroup, probe)
 	case "FormFieldDate":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "FormFieldDate Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormFieldDateFormCallback(
@@ -183,7 +183,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(formfielddate, formGroup, probe)
 	case "FormFieldDateTime":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "FormFieldDateTime Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormFieldDateTimeFormCallback(
@@ -196,7 +196,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(formfielddatetime, formGroup, probe)
 	case "FormFieldFloat64":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "FormFieldFloat64 Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormFieldFloat64FormCallback(
@@ -209,7 +209,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(formfieldfloat64, formGroup, probe)
 	case "FormFieldInt":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "FormFieldInt Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormFieldIntFormCallback(
@@ -222,7 +222,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(formfieldint, formGroup, probe)
 	case "FormFieldSelect":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "FormFieldSelect Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormFieldSelectFormCallback(
@@ -235,7 +235,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(formfieldselect, formGroup, probe)
 	case "FormFieldString":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "FormFieldString Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormFieldStringFormCallback(
@@ -248,7 +248,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(formfieldstring, formGroup, probe)
 	case "FormFieldTime":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "FormFieldTime Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormFieldTimeFormCallback(
@@ -261,7 +261,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(formfieldtime, formGroup, probe)
 	case "FormGroup":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "FormGroup Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormGroupFormCallback(
@@ -274,7 +274,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(formgroup, formGroup, probe)
 	case "FormSortAssocButton":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "FormSortAssocButton Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormSortAssocButtonFormCallback(
@@ -287,7 +287,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(formsortassocbutton, formGroup, probe)
 	case "Option":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Option Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__OptionFormCallback(
@@ -300,7 +300,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(option, formGroup, probe)
 	case "Row":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Row Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__RowFormCallback(
@@ -313,7 +313,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(row, formGroup, probe)
 	case "Table":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Table Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__TableFormCallback(

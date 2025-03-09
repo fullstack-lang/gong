@@ -137,7 +137,17 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) GetCellBooleanDBFromCellBo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoCellBoolean *BackRepoCellBooleanStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var cellbooleans []*models.CellBoolean
 	for cellboolean := range stage.CellBooleans {
+		cellbooleans = append(cellbooleans, cellboolean)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(cellbooleans, func(i, j int) bool {
+		return stage.Map_Staged_Order[cellbooleans[i]] < stage.Map_Staged_Order[cellbooleans[j]]
+	})
+
+	for _, cellboolean := range cellbooleans {
 		backRepoCellBoolean.CommitPhaseOneInstance(cellboolean)
 	}
 
