@@ -127,7 +127,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 	if buttonFormCallback.CreationMode || buttonFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		buttonFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(buttonFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__ButtonFormCallback(
 			nil,
@@ -318,7 +318,7 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 	if nodeFormCallback.CreationMode || nodeFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		nodeFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(nodeFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__NodeFormCallback(
 			nil,
@@ -397,7 +397,7 @@ func (svgiconFormCallback *SVGIconFormCallback) OnSave() {
 	if svgiconFormCallback.CreationMode || svgiconFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		svgiconFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(svgiconFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__SVGIconFormCallback(
 			nil,
@@ -474,7 +474,7 @@ func (treeFormCallback *TreeFormCallback) OnSave() {
 	if treeFormCallback.CreationMode || treeFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		treeFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(treeFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__TreeFormCallback(
 			nil,

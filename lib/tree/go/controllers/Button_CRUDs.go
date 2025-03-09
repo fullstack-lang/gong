@@ -66,7 +66,8 @@ func (controller *Controller) GetButtons(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/tree/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/tree/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoButton.GetDB()
 
@@ -129,7 +130,8 @@ func (controller *Controller) PostButton(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/tree/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/tree/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoButton.GetDB()
 
@@ -199,7 +201,8 @@ func (controller *Controller) GetButton(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/tree/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/tree/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoButton.GetDB()
 
@@ -248,7 +251,8 @@ func (controller *Controller) UpdateButton(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/tree/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/tree/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoButton.GetDB()
 
@@ -338,7 +342,8 @@ func (controller *Controller) DeleteButton(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/tree/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/tree/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoButton.GetDB()
 
