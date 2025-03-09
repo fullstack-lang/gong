@@ -139,7 +139,17 @@ func (backRepoGroup *BackRepoGroupStruct) GetGroupDBFromGroupPtr(group *models.G
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoGroup *BackRepoGroupStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var groups []*models.Group
 	for group := range stage.Groups {
+		groups = append(groups, group)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(groups, func(i, j int) bool {
+		return stage.Map_Staged_Order[groups[i]] < stage.Map_Staged_Order[groups[j]]
+	})
+
+	for _, group := range groups {
 		backRepoGroup.CommitPhaseOneInstance(group)
 	}
 

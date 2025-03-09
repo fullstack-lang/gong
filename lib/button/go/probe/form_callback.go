@@ -127,7 +127,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 	if buttonFormCallback.CreationMode || buttonFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		buttonFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(buttonFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__ButtonFormCallback(
 			nil,
@@ -248,7 +248,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 	if groupFormCallback.CreationMode || groupFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		groupFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(groupFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__GroupFormCallback(
 			nil,
@@ -325,7 +325,7 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 	if layoutFormCallback.CreationMode || layoutFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		layoutFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(layoutFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__LayoutFormCallback(
 			nil,
