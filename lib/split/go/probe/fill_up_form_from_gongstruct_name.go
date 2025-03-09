@@ -27,7 +27,7 @@ func FillUpFormFromGongstructName(
 	// insertion point
 	case "AsSplit":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "AsSplit Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__AsSplitFormCallback(
@@ -40,7 +40,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(assplit, formGroup, probe)
 	case "AsSplitArea":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "AsSplitArea Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__AsSplitAreaFormCallback(
@@ -53,7 +53,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(assplitarea, formGroup, probe)
 	case "Doc":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Doc Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__DocFormCallback(
@@ -66,7 +66,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(doc, formGroup, probe)
 	case "Form":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Form Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormFormCallback(
@@ -79,7 +79,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(form, formGroup, probe)
 	case "Svg":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Svg Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__SvgFormCallback(
@@ -92,7 +92,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(svg, formGroup, probe)
 	case "Table":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Table Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__TableFormCallback(
@@ -105,7 +105,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(table, formGroup, probe)
 	case "Tree":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Tree Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__TreeFormCallback(
@@ -118,7 +118,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(tree, formGroup, probe)
 	case "View":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "View Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__ViewFormCallback(
