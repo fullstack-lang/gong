@@ -180,11 +180,33 @@
             ],
         },
         {
+            "name": "go run button",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/button/go/cmd/button",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage_out"
+            ],
+        },
+        {
             "name": "go run split",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/split/go/cmd/split",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=stage"
+            ],
+        },
+        {
+            "name": "go run slider",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/slider/go/cmd/slider",
             "args": [
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=stage"

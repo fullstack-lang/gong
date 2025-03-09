@@ -629,3 +629,9 @@ find ../../.. -name "package-lock.json" -prune -exec rm -rf '{}' +
 npm i
 ng build
 ```
+
+```bash
+find . -type f -name "embed_ng_dist_ng.go" -exec dirname {} \; | sort -u | while IFS= read -r dir; do
+  (cd "$dir" && gongc -skipGoModCommands -skipNpmWorkspaces go/models)
+done
+```
