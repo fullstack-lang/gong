@@ -351,6 +351,34 @@
             ]
         },
         {
+            "label": "01 - gongc tree",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/tree"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmWorkspaces",
+                "go/models"
+            ]
+        },
+        {
+            "label": "01 - gongc button",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/button"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmWorkspaces",
+                "go/models"
+            ]
+        },
+        {
             "label": "01 - gongc table",
             "type": "shell",
             "options": {
@@ -359,6 +387,8 @@
             "command": "gongc",
             "group": "build",
             "args": [
+                "-skipGoModCommands",
+                "-skipNpmWorkspaces",
                 "go/models"
             ]
         },
@@ -371,7 +401,22 @@
             "command": "gongc",
             "group": "build",
             "args": [
-                "-skipNpmInstall",
+                "-skipGoModCommands",
+                "-skipNpmWorkspaces",
+                "go/models"
+            ]
+        },
+        {
+            "label": "01 - gongc gong",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmWorkspaces",
                 "go/models"
             ]
         },
@@ -384,7 +429,22 @@
             "command": "gongc",
             "group": "build",
             "args": [
-                "-skipNpmInstall",
+                "-skipGoModCommands",
+                "-skipNpmWorkspaces",
+                "go/models"
+            ]
+        },
+        {
+            "label": "01 - gongc slider",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/slider"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmWorkspaces",
                 "go/models"
             ]
         },
@@ -397,6 +457,7 @@
             "command": "gongc",
             "group": "build",
             "args": [
+                "-skipGoModCommands",
                 "-skipNpmWorkspaces",
                 "go/models"
             ]
@@ -439,24 +500,17 @@
             ]
         },
         {
-            "label": "01 - gongc test2 -skipNpmWorkspaces",
+            "label": "01 - gongc test2",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/test2/go/models"
+                "cwd": "${workspaceFolder}/test/test2/go/models"
             },
             "command": "gongc",
             "group": "build",
-            "args": []
-        },
-        {
-            "label": "01 - gongc gong",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/go/models"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": []
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmWorkspaces"
+            ]
         },
         {
             "label": "01 - gongc gong -clean",
