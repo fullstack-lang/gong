@@ -136,7 +136,17 @@ func (backRepoCellIcon *BackRepoCellIconStruct) GetCellIconDBFromCellIconPtr(cel
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoCellIcon *BackRepoCellIconStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var cellicons []*models.CellIcon
 	for cellicon := range stage.CellIcons {
+		cellicons = append(cellicons, cellicon)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(cellicons, func(i, j int) bool {
+		return stage.Map_Staged_Order[cellicons[i]] < stage.Map_Staged_Order[cellicons[j]]
+	})
+
+	for _, cellicon := range cellicons {
 		backRepoCellIcon.CommitPhaseOneInstance(cellicon)
 	}
 

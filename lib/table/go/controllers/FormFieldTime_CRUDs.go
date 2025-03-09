@@ -66,7 +66,8 @@ func (controller *Controller) GetFormFieldTimes(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/table/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/table/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoFormFieldTime.GetDB()
 
@@ -129,7 +130,8 @@ func (controller *Controller) PostFormFieldTime(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/table/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/table/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoFormFieldTime.GetDB()
 
@@ -199,7 +201,8 @@ func (controller *Controller) GetFormFieldTime(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/table/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/table/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoFormFieldTime.GetDB()
 
@@ -248,7 +251,8 @@ func (controller *Controller) UpdateFormFieldTime(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/table/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/table/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoFormFieldTime.GetDB()
 
@@ -338,7 +342,8 @@ func (controller *Controller) DeleteFormFieldTime(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/table/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/table/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoFormFieldTime.GetDB()
 

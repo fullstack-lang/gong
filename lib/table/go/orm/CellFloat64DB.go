@@ -136,7 +136,17 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) GetCellFloat64DBFromCellFl
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoCellFloat64 *BackRepoCellFloat64Struct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var cellfloat64s []*models.CellFloat64
 	for cellfloat64 := range stage.CellFloat64s {
+		cellfloat64s = append(cellfloat64s, cellfloat64)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(cellfloat64s, func(i, j int) bool {
+		return stage.Map_Staged_Order[cellfloat64s[i]] < stage.Map_Staged_Order[cellfloat64s[j]]
+	})
+
+	for _, cellfloat64 := range cellfloat64s {
 		backRepoCellFloat64.CommitPhaseOneInstance(cellfloat64)
 	}
 

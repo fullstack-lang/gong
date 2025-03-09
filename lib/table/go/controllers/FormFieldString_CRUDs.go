@@ -66,7 +66,8 @@ func (controller *Controller) GetFormFieldStrings(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/table/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/table/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoFormFieldString.GetDB()
 
@@ -129,7 +130,8 @@ func (controller *Controller) PostFormFieldString(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/table/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/table/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoFormFieldString.GetDB()
 
@@ -199,7 +201,8 @@ func (controller *Controller) GetFormFieldString(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/table/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/table/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoFormFieldString.GetDB()
 
@@ -248,7 +251,8 @@ func (controller *Controller) UpdateFormFieldString(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/table/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/table/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoFormFieldString.GetDB()
 
@@ -338,7 +342,8 @@ func (controller *Controller) DeleteFormFieldString(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/table/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/table/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoFormFieldString.GetDB()
 

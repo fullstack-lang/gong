@@ -66,7 +66,8 @@ func (controller *Controller) GetFormSortAssocButtons(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/table/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/table/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoFormSortAssocButton.GetDB()
 
@@ -129,7 +130,8 @@ func (controller *Controller) PostFormSortAssocButton(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/table/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/table/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoFormSortAssocButton.GetDB()
 
@@ -199,7 +201,8 @@ func (controller *Controller) GetFormSortAssocButton(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/table/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/table/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoFormSortAssocButton.GetDB()
 
@@ -248,7 +251,8 @@ func (controller *Controller) UpdateFormSortAssocButton(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/table/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/table/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoFormSortAssocButton.GetDB()
 
@@ -338,7 +342,8 @@ func (controller *Controller) DeleteFormSortAssocButton(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/table/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/table/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoFormSortAssocButton.GetDB()
 

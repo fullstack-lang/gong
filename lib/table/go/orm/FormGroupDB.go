@@ -153,7 +153,17 @@ func (backRepoFormGroup *BackRepoFormGroupStruct) GetFormGroupDBFromFormGroupPtr
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoFormGroup *BackRepoFormGroupStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var formgroups []*models.FormGroup
 	for formgroup := range stage.FormGroups {
+		formgroups = append(formgroups, formgroup)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(formgroups, func(i, j int) bool {
+		return stage.Map_Staged_Order[formgroups[i]] < stage.Map_Staged_Order[formgroups[j]]
+	})
+
+	for _, formgroup := range formgroups {
 		backRepoFormGroup.CommitPhaseOneInstance(formgroup)
 	}
 

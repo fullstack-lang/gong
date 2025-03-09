@@ -136,7 +136,17 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) GetFormSor
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var formsortassocbuttons []*models.FormSortAssocButton
 	for formsortassocbutton := range stage.FormSortAssocButtons {
+		formsortassocbuttons = append(formsortassocbuttons, formsortassocbutton)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(formsortassocbuttons, func(i, j int) bool {
+		return stage.Map_Staged_Order[formsortassocbuttons[i]] < stage.Map_Staged_Order[formsortassocbuttons[j]]
+	})
+
+	for _, formsortassocbutton := range formsortassocbuttons {
 		backRepoFormSortAssocButton.CommitPhaseOneInstance(formsortassocbutton)
 	}
 
