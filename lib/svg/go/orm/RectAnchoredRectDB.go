@@ -240,7 +240,17 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) GetRectAnchoredR
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var rectanchoredrects []*models.RectAnchoredRect
 	for rectanchoredrect := range stage.RectAnchoredRects {
+		rectanchoredrects = append(rectanchoredrects, rectanchoredrect)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(rectanchoredrects, func(i, j int) bool {
+		return stage.Map_Staged_Order[rectanchoredrects[i]] < stage.Map_Staged_Order[rectanchoredrects[j]]
+	})
+
+	for _, rectanchoredrect := range rectanchoredrects {
 		backRepoRectAnchoredRect.CommitPhaseOneInstance(rectanchoredrect)
 	}
 

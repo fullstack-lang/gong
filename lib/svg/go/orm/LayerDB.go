@@ -167,7 +167,17 @@ func (backRepoLayer *BackRepoLayerStruct) GetLayerDBFromLayerPtr(layer *models.L
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoLayer *BackRepoLayerStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var layers []*models.Layer
 	for layer := range stage.Layers {
+		layers = append(layers, layer)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(layers, func(i, j int) bool {
+		return stage.Map_Staged_Order[layers[i]] < stage.Map_Staged_Order[layers[j]]
+	})
+
+	for _, layer := range layers {
 		backRepoLayer.CommitPhaseOneInstance(layer)
 	}
 

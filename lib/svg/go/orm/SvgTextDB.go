@@ -136,7 +136,17 @@ func (backRepoSvgText *BackRepoSvgTextStruct) GetSvgTextDBFromSvgTextPtr(svgtext
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoSvgText *BackRepoSvgTextStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var svgtexts []*models.SvgText
 	for svgtext := range stage.SvgTexts {
+		svgtexts = append(svgtexts, svgtext)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(svgtexts, func(i, j int) bool {
+		return stage.Map_Staged_Order[svgtexts[i]] < stage.Map_Staged_Order[svgtexts[j]]
+	})
+
+	for _, svgtext := range svgtexts {
 		backRepoSvgText.CommitPhaseOneInstance(svgtext)
 	}
 

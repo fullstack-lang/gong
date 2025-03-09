@@ -161,7 +161,17 @@ func (backRepoSVG *BackRepoSVGStruct) GetSVGDBFromSVGPtr(svg *models.SVG) (svgDB
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoSVG *BackRepoSVGStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var svgs []*models.SVG
 	for svg := range stage.SVGs {
+		svgs = append(svgs, svg)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(svgs, func(i, j int) bool {
+		return stage.Map_Staged_Order[svgs[i]] < stage.Map_Staged_Order[svgs[j]]
+	})
+
+	for _, svg := range svgs {
 		backRepoSVG.CommitPhaseOneInstance(svg)
 	}
 
