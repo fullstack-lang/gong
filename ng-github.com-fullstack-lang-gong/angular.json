@@ -16,12 +16,12 @@
               "budgets": [
                 {
                   "maximumError": "10mb",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "type": "initial"
                 },
                 {
-                  "maximumError": "4kb",
-                  "maximumWarning": "2kb",
+                  "maximumError": "8kB",
+                  "maximumWarning": "4kB",
                   "type": "anyComponentStyle"
                 }
               ],
@@ -31,8 +31,10 @@
           "defaultConfiguration": "production",
           "options": {
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "browser": "src/main.ts",
             "index": "src/index.html",
@@ -42,17 +44,14 @@
             ],
             "scripts": [],
             "styles": [
-              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.css"
             ],
             "tsConfig": "tsconfig.app.json"
           }
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "ng-github.com-fullstack-lang-gong:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
