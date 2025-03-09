@@ -142,7 +142,17 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) GetNoteShapeLinkDBFrom
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var noteshapelinks []*models.NoteShapeLink
 	for noteshapelink := range stage.NoteShapeLinks {
+		noteshapelinks = append(noteshapelinks, noteshapelink)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(noteshapelinks, func(i, j int) bool {
+		return stage.Map_Staged_Order[noteshapelinks[i]] < stage.Map_Staged_Order[noteshapelinks[j]]
+	})
+
+	for _, noteshapelink := range noteshapelinks {
 		backRepoNoteShapeLink.CommitPhaseOneInstance(noteshapelink)
 	}
 

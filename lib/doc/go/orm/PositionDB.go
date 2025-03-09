@@ -142,7 +142,17 @@ func (backRepoPosition *BackRepoPositionStruct) GetPositionDBFromPositionPtr(pos
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoPosition *BackRepoPositionStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var positions []*models.Position
 	for position := range stage.Positions {
+		positions = append(positions, position)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(positions, func(i, j int) bool {
+		return stage.Map_Staged_Order[positions[i]] < stage.Map_Staged_Order[positions[j]]
+	})
+
+	for _, position := range positions {
 		backRepoPosition.CommitPhaseOneInstance(position)
 	}
 
