@@ -82,7 +82,8 @@ func (controller *Controller) Get{{Structname}}s(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack {{PkgPathRoot}}/models, Unkown stack", stackPath)
+		message := "Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepo{{Structname}}.GetDB()
 
@@ -145,7 +146,8 @@ func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack {{PkgPathRoot}}/models, Unkown stack", stackPath)
+		message := "Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepo{{Structname}}.GetDB()
 
@@ -215,7 +217,8 @@ func (controller *Controller) Get{{Structname}}(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack {{PkgPathRoot}}/models, Unkown stack", stackPath)
+		message := "Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepo{{Structname}}.GetDB()
 
@@ -264,7 +267,8 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack {{PkgPathRoot}}/models, Unkown stack", stackPath)
+		message := "Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepo{{Structname}}.GetDB()
 
@@ -354,7 +358,8 @@ func (controller *Controller) Delete{{Structname}}(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack {{PkgPathRoot}}/models, Unkown stack", stackPath)
+		message := "Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepo{{Structname}}.GetDB()
 

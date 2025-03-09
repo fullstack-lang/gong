@@ -142,7 +142,17 @@ func (backRepoGongLink *BackRepoGongLinkStruct) GetGongLinkDBFromGongLinkPtr(gon
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoGongLink *BackRepoGongLinkStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var gonglinks []*models.GongLink
 	for gonglink := range stage.GongLinks {
+		gonglinks = append(gonglinks, gonglink)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(gonglinks, func(i, j int) bool {
+		return stage.Map_Staged_Order[gonglinks[i]] < stage.Map_Staged_Order[gonglinks[j]]
+	})
+
+	for _, gonglink := range gonglinks {
 		backRepoGongLink.CommitPhaseOneInstance(gonglink)
 	}
 

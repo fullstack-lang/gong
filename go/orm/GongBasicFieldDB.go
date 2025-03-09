@@ -198,7 +198,17 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) GetGongBasicFieldDBF
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var gongbasicfields []*models.GongBasicField
 	for gongbasicfield := range stage.GongBasicFields {
+		gongbasicfields = append(gongbasicfields, gongbasicfield)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(gongbasicfields, func(i, j int) bool {
+		return stage.Map_Staged_Order[gongbasicfields[i]] < stage.Map_Staged_Order[gongbasicfields[j]]
+	})
+
+	for _, gongbasicfield := range gongbasicfields {
 		backRepoGongBasicField.CommitPhaseOneInstance(gongbasicfield)
 	}
 

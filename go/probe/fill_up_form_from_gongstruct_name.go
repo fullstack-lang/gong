@@ -27,7 +27,7 @@ func FillUpFormFromGongstructName(
 	// insertion point
 	case "GongBasicField":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "GongBasicField Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__GongBasicFieldFormCallback(
@@ -40,7 +40,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(gongbasicfield, formGroup, probe)
 	case "GongEnum":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "GongEnum Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__GongEnumFormCallback(
@@ -53,7 +53,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(gongenum, formGroup, probe)
 	case "GongEnumValue":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "GongEnumValue Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__GongEnumValueFormCallback(
@@ -66,7 +66,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(gongenumvalue, formGroup, probe)
 	case "GongLink":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "GongLink Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__GongLinkFormCallback(
@@ -79,7 +79,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(gonglink, formGroup, probe)
 	case "GongNote":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "GongNote Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__GongNoteFormCallback(
@@ -92,7 +92,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(gongnote, formGroup, probe)
 	case "GongStruct":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "GongStruct Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__GongStructFormCallback(
@@ -105,7 +105,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(gongstruct, formGroup, probe)
 	case "GongTimeField":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "GongTimeField Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__GongTimeFieldFormCallback(
@@ -118,7 +118,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(gongtimefield, formGroup, probe)
 	case "Meta":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Meta Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__MetaFormCallback(
@@ -131,7 +131,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(meta, formGroup, probe)
 	case "MetaReference":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "MetaReference Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__MetaReferenceFormCallback(
@@ -144,7 +144,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(metareference, formGroup, probe)
 	case "ModelPkg":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "ModelPkg Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__ModelPkgFormCallback(
@@ -157,7 +157,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(modelpkg, formGroup, probe)
 	case "PointerToGongStructField":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "PointerToGongStructField Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__PointerToGongStructFieldFormCallback(
@@ -170,7 +170,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(pointertogongstructfield, formGroup, probe)
 	case "SliceOfPointerToGongStructField":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "SliceOfPointerToGongStructField Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__SliceOfPointerToGongStructFieldFormCallback(

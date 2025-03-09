@@ -156,7 +156,17 @@ func (backRepoGongStruct *BackRepoGongStructStruct) GetGongStructDBFromGongStruc
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var gongstructs []*models.GongStruct
 	for gongstruct := range stage.GongStructs {
+		gongstructs = append(gongstructs, gongstruct)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(gongstructs, func(i, j int) bool {
+		return stage.Map_Staged_Order[gongstructs[i]] < stage.Map_Staged_Order[gongstructs[j]]
+	})
+
+	for _, gongstruct := range gongstructs {
 		backRepoGongStruct.CommitPhaseOneInstance(gongstruct)
 	}
 

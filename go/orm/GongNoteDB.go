@@ -145,7 +145,17 @@ func (backRepoGongNote *BackRepoGongNoteStruct) GetGongNoteDBFromGongNotePtr(gon
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoGongNote *BackRepoGongNoteStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var gongnotes []*models.GongNote
 	for gongnote := range stage.GongNotes {
+		gongnotes = append(gongnotes, gongnote)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(gongnotes, func(i, j int) bool {
+		return stage.Map_Staged_Order[gongnotes[i]] < stage.Map_Staged_Order[gongnotes[j]]
+	})
+
+	for _, gongnote := range gongnotes {
 		backRepoGongNote.CommitPhaseOneInstance(gongnote)
 	}
 

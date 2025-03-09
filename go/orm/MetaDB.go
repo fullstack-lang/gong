@@ -139,7 +139,17 @@ func (backRepoMeta *BackRepoMetaStruct) GetMetaDBFromMetaPtr(meta *models.Meta) 
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoMeta *BackRepoMetaStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var metas []*models.Meta
 	for meta := range stage.Metas {
+		metas = append(metas, meta)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(metas, func(i, j int) bool {
+		return stage.Map_Staged_Order[metas[i]] < stage.Map_Staged_Order[metas[j]]
+	})
+
+	for _, meta := range metas {
 		backRepoMeta.CommitPhaseOneInstance(meta)
 	}
 

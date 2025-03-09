@@ -226,7 +226,17 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) GetModelPkgDBFromModelPkgPtr(mod
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoModelPkg *BackRepoModelPkgStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var modelpkgs []*models.ModelPkg
 	for modelpkg := range stage.ModelPkgs {
+		modelpkgs = append(modelpkgs, modelpkg)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(modelpkgs, func(i, j int) bool {
+		return stage.Map_Staged_Order[modelpkgs[i]] < stage.Map_Staged_Order[modelpkgs[j]]
+	})
+
+	for _, modelpkg := range modelpkgs {
 		backRepoModelPkg.CommitPhaseOneInstance(modelpkg)
 	}
 
