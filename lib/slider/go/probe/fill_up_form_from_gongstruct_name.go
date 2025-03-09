@@ -27,7 +27,7 @@ func FillUpFormFromGongstructName(
 	// insertion point
 	case "Checkbox":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Checkbox Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__CheckboxFormCallback(
@@ -40,7 +40,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(checkbox, formGroup, probe)
 	case "Group":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Group Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__GroupFormCallback(
@@ -53,7 +53,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(group, formGroup, probe)
 	case "Layout":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Layout Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__LayoutFormCallback(
@@ -66,7 +66,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(layout, formGroup, probe)
 	case "Slider":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Slider Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__SliderFormCallback(
