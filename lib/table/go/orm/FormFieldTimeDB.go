@@ -142,7 +142,17 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) GetFormFieldTimeDBFrom
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var formfieldtimes []*models.FormFieldTime
 	for formfieldtime := range stage.FormFieldTimes {
+		formfieldtimes = append(formfieldtimes, formfieldtime)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(formfieldtimes, func(i, j int) bool {
+		return stage.Map_Staged_Order[formfieldtimes[i]] < stage.Map_Staged_Order[formfieldtimes[j]]
+	})
+
+	for _, formfieldtime := range formfieldtimes {
 		backRepoFormFieldTime.CommitPhaseOneInstance(formfieldtime)
 	}
 

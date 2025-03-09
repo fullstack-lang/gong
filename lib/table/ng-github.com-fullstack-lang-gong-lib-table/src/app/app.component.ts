@@ -24,7 +24,9 @@ import { FormSpecificComponent } from "../../projects/tablespecific/src/lib/form
     MatRadioModule,
     MatButtonModule,
     MatIconModule,
+    
     AngularSplitModule,
+
     TableSpecificComponent,
     FormSpecificComponent
 ],

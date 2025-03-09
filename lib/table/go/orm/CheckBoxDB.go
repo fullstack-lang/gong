@@ -137,7 +137,17 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) GetCheckBoxDBFromCheckBoxPtr(che
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoCheckBox *BackRepoCheckBoxStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var checkboxs []*models.CheckBox
 	for checkbox := range stage.CheckBoxs {
+		checkboxs = append(checkboxs, checkbox)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(checkboxs, func(i, j int) bool {
+		return stage.Map_Staged_Order[checkboxs[i]] < stage.Map_Staged_Order[checkboxs[j]]
+	})
+
+	for _, checkbox := range checkboxs {
 		backRepoCheckBox.CommitPhaseOneInstance(checkbox)
 	}
 

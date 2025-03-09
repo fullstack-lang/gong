@@ -143,7 +143,17 @@ func (backRepoFormFieldString *BackRepoFormFieldStringStruct) GetFormFieldString
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoFormFieldString *BackRepoFormFieldStringStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var formfieldstrings []*models.FormFieldString
 	for formfieldstring := range stage.FormFieldStrings {
+		formfieldstrings = append(formfieldstrings, formfieldstring)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(formfieldstrings, func(i, j int) bool {
+		return stage.Map_Staged_Order[formfieldstrings[i]] < stage.Map_Staged_Order[formfieldstrings[j]]
+	})
+
+	for _, formfieldstring := range formfieldstrings {
 		backRepoFormFieldString.CommitPhaseOneInstance(formfieldstring)
 	}
 
