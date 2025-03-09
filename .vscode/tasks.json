@@ -223,10 +223,10 @@
             ]
         },
         {
-            "label": "03 - ngbuild test",
+            "label": "03 - ng build test",
             "type": "shell",
             "options": {
-                "cwd": "test/ng"
+                "cwd": "test/test/ng-github.com-fullstack-lang-gong-test-test"
             },
             "command": "ng build",
             "group": "build",
@@ -236,7 +236,7 @@
             "label": "03 - ng serve test --host=127.0.0.1",
             "type": "shell",
             "options": {
-                "cwd": "test/ng"
+                "cwd": "test/test/ng-github.com-fullstack-lang-gong-test-test"
             },
             "command": "ng",
             "group": "build",

@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	gongsplit_fullstack "github.com/fullstack-lang/gong/lib/split/go/fullstack"
 	gongtable_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	gongtree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
 
@@ -14,6 +15,7 @@ import (
 
 	gongdoc_load "github.com/fullstack-lang/gong/lib/doc/go/load"
 
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	form "github.com/fullstack-lang/gong/lib/table/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 
@@ -23,13 +25,20 @@ import (
 
 type Probe struct {
 	r                  *gin.Engine
+	stackPath          string
 	stageOfInterest    *models.StageStruct
 	backRepoOfInterest *orm.BackRepoStruct
 	gongStage          *gong_models.StageStruct
 	treeStage          *tree.StageStruct
 	formStage          *form.StageStruct
 	tableStage         *form.StageStruct
+	splitStage         *split.StageStruct
 }
+
+const ProbeTreeSidebarSuffix = "-sidebar"
+const ProbeTableSuffix = "-table"
+const ProbeFormSuffix = "-form"
+const ProbeSplitSuffix = "" // for simplicity sake
 
 func NewProbe(
 	r *gin.Engine,
@@ -45,25 +54,31 @@ func NewProbe(
 	gong_models.LoadEmbedded(gongStage, goModelsDir)
 
 	// treeForSelectingDate that is on the sidebar
-	treeStage, _ := gongtree_fullstack.NewStackInstance(r, stackPath+"-sidebar")
+	treeStage, _ := gongtree_fullstack.NewStackInstance(r, stackPath+ProbeTreeSidebarSuffix)
 
 	// stage for main table
-	tableStage, _ := gongtable_fullstack.NewStackInstance(r, stackPath+"-table")
+	tableStage, _ := gongtable_fullstack.NewStackInstance(r, stackPath+ProbeTableSuffix)
 	tableStage.Commit()
 
 	// stage for reusable form
-	formStage, _ := gongtable_fullstack.NewStackInstance(r, stackPath+"-form")
+	formStage, _ := gongtable_fullstack.NewStackInstance(r, stackPath+ProbeFormSuffix)
 	formStage.Commit()
+
+	splitStage, _ := gongsplit_fullstack.NewStackInstance(r, stackPath+ProbeSplitSuffix)
+	splitStage.Commit()
 
 	probe = new(Probe)
 	probe.r = r
+	probe.stackPath = stackPath
 	probe.stageOfInterest = stageOfInterest
 	probe.backRepoOfInterest = backRepoOfInterest
 	probe.gongStage = gongStage
 	probe.treeStage = treeStage
 	probe.formStage = formStage
 	probe.tableStage = tableStage
+	probe.splitStage = splitStage
 
+	updateSplitStage(probe)
 	fillUpTree(probe)
 
 	gongdoc_load.Load(
