@@ -199,7 +199,17 @@ func (backRepoText *BackRepoTextStruct) GetTextDBFromTextPtr(text *models.Text) 
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoText *BackRepoTextStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var texts []*models.Text
 	for text := range stage.Texts {
+		texts = append(texts, text)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(texts, func(i, j int) bool {
+		return stage.Map_Staged_Order[texts[i]] < stage.Map_Staged_Order[texts[j]]
+	})
+
+	for _, text := range texts {
 		backRepoText.CommitPhaseOneInstance(text)
 	}
 

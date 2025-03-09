@@ -66,7 +66,8 @@ func (controller *Controller) GetRectAnchoredRects(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/svg/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoRectAnchoredRect.GetDB()
 
@@ -129,7 +130,8 @@ func (controller *Controller) PostRectAnchoredRect(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/svg/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoRectAnchoredRect.GetDB()
 
@@ -199,7 +201,8 @@ func (controller *Controller) GetRectAnchoredRect(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/svg/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoRectAnchoredRect.GetDB()
 
@@ -248,7 +251,8 @@ func (controller *Controller) UpdateRectAnchoredRect(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/svg/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoRectAnchoredRect.GetDB()
 
@@ -338,7 +342,8 @@ func (controller *Controller) DeleteRectAnchoredRect(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/lib/svg/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoRectAnchoredRect.GetDB()
 

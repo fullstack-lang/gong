@@ -217,7 +217,17 @@ func (backRepoLine *BackRepoLineStruct) GetLineDBFromLinePtr(line *models.Line) 
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoLine *BackRepoLineStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var lines []*models.Line
 	for line := range stage.Lines {
+		lines = append(lines, line)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(lines, func(i, j int) bool {
+		return stage.Map_Staged_Order[lines[i]] < stage.Map_Staged_Order[lines[j]]
+	})
+
+	for _, line := range lines {
 		backRepoLine.CommitPhaseOneInstance(line)
 	}
 
