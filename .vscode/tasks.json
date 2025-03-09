@@ -463,6 +463,20 @@
             ]
         },
         {
+            "label": "01 - gongc tone",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/tone"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmWorkspaces",
+                "go/models"
+            ]
+        },
+        {
             "label": "01 - remove test main.go",
             "type": "shell",
             "options": {
