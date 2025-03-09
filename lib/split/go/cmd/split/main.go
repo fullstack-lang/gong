@@ -28,6 +28,9 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
+	log.Println("marshallOnCommit", *marshallOnCommit)
+	log.Println("unmarshallFromCode", *unmarshallFromCode)
+
 	// setup the static file server and get the controller
 	r := split_static.ServeStaticFiles(*logGINFlag)
 

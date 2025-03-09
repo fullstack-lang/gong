@@ -27,8 +27,8 @@ import { SvgSpecificComponent } from '../../../../../../../svg/ng-github.com-ful
     TreeSpecificComponent,
     TableSpecificComponent,
     FormSpecificComponent,
-    // SvgSpecificComponent,
-    // DocSpecificComponent,
+    SvgSpecificComponent,
+    DocSpecificComponent,
   
   ],
   templateUrl: './split-specific.component.html',

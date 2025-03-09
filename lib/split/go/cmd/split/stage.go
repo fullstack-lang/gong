@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/split/go/models"
+
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -25,12 +26,14 @@ func _(stage *models.StageStruct) {
 
 	__AsSplit__000000_planel_root := (&models.AsSplit{}).Stage(stage)
 
-	__AsSplitArea__000000_top := (&models.AsSplitArea{}).Stage(stage)
+	__AsSplitArea__000000_doc_panel := (&models.AsSplitArea{}).Stage(stage)
 	__AsSplitArea__000001_svg := (&models.AsSplitArea{}).Stage(stage)
 	__AsSplitArea__000002_extra := (&models.AsSplitArea{}).Stage(stage)
 	__AsSplitArea__000003_sidebar_tree := (&models.AsSplitArea{}).Stage(stage)
 	__AsSplitArea__000004_table := (&models.AsSplitArea{}).Stage(stage)
 	__AsSplitArea__000005_form := (&models.AsSplitArea{}).Stage(stage)
+
+	__Doc__000000_doc_in_panel := (&models.Doc{}).Stage(stage)
 
 	__Form__000000_Form_for_Panel_Form := (&models.Form{}).Stage(stage)
 
@@ -49,17 +52,17 @@ func _(stage *models.StageStruct) {
 	__AsSplit__000000_planel_root.Name = `planel root`
 	__AsSplit__000000_planel_root.Direction = models.Vertical
 
-	__AsSplitArea__000000_top.Name = `top`
-	__AsSplitArea__000000_top.Size = 100.000000
-	__AsSplitArea__000000_top.IsAny = false
+	__AsSplitArea__000000_doc_panel.Name = `doc panel`
+	__AsSplitArea__000000_doc_panel.Size = 30.000000
+	__AsSplitArea__000000_doc_panel.IsAny = false
 
 	__AsSplitArea__000001_svg.Name = `svg`
-	__AsSplitArea__000001_svg.Size = 150.000000
+	__AsSplitArea__000001_svg.Size = 30.000000
 	__AsSplitArea__000001_svg.IsAny = false
 
 	__AsSplitArea__000002_extra.Name = `extra`
-	__AsSplitArea__000002_extra.Size = 0.000000
-	__AsSplitArea__000002_extra.IsAny = true
+	__AsSplitArea__000002_extra.Size = 40.000000
+	__AsSplitArea__000002_extra.IsAny = false
 
 	__AsSplitArea__000003_sidebar_tree.Name = `sidebar tree`
 	__AsSplitArea__000003_sidebar_tree.Size = 20.000000
@@ -72,6 +75,9 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000005_form.Name = `form`
 	__AsSplitArea__000005_form.Size = 30.000000
 	__AsSplitArea__000005_form.IsAny = false
+
+	__Doc__000000_doc_in_panel.Name = `doc in panel`
+	__Doc__000000_doc_in_panel.StackName = `github.com/fullstack-lang/gong/lib/split/go/models`
 
 	__Form__000000_Form_for_Panel_Form.Name = `Form for Panel Form`
 	__Form__000000_Form_for_Panel_Form.StackName = `split-form`
@@ -100,17 +106,19 @@ func _(stage *models.StageStruct) {
 	__AsSplit__000000_planel_root.AsSplitAreas = append(__AsSplit__000000_planel_root.AsSplitAreas, __AsSplitArea__000004_table)
 	__AsSplit__000000_planel_root.AsSplitAreas = append(__AsSplit__000000_planel_root.AsSplitAreas, __AsSplitArea__000005_form)
 	// setup of AsSplitArea instances pointers
+	__AsSplitArea__000000_doc_panel.Doc = __Doc__000000_doc_in_panel
 	__AsSplitArea__000001_svg.Svg = __Svg__000000_svg_component
 	__AsSplitArea__000002_extra.AsSplits = append(__AsSplitArea__000002_extra.AsSplits, __AsSplit__000000_planel_root)
 	__AsSplitArea__000003_sidebar_tree.Tree = __Tree__000000_Tree
 	__AsSplitArea__000004_table.Table = __Table__000000_Table_within_panel
 	__AsSplitArea__000005_form.Form = __Form__000000_Form_for_Panel_Form
+	// setup of Doc instances pointers
 	// setup of Form instances pointers
 	// setup of Svg instances pointers
 	// setup of Table instances pointers
 	// setup of Tree instances pointers
 	// setup of View instances pointers
-	__View__000000_a.RootAsSplitAreas = append(__View__000000_a.RootAsSplitAreas, __AsSplitArea__000000_top)
+	__View__000000_a.RootAsSplitAreas = append(__View__000000_a.RootAsSplitAreas, __AsSplitArea__000000_doc_panel)
 	__View__000000_a.RootAsSplitAreas = append(__View__000000_a.RootAsSplitAreas, __AsSplitArea__000001_svg)
 	__View__000000_a.RootAsSplitAreas = append(__View__000000_a.RootAsSplitAreas, __AsSplitArea__000002_extra)
 }
