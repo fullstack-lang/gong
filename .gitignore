@@ -32,3 +32,4 @@ test/go/tests/serialize_test.xlsx
 test/go/tests/wrap_text.xlsx
 test/test2/go/cmd/test2/test2
 test/test3/go/cmd/test3/test3
+lib/tone/go/cmd/tone/tone
