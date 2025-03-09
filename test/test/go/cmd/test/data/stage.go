@@ -26,8 +26,8 @@ func _(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
-	__Astruct__000000_A2 := (&models.Astruct{}).Stage(stage)
 	__Astruct__000001_A1 := (&models.Astruct{}).Stage(stage)
+	__Astruct__000000_A2 := (&models.Astruct{}).Stage(stage)
 	__Astruct__000002_A3 := (&models.Astruct{}).Stage(stage)
 
 	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{}).Stage(stage)
