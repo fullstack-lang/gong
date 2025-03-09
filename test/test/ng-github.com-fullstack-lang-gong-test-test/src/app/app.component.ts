@@ -15,11 +15,7 @@ import * as test from '../../projects/test/src/public-api'
 
 import { TestSpecificComponent } from '../../projects/testspecific/src/lib/test-specific/test-specific.component'
 
-import { TreeSpecificComponent } from '../../../../../lib/tree/ng-github.com-fullstack-lang-gong-lib-tree/projects/treespecific/src/lib/tree-specific/tree-specific.component'
-import { TableSpecificComponent } from '../../../../../lib/table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/table-specific/table-specific.component'
-import { FormSpecificComponent } from '../../../../../lib/table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/form-specific/form-specific.component'
-import { SvgSpecificComponent } from '../../../../../lib/svg/ng-github.com-fullstack-lang-gong-lib-svg/projects/svgspecific/src/lib/svg-specific/svg-specific.component'
-import { DocSpecificComponent } from '../../../../../lib/doc/ng-github.com-fullstack-lang-gong-lib-doc/projects/docspecific/src/lib/doc-specific/doc-specific.component'
+import { SplitSpecificComponent } from '../../../../../lib/split/ng-github.com-fullstack-lang-gong-lib-split/projects/splitspecific/src/lib/split-specific/split-specific.component'
 
 import * as svg from '../../../../../lib/svg/ng-github.com-fullstack-lang-gong-lib-svg/projects/svg/src/public-api'
 import * as tree from '../../../../../lib/tree/ng-github.com-fullstack-lang-gong-lib-tree/projects/tree/src/public-api'
@@ -40,11 +36,7 @@ import * as table from '../../../../../lib/table/ng-github.com-fullstack-lang-go
 
     AngularSplitModule,
 
-    TreeSpecificComponent,
-    TableSpecificComponent,
-    FormSpecificComponent,
-    SvgSpecificComponent,
-    DocSpecificComponent,
+    SplitSpecificComponent,
 
     TestSpecificComponent
 
