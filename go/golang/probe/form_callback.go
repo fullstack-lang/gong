@@ -107,7 +107,7 @@ func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
 	if {{structname}}FormCallback.CreationMode || {{structname}}FormCallback.formGroup.HasSuppressButtonBeenPressed {
 		{{structname}}FormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage({{structname}}FormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__{{Structname}}FormCallback(
 			nil,
