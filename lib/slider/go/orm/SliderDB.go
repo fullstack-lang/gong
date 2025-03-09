@@ -192,7 +192,17 @@ func (backRepoSlider *BackRepoSliderStruct) GetSliderDBFromSliderPtr(slider *mod
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoSlider *BackRepoSliderStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var sliders []*models.Slider
 	for slider := range stage.Sliders {
+		sliders = append(sliders, slider)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(sliders, func(i, j int) bool {
+		return stage.Map_Staged_Order[sliders[i]] < stage.Map_Staged_Order[sliders[j]]
+	})
+
+	for _, slider := range sliders {
 		backRepoSlider.CommitPhaseOneInstance(slider)
 	}
 
