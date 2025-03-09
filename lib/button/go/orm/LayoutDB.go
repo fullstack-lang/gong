@@ -133,7 +133,17 @@ func (backRepoLayout *BackRepoLayoutStruct) GetLayoutDBFromLayoutPtr(layout *mod
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoLayout *BackRepoLayoutStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var layouts []*models.Layout
 	for layout := range stage.Layouts {
+		layouts = append(layouts, layout)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(layouts, func(i, j int) bool {
+		return stage.Map_Staged_Order[layouts[i]] < stage.Map_Staged_Order[layouts[j]]
+	})
+
+	for _, layout := range layouts {
 		backRepoLayout.CommitPhaseOneInstance(layout)
 	}
 
