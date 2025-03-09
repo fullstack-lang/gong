@@ -224,7 +224,17 @@ func (backRepoLink *BackRepoLinkStruct) GetLinkDBFromLinkPtr(link *models.Link) 
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoLink *BackRepoLinkStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var links []*models.Link
 	for link := range stage.Links {
+		links = append(links, link)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(links, func(i, j int) bool {
+		return stage.Map_Staged_Order[links[i]] < stage.Map_Staged_Order[links[j]]
+	})
+
+	for _, link := range links {
 		backRepoLink.CommitPhaseOneInstance(link)
 	}
 

@@ -125,7 +125,7 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 	if classdiagramFormCallback.CreationMode || classdiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		classdiagramFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(classdiagramFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__ClassdiagramFormCallback(
 			nil,
@@ -214,7 +214,7 @@ func (diagrampackageFormCallback *DiagramPackageFormCallback) OnSave() {
 	if diagrampackageFormCallback.CreationMode || diagrampackageFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		diagrampackageFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(diagrampackageFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__DiagramPackageFormCallback(
 			nil,
@@ -341,7 +341,7 @@ func (fieldFormCallback *FieldFormCallback) OnSave() {
 	if fieldFormCallback.CreationMode || fieldFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		fieldFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(fieldFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__FieldFormCallback(
 			nil,
@@ -468,7 +468,7 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 	if gongenumshapeFormCallback.CreationMode || gongenumshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		gongenumshapeFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(gongenumshapeFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__GongEnumShapeFormCallback(
 			nil,
@@ -589,7 +589,7 @@ func (gongenumvalueentryFormCallback *GongEnumValueEntryFormCallback) OnSave() {
 	if gongenumvalueentryFormCallback.CreationMode || gongenumvalueentryFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		gongenumvalueentryFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(gongenumvalueentryFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__GongEnumValueEntryFormCallback(
 			nil,
@@ -722,7 +722,7 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 	if gongstructshapeFormCallback.CreationMode || gongstructshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		gongstructshapeFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(gongstructshapeFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__GongStructShapeFormCallback(
 			nil,
@@ -873,7 +873,7 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 	if linkFormCallback.CreationMode || linkFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		linkFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(linkFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__LinkFormCallback(
 			nil,
@@ -1008,7 +1008,7 @@ func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
 	if noteshapeFormCallback.CreationMode || noteshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		noteshapeFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(noteshapeFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__NoteShapeFormCallback(
 			nil,
@@ -1131,7 +1131,7 @@ func (noteshapelinkFormCallback *NoteShapeLinkFormCallback) OnSave() {
 	if noteshapelinkFormCallback.CreationMode || noteshapelinkFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		noteshapelinkFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(noteshapelinkFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__NoteShapeLinkFormCallback(
 			nil,
@@ -1212,7 +1212,7 @@ func (positionFormCallback *PositionFormCallback) OnSave() {
 	if positionFormCallback.CreationMode || positionFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		positionFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(positionFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__PositionFormCallback(
 			nil,
@@ -1335,7 +1335,7 @@ func (umlstateFormCallback *UmlStateFormCallback) OnSave() {
 	if umlstateFormCallback.CreationMode || umlstateFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		umlstateFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(umlstateFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__UmlStateFormCallback(
 			nil,
@@ -1458,7 +1458,7 @@ func (umlscFormCallback *UmlscFormCallback) OnSave() {
 	if umlscFormCallback.CreationMode || umlscFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		umlscFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(umlscFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__UmlscFormCallback(
 			nil,
@@ -1539,7 +1539,7 @@ func (verticeFormCallback *VerticeFormCallback) OnSave() {
 	if verticeFormCallback.CreationMode || verticeFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		verticeFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
-			Name: table.FormGroupDefaultName.ToString(),
+			Name: FormName,
 		}).Stage(verticeFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__VerticeFormCallback(
 			nil,

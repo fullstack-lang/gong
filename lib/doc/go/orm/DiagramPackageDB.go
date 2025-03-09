@@ -172,7 +172,17 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) GetDiagramPackageDBF
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var diagrampackages []*models.DiagramPackage
 	for diagrampackage := range stage.DiagramPackages {
+		diagrampackages = append(diagrampackages, diagrampackage)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(diagrampackages, func(i, j int) bool {
+		return stage.Map_Staged_Order[diagrampackages[i]] < stage.Map_Staged_Order[diagrampackages[j]]
+	})
+
+	for _, diagrampackage := range diagrampackages {
 		backRepoDiagramPackage.CommitPhaseOneInstance(diagrampackage)
 	}
 

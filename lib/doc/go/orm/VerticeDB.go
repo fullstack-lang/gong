@@ -142,7 +142,17 @@ func (backRepoVertice *BackRepoVerticeStruct) GetVerticeDBFromVerticePtr(vertice
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoVertice *BackRepoVerticeStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var vertices []*models.Vertice
 	for vertice := range stage.Vertices {
+		vertices = append(vertices, vertice)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(vertices, func(i, j int) bool {
+		return stage.Map_Staged_Order[vertices[i]] < stage.Map_Staged_Order[vertices[j]]
+	})
+
+	for _, vertice := range vertices {
 		backRepoVertice.CommitPhaseOneInstance(vertice)
 	}
 

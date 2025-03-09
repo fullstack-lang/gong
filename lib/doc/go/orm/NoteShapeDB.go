@@ -182,7 +182,17 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) GetNoteShapeDBFromNoteShapePtr
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var noteshapes []*models.NoteShape
 	for noteshape := range stage.NoteShapes {
+		noteshapes = append(noteshapes, noteshape)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(noteshapes, func(i, j int) bool {
+		return stage.Map_Staged_Order[noteshapes[i]] < stage.Map_Staged_Order[noteshapes[j]]
+	})
+
+	for _, noteshape := range noteshapes {
 		backRepoNoteShape.CommitPhaseOneInstance(noteshape)
 	}
 
