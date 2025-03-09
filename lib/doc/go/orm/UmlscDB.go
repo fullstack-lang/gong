@@ -146,7 +146,17 @@ func (backRepoUmlsc *BackRepoUmlscStruct) GetUmlscDBFromUmlscPtr(umlsc *models.U
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var umlscs []*models.Umlsc
 	for umlsc := range stage.Umlscs {
+		umlscs = append(umlscs, umlsc)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(umlscs, func(i, j int) bool {
+		return stage.Map_Staged_Order[umlscs[i]] < stage.Map_Staged_Order[umlscs[j]]
+	})
+
+	for _, umlsc := range umlscs {
 		backRepoUmlsc.CommitPhaseOneInstance(umlsc)
 	}
 

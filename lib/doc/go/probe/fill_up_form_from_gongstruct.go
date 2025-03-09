@@ -11,7 +11,7 @@ func FillUpFormFromGongstruct(instance any, probe *Probe) {
 	formStage := probe.formStage
 	formStage.Reset()
 
-	FillUpNamedFormFromGongstruct(instance, probe, formStage, gongtable.FormGroupDefaultName.ToString())
+	FillUpNamedFormFromGongstruct(instance, probe, formStage, FormName)
 
 }
 

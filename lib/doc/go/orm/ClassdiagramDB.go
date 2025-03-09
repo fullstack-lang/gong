@@ -146,7 +146,17 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) GetClassdiagramDBFromCla
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoClassdiagram *BackRepoClassdiagramStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var classdiagrams []*models.Classdiagram
 	for classdiagram := range stage.Classdiagrams {
+		classdiagrams = append(classdiagrams, classdiagram)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(classdiagrams, func(i, j int) bool {
+		return stage.Map_Staged_Order[classdiagrams[i]] < stage.Map_Staged_Order[classdiagrams[j]]
+	})
+
+	for _, classdiagram := range classdiagrams {
 		backRepoClassdiagram.CommitPhaseOneInstance(classdiagram)
 	}
 
