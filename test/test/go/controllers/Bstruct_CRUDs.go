@@ -66,7 +66,8 @@ func (controller *Controller) GetBstructs(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/test/test/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/test/test/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoBstruct.GetDB()
 
@@ -129,7 +130,8 @@ func (controller *Controller) PostBstruct(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/test/test/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/test/test/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoBstruct.GetDB()
 
@@ -199,7 +201,8 @@ func (controller *Controller) GetBstruct(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/test/test/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/test/test/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoBstruct.GetDB()
 
@@ -248,7 +251,8 @@ func (controller *Controller) UpdateBstruct(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/test/test/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/test/test/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoBstruct.GetDB()
 
@@ -338,7 +342,8 @@ func (controller *Controller) DeleteBstruct(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		log.Panic("Stack github.com/fullstack-lang/gong/test/test/go/models, Unkown stack", stackPath)
+		message := "Stack github.com/fullstack-lang/gong/test/test/go, Unkown stack: \"" + stackPath + "\""
+		log.Panic(message)
 	}
 	db := backRepo.BackRepoBstruct.GetDB()
 
