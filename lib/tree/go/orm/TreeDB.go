@@ -133,7 +133,17 @@ func (backRepoTree *BackRepoTreeStruct) GetTreeDBFromTreePtr(tree *models.Tree) 
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoTree *BackRepoTreeStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var trees []*models.Tree
 	for tree := range stage.Trees {
+		trees = append(trees, tree)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(trees, func(i, j int) bool {
+		return stage.Map_Staged_Order[trees[i]] < stage.Map_Staged_Order[trees[j]]
+	})
+
+	for _, tree := range trees {
 		backRepoTree.CommitPhaseOneInstance(tree)
 	}
 

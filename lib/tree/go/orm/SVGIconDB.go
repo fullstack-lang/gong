@@ -136,7 +136,17 @@ func (backRepoSVGIcon *BackRepoSVGIconStruct) GetSVGIconDBFromSVGIconPtr(svgicon
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoSVGIcon *BackRepoSVGIconStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var svgicons []*models.SVGIcon
 	for svgicon := range stage.SVGIcons {
+		svgicons = append(svgicons, svgicon)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(svgicons, func(i, j int) bool {
+		return stage.Map_Staged_Order[svgicons[i]] < stage.Map_Staged_Order[svgicons[j]]
+	})
+
+	for _, svgicon := range svgicons {
 		backRepoSVGIcon.CommitPhaseOneInstance(svgicon)
 	}
 
