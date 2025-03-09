@@ -153,7 +153,17 @@ func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) 
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var pointertogongstructfields []*models.PointerToGongStructField
 	for pointertogongstructfield := range stage.PointerToGongStructFields {
+		pointertogongstructfields = append(pointertogongstructfields, pointertogongstructfield)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(pointertogongstructfields, func(i, j int) bool {
+		return stage.Map_Staged_Order[pointertogongstructfields[i]] < stage.Map_Staged_Order[pointertogongstructfields[j]]
+	})
+
+	for _, pointertogongstructfield := range pointertogongstructfields {
 		backRepoPointerToGongStructField.CommitPhaseOneInstance(pointertogongstructfield)
 	}
 

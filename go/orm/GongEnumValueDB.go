@@ -136,7 +136,17 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) GetGongEnumValueDBFrom
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var gongenumvalues []*models.GongEnumValue
 	for gongenumvalue := range stage.GongEnumValues {
+		gongenumvalues = append(gongenumvalues, gongenumvalue)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(gongenumvalues, func(i, j int) bool {
+		return stage.Map_Staged_Order[gongenumvalues[i]] < stage.Map_Staged_Order[gongenumvalues[j]]
+	})
+
+	for _, gongenumvalue := range gongenumvalues {
 		backRepoGongEnumValue.CommitPhaseOneInstance(gongenumvalue)
 	}
 
