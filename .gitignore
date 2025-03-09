@@ -20,9 +20,9 @@ test2/go/cmd/test2/test2.db
 test/go/tests/serialize_test.xlsx
 
 node_modules
-test3/go/cmd/test3/test3
-test3/go/cmd/test3/wasmworkbench.wasm
-test3/ng-github.com-fullstack-lang-gong-test3/cypress/screenshots/issue delete table.cy.ts/template spec -- Test delete (failed).png
+test/test3/go/cmd/test3/test3
+test/test3/go/cmd/test3/wasmworkbench.wasm
+test/test3/ng-github.com-fullstack-lang-gong-test3/cypress/screenshots/issue delete table.cy.ts/template spec -- Test delete (failed).png
 
 
 test3/ng-github.com-fullstack-lang-gong-test3/cypress/screenshots/issue 519.cy.ts/Issue 519.cy.ts -- Test check box (failed).pn
@@ -30,3 +30,5 @@ test3/ng-github.com-fullstack-lang-gong-test3/cypress/screenshots/issue 519.cy.t
 test/go/tests/serialize_test.xlsx
 test/go/tests/serialize_test.xlsx
 test/go/tests/wrap_text.xlsx
+test/test2/go/cmd/test2/test2
+test/test3/go/cmd/test3/test3
