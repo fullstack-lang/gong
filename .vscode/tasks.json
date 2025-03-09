@@ -82,6 +82,21 @@
             "group": "build"
         },
         {
+            "label": "04 - go run split",
+            "type": "shell",
+            "options": {
+                "cwd": "./lib/split/go/cmd/split"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "-unmarshallFromCode=stage.go",
+                "-marshallOnCommit=stage"
+            ],
+            "group": "build"
+        },
+        {
             "label": "Sleepdelay",
             "type": "shell",
             "command": "sleep 1",
@@ -271,6 +286,19 @@
             ]
         },
         {
+            "label": "03 - ng serve split ",
+            "type": "shell",
+            "options": {
+                "cwd": "lib/split/ng-github.com-fullstack-lang-gong-lib-split"
+            },
+            "command": "ng",
+            "group": "build",
+            "args": [
+                "serve",
+                ""
+            ]
+        },
+        {
             "label": "03 - ng serve test3 --host=127.0.0.1",
             "type": "shell",
             "options": {
@@ -352,6 +380,19 @@
             "group": "build",
             "args": [
                 "-skipNpmInstall",
+                "go/models"
+            ]
+        },
+        {
+            "label": "01 - gongc split",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/split"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "-skipNpmWorkspaces",
                 "go/models"
             ]
         },

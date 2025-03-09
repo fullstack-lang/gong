@@ -169,7 +169,7 @@
         },
         
         {
-            "name": "go run tree -unmarshallFromCode=stage.go -marshallOnCommit=stage_out",
+            "name": "go run tree",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -180,7 +180,18 @@
             ],
         },
         {
-            "name": "go run svg -unmarshallFromCode=stage.go -marshallOnCommit=stage_out",
+            "name": "go run split",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/split/go/cmd/split",
+            "args": [
+                "-unmarshallFromCode=stage.go",
+                "-marshallOnCommit=stage"
+            ],
+        },
+        {
+            "name": "go run svg",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -419,6 +430,14 @@
             "type": "chrome",
             "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}/lib/doc/ng-github.com-fullstack-lang-gong-lib-doc",
+            "sourceMaps": true,
+        },
+        {
+            "name": "Launch Chrome (split) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/split/ng-github.com-fullstack-lang-gong-lib-split",
             "sourceMaps": true,
         },
         {
