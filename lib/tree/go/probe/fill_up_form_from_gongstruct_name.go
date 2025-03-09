@@ -27,7 +27,7 @@ func FillUpFormFromGongstructName(
 	// insertion point
 	case "Button":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Button Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__ButtonFormCallback(
@@ -40,7 +40,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(button, formGroup, probe)
 	case "Node":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Node Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__NodeFormCallback(
@@ -53,7 +53,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(node, formGroup, probe)
 	case "SVGIcon":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "SVGIcon Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__SVGIconFormCallback(
@@ -66,7 +66,7 @@ func FillUpFormFromGongstructName(
 		FillUpForm(svgicon, formGroup, probe)
 	case "Tree":
 		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
+			Name:  FormName,
 			Label: prefix + "Tree Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__TreeFormCallback(

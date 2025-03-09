@@ -234,7 +234,17 @@ func (backRepoNode *BackRepoNodeStruct) GetNodeDBFromNodePtr(node *models.Node) 
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoNode *BackRepoNodeStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var nodes []*models.Node
 	for node := range stage.Nodes {
+		nodes = append(nodes, node)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(nodes, func(i, j int) bool {
+		return stage.Map_Staged_Order[nodes[i]] < stage.Map_Staged_Order[nodes[j]]
+	})
+
+	for _, node := range nodes {
 		backRepoNode.CommitPhaseOneInstance(node)
 	}
 
