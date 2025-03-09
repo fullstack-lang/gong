@@ -1,0 +1,21 @@
+<div class="gongtone-container">
+    <div class="gongtone-controls">
+      <button 
+        mat-fab 
+        color="primary" 
+        aria-label="Play" 
+        (click)="play()"
+        [disabled]="!frontRepo">
+        <mat-icon>play_circle</mat-icon>
+      </button>
+      
+      <button 
+        mat-fab 
+        color="warn" 
+        aria-label="Stop" 
+        (click)="stopPlayback()"
+        [disabled]="!frontRepo">
+        <mat-icon>stop_circle</mat-icon>
+      </button>
+    </div>
+  </div>
