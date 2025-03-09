@@ -148,7 +148,17 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) GetGongTimeFieldDBFrom
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
 
+	var gongtimefields []*models.GongTimeField
 	for gongtimefield := range stage.GongTimeFields {
+		gongtimefields = append(gongtimefields, gongtimefield)
+	}
+
+	// Sort by the order stored in Map_Staged_Order.
+	sort.Slice(gongtimefields, func(i, j int) bool {
+		return stage.Map_Staged_Order[gongtimefields[i]] < stage.Map_Staged_Order[gongtimefields[j]]
+	})
+
+	for _, gongtimefield := range gongtimefields {
 		backRepoGongTimeField.CommitPhaseOneInstance(gongtimefield)
 	}
 
