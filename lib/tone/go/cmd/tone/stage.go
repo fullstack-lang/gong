@@ -122,7 +122,7 @@ func _(stage *models.StageStruct) {
 	__Note__000009_9_D5.Info = ``
 
 	__Player__000000_player.Name = `player`
-	__Player__000000_player.Status = models.PLAYING
+	__Player__000000_player.Status = models.PAUSED
 
 	// Setup of pointers
 	// setup of Freqency instances pointers

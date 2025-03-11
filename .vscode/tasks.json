@@ -94,7 +94,22 @@
                 "run",
                 ".",
                 "-unmarshallFromCode=data/stage.go",
-                "-marshallOnComdata/mit=stage"
+                "-marshallOnCommit=stage"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "04 - go run tone",
+            "type": "shell",
+            "options": {
+                "cwd": "./lib/tone/go/cmd/tone"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=stage"
             ],
             "group": "build"
         },
@@ -295,6 +310,19 @@
             "type": "shell",
             "options": {
                 "cwd": "lib/split/ng-github.com-fullstack-lang-gong-lib-split"
+            },
+            "command": "ng",
+            "group": "build",
+            "args": [
+                "serve",
+                ""
+            ]
+        },
+        {
+            "label": "03 - ng serve tone",
+            "type": "shell",
+            "options": {
+                "cwd": "lib/tone/ng-github.com-fullstack-lang-gong-lib-tone"
             },
             "command": "ng",
             "group": "build",

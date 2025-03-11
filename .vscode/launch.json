@@ -476,6 +476,14 @@
             "sourceMaps": true,
         },
         {
+            "name": "Launch Chrome (tone) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/tone/ng-github.com-fullstack-lang-gong-lib-tone",
+            "sourceMaps": true,
+        },
+        {
             "name": "gongc test2 -skipNg -skipGoModCommands",
             "type": "go",
             "request": "launch",
