@@ -407,10 +407,10 @@
             ]
         },
         {
-            "label": "01 - gongc tree",
+            "label": "01 - gongc button",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/lib/tree"
+                "cwd": "${workspaceFolder}/lib/button"
             },
             "command": "gongc",
             "group": "build",
@@ -421,10 +421,24 @@
             ]
         },
         {
-            "label": "01 - gongc button",
+            "label": "01 - gongc doc",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/lib/button"
+                "cwd": "${workspaceFolder}/lib/doc"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmWorkspaces",
+                "go/models"
+            ]
+        },
+        {
+            "label": "01 - gongc sim",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/sim"
             },
             "command": "gongc",
             "group": "build",
@@ -449,10 +463,10 @@
             ]
         },
         {
-            "label": "01 - gongc doc",
+            "label": "01 - gongc tree",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/lib/doc"
+                "cwd": "${workspaceFolder}/lib/tree"
             },
             "command": "gongc",
             "group": "build",
@@ -462,6 +476,7 @@
                 "go/models"
             ]
         },
+
         {
             "label": "01 - gongc gong",
             "type": "shell",

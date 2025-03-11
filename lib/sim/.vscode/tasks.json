@@ -1,0 +1,150 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+	  {
+		"label": "02 - run sim -unmarshallFromCode=stage.go -marshallOnCommit=stage",
+		"type": "shell",
+		"options": {
+		  "cwd": "${workspaceFolder}/go/cmd/sim"
+		},
+		"command": "go",
+		"args": [
+		  "run",
+		  "main.go",
+		  "-diagrams",
+		  "-unmarshallFromCode=stage.go",
+		  "-marshallOnCommit=stage"
+		],
+		"group": "build"
+	  },
+	  {
+		"label": "02 - run sim w/o diagrams",
+		"type": "shell",
+		"options": {
+		  "cwd": "${workspaceFolder}/go/cmd/sim"
+		},
+		"command": "go",
+		"args": [
+		  "run",
+		  ".",
+		  "-diagrams=false",
+		  "--unmarshall=stage",
+		  "-marshallOnCommit=stage"
+		],
+		"group": "build"
+	  },
+	  {
+		"label": "03 - lsof -i tcp:8080 ",
+		"type": "shell",
+		"command": "lsof -i tcp:8080 ",
+		"group": "build"
+	  },
+	  {
+		"label": "03 - ng build",
+		"type": "shell",
+		"command": "cd ng-github.com-fullstack-lang-gong-lib-sim; ng build",
+		"group": "build",
+		"problemMatcher": []
+	  },
+	  {
+		"label": "04 - ng serve --host=127.0.0.1",
+		"type": "shell",
+		"command": "cd ng-github.com-fullstack-lang-gong-lib-sim; ng serve --host=127.0.0.1",
+		"group": "build",
+		"problemMatcher": []
+	  },
+	  {
+		"label": "01 - gongc sim",
+		"type": "shell",
+		"options": {
+		  "cwd": "${workspaceFolder}/go/models"
+		},
+		"command": "gongc",
+		"group": "build",
+		"args": []
+	  },
+	  {
+		"label": "01 - gongc sim -skipNg",
+		"type": "shell",
+		"options": {
+		  "cwd": "${workspaceFolder}/go/models"
+		},
+		"command": "gongc",
+		"group": "build",
+		"args": [
+		  "-skipNg"
+		]
+	  },
+	  {
+		"label": "01 - gongc sim -skipGoModCommands",
+		"type": "shell",
+		"options": {
+		  "cwd": "${workspaceFolder}/go/models"
+		},
+		"command": "gongc",
+		"group": "build",
+		"args": [
+			"-skipGoModCommands"
+		]
+	  },
+	  {
+		"label": "01 - gongc sim -skipNg -skipGoModCommands",
+		"type": "shell",
+		"options": {
+		  "cwd": "${workspaceFolder}/go/models"
+		},
+		"command": "gongc",
+		"group": "build",
+		"args": [
+		  "-skipNg",
+		  "-skipGoModCommands"
+		]
+	  },
+	  {
+		"label": "00 - update dependencies",
+		"type": "shell",
+		"command": "go",
+		"args": [
+		  "get",
+		  "github.com/fullstack-lang/gong@HEAD",
+		  "github.com/fullstack-lang/gongtable@HEAD",
+		  "github.com/fullstack-lang/gongtree@HEAD",
+		  "github.com/fullstack-lang/gongdoc@HEAD",
+		  "github.com/fullstack-lang/gongsvg@HEAD",
+		],
+		"group": "build"
+	  },
+	  {
+		"label": "00 - go mod tidy",
+		"type": "shell",
+		"command": "go",
+		"args": [
+		  "mod",
+		  "tidy"
+		],
+		"group": "build"
+	  },
+	  	  {
+		"label": "00 - go mod vendor",
+		"type": "shell",
+		"group": "build",
+		"command": "go",
+		"args": [
+		  "mod",
+		  "vendor"
+		],
+	  },
+	  {
+		"label": "00 - go build",
+		"type": "shell",
+		"options": {
+		  "cwd": "${workspaceFolder}/go/cmd/sim"
+		},
+		"command": "go",
+		"args": [
+		  "build"
+		],
+		"group": "build"
+	  },
+	]
+  }
