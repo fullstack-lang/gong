@@ -218,7 +218,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 	// ng build
 	{
 		start := time.Now()
-		cmd := exec.Command("ng", "build", "--configuration", "development")
+		cmd := exec.Command("ng", "build")
 		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
