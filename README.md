@@ -635,3 +635,20 @@ find . -type f -name "embed_ng_dist_ng.go" -exec dirname {} \; | sort -u | while
   (cd "$dir" && gongc -skipGoModCommands -skipNpmWorkspaces go/models)
 done
 ```
+
+```bash
+START_DIR=$(pwd)
+
+# Change directory to the gong repository
+cd ../../fullstack-lang/gong || { echo "Directory ../../fullstack-lang/gong not found."; exit 1; }
+
+# Fetch the latest commit ID
+COMMIT_ID=$(git rev-parse HEAD)
+echo "Latest commit ID: $COMMIT_ID"
+
+# Return to the starting directory
+cd "$START_DIR" || exit
+
+# Run go get with the commit ID
+go get github.com/fullstack-lang/gong@"$COMMIT_ID"
+```
