@@ -212,6 +212,17 @@
             ],
         },
         {
+            "name": "go run sim",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/sim/go/cmd/sim",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=stage"
+            ],
+        },
+        {
             "name": "go run svg",
             "type": "go",
             "request": "launch",
