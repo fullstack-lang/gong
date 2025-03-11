@@ -190,6 +190,17 @@
             ],
         },
         {
+            "name": "go run gantt",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/gantt/go/cmd/gantt",
+            "args": [
+                "-unmarshallFromCode=data/gantt1.go",
+                "-marshallOnCommit=data/gantt1"
+            ],
+        },
+        {
             "name": "go run split",
             "type": "go",
             "request": "launch",
