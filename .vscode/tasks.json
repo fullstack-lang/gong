@@ -435,6 +435,20 @@
             ]
         },
         {
+            "label": "01 - gongc gantt",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/gantt"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmWorkspaces",
+                "go/models"
+            ]
+        },
+        {
             "label": "01 - gongc sim",
             "type": "shell",
             "options": {
