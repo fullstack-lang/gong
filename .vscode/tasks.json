@@ -114,6 +114,21 @@
             "group": "build"
         },
         {
+            "label": "04 - go run tree",
+            "type": "shell",
+            "options": {
+                "cwd": "./lib/tree/go/cmd/tree"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=stage"
+            ],
+            "group": "build"
+        },
+        {
             "label": "Sleepdelay",
             "type": "shell",
             "command": "sleep 1",
@@ -323,6 +338,19 @@
             "type": "shell",
             "options": {
                 "cwd": "lib/tone/ng-github.com-fullstack-lang-gong-lib-tone"
+            },
+            "command": "ng",
+            "group": "build",
+            "args": [
+                "serve",
+                ""
+            ]
+        },
+        {
+            "label": "03 - ng serve tree ",
+            "type": "shell",
+            "options": {
+                "cwd": "lib/tree/ng-github.com-fullstack-lang-gong-lib-tree"
             },
             "command": "ng",
             "group": "build",
