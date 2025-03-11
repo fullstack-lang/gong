@@ -141,20 +141,22 @@ export class ToneSpecificComponent {
   }
 
   private initializeSampler(duration: number, notes: tonelocal.Note[]): void {
+
+    // Use absolute URL with origin
     const audioBaseUrl = `${window.location.origin}/assets/audio/salamander/`;
 
     // Prefer OGG files, fall back to MP3
     const urls: { [key: string]: string } = {
-      C3: `${audioBaseUrl}C3.ogg`,
-      'D#3': `${audioBaseUrl}Ds3.ogg`,
-      'F#3': `${audioBaseUrl}Fs3.ogg`,
-      A3: `${audioBaseUrl}A3.ogg`,
-      C4: `${audioBaseUrl}C4.ogg`,
-      'D#4': `${audioBaseUrl}Ds4.ogg`,
-      'F#4': `${audioBaseUrl}Fs4.ogg`,
-      A4: `${audioBaseUrl}A4.ogg`,
-      C5: `${audioBaseUrl}C5.ogg`,
-      'D#5': `${audioBaseUrl}Ds5.ogg`
+      C3: `${audioBaseUrl}C3.mp3`,
+      'D#3': `${audioBaseUrl}Ds3.mp3`,
+      'F#3': `${audioBaseUrl}Fs3.mp3`,
+      A3: `${audioBaseUrl}A3.mp3`,
+      C4: `${audioBaseUrl}C4.mp3`,
+      'D#4': `${audioBaseUrl}Ds4.mp3`,
+      'F#4': `${audioBaseUrl}Fs4.mp3`,
+      A4: `${audioBaseUrl}A4.mp3`,
+      C5: `${audioBaseUrl}C5.mp3`,
+      'D#5': `${audioBaseUrl}Ds5.mp3`
     };
 
     this.sampler = new Tone.Sampler({
