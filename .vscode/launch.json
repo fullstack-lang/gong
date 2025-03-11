@@ -484,6 +484,14 @@
             "sourceMaps": true,
         },
         {
+            "name": "Launch Chrome (tree) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/tree/ng-github.com-fullstack-lang-gong-lib-tree",
+            "sourceMaps": true,
+        },
+        {
             "name": "gongc test2 -skipNg -skipGoModCommands",
             "type": "go",
             "request": "launch",
