@@ -6,9 +6,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
-    selector: 'lib-confirmation-dialog',
-    templateUrl: './confirmation-dialog.component.html',
-    styleUrls: ['./confirmation-dialog.component.css'],
+    selector: 'lib-dialog',
+    templateUrl: './dialog.component.html',
+    styleUrls: ['./dialog.component.css'],
     imports: [
         MatDialogModule,
         MatButtonModule,
