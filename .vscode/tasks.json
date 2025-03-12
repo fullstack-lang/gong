@@ -347,6 +347,19 @@
             ]
         },
         {
+            "label": "03 - ng serve table ",
+            "type": "shell",
+            "options": {
+                "cwd": "lib/table/ng-github.com-fullstack-lang-gong-lib-table"
+            },
+            "command": "ng",
+            "group": "build",
+            "args": [
+                "serve",
+                ""
+            ]
+        },
+        {
             "label": "03 - ng serve tree ",
             "type": "shell",
             "options": {
