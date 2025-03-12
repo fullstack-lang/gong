@@ -10,7 +10,7 @@ import { MatOptionModule } from '@angular/material/core';
 
 
 import { TableSpecificComponent } from '../table-specific/table-specific.component';
-import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../dialog/dialog.component';
 
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
