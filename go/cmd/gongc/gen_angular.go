@@ -71,7 +71,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 			// for example, if the repo has been checkout and "node_modules" is empty
 			if !skipNpmInstall {
 				start := time.Now()
-				cmd := exec.Command("npm", "install")
+				cmd := exec.Command("npm", "--no-audit", "install")
 				cmd.Dir = modelPkg.NgWorkspacePath
 				log.Printf("Performing default npm install\n")
 
