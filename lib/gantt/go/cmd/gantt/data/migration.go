@@ -3,8 +3,7 @@ package main
 import (
 	"time"
 
-	"github.com/fullstack-lang/gonggantt/go/models"
-
+	"github.com/fullstack-lang/gong/lib/gantt/go/models"
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -159,5 +158,3 @@ func migrationInjection(stage *models.StageStruct) {
 	__Lane__000002_Sprint_2_1.Bars = append(__Lane__000002_Sprint_2_1.Bars, __Bar__000002_Conversion_mod_le)
 	__Lane__000003_Sprint_2_2.Bars = append(__Lane__000003_Sprint_2_2.Bars, __Bar__000001_Conversion_MMP)
 }
-
-
