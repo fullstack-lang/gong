@@ -1,0 +1,33 @@
+<mat-tab-group [selectedIndex]="selectedFile.value" (selectedFileIndexChange)="selectedFile.setValue($event)" (selectedTabChange)="onTableSelection($event)">
+    @for (tabFile of tabsForFile; track tabFile; let index = $index) {
+      <mat-tab [label]="tabFile">
+        <!-- Contents for {{tabFile}} XL File, index is {{index}} -->
+  
+        <mat-tab-group [selectedIndex]="selectedSheet.value" (selectedFileIndexChange)="selectedSheet.setValue($event)" (selectedTabChange)="onSheetSelection($event)">
+          @for (tabSheet of tabsForSheetsOfFile[index]; track tabSheet; let indexSheet = $index) {
+            <mat-tab [label]="tabSheet">
+              <!-- Contents for {{tabSheet}} XL File, index is {{indexSheet}} -->
+            </mat-tab>
+          }
+        </mat-tab-group>
+  
+      </mat-tab>
+    }
+  </mat-tab-group>
+  
+  <h4></h4>
+  <table mat-table [dataSource]="matTableDataSource" class="mat-elevation-z8 demo-table" matSort>
+    @for (column of columns; track column.columnDef) {
+      <ng-container [matColumnDef]="column.columnDef">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>
+          {{column.header}}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{column.cell(row)}}
+        </td>
+      </ng-container>
+    }
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
