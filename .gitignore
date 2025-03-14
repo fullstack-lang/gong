@@ -35,3 +35,4 @@ test/test3/go/cmd/test3/test3
 lib/tone/go/cmd/tone/tone
 lib/sim/go/cmd/sim/sim
 lib/gantt/go/cmd/gantt/gantt
+lib/xlsx/go/cmd/xlsx/xlsx

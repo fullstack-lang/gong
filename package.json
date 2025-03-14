@@ -11,6 +11,7 @@
         "lib/table/ng-github.com-fullstack-lang-gong-lib-table",
         "lib/tone/ng-github.com-fullstack-lang-gong-lib-tone",
         "lib/tree/ng-github.com-fullstack-lang-gong-lib-tree",
+        "lib/xlsx/ng-github.com-fullstack-lang-gong-lib-xlsx",
         "ng-github.com-fullstack-lang-gong",
         "test/test/ng-github.com-fullstack-lang-gong-test-test",
         "test/test2/ng-github.com-fullstack-lang-gong-test-test2",
