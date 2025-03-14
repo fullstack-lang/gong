@@ -40,7 +40,7 @@ type Probe struct {
 const ProbeTreeSidebarSuffix = "-sidebar"
 const ProbeTableSuffix = "-table"
 const ProbeFormSuffix = "-form"
-const ProbeSplitSuffix = "" // for simplicity sake
+const ProbeSplitSuffix = "-probe" // for simplicity sake
 
 func NewProbe(
 	r *gin.Engine,

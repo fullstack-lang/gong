@@ -50,7 +50,7 @@ func _(stage *models.StageStruct) {
 	// Setup of values
 
 	__AsSplit__000000_planel_root.Name = `planel root`
-	__AsSplit__000000_planel_root.Direction = models.Vertical
+	__AsSplit__000000_planel_root.Direction = models.Horizontal
 
 	__AsSplitArea__000000_root_for_tree_table_form.Name = `root for tree/table/form`
 	__AsSplitArea__000000_root_for_tree_table_form.ShowNameInHeader = false
@@ -68,7 +68,7 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000002_sidebar_tree.IsAny = false
 
 	__AsSplitArea__000003_table.Name = `table`
-	__AsSplitArea__000003_table.ShowNameInHeader = true
+	__AsSplitArea__000003_table.ShowNameInHeader = false
 	__AsSplitArea__000003_table.Size = 50.000000
 	__AsSplitArea__000003_table.IsAny = false
 
