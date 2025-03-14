@@ -184,6 +184,8 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(assplitarea_.Name), formDiv)
+		case "ShowNameInHeader":
+			FormDivBasicFieldToField(&(assplitarea_.ShowNameInHeader), formDiv)
 		case "Size":
 			FormDivBasicFieldToField(&(assplitarea_.Size), formDiv)
 		case "IsAny":
