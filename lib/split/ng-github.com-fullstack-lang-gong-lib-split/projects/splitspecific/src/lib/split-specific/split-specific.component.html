@@ -29,7 +29,6 @@
 
 <!-- Recursive template with typed parameter -->
 <ng-template #componentRenderer let-area="$implicit" let-areaType="split.AsSplitArea">
-    <p>{{area.Name}} ShowNameInHeader "{{area.ShowNameInHeader}}"</p>
     @if (area.ShowNameInHeader) {
         <p>{{area.Name}}</p>
     }
