@@ -373,6 +373,19 @@
             ]
         },
         {
+            "label": "03 - ng serve xlsx",
+            "type": "shell",
+            "options": {
+                "cwd": "lib/xlsx/ng-github.com-fullstack-lang-gong-lib-xlsx"
+            },
+            "command": "ng",
+            "group": "build",
+            "args": [
+                "serve",
+                ""
+            ]
+        },
+        {
             "label": "03 - ng serve test3 --host=127.0.0.1",
             "type": "shell",
             "options": {
@@ -503,7 +516,20 @@
                 "go/models"
             ]
         },
-
+        {
+            "label": "01 - gongc xlsx",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/xlsx"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmWorkspaces",
+                "go/models"
+            ]
+        },
         {
             "label": "01 - gongc gong",
             "type": "shell",
