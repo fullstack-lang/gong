@@ -18,6 +18,8 @@ type AsSplit struct {
 type AsSplitArea struct {
 	Name string
 
+	ShowNameInHeader bool
+
 	Size float64
 
 	// IsAany make the split area set size to "$any(*)"

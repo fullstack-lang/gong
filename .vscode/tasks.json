@@ -94,7 +94,7 @@
                 "run",
                 ".",
                 "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=stage"
+                "-marshallOnCommit=data/stage"
             ],
             "group": "build"
         },
@@ -109,7 +109,7 @@
                 "run",
                 ".",
                 "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=stage"
+                "-marshallOnCommit=data/stage"
             ],
             "group": "build"
         },
@@ -124,7 +124,7 @@
                 "run",
                 ".",
                 "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=stage"
+                "-marshallOnCommit=data/stage"
             ],
             "group": "build"
         },

@@ -19,6 +19,7 @@ export class AsSplitAreaAPI {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	ShowNameInHeader: boolean = false
 	Size: number = 0
 	IsAny: boolean = false
 

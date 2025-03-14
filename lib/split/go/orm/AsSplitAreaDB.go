@@ -86,6 +86,10 @@ type AsSplitAreaDB struct {
 	// Declation for basic field assplitareaDB.Name
 	Name_Data sql.NullString
 
+	// Declation for basic field assplitareaDB.ShowNameInHeader
+	// provide the sql storage for the boolan
+	ShowNameInHeader_Data sql.NullBool
+
 	// Declation for basic field assplitareaDB.Size
 	Size_Data sql.NullFloat64
 
@@ -117,9 +121,11 @@ type AsSplitAreaWOP struct {
 
 	Name string `xlsx:"1"`
 
-	Size float64 `xlsx:"2"`
+	ShowNameInHeader bool `xlsx:"2"`
 
-	IsAny bool `xlsx:"3"`
+	Size float64 `xlsx:"3"`
+
+	IsAny bool `xlsx:"4"`
 	// insertion for WOP pointer fields
 }
 
@@ -127,6 +133,7 @@ var AsSplitArea_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"ShowNameInHeader",
 	"Size",
 	"IsAny",
 }
@@ -601,6 +608,9 @@ func (assplitareaDB *AsSplitAreaDB) CopyBasicFieldsFromAsSplitArea(assplitarea *
 	assplitareaDB.Name_Data.String = assplitarea.Name
 	assplitareaDB.Name_Data.Valid = true
 
+	assplitareaDB.ShowNameInHeader_Data.Bool = assplitarea.ShowNameInHeader
+	assplitareaDB.ShowNameInHeader_Data.Valid = true
+
 	assplitareaDB.Size_Data.Float64 = assplitarea.Size
 	assplitareaDB.Size_Data.Valid = true
 
@@ -614,6 +624,9 @@ func (assplitareaDB *AsSplitAreaDB) CopyBasicFieldsFromAsSplitArea_WOP(assplitar
 
 	assplitareaDB.Name_Data.String = assplitarea.Name
 	assplitareaDB.Name_Data.Valid = true
+
+	assplitareaDB.ShowNameInHeader_Data.Bool = assplitarea.ShowNameInHeader
+	assplitareaDB.ShowNameInHeader_Data.Valid = true
 
 	assplitareaDB.Size_Data.Float64 = assplitarea.Size
 	assplitareaDB.Size_Data.Valid = true
@@ -629,6 +642,9 @@ func (assplitareaDB *AsSplitAreaDB) CopyBasicFieldsFromAsSplitAreaWOP(assplitare
 	assplitareaDB.Name_Data.String = assplitarea.Name
 	assplitareaDB.Name_Data.Valid = true
 
+	assplitareaDB.ShowNameInHeader_Data.Bool = assplitarea.ShowNameInHeader
+	assplitareaDB.ShowNameInHeader_Data.Valid = true
+
 	assplitareaDB.Size_Data.Float64 = assplitarea.Size
 	assplitareaDB.Size_Data.Valid = true
 
@@ -640,6 +656,7 @@ func (assplitareaDB *AsSplitAreaDB) CopyBasicFieldsFromAsSplitAreaWOP(assplitare
 func (assplitareaDB *AsSplitAreaDB) CopyBasicFieldsToAsSplitArea(assplitarea *models.AsSplitArea) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	assplitarea.Name = assplitareaDB.Name_Data.String
+	assplitarea.ShowNameInHeader = assplitareaDB.ShowNameInHeader_Data.Bool
 	assplitarea.Size = assplitareaDB.Size_Data.Float64
 	assplitarea.IsAny = assplitareaDB.IsAny_Data.Bool
 }
@@ -648,6 +665,7 @@ func (assplitareaDB *AsSplitAreaDB) CopyBasicFieldsToAsSplitArea(assplitarea *mo
 func (assplitareaDB *AsSplitAreaDB) CopyBasicFieldsToAsSplitArea_WOP(assplitarea *models.AsSplitArea_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	assplitarea.Name = assplitareaDB.Name_Data.String
+	assplitarea.ShowNameInHeader = assplitareaDB.ShowNameInHeader_Data.Bool
 	assplitarea.Size = assplitareaDB.Size_Data.Float64
 	assplitarea.IsAny = assplitareaDB.IsAny_Data.Bool
 }
@@ -657,6 +675,7 @@ func (assplitareaDB *AsSplitAreaDB) CopyBasicFieldsToAsSplitAreaWOP(assplitarea 
 	assplitarea.ID = int(assplitareaDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	assplitarea.Name = assplitareaDB.Name_Data.String
+	assplitarea.ShowNameInHeader = assplitareaDB.ShowNameInHeader_Data.Bool
 	assplitarea.Size = assplitareaDB.Size_Data.Float64
 	assplitarea.IsAny = assplitareaDB.IsAny_Data.Bool
 }
