@@ -286,7 +286,17 @@
                 "-marshallOnCommit=data/stage_out"
             ],
         },
- 
+        {
+            "name": "go run xlsx",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/xlsx/go/cmd/xlsx",
+            "args": [
+                "data/samplefile.xlsx",
+                "data/samplefile2.xlsx",
+            ],
+        },
         {
             "name": "go run test -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out",
             "type": "go",
