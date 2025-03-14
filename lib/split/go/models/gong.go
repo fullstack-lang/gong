@@ -1432,7 +1432,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case AsSplit:
 		res = []string{"Name", "Direction", "AsSplitAreas"}
 	case AsSplitArea:
-		res = []string{"Name", "Size", "IsAny", "AsSplits", "Tree", "Table", "Form", "Svg", "Doc"}
+		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplits", "Tree", "Table", "Form", "Svg", "Doc"}
 	case Doc:
 		res = []string{"Name", "StackName"}
 	case Form:
@@ -1510,7 +1510,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *AsSplit:
 		res = []string{"Name", "Direction", "AsSplitAreas"}
 	case *AsSplitArea:
-		res = []string{"Name", "Size", "IsAny", "AsSplits", "Tree", "Table", "Form", "Svg", "Doc"}
+		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplits", "Tree", "Table", "Form", "Svg", "Doc"}
 	case *Doc:
 		res = []string{"Name", "StackName"}
 	case *Form:
@@ -1585,6 +1585,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
+		case "ShowNameInHeader":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.ShowNameInHeader)
+			res.valueBool = inferedInstance.ShowNameInHeader
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "Size":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Size)
 			res.valueFloat = inferedInstance.Size
@@ -1711,6 +1715,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
+		case "ShowNameInHeader":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.ShowNameInHeader)
+			res.valueBool = inferedInstance.ShowNameInHeader
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "Size":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Size)
 			res.valueFloat = inferedInstance.Size
