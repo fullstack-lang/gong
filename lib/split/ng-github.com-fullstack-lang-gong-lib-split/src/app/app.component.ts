@@ -20,6 +20,7 @@ import { SplitSpecificComponent } from '../../projects/splitspecific/src/lib/spl
 export class AppComponent implements OnInit {
 
   StackName = "split"
+  StackProbeName = "split" + "-probe"
 
   constructor(
   ) {
