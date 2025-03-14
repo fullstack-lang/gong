@@ -22,6 +22,7 @@ func (from *AsSplit) CopyBasicFields(to *AsSplit) {
 type AsSplitArea_WOP struct {
 	// insertion point
 	Name string
+	ShowNameInHeader bool
 	Size float64
 	IsAny bool
 }
@@ -29,6 +30,7 @@ type AsSplitArea_WOP struct {
 func (from *AsSplitArea) CopyBasicFields(to *AsSplitArea) {
 	// insertion point
 	to.Name = from.Name
+	to.ShowNameInHeader = from.ShowNameInHeader
 	to.Size = from.Size
 	to.IsAny = from.IsAny
 }

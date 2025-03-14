@@ -858,6 +858,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 			case "AsSplitArea":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "ShowNameInHeader":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_AsSplitArea[identifier].ShowNameInHeader = fielValue
 				case "IsAny":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)

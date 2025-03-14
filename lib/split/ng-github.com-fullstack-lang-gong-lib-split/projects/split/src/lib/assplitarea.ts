@@ -24,6 +24,7 @@ export class AsSplitArea {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	ShowNameInHeader: boolean = false
 	Size: number = 0
 	IsAny: boolean = false
 
@@ -49,6 +50,7 @@ export function CopyAsSplitAreaToAsSplitAreaAPI(assplitarea: AsSplitArea, asspli
 
 	// insertion point for basic fields copy operations
 	assplitareaAPI.Name = assplitarea.Name
+	assplitareaAPI.ShowNameInHeader = assplitarea.ShowNameInHeader
 	assplitareaAPI.Size = assplitarea.Size
 	assplitareaAPI.IsAny = assplitarea.IsAny
 
@@ -109,6 +111,7 @@ export function CopyAsSplitAreaAPIToAsSplitArea(assplitareaAPI: AsSplitAreaAPI, 
 
 	// insertion point for basic fields copy operations
 	assplitarea.Name = assplitareaAPI.Name
+	assplitarea.ShowNameInHeader = assplitareaAPI.ShowNameInHeader
 	assplitarea.Size = assplitareaAPI.Size
 	assplitarea.IsAny = assplitareaAPI.IsAny
 
