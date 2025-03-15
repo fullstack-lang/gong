@@ -23,6 +23,7 @@ import { SplitSpecificComponent } from '@vendored_components/github.com/fullstac
 export class AppComponent implements OnInit {
 
   StackName = "test"
+  StackNameProbe = "test-probe"
 
   constructor(
   ) {
