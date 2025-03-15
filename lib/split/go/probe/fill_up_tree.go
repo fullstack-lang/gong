@@ -84,6 +84,26 @@ func fillUpTree(
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
+		case "Button":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.Button](probe.stageOfInterest)
+			for _button := range set {
+				nodeInstance := (&tree.Node{Name: _button.GetName()}).Stage(probe.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_button, "Button", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "Cursor":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.Cursor](probe.stageOfInterest)
+			for _cursor := range set {
+				nodeInstance := (&tree.Node{Name: _cursor.GetName()}).Stage(probe.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_cursor, "Cursor", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
 		case "Doc":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSet[models.Doc](probe.stageOfInterest)
@@ -101,6 +121,16 @@ func fillUpTree(
 				nodeInstance := (&tree.Node{Name: _form.GetName()}).Stage(probe.treeStage)
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_form, "Form", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "Slider":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.Slider](probe.stageOfInterest)
+			for _slider := range set {
+				nodeInstance := (&tree.Node{Name: _slider.GetName()}).Stage(probe.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_slider, "Slider", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -131,6 +161,16 @@ func fillUpTree(
 				nodeInstance := (&tree.Node{Name: _table.GetName()}).Stage(probe.treeStage)
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_table, "Table", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "Tone":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.Tone](probe.stageOfInterest)
+			for _tone := range set {
+				nodeInstance := (&tree.Node{Name: _tone.GetName()}).Stage(probe.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_tone, "Tone", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}

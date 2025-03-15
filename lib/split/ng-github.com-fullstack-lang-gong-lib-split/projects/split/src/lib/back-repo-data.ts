@@ -5,15 +5,23 @@ import { AsSplitAPI } from './assplit-api'
 
 import { AsSplitAreaAPI } from './assplitarea-api'
 
+import { ButtonAPI } from './button-api'
+
+import { CursorAPI } from './cursor-api'
+
 import { DocAPI } from './doc-api'
 
 import { FormAPI } from './form-api'
+
+import { SliderAPI } from './slider-api'
 
 import { SplitAPI } from './split-api'
 
 import { SvgAPI } from './svg-api'
 
 import { TableAPI } from './table-api'
+
+import { ToneAPI } from './tone-api'
 
 import { TreeAPI } from './tree-api'
 
@@ -26,15 +34,23 @@ export class BackRepoData {
 
 	AsSplitAreaAPIs = new Array<AsSplitAreaAPI>()
 
+	ButtonAPIs = new Array<ButtonAPI>()
+
+	CursorAPIs = new Array<CursorAPI>()
+
 	DocAPIs = new Array<DocAPI>()
 
 	FormAPIs = new Array<FormAPI>()
+
+	SliderAPIs = new Array<SliderAPI>()
 
 	SplitAPIs = new Array<SplitAPI>()
 
 	SvgAPIs = new Array<SvgAPI>()
 
 	TableAPIs = new Array<TableAPI>()
+
+	ToneAPIs = new Array<ToneAPI>()
 
 	TreeAPIs = new Array<TreeAPI>()
 
@@ -50,15 +66,23 @@ export class BackRepoData {
 
 		this.AsSplitAreaAPIs = data?.AsSplitAreaAPIs || [];
 
+		this.ButtonAPIs = data?.ButtonAPIs || [];
+
+		this.CursorAPIs = data?.CursorAPIs || [];
+
 		this.DocAPIs = data?.DocAPIs || [];
 
 		this.FormAPIs = data?.FormAPIs || [];
+
+		this.SliderAPIs = data?.SliderAPIs || [];
 
 		this.SplitAPIs = data?.SplitAPIs || [];
 
 		this.SvgAPIs = data?.SvgAPIs || [];
 
 		this.TableAPIs = data?.TableAPIs || [];
+
+		this.ToneAPIs = data?.ToneAPIs || [];
 
 		this.TreeAPIs = data?.TreeAPIs || [];
 

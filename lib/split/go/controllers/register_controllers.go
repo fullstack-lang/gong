@@ -63,6 +63,20 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/assplitareas/:id", GetController().UpdateAsSplitArea)
 		v1.DELETE("/v1/assplitareas/:id", GetController().DeleteAsSplitArea)
 
+		v1.GET("/v1/buttons", GetController().GetButtons)
+		v1.GET("/v1/buttons/:id", GetController().GetButton)
+		v1.POST("/v1/buttons", GetController().PostButton)
+		v1.PATCH("/v1/buttons/:id", GetController().UpdateButton)
+		v1.PUT("/v1/buttons/:id", GetController().UpdateButton)
+		v1.DELETE("/v1/buttons/:id", GetController().DeleteButton)
+
+		v1.GET("/v1/cursors", GetController().GetCursors)
+		v1.GET("/v1/cursors/:id", GetController().GetCursor)
+		v1.POST("/v1/cursors", GetController().PostCursor)
+		v1.PATCH("/v1/cursors/:id", GetController().UpdateCursor)
+		v1.PUT("/v1/cursors/:id", GetController().UpdateCursor)
+		v1.DELETE("/v1/cursors/:id", GetController().DeleteCursor)
+
 		v1.GET("/v1/docs", GetController().GetDocs)
 		v1.GET("/v1/docs/:id", GetController().GetDoc)
 		v1.POST("/v1/docs", GetController().PostDoc)
@@ -76,6 +90,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PATCH("/v1/forms/:id", GetController().UpdateForm)
 		v1.PUT("/v1/forms/:id", GetController().UpdateForm)
 		v1.DELETE("/v1/forms/:id", GetController().DeleteForm)
+
+		v1.GET("/v1/sliders", GetController().GetSliders)
+		v1.GET("/v1/sliders/:id", GetController().GetSlider)
+		v1.POST("/v1/sliders", GetController().PostSlider)
+		v1.PATCH("/v1/sliders/:id", GetController().UpdateSlider)
+		v1.PUT("/v1/sliders/:id", GetController().UpdateSlider)
+		v1.DELETE("/v1/sliders/:id", GetController().DeleteSlider)
 
 		v1.GET("/v1/splits", GetController().GetSplits)
 		v1.GET("/v1/splits/:id", GetController().GetSplit)
@@ -97,6 +118,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PATCH("/v1/tables/:id", GetController().UpdateTable)
 		v1.PUT("/v1/tables/:id", GetController().UpdateTable)
 		v1.DELETE("/v1/tables/:id", GetController().DeleteTable)
+
+		v1.GET("/v1/tones", GetController().GetTones)
+		v1.GET("/v1/tones/:id", GetController().GetTone)
+		v1.POST("/v1/tones", GetController().PostTone)
+		v1.PATCH("/v1/tones/:id", GetController().UpdateTone)
+		v1.PUT("/v1/tones/:id", GetController().UpdateTone)
+		v1.DELETE("/v1/tones/:id", GetController().DeleteTone)
 
 		v1.GET("/v1/trees", GetController().GetTrees)
 		v1.GET("/v1/trees/:id", GetController().GetTree)
