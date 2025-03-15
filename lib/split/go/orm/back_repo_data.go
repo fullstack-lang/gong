@@ -8,15 +8,23 @@ type BackRepoData struct {
 
 	AsSplitAreaAPIs []*AsSplitAreaAPI
 
+	ButtonAPIs []*ButtonAPI
+
+	CursorAPIs []*CursorAPI
+
 	DocAPIs []*DocAPI
 
 	FormAPIs []*FormAPI
+
+	SliderAPIs []*SliderAPI
 
 	SplitAPIs []*SplitAPI
 
 	SvgAPIs []*SvgAPI
 
 	TableAPIs []*TableAPI
+
+	ToneAPIs []*ToneAPI
 
 	TreeAPIs []*TreeAPI
 
@@ -53,6 +61,26 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		backRepoData.AsSplitAreaAPIs = append(backRepoData.AsSplitAreaAPIs, &assplitareaAPI)
 	}
 
+	for _, buttonDB := range backRepo.BackRepoButton.Map_ButtonDBID_ButtonDB {
+
+		var buttonAPI ButtonAPI
+		buttonAPI.ID = buttonDB.ID
+		buttonAPI.ButtonPointersEncoding = buttonDB.ButtonPointersEncoding
+		buttonDB.CopyBasicFieldsToButton_WOP(&buttonAPI.Button_WOP)
+
+		backRepoData.ButtonAPIs = append(backRepoData.ButtonAPIs, &buttonAPI)
+	}
+
+	for _, cursorDB := range backRepo.BackRepoCursor.Map_CursorDBID_CursorDB {
+
+		var cursorAPI CursorAPI
+		cursorAPI.ID = cursorDB.ID
+		cursorAPI.CursorPointersEncoding = cursorDB.CursorPointersEncoding
+		cursorDB.CopyBasicFieldsToCursor_WOP(&cursorAPI.Cursor_WOP)
+
+		backRepoData.CursorAPIs = append(backRepoData.CursorAPIs, &cursorAPI)
+	}
+
 	for _, docDB := range backRepo.BackRepoDoc.Map_DocDBID_DocDB {
 
 		var docAPI DocAPI
@@ -71,6 +99,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		formDB.CopyBasicFieldsToForm_WOP(&formAPI.Form_WOP)
 
 		backRepoData.FormAPIs = append(backRepoData.FormAPIs, &formAPI)
+	}
+
+	for _, sliderDB := range backRepo.BackRepoSlider.Map_SliderDBID_SliderDB {
+
+		var sliderAPI SliderAPI
+		sliderAPI.ID = sliderDB.ID
+		sliderAPI.SliderPointersEncoding = sliderDB.SliderPointersEncoding
+		sliderDB.CopyBasicFieldsToSlider_WOP(&sliderAPI.Slider_WOP)
+
+		backRepoData.SliderAPIs = append(backRepoData.SliderAPIs, &sliderAPI)
 	}
 
 	for _, splitDB := range backRepo.BackRepoSplit.Map_SplitDBID_SplitDB {
@@ -101,6 +139,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		tableDB.CopyBasicFieldsToTable_WOP(&tableAPI.Table_WOP)
 
 		backRepoData.TableAPIs = append(backRepoData.TableAPIs, &tableAPI)
+	}
+
+	for _, toneDB := range backRepo.BackRepoTone.Map_ToneDBID_ToneDB {
+
+		var toneAPI ToneAPI
+		toneAPI.ID = toneDB.ID
+		toneAPI.TonePointersEncoding = toneDB.TonePointersEncoding
+		toneDB.CopyBasicFieldsToTone_WOP(&toneAPI.Tone_WOP)
+
+		backRepoData.ToneAPIs = append(backRepoData.ToneAPIs, &toneAPI)
 	}
 
 	for _, treeDB := range backRepo.BackRepoTree.Map_TreeDBID_TreeDB {

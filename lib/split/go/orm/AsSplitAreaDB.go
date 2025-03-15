@@ -74,6 +74,22 @@ type AsSplitAreaPointersEncoding struct {
 	// field Split is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	SplitID sql.NullInt64
+
+	// field Slider is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	SliderID sql.NullInt64
+
+	// field Tone is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	ToneID sql.NullInt64
+
+	// field Button is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	ButtonID sql.NullInt64
+
+	// field Cursor is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	CursorID sql.NullInt64
 }
 
 // AsSplitAreaDB describes a assplitarea in the database
@@ -360,6 +376,54 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseTwoInstance(bac
 			assplitareaDB.SplitID.Valid = true
 		}
 
+		// commit pointer value assplitarea.Slider translates to updating the assplitarea.SliderID
+		assplitareaDB.SliderID.Valid = true // allow for a 0 value (nil association)
+		if assplitarea.Slider != nil {
+			if SliderId, ok := backRepo.BackRepoSlider.Map_SliderPtr_SliderDBID[assplitarea.Slider]; ok {
+				assplitareaDB.SliderID.Int64 = int64(SliderId)
+				assplitareaDB.SliderID.Valid = true
+			}
+		} else {
+			assplitareaDB.SliderID.Int64 = 0
+			assplitareaDB.SliderID.Valid = true
+		}
+
+		// commit pointer value assplitarea.Tone translates to updating the assplitarea.ToneID
+		assplitareaDB.ToneID.Valid = true // allow for a 0 value (nil association)
+		if assplitarea.Tone != nil {
+			if ToneId, ok := backRepo.BackRepoTone.Map_TonePtr_ToneDBID[assplitarea.Tone]; ok {
+				assplitareaDB.ToneID.Int64 = int64(ToneId)
+				assplitareaDB.ToneID.Valid = true
+			}
+		} else {
+			assplitareaDB.ToneID.Int64 = 0
+			assplitareaDB.ToneID.Valid = true
+		}
+
+		// commit pointer value assplitarea.Button translates to updating the assplitarea.ButtonID
+		assplitareaDB.ButtonID.Valid = true // allow for a 0 value (nil association)
+		if assplitarea.Button != nil {
+			if ButtonId, ok := backRepo.BackRepoButton.Map_ButtonPtr_ButtonDBID[assplitarea.Button]; ok {
+				assplitareaDB.ButtonID.Int64 = int64(ButtonId)
+				assplitareaDB.ButtonID.Valid = true
+			}
+		} else {
+			assplitareaDB.ButtonID.Int64 = 0
+			assplitareaDB.ButtonID.Valid = true
+		}
+
+		// commit pointer value assplitarea.Cursor translates to updating the assplitarea.CursorID
+		assplitareaDB.CursorID.Valid = true // allow for a 0 value (nil association)
+		if assplitarea.Cursor != nil {
+			if CursorId, ok := backRepo.BackRepoCursor.Map_CursorPtr_CursorDBID[assplitarea.Cursor]; ok {
+				assplitareaDB.CursorID.Int64 = int64(CursorId)
+				assplitareaDB.CursorID.Valid = true
+			}
+		} else {
+			assplitareaDB.CursorID.Int64 = 0
+			assplitareaDB.CursorID.Valid = true
+		}
+
 		_, err := backRepoAsSplitArea.db.Save(assplitareaDB)
 		if err != nil {
 			log.Fatal(err)
@@ -605,6 +669,90 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			}
 		} else {
 			assplitarea.Split = nil
+		}
+	}
+	
+	// Slider field	
+	{
+		id := assplitareaDB.SliderID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoSlider.Map_SliderDBID_SliderPtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: assplitarea.Slider, unknown pointer id", id)
+				assplitarea.Slider = nil
+			} else {
+				// updates only if field has changed
+				if assplitarea.Slider == nil || assplitarea.Slider != tmp {
+					assplitarea.Slider = tmp
+				}
+			}
+		} else {
+			assplitarea.Slider = nil
+		}
+	}
+	
+	// Tone field	
+	{
+		id := assplitareaDB.ToneID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoTone.Map_ToneDBID_TonePtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: assplitarea.Tone, unknown pointer id", id)
+				assplitarea.Tone = nil
+			} else {
+				// updates only if field has changed
+				if assplitarea.Tone == nil || assplitarea.Tone != tmp {
+					assplitarea.Tone = tmp
+				}
+			}
+		} else {
+			assplitarea.Tone = nil
+		}
+	}
+	
+	// Button field	
+	{
+		id := assplitareaDB.ButtonID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoButton.Map_ButtonDBID_ButtonPtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: assplitarea.Button, unknown pointer id", id)
+				assplitarea.Button = nil
+			} else {
+				// updates only if field has changed
+				if assplitarea.Button == nil || assplitarea.Button != tmp {
+					assplitarea.Button = tmp
+				}
+			}
+		} else {
+			assplitarea.Button = nil
+		}
+	}
+	
+	// Cursor field	
+	{
+		id := assplitareaDB.CursorID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoCursor.Map_CursorDBID_CursorPtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: assplitarea.Cursor, unknown pointer id", id)
+				assplitarea.Cursor = nil
+			} else {
+				// updates only if field has changed
+				if assplitarea.Cursor == nil || assplitarea.Cursor != tmp {
+					assplitarea.Cursor = tmp
+				}
+			}
+		} else {
+			assplitarea.Cursor = nil
 		}
 	}
 	
@@ -906,6 +1054,30 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) RestorePhaseTwo() {
 		if assplitareaDB.SplitID.Int64 != 0 {
 			assplitareaDB.SplitID.Int64 = int64(BackRepoSplitid_atBckpTime_newID[uint(assplitareaDB.SplitID.Int64)])
 			assplitareaDB.SplitID.Valid = true
+		}
+
+		// reindexing Slider field
+		if assplitareaDB.SliderID.Int64 != 0 {
+			assplitareaDB.SliderID.Int64 = int64(BackRepoSliderid_atBckpTime_newID[uint(assplitareaDB.SliderID.Int64)])
+			assplitareaDB.SliderID.Valid = true
+		}
+
+		// reindexing Tone field
+		if assplitareaDB.ToneID.Int64 != 0 {
+			assplitareaDB.ToneID.Int64 = int64(BackRepoToneid_atBckpTime_newID[uint(assplitareaDB.ToneID.Int64)])
+			assplitareaDB.ToneID.Valid = true
+		}
+
+		// reindexing Button field
+		if assplitareaDB.ButtonID.Int64 != 0 {
+			assplitareaDB.ButtonID.Int64 = int64(BackRepoButtonid_atBckpTime_newID[uint(assplitareaDB.ButtonID.Int64)])
+			assplitareaDB.ButtonID.Valid = true
+		}
+
+		// reindexing Cursor field
+		if assplitareaDB.CursorID.Int64 != 0 {
+			assplitareaDB.CursorID.Int64 = int64(BackRepoCursorid_atBckpTime_newID[uint(assplitareaDB.CursorID.Int64)])
+			assplitareaDB.CursorID.Valid = true
 		}
 
 		// update databse with new index encoding

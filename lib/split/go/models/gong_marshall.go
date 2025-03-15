@@ -202,6 +202,100 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	map_Button_Identifiers := make(map[*Button]string)
+	_ = map_Button_Identifiers
+
+	buttonOrdered := []*Button{}
+	for button := range stage.Buttons {
+		buttonOrdered = append(buttonOrdered, button)
+	}
+	sort.Slice(buttonOrdered[:], func(i, j int) bool {
+		buttoni := buttonOrdered[i]
+		buttonj := buttonOrdered[j]
+		buttoni_order, oki := stage.Map_Staged_Order[buttoni]
+		buttonj_order, okj := stage.Map_Staged_Order[buttonj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return buttoni_order < buttonj_order
+	})
+	if len(buttonOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, button := range buttonOrdered {
+
+		id = generatesIdentifier("Button", idx, button.Name)
+		map_Button_Identifiers[button] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Button")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", button.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(button.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StackName")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(button.StackName))
+		initializerStatements += setValueField
+
+	}
+
+	map_Cursor_Identifiers := make(map[*Cursor]string)
+	_ = map_Cursor_Identifiers
+
+	cursorOrdered := []*Cursor{}
+	for cursor := range stage.Cursors {
+		cursorOrdered = append(cursorOrdered, cursor)
+	}
+	sort.Slice(cursorOrdered[:], func(i, j int) bool {
+		cursori := cursorOrdered[i]
+		cursorj := cursorOrdered[j]
+		cursori_order, oki := stage.Map_Staged_Order[cursori]
+		cursorj_order, okj := stage.Map_Staged_Order[cursorj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return cursori_order < cursorj_order
+	})
+	if len(cursorOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, cursor := range cursorOrdered {
+
+		id = generatesIdentifier("Cursor", idx, cursor.Name)
+		map_Cursor_Identifiers[cursor] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Cursor")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cursor.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(cursor.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StackName")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(cursor.StackName))
+		initializerStatements += setValueField
+
+	}
+
 	map_Doc_Identifiers := make(map[*Doc]string)
 	_ = map_Doc_Identifiers
 
@@ -298,6 +392,53 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "FormName")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(form.FormName))
+		initializerStatements += setValueField
+
+	}
+
+	map_Slider_Identifiers := make(map[*Slider]string)
+	_ = map_Slider_Identifiers
+
+	sliderOrdered := []*Slider{}
+	for slider := range stage.Sliders {
+		sliderOrdered = append(sliderOrdered, slider)
+	}
+	sort.Slice(sliderOrdered[:], func(i, j int) bool {
+		slideri := sliderOrdered[i]
+		sliderj := sliderOrdered[j]
+		slideri_order, oki := stage.Map_Staged_Order[slideri]
+		sliderj_order, okj := stage.Map_Staged_Order[sliderj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return slideri_order < sliderj_order
+	})
+	if len(sliderOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, slider := range sliderOrdered {
+
+		id = generatesIdentifier("Slider", idx, slider.Name)
+		map_Slider_Identifiers[slider] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Slider")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", slider.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(slider.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StackName")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(slider.StackName))
 		initializerStatements += setValueField
 
 	}
@@ -445,6 +586,53 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "TableName")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(table.TableName))
+		initializerStatements += setValueField
+
+	}
+
+	map_Tone_Identifiers := make(map[*Tone]string)
+	_ = map_Tone_Identifiers
+
+	toneOrdered := []*Tone{}
+	for tone := range stage.Tones {
+		toneOrdered = append(toneOrdered, tone)
+	}
+	sort.Slice(toneOrdered[:], func(i, j int) bool {
+		tonei := toneOrdered[i]
+		tonej := toneOrdered[j]
+		tonei_order, oki := stage.Map_Staged_Order[tonei]
+		tonej_order, okj := stage.Map_Staged_Order[tonej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return tonei_order < tonej_order
+	})
+	if len(toneOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, tone := range toneOrdered {
+
+		id = generatesIdentifier("Tone", idx, tone.Name)
+		map_Tone_Identifiers[tone] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Tone")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", tone.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(tone.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StackName")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(tone.StackName))
 		initializerStatements += setValueField
 
 	}
@@ -632,6 +820,64 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			pointersInitializesStatements += setPointerField
 		}
 
+		if assplitarea.Slider != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Slider")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Slider_Identifiers[assplitarea.Slider])
+			pointersInitializesStatements += setPointerField
+		}
+
+		if assplitarea.Tone != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Tone")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Tone_Identifiers[assplitarea.Tone])
+			pointersInitializesStatements += setPointerField
+		}
+
+		if assplitarea.Button != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Button")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Button_Identifiers[assplitarea.Button])
+			pointersInitializesStatements += setPointerField
+		}
+
+		if assplitarea.Cursor != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Cursor")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Cursor_Identifiers[assplitarea.Cursor])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
+	if len(buttonOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Button instances pointers"
+	}
+	for idx, button := range buttonOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Button", idx, button.Name)
+		map_Button_Identifiers[button] = id
+
+		// Initialisation of values
+	}
+
+	if len(cursorOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Cursor instances pointers"
+	}
+	for idx, cursor := range cursorOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Cursor", idx, cursor.Name)
+		map_Cursor_Identifiers[cursor] = id
+
+		// Initialisation of values
 	}
 
 	if len(docOrdered) > 0 {
@@ -656,6 +902,19 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		id = generatesIdentifier("Form", idx, form.Name)
 		map_Form_Identifiers[form] = id
+
+		// Initialisation of values
+	}
+
+	if len(sliderOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Slider instances pointers"
+	}
+	for idx, slider := range sliderOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Slider", idx, slider.Name)
+		map_Slider_Identifiers[slider] = id
 
 		// Initialisation of values
 	}
@@ -695,6 +954,19 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		id = generatesIdentifier("Table", idx, table.Name)
 		map_Table_Identifiers[table] = id
+
+		// Initialisation of values
+	}
+
+	if len(toneOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Tone instances pointers"
+	}
+	for idx, tone := range toneOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Tone", idx, tone.Name)
+		map_Tone_Identifiers[tone] = id
 
 		// Initialisation of values
 	}

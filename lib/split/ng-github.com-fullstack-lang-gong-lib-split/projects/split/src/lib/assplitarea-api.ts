@@ -6,6 +6,10 @@ import { FormAPI } from './form-api'
 import { SvgAPI } from './svg-api'
 import { DocAPI } from './doc-api'
 import { SplitAPI } from './split-api'
+import { SliderAPI } from './slider-api'
+import { ToneAPI } from './tone-api'
+import { ButtonAPI } from './button-api'
+import { CursorAPI } from './cursor-api'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -43,5 +47,13 @@ export class AsSplitAreaPointersEncoding {
 	DocID: NullInt64 = new NullInt64 // if pointer is null, Doc.ID = 0
 
 	SplitID: NullInt64 = new NullInt64 // if pointer is null, Split.ID = 0
+
+	SliderID: NullInt64 = new NullInt64 // if pointer is null, Slider.ID = 0
+
+	ToneID: NullInt64 = new NullInt64 // if pointer is null, Tone.ID = 0
+
+	ButtonID: NullInt64 = new NullInt64 // if pointer is null, Button.ID = 0
+
+	CursorID: NullInt64 = new NullInt64 // if pointer is null, Cursor.ID = 0
 
 }

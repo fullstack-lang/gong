@@ -12,6 +12,14 @@ import { AsSplitAreaAPI } from './assplitarea-api'
 import { AsSplitArea, CopyAsSplitAreaAPIToAsSplitArea } from './assplitarea'
 import { AsSplitAreaService } from './assplitarea.service'
 
+import { ButtonAPI } from './button-api'
+import { Button, CopyButtonAPIToButton } from './button'
+import { ButtonService } from './button.service'
+
+import { CursorAPI } from './cursor-api'
+import { Cursor, CopyCursorAPIToCursor } from './cursor'
+import { CursorService } from './cursor.service'
+
 import { DocAPI } from './doc-api'
 import { Doc, CopyDocAPIToDoc } from './doc'
 import { DocService } from './doc.service'
@@ -19,6 +27,10 @@ import { DocService } from './doc.service'
 import { FormAPI } from './form-api'
 import { Form, CopyFormAPIToForm } from './form'
 import { FormService } from './form.service'
+
+import { SliderAPI } from './slider-api'
+import { Slider, CopySliderAPIToSlider } from './slider'
+import { SliderService } from './slider.service'
 
 import { SplitAPI } from './split-api'
 import { Split, CopySplitAPIToSplit } from './split'
@@ -31,6 +43,10 @@ import { SvgService } from './svg.service'
 import { TableAPI } from './table-api'
 import { Table, CopyTableAPIToTable } from './table'
 import { TableService } from './table.service'
+
+import { ToneAPI } from './tone-api'
+import { Tone, CopyToneAPIToTone } from './tone'
+import { ToneService } from './tone.service'
 
 import { TreeAPI } from './tree-api'
 import { Tree, CopyTreeAPIToTree } from './tree'
@@ -53,11 +69,20 @@ export class FrontRepo { // insertion point sub template
 	array_AsSplitAreas = new Array<AsSplitArea>() // array of front instances
 	map_ID_AsSplitArea = new Map<number, AsSplitArea>() // map of front instances
 
+	array_Buttons = new Array<Button>() // array of front instances
+	map_ID_Button = new Map<number, Button>() // map of front instances
+
+	array_Cursors = new Array<Cursor>() // array of front instances
+	map_ID_Cursor = new Map<number, Cursor>() // map of front instances
+
 	array_Docs = new Array<Doc>() // array of front instances
 	map_ID_Doc = new Map<number, Doc>() // map of front instances
 
 	array_Forms = new Array<Form>() // array of front instances
 	map_ID_Form = new Map<number, Form>() // map of front instances
+
+	array_Sliders = new Array<Slider>() // array of front instances
+	map_ID_Slider = new Map<number, Slider>() // map of front instances
 
 	array_Splits = new Array<Split>() // array of front instances
 	map_ID_Split = new Map<number, Split>() // map of front instances
@@ -67,6 +92,9 @@ export class FrontRepo { // insertion point sub template
 
 	array_Tables = new Array<Table>() // array of front instances
 	map_ID_Table = new Map<number, Table>() // map of front instances
+
+	array_Tones = new Array<Tone>() // array of front instances
+	map_ID_Tone = new Map<number, Tone>() // map of front instances
 
 	array_Trees = new Array<Tree>() // array of front instances
 	map_ID_Tree = new Map<number, Tree>() // map of front instances
@@ -87,16 +115,24 @@ export class FrontRepo { // insertion point sub template
 				return this.array_AsSplits as unknown as Array<Type>
 			case 'AsSplitArea':
 				return this.array_AsSplitAreas as unknown as Array<Type>
+			case 'Button':
+				return this.array_Buttons as unknown as Array<Type>
+			case 'Cursor':
+				return this.array_Cursors as unknown as Array<Type>
 			case 'Doc':
 				return this.array_Docs as unknown as Array<Type>
 			case 'Form':
 				return this.array_Forms as unknown as Array<Type>
+			case 'Slider':
+				return this.array_Sliders as unknown as Array<Type>
 			case 'Split':
 				return this.array_Splits as unknown as Array<Type>
 			case 'Svg':
 				return this.array_Svgs as unknown as Array<Type>
 			case 'Table':
 				return this.array_Tables as unknown as Array<Type>
+			case 'Tone':
+				return this.array_Tones as unknown as Array<Type>
 			case 'Tree':
 				return this.array_Trees as unknown as Array<Type>
 			case 'View':
@@ -113,16 +149,24 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_AsSplit as unknown as Map<number, Type>
 			case 'AsSplitArea':
 				return this.map_ID_AsSplitArea as unknown as Map<number, Type>
+			case 'Button':
+				return this.map_ID_Button as unknown as Map<number, Type>
+			case 'Cursor':
+				return this.map_ID_Cursor as unknown as Map<number, Type>
 			case 'Doc':
 				return this.map_ID_Doc as unknown as Map<number, Type>
 			case 'Form':
 				return this.map_ID_Form as unknown as Map<number, Type>
+			case 'Slider':
+				return this.map_ID_Slider as unknown as Map<number, Type>
 			case 'Split':
 				return this.map_ID_Split as unknown as Map<number, Type>
 			case 'Svg':
 				return this.map_ID_Svg as unknown as Map<number, Type>
 			case 'Table':
 				return this.map_ID_Table as unknown as Map<number, Type>
+			case 'Tone':
+				return this.map_ID_Tone as unknown as Map<number, Type>
 			case 'Tree':
 				return this.map_ID_Tree as unknown as Map<number, Type>
 			case 'View':
@@ -196,11 +240,15 @@ export class FrontRepoService {
 		private http: HttpClient, // insertion point sub template 
 		private assplitService: AsSplitService,
 		private assplitareaService: AsSplitAreaService,
+		private buttonService: ButtonService,
+		private cursorService: CursorService,
 		private docService: DocService,
 		private formService: FormService,
+		private sliderService: SliderService,
 		private splitService: SplitService,
 		private svgService: SvgService,
 		private tableService: TableService,
+		private toneService: ToneService,
 		private treeService: TreeService,
 		private viewService: ViewService,
 	) { }
@@ -237,11 +285,15 @@ export class FrontRepoService {
 		// insertion point sub template 
 		Observable<AsSplitAPI[]>,
 		Observable<AsSplitAreaAPI[]>,
+		Observable<ButtonAPI[]>,
+		Observable<CursorAPI[]>,
 		Observable<DocAPI[]>,
 		Observable<FormAPI[]>,
+		Observable<SliderAPI[]>,
 		Observable<SplitAPI[]>,
 		Observable<SvgAPI[]>,
 		Observable<TableAPI[]>,
+		Observable<ToneAPI[]>,
 		Observable<TreeAPI[]>,
 		Observable<ViewAPI[]>,
 	];
@@ -261,11 +313,15 @@ export class FrontRepoService {
 			// insertion point sub template
 			this.assplitService.getAsSplits(this.GONG__StackPath, this.frontRepo),
 			this.assplitareaService.getAsSplitAreas(this.GONG__StackPath, this.frontRepo),
+			this.buttonService.getButtons(this.GONG__StackPath, this.frontRepo),
+			this.cursorService.getCursors(this.GONG__StackPath, this.frontRepo),
 			this.docService.getDocs(this.GONG__StackPath, this.frontRepo),
 			this.formService.getForms(this.GONG__StackPath, this.frontRepo),
+			this.sliderService.getSliders(this.GONG__StackPath, this.frontRepo),
 			this.splitService.getSplits(this.GONG__StackPath, this.frontRepo),
 			this.svgService.getSvgs(this.GONG__StackPath, this.frontRepo),
 			this.tableService.getTables(this.GONG__StackPath, this.frontRepo),
+			this.toneService.getTones(this.GONG__StackPath, this.frontRepo),
 			this.treeService.getTrees(this.GONG__StackPath, this.frontRepo),
 			this.viewService.getViews(this.GONG__StackPath, this.frontRepo),
 		]
@@ -280,11 +336,15 @@ export class FrontRepoService {
 						// insertion point sub template for declarations 
 						assplits_,
 						assplitareas_,
+						buttons_,
+						cursors_,
 						docs_,
 						forms_,
+						sliders_,
 						splits_,
 						svgs_,
 						tables_,
+						tones_,
 						trees_,
 						views_,
 					]) => {
@@ -295,16 +355,24 @@ export class FrontRepoService {
 						assplits = assplits_ as AsSplitAPI[]
 						var assplitareas: AsSplitAreaAPI[]
 						assplitareas = assplitareas_ as AsSplitAreaAPI[]
+						var buttons: ButtonAPI[]
+						buttons = buttons_ as ButtonAPI[]
+						var cursors: CursorAPI[]
+						cursors = cursors_ as CursorAPI[]
 						var docs: DocAPI[]
 						docs = docs_ as DocAPI[]
 						var forms: FormAPI[]
 						forms = forms_ as FormAPI[]
+						var sliders: SliderAPI[]
+						sliders = sliders_ as SliderAPI[]
 						var splits: SplitAPI[]
 						splits = splits_ as SplitAPI[]
 						var svgs: SvgAPI[]
 						svgs = svgs_ as SvgAPI[]
 						var tables: TableAPI[]
 						tables = tables_ as TableAPI[]
+						var tones: ToneAPI[]
+						tones = tones_ as ToneAPI[]
 						var trees: TreeAPI[]
 						trees = trees_ as TreeAPI[]
 						var views: ViewAPI[]
@@ -338,6 +406,30 @@ export class FrontRepoService {
 						)
 
 						// init the arrays
+						this.frontRepo.array_Buttons = []
+						this.frontRepo.map_ID_Button.clear()
+
+						buttons.forEach(
+							buttonAPI => {
+								let button = new Button
+								this.frontRepo.array_Buttons.push(button)
+								this.frontRepo.map_ID_Button.set(buttonAPI.ID, button)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_Cursors = []
+						this.frontRepo.map_ID_Cursor.clear()
+
+						cursors.forEach(
+							cursorAPI => {
+								let cursor = new Cursor
+								this.frontRepo.array_Cursors.push(cursor)
+								this.frontRepo.map_ID_Cursor.set(cursorAPI.ID, cursor)
+							}
+						)
+
+						// init the arrays
 						this.frontRepo.array_Docs = []
 						this.frontRepo.map_ID_Doc.clear()
 
@@ -358,6 +450,18 @@ export class FrontRepoService {
 								let form = new Form
 								this.frontRepo.array_Forms.push(form)
 								this.frontRepo.map_ID_Form.set(formAPI.ID, form)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_Sliders = []
+						this.frontRepo.map_ID_Slider.clear()
+
+						sliders.forEach(
+							sliderAPI => {
+								let slider = new Slider
+								this.frontRepo.array_Sliders.push(slider)
+								this.frontRepo.map_ID_Slider.set(sliderAPI.ID, slider)
 							}
 						)
 
@@ -394,6 +498,18 @@ export class FrontRepoService {
 								let table = new Table
 								this.frontRepo.array_Tables.push(table)
 								this.frontRepo.map_ID_Table.set(tableAPI.ID, table)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_Tones = []
+						this.frontRepo.map_ID_Tone.clear()
+
+						tones.forEach(
+							toneAPI => {
+								let tone = new Tone
+								this.frontRepo.array_Tones.push(tone)
+								this.frontRepo.map_ID_Tone.set(toneAPI.ID, tone)
 							}
 						)
 
@@ -442,6 +558,22 @@ export class FrontRepoService {
 						)
 
 						// fill up front objects
+						buttons.forEach(
+							buttonAPI => {
+								let button = this.frontRepo.map_ID_Button.get(buttonAPI.ID)
+								CopyButtonAPIToButton(buttonAPI, button!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						cursors.forEach(
+							cursorAPI => {
+								let cursor = this.frontRepo.map_ID_Cursor.get(cursorAPI.ID)
+								CopyCursorAPIToCursor(cursorAPI, cursor!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
 						docs.forEach(
 							docAPI => {
 								let doc = this.frontRepo.map_ID_Doc.get(docAPI.ID)
@@ -454,6 +586,14 @@ export class FrontRepoService {
 							formAPI => {
 								let form = this.frontRepo.map_ID_Form.get(formAPI.ID)
 								CopyFormAPIToForm(formAPI, form!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						sliders.forEach(
+							sliderAPI => {
+								let slider = this.frontRepo.map_ID_Slider.get(sliderAPI.ID)
+								CopySliderAPIToSlider(sliderAPI, slider!, this.frontRepo)
 							}
 						)
 
@@ -478,6 +618,14 @@ export class FrontRepoService {
 							tableAPI => {
 								let table = this.frontRepo.map_ID_Table.get(tableAPI.ID)
 								CopyTableAPIToTable(tableAPI, table!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						tones.forEach(
+							toneAPI => {
+								let tone = this.frontRepo.map_ID_Tone.get(toneAPI.ID)
+								CopyToneAPIToTone(toneAPI, tone!, this.frontRepo)
 							}
 						)
 
@@ -556,6 +704,30 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
+				frontRepo.array_Buttons = []
+				frontRepo.map_ID_Button.clear()
+
+				backRepoData.ButtonAPIs.forEach(
+					buttonAPI => {
+						let button = new Button
+						frontRepo.array_Buttons.push(button)
+						frontRepo.map_ID_Button.set(buttonAPI.ID, button)
+					}
+				)
+
+				// init the arrays
+				frontRepo.array_Cursors = []
+				frontRepo.map_ID_Cursor.clear()
+
+				backRepoData.CursorAPIs.forEach(
+					cursorAPI => {
+						let cursor = new Cursor
+						frontRepo.array_Cursors.push(cursor)
+						frontRepo.map_ID_Cursor.set(cursorAPI.ID, cursor)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_Docs = []
 				frontRepo.map_ID_Doc.clear()
 
@@ -576,6 +748,18 @@ export class FrontRepoService {
 						let form = new Form
 						frontRepo.array_Forms.push(form)
 						frontRepo.map_ID_Form.set(formAPI.ID, form)
+					}
+				)
+
+				// init the arrays
+				frontRepo.array_Sliders = []
+				frontRepo.map_ID_Slider.clear()
+
+				backRepoData.SliderAPIs.forEach(
+					sliderAPI => {
+						let slider = new Slider
+						frontRepo.array_Sliders.push(slider)
+						frontRepo.map_ID_Slider.set(sliderAPI.ID, slider)
 					}
 				)
 
@@ -612,6 +796,18 @@ export class FrontRepoService {
 						let table = new Table
 						frontRepo.array_Tables.push(table)
 						frontRepo.map_ID_Table.set(tableAPI.ID, table)
+					}
+				)
+
+				// init the arrays
+				frontRepo.array_Tones = []
+				frontRepo.map_ID_Tone.clear()
+
+				backRepoData.ToneAPIs.forEach(
+					toneAPI => {
+						let tone = new Tone
+						frontRepo.array_Tones.push(tone)
+						frontRepo.map_ID_Tone.set(toneAPI.ID, tone)
 					}
 				)
 
@@ -662,6 +858,22 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.ButtonAPIs.forEach(
+					buttonAPI => {
+						let button = frontRepo.map_ID_Button.get(buttonAPI.ID)
+						CopyButtonAPIToButton(buttonAPI, button!, frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.CursorAPIs.forEach(
+					cursorAPI => {
+						let cursor = frontRepo.map_ID_Cursor.get(cursorAPI.ID)
+						CopyCursorAPIToCursor(cursorAPI, cursor!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.DocAPIs.forEach(
 					docAPI => {
 						let doc = frontRepo.map_ID_Doc.get(docAPI.ID)
@@ -674,6 +886,14 @@ export class FrontRepoService {
 					formAPI => {
 						let form = frontRepo.map_ID_Form.get(formAPI.ID)
 						CopyFormAPIToForm(formAPI, form!, frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.SliderAPIs.forEach(
+					sliderAPI => {
+						let slider = frontRepo.map_ID_Slider.get(sliderAPI.ID)
+						CopySliderAPIToSlider(sliderAPI, slider!, frontRepo)
 					}
 				)
 
@@ -698,6 +918,14 @@ export class FrontRepoService {
 					tableAPI => {
 						let table = frontRepo.map_ID_Table.get(tableAPI.ID)
 						CopyTableAPIToTable(tableAPI, table!, frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.ToneAPIs.forEach(
+					toneAPI => {
+						let tone = frontRepo.map_ID_Tone.get(toneAPI.ID)
+						CopyToneAPIToTone(toneAPI, tone!, frontRepo)
 					}
 				)
 
@@ -742,24 +970,36 @@ export function getAsSplitUniqueID(id: number): number {
 export function getAsSplitAreaUniqueID(id: number): number {
 	return 37 * id
 }
-export function getDocUniqueID(id: number): number {
+export function getButtonUniqueID(id: number): number {
 	return 41 * id
 }
-export function getFormUniqueID(id: number): number {
+export function getCursorUniqueID(id: number): number {
 	return 43 * id
 }
-export function getSplitUniqueID(id: number): number {
+export function getDocUniqueID(id: number): number {
 	return 47 * id
 }
-export function getSvgUniqueID(id: number): number {
+export function getFormUniqueID(id: number): number {
 	return 53 * id
 }
-export function getTableUniqueID(id: number): number {
+export function getSliderUniqueID(id: number): number {
 	return 59 * id
 }
-export function getTreeUniqueID(id: number): number {
+export function getSplitUniqueID(id: number): number {
 	return 61 * id
 }
-export function getViewUniqueID(id: number): number {
+export function getSvgUniqueID(id: number): number {
 	return 67 * id
+}
+export function getTableUniqueID(id: number): number {
+	return 71 * id
+}
+export function getToneUniqueID(id: number): number {
+	return 73 * id
+}
+export function getTreeUniqueID(id: number): number {
+	return 79 * id
+}
+export function getViewUniqueID(id: number): number {
+	return 83 * id
 }

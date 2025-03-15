@@ -11,11 +11,20 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	case *AsSplitArea:
 		ok = stage.IsStagedAsSplitArea(target)
 
+	case *Button:
+		ok = stage.IsStagedButton(target)
+
+	case *Cursor:
+		ok = stage.IsStagedCursor(target)
+
 	case *Doc:
 		ok = stage.IsStagedDoc(target)
 
 	case *Form:
 		ok = stage.IsStagedForm(target)
+
+	case *Slider:
+		ok = stage.IsStagedSlider(target)
 
 	case *Split:
 		ok = stage.IsStagedSplit(target)
@@ -25,6 +34,9 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 
 	case *Table:
 		ok = stage.IsStagedTable(target)
+
+	case *Tone:
+		ok = stage.IsStagedTone(target)
 
 	case *Tree:
 		ok = stage.IsStagedTree(target)
@@ -53,6 +65,20 @@ func (stage *StageStruct) IsStagedAsSplitArea(assplitarea *AsSplitArea) (ok bool
 	return
 }
 
+func (stage *StageStruct) IsStagedButton(button *Button) (ok bool) {
+
+	_, ok = stage.Buttons[button]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedCursor(cursor *Cursor) (ok bool) {
+
+	_, ok = stage.Cursors[cursor]
+
+	return
+}
+
 func (stage *StageStruct) IsStagedDoc(doc *Doc) (ok bool) {
 
 	_, ok = stage.Docs[doc]
@@ -63,6 +89,13 @@ func (stage *StageStruct) IsStagedDoc(doc *Doc) (ok bool) {
 func (stage *StageStruct) IsStagedForm(form *Form) (ok bool) {
 
 	_, ok = stage.Forms[form]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedSlider(slider *Slider) (ok bool) {
+
+	_, ok = stage.Sliders[slider]
 
 	return
 }
@@ -84,6 +117,13 @@ func (stage *StageStruct) IsStagedSvg(svg *Svg) (ok bool) {
 func (stage *StageStruct) IsStagedTable(table *Table) (ok bool) {
 
 	_, ok = stage.Tables[table]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedTone(tone *Tone) (ok bool) {
+
+	_, ok = stage.Tones[tone]
 
 	return
 }
@@ -116,11 +156,20 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *AsSplitArea:
 		stage.StageBranchAsSplitArea(target)
 
+	case *Button:
+		stage.StageBranchButton(target)
+
+	case *Cursor:
+		stage.StageBranchCursor(target)
+
 	case *Doc:
 		stage.StageBranchDoc(target)
 
 	case *Form:
 		stage.StageBranchForm(target)
+
+	case *Slider:
+		stage.StageBranchSlider(target)
 
 	case *Split:
 		stage.StageBranchSplit(target)
@@ -130,6 +179,9 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	case *Table:
 		stage.StageBranchTable(target)
+
+	case *Tone:
+		stage.StageBranchTone(target)
 
 	case *Tree:
 		stage.StageBranchTree(target)
@@ -189,11 +241,53 @@ func (stage *StageStruct) StageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	if assplitarea.Split != nil {
 		StageBranch(stage, assplitarea.Split)
 	}
+	if assplitarea.Slider != nil {
+		StageBranch(stage, assplitarea.Slider)
+	}
+	if assplitarea.Tone != nil {
+		StageBranch(stage, assplitarea.Tone)
+	}
+	if assplitarea.Button != nil {
+		StageBranch(stage, assplitarea.Button)
+	}
+	if assplitarea.Cursor != nil {
+		StageBranch(stage, assplitarea.Cursor)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _assplit := range assplitarea.AsSplits {
 		StageBranch(stage, _assplit)
 	}
+
+}
+
+func (stage *StageStruct) StageBranchButton(button *Button) {
+
+	// check if instance is already staged
+	if IsStaged(stage, button) {
+		return
+	}
+
+	button.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *StageStruct) StageBranchCursor(cursor *Cursor) {
+
+	// check if instance is already staged
+	if IsStaged(stage, cursor) {
+		return
+	}
+
+	cursor.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -220,6 +314,21 @@ func (stage *StageStruct) StageBranchForm(form *Form) {
 	}
 
 	form.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *StageStruct) StageBranchSlider(slider *Slider) {
+
+	// check if instance is already staged
+	if IsStaged(stage, slider) {
+		return
+	}
+
+	slider.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -265,6 +374,21 @@ func (stage *StageStruct) StageBranchTable(table *Table) {
 	}
 
 	table.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *StageStruct) StageBranchTone(tone *Tone) {
+
+	// check if instance is already staged
+	if IsStaged(stage, tone) {
+		return
+	}
+
+	tone.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -324,12 +448,24 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchAsSplitArea(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Button:
+		toT := CopyBranchButton(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Cursor:
+		toT := CopyBranchCursor(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Doc:
 		toT := CopyBranchDoc(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Form:
 		toT := CopyBranchForm(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Slider:
+		toT := CopyBranchSlider(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Split:
@@ -342,6 +478,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *Table:
 		toT := CopyBranchTable(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Tone:
+		toT := CopyBranchTone(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Tree:
@@ -412,11 +552,61 @@ func CopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplitArea
 	if assplitareaFrom.Split != nil {
 		assplitareaTo.Split = CopyBranchSplit(mapOrigCopy, assplitareaFrom.Split)
 	}
+	if assplitareaFrom.Slider != nil {
+		assplitareaTo.Slider = CopyBranchSlider(mapOrigCopy, assplitareaFrom.Slider)
+	}
+	if assplitareaFrom.Tone != nil {
+		assplitareaTo.Tone = CopyBranchTone(mapOrigCopy, assplitareaFrom.Tone)
+	}
+	if assplitareaFrom.Button != nil {
+		assplitareaTo.Button = CopyBranchButton(mapOrigCopy, assplitareaFrom.Button)
+	}
+	if assplitareaFrom.Cursor != nil {
+		assplitareaTo.Cursor = CopyBranchCursor(mapOrigCopy, assplitareaFrom.Cursor)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _assplit := range assplitareaFrom.AsSplits {
 		assplitareaTo.AsSplits = append(assplitareaTo.AsSplits, CopyBranchAsSplit(mapOrigCopy, _assplit))
 	}
+
+	return
+}
+
+func CopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Button) {
+
+	// buttonFrom has already been copied
+	if _buttonTo, ok := mapOrigCopy[buttonFrom]; ok {
+		buttonTo = _buttonTo.(*Button)
+		return
+	}
+
+	buttonTo = new(Button)
+	mapOrigCopy[buttonFrom] = buttonTo
+	buttonFrom.CopyBasicFields(buttonTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchCursor(mapOrigCopy map[any]any, cursorFrom *Cursor) (cursorTo *Cursor) {
+
+	// cursorFrom has already been copied
+	if _cursorTo, ok := mapOrigCopy[cursorFrom]; ok {
+		cursorTo = _cursorTo.(*Cursor)
+		return
+	}
+
+	cursorTo = new(Cursor)
+	mapOrigCopy[cursorFrom] = cursorTo
+	cursorFrom.CopyBasicFields(cursorTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -451,6 +641,25 @@ func CopyBranchForm(mapOrigCopy map[any]any, formFrom *Form) (formTo *Form) {
 	formTo = new(Form)
 	mapOrigCopy[formFrom] = formTo
 	formFrom.CopyBasicFields(formTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchSlider(mapOrigCopy map[any]any, sliderFrom *Slider) (sliderTo *Slider) {
+
+	// sliderFrom has already been copied
+	if _sliderTo, ok := mapOrigCopy[sliderFrom]; ok {
+		sliderTo = _sliderTo.(*Slider)
+		return
+	}
+
+	sliderTo = new(Slider)
+	mapOrigCopy[sliderFrom] = sliderTo
+	sliderFrom.CopyBasicFields(sliderTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -516,6 +725,25 @@ func CopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table)
 	return
 }
 
+func CopyBranchTone(mapOrigCopy map[any]any, toneFrom *Tone) (toneTo *Tone) {
+
+	// toneFrom has already been copied
+	if _toneTo, ok := mapOrigCopy[toneFrom]; ok {
+		toneTo = _toneTo.(*Tone)
+		return
+	}
+
+	toneTo = new(Tone)
+	mapOrigCopy[toneFrom] = toneTo
+	toneFrom.CopyBasicFields(toneTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchTree(mapOrigCopy map[any]any, treeFrom *Tree) (treeTo *Tree) {
 
 	// treeFrom has already been copied
@@ -571,11 +799,20 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *AsSplitArea:
 		stage.UnstageBranchAsSplitArea(target)
 
+	case *Button:
+		stage.UnstageBranchButton(target)
+
+	case *Cursor:
+		stage.UnstageBranchCursor(target)
+
 	case *Doc:
 		stage.UnstageBranchDoc(target)
 
 	case *Form:
 		stage.UnstageBranchForm(target)
+
+	case *Slider:
+		stage.UnstageBranchSlider(target)
 
 	case *Split:
 		stage.UnstageBranchSplit(target)
@@ -585,6 +822,9 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	case *Table:
 		stage.UnstageBranchTable(target)
+
+	case *Tone:
+		stage.UnstageBranchTone(target)
 
 	case *Tree:
 		stage.UnstageBranchTree(target)
@@ -644,11 +884,53 @@ func (stage *StageStruct) UnstageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	if assplitarea.Split != nil {
 		UnstageBranch(stage, assplitarea.Split)
 	}
+	if assplitarea.Slider != nil {
+		UnstageBranch(stage, assplitarea.Slider)
+	}
+	if assplitarea.Tone != nil {
+		UnstageBranch(stage, assplitarea.Tone)
+	}
+	if assplitarea.Button != nil {
+		UnstageBranch(stage, assplitarea.Button)
+	}
+	if assplitarea.Cursor != nil {
+		UnstageBranch(stage, assplitarea.Cursor)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _assplit := range assplitarea.AsSplits {
 		UnstageBranch(stage, _assplit)
 	}
+
+}
+
+func (stage *StageStruct) UnstageBranchButton(button *Button) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, button) {
+		return
+	}
+
+	button.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *StageStruct) UnstageBranchCursor(cursor *Cursor) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, cursor) {
+		return
+	}
+
+	cursor.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -675,6 +957,21 @@ func (stage *StageStruct) UnstageBranchForm(form *Form) {
 	}
 
 	form.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *StageStruct) UnstageBranchSlider(slider *Slider) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, slider) {
+		return
+	}
+
+	slider.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -720,6 +1017,21 @@ func (stage *StageStruct) UnstageBranchTable(table *Table) {
 	}
 
 	table.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *StageStruct) UnstageBranchTone(tone *Tone) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, tone) {
+		return
+	}
+
+	tone.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 

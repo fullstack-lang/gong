@@ -7,6 +7,9 @@ import (
 
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
+
+	slider_models "github.com/fullstack-lang/gong/lib/slider/go/models"
+	slider_stack "github.com/fullstack-lang/gong/lib/slider/go/stack"
 )
 
 var (
@@ -37,6 +40,24 @@ func main() {
 	// setup stack
 	stack := split_stack.NewStack(r, "split", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
+
+	stackSlider := slider_stack.NewStack(r, "slider", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	sliderStage := stackSlider.Stage
+
+	layout := new(slider_models.Layout).Stage(sliderStage)
+	group := new(slider_models.Group).Stage(sliderStage)
+	group.Percentage = 100
+	layout.Groups = append(layout.Groups, group)
+
+	slider := new(slider_models.Slider).Stage(sliderStage)
+	slider.IsInt = true
+	slider.MinInt = 10
+	slider.MaxInt = 100
+	slider.StepInt = 5
+	slider.Name = "example"
+	group.Sliders = append(group.Sliders, slider)
+
+	sliderStage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))

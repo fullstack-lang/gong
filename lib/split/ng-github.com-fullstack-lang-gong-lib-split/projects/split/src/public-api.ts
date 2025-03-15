@@ -21,6 +21,14 @@ export * from './lib/assplitarea-api'
 export * from './lib/assplitarea'
 export * from './lib/assplitarea.service'
 
+export * from './lib/button-api'
+export * from './lib/button'
+export * from './lib/button.service'
+
+export * from './lib/cursor-api'
+export * from './lib/cursor'
+export * from './lib/cursor.service'
+
 export * from './lib/doc-api'
 export * from './lib/doc'
 export * from './lib/doc.service'
@@ -28,6 +36,10 @@ export * from './lib/doc.service'
 export * from './lib/form-api'
 export * from './lib/form'
 export * from './lib/form.service'
+
+export * from './lib/slider-api'
+export * from './lib/slider'
+export * from './lib/slider.service'
 
 export * from './lib/split-api'
 export * from './lib/split'
@@ -40,6 +52,10 @@ export * from './lib/svg.service'
 export * from './lib/table-api'
 export * from './lib/table'
 export * from './lib/table.service'
+
+export * from './lib/tone-api'
+export * from './lib/tone'
+export * from './lib/tone.service'
 
 export * from './lib/tree-api'
 export * from './lib/tree'
