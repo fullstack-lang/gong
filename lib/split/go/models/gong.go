@@ -87,6 +87,15 @@ type StageStruct struct {
 	OnAfterFormDeleteCallback OnAfterDeleteInterface[Form]
 	OnAfterFormReadCallback   OnAfterReadInterface[Form]
 
+	Splits           map[*Split]any
+	Splits_mapString map[string]*Split
+
+	// insertion point for slice of pointers maps
+	OnAfterSplitCreateCallback OnAfterCreateInterface[Split]
+	OnAfterSplitUpdateCallback OnAfterUpdateInterface[Split]
+	OnAfterSplitDeleteCallback OnAfterDeleteInterface[Split]
+	OnAfterSplitReadCallback   OnAfterReadInterface[Split]
+
 	Svgs           map[*Svg]any
 	Svgs_mapString map[string]*Svg
 
@@ -206,6 +215,8 @@ type BackRepoInterface interface {
 	CheckoutDoc(doc *Doc)
 	CommitForm(form *Form)
 	CheckoutForm(form *Form)
+	CommitSplit(split *Split)
+	CheckoutSplit(split *Split)
 	CommitSvg(svg *Svg)
 	CheckoutSvg(svg *Svg)
 	CommitTable(table *Table)
@@ -232,6 +243,9 @@ func NewStage(path string) (stage *StageStruct) {
 
 		Forms:           make(map[*Form]any),
 		Forms_mapString: make(map[string]*Form),
+
+		Splits:           make(map[*Split]any),
+		Splits_mapString: make(map[string]*Split),
 
 		Svgs:           make(map[*Svg]any),
 		Svgs_mapString: make(map[string]*Svg),
@@ -284,6 +298,7 @@ func (stage *StageStruct) Commit() {
 	stage.Map_GongStructName_InstancesNb["AsSplitArea"] = len(stage.AsSplitAreas)
 	stage.Map_GongStructName_InstancesNb["Doc"] = len(stage.Docs)
 	stage.Map_GongStructName_InstancesNb["Form"] = len(stage.Forms)
+	stage.Map_GongStructName_InstancesNb["Split"] = len(stage.Splits)
 	stage.Map_GongStructName_InstancesNb["Svg"] = len(stage.Svgs)
 	stage.Map_GongStructName_InstancesNb["Table"] = len(stage.Tables)
 	stage.Map_GongStructName_InstancesNb["Tree"] = len(stage.Trees)
@@ -302,6 +317,7 @@ func (stage *StageStruct) Checkout() {
 	stage.Map_GongStructName_InstancesNb["AsSplitArea"] = len(stage.AsSplitAreas)
 	stage.Map_GongStructName_InstancesNb["Doc"] = len(stage.Docs)
 	stage.Map_GongStructName_InstancesNb["Form"] = len(stage.Forms)
+	stage.Map_GongStructName_InstancesNb["Split"] = len(stage.Splits)
 	stage.Map_GongStructName_InstancesNb["Svg"] = len(stage.Svgs)
 	stage.Map_GongStructName_InstancesNb["Table"] = len(stage.Tables)
 	stage.Map_GongStructName_InstancesNb["Tree"] = len(stage.Trees)
@@ -558,6 +574,61 @@ func (form *Form) GetName() (res string) {
 	return form.Name
 }
 
+// Stage puts split to the model stage
+func (split *Split) Stage(stage *StageStruct) *Split {
+
+	if _, ok := stage.Splits[split]; !ok {
+		stage.Splits[split] = __member
+		stage.Map_Staged_Order[split] = stage.Order
+		stage.Order++
+	}
+	stage.Splits_mapString[split.Name] = split
+
+	return split
+}
+
+// Unstage removes split off the model stage
+func (split *Split) Unstage(stage *StageStruct) *Split {
+	delete(stage.Splits, split)
+	delete(stage.Splits_mapString, split.Name)
+	return split
+}
+
+// UnstageVoid removes split off the model stage
+func (split *Split) UnstageVoid(stage *StageStruct) {
+	delete(stage.Splits, split)
+	delete(stage.Splits_mapString, split.Name)
+}
+
+// commit split to the back repo (if it is already staged)
+func (split *Split) Commit(stage *StageStruct) *Split {
+	if _, ok := stage.Splits[split]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitSplit(split)
+		}
+	}
+	return split
+}
+
+func (split *Split) CommitVoid(stage *StageStruct) {
+	split.Commit(stage)
+}
+
+// Checkout split to the back repo (if it is already staged)
+func (split *Split) Checkout(stage *StageStruct) *Split {
+	if _, ok := stage.Splits[split]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutSplit(split)
+		}
+	}
+	return split
+}
+
+// for satisfaction of GongStruct interface
+func (split *Split) GetName() (res string) {
+	return split.Name
+}
+
 // Stage puts svg to the model stage
 func (svg *Svg) Stage(stage *StageStruct) *Svg {
 
@@ -784,6 +855,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMAsSplitArea(AsSplitArea *AsSplitArea)
 	CreateORMDoc(Doc *Doc)
 	CreateORMForm(Form *Form)
+	CreateORMSplit(Split *Split)
 	CreateORMSvg(Svg *Svg)
 	CreateORMTable(Table *Table)
 	CreateORMTree(Tree *Tree)
@@ -795,6 +867,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMAsSplitArea(AsSplitArea *AsSplitArea)
 	DeleteORMDoc(Doc *Doc)
 	DeleteORMForm(Form *Form)
+	DeleteORMSplit(Split *Split)
 	DeleteORMSvg(Svg *Svg)
 	DeleteORMTable(Table *Table)
 	DeleteORMTree(Tree *Tree)
@@ -813,6 +886,9 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 
 	stage.Forms = make(map[*Form]any)
 	stage.Forms_mapString = make(map[string]*Form)
+
+	stage.Splits = make(map[*Split]any)
+	stage.Splits_mapString = make(map[string]*Split)
 
 	stage.Svgs = make(map[*Svg]any)
 	stage.Svgs_mapString = make(map[string]*Svg)
@@ -840,6 +916,9 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 
 	stage.Forms = nil
 	stage.Forms_mapString = nil
+
+	stage.Splits = nil
+	stage.Splits_mapString = nil
 
 	stage.Svgs = nil
 	stage.Svgs_mapString = nil
@@ -870,6 +949,10 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 
 	for form := range stage.Forms {
 		form.Unstage(stage)
+	}
+
+	for split := range stage.Splits {
+		split.Unstage(stage)
 	}
 
 	for svg := range stage.Svgs {
@@ -957,6 +1040,8 @@ func GongGetSet[Type GongstructSet](stage *StageStruct) *Type {
 		return any(&stage.Docs).(*Type)
 	case map[*Form]any:
 		return any(&stage.Forms).(*Type)
+	case map[*Split]any:
+		return any(&stage.Splits).(*Type)
 	case map[*Svg]any:
 		return any(&stage.Svgs).(*Type)
 	case map[*Table]any:
@@ -985,6 +1070,8 @@ func GongGetMap[Type GongstructMapString](stage *StageStruct) *Type {
 		return any(&stage.Docs_mapString).(*Type)
 	case map[string]*Form:
 		return any(&stage.Forms_mapString).(*Type)
+	case map[string]*Split:
+		return any(&stage.Splits_mapString).(*Type)
 	case map[string]*Svg:
 		return any(&stage.Svgs_mapString).(*Type)
 	case map[string]*Table:
@@ -1013,6 +1100,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *StageStruct) *map[*Type]a
 		return any(&stage.Docs).(*map[*Type]any)
 	case Form:
 		return any(&stage.Forms).(*map[*Type]any)
+	case Split:
+		return any(&stage.Splits).(*map[*Type]any)
 	case Svg:
 		return any(&stage.Svgs).(*map[*Type]any)
 	case Table:
@@ -1041,6 +1130,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Docs).(*map[Type]any)
 	case *Form:
 		return any(&stage.Forms).(*map[Type]any)
+	case *Split:
+		return any(&stage.Splits).(*map[Type]any)
 	case *Svg:
 		return any(&stage.Svgs).(*map[Type]any)
 	case *Table:
@@ -1069,6 +1160,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *StageStruct) *map[string]
 		return any(&stage.Docs_mapString).(*map[string]*Type)
 	case Form:
 		return any(&stage.Forms_mapString).(*map[string]*Type)
+	case Split:
+		return any(&stage.Splits_mapString).(*map[string]*Type)
 	case Svg:
 		return any(&stage.Svgs_mapString).(*map[string]*Type)
 	case Table:
@@ -1112,6 +1205,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Svg: &Svg{Name: "Svg"},
 			// field is initialized with an instance of Doc with the name of the field
 			Doc: &Doc{Name: "Doc"},
+			// field is initialized with an instance of Split with the name of the field
+			Split: &Split{Name: "Split"},
 		}).(*Type)
 	case Doc:
 		return any(&Doc{
@@ -1119,6 +1214,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		}).(*Type)
 	case Form:
 		return any(&Form{
+			// Initialisation of associations
+		}).(*Type)
+	case Split:
+		return any(&Split{
 			// Initialisation of associations
 		}).(*Type)
 	case Svg:
@@ -1251,6 +1350,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Split":
+			res := make(map[*Split][]*AsSplitArea)
+			for assplitarea := range stage.AsSplitAreas {
+				if assplitarea.Split != nil {
+					split_ := assplitarea.Split
+					var assplitareas []*AsSplitArea
+					_, ok := res[split_]
+					if ok {
+						assplitareas = res[split_]
+					} else {
+						assplitareas = make([]*AsSplitArea, 0)
+					}
+					assplitareas = append(assplitareas, assplitarea)
+					res[split_] = assplitareas
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Doc
 	case Doc:
@@ -1259,6 +1375,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 		}
 	// reverse maps of direct associations of Form
 	case Form:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Split
+	case Split:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -1334,6 +1455,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Split
+	case Split:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Svg
 	case Svg:
 		switch fieldname {
@@ -1382,6 +1508,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "Doc"
 	case Form:
 		res = "Form"
+	case Split:
+		res = "Split"
 	case Svg:
 		res = "Svg"
 	case Table:
@@ -1410,6 +1538,8 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "Doc"
 	case *Form:
 		res = "Form"
+	case *Split:
+		res = "Split"
 	case *Svg:
 		res = "Svg"
 	case *Table:
@@ -1432,11 +1562,13 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case AsSplit:
 		res = []string{"Name", "Direction", "AsSplitAreas"}
 	case AsSplitArea:
-		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplits", "Tree", "Table", "Form", "Svg", "Doc"}
+		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplits", "Tree", "Table", "Form", "Svg", "Doc", "Split"}
 	case Doc:
 		res = []string{"Name", "StackName"}
 	case Form:
 		res = []string{"Name", "StackName", "FormName"}
+	case Split:
+		res = []string{"Name", "StackName"}
 	case Svg:
 		res = []string{"Name", "StackName"}
 	case Table:
@@ -1484,6 +1616,9 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	case Form:
 		var rf ReverseField
 		_ = rf
+	case Split:
+		var rf ReverseField
+		_ = rf
 	case Svg:
 		var rf ReverseField
 		_ = rf
@@ -1510,11 +1645,13 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *AsSplit:
 		res = []string{"Name", "Direction", "AsSplitAreas"}
 	case *AsSplitArea:
-		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplits", "Tree", "Table", "Form", "Svg", "Doc"}
+		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplits", "Tree", "Table", "Form", "Svg", "Doc", "Split"}
 	case *Doc:
 		res = []string{"Name", "StackName"}
 	case *Form:
 		res = []string{"Name", "StackName", "FormName"}
+	case *Split:
+		res = []string{"Name", "StackName"}
 	case *Svg:
 		res = []string{"Name", "StackName"}
 	case *Table:
@@ -1624,6 +1761,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			if inferedInstance.Doc != nil {
 				res.valueString = inferedInstance.Doc.Name
 			}
+		case "Split":
+			if inferedInstance.Split != nil {
+				res.valueString = inferedInstance.Split.Name
+			}
 		}
 	case *Doc:
 		switch fieldName {
@@ -1642,6 +1783,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StackName
 		case "FormName":
 			res.valueString = inferedInstance.FormName
+		}
+	case *Split:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "StackName":
+			res.valueString = inferedInstance.StackName
 		}
 	case *Svg:
 		switch fieldName {
@@ -1754,6 +1903,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			if inferedInstance.Doc != nil {
 				res.valueString = inferedInstance.Doc.Name
 			}
+		case "Split":
+			if inferedInstance.Split != nil {
+				res.valueString = inferedInstance.Split.Name
+			}
 		}
 	case Doc:
 		switch fieldName {
@@ -1772,6 +1925,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StackName
 		case "FormName":
 			res.valueString = inferedInstance.FormName
+		}
+	case Split:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "StackName":
+			res.valueString = inferedInstance.StackName
 		}
 	case Svg:
 		switch fieldName {

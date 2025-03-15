@@ -10,6 +10,7 @@ import { Table } from './table'
 import { Form } from './form'
 import { Svg } from './svg'
 import { Doc } from './doc'
+import { Split } from './split'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -39,6 +40,8 @@ export class AsSplitArea {
 	Svg?: Svg
 
 	Doc?: Doc
+
+	Split?: Split
 
 }
 
@@ -90,6 +93,13 @@ export function CopyAsSplitAreaToAsSplitAreaAPI(assplitarea: AsSplitArea, asspli
 		assplitareaAPI.AsSplitAreaPointersEncoding.DocID.Int64 = 0 		
 	}
 
+	assplitareaAPI.AsSplitAreaPointersEncoding.SplitID.Valid = true
+	if (assplitarea.Split != undefined) {
+		assplitareaAPI.AsSplitAreaPointersEncoding.SplitID.Int64 = assplitarea.Split.ID  
+	} else {
+		assplitareaAPI.AsSplitAreaPointersEncoding.SplitID.Int64 = 0 		
+	}
+
 
 	// insertion point for slice of pointers fields encoding
 	assplitareaAPI.AsSplitAreaPointersEncoding.AsSplits = []
@@ -121,6 +131,7 @@ export function CopyAsSplitAreaAPIToAsSplitArea(assplitareaAPI: AsSplitAreaAPI, 
 	assplitarea.Form = frontRepo.map_ID_Form.get(assplitareaAPI.AsSplitAreaPointersEncoding.FormID.Int64)
 	assplitarea.Svg = frontRepo.map_ID_Svg.get(assplitareaAPI.AsSplitAreaPointersEncoding.SvgID.Int64)
 	assplitarea.Doc = frontRepo.map_ID_Doc.get(assplitareaAPI.AsSplitAreaPointersEncoding.DocID.Int64)
+	assplitarea.Split = frontRepo.map_ID_Split.get(assplitareaAPI.AsSplitAreaPointersEncoding.SplitID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 	if (!Array.isArray(assplitareaAPI.AsSplitAreaPointersEncoding.AsSplits)) {

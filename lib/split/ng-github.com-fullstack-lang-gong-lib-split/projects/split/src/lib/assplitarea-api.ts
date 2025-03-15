@@ -5,6 +5,7 @@ import { TableAPI } from './table-api'
 import { FormAPI } from './form-api'
 import { SvgAPI } from './svg-api'
 import { DocAPI } from './doc-api'
+import { SplitAPI } from './split-api'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -40,5 +41,7 @@ export class AsSplitAreaPointersEncoding {
 	SvgID: NullInt64 = new NullInt64 // if pointer is null, Svg.ID = 0
 
 	DocID: NullInt64 = new NullInt64 // if pointer is null, Doc.ID = 0
+
+	SplitID: NullInt64 = new NullInt64 // if pointer is null, Split.ID = 0
 
 }

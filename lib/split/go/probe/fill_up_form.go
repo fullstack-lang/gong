@@ -65,6 +65,7 @@ func FillUpForm(
 		AssociationFieldToForm("Form", instanceWithInferedType.Form, formGroup, probe)
 		AssociationFieldToForm("Svg", instanceWithInferedType.Svg, formGroup, probe)
 		AssociationFieldToForm("Doc", instanceWithInferedType.Doc, formGroup, probe)
+		AssociationFieldToForm("Split", instanceWithInferedType.Split, formGroup, probe)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -124,6 +125,13 @@ func FillUpForm(
 		BasicFieldtoForm("StackName", instanceWithInferedType.StackName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("FormName", instanceWithInferedType.FormName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+
+	case *models.Split:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("StackName", instanceWithInferedType.StackName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 
 	case *models.Svg:
