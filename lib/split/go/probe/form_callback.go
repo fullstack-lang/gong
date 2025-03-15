@@ -200,6 +200,8 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(assplitarea_.Svg), assplitareaFormCallback.probe.stageOfInterest, formDiv)
 		case "Doc":
 			FormDivSelectFieldToField(&(assplitarea_.Doc), assplitareaFormCallback.probe.stageOfInterest, formDiv)
+		case "Split":
+			FormDivSelectFieldToField(&(assplitarea_.Split), assplitareaFormCallback.probe.stageOfInterest, formDiv)
 		case "AsSplit:AsSplitAreas":
 			// we need to retrieve the field owner before the change
 			var pastAsSplitOwner *models.AsSplit
@@ -475,6 +477,85 @@ func (formFormCallback *FormFormCallback) OnSave() {
 	}
 
 	fillUpTree(formFormCallback.probe)
+}
+func __gong__New__SplitFormCallback(
+	split *models.Split,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (splitFormCallback *SplitFormCallback) {
+	splitFormCallback = new(SplitFormCallback)
+	splitFormCallback.probe = probe
+	splitFormCallback.split = split
+	splitFormCallback.formGroup = formGroup
+
+	splitFormCallback.CreationMode = (split == nil)
+
+	return
+}
+
+type SplitFormCallback struct {
+	split *models.Split
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (splitFormCallback *SplitFormCallback) OnSave() {
+
+	log.Println("SplitFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	splitFormCallback.probe.formStage.Checkout()
+
+	if splitFormCallback.split == nil {
+		splitFormCallback.split = new(models.Split).Stage(splitFormCallback.probe.stageOfInterest)
+	}
+	split_ := splitFormCallback.split
+	_ = split_
+
+	for _, formDiv := range splitFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(split_.Name), formDiv)
+		case "StackName":
+			FormDivBasicFieldToField(&(split_.StackName), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if splitFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		split_.Unstage(splitFormCallback.probe.stageOfInterest)
+	}
+
+	splitFormCallback.probe.stageOfInterest.Commit()
+	fillUpTable[models.Split](
+		splitFormCallback.probe,
+	)
+	splitFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if splitFormCallback.CreationMode || splitFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		splitFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(splitFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__SplitFormCallback(
+			nil,
+			splitFormCallback.probe,
+			newFormGroup,
+		)
+		split := new(models.Split)
+		FillUpForm(split, newFormGroup, splitFormCallback.probe)
+		splitFormCallback.probe.formStage.Commit()
+	}
+
+	fillUpTree(splitFormCallback.probe)
 }
 func __gong__New__SvgFormCallback(
 	svg *models.Svg,

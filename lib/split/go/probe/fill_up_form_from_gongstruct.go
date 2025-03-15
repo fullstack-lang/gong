@@ -67,6 +67,18 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Split:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "Split Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__SplitFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Svg:
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,

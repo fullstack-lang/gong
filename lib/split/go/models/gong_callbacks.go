@@ -22,6 +22,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 		if stage.OnAfterFormCreateCallback != nil {
 			stage.OnAfterFormCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Split:
+		if stage.OnAfterSplitCreateCallback != nil {
+			stage.OnAfterSplitCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Svg:
 		if stage.OnAfterSvgCreateCallback != nil {
 			stage.OnAfterSvgCreateCallback.OnAfterCreate(stage, target)
@@ -67,6 +71,11 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 		newTarget := any(new).(*Form)
 		if stage.OnAfterFormUpdateCallback != nil {
 			stage.OnAfterFormUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Split:
+		newTarget := any(new).(*Split)
+		if stage.OnAfterSplitUpdateCallback != nil {
+			stage.OnAfterSplitUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Svg:
 		newTarget := any(new).(*Svg)
@@ -118,6 +127,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Ty
 			staged := any(staged).(*Form)
 			stage.OnAfterFormDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Split:
+		if stage.OnAfterSplitDeleteCallback != nil {
+			staged := any(staged).(*Split)
+			stage.OnAfterSplitDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Svg:
 		if stage.OnAfterSvgDeleteCallback != nil {
 			staged := any(staged).(*Svg)
@@ -164,6 +178,10 @@ func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 		if stage.OnAfterFormReadCallback != nil {
 			stage.OnAfterFormReadCallback.OnAfterRead(stage, target)
 		}
+	case *Split:
+		if stage.OnAfterSplitReadCallback != nil {
+			stage.OnAfterSplitReadCallback.OnAfterRead(stage, target)
+		}
 	case *Svg:
 		if stage.OnAfterSvgReadCallback != nil {
 			stage.OnAfterSvgReadCallback.OnAfterRead(stage, target)
@@ -203,6 +221,9 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *Form:
 		stage.OnAfterFormUpdateCallback = any(callback).(OnAfterUpdateInterface[Form])
 	
+	case *Split:
+		stage.OnAfterSplitUpdateCallback = any(callback).(OnAfterUpdateInterface[Split])
+	
 	case *Svg:
 		stage.OnAfterSvgUpdateCallback = any(callback).(OnAfterUpdateInterface[Svg])
 	
@@ -233,6 +254,9 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *StageStruct, callba
 	
 	case *Form:
 		stage.OnAfterFormCreateCallback = any(callback).(OnAfterCreateInterface[Form])
+	
+	case *Split:
+		stage.OnAfterSplitCreateCallback = any(callback).(OnAfterCreateInterface[Split])
 	
 	case *Svg:
 		stage.OnAfterSvgCreateCallback = any(callback).(OnAfterCreateInterface[Svg])
@@ -265,6 +289,9 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *Form:
 		stage.OnAfterFormDeleteCallback = any(callback).(OnAfterDeleteInterface[Form])
 	
+	case *Split:
+		stage.OnAfterSplitDeleteCallback = any(callback).(OnAfterDeleteInterface[Split])
+	
 	case *Svg:
 		stage.OnAfterSvgDeleteCallback = any(callback).(OnAfterDeleteInterface[Svg])
 	
@@ -295,6 +322,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *StageStruct, callback
 	
 	case *Form:
 		stage.OnAfterFormReadCallback = any(callback).(OnAfterReadInterface[Form])
+	
+	case *Split:
+		stage.OnAfterSplitReadCallback = any(callback).(OnAfterReadInterface[Split])
 	
 	case *Svg:
 		stage.OnAfterSvgReadCallback = any(callback).(OnAfterReadInterface[Svg])

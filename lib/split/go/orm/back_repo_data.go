@@ -12,6 +12,8 @@ type BackRepoData struct {
 
 	FormAPIs []*FormAPI
 
+	SplitAPIs []*SplitAPI
+
 	SvgAPIs []*SvgAPI
 
 	TableAPIs []*TableAPI
@@ -69,6 +71,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		formDB.CopyBasicFieldsToForm_WOP(&formAPI.Form_WOP)
 
 		backRepoData.FormAPIs = append(backRepoData.FormAPIs, &formAPI)
+	}
+
+	for _, splitDB := range backRepo.BackRepoSplit.Map_SplitDBID_SplitDB {
+
+		var splitAPI SplitAPI
+		splitAPI.ID = splitDB.ID
+		splitAPI.SplitPointersEncoding = splitDB.SplitPointersEncoding
+		splitDB.CopyBasicFieldsToSplit_WOP(&splitAPI.Split_WOP)
+
+		backRepoData.SplitAPIs = append(backRepoData.SplitAPIs, &splitAPI)
 	}
 
 	for _, svgDB := range backRepo.BackRepoSvg.Map_SvgDBID_SvgDB {

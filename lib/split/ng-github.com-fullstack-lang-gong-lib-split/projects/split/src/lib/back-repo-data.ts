@@ -9,6 +9,8 @@ import { DocAPI } from './doc-api'
 
 import { FormAPI } from './form-api'
 
+import { SplitAPI } from './split-api'
+
 import { SvgAPI } from './svg-api'
 
 import { TableAPI } from './table-api'
@@ -27,6 +29,8 @@ export class BackRepoData {
 	DocAPIs = new Array<DocAPI>()
 
 	FormAPIs = new Array<FormAPI>()
+
+	SplitAPIs = new Array<SplitAPI>()
 
 	SvgAPIs = new Array<SvgAPI>()
 
@@ -49,6 +53,8 @@ export class BackRepoData {
 		this.DocAPIs = data?.DocAPIs || [];
 
 		this.FormAPIs = data?.FormAPIs || [];
+
+		this.SplitAPIs = data?.SplitAPIs || [];
 
 		this.SvgAPIs = data?.SvgAPIs || [];
 

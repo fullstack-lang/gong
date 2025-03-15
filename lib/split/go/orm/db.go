@@ -36,6 +36,10 @@ type DBLite struct {
 
 	nextIDFormDB uint
 
+	splitDBs map[uint]*SplitDB
+
+	nextIDSplitDB uint
+
 	svgDBs map[uint]*SvgDB
 
 	nextIDSvgDB uint
@@ -65,6 +69,8 @@ func NewDBLite() *DBLite {
 		docDBs: make(map[uint]*DocDB),
 
 		formDBs: make(map[uint]*FormDB),
+
+		splitDBs: make(map[uint]*SplitDB),
 
 		svgDBs: make(map[uint]*SvgDB),
 
@@ -103,6 +109,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDFormDB++
 		v.ID = db.nextIDFormDB
 		db.formDBs[v.ID] = v
+	case *SplitDB:
+		db.nextIDSplitDB++
+		v.ID = db.nextIDSplitDB
+		db.splitDBs[v.ID] = v
 	case *SvgDB:
 		db.nextIDSvgDB++
 		v.ID = db.nextIDSvgDB
@@ -155,6 +165,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.docDBs, v.ID)
 	case *FormDB:
 		delete(db.formDBs, v.ID)
+	case *SplitDB:
+		delete(db.splitDBs, v.ID)
 	case *SvgDB:
 		delete(db.svgDBs, v.ID)
 	case *TableDB:
@@ -192,6 +204,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *FormDB:
 		db.formDBs[v.ID] = v
+		return db, nil
+	case *SplitDB:
+		db.splitDBs[v.ID] = v
 		return db, nil
 	case *SvgDB:
 		db.svgDBs[v.ID] = v
@@ -244,6 +259,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Form github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
+	case *SplitDB:
+		if existing, ok := db.splitDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Split github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
 	case *SvgDB:
 		if existing, ok := db.svgDBs[v.ID]; ok {
@@ -304,6 +325,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]FormDB:
 		*ptr = make([]FormDB, 0, len(db.formDBs))
 		for _, v := range db.formDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]SplitDB:
+		*ptr = make([]SplitDB, 0, len(db.splitDBs))
+		for _, v := range db.splitDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -403,6 +430,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		formDB, _ := instanceDB.(*FormDB)
 		*formDB = *tmp
+		
+	case *SplitDB:
+		tmp, ok := db.splitDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Split Unkown entry %d", i))
+		}
+
+		splitDB, _ := instanceDB.(*SplitDB)
+		*splitDB = *tmp
 		
 	case *SvgDB:
 		tmp, ok := db.svgDBs[uint(i)]

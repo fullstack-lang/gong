@@ -48,6 +48,7 @@ func NewStackInstance(
 	models.SetOrchestratorOnAfterUpdate[models.AsSplitArea](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Doc](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Form](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Split](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Svg](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Table](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Tree](stage)

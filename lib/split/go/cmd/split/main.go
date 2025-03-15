@@ -36,10 +36,8 @@ func main() {
 
 	// setup stack
 	stack := split_stack.NewStack(r, "split", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
-	log.Println("len", len(stack.BackRepo.BackRepoAsSplitArea.Map_AsSplitAreaPtr_AsSplitAreaDBID))
 	stack.Probe.Refresh()
 
-	log.Println("len", len(stack.BackRepo.BackRepoAsSplitArea.Map_AsSplitAreaPtr_AsSplitAreaDBID))
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
 	if err != nil {

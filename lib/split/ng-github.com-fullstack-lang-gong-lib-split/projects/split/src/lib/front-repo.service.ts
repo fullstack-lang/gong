@@ -20,6 +20,10 @@ import { FormAPI } from './form-api'
 import { Form, CopyFormAPIToForm } from './form'
 import { FormService } from './form.service'
 
+import { SplitAPI } from './split-api'
+import { Split, CopySplitAPIToSplit } from './split'
+import { SplitService } from './split.service'
+
 import { SvgAPI } from './svg-api'
 import { Svg, CopySvgAPIToSvg } from './svg'
 import { SvgService } from './svg.service'
@@ -55,6 +59,9 @@ export class FrontRepo { // insertion point sub template
 	array_Forms = new Array<Form>() // array of front instances
 	map_ID_Form = new Map<number, Form>() // map of front instances
 
+	array_Splits = new Array<Split>() // array of front instances
+	map_ID_Split = new Map<number, Split>() // map of front instances
+
 	array_Svgs = new Array<Svg>() // array of front instances
 	map_ID_Svg = new Map<number, Svg>() // map of front instances
 
@@ -84,6 +91,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_Docs as unknown as Array<Type>
 			case 'Form':
 				return this.array_Forms as unknown as Array<Type>
+			case 'Split':
+				return this.array_Splits as unknown as Array<Type>
 			case 'Svg':
 				return this.array_Svgs as unknown as Array<Type>
 			case 'Table':
@@ -108,6 +117,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_Doc as unknown as Map<number, Type>
 			case 'Form':
 				return this.map_ID_Form as unknown as Map<number, Type>
+			case 'Split':
+				return this.map_ID_Split as unknown as Map<number, Type>
 			case 'Svg':
 				return this.map_ID_Svg as unknown as Map<number, Type>
 			case 'Table':
@@ -187,6 +198,7 @@ export class FrontRepoService {
 		private assplitareaService: AsSplitAreaService,
 		private docService: DocService,
 		private formService: FormService,
+		private splitService: SplitService,
 		private svgService: SvgService,
 		private tableService: TableService,
 		private treeService: TreeService,
@@ -227,6 +239,7 @@ export class FrontRepoService {
 		Observable<AsSplitAreaAPI[]>,
 		Observable<DocAPI[]>,
 		Observable<FormAPI[]>,
+		Observable<SplitAPI[]>,
 		Observable<SvgAPI[]>,
 		Observable<TableAPI[]>,
 		Observable<TreeAPI[]>,
@@ -250,6 +263,7 @@ export class FrontRepoService {
 			this.assplitareaService.getAsSplitAreas(this.GONG__StackPath, this.frontRepo),
 			this.docService.getDocs(this.GONG__StackPath, this.frontRepo),
 			this.formService.getForms(this.GONG__StackPath, this.frontRepo),
+			this.splitService.getSplits(this.GONG__StackPath, this.frontRepo),
 			this.svgService.getSvgs(this.GONG__StackPath, this.frontRepo),
 			this.tableService.getTables(this.GONG__StackPath, this.frontRepo),
 			this.treeService.getTrees(this.GONG__StackPath, this.frontRepo),
@@ -268,6 +282,7 @@ export class FrontRepoService {
 						assplitareas_,
 						docs_,
 						forms_,
+						splits_,
 						svgs_,
 						tables_,
 						trees_,
@@ -284,6 +299,8 @@ export class FrontRepoService {
 						docs = docs_ as DocAPI[]
 						var forms: FormAPI[]
 						forms = forms_ as FormAPI[]
+						var splits: SplitAPI[]
+						splits = splits_ as SplitAPI[]
 						var svgs: SvgAPI[]
 						svgs = svgs_ as SvgAPI[]
 						var tables: TableAPI[]
@@ -341,6 +358,18 @@ export class FrontRepoService {
 								let form = new Form
 								this.frontRepo.array_Forms.push(form)
 								this.frontRepo.map_ID_Form.set(formAPI.ID, form)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_Splits = []
+						this.frontRepo.map_ID_Split.clear()
+
+						splits.forEach(
+							splitAPI => {
+								let split = new Split
+								this.frontRepo.array_Splits.push(split)
+								this.frontRepo.map_ID_Split.set(splitAPI.ID, split)
 							}
 						)
 
@@ -425,6 +454,14 @@ export class FrontRepoService {
 							formAPI => {
 								let form = this.frontRepo.map_ID_Form.get(formAPI.ID)
 								CopyFormAPIToForm(formAPI, form!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						splits.forEach(
+							splitAPI => {
+								let split = this.frontRepo.map_ID_Split.get(splitAPI.ID)
+								CopySplitAPIToSplit(splitAPI, split!, this.frontRepo)
 							}
 						)
 
@@ -543,6 +580,18 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
+				frontRepo.array_Splits = []
+				frontRepo.map_ID_Split.clear()
+
+				backRepoData.SplitAPIs.forEach(
+					splitAPI => {
+						let split = new Split
+						frontRepo.array_Splits.push(split)
+						frontRepo.map_ID_Split.set(splitAPI.ID, split)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_Svgs = []
 				frontRepo.map_ID_Svg.clear()
 
@@ -629,6 +678,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.SplitAPIs.forEach(
+					splitAPI => {
+						let split = frontRepo.map_ID_Split.get(splitAPI.ID)
+						CopySplitAPIToSplit(splitAPI, split!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.SvgAPIs.forEach(
 					svgAPI => {
 						let svg = frontRepo.map_ID_Svg.get(svgAPI.ID)
@@ -691,15 +748,18 @@ export function getDocUniqueID(id: number): number {
 export function getFormUniqueID(id: number): number {
 	return 43 * id
 }
-export function getSvgUniqueID(id: number): number {
+export function getSplitUniqueID(id: number): number {
 	return 47 * id
 }
-export function getTableUniqueID(id: number): number {
+export function getSvgUniqueID(id: number): number {
 	return 53 * id
 }
-export function getTreeUniqueID(id: number): number {
+export function getTableUniqueID(id: number): number {
 	return 59 * id
 }
-export function getViewUniqueID(id: number): number {
+export function getTreeUniqueID(id: number): number {
 	return 61 * id
+}
+export function getViewUniqueID(id: number): number {
+	return 67 * id
 }

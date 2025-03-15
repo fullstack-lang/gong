@@ -23,6 +23,7 @@ import { TableAPI } from './table-api'
 import { FormAPI } from './form-api'
 import { SvgAPI } from './svg-api'
 import { DocAPI } from './doc-api'
+import { SplitAPI } from './split-api'
 
 @Injectable({
   providedIn: 'root'

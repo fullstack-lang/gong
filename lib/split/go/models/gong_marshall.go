@@ -302,6 +302,53 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	map_Split_Identifiers := make(map[*Split]string)
+	_ = map_Split_Identifiers
+
+	splitOrdered := []*Split{}
+	for split := range stage.Splits {
+		splitOrdered = append(splitOrdered, split)
+	}
+	sort.Slice(splitOrdered[:], func(i, j int) bool {
+		spliti := splitOrdered[i]
+		splitj := splitOrdered[j]
+		spliti_order, oki := stage.Map_Staged_Order[spliti]
+		splitj_order, okj := stage.Map_Staged_Order[splitj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return spliti_order < splitj_order
+	})
+	if len(splitOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, split := range splitOrdered {
+
+		id = generatesIdentifier("Split", idx, split.Name)
+		map_Split_Identifiers[split] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Split")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", split.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(split.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StackName")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(split.StackName))
+		initializerStatements += setValueField
+
+	}
+
 	map_Svg_Identifiers := make(map[*Svg]string)
 	_ = map_Svg_Identifiers
 
@@ -577,6 +624,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			pointersInitializesStatements += setPointerField
 		}
 
+		if assplitarea.Split != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Split")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Split_Identifiers[assplitarea.Split])
+			pointersInitializesStatements += setPointerField
+		}
+
 	}
 
 	if len(docOrdered) > 0 {
@@ -601,6 +656,19 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		id = generatesIdentifier("Form", idx, form.Name)
 		map_Form_Identifiers[form] = id
+
+		// Initialisation of values
+	}
+
+	if len(splitOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Split instances pointers"
+	}
+	for idx, split := range splitOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Split", idx, split.Name)
+		map_Split_Identifiers[split] = id
 
 		// Initialisation of values
 	}

@@ -28,6 +28,8 @@ func fillUpTablePointerToGongstruct[T models.PointerToGongstruct](
 		fillUpTable[models.Doc](probe)
 	case *models.Form:
 		fillUpTable[models.Form](probe)
+	case *models.Split:
+		fillUpTable[models.Split](probe)
 	case *models.Svg:
 		fillUpTable[models.Svg](probe)
 	case *models.Table:
