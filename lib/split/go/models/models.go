@@ -32,6 +32,7 @@ type AsSplitArea struct {
 	Form  *Form
 	Svg   *Svg
 	Doc   *Doc
+	Split *Split
 }
 
 type View struct {
@@ -68,6 +69,12 @@ type Svg struct {
 }
 
 type Doc struct {
+	Name string // name of the stack
+
+	StackName string
+}
+
+type Split struct {
 	Name string // name of the stack
 
 	StackName string

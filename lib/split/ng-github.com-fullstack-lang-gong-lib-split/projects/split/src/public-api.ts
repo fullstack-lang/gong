@@ -29,6 +29,10 @@ export * from './lib/form-api'
 export * from './lib/form'
 export * from './lib/form.service'
 
+export * from './lib/split-api'
+export * from './lib/split'
+export * from './lib/split.service'
+
 export * from './lib/svg-api'
 export * from './lib/svg'
 export * from './lib/svg.service'

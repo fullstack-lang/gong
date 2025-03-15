@@ -32,6 +32,8 @@ type BackRepoStruct struct {
 
 	BackRepoForm BackRepoFormStruct
 
+	BackRepoSplit BackRepoSplitStruct
+
 	BackRepoSvg BackRepoSvgStruct
 
 	BackRepoTable BackRepoTableStruct
@@ -65,6 +67,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		&AsSplitAreaDB{},
 		&DocDB{},
 		&FormDB{},
+		&SplitDB{},
 		&SvgDB{},
 		&TableDB{},
 		&TreeDB{},
@@ -103,6 +106,14 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_FormDBID_FormPtr: make(map[uint]*models.Form, 0),
 		Map_FormDBID_FormDB:  make(map[uint]*FormDB, 0),
 		Map_FormPtr_FormDBID: make(map[*models.Form]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoSplit = BackRepoSplitStruct{
+		Map_SplitDBID_SplitPtr: make(map[uint]*models.Split, 0),
+		Map_SplitDBID_SplitDB:  make(map[uint]*SplitDB, 0),
+		Map_SplitPtr_SplitDBID: make(map[*models.Split]uint, 0),
 
 		db:    db,
 		stage: stage,
@@ -196,6 +207,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	backRepo.BackRepoAsSplitArea.CommitPhaseOne(stage)
 	backRepo.BackRepoDoc.CommitPhaseOne(stage)
 	backRepo.BackRepoForm.CommitPhaseOne(stage)
+	backRepo.BackRepoSplit.CommitPhaseOne(stage)
 	backRepo.BackRepoSvg.CommitPhaseOne(stage)
 	backRepo.BackRepoTable.CommitPhaseOne(stage)
 	backRepo.BackRepoTree.CommitPhaseOne(stage)
@@ -206,6 +218,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	backRepo.BackRepoAsSplitArea.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoDoc.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoForm.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoSplit.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoSvg.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoTable.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoTree.CommitPhaseTwo(backRepo)
@@ -221,6 +234,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	backRepo.BackRepoAsSplitArea.CheckoutPhaseOne()
 	backRepo.BackRepoDoc.CheckoutPhaseOne()
 	backRepo.BackRepoForm.CheckoutPhaseOne()
+	backRepo.BackRepoSplit.CheckoutPhaseOne()
 	backRepo.BackRepoSvg.CheckoutPhaseOne()
 	backRepo.BackRepoTable.CheckoutPhaseOne()
 	backRepo.BackRepoTree.CheckoutPhaseOne()
@@ -231,6 +245,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	backRepo.BackRepoAsSplitArea.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoDoc.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoForm.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoSplit.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoSvg.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoTable.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoTree.CheckoutPhaseTwo(backRepo)
@@ -246,6 +261,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string
 	backRepo.BackRepoAsSplitArea.Backup(dirPath)
 	backRepo.BackRepoDoc.Backup(dirPath)
 	backRepo.BackRepoForm.Backup(dirPath)
+	backRepo.BackRepoSplit.Backup(dirPath)
 	backRepo.BackRepoSvg.Backup(dirPath)
 	backRepo.BackRepoTable.Backup(dirPath)
 	backRepo.BackRepoTree.Backup(dirPath)
@@ -264,6 +280,7 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.StageStruct, dirPath stri
 	backRepo.BackRepoAsSplitArea.BackupXL(file)
 	backRepo.BackRepoDoc.BackupXL(file)
 	backRepo.BackRepoForm.BackupXL(file)
+	backRepo.BackRepoSplit.BackupXL(file)
 	backRepo.BackRepoSvg.BackupXL(file)
 	backRepo.BackRepoTable.BackupXL(file)
 	backRepo.BackRepoTree.BackupXL(file)
@@ -296,6 +313,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	backRepo.BackRepoAsSplitArea.RestorePhaseOne(dirPath)
 	backRepo.BackRepoDoc.RestorePhaseOne(dirPath)
 	backRepo.BackRepoForm.RestorePhaseOne(dirPath)
+	backRepo.BackRepoSplit.RestorePhaseOne(dirPath)
 	backRepo.BackRepoSvg.RestorePhaseOne(dirPath)
 	backRepo.BackRepoTable.RestorePhaseOne(dirPath)
 	backRepo.BackRepoTree.RestorePhaseOne(dirPath)
@@ -310,6 +328,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	backRepo.BackRepoAsSplitArea.RestorePhaseTwo()
 	backRepo.BackRepoDoc.RestorePhaseTwo()
 	backRepo.BackRepoForm.RestorePhaseTwo()
+	backRepo.BackRepoSplit.RestorePhaseTwo()
 	backRepo.BackRepoSvg.RestorePhaseTwo()
 	backRepo.BackRepoTable.RestorePhaseTwo()
 	backRepo.BackRepoTree.RestorePhaseTwo()
@@ -345,6 +364,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.StageStruct, dirPath str
 	backRepo.BackRepoAsSplitArea.RestoreXLPhaseOne(file)
 	backRepo.BackRepoDoc.RestoreXLPhaseOne(file)
 	backRepo.BackRepoForm.RestoreXLPhaseOne(file)
+	backRepo.BackRepoSplit.RestoreXLPhaseOne(file)
 	backRepo.BackRepoSvg.RestoreXLPhaseOne(file)
 	backRepo.BackRepoTable.RestoreXLPhaseOne(file)
 	backRepo.BackRepoTree.RestoreXLPhaseOne(file)

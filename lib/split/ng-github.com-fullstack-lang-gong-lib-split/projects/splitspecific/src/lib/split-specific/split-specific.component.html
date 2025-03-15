@@ -50,6 +50,9 @@
     @if (area.Doc) {
     <lib-doc-specific [GONG__StackPath]="area.Doc.StackName"></lib-doc-specific>
     }
+    @if (area.Split) {
+        <lib-split-specific [GONG__StackPath]="area.Split.StackName"></lib-split-specific>
+    }
     @for (asSplit of area.AsSplits; track asSplit) {
         <as-split [direction]="asSplit.Direction">
             @for (asSplitArea of asSplit.AsSplitAreas; track asSplitArea) {

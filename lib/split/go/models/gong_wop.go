@@ -61,6 +61,18 @@ func (from *Form) CopyBasicFields(to *Form) {
 	to.FormName = from.FormName
 }
 
+type Split_WOP struct {
+	// insertion point
+	Name string
+	StackName string
+}
+
+func (from *Split) CopyBasicFields(to *Split) {
+	// insertion point
+	to.Name = from.Name
+	to.StackName = from.StackName
+}
+
 type Svg_WOP struct {
 	// insertion point
 	Name string
