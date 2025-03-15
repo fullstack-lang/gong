@@ -45,12 +45,27 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
+	case *models.Button:
+		switch reverseField.GongstructName {
+		// insertion point
+		}
+
+	case *models.Cursor:
+		switch reverseField.GongstructName {
+		// insertion point
+		}
+
 	case *models.Doc:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
 	case *models.Form:
+		switch reverseField.GongstructName {
+		// insertion point
+		}
+
+	case *models.Slider:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
@@ -66,6 +81,11 @@ func GetReverseFieldOwnerName(
 		}
 
 	case *models.Table:
+		switch reverseField.GongstructName {
+		// insertion point
+		}
+
+	case *models.Tone:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
@@ -120,12 +140,27 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
+	case *models.Button:
+		switch reverseField.GongstructName {
+		// insertion point
+		}
+
+	case *models.Cursor:
+		switch reverseField.GongstructName {
+		// insertion point
+		}
+
 	case *models.Doc:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
 	case *models.Form:
+		switch reverseField.GongstructName {
+		// insertion point
+		}
+
+	case *models.Slider:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
@@ -141,6 +176,11 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		}
 
 	case *models.Table:
+		switch reverseField.GongstructName {
+		// insertion point
+		}
+
+	case *models.Tone:
 		switch reverseField.GongstructName {
 		// insertion point
 		}

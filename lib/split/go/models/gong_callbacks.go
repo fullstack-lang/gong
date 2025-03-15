@@ -14,6 +14,14 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 		if stage.OnAfterAsSplitAreaCreateCallback != nil {
 			stage.OnAfterAsSplitAreaCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Button:
+		if stage.OnAfterButtonCreateCallback != nil {
+			stage.OnAfterButtonCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *Cursor:
+		if stage.OnAfterCursorCreateCallback != nil {
+			stage.OnAfterCursorCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Doc:
 		if stage.OnAfterDocCreateCallback != nil {
 			stage.OnAfterDocCreateCallback.OnAfterCreate(stage, target)
@@ -21,6 +29,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *Form:
 		if stage.OnAfterFormCreateCallback != nil {
 			stage.OnAfterFormCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *Slider:
+		if stage.OnAfterSliderCreateCallback != nil {
+			stage.OnAfterSliderCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *Split:
 		if stage.OnAfterSplitCreateCallback != nil {
@@ -33,6 +45,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *Table:
 		if stage.OnAfterTableCreateCallback != nil {
 			stage.OnAfterTableCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *Tone:
+		if stage.OnAfterToneCreateCallback != nil {
+			stage.OnAfterToneCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *Tree:
 		if stage.OnAfterTreeCreateCallback != nil {
@@ -62,6 +78,16 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 		if stage.OnAfterAsSplitAreaUpdateCallback != nil {
 			stage.OnAfterAsSplitAreaUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *Button:
+		newTarget := any(new).(*Button)
+		if stage.OnAfterButtonUpdateCallback != nil {
+			stage.OnAfterButtonUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Cursor:
+		newTarget := any(new).(*Cursor)
+		if stage.OnAfterCursorUpdateCallback != nil {
+			stage.OnAfterCursorUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Doc:
 		newTarget := any(new).(*Doc)
 		if stage.OnAfterDocUpdateCallback != nil {
@@ -71,6 +97,11 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 		newTarget := any(new).(*Form)
 		if stage.OnAfterFormUpdateCallback != nil {
 			stage.OnAfterFormUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Slider:
+		newTarget := any(new).(*Slider)
+		if stage.OnAfterSliderUpdateCallback != nil {
+			stage.OnAfterSliderUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Split:
 		newTarget := any(new).(*Split)
@@ -86,6 +117,11 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 		newTarget := any(new).(*Table)
 		if stage.OnAfterTableUpdateCallback != nil {
 			stage.OnAfterTableUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Tone:
+		newTarget := any(new).(*Tone)
+		if stage.OnAfterToneUpdateCallback != nil {
+			stage.OnAfterToneUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Tree:
 		newTarget := any(new).(*Tree)
@@ -117,6 +153,16 @@ func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Ty
 			staged := any(staged).(*AsSplitArea)
 			stage.OnAfterAsSplitAreaDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Button:
+		if stage.OnAfterButtonDeleteCallback != nil {
+			staged := any(staged).(*Button)
+			stage.OnAfterButtonDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *Cursor:
+		if stage.OnAfterCursorDeleteCallback != nil {
+			staged := any(staged).(*Cursor)
+			stage.OnAfterCursorDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Doc:
 		if stage.OnAfterDocDeleteCallback != nil {
 			staged := any(staged).(*Doc)
@@ -126,6 +172,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Ty
 		if stage.OnAfterFormDeleteCallback != nil {
 			staged := any(staged).(*Form)
 			stage.OnAfterFormDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *Slider:
+		if stage.OnAfterSliderDeleteCallback != nil {
+			staged := any(staged).(*Slider)
+			stage.OnAfterSliderDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *Split:
 		if stage.OnAfterSplitDeleteCallback != nil {
@@ -141,6 +192,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Ty
 		if stage.OnAfterTableDeleteCallback != nil {
 			staged := any(staged).(*Table)
 			stage.OnAfterTableDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *Tone:
+		if stage.OnAfterToneDeleteCallback != nil {
+			staged := any(staged).(*Tone)
+			stage.OnAfterToneDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *Tree:
 		if stage.OnAfterTreeDeleteCallback != nil {
@@ -170,6 +226,14 @@ func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 		if stage.OnAfterAsSplitAreaReadCallback != nil {
 			stage.OnAfterAsSplitAreaReadCallback.OnAfterRead(stage, target)
 		}
+	case *Button:
+		if stage.OnAfterButtonReadCallback != nil {
+			stage.OnAfterButtonReadCallback.OnAfterRead(stage, target)
+		}
+	case *Cursor:
+		if stage.OnAfterCursorReadCallback != nil {
+			stage.OnAfterCursorReadCallback.OnAfterRead(stage, target)
+		}
 	case *Doc:
 		if stage.OnAfterDocReadCallback != nil {
 			stage.OnAfterDocReadCallback.OnAfterRead(stage, target)
@@ -177,6 +241,10 @@ func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *Form:
 		if stage.OnAfterFormReadCallback != nil {
 			stage.OnAfterFormReadCallback.OnAfterRead(stage, target)
+		}
+	case *Slider:
+		if stage.OnAfterSliderReadCallback != nil {
+			stage.OnAfterSliderReadCallback.OnAfterRead(stage, target)
 		}
 	case *Split:
 		if stage.OnAfterSplitReadCallback != nil {
@@ -189,6 +257,10 @@ func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *Table:
 		if stage.OnAfterTableReadCallback != nil {
 			stage.OnAfterTableReadCallback.OnAfterRead(stage, target)
+		}
+	case *Tone:
+		if stage.OnAfterToneReadCallback != nil {
+			stage.OnAfterToneReadCallback.OnAfterRead(stage, target)
 		}
 	case *Tree:
 		if stage.OnAfterTreeReadCallback != nil {
@@ -215,11 +287,20 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *AsSplitArea:
 		stage.OnAfterAsSplitAreaUpdateCallback = any(callback).(OnAfterUpdateInterface[AsSplitArea])
 	
+	case *Button:
+		stage.OnAfterButtonUpdateCallback = any(callback).(OnAfterUpdateInterface[Button])
+	
+	case *Cursor:
+		stage.OnAfterCursorUpdateCallback = any(callback).(OnAfterUpdateInterface[Cursor])
+	
 	case *Doc:
 		stage.OnAfterDocUpdateCallback = any(callback).(OnAfterUpdateInterface[Doc])
 	
 	case *Form:
 		stage.OnAfterFormUpdateCallback = any(callback).(OnAfterUpdateInterface[Form])
+	
+	case *Slider:
+		stage.OnAfterSliderUpdateCallback = any(callback).(OnAfterUpdateInterface[Slider])
 	
 	case *Split:
 		stage.OnAfterSplitUpdateCallback = any(callback).(OnAfterUpdateInterface[Split])
@@ -229,6 +310,9 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *StageStruct, callba
 	
 	case *Table:
 		stage.OnAfterTableUpdateCallback = any(callback).(OnAfterUpdateInterface[Table])
+	
+	case *Tone:
+		stage.OnAfterToneUpdateCallback = any(callback).(OnAfterUpdateInterface[Tone])
 	
 	case *Tree:
 		stage.OnAfterTreeUpdateCallback = any(callback).(OnAfterUpdateInterface[Tree])
@@ -249,11 +333,20 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *AsSplitArea:
 		stage.OnAfterAsSplitAreaCreateCallback = any(callback).(OnAfterCreateInterface[AsSplitArea])
 	
+	case *Button:
+		stage.OnAfterButtonCreateCallback = any(callback).(OnAfterCreateInterface[Button])
+	
+	case *Cursor:
+		stage.OnAfterCursorCreateCallback = any(callback).(OnAfterCreateInterface[Cursor])
+	
 	case *Doc:
 		stage.OnAfterDocCreateCallback = any(callback).(OnAfterCreateInterface[Doc])
 	
 	case *Form:
 		stage.OnAfterFormCreateCallback = any(callback).(OnAfterCreateInterface[Form])
+	
+	case *Slider:
+		stage.OnAfterSliderCreateCallback = any(callback).(OnAfterCreateInterface[Slider])
 	
 	case *Split:
 		stage.OnAfterSplitCreateCallback = any(callback).(OnAfterCreateInterface[Split])
@@ -263,6 +356,9 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *StageStruct, callba
 	
 	case *Table:
 		stage.OnAfterTableCreateCallback = any(callback).(OnAfterCreateInterface[Table])
+	
+	case *Tone:
+		stage.OnAfterToneCreateCallback = any(callback).(OnAfterCreateInterface[Tone])
 	
 	case *Tree:
 		stage.OnAfterTreeCreateCallback = any(callback).(OnAfterCreateInterface[Tree])
@@ -283,11 +379,20 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *AsSplitArea:
 		stage.OnAfterAsSplitAreaDeleteCallback = any(callback).(OnAfterDeleteInterface[AsSplitArea])
 	
+	case *Button:
+		stage.OnAfterButtonDeleteCallback = any(callback).(OnAfterDeleteInterface[Button])
+	
+	case *Cursor:
+		stage.OnAfterCursorDeleteCallback = any(callback).(OnAfterDeleteInterface[Cursor])
+	
 	case *Doc:
 		stage.OnAfterDocDeleteCallback = any(callback).(OnAfterDeleteInterface[Doc])
 	
 	case *Form:
 		stage.OnAfterFormDeleteCallback = any(callback).(OnAfterDeleteInterface[Form])
+	
+	case *Slider:
+		stage.OnAfterSliderDeleteCallback = any(callback).(OnAfterDeleteInterface[Slider])
 	
 	case *Split:
 		stage.OnAfterSplitDeleteCallback = any(callback).(OnAfterDeleteInterface[Split])
@@ -297,6 +402,9 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *StageStruct, callba
 	
 	case *Table:
 		stage.OnAfterTableDeleteCallback = any(callback).(OnAfterDeleteInterface[Table])
+	
+	case *Tone:
+		stage.OnAfterToneDeleteCallback = any(callback).(OnAfterDeleteInterface[Tone])
 	
 	case *Tree:
 		stage.OnAfterTreeDeleteCallback = any(callback).(OnAfterDeleteInterface[Tree])
@@ -317,11 +425,20 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *StageStruct, callback
 	case *AsSplitArea:
 		stage.OnAfterAsSplitAreaReadCallback = any(callback).(OnAfterReadInterface[AsSplitArea])
 	
+	case *Button:
+		stage.OnAfterButtonReadCallback = any(callback).(OnAfterReadInterface[Button])
+	
+	case *Cursor:
+		stage.OnAfterCursorReadCallback = any(callback).(OnAfterReadInterface[Cursor])
+	
 	case *Doc:
 		stage.OnAfterDocReadCallback = any(callback).(OnAfterReadInterface[Doc])
 	
 	case *Form:
 		stage.OnAfterFormReadCallback = any(callback).(OnAfterReadInterface[Form])
+	
+	case *Slider:
+		stage.OnAfterSliderReadCallback = any(callback).(OnAfterReadInterface[Slider])
 	
 	case *Split:
 		stage.OnAfterSplitReadCallback = any(callback).(OnAfterReadInterface[Split])
@@ -331,6 +448,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *StageStruct, callback
 	
 	case *Table:
 		stage.OnAfterTableReadCallback = any(callback).(OnAfterReadInterface[Table])
+	
+	case *Tone:
+		stage.OnAfterToneReadCallback = any(callback).(OnAfterReadInterface[Tone])
 	
 	case *Tree:
 		stage.OnAfterTreeReadCallback = any(callback).(OnAfterReadInterface[Tree])

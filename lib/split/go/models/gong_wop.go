@@ -35,6 +35,30 @@ func (from *AsSplitArea) CopyBasicFields(to *AsSplitArea) {
 	to.IsAny = from.IsAny
 }
 
+type Button_WOP struct {
+	// insertion point
+	Name string
+	StackName string
+}
+
+func (from *Button) CopyBasicFields(to *Button) {
+	// insertion point
+	to.Name = from.Name
+	to.StackName = from.StackName
+}
+
+type Cursor_WOP struct {
+	// insertion point
+	Name string
+	StackName string
+}
+
+func (from *Cursor) CopyBasicFields(to *Cursor) {
+	// insertion point
+	to.Name = from.Name
+	to.StackName = from.StackName
+}
+
 type Doc_WOP struct {
 	// insertion point
 	Name string
@@ -59,6 +83,18 @@ func (from *Form) CopyBasicFields(to *Form) {
 	to.Name = from.Name
 	to.StackName = from.StackName
 	to.FormName = from.FormName
+}
+
+type Slider_WOP struct {
+	// insertion point
+	Name string
+	StackName string
+}
+
+func (from *Slider) CopyBasicFields(to *Slider) {
+	// insertion point
+	to.Name = from.Name
+	to.StackName = from.StackName
 }
 
 type Split_WOP struct {
@@ -97,6 +133,18 @@ func (from *Table) CopyBasicFields(to *Table) {
 	to.Name = from.Name
 	to.StackName = from.StackName
 	to.TableName = from.TableName
+}
+
+type Tone_WOP struct {
+	// insertion point
+	Name string
+	StackName string
+}
+
+func (from *Tone) CopyBasicFields(to *Tone) {
+	// insertion point
+	to.Name = from.Name
+	to.StackName = from.StackName
 }
 
 type Tree_WOP struct {

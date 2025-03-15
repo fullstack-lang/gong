@@ -58,11 +58,20 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "AsSplitArea" {
 		fillUpTable[models.AsSplitArea](nodeImplGongstruct.probe)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Button" {
+		fillUpTable[models.Button](nodeImplGongstruct.probe)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Cursor" {
+		fillUpTable[models.Cursor](nodeImplGongstruct.probe)
+	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Doc" {
 		fillUpTable[models.Doc](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Form" {
 		fillUpTable[models.Form](nodeImplGongstruct.probe)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Slider" {
+		fillUpTable[models.Slider](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Split" {
 		fillUpTable[models.Split](nodeImplGongstruct.probe)
@@ -72,6 +81,9 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Table" {
 		fillUpTable[models.Table](nodeImplGongstruct.probe)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Tone" {
+		fillUpTable[models.Tone](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Tree" {
 		fillUpTable[models.Tree](nodeImplGongstruct.probe)

@@ -23,6 +23,14 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		assplitareaInstance := any(concreteInstance).(*models.AsSplitArea)
 		ret2 := backRepo.BackRepoAsSplitArea.GetAsSplitAreaDBFromAsSplitAreaPtr(assplitareaInstance)
 		ret = any(ret2).(*T2)
+	case *models.Button:
+		buttonInstance := any(concreteInstance).(*models.Button)
+		ret2 := backRepo.BackRepoButton.GetButtonDBFromButtonPtr(buttonInstance)
+		ret = any(ret2).(*T2)
+	case *models.Cursor:
+		cursorInstance := any(concreteInstance).(*models.Cursor)
+		ret2 := backRepo.BackRepoCursor.GetCursorDBFromCursorPtr(cursorInstance)
+		ret = any(ret2).(*T2)
 	case *models.Doc:
 		docInstance := any(concreteInstance).(*models.Doc)
 		ret2 := backRepo.BackRepoDoc.GetDocDBFromDocPtr(docInstance)
@@ -30,6 +38,10 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 	case *models.Form:
 		formInstance := any(concreteInstance).(*models.Form)
 		ret2 := backRepo.BackRepoForm.GetFormDBFromFormPtr(formInstance)
+		ret = any(ret2).(*T2)
+	case *models.Slider:
+		sliderInstance := any(concreteInstance).(*models.Slider)
+		ret2 := backRepo.BackRepoSlider.GetSliderDBFromSliderPtr(sliderInstance)
 		ret = any(ret2).(*T2)
 	case *models.Split:
 		splitInstance := any(concreteInstance).(*models.Split)
@@ -42,6 +54,10 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 	case *models.Table:
 		tableInstance := any(concreteInstance).(*models.Table)
 		ret2 := backRepo.BackRepoTable.GetTableDBFromTablePtr(tableInstance)
+		ret = any(ret2).(*T2)
+	case *models.Tone:
+		toneInstance := any(concreteInstance).(*models.Tone)
+		ret2 := backRepo.BackRepoTone.GetToneDBFromTonePtr(toneInstance)
 		ret = any(ret2).(*T2)
 	case *models.Tree:
 		treeInstance := any(concreteInstance).(*models.Tree)
@@ -74,6 +90,16 @@ func GetID[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
+	case *models.Button:
+		tmp := GetInstanceDBFromInstance[models.Button, ButtonDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Cursor:
+		tmp := GetInstanceDBFromInstance[models.Cursor, CursorDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
 	case *models.Doc:
 		tmp := GetInstanceDBFromInstance[models.Doc, DocDB](
 			stage, backRepo, inst,
@@ -81,6 +107,11 @@ func GetID[T models.Gongstruct](
 		id = int(tmp.ID)
 	case *models.Form:
 		tmp := GetInstanceDBFromInstance[models.Form, FormDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Slider:
+		tmp := GetInstanceDBFromInstance[models.Slider, SliderDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -96,6 +127,11 @@ func GetID[T models.Gongstruct](
 		id = int(tmp.ID)
 	case *models.Table:
 		tmp := GetInstanceDBFromInstance[models.Table, TableDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Tone:
+		tmp := GetInstanceDBFromInstance[models.Tone, ToneDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -132,6 +168,16 @@ func GetIDPointer[T models.PointerToGongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
+	case *models.Button:
+		tmp := GetInstanceDBFromInstance[models.Button, ButtonDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Cursor:
+		tmp := GetInstanceDBFromInstance[models.Cursor, CursorDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
 	case *models.Doc:
 		tmp := GetInstanceDBFromInstance[models.Doc, DocDB](
 			stage, backRepo, inst,
@@ -139,6 +185,11 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.Form:
 		tmp := GetInstanceDBFromInstance[models.Form, FormDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Slider:
+		tmp := GetInstanceDBFromInstance[models.Slider, SliderDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -154,6 +205,11 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.Table:
 		tmp := GetInstanceDBFromInstance[models.Table, TableDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Tone:
+		tmp := GetInstanceDBFromInstance[models.Tone, ToneDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
