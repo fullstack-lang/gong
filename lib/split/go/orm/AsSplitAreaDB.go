@@ -70,6 +70,10 @@ type AsSplitAreaPointersEncoding struct {
 	// field Doc is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	DocID sql.NullInt64
+
+	// field Split is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	SplitID sql.NullInt64
 }
 
 // AsSplitAreaDB describes a assplitarea in the database
@@ -344,6 +348,18 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseTwoInstance(bac
 			assplitareaDB.DocID.Valid = true
 		}
 
+		// commit pointer value assplitarea.Split translates to updating the assplitarea.SplitID
+		assplitareaDB.SplitID.Valid = true // allow for a 0 value (nil association)
+		if assplitarea.Split != nil {
+			if SplitId, ok := backRepo.BackRepoSplit.Map_SplitPtr_SplitDBID[assplitarea.Split]; ok {
+				assplitareaDB.SplitID.Int64 = int64(SplitId)
+				assplitareaDB.SplitID.Valid = true
+			}
+		} else {
+			assplitareaDB.SplitID.Int64 = 0
+			assplitareaDB.SplitID.Valid = true
+		}
+
 		_, err := backRepoAsSplitArea.db.Save(assplitareaDB)
 		if err != nil {
 			log.Fatal(err)
@@ -568,6 +584,27 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			}
 		} else {
 			assplitarea.Doc = nil
+		}
+	}
+	
+	// Split field	
+	{
+		id := assplitareaDB.SplitID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoSplit.Map_SplitDBID_SplitPtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: assplitarea.Split, unknown pointer id", id)
+				assplitarea.Split = nil
+			} else {
+				// updates only if field has changed
+				if assplitarea.Split == nil || assplitarea.Split != tmp {
+					assplitarea.Split = tmp
+				}
+			}
+		} else {
+			assplitarea.Split = nil
 		}
 	}
 	
@@ -863,6 +900,12 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) RestorePhaseTwo() {
 		if assplitareaDB.DocID.Int64 != 0 {
 			assplitareaDB.DocID.Int64 = int64(BackRepoDocid_atBckpTime_newID[uint(assplitareaDB.DocID.Int64)])
 			assplitareaDB.DocID.Valid = true
+		}
+
+		// reindexing Split field
+		if assplitareaDB.SplitID.Int64 != 0 {
+			assplitareaDB.SplitID.Int64 = int64(BackRepoSplitid_atBckpTime_newID[uint(assplitareaDB.SplitID.Int64)])
+			assplitareaDB.SplitID.Valid = true
 		}
 
 		// update databse with new index encoding

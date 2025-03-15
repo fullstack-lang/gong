@@ -64,6 +64,9 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "Form" {
 		fillUpTable[models.Form](nodeImplGongstruct.probe)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Split" {
+		fillUpTable[models.Split](nodeImplGongstruct.probe)
+	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Svg" {
 		fillUpTable[models.Svg](nodeImplGongstruct.probe)
 	}

@@ -104,6 +104,16 @@ func fillUpTree(
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
+		case "Split":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.Split](probe.stageOfInterest)
+			for _split := range set {
+				nodeInstance := (&tree.Node{Name: _split.GetName()}).Stage(probe.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_split, "Split", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
 		case "Svg":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSet[models.Svg](probe.stageOfInterest)

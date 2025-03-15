@@ -31,6 +31,10 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		formInstance := any(concreteInstance).(*models.Form)
 		ret2 := backRepo.BackRepoForm.GetFormDBFromFormPtr(formInstance)
 		ret = any(ret2).(*T2)
+	case *models.Split:
+		splitInstance := any(concreteInstance).(*models.Split)
+		ret2 := backRepo.BackRepoSplit.GetSplitDBFromSplitPtr(splitInstance)
+		ret = any(ret2).(*T2)
 	case *models.Svg:
 		svgInstance := any(concreteInstance).(*models.Svg)
 		ret2 := backRepo.BackRepoSvg.GetSvgDBFromSvgPtr(svgInstance)
@@ -77,6 +81,11 @@ func GetID[T models.Gongstruct](
 		id = int(tmp.ID)
 	case *models.Form:
 		tmp := GetInstanceDBFromInstance[models.Form, FormDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Split:
+		tmp := GetInstanceDBFromInstance[models.Split, SplitDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -130,6 +139,11 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.Form:
 		tmp := GetInstanceDBFromInstance[models.Form, FormDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Split:
+		tmp := GetInstanceDBFromInstance[models.Split, SplitDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
