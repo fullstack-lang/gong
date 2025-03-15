@@ -51,6 +51,32 @@ func FillUpFormFromGongstructName(
 		assplitarea := new(models.AsSplitArea)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(assplitarea, formGroup, probe)
+	case "Button":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Button Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ButtonFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		button := new(models.Button)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(button, formGroup, probe)
+	case "Cursor":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Cursor Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__CursorFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		cursor := new(models.Cursor)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(cursor, formGroup, probe)
 	case "Doc":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -77,6 +103,19 @@ func FillUpFormFromGongstructName(
 		form := new(models.Form)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(form, formGroup, probe)
+	case "Slider":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Slider Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__SliderFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		slider := new(models.Slider)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(slider, formGroup, probe)
 	case "Split":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -116,6 +155,19 @@ func FillUpFormFromGongstructName(
 		table := new(models.Table)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(table, formGroup, probe)
+	case "Tone":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Tone Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ToneFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		tone := new(models.Tone)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(tone, formGroup, probe)
 	case "Tree":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

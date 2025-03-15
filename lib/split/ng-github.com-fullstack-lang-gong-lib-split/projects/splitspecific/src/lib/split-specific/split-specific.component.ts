@@ -13,6 +13,7 @@ import { TableSpecificComponent } from '../../../../../../../table/ng-github.com
 import { FormSpecificComponent } from '../../../../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/form-specific/form-specific.component'
 import { DocSpecificComponent } from '../../../../../../../doc/ng-github.com-fullstack-lang-gong-lib-doc/projects/docspecific/src/lib/doc-specific/doc-specific.component'
 import { SvgSpecificComponent } from '../../../../../../../svg/ng-github.com-fullstack-lang-gong-lib-svg/projects/svgspecific/src/lib/svg-specific/svg-specific.component'
+import { SliderSpecificComponent } from '../../../../../../../slider/ng-github.com-fullstack-lang-gong-lib-slider/projects/sliderspecific/src/lib/slider-specific/slider-specific.component'
 
 
 @Component({
@@ -29,6 +30,7 @@ import { SvgSpecificComponent } from '../../../../../../../svg/ng-github.com-ful
     FormSpecificComponent,
     SvgSpecificComponent,
     DocSpecificComponent,
+    SliderSpecificComponent,
   
   ],
   templateUrl: './split-specific.component.html',

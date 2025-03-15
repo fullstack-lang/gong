@@ -27,12 +27,16 @@ type AsSplitArea struct {
 
 	AsSplits []*AsSplit
 
-	Tree  *Tree
-	Table *Table
-	Form  *Form
-	Svg   *Svg
-	Doc   *Doc
-	Split *Split
+	Tree   *Tree
+	Table  *Table
+	Form   *Form
+	Svg    *Svg
+	Doc    *Doc
+	Split  *Split
+	Slider *Slider
+	Tone   *Tone
+	Button *Button
+	Cursor *Cursor
 }
 
 type View struct {
@@ -75,6 +79,30 @@ type Doc struct {
 }
 
 type Split struct {
+	Name string // name of the stack
+
+	StackName string
+}
+
+type Slider struct {
+	Name string // name of the stack
+
+	StackName string
+}
+
+type Tone struct {
+	Name string // name of the stack
+
+	StackName string
+}
+
+type Button struct {
+	Name string // name of the stack
+
+	StackName string
+}
+
+type Cursor struct {
 	Name string // name of the stack
 
 	StackName string

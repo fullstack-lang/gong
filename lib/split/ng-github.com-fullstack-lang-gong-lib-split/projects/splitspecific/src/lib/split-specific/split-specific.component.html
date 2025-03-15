@@ -11,9 +11,12 @@
 @for (view_ of frontRepo?.array_Views; track view_) {
 @if (view_.Name == view) {
 <as-split unit="pixel" direction="vertical">
+
+    @if (frontRepo && frontRepo.array_Views && frontRepo.array_Views.length > 1) {
     <as-split-area [size]=40>
         <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
     </as-split-area>
+    }
     <as-split-area [size]="$any('*')">
         <as-split direction="vertical">
             @for (asSplitArea of view_.RootAsSplitAreas; track asSplitArea) {
@@ -30,19 +33,16 @@
 <!-- Recursive template with typed parameter -->
 <ng-template #componentRenderer let-area="$implicit" let-areaType="split.AsSplitArea">
     @if (area.ShowNameInHeader) {
-        <p>{{area.Name}}</p>
+    <p>{{area.Name}}</p>
     }
     @if (area.Tree) {
-    <lib-tree-specific [GONG__StackPath]="area.Tree.StackName"
-        [name]="area.Tree.TreeName"></lib-tree-specific>
+    <lib-tree-specific [GONG__StackPath]="area.Tree.StackName" [name]="area.Tree.TreeName"></lib-tree-specific>
     }
     @if (area.Table) {
-    <lib-table-specific [DataStack]="area.Table.StackName"
-        [TableName]="area.Table.TableName"></lib-table-specific>
+    <lib-table-specific [DataStack]="area.Table.StackName" [TableName]="area.Table.TableName"></lib-table-specific>
     }
     @if (area.Form) {
-    <lib-form-specific [DataStack]="area.Form.StackName"
-        [FormName]="area.Form.FormName"></lib-form-specific>
+    <lib-form-specific [DataStack]="area.Form.StackName" [FormName]="area.Form.FormName"></lib-form-specific>
     }
     @if (area.Svg) {
     <lib-svg-specific [GONG__StackPath]="area.Svg.StackName"></lib-svg-specific>
@@ -51,15 +51,19 @@
     <lib-doc-specific [GONG__StackPath]="area.Doc.StackName"></lib-doc-specific>
     }
     @if (area.Split) {
-        <lib-split-specific [GONG__StackPath]="area.Split.StackName"></lib-split-specific>
+    <lib-split-specific [GONG__StackPath]="area.Split.StackName"></lib-split-specific>
+    }
+    @if (area.Slider) {
+        <p>{{area.Slider.StackName}}</p>
+        <lib-slider-specific [GONG__StackPath]="area.Slider.StackName"></lib-slider-specific>
     }
     @for (asSplit of area.AsSplits; track asSplit) {
-        <as-split [direction]="asSplit.Direction">
-            @for (asSplitArea of asSplit.AsSplitAreas; track asSplitArea) {
-            <as-split-area [size]="asSplitArea.IsAny ? $any('*') : asSplitArea.Size">
-                <ng-container *ngTemplateOutlet="componentRenderer; context: {$implicit: asSplitArea}"></ng-container>
-            </as-split-area>
-            }
-        </as-split>
+    <as-split [direction]="asSplit.Direction">
+        @for (asSplitArea of asSplit.AsSplitAreas; track asSplitArea) {
+        <as-split-area [size]="asSplitArea.IsAny ? $any('*') : asSplitArea.Size">
+            <ng-container *ngTemplateOutlet="componentRenderer; context: {$implicit: asSplitArea}"></ng-container>
+        </as-split-area>
+        }
+    </as-split>
     }
 </ng-template>

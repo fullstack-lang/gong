@@ -43,6 +43,30 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Button:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "Button Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ButtonFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Cursor:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "Cursor Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__CursorFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Doc:
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,
@@ -61,6 +85,18 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 			Label: "Form Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Slider:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "Slider Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__SliderFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
@@ -97,6 +133,18 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 			Label: "Table Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__TableFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Tone:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "Tone Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ToneFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

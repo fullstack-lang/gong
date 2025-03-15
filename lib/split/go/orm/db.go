@@ -28,6 +28,14 @@ type DBLite struct {
 
 	nextIDAsSplitAreaDB uint
 
+	buttonDBs map[uint]*ButtonDB
+
+	nextIDButtonDB uint
+
+	cursorDBs map[uint]*CursorDB
+
+	nextIDCursorDB uint
+
 	docDBs map[uint]*DocDB
 
 	nextIDDocDB uint
@@ -35,6 +43,10 @@ type DBLite struct {
 	formDBs map[uint]*FormDB
 
 	nextIDFormDB uint
+
+	sliderDBs map[uint]*SliderDB
+
+	nextIDSliderDB uint
 
 	splitDBs map[uint]*SplitDB
 
@@ -47,6 +59,10 @@ type DBLite struct {
 	tableDBs map[uint]*TableDB
 
 	nextIDTableDB uint
+
+	toneDBs map[uint]*ToneDB
+
+	nextIDToneDB uint
 
 	treeDBs map[uint]*TreeDB
 
@@ -66,15 +82,23 @@ func NewDBLite() *DBLite {
 
 		assplitareaDBs: make(map[uint]*AsSplitAreaDB),
 
+		buttonDBs: make(map[uint]*ButtonDB),
+
+		cursorDBs: make(map[uint]*CursorDB),
+
 		docDBs: make(map[uint]*DocDB),
 
 		formDBs: make(map[uint]*FormDB),
+
+		sliderDBs: make(map[uint]*SliderDB),
 
 		splitDBs: make(map[uint]*SplitDB),
 
 		svgDBs: make(map[uint]*SvgDB),
 
 		tableDBs: make(map[uint]*TableDB),
+
+		toneDBs: make(map[uint]*ToneDB),
 
 		treeDBs: make(map[uint]*TreeDB),
 
@@ -101,6 +125,14 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDAsSplitAreaDB++
 		v.ID = db.nextIDAsSplitAreaDB
 		db.assplitareaDBs[v.ID] = v
+	case *ButtonDB:
+		db.nextIDButtonDB++
+		v.ID = db.nextIDButtonDB
+		db.buttonDBs[v.ID] = v
+	case *CursorDB:
+		db.nextIDCursorDB++
+		v.ID = db.nextIDCursorDB
+		db.cursorDBs[v.ID] = v
 	case *DocDB:
 		db.nextIDDocDB++
 		v.ID = db.nextIDDocDB
@@ -109,6 +141,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDFormDB++
 		v.ID = db.nextIDFormDB
 		db.formDBs[v.ID] = v
+	case *SliderDB:
+		db.nextIDSliderDB++
+		v.ID = db.nextIDSliderDB
+		db.sliderDBs[v.ID] = v
 	case *SplitDB:
 		db.nextIDSplitDB++
 		v.ID = db.nextIDSplitDB
@@ -121,6 +157,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDTableDB++
 		v.ID = db.nextIDTableDB
 		db.tableDBs[v.ID] = v
+	case *ToneDB:
+		db.nextIDToneDB++
+		v.ID = db.nextIDToneDB
+		db.toneDBs[v.ID] = v
 	case *TreeDB:
 		db.nextIDTreeDB++
 		v.ID = db.nextIDTreeDB
@@ -161,16 +201,24 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.assplitDBs, v.ID)
 	case *AsSplitAreaDB:
 		delete(db.assplitareaDBs, v.ID)
+	case *ButtonDB:
+		delete(db.buttonDBs, v.ID)
+	case *CursorDB:
+		delete(db.cursorDBs, v.ID)
 	case *DocDB:
 		delete(db.docDBs, v.ID)
 	case *FormDB:
 		delete(db.formDBs, v.ID)
+	case *SliderDB:
+		delete(db.sliderDBs, v.ID)
 	case *SplitDB:
 		delete(db.splitDBs, v.ID)
 	case *SvgDB:
 		delete(db.svgDBs, v.ID)
 	case *TableDB:
 		delete(db.tableDBs, v.ID)
+	case *ToneDB:
+		delete(db.toneDBs, v.ID)
 	case *TreeDB:
 		delete(db.treeDBs, v.ID)
 	case *ViewDB:
@@ -199,11 +247,20 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 	case *AsSplitAreaDB:
 		db.assplitareaDBs[v.ID] = v
 		return db, nil
+	case *ButtonDB:
+		db.buttonDBs[v.ID] = v
+		return db, nil
+	case *CursorDB:
+		db.cursorDBs[v.ID] = v
+		return db, nil
 	case *DocDB:
 		db.docDBs[v.ID] = v
 		return db, nil
 	case *FormDB:
 		db.formDBs[v.ID] = v
+		return db, nil
+	case *SliderDB:
+		db.sliderDBs[v.ID] = v
 		return db, nil
 	case *SplitDB:
 		db.splitDBs[v.ID] = v
@@ -213,6 +270,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *TableDB:
 		db.tableDBs[v.ID] = v
+		return db, nil
+	case *ToneDB:
+		db.toneDBs[v.ID] = v
 		return db, nil
 	case *TreeDB:
 		db.treeDBs[v.ID] = v
@@ -248,6 +308,18 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db AsSplitArea github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
+	case *ButtonDB:
+		if existing, ok := db.buttonDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Button github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
+	case *CursorDB:
+		if existing, ok := db.cursorDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Cursor github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
 	case *DocDB:
 		if existing, ok := db.docDBs[v.ID]; ok {
 			*existing = *v
@@ -259,6 +331,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Form github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
+	case *SliderDB:
+		if existing, ok := db.sliderDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Slider github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
 	case *SplitDB:
 		if existing, ok := db.splitDBs[v.ID]; ok {
@@ -277,6 +355,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Table github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
+	case *ToneDB:
+		if existing, ok := db.toneDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Tone github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
 	case *TreeDB:
 		if existing, ok := db.treeDBs[v.ID]; ok {
@@ -316,6 +400,18 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
+	case *[]ButtonDB:
+		*ptr = make([]ButtonDB, 0, len(db.buttonDBs))
+		for _, v := range db.buttonDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]CursorDB:
+		*ptr = make([]CursorDB, 0, len(db.cursorDBs))
+		for _, v := range db.cursorDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]DocDB:
 		*ptr = make([]DocDB, 0, len(db.docDBs))
 		for _, v := range db.docDBs {
@@ -325,6 +421,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]FormDB:
 		*ptr = make([]FormDB, 0, len(db.formDBs))
 		for _, v := range db.formDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]SliderDB:
+		*ptr = make([]SliderDB, 0, len(db.sliderDBs))
+		for _, v := range db.sliderDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -343,6 +445,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]TableDB:
 		*ptr = make([]TableDB, 0, len(db.tableDBs))
 		for _, v := range db.tableDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]ToneDB:
+		*ptr = make([]ToneDB, 0, len(db.toneDBs))
+		for _, v := range db.toneDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -411,6 +519,26 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		assplitareaDB, _ := instanceDB.(*AsSplitAreaDB)
 		*assplitareaDB = *tmp
 		
+	case *ButtonDB:
+		tmp, ok := db.buttonDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Button Unkown entry %d", i))
+		}
+
+		buttonDB, _ := instanceDB.(*ButtonDB)
+		*buttonDB = *tmp
+		
+	case *CursorDB:
+		tmp, ok := db.cursorDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Cursor Unkown entry %d", i))
+		}
+
+		cursorDB, _ := instanceDB.(*CursorDB)
+		*cursorDB = *tmp
+		
 	case *DocDB:
 		tmp, ok := db.docDBs[uint(i)]
 
@@ -430,6 +558,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		formDB, _ := instanceDB.(*FormDB)
 		*formDB = *tmp
+		
+	case *SliderDB:
+		tmp, ok := db.sliderDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Slider Unkown entry %d", i))
+		}
+
+		sliderDB, _ := instanceDB.(*SliderDB)
+		*sliderDB = *tmp
 		
 	case *SplitDB:
 		tmp, ok := db.splitDBs[uint(i)]
@@ -460,6 +598,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		tableDB, _ := instanceDB.(*TableDB)
 		*tableDB = *tmp
+		
+	case *ToneDB:
+		tmp, ok := db.toneDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Tone Unkown entry %d", i))
+		}
+
+		toneDB, _ := instanceDB.(*ToneDB)
+		*toneDB = *tmp
 		
 	case *TreeDB:
 		tmp, ok := db.treeDBs[uint(i)]
