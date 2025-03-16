@@ -4,7 +4,6 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
         {
             "name": "gongc test -skipGoModCommands -skipNpmInstall  with rm main.go",
             "type": "go",
@@ -167,8 +166,6 @@
                 "-skipNpmWorkspaces"
             ]
         },
-        
-
         {
             "name": "go run button",
             "type": "go",
@@ -186,8 +183,7 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/doc/go/cmd/doc",
-            "args": [
-            ],
+            "args": [],
         },
         {
             "name": "go run gantt",
@@ -210,6 +206,19 @@
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=data/stage"
             ],
+        },
+        {
+            "name": "go run split issue564",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/split/go/cmd/split",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage_out",
+                "-issue564"
+            ],
+            "buildFlags": "-race"
         },
         {
             "name": "go run slider",
@@ -261,8 +270,7 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/table/go/cmd/table",
-            "args": [
-            ],
+            "args": [],
         },
         {
             "name": "go run tone",
