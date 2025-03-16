@@ -114,10 +114,12 @@ func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
 	}
 
 	freqencyFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Freqency](
-		freqencyFormCallback.probe,
-	)
-	freqencyFormCallback.probe.tableStage.Commit()
+	// the following code is producing a amp concurrent read/write
+	// so it is commented for the moment
+	// fillUpTable[models.Freqency](
+	// 	freqencyFormCallback.probe,
+	// )
+	// freqencyFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if freqencyFormCallback.CreationMode || freqencyFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -199,10 +201,12 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 	}
 
 	noteFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Note](
-		noteFormCallback.probe,
-	)
-	noteFormCallback.probe.tableStage.Commit()
+	// the following code is producing a amp concurrent read/write
+	// so it is commented for the moment
+	// fillUpTable[models.Note](
+	// 	noteFormCallback.probe,
+	// )
+	// noteFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if noteFormCallback.CreationMode || noteFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -278,10 +282,12 @@ func (playerFormCallback *PlayerFormCallback) OnSave() {
 	}
 
 	playerFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Player](
-		playerFormCallback.probe,
-	)
-	playerFormCallback.probe.tableStage.Commit()
+	// the following code is producing a amp concurrent read/write
+	// so it is commented for the moment
+	// fillUpTable[models.Player](
+	// 	playerFormCallback.probe,
+	// )
+	// playerFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if playerFormCallback.CreationMode || playerFormCallback.formGroup.HasSuppressButtonBeenPressed {

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,6 +21,9 @@ import { takeUntil, catchError } from 'rxjs/operators';
   styleUrl: './tone-specific.component.css'
 })
 export class ToneSpecificComponent {
+
+  @Input() GONG__StackPath: string = ""
+
   private synth: Tone.PolySynth | undefined;
   private sampler: Tone.Sampler | undefined;
   private currentLoop: Tone.Loop | undefined;
@@ -59,7 +62,7 @@ export class ToneSpecificComponent {
   }
 
   private connectToWebSocket(): void {
-    this.frontRepoService.connectToWebSocket(this.StacksNames.Tone)
+    this.frontRepoService.connectToWebSocket(this.GONG__StackPath)
       .pipe(
         takeUntil(this.destroy$),
         catchError(error => {

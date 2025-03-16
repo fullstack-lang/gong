@@ -61,6 +61,10 @@
         <p>{{area.Button.StackName}}</p>
         <lib-button-specific [GONG__StackPath]="area.Button.StackName"></lib-button-specific>
     }
+    @if (area.Tone) {
+        <p>{{area.Tone.StackName}}</p>
+        <lib-tone-specific [GONG__StackPath]="area.Tone.StackName"></lib-tone-specific>
+    }
     @for (asSplit of area.AsSplits; track asSplit) {
     <as-split [direction]="asSplit.Direction">
         @for (asSplitArea of asSplit.AsSplitAreas; track asSplitArea) {

@@ -40,6 +40,8 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000011_slider_2_probe := (&models.AsSplitArea{}).Stage(stage)
 	__AsSplitArea__000012_button_area := (&models.AsSplitArea{}).Stage(stage)
 	__AsSplitArea__000013_button_probe_area := (&models.AsSplitArea{}).Stage(stage)
+	__AsSplitArea__000014_tone_area := (&models.AsSplitArea{}).Stage(stage)
+	__AsSplitArea__000015_tone_probe_area := (&models.AsSplitArea{}).Stage(stage)
 
 	__Button__000000_button := (&models.Button{}).Stage(stage)
 
@@ -54,10 +56,13 @@ func _(stage *models.StageStruct) {
 	__Split__000001_slider_1_probe := (&models.Split{}).Stage(stage)
 	__Split__000002_slider_2_probe := (&models.Split{}).Stage(stage)
 	__Split__000003_button_probe := (&models.Split{}).Stage(stage)
+	__Split__000004_tone_probe := (&models.Split{}).Stage(stage)
 
 	__Svg__000000_svg_component := (&models.Svg{}).Stage(stage)
 
 	__Table__000000_Table_within_panel := (&models.Table{}).Stage(stage)
+
+	__Tone__000000_tone := (&models.Tone{}).Stage(stage)
 
 	__Tree__000000_Tree := (&models.Tree{}).Stage(stage)
 
@@ -69,6 +74,8 @@ func _(stage *models.StageStruct) {
 	__View__000005_view_of_slider_2_probe := (&models.View{}).Stage(stage)
 	__View__000006_view_of_button := (&models.View{}).Stage(stage)
 	__View__000007_view_of_button_probe := (&models.View{}).Stage(stage)
+	__View__000008_view_of_tone := (&models.View{}).Stage(stage)
+	__View__000009_view_of_tone_probe := (&models.View{}).Stage(stage)
 
 	// Setup of values
 
@@ -145,6 +152,16 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000013_button_probe_area.Size = 100.000000
 	__AsSplitArea__000013_button_probe_area.IsAny = false
 
+	__AsSplitArea__000014_tone_area.Name = `tone area`
+	__AsSplitArea__000014_tone_area.ShowNameInHeader = true
+	__AsSplitArea__000014_tone_area.Size = 100.000000
+	__AsSplitArea__000014_tone_area.IsAny = false
+
+	__AsSplitArea__000015_tone_probe_area.Name = `tone probe area`
+	__AsSplitArea__000015_tone_probe_area.ShowNameInHeader = true
+	__AsSplitArea__000015_tone_probe_area.Size = 100.000000
+	__AsSplitArea__000015_tone_probe_area.IsAny = false
+
 	__Button__000000_button.Name = `button`
 	__Button__000000_button.StackName = `button`
 
@@ -173,12 +190,18 @@ func _(stage *models.StageStruct) {
 	__Split__000003_button_probe.Name = `button probe`
 	__Split__000003_button_probe.StackName = `button-probe`
 
+	__Split__000004_tone_probe.Name = `tone probe`
+	__Split__000004_tone_probe.StackName = `tone-probe`
+
 	__Svg__000000_svg_component.Name = `svg component`
 	__Svg__000000_svg_component.StackName = `github.com/fullstack-lang/gong/lib/split/go/models`
 
 	__Table__000000_Table_within_panel.Name = `Table within panel`
 	__Table__000000_Table_within_panel.StackName = `split-table`
 	__Table__000000_Table_within_panel.TableName = `Table`
+
+	__Tone__000000_tone.Name = `tone`
+	__Tone__000000_tone.StackName = `tone`
 
 	__Tree__000000_Tree.Name = `Tree`
 	__Tree__000000_Tree.StackName = `split-sidebar`
@@ -200,6 +223,10 @@ func _(stage *models.StageStruct) {
 
 	__View__000007_view_of_button_probe.Name = `view of button probe`
 
+	__View__000008_view_of_tone.Name = `view of tone`
+
+	__View__000009_view_of_tone_probe.Name = `view of tone probe`
+
 	// Setup of pointers
 	// setup of AsSplit instances pointers
 	__AsSplit__000000_planel_root.AsSplitAreas = append(__AsSplit__000000_planel_root.AsSplitAreas, __AsSplitArea__000002_sidebar_tree)
@@ -219,6 +246,8 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000011_slider_2_probe.Split = __Split__000002_slider_2_probe
 	__AsSplitArea__000012_button_area.Button = __Button__000000_button
 	__AsSplitArea__000013_button_probe_area.Split = __Split__000003_button_probe
+	__AsSplitArea__000014_tone_area.Tone = __Tone__000000_tone
+	__AsSplitArea__000015_tone_probe_area.Split = __Split__000004_tone_probe
 	// setup of Button instances pointers
 	// setup of Doc instances pointers
 	// setup of Form instances pointers
@@ -226,6 +255,7 @@ func _(stage *models.StageStruct) {
 	// setup of Split instances pointers
 	// setup of Svg instances pointers
 	// setup of Table instances pointers
+	// setup of Tone instances pointers
 	// setup of Tree instances pointers
 	// setup of View instances pointers
 	__View__000000_doc_reconstructed.RootAsSplitAreas = append(__View__000000_doc_reconstructed.RootAsSplitAreas, __AsSplitArea__000000_root_for_tree_table_form)
@@ -237,4 +267,6 @@ func _(stage *models.StageStruct) {
 	__View__000005_view_of_slider_2_probe.RootAsSplitAreas = append(__View__000005_view_of_slider_2_probe.RootAsSplitAreas, __AsSplitArea__000011_slider_2_probe)
 	__View__000006_view_of_button.RootAsSplitAreas = append(__View__000006_view_of_button.RootAsSplitAreas, __AsSplitArea__000012_button_area)
 	__View__000007_view_of_button_probe.RootAsSplitAreas = append(__View__000007_view_of_button_probe.RootAsSplitAreas, __AsSplitArea__000013_button_probe_area)
+	__View__000008_view_of_tone.RootAsSplitAreas = append(__View__000008_view_of_tone.RootAsSplitAreas, __AsSplitArea__000014_tone_area)
+	__View__000009_view_of_tone_probe.RootAsSplitAreas = append(__View__000009_view_of_tone_probe.RootAsSplitAreas, __AsSplitArea__000015_tone_probe_area)
 }
