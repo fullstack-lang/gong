@@ -57,6 +57,10 @@
         <p>{{area.Slider.StackName}}</p>
         <lib-slider-specific [GONG__StackPath]="area.Slider.StackName"></lib-slider-specific>
     }
+    @if (area.Button) {
+        <p>{{area.Button.StackName}}</p>
+        <lib-button-specific [GONG__StackPath]="area.Button.StackName"></lib-button-specific>
+    }
     @for (asSplit of area.AsSplits; track asSplit) {
     <as-split [direction]="asSplit.Direction">
         @for (asSplitArea of asSplit.AsSplitAreas; track asSplitArea) {
