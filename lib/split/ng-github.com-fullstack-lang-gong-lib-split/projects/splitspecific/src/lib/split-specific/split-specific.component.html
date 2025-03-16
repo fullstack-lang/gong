@@ -54,15 +54,12 @@
     <lib-split-specific [GONG__StackPath]="area.Split.StackName"></lib-split-specific>
     }
     @if (area.Slider) {
-        <p>{{area.Slider.StackName}}</p>
         <lib-slider-specific [GONG__StackPath]="area.Slider.StackName"></lib-slider-specific>
     }
     @if (area.Button) {
-        <p>{{area.Button.StackName}}</p>
         <lib-button-specific [GONG__StackPath]="area.Button.StackName"></lib-button-specific>
     }
     @if (area.Tone) {
-        <p>{{area.Tone.StackName}}</p>
         <lib-tone-specific [GONG__StackPath]="area.Tone.StackName"></lib-tone-specific>
     }
     @for (asSplit of area.AsSplits; track asSplit) {
