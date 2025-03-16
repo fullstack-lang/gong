@@ -35,15 +35,16 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000006_split_probe := (&models.AsSplitArea{}).Stage(stage)
 	__AsSplitArea__000007_Slider_Area := (&models.AsSplitArea{}).Stage(stage)
 	__AsSplitArea__000008_doc_of_slider := (&models.AsSplitArea{}).Stage(stage)
+	__AsSplitArea__000009_slider_1_probe := (&models.AsSplitArea{}).Stage(stage)
 
 	__Doc__000000_doc_in_panel := (&models.Doc{}).Stage(stage)
 
 	__Form__000000_Form_for_Panel_Form := (&models.Form{}).Stage(stage)
 
-	__Slider__000000_Slider := (&models.Slider{}).Stage(stage)
+	__Slider__000000_slider_1 := (&models.Slider{}).Stage(stage)
 
 	__Split__000000_split_probe := (&models.Split{}).Stage(stage)
-	__Split__000001_slider_probe := (&models.Split{}).Stage(stage)
+	__Split__000001_slider_1_probe := (&models.Split{}).Stage(stage)
 
 	__Svg__000000_svg_component := (&models.Svg{}).Stage(stage)
 
@@ -52,9 +53,9 @@ func _(stage *models.StageStruct) {
 	__Tree__000000_Tree := (&models.Tree{}).Stage(stage)
 
 	__View__000000_doc_reconstructed := (&models.View{}).Stage(stage)
-	__View__000001_slider := (&models.View{}).Stage(stage)
-	__View__000002_split_probe := (&models.View{}).Stage(stage)
-	__View__000003_slider_probe := (&models.View{}).Stage(stage)
+	__View__000001_view_of_split_probe := (&models.View{}).Stage(stage)
+	__View__000002_view_of_slider_1 := (&models.View{}).Stage(stage)
+	__View__000003_view_of_slider_1_probe := (&models.View{}).Stage(stage)
 
 	// Setup of values
 
@@ -63,12 +64,12 @@ func _(stage *models.StageStruct) {
 
 	__AsSplitArea__000000_root_for_tree_table_form.Name = `root for tree/table/form`
 	__AsSplitArea__000000_root_for_tree_table_form.ShowNameInHeader = false
-	__AsSplitArea__000000_root_for_tree_table_form.Size = 40.000000
+	__AsSplitArea__000000_root_for_tree_table_form.Size = 80.000000
 	__AsSplitArea__000000_root_for_tree_table_form.IsAny = false
 
 	__AsSplitArea__000001_doc_component.Name = `doc component`
 	__AsSplitArea__000001_doc_component.ShowNameInHeader = false
-	__AsSplitArea__000001_doc_component.Size = 30.000000
+	__AsSplitArea__000001_doc_component.Size = 20.000000
 	__AsSplitArea__000001_doc_component.IsAny = false
 
 	__AsSplitArea__000002_sidebar_tree.Name = `sidebar tree`
@@ -106,6 +107,11 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000008_doc_of_slider.Size = 100.000000
 	__AsSplitArea__000008_doc_of_slider.IsAny = false
 
+	__AsSplitArea__000009_slider_1_probe.Name = `slider 1 probe`
+	__AsSplitArea__000009_slider_1_probe.ShowNameInHeader = true
+	__AsSplitArea__000009_slider_1_probe.Size = 0.000000
+	__AsSplitArea__000009_slider_1_probe.IsAny = false
+
 	__Doc__000000_doc_in_panel.Name = `doc in panel`
 	__Doc__000000_doc_in_panel.StackName = `github.com/fullstack-lang/gong/lib/split/go/models`
 
@@ -113,14 +119,14 @@ func _(stage *models.StageStruct) {
 	__Form__000000_Form_for_Panel_Form.StackName = `split-form`
 	__Form__000000_Form_for_Panel_Form.FormName = `Form`
 
-	__Slider__000000_Slider.Name = `Slider`
-	__Slider__000000_Slider.StackName = `slider`
+	__Slider__000000_slider_1.Name = `slider 1`
+	__Slider__000000_slider_1.StackName = `slider 1`
 
 	__Split__000000_split_probe.Name = `split-probe`
 	__Split__000000_split_probe.StackName = `split-probe`
 
-	__Split__000001_slider_probe.Name = `slider-probe`
-	__Split__000001_slider_probe.StackName = `slider-probe`
+	__Split__000001_slider_1_probe.Name = `slider 1-probe`
+	__Split__000001_slider_1_probe.StackName = `slider 1-probe`
 
 	__Svg__000000_svg_component.Name = `svg component`
 	__Svg__000000_svg_component.StackName = `github.com/fullstack-lang/gong/lib/split/go/models`
@@ -135,11 +141,11 @@ func _(stage *models.StageStruct) {
 
 	__View__000000_doc_reconstructed.Name = `doc reconstructed`
 
-	__View__000001_slider.Name = `slider`
+	__View__000001_view_of_split_probe.Name = `view of split-probe`
 
-	__View__000002_split_probe.Name = `split-probe`
+	__View__000002_view_of_slider_1.Name = `view of slider 1`
 
-	__View__000003_slider_probe.Name = `slider-probe`
+	__View__000003_view_of_slider_1_probe.Name = `view of slider 1-probe`
 
 	// Setup of pointers
 	// setup of AsSplit instances pointers
@@ -154,7 +160,8 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000003_table.Table = __Table__000000_Table_within_panel
 	__AsSplitArea__000004_form.Form = __Form__000000_Form_for_Panel_Form
 	__AsSplitArea__000006_split_probe.Split = __Split__000000_split_probe
-	__AsSplitArea__000007_Slider_Area.Slider = __Slider__000000_Slider
+	__AsSplitArea__000007_Slider_Area.Slider = __Slider__000000_slider_1
+	__AsSplitArea__000009_slider_1_probe.Split = __Split__000001_slider_1_probe
 	// setup of Doc instances pointers
 	// setup of Form instances pointers
 	// setup of Slider instances pointers
@@ -165,7 +172,7 @@ func _(stage *models.StageStruct) {
 	// setup of View instances pointers
 	__View__000000_doc_reconstructed.RootAsSplitAreas = append(__View__000000_doc_reconstructed.RootAsSplitAreas, __AsSplitArea__000000_root_for_tree_table_form)
 	__View__000000_doc_reconstructed.RootAsSplitAreas = append(__View__000000_doc_reconstructed.RootAsSplitAreas, __AsSplitArea__000001_doc_component)
-	__View__000001_slider.RootAsSplitAreas = append(__View__000001_slider.RootAsSplitAreas, __AsSplitArea__000007_Slider_Area)
-	__View__000002_split_probe.RootAsSplitAreas = append(__View__000002_split_probe.RootAsSplitAreas, __AsSplitArea__000006_split_probe)
-	__View__000003_slider_probe.RootAsSplitAreas = append(__View__000003_slider_probe.RootAsSplitAreas, __AsSplitArea__000006_split_probe)
+	__View__000001_view_of_split_probe.RootAsSplitAreas = append(__View__000001_view_of_split_probe.RootAsSplitAreas, __AsSplitArea__000006_split_probe)
+	__View__000002_view_of_slider_1.RootAsSplitAreas = append(__View__000002_view_of_slider_1.RootAsSplitAreas, __AsSplitArea__000007_Slider_Area)
+	__View__000003_view_of_slider_1_probe.RootAsSplitAreas = append(__View__000003_view_of_slider_1_probe.RootAsSplitAreas, __AsSplitArea__000009_slider_1_probe)
 }

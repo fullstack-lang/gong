@@ -31,9 +31,6 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
-	log.Println("marshallOnCommit", *marshallOnCommit)
-	log.Println("unmarshallFromCode", *unmarshallFromCode)
-
 	// setup the static file server and get the controller
 	r := split_static.ServeStaticFiles(*logGINFlag)
 
@@ -41,23 +38,47 @@ func main() {
 	stack := split_stack.NewStack(r, "split", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
 
-	stackSlider := slider_stack.NewStack(r, "slider", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
-	sliderStage := stackSlider.Stage
+	{
+		slider1StackName := "slider 1"
+		stackSlider1 := slider_stack.NewStack(r, slider1StackName, "", "", "", *embeddedDiagrams, true)
+		sliderStage1 := stackSlider1.Stage
 
-	layout := new(slider_models.Layout).Stage(sliderStage)
-	group := new(slider_models.Group).Stage(sliderStage)
-	group.Percentage = 100
-	layout.Groups = append(layout.Groups, group)
+		layout := new(slider_models.Layout).Stage(sliderStage1)
+		group := new(slider_models.Group).Stage(sliderStage1)
+		group.Percentage = 100
+		layout.Groups = append(layout.Groups, group)
 
-	slider := new(slider_models.Slider).Stage(sliderStage)
-	slider.IsInt = true
-	slider.MinInt = 10
-	slider.MaxInt = 100
-	slider.StepInt = 5
-	slider.Name = "example"
-	group.Sliders = append(group.Sliders, slider)
+		slider := new(slider_models.Slider).Stage(sliderStage1)
+		slider.IsInt = true
+		slider.MinInt = 10
+		slider.MaxInt = 100
+		slider.StepInt = 5
+		slider.Name = "example"
+		group.Sliders = append(group.Sliders, slider)
 
-	sliderStage.Commit()
+		sliderStage1.Commit()
+	}
+
+	{
+		slider2StackName := "slider 2"
+		stackSlider2 := slider_stack.NewStack(r, slider2StackName, "", "", "", *embeddedDiagrams, true)
+		sliderStage2 := stackSlider2.Stage
+
+		layout := new(slider_models.Layout).Stage(sliderStage2)
+		group := new(slider_models.Group).Stage(sliderStage2)
+		group.Percentage = 100
+		layout.Groups = append(layout.Groups, group)
+
+		slider := new(slider_models.Slider).Stage(sliderStage2)
+		slider.IsInt = true
+		slider.MinInt = 10
+		slider.MaxInt = 100
+		slider.StepInt = 5
+		slider.Name = "example"
+		group.Sliders = append(group.Sliders, slider)
+
+		sliderStage2.Commit()
+	}
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
