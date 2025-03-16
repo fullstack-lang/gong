@@ -118,12 +118,10 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 	}
 
 	buttonFormCallback.probe.stageOfInterest.Commit()
-	// the following code is producing a amp concurrent read/write
-	// so it is commented for the moment
-	// fillUpTable[models.Button](
-	// 	buttonFormCallback.probe,
-	// )
-	// buttonFormCallback.probe.tableStage.Commit()
+	fillUpTable[models.Button](
+		buttonFormCallback.probe,
+	)
+	buttonFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if buttonFormCallback.CreationMode || buttonFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -241,12 +239,10 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 	}
 
 	groupFormCallback.probe.stageOfInterest.Commit()
-	// the following code is producing a amp concurrent read/write
-	// so it is commented for the moment
-	// fillUpTable[models.Group](
-	// 	groupFormCallback.probe,
-	// )
-	// groupFormCallback.probe.tableStage.Commit()
+	fillUpTable[models.Group](
+		groupFormCallback.probe,
+	)
+	groupFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if groupFormCallback.CreationMode || groupFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -320,12 +316,10 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 	}
 
 	layoutFormCallback.probe.stageOfInterest.Commit()
-	// the following code is producing a amp concurrent read/write
-	// so it is commented for the moment
-	// fillUpTable[models.Layout](
-	// 	layoutFormCallback.probe,
-	// )
-	// layoutFormCallback.probe.tableStage.Commit()
+	fillUpTable[models.Layout](
+		layoutFormCallback.probe,
+	)
+	layoutFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if layoutFormCallback.CreationMode || layoutFormCallback.formGroup.HasSuppressButtonBeenPressed {
