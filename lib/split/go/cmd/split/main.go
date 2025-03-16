@@ -13,6 +13,8 @@ import (
 
 	button_models "github.com/fullstack-lang/gong/lib/button/go/models"
 	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
+
+	tone_stack "github.com/fullstack-lang/gong/lib/tone/go/stack"
 )
 
 var (
@@ -100,6 +102,14 @@ func main() {
 		group.Buttons = append(group.Buttons, button)
 
 		buttonStage.Commit()
+	}
+
+	{
+		toneStackName := "tone"
+		stacktone := tone_stack.NewStack(r, toneStackName, "", "", "", *embeddedDiagrams, true)
+		toneStage := stacktone.Stage
+
+		toneStage.Commit()
 	}
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))

@@ -15,6 +15,7 @@ import { DocSpecificComponent } from '../../../../../../../doc/ng-github.com-ful
 import { SvgSpecificComponent } from '../../../../../../../svg/ng-github.com-fullstack-lang-gong-lib-svg/projects/svgspecific/src/lib/svg-specific/svg-specific.component'
 import { SliderSpecificComponent } from '../../../../../../../slider/ng-github.com-fullstack-lang-gong-lib-slider/projects/sliderspecific/src/lib/slider-specific/slider-specific.component'
 import { ButtonSpecificComponent } from '../../../../../../../button/ng-github.com-fullstack-lang-gong-lib-button/projects/buttonspecific/src/lib/button-specific/button-specific.component'
+import { ToneSpecificComponent } from '../../../../../../../tone/ng-github.com-fullstack-lang-gong-lib-tone/projects/tonespecific/src/lib/tone-specific/tone-specific.component'
 
 
 @Component({
@@ -33,6 +34,7 @@ import { ButtonSpecificComponent } from '../../../../../../../button/ng-github.c
     DocSpecificComponent,
     SliderSpecificComponent,
     ButtonSpecificComponent,
+    ToneSpecificComponent,
   
   ],
   templateUrl: './split-specific.component.html',
