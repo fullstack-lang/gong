@@ -120,10 +120,12 @@ func (checkboxFormCallback *CheckboxFormCallback) OnSave() {
 	}
 
 	checkboxFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Checkbox](
-		checkboxFormCallback.probe,
-	)
-	checkboxFormCallback.probe.tableStage.Commit()
+	// the following code is producing a amp concurrent read/write
+	// so it is commented for the moment
+	// fillUpTable[models.Checkbox](
+	// 	checkboxFormCallback.probe,
+	// )
+	// checkboxFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if checkboxFormCallback.CreationMode || checkboxFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -241,10 +243,12 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 	}
 
 	groupFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Group](
-		groupFormCallback.probe,
-	)
-	groupFormCallback.probe.tableStage.Commit()
+	// the following code is producing a amp concurrent read/write
+	// so it is commented for the moment
+	// fillUpTable[models.Group](
+	// 	groupFormCallback.probe,
+	// )
+	// groupFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if groupFormCallback.CreationMode || groupFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -318,10 +322,12 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 	}
 
 	layoutFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Layout](
-		layoutFormCallback.probe,
-	)
-	layoutFormCallback.probe.tableStage.Commit()
+	// the following code is producing a amp concurrent read/write
+	// so it is commented for the moment
+	// fillUpTable[models.Layout](
+	// 	layoutFormCallback.probe,
+	// )
+	// layoutFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if layoutFormCallback.CreationMode || layoutFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -457,10 +463,12 @@ func (sliderFormCallback *SliderFormCallback) OnSave() {
 	}
 
 	sliderFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Slider](
-		sliderFormCallback.probe,
-	)
-	sliderFormCallback.probe.tableStage.Commit()
+	// the following code is producing a amp concurrent read/write
+	// so it is commented for the moment
+	// fillUpTable[models.Slider](
+	// 	sliderFormCallback.probe,
+	// )
+	// sliderFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if sliderFormCallback.CreationMode || sliderFormCallback.formGroup.HasSuppressButtonBeenPressed {
