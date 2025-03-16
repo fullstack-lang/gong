@@ -105,17 +105,23 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 
 	// forbid read of back repo during commit
 	backRepo.rwMutex.Lock()
-	defer backRepo.rwMutex.Unlock()
 
 	// insertion point for per struct back repo phase one commit{{` + string(rune(BackRepoPerStructPhaseOneCommits)) + `}}
 
 	// insertion point for per struct back repo phase two commit{{` + string(rune(BackRepoPerStructPhaseTwoCommits)) + `}}
+
+	// important to release the mutex before calls to IncrementCommitFromBackNb
+	// because it will block otherwise
+	backRepo.rwMutex.Unlock()
 
 	backRepo.IncrementCommitFromBackNb()
 }
 
 // Checkout the database into the stage
 func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
+
+	backRepo.rwMutex.Lock()
+	defer backRepo.rwMutex.Unlock()
 	// insertion point for per struct back repo phase one commit{{` + string(rune(BackRepoPerStructPhaseOneCheckouts)) + `}}
 
 	// insertion point for per struct back repo phase two commit{{` + string(rune(BackRepoPerStructPhaseTwoCheckouts)) + `}}
