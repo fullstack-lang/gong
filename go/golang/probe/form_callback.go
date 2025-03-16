@@ -98,12 +98,10 @@ func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
 	}
 
 	{{structname}}FormCallback.probe.stageOfInterest.Commit()
-	// the following code is producing a amp concurrent read/write
-	// so it is commented for the moment
-	// fillUpTable[models.{{Structname}}](
-	// 	{{structname}}FormCallback.probe,
-	// )
-	// {{structname}}FormCallback.probe.tableStage.Commit()
+	fillUpTable[models.{{Structname}}](
+		{{structname}}FormCallback.probe,
+	)
+	{{structname}}FormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if {{structname}}FormCallback.CreationMode || {{structname}}FormCallback.formGroup.HasSuppressButtonBeenPressed {
