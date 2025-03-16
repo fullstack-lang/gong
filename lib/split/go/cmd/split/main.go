@@ -10,6 +10,9 @@ import (
 
 	slider_models "github.com/fullstack-lang/gong/lib/slider/go/models"
 	slider_stack "github.com/fullstack-lang/gong/lib/slider/go/stack"
+
+	button_models "github.com/fullstack-lang/gong/lib/button/go/models"
+	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
 )
 
 var (
@@ -78,6 +81,25 @@ func main() {
 		group.Sliders = append(group.Sliders, slider)
 
 		sliderStage2.Commit()
+	}
+
+	{
+		buttonStackName := "button"
+		stackbutton := button_stack.NewStack(r, buttonStackName, "", "", "", *embeddedDiagrams, true)
+		buttonStage := stackbutton.Stage
+
+		layout := new(button_models.Layout).Stage(buttonStage)
+		group := new(button_models.Group).Stage(buttonStage)
+		group.Percentage = 100
+		layout.Groups = append(layout.Groups, group)
+
+		button := new(button_models.Button).Stage(buttonStage)
+		button.Name = "example"
+		button.Icon = "draw"
+		button.Label = "Draw a Phyllotaxy Growth Curve"
+		group.Buttons = append(group.Buttons, button)
+
+		buttonStage.Commit()
 	}
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))

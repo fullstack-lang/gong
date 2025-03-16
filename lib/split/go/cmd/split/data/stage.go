@@ -38,6 +38,10 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000009_slider_1_probe := (&models.AsSplitArea{}).Stage(stage)
 	__AsSplitArea__000010_slider_2 := (&models.AsSplitArea{}).Stage(stage)
 	__AsSplitArea__000011_slider_2_probe := (&models.AsSplitArea{}).Stage(stage)
+	__AsSplitArea__000012_button_area := (&models.AsSplitArea{}).Stage(stage)
+	__AsSplitArea__000013_button_probe_area := (&models.AsSplitArea{}).Stage(stage)
+
+	__Button__000000_button := (&models.Button{}).Stage(stage)
 
 	__Doc__000000_doc_in_panel := (&models.Doc{}).Stage(stage)
 
@@ -49,6 +53,7 @@ func _(stage *models.StageStruct) {
 	__Split__000000_split_probe := (&models.Split{}).Stage(stage)
 	__Split__000001_slider_1_probe := (&models.Split{}).Stage(stage)
 	__Split__000002_slider_2_probe := (&models.Split{}).Stage(stage)
+	__Split__000003_button_probe := (&models.Split{}).Stage(stage)
 
 	__Svg__000000_svg_component := (&models.Svg{}).Stage(stage)
 
@@ -62,6 +67,8 @@ func _(stage *models.StageStruct) {
 	__View__000003_view_of_slider_1_probe := (&models.View{}).Stage(stage)
 	__View__000004_view_of_slider_2 := (&models.View{}).Stage(stage)
 	__View__000005_view_of_slider_2_probe := (&models.View{}).Stage(stage)
+	__View__000006_view_of_button := (&models.View{}).Stage(stage)
+	__View__000007_view_of_button_probe := (&models.View{}).Stage(stage)
 
 	// Setup of values
 
@@ -128,6 +135,19 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000011_slider_2_probe.Size = 100.000000
 	__AsSplitArea__000011_slider_2_probe.IsAny = false
 
+	__AsSplitArea__000012_button_area.Name = `button area`
+	__AsSplitArea__000012_button_area.ShowNameInHeader = true
+	__AsSplitArea__000012_button_area.Size = 100.000000
+	__AsSplitArea__000012_button_area.IsAny = false
+
+	__AsSplitArea__000013_button_probe_area.Name = `button probe area`
+	__AsSplitArea__000013_button_probe_area.ShowNameInHeader = true
+	__AsSplitArea__000013_button_probe_area.Size = 100.000000
+	__AsSplitArea__000013_button_probe_area.IsAny = false
+
+	__Button__000000_button.Name = `button`
+	__Button__000000_button.StackName = `button`
+
 	__Doc__000000_doc_in_panel.Name = `doc in panel`
 	__Doc__000000_doc_in_panel.StackName = `github.com/fullstack-lang/gong/lib/split/go/models`
 
@@ -149,6 +169,9 @@ func _(stage *models.StageStruct) {
 
 	__Split__000002_slider_2_probe.Name = `slider 2 probe`
 	__Split__000002_slider_2_probe.StackName = `slider 2-probe`
+
+	__Split__000003_button_probe.Name = `button probe`
+	__Split__000003_button_probe.StackName = `button-probe`
 
 	__Svg__000000_svg_component.Name = `svg component`
 	__Svg__000000_svg_component.StackName = `github.com/fullstack-lang/gong/lib/split/go/models`
@@ -173,6 +196,10 @@ func _(stage *models.StageStruct) {
 
 	__View__000005_view_of_slider_2_probe.Name = `view of slider 2 probe`
 
+	__View__000006_view_of_button.Name = `view of button`
+
+	__View__000007_view_of_button_probe.Name = `view of button probe`
+
 	// Setup of pointers
 	// setup of AsSplit instances pointers
 	__AsSplit__000000_planel_root.AsSplitAreas = append(__AsSplit__000000_planel_root.AsSplitAreas, __AsSplitArea__000002_sidebar_tree)
@@ -190,6 +217,9 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000009_slider_1_probe.Split = __Split__000001_slider_1_probe
 	__AsSplitArea__000010_slider_2.Slider = __Slider__000001_slider_2
 	__AsSplitArea__000011_slider_2_probe.Split = __Split__000002_slider_2_probe
+	__AsSplitArea__000012_button_area.Button = __Button__000000_button
+	__AsSplitArea__000013_button_probe_area.Split = __Split__000003_button_probe
+	// setup of Button instances pointers
 	// setup of Doc instances pointers
 	// setup of Form instances pointers
 	// setup of Slider instances pointers
@@ -205,4 +235,6 @@ func _(stage *models.StageStruct) {
 	__View__000003_view_of_slider_1_probe.RootAsSplitAreas = append(__View__000003_view_of_slider_1_probe.RootAsSplitAreas, __AsSplitArea__000009_slider_1_probe)
 	__View__000004_view_of_slider_2.RootAsSplitAreas = append(__View__000004_view_of_slider_2.RootAsSplitAreas, __AsSplitArea__000010_slider_2)
 	__View__000005_view_of_slider_2_probe.RootAsSplitAreas = append(__View__000005_view_of_slider_2_probe.RootAsSplitAreas, __AsSplitArea__000011_slider_2_probe)
+	__View__000006_view_of_button.RootAsSplitAreas = append(__View__000006_view_of_button.RootAsSplitAreas, __AsSplitArea__000012_button_area)
+	__View__000007_view_of_button_probe.RootAsSplitAreas = append(__View__000007_view_of_button_probe.RootAsSplitAreas, __AsSplitArea__000013_button_probe_area)
 }
