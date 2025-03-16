@@ -99,6 +99,21 @@
             "group": "build"
         },
         {
+            "label": "04 - go run split issue564",
+            "type": "shell",
+            "options": {
+                "cwd": "./lib/split/go/cmd/split"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage_out"
+            ],
+            "group": "build"
+        },
+        {
             "label": "04 - go run tone",
             "type": "shell",
             "options": {

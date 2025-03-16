@@ -5,6 +5,7 @@ import (
 	"log"
 	"strconv"
 
+	m "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
 
@@ -24,6 +25,7 @@ var (
 	marshallOnCommit   = flag.String("marshallOnCommit", "", "on all commits, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
 
 	embeddedDiagrams = flag.Bool("embeddedDiagrams", false, "parse/analysis go/models and go/embeddedDiagrams")
+	issue564         = flag.Bool("issue564", false, "generating issue564")
 
 	port = flag.Int("port", 8080, "port server")
 )
@@ -110,6 +112,30 @@ func main() {
 		toneStage := stacktone.Stage
 
 		toneStage.Commit()
+	}
+
+	if false {
+		stack.Stage.Checkout()
+
+		// fetch the view tone probe view
+		key := "view of tone probe"
+		mapView := *m.GetGongstructInstancesMap[m.View](stack.Stage)
+
+		viewToneProbe, ok := mapView[key]
+		if !ok {
+			log.Fatalln("view not found")
+		}
+		// remove the tone probe area from the probe view and commit
+		asSplitArea := viewToneProbe.RootAsSplitAreas[0]
+		if asSplitArea == nil {
+			log.Fatalln("split area not found")
+		}
+		viewToneProbe.RootAsSplitAreas = viewToneProbe.RootAsSplitAreas[:]
+		stack.Stage.Commit()
+
+		// add the tone probe area from the probe view and commit
+		viewToneProbe.RootAsSplitAreas = append(viewToneProbe.RootAsSplitAreas, asSplitArea)
+		stack.Stage.Commit()
 	}
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
