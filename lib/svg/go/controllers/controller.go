@@ -10,7 +10,7 @@ import (
 )
 
 // A Controller is the handler of all API REST calls matching the stack model
-// It forwards API requests to the stack instance identified by the GONG_StackPath parameters in the request
+// It forwards API requests to the stack instance identified by the Name parameters in the request
 // the stack instance is the BackRepo instance
 type Controller struct {
 
