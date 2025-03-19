@@ -48,12 +48,12 @@ export class GroupService {
 
   /** GET groups from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GroupAPI[]> {
-    return this.getGroups(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<GroupAPI[]> {
+    return this.getGroups(Name, frontRepo)
   }
-  getGroups(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GroupAPI[]> {
+  getGroups(Name: string, frontRepo: FrontRepo): Observable<GroupAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<GroupAPI[]>(this.groupsUrl, { params: params })
       .pipe(
@@ -64,12 +64,12 @@ export class GroupService {
 
   /** GET group by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GroupAPI> {
-    return this.getGroup(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<GroupAPI> {
+    return this.getGroup(id, Name, frontRepo)
   }
-  getGroup(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GroupAPI> {
+  getGroup(id: number, Name: string, frontRepo: FrontRepo): Observable<GroupAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.groupsUrl}/${id}`;
     return this.http.get<GroupAPI>(url, { params: params }).pipe(
@@ -79,12 +79,12 @@ export class GroupService {
   }
 
   // postFront copy group to a version with encoded pointers and post to the back
-  postFront(group: Group, GONG__StackPath: string): Observable<GroupAPI> {
+  postFront(group: Group, Name: string): Observable<GroupAPI> {
     let groupAPI = new GroupAPI
     CopyGroupToGroupAPI(group, groupAPI)
     const id = typeof groupAPI === 'number' ? groupAPI : groupAPI.ID
     const url = `${this.groupsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -98,12 +98,12 @@ export class GroupService {
   }
   
   /** POST: add a new group to the server */
-  post(groupdb: GroupAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GroupAPI> {
-    return this.postGroup(groupdb, GONG__StackPath, frontRepo)
+  post(groupdb: GroupAPI, Name: string, frontRepo: FrontRepo): Observable<GroupAPI> {
+    return this.postGroup(groupdb, Name, frontRepo)
   }
-  postGroup(groupdb: GroupAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GroupAPI> {
+  postGroup(groupdb: GroupAPI, Name: string, frontRepo: FrontRepo): Observable<GroupAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -118,14 +118,14 @@ export class GroupService {
   }
 
   /** DELETE: delete the groupdb from the server */
-  delete(groupdb: GroupAPI | number, GONG__StackPath: string): Observable<GroupAPI> {
-    return this.deleteGroup(groupdb, GONG__StackPath)
+  delete(groupdb: GroupAPI | number, Name: string): Observable<GroupAPI> {
+    return this.deleteGroup(groupdb, Name)
   }
-  deleteGroup(groupdb: GroupAPI | number, GONG__StackPath: string): Observable<GroupAPI> {
+  deleteGroup(groupdb: GroupAPI | number, Name: string): Observable<GroupAPI> {
     const id = typeof groupdb === 'number' ? groupdb : groupdb.ID;
     const url = `${this.groupsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -138,12 +138,12 @@ export class GroupService {
   }
 
   // updateFront copy group to a version with encoded pointers and update to the back
-  updateFront(group: Group, GONG__StackPath: string): Observable<GroupAPI> {
+  updateFront(group: Group, Name: string): Observable<GroupAPI> {
     let groupAPI = new GroupAPI
     CopyGroupToGroupAPI(group, groupAPI)
     const id = typeof groupAPI === 'number' ? groupAPI : groupAPI.ID
     const url = `${this.groupsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -157,15 +157,15 @@ export class GroupService {
   }
 
   /** PUT: update the groupdb on the server */
-  update(groupdb: GroupAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GroupAPI> {
-    return this.updateGroup(groupdb, GONG__StackPath, frontRepo)
+  update(groupdb: GroupAPI, Name: string, frontRepo: FrontRepo): Observable<GroupAPI> {
+    return this.updateGroup(groupdb, Name, frontRepo)
   }
-  updateGroup(groupdb: GroupAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GroupAPI> {
+  updateGroup(groupdb: GroupAPI, Name: string, frontRepo: FrontRepo): Observable<GroupAPI> {
     const id = typeof groupdb === 'number' ? groupdb : groupdb.ID;
     const url = `${this.groupsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

@@ -46,12 +46,12 @@ export class EventService {
 
   /** GET events from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<EventAPI[]> {
-    return this.getEvents(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<EventAPI[]> {
+    return this.getEvents(Name, frontRepo)
   }
-  getEvents(GONG__StackPath: string, frontRepo: FrontRepo): Observable<EventAPI[]> {
+  getEvents(Name: string, frontRepo: FrontRepo): Observable<EventAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<EventAPI[]>(this.eventsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class EventService {
 
   /** GET event by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EventAPI> {
-    return this.getEvent(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<EventAPI> {
+    return this.getEvent(id, Name, frontRepo)
   }
-  getEvent(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EventAPI> {
+  getEvent(id: number, Name: string, frontRepo: FrontRepo): Observable<EventAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.eventsUrl}/${id}`;
     return this.http.get<EventAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class EventService {
   }
 
   // postFront copy event to a version with encoded pointers and post to the back
-  postFront(event: Event, GONG__StackPath: string): Observable<EventAPI> {
+  postFront(event: Event, Name: string): Observable<EventAPI> {
     let eventAPI = new EventAPI
     CopyEventToEventAPI(event, eventAPI)
     const id = typeof eventAPI === 'number' ? eventAPI : eventAPI.ID
     const url = `${this.eventsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class EventService {
   }
   
   /** POST: add a new event to the server */
-  post(eventdb: EventAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EventAPI> {
-    return this.postEvent(eventdb, GONG__StackPath, frontRepo)
+  post(eventdb: EventAPI, Name: string, frontRepo: FrontRepo): Observable<EventAPI> {
+    return this.postEvent(eventdb, Name, frontRepo)
   }
-  postEvent(eventdb: EventAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EventAPI> {
+  postEvent(eventdb: EventAPI, Name: string, frontRepo: FrontRepo): Observable<EventAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class EventService {
   }
 
   /** DELETE: delete the eventdb from the server */
-  delete(eventdb: EventAPI | number, GONG__StackPath: string): Observable<EventAPI> {
-    return this.deleteEvent(eventdb, GONG__StackPath)
+  delete(eventdb: EventAPI | number, Name: string): Observable<EventAPI> {
+    return this.deleteEvent(eventdb, Name)
   }
-  deleteEvent(eventdb: EventAPI | number, GONG__StackPath: string): Observable<EventAPI> {
+  deleteEvent(eventdb: EventAPI | number, Name: string): Observable<EventAPI> {
     const id = typeof eventdb === 'number' ? eventdb : eventdb.ID;
     const url = `${this.eventsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class EventService {
   }
 
   // updateFront copy event to a version with encoded pointers and update to the back
-  updateFront(event: Event, GONG__StackPath: string): Observable<EventAPI> {
+  updateFront(event: Event, Name: string): Observable<EventAPI> {
     let eventAPI = new EventAPI
     CopyEventToEventAPI(event, eventAPI)
     const id = typeof eventAPI === 'number' ? eventAPI : eventAPI.ID
     const url = `${this.eventsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class EventService {
   }
 
   /** PUT: update the eventdb on the server */
-  update(eventdb: EventAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EventAPI> {
-    return this.updateEvent(eventdb, GONG__StackPath, frontRepo)
+  update(eventdb: EventAPI, Name: string, frontRepo: FrontRepo): Observable<EventAPI> {
+    return this.updateEvent(eventdb, Name, frontRepo)
   }
-  updateEvent(eventdb: EventAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EventAPI> {
+  updateEvent(eventdb: EventAPI, Name: string, frontRepo: FrontRepo): Observable<EventAPI> {
     const id = typeof eventdb === 'number' ? eventdb : eventdb.ID;
     const url = `${this.eventsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

@@ -46,12 +46,12 @@ export class XLCellService {
 
   /** GET xlcells from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<XLCellAPI[]> {
-    return this.getXLCells(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<XLCellAPI[]> {
+    return this.getXLCells(Name, frontRepo)
   }
-  getXLCells(GONG__StackPath: string, frontRepo: FrontRepo): Observable<XLCellAPI[]> {
+  getXLCells(Name: string, frontRepo: FrontRepo): Observable<XLCellAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<XLCellAPI[]>(this.xlcellsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class XLCellService {
 
   /** GET xlcell by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<XLCellAPI> {
-    return this.getXLCell(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<XLCellAPI> {
+    return this.getXLCell(id, Name, frontRepo)
   }
-  getXLCell(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<XLCellAPI> {
+  getXLCell(id: number, Name: string, frontRepo: FrontRepo): Observable<XLCellAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.xlcellsUrl}/${id}`;
     return this.http.get<XLCellAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class XLCellService {
   }
 
   // postFront copy xlcell to a version with encoded pointers and post to the back
-  postFront(xlcell: XLCell, GONG__StackPath: string): Observable<XLCellAPI> {
+  postFront(xlcell: XLCell, Name: string): Observable<XLCellAPI> {
     let xlcellAPI = new XLCellAPI
     CopyXLCellToXLCellAPI(xlcell, xlcellAPI)
     const id = typeof xlcellAPI === 'number' ? xlcellAPI : xlcellAPI.ID
     const url = `${this.xlcellsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class XLCellService {
   }
   
   /** POST: add a new xlcell to the server */
-  post(xlcelldb: XLCellAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<XLCellAPI> {
-    return this.postXLCell(xlcelldb, GONG__StackPath, frontRepo)
+  post(xlcelldb: XLCellAPI, Name: string, frontRepo: FrontRepo): Observable<XLCellAPI> {
+    return this.postXLCell(xlcelldb, Name, frontRepo)
   }
-  postXLCell(xlcelldb: XLCellAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<XLCellAPI> {
+  postXLCell(xlcelldb: XLCellAPI, Name: string, frontRepo: FrontRepo): Observable<XLCellAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class XLCellService {
   }
 
   /** DELETE: delete the xlcelldb from the server */
-  delete(xlcelldb: XLCellAPI | number, GONG__StackPath: string): Observable<XLCellAPI> {
-    return this.deleteXLCell(xlcelldb, GONG__StackPath)
+  delete(xlcelldb: XLCellAPI | number, Name: string): Observable<XLCellAPI> {
+    return this.deleteXLCell(xlcelldb, Name)
   }
-  deleteXLCell(xlcelldb: XLCellAPI | number, GONG__StackPath: string): Observable<XLCellAPI> {
+  deleteXLCell(xlcelldb: XLCellAPI | number, Name: string): Observable<XLCellAPI> {
     const id = typeof xlcelldb === 'number' ? xlcelldb : xlcelldb.ID;
     const url = `${this.xlcellsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class XLCellService {
   }
 
   // updateFront copy xlcell to a version with encoded pointers and update to the back
-  updateFront(xlcell: XLCell, GONG__StackPath: string): Observable<XLCellAPI> {
+  updateFront(xlcell: XLCell, Name: string): Observable<XLCellAPI> {
     let xlcellAPI = new XLCellAPI
     CopyXLCellToXLCellAPI(xlcell, xlcellAPI)
     const id = typeof xlcellAPI === 'number' ? xlcellAPI : xlcellAPI.ID
     const url = `${this.xlcellsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class XLCellService {
   }
 
   /** PUT: update the xlcelldb on the server */
-  update(xlcelldb: XLCellAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<XLCellAPI> {
-    return this.updateXLCell(xlcelldb, GONG__StackPath, frontRepo)
+  update(xlcelldb: XLCellAPI, Name: string, frontRepo: FrontRepo): Observable<XLCellAPI> {
+    return this.updateXLCell(xlcelldb, Name, frontRepo)
   }
-  updateXLCell(xlcelldb: XLCellAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<XLCellAPI> {
+  updateXLCell(xlcelldb: XLCellAPI, Name: string, frontRepo: FrontRepo): Observable<XLCellAPI> {
     const id = typeof xlcelldb === 'number' ? xlcelldb : xlcelldb.ID;
     const url = `${this.xlcellsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

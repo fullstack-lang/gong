@@ -46,12 +46,12 @@ export class OptionService {
 
   /** GET options from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<OptionAPI[]> {
-    return this.getOptions(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<OptionAPI[]> {
+    return this.getOptions(Name, frontRepo)
   }
-  getOptions(GONG__StackPath: string, frontRepo: FrontRepo): Observable<OptionAPI[]> {
+  getOptions(Name: string, frontRepo: FrontRepo): Observable<OptionAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<OptionAPI[]>(this.optionsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class OptionService {
 
   /** GET option by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<OptionAPI> {
-    return this.getOption(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<OptionAPI> {
+    return this.getOption(id, Name, frontRepo)
   }
-  getOption(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<OptionAPI> {
+  getOption(id: number, Name: string, frontRepo: FrontRepo): Observable<OptionAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.optionsUrl}/${id}`;
     return this.http.get<OptionAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class OptionService {
   }
 
   // postFront copy option to a version with encoded pointers and post to the back
-  postFront(option: Option, GONG__StackPath: string): Observable<OptionAPI> {
+  postFront(option: Option, Name: string): Observable<OptionAPI> {
     let optionAPI = new OptionAPI
     CopyOptionToOptionAPI(option, optionAPI)
     const id = typeof optionAPI === 'number' ? optionAPI : optionAPI.ID
     const url = `${this.optionsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class OptionService {
   }
   
   /** POST: add a new option to the server */
-  post(optiondb: OptionAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<OptionAPI> {
-    return this.postOption(optiondb, GONG__StackPath, frontRepo)
+  post(optiondb: OptionAPI, Name: string, frontRepo: FrontRepo): Observable<OptionAPI> {
+    return this.postOption(optiondb, Name, frontRepo)
   }
-  postOption(optiondb: OptionAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<OptionAPI> {
+  postOption(optiondb: OptionAPI, Name: string, frontRepo: FrontRepo): Observable<OptionAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class OptionService {
   }
 
   /** DELETE: delete the optiondb from the server */
-  delete(optiondb: OptionAPI | number, GONG__StackPath: string): Observable<OptionAPI> {
-    return this.deleteOption(optiondb, GONG__StackPath)
+  delete(optiondb: OptionAPI | number, Name: string): Observable<OptionAPI> {
+    return this.deleteOption(optiondb, Name)
   }
-  deleteOption(optiondb: OptionAPI | number, GONG__StackPath: string): Observable<OptionAPI> {
+  deleteOption(optiondb: OptionAPI | number, Name: string): Observable<OptionAPI> {
     const id = typeof optiondb === 'number' ? optiondb : optiondb.ID;
     const url = `${this.optionsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class OptionService {
   }
 
   // updateFront copy option to a version with encoded pointers and update to the back
-  updateFront(option: Option, GONG__StackPath: string): Observable<OptionAPI> {
+  updateFront(option: Option, Name: string): Observable<OptionAPI> {
     let optionAPI = new OptionAPI
     CopyOptionToOptionAPI(option, optionAPI)
     const id = typeof optionAPI === 'number' ? optionAPI : optionAPI.ID
     const url = `${this.optionsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class OptionService {
   }
 
   /** PUT: update the optiondb on the server */
-  update(optiondb: OptionAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<OptionAPI> {
-    return this.updateOption(optiondb, GONG__StackPath, frontRepo)
+  update(optiondb: OptionAPI, Name: string, frontRepo: FrontRepo): Observable<OptionAPI> {
+    return this.updateOption(optiondb, Name, frontRepo)
   }
-  updateOption(optiondb: OptionAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<OptionAPI> {
+  updateOption(optiondb: OptionAPI, Name: string, frontRepo: FrontRepo): Observable<OptionAPI> {
     const id = typeof optiondb === 'number' ? optiondb : optiondb.ID;
     const url = `${this.optionsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

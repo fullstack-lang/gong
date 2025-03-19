@@ -46,12 +46,12 @@ export class CellBooleanService {
 
   /** GET cellbooleans from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellBooleanAPI[]> {
-    return this.getCellBooleans(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<CellBooleanAPI[]> {
+    return this.getCellBooleans(Name, frontRepo)
   }
-  getCellBooleans(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellBooleanAPI[]> {
+  getCellBooleans(Name: string, frontRepo: FrontRepo): Observable<CellBooleanAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<CellBooleanAPI[]>(this.cellbooleansUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class CellBooleanService {
 
   /** GET cellboolean by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellBooleanAPI> {
-    return this.getCellBoolean(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<CellBooleanAPI> {
+    return this.getCellBoolean(id, Name, frontRepo)
   }
-  getCellBoolean(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellBooleanAPI> {
+  getCellBoolean(id: number, Name: string, frontRepo: FrontRepo): Observable<CellBooleanAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.cellbooleansUrl}/${id}`;
     return this.http.get<CellBooleanAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class CellBooleanService {
   }
 
   // postFront copy cellboolean to a version with encoded pointers and post to the back
-  postFront(cellboolean: CellBoolean, GONG__StackPath: string): Observable<CellBooleanAPI> {
+  postFront(cellboolean: CellBoolean, Name: string): Observable<CellBooleanAPI> {
     let cellbooleanAPI = new CellBooleanAPI
     CopyCellBooleanToCellBooleanAPI(cellboolean, cellbooleanAPI)
     const id = typeof cellbooleanAPI === 'number' ? cellbooleanAPI : cellbooleanAPI.ID
     const url = `${this.cellbooleansUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class CellBooleanService {
   }
   
   /** POST: add a new cellboolean to the server */
-  post(cellbooleandb: CellBooleanAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellBooleanAPI> {
-    return this.postCellBoolean(cellbooleandb, GONG__StackPath, frontRepo)
+  post(cellbooleandb: CellBooleanAPI, Name: string, frontRepo: FrontRepo): Observable<CellBooleanAPI> {
+    return this.postCellBoolean(cellbooleandb, Name, frontRepo)
   }
-  postCellBoolean(cellbooleandb: CellBooleanAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellBooleanAPI> {
+  postCellBoolean(cellbooleandb: CellBooleanAPI, Name: string, frontRepo: FrontRepo): Observable<CellBooleanAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class CellBooleanService {
   }
 
   /** DELETE: delete the cellbooleandb from the server */
-  delete(cellbooleandb: CellBooleanAPI | number, GONG__StackPath: string): Observable<CellBooleanAPI> {
-    return this.deleteCellBoolean(cellbooleandb, GONG__StackPath)
+  delete(cellbooleandb: CellBooleanAPI | number, Name: string): Observable<CellBooleanAPI> {
+    return this.deleteCellBoolean(cellbooleandb, Name)
   }
-  deleteCellBoolean(cellbooleandb: CellBooleanAPI | number, GONG__StackPath: string): Observable<CellBooleanAPI> {
+  deleteCellBoolean(cellbooleandb: CellBooleanAPI | number, Name: string): Observable<CellBooleanAPI> {
     const id = typeof cellbooleandb === 'number' ? cellbooleandb : cellbooleandb.ID;
     const url = `${this.cellbooleansUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class CellBooleanService {
   }
 
   // updateFront copy cellboolean to a version with encoded pointers and update to the back
-  updateFront(cellboolean: CellBoolean, GONG__StackPath: string): Observable<CellBooleanAPI> {
+  updateFront(cellboolean: CellBoolean, Name: string): Observable<CellBooleanAPI> {
     let cellbooleanAPI = new CellBooleanAPI
     CopyCellBooleanToCellBooleanAPI(cellboolean, cellbooleanAPI)
     const id = typeof cellbooleanAPI === 'number' ? cellbooleanAPI : cellbooleanAPI.ID
     const url = `${this.cellbooleansUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class CellBooleanService {
   }
 
   /** PUT: update the cellbooleandb on the server */
-  update(cellbooleandb: CellBooleanAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellBooleanAPI> {
-    return this.updateCellBoolean(cellbooleandb, GONG__StackPath, frontRepo)
+  update(cellbooleandb: CellBooleanAPI, Name: string, frontRepo: FrontRepo): Observable<CellBooleanAPI> {
+    return this.updateCellBoolean(cellbooleandb, Name, frontRepo)
   }
-  updateCellBoolean(cellbooleandb: CellBooleanAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellBooleanAPI> {
+  updateCellBoolean(cellbooleandb: CellBooleanAPI, Name: string, frontRepo: FrontRepo): Observable<CellBooleanAPI> {
     const id = typeof cellbooleandb === 'number' ? cellbooleandb : cellbooleandb.ID;
     const url = `${this.cellbooleansUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

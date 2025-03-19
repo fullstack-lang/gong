@@ -47,12 +47,12 @@ export class TreeService {
 
   /** GET trees from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<TreeAPI[]> {
-    return this.getTrees(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<TreeAPI[]> {
+    return this.getTrees(Name, frontRepo)
   }
-  getTrees(GONG__StackPath: string, frontRepo: FrontRepo): Observable<TreeAPI[]> {
+  getTrees(Name: string, frontRepo: FrontRepo): Observable<TreeAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<TreeAPI[]>(this.treesUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class TreeService {
 
   /** GET tree by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TreeAPI> {
-    return this.getTree(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<TreeAPI> {
+    return this.getTree(id, Name, frontRepo)
   }
-  getTree(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TreeAPI> {
+  getTree(id: number, Name: string, frontRepo: FrontRepo): Observable<TreeAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.treesUrl}/${id}`;
     return this.http.get<TreeAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class TreeService {
   }
 
   // postFront copy tree to a version with encoded pointers and post to the back
-  postFront(tree: Tree, GONG__StackPath: string): Observable<TreeAPI> {
+  postFront(tree: Tree, Name: string): Observable<TreeAPI> {
     let treeAPI = new TreeAPI
     CopyTreeToTreeAPI(tree, treeAPI)
     const id = typeof treeAPI === 'number' ? treeAPI : treeAPI.ID
     const url = `${this.treesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class TreeService {
   }
   
   /** POST: add a new tree to the server */
-  post(treedb: TreeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TreeAPI> {
-    return this.postTree(treedb, GONG__StackPath, frontRepo)
+  post(treedb: TreeAPI, Name: string, frontRepo: FrontRepo): Observable<TreeAPI> {
+    return this.postTree(treedb, Name, frontRepo)
   }
-  postTree(treedb: TreeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TreeAPI> {
+  postTree(treedb: TreeAPI, Name: string, frontRepo: FrontRepo): Observable<TreeAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class TreeService {
   }
 
   /** DELETE: delete the treedb from the server */
-  delete(treedb: TreeAPI | number, GONG__StackPath: string): Observable<TreeAPI> {
-    return this.deleteTree(treedb, GONG__StackPath)
+  delete(treedb: TreeAPI | number, Name: string): Observable<TreeAPI> {
+    return this.deleteTree(treedb, Name)
   }
-  deleteTree(treedb: TreeAPI | number, GONG__StackPath: string): Observable<TreeAPI> {
+  deleteTree(treedb: TreeAPI | number, Name: string): Observable<TreeAPI> {
     const id = typeof treedb === 'number' ? treedb : treedb.ID;
     const url = `${this.treesUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class TreeService {
   }
 
   // updateFront copy tree to a version with encoded pointers and update to the back
-  updateFront(tree: Tree, GONG__StackPath: string): Observable<TreeAPI> {
+  updateFront(tree: Tree, Name: string): Observable<TreeAPI> {
     let treeAPI = new TreeAPI
     CopyTreeToTreeAPI(tree, treeAPI)
     const id = typeof treeAPI === 'number' ? treeAPI : treeAPI.ID
     const url = `${this.treesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class TreeService {
   }
 
   /** PUT: update the treedb on the server */
-  update(treedb: TreeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TreeAPI> {
-    return this.updateTree(treedb, GONG__StackPath, frontRepo)
+  update(treedb: TreeAPI, Name: string, frontRepo: FrontRepo): Observable<TreeAPI> {
+    return this.updateTree(treedb, Name, frontRepo)
   }
-  updateTree(treedb: TreeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TreeAPI> {
+  updateTree(treedb: TreeAPI, Name: string, frontRepo: FrontRepo): Observable<TreeAPI> {
     const id = typeof treedb === 'number' ? treedb : treedb.ID;
     const url = `${this.treesUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

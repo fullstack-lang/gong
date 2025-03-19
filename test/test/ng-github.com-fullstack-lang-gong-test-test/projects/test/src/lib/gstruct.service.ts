@@ -46,12 +46,12 @@ export class GstructService {
 
   /** GET gstructs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GstructAPI[]> {
-    return this.getGstructs(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<GstructAPI[]> {
+    return this.getGstructs(Name, frontRepo)
   }
-  getGstructs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GstructAPI[]> {
+  getGstructs(Name: string, frontRepo: FrontRepo): Observable<GstructAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<GstructAPI[]>(this.gstructsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class GstructService {
 
   /** GET gstruct by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GstructAPI> {
-    return this.getGstruct(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<GstructAPI> {
+    return this.getGstruct(id, Name, frontRepo)
   }
-  getGstruct(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GstructAPI> {
+  getGstruct(id: number, Name: string, frontRepo: FrontRepo): Observable<GstructAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.gstructsUrl}/${id}`;
     return this.http.get<GstructAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class GstructService {
   }
 
   // postFront copy gstruct to a version with encoded pointers and post to the back
-  postFront(gstruct: Gstruct, GONG__StackPath: string): Observable<GstructAPI> {
+  postFront(gstruct: Gstruct, Name: string): Observable<GstructAPI> {
     let gstructAPI = new GstructAPI
     CopyGstructToGstructAPI(gstruct, gstructAPI)
     const id = typeof gstructAPI === 'number' ? gstructAPI : gstructAPI.ID
     const url = `${this.gstructsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class GstructService {
   }
   
   /** POST: add a new gstruct to the server */
-  post(gstructdb: GstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GstructAPI> {
-    return this.postGstruct(gstructdb, GONG__StackPath, frontRepo)
+  post(gstructdb: GstructAPI, Name: string, frontRepo: FrontRepo): Observable<GstructAPI> {
+    return this.postGstruct(gstructdb, Name, frontRepo)
   }
-  postGstruct(gstructdb: GstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GstructAPI> {
+  postGstruct(gstructdb: GstructAPI, Name: string, frontRepo: FrontRepo): Observable<GstructAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class GstructService {
   }
 
   /** DELETE: delete the gstructdb from the server */
-  delete(gstructdb: GstructAPI | number, GONG__StackPath: string): Observable<GstructAPI> {
-    return this.deleteGstruct(gstructdb, GONG__StackPath)
+  delete(gstructdb: GstructAPI | number, Name: string): Observable<GstructAPI> {
+    return this.deleteGstruct(gstructdb, Name)
   }
-  deleteGstruct(gstructdb: GstructAPI | number, GONG__StackPath: string): Observable<GstructAPI> {
+  deleteGstruct(gstructdb: GstructAPI | number, Name: string): Observable<GstructAPI> {
     const id = typeof gstructdb === 'number' ? gstructdb : gstructdb.ID;
     const url = `${this.gstructsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class GstructService {
   }
 
   // updateFront copy gstruct to a version with encoded pointers and update to the back
-  updateFront(gstruct: Gstruct, GONG__StackPath: string): Observable<GstructAPI> {
+  updateFront(gstruct: Gstruct, Name: string): Observable<GstructAPI> {
     let gstructAPI = new GstructAPI
     CopyGstructToGstructAPI(gstruct, gstructAPI)
     const id = typeof gstructAPI === 'number' ? gstructAPI : gstructAPI.ID
     const url = `${this.gstructsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class GstructService {
   }
 
   /** PUT: update the gstructdb on the server */
-  update(gstructdb: GstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GstructAPI> {
-    return this.updateGstruct(gstructdb, GONG__StackPath, frontRepo)
+  update(gstructdb: GstructAPI, Name: string, frontRepo: FrontRepo): Observable<GstructAPI> {
+    return this.updateGstruct(gstructdb, Name, frontRepo)
   }
-  updateGstruct(gstructdb: GstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GstructAPI> {
+  updateGstruct(gstructdb: GstructAPI, Name: string, frontRepo: FrontRepo): Observable<GstructAPI> {
     const id = typeof gstructdb === 'number' ? gstructdb : gstructdb.ID;
     const url = `${this.gstructsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

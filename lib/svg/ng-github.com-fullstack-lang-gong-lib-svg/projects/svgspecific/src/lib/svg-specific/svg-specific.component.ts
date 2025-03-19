@@ -51,7 +51,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
 @ViewChild('svgContainer', { static: true })
   private svgContainer!: ElementRef<SVGSVGElement>
 
-  @Input() GONG__StackPath: string = ""
+  @Input() Name: string = ""
 
   @ViewChild('textWidthCalculator') textWidthCalculator: TextWidthCalculatorComponent | undefined
   map_text_textWidth: Map<string, number> = new Map<string, number>
@@ -234,7 +234,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
 
-    // console.log("Material component->ngOnInit : GONG__StackPath, " + this.GONG__StackPath)
+    // console.log("Material component->ngOnInit : Name, " + this.Name)
 
     // this component is a "push mode component"
     // because the template calls many functions whose state cannot be computed
@@ -243,7 +243,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     // computed
     this.changeDetectorRef.detach()
 
-    this.gongsvgFrontRepoService.connectToWebSocket(this.GONG__StackPath).subscribe(
+    this.gongsvgFrontRepoService.connectToWebSocket(this.Name).subscribe(
       gongsvgsFrontRepo => {
         this.gongsvgFrontRepo = gongsvgsFrontRepo
         //   "in promise to front repose servive pull", "gongsvgFrontRepo not good")
@@ -413,7 +413,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     if (distanceMoved < this.dragThreshold && this.State == StateEnumType.NOT_EDITABLE) {
       console.log(getFunctionName(), "distanceMoved below threshold in state", this.State)
 
-      this.rectService.updateFront(this.draggedRect!, this.GONG__StackPath).subscribe(
+      this.rectService.updateFront(this.draggedRect!, this.Name).subscribe(
         _ => {
         }
       )
@@ -460,13 +460,13 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log(getFunctionName(), "state at exit", this.State)
 
       console.assert(this.draggedText != undefined, "no dragged text")
-      this.anchoredTextService.updateFront(this.draggedText!, this.GONG__StackPath).subscribe()
+      this.anchoredTextService.updateFront(this.draggedText!, this.Name).subscribe()
     }
 
     if (this.State == StateEnumType.LINK_DRAGGING) {
       this.State = StateEnumType.WAITING_FOR_USER_INPUT
       console.log(getFunctionName(), "state at exit", this.State)
-      this.linkService.updateFront(this.draggedLink!, this.GONG__StackPath).subscribe(
+      this.linkService.updateFront(this.draggedLink!, this.Name).subscribe(
         () => {
         }
       )
@@ -479,10 +479,10 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
 
       // the path have to be updated first
       for (let path of this.draggedRect!.RectAnchoredPaths) {
-        this.rectAnchoredPathService.updateFront(path, this.GONG__StackPath).subscribe()
+        this.rectAnchoredPathService.updateFront(path, this.Name).subscribe()
       }
 
-      this.rectService.updateFront(this.draggedRect!, this.GONG__StackPath).subscribe(
+      this.rectService.updateFront(this.draggedRect!, this.Name).subscribe(
         () => {
         }
       )
@@ -491,7 +491,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.State == StateEnumType.RECTS_DRAGGING) {
       this.State = StateEnumType.WAITING_FOR_USER_INPUT
       console.log(getFunctionName(), "state at exit", this.State)
-      this.rectService.updateFront(this.draggedRect!, this.GONG__StackPath).subscribe(
+      this.rectService.updateFront(this.draggedRect!, this.Name).subscribe(
         () => {
         }
       )
@@ -507,7 +507,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log(getFunctionName(), "selecting rect", rect.Name);
     rect.IsSelected = true;
     this.manageHandles(rect);
-    this.rectService.updateFront(rect, this.GONG__StackPath).subscribe(
+    this.rectService.updateFront(rect, this.Name).subscribe(
       _ => {
         this.changeDetectorRef.detectChanges()
       }
@@ -518,7 +518,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log(getFunctionName(), "unselecting rect", rect.Name);
     rect.IsSelected = false;
     this.manageHandles(rect);
-    this.rectService.updateFront(rect, this.GONG__StackPath).subscribe(
+    this.rectService.updateFront(rect, this.Name).subscribe(
       _ => {
         this.changeDetectorRef.detectChanges()
       }
@@ -984,7 +984,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (svgText != undefined) {
       svgText.Text = svg3
-      this.svgTextService.updateFront( svgText, this.GONG__StackPath).subscribe(
+      this.svgTextService.updateFront( svgText, this.Name).subscribe(
         () => {
           console.log("svgText updated")
         }

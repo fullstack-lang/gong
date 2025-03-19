@@ -46,12 +46,12 @@ export class BService {
 
   /** GET bs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<BAPI[]> {
-    return this.getBs(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<BAPI[]> {
+    return this.getBs(Name, frontRepo)
   }
-  getBs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<BAPI[]> {
+  getBs(Name: string, frontRepo: FrontRepo): Observable<BAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<BAPI[]>(this.bsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class BService {
 
   /** GET b by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BAPI> {
-    return this.getB(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<BAPI> {
+    return this.getB(id, Name, frontRepo)
   }
-  getB(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BAPI> {
+  getB(id: number, Name: string, frontRepo: FrontRepo): Observable<BAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.bsUrl}/${id}`;
     return this.http.get<BAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class BService {
   }
 
   // postFront copy b to a version with encoded pointers and post to the back
-  postFront(b: B, GONG__StackPath: string): Observable<BAPI> {
+  postFront(b: B, Name: string): Observable<BAPI> {
     let bAPI = new BAPI
     CopyBToBAPI(b, bAPI)
     const id = typeof bAPI === 'number' ? bAPI : bAPI.ID
     const url = `${this.bsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class BService {
   }
   
   /** POST: add a new b to the server */
-  post(bdb: BAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BAPI> {
-    return this.postB(bdb, GONG__StackPath, frontRepo)
+  post(bdb: BAPI, Name: string, frontRepo: FrontRepo): Observable<BAPI> {
+    return this.postB(bdb, Name, frontRepo)
   }
-  postB(bdb: BAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BAPI> {
+  postB(bdb: BAPI, Name: string, frontRepo: FrontRepo): Observable<BAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class BService {
   }
 
   /** DELETE: delete the bdb from the server */
-  delete(bdb: BAPI | number, GONG__StackPath: string): Observable<BAPI> {
-    return this.deleteB(bdb, GONG__StackPath)
+  delete(bdb: BAPI | number, Name: string): Observable<BAPI> {
+    return this.deleteB(bdb, Name)
   }
-  deleteB(bdb: BAPI | number, GONG__StackPath: string): Observable<BAPI> {
+  deleteB(bdb: BAPI | number, Name: string): Observable<BAPI> {
     const id = typeof bdb === 'number' ? bdb : bdb.ID;
     const url = `${this.bsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class BService {
   }
 
   // updateFront copy b to a version with encoded pointers and update to the back
-  updateFront(b: B, GONG__StackPath: string): Observable<BAPI> {
+  updateFront(b: B, Name: string): Observable<BAPI> {
     let bAPI = new BAPI
     CopyBToBAPI(b, bAPI)
     const id = typeof bAPI === 'number' ? bAPI : bAPI.ID
     const url = `${this.bsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class BService {
   }
 
   /** PUT: update the bdb on the server */
-  update(bdb: BAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BAPI> {
-    return this.updateB(bdb, GONG__StackPath, frontRepo)
+  update(bdb: BAPI, Name: string, frontRepo: FrontRepo): Observable<BAPI> {
+    return this.updateB(bdb, Name, frontRepo)
   }
-  updateB(bdb: BAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BAPI> {
+  updateB(bdb: BAPI, Name: string, frontRepo: FrontRepo): Observable<BAPI> {
     const id = typeof bdb === 'number' ? bdb : bdb.ID;
     const url = `${this.bsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

@@ -47,12 +47,12 @@ export class FormGroupService {
 
   /** GET formgroups from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupAPI[]> {
-    return this.getFormGroups(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<FormGroupAPI[]> {
+    return this.getFormGroups(Name, frontRepo)
   }
-  getFormGroups(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupAPI[]> {
+  getFormGroups(Name: string, frontRepo: FrontRepo): Observable<FormGroupAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<FormGroupAPI[]>(this.formgroupsUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class FormGroupService {
 
   /** GET formgroup by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupAPI> {
-    return this.getFormGroup(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<FormGroupAPI> {
+    return this.getFormGroup(id, Name, frontRepo)
   }
-  getFormGroup(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupAPI> {
+  getFormGroup(id: number, Name: string, frontRepo: FrontRepo): Observable<FormGroupAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.formgroupsUrl}/${id}`;
     return this.http.get<FormGroupAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class FormGroupService {
   }
 
   // postFront copy formgroup to a version with encoded pointers and post to the back
-  postFront(formgroup: FormGroup, GONG__StackPath: string): Observable<FormGroupAPI> {
+  postFront(formgroup: FormGroup, Name: string): Observable<FormGroupAPI> {
     let formgroupAPI = new FormGroupAPI
     CopyFormGroupToFormGroupAPI(formgroup, formgroupAPI)
     const id = typeof formgroupAPI === 'number' ? formgroupAPI : formgroupAPI.ID
     const url = `${this.formgroupsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class FormGroupService {
   }
   
   /** POST: add a new formgroup to the server */
-  post(formgroupdb: FormGroupAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupAPI> {
-    return this.postFormGroup(formgroupdb, GONG__StackPath, frontRepo)
+  post(formgroupdb: FormGroupAPI, Name: string, frontRepo: FrontRepo): Observable<FormGroupAPI> {
+    return this.postFormGroup(formgroupdb, Name, frontRepo)
   }
-  postFormGroup(formgroupdb: FormGroupAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupAPI> {
+  postFormGroup(formgroupdb: FormGroupAPI, Name: string, frontRepo: FrontRepo): Observable<FormGroupAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class FormGroupService {
   }
 
   /** DELETE: delete the formgroupdb from the server */
-  delete(formgroupdb: FormGroupAPI | number, GONG__StackPath: string): Observable<FormGroupAPI> {
-    return this.deleteFormGroup(formgroupdb, GONG__StackPath)
+  delete(formgroupdb: FormGroupAPI | number, Name: string): Observable<FormGroupAPI> {
+    return this.deleteFormGroup(formgroupdb, Name)
   }
-  deleteFormGroup(formgroupdb: FormGroupAPI | number, GONG__StackPath: string): Observable<FormGroupAPI> {
+  deleteFormGroup(formgroupdb: FormGroupAPI | number, Name: string): Observable<FormGroupAPI> {
     const id = typeof formgroupdb === 'number' ? formgroupdb : formgroupdb.ID;
     const url = `${this.formgroupsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class FormGroupService {
   }
 
   // updateFront copy formgroup to a version with encoded pointers and update to the back
-  updateFront(formgroup: FormGroup, GONG__StackPath: string): Observable<FormGroupAPI> {
+  updateFront(formgroup: FormGroup, Name: string): Observable<FormGroupAPI> {
     let formgroupAPI = new FormGroupAPI
     CopyFormGroupToFormGroupAPI(formgroup, formgroupAPI)
     const id = typeof formgroupAPI === 'number' ? formgroupAPI : formgroupAPI.ID
     const url = `${this.formgroupsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class FormGroupService {
   }
 
   /** PUT: update the formgroupdb on the server */
-  update(formgroupdb: FormGroupAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupAPI> {
-    return this.updateFormGroup(formgroupdb, GONG__StackPath, frontRepo)
+  update(formgroupdb: FormGroupAPI, Name: string, frontRepo: FrontRepo): Observable<FormGroupAPI> {
+    return this.updateFormGroup(formgroupdb, Name, frontRepo)
   }
-  updateFormGroup(formgroupdb: FormGroupAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupAPI> {
+  updateFormGroup(formgroupdb: FormGroupAPI, Name: string, frontRepo: FrontRepo): Observable<FormGroupAPI> {
     const id = typeof formgroupdb === 'number' ? formgroupdb : formgroupdb.ID;
     const url = `${this.formgroupsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

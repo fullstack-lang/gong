@@ -46,12 +46,12 @@ export class PlayerService {
 
   /** GET players from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PlayerAPI[]> {
-    return this.getPlayers(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<PlayerAPI[]> {
+    return this.getPlayers(Name, frontRepo)
   }
-  getPlayers(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PlayerAPI[]> {
+  getPlayers(Name: string, frontRepo: FrontRepo): Observable<PlayerAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<PlayerAPI[]>(this.playersUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class PlayerService {
 
   /** GET player by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PlayerAPI> {
-    return this.getPlayer(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<PlayerAPI> {
+    return this.getPlayer(id, Name, frontRepo)
   }
-  getPlayer(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PlayerAPI> {
+  getPlayer(id: number, Name: string, frontRepo: FrontRepo): Observable<PlayerAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.playersUrl}/${id}`;
     return this.http.get<PlayerAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class PlayerService {
   }
 
   // postFront copy player to a version with encoded pointers and post to the back
-  postFront(player: Player, GONG__StackPath: string): Observable<PlayerAPI> {
+  postFront(player: Player, Name: string): Observable<PlayerAPI> {
     let playerAPI = new PlayerAPI
     CopyPlayerToPlayerAPI(player, playerAPI)
     const id = typeof playerAPI === 'number' ? playerAPI : playerAPI.ID
     const url = `${this.playersUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class PlayerService {
   }
   
   /** POST: add a new player to the server */
-  post(playerdb: PlayerAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PlayerAPI> {
-    return this.postPlayer(playerdb, GONG__StackPath, frontRepo)
+  post(playerdb: PlayerAPI, Name: string, frontRepo: FrontRepo): Observable<PlayerAPI> {
+    return this.postPlayer(playerdb, Name, frontRepo)
   }
-  postPlayer(playerdb: PlayerAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PlayerAPI> {
+  postPlayer(playerdb: PlayerAPI, Name: string, frontRepo: FrontRepo): Observable<PlayerAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class PlayerService {
   }
 
   /** DELETE: delete the playerdb from the server */
-  delete(playerdb: PlayerAPI | number, GONG__StackPath: string): Observable<PlayerAPI> {
-    return this.deletePlayer(playerdb, GONG__StackPath)
+  delete(playerdb: PlayerAPI | number, Name: string): Observable<PlayerAPI> {
+    return this.deletePlayer(playerdb, Name)
   }
-  deletePlayer(playerdb: PlayerAPI | number, GONG__StackPath: string): Observable<PlayerAPI> {
+  deletePlayer(playerdb: PlayerAPI | number, Name: string): Observable<PlayerAPI> {
     const id = typeof playerdb === 'number' ? playerdb : playerdb.ID;
     const url = `${this.playersUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class PlayerService {
   }
 
   // updateFront copy player to a version with encoded pointers and update to the back
-  updateFront(player: Player, GONG__StackPath: string): Observable<PlayerAPI> {
+  updateFront(player: Player, Name: string): Observable<PlayerAPI> {
     let playerAPI = new PlayerAPI
     CopyPlayerToPlayerAPI(player, playerAPI)
     const id = typeof playerAPI === 'number' ? playerAPI : playerAPI.ID
     const url = `${this.playersUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class PlayerService {
   }
 
   /** PUT: update the playerdb on the server */
-  update(playerdb: PlayerAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PlayerAPI> {
-    return this.updatePlayer(playerdb, GONG__StackPath, frontRepo)
+  update(playerdb: PlayerAPI, Name: string, frontRepo: FrontRepo): Observable<PlayerAPI> {
+    return this.updatePlayer(playerdb, Name, frontRepo)
   }
-  updatePlayer(playerdb: PlayerAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PlayerAPI> {
+  updatePlayer(playerdb: PlayerAPI, Name: string, frontRepo: FrontRepo): Observable<PlayerAPI> {
     const id = typeof playerdb === 'number' ? playerdb : playerdb.ID;
     const url = `${this.playersUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

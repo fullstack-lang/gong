@@ -48,12 +48,12 @@ export class DstructService {
 
   /** GET dstructs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructAPI[]> {
-    return this.getDstructs(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<DstructAPI[]> {
+    return this.getDstructs(Name, frontRepo)
   }
-  getDstructs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructAPI[]> {
+  getDstructs(Name: string, frontRepo: FrontRepo): Observable<DstructAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<DstructAPI[]>(this.dstructsUrl, { params: params })
       .pipe(
@@ -64,12 +64,12 @@ export class DstructService {
 
   /** GET dstruct by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructAPI> {
-    return this.getDstruct(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<DstructAPI> {
+    return this.getDstruct(id, Name, frontRepo)
   }
-  getDstruct(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructAPI> {
+  getDstruct(id: number, Name: string, frontRepo: FrontRepo): Observable<DstructAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.dstructsUrl}/${id}`;
     return this.http.get<DstructAPI>(url, { params: params }).pipe(
@@ -79,12 +79,12 @@ export class DstructService {
   }
 
   // postFront copy dstruct to a version with encoded pointers and post to the back
-  postFront(dstruct: Dstruct, GONG__StackPath: string): Observable<DstructAPI> {
+  postFront(dstruct: Dstruct, Name: string): Observable<DstructAPI> {
     let dstructAPI = new DstructAPI
     CopyDstructToDstructAPI(dstruct, dstructAPI)
     const id = typeof dstructAPI === 'number' ? dstructAPI : dstructAPI.ID
     const url = `${this.dstructsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -98,12 +98,12 @@ export class DstructService {
   }
   
   /** POST: add a new dstruct to the server */
-  post(dstructdb: DstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructAPI> {
-    return this.postDstruct(dstructdb, GONG__StackPath, frontRepo)
+  post(dstructdb: DstructAPI, Name: string, frontRepo: FrontRepo): Observable<DstructAPI> {
+    return this.postDstruct(dstructdb, Name, frontRepo)
   }
-  postDstruct(dstructdb: DstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructAPI> {
+  postDstruct(dstructdb: DstructAPI, Name: string, frontRepo: FrontRepo): Observable<DstructAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -118,14 +118,14 @@ export class DstructService {
   }
 
   /** DELETE: delete the dstructdb from the server */
-  delete(dstructdb: DstructAPI | number, GONG__StackPath: string): Observable<DstructAPI> {
-    return this.deleteDstruct(dstructdb, GONG__StackPath)
+  delete(dstructdb: DstructAPI | number, Name: string): Observable<DstructAPI> {
+    return this.deleteDstruct(dstructdb, Name)
   }
-  deleteDstruct(dstructdb: DstructAPI | number, GONG__StackPath: string): Observable<DstructAPI> {
+  deleteDstruct(dstructdb: DstructAPI | number, Name: string): Observable<DstructAPI> {
     const id = typeof dstructdb === 'number' ? dstructdb : dstructdb.ID;
     const url = `${this.dstructsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -138,12 +138,12 @@ export class DstructService {
   }
 
   // updateFront copy dstruct to a version with encoded pointers and update to the back
-  updateFront(dstruct: Dstruct, GONG__StackPath: string): Observable<DstructAPI> {
+  updateFront(dstruct: Dstruct, Name: string): Observable<DstructAPI> {
     let dstructAPI = new DstructAPI
     CopyDstructToDstructAPI(dstruct, dstructAPI)
     const id = typeof dstructAPI === 'number' ? dstructAPI : dstructAPI.ID
     const url = `${this.dstructsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -157,15 +157,15 @@ export class DstructService {
   }
 
   /** PUT: update the dstructdb on the server */
-  update(dstructdb: DstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructAPI> {
-    return this.updateDstruct(dstructdb, GONG__StackPath, frontRepo)
+  update(dstructdb: DstructAPI, Name: string, frontRepo: FrontRepo): Observable<DstructAPI> {
+    return this.updateDstruct(dstructdb, Name, frontRepo)
   }
-  updateDstruct(dstructdb: DstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructAPI> {
+  updateDstruct(dstructdb: DstructAPI, Name: string, frontRepo: FrontRepo): Observable<DstructAPI> {
     const id = typeof dstructdb === 'number' ? dstructdb : dstructdb.ID;
     const url = `${this.dstructsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

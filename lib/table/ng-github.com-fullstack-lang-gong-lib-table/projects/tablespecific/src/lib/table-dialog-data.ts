@@ -1,4 +1,4 @@
 export interface TableDialogData {
-    DataStack: string
+    Name: string
     TableName: string
 }

@@ -46,12 +46,12 @@ export class FormEditAssocButtonService {
 
   /** GET formeditassocbuttons from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI[]> {
-    return this.getFormEditAssocButtons(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI[]> {
+    return this.getFormEditAssocButtons(Name, frontRepo)
   }
-  getFormEditAssocButtons(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI[]> {
+  getFormEditAssocButtons(Name: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<FormEditAssocButtonAPI[]>(this.formeditassocbuttonsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class FormEditAssocButtonService {
 
   /** GET formeditassocbutton by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI> {
-    return this.getFormEditAssocButton(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI> {
+    return this.getFormEditAssocButton(id, Name, frontRepo)
   }
-  getFormEditAssocButton(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI> {
+  getFormEditAssocButton(id: number, Name: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.formeditassocbuttonsUrl}/${id}`;
     return this.http.get<FormEditAssocButtonAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class FormEditAssocButtonService {
   }
 
   // postFront copy formeditassocbutton to a version with encoded pointers and post to the back
-  postFront(formeditassocbutton: FormEditAssocButton, GONG__StackPath: string): Observable<FormEditAssocButtonAPI> {
+  postFront(formeditassocbutton: FormEditAssocButton, Name: string): Observable<FormEditAssocButtonAPI> {
     let formeditassocbuttonAPI = new FormEditAssocButtonAPI
     CopyFormEditAssocButtonToFormEditAssocButtonAPI(formeditassocbutton, formeditassocbuttonAPI)
     const id = typeof formeditassocbuttonAPI === 'number' ? formeditassocbuttonAPI : formeditassocbuttonAPI.ID
     const url = `${this.formeditassocbuttonsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class FormEditAssocButtonService {
   }
   
   /** POST: add a new formeditassocbutton to the server */
-  post(formeditassocbuttondb: FormEditAssocButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI> {
-    return this.postFormEditAssocButton(formeditassocbuttondb, GONG__StackPath, frontRepo)
+  post(formeditassocbuttondb: FormEditAssocButtonAPI, Name: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI> {
+    return this.postFormEditAssocButton(formeditassocbuttondb, Name, frontRepo)
   }
-  postFormEditAssocButton(formeditassocbuttondb: FormEditAssocButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI> {
+  postFormEditAssocButton(formeditassocbuttondb: FormEditAssocButtonAPI, Name: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class FormEditAssocButtonService {
   }
 
   /** DELETE: delete the formeditassocbuttondb from the server */
-  delete(formeditassocbuttondb: FormEditAssocButtonAPI | number, GONG__StackPath: string): Observable<FormEditAssocButtonAPI> {
-    return this.deleteFormEditAssocButton(formeditassocbuttondb, GONG__StackPath)
+  delete(formeditassocbuttondb: FormEditAssocButtonAPI | number, Name: string): Observable<FormEditAssocButtonAPI> {
+    return this.deleteFormEditAssocButton(formeditassocbuttondb, Name)
   }
-  deleteFormEditAssocButton(formeditassocbuttondb: FormEditAssocButtonAPI | number, GONG__StackPath: string): Observable<FormEditAssocButtonAPI> {
+  deleteFormEditAssocButton(formeditassocbuttondb: FormEditAssocButtonAPI | number, Name: string): Observable<FormEditAssocButtonAPI> {
     const id = typeof formeditassocbuttondb === 'number' ? formeditassocbuttondb : formeditassocbuttondb.ID;
     const url = `${this.formeditassocbuttonsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class FormEditAssocButtonService {
   }
 
   // updateFront copy formeditassocbutton to a version with encoded pointers and update to the back
-  updateFront(formeditassocbutton: FormEditAssocButton, GONG__StackPath: string): Observable<FormEditAssocButtonAPI> {
+  updateFront(formeditassocbutton: FormEditAssocButton, Name: string): Observable<FormEditAssocButtonAPI> {
     let formeditassocbuttonAPI = new FormEditAssocButtonAPI
     CopyFormEditAssocButtonToFormEditAssocButtonAPI(formeditassocbutton, formeditassocbuttonAPI)
     const id = typeof formeditassocbuttonAPI === 'number' ? formeditassocbuttonAPI : formeditassocbuttonAPI.ID
     const url = `${this.formeditassocbuttonsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class FormEditAssocButtonService {
   }
 
   /** PUT: update the formeditassocbuttondb on the server */
-  update(formeditassocbuttondb: FormEditAssocButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI> {
-    return this.updateFormEditAssocButton(formeditassocbuttondb, GONG__StackPath, frontRepo)
+  update(formeditassocbuttondb: FormEditAssocButtonAPI, Name: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI> {
+    return this.updateFormEditAssocButton(formeditassocbuttondb, Name, frontRepo)
   }
-  updateFormEditAssocButton(formeditassocbuttondb: FormEditAssocButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI> {
+  updateFormEditAssocButton(formeditassocbuttondb: FormEditAssocButtonAPI, Name: string, frontRepo: FrontRepo): Observable<FormEditAssocButtonAPI> {
     const id = typeof formeditassocbuttondb === 'number' ? formeditassocbuttondb : formeditassocbuttondb.ID;
     const url = `${this.formeditassocbuttonsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

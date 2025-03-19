@@ -47,12 +47,12 @@ export class PathService {
 
   /** GET paths from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathAPI[]> {
-    return this.getPaths(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<PathAPI[]> {
+    return this.getPaths(Name, frontRepo)
   }
-  getPaths(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathAPI[]> {
+  getPaths(Name: string, frontRepo: FrontRepo): Observable<PathAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<PathAPI[]>(this.pathsUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class PathService {
 
   /** GET path by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathAPI> {
-    return this.getPath(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<PathAPI> {
+    return this.getPath(id, Name, frontRepo)
   }
-  getPath(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathAPI> {
+  getPath(id: number, Name: string, frontRepo: FrontRepo): Observable<PathAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.pathsUrl}/${id}`;
     return this.http.get<PathAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class PathService {
   }
 
   // postFront copy path to a version with encoded pointers and post to the back
-  postFront(path: Path, GONG__StackPath: string): Observable<PathAPI> {
+  postFront(path: Path, Name: string): Observable<PathAPI> {
     let pathAPI = new PathAPI
     CopyPathToPathAPI(path, pathAPI)
     const id = typeof pathAPI === 'number' ? pathAPI : pathAPI.ID
     const url = `${this.pathsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class PathService {
   }
   
   /** POST: add a new path to the server */
-  post(pathdb: PathAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathAPI> {
-    return this.postPath(pathdb, GONG__StackPath, frontRepo)
+  post(pathdb: PathAPI, Name: string, frontRepo: FrontRepo): Observable<PathAPI> {
+    return this.postPath(pathdb, Name, frontRepo)
   }
-  postPath(pathdb: PathAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathAPI> {
+  postPath(pathdb: PathAPI, Name: string, frontRepo: FrontRepo): Observable<PathAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class PathService {
   }
 
   /** DELETE: delete the pathdb from the server */
-  delete(pathdb: PathAPI | number, GONG__StackPath: string): Observable<PathAPI> {
-    return this.deletePath(pathdb, GONG__StackPath)
+  delete(pathdb: PathAPI | number, Name: string): Observable<PathAPI> {
+    return this.deletePath(pathdb, Name)
   }
-  deletePath(pathdb: PathAPI | number, GONG__StackPath: string): Observable<PathAPI> {
+  deletePath(pathdb: PathAPI | number, Name: string): Observable<PathAPI> {
     const id = typeof pathdb === 'number' ? pathdb : pathdb.ID;
     const url = `${this.pathsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class PathService {
   }
 
   // updateFront copy path to a version with encoded pointers and update to the back
-  updateFront(path: Path, GONG__StackPath: string): Observable<PathAPI> {
+  updateFront(path: Path, Name: string): Observable<PathAPI> {
     let pathAPI = new PathAPI
     CopyPathToPathAPI(path, pathAPI)
     const id = typeof pathAPI === 'number' ? pathAPI : pathAPI.ID
     const url = `${this.pathsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class PathService {
   }
 
   /** PUT: update the pathdb on the server */
-  update(pathdb: PathAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathAPI> {
-    return this.updatePath(pathdb, GONG__StackPath, frontRepo)
+  update(pathdb: PathAPI, Name: string, frontRepo: FrontRepo): Observable<PathAPI> {
+    return this.updatePath(pathdb, Name, frontRepo)
   }
-  updatePath(pathdb: PathAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PathAPI> {
+  updatePath(pathdb: PathAPI, Name: string, frontRepo: FrontRepo): Observable<PathAPI> {
     const id = typeof pathdb === 'number' ? pathdb : pathdb.ID;
     const url = `${this.pathsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
