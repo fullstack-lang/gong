@@ -203,7 +203,7 @@ func (onAssocEditon *OnAssocEditon) OnButtonPressed() {
 	// create a new with the name append "-table"
 	newStage, _ := gongtable_fullstack.NewStackInstance(
 		onAssocEditon.r,
-		onAssocEditon.sourceStack.GetPath()+
+		onAssocEditon.sourceStack.GetName()+
 			string(gongtable_models.StackNamePostFixForTableForAssociation))
 
 	fillUpSelectTableDummyStuff(newStage, string(gongtable_models.TableSelectExtraName))
@@ -219,7 +219,7 @@ func (onSortEditon *OnSortEditon) OnButtonPressed() {
 
 	newStage, _ := gongtable_fullstack.NewStackInstance(
 		onSortEditon.r,
-		onSortEditon.sourceStack.GetPath()+
+		onSortEditon.sourceStack.GetName()+
 			string(gongtable_models.StackNamePostFixForTableForAssociationSorting))
 
 	fillUpSortTableDummyStuff(newStage, string(gongtable_models.TableSortExtraName))

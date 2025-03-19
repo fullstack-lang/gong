@@ -44,7 +44,7 @@ type GongStructInterface interface {
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct {
-	path string
+	name string
 
 	// insertion point for definition of arrays registering instances
 	Commands           map[*Command]any
@@ -190,7 +190,7 @@ type BackRepoInterface interface {
 	GetLastPushFromFrontNb() uint
 }
 
-func NewStage(path string) (stage *StageStruct) {
+func NewStage(name string) (stage *StageStruct) {
 
 	stage = &StageStruct{ // insertion point for array initiatialisation
 		Commands:           make(map[*Command]any),
@@ -214,7 +214,7 @@ func NewStage(path string) (stage *StageStruct) {
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
 
-		path: path,
+		name: name,
 
 		// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
 		Map_DocLink_Renaming: make(map[string]GONG__Identifier),
@@ -226,8 +226,8 @@ func NewStage(path string) (stage *StageStruct) {
 	return
 }
 
-func (stage *StageStruct) GetPath() string {
-	return stage.path
+func (stage *StageStruct) GetName() string {
+	return stage.name
 }
 
 func (stage *StageStruct) CommitWithSuspendedCallbacks() {

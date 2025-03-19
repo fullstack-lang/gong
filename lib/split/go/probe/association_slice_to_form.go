@@ -72,7 +72,7 @@ func NewOnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.
 
 func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 
-	tableStackName := onAssocEditon.probe.formStage.GetPath() + string(form.StackNamePostFixForTableForAssociation)
+	tableStackName := onAssocEditon.probe.formStage.GetName() + string(form.StackNamePostFixForTableForAssociation)
 
 	// tableStackName supposed to be "test-form-table"
 	tableStageForSelection, _ := gongtable_fullstack.NewStackInstance(onAssocEditon.probe.r, tableStackName)
