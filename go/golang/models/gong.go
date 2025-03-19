@@ -421,7 +421,7 @@ map[GongFilePerStructSubTemplateId]string{
 	// 		},`,
 	GongFileFieldSubTmplAssociationNameEnclosingCompositePointerField: `
 			// field is initialized with {{AssocCompositeStructName}} problem with composites
-			`,
+`,
 	GongFileFieldSubTmplAssociationNameCompositePointerField: `
 				//
 				{{FieldName}}: &{{AssocStructName}}{Name: "{{FieldName}}"},`,
