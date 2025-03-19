@@ -46,12 +46,12 @@ export class SplitService {
 
   /** GET splits from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<SplitAPI[]> {
-    return this.getSplits(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<SplitAPI[]> {
+    return this.getSplits(Name, frontRepo)
   }
-  getSplits(GONG__StackPath: string, frontRepo: FrontRepo): Observable<SplitAPI[]> {
+  getSplits(Name: string, frontRepo: FrontRepo): Observable<SplitAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<SplitAPI[]>(this.splitsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class SplitService {
 
   /** GET split by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SplitAPI> {
-    return this.getSplit(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<SplitAPI> {
+    return this.getSplit(id, Name, frontRepo)
   }
-  getSplit(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SplitAPI> {
+  getSplit(id: number, Name: string, frontRepo: FrontRepo): Observable<SplitAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.splitsUrl}/${id}`;
     return this.http.get<SplitAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class SplitService {
   }
 
   // postFront copy split to a version with encoded pointers and post to the back
-  postFront(split: Split, GONG__StackPath: string): Observable<SplitAPI> {
+  postFront(split: Split, Name: string): Observable<SplitAPI> {
     let splitAPI = new SplitAPI
     CopySplitToSplitAPI(split, splitAPI)
     const id = typeof splitAPI === 'number' ? splitAPI : splitAPI.ID
     const url = `${this.splitsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class SplitService {
   }
   
   /** POST: add a new split to the server */
-  post(splitdb: SplitAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SplitAPI> {
-    return this.postSplit(splitdb, GONG__StackPath, frontRepo)
+  post(splitdb: SplitAPI, Name: string, frontRepo: FrontRepo): Observable<SplitAPI> {
+    return this.postSplit(splitdb, Name, frontRepo)
   }
-  postSplit(splitdb: SplitAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SplitAPI> {
+  postSplit(splitdb: SplitAPI, Name: string, frontRepo: FrontRepo): Observable<SplitAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class SplitService {
   }
 
   /** DELETE: delete the splitdb from the server */
-  delete(splitdb: SplitAPI | number, GONG__StackPath: string): Observable<SplitAPI> {
-    return this.deleteSplit(splitdb, GONG__StackPath)
+  delete(splitdb: SplitAPI | number, Name: string): Observable<SplitAPI> {
+    return this.deleteSplit(splitdb, Name)
   }
-  deleteSplit(splitdb: SplitAPI | number, GONG__StackPath: string): Observable<SplitAPI> {
+  deleteSplit(splitdb: SplitAPI | number, Name: string): Observable<SplitAPI> {
     const id = typeof splitdb === 'number' ? splitdb : splitdb.ID;
     const url = `${this.splitsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class SplitService {
   }
 
   // updateFront copy split to a version with encoded pointers and update to the back
-  updateFront(split: Split, GONG__StackPath: string): Observable<SplitAPI> {
+  updateFront(split: Split, Name: string): Observable<SplitAPI> {
     let splitAPI = new SplitAPI
     CopySplitToSplitAPI(split, splitAPI)
     const id = typeof splitAPI === 'number' ? splitAPI : splitAPI.ID
     const url = `${this.splitsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class SplitService {
   }
 
   /** PUT: update the splitdb on the server */
-  update(splitdb: SplitAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SplitAPI> {
-    return this.updateSplit(splitdb, GONG__StackPath, frontRepo)
+  update(splitdb: SplitAPI, Name: string, frontRepo: FrontRepo): Observable<SplitAPI> {
+    return this.updateSplit(splitdb, Name, frontRepo)
   }
-  updateSplit(splitdb: SplitAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SplitAPI> {
+  updateSplit(splitdb: SplitAPI, Name: string, frontRepo: FrontRepo): Observable<SplitAPI> {
     const id = typeof splitdb === 'number' ? splitdb : splitdb.ID;
     const url = `${this.splitsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

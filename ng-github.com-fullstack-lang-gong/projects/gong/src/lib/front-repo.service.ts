@@ -197,7 +197,7 @@ export class DialogData {
 	IntermediateStructField: string = "" // the "Bclass" as field
 	NextAssociationStruct: string = "" // the "Bclass"
 
-	GONG__StackPath: string = ""
+	Name: string = ""
 }
 
 export enum SelectionMode {
@@ -213,7 +213,7 @@ export enum SelectionMode {
 })
 export class FrontRepoService {
 
-	GONG__StackPath: string = ""
+	Name: string = ""
 	private socket: WebSocket | undefined
 
 	httpOptions = {
@@ -291,25 +291,25 @@ export class FrontRepoService {
 	// This is an observable. Therefore, the control flow forks with
 	// - pull() return immediatly the observable
 	// - the observable observer, if it subscribe, is called when all GET calls are performs
-	pull(GONG__StackPath: string = ""): Observable<FrontRepo> {
+	pull(Name: string = ""): Observable<FrontRepo> {
 
-		this.GONG__StackPath = GONG__StackPath
+		this.Name = Name
 
 		this.observableFrontRepo = [
 			of(null), // see above for justification
 			// insertion point sub template
-			this.gongbasicfieldService.getGongBasicFields(this.GONG__StackPath, this.frontRepo),
-			this.gongenumService.getGongEnums(this.GONG__StackPath, this.frontRepo),
-			this.gongenumvalueService.getGongEnumValues(this.GONG__StackPath, this.frontRepo),
-			this.gonglinkService.getGongLinks(this.GONG__StackPath, this.frontRepo),
-			this.gongnoteService.getGongNotes(this.GONG__StackPath, this.frontRepo),
-			this.gongstructService.getGongStructs(this.GONG__StackPath, this.frontRepo),
-			this.gongtimefieldService.getGongTimeFields(this.GONG__StackPath, this.frontRepo),
-			this.metaService.getMetas(this.GONG__StackPath, this.frontRepo),
-			this.metareferenceService.getMetaReferences(this.GONG__StackPath, this.frontRepo),
-			this.modelpkgService.getModelPkgs(this.GONG__StackPath, this.frontRepo),
-			this.pointertogongstructfieldService.getPointerToGongStructFields(this.GONG__StackPath, this.frontRepo),
-			this.sliceofpointertogongstructfieldService.getSliceOfPointerToGongStructFields(this.GONG__StackPath, this.frontRepo),
+			this.gongbasicfieldService.getGongBasicFields(this.Name, this.frontRepo),
+			this.gongenumService.getGongEnums(this.Name, this.frontRepo),
+			this.gongenumvalueService.getGongEnumValues(this.Name, this.frontRepo),
+			this.gonglinkService.getGongLinks(this.Name, this.frontRepo),
+			this.gongnoteService.getGongNotes(this.Name, this.frontRepo),
+			this.gongstructService.getGongStructs(this.Name, this.frontRepo),
+			this.gongtimefieldService.getGongTimeFields(this.Name, this.frontRepo),
+			this.metaService.getMetas(this.Name, this.frontRepo),
+			this.metareferenceService.getMetaReferences(this.Name, this.frontRepo),
+			this.modelpkgService.getModelPkgs(this.Name, this.frontRepo),
+			this.pointertogongstructfieldService.getPointerToGongStructFields(this.Name, this.frontRepo),
+			this.sliceofpointertogongstructfieldService.getSliceOfPointerToGongStructFields(this.Name, this.frontRepo),
 		]
 
 		return new Observable<FrontRepo>(
@@ -617,12 +617,12 @@ export class FrontRepoService {
 		)
 	}
 
-	public connectToWebSocket(GONG__StackPath: string): Observable<FrontRepo> {
+	public connectToWebSocket(Name: string): Observable<FrontRepo> {
 
-		this.GONG__StackPath = GONG__StackPath
+		this.Name = Name
 
 
-		let params = new HttpParams().set("GONG__StackPath", this.GONG__StackPath)
+		let params = new HttpParams().set("Name", this.Name)
 		let basePath = 'ws://localhost:8080/api/github.com/fullstack-lang/gong/go/v1/ws/stage'
 		let paramString = params.toString()
 		let url = `${basePath}?${paramString}`

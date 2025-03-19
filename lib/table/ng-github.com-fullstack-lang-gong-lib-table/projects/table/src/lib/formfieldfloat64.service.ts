@@ -46,12 +46,12 @@ export class FormFieldFloat64Service {
 
   /** GET formfieldfloat64s from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldFloat64API[]> {
-    return this.getFormFieldFloat64s(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<FormFieldFloat64API[]> {
+    return this.getFormFieldFloat64s(Name, frontRepo)
   }
-  getFormFieldFloat64s(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldFloat64API[]> {
+  getFormFieldFloat64s(Name: string, frontRepo: FrontRepo): Observable<FormFieldFloat64API[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<FormFieldFloat64API[]>(this.formfieldfloat64sUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class FormFieldFloat64Service {
 
   /** GET formfieldfloat64 by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldFloat64API> {
-    return this.getFormFieldFloat64(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<FormFieldFloat64API> {
+    return this.getFormFieldFloat64(id, Name, frontRepo)
   }
-  getFormFieldFloat64(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldFloat64API> {
+  getFormFieldFloat64(id: number, Name: string, frontRepo: FrontRepo): Observable<FormFieldFloat64API> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.formfieldfloat64sUrl}/${id}`;
     return this.http.get<FormFieldFloat64API>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class FormFieldFloat64Service {
   }
 
   // postFront copy formfieldfloat64 to a version with encoded pointers and post to the back
-  postFront(formfieldfloat64: FormFieldFloat64, GONG__StackPath: string): Observable<FormFieldFloat64API> {
+  postFront(formfieldfloat64: FormFieldFloat64, Name: string): Observable<FormFieldFloat64API> {
     let formfieldfloat64API = new FormFieldFloat64API
     CopyFormFieldFloat64ToFormFieldFloat64API(formfieldfloat64, formfieldfloat64API)
     const id = typeof formfieldfloat64API === 'number' ? formfieldfloat64API : formfieldfloat64API.ID
     const url = `${this.formfieldfloat64sUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class FormFieldFloat64Service {
   }
   
   /** POST: add a new formfieldfloat64 to the server */
-  post(formfieldfloat64db: FormFieldFloat64API, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldFloat64API> {
-    return this.postFormFieldFloat64(formfieldfloat64db, GONG__StackPath, frontRepo)
+  post(formfieldfloat64db: FormFieldFloat64API, Name: string, frontRepo: FrontRepo): Observable<FormFieldFloat64API> {
+    return this.postFormFieldFloat64(formfieldfloat64db, Name, frontRepo)
   }
-  postFormFieldFloat64(formfieldfloat64db: FormFieldFloat64API, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldFloat64API> {
+  postFormFieldFloat64(formfieldfloat64db: FormFieldFloat64API, Name: string, frontRepo: FrontRepo): Observable<FormFieldFloat64API> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class FormFieldFloat64Service {
   }
 
   /** DELETE: delete the formfieldfloat64db from the server */
-  delete(formfieldfloat64db: FormFieldFloat64API | number, GONG__StackPath: string): Observable<FormFieldFloat64API> {
-    return this.deleteFormFieldFloat64(formfieldfloat64db, GONG__StackPath)
+  delete(formfieldfloat64db: FormFieldFloat64API | number, Name: string): Observable<FormFieldFloat64API> {
+    return this.deleteFormFieldFloat64(formfieldfloat64db, Name)
   }
-  deleteFormFieldFloat64(formfieldfloat64db: FormFieldFloat64API | number, GONG__StackPath: string): Observable<FormFieldFloat64API> {
+  deleteFormFieldFloat64(formfieldfloat64db: FormFieldFloat64API | number, Name: string): Observable<FormFieldFloat64API> {
     const id = typeof formfieldfloat64db === 'number' ? formfieldfloat64db : formfieldfloat64db.ID;
     const url = `${this.formfieldfloat64sUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class FormFieldFloat64Service {
   }
 
   // updateFront copy formfieldfloat64 to a version with encoded pointers and update to the back
-  updateFront(formfieldfloat64: FormFieldFloat64, GONG__StackPath: string): Observable<FormFieldFloat64API> {
+  updateFront(formfieldfloat64: FormFieldFloat64, Name: string): Observable<FormFieldFloat64API> {
     let formfieldfloat64API = new FormFieldFloat64API
     CopyFormFieldFloat64ToFormFieldFloat64API(formfieldfloat64, formfieldfloat64API)
     const id = typeof formfieldfloat64API === 'number' ? formfieldfloat64API : formfieldfloat64API.ID
     const url = `${this.formfieldfloat64sUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class FormFieldFloat64Service {
   }
 
   /** PUT: update the formfieldfloat64db on the server */
-  update(formfieldfloat64db: FormFieldFloat64API, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldFloat64API> {
-    return this.updateFormFieldFloat64(formfieldfloat64db, GONG__StackPath, frontRepo)
+  update(formfieldfloat64db: FormFieldFloat64API, Name: string, frontRepo: FrontRepo): Observable<FormFieldFloat64API> {
+    return this.updateFormFieldFloat64(formfieldfloat64db, Name, frontRepo)
   }
-  updateFormFieldFloat64(formfieldfloat64db: FormFieldFloat64API, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldFloat64API> {
+  updateFormFieldFloat64(formfieldfloat64db: FormFieldFloat64API, Name: string, frontRepo: FrontRepo): Observable<FormFieldFloat64API> {
     const id = typeof formfieldfloat64db === 'number' ? formfieldfloat64db : formfieldfloat64db.ID;
     const url = `${this.formfieldfloat64sUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

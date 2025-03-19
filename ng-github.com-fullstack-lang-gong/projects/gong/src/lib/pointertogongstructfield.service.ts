@@ -47,12 +47,12 @@ export class PointerToGongStructFieldService {
 
   /** GET pointertogongstructfields from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointerToGongStructFieldAPI[]> {
-    return this.getPointerToGongStructFields(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<PointerToGongStructFieldAPI[]> {
+    return this.getPointerToGongStructFields(Name, frontRepo)
   }
-  getPointerToGongStructFields(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointerToGongStructFieldAPI[]> {
+  getPointerToGongStructFields(Name: string, frontRepo: FrontRepo): Observable<PointerToGongStructFieldAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<PointerToGongStructFieldAPI[]>(this.pointertogongstructfieldsUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class PointerToGongStructFieldService {
 
   /** GET pointertogongstructfield by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointerToGongStructFieldAPI> {
-    return this.getPointerToGongStructField(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<PointerToGongStructFieldAPI> {
+    return this.getPointerToGongStructField(id, Name, frontRepo)
   }
-  getPointerToGongStructField(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointerToGongStructFieldAPI> {
+  getPointerToGongStructField(id: number, Name: string, frontRepo: FrontRepo): Observable<PointerToGongStructFieldAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.pointertogongstructfieldsUrl}/${id}`;
     return this.http.get<PointerToGongStructFieldAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class PointerToGongStructFieldService {
   }
 
   // postFront copy pointertogongstructfield to a version with encoded pointers and post to the back
-  postFront(pointertogongstructfield: PointerToGongStructField, GONG__StackPath: string): Observable<PointerToGongStructFieldAPI> {
+  postFront(pointertogongstructfield: PointerToGongStructField, Name: string): Observable<PointerToGongStructFieldAPI> {
     let pointertogongstructfieldAPI = new PointerToGongStructFieldAPI
     CopyPointerToGongStructFieldToPointerToGongStructFieldAPI(pointertogongstructfield, pointertogongstructfieldAPI)
     const id = typeof pointertogongstructfieldAPI === 'number' ? pointertogongstructfieldAPI : pointertogongstructfieldAPI.ID
     const url = `${this.pointertogongstructfieldsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class PointerToGongStructFieldService {
   }
   
   /** POST: add a new pointertogongstructfield to the server */
-  post(pointertogongstructfielddb: PointerToGongStructFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointerToGongStructFieldAPI> {
-    return this.postPointerToGongStructField(pointertogongstructfielddb, GONG__StackPath, frontRepo)
+  post(pointertogongstructfielddb: PointerToGongStructFieldAPI, Name: string, frontRepo: FrontRepo): Observable<PointerToGongStructFieldAPI> {
+    return this.postPointerToGongStructField(pointertogongstructfielddb, Name, frontRepo)
   }
-  postPointerToGongStructField(pointertogongstructfielddb: PointerToGongStructFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointerToGongStructFieldAPI> {
+  postPointerToGongStructField(pointertogongstructfielddb: PointerToGongStructFieldAPI, Name: string, frontRepo: FrontRepo): Observable<PointerToGongStructFieldAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class PointerToGongStructFieldService {
   }
 
   /** DELETE: delete the pointertogongstructfielddb from the server */
-  delete(pointertogongstructfielddb: PointerToGongStructFieldAPI | number, GONG__StackPath: string): Observable<PointerToGongStructFieldAPI> {
-    return this.deletePointerToGongStructField(pointertogongstructfielddb, GONG__StackPath)
+  delete(pointertogongstructfielddb: PointerToGongStructFieldAPI | number, Name: string): Observable<PointerToGongStructFieldAPI> {
+    return this.deletePointerToGongStructField(pointertogongstructfielddb, Name)
   }
-  deletePointerToGongStructField(pointertogongstructfielddb: PointerToGongStructFieldAPI | number, GONG__StackPath: string): Observable<PointerToGongStructFieldAPI> {
+  deletePointerToGongStructField(pointertogongstructfielddb: PointerToGongStructFieldAPI | number, Name: string): Observable<PointerToGongStructFieldAPI> {
     const id = typeof pointertogongstructfielddb === 'number' ? pointertogongstructfielddb : pointertogongstructfielddb.ID;
     const url = `${this.pointertogongstructfieldsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class PointerToGongStructFieldService {
   }
 
   // updateFront copy pointertogongstructfield to a version with encoded pointers and update to the back
-  updateFront(pointertogongstructfield: PointerToGongStructField, GONG__StackPath: string): Observable<PointerToGongStructFieldAPI> {
+  updateFront(pointertogongstructfield: PointerToGongStructField, Name: string): Observable<PointerToGongStructFieldAPI> {
     let pointertogongstructfieldAPI = new PointerToGongStructFieldAPI
     CopyPointerToGongStructFieldToPointerToGongStructFieldAPI(pointertogongstructfield, pointertogongstructfieldAPI)
     const id = typeof pointertogongstructfieldAPI === 'number' ? pointertogongstructfieldAPI : pointertogongstructfieldAPI.ID
     const url = `${this.pointertogongstructfieldsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class PointerToGongStructFieldService {
   }
 
   /** PUT: update the pointertogongstructfielddb on the server */
-  update(pointertogongstructfielddb: PointerToGongStructFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointerToGongStructFieldAPI> {
-    return this.updatePointerToGongStructField(pointertogongstructfielddb, GONG__StackPath, frontRepo)
+  update(pointertogongstructfielddb: PointerToGongStructFieldAPI, Name: string, frontRepo: FrontRepo): Observable<PointerToGongStructFieldAPI> {
+    return this.updatePointerToGongStructField(pointertogongstructfielddb, Name, frontRepo)
   }
-  updatePointerToGongStructField(pointertogongstructfielddb: PointerToGongStructFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointerToGongStructFieldAPI> {
+  updatePointerToGongStructField(pointertogongstructfielddb: PointerToGongStructFieldAPI, Name: string, frontRepo: FrontRepo): Observable<PointerToGongStructFieldAPI> {
     const id = typeof pointertogongstructfielddb === 'number' ? pointertogongstructfielddb : pointertogongstructfielddb.ID;
     const url = `${this.pointertogongstructfieldsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

@@ -46,12 +46,12 @@ export class BstructService {
 
   /** GET bstructs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructAPI[]> {
-    return this.getBstructs(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<BstructAPI[]> {
+    return this.getBstructs(Name, frontRepo)
   }
-  getBstructs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructAPI[]> {
+  getBstructs(Name: string, frontRepo: FrontRepo): Observable<BstructAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<BstructAPI[]>(this.bstructsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class BstructService {
 
   /** GET bstruct by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructAPI> {
-    return this.getBstruct(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<BstructAPI> {
+    return this.getBstruct(id, Name, frontRepo)
   }
-  getBstruct(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructAPI> {
+  getBstruct(id: number, Name: string, frontRepo: FrontRepo): Observable<BstructAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.bstructsUrl}/${id}`;
     return this.http.get<BstructAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class BstructService {
   }
 
   // postFront copy bstruct to a version with encoded pointers and post to the back
-  postFront(bstruct: Bstruct, GONG__StackPath: string): Observable<BstructAPI> {
+  postFront(bstruct: Bstruct, Name: string): Observable<BstructAPI> {
     let bstructAPI = new BstructAPI
     CopyBstructToBstructAPI(bstruct, bstructAPI)
     const id = typeof bstructAPI === 'number' ? bstructAPI : bstructAPI.ID
     const url = `${this.bstructsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class BstructService {
   }
   
   /** POST: add a new bstruct to the server */
-  post(bstructdb: BstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructAPI> {
-    return this.postBstruct(bstructdb, GONG__StackPath, frontRepo)
+  post(bstructdb: BstructAPI, Name: string, frontRepo: FrontRepo): Observable<BstructAPI> {
+    return this.postBstruct(bstructdb, Name, frontRepo)
   }
-  postBstruct(bstructdb: BstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructAPI> {
+  postBstruct(bstructdb: BstructAPI, Name: string, frontRepo: FrontRepo): Observable<BstructAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class BstructService {
   }
 
   /** DELETE: delete the bstructdb from the server */
-  delete(bstructdb: BstructAPI | number, GONG__StackPath: string): Observable<BstructAPI> {
-    return this.deleteBstruct(bstructdb, GONG__StackPath)
+  delete(bstructdb: BstructAPI | number, Name: string): Observable<BstructAPI> {
+    return this.deleteBstruct(bstructdb, Name)
   }
-  deleteBstruct(bstructdb: BstructAPI | number, GONG__StackPath: string): Observable<BstructAPI> {
+  deleteBstruct(bstructdb: BstructAPI | number, Name: string): Observable<BstructAPI> {
     const id = typeof bstructdb === 'number' ? bstructdb : bstructdb.ID;
     const url = `${this.bstructsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class BstructService {
   }
 
   // updateFront copy bstruct to a version with encoded pointers and update to the back
-  updateFront(bstruct: Bstruct, GONG__StackPath: string): Observable<BstructAPI> {
+  updateFront(bstruct: Bstruct, Name: string): Observable<BstructAPI> {
     let bstructAPI = new BstructAPI
     CopyBstructToBstructAPI(bstruct, bstructAPI)
     const id = typeof bstructAPI === 'number' ? bstructAPI : bstructAPI.ID
     const url = `${this.bstructsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class BstructService {
   }
 
   /** PUT: update the bstructdb on the server */
-  update(bstructdb: BstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructAPI> {
-    return this.updateBstruct(bstructdb, GONG__StackPath, frontRepo)
+  update(bstructdb: BstructAPI, Name: string, frontRepo: FrontRepo): Observable<BstructAPI> {
+    return this.updateBstruct(bstructdb, Name, frontRepo)
   }
-  updateBstruct(bstructdb: BstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructAPI> {
+  updateBstruct(bstructdb: BstructAPI, Name: string, frontRepo: FrontRepo): Observable<BstructAPI> {
     const id = typeof bstructdb === 'number' ? bstructdb : bstructdb.ID;
     const url = `${this.bstructsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

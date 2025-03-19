@@ -28,7 +28,7 @@ import { AngularSplitModule } from 'angular-split';
 })
 export class SimSpecificComponent {
 
-  @Input() GONG__StackPath: string = ""
+  @Input() Name: string = ""
 
   public engine: sim.Engine = new sim.Engine
   public engineID: number = 0
@@ -79,7 +79,7 @@ export class SimSpecificComponent {
   }
 
   ngOnInit(): void {
-    this.frontRepoService.connectToWebSocket(this.GONG__StackPath).subscribe(
+    this.frontRepoService.connectToWebSocket(this.Name).subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
         let engines = this.frontRepo.getFrontArray<sim.Engine>(sim.Engine.GONGSTRUCT_NAME)
@@ -115,7 +115,7 @@ export class SimSpecificComponent {
   fireEventTillStateChange(): void {
     this.commandSingloton.Command = sim.CommandType.COMMAND_FIRE_EVENT_TILL_STATES_CHANGE
     this.commandSingloton.CommandDate = Date.now().toString()
-    this.commandService.updateFront(this.commandSingloton, this.GONG__StackPath).subscribe(
+    this.commandService.updateFront(this.commandSingloton, this.Name).subscribe(
       command => {
         console.log("FIRE_EVENT_TILL_STATES_CHANGE sent to the backRepo")
       }
@@ -126,7 +126,7 @@ export class SimSpecificComponent {
   fireEvent(): void {
     this.commandSingloton.Command = sim.CommandType.COMMAND_FIRE_NEXT_EVENT
     this.commandSingloton.CommandDate = Date.now().toString()
-    this.commandService.updateFront(this.commandSingloton, this.GONG__StackPath).subscribe(
+    this.commandService.updateFront(this.commandSingloton, this.Name).subscribe(
       command => {
         console.log("FIRCOMMAND_FIRE_NEXT_EVENT sent to the backRepo")
       }
@@ -138,7 +138,7 @@ export class SimSpecificComponent {
 
     this.commandSingloton.Command = sim.CommandType.COMMAND_RESET
     this.commandSingloton.CommandDate = Date.now().toString()
-    this.commandService.updateFront(this.commandSingloton, this.GONG__StackPath).subscribe(
+    this.commandService.updateFront(this.commandSingloton, this.Name).subscribe(
       command => {
         console.log("RESCOMMAND_RESET sent to the backRepo")
       }
@@ -150,7 +150,7 @@ export class SimSpecificComponent {
 
     this.commandSingloton.Command = sim.CommandType.COMMAND_PLAY
     this.commandSingloton.CommandDate = Date.now().toString()
-    this.commandService.updateFront(this.commandSingloton, this.GONG__StackPath).subscribe(
+    this.commandService.updateFront(this.commandSingloton, this.Name).subscribe(
       command => {
         console.log("PLAY sent to the backRepo")
       }
@@ -160,7 +160,7 @@ export class SimSpecificComponent {
   pause(): void {
     this.commandSingloton.Command = sim.CommandType.COMMAND_PAUSE
     this.commandSingloton.CommandDate = Date.now().toString()
-    this.commandService.updateFront(this.commandSingloton, this.GONG__StackPath).subscribe(
+    this.commandService.updateFront(this.commandSingloton, this.Name).subscribe(
       command => {
         console.log("PAUSE sent to the backRepo")
       }
@@ -170,7 +170,7 @@ export class SimSpecificComponent {
   increaseSpeed100percent(): void {
     this.commandSingloton.Command = sim.SpeedCommandType.COMMAND_INCREASE_SPEED_100_PERCENTS
     this.commandSingloton.CommandDate = Date.now().toString()
-    this.commandService.updateFront(this.commandSingloton, this.GONG__StackPath).subscribe(
+    this.commandService.updateFront(this.commandSingloton, this.Name).subscribe(
       command => {
         console.log(sim.SpeedCommandType.COMMAND_INCREASE_SPEED_100_PERCENTS, "sent")
       }
@@ -182,7 +182,7 @@ export class SimSpecificComponent {
   decreaseSpeed50percent(): void {
     this.commandSingloton.Command = sim.SpeedCommandType.COMMAND_DECREASE_SPEED_50_PERCENTS
     this.commandSingloton.CommandDate = Date.now().toString()
-    this.commandService.updateFront(this.commandSingloton, this.GONG__StackPath).subscribe(
+    this.commandService.updateFront(this.commandSingloton, this.Name).subscribe(
       command => {
         console.log(sim.SpeedCommandType.COMMAND_DECREASE_SPEED_50_PERCENTS, "sent")
       }
@@ -197,7 +197,7 @@ export class SimSpecificComponent {
   publishAdvance10Minutes(): void {
     this.commandSingloton.Command = sim.CommandType.COMMAND_ADVANCE_10_MIN
     this.commandSingloton.CommandDate = Date.now().toString()
-    this.commandService.updateFront(this.commandSingloton, this.GONG__StackPath).subscribe(
+    this.commandService.updateFront(this.commandSingloton, this.Name).subscribe(
       command => {
         console.log("ADCOMMAND_ADVANCE_10_MIN sent to the backRepo")
       }

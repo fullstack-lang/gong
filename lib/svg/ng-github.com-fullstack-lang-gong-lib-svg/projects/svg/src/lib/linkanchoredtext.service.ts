@@ -47,12 +47,12 @@ export class LinkAnchoredTextService {
 
   /** GET linkanchoredtexts from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI[]> {
-    return this.getLinkAnchoredTexts(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI[]> {
+    return this.getLinkAnchoredTexts(Name, frontRepo)
   }
-  getLinkAnchoredTexts(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI[]> {
+  getLinkAnchoredTexts(Name: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<LinkAnchoredTextAPI[]>(this.linkanchoredtextsUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class LinkAnchoredTextService {
 
   /** GET linkanchoredtext by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI> {
-    return this.getLinkAnchoredText(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI> {
+    return this.getLinkAnchoredText(id, Name, frontRepo)
   }
-  getLinkAnchoredText(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI> {
+  getLinkAnchoredText(id: number, Name: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.linkanchoredtextsUrl}/${id}`;
     return this.http.get<LinkAnchoredTextAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class LinkAnchoredTextService {
   }
 
   // postFront copy linkanchoredtext to a version with encoded pointers and post to the back
-  postFront(linkanchoredtext: LinkAnchoredText, GONG__StackPath: string): Observable<LinkAnchoredTextAPI> {
+  postFront(linkanchoredtext: LinkAnchoredText, Name: string): Observable<LinkAnchoredTextAPI> {
     let linkanchoredtextAPI = new LinkAnchoredTextAPI
     CopyLinkAnchoredTextToLinkAnchoredTextAPI(linkanchoredtext, linkanchoredtextAPI)
     const id = typeof linkanchoredtextAPI === 'number' ? linkanchoredtextAPI : linkanchoredtextAPI.ID
     const url = `${this.linkanchoredtextsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class LinkAnchoredTextService {
   }
   
   /** POST: add a new linkanchoredtext to the server */
-  post(linkanchoredtextdb: LinkAnchoredTextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI> {
-    return this.postLinkAnchoredText(linkanchoredtextdb, GONG__StackPath, frontRepo)
+  post(linkanchoredtextdb: LinkAnchoredTextAPI, Name: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI> {
+    return this.postLinkAnchoredText(linkanchoredtextdb, Name, frontRepo)
   }
-  postLinkAnchoredText(linkanchoredtextdb: LinkAnchoredTextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI> {
+  postLinkAnchoredText(linkanchoredtextdb: LinkAnchoredTextAPI, Name: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class LinkAnchoredTextService {
   }
 
   /** DELETE: delete the linkanchoredtextdb from the server */
-  delete(linkanchoredtextdb: LinkAnchoredTextAPI | number, GONG__StackPath: string): Observable<LinkAnchoredTextAPI> {
-    return this.deleteLinkAnchoredText(linkanchoredtextdb, GONG__StackPath)
+  delete(linkanchoredtextdb: LinkAnchoredTextAPI | number, Name: string): Observable<LinkAnchoredTextAPI> {
+    return this.deleteLinkAnchoredText(linkanchoredtextdb, Name)
   }
-  deleteLinkAnchoredText(linkanchoredtextdb: LinkAnchoredTextAPI | number, GONG__StackPath: string): Observable<LinkAnchoredTextAPI> {
+  deleteLinkAnchoredText(linkanchoredtextdb: LinkAnchoredTextAPI | number, Name: string): Observable<LinkAnchoredTextAPI> {
     const id = typeof linkanchoredtextdb === 'number' ? linkanchoredtextdb : linkanchoredtextdb.ID;
     const url = `${this.linkanchoredtextsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class LinkAnchoredTextService {
   }
 
   // updateFront copy linkanchoredtext to a version with encoded pointers and update to the back
-  updateFront(linkanchoredtext: LinkAnchoredText, GONG__StackPath: string): Observable<LinkAnchoredTextAPI> {
+  updateFront(linkanchoredtext: LinkAnchoredText, Name: string): Observable<LinkAnchoredTextAPI> {
     let linkanchoredtextAPI = new LinkAnchoredTextAPI
     CopyLinkAnchoredTextToLinkAnchoredTextAPI(linkanchoredtext, linkanchoredtextAPI)
     const id = typeof linkanchoredtextAPI === 'number' ? linkanchoredtextAPI : linkanchoredtextAPI.ID
     const url = `${this.linkanchoredtextsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class LinkAnchoredTextService {
   }
 
   /** PUT: update the linkanchoredtextdb on the server */
-  update(linkanchoredtextdb: LinkAnchoredTextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI> {
-    return this.updateLinkAnchoredText(linkanchoredtextdb, GONG__StackPath, frontRepo)
+  update(linkanchoredtextdb: LinkAnchoredTextAPI, Name: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI> {
+    return this.updateLinkAnchoredText(linkanchoredtextdb, Name, frontRepo)
   }
-  updateLinkAnchoredText(linkanchoredtextdb: LinkAnchoredTextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI> {
+  updateLinkAnchoredText(linkanchoredtextdb: LinkAnchoredTextAPI, Name: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI> {
     const id = typeof linkanchoredtextdb === 'number' ? linkanchoredtextdb : linkanchoredtextdb.ID;
     const url = `${this.linkanchoredtextsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

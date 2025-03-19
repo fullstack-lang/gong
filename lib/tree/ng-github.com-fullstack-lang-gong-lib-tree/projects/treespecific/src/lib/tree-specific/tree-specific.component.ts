@@ -62,7 +62,7 @@ interface FlatNode {
 export class TreeSpecificComponent {
 
   @Input() name: string = ""
-  @Input() GONG__StackPath: string = ""
+  @Input() Name: string = ""
 
   private _transformer = (node: Node, level: number) => {
     return {
@@ -105,7 +105,7 @@ export class TreeSpecificComponent {
 
   ngOnInit(): void {
 
-    this.gongtreeFrontRepoService.connectToWebSocket(this.GONG__StackPath).subscribe(
+    this.gongtreeFrontRepoService.connectToWebSocket(this.Name).subscribe(
       gongtreesFrontRepo => {
         this.gongtreeFrontRepo = gongtreesFrontRepo
 
@@ -182,7 +182,7 @@ export class TreeSpecificComponent {
 
     node.gongNode.IsExpanded = !node.gongNode.IsExpanded
 
-    this.gongtreeNodeService.updateFront(node.gongNode, this.GONG__StackPath).subscribe(
+    this.gongtreeNodeService.updateFront(node.gongNode, this.Name).subscribe(
       gongtreeNode => {
         // console.log("toggleNodeExpansion: updated node")
       }
@@ -194,9 +194,9 @@ export class TreeSpecificComponent {
     let buttons = node.gongNode.Buttons
 
     const d = new Date()
-    // console.log("TreeComponent ", this.GONG__StackPath, " name ", this.name, " toggleNodeCheckbox, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` + " " + this.name)
+    // console.log("TreeComponent ", this.Name, " name ", this.name, " toggleNodeCheckbox, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` + " " + this.name)
     node.gongNode.IsChecked = !node.gongNode.IsChecked
-    this.gongtreeNodeService.updateFront(node.gongNode, this.GONG__StackPath).subscribe(
+    this.gongtreeNodeService.updateFront(node.gongNode, this.Name).subscribe(
       gongtreeNode => {
       }
     )
@@ -206,9 +206,9 @@ export class TreeSpecificComponent {
     let buttons = node.gongNode.Buttons
 
     const d = new Date()
-    // console.log("TreeComponent ", this.GONG__StackPath, " name ", this.name, " toggleNodeCheckbox, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` + " " + this.name)
+    // console.log("TreeComponent ", this.Name, " name ", this.name, " toggleNodeCheckbox, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` + " " + this.name)
     node.gongNode.IsSecondCheckboxChecked = !node.gongNode.IsSecondCheckboxChecked
-    this.gongtreeNodeService.updateFront(node.gongNode, this.GONG__StackPath).subscribe(
+    this.gongtreeNodeService.updateFront(node.gongNode, this.Name).subscribe(
       gongtreeNode => {
       }
     )
@@ -219,7 +219,7 @@ export class TreeSpecificComponent {
     // Stop the click event from propagating to the parent node
     event.stopPropagation();
 
-    this.gongtreeButtonService.updateFront(button, this.GONG__StackPath).subscribe(
+    this.gongtreeButtonService.updateFront(button, this.Name).subscribe(
       gongtreeButton => {
         // console.log("button pressed")
       }
@@ -229,7 +229,7 @@ export class TreeSpecificComponent {
   update(node: FlatNode) {
 
     node.gongNode.IsInEditMode = false
-    this.gongtreeNodeService.updateFront(node.gongNode, this.GONG__StackPath).subscribe(
+    this.gongtreeNodeService.updateFront(node.gongNode, this.Name).subscribe(
       gongtreeNode => {
         // console.log("node.gongNode.IsInEditMode = false, updated node")
       }
@@ -239,7 +239,7 @@ export class TreeSpecificComponent {
   onNodeClick(node: FlatNode): void {
 
     if (node.gongNode.IsNodeClickable) {
-      this.gongtreeNodeService.updateFront(node.gongNode, this.GONG__StackPath).subscribe(
+      this.gongtreeNodeService.updateFront(node.gongNode, this.Name).subscribe(
         gongtreeNode => {
           // console.log("onNodeClick: updated node")
         }
