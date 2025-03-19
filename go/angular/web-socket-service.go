@@ -15,7 +15,7 @@ export class WebSocketService {
 
     public connect(stackPath: string): Observable<any> {
 
-        let params = new HttpParams().set("GONG__StackPath", stackPath)
+        let params = new HttpParams().set("Name", stackPath)
         let basePath = 'ws://localhost:8080/api/{{PkgPathRoot}}/v1/ws/stage'
         let paramString = params.toString()
         let url = ` + "`" + "${basePath}?${paramString}" + "`" + `

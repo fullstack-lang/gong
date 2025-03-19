@@ -47,12 +47,12 @@ export class CircleService {
 
   /** GET circles from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleAPI[]> {
-    return this.getCircles(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<CircleAPI[]> {
+    return this.getCircles(Name, frontRepo)
   }
-  getCircles(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleAPI[]> {
+  getCircles(Name: string, frontRepo: FrontRepo): Observable<CircleAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<CircleAPI[]>(this.circlesUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class CircleService {
 
   /** GET circle by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleAPI> {
-    return this.getCircle(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<CircleAPI> {
+    return this.getCircle(id, Name, frontRepo)
   }
-  getCircle(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleAPI> {
+  getCircle(id: number, Name: string, frontRepo: FrontRepo): Observable<CircleAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.circlesUrl}/${id}`;
     return this.http.get<CircleAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class CircleService {
   }
 
   // postFront copy circle to a version with encoded pointers and post to the back
-  postFront(circle: Circle, GONG__StackPath: string): Observable<CircleAPI> {
+  postFront(circle: Circle, Name: string): Observable<CircleAPI> {
     let circleAPI = new CircleAPI
     CopyCircleToCircleAPI(circle, circleAPI)
     const id = typeof circleAPI === 'number' ? circleAPI : circleAPI.ID
     const url = `${this.circlesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class CircleService {
   }
   
   /** POST: add a new circle to the server */
-  post(circledb: CircleAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleAPI> {
-    return this.postCircle(circledb, GONG__StackPath, frontRepo)
+  post(circledb: CircleAPI, Name: string, frontRepo: FrontRepo): Observable<CircleAPI> {
+    return this.postCircle(circledb, Name, frontRepo)
   }
-  postCircle(circledb: CircleAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleAPI> {
+  postCircle(circledb: CircleAPI, Name: string, frontRepo: FrontRepo): Observable<CircleAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class CircleService {
   }
 
   /** DELETE: delete the circledb from the server */
-  delete(circledb: CircleAPI | number, GONG__StackPath: string): Observable<CircleAPI> {
-    return this.deleteCircle(circledb, GONG__StackPath)
+  delete(circledb: CircleAPI | number, Name: string): Observable<CircleAPI> {
+    return this.deleteCircle(circledb, Name)
   }
-  deleteCircle(circledb: CircleAPI | number, GONG__StackPath: string): Observable<CircleAPI> {
+  deleteCircle(circledb: CircleAPI | number, Name: string): Observable<CircleAPI> {
     const id = typeof circledb === 'number' ? circledb : circledb.ID;
     const url = `${this.circlesUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class CircleService {
   }
 
   // updateFront copy circle to a version with encoded pointers and update to the back
-  updateFront(circle: Circle, GONG__StackPath: string): Observable<CircleAPI> {
+  updateFront(circle: Circle, Name: string): Observable<CircleAPI> {
     let circleAPI = new CircleAPI
     CopyCircleToCircleAPI(circle, circleAPI)
     const id = typeof circleAPI === 'number' ? circleAPI : circleAPI.ID
     const url = `${this.circlesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class CircleService {
   }
 
   /** PUT: update the circledb on the server */
-  update(circledb: CircleAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleAPI> {
-    return this.updateCircle(circledb, GONG__StackPath, frontRepo)
+  update(circledb: CircleAPI, Name: string, frontRepo: FrontRepo): Observable<CircleAPI> {
+    return this.updateCircle(circledb, Name, frontRepo)
   }
-  updateCircle(circledb: CircleAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CircleAPI> {
+  updateCircle(circledb: CircleAPI, Name: string, frontRepo: FrontRepo): Observable<CircleAPI> {
     const id = typeof circledb === 'number' ? circledb : circledb.ID;
     const url = `${this.circlesUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

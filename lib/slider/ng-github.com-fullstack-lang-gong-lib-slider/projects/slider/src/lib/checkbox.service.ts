@@ -46,12 +46,12 @@ export class CheckboxService {
 
   /** GET checkboxs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckboxAPI[]> {
-    return this.getCheckboxs(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<CheckboxAPI[]> {
+    return this.getCheckboxs(Name, frontRepo)
   }
-  getCheckboxs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckboxAPI[]> {
+  getCheckboxs(Name: string, frontRepo: FrontRepo): Observable<CheckboxAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<CheckboxAPI[]>(this.checkboxsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class CheckboxService {
 
   /** GET checkbox by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckboxAPI> {
-    return this.getCheckbox(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<CheckboxAPI> {
+    return this.getCheckbox(id, Name, frontRepo)
   }
-  getCheckbox(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckboxAPI> {
+  getCheckbox(id: number, Name: string, frontRepo: FrontRepo): Observable<CheckboxAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.checkboxsUrl}/${id}`;
     return this.http.get<CheckboxAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class CheckboxService {
   }
 
   // postFront copy checkbox to a version with encoded pointers and post to the back
-  postFront(checkbox: Checkbox, GONG__StackPath: string): Observable<CheckboxAPI> {
+  postFront(checkbox: Checkbox, Name: string): Observable<CheckboxAPI> {
     let checkboxAPI = new CheckboxAPI
     CopyCheckboxToCheckboxAPI(checkbox, checkboxAPI)
     const id = typeof checkboxAPI === 'number' ? checkboxAPI : checkboxAPI.ID
     const url = `${this.checkboxsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class CheckboxService {
   }
   
   /** POST: add a new checkbox to the server */
-  post(checkboxdb: CheckboxAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckboxAPI> {
-    return this.postCheckbox(checkboxdb, GONG__StackPath, frontRepo)
+  post(checkboxdb: CheckboxAPI, Name: string, frontRepo: FrontRepo): Observable<CheckboxAPI> {
+    return this.postCheckbox(checkboxdb, Name, frontRepo)
   }
-  postCheckbox(checkboxdb: CheckboxAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckboxAPI> {
+  postCheckbox(checkboxdb: CheckboxAPI, Name: string, frontRepo: FrontRepo): Observable<CheckboxAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class CheckboxService {
   }
 
   /** DELETE: delete the checkboxdb from the server */
-  delete(checkboxdb: CheckboxAPI | number, GONG__StackPath: string): Observable<CheckboxAPI> {
-    return this.deleteCheckbox(checkboxdb, GONG__StackPath)
+  delete(checkboxdb: CheckboxAPI | number, Name: string): Observable<CheckboxAPI> {
+    return this.deleteCheckbox(checkboxdb, Name)
   }
-  deleteCheckbox(checkboxdb: CheckboxAPI | number, GONG__StackPath: string): Observable<CheckboxAPI> {
+  deleteCheckbox(checkboxdb: CheckboxAPI | number, Name: string): Observable<CheckboxAPI> {
     const id = typeof checkboxdb === 'number' ? checkboxdb : checkboxdb.ID;
     const url = `${this.checkboxsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class CheckboxService {
   }
 
   // updateFront copy checkbox to a version with encoded pointers and update to the back
-  updateFront(checkbox: Checkbox, GONG__StackPath: string): Observable<CheckboxAPI> {
+  updateFront(checkbox: Checkbox, Name: string): Observable<CheckboxAPI> {
     let checkboxAPI = new CheckboxAPI
     CopyCheckboxToCheckboxAPI(checkbox, checkboxAPI)
     const id = typeof checkboxAPI === 'number' ? checkboxAPI : checkboxAPI.ID
     const url = `${this.checkboxsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class CheckboxService {
   }
 
   /** PUT: update the checkboxdb on the server */
-  update(checkboxdb: CheckboxAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckboxAPI> {
-    return this.updateCheckbox(checkboxdb, GONG__StackPath, frontRepo)
+  update(checkboxdb: CheckboxAPI, Name: string, frontRepo: FrontRepo): Observable<CheckboxAPI> {
+    return this.updateCheckbox(checkboxdb, Name, frontRepo)
   }
-  updateCheckbox(checkboxdb: CheckboxAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckboxAPI> {
+  updateCheckbox(checkboxdb: CheckboxAPI, Name: string, frontRepo: FrontRepo): Observable<CheckboxAPI> {
     const id = typeof checkboxdb === 'number' ? checkboxdb : checkboxdb.ID;
     const url = `${this.checkboxsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

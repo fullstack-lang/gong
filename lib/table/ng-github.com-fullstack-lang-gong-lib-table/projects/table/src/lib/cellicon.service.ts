@@ -46,12 +46,12 @@ export class CellIconService {
 
   /** GET cellicons from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconAPI[]> {
-    return this.getCellIcons(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<CellIconAPI[]> {
+    return this.getCellIcons(Name, frontRepo)
   }
-  getCellIcons(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconAPI[]> {
+  getCellIcons(Name: string, frontRepo: FrontRepo): Observable<CellIconAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<CellIconAPI[]>(this.celliconsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class CellIconService {
 
   /** GET cellicon by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconAPI> {
-    return this.getCellIcon(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<CellIconAPI> {
+    return this.getCellIcon(id, Name, frontRepo)
   }
-  getCellIcon(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconAPI> {
+  getCellIcon(id: number, Name: string, frontRepo: FrontRepo): Observable<CellIconAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.celliconsUrl}/${id}`;
     return this.http.get<CellIconAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class CellIconService {
   }
 
   // postFront copy cellicon to a version with encoded pointers and post to the back
-  postFront(cellicon: CellIcon, GONG__StackPath: string): Observable<CellIconAPI> {
+  postFront(cellicon: CellIcon, Name: string): Observable<CellIconAPI> {
     let celliconAPI = new CellIconAPI
     CopyCellIconToCellIconAPI(cellicon, celliconAPI)
     const id = typeof celliconAPI === 'number' ? celliconAPI : celliconAPI.ID
     const url = `${this.celliconsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class CellIconService {
   }
   
   /** POST: add a new cellicon to the server */
-  post(cellicondb: CellIconAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconAPI> {
-    return this.postCellIcon(cellicondb, GONG__StackPath, frontRepo)
+  post(cellicondb: CellIconAPI, Name: string, frontRepo: FrontRepo): Observable<CellIconAPI> {
+    return this.postCellIcon(cellicondb, Name, frontRepo)
   }
-  postCellIcon(cellicondb: CellIconAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconAPI> {
+  postCellIcon(cellicondb: CellIconAPI, Name: string, frontRepo: FrontRepo): Observable<CellIconAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class CellIconService {
   }
 
   /** DELETE: delete the cellicondb from the server */
-  delete(cellicondb: CellIconAPI | number, GONG__StackPath: string): Observable<CellIconAPI> {
-    return this.deleteCellIcon(cellicondb, GONG__StackPath)
+  delete(cellicondb: CellIconAPI | number, Name: string): Observable<CellIconAPI> {
+    return this.deleteCellIcon(cellicondb, Name)
   }
-  deleteCellIcon(cellicondb: CellIconAPI | number, GONG__StackPath: string): Observable<CellIconAPI> {
+  deleteCellIcon(cellicondb: CellIconAPI | number, Name: string): Observable<CellIconAPI> {
     const id = typeof cellicondb === 'number' ? cellicondb : cellicondb.ID;
     const url = `${this.celliconsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class CellIconService {
   }
 
   // updateFront copy cellicon to a version with encoded pointers and update to the back
-  updateFront(cellicon: CellIcon, GONG__StackPath: string): Observable<CellIconAPI> {
+  updateFront(cellicon: CellIcon, Name: string): Observable<CellIconAPI> {
     let celliconAPI = new CellIconAPI
     CopyCellIconToCellIconAPI(cellicon, celliconAPI)
     const id = typeof celliconAPI === 'number' ? celliconAPI : celliconAPI.ID
     const url = `${this.celliconsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class CellIconService {
   }
 
   /** PUT: update the cellicondb on the server */
-  update(cellicondb: CellIconAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconAPI> {
-    return this.updateCellIcon(cellicondb, GONG__StackPath, frontRepo)
+  update(cellicondb: CellIconAPI, Name: string, frontRepo: FrontRepo): Observable<CellIconAPI> {
+    return this.updateCellIcon(cellicondb, Name, frontRepo)
   }
-  updateCellIcon(cellicondb: CellIconAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIconAPI> {
+  updateCellIcon(cellicondb: CellIconAPI, Name: string, frontRepo: FrontRepo): Observable<CellIconAPI> {
     const id = typeof cellicondb === 'number' ? cellicondb : cellicondb.ID;
     const url = `${this.celliconsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

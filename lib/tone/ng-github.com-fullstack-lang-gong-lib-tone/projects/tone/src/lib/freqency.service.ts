@@ -46,12 +46,12 @@ export class FreqencyService {
 
   /** GET freqencys from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FreqencyAPI[]> {
-    return this.getFreqencys(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<FreqencyAPI[]> {
+    return this.getFreqencys(Name, frontRepo)
   }
-  getFreqencys(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FreqencyAPI[]> {
+  getFreqencys(Name: string, frontRepo: FrontRepo): Observable<FreqencyAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<FreqencyAPI[]>(this.freqencysUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class FreqencyService {
 
   /** GET freqency by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FreqencyAPI> {
-    return this.getFreqency(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<FreqencyAPI> {
+    return this.getFreqency(id, Name, frontRepo)
   }
-  getFreqency(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FreqencyAPI> {
+  getFreqency(id: number, Name: string, frontRepo: FrontRepo): Observable<FreqencyAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.freqencysUrl}/${id}`;
     return this.http.get<FreqencyAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class FreqencyService {
   }
 
   // postFront copy freqency to a version with encoded pointers and post to the back
-  postFront(freqency: Freqency, GONG__StackPath: string): Observable<FreqencyAPI> {
+  postFront(freqency: Freqency, Name: string): Observable<FreqencyAPI> {
     let freqencyAPI = new FreqencyAPI
     CopyFreqencyToFreqencyAPI(freqency, freqencyAPI)
     const id = typeof freqencyAPI === 'number' ? freqencyAPI : freqencyAPI.ID
     const url = `${this.freqencysUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class FreqencyService {
   }
   
   /** POST: add a new freqency to the server */
-  post(freqencydb: FreqencyAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FreqencyAPI> {
-    return this.postFreqency(freqencydb, GONG__StackPath, frontRepo)
+  post(freqencydb: FreqencyAPI, Name: string, frontRepo: FrontRepo): Observable<FreqencyAPI> {
+    return this.postFreqency(freqencydb, Name, frontRepo)
   }
-  postFreqency(freqencydb: FreqencyAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FreqencyAPI> {
+  postFreqency(freqencydb: FreqencyAPI, Name: string, frontRepo: FrontRepo): Observable<FreqencyAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class FreqencyService {
   }
 
   /** DELETE: delete the freqencydb from the server */
-  delete(freqencydb: FreqencyAPI | number, GONG__StackPath: string): Observable<FreqencyAPI> {
-    return this.deleteFreqency(freqencydb, GONG__StackPath)
+  delete(freqencydb: FreqencyAPI | number, Name: string): Observable<FreqencyAPI> {
+    return this.deleteFreqency(freqencydb, Name)
   }
-  deleteFreqency(freqencydb: FreqencyAPI | number, GONG__StackPath: string): Observable<FreqencyAPI> {
+  deleteFreqency(freqencydb: FreqencyAPI | number, Name: string): Observable<FreqencyAPI> {
     const id = typeof freqencydb === 'number' ? freqencydb : freqencydb.ID;
     const url = `${this.freqencysUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class FreqencyService {
   }
 
   // updateFront copy freqency to a version with encoded pointers and update to the back
-  updateFront(freqency: Freqency, GONG__StackPath: string): Observable<FreqencyAPI> {
+  updateFront(freqency: Freqency, Name: string): Observable<FreqencyAPI> {
     let freqencyAPI = new FreqencyAPI
     CopyFreqencyToFreqencyAPI(freqency, freqencyAPI)
     const id = typeof freqencyAPI === 'number' ? freqencyAPI : freqencyAPI.ID
     const url = `${this.freqencysUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class FreqencyService {
   }
 
   /** PUT: update the freqencydb on the server */
-  update(freqencydb: FreqencyAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FreqencyAPI> {
-    return this.updateFreqency(freqencydb, GONG__StackPath, frontRepo)
+  update(freqencydb: FreqencyAPI, Name: string, frontRepo: FrontRepo): Observable<FreqencyAPI> {
+    return this.updateFreqency(freqencydb, Name, frontRepo)
   }
-  updateFreqency(freqencydb: FreqencyAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FreqencyAPI> {
+  updateFreqency(freqencydb: FreqencyAPI, Name: string, frontRepo: FrontRepo): Observable<FreqencyAPI> {
     const id = typeof freqencydb === 'number' ? freqencydb : freqencydb.ID;
     const url = `${this.freqencysUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

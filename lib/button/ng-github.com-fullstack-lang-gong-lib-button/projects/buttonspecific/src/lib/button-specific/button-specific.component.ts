@@ -20,7 +20,7 @@ import { MatIconModule } from '@angular/material/icon'
 })
 export class ButtonSpecificComponent implements OnInit {
 
-  @Input() GONG__StackPath: string = ""
+  @Input() Name: string = ""
 
   StacksNames = button.StacksNames;
   public frontRepo?: button.FrontRepo;
@@ -44,7 +44,7 @@ export class ButtonSpecificComponent implements OnInit {
   ngOnInit(): void {
     console.log("ngOnInit");
 
-    this.frontRepoService.connectToWebSocket(this.GONG__StackPath).subscribe({
+    this.frontRepoService.connectToWebSocket(this.Name).subscribe({
       next: (frontRepo) => {
         this.frontRepo = frontRepo;
 
@@ -59,7 +59,7 @@ export class ButtonSpecificComponent implements OnInit {
   }
 
   onClick(button: button.Button) {
-    this.buttonService.updateFront(button,this.GONG__StackPath).subscribe(
+    this.buttonService.updateFront(button,this.Name).subscribe(
       () => {
         console.log("checkbox updated")
       }

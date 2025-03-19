@@ -46,12 +46,12 @@ export class PointService {
 
   /** GET points from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointAPI[]> {
-    return this.getPoints(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<PointAPI[]> {
+    return this.getPoints(Name, frontRepo)
   }
-  getPoints(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointAPI[]> {
+  getPoints(Name: string, frontRepo: FrontRepo): Observable<PointAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<PointAPI[]>(this.pointsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class PointService {
 
   /** GET point by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointAPI> {
-    return this.getPoint(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<PointAPI> {
+    return this.getPoint(id, Name, frontRepo)
   }
-  getPoint(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointAPI> {
+  getPoint(id: number, Name: string, frontRepo: FrontRepo): Observable<PointAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.pointsUrl}/${id}`;
     return this.http.get<PointAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class PointService {
   }
 
   // postFront copy point to a version with encoded pointers and post to the back
-  postFront(point: Point, GONG__StackPath: string): Observable<PointAPI> {
+  postFront(point: Point, Name: string): Observable<PointAPI> {
     let pointAPI = new PointAPI
     CopyPointToPointAPI(point, pointAPI)
     const id = typeof pointAPI === 'number' ? pointAPI : pointAPI.ID
     const url = `${this.pointsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class PointService {
   }
   
   /** POST: add a new point to the server */
-  post(pointdb: PointAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointAPI> {
-    return this.postPoint(pointdb, GONG__StackPath, frontRepo)
+  post(pointdb: PointAPI, Name: string, frontRepo: FrontRepo): Observable<PointAPI> {
+    return this.postPoint(pointdb, Name, frontRepo)
   }
-  postPoint(pointdb: PointAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointAPI> {
+  postPoint(pointdb: PointAPI, Name: string, frontRepo: FrontRepo): Observable<PointAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class PointService {
   }
 
   /** DELETE: delete the pointdb from the server */
-  delete(pointdb: PointAPI | number, GONG__StackPath: string): Observable<PointAPI> {
-    return this.deletePoint(pointdb, GONG__StackPath)
+  delete(pointdb: PointAPI | number, Name: string): Observable<PointAPI> {
+    return this.deletePoint(pointdb, Name)
   }
-  deletePoint(pointdb: PointAPI | number, GONG__StackPath: string): Observable<PointAPI> {
+  deletePoint(pointdb: PointAPI | number, Name: string): Observable<PointAPI> {
     const id = typeof pointdb === 'number' ? pointdb : pointdb.ID;
     const url = `${this.pointsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class PointService {
   }
 
   // updateFront copy point to a version with encoded pointers and update to the back
-  updateFront(point: Point, GONG__StackPath: string): Observable<PointAPI> {
+  updateFront(point: Point, Name: string): Observable<PointAPI> {
     let pointAPI = new PointAPI
     CopyPointToPointAPI(point, pointAPI)
     const id = typeof pointAPI === 'number' ? pointAPI : pointAPI.ID
     const url = `${this.pointsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class PointService {
   }
 
   /** PUT: update the pointdb on the server */
-  update(pointdb: PointAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointAPI> {
-    return this.updatePoint(pointdb, GONG__StackPath, frontRepo)
+  update(pointdb: PointAPI, Name: string, frontRepo: FrontRepo): Observable<PointAPI> {
+    return this.updatePoint(pointdb, Name, frontRepo)
   }
-  updatePoint(pointdb: PointAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PointAPI> {
+  updatePoint(pointdb: PointAPI, Name: string, frontRepo: FrontRepo): Observable<PointAPI> {
     const id = typeof pointdb === 'number' ? pointdb : pointdb.ID;
     const url = `${this.pointsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

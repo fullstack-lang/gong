@@ -62,7 +62,7 @@ export class TableSpecificComponent {
   // for selection
   selectedTable: table.Table | undefined = undefined;
 
-  @Input() DataStack: string = ""
+  @Input() Name: string = ""
   @Input() TableName: string = ""
 
   // for filtering
@@ -106,10 +106,10 @@ export class TableSpecificComponent {
 
   ngOnInit(): void {
 
-    // if the component is started via component, one needs to fetch DataStack and TableName from
+    // if the component is started via component, one needs to fetch Name and TableName from
     // the dialog data
     if (this.tableDialogData) {
-      this.DataStack = this.tableDialogData.DataStack
+      this.Name = this.tableDialogData.Name
       this.TableName = this.tableDialogData.TableName
     }
 
@@ -132,7 +132,7 @@ export class TableSpecificComponent {
 
   refresh(): void {
 
-    this.gongtableFrontRepoService.connectToWebSocket(this.DataStack).subscribe(
+    this.gongtableFrontRepoService.connectToWebSocket(this.Name).subscribe(
       gongtablesFrontRepo => {
         this.gongtableFrontRepo = gongtablesFrontRepo
 
@@ -305,7 +305,7 @@ export class TableSpecificComponent {
       // in case this component is called as a modal window (MatDialog)
       // exits,
       this.selectedTable.SavingInProgress = true
-      this.tableService.updateFront(this.selectedTable!, this.DataStack).subscribe(
+      this.tableService.updateFront(this.selectedTable!, this.Name).subscribe(
         () => {
           // in case this component is called as a modal window (MatDialog)
           // exits,
@@ -323,14 +323,14 @@ export class TableSpecificComponent {
 
     const promises = []
     for (let row of modifiedRows) {
-      promises.push(this.rowService.updateFront(row, this.DataStack))
+      promises.push(this.rowService.updateFront(row, this.Name))
     }
 
     forkJoin(promises).subscribe(
       () => {
 
         this.selectedTable!.SavingInProgress = false
-        this.tableService.updateFront(this.selectedTable!, this.DataStack).subscribe(
+        this.tableService.updateFront(this.selectedTable!, this.Name).subscribe(
           () => {
             // in case this component is called as a modal window (MatDialog)
             // exits,
@@ -351,7 +351,7 @@ export class TableSpecificComponent {
 
     this.dataSource = new MatTableDataSource(this.selectedTable?.Rows!)
 
-    this.tableService.updateFront(this.selectedTable!, this.DataStack).subscribe(
+    this.tableService.updateFront(this.selectedTable!, this.Name).subscribe(
       () => {
         console.log("table", this.selectedTable?.Name, "rows shuffled")
       }
@@ -370,11 +370,11 @@ export class TableSpecificComponent {
   // this minimalist design will hopefully be sufficient for the backend to interpret
   // that the row has been clicked
   onClick(row: table.Row) {
-    console.log("Material Table: onClick: Stack: `" + this.DataStack + "`table:`" + this.TableName + "`row:" + row.Name)
+    console.log("Material Table: onClick: Stack: `" + this.Name + "`table:`" + this.TableName + "`row:" + row.Name)
 
     let cells = row.Cells
 
-    this.rowService.updateFront(row, this.DataStack).subscribe(
+    this.rowService.updateFront(row, this.Name).subscribe(
       () => {
         console.log("row updated")
         row.Cells = cells
@@ -399,7 +399,7 @@ export class TableSpecificComponent {
 
   onClickCellIcon(cellIcon: table.CellIcon) {
     console.log("Cell Icon clicked")
-    this.celliconService.updateFront(cellIcon, this.DataStack).subscribe(
+    this.celliconService.updateFront(cellIcon, this.Name).subscribe(
       () => {
 
       }

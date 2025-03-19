@@ -20,7 +20,7 @@ import * as doc from '../../../../doc/src/public-api'
   styleUrl: './doc-specific.component.css'
 })
 export class DocSpecificComponent implements OnInit {
-  @Input() GONG__StackPath: string = ""
+  @Input() Name: string = ""
 
   TreeNames = doc.TreeNames
 

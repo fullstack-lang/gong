@@ -46,12 +46,12 @@ export class GongTimeFieldService {
 
   /** GET gongtimefields from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongTimeFieldAPI[]> {
-    return this.getGongTimeFields(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<GongTimeFieldAPI[]> {
+    return this.getGongTimeFields(Name, frontRepo)
   }
-  getGongTimeFields(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongTimeFieldAPI[]> {
+  getGongTimeFields(Name: string, frontRepo: FrontRepo): Observable<GongTimeFieldAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<GongTimeFieldAPI[]>(this.gongtimefieldsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class GongTimeFieldService {
 
   /** GET gongtimefield by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongTimeFieldAPI> {
-    return this.getGongTimeField(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<GongTimeFieldAPI> {
+    return this.getGongTimeField(id, Name, frontRepo)
   }
-  getGongTimeField(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongTimeFieldAPI> {
+  getGongTimeField(id: number, Name: string, frontRepo: FrontRepo): Observable<GongTimeFieldAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.gongtimefieldsUrl}/${id}`;
     return this.http.get<GongTimeFieldAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class GongTimeFieldService {
   }
 
   // postFront copy gongtimefield to a version with encoded pointers and post to the back
-  postFront(gongtimefield: GongTimeField, GONG__StackPath: string): Observable<GongTimeFieldAPI> {
+  postFront(gongtimefield: GongTimeField, Name: string): Observable<GongTimeFieldAPI> {
     let gongtimefieldAPI = new GongTimeFieldAPI
     CopyGongTimeFieldToGongTimeFieldAPI(gongtimefield, gongtimefieldAPI)
     const id = typeof gongtimefieldAPI === 'number' ? gongtimefieldAPI : gongtimefieldAPI.ID
     const url = `${this.gongtimefieldsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class GongTimeFieldService {
   }
   
   /** POST: add a new gongtimefield to the server */
-  post(gongtimefielddb: GongTimeFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongTimeFieldAPI> {
-    return this.postGongTimeField(gongtimefielddb, GONG__StackPath, frontRepo)
+  post(gongtimefielddb: GongTimeFieldAPI, Name: string, frontRepo: FrontRepo): Observable<GongTimeFieldAPI> {
+    return this.postGongTimeField(gongtimefielddb, Name, frontRepo)
   }
-  postGongTimeField(gongtimefielddb: GongTimeFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongTimeFieldAPI> {
+  postGongTimeField(gongtimefielddb: GongTimeFieldAPI, Name: string, frontRepo: FrontRepo): Observable<GongTimeFieldAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class GongTimeFieldService {
   }
 
   /** DELETE: delete the gongtimefielddb from the server */
-  delete(gongtimefielddb: GongTimeFieldAPI | number, GONG__StackPath: string): Observable<GongTimeFieldAPI> {
-    return this.deleteGongTimeField(gongtimefielddb, GONG__StackPath)
+  delete(gongtimefielddb: GongTimeFieldAPI | number, Name: string): Observable<GongTimeFieldAPI> {
+    return this.deleteGongTimeField(gongtimefielddb, Name)
   }
-  deleteGongTimeField(gongtimefielddb: GongTimeFieldAPI | number, GONG__StackPath: string): Observable<GongTimeFieldAPI> {
+  deleteGongTimeField(gongtimefielddb: GongTimeFieldAPI | number, Name: string): Observable<GongTimeFieldAPI> {
     const id = typeof gongtimefielddb === 'number' ? gongtimefielddb : gongtimefielddb.ID;
     const url = `${this.gongtimefieldsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class GongTimeFieldService {
   }
 
   // updateFront copy gongtimefield to a version with encoded pointers and update to the back
-  updateFront(gongtimefield: GongTimeField, GONG__StackPath: string): Observable<GongTimeFieldAPI> {
+  updateFront(gongtimefield: GongTimeField, Name: string): Observable<GongTimeFieldAPI> {
     let gongtimefieldAPI = new GongTimeFieldAPI
     CopyGongTimeFieldToGongTimeFieldAPI(gongtimefield, gongtimefieldAPI)
     const id = typeof gongtimefieldAPI === 'number' ? gongtimefieldAPI : gongtimefieldAPI.ID
     const url = `${this.gongtimefieldsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class GongTimeFieldService {
   }
 
   /** PUT: update the gongtimefielddb on the server */
-  update(gongtimefielddb: GongTimeFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongTimeFieldAPI> {
-    return this.updateGongTimeField(gongtimefielddb, GONG__StackPath, frontRepo)
+  update(gongtimefielddb: GongTimeFieldAPI, Name: string, frontRepo: FrontRepo): Observable<GongTimeFieldAPI> {
+    return this.updateGongTimeField(gongtimefielddb, Name, frontRepo)
   }
-  updateGongTimeField(gongtimefielddb: GongTimeFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongTimeFieldAPI> {
+  updateGongTimeField(gongtimefielddb: GongTimeFieldAPI, Name: string, frontRepo: FrontRepo): Observable<GongTimeFieldAPI> {
     const id = typeof gongtimefielddb === 'number' ? gongtimefielddb : gongtimefielddb.ID;
     const url = `${this.gongtimefieldsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

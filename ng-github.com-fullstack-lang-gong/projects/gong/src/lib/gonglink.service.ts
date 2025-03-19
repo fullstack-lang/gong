@@ -46,12 +46,12 @@ export class GongLinkService {
 
   /** GET gonglinks from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkAPI[]> {
-    return this.getGongLinks(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<GongLinkAPI[]> {
+    return this.getGongLinks(Name, frontRepo)
   }
-  getGongLinks(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkAPI[]> {
+  getGongLinks(Name: string, frontRepo: FrontRepo): Observable<GongLinkAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<GongLinkAPI[]>(this.gonglinksUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class GongLinkService {
 
   /** GET gonglink by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkAPI> {
-    return this.getGongLink(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<GongLinkAPI> {
+    return this.getGongLink(id, Name, frontRepo)
   }
-  getGongLink(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkAPI> {
+  getGongLink(id: number, Name: string, frontRepo: FrontRepo): Observable<GongLinkAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.gonglinksUrl}/${id}`;
     return this.http.get<GongLinkAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class GongLinkService {
   }
 
   // postFront copy gonglink to a version with encoded pointers and post to the back
-  postFront(gonglink: GongLink, GONG__StackPath: string): Observable<GongLinkAPI> {
+  postFront(gonglink: GongLink, Name: string): Observable<GongLinkAPI> {
     let gonglinkAPI = new GongLinkAPI
     CopyGongLinkToGongLinkAPI(gonglink, gonglinkAPI)
     const id = typeof gonglinkAPI === 'number' ? gonglinkAPI : gonglinkAPI.ID
     const url = `${this.gonglinksUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class GongLinkService {
   }
   
   /** POST: add a new gonglink to the server */
-  post(gonglinkdb: GongLinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkAPI> {
-    return this.postGongLink(gonglinkdb, GONG__StackPath, frontRepo)
+  post(gonglinkdb: GongLinkAPI, Name: string, frontRepo: FrontRepo): Observable<GongLinkAPI> {
+    return this.postGongLink(gonglinkdb, Name, frontRepo)
   }
-  postGongLink(gonglinkdb: GongLinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkAPI> {
+  postGongLink(gonglinkdb: GongLinkAPI, Name: string, frontRepo: FrontRepo): Observable<GongLinkAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class GongLinkService {
   }
 
   /** DELETE: delete the gonglinkdb from the server */
-  delete(gonglinkdb: GongLinkAPI | number, GONG__StackPath: string): Observable<GongLinkAPI> {
-    return this.deleteGongLink(gonglinkdb, GONG__StackPath)
+  delete(gonglinkdb: GongLinkAPI | number, Name: string): Observable<GongLinkAPI> {
+    return this.deleteGongLink(gonglinkdb, Name)
   }
-  deleteGongLink(gonglinkdb: GongLinkAPI | number, GONG__StackPath: string): Observable<GongLinkAPI> {
+  deleteGongLink(gonglinkdb: GongLinkAPI | number, Name: string): Observable<GongLinkAPI> {
     const id = typeof gonglinkdb === 'number' ? gonglinkdb : gonglinkdb.ID;
     const url = `${this.gonglinksUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class GongLinkService {
   }
 
   // updateFront copy gonglink to a version with encoded pointers and update to the back
-  updateFront(gonglink: GongLink, GONG__StackPath: string): Observable<GongLinkAPI> {
+  updateFront(gonglink: GongLink, Name: string): Observable<GongLinkAPI> {
     let gonglinkAPI = new GongLinkAPI
     CopyGongLinkToGongLinkAPI(gonglink, gonglinkAPI)
     const id = typeof gonglinkAPI === 'number' ? gonglinkAPI : gonglinkAPI.ID
     const url = `${this.gonglinksUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class GongLinkService {
   }
 
   /** PUT: update the gonglinkdb on the server */
-  update(gonglinkdb: GongLinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkAPI> {
-    return this.updateGongLink(gonglinkdb, GONG__StackPath, frontRepo)
+  update(gonglinkdb: GongLinkAPI, Name: string, frontRepo: FrontRepo): Observable<GongLinkAPI> {
+    return this.updateGongLink(gonglinkdb, Name, frontRepo)
   }
-  updateGongLink(gonglinkdb: GongLinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongLinkAPI> {
+  updateGongLink(gonglinkdb: GongLinkAPI, Name: string, frontRepo: FrontRepo): Observable<GongLinkAPI> {
     const id = typeof gonglinkdb === 'number' ? gonglinkdb : gonglinkdb.ID;
     const url = `${this.gonglinksUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

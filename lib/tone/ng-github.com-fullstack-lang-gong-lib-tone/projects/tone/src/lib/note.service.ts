@@ -47,12 +47,12 @@ export class NoteService {
 
   /** GET notes from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<NoteAPI[]> {
-    return this.getNotes(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<NoteAPI[]> {
+    return this.getNotes(Name, frontRepo)
   }
-  getNotes(GONG__StackPath: string, frontRepo: FrontRepo): Observable<NoteAPI[]> {
+  getNotes(Name: string, frontRepo: FrontRepo): Observable<NoteAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<NoteAPI[]>(this.notesUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class NoteService {
 
   /** GET note by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NoteAPI> {
-    return this.getNote(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<NoteAPI> {
+    return this.getNote(id, Name, frontRepo)
   }
-  getNote(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NoteAPI> {
+  getNote(id: number, Name: string, frontRepo: FrontRepo): Observable<NoteAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.notesUrl}/${id}`;
     return this.http.get<NoteAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class NoteService {
   }
 
   // postFront copy note to a version with encoded pointers and post to the back
-  postFront(note: Note, GONG__StackPath: string): Observable<NoteAPI> {
+  postFront(note: Note, Name: string): Observable<NoteAPI> {
     let noteAPI = new NoteAPI
     CopyNoteToNoteAPI(note, noteAPI)
     const id = typeof noteAPI === 'number' ? noteAPI : noteAPI.ID
     const url = `${this.notesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class NoteService {
   }
   
   /** POST: add a new note to the server */
-  post(notedb: NoteAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NoteAPI> {
-    return this.postNote(notedb, GONG__StackPath, frontRepo)
+  post(notedb: NoteAPI, Name: string, frontRepo: FrontRepo): Observable<NoteAPI> {
+    return this.postNote(notedb, Name, frontRepo)
   }
-  postNote(notedb: NoteAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NoteAPI> {
+  postNote(notedb: NoteAPI, Name: string, frontRepo: FrontRepo): Observable<NoteAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class NoteService {
   }
 
   /** DELETE: delete the notedb from the server */
-  delete(notedb: NoteAPI | number, GONG__StackPath: string): Observable<NoteAPI> {
-    return this.deleteNote(notedb, GONG__StackPath)
+  delete(notedb: NoteAPI | number, Name: string): Observable<NoteAPI> {
+    return this.deleteNote(notedb, Name)
   }
-  deleteNote(notedb: NoteAPI | number, GONG__StackPath: string): Observable<NoteAPI> {
+  deleteNote(notedb: NoteAPI | number, Name: string): Observable<NoteAPI> {
     const id = typeof notedb === 'number' ? notedb : notedb.ID;
     const url = `${this.notesUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class NoteService {
   }
 
   // updateFront copy note to a version with encoded pointers and update to the back
-  updateFront(note: Note, GONG__StackPath: string): Observable<NoteAPI> {
+  updateFront(note: Note, Name: string): Observable<NoteAPI> {
     let noteAPI = new NoteAPI
     CopyNoteToNoteAPI(note, noteAPI)
     const id = typeof noteAPI === 'number' ? noteAPI : noteAPI.ID
     const url = `${this.notesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class NoteService {
   }
 
   /** PUT: update the notedb on the server */
-  update(notedb: NoteAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NoteAPI> {
-    return this.updateNote(notedb, GONG__StackPath, frontRepo)
+  update(notedb: NoteAPI, Name: string, frontRepo: FrontRepo): Observable<NoteAPI> {
+    return this.updateNote(notedb, Name, frontRepo)
   }
-  updateNote(notedb: NoteAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NoteAPI> {
+  updateNote(notedb: NoteAPI, Name: string, frontRepo: FrontRepo): Observable<NoteAPI> {
     const id = typeof notedb === 'number' ? notedb : notedb.ID;
     const url = `${this.notesUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

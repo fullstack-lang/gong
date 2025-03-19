@@ -46,12 +46,12 @@ export class FormFieldDateTimeService {
 
   /** GET formfielddatetimes from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI[]> {
-    return this.getFormFieldDateTimes(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI[]> {
+    return this.getFormFieldDateTimes(Name, frontRepo)
   }
-  getFormFieldDateTimes(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI[]> {
+  getFormFieldDateTimes(Name: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<FormFieldDateTimeAPI[]>(this.formfielddatetimesUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class FormFieldDateTimeService {
 
   /** GET formfielddatetime by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI> {
-    return this.getFormFieldDateTime(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI> {
+    return this.getFormFieldDateTime(id, Name, frontRepo)
   }
-  getFormFieldDateTime(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI> {
+  getFormFieldDateTime(id: number, Name: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.formfielddatetimesUrl}/${id}`;
     return this.http.get<FormFieldDateTimeAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class FormFieldDateTimeService {
   }
 
   // postFront copy formfielddatetime to a version with encoded pointers and post to the back
-  postFront(formfielddatetime: FormFieldDateTime, GONG__StackPath: string): Observable<FormFieldDateTimeAPI> {
+  postFront(formfielddatetime: FormFieldDateTime, Name: string): Observable<FormFieldDateTimeAPI> {
     let formfielddatetimeAPI = new FormFieldDateTimeAPI
     CopyFormFieldDateTimeToFormFieldDateTimeAPI(formfielddatetime, formfielddatetimeAPI)
     const id = typeof formfielddatetimeAPI === 'number' ? formfielddatetimeAPI : formfielddatetimeAPI.ID
     const url = `${this.formfielddatetimesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class FormFieldDateTimeService {
   }
   
   /** POST: add a new formfielddatetime to the server */
-  post(formfielddatetimedb: FormFieldDateTimeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI> {
-    return this.postFormFieldDateTime(formfielddatetimedb, GONG__StackPath, frontRepo)
+  post(formfielddatetimedb: FormFieldDateTimeAPI, Name: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI> {
+    return this.postFormFieldDateTime(formfielddatetimedb, Name, frontRepo)
   }
-  postFormFieldDateTime(formfielddatetimedb: FormFieldDateTimeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI> {
+  postFormFieldDateTime(formfielddatetimedb: FormFieldDateTimeAPI, Name: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class FormFieldDateTimeService {
   }
 
   /** DELETE: delete the formfielddatetimedb from the server */
-  delete(formfielddatetimedb: FormFieldDateTimeAPI | number, GONG__StackPath: string): Observable<FormFieldDateTimeAPI> {
-    return this.deleteFormFieldDateTime(formfielddatetimedb, GONG__StackPath)
+  delete(formfielddatetimedb: FormFieldDateTimeAPI | number, Name: string): Observable<FormFieldDateTimeAPI> {
+    return this.deleteFormFieldDateTime(formfielddatetimedb, Name)
   }
-  deleteFormFieldDateTime(formfielddatetimedb: FormFieldDateTimeAPI | number, GONG__StackPath: string): Observable<FormFieldDateTimeAPI> {
+  deleteFormFieldDateTime(formfielddatetimedb: FormFieldDateTimeAPI | number, Name: string): Observable<FormFieldDateTimeAPI> {
     const id = typeof formfielddatetimedb === 'number' ? formfielddatetimedb : formfielddatetimedb.ID;
     const url = `${this.formfielddatetimesUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class FormFieldDateTimeService {
   }
 
   // updateFront copy formfielddatetime to a version with encoded pointers and update to the back
-  updateFront(formfielddatetime: FormFieldDateTime, GONG__StackPath: string): Observable<FormFieldDateTimeAPI> {
+  updateFront(formfielddatetime: FormFieldDateTime, Name: string): Observable<FormFieldDateTimeAPI> {
     let formfielddatetimeAPI = new FormFieldDateTimeAPI
     CopyFormFieldDateTimeToFormFieldDateTimeAPI(formfielddatetime, formfielddatetimeAPI)
     const id = typeof formfielddatetimeAPI === 'number' ? formfielddatetimeAPI : formfielddatetimeAPI.ID
     const url = `${this.formfielddatetimesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class FormFieldDateTimeService {
   }
 
   /** PUT: update the formfielddatetimedb on the server */
-  update(formfielddatetimedb: FormFieldDateTimeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI> {
-    return this.updateFormFieldDateTime(formfielddatetimedb, GONG__StackPath, frontRepo)
+  update(formfielddatetimedb: FormFieldDateTimeAPI, Name: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI> {
+    return this.updateFormFieldDateTime(formfielddatetimedb, Name, frontRepo)
   }
-  updateFormFieldDateTime(formfielddatetimedb: FormFieldDateTimeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI> {
+  updateFormFieldDateTime(formfielddatetimedb: FormFieldDateTimeAPI, Name: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI> {
     const id = typeof formfielddatetimedb === 'number' ? formfielddatetimedb : formfielddatetimedb.ID;
     const url = `${this.formfielddatetimesUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

@@ -45,7 +45,7 @@ export function selectRectsByArea(svgSpecificComponent: SvgSpecificComponent) {
                             console.log(getFunctionName(), "selecting rect", rect.Name);
                             rect.IsSelected = true;
                             svgSpecificComponent.manageHandles(rect)
-                            svgSpecificComponent.rectService.updateFront(rect, svgSpecificComponent.GONG__StackPath).subscribe(
+                            svgSpecificComponent.rectService.updateFront(rect, svgSpecificComponent.Name).subscribe(
                                 _ => {
                                 }
                             );

@@ -41,7 +41,7 @@ import { ToneSpecificComponent } from '../../../../../../../tone/ng-github.com-f
   styleUrl: './split-specific.component.css'
 })
 export class SplitSpecificComponent implements OnInit {
-    @Input() GONG__StackPath: string = ""
+    @Input() Name: string = ""
 
     public frontRepo?: split.FrontRepo;
 
@@ -54,7 +54,7 @@ export class SplitSpecificComponent implements OnInit {
     ngOnInit(): void {
       console.log("ngOnInit");
   
-      this.frontRepoService.connectToWebSocket(this.GONG__StackPath).subscribe({
+      this.frontRepoService.connectToWebSocket(this.Name).subscribe({
         next: (frontRepo) => {
           this.frontRepo = frontRepo;
   

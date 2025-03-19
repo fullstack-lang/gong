@@ -47,12 +47,12 @@ export class PolygoneService {
 
   /** GET polygones from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneAPI[]> {
-    return this.getPolygones(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<PolygoneAPI[]> {
+    return this.getPolygones(Name, frontRepo)
   }
-  getPolygones(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneAPI[]> {
+  getPolygones(Name: string, frontRepo: FrontRepo): Observable<PolygoneAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<PolygoneAPI[]>(this.polygonesUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class PolygoneService {
 
   /** GET polygone by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneAPI> {
-    return this.getPolygone(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<PolygoneAPI> {
+    return this.getPolygone(id, Name, frontRepo)
   }
-  getPolygone(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneAPI> {
+  getPolygone(id: number, Name: string, frontRepo: FrontRepo): Observable<PolygoneAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.polygonesUrl}/${id}`;
     return this.http.get<PolygoneAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class PolygoneService {
   }
 
   // postFront copy polygone to a version with encoded pointers and post to the back
-  postFront(polygone: Polygone, GONG__StackPath: string): Observable<PolygoneAPI> {
+  postFront(polygone: Polygone, Name: string): Observable<PolygoneAPI> {
     let polygoneAPI = new PolygoneAPI
     CopyPolygoneToPolygoneAPI(polygone, polygoneAPI)
     const id = typeof polygoneAPI === 'number' ? polygoneAPI : polygoneAPI.ID
     const url = `${this.polygonesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class PolygoneService {
   }
   
   /** POST: add a new polygone to the server */
-  post(polygonedb: PolygoneAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneAPI> {
-    return this.postPolygone(polygonedb, GONG__StackPath, frontRepo)
+  post(polygonedb: PolygoneAPI, Name: string, frontRepo: FrontRepo): Observable<PolygoneAPI> {
+    return this.postPolygone(polygonedb, Name, frontRepo)
   }
-  postPolygone(polygonedb: PolygoneAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneAPI> {
+  postPolygone(polygonedb: PolygoneAPI, Name: string, frontRepo: FrontRepo): Observable<PolygoneAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class PolygoneService {
   }
 
   /** DELETE: delete the polygonedb from the server */
-  delete(polygonedb: PolygoneAPI | number, GONG__StackPath: string): Observable<PolygoneAPI> {
-    return this.deletePolygone(polygonedb, GONG__StackPath)
+  delete(polygonedb: PolygoneAPI | number, Name: string): Observable<PolygoneAPI> {
+    return this.deletePolygone(polygonedb, Name)
   }
-  deletePolygone(polygonedb: PolygoneAPI | number, GONG__StackPath: string): Observable<PolygoneAPI> {
+  deletePolygone(polygonedb: PolygoneAPI | number, Name: string): Observable<PolygoneAPI> {
     const id = typeof polygonedb === 'number' ? polygonedb : polygonedb.ID;
     const url = `${this.polygonesUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class PolygoneService {
   }
 
   // updateFront copy polygone to a version with encoded pointers and update to the back
-  updateFront(polygone: Polygone, GONG__StackPath: string): Observable<PolygoneAPI> {
+  updateFront(polygone: Polygone, Name: string): Observable<PolygoneAPI> {
     let polygoneAPI = new PolygoneAPI
     CopyPolygoneToPolygoneAPI(polygone, polygoneAPI)
     const id = typeof polygoneAPI === 'number' ? polygoneAPI : polygoneAPI.ID
     const url = `${this.polygonesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class PolygoneService {
   }
 
   /** PUT: update the polygonedb on the server */
-  update(polygonedb: PolygoneAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneAPI> {
-    return this.updatePolygone(polygonedb, GONG__StackPath, frontRepo)
+  update(polygonedb: PolygoneAPI, Name: string, frontRepo: FrontRepo): Observable<PolygoneAPI> {
+    return this.updatePolygone(polygonedb, Name, frontRepo)
   }
-  updatePolygone(polygonedb: PolygoneAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolygoneAPI> {
+  updatePolygone(polygonedb: PolygoneAPI, Name: string, frontRepo: FrontRepo): Observable<PolygoneAPI> {
     const id = typeof polygonedb === 'number' ? polygonedb : polygonedb.ID;
     const url = `${this.polygonesUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

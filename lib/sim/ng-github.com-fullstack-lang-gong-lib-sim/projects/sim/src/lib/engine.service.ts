@@ -46,12 +46,12 @@ export class EngineService {
 
   /** GET engines from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<EngineAPI[]> {
-    return this.getEngines(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<EngineAPI[]> {
+    return this.getEngines(Name, frontRepo)
   }
-  getEngines(GONG__StackPath: string, frontRepo: FrontRepo): Observable<EngineAPI[]> {
+  getEngines(Name: string, frontRepo: FrontRepo): Observable<EngineAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<EngineAPI[]>(this.enginesUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class EngineService {
 
   /** GET engine by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EngineAPI> {
-    return this.getEngine(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<EngineAPI> {
+    return this.getEngine(id, Name, frontRepo)
   }
-  getEngine(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EngineAPI> {
+  getEngine(id: number, Name: string, frontRepo: FrontRepo): Observable<EngineAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.enginesUrl}/${id}`;
     return this.http.get<EngineAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class EngineService {
   }
 
   // postFront copy engine to a version with encoded pointers and post to the back
-  postFront(engine: Engine, GONG__StackPath: string): Observable<EngineAPI> {
+  postFront(engine: Engine, Name: string): Observable<EngineAPI> {
     let engineAPI = new EngineAPI
     CopyEngineToEngineAPI(engine, engineAPI)
     const id = typeof engineAPI === 'number' ? engineAPI : engineAPI.ID
     const url = `${this.enginesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class EngineService {
   }
   
   /** POST: add a new engine to the server */
-  post(enginedb: EngineAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EngineAPI> {
-    return this.postEngine(enginedb, GONG__StackPath, frontRepo)
+  post(enginedb: EngineAPI, Name: string, frontRepo: FrontRepo): Observable<EngineAPI> {
+    return this.postEngine(enginedb, Name, frontRepo)
   }
-  postEngine(enginedb: EngineAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EngineAPI> {
+  postEngine(enginedb: EngineAPI, Name: string, frontRepo: FrontRepo): Observable<EngineAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class EngineService {
   }
 
   /** DELETE: delete the enginedb from the server */
-  delete(enginedb: EngineAPI | number, GONG__StackPath: string): Observable<EngineAPI> {
-    return this.deleteEngine(enginedb, GONG__StackPath)
+  delete(enginedb: EngineAPI | number, Name: string): Observable<EngineAPI> {
+    return this.deleteEngine(enginedb, Name)
   }
-  deleteEngine(enginedb: EngineAPI | number, GONG__StackPath: string): Observable<EngineAPI> {
+  deleteEngine(enginedb: EngineAPI | number, Name: string): Observable<EngineAPI> {
     const id = typeof enginedb === 'number' ? enginedb : enginedb.ID;
     const url = `${this.enginesUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class EngineService {
   }
 
   // updateFront copy engine to a version with encoded pointers and update to the back
-  updateFront(engine: Engine, GONG__StackPath: string): Observable<EngineAPI> {
+  updateFront(engine: Engine, Name: string): Observable<EngineAPI> {
     let engineAPI = new EngineAPI
     CopyEngineToEngineAPI(engine, engineAPI)
     const id = typeof engineAPI === 'number' ? engineAPI : engineAPI.ID
     const url = `${this.enginesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class EngineService {
   }
 
   /** PUT: update the enginedb on the server */
-  update(enginedb: EngineAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EngineAPI> {
-    return this.updateEngine(enginedb, GONG__StackPath, frontRepo)
+  update(enginedb: EngineAPI, Name: string, frontRepo: FrontRepo): Observable<EngineAPI> {
+    return this.updateEngine(enginedb, Name, frontRepo)
   }
-  updateEngine(enginedb: EngineAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EngineAPI> {
+  updateEngine(enginedb: EngineAPI, Name: string, frontRepo: FrontRepo): Observable<EngineAPI> {
     const id = typeof enginedb === 'number' ? enginedb : enginedb.ID;
     const url = `${this.enginesUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
