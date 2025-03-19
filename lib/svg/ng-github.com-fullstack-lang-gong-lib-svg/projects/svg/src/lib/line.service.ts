@@ -47,12 +47,12 @@ export class LineService {
 
   /** GET lines from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LineAPI[]> {
-    return this.getLines(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<LineAPI[]> {
+    return this.getLines(Name, frontRepo)
   }
-  getLines(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LineAPI[]> {
+  getLines(Name: string, frontRepo: FrontRepo): Observable<LineAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<LineAPI[]>(this.linesUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class LineService {
 
   /** GET line by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LineAPI> {
-    return this.getLine(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<LineAPI> {
+    return this.getLine(id, Name, frontRepo)
   }
-  getLine(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LineAPI> {
+  getLine(id: number, Name: string, frontRepo: FrontRepo): Observable<LineAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.linesUrl}/${id}`;
     return this.http.get<LineAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class LineService {
   }
 
   // postFront copy line to a version with encoded pointers and post to the back
-  postFront(line: Line, GONG__StackPath: string): Observable<LineAPI> {
+  postFront(line: Line, Name: string): Observable<LineAPI> {
     let lineAPI = new LineAPI
     CopyLineToLineAPI(line, lineAPI)
     const id = typeof lineAPI === 'number' ? lineAPI : lineAPI.ID
     const url = `${this.linesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class LineService {
   }
   
   /** POST: add a new line to the server */
-  post(linedb: LineAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LineAPI> {
-    return this.postLine(linedb, GONG__StackPath, frontRepo)
+  post(linedb: LineAPI, Name: string, frontRepo: FrontRepo): Observable<LineAPI> {
+    return this.postLine(linedb, Name, frontRepo)
   }
-  postLine(linedb: LineAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LineAPI> {
+  postLine(linedb: LineAPI, Name: string, frontRepo: FrontRepo): Observable<LineAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class LineService {
   }
 
   /** DELETE: delete the linedb from the server */
-  delete(linedb: LineAPI | number, GONG__StackPath: string): Observable<LineAPI> {
-    return this.deleteLine(linedb, GONG__StackPath)
+  delete(linedb: LineAPI | number, Name: string): Observable<LineAPI> {
+    return this.deleteLine(linedb, Name)
   }
-  deleteLine(linedb: LineAPI | number, GONG__StackPath: string): Observable<LineAPI> {
+  deleteLine(linedb: LineAPI | number, Name: string): Observable<LineAPI> {
     const id = typeof linedb === 'number' ? linedb : linedb.ID;
     const url = `${this.linesUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class LineService {
   }
 
   // updateFront copy line to a version with encoded pointers and update to the back
-  updateFront(line: Line, GONG__StackPath: string): Observable<LineAPI> {
+  updateFront(line: Line, Name: string): Observable<LineAPI> {
     let lineAPI = new LineAPI
     CopyLineToLineAPI(line, lineAPI)
     const id = typeof lineAPI === 'number' ? lineAPI : lineAPI.ID
     const url = `${this.linesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class LineService {
   }
 
   /** PUT: update the linedb on the server */
-  update(linedb: LineAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LineAPI> {
-    return this.updateLine(linedb, GONG__StackPath, frontRepo)
+  update(linedb: LineAPI, Name: string, frontRepo: FrontRepo): Observable<LineAPI> {
+    return this.updateLine(linedb, Name, frontRepo)
   }
-  updateLine(linedb: LineAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LineAPI> {
+  updateLine(linedb: LineAPI, Name: string, frontRepo: FrontRepo): Observable<LineAPI> {
     const id = typeof linedb === 'number' ? linedb : linedb.ID;
     const url = `${this.linesUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

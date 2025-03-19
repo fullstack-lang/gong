@@ -47,12 +47,12 @@ export class FormFieldSelectService {
 
   /** GET formfieldselects from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI[]> {
-    return this.getFormFieldSelects(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI[]> {
+    return this.getFormFieldSelects(Name, frontRepo)
   }
-  getFormFieldSelects(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI[]> {
+  getFormFieldSelects(Name: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<FormFieldSelectAPI[]>(this.formfieldselectsUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class FormFieldSelectService {
 
   /** GET formfieldselect by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI> {
-    return this.getFormFieldSelect(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI> {
+    return this.getFormFieldSelect(id, Name, frontRepo)
   }
-  getFormFieldSelect(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI> {
+  getFormFieldSelect(id: number, Name: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.formfieldselectsUrl}/${id}`;
     return this.http.get<FormFieldSelectAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class FormFieldSelectService {
   }
 
   // postFront copy formfieldselect to a version with encoded pointers and post to the back
-  postFront(formfieldselect: FormFieldSelect, GONG__StackPath: string): Observable<FormFieldSelectAPI> {
+  postFront(formfieldselect: FormFieldSelect, Name: string): Observable<FormFieldSelectAPI> {
     let formfieldselectAPI = new FormFieldSelectAPI
     CopyFormFieldSelectToFormFieldSelectAPI(formfieldselect, formfieldselectAPI)
     const id = typeof formfieldselectAPI === 'number' ? formfieldselectAPI : formfieldselectAPI.ID
     const url = `${this.formfieldselectsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class FormFieldSelectService {
   }
   
   /** POST: add a new formfieldselect to the server */
-  post(formfieldselectdb: FormFieldSelectAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI> {
-    return this.postFormFieldSelect(formfieldselectdb, GONG__StackPath, frontRepo)
+  post(formfieldselectdb: FormFieldSelectAPI, Name: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI> {
+    return this.postFormFieldSelect(formfieldselectdb, Name, frontRepo)
   }
-  postFormFieldSelect(formfieldselectdb: FormFieldSelectAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI> {
+  postFormFieldSelect(formfieldselectdb: FormFieldSelectAPI, Name: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class FormFieldSelectService {
   }
 
   /** DELETE: delete the formfieldselectdb from the server */
-  delete(formfieldselectdb: FormFieldSelectAPI | number, GONG__StackPath: string): Observable<FormFieldSelectAPI> {
-    return this.deleteFormFieldSelect(formfieldselectdb, GONG__StackPath)
+  delete(formfieldselectdb: FormFieldSelectAPI | number, Name: string): Observable<FormFieldSelectAPI> {
+    return this.deleteFormFieldSelect(formfieldselectdb, Name)
   }
-  deleteFormFieldSelect(formfieldselectdb: FormFieldSelectAPI | number, GONG__StackPath: string): Observable<FormFieldSelectAPI> {
+  deleteFormFieldSelect(formfieldselectdb: FormFieldSelectAPI | number, Name: string): Observable<FormFieldSelectAPI> {
     const id = typeof formfieldselectdb === 'number' ? formfieldselectdb : formfieldselectdb.ID;
     const url = `${this.formfieldselectsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class FormFieldSelectService {
   }
 
   // updateFront copy formfieldselect to a version with encoded pointers and update to the back
-  updateFront(formfieldselect: FormFieldSelect, GONG__StackPath: string): Observable<FormFieldSelectAPI> {
+  updateFront(formfieldselect: FormFieldSelect, Name: string): Observable<FormFieldSelectAPI> {
     let formfieldselectAPI = new FormFieldSelectAPI
     CopyFormFieldSelectToFormFieldSelectAPI(formfieldselect, formfieldselectAPI)
     const id = typeof formfieldselectAPI === 'number' ? formfieldselectAPI : formfieldselectAPI.ID
     const url = `${this.formfieldselectsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class FormFieldSelectService {
   }
 
   /** PUT: update the formfieldselectdb on the server */
-  update(formfieldselectdb: FormFieldSelectAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI> {
-    return this.updateFormFieldSelect(formfieldselectdb, GONG__StackPath, frontRepo)
+  update(formfieldselectdb: FormFieldSelectAPI, Name: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI> {
+    return this.updateFormFieldSelect(formfieldselectdb, Name, frontRepo)
   }
-  updateFormFieldSelect(formfieldselectdb: FormFieldSelectAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI> {
+  updateFormFieldSelect(formfieldselectdb: FormFieldSelectAPI, Name: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI> {
     const id = typeof formfieldselectdb === 'number' ? formfieldselectdb : formfieldselectdb.ID;
     const url = `${this.formfieldselectsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

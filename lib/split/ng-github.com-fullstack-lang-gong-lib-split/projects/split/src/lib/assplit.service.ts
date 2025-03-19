@@ -47,12 +47,12 @@ export class AsSplitService {
 
   /** GET assplits from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AsSplitAPI[]> {
-    return this.getAsSplits(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<AsSplitAPI[]> {
+    return this.getAsSplits(Name, frontRepo)
   }
-  getAsSplits(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AsSplitAPI[]> {
+  getAsSplits(Name: string, frontRepo: FrontRepo): Observable<AsSplitAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<AsSplitAPI[]>(this.assplitsUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class AsSplitService {
 
   /** GET assplit by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AsSplitAPI> {
-    return this.getAsSplit(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<AsSplitAPI> {
+    return this.getAsSplit(id, Name, frontRepo)
   }
-  getAsSplit(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AsSplitAPI> {
+  getAsSplit(id: number, Name: string, frontRepo: FrontRepo): Observable<AsSplitAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.assplitsUrl}/${id}`;
     return this.http.get<AsSplitAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class AsSplitService {
   }
 
   // postFront copy assplit to a version with encoded pointers and post to the back
-  postFront(assplit: AsSplit, GONG__StackPath: string): Observable<AsSplitAPI> {
+  postFront(assplit: AsSplit, Name: string): Observable<AsSplitAPI> {
     let assplitAPI = new AsSplitAPI
     CopyAsSplitToAsSplitAPI(assplit, assplitAPI)
     const id = typeof assplitAPI === 'number' ? assplitAPI : assplitAPI.ID
     const url = `${this.assplitsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class AsSplitService {
   }
   
   /** POST: add a new assplit to the server */
-  post(assplitdb: AsSplitAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AsSplitAPI> {
-    return this.postAsSplit(assplitdb, GONG__StackPath, frontRepo)
+  post(assplitdb: AsSplitAPI, Name: string, frontRepo: FrontRepo): Observable<AsSplitAPI> {
+    return this.postAsSplit(assplitdb, Name, frontRepo)
   }
-  postAsSplit(assplitdb: AsSplitAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AsSplitAPI> {
+  postAsSplit(assplitdb: AsSplitAPI, Name: string, frontRepo: FrontRepo): Observable<AsSplitAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class AsSplitService {
   }
 
   /** DELETE: delete the assplitdb from the server */
-  delete(assplitdb: AsSplitAPI | number, GONG__StackPath: string): Observable<AsSplitAPI> {
-    return this.deleteAsSplit(assplitdb, GONG__StackPath)
+  delete(assplitdb: AsSplitAPI | number, Name: string): Observable<AsSplitAPI> {
+    return this.deleteAsSplit(assplitdb, Name)
   }
-  deleteAsSplit(assplitdb: AsSplitAPI | number, GONG__StackPath: string): Observable<AsSplitAPI> {
+  deleteAsSplit(assplitdb: AsSplitAPI | number, Name: string): Observable<AsSplitAPI> {
     const id = typeof assplitdb === 'number' ? assplitdb : assplitdb.ID;
     const url = `${this.assplitsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class AsSplitService {
   }
 
   // updateFront copy assplit to a version with encoded pointers and update to the back
-  updateFront(assplit: AsSplit, GONG__StackPath: string): Observable<AsSplitAPI> {
+  updateFront(assplit: AsSplit, Name: string): Observable<AsSplitAPI> {
     let assplitAPI = new AsSplitAPI
     CopyAsSplitToAsSplitAPI(assplit, assplitAPI)
     const id = typeof assplitAPI === 'number' ? assplitAPI : assplitAPI.ID
     const url = `${this.assplitsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class AsSplitService {
   }
 
   /** PUT: update the assplitdb on the server */
-  update(assplitdb: AsSplitAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AsSplitAPI> {
-    return this.updateAsSplit(assplitdb, GONG__StackPath, frontRepo)
+  update(assplitdb: AsSplitAPI, Name: string, frontRepo: FrontRepo): Observable<AsSplitAPI> {
+    return this.updateAsSplit(assplitdb, Name, frontRepo)
   }
-  updateAsSplit(assplitdb: AsSplitAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AsSplitAPI> {
+  updateAsSplit(assplitdb: AsSplitAPI, Name: string, frontRepo: FrontRepo): Observable<AsSplitAPI> {
     const id = typeof assplitdb === 'number' ? assplitdb : assplitdb.ID;
     const url = `${this.assplitsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

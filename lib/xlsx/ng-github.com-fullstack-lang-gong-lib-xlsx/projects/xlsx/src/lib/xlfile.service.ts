@@ -47,12 +47,12 @@ export class XLFileService {
 
   /** GET xlfiles from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<XLFileAPI[]> {
-    return this.getXLFiles(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<XLFileAPI[]> {
+    return this.getXLFiles(Name, frontRepo)
   }
-  getXLFiles(GONG__StackPath: string, frontRepo: FrontRepo): Observable<XLFileAPI[]> {
+  getXLFiles(Name: string, frontRepo: FrontRepo): Observable<XLFileAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<XLFileAPI[]>(this.xlfilesUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class XLFileService {
 
   /** GET xlfile by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<XLFileAPI> {
-    return this.getXLFile(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<XLFileAPI> {
+    return this.getXLFile(id, Name, frontRepo)
   }
-  getXLFile(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<XLFileAPI> {
+  getXLFile(id: number, Name: string, frontRepo: FrontRepo): Observable<XLFileAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.xlfilesUrl}/${id}`;
     return this.http.get<XLFileAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class XLFileService {
   }
 
   // postFront copy xlfile to a version with encoded pointers and post to the back
-  postFront(xlfile: XLFile, GONG__StackPath: string): Observable<XLFileAPI> {
+  postFront(xlfile: XLFile, Name: string): Observable<XLFileAPI> {
     let xlfileAPI = new XLFileAPI
     CopyXLFileToXLFileAPI(xlfile, xlfileAPI)
     const id = typeof xlfileAPI === 'number' ? xlfileAPI : xlfileAPI.ID
     const url = `${this.xlfilesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class XLFileService {
   }
   
   /** POST: add a new xlfile to the server */
-  post(xlfiledb: XLFileAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<XLFileAPI> {
-    return this.postXLFile(xlfiledb, GONG__StackPath, frontRepo)
+  post(xlfiledb: XLFileAPI, Name: string, frontRepo: FrontRepo): Observable<XLFileAPI> {
+    return this.postXLFile(xlfiledb, Name, frontRepo)
   }
-  postXLFile(xlfiledb: XLFileAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<XLFileAPI> {
+  postXLFile(xlfiledb: XLFileAPI, Name: string, frontRepo: FrontRepo): Observable<XLFileAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class XLFileService {
   }
 
   /** DELETE: delete the xlfiledb from the server */
-  delete(xlfiledb: XLFileAPI | number, GONG__StackPath: string): Observable<XLFileAPI> {
-    return this.deleteXLFile(xlfiledb, GONG__StackPath)
+  delete(xlfiledb: XLFileAPI | number, Name: string): Observable<XLFileAPI> {
+    return this.deleteXLFile(xlfiledb, Name)
   }
-  deleteXLFile(xlfiledb: XLFileAPI | number, GONG__StackPath: string): Observable<XLFileAPI> {
+  deleteXLFile(xlfiledb: XLFileAPI | number, Name: string): Observable<XLFileAPI> {
     const id = typeof xlfiledb === 'number' ? xlfiledb : xlfiledb.ID;
     const url = `${this.xlfilesUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class XLFileService {
   }
 
   // updateFront copy xlfile to a version with encoded pointers and update to the back
-  updateFront(xlfile: XLFile, GONG__StackPath: string): Observable<XLFileAPI> {
+  updateFront(xlfile: XLFile, Name: string): Observable<XLFileAPI> {
     let xlfileAPI = new XLFileAPI
     CopyXLFileToXLFileAPI(xlfile, xlfileAPI)
     const id = typeof xlfileAPI === 'number' ? xlfileAPI : xlfileAPI.ID
     const url = `${this.xlfilesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class XLFileService {
   }
 
   /** PUT: update the xlfiledb on the server */
-  update(xlfiledb: XLFileAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<XLFileAPI> {
-    return this.updateXLFile(xlfiledb, GONG__StackPath, frontRepo)
+  update(xlfiledb: XLFileAPI, Name: string, frontRepo: FrontRepo): Observable<XLFileAPI> {
+    return this.updateXLFile(xlfiledb, Name, frontRepo)
   }
-  updateXLFile(xlfiledb: XLFileAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<XLFileAPI> {
+  updateXLFile(xlfiledb: XLFileAPI, Name: string, frontRepo: FrontRepo): Observable<XLFileAPI> {
     const id = typeof xlfiledb === 'number' ? xlfiledb : xlfiledb.ID;
     const url = `${this.xlfilesUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

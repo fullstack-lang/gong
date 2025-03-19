@@ -47,12 +47,12 @@ export class CommandService {
 
   /** GET commands from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CommandAPI[]> {
-    return this.getCommands(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<CommandAPI[]> {
+    return this.getCommands(Name, frontRepo)
   }
-  getCommands(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CommandAPI[]> {
+  getCommands(Name: string, frontRepo: FrontRepo): Observable<CommandAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<CommandAPI[]>(this.commandsUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class CommandService {
 
   /** GET command by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CommandAPI> {
-    return this.getCommand(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<CommandAPI> {
+    return this.getCommand(id, Name, frontRepo)
   }
-  getCommand(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CommandAPI> {
+  getCommand(id: number, Name: string, frontRepo: FrontRepo): Observable<CommandAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.commandsUrl}/${id}`;
     return this.http.get<CommandAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class CommandService {
   }
 
   // postFront copy command to a version with encoded pointers and post to the back
-  postFront(command: Command, GONG__StackPath: string): Observable<CommandAPI> {
+  postFront(command: Command, Name: string): Observable<CommandAPI> {
     let commandAPI = new CommandAPI
     CopyCommandToCommandAPI(command, commandAPI)
     const id = typeof commandAPI === 'number' ? commandAPI : commandAPI.ID
     const url = `${this.commandsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class CommandService {
   }
   
   /** POST: add a new command to the server */
-  post(commanddb: CommandAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CommandAPI> {
-    return this.postCommand(commanddb, GONG__StackPath, frontRepo)
+  post(commanddb: CommandAPI, Name: string, frontRepo: FrontRepo): Observable<CommandAPI> {
+    return this.postCommand(commanddb, Name, frontRepo)
   }
-  postCommand(commanddb: CommandAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CommandAPI> {
+  postCommand(commanddb: CommandAPI, Name: string, frontRepo: FrontRepo): Observable<CommandAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class CommandService {
   }
 
   /** DELETE: delete the commanddb from the server */
-  delete(commanddb: CommandAPI | number, GONG__StackPath: string): Observable<CommandAPI> {
-    return this.deleteCommand(commanddb, GONG__StackPath)
+  delete(commanddb: CommandAPI | number, Name: string): Observable<CommandAPI> {
+    return this.deleteCommand(commanddb, Name)
   }
-  deleteCommand(commanddb: CommandAPI | number, GONG__StackPath: string): Observable<CommandAPI> {
+  deleteCommand(commanddb: CommandAPI | number, Name: string): Observable<CommandAPI> {
     const id = typeof commanddb === 'number' ? commanddb : commanddb.ID;
     const url = `${this.commandsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class CommandService {
   }
 
   // updateFront copy command to a version with encoded pointers and update to the back
-  updateFront(command: Command, GONG__StackPath: string): Observable<CommandAPI> {
+  updateFront(command: Command, Name: string): Observable<CommandAPI> {
     let commandAPI = new CommandAPI
     CopyCommandToCommandAPI(command, commandAPI)
     const id = typeof commandAPI === 'number' ? commandAPI : commandAPI.ID
     const url = `${this.commandsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class CommandService {
   }
 
   /** PUT: update the commanddb on the server */
-  update(commanddb: CommandAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CommandAPI> {
-    return this.updateCommand(commanddb, GONG__StackPath, frontRepo)
+  update(commanddb: CommandAPI, Name: string, frontRepo: FrontRepo): Observable<CommandAPI> {
+    return this.updateCommand(commanddb, Name, frontRepo)
   }
-  updateCommand(commanddb: CommandAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CommandAPI> {
+  updateCommand(commanddb: CommandAPI, Name: string, frontRepo: FrontRepo): Observable<CommandAPI> {
     const id = typeof commanddb === 'number' ? commanddb : commanddb.ID;
     const url = `${this.commandsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

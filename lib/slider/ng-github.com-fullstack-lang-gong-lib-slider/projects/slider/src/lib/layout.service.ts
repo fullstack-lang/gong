@@ -47,12 +47,12 @@ export class LayoutService {
 
   /** GET layouts from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayoutAPI[]> {
-    return this.getLayouts(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<LayoutAPI[]> {
+    return this.getLayouts(Name, frontRepo)
   }
-  getLayouts(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayoutAPI[]> {
+  getLayouts(Name: string, frontRepo: FrontRepo): Observable<LayoutAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<LayoutAPI[]>(this.layoutsUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class LayoutService {
 
   /** GET layout by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayoutAPI> {
-    return this.getLayout(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<LayoutAPI> {
+    return this.getLayout(id, Name, frontRepo)
   }
-  getLayout(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayoutAPI> {
+  getLayout(id: number, Name: string, frontRepo: FrontRepo): Observable<LayoutAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.layoutsUrl}/${id}`;
     return this.http.get<LayoutAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class LayoutService {
   }
 
   // postFront copy layout to a version with encoded pointers and post to the back
-  postFront(layout: Layout, GONG__StackPath: string): Observable<LayoutAPI> {
+  postFront(layout: Layout, Name: string): Observable<LayoutAPI> {
     let layoutAPI = new LayoutAPI
     CopyLayoutToLayoutAPI(layout, layoutAPI)
     const id = typeof layoutAPI === 'number' ? layoutAPI : layoutAPI.ID
     const url = `${this.layoutsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class LayoutService {
   }
   
   /** POST: add a new layout to the server */
-  post(layoutdb: LayoutAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayoutAPI> {
-    return this.postLayout(layoutdb, GONG__StackPath, frontRepo)
+  post(layoutdb: LayoutAPI, Name: string, frontRepo: FrontRepo): Observable<LayoutAPI> {
+    return this.postLayout(layoutdb, Name, frontRepo)
   }
-  postLayout(layoutdb: LayoutAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayoutAPI> {
+  postLayout(layoutdb: LayoutAPI, Name: string, frontRepo: FrontRepo): Observable<LayoutAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class LayoutService {
   }
 
   /** DELETE: delete the layoutdb from the server */
-  delete(layoutdb: LayoutAPI | number, GONG__StackPath: string): Observable<LayoutAPI> {
-    return this.deleteLayout(layoutdb, GONG__StackPath)
+  delete(layoutdb: LayoutAPI | number, Name: string): Observable<LayoutAPI> {
+    return this.deleteLayout(layoutdb, Name)
   }
-  deleteLayout(layoutdb: LayoutAPI | number, GONG__StackPath: string): Observable<LayoutAPI> {
+  deleteLayout(layoutdb: LayoutAPI | number, Name: string): Observable<LayoutAPI> {
     const id = typeof layoutdb === 'number' ? layoutdb : layoutdb.ID;
     const url = `${this.layoutsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class LayoutService {
   }
 
   // updateFront copy layout to a version with encoded pointers and update to the back
-  updateFront(layout: Layout, GONG__StackPath: string): Observable<LayoutAPI> {
+  updateFront(layout: Layout, Name: string): Observable<LayoutAPI> {
     let layoutAPI = new LayoutAPI
     CopyLayoutToLayoutAPI(layout, layoutAPI)
     const id = typeof layoutAPI === 'number' ? layoutAPI : layoutAPI.ID
     const url = `${this.layoutsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class LayoutService {
   }
 
   /** PUT: update the layoutdb on the server */
-  update(layoutdb: LayoutAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayoutAPI> {
-    return this.updateLayout(layoutdb, GONG__StackPath, frontRepo)
+  update(layoutdb: LayoutAPI, Name: string, frontRepo: FrontRepo): Observable<LayoutAPI> {
+    return this.updateLayout(layoutdb, Name, frontRepo)
   }
-  updateLayout(layoutdb: LayoutAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayoutAPI> {
+  updateLayout(layoutdb: LayoutAPI, Name: string, frontRepo: FrontRepo): Observable<LayoutAPI> {
     const id = typeof layoutdb === 'number' ? layoutdb : layoutdb.ID;
     const url = `${this.layoutsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

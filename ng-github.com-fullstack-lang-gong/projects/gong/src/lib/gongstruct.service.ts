@@ -50,12 +50,12 @@ export class GongStructService {
 
   /** GET gongstructs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongStructAPI[]> {
-    return this.getGongStructs(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<GongStructAPI[]> {
+    return this.getGongStructs(Name, frontRepo)
   }
-  getGongStructs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongStructAPI[]> {
+  getGongStructs(Name: string, frontRepo: FrontRepo): Observable<GongStructAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<GongStructAPI[]>(this.gongstructsUrl, { params: params })
       .pipe(
@@ -66,12 +66,12 @@ export class GongStructService {
 
   /** GET gongstruct by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongStructAPI> {
-    return this.getGongStruct(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<GongStructAPI> {
+    return this.getGongStruct(id, Name, frontRepo)
   }
-  getGongStruct(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongStructAPI> {
+  getGongStruct(id: number, Name: string, frontRepo: FrontRepo): Observable<GongStructAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.gongstructsUrl}/${id}`;
     return this.http.get<GongStructAPI>(url, { params: params }).pipe(
@@ -81,12 +81,12 @@ export class GongStructService {
   }
 
   // postFront copy gongstruct to a version with encoded pointers and post to the back
-  postFront(gongstruct: GongStruct, GONG__StackPath: string): Observable<GongStructAPI> {
+  postFront(gongstruct: GongStruct, Name: string): Observable<GongStructAPI> {
     let gongstructAPI = new GongStructAPI
     CopyGongStructToGongStructAPI(gongstruct, gongstructAPI)
     const id = typeof gongstructAPI === 'number' ? gongstructAPI : gongstructAPI.ID
     const url = `${this.gongstructsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -100,12 +100,12 @@ export class GongStructService {
   }
   
   /** POST: add a new gongstruct to the server */
-  post(gongstructdb: GongStructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongStructAPI> {
-    return this.postGongStruct(gongstructdb, GONG__StackPath, frontRepo)
+  post(gongstructdb: GongStructAPI, Name: string, frontRepo: FrontRepo): Observable<GongStructAPI> {
+    return this.postGongStruct(gongstructdb, Name, frontRepo)
   }
-  postGongStruct(gongstructdb: GongStructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongStructAPI> {
+  postGongStruct(gongstructdb: GongStructAPI, Name: string, frontRepo: FrontRepo): Observable<GongStructAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -120,14 +120,14 @@ export class GongStructService {
   }
 
   /** DELETE: delete the gongstructdb from the server */
-  delete(gongstructdb: GongStructAPI | number, GONG__StackPath: string): Observable<GongStructAPI> {
-    return this.deleteGongStruct(gongstructdb, GONG__StackPath)
+  delete(gongstructdb: GongStructAPI | number, Name: string): Observable<GongStructAPI> {
+    return this.deleteGongStruct(gongstructdb, Name)
   }
-  deleteGongStruct(gongstructdb: GongStructAPI | number, GONG__StackPath: string): Observable<GongStructAPI> {
+  deleteGongStruct(gongstructdb: GongStructAPI | number, Name: string): Observable<GongStructAPI> {
     const id = typeof gongstructdb === 'number' ? gongstructdb : gongstructdb.ID;
     const url = `${this.gongstructsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -140,12 +140,12 @@ export class GongStructService {
   }
 
   // updateFront copy gongstruct to a version with encoded pointers and update to the back
-  updateFront(gongstruct: GongStruct, GONG__StackPath: string): Observable<GongStructAPI> {
+  updateFront(gongstruct: GongStruct, Name: string): Observable<GongStructAPI> {
     let gongstructAPI = new GongStructAPI
     CopyGongStructToGongStructAPI(gongstruct, gongstructAPI)
     const id = typeof gongstructAPI === 'number' ? gongstructAPI : gongstructAPI.ID
     const url = `${this.gongstructsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -159,15 +159,15 @@ export class GongStructService {
   }
 
   /** PUT: update the gongstructdb on the server */
-  update(gongstructdb: GongStructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongStructAPI> {
-    return this.updateGongStruct(gongstructdb, GONG__StackPath, frontRepo)
+  update(gongstructdb: GongStructAPI, Name: string, frontRepo: FrontRepo): Observable<GongStructAPI> {
+    return this.updateGongStruct(gongstructdb, Name, frontRepo)
   }
-  updateGongStruct(gongstructdb: GongStructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongStructAPI> {
+  updateGongStruct(gongstructdb: GongStructAPI, Name: string, frontRepo: FrontRepo): Observable<GongStructAPI> {
     const id = typeof gongstructdb === 'number' ? gongstructdb : gongstructdb.ID;
     const url = `${this.gongstructsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
