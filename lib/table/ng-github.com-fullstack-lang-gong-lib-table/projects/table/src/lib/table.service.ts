@@ -48,12 +48,12 @@ export class TableService {
 
   /** GET tables from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableAPI[]> {
-    return this.getTables(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<TableAPI[]> {
+    return this.getTables(Name, frontRepo)
   }
-  getTables(GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableAPI[]> {
+  getTables(Name: string, frontRepo: FrontRepo): Observable<TableAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<TableAPI[]>(this.tablesUrl, { params: params })
       .pipe(
@@ -64,12 +64,12 @@ export class TableService {
 
   /** GET table by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableAPI> {
-    return this.getTable(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<TableAPI> {
+    return this.getTable(id, Name, frontRepo)
   }
-  getTable(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableAPI> {
+  getTable(id: number, Name: string, frontRepo: FrontRepo): Observable<TableAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.tablesUrl}/${id}`;
     return this.http.get<TableAPI>(url, { params: params }).pipe(
@@ -79,12 +79,12 @@ export class TableService {
   }
 
   // postFront copy table to a version with encoded pointers and post to the back
-  postFront(table: Table, GONG__StackPath: string): Observable<TableAPI> {
+  postFront(table: Table, Name: string): Observable<TableAPI> {
     let tableAPI = new TableAPI
     CopyTableToTableAPI(table, tableAPI)
     const id = typeof tableAPI === 'number' ? tableAPI : tableAPI.ID
     const url = `${this.tablesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -98,12 +98,12 @@ export class TableService {
   }
   
   /** POST: add a new table to the server */
-  post(tabledb: TableAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableAPI> {
-    return this.postTable(tabledb, GONG__StackPath, frontRepo)
+  post(tabledb: TableAPI, Name: string, frontRepo: FrontRepo): Observable<TableAPI> {
+    return this.postTable(tabledb, Name, frontRepo)
   }
-  postTable(tabledb: TableAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableAPI> {
+  postTable(tabledb: TableAPI, Name: string, frontRepo: FrontRepo): Observable<TableAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -118,14 +118,14 @@ export class TableService {
   }
 
   /** DELETE: delete the tabledb from the server */
-  delete(tabledb: TableAPI | number, GONG__StackPath: string): Observable<TableAPI> {
-    return this.deleteTable(tabledb, GONG__StackPath)
+  delete(tabledb: TableAPI | number, Name: string): Observable<TableAPI> {
+    return this.deleteTable(tabledb, Name)
   }
-  deleteTable(tabledb: TableAPI | number, GONG__StackPath: string): Observable<TableAPI> {
+  deleteTable(tabledb: TableAPI | number, Name: string): Observable<TableAPI> {
     const id = typeof tabledb === 'number' ? tabledb : tabledb.ID;
     const url = `${this.tablesUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -138,12 +138,12 @@ export class TableService {
   }
 
   // updateFront copy table to a version with encoded pointers and update to the back
-  updateFront(table: Table, GONG__StackPath: string): Observable<TableAPI> {
+  updateFront(table: Table, Name: string): Observable<TableAPI> {
     let tableAPI = new TableAPI
     CopyTableToTableAPI(table, tableAPI)
     const id = typeof tableAPI === 'number' ? tableAPI : tableAPI.ID
     const url = `${this.tablesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -157,15 +157,15 @@ export class TableService {
   }
 
   /** PUT: update the tabledb on the server */
-  update(tabledb: TableAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableAPI> {
-    return this.updateTable(tabledb, GONG__StackPath, frontRepo)
+  update(tabledb: TableAPI, Name: string, frontRepo: FrontRepo): Observable<TableAPI> {
+    return this.updateTable(tabledb, Name, frontRepo)
   }
-  updateTable(tabledb: TableAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableAPI> {
+  updateTable(tabledb: TableAPI, Name: string, frontRepo: FrontRepo): Observable<TableAPI> {
     const id = typeof tabledb === 'number' ? tabledb : tabledb.ID;
     const url = `${this.tablesUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

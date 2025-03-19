@@ -22,7 +22,7 @@ import { takeUntil, catchError } from 'rxjs/operators';
 })
 export class ToneSpecificComponent {
 
-  @Input() GONG__StackPath: string = ""
+  @Input() Name: string = ""
 
   private synth: Tone.PolySynth | undefined;
   private sampler: Tone.Sampler | undefined;
@@ -62,7 +62,7 @@ export class ToneSpecificComponent {
   }
 
   private connectToWebSocket(): void {
-    this.frontRepoService.connectToWebSocket(this.GONG__StackPath)
+    this.frontRepoService.connectToWebSocket(this.Name)
       .pipe(
         takeUntil(this.destroy$),
         catchError(error => {

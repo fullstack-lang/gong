@@ -46,12 +46,12 @@ export class ButtonService {
 
   /** GET buttons from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonAPI[]> {
-    return this.getButtons(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<ButtonAPI[]> {
+    return this.getButtons(Name, frontRepo)
   }
-  getButtons(GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonAPI[]> {
+  getButtons(Name: string, frontRepo: FrontRepo): Observable<ButtonAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<ButtonAPI[]>(this.buttonsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class ButtonService {
 
   /** GET button by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonAPI> {
-    return this.getButton(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<ButtonAPI> {
+    return this.getButton(id, Name, frontRepo)
   }
-  getButton(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonAPI> {
+  getButton(id: number, Name: string, frontRepo: FrontRepo): Observable<ButtonAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.buttonsUrl}/${id}`;
     return this.http.get<ButtonAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class ButtonService {
   }
 
   // postFront copy button to a version with encoded pointers and post to the back
-  postFront(button: Button, GONG__StackPath: string): Observable<ButtonAPI> {
+  postFront(button: Button, Name: string): Observable<ButtonAPI> {
     let buttonAPI = new ButtonAPI
     CopyButtonToButtonAPI(button, buttonAPI)
     const id = typeof buttonAPI === 'number' ? buttonAPI : buttonAPI.ID
     const url = `${this.buttonsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class ButtonService {
   }
   
   /** POST: add a new button to the server */
-  post(buttondb: ButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonAPI> {
-    return this.postButton(buttondb, GONG__StackPath, frontRepo)
+  post(buttondb: ButtonAPI, Name: string, frontRepo: FrontRepo): Observable<ButtonAPI> {
+    return this.postButton(buttondb, Name, frontRepo)
   }
-  postButton(buttondb: ButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonAPI> {
+  postButton(buttondb: ButtonAPI, Name: string, frontRepo: FrontRepo): Observable<ButtonAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class ButtonService {
   }
 
   /** DELETE: delete the buttondb from the server */
-  delete(buttondb: ButtonAPI | number, GONG__StackPath: string): Observable<ButtonAPI> {
-    return this.deleteButton(buttondb, GONG__StackPath)
+  delete(buttondb: ButtonAPI | number, Name: string): Observable<ButtonAPI> {
+    return this.deleteButton(buttondb, Name)
   }
-  deleteButton(buttondb: ButtonAPI | number, GONG__StackPath: string): Observable<ButtonAPI> {
+  deleteButton(buttondb: ButtonAPI | number, Name: string): Observable<ButtonAPI> {
     const id = typeof buttondb === 'number' ? buttondb : buttondb.ID;
     const url = `${this.buttonsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class ButtonService {
   }
 
   // updateFront copy button to a version with encoded pointers and update to the back
-  updateFront(button: Button, GONG__StackPath: string): Observable<ButtonAPI> {
+  updateFront(button: Button, Name: string): Observable<ButtonAPI> {
     let buttonAPI = new ButtonAPI
     CopyButtonToButtonAPI(button, buttonAPI)
     const id = typeof buttonAPI === 'number' ? buttonAPI : buttonAPI.ID
     const url = `${this.buttonsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class ButtonService {
   }
 
   /** PUT: update the buttondb on the server */
-  update(buttondb: ButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonAPI> {
-    return this.updateButton(buttondb, GONG__StackPath, frontRepo)
+  update(buttondb: ButtonAPI, Name: string, frontRepo: FrontRepo): Observable<ButtonAPI> {
+    return this.updateButton(buttondb, Name, frontRepo)
   }
-  updateButton(buttondb: ButtonAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ButtonAPI> {
+  updateButton(buttondb: ButtonAPI, Name: string, frontRepo: FrontRepo): Observable<ButtonAPI> {
     const id = typeof buttondb === 'number' ? buttondb : buttondb.ID;
     const url = `${this.buttonsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

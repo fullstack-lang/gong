@@ -56,12 +56,12 @@ export class LayerService {
 
   /** GET layers from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerAPI[]> {
-    return this.getLayers(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<LayerAPI[]> {
+    return this.getLayers(Name, frontRepo)
   }
-  getLayers(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerAPI[]> {
+  getLayers(Name: string, frontRepo: FrontRepo): Observable<LayerAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<LayerAPI[]>(this.layersUrl, { params: params })
       .pipe(
@@ -72,12 +72,12 @@ export class LayerService {
 
   /** GET layer by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerAPI> {
-    return this.getLayer(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<LayerAPI> {
+    return this.getLayer(id, Name, frontRepo)
   }
-  getLayer(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerAPI> {
+  getLayer(id: number, Name: string, frontRepo: FrontRepo): Observable<LayerAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.layersUrl}/${id}`;
     return this.http.get<LayerAPI>(url, { params: params }).pipe(
@@ -87,12 +87,12 @@ export class LayerService {
   }
 
   // postFront copy layer to a version with encoded pointers and post to the back
-  postFront(layer: Layer, GONG__StackPath: string): Observable<LayerAPI> {
+  postFront(layer: Layer, Name: string): Observable<LayerAPI> {
     let layerAPI = new LayerAPI
     CopyLayerToLayerAPI(layer, layerAPI)
     const id = typeof layerAPI === 'number' ? layerAPI : layerAPI.ID
     const url = `${this.layersUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -106,12 +106,12 @@ export class LayerService {
   }
   
   /** POST: add a new layer to the server */
-  post(layerdb: LayerAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerAPI> {
-    return this.postLayer(layerdb, GONG__StackPath, frontRepo)
+  post(layerdb: LayerAPI, Name: string, frontRepo: FrontRepo): Observable<LayerAPI> {
+    return this.postLayer(layerdb, Name, frontRepo)
   }
-  postLayer(layerdb: LayerAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerAPI> {
+  postLayer(layerdb: LayerAPI, Name: string, frontRepo: FrontRepo): Observable<LayerAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -126,14 +126,14 @@ export class LayerService {
   }
 
   /** DELETE: delete the layerdb from the server */
-  delete(layerdb: LayerAPI | number, GONG__StackPath: string): Observable<LayerAPI> {
-    return this.deleteLayer(layerdb, GONG__StackPath)
+  delete(layerdb: LayerAPI | number, Name: string): Observable<LayerAPI> {
+    return this.deleteLayer(layerdb, Name)
   }
-  deleteLayer(layerdb: LayerAPI | number, GONG__StackPath: string): Observable<LayerAPI> {
+  deleteLayer(layerdb: LayerAPI | number, Name: string): Observable<LayerAPI> {
     const id = typeof layerdb === 'number' ? layerdb : layerdb.ID;
     const url = `${this.layersUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -146,12 +146,12 @@ export class LayerService {
   }
 
   // updateFront copy layer to a version with encoded pointers and update to the back
-  updateFront(layer: Layer, GONG__StackPath: string): Observable<LayerAPI> {
+  updateFront(layer: Layer, Name: string): Observable<LayerAPI> {
     let layerAPI = new LayerAPI
     CopyLayerToLayerAPI(layer, layerAPI)
     const id = typeof layerAPI === 'number' ? layerAPI : layerAPI.ID
     const url = `${this.layersUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -165,15 +165,15 @@ export class LayerService {
   }
 
   /** PUT: update the layerdb on the server */
-  update(layerdb: LayerAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerAPI> {
-    return this.updateLayer(layerdb, GONG__StackPath, frontRepo)
+  update(layerdb: LayerAPI, Name: string, frontRepo: FrontRepo): Observable<LayerAPI> {
+    return this.updateLayer(layerdb, Name, frontRepo)
   }
-  updateLayer(layerdb: LayerAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerAPI> {
+  updateLayer(layerdb: LayerAPI, Name: string, frontRepo: FrontRepo): Observable<LayerAPI> {
     const id = typeof layerdb === 'number' ? layerdb : layerdb.ID;
     const url = `${this.layersUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

@@ -53,12 +53,12 @@ export class FormFieldService {
 
   /** GET formfields from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldAPI[]> {
-    return this.getFormFields(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<FormFieldAPI[]> {
+    return this.getFormFields(Name, frontRepo)
   }
-  getFormFields(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldAPI[]> {
+  getFormFields(Name: string, frontRepo: FrontRepo): Observable<FormFieldAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<FormFieldAPI[]>(this.formfieldsUrl, { params: params })
       .pipe(
@@ -69,12 +69,12 @@ export class FormFieldService {
 
   /** GET formfield by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldAPI> {
-    return this.getFormField(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<FormFieldAPI> {
+    return this.getFormField(id, Name, frontRepo)
   }
-  getFormField(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldAPI> {
+  getFormField(id: number, Name: string, frontRepo: FrontRepo): Observable<FormFieldAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.formfieldsUrl}/${id}`;
     return this.http.get<FormFieldAPI>(url, { params: params }).pipe(
@@ -84,12 +84,12 @@ export class FormFieldService {
   }
 
   // postFront copy formfield to a version with encoded pointers and post to the back
-  postFront(formfield: FormField, GONG__StackPath: string): Observable<FormFieldAPI> {
+  postFront(formfield: FormField, Name: string): Observable<FormFieldAPI> {
     let formfieldAPI = new FormFieldAPI
     CopyFormFieldToFormFieldAPI(formfield, formfieldAPI)
     const id = typeof formfieldAPI === 'number' ? formfieldAPI : formfieldAPI.ID
     const url = `${this.formfieldsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -103,12 +103,12 @@ export class FormFieldService {
   }
   
   /** POST: add a new formfield to the server */
-  post(formfielddb: FormFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldAPI> {
-    return this.postFormField(formfielddb, GONG__StackPath, frontRepo)
+  post(formfielddb: FormFieldAPI, Name: string, frontRepo: FrontRepo): Observable<FormFieldAPI> {
+    return this.postFormField(formfielddb, Name, frontRepo)
   }
-  postFormField(formfielddb: FormFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldAPI> {
+  postFormField(formfielddb: FormFieldAPI, Name: string, frontRepo: FrontRepo): Observable<FormFieldAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -123,14 +123,14 @@ export class FormFieldService {
   }
 
   /** DELETE: delete the formfielddb from the server */
-  delete(formfielddb: FormFieldAPI | number, GONG__StackPath: string): Observable<FormFieldAPI> {
-    return this.deleteFormField(formfielddb, GONG__StackPath)
+  delete(formfielddb: FormFieldAPI | number, Name: string): Observable<FormFieldAPI> {
+    return this.deleteFormField(formfielddb, Name)
   }
-  deleteFormField(formfielddb: FormFieldAPI | number, GONG__StackPath: string): Observable<FormFieldAPI> {
+  deleteFormField(formfielddb: FormFieldAPI | number, Name: string): Observable<FormFieldAPI> {
     const id = typeof formfielddb === 'number' ? formfielddb : formfielddb.ID;
     const url = `${this.formfieldsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -143,12 +143,12 @@ export class FormFieldService {
   }
 
   // updateFront copy formfield to a version with encoded pointers and update to the back
-  updateFront(formfield: FormField, GONG__StackPath: string): Observable<FormFieldAPI> {
+  updateFront(formfield: FormField, Name: string): Observable<FormFieldAPI> {
     let formfieldAPI = new FormFieldAPI
     CopyFormFieldToFormFieldAPI(formfield, formfieldAPI)
     const id = typeof formfieldAPI === 'number' ? formfieldAPI : formfieldAPI.ID
     const url = `${this.formfieldsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -162,15 +162,15 @@ export class FormFieldService {
   }
 
   /** PUT: update the formfielddb on the server */
-  update(formfielddb: FormFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldAPI> {
-    return this.updateFormField(formfielddb, GONG__StackPath, frontRepo)
+  update(formfielddb: FormFieldAPI, Name: string, frontRepo: FrontRepo): Observable<FormFieldAPI> {
+    return this.updateFormField(formfielddb, Name, frontRepo)
   }
-  updateFormField(formfielddb: FormFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormFieldAPI> {
+  updateFormField(formfielddb: FormFieldAPI, Name: string, frontRepo: FrontRepo): Observable<FormFieldAPI> {
     const id = typeof formfielddb === 'number' ? formfielddb : formfielddb.ID;
     const url = `${this.formfieldsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

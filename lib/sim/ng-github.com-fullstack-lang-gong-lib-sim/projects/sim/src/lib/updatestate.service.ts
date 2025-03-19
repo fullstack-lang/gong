@@ -46,12 +46,12 @@ export class UpdateStateService {
 
   /** GET updatestates from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<UpdateStateAPI[]> {
-    return this.getUpdateStates(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<UpdateStateAPI[]> {
+    return this.getUpdateStates(Name, frontRepo)
   }
-  getUpdateStates(GONG__StackPath: string, frontRepo: FrontRepo): Observable<UpdateStateAPI[]> {
+  getUpdateStates(Name: string, frontRepo: FrontRepo): Observable<UpdateStateAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<UpdateStateAPI[]>(this.updatestatesUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class UpdateStateService {
 
   /** GET updatestate by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<UpdateStateAPI> {
-    return this.getUpdateState(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<UpdateStateAPI> {
+    return this.getUpdateState(id, Name, frontRepo)
   }
-  getUpdateState(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<UpdateStateAPI> {
+  getUpdateState(id: number, Name: string, frontRepo: FrontRepo): Observable<UpdateStateAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.updatestatesUrl}/${id}`;
     return this.http.get<UpdateStateAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class UpdateStateService {
   }
 
   // postFront copy updatestate to a version with encoded pointers and post to the back
-  postFront(updatestate: UpdateState, GONG__StackPath: string): Observable<UpdateStateAPI> {
+  postFront(updatestate: UpdateState, Name: string): Observable<UpdateStateAPI> {
     let updatestateAPI = new UpdateStateAPI
     CopyUpdateStateToUpdateStateAPI(updatestate, updatestateAPI)
     const id = typeof updatestateAPI === 'number' ? updatestateAPI : updatestateAPI.ID
     const url = `${this.updatestatesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class UpdateStateService {
   }
   
   /** POST: add a new updatestate to the server */
-  post(updatestatedb: UpdateStateAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<UpdateStateAPI> {
-    return this.postUpdateState(updatestatedb, GONG__StackPath, frontRepo)
+  post(updatestatedb: UpdateStateAPI, Name: string, frontRepo: FrontRepo): Observable<UpdateStateAPI> {
+    return this.postUpdateState(updatestatedb, Name, frontRepo)
   }
-  postUpdateState(updatestatedb: UpdateStateAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<UpdateStateAPI> {
+  postUpdateState(updatestatedb: UpdateStateAPI, Name: string, frontRepo: FrontRepo): Observable<UpdateStateAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class UpdateStateService {
   }
 
   /** DELETE: delete the updatestatedb from the server */
-  delete(updatestatedb: UpdateStateAPI | number, GONG__StackPath: string): Observable<UpdateStateAPI> {
-    return this.deleteUpdateState(updatestatedb, GONG__StackPath)
+  delete(updatestatedb: UpdateStateAPI | number, Name: string): Observable<UpdateStateAPI> {
+    return this.deleteUpdateState(updatestatedb, Name)
   }
-  deleteUpdateState(updatestatedb: UpdateStateAPI | number, GONG__StackPath: string): Observable<UpdateStateAPI> {
+  deleteUpdateState(updatestatedb: UpdateStateAPI | number, Name: string): Observable<UpdateStateAPI> {
     const id = typeof updatestatedb === 'number' ? updatestatedb : updatestatedb.ID;
     const url = `${this.updatestatesUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class UpdateStateService {
   }
 
   // updateFront copy updatestate to a version with encoded pointers and update to the back
-  updateFront(updatestate: UpdateState, GONG__StackPath: string): Observable<UpdateStateAPI> {
+  updateFront(updatestate: UpdateState, Name: string): Observable<UpdateStateAPI> {
     let updatestateAPI = new UpdateStateAPI
     CopyUpdateStateToUpdateStateAPI(updatestate, updatestateAPI)
     const id = typeof updatestateAPI === 'number' ? updatestateAPI : updatestateAPI.ID
     const url = `${this.updatestatesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class UpdateStateService {
   }
 
   /** PUT: update the updatestatedb on the server */
-  update(updatestatedb: UpdateStateAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<UpdateStateAPI> {
-    return this.updateUpdateState(updatestatedb, GONG__StackPath, frontRepo)
+  update(updatestatedb: UpdateStateAPI, Name: string, frontRepo: FrontRepo): Observable<UpdateStateAPI> {
+    return this.updateUpdateState(updatestatedb, Name, frontRepo)
   }
-  updateUpdateState(updatestatedb: UpdateStateAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<UpdateStateAPI> {
+  updateUpdateState(updatestatedb: UpdateStateAPI, Name: string, frontRepo: FrontRepo): Observable<UpdateStateAPI> {
     const id = typeof updatestatedb === 'number' ? updatestatedb : updatestatedb.ID;
     const url = `${this.updatestatesUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

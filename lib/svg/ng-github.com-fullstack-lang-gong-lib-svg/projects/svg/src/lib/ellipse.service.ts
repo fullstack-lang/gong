@@ -47,12 +47,12 @@ export class EllipseService {
 
   /** GET ellipses from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseAPI[]> {
-    return this.getEllipses(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<EllipseAPI[]> {
+    return this.getEllipses(Name, frontRepo)
   }
-  getEllipses(GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseAPI[]> {
+  getEllipses(Name: string, frontRepo: FrontRepo): Observable<EllipseAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<EllipseAPI[]>(this.ellipsesUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class EllipseService {
 
   /** GET ellipse by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseAPI> {
-    return this.getEllipse(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<EllipseAPI> {
+    return this.getEllipse(id, Name, frontRepo)
   }
-  getEllipse(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseAPI> {
+  getEllipse(id: number, Name: string, frontRepo: FrontRepo): Observable<EllipseAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.ellipsesUrl}/${id}`;
     return this.http.get<EllipseAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class EllipseService {
   }
 
   // postFront copy ellipse to a version with encoded pointers and post to the back
-  postFront(ellipse: Ellipse, GONG__StackPath: string): Observable<EllipseAPI> {
+  postFront(ellipse: Ellipse, Name: string): Observable<EllipseAPI> {
     let ellipseAPI = new EllipseAPI
     CopyEllipseToEllipseAPI(ellipse, ellipseAPI)
     const id = typeof ellipseAPI === 'number' ? ellipseAPI : ellipseAPI.ID
     const url = `${this.ellipsesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class EllipseService {
   }
   
   /** POST: add a new ellipse to the server */
-  post(ellipsedb: EllipseAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseAPI> {
-    return this.postEllipse(ellipsedb, GONG__StackPath, frontRepo)
+  post(ellipsedb: EllipseAPI, Name: string, frontRepo: FrontRepo): Observable<EllipseAPI> {
+    return this.postEllipse(ellipsedb, Name, frontRepo)
   }
-  postEllipse(ellipsedb: EllipseAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseAPI> {
+  postEllipse(ellipsedb: EllipseAPI, Name: string, frontRepo: FrontRepo): Observable<EllipseAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class EllipseService {
   }
 
   /** DELETE: delete the ellipsedb from the server */
-  delete(ellipsedb: EllipseAPI | number, GONG__StackPath: string): Observable<EllipseAPI> {
-    return this.deleteEllipse(ellipsedb, GONG__StackPath)
+  delete(ellipsedb: EllipseAPI | number, Name: string): Observable<EllipseAPI> {
+    return this.deleteEllipse(ellipsedb, Name)
   }
-  deleteEllipse(ellipsedb: EllipseAPI | number, GONG__StackPath: string): Observable<EllipseAPI> {
+  deleteEllipse(ellipsedb: EllipseAPI | number, Name: string): Observable<EllipseAPI> {
     const id = typeof ellipsedb === 'number' ? ellipsedb : ellipsedb.ID;
     const url = `${this.ellipsesUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class EllipseService {
   }
 
   // updateFront copy ellipse to a version with encoded pointers and update to the back
-  updateFront(ellipse: Ellipse, GONG__StackPath: string): Observable<EllipseAPI> {
+  updateFront(ellipse: Ellipse, Name: string): Observable<EllipseAPI> {
     let ellipseAPI = new EllipseAPI
     CopyEllipseToEllipseAPI(ellipse, ellipseAPI)
     const id = typeof ellipseAPI === 'number' ? ellipseAPI : ellipseAPI.ID
     const url = `${this.ellipsesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class EllipseService {
   }
 
   /** PUT: update the ellipsedb on the server */
-  update(ellipsedb: EllipseAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseAPI> {
-    return this.updateEllipse(ellipsedb, GONG__StackPath, frontRepo)
+  update(ellipsedb: EllipseAPI, Name: string, frontRepo: FrontRepo): Observable<EllipseAPI> {
+    return this.updateEllipse(ellipsedb, Name, frontRepo)
   }
-  updateEllipse(ellipsedb: EllipseAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<EllipseAPI> {
+  updateEllipse(ellipsedb: EllipseAPI, Name: string, frontRepo: FrontRepo): Observable<EllipseAPI> {
     const id = typeof ellipsedb === 'number' ? ellipsedb : ellipsedb.ID;
     const url = `${this.ellipsesUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

@@ -46,12 +46,12 @@ export class ModelPkgService {
 
   /** GET modelpkgs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgAPI[]> {
-    return this.getModelPkgs(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<ModelPkgAPI[]> {
+    return this.getModelPkgs(Name, frontRepo)
   }
-  getModelPkgs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgAPI[]> {
+  getModelPkgs(Name: string, frontRepo: FrontRepo): Observable<ModelPkgAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<ModelPkgAPI[]>(this.modelpkgsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class ModelPkgService {
 
   /** GET modelpkg by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgAPI> {
-    return this.getModelPkg(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<ModelPkgAPI> {
+    return this.getModelPkg(id, Name, frontRepo)
   }
-  getModelPkg(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgAPI> {
+  getModelPkg(id: number, Name: string, frontRepo: FrontRepo): Observable<ModelPkgAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.modelpkgsUrl}/${id}`;
     return this.http.get<ModelPkgAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class ModelPkgService {
   }
 
   // postFront copy modelpkg to a version with encoded pointers and post to the back
-  postFront(modelpkg: ModelPkg, GONG__StackPath: string): Observable<ModelPkgAPI> {
+  postFront(modelpkg: ModelPkg, Name: string): Observable<ModelPkgAPI> {
     let modelpkgAPI = new ModelPkgAPI
     CopyModelPkgToModelPkgAPI(modelpkg, modelpkgAPI)
     const id = typeof modelpkgAPI === 'number' ? modelpkgAPI : modelpkgAPI.ID
     const url = `${this.modelpkgsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class ModelPkgService {
   }
   
   /** POST: add a new modelpkg to the server */
-  post(modelpkgdb: ModelPkgAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgAPI> {
-    return this.postModelPkg(modelpkgdb, GONG__StackPath, frontRepo)
+  post(modelpkgdb: ModelPkgAPI, Name: string, frontRepo: FrontRepo): Observable<ModelPkgAPI> {
+    return this.postModelPkg(modelpkgdb, Name, frontRepo)
   }
-  postModelPkg(modelpkgdb: ModelPkgAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgAPI> {
+  postModelPkg(modelpkgdb: ModelPkgAPI, Name: string, frontRepo: FrontRepo): Observable<ModelPkgAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class ModelPkgService {
   }
 
   /** DELETE: delete the modelpkgdb from the server */
-  delete(modelpkgdb: ModelPkgAPI | number, GONG__StackPath: string): Observable<ModelPkgAPI> {
-    return this.deleteModelPkg(modelpkgdb, GONG__StackPath)
+  delete(modelpkgdb: ModelPkgAPI | number, Name: string): Observable<ModelPkgAPI> {
+    return this.deleteModelPkg(modelpkgdb, Name)
   }
-  deleteModelPkg(modelpkgdb: ModelPkgAPI | number, GONG__StackPath: string): Observable<ModelPkgAPI> {
+  deleteModelPkg(modelpkgdb: ModelPkgAPI | number, Name: string): Observable<ModelPkgAPI> {
     const id = typeof modelpkgdb === 'number' ? modelpkgdb : modelpkgdb.ID;
     const url = `${this.modelpkgsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class ModelPkgService {
   }
 
   // updateFront copy modelpkg to a version with encoded pointers and update to the back
-  updateFront(modelpkg: ModelPkg, GONG__StackPath: string): Observable<ModelPkgAPI> {
+  updateFront(modelpkg: ModelPkg, Name: string): Observable<ModelPkgAPI> {
     let modelpkgAPI = new ModelPkgAPI
     CopyModelPkgToModelPkgAPI(modelpkg, modelpkgAPI)
     const id = typeof modelpkgAPI === 'number' ? modelpkgAPI : modelpkgAPI.ID
     const url = `${this.modelpkgsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class ModelPkgService {
   }
 
   /** PUT: update the modelpkgdb on the server */
-  update(modelpkgdb: ModelPkgAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgAPI> {
-    return this.updateModelPkg(modelpkgdb, GONG__StackPath, frontRepo)
+  update(modelpkgdb: ModelPkgAPI, Name: string, frontRepo: FrontRepo): Observable<ModelPkgAPI> {
+    return this.updateModelPkg(modelpkgdb, Name, frontRepo)
   }
-  updateModelPkg(modelpkgdb: ModelPkgAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ModelPkgAPI> {
+  updateModelPkg(modelpkgdb: ModelPkgAPI, Name: string, frontRepo: FrontRepo): Observable<ModelPkgAPI> {
     const id = typeof modelpkgdb === 'number' ? modelpkgdb : modelpkgdb.ID;
     const url = `${this.modelpkgsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

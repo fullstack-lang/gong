@@ -46,12 +46,12 @@ export class ToneService {
 
   /** GET tones from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<ToneAPI[]> {
-    return this.getTones(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<ToneAPI[]> {
+    return this.getTones(Name, frontRepo)
   }
-  getTones(GONG__StackPath: string, frontRepo: FrontRepo): Observable<ToneAPI[]> {
+  getTones(Name: string, frontRepo: FrontRepo): Observable<ToneAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<ToneAPI[]>(this.tonesUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class ToneService {
 
   /** GET tone by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ToneAPI> {
-    return this.getTone(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<ToneAPI> {
+    return this.getTone(id, Name, frontRepo)
   }
-  getTone(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ToneAPI> {
+  getTone(id: number, Name: string, frontRepo: FrontRepo): Observable<ToneAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.tonesUrl}/${id}`;
     return this.http.get<ToneAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class ToneService {
   }
 
   // postFront copy tone to a version with encoded pointers and post to the back
-  postFront(tone: Tone, GONG__StackPath: string): Observable<ToneAPI> {
+  postFront(tone: Tone, Name: string): Observable<ToneAPI> {
     let toneAPI = new ToneAPI
     CopyToneToToneAPI(tone, toneAPI)
     const id = typeof toneAPI === 'number' ? toneAPI : toneAPI.ID
     const url = `${this.tonesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class ToneService {
   }
   
   /** POST: add a new tone to the server */
-  post(tonedb: ToneAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ToneAPI> {
-    return this.postTone(tonedb, GONG__StackPath, frontRepo)
+  post(tonedb: ToneAPI, Name: string, frontRepo: FrontRepo): Observable<ToneAPI> {
+    return this.postTone(tonedb, Name, frontRepo)
   }
-  postTone(tonedb: ToneAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ToneAPI> {
+  postTone(tonedb: ToneAPI, Name: string, frontRepo: FrontRepo): Observable<ToneAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class ToneService {
   }
 
   /** DELETE: delete the tonedb from the server */
-  delete(tonedb: ToneAPI | number, GONG__StackPath: string): Observable<ToneAPI> {
-    return this.deleteTone(tonedb, GONG__StackPath)
+  delete(tonedb: ToneAPI | number, Name: string): Observable<ToneAPI> {
+    return this.deleteTone(tonedb, Name)
   }
-  deleteTone(tonedb: ToneAPI | number, GONG__StackPath: string): Observable<ToneAPI> {
+  deleteTone(tonedb: ToneAPI | number, Name: string): Observable<ToneAPI> {
     const id = typeof tonedb === 'number' ? tonedb : tonedb.ID;
     const url = `${this.tonesUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class ToneService {
   }
 
   // updateFront copy tone to a version with encoded pointers and update to the back
-  updateFront(tone: Tone, GONG__StackPath: string): Observable<ToneAPI> {
+  updateFront(tone: Tone, Name: string): Observable<ToneAPI> {
     let toneAPI = new ToneAPI
     CopyToneToToneAPI(tone, toneAPI)
     const id = typeof toneAPI === 'number' ? toneAPI : toneAPI.ID
     const url = `${this.tonesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class ToneService {
   }
 
   /** PUT: update the tonedb on the server */
-  update(tonedb: ToneAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ToneAPI> {
-    return this.updateTone(tonedb, GONG__StackPath, frontRepo)
+  update(tonedb: ToneAPI, Name: string, frontRepo: FrontRepo): Observable<ToneAPI> {
+    return this.updateTone(tonedb, Name, frontRepo)
   }
-  updateTone(tonedb: ToneAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ToneAPI> {
+  updateTone(tonedb: ToneAPI, Name: string, frontRepo: FrontRepo): Observable<ToneAPI> {
     const id = typeof tonedb === 'number' ? tonedb : tonedb.ID;
     const url = `${this.tonesUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

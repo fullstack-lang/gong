@@ -46,12 +46,12 @@ export class DocService {
 
   /** GET docs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DocAPI[]> {
-    return this.getDocs(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<DocAPI[]> {
+    return this.getDocs(Name, frontRepo)
   }
-  getDocs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DocAPI[]> {
+  getDocs(Name: string, frontRepo: FrontRepo): Observable<DocAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<DocAPI[]>(this.docsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class DocService {
 
   /** GET doc by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DocAPI> {
-    return this.getDoc(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<DocAPI> {
+    return this.getDoc(id, Name, frontRepo)
   }
-  getDoc(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DocAPI> {
+  getDoc(id: number, Name: string, frontRepo: FrontRepo): Observable<DocAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.docsUrl}/${id}`;
     return this.http.get<DocAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class DocService {
   }
 
   // postFront copy doc to a version with encoded pointers and post to the back
-  postFront(doc: Doc, GONG__StackPath: string): Observable<DocAPI> {
+  postFront(doc: Doc, Name: string): Observable<DocAPI> {
     let docAPI = new DocAPI
     CopyDocToDocAPI(doc, docAPI)
     const id = typeof docAPI === 'number' ? docAPI : docAPI.ID
     const url = `${this.docsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class DocService {
   }
   
   /** POST: add a new doc to the server */
-  post(docdb: DocAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DocAPI> {
-    return this.postDoc(docdb, GONG__StackPath, frontRepo)
+  post(docdb: DocAPI, Name: string, frontRepo: FrontRepo): Observable<DocAPI> {
+    return this.postDoc(docdb, Name, frontRepo)
   }
-  postDoc(docdb: DocAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DocAPI> {
+  postDoc(docdb: DocAPI, Name: string, frontRepo: FrontRepo): Observable<DocAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class DocService {
   }
 
   /** DELETE: delete the docdb from the server */
-  delete(docdb: DocAPI | number, GONG__StackPath: string): Observable<DocAPI> {
-    return this.deleteDoc(docdb, GONG__StackPath)
+  delete(docdb: DocAPI | number, Name: string): Observable<DocAPI> {
+    return this.deleteDoc(docdb, Name)
   }
-  deleteDoc(docdb: DocAPI | number, GONG__StackPath: string): Observable<DocAPI> {
+  deleteDoc(docdb: DocAPI | number, Name: string): Observable<DocAPI> {
     const id = typeof docdb === 'number' ? docdb : docdb.ID;
     const url = `${this.docsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class DocService {
   }
 
   // updateFront copy doc to a version with encoded pointers and update to the back
-  updateFront(doc: Doc, GONG__StackPath: string): Observable<DocAPI> {
+  updateFront(doc: Doc, Name: string): Observable<DocAPI> {
     let docAPI = new DocAPI
     CopyDocToDocAPI(doc, docAPI)
     const id = typeof docAPI === 'number' ? docAPI : docAPI.ID
     const url = `${this.docsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class DocService {
   }
 
   /** PUT: update the docdb on the server */
-  update(docdb: DocAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DocAPI> {
-    return this.updateDoc(docdb, GONG__StackPath, frontRepo)
+  update(docdb: DocAPI, Name: string, frontRepo: FrontRepo): Observable<DocAPI> {
+    return this.updateDoc(docdb, Name, frontRepo)
   }
-  updateDoc(docdb: DocAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DocAPI> {
+  updateDoc(docdb: DocAPI, Name: string, frontRepo: FrontRepo): Observable<DocAPI> {
     const id = typeof docdb === 'number' ? docdb : docdb.ID;
     const url = `${this.docsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

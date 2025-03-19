@@ -45,9 +45,9 @@ export class PushFromFrontNbService {
             );
     }
 
-    getPushNbFromFront(intervalMs: number, GONG__StackPath: string = ""): Observable<number> {
+    getPushNbFromFront(intervalMs: number, Name: string = ""): Observable<number> {
 
-        let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+        let params = new HttpParams().set("Name", Name)
 
         return interval(intervalMs).pipe(
             switchMap(() => this.http.get<number>(this.pushFromFrontNbURL, { params: params }).pipe(

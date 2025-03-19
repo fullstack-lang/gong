@@ -47,12 +47,12 @@ export class AService {
 
   /** GET as from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AAPI[]> {
-    return this.getAs(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<AAPI[]> {
+    return this.getAs(Name, frontRepo)
   }
-  getAs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AAPI[]> {
+  getAs(Name: string, frontRepo: FrontRepo): Observable<AAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<AAPI[]>(this.asUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class AService {
 
   /** GET a by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AAPI> {
-    return this.getA(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<AAPI> {
+    return this.getA(id, Name, frontRepo)
   }
-  getA(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AAPI> {
+  getA(id: number, Name: string, frontRepo: FrontRepo): Observable<AAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.asUrl}/${id}`;
     return this.http.get<AAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class AService {
   }
 
   // postFront copy a to a version with encoded pointers and post to the back
-  postFront(a: A, GONG__StackPath: string): Observable<AAPI> {
+  postFront(a: A, Name: string): Observable<AAPI> {
     let aAPI = new AAPI
     CopyAToAAPI(a, aAPI)
     const id = typeof aAPI === 'number' ? aAPI : aAPI.ID
     const url = `${this.asUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class AService {
   }
   
   /** POST: add a new a to the server */
-  post(adb: AAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AAPI> {
-    return this.postA(adb, GONG__StackPath, frontRepo)
+  post(adb: AAPI, Name: string, frontRepo: FrontRepo): Observable<AAPI> {
+    return this.postA(adb, Name, frontRepo)
   }
-  postA(adb: AAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AAPI> {
+  postA(adb: AAPI, Name: string, frontRepo: FrontRepo): Observable<AAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class AService {
   }
 
   /** DELETE: delete the adb from the server */
-  delete(adb: AAPI | number, GONG__StackPath: string): Observable<AAPI> {
-    return this.deleteA(adb, GONG__StackPath)
+  delete(adb: AAPI | number, Name: string): Observable<AAPI> {
+    return this.deleteA(adb, Name)
   }
-  deleteA(adb: AAPI | number, GONG__StackPath: string): Observable<AAPI> {
+  deleteA(adb: AAPI | number, Name: string): Observable<AAPI> {
     const id = typeof adb === 'number' ? adb : adb.ID;
     const url = `${this.asUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class AService {
   }
 
   // updateFront copy a to a version with encoded pointers and update to the back
-  updateFront(a: A, GONG__StackPath: string): Observable<AAPI> {
+  updateFront(a: A, Name: string): Observable<AAPI> {
     let aAPI = new AAPI
     CopyAToAAPI(a, aAPI)
     const id = typeof aAPI === 'number' ? aAPI : aAPI.ID
     const url = `${this.asUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class AService {
   }
 
   /** PUT: update the adb on the server */
-  update(adb: AAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AAPI> {
-    return this.updateA(adb, GONG__StackPath, frontRepo)
+  update(adb: AAPI, Name: string, frontRepo: FrontRepo): Observable<AAPI> {
+    return this.updateA(adb, Name, frontRepo)
   }
-  updateA(adb: AAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AAPI> {
+  updateA(adb: AAPI, Name: string, frontRepo: FrontRepo): Observable<AAPI> {
     const id = typeof adb === 'number' ? adb : adb.ID;
     const url = `${this.asUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
