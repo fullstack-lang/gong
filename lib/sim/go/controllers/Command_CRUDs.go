@@ -58,10 +58,10 @@ func (controller *Controller) GetCommands(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetCommands", "GONG__StackPath", stackPath)
+			// log.Println("GetCommands", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -122,10 +122,10 @@ func (controller *Controller) PostCommand(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("PostCommands", "GONG__StackPath", stackPath)
+			// log.Println("PostCommands", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -193,10 +193,10 @@ func (controller *Controller) GetCommand(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetCommand", "GONG__StackPath", stackPath)
+			// log.Println("GetCommand", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -243,10 +243,10 @@ func (controller *Controller) UpdateCommand(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("UpdateCommand", "GONG__StackPath", stackPath)
+			// log.Println("UpdateCommand", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -334,10 +334,10 @@ func (controller *Controller) DeleteCommand(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("DeleteCommand", "GONG__StackPath", stackPath)
+			// log.Println("DeleteCommand", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]

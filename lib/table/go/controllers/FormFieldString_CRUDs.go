@@ -58,10 +58,10 @@ func (controller *Controller) GetFormFieldStrings(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetFormFieldStrings", "GONG__StackPath", stackPath)
+			// log.Println("GetFormFieldStrings", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -122,10 +122,10 @@ func (controller *Controller) PostFormFieldString(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("PostFormFieldStrings", "GONG__StackPath", stackPath)
+			// log.Println("PostFormFieldStrings", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -193,10 +193,10 @@ func (controller *Controller) GetFormFieldString(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetFormFieldString", "GONG__StackPath", stackPath)
+			// log.Println("GetFormFieldString", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -243,10 +243,10 @@ func (controller *Controller) UpdateFormFieldString(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("UpdateFormFieldString", "GONG__StackPath", stackPath)
+			// log.Println("UpdateFormFieldString", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -334,10 +334,10 @@ func (controller *Controller) DeleteFormFieldString(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("DeleteFormFieldString", "GONG__StackPath", stackPath)
+			// log.Println("DeleteFormFieldString", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]

@@ -47,12 +47,12 @@ export class RectAnchoredTextService {
 
   /** GET rectanchoredtexts from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI[]> {
-    return this.getRectAnchoredTexts(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI[]> {
+    return this.getRectAnchoredTexts(Name, frontRepo)
   }
-  getRectAnchoredTexts(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI[]> {
+  getRectAnchoredTexts(Name: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<RectAnchoredTextAPI[]>(this.rectanchoredtextsUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class RectAnchoredTextService {
 
   /** GET rectanchoredtext by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI> {
-    return this.getRectAnchoredText(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI> {
+    return this.getRectAnchoredText(id, Name, frontRepo)
   }
-  getRectAnchoredText(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI> {
+  getRectAnchoredText(id: number, Name: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.rectanchoredtextsUrl}/${id}`;
     return this.http.get<RectAnchoredTextAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class RectAnchoredTextService {
   }
 
   // postFront copy rectanchoredtext to a version with encoded pointers and post to the back
-  postFront(rectanchoredtext: RectAnchoredText, GONG__StackPath: string): Observable<RectAnchoredTextAPI> {
+  postFront(rectanchoredtext: RectAnchoredText, Name: string): Observable<RectAnchoredTextAPI> {
     let rectanchoredtextAPI = new RectAnchoredTextAPI
     CopyRectAnchoredTextToRectAnchoredTextAPI(rectanchoredtext, rectanchoredtextAPI)
     const id = typeof rectanchoredtextAPI === 'number' ? rectanchoredtextAPI : rectanchoredtextAPI.ID
     const url = `${this.rectanchoredtextsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class RectAnchoredTextService {
   }
   
   /** POST: add a new rectanchoredtext to the server */
-  post(rectanchoredtextdb: RectAnchoredTextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI> {
-    return this.postRectAnchoredText(rectanchoredtextdb, GONG__StackPath, frontRepo)
+  post(rectanchoredtextdb: RectAnchoredTextAPI, Name: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI> {
+    return this.postRectAnchoredText(rectanchoredtextdb, Name, frontRepo)
   }
-  postRectAnchoredText(rectanchoredtextdb: RectAnchoredTextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI> {
+  postRectAnchoredText(rectanchoredtextdb: RectAnchoredTextAPI, Name: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class RectAnchoredTextService {
   }
 
   /** DELETE: delete the rectanchoredtextdb from the server */
-  delete(rectanchoredtextdb: RectAnchoredTextAPI | number, GONG__StackPath: string): Observable<RectAnchoredTextAPI> {
-    return this.deleteRectAnchoredText(rectanchoredtextdb, GONG__StackPath)
+  delete(rectanchoredtextdb: RectAnchoredTextAPI | number, Name: string): Observable<RectAnchoredTextAPI> {
+    return this.deleteRectAnchoredText(rectanchoredtextdb, Name)
   }
-  deleteRectAnchoredText(rectanchoredtextdb: RectAnchoredTextAPI | number, GONG__StackPath: string): Observable<RectAnchoredTextAPI> {
+  deleteRectAnchoredText(rectanchoredtextdb: RectAnchoredTextAPI | number, Name: string): Observable<RectAnchoredTextAPI> {
     const id = typeof rectanchoredtextdb === 'number' ? rectanchoredtextdb : rectanchoredtextdb.ID;
     const url = `${this.rectanchoredtextsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class RectAnchoredTextService {
   }
 
   // updateFront copy rectanchoredtext to a version with encoded pointers and update to the back
-  updateFront(rectanchoredtext: RectAnchoredText, GONG__StackPath: string): Observable<RectAnchoredTextAPI> {
+  updateFront(rectanchoredtext: RectAnchoredText, Name: string): Observable<RectAnchoredTextAPI> {
     let rectanchoredtextAPI = new RectAnchoredTextAPI
     CopyRectAnchoredTextToRectAnchoredTextAPI(rectanchoredtext, rectanchoredtextAPI)
     const id = typeof rectanchoredtextAPI === 'number' ? rectanchoredtextAPI : rectanchoredtextAPI.ID
     const url = `${this.rectanchoredtextsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class RectAnchoredTextService {
   }
 
   /** PUT: update the rectanchoredtextdb on the server */
-  update(rectanchoredtextdb: RectAnchoredTextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI> {
-    return this.updateRectAnchoredText(rectanchoredtextdb, GONG__StackPath, frontRepo)
+  update(rectanchoredtextdb: RectAnchoredTextAPI, Name: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI> {
+    return this.updateRectAnchoredText(rectanchoredtextdb, Name, frontRepo)
   }
-  updateRectAnchoredText(rectanchoredtextdb: RectAnchoredTextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI> {
+  updateRectAnchoredText(rectanchoredtextdb: RectAnchoredTextAPI, Name: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI> {
     const id = typeof rectanchoredtextdb === 'number' ? rectanchoredtextdb : rectanchoredtextdb.ID;
     const url = `${this.rectanchoredtextsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

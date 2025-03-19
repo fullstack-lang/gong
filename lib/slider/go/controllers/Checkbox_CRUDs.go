@@ -58,10 +58,10 @@ func (controller *Controller) GetCheckboxs(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetCheckboxs", "GONG__StackPath", stackPath)
+			// log.Println("GetCheckboxs", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -122,10 +122,10 @@ func (controller *Controller) PostCheckbox(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("PostCheckboxs", "GONG__StackPath", stackPath)
+			// log.Println("PostCheckboxs", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -193,10 +193,10 @@ func (controller *Controller) GetCheckbox(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetCheckbox", "GONG__StackPath", stackPath)
+			// log.Println("GetCheckbox", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -243,10 +243,10 @@ func (controller *Controller) UpdateCheckbox(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("UpdateCheckbox", "GONG__StackPath", stackPath)
+			// log.Println("UpdateCheckbox", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -334,10 +334,10 @@ func (controller *Controller) DeleteCheckbox(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("DeleteCheckbox", "GONG__StackPath", stackPath)
+			// log.Println("DeleteCheckbox", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]

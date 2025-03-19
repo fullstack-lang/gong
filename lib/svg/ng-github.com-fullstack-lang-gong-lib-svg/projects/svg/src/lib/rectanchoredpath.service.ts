@@ -46,12 +46,12 @@ export class RectAnchoredPathService {
 
   /** GET rectanchoredpaths from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredPathAPI[]> {
-    return this.getRectAnchoredPaths(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<RectAnchoredPathAPI[]> {
+    return this.getRectAnchoredPaths(Name, frontRepo)
   }
-  getRectAnchoredPaths(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredPathAPI[]> {
+  getRectAnchoredPaths(Name: string, frontRepo: FrontRepo): Observable<RectAnchoredPathAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<RectAnchoredPathAPI[]>(this.rectanchoredpathsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class RectAnchoredPathService {
 
   /** GET rectanchoredpath by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredPathAPI> {
-    return this.getRectAnchoredPath(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<RectAnchoredPathAPI> {
+    return this.getRectAnchoredPath(id, Name, frontRepo)
   }
-  getRectAnchoredPath(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredPathAPI> {
+  getRectAnchoredPath(id: number, Name: string, frontRepo: FrontRepo): Observable<RectAnchoredPathAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.rectanchoredpathsUrl}/${id}`;
     return this.http.get<RectAnchoredPathAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class RectAnchoredPathService {
   }
 
   // postFront copy rectanchoredpath to a version with encoded pointers and post to the back
-  postFront(rectanchoredpath: RectAnchoredPath, GONG__StackPath: string): Observable<RectAnchoredPathAPI> {
+  postFront(rectanchoredpath: RectAnchoredPath, Name: string): Observable<RectAnchoredPathAPI> {
     let rectanchoredpathAPI = new RectAnchoredPathAPI
     CopyRectAnchoredPathToRectAnchoredPathAPI(rectanchoredpath, rectanchoredpathAPI)
     const id = typeof rectanchoredpathAPI === 'number' ? rectanchoredpathAPI : rectanchoredpathAPI.ID
     const url = `${this.rectanchoredpathsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class RectAnchoredPathService {
   }
   
   /** POST: add a new rectanchoredpath to the server */
-  post(rectanchoredpathdb: RectAnchoredPathAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredPathAPI> {
-    return this.postRectAnchoredPath(rectanchoredpathdb, GONG__StackPath, frontRepo)
+  post(rectanchoredpathdb: RectAnchoredPathAPI, Name: string, frontRepo: FrontRepo): Observable<RectAnchoredPathAPI> {
+    return this.postRectAnchoredPath(rectanchoredpathdb, Name, frontRepo)
   }
-  postRectAnchoredPath(rectanchoredpathdb: RectAnchoredPathAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredPathAPI> {
+  postRectAnchoredPath(rectanchoredpathdb: RectAnchoredPathAPI, Name: string, frontRepo: FrontRepo): Observable<RectAnchoredPathAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class RectAnchoredPathService {
   }
 
   /** DELETE: delete the rectanchoredpathdb from the server */
-  delete(rectanchoredpathdb: RectAnchoredPathAPI | number, GONG__StackPath: string): Observable<RectAnchoredPathAPI> {
-    return this.deleteRectAnchoredPath(rectanchoredpathdb, GONG__StackPath)
+  delete(rectanchoredpathdb: RectAnchoredPathAPI | number, Name: string): Observable<RectAnchoredPathAPI> {
+    return this.deleteRectAnchoredPath(rectanchoredpathdb, Name)
   }
-  deleteRectAnchoredPath(rectanchoredpathdb: RectAnchoredPathAPI | number, GONG__StackPath: string): Observable<RectAnchoredPathAPI> {
+  deleteRectAnchoredPath(rectanchoredpathdb: RectAnchoredPathAPI | number, Name: string): Observable<RectAnchoredPathAPI> {
     const id = typeof rectanchoredpathdb === 'number' ? rectanchoredpathdb : rectanchoredpathdb.ID;
     const url = `${this.rectanchoredpathsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class RectAnchoredPathService {
   }
 
   // updateFront copy rectanchoredpath to a version with encoded pointers and update to the back
-  updateFront(rectanchoredpath: RectAnchoredPath, GONG__StackPath: string): Observable<RectAnchoredPathAPI> {
+  updateFront(rectanchoredpath: RectAnchoredPath, Name: string): Observable<RectAnchoredPathAPI> {
     let rectanchoredpathAPI = new RectAnchoredPathAPI
     CopyRectAnchoredPathToRectAnchoredPathAPI(rectanchoredpath, rectanchoredpathAPI)
     const id = typeof rectanchoredpathAPI === 'number' ? rectanchoredpathAPI : rectanchoredpathAPI.ID
     const url = `${this.rectanchoredpathsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class RectAnchoredPathService {
   }
 
   /** PUT: update the rectanchoredpathdb on the server */
-  update(rectanchoredpathdb: RectAnchoredPathAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredPathAPI> {
-    return this.updateRectAnchoredPath(rectanchoredpathdb, GONG__StackPath, frontRepo)
+  update(rectanchoredpathdb: RectAnchoredPathAPI, Name: string, frontRepo: FrontRepo): Observable<RectAnchoredPathAPI> {
+    return this.updateRectAnchoredPath(rectanchoredpathdb, Name, frontRepo)
   }
-  updateRectAnchoredPath(rectanchoredpathdb: RectAnchoredPathAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAnchoredPathAPI> {
+  updateRectAnchoredPath(rectanchoredpathdb: RectAnchoredPathAPI, Name: string, frontRepo: FrontRepo): Observable<RectAnchoredPathAPI> {
     const id = typeof rectanchoredpathdb === 'number' ? rectanchoredpathdb : rectanchoredpathdb.ID;
     const url = `${this.rectanchoredpathsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

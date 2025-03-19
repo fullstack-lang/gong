@@ -58,10 +58,10 @@ func (controller *Controller) GetFstructs(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetFstructs", "GONG__StackPath", stackPath)
+			// log.Println("GetFstructs", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -122,10 +122,10 @@ func (controller *Controller) PostFstruct(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("PostFstructs", "GONG__StackPath", stackPath)
+			// log.Println("PostFstructs", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -193,10 +193,10 @@ func (controller *Controller) GetFstruct(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetFstruct", "GONG__StackPath", stackPath)
+			// log.Println("GetFstruct", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -243,10 +243,10 @@ func (controller *Controller) UpdateFstruct(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("UpdateFstruct", "GONG__StackPath", stackPath)
+			// log.Println("UpdateFstruct", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -334,10 +334,10 @@ func (controller *Controller) DeleteFstruct(c *gin.Context) {
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("DeleteFstruct", "GONG__StackPath", stackPath)
+			// log.Println("DeleteFstruct", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]

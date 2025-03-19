@@ -48,12 +48,12 @@ export class NodeService {
 
   /** GET nodes from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeAPI[]> {
-    return this.getNodes(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<NodeAPI[]> {
+    return this.getNodes(Name, frontRepo)
   }
-  getNodes(GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeAPI[]> {
+  getNodes(Name: string, frontRepo: FrontRepo): Observable<NodeAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<NodeAPI[]>(this.nodesUrl, { params: params })
       .pipe(
@@ -64,12 +64,12 @@ export class NodeService {
 
   /** GET node by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeAPI> {
-    return this.getNode(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<NodeAPI> {
+    return this.getNode(id, Name, frontRepo)
   }
-  getNode(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeAPI> {
+  getNode(id: number, Name: string, frontRepo: FrontRepo): Observable<NodeAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.nodesUrl}/${id}`;
     return this.http.get<NodeAPI>(url, { params: params }).pipe(
@@ -79,12 +79,12 @@ export class NodeService {
   }
 
   // postFront copy node to a version with encoded pointers and post to the back
-  postFront(node: Node, GONG__StackPath: string): Observable<NodeAPI> {
+  postFront(node: Node, Name: string): Observable<NodeAPI> {
     let nodeAPI = new NodeAPI
     CopyNodeToNodeAPI(node, nodeAPI)
     const id = typeof nodeAPI === 'number' ? nodeAPI : nodeAPI.ID
     const url = `${this.nodesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -98,12 +98,12 @@ export class NodeService {
   }
   
   /** POST: add a new node to the server */
-  post(nodedb: NodeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeAPI> {
-    return this.postNode(nodedb, GONG__StackPath, frontRepo)
+  post(nodedb: NodeAPI, Name: string, frontRepo: FrontRepo): Observable<NodeAPI> {
+    return this.postNode(nodedb, Name, frontRepo)
   }
-  postNode(nodedb: NodeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeAPI> {
+  postNode(nodedb: NodeAPI, Name: string, frontRepo: FrontRepo): Observable<NodeAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -118,14 +118,14 @@ export class NodeService {
   }
 
   /** DELETE: delete the nodedb from the server */
-  delete(nodedb: NodeAPI | number, GONG__StackPath: string): Observable<NodeAPI> {
-    return this.deleteNode(nodedb, GONG__StackPath)
+  delete(nodedb: NodeAPI | number, Name: string): Observable<NodeAPI> {
+    return this.deleteNode(nodedb, Name)
   }
-  deleteNode(nodedb: NodeAPI | number, GONG__StackPath: string): Observable<NodeAPI> {
+  deleteNode(nodedb: NodeAPI | number, Name: string): Observable<NodeAPI> {
     const id = typeof nodedb === 'number' ? nodedb : nodedb.ID;
     const url = `${this.nodesUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -138,12 +138,12 @@ export class NodeService {
   }
 
   // updateFront copy node to a version with encoded pointers and update to the back
-  updateFront(node: Node, GONG__StackPath: string): Observable<NodeAPI> {
+  updateFront(node: Node, Name: string): Observable<NodeAPI> {
     let nodeAPI = new NodeAPI
     CopyNodeToNodeAPI(node, nodeAPI)
     const id = typeof nodeAPI === 'number' ? nodeAPI : nodeAPI.ID
     const url = `${this.nodesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -157,15 +157,15 @@ export class NodeService {
   }
 
   /** PUT: update the nodedb on the server */
-  update(nodedb: NodeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeAPI> {
-    return this.updateNode(nodedb, GONG__StackPath, frontRepo)
+  update(nodedb: NodeAPI, Name: string, frontRepo: FrontRepo): Observable<NodeAPI> {
+    return this.updateNode(nodedb, Name, frontRepo)
   }
-  updateNode(nodedb: NodeAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<NodeAPI> {
+  updateNode(nodedb: NodeAPI, Name: string, frontRepo: FrontRepo): Observable<NodeAPI> {
     const id = typeof nodedb === 'number' ? nodedb : nodedb.ID;
     const url = `${this.nodesUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

@@ -264,10 +264,10 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+		value := values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetLastCommitFromBackNb", "GONG__StackPath", stackPath)
+			// log.Println("GetLastCommitFromBackNb", "Name", stackPath)
 		}
 	}
 
@@ -347,10 +347,10 @@ func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+		value := values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetLastCommitFromBackNb", "GONG__StackPath", stackPath)
+			// log.Println("GetLastCommitFromBackNb", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -368,10 +368,10 @@ func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
-		value := values["GONG__StackPath"]
+		value := values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetLastPushFromFrontNb", "GONG__StackPath", stackPath)
+			// log.Println("GetLastPushFromFrontNb", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]

@@ -46,12 +46,12 @@ export class AnimateService {
 
   /** GET animates from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateAPI[]> {
-    return this.getAnimates(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<AnimateAPI[]> {
+    return this.getAnimates(Name, frontRepo)
   }
-  getAnimates(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateAPI[]> {
+  getAnimates(Name: string, frontRepo: FrontRepo): Observable<AnimateAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<AnimateAPI[]>(this.animatesUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class AnimateService {
 
   /** GET animate by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateAPI> {
-    return this.getAnimate(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<AnimateAPI> {
+    return this.getAnimate(id, Name, frontRepo)
   }
-  getAnimate(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateAPI> {
+  getAnimate(id: number, Name: string, frontRepo: FrontRepo): Observable<AnimateAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.animatesUrl}/${id}`;
     return this.http.get<AnimateAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class AnimateService {
   }
 
   // postFront copy animate to a version with encoded pointers and post to the back
-  postFront(animate: Animate, GONG__StackPath: string): Observable<AnimateAPI> {
+  postFront(animate: Animate, Name: string): Observable<AnimateAPI> {
     let animateAPI = new AnimateAPI
     CopyAnimateToAnimateAPI(animate, animateAPI)
     const id = typeof animateAPI === 'number' ? animateAPI : animateAPI.ID
     const url = `${this.animatesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class AnimateService {
   }
   
   /** POST: add a new animate to the server */
-  post(animatedb: AnimateAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateAPI> {
-    return this.postAnimate(animatedb, GONG__StackPath, frontRepo)
+  post(animatedb: AnimateAPI, Name: string, frontRepo: FrontRepo): Observable<AnimateAPI> {
+    return this.postAnimate(animatedb, Name, frontRepo)
   }
-  postAnimate(animatedb: AnimateAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateAPI> {
+  postAnimate(animatedb: AnimateAPI, Name: string, frontRepo: FrontRepo): Observable<AnimateAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class AnimateService {
   }
 
   /** DELETE: delete the animatedb from the server */
-  delete(animatedb: AnimateAPI | number, GONG__StackPath: string): Observable<AnimateAPI> {
-    return this.deleteAnimate(animatedb, GONG__StackPath)
+  delete(animatedb: AnimateAPI | number, Name: string): Observable<AnimateAPI> {
+    return this.deleteAnimate(animatedb, Name)
   }
-  deleteAnimate(animatedb: AnimateAPI | number, GONG__StackPath: string): Observable<AnimateAPI> {
+  deleteAnimate(animatedb: AnimateAPI | number, Name: string): Observable<AnimateAPI> {
     const id = typeof animatedb === 'number' ? animatedb : animatedb.ID;
     const url = `${this.animatesUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class AnimateService {
   }
 
   // updateFront copy animate to a version with encoded pointers and update to the back
-  updateFront(animate: Animate, GONG__StackPath: string): Observable<AnimateAPI> {
+  updateFront(animate: Animate, Name: string): Observable<AnimateAPI> {
     let animateAPI = new AnimateAPI
     CopyAnimateToAnimateAPI(animate, animateAPI)
     const id = typeof animateAPI === 'number' ? animateAPI : animateAPI.ID
     const url = `${this.animatesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class AnimateService {
   }
 
   /** PUT: update the animatedb on the server */
-  update(animatedb: AnimateAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateAPI> {
-    return this.updateAnimate(animatedb, GONG__StackPath, frontRepo)
+  update(animatedb: AnimateAPI, Name: string, frontRepo: FrontRepo): Observable<AnimateAPI> {
+    return this.updateAnimate(animatedb, Name, frontRepo)
   }
-  updateAnimate(animatedb: AnimateAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateAPI> {
+  updateAnimate(animatedb: AnimateAPI, Name: string, frontRepo: FrontRepo): Observable<AnimateAPI> {
     const id = typeof animatedb === 'number' ? animatedb : animatedb.ID;
     const url = `${this.animatesUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

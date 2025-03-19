@@ -58,10 +58,10 @@ func (controller *Controller) GetSliceOfPointerToGongStructFields(c *gin.Context
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetSliceOfPointerToGongStructFields", "GONG__StackPath", stackPath)
+			// log.Println("GetSliceOfPointerToGongStructFields", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -122,10 +122,10 @@ func (controller *Controller) PostSliceOfPointerToGongStructField(c *gin.Context
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("PostSliceOfPointerToGongStructFields", "GONG__StackPath", stackPath)
+			// log.Println("PostSliceOfPointerToGongStructFields", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -193,10 +193,10 @@ func (controller *Controller) GetSliceOfPointerToGongStructField(c *gin.Context)
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetSliceOfPointerToGongStructField", "GONG__StackPath", stackPath)
+			// log.Println("GetSliceOfPointerToGongStructField", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -243,10 +243,10 @@ func (controller *Controller) UpdateSliceOfPointerToGongStructField(c *gin.Conte
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("UpdateSliceOfPointerToGongStructField", "GONG__StackPath", stackPath)
+			// log.Println("UpdateSliceOfPointerToGongStructField", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -334,10 +334,10 @@ func (controller *Controller) DeleteSliceOfPointerToGongStructField(c *gin.Conte
 	_values := c.Request.URL.Query()
 	stackPath := ""
 	if len(_values) == 1 {
-		value := _values["GONG__StackPath"]
+		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("DeleteSliceOfPointerToGongStructField", "GONG__StackPath", stackPath)
+			// log.Println("DeleteSliceOfPointerToGongStructField", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]

@@ -318,7 +318,7 @@ export class DialogData {
 	IntermediateStructField: string = "" // the "Bclass" as field
 	NextAssociationStruct: string = "" // the "Bclass"
 
-	GONG__StackPath: string = ""
+	Name: string = ""
 }
 
 export enum SelectionMode {
@@ -334,7 +334,7 @@ export enum SelectionMode {
 })
 export class FrontRepoService {
 
-	GONG__StackPath: string = ""
+	Name: string = ""
 	private socket: WebSocket | undefined
 
 	httpOptions = {
@@ -434,36 +434,36 @@ export class FrontRepoService {
 	// This is an observable. Therefore, the control flow forks with
 	// - pull() return immediatly the observable
 	// - the observable observer, if it subscribe, is called when all GET calls are performs
-	pull(GONG__StackPath: string = ""): Observable<FrontRepo> {
+	pull(Name: string = ""): Observable<FrontRepo> {
 
-		this.GONG__StackPath = GONG__StackPath
+		this.Name = Name
 
 		this.observableFrontRepo = [
 			of(null), // see above for justification
 			// insertion point sub template
-			this.cellService.getCells(this.GONG__StackPath, this.frontRepo),
-			this.cellbooleanService.getCellBooleans(this.GONG__StackPath, this.frontRepo),
-			this.cellfloat64Service.getCellFloat64s(this.GONG__StackPath, this.frontRepo),
-			this.celliconService.getCellIcons(this.GONG__StackPath, this.frontRepo),
-			this.cellintService.getCellInts(this.GONG__StackPath, this.frontRepo),
-			this.cellstringService.getCellStrings(this.GONG__StackPath, this.frontRepo),
-			this.checkboxService.getCheckBoxs(this.GONG__StackPath, this.frontRepo),
-			this.displayedcolumnService.getDisplayedColumns(this.GONG__StackPath, this.frontRepo),
-			this.formdivService.getFormDivs(this.GONG__StackPath, this.frontRepo),
-			this.formeditassocbuttonService.getFormEditAssocButtons(this.GONG__StackPath, this.frontRepo),
-			this.formfieldService.getFormFields(this.GONG__StackPath, this.frontRepo),
-			this.formfielddateService.getFormFieldDates(this.GONG__StackPath, this.frontRepo),
-			this.formfielddatetimeService.getFormFieldDateTimes(this.GONG__StackPath, this.frontRepo),
-			this.formfieldfloat64Service.getFormFieldFloat64s(this.GONG__StackPath, this.frontRepo),
-			this.formfieldintService.getFormFieldInts(this.GONG__StackPath, this.frontRepo),
-			this.formfieldselectService.getFormFieldSelects(this.GONG__StackPath, this.frontRepo),
-			this.formfieldstringService.getFormFieldStrings(this.GONG__StackPath, this.frontRepo),
-			this.formfieldtimeService.getFormFieldTimes(this.GONG__StackPath, this.frontRepo),
-			this.formgroupService.getFormGroups(this.GONG__StackPath, this.frontRepo),
-			this.formsortassocbuttonService.getFormSortAssocButtons(this.GONG__StackPath, this.frontRepo),
-			this.optionService.getOptions(this.GONG__StackPath, this.frontRepo),
-			this.rowService.getRows(this.GONG__StackPath, this.frontRepo),
-			this.tableService.getTables(this.GONG__StackPath, this.frontRepo),
+			this.cellService.getCells(this.Name, this.frontRepo),
+			this.cellbooleanService.getCellBooleans(this.Name, this.frontRepo),
+			this.cellfloat64Service.getCellFloat64s(this.Name, this.frontRepo),
+			this.celliconService.getCellIcons(this.Name, this.frontRepo),
+			this.cellintService.getCellInts(this.Name, this.frontRepo),
+			this.cellstringService.getCellStrings(this.Name, this.frontRepo),
+			this.checkboxService.getCheckBoxs(this.Name, this.frontRepo),
+			this.displayedcolumnService.getDisplayedColumns(this.Name, this.frontRepo),
+			this.formdivService.getFormDivs(this.Name, this.frontRepo),
+			this.formeditassocbuttonService.getFormEditAssocButtons(this.Name, this.frontRepo),
+			this.formfieldService.getFormFields(this.Name, this.frontRepo),
+			this.formfielddateService.getFormFieldDates(this.Name, this.frontRepo),
+			this.formfielddatetimeService.getFormFieldDateTimes(this.Name, this.frontRepo),
+			this.formfieldfloat64Service.getFormFieldFloat64s(this.Name, this.frontRepo),
+			this.formfieldintService.getFormFieldInts(this.Name, this.frontRepo),
+			this.formfieldselectService.getFormFieldSelects(this.Name, this.frontRepo),
+			this.formfieldstringService.getFormFieldStrings(this.Name, this.frontRepo),
+			this.formfieldtimeService.getFormFieldTimes(this.Name, this.frontRepo),
+			this.formgroupService.getFormGroups(this.Name, this.frontRepo),
+			this.formsortassocbuttonService.getFormSortAssocButtons(this.Name, this.frontRepo),
+			this.optionService.getOptions(this.Name, this.frontRepo),
+			this.rowService.getRows(this.Name, this.frontRepo),
+			this.tableService.getTables(this.Name, this.frontRepo),
 		]
 
 		return new Observable<FrontRepo>(
@@ -1024,12 +1024,12 @@ export class FrontRepoService {
 		)
 	}
 
-	public connectToWebSocket(GONG__StackPath: string): Observable<FrontRepo> {
+	public connectToWebSocket(Name: string): Observable<FrontRepo> {
 
-		this.GONG__StackPath = GONG__StackPath
+		this.Name = Name
 
 
-		let params = new HttpParams().set("GONG__StackPath", this.GONG__StackPath)
+		let params = new HttpParams().set("Name", this.Name)
 		let basePath = 'ws://localhost:8080/api/github.com/fullstack-lang/gong/lib/table/go/v1/ws/stage'
 		let paramString = params.toString()
 		let url = `${basePath}?${paramString}`

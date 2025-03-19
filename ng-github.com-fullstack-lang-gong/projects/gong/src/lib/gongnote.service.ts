@@ -47,12 +47,12 @@ export class GongNoteService {
 
   /** GET gongnotes from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteAPI[]> {
-    return this.getGongNotes(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<GongNoteAPI[]> {
+    return this.getGongNotes(Name, frontRepo)
   }
-  getGongNotes(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteAPI[]> {
+  getGongNotes(Name: string, frontRepo: FrontRepo): Observable<GongNoteAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<GongNoteAPI[]>(this.gongnotesUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class GongNoteService {
 
   /** GET gongnote by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteAPI> {
-    return this.getGongNote(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<GongNoteAPI> {
+    return this.getGongNote(id, Name, frontRepo)
   }
-  getGongNote(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteAPI> {
+  getGongNote(id: number, Name: string, frontRepo: FrontRepo): Observable<GongNoteAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.gongnotesUrl}/${id}`;
     return this.http.get<GongNoteAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class GongNoteService {
   }
 
   // postFront copy gongnote to a version with encoded pointers and post to the back
-  postFront(gongnote: GongNote, GONG__StackPath: string): Observable<GongNoteAPI> {
+  postFront(gongnote: GongNote, Name: string): Observable<GongNoteAPI> {
     let gongnoteAPI = new GongNoteAPI
     CopyGongNoteToGongNoteAPI(gongnote, gongnoteAPI)
     const id = typeof gongnoteAPI === 'number' ? gongnoteAPI : gongnoteAPI.ID
     const url = `${this.gongnotesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class GongNoteService {
   }
   
   /** POST: add a new gongnote to the server */
-  post(gongnotedb: GongNoteAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteAPI> {
-    return this.postGongNote(gongnotedb, GONG__StackPath, frontRepo)
+  post(gongnotedb: GongNoteAPI, Name: string, frontRepo: FrontRepo): Observable<GongNoteAPI> {
+    return this.postGongNote(gongnotedb, Name, frontRepo)
   }
-  postGongNote(gongnotedb: GongNoteAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteAPI> {
+  postGongNote(gongnotedb: GongNoteAPI, Name: string, frontRepo: FrontRepo): Observable<GongNoteAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class GongNoteService {
   }
 
   /** DELETE: delete the gongnotedb from the server */
-  delete(gongnotedb: GongNoteAPI | number, GONG__StackPath: string): Observable<GongNoteAPI> {
-    return this.deleteGongNote(gongnotedb, GONG__StackPath)
+  delete(gongnotedb: GongNoteAPI | number, Name: string): Observable<GongNoteAPI> {
+    return this.deleteGongNote(gongnotedb, Name)
   }
-  deleteGongNote(gongnotedb: GongNoteAPI | number, GONG__StackPath: string): Observable<GongNoteAPI> {
+  deleteGongNote(gongnotedb: GongNoteAPI | number, Name: string): Observable<GongNoteAPI> {
     const id = typeof gongnotedb === 'number' ? gongnotedb : gongnotedb.ID;
     const url = `${this.gongnotesUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class GongNoteService {
   }
 
   // updateFront copy gongnote to a version with encoded pointers and update to the back
-  updateFront(gongnote: GongNote, GONG__StackPath: string): Observable<GongNoteAPI> {
+  updateFront(gongnote: GongNote, Name: string): Observable<GongNoteAPI> {
     let gongnoteAPI = new GongNoteAPI
     CopyGongNoteToGongNoteAPI(gongnote, gongnoteAPI)
     const id = typeof gongnoteAPI === 'number' ? gongnoteAPI : gongnoteAPI.ID
     const url = `${this.gongnotesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class GongNoteService {
   }
 
   /** PUT: update the gongnotedb on the server */
-  update(gongnotedb: GongNoteAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteAPI> {
-    return this.updateGongNote(gongnotedb, GONG__StackPath, frontRepo)
+  update(gongnotedb: GongNoteAPI, Name: string, frontRepo: FrontRepo): Observable<GongNoteAPI> {
+    return this.updateGongNote(gongnotedb, Name, frontRepo)
   }
-  updateGongNote(gongnotedb: GongNoteAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongNoteAPI> {
+  updateGongNote(gongnotedb: GongNoteAPI, Name: string, frontRepo: FrontRepo): Observable<GongNoteAPI> {
     const id = typeof gongnotedb === 'number' ? gongnotedb : gongnotedb.ID;
     const url = `${this.gongnotesUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

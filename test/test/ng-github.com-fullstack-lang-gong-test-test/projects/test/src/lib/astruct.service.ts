@@ -50,12 +50,12 @@ export class AstructService {
 
   /** GET astructs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructAPI[]> {
-    return this.getAstructs(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<AstructAPI[]> {
+    return this.getAstructs(Name, frontRepo)
   }
-  getAstructs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructAPI[]> {
+  getAstructs(Name: string, frontRepo: FrontRepo): Observable<AstructAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<AstructAPI[]>(this.astructsUrl, { params: params })
       .pipe(
@@ -66,12 +66,12 @@ export class AstructService {
 
   /** GET astruct by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructAPI> {
-    return this.getAstruct(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<AstructAPI> {
+    return this.getAstruct(id, Name, frontRepo)
   }
-  getAstruct(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructAPI> {
+  getAstruct(id: number, Name: string, frontRepo: FrontRepo): Observable<AstructAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.astructsUrl}/${id}`;
     return this.http.get<AstructAPI>(url, { params: params }).pipe(
@@ -81,12 +81,12 @@ export class AstructService {
   }
 
   // postFront copy astruct to a version with encoded pointers and post to the back
-  postFront(astruct: Astruct, GONG__StackPath: string): Observable<AstructAPI> {
+  postFront(astruct: Astruct, Name: string): Observable<AstructAPI> {
     let astructAPI = new AstructAPI
     CopyAstructToAstructAPI(astruct, astructAPI)
     const id = typeof astructAPI === 'number' ? astructAPI : astructAPI.ID
     const url = `${this.astructsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -100,12 +100,12 @@ export class AstructService {
   }
   
   /** POST: add a new astruct to the server */
-  post(astructdb: AstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructAPI> {
-    return this.postAstruct(astructdb, GONG__StackPath, frontRepo)
+  post(astructdb: AstructAPI, Name: string, frontRepo: FrontRepo): Observable<AstructAPI> {
+    return this.postAstruct(astructdb, Name, frontRepo)
   }
-  postAstruct(astructdb: AstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructAPI> {
+  postAstruct(astructdb: AstructAPI, Name: string, frontRepo: FrontRepo): Observable<AstructAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -120,14 +120,14 @@ export class AstructService {
   }
 
   /** DELETE: delete the astructdb from the server */
-  delete(astructdb: AstructAPI | number, GONG__StackPath: string): Observable<AstructAPI> {
-    return this.deleteAstruct(astructdb, GONG__StackPath)
+  delete(astructdb: AstructAPI | number, Name: string): Observable<AstructAPI> {
+    return this.deleteAstruct(astructdb, Name)
   }
-  deleteAstruct(astructdb: AstructAPI | number, GONG__StackPath: string): Observable<AstructAPI> {
+  deleteAstruct(astructdb: AstructAPI | number, Name: string): Observable<AstructAPI> {
     const id = typeof astructdb === 'number' ? astructdb : astructdb.ID;
     const url = `${this.astructsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -140,12 +140,12 @@ export class AstructService {
   }
 
   // updateFront copy astruct to a version with encoded pointers and update to the back
-  updateFront(astruct: Astruct, GONG__StackPath: string): Observable<AstructAPI> {
+  updateFront(astruct: Astruct, Name: string): Observable<AstructAPI> {
     let astructAPI = new AstructAPI
     CopyAstructToAstructAPI(astruct, astructAPI)
     const id = typeof astructAPI === 'number' ? astructAPI : astructAPI.ID
     const url = `${this.astructsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -159,15 +159,15 @@ export class AstructService {
   }
 
   /** PUT: update the astructdb on the server */
-  update(astructdb: AstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructAPI> {
-    return this.updateAstruct(astructdb, GONG__StackPath, frontRepo)
+  update(astructdb: AstructAPI, Name: string, frontRepo: FrontRepo): Observable<AstructAPI> {
+    return this.updateAstruct(astructdb, Name, frontRepo)
   }
-  updateAstruct(astructdb: AstructAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructAPI> {
+  updateAstruct(astructdb: AstructAPI, Name: string, frontRepo: FrontRepo): Observable<AstructAPI> {
     const id = typeof astructdb === 'number' ? astructdb : astructdb.ID;
     const url = `${this.astructsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

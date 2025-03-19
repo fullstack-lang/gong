@@ -46,12 +46,12 @@ export class DisplayedColumnService {
 
   /** GET displayedcolumns from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI[]> {
-    return this.getDisplayedColumns(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI[]> {
+    return this.getDisplayedColumns(Name, frontRepo)
   }
-  getDisplayedColumns(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI[]> {
+  getDisplayedColumns(Name: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<DisplayedColumnAPI[]>(this.displayedcolumnsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class DisplayedColumnService {
 
   /** GET displayedcolumn by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI> {
-    return this.getDisplayedColumn(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI> {
+    return this.getDisplayedColumn(id, Name, frontRepo)
   }
-  getDisplayedColumn(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI> {
+  getDisplayedColumn(id: number, Name: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.displayedcolumnsUrl}/${id}`;
     return this.http.get<DisplayedColumnAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class DisplayedColumnService {
   }
 
   // postFront copy displayedcolumn to a version with encoded pointers and post to the back
-  postFront(displayedcolumn: DisplayedColumn, GONG__StackPath: string): Observable<DisplayedColumnAPI> {
+  postFront(displayedcolumn: DisplayedColumn, Name: string): Observable<DisplayedColumnAPI> {
     let displayedcolumnAPI = new DisplayedColumnAPI
     CopyDisplayedColumnToDisplayedColumnAPI(displayedcolumn, displayedcolumnAPI)
     const id = typeof displayedcolumnAPI === 'number' ? displayedcolumnAPI : displayedcolumnAPI.ID
     const url = `${this.displayedcolumnsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class DisplayedColumnService {
   }
   
   /** POST: add a new displayedcolumn to the server */
-  post(displayedcolumndb: DisplayedColumnAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI> {
-    return this.postDisplayedColumn(displayedcolumndb, GONG__StackPath, frontRepo)
+  post(displayedcolumndb: DisplayedColumnAPI, Name: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI> {
+    return this.postDisplayedColumn(displayedcolumndb, Name, frontRepo)
   }
-  postDisplayedColumn(displayedcolumndb: DisplayedColumnAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI> {
+  postDisplayedColumn(displayedcolumndb: DisplayedColumnAPI, Name: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class DisplayedColumnService {
   }
 
   /** DELETE: delete the displayedcolumndb from the server */
-  delete(displayedcolumndb: DisplayedColumnAPI | number, GONG__StackPath: string): Observable<DisplayedColumnAPI> {
-    return this.deleteDisplayedColumn(displayedcolumndb, GONG__StackPath)
+  delete(displayedcolumndb: DisplayedColumnAPI | number, Name: string): Observable<DisplayedColumnAPI> {
+    return this.deleteDisplayedColumn(displayedcolumndb, Name)
   }
-  deleteDisplayedColumn(displayedcolumndb: DisplayedColumnAPI | number, GONG__StackPath: string): Observable<DisplayedColumnAPI> {
+  deleteDisplayedColumn(displayedcolumndb: DisplayedColumnAPI | number, Name: string): Observable<DisplayedColumnAPI> {
     const id = typeof displayedcolumndb === 'number' ? displayedcolumndb : displayedcolumndb.ID;
     const url = `${this.displayedcolumnsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class DisplayedColumnService {
   }
 
   // updateFront copy displayedcolumn to a version with encoded pointers and update to the back
-  updateFront(displayedcolumn: DisplayedColumn, GONG__StackPath: string): Observable<DisplayedColumnAPI> {
+  updateFront(displayedcolumn: DisplayedColumn, Name: string): Observable<DisplayedColumnAPI> {
     let displayedcolumnAPI = new DisplayedColumnAPI
     CopyDisplayedColumnToDisplayedColumnAPI(displayedcolumn, displayedcolumnAPI)
     const id = typeof displayedcolumnAPI === 'number' ? displayedcolumnAPI : displayedcolumnAPI.ID
     const url = `${this.displayedcolumnsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class DisplayedColumnService {
   }
 
   /** PUT: update the displayedcolumndb on the server */
-  update(displayedcolumndb: DisplayedColumnAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI> {
-    return this.updateDisplayedColumn(displayedcolumndb, GONG__StackPath, frontRepo)
+  update(displayedcolumndb: DisplayedColumnAPI, Name: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI> {
+    return this.updateDisplayedColumn(displayedcolumndb, Name, frontRepo)
   }
-  updateDisplayedColumn(displayedcolumndb: DisplayedColumnAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI> {
+  updateDisplayedColumn(displayedcolumndb: DisplayedColumnAPI, Name: string, frontRepo: FrontRepo): Observable<DisplayedColumnAPI> {
     const id = typeof displayedcolumndb === 'number' ? displayedcolumndb : displayedcolumndb.ID;
     const url = `${this.displayedcolumnsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

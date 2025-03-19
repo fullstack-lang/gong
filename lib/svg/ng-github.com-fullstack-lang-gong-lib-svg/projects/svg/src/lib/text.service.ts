@@ -47,12 +47,12 @@ export class TextService {
 
   /** GET texts from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<TextAPI[]> {
-    return this.getTexts(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<TextAPI[]> {
+    return this.getTexts(Name, frontRepo)
   }
-  getTexts(GONG__StackPath: string, frontRepo: FrontRepo): Observable<TextAPI[]> {
+  getTexts(Name: string, frontRepo: FrontRepo): Observable<TextAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<TextAPI[]>(this.textsUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class TextService {
 
   /** GET text by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TextAPI> {
-    return this.getText(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<TextAPI> {
+    return this.getText(id, Name, frontRepo)
   }
-  getText(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TextAPI> {
+  getText(id: number, Name: string, frontRepo: FrontRepo): Observable<TextAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.textsUrl}/${id}`;
     return this.http.get<TextAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class TextService {
   }
 
   // postFront copy text to a version with encoded pointers and post to the back
-  postFront(text: Text, GONG__StackPath: string): Observable<TextAPI> {
+  postFront(text: Text, Name: string): Observable<TextAPI> {
     let textAPI = new TextAPI
     CopyTextToTextAPI(text, textAPI)
     const id = typeof textAPI === 'number' ? textAPI : textAPI.ID
     const url = `${this.textsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class TextService {
   }
   
   /** POST: add a new text to the server */
-  post(textdb: TextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TextAPI> {
-    return this.postText(textdb, GONG__StackPath, frontRepo)
+  post(textdb: TextAPI, Name: string, frontRepo: FrontRepo): Observable<TextAPI> {
+    return this.postText(textdb, Name, frontRepo)
   }
-  postText(textdb: TextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TextAPI> {
+  postText(textdb: TextAPI, Name: string, frontRepo: FrontRepo): Observable<TextAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class TextService {
   }
 
   /** DELETE: delete the textdb from the server */
-  delete(textdb: TextAPI | number, GONG__StackPath: string): Observable<TextAPI> {
-    return this.deleteText(textdb, GONG__StackPath)
+  delete(textdb: TextAPI | number, Name: string): Observable<TextAPI> {
+    return this.deleteText(textdb, Name)
   }
-  deleteText(textdb: TextAPI | number, GONG__StackPath: string): Observable<TextAPI> {
+  deleteText(textdb: TextAPI | number, Name: string): Observable<TextAPI> {
     const id = typeof textdb === 'number' ? textdb : textdb.ID;
     const url = `${this.textsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class TextService {
   }
 
   // updateFront copy text to a version with encoded pointers and update to the back
-  updateFront(text: Text, GONG__StackPath: string): Observable<TextAPI> {
+  updateFront(text: Text, Name: string): Observable<TextAPI> {
     let textAPI = new TextAPI
     CopyTextToTextAPI(text, textAPI)
     const id = typeof textAPI === 'number' ? textAPI : textAPI.ID
     const url = `${this.textsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class TextService {
   }
 
   /** PUT: update the textdb on the server */
-  update(textdb: TextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TextAPI> {
-    return this.updateText(textdb, GONG__StackPath, frontRepo)
+  update(textdb: TextAPI, Name: string, frontRepo: FrontRepo): Observable<TextAPI> {
+    return this.updateText(textdb, Name, frontRepo)
   }
-  updateText(textdb: TextAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TextAPI> {
+  updateText(textdb: TextAPI, Name: string, frontRepo: FrontRepo): Observable<TextAPI> {
     const id = typeof textdb === 'number' ? textdb : textdb.ID;
     const url = `${this.textsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

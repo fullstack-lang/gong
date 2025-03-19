@@ -49,12 +49,12 @@ export class LinkService {
 
   /** GET links from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAPI[]> {
-    return this.getLinks(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<LinkAPI[]> {
+    return this.getLinks(Name, frontRepo)
   }
-  getLinks(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAPI[]> {
+  getLinks(Name: string, frontRepo: FrontRepo): Observable<LinkAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<LinkAPI[]>(this.linksUrl, { params: params })
       .pipe(
@@ -65,12 +65,12 @@ export class LinkService {
 
   /** GET link by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAPI> {
-    return this.getLink(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<LinkAPI> {
+    return this.getLink(id, Name, frontRepo)
   }
-  getLink(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAPI> {
+  getLink(id: number, Name: string, frontRepo: FrontRepo): Observable<LinkAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.linksUrl}/${id}`;
     return this.http.get<LinkAPI>(url, { params: params }).pipe(
@@ -80,12 +80,12 @@ export class LinkService {
   }
 
   // postFront copy link to a version with encoded pointers and post to the back
-  postFront(link: Link, GONG__StackPath: string): Observable<LinkAPI> {
+  postFront(link: Link, Name: string): Observable<LinkAPI> {
     let linkAPI = new LinkAPI
     CopyLinkToLinkAPI(link, linkAPI)
     const id = typeof linkAPI === 'number' ? linkAPI : linkAPI.ID
     const url = `${this.linksUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -99,12 +99,12 @@ export class LinkService {
   }
   
   /** POST: add a new link to the server */
-  post(linkdb: LinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAPI> {
-    return this.postLink(linkdb, GONG__StackPath, frontRepo)
+  post(linkdb: LinkAPI, Name: string, frontRepo: FrontRepo): Observable<LinkAPI> {
+    return this.postLink(linkdb, Name, frontRepo)
   }
-  postLink(linkdb: LinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAPI> {
+  postLink(linkdb: LinkAPI, Name: string, frontRepo: FrontRepo): Observable<LinkAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -119,14 +119,14 @@ export class LinkService {
   }
 
   /** DELETE: delete the linkdb from the server */
-  delete(linkdb: LinkAPI | number, GONG__StackPath: string): Observable<LinkAPI> {
-    return this.deleteLink(linkdb, GONG__StackPath)
+  delete(linkdb: LinkAPI | number, Name: string): Observable<LinkAPI> {
+    return this.deleteLink(linkdb, Name)
   }
-  deleteLink(linkdb: LinkAPI | number, GONG__StackPath: string): Observable<LinkAPI> {
+  deleteLink(linkdb: LinkAPI | number, Name: string): Observable<LinkAPI> {
     const id = typeof linkdb === 'number' ? linkdb : linkdb.ID;
     const url = `${this.linksUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -139,12 +139,12 @@ export class LinkService {
   }
 
   // updateFront copy link to a version with encoded pointers and update to the back
-  updateFront(link: Link, GONG__StackPath: string): Observable<LinkAPI> {
+  updateFront(link: Link, Name: string): Observable<LinkAPI> {
     let linkAPI = new LinkAPI
     CopyLinkToLinkAPI(link, linkAPI)
     const id = typeof linkAPI === 'number' ? linkAPI : linkAPI.ID
     const url = `${this.linksUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -158,15 +158,15 @@ export class LinkService {
   }
 
   /** PUT: update the linkdb on the server */
-  update(linkdb: LinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAPI> {
-    return this.updateLink(linkdb, GONG__StackPath, frontRepo)
+  update(linkdb: LinkAPI, Name: string, frontRepo: FrontRepo): Observable<LinkAPI> {
+    return this.updateLink(linkdb, Name, frontRepo)
   }
-  updateLink(linkdb: LinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LinkAPI> {
+  updateLink(linkdb: LinkAPI, Name: string, frontRepo: FrontRepo): Observable<LinkAPI> {
     const id = typeof linkdb === 'number' ? linkdb : linkdb.ID;
     const url = `${this.linksUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
