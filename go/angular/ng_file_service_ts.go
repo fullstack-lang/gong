@@ -59,12 +59,12 @@ export class {{Structname}}Service {
 
   /** GET {{structname}}s from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}API[]> {
-    return this.get{{Structname}}s(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<{{Structname}}API[]> {
+    return this.get{{Structname}}s(Name, frontRepo)
   }
-  get{{Structname}}s(GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}API[]> {
+  get{{Structname}}s(Name: string, frontRepo: FrontRepo): Observable<{{Structname}}API[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<{{Structname}}API[]>(this.{{structname}}sUrl, { params: params })
       .pipe(
@@ -75,12 +75,12 @@ export class {{Structname}}Service {
 
   /** GET {{structname}} by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}API> {
-    return this.get{{Structname}}(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<{{Structname}}API> {
+    return this.get{{Structname}}(id, Name, frontRepo)
   }
-  get{{Structname}}(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}API> {
+  get{{Structname}}(id: number, Name: string, frontRepo: FrontRepo): Observable<{{Structname}}API> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
     return this.http.get<{{Structname}}API>(url, { params: params }).pipe(
@@ -90,12 +90,12 @@ export class {{Structname}}Service {
   }
 
   // postFront copy {{structname}} to a version with encoded pointers and post to the back
-  postFront({{structname}}: {{Structname}}, GONG__StackPath: string): Observable<{{Structname}}API> {
+  postFront({{structname}}: {{Structname}}, Name: string): Observable<{{Structname}}API> {
     let {{structname}}API = new {{Structname}}API
     Copy{{Structname}}To{{Structname}}API({{structname}}, {{structname}}API)
     const id = typeof {{structname}}API === 'number' ? {{structname}}API : {{structname}}API.ID
     const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -109,12 +109,12 @@ export class {{Structname}}Service {
   }
   
   /** POST: add a new {{structname}} to the server */
-  post({{structname}}db: {{Structname}}API, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}API> {
-    return this.post{{Structname}}({{structname}}db, GONG__StackPath, frontRepo)
+  post({{structname}}db: {{Structname}}API, Name: string, frontRepo: FrontRepo): Observable<{{Structname}}API> {
+    return this.post{{Structname}}({{structname}}db, Name, frontRepo)
   }
-  post{{Structname}}({{structname}}db: {{Structname}}API, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}API> {
+  post{{Structname}}({{structname}}db: {{Structname}}API, Name: string, frontRepo: FrontRepo): Observable<{{Structname}}API> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -129,14 +129,14 @@ export class {{Structname}}Service {
   }
 
   /** DELETE: delete the {{structname}}db from the server */
-  delete({{structname}}db: {{Structname}}API | number, GONG__StackPath: string): Observable<{{Structname}}API> {
-    return this.delete{{Structname}}({{structname}}db, GONG__StackPath)
+  delete({{structname}}db: {{Structname}}API | number, Name: string): Observable<{{Structname}}API> {
+    return this.delete{{Structname}}({{structname}}db, Name)
   }
-  delete{{Structname}}({{structname}}db: {{Structname}}API | number, GONG__StackPath: string): Observable<{{Structname}}API> {
+  delete{{Structname}}({{structname}}db: {{Structname}}API | number, Name: string): Observable<{{Structname}}API> {
     const id = typeof {{structname}}db === 'number' ? {{structname}}db : {{structname}}db.ID;
     const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -149,12 +149,12 @@ export class {{Structname}}Service {
   }
 
   // updateFront copy {{structname}} to a version with encoded pointers and update to the back
-  updateFront({{structname}}: {{Structname}}, GONG__StackPath: string): Observable<{{Structname}}API> {
+  updateFront({{structname}}: {{Structname}}, Name: string): Observable<{{Structname}}API> {
     let {{structname}}API = new {{Structname}}API
     Copy{{Structname}}To{{Structname}}API({{structname}}, {{structname}}API)
     const id = typeof {{structname}}API === 'number' ? {{structname}}API : {{structname}}API.ID
     const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -168,15 +168,15 @@ export class {{Structname}}Service {
   }
 
   /** PUT: update the {{structname}}db on the server */
-  update({{structname}}db: {{Structname}}API, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}API> {
-    return this.update{{Structname}}({{structname}}db, GONG__StackPath, frontRepo)
+  update({{structname}}db: {{Structname}}API, Name: string, frontRepo: FrontRepo): Observable<{{Structname}}API> {
+    return this.update{{Structname}}({{structname}}db, Name, frontRepo)
   }
-  update{{Structname}}({{structname}}db: {{Structname}}API, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}API> {
+  update{{Structname}}({{structname}}db: {{Structname}}API, Name: string, frontRepo: FrontRepo): Observable<{{Structname}}API> {
     const id = typeof {{structname}}db === 'number' ? {{structname}}db : {{structname}}db.ID;
     const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

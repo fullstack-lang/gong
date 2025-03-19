@@ -50,12 +50,12 @@ export class RectService {
 
   /** GET rects from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAPI[]> {
-    return this.getRects(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<RectAPI[]> {
+    return this.getRects(Name, frontRepo)
   }
-  getRects(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAPI[]> {
+  getRects(Name: string, frontRepo: FrontRepo): Observable<RectAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<RectAPI[]>(this.rectsUrl, { params: params })
       .pipe(
@@ -66,12 +66,12 @@ export class RectService {
 
   /** GET rect by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAPI> {
-    return this.getRect(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<RectAPI> {
+    return this.getRect(id, Name, frontRepo)
   }
-  getRect(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAPI> {
+  getRect(id: number, Name: string, frontRepo: FrontRepo): Observable<RectAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.rectsUrl}/${id}`;
     return this.http.get<RectAPI>(url, { params: params }).pipe(
@@ -81,12 +81,12 @@ export class RectService {
   }
 
   // postFront copy rect to a version with encoded pointers and post to the back
-  postFront(rect: Rect, GONG__StackPath: string): Observable<RectAPI> {
+  postFront(rect: Rect, Name: string): Observable<RectAPI> {
     let rectAPI = new RectAPI
     CopyRectToRectAPI(rect, rectAPI)
     const id = typeof rectAPI === 'number' ? rectAPI : rectAPI.ID
     const url = `${this.rectsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -100,12 +100,12 @@ export class RectService {
   }
   
   /** POST: add a new rect to the server */
-  post(rectdb: RectAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAPI> {
-    return this.postRect(rectdb, GONG__StackPath, frontRepo)
+  post(rectdb: RectAPI, Name: string, frontRepo: FrontRepo): Observable<RectAPI> {
+    return this.postRect(rectdb, Name, frontRepo)
   }
-  postRect(rectdb: RectAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAPI> {
+  postRect(rectdb: RectAPI, Name: string, frontRepo: FrontRepo): Observable<RectAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -120,14 +120,14 @@ export class RectService {
   }
 
   /** DELETE: delete the rectdb from the server */
-  delete(rectdb: RectAPI | number, GONG__StackPath: string): Observable<RectAPI> {
-    return this.deleteRect(rectdb, GONG__StackPath)
+  delete(rectdb: RectAPI | number, Name: string): Observable<RectAPI> {
+    return this.deleteRect(rectdb, Name)
   }
-  deleteRect(rectdb: RectAPI | number, GONG__StackPath: string): Observable<RectAPI> {
+  deleteRect(rectdb: RectAPI | number, Name: string): Observable<RectAPI> {
     const id = typeof rectdb === 'number' ? rectdb : rectdb.ID;
     const url = `${this.rectsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -140,12 +140,12 @@ export class RectService {
   }
 
   // updateFront copy rect to a version with encoded pointers and update to the back
-  updateFront(rect: Rect, GONG__StackPath: string): Observable<RectAPI> {
+  updateFront(rect: Rect, Name: string): Observable<RectAPI> {
     let rectAPI = new RectAPI
     CopyRectToRectAPI(rect, rectAPI)
     const id = typeof rectAPI === 'number' ? rectAPI : rectAPI.ID
     const url = `${this.rectsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -159,15 +159,15 @@ export class RectService {
   }
 
   /** PUT: update the rectdb on the server */
-  update(rectdb: RectAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAPI> {
-    return this.updateRect(rectdb, GONG__StackPath, frontRepo)
+  update(rectdb: RectAPI, Name: string, frontRepo: FrontRepo): Observable<RectAPI> {
+    return this.updateRect(rectdb, Name, frontRepo)
   }
-  updateRect(rectdb: RectAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectAPI> {
+  updateRect(rectdb: RectAPI, Name: string, frontRepo: FrontRepo): Observable<RectAPI> {
     const id = typeof rectdb === 'number' ? rectdb : rectdb.ID;
     const url = `${this.rectsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

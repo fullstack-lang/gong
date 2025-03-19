@@ -47,12 +47,12 @@ export class GongBasicFieldService {
 
   /** GET gongbasicfields from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongBasicFieldAPI[]> {
-    return this.getGongBasicFields(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<GongBasicFieldAPI[]> {
+    return this.getGongBasicFields(Name, frontRepo)
   }
-  getGongBasicFields(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongBasicFieldAPI[]> {
+  getGongBasicFields(Name: string, frontRepo: FrontRepo): Observable<GongBasicFieldAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<GongBasicFieldAPI[]>(this.gongbasicfieldsUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class GongBasicFieldService {
 
   /** GET gongbasicfield by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongBasicFieldAPI> {
-    return this.getGongBasicField(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<GongBasicFieldAPI> {
+    return this.getGongBasicField(id, Name, frontRepo)
   }
-  getGongBasicField(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongBasicFieldAPI> {
+  getGongBasicField(id: number, Name: string, frontRepo: FrontRepo): Observable<GongBasicFieldAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.gongbasicfieldsUrl}/${id}`;
     return this.http.get<GongBasicFieldAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class GongBasicFieldService {
   }
 
   // postFront copy gongbasicfield to a version with encoded pointers and post to the back
-  postFront(gongbasicfield: GongBasicField, GONG__StackPath: string): Observable<GongBasicFieldAPI> {
+  postFront(gongbasicfield: GongBasicField, Name: string): Observable<GongBasicFieldAPI> {
     let gongbasicfieldAPI = new GongBasicFieldAPI
     CopyGongBasicFieldToGongBasicFieldAPI(gongbasicfield, gongbasicfieldAPI)
     const id = typeof gongbasicfieldAPI === 'number' ? gongbasicfieldAPI : gongbasicfieldAPI.ID
     const url = `${this.gongbasicfieldsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class GongBasicFieldService {
   }
   
   /** POST: add a new gongbasicfield to the server */
-  post(gongbasicfielddb: GongBasicFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongBasicFieldAPI> {
-    return this.postGongBasicField(gongbasicfielddb, GONG__StackPath, frontRepo)
+  post(gongbasicfielddb: GongBasicFieldAPI, Name: string, frontRepo: FrontRepo): Observable<GongBasicFieldAPI> {
+    return this.postGongBasicField(gongbasicfielddb, Name, frontRepo)
   }
-  postGongBasicField(gongbasicfielddb: GongBasicFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongBasicFieldAPI> {
+  postGongBasicField(gongbasicfielddb: GongBasicFieldAPI, Name: string, frontRepo: FrontRepo): Observable<GongBasicFieldAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class GongBasicFieldService {
   }
 
   /** DELETE: delete the gongbasicfielddb from the server */
-  delete(gongbasicfielddb: GongBasicFieldAPI | number, GONG__StackPath: string): Observable<GongBasicFieldAPI> {
-    return this.deleteGongBasicField(gongbasicfielddb, GONG__StackPath)
+  delete(gongbasicfielddb: GongBasicFieldAPI | number, Name: string): Observable<GongBasicFieldAPI> {
+    return this.deleteGongBasicField(gongbasicfielddb, Name)
   }
-  deleteGongBasicField(gongbasicfielddb: GongBasicFieldAPI | number, GONG__StackPath: string): Observable<GongBasicFieldAPI> {
+  deleteGongBasicField(gongbasicfielddb: GongBasicFieldAPI | number, Name: string): Observable<GongBasicFieldAPI> {
     const id = typeof gongbasicfielddb === 'number' ? gongbasicfielddb : gongbasicfielddb.ID;
     const url = `${this.gongbasicfieldsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class GongBasicFieldService {
   }
 
   // updateFront copy gongbasicfield to a version with encoded pointers and update to the back
-  updateFront(gongbasicfield: GongBasicField, GONG__StackPath: string): Observable<GongBasicFieldAPI> {
+  updateFront(gongbasicfield: GongBasicField, Name: string): Observable<GongBasicFieldAPI> {
     let gongbasicfieldAPI = new GongBasicFieldAPI
     CopyGongBasicFieldToGongBasicFieldAPI(gongbasicfield, gongbasicfieldAPI)
     const id = typeof gongbasicfieldAPI === 'number' ? gongbasicfieldAPI : gongbasicfieldAPI.ID
     const url = `${this.gongbasicfieldsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class GongBasicFieldService {
   }
 
   /** PUT: update the gongbasicfielddb on the server */
-  update(gongbasicfielddb: GongBasicFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongBasicFieldAPI> {
-    return this.updateGongBasicField(gongbasicfielddb, GONG__StackPath, frontRepo)
+  update(gongbasicfielddb: GongBasicFieldAPI, Name: string, frontRepo: FrontRepo): Observable<GongBasicFieldAPI> {
+    return this.updateGongBasicField(gongbasicfielddb, Name, frontRepo)
   }
-  updateGongBasicField(gongbasicfielddb: GongBasicFieldAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongBasicFieldAPI> {
+  updateGongBasicField(gongbasicfielddb: GongBasicFieldAPI, Name: string, frontRepo: FrontRepo): Observable<GongBasicFieldAPI> {
     const id = typeof gongbasicfielddb === 'number' ? gongbasicfielddb : gongbasicfielddb.ID;
     const url = `${this.gongbasicfieldsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

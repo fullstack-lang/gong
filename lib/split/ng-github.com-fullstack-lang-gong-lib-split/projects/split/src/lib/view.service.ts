@@ -47,12 +47,12 @@ export class ViewService {
 
   /** GET views from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<ViewAPI[]> {
-    return this.getViews(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<ViewAPI[]> {
+    return this.getViews(Name, frontRepo)
   }
-  getViews(GONG__StackPath: string, frontRepo: FrontRepo): Observable<ViewAPI[]> {
+  getViews(Name: string, frontRepo: FrontRepo): Observable<ViewAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<ViewAPI[]>(this.viewsUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class ViewService {
 
   /** GET view by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ViewAPI> {
-    return this.getView(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<ViewAPI> {
+    return this.getView(id, Name, frontRepo)
   }
-  getView(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ViewAPI> {
+  getView(id: number, Name: string, frontRepo: FrontRepo): Observable<ViewAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.viewsUrl}/${id}`;
     return this.http.get<ViewAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class ViewService {
   }
 
   // postFront copy view to a version with encoded pointers and post to the back
-  postFront(view: View, GONG__StackPath: string): Observable<ViewAPI> {
+  postFront(view: View, Name: string): Observable<ViewAPI> {
     let viewAPI = new ViewAPI
     CopyViewToViewAPI(view, viewAPI)
     const id = typeof viewAPI === 'number' ? viewAPI : viewAPI.ID
     const url = `${this.viewsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class ViewService {
   }
   
   /** POST: add a new view to the server */
-  post(viewdb: ViewAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ViewAPI> {
-    return this.postView(viewdb, GONG__StackPath, frontRepo)
+  post(viewdb: ViewAPI, Name: string, frontRepo: FrontRepo): Observable<ViewAPI> {
+    return this.postView(viewdb, Name, frontRepo)
   }
-  postView(viewdb: ViewAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ViewAPI> {
+  postView(viewdb: ViewAPI, Name: string, frontRepo: FrontRepo): Observable<ViewAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class ViewService {
   }
 
   /** DELETE: delete the viewdb from the server */
-  delete(viewdb: ViewAPI | number, GONG__StackPath: string): Observable<ViewAPI> {
-    return this.deleteView(viewdb, GONG__StackPath)
+  delete(viewdb: ViewAPI | number, Name: string): Observable<ViewAPI> {
+    return this.deleteView(viewdb, Name)
   }
-  deleteView(viewdb: ViewAPI | number, GONG__StackPath: string): Observable<ViewAPI> {
+  deleteView(viewdb: ViewAPI | number, Name: string): Observable<ViewAPI> {
     const id = typeof viewdb === 'number' ? viewdb : viewdb.ID;
     const url = `${this.viewsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class ViewService {
   }
 
   // updateFront copy view to a version with encoded pointers and update to the back
-  updateFront(view: View, GONG__StackPath: string): Observable<ViewAPI> {
+  updateFront(view: View, Name: string): Observable<ViewAPI> {
     let viewAPI = new ViewAPI
     CopyViewToViewAPI(view, viewAPI)
     const id = typeof viewAPI === 'number' ? viewAPI : viewAPI.ID
     const url = `${this.viewsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class ViewService {
   }
 
   /** PUT: update the viewdb on the server */
-  update(viewdb: ViewAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ViewAPI> {
-    return this.updateView(viewdb, GONG__StackPath, frontRepo)
+  update(viewdb: ViewAPI, Name: string, frontRepo: FrontRepo): Observable<ViewAPI> {
+    return this.updateView(viewdb, Name, frontRepo)
   }
-  updateView(viewdb: ViewAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ViewAPI> {
+  updateView(viewdb: ViewAPI, Name: string, frontRepo: FrontRepo): Observable<ViewAPI> {
     const id = typeof viewdb === 'number' ? viewdb : viewdb.ID;
     const url = `${this.viewsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

@@ -19,7 +19,7 @@ import { UntypedFormControl } from '@angular/forms';
 })
 export class XlsxSpecificComponent {
 
-  @Input() GONG__StackPath: string = ""
+  @Input() Name: string = ""
 
   // tabs to select the xl file
   tabsForFile = new Array<string>();
@@ -59,7 +59,7 @@ export class XlsxSpecificComponent {
   }
 
   displaySelectedSheet() {
-    this.gongxlsxFrontRepoService.pull(this.GONG__StackPath).subscribe(
+    this.gongxlsxFrontRepoService.pull(this.Name).subscribe(
       gongxlsxsFrontRepo => {
 
         // reset tabs and create one tab per XL file

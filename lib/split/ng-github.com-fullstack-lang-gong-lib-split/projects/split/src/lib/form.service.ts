@@ -46,12 +46,12 @@ export class FormService {
 
   /** GET forms from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormAPI[]> {
-    return this.getForms(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<FormAPI[]> {
+    return this.getForms(Name, frontRepo)
   }
-  getForms(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormAPI[]> {
+  getForms(Name: string, frontRepo: FrontRepo): Observable<FormAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<FormAPI[]>(this.formsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class FormService {
 
   /** GET form by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormAPI> {
-    return this.getForm(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<FormAPI> {
+    return this.getForm(id, Name, frontRepo)
   }
-  getForm(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormAPI> {
+  getForm(id: number, Name: string, frontRepo: FrontRepo): Observable<FormAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.formsUrl}/${id}`;
     return this.http.get<FormAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class FormService {
   }
 
   // postFront copy form to a version with encoded pointers and post to the back
-  postFront(form: Form, GONG__StackPath: string): Observable<FormAPI> {
+  postFront(form: Form, Name: string): Observable<FormAPI> {
     let formAPI = new FormAPI
     CopyFormToFormAPI(form, formAPI)
     const id = typeof formAPI === 'number' ? formAPI : formAPI.ID
     const url = `${this.formsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class FormService {
   }
   
   /** POST: add a new form to the server */
-  post(formdb: FormAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormAPI> {
-    return this.postForm(formdb, GONG__StackPath, frontRepo)
+  post(formdb: FormAPI, Name: string, frontRepo: FrontRepo): Observable<FormAPI> {
+    return this.postForm(formdb, Name, frontRepo)
   }
-  postForm(formdb: FormAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormAPI> {
+  postForm(formdb: FormAPI, Name: string, frontRepo: FrontRepo): Observable<FormAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class FormService {
   }
 
   /** DELETE: delete the formdb from the server */
-  delete(formdb: FormAPI | number, GONG__StackPath: string): Observable<FormAPI> {
-    return this.deleteForm(formdb, GONG__StackPath)
+  delete(formdb: FormAPI | number, Name: string): Observable<FormAPI> {
+    return this.deleteForm(formdb, Name)
   }
-  deleteForm(formdb: FormAPI | number, GONG__StackPath: string): Observable<FormAPI> {
+  deleteForm(formdb: FormAPI | number, Name: string): Observable<FormAPI> {
     const id = typeof formdb === 'number' ? formdb : formdb.ID;
     const url = `${this.formsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class FormService {
   }
 
   // updateFront copy form to a version with encoded pointers and update to the back
-  updateFront(form: Form, GONG__StackPath: string): Observable<FormAPI> {
+  updateFront(form: Form, Name: string): Observable<FormAPI> {
     let formAPI = new FormAPI
     CopyFormToFormAPI(form, formAPI)
     const id = typeof formAPI === 'number' ? formAPI : formAPI.ID
     const url = `${this.formsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class FormService {
   }
 
   /** PUT: update the formdb on the server */
-  update(formdb: FormAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormAPI> {
-    return this.updateForm(formdb, GONG__StackPath, frontRepo)
+  update(formdb: FormAPI, Name: string, frontRepo: FrontRepo): Observable<FormAPI> {
+    return this.updateForm(formdb, Name, frontRepo)
   }
-  updateForm(formdb: FormAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormAPI> {
+  updateForm(formdb: FormAPI, Name: string, frontRepo: FrontRepo): Observable<FormAPI> {
     const id = typeof formdb === 'number' ? formdb : formdb.ID;
     const url = `${this.formsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

@@ -44,7 +44,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   styleUrl: './form-specific.component.css'
 })
 export class FormSpecificComponent {
-  @Input() DataStack: string = ""
+  @Input() Name: string = ""
 
   // within the same stack, there can be multiple form. This one is the form to display
   @Input() FormName: string = ""
@@ -93,7 +93,7 @@ export class FormSpecificComponent {
 
   ngOnInit(): void {
 
-    this.gongtableFrontRepoService.connectToWebSocket(this.DataStack).subscribe(
+    this.gongtableFrontRepoService.connectToWebSocket(this.Name).subscribe(
       gongtablesFrontRepo => {
         this.gongtableFrontRepo = gongtablesFrontRepo
 
@@ -222,7 +222,7 @@ export class FormSpecificComponent {
             if (newValue != formFieldString.Value) {
 
               formFieldString.Value = newValue
-              promises.push(this.formFieldStringService.updateFront(formFieldString, this.DataStack))
+              promises.push(this.formFieldStringService.updateFront(formFieldString, this.Name))
             }
           }
           if (formField.FormFieldInt) {
@@ -232,7 +232,7 @@ export class FormSpecificComponent {
             if (newValue != formFieldInt.Value) {
 
               formFieldInt.Value = newValue
-              promises.push(this.formFieldIntService.updateFront(formFieldInt, this.DataStack))
+              promises.push(this.formFieldIntService.updateFront(formFieldInt, this.Name))
             }
           }
           if (formField.FormFieldFloat64) {
@@ -242,7 +242,7 @@ export class FormSpecificComponent {
             if (newValue != formFieldFlFormFieldFloat64.Value) {
 
               formFieldFlFormFieldFloat64.Value = newValue
-              promises.push(this.formFieldFloat64Service.updateFront(formFieldFlFormFieldFloat64, this.DataStack))
+              promises.push(this.formFieldFloat64Service.updateFront(formFieldFlFormFieldFloat64, this.Name))
             }
           }
           if (formField.FormFieldDate) {
@@ -273,7 +273,7 @@ export class FormSpecificComponent {
 
             if (!isSameDay(inputDate, comparisonDate)) {
               formFieldDate.Value = dateObject;
-              promises.push(this.formFieldDateService.updateFront(formFieldDate, this.DataStack))
+              promises.push(this.formFieldDateService.updateFront(formFieldDate, this.Name))
             }
 
           }
@@ -288,7 +288,7 @@ export class FormSpecificComponent {
 
             if (date.getTime() != new Date(formFieldTime.Value).getTime()) {
               formFieldTime.Value = date
-              promises.push(this.formFieldTimeService.updateFront(formFieldTime, this.DataStack))
+              promises.push(this.formFieldTimeService.updateFront(formFieldTime, this.Name))
             }
           }
           if (formField.FormFieldDateTime) {
@@ -298,7 +298,7 @@ export class FormSpecificComponent {
 
             if (newValue != formFieldDateTime.Value) {
               formFieldDateTime.Value = newValue
-              promises.push(this.formFieldDateTimeService.updateFront(formFieldDateTime, this.DataStack))
+              promises.push(this.formFieldDateTimeService.updateFront(formFieldDateTime, this.Name))
             }
           }
           if (formField.FormFieldSelect) {
@@ -319,7 +319,7 @@ export class FormSpecificComponent {
                   }
                 }
               }
-              promises.push(this.formFieldSelectService.updateFront(formFieldSelect, this.DataStack))
+              promises.push(this.formFieldSelectService.updateFront(formFieldSelect, this.Name))
             }
           }
         }
@@ -329,7 +329,7 @@ export class FormSpecificComponent {
           let newValue = this.angularFormGroup.value[checkBox.Name] as boolean
           if (newValue != checkBox.Value) {
             checkBox.Value = newValue
-            promises.push(this.checkBoxService.updateFront(checkBox, this.DataStack))
+            promises.push(this.checkBoxService.updateFront(checkBox, this.Name))
           }
         }
       }
@@ -338,7 +338,7 @@ export class FormSpecificComponent {
     // wait till all promises are completed to update the form group itself
     forkJoin(promises).subscribe(
       () => {
-        this.formGroupService.updateFront(this.selectedFormGroup!, this.DataStack).subscribe(
+        this.formGroupService.updateFront(this.selectedFormGroup!, this.Name).subscribe(
           () => {
 
             // a refresh is necessary to redeem all associations
@@ -349,7 +349,7 @@ export class FormSpecificComponent {
     )
 
     if (promises.length == 0) {
-      this.formGroupService.updateFront(this.selectedFormGroup!, this.DataStack).subscribe(
+      this.formGroupService.updateFront(this.selectedFormGroup!, this.Name).subscribe(
         () => {
           // a refresh is necessary to redeem all associations
           // this.refresh()
@@ -379,14 +379,14 @@ export class FormSpecificComponent {
       if (formDiv.FormEditAssocButton) {
         if (formDiv.FormEditAssocButton.Name == fieldName) {
 
-          this.formEditAssocButtonService.updateFront(formDiv.FormEditAssocButton, this.DataStack).subscribe(
+          this.formEditAssocButtonService.updateFront(formDiv.FormEditAssocButton, this.Name).subscribe(
             () => {
               console.log("assoc button updated")
 
               // when the association button is pressed
               this.dialog.open(TableSpecificComponent, {
                 data: {
-                  DataStack: this.DataStack + table.TableExtraPathEnum.StackNamePostFixForTableForAssociation,
+                  Name: this.Name + table.TableExtraPathEnum.StackNamePostFixForTableForAssociation,
                   TableName: table.TableExtraNameEnum.TableSelectExtraName
                 },
               });
@@ -417,14 +417,14 @@ export class FormSpecificComponent {
       if (formDiv.FormSortAssocButton) {
         if (formDiv.FormSortAssocButton.Name == fieldName) {
 
-          this.formSortAssocButtonService.updateFront(formDiv.FormSortAssocButton, this.DataStack).subscribe(
+          this.formSortAssocButtonService.updateFront(formDiv.FormSortAssocButton, this.Name).subscribe(
             () => {
               console.log("sort button updated")
 
               // when the association button is pressed
               this.dialog.open(TableSpecificComponent, {
                 data: {
-                  DataStack: this.DataStack + table.TableExtraPathEnum.StackNamePostFixForTableForAssociationSorting,
+                  Name: this.Name + table.TableExtraPathEnum.StackNamePostFixForTableForAssociationSorting,
                   TableName: table.TableExtraNameEnum.TableSortExtraName
                 },
               });
@@ -457,7 +457,7 @@ export class FormSpecificComponent {
         }
         this.selectedFormGroup.HasSuppressButtonBeenPressed = true
         this.formGroupService.updateFront(
-          this.selectedFormGroup, this.DataStack).subscribe(
+          this.selectedFormGroup, this.Name).subscribe(
             () => {
 
             }

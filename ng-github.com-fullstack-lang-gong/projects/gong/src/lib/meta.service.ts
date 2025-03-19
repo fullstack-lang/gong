@@ -47,12 +47,12 @@ export class MetaService {
 
   /** GET metas from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaAPI[]> {
-    return this.getMetas(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<MetaAPI[]> {
+    return this.getMetas(Name, frontRepo)
   }
-  getMetas(GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaAPI[]> {
+  getMetas(Name: string, frontRepo: FrontRepo): Observable<MetaAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<MetaAPI[]>(this.metasUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class MetaService {
 
   /** GET meta by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaAPI> {
-    return this.getMeta(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<MetaAPI> {
+    return this.getMeta(id, Name, frontRepo)
   }
-  getMeta(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaAPI> {
+  getMeta(id: number, Name: string, frontRepo: FrontRepo): Observable<MetaAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.metasUrl}/${id}`;
     return this.http.get<MetaAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class MetaService {
   }
 
   // postFront copy meta to a version with encoded pointers and post to the back
-  postFront(meta: Meta, GONG__StackPath: string): Observable<MetaAPI> {
+  postFront(meta: Meta, Name: string): Observable<MetaAPI> {
     let metaAPI = new MetaAPI
     CopyMetaToMetaAPI(meta, metaAPI)
     const id = typeof metaAPI === 'number' ? metaAPI : metaAPI.ID
     const url = `${this.metasUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class MetaService {
   }
   
   /** POST: add a new meta to the server */
-  post(metadb: MetaAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaAPI> {
-    return this.postMeta(metadb, GONG__StackPath, frontRepo)
+  post(metadb: MetaAPI, Name: string, frontRepo: FrontRepo): Observable<MetaAPI> {
+    return this.postMeta(metadb, Name, frontRepo)
   }
-  postMeta(metadb: MetaAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaAPI> {
+  postMeta(metadb: MetaAPI, Name: string, frontRepo: FrontRepo): Observable<MetaAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class MetaService {
   }
 
   /** DELETE: delete the metadb from the server */
-  delete(metadb: MetaAPI | number, GONG__StackPath: string): Observable<MetaAPI> {
-    return this.deleteMeta(metadb, GONG__StackPath)
+  delete(metadb: MetaAPI | number, Name: string): Observable<MetaAPI> {
+    return this.deleteMeta(metadb, Name)
   }
-  deleteMeta(metadb: MetaAPI | number, GONG__StackPath: string): Observable<MetaAPI> {
+  deleteMeta(metadb: MetaAPI | number, Name: string): Observable<MetaAPI> {
     const id = typeof metadb === 'number' ? metadb : metadb.ID;
     const url = `${this.metasUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class MetaService {
   }
 
   // updateFront copy meta to a version with encoded pointers and update to the back
-  updateFront(meta: Meta, GONG__StackPath: string): Observable<MetaAPI> {
+  updateFront(meta: Meta, Name: string): Observable<MetaAPI> {
     let metaAPI = new MetaAPI
     CopyMetaToMetaAPI(meta, metaAPI)
     const id = typeof metaAPI === 'number' ? metaAPI : metaAPI.ID
     const url = `${this.metasUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class MetaService {
   }
 
   /** PUT: update the metadb on the server */
-  update(metadb: MetaAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaAPI> {
-    return this.updateMeta(metadb, GONG__StackPath, frontRepo)
+  update(metadb: MetaAPI, Name: string, frontRepo: FrontRepo): Observable<MetaAPI> {
+    return this.updateMeta(metadb, Name, frontRepo)
   }
-  updateMeta(metadb: MetaAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaAPI> {
+  updateMeta(metadb: MetaAPI, Name: string, frontRepo: FrontRepo): Observable<MetaAPI> {
     const id = typeof metadb === 'number' ? metadb : metadb.ID;
     const url = `${this.metasUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

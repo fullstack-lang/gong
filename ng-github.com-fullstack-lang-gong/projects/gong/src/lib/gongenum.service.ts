@@ -47,12 +47,12 @@ export class GongEnumService {
 
   /** GET gongenums from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumAPI[]> {
-    return this.getGongEnums(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<GongEnumAPI[]> {
+    return this.getGongEnums(Name, frontRepo)
   }
-  getGongEnums(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumAPI[]> {
+  getGongEnums(Name: string, frontRepo: FrontRepo): Observable<GongEnumAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<GongEnumAPI[]>(this.gongenumsUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class GongEnumService {
 
   /** GET gongenum by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumAPI> {
-    return this.getGongEnum(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<GongEnumAPI> {
+    return this.getGongEnum(id, Name, frontRepo)
   }
-  getGongEnum(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumAPI> {
+  getGongEnum(id: number, Name: string, frontRepo: FrontRepo): Observable<GongEnumAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.gongenumsUrl}/${id}`;
     return this.http.get<GongEnumAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class GongEnumService {
   }
 
   // postFront copy gongenum to a version with encoded pointers and post to the back
-  postFront(gongenum: GongEnum, GONG__StackPath: string): Observable<GongEnumAPI> {
+  postFront(gongenum: GongEnum, Name: string): Observable<GongEnumAPI> {
     let gongenumAPI = new GongEnumAPI
     CopyGongEnumToGongEnumAPI(gongenum, gongenumAPI)
     const id = typeof gongenumAPI === 'number' ? gongenumAPI : gongenumAPI.ID
     const url = `${this.gongenumsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class GongEnumService {
   }
   
   /** POST: add a new gongenum to the server */
-  post(gongenumdb: GongEnumAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumAPI> {
-    return this.postGongEnum(gongenumdb, GONG__StackPath, frontRepo)
+  post(gongenumdb: GongEnumAPI, Name: string, frontRepo: FrontRepo): Observable<GongEnumAPI> {
+    return this.postGongEnum(gongenumdb, Name, frontRepo)
   }
-  postGongEnum(gongenumdb: GongEnumAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumAPI> {
+  postGongEnum(gongenumdb: GongEnumAPI, Name: string, frontRepo: FrontRepo): Observable<GongEnumAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class GongEnumService {
   }
 
   /** DELETE: delete the gongenumdb from the server */
-  delete(gongenumdb: GongEnumAPI | number, GONG__StackPath: string): Observable<GongEnumAPI> {
-    return this.deleteGongEnum(gongenumdb, GONG__StackPath)
+  delete(gongenumdb: GongEnumAPI | number, Name: string): Observable<GongEnumAPI> {
+    return this.deleteGongEnum(gongenumdb, Name)
   }
-  deleteGongEnum(gongenumdb: GongEnumAPI | number, GONG__StackPath: string): Observable<GongEnumAPI> {
+  deleteGongEnum(gongenumdb: GongEnumAPI | number, Name: string): Observable<GongEnumAPI> {
     const id = typeof gongenumdb === 'number' ? gongenumdb : gongenumdb.ID;
     const url = `${this.gongenumsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class GongEnumService {
   }
 
   // updateFront copy gongenum to a version with encoded pointers and update to the back
-  updateFront(gongenum: GongEnum, GONG__StackPath: string): Observable<GongEnumAPI> {
+  updateFront(gongenum: GongEnum, Name: string): Observable<GongEnumAPI> {
     let gongenumAPI = new GongEnumAPI
     CopyGongEnumToGongEnumAPI(gongenum, gongenumAPI)
     const id = typeof gongenumAPI === 'number' ? gongenumAPI : gongenumAPI.ID
     const url = `${this.gongenumsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class GongEnumService {
   }
 
   /** PUT: update the gongenumdb on the server */
-  update(gongenumdb: GongEnumAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumAPI> {
-    return this.updateGongEnum(gongenumdb, GONG__StackPath, frontRepo)
+  update(gongenumdb: GongEnumAPI, Name: string, frontRepo: FrontRepo): Observable<GongEnumAPI> {
+    return this.updateGongEnum(gongenumdb, Name, frontRepo)
   }
-  updateGongEnum(gongenumdb: GongEnumAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumAPI> {
+  updateGongEnum(gongenumdb: GongEnumAPI, Name: string, frontRepo: FrontRepo): Observable<GongEnumAPI> {
     const id = typeof gongenumdb === 'number' ? gongenumdb : gongenumdb.ID;
     const url = `${this.gongenumsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

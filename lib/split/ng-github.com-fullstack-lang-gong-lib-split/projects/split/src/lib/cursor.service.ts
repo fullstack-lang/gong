@@ -46,12 +46,12 @@ export class CursorService {
 
   /** GET cursors from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CursorAPI[]> {
-    return this.getCursors(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<CursorAPI[]> {
+    return this.getCursors(Name, frontRepo)
   }
-  getCursors(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CursorAPI[]> {
+  getCursors(Name: string, frontRepo: FrontRepo): Observable<CursorAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<CursorAPI[]>(this.cursorsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class CursorService {
 
   /** GET cursor by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CursorAPI> {
-    return this.getCursor(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<CursorAPI> {
+    return this.getCursor(id, Name, frontRepo)
   }
-  getCursor(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CursorAPI> {
+  getCursor(id: number, Name: string, frontRepo: FrontRepo): Observable<CursorAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.cursorsUrl}/${id}`;
     return this.http.get<CursorAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class CursorService {
   }
 
   // postFront copy cursor to a version with encoded pointers and post to the back
-  postFront(cursor: Cursor, GONG__StackPath: string): Observable<CursorAPI> {
+  postFront(cursor: Cursor, Name: string): Observable<CursorAPI> {
     let cursorAPI = new CursorAPI
     CopyCursorToCursorAPI(cursor, cursorAPI)
     const id = typeof cursorAPI === 'number' ? cursorAPI : cursorAPI.ID
     const url = `${this.cursorsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class CursorService {
   }
   
   /** POST: add a new cursor to the server */
-  post(cursordb: CursorAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CursorAPI> {
-    return this.postCursor(cursordb, GONG__StackPath, frontRepo)
+  post(cursordb: CursorAPI, Name: string, frontRepo: FrontRepo): Observable<CursorAPI> {
+    return this.postCursor(cursordb, Name, frontRepo)
   }
-  postCursor(cursordb: CursorAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CursorAPI> {
+  postCursor(cursordb: CursorAPI, Name: string, frontRepo: FrontRepo): Observable<CursorAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class CursorService {
   }
 
   /** DELETE: delete the cursordb from the server */
-  delete(cursordb: CursorAPI | number, GONG__StackPath: string): Observable<CursorAPI> {
-    return this.deleteCursor(cursordb, GONG__StackPath)
+  delete(cursordb: CursorAPI | number, Name: string): Observable<CursorAPI> {
+    return this.deleteCursor(cursordb, Name)
   }
-  deleteCursor(cursordb: CursorAPI | number, GONG__StackPath: string): Observable<CursorAPI> {
+  deleteCursor(cursordb: CursorAPI | number, Name: string): Observable<CursorAPI> {
     const id = typeof cursordb === 'number' ? cursordb : cursordb.ID;
     const url = `${this.cursorsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class CursorService {
   }
 
   // updateFront copy cursor to a version with encoded pointers and update to the back
-  updateFront(cursor: Cursor, GONG__StackPath: string): Observable<CursorAPI> {
+  updateFront(cursor: Cursor, Name: string): Observable<CursorAPI> {
     let cursorAPI = new CursorAPI
     CopyCursorToCursorAPI(cursor, cursorAPI)
     const id = typeof cursorAPI === 'number' ? cursorAPI : cursorAPI.ID
     const url = `${this.cursorsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class CursorService {
   }
 
   /** PUT: update the cursordb on the server */
-  update(cursordb: CursorAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CursorAPI> {
-    return this.updateCursor(cursordb, GONG__StackPath, frontRepo)
+  update(cursordb: CursorAPI, Name: string, frontRepo: FrontRepo): Observable<CursorAPI> {
+    return this.updateCursor(cursordb, Name, frontRepo)
   }
-  updateCursor(cursordb: CursorAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CursorAPI> {
+  updateCursor(cursordb: CursorAPI, Name: string, frontRepo: FrontRepo): Observable<CursorAPI> {
     const id = typeof cursordb === 'number' ? cursordb : cursordb.ID;
     const url = `${this.cursorsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

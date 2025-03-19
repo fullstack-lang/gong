@@ -16,7 +16,7 @@ import { SvgSpecificComponent } from '../../../../../../../svg/ng-github.com-ful
 export class GanttSpecificComponent {
 
 
-  @Input() GONG__StackPath: string = ""
+  @Input() Name: string = ""
 
 
   SvgStackName = gantt.GanttStacksNames.SvgStackName

@@ -46,12 +46,12 @@ export class MetaReferenceService {
 
   /** GET metareferences from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI[]> {
-    return this.getMetaReferences(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI[]> {
+    return this.getMetaReferences(Name, frontRepo)
   }
-  getMetaReferences(GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI[]> {
+  getMetaReferences(Name: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<MetaReferenceAPI[]>(this.metareferencesUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class MetaReferenceService {
 
   /** GET metareference by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI> {
-    return this.getMetaReference(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI> {
+    return this.getMetaReference(id, Name, frontRepo)
   }
-  getMetaReference(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI> {
+  getMetaReference(id: number, Name: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.metareferencesUrl}/${id}`;
     return this.http.get<MetaReferenceAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class MetaReferenceService {
   }
 
   // postFront copy metareference to a version with encoded pointers and post to the back
-  postFront(metareference: MetaReference, GONG__StackPath: string): Observable<MetaReferenceAPI> {
+  postFront(metareference: MetaReference, Name: string): Observable<MetaReferenceAPI> {
     let metareferenceAPI = new MetaReferenceAPI
     CopyMetaReferenceToMetaReferenceAPI(metareference, metareferenceAPI)
     const id = typeof metareferenceAPI === 'number' ? metareferenceAPI : metareferenceAPI.ID
     const url = `${this.metareferencesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class MetaReferenceService {
   }
   
   /** POST: add a new metareference to the server */
-  post(metareferencedb: MetaReferenceAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI> {
-    return this.postMetaReference(metareferencedb, GONG__StackPath, frontRepo)
+  post(metareferencedb: MetaReferenceAPI, Name: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI> {
+    return this.postMetaReference(metareferencedb, Name, frontRepo)
   }
-  postMetaReference(metareferencedb: MetaReferenceAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI> {
+  postMetaReference(metareferencedb: MetaReferenceAPI, Name: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class MetaReferenceService {
   }
 
   /** DELETE: delete the metareferencedb from the server */
-  delete(metareferencedb: MetaReferenceAPI | number, GONG__StackPath: string): Observable<MetaReferenceAPI> {
-    return this.deleteMetaReference(metareferencedb, GONG__StackPath)
+  delete(metareferencedb: MetaReferenceAPI | number, Name: string): Observable<MetaReferenceAPI> {
+    return this.deleteMetaReference(metareferencedb, Name)
   }
-  deleteMetaReference(metareferencedb: MetaReferenceAPI | number, GONG__StackPath: string): Observable<MetaReferenceAPI> {
+  deleteMetaReference(metareferencedb: MetaReferenceAPI | number, Name: string): Observable<MetaReferenceAPI> {
     const id = typeof metareferencedb === 'number' ? metareferencedb : metareferencedb.ID;
     const url = `${this.metareferencesUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class MetaReferenceService {
   }
 
   // updateFront copy metareference to a version with encoded pointers and update to the back
-  updateFront(metareference: MetaReference, GONG__StackPath: string): Observable<MetaReferenceAPI> {
+  updateFront(metareference: MetaReference, Name: string): Observable<MetaReferenceAPI> {
     let metareferenceAPI = new MetaReferenceAPI
     CopyMetaReferenceToMetaReferenceAPI(metareference, metareferenceAPI)
     const id = typeof metareferenceAPI === 'number' ? metareferenceAPI : metareferenceAPI.ID
     const url = `${this.metareferencesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class MetaReferenceService {
   }
 
   /** PUT: update the metareferencedb on the server */
-  update(metareferencedb: MetaReferenceAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI> {
-    return this.updateMetaReference(metareferencedb, GONG__StackPath, frontRepo)
+  update(metareferencedb: MetaReferenceAPI, Name: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI> {
+    return this.updateMetaReference(metareferencedb, Name, frontRepo)
   }
-  updateMetaReference(metareferencedb: MetaReferenceAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI> {
+  updateMetaReference(metareferencedb: MetaReferenceAPI, Name: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI> {
     const id = typeof metareferencedb === 'number' ? metareferencedb : metareferencedb.ID;
     const url = `${this.metareferencesUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

@@ -46,12 +46,12 @@ export class SliderService {
 
   /** GET sliders from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliderAPI[]> {
-    return this.getSliders(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<SliderAPI[]> {
+    return this.getSliders(Name, frontRepo)
   }
-  getSliders(GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliderAPI[]> {
+  getSliders(Name: string, frontRepo: FrontRepo): Observable<SliderAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<SliderAPI[]>(this.slidersUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class SliderService {
 
   /** GET slider by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliderAPI> {
-    return this.getSlider(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<SliderAPI> {
+    return this.getSlider(id, Name, frontRepo)
   }
-  getSlider(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliderAPI> {
+  getSlider(id: number, Name: string, frontRepo: FrontRepo): Observable<SliderAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.slidersUrl}/${id}`;
     return this.http.get<SliderAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class SliderService {
   }
 
   // postFront copy slider to a version with encoded pointers and post to the back
-  postFront(slider: Slider, GONG__StackPath: string): Observable<SliderAPI> {
+  postFront(slider: Slider, Name: string): Observable<SliderAPI> {
     let sliderAPI = new SliderAPI
     CopySliderToSliderAPI(slider, sliderAPI)
     const id = typeof sliderAPI === 'number' ? sliderAPI : sliderAPI.ID
     const url = `${this.slidersUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class SliderService {
   }
   
   /** POST: add a new slider to the server */
-  post(sliderdb: SliderAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliderAPI> {
-    return this.postSlider(sliderdb, GONG__StackPath, frontRepo)
+  post(sliderdb: SliderAPI, Name: string, frontRepo: FrontRepo): Observable<SliderAPI> {
+    return this.postSlider(sliderdb, Name, frontRepo)
   }
-  postSlider(sliderdb: SliderAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliderAPI> {
+  postSlider(sliderdb: SliderAPI, Name: string, frontRepo: FrontRepo): Observable<SliderAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class SliderService {
   }
 
   /** DELETE: delete the sliderdb from the server */
-  delete(sliderdb: SliderAPI | number, GONG__StackPath: string): Observable<SliderAPI> {
-    return this.deleteSlider(sliderdb, GONG__StackPath)
+  delete(sliderdb: SliderAPI | number, Name: string): Observable<SliderAPI> {
+    return this.deleteSlider(sliderdb, Name)
   }
-  deleteSlider(sliderdb: SliderAPI | number, GONG__StackPath: string): Observable<SliderAPI> {
+  deleteSlider(sliderdb: SliderAPI | number, Name: string): Observable<SliderAPI> {
     const id = typeof sliderdb === 'number' ? sliderdb : sliderdb.ID;
     const url = `${this.slidersUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class SliderService {
   }
 
   // updateFront copy slider to a version with encoded pointers and update to the back
-  updateFront(slider: Slider, GONG__StackPath: string): Observable<SliderAPI> {
+  updateFront(slider: Slider, Name: string): Observable<SliderAPI> {
     let sliderAPI = new SliderAPI
     CopySliderToSliderAPI(slider, sliderAPI)
     const id = typeof sliderAPI === 'number' ? sliderAPI : sliderAPI.ID
     const url = `${this.slidersUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class SliderService {
   }
 
   /** PUT: update the sliderdb on the server */
-  update(sliderdb: SliderAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliderAPI> {
-    return this.updateSlider(sliderdb, GONG__StackPath, frontRepo)
+  update(sliderdb: SliderAPI, Name: string, frontRepo: FrontRepo): Observable<SliderAPI> {
+    return this.updateSlider(sliderdb, Name, frontRepo)
   }
-  updateSlider(sliderdb: SliderAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SliderAPI> {
+  updateSlider(sliderdb: SliderAPI, Name: string, frontRepo: FrontRepo): Observable<SliderAPI> {
     const id = typeof sliderdb === 'number' ? sliderdb : sliderdb.ID;
     const url = `${this.slidersUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
