@@ -35,11 +35,6 @@ type Probe struct {
 	splitStage         *split.StageStruct
 }
 
-const ProbeTreeSidebarSuffix = "-sidebar"
-const ProbeTableSuffix = "-table"
-const ProbeFormSuffix = "-form"
-const ProbeSplitSuffix = "-probe" // for simplicity sake
-
 func NewProbe(
 	r *gin.Engine,
 	goModelsDir embed.FS,
@@ -54,17 +49,17 @@ func NewProbe(
 	gong_models.LoadEmbedded(gongStage, goModelsDir)
 
 	// treeForSelectingDate that is on the sidebar
-	treeStage, _ := gongtree_fullstack.NewStackInstance(r, stackPath+ProbeTreeSidebarSuffix)
+	treeStage, _ := gongtree_fullstack.NewStackInstance(r, stackPath+models.ProbeTreeSidebarSuffix)
 
 	// stage for main table
-	tableStage, _ := gongtable_fullstack.NewStackInstance(r, stackPath+ProbeTableSuffix)
+	tableStage, _ := gongtable_fullstack.NewStackInstance(r, stackPath+models.ProbeTableSuffix)
 	tableStage.Commit()
 
 	// stage for reusable form
-	formStage, _ := gongtable_fullstack.NewStackInstance(r, stackPath+ProbeFormSuffix)
+	formStage, _ := gongtable_fullstack.NewStackInstance(r, stackPath+models.ProbeFormSuffix)
 	formStage.Commit()
 
-	splitStage, _ := gongsplit_fullstack.NewStackInstance(r, stackPath+ProbeSplitSuffix)
+	splitStage, _ := gongsplit_fullstack.NewStackInstance(r, stackPath+models.ProbeSplitSuffix)
 	splitStage.Commit()
 
 	probe = new(Probe)
@@ -101,7 +96,6 @@ func (probe *Probe) GetFormStage() *form.StageStruct {
 	return probe.formStage
 }
 
-
 func updateSplitStage(probe *Probe) {
 
 	probe.splitStage.Reset()
@@ -130,7 +124,7 @@ func updateSplitStage(probe *Probe) {
 
 	tree := (&split.Tree{
 		Name:      "Sidebar",
-		StackName: probe.stackPath + ProbeTreeSidebarSuffix,
+		StackName: probe.stackPath + models.ProbeTreeSidebarSuffix,
 		TreeName:  SideBarTreeName,
 	}).Stage(probe.splitStage)
 	sidebarArea.Tree = tree
@@ -143,7 +137,7 @@ func updateSplitStage(probe *Probe) {
 
 	table := (&split.Table{
 		Name:      "Table",
-		StackName: probe.stackPath + ProbeTableSuffix,
+		StackName: probe.stackPath + models.ProbeTableSuffix,
 		TableName: TableName,
 	}).Stage(probe.splitStage)
 	tableArea.Table = table
@@ -156,7 +150,7 @@ func updateSplitStage(probe *Probe) {
 
 	form := (&split.Form{
 		Name:      "Form",
-		StackName: probe.stackPath + ProbeFormSuffix,
+		StackName: probe.stackPath + models.ProbeFormSuffix,
 		FormName:  FormName,
 	}).Stage(probe.splitStage)
 	formArea.Form = form
@@ -175,4 +169,3 @@ func updateSplitStage(probe *Probe) {
 
 	probe.splitStage.Commit()
 }
-
