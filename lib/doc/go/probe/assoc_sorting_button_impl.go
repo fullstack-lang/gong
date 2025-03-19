@@ -35,7 +35,7 @@ type OnSortingEditon[InstanceType models.PointerToGongstruct, FieldType models.P
 
 func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed() {
 
-	tableStackName := onSortingEditon.probe.formStage.GetPath() +
+	tableStackName := onSortingEditon.probe.formStage.GetName() +
 		string(form.StackNamePostFixForTableForAssociationSorting)
 
 	// tableStackName supposed to be "test-form-table"
