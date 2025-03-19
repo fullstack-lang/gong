@@ -1,12 +1,10 @@
-package angular
-
-const NgFileAppComponentTs = `import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { AngularSplitModule } from 'angular-split';
 
-import * as {{pkgname}} from '../../projects/{{pkgname}}/src/public-api'
+import * as cursor from '../../projects/cursor/src/public-api'
 
-import { {{TitlePkgName}}SpecificComponent } from '../../projects/{{pkgname}}specific/src/lib/{{pkgname}}-specific/{{pkgname}}-specific.component'
+import { CursorSpecificComponent } from '../../projects/cursorspecific/src/lib/cursor-specific/cursor-specific.component'
 
 import { SplitSpecificComponent } from '@vendored_components/github.com/fullstack-lang/gong/lib/split/ng-github.com-fullstack-lang-gong-lib-split/projects/splitspecific/src/lib/split-specific/split-specific.component'
 
@@ -16,7 +14,7 @@ import { SplitSpecificComponent } from '@vendored_components/github.com/fullstac
   imports: [
     AngularSplitModule,
     SplitSpecificComponent,
-    {{TitlePkgName}}SpecificComponent
+    CursorSpecificComponent
   ],
 
   templateUrl: './app.component.html',
@@ -24,4 +22,3 @@ import { SplitSpecificComponent } from '@vendored_components/github.com/fullstac
 export class AppComponent {
 
 }
-`
