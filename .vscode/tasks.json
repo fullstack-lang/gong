@@ -14,48 +14,6 @@
             "group": "build"
         },
         {
-            "label": "00 - go work edit -use gong",
-            "type": "shell",
-            "options": {
-                "cwd": "./"
-            },
-            "command": "go",
-            "args": [
-                "work",
-                "edit",
-                "-use",
-                "gong"
-            ],
-            "group": "build"
-        },
-        {
-            "label": "00 - go work edit -dropuse gong",
-            "type": "shell",
-            "options": {
-                "cwd": "./"
-            },
-            "command": "go",
-            "args": [
-                "work",
-                "edit",
-                "-dropuse",
-                "gong"
-            ],
-            "group": "build"
-        },
-        {
-            "label": "00 - go install gong",
-            "type": "shell",
-            "options": {
-                "cwd": "./go/cmd/gong"
-            },
-            "command": "go",
-            "args": [
-                "install",
-            ],
-            "group": "build"
-        },
-        {
             "label": "04 - go run test",
             "type": "shell",
             "options": {
@@ -155,43 +113,6 @@
                 "reveal": "silent",
                 "panel": "new"
             }
-        },
-        {
-            "label": "00 - go get -d github.com/fullstack-lang/gongdoc@HEAD; go mod tidy; go mod vendor",
-            "type": "shell",
-            "group": "build",
-            "command": "go get -d github.com/fullstack-lang/gongdoc@HEAD; go mod tidy; go mod vendor"
-        },
-        {
-            "label": "00 - go get -d github.com/fullstack-lang/gongtree@HEAD; go mod tidy; go mod vendor",
-            "type": "shell",
-            "group": "build",
-            "command": "go get -d github.com/fullstack-lang/gongtree@HEAD; go mod tidy; go mod vendor"
-        },
-        {
-            "label": "00 - go get -d github.com/fullstack-lang/gongrouter@HEAD; go mod tidy; go mod vendor",
-            "type": "shell",
-            "group": "build",
-            "command": "go get -d github.com/fullstack-lang/gongrouter@HEAD; go mod tidy; go mod vendor"
-        },
-        {
-            "label": "00 - go get -d github.com/fullstack-lang/gongtable@HEAD; go mod tidy; go mod vendor",
-            "type": "shell",
-            "group": "build",
-            "command": "go get -d github.com/fullstack-lang/gongtable@HEAD; go mod tidy; go mod vendor"
-        },
-        {
-            "label": "00 - update dependencies",
-            "type": "shell",
-            "command": "go",
-            "args": [
-                "get",
-                "github.com/fullstack-lang/gongdoc@HEAD",
-                "github.com/fullstack-lang/gongtree@HEAD",
-                "github.com/fullstack-lang/gongtable@HEAD",
-                "github.com/fullstack-lang/gongsvg@HEAD",
-            ],
-            "group": "build"
         },
         {
             "label": "04 - go run test -marshallOnStartup=stage",
@@ -452,6 +373,20 @@
             "type": "shell",
             "options": {
                 "cwd": "${workspaceFolder}/lib/button"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmWorkspaces",
+                "go/models"
+            ]
+        },
+        {
+            "label": "01 - gongc cursor",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/cursor"
             },
             "command": "gongc",
             "group": "build",
