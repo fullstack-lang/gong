@@ -17,6 +17,11 @@ func __Gong__Abs(x int) int {
 	return x
 }
 
+const ProbeTreeSidebarSuffix = "-sidebar"
+const ProbeTableSuffix = "-table"
+const ProbeFormSuffix = "-form"
+const ProbeSplitSuffix = "-probe"
+
 // errUnkownEnum is returns when a value cannot match enum values
 var errUnkownEnum = errors.New("unkown enum")
 
@@ -191,7 +196,7 @@ type StageStruct struct {
 	// map to enable docLink renaming when an identifier is renamed
 	Map_DocLink_Renaming map[string]GONG__Identifier
 	// the to be removed stops here
-	
+
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	Order            uint
@@ -2045,11 +2050,11 @@ func (gongValueField *GongFieldValue) GetValueString() string {
 func (gongValueField *GongFieldValue) GetValueInt() int {
 	return gongValueField.valueInt
 }
-	
+
 func (gongValueField *GongFieldValue) GetValueFloat() float64 {
 	return gongValueField.valueFloat
 }
-	
+
 func (gongValueField *GongFieldValue) GetValueBool() bool {
 	return gongValueField.valueBool
 }
