@@ -46,12 +46,12 @@ export class GongEnumValueService {
 
   /** GET gongenumvalues from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumValueAPI[]> {
-    return this.getGongEnumValues(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<GongEnumValueAPI[]> {
+    return this.getGongEnumValues(Name, frontRepo)
   }
-  getGongEnumValues(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumValueAPI[]> {
+  getGongEnumValues(Name: string, frontRepo: FrontRepo): Observable<GongEnumValueAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<GongEnumValueAPI[]>(this.gongenumvaluesUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class GongEnumValueService {
 
   /** GET gongenumvalue by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumValueAPI> {
-    return this.getGongEnumValue(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<GongEnumValueAPI> {
+    return this.getGongEnumValue(id, Name, frontRepo)
   }
-  getGongEnumValue(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumValueAPI> {
+  getGongEnumValue(id: number, Name: string, frontRepo: FrontRepo): Observable<GongEnumValueAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.gongenumvaluesUrl}/${id}`;
     return this.http.get<GongEnumValueAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class GongEnumValueService {
   }
 
   // postFront copy gongenumvalue to a version with encoded pointers and post to the back
-  postFront(gongenumvalue: GongEnumValue, GONG__StackPath: string): Observable<GongEnumValueAPI> {
+  postFront(gongenumvalue: GongEnumValue, Name: string): Observable<GongEnumValueAPI> {
     let gongenumvalueAPI = new GongEnumValueAPI
     CopyGongEnumValueToGongEnumValueAPI(gongenumvalue, gongenumvalueAPI)
     const id = typeof gongenumvalueAPI === 'number' ? gongenumvalueAPI : gongenumvalueAPI.ID
     const url = `${this.gongenumvaluesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class GongEnumValueService {
   }
   
   /** POST: add a new gongenumvalue to the server */
-  post(gongenumvaluedb: GongEnumValueAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumValueAPI> {
-    return this.postGongEnumValue(gongenumvaluedb, GONG__StackPath, frontRepo)
+  post(gongenumvaluedb: GongEnumValueAPI, Name: string, frontRepo: FrontRepo): Observable<GongEnumValueAPI> {
+    return this.postGongEnumValue(gongenumvaluedb, Name, frontRepo)
   }
-  postGongEnumValue(gongenumvaluedb: GongEnumValueAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumValueAPI> {
+  postGongEnumValue(gongenumvaluedb: GongEnumValueAPI, Name: string, frontRepo: FrontRepo): Observable<GongEnumValueAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class GongEnumValueService {
   }
 
   /** DELETE: delete the gongenumvaluedb from the server */
-  delete(gongenumvaluedb: GongEnumValueAPI | number, GONG__StackPath: string): Observable<GongEnumValueAPI> {
-    return this.deleteGongEnumValue(gongenumvaluedb, GONG__StackPath)
+  delete(gongenumvaluedb: GongEnumValueAPI | number, Name: string): Observable<GongEnumValueAPI> {
+    return this.deleteGongEnumValue(gongenumvaluedb, Name)
   }
-  deleteGongEnumValue(gongenumvaluedb: GongEnumValueAPI | number, GONG__StackPath: string): Observable<GongEnumValueAPI> {
+  deleteGongEnumValue(gongenumvaluedb: GongEnumValueAPI | number, Name: string): Observable<GongEnumValueAPI> {
     const id = typeof gongenumvaluedb === 'number' ? gongenumvaluedb : gongenumvaluedb.ID;
     const url = `${this.gongenumvaluesUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class GongEnumValueService {
   }
 
   // updateFront copy gongenumvalue to a version with encoded pointers and update to the back
-  updateFront(gongenumvalue: GongEnumValue, GONG__StackPath: string): Observable<GongEnumValueAPI> {
+  updateFront(gongenumvalue: GongEnumValue, Name: string): Observable<GongEnumValueAPI> {
     let gongenumvalueAPI = new GongEnumValueAPI
     CopyGongEnumValueToGongEnumValueAPI(gongenumvalue, gongenumvalueAPI)
     const id = typeof gongenumvalueAPI === 'number' ? gongenumvalueAPI : gongenumvalueAPI.ID
     const url = `${this.gongenumvaluesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class GongEnumValueService {
   }
 
   /** PUT: update the gongenumvaluedb on the server */
-  update(gongenumvaluedb: GongEnumValueAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumValueAPI> {
-    return this.updateGongEnumValue(gongenumvaluedb, GONG__StackPath, frontRepo)
+  update(gongenumvaluedb: GongEnumValueAPI, Name: string, frontRepo: FrontRepo): Observable<GongEnumValueAPI> {
+    return this.updateGongEnumValue(gongenumvaluedb, Name, frontRepo)
   }
-  updateGongEnumValue(gongenumvaluedb: GongEnumValueAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumValueAPI> {
+  updateGongEnumValue(gongenumvaluedb: GongEnumValueAPI, Name: string, frontRepo: FrontRepo): Observable<GongEnumValueAPI> {
     const id = typeof gongenumvaluedb === 'number' ? gongenumvaluedb : gongenumvaluedb.ID;
     const url = `${this.gongenumvaluesUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

@@ -47,12 +47,12 @@ export class PolylineService {
 
   /** GET polylines from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineAPI[]> {
-    return this.getPolylines(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<PolylineAPI[]> {
+    return this.getPolylines(Name, frontRepo)
   }
-  getPolylines(GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineAPI[]> {
+  getPolylines(Name: string, frontRepo: FrontRepo): Observable<PolylineAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<PolylineAPI[]>(this.polylinesUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class PolylineService {
 
   /** GET polyline by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineAPI> {
-    return this.getPolyline(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<PolylineAPI> {
+    return this.getPolyline(id, Name, frontRepo)
   }
-  getPolyline(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineAPI> {
+  getPolyline(id: number, Name: string, frontRepo: FrontRepo): Observable<PolylineAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.polylinesUrl}/${id}`;
     return this.http.get<PolylineAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class PolylineService {
   }
 
   // postFront copy polyline to a version with encoded pointers and post to the back
-  postFront(polyline: Polyline, GONG__StackPath: string): Observable<PolylineAPI> {
+  postFront(polyline: Polyline, Name: string): Observable<PolylineAPI> {
     let polylineAPI = new PolylineAPI
     CopyPolylineToPolylineAPI(polyline, polylineAPI)
     const id = typeof polylineAPI === 'number' ? polylineAPI : polylineAPI.ID
     const url = `${this.polylinesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class PolylineService {
   }
   
   /** POST: add a new polyline to the server */
-  post(polylinedb: PolylineAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineAPI> {
-    return this.postPolyline(polylinedb, GONG__StackPath, frontRepo)
+  post(polylinedb: PolylineAPI, Name: string, frontRepo: FrontRepo): Observable<PolylineAPI> {
+    return this.postPolyline(polylinedb, Name, frontRepo)
   }
-  postPolyline(polylinedb: PolylineAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineAPI> {
+  postPolyline(polylinedb: PolylineAPI, Name: string, frontRepo: FrontRepo): Observable<PolylineAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class PolylineService {
   }
 
   /** DELETE: delete the polylinedb from the server */
-  delete(polylinedb: PolylineAPI | number, GONG__StackPath: string): Observable<PolylineAPI> {
-    return this.deletePolyline(polylinedb, GONG__StackPath)
+  delete(polylinedb: PolylineAPI | number, Name: string): Observable<PolylineAPI> {
+    return this.deletePolyline(polylinedb, Name)
   }
-  deletePolyline(polylinedb: PolylineAPI | number, GONG__StackPath: string): Observable<PolylineAPI> {
+  deletePolyline(polylinedb: PolylineAPI | number, Name: string): Observable<PolylineAPI> {
     const id = typeof polylinedb === 'number' ? polylinedb : polylinedb.ID;
     const url = `${this.polylinesUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class PolylineService {
   }
 
   // updateFront copy polyline to a version with encoded pointers and update to the back
-  updateFront(polyline: Polyline, GONG__StackPath: string): Observable<PolylineAPI> {
+  updateFront(polyline: Polyline, Name: string): Observable<PolylineAPI> {
     let polylineAPI = new PolylineAPI
     CopyPolylineToPolylineAPI(polyline, polylineAPI)
     const id = typeof polylineAPI === 'number' ? polylineAPI : polylineAPI.ID
     const url = `${this.polylinesUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class PolylineService {
   }
 
   /** PUT: update the polylinedb on the server */
-  update(polylinedb: PolylineAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineAPI> {
-    return this.updatePolyline(polylinedb, GONG__StackPath, frontRepo)
+  update(polylinedb: PolylineAPI, Name: string, frontRepo: FrontRepo): Observable<PolylineAPI> {
+    return this.updatePolyline(polylinedb, Name, frontRepo)
   }
-  updatePolyline(polylinedb: PolylineAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<PolylineAPI> {
+  updatePolyline(polylinedb: PolylineAPI, Name: string, frontRepo: FrontRepo): Observable<PolylineAPI> {
     const id = typeof polylinedb === 'number' ? polylinedb : polylinedb.ID;
     const url = `${this.polylinesUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

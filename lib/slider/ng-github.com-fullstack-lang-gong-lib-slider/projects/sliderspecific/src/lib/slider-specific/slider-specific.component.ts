@@ -33,7 +33,7 @@ import { MatIconModule } from '@angular/material/icon'
 })
 export class SliderSpecificComponent {
 
-  @Input() GONG__StackPath: string = ""
+  @Input() Name: string = ""
 
   rowHeight: string = "30px"
 
@@ -60,7 +60,7 @@ export class SliderSpecificComponent {
   ngOnInit(): void {
     console.log("ngOnInit");
 
-    this.frontRepoService.connectToWebSocket(this.GONG__StackPath).subscribe({
+    this.frontRepoService.connectToWebSocket(this.Name).subscribe({
       next: (frontRepo) => {
         this.frontRepo = frontRepo;
 
@@ -75,7 +75,7 @@ export class SliderSpecificComponent {
   }
 
   input($event: Event, slider: slider.Slider) {
-    this.sliderService.updateFront(slider, this.GONG__StackPath).subscribe(
+    this.sliderService.updateFront(slider, this.Name).subscribe(
       () => {
         console.log("slider updated")
       }
@@ -83,7 +83,7 @@ export class SliderSpecificComponent {
   }
 
   inputMatRadio($event: MatRadioChange, checkbox: slider.Checkbox) {
-    this.checkboxService.updateFront(checkbox, this.GONG__StackPath).subscribe(
+    this.checkboxService.updateFront(checkbox, this.Name).subscribe(
       () => {
         console.log("checkbox updated")
       }

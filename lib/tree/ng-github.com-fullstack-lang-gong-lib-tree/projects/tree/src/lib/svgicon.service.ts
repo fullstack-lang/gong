@@ -46,12 +46,12 @@ export class SVGIconService {
 
   /** GET svgicons from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGIconAPI[]> {
-    return this.getSVGIcons(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<SVGIconAPI[]> {
+    return this.getSVGIcons(Name, frontRepo)
   }
-  getSVGIcons(GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGIconAPI[]> {
+  getSVGIcons(Name: string, frontRepo: FrontRepo): Observable<SVGIconAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<SVGIconAPI[]>(this.svgiconsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class SVGIconService {
 
   /** GET svgicon by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGIconAPI> {
-    return this.getSVGIcon(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<SVGIconAPI> {
+    return this.getSVGIcon(id, Name, frontRepo)
   }
-  getSVGIcon(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGIconAPI> {
+  getSVGIcon(id: number, Name: string, frontRepo: FrontRepo): Observable<SVGIconAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.svgiconsUrl}/${id}`;
     return this.http.get<SVGIconAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class SVGIconService {
   }
 
   // postFront copy svgicon to a version with encoded pointers and post to the back
-  postFront(svgicon: SVGIcon, GONG__StackPath: string): Observable<SVGIconAPI> {
+  postFront(svgicon: SVGIcon, Name: string): Observable<SVGIconAPI> {
     let svgiconAPI = new SVGIconAPI
     CopySVGIconToSVGIconAPI(svgicon, svgiconAPI)
     const id = typeof svgiconAPI === 'number' ? svgiconAPI : svgiconAPI.ID
     const url = `${this.svgiconsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class SVGIconService {
   }
   
   /** POST: add a new svgicon to the server */
-  post(svgicondb: SVGIconAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGIconAPI> {
-    return this.postSVGIcon(svgicondb, GONG__StackPath, frontRepo)
+  post(svgicondb: SVGIconAPI, Name: string, frontRepo: FrontRepo): Observable<SVGIconAPI> {
+    return this.postSVGIcon(svgicondb, Name, frontRepo)
   }
-  postSVGIcon(svgicondb: SVGIconAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGIconAPI> {
+  postSVGIcon(svgicondb: SVGIconAPI, Name: string, frontRepo: FrontRepo): Observable<SVGIconAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class SVGIconService {
   }
 
   /** DELETE: delete the svgicondb from the server */
-  delete(svgicondb: SVGIconAPI | number, GONG__StackPath: string): Observable<SVGIconAPI> {
-    return this.deleteSVGIcon(svgicondb, GONG__StackPath)
+  delete(svgicondb: SVGIconAPI | number, Name: string): Observable<SVGIconAPI> {
+    return this.deleteSVGIcon(svgicondb, Name)
   }
-  deleteSVGIcon(svgicondb: SVGIconAPI | number, GONG__StackPath: string): Observable<SVGIconAPI> {
+  deleteSVGIcon(svgicondb: SVGIconAPI | number, Name: string): Observable<SVGIconAPI> {
     const id = typeof svgicondb === 'number' ? svgicondb : svgicondb.ID;
     const url = `${this.svgiconsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class SVGIconService {
   }
 
   // updateFront copy svgicon to a version with encoded pointers and update to the back
-  updateFront(svgicon: SVGIcon, GONG__StackPath: string): Observable<SVGIconAPI> {
+  updateFront(svgicon: SVGIcon, Name: string): Observable<SVGIconAPI> {
     let svgiconAPI = new SVGIconAPI
     CopySVGIconToSVGIconAPI(svgicon, svgiconAPI)
     const id = typeof svgiconAPI === 'number' ? svgiconAPI : svgiconAPI.ID
     const url = `${this.svgiconsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class SVGIconService {
   }
 
   /** PUT: update the svgicondb on the server */
-  update(svgicondb: SVGIconAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGIconAPI> {
-    return this.updateSVGIcon(svgicondb, GONG__StackPath, frontRepo)
+  update(svgicondb: SVGIconAPI, Name: string, frontRepo: FrontRepo): Observable<SVGIconAPI> {
+    return this.updateSVGIcon(svgicondb, Name, frontRepo)
   }
-  updateSVGIcon(svgicondb: SVGIconAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<SVGIconAPI> {
+  updateSVGIcon(svgicondb: SVGIconAPI, Name: string, frontRepo: FrontRepo): Observable<SVGIconAPI> {
     const id = typeof svgicondb === 'number' ? svgicondb : svgicondb.ID;
     const url = `${this.svgiconsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

@@ -50,12 +50,12 @@ export class FormDivService {
 
   /** GET formdivs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivAPI[]> {
-    return this.getFormDivs(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<FormDivAPI[]> {
+    return this.getFormDivs(Name, frontRepo)
   }
-  getFormDivs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivAPI[]> {
+  getFormDivs(Name: string, frontRepo: FrontRepo): Observable<FormDivAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<FormDivAPI[]>(this.formdivsUrl, { params: params })
       .pipe(
@@ -66,12 +66,12 @@ export class FormDivService {
 
   /** GET formdiv by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivAPI> {
-    return this.getFormDiv(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<FormDivAPI> {
+    return this.getFormDiv(id, Name, frontRepo)
   }
-  getFormDiv(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivAPI> {
+  getFormDiv(id: number, Name: string, frontRepo: FrontRepo): Observable<FormDivAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.formdivsUrl}/${id}`;
     return this.http.get<FormDivAPI>(url, { params: params }).pipe(
@@ -81,12 +81,12 @@ export class FormDivService {
   }
 
   // postFront copy formdiv to a version with encoded pointers and post to the back
-  postFront(formdiv: FormDiv, GONG__StackPath: string): Observable<FormDivAPI> {
+  postFront(formdiv: FormDiv, Name: string): Observable<FormDivAPI> {
     let formdivAPI = new FormDivAPI
     CopyFormDivToFormDivAPI(formdiv, formdivAPI)
     const id = typeof formdivAPI === 'number' ? formdivAPI : formdivAPI.ID
     const url = `${this.formdivsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -100,12 +100,12 @@ export class FormDivService {
   }
   
   /** POST: add a new formdiv to the server */
-  post(formdivdb: FormDivAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivAPI> {
-    return this.postFormDiv(formdivdb, GONG__StackPath, frontRepo)
+  post(formdivdb: FormDivAPI, Name: string, frontRepo: FrontRepo): Observable<FormDivAPI> {
+    return this.postFormDiv(formdivdb, Name, frontRepo)
   }
-  postFormDiv(formdivdb: FormDivAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivAPI> {
+  postFormDiv(formdivdb: FormDivAPI, Name: string, frontRepo: FrontRepo): Observable<FormDivAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -120,14 +120,14 @@ export class FormDivService {
   }
 
   /** DELETE: delete the formdivdb from the server */
-  delete(formdivdb: FormDivAPI | number, GONG__StackPath: string): Observable<FormDivAPI> {
-    return this.deleteFormDiv(formdivdb, GONG__StackPath)
+  delete(formdivdb: FormDivAPI | number, Name: string): Observable<FormDivAPI> {
+    return this.deleteFormDiv(formdivdb, Name)
   }
-  deleteFormDiv(formdivdb: FormDivAPI | number, GONG__StackPath: string): Observable<FormDivAPI> {
+  deleteFormDiv(formdivdb: FormDivAPI | number, Name: string): Observable<FormDivAPI> {
     const id = typeof formdivdb === 'number' ? formdivdb : formdivdb.ID;
     const url = `${this.formdivsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -140,12 +140,12 @@ export class FormDivService {
   }
 
   // updateFront copy formdiv to a version with encoded pointers and update to the back
-  updateFront(formdiv: FormDiv, GONG__StackPath: string): Observable<FormDivAPI> {
+  updateFront(formdiv: FormDiv, Name: string): Observable<FormDivAPI> {
     let formdivAPI = new FormDivAPI
     CopyFormDivToFormDivAPI(formdiv, formdivAPI)
     const id = typeof formdivAPI === 'number' ? formdivAPI : formdivAPI.ID
     const url = `${this.formdivsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -159,15 +159,15 @@ export class FormDivService {
   }
 
   /** PUT: update the formdivdb on the server */
-  update(formdivdb: FormDivAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivAPI> {
-    return this.updateFormDiv(formdivdb, GONG__StackPath, frontRepo)
+  update(formdivdb: FormDivAPI, Name: string, frontRepo: FrontRepo): Observable<FormDivAPI> {
+    return this.updateFormDiv(formdivdb, Name, frontRepo)
   }
-  updateFormDiv(formdivdb: FormDivAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormDivAPI> {
+  updateFormDiv(formdivdb: FormDivAPI, Name: string, frontRepo: FrontRepo): Observable<FormDivAPI> {
     const id = typeof formdivdb === 'number' ? formdivdb : formdivdb.ID;
     const url = `${this.formdivsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

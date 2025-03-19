@@ -47,12 +47,12 @@ export class RowService {
 
   /** GET rows from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowAPI[]> {
-    return this.getRows(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<RowAPI[]> {
+    return this.getRows(Name, frontRepo)
   }
-  getRows(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowAPI[]> {
+  getRows(Name: string, frontRepo: FrontRepo): Observable<RowAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<RowAPI[]>(this.rowsUrl, { params: params })
       .pipe(
@@ -63,12 +63,12 @@ export class RowService {
 
   /** GET row by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowAPI> {
-    return this.getRow(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<RowAPI> {
+    return this.getRow(id, Name, frontRepo)
   }
-  getRow(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowAPI> {
+  getRow(id: number, Name: string, frontRepo: FrontRepo): Observable<RowAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.rowsUrl}/${id}`;
     return this.http.get<RowAPI>(url, { params: params }).pipe(
@@ -78,12 +78,12 @@ export class RowService {
   }
 
   // postFront copy row to a version with encoded pointers and post to the back
-  postFront(row: Row, GONG__StackPath: string): Observable<RowAPI> {
+  postFront(row: Row, Name: string): Observable<RowAPI> {
     let rowAPI = new RowAPI
     CopyRowToRowAPI(row, rowAPI)
     const id = typeof rowAPI === 'number' ? rowAPI : rowAPI.ID
     const url = `${this.rowsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -97,12 +97,12 @@ export class RowService {
   }
   
   /** POST: add a new row to the server */
-  post(rowdb: RowAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowAPI> {
-    return this.postRow(rowdb, GONG__StackPath, frontRepo)
+  post(rowdb: RowAPI, Name: string, frontRepo: FrontRepo): Observable<RowAPI> {
+    return this.postRow(rowdb, Name, frontRepo)
   }
-  postRow(rowdb: RowAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowAPI> {
+  postRow(rowdb: RowAPI, Name: string, frontRepo: FrontRepo): Observable<RowAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -117,14 +117,14 @@ export class RowService {
   }
 
   /** DELETE: delete the rowdb from the server */
-  delete(rowdb: RowAPI | number, GONG__StackPath: string): Observable<RowAPI> {
-    return this.deleteRow(rowdb, GONG__StackPath)
+  delete(rowdb: RowAPI | number, Name: string): Observable<RowAPI> {
+    return this.deleteRow(rowdb, Name)
   }
-  deleteRow(rowdb: RowAPI | number, GONG__StackPath: string): Observable<RowAPI> {
+  deleteRow(rowdb: RowAPI | number, Name: string): Observable<RowAPI> {
     const id = typeof rowdb === 'number' ? rowdb : rowdb.ID;
     const url = `${this.rowsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -137,12 +137,12 @@ export class RowService {
   }
 
   // updateFront copy row to a version with encoded pointers and update to the back
-  updateFront(row: Row, GONG__StackPath: string): Observable<RowAPI> {
+  updateFront(row: Row, Name: string): Observable<RowAPI> {
     let rowAPI = new RowAPI
     CopyRowToRowAPI(row, rowAPI)
     const id = typeof rowAPI === 'number' ? rowAPI : rowAPI.ID
     const url = `${this.rowsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -156,15 +156,15 @@ export class RowService {
   }
 
   /** PUT: update the rowdb on the server */
-  update(rowdb: RowAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowAPI> {
-    return this.updateRow(rowdb, GONG__StackPath, frontRepo)
+  update(rowdb: RowAPI, Name: string, frontRepo: FrontRepo): Observable<RowAPI> {
+    return this.updateRow(rowdb, Name, frontRepo)
   }
-  updateRow(rowdb: RowAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RowAPI> {
+  updateRow(rowdb: RowAPI, Name: string, frontRepo: FrontRepo): Observable<RowAPI> {
     const id = typeof rowdb === 'number' ? rowdb : rowdb.ID;
     const url = `${this.rowsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

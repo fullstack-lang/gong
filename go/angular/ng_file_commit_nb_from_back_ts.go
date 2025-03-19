@@ -49,9 +49,9 @@ export class CommitNbFromBackService {
         this.commitNbFromBackUrl = origin + '/api/{{PkgPathRoot}}/v1/commitfrombacknb';
     }
 
-    getCommitNbFromBack(intervalMs: number, GONG__StackPath: string = ""): Observable<number> {
+    getCommitNbFromBack(intervalMs: number, Name: string = ""): Observable<number> {
 
-        let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+        let params = new HttpParams().set("Name", Name)
 
         return interval(intervalMs).pipe(
             switchMap(() => this.http.get<number>(this.commitNbFromBackUrl, { params: params }).pipe(

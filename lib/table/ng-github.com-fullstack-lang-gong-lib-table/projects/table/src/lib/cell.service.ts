@@ -51,12 +51,12 @@ export class CellService {
 
   /** GET cells from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellAPI[]> {
-    return this.getCells(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<CellAPI[]> {
+    return this.getCells(Name, frontRepo)
   }
-  getCells(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellAPI[]> {
+  getCells(Name: string, frontRepo: FrontRepo): Observable<CellAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<CellAPI[]>(this.cellsUrl, { params: params })
       .pipe(
@@ -67,12 +67,12 @@ export class CellService {
 
   /** GET cell by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellAPI> {
-    return this.getCell(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<CellAPI> {
+    return this.getCell(id, Name, frontRepo)
   }
-  getCell(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellAPI> {
+  getCell(id: number, Name: string, frontRepo: FrontRepo): Observable<CellAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.cellsUrl}/${id}`;
     return this.http.get<CellAPI>(url, { params: params }).pipe(
@@ -82,12 +82,12 @@ export class CellService {
   }
 
   // postFront copy cell to a version with encoded pointers and post to the back
-  postFront(cell: Cell, GONG__StackPath: string): Observable<CellAPI> {
+  postFront(cell: Cell, Name: string): Observable<CellAPI> {
     let cellAPI = new CellAPI
     CopyCellToCellAPI(cell, cellAPI)
     const id = typeof cellAPI === 'number' ? cellAPI : cellAPI.ID
     const url = `${this.cellsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -101,12 +101,12 @@ export class CellService {
   }
   
   /** POST: add a new cell to the server */
-  post(celldb: CellAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellAPI> {
-    return this.postCell(celldb, GONG__StackPath, frontRepo)
+  post(celldb: CellAPI, Name: string, frontRepo: FrontRepo): Observable<CellAPI> {
+    return this.postCell(celldb, Name, frontRepo)
   }
-  postCell(celldb: CellAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellAPI> {
+  postCell(celldb: CellAPI, Name: string, frontRepo: FrontRepo): Observable<CellAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -121,14 +121,14 @@ export class CellService {
   }
 
   /** DELETE: delete the celldb from the server */
-  delete(celldb: CellAPI | number, GONG__StackPath: string): Observable<CellAPI> {
-    return this.deleteCell(celldb, GONG__StackPath)
+  delete(celldb: CellAPI | number, Name: string): Observable<CellAPI> {
+    return this.deleteCell(celldb, Name)
   }
-  deleteCell(celldb: CellAPI | number, GONG__StackPath: string): Observable<CellAPI> {
+  deleteCell(celldb: CellAPI | number, Name: string): Observable<CellAPI> {
     const id = typeof celldb === 'number' ? celldb : celldb.ID;
     const url = `${this.cellsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -141,12 +141,12 @@ export class CellService {
   }
 
   // updateFront copy cell to a version with encoded pointers and update to the back
-  updateFront(cell: Cell, GONG__StackPath: string): Observable<CellAPI> {
+  updateFront(cell: Cell, Name: string): Observable<CellAPI> {
     let cellAPI = new CellAPI
     CopyCellToCellAPI(cell, cellAPI)
     const id = typeof cellAPI === 'number' ? cellAPI : cellAPI.ID
     const url = `${this.cellsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -160,15 +160,15 @@ export class CellService {
   }
 
   /** PUT: update the celldb on the server */
-  update(celldb: CellAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellAPI> {
-    return this.updateCell(celldb, GONG__StackPath, frontRepo)
+  update(celldb: CellAPI, Name: string, frontRepo: FrontRepo): Observable<CellAPI> {
+    return this.updateCell(celldb, Name, frontRepo)
   }
-  updateCell(celldb: CellAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellAPI> {
+  updateCell(celldb: CellAPI, Name: string, frontRepo: FrontRepo): Observable<CellAPI> {
     const id = typeof celldb === 'number' ? celldb : celldb.ID;
     const url = `${this.cellsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

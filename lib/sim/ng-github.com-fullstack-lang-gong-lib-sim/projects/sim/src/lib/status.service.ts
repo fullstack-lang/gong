@@ -46,12 +46,12 @@ export class StatusService {
 
   /** GET statuss from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<StatusAPI[]> {
-    return this.getStatuss(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<StatusAPI[]> {
+    return this.getStatuss(Name, frontRepo)
   }
-  getStatuss(GONG__StackPath: string, frontRepo: FrontRepo): Observable<StatusAPI[]> {
+  getStatuss(Name: string, frontRepo: FrontRepo): Observable<StatusAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<StatusAPI[]>(this.statussUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class StatusService {
 
   /** GET status by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<StatusAPI> {
-    return this.getStatus(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<StatusAPI> {
+    return this.getStatus(id, Name, frontRepo)
   }
-  getStatus(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<StatusAPI> {
+  getStatus(id: number, Name: string, frontRepo: FrontRepo): Observable<StatusAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.statussUrl}/${id}`;
     return this.http.get<StatusAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class StatusService {
   }
 
   // postFront copy status to a version with encoded pointers and post to the back
-  postFront(status: Status, GONG__StackPath: string): Observable<StatusAPI> {
+  postFront(status: Status, Name: string): Observable<StatusAPI> {
     let statusAPI = new StatusAPI
     CopyStatusToStatusAPI(status, statusAPI)
     const id = typeof statusAPI === 'number' ? statusAPI : statusAPI.ID
     const url = `${this.statussUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class StatusService {
   }
   
   /** POST: add a new status to the server */
-  post(statusdb: StatusAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<StatusAPI> {
-    return this.postStatus(statusdb, GONG__StackPath, frontRepo)
+  post(statusdb: StatusAPI, Name: string, frontRepo: FrontRepo): Observable<StatusAPI> {
+    return this.postStatus(statusdb, Name, frontRepo)
   }
-  postStatus(statusdb: StatusAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<StatusAPI> {
+  postStatus(statusdb: StatusAPI, Name: string, frontRepo: FrontRepo): Observable<StatusAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class StatusService {
   }
 
   /** DELETE: delete the statusdb from the server */
-  delete(statusdb: StatusAPI | number, GONG__StackPath: string): Observable<StatusAPI> {
-    return this.deleteStatus(statusdb, GONG__StackPath)
+  delete(statusdb: StatusAPI | number, Name: string): Observable<StatusAPI> {
+    return this.deleteStatus(statusdb, Name)
   }
-  deleteStatus(statusdb: StatusAPI | number, GONG__StackPath: string): Observable<StatusAPI> {
+  deleteStatus(statusdb: StatusAPI | number, Name: string): Observable<StatusAPI> {
     const id = typeof statusdb === 'number' ? statusdb : statusdb.ID;
     const url = `${this.statussUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class StatusService {
   }
 
   // updateFront copy status to a version with encoded pointers and update to the back
-  updateFront(status: Status, GONG__StackPath: string): Observable<StatusAPI> {
+  updateFront(status: Status, Name: string): Observable<StatusAPI> {
     let statusAPI = new StatusAPI
     CopyStatusToStatusAPI(status, statusAPI)
     const id = typeof statusAPI === 'number' ? statusAPI : statusAPI.ID
     const url = `${this.statussUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class StatusService {
   }
 
   /** PUT: update the statusdb on the server */
-  update(statusdb: StatusAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<StatusAPI> {
-    return this.updateStatus(statusdb, GONG__StackPath, frontRepo)
+  update(statusdb: StatusAPI, Name: string, frontRepo: FrontRepo): Observable<StatusAPI> {
+    return this.updateStatus(statusdb, Name, frontRepo)
   }
-  updateStatus(statusdb: StatusAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<StatusAPI> {
+  updateStatus(statusdb: StatusAPI, Name: string, frontRepo: FrontRepo): Observable<StatusAPI> {
     const id = typeof statusdb === 'number' ? statusdb : statusdb.ID;
     const url = `${this.statussUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

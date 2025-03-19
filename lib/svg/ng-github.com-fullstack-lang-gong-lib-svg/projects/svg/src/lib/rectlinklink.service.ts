@@ -48,12 +48,12 @@ export class RectLinkLinkService {
 
   /** GET rectlinklinks from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectLinkLinkAPI[]> {
-    return this.getRectLinkLinks(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<RectLinkLinkAPI[]> {
+    return this.getRectLinkLinks(Name, frontRepo)
   }
-  getRectLinkLinks(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectLinkLinkAPI[]> {
+  getRectLinkLinks(Name: string, frontRepo: FrontRepo): Observable<RectLinkLinkAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<RectLinkLinkAPI[]>(this.rectlinklinksUrl, { params: params })
       .pipe(
@@ -64,12 +64,12 @@ export class RectLinkLinkService {
 
   /** GET rectlinklink by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectLinkLinkAPI> {
-    return this.getRectLinkLink(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<RectLinkLinkAPI> {
+    return this.getRectLinkLink(id, Name, frontRepo)
   }
-  getRectLinkLink(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectLinkLinkAPI> {
+  getRectLinkLink(id: number, Name: string, frontRepo: FrontRepo): Observable<RectLinkLinkAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.rectlinklinksUrl}/${id}`;
     return this.http.get<RectLinkLinkAPI>(url, { params: params }).pipe(
@@ -79,12 +79,12 @@ export class RectLinkLinkService {
   }
 
   // postFront copy rectlinklink to a version with encoded pointers and post to the back
-  postFront(rectlinklink: RectLinkLink, GONG__StackPath: string): Observable<RectLinkLinkAPI> {
+  postFront(rectlinklink: RectLinkLink, Name: string): Observable<RectLinkLinkAPI> {
     let rectlinklinkAPI = new RectLinkLinkAPI
     CopyRectLinkLinkToRectLinkLinkAPI(rectlinklink, rectlinklinkAPI)
     const id = typeof rectlinklinkAPI === 'number' ? rectlinklinkAPI : rectlinklinkAPI.ID
     const url = `${this.rectlinklinksUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -98,12 +98,12 @@ export class RectLinkLinkService {
   }
   
   /** POST: add a new rectlinklink to the server */
-  post(rectlinklinkdb: RectLinkLinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectLinkLinkAPI> {
-    return this.postRectLinkLink(rectlinklinkdb, GONG__StackPath, frontRepo)
+  post(rectlinklinkdb: RectLinkLinkAPI, Name: string, frontRepo: FrontRepo): Observable<RectLinkLinkAPI> {
+    return this.postRectLinkLink(rectlinklinkdb, Name, frontRepo)
   }
-  postRectLinkLink(rectlinklinkdb: RectLinkLinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectLinkLinkAPI> {
+  postRectLinkLink(rectlinklinkdb: RectLinkLinkAPI, Name: string, frontRepo: FrontRepo): Observable<RectLinkLinkAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -118,14 +118,14 @@ export class RectLinkLinkService {
   }
 
   /** DELETE: delete the rectlinklinkdb from the server */
-  delete(rectlinklinkdb: RectLinkLinkAPI | number, GONG__StackPath: string): Observable<RectLinkLinkAPI> {
-    return this.deleteRectLinkLink(rectlinklinkdb, GONG__StackPath)
+  delete(rectlinklinkdb: RectLinkLinkAPI | number, Name: string): Observable<RectLinkLinkAPI> {
+    return this.deleteRectLinkLink(rectlinklinkdb, Name)
   }
-  deleteRectLinkLink(rectlinklinkdb: RectLinkLinkAPI | number, GONG__StackPath: string): Observable<RectLinkLinkAPI> {
+  deleteRectLinkLink(rectlinklinkdb: RectLinkLinkAPI | number, Name: string): Observable<RectLinkLinkAPI> {
     const id = typeof rectlinklinkdb === 'number' ? rectlinklinkdb : rectlinklinkdb.ID;
     const url = `${this.rectlinklinksUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -138,12 +138,12 @@ export class RectLinkLinkService {
   }
 
   // updateFront copy rectlinklink to a version with encoded pointers and update to the back
-  updateFront(rectlinklink: RectLinkLink, GONG__StackPath: string): Observable<RectLinkLinkAPI> {
+  updateFront(rectlinklink: RectLinkLink, Name: string): Observable<RectLinkLinkAPI> {
     let rectlinklinkAPI = new RectLinkLinkAPI
     CopyRectLinkLinkToRectLinkLinkAPI(rectlinklink, rectlinklinkAPI)
     const id = typeof rectlinklinkAPI === 'number' ? rectlinklinkAPI : rectlinklinkAPI.ID
     const url = `${this.rectlinklinksUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -157,15 +157,15 @@ export class RectLinkLinkService {
   }
 
   /** PUT: update the rectlinklinkdb on the server */
-  update(rectlinklinkdb: RectLinkLinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectLinkLinkAPI> {
-    return this.updateRectLinkLink(rectlinklinkdb, GONG__StackPath, frontRepo)
+  update(rectlinklinkdb: RectLinkLinkAPI, Name: string, frontRepo: FrontRepo): Observable<RectLinkLinkAPI> {
+    return this.updateRectLinkLink(rectlinklinkdb, Name, frontRepo)
   }
-  updateRectLinkLink(rectlinklinkdb: RectLinkLinkAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectLinkLinkAPI> {
+  updateRectLinkLink(rectlinklinkdb: RectLinkLinkAPI, Name: string, frontRepo: FrontRepo): Observable<RectLinkLinkAPI> {
     const id = typeof rectlinklinkdb === 'number' ? rectlinklinkdb : rectlinklinkdb.ID;
     const url = `${this.rectlinklinksUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

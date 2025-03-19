@@ -46,12 +46,12 @@ export class CellIntService {
 
   /** GET cellints from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIntAPI[]> {
-    return this.getCellInts(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<CellIntAPI[]> {
+    return this.getCellInts(Name, frontRepo)
   }
-  getCellInts(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIntAPI[]> {
+  getCellInts(Name: string, frontRepo: FrontRepo): Observable<CellIntAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<CellIntAPI[]>(this.cellintsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class CellIntService {
 
   /** GET cellint by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIntAPI> {
-    return this.getCellInt(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<CellIntAPI> {
+    return this.getCellInt(id, Name, frontRepo)
   }
-  getCellInt(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIntAPI> {
+  getCellInt(id: number, Name: string, frontRepo: FrontRepo): Observable<CellIntAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.cellintsUrl}/${id}`;
     return this.http.get<CellIntAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class CellIntService {
   }
 
   // postFront copy cellint to a version with encoded pointers and post to the back
-  postFront(cellint: CellInt, GONG__StackPath: string): Observable<CellIntAPI> {
+  postFront(cellint: CellInt, Name: string): Observable<CellIntAPI> {
     let cellintAPI = new CellIntAPI
     CopyCellIntToCellIntAPI(cellint, cellintAPI)
     const id = typeof cellintAPI === 'number' ? cellintAPI : cellintAPI.ID
     const url = `${this.cellintsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class CellIntService {
   }
   
   /** POST: add a new cellint to the server */
-  post(cellintdb: CellIntAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIntAPI> {
-    return this.postCellInt(cellintdb, GONG__StackPath, frontRepo)
+  post(cellintdb: CellIntAPI, Name: string, frontRepo: FrontRepo): Observable<CellIntAPI> {
+    return this.postCellInt(cellintdb, Name, frontRepo)
   }
-  postCellInt(cellintdb: CellIntAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIntAPI> {
+  postCellInt(cellintdb: CellIntAPI, Name: string, frontRepo: FrontRepo): Observable<CellIntAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class CellIntService {
   }
 
   /** DELETE: delete the cellintdb from the server */
-  delete(cellintdb: CellIntAPI | number, GONG__StackPath: string): Observable<CellIntAPI> {
-    return this.deleteCellInt(cellintdb, GONG__StackPath)
+  delete(cellintdb: CellIntAPI | number, Name: string): Observable<CellIntAPI> {
+    return this.deleteCellInt(cellintdb, Name)
   }
-  deleteCellInt(cellintdb: CellIntAPI | number, GONG__StackPath: string): Observable<CellIntAPI> {
+  deleteCellInt(cellintdb: CellIntAPI | number, Name: string): Observable<CellIntAPI> {
     const id = typeof cellintdb === 'number' ? cellintdb : cellintdb.ID;
     const url = `${this.cellintsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class CellIntService {
   }
 
   // updateFront copy cellint to a version with encoded pointers and update to the back
-  updateFront(cellint: CellInt, GONG__StackPath: string): Observable<CellIntAPI> {
+  updateFront(cellint: CellInt, Name: string): Observable<CellIntAPI> {
     let cellintAPI = new CellIntAPI
     CopyCellIntToCellIntAPI(cellint, cellintAPI)
     const id = typeof cellintAPI === 'number' ? cellintAPI : cellintAPI.ID
     const url = `${this.cellintsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class CellIntService {
   }
 
   /** PUT: update the cellintdb on the server */
-  update(cellintdb: CellIntAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIntAPI> {
-    return this.updateCellInt(cellintdb, GONG__StackPath, frontRepo)
+  update(cellintdb: CellIntAPI, Name: string, frontRepo: FrontRepo): Observable<CellIntAPI> {
+    return this.updateCellInt(cellintdb, Name, frontRepo)
   }
-  updateCellInt(cellintdb: CellIntAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CellIntAPI> {
+  updateCellInt(cellintdb: CellIntAPI, Name: string, frontRepo: FrontRepo): Observable<CellIntAPI> {
     const id = typeof cellintdb === 'number' ? cellintdb : cellintdb.ID;
     const url = `${this.cellintsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

@@ -274,7 +274,7 @@ export class DialogData {
 	IntermediateStructField: string = "" // the "Bclass" as field
 	NextAssociationStruct: string = "" // the "Bclass"
 
-	GONG__StackPath: string = ""
+	Name: string = ""
 }
 
 export enum SelectionMode {
@@ -290,7 +290,7 @@ export enum SelectionMode {
 })
 export class FrontRepoService {
 
-	GONG__StackPath: string = ""
+	Name: string = ""
 	private socket: WebSocket | undefined
 
 	httpOptions = {
@@ -382,32 +382,32 @@ export class FrontRepoService {
 	// This is an observable. Therefore, the control flow forks with
 	// - pull() return immediatly the observable
 	// - the observable observer, if it subscribe, is called when all GET calls are performs
-	pull(GONG__StackPath: string = ""): Observable<FrontRepo> {
+	pull(Name: string = ""): Observable<FrontRepo> {
 
-		this.GONG__StackPath = GONG__StackPath
+		this.Name = Name
 
 		this.observableFrontRepo = [
 			of(null), // see above for justification
 			// insertion point sub template
-			this.animateService.getAnimates(this.GONG__StackPath, this.frontRepo),
-			this.circleService.getCircles(this.GONG__StackPath, this.frontRepo),
-			this.ellipseService.getEllipses(this.GONG__StackPath, this.frontRepo),
-			this.layerService.getLayers(this.GONG__StackPath, this.frontRepo),
-			this.lineService.getLines(this.GONG__StackPath, this.frontRepo),
-			this.linkService.getLinks(this.GONG__StackPath, this.frontRepo),
-			this.linkanchoredtextService.getLinkAnchoredTexts(this.GONG__StackPath, this.frontRepo),
-			this.pathService.getPaths(this.GONG__StackPath, this.frontRepo),
-			this.pointService.getPoints(this.GONG__StackPath, this.frontRepo),
-			this.polygoneService.getPolygones(this.GONG__StackPath, this.frontRepo),
-			this.polylineService.getPolylines(this.GONG__StackPath, this.frontRepo),
-			this.rectService.getRects(this.GONG__StackPath, this.frontRepo),
-			this.rectanchoredpathService.getRectAnchoredPaths(this.GONG__StackPath, this.frontRepo),
-			this.rectanchoredrectService.getRectAnchoredRects(this.GONG__StackPath, this.frontRepo),
-			this.rectanchoredtextService.getRectAnchoredTexts(this.GONG__StackPath, this.frontRepo),
-			this.rectlinklinkService.getRectLinkLinks(this.GONG__StackPath, this.frontRepo),
-			this.svgService.getSVGs(this.GONG__StackPath, this.frontRepo),
-			this.svgtextService.getSvgTexts(this.GONG__StackPath, this.frontRepo),
-			this.textService.getTexts(this.GONG__StackPath, this.frontRepo),
+			this.animateService.getAnimates(this.Name, this.frontRepo),
+			this.circleService.getCircles(this.Name, this.frontRepo),
+			this.ellipseService.getEllipses(this.Name, this.frontRepo),
+			this.layerService.getLayers(this.Name, this.frontRepo),
+			this.lineService.getLines(this.Name, this.frontRepo),
+			this.linkService.getLinks(this.Name, this.frontRepo),
+			this.linkanchoredtextService.getLinkAnchoredTexts(this.Name, this.frontRepo),
+			this.pathService.getPaths(this.Name, this.frontRepo),
+			this.pointService.getPoints(this.Name, this.frontRepo),
+			this.polygoneService.getPolygones(this.Name, this.frontRepo),
+			this.polylineService.getPolylines(this.Name, this.frontRepo),
+			this.rectService.getRects(this.Name, this.frontRepo),
+			this.rectanchoredpathService.getRectAnchoredPaths(this.Name, this.frontRepo),
+			this.rectanchoredrectService.getRectAnchoredRects(this.Name, this.frontRepo),
+			this.rectanchoredtextService.getRectAnchoredTexts(this.Name, this.frontRepo),
+			this.rectlinklinkService.getRectLinkLinks(this.Name, this.frontRepo),
+			this.svgService.getSVGs(this.Name, this.frontRepo),
+			this.svgtextService.getSvgTexts(this.Name, this.frontRepo),
+			this.textService.getTexts(this.Name, this.frontRepo),
 		]
 
 		return new Observable<FrontRepo>(
@@ -876,12 +876,12 @@ export class FrontRepoService {
 		)
 	}
 
-	public connectToWebSocket(GONG__StackPath: string): Observable<FrontRepo> {
+	public connectToWebSocket(Name: string): Observable<FrontRepo> {
 
-		this.GONG__StackPath = GONG__StackPath
+		this.Name = Name
 
 
-		let params = new HttpParams().set("GONG__StackPath", this.GONG__StackPath)
+		let params = new HttpParams().set("Name", this.Name)
 		let basePath = 'ws://localhost:8080/api/github.com/fullstack-lang/gong/lib/svg/go/v1/ws/stage'
 		let paramString = params.toString()
 		let url = `${basePath}?${paramString}`

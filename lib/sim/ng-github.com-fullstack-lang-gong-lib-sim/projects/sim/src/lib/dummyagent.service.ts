@@ -46,12 +46,12 @@ export class DummyAgentService {
 
   /** GET dummyagents from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DummyAgentAPI[]> {
-    return this.getDummyAgents(GONG__StackPath, frontRepo)
+  gets(Name: string, frontRepo: FrontRepo): Observable<DummyAgentAPI[]> {
+    return this.getDummyAgents(Name, frontRepo)
   }
-  getDummyAgents(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DummyAgentAPI[]> {
+  getDummyAgents(Name: string, frontRepo: FrontRepo): Observable<DummyAgentAPI[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     return this.http.get<DummyAgentAPI[]>(this.dummyagentsUrl, { params: params })
       .pipe(
@@ -62,12 +62,12 @@ export class DummyAgentService {
 
   /** GET dummyagent by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DummyAgentAPI> {
-    return this.getDummyAgent(id, GONG__StackPath, frontRepo)
+  get(id: number, Name: string, frontRepo: FrontRepo): Observable<DummyAgentAPI> {
+    return this.getDummyAgent(id, Name, frontRepo)
   }
-  getDummyAgent(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DummyAgentAPI> {
+  getDummyAgent(id: number, Name: string, frontRepo: FrontRepo): Observable<DummyAgentAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
 
     const url = `${this.dummyagentsUrl}/${id}`;
     return this.http.get<DummyAgentAPI>(url, { params: params }).pipe(
@@ -77,12 +77,12 @@ export class DummyAgentService {
   }
 
   // postFront copy dummyagent to a version with encoded pointers and post to the back
-  postFront(dummyagent: DummyAgent, GONG__StackPath: string): Observable<DummyAgentAPI> {
+  postFront(dummyagent: DummyAgent, Name: string): Observable<DummyAgentAPI> {
     let dummyagentAPI = new DummyAgentAPI
     CopyDummyAgentToDummyAgentAPI(dummyagent, dummyagentAPI)
     const id = typeof dummyagentAPI === 'number' ? dummyagentAPI : dummyagentAPI.ID
     const url = `${this.dummyagentsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -96,12 +96,12 @@ export class DummyAgentService {
   }
   
   /** POST: add a new dummyagent to the server */
-  post(dummyagentdb: DummyAgentAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DummyAgentAPI> {
-    return this.postDummyAgent(dummyagentdb, GONG__StackPath, frontRepo)
+  post(dummyagentdb: DummyAgentAPI, Name: string, frontRepo: FrontRepo): Observable<DummyAgentAPI> {
+    return this.postDummyAgent(dummyagentdb, Name, frontRepo)
   }
-  postDummyAgent(dummyagentdb: DummyAgentAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DummyAgentAPI> {
+  postDummyAgent(dummyagentdb: DummyAgentAPI, Name: string, frontRepo: FrontRepo): Observable<DummyAgentAPI> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -116,14 +116,14 @@ export class DummyAgentService {
   }
 
   /** DELETE: delete the dummyagentdb from the server */
-  delete(dummyagentdb: DummyAgentAPI | number, GONG__StackPath: string): Observable<DummyAgentAPI> {
-    return this.deleteDummyAgent(dummyagentdb, GONG__StackPath)
+  delete(dummyagentdb: DummyAgentAPI | number, Name: string): Observable<DummyAgentAPI> {
+    return this.deleteDummyAgent(dummyagentdb, Name)
   }
-  deleteDummyAgent(dummyagentdb: DummyAgentAPI | number, GONG__StackPath: string): Observable<DummyAgentAPI> {
+  deleteDummyAgent(dummyagentdb: DummyAgentAPI | number, Name: string): Observable<DummyAgentAPI> {
     const id = typeof dummyagentdb === 'number' ? dummyagentdb : dummyagentdb.ID;
     const url = `${this.dummyagentsUrl}/${id}`;
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -136,12 +136,12 @@ export class DummyAgentService {
   }
 
   // updateFront copy dummyagent to a version with encoded pointers and update to the back
-  updateFront(dummyagent: DummyAgent, GONG__StackPath: string): Observable<DummyAgentAPI> {
+  updateFront(dummyagent: DummyAgent, Name: string): Observable<DummyAgentAPI> {
     let dummyagentAPI = new DummyAgentAPI
     CopyDummyAgentToDummyAgentAPI(dummyagent, dummyagentAPI)
     const id = typeof dummyagentAPI === 'number' ? dummyagentAPI : dummyagentAPI.ID
     const url = `${this.dummyagentsUrl}/${id}`;
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
@@ -155,15 +155,15 @@ export class DummyAgentService {
   }
 
   /** PUT: update the dummyagentdb on the server */
-  update(dummyagentdb: DummyAgentAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DummyAgentAPI> {
-    return this.updateDummyAgent(dummyagentdb, GONG__StackPath, frontRepo)
+  update(dummyagentdb: DummyAgentAPI, Name: string, frontRepo: FrontRepo): Observable<DummyAgentAPI> {
+    return this.updateDummyAgent(dummyagentdb, Name, frontRepo)
   }
-  updateDummyAgent(dummyagentdb: DummyAgentAPI, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DummyAgentAPI> {
+  updateDummyAgent(dummyagentdb: DummyAgentAPI, Name: string, frontRepo: FrontRepo): Observable<DummyAgentAPI> {
     const id = typeof dummyagentdb === 'number' ? dummyagentdb : dummyagentdb.ID;
     const url = `${this.dummyagentsUrl}/${id}`;
 
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("Name", Name)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

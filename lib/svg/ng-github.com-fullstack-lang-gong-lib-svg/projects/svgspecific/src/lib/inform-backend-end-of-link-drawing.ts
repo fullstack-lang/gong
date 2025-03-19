@@ -15,11 +15,11 @@ import * as svg from '../../../svg/src/public-api'
 // start end end rects
 export function informBackEndOfEndOfLinkDrawing(svgSpecificComponent: SvgSpecificComponent) {
     svgSpecificComponent.svg.DrawingState = svg.DrawingState.DRAWING_LINK
-    svgSpecificComponent.svgService.updateFront(svgSpecificComponent.svg, svgSpecificComponent.GONG__StackPath).subscribe(
+    svgSpecificComponent.svgService.updateFront(svgSpecificComponent.svg, svgSpecificComponent.Name).subscribe(
         () => {
             // back to normal state
             svgSpecificComponent.svg.DrawingState = svg.DrawingState.NOT_DRAWING_LINK;
-            svgSpecificComponent.svgService.updateFront(svgSpecificComponent.svg, svgSpecificComponent.GONG__StackPath).subscribe();
+            svgSpecificComponent.svgService.updateFront(svgSpecificComponent.svg, svgSpecificComponent.Name).subscribe();
 
             // set the isEditable
             svgSpecificComponent.isEditableService.setIsEditable(svgSpecificComponent.svg!.IsEditable);

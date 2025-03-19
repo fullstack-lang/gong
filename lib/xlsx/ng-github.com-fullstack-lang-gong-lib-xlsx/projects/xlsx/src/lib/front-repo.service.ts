@@ -120,7 +120,7 @@ export class DialogData {
 	IntermediateStructField: string = "" // the "Bclass" as field
 	NextAssociationStruct: string = "" // the "Bclass"
 
-	GONG__StackPath: string = ""
+	Name: string = ""
 }
 
 export enum SelectionMode {
@@ -136,7 +136,7 @@ export enum SelectionMode {
 })
 export class FrontRepoService {
 
-	GONG__StackPath: string = ""
+	Name: string = ""
 	private socket: WebSocket | undefined
 
 	httpOptions = {
@@ -200,18 +200,18 @@ export class FrontRepoService {
 	// This is an observable. Therefore, the control flow forks with
 	// - pull() return immediatly the observable
 	// - the observable observer, if it subscribe, is called when all GET calls are performs
-	pull(GONG__StackPath: string = ""): Observable<FrontRepo> {
+	pull(Name: string = ""): Observable<FrontRepo> {
 
-		this.GONG__StackPath = GONG__StackPath
+		this.Name = Name
 
 		this.observableFrontRepo = [
 			of(null), // see above for justification
 			// insertion point sub template
-			this.displayselectionService.getDisplaySelections(this.GONG__StackPath, this.frontRepo),
-			this.xlcellService.getXLCells(this.GONG__StackPath, this.frontRepo),
-			this.xlfileService.getXLFiles(this.GONG__StackPath, this.frontRepo),
-			this.xlrowService.getXLRows(this.GONG__StackPath, this.frontRepo),
-			this.xlsheetService.getXLSheets(this.GONG__StackPath, this.frontRepo),
+			this.displayselectionService.getDisplaySelections(this.Name, this.frontRepo),
+			this.xlcellService.getXLCells(this.Name, this.frontRepo),
+			this.xlfileService.getXLFiles(this.Name, this.frontRepo),
+			this.xlrowService.getXLRows(this.Name, this.frontRepo),
+			this.xlsheetService.getXLSheets(this.Name, this.frontRepo),
 		]
 
 		return new Observable<FrontRepo>(
@@ -358,12 +358,12 @@ export class FrontRepoService {
 		)
 	}
 
-	public connectToWebSocket(GONG__StackPath: string): Observable<FrontRepo> {
+	public connectToWebSocket(Name: string): Observable<FrontRepo> {
 
-		this.GONG__StackPath = GONG__StackPath
+		this.Name = Name
 
 
-		let params = new HttpParams().set("GONG__StackPath", this.GONG__StackPath)
+		let params = new HttpParams().set("Name", this.Name)
 		let basePath = 'ws://localhost:8080/api/github.com/fullstack-lang/gong/lib/xlsx/go/v1/ws/stage'
 		let paramString = params.toString()
 		let url = `${basePath}?${paramString}`
