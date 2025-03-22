@@ -77,7 +77,7 @@
         @for (asSplitArea of asSplit.AsSplitAreas; track asSplitArea) {
         <as-split-area [size]="asSplitArea.IsAny ? $any('*') : asSplitArea.Size">
             @if (asSplitArea.HasDiv) {
-                <div [style]="area.DivStyle">
+                <div [style]="asSplitArea.DivStyle">
                     <ng-container *ngTemplateOutlet="componentRenderer; context: {$implicit: asSplitArea}"></ng-container>
                 </div>
             } @else {
