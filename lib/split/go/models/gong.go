@@ -1572,26 +1572,26 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of AsSplit with the name of the field
 			AsSplits: []*AsSplit{{Name: "AsSplits"}},
-			// field is initialized with an instance of Tree with the name of the field
-			Tree: &Tree{Name: "Tree"},
-			// field is initialized with an instance of Table with the name of the field
-			Table: &Table{Name: "Table"},
-			// field is initialized with an instance of Form with the name of the field
-			Form: &Form{Name: "Form"},
-			// field is initialized with an instance of Svg with the name of the field
-			Svg: &Svg{Name: "Svg"},
-			// field is initialized with an instance of Doc with the name of the field
-			Doc: &Doc{Name: "Doc"},
-			// field is initialized with an instance of Split with the name of the field
-			Split: &Split{Name: "Split"},
-			// field is initialized with an instance of Slider with the name of the field
-			Slider: &Slider{Name: "Slider"},
-			// field is initialized with an instance of Tone with the name of the field
-			Tone: &Tone{Name: "Tone"},
 			// field is initialized with an instance of Button with the name of the field
 			Button: &Button{Name: "Button"},
 			// field is initialized with an instance of Cursor with the name of the field
 			Cursor: &Cursor{Name: "Cursor"},
+			// field is initialized with an instance of Doc with the name of the field
+			Doc: &Doc{Name: "Doc"},
+			// field is initialized with an instance of Form with the name of the field
+			Form: &Form{Name: "Form"},
+			// field is initialized with an instance of Slider with the name of the field
+			Slider: &Slider{Name: "Slider"},
+			// field is initialized with an instance of Split with the name of the field
+			Split: &Split{Name: "Split"},
+			// field is initialized with an instance of Svg with the name of the field
+			Svg: &Svg{Name: "Svg"},
+			// field is initialized with an instance of Table with the name of the field
+			Table: &Table{Name: "Table"},
+			// field is initialized with an instance of Tone with the name of the field
+			Tone: &Tone{Name: "Tone"},
+			// field is initialized with an instance of Tree with the name of the field
+			Tree: &Tree{Name: "Tree"},
 		}).(*Type)
 	case Button:
 		return any(&Button{
@@ -1666,142 +1666,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 	case AsSplitArea:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Tree":
-			res := make(map[*Tree][]*AsSplitArea)
-			for assplitarea := range stage.AsSplitAreas {
-				if assplitarea.Tree != nil {
-					tree_ := assplitarea.Tree
-					var assplitareas []*AsSplitArea
-					_, ok := res[tree_]
-					if ok {
-						assplitareas = res[tree_]
-					} else {
-						assplitareas = make([]*AsSplitArea, 0)
-					}
-					assplitareas = append(assplitareas, assplitarea)
-					res[tree_] = assplitareas
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Table":
-			res := make(map[*Table][]*AsSplitArea)
-			for assplitarea := range stage.AsSplitAreas {
-				if assplitarea.Table != nil {
-					table_ := assplitarea.Table
-					var assplitareas []*AsSplitArea
-					_, ok := res[table_]
-					if ok {
-						assplitareas = res[table_]
-					} else {
-						assplitareas = make([]*AsSplitArea, 0)
-					}
-					assplitareas = append(assplitareas, assplitarea)
-					res[table_] = assplitareas
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Form":
-			res := make(map[*Form][]*AsSplitArea)
-			for assplitarea := range stage.AsSplitAreas {
-				if assplitarea.Form != nil {
-					form_ := assplitarea.Form
-					var assplitareas []*AsSplitArea
-					_, ok := res[form_]
-					if ok {
-						assplitareas = res[form_]
-					} else {
-						assplitareas = make([]*AsSplitArea, 0)
-					}
-					assplitareas = append(assplitareas, assplitarea)
-					res[form_] = assplitareas
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Svg":
-			res := make(map[*Svg][]*AsSplitArea)
-			for assplitarea := range stage.AsSplitAreas {
-				if assplitarea.Svg != nil {
-					svg_ := assplitarea.Svg
-					var assplitareas []*AsSplitArea
-					_, ok := res[svg_]
-					if ok {
-						assplitareas = res[svg_]
-					} else {
-						assplitareas = make([]*AsSplitArea, 0)
-					}
-					assplitareas = append(assplitareas, assplitarea)
-					res[svg_] = assplitareas
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Doc":
-			res := make(map[*Doc][]*AsSplitArea)
-			for assplitarea := range stage.AsSplitAreas {
-				if assplitarea.Doc != nil {
-					doc_ := assplitarea.Doc
-					var assplitareas []*AsSplitArea
-					_, ok := res[doc_]
-					if ok {
-						assplitareas = res[doc_]
-					} else {
-						assplitareas = make([]*AsSplitArea, 0)
-					}
-					assplitareas = append(assplitareas, assplitarea)
-					res[doc_] = assplitareas
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Split":
-			res := make(map[*Split][]*AsSplitArea)
-			for assplitarea := range stage.AsSplitAreas {
-				if assplitarea.Split != nil {
-					split_ := assplitarea.Split
-					var assplitareas []*AsSplitArea
-					_, ok := res[split_]
-					if ok {
-						assplitareas = res[split_]
-					} else {
-						assplitareas = make([]*AsSplitArea, 0)
-					}
-					assplitareas = append(assplitareas, assplitarea)
-					res[split_] = assplitareas
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Slider":
-			res := make(map[*Slider][]*AsSplitArea)
-			for assplitarea := range stage.AsSplitAreas {
-				if assplitarea.Slider != nil {
-					slider_ := assplitarea.Slider
-					var assplitareas []*AsSplitArea
-					_, ok := res[slider_]
-					if ok {
-						assplitareas = res[slider_]
-					} else {
-						assplitareas = make([]*AsSplitArea, 0)
-					}
-					assplitareas = append(assplitareas, assplitarea)
-					res[slider_] = assplitareas
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Tone":
-			res := make(map[*Tone][]*AsSplitArea)
-			for assplitarea := range stage.AsSplitAreas {
-				if assplitarea.Tone != nil {
-					tone_ := assplitarea.Tone
-					var assplitareas []*AsSplitArea
-					_, ok := res[tone_]
-					if ok {
-						assplitareas = res[tone_]
-					} else {
-						assplitareas = make([]*AsSplitArea, 0)
-					}
-					assplitareas = append(assplitareas, assplitarea)
-					res[tone_] = assplitareas
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		case "Button":
 			res := make(map[*Button][]*AsSplitArea)
 			for assplitarea := range stage.AsSplitAreas {
@@ -1833,6 +1697,142 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 					}
 					assplitareas = append(assplitareas, assplitarea)
 					res[cursor_] = assplitareas
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Doc":
+			res := make(map[*Doc][]*AsSplitArea)
+			for assplitarea := range stage.AsSplitAreas {
+				if assplitarea.Doc != nil {
+					doc_ := assplitarea.Doc
+					var assplitareas []*AsSplitArea
+					_, ok := res[doc_]
+					if ok {
+						assplitareas = res[doc_]
+					} else {
+						assplitareas = make([]*AsSplitArea, 0)
+					}
+					assplitareas = append(assplitareas, assplitarea)
+					res[doc_] = assplitareas
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Form":
+			res := make(map[*Form][]*AsSplitArea)
+			for assplitarea := range stage.AsSplitAreas {
+				if assplitarea.Form != nil {
+					form_ := assplitarea.Form
+					var assplitareas []*AsSplitArea
+					_, ok := res[form_]
+					if ok {
+						assplitareas = res[form_]
+					} else {
+						assplitareas = make([]*AsSplitArea, 0)
+					}
+					assplitareas = append(assplitareas, assplitarea)
+					res[form_] = assplitareas
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Slider":
+			res := make(map[*Slider][]*AsSplitArea)
+			for assplitarea := range stage.AsSplitAreas {
+				if assplitarea.Slider != nil {
+					slider_ := assplitarea.Slider
+					var assplitareas []*AsSplitArea
+					_, ok := res[slider_]
+					if ok {
+						assplitareas = res[slider_]
+					} else {
+						assplitareas = make([]*AsSplitArea, 0)
+					}
+					assplitareas = append(assplitareas, assplitarea)
+					res[slider_] = assplitareas
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Split":
+			res := make(map[*Split][]*AsSplitArea)
+			for assplitarea := range stage.AsSplitAreas {
+				if assplitarea.Split != nil {
+					split_ := assplitarea.Split
+					var assplitareas []*AsSplitArea
+					_, ok := res[split_]
+					if ok {
+						assplitareas = res[split_]
+					} else {
+						assplitareas = make([]*AsSplitArea, 0)
+					}
+					assplitareas = append(assplitareas, assplitarea)
+					res[split_] = assplitareas
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Svg":
+			res := make(map[*Svg][]*AsSplitArea)
+			for assplitarea := range stage.AsSplitAreas {
+				if assplitarea.Svg != nil {
+					svg_ := assplitarea.Svg
+					var assplitareas []*AsSplitArea
+					_, ok := res[svg_]
+					if ok {
+						assplitareas = res[svg_]
+					} else {
+						assplitareas = make([]*AsSplitArea, 0)
+					}
+					assplitareas = append(assplitareas, assplitarea)
+					res[svg_] = assplitareas
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Table":
+			res := make(map[*Table][]*AsSplitArea)
+			for assplitarea := range stage.AsSplitAreas {
+				if assplitarea.Table != nil {
+					table_ := assplitarea.Table
+					var assplitareas []*AsSplitArea
+					_, ok := res[table_]
+					if ok {
+						assplitareas = res[table_]
+					} else {
+						assplitareas = make([]*AsSplitArea, 0)
+					}
+					assplitareas = append(assplitareas, assplitarea)
+					res[table_] = assplitareas
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Tone":
+			res := make(map[*Tone][]*AsSplitArea)
+			for assplitarea := range stage.AsSplitAreas {
+				if assplitarea.Tone != nil {
+					tone_ := assplitarea.Tone
+					var assplitareas []*AsSplitArea
+					_, ok := res[tone_]
+					if ok {
+						assplitareas = res[tone_]
+					} else {
+						assplitareas = make([]*AsSplitArea, 0)
+					}
+					assplitareas = append(assplitareas, assplitarea)
+					res[tone_] = assplitareas
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Tree":
+			res := make(map[*Tree][]*AsSplitArea)
+			for assplitarea := range stage.AsSplitAreas {
+				if assplitarea.Tree != nil {
+					tree_ := assplitarea.Tree
+					var assplitareas []*AsSplitArea
+					_, ok := res[tree_]
+					if ok {
+						assplitareas = res[tree_]
+					} else {
+						assplitareas = make([]*AsSplitArea, 0)
+					}
+					assplitareas = append(assplitareas, assplitarea)
+					res[tree_] = assplitareas
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -2087,11 +2087,11 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case AsSplit:
 		res = []string{"Name", "Direction", "AsSplitAreas"}
 	case AsSplitArea:
-		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplits", "Tree", "Table", "Form", "Svg", "Doc", "Split", "Slider", "Tone", "Button", "Cursor"}
+		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplits", "Button", "Cursor", "Doc", "Form", "Slider", "Split", "Svg", "Table", "Tone", "Tree", "HasDiv", "DivStyle"}
 	case Button:
 		res = []string{"Name", "StackName"}
 	case Cursor:
-		res = []string{"Name", "StackName"}
+		res = []string{"Name", "StackName", "Style"}
 	case Doc:
 		res = []string{"Name", "StackName"}
 	case Form:
@@ -2101,7 +2101,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Split:
 		res = []string{"Name", "StackName"}
 	case Svg:
-		res = []string{"Name", "StackName"}
+		res = []string{"Name", "StackName", "Style"}
 	case Table:
 		res = []string{"Name", "StackName", "TableName"}
 	case Tone:
@@ -2190,11 +2190,11 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *AsSplit:
 		res = []string{"Name", "Direction", "AsSplitAreas"}
 	case *AsSplitArea:
-		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplits", "Tree", "Table", "Form", "Svg", "Doc", "Split", "Slider", "Tone", "Button", "Cursor"}
+		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplits", "Button", "Cursor", "Doc", "Form", "Slider", "Split", "Svg", "Table", "Tone", "Tree", "HasDiv", "DivStyle"}
 	case *Button:
 		res = []string{"Name", "StackName"}
 	case *Cursor:
-		res = []string{"Name", "StackName"}
+		res = []string{"Name", "StackName", "Style"}
 	case *Doc:
 		res = []string{"Name", "StackName"}
 	case *Form:
@@ -2204,7 +2204,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Split:
 		res = []string{"Name", "StackName"}
 	case *Svg:
-		res = []string{"Name", "StackName"}
+		res = []string{"Name", "StackName", "Style"}
 	case *Table:
 		res = []string{"Name", "StackName", "TableName"}
 	case *Tone:
@@ -2294,38 +2294,6 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 				}
 				res.valueString += __instance__.Name
 			}
-		case "Tree":
-			if inferedInstance.Tree != nil {
-				res.valueString = inferedInstance.Tree.Name
-			}
-		case "Table":
-			if inferedInstance.Table != nil {
-				res.valueString = inferedInstance.Table.Name
-			}
-		case "Form":
-			if inferedInstance.Form != nil {
-				res.valueString = inferedInstance.Form.Name
-			}
-		case "Svg":
-			if inferedInstance.Svg != nil {
-				res.valueString = inferedInstance.Svg.Name
-			}
-		case "Doc":
-			if inferedInstance.Doc != nil {
-				res.valueString = inferedInstance.Doc.Name
-			}
-		case "Split":
-			if inferedInstance.Split != nil {
-				res.valueString = inferedInstance.Split.Name
-			}
-		case "Slider":
-			if inferedInstance.Slider != nil {
-				res.valueString = inferedInstance.Slider.Name
-			}
-		case "Tone":
-			if inferedInstance.Tone != nil {
-				res.valueString = inferedInstance.Tone.Name
-			}
 		case "Button":
 			if inferedInstance.Button != nil {
 				res.valueString = inferedInstance.Button.Name
@@ -2334,6 +2302,44 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			if inferedInstance.Cursor != nil {
 				res.valueString = inferedInstance.Cursor.Name
 			}
+		case "Doc":
+			if inferedInstance.Doc != nil {
+				res.valueString = inferedInstance.Doc.Name
+			}
+		case "Form":
+			if inferedInstance.Form != nil {
+				res.valueString = inferedInstance.Form.Name
+			}
+		case "Slider":
+			if inferedInstance.Slider != nil {
+				res.valueString = inferedInstance.Slider.Name
+			}
+		case "Split":
+			if inferedInstance.Split != nil {
+				res.valueString = inferedInstance.Split.Name
+			}
+		case "Svg":
+			if inferedInstance.Svg != nil {
+				res.valueString = inferedInstance.Svg.Name
+			}
+		case "Table":
+			if inferedInstance.Table != nil {
+				res.valueString = inferedInstance.Table.Name
+			}
+		case "Tone":
+			if inferedInstance.Tone != nil {
+				res.valueString = inferedInstance.Tone.Name
+			}
+		case "Tree":
+			if inferedInstance.Tree != nil {
+				res.valueString = inferedInstance.Tree.Name
+			}
+		case "HasDiv":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasDiv)
+			res.valueBool = inferedInstance.HasDiv
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "DivStyle":
+			res.valueString = inferedInstance.DivStyle
 		}
 	case *Button:
 		switch fieldName {
@@ -2350,6 +2356,8 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.Name
 		case "StackName":
 			res.valueString = inferedInstance.StackName
+		case "Style":
+			res.valueString = inferedInstance.Style
 		}
 	case *Doc:
 		switch fieldName {
@@ -2392,6 +2400,8 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.Name
 		case "StackName":
 			res.valueString = inferedInstance.StackName
+		case "Style":
+			res.valueString = inferedInstance.Style
 		}
 	case *Table:
 		switch fieldName {
@@ -2484,38 +2494,6 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 				}
 				res.valueString += __instance__.Name
 			}
-		case "Tree":
-			if inferedInstance.Tree != nil {
-				res.valueString = inferedInstance.Tree.Name
-			}
-		case "Table":
-			if inferedInstance.Table != nil {
-				res.valueString = inferedInstance.Table.Name
-			}
-		case "Form":
-			if inferedInstance.Form != nil {
-				res.valueString = inferedInstance.Form.Name
-			}
-		case "Svg":
-			if inferedInstance.Svg != nil {
-				res.valueString = inferedInstance.Svg.Name
-			}
-		case "Doc":
-			if inferedInstance.Doc != nil {
-				res.valueString = inferedInstance.Doc.Name
-			}
-		case "Split":
-			if inferedInstance.Split != nil {
-				res.valueString = inferedInstance.Split.Name
-			}
-		case "Slider":
-			if inferedInstance.Slider != nil {
-				res.valueString = inferedInstance.Slider.Name
-			}
-		case "Tone":
-			if inferedInstance.Tone != nil {
-				res.valueString = inferedInstance.Tone.Name
-			}
 		case "Button":
 			if inferedInstance.Button != nil {
 				res.valueString = inferedInstance.Button.Name
@@ -2524,6 +2502,44 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			if inferedInstance.Cursor != nil {
 				res.valueString = inferedInstance.Cursor.Name
 			}
+		case "Doc":
+			if inferedInstance.Doc != nil {
+				res.valueString = inferedInstance.Doc.Name
+			}
+		case "Form":
+			if inferedInstance.Form != nil {
+				res.valueString = inferedInstance.Form.Name
+			}
+		case "Slider":
+			if inferedInstance.Slider != nil {
+				res.valueString = inferedInstance.Slider.Name
+			}
+		case "Split":
+			if inferedInstance.Split != nil {
+				res.valueString = inferedInstance.Split.Name
+			}
+		case "Svg":
+			if inferedInstance.Svg != nil {
+				res.valueString = inferedInstance.Svg.Name
+			}
+		case "Table":
+			if inferedInstance.Table != nil {
+				res.valueString = inferedInstance.Table.Name
+			}
+		case "Tone":
+			if inferedInstance.Tone != nil {
+				res.valueString = inferedInstance.Tone.Name
+			}
+		case "Tree":
+			if inferedInstance.Tree != nil {
+				res.valueString = inferedInstance.Tree.Name
+			}
+		case "HasDiv":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasDiv)
+			res.valueBool = inferedInstance.HasDiv
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "DivStyle":
+			res.valueString = inferedInstance.DivStyle
 		}
 	case Button:
 		switch fieldName {
@@ -2540,6 +2556,8 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.Name
 		case "StackName":
 			res.valueString = inferedInstance.StackName
+		case "Style":
+			res.valueString = inferedInstance.Style
 		}
 	case Doc:
 		switch fieldName {
@@ -2582,6 +2600,8 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.Name
 		case "StackName":
 			res.valueString = inferedInstance.StackName
+		case "Style":
+			res.valueString = inferedInstance.Style
 		}
 	case Table:
 		switch fieldName {

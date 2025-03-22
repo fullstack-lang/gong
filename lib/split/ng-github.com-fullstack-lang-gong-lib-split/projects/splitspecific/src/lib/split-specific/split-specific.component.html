@@ -21,7 +21,13 @@
         <as-split direction="vertical">
             @for (asSplitArea of view_.RootAsSplitAreas; track asSplitArea) {
             <as-split-area [size]="asSplitArea.IsAny ? $any('*') : asSplitArea.Size">
-                <ng-container *ngTemplateOutlet="componentRenderer; context: {$implicit: asSplitArea}"></ng-container>
+                @if (asSplitArea.HasDiv) {
+                    <div [style]="asSplitArea.DivStyle">
+                        <ng-container *ngTemplateOutlet="componentRenderer; context: {$implicit: asSplitArea}"></ng-container>
+                    </div>
+                } @else {
+                    <ng-container *ngTemplateOutlet="componentRenderer; context: {$implicit: asSplitArea}"></ng-container>
+                }
             </as-split-area>
             }
         </as-split>
@@ -39,7 +45,7 @@
         <lib-button-specific [Name]="area.Button.StackName"></lib-button-specific>
     }
     @if (area.Cursor) {
-        <lib-cursor-specific [Name]="area.Cursor.StackName"></lib-cursor-specific>
+        <lib-cursor-specific [Name]="area.Cursor.StackName" [style]="area.Svg.Style"></lib-cursor-specific>
     }
     @if (area.Doc) {
         <lib-doc-specific [Name]="area.Doc.StackName"></lib-doc-specific>
@@ -54,7 +60,7 @@
         <lib-split-specific [Name]="area.Split.StackName"></lib-split-specific>
     }
     @if (area.Svg) {
-        <lib-svg-specific [Name]="area.Svg.StackName"></lib-svg-specific>
+        <lib-svg-specific [Name]="area.Svg.StackName" [style]="area.Svg.Style"></lib-svg-specific>
     }
     @if (area.Table) {
         <lib-table-specific [Name]="area.Table.StackName" [TableName]="area.Table.TableName"></lib-table-specific>
@@ -70,7 +76,13 @@
     <as-split [direction]="asSplit.Direction">
         @for (asSplitArea of asSplit.AsSplitAreas; track asSplitArea) {
         <as-split-area [size]="asSplitArea.IsAny ? $any('*') : asSplitArea.Size">
-            <ng-container *ngTemplateOutlet="componentRenderer; context: {$implicit: asSplitArea}"></ng-container>
+            @if (asSplitArea.HasDiv) {
+                <div [style]="area.DivStyle">
+                    <ng-container *ngTemplateOutlet="componentRenderer; context: {$implicit: asSplitArea}"></ng-container>
+                </div>
+            } @else {
+                <ng-container *ngTemplateOutlet="componentRenderer; context: {$implicit: asSplitArea}"></ng-container>
+            }
         </as-split-area>
         }
     </as-split>

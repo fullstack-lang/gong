@@ -190,26 +190,30 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(assplitarea_.Size), formDiv)
 		case "IsAny":
 			FormDivBasicFieldToField(&(assplitarea_.IsAny), formDiv)
-		case "Tree":
-			FormDivSelectFieldToField(&(assplitarea_.Tree), assplitareaFormCallback.probe.stageOfInterest, formDiv)
-		case "Table":
-			FormDivSelectFieldToField(&(assplitarea_.Table), assplitareaFormCallback.probe.stageOfInterest, formDiv)
-		case "Form":
-			FormDivSelectFieldToField(&(assplitarea_.Form), assplitareaFormCallback.probe.stageOfInterest, formDiv)
-		case "Svg":
-			FormDivSelectFieldToField(&(assplitarea_.Svg), assplitareaFormCallback.probe.stageOfInterest, formDiv)
-		case "Doc":
-			FormDivSelectFieldToField(&(assplitarea_.Doc), assplitareaFormCallback.probe.stageOfInterest, formDiv)
-		case "Split":
-			FormDivSelectFieldToField(&(assplitarea_.Split), assplitareaFormCallback.probe.stageOfInterest, formDiv)
-		case "Slider":
-			FormDivSelectFieldToField(&(assplitarea_.Slider), assplitareaFormCallback.probe.stageOfInterest, formDiv)
-		case "Tone":
-			FormDivSelectFieldToField(&(assplitarea_.Tone), assplitareaFormCallback.probe.stageOfInterest, formDiv)
 		case "Button":
 			FormDivSelectFieldToField(&(assplitarea_.Button), assplitareaFormCallback.probe.stageOfInterest, formDiv)
 		case "Cursor":
 			FormDivSelectFieldToField(&(assplitarea_.Cursor), assplitareaFormCallback.probe.stageOfInterest, formDiv)
+		case "Doc":
+			FormDivSelectFieldToField(&(assplitarea_.Doc), assplitareaFormCallback.probe.stageOfInterest, formDiv)
+		case "Form":
+			FormDivSelectFieldToField(&(assplitarea_.Form), assplitareaFormCallback.probe.stageOfInterest, formDiv)
+		case "Slider":
+			FormDivSelectFieldToField(&(assplitarea_.Slider), assplitareaFormCallback.probe.stageOfInterest, formDiv)
+		case "Split":
+			FormDivSelectFieldToField(&(assplitarea_.Split), assplitareaFormCallback.probe.stageOfInterest, formDiv)
+		case "Svg":
+			FormDivSelectFieldToField(&(assplitarea_.Svg), assplitareaFormCallback.probe.stageOfInterest, formDiv)
+		case "Table":
+			FormDivSelectFieldToField(&(assplitarea_.Table), assplitareaFormCallback.probe.stageOfInterest, formDiv)
+		case "Tone":
+			FormDivSelectFieldToField(&(assplitarea_.Tone), assplitareaFormCallback.probe.stageOfInterest, formDiv)
+		case "Tree":
+			FormDivSelectFieldToField(&(assplitarea_.Tree), assplitareaFormCallback.probe.stageOfInterest, formDiv)
+		case "HasDiv":
+			FormDivBasicFieldToField(&(assplitarea_.HasDiv), formDiv)
+		case "DivStyle":
+			FormDivBasicFieldToField(&(assplitarea_.DivStyle), formDiv)
 		case "AsSplit:AsSplitAreas":
 			// we need to retrieve the field owner before the change
 			var pastAsSplitOwner *models.AsSplit
@@ -452,6 +456,8 @@ func (cursorFormCallback *CursorFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(cursor_.Name), formDiv)
 		case "StackName":
 			FormDivBasicFieldToField(&(cursor_.StackName), formDiv)
+		case "Style":
+			FormDivBasicFieldToField(&(cursor_.Style), formDiv)
 		}
 	}
 
@@ -849,6 +855,8 @@ func (svgFormCallback *SvgFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(svg_.Name), formDiv)
 		case "StackName":
 			FormDivBasicFieldToField(&(svg_.StackName), formDiv)
+		case "Style":
+			FormDivBasicFieldToField(&(svg_.Style), formDiv)
 		}
 	}
 
