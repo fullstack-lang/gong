@@ -35,33 +35,37 @@
     @if (area.ShowNameInHeader) {
     <p>{{area.Name}}</p>
     }
-    @if (area.Tree) {
-    <lib-tree-specific [Name]="area.Tree.StackName" [name]="area.Tree.TreeName"></lib-tree-specific>
+    @if (area.Button) {
+        <lib-button-specific [Name]="area.Button.StackName"></lib-button-specific>
     }
-    @if (area.Table) {
-    <lib-table-specific [Name]="area.Table.StackName" [TableName]="area.Table.TableName"></lib-table-specific>
-    }
-    @if (area.Form) {
-    <lib-form-specific [Name]="area.Form.StackName" [FormName]="area.Form.FormName"></lib-form-specific>
-    }
-    @if (area.Svg) {
-    <lib-svg-specific [Name]="area.Svg.StackName"></lib-svg-specific>
+    @if (area.Cursor) {
+        <lib-cursor-specific [Name]="area.Cursor.StackName"></lib-cursor-specific>
     }
     @if (area.Doc) {
-    <lib-doc-specific [Name]="area.Doc.StackName"></lib-doc-specific>
+        <lib-doc-specific [Name]="area.Doc.StackName"></lib-doc-specific>
     }
-    @if (area.Split) {
-    <lib-split-specific [Name]="area.Split.StackName"></lib-split-specific>
+    @if (area.Form) {
+        <lib-form-specific [Name]="area.Form.StackName" [FormName]="area.Form.FormName"></lib-form-specific>
     }
     @if (area.Slider) {
         <lib-slider-specific [Name]="area.Slider.StackName"></lib-slider-specific>
     }
-    @if (area.Button) {
-        <lib-button-specific [Name]="area.Button.StackName"></lib-button-specific>
+    @if (area.Split) {
+        <lib-split-specific [Name]="area.Split.StackName"></lib-split-specific>
+    }
+    @if (area.Svg) {
+        <lib-svg-specific [Name]="area.Svg.StackName"></lib-svg-specific>
+    }
+    @if (area.Table) {
+        <lib-table-specific [Name]="area.Table.StackName" [TableName]="area.Table.TableName"></lib-table-specific>
     }
     @if (area.Tone) {
         <lib-tone-specific [Name]="area.Tone.StackName"></lib-tone-specific>
     }
+    @if (area.Tree) {
+        <lib-tree-specific [Name]="area.Tree.StackName" [name]="area.Tree.TreeName"></lib-tree-specific>
+    }
+    
     @for (asSplit of area.AsSplits; track asSplit) {
     <as-split [direction]="asSplit.Direction">
         @for (asSplitArea of asSplit.AsSplitAreas; track asSplitArea) {

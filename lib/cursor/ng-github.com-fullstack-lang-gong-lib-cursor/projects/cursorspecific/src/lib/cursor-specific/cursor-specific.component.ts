@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import * as cursor from '../../../../cursor/src/public-api'
 
@@ -9,6 +9,9 @@ import * as cursor from '../../../../cursor/src/public-api'
   styleUrl: './cursor-specific.component.css'
 })
 export class CursorSpecificComponent implements OnInit {
+
+  @Input() Name: string = ""
+
   x = 0;
   xe = 500
   private animationFrameId: number | null = null;  // Store animation frame ID
