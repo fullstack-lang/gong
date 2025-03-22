@@ -6,14 +6,21 @@ import (
 	"strconv"
 
 	m "github.com/fullstack-lang/gong/lib/split/go/models"
+
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
+
+	button_models "github.com/fullstack-lang/gong/lib/button/go/models"
+	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
+
+	cursor_models "github.com/fullstack-lang/gong/lib/cursor/go/models"
+	cursor_stack "github.com/fullstack-lang/gong/lib/cursor/go/stack"
 
 	slider_models "github.com/fullstack-lang/gong/lib/slider/go/models"
 	slider_stack "github.com/fullstack-lang/gong/lib/slider/go/stack"
 
-	button_models "github.com/fullstack-lang/gong/lib/button/go/models"
-	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
+	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
+	svg_stack "github.com/fullstack-lang/gong/lib/svg/go/stack"
 
 	tone_stack "github.com/fullstack-lang/gong/lib/tone/go/stack"
 )
@@ -112,6 +119,47 @@ func main() {
 		toneStage := stacktone.Stage
 
 		toneStage.Commit()
+	}
+
+	{
+		cursorStackName := "cursor"
+		stackcursor := cursor_stack.NewStack(r, cursorStackName, "", "", "", *embeddedDiagrams, true)
+		cursorStage := stackcursor.Stage
+
+		cursor := (&cursor_models.Cursor{Name: "cursor"}).Stage(cursorStage)
+
+		cursor.Y1 = 100
+		cursor.Y2 = 200
+
+		cursor.StartX,
+			cursor.EndX = 20, 20
+		cursor.DurationSeconds = 7
+		cursor.Stroke = "red"
+		cursor.StrokeOpacity = 1.0
+		cursor.StrokeWidth = 2.0
+		cursor.IsPlaying = true
+
+		cursorStage.Commit()
+
+		svgStackName := "svg"
+		stacksvg := svg_stack.NewStack(r, svgStackName, "", "", "", *embeddedDiagrams, true)
+		svgStage := stacksvg.Stage
+
+		svg := (&svg_models.SVG{Name: "svg"}).Stage(svgStage)
+		layer := (&svg_models.Layer{Name: "layer"}).Stage(svgStage)
+		svg.Layers = append(svg.Layers, layer)
+
+		rect := (&svg_models.Rect{Name: "rect"}).Stage(svgStage)
+		layer.Rects = append(layer.Rects, rect)
+		rect.X = 10
+		rect.Y = 10
+		rect.Width = 200
+		rect.Height = 100
+		rect.Stroke = "black"
+		rect.StrokeOpacity = 1.0
+		rect.StrokeWidth = 2.0
+
+		svgStage.Commit()
 	}
 
 	if false {
