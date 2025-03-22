@@ -19,6 +19,7 @@ export class Cursor {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	StackName: string = ""
+	Style: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 }
@@ -32,6 +33,7 @@ export function CopyCursorToCursorAPI(cursor: Cursor, cursorAPI: CursorAPI) {
 	// insertion point for basic fields copy operations
 	cursorAPI.Name = cursor.Name
 	cursorAPI.StackName = cursor.StackName
+	cursorAPI.Style = cursor.Style
 
 	// insertion point for pointer fields encoding
 
@@ -51,6 +53,7 @@ export function CopyCursorAPIToCursor(cursorAPI: CursorAPI, cursor: Cursor, fron
 	// insertion point for basic fields copy operations
 	cursor.Name = cursorAPI.Name
 	cursor.StackName = cursorAPI.StackName
+	cursor.Style = cursorAPI.Style
 
 	// insertion point for pointer fields encoding
 

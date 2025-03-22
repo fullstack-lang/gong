@@ -66,6 +66,9 @@ type SvgDB struct {
 	// Declation for basic field svgDB.StackName
 	StackName_Data sql.NullString
 
+	// Declation for basic field svgDB.Style
+	Style_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	SvgPointersEncoding
@@ -91,6 +94,8 @@ type SvgWOP struct {
 	Name string `xlsx:"1"`
 
 	StackName string `xlsx:"2"`
+
+	Style string `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -99,6 +104,7 @@ var Svg_Fields = []string{
 	"ID",
 	"Name",
 	"StackName",
+	"Style",
 }
 
 type BackRepoSvgStruct struct {
@@ -381,6 +387,9 @@ func (svgDB *SvgDB) CopyBasicFieldsFromSvg(svg *models.Svg) {
 
 	svgDB.StackName_Data.String = svg.StackName
 	svgDB.StackName_Data.Valid = true
+
+	svgDB.Style_Data.String = svg.Style
+	svgDB.Style_Data.Valid = true
 }
 
 // CopyBasicFieldsFromSvg_WOP
@@ -392,6 +401,9 @@ func (svgDB *SvgDB) CopyBasicFieldsFromSvg_WOP(svg *models.Svg_WOP) {
 
 	svgDB.StackName_Data.String = svg.StackName
 	svgDB.StackName_Data.Valid = true
+
+	svgDB.Style_Data.String = svg.Style
+	svgDB.Style_Data.Valid = true
 }
 
 // CopyBasicFieldsFromSvgWOP
@@ -403,6 +415,9 @@ func (svgDB *SvgDB) CopyBasicFieldsFromSvgWOP(svg *SvgWOP) {
 
 	svgDB.StackName_Data.String = svg.StackName
 	svgDB.StackName_Data.Valid = true
+
+	svgDB.Style_Data.String = svg.Style
+	svgDB.Style_Data.Valid = true
 }
 
 // CopyBasicFieldsToSvg
@@ -410,6 +425,7 @@ func (svgDB *SvgDB) CopyBasicFieldsToSvg(svg *models.Svg) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	svg.Name = svgDB.Name_Data.String
 	svg.StackName = svgDB.StackName_Data.String
+	svg.Style = svgDB.Style_Data.String
 }
 
 // CopyBasicFieldsToSvg_WOP
@@ -417,6 +433,7 @@ func (svgDB *SvgDB) CopyBasicFieldsToSvg_WOP(svg *models.Svg_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	svg.Name = svgDB.Name_Data.String
 	svg.StackName = svgDB.StackName_Data.String
+	svg.Style = svgDB.Style_Data.String
 }
 
 // CopyBasicFieldsToSvgWOP
@@ -425,6 +442,7 @@ func (svgDB *SvgDB) CopyBasicFieldsToSvgWOP(svg *SvgWOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	svg.Name = svgDB.Name_Data.String
 	svg.StackName = svgDB.StackName_Data.String
+	svg.Style = svgDB.Style_Data.String
 }
 
 // Backup generates a json file from a slice of all SvgDB instances in the backrepo

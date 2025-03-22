@@ -19,6 +19,7 @@ export class Svg {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	StackName: string = ""
+	Style: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 }
@@ -32,6 +33,7 @@ export function CopySvgToSvgAPI(svg: Svg, svgAPI: SvgAPI) {
 	// insertion point for basic fields copy operations
 	svgAPI.Name = svg.Name
 	svgAPI.StackName = svg.StackName
+	svgAPI.Style = svg.Style
 
 	// insertion point for pointer fields encoding
 
@@ -51,6 +53,7 @@ export function CopySvgAPIToSvg(svgAPI: SvgAPI, svg: Svg, frontRepo: FrontRepo) 
 	// insertion point for basic fields copy operations
 	svg.Name = svgAPI.Name
 	svg.StackName = svgAPI.StackName
+	svg.Style = svgAPI.Style
 
 	// insertion point for pointer fields encoding
 
