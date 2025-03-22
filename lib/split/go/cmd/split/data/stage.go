@@ -42,8 +42,12 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000013_button_probe_area := (&models.AsSplitArea{}).Stage(stage)
 	__AsSplitArea__000014_tone_area := (&models.AsSplitArea{}).Stage(stage)
 	__AsSplitArea__000015_tone_probe_area := (&models.AsSplitArea{}).Stage(stage)
+	__AsSplitArea__000016_cursor_svg_area := (&models.AsSplitArea{}).Stage(stage)
+	__AsSplitArea__000017_cursor_probe_area := (&models.AsSplitArea{}).Stage(stage)
 
 	__Button__000000_button := (&models.Button{}).Stage(stage)
+
+	__Cursor__000000_cursor := (&models.Cursor{}).Stage(stage)
 
 	__Doc__000000_doc_in_panel := (&models.Doc{}).Stage(stage)
 
@@ -57,8 +61,10 @@ func _(stage *models.StageStruct) {
 	__Split__000002_slider_2_probe := (&models.Split{}).Stage(stage)
 	__Split__000003_button_probe := (&models.Split{}).Stage(stage)
 	__Split__000004_tone_probe := (&models.Split{}).Stage(stage)
+	__Split__000005_cursor_probe := (&models.Split{}).Stage(stage)
 
-	__Svg__000000_svg_component := (&models.Svg{}).Stage(stage)
+	__Svg__000000_svg_of_doc_on_split := (&models.Svg{}).Stage(stage)
+	__Svg__000001_svg := (&models.Svg{}).Stage(stage)
 
 	__Table__000000_Table_within_panel := (&models.Table{}).Stage(stage)
 
@@ -76,6 +82,8 @@ func _(stage *models.StageStruct) {
 	__View__000007_view_of_button_probe := (&models.View{}).Stage(stage)
 	__View__000008_view_of_tone := (&models.View{}).Stage(stage)
 	__View__000009_view_of_tone_probe := (&models.View{}).Stage(stage)
+	__View__000010_view_of_cursor_svg := (&models.View{}).Stage(stage)
+	__View__000011_view_of_cursor_probe := (&models.View{}).Stage(stage)
 
 	// Setup of values
 
@@ -162,8 +170,21 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000015_tone_probe_area.Size = 100.000000
 	__AsSplitArea__000015_tone_probe_area.IsAny = false
 
+	__AsSplitArea__000016_cursor_svg_area.Name = `cursor+svg area`
+	__AsSplitArea__000016_cursor_svg_area.ShowNameInHeader = true
+	__AsSplitArea__000016_cursor_svg_area.Size = 100.000000
+	__AsSplitArea__000016_cursor_svg_area.IsAny = false
+
+	__AsSplitArea__000017_cursor_probe_area.Name = `cursor probe area`
+	__AsSplitArea__000017_cursor_probe_area.ShowNameInHeader = true
+	__AsSplitArea__000017_cursor_probe_area.Size = 100.000000
+	__AsSplitArea__000017_cursor_probe_area.IsAny = false
+
 	__Button__000000_button.Name = `button`
 	__Button__000000_button.StackName = `button`
+
+	__Cursor__000000_cursor.Name = `cursor`
+	__Cursor__000000_cursor.StackName = `cursor`
 
 	__Doc__000000_doc_in_panel.Name = `doc in panel`
 	__Doc__000000_doc_in_panel.StackName = `github.com/fullstack-lang/gong/lib/split/go/models`
@@ -193,8 +214,14 @@ func _(stage *models.StageStruct) {
 	__Split__000004_tone_probe.Name = `tone probe`
 	__Split__000004_tone_probe.StackName = `tone-probe`
 
-	__Svg__000000_svg_component.Name = `svg component`
-	__Svg__000000_svg_component.StackName = `github.com/fullstack-lang/gong/lib/split/go/models`
+	__Split__000005_cursor_probe.Name = `cursor probe`
+	__Split__000005_cursor_probe.StackName = `cursor-probe`
+
+	__Svg__000000_svg_of_doc_on_split.Name = `svg of doc on split`
+	__Svg__000000_svg_of_doc_on_split.StackName = `github.com/fullstack-lang/gong/lib/split/go/models`
+
+	__Svg__000001_svg.Name = `svg`
+	__Svg__000001_svg.StackName = `svg`
 
 	__Table__000000_Table_within_panel.Name = `Table within panel`
 	__Table__000000_Table_within_panel.StackName = `split-table`
@@ -227,6 +254,10 @@ func _(stage *models.StageStruct) {
 
 	__View__000009_view_of_tone_probe.Name = `view of tone probe`
 
+	__View__000010_view_of_cursor_svg.Name = `view of cursor+svg`
+
+	__View__000011_view_of_cursor_probe.Name = `view of cursor probe`
+
 	// Setup of pointers
 	// setup of AsSplit instances pointers
 	__AsSplit__000000_planel_root.AsSplitAreas = append(__AsSplit__000000_planel_root.AsSplitAreas, __AsSplitArea__000002_sidebar_tree)
@@ -248,7 +279,11 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000013_button_probe_area.Split = __Split__000003_button_probe
 	__AsSplitArea__000014_tone_area.Tone = __Tone__000000_tone
 	__AsSplitArea__000015_tone_probe_area.Split = __Split__000004_tone_probe
+	__AsSplitArea__000016_cursor_svg_area.Svg = __Svg__000001_svg
+	__AsSplitArea__000016_cursor_svg_area.Cursor = __Cursor__000000_cursor
+	__AsSplitArea__000017_cursor_probe_area.Split = __Split__000005_cursor_probe
 	// setup of Button instances pointers
+	// setup of Cursor instances pointers
 	// setup of Doc instances pointers
 	// setup of Form instances pointers
 	// setup of Slider instances pointers
@@ -269,4 +304,6 @@ func _(stage *models.StageStruct) {
 	__View__000007_view_of_button_probe.RootAsSplitAreas = append(__View__000007_view_of_button_probe.RootAsSplitAreas, __AsSplitArea__000013_button_probe_area)
 	__View__000008_view_of_tone.RootAsSplitAreas = append(__View__000008_view_of_tone.RootAsSplitAreas, __AsSplitArea__000014_tone_area)
 	__View__000009_view_of_tone_probe.RootAsSplitAreas = append(__View__000009_view_of_tone_probe.RootAsSplitAreas, __AsSplitArea__000015_tone_probe_area)
+	__View__000010_view_of_cursor_svg.RootAsSplitAreas = append(__View__000010_view_of_cursor_svg.RootAsSplitAreas, __AsSplitArea__000016_cursor_svg_area)
+	__View__000011_view_of_cursor_probe.RootAsSplitAreas = append(__View__000011_view_of_cursor_probe.RootAsSplitAreas, __AsSplitArea__000017_cursor_probe_area)
 }
