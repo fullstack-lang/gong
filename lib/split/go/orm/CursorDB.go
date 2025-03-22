@@ -66,6 +66,9 @@ type CursorDB struct {
 	// Declation for basic field cursorDB.StackName
 	StackName_Data sql.NullString
 
+	// Declation for basic field cursorDB.Style
+	Style_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	CursorPointersEncoding
@@ -91,6 +94,8 @@ type CursorWOP struct {
 	Name string `xlsx:"1"`
 
 	StackName string `xlsx:"2"`
+
+	Style string `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -99,6 +104,7 @@ var Cursor_Fields = []string{
 	"ID",
 	"Name",
 	"StackName",
+	"Style",
 }
 
 type BackRepoCursorStruct struct {
@@ -381,6 +387,9 @@ func (cursorDB *CursorDB) CopyBasicFieldsFromCursor(cursor *models.Cursor) {
 
 	cursorDB.StackName_Data.String = cursor.StackName
 	cursorDB.StackName_Data.Valid = true
+
+	cursorDB.Style_Data.String = cursor.Style
+	cursorDB.Style_Data.Valid = true
 }
 
 // CopyBasicFieldsFromCursor_WOP
@@ -392,6 +401,9 @@ func (cursorDB *CursorDB) CopyBasicFieldsFromCursor_WOP(cursor *models.Cursor_WO
 
 	cursorDB.StackName_Data.String = cursor.StackName
 	cursorDB.StackName_Data.Valid = true
+
+	cursorDB.Style_Data.String = cursor.Style
+	cursorDB.Style_Data.Valid = true
 }
 
 // CopyBasicFieldsFromCursorWOP
@@ -403,6 +415,9 @@ func (cursorDB *CursorDB) CopyBasicFieldsFromCursorWOP(cursor *CursorWOP) {
 
 	cursorDB.StackName_Data.String = cursor.StackName
 	cursorDB.StackName_Data.Valid = true
+
+	cursorDB.Style_Data.String = cursor.Style
+	cursorDB.Style_Data.Valid = true
 }
 
 // CopyBasicFieldsToCursor
@@ -410,6 +425,7 @@ func (cursorDB *CursorDB) CopyBasicFieldsToCursor(cursor *models.Cursor) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	cursor.Name = cursorDB.Name_Data.String
 	cursor.StackName = cursorDB.StackName_Data.String
+	cursor.Style = cursorDB.Style_Data.String
 }
 
 // CopyBasicFieldsToCursor_WOP
@@ -417,6 +433,7 @@ func (cursorDB *CursorDB) CopyBasicFieldsToCursor_WOP(cursor *models.Cursor_WOP)
 	// insertion point for checkout of basic fields (back repo to stage)
 	cursor.Name = cursorDB.Name_Data.String
 	cursor.StackName = cursorDB.StackName_Data.String
+	cursor.Style = cursorDB.Style_Data.String
 }
 
 // CopyBasicFieldsToCursorWOP
@@ -425,6 +442,7 @@ func (cursorDB *CursorDB) CopyBasicFieldsToCursorWOP(cursor *CursorWOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	cursor.Name = cursorDB.Name_Data.String
 	cursor.StackName = cursorDB.StackName_Data.String
+	cursor.Style = cursorDB.Style_Data.String
 }
 
 // Backup generates a json file from a slice of all CursorDB instances in the backrepo

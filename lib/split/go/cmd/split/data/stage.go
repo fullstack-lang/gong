@@ -94,97 +94,134 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000000_root_for_tree_table_form.ShowNameInHeader = false
 	__AsSplitArea__000000_root_for_tree_table_form.Size = 80.000000
 	__AsSplitArea__000000_root_for_tree_table_form.IsAny = false
+	__AsSplitArea__000000_root_for_tree_table_form.HasDiv = false
+	__AsSplitArea__000000_root_for_tree_table_form.DivStyle = ``
 
 	__AsSplitArea__000001_doc_component.Name = `doc component`
 	__AsSplitArea__000001_doc_component.ShowNameInHeader = false
 	__AsSplitArea__000001_doc_component.Size = 20.000000
 	__AsSplitArea__000001_doc_component.IsAny = false
+	__AsSplitArea__000001_doc_component.HasDiv = false
+	__AsSplitArea__000001_doc_component.DivStyle = ``
 
 	__AsSplitArea__000002_sidebar_tree.Name = `sidebar tree`
 	__AsSplitArea__000002_sidebar_tree.ShowNameInHeader = false
 	__AsSplitArea__000002_sidebar_tree.Size = 10.000000
 	__AsSplitArea__000002_sidebar_tree.IsAny = false
+	__AsSplitArea__000002_sidebar_tree.HasDiv = false
+	__AsSplitArea__000002_sidebar_tree.DivStyle = ``
 
 	__AsSplitArea__000003_table.Name = `table`
 	__AsSplitArea__000003_table.ShowNameInHeader = false
 	__AsSplitArea__000003_table.Size = 50.000000
 	__AsSplitArea__000003_table.IsAny = false
+	__AsSplitArea__000003_table.HasDiv = false
+	__AsSplitArea__000003_table.DivStyle = ``
 
 	__AsSplitArea__000004_form.Name = `form`
 	__AsSplitArea__000004_form.ShowNameInHeader = false
 	__AsSplitArea__000004_form.Size = 30.000000
 	__AsSplitArea__000004_form.IsAny = false
+	__AsSplitArea__000004_form.HasDiv = false
+	__AsSplitArea__000004_form.DivStyle = ``
 
 	__AsSplitArea__000005_dynmicaly_load_component.Name = `dynmicaly load component`
 	__AsSplitArea__000005_dynmicaly_load_component.ShowNameInHeader = true
 	__AsSplitArea__000005_dynmicaly_load_component.Size = 10.000000
 	__AsSplitArea__000005_dynmicaly_load_component.IsAny = false
+	__AsSplitArea__000005_dynmicaly_load_component.HasDiv = false
+	__AsSplitArea__000005_dynmicaly_load_component.DivStyle = ``
 
 	__AsSplitArea__000006_split_probe.Name = `split-probe`
 	__AsSplitArea__000006_split_probe.ShowNameInHeader = true
 	__AsSplitArea__000006_split_probe.Size = 100.000000
 	__AsSplitArea__000006_split_probe.IsAny = false
+	__AsSplitArea__000006_split_probe.HasDiv = false
+	__AsSplitArea__000006_split_probe.DivStyle = ``
 
 	__AsSplitArea__000007_Slider_Area.Name = `Slider Area`
 	__AsSplitArea__000007_Slider_Area.ShowNameInHeader = true
 	__AsSplitArea__000007_Slider_Area.Size = 100.000000
 	__AsSplitArea__000007_Slider_Area.IsAny = false
+	__AsSplitArea__000007_Slider_Area.HasDiv = false
+	__AsSplitArea__000007_Slider_Area.DivStyle = ``
 
 	__AsSplitArea__000008_doc_of_slider.Name = `doc of slider`
 	__AsSplitArea__000008_doc_of_slider.ShowNameInHeader = true
 	__AsSplitArea__000008_doc_of_slider.Size = 100.000000
 	__AsSplitArea__000008_doc_of_slider.IsAny = false
+	__AsSplitArea__000008_doc_of_slider.HasDiv = false
+	__AsSplitArea__000008_doc_of_slider.DivStyle = ``
 
 	__AsSplitArea__000009_slider_1_probe.Name = `slider 1 probe`
 	__AsSplitArea__000009_slider_1_probe.ShowNameInHeader = true
 	__AsSplitArea__000009_slider_1_probe.Size = 0.000000
 	__AsSplitArea__000009_slider_1_probe.IsAny = false
+	__AsSplitArea__000009_slider_1_probe.HasDiv = false
+	__AsSplitArea__000009_slider_1_probe.DivStyle = ``
 
 	__AsSplitArea__000010_slider_2.Name = `slider 2`
 	__AsSplitArea__000010_slider_2.ShowNameInHeader = true
 	__AsSplitArea__000010_slider_2.Size = 100.000000
 	__AsSplitArea__000010_slider_2.IsAny = false
+	__AsSplitArea__000010_slider_2.HasDiv = false
+	__AsSplitArea__000010_slider_2.DivStyle = ``
 
 	__AsSplitArea__000011_slider_2_probe.Name = `slider 2 probe`
 	__AsSplitArea__000011_slider_2_probe.ShowNameInHeader = true
 	__AsSplitArea__000011_slider_2_probe.Size = 100.000000
 	__AsSplitArea__000011_slider_2_probe.IsAny = false
+	__AsSplitArea__000011_slider_2_probe.HasDiv = false
+	__AsSplitArea__000011_slider_2_probe.DivStyle = ``
 
 	__AsSplitArea__000012_button_area.Name = `button area`
 	__AsSplitArea__000012_button_area.ShowNameInHeader = true
 	__AsSplitArea__000012_button_area.Size = 100.000000
 	__AsSplitArea__000012_button_area.IsAny = false
+	__AsSplitArea__000012_button_area.HasDiv = false
+	__AsSplitArea__000012_button_area.DivStyle = ``
 
 	__AsSplitArea__000013_button_probe_area.Name = `button probe area`
 	__AsSplitArea__000013_button_probe_area.ShowNameInHeader = true
 	__AsSplitArea__000013_button_probe_area.Size = 100.000000
 	__AsSplitArea__000013_button_probe_area.IsAny = false
+	__AsSplitArea__000013_button_probe_area.HasDiv = false
+	__AsSplitArea__000013_button_probe_area.DivStyle = ``
 
 	__AsSplitArea__000014_tone_area.Name = `tone area`
 	__AsSplitArea__000014_tone_area.ShowNameInHeader = true
 	__AsSplitArea__000014_tone_area.Size = 100.000000
 	__AsSplitArea__000014_tone_area.IsAny = false
+	__AsSplitArea__000014_tone_area.HasDiv = false
+	__AsSplitArea__000014_tone_area.DivStyle = ``
 
 	__AsSplitArea__000015_tone_probe_area.Name = `tone probe area`
 	__AsSplitArea__000015_tone_probe_area.ShowNameInHeader = true
 	__AsSplitArea__000015_tone_probe_area.Size = 100.000000
 	__AsSplitArea__000015_tone_probe_area.IsAny = false
+	__AsSplitArea__000015_tone_probe_area.HasDiv = false
+	__AsSplitArea__000015_tone_probe_area.DivStyle = ``
 
 	__AsSplitArea__000016_cursor_svg_area.Name = `cursor+svg area`
 	__AsSplitArea__000016_cursor_svg_area.ShowNameInHeader = true
 	__AsSplitArea__000016_cursor_svg_area.Size = 100.000000
 	__AsSplitArea__000016_cursor_svg_area.IsAny = false
+	__AsSplitArea__000016_cursor_svg_area.HasDiv = true
+	__AsSplitArea__000016_cursor_svg_area.DivStyle = `position: relative; width: 100%; height: 100%;`
 
 	__AsSplitArea__000017_cursor_probe_area.Name = `cursor probe area`
 	__AsSplitArea__000017_cursor_probe_area.ShowNameInHeader = true
 	__AsSplitArea__000017_cursor_probe_area.Size = 100.000000
 	__AsSplitArea__000017_cursor_probe_area.IsAny = false
+	__AsSplitArea__000017_cursor_probe_area.HasDiv = false
+	__AsSplitArea__000017_cursor_probe_area.DivStyle = ``
 
 	__Button__000000_button.Name = `button`
 	__Button__000000_button.StackName = `button`
 
 	__Cursor__000000_cursor.Name = `cursor`
 	__Cursor__000000_cursor.StackName = `cursor`
+	__Cursor__000000_cursor.Style = `position: absolute;             top: 0;             left: 0;             width: 100%;             height: 100%;             z-index: 2;             pointer-events: none;`
 
 	__Doc__000000_doc_in_panel.Name = `doc in panel`
 	__Doc__000000_doc_in_panel.StackName = `github.com/fullstack-lang/gong/lib/split/go/models`
@@ -219,9 +256,11 @@ func _(stage *models.StageStruct) {
 
 	__Svg__000000_svg_of_doc_on_split.Name = `svg of doc on split`
 	__Svg__000000_svg_of_doc_on_split.StackName = `github.com/fullstack-lang/gong/lib/split/go/models`
+	__Svg__000000_svg_of_doc_on_split.Style = ``
 
 	__Svg__000001_svg.Name = `svg`
 	__Svg__000001_svg.StackName = `svg`
+	__Svg__000001_svg.Style = `position: absolute;             top: 0;             left: 0;             width: 100%;             height: 100%;             z-index: 1;`
 
 	__Table__000000_Table_within_panel.Name = `Table within panel`
 	__Table__000000_Table_within_panel.StackName = `split-table`
@@ -279,8 +318,8 @@ func _(stage *models.StageStruct) {
 	__AsSplitArea__000013_button_probe_area.Split = __Split__000003_button_probe
 	__AsSplitArea__000014_tone_area.Tone = __Tone__000000_tone
 	__AsSplitArea__000015_tone_probe_area.Split = __Split__000004_tone_probe
-	__AsSplitArea__000016_cursor_svg_area.Svg = __Svg__000001_svg
 	__AsSplitArea__000016_cursor_svg_area.Cursor = __Cursor__000000_cursor
+	__AsSplitArea__000016_cursor_svg_area.Svg = __Svg__000001_svg
 	__AsSplitArea__000017_cursor_probe_area.Split = __Split__000005_cursor_probe
 	// setup of Button instances pointers
 	// setup of Cursor instances pointers

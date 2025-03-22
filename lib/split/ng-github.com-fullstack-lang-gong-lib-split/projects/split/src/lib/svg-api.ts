@@ -14,6 +14,7 @@ export class SvgAPI {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	StackName: string = ""
+	Style: string = ""
 
 	// insertion point for other decls
 
