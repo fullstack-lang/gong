@@ -223,35 +223,35 @@ func (stage *StageStruct) StageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	assplitarea.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if assplitarea.Tree != nil {
-		StageBranch(stage, assplitarea.Tree)
-	}
-	if assplitarea.Table != nil {
-		StageBranch(stage, assplitarea.Table)
-	}
-	if assplitarea.Form != nil {
-		StageBranch(stage, assplitarea.Form)
-	}
-	if assplitarea.Svg != nil {
-		StageBranch(stage, assplitarea.Svg)
-	}
-	if assplitarea.Doc != nil {
-		StageBranch(stage, assplitarea.Doc)
-	}
-	if assplitarea.Split != nil {
-		StageBranch(stage, assplitarea.Split)
-	}
-	if assplitarea.Slider != nil {
-		StageBranch(stage, assplitarea.Slider)
-	}
-	if assplitarea.Tone != nil {
-		StageBranch(stage, assplitarea.Tone)
-	}
 	if assplitarea.Button != nil {
 		StageBranch(stage, assplitarea.Button)
 	}
 	if assplitarea.Cursor != nil {
 		StageBranch(stage, assplitarea.Cursor)
+	}
+	if assplitarea.Doc != nil {
+		StageBranch(stage, assplitarea.Doc)
+	}
+	if assplitarea.Form != nil {
+		StageBranch(stage, assplitarea.Form)
+	}
+	if assplitarea.Slider != nil {
+		StageBranch(stage, assplitarea.Slider)
+	}
+	if assplitarea.Split != nil {
+		StageBranch(stage, assplitarea.Split)
+	}
+	if assplitarea.Svg != nil {
+		StageBranch(stage, assplitarea.Svg)
+	}
+	if assplitarea.Table != nil {
+		StageBranch(stage, assplitarea.Table)
+	}
+	if assplitarea.Tone != nil {
+		StageBranch(stage, assplitarea.Tone)
+	}
+	if assplitarea.Tree != nil {
+		StageBranch(stage, assplitarea.Tree)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -534,35 +534,35 @@ func CopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplitArea
 	assplitareaFrom.CopyBasicFields(assplitareaTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if assplitareaFrom.Tree != nil {
-		assplitareaTo.Tree = CopyBranchTree(mapOrigCopy, assplitareaFrom.Tree)
-	}
-	if assplitareaFrom.Table != nil {
-		assplitareaTo.Table = CopyBranchTable(mapOrigCopy, assplitareaFrom.Table)
-	}
-	if assplitareaFrom.Form != nil {
-		assplitareaTo.Form = CopyBranchForm(mapOrigCopy, assplitareaFrom.Form)
-	}
-	if assplitareaFrom.Svg != nil {
-		assplitareaTo.Svg = CopyBranchSvg(mapOrigCopy, assplitareaFrom.Svg)
-	}
-	if assplitareaFrom.Doc != nil {
-		assplitareaTo.Doc = CopyBranchDoc(mapOrigCopy, assplitareaFrom.Doc)
-	}
-	if assplitareaFrom.Split != nil {
-		assplitareaTo.Split = CopyBranchSplit(mapOrigCopy, assplitareaFrom.Split)
-	}
-	if assplitareaFrom.Slider != nil {
-		assplitareaTo.Slider = CopyBranchSlider(mapOrigCopy, assplitareaFrom.Slider)
-	}
-	if assplitareaFrom.Tone != nil {
-		assplitareaTo.Tone = CopyBranchTone(mapOrigCopy, assplitareaFrom.Tone)
-	}
 	if assplitareaFrom.Button != nil {
 		assplitareaTo.Button = CopyBranchButton(mapOrigCopy, assplitareaFrom.Button)
 	}
 	if assplitareaFrom.Cursor != nil {
 		assplitareaTo.Cursor = CopyBranchCursor(mapOrigCopy, assplitareaFrom.Cursor)
+	}
+	if assplitareaFrom.Doc != nil {
+		assplitareaTo.Doc = CopyBranchDoc(mapOrigCopy, assplitareaFrom.Doc)
+	}
+	if assplitareaFrom.Form != nil {
+		assplitareaTo.Form = CopyBranchForm(mapOrigCopy, assplitareaFrom.Form)
+	}
+	if assplitareaFrom.Slider != nil {
+		assplitareaTo.Slider = CopyBranchSlider(mapOrigCopy, assplitareaFrom.Slider)
+	}
+	if assplitareaFrom.Split != nil {
+		assplitareaTo.Split = CopyBranchSplit(mapOrigCopy, assplitareaFrom.Split)
+	}
+	if assplitareaFrom.Svg != nil {
+		assplitareaTo.Svg = CopyBranchSvg(mapOrigCopy, assplitareaFrom.Svg)
+	}
+	if assplitareaFrom.Table != nil {
+		assplitareaTo.Table = CopyBranchTable(mapOrigCopy, assplitareaFrom.Table)
+	}
+	if assplitareaFrom.Tone != nil {
+		assplitareaTo.Tone = CopyBranchTone(mapOrigCopy, assplitareaFrom.Tone)
+	}
+	if assplitareaFrom.Tree != nil {
+		assplitareaTo.Tree = CopyBranchTree(mapOrigCopy, assplitareaFrom.Tree)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -866,35 +866,35 @@ func (stage *StageStruct) UnstageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	assplitarea.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if assplitarea.Tree != nil {
-		UnstageBranch(stage, assplitarea.Tree)
-	}
-	if assplitarea.Table != nil {
-		UnstageBranch(stage, assplitarea.Table)
-	}
-	if assplitarea.Form != nil {
-		UnstageBranch(stage, assplitarea.Form)
-	}
-	if assplitarea.Svg != nil {
-		UnstageBranch(stage, assplitarea.Svg)
-	}
-	if assplitarea.Doc != nil {
-		UnstageBranch(stage, assplitarea.Doc)
-	}
-	if assplitarea.Split != nil {
-		UnstageBranch(stage, assplitarea.Split)
-	}
-	if assplitarea.Slider != nil {
-		UnstageBranch(stage, assplitarea.Slider)
-	}
-	if assplitarea.Tone != nil {
-		UnstageBranch(stage, assplitarea.Tone)
-	}
 	if assplitarea.Button != nil {
 		UnstageBranch(stage, assplitarea.Button)
 	}
 	if assplitarea.Cursor != nil {
 		UnstageBranch(stage, assplitarea.Cursor)
+	}
+	if assplitarea.Doc != nil {
+		UnstageBranch(stage, assplitarea.Doc)
+	}
+	if assplitarea.Form != nil {
+		UnstageBranch(stage, assplitarea.Form)
+	}
+	if assplitarea.Slider != nil {
+		UnstageBranch(stage, assplitarea.Slider)
+	}
+	if assplitarea.Split != nil {
+		UnstageBranch(stage, assplitarea.Split)
+	}
+	if assplitarea.Svg != nil {
+		UnstageBranch(stage, assplitarea.Svg)
+	}
+	if assplitarea.Table != nil {
+		UnstageBranch(stage, assplitarea.Table)
+	}
+	if assplitarea.Tone != nil {
+		UnstageBranch(stage, assplitarea.Tone)
+	}
+	if assplitarea.Tree != nil {
+		UnstageBranch(stage, assplitarea.Tree)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers

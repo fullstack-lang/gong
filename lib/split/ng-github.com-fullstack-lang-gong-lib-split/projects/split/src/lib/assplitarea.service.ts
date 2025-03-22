@@ -18,16 +18,16 @@ import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
 import { AsSplitAPI } from './assplit-api'
-import { TreeAPI } from './tree-api'
-import { TableAPI } from './table-api'
-import { FormAPI } from './form-api'
-import { SvgAPI } from './svg-api'
-import { DocAPI } from './doc-api'
-import { SplitAPI } from './split-api'
-import { SliderAPI } from './slider-api'
-import { ToneAPI } from './tone-api'
 import { ButtonAPI } from './button-api'
 import { CursorAPI } from './cursor-api'
+import { DocAPI } from './doc-api'
+import { FormAPI } from './form-api'
+import { SliderAPI } from './slider-api'
+import { SplitAPI } from './split-api'
+import { SvgAPI } from './svg-api'
+import { TableAPI } from './table-api'
+import { ToneAPI } from './tone-api'
+import { TreeAPI } from './tree-api'
 
 @Injectable({
   providedIn: 'root'

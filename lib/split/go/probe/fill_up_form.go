@@ -60,16 +60,20 @@ func FillUpForm(
 		BasicFieldtoForm("IsAny", instanceWithInferedType.IsAny, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("AsSplits", instanceWithInferedType, &instanceWithInferedType.AsSplits, formGroup, probe)
-		AssociationFieldToForm("Tree", instanceWithInferedType.Tree, formGroup, probe)
-		AssociationFieldToForm("Table", instanceWithInferedType.Table, formGroup, probe)
-		AssociationFieldToForm("Form", instanceWithInferedType.Form, formGroup, probe)
-		AssociationFieldToForm("Svg", instanceWithInferedType.Svg, formGroup, probe)
-		AssociationFieldToForm("Doc", instanceWithInferedType.Doc, formGroup, probe)
-		AssociationFieldToForm("Split", instanceWithInferedType.Split, formGroup, probe)
-		AssociationFieldToForm("Slider", instanceWithInferedType.Slider, formGroup, probe)
-		AssociationFieldToForm("Tone", instanceWithInferedType.Tone, formGroup, probe)
 		AssociationFieldToForm("Button", instanceWithInferedType.Button, formGroup, probe)
 		AssociationFieldToForm("Cursor", instanceWithInferedType.Cursor, formGroup, probe)
+		AssociationFieldToForm("Doc", instanceWithInferedType.Doc, formGroup, probe)
+		AssociationFieldToForm("Form", instanceWithInferedType.Form, formGroup, probe)
+		AssociationFieldToForm("Slider", instanceWithInferedType.Slider, formGroup, probe)
+		AssociationFieldToForm("Split", instanceWithInferedType.Split, formGroup, probe)
+		AssociationFieldToForm("Svg", instanceWithInferedType.Svg, formGroup, probe)
+		AssociationFieldToForm("Table", instanceWithInferedType.Table, formGroup, probe)
+		AssociationFieldToForm("Tone", instanceWithInferedType.Tone, formGroup, probe)
+		AssociationFieldToForm("Tree", instanceWithInferedType.Tree, formGroup, probe)
+		BasicFieldtoForm("HasDiv", instanceWithInferedType.HasDiv, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("DivStyle", instanceWithInferedType.DivStyle, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -128,6 +132,8 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("StackName", instanceWithInferedType.StackName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("Style", instanceWithInferedType.Style, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 
 	case *models.Doc:
 		// insertion point
@@ -164,6 +170,8 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("StackName", instanceWithInferedType.StackName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Style", instanceWithInferedType.Style, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 
 	case *models.Table:

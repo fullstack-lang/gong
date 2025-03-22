@@ -831,6 +831,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_AsSplitArea[identifier].Size = exprSign * fielValue
+				case "DivStyle":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_AsSplitArea[identifier].DivStyle = fielValue
 				}
 			case "Button":
 				switch fieldName {
@@ -855,6 +859,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Cursor[identifier].StackName = fielValue
+				case "Style":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Cursor[identifier].Style = fielValue
 				}
 			case "Doc":
 				switch fieldName {
@@ -919,6 +927,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Svg[identifier].StackName = fielValue
+				case "Style":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Svg[identifier].Style = fielValue
 				}
 			case "Table":
 				switch fieldName {
@@ -1007,36 +1019,43 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_AsSplitArea[identifier].IsAny = fielValue
-				case "Tree":
-					targetIdentifier := ident.Name
-					__gong__map_AsSplitArea[identifier].Tree = __gong__map_Tree[targetIdentifier]
-				case "Table":
-					targetIdentifier := ident.Name
-					__gong__map_AsSplitArea[identifier].Table = __gong__map_Table[targetIdentifier]
-				case "Form":
-					targetIdentifier := ident.Name
-					__gong__map_AsSplitArea[identifier].Form = __gong__map_Form[targetIdentifier]
-				case "Svg":
-					targetIdentifier := ident.Name
-					__gong__map_AsSplitArea[identifier].Svg = __gong__map_Svg[targetIdentifier]
-				case "Doc":
-					targetIdentifier := ident.Name
-					__gong__map_AsSplitArea[identifier].Doc = __gong__map_Doc[targetIdentifier]
-				case "Split":
-					targetIdentifier := ident.Name
-					__gong__map_AsSplitArea[identifier].Split = __gong__map_Split[targetIdentifier]
-				case "Slider":
-					targetIdentifier := ident.Name
-					__gong__map_AsSplitArea[identifier].Slider = __gong__map_Slider[targetIdentifier]
-				case "Tone":
-					targetIdentifier := ident.Name
-					__gong__map_AsSplitArea[identifier].Tone = __gong__map_Tone[targetIdentifier]
 				case "Button":
 					targetIdentifier := ident.Name
 					__gong__map_AsSplitArea[identifier].Button = __gong__map_Button[targetIdentifier]
 				case "Cursor":
 					targetIdentifier := ident.Name
 					__gong__map_AsSplitArea[identifier].Cursor = __gong__map_Cursor[targetIdentifier]
+				case "Doc":
+					targetIdentifier := ident.Name
+					__gong__map_AsSplitArea[identifier].Doc = __gong__map_Doc[targetIdentifier]
+				case "Form":
+					targetIdentifier := ident.Name
+					__gong__map_AsSplitArea[identifier].Form = __gong__map_Form[targetIdentifier]
+				case "Slider":
+					targetIdentifier := ident.Name
+					__gong__map_AsSplitArea[identifier].Slider = __gong__map_Slider[targetIdentifier]
+				case "Split":
+					targetIdentifier := ident.Name
+					__gong__map_AsSplitArea[identifier].Split = __gong__map_Split[targetIdentifier]
+				case "Svg":
+					targetIdentifier := ident.Name
+					__gong__map_AsSplitArea[identifier].Svg = __gong__map_Svg[targetIdentifier]
+				case "Table":
+					targetIdentifier := ident.Name
+					__gong__map_AsSplitArea[identifier].Table = __gong__map_Table[targetIdentifier]
+				case "Tone":
+					targetIdentifier := ident.Name
+					__gong__map_AsSplitArea[identifier].Tone = __gong__map_Tone[targetIdentifier]
+				case "Tree":
+					targetIdentifier := ident.Name
+					__gong__map_AsSplitArea[identifier].Tree = __gong__map_Tree[targetIdentifier]
+				case "HasDiv":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_AsSplitArea[identifier].HasDiv = fielValue
 				}
 			case "Button":
 				switch fieldName {

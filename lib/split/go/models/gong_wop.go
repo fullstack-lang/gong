@@ -25,6 +25,8 @@ type AsSplitArea_WOP struct {
 	ShowNameInHeader bool
 	Size float64
 	IsAny bool
+	HasDiv bool
+	DivStyle string
 }
 
 func (from *AsSplitArea) CopyBasicFields(to *AsSplitArea) {
@@ -33,6 +35,8 @@ func (from *AsSplitArea) CopyBasicFields(to *AsSplitArea) {
 	to.ShowNameInHeader = from.ShowNameInHeader
 	to.Size = from.Size
 	to.IsAny = from.IsAny
+	to.HasDiv = from.HasDiv
+	to.DivStyle = from.DivStyle
 }
 
 type Button_WOP struct {
@@ -51,12 +55,14 @@ type Cursor_WOP struct {
 	// insertion point
 	Name string
 	StackName string
+	Style string
 }
 
 func (from *Cursor) CopyBasicFields(to *Cursor) {
 	// insertion point
 	to.Name = from.Name
 	to.StackName = from.StackName
+	to.Style = from.Style
 }
 
 type Doc_WOP struct {
@@ -113,12 +119,14 @@ type Svg_WOP struct {
 	// insertion point
 	Name string
 	StackName string
+	Style string
 }
 
 func (from *Svg) CopyBasicFields(to *Svg) {
 	// insertion point
 	to.Name = from.Name
 	to.StackName = from.StackName
+	to.Style = from.Style
 }
 
 type Table_WOP struct {
