@@ -18,8 +18,12 @@ import (
 	"log"
 	"strconv"
 
+	{{pkgname}}_models "{{PkgPathRoot}}/models"
 	{{pkgname}}_stack "{{PkgPathRoot}}/stack"
 	{{pkgname}}_static "{{PkgPathRoot}}/static"
+
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 )
 
 var (
@@ -44,9 +48,25 @@ func main() {
 	// setup the static file server and get the controller
 	r := {{pkgname}}_static.ServeStaticFiles(*logGINFlag)
 
-	// setup stack
+	// setup model stack with its probe
 	stack := {{pkgname}}_stack.NewStack(r, "{{pkgname}}", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
+
+	// setup root split stack and insert the probe at the root
+	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
+
+	(&split.View{
+		Name: "Probe",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Split: (&split.Split{
+					StackName: stack.Stage.GetName() + {{pkgname}}_models.ProbeSplitSuffix,
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+		},
+	}).Stage(splitStage)
+
+	splitStage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
