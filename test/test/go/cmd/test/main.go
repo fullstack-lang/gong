@@ -5,8 +5,12 @@ import (
 	"log"
 	"strconv"
 
+	test_models "github.com/fullstack-lang/gong/test/test/go/models"
 	test_stack "github.com/fullstack-lang/gong/test/test/go/stack"
 	test_static "github.com/fullstack-lang/gong/test/test/go/static"
+
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 )
 
 var (
@@ -34,6 +38,21 @@ func main() {
 	// setup stack
 	stack := test_stack.NewStack(r, "test", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
+
+	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
+
+	(&split.View{
+		Name: "Probe",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Split: (&split.Split{
+					StackName: stack.Stage.GetName() + test_models.ProbeSplitSuffix,
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+		},
+	}).Stage(splitStage)
+
+	splitStage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
