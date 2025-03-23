@@ -32,7 +32,7 @@ func main() {
 	// setup the static file server and get the controller
 	r := test_static.ServeStaticFiles(*logGINFlag)
 
-	// setup stack
+	// setup model stack with its probe
 	stack := test_stack.NewStack(r, "test", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
 
