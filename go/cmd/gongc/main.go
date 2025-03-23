@@ -353,6 +353,20 @@ func main() {
 				*skipNg)
 		}
 	}
+	{
+		// check existance of "main.go" file and generate a default "main.go" if absent
+		coderFilePath := filepath.Join(*pkgPath, "stager.go")
+
+		_, errd := os.Stat(coderFilePath)
+		if os.IsNotExist(errd) {
+			log.Printf("stager.go does not exist, gongc creates a default stager.go")
+			gong_models.VerySimpleCodeGenerator(
+				modelPkg,
+				coderFilePath,
+				models.StagerFileTemplate)
+		}
+
+	}
 
 	// check existance of .vscode directory. If absent, generates default vscode configurations
 	// that are usefull for development
