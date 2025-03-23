@@ -44,6 +44,10 @@ type DBLite struct {
 
 	nextIDFormDB uint
 
+	loadDBs map[uint]*LoadDB
+
+	nextIDLoadDB uint
+
 	sliderDBs map[uint]*SliderDB
 
 	nextIDSliderDB uint
@@ -89,6 +93,8 @@ func NewDBLite() *DBLite {
 		docDBs: make(map[uint]*DocDB),
 
 		formDBs: make(map[uint]*FormDB),
+
+		loadDBs: make(map[uint]*LoadDB),
 
 		sliderDBs: make(map[uint]*SliderDB),
 
@@ -141,6 +147,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDFormDB++
 		v.ID = db.nextIDFormDB
 		db.formDBs[v.ID] = v
+	case *LoadDB:
+		db.nextIDLoadDB++
+		v.ID = db.nextIDLoadDB
+		db.loadDBs[v.ID] = v
 	case *SliderDB:
 		db.nextIDSliderDB++
 		v.ID = db.nextIDSliderDB
@@ -209,6 +219,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.docDBs, v.ID)
 	case *FormDB:
 		delete(db.formDBs, v.ID)
+	case *LoadDB:
+		delete(db.loadDBs, v.ID)
 	case *SliderDB:
 		delete(db.sliderDBs, v.ID)
 	case *SplitDB:
@@ -258,6 +270,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *FormDB:
 		db.formDBs[v.ID] = v
+		return db, nil
+	case *LoadDB:
+		db.loadDBs[v.ID] = v
 		return db, nil
 	case *SliderDB:
 		db.sliderDBs[v.ID] = v
@@ -331,6 +346,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Form github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
+	case *LoadDB:
+		if existing, ok := db.loadDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Load github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
 	case *SliderDB:
 		if existing, ok := db.sliderDBs[v.ID]; ok {
@@ -421,6 +442,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]FormDB:
 		*ptr = make([]FormDB, 0, len(db.formDBs))
 		for _, v := range db.formDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]LoadDB:
+		*ptr = make([]LoadDB, 0, len(db.loadDBs))
+		for _, v := range db.loadDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -558,6 +585,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		formDB, _ := instanceDB.(*FormDB)
 		*formDB = *tmp
+		
+	case *LoadDB:
+		tmp, ok := db.loadDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Load Unkown entry %d", i))
+		}
+
+		loadDB, _ := instanceDB.(*LoadDB)
+		*loadDB = *tmp
 		
 	case *SliderDB:
 		tmp, ok := db.sliderDBs[uint(i)]

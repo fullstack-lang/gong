@@ -37,3 +37,4 @@ lib/sim/go/cmd/sim/sim
 lib/gantt/go/cmd/gantt/gantt
 lib/xlsx/go/cmd/xlsx/xlsx
 lib/cursor/go/cmd/cursor/cursor
+lib/load/go/cmd/load/load

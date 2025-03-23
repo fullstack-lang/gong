@@ -70,6 +70,9 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "Form" {
 		fillUpTable[models.Form](nodeImplGongstruct.probe)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Load" {
+		fillUpTable[models.Load](nodeImplGongstruct.probe)
+	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Slider" {
 		fillUpTable[models.Slider](nodeImplGongstruct.probe)
 	}

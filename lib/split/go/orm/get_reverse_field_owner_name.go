@@ -65,6 +65,11 @@ func GetReverseFieldOwnerName(
 		// insertion point
 		}
 
+	case *models.Load:
+		switch reverseField.GongstructName {
+		// insertion point
+		}
+
 	case *models.Slider:
 		switch reverseField.GongstructName {
 		// insertion point
@@ -156,6 +161,11 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		}
 
 	case *models.Form:
+		switch reverseField.GongstructName {
+		// insertion point
+		}
+
+	case *models.Load:
 		switch reverseField.GongstructName {
 		// insertion point
 		}

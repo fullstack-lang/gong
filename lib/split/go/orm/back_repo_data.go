@@ -16,6 +16,8 @@ type BackRepoData struct {
 
 	FormAPIs []*FormAPI
 
+	LoadAPIs []*LoadAPI
+
 	SliderAPIs []*SliderAPI
 
 	SplitAPIs []*SplitAPI
@@ -99,6 +101,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		formDB.CopyBasicFieldsToForm_WOP(&formAPI.Form_WOP)
 
 		backRepoData.FormAPIs = append(backRepoData.FormAPIs, &formAPI)
+	}
+
+	for _, loadDB := range backRepo.BackRepoLoad.Map_LoadDBID_LoadDB {
+
+		var loadAPI LoadAPI
+		loadAPI.ID = loadDB.ID
+		loadAPI.LoadPointersEncoding = loadDB.LoadPointersEncoding
+		loadDB.CopyBasicFieldsToLoad_WOP(&loadAPI.Load_WOP)
+
+		backRepoData.LoadAPIs = append(backRepoData.LoadAPIs, &loadAPI)
 	}
 
 	for _, sliderDB := range backRepo.BackRepoSlider.Map_SliderDBID_SliderDB {

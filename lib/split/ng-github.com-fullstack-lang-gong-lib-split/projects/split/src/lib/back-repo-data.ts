@@ -13,6 +13,8 @@ import { DocAPI } from './doc-api'
 
 import { FormAPI } from './form-api'
 
+import { LoadAPI } from './load-api'
+
 import { SliderAPI } from './slider-api'
 
 import { SplitAPI } from './split-api'
@@ -41,6 +43,8 @@ export class BackRepoData {
 	DocAPIs = new Array<DocAPI>()
 
 	FormAPIs = new Array<FormAPI>()
+
+	LoadAPIs = new Array<LoadAPI>()
 
 	SliderAPIs = new Array<SliderAPI>()
 
@@ -73,6 +77,8 @@ export class BackRepoData {
 		this.DocAPIs = data?.DocAPIs || [];
 
 		this.FormAPIs = data?.FormAPIs || [];
+
+		this.LoadAPIs = data?.LoadAPIs || [];
 
 		this.SliderAPIs = data?.SliderAPIs || [];
 

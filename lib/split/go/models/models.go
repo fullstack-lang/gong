@@ -31,6 +31,7 @@ type AsSplitArea struct {
 	Cursor *Cursor
 	Doc    *Doc
 	Form   *Form
+	Load   *Load
 	Slider *Slider
 	Split  *Split
 	Svg    *Svg
@@ -62,6 +63,11 @@ type Form struct {
 	Name      string // name of the stack
 	StackName string
 	FormName  string
+}
+
+type Load struct {
+	Name      string // name of the stack
+	StackName string
 }
 
 type Slider struct {

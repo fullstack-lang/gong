@@ -23,6 +23,9 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	case *Form:
 		ok = stage.IsStagedForm(target)
 
+	case *Load:
+		ok = stage.IsStagedLoad(target)
+
 	case *Slider:
 		ok = stage.IsStagedSlider(target)
 
@@ -89,6 +92,13 @@ func (stage *StageStruct) IsStagedDoc(doc *Doc) (ok bool) {
 func (stage *StageStruct) IsStagedForm(form *Form) (ok bool) {
 
 	_, ok = stage.Forms[form]
+
+	return
+}
+
+func (stage *StageStruct) IsStagedLoad(load *Load) (ok bool) {
+
+	_, ok = stage.Loads[load]
 
 	return
 }
@@ -168,6 +178,9 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *Form:
 		stage.StageBranchForm(target)
 
+	case *Load:
+		stage.StageBranchLoad(target)
+
 	case *Slider:
 		stage.StageBranchSlider(target)
 
@@ -234,6 +247,9 @@ func (stage *StageStruct) StageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	}
 	if assplitarea.Form != nil {
 		StageBranch(stage, assplitarea.Form)
+	}
+	if assplitarea.Load != nil {
+		StageBranch(stage, assplitarea.Load)
 	}
 	if assplitarea.Slider != nil {
 		StageBranch(stage, assplitarea.Slider)
@@ -314,6 +330,21 @@ func (stage *StageStruct) StageBranchForm(form *Form) {
 	}
 
 	form.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *StageStruct) StageBranchLoad(load *Load) {
+
+	// check if instance is already staged
+	if IsStaged(stage, load) {
+		return
+	}
+
+	load.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -464,6 +495,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchForm(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Load:
+		toT := CopyBranchLoad(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Slider:
 		toT := CopyBranchSlider(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -545,6 +580,9 @@ func CopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplitArea
 	}
 	if assplitareaFrom.Form != nil {
 		assplitareaTo.Form = CopyBranchForm(mapOrigCopy, assplitareaFrom.Form)
+	}
+	if assplitareaFrom.Load != nil {
+		assplitareaTo.Load = CopyBranchLoad(mapOrigCopy, assplitareaFrom.Load)
 	}
 	if assplitareaFrom.Slider != nil {
 		assplitareaTo.Slider = CopyBranchSlider(mapOrigCopy, assplitareaFrom.Slider)
@@ -641,6 +679,25 @@ func CopyBranchForm(mapOrigCopy map[any]any, formFrom *Form) (formTo *Form) {
 	formTo = new(Form)
 	mapOrigCopy[formFrom] = formTo
 	formFrom.CopyBasicFields(formTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchLoad(mapOrigCopy map[any]any, loadFrom *Load) (loadTo *Load) {
+
+	// loadFrom has already been copied
+	if _loadTo, ok := mapOrigCopy[loadFrom]; ok {
+		loadTo = _loadTo.(*Load)
+		return
+	}
+
+	loadTo = new(Load)
+	mapOrigCopy[loadFrom] = loadTo
+	loadFrom.CopyBasicFields(loadTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -811,6 +868,9 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *Form:
 		stage.UnstageBranchForm(target)
 
+	case *Load:
+		stage.UnstageBranchLoad(target)
+
 	case *Slider:
 		stage.UnstageBranchSlider(target)
 
@@ -877,6 +937,9 @@ func (stage *StageStruct) UnstageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	}
 	if assplitarea.Form != nil {
 		UnstageBranch(stage, assplitarea.Form)
+	}
+	if assplitarea.Load != nil {
+		UnstageBranch(stage, assplitarea.Load)
 	}
 	if assplitarea.Slider != nil {
 		UnstageBranch(stage, assplitarea.Slider)
@@ -957,6 +1020,21 @@ func (stage *StageStruct) UnstageBranchForm(form *Form) {
 	}
 
 	form.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *StageStruct) UnstageBranchLoad(load *Load) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, load) {
+		return
+	}
+
+	load.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
