@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/load/go/models"
-
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -21,15 +20,6 @@ var _ map[string]any = map[string]any{
 
 // function will stage objects
 func _(stage *models.StageStruct) {
-
-	// Declaration of instances to stage
-
-	__File__000000_sdqfqsdfsdf := (&models.File{}).Stage(stage)
-
-	// Setup of values
-
-	__File__000000_sdqfqsdfsdf.Name = `sdqfqsdfsdf`
-	__File__000000_sdqfqsdfsdf.Content = `fdssqdffdsdsfqsqfd`
 
 	// Setup of pointers
 	// setup of File instances pointers
