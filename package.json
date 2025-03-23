@@ -5,6 +5,7 @@
         "lib/cursor/ng-github.com-fullstack-lang-gong-lib-cursor",
         "lib/doc/ng-github.com-fullstack-lang-gong-lib-doc",
         "lib/gantt/ng-github.com-fullstack-lang-gong-lib-gantt",
+        "lib/load/ng-github.com-fullstack-lang-gong-lib-load",
         "lib/slider/ng-github.com-fullstack-lang-gong-lib-slider",
         "lib/split/ng-github.com-fullstack-lang-gong-lib-split",
         "lib/svg/ng-github.com-fullstack-lang-gong-lib-svg",

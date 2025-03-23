@@ -1,8 +1,6 @@
 package split
 
-import (
-	"embed"
-)
+import "embed"
 
 //go:embed models
 var GoModelsDir embed.FS
