@@ -1,749 +1,762 @@
 {
     "version": "2.0.0",
     "tasks": [
-        {
-            "label": "00 - go install gongc",
-            "type": "shell",
-            "options": {
-                "cwd": "go/cmd/gongc"
-            },
-            "command": "go",
-            "args": [
-                "install",
-            ],
-            "group": "build"
+      {
+        "label": "00 - cypress issue 519 on test3",
+        "type": "shell",
+        "group": "build",
+        "options": {
+          "cwd": "${workspaceFolder}/test3/ng-github.com-fullstack-lang-gong-test3"
         },
-        {
-            "label": "04 - go run test",
-            "type": "shell",
-            "options": {
-                "cwd": "./test/test/go/cmd/test"
-            },
-            "command": "go",
-            "args": [
-                "run",
-                ".",
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage_out"
-            ],
-            "group": "build"
+        "command": "npx cypress run --browser chrome --spec 'cypress/e2e/issue 519.cy.ts'"
+      },
+      {
+        "label": "00 - cypress on issue 520 - delete table row",
+        "type": "shell",
+        "group": "build",
+        "options": {
+          "cwd": "${workspaceFolder}/test3/ng-github.com-fullstack-lang-gong-test3"
         },
-        {
-            "label": "04 - go run doc",
-            "type": "shell",
-            "options": {
-                "cwd": "./lib/doc/go/cmd/doc"
-            },
-            "command": "go",
-            "args": [
-                "run",
-                "main.go"
-            ],
-            "group": "build"
+        "command": "npx cypress run --browser chrome --spec 'cypress/e2e/issue 520.cy.ts'"
+      },
+      {
+        "label": "00 - cypress open on test3",
+        "type": "shell",
+        "group": "build",
+        "options": {
+          "cwd": "${workspaceFolder}/test3/ng-github.com-fullstack-lang-gong-test3"
         },
-        {
-            "label": "04 - go run split",
-            "type": "shell",
-            "options": {
-                "cwd": "./lib/split/go/cmd/split"
-            },
-            "command": "go",
-            "args": [
-                "run",
-                ".",
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
-            ],
-            "group": "build"
+        "command": "npx cypress open"
+      },
+      {
+        "label": "00 - go install gongc",
+        "type": "shell",
+        "options": {
+          "cwd": "go/cmd/gongc"
         },
-        {
-            "label": "04 - go run split issue564",
-            "type": "shell",
-            "options": {
-                "cwd": "./lib/split/go/cmd/split"
-            },
-            "command": "go",
-            "args": [
-                "run",
-                ".",
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage_out"
-            ],
-            "group": "build"
+        "command": "go",
+        "args": [
+          "install"
+        ],
+        "group": "build"
+      },
+      {
+        "label": "00 - go mod vendor",
+        "type": "shell",
+        "group": "build",
+        "command": "go mod vendor"
+      },
+      {
+        // you can check in go.mod, the timestamp is UTC
+        "label": "00 go mod tidy",
+        "type": "shell",
+        "group": "build",
+        "command": "go mod tidy"
+      },
+      {
+        "label": "00 - go wasm",
+        "type": "shell",
+        "group": "build",
+        "options": {
+          "cwd": "${workspaceFolder}/test3/go/cmd/test3"
         },
-        {
-            "label": "04 - go run tone",
-            "type": "shell",
-            "options": {
-                "cwd": "./lib/tone/go/cmd/tone"
-            },
-            "command": "go",
-            "args": [
-                "run",
-                ".",
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
-            ],
-            "group": "build"
+        "command": "GOOS=js GOARCH=wasm go build -o wasmworkbench.wasm"
+      },
+      {
+        "label": "00 - Run all gongc -skipGoModCommands -skipNg",
+        "type": "shell",
+        "command": "find . -type f -name \"embed_ng_dist_ng.go\" -exec dirname {} \\; | sort -u | while IFS= read -r dir; do (cd \"$dir\" && gongc -skipGoModCommands -skipNg go/models); done",
+        "group": "build"
+      },
+      {
+        "label": "00 - Run all gongc -skipGoModCommands -skipNpmWorkspaces",
+        "type": "shell",
+        "command": "find . -type f -name \"embed_ng_dist_ng.go\" -exec dirname {} \\; | sort -u | while IFS= read -r dir; do (cd \"$dir\" && gongc -skipGoModCommands -skipNpmWorkspaces go/models); done",
+        "group": "build"
+      },
+      {
+        "label": "01 - gongc button",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/lib/button"
         },
-        {
-            "label": "04 - go run tree",
-            "type": "shell",
-            "options": {
-                "cwd": "./lib/tree/go/cmd/tree"
-            },
-            "command": "go",
-            "args": [
-                "run",
-                ".",
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
-            ],
-            "group": "build"
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipGoModCommands",
+          "-skipNpmWorkspaces",
+          "go/models"
+        ]
+      },
+      {
+        "label": "01 - gongc cursor",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/lib/cursor"
         },
-        {
-            "label": "Sleepdelay",
-            "type": "shell",
-            "command": "sleep 1",
-            "windows": {
-                "command": "ping 127.0.0.1 -n 1 > nul"
-            },
-            "group": "none",
-            "presentation": {
-                "reveal": "silent",
-                "panel": "new"
-            }
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipGoModCommands",
+          "-skipNpmWorkspaces",
+          "go/models"
+        ]
+      },
+      {
+        "label": "01 - gongc doc",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/lib/doc"
         },
-        {
-            "label": "04 - go run test -marshallOnStartup=stage",
-            "type": "shell",
-            "options": {
-                "cwd": "./test/test/go/cmd/test"
-            },
-            "command": "go",
-            "args": [
-                "run",
-                "main.go",
-                "stage.go",
-                "-marshallOnStartup=stage"
-            ],
-            "group": "build"
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipGoModCommands",
+          "-skipNpmWorkspaces",
+          "go/models"
+        ]
+      },
+      {
+        "label": "01 - gongc doc -clean",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/lib/doc/go/models"
         },
-        {
-            "label": "04 - go run main.go -marshallOnCommit stage_out -unmarshallFromCode stage.go -diagrams",
-            "type": "shell",
-            "options": {
-                "cwd": "./test/test/go/cmd/test"
-            },
-            "command": "go",
-            "args": [
-                "run",
-                "main.go",
-                "-marshallOnCommit=sdata/tage_out",
-                "-unmarshallFromCode",
-                "stage.go",
-                "-diagrams"
-            ],
-            "group": "build"
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-clean"
+        ]
+      },
+      {
+        "label": "01 - gongc load",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/lib/load"
         },
-        {
-            "label": "04 - go run main.go -unmarshallFromCode stage.go -diagrams",
-            "type": "shell",
-            "options": {
-                "cwd": "./test/test/go/cmd/test"
-            },
-            "command": "go",
-            "args": [
-                "run",
-                "main.go",
-                "-unmarshallFromCode",
-                "stage.go",
-                "-diagrams"
-            ],
-            "group": "build"
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipGoModCommands",
+          "-skipNpmWorkspaces",
+          "go/models"
+        ]
+      },
+      {
+        "label": "01 - gongc gantt",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/lib/gantt"
         },
-        {
-            "label": "04 - go run gong",
-            "type": "shell",
-            "options": {
-                "cwd": "./go/cmd/gong"
-            },
-            "command": "go run main.go",
-            "group": "build"
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipGoModCommands",
+          "-skipNpmWorkspaces",
+          "go/models"
+        ]
+      },
+      {
+        "label": "01 - gongc gong",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}"
         },
-        {
-            "label": "04 - go run test2 -unmarshallFromCode=data/stage2.go -marshallOnCommidata/t=stage2",
-            "type": "shell",
-            "options": {
-                "cwd": "./test2/go/cmd/test2"
-            },
-            "command": "go",
-            "group": "build",
-            "args": [
-                "run",
-                "main.go",
-                "-unmarshallFromCode",
-                "stage2.go",
-                "-marshallOnCommit",
-                "stage2",
-            ]
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipGoModCommands",
+          "-skipNpmWorkspaces",
+          "go/models"
+        ]
+      },
+      {
+        "label": "01 - gongc gong -clean",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/go/models"
         },
-        {
-            "label": "03 - ng build test",
-            "type": "shell",
-            "options": {
-                "cwd": "test/test/ng-github.com-fullstack-lang-gong-test-test"
-            },
-            "command": "ng build",
-            "group": "build",
-            "problemMatcher": []
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-clean"
+        ]
+      },
+      {
+        "label": "01 - gongc gong -skipGoModCommands -skipNg",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/go/models"
         },
-        {
-            "label": "03 - ng serve test --host=127.0.0.1",
-            "type": "shell",
-            "options": {
-                "cwd": "test/test/ng-github.com-fullstack-lang-gong-test-test"
-            },
-            "command": "ng",
-            "group": "build",
-            "args": [
-                "serve",
-                "--host=127.0.0.1"
-            ]
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipGoModCommands",
+          "-skipNg"
+        ]
+      },
+      {
+        "label": "01 - gongc sim",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/lib/sim"
         },
-        {
-            "label": "03 - lsof -ti :8080 | xargs kill",
-            "type": "shell",
-            "command": "lsof -ti :8080 | xargs kill",
-            "group": "build"
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipGoModCommands",
+          "-skipNpmWorkspaces",
+          "go/models"
+        ]
+      },
+      {
+        "label": "01 - gongc slider",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/lib/slider"
         },
-        {
-            "label": "03 - ng serve test2 --host=127.0.0.1",
-            "type": "shell",
-            "options": {
-                "cwd": "test2/ng"
-            },
-            "command": "ng",
-            "group": "build",
-            "args": [
-                "serve",
-                "--host=127.0.0.1"
-            ]
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipGoModCommands",
+          "-skipNpmWorkspaces",
+          "go/models"
+        ]
+      },
+      {
+        "label": "01 - gongc split",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/lib/split"
         },
-        {
-            "label": "03 - ng serve test ",
-            "type": "shell",
-            "options": {
-                "cwd": "test/test/ng-github.com-fullstack-lang-gong-test-test"
-            },
-            "command": "ng",
-            "group": "build",
-            "args": [
-                "serve",
-                ""
-            ]
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipGoModCommands",
+          "-skipNpmWorkspaces",
+          "go/models"
+        ]
+      },
+      {
+        "label": "01 - gongc table",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/lib/table"
         },
-        {
-            "label": "03 - ng serve doc ",
-            "type": "shell",
-            "options": {
-                "cwd": "lib/doc/ng-github.com-fullstack-lang-gong-lib-doc"
-            },
-            "command": "ng",
-            "group": "build",
-            "args": [
-                "serve",
-                ""
-            ]
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipGoModCommands",
+          "-skipNpmWorkspaces",
+          "go/models"
+        ]
+      },
+      {
+        "label": "01 - gongc test -skipGoModCommands -skipNpmWorkspaces",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/test/test/go/models"
         },
-        {
-            "label": "03 - ng serve split ",
-            "type": "shell",
-            "options": {
-                "cwd": "lib/split/ng-github.com-fullstack-lang-gong-lib-split"
-            },
-            "command": "ng",
-            "group": "build",
-            "args": [
-                "serve",
-                ""
-            ]
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipGoModCommands",
+          "-skipNpmWorkspaces"
+        ]
+      },
+      {
+        "label": "01 - gongc test -skipNg",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/test/test/go/models"
         },
-        {
-            "label": "03 - ng serve tone",
-            "type": "shell",
-            "options": {
-                "cwd": "lib/tone/ng-github.com-fullstack-lang-gong-lib-tone"
-            },
-            "command": "ng",
-            "group": "build",
-            "args": [
-                "serve",
-                ""
-            ]
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipNg"
+        ]
+      },
+      {
+        "label": "01 - gongc test -skipNpmWorkspaces",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/test/test/go/models"
         },
-        {
-            "label": "03 - ng serve table ",
-            "type": "shell",
-            "options": {
-                "cwd": "lib/table/ng-github.com-fullstack-lang-gong-lib-table"
-            },
-            "command": "ng",
-            "group": "build",
-            "args": [
-                "serve",
-                ""
-            ]
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipNpmWorkspaces"
+        ]
+      },
+      {
+        "label": "01 - gongc test2",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/test/test2/go/models"
         },
-        {
-            "label": "03 - ng serve tree ",
-            "type": "shell",
-            "options": {
-                "cwd": "lib/tree/ng-github.com-fullstack-lang-gong-lib-tree"
-            },
-            "command": "ng",
-            "group": "build",
-            "args": [
-                "serve",
-                ""
-            ]
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipGoModCommands",
+          "-skipNpmWorkspaces"
+        ]
+      },
+      {
+        "label": "01 - gongc test3",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/test/test3/go/models"
         },
-        {
-            "label": "03 - ng serve xlsx",
-            "type": "shell",
-            "options": {
-                "cwd": "lib/xlsx/ng-github.com-fullstack-lang-gong-lib-xlsx"
-            },
-            "command": "ng",
-            "group": "build",
-            "args": [
-                "serve",
-                ""
-            ]
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipGoModCommands",
+          "-skipNpmWorkspaces"
+        ]
+      },
+      {
+        "label": "01 - gongc tone",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/lib/tone"
         },
-        {
-            "label": "03 - ng serve test3 --host=127.0.0.1",
-            "type": "shell",
-            "options": {
-                "cwd": "test3/ng-github.com-fullstack-lang-gong-test3"
-            },
-            "command": "ng",
-            "group": "build",
-            "args": [
-                "serve",
-                "--host=127.0.0.1",
-            ]
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipGoModCommands",
+          "-skipNpmWorkspaces",
+          "go/models"
+        ]
+      },
+      {
+        "label": "01 - gongc tree",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/lib/tree"
         },
-        {
-            "label": "03 - ngserve test ",
-            "type": "shell",
-            "options": {
-                "cwd": "test/test/ng"
-            },
-            "command": "ngserve",
-            "group": "build",
-            "args": [
-                "",
-                ""
-            ]
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipGoModCommands",
+          "-skipNpmWorkspaces",
+          "go/models"
+        ]
+      },
+      {
+        "label": "01 - gongc xlsx",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/lib/xlsx"
         },
-        {
-            "label": "03 - ng serve test2",
-            "type": "shell",
-            "options": {
-                "cwd": "test2/ng"
-            },
-            "command": "ng serve",
-            "group": "build"
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipGoModCommands",
+          "-skipNpmWorkspaces",
+          "go/models"
+        ]
+      },
+      {
+        "label": "01 - gongc svg",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/lib/svg"
         },
-        {
-            "label": "01 - gongc test -skipNg",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/test/test/go/models"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-skipNg"
-            ]
+        "command": "gongc",
+        "group": "build",
+        "args": [
+          "-skipGoModCommands",
+          "-skipNpmWorkspaces",
+          "go/models"
+        ]
+      },
+      {
+        "label": "01 - remove test main.go",
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}/test/test/go/cmd/test"
         },
-        {
-            "label": "01 - gongc button",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/lib/button"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces",
-                "go/models"
-            ]
+        "command": "rm",
+        "group": "build",
+        "args": [
+          "main.go"
+        ]
+      },
+      {
+        "label": "03 - lsof -ti :8080 | xargs kill",
+        "type": "shell",
+        "command": "lsof -ti :8080 | xargs kill",
+        "group": "build"
+      },
+      {
+        "label": "03 - ng build test",
+        "type": "shell",
+        "options": {
+          "cwd": "test/test/ng-github.com-fullstack-lang-gong-test-test"
         },
-        {
-            "label": "01 - gongc cursor",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/lib/cursor"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces",
-                "go/models"
-            ]
+        "command": "ng build",
+        "group": "build",
+        "problemMatcher": []
+      },
+      {
+        "label": "03 - ng serve doc ",
+        "type": "shell",
+        "options": {
+          "cwd": "lib/doc/ng-github.com-fullstack-lang-gong-lib-doc"
         },
-        {
-            "label": "01 - gongc doc",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/lib/doc"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces",
-                "go/models"
-            ]
+        "command": "ng",
+        "group": "build",
+        "args": [
+          "serve",
+          ""
+        ]
+      },
+      {
+        "label": "03 - ng serve load",
+        "type": "shell",
+        "options": {
+          "cwd": "lib/load/ng-github.com-fullstack-lang-gong-lib-load"
         },
-        {
-            "label": "01 - gongc gantt",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/lib/gantt"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces",
-                "go/models"
-            ]
+        "command": "ng",
+        "group": "build",
+        "args": [
+          "serve",
+          ""
+        ]
+      },
+      {
+        "label": "03 - ng serve split ",
+        "type": "shell",
+        "options": {
+          "cwd": "lib/split/ng-github.com-fullstack-lang-gong-lib-split"
         },
-        {
-            "label": "01 - gongc sim",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/lib/sim"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces",
-                "go/models"
-            ]
+        "command": "ng",
+        "group": "build",
+        "args": [
+          "serve",
+          ""
+        ]
+      },
+      {
+        "label": "03 - ng serve table ",
+        "type": "shell",
+        "options": {
+          "cwd": "lib/table/ng-github.com-fullstack-lang-gong-lib-table"
         },
-        {
-            "label": "01 - gongc table",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/lib/table"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces",
-                "go/models"
-            ]
+        "command": "ng",
+        "group": "build",
+        "args": [
+          "serve",
+          ""
+        ]
+      },
+      {
+        "label": "03 - ng serve test ",
+        "type": "shell",
+        "options": {
+          "cwd": "test/test/ng-github.com-fullstack-lang-gong-test-test"
         },
-        {
-            "label": "01 - gongc tree",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/lib/tree"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces",
-                "go/models"
-            ]
+        "command": "ng",
+        "group": "build",
+        "args": [
+          "serve",
+          ""
+        ]
+      },
+      {
+        "label": "03 - ng serve test --host=127.0.0.1",
+        "type": "shell",
+        "options": {
+          "cwd": "test/test/ng-github.com-fullstack-lang-gong-test-test"
         },
-        {
-            "label": "01 - gongc xlsx",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/lib/xlsx"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces",
-                "go/models"
-            ]
+        "command": "ng",
+        "group": "build",
+        "args": [
+          "serve",
+          "--host=127.0.0.1"
+        ]
+      },
+      {
+        "label": "03 - ng serve test2 --host=127.0.0.1",
+        "type": "shell",
+        "options": {
+          "cwd": "test2/ng"
         },
-        {
-            "label": "01 - gongc gong",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces",
-                "go/models"
-            ]
+        "command": "ng",
+        "group": "build",
+        "args": [
+          "serve",
+          "--host=127.0.0.1"
+        ]
+      },
+      {
+        "label": "03 - ng serve test2",
+        "type": "shell",
+        "options": {
+          "cwd": "test2/ng"
         },
-        {
-            "label": "01 - gongc svg",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/lib/svg"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces",
-                "go/models"
-            ]
+        "command": "ng serve",
+        "group": "build"
+      },
+      {
+        "label": "03 - ng serve test3 --host=127.0.0.1",
+        "type": "shell",
+        "options": {
+          "cwd": "test3/ng-github.com-fullstack-lang-gong-test3"
         },
-        {
-            "label": "01 - gongc slider",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/lib/slider"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces",
-                "go/models"
-            ]
+        "command": "ng",
+        "group": "build",
+        "args": [
+          "serve",
+          "--host=127.0.0.1"
+        ]
+      },
+      {
+        "label": "03 - ng serve tone",
+        "type": "shell",
+        "options": {
+          "cwd": "lib/tone/ng-github.com-fullstack-lang-gong-lib-tone"
         },
-        {
-            "label": "01 - gongc split",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/lib/split"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces",
-                "go/models"
-            ]
+        "command": "ng",
+        "group": "build",
+        "args": [
+          "serve",
+          ""
+        ]
+      },
+      {
+        "label": "03 - ng serve tree ",
+        "type": "shell",
+        "options": {
+          "cwd": "lib/tree/ng-github.com-fullstack-lang-gong-lib-tree"
         },
-        {
-            "label": "01 - gongc tone",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/lib/tone"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces",
-                "go/models"
-            ]
+        "command": "ng",
+        "group": "build",
+        "args": [
+          "serve",
+          ""
+        ]
+      },
+      {
+        "label": "03 - ng serve xlsx",
+        "type": "shell",
+        "options": {
+          "cwd": "lib/xlsx/ng-github.com-fullstack-lang-gong-lib-xlsx"
         },
-        {
-            "label": "01 - remove test main.go",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/test/test/go/cmd/test",
-            },
-            "command": "rm",
-            "group": "build",
-            "args": [
-                "main.go"
-            ]
+        "command": "ng",
+        "group": "build",
+        "args": [
+          "serve",
+          ""
+        ]
+      },
+      {
+        "label": "03 - ngserve test ",
+        "type": "shell",
+        "options": {
+          "cwd": "test/test/ng"
         },
-        {
-            "label": "01 - gongc test -skipNpmWorkspaces",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/test/test/go/models"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-skipNpmWorkspaces"
-            ]
+        "command": "ngserve",
+        "group": "build",
+        "args": [
+          "",
+          ""
+        ]
+      },
+      {
+        "label": "04 - go run doc",
+        "type": "shell",
+        "options": {
+          "cwd": "./lib/doc/go/cmd/doc"
         },
-        {
-            "label": "01 - gongc test -skipGoModCommands -skipNpmWorkspaces",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/test/test/go/models"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces"
-            ]
+        "command": "go",
+        "args": [
+          "run",
+          "main.go"
+        ],
+        "group": "build"
+      },
+      {
+        "label": "04 - go run gong",
+        "type": "shell",
+        "options": {
+          "cwd": "./go/cmd/gong"
         },
-        {
-            "label": "01 - gongc test2",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/test/test2/go/models"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces"
-            ]
+        "command": "go run main.go",
+        "group": "build"
+      },
+      {
+        "label": "04 - go run main.go -marshallOnCommit stage_out -unmarshallFromCode stage.go -diagrams",
+        "type": "shell",
+        "options": {
+          "cwd": "./test/test/go/cmd/test"
         },
-        {
-            "label": "01 - gongc test3",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/test/test3/go/models"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces"
-            ]
+        "command": "go",
+        "args": [
+          "run",
+          "main.go",
+          "-marshallOnCommit=sdata/tage_out",
+          "-unmarshallFromCode",
+          "stage.go",
+          "-diagrams"
+        ],
+        "group": "build"
+      },
+      {
+        "label": "04 - go run main.go -unmarshallFromCode stage.go -diagrams",
+        "type": "shell",
+        "options": {
+          "cwd": "./test/test/go/cmd/test"
         },
-        {
-            "label": "01 - gongc gong -clean",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/go/models"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-clean"
-            ]
+        "command": "go",
+        "args": [
+          "run",
+          "main.go",
+          "-unmarshallFromCode",
+          "stage.go",
+          "-diagrams"
+        ],
+        "group": "build"
+      },
+      {
+        "label": "04 - go run load",
+        "type": "shell",
+        "options": {
+          "cwd": "./lib/load/go/cmd/load"
         },
-        {
-            "label": "01 - gongc doc -clean",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/lib/doc/go/models"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-clean"
-            ]
+        "command": "go",
+        "args": [
+          "run",
+          ".",
+          "-unmarshallFromCode=data/stage.go",
+          "-marshallOnCommit=data/stage"
+        ],
+        "group": "build"
+      },
+      {
+        "label": "04 - go run split",
+        "type": "shell",
+        "options": {
+          "cwd": "./lib/split/go/cmd/split"
         },
-        {
-            "label": "01 - gongc gong -skipGoModCommands -skipNg",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/go/models"
-            },
-            "command": "gongc",
-            "group": "build",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNg"
-            ]
+        "command": "go",
+        "args": [
+          "run",
+          ".",
+          "-unmarshallFromCode=data/stage.go",
+          "-marshallOnCommit=data/stage"
+        ],
+        "group": "build"
+      },
+      {
+        "label": "04 - go run split issue564",
+        "type": "shell",
+        "options": {
+          "cwd": "./lib/split/go/cmd/split"
         },
-        {
-            // you can check in go.mod, the timestamp is UTC
-            "label": "00 go mod tidy",
-            "type": "shell",
-            "group": "build",
-            "command": "go mod tidy"
+        "command": "go",
+        "args": [
+          "run",
+          ".",
+          "-unmarshallFromCode=data/stage.go",
+          "-marshallOnCommit=data/stage_out"
+        ],
+        "group": "build"
+      },
+      {
+        "label": "04 - go run test",
+        "type": "shell",
+        "options": {
+          "cwd": "./test/test/go/cmd/test"
         },
-        {
-            "label": "Sequence - gongc all",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/.."
-            },
-            "group": "build",
-            "command": "find . -type d -name vendor -prune -o -name gong.go -print -execdir gongc -skipGoModCommands \\;"
+        "command": "go",
+        "args": [
+          "run",
+          ".",
+          "-unmarshallFromCode=data/stage.go",
+          "-marshallOnCommit=data/stage_out"
+        ],
+        "group": "build"
+      },
+      {
+        "label": "04 - go run test -marshallOnStartup=stage",
+        "type": "shell",
+        "options": {
+          "cwd": "./test/test/go/cmd/test"
         },
-        {
-            "label": "Sequence - gongc all -skipNg -skipGoModCommands",
-            "type": "shell",
-            "options": {
-                "cwd": "${workspaceFolder}/.."
-            },
-            "group": "build",
-            "command": "find . -type d -name vendor -prune -o -name gong.go -print -execdir gongc -skipNg -skipGoModCommands \\;"
+        "command": "go",
+        "args": [
+          "run",
+          "main.go",
+          "stage.go",
+          "-marshallOnStartup=stage"
+        ],
+        "group": "build"
+      },
+      {
+        "label": "04 - go run test2 -unmarshallFromCode=data/stage2.go -marshallOnCommidata/t=stage2",
+        "type": "shell",
+        "options": {
+          "cwd": "./test2/go/cmd/test2"
         },
-        {
-            "label": "00 - go mod vendor",
-            "type": "shell",
-            "group": "build",
-            "command": "go mod vendor"
+        "command": "go",
+        "group": "build",
+        "args": [
+          "run",
+          "main.go",
+          "-unmarshallFromCode",
+          "stage2.go",
+          "-marshallOnCommit",
+          "stage2"
+        ]
+      },
+      {
+        "label": "04 - go run tone",
+        "type": "shell",
+        "options": {
+          "cwd": "./lib/tone/go/cmd/tone"
         },
-        {
-            "label": "00 - go wasm",
-            "type": "shell",
-            "group": "build",
-            "options": {
-                "cwd": "${workspaceFolder}/test3/go/cmd/test3"
-            },
-            "command": "GOOS=js GOARCH=wasm go build -o wasmworkbench.wasm"
+        "command": "go",
+        "args": [
+          "run",
+          ".",
+          "-unmarshallFromCode=data/stage.go",
+          "-marshallOnCommit=data/stage"
+        ],
+        "group": "build"
+      },
+      {
+        "label": "04 - go run tree",
+        "type": "shell",
+        "options": {
+          "cwd": "./lib/tree/go/cmd/tree"
         },
-        {
-            "label": "00 - cypress issue 519 on test3",
-            "type": "shell",
-            "group": "build",
-            "options": {
-                "cwd": "${workspaceFolder}/test3/ng-github.com-fullstack-lang-gong-test3"
-            },
-            "command": "npx cypress run --browser chrome --spec 'cypress/e2e/issue 519.cy.ts'"
+        "command": "go",
+        "args": [
+          "run",
+          ".",
+          "-unmarshallFromCode=data/stage.go",
+          "-marshallOnCommit=data/stage"
+        ],
+        "group": "build"
+      },
+      {
+        "label": "04 - go run test3 -marshallOnCommit stage_out -unmarshallFromCode stage.go",
+        "type": "shell",
+        "options": {
+          "cwd": "./test3/go/cmd/test3"
         },
-        {
-            "label": "00 - cypress on issue 520 - delete table row",
-            "type": "shell",
-            "group": "build",
-            "options": {
-                "cwd": "${workspaceFolder}/test3/ng-github.com-fullstack-lang-gong-test3"
-            },
-            "command": "npx cypress run --browser chrome --spec 'cypress/e2e/issue 520.cy.ts'"
-        },
-        {
-            "label": "00 - cypress open on test3",
-            "type": "shell",
-            "group": "build",
-            "options": {
-                "cwd": "${workspaceFolder}/test3/ng-github.com-fullstack-lang-gong-test3"
-            },
-            "command": "npx cypress open"
-        },
-        {
-            "label": "04 - go run test3 -marshallOnCommit stage_out -unmarshallFromCode stage.go",
-            "type": "shell",
-            "options": {
-                "cwd": "./test3/go/cmd/test3"
-            },
-            "command": "go",
-            "args": [
-                "run",
-                "main.go",
-                "-marshallOnCommit=sdata/tage_out",
-                "-unmarshallFromCode",
-                "stage.go",
-            ],
-            "group": "build"
-        },
-        {
-            "label": "00 - Run all gongc -skipGoModCommands -skipNpmWorkspaces",
-            "type": "shell",
-            "command": "find . -type f -name \"embed_ng_dist_ng.go\" -exec dirname {} \\; | sort -u | while IFS= read -r dir; do (cd \"$dir\" && gongc -skipGoModCommands -skipNpmWorkspaces go/models); done",
-            "group": "build"
-        },
-        {
-            "label": "00 - Run all gongc -skipGoModCommands -skipNg",
-            "type": "shell",
-            "command": "find . -type f -name \"embed_ng_dist_ng.go\" -exec dirname {} \\; | sort -u | while IFS= read -r dir; do (cd \"$dir\" && gongc -skipGoModCommands -skipNg go/models); done",
-            "group": "build"
-        },
+        "command": "go",
+        "args": [
+          "run",
+          "main.go",
+          "-marshallOnCommit=sdata/tage_out",
+          "-unmarshallFromCode",
+          "stage.go"
+        ],
+        "group": "build"
+      },
+      
     ]
-}
+  }
+  

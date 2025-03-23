@@ -4,6 +4,7 @@ import { ButtonAPI } from './button-api'
 import { CursorAPI } from './cursor-api'
 import { DocAPI } from './doc-api'
 import { FormAPI } from './form-api'
+import { LoadAPI } from './load-api'
 import { SliderAPI } from './slider-api'
 import { SplitAPI } from './split-api'
 import { SvgAPI } from './svg-api'
@@ -45,6 +46,8 @@ export class AsSplitAreaPointersEncoding {
 	DocID: NullInt64 = new NullInt64 // if pointer is null, Doc.ID = 0
 
 	FormID: NullInt64 = new NullInt64 // if pointer is null, Form.ID = 0
+
+	LoadID: NullInt64 = new NullInt64 // if pointer is null, Load.ID = 0
 
 	SliderID: NullInt64 = new NullInt64 // if pointer is null, Slider.ID = 0
 
