@@ -28,6 +28,10 @@ import { FormAPI } from './form-api'
 import { Form, CopyFormAPIToForm } from './form'
 import { FormService } from './form.service'
 
+import { LoadAPI } from './load-api'
+import { Load, CopyLoadAPIToLoad } from './load'
+import { LoadService } from './load.service'
+
 import { SliderAPI } from './slider-api'
 import { Slider, CopySliderAPIToSlider } from './slider'
 import { SliderService } from './slider.service'
@@ -81,6 +85,9 @@ export class FrontRepo { // insertion point sub template
 	array_Forms = new Array<Form>() // array of front instances
 	map_ID_Form = new Map<number, Form>() // map of front instances
 
+	array_Loads = new Array<Load>() // array of front instances
+	map_ID_Load = new Map<number, Load>() // map of front instances
+
 	array_Sliders = new Array<Slider>() // array of front instances
 	map_ID_Slider = new Map<number, Slider>() // map of front instances
 
@@ -123,6 +130,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_Docs as unknown as Array<Type>
 			case 'Form':
 				return this.array_Forms as unknown as Array<Type>
+			case 'Load':
+				return this.array_Loads as unknown as Array<Type>
 			case 'Slider':
 				return this.array_Sliders as unknown as Array<Type>
 			case 'Split':
@@ -157,6 +166,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_Doc as unknown as Map<number, Type>
 			case 'Form':
 				return this.map_ID_Form as unknown as Map<number, Type>
+			case 'Load':
+				return this.map_ID_Load as unknown as Map<number, Type>
 			case 'Slider':
 				return this.map_ID_Slider as unknown as Map<number, Type>
 			case 'Split':
@@ -244,6 +255,7 @@ export class FrontRepoService {
 		private cursorService: CursorService,
 		private docService: DocService,
 		private formService: FormService,
+		private loadService: LoadService,
 		private sliderService: SliderService,
 		private splitService: SplitService,
 		private svgService: SvgService,
@@ -289,6 +301,7 @@ export class FrontRepoService {
 		Observable<CursorAPI[]>,
 		Observable<DocAPI[]>,
 		Observable<FormAPI[]>,
+		Observable<LoadAPI[]>,
 		Observable<SliderAPI[]>,
 		Observable<SplitAPI[]>,
 		Observable<SvgAPI[]>,
@@ -317,6 +330,7 @@ export class FrontRepoService {
 			this.cursorService.getCursors(this.Name, this.frontRepo),
 			this.docService.getDocs(this.Name, this.frontRepo),
 			this.formService.getForms(this.Name, this.frontRepo),
+			this.loadService.getLoads(this.Name, this.frontRepo),
 			this.sliderService.getSliders(this.Name, this.frontRepo),
 			this.splitService.getSplits(this.Name, this.frontRepo),
 			this.svgService.getSvgs(this.Name, this.frontRepo),
@@ -340,6 +354,7 @@ export class FrontRepoService {
 						cursors_,
 						docs_,
 						forms_,
+						loads_,
 						sliders_,
 						splits_,
 						svgs_,
@@ -363,6 +378,8 @@ export class FrontRepoService {
 						docs = docs_ as DocAPI[]
 						var forms: FormAPI[]
 						forms = forms_ as FormAPI[]
+						var loads: LoadAPI[]
+						loads = loads_ as LoadAPI[]
 						var sliders: SliderAPI[]
 						sliders = sliders_ as SliderAPI[]
 						var splits: SplitAPI[]
@@ -450,6 +467,18 @@ export class FrontRepoService {
 								let form = new Form
 								this.frontRepo.array_Forms.push(form)
 								this.frontRepo.map_ID_Form.set(formAPI.ID, form)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_Loads = []
+						this.frontRepo.map_ID_Load.clear()
+
+						loads.forEach(
+							loadAPI => {
+								let load = new Load
+								this.frontRepo.array_Loads.push(load)
+								this.frontRepo.map_ID_Load.set(loadAPI.ID, load)
 							}
 						)
 
@@ -586,6 +615,14 @@ export class FrontRepoService {
 							formAPI => {
 								let form = this.frontRepo.map_ID_Form.get(formAPI.ID)
 								CopyFormAPIToForm(formAPI, form!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						loads.forEach(
+							loadAPI => {
+								let load = this.frontRepo.map_ID_Load.get(loadAPI.ID)
+								CopyLoadAPIToLoad(loadAPI, load!, this.frontRepo)
 							}
 						)
 
@@ -752,6 +789,18 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
+				frontRepo.array_Loads = []
+				frontRepo.map_ID_Load.clear()
+
+				backRepoData.LoadAPIs.forEach(
+					loadAPI => {
+						let load = new Load
+						frontRepo.array_Loads.push(load)
+						frontRepo.map_ID_Load.set(loadAPI.ID, load)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_Sliders = []
 				frontRepo.map_ID_Slider.clear()
 
@@ -890,6 +939,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.LoadAPIs.forEach(
+					loadAPI => {
+						let load = frontRepo.map_ID_Load.get(loadAPI.ID)
+						CopyLoadAPIToLoad(loadAPI, load!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.SliderAPIs.forEach(
 					sliderAPI => {
 						let slider = frontRepo.map_ID_Slider.get(sliderAPI.ID)
@@ -982,24 +1039,27 @@ export function getDocUniqueID(id: number): number {
 export function getFormUniqueID(id: number): number {
 	return 53 * id
 }
-export function getSliderUniqueID(id: number): number {
+export function getLoadUniqueID(id: number): number {
 	return 59 * id
 }
-export function getSplitUniqueID(id: number): number {
+export function getSliderUniqueID(id: number): number {
 	return 61 * id
 }
-export function getSvgUniqueID(id: number): number {
+export function getSplitUniqueID(id: number): number {
 	return 67 * id
 }
-export function getTableUniqueID(id: number): number {
+export function getSvgUniqueID(id: number): number {
 	return 71 * id
 }
-export function getToneUniqueID(id: number): number {
+export function getTableUniqueID(id: number): number {
 	return 73 * id
 }
-export function getTreeUniqueID(id: number): number {
+export function getToneUniqueID(id: number): number {
 	return 79 * id
 }
-export function getViewUniqueID(id: number): number {
+export function getTreeUniqueID(id: number): number {
 	return 83 * id
+}
+export function getViewUniqueID(id: number): number {
+	return 89 * id
 }

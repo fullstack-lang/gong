@@ -53,6 +53,9 @@
     @if (area.Form) {
         <lib-form-specific [Name]="area.Form.StackName" [FormName]="area.Form.FormName"></lib-form-specific>
     }
+    @if (area.Load) {
+        <lib-load-specific [Name]="area.Load.StackName"></lib-load-specific>
+    }
     @if (area.Slider) {
         <lib-slider-specific [Name]="area.Slider.StackName"></lib-slider-specific>
     }

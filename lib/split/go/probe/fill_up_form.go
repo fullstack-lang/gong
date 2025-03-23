@@ -64,6 +64,7 @@ func FillUpForm(
 		AssociationFieldToForm("Cursor", instanceWithInferedType.Cursor, formGroup, probe)
 		AssociationFieldToForm("Doc", instanceWithInferedType.Doc, formGroup, probe)
 		AssociationFieldToForm("Form", instanceWithInferedType.Form, formGroup, probe)
+		AssociationFieldToForm("Load", instanceWithInferedType.Load, formGroup, probe)
 		AssociationFieldToForm("Slider", instanceWithInferedType.Slider, formGroup, probe)
 		AssociationFieldToForm("Split", instanceWithInferedType.Split, formGroup, probe)
 		AssociationFieldToForm("Svg", instanceWithInferedType.Svg, formGroup, probe)
@@ -149,6 +150,13 @@ func FillUpForm(
 		BasicFieldtoForm("StackName", instanceWithInferedType.StackName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("FormName", instanceWithInferedType.FormName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+
+	case *models.Load:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("StackName", instanceWithInferedType.StackName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 
 	case *models.Slider:

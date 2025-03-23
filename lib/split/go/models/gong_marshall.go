@@ -414,6 +414,53 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	map_Load_Identifiers := make(map[*Load]string)
+	_ = map_Load_Identifiers
+
+	loadOrdered := []*Load{}
+	for load := range stage.Loads {
+		loadOrdered = append(loadOrdered, load)
+	}
+	sort.Slice(loadOrdered[:], func(i, j int) bool {
+		loadi := loadOrdered[i]
+		loadj := loadOrdered[j]
+		loadi_order, oki := stage.Map_Staged_Order[loadi]
+		loadj_order, okj := stage.Map_Staged_Order[loadj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return loadi_order < loadj_order
+	})
+	if len(loadOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, load := range loadOrdered {
+
+		id = generatesIdentifier("Load", idx, load.Name)
+		map_Load_Identifiers[load] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Load")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", load.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(load.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StackName")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(load.StackName))
+		initializerStatements += setValueField
+
+	}
+
 	map_Slider_Identifiers := make(map[*Slider]string)
 	_ = map_Slider_Identifiers
 
@@ -828,6 +875,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			pointersInitializesStatements += setPointerField
 		}
 
+		if assplitarea.Load != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Load")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Load_Identifiers[assplitarea.Load])
+			pointersInitializesStatements += setPointerField
+		}
+
 		if assplitarea.Slider != nil {
 			setPointerField = PointerFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
@@ -926,6 +981,19 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		id = generatesIdentifier("Form", idx, form.Name)
 		map_Form_Identifiers[form] = id
+
+		// Initialisation of values
+	}
+
+	if len(loadOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Load instances pointers"
+	}
+	for idx, load := range loadOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Load", idx, load.Name)
+		map_Load_Identifiers[load] = id
 
 		// Initialisation of values
 	}

@@ -37,6 +37,10 @@ export * from './lib/form-api'
 export * from './lib/form'
 export * from './lib/form.service'
 
+export * from './lib/load-api'
+export * from './lib/load'
+export * from './lib/load.service'
+
 export * from './lib/slider-api'
 export * from './lib/slider'
 export * from './lib/slider.service'
