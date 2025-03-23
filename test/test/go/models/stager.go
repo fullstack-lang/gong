@@ -26,7 +26,7 @@ func NewStager(r *gin.Engine, stage *StageStruct) (stager *Stager) {
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
 				Split: (&split.Split{
-					StackName: stage.GetName() + ProbeSplitSuffix,
+					StackName: stage.GetProbeSplitStageName(),
 				}).Stage(stager.splitStage),
 			}).Stage(stager.splitStage),
 		},
