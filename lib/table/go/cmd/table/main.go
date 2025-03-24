@@ -167,7 +167,6 @@ func main() {
 		gongtable_go.GoModelsDir,
 		gongtable_go.GoDiagramsDir,
 		*embeddedDiagrams,
-		models.ManualyEditedTableStackName.ToString(),
 		stageForManualyEditedTable,
 		backRepoForManualyEditedTable)
 
@@ -175,7 +174,6 @@ func main() {
 		gongtable_go.GoModelsDir,
 		gongtable_go.GoDiagramsDir,
 		*embeddedDiagrams,
-		models.ManualyEditedFormStackName.ToString(),
 		stageForManualyEditedForm,
 		backRepoForManualyEditedForm)
 
@@ -183,7 +181,6 @@ func main() {
 		gongtable_go.GoModelsDir,
 		gongtable_go.GoDiagramsDir,
 		*embeddedDiagrams,
-		models.GeneratedTableStackName.ToString(),
 		stageForGeneratedTable,
 		backRepoForGeneratedTable)
 

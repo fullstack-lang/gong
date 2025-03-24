@@ -25,7 +25,6 @@ import (
 
 type Probe struct {
 	r                  *gin.Engine
-	stackPath          string
 	stageOfInterest    *models.StageStruct
 	backRepoOfInterest *orm.BackRepoStruct
 	gongStage          *gong_models.StageStruct
@@ -40,31 +39,29 @@ func NewProbe(
 	goModelsDir embed.FS,
 	goDiagramsDir embed.FS,
 	embeddedDiagrams bool,
-	stackPath string,
 	stageOfInterest *models.StageStruct,
 	backRepoOfInterest *orm.BackRepoStruct) (probe *Probe) {
 
-	gongStage, _ := gong_fullstack.NewStackInstance(r, stackPath)
+	gongStage, _ := gong_fullstack.NewStackInstance(r, stageOfInterest.GetName())
 
 	gong_models.LoadEmbedded(gongStage, goModelsDir)
 
 	// treeForSelectingDate that is on the sidebar
-	treeStage, _ := gongtree_fullstack.NewStackInstance(r, stackPath+models.ProbeTreeSidebarSuffix)
+	treeStage, _ := gongtree_fullstack.NewStackInstance(r, stageOfInterest.GetProbeTreeSidebarStageName())
 
 	// stage for main table
-	tableStage, _ := gongtable_fullstack.NewStackInstance(r, stackPath+models.ProbeTableSuffix)
+	tableStage, _ := gongtable_fullstack.NewStackInstance(r, stageOfInterest.GetProbeTableStageName())
 	tableStage.Commit()
 
 	// stage for reusable form
-	formStage, _ := gongtable_fullstack.NewStackInstance(r, stackPath+models.ProbeFormSuffix)
+	formStage, _ := gongtable_fullstack.NewStackInstance(r, stageOfInterest.GetProbeFormStageName())
 	formStage.Commit()
 
-	splitStage, _ := gongsplit_fullstack.NewStackInstance(r, stackPath+models.ProbeSplitSuffix)
+	splitStage, _ := gongsplit_fullstack.NewStackInstance(r, stageOfInterest.GetProbeSplitStageName())
 	splitStage.Commit()
 
 	probe = new(Probe)
 	probe.r = r
-	probe.stackPath = stackPath
 	probe.stageOfInterest = stageOfInterest
 	probe.backRepoOfInterest = backRepoOfInterest
 	probe.gongStage = gongStage
@@ -78,7 +75,7 @@ func NewProbe(
 
 	gongdoc_load.Load(
 		"",
-		probe.stageOfInterest.GetType(),
+		probe.stageOfInterest.GetProbeSplitStageName(),
 		goModelsDir,
 		goDiagramsDir,
 		r,
@@ -124,7 +121,7 @@ func updateSplitStage(probe *Probe) {
 
 	tree := (&split.Tree{
 		Name:      "Sidebar",
-		StackName: probe.stackPath + models.ProbeTreeSidebarSuffix,
+		StackName: probe.treeStage.GetName(),
 		TreeName:  SideBarTreeName,
 	}).Stage(probe.splitStage)
 	sidebarArea.Tree = tree
@@ -137,7 +134,7 @@ func updateSplitStage(probe *Probe) {
 
 	table := (&split.Table{
 		Name:      "Table",
-		StackName: probe.stackPath + models.ProbeTableSuffix,
+		StackName: probe.tableStage.GetName(),
 		TableName: TableName,
 	}).Stage(probe.splitStage)
 	tableArea.Table = table
@@ -150,7 +147,7 @@ func updateSplitStage(probe *Probe) {
 
 	form := (&split.Form{
 		Name:      "Form",
-		StackName: probe.stackPath + models.ProbeFormSuffix,
+		StackName: probe.formStage.GetName(),
 		FormName:  FormName,
 	}).Stage(probe.splitStage)
 	formArea.Form = form
@@ -163,7 +160,7 @@ func updateSplitStage(probe *Probe) {
 
 	doc := (&split.Doc{
 		Name:      "Doc",
-		StackName: probe.stageOfInterest.GetType(),
+		StackName: probe.splitStage.GetName(),
 	}).Stage(probe.splitStage)
 	bottomSplitArea.Doc = doc
 
