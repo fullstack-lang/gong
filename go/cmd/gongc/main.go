@@ -45,6 +45,7 @@ var (
 	skipCoder         = flag.Bool("skipCoder", true, "do not generate coder file")
 	skipSerialize     = flag.Bool("skipSerialize", false, "do not generate models/gong_serialize code for xl ouput")
 	skipNpmWorkspaces = flag.Bool("skipNpmWorkspaces", false, "do not generate package.json at the root for npm workspaces")
+	skipStager        = flag.Bool("skipStager", true, "do not generate blolerplate stager.go in models and in main.go")
 
 	clean = flag.Bool("clean", false, "let gongc remove files & dir that are generated. The program then exits.")
 
@@ -350,7 +351,7 @@ func main() {
 				modelPkg.Name,
 				modelPkg.PkgPath,
 				mainFilePath,
-				*skipNg)
+				*skipStager)
 		}
 	}
 	{
@@ -358,7 +359,7 @@ func main() {
 		coderFilePath := filepath.Join(*pkgPath, "stager.go")
 
 		_, errd := os.Stat(coderFilePath)
-		if os.IsNotExist(errd) {
+		if os.IsNotExist(errd) && !*skipStager {
 			log.Printf("stager.go does not exist, gongc creates a default stager.go")
 			gong_models.VerySimpleCodeGenerator(
 				modelPkg,

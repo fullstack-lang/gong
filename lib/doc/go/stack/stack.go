@@ -123,7 +123,7 @@ func NewStack(
 
 	if withProbe {
 		stack.Probe = probe.NewProbe(r, doc_go.GoModelsDir, doc_go.GoDiagramsDir,
-			embeddedDiagrams, stackPath, stage, backRepo)
+			embeddedDiagrams, stage, backRepo)
 	}
 
 	return
