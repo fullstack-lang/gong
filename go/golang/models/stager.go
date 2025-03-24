@@ -21,6 +21,9 @@ func NewStager(r *gin.Engine, stage *StageStruct) (stager *Stager) {
 	stager = new(Stager)
 
 	stager.stage = stage
+
+	// the root split name is "" by convention. Is is the same for all gong applications
+	// that do not develop their specific angular component
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
 	(&split.View{
