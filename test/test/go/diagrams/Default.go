@@ -47,8 +47,8 @@ func _(stage *models.StageStruct) {
 	__GongStructShape__000000_Default_Astruct.Height = 63.000000
 	__GongStructShape__000000_Default_Astruct.IsSelected = false
 
-	__Position__000000_Pos_Default_Astruct.X = 269.000000
-	__Position__000000_Pos_Default_Astruct.Y = 92.000000
+	__Position__000000_Pos_Default_Astruct.X = 407.000000
+	__Position__000000_Pos_Default_Astruct.Y = 118.000000
 	__Position__000000_Pos_Default_Astruct.Name = `Pos-Default-Astruct`
 
 	// Setup of pointers
