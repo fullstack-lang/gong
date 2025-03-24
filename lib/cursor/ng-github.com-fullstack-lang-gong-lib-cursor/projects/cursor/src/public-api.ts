@@ -18,4 +18,3 @@ export * from './lib/cursor'
 export * from './lib/cursor.service'
 
 
-export * from './lib/StacksNames'
