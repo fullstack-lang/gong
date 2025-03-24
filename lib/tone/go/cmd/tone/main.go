@@ -5,6 +5,7 @@ import (
 	"log"
 	"strconv"
 
+	//
 	tone_models "github.com/fullstack-lang/gong/lib/tone/go/models"
 	tone_stack "github.com/fullstack-lang/gong/lib/tone/go/stack"
 	tone_static "github.com/fullstack-lang/gong/lib/tone/go/static"
@@ -32,9 +33,12 @@ func main() {
 	// setup the static file server and get the controller
 	r := tone_static.ServeStaticFiles(*logGINFlag)
 
-	// setup stack
-	stack := tone_stack.NewStack(r, tone_models.Tone.ToString(), *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	// setup model stack with its probe
+	stack := tone_stack.NewStack(r, "tone", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
+
+	//
+	tone_models.NewStager(r, stack.Stage)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
