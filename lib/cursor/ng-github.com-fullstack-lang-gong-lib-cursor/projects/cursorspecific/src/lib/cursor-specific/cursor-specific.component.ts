@@ -16,7 +16,6 @@ export class CursorSpecificComponent implements OnInit {
   xe = 500
   private animationFrameId: number | null = null;  // Store animation frame ID
 
-  StacksNames = cursor.StacksNames;
   public frontRepo?: cursor.FrontRepo;
   public cursor: cursor.Cursor | undefined
 
@@ -27,7 +26,7 @@ export class CursorSpecificComponent implements OnInit {
   ngOnInit(): void {
     console.log("ngOnInit");
 
-    this.frontRepoService.connectToWebSocket(this.StacksNames.Cursorstakcname).subscribe({
+    this.frontRepoService.connectToWebSocket(this.Name).subscribe({
       next: (gongtablesFrontRepo) => {
         this.frontRepo = gongtablesFrontRepo;
 
