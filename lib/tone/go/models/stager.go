@@ -1,6 +1,4 @@
-package models
-
-const StagerFileTemplate = `// generated boilerplate code
+// generated boilerplate code
 // edit the file for adding other stages
 package models
 
@@ -24,6 +22,17 @@ func NewStager(r *gin.Engine, stage *StageStruct) (stager *Stager) {
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
 	(&split.View{
+		Name: "Tone",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Tone: (&split.Tone{
+					StackName: stage.GetName(),
+				}).Stage(stager.splitStage),
+			}).Stage(stager.splitStage),
+		},
+	}).Stage(stager.splitStage)
+
+	(&split.View{
 		Name: "Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
@@ -38,4 +47,3 @@ func NewStager(r *gin.Engine, stage *StageStruct) (stager *Stager) {
 
 	return
 }
-`

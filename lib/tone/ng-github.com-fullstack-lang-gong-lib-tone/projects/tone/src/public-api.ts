@@ -26,5 +26,4 @@ export * from './lib/player'
 export * from './lib/player.service'
 
 
-export * from './lib/StacksNames'
 export * from './lib/Status'

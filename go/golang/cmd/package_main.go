@@ -63,7 +63,7 @@ const modelsImportDirective = `
 	{{pkgname}}_models "{{PkgPathRoot}}/models"`
 
 const newStagerCall = `
-	test_models.NewStager(r, stack.Stage)`
+	{{pkgname}}_models.NewStager(r, stack.Stage)`
 
 func CodeGeneratorPackageMain(
 	modelPkg *models.ModelPkg,
