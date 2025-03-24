@@ -29,7 +29,6 @@ export class ToneSpecificComponent {
   private currentLoop: Tone.Loop | undefined;
   private destroy$ = new Subject<void>();
 
-  readonly StacksNames = tonelocal.StacksNames;
 
   frontRepo?: tonelocal.FrontRepo;
   isLoading = false;
@@ -103,7 +102,7 @@ export class ToneSpecificComponent {
     if (players && players.length === 1) {
       const player = players[0];
       player.Status = tonelocal.Status.PAUSED;
-      this.playerService.updateFront(player, this.StacksNames.Tone).subscribe(
+      this.playerService.updateFront(player, this.Name).subscribe(
         () => {
           console.log("gongtone: status set to PAUSED");
         }
@@ -135,7 +134,7 @@ export class ToneSpecificComponent {
     if (players.length === 1) {
       const player = players[0];
       player.Status = tonelocal.Status.PLAYING;
-      this.playerService.updateFront(player, this.StacksNames.Tone).subscribe(
+      this.playerService.updateFront(player, this.Name).subscribe(
         () => {
           console.log("gongtone: status set to PLAYING");
         }
