@@ -62,9 +62,6 @@ func Load(
 
 	beforeCommitImplementation.docSVGMapper = docSVGMapper
 
-	gongdocStage.OnInitCommitFromFrontCallback = beforeCommitImplementation
-	gongdocStage.OnInitCommitFromBackCallback = beforeCommitImplementation
-
 	diagramPackageCallbackSingloton := new(DiagramPackageCallbacksSingloton)
 	diagramPackageCallbackSingloton.gongtreeStage = gongtreeStage
 	diagramPackageCallbackSingloton.gongStage = gongStage
