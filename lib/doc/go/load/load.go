@@ -14,7 +14,6 @@ import (
 	gongdoc_fullstack "github.com/fullstack-lang/gong/lib/doc/go/fullstack"
 	gongdoc_models "github.com/fullstack-lang/gong/lib/doc/go/models"
 
-	"github.com/fullstack-lang/gong/lib/doc/go/doc2svg"
 	gongsvg_fullstack "github.com/fullstack-lang/gong/lib/svg/go/fullstack"
 
 	gongtree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
@@ -22,15 +21,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
-
-type BeforeCommitImplementation struct {
-	// for generating SVG
-	docSVGMapper *doc2svg.DocSVGMapper
-}
-
-func (beforeCommitImplementation *BeforeCommitImplementation) BeforeCommit(gongdocStage *gongdoc_models.StageStruct) {
-	beforeCommitImplementation.docSVGMapper.GenerateSvg(gongdocStage)
-}
 
 // Load have gongdoc init itself and the gong stack as well
 // then parse the model source code in [goSourceDirectories]
@@ -54,13 +44,6 @@ func Load(
 	gongdocStage, _ := gongdoc_fullstack.NewStackInstance(r, pkgPath)
 	gongsvgStage, _ := gongsvg_fullstack.NewStackInstance(r, pkgPath)
 	gongtreeStage, _ := gongtree_fullstack.NewStackInstance(r, pkgPath)
-
-	beforeCommitImplementation := new(BeforeCommitImplementation)
-
-	docSVGMapper := doc2svg.NewDocSVGMapper(gongsvgStage)
-	_ = docSVGMapper
-
-	beforeCommitImplementation.docSVGMapper = docSVGMapper
 
 	diagramPackageCallbackSingloton := new(DiagramPackageCallbacksSingloton)
 	diagramPackageCallbackSingloton.gongtreeStage = gongtreeStage
