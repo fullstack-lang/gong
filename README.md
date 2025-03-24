@@ -499,7 +499,7 @@ Name string
 Hello *Hello
 AlternateHellos []*Hello
 }" > go/models/country.go
-gongc go/models
+gongc -skipStager=false go/models
 cd go/cmd/helloworld
 ./helloworld -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage 
 ```

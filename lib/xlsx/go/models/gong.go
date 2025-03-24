@@ -22,6 +22,22 @@ const ProbeTableSuffix = "-table"
 const ProbeFormSuffix = "-form"
 const ProbeSplitSuffix = "-probe"
 
+func (stage *StageStruct) GetProbeTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+}
+
+func (stage *StageStruct) GetProbeFormStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeFormSuffix
+}
+
+func (stage *StageStruct) GetProbeTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *StageStruct) GetProbeSplitStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeSplitSuffix
+}
+
 // errUnkownEnum is returns when a value cannot match enum values
 var errUnkownEnum = errors.New("unkown enum")
 

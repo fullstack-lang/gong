@@ -123,7 +123,7 @@ func NewStack(
 
 	if withProbe {
 		stack.Probe = probe.NewProbe(r, xlsx_go.GoModelsDir, xlsx_go.GoDiagramsDir,
-			embeddedDiagrams, stackPath, stage, backRepo)
+			embeddedDiagrams, stage, backRepo)
 	}
 
 	return
