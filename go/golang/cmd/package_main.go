@@ -18,7 +18,7 @@ import (
 	"log"
 	"strconv"
 
-	{{pkgname}}_models "{{PkgPathRoot}}/models"
+	//{{modelsImportDirective}}	
 	{{pkgname}}_stack "{{PkgPathRoot}}/stack"
 	{{pkgname}}_static "{{PkgPathRoot}}/static"
 )
@@ -49,7 +49,7 @@ func main() {
 	stack := {{pkgname}}_stack.NewStack(r, "{{pkgname}}", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
 
-	test_models.NewStager(r, stack.Stage)
+	//{{newStagerCall}}
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
@@ -59,26 +59,24 @@ func main() {
 }
 `
 
-const codeForNgStaticService = `
-	// provide the static route for the angular pages
-	r.Use(static.Serve("/", EmbedFolder({{pkgname}}.NgDistNg, "{{NgWorkspaceName}}/dist/{{NgWorkspaceName}}")))
-	r.NoRoute(func(c *gin.Context) {
-		fmt.Println(c.Request.URL.Path, "doesn't exists, redirect on /")
-		c.Redirect(http.StatusMovedPermanently, "/")
-		c.Abort()
-	})`
+const modelsImportDirective = `
+	{{pkgname}}_models "{{PkgPathRoot}}/models"`
+
+const newStagerCall = `
+	test_models.NewStager(r, stack.Stage)`
 
 func CodeGeneratorPackageMain(
 	modelPkg *models.ModelPkg,
 	pkgName string,
 	pkgGoPath string,
 	mainFilePath string,
-	skipNg bool) {
+	skipStager bool) {
 	{
 		codeGo := PackageMain
 
-		if !skipNg {
-			codeGo = strings.ReplaceAll(codeGo, "{{staticCodeServiceCode}}", codeForNgStaticService)
+		if !skipStager {
+			codeGo = strings.ReplaceAll(codeGo, "{{modelsImportDirective}}", modelsImportDirective)
+			codeGo = strings.ReplaceAll(codeGo, "{{newStagerCall}}", newStagerCall)
 		}
 
 		caserEnglish := cases.Title(language.English)
