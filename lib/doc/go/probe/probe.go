@@ -111,7 +111,7 @@ func updateSplitStage(probe *Probe) {
 		Name:      "Top, sidebar, table & form",
 		Direction: split.Horizontal,
 	}).Stage(probe.splitStage)
-	topSplitArea.AsSplits = append(topSplitArea.AsSplits, horizontalSplit)
+	topSplitArea.AsSplit = horizontalSplit
 
 	sidebarArea := (&split.AsSplitArea{
 		Name: "sidebar tree",
