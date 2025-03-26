@@ -74,20 +74,19 @@
     @if (area.Tree) {
         <lib-tree-specific [Name]="area.Tree.StackName" [name]="area.Tree.TreeName"></lib-tree-specific>
     }
-    
-    @for (asSplit of area.AsSplits; track asSplit) {
-    <as-split [direction]="asSplit.Direction">
-        @for (asSplitArea of asSplit.AsSplitAreas; track asSplitArea) {
-        <as-split-area [size]="asSplitArea.IsAny ? $any('*') : asSplitArea.Size">
-            @if (asSplitArea.HasDiv) {
-                <div [style]="asSplitArea.DivStyle">
+    @if (area.AsSplit) {
+        <as-split [direction]="area.AsSplit.Direction">
+            @for (asSplitArea of area.AsSplit.AsSplitAreas; track asSplitArea) {
+            <as-split-area [size]="asSplitArea.IsAny ? $any('*') : asSplitArea.Size">
+                @if (asSplitArea.HasDiv) {
+                    <div [style]="asSplitArea.DivStyle">
+                        <ng-container *ngTemplateOutlet="componentRenderer; context: {$implicit: asSplitArea}"></ng-container>
+                    </div>
+                } @else {
                     <ng-container *ngTemplateOutlet="componentRenderer; context: {$implicit: asSplitArea}"></ng-container>
-                </div>
-            } @else {
-                <ng-container *ngTemplateOutlet="componentRenderer; context: {$implicit: asSplitArea}"></ng-container>
+                }
+            </as-split-area>
             }
-        </as-split-area>
-        }
-    </as-split>
+        </as-split>
     }
 </ng-template>
