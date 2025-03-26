@@ -83,8 +83,6 @@ type StageStruct struct {
 	AsSplitAreas_mapString map[string]*AsSplitArea
 
 	// insertion point for slice of pointers maps
-	AsSplitArea_AsSplits_reverseMap map[*AsSplit]*AsSplitArea
-
 	OnAfterAsSplitAreaCreateCallback OnAfterCreateInterface[AsSplitArea]
 	OnAfterAsSplitAreaUpdateCallback OnAfterUpdateInterface[AsSplitArea]
 	OnAfterAsSplitAreaDeleteCallback OnAfterDeleteInterface[AsSplitArea]
@@ -1680,7 +1678,7 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&AsSplitArea{
 			// Initialisation of associations
 			// field is initialized with an instance of AsSplit with the name of the field
-			AsSplits: []*AsSplit{{Name: "AsSplits"}},
+			AsSplit: &AsSplit{Name: "AsSplit"},
 			// field is initialized with an instance of Button with the name of the field
 			Button: &Button{Name: "Button"},
 			// field is initialized with an instance of Cursor with the name of the field
@@ -1781,6 +1779,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 	case AsSplitArea:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "AsSplit":
+			res := make(map[*AsSplit][]*AsSplitArea)
+			for assplitarea := range stage.AsSplitAreas {
+				if assplitarea.AsSplit != nil {
+					assplit_ := assplitarea.AsSplit
+					var assplitareas []*AsSplitArea
+					_, ok := res[assplit_]
+					if ok {
+						assplitareas = res[assplit_]
+					} else {
+						assplitareas = make([]*AsSplitArea, 0)
+					}
+					assplitareas = append(assplitareas, assplitarea)
+					res[assplit_] = assplitareas
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Button":
 			res := make(map[*Button][]*AsSplitArea)
 			for assplitarea := range stage.AsSplitAreas {
@@ -2062,14 +2077,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case AsSplitArea:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "AsSplits":
-			res := make(map[*AsSplit]*AsSplitArea)
-			for assplitarea := range stage.AsSplitAreas {
-				for _, assplit_ := range assplitarea.AsSplits {
-					res[assplit_] = assplitarea
-				}
-			}
-			return any(res).(map[*End]*Start)
 		}
 	// reverse maps of direct associations of Button
 	case Button:
@@ -2233,7 +2240,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case AsSplit:
 		res = []string{"Name", "Direction", "AsSplitAreas"}
 	case AsSplitArea:
-		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplits", "Button", "Cursor", "Doc", "Form", "Load", "Slider", "Split", "Svg", "Table", "Tone", "Tree", "HasDiv", "DivStyle"}
+		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplit", "Button", "Cursor", "Doc", "Form", "Load", "Slider", "Split", "Svg", "Table", "Tone", "Tree", "HasDiv", "DivStyle"}
 	case Button:
 		res = []string{"Name", "StackName"}
 	case Cursor:
@@ -2279,9 +2286,6 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	case AsSplit:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "AsSplitArea"
-		rf.Fieldname = "AsSplits"
-		res = append(res, rf)
 	case AsSplitArea:
 		var rf ReverseField
 		_ = rf
@@ -2341,7 +2345,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *AsSplit:
 		res = []string{"Name", "Direction", "AsSplitAreas"}
 	case *AsSplitArea:
-		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplits", "Button", "Cursor", "Doc", "Form", "Load", "Slider", "Split", "Svg", "Table", "Tone", "Tree", "HasDiv", "DivStyle"}
+		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplit", "Button", "Cursor", "Doc", "Form", "Load", "Slider", "Split", "Svg", "Table", "Tone", "Tree", "HasDiv", "DivStyle"}
 	case *Button:
 		res = []string{"Name", "StackName"}
 	case *Cursor:
@@ -2440,12 +2444,9 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsAny)
 			res.valueBool = inferedInstance.IsAny
 			res.GongFieldValueType = GongFieldValueTypeBool
-		case "AsSplits":
-			for idx, __instance__ := range inferedInstance.AsSplits {
-				if idx > 0 {
-					res.valueString += "\n"
-				}
-				res.valueString += __instance__.Name
+		case "AsSplit":
+			if inferedInstance.AsSplit != nil {
+				res.valueString = inferedInstance.AsSplit.Name
 			}
 		case "Button":
 			if inferedInstance.Button != nil {
@@ -2652,12 +2653,9 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsAny)
 			res.valueBool = inferedInstance.IsAny
 			res.GongFieldValueType = GongFieldValueTypeBool
-		case "AsSplits":
-			for idx, __instance__ := range inferedInstance.AsSplits {
-				if idx > 0 {
-					res.valueString += "\n"
-				}
-				res.valueString += __instance__.Name
+		case "AsSplit":
+			if inferedInstance.AsSplit != nil {
+				res.valueString = inferedInstance.AsSplit.Name
 			}
 		case "Button":
 			if inferedInstance.Button != nil {

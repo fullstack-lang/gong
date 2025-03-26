@@ -25,7 +25,7 @@ type AsSplitArea struct {
 	// IsAany make the split area set size to "$any(*)"
 	IsAny bool
 
-	AsSplits []*AsSplit
+	AsSplit *AsSplit
 
 	Button *Button
 	Cursor *Cursor

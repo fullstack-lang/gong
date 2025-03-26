@@ -236,6 +236,9 @@ func (stage *StageStruct) StageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	assplitarea.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if assplitarea.AsSplit != nil {
+		StageBranch(stage, assplitarea.AsSplit)
+	}
 	if assplitarea.Button != nil {
 		StageBranch(stage, assplitarea.Button)
 	}
@@ -271,9 +274,6 @@ func (stage *StageStruct) StageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _assplit := range assplitarea.AsSplits {
-		StageBranch(stage, _assplit)
-	}
 
 }
 
@@ -569,6 +569,9 @@ func CopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplitArea
 	assplitareaFrom.CopyBasicFields(assplitareaTo)
 
 	//insertion point for the staging of instances referenced by pointers
+	if assplitareaFrom.AsSplit != nil {
+		assplitareaTo.AsSplit = CopyBranchAsSplit(mapOrigCopy, assplitareaFrom.AsSplit)
+	}
 	if assplitareaFrom.Button != nil {
 		assplitareaTo.Button = CopyBranchButton(mapOrigCopy, assplitareaFrom.Button)
 	}
@@ -604,9 +607,6 @@ func CopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplitArea
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _assplit := range assplitareaFrom.AsSplits {
-		assplitareaTo.AsSplits = append(assplitareaTo.AsSplits, CopyBranchAsSplit(mapOrigCopy, _assplit))
-	}
 
 	return
 }
@@ -926,6 +926,9 @@ func (stage *StageStruct) UnstageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	assplitarea.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if assplitarea.AsSplit != nil {
+		UnstageBranch(stage, assplitarea.AsSplit)
+	}
 	if assplitarea.Button != nil {
 		UnstageBranch(stage, assplitarea.Button)
 	}
@@ -961,9 +964,6 @@ func (stage *StageStruct) UnstageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _assplit := range assplitarea.AsSplits {
-		UnstageBranch(stage, _assplit)
-	}
 
 }
 
