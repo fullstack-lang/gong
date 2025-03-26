@@ -221,8 +221,8 @@
             "mode": "auto",
             "program": "${workspaceFolder}/lib/split/go/cmd/split",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
+                "-unmarshallFromCode=data/stage2.go",
+                "-marshallOnCommit=data/stage2"
             ],
         },
         {
