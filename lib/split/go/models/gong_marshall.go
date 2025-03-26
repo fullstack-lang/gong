@@ -835,11 +835,11 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		map_AsSplitArea_Identifiers[assplitarea] = id
 
 		// Initialisation of values
-		for _, _assplit := range assplitarea.AsSplits {
-			setPointerField = SliceOfPointersFieldInitStatement
+		if assplitarea.AsSplit != nil {
+			setPointerField = PointerFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "AsSplits")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_AsSplit_Identifiers[_assplit])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "AsSplit")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_AsSplit_Identifiers[assplitarea.AsSplit])
 			pointersInitializesStatements += setPointerField
 		}
 
