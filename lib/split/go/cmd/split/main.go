@@ -5,7 +5,7 @@ import (
 	"log"
 	"strconv"
 
-	m "github.com/fullstack-lang/gong/lib/split/go/models"
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
 
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
@@ -48,14 +48,24 @@ func main() {
 	// setup the static file server and get the controller
 	r := split_static.ServeStaticFiles(*logGINFlag)
 
-	// setup stack
-	stack := split_stack.NewStack(r, "split", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	// setup root stack
+	stack := split_stack.NewStack(r, "", "", "", "", *embeddedDiagrams, true)
+	splitStage := stack.Stage
 	stack.Probe.Refresh()
 
+	sliderStage1 := slider_stack.NewStack(r, "slider 1", "", "", "", *embeddedDiagrams, true).Stage
+
+	sliderStage2 := slider_stack.NewStack(r, "slider 2", "", "", "", *embeddedDiagrams, true).Stage
+
+	buttonStackName := "button"
+	stackbutton := button_stack.NewStack(r, buttonStackName, "", "", "", *embeddedDiagrams, true)
+	buttonStage := stackbutton.Stage
+
+	toneStackName := "tone"
+	stacktone := tone_stack.NewStack(r, toneStackName, "", "", "", *embeddedDiagrams, true)
+	toneStage := stacktone.Stage
+
 	{
-		slider1StackName := "slider 1"
-		stackSlider1 := slider_stack.NewStack(r, slider1StackName, "", "", "", *embeddedDiagrams, true)
-		sliderStage1 := stackSlider1.Stage
 
 		layout := new(slider_models.Layout).Stage(sliderStage1)
 		group := new(slider_models.Group).Stage(sliderStage1)
@@ -74,9 +84,6 @@ func main() {
 	}
 
 	{
-		slider2StackName := "slider 2"
-		stackSlider2 := slider_stack.NewStack(r, slider2StackName, "", "", "", *embeddedDiagrams, true)
-		sliderStage2 := stackSlider2.Stage
 
 		layout := new(slider_models.Layout).Stage(sliderStage2)
 		group := new(slider_models.Group).Stage(sliderStage2)
@@ -95,9 +102,6 @@ func main() {
 	}
 
 	{
-		buttonStackName := "button"
-		stackbutton := button_stack.NewStack(r, buttonStackName, "", "", "", *embeddedDiagrams, true)
-		buttonStage := stackbutton.Stage
 
 		layout := new(button_models.Layout).Stage(buttonStage)
 		group := new(button_models.Group).Stage(buttonStage)
@@ -114,9 +118,6 @@ func main() {
 	}
 
 	{
-		toneStackName := "tone"
-		stacktone := tone_stack.NewStack(r, toneStackName, "", "", "", *embeddedDiagrams, true)
-		toneStage := stacktone.Stage
 
 		toneStage.Commit()
 	}
@@ -167,7 +168,7 @@ func main() {
 
 		// fetch the view tone probe view
 		key := "view of tone probe"
-		mapView := *m.GetGongstructInstancesMap[m.View](stack.Stage)
+		mapView := *split.GetGongstructInstancesMap[split.View](stack.Stage)
 
 		viewToneProbe, ok := mapView[key]
 		if !ok {
@@ -185,6 +186,136 @@ func main() {
 		viewToneProbe.RootAsSplitAreas = append(viewToneProbe.RootAsSplitAreas, asSplitArea)
 		stack.Stage.Commit()
 	}
+
+	(&split.View{
+		Name: "Slider 1",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Slider: (&split.Slider{
+					StackName: sliderStage1.GetName(),
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+		},
+	}).Stage(splitStage)
+
+	(&split.View{
+		Name: "Probe Slider 1",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Split: (&split.Split{
+					StackName: sliderStage1.GetProbeSplitStageName(),
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+		},
+	}).Stage(splitStage)
+
+	(&split.View{
+		Name: "Slider 2",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Slider: (&split.Slider{
+					StackName: sliderStage2.GetName(),
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+		},
+	}).Stage(splitStage)
+
+	(&split.View{
+		Name: "Probe Slider 2",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Split: (&split.Split{
+					StackName: sliderStage1.GetProbeSplitStageName(),
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+		},
+	}).Stage(splitStage)
+
+	(&split.View{
+		Name: "Button",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Button: (&split.Button{
+					StackName: buttonStage.GetName(),
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+		},
+	}).Stage(splitStage)
+
+	(&split.View{
+		Name: "Probe Button",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Split: (&split.Split{
+					StackName: buttonStage.GetProbeSplitStageName(),
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+		},
+	}).Stage(splitStage)
+
+	(&split.View{
+		Name: "Spliting views",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				AsSplits: []*split.AsSplit{
+					(&split.AsSplit{
+						Name:      "as split",
+						Direction: split.Horizontal,
+						AsSplitAreas: []*split.AsSplitArea{
+							(&split.AsSplitArea{
+								Name:             "Top",
+								Size:             50,
+								ShowNameInHeader: true,
+								AsSplits: []*split.AsSplit{
+									(&split.AsSplit{
+										Name:      "as split",
+										Direction: split.Horizontal,
+										AsSplitAreas: []*split.AsSplitArea{
+											(&split.AsSplitArea{
+												Name:             "Top",
+												Size:             50,
+												ShowNameInHeader: true,
+											}).Stage(splitStage),
+											(&split.AsSplitArea{
+												Name:             "Bottom",
+												Size:             50,
+												ShowNameInHeader: true,
+											}).Stage(splitStage),
+										},
+									}).Stage(splitStage),
+								},
+							}).Stage(splitStage),
+							(&split.AsSplitArea{
+								Name:             "Bottom",
+								Size:             50,
+								ShowNameInHeader: true,
+								AsSplits: []*split.AsSplit{
+									(&split.AsSplit{
+										Name:      "as split",
+										Direction: split.Horizontal,
+										AsSplitAreas: []*split.AsSplitArea{
+											(&split.AsSplitArea{
+												Name:             "Top",
+												Size:             50,
+												ShowNameInHeader: true,
+											}).Stage(splitStage),
+											(&split.AsSplitArea{
+												Name:             "Bottom",
+												Size:             50,
+												ShowNameInHeader: true,
+											}).Stage(splitStage),
+										},
+									}).Stage(splitStage),
+								},
+							}).Stage(splitStage),
+						},
+					}).Stage(splitStage),
+				},
+			}).Stage(splitStage),
+		},
+	}).Stage(splitStage)
+
+	splitStage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
