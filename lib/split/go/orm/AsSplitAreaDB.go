@@ -218,7 +218,7 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseOne(stage *mode
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(assplitareas, func(i, j int) bool {
-		return stage.Map_Staged_Order[assplitareas[i]] < stage.Map_Staged_Order[assplitareas[j]]
+		return stage.AsSplitAreaMap_Staged_Order[assplitareas[i]] < stage.AsSplitAreaMap_Staged_Order[assplitareas[j]]
 	})
 
 	for _, assplitarea := range assplitareas {

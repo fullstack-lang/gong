@@ -155,7 +155,7 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CommitPhaseOne(stage *
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(gongtimefields, func(i, j int) bool {
-		return stage.Map_Staged_Order[gongtimefields[i]] < stage.Map_Staged_Order[gongtimefields[j]]
+		return stage.GongTimeFieldMap_Staged_Order[gongtimefields[i]] < stage.GongTimeFieldMap_Staged_Order[gongtimefields[j]]
 	})
 
 	for _, gongtimefield := range gongtimefields {

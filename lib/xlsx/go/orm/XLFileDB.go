@@ -146,7 +146,7 @@ func (backRepoXLFile *BackRepoXLFileStruct) CommitPhaseOne(stage *models.StageSt
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(xlfiles, func(i, j int) bool {
-		return stage.Map_Staged_Order[xlfiles[i]] < stage.Map_Staged_Order[xlfiles[j]]
+		return stage.XLFileMap_Staged_Order[xlfiles[i]] < stage.XLFileMap_Staged_Order[xlfiles[j]]
 	})
 
 	for _, xlfile := range xlfiles {

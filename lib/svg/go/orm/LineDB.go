@@ -224,7 +224,7 @@ func (backRepoLine *BackRepoLineStruct) CommitPhaseOne(stage *models.StageStruct
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(lines, func(i, j int) bool {
-		return stage.Map_Staged_Order[lines[i]] < stage.Map_Staged_Order[lines[j]]
+		return stage.LineMap_Staged_Order[lines[i]] < stage.LineMap_Staged_Order[lines[j]]
 	})
 
 	for _, line := range lines {

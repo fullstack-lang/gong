@@ -170,8 +170,29 @@ type StageStruct struct {
 
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
-	Order            uint
-	Map_Staged_Order map[any]uint
+	// insertion point for order fields declaration
+	ArrowOrder            uint
+	ArrowMap_Staged_Order map[*Arrow]uint
+
+	BarOrder            uint
+	BarMap_Staged_Order map[*Bar]uint
+
+	GanttOrder            uint
+	GanttMap_Staged_Order map[*Gantt]uint
+
+	GroupOrder            uint
+	GroupMap_Staged_Order map[*Group]uint
+
+	LaneOrder            uint
+	LaneMap_Staged_Order map[*Lane]uint
+
+	LaneUseOrder            uint
+	LaneUseMap_Staged_Order map[*LaneUse]uint
+
+	MilestoneOrder            uint
+	MilestoneMap_Staged_Order map[*Milestone]uint
+
+	// end of insertion point
 }
 
 func (stage *StageStruct) GetType() string {
@@ -269,7 +290,22 @@ func NewStage(name string) (stage *StageStruct) {
 		Map_DocLink_Renaming: make(map[string]GONG__Identifier),
 		// the to be removed stops here
 
-		Map_Staged_Order: make(map[any]uint),
+		// insertion point for order map initialisations
+		ArrowMap_Staged_Order: make(map[*Arrow]uint),
+
+		BarMap_Staged_Order: make(map[*Bar]uint),
+
+		GanttMap_Staged_Order: make(map[*Gantt]uint),
+
+		GroupMap_Staged_Order: make(map[*Group]uint),
+
+		LaneMap_Staged_Order: make(map[*Lane]uint),
+
+		LaneUseMap_Staged_Order: make(map[*LaneUse]uint),
+
+		MilestoneMap_Staged_Order: make(map[*Milestone]uint),
+
+		// end of inssetion point
 	}
 
 	return
@@ -356,8 +392,8 @@ func (arrow *Arrow) Stage(stage *StageStruct) *Arrow {
 
 	if _, ok := stage.Arrows[arrow]; !ok {
 		stage.Arrows[arrow] = __member
-		stage.Map_Staged_Order[arrow] = stage.Order
-		stage.Order++
+		stage.ArrowMap_Staged_Order[arrow] = stage.ArrowOrder
+		stage.ArrowOrder++
 	}
 	stage.Arrows_mapString[arrow.Name] = arrow
 
@@ -411,8 +447,8 @@ func (bar *Bar) Stage(stage *StageStruct) *Bar {
 
 	if _, ok := stage.Bars[bar]; !ok {
 		stage.Bars[bar] = __member
-		stage.Map_Staged_Order[bar] = stage.Order
-		stage.Order++
+		stage.BarMap_Staged_Order[bar] = stage.BarOrder
+		stage.BarOrder++
 	}
 	stage.Bars_mapString[bar.Name] = bar
 
@@ -466,8 +502,8 @@ func (gantt *Gantt) Stage(stage *StageStruct) *Gantt {
 
 	if _, ok := stage.Gantts[gantt]; !ok {
 		stage.Gantts[gantt] = __member
-		stage.Map_Staged_Order[gantt] = stage.Order
-		stage.Order++
+		stage.GanttMap_Staged_Order[gantt] = stage.GanttOrder
+		stage.GanttOrder++
 	}
 	stage.Gantts_mapString[gantt.Name] = gantt
 
@@ -521,8 +557,8 @@ func (group *Group) Stage(stage *StageStruct) *Group {
 
 	if _, ok := stage.Groups[group]; !ok {
 		stage.Groups[group] = __member
-		stage.Map_Staged_Order[group] = stage.Order
-		stage.Order++
+		stage.GroupMap_Staged_Order[group] = stage.GroupOrder
+		stage.GroupOrder++
 	}
 	stage.Groups_mapString[group.Name] = group
 
@@ -576,8 +612,8 @@ func (lane *Lane) Stage(stage *StageStruct) *Lane {
 
 	if _, ok := stage.Lanes[lane]; !ok {
 		stage.Lanes[lane] = __member
-		stage.Map_Staged_Order[lane] = stage.Order
-		stage.Order++
+		stage.LaneMap_Staged_Order[lane] = stage.LaneOrder
+		stage.LaneOrder++
 	}
 	stage.Lanes_mapString[lane.Name] = lane
 
@@ -631,8 +667,8 @@ func (laneuse *LaneUse) Stage(stage *StageStruct) *LaneUse {
 
 	if _, ok := stage.LaneUses[laneuse]; !ok {
 		stage.LaneUses[laneuse] = __member
-		stage.Map_Staged_Order[laneuse] = stage.Order
-		stage.Order++
+		stage.LaneUseMap_Staged_Order[laneuse] = stage.LaneUseOrder
+		stage.LaneUseOrder++
 	}
 	stage.LaneUses_mapString[laneuse.Name] = laneuse
 
@@ -686,8 +722,8 @@ func (milestone *Milestone) Stage(stage *StageStruct) *Milestone {
 
 	if _, ok := stage.Milestones[milestone]; !ok {
 		stage.Milestones[milestone] = __member
-		stage.Map_Staged_Order[milestone] = stage.Order
-		stage.Order++
+		stage.MilestoneMap_Staged_Order[milestone] = stage.MilestoneOrder
+		stage.MilestoneOrder++
 	}
 	stage.Milestones_mapString[milestone.Name] = milestone
 

@@ -61,7 +61,7 @@ Second Line`
 	__Astruct__000000_A1.Floatfield = 0.000000
 	__Astruct__000000_A1.Intfield = 3
 	__Astruct__000000_A1.Anotherbooleanfield = false
-	__Astruct__000000_A1.Duration1 = 79653000000000
+	__Astruct__000000_A1.Duration1 = -79653000000000
 
 	//gong:ident [gongdoc_models.GongStructShape] comment added to overcome the problem with the comment map association
 	__Astruct__000000_A1.StructRef = `gongdoc_models.GongStructShape`
@@ -116,7 +116,7 @@ Second Line`
 	__Astruct__000001_A2.TextArea = ``
 
 	__Astruct__000002_A3.Name = `A3`
-	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 11:16:35.978 +0000 UTC")
+	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 11:16:35 +0000 UTC")
 	__Astruct__000002_A3.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Astruct__000002_A3.Booleanfield = true
 	__Astruct__000002_A3.Benum = models.BENUM_VAL2
@@ -126,7 +126,7 @@ Second Line`
 	__Astruct__000002_A3.Floatfield = 2.000000
 	__Astruct__000002_A3.Intfield = 0
 	__Astruct__000002_A3.Anotherbooleanfield = false
-	__Astruct__000002_A3.Duration1 = -79653000000000
+	__Astruct__000002_A3.Duration1 = 79653000000000
 
 	//gong:ident [.............] comment added to overcome the problem with the comment map association
 	__Astruct__000002_A3.StructRef = `.............`
@@ -213,18 +213,13 @@ Second Line`
 
 	// Setup of pointers
 	// setup of Astruct instances pointers
-	__Astruct__000000_A1.Associationtob = __Bstruct__000000_B1
-	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)
-	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000001_B2_)
+	__Astruct__000000_A1.Associationtob = __Bstruct__000001_B2_
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B3)
+	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)
 	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
 	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000001_B2_)
 	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000001_)
-	__Astruct__000003_A4.Associationtob = __Bstruct__000000_B1
-	__Astruct__000003_A4.Anarrayofb = append(__Astruct__000003_A4.Anarrayofb, __Bstruct__000000_B1)
-	__Astruct__000003_A4.Anarrayofb = append(__Astruct__000003_A4.Anarrayofb, __Bstruct__000001_B2_)
-	__Astruct__000003_A4.Anotherassociationtob_2 = __Bstruct__000001_B2_
 	// setup of AstructBstruct2Use instances pointers
 	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1

@@ -143,7 +143,7 @@ func (backRepoSVGIcon *BackRepoSVGIconStruct) CommitPhaseOne(stage *models.Stage
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(svgicons, func(i, j int) bool {
-		return stage.Map_Staged_Order[svgicons[i]] < stage.Map_Staged_Order[svgicons[j]]
+		return stage.SVGIconMap_Staged_Order[svgicons[i]] < stage.SVGIconMap_Staged_Order[svgicons[j]]
 	})
 
 	for _, svgicon := range svgicons {

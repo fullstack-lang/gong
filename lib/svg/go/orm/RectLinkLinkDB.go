@@ -199,7 +199,7 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) CommitPhaseOne(stage *mo
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(rectlinklinks, func(i, j int) bool {
-		return stage.Map_Staged_Order[rectlinklinks[i]] < stage.Map_Staged_Order[rectlinklinks[j]]
+		return stage.RectLinkLinkMap_Staged_Order[rectlinklinks[i]] < stage.RectLinkLinkMap_Staged_Order[rectlinklinks[j]]
 	})
 
 	for _, rectlinklink := range rectlinklinks {

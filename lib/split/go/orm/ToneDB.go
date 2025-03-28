@@ -143,7 +143,7 @@ func (backRepoTone *BackRepoToneStruct) CommitPhaseOne(stage *models.StageStruct
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(tones, func(i, j int) bool {
-		return stage.Map_Staged_Order[tones[i]] < stage.Map_Staged_Order[tones[j]]
+		return stage.ToneMap_Staged_Order[tones[i]] < stage.ToneMap_Staged_Order[tones[j]]
 	})
 
 	for _, tone := range tones {
