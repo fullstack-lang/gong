@@ -573,10 +573,57 @@ func NewStage(name string) (stage *StageStruct) {
 
 		TextMap_Staged_Order: make(map[*Text]uint),
 
-		// end of inssetion point
+		// end of insertion point
 	}
 
 	return
+}
+
+func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
+
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations
+	case *Animate:
+		return stage.AnimateMap_Staged_Order[instance]
+	case *Circle:
+		return stage.CircleMap_Staged_Order[instance]
+	case *Ellipse:
+		return stage.EllipseMap_Staged_Order[instance]
+	case *Layer:
+		return stage.LayerMap_Staged_Order[instance]
+	case *Line:
+		return stage.LineMap_Staged_Order[instance]
+	case *Link:
+		return stage.LinkMap_Staged_Order[instance]
+	case *LinkAnchoredText:
+		return stage.LinkAnchoredTextMap_Staged_Order[instance]
+	case *Path:
+		return stage.PathMap_Staged_Order[instance]
+	case *Point:
+		return stage.PointMap_Staged_Order[instance]
+	case *Polygone:
+		return stage.PolygoneMap_Staged_Order[instance]
+	case *Polyline:
+		return stage.PolylineMap_Staged_Order[instance]
+	case *Rect:
+		return stage.RectMap_Staged_Order[instance]
+	case *RectAnchoredPath:
+		return stage.RectAnchoredPathMap_Staged_Order[instance]
+	case *RectAnchoredRect:
+		return stage.RectAnchoredRectMap_Staged_Order[instance]
+	case *RectAnchoredText:
+		return stage.RectAnchoredTextMap_Staged_Order[instance]
+	case *RectLinkLink:
+		return stage.RectLinkLinkMap_Staged_Order[instance]
+	case *SVG:
+		return stage.SVGMap_Staged_Order[instance]
+	case *SvgText:
+		return stage.SvgTextMap_Staged_Order[instance]
+	case *Text:
+		return stage.TextMap_Staged_Order[instance]
+	default:
+		return 0 // should not happen
+	}
 }
 
 func (stage *StageStruct) GetName() string {

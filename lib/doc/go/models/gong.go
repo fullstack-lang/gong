@@ -425,10 +425,45 @@ func NewStage(name string) (stage *StageStruct) {
 
 		VerticeMap_Staged_Order: make(map[*Vertice]uint),
 
-		// end of inssetion point
+		// end of insertion point
 	}
 
 	return
+}
+
+func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
+
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations
+	case *Classdiagram:
+		return stage.ClassdiagramMap_Staged_Order[instance]
+	case *DiagramPackage:
+		return stage.DiagramPackageMap_Staged_Order[instance]
+	case *Field:
+		return stage.FieldMap_Staged_Order[instance]
+	case *GongEnumShape:
+		return stage.GongEnumShapeMap_Staged_Order[instance]
+	case *GongEnumValueEntry:
+		return stage.GongEnumValueEntryMap_Staged_Order[instance]
+	case *GongStructShape:
+		return stage.GongStructShapeMap_Staged_Order[instance]
+	case *Link:
+		return stage.LinkMap_Staged_Order[instance]
+	case *NoteShape:
+		return stage.NoteShapeMap_Staged_Order[instance]
+	case *NoteShapeLink:
+		return stage.NoteShapeLinkMap_Staged_Order[instance]
+	case *Position:
+		return stage.PositionMap_Staged_Order[instance]
+	case *UmlState:
+		return stage.UmlStateMap_Staged_Order[instance]
+	case *Umlsc:
+		return stage.UmlscMap_Staged_Order[instance]
+	case *Vertice:
+		return stage.VerticeMap_Staged_Order[instance]
+	default:
+		return 0 // should not happen
+	}
 }
 
 func (stage *StageStruct) GetName() string {
