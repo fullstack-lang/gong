@@ -74,9 +74,8 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Node"
 			rf.Fieldname = "Buttons"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				buttonFormCallback.probe.stageOfInterest,
-				buttonFormCallback.probe.backRepoOfInterest,
 				button_,
 				&rf)
 
@@ -223,9 +222,8 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Node"
 			rf.Fieldname = "Children"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				nodeFormCallback.probe.stageOfInterest,
-				nodeFormCallback.probe.backRepoOfInterest,
 				node_,
 				&rf)
 
@@ -265,9 +263,8 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Tree"
 			rf.Fieldname = "RootNodes"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				nodeFormCallback.probe.stageOfInterest,
-				nodeFormCallback.probe.backRepoOfInterest,
 				node_,
 				&rf)
 

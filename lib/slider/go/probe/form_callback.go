@@ -76,9 +76,8 @@ func (checkboxFormCallback *CheckboxFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Group"
 			rf.Fieldname = "Checkboxes"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				checkboxFormCallback.probe.stageOfInterest,
-				checkboxFormCallback.probe.backRepoOfInterest,
 				checkbox_,
 				&rf)
 
@@ -197,9 +196,8 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Layout"
 			rf.Fieldname = "Groups"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				groupFormCallback.probe.stageOfInterest,
-				groupFormCallback.probe.backRepoOfInterest,
 				group_,
 				&rf)
 
@@ -413,9 +411,8 @@ func (sliderFormCallback *SliderFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Group"
 			rf.Fieldname = "Sliders"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				sliderFormCallback.probe.stageOfInterest,
-				sliderFormCallback.probe.backRepoOfInterest,
 				slider_,
 				&rf)
 

@@ -1,25 +1,20 @@
 // generated code - do not edit
-package orm
-
-import (
-	"github.com/fullstack-lang/gong/lib/xlsx/go/models"
-)
+package models
 
 func GetReverseFieldOwnerName(
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+	stage *StageStruct,
 	instance any,
-	reverseField *models.ReverseField) (res string) {
+	reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.DisplaySelection:
+	case *DisplaySelection:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.XLCell:
+	case *XLCell:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "XLRow":
@@ -38,12 +33,12 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.XLFile:
+	case *XLFile:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.XLRow:
+	case *XLRow:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "XLSheet":
@@ -55,7 +50,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.XLSheet:
+	case *XLSheet:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "XLFile":
@@ -73,21 +68,20 @@ func GetReverseFieldOwnerName(
 	return
 }
 
-func GetReverseFieldOwner[T models.Gongstruct](
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+func GetReverseFieldOwner[T Gongstruct](
+	stage *StageStruct,
 	instance *T,
-	reverseField *models.ReverseField) (res any) {
+	reverseField *ReverseField) (res any) {
 
 	res = nil
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.DisplaySelection:
+	case *DisplaySelection:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.XLCell:
+	case *XLCell:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "XLRow":
@@ -102,12 +96,12 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.XLFile:
+	case *XLFile:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.XLRow:
+	case *XLRow:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "XLSheet":
@@ -117,7 +111,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.XLSheet:
+	case *XLSheet:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "XLFile":

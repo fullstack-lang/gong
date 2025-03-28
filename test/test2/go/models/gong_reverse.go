@@ -1,27 +1,29 @@
 // generated code - do not edit
-package orm
-
-import (
-	"github.com/fullstack-lang/gong/test/test3/go/models"
-)
+package models
 
 func GetReverseFieldOwnerName(
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+	stage *StageStruct,
 	instance any,
-	reverseField *models.ReverseField) (res string) {
+	reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.A:
+	case *A:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.B:
+	case *B:
 		switch reverseField.GongstructName {
 		// insertion point
+		case "A":
+			switch reverseField.Fieldname {
+			case "Bs":
+				if _a, ok := stage.A_Bs_reverseMap[inst]; ok {
+					res = _a.Name
+				}
+			}
 		}
 
 	default:
@@ -30,23 +32,27 @@ func GetReverseFieldOwnerName(
 	return
 }
 
-func GetReverseFieldOwner[T models.Gongstruct](
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+func GetReverseFieldOwner[T Gongstruct](
+	stage *StageStruct,
 	instance *T,
-	reverseField *models.ReverseField) (res any) {
+	reverseField *ReverseField) (res any) {
 
 	res = nil
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.A:
+	case *A:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.B:
+	case *B:
 		switch reverseField.GongstructName {
 		// insertion point
+		case "A":
+			switch reverseField.Fieldname {
+			case "Bs":
+				res = stage.A_Bs_reverseMap[inst]
+			}
 		}
 
 	default:
