@@ -38,7 +38,8 @@ export class AsSplitAreaAPI {
 
 export class AsSplitAreaPointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
-	AsSplits: number[] = []
+	AsSplitID: NullInt64 = new NullInt64 // if pointer is null, AsSplit.ID = 0
+
 	ButtonID: NullInt64 = new NullInt64 // if pointer is null, Button.ID = 0
 
 	CursorID: NullInt64 = new NullInt64 // if pointer is null, Cursor.ID = 0

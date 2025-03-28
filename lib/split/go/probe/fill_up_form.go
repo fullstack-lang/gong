@@ -26,28 +26,6 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		EnumTypeStringToForm("Direction", instanceWithInferedType.Direction, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationSliceToForm("AsSplitAreas", instanceWithInferedType, &instanceWithInferedType.AsSplitAreas, formGroup, probe)
-		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "AsSplitArea"
-			rf.Fieldname = "AsSplits"
-			reverseFieldOwner := orm.GetReverseFieldOwner(probe.stageOfInterest, probe.backRepoOfInterest, instanceWithInferedType, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.AsSplitArea),
-					"AsSplits",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.AsSplitArea, *models.AsSplit](
-					nil,
-					"AsSplits",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
-		}
 
 	case *models.AsSplitArea:
 		// insertion point
@@ -59,7 +37,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsAny", instanceWithInferedType.IsAny, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationSliceToForm("AsSplits", instanceWithInferedType, &instanceWithInferedType.AsSplits, formGroup, probe)
+		AssociationFieldToForm("AsSplit", instanceWithInferedType.AsSplit, formGroup, probe)
 		AssociationFieldToForm("Button", instanceWithInferedType.Button, formGroup, probe)
 		AssociationFieldToForm("Cursor", instanceWithInferedType.Cursor, formGroup, probe)
 		AssociationFieldToForm("Doc", instanceWithInferedType.Doc, formGroup, probe)
