@@ -230,8 +230,47 @@ type StageStruct struct {
 
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
-	Order            uint
-	Map_Staged_Order map[any]uint
+	// insertion point for order fields declaration
+	ClassdiagramOrder            uint
+	ClassdiagramMap_Staged_Order map[*Classdiagram]uint
+
+	DiagramPackageOrder            uint
+	DiagramPackageMap_Staged_Order map[*DiagramPackage]uint
+
+	FieldOrder            uint
+	FieldMap_Staged_Order map[*Field]uint
+
+	GongEnumShapeOrder            uint
+	GongEnumShapeMap_Staged_Order map[*GongEnumShape]uint
+
+	GongEnumValueEntryOrder            uint
+	GongEnumValueEntryMap_Staged_Order map[*GongEnumValueEntry]uint
+
+	GongStructShapeOrder            uint
+	GongStructShapeMap_Staged_Order map[*GongStructShape]uint
+
+	LinkOrder            uint
+	LinkMap_Staged_Order map[*Link]uint
+
+	NoteShapeOrder            uint
+	NoteShapeMap_Staged_Order map[*NoteShape]uint
+
+	NoteShapeLinkOrder            uint
+	NoteShapeLinkMap_Staged_Order map[*NoteShapeLink]uint
+
+	PositionOrder            uint
+	PositionMap_Staged_Order map[*Position]uint
+
+	UmlStateOrder            uint
+	UmlStateMap_Staged_Order map[*UmlState]uint
+
+	UmlscOrder            uint
+	UmlscMap_Staged_Order map[*Umlsc]uint
+
+	VerticeOrder            uint
+	VerticeMap_Staged_Order map[*Vertice]uint
+
+	// end of insertion point
 }
 
 func (stage *StageStruct) GetType() string {
@@ -359,7 +398,34 @@ func NewStage(name string) (stage *StageStruct) {
 		Map_DocLink_Renaming: make(map[string]GONG__Identifier),
 		// the to be removed stops here
 
-		Map_Staged_Order: make(map[any]uint),
+		// insertion point for order map initialisations
+		ClassdiagramMap_Staged_Order: make(map[*Classdiagram]uint),
+
+		DiagramPackageMap_Staged_Order: make(map[*DiagramPackage]uint),
+
+		FieldMap_Staged_Order: make(map[*Field]uint),
+
+		GongEnumShapeMap_Staged_Order: make(map[*GongEnumShape]uint),
+
+		GongEnumValueEntryMap_Staged_Order: make(map[*GongEnumValueEntry]uint),
+
+		GongStructShapeMap_Staged_Order: make(map[*GongStructShape]uint),
+
+		LinkMap_Staged_Order: make(map[*Link]uint),
+
+		NoteShapeMap_Staged_Order: make(map[*NoteShape]uint),
+
+		NoteShapeLinkMap_Staged_Order: make(map[*NoteShapeLink]uint),
+
+		PositionMap_Staged_Order: make(map[*Position]uint),
+
+		UmlStateMap_Staged_Order: make(map[*UmlState]uint),
+
+		UmlscMap_Staged_Order: make(map[*Umlsc]uint),
+
+		VerticeMap_Staged_Order: make(map[*Vertice]uint),
+
+		// end of inssetion point
 	}
 
 	return
@@ -458,8 +524,8 @@ func (classdiagram *Classdiagram) Stage(stage *StageStruct) *Classdiagram {
 
 	if _, ok := stage.Classdiagrams[classdiagram]; !ok {
 		stage.Classdiagrams[classdiagram] = __member
-		stage.Map_Staged_Order[classdiagram] = stage.Order
-		stage.Order++
+		stage.ClassdiagramMap_Staged_Order[classdiagram] = stage.ClassdiagramOrder
+		stage.ClassdiagramOrder++
 	}
 	stage.Classdiagrams_mapString[classdiagram.Name] = classdiagram
 
@@ -513,8 +579,8 @@ func (diagrampackage *DiagramPackage) Stage(stage *StageStruct) *DiagramPackage 
 
 	if _, ok := stage.DiagramPackages[diagrampackage]; !ok {
 		stage.DiagramPackages[diagrampackage] = __member
-		stage.Map_Staged_Order[diagrampackage] = stage.Order
-		stage.Order++
+		stage.DiagramPackageMap_Staged_Order[diagrampackage] = stage.DiagramPackageOrder
+		stage.DiagramPackageOrder++
 	}
 	stage.DiagramPackages_mapString[diagrampackage.Name] = diagrampackage
 
@@ -568,8 +634,8 @@ func (field *Field) Stage(stage *StageStruct) *Field {
 
 	if _, ok := stage.Fields[field]; !ok {
 		stage.Fields[field] = __member
-		stage.Map_Staged_Order[field] = stage.Order
-		stage.Order++
+		stage.FieldMap_Staged_Order[field] = stage.FieldOrder
+		stage.FieldOrder++
 	}
 	stage.Fields_mapString[field.Name] = field
 
@@ -623,8 +689,8 @@ func (gongenumshape *GongEnumShape) Stage(stage *StageStruct) *GongEnumShape {
 
 	if _, ok := stage.GongEnumShapes[gongenumshape]; !ok {
 		stage.GongEnumShapes[gongenumshape] = __member
-		stage.Map_Staged_Order[gongenumshape] = stage.Order
-		stage.Order++
+		stage.GongEnumShapeMap_Staged_Order[gongenumshape] = stage.GongEnumShapeOrder
+		stage.GongEnumShapeOrder++
 	}
 	stage.GongEnumShapes_mapString[gongenumshape.Name] = gongenumshape
 
@@ -678,8 +744,8 @@ func (gongenumvalueentry *GongEnumValueEntry) Stage(stage *StageStruct) *GongEnu
 
 	if _, ok := stage.GongEnumValueEntrys[gongenumvalueentry]; !ok {
 		stage.GongEnumValueEntrys[gongenumvalueentry] = __member
-		stage.Map_Staged_Order[gongenumvalueentry] = stage.Order
-		stage.Order++
+		stage.GongEnumValueEntryMap_Staged_Order[gongenumvalueentry] = stage.GongEnumValueEntryOrder
+		stage.GongEnumValueEntryOrder++
 	}
 	stage.GongEnumValueEntrys_mapString[gongenumvalueentry.Name] = gongenumvalueentry
 
@@ -733,8 +799,8 @@ func (gongstructshape *GongStructShape) Stage(stage *StageStruct) *GongStructSha
 
 	if _, ok := stage.GongStructShapes[gongstructshape]; !ok {
 		stage.GongStructShapes[gongstructshape] = __member
-		stage.Map_Staged_Order[gongstructshape] = stage.Order
-		stage.Order++
+		stage.GongStructShapeMap_Staged_Order[gongstructshape] = stage.GongStructShapeOrder
+		stage.GongStructShapeOrder++
 	}
 	stage.GongStructShapes_mapString[gongstructshape.Name] = gongstructshape
 
@@ -788,8 +854,8 @@ func (link *Link) Stage(stage *StageStruct) *Link {
 
 	if _, ok := stage.Links[link]; !ok {
 		stage.Links[link] = __member
-		stage.Map_Staged_Order[link] = stage.Order
-		stage.Order++
+		stage.LinkMap_Staged_Order[link] = stage.LinkOrder
+		stage.LinkOrder++
 	}
 	stage.Links_mapString[link.Name] = link
 
@@ -843,8 +909,8 @@ func (noteshape *NoteShape) Stage(stage *StageStruct) *NoteShape {
 
 	if _, ok := stage.NoteShapes[noteshape]; !ok {
 		stage.NoteShapes[noteshape] = __member
-		stage.Map_Staged_Order[noteshape] = stage.Order
-		stage.Order++
+		stage.NoteShapeMap_Staged_Order[noteshape] = stage.NoteShapeOrder
+		stage.NoteShapeOrder++
 	}
 	stage.NoteShapes_mapString[noteshape.Name] = noteshape
 
@@ -898,8 +964,8 @@ func (noteshapelink *NoteShapeLink) Stage(stage *StageStruct) *NoteShapeLink {
 
 	if _, ok := stage.NoteShapeLinks[noteshapelink]; !ok {
 		stage.NoteShapeLinks[noteshapelink] = __member
-		stage.Map_Staged_Order[noteshapelink] = stage.Order
-		stage.Order++
+		stage.NoteShapeLinkMap_Staged_Order[noteshapelink] = stage.NoteShapeLinkOrder
+		stage.NoteShapeLinkOrder++
 	}
 	stage.NoteShapeLinks_mapString[noteshapelink.Name] = noteshapelink
 
@@ -953,8 +1019,8 @@ func (position *Position) Stage(stage *StageStruct) *Position {
 
 	if _, ok := stage.Positions[position]; !ok {
 		stage.Positions[position] = __member
-		stage.Map_Staged_Order[position] = stage.Order
-		stage.Order++
+		stage.PositionMap_Staged_Order[position] = stage.PositionOrder
+		stage.PositionOrder++
 	}
 	stage.Positions_mapString[position.Name] = position
 
@@ -1008,8 +1074,8 @@ func (umlstate *UmlState) Stage(stage *StageStruct) *UmlState {
 
 	if _, ok := stage.UmlStates[umlstate]; !ok {
 		stage.UmlStates[umlstate] = __member
-		stage.Map_Staged_Order[umlstate] = stage.Order
-		stage.Order++
+		stage.UmlStateMap_Staged_Order[umlstate] = stage.UmlStateOrder
+		stage.UmlStateOrder++
 	}
 	stage.UmlStates_mapString[umlstate.Name] = umlstate
 
@@ -1063,8 +1129,8 @@ func (umlsc *Umlsc) Stage(stage *StageStruct) *Umlsc {
 
 	if _, ok := stage.Umlscs[umlsc]; !ok {
 		stage.Umlscs[umlsc] = __member
-		stage.Map_Staged_Order[umlsc] = stage.Order
-		stage.Order++
+		stage.UmlscMap_Staged_Order[umlsc] = stage.UmlscOrder
+		stage.UmlscOrder++
 	}
 	stage.Umlscs_mapString[umlsc.Name] = umlsc
 
@@ -1118,8 +1184,8 @@ func (vertice *Vertice) Stage(stage *StageStruct) *Vertice {
 
 	if _, ok := stage.Vertices[vertice]; !ok {
 		stage.Vertices[vertice] = __member
-		stage.Map_Staged_Order[vertice] = stage.Order
-		stage.Order++
+		stage.VerticeMap_Staged_Order[vertice] = stage.VerticeOrder
+		stage.VerticeOrder++
 	}
 	stage.Vertices_mapString[vertice.Name] = vertice
 

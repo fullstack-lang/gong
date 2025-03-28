@@ -153,7 +153,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseOne(stage *models.StageStru
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(umlscs, func(i, j int) bool {
-		return stage.Map_Staged_Order[umlscs[i]] < stage.Map_Staged_Order[umlscs[j]]
+		return stage.UmlscMap_Staged_Order[umlscs[i]] < stage.UmlscMap_Staged_Order[umlscs[j]]
 	})
 
 	for _, umlsc := range umlscs {

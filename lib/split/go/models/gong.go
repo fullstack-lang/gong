@@ -223,8 +223,50 @@ type StageStruct struct {
 
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
-	Order            uint
-	Map_Staged_Order map[any]uint
+	// insertion point for order fields declaration
+	AsSplitOrder            uint
+	AsSplitMap_Staged_Order map[*AsSplit]uint
+
+	AsSplitAreaOrder            uint
+	AsSplitAreaMap_Staged_Order map[*AsSplitArea]uint
+
+	ButtonOrder            uint
+	ButtonMap_Staged_Order map[*Button]uint
+
+	CursorOrder            uint
+	CursorMap_Staged_Order map[*Cursor]uint
+
+	DocOrder            uint
+	DocMap_Staged_Order map[*Doc]uint
+
+	FormOrder            uint
+	FormMap_Staged_Order map[*Form]uint
+
+	LoadOrder            uint
+	LoadMap_Staged_Order map[*Load]uint
+
+	SliderOrder            uint
+	SliderMap_Staged_Order map[*Slider]uint
+
+	SplitOrder            uint
+	SplitMap_Staged_Order map[*Split]uint
+
+	SvgOrder            uint
+	SvgMap_Staged_Order map[*Svg]uint
+
+	TableOrder            uint
+	TableMap_Staged_Order map[*Table]uint
+
+	ToneOrder            uint
+	ToneMap_Staged_Order map[*Tone]uint
+
+	TreeOrder            uint
+	TreeMap_Staged_Order map[*Tree]uint
+
+	ViewOrder            uint
+	ViewMap_Staged_Order map[*View]uint
+
+	// end of insertion point
 }
 
 func (stage *StageStruct) GetType() string {
@@ -357,7 +399,36 @@ func NewStage(name string) (stage *StageStruct) {
 		Map_DocLink_Renaming: make(map[string]GONG__Identifier),
 		// the to be removed stops here
 
-		Map_Staged_Order: make(map[any]uint),
+		// insertion point for order map initialisations
+		AsSplitMap_Staged_Order: make(map[*AsSplit]uint),
+
+		AsSplitAreaMap_Staged_Order: make(map[*AsSplitArea]uint),
+
+		ButtonMap_Staged_Order: make(map[*Button]uint),
+
+		CursorMap_Staged_Order: make(map[*Cursor]uint),
+
+		DocMap_Staged_Order: make(map[*Doc]uint),
+
+		FormMap_Staged_Order: make(map[*Form]uint),
+
+		LoadMap_Staged_Order: make(map[*Load]uint),
+
+		SliderMap_Staged_Order: make(map[*Slider]uint),
+
+		SplitMap_Staged_Order: make(map[*Split]uint),
+
+		SvgMap_Staged_Order: make(map[*Svg]uint),
+
+		TableMap_Staged_Order: make(map[*Table]uint),
+
+		ToneMap_Staged_Order: make(map[*Tone]uint),
+
+		TreeMap_Staged_Order: make(map[*Tree]uint),
+
+		ViewMap_Staged_Order: make(map[*View]uint),
+
+		// end of inssetion point
 	}
 
 	return
@@ -458,8 +529,8 @@ func (assplit *AsSplit) Stage(stage *StageStruct) *AsSplit {
 
 	if _, ok := stage.AsSplits[assplit]; !ok {
 		stage.AsSplits[assplit] = __member
-		stage.Map_Staged_Order[assplit] = stage.Order
-		stage.Order++
+		stage.AsSplitMap_Staged_Order[assplit] = stage.AsSplitOrder
+		stage.AsSplitOrder++
 	}
 	stage.AsSplits_mapString[assplit.Name] = assplit
 
@@ -513,8 +584,8 @@ func (assplitarea *AsSplitArea) Stage(stage *StageStruct) *AsSplitArea {
 
 	if _, ok := stage.AsSplitAreas[assplitarea]; !ok {
 		stage.AsSplitAreas[assplitarea] = __member
-		stage.Map_Staged_Order[assplitarea] = stage.Order
-		stage.Order++
+		stage.AsSplitAreaMap_Staged_Order[assplitarea] = stage.AsSplitAreaOrder
+		stage.AsSplitAreaOrder++
 	}
 	stage.AsSplitAreas_mapString[assplitarea.Name] = assplitarea
 
@@ -568,8 +639,8 @@ func (button *Button) Stage(stage *StageStruct) *Button {
 
 	if _, ok := stage.Buttons[button]; !ok {
 		stage.Buttons[button] = __member
-		stage.Map_Staged_Order[button] = stage.Order
-		stage.Order++
+		stage.ButtonMap_Staged_Order[button] = stage.ButtonOrder
+		stage.ButtonOrder++
 	}
 	stage.Buttons_mapString[button.Name] = button
 
@@ -623,8 +694,8 @@ func (cursor *Cursor) Stage(stage *StageStruct) *Cursor {
 
 	if _, ok := stage.Cursors[cursor]; !ok {
 		stage.Cursors[cursor] = __member
-		stage.Map_Staged_Order[cursor] = stage.Order
-		stage.Order++
+		stage.CursorMap_Staged_Order[cursor] = stage.CursorOrder
+		stage.CursorOrder++
 	}
 	stage.Cursors_mapString[cursor.Name] = cursor
 
@@ -678,8 +749,8 @@ func (doc *Doc) Stage(stage *StageStruct) *Doc {
 
 	if _, ok := stage.Docs[doc]; !ok {
 		stage.Docs[doc] = __member
-		stage.Map_Staged_Order[doc] = stage.Order
-		stage.Order++
+		stage.DocMap_Staged_Order[doc] = stage.DocOrder
+		stage.DocOrder++
 	}
 	stage.Docs_mapString[doc.Name] = doc
 
@@ -733,8 +804,8 @@ func (form *Form) Stage(stage *StageStruct) *Form {
 
 	if _, ok := stage.Forms[form]; !ok {
 		stage.Forms[form] = __member
-		stage.Map_Staged_Order[form] = stage.Order
-		stage.Order++
+		stage.FormMap_Staged_Order[form] = stage.FormOrder
+		stage.FormOrder++
 	}
 	stage.Forms_mapString[form.Name] = form
 
@@ -788,8 +859,8 @@ func (load *Load) Stage(stage *StageStruct) *Load {
 
 	if _, ok := stage.Loads[load]; !ok {
 		stage.Loads[load] = __member
-		stage.Map_Staged_Order[load] = stage.Order
-		stage.Order++
+		stage.LoadMap_Staged_Order[load] = stage.LoadOrder
+		stage.LoadOrder++
 	}
 	stage.Loads_mapString[load.Name] = load
 
@@ -843,8 +914,8 @@ func (slider *Slider) Stage(stage *StageStruct) *Slider {
 
 	if _, ok := stage.Sliders[slider]; !ok {
 		stage.Sliders[slider] = __member
-		stage.Map_Staged_Order[slider] = stage.Order
-		stage.Order++
+		stage.SliderMap_Staged_Order[slider] = stage.SliderOrder
+		stage.SliderOrder++
 	}
 	stage.Sliders_mapString[slider.Name] = slider
 
@@ -898,8 +969,8 @@ func (split *Split) Stage(stage *StageStruct) *Split {
 
 	if _, ok := stage.Splits[split]; !ok {
 		stage.Splits[split] = __member
-		stage.Map_Staged_Order[split] = stage.Order
-		stage.Order++
+		stage.SplitMap_Staged_Order[split] = stage.SplitOrder
+		stage.SplitOrder++
 	}
 	stage.Splits_mapString[split.Name] = split
 
@@ -953,8 +1024,8 @@ func (svg *Svg) Stage(stage *StageStruct) *Svg {
 
 	if _, ok := stage.Svgs[svg]; !ok {
 		stage.Svgs[svg] = __member
-		stage.Map_Staged_Order[svg] = stage.Order
-		stage.Order++
+		stage.SvgMap_Staged_Order[svg] = stage.SvgOrder
+		stage.SvgOrder++
 	}
 	stage.Svgs_mapString[svg.Name] = svg
 
@@ -1008,8 +1079,8 @@ func (table *Table) Stage(stage *StageStruct) *Table {
 
 	if _, ok := stage.Tables[table]; !ok {
 		stage.Tables[table] = __member
-		stage.Map_Staged_Order[table] = stage.Order
-		stage.Order++
+		stage.TableMap_Staged_Order[table] = stage.TableOrder
+		stage.TableOrder++
 	}
 	stage.Tables_mapString[table.Name] = table
 
@@ -1063,8 +1134,8 @@ func (tone *Tone) Stage(stage *StageStruct) *Tone {
 
 	if _, ok := stage.Tones[tone]; !ok {
 		stage.Tones[tone] = __member
-		stage.Map_Staged_Order[tone] = stage.Order
-		stage.Order++
+		stage.ToneMap_Staged_Order[tone] = stage.ToneOrder
+		stage.ToneOrder++
 	}
 	stage.Tones_mapString[tone.Name] = tone
 
@@ -1118,8 +1189,8 @@ func (tree *Tree) Stage(stage *StageStruct) *Tree {
 
 	if _, ok := stage.Trees[tree]; !ok {
 		stage.Trees[tree] = __member
-		stage.Map_Staged_Order[tree] = stage.Order
-		stage.Order++
+		stage.TreeMap_Staged_Order[tree] = stage.TreeOrder
+		stage.TreeOrder++
 	}
 	stage.Trees_mapString[tree.Name] = tree
 
@@ -1173,8 +1244,8 @@ func (view *View) Stage(stage *StageStruct) *View {
 
 	if _, ok := stage.Views[view]; !ok {
 		stage.Views[view] = __member
-		stage.Map_Staged_Order[view] = stage.Order
-		stage.Order++
+		stage.ViewMap_Staged_Order[view] = stage.ViewOrder
+		stage.ViewOrder++
 	}
 	stage.Views_mapString[view.Name] = view
 

@@ -143,7 +143,7 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) CommitPhaseOne(stage *mode
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(cellfloat64s, func(i, j int) bool {
-		return stage.Map_Staged_Order[cellfloat64s[i]] < stage.Map_Staged_Order[cellfloat64s[j]]
+		return stage.CellFloat64Map_Staged_Order[cellfloat64s[i]] < stage.CellFloat64Map_Staged_Order[cellfloat64s[j]]
 	})
 
 	for _, cellfloat64 := range cellfloat64s {

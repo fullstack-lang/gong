@@ -153,7 +153,7 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(sliceofpointertogongstructfields, func(i, j int) bool {
-		return stage.Map_Staged_Order[sliceofpointertogongstructfields[i]] < stage.Map_Staged_Order[sliceofpointertogongstructfields[j]]
+		return stage.SliceOfPointerToGongStructFieldMap_Staged_Order[sliceofpointertogongstructfields[i]] < stage.SliceOfPointerToGongStructFieldMap_Staged_Order[sliceofpointertogongstructfields[j]]
 	})
 
 	for _, sliceofpointertogongstructfield := range sliceofpointertogongstructfields {

@@ -149,7 +149,7 @@ func (backRepoGroup *BackRepoGroupStruct) CommitPhaseOne(stage *models.StageStru
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(groups, func(i, j int) bool {
-		return stage.Map_Staged_Order[groups[i]] < stage.Map_Staged_Order[groups[j]]
+		return stage.GroupMap_Staged_Order[groups[i]] < stage.GroupMap_Staged_Order[groups[j]]
 	})
 
 	for _, group := range groups {

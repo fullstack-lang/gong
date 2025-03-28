@@ -149,7 +149,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CommitPhaseOne(stage *
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(noteshapelinks, func(i, j int) bool {
-		return stage.Map_Staged_Order[noteshapelinks[i]] < stage.Map_Staged_Order[noteshapelinks[j]]
+		return stage.NoteShapeLinkMap_Staged_Order[noteshapelinks[i]] < stage.NoteShapeLinkMap_Staged_Order[noteshapelinks[j]]
 	})
 
 	for _, noteshapelink := range noteshapelinks {

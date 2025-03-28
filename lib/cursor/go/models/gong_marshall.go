@@ -104,8 +104,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(cursorOrdered[:], func(i, j int) bool {
 		cursori := cursorOrdered[i]
 		cursorj := cursorOrdered[j]
-		cursori_order, oki := stage.Map_Staged_Order[cursori]
-		cursorj_order, okj := stage.Map_Staged_Order[cursorj]
+		cursori_order, oki := stage.CursorMap_Staged_Order[cursori]
+		cursorj_order, okj := stage.CursorMap_Staged_Order[cursorj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}

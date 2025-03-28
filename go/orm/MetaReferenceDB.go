@@ -137,7 +137,7 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) CommitPhaseOne(stage *
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(metareferences, func(i, j int) bool {
-		return stage.Map_Staged_Order[metareferences[i]] < stage.Map_Staged_Order[metareferences[j]]
+		return stage.MetaReferenceMap_Staged_Order[metareferences[i]] < stage.MetaReferenceMap_Staged_Order[metareferences[j]]
 	})
 
 	for _, metareference := range metareferences {

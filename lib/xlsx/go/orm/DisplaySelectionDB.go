@@ -145,7 +145,7 @@ func (backRepoDisplaySelection *BackRepoDisplaySelectionStruct) CommitPhaseOne(s
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(displayselections, func(i, j int) bool {
-		return stage.Map_Staged_Order[displayselections[i]] < stage.Map_Staged_Order[displayselections[j]]
+		return stage.DisplaySelectionMap_Staged_Order[displayselections[i]] < stage.DisplaySelectionMap_Staged_Order[displayselections[j]]
 	})
 
 	for _, displayselection := range displayselections {
