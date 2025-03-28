@@ -37,7 +37,8 @@ export class AsSplitArea {
 	DivStyle: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
-	AsSplits: Array<AsSplit> = []
+	AsSplit?: AsSplit
+
 	Button?: Button
 
 	Cursor?: Cursor
@@ -77,6 +78,13 @@ export function CopyAsSplitAreaToAsSplitAreaAPI(assplitarea: AsSplitArea, asspli
 	assplitareaAPI.DivStyle = assplitarea.DivStyle
 
 	// insertion point for pointer fields encoding
+	assplitareaAPI.AsSplitAreaPointersEncoding.AsSplitID.Valid = true
+	if (assplitarea.AsSplit != undefined) {
+		assplitareaAPI.AsSplitAreaPointersEncoding.AsSplitID.Int64 = assplitarea.AsSplit.ID  
+	} else {
+		assplitareaAPI.AsSplitAreaPointersEncoding.AsSplitID.Int64 = 0 		
+	}
+
 	assplitareaAPI.AsSplitAreaPointersEncoding.ButtonID.Valid = true
 	if (assplitarea.Button != undefined) {
 		assplitareaAPI.AsSplitAreaPointersEncoding.ButtonID.Int64 = assplitarea.Button.ID  
@@ -156,11 +164,6 @@ export function CopyAsSplitAreaToAsSplitAreaAPI(assplitarea: AsSplitArea, asspli
 
 
 	// insertion point for slice of pointers fields encoding
-	assplitareaAPI.AsSplitAreaPointersEncoding.AsSplits = []
-	for (let _assplit of assplitarea.AsSplits) {
-		assplitareaAPI.AsSplitAreaPointersEncoding.AsSplits.push(_assplit.ID)
-	}
-
 }
 
 // CopyAsSplitAreaAPIToAsSplitArea update basic, pointers and slice of pointers fields of assplitarea
@@ -182,6 +185,7 @@ export function CopyAsSplitAreaAPIToAsSplitArea(assplitareaAPI: AsSplitAreaAPI, 
 	assplitarea.DivStyle = assplitareaAPI.DivStyle
 
 	// insertion point for pointer fields encoding
+	assplitarea.AsSplit = frontRepo.map_ID_AsSplit.get(assplitareaAPI.AsSplitAreaPointersEncoding.AsSplitID.Int64)
 	assplitarea.Button = frontRepo.map_ID_Button.get(assplitareaAPI.AsSplitAreaPointersEncoding.ButtonID.Int64)
 	assplitarea.Cursor = frontRepo.map_ID_Cursor.get(assplitareaAPI.AsSplitAreaPointersEncoding.CursorID.Int64)
 	assplitarea.Doc = frontRepo.map_ID_Doc.get(assplitareaAPI.AsSplitAreaPointersEncoding.DocID.Int64)
@@ -195,16 +199,4 @@ export function CopyAsSplitAreaAPIToAsSplitArea(assplitareaAPI: AsSplitAreaAPI, 
 	assplitarea.Tree = frontRepo.map_ID_Tree.get(assplitareaAPI.AsSplitAreaPointersEncoding.TreeID.Int64)
 
 	// insertion point for slice of pointers fields encoding
-	if (!Array.isArray(assplitareaAPI.AsSplitAreaPointersEncoding.AsSplits)) {
-		console.error('Rects is not an array:', assplitareaAPI.AsSplitAreaPointersEncoding.AsSplits);
-		return;
-	}
-
-	assplitarea.AsSplits = new Array<AsSplit>()
-	for (let _id of assplitareaAPI.AsSplitAreaPointersEncoding.AsSplits) {
-		let _assplit = frontRepo.map_ID_AsSplit.get(_id)
-		if (_assplit != undefined) {
-			assplitarea.AsSplits.push(_assplit!)
-		}
-	}
 }

@@ -65,48 +65,6 @@ func (assplitFormCallback *AsSplitFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(assplit_.Name), formDiv)
 		case "Direction":
 			FormDivEnumStringFieldToField(&(assplit_.Direction), formDiv)
-		case "AsSplitArea:AsSplits":
-			// we need to retrieve the field owner before the change
-			var pastAsSplitAreaOwner *models.AsSplitArea
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "AsSplitArea"
-			rf.Fieldname = "AsSplits"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
-				assplitFormCallback.probe.stageOfInterest,
-				assplitFormCallback.probe.backRepoOfInterest,
-				assplit_,
-				&rf)
-
-			if reverseFieldOwner != nil {
-				pastAsSplitAreaOwner = reverseFieldOwner.(*models.AsSplitArea)
-			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
-				if pastAsSplitAreaOwner != nil {
-					idx := slices.Index(pastAsSplitAreaOwner.AsSplits, assplit_)
-					pastAsSplitAreaOwner.AsSplits = slices.Delete(pastAsSplitAreaOwner.AsSplits, idx, idx+1)
-				}
-			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _assplitarea := range *models.GetGongstructInstancesSet[models.AsSplitArea](assplitFormCallback.probe.stageOfInterest) {
-
-					// the match is base on the name
-					if _assplitarea.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newAsSplitAreaOwner := _assplitarea // we have a match
-						if pastAsSplitAreaOwner != nil {
-							if newAsSplitAreaOwner != pastAsSplitAreaOwner {
-								idx := slices.Index(pastAsSplitAreaOwner.AsSplits, assplit_)
-								pastAsSplitAreaOwner.AsSplits = slices.Delete(pastAsSplitAreaOwner.AsSplits, idx, idx+1)
-								newAsSplitAreaOwner.AsSplits = append(newAsSplitAreaOwner.AsSplits, assplit_)
-							}
-						} else {
-							newAsSplitAreaOwner.AsSplits = append(newAsSplitAreaOwner.AsSplits, assplit_)
-						}
-					}
-				}
-			}
 		}
 	}
 
@@ -190,6 +148,8 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(assplitarea_.Size), formDiv)
 		case "IsAny":
 			FormDivBasicFieldToField(&(assplitarea_.IsAny), formDiv)
+		case "AsSplit":
+			FormDivSelectFieldToField(&(assplitarea_.AsSplit), assplitareaFormCallback.probe.stageOfInterest, formDiv)
 		case "Button":
 			FormDivSelectFieldToField(&(assplitarea_.Button), assplitareaFormCallback.probe.stageOfInterest, formDiv)
 		case "Cursor":
