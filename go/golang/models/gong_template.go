@@ -168,9 +168,7 @@ func NewStage(name string) (stage *StageStruct) {
 
 func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
 
-	var ret *Type
-
-	switch instance := any(ret).(type) {
+	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations{{` + string(rune(ModelGongOrderSwitchGet)) + `}}
 	default:
 		return 0 // should not happen
