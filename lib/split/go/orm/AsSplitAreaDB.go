@@ -48,8 +48,9 @@ type AsSplitAreaAPI struct {
 type AsSplitAreaPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
-	// field AsSplits is a slice of pointers to another Struct (optional or 0..1)
-	AsSplits IntSlice `gorm:"type:TEXT"`
+	// field AsSplit is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	AsSplitID sql.NullInt64
 
 	// field Button is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
@@ -303,22 +304,16 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseTwoInstance(bac
 		assplitareaDB.CopyBasicFieldsFromAsSplitArea(assplitarea)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// 1. reset
-		assplitareaDB.AsSplitAreaPointersEncoding.AsSplits = make([]int, 0)
-		// 2. encode
-		for _, assplitAssocEnd := range assplitarea.AsSplits {
-			assplitAssocEnd_DB :=
-				backRepo.BackRepoAsSplit.GetAsSplitDBFromAsSplitPtr(assplitAssocEnd)
-			
-			// the stage might be inconsistant, meaning that the assplitAssocEnd_DB might
-			// be missing from the stage. In this case, the commit operation is robust
-			// An alternative would be to crash here to reveal the missing element.
-			if assplitAssocEnd_DB == nil {
-				continue
+		// commit pointer value assplitarea.AsSplit translates to updating the assplitarea.AsSplitID
+		assplitareaDB.AsSplitID.Valid = true // allow for a 0 value (nil association)
+		if assplitarea.AsSplit != nil {
+			if AsSplitId, ok := backRepo.BackRepoAsSplit.Map_AsSplitPtr_AsSplitDBID[assplitarea.AsSplit]; ok {
+				assplitareaDB.AsSplitID.Int64 = int64(AsSplitId)
+				assplitareaDB.AsSplitID.Valid = true
 			}
-			
-			assplitareaDB.AsSplitAreaPointersEncoding.AsSplits =
-				append(assplitareaDB.AsSplitAreaPointersEncoding.AsSplits, int(assplitAssocEnd_DB.ID))
+		} else {
+			assplitareaDB.AsSplitID.Int64 = 0
+			assplitareaDB.AsSplitID.Valid = true
 		}
 
 		// commit pointer value assplitarea.Button translates to updating the assplitarea.ButtonID
@@ -566,15 +561,27 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CheckoutPhaseTwoInstance(b
 func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, assplitarea *models.AsSplitArea) {
 
 	// insertion point for checkout of pointer encoding
-	// This loop redeem assplitarea.AsSplits in the stage from the encode in the back repo
-	// It parses all AsSplitDB in the back repo and if the reverse pointer encoding matches the back repo ID
-	// it appends the stage instance
-	// 1. reset the slice
-	assplitarea.AsSplits = assplitarea.AsSplits[:0]
-	for _, _AsSplitid := range assplitareaDB.AsSplitAreaPointersEncoding.AsSplits {
-		assplitarea.AsSplits = append(assplitarea.AsSplits, backRepo.BackRepoAsSplit.Map_AsSplitDBID_AsSplitPtr[uint(_AsSplitid)])
-	}
+	// AsSplit field	
+	{
+		id := assplitareaDB.AsSplitID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoAsSplit.Map_AsSplitDBID_AsSplitPtr[uint(id)]
 
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: assplitarea.AsSplit, unknown pointer id", id)
+				assplitarea.AsSplit = nil
+			} else {
+				// updates only if field has changed
+				if assplitarea.AsSplit == nil || assplitarea.AsSplit != tmp {
+					assplitarea.AsSplit = tmp
+				}
+			}
+		} else {
+			assplitarea.AsSplit = nil
+		}
+	}
+	
 	// Button field	
 	{
 		id := assplitareaDB.ButtonID.Int64
@@ -1094,6 +1101,12 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) RestorePhaseTwo() {
 		_ = assplitareaDB
 
 		// insertion point for reindexing pointers encoding
+		// reindexing AsSplit field
+		if assplitareaDB.AsSplitID.Int64 != 0 {
+			assplitareaDB.AsSplitID.Int64 = int64(BackRepoAsSplitid_atBckpTime_newID[uint(assplitareaDB.AsSplitID.Int64)])
+			assplitareaDB.AsSplitID.Valid = true
+		}
+
 		// reindexing Button field
 		if assplitareaDB.ButtonID.Int64 != 0 {
 			assplitareaDB.ButtonID.Int64 = int64(BackRepoButtonid_atBckpTime_newID[uint(assplitareaDB.ButtonID.Int64)])
