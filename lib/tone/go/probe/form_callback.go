@@ -70,9 +70,8 @@ func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Note"
 			rf.Fieldname = "Frequencies"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				freqencyFormCallback.probe.stageOfInterest,
-				freqencyFormCallback.probe.backRepoOfInterest,
 				freqency_,
 				&rf)
 

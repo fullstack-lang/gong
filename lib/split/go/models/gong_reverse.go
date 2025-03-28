@@ -1,25 +1,20 @@
 // generated code - do not edit
-package orm
-
-import (
-	"github.com/fullstack-lang/gong/lib/split/go/models"
-)
+package models
 
 func GetReverseFieldOwnerName(
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+	stage *StageStruct,
 	instance any,
-	reverseField *models.ReverseField) (res string) {
+	reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.AsSplit:
+	case *AsSplit:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.AsSplitArea:
+	case *AsSplitArea:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "AsSplit":
@@ -38,62 +33,62 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Button:
+	case *Button:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Cursor:
+	case *Cursor:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Doc:
+	case *Doc:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Form:
+	case *Form:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Load:
+	case *Load:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Slider:
+	case *Slider:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Split:
+	case *Split:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Svg:
+	case *Svg:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Table:
+	case *Table:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Tone:
+	case *Tone:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Tree:
+	case *Tree:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.View:
+	case *View:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
@@ -104,21 +99,20 @@ func GetReverseFieldOwnerName(
 	return
 }
 
-func GetReverseFieldOwner[T models.Gongstruct](
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+func GetReverseFieldOwner[T Gongstruct](
+	stage *StageStruct,
 	instance *T,
-	reverseField *models.ReverseField) (res any) {
+	reverseField *ReverseField) (res any) {
 
 	res = nil
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.AsSplit:
+	case *AsSplit:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.AsSplitArea:
+	case *AsSplitArea:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "AsSplit":
@@ -133,62 +127,62 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Button:
+	case *Button:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Cursor:
+	case *Cursor:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Doc:
+	case *Doc:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Form:
+	case *Form:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Load:
+	case *Load:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Slider:
+	case *Slider:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Split:
+	case *Split:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Svg:
+	case *Svg:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Table:
+	case *Table:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Tone:
+	case *Tone:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Tree:
+	case *Tree:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.View:
+	case *View:
 		switch reverseField.GongstructName {
 		// insertion point
 		}

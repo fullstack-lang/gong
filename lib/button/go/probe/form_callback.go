@@ -74,9 +74,8 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Group"
 			rf.Fieldname = "Buttons"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				buttonFormCallback.probe.stageOfInterest,
-				buttonFormCallback.probe.backRepoOfInterest,
 				button_,
 				&rf)
 
@@ -195,9 +194,8 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Layout"
 			rf.Fieldname = "Groups"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				groupFormCallback.probe.stageOfInterest,
-				groupFormCallback.probe.backRepoOfInterest,
 				group_,
 				&rf)
 
