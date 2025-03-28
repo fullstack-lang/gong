@@ -146,7 +146,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitPhaseOne(stage
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice({{structname}}s, func(i, j int) bool {
-		return stage.Map_Staged_Order[{{structname}}s[i]] < stage.Map_Staged_Order[{{structname}}s[j]]
+		return stage.{{Structname}}Map_Staged_Order[{{structname}}s[i]] < stage.{{Structname}}Map_Staged_Order[{{structname}}s[j]]
 	})
 
 	for _, {{structname}} := range {{structname}}s {
