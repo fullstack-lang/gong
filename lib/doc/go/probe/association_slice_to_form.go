@@ -46,7 +46,7 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 	formSortAssocButton.OnSortEdition = onSortingEditon
 
 }
-
+	
 type OnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
 	instance  InstanceType
 	field     *[]FieldType
@@ -129,7 +129,7 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 	}
 
 	// set up control inversion for the saving of the table
-	table.Impl = NewTablePickSaver(
+	table.Impl = NewTablePickSaver[InstanceType, FieldType](
 		onAssocEditon.instance,
 		onAssocEditon.field,
 		onAssocEditon.fieldName,
