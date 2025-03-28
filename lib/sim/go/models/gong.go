@@ -147,8 +147,26 @@ type StageStruct struct {
 
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
-	Order            uint
-	Map_Staged_Order map[any]uint
+	// insertion point for order fields declaration
+	CommandOrder            uint
+	CommandMap_Staged_Order map[*Command]uint
+
+	DummyAgentOrder            uint
+	DummyAgentMap_Staged_Order map[*DummyAgent]uint
+
+	EngineOrder            uint
+	EngineMap_Staged_Order map[*Engine]uint
+
+	EventOrder            uint
+	EventMap_Staged_Order map[*Event]uint
+
+	StatusOrder            uint
+	StatusMap_Staged_Order map[*Status]uint
+
+	UpdateStateOrder            uint
+	UpdateStateMap_Staged_Order map[*UpdateState]uint
+
+	// end of insertion point
 }
 
 func (stage *StageStruct) GetType() string {
@@ -241,7 +259,20 @@ func NewStage(name string) (stage *StageStruct) {
 		Map_DocLink_Renaming: make(map[string]GONG__Identifier),
 		// the to be removed stops here
 
-		Map_Staged_Order: make(map[any]uint),
+		// insertion point for order map initialisations
+		CommandMap_Staged_Order: make(map[*Command]uint),
+
+		DummyAgentMap_Staged_Order: make(map[*DummyAgent]uint),
+
+		EngineMap_Staged_Order: make(map[*Engine]uint),
+
+		EventMap_Staged_Order: make(map[*Event]uint),
+
+		StatusMap_Staged_Order: make(map[*Status]uint),
+
+		UpdateStateMap_Staged_Order: make(map[*UpdateState]uint),
+
+		// end of inssetion point
 	}
 
 	return
@@ -326,8 +357,8 @@ func (command *Command) Stage(stage *StageStruct) *Command {
 
 	if _, ok := stage.Commands[command]; !ok {
 		stage.Commands[command] = __member
-		stage.Map_Staged_Order[command] = stage.Order
-		stage.Order++
+		stage.CommandMap_Staged_Order[command] = stage.CommandOrder
+		stage.CommandOrder++
 	}
 	stage.Commands_mapString[command.Name] = command
 
@@ -381,8 +412,8 @@ func (dummyagent *DummyAgent) Stage(stage *StageStruct) *DummyAgent {
 
 	if _, ok := stage.DummyAgents[dummyagent]; !ok {
 		stage.DummyAgents[dummyagent] = __member
-		stage.Map_Staged_Order[dummyagent] = stage.Order
-		stage.Order++
+		stage.DummyAgentMap_Staged_Order[dummyagent] = stage.DummyAgentOrder
+		stage.DummyAgentOrder++
 	}
 	stage.DummyAgents_mapString[dummyagent.Name] = dummyagent
 
@@ -436,8 +467,8 @@ func (engine *Engine) Stage(stage *StageStruct) *Engine {
 
 	if _, ok := stage.Engines[engine]; !ok {
 		stage.Engines[engine] = __member
-		stage.Map_Staged_Order[engine] = stage.Order
-		stage.Order++
+		stage.EngineMap_Staged_Order[engine] = stage.EngineOrder
+		stage.EngineOrder++
 	}
 	stage.Engines_mapString[engine.Name] = engine
 
@@ -491,8 +522,8 @@ func (event *Event) Stage(stage *StageStruct) *Event {
 
 	if _, ok := stage.Events[event]; !ok {
 		stage.Events[event] = __member
-		stage.Map_Staged_Order[event] = stage.Order
-		stage.Order++
+		stage.EventMap_Staged_Order[event] = stage.EventOrder
+		stage.EventOrder++
 	}
 	stage.Events_mapString[event.Name] = event
 
@@ -546,8 +577,8 @@ func (status *Status) Stage(stage *StageStruct) *Status {
 
 	if _, ok := stage.Statuss[status]; !ok {
 		stage.Statuss[status] = __member
-		stage.Map_Staged_Order[status] = stage.Order
-		stage.Order++
+		stage.StatusMap_Staged_Order[status] = stage.StatusOrder
+		stage.StatusOrder++
 	}
 	stage.Statuss_mapString[status.Name] = status
 
@@ -601,8 +632,8 @@ func (updatestate *UpdateState) Stage(stage *StageStruct) *UpdateState {
 
 	if _, ok := stage.UpdateStates[updatestate]; !ok {
 		stage.UpdateStates[updatestate] = __member
-		stage.Map_Staged_Order[updatestate] = stage.Order
-		stage.Order++
+		stage.UpdateStateMap_Staged_Order[updatestate] = stage.UpdateStateOrder
+		stage.UpdateStateOrder++
 	}
 	stage.UpdateStates_mapString[updatestate.Name] = updatestate
 

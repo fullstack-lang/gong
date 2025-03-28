@@ -222,7 +222,7 @@ func (backRepoCursor *BackRepoCursorStruct) CommitPhaseOne(stage *models.StageSt
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(cursors, func(i, j int) bool {
-		return stage.Map_Staged_Order[cursors[i]] < stage.Map_Staged_Order[cursors[j]]
+		return stage.CursorMap_Staged_Order[cursors[i]] < stage.CursorMap_Staged_Order[cursors[j]]
 	})
 
 	for _, cursor := range cursors {

@@ -143,7 +143,7 @@ func (backRepoFileToDownload *BackRepoFileToDownloadStruct) CommitPhaseOne(stage
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(filetodownloads, func(i, j int) bool {
-		return stage.Map_Staged_Order[filetodownloads[i]] < stage.Map_Staged_Order[filetodownloads[j]]
+		return stage.FileToDownloadMap_Staged_Order[filetodownloads[i]] < stage.FileToDownloadMap_Staged_Order[filetodownloads[j]]
 	})
 
 	for _, filetodownload := range filetodownloads {

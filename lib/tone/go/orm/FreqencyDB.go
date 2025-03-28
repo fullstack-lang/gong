@@ -137,7 +137,7 @@ func (backRepoFreqency *BackRepoFreqencyStruct) CommitPhaseOne(stage *models.Sta
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(freqencys, func(i, j int) bool {
-		return stage.Map_Staged_Order[freqencys[i]] < stage.Map_Staged_Order[freqencys[j]]
+		return stage.FreqencyMap_Staged_Order[freqencys[i]] < stage.FreqencyMap_Staged_Order[freqencys[j]]
 	})
 
 	for _, freqency := range freqencys {

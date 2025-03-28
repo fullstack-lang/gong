@@ -140,7 +140,7 @@ func (backRepoView *BackRepoViewStruct) CommitPhaseOne(stage *models.StageStruct
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(views, func(i, j int) bool {
-		return stage.Map_Staged_Order[views[i]] < stage.Map_Staged_Order[views[j]]
+		return stage.ViewMap_Staged_Order[views[i]] < stage.ViewMap_Staged_Order[views[j]]
 	})
 
 	for _, view := range views {

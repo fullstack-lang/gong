@@ -233,7 +233,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CommitPhaseOne(stage *models.Sta
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(modelpkgs, func(i, j int) bool {
-		return stage.Map_Staged_Order[modelpkgs[i]] < stage.Map_Staged_Order[modelpkgs[j]]
+		return stage.ModelPkgMap_Staged_Order[modelpkgs[i]] < stage.ModelPkgMap_Staged_Order[modelpkgs[j]]
 	})
 
 	for _, modelpkg := range modelpkgs {

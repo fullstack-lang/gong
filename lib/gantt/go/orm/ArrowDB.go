@@ -157,7 +157,7 @@ func (backRepoArrow *BackRepoArrowStruct) CommitPhaseOne(stage *models.StageStru
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(arrows, func(i, j int) bool {
-		return stage.Map_Staged_Order[arrows[i]] < stage.Map_Staged_Order[arrows[j]]
+		return stage.ArrowMap_Staged_Order[arrows[i]] < stage.ArrowMap_Staged_Order[arrows[j]]
 	})
 
 	for _, arrow := range arrows {

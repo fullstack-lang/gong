@@ -104,8 +104,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(classdiagramOrdered[:], func(i, j int) bool {
 		classdiagrami := classdiagramOrdered[i]
 		classdiagramj := classdiagramOrdered[j]
-		classdiagrami_order, oki := stage.Map_Staged_Order[classdiagrami]
-		classdiagramj_order, okj := stage.Map_Staged_Order[classdiagramj]
+		classdiagrami_order, oki := stage.ClassdiagramMap_Staged_Order[classdiagrami]
+		classdiagramj_order, okj := stage.ClassdiagramMap_Staged_Order[classdiagramj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -151,8 +151,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(diagrampackageOrdered[:], func(i, j int) bool {
 		diagrampackagei := diagrampackageOrdered[i]
 		diagrampackagej := diagrampackageOrdered[j]
-		diagrampackagei_order, oki := stage.Map_Staged_Order[diagrampackagei]
-		diagrampackagej_order, okj := stage.Map_Staged_Order[diagrampackagej]
+		diagrampackagei_order, oki := stage.DiagramPackageMap_Staged_Order[diagrampackagei]
+		diagrampackagej_order, okj := stage.DiagramPackageMap_Staged_Order[diagrampackagej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -222,8 +222,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(fieldOrdered[:], func(i, j int) bool {
 		fieldi := fieldOrdered[i]
 		fieldj := fieldOrdered[j]
-		fieldi_order, oki := stage.Map_Staged_Order[fieldi]
-		fieldj_order, okj := stage.Map_Staged_Order[fieldj]
+		fieldi_order, oki := stage.FieldMap_Staged_Order[fieldi]
+		fieldj_order, okj := stage.FieldMap_Staged_Order[fieldj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -290,8 +290,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(gongenumshapeOrdered[:], func(i, j int) bool {
 		gongenumshapei := gongenumshapeOrdered[i]
 		gongenumshapej := gongenumshapeOrdered[j]
-		gongenumshapei_order, oki := stage.Map_Staged_Order[gongenumshapei]
-		gongenumshapej_order, okj := stage.Map_Staged_Order[gongenumshapej]
+		gongenumshapei_order, oki := stage.GongEnumShapeMap_Staged_Order[gongenumshapei]
+		gongenumshapej_order, okj := stage.GongEnumShapeMap_Staged_Order[gongenumshapej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -352,8 +352,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(gongenumvalueentryOrdered[:], func(i, j int) bool {
 		gongenumvalueentryi := gongenumvalueentryOrdered[i]
 		gongenumvalueentryj := gongenumvalueentryOrdered[j]
-		gongenumvalueentryi_order, oki := stage.Map_Staged_Order[gongenumvalueentryi]
-		gongenumvalueentryj_order, okj := stage.Map_Staged_Order[gongenumvalueentryj]
+		gongenumvalueentryi_order, oki := stage.GongEnumValueEntryMap_Staged_Order[gongenumvalueentryi]
+		gongenumvalueentryj_order, okj := stage.GongEnumValueEntryMap_Staged_Order[gongenumvalueentryj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -402,8 +402,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(gongstructshapeOrdered[:], func(i, j int) bool {
 		gongstructshapei := gongstructshapeOrdered[i]
 		gongstructshapej := gongstructshapeOrdered[j]
-		gongstructshapei_order, oki := stage.Map_Staged_Order[gongstructshapei]
-		gongstructshapej_order, okj := stage.Map_Staged_Order[gongstructshapej]
+		gongstructshapei_order, oki := stage.GongStructShapeMap_Staged_Order[gongstructshapei]
+		gongstructshapej_order, okj := stage.GongStructShapeMap_Staged_Order[gongstructshapej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -482,8 +482,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(linkOrdered[:], func(i, j int) bool {
 		linki := linkOrdered[i]
 		linkj := linkOrdered[j]
-		linki_order, oki := stage.Map_Staged_Order[linki]
-		linkj_order, okj := stage.Map_Staged_Order[linkj]
+		linki_order, oki := stage.LinkMap_Staged_Order[linki]
+		linkj_order, okj := stage.LinkMap_Staged_Order[linkj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -627,8 +627,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(noteshapeOrdered[:], func(i, j int) bool {
 		noteshapei := noteshapeOrdered[i]
 		noteshapej := noteshapeOrdered[j]
-		noteshapei_order, oki := stage.Map_Staged_Order[noteshapei]
-		noteshapej_order, okj := stage.Map_Staged_Order[noteshapej]
+		noteshapei_order, oki := stage.NoteShapeMap_Staged_Order[noteshapei]
+		noteshapej_order, okj := stage.NoteShapeMap_Staged_Order[noteshapej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -719,8 +719,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(noteshapelinkOrdered[:], func(i, j int) bool {
 		noteshapelinki := noteshapelinkOrdered[i]
 		noteshapelinkj := noteshapelinkOrdered[j]
-		noteshapelinki_order, oki := stage.Map_Staged_Order[noteshapelinki]
-		noteshapelinkj_order, okj := stage.Map_Staged_Order[noteshapelinkj]
+		noteshapelinki_order, oki := stage.NoteShapeLinkMap_Staged_Order[noteshapelinki]
+		noteshapelinkj_order, okj := stage.NoteShapeLinkMap_Staged_Order[noteshapelinkj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -777,8 +777,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(positionOrdered[:], func(i, j int) bool {
 		positioni := positionOrdered[i]
 		positionj := positionOrdered[j]
-		positioni_order, oki := stage.Map_Staged_Order[positioni]
-		positionj_order, okj := stage.Map_Staged_Order[positionj]
+		positioni_order, oki := stage.PositionMap_Staged_Order[positioni]
+		positionj_order, okj := stage.PositionMap_Staged_Order[positionj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -830,8 +830,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(umlstateOrdered[:], func(i, j int) bool {
 		umlstatei := umlstateOrdered[i]
 		umlstatej := umlstateOrdered[j]
-		umlstatei_order, oki := stage.Map_Staged_Order[umlstatei]
-		umlstatej_order, okj := stage.Map_Staged_Order[umlstatej]
+		umlstatei_order, oki := stage.UmlStateMap_Staged_Order[umlstatei]
+		umlstatej_order, okj := stage.UmlStateMap_Staged_Order[umlstatej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -883,8 +883,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(umlscOrdered[:], func(i, j int) bool {
 		umlsci := umlscOrdered[i]
 		umlscj := umlscOrdered[j]
-		umlsci_order, oki := stage.Map_Staged_Order[umlsci]
-		umlscj_order, okj := stage.Map_Staged_Order[umlscj]
+		umlsci_order, oki := stage.UmlscMap_Staged_Order[umlsci]
+		umlscj_order, okj := stage.UmlscMap_Staged_Order[umlscj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -936,8 +936,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(verticeOrdered[:], func(i, j int) bool {
 		verticei := verticeOrdered[i]
 		verticej := verticeOrdered[j]
-		verticei_order, oki := stage.Map_Staged_Order[verticei]
-		verticej_order, okj := stage.Map_Staged_Order[verticej]
+		verticei_order, oki := stage.VerticeMap_Staged_Order[verticei]
+		verticej_order, okj := stage.VerticeMap_Staged_Order[verticej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
