@@ -1,20 +1,15 @@
 // generated code - do not edit
-package orm
-
-import (
-	"github.com/fullstack-lang/gong/test/test/go/models"
-)
+package models
 
 func GetReverseFieldOwnerName(
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+	stage *StageStruct,
 	instance any,
-	reverseField *models.ReverseField) (res string) {
+	reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.Astruct:
+	case *Astruct:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Astruct":
@@ -26,7 +21,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.AstructBstruct2Use:
+	case *AstructBstruct2Use:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Astruct":
@@ -38,7 +33,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.AstructBstructUse:
+	case *AstructBstructUse:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Astruct":
@@ -50,7 +45,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Bstruct:
+	case *Bstruct:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Astruct":
@@ -73,7 +68,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Dstruct:
+	case *Dstruct:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Astruct":
@@ -85,12 +80,12 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Fstruct:
+	case *Fstruct:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Gstruct:
+	case *Gstruct:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Dstruct":
@@ -108,16 +103,15 @@ func GetReverseFieldOwnerName(
 	return
 }
 
-func GetReverseFieldOwner[T models.Gongstruct](
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+func GetReverseFieldOwner[T Gongstruct](
+	stage *StageStruct,
 	instance *T,
-	reverseField *models.ReverseField) (res any) {
+	reverseField *ReverseField) (res any) {
 
 	res = nil
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.Astruct:
+	case *Astruct:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Astruct":
@@ -127,7 +121,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.AstructBstruct2Use:
+	case *AstructBstruct2Use:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Astruct":
@@ -137,7 +131,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.AstructBstructUse:
+	case *AstructBstructUse:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Astruct":
@@ -147,7 +141,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Bstruct:
+	case *Bstruct:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Astruct":
@@ -164,7 +158,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Dstruct:
+	case *Dstruct:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Astruct":
@@ -174,12 +168,12 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Fstruct:
+	case *Fstruct:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Gstruct:
+	case *Gstruct:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Dstruct":

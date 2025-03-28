@@ -1,20 +1,15 @@
 // generated code - do not edit
-package orm
-
-import (
-	"github.com/fullstack-lang/gong/lib/slider/go/models"
-)
+package models
 
 func GetReverseFieldOwnerName(
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+	stage *StageStruct,
 	instance any,
-	reverseField *models.ReverseField) (res string) {
+	reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.Checkbox:
+	case *Checkbox:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Group":
@@ -26,7 +21,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Group:
+	case *Group:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layout":
@@ -38,12 +33,12 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Layout:
+	case *Layout:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Slider:
+	case *Slider:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Group":
@@ -61,16 +56,15 @@ func GetReverseFieldOwnerName(
 	return
 }
 
-func GetReverseFieldOwner[T models.Gongstruct](
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+func GetReverseFieldOwner[T Gongstruct](
+	stage *StageStruct,
 	instance *T,
-	reverseField *models.ReverseField) (res any) {
+	reverseField *ReverseField) (res any) {
 
 	res = nil
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.Checkbox:
+	case *Checkbox:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Group":
@@ -80,7 +74,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Group:
+	case *Group:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layout":
@@ -90,12 +84,12 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Layout:
+	case *Layout:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Slider:
+	case *Slider:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Group":

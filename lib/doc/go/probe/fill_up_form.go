@@ -34,7 +34,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "DiagramPackage"
 			rf.Fieldname = "Classdiagrams"
-			reverseFieldOwner := orm.GetReverseFieldOwner(probe.stageOfInterest, probe.backRepoOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.DiagramPackage),
@@ -87,7 +87,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "GongStructShape"
 			rf.Fieldname = "Fields"
-			reverseFieldOwner := orm.GetReverseFieldOwner(probe.stageOfInterest, probe.backRepoOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.GongStructShape),
@@ -122,7 +122,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Classdiagram"
 			rf.Fieldname = "GongEnumShapes"
-			reverseFieldOwner := orm.GetReverseFieldOwner(probe.stageOfInterest, probe.backRepoOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Classdiagram),
@@ -151,7 +151,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "GongEnumShape"
 			rf.Fieldname = "GongEnumValueEntrys"
-			reverseFieldOwner := orm.GetReverseFieldOwner(probe.stageOfInterest, probe.backRepoOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.GongEnumShape),
@@ -193,7 +193,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Classdiagram"
 			rf.Fieldname = "GongStructShapes"
-			reverseFieldOwner := orm.GetReverseFieldOwner(probe.stageOfInterest, probe.backRepoOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Classdiagram),
@@ -247,7 +247,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "GongStructShape"
 			rf.Fieldname = "Links"
-			reverseFieldOwner := orm.GetReverseFieldOwner(probe.stageOfInterest, probe.backRepoOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.GongStructShape),
@@ -291,7 +291,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Classdiagram"
 			rf.Fieldname = "NoteShapes"
-			reverseFieldOwner := orm.GetReverseFieldOwner(probe.stageOfInterest, probe.backRepoOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Classdiagram),
@@ -321,7 +321,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "NoteShape"
 			rf.Fieldname = "NoteShapeLinks"
-			reverseFieldOwner := orm.GetReverseFieldOwner(probe.stageOfInterest, probe.backRepoOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.NoteShape),
@@ -361,7 +361,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Umlsc"
 			rf.Fieldname = "States"
-			reverseFieldOwner := orm.GetReverseFieldOwner(probe.stageOfInterest, probe.backRepoOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Umlsc),
@@ -393,7 +393,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "DiagramPackage"
 			rf.Fieldname = "Umlscs"
-			reverseFieldOwner := orm.GetReverseFieldOwner(probe.stageOfInterest, probe.backRepoOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.DiagramPackage),

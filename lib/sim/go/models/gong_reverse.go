@@ -1,45 +1,40 @@
 // generated code - do not edit
-package orm
-
-import (
-	"github.com/fullstack-lang/gong/lib/sim/go/models"
-)
+package models
 
 func GetReverseFieldOwnerName(
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+	stage *StageStruct,
 	instance any,
-	reverseField *models.ReverseField) (res string) {
+	reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.Command:
+	case *Command:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.DummyAgent:
+	case *DummyAgent:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Engine:
+	case *Engine:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Event:
+	case *Event:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Status:
+	case *Status:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.UpdateState:
+	case *UpdateState:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
@@ -50,41 +45,40 @@ func GetReverseFieldOwnerName(
 	return
 }
 
-func GetReverseFieldOwner[T models.Gongstruct](
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+func GetReverseFieldOwner[T Gongstruct](
+	stage *StageStruct,
 	instance *T,
-	reverseField *models.ReverseField) (res any) {
+	reverseField *ReverseField) (res any) {
 
 	res = nil
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.Command:
+	case *Command:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.DummyAgent:
+	case *DummyAgent:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Engine:
+	case *Engine:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Event:
+	case *Event:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Status:
+	case *Status:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.UpdateState:
+	case *UpdateState:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
