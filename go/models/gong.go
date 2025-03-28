@@ -1219,39 +1219,63 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.GongBasicFields = make(map[*GongBasicField]any)
 	stage.GongBasicFields_mapString = make(map[string]*GongBasicField)
+	stage.GongBasicFieldMap_Staged_Order = make(map[*GongBasicField]uint)
+	stage.GongBasicFieldOrder = 0
 
 	stage.GongEnums = make(map[*GongEnum]any)
 	stage.GongEnums_mapString = make(map[string]*GongEnum)
+	stage.GongEnumMap_Staged_Order = make(map[*GongEnum]uint)
+	stage.GongEnumOrder = 0
 
 	stage.GongEnumValues = make(map[*GongEnumValue]any)
 	stage.GongEnumValues_mapString = make(map[string]*GongEnumValue)
+	stage.GongEnumValueMap_Staged_Order = make(map[*GongEnumValue]uint)
+	stage.GongEnumValueOrder = 0
 
 	stage.GongLinks = make(map[*GongLink]any)
 	stage.GongLinks_mapString = make(map[string]*GongLink)
+	stage.GongLinkMap_Staged_Order = make(map[*GongLink]uint)
+	stage.GongLinkOrder = 0
 
 	stage.GongNotes = make(map[*GongNote]any)
 	stage.GongNotes_mapString = make(map[string]*GongNote)
+	stage.GongNoteMap_Staged_Order = make(map[*GongNote]uint)
+	stage.GongNoteOrder = 0
 
 	stage.GongStructs = make(map[*GongStruct]any)
 	stage.GongStructs_mapString = make(map[string]*GongStruct)
+	stage.GongStructMap_Staged_Order = make(map[*GongStruct]uint)
+	stage.GongStructOrder = 0
 
 	stage.GongTimeFields = make(map[*GongTimeField]any)
 	stage.GongTimeFields_mapString = make(map[string]*GongTimeField)
+	stage.GongTimeFieldMap_Staged_Order = make(map[*GongTimeField]uint)
+	stage.GongTimeFieldOrder = 0
 
 	stage.Metas = make(map[*Meta]any)
 	stage.Metas_mapString = make(map[string]*Meta)
+	stage.MetaMap_Staged_Order = make(map[*Meta]uint)
+	stage.MetaOrder = 0
 
 	stage.MetaReferences = make(map[*MetaReference]any)
 	stage.MetaReferences_mapString = make(map[string]*MetaReference)
+	stage.MetaReferenceMap_Staged_Order = make(map[*MetaReference]uint)
+	stage.MetaReferenceOrder = 0
 
 	stage.ModelPkgs = make(map[*ModelPkg]any)
 	stage.ModelPkgs_mapString = make(map[string]*ModelPkg)
+	stage.ModelPkgMap_Staged_Order = make(map[*ModelPkg]uint)
+	stage.ModelPkgOrder = 0
 
 	stage.PointerToGongStructFields = make(map[*PointerToGongStructField]any)
 	stage.PointerToGongStructFields_mapString = make(map[string]*PointerToGongStructField)
+	stage.PointerToGongStructFieldMap_Staged_Order = make(map[*PointerToGongStructField]uint)
+	stage.PointerToGongStructFieldOrder = 0
 
 	stage.SliceOfPointerToGongStructFields = make(map[*SliceOfPointerToGongStructField]any)
 	stage.SliceOfPointerToGongStructFields_mapString = make(map[string]*SliceOfPointerToGongStructField)
+	stage.SliceOfPointerToGongStructFieldMap_Staged_Order = make(map[*SliceOfPointerToGongStructField]uint)
+	stage.SliceOfPointerToGongStructFieldOrder = 0
 
 }
 

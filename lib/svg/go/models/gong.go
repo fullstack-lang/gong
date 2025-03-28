@@ -1819,60 +1819,98 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Animates = make(map[*Animate]any)
 	stage.Animates_mapString = make(map[string]*Animate)
+	stage.AnimateMap_Staged_Order = make(map[*Animate]uint)
+	stage.AnimateOrder = 0
 
 	stage.Circles = make(map[*Circle]any)
 	stage.Circles_mapString = make(map[string]*Circle)
+	stage.CircleMap_Staged_Order = make(map[*Circle]uint)
+	stage.CircleOrder = 0
 
 	stage.Ellipses = make(map[*Ellipse]any)
 	stage.Ellipses_mapString = make(map[string]*Ellipse)
+	stage.EllipseMap_Staged_Order = make(map[*Ellipse]uint)
+	stage.EllipseOrder = 0
 
 	stage.Layers = make(map[*Layer]any)
 	stage.Layers_mapString = make(map[string]*Layer)
+	stage.LayerMap_Staged_Order = make(map[*Layer]uint)
+	stage.LayerOrder = 0
 
 	stage.Lines = make(map[*Line]any)
 	stage.Lines_mapString = make(map[string]*Line)
+	stage.LineMap_Staged_Order = make(map[*Line]uint)
+	stage.LineOrder = 0
 
 	stage.Links = make(map[*Link]any)
 	stage.Links_mapString = make(map[string]*Link)
+	stage.LinkMap_Staged_Order = make(map[*Link]uint)
+	stage.LinkOrder = 0
 
 	stage.LinkAnchoredTexts = make(map[*LinkAnchoredText]any)
 	stage.LinkAnchoredTexts_mapString = make(map[string]*LinkAnchoredText)
+	stage.LinkAnchoredTextMap_Staged_Order = make(map[*LinkAnchoredText]uint)
+	stage.LinkAnchoredTextOrder = 0
 
 	stage.Paths = make(map[*Path]any)
 	stage.Paths_mapString = make(map[string]*Path)
+	stage.PathMap_Staged_Order = make(map[*Path]uint)
+	stage.PathOrder = 0
 
 	stage.Points = make(map[*Point]any)
 	stage.Points_mapString = make(map[string]*Point)
+	stage.PointMap_Staged_Order = make(map[*Point]uint)
+	stage.PointOrder = 0
 
 	stage.Polygones = make(map[*Polygone]any)
 	stage.Polygones_mapString = make(map[string]*Polygone)
+	stage.PolygoneMap_Staged_Order = make(map[*Polygone]uint)
+	stage.PolygoneOrder = 0
 
 	stage.Polylines = make(map[*Polyline]any)
 	stage.Polylines_mapString = make(map[string]*Polyline)
+	stage.PolylineMap_Staged_Order = make(map[*Polyline]uint)
+	stage.PolylineOrder = 0
 
 	stage.Rects = make(map[*Rect]any)
 	stage.Rects_mapString = make(map[string]*Rect)
+	stage.RectMap_Staged_Order = make(map[*Rect]uint)
+	stage.RectOrder = 0
 
 	stage.RectAnchoredPaths = make(map[*RectAnchoredPath]any)
 	stage.RectAnchoredPaths_mapString = make(map[string]*RectAnchoredPath)
+	stage.RectAnchoredPathMap_Staged_Order = make(map[*RectAnchoredPath]uint)
+	stage.RectAnchoredPathOrder = 0
 
 	stage.RectAnchoredRects = make(map[*RectAnchoredRect]any)
 	stage.RectAnchoredRects_mapString = make(map[string]*RectAnchoredRect)
+	stage.RectAnchoredRectMap_Staged_Order = make(map[*RectAnchoredRect]uint)
+	stage.RectAnchoredRectOrder = 0
 
 	stage.RectAnchoredTexts = make(map[*RectAnchoredText]any)
 	stage.RectAnchoredTexts_mapString = make(map[string]*RectAnchoredText)
+	stage.RectAnchoredTextMap_Staged_Order = make(map[*RectAnchoredText]uint)
+	stage.RectAnchoredTextOrder = 0
 
 	stage.RectLinkLinks = make(map[*RectLinkLink]any)
 	stage.RectLinkLinks_mapString = make(map[string]*RectLinkLink)
+	stage.RectLinkLinkMap_Staged_Order = make(map[*RectLinkLink]uint)
+	stage.RectLinkLinkOrder = 0
 
 	stage.SVGs = make(map[*SVG]any)
 	stage.SVGs_mapString = make(map[string]*SVG)
+	stage.SVGMap_Staged_Order = make(map[*SVG]uint)
+	stage.SVGOrder = 0
 
 	stage.SvgTexts = make(map[*SvgText]any)
 	stage.SvgTexts_mapString = make(map[string]*SvgText)
+	stage.SvgTextMap_Staged_Order = make(map[*SvgText]uint)
+	stage.SvgTextOrder = 0
 
 	stage.Texts = make(map[*Text]any)
 	stage.Texts_mapString = make(map[string]*Text)
+	stage.TextMap_Staged_Order = make(map[*Text]uint)
+	stage.TextOrder = 0
 
 }
 
