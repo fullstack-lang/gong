@@ -609,10 +609,65 @@ func NewStage(name string) (stage *StageStruct) {
 
 		TableMap_Staged_Order: make(map[*Table]uint),
 
-		// end of inssetion point
+		// end of insertion point
 	}
 
 	return
+}
+
+func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
+
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations
+	case *Cell:
+		return stage.CellMap_Staged_Order[instance]
+	case *CellBoolean:
+		return stage.CellBooleanMap_Staged_Order[instance]
+	case *CellFloat64:
+		return stage.CellFloat64Map_Staged_Order[instance]
+	case *CellIcon:
+		return stage.CellIconMap_Staged_Order[instance]
+	case *CellInt:
+		return stage.CellIntMap_Staged_Order[instance]
+	case *CellString:
+		return stage.CellStringMap_Staged_Order[instance]
+	case *CheckBox:
+		return stage.CheckBoxMap_Staged_Order[instance]
+	case *DisplayedColumn:
+		return stage.DisplayedColumnMap_Staged_Order[instance]
+	case *FormDiv:
+		return stage.FormDivMap_Staged_Order[instance]
+	case *FormEditAssocButton:
+		return stage.FormEditAssocButtonMap_Staged_Order[instance]
+	case *FormField:
+		return stage.FormFieldMap_Staged_Order[instance]
+	case *FormFieldDate:
+		return stage.FormFieldDateMap_Staged_Order[instance]
+	case *FormFieldDateTime:
+		return stage.FormFieldDateTimeMap_Staged_Order[instance]
+	case *FormFieldFloat64:
+		return stage.FormFieldFloat64Map_Staged_Order[instance]
+	case *FormFieldInt:
+		return stage.FormFieldIntMap_Staged_Order[instance]
+	case *FormFieldSelect:
+		return stage.FormFieldSelectMap_Staged_Order[instance]
+	case *FormFieldString:
+		return stage.FormFieldStringMap_Staged_Order[instance]
+	case *FormFieldTime:
+		return stage.FormFieldTimeMap_Staged_Order[instance]
+	case *FormGroup:
+		return stage.FormGroupMap_Staged_Order[instance]
+	case *FormSortAssocButton:
+		return stage.FormSortAssocButtonMap_Staged_Order[instance]
+	case *Option:
+		return stage.OptionMap_Staged_Order[instance]
+	case *Row:
+		return stage.RowMap_Staged_Order[instance]
+	case *Table:
+		return stage.TableMap_Staged_Order[instance]
+	default:
+		return 0 // should not happen
+	}
 }
 
 func (stage *StageStruct) GetName() string {

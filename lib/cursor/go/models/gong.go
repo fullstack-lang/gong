@@ -177,10 +177,21 @@ func NewStage(name string) (stage *StageStruct) {
 		// insertion point for order map initialisations
 		CursorMap_Staged_Order: make(map[*Cursor]uint),
 
-		// end of inssetion point
+		// end of insertion point
 	}
 
 	return
+}
+
+func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
+
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations
+	case *Cursor:
+		return stage.CursorMap_Staged_Order[instance]
+	default:
+		return 0 // should not happen
+	}
 }
 
 func (stage *StageStruct) GetName() string {

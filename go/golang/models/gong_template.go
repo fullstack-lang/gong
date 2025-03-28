@@ -160,10 +160,19 @@ func NewStage(name string) (stage *StageStruct) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations{{` + string(rune(ModelGongOrderMapsInit)) + `}}
-		// end of inssetion point
+		// end of insertion point
 	}
 
 	return
+}
+
+func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
+
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations{{` + string(rune(ModelGongOrderSwitchGet)) + `}}
+	default:
+		return 0 // should not happen
+	}
 }
 
 func (stage *StageStruct) GetName() string {

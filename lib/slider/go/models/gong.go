@@ -240,10 +240,27 @@ func NewStage(name string) (stage *StageStruct) {
 
 		SliderMap_Staged_Order: make(map[*Slider]uint),
 
-		// end of inssetion point
+		// end of insertion point
 	}
 
 	return
+}
+
+func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
+
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations
+	case *Checkbox:
+		return stage.CheckboxMap_Staged_Order[instance]
+	case *Group:
+		return stage.GroupMap_Staged_Order[instance]
+	case *Layout:
+		return stage.LayoutMap_Staged_Order[instance]
+	case *Slider:
+		return stage.SliderMap_Staged_Order[instance]
+	default:
+		return 0 // should not happen
+	}
 }
 
 func (stage *StageStruct) GetName() string {
