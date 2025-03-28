@@ -819,24 +819,38 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Arrows = make(map[*Arrow]any)
 	stage.Arrows_mapString = make(map[string]*Arrow)
+	stage.ArrowMap_Staged_Order = make(map[*Arrow]uint)
+	stage.ArrowOrder = 0
 
 	stage.Bars = make(map[*Bar]any)
 	stage.Bars_mapString = make(map[string]*Bar)
+	stage.BarMap_Staged_Order = make(map[*Bar]uint)
+	stage.BarOrder = 0
 
 	stage.Gantts = make(map[*Gantt]any)
 	stage.Gantts_mapString = make(map[string]*Gantt)
+	stage.GanttMap_Staged_Order = make(map[*Gantt]uint)
+	stage.GanttOrder = 0
 
 	stage.Groups = make(map[*Group]any)
 	stage.Groups_mapString = make(map[string]*Group)
+	stage.GroupMap_Staged_Order = make(map[*Group]uint)
+	stage.GroupOrder = 0
 
 	stage.Lanes = make(map[*Lane]any)
 	stage.Lanes_mapString = make(map[string]*Lane)
+	stage.LaneMap_Staged_Order = make(map[*Lane]uint)
+	stage.LaneOrder = 0
 
 	stage.LaneUses = make(map[*LaneUse]any)
 	stage.LaneUses_mapString = make(map[string]*LaneUse)
+	stage.LaneUseMap_Staged_Order = make(map[*LaneUse]uint)
+	stage.LaneUseOrder = 0
 
 	stage.Milestones = make(map[*Milestone]any)
 	stage.Milestones_mapString = make(map[string]*Milestone)
+	stage.MilestoneMap_Staged_Order = make(map[*Milestone]uint)
+	stage.MilestoneOrder = 0
 
 }
 

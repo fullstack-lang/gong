@@ -571,15 +571,23 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Buttons = make(map[*Button]any)
 	stage.Buttons_mapString = make(map[string]*Button)
+	stage.ButtonMap_Staged_Order = make(map[*Button]uint)
+	stage.ButtonOrder = 0
 
 	stage.Nodes = make(map[*Node]any)
 	stage.Nodes_mapString = make(map[string]*Node)
+	stage.NodeMap_Staged_Order = make(map[*Node]uint)
+	stage.NodeOrder = 0
 
 	stage.SVGIcons = make(map[*SVGIcon]any)
 	stage.SVGIcons_mapString = make(map[string]*SVGIcon)
+	stage.SVGIconMap_Staged_Order = make(map[*SVGIcon]uint)
+	stage.SVGIconOrder = 0
 
 	stage.Trees = make(map[*Tree]any)
 	stage.Trees_mapString = make(map[string]*Tree)
+	stage.TreeMap_Staged_Order = make(map[*Tree]uint)
+	stage.TreeOrder = 0
 
 }
 
