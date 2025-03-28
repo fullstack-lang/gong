@@ -146,7 +146,7 @@ func (backRepoMeta *BackRepoMetaStruct) CommitPhaseOne(stage *models.StageStruct
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(metas, func(i, j int) bool {
-		return stage.Map_Staged_Order[metas[i]] < stage.Map_Staged_Order[metas[j]]
+		return stage.MetaMap_Staged_Order[metas[i]] < stage.MetaMap_Staged_Order[metas[j]]
 	})
 
 	for _, meta := range metas {

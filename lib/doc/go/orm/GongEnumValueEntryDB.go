@@ -143,7 +143,7 @@ func (backRepoGongEnumValueEntry *BackRepoGongEnumValueEntryStruct) CommitPhaseO
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(gongenumvalueentrys, func(i, j int) bool {
-		return stage.Map_Staged_Order[gongenumvalueentrys[i]] < stage.Map_Staged_Order[gongenumvalueentrys[j]]
+		return stage.GongEnumValueEntryMap_Staged_Order[gongenumvalueentrys[i]] < stage.GongEnumValueEntryMap_Staged_Order[gongenumvalueentrys[j]]
 	})
 
 	for _, gongenumvalueentry := range gongenumvalueentrys {

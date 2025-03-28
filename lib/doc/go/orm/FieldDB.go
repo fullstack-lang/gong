@@ -161,7 +161,7 @@ func (backRepoField *BackRepoFieldStruct) CommitPhaseOne(stage *models.StageStru
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(fields, func(i, j int) bool {
-		return stage.Map_Staged_Order[fields[i]] < stage.Map_Staged_Order[fields[j]]
+		return stage.FieldMap_Staged_Order[fields[i]] < stage.FieldMap_Staged_Order[fields[j]]
 	})
 
 	for _, field := range fields {

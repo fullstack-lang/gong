@@ -189,7 +189,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseOne(stage *models.S
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(noteshapes, func(i, j int) bool {
-		return stage.Map_Staged_Order[noteshapes[i]] < stage.Map_Staged_Order[noteshapes[j]]
+		return stage.NoteShapeMap_Staged_Order[noteshapes[i]] < stage.NoteShapeMap_Staged_Order[noteshapes[j]]
 	})
 
 	for _, noteshape := range noteshapes {

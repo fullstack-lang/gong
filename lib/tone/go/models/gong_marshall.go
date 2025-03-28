@@ -104,8 +104,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(freqencyOrdered[:], func(i, j int) bool {
 		freqencyi := freqencyOrdered[i]
 		freqencyj := freqencyOrdered[j]
-		freqencyi_order, oki := stage.Map_Staged_Order[freqencyi]
-		freqencyj_order, okj := stage.Map_Staged_Order[freqencyj]
+		freqencyi_order, oki := stage.FreqencyMap_Staged_Order[freqencyi]
+		freqencyj_order, okj := stage.FreqencyMap_Staged_Order[freqencyj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -145,8 +145,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(noteOrdered[:], func(i, j int) bool {
 		notei := noteOrdered[i]
 		notej := noteOrdered[j]
-		notei_order, oki := stage.Map_Staged_Order[notei]
-		notej_order, okj := stage.Map_Staged_Order[notej]
+		notei_order, oki := stage.NoteMap_Staged_Order[notei]
+		notej_order, okj := stage.NoteMap_Staged_Order[notej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -210,8 +210,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(playerOrdered[:], func(i, j int) bool {
 		playeri := playerOrdered[i]
 		playerj := playerOrdered[j]
-		playeri_order, oki := stage.Map_Staged_Order[playeri]
-		playerj_order, okj := stage.Map_Staged_Order[playerj]
+		playeri_order, oki := stage.PlayerMap_Staged_Order[playeri]
+		playerj_order, okj := stage.PlayerMap_Staged_Order[playerj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}

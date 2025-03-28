@@ -143,7 +143,7 @@ func (backRepoCellString *BackRepoCellStringStruct) CommitPhaseOne(stage *models
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(cellstrings, func(i, j int) bool {
-		return stage.Map_Staged_Order[cellstrings[i]] < stage.Map_Staged_Order[cellstrings[j]]
+		return stage.CellStringMap_Staged_Order[cellstrings[i]] < stage.CellStringMap_Staged_Order[cellstrings[j]]
 	})
 
 	for _, cellstring := range cellstrings {

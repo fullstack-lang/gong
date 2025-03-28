@@ -153,7 +153,7 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) CommitPhaseOne(stage *mo
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(classdiagrams, func(i, j int) bool {
-		return stage.Map_Staged_Order[classdiagrams[i]] < stage.Map_Staged_Order[classdiagrams[j]]
+		return stage.ClassdiagramMap_Staged_Order[classdiagrams[i]] < stage.ClassdiagramMap_Staged_Order[classdiagrams[j]]
 	})
 
 	for _, classdiagram := range classdiagrams {

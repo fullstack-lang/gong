@@ -237,7 +237,7 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CommitPhaseOne(s
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(linkanchoredtexts, func(i, j int) bool {
-		return stage.Map_Staged_Order[linkanchoredtexts[i]] < stage.Map_Staged_Order[linkanchoredtexts[j]]
+		return stage.LinkAnchoredTextMap_Staged_Order[linkanchoredtexts[i]] < stage.LinkAnchoredTextMap_Staged_Order[linkanchoredtexts[j]]
 	})
 
 	for _, linkanchoredtext := range linkanchoredtexts {

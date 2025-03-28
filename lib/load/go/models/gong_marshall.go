@@ -104,8 +104,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(filetodownloadOrdered[:], func(i, j int) bool {
 		filetodownloadi := filetodownloadOrdered[i]
 		filetodownloadj := filetodownloadOrdered[j]
-		filetodownloadi_order, oki := stage.Map_Staged_Order[filetodownloadi]
-		filetodownloadj_order, okj := stage.Map_Staged_Order[filetodownloadj]
+		filetodownloadi_order, oki := stage.FileToDownloadMap_Staged_Order[filetodownloadi]
+		filetodownloadj_order, okj := stage.FileToDownloadMap_Staged_Order[filetodownloadj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}

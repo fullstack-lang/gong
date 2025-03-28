@@ -162,7 +162,7 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CommitPhaseOne(stage *
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(gongenumshapes, func(i, j int) bool {
-		return stage.Map_Staged_Order[gongenumshapes[i]] < stage.Map_Staged_Order[gongenumshapes[j]]
+		return stage.GongEnumShapeMap_Staged_Order[gongenumshapes[i]] < stage.GongEnumShapeMap_Staged_Order[gongenumshapes[j]]
 	})
 
 	for _, gongenumshape := range gongenumshapes {

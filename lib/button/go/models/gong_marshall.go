@@ -104,8 +104,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(buttonOrdered[:], func(i, j int) bool {
 		buttoni := buttonOrdered[i]
 		buttonj := buttonOrdered[j]
-		buttoni_order, oki := stage.Map_Staged_Order[buttoni]
-		buttonj_order, okj := stage.Map_Staged_Order[buttonj]
+		buttoni_order, oki := stage.ButtonMap_Staged_Order[buttoni]
+		buttonj_order, okj := stage.ButtonMap_Staged_Order[buttonj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -157,8 +157,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(groupOrdered[:], func(i, j int) bool {
 		groupi := groupOrdered[i]
 		groupj := groupOrdered[j]
-		groupi_order, oki := stage.Map_Staged_Order[groupi]
-		groupj_order, okj := stage.Map_Staged_Order[groupj]
+		groupi_order, oki := stage.GroupMap_Staged_Order[groupi]
+		groupj_order, okj := stage.GroupMap_Staged_Order[groupj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -204,8 +204,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(layoutOrdered[:], func(i, j int) bool {
 		layouti := layoutOrdered[i]
 		layoutj := layoutOrdered[j]
-		layouti_order, oki := stage.Map_Staged_Order[layouti]
-		layoutj_order, okj := stage.Map_Staged_Order[layoutj]
+		layouti_order, oki := stage.LayoutMap_Staged_Order[layouti]
+		layoutj_order, okj := stage.LayoutMap_Staged_Order[layoutj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
