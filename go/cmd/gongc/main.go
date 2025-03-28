@@ -667,7 +667,7 @@ func main() {
 		modelPkg.PkgPath,
 	)
 
-	orm.CodeGeneratorGetReverseFieldOwnerName(
+	models.CodeGeneratorGongReverse(
 		modelPkg,
 		modelPkg.Name,
 		*pkgPath,
