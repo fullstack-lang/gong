@@ -78,9 +78,8 @@ func (arrowFormCallback *ArrowFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Gantt"
 			rf.Fieldname = "Arrows"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				arrowFormCallback.probe.stageOfInterest,
-				arrowFormCallback.probe.backRepoOfInterest,
 				arrow_,
 				&rf)
 
@@ -213,9 +212,8 @@ func (barFormCallback *BarFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Lane"
 			rf.Fieldname = "Bars"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				barFormCallback.probe.stageOfInterest,
-				barFormCallback.probe.backRepoOfInterest,
 				bar_,
 				&rf)
 
@@ -457,9 +455,8 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Gantt"
 			rf.Fieldname = "Groups"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				groupFormCallback.probe.stageOfInterest,
-				groupFormCallback.probe.backRepoOfInterest,
 				group_,
 				&rf)
 
@@ -578,9 +575,8 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Gantt"
 			rf.Fieldname = "Lanes"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				laneFormCallback.probe.stageOfInterest,
-				laneFormCallback.probe.backRepoOfInterest,
 				lane_,
 				&rf)
 
@@ -620,9 +616,8 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Group"
 			rf.Fieldname = "GroupLanes"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				laneFormCallback.probe.stageOfInterest,
-				laneFormCallback.probe.backRepoOfInterest,
 				lane_,
 				&rf)
 
@@ -741,9 +736,8 @@ func (laneuseFormCallback *LaneUseFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Milestone"
 			rf.Fieldname = "LanesToDisplayMilestoneUse"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				laneuseFormCallback.probe.stageOfInterest,
-				laneuseFormCallback.probe.backRepoOfInterest,
 				laneuse_,
 				&rf)
 
@@ -864,9 +858,8 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Gantt"
 			rf.Fieldname = "Milestones"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				milestoneFormCallback.probe.stageOfInterest,
-				milestoneFormCallback.probe.backRepoOfInterest,
 				milestone_,
 				&rf)
 

@@ -129,7 +129,7 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 	}
 
 	// set up control inversion for the saving of the table
-	table.Impl = NewTablePickSaver(
+	table.Impl = NewTablePickSaver[InstanceType, FieldType](
 		onAssocEditon.instance,
 		onAssocEditon.field,
 		onAssocEditon.fieldName,

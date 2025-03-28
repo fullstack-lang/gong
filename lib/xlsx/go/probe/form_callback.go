@@ -155,9 +155,8 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "XLRow"
 			rf.Fieldname = "Cells"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				xlcellFormCallback.probe.stageOfInterest,
-				xlcellFormCallback.probe.backRepoOfInterest,
 				xlcell_,
 				&rf)
 
@@ -197,9 +196,8 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "XLSheet"
 			rf.Fieldname = "SheetCells"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				xlcellFormCallback.probe.stageOfInterest,
-				xlcellFormCallback.probe.backRepoOfInterest,
 				xlcell_,
 				&rf)
 
@@ -397,9 +395,8 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "XLSheet"
 			rf.Fieldname = "Rows"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				xlrowFormCallback.probe.stageOfInterest,
-				xlrowFormCallback.probe.backRepoOfInterest,
 				xlrow_,
 				&rf)
 
@@ -522,9 +519,8 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "XLFile"
 			rf.Fieldname = "Sheets"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				xlsheetFormCallback.probe.stageOfInterest,
-				xlsheetFormCallback.probe.backRepoOfInterest,
 				xlsheet_,
 				&rf)
 

@@ -1,20 +1,15 @@
 // generated code - do not edit
-package orm
-
-import (
-	"github.com/fullstack-lang/gong/lib/svg/go/models"
-)
+package models
 
 func GetReverseFieldOwnerName(
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+	stage *StageStruct,
 	instance any,
-	reverseField *models.ReverseField) (res string) {
+	reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.Animate:
+	case *Animate:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Circle":
@@ -89,7 +84,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Circle:
+	case *Circle:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":
@@ -101,7 +96,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Ellipse:
+	case *Ellipse:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":
@@ -113,7 +108,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Layer:
+	case *Layer:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "SVG":
@@ -125,7 +120,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Line:
+	case *Line:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":
@@ -137,7 +132,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Link:
+	case *Link:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":
@@ -149,7 +144,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.LinkAnchoredText:
+	case *LinkAnchoredText:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Link":
@@ -165,7 +160,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Path:
+	case *Path:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":
@@ -177,7 +172,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Point:
+	case *Point:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Link":
@@ -189,7 +184,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Polygone:
+	case *Polygone:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":
@@ -201,7 +196,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Polyline:
+	case *Polyline:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":
@@ -213,7 +208,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Rect:
+	case *Rect:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":
@@ -225,7 +220,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.RectAnchoredPath:
+	case *RectAnchoredPath:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Rect":
@@ -237,7 +232,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.RectAnchoredRect:
+	case *RectAnchoredRect:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Rect":
@@ -249,7 +244,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.RectAnchoredText:
+	case *RectAnchoredText:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Rect":
@@ -261,7 +256,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.RectLinkLink:
+	case *RectLinkLink:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":
@@ -273,17 +268,17 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.SVG:
+	case *SVG:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.SvgText:
+	case *SvgText:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Text:
+	case *Text:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":
@@ -301,16 +296,15 @@ func GetReverseFieldOwnerName(
 	return
 }
 
-func GetReverseFieldOwner[T models.Gongstruct](
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+func GetReverseFieldOwner[T Gongstruct](
+	stage *StageStruct,
 	instance *T,
-	reverseField *models.ReverseField) (res any) {
+	reverseField *ReverseField) (res any) {
 
 	res = nil
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.Animate:
+	case *Animate:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Circle":
@@ -365,7 +359,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Circle:
+	case *Circle:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":
@@ -375,7 +369,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Ellipse:
+	case *Ellipse:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":
@@ -385,7 +379,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Layer:
+	case *Layer:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "SVG":
@@ -395,7 +389,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Line:
+	case *Line:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":
@@ -405,7 +399,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Link:
+	case *Link:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":
@@ -415,7 +409,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.LinkAnchoredText:
+	case *LinkAnchoredText:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Link":
@@ -427,7 +421,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Path:
+	case *Path:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":
@@ -437,7 +431,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Point:
+	case *Point:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Link":
@@ -447,7 +441,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Polygone:
+	case *Polygone:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":
@@ -457,7 +451,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Polyline:
+	case *Polyline:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":
@@ -467,7 +461,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Rect:
+	case *Rect:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":
@@ -477,7 +471,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.RectAnchoredPath:
+	case *RectAnchoredPath:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Rect":
@@ -487,7 +481,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.RectAnchoredRect:
+	case *RectAnchoredRect:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Rect":
@@ -497,7 +491,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.RectAnchoredText:
+	case *RectAnchoredText:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Rect":
@@ -507,7 +501,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.RectLinkLink:
+	case *RectLinkLink:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":
@@ -517,17 +511,17 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.SVG:
+	case *SVG:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.SvgText:
+	case *SvgText:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Text:
+	case *Text:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Layer":

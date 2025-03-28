@@ -1,20 +1,15 @@
 // generated code - do not edit
-package orm
-
-import (
-	"github.com/fullstack-lang/gong/go/models"
-)
+package models
 
 func GetReverseFieldOwnerName(
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+	stage *StageStruct,
 	instance any,
-	reverseField *models.ReverseField) (res string) {
+	reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.GongBasicField:
+	case *GongBasicField:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongStruct":
@@ -26,12 +21,12 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.GongEnum:
+	case *GongEnum:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.GongEnumValue:
+	case *GongEnumValue:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongEnum":
@@ -43,7 +38,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.GongLink:
+	case *GongLink:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongNote":
@@ -55,17 +50,17 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.GongNote:
+	case *GongNote:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.GongStruct:
+	case *GongStruct:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.GongTimeField:
+	case *GongTimeField:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongStruct":
@@ -77,12 +72,12 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Meta:
+	case *Meta:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.MetaReference:
+	case *MetaReference:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Meta":
@@ -94,12 +89,12 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.ModelPkg:
+	case *ModelPkg:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.PointerToGongStructField:
+	case *PointerToGongStructField:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongStruct":
@@ -111,7 +106,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.SliceOfPointerToGongStructField:
+	case *SliceOfPointerToGongStructField:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongStruct":
@@ -129,16 +124,15 @@ func GetReverseFieldOwnerName(
 	return
 }
 
-func GetReverseFieldOwner[T models.Gongstruct](
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+func GetReverseFieldOwner[T Gongstruct](
+	stage *StageStruct,
 	instance *T,
-	reverseField *models.ReverseField) (res any) {
+	reverseField *ReverseField) (res any) {
 
 	res = nil
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.GongBasicField:
+	case *GongBasicField:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongStruct":
@@ -148,12 +142,12 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.GongEnum:
+	case *GongEnum:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.GongEnumValue:
+	case *GongEnumValue:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongEnum":
@@ -163,7 +157,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.GongLink:
+	case *GongLink:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongNote":
@@ -173,17 +167,17 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.GongNote:
+	case *GongNote:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.GongStruct:
+	case *GongStruct:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.GongTimeField:
+	case *GongTimeField:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongStruct":
@@ -193,12 +187,12 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Meta:
+	case *Meta:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.MetaReference:
+	case *MetaReference:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Meta":
@@ -208,12 +202,12 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.ModelPkg:
+	case *ModelPkg:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.PointerToGongStructField:
+	case *PointerToGongStructField:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongStruct":
@@ -223,7 +217,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.SliceOfPointerToGongStructField:
+	case *SliceOfPointerToGongStructField:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongStruct":

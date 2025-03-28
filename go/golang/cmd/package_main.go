@@ -18,7 +18,7 @@ import (
 	"log"
 	"strconv"
 
-	//{{modelsImportDirective}}	
+	// insertion point for models import{{modelsImportDirective}}
 	{{pkgname}}_stack "{{PkgPathRoot}}/stack"
 	{{pkgname}}_static "{{PkgPathRoot}}/static"
 )
@@ -49,7 +49,7 @@ func main() {
 	stack := {{pkgname}}_stack.NewStack(r, "{{pkgname}}", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
 
-	//{{newStagerCall}}
+	// insertion point for call to stager{{newStagerCall}}
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
@@ -77,6 +77,9 @@ func CodeGeneratorPackageMain(
 		if !skipStager {
 			codeGo = strings.ReplaceAll(codeGo, "{{modelsImportDirective}}", modelsImportDirective)
 			codeGo = strings.ReplaceAll(codeGo, "{{newStagerCall}}", newStagerCall)
+		} else {
+			codeGo = strings.ReplaceAll(codeGo, "{{modelsImportDirective}}", "")
+			codeGo = strings.ReplaceAll(codeGo, "{{newStagerCall}}", "")
 		}
 
 		caserEnglish := cases.Title(language.English)
