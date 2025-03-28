@@ -714,12 +714,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					case "AsSplitArea":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "AsSplits":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							target := __gong__map_AsSplit[targetIdentifier]
-							__gong__map_AsSplitArea[identifier].AsSplits =
-								append(__gong__map_AsSplitArea[identifier].AsSplits, target)
 						}
 					case "Button":
 						switch fieldName {
@@ -1046,6 +1040,9 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_AsSplitArea[identifier].IsAny = fielValue
+				case "AsSplit":
+					targetIdentifier := ident.Name
+					__gong__map_AsSplitArea[identifier].AsSplit = __gong__map_AsSplit[targetIdentifier]
 				case "Button":
 					targetIdentifier := ident.Name
 					__gong__map_AsSplitArea[identifier].Button = __gong__map_Button[targetIdentifier]

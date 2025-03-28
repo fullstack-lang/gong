@@ -257,60 +257,54 @@ func main() {
 		Name: "Spliting views",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
-				AsSplits: []*split.AsSplit{
-					(&split.AsSplit{
-						Name:      "as split",
-						Direction: split.Horizontal,
-						AsSplitAreas: []*split.AsSplitArea{
-							(&split.AsSplitArea{
-								Name:             "Top",
-								Size:             50,
-								ShowNameInHeader: true,
-								AsSplits: []*split.AsSplit{
-									(&split.AsSplit{
-										Name:      "as split",
-										Direction: split.Horizontal,
-										AsSplitAreas: []*split.AsSplitArea{
-											(&split.AsSplitArea{
-												Name:             "Top",
-												Size:             50,
-												ShowNameInHeader: true,
-											}).Stage(splitStage),
-											(&split.AsSplitArea{
-												Name:             "Bottom",
-												Size:             50,
-												ShowNameInHeader: true,
-											}).Stage(splitStage),
-										},
+				AsSplit: (&split.AsSplit{
+					Name:      "as split",
+					Direction: split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						(&split.AsSplitArea{
+							Name:             "Top",
+							Size:             50,
+							ShowNameInHeader: true,
+							AsSplit: (&split.AsSplit{
+								Name:      "as split",
+								Direction: split.Horizontal,
+								AsSplitAreas: []*split.AsSplitArea{
+									(&split.AsSplitArea{
+										Name:             "Top",
+										Size:             50,
+										ShowNameInHeader: true,
+									}).Stage(splitStage),
+									(&split.AsSplitArea{
+										Name:             "Bottom",
+										Size:             50,
+										ShowNameInHeader: true,
 									}).Stage(splitStage),
 								},
 							}).Stage(splitStage),
-							(&split.AsSplitArea{
-								Name:             "Bottom",
-								Size:             50,
-								ShowNameInHeader: true,
-								AsSplits: []*split.AsSplit{
-									(&split.AsSplit{
-										Name:      "as split",
-										Direction: split.Horizontal,
-										AsSplitAreas: []*split.AsSplitArea{
-											(&split.AsSplitArea{
-												Name:             "Top",
-												Size:             50,
-												ShowNameInHeader: true,
-											}).Stage(splitStage),
-											(&split.AsSplitArea{
-												Name:             "Bottom",
-												Size:             50,
-												ShowNameInHeader: true,
-											}).Stage(splitStage),
-										},
+						}).Stage(splitStage),
+						(&split.AsSplitArea{
+							Name:             "Bottom",
+							Size:             50,
+							ShowNameInHeader: true,
+							AsSplit: (&split.AsSplit{
+								Name:      "as split",
+								Direction: split.Horizontal,
+								AsSplitAreas: []*split.AsSplitArea{
+									(&split.AsSplitArea{
+										Name:             "Top",
+										Size:             50,
+										ShowNameInHeader: true,
+									}).Stage(splitStage),
+									(&split.AsSplitArea{
+										Name:             "Bottom",
+										Size:             50,
+										ShowNameInHeader: true,
 									}).Stage(splitStage),
 								},
 							}).Stage(splitStage),
-						},
-					}).Stage(splitStage),
-				},
+						}).Stage(splitStage),
+					},
+				}).Stage(splitStage),
 			}).Stage(splitStage),
 		},
 	}).Stage(splitStage)
