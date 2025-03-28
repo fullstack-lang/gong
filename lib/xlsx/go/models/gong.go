@@ -261,10 +261,29 @@ func NewStage(name string) (stage *StageStruct) {
 
 		XLSheetMap_Staged_Order: make(map[*XLSheet]uint),
 
-		// end of inssetion point
+		// end of insertion point
 	}
 
 	return
+}
+
+func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
+
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations
+	case *DisplaySelection:
+		return stage.DisplaySelectionMap_Staged_Order[instance]
+	case *XLCell:
+		return stage.XLCellMap_Staged_Order[instance]
+	case *XLFile:
+		return stage.XLFileMap_Staged_Order[instance]
+	case *XLRow:
+		return stage.XLRowMap_Staged_Order[instance]
+	case *XLSheet:
+		return stage.XLSheetMap_Staged_Order[instance]
+	default:
+		return 0 // should not happen
+	}
 }
 
 func (stage *StageStruct) GetName() string {
