@@ -96,7 +96,7 @@ map[GetReverseFieldOwnerNameSubTemplateId]string{
 			}`,
 }
 
-func CodeGeneratorGetReverseFieldOwnerName(
+func CodeGeneratorGongReverse(
 	modelPkg *models.ModelPkg,
 	pkgName string,
 	pkgPath string,
