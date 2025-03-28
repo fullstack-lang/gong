@@ -325,6 +325,8 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Cursors = make(map[*Cursor]any)
 	stage.Cursors_mapString = make(map[string]*Cursor)
+	stage.CursorMap_Staged_Order = make(map[*Cursor]uint)
+	stage.CursorOrder = 0
 
 }
 

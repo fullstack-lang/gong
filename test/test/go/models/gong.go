@@ -821,24 +821,38 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Astructs = make(map[*Astruct]any)
 	stage.Astructs_mapString = make(map[string]*Astruct)
+	stage.AstructMap_Staged_Order = make(map[*Astruct]uint)
+	stage.AstructOrder = 0
 
 	stage.AstructBstruct2Uses = make(map[*AstructBstruct2Use]any)
 	stage.AstructBstruct2Uses_mapString = make(map[string]*AstructBstruct2Use)
+	stage.AstructBstruct2UseMap_Staged_Order = make(map[*AstructBstruct2Use]uint)
+	stage.AstructBstruct2UseOrder = 0
 
 	stage.AstructBstructUses = make(map[*AstructBstructUse]any)
 	stage.AstructBstructUses_mapString = make(map[string]*AstructBstructUse)
+	stage.AstructBstructUseMap_Staged_Order = make(map[*AstructBstructUse]uint)
+	stage.AstructBstructUseOrder = 0
 
 	stage.Bstructs = make(map[*Bstruct]any)
 	stage.Bstructs_mapString = make(map[string]*Bstruct)
+	stage.BstructMap_Staged_Order = make(map[*Bstruct]uint)
+	stage.BstructOrder = 0
 
 	stage.Dstructs = make(map[*Dstruct]any)
 	stage.Dstructs_mapString = make(map[string]*Dstruct)
+	stage.DstructMap_Staged_Order = make(map[*Dstruct]uint)
+	stage.DstructOrder = 0
 
 	stage.Fstructs = make(map[*Fstruct]any)
 	stage.Fstructs_mapString = make(map[string]*Fstruct)
+	stage.FstructMap_Staged_Order = make(map[*Fstruct]uint)
+	stage.FstructOrder = 0
 
 	stage.Gstructs = make(map[*Gstruct]any)
 	stage.Gstructs_mapString = make(map[string]*Gstruct)
+	stage.GstructMap_Staged_Order = make(map[*Gstruct]uint)
+	stage.GstructOrder = 0
 
 }
 
