@@ -1,20 +1,15 @@
 // generated code - do not edit
-package orm
-
-import (
-	"github.com/fullstack-lang/gong/lib/doc/go/models"
-)
+package models
 
 func GetReverseFieldOwnerName(
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+	stage *StageStruct,
 	instance any,
-	reverseField *models.ReverseField) (res string) {
+	reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.Classdiagram:
+	case *Classdiagram:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "DiagramPackage":
@@ -26,12 +21,12 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.DiagramPackage:
+	case *DiagramPackage:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Field:
+	case *Field:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongStructShape":
@@ -43,7 +38,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.GongEnumShape:
+	case *GongEnumShape:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Classdiagram":
@@ -55,7 +50,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.GongEnumValueEntry:
+	case *GongEnumValueEntry:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongEnumShape":
@@ -67,7 +62,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.GongStructShape:
+	case *GongStructShape:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Classdiagram":
@@ -79,7 +74,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Link:
+	case *Link:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongStructShape":
@@ -91,7 +86,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.NoteShape:
+	case *NoteShape:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Classdiagram":
@@ -103,7 +98,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.NoteShapeLink:
+	case *NoteShapeLink:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "NoteShape":
@@ -115,12 +110,12 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Position:
+	case *Position:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.UmlState:
+	case *UmlState:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Umlsc":
@@ -132,7 +127,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Umlsc:
+	case *Umlsc:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "DiagramPackage":
@@ -144,7 +139,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Vertice:
+	case *Vertice:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
@@ -155,16 +150,15 @@ func GetReverseFieldOwnerName(
 	return
 }
 
-func GetReverseFieldOwner[T models.Gongstruct](
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+func GetReverseFieldOwner[T Gongstruct](
+	stage *StageStruct,
 	instance *T,
-	reverseField *models.ReverseField) (res any) {
+	reverseField *ReverseField) (res any) {
 
 	res = nil
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.Classdiagram:
+	case *Classdiagram:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "DiagramPackage":
@@ -174,12 +168,12 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.DiagramPackage:
+	case *DiagramPackage:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Field:
+	case *Field:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongStructShape":
@@ -189,7 +183,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.GongEnumShape:
+	case *GongEnumShape:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Classdiagram":
@@ -199,7 +193,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.GongEnumValueEntry:
+	case *GongEnumValueEntry:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongEnumShape":
@@ -209,7 +203,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.GongStructShape:
+	case *GongStructShape:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Classdiagram":
@@ -219,7 +213,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Link:
+	case *Link:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongStructShape":
@@ -229,7 +223,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.NoteShape:
+	case *NoteShape:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Classdiagram":
@@ -239,7 +233,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.NoteShapeLink:
+	case *NoteShapeLink:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "NoteShape":
@@ -249,12 +243,12 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Position:
+	case *Position:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.UmlState:
+	case *UmlState:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Umlsc":
@@ -264,7 +258,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Umlsc:
+	case *Umlsc:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "DiagramPackage":
@@ -274,7 +268,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Vertice:
+	case *Vertice:
 		switch reverseField.GongstructName {
 		// insertion point
 		}

@@ -151,9 +151,8 @@ func (bFormCallback *BFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "A"
 			rf.Fieldname = "Bs"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				bFormCallback.probe.stageOfInterest,
-				bFormCallback.probe.backRepoOfInterest,
 				b_,
 				&rf)
 

@@ -1,20 +1,15 @@
 // generated code - do not edit
-package orm
-
-import (
-	"github.com/fullstack-lang/gong/lib/table/go/models"
-)
+package models
 
 func GetReverseFieldOwnerName(
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+	stage *StageStruct,
 	instance any,
-	reverseField *models.ReverseField) (res string) {
+	reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.Cell:
+	case *Cell:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Row":
@@ -26,32 +21,32 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.CellBoolean:
+	case *CellBoolean:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.CellFloat64:
+	case *CellFloat64:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.CellIcon:
+	case *CellIcon:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.CellInt:
+	case *CellInt:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.CellString:
+	case *CellString:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.CheckBox:
+	case *CheckBox:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "FormDiv":
@@ -63,7 +58,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.DisplayedColumn:
+	case *DisplayedColumn:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Table":
@@ -75,7 +70,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.FormDiv:
+	case *FormDiv:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "FormGroup":
@@ -87,12 +82,12 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.FormEditAssocButton:
+	case *FormEditAssocButton:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.FormField:
+	case *FormField:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "FormDiv":
@@ -104,52 +99,52 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.FormFieldDate:
+	case *FormFieldDate:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.FormFieldDateTime:
+	case *FormFieldDateTime:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.FormFieldFloat64:
+	case *FormFieldFloat64:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.FormFieldInt:
+	case *FormFieldInt:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.FormFieldSelect:
+	case *FormFieldSelect:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.FormFieldString:
+	case *FormFieldString:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.FormFieldTime:
+	case *FormFieldTime:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.FormGroup:
+	case *FormGroup:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.FormSortAssocButton:
+	case *FormSortAssocButton:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Option:
+	case *Option:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "FormFieldSelect":
@@ -161,7 +156,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Row:
+	case *Row:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Table":
@@ -173,7 +168,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Table:
+	case *Table:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
@@ -184,16 +179,15 @@ func GetReverseFieldOwnerName(
 	return
 }
 
-func GetReverseFieldOwner[T models.Gongstruct](
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+func GetReverseFieldOwner[T Gongstruct](
+	stage *StageStruct,
 	instance *T,
-	reverseField *models.ReverseField) (res any) {
+	reverseField *ReverseField) (res any) {
 
 	res = nil
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.Cell:
+	case *Cell:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Row":
@@ -203,32 +197,32 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.CellBoolean:
+	case *CellBoolean:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.CellFloat64:
+	case *CellFloat64:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.CellIcon:
+	case *CellIcon:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.CellInt:
+	case *CellInt:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.CellString:
+	case *CellString:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.CheckBox:
+	case *CheckBox:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "FormDiv":
@@ -238,7 +232,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.DisplayedColumn:
+	case *DisplayedColumn:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Table":
@@ -248,7 +242,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.FormDiv:
+	case *FormDiv:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "FormGroup":
@@ -258,12 +252,12 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.FormEditAssocButton:
+	case *FormEditAssocButton:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.FormField:
+	case *FormField:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "FormDiv":
@@ -273,52 +267,52 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.FormFieldDate:
+	case *FormFieldDate:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.FormFieldDateTime:
+	case *FormFieldDateTime:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.FormFieldFloat64:
+	case *FormFieldFloat64:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.FormFieldInt:
+	case *FormFieldInt:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.FormFieldSelect:
+	case *FormFieldSelect:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.FormFieldString:
+	case *FormFieldString:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.FormFieldTime:
+	case *FormFieldTime:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.FormGroup:
+	case *FormGroup:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.FormSortAssocButton:
+	case *FormSortAssocButton:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Option:
+	case *Option:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "FormFieldSelect":
@@ -328,7 +322,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Row:
+	case *Row:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Table":
@@ -338,7 +332,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Table:
+	case *Table:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
