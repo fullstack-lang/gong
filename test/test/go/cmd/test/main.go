@@ -5,7 +5,7 @@ import (
 	"log"
 	"strconv"
 
-	test_models "github.com/fullstack-lang/gong/test/test/go/models"
+	// insertion point for models import
 	test_stack "github.com/fullstack-lang/gong/test/test/go/stack"
 	test_static "github.com/fullstack-lang/gong/test/test/go/static"
 )
@@ -36,7 +36,7 @@ func main() {
 	stack := test_stack.NewStack(r, "test", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
 
-	test_models.NewStager(r, stack.Stage)
+	// insertion point for call to stager
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
