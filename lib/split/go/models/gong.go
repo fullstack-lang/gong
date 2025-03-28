@@ -428,10 +428,47 @@ func NewStage(name string) (stage *StageStruct) {
 
 		ViewMap_Staged_Order: make(map[*View]uint),
 
-		// end of inssetion point
+		// end of insertion point
 	}
 
 	return
+}
+
+func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
+
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations
+	case *AsSplit:
+		return stage.AsSplitMap_Staged_Order[instance]
+	case *AsSplitArea:
+		return stage.AsSplitAreaMap_Staged_Order[instance]
+	case *Button:
+		return stage.ButtonMap_Staged_Order[instance]
+	case *Cursor:
+		return stage.CursorMap_Staged_Order[instance]
+	case *Doc:
+		return stage.DocMap_Staged_Order[instance]
+	case *Form:
+		return stage.FormMap_Staged_Order[instance]
+	case *Load:
+		return stage.LoadMap_Staged_Order[instance]
+	case *Slider:
+		return stage.SliderMap_Staged_Order[instance]
+	case *Split:
+		return stage.SplitMap_Staged_Order[instance]
+	case *Svg:
+		return stage.SvgMap_Staged_Order[instance]
+	case *Table:
+		return stage.TableMap_Staged_Order[instance]
+	case *Tone:
+		return stage.ToneMap_Staged_Order[instance]
+	case *Tree:
+		return stage.TreeMap_Staged_Order[instance]
+	case *View:
+		return stage.ViewMap_Staged_Order[instance]
+	default:
+		return 0 // should not happen
+	}
 }
 
 func (stage *StageStruct) GetName() string {

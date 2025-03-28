@@ -305,10 +305,33 @@ func NewStage(name string) (stage *StageStruct) {
 
 		MilestoneMap_Staged_Order: make(map[*Milestone]uint),
 
-		// end of inssetion point
+		// end of insertion point
 	}
 
 	return
+}
+
+func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
+
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations
+	case *Arrow:
+		return stage.ArrowMap_Staged_Order[instance]
+	case *Bar:
+		return stage.BarMap_Staged_Order[instance]
+	case *Gantt:
+		return stage.GanttMap_Staged_Order[instance]
+	case *Group:
+		return stage.GroupMap_Staged_Order[instance]
+	case *Lane:
+		return stage.LaneMap_Staged_Order[instance]
+	case *LaneUse:
+		return stage.LaneUseMap_Staged_Order[instance]
+	case *Milestone:
+		return stage.MilestoneMap_Staged_Order[instance]
+	default:
+		return 0 // should not happen
+	}
 }
 
 func (stage *StageStruct) GetName() string {
