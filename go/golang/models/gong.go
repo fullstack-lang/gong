@@ -52,6 +52,9 @@ const (
 	ModelGongStructInsertionGenericInstancesMapFunctions
 	ModelGongStructInsertionGenericGetAssociationNameFunctions
 
+	ModelGongOrderFields
+	ModelGongOrderMapsInit
+
 	ModelGongStructInsertionsNb
 )
 
@@ -88,8 +91,8 @@ func ({{structname}} *{{Structname}}) Stage(stage *StageStruct) *{{Structname}} 
 
 	if _, ok := stage.{{Structname}}s[{{structname}}]; !ok {
 		stage.{{Structname}}s[{{structname}}] = __member
-		stage.Map_Staged_Order[{{structname}}] = stage.Order
-		stage.Order++
+		stage.{{Structname}}Map_Staged_Order[{{structname}}] = stage.{{Structname}}Order
+		stage.{{Structname}}Order++
 	}
 	stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
 
@@ -263,6 +266,15 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 		return any(&{{Structname}}{
 			// Initialisation of associations{{associationFieldInitialization}}
 		}).(*Type)`,
+
+	ModelGongOrderFields: `
+	{{Structname}}Order            uint
+	{{Structname}}Map_Staged_Order map[*{{Structname}}]uint
+`,
+
+	ModelGongOrderMapsInit: `
+		{{Structname}}Map_Staged_Order: make(map[*{{Structname}}]uint),
+`,
 }
 
 // Sub sub Templates identifiers per gong field

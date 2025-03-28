@@ -38,8 +38,8 @@ map[ModelGongMarshallStructInsertionId]string{
 	sort.Slice({{structname}}Ordered[:], func(i, j int) bool {
 		{{structname}}i := {{structname}}Ordered[i]
 		{{structname}}j := {{structname}}Ordered[j]
-		{{structname}}i_order, oki := stage.Map_Staged_Order[{{structname}}i]
-		{{structname}}j_order, okj := stage.Map_Staged_Order[{{structname}}j]
+		{{structname}}i_order, oki := stage.{{Structname}}Map_Staged_Order[{{structname}}i]
+		{{structname}}j_order, okj := stage.{{Structname}}Map_Staged_Order[{{structname}}j]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}

@@ -172,8 +172,29 @@ type StageStruct struct {
 
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
-	Order            uint
-	Map_Staged_Order map[any]uint
+	// insertion point for order fields declaration
+	AstructOrder            uint
+	AstructMap_Staged_Order map[*Astruct]uint
+
+	AstructBstruct2UseOrder            uint
+	AstructBstruct2UseMap_Staged_Order map[*AstructBstruct2Use]uint
+
+	AstructBstructUseOrder            uint
+	AstructBstructUseMap_Staged_Order map[*AstructBstructUse]uint
+
+	BstructOrder            uint
+	BstructMap_Staged_Order map[*Bstruct]uint
+
+	DstructOrder            uint
+	DstructMap_Staged_Order map[*Dstruct]uint
+
+	FstructOrder            uint
+	FstructMap_Staged_Order map[*Fstruct]uint
+
+	GstructOrder            uint
+	GstructMap_Staged_Order map[*Gstruct]uint
+
+	// end of insertion point
 }
 
 func (stage *StageStruct) GetType() string {
@@ -271,7 +292,22 @@ func NewStage(name string) (stage *StageStruct) {
 		Map_DocLink_Renaming: make(map[string]GONG__Identifier),
 		// the to be removed stops here
 
-		Map_Staged_Order: make(map[any]uint),
+		// insertion point for order map initialisations
+		AstructMap_Staged_Order: make(map[*Astruct]uint),
+
+		AstructBstruct2UseMap_Staged_Order: make(map[*AstructBstruct2Use]uint),
+
+		AstructBstructUseMap_Staged_Order: make(map[*AstructBstructUse]uint),
+
+		BstructMap_Staged_Order: make(map[*Bstruct]uint),
+
+		DstructMap_Staged_Order: make(map[*Dstruct]uint),
+
+		FstructMap_Staged_Order: make(map[*Fstruct]uint),
+
+		GstructMap_Staged_Order: make(map[*Gstruct]uint),
+
+		// end of inssetion point
 	}
 
 	return
@@ -358,8 +394,8 @@ func (astruct *Astruct) Stage(stage *StageStruct) *Astruct {
 
 	if _, ok := stage.Astructs[astruct]; !ok {
 		stage.Astructs[astruct] = __member
-		stage.Map_Staged_Order[astruct] = stage.Order
-		stage.Order++
+		stage.AstructMap_Staged_Order[astruct] = stage.AstructOrder
+		stage.AstructOrder++
 	}
 	stage.Astructs_mapString[astruct.Name] = astruct
 
@@ -413,8 +449,8 @@ func (astructbstruct2use *AstructBstruct2Use) Stage(stage *StageStruct) *Astruct
 
 	if _, ok := stage.AstructBstruct2Uses[astructbstruct2use]; !ok {
 		stage.AstructBstruct2Uses[astructbstruct2use] = __member
-		stage.Map_Staged_Order[astructbstruct2use] = stage.Order
-		stage.Order++
+		stage.AstructBstruct2UseMap_Staged_Order[astructbstruct2use] = stage.AstructBstruct2UseOrder
+		stage.AstructBstruct2UseOrder++
 	}
 	stage.AstructBstruct2Uses_mapString[astructbstruct2use.Name] = astructbstruct2use
 
@@ -468,8 +504,8 @@ func (astructbstructuse *AstructBstructUse) Stage(stage *StageStruct) *AstructBs
 
 	if _, ok := stage.AstructBstructUses[astructbstructuse]; !ok {
 		stage.AstructBstructUses[astructbstructuse] = __member
-		stage.Map_Staged_Order[astructbstructuse] = stage.Order
-		stage.Order++
+		stage.AstructBstructUseMap_Staged_Order[astructbstructuse] = stage.AstructBstructUseOrder
+		stage.AstructBstructUseOrder++
 	}
 	stage.AstructBstructUses_mapString[astructbstructuse.Name] = astructbstructuse
 
@@ -523,8 +559,8 @@ func (bstruct *Bstruct) Stage(stage *StageStruct) *Bstruct {
 
 	if _, ok := stage.Bstructs[bstruct]; !ok {
 		stage.Bstructs[bstruct] = __member
-		stage.Map_Staged_Order[bstruct] = stage.Order
-		stage.Order++
+		stage.BstructMap_Staged_Order[bstruct] = stage.BstructOrder
+		stage.BstructOrder++
 	}
 	stage.Bstructs_mapString[bstruct.Name] = bstruct
 
@@ -578,8 +614,8 @@ func (dstruct *Dstruct) Stage(stage *StageStruct) *Dstruct {
 
 	if _, ok := stage.Dstructs[dstruct]; !ok {
 		stage.Dstructs[dstruct] = __member
-		stage.Map_Staged_Order[dstruct] = stage.Order
-		stage.Order++
+		stage.DstructMap_Staged_Order[dstruct] = stage.DstructOrder
+		stage.DstructOrder++
 	}
 	stage.Dstructs_mapString[dstruct.Name] = dstruct
 
@@ -633,8 +669,8 @@ func (fstruct *Fstruct) Stage(stage *StageStruct) *Fstruct {
 
 	if _, ok := stage.Fstructs[fstruct]; !ok {
 		stage.Fstructs[fstruct] = __member
-		stage.Map_Staged_Order[fstruct] = stage.Order
-		stage.Order++
+		stage.FstructMap_Staged_Order[fstruct] = stage.FstructOrder
+		stage.FstructOrder++
 	}
 	stage.Fstructs_mapString[fstruct.Name] = fstruct
 
@@ -688,8 +724,8 @@ func (gstruct *Gstruct) Stage(stage *StageStruct) *Gstruct {
 
 	if _, ok := stage.Gstructs[gstruct]; !ok {
 		stage.Gstructs[gstruct] = __member
-		stage.Map_Staged_Order[gstruct] = stage.Order
-		stage.Order++
+		stage.GstructMap_Staged_Order[gstruct] = stage.GstructOrder
+		stage.GstructOrder++
 	}
 	stage.Gstructs_mapString[gstruct.Name] = gstruct
 
