@@ -307,7 +307,7 @@ func NewStage(name string) (stage *StageStruct) {
 
 		GstructMap_Staged_Order: make(map[*Gstruct]uint),
 
-		// end of inssetion point
+		// end of insertion point
 	}
 
 	return
@@ -318,11 +318,23 @@ func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
 	var ret *Type
 
 	switch instance := any(ret).(type) {
-	// insertion point for generic get functions
+	// insertion point for order map initialisations
 	case *Astruct:
 		return stage.AstructMap_Staged_Order[instance]
+	case *AstructBstruct2Use:
+		return stage.AstructBstruct2UseMap_Staged_Order[instance]
+	case *AstructBstructUse:
+		return stage.AstructBstructUseMap_Staged_Order[instance]
+	case *Bstruct:
+		return stage.BstructMap_Staged_Order[instance]
+	case *Dstruct:
+		return stage.DstructMap_Staged_Order[instance]
+	case *Fstruct:
+		return stage.FstructMap_Staged_Order[instance]
+	case *Gstruct:
+		return stage.GstructMap_Staged_Order[instance]
 	default:
-		return 0
+		return 0 // should not happen
 	}
 }
 
