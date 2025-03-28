@@ -13,18 +13,13 @@ import (
 	"golang.org/x/text/language"
 )
 
-const GetReverseFieldOwnerName = `// generated code - do not edit
-package orm
-
-import (
-	"{{PkgPathRoot}}/models"
-)
+const GongReverse = `// generated code - do not edit
+package models
 
 func GetReverseFieldOwnerName(
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+	stage *StageStruct,
 	instance any,
-	reverseField *models.ReverseField) (res string) {
+	reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch inst := any(instance).(type) {
@@ -35,11 +30,10 @@ func GetReverseFieldOwnerName(
 	return
 }
 
-func GetReverseFieldOwner[T models.Gongstruct](
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+func GetReverseFieldOwner[T Gongstruct](
+	stage *StageStruct,
 	instance *T,
-	reverseField *models.ReverseField) (res any) {
+	reverseField *ReverseField) (res any) {
 
 	res = nil
 	switch inst := any(instance).(type) {
@@ -62,13 +56,13 @@ const (
 var GetReverseFieldOwnerNameSubTemplateCode map[GetReverseFieldOwnerNameId]string = // new line
 map[GetReverseFieldOwnerNameId]string{
 	GetReverseFieldOwnerNameSwitch: `
-	case *models.{{Structname}}:
+	case *{{Structname}}:
 		switch reverseField.GongstructName {
 		// insertion point{{fieldToFormCodeName}}
 		}
 `,
 	GetReverseFieldOwnerSwitch: `
-	case *models.{{Structname}}:
+	case *{{Structname}}:
 		switch reverseField.GongstructName {
 		// insertion point{{fieldToFormCode}}
 		}
@@ -109,7 +103,7 @@ func CodeGeneratorGetReverseFieldOwnerName(
 	pkgGoPath string) {
 
 	// generate the typescript file
-	codeGO := GetReverseFieldOwnerName
+	codeGO := GongReverse
 
 	subStructCodes := make(map[GetReverseFieldOwnerNameId]string)
 	for subStructTemplate := range GetReverseFieldOwnerNameSubTemplateCode {
@@ -240,11 +234,10 @@ func CodeGeneratorGetReverseFieldOwnerName(
 		"{{TitlePkgName}}", caserEnglish.String(pkgName),
 		"{{pkgname}}", strings.ToLower(pkgName),
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def
-
 		"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""),
 	)
 
-	file, err := os.Create(filepath.Join(pkgPath, "../orm/get_reverse_field_owner_name.go"))
+	file, err := os.Create(filepath.Join(pkgPath, "gong_reverse.go"))
 	if err != nil {
 		log.Panic(err)
 	}
