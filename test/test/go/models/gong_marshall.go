@@ -104,8 +104,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(astructOrdered[:], func(i, j int) bool {
 		astructi := astructOrdered[i]
 		astructj := astructOrdered[j]
-		astructi_order, oki := stage.Map_Staged_Order[astructi]
-		astructj_order, okj := stage.Map_Staged_Order[astructj]
+		astructi_order, oki := stage.AstructMap_Staged_Order[astructi]
+		astructj_order, okj := stage.AstructMap_Staged_Order[astructj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -295,8 +295,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(astructbstruct2useOrdered[:], func(i, j int) bool {
 		astructbstruct2usei := astructbstruct2useOrdered[i]
 		astructbstruct2usej := astructbstruct2useOrdered[j]
-		astructbstruct2usei_order, oki := stage.Map_Staged_Order[astructbstruct2usei]
-		astructbstruct2usej_order, okj := stage.Map_Staged_Order[astructbstruct2usej]
+		astructbstruct2usei_order, oki := stage.AstructBstruct2UseMap_Staged_Order[astructbstruct2usei]
+		astructbstruct2usej_order, okj := stage.AstructBstruct2UseMap_Staged_Order[astructbstruct2usej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -336,8 +336,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(astructbstructuseOrdered[:], func(i, j int) bool {
 		astructbstructusei := astructbstructuseOrdered[i]
 		astructbstructusej := astructbstructuseOrdered[j]
-		astructbstructusei_order, oki := stage.Map_Staged_Order[astructbstructusei]
-		astructbstructusej_order, okj := stage.Map_Staged_Order[astructbstructusej]
+		astructbstructusei_order, oki := stage.AstructBstructUseMap_Staged_Order[astructbstructusei]
+		astructbstructusej_order, okj := stage.AstructBstructUseMap_Staged_Order[astructbstructusej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -377,8 +377,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(bstructOrdered[:], func(i, j int) bool {
 		bstructi := bstructOrdered[i]
 		bstructj := bstructOrdered[j]
-		bstructi_order, oki := stage.Map_Staged_Order[bstructi]
-		bstructj_order, okj := stage.Map_Staged_Order[bstructj]
+		bstructi_order, oki := stage.BstructMap_Staged_Order[bstructi]
+		bstructj_order, okj := stage.BstructMap_Staged_Order[bstructj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -436,8 +436,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(dstructOrdered[:], func(i, j int) bool {
 		dstructi := dstructOrdered[i]
 		dstructj := dstructOrdered[j]
-		dstructi_order, oki := stage.Map_Staged_Order[dstructi]
-		dstructj_order, okj := stage.Map_Staged_Order[dstructj]
+		dstructi_order, oki := stage.DstructMap_Staged_Order[dstructi]
+		dstructj_order, okj := stage.DstructMap_Staged_Order[dstructj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -477,8 +477,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(fstructOrdered[:], func(i, j int) bool {
 		fstructi := fstructOrdered[i]
 		fstructj := fstructOrdered[j]
-		fstructi_order, oki := stage.Map_Staged_Order[fstructi]
-		fstructj_order, okj := stage.Map_Staged_Order[fstructj]
+		fstructi_order, oki := stage.FstructMap_Staged_Order[fstructi]
+		fstructj_order, okj := stage.FstructMap_Staged_Order[fstructj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -524,8 +524,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(gstructOrdered[:], func(i, j int) bool {
 		gstructi := gstructOrdered[i]
 		gstructj := gstructOrdered[j]
-		gstructi_order, oki := stage.Map_Staged_Order[gstructi]
-		gstructj_order, okj := stage.Map_Staged_Order[gstructj]
+		gstructi_order, oki := stage.GstructMap_Staged_Order[gstructi]
+		gstructj_order, okj := stage.GstructMap_Staged_Order[gstructj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}

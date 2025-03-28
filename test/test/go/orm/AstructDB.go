@@ -319,7 +319,7 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseOne(stage *models.Stage
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(astructs, func(i, j int) bool {
-		return stage.Map_Staged_Order[astructs[i]] < stage.Map_Staged_Order[astructs[j]]
+		return stage.AstructMap_Staged_Order[astructs[i]] < stage.AstructMap_Staged_Order[astructs[j]]
 	})
 
 	for _, astruct := range astructs {
