@@ -571,15 +571,23 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Checkboxs = make(map[*Checkbox]any)
 	stage.Checkboxs_mapString = make(map[string]*Checkbox)
+	stage.CheckboxMap_Staged_Order = make(map[*Checkbox]uint)
+	stage.CheckboxOrder = 0
 
 	stage.Groups = make(map[*Group]any)
 	stage.Groups_mapString = make(map[string]*Group)
+	stage.GroupMap_Staged_Order = make(map[*Group]uint)
+	stage.GroupOrder = 0
 
 	stage.Layouts = make(map[*Layout]any)
 	stage.Layouts_mapString = make(map[string]*Layout)
+	stage.LayoutMap_Staged_Order = make(map[*Layout]uint)
+	stage.LayoutOrder = 0
 
 	stage.Sliders = make(map[*Slider]any)
 	stage.Sliders_mapString = make(map[string]*Slider)
+	stage.SliderMap_Staged_Order = make(map[*Slider]uint)
+	stage.SliderOrder = 0
 
 }
 

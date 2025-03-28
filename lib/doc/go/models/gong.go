@@ -1305,42 +1305,68 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Classdiagrams = make(map[*Classdiagram]any)
 	stage.Classdiagrams_mapString = make(map[string]*Classdiagram)
+	stage.ClassdiagramMap_Staged_Order = make(map[*Classdiagram]uint)
+	stage.ClassdiagramOrder = 0
 
 	stage.DiagramPackages = make(map[*DiagramPackage]any)
 	stage.DiagramPackages_mapString = make(map[string]*DiagramPackage)
+	stage.DiagramPackageMap_Staged_Order = make(map[*DiagramPackage]uint)
+	stage.DiagramPackageOrder = 0
 
 	stage.Fields = make(map[*Field]any)
 	stage.Fields_mapString = make(map[string]*Field)
+	stage.FieldMap_Staged_Order = make(map[*Field]uint)
+	stage.FieldOrder = 0
 
 	stage.GongEnumShapes = make(map[*GongEnumShape]any)
 	stage.GongEnumShapes_mapString = make(map[string]*GongEnumShape)
+	stage.GongEnumShapeMap_Staged_Order = make(map[*GongEnumShape]uint)
+	stage.GongEnumShapeOrder = 0
 
 	stage.GongEnumValueEntrys = make(map[*GongEnumValueEntry]any)
 	stage.GongEnumValueEntrys_mapString = make(map[string]*GongEnumValueEntry)
+	stage.GongEnumValueEntryMap_Staged_Order = make(map[*GongEnumValueEntry]uint)
+	stage.GongEnumValueEntryOrder = 0
 
 	stage.GongStructShapes = make(map[*GongStructShape]any)
 	stage.GongStructShapes_mapString = make(map[string]*GongStructShape)
+	stage.GongStructShapeMap_Staged_Order = make(map[*GongStructShape]uint)
+	stage.GongStructShapeOrder = 0
 
 	stage.Links = make(map[*Link]any)
 	stage.Links_mapString = make(map[string]*Link)
+	stage.LinkMap_Staged_Order = make(map[*Link]uint)
+	stage.LinkOrder = 0
 
 	stage.NoteShapes = make(map[*NoteShape]any)
 	stage.NoteShapes_mapString = make(map[string]*NoteShape)
+	stage.NoteShapeMap_Staged_Order = make(map[*NoteShape]uint)
+	stage.NoteShapeOrder = 0
 
 	stage.NoteShapeLinks = make(map[*NoteShapeLink]any)
 	stage.NoteShapeLinks_mapString = make(map[string]*NoteShapeLink)
+	stage.NoteShapeLinkMap_Staged_Order = make(map[*NoteShapeLink]uint)
+	stage.NoteShapeLinkOrder = 0
 
 	stage.Positions = make(map[*Position]any)
 	stage.Positions_mapString = make(map[string]*Position)
+	stage.PositionMap_Staged_Order = make(map[*Position]uint)
+	stage.PositionOrder = 0
 
 	stage.UmlStates = make(map[*UmlState]any)
 	stage.UmlStates_mapString = make(map[string]*UmlState)
+	stage.UmlStateMap_Staged_Order = make(map[*UmlState]uint)
+	stage.UmlStateOrder = 0
 
 	stage.Umlscs = make(map[*Umlsc]any)
 	stage.Umlscs_mapString = make(map[string]*Umlsc)
+	stage.UmlscMap_Staged_Order = make(map[*Umlsc]uint)
+	stage.UmlscOrder = 0
 
 	stage.Vertices = make(map[*Vertice]any)
 	stage.Vertices_mapString = make(map[string]*Vertice)
+	stage.VerticeMap_Staged_Order = make(map[*Vertice]uint)
+	stage.VerticeOrder = 0
 
 }
 

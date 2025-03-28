@@ -1369,45 +1369,73 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.AsSplits = make(map[*AsSplit]any)
 	stage.AsSplits_mapString = make(map[string]*AsSplit)
+	stage.AsSplitMap_Staged_Order = make(map[*AsSplit]uint)
+	stage.AsSplitOrder = 0
 
 	stage.AsSplitAreas = make(map[*AsSplitArea]any)
 	stage.AsSplitAreas_mapString = make(map[string]*AsSplitArea)
+	stage.AsSplitAreaMap_Staged_Order = make(map[*AsSplitArea]uint)
+	stage.AsSplitAreaOrder = 0
 
 	stage.Buttons = make(map[*Button]any)
 	stage.Buttons_mapString = make(map[string]*Button)
+	stage.ButtonMap_Staged_Order = make(map[*Button]uint)
+	stage.ButtonOrder = 0
 
 	stage.Cursors = make(map[*Cursor]any)
 	stage.Cursors_mapString = make(map[string]*Cursor)
+	stage.CursorMap_Staged_Order = make(map[*Cursor]uint)
+	stage.CursorOrder = 0
 
 	stage.Docs = make(map[*Doc]any)
 	stage.Docs_mapString = make(map[string]*Doc)
+	stage.DocMap_Staged_Order = make(map[*Doc]uint)
+	stage.DocOrder = 0
 
 	stage.Forms = make(map[*Form]any)
 	stage.Forms_mapString = make(map[string]*Form)
+	stage.FormMap_Staged_Order = make(map[*Form]uint)
+	stage.FormOrder = 0
 
 	stage.Loads = make(map[*Load]any)
 	stage.Loads_mapString = make(map[string]*Load)
+	stage.LoadMap_Staged_Order = make(map[*Load]uint)
+	stage.LoadOrder = 0
 
 	stage.Sliders = make(map[*Slider]any)
 	stage.Sliders_mapString = make(map[string]*Slider)
+	stage.SliderMap_Staged_Order = make(map[*Slider]uint)
+	stage.SliderOrder = 0
 
 	stage.Splits = make(map[*Split]any)
 	stage.Splits_mapString = make(map[string]*Split)
+	stage.SplitMap_Staged_Order = make(map[*Split]uint)
+	stage.SplitOrder = 0
 
 	stage.Svgs = make(map[*Svg]any)
 	stage.Svgs_mapString = make(map[string]*Svg)
+	stage.SvgMap_Staged_Order = make(map[*Svg]uint)
+	stage.SvgOrder = 0
 
 	stage.Tables = make(map[*Table]any)
 	stage.Tables_mapString = make(map[string]*Table)
+	stage.TableMap_Staged_Order = make(map[*Table]uint)
+	stage.TableOrder = 0
 
 	stage.Tones = make(map[*Tone]any)
 	stage.Tones_mapString = make(map[string]*Tone)
+	stage.ToneMap_Staged_Order = make(map[*Tone]uint)
+	stage.ToneOrder = 0
 
 	stage.Trees = make(map[*Tree]any)
 	stage.Trees_mapString = make(map[string]*Tree)
+	stage.TreeMap_Staged_Order = make(map[*Tree]uint)
+	stage.TreeOrder = 0
 
 	stage.Views = make(map[*View]any)
 	stage.Views_mapString = make(map[string]*View)
+	stage.ViewMap_Staged_Order = make(map[*View]uint)
+	stage.ViewOrder = 0
 
 }
 

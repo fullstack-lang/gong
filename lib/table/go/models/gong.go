@@ -2099,72 +2099,118 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Cells = make(map[*Cell]any)
 	stage.Cells_mapString = make(map[string]*Cell)
+	stage.CellMap_Staged_Order = make(map[*Cell]uint)
+	stage.CellOrder = 0
 
 	stage.CellBooleans = make(map[*CellBoolean]any)
 	stage.CellBooleans_mapString = make(map[string]*CellBoolean)
+	stage.CellBooleanMap_Staged_Order = make(map[*CellBoolean]uint)
+	stage.CellBooleanOrder = 0
 
 	stage.CellFloat64s = make(map[*CellFloat64]any)
 	stage.CellFloat64s_mapString = make(map[string]*CellFloat64)
+	stage.CellFloat64Map_Staged_Order = make(map[*CellFloat64]uint)
+	stage.CellFloat64Order = 0
 
 	stage.CellIcons = make(map[*CellIcon]any)
 	stage.CellIcons_mapString = make(map[string]*CellIcon)
+	stage.CellIconMap_Staged_Order = make(map[*CellIcon]uint)
+	stage.CellIconOrder = 0
 
 	stage.CellInts = make(map[*CellInt]any)
 	stage.CellInts_mapString = make(map[string]*CellInt)
+	stage.CellIntMap_Staged_Order = make(map[*CellInt]uint)
+	stage.CellIntOrder = 0
 
 	stage.CellStrings = make(map[*CellString]any)
 	stage.CellStrings_mapString = make(map[string]*CellString)
+	stage.CellStringMap_Staged_Order = make(map[*CellString]uint)
+	stage.CellStringOrder = 0
 
 	stage.CheckBoxs = make(map[*CheckBox]any)
 	stage.CheckBoxs_mapString = make(map[string]*CheckBox)
+	stage.CheckBoxMap_Staged_Order = make(map[*CheckBox]uint)
+	stage.CheckBoxOrder = 0
 
 	stage.DisplayedColumns = make(map[*DisplayedColumn]any)
 	stage.DisplayedColumns_mapString = make(map[string]*DisplayedColumn)
+	stage.DisplayedColumnMap_Staged_Order = make(map[*DisplayedColumn]uint)
+	stage.DisplayedColumnOrder = 0
 
 	stage.FormDivs = make(map[*FormDiv]any)
 	stage.FormDivs_mapString = make(map[string]*FormDiv)
+	stage.FormDivMap_Staged_Order = make(map[*FormDiv]uint)
+	stage.FormDivOrder = 0
 
 	stage.FormEditAssocButtons = make(map[*FormEditAssocButton]any)
 	stage.FormEditAssocButtons_mapString = make(map[string]*FormEditAssocButton)
+	stage.FormEditAssocButtonMap_Staged_Order = make(map[*FormEditAssocButton]uint)
+	stage.FormEditAssocButtonOrder = 0
 
 	stage.FormFields = make(map[*FormField]any)
 	stage.FormFields_mapString = make(map[string]*FormField)
+	stage.FormFieldMap_Staged_Order = make(map[*FormField]uint)
+	stage.FormFieldOrder = 0
 
 	stage.FormFieldDates = make(map[*FormFieldDate]any)
 	stage.FormFieldDates_mapString = make(map[string]*FormFieldDate)
+	stage.FormFieldDateMap_Staged_Order = make(map[*FormFieldDate]uint)
+	stage.FormFieldDateOrder = 0
 
 	stage.FormFieldDateTimes = make(map[*FormFieldDateTime]any)
 	stage.FormFieldDateTimes_mapString = make(map[string]*FormFieldDateTime)
+	stage.FormFieldDateTimeMap_Staged_Order = make(map[*FormFieldDateTime]uint)
+	stage.FormFieldDateTimeOrder = 0
 
 	stage.FormFieldFloat64s = make(map[*FormFieldFloat64]any)
 	stage.FormFieldFloat64s_mapString = make(map[string]*FormFieldFloat64)
+	stage.FormFieldFloat64Map_Staged_Order = make(map[*FormFieldFloat64]uint)
+	stage.FormFieldFloat64Order = 0
 
 	stage.FormFieldInts = make(map[*FormFieldInt]any)
 	stage.FormFieldInts_mapString = make(map[string]*FormFieldInt)
+	stage.FormFieldIntMap_Staged_Order = make(map[*FormFieldInt]uint)
+	stage.FormFieldIntOrder = 0
 
 	stage.FormFieldSelects = make(map[*FormFieldSelect]any)
 	stage.FormFieldSelects_mapString = make(map[string]*FormFieldSelect)
+	stage.FormFieldSelectMap_Staged_Order = make(map[*FormFieldSelect]uint)
+	stage.FormFieldSelectOrder = 0
 
 	stage.FormFieldStrings = make(map[*FormFieldString]any)
 	stage.FormFieldStrings_mapString = make(map[string]*FormFieldString)
+	stage.FormFieldStringMap_Staged_Order = make(map[*FormFieldString]uint)
+	stage.FormFieldStringOrder = 0
 
 	stage.FormFieldTimes = make(map[*FormFieldTime]any)
 	stage.FormFieldTimes_mapString = make(map[string]*FormFieldTime)
+	stage.FormFieldTimeMap_Staged_Order = make(map[*FormFieldTime]uint)
+	stage.FormFieldTimeOrder = 0
 
 	stage.FormGroups = make(map[*FormGroup]any)
 	stage.FormGroups_mapString = make(map[string]*FormGroup)
+	stage.FormGroupMap_Staged_Order = make(map[*FormGroup]uint)
+	stage.FormGroupOrder = 0
 
 	stage.FormSortAssocButtons = make(map[*FormSortAssocButton]any)
 	stage.FormSortAssocButtons_mapString = make(map[string]*FormSortAssocButton)
+	stage.FormSortAssocButtonMap_Staged_Order = make(map[*FormSortAssocButton]uint)
+	stage.FormSortAssocButtonOrder = 0
 
 	stage.Options = make(map[*Option]any)
 	stage.Options_mapString = make(map[string]*Option)
+	stage.OptionMap_Staged_Order = make(map[*Option]uint)
+	stage.OptionOrder = 0
 
 	stage.Rows = make(map[*Row]any)
 	stage.Rows_mapString = make(map[string]*Row)
+	stage.RowMap_Staged_Order = make(map[*Row]uint)
+	stage.RowOrder = 0
 
 	stage.Tables = make(map[*Table]any)
 	stage.Tables_mapString = make(map[string]*Table)
+	stage.TableMap_Staged_Order = make(map[*Table]uint)
+	stage.TableOrder = 0
 
 }
 

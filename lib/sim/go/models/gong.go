@@ -725,21 +725,33 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Commands = make(map[*Command]any)
 	stage.Commands_mapString = make(map[string]*Command)
+	stage.CommandMap_Staged_Order = make(map[*Command]uint)
+	stage.CommandOrder = 0
 
 	stage.DummyAgents = make(map[*DummyAgent]any)
 	stage.DummyAgents_mapString = make(map[string]*DummyAgent)
+	stage.DummyAgentMap_Staged_Order = make(map[*DummyAgent]uint)
+	stage.DummyAgentOrder = 0
 
 	stage.Engines = make(map[*Engine]any)
 	stage.Engines_mapString = make(map[string]*Engine)
+	stage.EngineMap_Staged_Order = make(map[*Engine]uint)
+	stage.EngineOrder = 0
 
 	stage.Events = make(map[*Event]any)
 	stage.Events_mapString = make(map[string]*Event)
+	stage.EventMap_Staged_Order = make(map[*Event]uint)
+	stage.EventOrder = 0
 
 	stage.Statuss = make(map[*Status]any)
 	stage.Statuss_mapString = make(map[string]*Status)
+	stage.StatusMap_Staged_Order = make(map[*Status]uint)
+	stage.StatusOrder = 0
 
 	stage.UpdateStates = make(map[*UpdateState]any)
 	stage.UpdateStates_mapString = make(map[string]*UpdateState)
+	stage.UpdateStateMap_Staged_Order = make(map[*UpdateState]uint)
+	stage.UpdateStateOrder = 0
 
 }
 

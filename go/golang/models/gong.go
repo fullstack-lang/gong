@@ -168,6 +168,8 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 	ModelGongStructInsertionArrayReset: `
 	stage.{{Structname}}s = make(map[*{{Structname}}]any)
 	stage.{{Structname}}s_mapString = make(map[string]*{{Structname}})
+	stage.{{Structname}}Map_Staged_Order = make(map[*{{Structname}}]uint)
+	stage.{{Structname}}Order = 0
 `,
 
 	ModelGongStructInsertionArrayNil: `

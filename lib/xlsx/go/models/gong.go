@@ -653,18 +653,28 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.DisplaySelections = make(map[*DisplaySelection]any)
 	stage.DisplaySelections_mapString = make(map[string]*DisplaySelection)
+	stage.DisplaySelectionMap_Staged_Order = make(map[*DisplaySelection]uint)
+	stage.DisplaySelectionOrder = 0
 
 	stage.XLCells = make(map[*XLCell]any)
 	stage.XLCells_mapString = make(map[string]*XLCell)
+	stage.XLCellMap_Staged_Order = make(map[*XLCell]uint)
+	stage.XLCellOrder = 0
 
 	stage.XLFiles = make(map[*XLFile]any)
 	stage.XLFiles_mapString = make(map[string]*XLFile)
+	stage.XLFileMap_Staged_Order = make(map[*XLFile]uint)
+	stage.XLFileOrder = 0
 
 	stage.XLRows = make(map[*XLRow]any)
 	stage.XLRows_mapString = make(map[string]*XLRow)
+	stage.XLRowMap_Staged_Order = make(map[*XLRow]uint)
+	stage.XLRowOrder = 0
 
 	stage.XLSheets = make(map[*XLSheet]any)
 	stage.XLSheets_mapString = make(map[string]*XLSheet)
+	stage.XLSheetMap_Staged_Order = make(map[*XLSheet]uint)
+	stage.XLSheetOrder = 0
 
 }
 

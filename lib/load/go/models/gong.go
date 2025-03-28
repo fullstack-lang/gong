@@ -325,6 +325,8 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.FileToDownloads = make(map[*FileToDownload]any)
 	stage.FileToDownloads_mapString = make(map[string]*FileToDownload)
+	stage.FileToDownloadMap_Staged_Order = make(map[*FileToDownload]uint)
+	stage.FileToDownloadOrder = 0
 
 }
 
