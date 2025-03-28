@@ -400,10 +400,43 @@ func NewStage(name string) (stage *StageStruct) {
 
 		SliceOfPointerToGongStructFieldMap_Staged_Order: make(map[*SliceOfPointerToGongStructField]uint),
 
-		// end of inssetion point
+		// end of insertion point
 	}
 
 	return
+}
+
+func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
+
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations
+	case *GongBasicField:
+		return stage.GongBasicFieldMap_Staged_Order[instance]
+	case *GongEnum:
+		return stage.GongEnumMap_Staged_Order[instance]
+	case *GongEnumValue:
+		return stage.GongEnumValueMap_Staged_Order[instance]
+	case *GongLink:
+		return stage.GongLinkMap_Staged_Order[instance]
+	case *GongNote:
+		return stage.GongNoteMap_Staged_Order[instance]
+	case *GongStruct:
+		return stage.GongStructMap_Staged_Order[instance]
+	case *GongTimeField:
+		return stage.GongTimeFieldMap_Staged_Order[instance]
+	case *Meta:
+		return stage.MetaMap_Staged_Order[instance]
+	case *MetaReference:
+		return stage.MetaReferenceMap_Staged_Order[instance]
+	case *ModelPkg:
+		return stage.ModelPkgMap_Staged_Order[instance]
+	case *PointerToGongStructField:
+		return stage.PointerToGongStructFieldMap_Staged_Order[instance]
+	case *SliceOfPointerToGongStructField:
+		return stage.SliceOfPointerToGongStructFieldMap_Staged_Order[instance]
+	default:
+		return 0 // should not happen
+	}
 }
 
 func (stage *StageStruct) GetName() string {
