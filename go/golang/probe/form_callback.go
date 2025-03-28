@@ -156,9 +156,8 @@ map[FormCallbackSubTemplateId]string{
 			_ = rf
 			rf.GongstructName = "{{AssocStructName}}"
 			rf.Fieldname = "{{FieldName}}"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				{{structname}}FormCallback.probe.stageOfInterest,
-				{{structname}}FormCallback.probe.backRepoOfInterest,
 				{{structname}}_,
 				&rf)
 
