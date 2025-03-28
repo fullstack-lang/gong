@@ -185,7 +185,7 @@ func (backRepoEngine *BackRepoEngineStruct) CommitPhaseOne(stage *models.StageSt
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(engines, func(i, j int) bool {
-		return stage.Map_Staged_Order[engines[i]] < stage.Map_Staged_Order[engines[j]]
+		return stage.EngineMap_Staged_Order[engines[i]] < stage.EngineMap_Staged_Order[engines[j]]
 	})
 
 	for _, engine := range engines {

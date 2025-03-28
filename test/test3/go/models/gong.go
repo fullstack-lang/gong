@@ -111,8 +111,14 @@ type StageStruct struct {
 
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
-	Order            uint
-	Map_Staged_Order map[any]uint
+	// insertion point for order fields declaration
+	AOrder            uint
+	AMap_Staged_Order map[*A]uint
+
+	BOrder            uint
+	BMap_Staged_Order map[*B]uint
+
+	// end of insertion point
 }
 
 func (stage *StageStruct) GetType() string {
@@ -185,7 +191,12 @@ func NewStage(name string) (stage *StageStruct) {
 		Map_DocLink_Renaming: make(map[string]GONG__Identifier),
 		// the to be removed stops here
 
-		Map_Staged_Order: make(map[any]uint),
+		// insertion point for order map initialisations
+		AMap_Staged_Order: make(map[*A]uint),
+
+		BMap_Staged_Order: make(map[*B]uint),
+
+		// end of inssetion point
 	}
 
 	return
@@ -262,8 +273,8 @@ func (a *A) Stage(stage *StageStruct) *A {
 
 	if _, ok := stage.As[a]; !ok {
 		stage.As[a] = __member
-		stage.Map_Staged_Order[a] = stage.Order
-		stage.Order++
+		stage.AMap_Staged_Order[a] = stage.AOrder
+		stage.AOrder++
 	}
 	stage.As_mapString[a.Name] = a
 
@@ -317,8 +328,8 @@ func (b *B) Stage(stage *StageStruct) *B {
 
 	if _, ok := stage.Bs[b]; !ok {
 		stage.Bs[b] = __member
-		stage.Map_Staged_Order[b] = stage.Order
-		stage.Order++
+		stage.BMap_Staged_Order[b] = stage.BOrder
+		stage.BOrder++
 	}
 	stage.Bs_mapString[b.Name] = b
 

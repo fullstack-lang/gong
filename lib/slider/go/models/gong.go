@@ -135,8 +135,20 @@ type StageStruct struct {
 
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
-	Order            uint
-	Map_Staged_Order map[any]uint
+	// insertion point for order fields declaration
+	CheckboxOrder            uint
+	CheckboxMap_Staged_Order map[*Checkbox]uint
+
+	GroupOrder            uint
+	GroupMap_Staged_Order map[*Group]uint
+
+	LayoutOrder            uint
+	LayoutMap_Staged_Order map[*Layout]uint
+
+	SliderOrder            uint
+	SliderMap_Staged_Order map[*Slider]uint
+
+	// end of insertion point
 }
 
 func (stage *StageStruct) GetType() string {
@@ -219,7 +231,16 @@ func NewStage(name string) (stage *StageStruct) {
 		Map_DocLink_Renaming: make(map[string]GONG__Identifier),
 		// the to be removed stops here
 
-		Map_Staged_Order: make(map[any]uint),
+		// insertion point for order map initialisations
+		CheckboxMap_Staged_Order: make(map[*Checkbox]uint),
+
+		GroupMap_Staged_Order: make(map[*Group]uint),
+
+		LayoutMap_Staged_Order: make(map[*Layout]uint),
+
+		SliderMap_Staged_Order: make(map[*Slider]uint),
+
+		// end of inssetion point
 	}
 
 	return
@@ -300,8 +321,8 @@ func (checkbox *Checkbox) Stage(stage *StageStruct) *Checkbox {
 
 	if _, ok := stage.Checkboxs[checkbox]; !ok {
 		stage.Checkboxs[checkbox] = __member
-		stage.Map_Staged_Order[checkbox] = stage.Order
-		stage.Order++
+		stage.CheckboxMap_Staged_Order[checkbox] = stage.CheckboxOrder
+		stage.CheckboxOrder++
 	}
 	stage.Checkboxs_mapString[checkbox.Name] = checkbox
 
@@ -355,8 +376,8 @@ func (group *Group) Stage(stage *StageStruct) *Group {
 
 	if _, ok := stage.Groups[group]; !ok {
 		stage.Groups[group] = __member
-		stage.Map_Staged_Order[group] = stage.Order
-		stage.Order++
+		stage.GroupMap_Staged_Order[group] = stage.GroupOrder
+		stage.GroupOrder++
 	}
 	stage.Groups_mapString[group.Name] = group
 
@@ -410,8 +431,8 @@ func (layout *Layout) Stage(stage *StageStruct) *Layout {
 
 	if _, ok := stage.Layouts[layout]; !ok {
 		stage.Layouts[layout] = __member
-		stage.Map_Staged_Order[layout] = stage.Order
-		stage.Order++
+		stage.LayoutMap_Staged_Order[layout] = stage.LayoutOrder
+		stage.LayoutOrder++
 	}
 	stage.Layouts_mapString[layout.Name] = layout
 
@@ -465,8 +486,8 @@ func (slider *Slider) Stage(stage *StageStruct) *Slider {
 
 	if _, ok := stage.Sliders[slider]; !ok {
 		stage.Sliders[slider] = __member
-		stage.Map_Staged_Order[slider] = stage.Order
-		stage.Order++
+		stage.SliderMap_Staged_Order[slider] = stage.SliderOrder
+		stage.SliderOrder++
 	}
 	stage.Sliders_mapString[slider.Name] = slider
 

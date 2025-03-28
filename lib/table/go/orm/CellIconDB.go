@@ -143,7 +143,7 @@ func (backRepoCellIcon *BackRepoCellIconStruct) CommitPhaseOne(stage *models.Sta
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(cellicons, func(i, j int) bool {
-		return stage.Map_Staged_Order[cellicons[i]] < stage.Map_Staged_Order[cellicons[j]]
+		return stage.CellIconMap_Staged_Order[cellicons[i]] < stage.CellIconMap_Staged_Order[cellicons[j]]
 	})
 
 	for _, cellicon := range cellicons {

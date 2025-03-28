@@ -185,7 +185,7 @@ func (backRepoBar *BackRepoBarStruct) CommitPhaseOne(stage *models.StageStruct) 
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(bars, func(i, j int) bool {
-		return stage.Map_Staged_Order[bars[i]] < stage.Map_Staged_Order[bars[j]]
+		return stage.BarMap_Staged_Order[bars[i]] < stage.BarMap_Staged_Order[bars[j]]
 	})
 
 	for _, bar := range bars {

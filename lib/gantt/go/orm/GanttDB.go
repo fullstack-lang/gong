@@ -295,7 +295,7 @@ func (backRepoGantt *BackRepoGanttStruct) CommitPhaseOne(stage *models.StageStru
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(gantts, func(i, j int) bool {
-		return stage.Map_Staged_Order[gantts[i]] < stage.Map_Staged_Order[gantts[j]]
+		return stage.GanttMap_Staged_Order[gantts[i]] < stage.GanttMap_Staged_Order[gantts[j]]
 	})
 
 	for _, gantt := range gantts {
