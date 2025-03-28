@@ -194,7 +194,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CommitPhaseOne(stage *models.Sta
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(polygones, func(i, j int) bool {
-		return stage.Map_Staged_Order[polygones[i]] < stage.Map_Staged_Order[polygones[j]]
+		return stage.PolygoneMap_Staged_Order[polygones[i]] < stage.PolygoneMap_Staged_Order[polygones[j]]
 	})
 
 	for _, polygone := range polygones {

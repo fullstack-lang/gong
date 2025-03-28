@@ -153,7 +153,7 @@ func (backRepoMilestone *BackRepoMilestoneStruct) CommitPhaseOne(stage *models.S
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(milestones, func(i, j int) bool {
-		return stage.Map_Staged_Order[milestones[i]] < stage.Map_Staged_Order[milestones[j]]
+		return stage.MilestoneMap_Staged_Order[milestones[i]] < stage.MilestoneMap_Staged_Order[milestones[j]]
 	})
 
 	for _, milestone := range milestones {

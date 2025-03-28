@@ -199,7 +199,7 @@ func (backRepoSlider *BackRepoSliderStruct) CommitPhaseOne(stage *models.StageSt
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(sliders, func(i, j int) bool {
-		return stage.Map_Staged_Order[sliders[i]] < stage.Map_Staged_Order[sliders[j]]
+		return stage.SliderMap_Staged_Order[sliders[i]] < stage.SliderMap_Staged_Order[sliders[j]]
 	})
 
 	for _, slider := range sliders {

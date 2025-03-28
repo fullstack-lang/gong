@@ -140,7 +140,7 @@ func (backRepoLayout *BackRepoLayoutStruct) CommitPhaseOne(stage *models.StageSt
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(layouts, func(i, j int) bool {
-		return stage.Map_Staged_Order[layouts[i]] < stage.Map_Staged_Order[layouts[j]]
+		return stage.LayoutMap_Staged_Order[layouts[i]] < stage.LayoutMap_Staged_Order[layouts[j]]
 	})
 
 	for _, layout := range layouts {

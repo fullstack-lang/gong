@@ -149,7 +149,7 @@ func (backRepoForm *BackRepoFormStruct) CommitPhaseOne(stage *models.StageStruct
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(forms, func(i, j int) bool {
-		return stage.Map_Staged_Order[forms[i]] < stage.Map_Staged_Order[forms[j]]
+		return stage.FormMap_Staged_Order[forms[i]] < stage.FormMap_Staged_Order[forms[j]]
 	})
 
 	for _, form := range forms {

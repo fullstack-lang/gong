@@ -104,8 +104,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(aOrdered[:], func(i, j int) bool {
 		ai := aOrdered[i]
 		aj := aOrdered[j]
-		ai_order, oki := stage.Map_Staged_Order[ai]
-		aj_order, okj := stage.Map_Staged_Order[aj]
+		ai_order, oki := stage.AMap_Staged_Order[ai]
+		aj_order, okj := stage.AMap_Staged_Order[aj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -151,8 +151,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(bOrdered[:], func(i, j int) bool {
 		bi := bOrdered[i]
 		bj := bOrdered[j]
-		bi_order, oki := stage.Map_Staged_Order[bi]
-		bj_order, okj := stage.Map_Staged_Order[bj]
+		bi_order, oki := stage.BMap_Staged_Order[bi]
+		bj_order, okj := stage.BMap_Staged_Order[bj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
