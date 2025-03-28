@@ -21,10 +21,7 @@ import (
 	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"{{PkgPathRoot}}/models"
-	"{{PkgPathRoot}}/orm"
 )
-
-var __dummy_orm_fillup_form = orm.BackRepoStruct{}
 
 const FormName = "Form"
 

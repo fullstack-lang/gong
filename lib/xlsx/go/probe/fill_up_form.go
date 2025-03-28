@@ -5,10 +5,7 @@ import (
 	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/lib/xlsx/go/models"
-	"github.com/fullstack-lang/gong/lib/xlsx/go/orm"
 )
-
-var __dummy_orm_fillup_form = orm.BackRepoStruct{}
 
 const FormName = "Form"
 
