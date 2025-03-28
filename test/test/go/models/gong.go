@@ -313,6 +313,19 @@ func NewStage(name string) (stage *StageStruct) {
 	return
 }
 
+func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
+
+	var ret *Type
+
+	switch instance := any(ret).(type) {
+	// insertion point for generic get functions
+	case *Astruct:
+		return stage.AstructMap_Staged_Order[instance]
+	default:
+		return 0
+	}
+}
+
 func (stage *StageStruct) GetName() string {
 	return stage.name
 }
