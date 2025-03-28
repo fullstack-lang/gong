@@ -13,6 +13,7 @@
             "cwd": "${workspaceFolder}/test/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
+                "-skipStager=false",
                 "-skipGoModCommands",
                 "-skipNpmInstall",
             ]
@@ -27,6 +28,7 @@
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipNg",
+                "-skipStager=false",
                 "-skipGoModCommands",
                 "-skipNpmInstall"
             ]

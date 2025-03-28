@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	// insertion point for models import
+	test_models "github.com/fullstack-lang/gong/test/test/go/models"
 	test_stack "github.com/fullstack-lang/gong/test/test/go/stack"
 	test_static "github.com/fullstack-lang/gong/test/test/go/static"
 )
@@ -37,6 +38,7 @@ func main() {
 	stack.Probe.Refresh()
 
 	// insertion point for call to stager
+	test_models.NewStager(r, stack.Stage)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
