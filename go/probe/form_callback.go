@@ -92,9 +92,8 @@ func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "GongStruct"
 			rf.Fieldname = "GongBasicFields"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				gongbasicfieldFormCallback.probe.stageOfInterest,
-				gongbasicfieldFormCallback.probe.backRepoOfInterest,
 				gongbasicfield_,
 				&rf)
 
@@ -292,9 +291,8 @@ func (gongenumvalueFormCallback *GongEnumValueFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "GongEnum"
 			rf.Fieldname = "GongEnumValues"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				gongenumvalueFormCallback.probe.stageOfInterest,
-				gongenumvalueFormCallback.probe.backRepoOfInterest,
 				gongenumvalue_,
 				&rf)
 
@@ -415,9 +413,8 @@ func (gonglinkFormCallback *GongLinkFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "GongNote"
 			rf.Fieldname = "Links"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				gonglinkFormCallback.probe.stageOfInterest,
-				gonglinkFormCallback.probe.backRepoOfInterest,
 				gonglink_,
 				&rf)
 
@@ -702,9 +699,8 @@ func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "GongStruct"
 			rf.Fieldname = "GongTimeFields"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				gongtimefieldFormCallback.probe.stageOfInterest,
-				gongtimefieldFormCallback.probe.backRepoOfInterest,
 				gongtimefield_,
 				&rf)
 
@@ -900,9 +896,8 @@ func (metareferenceFormCallback *MetaReferenceFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Meta"
 			rf.Fieldname = "MetaReferences"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				metareferenceFormCallback.probe.stageOfInterest,
-				metareferenceFormCallback.probe.backRepoOfInterest,
 				metareference_,
 				&rf)
 
@@ -1136,9 +1131,8 @@ func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback
 			_ = rf
 			rf.GongstructName = "GongStruct"
 			rf.Fieldname = "PointerToGongStructFields"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				pointertogongstructfieldFormCallback.probe.stageOfInterest,
-				pointertogongstructfieldFormCallback.probe.backRepoOfInterest,
 				pointertogongstructfield_,
 				&rf)
 
@@ -1261,9 +1255,8 @@ func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFie
 			_ = rf
 			rf.GongstructName = "GongStruct"
 			rf.Fieldname = "SliceOfPointerToGongStructFields"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				sliceofpointertogongstructfieldFormCallback.probe.stageOfInterest,
-				sliceofpointertogongstructfieldFormCallback.probe.backRepoOfInterest,
 				sliceofpointertogongstructfield_,
 				&rf)
 

@@ -1,20 +1,15 @@
 // generated code - do not edit
-package orm
-
-import (
-	"github.com/fullstack-lang/gong/lib/tone/go/models"
-)
+package models
 
 func GetReverseFieldOwnerName(
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+	stage *StageStruct,
 	instance any,
-	reverseField *models.ReverseField) (res string) {
+	reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.Freqency:
+	case *Freqency:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Note":
@@ -26,12 +21,12 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Note:
+	case *Note:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Player:
+	case *Player:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
@@ -42,16 +37,15 @@ func GetReverseFieldOwnerName(
 	return
 }
 
-func GetReverseFieldOwner[T models.Gongstruct](
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+func GetReverseFieldOwner[T Gongstruct](
+	stage *StageStruct,
 	instance *T,
-	reverseField *models.ReverseField) (res any) {
+	reverseField *ReverseField) (res any) {
 
 	res = nil
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.Freqency:
+	case *Freqency:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Note":
@@ -61,12 +55,12 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Note:
+	case *Note:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Player:
+	case *Player:
 		switch reverseField.GongstructName {
 		// insertion point
 		}

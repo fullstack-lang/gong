@@ -72,9 +72,8 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "DiagramPackage"
 			rf.Fieldname = "Classdiagrams"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				classdiagramFormCallback.probe.stageOfInterest,
-				classdiagramFormCallback.probe.backRepoOfInterest,
 				classdiagram_,
 				&rf)
 
@@ -288,9 +287,8 @@ func (fieldFormCallback *FieldFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "GongStructShape"
 			rf.Fieldname = "Fields"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				fieldFormCallback.probe.stageOfInterest,
-				fieldFormCallback.probe.backRepoOfInterest,
 				field_,
 				&rf)
 
@@ -415,9 +413,8 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Classdiagram"
 			rf.Fieldname = "GongEnumShapes"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				gongenumshapeFormCallback.probe.stageOfInterest,
-				gongenumshapeFormCallback.probe.backRepoOfInterest,
 				gongenumshape_,
 				&rf)
 
@@ -536,9 +533,8 @@ func (gongenumvalueentryFormCallback *GongEnumValueEntryFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "GongEnumShape"
 			rf.Fieldname = "GongEnumValueEntrys"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				gongenumvalueentryFormCallback.probe.stageOfInterest,
-				gongenumvalueentryFormCallback.probe.backRepoOfInterest,
 				gongenumvalueentry_,
 				&rf)
 
@@ -669,9 +665,8 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Classdiagram"
 			rf.Fieldname = "GongStructShapes"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				gongstructshapeFormCallback.probe.stageOfInterest,
-				gongstructshapeFormCallback.probe.backRepoOfInterest,
 				gongstructshape_,
 				&rf)
 
@@ -820,9 +815,8 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "GongStructShape"
 			rf.Fieldname = "Links"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				linkFormCallback.probe.stageOfInterest,
-				linkFormCallback.probe.backRepoOfInterest,
 				link_,
 				&rf)
 
@@ -955,9 +949,8 @@ func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Classdiagram"
 			rf.Fieldname = "NoteShapes"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				noteshapeFormCallback.probe.stageOfInterest,
-				noteshapeFormCallback.probe.backRepoOfInterest,
 				noteshape_,
 				&rf)
 
@@ -1078,9 +1071,8 @@ func (noteshapelinkFormCallback *NoteShapeLinkFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "NoteShape"
 			rf.Fieldname = "NoteShapeLinks"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				noteshapelinkFormCallback.probe.stageOfInterest,
-				noteshapelinkFormCallback.probe.backRepoOfInterest,
 				noteshapelink_,
 				&rf)
 
@@ -1282,9 +1274,8 @@ func (umlstateFormCallback *UmlStateFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "Umlsc"
 			rf.Fieldname = "States"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				umlstateFormCallback.probe.stageOfInterest,
-				umlstateFormCallback.probe.backRepoOfInterest,
 				umlstate_,
 				&rf)
 
@@ -1405,9 +1396,8 @@ func (umlscFormCallback *UmlscFormCallback) OnSave() {
 			_ = rf
 			rf.GongstructName = "DiagramPackage"
 			rf.Fieldname = "Umlscs"
-			reverseFieldOwner := orm.GetReverseFieldOwner(
+			reverseFieldOwner := models.GetReverseFieldOwner(
 				umlscFormCallback.probe.stageOfInterest,
-				umlscFormCallback.probe.backRepoOfInterest,
 				umlsc_,
 				&rf)
 
