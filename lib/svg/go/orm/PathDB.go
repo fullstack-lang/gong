@@ -194,7 +194,7 @@ func (backRepoPath *BackRepoPathStruct) CommitPhaseOne(stage *models.StageStruct
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(paths, func(i, j int) bool {
-		return stage.Map_Staged_Order[paths[i]] < stage.Map_Staged_Order[paths[j]]
+		return stage.PathMap_Staged_Order[paths[i]] < stage.PathMap_Staged_Order[paths[j]]
 	})
 
 	for _, path := range paths {

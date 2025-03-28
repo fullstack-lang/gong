@@ -173,7 +173,7 @@ func (backRepoAnimate *BackRepoAnimateStruct) CommitPhaseOne(stage *models.Stage
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(animates, func(i, j int) bool {
-		return stage.Map_Staged_Order[animates[i]] < stage.Map_Staged_Order[animates[j]]
+		return stage.AnimateMap_Staged_Order[animates[i]] < stage.AnimateMap_Staged_Order[animates[j]]
 	})
 
 	for _, animate := range animates {

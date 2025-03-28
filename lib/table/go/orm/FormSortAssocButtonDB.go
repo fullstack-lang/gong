@@ -143,7 +143,7 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) CommitPhas
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(formsortassocbuttons, func(i, j int) bool {
-		return stage.Map_Staged_Order[formsortassocbuttons[i]] < stage.Map_Staged_Order[formsortassocbuttons[j]]
+		return stage.FormSortAssocButtonMap_Staged_Order[formsortassocbuttons[i]] < stage.FormSortAssocButtonMap_Staged_Order[formsortassocbuttons[j]]
 	})
 
 	for _, formsortassocbutton := range formsortassocbuttons {

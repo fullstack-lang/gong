@@ -222,7 +222,7 @@ func (backRepoRectAnchoredPath *BackRepoRectAnchoredPathStruct) CommitPhaseOne(s
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(rectanchoredpaths, func(i, j int) bool {
-		return stage.Map_Staged_Order[rectanchoredpaths[i]] < stage.Map_Staged_Order[rectanchoredpaths[j]]
+		return stage.RectAnchoredPathMap_Staged_Order[rectanchoredpaths[i]] < stage.RectAnchoredPathMap_Staged_Order[rectanchoredpaths[j]]
 	})
 
 	for _, rectanchoredpath := range rectanchoredpaths {

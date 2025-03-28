@@ -314,8 +314,77 @@ type StageStruct struct {
 
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
-	Order            uint
-	Map_Staged_Order map[any]uint
+	// insertion point for order fields declaration
+	CellOrder            uint
+	CellMap_Staged_Order map[*Cell]uint
+
+	CellBooleanOrder            uint
+	CellBooleanMap_Staged_Order map[*CellBoolean]uint
+
+	CellFloat64Order            uint
+	CellFloat64Map_Staged_Order map[*CellFloat64]uint
+
+	CellIconOrder            uint
+	CellIconMap_Staged_Order map[*CellIcon]uint
+
+	CellIntOrder            uint
+	CellIntMap_Staged_Order map[*CellInt]uint
+
+	CellStringOrder            uint
+	CellStringMap_Staged_Order map[*CellString]uint
+
+	CheckBoxOrder            uint
+	CheckBoxMap_Staged_Order map[*CheckBox]uint
+
+	DisplayedColumnOrder            uint
+	DisplayedColumnMap_Staged_Order map[*DisplayedColumn]uint
+
+	FormDivOrder            uint
+	FormDivMap_Staged_Order map[*FormDiv]uint
+
+	FormEditAssocButtonOrder            uint
+	FormEditAssocButtonMap_Staged_Order map[*FormEditAssocButton]uint
+
+	FormFieldOrder            uint
+	FormFieldMap_Staged_Order map[*FormField]uint
+
+	FormFieldDateOrder            uint
+	FormFieldDateMap_Staged_Order map[*FormFieldDate]uint
+
+	FormFieldDateTimeOrder            uint
+	FormFieldDateTimeMap_Staged_Order map[*FormFieldDateTime]uint
+
+	FormFieldFloat64Order            uint
+	FormFieldFloat64Map_Staged_Order map[*FormFieldFloat64]uint
+
+	FormFieldIntOrder            uint
+	FormFieldIntMap_Staged_Order map[*FormFieldInt]uint
+
+	FormFieldSelectOrder            uint
+	FormFieldSelectMap_Staged_Order map[*FormFieldSelect]uint
+
+	FormFieldStringOrder            uint
+	FormFieldStringMap_Staged_Order map[*FormFieldString]uint
+
+	FormFieldTimeOrder            uint
+	FormFieldTimeMap_Staged_Order map[*FormFieldTime]uint
+
+	FormGroupOrder            uint
+	FormGroupMap_Staged_Order map[*FormGroup]uint
+
+	FormSortAssocButtonOrder            uint
+	FormSortAssocButtonMap_Staged_Order map[*FormSortAssocButton]uint
+
+	OptionOrder            uint
+	OptionMap_Staged_Order map[*Option]uint
+
+	RowOrder            uint
+	RowMap_Staged_Order map[*Row]uint
+
+	TableOrder            uint
+	TableMap_Staged_Order map[*Table]uint
+
+	// end of insertion point
 }
 
 func (stage *StageStruct) GetType() string {
@@ -493,7 +562,54 @@ func NewStage(name string) (stage *StageStruct) {
 		Map_DocLink_Renaming: make(map[string]GONG__Identifier),
 		// the to be removed stops here
 
-		Map_Staged_Order: make(map[any]uint),
+		// insertion point for order map initialisations
+		CellMap_Staged_Order: make(map[*Cell]uint),
+
+		CellBooleanMap_Staged_Order: make(map[*CellBoolean]uint),
+
+		CellFloat64Map_Staged_Order: make(map[*CellFloat64]uint),
+
+		CellIconMap_Staged_Order: make(map[*CellIcon]uint),
+
+		CellIntMap_Staged_Order: make(map[*CellInt]uint),
+
+		CellStringMap_Staged_Order: make(map[*CellString]uint),
+
+		CheckBoxMap_Staged_Order: make(map[*CheckBox]uint),
+
+		DisplayedColumnMap_Staged_Order: make(map[*DisplayedColumn]uint),
+
+		FormDivMap_Staged_Order: make(map[*FormDiv]uint),
+
+		FormEditAssocButtonMap_Staged_Order: make(map[*FormEditAssocButton]uint),
+
+		FormFieldMap_Staged_Order: make(map[*FormField]uint),
+
+		FormFieldDateMap_Staged_Order: make(map[*FormFieldDate]uint),
+
+		FormFieldDateTimeMap_Staged_Order: make(map[*FormFieldDateTime]uint),
+
+		FormFieldFloat64Map_Staged_Order: make(map[*FormFieldFloat64]uint),
+
+		FormFieldIntMap_Staged_Order: make(map[*FormFieldInt]uint),
+
+		FormFieldSelectMap_Staged_Order: make(map[*FormFieldSelect]uint),
+
+		FormFieldStringMap_Staged_Order: make(map[*FormFieldString]uint),
+
+		FormFieldTimeMap_Staged_Order: make(map[*FormFieldTime]uint),
+
+		FormGroupMap_Staged_Order: make(map[*FormGroup]uint),
+
+		FormSortAssocButtonMap_Staged_Order: make(map[*FormSortAssocButton]uint),
+
+		OptionMap_Staged_Order: make(map[*Option]uint),
+
+		RowMap_Staged_Order: make(map[*Row]uint),
+
+		TableMap_Staged_Order: make(map[*Table]uint),
+
+		// end of inssetion point
 	}
 
 	return
@@ -612,8 +728,8 @@ func (cell *Cell) Stage(stage *StageStruct) *Cell {
 
 	if _, ok := stage.Cells[cell]; !ok {
 		stage.Cells[cell] = __member
-		stage.Map_Staged_Order[cell] = stage.Order
-		stage.Order++
+		stage.CellMap_Staged_Order[cell] = stage.CellOrder
+		stage.CellOrder++
 	}
 	stage.Cells_mapString[cell.Name] = cell
 
@@ -667,8 +783,8 @@ func (cellboolean *CellBoolean) Stage(stage *StageStruct) *CellBoolean {
 
 	if _, ok := stage.CellBooleans[cellboolean]; !ok {
 		stage.CellBooleans[cellboolean] = __member
-		stage.Map_Staged_Order[cellboolean] = stage.Order
-		stage.Order++
+		stage.CellBooleanMap_Staged_Order[cellboolean] = stage.CellBooleanOrder
+		stage.CellBooleanOrder++
 	}
 	stage.CellBooleans_mapString[cellboolean.Name] = cellboolean
 
@@ -722,8 +838,8 @@ func (cellfloat64 *CellFloat64) Stage(stage *StageStruct) *CellFloat64 {
 
 	if _, ok := stage.CellFloat64s[cellfloat64]; !ok {
 		stage.CellFloat64s[cellfloat64] = __member
-		stage.Map_Staged_Order[cellfloat64] = stage.Order
-		stage.Order++
+		stage.CellFloat64Map_Staged_Order[cellfloat64] = stage.CellFloat64Order
+		stage.CellFloat64Order++
 	}
 	stage.CellFloat64s_mapString[cellfloat64.Name] = cellfloat64
 
@@ -777,8 +893,8 @@ func (cellicon *CellIcon) Stage(stage *StageStruct) *CellIcon {
 
 	if _, ok := stage.CellIcons[cellicon]; !ok {
 		stage.CellIcons[cellicon] = __member
-		stage.Map_Staged_Order[cellicon] = stage.Order
-		stage.Order++
+		stage.CellIconMap_Staged_Order[cellicon] = stage.CellIconOrder
+		stage.CellIconOrder++
 	}
 	stage.CellIcons_mapString[cellicon.Name] = cellicon
 
@@ -832,8 +948,8 @@ func (cellint *CellInt) Stage(stage *StageStruct) *CellInt {
 
 	if _, ok := stage.CellInts[cellint]; !ok {
 		stage.CellInts[cellint] = __member
-		stage.Map_Staged_Order[cellint] = stage.Order
-		stage.Order++
+		stage.CellIntMap_Staged_Order[cellint] = stage.CellIntOrder
+		stage.CellIntOrder++
 	}
 	stage.CellInts_mapString[cellint.Name] = cellint
 
@@ -887,8 +1003,8 @@ func (cellstring *CellString) Stage(stage *StageStruct) *CellString {
 
 	if _, ok := stage.CellStrings[cellstring]; !ok {
 		stage.CellStrings[cellstring] = __member
-		stage.Map_Staged_Order[cellstring] = stage.Order
-		stage.Order++
+		stage.CellStringMap_Staged_Order[cellstring] = stage.CellStringOrder
+		stage.CellStringOrder++
 	}
 	stage.CellStrings_mapString[cellstring.Name] = cellstring
 
@@ -942,8 +1058,8 @@ func (checkbox *CheckBox) Stage(stage *StageStruct) *CheckBox {
 
 	if _, ok := stage.CheckBoxs[checkbox]; !ok {
 		stage.CheckBoxs[checkbox] = __member
-		stage.Map_Staged_Order[checkbox] = stage.Order
-		stage.Order++
+		stage.CheckBoxMap_Staged_Order[checkbox] = stage.CheckBoxOrder
+		stage.CheckBoxOrder++
 	}
 	stage.CheckBoxs_mapString[checkbox.Name] = checkbox
 
@@ -997,8 +1113,8 @@ func (displayedcolumn *DisplayedColumn) Stage(stage *StageStruct) *DisplayedColu
 
 	if _, ok := stage.DisplayedColumns[displayedcolumn]; !ok {
 		stage.DisplayedColumns[displayedcolumn] = __member
-		stage.Map_Staged_Order[displayedcolumn] = stage.Order
-		stage.Order++
+		stage.DisplayedColumnMap_Staged_Order[displayedcolumn] = stage.DisplayedColumnOrder
+		stage.DisplayedColumnOrder++
 	}
 	stage.DisplayedColumns_mapString[displayedcolumn.Name] = displayedcolumn
 
@@ -1052,8 +1168,8 @@ func (formdiv *FormDiv) Stage(stage *StageStruct) *FormDiv {
 
 	if _, ok := stage.FormDivs[formdiv]; !ok {
 		stage.FormDivs[formdiv] = __member
-		stage.Map_Staged_Order[formdiv] = stage.Order
-		stage.Order++
+		stage.FormDivMap_Staged_Order[formdiv] = stage.FormDivOrder
+		stage.FormDivOrder++
 	}
 	stage.FormDivs_mapString[formdiv.Name] = formdiv
 
@@ -1107,8 +1223,8 @@ func (formeditassocbutton *FormEditAssocButton) Stage(stage *StageStruct) *FormE
 
 	if _, ok := stage.FormEditAssocButtons[formeditassocbutton]; !ok {
 		stage.FormEditAssocButtons[formeditassocbutton] = __member
-		stage.Map_Staged_Order[formeditassocbutton] = stage.Order
-		stage.Order++
+		stage.FormEditAssocButtonMap_Staged_Order[formeditassocbutton] = stage.FormEditAssocButtonOrder
+		stage.FormEditAssocButtonOrder++
 	}
 	stage.FormEditAssocButtons_mapString[formeditassocbutton.Name] = formeditassocbutton
 
@@ -1162,8 +1278,8 @@ func (formfield *FormField) Stage(stage *StageStruct) *FormField {
 
 	if _, ok := stage.FormFields[formfield]; !ok {
 		stage.FormFields[formfield] = __member
-		stage.Map_Staged_Order[formfield] = stage.Order
-		stage.Order++
+		stage.FormFieldMap_Staged_Order[formfield] = stage.FormFieldOrder
+		stage.FormFieldOrder++
 	}
 	stage.FormFields_mapString[formfield.Name] = formfield
 
@@ -1217,8 +1333,8 @@ func (formfielddate *FormFieldDate) Stage(stage *StageStruct) *FormFieldDate {
 
 	if _, ok := stage.FormFieldDates[formfielddate]; !ok {
 		stage.FormFieldDates[formfielddate] = __member
-		stage.Map_Staged_Order[formfielddate] = stage.Order
-		stage.Order++
+		stage.FormFieldDateMap_Staged_Order[formfielddate] = stage.FormFieldDateOrder
+		stage.FormFieldDateOrder++
 	}
 	stage.FormFieldDates_mapString[formfielddate.Name] = formfielddate
 
@@ -1272,8 +1388,8 @@ func (formfielddatetime *FormFieldDateTime) Stage(stage *StageStruct) *FormField
 
 	if _, ok := stage.FormFieldDateTimes[formfielddatetime]; !ok {
 		stage.FormFieldDateTimes[formfielddatetime] = __member
-		stage.Map_Staged_Order[formfielddatetime] = stage.Order
-		stage.Order++
+		stage.FormFieldDateTimeMap_Staged_Order[formfielddatetime] = stage.FormFieldDateTimeOrder
+		stage.FormFieldDateTimeOrder++
 	}
 	stage.FormFieldDateTimes_mapString[formfielddatetime.Name] = formfielddatetime
 
@@ -1327,8 +1443,8 @@ func (formfieldfloat64 *FormFieldFloat64) Stage(stage *StageStruct) *FormFieldFl
 
 	if _, ok := stage.FormFieldFloat64s[formfieldfloat64]; !ok {
 		stage.FormFieldFloat64s[formfieldfloat64] = __member
-		stage.Map_Staged_Order[formfieldfloat64] = stage.Order
-		stage.Order++
+		stage.FormFieldFloat64Map_Staged_Order[formfieldfloat64] = stage.FormFieldFloat64Order
+		stage.FormFieldFloat64Order++
 	}
 	stage.FormFieldFloat64s_mapString[formfieldfloat64.Name] = formfieldfloat64
 
@@ -1382,8 +1498,8 @@ func (formfieldint *FormFieldInt) Stage(stage *StageStruct) *FormFieldInt {
 
 	if _, ok := stage.FormFieldInts[formfieldint]; !ok {
 		stage.FormFieldInts[formfieldint] = __member
-		stage.Map_Staged_Order[formfieldint] = stage.Order
-		stage.Order++
+		stage.FormFieldIntMap_Staged_Order[formfieldint] = stage.FormFieldIntOrder
+		stage.FormFieldIntOrder++
 	}
 	stage.FormFieldInts_mapString[formfieldint.Name] = formfieldint
 
@@ -1437,8 +1553,8 @@ func (formfieldselect *FormFieldSelect) Stage(stage *StageStruct) *FormFieldSele
 
 	if _, ok := stage.FormFieldSelects[formfieldselect]; !ok {
 		stage.FormFieldSelects[formfieldselect] = __member
-		stage.Map_Staged_Order[formfieldselect] = stage.Order
-		stage.Order++
+		stage.FormFieldSelectMap_Staged_Order[formfieldselect] = stage.FormFieldSelectOrder
+		stage.FormFieldSelectOrder++
 	}
 	stage.FormFieldSelects_mapString[formfieldselect.Name] = formfieldselect
 
@@ -1492,8 +1608,8 @@ func (formfieldstring *FormFieldString) Stage(stage *StageStruct) *FormFieldStri
 
 	if _, ok := stage.FormFieldStrings[formfieldstring]; !ok {
 		stage.FormFieldStrings[formfieldstring] = __member
-		stage.Map_Staged_Order[formfieldstring] = stage.Order
-		stage.Order++
+		stage.FormFieldStringMap_Staged_Order[formfieldstring] = stage.FormFieldStringOrder
+		stage.FormFieldStringOrder++
 	}
 	stage.FormFieldStrings_mapString[formfieldstring.Name] = formfieldstring
 
@@ -1547,8 +1663,8 @@ func (formfieldtime *FormFieldTime) Stage(stage *StageStruct) *FormFieldTime {
 
 	if _, ok := stage.FormFieldTimes[formfieldtime]; !ok {
 		stage.FormFieldTimes[formfieldtime] = __member
-		stage.Map_Staged_Order[formfieldtime] = stage.Order
-		stage.Order++
+		stage.FormFieldTimeMap_Staged_Order[formfieldtime] = stage.FormFieldTimeOrder
+		stage.FormFieldTimeOrder++
 	}
 	stage.FormFieldTimes_mapString[formfieldtime.Name] = formfieldtime
 
@@ -1602,8 +1718,8 @@ func (formgroup *FormGroup) Stage(stage *StageStruct) *FormGroup {
 
 	if _, ok := stage.FormGroups[formgroup]; !ok {
 		stage.FormGroups[formgroup] = __member
-		stage.Map_Staged_Order[formgroup] = stage.Order
-		stage.Order++
+		stage.FormGroupMap_Staged_Order[formgroup] = stage.FormGroupOrder
+		stage.FormGroupOrder++
 	}
 	stage.FormGroups_mapString[formgroup.Name] = formgroup
 
@@ -1657,8 +1773,8 @@ func (formsortassocbutton *FormSortAssocButton) Stage(stage *StageStruct) *FormS
 
 	if _, ok := stage.FormSortAssocButtons[formsortassocbutton]; !ok {
 		stage.FormSortAssocButtons[formsortassocbutton] = __member
-		stage.Map_Staged_Order[formsortassocbutton] = stage.Order
-		stage.Order++
+		stage.FormSortAssocButtonMap_Staged_Order[formsortassocbutton] = stage.FormSortAssocButtonOrder
+		stage.FormSortAssocButtonOrder++
 	}
 	stage.FormSortAssocButtons_mapString[formsortassocbutton.Name] = formsortassocbutton
 
@@ -1712,8 +1828,8 @@ func (option *Option) Stage(stage *StageStruct) *Option {
 
 	if _, ok := stage.Options[option]; !ok {
 		stage.Options[option] = __member
-		stage.Map_Staged_Order[option] = stage.Order
-		stage.Order++
+		stage.OptionMap_Staged_Order[option] = stage.OptionOrder
+		stage.OptionOrder++
 	}
 	stage.Options_mapString[option.Name] = option
 
@@ -1767,8 +1883,8 @@ func (row *Row) Stage(stage *StageStruct) *Row {
 
 	if _, ok := stage.Rows[row]; !ok {
 		stage.Rows[row] = __member
-		stage.Map_Staged_Order[row] = stage.Order
-		stage.Order++
+		stage.RowMap_Staged_Order[row] = stage.RowOrder
+		stage.RowOrder++
 	}
 	stage.Rows_mapString[row.Name] = row
 
@@ -1822,8 +1938,8 @@ func (table *Table) Stage(stage *StageStruct) *Table {
 
 	if _, ok := stage.Tables[table]; !ok {
 		stage.Tables[table] = __member
-		stage.Map_Staged_Order[table] = stage.Order
-		stage.Order++
+		stage.TableMap_Staged_Order[table] = stage.TableOrder
+		stage.TableOrder++
 	}
 	stage.Tables_mapString[table.Name] = table
 

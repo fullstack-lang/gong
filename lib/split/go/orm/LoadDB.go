@@ -143,7 +143,7 @@ func (backRepoLoad *BackRepoLoadStruct) CommitPhaseOne(stage *models.StageStruct
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(loads, func(i, j int) bool {
-		return stage.Map_Staged_Order[loads[i]] < stage.Map_Staged_Order[loads[j]]
+		return stage.LoadMap_Staged_Order[loads[i]] < stage.LoadMap_Staged_Order[loads[j]]
 	})
 
 	for _, load := range loads {

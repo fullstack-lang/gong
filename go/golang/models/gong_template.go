@@ -95,8 +95,8 @@ type StageStruct struct {
 
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
-	Order            uint
-	Map_Staged_Order map[any]uint
+	// insertion point for order fields declaration{{` + string(rune(ModelGongOrderFields)) + `}}
+	// end of insertion point
 }
 
 func (stage *StageStruct) GetType() string {
@@ -159,7 +159,8 @@ func NewStage(name string) (stage *StageStruct) {
 		Map_DocLink_Renaming: make(map[string]GONG__Identifier),
 		// the to be removed stops here
 
-		Map_Staged_Order: make(map[any]uint),
+		// insertion point for order map initialisations{{` + string(rune(ModelGongOrderMapsInit)) + `}}
+		// end of inssetion point
 	}
 
 	return

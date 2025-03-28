@@ -141,7 +141,7 @@ func (backRepoLaneUse *BackRepoLaneUseStruct) CommitPhaseOne(stage *models.Stage
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(laneuses, func(i, j int) bool {
-		return stage.Map_Staged_Order[laneuses[i]] < stage.Map_Staged_Order[laneuses[j]]
+		return stage.LaneUseMap_Staged_Order[laneuses[i]] < stage.LaneUseMap_Staged_Order[laneuses[j]]
 	})
 
 	for _, laneuse := range laneuses {

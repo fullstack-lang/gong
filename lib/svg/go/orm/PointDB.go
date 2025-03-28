@@ -149,7 +149,7 @@ func (backRepoPoint *BackRepoPointStruct) CommitPhaseOne(stage *models.StageStru
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(points, func(i, j int) bool {
-		return stage.Map_Staged_Order[points[i]] < stage.Map_Staged_Order[points[j]]
+		return stage.PointMap_Staged_Order[points[i]] < stage.PointMap_Staged_Order[points[j]]
 	})
 
 	for _, point := range points {
