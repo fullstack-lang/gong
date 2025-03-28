@@ -124,8 +124,17 @@ type StageStruct struct {
 
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
-	Order            uint
-	Map_Staged_Order map[any]uint
+	// insertion point for order fields declaration
+	ButtonOrder            uint
+	ButtonMap_Staged_Order map[*Button]uint
+
+	GroupOrder            uint
+	GroupMap_Staged_Order map[*Group]uint
+
+	LayoutOrder            uint
+	LayoutMap_Staged_Order map[*Layout]uint
+
+	// end of insertion point
 }
 
 func (stage *StageStruct) GetType() string {
@@ -203,7 +212,14 @@ func NewStage(name string) (stage *StageStruct) {
 		Map_DocLink_Renaming: make(map[string]GONG__Identifier),
 		// the to be removed stops here
 
-		Map_Staged_Order: make(map[any]uint),
+		// insertion point for order map initialisations
+		ButtonMap_Staged_Order: make(map[*Button]uint),
+
+		GroupMap_Staged_Order: make(map[*Group]uint),
+
+		LayoutMap_Staged_Order: make(map[*Layout]uint),
+
+		// end of inssetion point
 	}
 
 	return
@@ -282,8 +298,8 @@ func (button *Button) Stage(stage *StageStruct) *Button {
 
 	if _, ok := stage.Buttons[button]; !ok {
 		stage.Buttons[button] = __member
-		stage.Map_Staged_Order[button] = stage.Order
-		stage.Order++
+		stage.ButtonMap_Staged_Order[button] = stage.ButtonOrder
+		stage.ButtonOrder++
 	}
 	stage.Buttons_mapString[button.Name] = button
 
@@ -337,8 +353,8 @@ func (group *Group) Stage(stage *StageStruct) *Group {
 
 	if _, ok := stage.Groups[group]; !ok {
 		stage.Groups[group] = __member
-		stage.Map_Staged_Order[group] = stage.Order
-		stage.Order++
+		stage.GroupMap_Staged_Order[group] = stage.GroupOrder
+		stage.GroupOrder++
 	}
 	stage.Groups_mapString[group.Name] = group
 
@@ -392,8 +408,8 @@ func (layout *Layout) Stage(stage *StageStruct) *Layout {
 
 	if _, ok := stage.Layouts[layout]; !ok {
 		stage.Layouts[layout] = __member
-		stage.Map_Staged_Order[layout] = stage.Order
-		stage.Order++
+		stage.LayoutMap_Staged_Order[layout] = stage.LayoutOrder
+		stage.LayoutOrder++
 	}
 	stage.Layouts_mapString[layout.Name] = layout
 

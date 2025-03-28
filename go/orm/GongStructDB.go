@@ -163,7 +163,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseOne(stage *models
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(gongstructs, func(i, j int) bool {
-		return stage.Map_Staged_Order[gongstructs[i]] < stage.Map_Staged_Order[gongstructs[j]]
+		return stage.GongStructMap_Staged_Order[gongstructs[i]] < stage.GongStructMap_Staged_Order[gongstructs[j]]
 	})
 
 	for _, gongstruct := range gongstructs {

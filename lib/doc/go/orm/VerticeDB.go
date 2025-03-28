@@ -149,7 +149,7 @@ func (backRepoVertice *BackRepoVerticeStruct) CommitPhaseOne(stage *models.Stage
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(vertices, func(i, j int) bool {
-		return stage.Map_Staged_Order[vertices[i]] < stage.Map_Staged_Order[vertices[j]]
+		return stage.VerticeMap_Staged_Order[vertices[i]] < stage.VerticeMap_Staged_Order[vertices[j]]
 	})
 
 	for _, vertice := range vertices {

@@ -146,7 +146,7 @@ func (backRepoGongEnum *BackRepoGongEnumStruct) CommitPhaseOne(stage *models.Sta
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(gongenums, func(i, j int) bool {
-		return stage.Map_Staged_Order[gongenums[i]] < stage.Map_Staged_Order[gongenums[j]]
+		return stage.GongEnumMap_Staged_Order[gongenums[i]] < stage.GongEnumMap_Staged_Order[gongenums[j]]
 	})
 
 	for _, gongenum := range gongenums {

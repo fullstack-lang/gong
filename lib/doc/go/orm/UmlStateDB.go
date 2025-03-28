@@ -149,7 +149,7 @@ func (backRepoUmlState *BackRepoUmlStateStruct) CommitPhaseOne(stage *models.Sta
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(umlstates, func(i, j int) bool {
-		return stage.Map_Staged_Order[umlstates[i]] < stage.Map_Staged_Order[umlstates[j]]
+		return stage.UmlStateMap_Staged_Order[umlstates[i]] < stage.UmlStateMap_Staged_Order[umlstates[j]]
 	})
 
 	for _, umlstate := range umlstates {

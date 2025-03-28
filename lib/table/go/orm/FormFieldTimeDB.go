@@ -149,7 +149,7 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) CommitPhaseOne(stage *
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(formfieldtimes, func(i, j int) bool {
-		return stage.Map_Staged_Order[formfieldtimes[i]] < stage.Map_Staged_Order[formfieldtimes[j]]
+		return stage.FormFieldTimeMap_Staged_Order[formfieldtimes[i]] < stage.FormFieldTimeMap_Staged_Order[formfieldtimes[j]]
 	})
 
 	for _, formfieldtime := range formfieldtimes {

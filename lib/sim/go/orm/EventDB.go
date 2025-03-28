@@ -143,7 +143,7 @@ func (backRepoEvent *BackRepoEventStruct) CommitPhaseOne(stage *models.StageStru
 
 	// Sort by the order stored in Map_Staged_Order.
 	sort.Slice(events, func(i, j int) bool {
-		return stage.Map_Staged_Order[events[i]] < stage.Map_Staged_Order[events[j]]
+		return stage.EventMap_Staged_Order[events[i]] < stage.EventMap_Staged_Order[events[j]]
 	})
 
 	for _, event := range events {
