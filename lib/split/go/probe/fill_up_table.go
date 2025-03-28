@@ -11,7 +11,6 @@ import (
 	"github.com/fullstack-lang/maticons/maticons"
 
 	"github.com/fullstack-lang/gong/lib/split/go/models"
-	"github.com/fullstack-lang/gong/lib/split/go/orm"
 )
 
 func fillUpTablePointerToGongstruct[T models.PointerToGongstruct](
@@ -85,16 +84,8 @@ func fillUpTable[T models.Gongstruct](
 		i++
 	}
 	sort.Slice(sliceOfGongStructsSorted, func(i, j int) bool {
-		return orm.GetID(
-			probe.stageOfInterest,
-			probe.backRepoOfInterest,
-			sliceOfGongStructsSorted[i],
-		) <
-			orm.GetID(
-				probe.stageOfInterest,
-				probe.backRepoOfInterest,
-				sliceOfGongStructsSorted[j],
-			)
+		return models.GetOrder(probe.stageOfInterest, sliceOfGongStructsSorted[i]) <
+			models.GetOrder(probe.stageOfInterest, sliceOfGongStructsSorted[j])
 	})
 
 	column := new(gongtable.DisplayedColumn).Stage(probe.tableStage)
@@ -134,11 +125,10 @@ func fillUpTable[T models.Gongstruct](
 		row.Cells = append(row.Cells, cell)
 		cellInt := (&gongtable.CellInt{
 			Name: "ID",
-			Value: orm.GetID(
+			Value: int(models.GetOrder(
 				probe.stageOfInterest,
-				probe.backRepoOfInterest,
 				structInstance,
-			),
+			)),
 		}).Stage(probe.tableStage)
 		cell.CellInt = cellInt
 
@@ -147,9 +137,8 @@ func fillUpTable[T models.Gongstruct](
 		}).Stage(probe.tableStage)
 		row.Cells = append(row.Cells, cell)
 		cellIcon := (&gongtable.CellIcon{
-			Name: fmt.Sprintf("Delete Icon %d", orm.GetID(
+			Name: fmt.Sprintf("Delete Icon %d", models.GetOrder(
 				probe.stageOfInterest,
-				probe.backRepoOfInterest,
 				structInstance,
 			)),
 			Icon: string(maticons.BUTTON_delete),

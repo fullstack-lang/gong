@@ -272,10 +272,31 @@ func NewStage(name string) (stage *StageStruct) {
 
 		UpdateStateMap_Staged_Order: make(map[*UpdateState]uint),
 
-		// end of inssetion point
+		// end of insertion point
 	}
 
 	return
+}
+
+func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
+
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations
+	case *Command:
+		return stage.CommandMap_Staged_Order[instance]
+	case *DummyAgent:
+		return stage.DummyAgentMap_Staged_Order[instance]
+	case *Engine:
+		return stage.EngineMap_Staged_Order[instance]
+	case *Event:
+		return stage.EventMap_Staged_Order[instance]
+	case *Status:
+		return stage.StatusMap_Staged_Order[instance]
+	case *UpdateState:
+		return stage.UpdateStateMap_Staged_Order[instance]
+	default:
+		return 0 // should not happen
+	}
 }
 
 func (stage *StageStruct) GetName() string {
