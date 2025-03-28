@@ -195,9 +195,8 @@ func fillUpTable[T models.Gongstruct](
 		}
 		for _, reverseField := range reverseFields {
 
-			value := orm.GetReverseFieldOwnerName(
+			value := models.GetReverseFieldOwnerName(
 				probe.stageOfInterest,
-				probe.backRepoOfInterest,
 				structInstance,
 				&reverseField)
 			name := fmt.Sprintf("%d", fieldIndex) + " " + value

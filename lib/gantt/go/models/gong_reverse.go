@@ -1,20 +1,15 @@
 // generated code - do not edit
-package orm
-
-import (
-	"github.com/fullstack-lang/gong/lib/gantt/go/models"
-)
+package models
 
 func GetReverseFieldOwnerName(
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+	stage *StageStruct,
 	instance any,
-	reverseField *models.ReverseField) (res string) {
+	reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.Arrow:
+	case *Arrow:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Gantt":
@@ -26,7 +21,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Bar:
+	case *Bar:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Lane":
@@ -38,12 +33,12 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Gantt:
+	case *Gantt:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Group:
+	case *Group:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Gantt":
@@ -55,7 +50,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Lane:
+	case *Lane:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Gantt":
@@ -74,7 +69,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.LaneUse:
+	case *LaneUse:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Milestone":
@@ -86,7 +81,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *models.Milestone:
+	case *Milestone:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Gantt":
@@ -104,16 +99,15 @@ func GetReverseFieldOwnerName(
 	return
 }
 
-func GetReverseFieldOwner[T models.Gongstruct](
-	stage *models.StageStruct,
-	backRepo *BackRepoStruct,
+func GetReverseFieldOwner[T Gongstruct](
+	stage *StageStruct,
 	instance *T,
-	reverseField *models.ReverseField) (res any) {
+	reverseField *ReverseField) (res any) {
 
 	res = nil
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.Arrow:
+	case *Arrow:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Gantt":
@@ -123,7 +117,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Bar:
+	case *Bar:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Lane":
@@ -133,12 +127,12 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Gantt:
+	case *Gantt:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
 
-	case *models.Group:
+	case *Group:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Gantt":
@@ -148,7 +142,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Lane:
+	case *Lane:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Gantt":
@@ -163,7 +157,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.LaneUse:
+	case *LaneUse:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Milestone":
@@ -173,7 +167,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			}
 		}
 
-	case *models.Milestone:
+	case *Milestone:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "Gantt":
