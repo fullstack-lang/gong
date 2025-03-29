@@ -175,7 +175,7 @@
             "program": "${workspaceFolder}/lib/button/go/cmd/button",
             "args": [
                 "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage_out"
+                "-marshallOnCommit=data/stage"
             ],
         },
         {

@@ -65,6 +65,12 @@ const modelsImportDirective = `
 const newStagerCall = `
 	{{pkgname}}_models.NewStager(r, stack.Stage)`
 
+const commentedModelsImportDirective = `
+	// {{pkgname}}_models "{{PkgPathRoot}}/models"`
+
+const commentedNewStagerCall = `
+	// {{pkgname}}_models.NewStager(r, stack.Stage)`
+
 func CodeGeneratorPackageMain(
 	modelPkg *models.ModelPkg,
 	pkgName string,
@@ -78,8 +84,8 @@ func CodeGeneratorPackageMain(
 			codeGo = strings.ReplaceAll(codeGo, "{{modelsImportDirective}}", modelsImportDirective)
 			codeGo = strings.ReplaceAll(codeGo, "{{newStagerCall}}", newStagerCall)
 		} else {
-			codeGo = strings.ReplaceAll(codeGo, "{{modelsImportDirective}}", "")
-			codeGo = strings.ReplaceAll(codeGo, "{{newStagerCall}}", "")
+			codeGo = strings.ReplaceAll(codeGo, "{{modelsImportDirective}}", commentedModelsImportDirective)
+			codeGo = strings.ReplaceAll(codeGo, "{{newStagerCall}}", commentedNewStagerCall)
 		}
 
 		caserEnglish := cases.Title(language.English)

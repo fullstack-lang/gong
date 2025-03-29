@@ -60,8 +60,8 @@ func LoadDiagramPackage(
 	// diagram package, when marshalled, will reference identifiers in the
 	// model package. Both of the variable need to be set up for the
 	// generic marshalling/unmarshalling to work
-	gongdocStage.MetaPackageImportAlias = "ref_" + filepath.Base(diagramPackage.GongModelPath)
-	gongdocStage.MetaPackageImportPath = `"` + diagramPackage.GongModelPath + `"`
+	gongdocStage.MetaPackageImportAlias = "ref_models"
+	gongdocStage.MetaPackageImportPath = `"` + diagramPackage.Stage_.GetType() + `"`
 	if gongdocStage.Map_DocLink_Renaming == nil {
 		gongdocStage.Map_DocLink_Renaming = make(map[string]gongdoc_models.GONG__Identifier)
 	}
