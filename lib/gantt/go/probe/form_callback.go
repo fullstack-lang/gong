@@ -9,13 +9,11 @@ import (
 	table "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/lib/gantt/go/models"
-	"github.com/fullstack-lang/gong/lib/gantt/go/orm"
 )
 
 const __dummmy__time = time.Nanosecond
 
 var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
-var __dummy_orm = orm.BackRepoStruct{}
 
 // insertion point
 func __gong__New__ArrowFormCallback(
