@@ -280,8 +280,8 @@
             "mode": "auto",
             "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
             "args": [
-                "-unmarshallFromCode=rectangle.go",
-                "-marshallOnCommit=rectangle_out"
+                "-unmarshallFromCode=data/rectangle.go",
+                "-marshallOnCommit=data/rectangle_out"
             ],
         },
         {
