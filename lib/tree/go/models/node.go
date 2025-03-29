@@ -52,7 +52,7 @@ type Node struct {
 }
 
 // OnAfterUpdate, notice that node == stagedNode
-func (node *Node) OnAfterUpdate(stage *StageStruct, _, frontNode *Node) {
+func (node *Node) OnAfterUpdate(stage *Stage, _, frontNode *Node) {
 
 	if node.Impl != nil {
 		node.Impl.OnAfterUpdate(stage, node, frontNode)

@@ -10,7 +10,7 @@ import (
 type BarImpl struct {
 	Bar            *gonggantt_models.Bar
 	GanttToRender  *gonggantt_models.Gantt
-	GongganttStage *gonggantt_models.StageStruct
+	GongganttStage *gonggantt_models.Stage
 }
 
 func (barImpl *BarImpl) RectUpdated(updatedRect *gongsvg_models.Rect) {

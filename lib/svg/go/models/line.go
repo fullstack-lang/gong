@@ -14,7 +14,7 @@ type Line struct {
 	MouseClickX, MouseClickY float64
 }
 
-func (line *Line) OnAfterUpdate(stage *StageStruct, _, frontLine *Line) {
+func (line *Line) OnAfterUpdate(stage *Stage, _, frontLine *Line) {
 
 	if line.MouseClickX != frontLine.MouseClickX ||
 		line.MouseClickY != frontLine.MouseClickY {

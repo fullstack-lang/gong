@@ -94,7 +94,7 @@ type LinkAnchoredText struct {
 	Impl LinkAnchoredTextImplInterface
 }
 
-func (linkAnchoredText *LinkAnchoredText) OnAfterUpdate(stage *StageStruct, _, frontLinkAnchoredText *LinkAnchoredText) {
+func (linkAnchoredText *LinkAnchoredText) OnAfterUpdate(stage *Stage, _, frontLinkAnchoredText *LinkAnchoredText) {
 
 	if linkAnchoredText.Impl != nil {
 		linkAnchoredText.Impl.AnchoredTextUpdated(frontLinkAnchoredText)

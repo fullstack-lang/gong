@@ -188,10 +188,10 @@ type BackRepoAsSplitAreaStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoAsSplitArea.stage
 	return
 }
@@ -209,7 +209,7 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) GetAsSplitAreaDBFromAsSpli
 
 // BackRepoAsSplitArea.CommitPhaseOne commits all staged instances of AsSplitArea to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var assplitareas []*models.AsSplitArea
 	for assplitarea := range stage.AsSplitAreas {

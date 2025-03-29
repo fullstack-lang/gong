@@ -176,10 +176,10 @@ type BackRepoCircleStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoCircle *BackRepoCircleStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoCircle *BackRepoCircleStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoCircle.stage
 	return
 }
@@ -197,7 +197,7 @@ func (backRepoCircle *BackRepoCircleStruct) GetCircleDBFromCirclePtr(circle *mod
 
 // BackRepoCircle.CommitPhaseOne commits all staged instances of Circle to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoCircle *BackRepoCircleStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoCircle *BackRepoCircleStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var circles []*models.Circle
 	for circle := range stage.Circles {

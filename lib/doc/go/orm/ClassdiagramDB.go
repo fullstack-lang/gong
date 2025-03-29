@@ -123,10 +123,10 @@ type BackRepoClassdiagramStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoClassdiagram *BackRepoClassdiagramStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoClassdiagram *BackRepoClassdiagramStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoClassdiagram.stage
 	return
 }
@@ -144,7 +144,7 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) GetClassdiagramDBFromCla
 
 // BackRepoClassdiagram.CommitPhaseOne commits all staged instances of Classdiagram to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoClassdiagram *BackRepoClassdiagramStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoClassdiagram *BackRepoClassdiagramStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var classdiagrams []*models.Classdiagram
 	for classdiagram := range stage.Classdiagrams {

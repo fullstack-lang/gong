@@ -7,7 +7,7 @@ type AstructOrchestrator struct {
 }
 
 func (orchestrator *AstructOrchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	stagedAstruct, backRepoAstruct *Astruct) {
 
 	stagedAstruct.OnAfterUpdate(gongsvgStage, stagedAstruct, backRepoAstruct)
@@ -17,13 +17,13 @@ type BstructOrchestrator struct {
 }
 
 func (orchestrator *BstructOrchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	stagedBstruct, backRepoBstruct *Bstruct) {
 
 	stagedBstruct.OnAfterUpdate(gongsvgStage, stagedBstruct, backRepoBstruct)
 }
 
-func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *StageStruct) {
+func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 
 	var ret Type
 

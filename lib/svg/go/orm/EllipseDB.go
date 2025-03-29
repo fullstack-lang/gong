@@ -182,10 +182,10 @@ type BackRepoEllipseStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoEllipse *BackRepoEllipseStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoEllipse *BackRepoEllipseStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoEllipse.stage
 	return
 }
@@ -203,7 +203,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) GetEllipseDBFromEllipsePtr(ellipse
 
 // BackRepoEllipse.CommitPhaseOne commits all staged instances of Ellipse to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoEllipse *BackRepoEllipseStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoEllipse *BackRepoEllipseStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var ellipses []*models.Ellipse
 	for ellipse := range stage.Ellipses {

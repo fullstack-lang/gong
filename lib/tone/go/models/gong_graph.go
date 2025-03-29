@@ -1,7 +1,7 @@
 // generated code - do not edit
 package models
 
-func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
+func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
@@ -21,21 +21,21 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (stage *StageStruct) IsStagedFreqency(freqency *Freqency) (ok bool) {
+func (stage *Stage) IsStagedFreqency(freqency *Freqency) (ok bool) {
 
 	_, ok = stage.Freqencys[freqency]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedNote(note *Note) (ok bool) {
+func (stage *Stage) IsStagedNote(note *Note) (ok bool) {
 
 	_, ok = stage.Notes[note]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedPlayer(player *Player) (ok bool) {
+func (stage *Stage) IsStagedPlayer(player *Player) (ok bool) {
 
 	_, ok = stage.Players[player]
 
@@ -46,7 +46,7 @@ func (stage *StageStruct) IsStagedPlayer(player *Player) (ok bool) {
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
@@ -65,7 +65,7 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for stage branch per struct
-func (stage *StageStruct) StageBranchFreqency(freqency *Freqency) {
+func (stage *Stage) StageBranchFreqency(freqency *Freqency) {
 
 	// check if instance is already staged
 	if IsStaged(stage, freqency) {
@@ -80,7 +80,7 @@ func (stage *StageStruct) StageBranchFreqency(freqency *Freqency) {
 
 }
 
-func (stage *StageStruct) StageBranchNote(note *Note) {
+func (stage *Stage) StageBranchNote(note *Note) {
 
 	// check if instance is already staged
 	if IsStaged(stage, note) {
@@ -98,7 +98,7 @@ func (stage *StageStruct) StageBranchNote(note *Note) {
 
 }
 
-func (stage *StageStruct) StageBranchPlayer(player *Player) {
+func (stage *Stage) StageBranchPlayer(player *Player) {
 
 	// check if instance is already staged
 	if IsStaged(stage, player) {
@@ -207,7 +207,7 @@ func CopyBranchPlayer(mapOrigCopy map[any]any, playerFrom *Player) (playerTo *Pl
 // referenced by pointers or slices of pointers of the insance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
@@ -226,7 +226,7 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
-func (stage *StageStruct) UnstageBranchFreqency(freqency *Freqency) {
+func (stage *Stage) UnstageBranchFreqency(freqency *Freqency) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, freqency) {
@@ -241,7 +241,7 @@ func (stage *StageStruct) UnstageBranchFreqency(freqency *Freqency) {
 
 }
 
-func (stage *StageStruct) UnstageBranchNote(note *Note) {
+func (stage *Stage) UnstageBranchNote(note *Note) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, note) {
@@ -259,7 +259,7 @@ func (stage *StageStruct) UnstageBranchNote(note *Note) {
 
 }
 
-func (stage *StageStruct) UnstageBranchPlayer(player *Player) {
+func (stage *Stage) UnstageBranchPlayer(player *Player) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, player) {

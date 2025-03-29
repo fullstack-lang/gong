@@ -113,10 +113,10 @@ type BackRepoSvgTextStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoSvgText *BackRepoSvgTextStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoSvgText *BackRepoSvgTextStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoSvgText.stage
 	return
 }
@@ -134,7 +134,7 @@ func (backRepoSvgText *BackRepoSvgTextStruct) GetSvgTextDBFromSvgTextPtr(svgtext
 
 // BackRepoSvgText.CommitPhaseOne commits all staged instances of SvgText to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoSvgText *BackRepoSvgTextStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoSvgText *BackRepoSvgTextStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var svgtexts []*models.SvgText
 	for svgtext := range stage.SvgTexts {

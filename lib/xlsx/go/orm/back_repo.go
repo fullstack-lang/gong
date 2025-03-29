@@ -38,7 +38,7 @@ type BackRepoStruct struct {
 
 	PushFromFrontNb uint // records commit increments when performed by the front
 
-	stage *models.StageStruct
+	stage *models.Stage
 
 	// the back repo can broadcast the CommitFromBackNb to all interested subscribers
 	rwMutex     sync.RWMutex
@@ -47,7 +47,7 @@ type BackRepoStruct struct {
 	subscribers []chan int
 }
 
-func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepoStruct) {
+func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct) {
 
 	var db db.DBInterface
 
@@ -113,7 +113,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 	return
 }
 
-func (backRepo *BackRepoStruct) GetStage() (stage *models.StageStruct) {
+func (backRepo *BackRepoStruct) GetStage() (stage *models.Stage) {
 	stage = backRepo.stage
 	return
 }
@@ -152,7 +152,7 @@ func (backRepo *BackRepoStruct) IncrementPushFromFrontNb() uint {
 }
 
 // Commit the BackRepoStruct inner variables and link to the database
-func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
+func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 
 	// forbid read of back repo during commit
 	backRepo.rwMutex.Lock()
@@ -179,7 +179,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 }
 
 // Checkout the database into the stage
-func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
+func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 
 	backRepo.rwMutex.Lock()
 	defer backRepo.rwMutex.Unlock()
@@ -199,7 +199,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 }
 
 // Backup the BackRepoStruct
-func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string) {
+func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 	os.MkdirAll(dirPath, os.ModePerm)
 
 	// insertion point for per struct backup
@@ -211,7 +211,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string
 }
 
 // Backup in XL the BackRepoStruct
-func (backRepo *BackRepoStruct) BackupXL(stage *models.StageStruct, dirPath string) {
+func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 	os.MkdirAll(dirPath, os.ModePerm)
 
 	// open an existing file
@@ -237,7 +237,7 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.StageStruct, dirPath stri
 }
 
 // Restore the database into the back repo
-func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath string) {
+func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.stage.Commit()
 	backRepo.stage.Reset()
 	backRepo.stage.Checkout()
@@ -268,7 +268,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 }
 
 // Restore the database into the back repo
-func (backRepo *BackRepoStruct) RestoreXL(stage *models.StageStruct, dirPath string) {
+func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 
 	// clean the stage
 	backRepo.stage.Reset()

@@ -13,10 +13,10 @@ type Button struct {
 type ButtonImplInterface interface {
 
 	// ButtonUpdated function is called each time a Button is modified
-	ButtonUpdated(tage *StageStruct, button, updatedButton *Button)
+	ButtonUpdated(tage *Stage, button, updatedButton *Button)
 }
 
-func (button *Button) OnAfterUpdate(stage *StageStruct, _, frontButton *Button) {
+func (button *Button) OnAfterUpdate(stage *Stage, _, frontButton *Button) {
 
 	if button.Impl != nil {
 		button.Impl.ButtonUpdated(stage, button, frontButton)

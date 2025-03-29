@@ -11,9 +11,9 @@ import (
 )
 
 type PortfolioAdapter struct {
-	gongStage    *gong_models.StageStruct
-	gongdocStage *gongdoc_models.StageStruct
-	gongsvgStage *gongsvg_models.StageStruct
+	gongStage    *gong_models.Stage
+	gongdocStage *gongdoc_models.Stage
+	gongsvgStage *gongsvg_models.Stage
 	diagrammer   *diagrammer.Diagrammer
 
 	rootNodes []diagrammer.PortfolioNode
@@ -34,9 +34,9 @@ func (portfolioAdapter *PortfolioAdapter) IsInDrawingMode() bool {
 var _ diagrammer.Portfolio = &PortfolioAdapter{}
 
 func NewPortfolioAdapter(
-	gongStage *gong_models.StageStruct,
-	gongdocStage *gongdoc_models.StageStruct,
-	svgStage *gongsvg_models.StageStruct,
+	gongStage *gong_models.Stage,
+	gongdocStage *gongdoc_models.Stage,
+	svgStage *gongsvg_models.Stage,
 ) (portfolioAdapter *PortfolioAdapter) {
 	portfolioAdapter = new(PortfolioAdapter)
 

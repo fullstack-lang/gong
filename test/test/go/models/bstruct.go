@@ -19,7 +19,7 @@ type Bstruct struct {
 }
 
 // presence of this function will let gong generates orchestrator code
-func (bstruct *Bstruct) OnAfterUpdate(stage *StageStruct, stagedInstance, frontInstance *Bstruct) {
+func (bstruct *Bstruct) OnAfterUpdate(stage *Stage, stagedInstance, frontInstance *Bstruct) {
 
 	//
 }

@@ -1,7 +1,7 @@
 // generated code - do not edit
 package models
 
-func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
+func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
@@ -69,133 +69,133 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (stage *StageStruct) IsStagedAnimate(animate *Animate) (ok bool) {
+func (stage *Stage) IsStagedAnimate(animate *Animate) (ok bool) {
 
 	_, ok = stage.Animates[animate]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedCircle(circle *Circle) (ok bool) {
+func (stage *Stage) IsStagedCircle(circle *Circle) (ok bool) {
 
 	_, ok = stage.Circles[circle]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedEllipse(ellipse *Ellipse) (ok bool) {
+func (stage *Stage) IsStagedEllipse(ellipse *Ellipse) (ok bool) {
 
 	_, ok = stage.Ellipses[ellipse]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedLayer(layer *Layer) (ok bool) {
+func (stage *Stage) IsStagedLayer(layer *Layer) (ok bool) {
 
 	_, ok = stage.Layers[layer]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedLine(line *Line) (ok bool) {
+func (stage *Stage) IsStagedLine(line *Line) (ok bool) {
 
 	_, ok = stage.Lines[line]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedLink(link *Link) (ok bool) {
+func (stage *Stage) IsStagedLink(link *Link) (ok bool) {
 
 	_, ok = stage.Links[link]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedLinkAnchoredText(linkanchoredtext *LinkAnchoredText) (ok bool) {
+func (stage *Stage) IsStagedLinkAnchoredText(linkanchoredtext *LinkAnchoredText) (ok bool) {
 
 	_, ok = stage.LinkAnchoredTexts[linkanchoredtext]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedPath(path *Path) (ok bool) {
+func (stage *Stage) IsStagedPath(path *Path) (ok bool) {
 
 	_, ok = stage.Paths[path]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedPoint(point *Point) (ok bool) {
+func (stage *Stage) IsStagedPoint(point *Point) (ok bool) {
 
 	_, ok = stage.Points[point]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedPolygone(polygone *Polygone) (ok bool) {
+func (stage *Stage) IsStagedPolygone(polygone *Polygone) (ok bool) {
 
 	_, ok = stage.Polygones[polygone]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedPolyline(polyline *Polyline) (ok bool) {
+func (stage *Stage) IsStagedPolyline(polyline *Polyline) (ok bool) {
 
 	_, ok = stage.Polylines[polyline]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedRect(rect *Rect) (ok bool) {
+func (stage *Stage) IsStagedRect(rect *Rect) (ok bool) {
 
 	_, ok = stage.Rects[rect]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedRectAnchoredPath(rectanchoredpath *RectAnchoredPath) (ok bool) {
+func (stage *Stage) IsStagedRectAnchoredPath(rectanchoredpath *RectAnchoredPath) (ok bool) {
 
 	_, ok = stage.RectAnchoredPaths[rectanchoredpath]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedRectAnchoredRect(rectanchoredrect *RectAnchoredRect) (ok bool) {
+func (stage *Stage) IsStagedRectAnchoredRect(rectanchoredrect *RectAnchoredRect) (ok bool) {
 
 	_, ok = stage.RectAnchoredRects[rectanchoredrect]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedRectAnchoredText(rectanchoredtext *RectAnchoredText) (ok bool) {
+func (stage *Stage) IsStagedRectAnchoredText(rectanchoredtext *RectAnchoredText) (ok bool) {
 
 	_, ok = stage.RectAnchoredTexts[rectanchoredtext]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedRectLinkLink(rectlinklink *RectLinkLink) (ok bool) {
+func (stage *Stage) IsStagedRectLinkLink(rectlinklink *RectLinkLink) (ok bool) {
 
 	_, ok = stage.RectLinkLinks[rectlinklink]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedSVG(svg *SVG) (ok bool) {
+func (stage *Stage) IsStagedSVG(svg *SVG) (ok bool) {
 
 	_, ok = stage.SVGs[svg]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedSvgText(svgtext *SvgText) (ok bool) {
+func (stage *Stage) IsStagedSvgText(svgtext *SvgText) (ok bool) {
 
 	_, ok = stage.SvgTexts[svgtext]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedText(text *Text) (ok bool) {
+func (stage *Stage) IsStagedText(text *Text) (ok bool) {
 
 	_, ok = stage.Texts[text]
 
@@ -206,7 +206,7 @@ func (stage *StageStruct) IsStagedText(text *Text) (ok bool) {
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
@@ -273,7 +273,7 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for stage branch per struct
-func (stage *StageStruct) StageBranchAnimate(animate *Animate) {
+func (stage *Stage) StageBranchAnimate(animate *Animate) {
 
 	// check if instance is already staged
 	if IsStaged(stage, animate) {
@@ -288,7 +288,7 @@ func (stage *StageStruct) StageBranchAnimate(animate *Animate) {
 
 }
 
-func (stage *StageStruct) StageBranchCircle(circle *Circle) {
+func (stage *Stage) StageBranchCircle(circle *Circle) {
 
 	// check if instance is already staged
 	if IsStaged(stage, circle) {
@@ -306,7 +306,7 @@ func (stage *StageStruct) StageBranchCircle(circle *Circle) {
 
 }
 
-func (stage *StageStruct) StageBranchEllipse(ellipse *Ellipse) {
+func (stage *Stage) StageBranchEllipse(ellipse *Ellipse) {
 
 	// check if instance is already staged
 	if IsStaged(stage, ellipse) {
@@ -324,7 +324,7 @@ func (stage *StageStruct) StageBranchEllipse(ellipse *Ellipse) {
 
 }
 
-func (stage *StageStruct) StageBranchLayer(layer *Layer) {
+func (stage *Stage) StageBranchLayer(layer *Layer) {
 
 	// check if instance is already staged
 	if IsStaged(stage, layer) {
@@ -369,7 +369,7 @@ func (stage *StageStruct) StageBranchLayer(layer *Layer) {
 
 }
 
-func (stage *StageStruct) StageBranchLine(line *Line) {
+func (stage *Stage) StageBranchLine(line *Line) {
 
 	// check if instance is already staged
 	if IsStaged(stage, line) {
@@ -387,7 +387,7 @@ func (stage *StageStruct) StageBranchLine(line *Line) {
 
 }
 
-func (stage *StageStruct) StageBranchLink(link *Link) {
+func (stage *Stage) StageBranchLink(link *Link) {
 
 	// check if instance is already staged
 	if IsStaged(stage, link) {
@@ -417,7 +417,7 @@ func (stage *StageStruct) StageBranchLink(link *Link) {
 
 }
 
-func (stage *StageStruct) StageBranchLinkAnchoredText(linkanchoredtext *LinkAnchoredText) {
+func (stage *Stage) StageBranchLinkAnchoredText(linkanchoredtext *LinkAnchoredText) {
 
 	// check if instance is already staged
 	if IsStaged(stage, linkanchoredtext) {
@@ -435,7 +435,7 @@ func (stage *StageStruct) StageBranchLinkAnchoredText(linkanchoredtext *LinkAnch
 
 }
 
-func (stage *StageStruct) StageBranchPath(path *Path) {
+func (stage *Stage) StageBranchPath(path *Path) {
 
 	// check if instance is already staged
 	if IsStaged(stage, path) {
@@ -453,7 +453,7 @@ func (stage *StageStruct) StageBranchPath(path *Path) {
 
 }
 
-func (stage *StageStruct) StageBranchPoint(point *Point) {
+func (stage *Stage) StageBranchPoint(point *Point) {
 
 	// check if instance is already staged
 	if IsStaged(stage, point) {
@@ -468,7 +468,7 @@ func (stage *StageStruct) StageBranchPoint(point *Point) {
 
 }
 
-func (stage *StageStruct) StageBranchPolygone(polygone *Polygone) {
+func (stage *Stage) StageBranchPolygone(polygone *Polygone) {
 
 	// check if instance is already staged
 	if IsStaged(stage, polygone) {
@@ -486,7 +486,7 @@ func (stage *StageStruct) StageBranchPolygone(polygone *Polygone) {
 
 }
 
-func (stage *StageStruct) StageBranchPolyline(polyline *Polyline) {
+func (stage *Stage) StageBranchPolyline(polyline *Polyline) {
 
 	// check if instance is already staged
 	if IsStaged(stage, polyline) {
@@ -504,7 +504,7 @@ func (stage *StageStruct) StageBranchPolyline(polyline *Polyline) {
 
 }
 
-func (stage *StageStruct) StageBranchRect(rect *Rect) {
+func (stage *Stage) StageBranchRect(rect *Rect) {
 
 	// check if instance is already staged
 	if IsStaged(stage, rect) {
@@ -531,7 +531,7 @@ func (stage *StageStruct) StageBranchRect(rect *Rect) {
 
 }
 
-func (stage *StageStruct) StageBranchRectAnchoredPath(rectanchoredpath *RectAnchoredPath) {
+func (stage *Stage) StageBranchRectAnchoredPath(rectanchoredpath *RectAnchoredPath) {
 
 	// check if instance is already staged
 	if IsStaged(stage, rectanchoredpath) {
@@ -546,7 +546,7 @@ func (stage *StageStruct) StageBranchRectAnchoredPath(rectanchoredpath *RectAnch
 
 }
 
-func (stage *StageStruct) StageBranchRectAnchoredRect(rectanchoredrect *RectAnchoredRect) {
+func (stage *Stage) StageBranchRectAnchoredRect(rectanchoredrect *RectAnchoredRect) {
 
 	// check if instance is already staged
 	if IsStaged(stage, rectanchoredrect) {
@@ -561,7 +561,7 @@ func (stage *StageStruct) StageBranchRectAnchoredRect(rectanchoredrect *RectAnch
 
 }
 
-func (stage *StageStruct) StageBranchRectAnchoredText(rectanchoredtext *RectAnchoredText) {
+func (stage *Stage) StageBranchRectAnchoredText(rectanchoredtext *RectAnchoredText) {
 
 	// check if instance is already staged
 	if IsStaged(stage, rectanchoredtext) {
@@ -579,7 +579,7 @@ func (stage *StageStruct) StageBranchRectAnchoredText(rectanchoredtext *RectAnch
 
 }
 
-func (stage *StageStruct) StageBranchRectLinkLink(rectlinklink *RectLinkLink) {
+func (stage *Stage) StageBranchRectLinkLink(rectlinklink *RectLinkLink) {
 
 	// check if instance is already staged
 	if IsStaged(stage, rectlinklink) {
@@ -600,7 +600,7 @@ func (stage *StageStruct) StageBranchRectLinkLink(rectlinklink *RectLinkLink) {
 
 }
 
-func (stage *StageStruct) StageBranchSVG(svg *SVG) {
+func (stage *Stage) StageBranchSVG(svg *SVG) {
 
 	// check if instance is already staged
 	if IsStaged(stage, svg) {
@@ -624,7 +624,7 @@ func (stage *StageStruct) StageBranchSVG(svg *SVG) {
 
 }
 
-func (stage *StageStruct) StageBranchSvgText(svgtext *SvgText) {
+func (stage *Stage) StageBranchSvgText(svgtext *SvgText) {
 
 	// check if instance is already staged
 	if IsStaged(stage, svgtext) {
@@ -639,7 +639,7 @@ func (stage *StageStruct) StageBranchSvgText(svgtext *SvgText) {
 
 }
 
-func (stage *StageStruct) StageBranchText(text *Text) {
+func (stage *Stage) StageBranchText(text *Text) {
 
 	// check if instance is already staged
 	if IsStaged(stage, text) {
@@ -1215,7 +1215,7 @@ func CopyBranchText(mapOrigCopy map[any]any, textFrom *Text) (textTo *Text) {
 // referenced by pointers or slices of pointers of the insance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
@@ -1282,7 +1282,7 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
-func (stage *StageStruct) UnstageBranchAnimate(animate *Animate) {
+func (stage *Stage) UnstageBranchAnimate(animate *Animate) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, animate) {
@@ -1297,7 +1297,7 @@ func (stage *StageStruct) UnstageBranchAnimate(animate *Animate) {
 
 }
 
-func (stage *StageStruct) UnstageBranchCircle(circle *Circle) {
+func (stage *Stage) UnstageBranchCircle(circle *Circle) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, circle) {
@@ -1315,7 +1315,7 @@ func (stage *StageStruct) UnstageBranchCircle(circle *Circle) {
 
 }
 
-func (stage *StageStruct) UnstageBranchEllipse(ellipse *Ellipse) {
+func (stage *Stage) UnstageBranchEllipse(ellipse *Ellipse) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, ellipse) {
@@ -1333,7 +1333,7 @@ func (stage *StageStruct) UnstageBranchEllipse(ellipse *Ellipse) {
 
 }
 
-func (stage *StageStruct) UnstageBranchLayer(layer *Layer) {
+func (stage *Stage) UnstageBranchLayer(layer *Layer) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, layer) {
@@ -1378,7 +1378,7 @@ func (stage *StageStruct) UnstageBranchLayer(layer *Layer) {
 
 }
 
-func (stage *StageStruct) UnstageBranchLine(line *Line) {
+func (stage *Stage) UnstageBranchLine(line *Line) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, line) {
@@ -1396,7 +1396,7 @@ func (stage *StageStruct) UnstageBranchLine(line *Line) {
 
 }
 
-func (stage *StageStruct) UnstageBranchLink(link *Link) {
+func (stage *Stage) UnstageBranchLink(link *Link) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, link) {
@@ -1426,7 +1426,7 @@ func (stage *StageStruct) UnstageBranchLink(link *Link) {
 
 }
 
-func (stage *StageStruct) UnstageBranchLinkAnchoredText(linkanchoredtext *LinkAnchoredText) {
+func (stage *Stage) UnstageBranchLinkAnchoredText(linkanchoredtext *LinkAnchoredText) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, linkanchoredtext) {
@@ -1444,7 +1444,7 @@ func (stage *StageStruct) UnstageBranchLinkAnchoredText(linkanchoredtext *LinkAn
 
 }
 
-func (stage *StageStruct) UnstageBranchPath(path *Path) {
+func (stage *Stage) UnstageBranchPath(path *Path) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, path) {
@@ -1462,7 +1462,7 @@ func (stage *StageStruct) UnstageBranchPath(path *Path) {
 
 }
 
-func (stage *StageStruct) UnstageBranchPoint(point *Point) {
+func (stage *Stage) UnstageBranchPoint(point *Point) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, point) {
@@ -1477,7 +1477,7 @@ func (stage *StageStruct) UnstageBranchPoint(point *Point) {
 
 }
 
-func (stage *StageStruct) UnstageBranchPolygone(polygone *Polygone) {
+func (stage *Stage) UnstageBranchPolygone(polygone *Polygone) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, polygone) {
@@ -1495,7 +1495,7 @@ func (stage *StageStruct) UnstageBranchPolygone(polygone *Polygone) {
 
 }
 
-func (stage *StageStruct) UnstageBranchPolyline(polyline *Polyline) {
+func (stage *Stage) UnstageBranchPolyline(polyline *Polyline) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, polyline) {
@@ -1513,7 +1513,7 @@ func (stage *StageStruct) UnstageBranchPolyline(polyline *Polyline) {
 
 }
 
-func (stage *StageStruct) UnstageBranchRect(rect *Rect) {
+func (stage *Stage) UnstageBranchRect(rect *Rect) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, rect) {
@@ -1540,7 +1540,7 @@ func (stage *StageStruct) UnstageBranchRect(rect *Rect) {
 
 }
 
-func (stage *StageStruct) UnstageBranchRectAnchoredPath(rectanchoredpath *RectAnchoredPath) {
+func (stage *Stage) UnstageBranchRectAnchoredPath(rectanchoredpath *RectAnchoredPath) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, rectanchoredpath) {
@@ -1555,7 +1555,7 @@ func (stage *StageStruct) UnstageBranchRectAnchoredPath(rectanchoredpath *RectAn
 
 }
 
-func (stage *StageStruct) UnstageBranchRectAnchoredRect(rectanchoredrect *RectAnchoredRect) {
+func (stage *Stage) UnstageBranchRectAnchoredRect(rectanchoredrect *RectAnchoredRect) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, rectanchoredrect) {
@@ -1570,7 +1570,7 @@ func (stage *StageStruct) UnstageBranchRectAnchoredRect(rectanchoredrect *RectAn
 
 }
 
-func (stage *StageStruct) UnstageBranchRectAnchoredText(rectanchoredtext *RectAnchoredText) {
+func (stage *Stage) UnstageBranchRectAnchoredText(rectanchoredtext *RectAnchoredText) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, rectanchoredtext) {
@@ -1588,7 +1588,7 @@ func (stage *StageStruct) UnstageBranchRectAnchoredText(rectanchoredtext *RectAn
 
 }
 
-func (stage *StageStruct) UnstageBranchRectLinkLink(rectlinklink *RectLinkLink) {
+func (stage *Stage) UnstageBranchRectLinkLink(rectlinklink *RectLinkLink) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, rectlinklink) {
@@ -1609,7 +1609,7 @@ func (stage *StageStruct) UnstageBranchRectLinkLink(rectlinklink *RectLinkLink) 
 
 }
 
-func (stage *StageStruct) UnstageBranchSVG(svg *SVG) {
+func (stage *Stage) UnstageBranchSVG(svg *SVG) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, svg) {
@@ -1633,7 +1633,7 @@ func (stage *StageStruct) UnstageBranchSVG(svg *SVG) {
 
 }
 
-func (stage *StageStruct) UnstageBranchSvgText(svgtext *SvgText) {
+func (stage *Stage) UnstageBranchSvgText(svgtext *SvgText) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, svgtext) {
@@ -1648,7 +1648,7 @@ func (stage *StageStruct) UnstageBranchSvgText(svgtext *SvgText) {
 
 }
 
-func (stage *StageStruct) UnstageBranchText(text *Text) {
+func (stage *Stage) UnstageBranchText(text *Text) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, text) {

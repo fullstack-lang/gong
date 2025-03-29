@@ -198,7 +198,7 @@ type RowUpdate[T models.Gongstruct] struct {
 	probe    *Probe
 }
 
-func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, updatedRow *gongtable.Row) {
+func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.Stage, row, updatedRow *gongtable.Row) {
 	log.Println("RowUpdate: RowUpdated", updatedRow.Name)
 
 	FillUpFormFromGongstruct(rowUpdate.Instance, rowUpdate.probe)

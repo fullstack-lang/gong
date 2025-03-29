@@ -13,8 +13,8 @@ import (
 )
 
 func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
-	gongganttStage *gonggantt_models.StageStruct,
-	gongsvgStage *gongsvg_models.StageStruct) {
+	gongganttStage *gonggantt_models.Stage,
+	gongsvgStage *gongsvg_models.Stage) {
 
 	// remove all gongsvg stage/repo
 	gongsvgStage.Checkout()

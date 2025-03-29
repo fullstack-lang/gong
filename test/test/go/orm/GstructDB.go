@@ -125,10 +125,10 @@ type BackRepoGstructStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoGstruct *BackRepoGstructStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoGstruct *BackRepoGstructStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoGstruct.stage
 	return
 }
@@ -146,7 +146,7 @@ func (backRepoGstruct *BackRepoGstructStruct) GetGstructDBFromGstructPtr(gstruct
 
 // BackRepoGstruct.CommitPhaseOne commits all staged instances of Gstruct to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoGstruct *BackRepoGstructStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoGstruct *BackRepoGstructStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var gstructs []*models.Gstruct
 	for gstruct := range stage.Gstructs {

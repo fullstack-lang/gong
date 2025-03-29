@@ -131,10 +131,10 @@ type BackRepoXLSheetStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoXLSheet *BackRepoXLSheetStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoXLSheet *BackRepoXLSheetStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoXLSheet.stage
 	return
 }
@@ -152,7 +152,7 @@ func (backRepoXLSheet *BackRepoXLSheetStruct) GetXLSheetDBFromXLSheetPtr(xlsheet
 
 // BackRepoXLSheet.CommitPhaseOne commits all staged instances of XLSheet to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoXLSheet *BackRepoXLSheetStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoXLSheet *BackRepoXLSheetStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var xlsheets []*models.XLSheet
 	for xlsheet := range stage.XLSheets {

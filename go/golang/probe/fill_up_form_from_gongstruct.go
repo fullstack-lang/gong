@@ -17,7 +17,7 @@ func FillUpFormFromGongstruct(instance any, probe *Probe) {
 
 }
 
-func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongtable.StageStruct, formName string) {
+func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongtable.Stage, formName string) {
 
 	switch instancesTyped := any(instance).(type) {
 	// insertion point{{` + string(rune(FillUpFormFromGongstructSwitchCase)) + `}}

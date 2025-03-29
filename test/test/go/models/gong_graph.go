@@ -1,7 +1,7 @@
 // generated code - do not edit
 package models
 
-func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
+func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
@@ -33,49 +33,49 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (stage *StageStruct) IsStagedAstruct(astruct *Astruct) (ok bool) {
+func (stage *Stage) IsStagedAstruct(astruct *Astruct) (ok bool) {
 
 	_, ok = stage.Astructs[astruct]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) (ok bool) {
+func (stage *Stage) IsStagedAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) (ok bool) {
 
 	_, ok = stage.AstructBstruct2Uses[astructbstruct2use]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedAstructBstructUse(astructbstructuse *AstructBstructUse) (ok bool) {
+func (stage *Stage) IsStagedAstructBstructUse(astructbstructuse *AstructBstructUse) (ok bool) {
 
 	_, ok = stage.AstructBstructUses[astructbstructuse]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedBstruct(bstruct *Bstruct) (ok bool) {
+func (stage *Stage) IsStagedBstruct(bstruct *Bstruct) (ok bool) {
 
 	_, ok = stage.Bstructs[bstruct]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedDstruct(dstruct *Dstruct) (ok bool) {
+func (stage *Stage) IsStagedDstruct(dstruct *Dstruct) (ok bool) {
 
 	_, ok = stage.Dstructs[dstruct]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedFstruct(fstruct *Fstruct) (ok bool) {
+func (stage *Stage) IsStagedFstruct(fstruct *Fstruct) (ok bool) {
 
 	_, ok = stage.Fstructs[fstruct]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedGstruct(gstruct *Gstruct) (ok bool) {
+func (stage *Stage) IsStagedGstruct(gstruct *Gstruct) (ok bool) {
 
 	_, ok = stage.Gstructs[gstruct]
 
@@ -86,7 +86,7 @@ func (stage *StageStruct) IsStagedGstruct(gstruct *Gstruct) (ok bool) {
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
@@ -117,7 +117,7 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for stage branch per struct
-func (stage *StageStruct) StageBranchAstruct(astruct *Astruct) {
+func (stage *Stage) StageBranchAstruct(astruct *Astruct) {
 
 	// check if instance is already staged
 	if IsStaged(stage, astruct) {
@@ -177,7 +177,7 @@ func (stage *StageStruct) StageBranchAstruct(astruct *Astruct) {
 
 }
 
-func (stage *StageStruct) StageBranchAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) {
+func (stage *Stage) StageBranchAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) {
 
 	// check if instance is already staged
 	if IsStaged(stage, astructbstruct2use) {
@@ -195,7 +195,7 @@ func (stage *StageStruct) StageBranchAstructBstruct2Use(astructbstruct2use *Astr
 
 }
 
-func (stage *StageStruct) StageBranchAstructBstructUse(astructbstructuse *AstructBstructUse) {
+func (stage *Stage) StageBranchAstructBstructUse(astructbstructuse *AstructBstructUse) {
 
 	// check if instance is already staged
 	if IsStaged(stage, astructbstructuse) {
@@ -213,7 +213,7 @@ func (stage *StageStruct) StageBranchAstructBstructUse(astructbstructuse *Astruc
 
 }
 
-func (stage *StageStruct) StageBranchBstruct(bstruct *Bstruct) {
+func (stage *Stage) StageBranchBstruct(bstruct *Bstruct) {
 
 	// check if instance is already staged
 	if IsStaged(stage, bstruct) {
@@ -228,7 +228,7 @@ func (stage *StageStruct) StageBranchBstruct(bstruct *Bstruct) {
 
 }
 
-func (stage *StageStruct) StageBranchDstruct(dstruct *Dstruct) {
+func (stage *Stage) StageBranchDstruct(dstruct *Dstruct) {
 
 	// check if instance is already staged
 	if IsStaged(stage, dstruct) {
@@ -252,7 +252,7 @@ func (stage *StageStruct) StageBranchDstruct(dstruct *Dstruct) {
 
 }
 
-func (stage *StageStruct) StageBranchFstruct(fstruct *Fstruct) {
+func (stage *Stage) StageBranchFstruct(fstruct *Fstruct) {
 
 	// check if instance is already staged
 	if IsStaged(stage, fstruct) {
@@ -267,7 +267,7 @@ func (stage *StageStruct) StageBranchFstruct(fstruct *Fstruct) {
 
 }
 
-func (stage *StageStruct) StageBranchGstruct(gstruct *Gstruct) {
+func (stage *Stage) StageBranchGstruct(gstruct *Gstruct) {
 
 	// check if instance is already staged
 	if IsStaged(stage, gstruct) {
@@ -525,7 +525,7 @@ func CopyBranchGstruct(mapOrigCopy map[any]any, gstructFrom *Gstruct) (gstructTo
 // referenced by pointers or slices of pointers of the insance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
@@ -556,7 +556,7 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
-func (stage *StageStruct) UnstageBranchAstruct(astruct *Astruct) {
+func (stage *Stage) UnstageBranchAstruct(astruct *Astruct) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, astruct) {
@@ -616,7 +616,7 @@ func (stage *StageStruct) UnstageBranchAstruct(astruct *Astruct) {
 
 }
 
-func (stage *StageStruct) UnstageBranchAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) {
+func (stage *Stage) UnstageBranchAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, astructbstruct2use) {
@@ -634,7 +634,7 @@ func (stage *StageStruct) UnstageBranchAstructBstruct2Use(astructbstruct2use *As
 
 }
 
-func (stage *StageStruct) UnstageBranchAstructBstructUse(astructbstructuse *AstructBstructUse) {
+func (stage *Stage) UnstageBranchAstructBstructUse(astructbstructuse *AstructBstructUse) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, astructbstructuse) {
@@ -652,7 +652,7 @@ func (stage *StageStruct) UnstageBranchAstructBstructUse(astructbstructuse *Astr
 
 }
 
-func (stage *StageStruct) UnstageBranchBstruct(bstruct *Bstruct) {
+func (stage *Stage) UnstageBranchBstruct(bstruct *Bstruct) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, bstruct) {
@@ -667,7 +667,7 @@ func (stage *StageStruct) UnstageBranchBstruct(bstruct *Bstruct) {
 
 }
 
-func (stage *StageStruct) UnstageBranchDstruct(dstruct *Dstruct) {
+func (stage *Stage) UnstageBranchDstruct(dstruct *Dstruct) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, dstruct) {
@@ -691,7 +691,7 @@ func (stage *StageStruct) UnstageBranchDstruct(dstruct *Dstruct) {
 
 }
 
-func (stage *StageStruct) UnstageBranchFstruct(fstruct *Fstruct) {
+func (stage *Stage) UnstageBranchFstruct(fstruct *Fstruct) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, fstruct) {
@@ -706,7 +706,7 @@ func (stage *StageStruct) UnstageBranchFstruct(fstruct *Fstruct) {
 
 }
 
-func (stage *StageStruct) UnstageBranchGstruct(gstruct *Gstruct) {
+func (stage *Stage) UnstageBranchGstruct(gstruct *Gstruct) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, gstruct) {

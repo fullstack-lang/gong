@@ -51,7 +51,7 @@ type Link struct {
 	Impl LinkImplInterface
 }
 
-func (link *Link) OnAfterUpdate(stage *StageStruct, _, frontLink *Link) {
+func (link *Link) OnAfterUpdate(stage *Stage, _, frontLink *Link) {
 
 	if link.Impl != nil {
 		link.Impl.LinkUpdated(frontLink)

@@ -194,7 +194,7 @@ func (classDiagramNode *ClassDiagramNode) DisplayDiagram() (
 // parse fields of gongstruct to match the field shape
 // parse values of gongstruct to match the value shape
 func (classDiagramNode *ClassDiagramNode) getSetOfModelElementNodesInDiagram(
-	gongStage *gong_models.StageStruct, selectedClassdiagram *gongdoc_models.Classdiagram) (
+	gongStage *gong_models.Stage, selectedClassdiagram *gongdoc_models.Classdiagram) (
 	setOfModelElementNode map[diagrammer.ModelElementNode]diagrammer.Shape) {
 	setOfModelElementNode = make(map[diagrammer.ModelElementNode]diagrammer.Shape)
 
@@ -409,7 +409,7 @@ func (classDiagramNode *ClassDiagramNode) DuplicateDiagram() diagrammer.Portfoli
 // gongdoc_models.SetupMapDocLinkRenaming(diagramPackage.ModelPkg.Stage_, gongdocStage)
 // 8. restore the stage
 func (*ClassDiagramNode) marshallDiagram(
-	gongdocStage *gongdoc_models.StageStruct,
+	gongdocStage *gongdoc_models.Stage,
 	newClassdiagram *gongdoc_models.Classdiagram,
 	diagramPackage *gongdoc_models.DiagramPackage) {
 	gongdocStage.Checkout()

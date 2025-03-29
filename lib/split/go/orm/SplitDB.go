@@ -113,10 +113,10 @@ type BackRepoSplitStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoSplit *BackRepoSplitStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoSplit *BackRepoSplitStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoSplit.stage
 	return
 }
@@ -134,7 +134,7 @@ func (backRepoSplit *BackRepoSplitStruct) GetSplitDBFromSplitPtr(split *models.S
 
 // BackRepoSplit.CommitPhaseOne commits all staged instances of Split to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoSplit *BackRepoSplitStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoSplit *BackRepoSplitStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var splits []*models.Split
 	for split := range stage.Splits {

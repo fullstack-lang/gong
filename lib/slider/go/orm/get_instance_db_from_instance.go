@@ -9,7 +9,7 @@ type GongstructDB interface {
 }
 
 func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
-	stage *models.StageStruct,
+	stage *models.Stage,
 	backRepo *BackRepoStruct,
 	instance *T) (ret *T2) {
 
@@ -38,7 +38,7 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 }
 
 func GetID[T models.Gongstruct](
-	stage *models.StageStruct,
+	stage *models.Stage,
 	backRepo *BackRepoStruct,
 	instance *T) (id int) {
 
@@ -71,7 +71,7 @@ func GetID[T models.Gongstruct](
 }
 
 func GetIDPointer[T models.PointerToGongstruct](
-	stage *models.StageStruct,
+	stage *models.Stage,
 	backRepo *BackRepoStruct,
 	instance T) (id int) {
 

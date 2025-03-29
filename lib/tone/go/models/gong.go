@@ -22,19 +22,19 @@ const ProbeTableSuffix = "-table"
 const ProbeFormSuffix = "-form"
 const ProbeSplitSuffix = "-probe"
 
-func (stage *StageStruct) GetProbeTreeSidebarStageName() string {
+func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
 }
 
-func (stage *StageStruct) GetProbeFormStageName() string {
+func (stage *Stage) GetProbeFormStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeFormSuffix
 }
 
-func (stage *StageStruct) GetProbeTableStageName() string {
+func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
 }
 
-func (stage *StageStruct) GetProbeSplitStageName() string {
+func (stage *Stage) GetProbeSplitStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeSplitSuffix
 }
 
@@ -62,9 +62,9 @@ type GongStructInterface interface {
 	// GetFieldStringValue(fieldName string) (res string)
 }
 
-// StageStruct enables storage of staged instances
+// Stage enables storage of staged instances
 // swagger:ignore
-type StageStruct struct {
+type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
@@ -135,7 +135,7 @@ type StageStruct struct {
 	// end of insertion point
 }
 
-func (stage *StageStruct) GetType() string {
+func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/tone/go/models"
 }
 
@@ -145,39 +145,39 @@ type GONG__Identifier struct {
 }
 
 type OnInitCommitInterface interface {
-	BeforeCommit(stage *StageStruct)
+	BeforeCommit(stage *Stage)
 }
 
 // OnAfterCreateInterface callback when an instance is updated from the front
 type OnAfterCreateInterface[Type Gongstruct] interface {
-	OnAfterCreate(stage *StageStruct,
+	OnAfterCreate(stage *Stage,
 		instance *Type)
 }
 
 // OnAfterReadInterface callback when an instance is updated from the front
 type OnAfterReadInterface[Type Gongstruct] interface {
-	OnAfterRead(stage *StageStruct,
+	OnAfterRead(stage *Stage,
 		instance *Type)
 }
 
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
-	OnAfterUpdate(stage *StageStruct, old, new *Type)
+	OnAfterUpdate(stage *Stage, old, new *Type)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front
 type OnAfterDeleteInterface[Type Gongstruct] interface {
-	OnAfterDelete(stage *StageStruct,
+	OnAfterDelete(stage *Stage,
 		staged, front *Type)
 }
 
 type BackRepoInterface interface {
-	Commit(stage *StageStruct)
-	Checkout(stage *StageStruct)
-	Backup(stage *StageStruct, dirPath string)
-	Restore(stage *StageStruct, dirPath string)
-	BackupXL(stage *StageStruct, dirPath string)
-	RestoreXL(stage *StageStruct, dirPath string)
+	Commit(stage *Stage)
+	Checkout(stage *Stage)
+	Backup(stage *Stage, dirPath string)
+	Restore(stage *Stage, dirPath string)
+	BackupXL(stage *Stage, dirPath string)
+	RestoreXL(stage *Stage, dirPath string)
 	// insertion point for Commit and Checkout signatures
 	CommitFreqency(freqency *Freqency)
 	CheckoutFreqency(freqency *Freqency)
@@ -189,9 +189,9 @@ type BackRepoInterface interface {
 	GetLastPushFromFrontNb() uint
 }
 
-func NewStage(name string) (stage *StageStruct) {
+func NewStage(name string) (stage *Stage) {
 
-	stage = &StageStruct{ // insertion point for array initiatialisation
+	stage = &Stage{ // insertion point for array initiatialisation
 		Freqencys:           make(map[*Freqency]any),
 		Freqencys_mapString: make(map[string]*Freqency),
 
@@ -223,7 +223,7 @@ func NewStage(name string) (stage *StageStruct) {
 	return
 }
 
-func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
+func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
@@ -238,11 +238,11 @@ func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
 	}
 }
 
-func (stage *StageStruct) GetName() string {
+func (stage *Stage) GetName() string {
 	return stage.name
 }
 
-func (stage *StageStruct) CommitWithSuspendedCallbacks() {
+func (stage *Stage) CommitWithSuspendedCallbacks() {
 
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
@@ -250,7 +250,7 @@ func (stage *StageStruct) CommitWithSuspendedCallbacks() {
 	stage.OnInitCommitFromBackCallback = tmp
 }
 
-func (stage *StageStruct) Commit() {
+func (stage *Stage) Commit() {
 	stage.ComputeReverseMaps()
 
 	if stage.BackRepo != nil {
@@ -264,7 +264,7 @@ func (stage *StageStruct) Commit() {
 
 }
 
-func (stage *StageStruct) Checkout() {
+func (stage *Stage) Checkout() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Checkout(stage)
 	}
@@ -278,28 +278,28 @@ func (stage *StageStruct) Checkout() {
 }
 
 // backup generates backup files in the dirPath
-func (stage *StageStruct) Backup(dirPath string) {
+func (stage *Stage) Backup(dirPath string) {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Backup(stage, dirPath)
 	}
 }
 
 // Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
-func (stage *StageStruct) Restore(dirPath string) {
+func (stage *Stage) Restore(dirPath string) {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Restore(stage, dirPath)
 	}
 }
 
 // backup generates backup files in the dirPath
-func (stage *StageStruct) BackupXL(dirPath string) {
+func (stage *Stage) BackupXL(dirPath string) {
 	if stage.BackRepo != nil {
 		stage.BackRepo.BackupXL(stage, dirPath)
 	}
 }
 
 // Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
-func (stage *StageStruct) RestoreXL(dirPath string) {
+func (stage *Stage) RestoreXL(dirPath string) {
 	if stage.BackRepo != nil {
 		stage.BackRepo.RestoreXL(stage, dirPath)
 	}
@@ -307,7 +307,7 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 
 // insertion point for cumulative sub template with model space calls
 // Stage puts freqency to the model stage
-func (freqency *Freqency) Stage(stage *StageStruct) *Freqency {
+func (freqency *Freqency) Stage(stage *Stage) *Freqency {
 
 	if _, ok := stage.Freqencys[freqency]; !ok {
 		stage.Freqencys[freqency] = __member
@@ -320,20 +320,20 @@ func (freqency *Freqency) Stage(stage *StageStruct) *Freqency {
 }
 
 // Unstage removes freqency off the model stage
-func (freqency *Freqency) Unstage(stage *StageStruct) *Freqency {
+func (freqency *Freqency) Unstage(stage *Stage) *Freqency {
 	delete(stage.Freqencys, freqency)
 	delete(stage.Freqencys_mapString, freqency.Name)
 	return freqency
 }
 
 // UnstageVoid removes freqency off the model stage
-func (freqency *Freqency) UnstageVoid(stage *StageStruct) {
+func (freqency *Freqency) UnstageVoid(stage *Stage) {
 	delete(stage.Freqencys, freqency)
 	delete(stage.Freqencys_mapString, freqency.Name)
 }
 
 // commit freqency to the back repo (if it is already staged)
-func (freqency *Freqency) Commit(stage *StageStruct) *Freqency {
+func (freqency *Freqency) Commit(stage *Stage) *Freqency {
 	if _, ok := stage.Freqencys[freqency]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitFreqency(freqency)
@@ -342,12 +342,12 @@ func (freqency *Freqency) Commit(stage *StageStruct) *Freqency {
 	return freqency
 }
 
-func (freqency *Freqency) CommitVoid(stage *StageStruct) {
+func (freqency *Freqency) CommitVoid(stage *Stage) {
 	freqency.Commit(stage)
 }
 
 // Checkout freqency to the back repo (if it is already staged)
-func (freqency *Freqency) Checkout(stage *StageStruct) *Freqency {
+func (freqency *Freqency) Checkout(stage *Stage) *Freqency {
 	if _, ok := stage.Freqencys[freqency]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutFreqency(freqency)
@@ -362,7 +362,7 @@ func (freqency *Freqency) GetName() (res string) {
 }
 
 // Stage puts note to the model stage
-func (note *Note) Stage(stage *StageStruct) *Note {
+func (note *Note) Stage(stage *Stage) *Note {
 
 	if _, ok := stage.Notes[note]; !ok {
 		stage.Notes[note] = __member
@@ -375,20 +375,20 @@ func (note *Note) Stage(stage *StageStruct) *Note {
 }
 
 // Unstage removes note off the model stage
-func (note *Note) Unstage(stage *StageStruct) *Note {
+func (note *Note) Unstage(stage *Stage) *Note {
 	delete(stage.Notes, note)
 	delete(stage.Notes_mapString, note.Name)
 	return note
 }
 
 // UnstageVoid removes note off the model stage
-func (note *Note) UnstageVoid(stage *StageStruct) {
+func (note *Note) UnstageVoid(stage *Stage) {
 	delete(stage.Notes, note)
 	delete(stage.Notes_mapString, note.Name)
 }
 
 // commit note to the back repo (if it is already staged)
-func (note *Note) Commit(stage *StageStruct) *Note {
+func (note *Note) Commit(stage *Stage) *Note {
 	if _, ok := stage.Notes[note]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitNote(note)
@@ -397,12 +397,12 @@ func (note *Note) Commit(stage *StageStruct) *Note {
 	return note
 }
 
-func (note *Note) CommitVoid(stage *StageStruct) {
+func (note *Note) CommitVoid(stage *Stage) {
 	note.Commit(stage)
 }
 
 // Checkout note to the back repo (if it is already staged)
-func (note *Note) Checkout(stage *StageStruct) *Note {
+func (note *Note) Checkout(stage *Stage) *Note {
 	if _, ok := stage.Notes[note]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutNote(note)
@@ -417,7 +417,7 @@ func (note *Note) GetName() (res string) {
 }
 
 // Stage puts player to the model stage
-func (player *Player) Stage(stage *StageStruct) *Player {
+func (player *Player) Stage(stage *Stage) *Player {
 
 	if _, ok := stage.Players[player]; !ok {
 		stage.Players[player] = __member
@@ -430,20 +430,20 @@ func (player *Player) Stage(stage *StageStruct) *Player {
 }
 
 // Unstage removes player off the model stage
-func (player *Player) Unstage(stage *StageStruct) *Player {
+func (player *Player) Unstage(stage *Stage) *Player {
 	delete(stage.Players, player)
 	delete(stage.Players_mapString, player.Name)
 	return player
 }
 
 // UnstageVoid removes player off the model stage
-func (player *Player) UnstageVoid(stage *StageStruct) {
+func (player *Player) UnstageVoid(stage *Stage) {
 	delete(stage.Players, player)
 	delete(stage.Players_mapString, player.Name)
 }
 
 // commit player to the back repo (if it is already staged)
-func (player *Player) Commit(stage *StageStruct) *Player {
+func (player *Player) Commit(stage *Stage) *Player {
 	if _, ok := stage.Players[player]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitPlayer(player)
@@ -452,12 +452,12 @@ func (player *Player) Commit(stage *StageStruct) *Player {
 	return player
 }
 
-func (player *Player) CommitVoid(stage *StageStruct) {
+func (player *Player) CommitVoid(stage *Stage) {
 	player.Commit(stage)
 }
 
 // Checkout player to the back repo (if it is already staged)
-func (player *Player) Checkout(stage *StageStruct) *Player {
+func (player *Player) Checkout(stage *Stage) *Player {
 	if _, ok := stage.Players[player]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutPlayer(player)
@@ -484,7 +484,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMPlayer(Player *Player)
 }
 
-func (stage *StageStruct) Reset() { // insertion point for array reset
+func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Freqencys = make(map[*Freqency]any)
 	stage.Freqencys_mapString = make(map[string]*Freqency)
 	stage.FreqencyMap_Staged_Order = make(map[*Freqency]uint)
@@ -502,7 +502,7 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 
 }
 
-func (stage *StageStruct) Nil() { // insertion point for array nil
+func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Freqencys = nil
 	stage.Freqencys_mapString = nil
 
@@ -514,7 +514,7 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 
 }
 
-func (stage *StageStruct) Unstage() { // insertion point for array nil
+func (stage *Stage) Unstage() { // insertion point for array nil
 	for freqency := range stage.Freqencys {
 		freqency.Unstage(stage)
 	}
@@ -546,8 +546,8 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type PointerToGongstruct interface {
 	GetName() string
-	CommitVoid(*StageStruct)
-	UnstageVoid(stage *StageStruct)
+	CommitVoid(*Stage)
+	UnstageVoid(stage *Stage)
 	comparable
 }
 
@@ -565,7 +565,7 @@ func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice 
 	return
 }
 
-func GetGongstrucsSorted[T PointerToGongstruct](stage *StageStruct) (sortedSlice []T) {
+func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
 
 	set := GetGongstructInstancesSetFromPointerType[T](stage)
 	sortedSlice = SortGongstructSetByName(*set)
@@ -583,7 +583,7 @@ type GongstructMapString interface {
 
 // GongGetSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GongGetSet[Type GongstructSet](stage *StageStruct) *Type {
+func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -601,7 +601,7 @@ func GongGetSet[Type GongstructSet](stage *StageStruct) *Type {
 
 // GongGetMap returns the map of staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GongGetMap[Type GongstructMapString](stage *StageStruct) *Type {
+func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -619,7 +619,7 @@ func GongGetMap[Type GongstructMapString](stage *StageStruct) *Type {
 
 // GetGongstructInstancesSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *StageStruct) *map[*Type]any {
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -637,7 +637,7 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *StageStruct) *map[*Type]a
 
 // GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *StageStruct) *map[Type]any {
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]any {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -655,7 +655,7 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GetGongstructInstancesMap[Type Gongstruct](stage *StageStruct) *map[string]*Type {
+func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -706,7 +706,7 @@ func GetAssociationName[Type Gongstruct]() *Type {
 // The function provides a map with keys as instances of End and values to arrays of *Start
 // the map is construed by iterating over all Start instances and populationg keys with End instances
 // and values with slice of Start instances
-func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageStruct) map[*End][]*Start {
+func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
 
 	var ret Start
 
@@ -737,7 +737,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 // The function provides a map with keys as instances of End and values to *Start instances
 // the map is construed by iterating over all Start instances and populating keys with End instances
 // and values with the Start instances
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *StageStruct) map[*End]*Start {
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End]*Start {
 
 	var ret Start
 

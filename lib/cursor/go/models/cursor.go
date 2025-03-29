@@ -14,7 +14,7 @@ type Cursor struct {
 	IsPlaying bool
 }
 
-func (cursor *Cursor) PlayCursor(cursorStage *StageStruct, isPlaying bool) {
+func (cursor *Cursor) PlayCursor(cursorStage *Stage, isPlaying bool) {
 	cursor.IsPlaying = isPlaying
 	cursorStage.Commit()
 }

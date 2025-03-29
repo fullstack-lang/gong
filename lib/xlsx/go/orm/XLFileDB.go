@@ -116,10 +116,10 @@ type BackRepoXLFileStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoXLFile *BackRepoXLFileStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoXLFile *BackRepoXLFileStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoXLFile.stage
 	return
 }
@@ -137,7 +137,7 @@ func (backRepoXLFile *BackRepoXLFileStruct) GetXLFileDBFromXLFilePtr(xlfile *mod
 
 // BackRepoXLFile.CommitPhaseOne commits all staged instances of XLFile to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoXLFile *BackRepoXLFileStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoXLFile *BackRepoXLFileStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var xlfiles []*models.XLFile
 	for xlfile := range stage.XLFiles {

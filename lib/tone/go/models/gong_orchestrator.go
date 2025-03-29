@@ -7,13 +7,13 @@ type PlayerOrchestrator struct {
 }
 
 func (orchestrator *PlayerOrchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	stagedPlayer, backRepoPlayer *Player) {
 
 	stagedPlayer.OnAfterUpdate(gongsvgStage, stagedPlayer, backRepoPlayer)
 }
 
-func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *StageStruct) {
+func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 
 	var ret Type
 

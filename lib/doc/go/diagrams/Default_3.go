@@ -14,7 +14,7 @@ import (
 var _ time.Time
 
 // _ point for meta package dummy declaration
-var _ ref_models.StageStruct
+var _ ref_models.Stage
 
 // When parsed, those maps will help with the renaming process
 var _ map[string]any = map[string]any{
@@ -22,7 +22,7 @@ var _ map[string]any = map[string]any{
 }
 
 // function will stage objects
-func _(stage *models.StageStruct) {
+func _(stage *models.Stage) {
 
 	// Declaration of instances to stage
 

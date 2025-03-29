@@ -23,7 +23,7 @@ type Classdiagram struct {
 	IsInDrawMode bool
 }
 
-func (classdiagram *Classdiagram) RemoveGongStructShape(stage *StageStruct, gongstructshapeName string) {
+func (classdiagram *Classdiagram) RemoveGongStructShape(stage *Stage, gongstructshapeName string) {
 
 	foundGongStructShape := false
 	var gongstructshape *GongStructShape
@@ -92,7 +92,7 @@ func (classdiagram *Classdiagram) RemoveGongStructShape(stage *StageStruct, gong
 	// log.Println("RemoveGongStructShape, after commit, nb ", Stage.BackRepo.GetLastCommitFromBackNb())
 }
 
-func (classdiagram *Classdiagram) AddGongStructShape(stage *StageStruct, diagramPackage *DiagramPackage, gongstructshapeName string) {
+func (classdiagram *Classdiagram) AddGongStructShape(stage *Stage, diagramPackage *DiagramPackage, gongstructshapeName string) {
 
 	var gongstructshape GongStructShape
 	gongstructshape.Name = classdiagram.Name + "-" + gongstructshapeName
@@ -123,7 +123,7 @@ func (classdiagram *Classdiagram) AddGongStructShape(stage *StageStruct, diagram
 
 }
 
-func (classdiagram *Classdiagram) AddGongEnumShape(stage *StageStruct, diagramPackage *DiagramPackage, enumshapeName string) {
+func (classdiagram *Classdiagram) AddGongEnumShape(stage *Stage, diagramPackage *DiagramPackage, enumshapeName string) {
 
 	var enumshape GongEnumShape
 	enumshape.Name = classdiagram.Name + "-" + enumshapeName
@@ -145,7 +145,7 @@ func (classdiagram *Classdiagram) AddGongEnumShape(stage *StageStruct, diagramPa
 	stage.Commit()
 }
 
-func (classdiagram *Classdiagram) RemoveGongEnumShape(stage *StageStruct, gongenumshapeName string) {
+func (classdiagram *Classdiagram) RemoveGongEnumShape(stage *Stage, gongenumshapeName string) {
 
 	foundGongEnumShape := false
 	var gongenumshape *GongEnumShape

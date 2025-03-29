@@ -113,10 +113,10 @@ type BackRepoFileToDownloadStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoFileToDownload *BackRepoFileToDownloadStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoFileToDownload *BackRepoFileToDownloadStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoFileToDownload.stage
 	return
 }
@@ -134,7 +134,7 @@ func (backRepoFileToDownload *BackRepoFileToDownloadStruct) GetFileToDownloadDBF
 
 // BackRepoFileToDownload.CommitPhaseOne commits all staged instances of FileToDownload to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoFileToDownload *BackRepoFileToDownloadStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoFileToDownload *BackRepoFileToDownloadStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var filetodownloads []*models.FileToDownload
 	for filetodownload := range stage.FileToDownloads {

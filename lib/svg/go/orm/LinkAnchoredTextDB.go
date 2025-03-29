@@ -207,10 +207,10 @@ type BackRepoLinkAnchoredTextStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoLinkAnchoredText.stage
 	return
 }
@@ -228,7 +228,7 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) GetLinkAnchoredT
 
 // BackRepoLinkAnchoredText.CommitPhaseOne commits all staged instances of LinkAnchoredText to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var linkanchoredtexts []*models.LinkAnchoredText
 	for linkanchoredtext := range stage.LinkAnchoredTexts {

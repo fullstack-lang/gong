@@ -119,10 +119,10 @@ type BackRepoGongLinkStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoGongLink *BackRepoGongLinkStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoGongLink *BackRepoGongLinkStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoGongLink.stage
 	return
 }
@@ -140,7 +140,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) GetGongLinkDBFromGongLinkPtr(gon
 
 // BackRepoGongLink.CommitPhaseOne commits all staged instances of GongLink to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoGongLink *BackRepoGongLinkStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoGongLink *BackRepoGongLinkStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var gonglinks []*models.GongLink
 	for gonglink := range stage.GongLinks {

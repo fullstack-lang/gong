@@ -164,10 +164,10 @@ type BackRepoPolygoneStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoPolygone *BackRepoPolygoneStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoPolygone *BackRepoPolygoneStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoPolygone.stage
 	return
 }
@@ -185,7 +185,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) GetPolygoneDBFromPolygonePtr(pol
 
 // BackRepoPolygone.CommitPhaseOne commits all staged instances of Polygone to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoPolygone *BackRepoPolygoneStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoPolygone *BackRepoPolygoneStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var polygones []*models.Polygone
 	for polygone := range stage.Polygones {

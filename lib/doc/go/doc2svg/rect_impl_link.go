@@ -11,12 +11,12 @@ import (
 // it meets the interface of LinkImplInterface
 type LinkImplLink struct {
 	link         *gongdoc_models.Link
-	gongdocStage *gongdoc_models.StageStruct
+	gongdocStage *gongdoc_models.Stage
 }
 
 func NewLinkImplLink(
 	link *gongdoc_models.Link,
-	gongdocStage *gongdoc_models.StageStruct) (linkImplLink *LinkImplLink) {
+	gongdocStage *gongdoc_models.Stage) (linkImplLink *LinkImplLink) {
 
 	linkImplLink = new(LinkImplLink)
 	linkImplLink.link = link

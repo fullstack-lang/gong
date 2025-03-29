@@ -119,10 +119,10 @@ type BackRepoFormStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoForm *BackRepoFormStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoForm *BackRepoFormStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoForm.stage
 	return
 }
@@ -140,7 +140,7 @@ func (backRepoForm *BackRepoFormStruct) GetFormDBFromFormPtr(form *models.Form) 
 
 // BackRepoForm.CommitPhaseOne commits all staged instances of Form to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoForm *BackRepoFormStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoForm *BackRepoFormStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var forms []*models.Form
 	for form := range stage.Forms {

@@ -265,10 +265,10 @@ type BackRepoGanttStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoGantt *BackRepoGanttStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoGantt *BackRepoGanttStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoGantt.stage
 	return
 }
@@ -286,7 +286,7 @@ func (backRepoGantt *BackRepoGanttStruct) GetGanttDBFromGanttPtr(gantt *models.G
 
 // BackRepoGantt.CommitPhaseOne commits all staged instances of Gantt to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoGantt *BackRepoGanttStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoGantt *BackRepoGanttStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var gantts []*models.Gantt
 	for gantt := range stage.Gantts {

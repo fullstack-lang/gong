@@ -119,10 +119,10 @@ type BackRepoGroupStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoGroup *BackRepoGroupStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoGroup *BackRepoGroupStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoGroup.stage
 	return
 }
@@ -140,7 +140,7 @@ func (backRepoGroup *BackRepoGroupStruct) GetGroupDBFromGroupPtr(group *models.G
 
 // BackRepoGroup.CommitPhaseOne commits all staged instances of Group to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoGroup *BackRepoGroupStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoGroup *BackRepoGroupStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var groups []*models.Group
 	for group := range stage.Groups {

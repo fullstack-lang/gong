@@ -1,7 +1,7 @@
 // generated code - do not edit
 package models
 
-func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
+func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
@@ -30,42 +30,42 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (stage *StageStruct) IsStagedCommand(command *Command) (ok bool) {
+func (stage *Stage) IsStagedCommand(command *Command) (ok bool) {
 
 	_, ok = stage.Commands[command]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedDummyAgent(dummyagent *DummyAgent) (ok bool) {
+func (stage *Stage) IsStagedDummyAgent(dummyagent *DummyAgent) (ok bool) {
 
 	_, ok = stage.DummyAgents[dummyagent]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedEngine(engine *Engine) (ok bool) {
+func (stage *Stage) IsStagedEngine(engine *Engine) (ok bool) {
 
 	_, ok = stage.Engines[engine]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedEvent(event *Event) (ok bool) {
+func (stage *Stage) IsStagedEvent(event *Event) (ok bool) {
 
 	_, ok = stage.Events[event]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedStatus(status *Status) (ok bool) {
+func (stage *Stage) IsStagedStatus(status *Status) (ok bool) {
 
 	_, ok = stage.Statuss[status]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedUpdateState(updatestate *UpdateState) (ok bool) {
+func (stage *Stage) IsStagedUpdateState(updatestate *UpdateState) (ok bool) {
 
 	_, ok = stage.UpdateStates[updatestate]
 
@@ -76,7 +76,7 @@ func (stage *StageStruct) IsStagedUpdateState(updatestate *UpdateState) (ok bool
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
@@ -104,7 +104,7 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for stage branch per struct
-func (stage *StageStruct) StageBranchCommand(command *Command) {
+func (stage *Stage) StageBranchCommand(command *Command) {
 
 	// check if instance is already staged
 	if IsStaged(stage, command) {
@@ -122,7 +122,7 @@ func (stage *StageStruct) StageBranchCommand(command *Command) {
 
 }
 
-func (stage *StageStruct) StageBranchDummyAgent(dummyagent *DummyAgent) {
+func (stage *Stage) StageBranchDummyAgent(dummyagent *DummyAgent) {
 
 	// check if instance is already staged
 	if IsStaged(stage, dummyagent) {
@@ -137,7 +137,7 @@ func (stage *StageStruct) StageBranchDummyAgent(dummyagent *DummyAgent) {
 
 }
 
-func (stage *StageStruct) StageBranchEngine(engine *Engine) {
+func (stage *Stage) StageBranchEngine(engine *Engine) {
 
 	// check if instance is already staged
 	if IsStaged(stage, engine) {
@@ -152,7 +152,7 @@ func (stage *StageStruct) StageBranchEngine(engine *Engine) {
 
 }
 
-func (stage *StageStruct) StageBranchEvent(event *Event) {
+func (stage *Stage) StageBranchEvent(event *Event) {
 
 	// check if instance is already staged
 	if IsStaged(stage, event) {
@@ -167,7 +167,7 @@ func (stage *StageStruct) StageBranchEvent(event *Event) {
 
 }
 
-func (stage *StageStruct) StageBranchStatus(status *Status) {
+func (stage *Stage) StageBranchStatus(status *Status) {
 
 	// check if instance is already staged
 	if IsStaged(stage, status) {
@@ -182,7 +182,7 @@ func (stage *StageStruct) StageBranchStatus(status *Status) {
 
 }
 
-func (stage *StageStruct) StageBranchUpdateState(updatestate *UpdateState) {
+func (stage *Stage) StageBranchUpdateState(updatestate *UpdateState) {
 
 	// check if instance is already staged
 	if IsStaged(stage, updatestate) {
@@ -360,7 +360,7 @@ func CopyBranchUpdateState(mapOrigCopy map[any]any, updatestateFrom *UpdateState
 // referenced by pointers or slices of pointers of the insance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
@@ -388,7 +388,7 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
-func (stage *StageStruct) UnstageBranchCommand(command *Command) {
+func (stage *Stage) UnstageBranchCommand(command *Command) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, command) {
@@ -406,7 +406,7 @@ func (stage *StageStruct) UnstageBranchCommand(command *Command) {
 
 }
 
-func (stage *StageStruct) UnstageBranchDummyAgent(dummyagent *DummyAgent) {
+func (stage *Stage) UnstageBranchDummyAgent(dummyagent *DummyAgent) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, dummyagent) {
@@ -421,7 +421,7 @@ func (stage *StageStruct) UnstageBranchDummyAgent(dummyagent *DummyAgent) {
 
 }
 
-func (stage *StageStruct) UnstageBranchEngine(engine *Engine) {
+func (stage *Stage) UnstageBranchEngine(engine *Engine) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, engine) {
@@ -436,7 +436,7 @@ func (stage *StageStruct) UnstageBranchEngine(engine *Engine) {
 
 }
 
-func (stage *StageStruct) UnstageBranchEvent(event *Event) {
+func (stage *Stage) UnstageBranchEvent(event *Event) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, event) {
@@ -451,7 +451,7 @@ func (stage *StageStruct) UnstageBranchEvent(event *Event) {
 
 }
 
-func (stage *StageStruct) UnstageBranchStatus(status *Status) {
+func (stage *Stage) UnstageBranchStatus(status *Status) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, status) {
@@ -466,7 +466,7 @@ func (stage *StageStruct) UnstageBranchStatus(status *Status) {
 
 }
 
-func (stage *StageStruct) UnstageBranchUpdateState(updatestate *UpdateState) {
+func (stage *Stage) UnstageBranchUpdateState(updatestate *UpdateState) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, updatestate) {

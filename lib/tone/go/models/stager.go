@@ -10,11 +10,11 @@ import (
 )
 
 type Stager struct {
-	stage      *StageStruct
-	splitStage *split.StageStruct
+	stage      *Stage
+	splitStage *split.Stage
 }
 
-func NewStager(r *gin.Engine, stage *StageStruct) (stager *Stager) {
+func NewStager(r *gin.Engine, stage *Stage) (stager *Stager) {
 
 	stager = new(Stager)
 

@@ -116,10 +116,10 @@ type BackRepoMetaStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoMeta *BackRepoMetaStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoMeta *BackRepoMetaStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoMeta.stage
 	return
 }
@@ -137,7 +137,7 @@ func (backRepoMeta *BackRepoMetaStruct) GetMetaDBFromMetaPtr(meta *models.Meta) 
 
 // BackRepoMeta.CommitPhaseOne commits all staged instances of Meta to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoMeta *BackRepoMetaStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoMeta *BackRepoMetaStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var metas []*models.Meta
 	for meta := range stage.Metas {

@@ -1,7 +1,7 @@
 // generated code - do not edit
 package models
 
-func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
+func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
@@ -27,35 +27,35 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (stage *StageStruct) IsStagedDisplaySelection(displayselection *DisplaySelection) (ok bool) {
+func (stage *Stage) IsStagedDisplaySelection(displayselection *DisplaySelection) (ok bool) {
 
 	_, ok = stage.DisplaySelections[displayselection]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedXLCell(xlcell *XLCell) (ok bool) {
+func (stage *Stage) IsStagedXLCell(xlcell *XLCell) (ok bool) {
 
 	_, ok = stage.XLCells[xlcell]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedXLFile(xlfile *XLFile) (ok bool) {
+func (stage *Stage) IsStagedXLFile(xlfile *XLFile) (ok bool) {
 
 	_, ok = stage.XLFiles[xlfile]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedXLRow(xlrow *XLRow) (ok bool) {
+func (stage *Stage) IsStagedXLRow(xlrow *XLRow) (ok bool) {
 
 	_, ok = stage.XLRows[xlrow]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedXLSheet(xlsheet *XLSheet) (ok bool) {
+func (stage *Stage) IsStagedXLSheet(xlsheet *XLSheet) (ok bool) {
 
 	_, ok = stage.XLSheets[xlsheet]
 
@@ -66,7 +66,7 @@ func (stage *StageStruct) IsStagedXLSheet(xlsheet *XLSheet) (ok bool) {
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
@@ -91,7 +91,7 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for stage branch per struct
-func (stage *StageStruct) StageBranchDisplaySelection(displayselection *DisplaySelection) {
+func (stage *Stage) StageBranchDisplaySelection(displayselection *DisplaySelection) {
 
 	// check if instance is already staged
 	if IsStaged(stage, displayselection) {
@@ -112,7 +112,7 @@ func (stage *StageStruct) StageBranchDisplaySelection(displayselection *DisplayS
 
 }
 
-func (stage *StageStruct) StageBranchXLCell(xlcell *XLCell) {
+func (stage *Stage) StageBranchXLCell(xlcell *XLCell) {
 
 	// check if instance is already staged
 	if IsStaged(stage, xlcell) {
@@ -127,7 +127,7 @@ func (stage *StageStruct) StageBranchXLCell(xlcell *XLCell) {
 
 }
 
-func (stage *StageStruct) StageBranchXLFile(xlfile *XLFile) {
+func (stage *Stage) StageBranchXLFile(xlfile *XLFile) {
 
 	// check if instance is already staged
 	if IsStaged(stage, xlfile) {
@@ -145,7 +145,7 @@ func (stage *StageStruct) StageBranchXLFile(xlfile *XLFile) {
 
 }
 
-func (stage *StageStruct) StageBranchXLRow(xlrow *XLRow) {
+func (stage *Stage) StageBranchXLRow(xlrow *XLRow) {
 
 	// check if instance is already staged
 	if IsStaged(stage, xlrow) {
@@ -163,7 +163,7 @@ func (stage *StageStruct) StageBranchXLRow(xlrow *XLRow) {
 
 }
 
-func (stage *StageStruct) StageBranchXLSheet(xlsheet *XLSheet) {
+func (stage *Stage) StageBranchXLSheet(xlsheet *XLSheet) {
 
 	// check if instance is already staged
 	if IsStaged(stage, xlsheet) {
@@ -339,7 +339,7 @@ func CopyBranchXLSheet(mapOrigCopy map[any]any, xlsheetFrom *XLSheet) (xlsheetTo
 // referenced by pointers or slices of pointers of the insance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
@@ -364,7 +364,7 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
-func (stage *StageStruct) UnstageBranchDisplaySelection(displayselection *DisplaySelection) {
+func (stage *Stage) UnstageBranchDisplaySelection(displayselection *DisplaySelection) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, displayselection) {
@@ -385,7 +385,7 @@ func (stage *StageStruct) UnstageBranchDisplaySelection(displayselection *Displa
 
 }
 
-func (stage *StageStruct) UnstageBranchXLCell(xlcell *XLCell) {
+func (stage *Stage) UnstageBranchXLCell(xlcell *XLCell) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, xlcell) {
@@ -400,7 +400,7 @@ func (stage *StageStruct) UnstageBranchXLCell(xlcell *XLCell) {
 
 }
 
-func (stage *StageStruct) UnstageBranchXLFile(xlfile *XLFile) {
+func (stage *Stage) UnstageBranchXLFile(xlfile *XLFile) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, xlfile) {
@@ -418,7 +418,7 @@ func (stage *StageStruct) UnstageBranchXLFile(xlfile *XLFile) {
 
 }
 
-func (stage *StageStruct) UnstageBranchXLRow(xlrow *XLRow) {
+func (stage *Stage) UnstageBranchXLRow(xlrow *XLRow) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, xlrow) {
@@ -436,7 +436,7 @@ func (stage *StageStruct) UnstageBranchXLRow(xlrow *XLRow) {
 
 }
 
-func (stage *StageStruct) UnstageBranchXLSheet(xlsheet *XLSheet) {
+func (stage *Stage) UnstageBranchXLSheet(xlsheet *XLSheet) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, xlsheet) {

@@ -23,7 +23,7 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_{{databaseName}} models.StageStruct
+var ___dummy__Stage_{{databaseName}} models.Stage
 var ___dummy__Time_{{databaseName}} time.Time
 
 // Injection point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
@@ -47,7 +47,7 @@ var map_DocLink_Identifier_{{databaseName}} map[string]any = map[string]any{
 // }
 
 // {{databaseName}}Injection will stage objects of database "{{databaseName}}"
-func {{databaseName}}Injection(stage *models.StageStruct) {
+func {{databaseName}}Injection(stage *models.Stage) {
 
 	// Declaration of instances to stage{{Identifiers}}
 
@@ -80,7 +80,7 @@ const TimeInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
 
 // Marshall marshall the stage content into the file as an instanciation into a stage
-func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName string) {
+func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName string) {
 
 	name := file.Name()
 
@@ -162,7 +162,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
 
 		res = strings.ReplaceAll(res, "{{ImportPackageDummyDeclaration}}",
-			fmt.Sprintf("\nvar ___dummy__%s_%s %s.StageStruct",
+			fmt.Sprintf("\nvar ___dummy__%s_%s %s.Stage",
 				stage.MetaPackageImportAlias,
 				strings.ReplaceAll(filepath.Base(name), ".go", ""),
 				stage.MetaPackageImportAlias))

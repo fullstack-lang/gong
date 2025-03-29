@@ -123,10 +123,10 @@ type BackRepoCommandStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoCommand *BackRepoCommandStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoCommand *BackRepoCommandStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoCommand.stage
 	return
 }
@@ -144,7 +144,7 @@ func (backRepoCommand *BackRepoCommandStruct) GetCommandDBFromCommandPtr(command
 
 // BackRepoCommand.CommitPhaseOne commits all staged instances of Command to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoCommand *BackRepoCommandStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoCommand *BackRepoCommandStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var commands []*models.Command
 	for command := range stage.Commands {

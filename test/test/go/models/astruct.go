@@ -117,7 +117,7 @@ type Astruct struct {
 }
 
 // presence of this function will let gong generates orchestrator code
-func (astruct *Astruct) OnAfterUpdate(stage *StageStruct, stagedInstance, frontInstance *Astruct) {
+func (astruct *Astruct) OnAfterUpdate(stage *Stage, stagedInstance, frontInstance *Astruct) {
 
 	//
 }
