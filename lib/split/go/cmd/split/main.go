@@ -56,20 +56,20 @@ func main() {
 	splitStage := stack.Stage
 	stack.Probe.Refresh()
 
-	sliderStage1 := slider_stack.NewStack(r, "slider 1", "", "", "", *embeddedDiagrams, true).Stage
+	sliderStage1 := slider_stack.NewStack(r, "slider 1", "", "", "", true, true).Stage
 
-	sliderStage2 := slider_stack.NewStack(r, "slider 2", "", "", "", *embeddedDiagrams, true).Stage
+	sliderStage2 := slider_stack.NewStack(r, "slider 2", "", "", "", true, true).Stage
 
 	buttonStackName := "button"
-	stackbutton := button_stack.NewStack(r, buttonStackName, "", "", "", *embeddedDiagrams, true)
+	stackbutton := button_stack.NewStack(r, buttonStackName, "", "", "", true, true)
 	buttonStage := stackbutton.Stage
 
 	toneStackName := "tone"
-	stacktone := tone_stack.NewStack(r, toneStackName, "", "", "", *embeddedDiagrams, true)
+	stacktone := tone_stack.NewStack(r, toneStackName, "", "", "", true, true)
 	toneStage := stacktone.Stage
 
 	xlsxStackName := "xlsx"
-	stackxlsx := xlsx_stack.NewStack(r, xlsxStackName, "", "", "", *embeddedDiagrams, true)
+	stackxlsx := xlsx_stack.NewStack(r, xlsxStackName, "", "", "", true, true)
 	xlsxStage := stackxlsx.Stage
 
 	{
@@ -202,6 +202,17 @@ func main() {
 		xlsxStage.Commit()
 		stackxlsx.Probe.Refresh()
 	}
+
+	(&split.View{
+		Name: "Probe Split",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Split: (&split.Split{
+					StackName: splitStage.GetProbeSplitStageName(),
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+		},
+	}).Stage(splitStage)
 
 	(&split.View{
 		Name: "Slider 1",
