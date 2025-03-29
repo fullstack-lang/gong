@@ -46,6 +46,7 @@ func FillUpForm(
 		AssociationFieldToForm("Table", instanceWithInferedType.Table, formGroup, probe)
 		AssociationFieldToForm("Tone", instanceWithInferedType.Tone, formGroup, probe)
 		AssociationFieldToForm("Tree", instanceWithInferedType.Tree, formGroup, probe)
+		AssociationFieldToForm("Xlsx", instanceWithInferedType.Xlsx, formGroup, probe)
 		BasicFieldtoForm("HasDiv", instanceWithInferedType.HasDiv, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("DivStyle", instanceWithInferedType.DivStyle, instanceWithInferedType, probe.formStage, formGroup,
@@ -187,6 +188,13 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("RootAsSplitAreas", instanceWithInferedType, &instanceWithInferedType.RootAsSplitAreas, formGroup, probe)
+
+	case *models.Xlsx:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("StackName", instanceWithInferedType.StackName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 
 	default:
 		_ = instanceWithInferedType

@@ -55,6 +55,7 @@ type AsSplitArea struct {
 	Table  *Table
 	Tone   *Tone
 	Tree   *Tree
+	Xlsx   *Xlsx
 
 	HasDiv   bool
 	DivStyle string // in case of div, the div style
@@ -118,6 +119,11 @@ type Tree struct {
 	Name      string // name of the stack
 	StackName string
 	TreeName  string
+}
+
+type Xlsx struct {
+	Name      string // name of the stack
+	StackName string
 }
 
 type View struct {

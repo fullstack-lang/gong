@@ -29,6 +29,8 @@ import { TreeAPI } from './tree-api'
 
 import { ViewAPI } from './view-api'
 
+import { XlsxAPI } from './xlsx-api'
+
 
 export class BackRepoData {
 	// insertion point for declarations
@@ -59,6 +61,8 @@ export class BackRepoData {
 	TreeAPIs = new Array<TreeAPI>()
 
 	ViewAPIs = new Array<ViewAPI>()
+
+	XlsxAPIs = new Array<XlsxAPI>()
 
 
 	// index of the web socket for this stack type (unique among all stack instances)
@@ -93,6 +97,8 @@ export class BackRepoData {
 		this.TreeAPIs = data?.TreeAPIs || [];
 
 		this.ViewAPIs = data?.ViewAPIs || [];
+
+		this.XlsxAPIs = data?.XlsxAPIs || [];
 
 		this.GONG__Index = data?.GONG__Index ?? -1;   // Assign Index here
 	}

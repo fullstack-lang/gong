@@ -62,6 +62,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterViewCreateCallback != nil {
 			stage.OnAfterViewCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Xlsx:
+		if stage.OnAfterXlsxCreateCallback != nil {
+			stage.OnAfterXlsxCreateCallback.OnAfterCreate(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -141,6 +145,11 @@ func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*View)
 		if stage.OnAfterViewUpdateCallback != nil {
 			stage.OnAfterViewUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Xlsx:
+		newTarget := any(new).(*Xlsx)
+		if stage.OnAfterXlsxUpdateCallback != nil {
+			stage.OnAfterXlsxUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	default:
 		_ = oldTarget
@@ -222,6 +231,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*View)
 			stage.OnAfterViewDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Xlsx:
+		if stage.OnAfterXlsxDeleteCallback != nil {
+			staged := any(staged).(*Xlsx)
+			stage.OnAfterXlsxDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	default:
 		_ = front
 	}
@@ -288,6 +302,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterViewReadCallback != nil {
 			stage.OnAfterViewReadCallback.OnAfterRead(stage, target)
 		}
+	case *Xlsx:
+		if stage.OnAfterXlsxReadCallback != nil {
+			stage.OnAfterXlsxReadCallback.OnAfterRead(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -341,6 +359,9 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *View:
 		stage.OnAfterViewUpdateCallback = any(callback).(OnAfterUpdateInterface[View])
 	
+	case *Xlsx:
+		stage.OnAfterXlsxUpdateCallback = any(callback).(OnAfterUpdateInterface[Xlsx])
+	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -389,6 +410,9 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	
 	case *View:
 		stage.OnAfterViewCreateCallback = any(callback).(OnAfterCreateInterface[View])
+	
+	case *Xlsx:
+		stage.OnAfterXlsxCreateCallback = any(callback).(OnAfterCreateInterface[Xlsx])
 	
 	}
 }
@@ -439,6 +463,9 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *View:
 		stage.OnAfterViewDeleteCallback = any(callback).(OnAfterDeleteInterface[View])
 	
+	case *Xlsx:
+		stage.OnAfterXlsxDeleteCallback = any(callback).(OnAfterDeleteInterface[Xlsx])
+	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -487,6 +514,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	
 	case *View:
 		stage.OnAfterViewReadCallback = any(callback).(OnAfterReadInterface[View])
+	
+	case *Xlsx:
+		stage.OnAfterXlsxReadCallback = any(callback).(OnAfterReadInterface[Xlsx])
 	
 	}
 }

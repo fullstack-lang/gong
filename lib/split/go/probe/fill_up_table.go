@@ -47,6 +47,8 @@ func fillUpTablePointerToGongstruct[T models.PointerToGongstruct](
 		fillUpTable[models.Tree](probe)
 	case *models.View:
 		fillUpTable[models.View](probe)
+	case *models.Xlsx:
+		fillUpTable[models.Xlsx](probe)
 	default:
 		log.Println("unknow type")
 	}

@@ -69,5 +69,9 @@ export * from './lib/view-api'
 export * from './lib/view'
 export * from './lib/view.service'
 
+export * from './lib/xlsx-api'
+export * from './lib/xlsx'
+export * from './lib/xlsx.service'
+
 
 export * from './lib/Direction'

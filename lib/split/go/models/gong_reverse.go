@@ -93,6 +93,11 @@ func GetReverseFieldOwnerName(
 		// insertion point
 		}
 
+	case *Xlsx:
+		switch reverseField.GongstructName {
+		// insertion point
+		}
+
 	default:
 		_ = inst
 	}
@@ -183,6 +188,11 @@ func GetReverseFieldOwner[T Gongstruct](
 		}
 
 	case *View:
+		switch reverseField.GongstructName {
+		// insertion point
+		}
+
+	case *Xlsx:
 		switch reverseField.GongstructName {
 		// insertion point
 		}

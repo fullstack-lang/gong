@@ -52,6 +52,8 @@ type BackRepoStruct struct {
 
 	BackRepoView BackRepoViewStruct
 
+	BackRepoXlsx BackRepoXlsxStruct
+
 	CommitFromBackNb uint // records commit increments when performed by the back
 
 	PushFromFrontNb uint // records commit increments when performed by the front
@@ -87,6 +89,7 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		&ToneDB{},
 		&TreeDB{},
 		&ViewDB{},
+		&XlsxDB{},
 	)
 	THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm */
 
@@ -205,6 +208,14 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		db:    db,
 		stage: stage,
 	}
+	backRepo.BackRepoXlsx = BackRepoXlsxStruct{
+		Map_XlsxDBID_XlsxPtr: make(map[uint]*models.Xlsx, 0),
+		Map_XlsxDBID_XlsxDB:  make(map[uint]*XlsxDB, 0),
+		Map_XlsxPtr_XlsxDBID: make(map[*models.Xlsx]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
 
 	stage.BackRepo = backRepo
 	backRepo.stage = stage
@@ -271,6 +282,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoTone.CommitPhaseOne(stage)
 	backRepo.BackRepoTree.CommitPhaseOne(stage)
 	backRepo.BackRepoView.CommitPhaseOne(stage)
+	backRepo.BackRepoXlsx.CommitPhaseOne(stage)
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoAsSplit.CommitPhaseTwo(backRepo)
@@ -287,6 +299,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoTone.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoTree.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoView.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoXlsx.CommitPhaseTwo(backRepo)
 
 	// important to release the mutex before calls to IncrementCommitFromBackNb
 	// because it will block otherwise
@@ -315,6 +328,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoTone.CheckoutPhaseOne()
 	backRepo.BackRepoTree.CheckoutPhaseOne()
 	backRepo.BackRepoView.CheckoutPhaseOne()
+	backRepo.BackRepoXlsx.CheckoutPhaseOne()
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoAsSplit.CheckoutPhaseTwo(backRepo)
@@ -331,6 +345,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoTone.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoTree.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoView.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoXlsx.CheckoutPhaseTwo(backRepo)
 }
 
 // Backup the BackRepoStruct
@@ -352,6 +367,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoTone.Backup(dirPath)
 	backRepo.BackRepoTree.Backup(dirPath)
 	backRepo.BackRepoView.Backup(dirPath)
+	backRepo.BackRepoXlsx.Backup(dirPath)
 }
 
 // Backup in XL the BackRepoStruct
@@ -376,6 +392,7 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoTone.BackupXL(file)
 	backRepo.BackRepoTree.BackupXL(file)
 	backRepo.BackRepoView.BackupXL(file)
+	backRepo.BackRepoXlsx.BackupXL(file)
 
 	var b bytes.Buffer
 	writer := bufio.NewWriter(&b)
@@ -414,6 +431,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoTone.RestorePhaseOne(dirPath)
 	backRepo.BackRepoTree.RestorePhaseOne(dirPath)
 	backRepo.BackRepoView.RestorePhaseOne(dirPath)
+	backRepo.BackRepoXlsx.RestorePhaseOne(dirPath)
 
 	//
 	// restauration second phase (reindex pointers with the new ID)
@@ -434,6 +452,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoTone.RestorePhaseTwo()
 	backRepo.BackRepoTree.RestorePhaseTwo()
 	backRepo.BackRepoView.RestorePhaseTwo()
+	backRepo.BackRepoXlsx.RestorePhaseTwo()
 
 	backRepo.stage.Checkout()
 }
@@ -475,6 +494,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoTone.RestoreXLPhaseOne(file)
 	backRepo.BackRepoTree.RestoreXLPhaseOne(file)
 	backRepo.BackRepoView.RestoreXLPhaseOne(file)
+	backRepo.BackRepoXlsx.RestoreXLPhaseOne(file)
 
 	// commit the restored stage
 	backRepo.stage.Commit()

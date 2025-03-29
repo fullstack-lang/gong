@@ -328,6 +328,7 @@ var __gong__map_Table = make(map[string]*Table)
 var __gong__map_Tone = make(map[string]*Tone)
 var __gong__map_Tree = make(map[string]*Tree)
 var __gong__map_View = make(map[string]*View)
+var __gong__map_Xlsx = make(map[string]*Xlsx)
 
 // Parser needs to be configured for having the [Name1.Name2] or [pkg.Name1] ...
 // to be recognized as a proper identifier.
@@ -584,6 +585,12 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										instanceView.Stage(stage)
 										instance = any(instanceView)
 										__gong__map_View[identifier] = instanceView
+									case "Xlsx":
+										instanceXlsx := new(Xlsx)
+										instanceXlsx.Name = instanceName
+										instanceXlsx.Stage(stage)
+										instance = any(instanceXlsx)
+										__gong__map_Xlsx[identifier] = instanceXlsx
 									}
 									__gong__map_Indentifiers_gongstructName[identifier] = gongstructName
 									return
@@ -673,6 +680,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							// insertion point for date assign code
 							}
 						case "View":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "Xlsx":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -768,6 +779,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							target := __gong__map_AsSplitArea[targetIdentifier]
 							__gong__map_View[identifier].RootAsSplitAreas =
 								append(__gong__map_View[identifier].RootAsSplitAreas, target)
+						}
+					case "Xlsx":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
 						}
 					}
 				case *ast.SelectorExpr:
@@ -1005,6 +1020,18 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_View[identifier].Name = fielValue
 				}
+			case "Xlsx":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Xlsx[identifier].Name = fielValue
+				case "StackName":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Xlsx[identifier].StackName = fielValue
+				}
 			}
 		case *ast.Ident:
 			// assignment to boolean field ?
@@ -1076,6 +1103,9 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "Tree":
 					targetIdentifier := ident.Name
 					__gong__map_AsSplitArea[identifier].Tree = __gong__map_Tree[targetIdentifier]
+				case "Xlsx":
+					targetIdentifier := ident.Name
+					__gong__map_AsSplitArea[identifier].Xlsx = __gong__map_Xlsx[targetIdentifier]
 				case "HasDiv":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
@@ -1129,6 +1159,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				// insertion point for field dependant code
 				}
 			case "View":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
+			case "Xlsx":
 				switch fieldName {
 				// insertion point for field dependant code
 				}
@@ -1220,6 +1254,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// insertion point for enum assign code
 					}
 				case "View":
+					switch fieldName {
+					// insertion point for enum assign code
+					}
+				case "Xlsx":
 					switch fieldName {
 					// insertion point for enum assign code
 					}
