@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/slider/go/models"
+
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -23,35 +24,44 @@ func _(stage *models.Stage) {
 
 	// Declaration of instances to stage
 
-	__Group__000000_g := (&models.Group{}).Stage(stage)
+	__Checkbox__000000_Checkbox_1 := (&models.Checkbox{}).Stage(stage)
 
-	__Layout__000000_l := (&models.Layout{}).Stage(stage)
+	__Group__000000_group_1 := (&models.Group{}).Stage(stage)
 
-	__Slider__000000_slider_1 := (&models.Slider{}).Stage(stage)
+	__Layout__000000_layout := (&models.Layout{}).Stage(stage)
+
+	__Slider__000000_slider_int := (&models.Slider{}).Stage(stage)
 
 	// Setup of values
 
-	__Group__000000_g.Name = `g`
-	__Group__000000_g.Percentage = 100.000000
+	__Checkbox__000000_Checkbox_1.Name = `Checkbox 1`
+	__Checkbox__000000_Checkbox_1.ValueBool = true
+	__Checkbox__000000_Checkbox_1.LabelForTrue = `Label For True`
+	__Checkbox__000000_Checkbox_1.LabelForFalse = `Label for False`
 
-	__Layout__000000_l.Name = `l`
+	__Group__000000_group_1.Name = `group 1`
+	__Group__000000_group_1.Percentage = 100.000000
 
-	__Slider__000000_slider_1.Name = `slider 1`
-	__Slider__000000_slider_1.IsFloat64 = false
-	__Slider__000000_slider_1.IsInt = true
-	__Slider__000000_slider_1.MinInt = 20
-	__Slider__000000_slider_1.MaxInt = 300
-	__Slider__000000_slider_1.StepInt = 10
-	__Slider__000000_slider_1.ValueInt = 20
-	__Slider__000000_slider_1.MinFloat64 = 0.000000
-	__Slider__000000_slider_1.MaxFloat64 = 0.000000
-	__Slider__000000_slider_1.StepFloat64 = 0.000000
-	__Slider__000000_slider_1.ValueFloat64 = 0.000000
+	__Layout__000000_layout.Name = `layout`
+
+	__Slider__000000_slider_int.Name = `slider int`
+	__Slider__000000_slider_int.IsFloat64 = false
+	__Slider__000000_slider_int.IsInt = true
+	__Slider__000000_slider_int.MinInt = 10
+	__Slider__000000_slider_int.MaxInt = 70
+	__Slider__000000_slider_int.StepInt = 5
+	__Slider__000000_slider_int.ValueInt = 10
+	__Slider__000000_slider_int.MinFloat64 = 0.000000
+	__Slider__000000_slider_int.MaxFloat64 = 0.000000
+	__Slider__000000_slider_int.StepFloat64 = 0.000000
+	__Slider__000000_slider_int.ValueFloat64 = 0.000000
 
 	// Setup of pointers
+	// setup of Checkbox instances pointers
 	// setup of Group instances pointers
-	__Group__000000_g.Sliders = append(__Group__000000_g.Sliders, __Slider__000000_slider_1)
+	__Group__000000_group_1.Sliders = append(__Group__000000_group_1.Sliders, __Slider__000000_slider_int)
+	__Group__000000_group_1.Checkboxes = append(__Group__000000_group_1.Checkboxes, __Checkbox__000000_Checkbox_1)
 	// setup of Layout instances pointers
-	__Layout__000000_l.Groups = append(__Layout__000000_l.Groups, __Group__000000_g)
+	__Layout__000000_layout.Groups = append(__Layout__000000_layout.Groups, __Group__000000_group_1)
 	// setup of Slider instances pointers
 }
