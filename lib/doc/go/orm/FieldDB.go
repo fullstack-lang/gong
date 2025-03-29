@@ -131,10 +131,10 @@ type BackRepoFieldStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoField *BackRepoFieldStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoField *BackRepoFieldStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoField.stage
 	return
 }
@@ -152,7 +152,7 @@ func (backRepoField *BackRepoFieldStruct) GetFieldDBFromFieldPtr(field *models.F
 
 // BackRepoField.CommitPhaseOne commits all staged instances of Field to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoField *BackRepoFieldStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoField *BackRepoFieldStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var fields []*models.Field
 	for field := range stage.Fields {

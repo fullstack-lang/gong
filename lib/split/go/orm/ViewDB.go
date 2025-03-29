@@ -110,10 +110,10 @@ type BackRepoViewStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoView *BackRepoViewStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoView *BackRepoViewStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoView.stage
 	return
 }
@@ -131,7 +131,7 @@ func (backRepoView *BackRepoViewStruct) GetViewDBFromViewPtr(view *models.View) 
 
 // BackRepoView.CommitPhaseOne commits all staged instances of View to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoView *BackRepoViewStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoView *BackRepoViewStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var views []*models.View
 	for view := range stage.Views {

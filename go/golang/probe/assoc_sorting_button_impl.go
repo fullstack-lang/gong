@@ -112,7 +112,7 @@ type TableSortSaver[InstanceType models.PointerToGongstruct, FieldType models.Po
 	map_RowID_instance *map[*gongtable_models.Row]FieldType
 }
 
-func (tableSortSaver *TableSortSaver[InstanceType, FieldType]) TableUpdated(stage *form.StageStruct, table, updatedTable *form.Table) {
+func (tableSortSaver *TableSortSaver[InstanceType, FieldType]) TableUpdated(stage *form.Stage, table, updatedTable *form.Table) {
 	log.Println("TableSortSaver: TableUpdated")
 
 	// checkout to the stage to get the rows that have been checked and not

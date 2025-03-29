@@ -133,10 +133,10 @@ type BackRepoGongStructStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoGongStruct *BackRepoGongStructStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoGongStruct *BackRepoGongStructStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoGongStruct.stage
 	return
 }
@@ -154,7 +154,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) GetGongStructDBFromGongStruc
 
 // BackRepoGongStruct.CommitPhaseOne commits all staged instances of GongStruct to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var gongstructs []*models.GongStruct
 	for gongstruct := range stage.GongStructs {

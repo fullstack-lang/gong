@@ -8,7 +8,7 @@ type ModelNodeImpl struct {
 }
 
 // OnAfterUpdate implements models.NodeImplInterface
-func (modelNodeImpl *ModelNodeImpl) OnAfterUpdate(stage *gongtree_models.StageStruct, stagedNode *gongtree_models.Node, frontNode *gongtree_models.Node) {
+func (modelNodeImpl *ModelNodeImpl) OnAfterUpdate(stage *gongtree_models.Stage, stagedNode *gongtree_models.Node, frontNode *gongtree_models.Node) {
 
 	if frontNode.IsExpanded != stagedNode.IsExpanded {
 		modelNodeImpl.modelNode.SetIsExpanded(!modelNodeImpl.modelNode.IsExpanded())

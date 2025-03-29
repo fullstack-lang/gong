@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/sim/go/models"
-
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -20,7 +19,7 @@ var _ map[string]any = map[string]any{
 }
 
 // function will stage objects
-func _(stage *models.StageStruct) {
+func _(stage *models.Stage) {
 
 	// Declaration of instances to stage
 

@@ -107,10 +107,10 @@ type BackRepoOptionStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoOption *BackRepoOptionStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoOption *BackRepoOptionStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoOption.stage
 	return
 }
@@ -128,7 +128,7 @@ func (backRepoOption *BackRepoOptionStruct) GetOptionDBFromOptionPtr(option *mod
 
 // BackRepoOption.CommitPhaseOne commits all staged instances of Option to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoOption *BackRepoOptionStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoOption *BackRepoOptionStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var options []*models.Option
 	for option := range stage.Options {

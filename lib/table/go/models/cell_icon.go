@@ -13,10 +13,10 @@ type CellIcon struct {
 type CellIconImplInterface interface {
 
 	// CellIconUpdated function is called each time a CellIcon is modified
-	CellIconUpdated(stage *StageStruct, cellIcon, updatedCellIcon *CellIcon)
+	CellIconUpdated(stage *Stage, cellIcon, updatedCellIcon *CellIcon)
 }
 
-func (cellIcon *CellIcon) OnAfterUpdate(stage *StageStruct, stagedInstance, frontCellIcon *CellIcon) {
+func (cellIcon *CellIcon) OnAfterUpdate(stage *Stage, stagedInstance, frontCellIcon *CellIcon) {
 
 	if cellIcon.Impl != nil {
 		cellIcon.Impl.CellIconUpdated(stage, cellIcon, frontCellIcon)

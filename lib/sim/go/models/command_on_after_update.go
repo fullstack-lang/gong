@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func (command *Command) OnAfterUpdate(stage *StageStruct, stagedCommand, frontCommand *Command) {
+func (command *Command) OnAfterUpdate(stage *Stage, stagedCommand, frontCommand *Command) {
 
 	log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "received command update",
 		frontCommand.Command.ToString())

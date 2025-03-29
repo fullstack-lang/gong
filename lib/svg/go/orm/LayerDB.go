@@ -144,10 +144,10 @@ type BackRepoLayerStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoLayer *BackRepoLayerStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoLayer *BackRepoLayerStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoLayer.stage
 	return
 }
@@ -165,7 +165,7 @@ func (backRepoLayer *BackRepoLayerStruct) GetLayerDBFromLayerPtr(layer *models.L
 
 // BackRepoLayer.CommitPhaseOne commits all staged instances of Layer to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoLayer *BackRepoLayerStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoLayer *BackRepoLayerStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var layers []*models.Layer
 	for layer := range stage.Layers {

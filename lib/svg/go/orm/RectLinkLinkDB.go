@@ -169,10 +169,10 @@ type BackRepoRectLinkLinkStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoRectLinkLink.stage
 	return
 }
@@ -190,7 +190,7 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) GetRectLinkLinkDBFromRec
 
 // BackRepoRectLinkLink.CommitPhaseOne commits all staged instances of RectLinkLink to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var rectlinklinks []*models.RectLinkLink
 	for rectlinklink := range stage.RectLinkLinks {

@@ -110,10 +110,10 @@ type BackRepoTreeStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoTree *BackRepoTreeStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoTree *BackRepoTreeStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoTree.stage
 	return
 }
@@ -131,7 +131,7 @@ func (backRepoTree *BackRepoTreeStruct) GetTreeDBFromTreePtr(tree *models.Tree) 
 
 // BackRepoTree.CommitPhaseOne commits all staged instances of Tree to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoTree *BackRepoTreeStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoTree *BackRepoTreeStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var trees []*models.Tree
 	for tree := range stage.Trees {

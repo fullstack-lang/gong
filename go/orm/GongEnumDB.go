@@ -116,10 +116,10 @@ type BackRepoGongEnumStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoGongEnum *BackRepoGongEnumStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoGongEnum *BackRepoGongEnumStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoGongEnum.stage
 	return
 }
@@ -137,7 +137,7 @@ func (backRepoGongEnum *BackRepoGongEnumStruct) GetGongEnumDBFromGongEnumPtr(gon
 
 // BackRepoGongEnum.CommitPhaseOne commits all staged instances of GongEnum to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoGongEnum *BackRepoGongEnumStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoGongEnum *BackRepoGongEnumStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var gongenums []*models.GongEnum
 	for gongenum := range stage.GongEnums {

@@ -33,8 +33,8 @@ func processFiles(directory string) error {
 
 // LoadDiagramPackage fill up the stage with the diagrams elements
 func LoadDiagramPackage(
-	gongdocStage *gongdoc_models.StageStruct,
-	gongtreeStage *gongtree_models.StageStruct,
+	gongdocStage *gongdoc_models.Stage,
+	gongtreeStage *gongtree_models.Stage,
 	pkgPath string,
 	modelPkg *gong_models.ModelPkg,
 	editable bool,

@@ -119,10 +119,10 @@ type BackRepoSvgStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoSvg *BackRepoSvgStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoSvg *BackRepoSvgStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoSvg.stage
 	return
 }
@@ -140,7 +140,7 @@ func (backRepoSvg *BackRepoSvgStruct) GetSvgDBFromSvgPtr(svg *models.Svg) (svgDB
 
 // BackRepoSvg.CommitPhaseOne commits all staged instances of Svg to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoSvg *BackRepoSvgStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoSvg *BackRepoSvgStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var svgs []*models.Svg
 	for svg := range stage.Svgs {

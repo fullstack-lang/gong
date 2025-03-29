@@ -217,10 +217,10 @@ type BackRepoRectAnchoredRectStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoRectAnchoredRect.stage
 	return
 }
@@ -238,7 +238,7 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) GetRectAnchoredR
 
 // BackRepoRectAnchoredRect.CommitPhaseOne commits all staged instances of RectAnchoredRect to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var rectanchoredrects []*models.RectAnchoredRect
 	for rectanchoredrect := range stage.RectAnchoredRects {

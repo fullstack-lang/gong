@@ -11,14 +11,14 @@ type PortfolioCategoryNodeButtonAddImpl struct {
 
 	treeNode *gongtree_models.Node
 
-	treeStage *gongtree_models.StageStruct
+	treeStage *gongtree_models.Stage
 }
 
 func NewDiagramButtonAddImpl(
 	portfolioCategoryNode PortfolioCategoryNode,
 	diagrammer *Diagrammer,
 	treeNode *gongtree_models.Node,
-	treeStage *gongtree_models.StageStruct,
+	treeStage *gongtree_models.Stage,
 ) (portfolioCategoryNodeButtonAddImpl *PortfolioCategoryNodeButtonAddImpl) {
 
 	portfolioCategoryNodeButtonAddImpl = new(PortfolioCategoryNodeButtonAddImpl)
@@ -32,7 +32,7 @@ func NewDiagramButtonAddImpl(
 }
 
 func (buttonImpl *PortfolioCategoryNodeButtonAddImpl) ButtonUpdated(
-	gongtreeStage *gongtree_models.StageStruct,
+	gongtreeStage *gongtree_models.Stage,
 	stageButton, front *gongtree_models.Button) {
 
 	if childrenPortfolioNode := buttonImpl.portfolioCategoryNode.AddDiagram(); childrenPortfolioNode != nil {

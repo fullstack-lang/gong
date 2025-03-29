@@ -19,7 +19,7 @@ type DiagramPackage struct {
 	Name string
 
 	// Stage_ where the DiagamPackage lives
-	Stage_ *StageStruct
+	Stage_ *Stage
 
 	// Path to the "diagrams" directory
 	Path string
@@ -71,7 +71,7 @@ import (
 
 `
 
-func (diagramPackage *DiagramPackage) UnmarshallOneDiagram(stage *StageStruct, diagramName string, inFile *ast.File, fset *token.FileSet) (classdiagram *Classdiagram) {
+func (diagramPackage *DiagramPackage) UnmarshallOneDiagram(stage *Stage, diagramName string, inFile *ast.File, fset *token.FileSet) (classdiagram *Classdiagram) {
 
 	var err error
 	// startParser := time.Now()

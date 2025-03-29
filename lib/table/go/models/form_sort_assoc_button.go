@@ -14,7 +14,7 @@ type FormSortAssocButton struct {
 
 // OnAfterUpdate is called when the button is pressed
 func (formSortAssocButton *FormSortAssocButton) OnAfterUpdate(
-	stage *StageStruct,
+	stage *Stage,
 	stagedInstance, frontInstance *FormSortAssocButton) {
 
 	if stagedInstance.OnSortEdition != nil {

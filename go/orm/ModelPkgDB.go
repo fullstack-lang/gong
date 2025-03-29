@@ -203,10 +203,10 @@ type BackRepoModelPkgStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoModelPkg *BackRepoModelPkgStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoModelPkg *BackRepoModelPkgStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoModelPkg.stage
 	return
 }
@@ -224,7 +224,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) GetModelPkgDBFromModelPkgPtr(mod
 
 // BackRepoModelPkg.CommitPhaseOne commits all staged instances of ModelPkg to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoModelPkg *BackRepoModelPkgStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoModelPkg *BackRepoModelPkgStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var modelpkgs []*models.ModelPkg
 	for modelpkg := range stage.ModelPkgs {

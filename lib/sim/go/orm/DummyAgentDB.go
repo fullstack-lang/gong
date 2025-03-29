@@ -113,10 +113,10 @@ type BackRepoDummyAgentStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoDummyAgent *BackRepoDummyAgentStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoDummyAgent *BackRepoDummyAgentStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoDummyAgent.stage
 	return
 }
@@ -134,7 +134,7 @@ func (backRepoDummyAgent *BackRepoDummyAgentStruct) GetDummyAgentDBFromDummyAgen
 
 // BackRepoDummyAgent.CommitPhaseOne commits all staged instances of DummyAgent to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoDummyAgent *BackRepoDummyAgentStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoDummyAgent *BackRepoDummyAgentStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var dummyagents []*models.DummyAgent
 	for dummyagent := range stage.DummyAgents {

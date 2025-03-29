@@ -113,10 +113,10 @@ type BackRepoFormEditAssocButtonStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoFormEditAssocButton.stage
 	return
 }
@@ -134,7 +134,7 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) GetFormEdi
 
 // BackRepoFormEditAssocButton.CommitPhaseOne commits all staged instances of FormEditAssocButton to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var formeditassocbuttons []*models.FormEditAssocButton
 	for formeditassocbutton := range stage.FormEditAssocButtons {

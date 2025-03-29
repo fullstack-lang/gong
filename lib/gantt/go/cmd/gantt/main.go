@@ -72,7 +72,7 @@ func main() {
 
 // hook marhalling to stage
 type CommitFromFrontOnGanttStage struct {
-	gongsvgStage   *svg_models.StageStruct
+	gongsvgStage   *svg_models.Stage
 	ganttSVGMapper *gantt2svg.GanttSVGMapper
 }
 
@@ -81,7 +81,7 @@ type CommitFromFrontOnGanttStage struct {
 // 1 - update the SVG stack
 // 2 - persists the data to the gantt file
 func (beforeCommitFromFrontOnGanttStage *CommitFromFrontOnGanttStage) BeforeCommit(
-	ganttStage *gantt_models.StageStruct) {
+	ganttStage *gantt_models.Stage) {
 	file, err := os.Create(fmt.Sprintf("./%s.go", *marshallOnCommit))
 	if err != nil {
 		log.Fatal(err.Error())

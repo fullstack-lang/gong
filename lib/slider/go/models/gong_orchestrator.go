@@ -7,7 +7,7 @@ type CheckboxOrchestrator struct {
 }
 
 func (orchestrator *CheckboxOrchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	stagedCheckbox, backRepoCheckbox *Checkbox) {
 
 	stagedCheckbox.OnAfterUpdate(gongsvgStage, stagedCheckbox, backRepoCheckbox)
@@ -17,13 +17,13 @@ type SliderOrchestrator struct {
 }
 
 func (orchestrator *SliderOrchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	stagedSlider, backRepoSlider *Slider) {
 
 	stagedSlider.OnAfterUpdate(gongsvgStage, stagedSlider, backRepoSlider)
 }
 
-func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *StageStruct) {
+func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 
 	var ret Type
 

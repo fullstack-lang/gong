@@ -26,7 +26,7 @@ type CellDeleteIconImpl[T models.Gongstruct] struct {
 	probe *Probe
 }
 
-func (cellDeleteIconImpl *CellDeleteIconImpl[T]) CellIconUpdated(stage *gongtable.StageStruct,
+func (cellDeleteIconImpl *CellDeleteIconImpl[T]) CellIconUpdated(stage *gongtable.Stage,
 	row, updatedCellIcon *gongtable.CellIcon) {
 	log.Println("CellIconUpdate: CellIconUpdated", updatedCellIcon.Name)
 

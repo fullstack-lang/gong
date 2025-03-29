@@ -113,10 +113,10 @@ type BackRepoCellFloat64Struct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoCellFloat64 *BackRepoCellFloat64Struct) GetStage() (stage *models.StageStruct) {
+func (backRepoCellFloat64 *BackRepoCellFloat64Struct) GetStage() (stage *models.Stage) {
 	stage = backRepoCellFloat64.stage
 	return
 }
@@ -134,7 +134,7 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) GetCellFloat64DBFromCellFl
 
 // BackRepoCellFloat64.CommitPhaseOne commits all staged instances of CellFloat64 to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoCellFloat64 *BackRepoCellFloat64Struct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoCellFloat64 *BackRepoCellFloat64Struct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var cellfloat64s []*models.CellFloat64
 	for cellfloat64 := range stage.CellFloat64s {

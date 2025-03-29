@@ -9,7 +9,7 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_bezier models.StageStruct
+var ___dummy__Stage_bezier models.Stage
 var ___dummy__Time_bezier time.Time
 
 // Injection point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
@@ -33,7 +33,7 @@ var map_DocLink_Identifier_bezier map[string]any = map[string]any{
 // }
 
 // bezierInjection will stage objects of database "bezier"
-func bezierInjection(stage *models.StageStruct) {
+func bezierInjection(stage *models.Stage) {
 
 	// Declaration of instances to stage
 

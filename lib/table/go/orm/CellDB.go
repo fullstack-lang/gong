@@ -127,10 +127,10 @@ type BackRepoCellStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoCell *BackRepoCellStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoCell *BackRepoCellStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoCell.stage
 	return
 }
@@ -148,7 +148,7 @@ func (backRepoCell *BackRepoCellStruct) GetCellDBFromCellPtr(cell *models.Cell) 
 
 // BackRepoCell.CommitPhaseOne commits all staged instances of Cell to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoCell *BackRepoCellStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoCell *BackRepoCellStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var cells []*models.Cell
 	for cell := range stage.Cells {

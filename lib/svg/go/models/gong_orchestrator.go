@@ -7,7 +7,7 @@ type LineOrchestrator struct {
 }
 
 func (orchestrator *LineOrchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	stagedLine, backRepoLine *Line) {
 
 	stagedLine.OnAfterUpdate(gongsvgStage, stagedLine, backRepoLine)
@@ -17,7 +17,7 @@ type LinkOrchestrator struct {
 }
 
 func (orchestrator *LinkOrchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	stagedLink, backRepoLink *Link) {
 
 	stagedLink.OnAfterUpdate(gongsvgStage, stagedLink, backRepoLink)
@@ -27,7 +27,7 @@ type LinkAnchoredTextOrchestrator struct {
 }
 
 func (orchestrator *LinkAnchoredTextOrchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	stagedLinkAnchoredText, backRepoLinkAnchoredText *LinkAnchoredText) {
 
 	stagedLinkAnchoredText.OnAfterUpdate(gongsvgStage, stagedLinkAnchoredText, backRepoLinkAnchoredText)
@@ -37,7 +37,7 @@ type RectOrchestrator struct {
 }
 
 func (orchestrator *RectOrchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	stagedRect, backRepoRect *Rect) {
 
 	stagedRect.OnAfterUpdate(gongsvgStage, stagedRect, backRepoRect)
@@ -47,13 +47,13 @@ type SVGOrchestrator struct {
 }
 
 func (orchestrator *SVGOrchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	stagedSVG, backRepoSVG *SVG) {
 
 	stagedSVG.OnAfterUpdate(gongsvgStage, stagedSVG, backRepoSVG)
 }
 
-func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *StageStruct) {
+func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 
 	var ret Type
 

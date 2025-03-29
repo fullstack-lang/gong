@@ -13,7 +13,7 @@ type XLFile struct {
 	Sheets   []*XLSheet
 }
 
-func (xlfile *XLFile) Open(stage *StageStruct, path string) {
+func (xlfile *XLFile) Open(stage *Stage, path string) {
 
 	xlfile.Name = path
 	var err error

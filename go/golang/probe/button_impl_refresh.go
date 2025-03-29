@@ -24,7 +24,7 @@ func NewButtonImplRefresh(
 }
 
 func (buttonImpl *ButtonImplRefresh) ButtonUpdated(
-	gongtreeStage *gongtree_models.StageStruct,
+	gongtreeStage *gongtree_models.Stage,
 	stageButton, front *gongtree_models.Button) {
 
 	log.Println("ButtonImplRefresh: ButtonUpdated")

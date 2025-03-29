@@ -9,7 +9,7 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_form_stage models.StageStruct
+var ___dummy__Stage_form_stage models.Stage
 var ___dummy__Time_form_stage time.Time
 
 // _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
@@ -33,7 +33,7 @@ var _ map[string]any = map[string]any{
 // }
 
 // _ will stage objects of database "form_stage"
-func _(stage *models.StageStruct) {
+func _(stage *models.Stage) {
 
 	// Declaration of instances to stage
 

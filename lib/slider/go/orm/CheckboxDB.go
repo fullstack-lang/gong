@@ -126,10 +126,10 @@ type BackRepoCheckboxStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoCheckbox *BackRepoCheckboxStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoCheckbox *BackRepoCheckboxStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoCheckbox.stage
 	return
 }
@@ -147,7 +147,7 @@ func (backRepoCheckbox *BackRepoCheckboxStruct) GetCheckboxDBFromCheckboxPtr(che
 
 // BackRepoCheckbox.CommitPhaseOne commits all staged instances of Checkbox to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoCheckbox *BackRepoCheckboxStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoCheckbox *BackRepoCheckboxStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var checkboxs []*models.Checkbox
 	for checkbox := range stage.Checkboxs {

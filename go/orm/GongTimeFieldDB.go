@@ -125,10 +125,10 @@ type BackRepoGongTimeFieldStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoGongTimeField.stage
 	return
 }
@@ -146,7 +146,7 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) GetGongTimeFieldDBFrom
 
 // BackRepoGongTimeField.CommitPhaseOne commits all staged instances of GongTimeField to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var gongtimefields []*models.GongTimeField
 	for gongtimefield := range stage.GongTimeFields {

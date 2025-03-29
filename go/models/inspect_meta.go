@@ -12,7 +12,7 @@ import (
 //
 // That is a General Declaration (because it is exported)
 // The Type in the Value Specification of the declaration must be "Meta"
-func inspectMeta(stage *StageStruct, astPackage *ast.Package) {
+func inspectMeta(stage *Stage, astPackage *ast.Package) {
 
 	ast.Inspect(astPackage, func(n ast.Node) bool {
 		switch x := n.(type) {

@@ -155,10 +155,10 @@ type BackRepoBarStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoBar *BackRepoBarStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoBar *BackRepoBarStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoBar.stage
 	return
 }
@@ -176,7 +176,7 @@ func (backRepoBar *BackRepoBarStruct) GetBarDBFromBarPtr(bar *models.Bar) (barDB
 
 // BackRepoBar.CommitPhaseOne commits all staged instances of Bar to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoBar *BackRepoBarStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoBar *BackRepoBarStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var bars []*models.Bar
 	for bar := range stage.Bars {

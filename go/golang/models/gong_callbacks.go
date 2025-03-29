@@ -4,7 +4,7 @@ const ModelGongCallbacksFileTemplate = `// generated code - do not edit
 package models
 
 // AfterCreateFromFront is called after a create from front
-func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
+func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point{{` + string(rune(ModelGongCallbacksCreate)) + `}}
@@ -14,7 +14,7 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // AfterUpdateFromFront is called after a update from front
-func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
+func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point{{` + string(rune(ModelGongCallbacksUpdate)) + `}}
@@ -24,7 +24,7 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 }
 
 // AfterDeleteFromFront is called after a delete from front
-func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Type) {
+func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point{{` + string(rune(ModelGongCallbacksDelete)) + `}}
@@ -34,7 +34,7 @@ func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Ty
 }
 
 // AfterReadFromFront is called after a Read from front
-func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
+func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point{{` + string(rune(ModelGongCallbacksRead)) + `}}
@@ -44,28 +44,28 @@ func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // SetCallbackAfterUpdateFromFront is a function to set up callback that is robust to refactoring
-func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *StageStruct, callback OnAfterUpdateInterface[Type]) {
+func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnAfterUpdateInterface[Type]) {
 
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point{{` + string(rune(ModelGongCallbacksSetFuncUpdate)) + `}}
 	}
 }
-func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *StageStruct, callback OnAfterCreateInterface[Type]) {
+func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
 
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point{{` + string(rune(ModelGongCallbacksSetFuncCreate)) + `}}
 	}
 }
-func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *StageStruct, callback OnAfterDeleteInterface[Type]) {
+func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
 
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point{{` + string(rune(ModelGongCallbacksSetFuncDelete)) + `}}
 	}
 }
-func SetCallbackAfterReadFromFront[Type Gongstruct](stage *StageStruct, callback OnAfterReadInterface[Type]) {
+func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
 
 	var instance Type
 	switch any(instance).(type) {

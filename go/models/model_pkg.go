@@ -10,7 +10,7 @@ type ModelPkg struct {
 	PkgPath string // for instance "github.com/.../models"
 
 	// Stage_ is where the ModelPkg lives
-	Stage_ *StageStruct
+	Stage_ *Stage
 
 	GongStructs map[string]*GongStruct `gorm:"-"` // sql3Lite does not support maps
 	GongEnums   map[string]*GongEnum   `gorm:"-"`
@@ -81,16 +81,16 @@ type ModelPkg struct {
 	MaterialLibDatamodelTargetPath string
 }
 
-func (modelPkg *ModelPkg) GetStage() (stage *StageStruct) {
+func (modelPkg *ModelPkg) GetStage() (stage *Stage) {
 	stage = modelPkg.Stage_
 	return stage
 }
 
-func (modelPkg *ModelPkg) SetStage(stage *StageStruct) {
+func (modelPkg *ModelPkg) SetStage(stage *Stage) {
 	modelPkg.Stage_ = stage
 }
 
-func NewModelPkg(stage *StageStruct) (modelPkg *ModelPkg) {
+func NewModelPkg(stage *Stage) (modelPkg *ModelPkg) {
 
 	modelPkg = new(ModelPkg)
 	modelPkg.SetStage(stage)
@@ -100,7 +100,7 @@ func NewModelPkg(stage *StageStruct) (modelPkg *ModelPkg) {
 // dir, initialized with a //go:embed directive, is the root
 // the embedded source code
 // usualy, it embeds go/models go/diagrams
-func LoadEmbedded(stage *StageStruct, goModelsDir embed.FS) (modelPkg *ModelPkg, err error) {
+func LoadEmbedded(stage *Stage, goModelsDir embed.FS) (modelPkg *ModelPkg, err error) {
 
 	modelPkg = NewModelPkg(stage)
 
@@ -118,7 +118,7 @@ func LoadEmbedded(stage *StageStruct, goModelsDir embed.FS) (modelPkg *ModelPkg,
 	return modelPkg, nil
 }
 
-func LoadSource(stage *StageStruct, pkgPath string) (modelPkg *ModelPkg, err error) {
+func LoadSource(stage *Stage, pkgPath string) (modelPkg *ModelPkg, err error) {
 
 	// check existance of go.mod file in the path to the 'models' package
 	//

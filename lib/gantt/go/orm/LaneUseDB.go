@@ -111,10 +111,10 @@ type BackRepoLaneUseStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoLaneUse *BackRepoLaneUseStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoLaneUse *BackRepoLaneUseStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoLaneUse.stage
 	return
 }
@@ -132,7 +132,7 @@ func (backRepoLaneUse *BackRepoLaneUseStruct) GetLaneUseDBFromLaneUsePtr(laneuse
 
 // BackRepoLaneUse.CommitPhaseOne commits all staged instances of LaneUse to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoLaneUse *BackRepoLaneUseStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoLaneUse *BackRepoLaneUseStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var laneuses []*models.LaneUse
 	for laneuse := range stage.LaneUses {

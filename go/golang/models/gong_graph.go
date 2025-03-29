@@ -16,7 +16,7 @@ import (
 const ModelGongGraphFileTemplate = `// generated code - do not edit
 package models
 
-func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
+func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage{{` + string(rune(ModelGongGraphStructInsertionIsStaged)) + `}}
@@ -31,7 +31,7 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch{{` + string(rune(ModelGongGraphStructInsertionStageBranch)) + `}}
@@ -63,7 +63,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 // referenced by pointers or slices of pointers of the insance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch{{` + string(rune(ModelGongGraphStructInsertionUnstageBranch)) + `}}
@@ -98,7 +98,7 @@ map[ModelGongGraphStructInsertionId]string{
 		ok = stage.IsStaged{{Structname}}(target)
 `,
 	ModelGongGraphStructInsertionIsStagedPerStruct: `
-func (stage *StageStruct) IsStaged{{Structname}}({{structname}} *{{Structname}}) (ok bool) {
+func (stage *Stage) IsStaged{{Structname}}({{structname}} *{{Structname}}) (ok bool) {
 
 	_, ok = stage.{{Structname}}s[{{structname}}]
 
@@ -110,7 +110,7 @@ func (stage *StageStruct) IsStaged{{Structname}}({{structname}} *{{Structname}})
 		stage.StageBranch{{Structname}}(target)
 `,
 	ModelGongGraphStructInsertionStageBranchPerStruct: `
-func (stage *StageStruct) StageBranch{{Structname}}({{structname}} *{{Structname}}) {
+func (stage *Stage) StageBranch{{Structname}}({{structname}} *{{Structname}}) {
 
 	// check if instance is already staged
 	if IsStaged(stage, {{structname}}) {
@@ -155,7 +155,7 @@ func CopyBranch{{Structname}}(mapOrigCopy map[any]any, {{structname}}From *{{Str
 		stage.UnstageBranch{{Structname}}(target)
 `,
 	ModelGongGraphStructInsertionUnstageBranchPerStruct: `
-func (stage *StageStruct) UnstageBranch{{Structname}}({{structname}} *{{Structname}}) {
+func (stage *Stage) UnstageBranch{{Structname}}({{structname}} *{{Structname}}) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, {{structname}}) {

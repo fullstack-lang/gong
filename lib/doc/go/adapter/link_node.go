@@ -13,7 +13,7 @@ import (
 type LinkNode struct {
 	ElementNodeBase
 	gongNoteNode *GongNoteNode
-	stage        *gong_models.StageStruct
+	stage        *gong_models.Stage
 	link         *gong_models.GongLink
 }
 

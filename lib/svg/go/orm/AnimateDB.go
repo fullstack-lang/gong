@@ -143,10 +143,10 @@ type BackRepoAnimateStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoAnimate *BackRepoAnimateStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoAnimate *BackRepoAnimateStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoAnimate.stage
 	return
 }
@@ -164,7 +164,7 @@ func (backRepoAnimate *BackRepoAnimateStruct) GetAnimateDBFromAnimatePtr(animate
 
 // BackRepoAnimate.CommitPhaseOne commits all staged instances of Animate to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoAnimate *BackRepoAnimateStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoAnimate *BackRepoAnimateStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var animates []*models.Animate
 	for animate := range stage.Animates {

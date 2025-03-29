@@ -11,11 +11,11 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_Default models.StageStruct
+var ___dummy__Stage_Default models.Stage
 var ___dummy__Time_Default time.Time
 
 // Injection point for meta package dummy declaration
-var ___dummy__ref_models_Default ref_models.StageStruct
+var ___dummy__ref_models_Default ref_models.Stage
 
 // currently, DocLink renaming is not enabled in gopls
 // the following map are devised to overcome this limitation
@@ -188,7 +188,7 @@ var map_DocLink_Identifier_Default map[string]any = map[string]any{
 // }
 
 // DefaultInjection will stage objects of database "Default"
-func DefaultInjection(stage *models.StageStruct) {
+func DefaultInjection(stage *models.Stage) {
 
 	// Declaration of instances to stage
 

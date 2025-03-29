@@ -4,7 +4,7 @@ type A struct {
 	Name string
 }
 
-func NewStage(path string) (stage *StageStruct) {
+func NewStage(path string) (stage *Stage) {
 
-	return new(StageStruct)
+	return new(Stage)
 }
