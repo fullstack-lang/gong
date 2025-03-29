@@ -5,9 +5,10 @@ import (
 	"log"
 	"strconv"
 
-	gongsvg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
-	gongsvg_stack "github.com/fullstack-lang/gong/lib/svg/go/stack"
-	gongsvg_static "github.com/fullstack-lang/gong/lib/svg/go/static"
+	// insertion point for models import
+	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
+	svg_stack "github.com/fullstack-lang/gong/lib/svg/go/stack"
+	svg_static "github.com/fullstack-lang/gong/lib/svg/go/static"
 )
 
 var (
@@ -23,23 +24,23 @@ var (
 
 func main() {
 
-	log.SetPrefix("gongsvg: ")
+	log.SetPrefix("svg: ")
 	log.SetFlags(0)
 
 	// parse program arguments
 	flag.Parse()
 
 	// setup the static file server and get the controller
-	r := gongsvg_static.ServeStaticFiles(*logGINFlag)
+	r := svg_static.ServeStaticFiles(*logGINFlag)
 
-	// setup stack
-	stack := gongsvg_stack.NewStack(r, gongsvg_models.StackNameDefault.ToString(), *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	// setup model stack with its probe
+	stack := svg_stack.NewStack(r, "svg", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
 
 	// get the unique svg and hook a callback for when it is edited or not
 	// the is the only way to update the commit nb from the back
-	var svg *gongsvg_models.SVG
-	for svg_ := range *gongsvg_models.GetGongstructInstancesSet[gongsvg_models.SVG](stack.Stage) {
+	var svg *svg_models.SVG
+	for svg_ := range *svg_models.GetGongstructInstancesSet[svg_models.SVG](stack.Stage) {
 		svg = svg_
 	}
 	if svg != nil {
@@ -49,7 +50,10 @@ func main() {
 
 	}
 
-	log.Printf("Server ready serve on localhost:" + strconv.Itoa(*port))
+	// insertion point for call to stager
+	NewStager(r, stack.Stage)
+
+	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
 	if err != nil {
 		log.Fatalln(err.Error())
@@ -57,12 +61,12 @@ func main() {
 }
 
 type SVGImpl struct {
-	stack *gongsvg_stack.Stack
-	svg   *gongsvg_models.SVG
+	stack *svg_stack.Stack
+	svg   *svg_models.SVG
 }
 
 // SVGUpdated implements models.SVGImplInterface.
-func (sVGImpl *SVGImpl) SVGUpdated(updatedSVG *gongsvg_models.SVG) {
+func (sVGImpl *SVGImpl) SVGUpdated(updatedSVG *svg_models.SVG) {
 	sVGImpl.svg.IsEditable = updatedSVG.IsEditable
 	sVGImpl.stack.Stage.Commit()
 }

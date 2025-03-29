@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
+
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -156,7 +157,7 @@ func _(stage *models.Stage) {
 	__Link__000001_Start_Middle.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000001_Start_Middle.StartRatio = 0.218766
 	__Link__000001_Start_Middle.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000001_Start_Middle.EndRatio = 0.478101
+	__Link__000001_Start_Middle.EndRatio = 0.826734
 	__Link__000001_Start_Middle.CornerOffsetRatio = -1.105485
 	__Link__000001_Start_Middle.CornerRadius = 20.000000
 	__Link__000001_Start_Middle.HasEndArrow = true
@@ -283,8 +284,8 @@ Third Line`
 	__LinkAnchoredText__000005_Start_Right_Bottom.Transform = ``
 
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 355.000000
-	__Rect__000000_Bottom.Y = 80.000000
+	__Rect__000000_Bottom.X = 401.000000
+	__Rect__000000_Bottom.Y = 38.000000
 	__Rect__000000_Bottom.Width = 565.000000
 	__Rect__000000_Bottom.Height = 266.999985
 	__Rect__000000_Bottom.RX = 5.000000
