@@ -187,6 +187,18 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Xlsx:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "Xlsx Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__XlsxFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	default:
 		_ = instancesTyped
 	}

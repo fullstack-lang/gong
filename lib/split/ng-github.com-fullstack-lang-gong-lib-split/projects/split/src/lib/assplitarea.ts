@@ -16,6 +16,7 @@ import { Svg } from './svg'
 import { Table } from './table'
 import { Tone } from './tone'
 import { Tree } from './tree'
+import { Xlsx } from './xlsx'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -60,6 +61,8 @@ export class AsSplitArea {
 	Tone?: Tone
 
 	Tree?: Tree
+
+	Xlsx?: Xlsx
 
 }
 
@@ -162,6 +165,13 @@ export function CopyAsSplitAreaToAsSplitAreaAPI(assplitarea: AsSplitArea, asspli
 		assplitareaAPI.AsSplitAreaPointersEncoding.TreeID.Int64 = 0 		
 	}
 
+	assplitareaAPI.AsSplitAreaPointersEncoding.XlsxID.Valid = true
+	if (assplitarea.Xlsx != undefined) {
+		assplitareaAPI.AsSplitAreaPointersEncoding.XlsxID.Int64 = assplitarea.Xlsx.ID  
+	} else {
+		assplitareaAPI.AsSplitAreaPointersEncoding.XlsxID.Int64 = 0 		
+	}
+
 
 	// insertion point for slice of pointers fields encoding
 }
@@ -197,6 +207,7 @@ export function CopyAsSplitAreaAPIToAsSplitArea(assplitareaAPI: AsSplitAreaAPI, 
 	assplitarea.Table = frontRepo.map_ID_Table.get(assplitareaAPI.AsSplitAreaPointersEncoding.TableID.Int64)
 	assplitarea.Tone = frontRepo.map_ID_Tone.get(assplitareaAPI.AsSplitAreaPointersEncoding.ToneID.Int64)
 	assplitarea.Tree = frontRepo.map_ID_Tree.get(assplitareaAPI.AsSplitAreaPointersEncoding.TreeID.Int64)
+	assplitarea.Xlsx = frontRepo.map_ID_Xlsx.get(assplitareaAPI.AsSplitAreaPointersEncoding.XlsxID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 }

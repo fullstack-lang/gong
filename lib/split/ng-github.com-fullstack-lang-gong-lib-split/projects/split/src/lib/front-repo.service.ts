@@ -60,6 +60,10 @@ import { ViewAPI } from './view-api'
 import { View, CopyViewAPIToView } from './view'
 import { ViewService } from './view.service'
 
+import { XlsxAPI } from './xlsx-api'
+import { Xlsx, CopyXlsxAPIToXlsx } from './xlsx'
+import { XlsxService } from './xlsx.service'
+
 
 import { BackRepoData } from './back-repo-data'
 
@@ -109,6 +113,9 @@ export class FrontRepo { // insertion point sub template
 	array_Views = new Array<View>() // array of front instances
 	map_ID_View = new Map<number, View>() // map of front instances
 
+	array_Xlsxs = new Array<Xlsx>() // array of front instances
+	map_ID_Xlsx = new Map<number, Xlsx>() // map of front instances
+
 
 	public GONG__Index = -1
 
@@ -146,6 +153,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_Trees as unknown as Array<Type>
 			case 'View':
 				return this.array_Views as unknown as Array<Type>
+			case 'Xlsx':
+				return this.array_Xlsxs as unknown as Array<Type>
 			default:
 				throw new Error("Type not recognized");
 		}
@@ -182,6 +191,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_Tree as unknown as Map<number, Type>
 			case 'View':
 				return this.map_ID_View as unknown as Map<number, Type>
+			case 'Xlsx':
+				return this.map_ID_Xlsx as unknown as Map<number, Type>
 			default:
 				throw new Error("Type not recognized");
 		}
@@ -263,6 +274,7 @@ export class FrontRepoService {
 		private toneService: ToneService,
 		private treeService: TreeService,
 		private viewService: ViewService,
+		private xlsxService: XlsxService,
 	) { }
 
 	// postService provides a post function for each struct name
@@ -309,6 +321,7 @@ export class FrontRepoService {
 		Observable<ToneAPI[]>,
 		Observable<TreeAPI[]>,
 		Observable<ViewAPI[]>,
+		Observable<XlsxAPI[]>,
 	];
 
 	//
@@ -338,6 +351,7 @@ export class FrontRepoService {
 			this.toneService.getTones(this.Name, this.frontRepo),
 			this.treeService.getTrees(this.Name, this.frontRepo),
 			this.viewService.getViews(this.Name, this.frontRepo),
+			this.xlsxService.getXlsxs(this.Name, this.frontRepo),
 		]
 
 		return new Observable<FrontRepo>(
@@ -362,6 +376,7 @@ export class FrontRepoService {
 						tones_,
 						trees_,
 						views_,
+						xlsxs_,
 					]) => {
 						let _this = this
 						// Typing can be messy with many items. Therefore, type casting is necessary here
@@ -394,6 +409,8 @@ export class FrontRepoService {
 						trees = trees_ as TreeAPI[]
 						var views: ViewAPI[]
 						views = views_ as ViewAPI[]
+						var xlsxs: XlsxAPI[]
+						xlsxs = xlsxs_ as XlsxAPI[]
 
 						// 
 						// First Step: init map of instances
@@ -566,6 +583,18 @@ export class FrontRepoService {
 							}
 						)
 
+						// init the arrays
+						this.frontRepo.array_Xlsxs = []
+						this.frontRepo.map_ID_Xlsx.clear()
+
+						xlsxs.forEach(
+							xlsxAPI => {
+								let xlsx = new Xlsx
+								this.frontRepo.array_Xlsxs.push(xlsx)
+								this.frontRepo.map_ID_Xlsx.set(xlsxAPI.ID, xlsx)
+							}
+						)
+
 
 						// 
 						// Second Step: reddeem front objects
@@ -679,6 +708,14 @@ export class FrontRepoService {
 							viewAPI => {
 								let view = this.frontRepo.map_ID_View.get(viewAPI.ID)
 								CopyViewAPIToView(viewAPI, view!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						xlsxs.forEach(
+							xlsxAPI => {
+								let xlsx = this.frontRepo.map_ID_Xlsx.get(xlsxAPI.ID)
+								CopyXlsxAPIToXlsx(xlsxAPI, xlsx!, this.frontRepo)
 							}
 						)
 
@@ -884,6 +921,18 @@ export class FrontRepoService {
 					}
 				)
 
+				// init the arrays
+				frontRepo.array_Xlsxs = []
+				frontRepo.map_ID_Xlsx.clear()
+
+				backRepoData.XlsxAPIs.forEach(
+					xlsxAPI => {
+						let xlsx = new Xlsx
+						frontRepo.array_Xlsxs.push(xlsx)
+						frontRepo.map_ID_Xlsx.set(xlsxAPI.ID, xlsx)
+					}
+				)
+
 
 				// 
 				// Second Step: reddeem front objects
@@ -1002,6 +1051,14 @@ export class FrontRepoService {
 					}
 				)
 
+				// fill up front objects
+				backRepoData.XlsxAPIs.forEach(
+					xlsxAPI => {
+						let xlsx = frontRepo.map_ID_Xlsx.get(xlsxAPI.ID)
+						CopyXlsxAPIToXlsx(xlsxAPI, xlsx!, frontRepo)
+					}
+				)
+
 
 
 				observer.next(frontRepo)
@@ -1062,4 +1119,7 @@ export function getTreeUniqueID(id: number): number {
 }
 export function getViewUniqueID(id: number): number {
 	return 89 * id
+}
+export function getXlsxUniqueID(id: number): number {
+	return 97 * id
 }

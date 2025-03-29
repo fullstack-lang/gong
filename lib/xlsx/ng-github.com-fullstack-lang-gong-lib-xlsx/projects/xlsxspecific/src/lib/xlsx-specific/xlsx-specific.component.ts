@@ -50,8 +50,6 @@ export class XlsxSpecificComponent {
 
   constructor(
     private gongxlsxFrontRepoService: xlsx.FrontRepoService,
-    private commitNbService: xlsx.CommitNbFromBackService,
-    private pushFromFrontService: xlsx.PushFromFrontNbService,
   ) { }
 
   ngOnInit(): void {

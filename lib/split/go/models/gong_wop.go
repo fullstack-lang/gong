@@ -191,3 +191,15 @@ func (from *View) CopyBasicFields(to *View) {
 	to.Name = from.Name
 }
 
+type Xlsx_WOP struct {
+	// insertion point
+	Name string
+	StackName string
+}
+
+func (from *Xlsx) CopyBasicFields(to *Xlsx) {
+	// insertion point
+	to.Name = from.Name
+	to.StackName = from.StackName
+}
+

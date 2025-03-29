@@ -170,6 +170,8 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(assplitarea_.Tone), assplitareaFormCallback.probe.stageOfInterest, formDiv)
 		case "Tree":
 			FormDivSelectFieldToField(&(assplitarea_.Tree), assplitareaFormCallback.probe.stageOfInterest, formDiv)
+		case "Xlsx":
+			FormDivSelectFieldToField(&(assplitarea_.Xlsx), assplitareaFormCallback.probe.stageOfInterest, formDiv)
 		case "HasDiv":
 			FormDivBasicFieldToField(&(assplitarea_.HasDiv), formDiv)
 		case "DivStyle":
@@ -1243,4 +1245,83 @@ func (viewFormCallback *ViewFormCallback) OnSave() {
 	}
 
 	fillUpTree(viewFormCallback.probe)
+}
+func __gong__New__XlsxFormCallback(
+	xlsx *models.Xlsx,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (xlsxFormCallback *XlsxFormCallback) {
+	xlsxFormCallback = new(XlsxFormCallback)
+	xlsxFormCallback.probe = probe
+	xlsxFormCallback.xlsx = xlsx
+	xlsxFormCallback.formGroup = formGroup
+
+	xlsxFormCallback.CreationMode = (xlsx == nil)
+
+	return
+}
+
+type XlsxFormCallback struct {
+	xlsx *models.Xlsx
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (xlsxFormCallback *XlsxFormCallback) OnSave() {
+
+	log.Println("XlsxFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	xlsxFormCallback.probe.formStage.Checkout()
+
+	if xlsxFormCallback.xlsx == nil {
+		xlsxFormCallback.xlsx = new(models.Xlsx).Stage(xlsxFormCallback.probe.stageOfInterest)
+	}
+	xlsx_ := xlsxFormCallback.xlsx
+	_ = xlsx_
+
+	for _, formDiv := range xlsxFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(xlsx_.Name), formDiv)
+		case "StackName":
+			FormDivBasicFieldToField(&(xlsx_.StackName), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if xlsxFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		xlsx_.Unstage(xlsxFormCallback.probe.stageOfInterest)
+	}
+
+	xlsxFormCallback.probe.stageOfInterest.Commit()
+	fillUpTable[models.Xlsx](
+		xlsxFormCallback.probe,
+	)
+	xlsxFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if xlsxFormCallback.CreationMode || xlsxFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		xlsxFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(xlsxFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__XlsxFormCallback(
+			nil,
+			xlsxFormCallback.probe,
+			newFormGroup,
+		)
+		xlsx := new(models.Xlsx)
+		FillUpForm(xlsx, newFormGroup, xlsxFormCallback.probe)
+		xlsxFormCallback.probe.formStage.Commit()
+	}
+
+	fillUpTree(xlsxFormCallback.probe)
 }

@@ -71,6 +71,10 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		viewInstance := any(concreteInstance).(*models.View)
 		ret2 := backRepo.BackRepoView.GetViewDBFromViewPtr(viewInstance)
 		ret = any(ret2).(*T2)
+	case *models.Xlsx:
+		xlsxInstance := any(concreteInstance).(*models.Xlsx)
+		ret2 := backRepo.BackRepoXlsx.GetXlsxDBFromXlsxPtr(xlsxInstance)
+		ret = any(ret2).(*T2)
 	default:
 		_ = concreteInstance
 	}
@@ -154,6 +158,11 @@ func GetID[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
+	case *models.Xlsx:
+		tmp := GetInstanceDBFromInstance[models.Xlsx, XlsxDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
 	default:
 		_ = inst
 	}
@@ -234,6 +243,11 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.View:
 		tmp := GetInstanceDBFromInstance[models.View, ViewDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Xlsx:
+		tmp := GetInstanceDBFromInstance[models.Xlsx, XlsxDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

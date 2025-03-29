@@ -56,6 +56,7 @@ func NewStackInstance(
 	models.SetOrchestratorOnAfterUpdate[models.Tone](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Tree](stage)
 	models.SetOrchestratorOnAfterUpdate[models.View](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Xlsx](stage)
 
 	return
 }

@@ -22,6 +22,9 @@ import (
 	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
 	svg_stack "github.com/fullstack-lang/gong/lib/svg/go/stack"
 
+	xlsx_models "github.com/fullstack-lang/gong/lib/xlsx/go/models"
+	xlsx_stack "github.com/fullstack-lang/gong/lib/xlsx/go/stack"
+
 	tone_stack "github.com/fullstack-lang/gong/lib/tone/go/stack"
 )
 
@@ -64,6 +67,10 @@ func main() {
 	toneStackName := "tone"
 	stacktone := tone_stack.NewStack(r, toneStackName, "", "", "", *embeddedDiagrams, true)
 	toneStage := stacktone.Stage
+
+	xlsxStackName := "xlsx"
+	stackxlsx := xlsx_stack.NewStack(r, xlsxStackName, "", "", "", *embeddedDiagrams, true)
+	xlsxStage := stackxlsx.Stage
 
 	{
 
@@ -187,6 +194,15 @@ func main() {
 		stack.Stage.Commit()
 	}
 
+	{
+
+		sampleXLFile := new(xlsx_models.XLFile).Stage(xlsxStage)
+		sampleXLFile.Open(xlsxStage, "data/samplefile.xlsx")
+
+		xlsxStage.Commit()
+		stackxlsx.Probe.Refresh()
+	}
+
 	(&split.View{
 		Name: "Slider 1",
 		RootAsSplitAreas: []*split.AsSplitArea{
@@ -248,6 +264,28 @@ func main() {
 			(&split.AsSplitArea{
 				Split: (&split.Split{
 					StackName: buttonStage.GetProbeSplitStageName(),
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+		},
+	}).Stage(splitStage)
+
+	(&split.View{
+		Name: "Xlsx",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Xlsx: (&split.Xlsx{
+					StackName: xlsxStage.GetName(),
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+		},
+	}).Stage(splitStage)
+
+	(&split.View{
+		Name: "Probe Xlsx",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Split: (&split.Split{
+					StackName: xlsxStage.GetProbeSplitStageName(),
 				}).Stage(splitStage),
 			}).Stage(splitStage),
 		},
