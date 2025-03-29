@@ -20,13 +20,11 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
-	"github.com/fullstack-lang/gong/lib/svg/go/orm"
 )
 
 type Probe struct {
 	r                  *gin.Engine
 	stageOfInterest    *models.StageStruct
-	backRepoOfInterest *orm.BackRepoStruct
 	gongStage          *gong_models.StageStruct
 	treeStage          *tree.StageStruct
 	formStage          *form.StageStruct
@@ -39,8 +37,7 @@ func NewProbe(
 	goModelsDir embed.FS,
 	goDiagramsDir embed.FS,
 	embeddedDiagrams bool,
-	stageOfInterest *models.StageStruct,
-	backRepoOfInterest *orm.BackRepoStruct) (probe *Probe) {
+	stageOfInterest *models.StageStruct) (probe *Probe) {
 
 	gongStage, _ := gong_fullstack.NewStackInstance(r, stageOfInterest.GetName())
 
@@ -63,7 +60,6 @@ func NewProbe(
 	probe = new(Probe)
 	probe.r = r
 	probe.stageOfInterest = stageOfInterest
-	probe.backRepoOfInterest = backRepoOfInterest
 	probe.gongStage = gongStage
 	probe.treeStage = treeStage
 	probe.formStage = formStage
