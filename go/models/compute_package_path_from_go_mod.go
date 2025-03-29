@@ -76,6 +76,28 @@ func ComputePkgPathFromGoModFile(pkgPathArg string) (pkgName, fullPkgPath string
 		goModFilePath = filepath.Join(pkgPathArg, pathBetweenPackageAndModule, "go.mod")
 	}
 
+	if goModFileMissing {
+		log.Printf("gongc get the gong package with latest commit")
+		cmd := exec.Command("go", "get", "github.com/fullstack-lang/gong@main")
+		cmd.Dir, _ = filepath.Abs(filepath.Join(pkgPathArg, "../.."))
+		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
+
+		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+		var stdBuffer bytes.Buffer
+		mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+		cmd.Stdout = mw
+		cmd.Stderr = mw
+
+		log.Println(cmd.String())
+		log.Println(stdBuffer.String())
+
+		// Execute the command
+		if err := cmd.Run(); err != nil {
+			log.Panic(err)
+		}
+	}
+
 	// read the go.mod file
 	buf, err := ioutil.ReadFile(goModFilePath)
 	if err != nil {
