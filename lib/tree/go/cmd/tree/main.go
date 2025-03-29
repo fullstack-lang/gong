@@ -36,6 +36,8 @@ func main() {
 	stack := tree_stack.NewStack(r, tree_models.TreeStackDefaultName.ToString(), *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
 
+	NewStager(r, stack.Stage)
+
 	log.Printf("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
 	if err != nil {
