@@ -113,10 +113,10 @@ type BackRepoFormFieldDateTimeStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoFormFieldDateTime *BackRepoFormFieldDateTimeStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoFormFieldDateTime *BackRepoFormFieldDateTimeStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoFormFieldDateTime.stage
 	return
 }
@@ -134,7 +134,7 @@ func (backRepoFormFieldDateTime *BackRepoFormFieldDateTimeStruct) GetFormFieldDa
 
 // BackRepoFormFieldDateTime.CommitPhaseOne commits all staged instances of FormFieldDateTime to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoFormFieldDateTime *BackRepoFormFieldDateTimeStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoFormFieldDateTime *BackRepoFormFieldDateTimeStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var formfielddatetimes []*models.FormFieldDateTime
 	for formfielddatetime := range stage.FormFieldDateTimes {

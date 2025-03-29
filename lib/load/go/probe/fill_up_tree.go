@@ -127,7 +127,7 @@ func NewInstanceNodeCallback[T models.Gongstruct](
 }
 
 func (instanceNodeCallback *InstanceNodeCallback[T]) OnAfterUpdate(
-	gongtreeStage *tree.StageStruct,
+	gongtreeStage *tree.Stage,
 	stagedNode, frontNode *tree.Node) {
 
 	FillUpFormFromGongstruct(

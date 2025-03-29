@@ -113,10 +113,10 @@ type BackRepoPlayerStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoPlayer *BackRepoPlayerStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoPlayer *BackRepoPlayerStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoPlayer.stage
 	return
 }
@@ -134,7 +134,7 @@ func (backRepoPlayer *BackRepoPlayerStruct) GetPlayerDBFromPlayerPtr(player *mod
 
 // BackRepoPlayer.CommitPhaseOne commits all staged instances of Player to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoPlayer *BackRepoPlayerStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoPlayer *BackRepoPlayerStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var players []*models.Player
 	for player := range stage.Players {

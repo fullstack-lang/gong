@@ -7,7 +7,7 @@ import (
 )
 
 // to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
-func SetupMapDocLinkRenaming(gongStage *gong_models.StageStruct, gongdocStage *StageStruct) {
+func SetupMapDocLinkRenaming(gongStage *gong_models.Stage, gongdocStage *Stage) {
 
 	gongstructOrdered := []*gong_models.GongStruct{}
 	for gongstruct := range *gong_models.GetGongstructInstancesSet[gong_models.GongStruct](gongStage) {

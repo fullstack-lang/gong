@@ -14,11 +14,11 @@ type DocSVGMapper struct {
 	map_Structname_Rect      map[string]*gongsvg_models.Rect
 	map_Fieldname_Link       map[string]*gongsvg_models.Link
 
-	gongsvgStage *gongsvg_models.StageStruct
+	gongsvgStage *gongsvg_models.Stage
 }
 
 func NewDocSVGMapper(
-	gongsvgStage *gongsvg_models.StageStruct) (docSVGMapper *DocSVGMapper) {
+	gongsvgStage *gongsvg_models.Stage) (docSVGMapper *DocSVGMapper) {
 
 	docSVGMapper = new(DocSVGMapper)
 	docSVGMapper.gongsvgStage = gongsvgStage
@@ -29,7 +29,7 @@ func NewDocSVGMapper(
 const ClassBoxStrokeWidth = 3
 
 func (docSVGMapper *DocSVGMapper) GenerateSvg(
-	gongdocStage *gongdoc_models.StageStruct,
+	gongdocStage *gongdoc_models.Stage,
 ) {
 
 	// log.Println("DocSVGMapper.GenerateSvg")

@@ -117,10 +117,10 @@ type BackRepoButtonStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoButton *BackRepoButtonStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoButton *BackRepoButtonStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoButton.stage
 	return
 }
@@ -138,7 +138,7 @@ func (backRepoButton *BackRepoButtonStruct) GetButtonDBFromButtonPtr(button *mod
 
 // BackRepoButton.CommitPhaseOne commits all staged instances of Button to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoButton *BackRepoButtonStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoButton *BackRepoButtonStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var buttons []*models.Button
 	for button := range stage.Buttons {

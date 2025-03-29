@@ -130,10 +130,10 @@ type BackRepoPointerToGongStructFieldStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoPointerToGongStructField.stage
 	return
 }
@@ -151,7 +151,7 @@ func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) 
 
 // BackRepoPointerToGongStructField.CommitPhaseOne commits all staged instances of PointerToGongStructField to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var pointertogongstructfields []*models.PointerToGongStructField
 	for pointertogongstructfield := range stage.PointerToGongStructFields {

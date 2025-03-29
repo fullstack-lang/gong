@@ -107,10 +107,10 @@ type BackRepoFreqencyStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoFreqency *BackRepoFreqencyStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoFreqency *BackRepoFreqencyStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoFreqency.stage
 	return
 }
@@ -128,7 +128,7 @@ func (backRepoFreqency *BackRepoFreqencyStruct) GetFreqencyDBFromFreqencyPtr(fre
 
 // BackRepoFreqency.CommitPhaseOne commits all staged instances of Freqency to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoFreqency *BackRepoFreqencyStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoFreqency *BackRepoFreqencyStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var freqencys []*models.Freqency
 	for freqency := range stage.Freqencys {

@@ -14,7 +14,7 @@ type FormEditAssocButton struct {
 
 // OnAfterUpdate is called when the button is pressed
 func (formEditAssocButton *FormEditAssocButton) OnAfterUpdate(
-	stage *StageStruct,
+	stage *Stage,
 	stagedInstance, frontInstance *FormEditAssocButton) {
 
 	if stagedInstance.OnAssocEditon != nil {

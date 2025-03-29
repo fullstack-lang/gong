@@ -9,7 +9,7 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_gantt1 models.StageStruct
+var ___dummy__Stage_gantt1 models.Stage
 var ___dummy__Time_gantt1 time.Time
 
 // _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
@@ -33,7 +33,7 @@ var _ map[string]any = map[string]any{
 // }
 
 // _ will stage objects of database "gantt1"
-func _(stage *models.StageStruct) {
+func _(stage *models.Stage) {
 
 	// Declaration of instances to stage
 

@@ -113,10 +113,10 @@ type BackRepoLoadStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoLoad *BackRepoLoadStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoLoad *BackRepoLoadStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoLoad.stage
 	return
 }
@@ -134,7 +134,7 @@ func (backRepoLoad *BackRepoLoadStruct) GetLoadDBFromLoadPtr(load *models.Load) 
 
 // BackRepoLoad.CommitPhaseOne commits all staged instances of Load to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoLoad *BackRepoLoadStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoLoad *BackRepoLoadStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var loads []*models.Load
 	for load := range stage.Loads {

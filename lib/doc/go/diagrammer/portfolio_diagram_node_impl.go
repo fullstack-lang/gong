@@ -8,7 +8,7 @@ type PortfolioDiagramNodeImpl struct {
 }
 
 // OnAfterUpdate implements models.NodeImplInterface
-func (portfolioDiagramNodeImpl *PortfolioDiagramNodeImpl) OnAfterUpdate(stage *gongtree_models.StageStruct, stagedNode *gongtree_models.Node, frontNode *gongtree_models.Node) {
+func (portfolioDiagramNodeImpl *PortfolioDiagramNodeImpl) OnAfterUpdate(stage *gongtree_models.Stage, stagedNode *gongtree_models.Node, frontNode *gongtree_models.Node) {
 	if frontNode.IsChecked && !stagedNode.IsChecked {
 		stagedNode.IsChecked = true
 		map_ModelNode_Shape := portfolioDiagramNodeImpl.portfolioDiagramNode.DisplayDiagram()

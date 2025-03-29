@@ -149,10 +149,10 @@ type BackRepoDiagramPackageStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoDiagramPackage.stage
 	return
 }
@@ -170,7 +170,7 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) GetDiagramPackageDBF
 
 // BackRepoDiagramPackage.CommitPhaseOne commits all staged instances of DiagramPackage to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var diagrampackages []*models.DiagramPackage
 	for diagrampackage := range stage.DiagramPackages {

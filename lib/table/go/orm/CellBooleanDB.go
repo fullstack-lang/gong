@@ -114,10 +114,10 @@ type BackRepoCellBooleanStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoCellBoolean *BackRepoCellBooleanStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoCellBoolean *BackRepoCellBooleanStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoCellBoolean.stage
 	return
 }
@@ -135,7 +135,7 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) GetCellBooleanDBFromCellBo
 
 // BackRepoCellBoolean.CommitPhaseOne commits all staged instances of CellBoolean to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoCellBoolean *BackRepoCellBooleanStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoCellBoolean *BackRepoCellBooleanStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var cellbooleans []*models.CellBoolean
 	for cellboolean := range stage.CellBooleans {

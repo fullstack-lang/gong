@@ -22,19 +22,19 @@ const ProbeTableSuffix = "-table"
 const ProbeFormSuffix = "-form"
 const ProbeSplitSuffix = "-probe"
 
-func (stage *StageStruct) GetProbeTreeSidebarStageName() string {
+func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
 }
 
-func (stage *StageStruct) GetProbeFormStageName() string {
+func (stage *Stage) GetProbeFormStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeFormSuffix
 }
 
-func (stage *StageStruct) GetProbeTableStageName() string {
+func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
 }
 
-func (stage *StageStruct) GetProbeSplitStageName() string {
+func (stage *Stage) GetProbeSplitStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeSplitSuffix
 }
 
@@ -62,9 +62,9 @@ type GongStructInterface interface {
 	// GetFieldStringValue(fieldName string) (res string)
 }
 
-// StageStruct enables storage of staged instances
+// Stage enables storage of staged instances
 // swagger:ignore
-type StageStruct struct {
+type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
@@ -273,7 +273,7 @@ type StageStruct struct {
 	// end of insertion point
 }
 
-func (stage *StageStruct) GetType() string {
+func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/doc/go/models"
 }
 
@@ -283,39 +283,39 @@ type GONG__Identifier struct {
 }
 
 type OnInitCommitInterface interface {
-	BeforeCommit(stage *StageStruct)
+	BeforeCommit(stage *Stage)
 }
 
 // OnAfterCreateInterface callback when an instance is updated from the front
 type OnAfterCreateInterface[Type Gongstruct] interface {
-	OnAfterCreate(stage *StageStruct,
+	OnAfterCreate(stage *Stage,
 		instance *Type)
 }
 
 // OnAfterReadInterface callback when an instance is updated from the front
 type OnAfterReadInterface[Type Gongstruct] interface {
-	OnAfterRead(stage *StageStruct,
+	OnAfterRead(stage *Stage,
 		instance *Type)
 }
 
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
-	OnAfterUpdate(stage *StageStruct, old, new *Type)
+	OnAfterUpdate(stage *Stage, old, new *Type)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front
 type OnAfterDeleteInterface[Type Gongstruct] interface {
-	OnAfterDelete(stage *StageStruct,
+	OnAfterDelete(stage *Stage,
 		staged, front *Type)
 }
 
 type BackRepoInterface interface {
-	Commit(stage *StageStruct)
-	Checkout(stage *StageStruct)
-	Backup(stage *StageStruct, dirPath string)
-	Restore(stage *StageStruct, dirPath string)
-	BackupXL(stage *StageStruct, dirPath string)
-	RestoreXL(stage *StageStruct, dirPath string)
+	Commit(stage *Stage)
+	Checkout(stage *Stage)
+	Backup(stage *Stage, dirPath string)
+	Restore(stage *Stage, dirPath string)
+	BackupXL(stage *Stage, dirPath string)
+	RestoreXL(stage *Stage, dirPath string)
 	// insertion point for Commit and Checkout signatures
 	CommitClassdiagram(classdiagram *Classdiagram)
 	CheckoutClassdiagram(classdiagram *Classdiagram)
@@ -347,9 +347,9 @@ type BackRepoInterface interface {
 	GetLastPushFromFrontNb() uint
 }
 
-func NewStage(name string) (stage *StageStruct) {
+func NewStage(name string) (stage *Stage) {
 
-	stage = &StageStruct{ // insertion point for array initiatialisation
+	stage = &Stage{ // insertion point for array initiatialisation
 		Classdiagrams:           make(map[*Classdiagram]any),
 		Classdiagrams_mapString: make(map[string]*Classdiagram),
 
@@ -431,7 +431,7 @@ func NewStage(name string) (stage *StageStruct) {
 	return
 }
 
-func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
+func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
@@ -466,11 +466,11 @@ func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
 	}
 }
 
-func (stage *StageStruct) GetName() string {
+func (stage *Stage) GetName() string {
 	return stage.name
 }
 
-func (stage *StageStruct) CommitWithSuspendedCallbacks() {
+func (stage *Stage) CommitWithSuspendedCallbacks() {
 
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
@@ -478,7 +478,7 @@ func (stage *StageStruct) CommitWithSuspendedCallbacks() {
 	stage.OnInitCommitFromBackCallback = tmp
 }
 
-func (stage *StageStruct) Commit() {
+func (stage *Stage) Commit() {
 	stage.ComputeReverseMaps()
 
 	if stage.BackRepo != nil {
@@ -502,7 +502,7 @@ func (stage *StageStruct) Commit() {
 
 }
 
-func (stage *StageStruct) Checkout() {
+func (stage *Stage) Checkout() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Checkout(stage)
 	}
@@ -526,28 +526,28 @@ func (stage *StageStruct) Checkout() {
 }
 
 // backup generates backup files in the dirPath
-func (stage *StageStruct) Backup(dirPath string) {
+func (stage *Stage) Backup(dirPath string) {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Backup(stage, dirPath)
 	}
 }
 
 // Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
-func (stage *StageStruct) Restore(dirPath string) {
+func (stage *Stage) Restore(dirPath string) {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Restore(stage, dirPath)
 	}
 }
 
 // backup generates backup files in the dirPath
-func (stage *StageStruct) BackupXL(dirPath string) {
+func (stage *Stage) BackupXL(dirPath string) {
 	if stage.BackRepo != nil {
 		stage.BackRepo.BackupXL(stage, dirPath)
 	}
 }
 
 // Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
-func (stage *StageStruct) RestoreXL(dirPath string) {
+func (stage *Stage) RestoreXL(dirPath string) {
 	if stage.BackRepo != nil {
 		stage.BackRepo.RestoreXL(stage, dirPath)
 	}
@@ -555,7 +555,7 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 
 // insertion point for cumulative sub template with model space calls
 // Stage puts classdiagram to the model stage
-func (classdiagram *Classdiagram) Stage(stage *StageStruct) *Classdiagram {
+func (classdiagram *Classdiagram) Stage(stage *Stage) *Classdiagram {
 
 	if _, ok := stage.Classdiagrams[classdiagram]; !ok {
 		stage.Classdiagrams[classdiagram] = __member
@@ -568,20 +568,20 @@ func (classdiagram *Classdiagram) Stage(stage *StageStruct) *Classdiagram {
 }
 
 // Unstage removes classdiagram off the model stage
-func (classdiagram *Classdiagram) Unstage(stage *StageStruct) *Classdiagram {
+func (classdiagram *Classdiagram) Unstage(stage *Stage) *Classdiagram {
 	delete(stage.Classdiagrams, classdiagram)
 	delete(stage.Classdiagrams_mapString, classdiagram.Name)
 	return classdiagram
 }
 
 // UnstageVoid removes classdiagram off the model stage
-func (classdiagram *Classdiagram) UnstageVoid(stage *StageStruct) {
+func (classdiagram *Classdiagram) UnstageVoid(stage *Stage) {
 	delete(stage.Classdiagrams, classdiagram)
 	delete(stage.Classdiagrams_mapString, classdiagram.Name)
 }
 
 // commit classdiagram to the back repo (if it is already staged)
-func (classdiagram *Classdiagram) Commit(stage *StageStruct) *Classdiagram {
+func (classdiagram *Classdiagram) Commit(stage *Stage) *Classdiagram {
 	if _, ok := stage.Classdiagrams[classdiagram]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitClassdiagram(classdiagram)
@@ -590,12 +590,12 @@ func (classdiagram *Classdiagram) Commit(stage *StageStruct) *Classdiagram {
 	return classdiagram
 }
 
-func (classdiagram *Classdiagram) CommitVoid(stage *StageStruct) {
+func (classdiagram *Classdiagram) CommitVoid(stage *Stage) {
 	classdiagram.Commit(stage)
 }
 
 // Checkout classdiagram to the back repo (if it is already staged)
-func (classdiagram *Classdiagram) Checkout(stage *StageStruct) *Classdiagram {
+func (classdiagram *Classdiagram) Checkout(stage *Stage) *Classdiagram {
 	if _, ok := stage.Classdiagrams[classdiagram]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutClassdiagram(classdiagram)
@@ -610,7 +610,7 @@ func (classdiagram *Classdiagram) GetName() (res string) {
 }
 
 // Stage puts diagrampackage to the model stage
-func (diagrampackage *DiagramPackage) Stage(stage *StageStruct) *DiagramPackage {
+func (diagrampackage *DiagramPackage) Stage(stage *Stage) *DiagramPackage {
 
 	if _, ok := stage.DiagramPackages[diagrampackage]; !ok {
 		stage.DiagramPackages[diagrampackage] = __member
@@ -623,20 +623,20 @@ func (diagrampackage *DiagramPackage) Stage(stage *StageStruct) *DiagramPackage 
 }
 
 // Unstage removes diagrampackage off the model stage
-func (diagrampackage *DiagramPackage) Unstage(stage *StageStruct) *DiagramPackage {
+func (diagrampackage *DiagramPackage) Unstage(stage *Stage) *DiagramPackage {
 	delete(stage.DiagramPackages, diagrampackage)
 	delete(stage.DiagramPackages_mapString, diagrampackage.Name)
 	return diagrampackage
 }
 
 // UnstageVoid removes diagrampackage off the model stage
-func (diagrampackage *DiagramPackage) UnstageVoid(stage *StageStruct) {
+func (diagrampackage *DiagramPackage) UnstageVoid(stage *Stage) {
 	delete(stage.DiagramPackages, diagrampackage)
 	delete(stage.DiagramPackages_mapString, diagrampackage.Name)
 }
 
 // commit diagrampackage to the back repo (if it is already staged)
-func (diagrampackage *DiagramPackage) Commit(stage *StageStruct) *DiagramPackage {
+func (diagrampackage *DiagramPackage) Commit(stage *Stage) *DiagramPackage {
 	if _, ok := stage.DiagramPackages[diagrampackage]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitDiagramPackage(diagrampackage)
@@ -645,12 +645,12 @@ func (diagrampackage *DiagramPackage) Commit(stage *StageStruct) *DiagramPackage
 	return diagrampackage
 }
 
-func (diagrampackage *DiagramPackage) CommitVoid(stage *StageStruct) {
+func (diagrampackage *DiagramPackage) CommitVoid(stage *Stage) {
 	diagrampackage.Commit(stage)
 }
 
 // Checkout diagrampackage to the back repo (if it is already staged)
-func (diagrampackage *DiagramPackage) Checkout(stage *StageStruct) *DiagramPackage {
+func (diagrampackage *DiagramPackage) Checkout(stage *Stage) *DiagramPackage {
 	if _, ok := stage.DiagramPackages[diagrampackage]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutDiagramPackage(diagrampackage)
@@ -665,7 +665,7 @@ func (diagrampackage *DiagramPackage) GetName() (res string) {
 }
 
 // Stage puts field to the model stage
-func (field *Field) Stage(stage *StageStruct) *Field {
+func (field *Field) Stage(stage *Stage) *Field {
 
 	if _, ok := stage.Fields[field]; !ok {
 		stage.Fields[field] = __member
@@ -678,20 +678,20 @@ func (field *Field) Stage(stage *StageStruct) *Field {
 }
 
 // Unstage removes field off the model stage
-func (field *Field) Unstage(stage *StageStruct) *Field {
+func (field *Field) Unstage(stage *Stage) *Field {
 	delete(stage.Fields, field)
 	delete(stage.Fields_mapString, field.Name)
 	return field
 }
 
 // UnstageVoid removes field off the model stage
-func (field *Field) UnstageVoid(stage *StageStruct) {
+func (field *Field) UnstageVoid(stage *Stage) {
 	delete(stage.Fields, field)
 	delete(stage.Fields_mapString, field.Name)
 }
 
 // commit field to the back repo (if it is already staged)
-func (field *Field) Commit(stage *StageStruct) *Field {
+func (field *Field) Commit(stage *Stage) *Field {
 	if _, ok := stage.Fields[field]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitField(field)
@@ -700,12 +700,12 @@ func (field *Field) Commit(stage *StageStruct) *Field {
 	return field
 }
 
-func (field *Field) CommitVoid(stage *StageStruct) {
+func (field *Field) CommitVoid(stage *Stage) {
 	field.Commit(stage)
 }
 
 // Checkout field to the back repo (if it is already staged)
-func (field *Field) Checkout(stage *StageStruct) *Field {
+func (field *Field) Checkout(stage *Stage) *Field {
 	if _, ok := stage.Fields[field]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutField(field)
@@ -720,7 +720,7 @@ func (field *Field) GetName() (res string) {
 }
 
 // Stage puts gongenumshape to the model stage
-func (gongenumshape *GongEnumShape) Stage(stage *StageStruct) *GongEnumShape {
+func (gongenumshape *GongEnumShape) Stage(stage *Stage) *GongEnumShape {
 
 	if _, ok := stage.GongEnumShapes[gongenumshape]; !ok {
 		stage.GongEnumShapes[gongenumshape] = __member
@@ -733,20 +733,20 @@ func (gongenumshape *GongEnumShape) Stage(stage *StageStruct) *GongEnumShape {
 }
 
 // Unstage removes gongenumshape off the model stage
-func (gongenumshape *GongEnumShape) Unstage(stage *StageStruct) *GongEnumShape {
+func (gongenumshape *GongEnumShape) Unstage(stage *Stage) *GongEnumShape {
 	delete(stage.GongEnumShapes, gongenumshape)
 	delete(stage.GongEnumShapes_mapString, gongenumshape.Name)
 	return gongenumshape
 }
 
 // UnstageVoid removes gongenumshape off the model stage
-func (gongenumshape *GongEnumShape) UnstageVoid(stage *StageStruct) {
+func (gongenumshape *GongEnumShape) UnstageVoid(stage *Stage) {
 	delete(stage.GongEnumShapes, gongenumshape)
 	delete(stage.GongEnumShapes_mapString, gongenumshape.Name)
 }
 
 // commit gongenumshape to the back repo (if it is already staged)
-func (gongenumshape *GongEnumShape) Commit(stage *StageStruct) *GongEnumShape {
+func (gongenumshape *GongEnumShape) Commit(stage *Stage) *GongEnumShape {
 	if _, ok := stage.GongEnumShapes[gongenumshape]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitGongEnumShape(gongenumshape)
@@ -755,12 +755,12 @@ func (gongenumshape *GongEnumShape) Commit(stage *StageStruct) *GongEnumShape {
 	return gongenumshape
 }
 
-func (gongenumshape *GongEnumShape) CommitVoid(stage *StageStruct) {
+func (gongenumshape *GongEnumShape) CommitVoid(stage *Stage) {
 	gongenumshape.Commit(stage)
 }
 
 // Checkout gongenumshape to the back repo (if it is already staged)
-func (gongenumshape *GongEnumShape) Checkout(stage *StageStruct) *GongEnumShape {
+func (gongenumshape *GongEnumShape) Checkout(stage *Stage) *GongEnumShape {
 	if _, ok := stage.GongEnumShapes[gongenumshape]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutGongEnumShape(gongenumshape)
@@ -775,7 +775,7 @@ func (gongenumshape *GongEnumShape) GetName() (res string) {
 }
 
 // Stage puts gongenumvalueentry to the model stage
-func (gongenumvalueentry *GongEnumValueEntry) Stage(stage *StageStruct) *GongEnumValueEntry {
+func (gongenumvalueentry *GongEnumValueEntry) Stage(stage *Stage) *GongEnumValueEntry {
 
 	if _, ok := stage.GongEnumValueEntrys[gongenumvalueentry]; !ok {
 		stage.GongEnumValueEntrys[gongenumvalueentry] = __member
@@ -788,20 +788,20 @@ func (gongenumvalueentry *GongEnumValueEntry) Stage(stage *StageStruct) *GongEnu
 }
 
 // Unstage removes gongenumvalueentry off the model stage
-func (gongenumvalueentry *GongEnumValueEntry) Unstage(stage *StageStruct) *GongEnumValueEntry {
+func (gongenumvalueentry *GongEnumValueEntry) Unstage(stage *Stage) *GongEnumValueEntry {
 	delete(stage.GongEnumValueEntrys, gongenumvalueentry)
 	delete(stage.GongEnumValueEntrys_mapString, gongenumvalueentry.Name)
 	return gongenumvalueentry
 }
 
 // UnstageVoid removes gongenumvalueentry off the model stage
-func (gongenumvalueentry *GongEnumValueEntry) UnstageVoid(stage *StageStruct) {
+func (gongenumvalueentry *GongEnumValueEntry) UnstageVoid(stage *Stage) {
 	delete(stage.GongEnumValueEntrys, gongenumvalueentry)
 	delete(stage.GongEnumValueEntrys_mapString, gongenumvalueentry.Name)
 }
 
 // commit gongenumvalueentry to the back repo (if it is already staged)
-func (gongenumvalueentry *GongEnumValueEntry) Commit(stage *StageStruct) *GongEnumValueEntry {
+func (gongenumvalueentry *GongEnumValueEntry) Commit(stage *Stage) *GongEnumValueEntry {
 	if _, ok := stage.GongEnumValueEntrys[gongenumvalueentry]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitGongEnumValueEntry(gongenumvalueentry)
@@ -810,12 +810,12 @@ func (gongenumvalueentry *GongEnumValueEntry) Commit(stage *StageStruct) *GongEn
 	return gongenumvalueentry
 }
 
-func (gongenumvalueentry *GongEnumValueEntry) CommitVoid(stage *StageStruct) {
+func (gongenumvalueentry *GongEnumValueEntry) CommitVoid(stage *Stage) {
 	gongenumvalueentry.Commit(stage)
 }
 
 // Checkout gongenumvalueentry to the back repo (if it is already staged)
-func (gongenumvalueentry *GongEnumValueEntry) Checkout(stage *StageStruct) *GongEnumValueEntry {
+func (gongenumvalueentry *GongEnumValueEntry) Checkout(stage *Stage) *GongEnumValueEntry {
 	if _, ok := stage.GongEnumValueEntrys[gongenumvalueentry]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutGongEnumValueEntry(gongenumvalueentry)
@@ -830,7 +830,7 @@ func (gongenumvalueentry *GongEnumValueEntry) GetName() (res string) {
 }
 
 // Stage puts gongstructshape to the model stage
-func (gongstructshape *GongStructShape) Stage(stage *StageStruct) *GongStructShape {
+func (gongstructshape *GongStructShape) Stage(stage *Stage) *GongStructShape {
 
 	if _, ok := stage.GongStructShapes[gongstructshape]; !ok {
 		stage.GongStructShapes[gongstructshape] = __member
@@ -843,20 +843,20 @@ func (gongstructshape *GongStructShape) Stage(stage *StageStruct) *GongStructSha
 }
 
 // Unstage removes gongstructshape off the model stage
-func (gongstructshape *GongStructShape) Unstage(stage *StageStruct) *GongStructShape {
+func (gongstructshape *GongStructShape) Unstage(stage *Stage) *GongStructShape {
 	delete(stage.GongStructShapes, gongstructshape)
 	delete(stage.GongStructShapes_mapString, gongstructshape.Name)
 	return gongstructshape
 }
 
 // UnstageVoid removes gongstructshape off the model stage
-func (gongstructshape *GongStructShape) UnstageVoid(stage *StageStruct) {
+func (gongstructshape *GongStructShape) UnstageVoid(stage *Stage) {
 	delete(stage.GongStructShapes, gongstructshape)
 	delete(stage.GongStructShapes_mapString, gongstructshape.Name)
 }
 
 // commit gongstructshape to the back repo (if it is already staged)
-func (gongstructshape *GongStructShape) Commit(stage *StageStruct) *GongStructShape {
+func (gongstructshape *GongStructShape) Commit(stage *Stage) *GongStructShape {
 	if _, ok := stage.GongStructShapes[gongstructshape]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitGongStructShape(gongstructshape)
@@ -865,12 +865,12 @@ func (gongstructshape *GongStructShape) Commit(stage *StageStruct) *GongStructSh
 	return gongstructshape
 }
 
-func (gongstructshape *GongStructShape) CommitVoid(stage *StageStruct) {
+func (gongstructshape *GongStructShape) CommitVoid(stage *Stage) {
 	gongstructshape.Commit(stage)
 }
 
 // Checkout gongstructshape to the back repo (if it is already staged)
-func (gongstructshape *GongStructShape) Checkout(stage *StageStruct) *GongStructShape {
+func (gongstructshape *GongStructShape) Checkout(stage *Stage) *GongStructShape {
 	if _, ok := stage.GongStructShapes[gongstructshape]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutGongStructShape(gongstructshape)
@@ -885,7 +885,7 @@ func (gongstructshape *GongStructShape) GetName() (res string) {
 }
 
 // Stage puts link to the model stage
-func (link *Link) Stage(stage *StageStruct) *Link {
+func (link *Link) Stage(stage *Stage) *Link {
 
 	if _, ok := stage.Links[link]; !ok {
 		stage.Links[link] = __member
@@ -898,20 +898,20 @@ func (link *Link) Stage(stage *StageStruct) *Link {
 }
 
 // Unstage removes link off the model stage
-func (link *Link) Unstage(stage *StageStruct) *Link {
+func (link *Link) Unstage(stage *Stage) *Link {
 	delete(stage.Links, link)
 	delete(stage.Links_mapString, link.Name)
 	return link
 }
 
 // UnstageVoid removes link off the model stage
-func (link *Link) UnstageVoid(stage *StageStruct) {
+func (link *Link) UnstageVoid(stage *Stage) {
 	delete(stage.Links, link)
 	delete(stage.Links_mapString, link.Name)
 }
 
 // commit link to the back repo (if it is already staged)
-func (link *Link) Commit(stage *StageStruct) *Link {
+func (link *Link) Commit(stage *Stage) *Link {
 	if _, ok := stage.Links[link]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitLink(link)
@@ -920,12 +920,12 @@ func (link *Link) Commit(stage *StageStruct) *Link {
 	return link
 }
 
-func (link *Link) CommitVoid(stage *StageStruct) {
+func (link *Link) CommitVoid(stage *Stage) {
 	link.Commit(stage)
 }
 
 // Checkout link to the back repo (if it is already staged)
-func (link *Link) Checkout(stage *StageStruct) *Link {
+func (link *Link) Checkout(stage *Stage) *Link {
 	if _, ok := stage.Links[link]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutLink(link)
@@ -940,7 +940,7 @@ func (link *Link) GetName() (res string) {
 }
 
 // Stage puts noteshape to the model stage
-func (noteshape *NoteShape) Stage(stage *StageStruct) *NoteShape {
+func (noteshape *NoteShape) Stage(stage *Stage) *NoteShape {
 
 	if _, ok := stage.NoteShapes[noteshape]; !ok {
 		stage.NoteShapes[noteshape] = __member
@@ -953,20 +953,20 @@ func (noteshape *NoteShape) Stage(stage *StageStruct) *NoteShape {
 }
 
 // Unstage removes noteshape off the model stage
-func (noteshape *NoteShape) Unstage(stage *StageStruct) *NoteShape {
+func (noteshape *NoteShape) Unstage(stage *Stage) *NoteShape {
 	delete(stage.NoteShapes, noteshape)
 	delete(stage.NoteShapes_mapString, noteshape.Name)
 	return noteshape
 }
 
 // UnstageVoid removes noteshape off the model stage
-func (noteshape *NoteShape) UnstageVoid(stage *StageStruct) {
+func (noteshape *NoteShape) UnstageVoid(stage *Stage) {
 	delete(stage.NoteShapes, noteshape)
 	delete(stage.NoteShapes_mapString, noteshape.Name)
 }
 
 // commit noteshape to the back repo (if it is already staged)
-func (noteshape *NoteShape) Commit(stage *StageStruct) *NoteShape {
+func (noteshape *NoteShape) Commit(stage *Stage) *NoteShape {
 	if _, ok := stage.NoteShapes[noteshape]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitNoteShape(noteshape)
@@ -975,12 +975,12 @@ func (noteshape *NoteShape) Commit(stage *StageStruct) *NoteShape {
 	return noteshape
 }
 
-func (noteshape *NoteShape) CommitVoid(stage *StageStruct) {
+func (noteshape *NoteShape) CommitVoid(stage *Stage) {
 	noteshape.Commit(stage)
 }
 
 // Checkout noteshape to the back repo (if it is already staged)
-func (noteshape *NoteShape) Checkout(stage *StageStruct) *NoteShape {
+func (noteshape *NoteShape) Checkout(stage *Stage) *NoteShape {
 	if _, ok := stage.NoteShapes[noteshape]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutNoteShape(noteshape)
@@ -995,7 +995,7 @@ func (noteshape *NoteShape) GetName() (res string) {
 }
 
 // Stage puts noteshapelink to the model stage
-func (noteshapelink *NoteShapeLink) Stage(stage *StageStruct) *NoteShapeLink {
+func (noteshapelink *NoteShapeLink) Stage(stage *Stage) *NoteShapeLink {
 
 	if _, ok := stage.NoteShapeLinks[noteshapelink]; !ok {
 		stage.NoteShapeLinks[noteshapelink] = __member
@@ -1008,20 +1008,20 @@ func (noteshapelink *NoteShapeLink) Stage(stage *StageStruct) *NoteShapeLink {
 }
 
 // Unstage removes noteshapelink off the model stage
-func (noteshapelink *NoteShapeLink) Unstage(stage *StageStruct) *NoteShapeLink {
+func (noteshapelink *NoteShapeLink) Unstage(stage *Stage) *NoteShapeLink {
 	delete(stage.NoteShapeLinks, noteshapelink)
 	delete(stage.NoteShapeLinks_mapString, noteshapelink.Name)
 	return noteshapelink
 }
 
 // UnstageVoid removes noteshapelink off the model stage
-func (noteshapelink *NoteShapeLink) UnstageVoid(stage *StageStruct) {
+func (noteshapelink *NoteShapeLink) UnstageVoid(stage *Stage) {
 	delete(stage.NoteShapeLinks, noteshapelink)
 	delete(stage.NoteShapeLinks_mapString, noteshapelink.Name)
 }
 
 // commit noteshapelink to the back repo (if it is already staged)
-func (noteshapelink *NoteShapeLink) Commit(stage *StageStruct) *NoteShapeLink {
+func (noteshapelink *NoteShapeLink) Commit(stage *Stage) *NoteShapeLink {
 	if _, ok := stage.NoteShapeLinks[noteshapelink]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitNoteShapeLink(noteshapelink)
@@ -1030,12 +1030,12 @@ func (noteshapelink *NoteShapeLink) Commit(stage *StageStruct) *NoteShapeLink {
 	return noteshapelink
 }
 
-func (noteshapelink *NoteShapeLink) CommitVoid(stage *StageStruct) {
+func (noteshapelink *NoteShapeLink) CommitVoid(stage *Stage) {
 	noteshapelink.Commit(stage)
 }
 
 // Checkout noteshapelink to the back repo (if it is already staged)
-func (noteshapelink *NoteShapeLink) Checkout(stage *StageStruct) *NoteShapeLink {
+func (noteshapelink *NoteShapeLink) Checkout(stage *Stage) *NoteShapeLink {
 	if _, ok := stage.NoteShapeLinks[noteshapelink]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutNoteShapeLink(noteshapelink)
@@ -1050,7 +1050,7 @@ func (noteshapelink *NoteShapeLink) GetName() (res string) {
 }
 
 // Stage puts position to the model stage
-func (position *Position) Stage(stage *StageStruct) *Position {
+func (position *Position) Stage(stage *Stage) *Position {
 
 	if _, ok := stage.Positions[position]; !ok {
 		stage.Positions[position] = __member
@@ -1063,20 +1063,20 @@ func (position *Position) Stage(stage *StageStruct) *Position {
 }
 
 // Unstage removes position off the model stage
-func (position *Position) Unstage(stage *StageStruct) *Position {
+func (position *Position) Unstage(stage *Stage) *Position {
 	delete(stage.Positions, position)
 	delete(stage.Positions_mapString, position.Name)
 	return position
 }
 
 // UnstageVoid removes position off the model stage
-func (position *Position) UnstageVoid(stage *StageStruct) {
+func (position *Position) UnstageVoid(stage *Stage) {
 	delete(stage.Positions, position)
 	delete(stage.Positions_mapString, position.Name)
 }
 
 // commit position to the back repo (if it is already staged)
-func (position *Position) Commit(stage *StageStruct) *Position {
+func (position *Position) Commit(stage *Stage) *Position {
 	if _, ok := stage.Positions[position]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitPosition(position)
@@ -1085,12 +1085,12 @@ func (position *Position) Commit(stage *StageStruct) *Position {
 	return position
 }
 
-func (position *Position) CommitVoid(stage *StageStruct) {
+func (position *Position) CommitVoid(stage *Stage) {
 	position.Commit(stage)
 }
 
 // Checkout position to the back repo (if it is already staged)
-func (position *Position) Checkout(stage *StageStruct) *Position {
+func (position *Position) Checkout(stage *Stage) *Position {
 	if _, ok := stage.Positions[position]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutPosition(position)
@@ -1105,7 +1105,7 @@ func (position *Position) GetName() (res string) {
 }
 
 // Stage puts umlstate to the model stage
-func (umlstate *UmlState) Stage(stage *StageStruct) *UmlState {
+func (umlstate *UmlState) Stage(stage *Stage) *UmlState {
 
 	if _, ok := stage.UmlStates[umlstate]; !ok {
 		stage.UmlStates[umlstate] = __member
@@ -1118,20 +1118,20 @@ func (umlstate *UmlState) Stage(stage *StageStruct) *UmlState {
 }
 
 // Unstage removes umlstate off the model stage
-func (umlstate *UmlState) Unstage(stage *StageStruct) *UmlState {
+func (umlstate *UmlState) Unstage(stage *Stage) *UmlState {
 	delete(stage.UmlStates, umlstate)
 	delete(stage.UmlStates_mapString, umlstate.Name)
 	return umlstate
 }
 
 // UnstageVoid removes umlstate off the model stage
-func (umlstate *UmlState) UnstageVoid(stage *StageStruct) {
+func (umlstate *UmlState) UnstageVoid(stage *Stage) {
 	delete(stage.UmlStates, umlstate)
 	delete(stage.UmlStates_mapString, umlstate.Name)
 }
 
 // commit umlstate to the back repo (if it is already staged)
-func (umlstate *UmlState) Commit(stage *StageStruct) *UmlState {
+func (umlstate *UmlState) Commit(stage *Stage) *UmlState {
 	if _, ok := stage.UmlStates[umlstate]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitUmlState(umlstate)
@@ -1140,12 +1140,12 @@ func (umlstate *UmlState) Commit(stage *StageStruct) *UmlState {
 	return umlstate
 }
 
-func (umlstate *UmlState) CommitVoid(stage *StageStruct) {
+func (umlstate *UmlState) CommitVoid(stage *Stage) {
 	umlstate.Commit(stage)
 }
 
 // Checkout umlstate to the back repo (if it is already staged)
-func (umlstate *UmlState) Checkout(stage *StageStruct) *UmlState {
+func (umlstate *UmlState) Checkout(stage *Stage) *UmlState {
 	if _, ok := stage.UmlStates[umlstate]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutUmlState(umlstate)
@@ -1160,7 +1160,7 @@ func (umlstate *UmlState) GetName() (res string) {
 }
 
 // Stage puts umlsc to the model stage
-func (umlsc *Umlsc) Stage(stage *StageStruct) *Umlsc {
+func (umlsc *Umlsc) Stage(stage *Stage) *Umlsc {
 
 	if _, ok := stage.Umlscs[umlsc]; !ok {
 		stage.Umlscs[umlsc] = __member
@@ -1173,20 +1173,20 @@ func (umlsc *Umlsc) Stage(stage *StageStruct) *Umlsc {
 }
 
 // Unstage removes umlsc off the model stage
-func (umlsc *Umlsc) Unstage(stage *StageStruct) *Umlsc {
+func (umlsc *Umlsc) Unstage(stage *Stage) *Umlsc {
 	delete(stage.Umlscs, umlsc)
 	delete(stage.Umlscs_mapString, umlsc.Name)
 	return umlsc
 }
 
 // UnstageVoid removes umlsc off the model stage
-func (umlsc *Umlsc) UnstageVoid(stage *StageStruct) {
+func (umlsc *Umlsc) UnstageVoid(stage *Stage) {
 	delete(stage.Umlscs, umlsc)
 	delete(stage.Umlscs_mapString, umlsc.Name)
 }
 
 // commit umlsc to the back repo (if it is already staged)
-func (umlsc *Umlsc) Commit(stage *StageStruct) *Umlsc {
+func (umlsc *Umlsc) Commit(stage *Stage) *Umlsc {
 	if _, ok := stage.Umlscs[umlsc]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitUmlsc(umlsc)
@@ -1195,12 +1195,12 @@ func (umlsc *Umlsc) Commit(stage *StageStruct) *Umlsc {
 	return umlsc
 }
 
-func (umlsc *Umlsc) CommitVoid(stage *StageStruct) {
+func (umlsc *Umlsc) CommitVoid(stage *Stage) {
 	umlsc.Commit(stage)
 }
 
 // Checkout umlsc to the back repo (if it is already staged)
-func (umlsc *Umlsc) Checkout(stage *StageStruct) *Umlsc {
+func (umlsc *Umlsc) Checkout(stage *Stage) *Umlsc {
 	if _, ok := stage.Umlscs[umlsc]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutUmlsc(umlsc)
@@ -1215,7 +1215,7 @@ func (umlsc *Umlsc) GetName() (res string) {
 }
 
 // Stage puts vertice to the model stage
-func (vertice *Vertice) Stage(stage *StageStruct) *Vertice {
+func (vertice *Vertice) Stage(stage *Stage) *Vertice {
 
 	if _, ok := stage.Vertices[vertice]; !ok {
 		stage.Vertices[vertice] = __member
@@ -1228,20 +1228,20 @@ func (vertice *Vertice) Stage(stage *StageStruct) *Vertice {
 }
 
 // Unstage removes vertice off the model stage
-func (vertice *Vertice) Unstage(stage *StageStruct) *Vertice {
+func (vertice *Vertice) Unstage(stage *Stage) *Vertice {
 	delete(stage.Vertices, vertice)
 	delete(stage.Vertices_mapString, vertice.Name)
 	return vertice
 }
 
 // UnstageVoid removes vertice off the model stage
-func (vertice *Vertice) UnstageVoid(stage *StageStruct) {
+func (vertice *Vertice) UnstageVoid(stage *Stage) {
 	delete(stage.Vertices, vertice)
 	delete(stage.Vertices_mapString, vertice.Name)
 }
 
 // commit vertice to the back repo (if it is already staged)
-func (vertice *Vertice) Commit(stage *StageStruct) *Vertice {
+func (vertice *Vertice) Commit(stage *Stage) *Vertice {
 	if _, ok := stage.Vertices[vertice]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitVertice(vertice)
@@ -1250,12 +1250,12 @@ func (vertice *Vertice) Commit(stage *StageStruct) *Vertice {
 	return vertice
 }
 
-func (vertice *Vertice) CommitVoid(stage *StageStruct) {
+func (vertice *Vertice) CommitVoid(stage *Stage) {
 	vertice.Commit(stage)
 }
 
 // Checkout vertice to the back repo (if it is already staged)
-func (vertice *Vertice) Checkout(stage *StageStruct) *Vertice {
+func (vertice *Vertice) Checkout(stage *Stage) *Vertice {
 	if _, ok := stage.Vertices[vertice]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutVertice(vertice)
@@ -1302,7 +1302,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMVertice(Vertice *Vertice)
 }
 
-func (stage *StageStruct) Reset() { // insertion point for array reset
+func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Classdiagrams = make(map[*Classdiagram]any)
 	stage.Classdiagrams_mapString = make(map[string]*Classdiagram)
 	stage.ClassdiagramMap_Staged_Order = make(map[*Classdiagram]uint)
@@ -1370,7 +1370,7 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 
 }
 
-func (stage *StageStruct) Nil() { // insertion point for array nil
+func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Classdiagrams = nil
 	stage.Classdiagrams_mapString = nil
 
@@ -1412,7 +1412,7 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 
 }
 
-func (stage *StageStruct) Unstage() { // insertion point for array nil
+func (stage *Stage) Unstage() { // insertion point for array nil
 	for classdiagram := range stage.Classdiagrams {
 		classdiagram.Unstage(stage)
 	}
@@ -1484,8 +1484,8 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type PointerToGongstruct interface {
 	GetName() string
-	CommitVoid(*StageStruct)
-	UnstageVoid(stage *StageStruct)
+	CommitVoid(*Stage)
+	UnstageVoid(stage *Stage)
 	comparable
 }
 
@@ -1503,7 +1503,7 @@ func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice 
 	return
 }
 
-func GetGongstrucsSorted[T PointerToGongstruct](stage *StageStruct) (sortedSlice []T) {
+func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
 
 	set := GetGongstructInstancesSetFromPointerType[T](stage)
 	sortedSlice = SortGongstructSetByName(*set)
@@ -1521,7 +1521,7 @@ type GongstructMapString interface {
 
 // GongGetSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GongGetSet[Type GongstructSet](stage *StageStruct) *Type {
+func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -1559,7 +1559,7 @@ func GongGetSet[Type GongstructSet](stage *StageStruct) *Type {
 
 // GongGetMap returns the map of staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GongGetMap[Type GongstructMapString](stage *StageStruct) *Type {
+func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -1597,7 +1597,7 @@ func GongGetMap[Type GongstructMapString](stage *StageStruct) *Type {
 
 // GetGongstructInstancesSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *StageStruct) *map[*Type]any {
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -1635,7 +1635,7 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *StageStruct) *map[*Type]a
 
 // GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *StageStruct) *map[Type]any {
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]any {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -1673,7 +1673,7 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GetGongstructInstancesMap[Type Gongstruct](stage *StageStruct) *map[string]*Type {
+func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -1810,7 +1810,7 @@ func GetAssociationName[Type Gongstruct]() *Type {
 // The function provides a map with keys as instances of End and values to arrays of *Start
 // the map is construed by iterating over all Start instances and populationg keys with End instances
 // and values with slice of Start instances
-func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageStruct) map[*End][]*Start {
+func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
 
 	var ret Start
 
@@ -1959,7 +1959,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 // The function provides a map with keys as instances of End and values to *Start instances
 // the map is construed by iterating over all Start instances and populating keys with End instances
 // and values with the Start instances
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *StageStruct) map[*End]*Start {
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End]*Start {
 
 	var ret Start
 

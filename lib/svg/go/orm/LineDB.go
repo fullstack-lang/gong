@@ -194,10 +194,10 @@ type BackRepoLineStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoLine *BackRepoLineStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoLine *BackRepoLineStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoLine.stage
 	return
 }
@@ -215,7 +215,7 @@ func (backRepoLine *BackRepoLineStruct) GetLineDBFromLinePtr(line *models.Line) 
 
 // BackRepoLine.CommitPhaseOne commits all staged instances of Line to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoLine *BackRepoLineStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoLine *BackRepoLineStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var lines []*models.Line
 	for line := range stage.Lines {

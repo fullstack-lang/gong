@@ -22,19 +22,19 @@ const ProbeTableSuffix = "-table"
 const ProbeFormSuffix = "-form"
 const ProbeSplitSuffix = "-probe"
 
-func (stage *StageStruct) GetProbeTreeSidebarStageName() string {
+func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
 }
 
-func (stage *StageStruct) GetProbeFormStageName() string {
+func (stage *Stage) GetProbeFormStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeFormSuffix
 }
 
-func (stage *StageStruct) GetProbeTableStageName() string {
+func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
 }
 
-func (stage *StageStruct) GetProbeSplitStageName() string {
+func (stage *Stage) GetProbeSplitStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeSplitSuffix
 }
 
@@ -62,9 +62,9 @@ type GongStructInterface interface {
 	// GetFieldStringValue(fieldName string) (res string)
 }
 
-// StageStruct enables storage of staged instances
+// Stage enables storage of staged instances
 // swagger:ignore
-type StageStruct struct {
+type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
@@ -151,7 +151,7 @@ type StageStruct struct {
 	// end of insertion point
 }
 
-func (stage *StageStruct) GetType() string {
+func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/slider/go/models"
 }
 
@@ -161,39 +161,39 @@ type GONG__Identifier struct {
 }
 
 type OnInitCommitInterface interface {
-	BeforeCommit(stage *StageStruct)
+	BeforeCommit(stage *Stage)
 }
 
 // OnAfterCreateInterface callback when an instance is updated from the front
 type OnAfterCreateInterface[Type Gongstruct] interface {
-	OnAfterCreate(stage *StageStruct,
+	OnAfterCreate(stage *Stage,
 		instance *Type)
 }
 
 // OnAfterReadInterface callback when an instance is updated from the front
 type OnAfterReadInterface[Type Gongstruct] interface {
-	OnAfterRead(stage *StageStruct,
+	OnAfterRead(stage *Stage,
 		instance *Type)
 }
 
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
-	OnAfterUpdate(stage *StageStruct, old, new *Type)
+	OnAfterUpdate(stage *Stage, old, new *Type)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front
 type OnAfterDeleteInterface[Type Gongstruct] interface {
-	OnAfterDelete(stage *StageStruct,
+	OnAfterDelete(stage *Stage,
 		staged, front *Type)
 }
 
 type BackRepoInterface interface {
-	Commit(stage *StageStruct)
-	Checkout(stage *StageStruct)
-	Backup(stage *StageStruct, dirPath string)
-	Restore(stage *StageStruct, dirPath string)
-	BackupXL(stage *StageStruct, dirPath string)
-	RestoreXL(stage *StageStruct, dirPath string)
+	Commit(stage *Stage)
+	Checkout(stage *Stage)
+	Backup(stage *Stage, dirPath string)
+	Restore(stage *Stage, dirPath string)
+	BackupXL(stage *Stage, dirPath string)
+	RestoreXL(stage *Stage, dirPath string)
 	// insertion point for Commit and Checkout signatures
 	CommitCheckbox(checkbox *Checkbox)
 	CheckoutCheckbox(checkbox *Checkbox)
@@ -207,9 +207,9 @@ type BackRepoInterface interface {
 	GetLastPushFromFrontNb() uint
 }
 
-func NewStage(name string) (stage *StageStruct) {
+func NewStage(name string) (stage *Stage) {
 
-	stage = &StageStruct{ // insertion point for array initiatialisation
+	stage = &Stage{ // insertion point for array initiatialisation
 		Checkboxs:           make(map[*Checkbox]any),
 		Checkboxs_mapString: make(map[string]*Checkbox),
 
@@ -246,7 +246,7 @@ func NewStage(name string) (stage *StageStruct) {
 	return
 }
 
-func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
+func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
@@ -263,11 +263,11 @@ func GetOrder[Type Gongstruct](stage *StageStruct, instance *Type) uint {
 	}
 }
 
-func (stage *StageStruct) GetName() string {
+func (stage *Stage) GetName() string {
 	return stage.name
 }
 
-func (stage *StageStruct) CommitWithSuspendedCallbacks() {
+func (stage *Stage) CommitWithSuspendedCallbacks() {
 
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
@@ -275,7 +275,7 @@ func (stage *StageStruct) CommitWithSuspendedCallbacks() {
 	stage.OnInitCommitFromBackCallback = tmp
 }
 
-func (stage *StageStruct) Commit() {
+func (stage *Stage) Commit() {
 	stage.ComputeReverseMaps()
 
 	if stage.BackRepo != nil {
@@ -290,7 +290,7 @@ func (stage *StageStruct) Commit() {
 
 }
 
-func (stage *StageStruct) Checkout() {
+func (stage *Stage) Checkout() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Checkout(stage)
 	}
@@ -305,28 +305,28 @@ func (stage *StageStruct) Checkout() {
 }
 
 // backup generates backup files in the dirPath
-func (stage *StageStruct) Backup(dirPath string) {
+func (stage *Stage) Backup(dirPath string) {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Backup(stage, dirPath)
 	}
 }
 
 // Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
-func (stage *StageStruct) Restore(dirPath string) {
+func (stage *Stage) Restore(dirPath string) {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Restore(stage, dirPath)
 	}
 }
 
 // backup generates backup files in the dirPath
-func (stage *StageStruct) BackupXL(dirPath string) {
+func (stage *Stage) BackupXL(dirPath string) {
 	if stage.BackRepo != nil {
 		stage.BackRepo.BackupXL(stage, dirPath)
 	}
 }
 
 // Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
-func (stage *StageStruct) RestoreXL(dirPath string) {
+func (stage *Stage) RestoreXL(dirPath string) {
 	if stage.BackRepo != nil {
 		stage.BackRepo.RestoreXL(stage, dirPath)
 	}
@@ -334,7 +334,7 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 
 // insertion point for cumulative sub template with model space calls
 // Stage puts checkbox to the model stage
-func (checkbox *Checkbox) Stage(stage *StageStruct) *Checkbox {
+func (checkbox *Checkbox) Stage(stage *Stage) *Checkbox {
 
 	if _, ok := stage.Checkboxs[checkbox]; !ok {
 		stage.Checkboxs[checkbox] = __member
@@ -347,20 +347,20 @@ func (checkbox *Checkbox) Stage(stage *StageStruct) *Checkbox {
 }
 
 // Unstage removes checkbox off the model stage
-func (checkbox *Checkbox) Unstage(stage *StageStruct) *Checkbox {
+func (checkbox *Checkbox) Unstage(stage *Stage) *Checkbox {
 	delete(stage.Checkboxs, checkbox)
 	delete(stage.Checkboxs_mapString, checkbox.Name)
 	return checkbox
 }
 
 // UnstageVoid removes checkbox off the model stage
-func (checkbox *Checkbox) UnstageVoid(stage *StageStruct) {
+func (checkbox *Checkbox) UnstageVoid(stage *Stage) {
 	delete(stage.Checkboxs, checkbox)
 	delete(stage.Checkboxs_mapString, checkbox.Name)
 }
 
 // commit checkbox to the back repo (if it is already staged)
-func (checkbox *Checkbox) Commit(stage *StageStruct) *Checkbox {
+func (checkbox *Checkbox) Commit(stage *Stage) *Checkbox {
 	if _, ok := stage.Checkboxs[checkbox]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitCheckbox(checkbox)
@@ -369,12 +369,12 @@ func (checkbox *Checkbox) Commit(stage *StageStruct) *Checkbox {
 	return checkbox
 }
 
-func (checkbox *Checkbox) CommitVoid(stage *StageStruct) {
+func (checkbox *Checkbox) CommitVoid(stage *Stage) {
 	checkbox.Commit(stage)
 }
 
 // Checkout checkbox to the back repo (if it is already staged)
-func (checkbox *Checkbox) Checkout(stage *StageStruct) *Checkbox {
+func (checkbox *Checkbox) Checkout(stage *Stage) *Checkbox {
 	if _, ok := stage.Checkboxs[checkbox]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutCheckbox(checkbox)
@@ -389,7 +389,7 @@ func (checkbox *Checkbox) GetName() (res string) {
 }
 
 // Stage puts group to the model stage
-func (group *Group) Stage(stage *StageStruct) *Group {
+func (group *Group) Stage(stage *Stage) *Group {
 
 	if _, ok := stage.Groups[group]; !ok {
 		stage.Groups[group] = __member
@@ -402,20 +402,20 @@ func (group *Group) Stage(stage *StageStruct) *Group {
 }
 
 // Unstage removes group off the model stage
-func (group *Group) Unstage(stage *StageStruct) *Group {
+func (group *Group) Unstage(stage *Stage) *Group {
 	delete(stage.Groups, group)
 	delete(stage.Groups_mapString, group.Name)
 	return group
 }
 
 // UnstageVoid removes group off the model stage
-func (group *Group) UnstageVoid(stage *StageStruct) {
+func (group *Group) UnstageVoid(stage *Stage) {
 	delete(stage.Groups, group)
 	delete(stage.Groups_mapString, group.Name)
 }
 
 // commit group to the back repo (if it is already staged)
-func (group *Group) Commit(stage *StageStruct) *Group {
+func (group *Group) Commit(stage *Stage) *Group {
 	if _, ok := stage.Groups[group]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitGroup(group)
@@ -424,12 +424,12 @@ func (group *Group) Commit(stage *StageStruct) *Group {
 	return group
 }
 
-func (group *Group) CommitVoid(stage *StageStruct) {
+func (group *Group) CommitVoid(stage *Stage) {
 	group.Commit(stage)
 }
 
 // Checkout group to the back repo (if it is already staged)
-func (group *Group) Checkout(stage *StageStruct) *Group {
+func (group *Group) Checkout(stage *Stage) *Group {
 	if _, ok := stage.Groups[group]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutGroup(group)
@@ -444,7 +444,7 @@ func (group *Group) GetName() (res string) {
 }
 
 // Stage puts layout to the model stage
-func (layout *Layout) Stage(stage *StageStruct) *Layout {
+func (layout *Layout) Stage(stage *Stage) *Layout {
 
 	if _, ok := stage.Layouts[layout]; !ok {
 		stage.Layouts[layout] = __member
@@ -457,20 +457,20 @@ func (layout *Layout) Stage(stage *StageStruct) *Layout {
 }
 
 // Unstage removes layout off the model stage
-func (layout *Layout) Unstage(stage *StageStruct) *Layout {
+func (layout *Layout) Unstage(stage *Stage) *Layout {
 	delete(stage.Layouts, layout)
 	delete(stage.Layouts_mapString, layout.Name)
 	return layout
 }
 
 // UnstageVoid removes layout off the model stage
-func (layout *Layout) UnstageVoid(stage *StageStruct) {
+func (layout *Layout) UnstageVoid(stage *Stage) {
 	delete(stage.Layouts, layout)
 	delete(stage.Layouts_mapString, layout.Name)
 }
 
 // commit layout to the back repo (if it is already staged)
-func (layout *Layout) Commit(stage *StageStruct) *Layout {
+func (layout *Layout) Commit(stage *Stage) *Layout {
 	if _, ok := stage.Layouts[layout]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitLayout(layout)
@@ -479,12 +479,12 @@ func (layout *Layout) Commit(stage *StageStruct) *Layout {
 	return layout
 }
 
-func (layout *Layout) CommitVoid(stage *StageStruct) {
+func (layout *Layout) CommitVoid(stage *Stage) {
 	layout.Commit(stage)
 }
 
 // Checkout layout to the back repo (if it is already staged)
-func (layout *Layout) Checkout(stage *StageStruct) *Layout {
+func (layout *Layout) Checkout(stage *Stage) *Layout {
 	if _, ok := stage.Layouts[layout]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutLayout(layout)
@@ -499,7 +499,7 @@ func (layout *Layout) GetName() (res string) {
 }
 
 // Stage puts slider to the model stage
-func (slider *Slider) Stage(stage *StageStruct) *Slider {
+func (slider *Slider) Stage(stage *Stage) *Slider {
 
 	if _, ok := stage.Sliders[slider]; !ok {
 		stage.Sliders[slider] = __member
@@ -512,20 +512,20 @@ func (slider *Slider) Stage(stage *StageStruct) *Slider {
 }
 
 // Unstage removes slider off the model stage
-func (slider *Slider) Unstage(stage *StageStruct) *Slider {
+func (slider *Slider) Unstage(stage *Stage) *Slider {
 	delete(stage.Sliders, slider)
 	delete(stage.Sliders_mapString, slider.Name)
 	return slider
 }
 
 // UnstageVoid removes slider off the model stage
-func (slider *Slider) UnstageVoid(stage *StageStruct) {
+func (slider *Slider) UnstageVoid(stage *Stage) {
 	delete(stage.Sliders, slider)
 	delete(stage.Sliders_mapString, slider.Name)
 }
 
 // commit slider to the back repo (if it is already staged)
-func (slider *Slider) Commit(stage *StageStruct) *Slider {
+func (slider *Slider) Commit(stage *Stage) *Slider {
 	if _, ok := stage.Sliders[slider]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CommitSlider(slider)
@@ -534,12 +534,12 @@ func (slider *Slider) Commit(stage *StageStruct) *Slider {
 	return slider
 }
 
-func (slider *Slider) CommitVoid(stage *StageStruct) {
+func (slider *Slider) CommitVoid(stage *Stage) {
 	slider.Commit(stage)
 }
 
 // Checkout slider to the back repo (if it is already staged)
-func (slider *Slider) Checkout(stage *StageStruct) *Slider {
+func (slider *Slider) Checkout(stage *Stage) *Slider {
 	if _, ok := stage.Sliders[slider]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutSlider(slider)
@@ -568,7 +568,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMSlider(Slider *Slider)
 }
 
-func (stage *StageStruct) Reset() { // insertion point for array reset
+func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Checkboxs = make(map[*Checkbox]any)
 	stage.Checkboxs_mapString = make(map[string]*Checkbox)
 	stage.CheckboxMap_Staged_Order = make(map[*Checkbox]uint)
@@ -591,7 +591,7 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 
 }
 
-func (stage *StageStruct) Nil() { // insertion point for array nil
+func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Checkboxs = nil
 	stage.Checkboxs_mapString = nil
 
@@ -606,7 +606,7 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 
 }
 
-func (stage *StageStruct) Unstage() { // insertion point for array nil
+func (stage *Stage) Unstage() { // insertion point for array nil
 	for checkbox := range stage.Checkboxs {
 		checkbox.Unstage(stage)
 	}
@@ -642,8 +642,8 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type PointerToGongstruct interface {
 	GetName() string
-	CommitVoid(*StageStruct)
-	UnstageVoid(stage *StageStruct)
+	CommitVoid(*Stage)
+	UnstageVoid(stage *Stage)
 	comparable
 }
 
@@ -661,7 +661,7 @@ func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice 
 	return
 }
 
-func GetGongstrucsSorted[T PointerToGongstruct](stage *StageStruct) (sortedSlice []T) {
+func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
 
 	set := GetGongstructInstancesSetFromPointerType[T](stage)
 	sortedSlice = SortGongstructSetByName(*set)
@@ -679,7 +679,7 @@ type GongstructMapString interface {
 
 // GongGetSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GongGetSet[Type GongstructSet](stage *StageStruct) *Type {
+func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -699,7 +699,7 @@ func GongGetSet[Type GongstructSet](stage *StageStruct) *Type {
 
 // GongGetMap returns the map of staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GongGetMap[Type GongstructMapString](stage *StageStruct) *Type {
+func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -719,7 +719,7 @@ func GongGetMap[Type GongstructMapString](stage *StageStruct) *Type {
 
 // GetGongstructInstancesSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *StageStruct) *map[*Type]any {
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -739,7 +739,7 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *StageStruct) *map[*Type]a
 
 // GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *StageStruct) *map[Type]any {
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]any {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -759,7 +759,7 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GetGongstructInstancesMap[Type Gongstruct](stage *StageStruct) *map[string]*Type {
+func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
 	var ret Type
 
 	switch any(ret).(type) {
@@ -820,7 +820,7 @@ func GetAssociationName[Type Gongstruct]() *Type {
 // The function provides a map with keys as instances of End and values to arrays of *Start
 // the map is construed by iterating over all Start instances and populationg keys with End instances
 // and values with slice of Start instances
-func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageStruct) map[*End][]*Start {
+func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
 
 	var ret Start
 
@@ -856,7 +856,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 // The function provides a map with keys as instances of End and values to *Start instances
 // the map is construed by iterating over all Start instances and populating keys with End instances
 // and values with the Start instances
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *StageStruct) map[*End]*Start {
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End]*Start {
 
 	var ret Start
 

@@ -40,7 +40,7 @@ func checkFunctionSignature(file *ast.File, modelPkg *ModelPkg) {
 			param1 := params[0].Type.(*ast.StarExpr)
 			param2 := params[1].Type.(*ast.StarExpr)
 
-			if param1.X.(*ast.Ident).Name == "StageStruct" &&
+			if param1.X.(*ast.Ident).Name == "Stage" &&
 				param2.X.(*ast.Ident).Name == gongstruct.Name {
 
 				gongstruct.HasOnAfterUpdateSignature = true

@@ -20,7 +20,7 @@ package x
 //
 // Note : algo is in O(N)log(N) of nb of Astruct and Bstruct instances
 func EvictInOtherSlices[OwningType PointerToGongstruct, FieldType PointerToGongstruct](
-	stage *StageStruct,
+	stage *Stage,
 	owningInstance OwningType,
 	sliceField []FieldType,
 	fieldName string) {

@@ -88,7 +88,7 @@ map[ModelGongStructInsertionId]string{
 
 	ModelGongStructInsertionStageFunctions: `
 // Stage puts {{structname}} to the model stage
-func ({{structname}} *{{Structname}}) Stage(stage *StageStruct) *{{Structname}} {
+func ({{structname}} *{{Structname}}) Stage(stage *Stage) *{{Structname}} {
 
 	if _, ok := stage.{{Structname}}s[{{structname}}]; !ok {
 		stage.{{Structname}}s[{{structname}}] = __member
@@ -101,20 +101,20 @@ func ({{structname}} *{{Structname}}) Stage(stage *StageStruct) *{{Structname}} 
 }
 
 // Unstage removes {{structname}} off the model stage
-func ({{structname}} *{{Structname}}) Unstage(stage *StageStruct) *{{Structname}} {
+func ({{structname}} *{{Structname}}) Unstage(stage *Stage) *{{Structname}} {
 	delete(stage.{{Structname}}s, {{structname}})
 	delete(stage.{{Structname}}s_mapString, {{structname}}.Name)
 	return {{structname}}
 }
 
 // UnstageVoid removes {{structname}} off the model stage
-func ({{structname}} *{{Structname}}) UnstageVoid(stage *StageStruct) {
+func ({{structname}} *{{Structname}}) UnstageVoid(stage *Stage) {
 	delete(stage.{{Structname}}s, {{structname}})
 	delete(stage.{{Structname}}s_mapString, {{structname}}.Name)
 }
 
 // commit {{structname}} to the back repo (if it is already staged)
-func ({{structname}} *{{Structname}}) Commit(stage *StageStruct) *{{Structname}} {
+func ({{structname}} *{{Structname}}) Commit(stage *Stage) *{{Structname}} {
 	if _, ok := stage.{{Structname}}s[{{structname}}]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.Commit{{Structname}}({{structname}})
@@ -123,12 +123,12 @@ func ({{structname}} *{{Structname}}) Commit(stage *StageStruct) *{{Structname}}
 	return {{structname}}
 }
 
-func ({{structname}} *{{Structname}}) CommitVoid(stage *StageStruct) {
+func ({{structname}} *{{Structname}}) CommitVoid(stage *Stage) {
 	{{structname}}.Commit(stage)
 }
 
 // Checkout {{structname}} to the back repo (if it is already staged)
-func ({{structname}} *{{Structname}}) Checkout(stage *StageStruct) *{{Structname}} {
+func ({{structname}} *{{Structname}}) Checkout(stage *Stage) *{{Structname}} {
 	if _, ok := stage.{{Structname}}s[{{structname}}]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.Checkout{{Structname}}({{structname}})

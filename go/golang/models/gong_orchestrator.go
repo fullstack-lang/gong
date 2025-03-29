@@ -5,7 +5,7 @@ package models
 
 // insertion point{{` + string(rune(ModelGongOrchestratorStruct)) + `}}
 
-func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *StageStruct) {
+func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 
 	var ret Type
 
@@ -32,7 +32,7 @@ type {{Structname}}Orchestrator struct {
 }
 
 func (orchestrator *{{Structname}}Orchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	staged{{Structname}}, backRepo{{Structname}} *{{Structname}}) {
 
 	staged{{Structname}}.OnAfterUpdate(gongsvgStage, staged{{Structname}}, backRepo{{Structname}})

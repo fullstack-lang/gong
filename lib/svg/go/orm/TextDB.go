@@ -176,10 +176,10 @@ type BackRepoTextStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoText *BackRepoTextStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoText *BackRepoTextStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoText.stage
 	return
 }
@@ -197,7 +197,7 @@ func (backRepoText *BackRepoTextStruct) GetTextDBFromTextPtr(text *models.Text) 
 
 // BackRepoText.CommitPhaseOne commits all staged instances of Text to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoText *BackRepoTextStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoText *BackRepoTextStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var texts []*models.Text
 	for text := range stage.Texts {

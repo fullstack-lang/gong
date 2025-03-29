@@ -10,7 +10,7 @@ import (
 )
 
 func EnumTypeStringToForm[T models.PointerToGongstruct, TF models.GongstructEnumStringField](
-	fieldName string, field TF, instance T, formStage *form.StageStruct, formGroup *form.FormGroup,
+	fieldName string, field TF, instance T, formStage *form.Stage, formGroup *form.FormGroup,
 ) {
 	formDiv := (&form.FormDiv{
 		Name: fieldName,
@@ -46,7 +46,7 @@ func EnumTypeStringToForm[T models.PointerToGongstruct, TF models.GongstructEnum
 }
 
 func EnumTypeIntToForm[T models.PointerToGongstruct, TF models.GongstructEnumIntField](
-	fieldName string, field TF, instance T, formStage *form.StageStruct, formGroup *form.FormGroup,
+	fieldName string, field TF, instance T, formStage *form.Stage, formGroup *form.FormGroup,
 ) {
 	formDiv := (&form.FormDiv{
 		Name: fieldName,

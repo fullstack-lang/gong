@@ -14,8 +14,8 @@ import (
 )
 
 func LoadEmbeddedDiagramPackage(
-	gongdocStage *gongdoc_models.StageStruct,
-	gongtreeStage *gongtree_models.StageStruct,
+	gongdocStage *gongdoc_models.Stage,
+	gongtreeStage *gongtree_models.Stage,
 	goModelsDir embed.FS,
 	modelPkg *gong_models.ModelPkg,
 ) (diagramPackage *gongdoc_models.DiagramPackage, err error) {

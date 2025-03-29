@@ -11,11 +11,11 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_NewDiagram_1 models.StageStruct
+var ___dummy__Stage_NewDiagram_1 models.Stage
 var ___dummy__Time_NewDiagram_1 time.Time
 
 // _ point for meta package dummy declaration
-var ___dummy__ref_models_NewDiagram_1 ref_models.StageStruct
+var ___dummy__ref_models_NewDiagram_1 ref_models.Stage
 
 // currently, DocLink renaming is not enabled in gopls
 // the following map are devised to overcome this limitation
@@ -36,7 +36,7 @@ var _ map[string]any = map[string]any{
 // }
 
 // _ will stage objects of database "NewDiagram_1"
-func _(stage *models.StageStruct) {
+func _(stage *models.Stage) {
 
 	// Declaration of instances to stage
 

@@ -1,7 +1,7 @@
 // generated code - do not edit
 package models
 
-func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
+func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
@@ -24,28 +24,28 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (stage *StageStruct) IsStagedButton(button *Button) (ok bool) {
+func (stage *Stage) IsStagedButton(button *Button) (ok bool) {
 
 	_, ok = stage.Buttons[button]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedNode(node *Node) (ok bool) {
+func (stage *Stage) IsStagedNode(node *Node) (ok bool) {
 
 	_, ok = stage.Nodes[node]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedSVGIcon(svgicon *SVGIcon) (ok bool) {
+func (stage *Stage) IsStagedSVGIcon(svgicon *SVGIcon) (ok bool) {
 
 	_, ok = stage.SVGIcons[svgicon]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedTree(tree *Tree) (ok bool) {
+func (stage *Stage) IsStagedTree(tree *Tree) (ok bool) {
 
 	_, ok = stage.Trees[tree]
 
@@ -56,7 +56,7 @@ func (stage *StageStruct) IsStagedTree(tree *Tree) (ok bool) {
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
@@ -78,7 +78,7 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for stage branch per struct
-func (stage *StageStruct) StageBranchButton(button *Button) {
+func (stage *Stage) StageBranchButton(button *Button) {
 
 	// check if instance is already staged
 	if IsStaged(stage, button) {
@@ -96,7 +96,7 @@ func (stage *StageStruct) StageBranchButton(button *Button) {
 
 }
 
-func (stage *StageStruct) StageBranchNode(node *Node) {
+func (stage *Stage) StageBranchNode(node *Node) {
 
 	// check if instance is already staged
 	if IsStaged(stage, node) {
@@ -120,7 +120,7 @@ func (stage *StageStruct) StageBranchNode(node *Node) {
 
 }
 
-func (stage *StageStruct) StageBranchSVGIcon(svgicon *SVGIcon) {
+func (stage *Stage) StageBranchSVGIcon(svgicon *SVGIcon) {
 
 	// check if instance is already staged
 	if IsStaged(stage, svgicon) {
@@ -135,7 +135,7 @@ func (stage *StageStruct) StageBranchSVGIcon(svgicon *SVGIcon) {
 
 }
 
-func (stage *StageStruct) StageBranchTree(tree *Tree) {
+func (stage *Stage) StageBranchTree(tree *Tree) {
 
 	// check if instance is already staged
 	if IsStaged(stage, tree) {
@@ -282,7 +282,7 @@ func CopyBranchTree(mapOrigCopy map[any]any, treeFrom *Tree) (treeTo *Tree) {
 // referenced by pointers or slices of pointers of the insance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
@@ -304,7 +304,7 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
-func (stage *StageStruct) UnstageBranchButton(button *Button) {
+func (stage *Stage) UnstageBranchButton(button *Button) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, button) {
@@ -322,7 +322,7 @@ func (stage *StageStruct) UnstageBranchButton(button *Button) {
 
 }
 
-func (stage *StageStruct) UnstageBranchNode(node *Node) {
+func (stage *Stage) UnstageBranchNode(node *Node) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, node) {
@@ -346,7 +346,7 @@ func (stage *StageStruct) UnstageBranchNode(node *Node) {
 
 }
 
-func (stage *StageStruct) UnstageBranchSVGIcon(svgicon *SVGIcon) {
+func (stage *Stage) UnstageBranchSVGIcon(svgicon *SVGIcon) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, svgicon) {
@@ -361,7 +361,7 @@ func (stage *StageStruct) UnstageBranchSVGIcon(svgicon *SVGIcon) {
 
 }
 
-func (stage *StageStruct) UnstageBranchTree(tree *Tree) {
+func (stage *Stage) UnstageBranchTree(tree *Tree) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, tree) {

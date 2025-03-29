@@ -25,7 +25,7 @@ type PortfolioDiagramNodeButtonImpl struct {
 
 	treeNode *gongtree_models.Node
 
-	treeStage *gongtree_models.StageStruct
+	treeStage *gongtree_models.Stage
 
 	ButtonType
 }
@@ -34,7 +34,7 @@ func NewPortfolioDiagramNodeButtonImpl(
 	portfolioDiagramNode PortfolioDiagramNode,
 	diagrammer *Diagrammer,
 	treeNode *gongtree_models.Node,
-	treeStage *gongtree_models.StageStruct,
+	treeStage *gongtree_models.Stage,
 	buttonType ButtonType,
 ) (buttonImpl *PortfolioDiagramNodeButtonImpl) {
 
@@ -50,7 +50,7 @@ func NewPortfolioDiagramNodeButtonImpl(
 }
 
 func (buttonImpl *PortfolioDiagramNodeButtonImpl) ButtonUpdated(
-	gongtreeStage *gongtree_models.StageStruct,
+	gongtreeStage *gongtree_models.Stage,
 	stageButton, front *gongtree_models.Button) {
 
 	switch buttonImpl.ButtonType {

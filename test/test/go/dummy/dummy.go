@@ -27,6 +27,6 @@ const (
 // in gongdoc, the note will be referenced by this identifier
 const ShortNote = ""
 
-type StageStruct struct {
+type Stage struct {
 	Name string
 }

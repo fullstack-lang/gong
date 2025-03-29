@@ -37,7 +37,7 @@ type SliderProxyInterface interface {
 }
 
 func (slider *Slider) OnAfterUpdate(
-	stage *StageStruct,
+	stage *Stage,
 	stageSlider, frontSlider *Slider) {
 
 	slider.ValueFloat64 = frontSlider.ValueFloat64
@@ -65,7 +65,7 @@ type CheckboxProxyInterface interface {
 }
 
 func (checkbox *Checkbox) OnAfterUpdate(
-	stage *StageStruct,
+	stage *Stage,
 	stageCheckbox, frontCheckbox *Checkbox) {
 
 	checkbox.ValueBool = frontCheckbox.ValueBool

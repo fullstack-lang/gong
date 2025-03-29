@@ -2,7 +2,7 @@
 package models
 
 func GetReverseFieldOwnerName(
-	stage *StageStruct,
+	stage *Stage,
 	instance any,
 	reverseField *ReverseField) (res string) {
 
@@ -151,7 +151,7 @@ func GetReverseFieldOwnerName(
 }
 
 func GetReverseFieldOwner[T Gongstruct](
-	stage *StageStruct,
+	stage *Stage,
 	instance *T,
 	reverseField *ReverseField) (res any) {
 

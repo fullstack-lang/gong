@@ -19,7 +19,7 @@ var _ map[string]any = map[string]any{
 }
 
 // function will stage objects
-func _(stage *models.StageStruct) {
+func _(stage *models.Stage) {
 
 	// Setup of pointers
 	// setup of File instances pointers

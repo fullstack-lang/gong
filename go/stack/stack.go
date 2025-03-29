@@ -21,7 +21,7 @@ type BeforeCommitImplementation struct {
 	marshallOnCommit string
 }
 
-func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) {
+func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
 	file, err := os.Create(fmt.Sprintf("./%s.go", impl.marshallOnCommit))
 	if err != nil {
 		log.Fatal(err.Error())
@@ -34,14 +34,14 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) 
 
 type Stack struct {
 	Probe    *probe.Probe
-	Stage    *models.StageStruct
+	Stage    *models.Stage
 	BackRepo *orm.BackRepoStruct
 }
 
 // NewStack initializes and configures a new stack instance for a full-stack application.
 // It sets up the backend repository, provides options for unmarshalling from Go code,
 // automatic marshalling on commits, and initializing a probe for monitoring and visualization.
-// The function returns a pointer to the initialized StageStruct.
+// The function returns a pointer to the initialized Stage.
 //
 // Parameters:
 //   - r *gin.Engine: A Gin engine instance for handling HTTP requests.
@@ -85,7 +85,7 @@ func NewStack(
 	stack = new(Stack)
 
 	var backRepo *orm.BackRepoStruct
-	var stage *models.StageStruct
+	var stage *models.Stage
 
 	if dbFileName == "" {
 		stage, backRepo = fullstack.NewStackInstance(r, stackPath)

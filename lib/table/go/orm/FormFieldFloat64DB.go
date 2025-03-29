@@ -139,10 +139,10 @@ type BackRepoFormFieldFloat64Struct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) GetStage() (stage *models.StageStruct) {
+func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) GetStage() (stage *models.Stage) {
 	stage = backRepoFormFieldFloat64.stage
 	return
 }
@@ -160,7 +160,7 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) GetFormFieldFloa
 
 // BackRepoFormFieldFloat64.CommitPhaseOne commits all staged instances of FormFieldFloat64 to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var formfieldfloat64s []*models.FormFieldFloat64
 	for formfieldfloat64 := range stage.FormFieldFloat64s {

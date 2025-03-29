@@ -7,7 +7,7 @@ type CellIconOrchestrator struct {
 }
 
 func (orchestrator *CellIconOrchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	stagedCellIcon, backRepoCellIcon *CellIcon) {
 
 	stagedCellIcon.OnAfterUpdate(gongsvgStage, stagedCellIcon, backRepoCellIcon)
@@ -17,7 +17,7 @@ type FormEditAssocButtonOrchestrator struct {
 }
 
 func (orchestrator *FormEditAssocButtonOrchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	stagedFormEditAssocButton, backRepoFormEditAssocButton *FormEditAssocButton) {
 
 	stagedFormEditAssocButton.OnAfterUpdate(gongsvgStage, stagedFormEditAssocButton, backRepoFormEditAssocButton)
@@ -27,7 +27,7 @@ type FormGroupOrchestrator struct {
 }
 
 func (orchestrator *FormGroupOrchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	stagedFormGroup, backRepoFormGroup *FormGroup) {
 
 	stagedFormGroup.OnAfterUpdate(gongsvgStage, stagedFormGroup, backRepoFormGroup)
@@ -37,7 +37,7 @@ type FormSortAssocButtonOrchestrator struct {
 }
 
 func (orchestrator *FormSortAssocButtonOrchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	stagedFormSortAssocButton, backRepoFormSortAssocButton *FormSortAssocButton) {
 
 	stagedFormSortAssocButton.OnAfterUpdate(gongsvgStage, stagedFormSortAssocButton, backRepoFormSortAssocButton)
@@ -47,7 +47,7 @@ type RowOrchestrator struct {
 }
 
 func (orchestrator *RowOrchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	stagedRow, backRepoRow *Row) {
 
 	stagedRow.OnAfterUpdate(gongsvgStage, stagedRow, backRepoRow)
@@ -57,13 +57,13 @@ type TableOrchestrator struct {
 }
 
 func (orchestrator *TableOrchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	stagedTable, backRepoTable *Table) {
 
 	stagedTable.OnAfterUpdate(gongsvgStage, stagedTable, backRepoTable)
 }
 
-func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *StageStruct) {
+func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 
 	var ret Type
 

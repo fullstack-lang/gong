@@ -123,10 +123,10 @@ type BackRepoUmlscStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoUmlsc *BackRepoUmlscStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoUmlsc *BackRepoUmlscStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoUmlsc.stage
 	return
 }
@@ -144,7 +144,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) GetUmlscDBFromUmlscPtr(umlsc *models.U
 
 // BackRepoUmlsc.CommitPhaseOne commits all staged instances of Umlsc to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var umlscs []*models.Umlsc
 	for umlsc := range stage.Umlscs {

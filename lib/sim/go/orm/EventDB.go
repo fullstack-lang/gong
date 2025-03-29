@@ -113,10 +113,10 @@ type BackRepoEventStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoEvent *BackRepoEventStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoEvent *BackRepoEventStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoEvent.stage
 	return
 }
@@ -134,7 +134,7 @@ func (backRepoEvent *BackRepoEventStruct) GetEventDBFromEventPtr(event *models.E
 
 // BackRepoEvent.CommitPhaseOne commits all staged instances of Event to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoEvent *BackRepoEventStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoEvent *BackRepoEventStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var events []*models.Event
 	for event := range stage.Events {

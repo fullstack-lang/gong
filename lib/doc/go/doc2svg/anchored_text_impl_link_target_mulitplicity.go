@@ -12,12 +12,12 @@ import (
 // and updates the link field name position
 type AnchoredTextImplLinkTargetMultiplicity struct {
 	link         *gongdoc_models.Link
-	gongdocStage *gongdoc_models.StageStruct
+	gongdocStage *gongdoc_models.Stage
 }
 
 func NewAnchoredTextImplLinkTargetMultiplicity(
 	anchoredtext *gongdoc_models.Link,
-	gongdocStage *gongdoc_models.StageStruct) (anchoredtextImplAnchoredText *AnchoredTextImplLinkTargetMultiplicity) {
+	gongdocStage *gongdoc_models.Stage) (anchoredtextImplAnchoredText *AnchoredTextImplLinkTargetMultiplicity) {
 
 	anchoredtextImplAnchoredText = new(AnchoredTextImplLinkTargetMultiplicity)
 	anchoredtextImplAnchoredText.link = anchoredtext

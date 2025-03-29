@@ -35,12 +35,12 @@ type Table struct {
 type TableImplInterface interface {
 
 	// TableUpdated function is called each time a Table is modified
-	TableUpdated(stage *StageStruct, table, updatedTable *Table)
+	TableUpdated(stage *Stage, table, updatedTable *Table)
 }
 
 // OnAfterUpdate is called when there is an update to the table
 // note the play on words "font table"
-func (table *Table) OnAfterUpdate(stage *StageStruct, _, frontTable *Table) {
+func (table *Table) OnAfterUpdate(stage *Stage, _, frontTable *Table) {
 
 	if table.Impl != nil {
 		table.Impl.TableUpdated(stage, table, frontTable)
