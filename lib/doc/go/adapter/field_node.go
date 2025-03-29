@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
+	"github.com/fullstack-lang/gong/lib/doc/go/doc2svg"
 	gongdoc_models "github.com/fullstack-lang/gong/lib/doc/go/models"
 
 	"github.com/fullstack-lang/gong/lib/doc/go/diagrammer"
@@ -64,6 +65,9 @@ func (fieldNode *FieldNode) RemoveFromDiagram() {
 	}
 
 	gongdocStage.Commit()
+
+	docSVGMapper := doc2svg.NewDocSVGMapper(fieldNode.portfolioAdapter.gongsvgStage)
+	docSVGMapper.GenerateSvg(fieldNode.portfolioAdapter.gongdocStage)
 }
 
 // AddToDiagram implements diagrammer.ElementNode.
@@ -217,6 +221,9 @@ func (fieldNode *FieldNode) AddToDiagram() {
 		link.CornerOffsetRatio = 1.38
 	}
 	gongdocStage.Commit()
+
+	docSVGMapper := doc2svg.NewDocSVGMapper(fieldNode.portfolioAdapter.gongsvgStage)
+	docSVGMapper.GenerateSvg(fieldNode.portfolioAdapter.gongdocStage)
 }
 
 // GetChildren implements diagrammer.ModelElementNode.
