@@ -11,7 +11,7 @@ import (
 type Diagrammer struct {
 	model     Model
 	portfolio Portfolio
-	treeStage *gongtree_models.StageStruct
+	treeStage *gongtree_models.Stage
 
 	map_portfolioNode_treeNode    map[PortfolioNode]*gongtree_models.Node
 	map_modelElementNode_treeNode map[ModelElementNode]*gongtree_models.Node
@@ -22,7 +22,7 @@ type Diagrammer struct {
 func NewDiagrammer(
 	model Model,
 	portfolio Portfolio,
-	treeStage *gongtree_models.StageStruct,
+	treeStage *gongtree_models.Stage,
 
 ) (diagrammer *Diagrammer) {
 	diagrammer = new(Diagrammer)
@@ -74,7 +74,7 @@ func (diagrammer *Diagrammer) FillUpModelTree(modelTree *gongtree_models.Tree) {
 	}
 }
 
-func (diagrammer *Diagrammer) modelNode2ModelTreeNode(modelNode ModelNode, treeStage *gongtree_models.StageStruct) (
+func (diagrammer *Diagrammer) modelNode2ModelTreeNode(modelNode ModelNode, treeStage *gongtree_models.Stage) (
 	modelTreeNode *gongtree_models.Node) {
 	modelTreeNode = (&gongtree_models.Node{Name: modelNode.GetName()}).Stage(treeStage)
 	modelTreeNode.IsExpanded = modelNode.IsExpanded()
@@ -109,7 +109,7 @@ func (diagrammer *Diagrammer) FillUpPortfolioUITree(portfolioUITree *gongtree_mo
 	diagrammer.generatePortfolioNodesStatusAndButtons()
 }
 
-func (diagrammer *Diagrammer) portfolioNode2NodeTree(portfolioNode PortfolioNode, treeStage *gongtree_models.StageStruct) (portfolioTreeNode *gongtree_models.Node) {
+func (diagrammer *Diagrammer) portfolioNode2NodeTree(portfolioNode PortfolioNode, treeStage *gongtree_models.Stage) (portfolioTreeNode *gongtree_models.Node) {
 	portfolioTreeNode = (&gongtree_models.Node{Name: portfolioNode.GetName()}).Stage(treeStage)
 	portfolioTreeNode.IsExpanded = portfolioNode.IsExpanded()
 

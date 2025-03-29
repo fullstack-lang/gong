@@ -116,10 +116,10 @@ type BackRepoXLRowStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoXLRow *BackRepoXLRowStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoXLRow *BackRepoXLRowStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoXLRow.stage
 	return
 }
@@ -137,7 +137,7 @@ func (backRepoXLRow *BackRepoXLRowStruct) GetXLRowDBFromXLRowPtr(xlrow *models.X
 
 // BackRepoXLRow.CommitPhaseOne commits all staged instances of XLRow to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoXLRow *BackRepoXLRowStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoXLRow *BackRepoXLRowStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var xlrows []*models.XLRow
 	for xlrow := range stage.XLRows {

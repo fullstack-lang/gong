@@ -35,7 +35,7 @@ var _ map[string]any = map[string]any{
 }
 
 // function will stage objects
-func _(stage *models.StageStruct) {
+func _(stage *models.Stage) {
 
 	// Declaration of instances to stage{{Identifiers}}
 
@@ -68,7 +68,7 @@ const TimeInitStatement = ` + "`" + `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")` + "`" + `
 
 // Marshall marshall the stage content into the file as an instanciation into a stage
-func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName string) {
+func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName string) {
 
 	name := file.Name()
 
@@ -108,7 +108,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
 
 		res = strings.ReplaceAll(res, "{{ImportPackageDummyDeclaration}}",
-			fmt.Sprintf("\nvar _ %s.StageStruct",
+			fmt.Sprintf("\nvar _ %s.Stage",
 				stage.MetaPackageImportAlias))
 
 		var entries string

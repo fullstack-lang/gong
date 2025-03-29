@@ -3,7 +3,7 @@ package models
 
 // insertion point
 
-func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *StageStruct) {
+func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 
 	var ret Type
 

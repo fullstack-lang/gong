@@ -9,9 +9,9 @@ import (
 )
 
 func Reload(
-	gongStage *gong_models.StageStruct,
-	gongdocStage *gongdoc_models.StageStruct,
-	gongtreeStage *gongtree_models.StageStruct,
+	gongStage *gong_models.Stage,
+	gongdocStage *gongdoc_models.Stage,
+	gongtreeStage *gongtree_models.Stage,
 	diagramPackage *gongdoc_models.DiagramPackage,
 ) {
 

@@ -11,12 +11,12 @@ import (
 // it meets the interface of RectImplInterface
 type RectImplNoteShape struct {
 	noteShape    *gongdoc_models.NoteShape
-	gongdocStage *gongdoc_models.StageStruct
+	gongdocStage *gongdoc_models.Stage
 }
 
 func NewRectImplNoteShape(
 	noteShape *gongdoc_models.NoteShape,
-	gongdocStage *gongdoc_models.StageStruct) (rectImplNoteShape *RectImplNoteShape) {
+	gongdocStage *gongdoc_models.Stage) (rectImplNoteShape *RectImplNoteShape) {
 
 	rectImplNoteShape = new(RectImplNoteShape)
 	rectImplNoteShape.noteShape = noteShape

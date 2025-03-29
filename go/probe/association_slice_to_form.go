@@ -163,7 +163,7 @@ type TablePickSaver[InstanceType models.PointerToGongstruct, FieldType models.Po
 }
 
 func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(
-	stage *form.StageStruct,
+	stage *form.Stage,
 	table, updatedTable *form.Table) {
 	log.Println("TablePickSaver: TableUpdated")
 

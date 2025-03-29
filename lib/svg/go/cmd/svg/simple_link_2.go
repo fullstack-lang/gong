@@ -9,7 +9,7 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_simple_link_2 models.StageStruct
+var ___dummy__Stage_simple_link_2 models.Stage
 var ___dummy__Time_simple_link_2 time.Time
 
 // Injection point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
@@ -33,7 +33,7 @@ var map_DocLink_Identifier_simple_link_2 map[string]any = map[string]any{
 // }
 
 // simple_link_2Injection will stage objects of database "simple_link_2"
-func simple_link_2Injection(stage *models.StageStruct) {
+func simple_link_2Injection(stage *models.Stage) {
 
 	// Declaration of instances to stage
 

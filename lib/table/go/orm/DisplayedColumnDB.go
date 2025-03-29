@@ -107,10 +107,10 @@ type BackRepoDisplayedColumnStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoDisplayedColumn.stage
 	return
 }
@@ -128,7 +128,7 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) GetDisplayedColumn
 
 // BackRepoDisplayedColumn.CommitPhaseOne commits all staged instances of DisplayedColumn to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var displayedcolumns []*models.DisplayedColumn
 	for displayedcolumn := range stage.DisplayedColumns {

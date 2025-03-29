@@ -11,12 +11,12 @@ import (
 // it meets the interface of RectImplInterface
 type RectImplGongenumShape struct {
 	gongenumShape *gongdoc_models.GongEnumShape
-	gongdocStage  *gongdoc_models.StageStruct
+	gongdocStage  *gongdoc_models.Stage
 }
 
 func NewRectImplGongenumShape(
 	gongEnumShape *gongdoc_models.GongEnumShape,
-	gongdocStage *gongdoc_models.StageStruct) (rectImplGongenumShape *RectImplGongenumShape) {
+	gongdocStage *gongdoc_models.Stage) (rectImplGongenumShape *RectImplGongenumShape) {
 
 	rectImplGongenumShape = new(RectImplGongenumShape)
 	rectImplGongenumShape.gongenumShape = gongEnumShape

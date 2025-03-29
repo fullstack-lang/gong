@@ -13,11 +13,11 @@ type Command struct {
 	CommandDate string
 	Engine      *Engine
 
-	stage  *StageStruct
+	stage  *Stage
 	status *Status
 }
 
-func NewCommand(stage *StageStruct, engine *Engine) (command *Command) {
+func NewCommand(stage *Stage, engine *Engine) (command *Command) {
 	command = &(Command{
 		Name:        "Gongsim Command Singloton",
 		Command:     COMMAND_PAUSE,

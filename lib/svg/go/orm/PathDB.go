@@ -164,10 +164,10 @@ type BackRepoPathStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoPath *BackRepoPathStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoPath *BackRepoPathStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoPath.stage
 	return
 }
@@ -185,7 +185,7 @@ func (backRepoPath *BackRepoPathStruct) GetPathDBFromPathPtr(path *models.Path) 
 
 // BackRepoPath.CommitPhaseOne commits all staged instances of Path to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoPath *BackRepoPathStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoPath *BackRepoPathStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var paths []*models.Path
 	for path := range stage.Paths {

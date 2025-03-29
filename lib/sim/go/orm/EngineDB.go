@@ -155,10 +155,10 @@ type BackRepoEngineStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoEngine *BackRepoEngineStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoEngine *BackRepoEngineStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoEngine.stage
 	return
 }
@@ -176,7 +176,7 @@ func (backRepoEngine *BackRepoEngineStruct) GetEngineDBFromEnginePtr(engine *mod
 
 // BackRepoEngine.CommitPhaseOne commits all staged instances of Engine to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoEngine *BackRepoEngineStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoEngine *BackRepoEngineStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var engines []*models.Engine
 	for engine := range stage.Engines {

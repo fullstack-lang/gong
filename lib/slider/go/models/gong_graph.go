@@ -1,7 +1,7 @@
 // generated code - do not edit
 package models
 
-func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
+func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
@@ -24,28 +24,28 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (stage *StageStruct) IsStagedCheckbox(checkbox *Checkbox) (ok bool) {
+func (stage *Stage) IsStagedCheckbox(checkbox *Checkbox) (ok bool) {
 
 	_, ok = stage.Checkboxs[checkbox]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedGroup(group *Group) (ok bool) {
+func (stage *Stage) IsStagedGroup(group *Group) (ok bool) {
 
 	_, ok = stage.Groups[group]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedLayout(layout *Layout) (ok bool) {
+func (stage *Stage) IsStagedLayout(layout *Layout) (ok bool) {
 
 	_, ok = stage.Layouts[layout]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedSlider(slider *Slider) (ok bool) {
+func (stage *Stage) IsStagedSlider(slider *Slider) (ok bool) {
 
 	_, ok = stage.Sliders[slider]
 
@@ -56,7 +56,7 @@ func (stage *StageStruct) IsStagedSlider(slider *Slider) (ok bool) {
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
@@ -78,7 +78,7 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for stage branch per struct
-func (stage *StageStruct) StageBranchCheckbox(checkbox *Checkbox) {
+func (stage *Stage) StageBranchCheckbox(checkbox *Checkbox) {
 
 	// check if instance is already staged
 	if IsStaged(stage, checkbox) {
@@ -93,7 +93,7 @@ func (stage *StageStruct) StageBranchCheckbox(checkbox *Checkbox) {
 
 }
 
-func (stage *StageStruct) StageBranchGroup(group *Group) {
+func (stage *Stage) StageBranchGroup(group *Group) {
 
 	// check if instance is already staged
 	if IsStaged(stage, group) {
@@ -114,7 +114,7 @@ func (stage *StageStruct) StageBranchGroup(group *Group) {
 
 }
 
-func (stage *StageStruct) StageBranchLayout(layout *Layout) {
+func (stage *Stage) StageBranchLayout(layout *Layout) {
 
 	// check if instance is already staged
 	if IsStaged(stage, layout) {
@@ -132,7 +132,7 @@ func (stage *StageStruct) StageBranchLayout(layout *Layout) {
 
 }
 
-func (stage *StageStruct) StageBranchSlider(slider *Slider) {
+func (stage *Stage) StageBranchSlider(slider *Slider) {
 
 	// check if instance is already staged
 	if IsStaged(stage, slider) {
@@ -270,7 +270,7 @@ func CopyBranchSlider(mapOrigCopy map[any]any, sliderFrom *Slider) (sliderTo *Sl
 // referenced by pointers or slices of pointers of the insance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
@@ -292,7 +292,7 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
-func (stage *StageStruct) UnstageBranchCheckbox(checkbox *Checkbox) {
+func (stage *Stage) UnstageBranchCheckbox(checkbox *Checkbox) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, checkbox) {
@@ -307,7 +307,7 @@ func (stage *StageStruct) UnstageBranchCheckbox(checkbox *Checkbox) {
 
 }
 
-func (stage *StageStruct) UnstageBranchGroup(group *Group) {
+func (stage *Stage) UnstageBranchGroup(group *Group) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, group) {
@@ -328,7 +328,7 @@ func (stage *StageStruct) UnstageBranchGroup(group *Group) {
 
 }
 
-func (stage *StageStruct) UnstageBranchLayout(layout *Layout) {
+func (stage *Stage) UnstageBranchLayout(layout *Layout) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, layout) {
@@ -346,7 +346,7 @@ func (stage *StageStruct) UnstageBranchLayout(layout *Layout) {
 
 }
 
-func (stage *StageStruct) UnstageBranchSlider(slider *Slider) {
+func (stage *Stage) UnstageBranchSlider(slider *Slider) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, slider) {

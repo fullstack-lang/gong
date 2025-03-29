@@ -30,7 +30,7 @@ type SVG struct {
 }
 
 // OnAfterUpdate, notice that rect == stagedRect
-func (svg *SVG) OnAfterUpdate(stage *StageStruct, _, frontSVG *SVG) {
+func (svg *SVG) OnAfterUpdate(stage *Stage, _, frontSVG *SVG) {
 
 	if svg.Impl != nil {
 		svg.Impl.SVGUpdated(frontSVG)

@@ -164,10 +164,10 @@ type BackRepoPolylineStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoPolyline *BackRepoPolylineStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoPolyline *BackRepoPolylineStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoPolyline.stage
 	return
 }
@@ -185,7 +185,7 @@ func (backRepoPolyline *BackRepoPolylineStruct) GetPolylineDBFromPolylinePtr(pol
 
 // BackRepoPolyline.CommitPhaseOne commits all staged instances of Polyline to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoPolyline *BackRepoPolylineStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoPolyline *BackRepoPolylineStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var polylines []*models.Polyline
 	for polyline := range stage.Polylines {

@@ -30,7 +30,7 @@ func NewButtonImplGongstruct(
 }
 
 func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
-	gongtreeStage *gongtree_models.StageStruct,
+	gongtreeStage *gongtree_models.Stage,
 	stageButton, front *gongtree_models.Button) {
 
 	log.Println("ButtonImplGongstruct: ButtonUpdated")

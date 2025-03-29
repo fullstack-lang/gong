@@ -28,7 +28,7 @@ type ButtonProxyInterface interface {
 }
 
 func (button *Button) OnAfterUpdate(
-	stage *StageStruct,
+	stage *Stage,
 	stageButton, frontButton *Button) {
 
 	if button.Proxy != nil {

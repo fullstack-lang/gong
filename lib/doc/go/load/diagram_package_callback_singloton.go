@@ -10,12 +10,12 @@ import (
 
 type DiagramPackageCallbacksSingloton struct {
 	DiagramPackageCallback DiagramPackageCallback
-	gongStage              *gong_models.StageStruct
-	gongtreeStage          *gongtree_models.StageStruct
+	gongStage              *gong_models.Stage
+	gongtreeStage          *gongtree_models.Stage
 }
 
 func (diagramPackageCallbacksSingloton *DiagramPackageCallbacksSingloton) OnAfterUpdate(
-	gongdocStage *gongdoc_models.StageStruct,
+	gongdocStage *gongdoc_models.Stage,
 	stagedDiagramPackage, frontDiagramPackage *gongdoc_models.DiagramPackage) {
 
 	if stagedDiagramPackage.IsReloaded != frontDiagramPackage.IsReloaded {

@@ -27,7 +27,7 @@ func NewTreeNodeImplGongstruct(
 }
 
 func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
-	gongtreeStage *gongtree_models.StageStruct,
+	gongtreeStage *gongtree_models.Stage,
 	stagedNode, frontNode *gongtree_models.Node) {
 
 	// setting the value of the staged node	to the new value

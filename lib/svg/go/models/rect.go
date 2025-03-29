@@ -36,7 +36,7 @@ type Rect struct {
 }
 
 // OnAfterUpdate, notice that rect == stagedRect
-func (rect *Rect) OnAfterUpdate(stage *StageStruct, _, frontRect *Rect) {
+func (rect *Rect) OnAfterUpdate(stage *Stage, _, frontRect *Rect) {
 
 	if rect.Impl != nil {
 		rect.Impl.RectUpdated(frontRect)

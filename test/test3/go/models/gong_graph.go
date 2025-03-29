@@ -1,7 +1,7 @@
 // generated code - do not edit
 package models
 
-func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
+func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
@@ -18,14 +18,14 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (stage *StageStruct) IsStagedA(a *A) (ok bool) {
+func (stage *Stage) IsStagedA(a *A) (ok bool) {
 
 	_, ok = stage.As[a]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedB(b *B) (ok bool) {
+func (stage *Stage) IsStagedB(b *B) (ok bool) {
 
 	_, ok = stage.Bs[b]
 
@@ -36,7 +36,7 @@ func (stage *StageStruct) IsStagedB(b *B) (ok bool) {
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
@@ -52,7 +52,7 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for stage branch per struct
-func (stage *StageStruct) StageBranchA(a *A) {
+func (stage *Stage) StageBranchA(a *A) {
 
 	// check if instance is already staged
 	if IsStaged(stage, a) {
@@ -67,7 +67,7 @@ func (stage *StageStruct) StageBranchA(a *A) {
 
 }
 
-func (stage *StageStruct) StageBranchB(b *B) {
+func (stage *Stage) StageBranchB(b *B) {
 
 	// check if instance is already staged
 	if IsStaged(stage, b) {
@@ -150,7 +150,7 @@ func CopyBranchB(mapOrigCopy map[any]any, bFrom *B) (bTo *B) {
 // referenced by pointers or slices of pointers of the insance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
@@ -166,7 +166,7 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
-func (stage *StageStruct) UnstageBranchA(a *A) {
+func (stage *Stage) UnstageBranchA(a *A) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, a) {
@@ -181,7 +181,7 @@ func (stage *StageStruct) UnstageBranchA(a *A) {
 
 }
 
-func (stage *StageStruct) UnstageBranchB(b *B) {
+func (stage *Stage) UnstageBranchB(b *B) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, b) {

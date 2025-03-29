@@ -113,10 +113,10 @@ type BackRepoToneStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoTone *BackRepoToneStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoTone *BackRepoToneStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoTone.stage
 	return
 }
@@ -134,7 +134,7 @@ func (backRepoTone *BackRepoToneStruct) GetToneDBFromTonePtr(tone *models.Tone) 
 
 // BackRepoTone.CommitPhaseOne commits all staged instances of Tone to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoTone *BackRepoToneStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoTone *BackRepoToneStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var tones []*models.Tone
 	for tone := range stage.Tones {

@@ -119,10 +119,10 @@ type BackRepoPointStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoPoint *BackRepoPointStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoPoint *BackRepoPointStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoPoint.stage
 	return
 }
@@ -140,7 +140,7 @@ func (backRepoPoint *BackRepoPointStruct) GetPointDBFromPointPtr(point *models.P
 
 // BackRepoPoint.CommitPhaseOne commits all staged instances of Point to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoPoint *BackRepoPointStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoPoint *BackRepoPointStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var points []*models.Point
 	for point := range stage.Points {

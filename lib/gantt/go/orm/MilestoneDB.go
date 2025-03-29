@@ -123,10 +123,10 @@ type BackRepoMilestoneStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoMilestone *BackRepoMilestoneStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoMilestone *BackRepoMilestoneStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoMilestone.stage
 	return
 }
@@ -144,7 +144,7 @@ func (backRepoMilestone *BackRepoMilestoneStruct) GetMilestoneDBFromMilestonePtr
 
 // BackRepoMilestone.CommitPhaseOne commits all staged instances of Milestone to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoMilestone *BackRepoMilestoneStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoMilestone *BackRepoMilestoneStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var milestones []*models.Milestone
 	for milestone := range stage.Milestones {

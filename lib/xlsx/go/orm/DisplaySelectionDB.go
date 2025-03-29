@@ -115,10 +115,10 @@ type BackRepoDisplaySelectionStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoDisplaySelection *BackRepoDisplaySelectionStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoDisplaySelection *BackRepoDisplaySelectionStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoDisplaySelection.stage
 	return
 }
@@ -136,7 +136,7 @@ func (backRepoDisplaySelection *BackRepoDisplaySelectionStruct) GetDisplaySelect
 
 // BackRepoDisplaySelection.CommitPhaseOne commits all staged instances of DisplaySelection to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoDisplaySelection *BackRepoDisplaySelectionStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoDisplaySelection *BackRepoDisplaySelectionStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var displayselections []*models.DisplaySelection
 	for displayselection := range stage.DisplaySelections {

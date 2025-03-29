@@ -1,7 +1,7 @@
 // generated code - do not edit
 package models
 
-func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
+func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
@@ -51,91 +51,91 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (stage *StageStruct) IsStagedClassdiagram(classdiagram *Classdiagram) (ok bool) {
+func (stage *Stage) IsStagedClassdiagram(classdiagram *Classdiagram) (ok bool) {
 
 	_, ok = stage.Classdiagrams[classdiagram]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedDiagramPackage(diagrampackage *DiagramPackage) (ok bool) {
+func (stage *Stage) IsStagedDiagramPackage(diagrampackage *DiagramPackage) (ok bool) {
 
 	_, ok = stage.DiagramPackages[diagrampackage]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedField(field *Field) (ok bool) {
+func (stage *Stage) IsStagedField(field *Field) (ok bool) {
 
 	_, ok = stage.Fields[field]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedGongEnumShape(gongenumshape *GongEnumShape) (ok bool) {
+func (stage *Stage) IsStagedGongEnumShape(gongenumshape *GongEnumShape) (ok bool) {
 
 	_, ok = stage.GongEnumShapes[gongenumshape]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry) (ok bool) {
+func (stage *Stage) IsStagedGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry) (ok bool) {
 
 	_, ok = stage.GongEnumValueEntrys[gongenumvalueentry]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedGongStructShape(gongstructshape *GongStructShape) (ok bool) {
+func (stage *Stage) IsStagedGongStructShape(gongstructshape *GongStructShape) (ok bool) {
 
 	_, ok = stage.GongStructShapes[gongstructshape]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedLink(link *Link) (ok bool) {
+func (stage *Stage) IsStagedLink(link *Link) (ok bool) {
 
 	_, ok = stage.Links[link]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedNoteShape(noteshape *NoteShape) (ok bool) {
+func (stage *Stage) IsStagedNoteShape(noteshape *NoteShape) (ok bool) {
 
 	_, ok = stage.NoteShapes[noteshape]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedNoteShapeLink(noteshapelink *NoteShapeLink) (ok bool) {
+func (stage *Stage) IsStagedNoteShapeLink(noteshapelink *NoteShapeLink) (ok bool) {
 
 	_, ok = stage.NoteShapeLinks[noteshapelink]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedPosition(position *Position) (ok bool) {
+func (stage *Stage) IsStagedPosition(position *Position) (ok bool) {
 
 	_, ok = stage.Positions[position]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedUmlState(umlstate *UmlState) (ok bool) {
+func (stage *Stage) IsStagedUmlState(umlstate *UmlState) (ok bool) {
 
 	_, ok = stage.UmlStates[umlstate]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedUmlsc(umlsc *Umlsc) (ok bool) {
+func (stage *Stage) IsStagedUmlsc(umlsc *Umlsc) (ok bool) {
 
 	_, ok = stage.Umlscs[umlsc]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedVertice(vertice *Vertice) (ok bool) {
+func (stage *Stage) IsStagedVertice(vertice *Vertice) (ok bool) {
 
 	_, ok = stage.Vertices[vertice]
 
@@ -146,7 +146,7 @@ func (stage *StageStruct) IsStagedVertice(vertice *Vertice) (ok bool) {
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
@@ -195,7 +195,7 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for stage branch per struct
-func (stage *StageStruct) StageBranchClassdiagram(classdiagram *Classdiagram) {
+func (stage *Stage) StageBranchClassdiagram(classdiagram *Classdiagram) {
 
 	// check if instance is already staged
 	if IsStaged(stage, classdiagram) {
@@ -219,7 +219,7 @@ func (stage *StageStruct) StageBranchClassdiagram(classdiagram *Classdiagram) {
 
 }
 
-func (stage *StageStruct) StageBranchDiagramPackage(diagrampackage *DiagramPackage) {
+func (stage *Stage) StageBranchDiagramPackage(diagrampackage *DiagramPackage) {
 
 	// check if instance is already staged
 	if IsStaged(stage, diagrampackage) {
@@ -243,7 +243,7 @@ func (stage *StageStruct) StageBranchDiagramPackage(diagrampackage *DiagramPacka
 
 }
 
-func (stage *StageStruct) StageBranchField(field *Field) {
+func (stage *Stage) StageBranchField(field *Field) {
 
 	// check if instance is already staged
 	if IsStaged(stage, field) {
@@ -258,7 +258,7 @@ func (stage *StageStruct) StageBranchField(field *Field) {
 
 }
 
-func (stage *StageStruct) StageBranchGongEnumShape(gongenumshape *GongEnumShape) {
+func (stage *Stage) StageBranchGongEnumShape(gongenumshape *GongEnumShape) {
 
 	// check if instance is already staged
 	if IsStaged(stage, gongenumshape) {
@@ -279,7 +279,7 @@ func (stage *StageStruct) StageBranchGongEnumShape(gongenumshape *GongEnumShape)
 
 }
 
-func (stage *StageStruct) StageBranchGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry) {
+func (stage *Stage) StageBranchGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry) {
 
 	// check if instance is already staged
 	if IsStaged(stage, gongenumvalueentry) {
@@ -294,7 +294,7 @@ func (stage *StageStruct) StageBranchGongEnumValueEntry(gongenumvalueentry *Gong
 
 }
 
-func (stage *StageStruct) StageBranchGongStructShape(gongstructshape *GongStructShape) {
+func (stage *Stage) StageBranchGongStructShape(gongstructshape *GongStructShape) {
 
 	// check if instance is already staged
 	if IsStaged(stage, gongstructshape) {
@@ -318,7 +318,7 @@ func (stage *StageStruct) StageBranchGongStructShape(gongstructshape *GongStruct
 
 }
 
-func (stage *StageStruct) StageBranchLink(link *Link) {
+func (stage *Stage) StageBranchLink(link *Link) {
 
 	// check if instance is already staged
 	if IsStaged(stage, link) {
@@ -336,7 +336,7 @@ func (stage *StageStruct) StageBranchLink(link *Link) {
 
 }
 
-func (stage *StageStruct) StageBranchNoteShape(noteshape *NoteShape) {
+func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
 	if IsStaged(stage, noteshape) {
@@ -354,7 +354,7 @@ func (stage *StageStruct) StageBranchNoteShape(noteshape *NoteShape) {
 
 }
 
-func (stage *StageStruct) StageBranchNoteShapeLink(noteshapelink *NoteShapeLink) {
+func (stage *Stage) StageBranchNoteShapeLink(noteshapelink *NoteShapeLink) {
 
 	// check if instance is already staged
 	if IsStaged(stage, noteshapelink) {
@@ -369,7 +369,7 @@ func (stage *StageStruct) StageBranchNoteShapeLink(noteshapelink *NoteShapeLink)
 
 }
 
-func (stage *StageStruct) StageBranchPosition(position *Position) {
+func (stage *Stage) StageBranchPosition(position *Position) {
 
 	// check if instance is already staged
 	if IsStaged(stage, position) {
@@ -384,7 +384,7 @@ func (stage *StageStruct) StageBranchPosition(position *Position) {
 
 }
 
-func (stage *StageStruct) StageBranchUmlState(umlstate *UmlState) {
+func (stage *Stage) StageBranchUmlState(umlstate *UmlState) {
 
 	// check if instance is already staged
 	if IsStaged(stage, umlstate) {
@@ -399,7 +399,7 @@ func (stage *StageStruct) StageBranchUmlState(umlstate *UmlState) {
 
 }
 
-func (stage *StageStruct) StageBranchUmlsc(umlsc *Umlsc) {
+func (stage *Stage) StageBranchUmlsc(umlsc *Umlsc) {
 
 	// check if instance is already staged
 	if IsStaged(stage, umlsc) {
@@ -417,7 +417,7 @@ func (stage *StageStruct) StageBranchUmlsc(umlsc *Umlsc) {
 
 }
 
-func (stage *StageStruct) StageBranchVertice(vertice *Vertice) {
+func (stage *Stage) StageBranchVertice(vertice *Vertice) {
 
 	// check if instance is already staged
 	if IsStaged(stage, vertice) {
@@ -795,7 +795,7 @@ func CopyBranchVertice(mapOrigCopy map[any]any, verticeFrom *Vertice) (verticeTo
 // referenced by pointers or slices of pointers of the insance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
@@ -844,7 +844,7 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
-func (stage *StageStruct) UnstageBranchClassdiagram(classdiagram *Classdiagram) {
+func (stage *Stage) UnstageBranchClassdiagram(classdiagram *Classdiagram) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, classdiagram) {
@@ -868,7 +868,7 @@ func (stage *StageStruct) UnstageBranchClassdiagram(classdiagram *Classdiagram) 
 
 }
 
-func (stage *StageStruct) UnstageBranchDiagramPackage(diagrampackage *DiagramPackage) {
+func (stage *Stage) UnstageBranchDiagramPackage(diagrampackage *DiagramPackage) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, diagrampackage) {
@@ -892,7 +892,7 @@ func (stage *StageStruct) UnstageBranchDiagramPackage(diagrampackage *DiagramPac
 
 }
 
-func (stage *StageStruct) UnstageBranchField(field *Field) {
+func (stage *Stage) UnstageBranchField(field *Field) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, field) {
@@ -907,7 +907,7 @@ func (stage *StageStruct) UnstageBranchField(field *Field) {
 
 }
 
-func (stage *StageStruct) UnstageBranchGongEnumShape(gongenumshape *GongEnumShape) {
+func (stage *Stage) UnstageBranchGongEnumShape(gongenumshape *GongEnumShape) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, gongenumshape) {
@@ -928,7 +928,7 @@ func (stage *StageStruct) UnstageBranchGongEnumShape(gongenumshape *GongEnumShap
 
 }
 
-func (stage *StageStruct) UnstageBranchGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry) {
+func (stage *Stage) UnstageBranchGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, gongenumvalueentry) {
@@ -943,7 +943,7 @@ func (stage *StageStruct) UnstageBranchGongEnumValueEntry(gongenumvalueentry *Go
 
 }
 
-func (stage *StageStruct) UnstageBranchGongStructShape(gongstructshape *GongStructShape) {
+func (stage *Stage) UnstageBranchGongStructShape(gongstructshape *GongStructShape) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, gongstructshape) {
@@ -967,7 +967,7 @@ func (stage *StageStruct) UnstageBranchGongStructShape(gongstructshape *GongStru
 
 }
 
-func (stage *StageStruct) UnstageBranchLink(link *Link) {
+func (stage *Stage) UnstageBranchLink(link *Link) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, link) {
@@ -985,7 +985,7 @@ func (stage *StageStruct) UnstageBranchLink(link *Link) {
 
 }
 
-func (stage *StageStruct) UnstageBranchNoteShape(noteshape *NoteShape) {
+func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, noteshape) {
@@ -1003,7 +1003,7 @@ func (stage *StageStruct) UnstageBranchNoteShape(noteshape *NoteShape) {
 
 }
 
-func (stage *StageStruct) UnstageBranchNoteShapeLink(noteshapelink *NoteShapeLink) {
+func (stage *Stage) UnstageBranchNoteShapeLink(noteshapelink *NoteShapeLink) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, noteshapelink) {
@@ -1018,7 +1018,7 @@ func (stage *StageStruct) UnstageBranchNoteShapeLink(noteshapelink *NoteShapeLin
 
 }
 
-func (stage *StageStruct) UnstageBranchPosition(position *Position) {
+func (stage *Stage) UnstageBranchPosition(position *Position) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, position) {
@@ -1033,7 +1033,7 @@ func (stage *StageStruct) UnstageBranchPosition(position *Position) {
 
 }
 
-func (stage *StageStruct) UnstageBranchUmlState(umlstate *UmlState) {
+func (stage *Stage) UnstageBranchUmlState(umlstate *UmlState) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, umlstate) {
@@ -1048,7 +1048,7 @@ func (stage *StageStruct) UnstageBranchUmlState(umlstate *UmlState) {
 
 }
 
-func (stage *StageStruct) UnstageBranchUmlsc(umlsc *Umlsc) {
+func (stage *Stage) UnstageBranchUmlsc(umlsc *Umlsc) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, umlsc) {
@@ -1066,7 +1066,7 @@ func (stage *StageStruct) UnstageBranchUmlsc(umlsc *Umlsc) {
 
 }
 
-func (stage *StageStruct) UnstageBranchVertice(vertice *Vertice) {
+func (stage *Stage) UnstageBranchVertice(vertice *Vertice) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, vertice) {

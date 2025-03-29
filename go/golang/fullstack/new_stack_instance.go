@@ -27,7 +27,7 @@ func NewStackInstance(
 	stackPath string,
 	// filesnames is an optional parameter for the name of the database
 	filenames ...string) (
-	stage *models.StageStruct,
+	stage *models.Stage,
 	backRepo *orm.BackRepoStruct) {
 
 	stage = models.NewStage(stackPath)

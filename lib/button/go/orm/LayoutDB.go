@@ -110,10 +110,10 @@ type BackRepoLayoutStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoLayout *BackRepoLayoutStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoLayout *BackRepoLayoutStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoLayout.stage
 	return
 }
@@ -131,7 +131,7 @@ func (backRepoLayout *BackRepoLayoutStruct) GetLayoutDBFromLayoutPtr(layout *mod
 
 // BackRepoLayout.CommitPhaseOne commits all staged instances of Layout to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoLayout *BackRepoLayoutStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoLayout *BackRepoLayoutStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var layouts []*models.Layout
 	for layout := range stage.Layouts {

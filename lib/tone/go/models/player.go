@@ -18,7 +18,7 @@ func (player *Player) InjectDependency(callback func(*Player) error) {
 }
 
 // OnAfterUpdate is called after a Player update
-func (player *Player) OnAfterUpdate(stage *StageStruct, stagedInstance, frontInstance *Player) {
+func (player *Player) OnAfterUpdate(stage *Stage, stagedInstance, frontInstance *Player) {
 	// Example of invoking the DI callback
 	if player.OnDI != nil {
 		player.Status = frontInstance.Status

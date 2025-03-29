@@ -19,7 +19,7 @@ type FormGroup struct {
 
 // OnAfterUpdate is called when the form group is updated
 func (formGroup *FormGroup) OnAfterUpdate(
-	stage *StageStruct,
+	stage *Stage,
 	stagedInstance, frontInstance *FormGroup) {
 
 	if stagedInstance.OnSave != nil {

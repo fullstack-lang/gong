@@ -7,7 +7,7 @@ type ButtonOrchestrator struct {
 }
 
 func (orchestrator *ButtonOrchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	stagedButton, backRepoButton *Button) {
 
 	stagedButton.OnAfterUpdate(gongsvgStage, stagedButton, backRepoButton)
@@ -17,13 +17,13 @@ type NodeOrchestrator struct {
 }
 
 func (orchestrator *NodeOrchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	stagedNode, backRepoNode *Node) {
 
 	stagedNode.OnAfterUpdate(gongsvgStage, stagedNode, backRepoNode)
 }
 
-func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *StageStruct) {
+func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 
 	var ret Type
 

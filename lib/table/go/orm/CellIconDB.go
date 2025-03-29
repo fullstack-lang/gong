@@ -113,10 +113,10 @@ type BackRepoCellIconStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoCellIcon *BackRepoCellIconStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoCellIcon *BackRepoCellIconStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoCellIcon.stage
 	return
 }
@@ -134,7 +134,7 @@ func (backRepoCellIcon *BackRepoCellIconStruct) GetCellIconDBFromCellIconPtr(cel
 
 // BackRepoCellIcon.CommitPhaseOne commits all staged instances of CellIcon to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoCellIcon *BackRepoCellIconStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoCellIcon *BackRepoCellIconStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var cellicons []*models.CellIcon
 	for cellicon := range stage.CellIcons {

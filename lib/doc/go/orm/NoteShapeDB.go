@@ -159,10 +159,10 @@ type BackRepoNoteShapeStruct struct {
 
 	db db.DBInterface
 
-	stage *models.StageStruct
+	stage *models.Stage
 }
 
-func (backRepoNoteShape *BackRepoNoteShapeStruct) GetStage() (stage *models.StageStruct) {
+func (backRepoNoteShape *BackRepoNoteShapeStruct) GetStage() (stage *models.Stage) {
 	stage = backRepoNoteShape.stage
 	return
 }
@@ -180,7 +180,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) GetNoteShapeDBFromNoteShapePtr
 
 // BackRepoNoteShape.CommitPhaseOne commits all staged instances of NoteShape to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseOne(stage *models.StageStruct) (Error error) {
+func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
 	var noteshapes []*models.NoteShape
 	for noteshape := range stage.NoteShapes {

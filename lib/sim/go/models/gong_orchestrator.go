@@ -7,13 +7,13 @@ type CommandOrchestrator struct {
 }
 
 func (orchestrator *CommandOrchestrator) OnAfterUpdate(
-	gongsvgStage *StageStruct,
+	gongsvgStage *Stage,
 	stagedCommand, backRepoCommand *Command) {
 
 	stagedCommand.OnAfterUpdate(gongsvgStage, stagedCommand, backRepoCommand)
 }
 
-func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *StageStruct) {
+func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 
 	var ret Type
 

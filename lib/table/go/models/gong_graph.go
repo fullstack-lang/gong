@@ -1,7 +1,7 @@
 // generated code - do not edit
 package models
 
-func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
+func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
@@ -81,161 +81,161 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (stage *StageStruct) IsStagedCell(cell *Cell) (ok bool) {
+func (stage *Stage) IsStagedCell(cell *Cell) (ok bool) {
 
 	_, ok = stage.Cells[cell]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedCellBoolean(cellboolean *CellBoolean) (ok bool) {
+func (stage *Stage) IsStagedCellBoolean(cellboolean *CellBoolean) (ok bool) {
 
 	_, ok = stage.CellBooleans[cellboolean]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedCellFloat64(cellfloat64 *CellFloat64) (ok bool) {
+func (stage *Stage) IsStagedCellFloat64(cellfloat64 *CellFloat64) (ok bool) {
 
 	_, ok = stage.CellFloat64s[cellfloat64]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedCellIcon(cellicon *CellIcon) (ok bool) {
+func (stage *Stage) IsStagedCellIcon(cellicon *CellIcon) (ok bool) {
 
 	_, ok = stage.CellIcons[cellicon]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedCellInt(cellint *CellInt) (ok bool) {
+func (stage *Stage) IsStagedCellInt(cellint *CellInt) (ok bool) {
 
 	_, ok = stage.CellInts[cellint]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedCellString(cellstring *CellString) (ok bool) {
+func (stage *Stage) IsStagedCellString(cellstring *CellString) (ok bool) {
 
 	_, ok = stage.CellStrings[cellstring]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedCheckBox(checkbox *CheckBox) (ok bool) {
+func (stage *Stage) IsStagedCheckBox(checkbox *CheckBox) (ok bool) {
 
 	_, ok = stage.CheckBoxs[checkbox]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedDisplayedColumn(displayedcolumn *DisplayedColumn) (ok bool) {
+func (stage *Stage) IsStagedDisplayedColumn(displayedcolumn *DisplayedColumn) (ok bool) {
 
 	_, ok = stage.DisplayedColumns[displayedcolumn]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedFormDiv(formdiv *FormDiv) (ok bool) {
+func (stage *Stage) IsStagedFormDiv(formdiv *FormDiv) (ok bool) {
 
 	_, ok = stage.FormDivs[formdiv]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedFormEditAssocButton(formeditassocbutton *FormEditAssocButton) (ok bool) {
+func (stage *Stage) IsStagedFormEditAssocButton(formeditassocbutton *FormEditAssocButton) (ok bool) {
 
 	_, ok = stage.FormEditAssocButtons[formeditassocbutton]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedFormField(formfield *FormField) (ok bool) {
+func (stage *Stage) IsStagedFormField(formfield *FormField) (ok bool) {
 
 	_, ok = stage.FormFields[formfield]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedFormFieldDate(formfielddate *FormFieldDate) (ok bool) {
+func (stage *Stage) IsStagedFormFieldDate(formfielddate *FormFieldDate) (ok bool) {
 
 	_, ok = stage.FormFieldDates[formfielddate]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedFormFieldDateTime(formfielddatetime *FormFieldDateTime) (ok bool) {
+func (stage *Stage) IsStagedFormFieldDateTime(formfielddatetime *FormFieldDateTime) (ok bool) {
 
 	_, ok = stage.FormFieldDateTimes[formfielddatetime]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedFormFieldFloat64(formfieldfloat64 *FormFieldFloat64) (ok bool) {
+func (stage *Stage) IsStagedFormFieldFloat64(formfieldfloat64 *FormFieldFloat64) (ok bool) {
 
 	_, ok = stage.FormFieldFloat64s[formfieldfloat64]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedFormFieldInt(formfieldint *FormFieldInt) (ok bool) {
+func (stage *Stage) IsStagedFormFieldInt(formfieldint *FormFieldInt) (ok bool) {
 
 	_, ok = stage.FormFieldInts[formfieldint]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedFormFieldSelect(formfieldselect *FormFieldSelect) (ok bool) {
+func (stage *Stage) IsStagedFormFieldSelect(formfieldselect *FormFieldSelect) (ok bool) {
 
 	_, ok = stage.FormFieldSelects[formfieldselect]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedFormFieldString(formfieldstring *FormFieldString) (ok bool) {
+func (stage *Stage) IsStagedFormFieldString(formfieldstring *FormFieldString) (ok bool) {
 
 	_, ok = stage.FormFieldStrings[formfieldstring]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedFormFieldTime(formfieldtime *FormFieldTime) (ok bool) {
+func (stage *Stage) IsStagedFormFieldTime(formfieldtime *FormFieldTime) (ok bool) {
 
 	_, ok = stage.FormFieldTimes[formfieldtime]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedFormGroup(formgroup *FormGroup) (ok bool) {
+func (stage *Stage) IsStagedFormGroup(formgroup *FormGroup) (ok bool) {
 
 	_, ok = stage.FormGroups[formgroup]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedFormSortAssocButton(formsortassocbutton *FormSortAssocButton) (ok bool) {
+func (stage *Stage) IsStagedFormSortAssocButton(formsortassocbutton *FormSortAssocButton) (ok bool) {
 
 	_, ok = stage.FormSortAssocButtons[formsortassocbutton]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedOption(option *Option) (ok bool) {
+func (stage *Stage) IsStagedOption(option *Option) (ok bool) {
 
 	_, ok = stage.Options[option]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedRow(row *Row) (ok bool) {
+func (stage *Stage) IsStagedRow(row *Row) (ok bool) {
 
 	_, ok = stage.Rows[row]
 
 	return
 }
 
-func (stage *StageStruct) IsStagedTable(table *Table) (ok bool) {
+func (stage *Stage) IsStagedTable(table *Table) (ok bool) {
 
 	_, ok = stage.Tables[table]
 
@@ -246,7 +246,7 @@ func (stage *StageStruct) IsStagedTable(table *Table) (ok bool) {
 // referenced by pointers or slices of pointers of the instance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
@@ -325,7 +325,7 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for stage branch per struct
-func (stage *StageStruct) StageBranchCell(cell *Cell) {
+func (stage *Stage) StageBranchCell(cell *Cell) {
 
 	// check if instance is already staged
 	if IsStaged(stage, cell) {
@@ -355,7 +355,7 @@ func (stage *StageStruct) StageBranchCell(cell *Cell) {
 
 }
 
-func (stage *StageStruct) StageBranchCellBoolean(cellboolean *CellBoolean) {
+func (stage *Stage) StageBranchCellBoolean(cellboolean *CellBoolean) {
 
 	// check if instance is already staged
 	if IsStaged(stage, cellboolean) {
@@ -370,7 +370,7 @@ func (stage *StageStruct) StageBranchCellBoolean(cellboolean *CellBoolean) {
 
 }
 
-func (stage *StageStruct) StageBranchCellFloat64(cellfloat64 *CellFloat64) {
+func (stage *Stage) StageBranchCellFloat64(cellfloat64 *CellFloat64) {
 
 	// check if instance is already staged
 	if IsStaged(stage, cellfloat64) {
@@ -385,7 +385,7 @@ func (stage *StageStruct) StageBranchCellFloat64(cellfloat64 *CellFloat64) {
 
 }
 
-func (stage *StageStruct) StageBranchCellIcon(cellicon *CellIcon) {
+func (stage *Stage) StageBranchCellIcon(cellicon *CellIcon) {
 
 	// check if instance is already staged
 	if IsStaged(stage, cellicon) {
@@ -400,7 +400,7 @@ func (stage *StageStruct) StageBranchCellIcon(cellicon *CellIcon) {
 
 }
 
-func (stage *StageStruct) StageBranchCellInt(cellint *CellInt) {
+func (stage *Stage) StageBranchCellInt(cellint *CellInt) {
 
 	// check if instance is already staged
 	if IsStaged(stage, cellint) {
@@ -415,7 +415,7 @@ func (stage *StageStruct) StageBranchCellInt(cellint *CellInt) {
 
 }
 
-func (stage *StageStruct) StageBranchCellString(cellstring *CellString) {
+func (stage *Stage) StageBranchCellString(cellstring *CellString) {
 
 	// check if instance is already staged
 	if IsStaged(stage, cellstring) {
@@ -430,7 +430,7 @@ func (stage *StageStruct) StageBranchCellString(cellstring *CellString) {
 
 }
 
-func (stage *StageStruct) StageBranchCheckBox(checkbox *CheckBox) {
+func (stage *Stage) StageBranchCheckBox(checkbox *CheckBox) {
 
 	// check if instance is already staged
 	if IsStaged(stage, checkbox) {
@@ -445,7 +445,7 @@ func (stage *StageStruct) StageBranchCheckBox(checkbox *CheckBox) {
 
 }
 
-func (stage *StageStruct) StageBranchDisplayedColumn(displayedcolumn *DisplayedColumn) {
+func (stage *Stage) StageBranchDisplayedColumn(displayedcolumn *DisplayedColumn) {
 
 	// check if instance is already staged
 	if IsStaged(stage, displayedcolumn) {
@@ -460,7 +460,7 @@ func (stage *StageStruct) StageBranchDisplayedColumn(displayedcolumn *DisplayedC
 
 }
 
-func (stage *StageStruct) StageBranchFormDiv(formdiv *FormDiv) {
+func (stage *Stage) StageBranchFormDiv(formdiv *FormDiv) {
 
 	// check if instance is already staged
 	if IsStaged(stage, formdiv) {
@@ -487,7 +487,7 @@ func (stage *StageStruct) StageBranchFormDiv(formdiv *FormDiv) {
 
 }
 
-func (stage *StageStruct) StageBranchFormEditAssocButton(formeditassocbutton *FormEditAssocButton) {
+func (stage *Stage) StageBranchFormEditAssocButton(formeditassocbutton *FormEditAssocButton) {
 
 	// check if instance is already staged
 	if IsStaged(stage, formeditassocbutton) {
@@ -502,7 +502,7 @@ func (stage *StageStruct) StageBranchFormEditAssocButton(formeditassocbutton *Fo
 
 }
 
-func (stage *StageStruct) StageBranchFormField(formfield *FormField) {
+func (stage *Stage) StageBranchFormField(formfield *FormField) {
 
 	// check if instance is already staged
 	if IsStaged(stage, formfield) {
@@ -538,7 +538,7 @@ func (stage *StageStruct) StageBranchFormField(formfield *FormField) {
 
 }
 
-func (stage *StageStruct) StageBranchFormFieldDate(formfielddate *FormFieldDate) {
+func (stage *Stage) StageBranchFormFieldDate(formfielddate *FormFieldDate) {
 
 	// check if instance is already staged
 	if IsStaged(stage, formfielddate) {
@@ -553,7 +553,7 @@ func (stage *StageStruct) StageBranchFormFieldDate(formfielddate *FormFieldDate)
 
 }
 
-func (stage *StageStruct) StageBranchFormFieldDateTime(formfielddatetime *FormFieldDateTime) {
+func (stage *Stage) StageBranchFormFieldDateTime(formfielddatetime *FormFieldDateTime) {
 
 	// check if instance is already staged
 	if IsStaged(stage, formfielddatetime) {
@@ -568,7 +568,7 @@ func (stage *StageStruct) StageBranchFormFieldDateTime(formfielddatetime *FormFi
 
 }
 
-func (stage *StageStruct) StageBranchFormFieldFloat64(formfieldfloat64 *FormFieldFloat64) {
+func (stage *Stage) StageBranchFormFieldFloat64(formfieldfloat64 *FormFieldFloat64) {
 
 	// check if instance is already staged
 	if IsStaged(stage, formfieldfloat64) {
@@ -583,7 +583,7 @@ func (stage *StageStruct) StageBranchFormFieldFloat64(formfieldfloat64 *FormFiel
 
 }
 
-func (stage *StageStruct) StageBranchFormFieldInt(formfieldint *FormFieldInt) {
+func (stage *Stage) StageBranchFormFieldInt(formfieldint *FormFieldInt) {
 
 	// check if instance is already staged
 	if IsStaged(stage, formfieldint) {
@@ -598,7 +598,7 @@ func (stage *StageStruct) StageBranchFormFieldInt(formfieldint *FormFieldInt) {
 
 }
 
-func (stage *StageStruct) StageBranchFormFieldSelect(formfieldselect *FormFieldSelect) {
+func (stage *Stage) StageBranchFormFieldSelect(formfieldselect *FormFieldSelect) {
 
 	// check if instance is already staged
 	if IsStaged(stage, formfieldselect) {
@@ -619,7 +619,7 @@ func (stage *StageStruct) StageBranchFormFieldSelect(formfieldselect *FormFieldS
 
 }
 
-func (stage *StageStruct) StageBranchFormFieldString(formfieldstring *FormFieldString) {
+func (stage *Stage) StageBranchFormFieldString(formfieldstring *FormFieldString) {
 
 	// check if instance is already staged
 	if IsStaged(stage, formfieldstring) {
@@ -634,7 +634,7 @@ func (stage *StageStruct) StageBranchFormFieldString(formfieldstring *FormFieldS
 
 }
 
-func (stage *StageStruct) StageBranchFormFieldTime(formfieldtime *FormFieldTime) {
+func (stage *Stage) StageBranchFormFieldTime(formfieldtime *FormFieldTime) {
 
 	// check if instance is already staged
 	if IsStaged(stage, formfieldtime) {
@@ -649,7 +649,7 @@ func (stage *StageStruct) StageBranchFormFieldTime(formfieldtime *FormFieldTime)
 
 }
 
-func (stage *StageStruct) StageBranchFormGroup(formgroup *FormGroup) {
+func (stage *Stage) StageBranchFormGroup(formgroup *FormGroup) {
 
 	// check if instance is already staged
 	if IsStaged(stage, formgroup) {
@@ -667,7 +667,7 @@ func (stage *StageStruct) StageBranchFormGroup(formgroup *FormGroup) {
 
 }
 
-func (stage *StageStruct) StageBranchFormSortAssocButton(formsortassocbutton *FormSortAssocButton) {
+func (stage *Stage) StageBranchFormSortAssocButton(formsortassocbutton *FormSortAssocButton) {
 
 	// check if instance is already staged
 	if IsStaged(stage, formsortassocbutton) {
@@ -682,7 +682,7 @@ func (stage *StageStruct) StageBranchFormSortAssocButton(formsortassocbutton *Fo
 
 }
 
-func (stage *StageStruct) StageBranchOption(option *Option) {
+func (stage *Stage) StageBranchOption(option *Option) {
 
 	// check if instance is already staged
 	if IsStaged(stage, option) {
@@ -697,7 +697,7 @@ func (stage *StageStruct) StageBranchOption(option *Option) {
 
 }
 
-func (stage *StageStruct) StageBranchRow(row *Row) {
+func (stage *Stage) StageBranchRow(row *Row) {
 
 	// check if instance is already staged
 	if IsStaged(stage, row) {
@@ -715,7 +715,7 @@ func (stage *StageStruct) StageBranchRow(row *Row) {
 
 }
 
-func (stage *StageStruct) StageBranchTable(table *Table) {
+func (stage *Stage) StageBranchTable(table *Table) {
 
 	// check if instance is already staged
 	if IsStaged(stage, table) {
@@ -1353,7 +1353,7 @@ func CopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table)
 // referenced by pointers or slices of pointers of the insance
 //
 // the algorithm stops along the course of graph if a vertex is already staged
-func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
@@ -1432,7 +1432,7 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
-func (stage *StageStruct) UnstageBranchCell(cell *Cell) {
+func (stage *Stage) UnstageBranchCell(cell *Cell) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, cell) {
@@ -1462,7 +1462,7 @@ func (stage *StageStruct) UnstageBranchCell(cell *Cell) {
 
 }
 
-func (stage *StageStruct) UnstageBranchCellBoolean(cellboolean *CellBoolean) {
+func (stage *Stage) UnstageBranchCellBoolean(cellboolean *CellBoolean) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, cellboolean) {
@@ -1477,7 +1477,7 @@ func (stage *StageStruct) UnstageBranchCellBoolean(cellboolean *CellBoolean) {
 
 }
 
-func (stage *StageStruct) UnstageBranchCellFloat64(cellfloat64 *CellFloat64) {
+func (stage *Stage) UnstageBranchCellFloat64(cellfloat64 *CellFloat64) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, cellfloat64) {
@@ -1492,7 +1492,7 @@ func (stage *StageStruct) UnstageBranchCellFloat64(cellfloat64 *CellFloat64) {
 
 }
 
-func (stage *StageStruct) UnstageBranchCellIcon(cellicon *CellIcon) {
+func (stage *Stage) UnstageBranchCellIcon(cellicon *CellIcon) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, cellicon) {
@@ -1507,7 +1507,7 @@ func (stage *StageStruct) UnstageBranchCellIcon(cellicon *CellIcon) {
 
 }
 
-func (stage *StageStruct) UnstageBranchCellInt(cellint *CellInt) {
+func (stage *Stage) UnstageBranchCellInt(cellint *CellInt) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, cellint) {
@@ -1522,7 +1522,7 @@ func (stage *StageStruct) UnstageBranchCellInt(cellint *CellInt) {
 
 }
 
-func (stage *StageStruct) UnstageBranchCellString(cellstring *CellString) {
+func (stage *Stage) UnstageBranchCellString(cellstring *CellString) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, cellstring) {
@@ -1537,7 +1537,7 @@ func (stage *StageStruct) UnstageBranchCellString(cellstring *CellString) {
 
 }
 
-func (stage *StageStruct) UnstageBranchCheckBox(checkbox *CheckBox) {
+func (stage *Stage) UnstageBranchCheckBox(checkbox *CheckBox) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, checkbox) {
@@ -1552,7 +1552,7 @@ func (stage *StageStruct) UnstageBranchCheckBox(checkbox *CheckBox) {
 
 }
 
-func (stage *StageStruct) UnstageBranchDisplayedColumn(displayedcolumn *DisplayedColumn) {
+func (stage *Stage) UnstageBranchDisplayedColumn(displayedcolumn *DisplayedColumn) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, displayedcolumn) {
@@ -1567,7 +1567,7 @@ func (stage *StageStruct) UnstageBranchDisplayedColumn(displayedcolumn *Displaye
 
 }
 
-func (stage *StageStruct) UnstageBranchFormDiv(formdiv *FormDiv) {
+func (stage *Stage) UnstageBranchFormDiv(formdiv *FormDiv) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, formdiv) {
@@ -1594,7 +1594,7 @@ func (stage *StageStruct) UnstageBranchFormDiv(formdiv *FormDiv) {
 
 }
 
-func (stage *StageStruct) UnstageBranchFormEditAssocButton(formeditassocbutton *FormEditAssocButton) {
+func (stage *Stage) UnstageBranchFormEditAssocButton(formeditassocbutton *FormEditAssocButton) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, formeditassocbutton) {
@@ -1609,7 +1609,7 @@ func (stage *StageStruct) UnstageBranchFormEditAssocButton(formeditassocbutton *
 
 }
 
-func (stage *StageStruct) UnstageBranchFormField(formfield *FormField) {
+func (stage *Stage) UnstageBranchFormField(formfield *FormField) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, formfield) {
@@ -1645,7 +1645,7 @@ func (stage *StageStruct) UnstageBranchFormField(formfield *FormField) {
 
 }
 
-func (stage *StageStruct) UnstageBranchFormFieldDate(formfielddate *FormFieldDate) {
+func (stage *Stage) UnstageBranchFormFieldDate(formfielddate *FormFieldDate) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, formfielddate) {
@@ -1660,7 +1660,7 @@ func (stage *StageStruct) UnstageBranchFormFieldDate(formfielddate *FormFieldDat
 
 }
 
-func (stage *StageStruct) UnstageBranchFormFieldDateTime(formfielddatetime *FormFieldDateTime) {
+func (stage *Stage) UnstageBranchFormFieldDateTime(formfielddatetime *FormFieldDateTime) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, formfielddatetime) {
@@ -1675,7 +1675,7 @@ func (stage *StageStruct) UnstageBranchFormFieldDateTime(formfielddatetime *Form
 
 }
 
-func (stage *StageStruct) UnstageBranchFormFieldFloat64(formfieldfloat64 *FormFieldFloat64) {
+func (stage *Stage) UnstageBranchFormFieldFloat64(formfieldfloat64 *FormFieldFloat64) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, formfieldfloat64) {
@@ -1690,7 +1690,7 @@ func (stage *StageStruct) UnstageBranchFormFieldFloat64(formfieldfloat64 *FormFi
 
 }
 
-func (stage *StageStruct) UnstageBranchFormFieldInt(formfieldint *FormFieldInt) {
+func (stage *Stage) UnstageBranchFormFieldInt(formfieldint *FormFieldInt) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, formfieldint) {
@@ -1705,7 +1705,7 @@ func (stage *StageStruct) UnstageBranchFormFieldInt(formfieldint *FormFieldInt) 
 
 }
 
-func (stage *StageStruct) UnstageBranchFormFieldSelect(formfieldselect *FormFieldSelect) {
+func (stage *Stage) UnstageBranchFormFieldSelect(formfieldselect *FormFieldSelect) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, formfieldselect) {
@@ -1726,7 +1726,7 @@ func (stage *StageStruct) UnstageBranchFormFieldSelect(formfieldselect *FormFiel
 
 }
 
-func (stage *StageStruct) UnstageBranchFormFieldString(formfieldstring *FormFieldString) {
+func (stage *Stage) UnstageBranchFormFieldString(formfieldstring *FormFieldString) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, formfieldstring) {
@@ -1741,7 +1741,7 @@ func (stage *StageStruct) UnstageBranchFormFieldString(formfieldstring *FormFiel
 
 }
 
-func (stage *StageStruct) UnstageBranchFormFieldTime(formfieldtime *FormFieldTime) {
+func (stage *Stage) UnstageBranchFormFieldTime(formfieldtime *FormFieldTime) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, formfieldtime) {
@@ -1756,7 +1756,7 @@ func (stage *StageStruct) UnstageBranchFormFieldTime(formfieldtime *FormFieldTim
 
 }
 
-func (stage *StageStruct) UnstageBranchFormGroup(formgroup *FormGroup) {
+func (stage *Stage) UnstageBranchFormGroup(formgroup *FormGroup) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, formgroup) {
@@ -1774,7 +1774,7 @@ func (stage *StageStruct) UnstageBranchFormGroup(formgroup *FormGroup) {
 
 }
 
-func (stage *StageStruct) UnstageBranchFormSortAssocButton(formsortassocbutton *FormSortAssocButton) {
+func (stage *Stage) UnstageBranchFormSortAssocButton(formsortassocbutton *FormSortAssocButton) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, formsortassocbutton) {
@@ -1789,7 +1789,7 @@ func (stage *StageStruct) UnstageBranchFormSortAssocButton(formsortassocbutton *
 
 }
 
-func (stage *StageStruct) UnstageBranchOption(option *Option) {
+func (stage *Stage) UnstageBranchOption(option *Option) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, option) {
@@ -1804,7 +1804,7 @@ func (stage *StageStruct) UnstageBranchOption(option *Option) {
 
 }
 
-func (stage *StageStruct) UnstageBranchRow(row *Row) {
+func (stage *Stage) UnstageBranchRow(row *Row) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, row) {
@@ -1822,7 +1822,7 @@ func (stage *StageStruct) UnstageBranchRow(row *Row) {
 
 }
 
-func (stage *StageStruct) UnstageBranchTable(table *Table) {
+func (stage *Stage) UnstageBranchTable(table *Table) {
 
 	// check if instance is already staged
 	if !IsStaged(stage, table) {

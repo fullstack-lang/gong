@@ -11,7 +11,7 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
-func SerializeStage(stage *StageStruct, filename string) {
+func SerializeStage(stage *Stage, filename string) {
 
 	f := excelize.NewFile()
 	{
@@ -161,7 +161,7 @@ type Tabulator interface {
 	AddCell(sheetName string, rowId, columnIndex int, value string)
 }
 
-func Serialize[Type Gongstruct](stage *StageStruct, tab Tabulator) {
+func Serialize[Type Gongstruct](stage *Stage, tab Tabulator) {
 	sheetName := GetGongstructName[Type]()
 
 	// Create a new sheet.
@@ -205,7 +205,7 @@ func (tab *ExcelizeTabulator) AddCell(sheetName string, rowId, columnIndex int, 
 
 }
 
-func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *StageStruct, f *excelize.File) {
+func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage, f *excelize.File) {
 	sheetName := GetPointerToGongstructName[Type]()
 
 	// Create a new sheet.
@@ -259,7 +259,7 @@ func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage
 	}
 }
 
-func SerializeExcelize[Type Gongstruct](stage *StageStruct, f *excelize.File) {
+func SerializeExcelize[Type Gongstruct](stage *Stage, f *excelize.File) {
 	sheetName := GetGongstructName[Type]()
 
 	// Create a new sheet.
