@@ -6,6 +6,7 @@ import (
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	"github.com/fullstack-lang/gong/lib/doc/go/diagrammer"
+	"github.com/fullstack-lang/gong/lib/doc/go/doc2svg"
 	gongdoc_models "github.com/fullstack-lang/gong/lib/doc/go/models"
 )
 
@@ -47,6 +48,9 @@ func (gongNoteNode *GongNoteNode) RemoveFromDiagram() {
 	noteShape.Unstage(gongdocStage)
 
 	gongdocStage.Commit()
+
+	docSVGMapper := doc2svg.NewDocSVGMapper(gongNoteNode.portfolioAdapter.gongsvgStage)
+	docSVGMapper.GenerateSvg(gongNoteNode.portfolioAdapter.gongdocStage)
 }
 
 // AddToDiagram implements diagrammer.ElementNode.
@@ -67,6 +71,9 @@ func (gongNoteNode *GongNoteNode) AddToDiagram() {
 	diagramPackage.SelectedClassdiagram.NoteShapes =
 		append(diagramPackage.SelectedClassdiagram.NoteShapes, noteShape)
 	gongdocStage.Commit()
+
+	docSVGMapper := doc2svg.NewDocSVGMapper(gongNoteNode.portfolioAdapter.gongsvgStage)
+	docSVGMapper.GenerateSvg(gongNoteNode.portfolioAdapter.gongdocStage)
 }
 
 var _ diagrammer.ModelElementNode = &GongNoteNode{}

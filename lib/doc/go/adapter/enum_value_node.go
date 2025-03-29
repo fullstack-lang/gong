@@ -5,6 +5,7 @@ import (
 	"slices"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
+	"github.com/fullstack-lang/gong/lib/doc/go/doc2svg"
 	gongdoc_models "github.com/fullstack-lang/gong/lib/doc/go/models"
 
 	"github.com/fullstack-lang/gong/lib/doc/go/diagrammer"
@@ -64,6 +65,9 @@ func (enumValueNode *EnumValueNode) RemoveFromDiagram() {
 		gongEnumValueEntry.Unstage(gongdocStage)
 	}
 	gongdocStage.Commit()
+
+	docSVGMapper := doc2svg.NewDocSVGMapper(enumValueNode.portfolioAdapter.gongsvgStage)
+	docSVGMapper.GenerateSvg(enumValueNode.portfolioAdapter.gongdocStage)
 }
 
 // AddToDiagram implements diagrammer.ElementNode.
@@ -127,6 +131,9 @@ func (enumValueNode *EnumValueNode) AddToDiagram() {
 	}
 	gongEnumValueEntry.Stage(gongdocStage)
 	gongdocStage.Commit()
+
+	docSVGMapper := doc2svg.NewDocSVGMapper(enumValueNode.portfolioAdapter.gongsvgStage)
+	docSVGMapper.GenerateSvg(enumValueNode.portfolioAdapter.gongdocStage)
 }
 
 // GenerateProgeny implements diagrammer.Node.
