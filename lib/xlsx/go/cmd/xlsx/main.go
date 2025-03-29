@@ -18,7 +18,7 @@ var (
 
 	embeddedDiagrams = flag.Bool("embeddedDiagrams", false, "parse/analysis go/models and go/embeddedDiagrams")
 
-	compareFlag = flag.String("compare", "sampleFile", "compare to the other file")
+	compareFlag = flag.String("compare", "", "compare to the other file")
 
 	port = flag.Int("port", 8080, "port server")
 )
@@ -38,30 +38,24 @@ func main() {
 	stack := xlsx_stack.NewStack(r, "xlsx", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stage := stack.Stage
 
-	nbArgs := flag.Args()
-	if len(nbArgs) < 1 {
+	args := flag.Args()
+	if len(args) < 1 {
 		log.Panic("there should be at least one file argument")
 	}
 
 	sampleXLFile := new(xlsx_models.XLFile).Stage(stage)
 	sampleXLFile.Open(stage, flag.Arg(0))
 
-	if len(nbArgs) > 1 {
+	if len(args) > 1 {
 		sampleXLFile2 := new(xlsx_models.XLFile).Stage(stage)
 		sampleXLFile2.Open(stage, flag.Arg(1))
-	}
-
-	if *compareFlag == "sampleFile" {
-		log.Println("no file to compare")
-	} else {
-		fileToCompare := new(xlsx_models.XLFile).Stage(stage)
-		fileToCompare.Open(stage, *compareFlag)
-
 	}
 
 	stage.Commit()
 
 	stack.Probe.Refresh()
+
+	NewStager(r, stack.Stage)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))

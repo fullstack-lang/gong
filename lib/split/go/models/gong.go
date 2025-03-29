@@ -198,6 +198,15 @@ type Stage struct {
 	OnAfterViewDeleteCallback OnAfterDeleteInterface[View]
 	OnAfterViewReadCallback   OnAfterReadInterface[View]
 
+	Xlsxs           map[*Xlsx]any
+	Xlsxs_mapString map[string]*Xlsx
+
+	// insertion point for slice of pointers maps
+	OnAfterXlsxCreateCallback OnAfterCreateInterface[Xlsx]
+	OnAfterXlsxUpdateCallback OnAfterUpdateInterface[Xlsx]
+	OnAfterXlsxDeleteCallback OnAfterDeleteInterface[Xlsx]
+	OnAfterXlsxReadCallback   OnAfterReadInterface[Xlsx]
+
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
@@ -265,6 +274,9 @@ type Stage struct {
 
 	ViewOrder            uint
 	ViewMap_Staged_Order map[*View]uint
+
+	XlsxOrder            uint
+	XlsxMap_Staged_Order map[*Xlsx]uint
 
 	// end of insertion point
 }
@@ -341,6 +353,8 @@ type BackRepoInterface interface {
 	CheckoutTree(tree *Tree)
 	CommitView(view *View)
 	CheckoutView(view *View)
+	CommitXlsx(xlsx *Xlsx)
+	CheckoutXlsx(xlsx *Xlsx)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -390,6 +404,9 @@ func NewStage(name string) (stage *Stage) {
 		Views:           make(map[*View]any),
 		Views_mapString: make(map[string]*View),
 
+		Xlsxs:           make(map[*Xlsx]any),
+		Xlsxs_mapString: make(map[string]*Xlsx),
+
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
 
@@ -427,6 +444,8 @@ func NewStage(name string) (stage *Stage) {
 		TreeMap_Staged_Order: make(map[*Tree]uint),
 
 		ViewMap_Staged_Order: make(map[*View]uint),
+
+		XlsxMap_Staged_Order: make(map[*Xlsx]uint),
 
 		// end of insertion point
 	}
@@ -466,6 +485,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.TreeMap_Staged_Order[instance]
 	case *View:
 		return stage.ViewMap_Staged_Order[instance]
+	case *Xlsx:
+		return stage.XlsxMap_Staged_Order[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -505,6 +526,7 @@ func (stage *Stage) Commit() {
 	stage.Map_GongStructName_InstancesNb["Tone"] = len(stage.Tones)
 	stage.Map_GongStructName_InstancesNb["Tree"] = len(stage.Trees)
 	stage.Map_GongStructName_InstancesNb["View"] = len(stage.Views)
+	stage.Map_GongStructName_InstancesNb["Xlsx"] = len(stage.Xlsxs)
 
 }
 
@@ -529,6 +551,7 @@ func (stage *Stage) Checkout() {
 	stage.Map_GongStructName_InstancesNb["Tone"] = len(stage.Tones)
 	stage.Map_GongStructName_InstancesNb["Tree"] = len(stage.Trees)
 	stage.Map_GongStructName_InstancesNb["View"] = len(stage.Views)
+	stage.Map_GongStructName_InstancesNb["Xlsx"] = len(stage.Xlsxs)
 
 }
 
@@ -1331,6 +1354,61 @@ func (view *View) GetName() (res string) {
 	return view.Name
 }
 
+// Stage puts xlsx to the model stage
+func (xlsx *Xlsx) Stage(stage *Stage) *Xlsx {
+
+	if _, ok := stage.Xlsxs[xlsx]; !ok {
+		stage.Xlsxs[xlsx] = __member
+		stage.XlsxMap_Staged_Order[xlsx] = stage.XlsxOrder
+		stage.XlsxOrder++
+	}
+	stage.Xlsxs_mapString[xlsx.Name] = xlsx
+
+	return xlsx
+}
+
+// Unstage removes xlsx off the model stage
+func (xlsx *Xlsx) Unstage(stage *Stage) *Xlsx {
+	delete(stage.Xlsxs, xlsx)
+	delete(stage.Xlsxs_mapString, xlsx.Name)
+	return xlsx
+}
+
+// UnstageVoid removes xlsx off the model stage
+func (xlsx *Xlsx) UnstageVoid(stage *Stage) {
+	delete(stage.Xlsxs, xlsx)
+	delete(stage.Xlsxs_mapString, xlsx.Name)
+}
+
+// commit xlsx to the back repo (if it is already staged)
+func (xlsx *Xlsx) Commit(stage *Stage) *Xlsx {
+	if _, ok := stage.Xlsxs[xlsx]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitXlsx(xlsx)
+		}
+	}
+	return xlsx
+}
+
+func (xlsx *Xlsx) CommitVoid(stage *Stage) {
+	xlsx.Commit(stage)
+}
+
+// Checkout xlsx to the back repo (if it is already staged)
+func (xlsx *Xlsx) Checkout(stage *Stage) *Xlsx {
+	if _, ok := stage.Xlsxs[xlsx]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutXlsx(xlsx)
+		}
+	}
+	return xlsx
+}
+
+// for satisfaction of GongStruct interface
+func (xlsx *Xlsx) GetName() (res string) {
+	return xlsx.Name
+}
+
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAsSplit(AsSplit *AsSplit)
@@ -1347,6 +1425,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMTone(Tone *Tone)
 	CreateORMTree(Tree *Tree)
 	CreateORMView(View *View)
+	CreateORMXlsx(Xlsx *Xlsx)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
@@ -1364,6 +1443,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMTone(Tone *Tone)
 	DeleteORMTree(Tree *Tree)
 	DeleteORMView(View *View)
+	DeleteORMXlsx(Xlsx *Xlsx)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1437,6 +1517,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.ViewMap_Staged_Order = make(map[*View]uint)
 	stage.ViewOrder = 0
 
+	stage.Xlsxs = make(map[*Xlsx]any)
+	stage.Xlsxs_mapString = make(map[string]*Xlsx)
+	stage.XlsxMap_Staged_Order = make(map[*Xlsx]uint)
+	stage.XlsxOrder = 0
+
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
@@ -1481,6 +1566,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.Views = nil
 	stage.Views_mapString = nil
+
+	stage.Xlsxs = nil
+	stage.Xlsxs_mapString = nil
 
 }
 
@@ -1539,6 +1627,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for view := range stage.Views {
 		view.Unstage(stage)
+	}
+
+	for xlsx := range stage.Xlsxs {
+		xlsx.Unstage(stage)
 	}
 
 }
@@ -1630,6 +1722,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Trees).(*Type)
 	case map[*View]any:
 		return any(&stage.Views).(*Type)
+	case map[*Xlsx]any:
+		return any(&stage.Xlsxs).(*Type)
 	default:
 		return nil
 	}
@@ -1670,6 +1764,8 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 		return any(&stage.Trees_mapString).(*Type)
 	case map[string]*View:
 		return any(&stage.Views_mapString).(*Type)
+	case map[string]*Xlsx:
+		return any(&stage.Xlsxs_mapString).(*Type)
 	default:
 		return nil
 	}
@@ -1710,6 +1806,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 		return any(&stage.Trees).(*map[*Type]any)
 	case View:
 		return any(&stage.Views).(*map[*Type]any)
+	case Xlsx:
+		return any(&stage.Xlsxs).(*map[*Type]any)
 	default:
 		return nil
 	}
@@ -1750,6 +1848,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Trees).(*map[Type]any)
 	case *View:
 		return any(&stage.Views).(*map[Type]any)
+	case *Xlsx:
+		return any(&stage.Xlsxs).(*map[Type]any)
 	default:
 		return nil
 	}
@@ -1790,6 +1890,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Trees_mapString).(*map[string]*Type)
 	case View:
 		return any(&stage.Views_mapString).(*map[string]*Type)
+	case Xlsx:
+		return any(&stage.Xlsxs_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -1837,6 +1939,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Tone: &Tone{Name: "Tone"},
 			// field is initialized with an instance of Tree with the name of the field
 			Tree: &Tree{Name: "Tree"},
+			// field is initialized with an instance of Xlsx with the name of the field
+			Xlsx: &Xlsx{Name: "Xlsx"},
 		}).(*Type)
 	case Button:
 		return any(&Button{
@@ -1887,6 +1991,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of AsSplitArea with the name of the field
 			RootAsSplitAreas: []*AsSplitArea{{Name: "RootAsSplitAreas"}},
+		}).(*Type)
+	case Xlsx:
+		return any(&Xlsx{
+			// Initialisation of associations
 		}).(*Type)
 	default:
 		return nil
@@ -2119,6 +2227,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Xlsx":
+			res := make(map[*Xlsx][]*AsSplitArea)
+			for assplitarea := range stage.AsSplitAreas {
+				if assplitarea.Xlsx != nil {
+					xlsx_ := assplitarea.Xlsx
+					var assplitareas []*AsSplitArea
+					_, ok := res[xlsx_]
+					if ok {
+						assplitareas = res[xlsx_]
+					} else {
+						assplitareas = make([]*AsSplitArea, 0)
+					}
+					assplitareas = append(assplitareas, assplitarea)
+					res[xlsx_] = assplitareas
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Button
 	case Button:
@@ -2177,6 +2302,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of View
 	case View:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Xlsx
+	case Xlsx:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -2282,6 +2412,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End]*Start)
 		}
+	// reverse maps of direct associations of Xlsx
+	case Xlsx:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	}
 	return nil
 }
@@ -2322,6 +2457,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "Tree"
 	case View:
 		res = "View"
+	case Xlsx:
+		res = "Xlsx"
 	}
 	return res
 }
@@ -2362,6 +2499,8 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "Tree"
 	case *View:
 		res = "View"
+	case *Xlsx:
+		res = "Xlsx"
 	}
 	return res
 }
@@ -2376,7 +2515,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case AsSplit:
 		res = []string{"Name", "Direction", "AsSplitAreas"}
 	case AsSplitArea:
-		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplit", "Button", "Cursor", "Doc", "Form", "Load", "Slider", "Split", "Svg", "Table", "Tone", "Tree", "HasDiv", "DivStyle"}
+		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplit", "Button", "Cursor", "Doc", "Form", "Load", "Slider", "Split", "Svg", "Table", "Tone", "Tree", "Xlsx", "HasDiv", "DivStyle"}
 	case Button:
 		res = []string{"Name", "StackName"}
 	case Cursor:
@@ -2401,6 +2540,8 @@ func GetFields[Type Gongstruct]() (res []string) {
 		res = []string{"Name", "StackName", "TreeName"}
 	case View:
 		res = []string{"Name", "RootAsSplitAreas"}
+	case Xlsx:
+		res = []string{"Name", "StackName"}
 	}
 	return
 }
@@ -2467,6 +2608,9 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	case View:
 		var rf ReverseField
 		_ = rf
+	case Xlsx:
+		var rf ReverseField
+		_ = rf
 	}
 	return
 }
@@ -2481,7 +2625,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *AsSplit:
 		res = []string{"Name", "Direction", "AsSplitAreas"}
 	case *AsSplitArea:
-		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplit", "Button", "Cursor", "Doc", "Form", "Load", "Slider", "Split", "Svg", "Table", "Tone", "Tree", "HasDiv", "DivStyle"}
+		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplit", "Button", "Cursor", "Doc", "Form", "Load", "Slider", "Split", "Svg", "Table", "Tone", "Tree", "Xlsx", "HasDiv", "DivStyle"}
 	case *Button:
 		res = []string{"Name", "StackName"}
 	case *Cursor:
@@ -2506,6 +2650,8 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 		res = []string{"Name", "StackName", "TreeName"}
 	case *View:
 		res = []string{"Name", "RootAsSplitAreas"}
+	case *Xlsx:
+		res = []string{"Name", "StackName"}
 	}
 	return
 }
@@ -2628,6 +2774,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			if inferedInstance.Tree != nil {
 				res.valueString = inferedInstance.Tree.Name
 			}
+		case "Xlsx":
+			if inferedInstance.Xlsx != nil {
+				res.valueString = inferedInstance.Xlsx.Name
+			}
 		case "HasDiv":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasDiv)
 			res.valueBool = inferedInstance.HasDiv
@@ -2746,6 +2896,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 				res.valueString += __instance__.Name
 			}
 		}
+	case *Xlsx:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "StackName":
+			res.valueString = inferedInstance.StackName
+		}
 	default:
 		_ = inferedInstance
 	}
@@ -2836,6 +2994,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "Tree":
 			if inferedInstance.Tree != nil {
 				res.valueString = inferedInstance.Tree.Name
+			}
+		case "Xlsx":
+			if inferedInstance.Xlsx != nil {
+				res.valueString = inferedInstance.Xlsx.Name
 			}
 		case "HasDiv":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasDiv)
@@ -2954,6 +3116,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 				}
 				res.valueString += __instance__.Name
 			}
+		}
+	case Xlsx:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "StackName":
+			res.valueString = inferedInstance.StackName
 		}
 	default:
 		_ = inferedInstance

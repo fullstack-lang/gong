@@ -204,6 +204,16 @@ func fillUpTree(
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
+		case "Xlsx":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.Xlsx](probe.stageOfInterest)
+			for _xlsx := range set {
+				nodeInstance := (&tree.Node{Name: _xlsx.GetName()}).Stage(probe.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_xlsx, "Xlsx", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
 		}
 
 		nodeGongstruct.IsNodeClickable = true

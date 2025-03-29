@@ -29,6 +29,7 @@ import { SvgAPI } from './svg-api'
 import { TableAPI } from './table-api'
 import { ToneAPI } from './tone-api'
 import { TreeAPI } from './tree-api'
+import { XlsxAPI } from './xlsx-api'
 
 @Injectable({
   providedIn: 'root'

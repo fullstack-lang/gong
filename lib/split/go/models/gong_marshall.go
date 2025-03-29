@@ -802,6 +802,53 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
+	map_Xlsx_Identifiers := make(map[*Xlsx]string)
+	_ = map_Xlsx_Identifiers
+
+	xlsxOrdered := []*Xlsx{}
+	for xlsx := range stage.Xlsxs {
+		xlsxOrdered = append(xlsxOrdered, xlsx)
+	}
+	sort.Slice(xlsxOrdered[:], func(i, j int) bool {
+		xlsxi := xlsxOrdered[i]
+		xlsxj := xlsxOrdered[j]
+		xlsxi_order, oki := stage.XlsxMap_Staged_Order[xlsxi]
+		xlsxj_order, okj := stage.XlsxMap_Staged_Order[xlsxj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return xlsxi_order < xlsxj_order
+	})
+	if len(xlsxOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, xlsx := range xlsxOrdered {
+
+		id = generatesIdentifier("Xlsx", idx, xlsx.Name)
+		map_Xlsx_Identifiers[xlsx] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Xlsx")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", xlsx.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(xlsx.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StackName")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(xlsx.StackName))
+		initializerStatements += setValueField
+
+	}
+
 	// insertion initialization of objects to stage
 	if len(assplitOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of AsSplit instances pointers"
@@ -928,6 +975,14 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Tree")
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Tree_Identifiers[assplitarea.Tree])
+			pointersInitializesStatements += setPointerField
+		}
+
+		if assplitarea.Xlsx != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Xlsx")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Xlsx_Identifiers[assplitarea.Xlsx])
 			pointersInitializesStatements += setPointerField
 		}
 
@@ -1095,6 +1150,19 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 			pointersInitializesStatements += setPointerField
 		}
 
+	}
+
+	if len(xlsxOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Xlsx instances pointers"
+	}
+	for idx, xlsx := range xlsxOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Xlsx", idx, xlsx.Name)
+		map_Xlsx_Identifiers[xlsx] = id
+
+		// Initialisation of values
 	}
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)

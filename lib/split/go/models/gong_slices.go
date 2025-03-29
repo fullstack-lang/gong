@@ -63,4 +63,7 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct Xlsx
+	// insertion point per field
+
 }
