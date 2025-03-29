@@ -95,6 +95,10 @@ type AsSplitAreaPointersEncoding struct {
 	// field Tree is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	TreeID sql.NullInt64
+
+	// field Xlsx is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	XlsxID sql.NullInt64
 }
 
 // AsSplitAreaDB describes a assplitarea in the database
@@ -446,6 +450,18 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseTwoInstance(bac
 		} else {
 			assplitareaDB.TreeID.Int64 = 0
 			assplitareaDB.TreeID.Valid = true
+		}
+
+		// commit pointer value assplitarea.Xlsx translates to updating the assplitarea.XlsxID
+		assplitareaDB.XlsxID.Valid = true // allow for a 0 value (nil association)
+		if assplitarea.Xlsx != nil {
+			if XlsxId, ok := backRepo.BackRepoXlsx.Map_XlsxPtr_XlsxDBID[assplitarea.Xlsx]; ok {
+				assplitareaDB.XlsxID.Int64 = int64(XlsxId)
+				assplitareaDB.XlsxID.Valid = true
+			}
+		} else {
+			assplitareaDB.XlsxID.Int64 = 0
+			assplitareaDB.XlsxID.Valid = true
 		}
 
 		_, err := backRepoAsSplitArea.db.Save(assplitareaDB)
@@ -813,6 +829,27 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 		}
 	}
 	
+	// Xlsx field	
+	{
+		id := assplitareaDB.XlsxID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoXlsx.Map_XlsxDBID_XlsxPtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: assplitarea.Xlsx, unknown pointer id", id)
+				assplitarea.Xlsx = nil
+			} else {
+				// updates only if field has changed
+				if assplitarea.Xlsx == nil || assplitarea.Xlsx != tmp {
+					assplitarea.Xlsx = tmp
+				}
+			}
+		} else {
+			assplitarea.Xlsx = nil
+		}
+	}
+	
 	return
 }
 
@@ -1171,6 +1208,12 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) RestorePhaseTwo() {
 		if assplitareaDB.TreeID.Int64 != 0 {
 			assplitareaDB.TreeID.Int64 = int64(BackRepoTreeid_atBckpTime_newID[uint(assplitareaDB.TreeID.Int64)])
 			assplitareaDB.TreeID.Valid = true
+		}
+
+		// reindexing Xlsx field
+		if assplitareaDB.XlsxID.Int64 != 0 {
+			assplitareaDB.XlsxID.Int64 = int64(BackRepoXlsxid_atBckpTime_newID[uint(assplitareaDB.XlsxID.Int64)])
+			assplitareaDB.XlsxID.Valid = true
 		}
 
 		// update databse with new index encoding

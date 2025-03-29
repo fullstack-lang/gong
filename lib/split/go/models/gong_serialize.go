@@ -30,6 +30,7 @@ func SerializeStage(stage *Stage, filename string) {
 		SerializeExcelizePointerToGongstruct[*Tone](stage, f)
 		SerializeExcelizePointerToGongstruct[*Tree](stage, f)
 		SerializeExcelizePointerToGongstruct[*View](stage, f)
+		SerializeExcelizePointerToGongstruct[*Xlsx](stage, f)
 	}
 
 	// Create a style with wrap text enabled

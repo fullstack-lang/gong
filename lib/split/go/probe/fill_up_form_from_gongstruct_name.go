@@ -207,6 +207,19 @@ func FillUpFormFromGongstructName(
 		view := new(models.View)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(view, formGroup, probe)
+	case "Xlsx":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Xlsx Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__XlsxFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		xlsx := new(models.Xlsx)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(xlsx, formGroup, probe)
 	}
 	formStage.Commit()
 }

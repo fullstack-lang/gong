@@ -47,6 +47,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *View:
 		ok = stage.IsStagedView(target)
 
+	case *Xlsx:
+		ok = stage.IsStagedXlsx(target)
+
 	default:
 		_ = target
 	}
@@ -152,6 +155,13 @@ func (stage *Stage) IsStagedView(view *View) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedXlsx(xlsx *Xlsx) (ok bool) {
+
+	_, ok = stage.Xlsxs[xlsx]
+
+	return
+}
+
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -201,6 +211,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *View:
 		stage.StageBranchView(target)
+
+	case *Xlsx:
+		stage.StageBranchXlsx(target)
 
 	default:
 		_ = target
@@ -271,6 +284,9 @@ func (stage *Stage) StageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	}
 	if assplitarea.Tree != nil {
 		StageBranch(stage, assplitarea.Tree)
+	}
+	if assplitarea.Xlsx != nil {
+		StageBranch(stage, assplitarea.Xlsx)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -460,6 +476,21 @@ func (stage *Stage) StageBranchView(view *View) {
 
 }
 
+func (stage *Stage) StageBranchXlsx(xlsx *Xlsx) {
+
+	// check if instance is already staged
+	if IsStaged(stage, xlsx) {
+		return
+	}
+
+	xlsx.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -525,6 +556,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *View:
 		toT := CopyBranchView(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Xlsx:
+		toT := CopyBranchXlsx(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -604,6 +639,9 @@ func CopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplitArea
 	}
 	if assplitareaFrom.Tree != nil {
 		assplitareaTo.Tree = CopyBranchTree(mapOrigCopy, assplitareaFrom.Tree)
+	}
+	if assplitareaFrom.Xlsx != nil {
+		assplitareaTo.Xlsx = CopyBranchXlsx(mapOrigCopy, assplitareaFrom.Xlsx)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -842,6 +880,25 @@ func CopyBranchView(mapOrigCopy map[any]any, viewFrom *View) (viewTo *View) {
 	return
 }
 
+func CopyBranchXlsx(mapOrigCopy map[any]any, xlsxFrom *Xlsx) (xlsxTo *Xlsx) {
+
+	// xlsxFrom has already been copied
+	if _xlsxTo, ok := mapOrigCopy[xlsxFrom]; ok {
+		xlsxTo = _xlsxTo.(*Xlsx)
+		return
+	}
+
+	xlsxTo = new(Xlsx)
+	mapOrigCopy[xlsxFrom] = xlsxTo
+	xlsxFrom.CopyBasicFields(xlsxTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
 //
@@ -891,6 +948,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *View:
 		stage.UnstageBranchView(target)
+
+	case *Xlsx:
+		stage.UnstageBranchXlsx(target)
 
 	default:
 		_ = target
@@ -961,6 +1021,9 @@ func (stage *Stage) UnstageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	}
 	if assplitarea.Tree != nil {
 		UnstageBranch(stage, assplitarea.Tree)
+	}
+	if assplitarea.Xlsx != nil {
+		UnstageBranch(stage, assplitarea.Xlsx)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1147,5 +1210,20 @@ func (stage *Stage) UnstageBranchView(view *View) {
 	for _, _assplitarea := range view.RootAsSplitAreas {
 		UnstageBranch(stage, _assplitarea)
 	}
+
+}
+
+func (stage *Stage) UnstageBranchXlsx(xlsx *Xlsx) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, xlsx) {
+		return
+	}
+
+	xlsx.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }

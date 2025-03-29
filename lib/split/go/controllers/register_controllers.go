@@ -147,6 +147,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/views/:id", GetController().UpdateView)
 		v1.DELETE("/v1/views/:id", GetController().DeleteView)
 
+		v1.GET("/v1/xlsxs", GetController().GetXlsxs)
+		v1.GET("/v1/xlsxs/:id", GetController().GetXlsx)
+		v1.POST("/v1/xlsxs", GetController().PostXlsx)
+		v1.PATCH("/v1/xlsxs/:id", GetController().UpdateXlsx)
+		v1.PUT("/v1/xlsxs/:id", GetController().UpdateXlsx)
+		v1.DELETE("/v1/xlsxs/:id", GetController().DeleteXlsx)
+
 		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
 

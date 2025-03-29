@@ -32,6 +32,8 @@ type BackRepoData struct {
 
 	ViewAPIs []*ViewAPI
 
+	XlsxAPIs []*XlsxAPI
+
 	// index of the web socket for this stack type (unique among all stack instances)
 	GONG__Index int
 }
@@ -181,6 +183,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		viewDB.CopyBasicFieldsToView_WOP(&viewAPI.View_WOP)
 
 		backRepoData.ViewAPIs = append(backRepoData.ViewAPIs, &viewAPI)
+	}
+
+	for _, xlsxDB := range backRepo.BackRepoXlsx.Map_XlsxDBID_XlsxDB {
+
+		var xlsxAPI XlsxAPI
+		xlsxAPI.ID = xlsxDB.ID
+		xlsxAPI.XlsxPointersEncoding = xlsxDB.XlsxPointersEncoding
+		xlsxDB.CopyBasicFieldsToXlsx_WOP(&xlsxAPI.Xlsx_WOP)
+
+		backRepoData.XlsxAPIs = append(backRepoData.XlsxAPIs, &xlsxAPI)
 	}
 
 }

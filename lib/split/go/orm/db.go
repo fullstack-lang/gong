@@ -75,6 +75,10 @@ type DBLite struct {
 	viewDBs map[uint]*ViewDB
 
 	nextIDViewDB uint
+
+	xlsxDBs map[uint]*XlsxDB
+
+	nextIDXlsxDB uint
 }
 
 // NewDBLite creates a new instance of DBLite
@@ -109,6 +113,8 @@ func NewDBLite() *DBLite {
 		treeDBs: make(map[uint]*TreeDB),
 
 		viewDBs: make(map[uint]*ViewDB),
+
+		xlsxDBs: make(map[uint]*XlsxDB),
 	}
 }
 
@@ -179,6 +185,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDViewDB++
 		v.ID = db.nextIDViewDB
 		db.viewDBs[v.ID] = v
+	case *XlsxDB:
+		db.nextIDXlsxDB++
+		v.ID = db.nextIDXlsxDB
+		db.xlsxDBs[v.ID] = v
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/split/go, unsupported type in Create")
 	}
@@ -235,6 +245,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.treeDBs, v.ID)
 	case *ViewDB:
 		delete(db.viewDBs, v.ID)
+	case *XlsxDB:
+		delete(db.xlsxDBs, v.ID)
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/split/go, unsupported type in Delete")
 	}
@@ -294,6 +306,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *ViewDB:
 		db.viewDBs[v.ID] = v
+		return db, nil
+	case *XlsxDB:
+		db.xlsxDBs[v.ID] = v
 		return db, nil
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/split/go, Save: unsupported type")
@@ -395,6 +410,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db View github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
+	case *XlsxDB:
+		if existing, ok := db.xlsxDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Xlsx github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/split/go, unsupported type in Updates")
 	}
@@ -490,6 +511,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]ViewDB:
 		*ptr = make([]ViewDB, 0, len(db.viewDBs))
 		for _, v := range db.viewDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]XlsxDB:
+		*ptr = make([]XlsxDB, 0, len(db.xlsxDBs))
+		for _, v := range db.xlsxDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -665,6 +692,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		viewDB, _ := instanceDB.(*ViewDB)
 		*viewDB = *tmp
+		
+	case *XlsxDB:
+		tmp, ok := db.xlsxDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Xlsx Unkown entry %d", i))
+		}
+
+		xlsxDB, _ := instanceDB.(*XlsxDB)
+		*xlsxDB = *tmp
 		
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/split/go, Unkown type")
