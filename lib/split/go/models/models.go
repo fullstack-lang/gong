@@ -1,5 +1,22 @@
 package models
 
+// the following blank import will force the vendoring of all the front end code
+// this allows the front end compilation of the split front end
+import (
+	_ "github.com/fullstack-lang/gong/lib/button/ng-github.com-fullstack-lang-gong-lib-button"
+	_ "github.com/fullstack-lang/gong/lib/cursor/ng-github.com-fullstack-lang-gong-lib-cursor"
+	_ "github.com/fullstack-lang/gong/lib/doc/ng-github.com-fullstack-lang-gong-lib-doc"
+	_ "github.com/fullstack-lang/gong/lib/gantt/ng-github.com-fullstack-lang-gong-lib-gantt"
+	_ "github.com/fullstack-lang/gong/lib/load/ng-github.com-fullstack-lang-gong-lib-load"
+	_ "github.com/fullstack-lang/gong/lib/sim/ng-github.com-fullstack-lang-gong-lib-sim"
+	_ "github.com/fullstack-lang/gong/lib/slider/ng-github.com-fullstack-lang-gong-lib-slider"
+	_ "github.com/fullstack-lang/gong/lib/svg/ng-github.com-fullstack-lang-gong-lib-svg"
+	_ "github.com/fullstack-lang/gong/lib/table/ng-github.com-fullstack-lang-gong-lib-table"
+	_ "github.com/fullstack-lang/gong/lib/tone/ng-github.com-fullstack-lang-gong-lib-tone"
+	_ "github.com/fullstack-lang/gong/lib/tree/ng-github.com-fullstack-lang-gong-lib-tree"
+	_ "github.com/fullstack-lang/gong/lib/xlsx/ng-github.com-fullstack-lang-gong-lib-xlsx"
+)
+
 type Direction string
 
 const (
