@@ -6,18 +6,18 @@ import (
 	"github.com/gin-gonic/gin"
 
 	// insertion point for models import
-	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
+	probe_models "github.com/fullstack-lang/gong/lib/probe/go/models"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 )
 
 type Stager struct {
-	stage      *svg_models.Stage
-	splitStage *split.Stage
+	stage      *probe_models.Stage
+	splitStage *split.Stage // root
 }
 
-func NewStager(r *gin.Engine, stage *svg_models.Stage) (stager *Stager) {
+func NewStager(r *gin.Engine, stage *probe_models.Stage) (stager *Stager) {
 
 	stager = new(Stager)
 
@@ -28,16 +28,22 @@ func NewStager(r *gin.Engine, stage *svg_models.Stage) (stager *Stager) {
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
 	(&split.View{
-		Name: "Probe",
+		Name: "Probe 2",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
-				Size: 70,
-				Svg: (&split.Svg{
+				Size: 100,
+				Split: (&split.Split{
 					StackName: stage.GetName(),
 				}).Stage(stager.splitStage),
 			}).Stage(stager.splitStage),
+		},
+	}).Stage(stager.splitStage)
+
+	(&split.View{
+		Name: "Probe of Probe",
+		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
-				Size: 30,
+				Size: 100,
 				Split: (&split.Split{
 					StackName: stage.GetProbeSplitStageName(),
 				}).Stage(stager.splitStage),
