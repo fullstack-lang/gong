@@ -491,18 +491,26 @@ mkdir go
 mkdir go/models
 echo "package models
 type Hello struct {
-Name string
+  Name string
+  HelloType HelloType
 }" > go/models/hello.go
 echo "package models
 type Country struct {
-Name string
-Hello *Hello
-AlternateHellos []*Hello
+  Name string
+  Hello *Hello
+  AlternateHellos []*Hello
 }" > go/models/country.go
+echo "package models
+type HelloType string
+const (
+  Casual HelloType = \"Casual\"
+  Formal HelloType = \"Formal\"
+)" > go/models/hello_type.go
 gongc -skipStager=false go/models
 cd go/cmd/helloworld
 ./helloworld -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage
 cd ../../../..
+rm -rf helloworld
 ```
 
 Then, browse to [localhost:8080](http://localhost:8080) and add data manualy.
