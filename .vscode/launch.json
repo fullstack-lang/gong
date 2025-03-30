@@ -206,6 +206,17 @@
             ],
         },
         {
+            "name": "go run probe",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/probe/go/cmd/probe",
+            "args": [
+                "-unmarshallFromCode=data/probe.go",
+                "-marshallOnCommit=data/probe"
+            ],
+        },
+        {
             "name": "go run gantt",
             "type": "go",
             "request": "launch",
