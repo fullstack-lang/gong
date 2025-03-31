@@ -107,7 +107,7 @@ func NewProbe2(r *gin.Engine, stage *Stage, stageOfInterest ProbebStage, embedde
 
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
-	probe.splitStage = split_stack.NewStack(r, stage.GetName(), "", "", "", true, true).Stage
+	probe.splitStage = split_stack.NewStack(r, stage.GetName(), "", "", "", true, false).Stage
 
 	// treeForSelectingDate that is on the sidebar
 	probe.treeStage, _ = gongtree_fullstack.NewStackInstance(r, stageOfInterest.GetProbeTreeSidebarStageName()+"2")

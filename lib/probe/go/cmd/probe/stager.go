@@ -25,7 +25,7 @@ func NewStager(r *gin.Engine, stage *probe_models.Stage, probe *probe_models.Pro
 
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
-	stack := split_stack.NewStack(r, "", "", "", "", false, true)
+	stack := split_stack.NewStack(r, "", "", "", "", false, false)
 	stager.splitStage = stack.Stage
 
 	(&split.View{
@@ -65,7 +65,6 @@ func NewStager(r *gin.Engine, stage *probe_models.Stage, probe *probe_models.Pro
 	}).Stage(stager.splitStage)
 
 	stager.splitStage.Commit()
-	stack.Probe.Refresh()
 
 	return
 }
