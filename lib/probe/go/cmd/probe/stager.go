@@ -17,7 +17,7 @@ type Stager struct {
 	splitStage *split.Stage // root
 }
 
-func NewStager(r *gin.Engine, stage *probe_models.Stage) (stager *Stager) {
+func NewStager(r *gin.Engine, stage *probe_models.Stage, probe *probe_models.Probe2) (stager *Stager) {
 
 	stager = new(Stager)
 
@@ -25,7 +25,8 @@ func NewStager(r *gin.Engine, stage *probe_models.Stage) (stager *Stager) {
 
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
-	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
+	stack := split_stack.NewStack(r, "", "", "", "", false, true)
+	stager.splitStage = stack.Stage
 
 	(&split.View{
 		Name: "Probe 2",
@@ -51,7 +52,20 @@ func NewStager(r *gin.Engine, stage *probe_models.Stage) (stager *Stager) {
 		},
 	}).Stage(stager.splitStage)
 
+	(&split.View{
+		Name: "Probe of Split stage of the Probe 2",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Size: 100,
+				Split: (&split.Split{
+					StackName: probe.GetSplitStage().GetProbeSplitStageName(),
+				}).Stage(stager.splitStage),
+			}).Stage(stager.splitStage),
+		},
+	}).Stage(stager.splitStage)
+
 	stager.splitStage.Commit()
+	stack.Probe.Refresh()
 
 	return
 }
