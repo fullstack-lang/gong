@@ -201,6 +201,10 @@ func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/test/test/go/models"
 }
 
+func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
+	return stage.Map_GongStructName_InstancesNb
+}
+
 type GONG__Identifier struct {
 	Ident string
 	Type  GONG__ExpressionType
