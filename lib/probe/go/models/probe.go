@@ -5,12 +5,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	gong "github.com/fullstack-lang/gong/go/models"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	form "github.com/fullstack-lang/gong/lib/table/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 
+	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
 	gongdoc_load "github.com/fullstack-lang/gong/lib/doc/go/load"
 	gongtable_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	gongtree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
@@ -72,9 +74,11 @@ type Probe2 struct {
 	Name  string // not even sure we need a named struct (parametrization ?)
 	stage *Stage
 
-	probedStage ProbebStage
+	stageOfInterest ProbebStage
 
 	splitStage *split.Stage // split stage of the probe
+
+	gongStage  *gong.Stage
 	treeStage  *tree.Stage
 	formStage  *form.Stage
 	tableStage *form.Stage
@@ -84,23 +88,22 @@ func (probe *Probe2) GetSplitStage() (splitStage *split.Stage) {
 	return probe.splitStage
 }
 
-const SideBarTreeName = "gong"
 const TableName = "Table"
 const FormName = "Form"
 
 func NewProbe2(r *gin.Engine, stage *Stage, stageOfInterest ProbebStage, embeddedDiagrams bool) (probe *Probe2) {
 
 	probe = (&Probe2{
-		Name:        stage.name,
-		stage:       stage,
-		probedStage: stageOfInterest,
+		Name:            stage.name,
+		stage:           stage,
+		stageOfInterest: stageOfInterest,
 	}).Stage(stage)
 
 	gongdoc_load.Load(
 		"",
-		probe.probedStage.GetProbeSplitStageName(),
-		probe.probedStage.GetModelsEmbededDir(),
-		probe.probedStage.GetDigramsEmbededDir(),
+		probe.stageOfInterest.GetProbeSplitStageName(),
+		probe.stageOfInterest.GetModelsEmbededDir(),
+		probe.stageOfInterest.GetDigramsEmbededDir(),
 		r,
 		embeddedDiagrams,
 		stageOfInterest.GetMap_GongStructName_InstancesNb())
@@ -108,6 +111,9 @@ func NewProbe2(r *gin.Engine, stage *Stage, stageOfInterest ProbebStage, embedde
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
 	probe.splitStage = split_stack.NewStack(r, stage.GetName(), "", "", "", true, false).Stage
+
+	probe.gongStage, _ = gong_fullstack.NewStackInstance(r, stageOfInterest.GetName())
+	gong.LoadEmbedded(probe.gongStage, stageOfInterest.GetModelsEmbededDir())
 
 	// treeForSelectingDate that is on the sidebar
 	probe.treeStage, _ = gongtree_fullstack.NewStackInstance(r, stageOfInterest.GetProbeTreeSidebarStageName()+"2")
@@ -178,6 +184,11 @@ func NewProbe2(r *gin.Engine, stage *Stage, stageOfInterest ProbebStage, embedde
 	}).Stage(probe.splitStage)
 
 	probe.splitStage.Commit()
+	probe.fillUpTree()
 
 	return
+}
+
+func (probe *Probe2) Refresh() {
+	probe.fillUpTree()
 }
