@@ -184,11 +184,13 @@ func (from *Tree) CopyBasicFields(to *Tree) {
 type View_WOP struct {
 	// insertion point
 	Name string
+	ShowViewName bool
 }
 
 func (from *View) CopyBasicFields(to *View) {
 	// insertion point
 	to.Name = from.Name
+	to.ShowViewName = from.ShowViewName
 }
 
 type Xlsx_WOP struct {

@@ -19,6 +19,7 @@ export class View {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	ShowViewName: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
 	RootAsSplitAreas: Array<AsSplitArea> = []
@@ -32,6 +33,7 @@ export function CopyViewToViewAPI(view: View, viewAPI: ViewAPI) {
 
 	// insertion point for basic fields copy operations
 	viewAPI.Name = view.Name
+	viewAPI.ShowViewName = view.ShowViewName
 
 	// insertion point for pointer fields encoding
 
@@ -55,6 +57,7 @@ export function CopyViewAPIToView(viewAPI: ViewAPI, view: View, frontRepo: Front
 
 	// insertion point for basic fields copy operations
 	view.Name = viewAPI.Name
+	view.ShowViewName = viewAPI.ShowViewName
 
 	// insertion point for pointer fields encoding
 
