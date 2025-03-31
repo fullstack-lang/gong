@@ -38,10 +38,10 @@ func main() {
 	stack.Probe.Refresh()
 
 	// probe will create a split front end
-	probe_models.NewProbe2(r, stack.Stage)
+	probe := probe_models.NewProbe2(r, stack.Stage)
 
 	// cmd stager will hosts the probe split (with name of the stack)
-	NewStager(r, stack.Stage)
+	NewStager(r, stack.Stage, probe)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
