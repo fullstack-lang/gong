@@ -9,6 +9,8 @@ import (
 	probe_models "github.com/fullstack-lang/gong/lib/probe/go/models"
 	probe_stack "github.com/fullstack-lang/gong/lib/probe/go/stack"
 	probe_static "github.com/fullstack-lang/gong/lib/probe/go/static"
+
+	test_stack "github.com/fullstack-lang/gong/test/test/go/stack"
 )
 
 var (
@@ -37,8 +39,11 @@ func main() {
 	stack := probe_stack.NewStack(r, "probe", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
 
+	stackTest := test_stack.NewStack(r, "test", *unmarshallFromCode, *marshallOnCommit, "", true, true)
+	stackTest.Probe.Refresh()
+
 	// probe will create a split front end
-	probe := probe_models.NewProbe2(r, stack.Stage)
+	probe := probe_models.NewProbe2(r, stack.Stage, stackTest.Stage)
 
 	// cmd stager will hosts the probe split (with name of the stack)
 	NewStager(r, stack.Stage, probe)
