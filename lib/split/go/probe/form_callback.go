@@ -1214,6 +1214,8 @@ func (viewFormCallback *ViewFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(view_.Name), formDiv)
+		case "ShowViewName":
+			FormDivBasicFieldToField(&(view_.ShowViewName), formDiv)
 		}
 	}
 
