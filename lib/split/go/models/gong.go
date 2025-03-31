@@ -2539,7 +2539,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Tree:
 		res = []string{"Name", "StackName", "TreeName"}
 	case View:
-		res = []string{"Name", "RootAsSplitAreas"}
+		res = []string{"Name", "ShowViewName", "RootAsSplitAreas"}
 	case Xlsx:
 		res = []string{"Name", "StackName"}
 	}
@@ -2649,7 +2649,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Tree:
 		res = []string{"Name", "StackName", "TreeName"}
 	case *View:
-		res = []string{"Name", "RootAsSplitAreas"}
+		res = []string{"Name", "ShowViewName", "RootAsSplitAreas"}
 	case *Xlsx:
 		res = []string{"Name", "StackName"}
 	}
@@ -2888,6 +2888,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
+		case "ShowViewName":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.ShowViewName)
+			res.valueBool = inferedInstance.ShowViewName
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "RootAsSplitAreas":
 			for idx, __instance__ := range inferedInstance.RootAsSplitAreas {
 				if idx > 0 {
@@ -3109,6 +3113,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
+		case "ShowViewName":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.ShowViewName)
+			res.valueBool = inferedInstance.ShowViewName
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "RootAsSplitAreas":
 			for idx, __instance__ := range inferedInstance.RootAsSplitAreas {
 				if idx > 0 {
