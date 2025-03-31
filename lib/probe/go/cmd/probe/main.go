@@ -36,14 +36,13 @@ func main() {
 	r := probe_static.ServeStaticFiles(*logGINFlag)
 
 	// setup model stack with its probe
-	stack := probe_stack.NewStack(r, "probe", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
-	stack.Probe.Refresh()
+	stack := probe_stack.NewStack(r, "probe", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, false)
 
 	// no legacy probe and embedded diagram
 	stackTest := test_stack.NewStack(r, "test", *unmarshallFromCode, *marshallOnCommit, "", true, false)
 
 	// probe will create a split front end
-	probe := probe_models.NewProbe2(r, stack.Stage, stackTest.Stage, false)
+	probe := probe_models.NewProbe2(r, stack.Stage, stackTest.Stage, true)
 
 	// cmd stager will hosts the probe split (with name of the stack)
 	NewStager(r, stack.Stage, probe)
