@@ -38,7 +38,7 @@ func Load(
 	goDiagramsDir embed.FS,
 	r *gin.Engine,
 	embeddedDiagrams bool,
-	map_StructName_InstanceNb *map[string]int) {
+	map_StructName_InstanceNb map[string]int) {
 
 	gongStage, _ := gong_fullstack.NewStackInstance(r, pkgPath)
 	gongdocStage, _ := gongdoc_fullstack.NewStackInstance(r, pkgPath)
@@ -84,7 +84,7 @@ func Load(
 
 	// first, get all gong struct in the model
 	for gongStruct := range gongStage.GongStructs {
-		nbInstances, ok := (*map_StructName_InstanceNb)[gongStruct.Name]
+		nbInstances, ok := map_StructName_InstanceNb[gongStruct.Name]
 		if ok {
 			diagramPackage.Map_Identifier_NbInstances[gongStruct.Name] = nbInstances
 		}
@@ -94,25 +94,21 @@ func Load(
 	gongdoc_models.SetupMapDocLinkRenaming(gongStage, diagramPackage.Stage_)
 	// end of the be removed
 
-	// set up the number of instance per classshape
-	if map_StructName_InstanceNb != nil {
+	for gongStruct := range *gong_models.GetGongstructInstancesSet[gong_models.GongStruct](modelPackage.GetStage()) {
+		diagramPackage.Map_Identifier_NbInstances[gongStruct.Name] =
+			map_StructName_InstanceNb[gongStruct.Name]
 
-		for gongStruct := range *gong_models.GetGongstructInstancesSet[gong_models.GongStruct](modelPackage.GetStage()) {
-			diagramPackage.Map_Identifier_NbInstances[gongStruct.Name] =
-				(*map_StructName_InstanceNb)[gongStruct.Name]
+	}
 
-		}
+	for _, classdiagram := range diagramPackage.Classdiagrams {
+		for _, classshape := range classdiagram.GongStructShapes {
 
-		for _, classdiagram := range diagramPackage.Classdiagrams {
-			for _, classshape := range classdiagram.GongStructShapes {
+			gongStructName := gongdoc_models.IdentifierToGongObjectName(classshape.Identifier)
+			nbInstances, ok := diagramPackage.Map_Identifier_NbInstances[gongStructName]
 
-				gongStructName := gongdoc_models.IdentifierToGongObjectName(classshape.Identifier)
-				nbInstances, ok := diagramPackage.Map_Identifier_NbInstances[gongStructName]
-
-				if ok {
-					classshape.ShowNbInstances = false
-					classshape.NbInstances = nbInstances
-				}
+			if ok {
+				classshape.ShowNbInstances = false
+				classshape.NbInstances = nbInstances
 			}
 		}
 	}

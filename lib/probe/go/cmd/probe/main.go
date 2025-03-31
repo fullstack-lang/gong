@@ -39,8 +39,8 @@ func main() {
 	stack := probe_stack.NewStack(r, "probe", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
 
-	stackTest := test_stack.NewStack(r, "test", *unmarshallFromCode, *marshallOnCommit, "", true, true)
-	stackTest.Probe.Refresh()
+	// no legacy probe and embedded diagram
+	stackTest := test_stack.NewStack(r, "test", *unmarshallFromCode, *marshallOnCommit, "", true, false)
 
 	// probe will create a split front end
 	probe := probe_models.NewProbe2(r, stack.Stage, stackTest.Stage)
