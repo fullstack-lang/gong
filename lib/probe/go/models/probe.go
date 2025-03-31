@@ -4,7 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
+	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
+
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
+
+	gongtable_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
+	gongtree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
+	// gongdoc_load "github.com/fullstack-lang/gong/lib/doc/go/load"
 )
 
 type FieldType int
@@ -47,73 +54,119 @@ type ProbebStage interface {
 	GetName() string
 	GetType() string
 	GetProbeSplitStageName() string
+	GetProbeTreeSidebarStageName() string
+	GetProbeTableStageName() string
+	GetProbeFormStageName() string
+	GetMap_GongStructName_InstancesNb() map[string]int
 	// GetNamedStructs() []NamedStruct
 	// GetOrder(instance Instance)
 }
 
 // Called Probe2 for the moment because the legacy Probe name collision
 type Probe2 struct {
-	Name        string // not even sure we need a named struct (parametrization ?)
-	stage       *Stage
-	splitStage  *split.Stage // split stage of the probe
+	Name  string // not even sure we need a named struct (parametrization ?)
+	stage *Stage
+
 	probedStage ProbebStage
+
+	splitStage *split.Stage // split stage of the probe
+	treeStage  *tree.Stage
+	formStage  *form.Stage
+	tableStage *form.Stage
 }
 
 func (probe *Probe2) GetSplitStage() (splitStage *split.Stage) {
 	return probe.splitStage
 }
 
-func NewProbe2(r *gin.Engine, stage *Stage, probedStage ProbebStage) (probe *Probe2) {
+const SideBarTreeName = "gong"
+const TableName = "Table"
+const FormName = "Form"
+
+func NewProbe2(r *gin.Engine, stage *Stage, stageOfInterest ProbebStage) (probe *Probe2) {
 
 	probe = (&Probe2{
 		Name:        stage.name,
 		stage:       stage,
-		probedStage: probedStage,
+		probedStage: stageOfInterest,
 	}).Stage(stage)
+
+	// gongdoc_load.Load(
+	// 	"",
+	// 	probe.probedStage.GetProbeSplitStageName(),
+	// 	goModelsDir,
+	// 	goDiagramsDir,
+	// 	r,
+	// 	embeddedDiagrams,
+	// 	stageOfInterest.GetMap_GongStructName_InstancesNb())
 
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
 	probe.splitStage = split_stack.NewStack(r, stage.GetName(), "", "", "", true, true).Stage
 
-	name := probedStage.GetName()
+	// treeForSelectingDate that is on the sidebar
+	probe.treeStage, _ = gongtree_fullstack.NewStackInstance(r, stageOfInterest.GetProbeTreeSidebarStageName()+"2")
+
+	// stage for main table
+	probe.tableStage, _ = gongtable_fullstack.NewStackInstance(r, stageOfInterest.GetProbeTableStageName()+"2")
+
+	// stage for reusable form
+	probe.formStage, _ = gongtable_fullstack.NewStackInstance(r, stageOfInterest.GetProbeFormStageName()+"2")
+
+	name := stageOfInterest.GetName()
 	_ = name
 
 	(&split.View{
-		Name:         "Probe of stage type: \"" + probedStage.GetType() + "\", and name \": " + probedStage.GetName() + "\"",
+		Name:         "Probe of stage type: \"" + stageOfInterest.GetType() + "\", and name \": " + stageOfInterest.GetName() + "\"",
 		ShowViewName: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
 				Name:             "editor",
-				ShowNameInHeader: true,
+				ShowNameInHeader: false,
 				Size:             50,
 				AsSplit: (&split.AsSplit{
 					Direction: split.Horizontal,
 					AsSplitAreas: []*split.AsSplitArea{
 						(&split.AsSplitArea{
 							Name:             "sidebar",
-							ShowNameInHeader: true,
+							ShowNameInHeader: false,
 							Size:             20,
+							Tree: (&split.Tree{
+								Name:      "Sidebar",
+								StackName: probe.treeStage.GetName(),
+								TreeName:  SideBarTreeName,
+							}).Stage(probe.splitStage),
 						}).Stage(probe.splitStage),
 						(&split.AsSplitArea{
 							Name:             "table",
-							ShowNameInHeader: true,
+							ShowNameInHeader: false,
 							Size:             50,
+							Table: (&split.Table{
+								Name:      "Table",
+								StackName: probe.tableStage.GetName(),
+								TableName: TableName,
+							}).Stage(probe.splitStage),
 						}).Stage(probe.splitStage),
 						(&split.AsSplitArea{
 							Name:             "form",
-							ShowNameInHeader: true,
+							ShowNameInHeader: false,
 							Size:             30,
+							Form: (&split.Form{
+								Name:      "Form",
+								StackName: probe.formStage.GetName(),
+								FormName:  FormName,
+							}).Stage(probe.splitStage),
 						}).Stage(probe.splitStage),
 					},
 				}).Stage(probe.splitStage),
 			}).Stage(probe.splitStage),
 			(&split.AsSplitArea{
 				Name:             "for doc stage",
-				ShowNameInHeader: true,
+				ShowNameInHeader: false,
 				Size:             50,
 				Doc: (&split.Doc{
 					Name:      "Doc",
-					StackName: probedStage.GetProbeSplitStageName(),
+					StackName: stageOfInterest.GetProbeSplitStageName(),
 				}).Stage(probe.splitStage),
 			}).Stage(probe.splitStage),
 		},
