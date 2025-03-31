@@ -1,6 +1,8 @@
 package models
 
 import (
+	"embed"
+
 	"github.com/gin-gonic/gin"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
@@ -9,9 +11,9 @@ import (
 
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 
+	gongdoc_load "github.com/fullstack-lang/gong/lib/doc/go/load"
 	gongtable_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	gongtree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
-	// gongdoc_load "github.com/fullstack-lang/gong/lib/doc/go/load"
 )
 
 type FieldType int
@@ -58,6 +60,9 @@ type ProbebStage interface {
 	GetProbeTableStageName() string
 	GetProbeFormStageName() string
 	GetMap_GongStructName_InstancesNb() map[string]int
+
+	GetModelsEmbededDir() embed.FS
+	GetDigramsEmbededDir() embed.FS
 	// GetNamedStructs() []NamedStruct
 	// GetOrder(instance Instance)
 }
@@ -83,7 +88,7 @@ const SideBarTreeName = "gong"
 const TableName = "Table"
 const FormName = "Form"
 
-func NewProbe2(r *gin.Engine, stage *Stage, stageOfInterest ProbebStage) (probe *Probe2) {
+func NewProbe2(r *gin.Engine, stage *Stage, stageOfInterest ProbebStage, embeddedDiagrams bool) (probe *Probe2) {
 
 	probe = (&Probe2{
 		Name:        stage.name,
@@ -91,14 +96,14 @@ func NewProbe2(r *gin.Engine, stage *Stage, stageOfInterest ProbebStage) (probe 
 		probedStage: stageOfInterest,
 	}).Stage(stage)
 
-	// gongdoc_load.Load(
-	// 	"",
-	// 	probe.probedStage.GetProbeSplitStageName(),
-	// 	goModelsDir,
-	// 	goDiagramsDir,
-	// 	r,
-	// 	embeddedDiagrams,
-	// 	stageOfInterest.GetMap_GongStructName_InstancesNb())
+	gongdoc_load.Load(
+		"",
+		probe.probedStage.GetProbeSplitStageName(),
+		probe.probedStage.GetModelsEmbededDir(),
+		probe.probedStage.GetDigramsEmbededDir(),
+		r,
+		embeddedDiagrams,
+		stageOfInterest.GetMap_GongStructName_InstancesNb())
 
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component

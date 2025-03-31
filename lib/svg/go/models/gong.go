@@ -3,11 +3,14 @@ package models
 
 import (
 	"cmp"
+	"embed"
 	"errors"
 	"fmt"
 	"math"
 	"slices"
 	"time"
+
+	svg_go "github.com/fullstack-lang/gong/lib/svg/go"
 )
 
 func __Gong__Abs(x int) int {
@@ -385,6 +388,14 @@ func (stage *Stage) GetType() string {
 
 func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
 	return stage.Map_GongStructName_InstancesNb
+}
+
+func (stage *Stage) GetModelsEmbededDir() embed.FS {
+	return svg_go.GoModelsDir
+}
+
+func (stage *Stage) GetDigramsEmbededDir() embed.FS {
+	return svg_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
