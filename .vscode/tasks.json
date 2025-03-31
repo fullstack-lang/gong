@@ -440,6 +440,19 @@
       ]
     },
     {
+      "label": "03 - ng serve probe",
+      "type": "shell",
+      "options": {
+        "cwd": "lib/probe/ng-github.com-fullstack-lang-gong-lib-probe"
+      },
+      "command": "ng",
+      "group": "build",
+      "args": [
+        "serve",
+        ""
+      ]
+    },
+    {
       "label": "03 - ng serve split ",
       "type": "shell",
       "options": {
