@@ -10,6 +10,7 @@ import (
 	"slices"
 	"time"
 
+	probe "github.com/fullstack-lang/gong/lib/probe/go/models"
 	test_go "github.com/fullstack-lang/gong/test/test/go"
 )
 
@@ -198,6 +199,25 @@ type Stage struct {
 	GstructMap_Staged_Order map[*Gstruct]uint
 
 	// end of insertion point
+
+	NamedStructs []*NamedStruct
+}
+
+// GetNamedStructs implements models.ProbebStage.
+func (stage *Stage) GetNamedStructs() (res []probe.NamedStruct) {
+
+	for _, namedStruct := range stage.NamedStructs {
+		res = append(res, namedStruct)
+	}
+	return
+}
+
+type NamedStruct struct {
+	name string
+}
+
+func (namedStruct *NamedStruct) GetName() string {
+	return namedStruct.name
 }
 
 func (stage *Stage) GetType() string {
@@ -323,6 +343,10 @@ func NewStage(name string) (stage *Stage) {
 		GstructMap_Staged_Order: make(map[*Gstruct]uint),
 
 		// end of insertion point
+		NamedStructs: []*NamedStruct{
+			&NamedStruct{name: "Astruct"},
+			&NamedStruct{name: "Bstruct"},
+		},
 	}
 
 	return
