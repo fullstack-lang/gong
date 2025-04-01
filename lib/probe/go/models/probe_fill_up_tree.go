@@ -2,13 +2,10 @@ package models
 
 import (
 	"fmt"
-	"sort"
 	"strings"
 
 	gongtree_buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
-
-	gong_models "github.com/fullstack-lang/gong/go/models"
 )
 
 const SideBarTreeName = "gong"
@@ -33,23 +30,10 @@ func (probe *Probe2) fillUpTree() {
 	// create tree
 	sidebar := (&tree.Tree{Name: SideBarTreeName}).Stage(probe.treeStage)
 
-	// collect all gong struct to construe the true
-	setOfGongStructs := *gong_models.GetGongstructInstancesSet[gong_models.GongStruct](probe.gongStage)
+	for _, gongStruct := range probe.stageOfInterest.GetNamedStructs() {
 
-	sliceOfGongStructsSorted := make([]*gong_models.GongStruct, len(setOfGongStructs))
-	i := 0
-	for k := range setOfGongStructs {
-		sliceOfGongStructsSorted[i] = k
-		i++
-	}
-	sort.Slice(sliceOfGongStructsSorted, func(i, j int) bool {
-		return sliceOfGongStructsSorted[i].Name < sliceOfGongStructsSorted[j].Name
-	})
-
-	for _, gongStruct := range sliceOfGongStructsSorted {
-
-		name := gongStruct.Name + " (" +
-			fmt.Sprintf("%d", probe.stageOfInterest.GetMap_GongStructName_InstancesNb()[gongStruct.Name]) + ")"
+		name := gongStruct.GetName() + " (" +
+			fmt.Sprintf("%d", probe.stageOfInterest.GetMap_GongStructName_InstancesNb()[gongStruct.GetName()]) + ")"
 
 		nodeGongstruct := (&tree.Node{Name: name}).Stage(probe.treeStage)
 
