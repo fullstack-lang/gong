@@ -47,11 +47,11 @@ type Field interface {
 }
 
 type NamedStruct interface {
-	GetName()
-	GetFields() []Field
-	GetInstances() []Instance
-	NewInstance(stage ProbebStage) Instance
-	Unstage(stage ProbebStage, instance Instance)
+	GetName() string
+	// GetFields() []Field
+	// GetInstances() []Instance
+	// NewInstance(stage ProbebStage) Instance
+	// Unstage(stage ProbebStage, instance Instance)
 }
 
 type ProbebStage interface {
@@ -65,7 +65,7 @@ type ProbebStage interface {
 
 	GetModelsEmbededDir() embed.FS
 	GetDigramsEmbededDir() embed.FS
-	// GetNamedStructs() []NamedStruct
+	GetNamedStructs() []NamedStruct
 	// GetOrder(instance Instance)
 }
 
