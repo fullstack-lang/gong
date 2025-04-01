@@ -343,10 +343,16 @@ func NewStage(name string) (stage *Stage) {
 		GstructMap_Staged_Order: make(map[*Gstruct]uint),
 
 		// end of insertion point
-		NamedStructs: []*NamedStruct{
+
+		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			&NamedStruct{name: "Astruct"},
+			&NamedStruct{name: "AstructBstruct2Use"},
+			&NamedStruct{name: "AstructBstructUse"},
 			&NamedStruct{name: "Bstruct"},
-		},
+			&NamedStruct{name: "Dstruct"},
+			&NamedStruct{name: "Fstruct"},
+			&NamedStruct{name: "Gstruct"},
+		}, // end of insertion point
 	}
 
 	return

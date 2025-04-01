@@ -12,6 +12,7 @@ import (
 	"slices"
 	"time"
 
+	probe "github.com/fullstack-lang/gong/lib/probe/go/models"
 	{{pkgname}}_go "{{PkgPathRoot}}"
 )
 
@@ -100,6 +101,25 @@ type Stage struct {
 	// preserve this order when serializing them
 	// insertion point for order fields declaration{{` + string(rune(ModelGongOrderFields)) + `}}
 	// end of insertion point
+
+	NamedStructs []*NamedStruct
+}
+
+// GetNamedStructs implements models.ProbebStage.
+func (stage *Stage) GetNamedStructs() (res []probe.NamedStruct) {
+
+	for _, namedStruct := range stage.NamedStructs {
+		res = append(res, namedStruct)
+	}
+	return
+}
+
+type NamedStruct struct {
+	name string
+}
+
+func (namedStruct *NamedStruct) GetName() string {
+	return namedStruct.name
 }
 
 func (stage *Stage) GetType() string {
@@ -176,6 +196,9 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations{{` + string(rune(ModelGongOrderMapsInit)) + `}}
 		// end of insertion point
+
+		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations{{` + string(rune(ModelGongNamedStructsSliceInit)) + `}}
+		}, // end of insertion point
 	}
 
 	return
