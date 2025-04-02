@@ -4,6 +4,11 @@ import * as svg from '../../../../svg/src/public-api'
 
 import { CommonModule } from '@angular/common';
 
+import { FormsModule } from '@angular/forms'; // <-- Import FormsModule
+import { MatSliderModule } from '@angular/material/slider'; // <-- Import MatSliderModule
+import { MatInputModule } from '@angular/material/input'; // <-- Might be needed for slider styling/labels
+import { MatDividerModule } from '@angular/material/divider'
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -41,6 +46,12 @@ import { formatSVG, processSVG } from '../cleanandresizesvg'
     CommonModule,
     MatIconModule,
     MatButtonModule,
+    FormsModule,
+    MatSliderModule,
+    MatInputModule,     // <-- Add if not present
+    MatDividerModule,
+
+
     TextWidthCalculatorComponent,
     LinkSegmentsPipe,
   ],
@@ -52,6 +63,9 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   private svgContainer!: ElementRef<SVGSVGElement>
 
   @Input() Name: string = ""
+  @Input() zoom: number = 1; // <-- Add this line
+  shiftX: number = 0;
+  shiftY: number = 0;
 
   @ViewChild('textWidthCalculator') textWidthCalculator: TextWidthCalculatorComponent | undefined
   map_text_textWidth: Map<string, number> = new Map<string, number>
