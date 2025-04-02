@@ -1,10 +1,57 @@
 <lib-text-width-calculator #textWidthCalculator></lib-text-width-calculator>
 
-<button mat-raised-button color="primary" (click)="downloadSVG()" style="transform: scale(0.5);">Save</button>
+<div style="display: flex; align-items: center; gap: 20px; margin-bottom: 15px; flex-wrap: wrap; padding: 5px;">
+
+  <button mat-raised-button color="primary" (click)="downloadSVG()" style="transform: scale(0.5); margin-right: 10px;">Save</button>
+
+  <div style="display: flex; align-items: center; gap: 8px;">
+    <span style="min-width: 40px;">Zoom:</span>
+    <mat-slider min="0.25"
+                max="2"
+                step="0.05"
+                discrete
+                showTickMarks
+                style="min-width: 150px;">
+       <input matSliderThumb [(ngModel)]="zoom" #zoomSlider>
+    </mat-slider>
+    <span style="min-width: 40px; text-align: right;">{{ zoomSlider.value | number:'1.2-2' }}x</span>
+  </div>
+
+  <mat-divider vertical style="height: 30px; margin: 0 10px;"></mat-divider>
+
+  <div style="display: flex; align-items: center; gap: 8px;">
+    <span style="min-width: 50px;">Shift X:</span>
+    <mat-slider min="0"
+                max="1000"
+                step="1"
+                discrete
+                showTickMarks
+                style="min-width: 150px;">
+      <input matSliderThumb [(ngModel)]="shiftX" #shiftXSlider>
+    </mat-slider>
+    <span style="min-width: 40px; text-align: right;">{{ shiftXSlider.value }}px</span>
+  </div>
+
+  <mat-divider vertical style="height: 30px; margin: 0 10px;"></mat-divider>
+
+  <div style="display: flex; align-items: center; gap: 8px;">
+     <span style="min-width: 50px;">Shift Y:</span>
+    <mat-slider min="0"
+                max="1000"
+                step="1"
+                discrete
+                showTickMarks
+                style="min-width: 150px;">
+      <input matSliderThumb [(ngModel)]="shiftY" #shiftYSlider>
+    </mat-slider>
+    <span style="min-width: 40px; text-align: right;">{{ shiftYSlider.value }}px</span>
+  </div>
+
+</div>
 
 <svg #svgContainer [attr.width]="svgWidth" [attr.height]="svgHeight">
-  <g>
-    <!-- this rect is for catching mouse events in the void -->
+  <g [attr.transform]="'translate(' + (-shiftX) + ' ' + (-shiftY) + ') scale(' + zoom + ')'">    <!-- this rect is for catching mouse events in the void -->
+     <!-- this rect is for catching mouse events in the void -->
     <rect
       [attr.x]="0"
       [attr.y]="0"
