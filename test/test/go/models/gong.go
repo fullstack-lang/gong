@@ -3,11 +3,16 @@ package models
 
 import (
 	"cmp"
+	"embed"
 	"errors"
 	"fmt"
+	"log"
 	"math"
 	"slices"
+	"sort"
 	"time"
+
+	test_go "github.com/fullstack-lang/gong/test/test/go"
 )
 
 func __Gong__Abs(x int) int {
@@ -195,10 +200,90 @@ type Stage struct {
 	GstructMap_Staged_Order map[*Gstruct]uint
 
 	// end of insertion point
+
+	NamedStructs []*NamedStruct
+}
+
+// GetNamedStructs implements models.ProbebStage.
+func (stage *Stage) GetNamedStructsNames() (res []string) {
+
+	for _, namedStruct := range stage.NamedStructs {
+		res = append(res, namedStruct.name)
+	}
+
+	return
+}
+
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+
+	orderedSet := []T{}
+	for instance := range set {
+		orderedSet = append(orderedSet, instance)
+	}
+	sort.Slice(orderedSet[:], func(i, j int) bool {
+		instancei := orderedSet[i]
+		instancej := orderedSet[j]
+		i_order, oki := order[instancei]
+		j_order, okj := order[instancej]
+		if !oki || !okj {
+			log.Fatalf("GetNamedStructInstances: pointer not found")
+		}
+		return i_order < j_order
+	})
+
+	for _, instance := range orderedSet {
+		res = append(res, instance.GetName())
+	}
+
+	return
+}
+
+func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
+
+	switch namedStructName {
+	// insertion point for case 
+		case "Astruct":
+			res = GetNamedStructInstances(stage.Astructs, stage.AstructMap_Staged_Order)
+		case "AstructBstruct2Use":
+			res = GetNamedStructInstances(stage.AstructBstruct2Uses, stage.AstructBstruct2UseMap_Staged_Order)
+		case "AstructBstructUse":
+			res = GetNamedStructInstances(stage.AstructBstructUses, stage.AstructBstructUseMap_Staged_Order)
+		case "Bstruct":
+			res = GetNamedStructInstances(stage.Bstructs, stage.BstructMap_Staged_Order)
+		case "Dstruct":
+			res = GetNamedStructInstances(stage.Dstructs, stage.DstructMap_Staged_Order)
+		case "Fstruct":
+			res = GetNamedStructInstances(stage.Fstructs, stage.FstructMap_Staged_Order)
+		case "Gstruct":
+			res = GetNamedStructInstances(stage.Gstructs, stage.GstructMap_Staged_Order)
+	}
+
+	return
+}
+
+
+type NamedStruct struct {
+	name string
+}
+
+func (namedStruct *NamedStruct) GetName() string {
+	return namedStruct.name
 }
 
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/test/test/go/models"
+}
+
+func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
+	return stage.Map_GongStructName_InstancesNb
+}
+
+func (stage *Stage) GetModelsEmbededDir() embed.FS {
+	return test_go.GoModelsDir
+}
+
+func (stage *Stage) GetDigramsEmbededDir() embed.FS {
+	return test_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -308,6 +393,16 @@ func NewStage(name string) (stage *Stage) {
 		GstructMap_Staged_Order: make(map[*Gstruct]uint),
 
 		// end of insertion point
+
+		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
+			&NamedStruct{name: "Astruct"},
+			&NamedStruct{name: "AstructBstruct2Use"},
+			&NamedStruct{name: "AstructBstructUse"},
+			&NamedStruct{name: "Bstruct"},
+			&NamedStruct{name: "Dstruct"},
+			&NamedStruct{name: "Fstruct"},
+			&NamedStruct{name: "Gstruct"},
+		}, // end of insertion point
 	}
 
 	return
