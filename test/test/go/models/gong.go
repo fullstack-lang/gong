@@ -226,29 +226,41 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]u
 		i_order, oki := order[instancei]
 		j_order, okj := order[instancej]
 		if !oki || !okj {
-			log.Fatalf("GetNamedStructNamesByOrder: Astruct pointer not found")
+			log.Fatalf("GetNamedStructInstances: pointer not found")
 		}
 		return i_order < j_order
 	})
 
-	for _, astruct := range orderedSet {
-		res = append(res, astruct.GetName())
+	for _, instance := range orderedSet {
+		res = append(res, instance.GetName())
 	}
 
 	return
 }
 
-func (stage *Stage) GetNamedStructNamesByOrder(namedStructRank int) (res []string) {
+func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
-	switch namedStructRank {
-	case 0:
-		res = GetNamedStructInstances(stage.Astructs, stage.AstructMap_Staged_Order)
-	case 1:
-		res = GetNamedStructInstances(stage.Bstructs, stage.BstructMap_Staged_Order)
+	switch namedStructName {
+	// insertion point for case 
+		case "Astruct":
+			res = GetNamedStructInstances(stage.Astructs, stage.AstructMap_Staged_Order)
+		case "AstructBstruct2Use":
+			res = GetNamedStructInstances(stage.AstructBstruct2Uses, stage.AstructBstruct2UseMap_Staged_Order)
+		case "AstructBstructUse":
+			res = GetNamedStructInstances(stage.AstructBstructUses, stage.AstructBstructUseMap_Staged_Order)
+		case "Bstruct":
+			res = GetNamedStructInstances(stage.Bstructs, stage.BstructMap_Staged_Order)
+		case "Dstruct":
+			res = GetNamedStructInstances(stage.Dstructs, stage.DstructMap_Staged_Order)
+		case "Fstruct":
+			res = GetNamedStructInstances(stage.Fstructs, stage.FstructMap_Staged_Order)
+		case "Gstruct":
+			res = GetNamedStructInstances(stage.Gstructs, stage.GstructMap_Staged_Order)
 	}
 
 	return
 }
+
 
 type NamedStruct struct {
 	name string
