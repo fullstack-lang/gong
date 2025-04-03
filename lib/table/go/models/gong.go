@@ -6,8 +6,10 @@ import (
 	"embed"
 	"errors"
 	"fmt"
+	"log"
 	"math"
 	"slices"
+	"sort"
 	"time"
 
 	table_go "github.com/fullstack-lang/gong/lib/table/go"
@@ -388,6 +390,106 @@ type Stage struct {
 	TableMap_Staged_Order map[*Table]uint
 
 	// end of insertion point
+
+	NamedStructs []*NamedStruct
+}
+
+// GetNamedStructs implements models.ProbebStage.
+func (stage *Stage) GetNamedStructsNames() (res []string) {
+
+	for _, namedStruct := range stage.NamedStructs {
+		res = append(res, namedStruct.name)
+	}
+
+	return
+}
+
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+
+	orderedSet := []T{}
+	for instance := range set {
+		orderedSet = append(orderedSet, instance)
+	}
+	sort.Slice(orderedSet[:], func(i, j int) bool {
+		instancei := orderedSet[i]
+		instancej := orderedSet[j]
+		i_order, oki := order[instancei]
+		j_order, okj := order[instancej]
+		if !oki || !okj {
+			log.Fatalf("GetNamedStructInstances: pointer not found")
+		}
+		return i_order < j_order
+	})
+
+	for _, instance := range orderedSet {
+		res = append(res, instance.GetName())
+	}
+
+	return
+}
+
+func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
+
+	switch namedStructName {
+	// insertion point for case 
+		case "Cell":
+			res = GetNamedStructInstances(stage.Cells, stage.CellMap_Staged_Order)
+		case "CellBoolean":
+			res = GetNamedStructInstances(stage.CellBooleans, stage.CellBooleanMap_Staged_Order)
+		case "CellFloat64":
+			res = GetNamedStructInstances(stage.CellFloat64s, stage.CellFloat64Map_Staged_Order)
+		case "CellIcon":
+			res = GetNamedStructInstances(stage.CellIcons, stage.CellIconMap_Staged_Order)
+		case "CellInt":
+			res = GetNamedStructInstances(stage.CellInts, stage.CellIntMap_Staged_Order)
+		case "CellString":
+			res = GetNamedStructInstances(stage.CellStrings, stage.CellStringMap_Staged_Order)
+		case "CheckBox":
+			res = GetNamedStructInstances(stage.CheckBoxs, stage.CheckBoxMap_Staged_Order)
+		case "DisplayedColumn":
+			res = GetNamedStructInstances(stage.DisplayedColumns, stage.DisplayedColumnMap_Staged_Order)
+		case "FormDiv":
+			res = GetNamedStructInstances(stage.FormDivs, stage.FormDivMap_Staged_Order)
+		case "FormEditAssocButton":
+			res = GetNamedStructInstances(stage.FormEditAssocButtons, stage.FormEditAssocButtonMap_Staged_Order)
+		case "FormField":
+			res = GetNamedStructInstances(stage.FormFields, stage.FormFieldMap_Staged_Order)
+		case "FormFieldDate":
+			res = GetNamedStructInstances(stage.FormFieldDates, stage.FormFieldDateMap_Staged_Order)
+		case "FormFieldDateTime":
+			res = GetNamedStructInstances(stage.FormFieldDateTimes, stage.FormFieldDateTimeMap_Staged_Order)
+		case "FormFieldFloat64":
+			res = GetNamedStructInstances(stage.FormFieldFloat64s, stage.FormFieldFloat64Map_Staged_Order)
+		case "FormFieldInt":
+			res = GetNamedStructInstances(stage.FormFieldInts, stage.FormFieldIntMap_Staged_Order)
+		case "FormFieldSelect":
+			res = GetNamedStructInstances(stage.FormFieldSelects, stage.FormFieldSelectMap_Staged_Order)
+		case "FormFieldString":
+			res = GetNamedStructInstances(stage.FormFieldStrings, stage.FormFieldStringMap_Staged_Order)
+		case "FormFieldTime":
+			res = GetNamedStructInstances(stage.FormFieldTimes, stage.FormFieldTimeMap_Staged_Order)
+		case "FormGroup":
+			res = GetNamedStructInstances(stage.FormGroups, stage.FormGroupMap_Staged_Order)
+		case "FormSortAssocButton":
+			res = GetNamedStructInstances(stage.FormSortAssocButtons, stage.FormSortAssocButtonMap_Staged_Order)
+		case "Option":
+			res = GetNamedStructInstances(stage.Options, stage.OptionMap_Staged_Order)
+		case "Row":
+			res = GetNamedStructInstances(stage.Rows, stage.RowMap_Staged_Order)
+		case "Table":
+			res = GetNamedStructInstances(stage.Tables, stage.TableMap_Staged_Order)
+	}
+
+	return
+}
+
+
+type NamedStruct struct {
+	name string
+}
+
+func (namedStruct *NamedStruct) GetName() string {
+	return namedStruct.name
 }
 
 func (stage *Stage) GetType() string {
@@ -625,6 +727,32 @@ func NewStage(name string) (stage *Stage) {
 		TableMap_Staged_Order: make(map[*Table]uint),
 
 		// end of insertion point
+
+		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
+			&NamedStruct{name: "Cell"},
+			&NamedStruct{name: "CellBoolean"},
+			&NamedStruct{name: "CellFloat64"},
+			&NamedStruct{name: "CellIcon"},
+			&NamedStruct{name: "CellInt"},
+			&NamedStruct{name: "CellString"},
+			&NamedStruct{name: "CheckBox"},
+			&NamedStruct{name: "DisplayedColumn"},
+			&NamedStruct{name: "FormDiv"},
+			&NamedStruct{name: "FormEditAssocButton"},
+			&NamedStruct{name: "FormField"},
+			&NamedStruct{name: "FormFieldDate"},
+			&NamedStruct{name: "FormFieldDateTime"},
+			&NamedStruct{name: "FormFieldFloat64"},
+			&NamedStruct{name: "FormFieldInt"},
+			&NamedStruct{name: "FormFieldSelect"},
+			&NamedStruct{name: "FormFieldString"},
+			&NamedStruct{name: "FormFieldTime"},
+			&NamedStruct{name: "FormGroup"},
+			&NamedStruct{name: "FormSortAssocButton"},
+			&NamedStruct{name: "Option"},
+			&NamedStruct{name: "Row"},
+			&NamedStruct{name: "Table"},
+		}, // end of insertion point
 	}
 
 	return

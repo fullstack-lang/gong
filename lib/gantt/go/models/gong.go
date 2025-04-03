@@ -6,8 +6,10 @@ import (
 	"embed"
 	"errors"
 	"fmt"
+	"log"
 	"math"
 	"slices"
+	"sort"
 	"time"
 
 	gantt_go "github.com/fullstack-lang/gong/lib/gantt/go"
@@ -196,6 +198,74 @@ type Stage struct {
 	MilestoneMap_Staged_Order map[*Milestone]uint
 
 	// end of insertion point
+
+	NamedStructs []*NamedStruct
+}
+
+// GetNamedStructs implements models.ProbebStage.
+func (stage *Stage) GetNamedStructsNames() (res []string) {
+
+	for _, namedStruct := range stage.NamedStructs {
+		res = append(res, namedStruct.name)
+	}
+
+	return
+}
+
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+
+	orderedSet := []T{}
+	for instance := range set {
+		orderedSet = append(orderedSet, instance)
+	}
+	sort.Slice(orderedSet[:], func(i, j int) bool {
+		instancei := orderedSet[i]
+		instancej := orderedSet[j]
+		i_order, oki := order[instancei]
+		j_order, okj := order[instancej]
+		if !oki || !okj {
+			log.Fatalf("GetNamedStructInstances: pointer not found")
+		}
+		return i_order < j_order
+	})
+
+	for _, instance := range orderedSet {
+		res = append(res, instance.GetName())
+	}
+
+	return
+}
+
+func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
+
+	switch namedStructName {
+	// insertion point for case 
+		case "Arrow":
+			res = GetNamedStructInstances(stage.Arrows, stage.ArrowMap_Staged_Order)
+		case "Bar":
+			res = GetNamedStructInstances(stage.Bars, stage.BarMap_Staged_Order)
+		case "Gantt":
+			res = GetNamedStructInstances(stage.Gantts, stage.GanttMap_Staged_Order)
+		case "Group":
+			res = GetNamedStructInstances(stage.Groups, stage.GroupMap_Staged_Order)
+		case "Lane":
+			res = GetNamedStructInstances(stage.Lanes, stage.LaneMap_Staged_Order)
+		case "LaneUse":
+			res = GetNamedStructInstances(stage.LaneUses, stage.LaneUseMap_Staged_Order)
+		case "Milestone":
+			res = GetNamedStructInstances(stage.Milestones, stage.MilestoneMap_Staged_Order)
+	}
+
+	return
+}
+
+
+type NamedStruct struct {
+	name string
+}
+
+func (namedStruct *NamedStruct) GetName() string {
+	return namedStruct.name
 }
 
 func (stage *Stage) GetType() string {
@@ -321,6 +391,16 @@ func NewStage(name string) (stage *Stage) {
 		MilestoneMap_Staged_Order: make(map[*Milestone]uint),
 
 		// end of insertion point
+
+		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
+			&NamedStruct{name: "Arrow"},
+			&NamedStruct{name: "Bar"},
+			&NamedStruct{name: "Gantt"},
+			&NamedStruct{name: "Group"},
+			&NamedStruct{name: "Lane"},
+			&NamedStruct{name: "LaneUse"},
+			&NamedStruct{name: "Milestone"},
+		}, // end of insertion point
 	}
 
 	return
