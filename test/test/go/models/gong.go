@@ -6,11 +6,12 @@ import (
 	"embed"
 	"errors"
 	"fmt"
+	"log"
 	"math"
 	"slices"
+	"sort"
 	"time"
 
-	probe "github.com/fullstack-lang/gong/lib/probe/go/models"
 	test_go "github.com/fullstack-lang/gong/test/test/go"
 )
 
@@ -204,11 +205,48 @@ type Stage struct {
 }
 
 // GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructs() (res []probe.NamedStruct) {
+func (stage *Stage) GetNamedStructsNames() (res []string) {
 
 	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct)
+		res = append(res, namedStruct.name)
 	}
+
+	return
+}
+
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+
+	orderedSet := []T{}
+	for instance := range set {
+		orderedSet = append(orderedSet, instance)
+	}
+	sort.Slice(orderedSet[:], func(i, j int) bool {
+		instancei := orderedSet[i]
+		instancej := orderedSet[j]
+		i_order, oki := order[instancei]
+		j_order, okj := order[instancej]
+		if !oki || !okj {
+			log.Fatalf("GetNamedStructNamesByOrder: Astruct pointer not found")
+		}
+		return i_order < j_order
+	})
+
+	for _, astruct := range orderedSet {
+		res = append(res, astruct.GetName())
+	}
+
+	return
+}
+
+func (stage *Stage) GetNamedStructNamesByOrder(namedStructRank int) (res []string) {
+
+	switch namedStructRank {
+	case 0:
+		res = GetNamedStructInstances(stage.Astructs, stage.AstructMap_Staged_Order)
+	case 1:
+		res = GetNamedStructInstances(stage.Bstructs, stage.BstructMap_Staged_Order)
+	}
+
 	return
 }
 
