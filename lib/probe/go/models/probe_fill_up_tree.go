@@ -31,7 +31,7 @@ func (probe *Probe2) fillUpTree() {
 	sidebar := (&tree.Tree{Name: SideBarTreeName}).Stage(probe.treeStage)
 
 	namedStrucNames := probe.stageOfInterest.GetNamedStructsNames()
-	for i, gongStructName := range namedStrucNames {
+	for _, gongStructName := range namedStrucNames {
 
 		name := gongStructName + " (" +
 			fmt.Sprintf("%d", probe.stageOfInterest.GetMap_GongStructName_InstancesNb()[gongStructName]) + ")"
@@ -43,7 +43,7 @@ func (probe *Probe2) fillUpTree() {
 			nodeGongstruct.IsExpanded = true
 		}
 
-		names := probe.stageOfInterest.GetNamedStructNamesByOrder(i)
+		names := probe.stageOfInterest.GetNamedStructNamesByOrder(gongStructName)
 
 		for _, instanceName := range names {
 			nodeInstance := (&tree.Node{Name: instanceName}).Stage(probe.treeStage)
