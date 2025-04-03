@@ -66,7 +66,7 @@ type ProbebStage interface {
 	GetModelsEmbededDir() embed.FS
 	GetDigramsEmbededDir() embed.FS
 	GetNamedStructsNames() []string
-	GetNamedStructNamesByOrder(i int) []string
+	GetNamedStructNamesByOrder(namedStuctName string) []string
 	// GetOrder(instance Instance)
 }
 
