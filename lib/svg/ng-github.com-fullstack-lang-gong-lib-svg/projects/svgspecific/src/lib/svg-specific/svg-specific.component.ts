@@ -964,76 +964,109 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
 
   downloadSVG() {
     // Retrieve the native SVG element through the ViewChild/ElementRef
-    const svgElement: SVGSVGElement = this.svgContainer.nativeElement; // Type added
+    const svgElement: SVGSVGElement = this.svgContainer.nativeElement;
+
+    // Find the main content group element (the first <g> inside the <svg>)
+    // This assumes your drawable content is within the first <g> tag directly under <svg>
+    const contentGroup = svgElement.querySelector('g');
+    if (!contentGroup) {
+        console.error("Could not find the main content group <g> element.");
+        return; // Exit if the group isn't found
+    }
+
+    // Calculate the bounding box of the content group
+    // Note: getBBox might not be perfectly accurate if elements have transforms applied.
+    // Consider iterating through elements if needed for complex cases.
+    const bbox = contentGroup.getBBox();
+
+    // Add some padding around the bounding box (optional, adjust as needed)
+    const padding = 20;
+    const viewBoxX = bbox.x - padding;
+    const viewBoxY = bbox.y - padding;
+    const viewBoxWidth = bbox.width + (padding * 2);
+    const viewBoxHeight = bbox.height + (padding * 2);
+
+    // --- Store original attributes ---
+    const originalWidth = svgElement.getAttribute('width');
+    const originalHeight = svgElement.getAttribute('height');
+    const originalViewBox = svgElement.getAttribute('viewBox');
+
+    // --- Set attributes for download ---
+    // Set viewBox to encompass the calculated bounding box
+    // Ensure width/height are positive, fallback if bbox is empty
+    const finalViewBoxWidth = viewBoxWidth > 0 ? viewBoxWidth : 100; // Min width 100
+    const finalViewBoxHeight = viewBoxHeight > 0 ? viewBoxHeight : 100; // Min height 100
+    svgElement.setAttribute('viewBox', `${viewBoxX} ${viewBoxY} ${finalViewBoxWidth} ${finalViewBoxHeight}`);
+
+    // Set width/height based on viewBox aspect ratio for clarity in downloaded file
+    // These attributes often help standalone SVG viewers determine initial size
+    svgElement.setAttribute('width', `${finalViewBoxWidth}`);
+    svgElement.setAttribute('height', `${finalViewBoxHeight}`);
 
     // Create a serializer to convert the SVG DOM node to a string
-    const serializer: XMLSerializer = new XMLSerializer(); // Type added
+    const serializer: XMLSerializer = new XMLSerializer();
 
-    // Serialize the SVG element
-    const svgData: string = serializer.serializeToString(svgElement); // Type added
+    // Serialize the SVG element (now with the correct viewBox/dimensions)
+    let svgData: string = serializer.serializeToString(svgElement);
 
-    // Remove any existing HTML comments in the serialized SVG
-    // Type annotation added in the previous step, ensure it's string
-    let withoutComments: string = svgData.replace('//g', '');
+    // --- Restore original attributes (important!) ---
+    // Restore original width, height, and viewBox so the on-screen display isn't affected
+    if (originalWidth !== null) svgElement.setAttribute('width', originalWidth); else svgElement.removeAttribute('width');
+    if (originalHeight !== null) svgElement.setAttribute('height', originalHeight); else svgElement.removeAttribute('height');
+    if (originalViewBox !== null) svgElement.setAttribute('viewBox', originalViewBox); else svgElement.removeAttribute('viewBox');
 
-    // Remove remaining comments (if any) and Angular's auto-generated attributes used for styling/view encapsulation
-    let res: string = withoutComments // Type added
-      .replace("//g", '') // Remove HTML comments again if needed
-      .replace(/\s+_ngcontent-[^="]*=""/g, '') // Remove _ngcontent attributes
-      .replace(/\s+_nghost-[^="]*=""/g, '');    // Remove _nghost attributes
+    // --- Continue with the rest of the processing ---
 
-    // Perform any additional custom processing on the cleaned SVG string
-    let svg2: string = processSVG(res); // Type added
+    // Remove any existing HTML comments in the serialized SVG (if '//g' was intended for comments)
+    // This regex might need adjustment depending on actual comment format
+    // let withoutComments: string = svgData.replace(/\/\/g/g, ''); // Example regex for "//g" comment
+    let withoutComments: string = svgData; // Assuming no specific comment format "//g"
 
-    // Optionally format the processed SVG string for readability or standardization
-    let svg3: string = formatSVG(svg2); // Type added
+    // Remove Angular's auto-generated attributes
+    let res: string = withoutComments
+      .replace(/\s*_ngcontent-[^="]*=""/g, '')
+      .replace(/\s+_nghost-[^="]*=""/g, '');
 
-    // --- START: Inject Roboto Font Style ---
-    const fontStyle: string = '<style>text { font-family: Roboto, Arial, sans-serif !important; }</style>'; // Type added
-    const svgTagEndIndex: number = svg3.indexOf('>'); // Type added
+    // Perform additional custom processing if these functions exist
+    let svg2: string = processSVG(res); // Ensure processSVG is defined and imported
+    let svg3: string = formatSVG(svg2); // Ensure formatSVG is defined and imported
+
+    // Inject Roboto Font Style
+    const fontStyle: string = '<style>text { font-family: Roboto, Arial, sans-serif !important; }</style>';
+    const svgTagEndIndex: number = svg3.indexOf('>');
     if (svgTagEndIndex > -1) {
-      // Insert the style block right after the opening <svg> tag
       svg3 = svg3.slice(0, svgTagEndIndex + 1) + fontStyle + svg3.slice(svgTagEndIndex + 1);
     }
-    // --- END: Inject Roboto Font Style ---
 
-    // Create a new Blob object containing the final SVG string
-    const blob: Blob = new Blob([svg3], { type: 'image/svg+xml' }); // Type added
-
-    // get the current SvgText and update it
-    let svgText: svg.SvgText | undefined; // Type moved before loop
-    if (this.gongsvgFrontRepo?.array_SvgTexts) { // Check if array_SvgTexts exists
-        for (let svtText_ of this.gongsvgFrontRepo.array_SvgTexts) { // Assuming svtText_ is svg.SvgText based on usage
-            svgText = svtText_;
-        }
+    // --- SvgText Update Logic (Keep if needed) ---
+    let svgText: svg.SvgText | undefined;
+    if (this.gongsvgFrontRepo?.array_SvgTexts) {
+        // Assuming only one SvgText exists or you want the last one
+        svgText = this.gongsvgFrontRepo.array_SvgTexts[this.gongsvgFrontRepo.array_SvgTexts.length - 1];
     }
 
-
-    if (svgText !== undefined) { // Use !== for stricter check
+    if (svgText !== undefined && this.svgTextService) { // Check if svgTextService is available
       svgText.Text = svg3;
       this.svgTextService.updateFront(svgText, this.Name).subscribe(
         () => {
-          console.log("svgText updated");
+          console.log("svgText updated with downloaded content");
         }
       );
     }
+    // --- End SvgText Update Logic ---
 
-    // Generate a temporary URL that points to the Blob
-    const url: string = URL.createObjectURL(blob); // Type added
 
-    // Create a temporary link element
-    const link: HTMLAnchorElement = document.createElement('a'); // Type added
+    // Create Blob
+    const blob: Blob = new Blob([svg3], { type: 'image/svg+xml' });
+
+    // Create download link
+    const url: string = URL.createObjectURL(blob);
+    const link: HTMLAnchorElement = document.createElement('a');
     link.href = url;
-
-    // Provide a default filename for the download
-    link.download = (this.svg?.Name || 'download') + ".svg"; // Added fallback name
-
-    // Append the link to the document body, trigger the download, and clean up
+    link.download = (this.svg?.Name || 'download') + ".svg"; // Use optional chaining for safety
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-
-    // Revoke the object URL to free up resources
     URL.revokeObjectURL(url);
   }
   
