@@ -3,11 +3,14 @@ package models
 
 import (
 	"cmp"
+	"embed"
 	"errors"
 	"fmt"
 	"math"
 	"slices"
 	"time"
+
+	load_go "github.com/fullstack-lang/gong/lib/load/go"
 )
 
 func __Gong__Abs(x int) int {
@@ -111,6 +114,18 @@ type Stage struct {
 
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/load/go/models"
+}
+
+func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
+	return stage.Map_GongStructName_InstancesNb
+}
+
+func (stage *Stage) GetModelsEmbededDir() embed.FS {
+	return load_go.GoModelsDir
+}
+
+func (stage *Stage) GetDigramsEmbededDir() embed.FS {
+	return load_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {

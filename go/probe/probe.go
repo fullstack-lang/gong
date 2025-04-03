@@ -76,7 +76,7 @@ func NewProbe(
 		goDiagramsDir,
 		r,
 		embeddedDiagrams,
-		&stageOfInterest.Map_GongStructName_InstancesNb)
+		stageOfInterest.Map_GongStructName_InstancesNb)
 
 	return
 }
