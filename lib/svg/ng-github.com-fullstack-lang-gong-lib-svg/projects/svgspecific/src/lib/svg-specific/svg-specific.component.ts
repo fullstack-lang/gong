@@ -4,6 +4,11 @@ import * as svg from '../../../../svg/src/public-api'
 
 import { CommonModule } from '@angular/common';
 
+import { FormsModule } from '@angular/forms'; // <-- Import FormsModule
+import { MatSliderModule } from '@angular/material/slider'; // <-- Import MatSliderModule
+import { MatInputModule } from '@angular/material/input'; // <-- Might be needed for slider styling/labels
+import { MatDividerModule } from '@angular/material/divider'
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -41,6 +46,12 @@ import { formatSVG, processSVG } from '../cleanandresizesvg'
     CommonModule,
     MatIconModule,
     MatButtonModule,
+    FormsModule,
+    MatSliderModule,
+    MatInputModule,     // <-- Add if not present
+    MatDividerModule,
+
+
     TextWidthCalculatorComponent,
     LinkSegmentsPipe,
   ],
@@ -52,6 +63,9 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   private svgContainer!: ElementRef<SVGSVGElement>
 
   @Input() Name: string = ""
+  @Input() zoom: number = 1; // <-- Add this line
+  shiftX: number = 0;
+  shiftY: number = 0;
 
   @ViewChild('textWidthCalculator') textWidthCalculator: TextWidthCalculatorComponent | undefined
   map_text_textWidth: Map<string, number> = new Map<string, number>
@@ -950,64 +964,78 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
 
   downloadSVG() {
     // Retrieve the native SVG element through the ViewChild/ElementRef
-    const svgElement = this.svgContainer.nativeElement;
-  
+    const svgElement: SVGSVGElement = this.svgContainer.nativeElement; // Type added
+
     // Create a serializer to convert the SVG DOM node to a string
-    const serializer = new XMLSerializer();
-    
+    const serializer: XMLSerializer = new XMLSerializer(); // Type added
+
     // Serialize the SVG element
-    const svgData = serializer.serializeToString(svgElement);
-  
+    const svgData: string = serializer.serializeToString(svgElement); // Type added
+
     // Remove any existing HTML comments in the serialized SVG
-    let withoutComments = svgData.replace(/<!--[\s\S]*?-->/g, '');
-  
+    // Type annotation added in the previous step, ensure it's string
+    let withoutComments: string = svgData.replace('//g', '');
+
     // Remove remaining comments (if any) and Angular's auto-generated attributes used for styling/view encapsulation
-    let res = withoutComments
-      .replace(/<!--[\s\S]*?-->/g, '') // Remove HTML comments again if needed
+    let res: string = withoutComments // Type added
+      .replace("//g", '') // Remove HTML comments again if needed
       .replace(/\s+_ngcontent-[^="]*=""/g, '') // Remove _ngcontent attributes
       .replace(/\s+_nghost-[^="]*=""/g, '');    // Remove _nghost attributes
-  
+
     // Perform any additional custom processing on the cleaned SVG string
-    let svg2 = processSVG(res);
-  
+    let svg2: string = processSVG(res); // Type added
+
     // Optionally format the processed SVG string for readability or standardization
-    let svg3 = formatSVG(svg2);
-  
+    let svg3: string = formatSVG(svg2); // Type added
+
+    // --- START: Inject Roboto Font Style ---
+    const fontStyle: string = '<style>text { font-family: Roboto, Arial, sans-serif !important; }</style>'; // Type added
+    const svgTagEndIndex: number = svg3.indexOf('>'); // Type added
+    if (svgTagEndIndex > -1) {
+      // Insert the style block right after the opening <svg> tag
+      svg3 = svg3.slice(0, svgTagEndIndex + 1) + fontStyle + svg3.slice(svgTagEndIndex + 1);
+    }
+    // --- END: Inject Roboto Font Style ---
+
     // Create a new Blob object containing the final SVG string
-    const blob = new Blob([svg3], { type: 'image/svg+xml' });
+    const blob: Blob = new Blob([svg3], { type: 'image/svg+xml' }); // Type added
 
     // get the current SvgText and update it
-    var svgText : svg.SvgText | undefined
-    for (let svtText_ of this.gongsvgFrontRepo!.array_SvgTexts) {
-      svgText = svtText_
+    let svgText: svg.SvgText | undefined; // Type moved before loop
+    if (this.gongsvgFrontRepo?.array_SvgTexts) { // Check if array_SvgTexts exists
+        for (let svtText_ of this.gongsvgFrontRepo.array_SvgTexts) { // Assuming svtText_ is svg.SvgText based on usage
+            svgText = svtText_;
+        }
     }
 
-    if (svgText != undefined) {
-      svgText.Text = svg3
-      this.svgTextService.updateFront( svgText, this.Name).subscribe(
+
+    if (svgText !== undefined) { // Use !== for stricter check
+      svgText.Text = svg3;
+      this.svgTextService.updateFront(svgText, this.Name).subscribe(
         () => {
-          console.log("svgText updated")
+          console.log("svgText updated");
         }
-      )
+      );
     }
-  
+
     // Generate a temporary URL that points to the Blob
-    const url = URL.createObjectURL(blob);
-  
+    const url: string = URL.createObjectURL(blob); // Type added
+
     // Create a temporary link element
-    const link = document.createElement('a');
+    const link: HTMLAnchorElement = document.createElement('a'); // Type added
     link.href = url;
-  
+
     // Provide a default filename for the download
-    link.download = this.svg.Name + ".svg";
-  
+    link.download = (this.svg?.Name || 'download') + ".svg"; // Added fallback name
+
     // Append the link to the document body, trigger the download, and clean up
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  
+
     // Revoke the object URL to free up resources
     URL.revokeObjectURL(url);
   }
+  
   
 }
