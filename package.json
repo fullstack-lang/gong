@@ -6,6 +6,7 @@
         "lib/doc/ng-github.com-fullstack-lang-gong-lib-doc",
         "lib/gantt/ng-github.com-fullstack-lang-gong-lib-gantt",
         "lib/load/ng-github.com-fullstack-lang-gong-lib-load",
+        "lib/probe/ng-github.com-fullstack-lang-gong-lib-probe",
         "lib/slider/ng-github.com-fullstack-lang-gong-lib-slider",
         "lib/split/ng-github.com-fullstack-lang-gong-lib-split",
         "lib/svg/ng-github.com-fullstack-lang-gong-lib-svg",
@@ -23,7 +24,5 @@
         "vendor/github.com/fullstack-lang/gongsvg/ng-github.com-fullstack-lang-gongsvg",
         "vendor/github.com/fullstack-lang/gongtable/ng-github.com-fullstack-lang-gongtable",
         "vendor/github.com/fullstack-lang/gongdoc/ng-github.com-fullstack-lang-gongdoc"
-
-
     ]
 }

@@ -128,5 +128,6 @@ type Xlsx struct {
 
 type View struct {
 	Name             string
+	ShowViewName     bool // by default, a standalone views wont display the
 	RootAsSplitAreas []*AsSplitArea
 }
