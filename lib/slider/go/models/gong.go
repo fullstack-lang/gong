@@ -6,8 +6,10 @@ import (
 	"embed"
 	"errors"
 	"fmt"
+	"log"
 	"math"
 	"slices"
+	"sort"
 	"time"
 
 	slider_go "github.com/fullstack-lang/gong/lib/slider/go"
@@ -152,6 +154,68 @@ type Stage struct {
 	SliderMap_Staged_Order map[*Slider]uint
 
 	// end of insertion point
+
+	NamedStructs []*NamedStruct
+}
+
+// GetNamedStructs implements models.ProbebStage.
+func (stage *Stage) GetNamedStructsNames() (res []string) {
+
+	for _, namedStruct := range stage.NamedStructs {
+		res = append(res, namedStruct.name)
+	}
+
+	return
+}
+
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+
+	orderedSet := []T{}
+	for instance := range set {
+		orderedSet = append(orderedSet, instance)
+	}
+	sort.Slice(orderedSet[:], func(i, j int) bool {
+		instancei := orderedSet[i]
+		instancej := orderedSet[j]
+		i_order, oki := order[instancei]
+		j_order, okj := order[instancej]
+		if !oki || !okj {
+			log.Fatalf("GetNamedStructInstances: pointer not found")
+		}
+		return i_order < j_order
+	})
+
+	for _, instance := range orderedSet {
+		res = append(res, instance.GetName())
+	}
+
+	return
+}
+
+func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
+
+	switch namedStructName {
+	// insertion point for case 
+		case "Checkbox":
+			res = GetNamedStructInstances(stage.Checkboxs, stage.CheckboxMap_Staged_Order)
+		case "Group":
+			res = GetNamedStructInstances(stage.Groups, stage.GroupMap_Staged_Order)
+		case "Layout":
+			res = GetNamedStructInstances(stage.Layouts, stage.LayoutMap_Staged_Order)
+		case "Slider":
+			res = GetNamedStructInstances(stage.Sliders, stage.SliderMap_Staged_Order)
+	}
+
+	return
+}
+
+
+type NamedStruct struct {
+	name string
+}
+
+func (namedStruct *NamedStruct) GetName() string {
+	return namedStruct.name
 }
 
 func (stage *Stage) GetType() string {
@@ -256,6 +320,13 @@ func NewStage(name string) (stage *Stage) {
 		SliderMap_Staged_Order: make(map[*Slider]uint),
 
 		// end of insertion point
+
+		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
+			&NamedStruct{name: "Checkbox"},
+			&NamedStruct{name: "Group"},
+			&NamedStruct{name: "Layout"},
+			&NamedStruct{name: "Slider"},
+		}, // end of insertion point
 	}
 
 	return

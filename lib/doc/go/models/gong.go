@@ -6,8 +6,10 @@ import (
 	"embed"
 	"errors"
 	"fmt"
+	"log"
 	"math"
 	"slices"
+	"sort"
 	"time"
 
 	doc_go "github.com/fullstack-lang/gong/lib/doc/go"
@@ -274,6 +276,86 @@ type Stage struct {
 	VerticeMap_Staged_Order map[*Vertice]uint
 
 	// end of insertion point
+
+	NamedStructs []*NamedStruct
+}
+
+// GetNamedStructs implements models.ProbebStage.
+func (stage *Stage) GetNamedStructsNames() (res []string) {
+
+	for _, namedStruct := range stage.NamedStructs {
+		res = append(res, namedStruct.name)
+	}
+
+	return
+}
+
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+
+	orderedSet := []T{}
+	for instance := range set {
+		orderedSet = append(orderedSet, instance)
+	}
+	sort.Slice(orderedSet[:], func(i, j int) bool {
+		instancei := orderedSet[i]
+		instancej := orderedSet[j]
+		i_order, oki := order[instancei]
+		j_order, okj := order[instancej]
+		if !oki || !okj {
+			log.Fatalf("GetNamedStructInstances: pointer not found")
+		}
+		return i_order < j_order
+	})
+
+	for _, instance := range orderedSet {
+		res = append(res, instance.GetName())
+	}
+
+	return
+}
+
+func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
+
+	switch namedStructName {
+	// insertion point for case 
+		case "Classdiagram":
+			res = GetNamedStructInstances(stage.Classdiagrams, stage.ClassdiagramMap_Staged_Order)
+		case "DiagramPackage":
+			res = GetNamedStructInstances(stage.DiagramPackages, stage.DiagramPackageMap_Staged_Order)
+		case "Field":
+			res = GetNamedStructInstances(stage.Fields, stage.FieldMap_Staged_Order)
+		case "GongEnumShape":
+			res = GetNamedStructInstances(stage.GongEnumShapes, stage.GongEnumShapeMap_Staged_Order)
+		case "GongEnumValueEntry":
+			res = GetNamedStructInstances(stage.GongEnumValueEntrys, stage.GongEnumValueEntryMap_Staged_Order)
+		case "GongStructShape":
+			res = GetNamedStructInstances(stage.GongStructShapes, stage.GongStructShapeMap_Staged_Order)
+		case "Link":
+			res = GetNamedStructInstances(stage.Links, stage.LinkMap_Staged_Order)
+		case "NoteShape":
+			res = GetNamedStructInstances(stage.NoteShapes, stage.NoteShapeMap_Staged_Order)
+		case "NoteShapeLink":
+			res = GetNamedStructInstances(stage.NoteShapeLinks, stage.NoteShapeLinkMap_Staged_Order)
+		case "Position":
+			res = GetNamedStructInstances(stage.Positions, stage.PositionMap_Staged_Order)
+		case "UmlState":
+			res = GetNamedStructInstances(stage.UmlStates, stage.UmlStateMap_Staged_Order)
+		case "Umlsc":
+			res = GetNamedStructInstances(stage.Umlscs, stage.UmlscMap_Staged_Order)
+		case "Vertice":
+			res = GetNamedStructInstances(stage.Vertices, stage.VerticeMap_Staged_Order)
+	}
+
+	return
+}
+
+
+type NamedStruct struct {
+	name string
+}
+
+func (namedStruct *NamedStruct) GetName() string {
+	return namedStruct.name
 }
 
 func (stage *Stage) GetType() string {
@@ -441,6 +523,22 @@ func NewStage(name string) (stage *Stage) {
 		VerticeMap_Staged_Order: make(map[*Vertice]uint),
 
 		// end of insertion point
+
+		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
+			&NamedStruct{name: "Classdiagram"},
+			&NamedStruct{name: "DiagramPackage"},
+			&NamedStruct{name: "Field"},
+			&NamedStruct{name: "GongEnumShape"},
+			&NamedStruct{name: "GongEnumValueEntry"},
+			&NamedStruct{name: "GongStructShape"},
+			&NamedStruct{name: "Link"},
+			&NamedStruct{name: "NoteShape"},
+			&NamedStruct{name: "NoteShapeLink"},
+			&NamedStruct{name: "Position"},
+			&NamedStruct{name: "UmlState"},
+			&NamedStruct{name: "Umlsc"},
+			&NamedStruct{name: "Vertice"},
+		}, // end of insertion point
 	}
 
 	return

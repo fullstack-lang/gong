@@ -6,8 +6,10 @@ import (
 	"embed"
 	"errors"
 	"fmt"
+	"log"
 	"math"
 	"slices"
+	"sort"
 	"time"
 
 	xlsx_go "github.com/fullstack-lang/gong/lib/xlsx/go"
@@ -166,6 +168,70 @@ type Stage struct {
 	XLSheetMap_Staged_Order map[*XLSheet]uint
 
 	// end of insertion point
+
+	NamedStructs []*NamedStruct
+}
+
+// GetNamedStructs implements models.ProbebStage.
+func (stage *Stage) GetNamedStructsNames() (res []string) {
+
+	for _, namedStruct := range stage.NamedStructs {
+		res = append(res, namedStruct.name)
+	}
+
+	return
+}
+
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+
+	orderedSet := []T{}
+	for instance := range set {
+		orderedSet = append(orderedSet, instance)
+	}
+	sort.Slice(orderedSet[:], func(i, j int) bool {
+		instancei := orderedSet[i]
+		instancej := orderedSet[j]
+		i_order, oki := order[instancei]
+		j_order, okj := order[instancej]
+		if !oki || !okj {
+			log.Fatalf("GetNamedStructInstances: pointer not found")
+		}
+		return i_order < j_order
+	})
+
+	for _, instance := range orderedSet {
+		res = append(res, instance.GetName())
+	}
+
+	return
+}
+
+func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
+
+	switch namedStructName {
+	// insertion point for case 
+		case "DisplaySelection":
+			res = GetNamedStructInstances(stage.DisplaySelections, stage.DisplaySelectionMap_Staged_Order)
+		case "XLCell":
+			res = GetNamedStructInstances(stage.XLCells, stage.XLCellMap_Staged_Order)
+		case "XLFile":
+			res = GetNamedStructInstances(stage.XLFiles, stage.XLFileMap_Staged_Order)
+		case "XLRow":
+			res = GetNamedStructInstances(stage.XLRows, stage.XLRowMap_Staged_Order)
+		case "XLSheet":
+			res = GetNamedStructInstances(stage.XLSheets, stage.XLSheetMap_Staged_Order)
+	}
+
+	return
+}
+
+
+type NamedStruct struct {
+	name string
+}
+
+func (namedStruct *NamedStruct) GetName() string {
+	return namedStruct.name
 }
 
 func (stage *Stage) GetType() string {
@@ -277,6 +343,14 @@ func NewStage(name string) (stage *Stage) {
 		XLSheetMap_Staged_Order: make(map[*XLSheet]uint),
 
 		// end of insertion point
+
+		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
+			&NamedStruct{name: "DisplaySelection"},
+			&NamedStruct{name: "XLCell"},
+			&NamedStruct{name: "XLFile"},
+			&NamedStruct{name: "XLRow"},
+			&NamedStruct{name: "XLSheet"},
+		}, // end of insertion point
 	}
 
 	return

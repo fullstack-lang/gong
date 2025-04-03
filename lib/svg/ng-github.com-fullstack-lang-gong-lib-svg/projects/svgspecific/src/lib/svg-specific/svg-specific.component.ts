@@ -63,7 +63,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   private svgContainer!: ElementRef<SVGSVGElement>
 
   @Input() Name: string = ""
-  @Input() zoom: number = 1; // <-- Add this line
+  zoom: number = 1;
   shiftX: number = 0;
   shiftY: number = 0;
 
@@ -1037,5 +1037,12 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     URL.revokeObjectURL(url);
   }
   
+    /**
+   * Called when zoom, shiftX, or shiftY slider value changes.
+   * Manually triggers change detection because the detector is detached.
+   */
+    onTransformChange(): void {
+      this.changeDetectorRef.detectChanges();
+    }
   
 }
