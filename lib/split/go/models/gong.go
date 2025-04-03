@@ -3,11 +3,14 @@ package models
 
 import (
 	"cmp"
+	"embed"
 	"errors"
 	"fmt"
 	"math"
 	"slices"
 	"time"
+
+	split_go "github.com/fullstack-lang/gong/lib/split/go"
 )
 
 func __Gong__Abs(x int) int {
@@ -283,6 +286,18 @@ type Stage struct {
 
 func (stage *Stage) GetType() string {
 	return "github.com/fullstack-lang/gong/lib/split/go/models"
+}
+
+func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
+	return stage.Map_GongStructName_InstancesNb
+}
+
+func (stage *Stage) GetModelsEmbededDir() embed.FS {
+	return split_go.GoModelsDir
+}
+
+func (stage *Stage) GetDigramsEmbededDir() embed.FS {
+	return split_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
@@ -2539,7 +2554,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Tree:
 		res = []string{"Name", "StackName", "TreeName"}
 	case View:
-		res = []string{"Name", "RootAsSplitAreas"}
+		res = []string{"Name", "ShowViewName", "RootAsSplitAreas"}
 	case Xlsx:
 		res = []string{"Name", "StackName"}
 	}
@@ -2649,7 +2664,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Tree:
 		res = []string{"Name", "StackName", "TreeName"}
 	case *View:
-		res = []string{"Name", "RootAsSplitAreas"}
+		res = []string{"Name", "ShowViewName", "RootAsSplitAreas"}
 	case *Xlsx:
 		res = []string{"Name", "StackName"}
 	}
@@ -2888,6 +2903,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
+		case "ShowViewName":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.ShowViewName)
+			res.valueBool = inferedInstance.ShowViewName
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "RootAsSplitAreas":
 			for idx, __instance__ := range inferedInstance.RootAsSplitAreas {
 				if idx > 0 {
@@ -3109,6 +3128,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
+		case "ShowViewName":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.ShowViewName)
+			res.valueBool = inferedInstance.ShowViewName
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "RootAsSplitAreas":
 			for idx, __instance__ := range inferedInstance.RootAsSplitAreas {
 				if idx > 0 {

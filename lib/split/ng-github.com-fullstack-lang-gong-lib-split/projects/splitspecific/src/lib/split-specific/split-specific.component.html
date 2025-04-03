@@ -17,6 +17,11 @@
         <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
     </as-split-area>
     }
+    @if (frontRepo && frontRepo.array_Views && frontRepo.array_Views.length == 1 && frontRepo.array_Views[0].ShowViewName) {
+        <as-split-area [size]=40>
+            <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
+        </as-split-area>
+    }
     <as-split-area [size]="$any('*')">
         <as-split direction="vertical">
             @for (asSplitArea of view_.RootAsSplitAreas; track asSplitArea) {

@@ -56,6 +56,9 @@ const (
 	ModelGongOrderMapsInit
 	ModelGongOrderSwitchGet
 
+	ModelGongNamedStructsSliceInit
+	ModelGongNamedStructsInstancesNames
+
 	ModelGongStructInsertionsNb
 )
 
@@ -281,6 +284,12 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 	ModelGongOrderSwitchGet: `
 	case *{{Structname}}:
 		return stage.{{Structname}}Map_Staged_Order[instance]`,
+
+	ModelGongNamedStructsSliceInit: `
+			&NamedStruct{name: "{{Structname}}"},`,
+	ModelGongNamedStructsInstancesNames: `
+		case "{{Structname}}":
+			res = GetNamedStructInstances(stage.{{Structname}}s, stage.{{Structname}}Map_Staged_Order)`,
 }
 
 // Sub sub Templates identifiers per gong field
