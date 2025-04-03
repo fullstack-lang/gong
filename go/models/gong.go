@@ -6,8 +6,10 @@ import (
 	"embed"
 	"errors"
 	"fmt"
+	"log"
 	"math"
 	"slices"
+	"sort"
 	"time"
 
 	gong_go "github.com/fullstack-lang/gong/go"
@@ -256,6 +258,84 @@ type Stage struct {
 	SliceOfPointerToGongStructFieldMap_Staged_Order map[*SliceOfPointerToGongStructField]uint
 
 	// end of insertion point
+
+	NamedStructs []*NamedStruct
+}
+
+// GetNamedStructs implements models.ProbebStage.
+func (stage *Stage) GetNamedStructsNames() (res []string) {
+
+	for _, namedStruct := range stage.NamedStructs {
+		res = append(res, namedStruct.name)
+	}
+
+	return
+}
+
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+
+	orderedSet := []T{}
+	for instance := range set {
+		orderedSet = append(orderedSet, instance)
+	}
+	sort.Slice(orderedSet[:], func(i, j int) bool {
+		instancei := orderedSet[i]
+		instancej := orderedSet[j]
+		i_order, oki := order[instancei]
+		j_order, okj := order[instancej]
+		if !oki || !okj {
+			log.Fatalf("GetNamedStructInstances: pointer not found")
+		}
+		return i_order < j_order
+	})
+
+	for _, instance := range orderedSet {
+		res = append(res, instance.GetName())
+	}
+
+	return
+}
+
+func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
+
+	switch namedStructName {
+	// insertion point for case 
+		case "GongBasicField":
+			res = GetNamedStructInstances(stage.GongBasicFields, stage.GongBasicFieldMap_Staged_Order)
+		case "GongEnum":
+			res = GetNamedStructInstances(stage.GongEnums, stage.GongEnumMap_Staged_Order)
+		case "GongEnumValue":
+			res = GetNamedStructInstances(stage.GongEnumValues, stage.GongEnumValueMap_Staged_Order)
+		case "GongLink":
+			res = GetNamedStructInstances(stage.GongLinks, stage.GongLinkMap_Staged_Order)
+		case "GongNote":
+			res = GetNamedStructInstances(stage.GongNotes, stage.GongNoteMap_Staged_Order)
+		case "GongStruct":
+			res = GetNamedStructInstances(stage.GongStructs, stage.GongStructMap_Staged_Order)
+		case "GongTimeField":
+			res = GetNamedStructInstances(stage.GongTimeFields, stage.GongTimeFieldMap_Staged_Order)
+		case "Meta":
+			res = GetNamedStructInstances(stage.Metas, stage.MetaMap_Staged_Order)
+		case "MetaReference":
+			res = GetNamedStructInstances(stage.MetaReferences, stage.MetaReferenceMap_Staged_Order)
+		case "ModelPkg":
+			res = GetNamedStructInstances(stage.ModelPkgs, stage.ModelPkgMap_Staged_Order)
+		case "PointerToGongStructField":
+			res = GetNamedStructInstances(stage.PointerToGongStructFields, stage.PointerToGongStructFieldMap_Staged_Order)
+		case "SliceOfPointerToGongStructField":
+			res = GetNamedStructInstances(stage.SliceOfPointerToGongStructFields, stage.SliceOfPointerToGongStructFieldMap_Staged_Order)
+	}
+
+	return
+}
+
+
+type NamedStruct struct {
+	name string
+}
+
+func (namedStruct *NamedStruct) GetName() string {
+	return namedStruct.name
 }
 
 func (stage *Stage) GetType() string {
@@ -416,6 +496,21 @@ func NewStage(name string) (stage *Stage) {
 		SliceOfPointerToGongStructFieldMap_Staged_Order: make(map[*SliceOfPointerToGongStructField]uint),
 
 		// end of insertion point
+
+		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
+			&NamedStruct{name: "GongBasicField"},
+			&NamedStruct{name: "GongEnum"},
+			&NamedStruct{name: "GongEnumValue"},
+			&NamedStruct{name: "GongLink"},
+			&NamedStruct{name: "GongNote"},
+			&NamedStruct{name: "GongStruct"},
+			&NamedStruct{name: "GongTimeField"},
+			&NamedStruct{name: "Meta"},
+			&NamedStruct{name: "MetaReference"},
+			&NamedStruct{name: "ModelPkg"},
+			&NamedStruct{name: "PointerToGongStructField"},
+			&NamedStruct{name: "SliceOfPointerToGongStructField"},
+		}, // end of insertion point
 	}
 
 	return
