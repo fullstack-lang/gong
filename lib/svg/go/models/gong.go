@@ -6,8 +6,10 @@ import (
 	"embed"
 	"errors"
 	"fmt"
+	"log"
 	"math"
 	"slices"
+	"sort"
 	"time"
 
 	svg_go "github.com/fullstack-lang/gong/lib/svg/go"
@@ -380,6 +382,98 @@ type Stage struct {
 	TextMap_Staged_Order map[*Text]uint
 
 	// end of insertion point
+
+	NamedStructs []*NamedStruct
+}
+
+// GetNamedStructs implements models.ProbebStage.
+func (stage *Stage) GetNamedStructsNames() (res []string) {
+
+	for _, namedStruct := range stage.NamedStructs {
+		res = append(res, namedStruct.name)
+	}
+
+	return
+}
+
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+
+	orderedSet := []T{}
+	for instance := range set {
+		orderedSet = append(orderedSet, instance)
+	}
+	sort.Slice(orderedSet[:], func(i, j int) bool {
+		instancei := orderedSet[i]
+		instancej := orderedSet[j]
+		i_order, oki := order[instancei]
+		j_order, okj := order[instancej]
+		if !oki || !okj {
+			log.Fatalf("GetNamedStructInstances: pointer not found")
+		}
+		return i_order < j_order
+	})
+
+	for _, instance := range orderedSet {
+		res = append(res, instance.GetName())
+	}
+
+	return
+}
+
+func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
+
+	switch namedStructName {
+	// insertion point for case 
+		case "Animate":
+			res = GetNamedStructInstances(stage.Animates, stage.AnimateMap_Staged_Order)
+		case "Circle":
+			res = GetNamedStructInstances(stage.Circles, stage.CircleMap_Staged_Order)
+		case "Ellipse":
+			res = GetNamedStructInstances(stage.Ellipses, stage.EllipseMap_Staged_Order)
+		case "Layer":
+			res = GetNamedStructInstances(stage.Layers, stage.LayerMap_Staged_Order)
+		case "Line":
+			res = GetNamedStructInstances(stage.Lines, stage.LineMap_Staged_Order)
+		case "Link":
+			res = GetNamedStructInstances(stage.Links, stage.LinkMap_Staged_Order)
+		case "LinkAnchoredText":
+			res = GetNamedStructInstances(stage.LinkAnchoredTexts, stage.LinkAnchoredTextMap_Staged_Order)
+		case "Path":
+			res = GetNamedStructInstances(stage.Paths, stage.PathMap_Staged_Order)
+		case "Point":
+			res = GetNamedStructInstances(stage.Points, stage.PointMap_Staged_Order)
+		case "Polygone":
+			res = GetNamedStructInstances(stage.Polygones, stage.PolygoneMap_Staged_Order)
+		case "Polyline":
+			res = GetNamedStructInstances(stage.Polylines, stage.PolylineMap_Staged_Order)
+		case "Rect":
+			res = GetNamedStructInstances(stage.Rects, stage.RectMap_Staged_Order)
+		case "RectAnchoredPath":
+			res = GetNamedStructInstances(stage.RectAnchoredPaths, stage.RectAnchoredPathMap_Staged_Order)
+		case "RectAnchoredRect":
+			res = GetNamedStructInstances(stage.RectAnchoredRects, stage.RectAnchoredRectMap_Staged_Order)
+		case "RectAnchoredText":
+			res = GetNamedStructInstances(stage.RectAnchoredTexts, stage.RectAnchoredTextMap_Staged_Order)
+		case "RectLinkLink":
+			res = GetNamedStructInstances(stage.RectLinkLinks, stage.RectLinkLinkMap_Staged_Order)
+		case "SVG":
+			res = GetNamedStructInstances(stage.SVGs, stage.SVGMap_Staged_Order)
+		case "SvgText":
+			res = GetNamedStructInstances(stage.SvgTexts, stage.SvgTextMap_Staged_Order)
+		case "Text":
+			res = GetNamedStructInstances(stage.Texts, stage.TextMap_Staged_Order)
+	}
+
+	return
+}
+
+
+type NamedStruct struct {
+	name string
+}
+
+func (namedStruct *NamedStruct) GetName() string {
+	return namedStruct.name
 }
 
 func (stage *Stage) GetType() string {
@@ -589,6 +683,28 @@ func NewStage(name string) (stage *Stage) {
 		TextMap_Staged_Order: make(map[*Text]uint),
 
 		// end of insertion point
+
+		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
+			&NamedStruct{name: "Animate"},
+			&NamedStruct{name: "Circle"},
+			&NamedStruct{name: "Ellipse"},
+			&NamedStruct{name: "Layer"},
+			&NamedStruct{name: "Line"},
+			&NamedStruct{name: "Link"},
+			&NamedStruct{name: "LinkAnchoredText"},
+			&NamedStruct{name: "Path"},
+			&NamedStruct{name: "Point"},
+			&NamedStruct{name: "Polygone"},
+			&NamedStruct{name: "Polyline"},
+			&NamedStruct{name: "Rect"},
+			&NamedStruct{name: "RectAnchoredPath"},
+			&NamedStruct{name: "RectAnchoredRect"},
+			&NamedStruct{name: "RectAnchoredText"},
+			&NamedStruct{name: "RectLinkLink"},
+			&NamedStruct{name: "SVG"},
+			&NamedStruct{name: "SvgText"},
+			&NamedStruct{name: "Text"},
+		}, // end of insertion point
 	}
 
 	return

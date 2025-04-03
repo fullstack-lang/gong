@@ -12,7 +12,7 @@
                 discrete
                 showTickMarks
                 style="min-width: 150px;">
-       <input matSliderThumb [(ngModel)]="zoom" #zoomSlider>
+      <input matSliderThumb [(ngModel)]="zoom" (input)="onTransformChange()" #zoomSlider>
     </mat-slider>
     <span style="min-width: 40px; text-align: right;">{{ zoomSlider.value | number:'1.2-2' }}x</span>
   </div>
@@ -27,7 +27,7 @@
                 discrete
                 showTickMarks
                 style="min-width: 150px;">
-      <input matSliderThumb [(ngModel)]="shiftX" #shiftXSlider>
+      <input matSliderThumb [(ngModel)]="shiftX" (input)="onTransformChange()" #shiftXSlider>
     </mat-slider>
     <span style="min-width: 40px; text-align: right;">{{ shiftXSlider.value }}px</span>
   </div>
@@ -35,14 +35,14 @@
   <mat-divider vertical style="height: 30px; margin: 0 10px;"></mat-divider>
 
   <div style="display: flex; align-items: center; gap: 8px;">
-     <span style="min-width: 50px;">Shift Y:</span>
+    <span style="min-width: 50px;">Shift Y:</span>
     <mat-slider min="0"
                 max="1000"
                 step="1"
                 discrete
                 showTickMarks
                 style="min-width: 150px;">
-      <input matSliderThumb [(ngModel)]="shiftY" #shiftYSlider>
+      <input matSliderThumb [(ngModel)]="shiftY" (input)="onTransformChange()" #shiftYSlider>
     </mat-slider>
     <span style="min-width: 40px; text-align: right;">{{ shiftYSlider.value }}px</span>
   </div>
