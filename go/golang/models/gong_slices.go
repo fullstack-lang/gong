@@ -191,7 +191,7 @@ func CodeGeneratorModelGongSlice(
 		"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""),
 	)
 
-	file, err := os.Create(filepath.Join(pkgPath, "../models/gong_slices.go"))
+	file, err := os.Create(filepath.Join(pkgPath, string(models.GeneratedGongSlicesGoFilePath)))
 	if err != nil {
 		log.Panic(err)
 	}
