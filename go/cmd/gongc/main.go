@@ -13,21 +13,9 @@ import (
 	"strings"
 	"time"
 
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
-
+	"github.com/fullstack-lang/gong/go/angular"
 	"github.com/fullstack-lang/gong/go/golang"
-	"github.com/fullstack-lang/gong/go/golang/cmd"
-	"github.com/fullstack-lang/gong/go/golang/controllers"
-	"github.com/fullstack-lang/gong/go/golang/db"
 	"github.com/fullstack-lang/gong/go/golang/diagrams"
-	"github.com/fullstack-lang/gong/go/golang/fullstack"
-	"github.com/fullstack-lang/gong/go/golang/models"
-	"github.com/fullstack-lang/gong/go/golang/orm"
-	"github.com/fullstack-lang/gong/go/golang/orm/dbgorm"
-	"github.com/fullstack-lang/gong/go/golang/probe"
-	"github.com/fullstack-lang/gong/go/golang/stack"
-	"github.com/fullstack-lang/gong/go/golang/static"
 
 	"github.com/fullstack-lang/gong/go/vscode"
 
@@ -71,16 +59,17 @@ func main() {
 	if len(flag.Args()) > 1 {
 		log.Fatal("surplus arguments")
 	}
+	pkgPath := *pkgPath
 	if len(flag.Args()) == 1 {
-		*pkgPath = flag.Arg(0)
+		pkgPath = flag.Arg(0)
 	}
 
 	// remove gong generated files
-	golang.RemoveGeneratedGongFilesButDocs(*pkgPath)
+	golang.RemoveGeneratedGongFilesButDocs(pkgPath)
 
 	// initiate model package
 	modelStage := gong_models.NewStage("")
-	modelPkg, _ := gong_models.LoadSource(modelStage, *pkgPath)
+	modelPkg, _ := gong_models.LoadSource(modelStage, pkgPath)
 
 	// check wether the package name follows gong naming convention
 	if strings.ContainsAny(modelPkg.Name, "-") {
@@ -93,7 +82,7 @@ func main() {
 	//
 	{
 
-		directory, err := filepath.Abs(filepath.Join(*pkgPath, ".."))
+		directory, err := filepath.Abs(filepath.Join(pkgPath, ".."))
 		if err != nil {
 			log.Fatal("Problem with backend target path " + err.Error())
 		}
@@ -148,7 +137,7 @@ func main() {
 		{
 			directory, err :=
 				filepath.Abs(
-					filepath.Join(*pkgPath,
+					filepath.Join(pkgPath,
 						fmt.Sprintf("../../%s/projects/%s/src/lib", modelPkg.NgWorkspaceName, modelPkg.Name)))
 			modelPkg.NgDataLibrarySourceCodeDirectory = directory
 			if err != nil {
@@ -159,7 +148,7 @@ func main() {
 		{
 			directory, err :=
 				filepath.Abs(
-					filepath.Join(*pkgPath,
+					filepath.Join(pkgPath,
 						fmt.Sprintf("../../%s/projects/%sspecific/src/lib", modelPkg.NgWorkspaceName, modelPkg.Name)))
 			modelPkg.NgSpecificLibrarySourceCodeDirectory = directory
 			if err != nil {
@@ -170,7 +159,7 @@ func main() {
 		{
 			directory, err :=
 				filepath.Abs(
-					filepath.Join(*pkgPath,
+					filepath.Join(pkgPath,
 						fmt.Sprintf("../../%s/projects/%sdatamodel/src/lib", modelPkg.NgWorkspaceName, modelPkg.Name)))
 			modelPkg.MaterialLibDatamodelTargetPath = directory
 			if err != nil {
@@ -221,7 +210,7 @@ func main() {
 
 			// git init
 			cmd := exec.Command("git", "init")
-			cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, "../.."))
+			cmd.Dir, _ = filepath.Abs(filepath.Join(pkgPath, "../.."))
 
 			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
 			var stdBuffer bytes.Buffer
@@ -266,7 +255,7 @@ func main() {
 	if !*skipNpmWorkspaces && !*skipNg && !*skipNpmInstall {
 		// we need to use npm package (because of angular 17/esbuild)
 		// check wether a package.json is present, otherwise generate it
-		packageJsonFilePath := filepath.Join(*pkgPath, "../../package.json")
+		packageJsonFilePath := filepath.Join(pkgPath, "../../package.json")
 		_, errd := os.Stat(packageJsonFilePath)
 		if os.IsNotExist(errd) {
 			gong_models.VerySimpleCodeGenerator(
@@ -279,7 +268,7 @@ func main() {
 	if !*skipNpmWorkspaces && !*skipNg && !*skipNpmInstall {
 		// we need to use npm package (because of angular 17/esbuild)
 		// check wether a package.json is present, otherwise generate it
-		packageJsonFilePath := filepath.Join(*pkgPath, "../../.gitignore")
+		packageJsonFilePath := filepath.Join(pkgPath, "../../.gitignore")
 		_, errd := os.Stat(packageJsonFilePath)
 		if os.IsNotExist(errd) {
 			gong_models.VerySimpleCodeGenerator(
@@ -291,7 +280,7 @@ func main() {
 
 	// generate diagrams/docs.go if absent
 	{
-		diagramsDocFilePath := filepath.Join(*pkgPath, "../diagrams/docs.go")
+		diagramsDocFilePath := filepath.Join(pkgPath, "../diagrams/docs.go")
 		_, errd := os.Stat(diagramsDocFilePath)
 		if os.IsNotExist(errd) {
 			log.Printf("../diagrams/docs.go does not exist, gongc creates a default one")
@@ -313,66 +302,10 @@ func main() {
 		}
 	}
 
-	// generate main.go if absent
-	{
-		// check existance of "main.go" file and generate a default "main.go" if absent
-		mainFilePath := filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s/main.go", gong_models.ComputePkgNameFromPkgPath(*pkgPath)))
-
-		_, errd := os.Stat(mainFilePath)
-		if os.IsNotExist(errd) {
-			log.Printf("maing.go does not exist, gongc creates a default main.go")
-
-			mainFileDirPath := filepath.Dir(mainFilePath)
-			mainFileDirAbsPath, _ := filepath.Abs(mainFileDirPath)
-
-			errd := os.MkdirAll(mainFileDirAbsPath, os.ModePerm)
-			if os.IsNotExist(errd) {
-				log.Println("creating directory : " + mainFileDirAbsPath)
-			}
-			if os.IsExist(errd) {
-				log.Println("directory " + mainFileDirAbsPath + " allready exists")
-			}
-
-			// creates a "data" directory as well to store the stage.go files
-			dataDirPath := filepath.Join(mainFileDirAbsPath, "data")
-			errd = os.MkdirAll(dataDirPath, os.ModePerm)
-			if os.IsNotExist(errd) {
-				log.Println("creating directory : " + dataDirPath)
-			}
-			if os.IsExist(errd) {
-				log.Println("directory " + dataDirPath + " allready exists")
-			}
-
-			// sometimes on windows, directory creation is not completed before creation of file/directory (this
-			// leads to non reproductible "access denied")
-			time.Sleep(1000 * time.Millisecond)
-			cmd.CodeGeneratorPackageMain(
-				modelPkg,
-				modelPkg.Name,
-				modelPkg.PkgPath,
-				mainFilePath,
-				*skipStager)
-		}
-	}
-	{
-		// check existance of "main.go" file and generate a default "main.go" if absent
-		coderFilePath := filepath.Join(*pkgPath, "stager.go")
-
-		_, errd := os.Stat(coderFilePath)
-		if os.IsNotExist(errd) && !*skipStager {
-			log.Printf("stager.go does not exist, gongc creates a default stager.go")
-			gong_models.VerySimpleCodeGenerator(
-				modelPkg,
-				coderFilePath,
-				models.StagerFileTemplate)
-		}
-
-	}
-
 	// check existance of .vscode directory. If absent, generates default vscode configurations
 	// that are usefull for development
 	{
-		vscodeDirFilePath := filepath.Join(*pkgPath, "../../.vscode")
+		vscodeDirFilePath := filepath.Join(pkgPath, "../../.vscode")
 
 		_, errd := os.Stat(vscodeDirFilePath)
 		if os.IsNotExist(errd) {
@@ -403,369 +336,12 @@ func main() {
 	}
 
 	// generate directory for orm package
-	errd := os.MkdirAll(modelPkg.OrmPkgGenPath, os.ModePerm)
-	if os.IsNotExist(errd) {
-		log.Println("creating directory : " + modelPkg.OrmPkgGenPath)
-	}
-	if os.IsExist(errd) {
-		log.Println("directory " + modelPkg.OrmPkgGenPath + " allready exists")
-	}
-
-	// generate directory for orm package
-	errd = os.MkdirAll(modelPkg.DbOrmPkgGenPath, os.ModePerm)
-	if os.IsNotExist(errd) {
-		log.Println("creating directory : " + modelPkg.DbOrmPkgGenPath)
-	}
-	if os.IsExist(errd) {
-		log.Println("directory " + modelPkg.DbOrmPkgGenPath + " allready exists")
-	}
-
-	// generate directory for orm package
-	errd = os.MkdirAll(modelPkg.DbLiteOrmPkgGenPath, os.ModePerm)
-	if os.IsNotExist(errd) {
-		log.Println("creating directory : " + modelPkg.DbLiteOrmPkgGenPath)
-	}
-	if os.IsExist(errd) {
-		log.Println("directory " + modelPkg.DbLiteOrmPkgGenPath + " allready exists")
-	}
-
-	// generate directory for orm package
-	errd = os.MkdirAll(modelPkg.DbPkgGenPath, os.ModePerm)
-	if os.IsNotExist(errd) {
-		log.Println("creating directory : " + modelPkg.DbPkgGenPath)
-	}
-	if os.IsExist(errd) {
-		log.Println("directory " + modelPkg.DbPkgGenPath + " allready exists")
-	}
-
-	// generate directory for controllers package
-	errd = os.MkdirAll(modelPkg.ControllersPkgGenPath, os.ModePerm)
-	if os.IsNotExist(errd) {
-		log.Println("creating directory : " + modelPkg.ControllersPkgGenPath)
-	}
-	if os.IsExist(errd) {
-		log.Println("directory " + modelPkg.ControllersPkgGenPath + " allready exists")
-	}
-
-	// generate directory for fullstack package
-	errd = os.MkdirAll(modelPkg.FullstackPkgGenPath, os.ModePerm)
-	if os.IsNotExist(errd) {
-		log.Println("creating directory : " + modelPkg.FullstackPkgGenPath)
-	}
-	if os.IsExist(errd) {
-		log.Println("directory " + modelPkg.FullstackPkgGenPath + " allready exists")
-	}
-
-	errd = os.MkdirAll(modelPkg.StackPkgGenPath, os.ModePerm)
-	if os.IsNotExist(errd) {
-		log.Println("creating directory : " + modelPkg.StackPkgGenPath)
-	}
-	if os.IsExist(errd) {
-		log.Println("directory " + modelPkg.StackPkgGenPath + " allready exists")
-	}
-
-	// generate directory for static package
-	errd = os.MkdirAll(modelPkg.StaticPkgGenPath, os.ModePerm)
-	if os.IsNotExist(errd) {
-		log.Println("creating directory : " + modelPkg.StaticPkgGenPath)
-	}
-	if os.IsExist(errd) {
-		log.Println("directory " + modelPkg.StaticPkgGenPath + " allready exists")
-	}
-
-	// generate directory for Data package
-	errd = os.MkdirAll(modelPkg.ProbePkgGenPath, os.ModePerm)
-	if os.IsNotExist(errd) {
-		log.Println("creating directory : " + modelPkg.ProbePkgGenPath)
-	}
-	if os.IsExist(errd) {
-		log.Println("directory " + modelPkg.ProbePkgGenPath + " allready exists")
-	}
-
-	// compute source path
-	sourcePath, errd2 := filepath.Abs(*pkgPath)
-	if errd2 != nil {
-		log.Panic("Problem with source path " + errd2.Error())
-	}
-
-	caserEnglish := cases.Title(language.English)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(*pkgPath, "../../go/embed.go"),
-		golang.EmebedGoDirTemplate)
-
-	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
-		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../fullstack/new_stack_instance.go"),
-		fullstack.FullstackNewStackInstanceTemplate,
-		fullstack.ModelGongNewStackInstanceStructSubTemplateCode)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(*pkgPath, "../stack/stack.go"),
-		stack.StackInstanceTemplate)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(*pkgPath, "../static/serve_static_files.go"),
-		static.ServeStaticFilesTemplate)
-
-	models.CodeGeneratorModelGong(
-		modelPkg,
-		modelPkg.Name,
-		*pkgPath)
-
-	models.CodeGeneratorModelGongEnum(
-		modelPkg,
-		modelPkg.Name,
-		*pkgPath)
-
-	models.CodeGeneratorModelGongMarshall(
-		modelPkg,
-		modelPkg.Name,
-		*pkgPath)
-
-	models.CodeGeneratorModelGongGraph(
-		modelPkg,
-		modelPkg.Name,
-		*pkgPath)
-
-	models.CodeGeneratorModelGongSlice(
-		modelPkg,
-		modelPkg.Name,
-		*pkgPath,
-		modelPkg.PkgPath,
-	)
-
-	if !*skipCoder {
-		models.CodeGeneratorModelGongCoder(
-			modelPkg,
-			modelPkg.Name,
-			*pkgPath)
-	}
-
-	models.GongAstGenerator(modelPkg, *pkgPath)
-
-	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(*pkgPath, "../orm/back_repo.go"),
-		orm.BackRepoTemplateCode, orm.BackRepoSubTemplate)
-
-	// back repo is either with gorm + sqlite or with lite
-	if *dbLite {
-		orm.RemoveTargetedLines(filepath.Join(*pkgPath, "../orm/back_repo.go"), orm.Lite)
-	} else {
-		orm.RemoveTargetedLines(filepath.Join(*pkgPath, "../orm/back_repo.go"), orm.Gorm)
-	}
-
-	gong_models.SimpleCodeGenerator(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(*pkgPath, "../orm/get_instance_db_from_instance.go"),
-		orm.GetInstanceDBFromInstanceTemplateCode, orm.GetInstanceDBFromInstanceSubTemplate)
-
-	gong_models.SimpleCodeGenerator(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(*pkgPath, "../orm/back_repo_data.go"),
-		orm.BackRepoDataTemplateCode, orm.BackRepoDataSubTemplate)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(*pkgPath, "../db/db_interface.go"),
-		db.DbInterfaceTmpl)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(*pkgPath, "../orm/dbgorm/db.go"),
-		dbgorm.DbTmpl)
-
-	gong_models.SimpleCodeGenerator(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(*pkgPath, "../orm/db.go"),
-		orm.DbTmpl, orm.DBliteSubTemplates)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(*pkgPath, "../orm/int_slice.go"),
-		orm.IntSliceTemplateCode)
-
-	// for the replacement of the of the first bar in the Gongstruct Type def
-	orm.ReplaceInFile("../orm/get_instance_db_from_instance.go", "	 | ", "	")
-
-	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(*pkgPath, "../controllers/register_controllers.go"),
-		controllers.ControllersRegisterTemplate, controllers.ControllersRegistrationsSubTemplate)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(*pkgPath, "../controllers/controller.go"),
-		controllers.ControllerTemplate)
-
-	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(*pkgPath, "../models/gong_callbacks.go"),
-		models.ModelGongCallbacksFileTemplate, models.ModelGongCallbacksStructSubTemplateCode)
-
-	gong_models.CodeGenerator(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(*pkgPath, "../models/gong_orchestrator.go"),
-		models.ModelGongOrchestratorFileTemplate,
-		models.ModelGongOrchestratorStructSubTemplateCode,
-		map[string]string{}, map[string]string{},
-		true,
-		true)
-
-	if !*skipSerialize {
-		gong_models.SimpleCodeGeneratorForGongStructWithNameField(
-			modelPkg,
-			modelPkg.Name,
-			modelPkg.PkgPath,
-			filepath.Join(*pkgPath, "../models/gong_serialize.go"),
-			models.ModelGongSerializeFileTemplate, models.ModelGongSerializeStructSubTemplateCode)
-	}
-
-	models.CodeGeneratorModelGongWop(modelPkg, modelPkg.Name, *pkgPath)
-
-	orm.MultiCodeGeneratorBackRepo(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		modelPkg.OrmPkgGenPath)
-
-	controllers.MultiCodeGeneratorControllers(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		modelPkg.ControllersPkgGenPath)
-
-	gong_models.SimpleCodeGenerator(modelPkg,
-		modelPkg.Name, modelPkg.PkgPath,
-		filepath.Join(*pkgPath, "../docs.go"),
-		golang.RootFileDocsTemplate,
-		map[string]string{})
-
-	probe.CodeGeneratorFillUpForm(
-		modelPkg,
-		modelPkg.Name,
-		*pkgPath,
-		modelPkg.PkgPath,
-	)
-
-	models.CodeGeneratorGongReverse(
-		modelPkg,
-		modelPkg.Name,
-		*pkgPath,
-		modelPkg.PkgPath,
-	)
-
-	probe.CodeGeneratorModelFormCallback(
-		modelPkg,
-		modelPkg.Name,
-		*pkgPath,
-		modelPkg.PkgPath,
-	)
-
-	gong_models.SimpleCodeGenerator(
-		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/tree_node_impl_gongstruct.go"),
-		probe.TreeNodeImplGongstructFileTemplate, probe.TreeNodeImplGongstructSubTemplateCode)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(*pkgPath, "../probe/button_impl_gongstruct.go"),
-		probe.ButtonImplGongstructFileTemplate)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(*pkgPath, "../probe/button_impl_refresh.go"),
-		probe.ButtonImplRefreshFileTemplate)
-
-	gong_models.SimpleCodeGenerator(
-		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/cell_delete_icon_impl.go"),
-		probe.CellDeleteIconImplTemplate, probe.CellDeleteIconImplSubTemplateCode)
-
-	gong_models.SimpleCodeGenerator(
-		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/fill_up_form_from_gongstruct.go"),
-		probe.FillUpFormFromGongstructTemplate, probe.FillUpFormFromGongstructSubTemplateCode)
-
-	gong_models.SimpleCodeGenerator(
-		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/fill_up_form_from_gongstruct_name.go"),
-		probe.FillUpFormFromGongstructNameTemplate, probe.FillUpFormFromGongstructNameSubTemplateCode)
-
-	gong_models.SimpleCodeGenerator(
-		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/fill_up_table.go"),
-		probe.FillUpTableTemplate, probe.FillUpTableSubTemplateCode)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(*pkgPath, "../probe/probe.go"),
-		probe.ProbeTemplate)
-
-	gong_models.SimpleCodeGenerator(
-		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/fill_up_tree.go"),
-		probe.FillUpTree, probe.FillUpTreeSubTemplateCode)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(*pkgPath, "../probe/basic_field_to_form.go"),
-		probe.BasicFieldtoFormTemplate)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(*pkgPath, "../probe/association_to_form.go"),
-		probe.AssociationFieldToFormTemplate)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(*pkgPath, "../probe/association_slice_to_form.go"),
-		probe.AssociationSliceToFormTemplate)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(*pkgPath, "../probe/enum_type_to_form.go"),
-		probe.EnumTypeStringToForm)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(*pkgPath, "../probe/assoc_sorting_button_impl.go"),
-		probe.NewOnSortingEditonTemplate)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(*pkgPath, "../probe/form_div_field.go"),
-		probe.FormDivToFieldTemplate)
+	golang.GeneratesGoCode(modelPkg, pkgPath, *skipCoder, *dbLite, *skipSerialize, *skipStager)
 
 	// since go mod vendor brings angular dependencies into the vendor directory
 	// the go mod vendor command has to be issued before the ng build command
 	if !*skipNg {
-		genAngular(modelPkg, *skipNpmInstall, *skipGoModCommands)
+		angular.GeneratesAngularCode(modelPkg, pkgPath, *skipNpmInstall, *skipGoModCommands, *addr)
 	}
 
 	if !*skipFlutter {
@@ -774,6 +350,12 @@ func main() {
 
 	apiYamlFilePath := fmt.Sprintf("%s/%sapi.yml", modelPkg.ControllersPkgGenPath, modelPkg.Name)
 	if !*skipSwagger {
+
+		// compute source path
+		sourcePath, errd2 := filepath.Abs(pkgPath)
+		if errd2 != nil {
+			log.Panic("Problem with source path " + errd2.Error())
+		}
 
 		// generate open api specification with swagger
 		cmd := exec.Command("swagger",
@@ -813,7 +395,7 @@ func main() {
 			// gcFlags allows for speedup of delve
 			cmd = exec.Command("go", "build", "-gcflags", "-N -l")
 		}
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
+		cmd.Dir, _ = filepath.Abs(filepath.Join(pkgPath, fmt.Sprintf("../cmd/%s", gong_models.ComputePkgNameFromPkgPath(pkgPath))))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -836,8 +418,8 @@ func main() {
 	// run application
 	if *run {
 		cmd := exec.Command("go", "run", "main.go")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath,
-			fmt.Sprintf("../../go/cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
+		cmd.Dir, _ = filepath.Abs(filepath.Join(pkgPath,
+			fmt.Sprintf("../../go/cmd/%s", gong_models.ComputePkgNameFromPkgPath(pkgPath))))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
