@@ -62,4 +62,5 @@ export * from './lib/sliceofpointertogongstructfield'
 export * from './lib/sliceofpointertogongstructfield.service'
 
 
+export * from './lib/GeneratedGoFilePath'
 export * from './lib/GongEnumType'
