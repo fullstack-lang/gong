@@ -269,7 +269,7 @@ func CodeGeneratorModelGongEnum(
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def
 	)
 
-	file, err := os.Create(filepath.Join(pkgPath, "gong_enum.go"))
+	file, err := os.Create(filepath.Join(pkgPath, string(models.GeneratedGongEnumGoFilePath)))
 	if err != nil {
 		log.Panic(err)
 	}

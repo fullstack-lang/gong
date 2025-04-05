@@ -72,7 +72,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 	// stager.go
 	{
 		// check existance of "main.go" file and generate a default "main.go" if absent
-		coderFilePath := filepath.Join(pkgPath, "stager.go")
+		coderFilePath := filepath.Join(pkgPath, string(gong_models.StagerGoFilePath))
 
 		_, errd := os.Stat(coderFilePath)
 		if os.IsNotExist(errd) && !skipStager {
@@ -293,14 +293,14 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		modelPkg,
 		modelPkg.Name,
 		modelPkg.PkgPath,
-		filepath.Join(pkgPath, "../models/gong_callbacks.go"),
+		filepath.Join(pkgPath, string(gong_models.GeneratedGongCallbacksGoFilePath)),
 		models.ModelGongCallbacksFileTemplate, models.ModelGongCallbacksStructSubTemplateCode)
 
 	gong_models.CodeGenerator(
 		modelPkg,
 		modelPkg.Name,
 		modelPkg.PkgPath,
-		filepath.Join(pkgPath, "../models/gong_orchestrator.go"),
+		filepath.Join(pkgPath, string(gong_models.GeneratedGongOrchestratorGoFilePath)),
 		models.ModelGongOrchestratorFileTemplate,
 		models.ModelGongOrchestratorStructSubTemplateCode,
 		map[string]string{}, map[string]string{},
@@ -312,7 +312,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 			modelPkg,
 			modelPkg.Name,
 			modelPkg.PkgPath,
-			filepath.Join(pkgPath, "../models/gong_serialize.go"),
+			filepath.Join(pkgPath, string(gong_models.GeneratedGongSerializeGoFilePath)),
 			models.ModelGongSerializeFileTemplate, models.ModelGongSerializeStructSubTemplateCode)
 	}
 

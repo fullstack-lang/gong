@@ -278,7 +278,7 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def
 	)
 
-	file, err := os.Create(filepath.Join(pkgPath, "gong_ast.go"))
+	file, err := os.Create(filepath.Join(pkgPath, string(models.GeneratedGongAstGoFilePath)))
 	if err != nil {
 		log.Panic(err)
 	}

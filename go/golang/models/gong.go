@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/fullstack-lang/gong/go/models"
+
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )
@@ -785,7 +786,7 @@ func CodeGeneratorModelGong(
 		"{{PkgPathRoot}}", strings.ReplaceAll(modelPkg.PkgPath, "/models", ""),
 	)
 
-	file, err := os.Create(filepath.Join(pkgPath, "gong.go"))
+	file, err := os.Create(filepath.Join(pkgPath, string(models.GeneratedGongGoFilePath)))
 	if err != nil {
 		log.Panic(err)
 	}
