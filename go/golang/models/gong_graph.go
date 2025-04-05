@@ -353,7 +353,7 @@ func CodeGeneratorModelGongGraph(
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def
 	)
 
-	file, err := os.Create(filepath.Join(pkgPath, "gong_graph.go"))
+	file, err := os.Create(filepath.Join(pkgPath, string(models.GeneratedGongGraphGoFilePath)))
 	if err != nil {
 		log.Panic(err)
 	}

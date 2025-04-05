@@ -16,7 +16,7 @@ func RemoveGeneratedGongFilesButDocs(
 	RelativePkgPath string) {
 
 	{
-		filename := filepath.Join(RelativePkgPath, "docs.go")
+		filename := filepath.Join(RelativePkgPath, string(gong_models.DocsGoFilePath))
 		file, err := os.Create(filename)
 
 		if err != nil {
