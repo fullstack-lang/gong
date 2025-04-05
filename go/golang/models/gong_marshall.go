@@ -309,7 +309,7 @@ func CodeGeneratorModelGongMarshall(
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def
 	)
 
-	file, err := os.Create(filepath.Join(pkgPath, "gong_marshall.go"))
+	file, err := os.Create(filepath.Join(pkgPath, string(models.GeneratedGongMarshallGoFilePath)))
 	if err != nil {
 		log.Panic(err)
 	}
