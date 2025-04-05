@@ -14,9 +14,7 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/go/golang"
-	"github.com/fullstack-lang/gong/go/golang/cmd"
 	"github.com/fullstack-lang/gong/go/golang/diagrams"
-	"github.com/fullstack-lang/gong/go/golang/models"
 
 	"github.com/fullstack-lang/gong/go/vscode"
 
@@ -303,62 +301,6 @@ func main() {
 		}
 	}
 
-	// generate main.go if absent
-	{
-		// check existance of "main.go" file and generate a default "main.go" if absent
-		mainFilePath := filepath.Join(pkgPath, fmt.Sprintf("../cmd/%s/main.go", gong_models.ComputePkgNameFromPkgPath(pkgPath)))
-
-		_, errd := os.Stat(mainFilePath)
-		if os.IsNotExist(errd) {
-			log.Printf("maing.go does not exist, gongc creates a default main.go")
-
-			mainFileDirPath := filepath.Dir(mainFilePath)
-			mainFileDirAbsPath, _ := filepath.Abs(mainFileDirPath)
-
-			errd := os.MkdirAll(mainFileDirAbsPath, os.ModePerm)
-			if os.IsNotExist(errd) {
-				log.Println("creating directory : " + mainFileDirAbsPath)
-			}
-			if os.IsExist(errd) {
-				log.Println("directory " + mainFileDirAbsPath + " allready exists")
-			}
-
-			// creates a "data" directory as well to store the stage.go files
-			dataDirPath := filepath.Join(mainFileDirAbsPath, "data")
-			errd = os.MkdirAll(dataDirPath, os.ModePerm)
-			if os.IsNotExist(errd) {
-				log.Println("creating directory : " + dataDirPath)
-			}
-			if os.IsExist(errd) {
-				log.Println("directory " + dataDirPath + " allready exists")
-			}
-
-			// sometimes on windows, directory creation is not completed before creation of file/directory (this
-			// leads to non reproductible "access denied")
-			time.Sleep(1000 * time.Millisecond)
-			cmd.CodeGeneratorPackageMain(
-				modelPkg,
-				modelPkg.Name,
-				modelPkg.PkgPath,
-				mainFilePath,
-				*skipStager)
-		}
-	}
-	{
-		// check existance of "main.go" file and generate a default "main.go" if absent
-		coderFilePath := filepath.Join(pkgPath, "stager.go")
-
-		_, errd := os.Stat(coderFilePath)
-		if os.IsNotExist(errd) && !*skipStager {
-			log.Printf("stager.go does not exist, gongc creates a default stager.go")
-			gong_models.VerySimpleCodeGenerator(
-				modelPkg,
-				coderFilePath,
-				models.StagerFileTemplate)
-		}
-
-	}
-
 	// check existance of .vscode directory. If absent, generates default vscode configurations
 	// that are usefull for development
 	{
@@ -393,7 +335,7 @@ func main() {
 	}
 
 	// generate directory for orm package
-	golang.GeneratesGoCode(modelPkg, pkgPath, *skipCoder, *dbLite, *skipSerialize)
+	golang.GeneratesGoCode(modelPkg, pkgPath, *skipCoder, *dbLite, *skipSerialize, *skipStager)
 
 	// since go mod vendor brings angular dependencies into the vendor directory
 	// the go mod vendor command has to be issued before the ng build command
