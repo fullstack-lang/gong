@@ -245,18 +245,3 @@ func CodeGeneratorGongReverse(
 	fmt.Fprint(file, codeGO)
 
 }
-
-func removeDuplicates(strList []models.FieldInterface) []models.FieldInterface {
-	list := []models.FieldInterface{}
-	encountered := map[string]bool{}
-
-	for _, item := range strList {
-		if encountered[item.GetName()] == true {
-			continue
-		}
-		encountered[item.GetName()] = true
-		list = append(list, item)
-	}
-
-	return list
-}
