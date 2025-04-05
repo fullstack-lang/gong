@@ -237,7 +237,7 @@ func CodeGeneratorGongReverse(
 		"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""),
 	)
 
-	file, err := os.Create(filepath.Join(pkgPath, "gong_reverse.go"))
+	file, err := os.Create(filepath.Join(pkgPath, string(models.GeneratedGongReverseGoFilePath)))
 	if err != nil {
 		log.Panic(err)
 	}
