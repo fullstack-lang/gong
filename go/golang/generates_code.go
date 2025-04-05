@@ -1,13 +1,16 @@
 package golang
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
+	"time"
 
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 
+	"github.com/fullstack-lang/gong/go/golang/cmd"
 	"github.com/fullstack-lang/gong/go/golang/controllers"
 	"github.com/fullstack-lang/gong/go/golang/db"
 	"github.com/fullstack-lang/gong/go/golang/fullstack"
@@ -21,7 +24,67 @@ import (
 	gong_models "github.com/fullstack-lang/gong/go/models"
 )
 
-func GeneratesGoCode(modelPkg *gong_models.ModelPkg, pkgPath string, skipCoder bool, dbLite bool, skipSerialize bool) {
+func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
+	pkgPath string, skipCoder bool, dbLite bool, skipSerialize bool, skipStager bool) {
+
+	// generate main.go if absent
+	{
+		// check existance of "main.go" file and generate a default "main.go" if absent
+		mainFilePath := filepath.Join(pkgPath, fmt.Sprintf("../cmd/%s/main.go", gong_models.ComputePkgNameFromPkgPath(pkgPath)))
+
+		_, errd := os.Stat(mainFilePath)
+		if os.IsNotExist(errd) {
+			log.Printf("maing.go does not exist, gongc creates a default main.go")
+
+			mainFileDirPath := filepath.Dir(mainFilePath)
+			mainFileDirAbsPath, _ := filepath.Abs(mainFileDirPath)
+
+			errd := os.MkdirAll(mainFileDirAbsPath, os.ModePerm)
+			if os.IsNotExist(errd) {
+				log.Println("creating directory : " + mainFileDirAbsPath)
+			}
+			if os.IsExist(errd) {
+				log.Println("directory " + mainFileDirAbsPath + " allready exists")
+			}
+
+			// creates a "data" directory as well to store the stage.go files
+			dataDirPath := filepath.Join(mainFileDirAbsPath, "data")
+			errd = os.MkdirAll(dataDirPath, os.ModePerm)
+			if os.IsNotExist(errd) {
+				log.Println("creating directory : " + dataDirPath)
+			}
+			if os.IsExist(errd) {
+				log.Println("directory " + dataDirPath + " allready exists")
+			}
+
+			// sometimes on windows, directory creation is not completed before creation of file/directory (this
+			// leads to non reproductible "access denied")
+			time.Sleep(1000 * time.Millisecond)
+			cmd.CodeGeneratorPackageMain(
+				modelPkg,
+				modelPkg.Name,
+				modelPkg.PkgPath,
+				mainFilePath,
+				skipStager)
+		}
+	}
+
+	// stager.go
+	{
+		// check existance of "main.go" file and generate a default "main.go" if absent
+		coderFilePath := filepath.Join(pkgPath, "stager.go")
+
+		_, errd := os.Stat(coderFilePath)
+		if os.IsNotExist(errd) && !skipStager {
+			log.Printf("stager.go does not exist, gongc creates a default stager.go")
+			gong_models.VerySimpleCodeGenerator(
+				modelPkg,
+				coderFilePath,
+				models.StagerFileTemplate)
+		}
+
+	}
+
 	errd := os.MkdirAll(modelPkg.OrmPkgGenPath, os.ModePerm)
 	if os.IsNotExist(errd) {
 		log.Println("creating directory : " + modelPkg.OrmPkgGenPath)
