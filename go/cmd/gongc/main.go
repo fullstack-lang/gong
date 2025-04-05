@@ -403,6 +403,110 @@ func main() {
 	}
 
 	// generate directory for orm package
+	genGoCode(modelPkg)
+
+	// since go mod vendor brings angular dependencies into the vendor directory
+	// the go mod vendor command has to be issued before the ng build command
+	if !*skipNg {
+		genAngular(modelPkg, *skipNpmInstall, *skipGoModCommands)
+	}
+
+	if !*skipFlutter {
+		genFlutter(modelPkg)
+	}
+
+	apiYamlFilePath := fmt.Sprintf("%s/%sapi.yml", modelPkg.ControllersPkgGenPath, modelPkg.Name)
+	if !*skipSwagger {
+
+		// compute source path
+		sourcePath, errd2 := filepath.Abs(*pkgPath)
+		if errd2 != nil {
+			log.Panic("Problem with source path " + errd2.Error())
+		}
+
+		// generate open api specification with swagger
+		cmd := exec.Command("swagger",
+			"generate", "spec",
+			"-w", filepath.Dir(sourcePath), // swagger is interested in the "docs.go" in the package
+			// by convention, this file is located on the parent dir
+			"-o", apiYamlFilePath)
+		log.Printf("Running swagger command and waiting for it to finish...\n")
+
+		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+		var stdBuffer bytes.Buffer
+		mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+		cmd.Stdout = mw
+		cmd.Stderr = mw
+
+		log.Println(cmd.String())
+		log.Println(stdBuffer.String())
+
+		// Execute the command
+		if err := cmd.Run(); err != nil {
+			log.Printf("problem with swagger : %s", err.Error())
+		}
+	}
+
+	// if *skipNg {
+	// 	return
+	// }
+
+	// go build
+	if true {
+		start := time.Now()
+		var cmd *exec.Cmd
+		if !*compileForDebug {
+			cmd = exec.Command("go", "build")
+		} else {
+			// gcFlags allows for speedup of delve
+			cmd = exec.Command("go", "build", "-gcflags", "-N -l")
+		}
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
+		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
+
+		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+		var stdBuffer bytes.Buffer
+		mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+		cmd.Stdout = mw
+		cmd.Stderr = mw
+
+		log.Println(cmd.String())
+		log.Println(stdBuffer.String())
+
+		// Execute the command
+		if err := cmd.Run(); err != nil {
+			log.Panic(err)
+		}
+		log.Printf("go build over and took %s", time.Since(start))
+	}
+
+	// run application
+	if *run {
+		cmd := exec.Command("go", "run", "main.go")
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath,
+			fmt.Sprintf("../../go/cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
+		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
+
+		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+		var stdBuffer bytes.Buffer
+		mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+		cmd.Stdout = mw
+		cmd.Stderr = mw
+
+		log.Println(cmd.String())
+		log.Println(stdBuffer.String())
+
+		// Execute the command
+		if err := cmd.Run(); err != nil {
+			log.Panic(err)
+		}
+	}
+}
+
+func genGoCode(modelPkg *gong_models.ModelPkg) {
 	errd := os.MkdirAll(modelPkg.OrmPkgGenPath, os.ModePerm)
 	if os.IsNotExist(errd) {
 		log.Println("creating directory : " + modelPkg.OrmPkgGenPath)
@@ -480,12 +584,6 @@ func main() {
 	}
 	if os.IsExist(errd) {
 		log.Println("directory " + modelPkg.ProbePkgGenPath + " allready exists")
-	}
-
-	// compute source path
-	sourcePath, errd2 := filepath.Abs(*pkgPath)
-	if errd2 != nil {
-		log.Panic("Problem with source path " + errd2.Error())
 	}
 
 	caserEnglish := cases.Title(language.English)
@@ -761,98 +859,4 @@ func main() {
 		modelPkg,
 		filepath.Join(*pkgPath, "../probe/form_div_field.go"),
 		probe.FormDivToFieldTemplate)
-
-	// since go mod vendor brings angular dependencies into the vendor directory
-	// the go mod vendor command has to be issued before the ng build command
-	if !*skipNg {
-		genAngular(modelPkg, *skipNpmInstall, *skipGoModCommands)
-	}
-
-	if !*skipFlutter {
-		genFlutter(modelPkg)
-	}
-
-	apiYamlFilePath := fmt.Sprintf("%s/%sapi.yml", modelPkg.ControllersPkgGenPath, modelPkg.Name)
-	if !*skipSwagger {
-
-		// generate open api specification with swagger
-		cmd := exec.Command("swagger",
-			"generate", "spec",
-			"-w", filepath.Dir(sourcePath), // swagger is interested in the "docs.go" in the package
-			// by convention, this file is located on the parent dir
-			"-o", apiYamlFilePath)
-		log.Printf("Running swagger command and waiting for it to finish...\n")
-
-		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-		var stdBuffer bytes.Buffer
-		mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-		cmd.Stdout = mw
-		cmd.Stderr = mw
-
-		log.Println(cmd.String())
-		log.Println(stdBuffer.String())
-
-		// Execute the command
-		if err := cmd.Run(); err != nil {
-			log.Printf("problem with swagger : %s", err.Error())
-		}
-	}
-
-	// if *skipNg {
-	// 	return
-	// }
-
-	// go build
-	if true {
-		start := time.Now()
-		var cmd *exec.Cmd
-		if !*compileForDebug {
-			cmd = exec.Command("go", "build")
-		} else {
-			// gcFlags allows for speedup of delve
-			cmd = exec.Command("go", "build", "-gcflags", "-N -l")
-		}
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
-		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
-
-		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-		var stdBuffer bytes.Buffer
-		mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-		cmd.Stdout = mw
-		cmd.Stderr = mw
-
-		log.Println(cmd.String())
-		log.Println(stdBuffer.String())
-
-		// Execute the command
-		if err := cmd.Run(); err != nil {
-			log.Panic(err)
-		}
-		log.Printf("go build over and took %s", time.Since(start))
-	}
-
-	// run application
-	if *run {
-		cmd := exec.Command("go", "run", "main.go")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath,
-			fmt.Sprintf("../../go/cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
-		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
-
-		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-		var stdBuffer bytes.Buffer
-		mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-		cmd.Stdout = mw
-		cmd.Stderr = mw
-
-		log.Println(cmd.String())
-		log.Println(stdBuffer.String())
-
-		// Execute the command
-		if err := cmd.Run(); err != nil {
-			log.Panic(err)
-		}
-	}
 }
