@@ -1,4 +1,4 @@
-package main
+package angular
 
 import (
 	"bytes"
@@ -11,13 +11,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fullstack-lang/gong/go/angular"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 )
 
 func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 
-	angularJsonFile := filepath.Join(modelPkg.NgWorkspacePath, "angular.json")
+	angularJsonFile := filepath.Join(modelPkg.NgWorkspacePath, "json")
 
 	// Read the file
 	input, err := os.ReadFile(angularJsonFile)
@@ -109,12 +108,12 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 				// patch tsconfig file in order to have the @vendored_components
 				filename := filepath.Join(modelPkg.NgWorkspacePath, "tsconfig.json")
 
-				gong_models.InsertStringToFile(filename, angular.TsConfigInsertForPaths, "\"paths\": {")
+				gong_models.InsertStringToFile(filename, TsConfigInsertForPaths, "\"paths\": {")
 			}
 			{
 				// patch styles.css file in order have imports of css stuff and work offline
 				filename := filepath.Join(modelPkg.NgWorkspacePath, "src", "styles.css")
-				gong_models.InsertStringToFile(filename, angular.StylesCssInsert, "/* You can add global styles to this file, and also import other style files */")
+				gong_models.InsertStringToFile(filename, StylesCssInsert, "/* You can add global styles to this file, and also import other style files */")
 			}
 		}
 

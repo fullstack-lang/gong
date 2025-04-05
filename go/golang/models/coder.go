@@ -285,7 +285,7 @@ func CodeGeneratorModelGongCoder(
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def
 	)
 
-	file, err := os.Create(filepath.Join(pkgPath, "gong_coder.go"))
+	file, err := os.Create(filepath.Join(pkgPath, string(models.GeneratedGongCoderGoFilePath)))
 	if err != nil {
 		log.Panic(err)
 	}

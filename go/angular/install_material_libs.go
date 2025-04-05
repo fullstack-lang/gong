@@ -1,4 +1,4 @@
-package main
+package angular
 
 import (
 	"bytes"
@@ -9,7 +9,6 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/fullstack-lang/gong/go/angular"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
 	"golang.org/x/text/cases"
@@ -18,7 +17,7 @@ import (
 
 var caserEnglish = cases.Title(language.English)
 
-func installMaterialLibs(modelPkg *gong_models.ModelPkg) {
+func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 	{
 		start := time.Now()
 		//  --skip-confirmation is necessary when executing angular without user interaction
@@ -103,22 +102,22 @@ func installMaterialLibs(modelPkg *gong_models.ModelPkg) {
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
 			filepath.Join(modelPkg.NgWorkspacePath, "src/app/app.config.ts"),
-			angular.NgFileAppConfig)
+			NgFileAppConfig)
 
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
 			filepath.Join(modelPkg.NgWorkspacePath, "src/index.html"),
-			angular.NgFileIndex)
+			NgFileIndex)
 
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
 			filepath.Join(modelPkg.NgWorkspacePath, "src/app/app.component.ts"),
-			angular.NgFileAppComponentTs)
+			NgFileAppComponentTs)
 
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
 			filepath.Join(modelPkg.NgWorkspacePath, "src/app/app.component.html"),
-			angular.NgFileAppComponentHtml)
+			NgFileAppComponentHtml)
 
 	}
 

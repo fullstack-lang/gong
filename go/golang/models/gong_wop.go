@@ -203,7 +203,7 @@ func CodeGeneratorModelGongWop(
 		"{{pkgname}}", strings.ToLower(pkgName),
 	)
 
-	file, err := os.Create(filepath.Join(pkgPath, "gong_wop.go"))
+	file, err := os.Create(filepath.Join(pkgPath, string(models.GeneratedGongWopGoFilePath)))
 	if err != nil {
 		log.Panic(err)
 	}
