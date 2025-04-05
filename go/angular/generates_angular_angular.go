@@ -1,4 +1,4 @@
-package main
+package angular
 
 import (
 	"bytes"
@@ -10,21 +10,24 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/fullstack-lang/gong/go/angular"
 	"github.com/fullstack-lang/gong/go/golang"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )
 
-func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCommands bool) {
+func GeneratesAngularCode(modelPkg *gong_models.ModelPkg,
+	pkgPath string,
+	skipNpmInstall bool,
+	skipGoModCommands bool,
+	addr string) {
 
 	// generate things in ng  lib directory
 	var ngNewWsPerformed bool
 	{
 
 		directory, err := filepath.Abs(
-			filepath.Join(*pkgPath, "../../"+modelPkg.NgWorkspaceName))
+			filepath.Join(pkgPath, "../../"+modelPkg.NgWorkspaceName))
 		if err != nil {
 			log.Panic("Problem with frontend target path " + err.Error())
 		}
@@ -65,7 +68,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 			ngNewWsPerformed = true
 
 			// add the necessary libraries to gong applications
-			installMaterialLibs(modelPkg)
+			InstallMaterialLibs(modelPkg)
 		} else {
 			// if ng is already present, one might have to perform an installation
 			// for example, if the repo has been checkout and "node_modules" is empty
@@ -113,23 +116,23 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 		}
 	}
 
-	angular.MultiCodeGeneratorNgClass(modelPkg)
+	MultiCodeGeneratorNgClass(modelPkg)
 
-	angular.MultiCodeGeneratorNgClassAPI(modelPkg)
+	MultiCodeGeneratorNgClassAPI(modelPkg)
 
-	angular.MultiCodeGeneratorNgService(modelPkg, *addr)
+	MultiCodeGeneratorNgService(modelPkg, addr)
 
-	angular.CodeGeneratorNgCommitNbFromBack(modelPkg, *addr)
+	CodeGeneratorNgCommitNbFromBack(modelPkg, addr)
 
-	angular.CodeGeneratorNgNullInt64(modelPkg)
+	CodeGeneratorNgNullInt64(modelPkg)
 
-	angular.CodeGeneratorNgPushFromFrontNb(modelPkg, *addr)
+	CodeGeneratorNgPushFromFrontNb(modelPkg, addr)
 
-	angular.CodeGeneratorNgFrontRepo(modelPkg)
+	CodeGeneratorNgFrontRepo(modelPkg)
 
-	angular.CodeGeneratorNgEnum(modelPkg)
+	CodeGeneratorNgEnum(modelPkg)
 
-	angular.CodeGeneratorNgPublicApi(modelPkg)
+	CodeGeneratorNgPublicApi(modelPkg)
 
 	caserEnglish := cases.Title(language.English)
 	gong_models.VerySimpleCodeGeneratorForGongStructWithNameField(
@@ -137,14 +140,14 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath,
 		filepath.Join(modelPkg.NgDataLibrarySourceCodeDirectory, modelPkg.Name+".module.ts"),
-		angular.NgLibModuleTemplate)
+		NgLibModuleTemplate)
 
 	gong_models.VerySimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath,
 		filepath.Join(modelPkg.NgDataLibrarySourceCodeDirectory, "web-socket-service.ts"),
-		angular.WebSocketServiceTemplate)
+		WebSocketServiceTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
@@ -154,20 +157,20 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		filepath.Join(modelPkg.NgWorkspacePath, "../embed_ng_dist_ng.go"),
-		angular.EmebedNgDistNg)
+		EmebedNgDistNg)
 
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		modelPkg.Name,
 		modelPkg.PkgPath,
 		filepath.Join(modelPkg.NgDataLibrarySourceCodeDirectory, "back-repo-data.ts"),
-		angular.BackRepoTemplateTS, angular.BackRepoHtmlSubTemplateCode)
+		BackRepoTemplateTS, BackRepoHtmlSubTemplateCode)
 
 	// go mod tidy to get the new dependencies
 	if !skipGoModCommands {
 		start := time.Now()
 		cmd := exec.Command("go", "mod", "tidy")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
+		cmd.Dir, _ = filepath.Abs(filepath.Join(pkgPath, fmt.Sprintf("../cmd/%s", gong_models.ComputePkgNameFromPkgPath(pkgPath))))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -195,7 +198,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 		cmd := exec.Command("go", "mod", "vendor")
 		// Copy the current environment and then add "GOWORK=off"
 		cmd.Env = append(os.Environ(), "GOWORK=off")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
+		cmd.Dir, _ = filepath.Abs(filepath.Join(pkgPath, fmt.Sprintf("../cmd/%s", gong_models.ComputePkgNameFromPkgPath(pkgPath))))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go

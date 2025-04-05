@@ -13,6 +13,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/fullstack-lang/gong/go/angular"
 	"github.com/fullstack-lang/gong/go/golang"
 	"github.com/fullstack-lang/gong/go/golang/diagrams"
 
@@ -340,7 +341,7 @@ func main() {
 	// since go mod vendor brings angular dependencies into the vendor directory
 	// the go mod vendor command has to be issued before the ng build command
 	if !*skipNg {
-		genAngular(modelPkg, *skipNpmInstall, *skipGoModCommands)
+		angular.GeneratesAngularCode(modelPkg, pkgPath, *skipNpmInstall, *skipGoModCommands, *addr)
 	}
 
 	if !*skipFlutter {
