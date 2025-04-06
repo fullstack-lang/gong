@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/go/angular"
+	"github.com/fullstack-lang/gong/go/flutter"
 	"github.com/fullstack-lang/gong/go/golang"
 	"github.com/fullstack-lang/gong/go/golang/diagrams"
 
@@ -345,7 +346,7 @@ func main() {
 	}
 
 	if !*skipFlutter {
-		genFlutter(modelPkg)
+		flutter.GenFlutter(modelPkg, pkgPath)
 	}
 
 	apiYamlFilePath := fmt.Sprintf("%s/%sapi.yml", modelPkg.ControllersPkgGenPath, modelPkg.Name)
@@ -380,10 +381,6 @@ func main() {
 			log.Printf("problem with swagger : %s", err.Error())
 		}
 	}
-
-	// if *skipNg {
-	// 	return
-	// }
 
 	// go build
 	if true {
