@@ -46,7 +46,7 @@ type Field interface {
 	GetName()
 }
 
-type NamedStruct interface {
+type NamedStructInterface interface {
 	GetName() string
 	// GetFields() []Field
 	// GetInstances() []Instance

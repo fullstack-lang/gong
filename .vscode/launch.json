@@ -259,7 +259,7 @@
             "program": "${workspaceFolder}/lib/slider/go/cmd/slider",
             "args": [
                 "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=stage"
+                "-marshallOnCommit=data/stage"
             ],
         },
         {
