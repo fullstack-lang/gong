@@ -1,4 +1,4 @@
-package main
+package flutter
 
 import (
 	"bytes"
@@ -10,11 +10,9 @@ import (
 	"time"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
-
-	"github.com/fullstack-lang/gong/go/flutter"
 )
 
-func genFlutter(modelPkg *gong_models.ModelPkg) {
+func GenFlutter(modelPkg *gong_models.ModelPkg, pkgPath string) {
 
 	// check if "flutter" directory exist
 	// if not, call "flutter create flutter" to create a flutter project
@@ -23,7 +21,7 @@ func genFlutter(modelPkg *gong_models.ModelPkg) {
 	{
 
 		var err error
-		flutterProjectDir, err = filepath.Abs(filepath.Join(*pkgPath, "../../flutter_project"))
+		flutterProjectDir, err = filepath.Abs(filepath.Join(pkgPath, "../../flutter_project"))
 		if err != nil {
 			log.Panic("Problem with flutter path " + err.Error())
 		}
@@ -60,7 +58,7 @@ func genFlutter(modelPkg *gong_models.ModelPkg) {
 	// for the first generation, overides the main.dart code
 	if flutterCreateHasBeenPerformed {
 		pathToMain := filepath.Join(flutterProjectDir, "lib", "main.dart")
-		flutter.GenerateDefaultMainFile(modelPkg, pathToMain)
+		GenerateDefaultMainFile(modelPkg, pathToMain)
 
 		{
 			// delete the test directory (temporary)
