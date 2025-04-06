@@ -60,17 +60,18 @@ func main() {
 	if len(flag.Args()) > 1 {
 		log.Fatal("surplus arguments")
 	}
-	pkgPath := *pkgPath
+
+	pathToModelsDirectory := *pkgPath
 	if len(flag.Args()) == 1 {
-		pkgPath = flag.Arg(0)
+		pathToModelsDirectory = flag.Arg(0)
 	}
 
 	// remove gong generated files
-	golang.RemoveGeneratedGongFilesButDocs(pkgPath)
+	golang.RemoveGeneratedGongFilesButDocs(pathToModelsDirectory)
 
 	// initiate model package
 	modelStage := gong_models.NewStage("")
-	modelPkg, _ := gong_models.LoadSource(modelStage, pkgPath)
+	modelPkg, _ := gong_models.LoadSource(modelStage, pathToModelsDirectory)
 
 	// check wether the package name follows gong naming convention
 	if strings.ContainsAny(modelPkg.Name, "-") {
@@ -83,7 +84,7 @@ func main() {
 	//
 	{
 
-		directory, err := filepath.Abs(filepath.Join(pkgPath, ".."))
+		directory, err := filepath.Abs(filepath.Join(pathToModelsDirectory, ".."))
 		if err != nil {
 			log.Fatal("Problem with backend target path " + err.Error())
 		}
@@ -138,7 +139,7 @@ func main() {
 		{
 			directory, err :=
 				filepath.Abs(
-					filepath.Join(pkgPath,
+					filepath.Join(pathToModelsDirectory,
 						fmt.Sprintf("../../%s/projects/%s/src/lib", modelPkg.NgWorkspaceName, modelPkg.Name)))
 			modelPkg.NgDataLibrarySourceCodeDirectory = directory
 			if err != nil {
@@ -149,7 +150,7 @@ func main() {
 		{
 			directory, err :=
 				filepath.Abs(
-					filepath.Join(pkgPath,
+					filepath.Join(pathToModelsDirectory,
 						fmt.Sprintf("../../%s/projects/%sspecific/src/lib", modelPkg.NgWorkspaceName, modelPkg.Name)))
 			modelPkg.NgSpecificLibrarySourceCodeDirectory = directory
 			if err != nil {
@@ -160,7 +161,7 @@ func main() {
 		{
 			directory, err :=
 				filepath.Abs(
-					filepath.Join(pkgPath,
+					filepath.Join(pathToModelsDirectory,
 						fmt.Sprintf("../../%s/projects/%sdatamodel/src/lib", modelPkg.NgWorkspaceName, modelPkg.Name)))
 			modelPkg.MaterialLibDatamodelTargetPath = directory
 			if err != nil {
@@ -211,7 +212,7 @@ func main() {
 
 			// git init
 			cmd := exec.Command("git", "init")
-			cmd.Dir, _ = filepath.Abs(filepath.Join(pkgPath, "../.."))
+			cmd.Dir, _ = filepath.Abs(filepath.Join(pathToModelsDirectory, "../.."))
 
 			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
 			var stdBuffer bytes.Buffer
@@ -256,7 +257,7 @@ func main() {
 	if !*skipNpmWorkspaces && !*skipNg && !*skipNpmInstall {
 		// we need to use npm package (because of angular 17/esbuild)
 		// check wether a package.json is present, otherwise generate it
-		packageJsonFilePath := filepath.Join(pkgPath, "../../package.json")
+		packageJsonFilePath := filepath.Join(pathToModelsDirectory, "../../package.json")
 		_, errd := os.Stat(packageJsonFilePath)
 		if os.IsNotExist(errd) {
 			gong_models.VerySimpleCodeGenerator(
@@ -269,7 +270,7 @@ func main() {
 	if !*skipNpmWorkspaces && !*skipNg && !*skipNpmInstall {
 		// we need to use npm package (because of angular 17/esbuild)
 		// check wether a package.json is present, otherwise generate it
-		packageJsonFilePath := filepath.Join(pkgPath, "../../.gitignore")
+		packageJsonFilePath := filepath.Join(pathToModelsDirectory, "../../.gitignore")
 		_, errd := os.Stat(packageJsonFilePath)
 		if os.IsNotExist(errd) {
 			gong_models.VerySimpleCodeGenerator(
@@ -281,7 +282,7 @@ func main() {
 
 	// generate diagrams/docs.go if absent
 	{
-		diagramsDocFilePath := filepath.Join(pkgPath, "../diagrams/docs.go")
+		diagramsDocFilePath := filepath.Join(pathToModelsDirectory, "../diagrams/docs.go")
 		_, errd := os.Stat(diagramsDocFilePath)
 		if os.IsNotExist(errd) {
 			log.Printf("../diagrams/docs.go does not exist, gongc creates a default one")
@@ -306,7 +307,7 @@ func main() {
 	// check existance of .vscode directory. If absent, generates default vscode configurations
 	// that are usefull for development
 	{
-		vscodeDirFilePath := filepath.Join(pkgPath, "../../.vscode")
+		vscodeDirFilePath := filepath.Join(pathToModelsDirectory, "../../.vscode")
 
 		_, errd := os.Stat(vscodeDirFilePath)
 		if os.IsNotExist(errd) {
@@ -337,23 +338,23 @@ func main() {
 	}
 
 	// generate directory for orm package
-	golang.GeneratesGoCode(modelPkg, pkgPath, *skipCoder, *dbLite, *skipSerialize, *skipStager)
+	golang.GeneratesGoCode(modelPkg, pathToModelsDirectory, *skipCoder, *dbLite, *skipSerialize, *skipStager)
 
 	// since go mod vendor brings angular dependencies into the vendor directory
 	// the go mod vendor command has to be issued before the ng build command
 	if !*skipNg {
-		angular.GeneratesAngularCode(modelPkg, pkgPath, *skipNpmInstall, *skipGoModCommands, *addr)
+		angular.GeneratesAngularCode(modelPkg, pathToModelsDirectory, *skipNpmInstall, *skipGoModCommands, *addr)
 	}
 
 	if !*skipFlutter {
-		flutter.GenFlutter(modelPkg, pkgPath)
+		flutter.GenFlutter(modelPkg, pathToModelsDirectory)
 	}
 
 	apiYamlFilePath := fmt.Sprintf("%s/%sapi.yml", modelPkg.ControllersPkgGenPath, modelPkg.Name)
 	if !*skipSwagger {
 
 		// compute source path
-		sourcePath, errd2 := filepath.Abs(pkgPath)
+		sourcePath, errd2 := filepath.Abs(pathToModelsDirectory)
 		if errd2 != nil {
 			log.Panic("Problem with source path " + errd2.Error())
 		}
@@ -392,7 +393,7 @@ func main() {
 			// gcFlags allows for speedup of delve
 			cmd = exec.Command("go", "build", "-gcflags", "-N -l")
 		}
-		cmd.Dir, _ = filepath.Abs(filepath.Join(pkgPath, fmt.Sprintf("../cmd/%s", gong_models.ComputePkgNameFromPkgPath(pkgPath))))
+		cmd.Dir, _ = filepath.Abs(filepath.Join(pathToModelsDirectory, fmt.Sprintf("../cmd/%s", gong_models.ComputePkgNameFromPkgPath(pathToModelsDirectory))))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -415,8 +416,8 @@ func main() {
 	// run application
 	if *run {
 		cmd := exec.Command("go", "run", "main.go")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(pkgPath,
-			fmt.Sprintf("../../go/cmd/%s", gong_models.ComputePkgNameFromPkgPath(pkgPath))))
+		cmd.Dir, _ = filepath.Abs(filepath.Join(pathToModelsDirectory,
+			fmt.Sprintf("../../go/cmd/%s", gong_models.ComputePkgNameFromPkgPath(pathToModelsDirectory))))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
