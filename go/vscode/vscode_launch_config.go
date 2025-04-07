@@ -18,14 +18,14 @@ const VsCodeLaunchConfig = `{
             "webRoot": "${workspaceFolder}/{{NgWorkspaceName}}"
         },
         {
-            "name": "go server -unmarshallFromCode=stage.go -marshallOnCommit=stage",
+            "name": "go server -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "program": "${workspaceFolder}/go/cmd/{{pkgname}}",
             "args": [
-                "-unmarshallFromCode=stage.go",
-                "-marshallOnCommit=stage"
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage"
             ]
         },
     ]
