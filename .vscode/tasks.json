@@ -784,5 +784,23 @@
       ],
       "group": "build"
     },
+    {
+      "label": "Create and Run Gong Example in /tmp",
+      "type": "shell",
+      "command": "rm -rf helloworld && mkdir helloworld && cd helloworld && mkdir -p go/models && echo \"package models\ntype Hello struct {\n  Name string\n  HelloType HelloType\n}\" > go/models/hello.go && echo \"package models\ntype Country struct {\n  Name string\n  Hello *Hello\n  AlternateHellos []*Hello\n}\" > go/models/country.go && echo \"package models\ntype HelloType string\nconst (\n  Casual HelloType = \\\"Casual\\\"\n  Formal HelloType = \\\"Formal\\\"\n)\" > go/models/hello_type.go && gongc -skipStager=false go/models && cd go/cmd/helloworld && ./helloworld -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
+      "options": {
+        "cwd": "/tmp" // Specifies the directory where the task command will run
+      },
+      "problemMatcher": [], // You might add problem matchers if gongc or ./helloworld produce structured errors
+      "presentation": {
+        "echo": true, // Show the command in the terminal before executing
+        "reveal": "always", // Always show the terminal panel
+        "focus": true, // Focus the terminal panel
+        "panel": "shared", // Use a shared terminal panel for this task
+        "clear": true // Clear the terminal before running the task
+      },
+      "detail": "Creates a temporary 'helloworld' project in /tmp, runs gongc and the compiled binary, then cleans up.",
+      "group": "build"
+    }
   ]
 }
