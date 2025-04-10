@@ -550,7 +550,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onmousemove(event: MouseEvent, source?: string): void {
-    this.PointAtMouseMove = mouseCoordInComponentRef(event)
+    this.PointAtMouseMove = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
     let deltaX = this.PointAtMouseMove.X - this.PointAtMouseDown!.X
     let deltaY = this.PointAtMouseMove.Y - this.PointAtMouseDown!.Y
     // console.log(getFunctionName(), this.PointAtMouseMove)
@@ -706,7 +706,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   backgroundOnMouseDown(event: MouseEvent): void {
-    this.PointAtMouseDown = mouseCoordInComponentRef(event)
+    this.PointAtMouseDown = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
 
     if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && event.shiftKey) {
 
@@ -720,35 +720,35 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   backgroundDragOver(event: MouseEvent): void {
-    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    this.PointAtMouseUp = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
     console.log(getFunctionName(), "state at entry", this.State)
 
     this.processMouseUp(event)
   }
 
   backgroundOnClick(event: MouseEvent): void {
-    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    this.PointAtMouseUp = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
     console.log(getFunctionName(), "state at entry", this.State)
 
     this.processMouseUp(event)
   }
 
   backgroundOnDragEnd(event: MouseEvent): void {
-    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    this.PointAtMouseUp = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
     console.log(getFunctionName(), "state at entry", this.State)
 
     this.processMouseUp(event)
   }
 
   backgroundOnMouseUp(event: MouseEvent): void {
-    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    this.PointAtMouseUp = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
     console.log(getFunctionName(), "state at entry", this.State)
 
     this.processMouseUp(event)
   }
 
   rectMouseDown(event: MouseEvent, rect: svg.Rect): void {
-    this.PointAtMouseDown = mouseCoordInComponentRef(event)
+    this.PointAtMouseDown = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
     console.log(getFunctionName(), "state at entry", this.State)
 
     if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && !event.altKey) {
@@ -784,7 +784,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   rectMouseUp(event: MouseEvent, rect: svg.Rect): void {
-    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    this.PointAtMouseUp = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
     console.log(getFunctionName(), "state at entry", this.State)
 
     if (this.State == StateEnumType.LINK_DRAWING) {
@@ -794,7 +794,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   anchorMouseDown(event: MouseEvent, anchor: 'left' | 'right' | 'top' | 'bottom', rect: svg.Rect): void {
-    this.PointAtMouseDown = mouseCoordInComponentRef(event)
+    this.PointAtMouseDown = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
     if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && !event.altKey && !event.shiftKey) {
       this.State = StateEnumType.RECT_ANCHOR_DRAGGING
       console.log(getFunctionName(), "state at exit", this.State)
@@ -811,7 +811,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   anchorMouseUp(event: MouseEvent, rect: svg.Rect): void {
-    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    this.PointAtMouseUp = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
     console.log(getFunctionName(), "state at entry", this.State)
 
     this.processMouseUp(event)
@@ -832,7 +832,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   linkMouseUp(event: MouseEvent, link: svg.Link, segmentNumber: number = 0): void {
-    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    this.PointAtMouseUp = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
     console.log(getFunctionName(), "state at entry", this.State)
 
     this.processMouseUp(event)
@@ -843,7 +843,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     event: MouseEvent,
     anchoredTextIndex: number,
     draggedSegmentPositionOnArrow: string): void {
-    this.PointAtMouseDown = mouseCoordInComponentRef(event)
+    this.PointAtMouseDown = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
 
     if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && !event.altKey && !event.shiftKey) {
       this.State = StateEnumType.LINK_ANCHORED_TEXT_DRAGGING
@@ -864,7 +864,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   textAnchoredMouseUp(link: svg.Link, event: MouseEvent): void {
-    this.PointAtMouseUp = mouseCoordInComponentRef(event)
+    this.PointAtMouseUp = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
     console.log(getFunctionName(), "state at entry", this.State)
 
     this.processMouseUp(event)
