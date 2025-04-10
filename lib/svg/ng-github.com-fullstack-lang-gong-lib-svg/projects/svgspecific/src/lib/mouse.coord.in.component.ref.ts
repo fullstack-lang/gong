@@ -25,8 +25,8 @@ export function mouseCoordInComponentRef(
             const localPoint = point.matrixTransform(SVGmatrix.inverse());
 
             // Apply inverse of the zoom and shift applied to the content group
-            const adjustedX = (localPoint.x - shiftX) / zoom;
-            const adjustedY = (localPoint.y - shiftY) / zoom;
+            const adjustedX = (localPoint.x + shiftX) / zoom;
+            const adjustedY = (localPoint.y + shiftY) / zoom;
 
             let res = createPoint(adjustedX, adjustedY);
             return res;
