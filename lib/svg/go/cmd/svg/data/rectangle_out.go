@@ -157,8 +157,8 @@ func _(stage *models.Stage) {
 	__Link__000001_Start_Middle.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000001_Start_Middle.StartRatio = 0.218766
 	__Link__000001_Start_Middle.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000001_Start_Middle.EndRatio = 0.826734
-	__Link__000001_Start_Middle.CornerOffsetRatio = -1.105485
+	__Link__000001_Start_Middle.EndRatio = 0.478101
+	__Link__000001_Start_Middle.CornerOffsetRatio = -1.236287
 	__Link__000001_Start_Middle.CornerRadius = 20.000000
 	__Link__000001_Start_Middle.HasEndArrow = true
 	__Link__000001_Start_Middle.EndArrowSize = 10.000000
@@ -284,8 +284,8 @@ Third Line`
 	__LinkAnchoredText__000005_Start_Right_Bottom.Transform = ``
 
 	__Rect__000000_Bottom.Name = `Bottom`
-	__Rect__000000_Bottom.X = 401.000000
-	__Rect__000000_Bottom.Y = 38.000000
+	__Rect__000000_Bottom.X = 424.000000
+	__Rect__000000_Bottom.Y = 68.000000
 	__Rect__000000_Bottom.Width = 565.000000
 	__Rect__000000_Bottom.Height = 266.999985
 	__Rect__000000_Bottom.RX = 5.000000
@@ -312,10 +312,10 @@ Third Line`
 	__Rect__000000_Bottom.CanMoveVerticaly = true
 
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 521.000000
-	__Rect__000001_Middle_Rect.Y = 404.000000
-	__Rect__000001_Middle_Rect.Width = 200.000000
-	__Rect__000001_Middle_Rect.Height = 132.000000
+	__Rect__000001_Middle_Rect.X = 612.000000
+	__Rect__000001_Middle_Rect.Y = 426.000000
+	__Rect__000001_Middle_Rect.Width = 188.000000
+	__Rect__000001_Middle_Rect.Height = 124.080000
 	__Rect__000001_Middle_Rect.RX = 3.000000
 	__Rect__000001_Middle_Rect.Color = `lavender`
 	__Rect__000001_Middle_Rect.FillOpacity = 50.000000
