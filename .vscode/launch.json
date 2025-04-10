@@ -556,6 +556,14 @@
             "sourceMaps": true,
         },
         {
+            "name": "Launch Chrome (svg) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/svg/ng-github.com-fullstack-lang-gong-lib-svg",
+            "sourceMaps": true,
+        },
+        {
             "name": "Launch Chrome (tone) on 4200",
             "request": "launch",
             "type": "chrome",
