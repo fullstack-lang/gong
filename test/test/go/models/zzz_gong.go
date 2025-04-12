@@ -216,55 +216,87 @@ func (stage *Stage) GetNamedStructs() (res []probe.NamedStructInterface) {
 	return
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []probe.Instance) {
 
-	orderedSet := []T{}
-	for instance := range set {
-		orderedSet = append(orderedSet, instance)
+	// 1. Collect the pointers (keys) from the set into a slice
+	pointers := make([]T, 0, len(set))
+	for pointerToGongstruct := range set {
+		pointers = append(pointers, pointerToGongstruct)
 	}
-	sort.Slice(orderedSet[:], func(i, j int) bool {
-		instancei := orderedSet[i]
-		instancej := orderedSet[j]
-		i_order, oki := order[instancei]
-		j_order, okj := order[instancej]
-		if !oki || !okj {
-			log.Fatalf("GetNamedStructInstances: pointer not found")
+
+	// 2. Sort the slice of pointers using the 'order' map
+	sort.Slice(pointers, func(i, j int) bool {
+		pointerI := pointers[i]
+		pointerJ := pointers[j]
+
+		// Look up the order using the pointers (type T) as keys
+		i_order, oki := order[pointerI]
+		j_order, okj := order[pointerJ]
+
+		// Handle cases where a pointer might somehow not be in the order map
+		// (though this shouldn't happen with correct staging)
+		if !oki && !okj {
+			// If neither has an order, sort by name for stability
+			return cmp.Compare(pointerI.GetName(), pointerJ.GetName()) < 0
 		}
+		if !oki {
+			return false // Pointers without order come after those with order
+		}
+		if !okj {
+			return true // Pointers without order come after those with order
+		}
+
+		// Compare actual order values
 		return i_order < j_order
 	})
 
-	for _, instance := range orderedSet {
-		res = append(res, instance.GetName())
+	// 3. Iterate through the *sorted* pointers, assert type, and build the result slice
+	res = make([]probe.Instance, 0, len(pointers)) // Pre-allocate capacity
+	for _, pointer := range pointers {
+		// Assert that the pointer (type T) also implements probe.Instance
+		// Use any() for explicit conversion before assertion if needed,
+		// although if T satisfies PointerToGongstruct which likely embeds
+		// or is expected to implement probe.Instance, direct assertion might work.
+		// Using any() is generally safer if the exact relationship isn't guaranteed.
+		instance, ok := any(pointer).(probe.Instance)
+		if !ok {
+			// This would indicate a problem: an object in the stage set
+			// doesn't implement the probe.Instance interface as expected.
+			log.Fatalf("ERROR: GetNamedStructInstances: Pointer %s (%T) does not implement probe.Instance", pointer.GetName(), pointer)
+			continue // Skip this instance
+		}
+		res = append(res, instance)
 	}
 
-	return
+	return res // Return the sorted slice of probe.Instance
 }
 
-func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
+func (namedStruct *NamedStruct) GetInstances() (res []probe.Instance) {
 
-	switch namedStructName {
+	switch namedStruct.GetName() {
 	// insertion point for case
 	case "Astruct":
-		res = GetNamedStructInstances(stage.Astructs, stage.AstructMap_Staged_Order)
+		res = GetNamedStructInstances(namedStruct.stage.Astructs, namedStruct.stage.AstructMap_Staged_Order)
 	case "AstructBstruct2Use":
-		res = GetNamedStructInstances(stage.AstructBstruct2Uses, stage.AstructBstruct2UseMap_Staged_Order)
+		res = GetNamedStructInstances(namedStruct.stage.AstructBstruct2Uses, namedStruct.stage.AstructBstruct2UseMap_Staged_Order)
 	case "AstructBstructUse":
-		res = GetNamedStructInstances(stage.AstructBstructUses, stage.AstructBstructUseMap_Staged_Order)
+		res = GetNamedStructInstances(namedStruct.stage.AstructBstructUses, namedStruct.stage.AstructBstructUseMap_Staged_Order)
 	case "Bstruct":
-		res = GetNamedStructInstances(stage.Bstructs, stage.BstructMap_Staged_Order)
+		res = GetNamedStructInstances(namedStruct.stage.Bstructs, namedStruct.stage.BstructMap_Staged_Order)
 	case "Dstruct":
-		res = GetNamedStructInstances(stage.Dstructs, stage.DstructMap_Staged_Order)
+		res = GetNamedStructInstances(namedStruct.stage.Dstructs, namedStruct.stage.DstructMap_Staged_Order)
 	case "Fstruct":
-		res = GetNamedStructInstances(stage.Fstructs, stage.FstructMap_Staged_Order)
+		res = GetNamedStructInstances(namedStruct.stage.Fstructs, namedStruct.stage.FstructMap_Staged_Order)
 	case "Gstruct":
-		res = GetNamedStructInstances(stage.Gstructs, stage.GstructMap_Staged_Order)
+		res = GetNamedStructInstances(namedStruct.stage.Gstructs, namedStruct.stage.GstructMap_Staged_Order)
 	}
 
 	return
 }
 
 type NamedStruct struct {
-	name string
+	name  string
+	stage *Stage
 }
 
 func (namedStruct *NamedStruct) GetName() string {
@@ -404,6 +436,10 @@ func NewStage(name string) (stage *Stage) {
 			&NamedStruct{name: "Fstruct"},
 			&NamedStruct{name: "Gstruct"},
 		}, // end of insertion point
+	}
+
+	for _, namedStruct := range stage.NamedStructs {
+		namedStruct.stage = stage
 	}
 
 	return

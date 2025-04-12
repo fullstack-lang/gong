@@ -36,10 +36,10 @@ type FieldValue interface {
 }
 
 type Instance interface {
-	GetName()
-	GetFieldValues() []FieldValue
-	GetFieldValue(field Field) []FieldValue
-	SetFieldValue(field Field, fieldValue FieldValue)
+	GetName() string
+	// GetFieldValues() []FieldValue
+	// GetFieldValue(field Field) []FieldValue
+	// SetFieldValue(field Field, fieldValue FieldValue)
 }
 
 type Field interface {
@@ -49,7 +49,7 @@ type Field interface {
 type NamedStructInterface interface {
 	GetName() string
 	// GetFields() []Field
-	// GetInstances() []Instance
+	GetInstances() []Instance
 	// NewInstance(stage ProbebStage) Instance
 	// Unstage(stage ProbebStage, instance Instance)
 }

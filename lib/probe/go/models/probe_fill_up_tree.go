@@ -43,6 +43,14 @@ func (probe *Probe2) fillUpTree() {
 			nodeGongstruct.IsExpanded = true
 		}
 
+		for _, instance := range namedStruct.GetInstances() {
+			nodeInstance := (&tree.Node{Name: instance.GetName()}).Stage(probe.treeStage)
+			// nodeInstance.IsNodeClickable = true
+			// nodeInstance.Impl = NewInstanceNodeCallback(_probe2, "Probe2", probe)
+
+			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		}
+
 		// names := probe.stageOfInterest.GetNamedStructNamesByOrder(namedStruct)
 
 		// for _, instanceName := range names {
