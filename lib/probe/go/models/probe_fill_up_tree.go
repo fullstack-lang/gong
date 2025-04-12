@@ -36,11 +36,11 @@ func (probe *Probe2) fillUpTree() {
 		name := namedStruct.GetName() + " (" +
 			fmt.Sprintf("%d", probe.stageOfInterest.GetMap_GongStructName_InstancesNb()[namedStruct.GetName()]) + ")"
 
-		nodeGongstruct := (&tree.Node{Name: name}).Stage(probe.treeStage)
+		nodeNamedStruct := (&tree.Node{Name: name}).Stage(probe.treeStage)
 
-		nodeGongstruct.IsExpanded = false
+		nodeNamedStruct.IsExpanded = false
 		if _, ok := expandedNodesSet[strings.Fields(name)[0]]; ok {
-			nodeGongstruct.IsExpanded = true
+			nodeNamedStruct.IsExpanded = true
 		}
 
 		for _, instance := range namedStruct.GetInstances() {
@@ -48,35 +48,11 @@ func (probe *Probe2) fillUpTree() {
 			// nodeInstance.IsNodeClickable = true
 			// nodeInstance.Impl = NewInstanceNodeCallback(_probe2, "Probe2", probe)
 
-			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			nodeNamedStruct.Children = append(nodeNamedStruct.Children, nodeInstance)
 		}
 
-		// names := probe.stageOfInterest.GetNamedStructNamesByOrder(namedStruct)
-
-		// for _, instanceName := range names {
-		// 	nodeInstance := (&tree.Node{Name: instanceName}).Stage(probe.treeStage)
-		// 	// nodeInstance.IsNodeClickable = true
-		// 	// nodeInstance.Impl = NewInstanceNodeCallback(_probe2, "Probe2", probe)
-
-		// 	nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-		// }
-
-		// switch gongStruct.Name {
-		// // insertion point
-		// case "Probe2":
-		// 	nodeGongstruct.Name = name
-		// 	set := *models.GetGongstructInstancesSet[models.Probe2](probe.stageOfInterest)
-		// 	for _probe2 := range set {
-		// 		nodeInstance := (&tree.Node{Name: _probe2.GetName()}).Stage(probe.treeStage)
-		// 		nodeInstance.IsNodeClickable = true
-		// 		nodeInstance.Impl = NewInstanceNodeCallback(_probe2, "Probe2", probe)
-
-		// 		nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-		// 	}
-		// }
-
-		// nodeGongstruct.IsNodeClickable = true
-		// nodeGongstruct.Impl = NewTreeNodeImplGongstruct(gongStruct, probe)
+		nodeNamedStruct.IsNodeClickable = true
+		nodeNamedStruct.Impl = NewTreeNodeImplNamedStruct(namedStruct, probe)
 
 		// // add add button
 		// addButton := (&tree.Button{
@@ -89,7 +65,7 @@ func (probe *Probe2) fillUpTree() {
 		// 	probe,
 		// )
 
-		sidebar.RootNodes = append(sidebar.RootNodes, nodeGongstruct)
+		sidebar.RootNodes = append(sidebar.RootNodes, nodeNamedStruct)
 	}
 
 	// Add a refresh button
