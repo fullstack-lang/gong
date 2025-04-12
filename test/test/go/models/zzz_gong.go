@@ -13,6 +13,8 @@ import (
 	"time"
 
 	test_go "github.com/fullstack-lang/gong/test/test/go"
+
+	probe "github.com/fullstack-lang/gong/lib/probe/go/models"
 )
 
 func __Gong__Abs(x int) int {
@@ -205,10 +207,10 @@ type Stage struct {
 }
 
 // GetNamedStructs implements models.ProbebStage.
-func (stage *Stage) GetNamedStructsNames() (res []string) {
+func (stage *Stage) GetNamedStructs() (res []probe.NamedStructInterface) {
 
 	for _, namedStruct := range stage.NamedStructs {
-		res = append(res, namedStruct.name)
+		res = append(res, namedStruct)
 	}
 
 	return
@@ -241,26 +243,25 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]u
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-	// insertion point for case 
-		case "Astruct":
-			res = GetNamedStructInstances(stage.Astructs, stage.AstructMap_Staged_Order)
-		case "AstructBstruct2Use":
-			res = GetNamedStructInstances(stage.AstructBstruct2Uses, stage.AstructBstruct2UseMap_Staged_Order)
-		case "AstructBstructUse":
-			res = GetNamedStructInstances(stage.AstructBstructUses, stage.AstructBstructUseMap_Staged_Order)
-		case "Bstruct":
-			res = GetNamedStructInstances(stage.Bstructs, stage.BstructMap_Staged_Order)
-		case "Dstruct":
-			res = GetNamedStructInstances(stage.Dstructs, stage.DstructMap_Staged_Order)
-		case "Fstruct":
-			res = GetNamedStructInstances(stage.Fstructs, stage.FstructMap_Staged_Order)
-		case "Gstruct":
-			res = GetNamedStructInstances(stage.Gstructs, stage.GstructMap_Staged_Order)
+	// insertion point for case
+	case "Astruct":
+		res = GetNamedStructInstances(stage.Astructs, stage.AstructMap_Staged_Order)
+	case "AstructBstruct2Use":
+		res = GetNamedStructInstances(stage.AstructBstruct2Uses, stage.AstructBstruct2UseMap_Staged_Order)
+	case "AstructBstructUse":
+		res = GetNamedStructInstances(stage.AstructBstructUses, stage.AstructBstructUseMap_Staged_Order)
+	case "Bstruct":
+		res = GetNamedStructInstances(stage.Bstructs, stage.BstructMap_Staged_Order)
+	case "Dstruct":
+		res = GetNamedStructInstances(stage.Dstructs, stage.DstructMap_Staged_Order)
+	case "Fstruct":
+		res = GetNamedStructInstances(stage.Fstructs, stage.FstructMap_Staged_Order)
+	case "Gstruct":
+		res = GetNamedStructInstances(stage.Gstructs, stage.GstructMap_Staged_Order)
 	}
 
 	return
 }
-
 
 type NamedStruct struct {
 	name string

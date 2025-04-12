@@ -30,11 +30,11 @@ func (probe *Probe2) fillUpTree() {
 	// create tree
 	sidebar := (&tree.Tree{Name: SideBarTreeName}).Stage(probe.treeStage)
 
-	namedStrucNames := probe.stageOfInterest.GetNamedStructsNames()
-	for _, gongStructName := range namedStrucNames {
+	namedStructs := probe.stageOfInterest.GetNamedStructs()
+	for _, namedStruct := range namedStructs {
 
-		name := gongStructName + " (" +
-			fmt.Sprintf("%d", probe.stageOfInterest.GetMap_GongStructName_InstancesNb()[gongStructName]) + ")"
+		name := namedStruct.GetName() + " (" +
+			fmt.Sprintf("%d", probe.stageOfInterest.GetMap_GongStructName_InstancesNb()[namedStruct.GetName()]) + ")"
 
 		nodeGongstruct := (&tree.Node{Name: name}).Stage(probe.treeStage)
 
@@ -43,15 +43,15 @@ func (probe *Probe2) fillUpTree() {
 			nodeGongstruct.IsExpanded = true
 		}
 
-		names := probe.stageOfInterest.GetNamedStructNamesByOrder(gongStructName)
+		// names := probe.stageOfInterest.GetNamedStructNamesByOrder(namedStruct)
 
-		for _, instanceName := range names {
-			nodeInstance := (&tree.Node{Name: instanceName}).Stage(probe.treeStage)
-			// nodeInstance.IsNodeClickable = true
-			// nodeInstance.Impl = NewInstanceNodeCallback(_probe2, "Probe2", probe)
+		// for _, instanceName := range names {
+		// 	nodeInstance := (&tree.Node{Name: instanceName}).Stage(probe.treeStage)
+		// 	// nodeInstance.IsNodeClickable = true
+		// 	// nodeInstance.Impl = NewInstanceNodeCallback(_probe2, "Probe2", probe)
 
-			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-		}
+		// 	nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+		// }
 
 		// switch gongStruct.Name {
 		// // insertion point

@@ -65,9 +65,8 @@ type ProbebStage interface {
 
 	GetModelsEmbededDir() embed.FS
 	GetDigramsEmbededDir() embed.FS
-	GetNamedStructsNames() []string
-	GetNamedStructNamesByOrder(namedStuctName string) []string
-	// GetOrder(instance Instance)
+
+	GetNamedStructs() []NamedStructInterface
 }
 
 // Called Probe2 for the moment because the legacy Probe name collision
