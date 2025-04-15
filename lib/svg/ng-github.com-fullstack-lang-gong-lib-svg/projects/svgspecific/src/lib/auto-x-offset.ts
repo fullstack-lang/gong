@@ -42,11 +42,11 @@ export function auto_X_offset(
                 // console.log("cache hit")
             } else {
                 if (textWidthCalculator != undefined) {
-                    const width = 1.1 * textWidthCalculator.measureTextWidth(line);
+                    const width = textWidthCalculator.measureTextWidth(line);
                     // console.log(`Width of the text, "` + line + `" : ${width}px`);
                     // const height = textWidthCalculator.measureTextHeight(line);
                     // console.log(`Width of the text, "` + line + `" : ${height}px`);
-                    offset -= oneEm
+                    // offset -= oneEm
                     offset -= width
                     map_text_textWidth.set(line, width)
                 }
