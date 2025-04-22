@@ -813,7 +813,7 @@
       "group": "build"
     },
     {
-      "label": "Create and Run Gong Example in /tmp",
+      "label": "Create and Run Helloworld Gong Example in /tmp",
       "type": "shell",
       "command": "rm -rf helloworld && mkdir helloworld && cd helloworld && mkdir -p go/models && echo \"package models\ntype Hello struct {\n  Name string\n  HelloType HelloType\n}\" > go/models/hello.go && echo \"package models\ntype Country struct {\n  Name string\n  Hello *Hello\n  AlternateHellos []*Hello\n}\" > go/models/country.go && echo \"package models\ntype HelloType string\nconst (\n  Casual HelloType = \\\"Casual\\\"\n  Formal HelloType = \\\"Formal\\\"\n)\" > go/models/hello_type.go && gongc -skipStager=false go/models && cd go/cmd/helloworld && ./helloworld -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
       "options": {
