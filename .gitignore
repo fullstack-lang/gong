@@ -39,3 +39,4 @@ lib/xlsx/go/cmd/xlsx/xlsx
 lib/cursor/go/cmd/cursor/cursor
 lib/load/go/cmd/load/load
 lib/probe/go/cmd/probe/probe
+lib/ssg/go/cmd/ssg/ssg
