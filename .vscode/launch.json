@@ -271,7 +271,18 @@
             "program": "${workspaceFolder}/lib/sim/go/cmd/sim",
             "args": [
                 "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=stage"
+                "-marshallOnCommit=data/stage"
+            ],
+        },
+        {
+            "name": "go run ssg",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/ssg/go/cmd/ssg",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage"
             ],
         },
         {
