@@ -224,6 +224,21 @@
       ]
     },
     {
+      "label": "01 - gongc ssg",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/lib/ssg"
+      },
+      "command": "gongc",
+      "group": "build",
+      "args": [
+        "-skipGoModCommands",
+        "-skipNpmWorkspaces",
+        "-skipStager=false",
+        "go/models",
+      ]
+    },
+    {
       "label": "01 - gongc slider",
       "type": "shell",
       "options": {
