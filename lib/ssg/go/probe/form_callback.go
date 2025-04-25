@@ -61,6 +61,10 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(chapter_.Name), formDiv)
+		case "Weigth":
+			FormDivBasicFieldToField(&(chapter_.Weigth), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(chapter_.Description), formDiv)
 		case "Content:Chapters":
 			// we need to retrieve the field owner before the change
 			var pastContentOwner *models.Content
