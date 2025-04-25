@@ -1,0 +1,17 @@
+{{ define "main" }}
+    <h1>{{ .Page.Title }}</h1>
+    <div class="page-content">
+        {{ .Page.ContentHTML }}
+    </div>
+
+    {{ if .Page.Pages }}
+        <h2>Pages in this section:</h2>
+        <ul>
+            {{ range .Page.Pages }}
+                <li><a href="{{ $.Page.RelPathToRoot }}{{ .RelativeURL }}">{{ .Title }}</a></li>
+            {{ else }}
+                <li>No pages found in this section.</li>
+            {{ end }}
+        </ul>
+    {{ end }}
+{{ end }}
