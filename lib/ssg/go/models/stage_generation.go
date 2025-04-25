@@ -81,7 +81,7 @@ func (stage *Stage) Generation() {
 
 	// --- Start: Generate subdirectories and _index.md for each Chapter ---
 	// Iterate through each chapter associated with the Content instance
-	for _, chapter := range content.Chapters {
+	for idx, chapter := range content.Chapters {
 		log.Printf("Processing chapter: %s", chapter.Name)
 
 		// 1. Create subdirectory for the chapter
@@ -107,12 +107,10 @@ func (stage *Stage) Generation() {
 		chapterFileContent := fmt.Sprintf(`---
 title: "%s"
 weight: %d
-description: "%s"
 ---
 %s`,
 			chapter.Name,
-			int(chapter.Weigth), // Convert float64 weight to int
-			chapter.MardownContent,
+			idx,                    // Convert float64 weight to int
 			chapter.MardownContent) // Use Description as body content based on example
 
 		// 4. Write content to the _index.md file
@@ -122,12 +120,37 @@ description: "%s"
 			continue // Skip this chapter if file writing fails
 		}
 		log.Printf("File created successfully: %s", chapterIndexFilePath)
+
+		for idx, page := range chapter.Pages {
+			pageIndexFilePath := filepath.Join(chapterDirPath, page.GetName()+".md")
+
+			pageFileContent := fmt.Sprintf(`---
+title: "%s"
+weight: %d
+---
+%s`,
+				page.Name,
+				idx,                 // Convert float64 weight to int
+				page.MardownContent) // Use Description as body content based on example
+
+			err = os.WriteFile(pageIndexFilePath, []byte(pageFileContent), 0644) // Use 0644 for standard file permissions
+			if err != nil {
+				log.Printf("Error writing file '%s' for chapter '%s': %v", pageIndexFilePath, page.Name, err)
+				continue // Skip this chapter if file writing fails
+			}
+			log.Printf("File created successfully: %s", pageIndexFilePath)
+		}
+
 	}
 	// --- End: Generate subdirectories and _index.md for each Chapter ---
 
 	log.Println("Generation process finished.")
 
 	// --- Build Steps ---
+	stage.markdown2ssg(content)
+}
+
+func (*Stage) markdown2ssg(content *Content) {
 	if err := gen.CleanOutputDir(content.OutputPath); err != nil {
 		log.Fatalf("Error cleaning output directory '%s': %v", content.OutputPath, err)
 	}
