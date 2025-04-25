@@ -72,6 +72,18 @@ type ContentDB struct {
 	// Declation for basic field contentDB.ContentPath
 	ContentPath_Data sql.NullString
 
+	// Declation for basic field contentDB.OutputPath
+	OutputPath_Data sql.NullString
+
+	// Declation for basic field contentDB.LayoutPath
+	LayoutPath_Data sql.NullString
+
+	// Declation for basic field contentDB.StaticPath
+	StaticPath_Data sql.NullString
+
+	// Declation for basic field contentDB.Target
+	Target_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	ContentPointersEncoding
@@ -99,6 +111,14 @@ type ContentWOP struct {
 	Text string `xlsx:"2"`
 
 	ContentPath string `xlsx:"3"`
+
+	OutputPath string `xlsx:"4"`
+
+	LayoutPath string `xlsx:"5"`
+
+	StaticPath string `xlsx:"6"`
+
+	Target models.Target `xlsx:"7"`
 	// insertion for WOP pointer fields
 }
 
@@ -108,6 +128,10 @@ var Content_Fields = []string{
 	"Name",
 	"Text",
 	"ContentPath",
+	"OutputPath",
+	"LayoutPath",
+	"StaticPath",
+	"Target",
 }
 
 type BackRepoContentStruct struct {
@@ -420,6 +444,18 @@ func (contentDB *ContentDB) CopyBasicFieldsFromContent(content *models.Content) 
 
 	contentDB.ContentPath_Data.String = content.ContentPath
 	contentDB.ContentPath_Data.Valid = true
+
+	contentDB.OutputPath_Data.String = content.OutputPath
+	contentDB.OutputPath_Data.Valid = true
+
+	contentDB.LayoutPath_Data.String = content.LayoutPath
+	contentDB.LayoutPath_Data.Valid = true
+
+	contentDB.StaticPath_Data.String = content.StaticPath
+	contentDB.StaticPath_Data.Valid = true
+
+	contentDB.Target_Data.String = content.Target.ToString()
+	contentDB.Target_Data.Valid = true
 }
 
 // CopyBasicFieldsFromContent_WOP
@@ -434,6 +470,18 @@ func (contentDB *ContentDB) CopyBasicFieldsFromContent_WOP(content *models.Conte
 
 	contentDB.ContentPath_Data.String = content.ContentPath
 	contentDB.ContentPath_Data.Valid = true
+
+	contentDB.OutputPath_Data.String = content.OutputPath
+	contentDB.OutputPath_Data.Valid = true
+
+	contentDB.LayoutPath_Data.String = content.LayoutPath
+	contentDB.LayoutPath_Data.Valid = true
+
+	contentDB.StaticPath_Data.String = content.StaticPath
+	contentDB.StaticPath_Data.Valid = true
+
+	contentDB.Target_Data.String = content.Target.ToString()
+	contentDB.Target_Data.Valid = true
 }
 
 // CopyBasicFieldsFromContentWOP
@@ -448,6 +496,18 @@ func (contentDB *ContentDB) CopyBasicFieldsFromContentWOP(content *ContentWOP) {
 
 	contentDB.ContentPath_Data.String = content.ContentPath
 	contentDB.ContentPath_Data.Valid = true
+
+	contentDB.OutputPath_Data.String = content.OutputPath
+	contentDB.OutputPath_Data.Valid = true
+
+	contentDB.LayoutPath_Data.String = content.LayoutPath
+	contentDB.LayoutPath_Data.Valid = true
+
+	contentDB.StaticPath_Data.String = content.StaticPath
+	contentDB.StaticPath_Data.Valid = true
+
+	contentDB.Target_Data.String = content.Target.ToString()
+	contentDB.Target_Data.Valid = true
 }
 
 // CopyBasicFieldsToContent
@@ -456,6 +516,10 @@ func (contentDB *ContentDB) CopyBasicFieldsToContent(content *models.Content) {
 	content.Name = contentDB.Name_Data.String
 	content.Text = contentDB.Text_Data.String
 	content.ContentPath = contentDB.ContentPath_Data.String
+	content.OutputPath = contentDB.OutputPath_Data.String
+	content.LayoutPath = contentDB.LayoutPath_Data.String
+	content.StaticPath = contentDB.StaticPath_Data.String
+	content.Target.FromString(contentDB.Target_Data.String)
 }
 
 // CopyBasicFieldsToContent_WOP
@@ -464,6 +528,10 @@ func (contentDB *ContentDB) CopyBasicFieldsToContent_WOP(content *models.Content
 	content.Name = contentDB.Name_Data.String
 	content.Text = contentDB.Text_Data.String
 	content.ContentPath = contentDB.ContentPath_Data.String
+	content.OutputPath = contentDB.OutputPath_Data.String
+	content.LayoutPath = contentDB.LayoutPath_Data.String
+	content.StaticPath = contentDB.StaticPath_Data.String
+	content.Target.FromString(contentDB.Target_Data.String)
 }
 
 // CopyBasicFieldsToContentWOP
@@ -473,6 +541,10 @@ func (contentDB *ContentDB) CopyBasicFieldsToContentWOP(content *ContentWOP) {
 	content.Name = contentDB.Name_Data.String
 	content.Text = contentDB.Text_Data.String
 	content.ContentPath = contentDB.ContentPath_Data.String
+	content.OutputPath = contentDB.OutputPath_Data.String
+	content.LayoutPath = contentDB.LayoutPath_Data.String
+	content.StaticPath = contentDB.StaticPath_Data.String
+	content.Target.FromString(contentDB.Target_Data.String)
 }
 
 // Backup generates a json file from a slice of all ContentDB instances in the backrepo

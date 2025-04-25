@@ -187,6 +187,14 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(content_.Text), formDiv)
 		case "ContentPath":
 			FormDivBasicFieldToField(&(content_.ContentPath), formDiv)
+		case "OutputPath":
+			FormDivBasicFieldToField(&(content_.OutputPath), formDiv)
+		case "LayoutPath":
+			FormDivBasicFieldToField(&(content_.LayoutPath), formDiv)
+		case "StaticPath":
+			FormDivBasicFieldToField(&(content_.StaticPath), formDiv)
+		case "Target":
+			FormDivEnumStringFieldToField(&(content_.Target), formDiv)
 		}
 	}
 
