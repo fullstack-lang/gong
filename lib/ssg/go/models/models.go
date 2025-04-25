@@ -1,5 +1,11 @@
 package models
 
+// the following blank import will force the vendoring of all the front end code
+// this allows the front end compilation of the split front end
+import (
+	_ "github.com/fullstack-lang/gong/lib/ssg/go/defaults"
+)
+
 type Content struct {
 	Name string
 
