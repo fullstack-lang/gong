@@ -32,8 +32,12 @@ func _(stage *models.Stage) {
 	// Setup of values
 
 	__Chapter__000000_Getting_Started.Name = `Getting Started`
+	__Chapter__000000_Getting_Started.Weigth = 10.000000
+	__Chapter__000000_Getting_Started.Description = `This is the introduction to the first chapter. We'll cover the basics here.`
 
 	__Chapter__000001_Advanced_Topics.Name = `Advanced Topics`
+	__Chapter__000001_Advanced_Topics.Weigth = 20.000000
+	__Chapter__000001_Advanced_Topics.Description = `Moving onto more advanced concepts in the second chapter.`
 
 	__Content__000000_My_Awesome_Go_Book.Name = `My Awesome Go Book`
 	__Content__000000_My_Awesome_Go_Book.Text = `Welcome to the main page of the book built with our custom Go SSG!`
