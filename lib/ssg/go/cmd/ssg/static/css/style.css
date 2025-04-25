@@ -1,0 +1,219 @@
+/* static/css/style.css */
+body {
+    /* Updated font-family: Use a modern system font stack */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    color: #333;
+    background-color: #fff;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 260px;
+    padding: 25px;
+    border-right: 1px solid #e0e0e0;
+    background-color: #f8f9fa;
+    box-sizing: border-box;
+    /* Include padding in width */
+    overflow-y: auto;
+    /* Allow scrolling if content overflows */
+}
+
+.sidebar h2 {
+    margin-top: 0;
+    margin-bottom: 1.5em;
+    font-size: 1.4em;
+    color: #212529;
+}
+
+.sidebar h2 a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    margin-bottom: 0.5em;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: #007bff;
+    display: block;
+    /* Make the whole area clickable */
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.sidebar a:hover {
+    background-color: #e9ecef;
+    color: #0056b3;
+}
+
+/* Style for the active section/page link */
+.sidebar a.active-section,
+.sidebar a.active-page {
+    font-weight: bold;
+    color: #1a1a1a;
+    background-color: #d6d8db;
+}
+
+
+/* Nested list for pages within a section */
+.sidebar ul ul {
+    padding-left: 20px;
+    /* Indent nested pages */
+    margin-top: 0.5em;
+}
+
+.sidebar ul ul a {
+    font-size: 0.95em;
+    color: #495057;
+}
+
+.sidebar ul ul a:hover {
+    color: #0056b3;
+}
+
+.sidebar ul ul a.active-page {
+    color: #1a1a1a;
+    background-color: #e2e3e5;
+}
+
+
+.content {
+    flex-grow: 1;
+    padding: 30px 40px;
+    max-width: 900px;
+    /* Limit content width for readability */
+    margin-left: auto;
+    /* Center content area if space allows */
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.content h1 {
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    /* Apply the body font to headings too, or set a specific heading font */
+    font-family: inherit;
+}
+
+.page-content {
+    /* Add styling for markdown content */
+}
+
+.page-content h2 {
+    margin-top: 1.5em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.3em;
+    /* Apply the body font to headings too */
+    font-family: inherit;
+}
+
+.page-content code {
+    background-color: #e9ecef;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    /* Use a monospace font stack for code */
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.9em;
+    /* Slightly smaller code font */
+}
+
+.page-content pre {
+    background-color: #e9ecef;
+    padding: 1em;
+    border-radius: 4px;
+    overflow-x: auto;
+    /* Allow horizontal scrolling for long code lines */
+}
+
+.page-content pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+    /* Inherit size from pre */
+}
+
+.page-content blockquote {
+    border-left: 4px solid #ccc;
+    padding-left: 1em;
+    margin-left: 0;
+    color: #666;
+    font-style: italic;
+    /* Optional: italicize blockquotes */
+}
+
+/* Basic responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        /* Allow sidebar height to adjust */
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+        max-height: 40vh;
+        /* Limit height on small screens */
+    }
+
+    .content {
+        padding: 20px;
+        max-width: 100%;
+    }
+}
+
+/* Add to static/css/style.css */
+
+/* Basic Table Styling */
+.page-content table {
+    width: 100%;
+    /* Make table take full width */
+    border-collapse: collapse;
+    /* Collapse borders */
+    margin: 1.5em 0;
+    /* Add some space around the table */
+    border: 1px solid #ccc;
+    /* Add a border around the table */
+}
+
+.page-content th,
+.page-content td {
+    border: 1px solid #e0e0e0;
+    /* Border for cells */
+    padding: 8px 12px;
+    /* Padding inside cells */
+    text-align: left;
+    /* Align text to the left */
+}
+
+.page-content th {
+    background-color: #f8f9fa;
+    /* Light background for headers */
+    font-weight: bold;
+    /* Make header text bold */
+}
+
+.page-content tr:nth-child(even) {
+    background-color: #f8f9fa;
+    /* Zebra striping for rows */
+}
