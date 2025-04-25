@@ -220,6 +220,20 @@ github.com/xuri/excelize/v2
 # github.com/xuri/nfp v0.0.0-20250226145837-86d5fc24b2ba
 ## explicit; go 1.15
 github.com/xuri/nfp
+# github.com/yuin/goldmark v1.7.10
+## explicit; go 1.22
+github.com/yuin/goldmark
+github.com/yuin/goldmark/ast
+github.com/yuin/goldmark/extension
+github.com/yuin/goldmark/extension/ast
+github.com/yuin/goldmark/parser
+github.com/yuin/goldmark/renderer
+github.com/yuin/goldmark/renderer/html
+github.com/yuin/goldmark/text
+github.com/yuin/goldmark/util
+# github.com/yuin/goldmark-meta v1.1.0
+## explicit; go 1.17
+github.com/yuin/goldmark-meta
 # golang.org/x/arch v0.14.0
 ## explicit; go 1.18
 golang.org/x/arch/x86/x86asm
@@ -299,6 +313,9 @@ google.golang.org/protobuf/proto
 google.golang.org/protobuf/reflect/protoreflect
 google.golang.org/protobuf/reflect/protoregistry
 google.golang.org/protobuf/runtime/protoiface
+# gopkg.in/yaml.v2 v2.3.0
+## explicit
+gopkg.in/yaml.v2
 # gopkg.in/yaml.v3 v3.0.1
 ## explicit
 gopkg.in/yaml.v3
