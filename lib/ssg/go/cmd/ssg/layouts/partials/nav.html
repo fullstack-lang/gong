@@ -1,0 +1,36 @@
+<ul>
+    {{/* Iterate through top-level sections */}}
+    {{ range .Site.Sections }}
+        <li>
+            {{/* Generate link based on build target */}}
+            {{ if eq $.BuildTarget "web" }}
+                {{/* Web target: Use direct absolute URL path */}}
+                <a href="{{ .URL }}" {{ if eq $.Page.URL .URL }}class="active-section"{{ end }}>{{ .Title }}</a>
+            {{ else }}
+                {{/* File target: Use relative path */}}
+                <a href="{{ $.Page.RelPathToRoot }}{{ .RelativeURL }}" {{ if eq $.Page.URL .URL }}class="active-section"{{ end }}>{{ .Title }}</a>
+            {{ end }}
+
+            {{/* Check if the current page is within this section OR is this section's index page */}}
+            {{ if or (and $.Page.Section (eq $.Page.Section.URL .URL)) (eq $.Page.URL .URL) }}
+                <ul>
+                    {{/* Iterate through pages within the current section */}}
+                    {{ range .Pages }}
+                        <li>
+                            {{/* Generate link based on build target */}}
+                            {{ if eq $.BuildTarget "web" }}
+                                {{/* Web target: Use direct absolute URL path */}}
+                                <a href="{{ .URL }}" {{ if eq $.Page.URL .URL }}class="active-page"{{ end }}>{{ .Title }}</a>
+                            {{ else }}
+                                {{/* File target: Use relative path */}}
+                                <a href="{{ $.Page.RelPathToRoot }}{{ .RelativeURL }}" {{ if eq $.Page.URL .URL }}class="active-page"{{ end }}>{{ .Title }}</a>
+                            {{ end }}
+                        </li>
+                    {{ end }}
+                </ul>
+            {{ end }}
+        </li>
+    {{ else }}
+        <li>No chapters found.</li>
+    {{ end }}
+</ul>
