@@ -29,6 +29,7 @@ func (stager *Stager) GetButtonsStage() *button.Stage {
 // OnAfterUpdateButton implements models.Target.
 func (stager *Stager) OnAfterUpdateButton() {
 	log.Println("button updated")
+	stager.stage.Generation()
 }
 
 func NewStager(r *gin.Engine, stage *Stage) (stager *Stager) {
