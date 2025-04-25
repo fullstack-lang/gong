@@ -26,6 +26,18 @@ func GetReverseFieldOwnerName(
 		// insertion point
 		}
 
+	case *Page:
+		switch reverseField.GongstructName {
+		// insertion point
+		case "Chapter":
+			switch reverseField.Fieldname {
+			case "Pages":
+				if _chapter, ok := stage.Chapter_Pages_reverseMap[inst]; ok {
+					res = _chapter.Name
+				}
+			}
+		}
+
 	default:
 		_ = inst
 	}
@@ -53,6 +65,16 @@ func GetReverseFieldOwner[T Gongstruct](
 	case *Content:
 		switch reverseField.GongstructName {
 		// insertion point
+		}
+
+	case *Page:
+		switch reverseField.GongstructName {
+		// insertion point
+		case "Chapter":
+			switch reverseField.Fieldname {
+			case "Pages":
+				res = stage.Chapter_Pages_reverseMap[inst]
+			}
 		}
 
 	default:
