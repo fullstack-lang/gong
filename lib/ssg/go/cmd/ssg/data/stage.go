@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/ssg/go/models"
-
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -33,17 +32,17 @@ func _(stage *models.Stage) {
 
 	__Chapter__000000_Getting_Started.Name = `Getting Started`
 	__Chapter__000000_Getting_Started.Weigth = 10.000000
-	__Chapter__000000_Getting_Started.Description = `This is the introduction to the first chapter.
+	__Chapter__000000_Getting_Started.MardownContent = `This is the introduction to the first chapter.
 We'll cover the basics here.
 
 This demonstrates how new lines are generated`
 
 	__Chapter__000001_Advanced_Topics.Name = `Advanced Topics`
 	__Chapter__000001_Advanced_Topics.Weigth = 20.000000
-	__Chapter__000001_Advanced_Topics.Description = `Moving onto more advanced concepts in the second chapter.`
+	__Chapter__000001_Advanced_Topics.MardownContent = `Moving onto more advanced concepts in the second chapter.`
 
 	__Content__000000_My_Awesome_Go_Book.Name = `My Awesome Go Book`
-	__Content__000000_My_Awesome_Go_Book.Text = `Welcome to the main page of the book built with our custom Go SSG!`
+	__Content__000000_My_Awesome_Go_Book.MardownContent = `Welcome to the main page of the book built with our custom Go SSG!`
 	__Content__000000_My_Awesome_Go_Book.ContentPath = `content`
 	__Content__000000_My_Awesome_Go_Book.OutputPath = `public`
 	__Content__000000_My_Awesome_Go_Book.LayoutPath = `layouts`

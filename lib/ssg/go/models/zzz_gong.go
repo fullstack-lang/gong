@@ -774,9 +774,9 @@ func GetFields[Type Gongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case Chapter:
-		res = []string{"Name", "Weigth", "Description"}
+		res = []string{"Name", "Weigth", "MardownContent"}
 	case Content:
-		res = []string{"Name", "Text", "ContentPath", "OutputPath", "LayoutPath", "StaticPath", "Target", "Chapters"}
+		res = []string{"Name", "MardownContent", "ContentPath", "OutputPath", "LayoutPath", "StaticPath", "Target", "Chapters"}
 	}
 	return
 }
@@ -816,9 +816,9 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *Chapter:
-		res = []string{"Name", "Weigth", "Description"}
+		res = []string{"Name", "Weigth", "MardownContent"}
 	case *Content:
-		res = []string{"Name", "Text", "ContentPath", "OutputPath", "LayoutPath", "StaticPath", "Target", "Chapters"}
+		res = []string{"Name", "MardownContent", "ContentPath", "OutputPath", "LayoutPath", "StaticPath", "Target", "Chapters"}
 	}
 	return
 }
@@ -869,16 +869,16 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Weigth)
 			res.valueFloat = inferedInstance.Weigth
 			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Description":
-			res.valueString = inferedInstance.Description
+		case "MardownContent":
+			res.valueString = inferedInstance.MardownContent
 		}
 	case *Content:
 		switch fieldName {
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
-		case "Text":
-			res.valueString = inferedInstance.Text
+		case "MardownContent":
+			res.valueString = inferedInstance.MardownContent
 		case "ContentPath":
 			res.valueString = inferedInstance.ContentPath
 		case "OutputPath":
@@ -917,16 +917,16 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Weigth)
 			res.valueFloat = inferedInstance.Weigth
 			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Description":
-			res.valueString = inferedInstance.Description
+		case "MardownContent":
+			res.valueString = inferedInstance.MardownContent
 		}
 	case Content:
 		switch fieldName {
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
-		case "Text":
-			res.valueString = inferedInstance.Text
+		case "MardownContent":
+			res.valueString = inferedInstance.MardownContent
 		case "ContentPath":
 			res.valueString = inferedInstance.ContentPath
 		case "OutputPath":

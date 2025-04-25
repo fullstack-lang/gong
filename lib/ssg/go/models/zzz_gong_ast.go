@@ -646,10 +646,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Chapter[identifier].Weigth = exprSign * fielValue
-				case "Description":
+				case "MardownContent":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Chapter[identifier].Description = fielValue
+					__gong__map_Chapter[identifier].MardownContent = fielValue
 				}
 			case "Content":
 				switch fieldName {
@@ -658,10 +658,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Content[identifier].Name = fielValue
-				case "Text":
+				case "MardownContent":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Content[identifier].Text = fielValue
+					__gong__map_Content[identifier].MardownContent = fielValue
 				case "ContentPath":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
