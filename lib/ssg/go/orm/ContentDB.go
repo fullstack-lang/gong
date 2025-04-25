@@ -66,6 +66,12 @@ type ContentDB struct {
 	// Declation for basic field contentDB.Name
 	Name_Data sql.NullString
 
+	// Declation for basic field contentDB.Text
+	Text_Data sql.NullString
+
+	// Declation for basic field contentDB.ContentPath
+	ContentPath_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	ContentPointersEncoding
@@ -89,6 +95,10 @@ type ContentWOP struct {
 	// insertion for WOP basic fields
 
 	Name string `xlsx:"1"`
+
+	Text string `xlsx:"2"`
+
+	ContentPath string `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -96,6 +106,8 @@ var Content_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"Text",
+	"ContentPath",
 }
 
 type BackRepoContentStruct struct {
@@ -402,6 +414,12 @@ func (contentDB *ContentDB) CopyBasicFieldsFromContent(content *models.Content) 
 
 	contentDB.Name_Data.String = content.Name
 	contentDB.Name_Data.Valid = true
+
+	contentDB.Text_Data.String = content.Text
+	contentDB.Text_Data.Valid = true
+
+	contentDB.ContentPath_Data.String = content.ContentPath
+	contentDB.ContentPath_Data.Valid = true
 }
 
 // CopyBasicFieldsFromContent_WOP
@@ -410,6 +428,12 @@ func (contentDB *ContentDB) CopyBasicFieldsFromContent_WOP(content *models.Conte
 
 	contentDB.Name_Data.String = content.Name
 	contentDB.Name_Data.Valid = true
+
+	contentDB.Text_Data.String = content.Text
+	contentDB.Text_Data.Valid = true
+
+	contentDB.ContentPath_Data.String = content.ContentPath
+	contentDB.ContentPath_Data.Valid = true
 }
 
 // CopyBasicFieldsFromContentWOP
@@ -418,18 +442,28 @@ func (contentDB *ContentDB) CopyBasicFieldsFromContentWOP(content *ContentWOP) {
 
 	contentDB.Name_Data.String = content.Name
 	contentDB.Name_Data.Valid = true
+
+	contentDB.Text_Data.String = content.Text
+	contentDB.Text_Data.Valid = true
+
+	contentDB.ContentPath_Data.String = content.ContentPath
+	contentDB.ContentPath_Data.Valid = true
 }
 
 // CopyBasicFieldsToContent
 func (contentDB *ContentDB) CopyBasicFieldsToContent(content *models.Content) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	content.Name = contentDB.Name_Data.String
+	content.Text = contentDB.Text_Data.String
+	content.ContentPath = contentDB.ContentPath_Data.String
 }
 
 // CopyBasicFieldsToContent_WOP
 func (contentDB *ContentDB) CopyBasicFieldsToContent_WOP(content *models.Content_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	content.Name = contentDB.Name_Data.String
+	content.Text = contentDB.Text_Data.String
+	content.ContentPath = contentDB.ContentPath_Data.String
 }
 
 // CopyBasicFieldsToContentWOP
@@ -437,6 +471,8 @@ func (contentDB *ContentDB) CopyBasicFieldsToContentWOP(content *ContentWOP) {
 	content.ID = int(contentDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	content.Name = contentDB.Name_Data.String
+	content.Text = contentDB.Text_Data.String
+	content.ContentPath = contentDB.ContentPath_Data.String
 }
 
 // Backup generates a json file from a slice of all ContentDB instances in the backrepo

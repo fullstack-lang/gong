@@ -20,10 +20,14 @@ func (from *Chapter) CopyBasicFields(to *Chapter) {
 type Content_WOP struct {
 	// insertion point
 	Name string
+	Text string
+	ContentPath string
 }
 
 func (from *Content) CopyBasicFields(to *Content) {
 	// insertion point
 	to.Name = from.Name
+	to.Text = from.Text
+	to.ContentPath = from.ContentPath
 }
 
