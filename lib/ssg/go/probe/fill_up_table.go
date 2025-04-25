@@ -23,6 +23,8 @@ func fillUpTablePointerToGongstruct[T models.PointerToGongstruct](
 		fillUpTable[models.Chapter](probe)
 	case *models.Content:
 		fillUpTable[models.Content](probe)
+	case *models.Page:
+		fillUpTable[models.Page](probe)
 	default:
 		log.Println("unknow type")
 	}

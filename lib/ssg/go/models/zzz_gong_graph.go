@@ -11,6 +11,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *Content:
 		ok = stage.IsStagedContent(target)
 
+	case *Page:
+		ok = stage.IsStagedPage(target)
+
 	default:
 		_ = target
 	}
@@ -32,6 +35,13 @@ func (stage *Stage) IsStagedContent(content *Content) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedPage(page *Page) (ok bool) {
+
+	_, ok = stage.Pages[page]
+
+	return
+}
+
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -45,6 +55,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Content:
 		stage.StageBranchContent(target)
+
+	case *Page:
+		stage.StageBranchPage(target)
 
 	default:
 		_ = target
@@ -64,6 +77,9 @@ func (stage *Stage) StageBranchChapter(chapter *Chapter) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _page := range chapter.Pages {
+		StageBranch(stage, _page)
+	}
 
 }
 
@@ -85,6 +101,21 @@ func (stage *Stage) StageBranchContent(content *Content) {
 
 }
 
+func (stage *Stage) StageBranchPage(page *Page) {
+
+	// check if instance is already staged
+	if IsStaged(stage, page) {
+		return
+	}
+
+	page.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -102,6 +133,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *Content:
 		toT := CopyBranchContent(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Page:
+		toT := CopyBranchPage(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -126,6 +161,9 @@ func CopyBranchChapter(mapOrigCopy map[any]any, chapterFrom *Chapter) (chapterTo
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _page := range chapterFrom.Pages {
+		chapterTo.Pages = append(chapterTo.Pages, CopyBranchPage(mapOrigCopy, _page))
+	}
 
 	return
 }
@@ -152,6 +190,25 @@ func CopyBranchContent(mapOrigCopy map[any]any, contentFrom *Content) (contentTo
 	return
 }
 
+func CopyBranchPage(mapOrigCopy map[any]any, pageFrom *Page) (pageTo *Page) {
+
+	// pageFrom has already been copied
+	if _pageTo, ok := mapOrigCopy[pageFrom]; ok {
+		pageTo = _pageTo.(*Page)
+		return
+	}
+
+	pageTo = new(Page)
+	mapOrigCopy[pageFrom] = pageTo
+	pageFrom.CopyBasicFields(pageTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
 //
@@ -165,6 +222,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Content:
 		stage.UnstageBranchContent(target)
+
+	case *Page:
+		stage.UnstageBranchPage(target)
 
 	default:
 		_ = target
@@ -184,6 +244,9 @@ func (stage *Stage) UnstageBranchChapter(chapter *Chapter) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _page := range chapter.Pages {
+		UnstageBranch(stage, _page)
+	}
 
 }
 
@@ -202,5 +265,20 @@ func (stage *Stage) UnstageBranchContent(content *Content) {
 	for _, _chapter := range content.Chapters {
 		UnstageBranch(stage, _chapter)
 	}
+
+}
+
+func (stage *Stage) UnstageBranchPage(page *Page) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, page) {
+		return
+	}
+
+	page.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }

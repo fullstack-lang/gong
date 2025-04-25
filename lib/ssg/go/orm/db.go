@@ -27,6 +27,10 @@ type DBLite struct {
 	contentDBs map[uint]*ContentDB
 
 	nextIDContentDB uint
+
+	pageDBs map[uint]*PageDB
+
+	nextIDPageDB uint
 }
 
 // NewDBLite creates a new instance of DBLite
@@ -37,6 +41,8 @@ func NewDBLite() *DBLite {
 		chapterDBs: make(map[uint]*ChapterDB),
 
 		contentDBs: make(map[uint]*ContentDB),
+
+		pageDBs: make(map[uint]*PageDB),
 	}
 }
 
@@ -59,6 +65,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDContentDB++
 		v.ID = db.nextIDContentDB
 		db.contentDBs[v.ID] = v
+	case *PageDB:
+		db.nextIDPageDB++
+		v.ID = db.nextIDPageDB
+		db.pageDBs[v.ID] = v
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/ssg/go, unsupported type in Create")
 	}
@@ -91,6 +101,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.chapterDBs, v.ID)
 	case *ContentDB:
 		delete(db.contentDBs, v.ID)
+	case *PageDB:
+		delete(db.pageDBs, v.ID)
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/ssg/go, unsupported type in Delete")
 	}
@@ -114,6 +126,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *ContentDB:
 		db.contentDBs[v.ID] = v
+		return db, nil
+	case *PageDB:
+		db.pageDBs[v.ID] = v
 		return db, nil
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/ssg/go, Save: unsupported type")
@@ -143,6 +158,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db Content github.com/fullstack-lang/gong/lib/ssg/go, record not found")
 		}
+	case *PageDB:
+		if existing, ok := db.pageDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Page github.com/fullstack-lang/gong/lib/ssg/go, record not found")
+		}
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/ssg/go, unsupported type in Updates")
 	}
@@ -166,6 +187,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]ContentDB:
 		*ptr = make([]ContentDB, 0, len(db.contentDBs))
 		for _, v := range db.contentDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]PageDB:
+		*ptr = make([]PageDB, 0, len(db.pageDBs))
+		for _, v := range db.pageDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -221,6 +248,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		contentDB, _ := instanceDB.(*ContentDB)
 		*contentDB = *tmp
+		
+	case *PageDB:
+		tmp, ok := db.pageDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Page Unkown entry %d", i))
+		}
+
+		pageDB, _ := instanceDB.(*PageDB)
+		*pageDB = *tmp
 		
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/ssg/go, Unkown type")

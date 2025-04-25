@@ -133,12 +133,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(chapter.Name))
 		initializerStatements += setValueField
 
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Weigth")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", chapter.Weigth))
-		initializerStatements += setValueField
-
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MardownContent")
@@ -226,6 +220,53 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
+	map_Page_Identifiers := make(map[*Page]string)
+	_ = map_Page_Identifiers
+
+	pageOrdered := []*Page{}
+	for page := range stage.Pages {
+		pageOrdered = append(pageOrdered, page)
+	}
+	sort.Slice(pageOrdered[:], func(i, j int) bool {
+		pagei := pageOrdered[i]
+		pagej := pageOrdered[j]
+		pagei_order, oki := stage.PageMap_Staged_Order[pagei]
+		pagej_order, okj := stage.PageMap_Staged_Order[pagej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return pagei_order < pagej_order
+	})
+	if len(pageOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, page := range pageOrdered {
+
+		id = generatesIdentifier("Page", idx, page.Name)
+		map_Page_Identifiers[page] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Page")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", page.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(page.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MardownContent")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(page.MardownContent))
+		initializerStatements += setValueField
+
+	}
+
 	// insertion initialization of objects to stage
 	if len(chapterOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Chapter instances pointers"
@@ -238,6 +279,14 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		map_Chapter_Identifiers[chapter] = id
 
 		// Initialisation of values
+		for _, _page := range chapter.Pages {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Pages")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Page_Identifiers[_page])
+			pointersInitializesStatements += setPointerField
+		}
+
 	}
 
 	if len(contentOrdered) > 0 {
@@ -259,6 +308,19 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 			pointersInitializesStatements += setPointerField
 		}
 
+	}
+
+	if len(pageOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Page instances pointers"
+	}
+	for idx, page := range pageOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Page", idx, page.Name)
+		map_Page_Identifiers[page] = id
+
+		// Initialisation of values
 	}
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
