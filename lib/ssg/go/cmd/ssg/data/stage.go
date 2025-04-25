@@ -33,7 +33,10 @@ func _(stage *models.Stage) {
 
 	__Chapter__000000_Getting_Started.Name = `Getting Started`
 	__Chapter__000000_Getting_Started.Weigth = 10.000000
-	__Chapter__000000_Getting_Started.Description = `This is the introduction to the first chapter. We'll cover the basics here.`
+	__Chapter__000000_Getting_Started.Description = `This is the introduction to the first chapter.
+We'll cover the basics here.
+
+This demonstrates how new lines are generated`
 
 	__Chapter__000001_Advanced_Topics.Name = `Advanced Topics`
 	__Chapter__000001_Advanced_Topics.Weigth = 20.000000
@@ -42,6 +45,10 @@ func _(stage *models.Stage) {
 	__Content__000000_My_Awesome_Go_Book.Name = `My Awesome Go Book`
 	__Content__000000_My_Awesome_Go_Book.Text = `Welcome to the main page of the book built with our custom Go SSG!`
 	__Content__000000_My_Awesome_Go_Book.ContentPath = `content`
+	__Content__000000_My_Awesome_Go_Book.OutputPath = `public`
+	__Content__000000_My_Awesome_Go_Book.LayoutPath = `layouts`
+	__Content__000000_My_Awesome_Go_Book.StaticPath = `static`
+	__Content__000000_My_Awesome_Go_Book.Target = models.FILE
 
 	// Setup of pointers
 	// setup of Chapter instances pointers

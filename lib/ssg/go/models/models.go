@@ -9,6 +9,11 @@ type Content struct {
 
 	// path to the content generation
 	ContentPath string
+	OutputPath  string
+	LayoutPath  string
+	StaticPath  string
+
+	Target Target
 
 	Chapters []*Chapter
 }
@@ -21,3 +26,11 @@ type Chapter struct {
 	//gong:width 600 gong:height 300
 	Description string
 }
+
+type Target string
+
+// values for EnumType
+const (
+	FILE Target = "FILE"
+	WEB  Target = "WEB"
+)

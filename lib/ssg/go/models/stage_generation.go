@@ -5,6 +5,8 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+
+	"github.com/fullstack-lang/gong/lib/ssg/go/gen"
 	// Import strconv for float to string conversion if needed directly
 )
 
@@ -36,9 +38,22 @@ func (stage *Stage) Generation() {
 
 	log.Printf("Starting generation process for content '%s' in path '%s'", content.Name, contentPath)
 
+	// --- Start: Remove existing contentPath directory ---
+	log.Printf("Attempting to remove existing directory: %s", contentPath)
+	err := os.RemoveAll(contentPath)
+	if err != nil {
+		// Log the error but continue, as MkdirAll below might still succeed if the path didn't exist
+		// or if the error was related to something already gone.
+		// If MkdirAll fails later, that error will be caught.
+		log.Printf("Warning: Error removing directory '%s': %v. Attempting to continue.", contentPath, err)
+	} else {
+		log.Printf("Successfully removed existing directory: %s", contentPath)
+	}
+	// --- End: Remove existing contentPath directory ---
+
 	// --- Start: Generate root _index.md for the Content ---
-	// 1. Create the root content directory if it doesn't exist
-	err := os.MkdirAll(contentPath, 0755) // Use 0755 for standard directory permissions
+	// 1. Create the root content directory (MkdirAll handles existing directories gracefully)
+	err = os.MkdirAll(contentPath, 0755) // Use 0755 for standard directory permissions
 	if err != nil {
 		log.Printf("Error creating root content directory '%s': %v\n", contentPath, err)
 		// Decide if this is fatal or if chapter generation should still proceed.
@@ -111,4 +126,45 @@ description: "%s"
 	// --- End: Generate subdirectories and _index.md for each Chapter ---
 
 	log.Println("Generation process finished.")
+
+	// --- Build Steps ---
+	if err := gen.CleanOutputDir(content.OutputPath); err != nil {
+		log.Fatalf("Error cleaning output directory '%s': %v", content.OutputPath, err)
+	}
+	log.Printf("Cleaned output directory '%s'.\n", content.OutputPath)
+
+	templates, err := gen.LoadTemplates(content.LayoutPath)
+	if err != nil {
+		log.Fatalf("Error loading templates from '%s': %v", content.LayoutPath, err)
+	}
+	log.Println("Loaded HTML templates.")
+
+	site := &gen.SiteInfo{
+		Pages:     make(map[string]*gen.Page),
+		Templates: templates,
+	}
+	// Pass build target and output dir to parseContent
+	err = gen.ParseContent(content.ContentPath, site, content.Target.ToString(), content.OutputPath)
+	if err != nil {
+		log.Fatalf("Error parsing content from '%s': %v", content.ContentPath, err)
+	}
+	log.Printf("Parsed %d content files.\n", len(site.Pages))
+
+	gen.BuildSiteStructure(site) // <-- Call the updated function
+	log.Println("Built site structure (sections and pages).")
+
+	// Pass output dir and build target to renderPages
+	err = gen.RenderPages(site, content.OutputPath, content.Target.ToString())
+	if err != nil {
+		log.Fatalf("Error rendering HTML pages: %v", err)
+	}
+	log.Println("Rendered HTML pages.")
+
+	// Pass output dir to copyStaticFiles
+	if err := gen.CopyStaticFiles(content.StaticPath, content.OutputPath); err != nil {
+		log.Fatalf("Error copying static files from '%s' to '%s': %v", content.StaticPath, content.OutputPath, err)
+	}
+	log.Println("Copied static files.")
+
+	log.Println("Build finished successfully!")
 }
