@@ -26,6 +26,10 @@ type Content_WOP struct {
 	Name string
 	Text string
 	ContentPath string
+	OutputPath string
+	LayoutPath string
+	StaticPath string
+	Target Target
 }
 
 func (from *Content) CopyBasicFields(to *Content) {
@@ -33,5 +37,9 @@ func (from *Content) CopyBasicFields(to *Content) {
 	to.Name = from.Name
 	to.Text = from.Text
 	to.ContentPath = from.ContentPath
+	to.OutputPath = from.OutputPath
+	to.LayoutPath = from.LayoutPath
+	to.StaticPath = from.StaticPath
+	to.Target = from.Target
 }
 

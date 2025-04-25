@@ -776,7 +776,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Chapter:
 		res = []string{"Name", "Weigth", "Description"}
 	case Content:
-		res = []string{"Name", "Text", "ContentPath", "Chapters"}
+		res = []string{"Name", "Text", "ContentPath", "OutputPath", "LayoutPath", "StaticPath", "Target", "Chapters"}
 	}
 	return
 }
@@ -818,7 +818,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Chapter:
 		res = []string{"Name", "Weigth", "Description"}
 	case *Content:
-		res = []string{"Name", "Text", "ContentPath", "Chapters"}
+		res = []string{"Name", "Text", "ContentPath", "OutputPath", "LayoutPath", "StaticPath", "Target", "Chapters"}
 	}
 	return
 }
@@ -881,6 +881,15 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.Text
 		case "ContentPath":
 			res.valueString = inferedInstance.ContentPath
+		case "OutputPath":
+			res.valueString = inferedInstance.OutputPath
+		case "LayoutPath":
+			res.valueString = inferedInstance.LayoutPath
+		case "StaticPath":
+			res.valueString = inferedInstance.StaticPath
+		case "Target":
+			enum := inferedInstance.Target
+			res.valueString = enum.ToCodeString()
 		case "Chapters":
 			for idx, __instance__ := range inferedInstance.Chapters {
 				if idx > 0 {
@@ -920,6 +929,15 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.Text
 		case "ContentPath":
 			res.valueString = inferedInstance.ContentPath
+		case "OutputPath":
+			res.valueString = inferedInstance.OutputPath
+		case "LayoutPath":
+			res.valueString = inferedInstance.LayoutPath
+		case "StaticPath":
+			res.valueString = inferedInstance.StaticPath
+		case "Target":
+			enum := inferedInstance.Target
+			res.valueString = enum.ToCodeString()
 		case "Chapters":
 			for idx, __instance__ := range inferedInstance.Chapters {
 				if idx > 0 {

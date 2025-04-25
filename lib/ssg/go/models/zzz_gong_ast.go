@@ -666,6 +666,18 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Content[identifier].ContentPath = fielValue
+				case "OutputPath":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Content[identifier].OutputPath = fielValue
+				case "LayoutPath":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Content[identifier].LayoutPath = fielValue
+				case "StaticPath":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Content[identifier].StaticPath = fielValue
 				}
 			}
 		case *ast.Ident:
@@ -724,6 +736,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "Content":
 					switch fieldName {
 					// insertion point for enum assign code
+					case "Target":
+						var val Target
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Content[identifier].Target = Target(val)
 					}
 				}
 			}
