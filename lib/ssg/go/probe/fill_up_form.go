@@ -48,6 +48,10 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("Text", instanceWithInferedType.Text, instanceWithInferedType, probe.formStage, formGroup,
+			true, true, 600, true, 300)
+		BasicFieldtoForm("ContentPath", instanceWithInferedType.ContentPath, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		AssociationSliceToForm("Chapters", instanceWithInferedType, &instanceWithInferedType.Chapters, formGroup, probe)
 
 	default:
