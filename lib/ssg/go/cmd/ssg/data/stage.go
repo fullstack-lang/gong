@@ -24,22 +24,22 @@ func _(stage *models.Stage) {
 
 	// Declaration of instances to stage
 
-	__Chapter__000000_Chapter_1 := (&models.Chapter{}).Stage(stage)
-	__Chapter__000001_Chapter_2 := (&models.Chapter{}).Stage(stage)
+	__Chapter__000000_Getting_Started := (&models.Chapter{}).Stage(stage)
+	__Chapter__000001_Advanced_Topics := (&models.Chapter{}).Stage(stage)
 
-	__Content__000000_content := (&models.Content{}).Stage(stage)
+	__Content__000000_My_Awesome_Go_Book := (&models.Content{}).Stage(stage)
 
 	// Setup of values
 
-	__Chapter__000000_Chapter_1.Name = `Chapter 1`
+	__Chapter__000000_Getting_Started.Name = `Getting Started`
 
-	__Chapter__000001_Chapter_2.Name = `Chapter 2`
+	__Chapter__000001_Advanced_Topics.Name = `Advanced Topics`
 
-	__Content__000000_content.Name = `content`
+	__Content__000000_My_Awesome_Go_Book.Name = `My Awesome Go Book`
 
 	// Setup of pointers
 	// setup of Chapter instances pointers
 	// setup of Content instances pointers
-	__Content__000000_content.Chapters = append(__Content__000000_content.Chapters, __Chapter__000000_Chapter_1)
-	__Content__000000_content.Chapters = append(__Content__000000_content.Chapters, __Chapter__000001_Chapter_2)
+	__Content__000000_My_Awesome_Go_Book.Chapters = append(__Content__000000_My_Awesome_Go_Book.Chapters, __Chapter__000000_Getting_Started)
+	__Content__000000_My_Awesome_Go_Book.Chapters = append(__Content__000000_My_Awesome_Go_Book.Chapters, __Chapter__000001_Advanced_Topics)
 }
