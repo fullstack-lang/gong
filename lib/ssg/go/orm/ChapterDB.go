@@ -63,6 +63,12 @@ type ChapterDB struct {
 	// Declation for basic field chapterDB.Name
 	Name_Data sql.NullString
 
+	// Declation for basic field chapterDB.Weigth
+	Weigth_Data sql.NullFloat64
+
+	// Declation for basic field chapterDB.Description
+	Description_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	ChapterPointersEncoding
@@ -86,6 +92,10 @@ type ChapterWOP struct {
 	// insertion for WOP basic fields
 
 	Name string `xlsx:"1"`
+
+	Weigth float64 `xlsx:"2"`
+
+	Description string `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -93,6 +103,8 @@ var Chapter_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"Weigth",
+	"Description",
 }
 
 type BackRepoChapterStruct struct {
@@ -372,6 +384,12 @@ func (chapterDB *ChapterDB) CopyBasicFieldsFromChapter(chapter *models.Chapter) 
 
 	chapterDB.Name_Data.String = chapter.Name
 	chapterDB.Name_Data.Valid = true
+
+	chapterDB.Weigth_Data.Float64 = chapter.Weigth
+	chapterDB.Weigth_Data.Valid = true
+
+	chapterDB.Description_Data.String = chapter.Description
+	chapterDB.Description_Data.Valid = true
 }
 
 // CopyBasicFieldsFromChapter_WOP
@@ -380,6 +398,12 @@ func (chapterDB *ChapterDB) CopyBasicFieldsFromChapter_WOP(chapter *models.Chapt
 
 	chapterDB.Name_Data.String = chapter.Name
 	chapterDB.Name_Data.Valid = true
+
+	chapterDB.Weigth_Data.Float64 = chapter.Weigth
+	chapterDB.Weigth_Data.Valid = true
+
+	chapterDB.Description_Data.String = chapter.Description
+	chapterDB.Description_Data.Valid = true
 }
 
 // CopyBasicFieldsFromChapterWOP
@@ -388,18 +412,28 @@ func (chapterDB *ChapterDB) CopyBasicFieldsFromChapterWOP(chapter *ChapterWOP) {
 
 	chapterDB.Name_Data.String = chapter.Name
 	chapterDB.Name_Data.Valid = true
+
+	chapterDB.Weigth_Data.Float64 = chapter.Weigth
+	chapterDB.Weigth_Data.Valid = true
+
+	chapterDB.Description_Data.String = chapter.Description
+	chapterDB.Description_Data.Valid = true
 }
 
 // CopyBasicFieldsToChapter
 func (chapterDB *ChapterDB) CopyBasicFieldsToChapter(chapter *models.Chapter) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	chapter.Name = chapterDB.Name_Data.String
+	chapter.Weigth = chapterDB.Weigth_Data.Float64
+	chapter.Description = chapterDB.Description_Data.String
 }
 
 // CopyBasicFieldsToChapter_WOP
 func (chapterDB *ChapterDB) CopyBasicFieldsToChapter_WOP(chapter *models.Chapter_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	chapter.Name = chapterDB.Name_Data.String
+	chapter.Weigth = chapterDB.Weigth_Data.Float64
+	chapter.Description = chapterDB.Description_Data.String
 }
 
 // CopyBasicFieldsToChapterWOP
@@ -407,6 +441,8 @@ func (chapterDB *ChapterDB) CopyBasicFieldsToChapterWOP(chapter *ChapterWOP) {
 	chapter.ID = int(chapterDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	chapter.Name = chapterDB.Name_Data.String
+	chapter.Weigth = chapterDB.Weigth_Data.Float64
+	chapter.Description = chapterDB.Description_Data.String
 }
 
 // Backup generates a json file from a slice of all ChapterDB instances in the backrepo
