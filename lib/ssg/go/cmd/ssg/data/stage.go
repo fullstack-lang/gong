@@ -45,8 +45,8 @@ This demonstrates how new lines are generated`
 	__Content__000000_My_Awesome_Go_Book.MardownContent = `Welcome to the main page of the book built with our custom Go SSG!`
 	__Content__000000_My_Awesome_Go_Book.ContentPath = `content`
 	__Content__000000_My_Awesome_Go_Book.OutputPath = `public`
-	__Content__000000_My_Awesome_Go_Book.LayoutPath = `layouts`
-	__Content__000000_My_Awesome_Go_Book.StaticPath = `static`
+	__Content__000000_My_Awesome_Go_Book.LayoutPath = `../../defaults/layouts`
+	__Content__000000_My_Awesome_Go_Book.StaticPath = `../../defaults/static`
 	__Content__000000_My_Awesome_Go_Book.Target = models.FILE
 
 	__Page__000000_First_Steps.Name = `First Steps`
