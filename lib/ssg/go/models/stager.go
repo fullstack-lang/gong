@@ -3,15 +3,32 @@
 package models
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
+
+	button "github.com/fullstack-lang/gong/lib/button/go/models"
+	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
 )
 
 type Stager struct {
 	stage      *Stage
 	splitStage *split.Stage
+
+	buttonStage *button.Stage
+}
+
+// GetButtonsStage implements models.Target.
+func (stager *Stager) GetButtonsStage() *button.Stage {
+	return stager.buttonStage
+}
+
+// OnAfterUpdateButton implements models.Target.
+func (stager *Stager) OnAfterUpdateButton() {
+	log.Println("button updated")
 }
 
 func NewStager(r *gin.Engine, stage *Stage) (stager *Stager) {
@@ -20,23 +37,38 @@ func NewStager(r *gin.Engine, stage *Stage) (stager *Stager) {
 
 	stager.stage = stage
 
+	name := stage.GetName()
+
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
+	stager.buttonStage = button_stack.NewStack(r, name, "", "", "", true, true).Stage
+
 	// StageBranch will stage on the the first argument
 	// all instances related to the second argument
-	split.StageBranch(stager.splitStage, &split.View{
-		Name: "Probe",
-		RootAsSplitAreas: []*split.AsSplitArea{
-			(&split.AsSplitArea{
-				Split: (&split.Split{
-					StackName: stage.GetProbeSplitStageName(),
+	split.StageBranch(stager.splitStage,
+		&split.View{
+			Name: "Main view",
+			RootAsSplitAreas: []*split.AsSplitArea{
+				(&split.AsSplitArea{
+					Size:             6,
+					ShowNameInHeader: false,
+					Button: (&split.Button{
+						StackName: stager.buttonStage.GetName(),
+					}),
 				}),
-			}),
-		},
-	})
+				(&split.AsSplitArea{
+					Size:             94,
+					ShowNameInHeader: false,
+					Split: (&split.Split{
+						StackName: stage.GetProbeSplitStageName(),
+					}),
+				}),
+			},
+		})
 
+	stager.UpdateAndCommitButtonStage()
 	stager.splitStage.Commit()
 
 	return

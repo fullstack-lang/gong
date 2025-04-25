@@ -96,6 +96,16 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
+	// setup the static file server and get the controller
+	r := ssg_static.ServeStaticFiles(*logGINFlag)
+
+	// setup model stack with its probe
+	stack := ssg_stack.NewStack(r, "ssg", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	stack.Probe.Refresh()
+
+	// insertion point for call to stager
+	ssg_models.NewStager(r, stack.Stage)
+
 	buildTarget := *targetFlag
 	outputDir := *outputDirFlag // Use the directory specified by the flag
 
@@ -178,16 +188,6 @@ func main() {
 	// if *serveFlag {
 	// 	serveSite(outputDir) // Serve from the specified output directory
 	// }
-
-	// setup the static file server and get the controller
-	r := ssg_static.ServeStaticFiles(*logGINFlag)
-
-	// setup model stack with its probe
-	stack := ssg_stack.NewStack(r, "ssg", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
-	stack.Probe.Refresh()
-
-	// insertion point for call to stager
-	ssg_models.NewStager(r, stack.Stage)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err = r.Run(":" + strconv.Itoa(*port))
