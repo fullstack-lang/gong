@@ -776,7 +776,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Chapter:
 		res = []string{"Name"}
 	case Content:
-		res = []string{"Name", "Chapters"}
+		res = []string{"Name", "Text", "ContentPath", "Chapters"}
 	}
 	return
 }
@@ -818,7 +818,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Chapter:
 		res = []string{"Name"}
 	case *Content:
-		res = []string{"Name", "Chapters"}
+		res = []string{"Name", "Text", "ContentPath", "Chapters"}
 	}
 	return
 }
@@ -871,6 +871,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
+		case "Text":
+			res.valueString = inferedInstance.Text
+		case "ContentPath":
+			res.valueString = inferedInstance.ContentPath
 		case "Chapters":
 			for idx, __instance__ := range inferedInstance.Chapters {
 				if idx > 0 {
@@ -900,6 +904,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
+		case "Text":
+			res.valueString = inferedInstance.Text
+		case "ContentPath":
+			res.valueString = inferedInstance.ContentPath
 		case "Chapters":
 			for idx, __instance__ := range inferedInstance.Chapters {
 				if idx > 0 {

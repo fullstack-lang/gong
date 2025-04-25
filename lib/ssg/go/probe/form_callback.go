@@ -179,6 +179,10 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(content_.Name), formDiv)
+		case "Text":
+			FormDivBasicFieldToField(&(content_.Text), formDiv)
+		case "ContentPath":
+			FormDivBasicFieldToField(&(content_.ContentPath), formDiv)
 		}
 	}
 
