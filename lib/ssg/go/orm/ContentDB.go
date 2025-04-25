@@ -66,8 +66,8 @@ type ContentDB struct {
 	// Declation for basic field contentDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field contentDB.Text
-	Text_Data sql.NullString
+	// Declation for basic field contentDB.MardownContent
+	MardownContent_Data sql.NullString
 
 	// Declation for basic field contentDB.ContentPath
 	ContentPath_Data sql.NullString
@@ -108,7 +108,7 @@ type ContentWOP struct {
 
 	Name string `xlsx:"1"`
 
-	Text string `xlsx:"2"`
+	MardownContent string `xlsx:"2"`
 
 	ContentPath string `xlsx:"3"`
 
@@ -126,7 +126,7 @@ var Content_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
-	"Text",
+	"MardownContent",
 	"ContentPath",
 	"OutputPath",
 	"LayoutPath",
@@ -439,8 +439,8 @@ func (contentDB *ContentDB) CopyBasicFieldsFromContent(content *models.Content) 
 	contentDB.Name_Data.String = content.Name
 	contentDB.Name_Data.Valid = true
 
-	contentDB.Text_Data.String = content.Text
-	contentDB.Text_Data.Valid = true
+	contentDB.MardownContent_Data.String = content.MardownContent
+	contentDB.MardownContent_Data.Valid = true
 
 	contentDB.ContentPath_Data.String = content.ContentPath
 	contentDB.ContentPath_Data.Valid = true
@@ -465,8 +465,8 @@ func (contentDB *ContentDB) CopyBasicFieldsFromContent_WOP(content *models.Conte
 	contentDB.Name_Data.String = content.Name
 	contentDB.Name_Data.Valid = true
 
-	contentDB.Text_Data.String = content.Text
-	contentDB.Text_Data.Valid = true
+	contentDB.MardownContent_Data.String = content.MardownContent
+	contentDB.MardownContent_Data.Valid = true
 
 	contentDB.ContentPath_Data.String = content.ContentPath
 	contentDB.ContentPath_Data.Valid = true
@@ -491,8 +491,8 @@ func (contentDB *ContentDB) CopyBasicFieldsFromContentWOP(content *ContentWOP) {
 	contentDB.Name_Data.String = content.Name
 	contentDB.Name_Data.Valid = true
 
-	contentDB.Text_Data.String = content.Text
-	contentDB.Text_Data.Valid = true
+	contentDB.MardownContent_Data.String = content.MardownContent
+	contentDB.MardownContent_Data.Valid = true
 
 	contentDB.ContentPath_Data.String = content.ContentPath
 	contentDB.ContentPath_Data.Valid = true
@@ -514,7 +514,7 @@ func (contentDB *ContentDB) CopyBasicFieldsFromContentWOP(content *ContentWOP) {
 func (contentDB *ContentDB) CopyBasicFieldsToContent(content *models.Content) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	content.Name = contentDB.Name_Data.String
-	content.Text = contentDB.Text_Data.String
+	content.MardownContent = contentDB.MardownContent_Data.String
 	content.ContentPath = contentDB.ContentPath_Data.String
 	content.OutputPath = contentDB.OutputPath_Data.String
 	content.LayoutPath = contentDB.LayoutPath_Data.String
@@ -526,7 +526,7 @@ func (contentDB *ContentDB) CopyBasicFieldsToContent(content *models.Content) {
 func (contentDB *ContentDB) CopyBasicFieldsToContent_WOP(content *models.Content_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	content.Name = contentDB.Name_Data.String
-	content.Text = contentDB.Text_Data.String
+	content.MardownContent = contentDB.MardownContent_Data.String
 	content.ContentPath = contentDB.ContentPath_Data.String
 	content.OutputPath = contentDB.OutputPath_Data.String
 	content.LayoutPath = contentDB.LayoutPath_Data.String
@@ -539,7 +539,7 @@ func (contentDB *ContentDB) CopyBasicFieldsToContentWOP(content *ContentWOP) {
 	content.ID = int(contentDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	content.Name = contentDB.Name_Data.String
-	content.Text = contentDB.Text_Data.String
+	content.MardownContent = contentDB.MardownContent_Data.String
 	content.ContentPath = contentDB.ContentPath_Data.String
 	content.OutputPath = contentDB.OutputPath_Data.String
 	content.LayoutPath = contentDB.LayoutPath_Data.String

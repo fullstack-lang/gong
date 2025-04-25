@@ -66,7 +66,7 @@ func (stage *Stage) Generation() {
 	rootIndexFilePath := filepath.Join(contentPath, "_index.md")
 
 	// 3. Define file content using the Content struct's Name and Text fields
-	rootFileContent := fmt.Sprintf("---\ntitle: \"%s\"\n---\n%s", content.Name, content.Text)
+	rootFileContent := fmt.Sprintf("---\ntitle: \"%s\"\n---\n%s", content.Name, content.MardownContent)
 
 	// 4. Write content to the root _index.md file
 	err = os.WriteFile(rootIndexFilePath, []byte(rootFileContent), 0644) // Use 0644 for standard file permissions
@@ -112,8 +112,8 @@ description: "%s"
 %s`,
 			chapter.Name,
 			int(chapter.Weigth), // Convert float64 weight to int
-			chapter.Description,
-			chapter.Description) // Use Description as body content based on example
+			chapter.MardownContent,
+			chapter.MardownContent) // Use Description as body content based on example
 
 		// 4. Write content to the _index.md file
 		err = os.WriteFile(chapterIndexFilePath, []byte(chapterFileContent), 0644) // Use 0644 for standard file permissions
