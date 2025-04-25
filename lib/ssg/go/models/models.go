@@ -14,5 +14,10 @@ type Content struct {
 }
 
 type Chapter struct {
-	Name string
+	Name   string
+	Weigth float64
+
+	//gong:text
+	//gong:width 600 gong:height 300
+	Description string
 }

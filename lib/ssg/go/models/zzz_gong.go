@@ -774,7 +774,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case Chapter:
-		res = []string{"Name"}
+		res = []string{"Name", "Weigth", "Description"}
 	case Content:
 		res = []string{"Name", "Text", "ContentPath", "Chapters"}
 	}
@@ -816,7 +816,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *Chapter:
-		res = []string{"Name"}
+		res = []string{"Name", "Weigth", "Description"}
 	case *Content:
 		res = []string{"Name", "Text", "ContentPath", "Chapters"}
 	}
@@ -865,6 +865,12 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
+		case "Weigth":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Weigth)
+			res.valueFloat = inferedInstance.Weigth
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "Description":
+			res.valueString = inferedInstance.Description
 		}
 	case *Content:
 		switch fieldName {
@@ -898,6 +904,12 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
+		case "Weigth":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Weigth)
+			res.valueFloat = inferedInstance.Weigth
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "Description":
+			res.valueString = inferedInstance.Description
 		}
 	case Content:
 		switch fieldName {
