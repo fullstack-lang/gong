@@ -11,20 +11,20 @@ type Chapter_WOP struct {
 	// insertion point
 	Name string
 	Weigth float64
-	Description string
+	MardownContent string
 }
 
 func (from *Chapter) CopyBasicFields(to *Chapter) {
 	// insertion point
 	to.Name = from.Name
 	to.Weigth = from.Weigth
-	to.Description = from.Description
+	to.MardownContent = from.MardownContent
 }
 
 type Content_WOP struct {
 	// insertion point
 	Name string
-	Text string
+	MardownContent string
 	ContentPath string
 	OutputPath string
 	LayoutPath string
@@ -35,7 +35,7 @@ type Content_WOP struct {
 func (from *Content) CopyBasicFields(to *Content) {
 	// insertion point
 	to.Name = from.Name
-	to.Text = from.Text
+	to.MardownContent = from.MardownContent
 	to.ContentPath = from.ContentPath
 	to.OutputPath = from.OutputPath
 	to.LayoutPath = from.LayoutPath

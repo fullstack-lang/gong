@@ -63,8 +63,8 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(chapter_.Name), formDiv)
 		case "Weigth":
 			FormDivBasicFieldToField(&(chapter_.Weigth), formDiv)
-		case "Description":
-			FormDivBasicFieldToField(&(chapter_.Description), formDiv)
+		case "MardownContent":
+			FormDivBasicFieldToField(&(chapter_.MardownContent), formDiv)
 		case "Content:Chapters":
 			// we need to retrieve the field owner before the change
 			var pastContentOwner *models.Content
@@ -183,8 +183,8 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(content_.Name), formDiv)
-		case "Text":
-			FormDivBasicFieldToField(&(content_.Text), formDiv)
+		case "MardownContent":
+			FormDivBasicFieldToField(&(content_.MardownContent), formDiv)
 		case "ContentPath":
 			FormDivBasicFieldToField(&(content_.ContentPath), formDiv)
 		case "OutputPath":

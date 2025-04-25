@@ -5,7 +5,7 @@ type Content struct {
 
 	//gong:text
 	//gong:width 600 gong:height 300
-	Text string
+	MardownContent string
 
 	// path to the content generation
 	ContentPath string
@@ -24,7 +24,7 @@ type Chapter struct {
 
 	//gong:text
 	//gong:width 600 gong:height 300
-	Description string
+	MardownContent string
 }
 
 type Target string
