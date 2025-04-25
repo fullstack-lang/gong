@@ -36,6 +36,8 @@ func _(stage *models.Stage) {
 	__Chapter__000001_Advanced_Topics.Name = `Advanced Topics`
 
 	__Content__000000_My_Awesome_Go_Book.Name = `My Awesome Go Book`
+	__Content__000000_My_Awesome_Go_Book.Text = `Welcome to the main page of the book built with our custom Go SSG!`
+	__Content__000000_My_Awesome_Go_Book.ContentPath = `content`
 
 	// Setup of pointers
 	// setup of Chapter instances pointers
