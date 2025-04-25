@@ -21,10 +21,9 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("Weigth", instanceWithInferedType.Weigth, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 		BasicFieldtoForm("MardownContent", instanceWithInferedType.MardownContent, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 300)
+		AssociationSliceToForm("Pages", instanceWithInferedType, &instanceWithInferedType.Pages, formGroup, probe)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -64,6 +63,35 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		EnumTypeStringToForm("Target", instanceWithInferedType.Target, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationSliceToForm("Chapters", instanceWithInferedType, &instanceWithInferedType.Chapters, formGroup, probe)
+
+	case *models.Page:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("MardownContent", instanceWithInferedType.MardownContent, instanceWithInferedType, probe.formStage, formGroup,
+			true, true, 600, true, 300)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Chapter"
+			rf.Fieldname = "Pages"
+			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Chapter),
+					"Pages",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Chapter, *models.Page](
+					nil,
+					"Pages",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
 
 	default:
 		_ = instanceWithInferedType

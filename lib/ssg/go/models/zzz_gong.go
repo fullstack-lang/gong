@@ -77,6 +77,8 @@ type Stage struct {
 	Chapters_mapString map[string]*Chapter
 
 	// insertion point for slice of pointers maps
+	Chapter_Pages_reverseMap map[*Page]*Chapter
+
 	OnAfterChapterCreateCallback OnAfterCreateInterface[Chapter]
 	OnAfterChapterUpdateCallback OnAfterUpdateInterface[Chapter]
 	OnAfterChapterDeleteCallback OnAfterDeleteInterface[Chapter]
@@ -92,6 +94,15 @@ type Stage struct {
 	OnAfterContentUpdateCallback OnAfterUpdateInterface[Content]
 	OnAfterContentDeleteCallback OnAfterDeleteInterface[Content]
 	OnAfterContentReadCallback   OnAfterReadInterface[Content]
+
+	Pages           map[*Page]any
+	Pages_mapString map[string]*Page
+
+	// insertion point for slice of pointers maps
+	OnAfterPageCreateCallback OnAfterCreateInterface[Page]
+	OnAfterPageUpdateCallback OnAfterUpdateInterface[Page]
+	OnAfterPageDeleteCallback OnAfterDeleteInterface[Page]
+	OnAfterPageReadCallback   OnAfterReadInterface[Page]
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -124,6 +135,9 @@ type Stage struct {
 
 	ContentOrder            uint
 	ContentMap_Staged_Order map[*Content]uint
+
+	PageOrder            uint
+	PageMap_Staged_Order map[*Page]uint
 
 	// end of insertion point
 
@@ -172,6 +186,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 			res = GetNamedStructInstances(stage.Chapters, stage.ChapterMap_Staged_Order)
 		case "Content":
 			res = GetNamedStructInstances(stage.Contents, stage.ContentMap_Staged_Order)
+		case "Page":
+			res = GetNamedStructInstances(stage.Pages, stage.PageMap_Staged_Order)
 	}
 
 	return
@@ -246,6 +262,8 @@ type BackRepoInterface interface {
 	CheckoutChapter(chapter *Chapter)
 	CommitContent(content *Content)
 	CheckoutContent(content *Content)
+	CommitPage(page *Page)
+	CheckoutPage(page *Page)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -258,6 +276,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Contents:           make(map[*Content]any),
 		Contents_mapString: make(map[string]*Content),
+
+		Pages:           make(map[*Page]any),
+		Pages_mapString: make(map[string]*Page),
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
@@ -273,11 +294,14 @@ func NewStage(name string) (stage *Stage) {
 
 		ContentMap_Staged_Order: make(map[*Content]uint),
 
+		PageMap_Staged_Order: make(map[*Page]uint),
+
 		// end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			&NamedStruct{name: "Chapter"},
 			&NamedStruct{name: "Content"},
+			&NamedStruct{name: "Page"},
 		}, // end of insertion point
 	}
 
@@ -292,6 +316,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.ChapterMap_Staged_Order[instance]
 	case *Content:
 		return stage.ContentMap_Staged_Order[instance]
+	case *Page:
+		return stage.PageMap_Staged_Order[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -319,6 +345,7 @@ func (stage *Stage) Commit() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Chapter"] = len(stage.Chapters)
 	stage.Map_GongStructName_InstancesNb["Content"] = len(stage.Contents)
+	stage.Map_GongStructName_InstancesNb["Page"] = len(stage.Pages)
 
 }
 
@@ -331,6 +358,7 @@ func (stage *Stage) Checkout() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Chapter"] = len(stage.Chapters)
 	stage.Map_GongStructName_InstancesNb["Content"] = len(stage.Contents)
+	stage.Map_GongStructName_InstancesNb["Page"] = len(stage.Pages)
 
 }
 
@@ -473,15 +501,72 @@ func (content *Content) GetName() (res string) {
 	return content.Name
 }
 
+// Stage puts page to the model stage
+func (page *Page) Stage(stage *Stage) *Page {
+
+	if _, ok := stage.Pages[page]; !ok {
+		stage.Pages[page] = __member
+		stage.PageMap_Staged_Order[page] = stage.PageOrder
+		stage.PageOrder++
+	}
+	stage.Pages_mapString[page.Name] = page
+
+	return page
+}
+
+// Unstage removes page off the model stage
+func (page *Page) Unstage(stage *Stage) *Page {
+	delete(stage.Pages, page)
+	delete(stage.Pages_mapString, page.Name)
+	return page
+}
+
+// UnstageVoid removes page off the model stage
+func (page *Page) UnstageVoid(stage *Stage) {
+	delete(stage.Pages, page)
+	delete(stage.Pages_mapString, page.Name)
+}
+
+// commit page to the back repo (if it is already staged)
+func (page *Page) Commit(stage *Stage) *Page {
+	if _, ok := stage.Pages[page]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPage(page)
+		}
+	}
+	return page
+}
+
+func (page *Page) CommitVoid(stage *Stage) {
+	page.Commit(stage)
+}
+
+// Checkout page to the back repo (if it is already staged)
+func (page *Page) Checkout(stage *Stage) *Page {
+	if _, ok := stage.Pages[page]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPage(page)
+		}
+	}
+	return page
+}
+
+// for satisfaction of GongStruct interface
+func (page *Page) GetName() (res string) {
+	return page.Name
+}
+
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMChapter(Chapter *Chapter)
 	CreateORMContent(Content *Content)
+	CreateORMPage(Page *Page)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMChapter(Chapter *Chapter)
 	DeleteORMContent(Content *Content)
+	DeleteORMPage(Page *Page)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -495,6 +580,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.ContentMap_Staged_Order = make(map[*Content]uint)
 	stage.ContentOrder = 0
 
+	stage.Pages = make(map[*Page]any)
+	stage.Pages_mapString = make(map[string]*Page)
+	stage.PageMap_Staged_Order = make(map[*Page]uint)
+	stage.PageOrder = 0
+
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
@@ -503,6 +593,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.Contents = nil
 	stage.Contents_mapString = nil
+
+	stage.Pages = nil
+	stage.Pages_mapString = nil
 
 }
 
@@ -513,6 +606,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for content := range stage.Contents {
 		content.Unstage(stage)
+	}
+
+	for page := range stage.Pages {
+		page.Unstage(stage)
 	}
 
 }
@@ -580,6 +677,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Chapters).(*Type)
 	case map[*Content]any:
 		return any(&stage.Contents).(*Type)
+	case map[*Page]any:
+		return any(&stage.Pages).(*Type)
 	default:
 		return nil
 	}
@@ -596,6 +695,8 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 		return any(&stage.Chapters_mapString).(*Type)
 	case map[string]*Content:
 		return any(&stage.Contents_mapString).(*Type)
+	case map[string]*Page:
+		return any(&stage.Pages_mapString).(*Type)
 	default:
 		return nil
 	}
@@ -612,6 +713,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 		return any(&stage.Chapters).(*map[*Type]any)
 	case Content:
 		return any(&stage.Contents).(*map[*Type]any)
+	case Page:
+		return any(&stage.Pages).(*map[*Type]any)
 	default:
 		return nil
 	}
@@ -628,6 +731,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Chapters).(*map[Type]any)
 	case *Content:
 		return any(&stage.Contents).(*map[Type]any)
+	case *Page:
+		return any(&stage.Pages).(*map[Type]any)
 	default:
 		return nil
 	}
@@ -644,6 +749,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Chapters_mapString).(*map[string]*Type)
 	case Content:
 		return any(&stage.Contents_mapString).(*map[string]*Type)
+	case Page:
+		return any(&stage.Pages_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -661,12 +768,18 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Chapter:
 		return any(&Chapter{
 			// Initialisation of associations
+			// field is initialized with an instance of Page with the name of the field
+			Pages: []*Page{{Name: "Pages"}},
 		}).(*Type)
 	case Content:
 		return any(&Content{
 			// Initialisation of associations
 			// field is initialized with an instance of Chapter with the name of the field
 			Chapters: []*Chapter{{Name: "Chapters"}},
+		}).(*Type)
+	case Page:
+		return any(&Page{
+			// Initialisation of associations
 		}).(*Type)
 	default:
 		return nil
@@ -696,6 +809,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Page
+	case Page:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	}
 	return nil
 }
@@ -716,6 +834,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Chapter:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Pages":
+			res := make(map[*Page]*Chapter)
+			for chapter := range stage.Chapters {
+				for _, page_ := range chapter.Pages {
+					res[page_] = chapter
+				}
+			}
+			return any(res).(map[*End]*Start)
 		}
 	// reverse maps of direct associations of Content
 	case Content:
@@ -729,6 +855,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End]*Start)
+		}
+	// reverse maps of direct associations of Page
+	case Page:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	}
 	return nil
@@ -746,6 +877,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "Chapter"
 	case Content:
 		res = "Content"
+	case Page:
+		res = "Page"
 	}
 	return res
 }
@@ -762,6 +895,8 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "Chapter"
 	case *Content:
 		res = "Content"
+	case *Page:
+		res = "Page"
 	}
 	return res
 }
@@ -774,9 +909,11 @@ func GetFields[Type Gongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case Chapter:
-		res = []string{"Name", "Weigth", "MardownContent"}
+		res = []string{"Name", "MardownContent", "Pages"}
 	case Content:
 		res = []string{"Name", "MardownContent", "ContentPath", "OutputPath", "LayoutPath", "StaticPath", "Target", "Chapters"}
+	case Page:
+		res = []string{"Name", "MardownContent"}
 	}
 	return
 }
@@ -804,6 +941,12 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	case Content:
 		var rf ReverseField
 		_ = rf
+	case Page:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Chapter"
+		rf.Fieldname = "Pages"
+		res = append(res, rf)
 	}
 	return
 }
@@ -816,9 +959,11 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *Chapter:
-		res = []string{"Name", "Weigth", "MardownContent"}
+		res = []string{"Name", "MardownContent", "Pages"}
 	case *Content:
 		res = []string{"Name", "MardownContent", "ContentPath", "OutputPath", "LayoutPath", "StaticPath", "Target", "Chapters"}
+	case *Page:
+		res = []string{"Name", "MardownContent"}
 	}
 	return
 }
@@ -865,12 +1010,15 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
-		case "Weigth":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Weigth)
-			res.valueFloat = inferedInstance.Weigth
-			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "MardownContent":
 			res.valueString = inferedInstance.MardownContent
+		case "Pages":
+			for idx, __instance__ := range inferedInstance.Pages {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		}
 	case *Content:
 		switch fieldName {
@@ -898,6 +1046,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 				res.valueString += __instance__.Name
 			}
 		}
+	case *Page:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "MardownContent":
+			res.valueString = inferedInstance.MardownContent
+		}
 	default:
 		_ = inferedInstance
 	}
@@ -913,12 +1069,15 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
-		case "Weigth":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Weigth)
-			res.valueFloat = inferedInstance.Weigth
-			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "MardownContent":
 			res.valueString = inferedInstance.MardownContent
+		case "Pages":
+			for idx, __instance__ := range inferedInstance.Pages {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		}
 	case Content:
 		switch fieldName {
@@ -945,6 +1104,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 				}
 				res.valueString += __instance__.Name
 			}
+		}
+	case Page:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "MardownContent":
+			res.valueString = inferedInstance.MardownContent
 		}
 	default:
 		_ = inferedInstance

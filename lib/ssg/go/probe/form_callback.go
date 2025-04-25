@@ -61,8 +61,6 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(chapter_.Name), formDiv)
-		case "Weigth":
-			FormDivBasicFieldToField(&(chapter_.Weigth), formDiv)
 		case "MardownContent":
 			FormDivBasicFieldToField(&(chapter_.MardownContent), formDiv)
 		case "Content:Chapters":
@@ -226,4 +224,124 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 	}
 
 	fillUpTree(contentFormCallback.probe)
+}
+func __gong__New__PageFormCallback(
+	page *models.Page,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (pageFormCallback *PageFormCallback) {
+	pageFormCallback = new(PageFormCallback)
+	pageFormCallback.probe = probe
+	pageFormCallback.page = page
+	pageFormCallback.formGroup = formGroup
+
+	pageFormCallback.CreationMode = (page == nil)
+
+	return
+}
+
+type PageFormCallback struct {
+	page *models.Page
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (pageFormCallback *PageFormCallback) OnSave() {
+
+	log.Println("PageFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	pageFormCallback.probe.formStage.Checkout()
+
+	if pageFormCallback.page == nil {
+		pageFormCallback.page = new(models.Page).Stage(pageFormCallback.probe.stageOfInterest)
+	}
+	page_ := pageFormCallback.page
+	_ = page_
+
+	for _, formDiv := range pageFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(page_.Name), formDiv)
+		case "MardownContent":
+			FormDivBasicFieldToField(&(page_.MardownContent), formDiv)
+		case "Chapter:Pages":
+			// we need to retrieve the field owner before the change
+			var pastChapterOwner *models.Chapter
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Chapter"
+			rf.Fieldname = "Pages"
+			reverseFieldOwner := models.GetReverseFieldOwner(
+				pageFormCallback.probe.stageOfInterest,
+				page_,
+				&rf)
+
+			if reverseFieldOwner != nil {
+				pastChapterOwner = reverseFieldOwner.(*models.Chapter)
+			}
+			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+				if pastChapterOwner != nil {
+					idx := slices.Index(pastChapterOwner.Pages, page_)
+					pastChapterOwner.Pages = slices.Delete(pastChapterOwner.Pages, idx, idx+1)
+				}
+			} else {
+				// we need to retrieve the field owner after the change
+				// parse all astrcut and get the one with the name in the
+				// div
+				for _chapter := range *models.GetGongstructInstancesSet[models.Chapter](pageFormCallback.probe.stageOfInterest) {
+
+					// the match is base on the name
+					if _chapter.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
+						newChapterOwner := _chapter // we have a match
+						if pastChapterOwner != nil {
+							if newChapterOwner != pastChapterOwner {
+								idx := slices.Index(pastChapterOwner.Pages, page_)
+								pastChapterOwner.Pages = slices.Delete(pastChapterOwner.Pages, idx, idx+1)
+								newChapterOwner.Pages = append(newChapterOwner.Pages, page_)
+							}
+						} else {
+							newChapterOwner.Pages = append(newChapterOwner.Pages, page_)
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if pageFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		page_.Unstage(pageFormCallback.probe.stageOfInterest)
+	}
+
+	pageFormCallback.probe.stageOfInterest.Commit()
+	fillUpTable[models.Page](
+		pageFormCallback.probe,
+	)
+	pageFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if pageFormCallback.CreationMode || pageFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		pageFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(pageFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PageFormCallback(
+			nil,
+			pageFormCallback.probe,
+			newFormGroup,
+		)
+		page := new(models.Page)
+		FillUpForm(page, newFormGroup, pageFormCallback.probe)
+		pageFormCallback.probe.formStage.Commit()
+	}
+
+	fillUpTree(pageFormCallback.probe)
 }

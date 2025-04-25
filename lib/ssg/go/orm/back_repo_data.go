@@ -8,6 +8,8 @@ type BackRepoData struct {
 
 	ContentAPIs []*ContentAPI
 
+	PageAPIs []*PageAPI
+
 	// index of the web socket for this stack type (unique among all stack instances)
 	GONG__Index int
 }
@@ -37,6 +39,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		contentDB.CopyBasicFieldsToContent_WOP(&contentAPI.Content_WOP)
 
 		backRepoData.ContentAPIs = append(backRepoData.ContentAPIs, &contentAPI)
+	}
+
+	for _, pageDB := range backRepo.BackRepoPage.Map_PageDBID_PageDB {
+
+		var pageAPI PageAPI
+		pageAPI.ID = pageDB.ID
+		pageAPI.PagePointersEncoding = pageDB.PagePointersEncoding
+		pageDB.CopyBasicFieldsToPage_WOP(&pageAPI.Page_WOP)
+
+		backRepoData.PageAPIs = append(backRepoData.PageAPIs, &pageAPI)
 	}
 
 }

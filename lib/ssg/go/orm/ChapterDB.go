@@ -47,6 +47,9 @@ type ChapterAPI struct {
 // reverse pointers of slice of poitners to Struct
 type ChapterPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
+
+	// field Pages is a slice of pointers to another Struct (optional or 0..1)
+	Pages IntSlice `gorm:"type:TEXT"`
 }
 
 // ChapterDB describes a chapter in the database
@@ -62,9 +65,6 @@ type ChapterDB struct {
 
 	// Declation for basic field chapterDB.Name
 	Name_Data sql.NullString
-
-	// Declation for basic field chapterDB.Weigth
-	Weigth_Data sql.NullFloat64
 
 	// Declation for basic field chapterDB.MardownContent
 	MardownContent_Data sql.NullString
@@ -93,9 +93,7 @@ type ChapterWOP struct {
 
 	Name string `xlsx:"1"`
 
-	Weigth float64 `xlsx:"2"`
-
-	MardownContent string `xlsx:"3"`
+	MardownContent string `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -103,7 +101,6 @@ var Chapter_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
-	"Weigth",
 	"MardownContent",
 }
 
@@ -235,6 +232,24 @@ func (backRepoChapter *BackRepoChapterStruct) CommitPhaseTwoInstance(backRepo *B
 		chapterDB.CopyBasicFieldsFromChapter(chapter)
 
 		// insertion point for translating pointers encodings into actual pointers
+		// 1. reset
+		chapterDB.ChapterPointersEncoding.Pages = make([]int, 0)
+		// 2. encode
+		for _, pageAssocEnd := range chapter.Pages {
+			pageAssocEnd_DB :=
+				backRepo.BackRepoPage.GetPageDBFromPagePtr(pageAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the pageAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if pageAssocEnd_DB == nil {
+				continue
+			}
+			
+			chapterDB.ChapterPointersEncoding.Pages =
+				append(chapterDB.ChapterPointersEncoding.Pages, int(pageAssocEnd_DB.ID))
+		}
+
 		_, err := backRepoChapter.db.Save(chapterDB)
 		if err != nil {
 			log.Fatal(err)
@@ -348,6 +363,15 @@ func (backRepoChapter *BackRepoChapterStruct) CheckoutPhaseTwoInstance(backRepo 
 func (chapterDB *ChapterDB) DecodePointers(backRepo *BackRepoStruct, chapter *models.Chapter) {
 
 	// insertion point for checkout of pointer encoding
+	// This loop redeem chapter.Pages in the stage from the encode in the back repo
+	// It parses all PageDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	chapter.Pages = chapter.Pages[:0]
+	for _, _Pageid := range chapterDB.ChapterPointersEncoding.Pages {
+		chapter.Pages = append(chapter.Pages, backRepo.BackRepoPage.Map_PageDBID_PagePtr[uint(_Pageid)])
+	}
+
 	return
 }
 
@@ -385,9 +409,6 @@ func (chapterDB *ChapterDB) CopyBasicFieldsFromChapter(chapter *models.Chapter) 
 	chapterDB.Name_Data.String = chapter.Name
 	chapterDB.Name_Data.Valid = true
 
-	chapterDB.Weigth_Data.Float64 = chapter.Weigth
-	chapterDB.Weigth_Data.Valid = true
-
 	chapterDB.MardownContent_Data.String = chapter.MardownContent
 	chapterDB.MardownContent_Data.Valid = true
 }
@@ -398,9 +419,6 @@ func (chapterDB *ChapterDB) CopyBasicFieldsFromChapter_WOP(chapter *models.Chapt
 
 	chapterDB.Name_Data.String = chapter.Name
 	chapterDB.Name_Data.Valid = true
-
-	chapterDB.Weigth_Data.Float64 = chapter.Weigth
-	chapterDB.Weigth_Data.Valid = true
 
 	chapterDB.MardownContent_Data.String = chapter.MardownContent
 	chapterDB.MardownContent_Data.Valid = true
@@ -413,9 +431,6 @@ func (chapterDB *ChapterDB) CopyBasicFieldsFromChapterWOP(chapter *ChapterWOP) {
 	chapterDB.Name_Data.String = chapter.Name
 	chapterDB.Name_Data.Valid = true
 
-	chapterDB.Weigth_Data.Float64 = chapter.Weigth
-	chapterDB.Weigth_Data.Valid = true
-
 	chapterDB.MardownContent_Data.String = chapter.MardownContent
 	chapterDB.MardownContent_Data.Valid = true
 }
@@ -424,7 +439,6 @@ func (chapterDB *ChapterDB) CopyBasicFieldsFromChapterWOP(chapter *ChapterWOP) {
 func (chapterDB *ChapterDB) CopyBasicFieldsToChapter(chapter *models.Chapter) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	chapter.Name = chapterDB.Name_Data.String
-	chapter.Weigth = chapterDB.Weigth_Data.Float64
 	chapter.MardownContent = chapterDB.MardownContent_Data.String
 }
 
@@ -432,7 +446,6 @@ func (chapterDB *ChapterDB) CopyBasicFieldsToChapter(chapter *models.Chapter) {
 func (chapterDB *ChapterDB) CopyBasicFieldsToChapter_WOP(chapter *models.Chapter_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	chapter.Name = chapterDB.Name_Data.String
-	chapter.Weigth = chapterDB.Weigth_Data.Float64
 	chapter.MardownContent = chapterDB.MardownContent_Data.String
 }
 
@@ -441,7 +454,6 @@ func (chapterDB *ChapterDB) CopyBasicFieldsToChapterWOP(chapter *ChapterWOP) {
 	chapter.ID = int(chapterDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	chapter.Name = chapterDB.Name_Data.String
-	chapter.Weigth = chapterDB.Weigth_Data.Float64
 	chapter.MardownContent = chapterDB.MardownContent_Data.String
 }
 
