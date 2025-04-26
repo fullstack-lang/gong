@@ -352,7 +352,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
         this.changeDetectorRef.detectChanges()
 
         if (this.svg.IsSVGFileGenerated) {
-          this.downloadSVG()
+          this.generatesSVG(false)
         }
 
         console.assert(this.gongsvgFrontRepo?.getFrontArray(svg.SVG.GONGSTRUCT_NAME).length == 1,
@@ -999,7 +999,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     return coordinate
   }
 
-  downloadSVG() {
+  generatesSVG(download : boolean) {
     // Retrieve the native SVG element through the ViewChild/ElementRef
     const svgElement: SVGSVGElement = this.svgContainer.nativeElement;
 
@@ -1092,19 +1092,20 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     // --- End SvgText Update Logic ---
 
+    if (download) {
+      // Create Blob
+      const blob: Blob = new Blob([svg3], { type: 'image/svg+xml' });
 
-    // Create Blob
-    const blob: Blob = new Blob([svg3], { type: 'image/svg+xml' });
-
-    // Create download link
-    const url: string = URL.createObjectURL(blob);
-    const link: HTMLAnchorElement = document.createElement('a');
-    link.href = url;
-    link.download = (this.svg?.Name || 'download') + ".svg"; // Use optional chaining for safety
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+      // Create download link
+      const url: string = URL.createObjectURL(blob);
+      const link: HTMLAnchorElement = document.createElement('a');
+      link.href = url;
+      link.download = (this.svg?.Name || 'download') + ".svg"; // Use optional chaining for safety
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
   }
   
     /**
