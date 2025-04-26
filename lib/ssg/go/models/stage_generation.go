@@ -36,10 +36,10 @@ func (stage *Stage) Generation() {
 		return
 	}
 
-	log.Printf("Starting generation process for content '%s' in path '%s'", content.Name, contentPath)
+	// log.Printf("Starting generation process for content '%s' in path '%s'", content.Name, contentPath)
 
 	// --- Start: Remove existing contentPath directory ---
-	log.Printf("Attempting to remove existing directory: %s", contentPath)
+	// log.Printf("Attempting to remove existing directory: %s", contentPath)
 	err := os.RemoveAll(contentPath)
 	if err != nil {
 		// Log the error but continue, as MkdirAll below might still succeed if the path didn't exist
@@ -47,7 +47,7 @@ func (stage *Stage) Generation() {
 		// If MkdirAll fails later, that error will be caught.
 		log.Printf("Warning: Error removing directory '%s': %v. Attempting to continue.", contentPath, err)
 	} else {
-		log.Printf("Successfully removed existing directory: %s", contentPath)
+		// log.Printf("Successfully removed existing directory: %s", contentPath)
 	}
 	// --- End: Remove existing contentPath directory ---
 
@@ -60,7 +60,7 @@ func (stage *Stage) Generation() {
 		// For now, let's return if the root directory cannot be created.
 		return
 	}
-	log.Printf("Root content directory created or already exists: %s\n", contentPath)
+	// log.Printf("Root content directory created or already exists: %s\n", contentPath)
 
 	// 2. Define the root _index.md file path
 	rootIndexFilePath := filepath.Join(contentPath, "_index.md")
@@ -76,13 +76,13 @@ func (stage *Stage) Generation() {
 		// For now, let's return if the root index file cannot be written.
 		return
 	}
-	log.Printf("Root _index.md file created successfully: %s\n", rootIndexFilePath)
+	// log.Printf("Root _index.md file created successfully: %s\n", rootIndexFilePath)
 	// --- End: Generate root _index.md for the Content ---
 
 	// --- Start: Generate subdirectories and _index.md for each Chapter ---
 	// Iterate through each chapter associated with the Content instance
 	for idx, chapter := range content.Chapters {
-		log.Printf("Processing chapter: %s", chapter.Name)
+		// log.Printf("Processing chapter: %s", chapter.Name)
 
 		// 1. Create subdirectory for the chapter
 		// Use chapter.Name for the subdirectory name. Consider sanitizing the name
@@ -96,7 +96,7 @@ func (stage *Stage) Generation() {
 			log.Printf("Error creating directory '%s' for chapter '%s': %v", chapterDirPath, chapter.Name, err)
 			continue // Skip this chapter if directory creation fails
 		}
-		log.Printf("Directory created or already exists: %s", chapterDirPath)
+		// log.Printf("Directory created or already exists: %s", chapterDirPath)
 
 		// 2. Define the _index.md file path within the chapter directory
 		chapterIndexFilePath := filepath.Join(chapterDirPath, "_index.md")
@@ -119,7 +119,7 @@ weight: %d
 			log.Printf("Error writing file '%s' for chapter '%s': %v", chapterIndexFilePath, chapter.Name, err)
 			continue // Skip this chapter if file writing fails
 		}
-		log.Printf("File created successfully: %s", chapterIndexFilePath)
+		// log.Printf("File created successfully: %s", chapterIndexFilePath)
 
 		for idx, page := range chapter.Pages {
 			pageIndexFilePath := filepath.Join(chapterDirPath, page.GetName()+".md")
@@ -138,13 +138,13 @@ weight: %d
 				log.Printf("Error writing file '%s' for chapter '%s': %v", pageIndexFilePath, page.Name, err)
 				continue // Skip this chapter if file writing fails
 			}
-			log.Printf("File created successfully: %s", pageIndexFilePath)
+			// log.Printf("File created successfully: %s", pageIndexFilePath)
 		}
 
 	}
 	// --- End: Generate subdirectories and _index.md for each Chapter ---
 
-	log.Println("Generation process finished.")
+	// log.Println("Generation process finished.")
 
 	// --- Build Steps ---
 	stage.markdown2ssg(content)
