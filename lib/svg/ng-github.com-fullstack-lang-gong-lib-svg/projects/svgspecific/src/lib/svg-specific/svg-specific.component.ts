@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 
 import * as svg from '../../../../svg/src/public-api'
 
@@ -24,7 +24,7 @@ import { getEndPosition } from '../get.end.position';
 import { SelectAreaConfig, SvgEventService, SweepDirection } from '../svg-event.service';
 import { IsEditableService } from '../is-editable.service';
 import { RefreshService } from '../refresh.service';
-import { Observable, timer } from 'rxjs';
+import { debounceTime, Observable, Subject, takeUntil, timer } from 'rxjs';
 import { StateEnumType } from '../state.enum';
 import { mouseCoordInComponentRef } from '../mouse.coord.in.component.ref';
 import { getFunctionName } from '../get.function.name';
@@ -39,6 +39,7 @@ import { drawLineFromRectToB } from '../draw.line.from.rect.to.point';
 import { LinkSegmentsPipe } from '../link-segments.pipe'
 
 import { formatSVG, processSVG } from '../cleanandresizesvg'
+import { LayoutService } from '../layout.service';
 
 @Component({
   selector: 'lib-svg-specific',
@@ -59,6 +60,12 @@ import { formatSVG, processSVG } from '../cleanandresizesvg'
   styleUrl: './svg-specific.component.css'
 })
 export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
+
+  @ViewChild('controlsContainer') controlsContainerRef!: ElementRef<HTMLDivElement>;
+
+  private destroy$ = new Subject<void>();
+  private resizeSubject = new Subject<void>();
+
 @ViewChild('svgContainer', { static: true })
   private svgContainer!: ElementRef<SVGSVGElement>
 
@@ -74,6 +81,10 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     this.changeDetectorRef.detectChanges() // this is necessary to have the width configuration working
     this.oneEm = this.textWidthCalculator!.measureTextHeight("A");
     this.changeDetectorRef.detectChanges() // this is necessary to have the width configuration working
+
+    // Initial height calculation after view is ready
+    // Use setTimeout to ensure rendering is fully complete, especially with complex elements
+    setTimeout(() => this.updateHeight(), 0);
   }
 
   //
@@ -239,7 +250,26 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     private svgTextService: svg.SvgTextService,
 
     private changeDetectorRef: ChangeDetectorRef,
-  ) { }
+
+    private layoutService: LayoutService
+  ) { 
+
+    // Debounce resize events to avoid excessive calculations
+    this.resizeSubject.pipe(
+      debounceTime(100), // Wait for 100ms of silence before recalculating
+      takeUntil(this.destroy$)
+  ).subscribe(() => this.updateHeight());
+  }
+
+  updateHeight(): void {
+    if (this.controlsContainerRef?.nativeElement) {
+      const height = this.controlsContainerRef.nativeElement.offsetHeight;
+      // Send the calculated height to the shared service
+      this.layoutService.updateControlsHeight(height);
+    } else {
+       console.warn('Controls container ref not ready in updateHeight');
+    }
+  }
 
   @ViewChildren('#background2') backgroundElement: QueryList<ElementRef> | undefined;
 
@@ -356,7 +386,14 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
+  // Listen for window resize
+  @HostListener('window:resize')
+  onResize(): void {
+    this.resizeSubject.next();
   }
 
   //
