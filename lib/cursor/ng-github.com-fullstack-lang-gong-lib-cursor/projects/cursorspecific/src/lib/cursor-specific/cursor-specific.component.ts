@@ -63,8 +63,8 @@ export class CursorSpecificComponent implements OnInit, OnDestroy {
         this.x = this.cursor.StartX
         this.xe = this.cursor.EndX
 
-        this.y = this.cursor.Y1
-        this.ye = this.cursor.Y2
+        this.y = this.cursor.Y1  + this.controlsHeight
+        this.ye = this.cursor.Y2  + this.controlsHeight
 
         if (this.cursor.IsPlaying == true) {
           this.startEmittingPosition();
