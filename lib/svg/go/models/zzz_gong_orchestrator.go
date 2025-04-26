@@ -52,6 +52,16 @@ func (orchestrator *SVGOrchestrator) OnAfterUpdate(
 
 	stagedSVG.OnAfterUpdate(gongsvgStage, stagedSVG, backRepoSVG)
 }
+// SvgTextOrchestrator
+type SvgTextOrchestrator struct {
+}
+
+func (orchestrator *SvgTextOrchestrator) OnAfterUpdate(
+	gongsvgStage *Stage,
+	stagedSvgText, backRepoSvgText *SvgText) {
+
+	stagedSvgText.OnAfterUpdate(gongsvgStage, stagedSvgText, backRepoSvgText)
+}
 
 func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 
@@ -69,6 +79,8 @@ func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 		stage.OnAfterRectUpdateCallback = new(RectOrchestrator)
 	case SVG:
 		stage.OnAfterSVGUpdateCallback = new(SVGOrchestrator)
+	case SvgText:
+		stage.OnAfterSvgTextUpdateCallback = new(SvgTextOrchestrator)
 
 	}
 
