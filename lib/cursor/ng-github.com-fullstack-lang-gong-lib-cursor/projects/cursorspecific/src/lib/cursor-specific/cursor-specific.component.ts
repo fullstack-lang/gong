@@ -14,6 +14,8 @@ export class CursorSpecificComponent implements OnInit {
 
   x = 0;
   xe = 500
+  y = 0;
+  ye = 0;
   private animationFrameId: number | null = null;  // Store animation frame ID
 
   public frontRepo?: cursor.FrontRepo;
@@ -36,6 +38,9 @@ export class CursorSpecificComponent implements OnInit {
         this.cursor = cursors[0];
         this.x = this.cursor.StartX
         this.xe = this.cursor.EndX
+
+        this.y = this.cursor.Y1
+        this.ye = this.cursor.Y2
 
         if (this.cursor.IsPlaying == true) {
           this.startEmittingPosition();
