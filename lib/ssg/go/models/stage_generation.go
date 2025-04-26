@@ -154,13 +154,13 @@ func (*Stage) markdown2ssg(content *Content) {
 	if err := gen.CleanOutputDir(content.OutputPath); err != nil {
 		log.Fatalf("Error cleaning output directory '%s': %v", content.OutputPath, err)
 	}
-	log.Printf("Cleaned output directory '%s'.\n", content.OutputPath)
+	// log.Printf("Cleaned output directory '%s'.\n", content.OutputPath)
 
 	templates, err := gen.LoadTemplates(content.LayoutPath)
 	if err != nil {
 		log.Fatalf("Error loading templates from '%s': %v", content.LayoutPath, err)
 	}
-	log.Println("Loaded HTML templates.")
+	// log.Println("Loaded HTML templates.")
 
 	site := &gen.SiteInfo{
 		Pages:     make(map[string]*gen.Page),
@@ -171,23 +171,23 @@ func (*Stage) markdown2ssg(content *Content) {
 	if err != nil {
 		log.Fatalf("Error parsing content from '%s': %v", content.ContentPath, err)
 	}
-	log.Printf("Parsed %d content files.\n", len(site.Pages))
+	// log.Printf("Parsed %d content files.\n", len(site.Pages))
 
 	gen.BuildSiteStructure(site) // <-- Call the updated function
-	log.Println("Built site structure (sections and pages).")
+	// log.Println("Built site structure (sections and pages).")
 
 	// Pass output dir and build target to renderPages
 	err = gen.RenderPages(site, content.OutputPath, content.Target.ToString())
 	if err != nil {
 		log.Fatalf("Error rendering HTML pages: %v", err)
 	}
-	log.Println("Rendered HTML pages.")
+	// log.Println("Rendered HTML pages.")
 
 	// Pass output dir to copyStaticFiles
 	if err := gen.CopyStaticFiles(content.StaticPath, content.OutputPath); err != nil {
 		log.Fatalf("Error copying static files from '%s' to '%s': %v", content.StaticPath, content.OutputPath, err)
 	}
-	log.Println("Copied static files.")
+	// log.Println("Copied static files.")
 
-	log.Println("Build finished successfully!")
+	// log.Println("Build finished successfully!")
 }
