@@ -74,7 +74,7 @@ func LoadTemplates(layoutDir string) (*template.Template, error) {
 	})
 
 	globPattern := filepath.Join(layoutDir, "**/*.html")
-	log.Printf("Parsing templates with glob pattern: %s\n", globPattern)
+	// log.Printf("Parsing templates with glob pattern: %s\n", globPattern)
 
 	tmpl, err := tmpl.ParseGlob(globPattern)
 	if err != nil {
@@ -87,7 +87,7 @@ func LoadTemplates(layoutDir string) (*template.Template, error) {
 // --- parseContent - Unchanged ---
 // Uses the globally configured `md` variable which now includes the Table extension.
 func ParseContent(contentDir string, site *SiteInfo, buildTarget string, outputDir string) error {
-	log.Printf("Parsing content from directory: %s\n", contentDir)
+	// log.Printf("Parsing content from directory: %s\n", contentDir)
 	return filepath.WalkDir(contentDir, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
 			log.Printf("Error accessing path %s: %v\n", path, err)
@@ -270,13 +270,13 @@ func BuildSiteStructure(site *SiteInfo) {
 		return site.Sections[i].Title < site.Sections[j].Title
 	})
 
-	log.Printf("Identified %d top-level sections.\n", len(site.Sections))
+	// log.Printf("Identified %d top-level sections.\n", len(site.Sections))
 }
 
 // --- renderPages - Unchanged ---
 // It now accepts the build target and passes it to the template context.
 func RenderPages(site *SiteInfo, outputDir string, buildTarget string) error {
-	log.Println("Rendering pages...")
+	// log.Println("Rendering pages...")
 	var renderErrors []error
 
 	for _, page := range site.Pages {
