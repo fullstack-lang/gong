@@ -1092,7 +1092,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     // --- End SvgText Update Logic ---
 
-    if (download) {
+    if (download == true) {
       // Create Blob
       const blob: Blob = new Blob([svg3], { type: 'image/svg+xml' });
 
