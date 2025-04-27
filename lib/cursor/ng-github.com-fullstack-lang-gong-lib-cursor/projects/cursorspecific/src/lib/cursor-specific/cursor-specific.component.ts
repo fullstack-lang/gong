@@ -45,7 +45,7 @@ export class CursorSpecificComponent implements OnInit, OnDestroy {
       .subscribe((height: number) => {
         if (this.controlsHeight !== height) { // Optional: Check if value actually changed
             this.controlsHeight = height;
-            console.log('SvgComponent: Controls height received', height);
+            // console.log('SvgComponent: Controls height received', height);
             // Use the height here to adjust layout, transforms, viewbox, etc.
             // Example: setting margin-top (as shown in the template)
         }
