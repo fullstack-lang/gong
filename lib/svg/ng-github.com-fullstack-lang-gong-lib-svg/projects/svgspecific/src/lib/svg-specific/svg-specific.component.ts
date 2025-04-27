@@ -66,7 +66,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   private destroy$ = new Subject<void>();
   private resizeSubject = new Subject<void>();
 
-@ViewChild('svgContainer', { static: true })
+  @ViewChild('svgContainer', { static: true })
   private svgContainer!: ElementRef<SVGSVGElement>
 
   @Input() Name: string = ""
@@ -1084,6 +1084,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (svgText !== undefined && this.svgTextService) { // Check if svgTextService is available
       svgText.Text = svg3;
+      console.log("svgText updating svgText with", svg3);
       this.svgTextService.updateFront(svgText, this.Name).subscribe(
         () => {
           console.log("svgText updated with downloaded content");
