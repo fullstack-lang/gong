@@ -85,7 +85,7 @@ export class SliderSpecificComponent {
   inputMatRadio($event: MatRadioChange, checkbox: slider.Checkbox) {
     this.checkboxService.updateFront(checkbox, this.Name).subscribe(
       () => {
-        console.log("checkbox updated")
+        // console.log("checkbox updated")
       }
     )
   }
