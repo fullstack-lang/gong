@@ -23,7 +23,7 @@ export class LayoutService {
     // Only emit if the height has actually changed to avoid unnecessary updates
     if (height !== this.controlsHeightSubject.getValue()) {
       this.controlsHeightSubject.next(height);
-      console.log('LayoutService: Controls height updated to', height);
+      // console.log('LayoutService: Controls height updated to', height);
     }
   }
 

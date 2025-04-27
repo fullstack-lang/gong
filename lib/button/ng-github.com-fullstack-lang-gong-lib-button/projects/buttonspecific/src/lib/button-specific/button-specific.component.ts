@@ -61,7 +61,7 @@ export class ButtonSpecificComponent implements OnInit {
   onClick(button: button.Button) {
     this.buttonService.updateFront(button,this.Name).subscribe(
       () => {
-        console.log("checkbox updated")
+        // console.log("checkbox updated")
       }
     )
   }
