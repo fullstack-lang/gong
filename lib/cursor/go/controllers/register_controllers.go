@@ -125,7 +125,13 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		message := "Stack github.com/fullstack-lang/gong/lib/cursor/go, Unkown stack: \"" + stackPath + "\""
+		message := "WebSocket Connect, Stack github.com/fullstack-lang/gong/lib/cursor/go, Unkown stack: \"" + stackPath + "\"\n"
+		
+		message += "Availabe stack names are:\n"
+		for k, _ := range controller.Map_BackRepos {
+			message += k + "\n"
+		}
+
 		log.Panic(message)
 	}
 	updateCommitBackRepoNbChannel := backRepo.SubscribeToCommitNb(ctx)
@@ -201,7 +207,13 @@ func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		message := "Stack github.com/fullstack-lang/gong/lib/cursor/go, Unkown stack: \"" + stackPath + "\""
+		message := "Stack github.com/fullstack-lang/gong/lib/cursor/go, Unkown stack: \"" + stackPath + "\"\n"
+		
+		message += "Availabe stack names are:\n"
+		for k, _ := range controller.Map_BackRepos {
+			message += k + "\n"
+		}
+			
 		log.Panic(message)
 	}
 	res := backRepo.GetLastCommitFromBackNb()
@@ -222,7 +234,13 @@ func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		message := "Stack github.com/fullstack-lang/gong/lib/cursor/go, Unkown stack: \"" + stackPath + "\""
+		message := "GET Stack github.com/fullstack-lang/gong/lib/cursor/go, Unkown stack: \"" + stackPath + "\"\n"
+		
+		message += "Availabe stack names are:\n"
+		for k, _ := range controller.Map_BackRepos {
+			message += k + "\n"
+		}
+			
 		log.Panic(message)
 	}
 	res := backRepo.GetLastPushFromFrontNb()

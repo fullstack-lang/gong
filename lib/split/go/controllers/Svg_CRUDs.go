@@ -66,7 +66,13 @@ func (controller *Controller) GetSvgs(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		message := "Stack github.com/fullstack-lang/gong/lib/split/go, Unkown stack: \"" + stackPath + "\""
+		message := "GET Stack github.com/fullstack-lang/gong/lib/split/go, Unkown stack: \"" + stackPath + "\"\n"
+		
+		message += "Availabe stack names are:\n"
+		for k, _ := range controller.Map_BackRepos {
+			message += k + "\n"
+		}
+			
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoSvg.GetDB()
@@ -130,7 +136,13 @@ func (controller *Controller) PostSvg(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		message := "Stack github.com/fullstack-lang/gong/lib/split/go, Unkown stack: \"" + stackPath + "\""
+		message := "Post Stack github.com/fullstack-lang/gong/lib/split/go, Unkown stack: \"" + stackPath + "\"\n"
+		
+		message += "Availabe stack names are:\n"
+		for k, _ := range controller.Map_BackRepos {
+			message += k + "\n"
+		}
+			
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoSvg.GetDB()
@@ -201,7 +213,13 @@ func (controller *Controller) GetSvg(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		message := "Stack github.com/fullstack-lang/gong/lib/split/go, Unkown stack: \"" + stackPath + "\""
+		message := "Stack github.com/fullstack-lang/gong/lib/split/go, Unkown stack: \"" + stackPath + "\"\n"
+		
+		message += "Availabe stack names are:\n"
+		for k, _ := range controller.Map_BackRepos {
+			message += k + "\n"
+		}
+			
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoSvg.GetDB()
@@ -251,7 +269,13 @@ func (controller *Controller) UpdateSvg(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		message := "Stack github.com/fullstack-lang/gong/lib/split/go, Unkown stack: \"" + stackPath + "\""
+		message := "PATCH Stack github.com/fullstack-lang/gong/lib/split/go, Unkown stack: \"" + stackPath + "\"\n"
+		
+		message += "Availabe stack names are:\n"
+		for k, _ := range controller.Map_BackRepos {
+			message += k + "\n"
+		}
+			
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoSvg.GetDB()
@@ -342,7 +366,13 @@ func (controller *Controller) DeleteSvg(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		message := "Stack github.com/fullstack-lang/gong/lib/split/go, Unkown stack: \"" + stackPath + "\""
+		message := "DELETE Stack github.com/fullstack-lang/gong/lib/split/go, Unkown stack: \"" + stackPath + "\"\n"
+		
+		message += "Availabe stack names are:\n"
+		for k, _ := range controller.Map_BackRepos {
+			message += k + "\n"
+		}
+			
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoSvg.GetDB()

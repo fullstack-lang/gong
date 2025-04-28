@@ -66,7 +66,13 @@ func (controller *Controller) GetPoints(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		message := "Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\""
+		message := "GET Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\"\n"
+		
+		message += "Availabe stack names are:\n"
+		for k, _ := range controller.Map_BackRepos {
+			message += k + "\n"
+		}
+			
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoPoint.GetDB()
@@ -130,7 +136,13 @@ func (controller *Controller) PostPoint(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		message := "Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\""
+		message := "Post Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\"\n"
+		
+		message += "Availabe stack names are:\n"
+		for k, _ := range controller.Map_BackRepos {
+			message += k + "\n"
+		}
+			
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoPoint.GetDB()
@@ -201,7 +213,13 @@ func (controller *Controller) GetPoint(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		message := "Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\""
+		message := "Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\"\n"
+		
+		message += "Availabe stack names are:\n"
+		for k, _ := range controller.Map_BackRepos {
+			message += k + "\n"
+		}
+			
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoPoint.GetDB()
@@ -251,7 +269,13 @@ func (controller *Controller) UpdatePoint(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		message := "Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\""
+		message := "PATCH Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\"\n"
+		
+		message += "Availabe stack names are:\n"
+		for k, _ := range controller.Map_BackRepos {
+			message += k + "\n"
+		}
+			
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoPoint.GetDB()
@@ -342,7 +366,13 @@ func (controller *Controller) DeletePoint(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		message := "Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\""
+		message := "DELETE Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\"\n"
+		
+		message += "Availabe stack names are:\n"
+		for k, _ := range controller.Map_BackRepos {
+			message += k + "\n"
+		}
+			
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoPoint.GetDB()

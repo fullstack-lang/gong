@@ -82,7 +82,13 @@ func (controller *Controller) Get{{Structname}}s(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		message := "Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\""
+		message := "GET Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\"\n"
+		
+		message += "Availabe stack names are:\n"
+		for k, _ := range controller.Map_BackRepos {
+			message += k + "\n"
+		}
+			
 		log.Panic(message)
 	}
 	db := backRepo.BackRepo{{Structname}}.GetDB()
@@ -146,7 +152,13 @@ func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		message := "Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\""
+		message := "Post Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\"\n"
+		
+		message += "Availabe stack names are:\n"
+		for k, _ := range controller.Map_BackRepos {
+			message += k + "\n"
+		}
+			
 		log.Panic(message)
 	}
 	db := backRepo.BackRepo{{Structname}}.GetDB()
@@ -217,7 +229,13 @@ func (controller *Controller) Get{{Structname}}(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		message := "Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\""
+		message := "Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\"\n"
+		
+		message += "Availabe stack names are:\n"
+		for k, _ := range controller.Map_BackRepos {
+			message += k + "\n"
+		}
+			
 		log.Panic(message)
 	}
 	db := backRepo.BackRepo{{Structname}}.GetDB()
@@ -267,7 +285,13 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		message := "Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\""
+		message := "PATCH Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\"\n"
+		
+		message += "Availabe stack names are:\n"
+		for k, _ := range controller.Map_BackRepos {
+			message += k + "\n"
+		}
+			
 		log.Panic(message)
 	}
 	db := backRepo.BackRepo{{Structname}}.GetDB()
@@ -358,7 +382,13 @@ func (controller *Controller) Delete{{Structname}}(c *gin.Context) {
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
-		message := "Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\""
+		message := "DELETE Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\"\n"
+		
+		message += "Availabe stack names are:\n"
+		for k, _ := range controller.Map_BackRepos {
+			message += k + "\n"
+		}
+			
 		log.Panic(message)
 	}
 	db := backRepo.BackRepo{{Structname}}.GetDB()
