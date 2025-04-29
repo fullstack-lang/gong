@@ -6,8 +6,8 @@ import (
 	"strconv"
 
 	// insertion point for models import
-	doc2_models "github.com/fullstack-lang/gong/lib/doc2/go/models"
-	doc2_stack "github.com/fullstack-lang/gong/lib/doc2/go/stack"
+
+	"github.com/fullstack-lang/gong/lib/doc2/go/prepare"
 	doc2_static "github.com/fullstack-lang/gong/lib/doc2/go/static"
 )
 
@@ -33,12 +33,7 @@ func main() {
 	// setup the static file server and get the controller
 	r := doc2_static.ServeStaticFiles(*logGINFlag)
 
-	// setup model stack with its probe
-	stack := doc2_stack.NewStack(r, "doc2", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
-	stack.Probe.Refresh()
-
-	// insertion point for call to stager
-	doc2_models.NewStager(r, stack.Stage)
+	prepare.Prepare(r, *embeddedDiagrams)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
