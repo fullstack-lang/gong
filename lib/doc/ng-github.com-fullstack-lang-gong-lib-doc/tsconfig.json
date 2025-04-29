@@ -9,6 +9,7 @@
         "../vendor/*",
         "../../vendor/*",
         "../../../vendor/*",
+        "../../../../../../*", // path with gong internal lib and test libraries
       ],
       "doc": [
         "./dist/doc"
