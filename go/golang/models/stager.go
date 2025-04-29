@@ -31,11 +31,11 @@ func NewStager(r *gin.Engine, stage *Stage) (stager *Stager) {
 	split.StageBranch(stager.splitStage, &split.View{
 		Name: "Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
-			(&split.AsSplitArea{
+			{
 				Split: (&split.Split{
 					StackName: stage.GetProbeSplitStageName(),
 				}),
-			}),
+			},
 		},
 	})
 
