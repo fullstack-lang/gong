@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { DocSpecificComponent } from '../../projects/docspecific/src/lib/doc-specific/doc-specific.component'
+import { SplitSpecificComponent } from '@vendored_components/github.com/fullstack-lang/gong/lib/split/ng-github.com-fullstack-lang-gong-lib-split/projects/splitspecific/src/lib/split-specific/split-specific.component'
+
 
 import * as doc from '../../projects/doc/src/public-api'
 
@@ -8,7 +9,7 @@ import * as doc from '../../projects/doc/src/public-api'
     selector: 'app-root',
     templateUrl: './app.component.html',
     imports: [
-      DocSpecificComponent,
+      SplitSpecificComponent
     ]
 })
 export class AppComponent implements OnInit{
