@@ -8,7 +8,14 @@ import (
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 
+	button "github.com/fullstack-lang/gong/lib/button/go/models"
+	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
+
+	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
+
 	doc_models "github.com/fullstack-lang/gong/lib/doc/go/models"
+
+	probe "github.com/fullstack-lang/gong/lib/doc/go/probe"
 )
 
 // Stager is usualy in the models package.
@@ -24,32 +31,83 @@ import (
 // imports github.com/fullstack-lang/gong/lib/doc/go/doc2svg from class_diagram_node.go
 // imports github.com/fullstack-lang/gong/lib/doc/go/models from anchored_text_impl_link_field_name.go: import cycle not allowed
 type Stager struct {
-	stage      *doc_models.Stage
+	stage *doc_models.Stage
+
 	splitStage *split.Stage
+
+	buttonStage *button.Stage
+
+	probe *probe.Probe
 }
 
-func NewStager(r *gin.Engine, stage *doc_models.Stage) (stager *Stager) {
+func NewStager(r *gin.Engine, stage *doc_models.Stage, probe *probe.Probe) (stager *Stager) {
 
 	stager = new(Stager)
 
 	stager.stage = stage
+	stager.probe = probe
 
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
+	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", false, false).Stage
 
-	(&split.View{
-		Name: "Probe",
-		RootAsSplitAreas: []*split.AsSplitArea{
-			(&split.AsSplitArea{
-				Split: (&split.Split{
-					StackName: stage.GetProbeSplitStageName(),
-				}).Stage(stager.splitStage),
-			}).Stage(stager.splitStage),
+	button.StageBranch(stager.buttonStage,
+		&button.Layout{
+			Groups: []*button.Group{
+				&button.Group{
+					Buttons: []*button.Button{
+						button.NewButton(
+							// stager is the target of the button. stager implements interface method OnAfterUpdateButton()
+							&ExportAllDiagramsButtonProxy{
+								stager: stager,
+							},
+							"Export All diagrams",
+							string(buttons.BUTTON_web),
+							"Export All diagrams",
+						),
+					},
+				},
+			},
 		},
-	}).Stage(stager.splitStage)
+	)
+
+	stager.buttonStage.Commit()
+
+	split.StageBranch(stager.splitStage,
+		&split.View{
+			Name: "Probe",
+			RootAsSplitAreas: []*split.AsSplitArea{
+				(&split.AsSplitArea{
+					Size: 10,
+					Button: (&split.Button{
+						StackName: stager.buttonStage.GetName(),
+					}),
+				}),
+				(&split.AsSplitArea{
+					Size: 90,
+					Split: (&split.Split{
+						StackName: stage.GetProbeSplitStageName(),
+					}),
+				}),
+			},
+		})
 
 	stager.splitStage.Commit()
 
 	return
+}
+
+type ExportAllDiagramsButtonProxy struct {
+	stager *Stager
+}
+
+// GetButtonsStage implements models.Target.
+func (e *ExportAllDiagramsButtonProxy) GetButtonsStage() *button.Stage {
+	return e.stager.buttonStage
+}
+
+// OnAfterUpdateButton implements models.Target.
+func (e *ExportAllDiagramsButtonProxy) OnAfterUpdateButton() {
+	e.stager.probe.GeneratesDiagrams("generatedSvg")
 }

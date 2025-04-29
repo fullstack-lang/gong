@@ -1,0 +1,663 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1294.000061" height="881.076351" viewBox="-10 -10 1294.000061 881.076351"><style>text { font-family: Roboto, Arial, sans-serif !important; }</style>
+  <g transform="translate(0 0) scale(1)">
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect x="1031.000061" y="309" width="240" height="63" rx="8" fill="white" fill-opacity="100" stroke="lightgrey" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <rect class="click-through" x="1034.000061" y="312" width="240" height="30" rx="0" fill="white" fill-opacity="0" stroke="white" stroke-opacity="1" stroke-width="0"/>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <text class="anchored-text click-through" x="1151.000061" y="329" fill="black" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" text-anchor="middle" font-weight="bold" font-style="">
+      <tspan x="1151.000061" dy="0" text-anchor="middle">NoteShape</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect x="121" y="181" width="240" height="63" rx="8" fill="white" fill-opacity="100" stroke="lightgrey" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <rect class="click-through" x="124" y="184" width="240" height="30" rx="0" fill="white" fill-opacity="0" stroke="white" stroke-opacity="1" stroke-width="0"/>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <text class="anchored-text click-through" x="241" y="201" fill="black" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" text-anchor="middle" font-weight="bold" font-style="">
+      <tspan x="241" dy="0" text-anchor="middle">DiagramPackage</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect x="558.000031" y="319" width="240" height="63" rx="8" fill="white" fill-opacity="100" stroke="lightgrey" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <rect class="click-through" x="561.000031" y="322" width="240" height="30" rx="0" fill="white" fill-opacity="0" stroke="white" stroke-opacity="1" stroke-width="0"/>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <text class="anchored-text click-through" x="678.000031" y="339" fill="black" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" text-anchor="middle" font-weight="bold" font-style="">
+      <tspan x="678.000031" dy="0" text-anchor="middle">Classdiagram</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect x="175" y="544" width="240" height="78" rx="8" fill="white" fill-opacity="100" stroke="lightgrey" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <rect class="click-through" x="178" y="547" width="240" height="30" rx="0" fill="white" fill-opacity="0" stroke="white" stroke-opacity="1" stroke-width="0"/>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <text class="anchored-text click-through" x="295" y="564" fill="black" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" text-anchor="middle" font-weight="bold" font-style="">
+      <tspan x="295" dy="0" text-anchor="middle">GongStructShape</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <text class="anchored-text click-through" x="185" y="594" fill="black" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" text-anchor="start" font-weight="" font-style="">
+      <tspan x="185" dy="0" text-anchor="start">Name : string</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect x="35" y="26" width="240" height="63" rx="8" fill="white" fill-opacity="100" stroke="lightgrey" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <rect class="click-through" x="38" y="29" width="240" height="30" rx="0" fill="white" fill-opacity="0" stroke="white" stroke-opacity="1" stroke-width="0"/>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <text class="anchored-text click-through" x="155" y="46" fill="black" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" text-anchor="middle" font-weight="bold" font-style="">
+      <tspan x="155" dy="0" text-anchor="middle">GongEnumShape</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect x="659" y="554" width="240" height="63" rx="8" fill="white" fill-opacity="100" stroke="lightgrey" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <rect class="click-through" x="662" y="557" width="240" height="30" rx="0" fill="white" fill-opacity="0" stroke="white" stroke-opacity="1" stroke-width="0"/>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <text class="anchored-text click-through" x="779" y="574" fill="black" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" text-anchor="middle" font-weight="bold" font-style="">
+      <tspan x="779" dy="0" text-anchor="middle">Field</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <g>
+    <line class="moveable-line" x1="361" y1="212.5" x2="685.000031" y2="212.5" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-orientation="horizontal" segment-number="0"/>
+    <line class="hit-area" x1="361" y1="212.5" x2="685.000031" y2="212.5" stroke="transparent" stroke-width="13" segment-orientation="horizontal"/>
+    <line class="moveable-line" x1="693.000031" y1="220.5" x2="693.000031" y2="319" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-orientation="vertical" segment-number="1"/>
+    <line class="hit-area" x1="693.000031" y1="220.5" x2="693.000031" y2="319" stroke="transparent" stroke-width="13" segment-orientation="vertical"/>
+    <!---->
+  </g>
+  <!---->
+  <path d="M 685.000031 212.5 A 8 8 0 0 1 693.000031 220.5" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <text class="noevents-area" x="361" y="189.5" font-weight="300" font-size="15" letter-spacing="0.1em" fill="" fill-opacity="0" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
+    <tspan x="387" dy="0">*</tspan>
+    <!---->
+  </text>
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <path d="M 694.0606911715 320.0606601715 L 685.000031 311 M 691.9393708285 320.0606601715 L 701.000031 311" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+  <!---->
+  <!---->
+  <!---->
+  <text class="noevents-area" x="693.000031" y="319.4" font-weight="300" font-size="15" letter-spacing="0.1em" fill="black" fill-opacity="100" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
+    <tspan x="659.000031" dy="0">0..1</tspan>
+    <!---->
+  </text>
+  <!---->
+  <!---->
+  <text class="noevents-area" x="693.000031" y="287.4" font-weight="300" font-size="15" letter-spacing="0.1em" fill="black" fill-opacity="100" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
+    <tspan x="463.00003100000004" dy="0">SelectedClassdiagram</tspan>
+    <!---->
+  </text>
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <g>
+  <line class="moveable-line" x1="198.33328" y1="244" x2="198.33328" y2="342.5" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-orientation="vertical" segment-number="0"/>
+  <line class="hit-area" x1="198.33328" y1="244" x2="198.33328" y2="342.5" stroke="transparent" stroke-width="13" segment-orientation="vertical"/>
+  <line class="moveable-line" x1="206.33328" y1="350.5" x2="558.000031" y2="350.5" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-orientation="horizontal" segment-number="1"/>
+  <line class="hit-area" x1="206.33328" y1="350.5" x2="558.000031" y2="350.5" stroke="transparent" stroke-width="13" segment-orientation="horizontal"/>
+  <!---->
+</g>
+<!---->
+<path d="M 198.33328 342.5 A 8 8 0 0 0 206.33328 350.5" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<text class="noevents-area" x="198.33328" y="221" font-weight="300" font-size="15" letter-spacing="0.1em" fill="" fill-opacity="0" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
+  <tspan x="224.33328" dy="0">*</tspan>
+  <!---->
+</text>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 559.0606911715 351.5606601715 L 550.000031 342.5 M 559.0606911715 349.4393398285 L 550.000031 358.5" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<text class="noevents-area" x="558.000031" y="393.5" font-weight="300" font-size="15" letter-spacing="0.1em" fill="black" fill-opacity="100" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
+  <tspan x="482.400031" dy="0">*</tspan>
+  <!---->
+</text>
+<!---->
+<!---->
+<text class="noevents-area" x="558.000031" y="318.9" font-weight="300" font-size="15" letter-spacing="0.1em" fill="black" fill-opacity="100" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
+  <tspan x="372.400031" dy="0">Classdiagrams</tspan>
+  <!---->
+</text>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<g>
+<line class="moveable-line" x1="798.000031" y1="350.5" x2="861.076351" y2="350.5" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-orientation="horizontal" segment-number="0"/>
+<line class="hit-area" x1="798.000031" y1="350.5" x2="861.076351" y2="350.5" stroke="transparent" stroke-width="13" segment-orientation="horizontal"/>
+<line class="moveable-line" x1="861.076351" y1="350.5" x2="861.076351" y2="350.5" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-orientation="horizontal" segment-number="1"/>
+<line class="hit-area" x1="861.076351" y1="350.5" x2="861.076351" y2="350.5" stroke="transparent" stroke-width="13" segment-orientation="horizontal"/>
+<line class="moveable-line" x1="861.076351" y1="350.5" x2="1031.000061" y2="350.5" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-orientation="horizontal" segment-number="2"/>
+<line class="hit-area" x1="861.076351" y1="350.5" x2="1031.000061" y2="350.5" stroke="transparent" stroke-width="13" segment-orientation="horizontal"/>
+<!---->
+</g>
+<!---->
+<path d="M 861.076351 350.5 A 8 8 0 0 0 861.076351 350.5" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<text class="noevents-area" x="798.000031" y="403.5" font-weight="300" font-size="15" letter-spacing="0.1em" fill="" fill-opacity="0" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
+  <tspan x="836.000031" dy="0">0..1</tspan>
+  <!---->
+</text>
+<!---->
+<!---->
+<!---->
+<path d="M 861.076351 350.5 A 8 8 0 0 1 861.076351 350.5" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 1032.0607211715 351.5606601715 L 1023.000061 342.5 M 1032.0607211715 349.4393398285 L 1023.000061 358.5" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<text class="noevents-area" x="1031.000061" y="398.5" font-weight="300" font-size="15" letter-spacing="0.1em" fill="black" fill-opacity="100" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
+  <tspan x="978.4000609999999" dy="0">*</tspan>
+  <!---->
+</text>
+<!---->
+<!---->
+<text class="noevents-area" x="1031.000061" y="320.9" font-weight="300" font-size="15" letter-spacing="0.1em" fill="black" fill-opacity="100" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
+  <tspan x="821.200061" dy="0">NoteShapes</tspan>
+  <!---->
+</text>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<g>
+<line class="moveable-line" x1="415" y1="583" x2="506.2" y2="583" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-orientation="horizontal" segment-number="0"/>
+<line class="hit-area" x1="415" y1="583" x2="506.2" y2="583" stroke="transparent" stroke-width="13" segment-orientation="horizontal"/>
+<line class="moveable-line" x1="506.2" y1="583" x2="506.2" y2="583" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-orientation="horizontal" segment-number="1"/>
+<line class="hit-area" x1="506.2" y1="583" x2="506.2" y2="583" stroke="transparent" stroke-width="13" segment-orientation="horizontal"/>
+<line class="moveable-line" x1="506.2" y1="583" x2="659" y2="583" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-orientation="horizontal" segment-number="2"/>
+<line class="hit-area" x1="506.2" y1="583" x2="659" y2="583" stroke="transparent" stroke-width="13" segment-orientation="horizontal"/>
+<!---->
+</g>
+<!---->
+<path d="M 506.2 583 A 8 8 0 0 0 506.2 583" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<text class="noevents-area" x="415" y="560" font-weight="300" font-size="15" letter-spacing="0.1em" fill="" fill-opacity="0" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
+  <tspan x="441" dy="0">*</tspan>
+  <!---->
+</text>
+<!---->
+<!---->
+<!---->
+<path d="M 506.2 583 A 8 8 0 0 1 506.2 583" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 660.0606601715 584.0606601715 L 651 575 M 660.0606601715 581.9393398285 L 651 591" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<text class="noevents-area" x="659" y="626" font-weight="300" font-size="15" letter-spacing="0.1em" fill="black" fill-opacity="100" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
+  <tspan x="583.4" dy="0">*</tspan>
+  <!---->
+</text>
+<!---->
+<!---->
+<text class="noevents-area" x="659" y="551.4" font-weight="300" font-size="15" letter-spacing="0.1em" fill="black" fill-opacity="100" stroke="black" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="">
+  <tspan x="543.8" dy="0">Fields</tspan>
+  <!---->
+</text>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<rect x="54" y="390" width="240" height="93" rx="0" fill="white" fill-opacity="100" stroke="lightsteelblue " stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform="">
+  <!---->
+</rect>
+<!---->
+<rect class="click-through" x="54" y="390" width="240" height="30" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0"/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<text class="anchored-text click-through" x="174" y="410" fill="black" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" text-anchor="middle" font-weight="bold" font-style="">
+  <tspan x="174" dy="0" text-anchor="middle">GongEnumShapeType</tspan>
+  <!---->
+</text>
+<!---->
+<!---->
+<!---->
+<!---->
+<text class="anchored-text click-through" x="64" y="440" fill="black" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" text-anchor="start" font-weight="" font-style="">
+  <tspan x="64" dy="0" text-anchor="start">Int</tspan>
+  <!---->
+</text>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<text class="anchored-text click-through" x="64" y="455" fill="black" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" text-anchor="start" font-weight="" font-style="">
+  <tspan x="64" dy="0" text-anchor="start">String</tspan>
+  <!---->
+</text>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<rect x="409" y="46" width="240" height="93" rx="0" fill="white" fill-opacity="100" stroke="lightsteelblue " stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform="">
+  <!---->
+</rect>
+<!---->
+<rect class="click-through" x="409" y="46" width="240" height="30" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0"/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<text class="anchored-text click-through" x="529" y="66" fill="black" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" text-anchor="middle" font-weight="bold" font-style="">
+  <tspan x="529" dy="0" text-anchor="middle">MultiplicityType</tspan>
+  <!---->
+</text>
+<!---->
+<!---->
+<!---->
+<!---->
+<text class="anchored-text click-through" x="419" y="96" fill="black" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" text-anchor="start" font-weight="" font-style="">
+  <tspan x="419" dy="0" text-anchor="start">ZERO_ONE</tspan>
+  <!---->
+</text>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<text class="anchored-text click-through" x="419" y="111" fill="black" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" text-anchor="start" font-weight="" font-style="">
+  <tspan x="419" dy="0" text-anchor="start">ONE</tspan>
+  <!---->
+</text>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<rect x="759.999939" y="48" width="347" height="123" rx="0" fill="white" fill-opacity="100" stroke="lightskyblue" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform="">
+  <!---->
+</rect>
+<!---->
+<!---->
+<!---->
+<text class="anchored-text click-through" x="933.499939" y="68" fill="black" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" text-anchor="middle" font-weight="bold" font-style="oblique">
+  <tspan x="933.499939" dy="0" text-anchor="middle">NoteOnGongdoc</tspan>
+  <!---->
+</text>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<text class="anchored-text click-through" x="933.499939" y="88" fill="black" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" text-anchor="middle" font-weight="normal" font-style="">
+  <tspan x="933.499939" dy="0" text-anchor="middle">Note Example</tspan>
+  <tspan x="933.499939" dy="1em" text-anchor="middle"/>
+  <tspan x="933.499939" dy="1em" text-anchor="middle">This note can refers to [models.NoteShape]</tspan>
+  <tspan x="933.499939" dy="1em" text-anchor="middle">or to [models.Classdiagram.NoteShapes]</tspan>
+  <tspan x="933.499939" dy="1em" text-anchor="middle">or to [models.OrientationType]</tspan>
+  <tspan x="933.499939" dy="1em" text-anchor="middle"/>
+  <!---->
+</text>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<line x1="991.4058156363636" y1="171" x2="1121.3409534545453" y2="309" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="2" stroke-dasharray="2 2" transform=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<line class="rect-link-link" x1="928.651418587137" y1="171" x2="914.500046" y2="350.5" fill="" fill-opacity="0" stroke="slategray" stroke-opacity="1" stroke-width="2" stroke-dasharray="2 2" transform=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+</g>
+</svg>

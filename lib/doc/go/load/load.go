@@ -3,6 +3,7 @@ package load
 import (
 	"embed"
 	"path/filepath"
+	"time"
 
 	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
 	gong_models "github.com/fullstack-lang/gong/go/models"
@@ -15,12 +16,51 @@ import (
 	gongdoc_models "github.com/fullstack-lang/gong/lib/doc/go/models"
 
 	gongsvg_fullstack "github.com/fullstack-lang/gong/lib/svg/go/fullstack"
+	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 
 	gongtree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
 	gongtree_models "github.com/fullstack-lang/gong/lib/tree/go/models"
 
 	"github.com/gin-gonic/gin"
 )
+
+type Doc struct {
+	diagramPackage   *gongdoc_models.DiagramPackage
+	portfolioAdapter *adapter.PortfolioAdapter
+	gongsvgStage     *svg.Stage
+}
+
+func NewDoc(
+	diagramPackage *gongdoc_models.DiagramPackage,
+	portfolioAdapter *adapter.PortfolioAdapter,
+	gongsvgStage *svg.Stage,
+) (doc *Doc) {
+
+	doc = new(Doc)
+	doc.diagramPackage = diagramPackage
+	doc.portfolioAdapter = portfolioAdapter
+	doc.gongsvgStage = gongsvgStage
+
+	return
+}
+
+func (doc *Doc) GeneratesDiagrams(generatedSVGPath string) {
+
+	diagramNode := doc.portfolioAdapter.GetSelectedPortfolioDiagramNode()
+
+	if diagramNode == nil {
+		return
+	}
+
+	diagramNode.DisplayDiagram()
+
+	imageFilePath := filepath.Join(generatedSVGPath, diagramNode.GetName()+".svg")
+	svg.GrabGeneratedSVGFile(doc.gongsvgStage, imageFilePath, 5000*time.Millisecond)
+
+	// for _, classDiagram := range doc.diagramPackage.Classdiagrams {
+
+	// }
+}
 
 // Load have gongdoc init itself and the gong stack as well
 // then parse the model source code in [goSourceDirectories]
@@ -38,7 +78,7 @@ func Load(
 	goDiagramsDir embed.FS,
 	r *gin.Engine,
 	embeddedDiagrams bool,
-	map_StructName_InstanceNb map[string]int) {
+	map_StructName_InstanceNb map[string]int) (doc *Doc) {
 
 	gongStage, _ := gong_fullstack.NewStackInstance(r, pkgPath)
 	gongdocStage, _ := gongdoc_fullstack.NewStackInstance(r, pkgPath)
@@ -112,4 +152,11 @@ func Load(
 			}
 		}
 	}
+
+	doc = NewDoc(
+		diagramPackage,
+		portfolioAdapter,
+		gongsvgStage,
+	)
+	return
 }

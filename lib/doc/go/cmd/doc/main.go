@@ -38,7 +38,7 @@ func main() {
 	stack.Probe.Refresh()
 
 	// insertion point for call to stager
-	NewStager(r, stack.Stage)
+	NewStager(r, stack.Stage, stack.Probe)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))

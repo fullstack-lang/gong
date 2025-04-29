@@ -13,6 +13,7 @@ import (
 	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
+	"github.com/fullstack-lang/gong/lib/doc/go/load"
 	gongdoc_load "github.com/fullstack-lang/gong/lib/doc/go/load"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
@@ -23,13 +24,19 @@ import (
 )
 
 type Probe struct {
-	r                  *gin.Engine
-	stageOfInterest    *models.Stage
-	gongStage          *gong_models.Stage
-	treeStage          *tree.Stage
-	formStage          *form.Stage
-	tableStage         *form.Stage
-	splitStage         *split.Stage
+	r               *gin.Engine
+	stageOfInterest *models.Stage
+	gongStage       *gong_models.Stage
+	treeStage       *tree.Stage
+	formStage       *form.Stage
+	tableStage      *form.Stage
+	splitStage      *split.Stage
+
+	doc *load.Doc
+}
+
+func (probe *Probe) GeneratesDiagrams(generatedSVGPath string) {
+	probe.doc.GeneratesDiagrams(generatedSVGPath)
 }
 
 func NewProbe(
@@ -69,7 +76,7 @@ func NewProbe(
 	updateSplitStage(probe)
 	fillUpTree(probe)
 
-	gongdoc_load.Load(
+	probe.doc = gongdoc_load.Load(
 		"",
 		probe.stageOfInterest.GetProbeSplitStageName(),
 		goModelsDir,
