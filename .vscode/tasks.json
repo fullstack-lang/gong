@@ -117,6 +117,21 @@
       ]
     },
     {
+      "label": "01 - gongc doc2",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/lib/doc2"
+      },
+      "command": "gongc",
+      "group": "build",
+      "args": [
+        "-skipGoModCommands",
+        "-skipNpmWorkspaces",
+        "-skipStager=false",
+        "go/models"
+      ]
+    },
+    {
       "label": "01 - gongc doc -clean",
       "type": "shell",
       "options": {
