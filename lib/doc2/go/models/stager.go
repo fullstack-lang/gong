@@ -7,24 +7,26 @@ import (
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 
-	tree_models "github.com/fullstack-lang/gong/lib/tree/go/models"
+	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 
-	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
+	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
 type Stager struct {
 	stage      *Stage
 	splitStage *split.Stage
-	treeStage  *tree_models.Stage
-	svgStage   *svg_models.Stage
+	treeStage  *tree.Stage
+	svgStage   *svg.Stage
+
+	sidebarTree *tree.Tree
 }
 
 func NewStager(
 	r *gin.Engine,
 	stage *Stage,
 	splitStage *split.Stage,
-	treeStage *tree_models.Stage,
-	svgStage *svg_models.Stage,
+	treeStage *tree.Stage,
+	svgStage *svg.Stage,
 ) (stager *Stager) {
 
 	stager = new(Stager)
@@ -68,6 +70,18 @@ func NewStager(
 		},
 	})
 
+	split.StageBranch(stager.splitStage, &split.View{
+		Name: "Tree Probe",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: (&split.Split{
+					StackName: stager.treeStage.GetProbeSplitStageName(),
+				}),
+			},
+		},
+	})
+
+	stager.UpdateAndCommitTreeStage()
 	stager.splitStage.Commit()
 
 	return
