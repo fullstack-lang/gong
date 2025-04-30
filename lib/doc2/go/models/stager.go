@@ -3,6 +3,9 @@
 package models
 
 import (
+	"fmt"
+	"time"
+
 	"github.com/gin-gonic/gin"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
@@ -50,6 +53,7 @@ func NewStager(
 							Size: 25,
 							Tree: &split.Tree{
 								StackName: stager.treeStage.GetName(),
+								TreeName:  stager.stage.GetProbeTreeSidebarStageName(),
 							},
 						},
 						{
@@ -83,6 +87,19 @@ func NewStager(
 
 	stager.UpdateAndCommitTreeStage()
 	stager.splitStage.Commit()
+
+	// if no diagram package is present, creates one
+	diagramPackages := *GetGongstructInstancesSet[DiagramPackage](stage)
+	var diagramPackage *DiagramPackage
+	for k, _ := range diagramPackages {
+		diagramPackage = k
+	}
+	if diagramPackage == nil {
+		diagramPackage = (&DiagramPackage{
+			Name: fmt.Sprintf("Diagram Package created the %s", time.Now().Local().UTC().Format(time.RFC3339)),
+		}).Stage(stage)
+		stage.Commit()
+	}
 
 	return
 }

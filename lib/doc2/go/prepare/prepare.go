@@ -15,7 +15,8 @@ import (
 
 func Prepare(
 	r *gin.Engine,
-	embeddedDiagrams bool) {
+	embeddedDiagrams bool,
+) {
 
 	doc2Stage := doc2_stack.NewStack(r, "", "", "", "", embeddedDiagrams, true).Stage
 
