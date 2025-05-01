@@ -47,12 +47,21 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 		root.Children = append(root.Children, nodeClassdiagram)
 
 		if diagramPackage.SelectedClassdiagram == classDiagram {
-			nodeClassdiagram.IsExpanded = true
+			nodeClassdiagram.IsExpanded = classDiagram.IsExpanded
 			for _, gongStruct := range gong.GetGongstrucsSorted[*gong.GongStruct](stager.gongStage) {
+
+				foundGongStructShape, _ := classDiagram.HasGongStructShape(gongStruct.GetName())
 
 				nodeNamedStruct := &tree.Node{
 					Name:              gongStruct.Name,
 					HasCheckboxButton: true,
+					IsChecked:         foundGongStructShape,
+				}
+				nodeNamedStruct.Impl = &GongstructNodeCheckProxy{
+					node:         nodeNamedStruct,
+					stager:       stager,
+					classDiagram: classDiagram,
+					gongstruct:   gongStruct,
 				}
 				nodeClassdiagram.Children = append(nodeClassdiagram.Children, nodeNamedStruct)
 			}
@@ -93,6 +102,50 @@ func (proxy *ClassDiagramNodeCheckProxy) OnAfterUpdate(
 	if !front.IsChecked && staged.IsChecked {
 		diagramPackage := getTheDiagramPackage(proxy.stager.stage)
 		diagramPackage.SelectedClassdiagram = nil
+
+		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.stage.Commit()
+	}
+
+	if front.IsExpanded && !staged.IsExpanded {
+		proxy.classDiagram.IsExpanded = true
+		front.IsExpanded = false
+
+		proxy.stager.stage.Commit()
+	}
+	if !front.IsExpanded && staged.IsExpanded {
+		proxy.classDiagram.IsExpanded = false
+		front.IsExpanded = true
+
+		proxy.stager.stage.Commit()
+	}
+}
+
+type GongstructNodeCheckProxy struct {
+	node         *tree.Node
+	stager       *Stager
+	classDiagram *Classdiagram
+	gongstruct   *gong.GongStruct
+}
+
+// OnAfterUpdate is called when a node is checked/unchecked by the user
+func (proxy *GongstructNodeCheckProxy) OnAfterUpdate(
+	stage *tree.Stage,
+	staged, front *tree.Node) {
+
+	// intercept update to the node that are when the node is checked
+	if front.IsChecked && !staged.IsChecked {
+		// uncheck all other diagram
+		diagramPackage := getTheDiagramPackage(proxy.stager.stage)
+		proxy.classDiagram.AddGongStructShape(proxy.stager.stage, diagramPackage, proxy.gongstruct.Name)
+
+		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.stage.Commit()
+	}
+
+	// the checked node is unchecked
+	if !front.IsChecked && staged.IsChecked {
+		proxy.classDiagram.RemoveGongStructShape(proxy.stager.stage, proxy.gongstruct.Name)
 
 		proxy.stager.UpdateAndCommitTreeStage()
 		proxy.stager.stage.Commit()
