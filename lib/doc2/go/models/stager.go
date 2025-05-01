@@ -85,6 +85,17 @@ func NewStager(
 		},
 	})
 
+	split.StageBranch(stager.splitStage, &split.View{
+		Name: "Doc2 Probe",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: (&split.Split{
+					StackName: stager.stage.GetProbeSplitStageName(),
+				}),
+			},
+		},
+	})
+
 	stager.UpdateAndCommitTreeStage()
 	stager.splitStage.Commit()
 
