@@ -13,6 +13,8 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
+
+	gong "github.com/fullstack-lang/gong/go/models"
 )
 
 type Stager struct {
@@ -20,6 +22,7 @@ type Stager struct {
 	splitStage *split.Stage
 	treeStage  *tree.Stage
 	svgStage   *svg.Stage
+	gongStage  *gong.Stage
 
 	sidebarTree *tree.Tree
 }
@@ -30,6 +33,7 @@ func NewStager(
 	splitStage *split.Stage,
 	treeStage *tree.Stage,
 	svgStage *svg.Stage,
+	gongStage *gong.Stage,
 ) (stager *Stager) {
 
 	stager = new(Stager)
@@ -38,6 +42,7 @@ func NewStager(
 	stager.splitStage = splitStage
 	stager.treeStage = treeStage
 	stager.svgStage = svgStage
+	stager.gongStage = gongStage
 
 	// StageBranch will stage on the the first argument
 	// all instances related to the second argument
