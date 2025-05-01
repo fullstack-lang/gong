@@ -19,7 +19,9 @@ func Prepare(
 	pathToDocStageFile string,
 ) {
 
-	doc2Stage := doc2_stack.NewStack(r, "", pathToDocStageFile+".go", pathToDocStageFile, "", embeddedDiagrams, true).Stage
+	stack := doc2_stack.NewStack(r, "", pathToDocStageFile+".go", pathToDocStageFile, "", embeddedDiagrams, true)
+	// stack.SetMarshallPackageName("models")
+	doc2Stage := stack.Stage
 
 	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
 	treeStage := tree_stack.NewStack(r, doc2Stage.GetProbeTreeSidebarStageName(), "", "", "", false, true).Stage
