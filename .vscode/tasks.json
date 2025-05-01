@@ -457,6 +457,19 @@
       ]
     },
     {
+      "label": "03 - ng serve doc2 ",
+      "type": "shell",
+      "options": {
+        "cwd": "lib/doc2/ng-github.com-fullstack-lang-gong-lib-doc2"
+      },
+      "command": "ng",
+      "group": "build",
+      "args": [
+        "serve",
+        ""
+      ]
+    },
+    {
       "label": "03 - ng serve load",
       "type": "shell",
       "options": {
