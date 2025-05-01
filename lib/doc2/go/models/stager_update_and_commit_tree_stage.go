@@ -50,6 +50,15 @@ func (b *ButtonNewClassdiagramProxy) OnAfterUpdateButton() {
 	stager := b.stager
 	stage := stager.stage
 
+	diagramPackages := *GetGongstructInstancesSet[DiagramPackage](stage)
+	var diagramPackage *DiagramPackage
+	for k, _ := range diagramPackages {
+		diagramPackage = k
+	}
+	if diagramPackage == nil {
+		log.Fatalln("There should be at least one diagram package on the stage")
+	}
+
 	// check unicity of name, otherwise, add an index
 	var hasNameCollision bool
 	initialName := "Default"
@@ -71,15 +80,6 @@ func (b *ButtonNewClassdiagramProxy) OnAfterUpdateButton() {
 	}
 
 	newClassdiagram := (&Classdiagram{Name: newClassdiagramName}).Stage(stage)
-
-	diagramPackages := *GetGongstructInstancesSet[DiagramPackage](stage)
-	var diagramPackage *DiagramPackage
-	for k, _ := range diagramPackages {
-		diagramPackage = k
-	}
-	if diagramPackage == nil {
-		log.Fatalln("There should be at least one diagram package on the stage")
-	}
 
 	diagramPackage.Classdiagrams = append(diagramPackage.Classdiagrams, newClassdiagram)
 	stage.Commit()
