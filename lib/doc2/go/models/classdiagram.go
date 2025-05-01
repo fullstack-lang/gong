@@ -33,6 +33,7 @@ func (classdiagram *Classdiagram) HasGongStructShape(gongstructName string) (fou
 
 		// strange behavior when the gongstructshape is remove within the loop
 		if IdentifierToGongObjectName(_gongstructshape.Identifier) == gongstructName && !foundGongStructShape {
+			foundGongStructShape = true
 			gongstructshape = _gongstructshape
 		}
 	}
