@@ -117,11 +117,13 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 		}
 	}
 
-	log.Printf("Stack github.com/fullstack-lang/gong/lib/cursor/go: stack path: '%s', new ws index %d",
-		stackPath, controller.listenerIndex,
-	)
 	index := controller.listenerIndex
 	controller.listenerIndex++
+	log.Printf(
+		"%s github.com/fullstack-lang/gong/lib/cursor/go: Con: '%s', index %d",
+		time.Now().Format("2006-01-02 15:04:05.000000"),
+		stackPath, index,
+	)
 
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
@@ -152,7 +154,8 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	backRepoData := new(orm.BackRepoData)
 	orm.CopyBackRepoToBackRepoData(backRepo, backRepoData)
 	backRepoData.GONG__Index = index
-
+	
+	refresh := 0
 	err = wsConnection.WriteJSON(backRepoData)
 	if err != nil {
 		log.Println("github.com/fullstack-lang/gong/lib/cursor/go:\n",
@@ -160,7 +163,12 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 		fmt.Println(err)
 		return
 	} else {
-		log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "github.com/fullstack-lang/gong/lib/cursor/go: 1st sent backRepoData of stack:", stackPath, "index", index)
+	log.Printf(
+		"%s github.com/fullstack-lang/gong/lib/tree/go: %03d: '%s', index %d",
+		time.Now().Format("2006-01-02 15:04:05.000000"),
+		refresh,
+		stackPath, index,
+	)
 	}
 	for {
 		select {
@@ -170,6 +178,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 		default:
 			for nbCommitBackRepo := range updateCommitBackRepoNbChannel {
 				_ = nbCommitBackRepo
+				refresh += 1
 
 				backRepoData := new(orm.BackRepoData)
 				orm.CopyBackRepoToBackRepoData(backRepo, backRepoData)
@@ -187,7 +196,12 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 					cancel() // Cancel the context
 					return
 				} else {
-					log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "github.com/fullstack-lang/gong/lib/cursor/go: sent backRepoData of stack:", stackPath, "index", index)
+					log.Printf(
+						"%s github.com/fullstack-lang/gong/lib/tree/go: %03d: '%s', index %d",
+						time.Now().Format("2006-01-02 15:04:05.000000"),
+						refresh,
+						stackPath, index,
+					)
 				}
 			}
 		}
