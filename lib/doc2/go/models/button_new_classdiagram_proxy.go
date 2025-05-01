@@ -51,7 +51,10 @@ func (b *ButtonNewClassdiagramProxy) OnAfterUpdateButton() {
 		}
 	}
 
-	newClassdiagram := (&Classdiagram{Name: newClassdiagramName}).Stage(stage)
+	newClassdiagram := (&Classdiagram{
+		Name:         newClassdiagramName,
+		IsInDrawMode: true, // by default. We will see later with embedded diagrams
+	}).Stage(stage)
 
 	diagramPackage.Classdiagrams = append(diagramPackage.Classdiagrams, newClassdiagram)
 
