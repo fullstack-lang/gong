@@ -33,7 +33,7 @@ func main() {
 	// setup the static file server and get the controller
 	r := doc2_static.ServeStaticFiles(*logGINFlag)
 
-	prepare.Prepare(r, *embeddedDiagrams)
+	prepare.Prepare(r, *embeddedDiagrams, "../../models/zzz_diagrams")
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
