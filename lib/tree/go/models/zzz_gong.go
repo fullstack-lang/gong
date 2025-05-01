@@ -195,20 +195,19 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]u
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-	// insertion point for case 
-		case "Button":
-			res = GetNamedStructInstances(stage.Buttons, stage.ButtonMap_Staged_Order)
-		case "Node":
-			res = GetNamedStructInstances(stage.Nodes, stage.NodeMap_Staged_Order)
-		case "SVGIcon":
-			res = GetNamedStructInstances(stage.SVGIcons, stage.SVGIconMap_Staged_Order)
-		case "Tree":
-			res = GetNamedStructInstances(stage.Trees, stage.TreeMap_Staged_Order)
+	// insertion point for case
+	case "Button":
+		res = GetNamedStructInstances(stage.Buttons, stage.ButtonMap_Staged_Order)
+	case "Node":
+		res = GetNamedStructInstances(stage.Nodes, stage.NodeMap_Staged_Order)
+	case "SVGIcon":
+		res = GetNamedStructInstances(stage.SVGIcons, stage.SVGIconMap_Staged_Order)
+	case "Tree":
+		res = GetNamedStructInstances(stage.Trees, stage.TreeMap_Staged_Order)
 	}
 
 	return
 }
-
 
 type NamedStruct struct {
 	name string
@@ -362,6 +361,12 @@ func (stage *Stage) CommitWithSuspendedCallbacks() {
 }
 
 func (stage *Stage) Commit() {
+	log.Printf(
+		"%s github.com/fullstack-lang/gong/lib/tree/go: Com: %s",
+		time.Now().Format("2006-01-02 15:04:05.000000"),
+		stage.GetName(),
+	)
+
 	stage.ComputeReverseMaps()
 
 	if stage.BackRepo != nil {
