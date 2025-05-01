@@ -662,33 +662,6 @@
             ]
         },
         {
-            "name": "gongc compareclaplannings",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "../../../r/DEV_COHERENCE/compareclaplannings/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": []
-        },
-        {
-            "name": "gongc gongsvg",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongsvg/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": []
-        },
-        {
-            "name": "gongc gongxlsx",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongxlsx/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": []
-        },
-        {
             "name": "gongc gongxsd books",
             "type": "go",
             "request": "launch",
@@ -707,68 +680,6 @@
             "args": [
                 "-skipNg",
                 "-skipGoModCommands"
-            ]
-        },
-        {
-            "name": "gongc gongsvg -skipGoModCommands -skipNpmInstall -compileForDebug",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongsvg/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmInstall",
-                "-compileForDebug"
-            ]
-        },
-        {
-            "name": "gongc gongsvg -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongsvg/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNg",
-                "-skipNpmInstall",
-                "-compileForDebug"
-            ]
-        },
-        {
-            "name": "gongc gongtree -skipGoModCommands -skipNpmInstall -compileForDebug",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongtree/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmInstall",
-                "-compileForDebug"
-            ]
-        },
-        {
-            "name": "gongc gongdoc",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongdoc/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": []
-        },
-        {
-            "name": "gongc gongdoc -skipGoModCommands -skipNpmInstall -compileForDebug",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongdoc/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmInstall",
-                "-compileForDebug"
             ]
         },
         {
@@ -798,33 +709,11 @@
             ]
         },
         {
-            "name": "gongc gongdoc -skipGoModCommands -compileForDebug -skipNg",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongdoc/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-compileForDebug",
-                "-skipNg"
-            ]
-        },
-        {
             "name": "gongc gongjointjs",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/../gongjointjs/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": []
-        },
-        {
-            "name": "gongc gonggantt",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gonggantt/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": []
         },
@@ -847,18 +736,6 @@
             "args": [
                 "-skipNg",
                 "-skipGoModCommands"
-            ]
-        },
-        {
-            "name": "gongc gongtable -skipNpmInstall -skipGoModCommands",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongtable/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipNpmInstall",
-                "-skipGoModCommands",
             ]
         },
         {

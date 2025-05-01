@@ -29,7 +29,6 @@ func _(stage *models.Stage) {
 	__Astruct__000000_A1 := (&models.Astruct{}).Stage(stage)
 	__Astruct__000001_A2 := (&models.Astruct{}).Stage(stage)
 	__Astruct__000002_A3 := (&models.Astruct{}).Stage(stage)
-	__Astruct__000003_A4 := (&models.Astruct{}).Stage(stage)
 
 	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{}).Stage(stage)
 	__AstructBstruct2Use__000001_ := (&models.AstructBstruct2Use{}).Stage(stage)
@@ -61,7 +60,7 @@ Second Line`
 	__Astruct__000000_A1.Floatfield = 0.000000
 	__Astruct__000000_A1.Intfield = 3
 	__Astruct__000000_A1.Anotherbooleanfield = false
-	__Astruct__000000_A1.Duration1 = -79653000000000
+	__Astruct__000000_A1.Duration1 = 79653000000000
 
 	//gong:ident [gongdoc_models.GongStructShape] comment added to overcome the problem with the comment map association
 	__Astruct__000000_A1.StructRef = `gongdoc_models.GongStructShape`
@@ -116,7 +115,7 @@ Second Line`
 	__Astruct__000001_A2.TextArea = ``
 
 	__Astruct__000002_A3.Name = `A3`
-	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 11:16:35 +0000 UTC")
+	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 11:16:35.978 +0000 UTC")
 	__Astruct__000002_A3.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Astruct__000002_A3.Booleanfield = true
 	__Astruct__000002_A3.Benum = models.BENUM_VAL2
@@ -126,7 +125,7 @@ Second Line`
 	__Astruct__000002_A3.Floatfield = 2.000000
 	__Astruct__000002_A3.Intfield = 0
 	__Astruct__000002_A3.Anotherbooleanfield = false
-	__Astruct__000002_A3.Duration1 = 79653000000000
+	__Astruct__000002_A3.Duration1 = -79653000000000
 
 	//gong:ident [.............] comment added to overcome the problem with the comment map association
 	__Astruct__000002_A3.StructRef = `.............`
@@ -147,38 +146,6 @@ Second Line`
 	__Astruct__000002_A3.ConstIdentifierValue = `.............`
 	__Astruct__000002_A3.TextFieldBespokeSize = ``
 	__Astruct__000002_A3.TextArea = ``
-
-	__Astruct__000003_A4.Name = `A4`
-	__Astruct__000003_A4.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Astruct__000003_A4.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Astruct__000003_A4.Booleanfield = false
-	__Astruct__000003_A4.CEnum = models.CENUM_VAL1
-	__Astruct__000003_A4.CName = ``
-	__Astruct__000003_A4.CFloatfield = 0.000000
-	__Astruct__000003_A4.Floatfield = 0.000000
-	__Astruct__000003_A4.Intfield = 0
-	__Astruct__000003_A4.Anotherbooleanfield = false
-	__Astruct__000003_A4.Duration1 = 0
-
-	//gong:ident [] comment added to overcome the problem with the comment map association
-	__Astruct__000003_A4.StructRef = ``
-
-	//gong:ident [] comment added to overcome the problem with the comment map association
-	__Astruct__000003_A4.FieldRef = ``
-
-	//gong:ident [] comment added to overcome the problem with the comment map association
-	__Astruct__000003_A4.EnumIntRef = ``
-
-	//gong:ident [] comment added to overcome the problem with the comment map association
-	__Astruct__000003_A4.EnumStringRef = ``
-
-	//gong:ident [] comment added to overcome the problem with the comment map association
-	__Astruct__000003_A4.EnumValue = ``
-
-	//gong:ident [] comment added to overcome the problem with the comment map association
-	__Astruct__000003_A4.ConstIdentifierValue = ``
-	__Astruct__000003_A4.TextFieldBespokeSize = ``
-	__Astruct__000003_A4.TextArea = ``
 
 	__AstructBstruct2Use__000000_.Name = ``
 
