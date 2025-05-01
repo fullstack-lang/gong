@@ -101,6 +101,17 @@ func NewStager(
 		},
 	})
 
+	split.StageBranch(stager.splitStage, &split.View{
+		Name: "SVG Probe",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: (&split.Split{
+					StackName: stager.svgStage.GetProbeSplitStageName(),
+				}),
+			},
+		},
+	})
+
 	// if no diagram package is present, creates one
 	diagramPackages := *GetGongstructInstancesSet[DiagramPackage](stage)
 	var diagramPackage *DiagramPackage
@@ -114,6 +125,7 @@ func NewStager(
 		stage.Commit()
 	}
 
+	stager.UpdateAndCommitSVGStage()
 	stager.UpdateAndCommitTreeStage()
 	stager.splitStage.Commit()
 

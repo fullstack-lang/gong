@@ -95,6 +95,8 @@ func (proxy *ClassDiagramNodeCheckProxy) OnAfterUpdate(
 		diagramPackage.SelectedClassdiagram = proxy.classDiagram
 
 		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.UpdateAndCommitSVGStage()
+
 		proxy.stager.stage.Commit()
 	}
 
@@ -104,6 +106,8 @@ func (proxy *ClassDiagramNodeCheckProxy) OnAfterUpdate(
 		diagramPackage.SelectedClassdiagram = nil
 
 		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.UpdateAndCommitSVGStage()
+
 		proxy.stager.stage.Commit()
 	}
 
@@ -140,6 +144,8 @@ func (proxy *GongstructNodeCheckProxy) OnAfterUpdate(
 		proxy.classDiagram.AddGongStructShape(proxy.stager.stage, diagramPackage, proxy.gongstruct.Name)
 
 		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.UpdateAndCommitSVGStage()
+
 		proxy.stager.stage.Commit()
 	}
 
@@ -148,6 +154,8 @@ func (proxy *GongstructNodeCheckProxy) OnAfterUpdate(
 		proxy.classDiagram.RemoveGongStructShape(proxy.stager.stage, proxy.gongstruct.Name)
 
 		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.UpdateAndCommitSVGStage()
+
 		proxy.stager.stage.Commit()
 	}
 }
