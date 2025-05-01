@@ -11,12 +11,14 @@ type Classdiagram_WOP struct {
 	// insertion point
 	Name string
 	IsInDrawMode bool
+	IsExpanded bool
 }
 
 func (from *Classdiagram) CopyBasicFields(to *Classdiagram) {
 	// insertion point
 	to.Name = from.Name
 	to.IsInDrawMode = from.IsInDrawMode
+	to.IsExpanded = from.IsExpanded
 }
 
 type DiagramPackage_WOP struct {

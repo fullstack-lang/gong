@@ -2311,7 +2311,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case Classdiagram:
-		res = []string{"Name", "GongStructShapes", "GongEnumShapes", "NoteShapes", "IsInDrawMode"}
+		res = []string{"Name", "GongStructShapes", "GongEnumShapes", "NoteShapes", "IsInDrawMode", "IsExpanded"}
 	case DiagramPackage:
 		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "Umlscs", "IsEditable", "IsReloaded", "AbsolutePathToDiagramPackage"}
 	case Field:
@@ -2435,7 +2435,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *Classdiagram:
-		res = []string{"Name", "GongStructShapes", "GongEnumShapes", "NoteShapes", "IsInDrawMode"}
+		res = []string{"Name", "GongStructShapes", "GongEnumShapes", "NoteShapes", "IsInDrawMode", "IsExpanded"}
 	case *DiagramPackage:
 		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "Umlscs", "IsEditable", "IsReloaded", "AbsolutePathToDiagramPackage"}
 	case *Field:
@@ -2530,6 +2530,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "IsInDrawMode":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInDrawMode)
 			res.valueBool = inferedInstance.IsInDrawMode
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "IsExpanded":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsExpanded)
+			res.valueBool = inferedInstance.IsExpanded
 			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case *DiagramPackage:
@@ -2877,6 +2881,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "IsInDrawMode":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInDrawMode)
 			res.valueBool = inferedInstance.IsInDrawMode
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "IsExpanded":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsExpanded)
+			res.valueBool = inferedInstance.IsExpanded
 			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case DiagramPackage:

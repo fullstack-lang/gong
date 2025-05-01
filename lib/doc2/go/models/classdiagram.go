@@ -1,6 +1,7 @@
 package models
 
 import (
+	"log"
 	"math/rand"
 )
 
@@ -21,20 +22,29 @@ type Classdiagram struct {
 	// IsInDrawMode indicates the the drawing can be edited (in development mode)
 	// or not (in production mode)
 	IsInDrawMode bool
+
+	// IsExpanded is true if the node for the classdiagram is expanded
+	IsExpanded bool
 }
 
-func (classdiagram *Classdiagram) RemoveGongStructShape(stage *Stage, gongstructshapeName string) {
+func (classdiagram *Classdiagram) HasGongStructShape(gongstructName string) (foundGongStructShape bool, gongstructshape *GongStructShape) {
 
-	foundGongStructShape := false
-	var gongstructshape *GongStructShape
 	for _, _gongstructshape := range classdiagram.GongStructShapes {
 
 		// strange behavior when the gongstructshape is remove within the loop
-		if IdentifierToGongObjectName(_gongstructshape.Identifier) == gongstructshapeName && !foundGongStructShape {
+		if IdentifierToGongObjectName(_gongstructshape.Identifier) == gongstructName && !foundGongStructShape {
 			gongstructshape = _gongstructshape
 		}
 	}
+	return
+}
 
+func (classdiagram *Classdiagram) RemoveGongStructShape(stage *Stage, gongstructName string) {
+
+	foundGongStructShape, gongstructshape := classdiagram.HasGongStructShape(gongstructName)
+	if !foundGongStructShape {
+		log.Fatalln("Shape not found", gongstructName)
+	}
 	classdiagram.GongStructShapes = remove(classdiagram.GongStructShapes, gongstructshape)
 	gongstructshape.Position.Unstage(stage)
 	gongstructshape.Unstage(stage)
@@ -75,7 +85,7 @@ func (classdiagram *Classdiagram) RemoveGongStructShape(stage *Stage, gongstruct
 	fieldName := GetAssociationName[NoteShape]().NoteShapeLinks[0].Name
 	map_NoteShapeLink_NodeShape := GetSliceOfPointersReverseMap[NoteShape, NoteShapeLink](fieldName, stage)
 	for noteShapeLink := range *GetGongstructInstancesSet[NoteShapeLink](stage) {
-		if noteShapeLink.Name == gongstructshapeName {
+		if noteShapeLink.Name == gongstructName {
 
 			// get the note shape
 			noteShape := map_NoteShapeLink_NodeShape[noteShapeLink]

@@ -76,6 +76,10 @@ type ClassdiagramDB struct {
 	// provide the sql storage for the boolan
 	IsInDrawMode_Data sql.NullBool
 
+	// Declation for basic field classdiagramDB.IsExpanded
+	// provide the sql storage for the boolan
+	IsExpanded_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	ClassdiagramPointersEncoding
@@ -101,6 +105,8 @@ type ClassdiagramWOP struct {
 	Name string `xlsx:"1"`
 
 	IsInDrawMode bool `xlsx:"2"`
+
+	IsExpanded bool `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -109,6 +115,7 @@ var Classdiagram_Fields = []string{
 	"ID",
 	"Name",
 	"IsInDrawMode",
+	"IsExpanded",
 }
 
 type BackRepoClassdiagramStruct struct {
@@ -472,6 +479,9 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsFromClassdiagram(classdiagr
 
 	classdiagramDB.IsInDrawMode_Data.Bool = classdiagram.IsInDrawMode
 	classdiagramDB.IsInDrawMode_Data.Valid = true
+
+	classdiagramDB.IsExpanded_Data.Bool = classdiagram.IsExpanded
+	classdiagramDB.IsExpanded_Data.Valid = true
 }
 
 // CopyBasicFieldsFromClassdiagram_WOP
@@ -483,6 +493,9 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsFromClassdiagram_WOP(classd
 
 	classdiagramDB.IsInDrawMode_Data.Bool = classdiagram.IsInDrawMode
 	classdiagramDB.IsInDrawMode_Data.Valid = true
+
+	classdiagramDB.IsExpanded_Data.Bool = classdiagram.IsExpanded
+	classdiagramDB.IsExpanded_Data.Valid = true
 }
 
 // CopyBasicFieldsFromClassdiagramWOP
@@ -494,6 +507,9 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsFromClassdiagramWOP(classdi
 
 	classdiagramDB.IsInDrawMode_Data.Bool = classdiagram.IsInDrawMode
 	classdiagramDB.IsInDrawMode_Data.Valid = true
+
+	classdiagramDB.IsExpanded_Data.Bool = classdiagram.IsExpanded
+	classdiagramDB.IsExpanded_Data.Valid = true
 }
 
 // CopyBasicFieldsToClassdiagram
@@ -501,6 +517,7 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsToClassdiagram(classdiagram
 	// insertion point for checkout of basic fields (back repo to stage)
 	classdiagram.Name = classdiagramDB.Name_Data.String
 	classdiagram.IsInDrawMode = classdiagramDB.IsInDrawMode_Data.Bool
+	classdiagram.IsExpanded = classdiagramDB.IsExpanded_Data.Bool
 }
 
 // CopyBasicFieldsToClassdiagram_WOP
@@ -508,6 +525,7 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsToClassdiagram_WOP(classdia
 	// insertion point for checkout of basic fields (back repo to stage)
 	classdiagram.Name = classdiagramDB.Name_Data.String
 	classdiagram.IsInDrawMode = classdiagramDB.IsInDrawMode_Data.Bool
+	classdiagram.IsExpanded = classdiagramDB.IsExpanded_Data.Bool
 }
 
 // CopyBasicFieldsToClassdiagramWOP
@@ -516,6 +534,7 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsToClassdiagramWOP(classdiag
 	// insertion point for checkout of basic fields (back repo to stage)
 	classdiagram.Name = classdiagramDB.Name_Data.String
 	classdiagram.IsInDrawMode = classdiagramDB.IsInDrawMode_Data.Bool
+	classdiagram.IsExpanded = classdiagramDB.IsExpanded_Data.Bool
 }
 
 // Backup generates a json file from a slice of all ClassdiagramDB instances in the backrepo

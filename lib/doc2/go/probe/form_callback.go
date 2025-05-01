@@ -63,6 +63,8 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(classdiagram_.Name), formDiv)
 		case "IsInDrawMode":
 			FormDivBasicFieldToField(&(classdiagram_.IsInDrawMode), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(classdiagram_.IsExpanded), formDiv)
 		case "DiagramPackage:Classdiagrams":
 			// we need to retrieve the field owner before the change
 			var pastDiagramPackageOwner *models.DiagramPackage
