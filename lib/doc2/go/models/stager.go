@@ -96,9 +96,6 @@ func NewStager(
 		},
 	})
 
-	stager.UpdateAndCommitTreeStage()
-	stager.splitStage.Commit()
-
 	// if no diagram package is present, creates one
 	diagramPackages := *GetGongstructInstancesSet[DiagramPackage](stage)
 	var diagramPackage *DiagramPackage
@@ -111,6 +108,9 @@ func NewStager(
 		}).Stage(stage)
 		stage.Commit()
 	}
+
+	stager.UpdateAndCommitTreeStage()
+	stager.splitStage.Commit()
 
 	return
 }
