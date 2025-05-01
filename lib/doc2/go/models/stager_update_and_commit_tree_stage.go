@@ -44,6 +44,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			node:   node,
 			stager: stager,
 		}
+		// node.Stage(stager.treeStage)
 
 		root.Children = append(root.Children, node)
 	}

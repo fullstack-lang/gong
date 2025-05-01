@@ -75,7 +75,7 @@ func NewStager(
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
-		Name: "Tree Probe",
+		Name: "Doc2 tree stage probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Split: (&split.Split{
