@@ -61,6 +61,18 @@ type DiagramPackage struct {
 	Map_Identifier_NbInstances map[string]int
 }
 
+func getTheDiagramPackage(stage *Stage) (diagramPackage *DiagramPackage) {
+
+	diagramPackages := *GetGongstructInstancesSet[DiagramPackage](stage)
+	for k, _ := range diagramPackages {
+		diagramPackage = k
+	}
+	if diagramPackage == nil {
+		log.Fatalln("There should be at least one diagram package on the stage")
+	}
+	return
+}
+
 const preludeRef string = `package diagrams
 
 import (
