@@ -20,12 +20,14 @@ func Prepare(
 	doc2StackName string,
 ) {
 
-	stack := doc2_stack.NewStack(r, "", pathToDocStageFile+".go", pathToDocStageFile, "", embeddedDiagrams, true)
+	stack := doc2_stack.NewStack(r, "", pathToDocStageFile, pathToDocStageFile, "", embeddedDiagrams, true)
 	// stack.SetMarshallPackageName("models")
 	doc2Stage := stack.Stage
 
+	doc2Stage.Checkout()
+
 	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
-	treeStage := tree_stack.NewStack(r, doc2StackName+":doc2-sidebar", "", "", "", false, false).Stage
+	treeStage := tree_stack.NewStack(r, doc2StackName+":doc2-sidebar", "", "", "", false, true).Stage
 	svgStage := svg_stack.NewStack(r, "", "", "", "", false, false).Stage
 
 	doc2_models.NewStager(
