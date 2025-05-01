@@ -20,7 +20,7 @@ import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree'
 import { Router, RouterState } from '@angular/router';
 
 
-import * as tree from '../../../../tree/src/public-api' 
+import * as tree from '../../../../tree/src/public-api'
 import { IconService } from '../icon-service.service';
 
 /**
@@ -109,16 +109,20 @@ export class TreeSpecificComponent {
       gongtreesFrontRepo => {
         this.gongtreeFrontRepo = gongtreesFrontRepo
 
+        console.log(this.Name, "tree name", "nb of trees",
+          this.gongtreeFrontRepo.getFrontArray<tree.Tree>(tree.Tree.GONGSTRUCT_NAME).length)
+
         var treeSingloton: tree.Tree = new (tree.Tree)
         var selected: boolean = false
         for (let instance of this.gongtreeFrontRepo.getFrontArray<tree.Tree>(tree.Tree.GONGSTRUCT_NAME)) {
+          console.log(this.Name, "tree name", instance.Name)
           if (instance.Name == this.name) {
             treeSingloton = instance
             selected = true
           }
         }
         if (!selected) {
-          // console.log("no tree matching with name \"" + this.name + "\"")
+          console.log(this.Name, "no tree matching with name \"" + this.name + "\"")
           return
         }
 
