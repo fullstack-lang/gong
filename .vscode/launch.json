@@ -562,6 +562,14 @@
             "sourceMaps": true,
         },
         {
+            "name": "Launch Chrome (doc2) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/doc2/ng-github.com-fullstack-lang-gong-lib-doc2",
+            "sourceMaps": true,
+        },
+        {
             "name": "Launch Chrome (load) on 4200",
             "request": "launch",
             "type": "chrome",

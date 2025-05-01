@@ -17,6 +17,7 @@ func Prepare(
 	r *gin.Engine,
 	embeddedDiagrams bool,
 	pathToDocStageFile string,
+	doc2StackName string,
 ) {
 
 	stack := doc2_stack.NewStack(r, "", pathToDocStageFile+".go", pathToDocStageFile, "", embeddedDiagrams, true)
@@ -24,7 +25,7 @@ func Prepare(
 	doc2Stage := stack.Stage
 
 	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
-	treeStage := tree_stack.NewStack(r, doc2Stage.GetProbeTreeSidebarStageName(), "", "", "", false, true).Stage
+	treeStage := tree_stack.NewStack(r, doc2StackName+":doc2-sidebar", "", "", "", false, false).Stage
 	svgStage := svg_stack.NewStack(r, "", "", "", "", false, false).Stage
 
 	doc2_models.NewStager(
