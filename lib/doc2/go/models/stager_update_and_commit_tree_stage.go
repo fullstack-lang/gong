@@ -1,8 +1,6 @@
 package models
 
 import (
-	"log"
-
 	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
@@ -26,29 +24,26 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 	}
 
 	// append a node below for each diagram
-	diagramPackages := *GetGongstructInstancesSet[DiagramPackage](stager.stage)
-	var diagramPackage *DiagramPackage
-	for k, _ := range diagramPackages {
-		diagramPackage = k
-	}
-	if diagramPackage == nil {
-		log.Fatalln("There should be at least one diagram package on the stage")
-	}
+	diagramPackage := getTheDiagramPackage(stager.stage)
 
 	for _, classDiagram := range diagramPackage.Classdiagrams {
+		var selected bool
+		if diagramPackage.SelectedClassdiagram == classDiagram {
+			selected = true
+		}
 		node := &tree.Node{
 			Name:              classDiagram.Name,
 			HasCheckboxButton: true,
+			IsChecked:         selected,
 		}
 		node.Impl = &ClassDiagramNodeCheckProxy{
-			node:   node,
-			stager: stager,
+			node:         node,
+			stager:       stager,
+			classDiagram: classDiagram,
 		}
-		// node.Stage(stager.treeStage)
 
 		root.Children = append(root.Children, node)
 	}
-
 	tree.StageBranch(stager.treeStage,
 		&tree.Tree{
 			Name:      stager.stage.GetProbeTreeSidebarStageName(),
@@ -60,13 +55,20 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 }
 
 type ClassDiagramNodeCheckProxy struct {
-	node   *tree.Node
-	stager *Stager
+	node         *tree.Node
+	stager       *Stager
+	classDiagram *Classdiagram
 }
 
 // OnAfterUpdate is called when a node is checked/unchecked by the user
-func (impl *ClassDiagramNodeCheckProxy) OnAfterUpdate(
+func (proxy *ClassDiagramNodeCheckProxy) OnAfterUpdate(
 	stage *tree.Stage,
 	staged, front *tree.Node) {
 
+	// uncheck all other diagram
+	diagramPackage := getTheDiagramPackage(proxy.stager.stage)
+	diagramPackage.SelectedClassdiagram = proxy.classDiagram
+
+	proxy.stager.UpdateAndCommitTreeStage()
+	proxy.stager.stage.Commit()
 }
