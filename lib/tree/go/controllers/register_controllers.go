@@ -149,7 +149,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "WebSocket Connect, Stack github.com/fullstack-lang/gong/lib/tree/go, Unkown stack: \"" + stackPath + "\"\n"
-
+		
 		message += "Availabe stack names are:\n"
 		for k, _ := range controller.Map_BackRepos {
 			message += k + "\n"
@@ -175,7 +175,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	backRepoData := new(orm.BackRepoData)
 	orm.CopyBackRepoToBackRepoData(backRepo, backRepoData)
 	backRepoData.GONG__Index = index
-
+	
 	refresh := 0
 	err = wsConnection.WriteJSON(backRepoData)
 	if err != nil {
@@ -184,12 +184,12 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 		fmt.Println(err)
 		return
 	} else {
-		log.Printf(
-			"%s github.com/fullstack-lang/gong/lib/tree/go: %03d: '%s', index %d",
-			time.Now().Format("2006-01-02 15:04:05.000000"),
-			refresh,
-			stackPath, index,
-		)
+	log.Printf(
+		"%s github.com/fullstack-lang/gong/lib/tree/go: %03d: '%s', index %d",
+		time.Now().Format("2006-01-02 15:04:05.000000"),
+		refresh,
+		stackPath, index,
+	)
 	}
 	for {
 		select {
@@ -243,12 +243,12 @@ func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "Stack github.com/fullstack-lang/gong/lib/tree/go, Unkown stack: \"" + stackPath + "\"\n"
-
+		
 		message += "Availabe stack names are:\n"
 		for k, _ := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-
+			
 		log.Panic(message)
 	}
 	res := backRepo.GetLastCommitFromBackNb()
@@ -270,12 +270,12 @@ func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "GET Stack github.com/fullstack-lang/gong/lib/tree/go, Unkown stack: \"" + stackPath + "\"\n"
-
+		
 		message += "Availabe stack names are:\n"
 		for k, _ := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-
+			
 		log.Panic(message)
 	}
 	res := backRepo.GetLastPushFromFrontNb()
