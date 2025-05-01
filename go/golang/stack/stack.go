@@ -46,7 +46,7 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
 	}
 
 	stage.Checkout()
-	stage.Marshall(file, "github.com/fullstack-lang/gong/test/test/go/models", packageName)
+	stage.Marshall(file, "{{PkgPathRoot}}/models", packageName)
 }
 
 type Stack struct {
