@@ -189,6 +189,8 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(classdiagram_.Name), formDiv)
 		case "IsInDrawMode":
 			FormDivBasicFieldToField(&(classdiagram_.IsInDrawMode), formDiv)
+		case "IsInRenameMode":
+			FormDivBasicFieldToField(&(classdiagram_.IsInRenameMode), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(classdiagram_.IsExpanded), formDiv)
 		case "NodeNamedStructsIsExpanded":

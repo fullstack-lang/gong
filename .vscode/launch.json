@@ -345,7 +345,7 @@
             "program": "${workspaceFolder}/lib/tree/go/cmd/tree",
             "args": [
                 "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage_out"
+                "-marshallOnCommit=data/stage"
             ],
         },
         {

@@ -14,6 +14,7 @@ export * from './lib/web-socket-service'
 
 
 
+export * from './lib/ButtonType'
 export * from './lib/GongEnumShapeType'
 export * from './lib/MultiplicityType'
 export * from './lib/NoteShapeLinkType'
