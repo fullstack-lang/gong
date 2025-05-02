@@ -86,18 +86,18 @@ func (proxy *ClassDiagramButtonProxy) ButtonUpdated(
 		proxy.stager.UpdateAndCommitSVGStage()
 		proxy.stager.stage.Commit()
 
-		// case RENAME_CANCEL:
-		// 	proxy.portfolioDiagramNode.SetIsInRenameMode(false)
-		// 	proxy.node.IsInEditMode = false
+	case RENAME:
+		proxy.classdiagram.IsInRenameMode = true
 
-		// 	proxy.diagrammer.generatePortfolioNodesStatusAndButtons()
-		// 	proxy.stager.treeStage.Commit()
-		// case RENAME:
-		// 	proxy.portfolioDiagramNode.SetIsInRenameMode(true)
-		// 	proxy.node.IsInEditMode = true
+		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.stage.Commit()
 
-		// 	proxy.diagrammer.generatePortfolioNodesStatusAndButtons()
-		// 	proxy.stager.treeStage.Commit()
+	case RENAME_CANCEL:
+		proxy.classdiagram.IsInRenameMode = false
+
+		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.stage.Commit()
+
 		// case SAVE:
 		// 	map_ModelNode_Shape := proxy.portfolioDiagramNode.SaveDiagram()
 

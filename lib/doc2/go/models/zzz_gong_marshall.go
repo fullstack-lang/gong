@@ -17,7 +17,6 @@ import (
 	"time"
 
 	"{{ModelsPackageName}}"
-
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -205,6 +204,12 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsInDrawMode")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", classdiagram.IsInDrawMode))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsInRenameMode")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", classdiagram.IsInRenameMode))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement

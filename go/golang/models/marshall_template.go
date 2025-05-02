@@ -19,7 +19,6 @@ import (
 	"time"
 
 	"{{ModelsPackageName}}"
-
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 

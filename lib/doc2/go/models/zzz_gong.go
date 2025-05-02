@@ -1740,7 +1740,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case AttributeShape:
 		res = []string{"Name", "Identifier", "FieldTypeAsString", "Structname", "Fieldtypename"}
 	case Classdiagram:
-		res = []string{"Name", "GongStructShapes", "GongEnumShapes", "NoteShapes", "IsInDrawMode", "IsExpanded", "NodeNamedStructsIsExpanded", "NodeGongEnumsIsExpanded"}
+		res = []string{"Name", "GongStructShapes", "GongEnumShapes", "NoteShapes", "IsInDrawMode", "IsInRenameMode", "IsExpanded", "NodeNamedStructsIsExpanded", "NodeGongEnumsIsExpanded"}
 	case DiagramPackage:
 		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "IsEditable", "IsReloaded", "AbsolutePathToDiagramPackage"}
 	case GongEnumShape:
@@ -1838,7 +1838,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *AttributeShape:
 		res = []string{"Name", "Identifier", "FieldTypeAsString", "Structname", "Fieldtypename"}
 	case *Classdiagram:
-		res = []string{"Name", "GongStructShapes", "GongEnumShapes", "NoteShapes", "IsInDrawMode", "IsExpanded", "NodeNamedStructsIsExpanded", "NodeGongEnumsIsExpanded"}
+		res = []string{"Name", "GongStructShapes", "GongEnumShapes", "NoteShapes", "IsInDrawMode", "IsInRenameMode", "IsExpanded", "NodeNamedStructsIsExpanded", "NodeGongEnumsIsExpanded"}
 	case *DiagramPackage:
 		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "IsEditable", "IsReloaded", "AbsolutePathToDiagramPackage"}
 	case *GongEnumShape:
@@ -1937,6 +1937,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "IsInDrawMode":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInDrawMode)
 			res.valueBool = inferedInstance.IsInDrawMode
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "IsInRenameMode":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInRenameMode)
+			res.valueBool = inferedInstance.IsInRenameMode
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsExpanded":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsExpanded)
@@ -2248,6 +2252,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "IsInDrawMode":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInDrawMode)
 			res.valueBool = inferedInstance.IsInDrawMode
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "IsInRenameMode":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInRenameMode)
+			res.valueBool = inferedInstance.IsInRenameMode
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsExpanded":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsExpanded)
