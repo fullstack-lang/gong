@@ -31,4 +31,5 @@ export * from './lib/tree.service'
 
 
 export * from './lib/FontStyleEnum'
+export * from './lib/ToolTipPositionEnum'
 export * from './lib/TreeStackName'

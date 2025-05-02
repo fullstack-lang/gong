@@ -8,7 +8,20 @@ type Button struct {
 	SVGIcon *SVGIcon
 
 	Impl ButtonImplInterface
+
+	HasToolTip      bool
+	ToolTipText     string
+	ToolTipPosition ToolTipPositionEnum
 }
+
+type ToolTipPositionEnum string
+
+const (
+	Below ToolTipPositionEnum = "below"
+	Above ToolTipPositionEnum = "above"
+	Left  ToolTipPositionEnum = "left"
+	Right ToolTipPositionEnum = "right"
+)
 
 type ButtonImplInterface interface {
 
