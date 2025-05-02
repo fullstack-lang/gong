@@ -15,6 +15,10 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 
 	switch concreteInstance := any(instance).(type) {
 	// insertion point for per struct backup
+	case *models.AttributeShape:
+		attributeshapeInstance := any(concreteInstance).(*models.AttributeShape)
+		ret2 := backRepo.BackRepoAttributeShape.GetAttributeShapeDBFromAttributeShapePtr(attributeshapeInstance)
+		ret = any(ret2).(*T2)
 	case *models.Classdiagram:
 		classdiagramInstance := any(concreteInstance).(*models.Classdiagram)
 		ret2 := backRepo.BackRepoClassdiagram.GetClassdiagramDBFromClassdiagramPtr(classdiagramInstance)
@@ -22,10 +26,6 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 	case *models.DiagramPackage:
 		diagrampackageInstance := any(concreteInstance).(*models.DiagramPackage)
 		ret2 := backRepo.BackRepoDiagramPackage.GetDiagramPackageDBFromDiagramPackagePtr(diagrampackageInstance)
-		ret = any(ret2).(*T2)
-	case *models.AttributeShape:
-		fieldshapeInstance := any(concreteInstance).(*models.AttributeShape)
-		ret2 := backRepo.BackRepoFieldShape.GetFieldShapeDBFromFieldShapePtr(fieldshapeInstance)
 		ret = any(ret2).(*T2)
 	case *models.GongEnumShape:
 		gongenumshapeInstance := any(concreteInstance).(*models.GongEnumShape)
@@ -80,6 +80,11 @@ func GetID[T models.Gongstruct](
 
 	switch inst := any(instance).(type) {
 	// insertion point for per struct backup
+	case *models.AttributeShape:
+		tmp := GetInstanceDBFromInstance[models.AttributeShape, AttributeShapeDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
 	case *models.Classdiagram:
 		tmp := GetInstanceDBFromInstance[models.Classdiagram, ClassdiagramDB](
 			stage, backRepo, inst,
@@ -87,11 +92,6 @@ func GetID[T models.Gongstruct](
 		id = int(tmp.ID)
 	case *models.DiagramPackage:
 		tmp := GetInstanceDBFromInstance[models.DiagramPackage, DiagramPackageDB](
-			stage, backRepo, inst,
-		)
-		id = int(tmp.ID)
-	case *models.AttributeShape:
-		tmp := GetInstanceDBFromInstance[models.AttributeShape, FieldShapeDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -158,6 +158,11 @@ func GetIDPointer[T models.PointerToGongstruct](
 
 	switch inst := any(instance).(type) {
 	// insertion point for per struct backup
+	case *models.AttributeShape:
+		tmp := GetInstanceDBFromInstance[models.AttributeShape, AttributeShapeDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
 	case *models.Classdiagram:
 		tmp := GetInstanceDBFromInstance[models.Classdiagram, ClassdiagramDB](
 			stage, backRepo, inst,
@@ -165,11 +170,6 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.DiagramPackage:
 		tmp := GetInstanceDBFromInstance[models.DiagramPackage, DiagramPackageDB](
-			stage, backRepo, inst,
-		)
-		id = int(tmp.ID)
-	case *models.AttributeShape:
-		tmp := GetInstanceDBFromInstance[models.AttributeShape, FieldShapeDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

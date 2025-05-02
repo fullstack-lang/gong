@@ -7,11 +7,29 @@ import "time"
 var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 
 // insertion point
+type AttributeShape_WOP struct {
+	// insertion point
+	Name string
+	Identifier string
+	FieldTypeAsString string
+	Structname string
+	Fieldtypename string
+}
+
+func (from *AttributeShape) CopyBasicFields(to *AttributeShape) {
+	// insertion point
+	to.Name = from.Name
+	to.Identifier = from.Identifier
+	to.FieldTypeAsString = from.FieldTypeAsString
+	to.Structname = from.Structname
+	to.Fieldtypename = from.Fieldtypename
+}
+
 type Classdiagram_WOP struct {
 	// insertion point
-	Name         string
+	Name string
 	IsInDrawMode bool
-	IsExpanded   bool
+	IsExpanded bool
 }
 
 func (from *Classdiagram) CopyBasicFields(to *Classdiagram) {
@@ -23,11 +41,11 @@ func (from *Classdiagram) CopyBasicFields(to *Classdiagram) {
 
 type DiagramPackage_WOP struct {
 	// insertion point
-	Name                         string
-	Path                         string
-	GongModelPath                string
-	IsEditable                   bool
-	IsReloaded                   bool
+	Name string
+	Path string
+	GongModelPath string
+	IsEditable bool
+	IsReloaded bool
 	AbsolutePathToDiagramPackage string
 }
 
@@ -41,30 +59,12 @@ func (from *DiagramPackage) CopyBasicFields(to *DiagramPackage) {
 	to.AbsolutePathToDiagramPackage = from.AbsolutePathToDiagramPackage
 }
 
-type FieldShape_WOP struct {
-	// insertion point
-	Name              string
-	Identifier        string
-	FieldTypeAsString string
-	Structname        string
-	Fieldtypename     string
-}
-
-func (from *AttributeShape) CopyBasicFields(to *AttributeShape) {
-	// insertion point
-	to.Name = from.Name
-	to.Identifier = from.Identifier
-	to.FieldTypeAsString = from.FieldTypeAsString
-	to.Structname = from.Structname
-	to.Fieldtypename = from.Fieldtypename
-}
-
 type GongEnumShape_WOP struct {
 	// insertion point
-	Name       string
+	Name string
 	Identifier string
-	Width      float64
-	Height     float64
+	Width float64
+	Height float64
 }
 
 func (from *GongEnumShape) CopyBasicFields(to *GongEnumShape) {
@@ -77,7 +77,7 @@ func (from *GongEnumShape) CopyBasicFields(to *GongEnumShape) {
 
 type GongEnumValueEntry_WOP struct {
 	// insertion point
-	Name       string
+	Name string
 	Identifier string
 }
 
@@ -89,14 +89,14 @@ func (from *GongEnumValueEntry) CopyBasicFields(to *GongEnumValueEntry) {
 
 type GongStructShape_WOP struct {
 	// insertion point
-	Name            string
-	Identifier      string
+	Name string
+	Identifier string
 	ShowNbInstances bool
-	NbInstances     int
-	Width           float64
-	Height          float64
-	IsSelected      bool
-	IsExpanded      bool
+	NbInstances int
+	Width float64
+	Height float64
+	IsSelected bool
+	IsExpanded bool
 }
 
 func (from *GongStructShape) CopyBasicFields(to *GongStructShape) {
@@ -113,22 +113,22 @@ func (from *GongStructShape) CopyBasicFields(to *GongStructShape) {
 
 type LinkShape_WOP struct {
 	// insertion point
-	Name                      string
-	Identifier                string
-	Fieldtypename             string
-	FieldOffsetX              float64
-	FieldOffsetY              float64
-	TargetMultiplicity        MultiplicityType
+	Name string
+	Identifier string
+	Fieldtypename string
+	FieldOffsetX float64
+	FieldOffsetY float64
+	TargetMultiplicity MultiplicityType
 	TargetMultiplicityOffsetX float64
 	TargetMultiplicityOffsetY float64
-	SourceMultiplicity        MultiplicityType
+	SourceMultiplicity MultiplicityType
 	SourceMultiplicityOffsetX float64
 	SourceMultiplicityOffsetY float64
-	StartOrientation          OrientationType
-	StartRatio                float64
-	EndOrientation            OrientationType
-	EndRatio                  float64
-	CornerOffsetRatio         float64
+	StartOrientation OrientationType
+	StartRatio float64
+	EndOrientation OrientationType
+	EndRatio float64
+	CornerOffsetRatio float64
 }
 
 func (from *LinkShape) CopyBasicFields(to *LinkShape) {
@@ -153,15 +153,15 @@ func (from *LinkShape) CopyBasicFields(to *LinkShape) {
 
 type NoteShape_WOP struct {
 	// insertion point
-	Name       string
+	Name string
 	Identifier string
-	Body       string
-	BodyHTML   string
-	X          float64
-	Y          float64
-	Width      float64
-	Height     float64
-	Matched    bool
+	Body string
+	BodyHTML string
+	X float64
+	Y float64
+	Width float64
+	Height float64
+	Matched bool
 }
 
 func (from *NoteShape) CopyBasicFields(to *NoteShape) {
@@ -179,9 +179,9 @@ func (from *NoteShape) CopyBasicFields(to *NoteShape) {
 
 type NoteShapeLink_WOP struct {
 	// insertion point
-	Name       string
+	Name string
 	Identifier string
-	Type       NoteShapeLinkType
+	Type NoteShapeLinkType
 }
 
 func (from *NoteShapeLink) CopyBasicFields(to *NoteShapeLink) {
@@ -193,8 +193,8 @@ func (from *NoteShapeLink) CopyBasicFields(to *NoteShapeLink) {
 
 type Position_WOP struct {
 	// insertion point
-	X    float64
-	Y    float64
+	X float64
+	Y float64
 	Name string
 }
 
@@ -208,8 +208,8 @@ func (from *Position) CopyBasicFields(to *Position) {
 type UmlState_WOP struct {
 	// insertion point
 	Name string
-	X    float64
-	Y    float64
+	X float64
+	Y float64
 }
 
 func (from *UmlState) CopyBasicFields(to *UmlState) {
@@ -221,8 +221,8 @@ func (from *UmlState) CopyBasicFields(to *UmlState) {
 
 type Umlsc_WOP struct {
 	// insertion point
-	Name         string
-	Activestate  string
+	Name string
+	Activestate string
 	IsInDrawMode bool
 }
 
@@ -235,8 +235,8 @@ func (from *Umlsc) CopyBasicFields(to *Umlsc) {
 
 type Vertice_WOP struct {
 	// insertion point
-	X    float64
-	Y    float64
+	X float64
+	Y float64
 	Name string
 }
 
@@ -246,3 +246,4 @@ func (from *Vertice) CopyBasicFields(to *Vertice) {
 	to.Y = from.Y
 	to.Name = from.Name
 }
+

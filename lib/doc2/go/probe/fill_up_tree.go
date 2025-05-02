@@ -64,6 +64,16 @@ func fillUpTree(
 
 		switch gongStruct.Name {
 		// insertion point
+		case "AttributeShape":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.AttributeShape](probe.stageOfInterest)
+			for _attributeshape := range set {
+				nodeInstance := (&tree.Node{Name: _attributeshape.GetName()}).Stage(probe.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_attributeshape, "AttributeShape", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
 		case "Classdiagram":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSet[models.Classdiagram](probe.stageOfInterest)
@@ -81,16 +91,6 @@ func fillUpTree(
 				nodeInstance := (&tree.Node{Name: _diagrampackage.GetName()}).Stage(probe.treeStage)
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_diagrampackage, "DiagramPackage", probe)
-
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-		case "FieldShape":
-			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.AttributeShape](probe.stageOfInterest)
-			for _fieldshape := range set {
-				nodeInstance := (&tree.Node{Name: _fieldshape.GetName()}).Stage(probe.treeStage)
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_fieldshape, "FieldShape", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}

@@ -33,6 +33,19 @@ func (classdiagram *Classdiagram) RemoveAttributeFieldShape(
 
 }
 
+// RemoveLinkFieldShape implements diagrammer.ModelElementNode.
+func (classdiagram *Classdiagram) RemoveLinkFieldShape(
+	stage *Stage,
+	linkShape *LinkShape,
+	gongStructShape *GongStructShape) {
+
+	idx := slices.Index(gongStructShape.LinkShapes, linkShape)
+	gongStructShape.LinkShapes = slices.Delete(gongStructShape.LinkShapes, idx, idx+1)
+	gongStructShape.Height = gongStructShape.Height - 15
+	linkShape.Unstage(stage)
+
+}
+
 // AddToDiagram implements diagrammer.ElementNode.
 func (classdiagram *Classdiagram) AddAttributeFieldShape(
 	stage *Stage,
@@ -40,7 +53,6 @@ func (classdiagram *Classdiagram) AddAttributeFieldShape(
 	gongStruct *gong.GongStruct,
 	field gong.FieldInterface,
 	gongStructShape *GongStructShape) {
-	diagramPackage := getTheDiagramPackage(stage)
 
 	switch field.(type) {
 	case *gong.GongBasicField, *gong.GongTimeField:
@@ -106,6 +118,19 @@ func (classdiagram *Classdiagram) AddAttributeFieldShape(
 			gongStructShape.AttributeShapes[insertionIndex] = &concreteField
 		}
 
+	}
+}
+
+// AddToDiagram implements diagrammer.ElementNode.
+func (classdiagram *Classdiagram) AddLinkFieldShape(
+	stage *Stage,
+	gongStage *gong.Stage,
+	gongStruct *gong.GongStruct,
+	field gong.FieldInterface,
+	gongStructShape *GongStructShape) {
+	diagramPackage := getTheDiagramPackage(stage)
+
+	switch field.(type) {
 	case *gong.PointerToGongStructField, *gong.SliceOfPointerToGongStructField:
 
 		var targetStructName string
@@ -154,7 +179,7 @@ func (classdiagram *Classdiagram) AddAttributeFieldShape(
 			GongstructAndFieldnameToFieldIdentifier(gongStruct.Name, field.GetName())
 		link.Fieldtypename = GongStructNameToIdentifier(targetStructName)
 
-		gongStructShape.Links = append(gongStructShape.Links, link)
+		gongStructShape.LinkShapes = append(gongStructShape.LinkShapes, link)
 		link.Middlevertice = new(Vertice).Stage(stage)
 		link.Middlevertice.Name = "Verticle in class diagram " + diagramPackage.SelectedClassdiagram.Name +
 			" in middle between " + gongStructShape.Name + " and " + targetGongStructShape.Name

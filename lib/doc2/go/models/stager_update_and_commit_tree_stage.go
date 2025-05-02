@@ -83,45 +83,77 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			nodeClassdiagram.Children = append(nodeClassdiagram.Children, nodeNamedStruct)
 
 			for _, field := range gongStruct.Fields {
-				shape, isInDiagram := map_modelElement_shape[field]
 
-				attributeShape, isAFieldShape := shape.(*AttributeShape)
-				if isInDiagram && !isAFieldShape {
-					log.Fatalln("A field should be mapped to a field shape or a link shape")
-				}
+				switch field.(type) {
+				case *gong.GongBasicField, *gong.GongTimeField:
+					shape, isInDiagram := map_modelElement_shape[field]
 
-				// if field is a link to another, disable the checkbox
-				// if the target gong struct shape is not in the diagram
-				isCheckboxDisabled := false
-				if link, ok := field.(*gong.PointerToGongStructField); ok {
-					if _, ok = map_modelElement_shape[link.GongStruct]; !ok {
-						isCheckboxDisabled = true
+					attributeShape, isAFieldShape := shape.(*AttributeShape)
+					if isInDiagram && !isAFieldShape {
+						log.Fatalln("A field should be mapped to a field shape or a link shape")
 					}
-				}
-				if link, ok := field.(*gong.SliceOfPointerToGongStructField); ok {
-					if _, ok = map_modelElement_shape[link.GongStruct]; !ok {
-						isCheckboxDisabled = true
+
+					nodeField := &tree.Node{
+						Name:              field.GetName(),
+						HasCheckboxButton: true,
+						IsChecked:         isInDiagram,
 					}
+
+					nodeField.Impl = &AttributeFieldNodeProxy{
+						node:            nodeNamedStruct,
+						stager:          stager,
+						classDiagram:    classDiagram,
+						gongstruct:      gongStruct,
+						gongStructShape: gongStructShape,
+						field:           field,
+						attributeShape:  attributeShape,
+					}
+
+					nodeNamedStruct.Children = append(nodeNamedStruct.Children, nodeField)
+				case *gong.PointerToGongStructField, *gong.SliceOfPointerToGongStructField:
+					shape, isInDiagram := map_modelElement_shape[field]
+
+					linkShape, isALinkShape := shape.(*LinkShape)
+					if isInDiagram && !isALinkShape {
+						log.Fatalln("A pointer or slice of pointer field should be mapped to a link shape")
+					}
+
+					// if field is a link to another, disable the checkbox
+					// if the target gong struct shape is not in the diagram
+					isCheckboxDisabled := false
+					if link, ok := field.(*gong.PointerToGongStructField); ok {
+						if _, ok = map_modelElement_shape[link.GongStruct]; !ok {
+							isCheckboxDisabled = true
+						}
+					}
+					if link, ok := field.(*gong.SliceOfPointerToGongStructField); ok {
+						if _, ok = map_modelElement_shape[link.GongStruct]; !ok {
+							isCheckboxDisabled = true
+						}
+					}
+
+					nodeField := &tree.Node{
+						Name:               field.GetName(),
+						HasCheckboxButton:  true,
+						IsChecked:          isInDiagram,
+						IsCheckboxDisabled: isCheckboxDisabled,
+					}
+
+					nodeField.Impl = &LinkFieldNodeProxy{
+						node:            nodeNamedStruct,
+						stager:          stager,
+						classDiagram:    classDiagram,
+						gongstruct:      gongStruct,
+						gongStructShape: gongStructShape,
+						field:           field,
+						linkShape:       linkShape,
+					}
+
+					nodeNamedStruct.Children = append(nodeNamedStruct.Children, nodeField)
+				default:
+					log.Fatalln("Unknwon field type")
 				}
 
-				nodeField := &tree.Node{
-					Name:               field.GetName(),
-					HasCheckboxButton:  true,
-					IsChecked:          isInDiagram,
-					IsCheckboxDisabled: isCheckboxDisabled,
-				}
-
-				nodeField.Impl = &AttributeFieldNodeProxy{
-					node:            nodeNamedStruct,
-					stager:          stager,
-					classDiagram:    classDiagram,
-					gongstruct:      gongStruct,
-					gongStructShape: gongStructShape,
-					field:           field,
-					attributeShape:  attributeShape,
-				}
-
-				nodeNamedStruct.Children = append(nodeNamedStruct.Children, nodeField)
 			}
 		}
 
@@ -266,6 +298,47 @@ func (proxy *AttributeFieldNodeProxy) OnAfterUpdate(
 	// the checked node is unchecked
 	if !front.IsChecked && staged.IsChecked {
 		proxy.classDiagram.RemoveAttributeFieldShape(proxy.stager.stage, proxy.attributeShape, proxy.gongStructShape)
+
+		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.UpdateAndCommitSVGStage()
+
+		proxy.stager.stage.Commit()
+	}
+}
+
+type LinkFieldNodeProxy struct {
+	node            *tree.Node
+	stager          *Stager
+	classDiagram    *Classdiagram
+	gongstruct      *gong.GongStruct
+	gongStructShape *GongStructShape
+	field           gong.FieldInterface
+	linkShape       *LinkShape
+}
+
+func (proxy *LinkFieldNodeProxy) OnAfterUpdate(
+	stage *tree.Stage,
+	staged, front *tree.Node) {
+
+	// intercept update to the node that are when the node is checked
+	if front.IsChecked && !staged.IsChecked {
+		// uncheck all other diagram
+		proxy.classDiagram.AddLinkFieldShape(
+			proxy.stager.stage,
+			proxy.stager.gongStage,
+			proxy.gongstruct,
+			proxy.field,
+			proxy.gongStructShape)
+
+		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.UpdateAndCommitSVGStage()
+
+		proxy.stager.stage.Commit()
+	}
+
+	// the checked node is unchecked
+	if !front.IsChecked && staged.IsChecked {
+		proxy.classDiagram.RemoveLinkFieldShape(proxy.stager.stage, proxy.linkShape, proxy.gongStructShape)
 
 		proxy.stager.UpdateAndCommitTreeStage()
 		proxy.stager.UpdateAndCommitSVGStage()
