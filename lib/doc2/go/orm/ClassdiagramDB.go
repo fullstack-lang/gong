@@ -92,6 +92,10 @@ type ClassdiagramDB struct {
 	// provide the sql storage for the boolan
 	NodeGongEnumsIsExpanded_Data sql.NullBool
 
+	// Declation for basic field classdiagramDB.NodeGongNotesIsExpanded
+	// provide the sql storage for the boolan
+	NodeGongNotesIsExpanded_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	ClassdiagramPointersEncoding
@@ -125,6 +129,8 @@ type ClassdiagramWOP struct {
 	NodeNamedStructsIsExpanded bool `xlsx:"5"`
 
 	NodeGongEnumsIsExpanded bool `xlsx:"6"`
+
+	NodeGongNotesIsExpanded bool `xlsx:"7"`
 	// insertion for WOP pointer fields
 }
 
@@ -137,6 +143,7 @@ var Classdiagram_Fields = []string{
 	"IsExpanded",
 	"NodeNamedStructsIsExpanded",
 	"NodeGongEnumsIsExpanded",
+	"NodeGongNotesIsExpanded",
 }
 
 type BackRepoClassdiagramStruct struct {
@@ -512,6 +519,9 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsFromClassdiagram(classdiagr
 
 	classdiagramDB.NodeGongEnumsIsExpanded_Data.Bool = classdiagram.NodeGongEnumsIsExpanded
 	classdiagramDB.NodeGongEnumsIsExpanded_Data.Valid = true
+
+	classdiagramDB.NodeGongNotesIsExpanded_Data.Bool = classdiagram.NodeGongNotesIsExpanded
+	classdiagramDB.NodeGongNotesIsExpanded_Data.Valid = true
 }
 
 // CopyBasicFieldsFromClassdiagram_WOP
@@ -535,6 +545,9 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsFromClassdiagram_WOP(classd
 
 	classdiagramDB.NodeGongEnumsIsExpanded_Data.Bool = classdiagram.NodeGongEnumsIsExpanded
 	classdiagramDB.NodeGongEnumsIsExpanded_Data.Valid = true
+
+	classdiagramDB.NodeGongNotesIsExpanded_Data.Bool = classdiagram.NodeGongNotesIsExpanded
+	classdiagramDB.NodeGongNotesIsExpanded_Data.Valid = true
 }
 
 // CopyBasicFieldsFromClassdiagramWOP
@@ -558,6 +571,9 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsFromClassdiagramWOP(classdi
 
 	classdiagramDB.NodeGongEnumsIsExpanded_Data.Bool = classdiagram.NodeGongEnumsIsExpanded
 	classdiagramDB.NodeGongEnumsIsExpanded_Data.Valid = true
+
+	classdiagramDB.NodeGongNotesIsExpanded_Data.Bool = classdiagram.NodeGongNotesIsExpanded
+	classdiagramDB.NodeGongNotesIsExpanded_Data.Valid = true
 }
 
 // CopyBasicFieldsToClassdiagram
@@ -569,6 +585,7 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsToClassdiagram(classdiagram
 	classdiagram.IsExpanded = classdiagramDB.IsExpanded_Data.Bool
 	classdiagram.NodeNamedStructsIsExpanded = classdiagramDB.NodeNamedStructsIsExpanded_Data.Bool
 	classdiagram.NodeGongEnumsIsExpanded = classdiagramDB.NodeGongEnumsIsExpanded_Data.Bool
+	classdiagram.NodeGongNotesIsExpanded = classdiagramDB.NodeGongNotesIsExpanded_Data.Bool
 }
 
 // CopyBasicFieldsToClassdiagram_WOP
@@ -580,6 +597,7 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsToClassdiagram_WOP(classdia
 	classdiagram.IsExpanded = classdiagramDB.IsExpanded_Data.Bool
 	classdiagram.NodeNamedStructsIsExpanded = classdiagramDB.NodeNamedStructsIsExpanded_Data.Bool
 	classdiagram.NodeGongEnumsIsExpanded = classdiagramDB.NodeGongEnumsIsExpanded_Data.Bool
+	classdiagram.NodeGongNotesIsExpanded = classdiagramDB.NodeGongNotesIsExpanded_Data.Bool
 }
 
 // CopyBasicFieldsToClassdiagramWOP
@@ -592,6 +610,7 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsToClassdiagramWOP(classdiag
 	classdiagram.IsExpanded = classdiagramDB.IsExpanded_Data.Bool
 	classdiagram.NodeNamedStructsIsExpanded = classdiagramDB.NodeNamedStructsIsExpanded_Data.Bool
 	classdiagram.NodeGongEnumsIsExpanded = classdiagramDB.NodeGongEnumsIsExpanded_Data.Bool
+	classdiagram.NodeGongNotesIsExpanded = classdiagramDB.NodeGongNotesIsExpanded_Data.Bool
 }
 
 // Backup generates a json file from a slice of all ClassdiagramDB instances in the backrepo

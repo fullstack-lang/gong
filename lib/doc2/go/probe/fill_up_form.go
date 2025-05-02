@@ -69,6 +69,8 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("NodeGongEnumsIsExpanded", instanceWithInferedType.NodeGongEnumsIsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("NodeGongNotesIsExpanded", instanceWithInferedType.NodeGongNotesIsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -303,6 +305,8 @@ func FillUpForm(
 		BasicFieldtoForm("Matched", instanceWithInferedType.Matched, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("NoteShapeLinks", instanceWithInferedType, &instanceWithInferedType.NoteShapeLinks, formGroup, probe)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		{
 			var rf models.ReverseField
 			_ = rf

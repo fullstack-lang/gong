@@ -91,6 +91,10 @@ type NoteShapeDB struct {
 	// provide the sql storage for the boolan
 	Matched_Data sql.NullBool
 
+	// Declation for basic field noteshapeDB.IsExpanded
+	// provide the sql storage for the boolan
+	IsExpanded_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	NoteShapePointersEncoding
@@ -130,6 +134,8 @@ type NoteShapeWOP struct {
 	Height float64 `xlsx:"8"`
 
 	Matched bool `xlsx:"9"`
+
+	IsExpanded bool `xlsx:"10"`
 	// insertion for WOP pointer fields
 }
 
@@ -145,6 +151,7 @@ var NoteShape_Fields = []string{
 	"Width",
 	"Height",
 	"Matched",
+	"IsExpanded",
 }
 
 type BackRepoNoteShapeStruct struct {
@@ -475,6 +482,9 @@ func (noteshapeDB *NoteShapeDB) CopyBasicFieldsFromNoteShape(noteshape *models.N
 
 	noteshapeDB.Matched_Data.Bool = noteshape.Matched
 	noteshapeDB.Matched_Data.Valid = true
+
+	noteshapeDB.IsExpanded_Data.Bool = noteshape.IsExpanded
+	noteshapeDB.IsExpanded_Data.Valid = true
 }
 
 // CopyBasicFieldsFromNoteShape_WOP
@@ -507,6 +517,9 @@ func (noteshapeDB *NoteShapeDB) CopyBasicFieldsFromNoteShape_WOP(noteshape *mode
 
 	noteshapeDB.Matched_Data.Bool = noteshape.Matched
 	noteshapeDB.Matched_Data.Valid = true
+
+	noteshapeDB.IsExpanded_Data.Bool = noteshape.IsExpanded
+	noteshapeDB.IsExpanded_Data.Valid = true
 }
 
 // CopyBasicFieldsFromNoteShapeWOP
@@ -539,6 +552,9 @@ func (noteshapeDB *NoteShapeDB) CopyBasicFieldsFromNoteShapeWOP(noteshape *NoteS
 
 	noteshapeDB.Matched_Data.Bool = noteshape.Matched
 	noteshapeDB.Matched_Data.Valid = true
+
+	noteshapeDB.IsExpanded_Data.Bool = noteshape.IsExpanded
+	noteshapeDB.IsExpanded_Data.Valid = true
 }
 
 // CopyBasicFieldsToNoteShape
@@ -553,6 +569,7 @@ func (noteshapeDB *NoteShapeDB) CopyBasicFieldsToNoteShape(noteshape *models.Not
 	noteshape.Width = noteshapeDB.Width_Data.Float64
 	noteshape.Height = noteshapeDB.Height_Data.Float64
 	noteshape.Matched = noteshapeDB.Matched_Data.Bool
+	noteshape.IsExpanded = noteshapeDB.IsExpanded_Data.Bool
 }
 
 // CopyBasicFieldsToNoteShape_WOP
@@ -567,6 +584,7 @@ func (noteshapeDB *NoteShapeDB) CopyBasicFieldsToNoteShape_WOP(noteshape *models
 	noteshape.Width = noteshapeDB.Width_Data.Float64
 	noteshape.Height = noteshapeDB.Height_Data.Float64
 	noteshape.Matched = noteshapeDB.Matched_Data.Bool
+	noteshape.IsExpanded = noteshapeDB.IsExpanded_Data.Bool
 }
 
 // CopyBasicFieldsToNoteShapeWOP
@@ -582,6 +600,7 @@ func (noteshapeDB *NoteShapeDB) CopyBasicFieldsToNoteShapeWOP(noteshape *NoteSha
 	noteshape.Width = noteshapeDB.Width_Data.Float64
 	noteshape.Height = noteshapeDB.Height_Data.Float64
 	noteshape.Matched = noteshapeDB.Matched_Data.Bool
+	noteshape.IsExpanded = noteshapeDB.IsExpanded_Data.Bool
 }
 
 // Backup generates a json file from a slice of all NoteShapeDB instances in the backrepo

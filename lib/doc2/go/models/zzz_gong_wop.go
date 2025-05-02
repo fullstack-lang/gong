@@ -33,6 +33,7 @@ type Classdiagram_WOP struct {
 	IsExpanded bool
 	NodeNamedStructsIsExpanded bool
 	NodeGongEnumsIsExpanded bool
+	NodeGongNotesIsExpanded bool
 }
 
 func (from *Classdiagram) CopyBasicFields(to *Classdiagram) {
@@ -43,6 +44,7 @@ func (from *Classdiagram) CopyBasicFields(to *Classdiagram) {
 	to.IsExpanded = from.IsExpanded
 	to.NodeNamedStructsIsExpanded = from.NodeNamedStructsIsExpanded
 	to.NodeGongEnumsIsExpanded = from.NodeGongEnumsIsExpanded
+	to.NodeGongNotesIsExpanded = from.NodeGongNotesIsExpanded
 }
 
 type DiagramPackage_WOP struct {
@@ -182,6 +184,7 @@ type NoteShape_WOP struct {
 	Width float64
 	Height float64
 	Matched bool
+	IsExpanded bool
 }
 
 func (from *NoteShape) CopyBasicFields(to *NoteShape) {
@@ -195,6 +198,7 @@ func (from *NoteShape) CopyBasicFields(to *NoteShape) {
 	to.Width = from.Width
 	to.Height = from.Height
 	to.Matched = from.Matched
+	to.IsExpanded = from.IsExpanded
 }
 
 type NoteShapeLink_WOP struct {
