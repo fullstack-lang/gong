@@ -49,6 +49,13 @@ type ValidationError struct {
 func registerControllers(r *gin.Engine) {
 	v1 := r.Group("/api/github.com/fullstack-lang/gong/lib/doc2/go")
 	{ // insertion point for registrations
+		v1.GET("/v1/attributeshapes", GetController().GetAttributeShapes)
+		v1.GET("/v1/attributeshapes/:id", GetController().GetAttributeShape)
+		v1.POST("/v1/attributeshapes", GetController().PostAttributeShape)
+		v1.PATCH("/v1/attributeshapes/:id", GetController().UpdateAttributeShape)
+		v1.PUT("/v1/attributeshapes/:id", GetController().UpdateAttributeShape)
+		v1.DELETE("/v1/attributeshapes/:id", GetController().DeleteAttributeShape)
+
 		v1.GET("/v1/classdiagrams", GetController().GetClassdiagrams)
 		v1.GET("/v1/classdiagrams/:id", GetController().GetClassdiagram)
 		v1.POST("/v1/classdiagrams", GetController().PostClassdiagram)
@@ -62,13 +69,6 @@ func registerControllers(r *gin.Engine) {
 		v1.PATCH("/v1/diagrampackages/:id", GetController().UpdateDiagramPackage)
 		v1.PUT("/v1/diagrampackages/:id", GetController().UpdateDiagramPackage)
 		v1.DELETE("/v1/diagrampackages/:id", GetController().DeleteDiagramPackage)
-
-		v1.GET("/v1/fieldshapes", GetController().GetFieldShapes)
-		v1.GET("/v1/fieldshapes/:id", GetController().GetFieldShape)
-		v1.POST("/v1/fieldshapes", GetController().PostFieldShape)
-		v1.PATCH("/v1/fieldshapes/:id", GetController().UpdateFieldShape)
-		v1.PUT("/v1/fieldshapes/:id", GetController().UpdateFieldShape)
-		v1.DELETE("/v1/fieldshapes/:id", GetController().DeleteFieldShape)
 
 		v1.GET("/v1/gongenumshapes", GetController().GetGongEnumShapes)
 		v1.GET("/v1/gongenumshapes/:id", GetController().GetGongEnumShape)

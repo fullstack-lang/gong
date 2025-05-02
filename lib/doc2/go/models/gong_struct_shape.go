@@ -23,7 +23,7 @@ type GongStructShape struct {
 	AttributeShapes []*AttributeShape
 
 	// models of the composition of Link
-	Links []*LinkShape
+	LinkShapes []*LinkShape
 
 	// with and height of the shape when they are rendered on SVG or with jointjs
 	// They are optional fields. they can be computed when empty

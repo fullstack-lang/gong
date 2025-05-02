@@ -42,9 +42,9 @@ func NewStackInstance(
 
 	// add orchestration
 	// insertion point
+	models.SetOrchestratorOnAfterUpdate[models.AttributeShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Classdiagram](stage)
 	models.SetOrchestratorOnAfterUpdate[models.DiagramPackage](stage)
-	models.SetOrchestratorOnAfterUpdate[models.AttributeShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongEnumShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongEnumValueEntry](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongStructShape](stage)

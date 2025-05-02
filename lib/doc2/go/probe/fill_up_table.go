@@ -19,12 +19,12 @@ func fillUpTablePointerToGongstruct[T models.PointerToGongstruct](
 	var typedInstance T
 	switch any(typedInstance).(type) {
 	// insertion point
+	case *models.AttributeShape:
+		fillUpTable[models.AttributeShape](probe)
 	case *models.Classdiagram:
 		fillUpTable[models.Classdiagram](probe)
 	case *models.DiagramPackage:
 		fillUpTable[models.DiagramPackage](probe)
-	case *models.AttributeShape:
-		fillUpTable[models.AttributeShape](probe)
 	case *models.GongEnumShape:
 		fillUpTable[models.GongEnumShape](probe)
 	case *models.GongEnumValueEntry:

@@ -14,16 +14,16 @@ import (
 )
 
 // declaration in order to justify use of the models import
-var __FieldShape__dummysDeclaration__ models.AttributeShape
-var __FieldShape_time__dummyDeclaration time.Duration
+var __AttributeShape__dummysDeclaration__ models.AttributeShape
+var __AttributeShape_time__dummyDeclaration time.Duration
 
-var mutexFieldShape sync.Mutex
+var mutexAttributeShape sync.Mutex
 
-// An FieldShapeID parameter model.
+// An AttributeShapeID parameter model.
 //
 // This is used for operations that want the ID of an order in the path
-// swagger:parameters getFieldShape updateFieldShape deleteFieldShape
-type FieldShapeID struct {
+// swagger:parameters getAttributeShape updateAttributeShape deleteAttributeShape
+type AttributeShapeID struct {
 	// The ID of the order
 	//
 	// in: path
@@ -31,29 +31,29 @@ type FieldShapeID struct {
 	ID int64
 }
 
-// FieldShapeInput is a schema that can validate the user’s
+// AttributeShapeInput is a schema that can validate the user’s
 // input to prevent us from getting invalid data
-// swagger:parameters postFieldShape updateFieldShape
-type FieldShapeInput struct {
-	// The FieldShape to submit or modify
+// swagger:parameters postAttributeShape updateAttributeShape
+type AttributeShapeInput struct {
+	// The AttributeShape to submit or modify
 	// in: body
-	FieldShape *orm.FieldShapeAPI
+	AttributeShape *orm.AttributeShapeAPI
 }
 
-// GetFieldShapes
+// GetAttributeShapes
 //
-// swagger:route GET /fieldshapes fieldshapes getFieldShapes
+// swagger:route GET /attributeshapes attributeshapes getAttributeShapes
 //
-// # Get all fieldshapes
+// # Get all attributeshapes
 //
 // Responses:
 // default: genericError
 //
-//	200: fieldshapeDBResponse
-func (controller *Controller) GetFieldShapes(c *gin.Context) {
+//	200: attributeshapeDBResponse
+func (controller *Controller) GetAttributeShapes(c *gin.Context) {
 
 	// source slice
-	var fieldshapeDBs []orm.FieldShapeDB
+	var attributeshapeDBs []orm.AttributeShapeDB
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -61,23 +61,23 @@ func (controller *Controller) GetFieldShapes(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetFieldShapes", "Name", stackPath)
+			// log.Println("GetAttributeShapes", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "GET Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-
+		
 		message += "Availabe stack names are:\n"
 		for k, _ := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-
+			
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoFieldShape.GetDB()
+	db := backRepo.BackRepoAttributeShape.GetDB()
 
-	_, err := db.Find(&fieldshapeDBs)
+	_, err := db.Find(&attributeshapeDBs)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -88,29 +88,29 @@ func (controller *Controller) GetFieldShapes(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	fieldshapeAPIs := make([]orm.FieldShapeAPI, 0)
+	attributeshapeAPIs := make([]orm.AttributeShapeAPI, 0)
 
-	// for each fieldshape, update fields from the database nullable fields
-	for idx := range fieldshapeDBs {
-		fieldshapeDB := &fieldshapeDBs[idx]
-		_ = fieldshapeDB
-		var fieldshapeAPI orm.FieldShapeAPI
+	// for each attributeshape, update fields from the database nullable fields
+	for idx := range attributeshapeDBs {
+		attributeshapeDB := &attributeshapeDBs[idx]
+		_ = attributeshapeDB
+		var attributeshapeAPI orm.AttributeShapeAPI
 
 		// insertion point for updating fields
-		fieldshapeAPI.ID = fieldshapeDB.ID
-		fieldshapeDB.CopyBasicFieldsToFieldShape_WOP(&fieldshapeAPI.FieldShape_WOP)
-		fieldshapeAPI.FieldShapePointersEncoding = fieldshapeDB.FieldShapePointersEncoding
-		fieldshapeAPIs = append(fieldshapeAPIs, fieldshapeAPI)
+		attributeshapeAPI.ID = attributeshapeDB.ID
+		attributeshapeDB.CopyBasicFieldsToAttributeShape_WOP(&attributeshapeAPI.AttributeShape_WOP)
+		attributeshapeAPI.AttributeShapePointersEncoding = attributeshapeDB.AttributeShapePointersEncoding
+		attributeshapeAPIs = append(attributeshapeAPIs, attributeshapeAPI)
 	}
 
-	c.JSON(http.StatusOK, fieldshapeAPIs)
+	c.JSON(http.StatusOK, attributeshapeAPIs)
 }
 
-// PostFieldShape
+// PostAttributeShape
 //
-// swagger:route POST /fieldshapes fieldshapes postFieldShape
+// swagger:route POST /attributeshapes attributeshapes postAttributeShape
 //
-// Creates a fieldshape
+// Creates a attributeshape
 //
 //	Consumes:
 //	- application/json
@@ -120,10 +120,10 @@ func (controller *Controller) GetFieldShapes(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostFieldShape(c *gin.Context) {
+func (controller *Controller) PostAttributeShape(c *gin.Context) {
 
-	mutexFieldShape.Lock()
-	defer mutexFieldShape.Unlock()
+	mutexAttributeShape.Lock()
+	defer mutexAttributeShape.Unlock()
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -131,24 +131,24 @@ func (controller *Controller) PostFieldShape(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("PostFieldShapes", "Name", stackPath)
+			// log.Println("PostAttributeShapes", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "Post Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-
+		
 		message += "Availabe stack names are:\n"
 		for k, _ := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-
+			
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoFieldShape.GetDB()
+	db := backRepo.BackRepoAttributeShape.GetDB()
 
 	// Validate input
-	var input orm.FieldShapeAPI
+	var input orm.AttributeShapeAPI
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -160,12 +160,12 @@ func (controller *Controller) PostFieldShape(c *gin.Context) {
 		return
 	}
 
-	// Create fieldshape
-	fieldshapeDB := orm.FieldShapeDB{}
-	fieldshapeDB.FieldShapePointersEncoding = input.FieldShapePointersEncoding
-	fieldshapeDB.CopyBasicFieldsFromFieldShape_WOP(&input.FieldShape_WOP)
+	// Create attributeshape
+	attributeshapeDB := orm.AttributeShapeDB{}
+	attributeshapeDB.AttributeShapePointersEncoding = input.AttributeShapePointersEncoding
+	attributeshapeDB.CopyBasicFieldsFromAttributeShape_WOP(&input.AttributeShape_WOP)
 
-	_, err = db.Create(&fieldshapeDB)
+	_, err = db.Create(&attributeshapeDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -176,31 +176,31 @@ func (controller *Controller) PostFieldShape(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	backRepo.BackRepoFieldShape.CheckoutPhaseOneInstance(&fieldshapeDB)
-	fieldshape := backRepo.BackRepoFieldShape.Map_FieldShapeDBID_FieldShapePtr[fieldshapeDB.ID]
+	backRepo.BackRepoAttributeShape.CheckoutPhaseOneInstance(&attributeshapeDB)
+	attributeshape := backRepo.BackRepoAttributeShape.Map_AttributeShapeDBID_AttributeShapePtr[attributeshapeDB.ID]
 
-	if fieldshape != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), fieldshape)
+	if attributeshape != nil {
+		models.AfterCreateFromFront(backRepo.GetStage(), attributeshape)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, fieldshapeDB)
+	c.JSON(http.StatusOK, attributeshapeDB)
 }
 
-// GetFieldShape
+// GetAttributeShape
 //
-// swagger:route GET /fieldshapes/{ID} fieldshapes getFieldShape
+// swagger:route GET /attributeshapes/{ID} attributeshapes getAttributeShape
 //
-// Gets the details for a fieldshape.
+// Gets the details for a attributeshape.
 //
 // Responses:
 // default: genericError
 //
-//	200: fieldshapeDBResponse
-func (controller *Controller) GetFieldShape(c *gin.Context) {
+//	200: attributeshapeDBResponse
+func (controller *Controller) GetAttributeShape(c *gin.Context) {
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -208,25 +208,25 @@ func (controller *Controller) GetFieldShape(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetFieldShape", "Name", stackPath)
+			// log.Println("GetAttributeShape", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-
+		
 		message += "Availabe stack names are:\n"
 		for k, _ := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-
+			
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoFieldShape.GetDB()
+	db := backRepo.BackRepoAttributeShape.GetDB()
 
-	// Get fieldshapeDB in DB
-	var fieldshapeDB orm.FieldShapeDB
-	if _, err := db.First(&fieldshapeDB, c.Param("id")); err != nil {
+	// Get attributeshapeDB in DB
+	var attributeshapeDB orm.AttributeShapeDB
+	if _, err := db.First(&attributeshapeDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -235,28 +235,28 @@ func (controller *Controller) GetFieldShape(c *gin.Context) {
 		return
 	}
 
-	var fieldshapeAPI orm.FieldShapeAPI
-	fieldshapeAPI.ID = fieldshapeDB.ID
-	fieldshapeAPI.FieldShapePointersEncoding = fieldshapeDB.FieldShapePointersEncoding
-	fieldshapeDB.CopyBasicFieldsToFieldShape_WOP(&fieldshapeAPI.FieldShape_WOP)
+	var attributeshapeAPI orm.AttributeShapeAPI
+	attributeshapeAPI.ID = attributeshapeDB.ID
+	attributeshapeAPI.AttributeShapePointersEncoding = attributeshapeDB.AttributeShapePointersEncoding
+	attributeshapeDB.CopyBasicFieldsToAttributeShape_WOP(&attributeshapeAPI.AttributeShape_WOP)
 
-	c.JSON(http.StatusOK, fieldshapeAPI)
+	c.JSON(http.StatusOK, attributeshapeAPI)
 }
 
-// UpdateFieldShape
+// UpdateAttributeShape
 //
-// swagger:route PATCH /fieldshapes/{ID} fieldshapes updateFieldShape
+// swagger:route PATCH /attributeshapes/{ID} attributeshapes updateAttributeShape
 //
-// # Update a fieldshape
+// # Update a attributeshape
 //
 // Responses:
 // default: genericError
 //
-//	200: fieldshapeDBResponse
-func (controller *Controller) UpdateFieldShape(c *gin.Context) {
+//	200: attributeshapeDBResponse
+func (controller *Controller) UpdateAttributeShape(c *gin.Context) {
 
-	mutexFieldShape.Lock()
-	defer mutexFieldShape.Unlock()
+	mutexAttributeShape.Lock()
+	defer mutexAttributeShape.Unlock()
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -264,24 +264,24 @@ func (controller *Controller) UpdateFieldShape(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("UpdateFieldShape", "Name", stackPath)
+			// log.Println("UpdateAttributeShape", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "PATCH Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-
+		
 		message += "Availabe stack names are:\n"
 		for k, _ := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-
+			
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoFieldShape.GetDB()
+	db := backRepo.BackRepoAttributeShape.GetDB()
 
 	// Validate input
-	var input orm.FieldShapeAPI
+	var input orm.AttributeShapeAPI
 	if err := c.ShouldBindJSON(&input); err != nil {
 		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -289,10 +289,10 @@ func (controller *Controller) UpdateFieldShape(c *gin.Context) {
 	}
 
 	// Get model if exist
-	var fieldshapeDB orm.FieldShapeDB
+	var attributeshapeDB orm.AttributeShapeDB
 
-	// fetch the fieldshape
-	_, err := db.First(&fieldshapeDB, c.Param("id"))
+	// fetch the attributeshape
+	_, err := db.First(&attributeshapeDB, c.Param("id"))
 
 	if err != nil {
 		var returnError GenericError
@@ -304,11 +304,11 @@ func (controller *Controller) UpdateFieldShape(c *gin.Context) {
 	}
 
 	// update
-	fieldshapeDB.CopyBasicFieldsFromFieldShape_WOP(&input.FieldShape_WOP)
-	fieldshapeDB.FieldShapePointersEncoding = input.FieldShapePointersEncoding
+	attributeshapeDB.CopyBasicFieldsFromAttributeShape_WOP(&input.AttributeShape_WOP)
+	attributeshapeDB.AttributeShapePointersEncoding = input.AttributeShapePointersEncoding
 
-	db, _ = db.Model(&fieldshapeDB)
-	_, err = db.Updates(&fieldshapeDB)
+	db, _ = db.Model(&attributeshapeDB)
+	_, err = db.Updates(&attributeshapeDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -319,16 +319,16 @@ func (controller *Controller) UpdateFieldShape(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	fieldshapeNew := new(models.AttributeShape)
-	fieldshapeDB.CopyBasicFieldsToFieldShape(fieldshapeNew)
+	attributeshapeNew := new(models.AttributeShape)
+	attributeshapeDB.CopyBasicFieldsToAttributeShape(attributeshapeNew)
 
 	// redeem pointers
-	fieldshapeDB.DecodePointers(backRepo, fieldshapeNew)
+	attributeshapeDB.DecodePointers(backRepo, attributeshapeNew)
 
 	// get stage instance from DB instance, and call callback function
-	fieldshapeOld := backRepo.BackRepoFieldShape.Map_FieldShapeDBID_FieldShapePtr[fieldshapeDB.ID]
-	if fieldshapeOld != nil {
-		models.AfterUpdateFromFront(backRepo.GetStage(), fieldshapeOld, fieldshapeNew)
+	attributeshapeOld := backRepo.BackRepoAttributeShape.Map_AttributeShapeDBID_AttributeShapePtr[attributeshapeDB.ID]
+	if attributeshapeOld != nil {
+		models.AfterUpdateFromFront(backRepo.GetStage(), attributeshapeOld, attributeshapeNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -337,23 +337,23 @@ func (controller *Controller) UpdateFieldShape(c *gin.Context) {
 	// generates a checkout
 	backRepo.IncrementPushFromFrontNb()
 
-	// return status OK with the marshalling of the the fieldshapeDB
-	c.JSON(http.StatusOK, fieldshapeDB)
+	// return status OK with the marshalling of the the attributeshapeDB
+	c.JSON(http.StatusOK, attributeshapeDB)
 }
 
-// DeleteFieldShape
+// DeleteAttributeShape
 //
-// swagger:route DELETE /fieldshapes/{ID} fieldshapes deleteFieldShape
+// swagger:route DELETE /attributeshapes/{ID} attributeshapes deleteAttributeShape
 //
-// # Delete a fieldshape
+// # Delete a attributeshape
 //
 // default: genericError
 //
-//	200: fieldshapeDBResponse
-func (controller *Controller) DeleteFieldShape(c *gin.Context) {
+//	200: attributeshapeDBResponse
+func (controller *Controller) DeleteAttributeShape(c *gin.Context) {
 
-	mutexFieldShape.Lock()
-	defer mutexFieldShape.Unlock()
+	mutexAttributeShape.Lock()
+	defer mutexAttributeShape.Unlock()
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -361,25 +361,25 @@ func (controller *Controller) DeleteFieldShape(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("DeleteFieldShape", "Name", stackPath)
+			// log.Println("DeleteAttributeShape", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "DELETE Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-
+		
 		message += "Availabe stack names are:\n"
 		for k, _ := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-
+			
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoFieldShape.GetDB()
+	db := backRepo.BackRepoAttributeShape.GetDB()
 
 	// Get model if exist
-	var fieldshapeDB orm.FieldShapeDB
-	if _, err := db.First(&fieldshapeDB, c.Param("id")); err != nil {
+	var attributeshapeDB orm.AttributeShapeDB
+	if _, err := db.First(&attributeshapeDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -390,16 +390,16 @@ func (controller *Controller) DeleteFieldShape(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped()
-	db.Delete(&fieldshapeDB)
+	db.Delete(&attributeshapeDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
-	fieldshapeDeleted := new(models.AttributeShape)
-	fieldshapeDB.CopyBasicFieldsToFieldShape(fieldshapeDeleted)
+	attributeshapeDeleted := new(models.AttributeShape)
+	attributeshapeDB.CopyBasicFieldsToAttributeShape(attributeshapeDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	fieldshapeStaged := backRepo.BackRepoFieldShape.Map_FieldShapeDBID_FieldShapePtr[fieldshapeDB.ID]
-	if fieldshapeStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), fieldshapeStaged, fieldshapeDeleted)
+	attributeshapeStaged := backRepo.BackRepoAttributeShape.Map_AttributeShapeDBID_AttributeShapePtr[attributeshapeDB.ID]
+	if attributeshapeStaged != nil {
+		models.AfterDeleteFromFront(backRepo.GetStage(), attributeshapeStaged, attributeshapeDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

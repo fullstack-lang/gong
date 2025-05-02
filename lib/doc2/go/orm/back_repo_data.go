@@ -4,11 +4,11 @@ package orm
 type BackRepoData struct {
 	// insertion point for slices
 
+	AttributeShapeAPIs []*AttributeShapeAPI
+
 	ClassdiagramAPIs []*ClassdiagramAPI
 
 	DiagramPackageAPIs []*DiagramPackageAPI
-
-	FieldShapeAPIs []*FieldShapeAPI
 
 	GongEnumShapeAPIs []*GongEnumShapeAPI
 
@@ -41,6 +41,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 	defer backRepo.rwMutex.RUnlock()
 
 	// insertion point for slices copies
+	for _, attributeshapeDB := range backRepo.BackRepoAttributeShape.Map_AttributeShapeDBID_AttributeShapeDB {
+
+		var attributeshapeAPI AttributeShapeAPI
+		attributeshapeAPI.ID = attributeshapeDB.ID
+		attributeshapeAPI.AttributeShapePointersEncoding = attributeshapeDB.AttributeShapePointersEncoding
+		attributeshapeDB.CopyBasicFieldsToAttributeShape_WOP(&attributeshapeAPI.AttributeShape_WOP)
+
+		backRepoData.AttributeShapeAPIs = append(backRepoData.AttributeShapeAPIs, &attributeshapeAPI)
+	}
+
 	for _, classdiagramDB := range backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramDB {
 
 		var classdiagramAPI ClassdiagramAPI
@@ -59,16 +69,6 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		diagrampackageDB.CopyBasicFieldsToDiagramPackage_WOP(&diagrampackageAPI.DiagramPackage_WOP)
 
 		backRepoData.DiagramPackageAPIs = append(backRepoData.DiagramPackageAPIs, &diagrampackageAPI)
-	}
-
-	for _, fieldshapeDB := range backRepo.BackRepoFieldShape.Map_FieldShapeDBID_FieldShapeDB {
-
-		var fieldshapeAPI FieldShapeAPI
-		fieldshapeAPI.ID = fieldshapeDB.ID
-		fieldshapeAPI.FieldShapePointersEncoding = fieldshapeDB.FieldShapePointersEncoding
-		fieldshapeDB.CopyBasicFieldsToFieldShape_WOP(&fieldshapeAPI.FieldShape_WOP)
-
-		backRepoData.FieldShapeAPIs = append(backRepoData.FieldShapeAPIs, &fieldshapeAPI)
 	}
 
 	for _, gongenumshapeDB := range backRepo.BackRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapeDB {
