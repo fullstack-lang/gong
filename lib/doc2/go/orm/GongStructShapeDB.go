@@ -52,8 +52,8 @@ type GongStructShapePointersEncoding struct {
 	// This field is generated into another field to enable AS ONE association
 	PositionID sql.NullInt64
 
-	// field Fields is a slice of pointers to another Struct (optional or 0..1)
-	Fields IntSlice `gorm:"type:TEXT"`
+	// field FieldShapes is a slice of pointers to another Struct (optional or 0..1)
+	FieldShapes IntSlice `gorm:"type:TEXT"`
 
 	// field Links is a slice of pointers to another Struct (optional or 0..1)
 	Links IntSlice `gorm:"type:TEXT"`
@@ -291,39 +291,39 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CommitPhaseTwoInst
 		}
 
 		// 1. reset
-		gongstructshapeDB.GongStructShapePointersEncoding.Fields = make([]int, 0)
+		gongstructshapeDB.GongStructShapePointersEncoding.FieldShapes = make([]int, 0)
 		// 2. encode
-		for _, fieldAssocEnd := range gongstructshape.FieldShapes {
-			fieldAssocEnd_DB :=
-				backRepo.BackRepoField.GetFieldDBFromFieldPtr(fieldAssocEnd)
+		for _, fieldshapeAssocEnd := range gongstructshape.AttributeShapes {
+			fieldshapeAssocEnd_DB :=
+				backRepo.BackRepoFieldShape.GetFieldShapeDBFromFieldShapePtr(fieldshapeAssocEnd)
 
-			// the stage might be inconsistant, meaning that the fieldAssocEnd_DB might
+			// the stage might be inconsistant, meaning that the fieldshapeAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
-			if fieldAssocEnd_DB == nil {
+			if fieldshapeAssocEnd_DB == nil {
 				continue
 			}
 
-			gongstructshapeDB.GongStructShapePointersEncoding.Fields =
-				append(gongstructshapeDB.GongStructShapePointersEncoding.Fields, int(fieldAssocEnd_DB.ID))
+			gongstructshapeDB.GongStructShapePointersEncoding.FieldShapes =
+				append(gongstructshapeDB.GongStructShapePointersEncoding.FieldShapes, int(fieldshapeAssocEnd_DB.ID))
 		}
 
 		// 1. reset
 		gongstructshapeDB.GongStructShapePointersEncoding.Links = make([]int, 0)
 		// 2. encode
-		for _, linkAssocEnd := range gongstructshape.Links {
-			linkAssocEnd_DB :=
-				backRepo.BackRepoLink.GetLinkDBFromLinkPtr(linkAssocEnd)
+		for _, linkshapeAssocEnd := range gongstructshape.Links {
+			linkshapeAssocEnd_DB :=
+				backRepo.BackRepoLinkShape.GetLinkShapeDBFromLinkShapePtr(linkshapeAssocEnd)
 
-			// the stage might be inconsistant, meaning that the linkAssocEnd_DB might
+			// the stage might be inconsistant, meaning that the linkshapeAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
-			if linkAssocEnd_DB == nil {
+			if linkshapeAssocEnd_DB == nil {
 				continue
 			}
 
 			gongstructshapeDB.GongStructShapePointersEncoding.Links =
-				append(gongstructshapeDB.GongStructShapePointersEncoding.Links, int(linkAssocEnd_DB.ID))
+				append(gongstructshapeDB.GongStructShapePointersEncoding.Links, int(linkshapeAssocEnd_DB.ID))
 		}
 
 		_, err := backRepoGongStructShape.db.Save(gongstructshapeDB)
@@ -460,22 +460,22 @@ func (gongstructshapeDB *GongStructShapeDB) DecodePointers(backRepo *BackRepoStr
 		}
 	}
 
-	// This loop redeem gongstructshape.Fields in the stage from the encode in the back repo
-	// It parses all FieldDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// This loop redeem gongstructshape.FieldShapes in the stage from the encode in the back repo
+	// It parses all FieldShapeDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
-	gongstructshape.FieldShapes = gongstructshape.FieldShapes[:0]
-	for _, _Fieldid := range gongstructshapeDB.GongStructShapePointersEncoding.Fields {
-		gongstructshape.FieldShapes = append(gongstructshape.FieldShapes, backRepo.BackRepoField.Map_FieldDBID_FieldPtr[uint(_Fieldid)])
+	gongstructshape.AttributeShapes = gongstructshape.AttributeShapes[:0]
+	for _, _FieldShapeid := range gongstructshapeDB.GongStructShapePointersEncoding.FieldShapes {
+		gongstructshape.AttributeShapes = append(gongstructshape.AttributeShapes, backRepo.BackRepoFieldShape.Map_FieldShapeDBID_FieldShapePtr[uint(_FieldShapeid)])
 	}
 
 	// This loop redeem gongstructshape.Links in the stage from the encode in the back repo
-	// It parses all LinkDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// It parses all LinkShapeDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
 	gongstructshape.Links = gongstructshape.Links[:0]
-	for _, _Linkid := range gongstructshapeDB.GongStructShapePointersEncoding.Links {
-		gongstructshape.Links = append(gongstructshape.Links, backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[uint(_Linkid)])
+	for _, _LinkShapeid := range gongstructshapeDB.GongStructShapePointersEncoding.Links {
+		gongstructshape.Links = append(gongstructshape.Links, backRepo.BackRepoLinkShape.Map_LinkShapeDBID_LinkShapePtr[uint(_LinkShapeid)])
 	}
 
 	return

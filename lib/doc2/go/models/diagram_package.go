@@ -149,7 +149,7 @@ func (diagramPackage *DiagramPackage) UnmarshallOneDiagram(stage *Stage, diagram
 
 		// legacy diagram file may have Fieldtypename without the ident `Point`
 		// the following will turn it into `ref_models.Point`
-		for link := range *GetGongstructInstancesSet[Link](stage) {
+		for link := range *GetGongstructInstancesSet[LinkShape](stage) {
 
 			if !strings.ContainsAny(link.Fieldtypename, ".") {
 				link.Fieldtypename = GongStructNameToIdentifier(link.Fieldtypename)

@@ -23,9 +23,9 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		diagrampackageInstance := any(concreteInstance).(*models.DiagramPackage)
 		ret2 := backRepo.BackRepoDiagramPackage.GetDiagramPackageDBFromDiagramPackagePtr(diagrampackageInstance)
 		ret = any(ret2).(*T2)
-	case *models.FieldShape:
-		fieldInstance := any(concreteInstance).(*models.FieldShape)
-		ret2 := backRepo.BackRepoField.GetFieldDBFromFieldPtr(fieldInstance)
+	case *models.AttributeShape:
+		fieldshapeInstance := any(concreteInstance).(*models.AttributeShape)
+		ret2 := backRepo.BackRepoFieldShape.GetFieldShapeDBFromFieldShapePtr(fieldshapeInstance)
 		ret = any(ret2).(*T2)
 	case *models.GongEnumShape:
 		gongenumshapeInstance := any(concreteInstance).(*models.GongEnumShape)
@@ -39,9 +39,9 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		gongstructshapeInstance := any(concreteInstance).(*models.GongStructShape)
 		ret2 := backRepo.BackRepoGongStructShape.GetGongStructShapeDBFromGongStructShapePtr(gongstructshapeInstance)
 		ret = any(ret2).(*T2)
-	case *models.Link:
-		linkInstance := any(concreteInstance).(*models.Link)
-		ret2 := backRepo.BackRepoLink.GetLinkDBFromLinkPtr(linkInstance)
+	case *models.LinkShape:
+		linkshapeInstance := any(concreteInstance).(*models.LinkShape)
+		ret2 := backRepo.BackRepoLinkShape.GetLinkShapeDBFromLinkShapePtr(linkshapeInstance)
 		ret = any(ret2).(*T2)
 	case *models.NoteShape:
 		noteshapeInstance := any(concreteInstance).(*models.NoteShape)
@@ -90,8 +90,8 @@ func GetID[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
-	case *models.FieldShape:
-		tmp := GetInstanceDBFromInstance[models.FieldShape, FieldDB](
+	case *models.AttributeShape:
+		tmp := GetInstanceDBFromInstance[models.AttributeShape, FieldShapeDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -110,8 +110,8 @@ func GetID[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
-	case *models.Link:
-		tmp := GetInstanceDBFromInstance[models.Link, LinkDB](
+	case *models.LinkShape:
+		tmp := GetInstanceDBFromInstance[models.LinkShape, LinkShapeDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -168,8 +168,8 @@ func GetIDPointer[T models.PointerToGongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
-	case *models.FieldShape:
-		tmp := GetInstanceDBFromInstance[models.FieldShape, FieldDB](
+	case *models.AttributeShape:
+		tmp := GetInstanceDBFromInstance[models.AttributeShape, FieldShapeDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -188,8 +188,8 @@ func GetIDPointer[T models.PointerToGongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
-	case *models.Link:
-		tmp := GetInstanceDBFromInstance[models.Link, LinkDB](
+	case *models.LinkShape:
+		tmp := GetInstanceDBFromInstance[models.LinkShape, LinkShapeDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

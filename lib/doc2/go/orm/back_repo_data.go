@@ -8,7 +8,7 @@ type BackRepoData struct {
 
 	DiagramPackageAPIs []*DiagramPackageAPI
 
-	FieldAPIs []*FieldAPI
+	FieldShapeAPIs []*FieldShapeAPI
 
 	GongEnumShapeAPIs []*GongEnumShapeAPI
 
@@ -16,7 +16,7 @@ type BackRepoData struct {
 
 	GongStructShapeAPIs []*GongStructShapeAPI
 
-	LinkAPIs []*LinkAPI
+	LinkShapeAPIs []*LinkShapeAPI
 
 	NoteShapeAPIs []*NoteShapeAPI
 
@@ -61,14 +61,14 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		backRepoData.DiagramPackageAPIs = append(backRepoData.DiagramPackageAPIs, &diagrampackageAPI)
 	}
 
-	for _, fieldDB := range backRepo.BackRepoField.Map_FieldDBID_FieldDB {
+	for _, fieldshapeDB := range backRepo.BackRepoFieldShape.Map_FieldShapeDBID_FieldShapeDB {
 
-		var fieldAPI FieldAPI
-		fieldAPI.ID = fieldDB.ID
-		fieldAPI.FieldPointersEncoding = fieldDB.FieldPointersEncoding
-		fieldDB.CopyBasicFieldsToField_WOP(&fieldAPI.Field_WOP)
+		var fieldshapeAPI FieldShapeAPI
+		fieldshapeAPI.ID = fieldshapeDB.ID
+		fieldshapeAPI.FieldShapePointersEncoding = fieldshapeDB.FieldShapePointersEncoding
+		fieldshapeDB.CopyBasicFieldsToFieldShape_WOP(&fieldshapeAPI.FieldShape_WOP)
 
-		backRepoData.FieldAPIs = append(backRepoData.FieldAPIs, &fieldAPI)
+		backRepoData.FieldShapeAPIs = append(backRepoData.FieldShapeAPIs, &fieldshapeAPI)
 	}
 
 	for _, gongenumshapeDB := range backRepo.BackRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapeDB {
@@ -101,14 +101,14 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		backRepoData.GongStructShapeAPIs = append(backRepoData.GongStructShapeAPIs, &gongstructshapeAPI)
 	}
 
-	for _, linkDB := range backRepo.BackRepoLink.Map_LinkDBID_LinkDB {
+	for _, linkshapeDB := range backRepo.BackRepoLinkShape.Map_LinkShapeDBID_LinkShapeDB {
 
-		var linkAPI LinkAPI
-		linkAPI.ID = linkDB.ID
-		linkAPI.LinkPointersEncoding = linkDB.LinkPointersEncoding
-		linkDB.CopyBasicFieldsToLink_WOP(&linkAPI.Link_WOP)
+		var linkshapeAPI LinkShapeAPI
+		linkshapeAPI.ID = linkshapeDB.ID
+		linkshapeAPI.LinkShapePointersEncoding = linkshapeDB.LinkShapePointersEncoding
+		linkshapeDB.CopyBasicFieldsToLinkShape_WOP(&linkshapeAPI.LinkShape_WOP)
 
-		backRepoData.LinkAPIs = append(backRepoData.LinkAPIs, &linkAPI)
+		backRepoData.LinkShapeAPIs = append(backRepoData.LinkShapeAPIs, &linkshapeAPI)
 	}
 
 	for _, noteshapeDB := range backRepo.BackRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB {

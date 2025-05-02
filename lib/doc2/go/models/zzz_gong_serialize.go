@@ -18,11 +18,11 @@ func SerializeStage(stage *Stage, filename string) {
 		// insertion point
 		SerializeExcelizePointerToGongstruct[*Classdiagram](stage, f)
 		SerializeExcelizePointerToGongstruct[*DiagramPackage](stage, f)
-		SerializeExcelizePointerToGongstruct[*FieldShape](stage, f)
+		SerializeExcelizePointerToGongstruct[*AttributeShape](stage, f)
 		SerializeExcelizePointerToGongstruct[*GongEnumShape](stage, f)
 		SerializeExcelizePointerToGongstruct[*GongEnumValueEntry](stage, f)
 		SerializeExcelizePointerToGongstruct[*GongStructShape](stage, f)
-		SerializeExcelizePointerToGongstruct[*Link](stage, f)
+		SerializeExcelizePointerToGongstruct[*LinkShape](stage, f)
 		SerializeExcelizePointerToGongstruct[*NoteShape](stage, f)
 		SerializeExcelizePointerToGongstruct[*NoteShapeLink](stage, f)
 		SerializeExcelizePointerToGongstruct[*Position](stage, f)

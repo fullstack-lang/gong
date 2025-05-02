@@ -41,7 +41,7 @@ func (from *DiagramPackage) CopyBasicFields(to *DiagramPackage) {
 	to.AbsolutePathToDiagramPackage = from.AbsolutePathToDiagramPackage
 }
 
-type Field_WOP struct {
+type FieldShape_WOP struct {
 	// insertion point
 	Name              string
 	Identifier        string
@@ -50,7 +50,7 @@ type Field_WOP struct {
 	Fieldtypename     string
 }
 
-func (from *FieldShape) CopyBasicFields(to *FieldShape) {
+func (from *AttributeShape) CopyBasicFields(to *AttributeShape) {
 	// insertion point
 	to.Name = from.Name
 	to.Identifier = from.Identifier
@@ -111,7 +111,7 @@ func (from *GongStructShape) CopyBasicFields(to *GongStructShape) {
 	to.IsExpanded = from.IsExpanded
 }
 
-type Link_WOP struct {
+type LinkShape_WOP struct {
 	// insertion point
 	Name                      string
 	Identifier                string
@@ -131,7 +131,7 @@ type Link_WOP struct {
 	CornerOffsetRatio         float64
 }
 
-func (from *Link) CopyBasicFields(to *Link) {
+func (from *LinkShape) CopyBasicFields(to *LinkShape) {
 	// insertion point
 	to.Name = from.Name
 	to.Identifier = from.Identifier

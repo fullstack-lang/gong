@@ -1,10 +1,10 @@
 package models
 
-// Link represent the UML Link in any diagram
+// LinkShape represent the UML LinkShape in any diagram
 // uni-directional https://en.wikipedia.org/wiki/Association_(object-oriented_programming)
 // More specificaly It is a 0..1 ---> 0..1
-// swagger:model Link
-type Link struct {
+// swagger:model LinkShape
+type LinkShape struct {
 	Name string
 
 	// Identifier is the identifier of the struct field referenced by the
