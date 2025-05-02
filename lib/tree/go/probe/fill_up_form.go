@@ -67,6 +67,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsCheckboxDisabled", instanceWithInferedType.IsCheckboxDisabled, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("CheckboxHasToolTip", instanceWithInferedType.CheckboxHasToolTip, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("CheckboxToolTipText", instanceWithInferedType.CheckboxToolTipText, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		EnumTypeStringToForm("CheckboxToolTipPosition", instanceWithInferedType.CheckboxToolTipPosition, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("HasSecondCheckboxButton", instanceWithInferedType.HasSecondCheckboxButton, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsSecondCheckboxChecked", instanceWithInferedType.IsSecondCheckboxChecked, instanceWithInferedType, probe.formStage, formGroup,
