@@ -305,6 +305,14 @@ func (proxy *ClassDiagramNodeProxy) OnAfterUpdate(
 
 		proxy.stager.stage.Commit()
 	}
+
+	if front.Name != staged.Name {
+		proxy.classDiagram.Name = front.Name
+		proxy.classDiagram.IsInRenameMode = false
+
+		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.stage.Commit()
+	}
 }
 
 type ClassDiagramGongstructsNodeProxy struct {

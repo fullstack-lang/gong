@@ -98,12 +98,12 @@ func (proxy *ClassDiagramButtonProxy) ButtonUpdated(
 		proxy.stager.UpdateAndCommitTreeStage()
 		proxy.stager.stage.Commit()
 
-		// case SAVE:
-		// 	map_ModelNode_Shape := proxy.portfolioDiagramNode.SaveDiagram()
+	case SAVE:
+		proxy.classdiagram.IsInRenameMode = false
+		proxy.classdiagram.Name = front.GetName()
 
-		// 	proxy.diagrammer.generatePortfolioNodesStatusAndButtons()
-		// 	proxy.diagrammer.computeModelNodeStatus(map_ModelNode_Shape)
-		// 	proxy.stager.treeStage.Commit()
+		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.stage.Commit()
 
 	}
 
