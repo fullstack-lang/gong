@@ -231,7 +231,7 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
     
     this.gongtreeNodeService.updateFront(node.gongNode, this.Name).subscribe(
       gongtreeNode => {
-        // Success
+        console.log("updated")
       }
     )
   }
