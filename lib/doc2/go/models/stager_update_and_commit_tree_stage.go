@@ -48,6 +48,19 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			classDiagram: classDiagram,
 		}
 
+		nodeClassdiagram.Buttons = append(nodeClassdiagram.Buttons,
+			&tree.Button{
+				Name: classDiagram.GetName() + " " + string(buttons.BUTTON_delete),
+				Icon: string(buttons.BUTTON_delete),
+				Impl: NewClassDiagramButtonProxy(
+					stager,
+					classDiagram,
+					nodeClassdiagram,
+					REMOVE,
+				),
+			},
+		)
+
 		root.Children = append(root.Children, nodeClassdiagram)
 
 		// if diagramPackage.SelectedClassdiagram != classDiagram {
