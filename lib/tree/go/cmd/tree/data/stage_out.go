@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/tree/go/models"
+
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -136,7 +137,7 @@ func _(stage *models.Stage) {
 
 	__Node__000003_root3.Name = `root3`
 	__Node__000003_root3.BackgroundColor = ``
-	__Node__000003_root3.IsExpanded = false
+	__Node__000003_root3.IsExpanded = true
 	__Node__000003_root3.HasCheckboxButton = false
 	__Node__000003_root3.IsChecked = false
 	__Node__000003_root3.IsCheckboxDisabled = false
@@ -197,9 +198,9 @@ func _(stage *models.Stage) {
 	__Node__000007_test_1_3.Name = `test 1.3`
 	__Node__000007_test_1_3.FontStyle = models.ITALIC
 	__Node__000007_test_1_3.BackgroundColor = `yellow`
-	__Node__000007_test_1_3.IsExpanded = false
+	__Node__000007_test_1_3.IsExpanded = true
 	__Node__000007_test_1_3.HasCheckboxButton = false
-	__Node__000007_test_1_3.IsChecked = true
+	__Node__000007_test_1_3.IsChecked = false
 	__Node__000007_test_1_3.IsCheckboxDisabled = false
 	__Node__000007_test_1_3.HasSecondCheckboxButton = false
 	__Node__000007_test_1_3.IsSecondCheckboxChecked = false

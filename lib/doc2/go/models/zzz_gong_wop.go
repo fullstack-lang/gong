@@ -29,6 +29,7 @@ type Classdiagram_WOP struct {
 	// insertion point
 	Name string
 	IsInDrawMode bool
+	IsInRenameMode bool
 	IsExpanded bool
 	NodeNamedStructsIsExpanded bool
 	NodeGongEnumsIsExpanded bool
@@ -38,6 +39,7 @@ func (from *Classdiagram) CopyBasicFields(to *Classdiagram) {
 	// insertion point
 	to.Name = from.Name
 	to.IsInDrawMode = from.IsInDrawMode
+	to.IsInRenameMode = from.IsInRenameMode
 	to.IsExpanded = from.IsExpanded
 	to.NodeNamedStructsIsExpanded = from.NodeNamedStructsIsExpanded
 	to.NodeGongEnumsIsExpanded = from.NodeGongEnumsIsExpanded

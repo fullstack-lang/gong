@@ -2,6 +2,140 @@
 package models
 
 // insertion point of enum utility functions
+// Utility function for ButtonType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (buttontype ButtonType) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch buttontype {
+	// insertion code per enum code
+	case DUPLICATE:
+		res = 0
+	case EDIT_CANCEL:
+		res = 1
+	case EDIT:
+		res = 2
+	case REMOVE:
+		res = 3
+	case RENAME_CANCEL:
+		res = 4
+	case RENAME:
+		res = 5
+	case SAVE:
+		res = 6
+	}
+	return
+}
+
+func (buttontype *ButtonType) FromInt(input int) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*buttontype = DUPLICATE
+		return
+	case 1:
+		*buttontype = EDIT_CANCEL
+		return
+	case 2:
+		*buttontype = EDIT
+		return
+	case 3:
+		*buttontype = REMOVE
+		return
+	case 4:
+		*buttontype = RENAME_CANCEL
+		return
+	case 5:
+		*buttontype = RENAME
+		return
+	case 6:
+		*buttontype = SAVE
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (buttontype *ButtonType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "DUPLICATE":
+		*buttontype = DUPLICATE
+	case "EDIT_CANCEL":
+		*buttontype = EDIT_CANCEL
+	case "EDIT":
+		*buttontype = EDIT
+	case "REMOVE":
+		*buttontype = REMOVE
+	case "RENAME_CANCEL":
+		*buttontype = RENAME_CANCEL
+	case "RENAME":
+		*buttontype = RENAME
+	case "SAVE":
+		*buttontype = SAVE
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (buttontype *ButtonType) ToCodeString() (res string) {
+
+	switch *buttontype {
+	// insertion code per enum code
+	case DUPLICATE:
+		res = "DUPLICATE"
+	case EDIT_CANCEL:
+		res = "EDIT_CANCEL"
+	case EDIT:
+		res = "EDIT"
+	case REMOVE:
+		res = "REMOVE"
+	case RENAME_CANCEL:
+		res = "RENAME_CANCEL"
+	case RENAME:
+		res = "RENAME"
+	case SAVE:
+		res = "SAVE"
+	}
+	return
+}
+
+func (buttontype ButtonType) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "DUPLICATE")
+	res = append(res, "EDIT_CANCEL")
+	res = append(res, "EDIT")
+	res = append(res, "REMOVE")
+	res = append(res, "RENAME_CANCEL")
+	res = append(res, "RENAME")
+	res = append(res, "SAVE")
+
+	return
+}
+
+func (buttontype ButtonType) CodeValues() (res []int) {
+
+	res = make([]int, 0)
+
+	// insertion code per enum code
+	res = append(res, 0)
+	res = append(res, 1)
+	res = append(res, 2)
+	res = append(res, 3)
+	res = append(res, 4)
+	res = append(res, 5)
+	res = append(res, 6)
+
+	return
+}
+
 // Utility function for GongEnumShapeType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -421,13 +555,13 @@ type PointerToGongstructEnumStringField interface {
 }
 
 type GongstructEnumIntField interface {
-	int | GongEnumShapeType
+	int | ButtonType | GongEnumShapeType
 	Codes() []string
 	CodeValues() []int
 }
 
 type PointerToGongstructEnumIntField interface {
-	*GongEnumShapeType
+	*ButtonType | *GongEnumShapeType
 	FromCodeString(input string) (err error)
 }
 
