@@ -103,8 +103,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	DiagramPackage_Classdiagrams_reverseMap map[*Classdiagram]*DiagramPackage
 
-	DiagramPackage_Umlscs_reverseMap map[*Umlsc]*DiagramPackage
-
 	OnAfterDiagramPackageCreateCallback OnAfterCreateInterface[DiagramPackage]
 	OnAfterDiagramPackageUpdateCallback OnAfterUpdateInterface[DiagramPackage]
 	OnAfterDiagramPackageDeleteCallback OnAfterDeleteInterface[DiagramPackage]
@@ -172,26 +170,6 @@ type Stage struct {
 	OnAfterNoteShapeLinkDeleteCallback OnAfterDeleteInterface[NoteShapeLink]
 	OnAfterNoteShapeLinkReadCallback   OnAfterReadInterface[NoteShapeLink]
 
-	UmlStates           map[*UmlState]any
-	UmlStates_mapString map[string]*UmlState
-
-	// insertion point for slice of pointers maps
-	OnAfterUmlStateCreateCallback OnAfterCreateInterface[UmlState]
-	OnAfterUmlStateUpdateCallback OnAfterUpdateInterface[UmlState]
-	OnAfterUmlStateDeleteCallback OnAfterDeleteInterface[UmlState]
-	OnAfterUmlStateReadCallback   OnAfterReadInterface[UmlState]
-
-	Umlscs           map[*Umlsc]any
-	Umlscs_mapString map[string]*Umlsc
-
-	// insertion point for slice of pointers maps
-	Umlsc_States_reverseMap map[*UmlState]*Umlsc
-
-	OnAfterUmlscCreateCallback OnAfterCreateInterface[Umlsc]
-	OnAfterUmlscUpdateCallback OnAfterUpdateInterface[Umlsc]
-	OnAfterUmlscDeleteCallback OnAfterDeleteInterface[Umlsc]
-	OnAfterUmlscReadCallback   OnAfterReadInterface[Umlsc]
-
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
@@ -244,12 +222,6 @@ type Stage struct {
 
 	NoteShapeLinkOrder            uint
 	NoteShapeLinkMap_Staged_Order map[*NoteShapeLink]uint
-
-	UmlStateOrder            uint
-	UmlStateMap_Staged_Order map[*UmlState]uint
-
-	UmlscOrder            uint
-	UmlscMap_Staged_Order map[*Umlsc]uint
 
 	// end of insertion point
 
@@ -312,10 +284,6 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 			res = GetNamedStructInstances(stage.NoteShapes, stage.NoteShapeMap_Staged_Order)
 		case "NoteShapeLink":
 			res = GetNamedStructInstances(stage.NoteShapeLinks, stage.NoteShapeLinkMap_Staged_Order)
-		case "UmlState":
-			res = GetNamedStructInstances(stage.UmlStates, stage.UmlStateMap_Staged_Order)
-		case "Umlsc":
-			res = GetNamedStructInstances(stage.Umlscs, stage.UmlscMap_Staged_Order)
 	}
 
 	return
@@ -404,10 +372,6 @@ type BackRepoInterface interface {
 	CheckoutNoteShape(noteshape *NoteShape)
 	CommitNoteShapeLink(noteshapelink *NoteShapeLink)
 	CheckoutNoteShapeLink(noteshapelink *NoteShapeLink)
-	CommitUmlState(umlstate *UmlState)
-	CheckoutUmlState(umlstate *UmlState)
-	CommitUmlsc(umlsc *Umlsc)
-	CheckoutUmlsc(umlsc *Umlsc)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -442,12 +406,6 @@ func NewStage(name string) (stage *Stage) {
 		NoteShapeLinks:           make(map[*NoteShapeLink]any),
 		NoteShapeLinks_mapString: make(map[string]*NoteShapeLink),
 
-		UmlStates:           make(map[*UmlState]any),
-		UmlStates_mapString: make(map[string]*UmlState),
-
-		Umlscs:           make(map[*Umlsc]any),
-		Umlscs_mapString: make(map[string]*Umlsc),
-
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
 
@@ -476,10 +434,6 @@ func NewStage(name string) (stage *Stage) {
 
 		NoteShapeLinkMap_Staged_Order: make(map[*NoteShapeLink]uint),
 
-		UmlStateMap_Staged_Order: make(map[*UmlState]uint),
-
-		UmlscMap_Staged_Order: make(map[*Umlsc]uint),
-
 		// end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
@@ -492,8 +446,6 @@ func NewStage(name string) (stage *Stage) {
 			&NamedStruct{name: "LinkShape"},
 			&NamedStruct{name: "NoteShape"},
 			&NamedStruct{name: "NoteShapeLink"},
-			&NamedStruct{name: "UmlState"},
-			&NamedStruct{name: "Umlsc"},
 		}, // end of insertion point
 	}
 
@@ -522,10 +474,6 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.NoteShapeMap_Staged_Order[instance]
 	case *NoteShapeLink:
 		return stage.NoteShapeLinkMap_Staged_Order[instance]
-	case *UmlState:
-		return stage.UmlStateMap_Staged_Order[instance]
-	case *Umlsc:
-		return stage.UmlscMap_Staged_Order[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -560,8 +508,6 @@ func (stage *Stage) Commit() {
 	stage.Map_GongStructName_InstancesNb["LinkShape"] = len(stage.LinkShapes)
 	stage.Map_GongStructName_InstancesNb["NoteShape"] = len(stage.NoteShapes)
 	stage.Map_GongStructName_InstancesNb["NoteShapeLink"] = len(stage.NoteShapeLinks)
-	stage.Map_GongStructName_InstancesNb["UmlState"] = len(stage.UmlStates)
-	stage.Map_GongStructName_InstancesNb["Umlsc"] = len(stage.Umlscs)
 
 }
 
@@ -581,8 +527,6 @@ func (stage *Stage) Checkout() {
 	stage.Map_GongStructName_InstancesNb["LinkShape"] = len(stage.LinkShapes)
 	stage.Map_GongStructName_InstancesNb["NoteShape"] = len(stage.NoteShapes)
 	stage.Map_GongStructName_InstancesNb["NoteShapeLink"] = len(stage.NoteShapeLinks)
-	stage.Map_GongStructName_InstancesNb["UmlState"] = len(stage.UmlStates)
-	stage.Map_GongStructName_InstancesNb["Umlsc"] = len(stage.Umlscs)
 
 }
 
@@ -1110,116 +1054,6 @@ func (noteshapelink *NoteShapeLink) GetName() (res string) {
 	return noteshapelink.Name
 }
 
-// Stage puts umlstate to the model stage
-func (umlstate *UmlState) Stage(stage *Stage) *UmlState {
-
-	if _, ok := stage.UmlStates[umlstate]; !ok {
-		stage.UmlStates[umlstate] = __member
-		stage.UmlStateMap_Staged_Order[umlstate] = stage.UmlStateOrder
-		stage.UmlStateOrder++
-	}
-	stage.UmlStates_mapString[umlstate.Name] = umlstate
-
-	return umlstate
-}
-
-// Unstage removes umlstate off the model stage
-func (umlstate *UmlState) Unstage(stage *Stage) *UmlState {
-	delete(stage.UmlStates, umlstate)
-	delete(stage.UmlStates_mapString, umlstate.Name)
-	return umlstate
-}
-
-// UnstageVoid removes umlstate off the model stage
-func (umlstate *UmlState) UnstageVoid(stage *Stage) {
-	delete(stage.UmlStates, umlstate)
-	delete(stage.UmlStates_mapString, umlstate.Name)
-}
-
-// commit umlstate to the back repo (if it is already staged)
-func (umlstate *UmlState) Commit(stage *Stage) *UmlState {
-	if _, ok := stage.UmlStates[umlstate]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitUmlState(umlstate)
-		}
-	}
-	return umlstate
-}
-
-func (umlstate *UmlState) CommitVoid(stage *Stage) {
-	umlstate.Commit(stage)
-}
-
-// Checkout umlstate to the back repo (if it is already staged)
-func (umlstate *UmlState) Checkout(stage *Stage) *UmlState {
-	if _, ok := stage.UmlStates[umlstate]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutUmlState(umlstate)
-		}
-	}
-	return umlstate
-}
-
-// for satisfaction of GongStruct interface
-func (umlstate *UmlState) GetName() (res string) {
-	return umlstate.Name
-}
-
-// Stage puts umlsc to the model stage
-func (umlsc *Umlsc) Stage(stage *Stage) *Umlsc {
-
-	if _, ok := stage.Umlscs[umlsc]; !ok {
-		stage.Umlscs[umlsc] = __member
-		stage.UmlscMap_Staged_Order[umlsc] = stage.UmlscOrder
-		stage.UmlscOrder++
-	}
-	stage.Umlscs_mapString[umlsc.Name] = umlsc
-
-	return umlsc
-}
-
-// Unstage removes umlsc off the model stage
-func (umlsc *Umlsc) Unstage(stage *Stage) *Umlsc {
-	delete(stage.Umlscs, umlsc)
-	delete(stage.Umlscs_mapString, umlsc.Name)
-	return umlsc
-}
-
-// UnstageVoid removes umlsc off the model stage
-func (umlsc *Umlsc) UnstageVoid(stage *Stage) {
-	delete(stage.Umlscs, umlsc)
-	delete(stage.Umlscs_mapString, umlsc.Name)
-}
-
-// commit umlsc to the back repo (if it is already staged)
-func (umlsc *Umlsc) Commit(stage *Stage) *Umlsc {
-	if _, ok := stage.Umlscs[umlsc]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitUmlsc(umlsc)
-		}
-	}
-	return umlsc
-}
-
-func (umlsc *Umlsc) CommitVoid(stage *Stage) {
-	umlsc.Commit(stage)
-}
-
-// Checkout umlsc to the back repo (if it is already staged)
-func (umlsc *Umlsc) Checkout(stage *Stage) *Umlsc {
-	if _, ok := stage.Umlscs[umlsc]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutUmlsc(umlsc)
-		}
-	}
-	return umlsc
-}
-
-// for satisfaction of GongStruct interface
-func (umlsc *Umlsc) GetName() (res string) {
-	return umlsc.Name
-}
-
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAttributeShape(AttributeShape *AttributeShape)
@@ -1231,8 +1065,6 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMLinkShape(LinkShape *LinkShape)
 	CreateORMNoteShape(NoteShape *NoteShape)
 	CreateORMNoteShapeLink(NoteShapeLink *NoteShapeLink)
-	CreateORMUmlState(UmlState *UmlState)
-	CreateORMUmlsc(Umlsc *Umlsc)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
@@ -1245,8 +1077,6 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMLinkShape(LinkShape *LinkShape)
 	DeleteORMNoteShape(NoteShape *NoteShape)
 	DeleteORMNoteShapeLink(NoteShapeLink *NoteShapeLink)
-	DeleteORMUmlState(UmlState *UmlState)
-	DeleteORMUmlsc(Umlsc *Umlsc)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1295,16 +1125,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.NoteShapeLinkMap_Staged_Order = make(map[*NoteShapeLink]uint)
 	stage.NoteShapeLinkOrder = 0
 
-	stage.UmlStates = make(map[*UmlState]any)
-	stage.UmlStates_mapString = make(map[string]*UmlState)
-	stage.UmlStateMap_Staged_Order = make(map[*UmlState]uint)
-	stage.UmlStateOrder = 0
-
-	stage.Umlscs = make(map[*Umlsc]any)
-	stage.Umlscs_mapString = make(map[string]*Umlsc)
-	stage.UmlscMap_Staged_Order = make(map[*Umlsc]uint)
-	stage.UmlscOrder = 0
-
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
@@ -1334,12 +1154,6 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.NoteShapeLinks = nil
 	stage.NoteShapeLinks_mapString = nil
-
-	stage.UmlStates = nil
-	stage.UmlStates_mapString = nil
-
-	stage.Umlscs = nil
-	stage.Umlscs_mapString = nil
 
 }
 
@@ -1378,14 +1192,6 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for noteshapelink := range stage.NoteShapeLinks {
 		noteshapelink.Unstage(stage)
-	}
-
-	for umlstate := range stage.UmlStates {
-		umlstate.Unstage(stage)
-	}
-
-	for umlsc := range stage.Umlscs {
-		umlsc.Unstage(stage)
 	}
 
 }
@@ -1467,10 +1273,6 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.NoteShapes).(*Type)
 	case map[*NoteShapeLink]any:
 		return any(&stage.NoteShapeLinks).(*Type)
-	case map[*UmlState]any:
-		return any(&stage.UmlStates).(*Type)
-	case map[*Umlsc]any:
-		return any(&stage.Umlscs).(*Type)
 	default:
 		return nil
 	}
@@ -1501,10 +1303,6 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 		return any(&stage.NoteShapes_mapString).(*Type)
 	case map[string]*NoteShapeLink:
 		return any(&stage.NoteShapeLinks_mapString).(*Type)
-	case map[string]*UmlState:
-		return any(&stage.UmlStates_mapString).(*Type)
-	case map[string]*Umlsc:
-		return any(&stage.Umlscs_mapString).(*Type)
 	default:
 		return nil
 	}
@@ -1535,10 +1333,6 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 		return any(&stage.NoteShapes).(*map[*Type]any)
 	case NoteShapeLink:
 		return any(&stage.NoteShapeLinks).(*map[*Type]any)
-	case UmlState:
-		return any(&stage.UmlStates).(*map[*Type]any)
-	case Umlsc:
-		return any(&stage.Umlscs).(*map[*Type]any)
 	default:
 		return nil
 	}
@@ -1569,10 +1363,6 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.NoteShapes).(*map[Type]any)
 	case *NoteShapeLink:
 		return any(&stage.NoteShapeLinks).(*map[Type]any)
-	case *UmlState:
-		return any(&stage.UmlStates).(*map[Type]any)
-	case *Umlsc:
-		return any(&stage.Umlscs).(*map[Type]any)
 	default:
 		return nil
 	}
@@ -1603,10 +1393,6 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.NoteShapes_mapString).(*map[string]*Type)
 	case NoteShapeLink:
 		return any(&stage.NoteShapeLinks_mapString).(*map[string]*Type)
-	case UmlState:
-		return any(&stage.UmlStates_mapString).(*map[string]*Type)
-	case Umlsc:
-		return any(&stage.Umlscs_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -1642,8 +1428,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Classdiagrams: []*Classdiagram{{Name: "Classdiagrams"}},
 			// field is initialized with an instance of Classdiagram with the name of the field
 			SelectedClassdiagram: &Classdiagram{Name: "SelectedClassdiagram"},
-			// field is initialized with an instance of Umlsc with the name of the field
-			Umlscs: []*Umlsc{{Name: "Umlscs"}},
 		}).(*Type)
 	case GongEnumShape:
 		return any(&GongEnumShape{
@@ -1676,16 +1460,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case NoteShapeLink:
 		return any(&NoteShapeLink{
 			// Initialisation of associations
-		}).(*Type)
-	case UmlState:
-		return any(&UmlState{
-			// Initialisation of associations
-		}).(*Type)
-	case Umlsc:
-		return any(&Umlsc{
-			// Initialisation of associations
-			// field is initialized with an instance of UmlState with the name of the field
-			States: []*UmlState{{Name: "States"}},
 		}).(*Type)
 	default:
 		return nil
@@ -1767,16 +1541,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of UmlState
-	case UmlState:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of Umlsc
-	case Umlsc:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	}
 	return nil
 }
@@ -1836,14 +1600,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for diagrampackage := range stage.DiagramPackages {
 				for _, classdiagram_ := range diagrampackage.Classdiagrams {
 					res[classdiagram_] = diagrampackage
-				}
-			}
-			return any(res).(map[*End]*Start)
-		case "Umlscs":
-			res := make(map[*Umlsc]*DiagramPackage)
-			for diagrampackage := range stage.DiagramPackages {
-				for _, umlsc_ := range diagrampackage.Umlscs {
-					res[umlsc_] = diagrampackage
 				}
 			}
 			return any(res).(map[*End]*Start)
@@ -1910,24 +1666,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of UmlState
-	case UmlState:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of Umlsc
-	case Umlsc:
-		switch fieldname {
-		// insertion point for per direct association field
-		case "States":
-			res := make(map[*UmlState]*Umlsc)
-			for umlsc := range stage.Umlscs {
-				for _, umlstate_ := range umlsc.States {
-					res[umlstate_] = umlsc
-				}
-			}
-			return any(res).(map[*End]*Start)
-		}
 	}
 	return nil
 }
@@ -1958,10 +1696,6 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "NoteShape"
 	case NoteShapeLink:
 		res = "NoteShapeLink"
-	case UmlState:
-		res = "UmlState"
-	case Umlsc:
-		res = "Umlsc"
 	}
 	return res
 }
@@ -1992,10 +1726,6 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "NoteShape"
 	case *NoteShapeLink:
 		res = "NoteShapeLink"
-	case *UmlState:
-		res = "UmlState"
-	case *Umlsc:
-		res = "Umlsc"
 	}
 	return res
 }
@@ -2012,7 +1742,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Classdiagram:
 		res = []string{"Name", "GongStructShapes", "GongEnumShapes", "NoteShapes", "IsInDrawMode", "IsExpanded"}
 	case DiagramPackage:
-		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "Umlscs", "IsEditable", "IsReloaded", "AbsolutePathToDiagramPackage"}
+		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "IsEditable", "IsReloaded", "AbsolutePathToDiagramPackage"}
 	case GongEnumShape:
 		res = []string{"Name", "X", "Y", "Identifier", "GongEnumValueEntrys", "Width", "Height"}
 	case GongEnumValueEntry:
@@ -2025,10 +1755,6 @@ func GetFields[Type Gongstruct]() (res []string) {
 		res = []string{"Name", "Identifier", "Body", "BodyHTML", "X", "Y", "Width", "Height", "Matched", "NoteShapeLinks"}
 	case NoteShapeLink:
 		res = []string{"Name", "Identifier", "Type"}
-	case UmlState:
-		res = []string{"Name", "X", "Y"}
-	case Umlsc:
-		res = []string{"Name", "States", "Activestate", "IsInDrawMode"}
 	}
 	return
 }
@@ -2098,18 +1824,6 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		rf.GongstructName = "NoteShape"
 		rf.Fieldname = "NoteShapeLinks"
 		res = append(res, rf)
-	case UmlState:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Umlsc"
-		rf.Fieldname = "States"
-		res = append(res, rf)
-	case Umlsc:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramPackage"
-		rf.Fieldname = "Umlscs"
-		res = append(res, rf)
 	}
 	return
 }
@@ -2126,7 +1840,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Classdiagram:
 		res = []string{"Name", "GongStructShapes", "GongEnumShapes", "NoteShapes", "IsInDrawMode", "IsExpanded"}
 	case *DiagramPackage:
-		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "Umlscs", "IsEditable", "IsReloaded", "AbsolutePathToDiagramPackage"}
+		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "IsEditable", "IsReloaded", "AbsolutePathToDiagramPackage"}
 	case *GongEnumShape:
 		res = []string{"Name", "X", "Y", "Identifier", "GongEnumValueEntrys", "Width", "Height"}
 	case *GongEnumValueEntry:
@@ -2139,10 +1853,6 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 		res = []string{"Name", "Identifier", "Body", "BodyHTML", "X", "Y", "Width", "Height", "Matched", "NoteShapeLinks"}
 	case *NoteShapeLink:
 		res = []string{"Name", "Identifier", "Type"}
-	case *UmlState:
-		res = []string{"Name", "X", "Y"}
-	case *Umlsc:
-		res = []string{"Name", "States", "Activestate", "IsInDrawMode"}
 	}
 	return
 }
@@ -2253,13 +1963,6 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			if inferedInstance.SelectedClassdiagram != nil {
 				res.valueString = inferedInstance.SelectedClassdiagram.Name
 			}
-		case "Umlscs":
-			for idx, __instance__ := range inferedInstance.Umlscs {
-				if idx > 0 {
-					res.valueString += "\n"
-				}
-				res.valueString += __instance__.Name
-			}
 		case "IsEditable":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsEditable)
 			res.valueBool = inferedInstance.IsEditable
@@ -2480,39 +2183,6 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			enum := inferedInstance.Type
 			res.valueString = enum.ToCodeString()
 		}
-	case *UmlState:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "X":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
-			res.valueFloat = inferedInstance.X
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Y":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
-			res.valueFloat = inferedInstance.Y
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		}
-	case *Umlsc:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "States":
-			for idx, __instance__ := range inferedInstance.States {
-				if idx > 0 {
-					res.valueString += "\n"
-				}
-				res.valueString += __instance__.Name
-			}
-		case "Activestate":
-			res.valueString = inferedInstance.Activestate
-		case "IsInDrawMode":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInDrawMode)
-			res.valueBool = inferedInstance.IsInDrawMode
-			res.GongFieldValueType = GongFieldValueTypeBool
-		}
 	default:
 		_ = inferedInstance
 	}
@@ -2591,13 +2261,6 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "SelectedClassdiagram":
 			if inferedInstance.SelectedClassdiagram != nil {
 				res.valueString = inferedInstance.SelectedClassdiagram.Name
-			}
-		case "Umlscs":
-			for idx, __instance__ := range inferedInstance.Umlscs {
-				if idx > 0 {
-					res.valueString += "\n"
-				}
-				res.valueString += __instance__.Name
 			}
 		case "IsEditable":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsEditable)
@@ -2818,39 +2481,6 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "Type":
 			enum := inferedInstance.Type
 			res.valueString = enum.ToCodeString()
-		}
-	case UmlState:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "X":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
-			res.valueFloat = inferedInstance.X
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Y":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
-			res.valueFloat = inferedInstance.Y
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		}
-	case Umlsc:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "States":
-			for idx, __instance__ := range inferedInstance.States {
-				if idx > 0 {
-					res.valueString += "\n"
-				}
-				res.valueString += __instance__.Name
-			}
-		case "Activestate":
-			res.valueString = inferedInstance.Activestate
-		case "IsInDrawMode":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInDrawMode)
-			res.valueBool = inferedInstance.IsInDrawMode
-			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	default:
 		_ = inferedInstance

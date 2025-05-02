@@ -203,31 +203,3 @@ func (from *NoteShapeLink) CopyBasicFields(to *NoteShapeLink) {
 	to.Type = from.Type
 }
 
-type UmlState_WOP struct {
-	// insertion point
-	Name string
-	X float64
-	Y float64
-}
-
-func (from *UmlState) CopyBasicFields(to *UmlState) {
-	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
-}
-
-type Umlsc_WOP struct {
-	// insertion point
-	Name string
-	Activestate string
-	IsInDrawMode bool
-}
-
-func (from *Umlsc) CopyBasicFields(to *Umlsc) {
-	// insertion point
-	to.Name = from.Name
-	to.Activestate = from.Activestate
-	to.IsInDrawMode = from.IsInDrawMode
-}
-

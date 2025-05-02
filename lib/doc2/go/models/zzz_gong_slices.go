@@ -45,14 +45,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.DiagramPackage_Classdiagrams_reverseMap[_classdiagram] = diagrampackage
 		}
 	}
-	clear(stage.DiagramPackage_Umlscs_reverseMap)
-	stage.DiagramPackage_Umlscs_reverseMap = make(map[*Umlsc]*DiagramPackage)
-	for diagrampackage := range stage.DiagramPackages {
-		_ = diagrampackage
-		for _, _umlsc := range diagrampackage.Umlscs {
-			stage.DiagramPackage_Umlscs_reverseMap[_umlsc] = diagrampackage
-		}
-	}
 
 	// Compute reverse map for named struct GongEnumShape
 	// insertion point per field
@@ -103,19 +95,5 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct NoteShapeLink
 	// insertion point per field
-
-	// Compute reverse map for named struct UmlState
-	// insertion point per field
-
-	// Compute reverse map for named struct Umlsc
-	// insertion point per field
-	clear(stage.Umlsc_States_reverseMap)
-	stage.Umlsc_States_reverseMap = make(map[*UmlState]*Umlsc)
-	for umlsc := range stage.Umlscs {
-		_ = umlsc
-		for _, _umlstate := range umlsc.States {
-			stage.Umlsc_States_reverseMap[_umlstate] = umlsc
-		}
-	}
 
 }

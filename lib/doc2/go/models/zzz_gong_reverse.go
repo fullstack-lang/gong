@@ -110,30 +110,6 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *UmlState:
-		switch reverseField.GongstructName {
-		// insertion point
-		case "Umlsc":
-			switch reverseField.Fieldname {
-			case "States":
-				if _umlsc, ok := stage.Umlsc_States_reverseMap[inst]; ok {
-					res = _umlsc.Name
-				}
-			}
-		}
-
-	case *Umlsc:
-		switch reverseField.GongstructName {
-		// insertion point
-		case "DiagramPackage":
-			switch reverseField.Fieldname {
-			case "Umlscs":
-				if _diagrampackage, ok := stage.DiagramPackage_Umlscs_reverseMap[inst]; ok {
-					res = _diagrampackage.Name
-				}
-			}
-		}
-
 	default:
 		_ = inst
 	}
@@ -230,26 +206,6 @@ func GetReverseFieldOwner[T Gongstruct](
 			switch reverseField.Fieldname {
 			case "NoteShapeLinks":
 				res = stage.NoteShape_NoteShapeLinks_reverseMap[inst]
-			}
-		}
-
-	case *UmlState:
-		switch reverseField.GongstructName {
-		// insertion point
-		case "Umlsc":
-			switch reverseField.Fieldname {
-			case "States":
-				res = stage.Umlsc_States_reverseMap[inst]
-			}
-		}
-
-	case *Umlsc:
-		switch reverseField.GongstructName {
-		// insertion point
-		case "DiagramPackage":
-			switch reverseField.Fieldname {
-			case "Umlscs":
-				res = stage.DiagramPackage_Umlscs_reverseMap[inst]
 			}
 		}
 

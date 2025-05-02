@@ -54,9 +54,6 @@ type DiagramPackagePointersEncoding struct {
 	// field SelectedClassdiagram is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	SelectedClassdiagramID sql.NullInt64
-
-	// field Umlscs is a slice of pointers to another Struct (optional or 0..1)
-	Umlscs IntSlice `gorm:"type:TEXT"`
 }
 
 // DiagramPackageDB describes a diagrampackage in the database
@@ -295,24 +292,6 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CommitPhaseTwoInstan
 			diagrampackageDB.SelectedClassdiagramID.Valid = true
 		}
 
-		// 1. reset
-		diagrampackageDB.DiagramPackagePointersEncoding.Umlscs = make([]int, 0)
-		// 2. encode
-		for _, umlscAssocEnd := range diagrampackage.Umlscs {
-			umlscAssocEnd_DB :=
-				backRepo.BackRepoUmlsc.GetUmlscDBFromUmlscPtr(umlscAssocEnd)
-			
-			// the stage might be inconsistant, meaning that the umlscAssocEnd_DB might
-			// be missing from the stage. In this case, the commit operation is robust
-			// An alternative would be to crash here to reveal the missing element.
-			if umlscAssocEnd_DB == nil {
-				continue
-			}
-			
-			diagrampackageDB.DiagramPackagePointersEncoding.Umlscs =
-				append(diagrampackageDB.DiagramPackagePointersEncoding.Umlscs, int(umlscAssocEnd_DB.ID))
-		}
-
 		_, err := backRepoDiagramPackage.db.Save(diagrampackageDB)
 		if err != nil {
 			log.Fatal(err)
@@ -456,15 +435,6 @@ func (diagrampackageDB *DiagramPackageDB) DecodePointers(backRepo *BackRepoStruc
 		}
 	}
 	
-	// This loop redeem diagrampackage.Umlscs in the stage from the encode in the back repo
-	// It parses all UmlscDB in the back repo and if the reverse pointer encoding matches the back repo ID
-	// it appends the stage instance
-	// 1. reset the slice
-	diagrampackage.Umlscs = diagrampackage.Umlscs[:0]
-	for _, _Umlscid := range diagrampackageDB.DiagramPackagePointersEncoding.Umlscs {
-		diagrampackage.Umlscs = append(diagrampackage.Umlscs, backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr[uint(_Umlscid)])
-	}
-
 	return
 }
 
