@@ -65,6 +65,12 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(button_.Icon), formDiv)
 		case "SVGIcon":
 			FormDivSelectFieldToField(&(button_.SVGIcon), buttonFormCallback.probe.stageOfInterest, formDiv)
+		case "HasToolTip":
+			FormDivBasicFieldToField(&(button_.HasToolTip), formDiv)
+		case "ToolTipText":
+			FormDivBasicFieldToField(&(button_.ToolTipText), formDiv)
+		case "ToolTipPosition":
+			FormDivEnumStringFieldToField(&(button_.ToolTipPosition), formDiv)
 		case "Node:Buttons":
 			// we need to retrieve the field owner before the change
 			var pastNodeOwner *models.Node

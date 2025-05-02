@@ -81,6 +81,107 @@ func (fontstyleenum FontStyleEnum) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for ToolTipPositionEnum
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (tooltippositionenum ToolTipPositionEnum) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch tooltippositionenum {
+	// insertion code per enum code
+	case Below:
+		res = "below"
+	case Above:
+		res = "above"
+	case Left:
+		res = "left"
+	case Right:
+		res = "right"
+	}
+	return
+}
+
+func (tooltippositionenum *ToolTipPositionEnum) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "below":
+		*tooltippositionenum = Below
+		return
+	case "above":
+		*tooltippositionenum = Above
+		return
+	case "left":
+		*tooltippositionenum = Left
+		return
+	case "right":
+		*tooltippositionenum = Right
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (tooltippositionenum *ToolTipPositionEnum) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "Below":
+		*tooltippositionenum = Below
+	case "Above":
+		*tooltippositionenum = Above
+	case "Left":
+		*tooltippositionenum = Left
+	case "Right":
+		*tooltippositionenum = Right
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (tooltippositionenum *ToolTipPositionEnum) ToCodeString() (res string) {
+
+	switch *tooltippositionenum {
+	// insertion code per enum code
+	case Below:
+		res = "Below"
+	case Above:
+		res = "Above"
+	case Left:
+		res = "Left"
+	case Right:
+		res = "Right"
+	}
+	return
+}
+
+func (tooltippositionenum ToolTipPositionEnum) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "Below")
+	res = append(res, "Above")
+	res = append(res, "Left")
+	res = append(res, "Right")
+
+	return
+}
+
+func (tooltippositionenum ToolTipPositionEnum) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "below")
+	res = append(res, "above")
+	res = append(res, "left")
+	res = append(res, "right")
+
+	return
+}
+
 // Utility function for TreeStackName
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
