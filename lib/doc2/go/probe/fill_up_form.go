@@ -69,7 +69,7 @@ func FillUpForm(
 		BasicFieldtoForm("AbsolutePathToDiagramPackage", instanceWithInferedType.AbsolutePathToDiagramPackage, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 
-	case *models.Field:
+	case *models.FieldShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -95,7 +95,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.GongStructShape, *models.Field](
+				AssociationReverseFieldToForm[*models.GongStructShape, *models.FieldShape](
 					nil,
 					"Fields",
 					instanceWithInferedType,
@@ -179,13 +179,15 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("NbInstances", instanceWithInferedType.NbInstances, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationSliceToForm("Fields", instanceWithInferedType, &instanceWithInferedType.Fields, formGroup, probe)
+		AssociationSliceToForm("Fields", instanceWithInferedType, &instanceWithInferedType.FieldShapes, formGroup, probe)
 		AssociationSliceToForm("Links", instanceWithInferedType, &instanceWithInferedType.Links, formGroup, probe)
 		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Height", instanceWithInferedType.Height, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsSelected", instanceWithInferedType.IsSelected, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		{
 			var rf models.ReverseField

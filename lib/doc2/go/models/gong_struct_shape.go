@@ -20,7 +20,7 @@ type GongStructShape struct {
 	NbInstances     int
 
 	// models of the composition of Field
-	Fields []*Field
+	FieldShapes []*FieldShape
 
 	// models of the composition of Link
 	Links []*Link
@@ -32,4 +32,7 @@ type GongStructShape struct {
 	// this is always false in the backend, but it can be set to true by the front end
 	// this means it is selected by the user
 	IsSelected bool
+
+	// IsExpanded is true if the corresponding node is expanded
+	IsExpanded bool
 }

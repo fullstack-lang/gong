@@ -316,7 +316,7 @@ var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 // insertion point for identifiers maps
 var __gong__map_Classdiagram = make(map[string]*Classdiagram)
 var __gong__map_DiagramPackage = make(map[string]*DiagramPackage)
-var __gong__map_Field = make(map[string]*Field)
+var __gong__map_Field = make(map[string]*FieldShape)
 var __gong__map_GongEnumShape = make(map[string]*GongEnumShape)
 var __gong__map_GongEnumValueEntry = make(map[string]*GongEnumValueEntry)
 var __gong__map_GongStructShape = make(map[string]*GongStructShape)
@@ -512,7 +512,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										instance = any(instanceDiagramPackage)
 										__gong__map_DiagramPackage[identifier] = instanceDiagramPackage
 									case "Field":
-										instanceField := new(Field)
+										instanceField := new(FieldShape)
 										instanceField.Name = instanceName
 										instanceField.Stage(stage)
 										instance = any(instanceField)
@@ -753,8 +753,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							// remove first and last char
 							targetIdentifier := ident.Name
 							target := __gong__map_Field[targetIdentifier]
-							__gong__map_GongStructShape[identifier].Fields =
-								append(__gong__map_GongStructShape[identifier].Fields, target)
+							__gong__map_GongStructShape[identifier].FieldShapes =
+								append(__gong__map_GongStructShape[identifier].FieldShapes, target)
 						case "Links":
 							// remove first and last char
 							targetIdentifier := ident.Name
@@ -1279,6 +1279,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_GongStructShape[identifier].IsSelected = fielValue
+				case "IsExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_GongStructShape[identifier].IsExpanded = fielValue
 				}
 			case "Link":
 				switch fieldName {

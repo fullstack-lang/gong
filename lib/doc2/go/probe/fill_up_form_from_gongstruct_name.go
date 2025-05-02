@@ -61,7 +61,7 @@ func FillUpFormFromGongstructName(
 			probe,
 			formGroup,
 		)
-		field := new(models.Field)
+		field := new(models.FieldShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(field, formGroup, probe)
 	case "GongEnumShape":
