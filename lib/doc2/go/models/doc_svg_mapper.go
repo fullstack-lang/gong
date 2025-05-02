@@ -144,7 +144,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		//
 		// fields
 		//
-		for idx, field := range gongstructShape.Fields {
+		for idx, field := range gongstructShape.FieldShapes {
 			fieldText := new(svg_models.RectAnchoredText).Stage(docSVGMapper.svgStage)
 			fieldText.Name = field.Name + " : " + field.Fieldtypename
 			fieldText.Content = field.Name + " : " + field.Fieldtypename

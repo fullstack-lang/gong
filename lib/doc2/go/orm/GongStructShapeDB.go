@@ -93,6 +93,10 @@ type GongStructShapeDB struct {
 	// provide the sql storage for the boolan
 	IsSelected_Data sql.NullBool
 
+	// Declation for basic field gongstructshapeDB.IsExpanded
+	// provide the sql storage for the boolan
+	IsExpanded_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	GongStructShapePointersEncoding
@@ -128,6 +132,8 @@ type GongStructShapeWOP struct {
 	Height float64 `xlsx:"6"`
 
 	IsSelected bool `xlsx:"7"`
+
+	IsExpanded bool `xlsx:"8"`
 	// insertion for WOP pointer fields
 }
 
@@ -141,6 +147,7 @@ var GongStructShape_Fields = []string{
 	"Width",
 	"Height",
 	"IsSelected",
+	"IsExpanded",
 }
 
 type BackRepoGongStructShapeStruct struct {
@@ -286,17 +293,17 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CommitPhaseTwoInst
 		// 1. reset
 		gongstructshapeDB.GongStructShapePointersEncoding.Fields = make([]int, 0)
 		// 2. encode
-		for _, fieldAssocEnd := range gongstructshape.Fields {
+		for _, fieldAssocEnd := range gongstructshape.FieldShapes {
 			fieldAssocEnd_DB :=
 				backRepo.BackRepoField.GetFieldDBFromFieldPtr(fieldAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the fieldAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if fieldAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			gongstructshapeDB.GongStructShapePointersEncoding.Fields =
 				append(gongstructshapeDB.GongStructShapePointersEncoding.Fields, int(fieldAssocEnd_DB.ID))
 		}
@@ -307,14 +314,14 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CommitPhaseTwoInst
 		for _, linkAssocEnd := range gongstructshape.Links {
 			linkAssocEnd_DB :=
 				backRepo.BackRepoLink.GetLinkDBFromLinkPtr(linkAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the linkAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if linkAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			gongstructshapeDB.GongStructShapePointersEncoding.Links =
 				append(gongstructshapeDB.GongStructShapePointersEncoding.Links, int(linkAssocEnd_DB.ID))
 		}
@@ -432,7 +439,7 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CheckoutPhaseTwoIn
 func (gongstructshapeDB *GongStructShapeDB) DecodePointers(backRepo *BackRepoStruct, gongstructshape *models.GongStructShape) {
 
 	// insertion point for checkout of pointer encoding
-	// Position field	
+	// Position field
 	{
 		id := gongstructshapeDB.PositionID.Int64
 		if id != 0 {
@@ -452,14 +459,14 @@ func (gongstructshapeDB *GongStructShapeDB) DecodePointers(backRepo *BackRepoStr
 			gongstructshape.Position = nil
 		}
 	}
-	
+
 	// This loop redeem gongstructshape.Fields in the stage from the encode in the back repo
 	// It parses all FieldDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
-	gongstructshape.Fields = gongstructshape.Fields[:0]
+	gongstructshape.FieldShapes = gongstructshape.FieldShapes[:0]
 	for _, _Fieldid := range gongstructshapeDB.GongStructShapePointersEncoding.Fields {
-		gongstructshape.Fields = append(gongstructshape.Fields, backRepo.BackRepoField.Map_FieldDBID_FieldPtr[uint(_Fieldid)])
+		gongstructshape.FieldShapes = append(gongstructshape.FieldShapes, backRepo.BackRepoField.Map_FieldDBID_FieldPtr[uint(_Fieldid)])
 	}
 
 	// This loop redeem gongstructshape.Links in the stage from the encode in the back repo
@@ -525,6 +532,9 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsFromGongStructShape(g
 
 	gongstructshapeDB.IsSelected_Data.Bool = gongstructshape.IsSelected
 	gongstructshapeDB.IsSelected_Data.Valid = true
+
+	gongstructshapeDB.IsExpanded_Data.Bool = gongstructshape.IsExpanded
+	gongstructshapeDB.IsExpanded_Data.Valid = true
 }
 
 // CopyBasicFieldsFromGongStructShape_WOP
@@ -551,6 +561,9 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsFromGongStructShape_W
 
 	gongstructshapeDB.IsSelected_Data.Bool = gongstructshape.IsSelected
 	gongstructshapeDB.IsSelected_Data.Valid = true
+
+	gongstructshapeDB.IsExpanded_Data.Bool = gongstructshape.IsExpanded
+	gongstructshapeDB.IsExpanded_Data.Valid = true
 }
 
 // CopyBasicFieldsFromGongStructShapeWOP
@@ -577,6 +590,9 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsFromGongStructShapeWO
 
 	gongstructshapeDB.IsSelected_Data.Bool = gongstructshape.IsSelected
 	gongstructshapeDB.IsSelected_Data.Valid = true
+
+	gongstructshapeDB.IsExpanded_Data.Bool = gongstructshape.IsExpanded
+	gongstructshapeDB.IsExpanded_Data.Valid = true
 }
 
 // CopyBasicFieldsToGongStructShape
@@ -589,6 +605,7 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsToGongStructShape(gon
 	gongstructshape.Width = gongstructshapeDB.Width_Data.Float64
 	gongstructshape.Height = gongstructshapeDB.Height_Data.Float64
 	gongstructshape.IsSelected = gongstructshapeDB.IsSelected_Data.Bool
+	gongstructshape.IsExpanded = gongstructshapeDB.IsExpanded_Data.Bool
 }
 
 // CopyBasicFieldsToGongStructShape_WOP
@@ -601,6 +618,7 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsToGongStructShape_WOP
 	gongstructshape.Width = gongstructshapeDB.Width_Data.Float64
 	gongstructshape.Height = gongstructshapeDB.Height_Data.Float64
 	gongstructshape.IsSelected = gongstructshapeDB.IsSelected_Data.Bool
+	gongstructshape.IsExpanded = gongstructshapeDB.IsExpanded_Data.Bool
 }
 
 // CopyBasicFieldsToGongStructShapeWOP
@@ -614,6 +632,7 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsToGongStructShapeWOP(
 	gongstructshape.Width = gongstructshapeDB.Width_Data.Float64
 	gongstructshape.Height = gongstructshapeDB.Height_Data.Float64
 	gongstructshape.IsSelected = gongstructshapeDB.IsSelected_Data.Bool
+	gongstructshape.IsExpanded = gongstructshapeDB.IsExpanded_Data.Bool
 }
 
 // Backup generates a json file from a slice of all GongStructShapeDB instances in the backrepo

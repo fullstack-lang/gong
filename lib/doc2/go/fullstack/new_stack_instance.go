@@ -44,7 +44,7 @@ func NewStackInstance(
 	// insertion point
 	models.SetOrchestratorOnAfterUpdate[models.Classdiagram](stage)
 	models.SetOrchestratorOnAfterUpdate[models.DiagramPackage](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Field](stage)
+	models.SetOrchestratorOnAfterUpdate[models.FieldShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongEnumShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongEnumValueEntry](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongStructShape](stage)

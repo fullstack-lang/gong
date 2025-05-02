@@ -18,7 +18,7 @@ func SerializeStage(stage *Stage, filename string) {
 		// insertion point
 		SerializeExcelizePointerToGongstruct[*Classdiagram](stage, f)
 		SerializeExcelizePointerToGongstruct[*DiagramPackage](stage, f)
-		SerializeExcelizePointerToGongstruct[*Field](stage, f)
+		SerializeExcelizePointerToGongstruct[*FieldShape](stage, f)
 		SerializeExcelizePointerToGongstruct[*GongEnumShape](stage, f)
 		SerializeExcelizePointerToGongstruct[*GongEnumValueEntry](stage, f)
 		SerializeExcelizePointerToGongstruct[*GongStructShape](stage, f)
@@ -141,7 +141,7 @@ func SerializeStage(stage *Stage, filename string) {
 			}
 		}
 	}
-	
+
 	var tab ExcelizeTabulator
 	tab.SetExcelizeFile(f)
 	{
@@ -150,7 +150,7 @@ func SerializeStage(stage *Stage, filename string) {
 			fmt.Println("cannot write xl file : ", err)
 		}
 	}
-		
+
 }
 
 // Tabulator is an interface for writing to a table strings
