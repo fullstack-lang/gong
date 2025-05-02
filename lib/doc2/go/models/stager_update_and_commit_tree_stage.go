@@ -37,6 +37,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			Name:              classDiagram.Name,
 			HasCheckboxButton: true,
 			IsChecked:         selected,
+			IsExpanded:        classDiagram.IsExpanded,
 		}
 		nodeClassdiagram.Impl = &ClassDiagramNodeCheckProxy{
 			node:         nodeClassdiagram,
@@ -46,26 +47,40 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 
 		root.Children = append(root.Children, nodeClassdiagram)
 
-		if diagramPackage.SelectedClassdiagram == classDiagram {
-			nodeClassdiagram.IsExpanded = classDiagram.IsExpanded
-			for _, gongStruct := range gong.GetGongstrucsSorted[*gong.GongStruct](stager.gongStage) {
+		if diagramPackage.SelectedClassdiagram != classDiagram {
+			continue
+		}
 
-				foundGongStructShape, _ := classDiagram.HasGongStructShape(gongStruct.GetName())
+		map_modelElement_shape := stager.compute_map_modelElement_shape(classDiagram, stager.gongStage)
+		for _, gongStruct := range gong.GetGongstrucsSorted[*gong.GongStruct](stager.gongStage) {
 
-				nodeNamedStruct := &tree.Node{
-					Name:              gongStruct.Name,
+			_, isInDiagram := map_modelElement_shape[gongStruct]
+
+			nodeNamedStruct := &tree.Node{
+				Name:              gongStruct.Name,
+				HasCheckboxButton: true,
+				IsChecked:         isInDiagram,
+			}
+			nodeNamedStruct.Impl = &GongstructNodeCheckProxy{
+				node:         nodeNamedStruct,
+				stager:       stager,
+				classDiagram: classDiagram,
+				gongstruct:   gongStruct,
+			}
+			nodeClassdiagram.Children = append(nodeClassdiagram.Children, nodeNamedStruct)
+
+			for _, field := range gongStruct.Fields {
+				_, isInDiagram := map_modelElement_shape[field]
+
+				nodeField := &tree.Node{
+					Name:              field.GetName(),
 					HasCheckboxButton: true,
-					IsChecked:         foundGongStructShape,
+					IsChecked:         isInDiagram,
 				}
-				nodeNamedStruct.Impl = &GongstructNodeCheckProxy{
-					node:         nodeNamedStruct,
-					stager:       stager,
-					classDiagram: classDiagram,
-					gongstruct:   gongStruct,
-				}
-				nodeClassdiagram.Children = append(nodeClassdiagram.Children, nodeNamedStruct)
+				nodeNamedStruct.Children = append(nodeNamedStruct.Children, nodeField)
 			}
 		}
+
 	}
 	tree.StageBranch(stager.treeStage,
 		&tree.Tree{
