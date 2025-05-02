@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/doc2/go/models"
-
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -35,7 +34,7 @@ func _(stage *models.Stage) {
 
 	__Classdiagram__000000_Default.Name = `Default`
 	__Classdiagram__000000_Default.IsInDrawMode = true
-	__Classdiagram__000000_Default.IsInRenameMode = false
+	__Classdiagram__000000_Default.IsInRenameMode = true
 	__Classdiagram__000000_Default.IsExpanded = true
 	__Classdiagram__000000_Default.NodeNamedStructsIsExpanded = true
 	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = false
