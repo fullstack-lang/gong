@@ -8,8 +8,8 @@ import (
 	gong "github.com/fullstack-lang/gong/go/models"
 )
 
-// FieldShape
-type FieldShape struct {
+// AttributeShape
+type AttributeShape struct {
 	Name string
 
 	//gong:ident
@@ -20,21 +20,21 @@ type FieldShape struct {
 	Fieldtypename     string
 }
 
-// RemoveFieldShape implements diagrammer.ModelElementNode.
-func (classdiagram *Classdiagram) RemoveFieldShape(
+// RemoveAttributeFieldShape implements diagrammer.ModelElementNode.
+func (classdiagram *Classdiagram) RemoveAttributeFieldShape(
 	stage *Stage,
-	fieldShape *FieldShape,
+	attributeShape *AttributeShape,
 	gongStructShape *GongStructShape) {
 
-	idx := slices.Index(gongStructShape.FieldShapes, fieldShape)
-	gongStructShape.FieldShapes = slices.Delete(gongStructShape.FieldShapes, idx, idx+1)
+	idx := slices.Index(gongStructShape.AttributeShapes, attributeShape)
+	gongStructShape.AttributeShapes = slices.Delete(gongStructShape.AttributeShapes, idx, idx+1)
 	gongStructShape.Height = gongStructShape.Height - 15
-	fieldShape.Unstage(stage)
+	attributeShape.Unstage(stage)
 
 }
 
 // AddToDiagram implements diagrammer.ElementNode.
-func (classdiagram *Classdiagram) AddFieldShape(
+func (classdiagram *Classdiagram) AddAttributeFieldShape(
 	stage *Stage,
 	gongStage *gong.Stage,
 	gongStruct *gong.GongStruct,
@@ -46,7 +46,7 @@ func (classdiagram *Classdiagram) AddFieldShape(
 	case *gong.GongBasicField, *gong.GongTimeField:
 
 		// concrete in the sense of UML concrete syntax
-		var concreteField FieldShape
+		var concreteField AttributeShape
 		concreteField.Name = field.GetName()
 		concreteField.Identifier = GongstructAndFieldnameToFieldIdentifier(
 			gongStruct.Name, field.GetName())
@@ -89,7 +89,7 @@ func (classdiagram *Classdiagram) AddFieldShape(
 
 		// compute insertionIndex (index where to insert the field to display)
 		insertionIndex := 0
-		for idx, field := range gongStructShape.FieldShapes {
+		for idx, field := range gongStructShape.AttributeShapes {
 			gongField := map_Name_Field[IdentifierToFieldName(field.Identifier)]
 			_fieldRank := map_Field_Rank[gongField]
 			if fieldRank > _fieldRank {
@@ -98,12 +98,12 @@ func (classdiagram *Classdiagram) AddFieldShape(
 		}
 
 		// append the filed to display in the right index
-		if insertionIndex == len(gongStructShape.FieldShapes) {
-			gongStructShape.FieldShapes = append(gongStructShape.FieldShapes, &concreteField)
+		if insertionIndex == len(gongStructShape.AttributeShapes) {
+			gongStructShape.AttributeShapes = append(gongStructShape.AttributeShapes, &concreteField)
 		} else {
-			gongStructShape.FieldShapes = append(gongStructShape.FieldShapes[:insertionIndex+1],
-				gongStructShape.FieldShapes[insertionIndex:]...)
-			gongStructShape.FieldShapes[insertionIndex] = &concreteField
+			gongStructShape.AttributeShapes = append(gongStructShape.AttributeShapes[:insertionIndex+1],
+				gongStructShape.AttributeShapes[insertionIndex:]...)
+			gongStructShape.AttributeShapes[insertionIndex] = &concreteField
 		}
 
 	case *gong.PointerToGongStructField, *gong.SliceOfPointerToGongStructField:
@@ -137,7 +137,7 @@ func (classdiagram *Classdiagram) AddFieldShape(
 		}
 		_ = targetGongStructShape
 
-		link := new(Link).Stage(stage)
+		link := new(LinkShape).Stage(stage)
 		link.Name = field.GetName()
 		link.SourceMultiplicity = sourceMultiplicity
 		link.SourceMultiplicityOffsetX = 0

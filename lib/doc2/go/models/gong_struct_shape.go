@@ -20,10 +20,10 @@ type GongStructShape struct {
 	NbInstances     int
 
 	// models of the composition of Field
-	FieldShapes []*FieldShape
+	AttributeShapes []*AttributeShape
 
 	// models of the composition of Link
-	Links []*Link
+	Links []*LinkShape
 
 	// with and height of the shape when they are rendered on SVG or with jointjs
 	// They are optional fields. they can be computed when empty

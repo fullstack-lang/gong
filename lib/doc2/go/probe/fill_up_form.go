@@ -69,7 +69,7 @@ func FillUpForm(
 		BasicFieldtoForm("AbsolutePathToDiagramPackage", instanceWithInferedType.AbsolutePathToDiagramPackage, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 
-	case *models.FieldShape:
+	case *models.AttributeShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -85,19 +85,19 @@ func FillUpForm(
 			var rf models.ReverseField
 			_ = rf
 			rf.GongstructName = "GongStructShape"
-			rf.Fieldname = "Fields"
+			rf.Fieldname = "FieldShapes"
 			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.GongStructShape),
-					"Fields",
+					"FieldShapes",
 					instanceWithInferedType,
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.GongStructShape, *models.FieldShape](
+				AssociationReverseFieldToForm[*models.GongStructShape, *models.AttributeShape](
 					nil,
-					"Fields",
+					"FieldShapes",
 					instanceWithInferedType,
 					formGroup,
 					probe)
@@ -179,7 +179,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("NbInstances", instanceWithInferedType.NbInstances, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationSliceToForm("Fields", instanceWithInferedType, &instanceWithInferedType.FieldShapes, formGroup, probe)
+		AssociationSliceToForm("FieldShapes", instanceWithInferedType, &instanceWithInferedType.AttributeShapes, formGroup, probe)
 		AssociationSliceToForm("Links", instanceWithInferedType, &instanceWithInferedType.Links, formGroup, probe)
 		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -212,7 +212,7 @@ func FillUpForm(
 			}
 		}
 
-	case *models.Link:
+	case *models.LinkShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -257,7 +257,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.GongStructShape, *models.Link](
+				AssociationReverseFieldToForm[*models.GongStructShape, *models.LinkShape](
 					nil,
 					"Links",
 					instanceWithInferedType,

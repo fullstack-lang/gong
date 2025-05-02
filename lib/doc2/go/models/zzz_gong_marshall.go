@@ -218,35 +218,35 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
-	map_Field_Identifiers := make(map[*FieldShape]string)
-	_ = map_Field_Identifiers
+	map_FieldShape_Identifiers := make(map[*AttributeShape]string)
+	_ = map_FieldShape_Identifiers
 
-	fieldOrdered := []*FieldShape{}
-	for field := range stage.Fields {
-		fieldOrdered = append(fieldOrdered, field)
+	fieldshapeOrdered := []*AttributeShape{}
+	for fieldshape := range stage.FieldShapes {
+		fieldshapeOrdered = append(fieldshapeOrdered, fieldshape)
 	}
-	sort.Slice(fieldOrdered[:], func(i, j int) bool {
-		fieldi := fieldOrdered[i]
-		fieldj := fieldOrdered[j]
-		fieldi_order, oki := stage.FieldMap_Staged_Order[fieldi]
-		fieldj_order, okj := stage.FieldMap_Staged_Order[fieldj]
+	sort.Slice(fieldshapeOrdered[:], func(i, j int) bool {
+		fieldshapei := fieldshapeOrdered[i]
+		fieldshapej := fieldshapeOrdered[j]
+		fieldshapei_order, oki := stage.FieldShapeMap_Staged_Order[fieldshapei]
+		fieldshapej_order, okj := stage.FieldShapeMap_Staged_Order[fieldshapej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
-		return fieldi_order < fieldj_order
+		return fieldshapei_order < fieldshapej_order
 	})
-	if len(fieldOrdered) > 0 {
+	if len(fieldshapeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, field := range fieldOrdered {
+	for idx, fieldshape := range fieldshapeOrdered {
 
-		id = generatesIdentifier("Field", idx, field.Name)
-		map_Field_Identifiers[field] = id
+		id = generatesIdentifier("FieldShape", idx, fieldshape.Name)
+		map_FieldShape_Identifiers[fieldshape] = id
 
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Field")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", field.Name)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FieldShape")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fieldshape.Name)
 		identifiersDecl += decl
 
 		initializerStatements += "\n"
@@ -254,34 +254,34 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(field.Name))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(fieldshape.Name))
 		initializerStatements += setValueField
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
 			fmt.Sprintf("\n\n\t//gong:ident [%s] comment added to overcome the problem with the comment map association\n\t{{Identifier}}",
-				string(field.Identifier)))
+				string(fieldshape.Identifier)))
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Identifier")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(field.Identifier))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(fieldshape.Identifier))
 		initializerStatements += setValueField
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "FieldTypeAsString")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(field.FieldTypeAsString))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(fieldshape.FieldTypeAsString))
 		initializerStatements += setValueField
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Structname")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(field.Structname))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(fieldshape.Structname))
 		initializerStatements += setValueField
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Fieldtypename")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(field.Fieldtypename))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(fieldshape.Fieldtypename))
 		initializerStatements += setValueField
 
 	}
@@ -484,35 +484,35 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
-	map_Link_Identifiers := make(map[*Link]string)
-	_ = map_Link_Identifiers
+	map_LinkShape_Identifiers := make(map[*LinkShape]string)
+	_ = map_LinkShape_Identifiers
 
-	linkOrdered := []*Link{}
-	for link := range stage.Links {
-		linkOrdered = append(linkOrdered, link)
+	linkshapeOrdered := []*LinkShape{}
+	for linkshape := range stage.LinkShapes {
+		linkshapeOrdered = append(linkshapeOrdered, linkshape)
 	}
-	sort.Slice(linkOrdered[:], func(i, j int) bool {
-		linki := linkOrdered[i]
-		linkj := linkOrdered[j]
-		linki_order, oki := stage.LinkMap_Staged_Order[linki]
-		linkj_order, okj := stage.LinkMap_Staged_Order[linkj]
+	sort.Slice(linkshapeOrdered[:], func(i, j int) bool {
+		linkshapei := linkshapeOrdered[i]
+		linkshapej := linkshapeOrdered[j]
+		linkshapei_order, oki := stage.LinkShapeMap_Staged_Order[linkshapei]
+		linkshapej_order, okj := stage.LinkShapeMap_Staged_Order[linkshapej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
-		return linki_order < linkj_order
+		return linkshapei_order < linkshapej_order
 	})
-	if len(linkOrdered) > 0 {
+	if len(linkshapeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, link := range linkOrdered {
+	for idx, linkshape := range linkshapeOrdered {
 
-		id = generatesIdentifier("Link", idx, link.Name)
-		map_Link_Identifiers[link] = id
+		id = generatesIdentifier("LinkShape", idx, linkshape.Name)
+		map_LinkShape_Identifiers[linkshape] = id
 
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Link")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", link.Name)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "LinkShape")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", linkshape.Name)
 		identifiersDecl += decl
 
 		initializerStatements += "\n"
@@ -520,111 +520,111 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(link.Name))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(linkshape.Name))
 		initializerStatements += setValueField
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
 			fmt.Sprintf("\n\n\t//gong:ident [%s] comment added to overcome the problem with the comment map association\n\t{{Identifier}}",
-				string(link.Identifier)))
+				string(linkshape.Identifier)))
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Identifier")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(link.Identifier))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(linkshape.Identifier))
 		initializerStatements += setValueField
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
 			fmt.Sprintf("\n\n\t//gong:ident [%s] comment added to overcome the problem with the comment map association\n\t{{Identifier}}",
-				string(link.Fieldtypename)))
+				string(linkshape.Fieldtypename)))
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Fieldtypename")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(link.Fieldtypename))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(linkshape.Fieldtypename))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "FieldOffsetX")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", link.FieldOffsetX))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", linkshape.FieldOffsetX))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "FieldOffsetY")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", link.FieldOffsetY))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", linkshape.FieldOffsetY))
 		initializerStatements += setValueField
 
-		if link.TargetMultiplicity != "" {
+		if linkshape.TargetMultiplicity != "" {
 			setValueField = StringEnumInitStatement
 			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "TargetMultiplicity")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+link.TargetMultiplicity.ToCodeString())
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+linkshape.TargetMultiplicity.ToCodeString())
 			initializerStatements += setValueField
 		}
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "TargetMultiplicityOffsetX")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", link.TargetMultiplicityOffsetX))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", linkshape.TargetMultiplicityOffsetX))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "TargetMultiplicityOffsetY")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", link.TargetMultiplicityOffsetY))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", linkshape.TargetMultiplicityOffsetY))
 		initializerStatements += setValueField
 
-		if link.SourceMultiplicity != "" {
+		if linkshape.SourceMultiplicity != "" {
 			setValueField = StringEnumInitStatement
 			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "SourceMultiplicity")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+link.SourceMultiplicity.ToCodeString())
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+linkshape.SourceMultiplicity.ToCodeString())
 			initializerStatements += setValueField
 		}
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "SourceMultiplicityOffsetX")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", link.SourceMultiplicityOffsetX))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", linkshape.SourceMultiplicityOffsetX))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "SourceMultiplicityOffsetY")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", link.SourceMultiplicityOffsetY))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", linkshape.SourceMultiplicityOffsetY))
 		initializerStatements += setValueField
 
-		if link.StartOrientation != "" {
+		if linkshape.StartOrientation != "" {
 			setValueField = StringEnumInitStatement
 			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StartOrientation")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+link.StartOrientation.ToCodeString())
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+linkshape.StartOrientation.ToCodeString())
 			initializerStatements += setValueField
 		}
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StartRatio")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", link.StartRatio))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", linkshape.StartRatio))
 		initializerStatements += setValueField
 
-		if link.EndOrientation != "" {
+		if linkshape.EndOrientation != "" {
 			setValueField = StringEnumInitStatement
 			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "EndOrientation")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+link.EndOrientation.ToCodeString())
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+linkshape.EndOrientation.ToCodeString())
 			initializerStatements += setValueField
 		}
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "EndRatio")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", link.EndRatio))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", linkshape.EndRatio))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CornerOffsetRatio")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", link.CornerOffsetRatio))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", linkshape.CornerOffsetRatio))
 		initializerStatements += setValueField
 
 	}
@@ -1066,15 +1066,15 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
-	if len(fieldOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Field instances pointers"
+	if len(fieldshapeOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of FieldShape instances pointers"
 	}
-	for idx, field := range fieldOrdered {
+	for idx, fieldshape := range fieldshapeOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Field", idx, field.Name)
-		map_Field_Identifiers[field] = id
+		id = generatesIdentifier("FieldShape", idx, fieldshape.Name)
+		map_FieldShape_Identifiers[fieldshape] = id
 
 		// Initialisation of values
 	}
@@ -1140,40 +1140,40 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 			pointersInitializesStatements += setPointerField
 		}
 
-		for _, _field := range gongstructshape.FieldShapes {
+		for _, _fieldshape := range gongstructshape.AttributeShapes {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Fields")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Field_Identifiers[_field])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "FieldShapes")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_FieldShape_Identifiers[_fieldshape])
 			pointersInitializesStatements += setPointerField
 		}
 
-		for _, _link := range gongstructshape.Links {
+		for _, _linkshape := range gongstructshape.Links {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Links")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Link_Identifiers[_link])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_LinkShape_Identifiers[_linkshape])
 			pointersInitializesStatements += setPointerField
 		}
 
 	}
 
-	if len(linkOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Link instances pointers"
+	if len(linkshapeOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of LinkShape instances pointers"
 	}
-	for idx, link := range linkOrdered {
+	for idx, linkshape := range linkshapeOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Link", idx, link.Name)
-		map_Link_Identifiers[link] = id
+		id = generatesIdentifier("LinkShape", idx, linkshape.Name)
+		map_LinkShape_Identifiers[linkshape] = id
 
 		// Initialisation of values
-		if link.Middlevertice != nil {
+		if linkshape.Middlevertice != nil {
 			setPointerField = PointerFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Middlevertice")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Vertice_Identifiers[link.Middlevertice])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Vertice_Identifiers[linkshape.Middlevertice])
 			pointersInitializesStatements += setPointerField
 		}
 

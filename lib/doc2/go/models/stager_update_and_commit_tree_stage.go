@@ -85,10 +85,9 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			for _, field := range gongStruct.Fields {
 				shape, isInDiagram := map_modelElement_shape[field]
 
-				fieldShape, ok := shape.(*FieldShape)
-				if isInDiagram && !ok {
-					log.Fatalln("A field shape should be mapped to a field")
-
+				attributeShape, isAFieldShape := shape.(*AttributeShape)
+				if isInDiagram && !isAFieldShape {
+					log.Fatalln("A field should be mapped to a field shape or a link shape")
 				}
 
 				// if field is a link to another, disable the checkbox
@@ -112,14 +111,14 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 					IsCheckboxDisabled: isCheckboxDisabled,
 				}
 
-				nodeField.Impl = &FieldNodeProxy{
+				nodeField.Impl = &AttributeFieldNodeProxy{
 					node:            nodeNamedStruct,
 					stager:          stager,
 					classDiagram:    classDiagram,
 					gongstruct:      gongStruct,
 					gongStructShape: gongStructShape,
 					field:           field,
-					fieldShape:      fieldShape,
+					attributeShape:  attributeShape,
 				}
 
 				nodeNamedStruct.Children = append(nodeNamedStruct.Children, nodeField)
@@ -234,24 +233,24 @@ func (proxy *GongstructNodeProxy) OnAfterUpdate(
 	}
 }
 
-type FieldNodeProxy struct {
+type AttributeFieldNodeProxy struct {
 	node            *tree.Node
 	stager          *Stager
 	classDiagram    *Classdiagram
 	gongstruct      *gong.GongStruct
 	gongStructShape *GongStructShape
 	field           gong.FieldInterface
-	fieldShape      *FieldShape
+	attributeShape  *AttributeShape
 }
 
-func (proxy *FieldNodeProxy) OnAfterUpdate(
+func (proxy *AttributeFieldNodeProxy) OnAfterUpdate(
 	stage *tree.Stage,
 	staged, front *tree.Node) {
 
 	// intercept update to the node that are when the node is checked
 	if front.IsChecked && !staged.IsChecked {
 		// uncheck all other diagram
-		proxy.classDiagram.AddFieldShape(
+		proxy.classDiagram.AddAttributeFieldShape(
 			proxy.stager.stage,
 			proxy.stager.gongStage,
 			proxy.gongstruct,
@@ -266,7 +265,7 @@ func (proxy *FieldNodeProxy) OnAfterUpdate(
 
 	// the checked node is unchecked
 	if !front.IsChecked && staged.IsChecked {
-		proxy.classDiagram.RemoveFieldShape(proxy.stager.stage, proxy.fieldShape, proxy.gongStructShape)
+		proxy.classDiagram.RemoveAttributeFieldShape(proxy.stager.stage, proxy.attributeShape, proxy.gongStructShape)
 
 		proxy.stager.UpdateAndCommitTreeStage()
 		proxy.stager.UpdateAndCommitSVGStage()

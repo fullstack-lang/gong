@@ -51,19 +51,19 @@ func FillUpFormFromGongstructName(
 		diagrampackage := new(models.DiagramPackage)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(diagrampackage, formGroup, probe)
-	case "Field":
+	case "FieldShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
-			Label: prefix + "Field Form",
+			Label: prefix + "FieldShape Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__FieldFormCallback(
+		formGroup.OnSave = __gong__New__FieldShapeFormCallback(
 			nil,
 			probe,
 			formGroup,
 		)
-		field := new(models.FieldShape)
+		fieldshape := new(models.AttributeShape)
 		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(field, formGroup, probe)
+		FillUpForm(fieldshape, formGroup, probe)
 	case "GongEnumShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -103,19 +103,19 @@ func FillUpFormFromGongstructName(
 		gongstructshape := new(models.GongStructShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(gongstructshape, formGroup, probe)
-	case "Link":
+	case "LinkShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
-			Label: prefix + "Link Form",
+			Label: prefix + "LinkShape Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__LinkFormCallback(
+		formGroup.OnSave = __gong__New__LinkShapeFormCallback(
 			nil,
 			probe,
 			formGroup,
 		)
-		link := new(models.Link)
+		linkshape := new(models.LinkShape)
 		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(link, formGroup, probe)
+		FillUpForm(linkshape, formGroup, probe)
 	case "NoteShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

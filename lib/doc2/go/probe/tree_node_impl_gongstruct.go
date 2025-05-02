@@ -58,8 +58,8 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "DiagramPackage" {
 		fillUpTable[models.DiagramPackage](nodeImplGongstruct.probe)
 	}
-	if nodeImplGongstruct.gongStruct.GetName() == "Field" {
-		fillUpTable[models.FieldShape](nodeImplGongstruct.probe)
+	if nodeImplGongstruct.gongStruct.GetName() == "FieldShape" {
+		fillUpTable[models.AttributeShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongEnumShape" {
 		fillUpTable[models.GongEnumShape](nodeImplGongstruct.probe)
@@ -70,8 +70,8 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "GongStructShape" {
 		fillUpTable[models.GongStructShape](nodeImplGongstruct.probe)
 	}
-	if nodeImplGongstruct.gongStruct.GetName() == "Link" {
-		fillUpTable[models.Link](nodeImplGongstruct.probe)
+	if nodeImplGongstruct.gongStruct.GetName() == "LinkShape" {
+		fillUpTable[models.LinkShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "NoteShape" {
 		fillUpTable[models.NoteShape](nodeImplGongstruct.probe)
