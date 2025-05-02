@@ -152,7 +152,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 		nodeGongEnums := &tree.Node{
 			Name:       fmt.Sprintf("Gongenums (%d/%d)", nbGongenumsInDiagram, len(gongenums)),
 			IsExpanded: classDiagram.NodeGongEnumsIsExpanded,
-			Impl: &ClassDiagramGongstructsNodeProxy{
+			Impl: &ClassDiagramGongEnumsNodeProxy{
 				stager:       stager,
 				classDiagram: classDiagram,
 			},
@@ -297,6 +297,13 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 				IsChecked:         isInDiagram,
 				IsExpanded:        isExpanded,
 			}
+			node.Impl = &GongEnumNodeProxy{
+				node:          node,
+				stager:        stager,
+				classDiagram:  classDiagram,
+				gongenum:      gongEnum,
+				gongEnumShape: gongEnumShape,
+			}
 			nodeGongEnums.Children = append(nodeGongEnums.Children, node)
 		}
 
@@ -330,156 +337,6 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 	)
 
 	stager.treeStage.Commit()
-}
-
-type ClassDiagramNodeProxy struct {
-	node         *tree.Node
-	stager       *Stager
-	classDiagram *Classdiagram
-}
-
-// OnAfterUpdate is called when a node is checked/unchecked by the user
-func (proxy *ClassDiagramNodeProxy) OnAfterUpdate(
-	stage *tree.Stage,
-	staged, front *tree.Node) {
-
-	// intercept update to the node that are when the node is checked
-	if front.IsChecked && !staged.IsChecked {
-		// uncheck all other diagram
-		diagramPackage := getTheDiagramPackage(proxy.stager.stage)
-		diagramPackage.SelectedClassdiagram = proxy.classDiagram
-
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitSVGStage()
-
-		proxy.stager.stage.Commit()
-	}
-
-	// the checked node is unchecked
-	if !front.IsChecked && staged.IsChecked {
-		diagramPackage := getTheDiagramPackage(proxy.stager.stage)
-		diagramPackage.SelectedClassdiagram = nil
-
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitSVGStage()
-
-		proxy.stager.stage.Commit()
-	}
-
-	if front.IsExpanded && !staged.IsExpanded {
-		proxy.classDiagram.IsExpanded = true
-		front.IsExpanded = false
-
-		proxy.stager.stage.Commit()
-	}
-	if !front.IsExpanded && staged.IsExpanded {
-		proxy.classDiagram.IsExpanded = false
-		front.IsExpanded = true
-
-		proxy.stager.stage.Commit()
-	}
-
-	if front.Name != staged.Name {
-		proxy.classDiagram.Name = front.Name
-		proxy.classDiagram.IsInRenameMode = false
-
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.stage.Commit()
-	}
-}
-
-type ClassDiagramGongstructsNodeProxy struct {
-	stager       *Stager
-	classDiagram *Classdiagram
-}
-
-func (proxy *ClassDiagramGongstructsNodeProxy) OnAfterUpdate(
-	stage *tree.Stage,
-	staged, front *tree.Node) {
-
-	if front.IsExpanded && !staged.IsExpanded {
-		proxy.classDiagram.NodeNamedStructsIsExpanded = true
-		front.IsExpanded = false
-
-		proxy.stager.stage.Commit()
-	}
-	if !front.IsExpanded && staged.IsExpanded {
-		proxy.classDiagram.NodeNamedStructsIsExpanded = false
-		front.IsExpanded = true
-
-		proxy.stager.stage.Commit()
-	}
-}
-
-type ClassDiagramGongEnumsNodeProxy struct {
-	stager       *Stager
-	classDiagram *Classdiagram
-}
-
-func (proxy *ClassDiagramGongEnumsNodeProxy) OnAfterUpdate(
-	stage *tree.Stage,
-	staged, front *tree.Node) {
-
-	if front.IsExpanded && !staged.IsExpanded {
-		proxy.classDiagram.NodeGongEnumsIsExpanded = true
-		front.IsExpanded = false
-
-		proxy.stager.stage.Commit()
-	}
-	if !front.IsExpanded && staged.IsExpanded {
-		proxy.classDiagram.NodeGongEnumsIsExpanded = false
-		front.IsExpanded = true
-
-		proxy.stager.stage.Commit()
-	}
-}
-
-type GongstructNodeProxy struct {
-	node            *tree.Node
-	stager          *Stager
-	classDiagram    *Classdiagram
-	gongstruct      *gong.GongStruct
-	gongStructShape *GongStructShape
-}
-
-func (proxy *GongstructNodeProxy) OnAfterUpdate(
-	stage *tree.Stage,
-	staged, front *tree.Node) {
-
-	// intercept update to the node that are when the node is checked
-	if front.IsChecked && !staged.IsChecked {
-		// uncheck all other diagram
-		diagramPackage := getTheDiagramPackage(proxy.stager.stage)
-		proxy.classDiagram.AddGongStructShape(proxy.stager.stage, diagramPackage, proxy.gongstruct.Name)
-
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitSVGStage()
-
-		proxy.stager.stage.Commit()
-	}
-
-	// the checked node is unchecked
-	if !front.IsChecked && staged.IsChecked {
-		proxy.classDiagram.RemoveGongStructShape(proxy.stager.stage, proxy.gongstruct.Name)
-
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitSVGStage()
-
-		proxy.stager.stage.Commit()
-	}
-
-	if front.IsExpanded && !staged.IsExpanded {
-		proxy.gongStructShape.IsExpanded = true
-		front.IsExpanded = false
-
-		proxy.stager.stage.Commit()
-	}
-	if !front.IsExpanded && staged.IsExpanded {
-		proxy.gongStructShape.IsExpanded = false
-		front.IsExpanded = true
-
-		proxy.stager.stage.Commit()
-	}
 }
 
 type AttributeFieldNodeProxy struct {
