@@ -1118,6 +1118,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Classdiagram[identifier].IsExpanded = fielValue
+				case "NodeNamedStructsIsExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Classdiagram[identifier].NodeNamedStructsIsExpanded = fielValue
+				case "NodeGongEnumsIsExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Classdiagram[identifier].NodeGongEnumsIsExpanded = fielValue
 				}
 			case "DiagramPackage":
 				switch fieldName {
@@ -1143,6 +1157,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			case "GongEnumShape":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "IsExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_GongEnumShape[identifier].IsExpanded = fielValue
 				}
 			case "GongEnumValueEntry":
 				switch fieldName {
