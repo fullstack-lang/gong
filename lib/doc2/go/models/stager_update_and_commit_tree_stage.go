@@ -80,6 +80,16 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 					RENAME_CANCEL,
 				),
 			},
+			&tree.Button{
+				Name: classDiagram.GetName() + " " + string(buttons.BUTTON_copy_all),
+				Icon: string(buttons.BUTTON_copy_all),
+				Impl: NewClassDiagramButtonProxy(
+					stager,
+					classDiagram,
+					nodeClassdiagram,
+					DUPLICATE,
+				),
+			},
 		)
 
 		root.Children = append(root.Children, nodeClassdiagram)
