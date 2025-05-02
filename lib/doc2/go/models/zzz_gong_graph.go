@@ -32,12 +32,6 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *NoteShapeLink:
 		ok = stage.IsStagedNoteShapeLink(target)
 
-	case *UmlState:
-		ok = stage.IsStagedUmlState(target)
-
-	case *Umlsc:
-		ok = stage.IsStagedUmlsc(target)
-
 	default:
 		_ = target
 	}
@@ -108,20 +102,6 @@ func (stage *Stage) IsStagedNoteShapeLink(noteshapelink *NoteShapeLink) (ok bool
 	return
 }
 
-func (stage *Stage) IsStagedUmlState(umlstate *UmlState) (ok bool) {
-
-	_, ok = stage.UmlStates[umlstate]
-
-	return
-}
-
-func (stage *Stage) IsStagedUmlsc(umlsc *Umlsc) (ok bool) {
-
-	_, ok = stage.Umlscs[umlsc]
-
-	return
-}
-
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -156,12 +136,6 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *NoteShapeLink:
 		stage.StageBranchNoteShapeLink(target)
-
-	case *UmlState:
-		stage.StageBranchUmlState(target)
-
-	case *Umlsc:
-		stage.StageBranchUmlsc(target)
 
 	default:
 		_ = target
@@ -225,9 +199,6 @@ func (stage *Stage) StageBranchDiagramPackage(diagrampackage *DiagramPackage) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _classdiagram := range diagrampackage.Classdiagrams {
 		StageBranch(stage, _classdiagram)
-	}
-	for _, _umlsc := range diagrampackage.Umlscs {
-		StageBranch(stage, _umlsc)
 	}
 
 }
@@ -334,39 +305,6 @@ func (stage *Stage) StageBranchNoteShapeLink(noteshapelink *NoteShapeLink) {
 
 }
 
-func (stage *Stage) StageBranchUmlState(umlstate *UmlState) {
-
-	// check if instance is already staged
-	if IsStaged(stage, umlstate) {
-		return
-	}
-
-	umlstate.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stage *Stage) StageBranchUmlsc(umlsc *Umlsc) {
-
-	// check if instance is already staged
-	if IsStaged(stage, umlsc) {
-		return
-	}
-
-	umlsc.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _umlstate := range umlsc.States {
-		StageBranch(stage, _umlstate)
-	}
-
-}
-
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -412,14 +350,6 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *NoteShapeLink:
 		toT := CopyBranchNoteShapeLink(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
-	case *UmlState:
-		toT := CopyBranchUmlState(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
-	case *Umlsc:
-		toT := CopyBranchUmlsc(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -496,9 +426,6 @@ func CopyBranchDiagramPackage(mapOrigCopy map[any]any, diagrampackageFrom *Diagr
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _classdiagram := range diagrampackageFrom.Classdiagrams {
 		diagrampackageTo.Classdiagrams = append(diagrampackageTo.Classdiagrams, CopyBranchClassdiagram(mapOrigCopy, _classdiagram))
-	}
-	for _, _umlsc := range diagrampackageFrom.Umlscs {
-		diagrampackageTo.Umlscs = append(diagrampackageTo.Umlscs, CopyBranchUmlsc(mapOrigCopy, _umlsc))
 	}
 
 	return
@@ -630,47 +557,6 @@ func CopyBranchNoteShapeLink(mapOrigCopy map[any]any, noteshapelinkFrom *NoteSha
 	return
 }
 
-func CopyBranchUmlState(mapOrigCopy map[any]any, umlstateFrom *UmlState) (umlstateTo *UmlState) {
-
-	// umlstateFrom has already been copied
-	if _umlstateTo, ok := mapOrigCopy[umlstateFrom]; ok {
-		umlstateTo = _umlstateTo.(*UmlState)
-		return
-	}
-
-	umlstateTo = new(UmlState)
-	mapOrigCopy[umlstateFrom] = umlstateTo
-	umlstateFrom.CopyBasicFields(umlstateTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-	return
-}
-
-func CopyBranchUmlsc(mapOrigCopy map[any]any, umlscFrom *Umlsc) (umlscTo *Umlsc) {
-
-	// umlscFrom has already been copied
-	if _umlscTo, ok := mapOrigCopy[umlscFrom]; ok {
-		umlscTo = _umlscTo.(*Umlsc)
-		return
-	}
-
-	umlscTo = new(Umlsc)
-	mapOrigCopy[umlscFrom] = umlscTo
-	umlscFrom.CopyBasicFields(umlscTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _umlstate := range umlscFrom.States {
-		umlscTo.States = append(umlscTo.States, CopyBranchUmlState(mapOrigCopy, _umlstate))
-	}
-
-	return
-}
-
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
 //
@@ -705,12 +591,6 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *NoteShapeLink:
 		stage.UnstageBranchNoteShapeLink(target)
-
-	case *UmlState:
-		stage.UnstageBranchUmlState(target)
-
-	case *Umlsc:
-		stage.UnstageBranchUmlsc(target)
 
 	default:
 		_ = target
@@ -774,9 +654,6 @@ func (stage *Stage) UnstageBranchDiagramPackage(diagrampackage *DiagramPackage) 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _classdiagram := range diagrampackage.Classdiagrams {
 		UnstageBranch(stage, _classdiagram)
-	}
-	for _, _umlsc := range diagrampackage.Umlscs {
-		UnstageBranch(stage, _umlsc)
 	}
 
 }
@@ -880,38 +757,5 @@ func (stage *Stage) UnstageBranchNoteShapeLink(noteshapelink *NoteShapeLink) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stage *Stage) UnstageBranchUmlState(umlstate *UmlState) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, umlstate) {
-		return
-	}
-
-	umlstate.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stage *Stage) UnstageBranchUmlsc(umlsc *Umlsc) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, umlsc) {
-		return
-	}
-
-	umlsc.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _umlstate := range umlsc.States {
-		UnstageBranch(stage, _umlstate)
-	}
 
 }

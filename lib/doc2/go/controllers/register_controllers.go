@@ -112,20 +112,6 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/noteshapelinks/:id", GetController().UpdateNoteShapeLink)
 		v1.DELETE("/v1/noteshapelinks/:id", GetController().DeleteNoteShapeLink)
 
-		v1.GET("/v1/umlstates", GetController().GetUmlStates)
-		v1.GET("/v1/umlstates/:id", GetController().GetUmlState)
-		v1.POST("/v1/umlstates", GetController().PostUmlState)
-		v1.PATCH("/v1/umlstates/:id", GetController().UpdateUmlState)
-		v1.PUT("/v1/umlstates/:id", GetController().UpdateUmlState)
-		v1.DELETE("/v1/umlstates/:id", GetController().DeleteUmlState)
-
-		v1.GET("/v1/umlscs", GetController().GetUmlscs)
-		v1.GET("/v1/umlscs/:id", GetController().GetUmlsc)
-		v1.POST("/v1/umlscs", GetController().PostUmlsc)
-		v1.PATCH("/v1/umlscs/:id", GetController().UpdateUmlsc)
-		v1.PUT("/v1/umlscs/:id", GetController().UpdateUmlsc)
-		v1.DELETE("/v1/umlscs/:id", GetController().DeleteUmlsc)
-
 		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
 
