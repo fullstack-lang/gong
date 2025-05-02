@@ -26,6 +26,10 @@ type Node struct {
 	IsChecked          bool
 	IsCheckboxDisabled bool
 
+	CheckboxHasToolTip      bool
+	CheckboxToolTipText     string
+	CheckboxToolTipPosition ToolTipPositionEnum
+
 	// fields related to the selection of the node by a check box
 	HasSecondCheckboxButton  bool
 	IsSecondCheckboxChecked  bool
