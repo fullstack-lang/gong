@@ -11,15 +11,11 @@ type ButtonNewClassdiagramProxy struct {
 	stager *Stager
 }
 
-// GetButtonsStage implements models.Target.
-func (b *ButtonNewClassdiagramProxy) GetButtonsStage() *tree.Stage {
-	return b.stager.treeStage
-}
+func (proxy *ButtonNewClassdiagramProxy) ButtonUpdated(
+	treeStage *tree.Stage,
+	staged, front *tree.Button) {
 
-// OnAfterUpdateButton implements models.Target.
-func (b *ButtonNewClassdiagramProxy) OnAfterUpdateButton() {
-
-	stager := b.stager
+	stager := proxy.stager
 	stage := stager.stage
 
 	diagramPackages := *GetGongstructInstancesSet[DiagramPackage](stage)
