@@ -19,6 +19,18 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 
 	switch instancesTyped := any(instance).(type) {
 	// insertion point
+	case *models.AttributeShape:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "AttributeShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__AttributeShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Classdiagram:
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,
@@ -37,18 +49,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 			Label: "DiagramPackage Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__DiagramPackageFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.AttributeShape:
-		formGroup := (&gongtable.FormGroup{
-			Name:  formName,
-			Label: "FieldShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__FieldShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

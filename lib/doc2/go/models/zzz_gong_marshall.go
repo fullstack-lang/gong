@@ -94,6 +94,74 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 	_ = setValueField
 
 	// insertion initialization of objects to stage
+	map_AttributeShape_Identifiers := make(map[*AttributeShape]string)
+	_ = map_AttributeShape_Identifiers
+
+	attributeshapeOrdered := []*AttributeShape{}
+	for attributeshape := range stage.AttributeShapes {
+		attributeshapeOrdered = append(attributeshapeOrdered, attributeshape)
+	}
+	sort.Slice(attributeshapeOrdered[:], func(i, j int) bool {
+		attributeshapei := attributeshapeOrdered[i]
+		attributeshapej := attributeshapeOrdered[j]
+		attributeshapei_order, oki := stage.AttributeShapeMap_Staged_Order[attributeshapei]
+		attributeshapej_order, okj := stage.AttributeShapeMap_Staged_Order[attributeshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return attributeshapei_order < attributeshapej_order
+	})
+	if len(attributeshapeOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, attributeshape := range attributeshapeOrdered {
+
+		id = generatesIdentifier("AttributeShape", idx, attributeshape.Name)
+		map_AttributeShape_Identifiers[attributeshape] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "AttributeShape")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", attributeshape.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(attributeshape.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
+			fmt.Sprintf("\n\n\t//gong:ident [%s] comment added to overcome the problem with the comment map association\n\t{{Identifier}}",
+				string(attributeshape.Identifier)))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Identifier")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(attributeshape.Identifier))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "FieldTypeAsString")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(attributeshape.FieldTypeAsString))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Structname")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(attributeshape.Structname))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Fieldtypename")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(attributeshape.Fieldtypename))
+		initializerStatements += setValueField
+
+	}
+
 	map_Classdiagram_Identifiers := make(map[*Classdiagram]string)
 	_ = map_Classdiagram_Identifiers
 
@@ -214,74 +282,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "AbsolutePathToDiagramPackage")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagrampackage.AbsolutePathToDiagramPackage))
-		initializerStatements += setValueField
-
-	}
-
-	map_FieldShape_Identifiers := make(map[*AttributeShape]string)
-	_ = map_FieldShape_Identifiers
-
-	fieldshapeOrdered := []*AttributeShape{}
-	for fieldshape := range stage.FieldShapes {
-		fieldshapeOrdered = append(fieldshapeOrdered, fieldshape)
-	}
-	sort.Slice(fieldshapeOrdered[:], func(i, j int) bool {
-		fieldshapei := fieldshapeOrdered[i]
-		fieldshapej := fieldshapeOrdered[j]
-		fieldshapei_order, oki := stage.FieldShapeMap_Staged_Order[fieldshapei]
-		fieldshapej_order, okj := stage.FieldShapeMap_Staged_Order[fieldshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return fieldshapei_order < fieldshapej_order
-	})
-	if len(fieldshapeOrdered) > 0 {
-		identifiersDecl += "\n"
-	}
-	for idx, fieldshape := range fieldshapeOrdered {
-
-		id = generatesIdentifier("FieldShape", idx, fieldshape.Name)
-		map_FieldShape_Identifiers[fieldshape] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FieldShape")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fieldshape.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(fieldshape.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
-			fmt.Sprintf("\n\n\t//gong:ident [%s] comment added to overcome the problem with the comment map association\n\t{{Identifier}}",
-				string(fieldshape.Identifier)))
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Identifier")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(fieldshape.Identifier))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "FieldTypeAsString")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(fieldshape.FieldTypeAsString))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Structname")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(fieldshape.Structname))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Fieldtypename")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(fieldshape.Fieldtypename))
 		initializerStatements += setValueField
 
 	}
@@ -992,6 +992,19 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 	}
 
 	// insertion initialization of objects to stage
+	if len(attributeshapeOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of AttributeShape instances pointers"
+	}
+	for idx, attributeshape := range attributeshapeOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("AttributeShape", idx, attributeshape.Name)
+		map_AttributeShape_Identifiers[attributeshape] = id
+
+		// Initialisation of values
+	}
+
 	if len(classdiagramOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Classdiagram instances pointers"
 	}
@@ -1066,19 +1079,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
-	if len(fieldshapeOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of FieldShape instances pointers"
-	}
-	for idx, fieldshape := range fieldshapeOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("FieldShape", idx, fieldshape.Name)
-		map_FieldShape_Identifiers[fieldshape] = id
-
-		// Initialisation of values
-	}
-
 	if len(gongenumshapeOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of GongEnumShape instances pointers"
 	}
@@ -1140,18 +1140,18 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 			pointersInitializesStatements += setPointerField
 		}
 
-		for _, _fieldshape := range gongstructshape.AttributeShapes {
+		for _, _attributeshape := range gongstructshape.AttributeShapes {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "FieldShapes")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_FieldShape_Identifiers[_fieldshape])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "AttributeShapes")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_AttributeShape_Identifiers[_attributeshape])
 			pointersInitializesStatements += setPointerField
 		}
 
-		for _, _linkshape := range gongstructshape.Links {
+		for _, _linkshape := range gongstructshape.LinkShapes {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Links")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "LinkShapes")
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_LinkShape_Identifiers[_linkshape])
 			pointersInitializesStatements += setPointerField
 		}

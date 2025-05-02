@@ -20,6 +20,10 @@ type DBLite struct {
 
 	// insertion point definitions
 
+	attributeshapeDBs map[uint]*AttributeShapeDB
+
+	nextIDAttributeShapeDB uint
+
 	classdiagramDBs map[uint]*ClassdiagramDB
 
 	nextIDClassdiagramDB uint
@@ -27,10 +31,6 @@ type DBLite struct {
 	diagrampackageDBs map[uint]*DiagramPackageDB
 
 	nextIDDiagramPackageDB uint
-
-	fieldshapeDBs map[uint]*FieldShapeDB
-
-	nextIDFieldShapeDB uint
 
 	gongenumshapeDBs map[uint]*GongEnumShapeDB
 
@@ -78,11 +78,11 @@ func NewDBLite() *DBLite {
 	return &DBLite{
 		// insertion point maps init
 
+		attributeshapeDBs: make(map[uint]*AttributeShapeDB),
+
 		classdiagramDBs: make(map[uint]*ClassdiagramDB),
 
 		diagrampackageDBs: make(map[uint]*DiagramPackageDB),
-
-		fieldshapeDBs: make(map[uint]*FieldShapeDB),
 
 		gongenumshapeDBs: make(map[uint]*GongEnumShapeDB),
 
@@ -117,6 +117,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 
 	switch v := instanceDB.(type) {
 	// insertion point create
+	case *AttributeShapeDB:
+		db.nextIDAttributeShapeDB++
+		v.ID = db.nextIDAttributeShapeDB
+		db.attributeshapeDBs[v.ID] = v
 	case *ClassdiagramDB:
 		db.nextIDClassdiagramDB++
 		v.ID = db.nextIDClassdiagramDB
@@ -125,10 +129,6 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDDiagramPackageDB++
 		v.ID = db.nextIDDiagramPackageDB
 		db.diagrampackageDBs[v.ID] = v
-	case *FieldShapeDB:
-		db.nextIDFieldShapeDB++
-		v.ID = db.nextIDFieldShapeDB
-		db.fieldshapeDBs[v.ID] = v
 	case *GongEnumShapeDB:
 		db.nextIDGongEnumShapeDB++
 		v.ID = db.nextIDGongEnumShapeDB
@@ -197,12 +197,12 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 
 	switch v := instanceDB.(type) {
 	// insertion point delete
+	case *AttributeShapeDB:
+		delete(db.attributeshapeDBs, v.ID)
 	case *ClassdiagramDB:
 		delete(db.classdiagramDBs, v.ID)
 	case *DiagramPackageDB:
 		delete(db.diagrampackageDBs, v.ID)
-	case *FieldShapeDB:
-		delete(db.fieldshapeDBs, v.ID)
 	case *GongEnumShapeDB:
 		delete(db.gongenumshapeDBs, v.ID)
 	case *GongEnumValueEntryDB:
@@ -241,14 +241,14 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 
 	switch v := instanceDB.(type) {
 	// insertion point delete
+	case *AttributeShapeDB:
+		db.attributeshapeDBs[v.ID] = v
+		return db, nil
 	case *ClassdiagramDB:
 		db.classdiagramDBs[v.ID] = v
 		return db, nil
 	case *DiagramPackageDB:
 		db.diagrampackageDBs[v.ID] = v
-		return db, nil
-	case *FieldShapeDB:
-		db.fieldshapeDBs[v.ID] = v
 		return db, nil
 	case *GongEnumShapeDB:
 		db.gongenumshapeDBs[v.ID] = v
@@ -296,6 +296,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 
 	switch v := instanceDB.(type) {
 	// insertion point delete
+	case *AttributeShapeDB:
+		if existing, ok := db.attributeshapeDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db AttributeShape github.com/fullstack-lang/gong/lib/doc2/go, record not found")
+		}
 	case *ClassdiagramDB:
 		if existing, ok := db.classdiagramDBs[v.ID]; ok {
 			*existing = *v
@@ -307,12 +313,6 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db DiagramPackage github.com/fullstack-lang/gong/lib/doc2/go, record not found")
-		}
-	case *FieldShapeDB:
-		if existing, ok := db.fieldshapeDBs[v.ID]; ok {
-			*existing = *v
-		} else {
-			return nil, errors.New("db FieldShape github.com/fullstack-lang/gong/lib/doc2/go, record not found")
 		}
 	case *GongEnumShapeDB:
 		if existing, ok := db.gongenumshapeDBs[v.ID]; ok {
@@ -388,6 +388,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 
 	switch ptr := instanceDBs.(type) {
 	// insertion point find
+	case *[]AttributeShapeDB:
+		*ptr = make([]AttributeShapeDB, 0, len(db.attributeshapeDBs))
+		for _, v := range db.attributeshapeDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]ClassdiagramDB:
 		*ptr = make([]ClassdiagramDB, 0, len(db.classdiagramDBs))
 		for _, v := range db.classdiagramDBs {
@@ -397,12 +403,6 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]DiagramPackageDB:
 		*ptr = make([]DiagramPackageDB, 0, len(db.diagrampackageDBs))
 		for _, v := range db.diagrampackageDBs {
-			*ptr = append(*ptr, *v)
-		}
-		return db, nil
-	case *[]FieldShapeDB:
-		*ptr = make([]FieldShapeDB, 0, len(db.fieldshapeDBs))
-		for _, v := range db.fieldshapeDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -499,6 +499,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 	switch instanceDB.(type) {
 	// insertion point first
+	case *AttributeShapeDB:
+		tmp, ok := db.attributeshapeDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First AttributeShape Unkown entry %d", i))
+		}
+
+		attributeshapeDB, _ := instanceDB.(*AttributeShapeDB)
+		*attributeshapeDB = *tmp
+		
 	case *ClassdiagramDB:
 		tmp, ok := db.classdiagramDBs[uint(i)]
 
@@ -518,16 +528,6 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		diagrampackageDB, _ := instanceDB.(*DiagramPackageDB)
 		*diagrampackageDB = *tmp
-		
-	case *FieldShapeDB:
-		tmp, ok := db.fieldshapeDBs[uint(i)]
-
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("db.First FieldShape Unkown entry %d", i))
-		}
-
-		fieldshapeDB, _ := instanceDB.(*FieldShapeDB)
-		*fieldshapeDB = *tmp
 		
 	case *GongEnumShapeDB:
 		tmp, ok := db.gongenumshapeDBs[uint(i)]

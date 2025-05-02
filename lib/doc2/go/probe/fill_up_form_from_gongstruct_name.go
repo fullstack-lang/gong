@@ -25,6 +25,19 @@ func FillUpFormFromGongstructName(
 
 	switch gongstructName {
 	// insertion point
+	case "AttributeShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "AttributeShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__AttributeShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		attributeshape := new(models.AttributeShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(attributeshape, formGroup, probe)
 	case "Classdiagram":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -51,19 +64,6 @@ func FillUpFormFromGongstructName(
 		diagrampackage := new(models.DiagramPackage)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(diagrampackage, formGroup, probe)
-	case "FieldShape":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "FieldShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__FieldShapeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		fieldshape := new(models.AttributeShape)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(fieldshape, formGroup, probe)
 	case "GongEnumShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

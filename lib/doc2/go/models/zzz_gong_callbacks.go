@@ -6,6 +6,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *AttributeShape:
+		if stage.OnAfterAttributeShapeCreateCallback != nil {
+			stage.OnAfterAttributeShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Classdiagram:
 		if stage.OnAfterClassdiagramCreateCallback != nil {
 			stage.OnAfterClassdiagramCreateCallback.OnAfterCreate(stage, target)
@@ -13,10 +17,6 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *DiagramPackage:
 		if stage.OnAfterDiagramPackageCreateCallback != nil {
 			stage.OnAfterDiagramPackageCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *AttributeShape:
-		if stage.OnAfterFieldShapeCreateCallback != nil {
-			stage.OnAfterFieldShapeCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *GongEnumShape:
 		if stage.OnAfterGongEnumShapeCreateCallback != nil {
@@ -68,6 +68,11 @@ func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
+	case *AttributeShape:
+		newTarget := any(new).(*AttributeShape)
+		if stage.OnAfterAttributeShapeUpdateCallback != nil {
+			stage.OnAfterAttributeShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Classdiagram:
 		newTarget := any(new).(*Classdiagram)
 		if stage.OnAfterClassdiagramUpdateCallback != nil {
@@ -77,11 +82,6 @@ func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*DiagramPackage)
 		if stage.OnAfterDiagramPackageUpdateCallback != nil {
 			stage.OnAfterDiagramPackageUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *AttributeShape:
-		newTarget := any(new).(*AttributeShape)
-		if stage.OnAfterFieldShapeUpdateCallback != nil {
-			stage.OnAfterFieldShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *GongEnumShape:
 		newTarget := any(new).(*GongEnumShape)
@@ -143,6 +143,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
+	case *AttributeShape:
+		if stage.OnAfterAttributeShapeDeleteCallback != nil {
+			staged := any(staged).(*AttributeShape)
+			stage.OnAfterAttributeShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Classdiagram:
 		if stage.OnAfterClassdiagramDeleteCallback != nil {
 			staged := any(staged).(*Classdiagram)
@@ -152,11 +157,6 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 		if stage.OnAfterDiagramPackageDeleteCallback != nil {
 			staged := any(staged).(*DiagramPackage)
 			stage.OnAfterDiagramPackageDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *AttributeShape:
-		if stage.OnAfterFieldShapeDeleteCallback != nil {
-			staged := any(staged).(*AttributeShape)
-			stage.OnAfterFieldShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *GongEnumShape:
 		if stage.OnAfterGongEnumShapeDeleteCallback != nil {
@@ -218,6 +218,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *AttributeShape:
+		if stage.OnAfterAttributeShapeReadCallback != nil {
+			stage.OnAfterAttributeShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *Classdiagram:
 		if stage.OnAfterClassdiagramReadCallback != nil {
 			stage.OnAfterClassdiagramReadCallback.OnAfterRead(stage, target)
@@ -225,10 +229,6 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *DiagramPackage:
 		if stage.OnAfterDiagramPackageReadCallback != nil {
 			stage.OnAfterDiagramPackageReadCallback.OnAfterRead(stage, target)
-		}
-	case *AttributeShape:
-		if stage.OnAfterFieldShapeReadCallback != nil {
-			stage.OnAfterFieldShapeReadCallback.OnAfterRead(stage, target)
 		}
 	case *GongEnumShape:
 		if stage.OnAfterGongEnumShapeReadCallback != nil {
@@ -280,183 +280,183 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-	// insertion point
+		// insertion point
+	case *AttributeShape:
+		stage.OnAfterAttributeShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[AttributeShape])
+	
 	case *Classdiagram:
 		stage.OnAfterClassdiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Classdiagram])
-
+	
 	case *DiagramPackage:
 		stage.OnAfterDiagramPackageUpdateCallback = any(callback).(OnAfterUpdateInterface[DiagramPackage])
-
-	case *AttributeShape:
-		stage.OnAfterFieldShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[AttributeShape])
-
+	
 	case *GongEnumShape:
 		stage.OnAfterGongEnumShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GongEnumShape])
-
+	
 	case *GongEnumValueEntry:
 		stage.OnAfterGongEnumValueEntryUpdateCallback = any(callback).(OnAfterUpdateInterface[GongEnumValueEntry])
-
+	
 	case *GongStructShape:
 		stage.OnAfterGongStructShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GongStructShape])
-
+	
 	case *LinkShape:
 		stage.OnAfterLinkShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[LinkShape])
-
+	
 	case *NoteShape:
 		stage.OnAfterNoteShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteShape])
-
+	
 	case *NoteShapeLink:
 		stage.OnAfterNoteShapeLinkUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteShapeLink])
-
+	
 	case *Position:
 		stage.OnAfterPositionUpdateCallback = any(callback).(OnAfterUpdateInterface[Position])
-
+	
 	case *UmlState:
 		stage.OnAfterUmlStateUpdateCallback = any(callback).(OnAfterUpdateInterface[UmlState])
-
+	
 	case *Umlsc:
 		stage.OnAfterUmlscUpdateCallback = any(callback).(OnAfterUpdateInterface[Umlsc])
-
+	
 	case *Vertice:
 		stage.OnAfterVerticeUpdateCallback = any(callback).(OnAfterUpdateInterface[Vertice])
-
+	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
 
 	var instance Type
 	switch any(instance).(type) {
-	// insertion point
+		// insertion point
+	case *AttributeShape:
+		stage.OnAfterAttributeShapeCreateCallback = any(callback).(OnAfterCreateInterface[AttributeShape])
+	
 	case *Classdiagram:
 		stage.OnAfterClassdiagramCreateCallback = any(callback).(OnAfterCreateInterface[Classdiagram])
-
+	
 	case *DiagramPackage:
 		stage.OnAfterDiagramPackageCreateCallback = any(callback).(OnAfterCreateInterface[DiagramPackage])
-
-	case *AttributeShape:
-		stage.OnAfterFieldShapeCreateCallback = any(callback).(OnAfterCreateInterface[AttributeShape])
-
+	
 	case *GongEnumShape:
 		stage.OnAfterGongEnumShapeCreateCallback = any(callback).(OnAfterCreateInterface[GongEnumShape])
-
+	
 	case *GongEnumValueEntry:
 		stage.OnAfterGongEnumValueEntryCreateCallback = any(callback).(OnAfterCreateInterface[GongEnumValueEntry])
-
+	
 	case *GongStructShape:
 		stage.OnAfterGongStructShapeCreateCallback = any(callback).(OnAfterCreateInterface[GongStructShape])
-
+	
 	case *LinkShape:
 		stage.OnAfterLinkShapeCreateCallback = any(callback).(OnAfterCreateInterface[LinkShape])
-
+	
 	case *NoteShape:
 		stage.OnAfterNoteShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteShape])
-
+	
 	case *NoteShapeLink:
 		stage.OnAfterNoteShapeLinkCreateCallback = any(callback).(OnAfterCreateInterface[NoteShapeLink])
-
+	
 	case *Position:
 		stage.OnAfterPositionCreateCallback = any(callback).(OnAfterCreateInterface[Position])
-
+	
 	case *UmlState:
 		stage.OnAfterUmlStateCreateCallback = any(callback).(OnAfterCreateInterface[UmlState])
-
+	
 	case *Umlsc:
 		stage.OnAfterUmlscCreateCallback = any(callback).(OnAfterCreateInterface[Umlsc])
-
+	
 	case *Vertice:
 		stage.OnAfterVerticeCreateCallback = any(callback).(OnAfterCreateInterface[Vertice])
-
+	
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
 
 	var instance Type
 	switch any(instance).(type) {
-	// insertion point
+		// insertion point
+	case *AttributeShape:
+		stage.OnAfterAttributeShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[AttributeShape])
+	
 	case *Classdiagram:
 		stage.OnAfterClassdiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Classdiagram])
-
+	
 	case *DiagramPackage:
 		stage.OnAfterDiagramPackageDeleteCallback = any(callback).(OnAfterDeleteInterface[DiagramPackage])
-
-	case *AttributeShape:
-		stage.OnAfterFieldShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[AttributeShape])
-
+	
 	case *GongEnumShape:
 		stage.OnAfterGongEnumShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GongEnumShape])
-
+	
 	case *GongEnumValueEntry:
 		stage.OnAfterGongEnumValueEntryDeleteCallback = any(callback).(OnAfterDeleteInterface[GongEnumValueEntry])
-
+	
 	case *GongStructShape:
 		stage.OnAfterGongStructShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GongStructShape])
-
+	
 	case *LinkShape:
 		stage.OnAfterLinkShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[LinkShape])
-
+	
 	case *NoteShape:
 		stage.OnAfterNoteShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteShape])
-
+	
 	case *NoteShapeLink:
 		stage.OnAfterNoteShapeLinkDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteShapeLink])
-
+	
 	case *Position:
 		stage.OnAfterPositionDeleteCallback = any(callback).(OnAfterDeleteInterface[Position])
-
+	
 	case *UmlState:
 		stage.OnAfterUmlStateDeleteCallback = any(callback).(OnAfterDeleteInterface[UmlState])
-
+	
 	case *Umlsc:
 		stage.OnAfterUmlscDeleteCallback = any(callback).(OnAfterDeleteInterface[Umlsc])
-
+	
 	case *Vertice:
 		stage.OnAfterVerticeDeleteCallback = any(callback).(OnAfterDeleteInterface[Vertice])
-
+	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
 
 	var instance Type
 	switch any(instance).(type) {
-	// insertion point
+		// insertion point
+	case *AttributeShape:
+		stage.OnAfterAttributeShapeReadCallback = any(callback).(OnAfterReadInterface[AttributeShape])
+	
 	case *Classdiagram:
 		stage.OnAfterClassdiagramReadCallback = any(callback).(OnAfterReadInterface[Classdiagram])
-
+	
 	case *DiagramPackage:
 		stage.OnAfterDiagramPackageReadCallback = any(callback).(OnAfterReadInterface[DiagramPackage])
-
-	case *AttributeShape:
-		stage.OnAfterFieldShapeReadCallback = any(callback).(OnAfterReadInterface[AttributeShape])
-
+	
 	case *GongEnumShape:
 		stage.OnAfterGongEnumShapeReadCallback = any(callback).(OnAfterReadInterface[GongEnumShape])
-
+	
 	case *GongEnumValueEntry:
 		stage.OnAfterGongEnumValueEntryReadCallback = any(callback).(OnAfterReadInterface[GongEnumValueEntry])
-
+	
 	case *GongStructShape:
 		stage.OnAfterGongStructShapeReadCallback = any(callback).(OnAfterReadInterface[GongStructShape])
-
+	
 	case *LinkShape:
 		stage.OnAfterLinkShapeReadCallback = any(callback).(OnAfterReadInterface[LinkShape])
-
+	
 	case *NoteShape:
 		stage.OnAfterNoteShapeReadCallback = any(callback).(OnAfterReadInterface[NoteShape])
-
+	
 	case *NoteShapeLink:
 		stage.OnAfterNoteShapeLinkReadCallback = any(callback).(OnAfterReadInterface[NoteShapeLink])
-
+	
 	case *Position:
 		stage.OnAfterPositionReadCallback = any(callback).(OnAfterReadInterface[Position])
-
+	
 	case *UmlState:
 		stage.OnAfterUmlStateReadCallback = any(callback).(OnAfterReadInterface[UmlState])
-
+	
 	case *Umlsc:
 		stage.OnAfterUmlscReadCallback = any(callback).(OnAfterReadInterface[Umlsc])
-
+	
 	case *Vertice:
 		stage.OnAfterVerticeReadCallback = any(callback).(OnAfterReadInterface[Vertice])
-
+	
 	}
 }

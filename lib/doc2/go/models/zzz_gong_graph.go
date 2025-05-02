@@ -5,14 +5,14 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *AttributeShape:
+		ok = stage.IsStagedAttributeShape(target)
+
 	case *Classdiagram:
 		ok = stage.IsStagedClassdiagram(target)
 
 	case *DiagramPackage:
 		ok = stage.IsStagedDiagramPackage(target)
-
-	case *AttributeShape:
-		ok = stage.IsStagedFieldShape(target)
 
 	case *GongEnumShape:
 		ok = stage.IsStagedGongEnumShape(target)
@@ -51,6 +51,13 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
+func (stage *Stage) IsStagedAttributeShape(attributeshape *AttributeShape) (ok bool) {
+
+	_, ok = stage.AttributeShapes[attributeshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedClassdiagram(classdiagram *Classdiagram) (ok bool) {
 
 	_, ok = stage.Classdiagrams[classdiagram]
@@ -61,13 +68,6 @@ func (stage *Stage) IsStagedClassdiagram(classdiagram *Classdiagram) (ok bool) {
 func (stage *Stage) IsStagedDiagramPackage(diagrampackage *DiagramPackage) (ok bool) {
 
 	_, ok = stage.DiagramPackages[diagrampackage]
-
-	return
-}
-
-func (stage *Stage) IsStagedFieldShape(fieldshape *AttributeShape) (ok bool) {
-
-	_, ok = stage.FieldShapes[fieldshape]
 
 	return
 }
@@ -150,14 +150,14 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
+	case *AttributeShape:
+		stage.StageBranchAttributeShape(target)
+
 	case *Classdiagram:
 		stage.StageBranchClassdiagram(target)
 
 	case *DiagramPackage:
 		stage.StageBranchDiagramPackage(target)
-
-	case *AttributeShape:
-		stage.StageBranchFieldShape(target)
 
 	case *GongEnumShape:
 		stage.StageBranchGongEnumShape(target)
@@ -195,6 +195,21 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for stage branch per struct
+func (stage *Stage) StageBranchAttributeShape(attributeshape *AttributeShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, attributeshape) {
+		return
+	}
+
+	attributeshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchClassdiagram(classdiagram *Classdiagram) {
 
 	// check if instance is already staged
@@ -240,21 +255,6 @@ func (stage *Stage) StageBranchDiagramPackage(diagrampackage *DiagramPackage) {
 	for _, _umlsc := range diagrampackage.Umlscs {
 		StageBranch(stage, _umlsc)
 	}
-
-}
-
-func (stage *Stage) StageBranchFieldShape(fieldshape *AttributeShape) {
-
-	// check if instance is already staged
-	if IsStaged(stage, fieldshape) {
-		return
-	}
-
-	fieldshape.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -309,10 +309,10 @@ func (stage *Stage) StageBranchGongStructShape(gongstructshape *GongStructShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _fieldshape := range gongstructshape.AttributeShapes {
-		StageBranch(stage, _fieldshape)
+	for _, _attributeshape := range gongstructshape.AttributeShapes {
+		StageBranch(stage, _attributeshape)
 	}
-	for _, _linkshape := range gongstructshape.Links {
+	for _, _linkshape := range gongstructshape.LinkShapes {
 		StageBranch(stage, _linkshape)
 	}
 
@@ -443,16 +443,16 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
+	case *AttributeShape:
+		toT := CopyBranchAttributeShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Classdiagram:
 		toT := CopyBranchClassdiagram(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *DiagramPackage:
 		toT := CopyBranchDiagramPackage(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
-	case *AttributeShape:
-		toT := CopyBranchFieldShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *GongEnumShape:
@@ -502,6 +502,25 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
+func CopyBranchAttributeShape(mapOrigCopy map[any]any, attributeshapeFrom *AttributeShape) (attributeshapeTo *AttributeShape) {
+
+	// attributeshapeFrom has already been copied
+	if _attributeshapeTo, ok := mapOrigCopy[attributeshapeFrom]; ok {
+		attributeshapeTo = _attributeshapeTo.(*AttributeShape)
+		return
+	}
+
+	attributeshapeTo = new(AttributeShape)
+	mapOrigCopy[attributeshapeFrom] = attributeshapeTo
+	attributeshapeFrom.CopyBasicFields(attributeshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchClassdiagram(mapOrigCopy map[any]any, classdiagramFrom *Classdiagram) (classdiagramTo *Classdiagram) {
 
 	// classdiagramFrom has already been copied
@@ -554,25 +573,6 @@ func CopyBranchDiagramPackage(mapOrigCopy map[any]any, diagrampackageFrom *Diagr
 	for _, _umlsc := range diagrampackageFrom.Umlscs {
 		diagrampackageTo.Umlscs = append(diagrampackageTo.Umlscs, CopyBranchUmlsc(mapOrigCopy, _umlsc))
 	}
-
-	return
-}
-
-func CopyBranchFieldShape(mapOrigCopy map[any]any, fieldshapeFrom *AttributeShape) (fieldshapeTo *AttributeShape) {
-
-	// fieldshapeFrom has already been copied
-	if _fieldshapeTo, ok := mapOrigCopy[fieldshapeFrom]; ok {
-		fieldshapeTo = _fieldshapeTo.(*AttributeShape)
-		return
-	}
-
-	fieldshapeTo = new(AttributeShape)
-	mapOrigCopy[fieldshapeFrom] = fieldshapeTo
-	fieldshapeFrom.CopyBasicFields(fieldshapeTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -639,11 +639,11 @@ func CopyBranchGongStructShape(mapOrigCopy map[any]any, gongstructshapeFrom *Gon
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _fieldshape := range gongstructshapeFrom.AttributeShapes {
-		gongstructshapeTo.AttributeShapes = append(gongstructshapeTo.AttributeShapes, CopyBranchFieldShape(mapOrigCopy, _fieldshape))
+	for _, _attributeshape := range gongstructshapeFrom.AttributeShapes {
+		gongstructshapeTo.AttributeShapes = append(gongstructshapeTo.AttributeShapes, CopyBranchAttributeShape(mapOrigCopy, _attributeshape))
 	}
-	for _, _linkshape := range gongstructshapeFrom.Links {
-		gongstructshapeTo.Links = append(gongstructshapeTo.Links, CopyBranchLinkShape(mapOrigCopy, _linkshape))
+	for _, _linkshape := range gongstructshapeFrom.LinkShapes {
+		gongstructshapeTo.LinkShapes = append(gongstructshapeTo.LinkShapes, CopyBranchLinkShape(mapOrigCopy, _linkshape))
 	}
 
 	return
@@ -799,14 +799,14 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
+	case *AttributeShape:
+		stage.UnstageBranchAttributeShape(target)
+
 	case *Classdiagram:
 		stage.UnstageBranchClassdiagram(target)
 
 	case *DiagramPackage:
 		stage.UnstageBranchDiagramPackage(target)
-
-	case *AttributeShape:
-		stage.UnstageBranchFieldShape(target)
 
 	case *GongEnumShape:
 		stage.UnstageBranchGongEnumShape(target)
@@ -844,6 +844,21 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
+func (stage *Stage) UnstageBranchAttributeShape(attributeshape *AttributeShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, attributeshape) {
+		return
+	}
+
+	attributeshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchClassdiagram(classdiagram *Classdiagram) {
 
 	// check if instance is already staged
@@ -889,21 +904,6 @@ func (stage *Stage) UnstageBranchDiagramPackage(diagrampackage *DiagramPackage) 
 	for _, _umlsc := range diagrampackage.Umlscs {
 		UnstageBranch(stage, _umlsc)
 	}
-
-}
-
-func (stage *Stage) UnstageBranchFieldShape(fieldshape *AttributeShape) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, fieldshape) {
-		return
-	}
-
-	fieldshape.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -958,10 +958,10 @@ func (stage *Stage) UnstageBranchGongStructShape(gongstructshape *GongStructShap
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _fieldshape := range gongstructshape.AttributeShapes {
-		UnstageBranch(stage, _fieldshape)
+	for _, _attributeshape := range gongstructshape.AttributeShapes {
+		UnstageBranch(stage, _attributeshape)
 	}
-	for _, _linkshape := range gongstructshape.Links {
+	for _, _linkshape := range gongstructshape.LinkShapes {
 		UnstageBranch(stage, _linkshape)
 	}
 
