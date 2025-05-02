@@ -685,6 +685,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Button[identifier].Icon = fielValue
+				case "ToolTipText":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Button[identifier].ToolTipText = fielValue
 				}
 			case "Node":
 				switch fieldName {
@@ -746,6 +750,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "SVGIcon":
 					targetIdentifier := ident.Name
 					__gong__map_Button[identifier].SVGIcon = __gong__map_SVGIcon[targetIdentifier]
+				case "HasToolTip":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Button[identifier].HasToolTip = fielValue
 				}
 			case "Node":
 				switch fieldName {
@@ -863,6 +874,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "Button":
 					switch fieldName {
 					// insertion point for enum assign code
+					case "ToolTipPosition":
+						var val ToolTipPositionEnum
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Button[identifier].ToolTipPosition = ToolTipPositionEnum(val)
 					}
 				case "Node":
 					switch fieldName {
