@@ -154,16 +154,6 @@ func fillUpTree(
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-		case "Position":
-			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.Position](probe.stageOfInterest)
-			for _position := range set {
-				nodeInstance := (&tree.Node{Name: _position.GetName()}).Stage(probe.treeStage)
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_position, "Position", probe)
-
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
 		case "UmlState":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSet[models.UmlState](probe.stageOfInterest)
@@ -181,16 +171,6 @@ func fillUpTree(
 				nodeInstance := (&tree.Node{Name: _umlsc.GetName()}).Stage(probe.treeStage)
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_umlsc, "Umlsc", probe)
-
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-		case "Vertice":
-			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.Vertice](probe.stageOfInterest)
-			for _vertice := range set {
-				nodeInstance := (&tree.Node{Name: _vertice.GetName()}).Stage(probe.treeStage)
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_vertice, "Vertice", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}

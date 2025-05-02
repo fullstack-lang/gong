@@ -398,8 +398,10 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(gongenumshape_.Name), formDiv)
-		case "Position":
-			FormDivSelectFieldToField(&(gongenumshape_.Position), gongenumshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(gongenumshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(gongenumshape_.Y), formDiv)
 		case "Identifier":
 			FormDivBasicFieldToField(&(gongenumshape_.Identifier), formDiv)
 		case "Width":
@@ -644,8 +646,10 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(gongstructshape_.Name), formDiv)
-		case "Position":
-			FormDivSelectFieldToField(&(gongstructshape_.Position), gongstructshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(gongstructshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(gongstructshape_.Y), formDiv)
 		case "Identifier":
 			FormDivBasicFieldToField(&(gongstructshape_.Identifier), formDiv)
 		case "ShowNbInstances":
@@ -798,8 +802,10 @@ func (linkshapeFormCallback *LinkShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(linkshape_.SourceMultiplicityOffsetX), formDiv)
 		case "SourceMultiplicityOffsetY":
 			FormDivBasicFieldToField(&(linkshape_.SourceMultiplicityOffsetY), formDiv)
-		case "Middlevertice":
-			FormDivSelectFieldToField(&(linkshape_.Middlevertice), linkshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(linkshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(linkshape_.Y), formDiv)
 		case "StartOrientation":
 			FormDivEnumStringFieldToField(&(linkshape_.StartOrientation), formDiv)
 		case "StartRatio":
@@ -1139,87 +1145,6 @@ func (noteshapelinkFormCallback *NoteShapeLinkFormCallback) OnSave() {
 
 	fillUpTree(noteshapelinkFormCallback.probe)
 }
-func __gong__New__PositionFormCallback(
-	position *models.Position,
-	probe *Probe,
-	formGroup *table.FormGroup,
-) (positionFormCallback *PositionFormCallback) {
-	positionFormCallback = new(PositionFormCallback)
-	positionFormCallback.probe = probe
-	positionFormCallback.position = position
-	positionFormCallback.formGroup = formGroup
-
-	positionFormCallback.CreationMode = (position == nil)
-
-	return
-}
-
-type PositionFormCallback struct {
-	position *models.Position
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *table.FormGroup
-}
-
-func (positionFormCallback *PositionFormCallback) OnSave() {
-
-	log.Println("PositionFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	positionFormCallback.probe.formStage.Checkout()
-
-	if positionFormCallback.position == nil {
-		positionFormCallback.position = new(models.Position).Stage(positionFormCallback.probe.stageOfInterest)
-	}
-	position_ := positionFormCallback.position
-	_ = position_
-
-	for _, formDiv := range positionFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "X":
-			FormDivBasicFieldToField(&(position_.X), formDiv)
-		case "Y":
-			FormDivBasicFieldToField(&(position_.Y), formDiv)
-		case "Name":
-			FormDivBasicFieldToField(&(position_.Name), formDiv)
-		}
-	}
-
-	// manage the suppress operation
-	if positionFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		position_.Unstage(positionFormCallback.probe.stageOfInterest)
-	}
-
-	positionFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Position](
-		positionFormCallback.probe,
-	)
-	positionFormCallback.probe.tableStage.Commit()
-
-	// display a new form by reset the form stage
-	if positionFormCallback.CreationMode || positionFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		positionFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
-			Name: FormName,
-		}).Stage(positionFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__PositionFormCallback(
-			nil,
-			positionFormCallback.probe,
-			newFormGroup,
-		)
-		position := new(models.Position)
-		FillUpForm(position, newFormGroup, positionFormCallback.probe)
-		positionFormCallback.probe.formStage.Commit()
-	}
-
-	fillUpTree(positionFormCallback.probe)
-}
 func __gong__New__UmlStateFormCallback(
 	umlstate *models.UmlState,
 	probe *Probe,
@@ -1463,85 +1388,4 @@ func (umlscFormCallback *UmlscFormCallback) OnSave() {
 	}
 
 	fillUpTree(umlscFormCallback.probe)
-}
-func __gong__New__VerticeFormCallback(
-	vertice *models.Vertice,
-	probe *Probe,
-	formGroup *table.FormGroup,
-) (verticeFormCallback *VerticeFormCallback) {
-	verticeFormCallback = new(VerticeFormCallback)
-	verticeFormCallback.probe = probe
-	verticeFormCallback.vertice = vertice
-	verticeFormCallback.formGroup = formGroup
-
-	verticeFormCallback.CreationMode = (vertice == nil)
-
-	return
-}
-
-type VerticeFormCallback struct {
-	vertice *models.Vertice
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *table.FormGroup
-}
-
-func (verticeFormCallback *VerticeFormCallback) OnSave() {
-
-	log.Println("VerticeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	verticeFormCallback.probe.formStage.Checkout()
-
-	if verticeFormCallback.vertice == nil {
-		verticeFormCallback.vertice = new(models.Vertice).Stage(verticeFormCallback.probe.stageOfInterest)
-	}
-	vertice_ := verticeFormCallback.vertice
-	_ = vertice_
-
-	for _, formDiv := range verticeFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "X":
-			FormDivBasicFieldToField(&(vertice_.X), formDiv)
-		case "Y":
-			FormDivBasicFieldToField(&(vertice_.Y), formDiv)
-		case "Name":
-			FormDivBasicFieldToField(&(vertice_.Name), formDiv)
-		}
-	}
-
-	// manage the suppress operation
-	if verticeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		vertice_.Unstage(verticeFormCallback.probe.stageOfInterest)
-	}
-
-	verticeFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Vertice](
-		verticeFormCallback.probe,
-	)
-	verticeFormCallback.probe.tableStage.Commit()
-
-	// display a new form by reset the form stage
-	if verticeFormCallback.CreationMode || verticeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		verticeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
-			Name: FormName,
-		}).Stage(verticeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__VerticeFormCallback(
-			nil,
-			verticeFormCallback.probe,
-			newFormGroup,
-		)
-		vertice := new(models.Vertice)
-		FillUpForm(vertice, newFormGroup, verticeFormCallback.probe)
-		verticeFormCallback.probe.formStage.Commit()
-	}
-
-	fillUpTree(verticeFormCallback.probe)
 }

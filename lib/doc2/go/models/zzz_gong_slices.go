@@ -104,9 +104,6 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct NoteShapeLink
 	// insertion point per field
 
-	// Compute reverse map for named struct Position
-	// insertion point per field
-
 	// Compute reverse map for named struct UmlState
 	// insertion point per field
 
@@ -120,8 +117,5 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Umlsc_States_reverseMap[_umlstate] = umlsc
 		}
 	}
-
-	// Compute reverse map for named struct Vertice
-	// insertion point per field
 
 }

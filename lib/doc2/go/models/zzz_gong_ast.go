@@ -323,10 +323,8 @@ var __gong__map_GongStructShape = make(map[string]*GongStructShape)
 var __gong__map_LinkShape = make(map[string]*LinkShape)
 var __gong__map_NoteShape = make(map[string]*NoteShape)
 var __gong__map_NoteShapeLink = make(map[string]*NoteShapeLink)
-var __gong__map_Position = make(map[string]*Position)
 var __gong__map_UmlState = make(map[string]*UmlState)
 var __gong__map_Umlsc = make(map[string]*Umlsc)
-var __gong__map_Vertice = make(map[string]*Vertice)
 
 // Parser needs to be configured for having the [Name1.Name2] or [pkg.Name1] ...
 // to be recognized as a proper identifier.
@@ -553,12 +551,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										instanceNoteShapeLink.Stage(stage)
 										instance = any(instanceNoteShapeLink)
 										__gong__map_NoteShapeLink[identifier] = instanceNoteShapeLink
-									case "Position":
-										instancePosition := new(Position)
-										instancePosition.Name = instanceName
-										instancePosition.Stage(stage)
-										instance = any(instancePosition)
-										__gong__map_Position[identifier] = instancePosition
 									case "UmlState":
 										instanceUmlState := new(UmlState)
 										instanceUmlState.Name = instanceName
@@ -571,12 +563,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										instanceUmlsc.Stage(stage)
 										instance = any(instanceUmlsc)
 										__gong__map_Umlsc[identifier] = instanceUmlsc
-									case "Vertice":
-										instanceVertice := new(Vertice)
-										instanceVertice.Name = instanceName
-										instanceVertice.Stage(stage)
-										instance = any(instanceVertice)
-										__gong__map_Vertice[identifier] = instanceVertice
 									}
 									__gong__map_Indentifiers_gongstructName[identifier] = gongstructName
 									return
@@ -649,19 +635,11 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							switch fieldName {
 							// insertion point for date assign code
 							}
-						case "Position":
-							switch fieldName {
-							// insertion point for date assign code
-							}
 						case "UmlState":
 							switch fieldName {
 							// insertion point for date assign code
 							}
 						case "Umlsc":
-							switch fieldName {
-							// insertion point for date assign code
-							}
-						case "Vertice":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -780,10 +758,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						}
-					case "Position":
-						switch fieldName {
-						// insertion point for slice of pointers assign code
-						}
 					case "UmlState":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
@@ -797,10 +771,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							target := __gong__map_UmlState[targetIdentifier]
 							__gong__map_Umlsc[identifier].States =
 								append(__gong__map_Umlsc[identifier].States, target)
-						}
-					case "Vertice":
-						switch fieldName {
-						// insertion point for slice of pointers assign code
 						}
 					}
 				case *ast.SelectorExpr:
@@ -910,6 +880,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_GongEnumShape[identifier].Name = fielValue
+				case "X":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_GongEnumShape[identifier].X = exprSign * fielValue
+				case "Y":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_GongEnumShape[identifier].Y = exprSign * fielValue
 				case "Identifier":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -948,6 +932,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_GongStructShape[identifier].Name = fielValue
+				case "X":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_GongStructShape[identifier].X = exprSign * fielValue
+				case "Y":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_GongStructShape[identifier].Y = exprSign * fielValue
 				case "Identifier":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -1031,6 +1029,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_LinkShape[identifier].SourceMultiplicityOffsetY = exprSign * fielValue
+				case "X":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_LinkShape[identifier].X = exprSign * fielValue
+				case "Y":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_LinkShape[identifier].Y = exprSign * fielValue
 				case "StartRatio":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
@@ -1113,28 +1125,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_NoteShapeLink[identifier].Identifier = fielValue
 				}
-			case "Position":
-				switch fieldName {
-				// insertion point for field dependant code
-				case "X":
-					// convert string to float64
-					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Position[identifier].X = exprSign * fielValue
-				case "Y":
-					// convert string to float64
-					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Position[identifier].Y = exprSign * fielValue
-				case "Name":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Position[identifier].Name = fielValue
-				}
 			case "UmlState":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1168,28 +1158,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Umlsc[identifier].Activestate = fielValue
-				}
-			case "Vertice":
-				switch fieldName {
-				// insertion point for field dependant code
-				case "X":
-					// convert string to float64
-					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Vertice[identifier].X = exprSign * fielValue
-				case "Y":
-					// convert string to float64
-					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Vertice[identifier].Y = exprSign * fielValue
-				case "Name":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Vertice[identifier].Name = fielValue
 				}
 			}
 		case *ast.Ident:
@@ -1251,9 +1219,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			case "GongEnumShape":
 				switch fieldName {
 				// insertion point for field dependant code
-				case "Position":
-					targetIdentifier := ident.Name
-					__gong__map_GongEnumShape[identifier].Position = __gong__map_Position[targetIdentifier]
 				}
 			case "GongEnumValueEntry":
 				switch fieldName {
@@ -1262,9 +1227,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			case "GongStructShape":
 				switch fieldName {
 				// insertion point for field dependant code
-				case "Position":
-					targetIdentifier := ident.Name
-					__gong__map_GongStructShape[identifier].Position = __gong__map_Position[targetIdentifier]
 				case "ShowNbInstances":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
@@ -1290,9 +1252,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			case "LinkShape":
 				switch fieldName {
 				// insertion point for field dependant code
-				case "Middlevertice":
-					targetIdentifier := ident.Name
-					__gong__map_LinkShape[identifier].Middlevertice = __gong__map_Vertice[targetIdentifier]
 				}
 			case "NoteShape":
 				switch fieldName {
@@ -1306,10 +1265,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					__gong__map_NoteShape[identifier].Matched = fielValue
 				}
 			case "NoteShapeLink":
-				switch fieldName {
-				// insertion point for field dependant code
-				}
-			case "Position":
 				switch fieldName {
 				// insertion point for field dependant code
 				}
@@ -1327,10 +1282,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Umlsc[identifier].IsInDrawMode = fielValue
-				}
-			case "Vertice":
-				switch fieldName {
-				// insertion point for field dependant code
 				}
 			}
 		case *ast.SelectorExpr:
@@ -1431,19 +1382,11 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						}
 						__gong__map_NoteShapeLink[identifier].Type = NoteShapeLinkType(val)
 					}
-				case "Position":
-					switch fieldName {
-					// insertion point for enum assign code
-					}
 				case "UmlState":
 					switch fieldName {
 					// insertion point for enum assign code
 					}
 				case "Umlsc":
-					switch fieldName {
-					// insertion point for enum assign code
-					}
-				case "Vertice":
 					switch fieldName {
 					// insertion point for enum assign code
 					}

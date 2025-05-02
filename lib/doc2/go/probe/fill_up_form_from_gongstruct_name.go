@@ -142,19 +142,6 @@ func FillUpFormFromGongstructName(
 		noteshapelink := new(models.NoteShapeLink)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(noteshapelink, formGroup, probe)
-	case "Position":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Position Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__PositionFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		position := new(models.Position)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(position, formGroup, probe)
 	case "UmlState":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -181,19 +168,6 @@ func FillUpFormFromGongstructName(
 		umlsc := new(models.Umlsc)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(umlsc, formGroup, probe)
-	case "Vertice":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Vertice Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__VerticeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		vertice := new(models.Vertice)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(vertice, formGroup, probe)
 	}
 	formStage.Commit()
 }

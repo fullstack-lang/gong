@@ -172,15 +172,6 @@ type Stage struct {
 	OnAfterNoteShapeLinkDeleteCallback OnAfterDeleteInterface[NoteShapeLink]
 	OnAfterNoteShapeLinkReadCallback   OnAfterReadInterface[NoteShapeLink]
 
-	Positions           map[*Position]any
-	Positions_mapString map[string]*Position
-
-	// insertion point for slice of pointers maps
-	OnAfterPositionCreateCallback OnAfterCreateInterface[Position]
-	OnAfterPositionUpdateCallback OnAfterUpdateInterface[Position]
-	OnAfterPositionDeleteCallback OnAfterDeleteInterface[Position]
-	OnAfterPositionReadCallback   OnAfterReadInterface[Position]
-
 	UmlStates           map[*UmlState]any
 	UmlStates_mapString map[string]*UmlState
 
@@ -200,15 +191,6 @@ type Stage struct {
 	OnAfterUmlscUpdateCallback OnAfterUpdateInterface[Umlsc]
 	OnAfterUmlscDeleteCallback OnAfterDeleteInterface[Umlsc]
 	OnAfterUmlscReadCallback   OnAfterReadInterface[Umlsc]
-
-	Vertices           map[*Vertice]any
-	Vertices_mapString map[string]*Vertice
-
-	// insertion point for slice of pointers maps
-	OnAfterVerticeCreateCallback OnAfterCreateInterface[Vertice]
-	OnAfterVerticeUpdateCallback OnAfterUpdateInterface[Vertice]
-	OnAfterVerticeDeleteCallback OnAfterDeleteInterface[Vertice]
-	OnAfterVerticeReadCallback   OnAfterReadInterface[Vertice]
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -263,17 +245,11 @@ type Stage struct {
 	NoteShapeLinkOrder            uint
 	NoteShapeLinkMap_Staged_Order map[*NoteShapeLink]uint
 
-	PositionOrder            uint
-	PositionMap_Staged_Order map[*Position]uint
-
 	UmlStateOrder            uint
 	UmlStateMap_Staged_Order map[*UmlState]uint
 
 	UmlscOrder            uint
 	UmlscMap_Staged_Order map[*Umlsc]uint
-
-	VerticeOrder            uint
-	VerticeMap_Staged_Order map[*Vertice]uint
 
 	// end of insertion point
 
@@ -336,14 +312,10 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 			res = GetNamedStructInstances(stage.NoteShapes, stage.NoteShapeMap_Staged_Order)
 		case "NoteShapeLink":
 			res = GetNamedStructInstances(stage.NoteShapeLinks, stage.NoteShapeLinkMap_Staged_Order)
-		case "Position":
-			res = GetNamedStructInstances(stage.Positions, stage.PositionMap_Staged_Order)
 		case "UmlState":
 			res = GetNamedStructInstances(stage.UmlStates, stage.UmlStateMap_Staged_Order)
 		case "Umlsc":
 			res = GetNamedStructInstances(stage.Umlscs, stage.UmlscMap_Staged_Order)
-		case "Vertice":
-			res = GetNamedStructInstances(stage.Vertices, stage.VerticeMap_Staged_Order)
 	}
 
 	return
@@ -432,14 +404,10 @@ type BackRepoInterface interface {
 	CheckoutNoteShape(noteshape *NoteShape)
 	CommitNoteShapeLink(noteshapelink *NoteShapeLink)
 	CheckoutNoteShapeLink(noteshapelink *NoteShapeLink)
-	CommitPosition(position *Position)
-	CheckoutPosition(position *Position)
 	CommitUmlState(umlstate *UmlState)
 	CheckoutUmlState(umlstate *UmlState)
 	CommitUmlsc(umlsc *Umlsc)
 	CheckoutUmlsc(umlsc *Umlsc)
-	CommitVertice(vertice *Vertice)
-	CheckoutVertice(vertice *Vertice)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -474,17 +442,11 @@ func NewStage(name string) (stage *Stage) {
 		NoteShapeLinks:           make(map[*NoteShapeLink]any),
 		NoteShapeLinks_mapString: make(map[string]*NoteShapeLink),
 
-		Positions:           make(map[*Position]any),
-		Positions_mapString: make(map[string]*Position),
-
 		UmlStates:           make(map[*UmlState]any),
 		UmlStates_mapString: make(map[string]*UmlState),
 
 		Umlscs:           make(map[*Umlsc]any),
 		Umlscs_mapString: make(map[string]*Umlsc),
-
-		Vertices:           make(map[*Vertice]any),
-		Vertices_mapString: make(map[string]*Vertice),
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
@@ -514,13 +476,9 @@ func NewStage(name string) (stage *Stage) {
 
 		NoteShapeLinkMap_Staged_Order: make(map[*NoteShapeLink]uint),
 
-		PositionMap_Staged_Order: make(map[*Position]uint),
-
 		UmlStateMap_Staged_Order: make(map[*UmlState]uint),
 
 		UmlscMap_Staged_Order: make(map[*Umlsc]uint),
-
-		VerticeMap_Staged_Order: make(map[*Vertice]uint),
 
 		// end of insertion point
 
@@ -534,10 +492,8 @@ func NewStage(name string) (stage *Stage) {
 			&NamedStruct{name: "LinkShape"},
 			&NamedStruct{name: "NoteShape"},
 			&NamedStruct{name: "NoteShapeLink"},
-			&NamedStruct{name: "Position"},
 			&NamedStruct{name: "UmlState"},
 			&NamedStruct{name: "Umlsc"},
-			&NamedStruct{name: "Vertice"},
 		}, // end of insertion point
 	}
 
@@ -566,14 +522,10 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.NoteShapeMap_Staged_Order[instance]
 	case *NoteShapeLink:
 		return stage.NoteShapeLinkMap_Staged_Order[instance]
-	case *Position:
-		return stage.PositionMap_Staged_Order[instance]
 	case *UmlState:
 		return stage.UmlStateMap_Staged_Order[instance]
 	case *Umlsc:
 		return stage.UmlscMap_Staged_Order[instance]
-	case *Vertice:
-		return stage.VerticeMap_Staged_Order[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -608,10 +560,8 @@ func (stage *Stage) Commit() {
 	stage.Map_GongStructName_InstancesNb["LinkShape"] = len(stage.LinkShapes)
 	stage.Map_GongStructName_InstancesNb["NoteShape"] = len(stage.NoteShapes)
 	stage.Map_GongStructName_InstancesNb["NoteShapeLink"] = len(stage.NoteShapeLinks)
-	stage.Map_GongStructName_InstancesNb["Position"] = len(stage.Positions)
 	stage.Map_GongStructName_InstancesNb["UmlState"] = len(stage.UmlStates)
 	stage.Map_GongStructName_InstancesNb["Umlsc"] = len(stage.Umlscs)
-	stage.Map_GongStructName_InstancesNb["Vertice"] = len(stage.Vertices)
 
 }
 
@@ -631,10 +581,8 @@ func (stage *Stage) Checkout() {
 	stage.Map_GongStructName_InstancesNb["LinkShape"] = len(stage.LinkShapes)
 	stage.Map_GongStructName_InstancesNb["NoteShape"] = len(stage.NoteShapes)
 	stage.Map_GongStructName_InstancesNb["NoteShapeLink"] = len(stage.NoteShapeLinks)
-	stage.Map_GongStructName_InstancesNb["Position"] = len(stage.Positions)
 	stage.Map_GongStructName_InstancesNb["UmlState"] = len(stage.UmlStates)
 	stage.Map_GongStructName_InstancesNb["Umlsc"] = len(stage.Umlscs)
-	stage.Map_GongStructName_InstancesNb["Vertice"] = len(stage.Vertices)
 
 }
 
@@ -1162,61 +1110,6 @@ func (noteshapelink *NoteShapeLink) GetName() (res string) {
 	return noteshapelink.Name
 }
 
-// Stage puts position to the model stage
-func (position *Position) Stage(stage *Stage) *Position {
-
-	if _, ok := stage.Positions[position]; !ok {
-		stage.Positions[position] = __member
-		stage.PositionMap_Staged_Order[position] = stage.PositionOrder
-		stage.PositionOrder++
-	}
-	stage.Positions_mapString[position.Name] = position
-
-	return position
-}
-
-// Unstage removes position off the model stage
-func (position *Position) Unstage(stage *Stage) *Position {
-	delete(stage.Positions, position)
-	delete(stage.Positions_mapString, position.Name)
-	return position
-}
-
-// UnstageVoid removes position off the model stage
-func (position *Position) UnstageVoid(stage *Stage) {
-	delete(stage.Positions, position)
-	delete(stage.Positions_mapString, position.Name)
-}
-
-// commit position to the back repo (if it is already staged)
-func (position *Position) Commit(stage *Stage) *Position {
-	if _, ok := stage.Positions[position]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitPosition(position)
-		}
-	}
-	return position
-}
-
-func (position *Position) CommitVoid(stage *Stage) {
-	position.Commit(stage)
-}
-
-// Checkout position to the back repo (if it is already staged)
-func (position *Position) Checkout(stage *Stage) *Position {
-	if _, ok := stage.Positions[position]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutPosition(position)
-		}
-	}
-	return position
-}
-
-// for satisfaction of GongStruct interface
-func (position *Position) GetName() (res string) {
-	return position.Name
-}
-
 // Stage puts umlstate to the model stage
 func (umlstate *UmlState) Stage(stage *Stage) *UmlState {
 
@@ -1327,61 +1220,6 @@ func (umlsc *Umlsc) GetName() (res string) {
 	return umlsc.Name
 }
 
-// Stage puts vertice to the model stage
-func (vertice *Vertice) Stage(stage *Stage) *Vertice {
-
-	if _, ok := stage.Vertices[vertice]; !ok {
-		stage.Vertices[vertice] = __member
-		stage.VerticeMap_Staged_Order[vertice] = stage.VerticeOrder
-		stage.VerticeOrder++
-	}
-	stage.Vertices_mapString[vertice.Name] = vertice
-
-	return vertice
-}
-
-// Unstage removes vertice off the model stage
-func (vertice *Vertice) Unstage(stage *Stage) *Vertice {
-	delete(stage.Vertices, vertice)
-	delete(stage.Vertices_mapString, vertice.Name)
-	return vertice
-}
-
-// UnstageVoid removes vertice off the model stage
-func (vertice *Vertice) UnstageVoid(stage *Stage) {
-	delete(stage.Vertices, vertice)
-	delete(stage.Vertices_mapString, vertice.Name)
-}
-
-// commit vertice to the back repo (if it is already staged)
-func (vertice *Vertice) Commit(stage *Stage) *Vertice {
-	if _, ok := stage.Vertices[vertice]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitVertice(vertice)
-		}
-	}
-	return vertice
-}
-
-func (vertice *Vertice) CommitVoid(stage *Stage) {
-	vertice.Commit(stage)
-}
-
-// Checkout vertice to the back repo (if it is already staged)
-func (vertice *Vertice) Checkout(stage *Stage) *Vertice {
-	if _, ok := stage.Vertices[vertice]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutVertice(vertice)
-		}
-	}
-	return vertice
-}
-
-// for satisfaction of GongStruct interface
-func (vertice *Vertice) GetName() (res string) {
-	return vertice.Name
-}
-
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAttributeShape(AttributeShape *AttributeShape)
@@ -1393,10 +1231,8 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMLinkShape(LinkShape *LinkShape)
 	CreateORMNoteShape(NoteShape *NoteShape)
 	CreateORMNoteShapeLink(NoteShapeLink *NoteShapeLink)
-	CreateORMPosition(Position *Position)
 	CreateORMUmlState(UmlState *UmlState)
 	CreateORMUmlsc(Umlsc *Umlsc)
-	CreateORMVertice(Vertice *Vertice)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
@@ -1409,10 +1245,8 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMLinkShape(LinkShape *LinkShape)
 	DeleteORMNoteShape(NoteShape *NoteShape)
 	DeleteORMNoteShapeLink(NoteShapeLink *NoteShapeLink)
-	DeleteORMPosition(Position *Position)
 	DeleteORMUmlState(UmlState *UmlState)
 	DeleteORMUmlsc(Umlsc *Umlsc)
-	DeleteORMVertice(Vertice *Vertice)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1461,11 +1295,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.NoteShapeLinkMap_Staged_Order = make(map[*NoteShapeLink]uint)
 	stage.NoteShapeLinkOrder = 0
 
-	stage.Positions = make(map[*Position]any)
-	stage.Positions_mapString = make(map[string]*Position)
-	stage.PositionMap_Staged_Order = make(map[*Position]uint)
-	stage.PositionOrder = 0
-
 	stage.UmlStates = make(map[*UmlState]any)
 	stage.UmlStates_mapString = make(map[string]*UmlState)
 	stage.UmlStateMap_Staged_Order = make(map[*UmlState]uint)
@@ -1475,11 +1304,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Umlscs_mapString = make(map[string]*Umlsc)
 	stage.UmlscMap_Staged_Order = make(map[*Umlsc]uint)
 	stage.UmlscOrder = 0
-
-	stage.Vertices = make(map[*Vertice]any)
-	stage.Vertices_mapString = make(map[string]*Vertice)
-	stage.VerticeMap_Staged_Order = make(map[*Vertice]uint)
-	stage.VerticeOrder = 0
 
 }
 
@@ -1511,17 +1335,11 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.NoteShapeLinks = nil
 	stage.NoteShapeLinks_mapString = nil
 
-	stage.Positions = nil
-	stage.Positions_mapString = nil
-
 	stage.UmlStates = nil
 	stage.UmlStates_mapString = nil
 
 	stage.Umlscs = nil
 	stage.Umlscs_mapString = nil
-
-	stage.Vertices = nil
-	stage.Vertices_mapString = nil
 
 }
 
@@ -1562,20 +1380,12 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		noteshapelink.Unstage(stage)
 	}
 
-	for position := range stage.Positions {
-		position.Unstage(stage)
-	}
-
 	for umlstate := range stage.UmlStates {
 		umlstate.Unstage(stage)
 	}
 
 	for umlsc := range stage.Umlscs {
 		umlsc.Unstage(stage)
-	}
-
-	for vertice := range stage.Vertices {
-		vertice.Unstage(stage)
 	}
 
 }
@@ -1657,14 +1467,10 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.NoteShapes).(*Type)
 	case map[*NoteShapeLink]any:
 		return any(&stage.NoteShapeLinks).(*Type)
-	case map[*Position]any:
-		return any(&stage.Positions).(*Type)
 	case map[*UmlState]any:
 		return any(&stage.UmlStates).(*Type)
 	case map[*Umlsc]any:
 		return any(&stage.Umlscs).(*Type)
-	case map[*Vertice]any:
-		return any(&stage.Vertices).(*Type)
 	default:
 		return nil
 	}
@@ -1695,14 +1501,10 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 		return any(&stage.NoteShapes_mapString).(*Type)
 	case map[string]*NoteShapeLink:
 		return any(&stage.NoteShapeLinks_mapString).(*Type)
-	case map[string]*Position:
-		return any(&stage.Positions_mapString).(*Type)
 	case map[string]*UmlState:
 		return any(&stage.UmlStates_mapString).(*Type)
 	case map[string]*Umlsc:
 		return any(&stage.Umlscs_mapString).(*Type)
-	case map[string]*Vertice:
-		return any(&stage.Vertices_mapString).(*Type)
 	default:
 		return nil
 	}
@@ -1733,14 +1535,10 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 		return any(&stage.NoteShapes).(*map[*Type]any)
 	case NoteShapeLink:
 		return any(&stage.NoteShapeLinks).(*map[*Type]any)
-	case Position:
-		return any(&stage.Positions).(*map[*Type]any)
 	case UmlState:
 		return any(&stage.UmlStates).(*map[*Type]any)
 	case Umlsc:
 		return any(&stage.Umlscs).(*map[*Type]any)
-	case Vertice:
-		return any(&stage.Vertices).(*map[*Type]any)
 	default:
 		return nil
 	}
@@ -1771,14 +1569,10 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.NoteShapes).(*map[Type]any)
 	case *NoteShapeLink:
 		return any(&stage.NoteShapeLinks).(*map[Type]any)
-	case *Position:
-		return any(&stage.Positions).(*map[Type]any)
 	case *UmlState:
 		return any(&stage.UmlStates).(*map[Type]any)
 	case *Umlsc:
 		return any(&stage.Umlscs).(*map[Type]any)
-	case *Vertice:
-		return any(&stage.Vertices).(*map[Type]any)
 	default:
 		return nil
 	}
@@ -1809,14 +1603,10 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.NoteShapes_mapString).(*map[string]*Type)
 	case NoteShapeLink:
 		return any(&stage.NoteShapeLinks_mapString).(*map[string]*Type)
-	case Position:
-		return any(&stage.Positions_mapString).(*map[string]*Type)
 	case UmlState:
 		return any(&stage.UmlStates_mapString).(*map[string]*Type)
 	case Umlsc:
 		return any(&stage.Umlscs_mapString).(*map[string]*Type)
-	case Vertice:
-		return any(&stage.Vertices_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -1858,8 +1648,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case GongEnumShape:
 		return any(&GongEnumShape{
 			// Initialisation of associations
-			// field is initialized with an instance of Position with the name of the field
-			Position: &Position{Name: "Position"},
 			// field is initialized with an instance of GongEnumValueEntry with the name of the field
 			GongEnumValueEntrys: []*GongEnumValueEntry{{Name: "GongEnumValueEntrys"}},
 		}).(*Type)
@@ -1870,8 +1658,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case GongStructShape:
 		return any(&GongStructShape{
 			// Initialisation of associations
-			// field is initialized with an instance of Position with the name of the field
-			Position: &Position{Name: "Position"},
 			// field is initialized with an instance of AttributeShape with the name of the field
 			AttributeShapes: []*AttributeShape{{Name: "AttributeShapes"}},
 			// field is initialized with an instance of LinkShape with the name of the field
@@ -1880,8 +1666,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case LinkShape:
 		return any(&LinkShape{
 			// Initialisation of associations
-			// field is initialized with an instance of Vertice with the name of the field
-			Middlevertice: &Vertice{Name: "Middlevertice"},
 		}).(*Type)
 	case NoteShape:
 		return any(&NoteShape{
@@ -1893,10 +1677,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&NoteShapeLink{
 			// Initialisation of associations
 		}).(*Type)
-	case Position:
-		return any(&Position{
-			// Initialisation of associations
-		}).(*Type)
 	case UmlState:
 		return any(&UmlState{
 			// Initialisation of associations
@@ -1906,10 +1686,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of UmlState with the name of the field
 			States: []*UmlState{{Name: "States"}},
-		}).(*Type)
-	case Vertice:
-		return any(&Vertice{
-			// Initialisation of associations
 		}).(*Type)
 	default:
 		return nil
@@ -1965,23 +1741,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case GongEnumShape:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Position":
-			res := make(map[*Position][]*GongEnumShape)
-			for gongenumshape := range stage.GongEnumShapes {
-				if gongenumshape.Position != nil {
-					position_ := gongenumshape.Position
-					var gongenumshapes []*GongEnumShape
-					_, ok := res[position_]
-					if ok {
-						gongenumshapes = res[position_]
-					} else {
-						gongenumshapes = make([]*GongEnumShape, 0)
-					}
-					gongenumshapes = append(gongenumshapes, gongenumshape)
-					res[position_] = gongenumshapes
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of GongEnumValueEntry
 	case GongEnumValueEntry:
@@ -1992,45 +1751,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case GongStructShape:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Position":
-			res := make(map[*Position][]*GongStructShape)
-			for gongstructshape := range stage.GongStructShapes {
-				if gongstructshape.Position != nil {
-					position_ := gongstructshape.Position
-					var gongstructshapes []*GongStructShape
-					_, ok := res[position_]
-					if ok {
-						gongstructshapes = res[position_]
-					} else {
-						gongstructshapes = make([]*GongStructShape, 0)
-					}
-					gongstructshapes = append(gongstructshapes, gongstructshape)
-					res[position_] = gongstructshapes
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of LinkShape
 	case LinkShape:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Middlevertice":
-			res := make(map[*Vertice][]*LinkShape)
-			for linkshape := range stage.LinkShapes {
-				if linkshape.Middlevertice != nil {
-					vertice_ := linkshape.Middlevertice
-					var linkshapes []*LinkShape
-					_, ok := res[vertice_]
-					if ok {
-						linkshapes = res[vertice_]
-					} else {
-						linkshapes = make([]*LinkShape, 0)
-					}
-					linkshapes = append(linkshapes, linkshape)
-					res[vertice_] = linkshapes
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of NoteShape
 	case NoteShape:
@@ -2042,11 +1767,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Position
-	case Position:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	// reverse maps of direct associations of UmlState
 	case UmlState:
 		switch fieldname {
@@ -2054,11 +1774,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of Umlsc
 	case Umlsc:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of Vertice
-	case Vertice:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -2195,11 +1910,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Position
-	case Position:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	// reverse maps of direct associations of UmlState
 	case UmlState:
 		switch fieldname {
@@ -2217,11 +1927,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End]*Start)
-		}
-	// reverse maps of direct associations of Vertice
-	case Vertice:
-		switch fieldname {
-		// insertion point for per direct association field
 		}
 	}
 	return nil
@@ -2253,14 +1958,10 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "NoteShape"
 	case NoteShapeLink:
 		res = "NoteShapeLink"
-	case Position:
-		res = "Position"
 	case UmlState:
 		res = "UmlState"
 	case Umlsc:
 		res = "Umlsc"
-	case Vertice:
-		res = "Vertice"
 	}
 	return res
 }
@@ -2291,14 +1992,10 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "NoteShape"
 	case *NoteShapeLink:
 		res = "NoteShapeLink"
-	case *Position:
-		res = "Position"
 	case *UmlState:
 		res = "UmlState"
 	case *Umlsc:
 		res = "Umlsc"
-	case *Vertice:
-		res = "Vertice"
 	}
 	return res
 }
@@ -2317,25 +2014,21 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case DiagramPackage:
 		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "Umlscs", "IsEditable", "IsReloaded", "AbsolutePathToDiagramPackage"}
 	case GongEnumShape:
-		res = []string{"Name", "Position", "Identifier", "GongEnumValueEntrys", "Width", "Height"}
+		res = []string{"Name", "X", "Y", "Identifier", "GongEnumValueEntrys", "Width", "Height"}
 	case GongEnumValueEntry:
 		res = []string{"Name", "Identifier"}
 	case GongStructShape:
-		res = []string{"Name", "Position", "Identifier", "ShowNbInstances", "NbInstances", "AttributeShapes", "LinkShapes", "Width", "Height", "IsSelected", "IsExpanded"}
+		res = []string{"Name", "X", "Y", "Identifier", "ShowNbInstances", "NbInstances", "AttributeShapes", "LinkShapes", "Width", "Height", "IsSelected", "IsExpanded"}
 	case LinkShape:
-		res = []string{"Name", "Identifier", "Fieldtypename", "FieldOffsetX", "FieldOffsetY", "TargetMultiplicity", "TargetMultiplicityOffsetX", "TargetMultiplicityOffsetY", "SourceMultiplicity", "SourceMultiplicityOffsetX", "SourceMultiplicityOffsetY", "Middlevertice", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio"}
+		res = []string{"Name", "Identifier", "Fieldtypename", "FieldOffsetX", "FieldOffsetY", "TargetMultiplicity", "TargetMultiplicityOffsetX", "TargetMultiplicityOffsetY", "SourceMultiplicity", "SourceMultiplicityOffsetX", "SourceMultiplicityOffsetY", "X", "Y", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio"}
 	case NoteShape:
 		res = []string{"Name", "Identifier", "Body", "BodyHTML", "X", "Y", "Width", "Height", "Matched", "NoteShapeLinks"}
 	case NoteShapeLink:
 		res = []string{"Name", "Identifier", "Type"}
-	case Position:
-		res = []string{"X", "Y", "Name"}
 	case UmlState:
 		res = []string{"Name", "X", "Y"}
 	case Umlsc:
 		res = []string{"Name", "States", "Activestate", "IsInDrawMode"}
-	case Vertice:
-		res = []string{"X", "Y", "Name"}
 	}
 	return
 }
@@ -2405,9 +2098,6 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		rf.GongstructName = "NoteShape"
 		rf.Fieldname = "NoteShapeLinks"
 		res = append(res, rf)
-	case Position:
-		var rf ReverseField
-		_ = rf
 	case UmlState:
 		var rf ReverseField
 		_ = rf
@@ -2420,9 +2110,6 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		rf.GongstructName = "DiagramPackage"
 		rf.Fieldname = "Umlscs"
 		res = append(res, rf)
-	case Vertice:
-		var rf ReverseField
-		_ = rf
 	}
 	return
 }
@@ -2441,25 +2128,21 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *DiagramPackage:
 		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "Umlscs", "IsEditable", "IsReloaded", "AbsolutePathToDiagramPackage"}
 	case *GongEnumShape:
-		res = []string{"Name", "Position", "Identifier", "GongEnumValueEntrys", "Width", "Height"}
+		res = []string{"Name", "X", "Y", "Identifier", "GongEnumValueEntrys", "Width", "Height"}
 	case *GongEnumValueEntry:
 		res = []string{"Name", "Identifier"}
 	case *GongStructShape:
-		res = []string{"Name", "Position", "Identifier", "ShowNbInstances", "NbInstances", "AttributeShapes", "LinkShapes", "Width", "Height", "IsSelected", "IsExpanded"}
+		res = []string{"Name", "X", "Y", "Identifier", "ShowNbInstances", "NbInstances", "AttributeShapes", "LinkShapes", "Width", "Height", "IsSelected", "IsExpanded"}
 	case *LinkShape:
-		res = []string{"Name", "Identifier", "Fieldtypename", "FieldOffsetX", "FieldOffsetY", "TargetMultiplicity", "TargetMultiplicityOffsetX", "TargetMultiplicityOffsetY", "SourceMultiplicity", "SourceMultiplicityOffsetX", "SourceMultiplicityOffsetY", "Middlevertice", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio"}
+		res = []string{"Name", "Identifier", "Fieldtypename", "FieldOffsetX", "FieldOffsetY", "TargetMultiplicity", "TargetMultiplicityOffsetX", "TargetMultiplicityOffsetY", "SourceMultiplicity", "SourceMultiplicityOffsetX", "SourceMultiplicityOffsetY", "X", "Y", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio"}
 	case *NoteShape:
 		res = []string{"Name", "Identifier", "Body", "BodyHTML", "X", "Y", "Width", "Height", "Matched", "NoteShapeLinks"}
 	case *NoteShapeLink:
 		res = []string{"Name", "Identifier", "Type"}
-	case *Position:
-		res = []string{"X", "Y", "Name"}
 	case *UmlState:
 		res = []string{"Name", "X", "Y"}
 	case *Umlsc:
 		res = []string{"Name", "States", "Activestate", "IsInDrawMode"}
-	case *Vertice:
-		res = []string{"X", "Y", "Name"}
 	}
 	return
 }
@@ -2593,10 +2276,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
-		case "Position":
-			if inferedInstance.Position != nil {
-				res.valueString = inferedInstance.Position.Name
-			}
+		case "X":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueFloat = inferedInstance.X
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "Y":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueFloat = inferedInstance.Y
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Identifier":
 			res.valueString = inferedInstance.Identifier
 		case "GongEnumValueEntrys":
@@ -2628,10 +2315,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
-		case "Position":
-			if inferedInstance.Position != nil {
-				res.valueString = inferedInstance.Position.Name
-			}
+		case "X":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueFloat = inferedInstance.X
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "Y":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueFloat = inferedInstance.Y
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Identifier":
 			res.valueString = inferedInstance.Identifier
 		case "ShowNbInstances":
@@ -2712,10 +2403,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%f", inferedInstance.SourceMultiplicityOffsetY)
 			res.valueFloat = inferedInstance.SourceMultiplicityOffsetY
 			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Middlevertice":
-			if inferedInstance.Middlevertice != nil {
-				res.valueString = inferedInstance.Middlevertice.Name
-			}
+		case "X":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueFloat = inferedInstance.X
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "Y":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueFloat = inferedInstance.Y
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "StartOrientation":
 			enum := inferedInstance.StartOrientation
 			res.valueString = enum.ToCodeString()
@@ -2785,20 +2480,6 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			enum := inferedInstance.Type
 			res.valueString = enum.ToCodeString()
 		}
-	case *Position:
-		switch fieldName {
-		// string value of fields
-		case "X":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
-			res.valueFloat = inferedInstance.X
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Y":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
-			res.valueFloat = inferedInstance.Y
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Name":
-			res.valueString = inferedInstance.Name
-		}
 	case *UmlState:
 		switch fieldName {
 		// string value of fields
@@ -2831,20 +2512,6 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInDrawMode)
 			res.valueBool = inferedInstance.IsInDrawMode
 			res.GongFieldValueType = GongFieldValueTypeBool
-		}
-	case *Vertice:
-		switch fieldName {
-		// string value of fields
-		case "X":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
-			res.valueFloat = inferedInstance.X
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Y":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
-			res.valueFloat = inferedInstance.Y
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Name":
-			res.valueString = inferedInstance.Name
 		}
 	default:
 		_ = inferedInstance
@@ -2948,10 +2615,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
-		case "Position":
-			if inferedInstance.Position != nil {
-				res.valueString = inferedInstance.Position.Name
-			}
+		case "X":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueFloat = inferedInstance.X
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "Y":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueFloat = inferedInstance.Y
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Identifier":
 			res.valueString = inferedInstance.Identifier
 		case "GongEnumValueEntrys":
@@ -2983,10 +2654,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
-		case "Position":
-			if inferedInstance.Position != nil {
-				res.valueString = inferedInstance.Position.Name
-			}
+		case "X":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueFloat = inferedInstance.X
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "Y":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueFloat = inferedInstance.Y
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Identifier":
 			res.valueString = inferedInstance.Identifier
 		case "ShowNbInstances":
@@ -3067,10 +2742,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%f", inferedInstance.SourceMultiplicityOffsetY)
 			res.valueFloat = inferedInstance.SourceMultiplicityOffsetY
 			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Middlevertice":
-			if inferedInstance.Middlevertice != nil {
-				res.valueString = inferedInstance.Middlevertice.Name
-			}
+		case "X":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
+			res.valueFloat = inferedInstance.X
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "Y":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
+			res.valueFloat = inferedInstance.Y
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "StartOrientation":
 			enum := inferedInstance.StartOrientation
 			res.valueString = enum.ToCodeString()
@@ -3140,20 +2819,6 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			enum := inferedInstance.Type
 			res.valueString = enum.ToCodeString()
 		}
-	case Position:
-		switch fieldName {
-		// string value of fields
-		case "X":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
-			res.valueFloat = inferedInstance.X
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Y":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
-			res.valueFloat = inferedInstance.Y
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Name":
-			res.valueString = inferedInstance.Name
-		}
 	case UmlState:
 		switch fieldName {
 		// string value of fields
@@ -3186,20 +2851,6 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInDrawMode)
 			res.valueBool = inferedInstance.IsInDrawMode
 			res.GongFieldValueType = GongFieldValueTypeBool
-		}
-	case Vertice:
-		switch fieldName {
-		// string value of fields
-		case "X":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.X)
-			res.valueFloat = inferedInstance.X
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Y":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
-			res.valueFloat = inferedInstance.Y
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Name":
-			res.valueString = inferedInstance.Name
 		}
 	default:
 		_ = inferedInstance
