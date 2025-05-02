@@ -14,16 +14,16 @@ import (
 )
 
 // declaration in order to justify use of the models import
-var __Link__dummysDeclaration__ models.Link
-var __Link_time__dummyDeclaration time.Duration
+var __FieldShape__dummysDeclaration__ models.AttributeShape
+var __FieldShape_time__dummyDeclaration time.Duration
 
-var mutexLink sync.Mutex
+var mutexFieldShape sync.Mutex
 
-// An LinkID parameter model.
+// An FieldShapeID parameter model.
 //
 // This is used for operations that want the ID of an order in the path
-// swagger:parameters getLink updateLink deleteLink
-type LinkID struct {
+// swagger:parameters getFieldShape updateFieldShape deleteFieldShape
+type FieldShapeID struct {
 	// The ID of the order
 	//
 	// in: path
@@ -31,29 +31,29 @@ type LinkID struct {
 	ID int64
 }
 
-// LinkInput is a schema that can validate the user’s
+// FieldShapeInput is a schema that can validate the user’s
 // input to prevent us from getting invalid data
-// swagger:parameters postLink updateLink
-type LinkInput struct {
-	// The Link to submit or modify
+// swagger:parameters postFieldShape updateFieldShape
+type FieldShapeInput struct {
+	// The FieldShape to submit or modify
 	// in: body
-	Link *orm.LinkAPI
+	FieldShape *orm.FieldShapeAPI
 }
 
-// GetLinks
+// GetFieldShapes
 //
-// swagger:route GET /links links getLinks
+// swagger:route GET /fieldshapes fieldshapes getFieldShapes
 //
-// # Get all links
+// # Get all fieldshapes
 //
 // Responses:
 // default: genericError
 //
-//	200: linkDBResponse
-func (controller *Controller) GetLinks(c *gin.Context) {
+//	200: fieldshapeDBResponse
+func (controller *Controller) GetFieldShapes(c *gin.Context) {
 
 	// source slice
-	var linkDBs []orm.LinkDB
+	var fieldshapeDBs []orm.FieldShapeDB
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -61,23 +61,23 @@ func (controller *Controller) GetLinks(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetLinks", "Name", stackPath)
+			// log.Println("GetFieldShapes", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "GET Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k, _ := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoLink.GetDB()
+	db := backRepo.BackRepoFieldShape.GetDB()
 
-	_, err := db.Find(&linkDBs)
+	_, err := db.Find(&fieldshapeDBs)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -88,29 +88,29 @@ func (controller *Controller) GetLinks(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	linkAPIs := make([]orm.LinkAPI, 0)
+	fieldshapeAPIs := make([]orm.FieldShapeAPI, 0)
 
-	// for each link, update fields from the database nullable fields
-	for idx := range linkDBs {
-		linkDB := &linkDBs[idx]
-		_ = linkDB
-		var linkAPI orm.LinkAPI
+	// for each fieldshape, update fields from the database nullable fields
+	for idx := range fieldshapeDBs {
+		fieldshapeDB := &fieldshapeDBs[idx]
+		_ = fieldshapeDB
+		var fieldshapeAPI orm.FieldShapeAPI
 
 		// insertion point for updating fields
-		linkAPI.ID = linkDB.ID
-		linkDB.CopyBasicFieldsToLink_WOP(&linkAPI.Link_WOP)
-		linkAPI.LinkPointersEncoding = linkDB.LinkPointersEncoding
-		linkAPIs = append(linkAPIs, linkAPI)
+		fieldshapeAPI.ID = fieldshapeDB.ID
+		fieldshapeDB.CopyBasicFieldsToFieldShape_WOP(&fieldshapeAPI.FieldShape_WOP)
+		fieldshapeAPI.FieldShapePointersEncoding = fieldshapeDB.FieldShapePointersEncoding
+		fieldshapeAPIs = append(fieldshapeAPIs, fieldshapeAPI)
 	}
 
-	c.JSON(http.StatusOK, linkAPIs)
+	c.JSON(http.StatusOK, fieldshapeAPIs)
 }
 
-// PostLink
+// PostFieldShape
 //
-// swagger:route POST /links links postLink
+// swagger:route POST /fieldshapes fieldshapes postFieldShape
 //
-// Creates a link
+// Creates a fieldshape
 //
 //	Consumes:
 //	- application/json
@@ -120,10 +120,10 @@ func (controller *Controller) GetLinks(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostLink(c *gin.Context) {
+func (controller *Controller) PostFieldShape(c *gin.Context) {
 
-	mutexLink.Lock()
-	defer mutexLink.Unlock()
+	mutexFieldShape.Lock()
+	defer mutexFieldShape.Unlock()
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -131,24 +131,24 @@ func (controller *Controller) PostLink(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("PostLinks", "Name", stackPath)
+			// log.Println("PostFieldShapes", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "Post Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k, _ := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoLink.GetDB()
+	db := backRepo.BackRepoFieldShape.GetDB()
 
 	// Validate input
-	var input orm.LinkAPI
+	var input orm.FieldShapeAPI
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -160,12 +160,12 @@ func (controller *Controller) PostLink(c *gin.Context) {
 		return
 	}
 
-	// Create link
-	linkDB := orm.LinkDB{}
-	linkDB.LinkPointersEncoding = input.LinkPointersEncoding
-	linkDB.CopyBasicFieldsFromLink_WOP(&input.Link_WOP)
+	// Create fieldshape
+	fieldshapeDB := orm.FieldShapeDB{}
+	fieldshapeDB.FieldShapePointersEncoding = input.FieldShapePointersEncoding
+	fieldshapeDB.CopyBasicFieldsFromFieldShape_WOP(&input.FieldShape_WOP)
 
-	_, err = db.Create(&linkDB)
+	_, err = db.Create(&fieldshapeDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -176,31 +176,31 @@ func (controller *Controller) PostLink(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	backRepo.BackRepoLink.CheckoutPhaseOneInstance(&linkDB)
-	link := backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[linkDB.ID]
+	backRepo.BackRepoFieldShape.CheckoutPhaseOneInstance(&fieldshapeDB)
+	fieldshape := backRepo.BackRepoFieldShape.Map_FieldShapeDBID_FieldShapePtr[fieldshapeDB.ID]
 
-	if link != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), link)
+	if fieldshape != nil {
+		models.AfterCreateFromFront(backRepo.GetStage(), fieldshape)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, linkDB)
+	c.JSON(http.StatusOK, fieldshapeDB)
 }
 
-// GetLink
+// GetFieldShape
 //
-// swagger:route GET /links/{ID} links getLink
+// swagger:route GET /fieldshapes/{ID} fieldshapes getFieldShape
 //
-// Gets the details for a link.
+// Gets the details for a fieldshape.
 //
 // Responses:
 // default: genericError
 //
-//	200: linkDBResponse
-func (controller *Controller) GetLink(c *gin.Context) {
+//	200: fieldshapeDBResponse
+func (controller *Controller) GetFieldShape(c *gin.Context) {
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -208,25 +208,25 @@ func (controller *Controller) GetLink(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetLink", "Name", stackPath)
+			// log.Println("GetFieldShape", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k, _ := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoLink.GetDB()
+	db := backRepo.BackRepoFieldShape.GetDB()
 
-	// Get linkDB in DB
-	var linkDB orm.LinkDB
-	if _, err := db.First(&linkDB, c.Param("id")); err != nil {
+	// Get fieldshapeDB in DB
+	var fieldshapeDB orm.FieldShapeDB
+	if _, err := db.First(&fieldshapeDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -235,28 +235,28 @@ func (controller *Controller) GetLink(c *gin.Context) {
 		return
 	}
 
-	var linkAPI orm.LinkAPI
-	linkAPI.ID = linkDB.ID
-	linkAPI.LinkPointersEncoding = linkDB.LinkPointersEncoding
-	linkDB.CopyBasicFieldsToLink_WOP(&linkAPI.Link_WOP)
+	var fieldshapeAPI orm.FieldShapeAPI
+	fieldshapeAPI.ID = fieldshapeDB.ID
+	fieldshapeAPI.FieldShapePointersEncoding = fieldshapeDB.FieldShapePointersEncoding
+	fieldshapeDB.CopyBasicFieldsToFieldShape_WOP(&fieldshapeAPI.FieldShape_WOP)
 
-	c.JSON(http.StatusOK, linkAPI)
+	c.JSON(http.StatusOK, fieldshapeAPI)
 }
 
-// UpdateLink
+// UpdateFieldShape
 //
-// swagger:route PATCH /links/{ID} links updateLink
+// swagger:route PATCH /fieldshapes/{ID} fieldshapes updateFieldShape
 //
-// # Update a link
+// # Update a fieldshape
 //
 // Responses:
 // default: genericError
 //
-//	200: linkDBResponse
-func (controller *Controller) UpdateLink(c *gin.Context) {
+//	200: fieldshapeDBResponse
+func (controller *Controller) UpdateFieldShape(c *gin.Context) {
 
-	mutexLink.Lock()
-	defer mutexLink.Unlock()
+	mutexFieldShape.Lock()
+	defer mutexFieldShape.Unlock()
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -264,24 +264,24 @@ func (controller *Controller) UpdateLink(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("UpdateLink", "Name", stackPath)
+			// log.Println("UpdateFieldShape", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "PATCH Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k, _ := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoLink.GetDB()
+	db := backRepo.BackRepoFieldShape.GetDB()
 
 	// Validate input
-	var input orm.LinkAPI
+	var input orm.FieldShapeAPI
 	if err := c.ShouldBindJSON(&input); err != nil {
 		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -289,10 +289,10 @@ func (controller *Controller) UpdateLink(c *gin.Context) {
 	}
 
 	// Get model if exist
-	var linkDB orm.LinkDB
+	var fieldshapeDB orm.FieldShapeDB
 
-	// fetch the link
-	_, err := db.First(&linkDB, c.Param("id"))
+	// fetch the fieldshape
+	_, err := db.First(&fieldshapeDB, c.Param("id"))
 
 	if err != nil {
 		var returnError GenericError
@@ -304,11 +304,11 @@ func (controller *Controller) UpdateLink(c *gin.Context) {
 	}
 
 	// update
-	linkDB.CopyBasicFieldsFromLink_WOP(&input.Link_WOP)
-	linkDB.LinkPointersEncoding = input.LinkPointersEncoding
+	fieldshapeDB.CopyBasicFieldsFromFieldShape_WOP(&input.FieldShape_WOP)
+	fieldshapeDB.FieldShapePointersEncoding = input.FieldShapePointersEncoding
 
-	db, _ = db.Model(&linkDB)
-	_, err = db.Updates(&linkDB)
+	db, _ = db.Model(&fieldshapeDB)
+	_, err = db.Updates(&fieldshapeDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -319,16 +319,16 @@ func (controller *Controller) UpdateLink(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	linkNew := new(models.Link)
-	linkDB.CopyBasicFieldsToLink(linkNew)
+	fieldshapeNew := new(models.AttributeShape)
+	fieldshapeDB.CopyBasicFieldsToFieldShape(fieldshapeNew)
 
 	// redeem pointers
-	linkDB.DecodePointers(backRepo, linkNew)
+	fieldshapeDB.DecodePointers(backRepo, fieldshapeNew)
 
 	// get stage instance from DB instance, and call callback function
-	linkOld := backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[linkDB.ID]
-	if linkOld != nil {
-		models.AfterUpdateFromFront(backRepo.GetStage(), linkOld, linkNew)
+	fieldshapeOld := backRepo.BackRepoFieldShape.Map_FieldShapeDBID_FieldShapePtr[fieldshapeDB.ID]
+	if fieldshapeOld != nil {
+		models.AfterUpdateFromFront(backRepo.GetStage(), fieldshapeOld, fieldshapeNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -337,23 +337,23 @@ func (controller *Controller) UpdateLink(c *gin.Context) {
 	// generates a checkout
 	backRepo.IncrementPushFromFrontNb()
 
-	// return status OK with the marshalling of the the linkDB
-	c.JSON(http.StatusOK, linkDB)
+	// return status OK with the marshalling of the the fieldshapeDB
+	c.JSON(http.StatusOK, fieldshapeDB)
 }
 
-// DeleteLink
+// DeleteFieldShape
 //
-// swagger:route DELETE /links/{ID} links deleteLink
+// swagger:route DELETE /fieldshapes/{ID} fieldshapes deleteFieldShape
 //
-// # Delete a link
+// # Delete a fieldshape
 //
 // default: genericError
 //
-//	200: linkDBResponse
-func (controller *Controller) DeleteLink(c *gin.Context) {
+//	200: fieldshapeDBResponse
+func (controller *Controller) DeleteFieldShape(c *gin.Context) {
 
-	mutexLink.Lock()
-	defer mutexLink.Unlock()
+	mutexFieldShape.Lock()
+	defer mutexFieldShape.Unlock()
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -361,25 +361,25 @@ func (controller *Controller) DeleteLink(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("DeleteLink", "Name", stackPath)
+			// log.Println("DeleteFieldShape", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "DELETE Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k, _ := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoLink.GetDB()
+	db := backRepo.BackRepoFieldShape.GetDB()
 
 	// Get model if exist
-	var linkDB orm.LinkDB
-	if _, err := db.First(&linkDB, c.Param("id")); err != nil {
+	var fieldshapeDB orm.FieldShapeDB
+	if _, err := db.First(&fieldshapeDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -390,16 +390,16 @@ func (controller *Controller) DeleteLink(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped()
-	db.Delete(&linkDB)
+	db.Delete(&fieldshapeDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
-	linkDeleted := new(models.Link)
-	linkDB.CopyBasicFieldsToLink(linkDeleted)
+	fieldshapeDeleted := new(models.AttributeShape)
+	fieldshapeDB.CopyBasicFieldsToFieldShape(fieldshapeDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	linkStaged := backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[linkDB.ID]
-	if linkStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), linkStaged, linkDeleted)
+	fieldshapeStaged := backRepo.BackRepoFieldShape.Map_FieldShapeDBID_FieldShapePtr[fieldshapeDB.ID]
+	if fieldshapeStaged != nil {
+		models.AfterDeleteFromFront(backRepo.GetStage(), fieldshapeStaged, fieldshapeDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

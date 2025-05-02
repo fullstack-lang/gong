@@ -23,16 +23,16 @@ func fillUpTablePointerToGongstruct[T models.PointerToGongstruct](
 		fillUpTable[models.Classdiagram](probe)
 	case *models.DiagramPackage:
 		fillUpTable[models.DiagramPackage](probe)
-	case *models.FieldShape:
-		fillUpTable[models.FieldShape](probe)
+	case *models.AttributeShape:
+		fillUpTable[models.AttributeShape](probe)
 	case *models.GongEnumShape:
 		fillUpTable[models.GongEnumShape](probe)
 	case *models.GongEnumValueEntry:
 		fillUpTable[models.GongEnumValueEntry](probe)
 	case *models.GongStructShape:
 		fillUpTable[models.GongStructShape](probe)
-	case *models.Link:
-		fillUpTable[models.Link](probe)
+	case *models.LinkShape:
+		fillUpTable[models.LinkShape](probe)
 	case *models.NoteShape:
 		fillUpTable[models.NoteShape](probe)
 	case *models.NoteShapeLink:

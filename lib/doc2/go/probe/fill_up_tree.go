@@ -84,13 +84,13 @@ func fillUpTree(
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-		case "Field":
+		case "FieldShape":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.FieldShape](probe.stageOfInterest)
-			for _field := range set {
-				nodeInstance := (&tree.Node{Name: _field.GetName()}).Stage(probe.treeStage)
+			set := *models.GetGongstructInstancesSet[models.AttributeShape](probe.stageOfInterest)
+			for _fieldshape := range set {
+				nodeInstance := (&tree.Node{Name: _fieldshape.GetName()}).Stage(probe.treeStage)
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_field, "Field", probe)
+				nodeInstance.Impl = NewInstanceNodeCallback(_fieldshape, "FieldShape", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -124,13 +124,13 @@ func fillUpTree(
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-		case "Link":
+		case "LinkShape":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.Link](probe.stageOfInterest)
-			for _link := range set {
-				nodeInstance := (&tree.Node{Name: _link.GetName()}).Stage(probe.treeStage)
+			set := *models.GetGongstructInstancesSet[models.LinkShape](probe.stageOfInterest)
+			for _linkshape := range set {
+				nodeInstance := (&tree.Node{Name: _linkshape.GetName()}).Stage(probe.treeStage)
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_link, "Link", probe)
+				nodeInstance.Impl = NewInstanceNodeCallback(_linkshape, "LinkShape", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}

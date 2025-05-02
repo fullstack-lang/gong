@@ -28,9 +28,9 @@ type DBLite struct {
 
 	nextIDDiagramPackageDB uint
 
-	fieldDBs map[uint]*FieldDB
+	fieldshapeDBs map[uint]*FieldShapeDB
 
-	nextIDFieldDB uint
+	nextIDFieldShapeDB uint
 
 	gongenumshapeDBs map[uint]*GongEnumShapeDB
 
@@ -44,9 +44,9 @@ type DBLite struct {
 
 	nextIDGongStructShapeDB uint
 
-	linkDBs map[uint]*LinkDB
+	linkshapeDBs map[uint]*LinkShapeDB
 
-	nextIDLinkDB uint
+	nextIDLinkShapeDB uint
 
 	noteshapeDBs map[uint]*NoteShapeDB
 
@@ -82,7 +82,7 @@ func NewDBLite() *DBLite {
 
 		diagrampackageDBs: make(map[uint]*DiagramPackageDB),
 
-		fieldDBs: make(map[uint]*FieldDB),
+		fieldshapeDBs: make(map[uint]*FieldShapeDB),
 
 		gongenumshapeDBs: make(map[uint]*GongEnumShapeDB),
 
@@ -90,7 +90,7 @@ func NewDBLite() *DBLite {
 
 		gongstructshapeDBs: make(map[uint]*GongStructShapeDB),
 
-		linkDBs: make(map[uint]*LinkDB),
+		linkshapeDBs: make(map[uint]*LinkShapeDB),
 
 		noteshapeDBs: make(map[uint]*NoteShapeDB),
 
@@ -125,10 +125,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDDiagramPackageDB++
 		v.ID = db.nextIDDiagramPackageDB
 		db.diagrampackageDBs[v.ID] = v
-	case *FieldDB:
-		db.nextIDFieldDB++
-		v.ID = db.nextIDFieldDB
-		db.fieldDBs[v.ID] = v
+	case *FieldShapeDB:
+		db.nextIDFieldShapeDB++
+		v.ID = db.nextIDFieldShapeDB
+		db.fieldshapeDBs[v.ID] = v
 	case *GongEnumShapeDB:
 		db.nextIDGongEnumShapeDB++
 		v.ID = db.nextIDGongEnumShapeDB
@@ -141,10 +141,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDGongStructShapeDB++
 		v.ID = db.nextIDGongStructShapeDB
 		db.gongstructshapeDBs[v.ID] = v
-	case *LinkDB:
-		db.nextIDLinkDB++
-		v.ID = db.nextIDLinkDB
-		db.linkDBs[v.ID] = v
+	case *LinkShapeDB:
+		db.nextIDLinkShapeDB++
+		v.ID = db.nextIDLinkShapeDB
+		db.linkshapeDBs[v.ID] = v
 	case *NoteShapeDB:
 		db.nextIDNoteShapeDB++
 		v.ID = db.nextIDNoteShapeDB
@@ -201,16 +201,16 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.classdiagramDBs, v.ID)
 	case *DiagramPackageDB:
 		delete(db.diagrampackageDBs, v.ID)
-	case *FieldDB:
-		delete(db.fieldDBs, v.ID)
+	case *FieldShapeDB:
+		delete(db.fieldshapeDBs, v.ID)
 	case *GongEnumShapeDB:
 		delete(db.gongenumshapeDBs, v.ID)
 	case *GongEnumValueEntryDB:
 		delete(db.gongenumvalueentryDBs, v.ID)
 	case *GongStructShapeDB:
 		delete(db.gongstructshapeDBs, v.ID)
-	case *LinkDB:
-		delete(db.linkDBs, v.ID)
+	case *LinkShapeDB:
+		delete(db.linkshapeDBs, v.ID)
 	case *NoteShapeDB:
 		delete(db.noteshapeDBs, v.ID)
 	case *NoteShapeLinkDB:
@@ -247,8 +247,8 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 	case *DiagramPackageDB:
 		db.diagrampackageDBs[v.ID] = v
 		return db, nil
-	case *FieldDB:
-		db.fieldDBs[v.ID] = v
+	case *FieldShapeDB:
+		db.fieldshapeDBs[v.ID] = v
 		return db, nil
 	case *GongEnumShapeDB:
 		db.gongenumshapeDBs[v.ID] = v
@@ -259,8 +259,8 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 	case *GongStructShapeDB:
 		db.gongstructshapeDBs[v.ID] = v
 		return db, nil
-	case *LinkDB:
-		db.linkDBs[v.ID] = v
+	case *LinkShapeDB:
+		db.linkshapeDBs[v.ID] = v
 		return db, nil
 	case *NoteShapeDB:
 		db.noteshapeDBs[v.ID] = v
@@ -308,11 +308,11 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db DiagramPackage github.com/fullstack-lang/gong/lib/doc2/go, record not found")
 		}
-	case *FieldDB:
-		if existing, ok := db.fieldDBs[v.ID]; ok {
+	case *FieldShapeDB:
+		if existing, ok := db.fieldshapeDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("db Field github.com/fullstack-lang/gong/lib/doc2/go, record not found")
+			return nil, errors.New("db FieldShape github.com/fullstack-lang/gong/lib/doc2/go, record not found")
 		}
 	case *GongEnumShapeDB:
 		if existing, ok := db.gongenumshapeDBs[v.ID]; ok {
@@ -332,11 +332,11 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db GongStructShape github.com/fullstack-lang/gong/lib/doc2/go, record not found")
 		}
-	case *LinkDB:
-		if existing, ok := db.linkDBs[v.ID]; ok {
+	case *LinkShapeDB:
+		if existing, ok := db.linkshapeDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("db Link github.com/fullstack-lang/gong/lib/doc2/go, record not found")
+			return nil, errors.New("db LinkShape github.com/fullstack-lang/gong/lib/doc2/go, record not found")
 		}
 	case *NoteShapeDB:
 		if existing, ok := db.noteshapeDBs[v.ID]; ok {
@@ -400,9 +400,9 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
-	case *[]FieldDB:
-		*ptr = make([]FieldDB, 0, len(db.fieldDBs))
-		for _, v := range db.fieldDBs {
+	case *[]FieldShapeDB:
+		*ptr = make([]FieldShapeDB, 0, len(db.fieldshapeDBs))
+		for _, v := range db.fieldshapeDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -424,9 +424,9 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
-	case *[]LinkDB:
-		*ptr = make([]LinkDB, 0, len(db.linkDBs))
-		for _, v := range db.linkDBs {
+	case *[]LinkShapeDB:
+		*ptr = make([]LinkShapeDB, 0, len(db.linkshapeDBs))
+		for _, v := range db.linkshapeDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -519,15 +519,15 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		diagrampackageDB, _ := instanceDB.(*DiagramPackageDB)
 		*diagrampackageDB = *tmp
 		
-	case *FieldDB:
-		tmp, ok := db.fieldDBs[uint(i)]
+	case *FieldShapeDB:
+		tmp, ok := db.fieldshapeDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db.First Field Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First FieldShape Unkown entry %d", i))
 		}
 
-		fieldDB, _ := instanceDB.(*FieldDB)
-		*fieldDB = *tmp
+		fieldshapeDB, _ := instanceDB.(*FieldShapeDB)
+		*fieldshapeDB = *tmp
 		
 	case *GongEnumShapeDB:
 		tmp, ok := db.gongenumshapeDBs[uint(i)]
@@ -559,15 +559,15 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		gongstructshapeDB, _ := instanceDB.(*GongStructShapeDB)
 		*gongstructshapeDB = *tmp
 		
-	case *LinkDB:
-		tmp, ok := db.linkDBs[uint(i)]
+	case *LinkShapeDB:
+		tmp, ok := db.linkshapeDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db.First Link Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First LinkShape Unkown entry %d", i))
 		}
 
-		linkDB, _ := instanceDB.(*LinkDB)
-		*linkDB = *tmp
+		linkshapeDB, _ := instanceDB.(*LinkShapeDB)
+		*linkshapeDB = *tmp
 		
 	case *NoteShapeDB:
 		tmp, ok := db.noteshapeDBs[uint(i)]
