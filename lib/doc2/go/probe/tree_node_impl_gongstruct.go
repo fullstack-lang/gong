@@ -79,12 +79,6 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "NoteShapeLink" {
 		fillUpTable[models.NoteShapeLink](nodeImplGongstruct.probe)
 	}
-	if nodeImplGongstruct.gongStruct.GetName() == "UmlState" {
-		fillUpTable[models.UmlState](nodeImplGongstruct.probe)
-	}
-	if nodeImplGongstruct.gongStruct.GetName() == "Umlsc" {
-		fillUpTable[models.Umlsc](nodeImplGongstruct.probe)
-	}
 
 	// set color for node and reset all other nodes color
 	for node := range *gongtree_models.GetGongstructInstancesSet[gongtree_models.Node](gongtreeStage) {

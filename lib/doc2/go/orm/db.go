@@ -55,14 +55,6 @@ type DBLite struct {
 	noteshapelinkDBs map[uint]*NoteShapeLinkDB
 
 	nextIDNoteShapeLinkDB uint
-
-	umlstateDBs map[uint]*UmlStateDB
-
-	nextIDUmlStateDB uint
-
-	umlscDBs map[uint]*UmlscDB
-
-	nextIDUmlscDB uint
 }
 
 // NewDBLite creates a new instance of DBLite
@@ -87,10 +79,6 @@ func NewDBLite() *DBLite {
 		noteshapeDBs: make(map[uint]*NoteShapeDB),
 
 		noteshapelinkDBs: make(map[uint]*NoteShapeLinkDB),
-
-		umlstateDBs: make(map[uint]*UmlStateDB),
-
-		umlscDBs: make(map[uint]*UmlscDB),
 	}
 }
 
@@ -141,14 +129,6 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDNoteShapeLinkDB++
 		v.ID = db.nextIDNoteShapeLinkDB
 		db.noteshapelinkDBs[v.ID] = v
-	case *UmlStateDB:
-		db.nextIDUmlStateDB++
-		v.ID = db.nextIDUmlStateDB
-		db.umlstateDBs[v.ID] = v
-	case *UmlscDB:
-		db.nextIDUmlscDB++
-		v.ID = db.nextIDUmlscDB
-		db.umlscDBs[v.ID] = v
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/doc2/go, unsupported type in Create")
 	}
@@ -195,10 +175,6 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.noteshapeDBs, v.ID)
 	case *NoteShapeLinkDB:
 		delete(db.noteshapelinkDBs, v.ID)
-	case *UmlStateDB:
-		delete(db.umlstateDBs, v.ID)
-	case *UmlscDB:
-		delete(db.umlscDBs, v.ID)
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/doc2/go, unsupported type in Delete")
 	}
@@ -243,12 +219,6 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *NoteShapeLinkDB:
 		db.noteshapelinkDBs[v.ID] = v
-		return db, nil
-	case *UmlStateDB:
-		db.umlstateDBs[v.ID] = v
-		return db, nil
-	case *UmlscDB:
-		db.umlscDBs[v.ID] = v
 		return db, nil
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/doc2/go, Save: unsupported type")
@@ -320,18 +290,6 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db NoteShapeLink github.com/fullstack-lang/gong/lib/doc2/go, record not found")
 		}
-	case *UmlStateDB:
-		if existing, ok := db.umlstateDBs[v.ID]; ok {
-			*existing = *v
-		} else {
-			return nil, errors.New("db UmlState github.com/fullstack-lang/gong/lib/doc2/go, record not found")
-		}
-	case *UmlscDB:
-		if existing, ok := db.umlscDBs[v.ID]; ok {
-			*existing = *v
-		} else {
-			return nil, errors.New("db Umlsc github.com/fullstack-lang/gong/lib/doc2/go, record not found")
-		}
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/doc2/go, unsupported type in Updates")
 	}
@@ -397,18 +355,6 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]NoteShapeLinkDB:
 		*ptr = make([]NoteShapeLinkDB, 0, len(db.noteshapelinkDBs))
 		for _, v := range db.noteshapelinkDBs {
-			*ptr = append(*ptr, *v)
-		}
-		return db, nil
-	case *[]UmlStateDB:
-		*ptr = make([]UmlStateDB, 0, len(db.umlstateDBs))
-		for _, v := range db.umlstateDBs {
-			*ptr = append(*ptr, *v)
-		}
-		return db, nil
-	case *[]UmlscDB:
-		*ptr = make([]UmlscDB, 0, len(db.umlscDBs))
-		for _, v := range db.umlscDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -534,26 +480,6 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		noteshapelinkDB, _ := instanceDB.(*NoteShapeLinkDB)
 		*noteshapelinkDB = *tmp
-		
-	case *UmlStateDB:
-		tmp, ok := db.umlstateDBs[uint(i)]
-
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("db.First UmlState Unkown entry %d", i))
-		}
-
-		umlstateDB, _ := instanceDB.(*UmlStateDB)
-		*umlstateDB = *tmp
-		
-	case *UmlscDB:
-		tmp, ok := db.umlscDBs[uint(i)]
-
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("db.First Umlsc Unkown entry %d", i))
-		}
-
-		umlscDB, _ := instanceDB.(*UmlscDB)
-		*umlscDB = *tmp
 		
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/doc2/go, Unkown type")

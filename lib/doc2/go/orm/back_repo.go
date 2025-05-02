@@ -42,10 +42,6 @@ type BackRepoStruct struct {
 
 	BackRepoNoteShapeLink BackRepoNoteShapeLinkStruct
 
-	BackRepoUmlState BackRepoUmlStateStruct
-
-	BackRepoUmlsc BackRepoUmlscStruct
-
 	CommitFromBackNb uint // records commit increments when performed by the back
 
 	PushFromFrontNb uint // records commit increments when performed by the front
@@ -76,8 +72,6 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		&LinkShapeDB{},
 		&NoteShapeDB{},
 		&NoteShapeLinkDB{},
-		&UmlStateDB{},
-		&UmlscDB{},
 	)
 	THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm */
 
@@ -156,22 +150,6 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		db:    db,
 		stage: stage,
 	}
-	backRepo.BackRepoUmlState = BackRepoUmlStateStruct{
-		Map_UmlStateDBID_UmlStatePtr: make(map[uint]*models.UmlState, 0),
-		Map_UmlStateDBID_UmlStateDB:  make(map[uint]*UmlStateDB, 0),
-		Map_UmlStatePtr_UmlStateDBID: make(map[*models.UmlState]uint, 0),
-
-		db:    db,
-		stage: stage,
-	}
-	backRepo.BackRepoUmlsc = BackRepoUmlscStruct{
-		Map_UmlscDBID_UmlscPtr: make(map[uint]*models.Umlsc, 0),
-		Map_UmlscDBID_UmlscDB:  make(map[uint]*UmlscDB, 0),
-		Map_UmlscPtr_UmlscDBID: make(map[*models.Umlsc]uint, 0),
-
-		db:    db,
-		stage: stage,
-	}
 
 	stage.BackRepo = backRepo
 	backRepo.stage = stage
@@ -233,8 +211,6 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoLinkShape.CommitPhaseOne(stage)
 	backRepo.BackRepoNoteShape.CommitPhaseOne(stage)
 	backRepo.BackRepoNoteShapeLink.CommitPhaseOne(stage)
-	backRepo.BackRepoUmlState.CommitPhaseOne(stage)
-	backRepo.BackRepoUmlsc.CommitPhaseOne(stage)
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoAttributeShape.CommitPhaseTwo(backRepo)
@@ -246,8 +222,6 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoLinkShape.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoNoteShape.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoNoteShapeLink.CommitPhaseTwo(backRepo)
-	backRepo.BackRepoUmlState.CommitPhaseTwo(backRepo)
-	backRepo.BackRepoUmlsc.CommitPhaseTwo(backRepo)
 
 	// important to release the mutex before calls to IncrementCommitFromBackNb
 	// because it will block otherwise
@@ -271,8 +245,6 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoLinkShape.CheckoutPhaseOne()
 	backRepo.BackRepoNoteShape.CheckoutPhaseOne()
 	backRepo.BackRepoNoteShapeLink.CheckoutPhaseOne()
-	backRepo.BackRepoUmlState.CheckoutPhaseOne()
-	backRepo.BackRepoUmlsc.CheckoutPhaseOne()
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoAttributeShape.CheckoutPhaseTwo(backRepo)
@@ -284,8 +256,6 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoLinkShape.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoNoteShape.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoNoteShapeLink.CheckoutPhaseTwo(backRepo)
-	backRepo.BackRepoUmlState.CheckoutPhaseTwo(backRepo)
-	backRepo.BackRepoUmlsc.CheckoutPhaseTwo(backRepo)
 }
 
 // Backup the BackRepoStruct
@@ -302,8 +272,6 @@ func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoLinkShape.Backup(dirPath)
 	backRepo.BackRepoNoteShape.Backup(dirPath)
 	backRepo.BackRepoNoteShapeLink.Backup(dirPath)
-	backRepo.BackRepoUmlState.Backup(dirPath)
-	backRepo.BackRepoUmlsc.Backup(dirPath)
 }
 
 // Backup in XL the BackRepoStruct
@@ -323,8 +291,6 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoLinkShape.BackupXL(file)
 	backRepo.BackRepoNoteShape.BackupXL(file)
 	backRepo.BackRepoNoteShapeLink.BackupXL(file)
-	backRepo.BackRepoUmlState.BackupXL(file)
-	backRepo.BackRepoUmlsc.BackupXL(file)
 
 	var b bytes.Buffer
 	writer := bufio.NewWriter(&b)
@@ -358,8 +324,6 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoLinkShape.RestorePhaseOne(dirPath)
 	backRepo.BackRepoNoteShape.RestorePhaseOne(dirPath)
 	backRepo.BackRepoNoteShapeLink.RestorePhaseOne(dirPath)
-	backRepo.BackRepoUmlState.RestorePhaseOne(dirPath)
-	backRepo.BackRepoUmlsc.RestorePhaseOne(dirPath)
 
 	//
 	// restauration second phase (reindex pointers with the new ID)
@@ -375,8 +339,6 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoLinkShape.RestorePhaseTwo()
 	backRepo.BackRepoNoteShape.RestorePhaseTwo()
 	backRepo.BackRepoNoteShapeLink.RestorePhaseTwo()
-	backRepo.BackRepoUmlState.RestorePhaseTwo()
-	backRepo.BackRepoUmlsc.RestorePhaseTwo()
 
 	backRepo.stage.Checkout()
 }
@@ -413,8 +375,6 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoLinkShape.RestoreXLPhaseOne(file)
 	backRepo.BackRepoNoteShape.RestoreXLPhaseOne(file)
 	backRepo.BackRepoNoteShapeLink.RestoreXLPhaseOne(file)
-	backRepo.BackRepoUmlState.RestoreXLPhaseOne(file)
-	backRepo.BackRepoUmlsc.RestoreXLPhaseOne(file)
 
 	// commit the restored stage
 	backRepo.stage.Commit()

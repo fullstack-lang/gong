@@ -22,10 +22,6 @@ type BackRepoData struct {
 
 	NoteShapeLinkAPIs []*NoteShapeLinkAPI
 
-	UmlStateAPIs []*UmlStateAPI
-
-	UmlscAPIs []*UmlscAPI
-
 	// index of the web socket for this stack type (unique among all stack instances)
 	GONG__Index int
 }
@@ -125,26 +121,6 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		noteshapelinkDB.CopyBasicFieldsToNoteShapeLink_WOP(&noteshapelinkAPI.NoteShapeLink_WOP)
 
 		backRepoData.NoteShapeLinkAPIs = append(backRepoData.NoteShapeLinkAPIs, &noteshapelinkAPI)
-	}
-
-	for _, umlstateDB := range backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStateDB {
-
-		var umlstateAPI UmlStateAPI
-		umlstateAPI.ID = umlstateDB.ID
-		umlstateAPI.UmlStatePointersEncoding = umlstateDB.UmlStatePointersEncoding
-		umlstateDB.CopyBasicFieldsToUmlState_WOP(&umlstateAPI.UmlState_WOP)
-
-		backRepoData.UmlStateAPIs = append(backRepoData.UmlStateAPIs, &umlstateAPI)
-	}
-
-	for _, umlscDB := range backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscDB {
-
-		var umlscAPI UmlscAPI
-		umlscAPI.ID = umlscDB.ID
-		umlscAPI.UmlscPointersEncoding = umlscDB.UmlscPointersEncoding
-		umlscDB.CopyBasicFieldsToUmlsc_WOP(&umlscAPI.Umlsc_WOP)
-
-		backRepoData.UmlscAPIs = append(backRepoData.UmlscAPIs, &umlscAPI)
 	}
 
 }
