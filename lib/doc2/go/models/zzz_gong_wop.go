@@ -30,6 +30,8 @@ type Classdiagram_WOP struct {
 	Name string
 	IsInDrawMode bool
 	IsExpanded bool
+	NodeNamedStructsIsExpanded bool
+	NodeGongEnumsIsExpanded bool
 }
 
 func (from *Classdiagram) CopyBasicFields(to *Classdiagram) {
@@ -37,6 +39,8 @@ func (from *Classdiagram) CopyBasicFields(to *Classdiagram) {
 	to.Name = from.Name
 	to.IsInDrawMode = from.IsInDrawMode
 	to.IsExpanded = from.IsExpanded
+	to.NodeNamedStructsIsExpanded = from.NodeNamedStructsIsExpanded
+	to.NodeGongEnumsIsExpanded = from.NodeGongEnumsIsExpanded
 }
 
 type DiagramPackage_WOP struct {
@@ -67,6 +71,7 @@ type GongEnumShape_WOP struct {
 	Identifier string
 	Width float64
 	Height float64
+	IsExpanded bool
 }
 
 func (from *GongEnumShape) CopyBasicFields(to *GongEnumShape) {
@@ -77,6 +82,7 @@ func (from *GongEnumShape) CopyBasicFields(to *GongEnumShape) {
 	to.Identifier = from.Identifier
 	to.Width = from.Width
 	to.Height = from.Height
+	to.IsExpanded = from.IsExpanded
 }
 
 type GongEnumValueEntry_WOP struct {

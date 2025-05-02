@@ -19,6 +19,8 @@ type GongEnumShape struct {
 	// with and height of the shape when they are rendered on SVG or with jointjs
 	// They are optional fields. they can be computed when empty
 	Width, Height float64
+
+	IsExpanded bool
 }
 
 type GongEnumShapeType int

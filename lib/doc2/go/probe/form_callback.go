@@ -191,6 +191,10 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(classdiagram_.IsInDrawMode), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(classdiagram_.IsExpanded), formDiv)
+		case "NodeNamedStructsIsExpanded":
+			FormDivBasicFieldToField(&(classdiagram_.NodeNamedStructsIsExpanded), formDiv)
+		case "NodeGongEnumsIsExpanded":
+			FormDivBasicFieldToField(&(classdiagram_.NodeGongEnumsIsExpanded), formDiv)
 		case "DiagramPackage:Classdiagrams":
 			// we need to retrieve the field owner before the change
 			var pastDiagramPackageOwner *models.DiagramPackage
@@ -408,6 +412,8 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongenumshape_.Width), formDiv)
 		case "Height":
 			FormDivBasicFieldToField(&(gongenumshape_.Height), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(gongenumshape_.IsExpanded), formDiv)
 		case "Classdiagram:GongEnumShapes":
 			// we need to retrieve the field owner before the change
 			var pastClassdiagramOwner *models.Classdiagram
