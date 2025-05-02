@@ -57,10 +57,10 @@ type BackRepoStruct struct {
 	stage *models.Stage
 
 	// the back repo can broadcast the CommitFromBackNb to all interested subscribers
-	rwMutex     sync.RWMutex
+	rwMutex sync.RWMutex
 
 	subscribersRwMutex sync.RWMutex
-	subscribers []chan int
+	subscribers        []chan int
 }
 
 func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct) {
@@ -107,9 +107,9 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		stage: stage,
 	}
 	backRepo.BackRepoField = BackRepoFieldStruct{
-		Map_FieldDBID_FieldPtr: make(map[uint]*models.Field, 0),
+		Map_FieldDBID_FieldPtr: make(map[uint]*models.FieldShape, 0),
 		Map_FieldDBID_FieldDB:  make(map[uint]*FieldDB, 0),
-		Map_FieldPtr_FieldDBID: make(map[*models.Field]uint, 0),
+		Map_FieldPtr_FieldDBID: make(map[*models.FieldShape]uint, 0),
 
 		db:    db,
 		stage: stage,

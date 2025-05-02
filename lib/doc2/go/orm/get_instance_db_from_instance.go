@@ -23,8 +23,8 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		diagrampackageInstance := any(concreteInstance).(*models.DiagramPackage)
 		ret2 := backRepo.BackRepoDiagramPackage.GetDiagramPackageDBFromDiagramPackagePtr(diagrampackageInstance)
 		ret = any(ret2).(*T2)
-	case *models.Field:
-		fieldInstance := any(concreteInstance).(*models.Field)
+	case *models.FieldShape:
+		fieldInstance := any(concreteInstance).(*models.FieldShape)
 		ret2 := backRepo.BackRepoField.GetFieldDBFromFieldPtr(fieldInstance)
 		ret = any(ret2).(*T2)
 	case *models.GongEnumShape:
@@ -90,8 +90,8 @@ func GetID[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
-	case *models.Field:
-		tmp := GetInstanceDBFromInstance[models.Field, FieldDB](
+	case *models.FieldShape:
+		tmp := GetInstanceDBFromInstance[models.FieldShape, FieldDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -168,8 +168,8 @@ func GetIDPointer[T models.PointerToGongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
-	case *models.Field:
-		tmp := GetInstanceDBFromInstance[models.Field, FieldDB](
+	case *models.FieldShape:
+		tmp := GetInstanceDBFromInstance[models.FieldShape, FieldDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

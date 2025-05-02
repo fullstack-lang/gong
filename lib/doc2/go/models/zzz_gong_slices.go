@@ -71,10 +71,10 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct GongStructShape
 	// insertion point per field
 	clear(stage.GongStructShape_Fields_reverseMap)
-	stage.GongStructShape_Fields_reverseMap = make(map[*Field]*GongStructShape)
+	stage.GongStructShape_Fields_reverseMap = make(map[*FieldShape]*GongStructShape)
 	for gongstructshape := range stage.GongStructShapes {
 		_ = gongstructshape
-		for _, _field := range gongstructshape.Fields {
+		for _, _field := range gongstructshape.FieldShapes {
 			stage.GongStructShape_Fields_reverseMap[_field] = gongstructshape
 		}
 	}
