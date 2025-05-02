@@ -44,21 +44,18 @@ func NewClassDiagramButtonProxy(
 }
 
 func (proxy *ClassDiagramButtonProxy) ButtonUpdated(
-	gongtreeStage *tree.Stage,
+	treeStage *tree.Stage,
 	stageButton, front *tree.Button) {
 
 	diagramPackage := getTheDiagramPackage(proxy.stager.stage)
 
 	switch proxy.ButtonType {
-	// case DUPLICATE:
-	// 	if childrenPortfolioNode := proxy.portfolioDiagramNode.DuplicateDiagram(); childrenPortfolioNode != nil {
-	// 		childrenTreeNode := proxy.diagrammer.portfolioNode2NodeTree(childrenPortfolioNode, proxy.stager.treeStage)
-	// 		parentTreeNode.Children = append(parentTreeNode.Children, childrenTreeNode)
-	// 		proxy.diagrammer.AddPortfiolioNodeTreeNodeEntry(childrenPortfolioNode, childrenTreeNode)
-	// 		proxy.diagrammer.generatePortfolioNodesStatusAndButtons()
+	case DUPLICATE:
+		duplicateDiagram := proxy.classdiagram.DuplicateDiagram()
+		duplicateDiagram.Name += " Copy"
 
-	// 		proxy.stager.treeStage.Commit()
-	// 	}
+		proxy.stager.treeStage.Commit()
+
 	// case EDIT_CANCEL:
 	// 	map_ModelNode_Shape := proxy.portfolioDiagramNode.CancelEdit()
 
