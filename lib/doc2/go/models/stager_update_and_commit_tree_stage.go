@@ -53,67 +53,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			classDiagram: classDiagram,
 		}
 
-		nodeClassdiagram.Buttons = append(nodeClassdiagram.Buttons,
-			&tree.Button{
-				Name: classDiagram.GetName() + " " + string(buttons.BUTTON_delete),
-				Icon: string(buttons.BUTTON_delete),
-				Impl: NewClassDiagramButtonProxy(
-					stager,
-					classDiagram,
-					nodeClassdiagram,
-					REMOVE,
-				),
-				HasToolTip:      true,
-				ToolTipText:     "Delete the diagram",
-				ToolTipPosition: tree.Above,
-			})
-
-		if !classDiagram.IsInRenameMode {
-			nodeClassdiagram.Buttons = append(nodeClassdiagram.Buttons,
-				&tree.Button{
-					Name: classDiagram.GetName() + " " + string(buttons.BUTTON_edit_note),
-					Icon: string(buttons.BUTTON_edit_note),
-					Impl: NewClassDiagramButtonProxy(
-						stager,
-						classDiagram,
-						nodeClassdiagram,
-						RENAME,
-					),
-					HasToolTip:      true,
-					ToolTipText:     "Rename the diagram",
-					ToolTipPosition: tree.Above,
-				})
-		} else {
-			nodeClassdiagram.Buttons = append(nodeClassdiagram.Buttons,
-				&tree.Button{
-					Name: classDiagram.GetName() + " " + string(buttons.BUTTON_edit_off),
-					Icon: string(buttons.BUTTON_edit_off),
-					Impl: NewClassDiagramButtonProxy(
-						stager,
-						classDiagram,
-						nodeClassdiagram,
-						RENAME_CANCEL,
-					),
-					HasToolTip:      true,
-					ToolTipText:     "Cancel renaming",
-					ToolTipPosition: tree.Above,
-				})
-		}
-
-		nodeClassdiagram.Buttons = append(nodeClassdiagram.Buttons,
-			&tree.Button{
-				Name: classDiagram.GetName() + " " + string(buttons.BUTTON_copy_all),
-				Icon: string(buttons.BUTTON_copy_all),
-				Impl: NewClassDiagramButtonProxy(
-					stager,
-					classDiagram,
-					nodeClassdiagram,
-					DUPLICATE,
-				),
-				HasToolTip:      true,
-				ToolTipText:     "Duplicate diagram",
-				ToolTipPosition: tree.Above,
-			})
+		stager.addButtonsToClassdiagramNode(nodeClassdiagram, classDiagram)
 
 		root.Children = append(root.Children, nodeClassdiagram)
 
@@ -279,22 +219,22 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			}
 		}
 		for _, gongEnum := range gongenums {
-			shape, isInDiagram := map_modelElement_shape[gongEnum]
+			shape, isEnumInDiagram := map_modelElement_shape[gongEnum]
 
 			gongEnumShape, ok := shape.(*GongEnumShape)
-			if isInDiagram && !ok {
+			if isEnumInDiagram && !ok {
 				log.Fatalln("a gongenum should be associated to a gongenum shape")
 			}
 			_ = gongEnumShape
 
 			var isExpanded bool
-			if isInDiagram {
+			if isEnumInDiagram {
 				isExpanded = gongEnumShape.IsExpanded
 			}
 			node := &tree.Node{
 				Name:              gongEnum.Name,
 				HasCheckboxButton: true,
-				IsChecked:         isInDiagram,
+				IsChecked:         isEnumInDiagram,
 				IsExpanded:        isExpanded,
 			}
 			node.Impl = &GongEnumNodeProxy{
@@ -305,6 +245,18 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 				gongEnumShape: gongEnumShape,
 			}
 			nodeGongEnums.Children = append(nodeGongEnums.Children, node)
+
+			for _, enumValue := range gongEnum.GongEnumValues {
+
+				_, isEnumValueInDiagram := map_modelElement_shape[enumValue]
+				nodeEnumValue := &tree.Node{
+					Name:               enumValue.Name,
+					HasCheckboxButton:  true,
+					IsChecked:          isEnumValueInDiagram,
+					IsCheckboxDisabled: !isEnumInDiagram,
+				}
+				node.Children = append(node.Children, nodeEnumValue)
+			}
 		}
 
 		for _, gongNote := range gongnotes {
@@ -339,84 +291,66 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 	stager.treeStage.Commit()
 }
 
-type AttributeFieldNodeProxy struct {
-	node            *tree.Node
-	stager          *Stager
-	classDiagram    *Classdiagram
-	gongstruct      *gong.GongStruct
-	gongStructShape *GongStructShape
-	field           gong.FieldInterface
-	attributeShape  *AttributeShape
-}
+func (stager *Stager) addButtonsToClassdiagramNode(nodeClassdiagram *tree.Node, classDiagram *Classdiagram) {
+	nodeClassdiagram.Buttons = append(nodeClassdiagram.Buttons,
+		&tree.Button{
+			Name: classDiagram.GetName() + " " + string(buttons.BUTTON_delete),
+			Icon: string(buttons.BUTTON_delete),
+			Impl: NewClassDiagramButtonProxy(
+				stager,
+				classDiagram,
+				nodeClassdiagram,
+				REMOVE,
+			),
+			HasToolTip:      true,
+			ToolTipText:     "Delete the diagram",
+			ToolTipPosition: tree.Above,
+		})
 
-func (proxy *AttributeFieldNodeProxy) OnAfterUpdate(
-	stage *tree.Stage,
-	staged, front *tree.Node) {
-
-	// intercept update to the node that are when the node is checked
-	if front.IsChecked && !staged.IsChecked {
-		// uncheck all other diagram
-		proxy.classDiagram.AddAttributeFieldShape(
-			proxy.stager.stage,
-			proxy.stager.gongStage,
-			proxy.gongstruct,
-			proxy.field,
-			proxy.gongStructShape)
-
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitSVGStage()
-
-		proxy.stager.stage.Commit()
+	if !classDiagram.IsInRenameMode {
+		nodeClassdiagram.Buttons = append(nodeClassdiagram.Buttons,
+			&tree.Button{
+				Name: classDiagram.GetName() + " " + string(buttons.BUTTON_edit_note),
+				Icon: string(buttons.BUTTON_edit_note),
+				Impl: NewClassDiagramButtonProxy(
+					stager,
+					classDiagram,
+					nodeClassdiagram,
+					RENAME,
+				),
+				HasToolTip:      true,
+				ToolTipText:     "Rename the diagram",
+				ToolTipPosition: tree.Above,
+			})
+	} else {
+		nodeClassdiagram.Buttons = append(nodeClassdiagram.Buttons,
+			&tree.Button{
+				Name: classDiagram.GetName() + " " + string(buttons.BUTTON_edit_off),
+				Icon: string(buttons.BUTTON_edit_off),
+				Impl: NewClassDiagramButtonProxy(
+					stager,
+					classDiagram,
+					nodeClassdiagram,
+					RENAME_CANCEL,
+				),
+				HasToolTip:      true,
+				ToolTipText:     "Cancel renaming",
+				ToolTipPosition: tree.Above,
+			})
 	}
 
-	// the checked node is unchecked
-	if !front.IsChecked && staged.IsChecked {
-		proxy.classDiagram.RemoveAttributeFieldShape(proxy.stager.stage, proxy.attributeShape, proxy.gongStructShape)
-
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitSVGStage()
-
-		proxy.stager.stage.Commit()
-	}
-}
-
-type LinkFieldNodeProxy struct {
-	node            *tree.Node
-	stager          *Stager
-	classDiagram    *Classdiagram
-	gongstruct      *gong.GongStruct
-	gongStructShape *GongStructShape
-	field           gong.FieldInterface
-	linkShape       *LinkShape
-}
-
-func (proxy *LinkFieldNodeProxy) OnAfterUpdate(
-	stage *tree.Stage,
-	staged, front *tree.Node) {
-
-	// intercept update to the node that are when the node is checked
-	if front.IsChecked && !staged.IsChecked {
-		// uncheck all other diagram
-		proxy.classDiagram.AddLinkFieldShape(
-			proxy.stager.stage,
-			proxy.stager.gongStage,
-			proxy.gongstruct,
-			proxy.field,
-			proxy.gongStructShape)
-
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitSVGStage()
-
-		proxy.stager.stage.Commit()
-	}
-
-	// the checked node is unchecked
-	if !front.IsChecked && staged.IsChecked {
-		proxy.classDiagram.RemoveLinkFieldShape(proxy.stager.stage, proxy.linkShape, proxy.gongStructShape)
-
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitSVGStage()
-
-		proxy.stager.stage.Commit()
-	}
+	nodeClassdiagram.Buttons = append(nodeClassdiagram.Buttons,
+		&tree.Button{
+			Name: classDiagram.GetName() + " " + string(buttons.BUTTON_copy_all),
+			Icon: string(buttons.BUTTON_copy_all),
+			Impl: NewClassDiagramButtonProxy(
+				stager,
+				classDiagram,
+				nodeClassdiagram,
+				DUPLICATE,
+			),
+			HasToolTip:      true,
+			ToolTipText:     "Duplicate diagram",
+			ToolTipPosition: tree.Above,
+		})
 }
