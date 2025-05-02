@@ -15,6 +15,9 @@ export class ButtonAPI {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Icon: string = ""
+	HasToolTip: boolean = false
+	ToolTipText: string = ""
+	ToolTipPosition: string = ""
 
 	// insertion point for other decls
 

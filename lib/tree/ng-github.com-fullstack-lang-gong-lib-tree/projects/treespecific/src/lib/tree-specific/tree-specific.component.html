@@ -82,17 +82,22 @@
         <!-- Common buttons template -->
         <ng-template #nodeButtons let-node let-buttonClass="buttonClass">
             @for (button of node.gongNode.Buttons; track button.Name) {
-                <button [id]="'button-' + button.Name" 
-                        mat-icon-button 
+                <button [id]="'button-' + button.Name"
+                        mat-icon-button
                         [class]="buttonClass"
-                        (click)="onButtonClick($event, node, button)">
+                        (click)="onButtonClick($event, node, button)"
+            
+                        [matTooltip]="button.ToolTipText"
+                        [matTooltipPosition]="button.ToolTipPosition"
+                        [matTooltipDisabled]="!button.HasToolTip">
+            
                     @if (!button.SVGIcon) {
                         <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}">
                             {{button.Icon}}
                         </mat-icon>
                     } @else {
-                        <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}" 
-                                 svgIcon="{{button.SVGIcon.Name}}">
+                        <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}"
+                                  [svgIcon]="button.SVGIcon.Name">
                         </mat-icon>
                     }
                 </button>
