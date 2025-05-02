@@ -81,6 +81,10 @@ type GongEnumShapeDB struct {
 	// Declation for basic field gongenumshapeDB.Height
 	Height_Data sql.NullFloat64
 
+	// Declation for basic field gongenumshapeDB.IsExpanded
+	// provide the sql storage for the boolan
+	IsExpanded_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	GongEnumShapePointersEncoding
@@ -114,6 +118,8 @@ type GongEnumShapeWOP struct {
 	Width float64 `xlsx:"5"`
 
 	Height float64 `xlsx:"6"`
+
+	IsExpanded bool `xlsx:"7"`
 	// insertion for WOP pointer fields
 }
 
@@ -126,6 +132,7 @@ var GongEnumShape_Fields = []string{
 	"Identifier",
 	"Width",
 	"Height",
+	"IsExpanded",
 }
 
 type BackRepoGongEnumShapeStruct struct {
@@ -447,6 +454,9 @@ func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsFromGongEnumShape(gongenu
 
 	gongenumshapeDB.Height_Data.Float64 = gongenumshape.Height
 	gongenumshapeDB.Height_Data.Valid = true
+
+	gongenumshapeDB.IsExpanded_Data.Bool = gongenumshape.IsExpanded
+	gongenumshapeDB.IsExpanded_Data.Valid = true
 }
 
 // CopyBasicFieldsFromGongEnumShape_WOP
@@ -470,6 +480,9 @@ func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsFromGongEnumShape_WOP(gon
 
 	gongenumshapeDB.Height_Data.Float64 = gongenumshape.Height
 	gongenumshapeDB.Height_Data.Valid = true
+
+	gongenumshapeDB.IsExpanded_Data.Bool = gongenumshape.IsExpanded
+	gongenumshapeDB.IsExpanded_Data.Valid = true
 }
 
 // CopyBasicFieldsFromGongEnumShapeWOP
@@ -493,6 +506,9 @@ func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsFromGongEnumShapeWOP(gong
 
 	gongenumshapeDB.Height_Data.Float64 = gongenumshape.Height
 	gongenumshapeDB.Height_Data.Valid = true
+
+	gongenumshapeDB.IsExpanded_Data.Bool = gongenumshape.IsExpanded
+	gongenumshapeDB.IsExpanded_Data.Valid = true
 }
 
 // CopyBasicFieldsToGongEnumShape
@@ -504,6 +520,7 @@ func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsToGongEnumShape(gongenums
 	gongenumshape.Identifier = gongenumshapeDB.Identifier_Data.String
 	gongenumshape.Width = gongenumshapeDB.Width_Data.Float64
 	gongenumshape.Height = gongenumshapeDB.Height_Data.Float64
+	gongenumshape.IsExpanded = gongenumshapeDB.IsExpanded_Data.Bool
 }
 
 // CopyBasicFieldsToGongEnumShape_WOP
@@ -515,6 +532,7 @@ func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsToGongEnumShape_WOP(gonge
 	gongenumshape.Identifier = gongenumshapeDB.Identifier_Data.String
 	gongenumshape.Width = gongenumshapeDB.Width_Data.Float64
 	gongenumshape.Height = gongenumshapeDB.Height_Data.Float64
+	gongenumshape.IsExpanded = gongenumshapeDB.IsExpanded_Data.Bool
 }
 
 // CopyBasicFieldsToGongEnumShapeWOP
@@ -527,6 +545,7 @@ func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsToGongEnumShapeWOP(gongen
 	gongenumshape.Identifier = gongenumshapeDB.Identifier_Data.String
 	gongenumshape.Width = gongenumshapeDB.Width_Data.Float64
 	gongenumshape.Height = gongenumshapeDB.Height_Data.Float64
+	gongenumshape.IsExpanded = gongenumshapeDB.IsExpanded_Data.Bool
 }
 
 // Backup generates a json file from a slice of all GongEnumShapeDB instances in the backrepo

@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"log"
 
 	gong "github.com/fullstack-lang/gong/go/models"
@@ -49,12 +50,49 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 
 		root.Children = append(root.Children, nodeClassdiagram)
 
-		if diagramPackage.SelectedClassdiagram != classDiagram {
-			continue
-		}
+		// if diagramPackage.SelectedClassdiagram != classDiagram {
+		// 	continue
+		// }
 
 		map_modelElement_shape := stager.compute_map_modelElement_shape(classDiagram, stager.gongStage)
-		for _, gongStruct := range gong.GetGongstrucsSorted[*gong.GongStruct](stager.gongStage) {
+
+		gongstructs := gong.GetGongstrucsSorted[*gong.GongStruct](stager.gongStage)
+		nbGongstructsInDiagram := 0
+		for _, gongStruct := range gongstructs {
+			_, isInDiagram := map_modelElement_shape[gongStruct]
+			if isInDiagram {
+				nbGongstructsInDiagram++
+			}
+		}
+		nodeNamedStructs := &tree.Node{
+			Name:       fmt.Sprintf("Gongstructs (%d/%d)", nbGongstructsInDiagram, len(gongstructs)),
+			IsExpanded: classDiagram.NodeNamedStructsIsExpanded,
+			Impl: &ClassDiagramGongstructsNodeProxy{
+				stager:       stager,
+				classDiagram: classDiagram,
+			},
+		}
+		nodeClassdiagram.Children = append(nodeClassdiagram.Children, nodeNamedStructs)
+
+		gongenums := gong.GetGongstrucsSorted[*gong.GongEnum](stager.gongStage)
+		nbGongenumsInDiagram := 0
+		for _, gongEnums := range gongenums {
+			_, isInDiagram := map_modelElement_shape[gongEnums]
+			if isInDiagram {
+				nbGongenumsInDiagram++
+			}
+		}
+		nodeGongEnums := &tree.Node{
+			Name:       fmt.Sprintf("Gongenums (%d/%d)", nbGongenumsInDiagram, len(gongenums)),
+			IsExpanded: classDiagram.NodeGongEnumsIsExpanded,
+			Impl: &ClassDiagramGongstructsNodeProxy{
+				stager:       stager,
+				classDiagram: classDiagram,
+			},
+		}
+		nodeClassdiagram.Children = append(nodeClassdiagram.Children, nodeGongEnums)
+
+		for _, gongStruct := range gongstructs {
 
 			shape, isInDiagram := map_modelElement_shape[gongStruct]
 
@@ -80,7 +118,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 				gongstruct:      gongStruct,
 				gongStructShape: gongStructShape,
 			}
-			nodeClassdiagram.Children = append(nodeClassdiagram.Children, nodeNamedStruct)
+			nodeNamedStructs.Children = append(nodeNamedStructs.Children, nodeNamedStruct)
 
 			for _, field := range gongStruct.Fields {
 
@@ -153,10 +191,29 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 				default:
 					log.Fatalln("Unknwon field type")
 				}
-
 			}
 		}
+		for _, gongEnum := range gongenums {
+			shape, isInDiagram := map_modelElement_shape[gongEnum]
 
+			gongEnumShape, ok := shape.(*GongEnumShape)
+			if isInDiagram && !ok {
+				log.Fatalln("a gongenum should be associated to a gongenum shape")
+			}
+			_ = gongEnumShape
+
+			var isExpanded bool
+			if isInDiagram {
+				isExpanded = gongEnumShape.IsExpanded
+			}
+			node := &tree.Node{
+				Name:              gongEnum.Name,
+				HasCheckboxButton: true,
+				IsChecked:         isInDiagram,
+				IsExpanded:        isExpanded,
+			}
+			nodeGongEnums.Children = append(nodeGongEnums.Children, node)
+		}
 	}
 	tree.StageBranch(stager.treeStage,
 		&tree.Tree{
@@ -216,6 +273,52 @@ func (proxy *ClassDiagramNodeProxy) OnAfterUpdate(
 	}
 }
 
+type ClassDiagramGongstructsNodeProxy struct {
+	stager       *Stager
+	classDiagram *Classdiagram
+}
+
+func (proxy *ClassDiagramGongstructsNodeProxy) OnAfterUpdate(
+	stage *tree.Stage,
+	staged, front *tree.Node) {
+
+	if front.IsExpanded && !staged.IsExpanded {
+		proxy.classDiagram.NodeNamedStructsIsExpanded = true
+		front.IsExpanded = false
+
+		proxy.stager.stage.Commit()
+	}
+	if !front.IsExpanded && staged.IsExpanded {
+		proxy.classDiagram.NodeNamedStructsIsExpanded = false
+		front.IsExpanded = true
+
+		proxy.stager.stage.Commit()
+	}
+}
+
+type ClassDiagramGongEnumsNodeProxy struct {
+	stager       *Stager
+	classDiagram *Classdiagram
+}
+
+func (proxy *ClassDiagramGongEnumsNodeProxy) OnAfterUpdate(
+	stage *tree.Stage,
+	staged, front *tree.Node) {
+
+	if front.IsExpanded && !staged.IsExpanded {
+		proxy.classDiagram.NodeGongEnumsIsExpanded = true
+		front.IsExpanded = false
+
+		proxy.stager.stage.Commit()
+	}
+	if !front.IsExpanded && staged.IsExpanded {
+		proxy.classDiagram.NodeGongEnumsIsExpanded = false
+		front.IsExpanded = true
+
+		proxy.stager.stage.Commit()
+	}
+}
+
 type GongstructNodeProxy struct {
 	node            *tree.Node
 	stager          *Stager
@@ -224,7 +327,6 @@ type GongstructNodeProxy struct {
 	gongStructShape *GongStructShape
 }
 
-// OnAfterUpdate is called when a node is checked/unchecked by the user
 func (proxy *GongstructNodeProxy) OnAfterUpdate(
 	stage *tree.Stage,
 	staged, front *tree.Node) {
