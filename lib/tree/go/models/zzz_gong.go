@@ -1084,7 +1084,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Button:
 		res = []string{"Name", "Icon", "SVGIcon", "HasToolTip", "ToolTipText", "ToolTipPosition"}
 	case Node:
-		res = []string{"Name", "FontStyle", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "HasSecondCheckboxButton", "IsSecondCheckboxChecked", "IsSecondCheckboxDisabled", "TextAfterSecondCheckbox", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "PreceedingSVGIcon", "Children", "Buttons"}
+		res = []string{"Name", "FontStyle", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "CheckboxHasToolTip", "CheckboxToolTipText", "CheckboxToolTipPosition", "HasSecondCheckboxButton", "IsSecondCheckboxChecked", "IsSecondCheckboxDisabled", "TextAfterSecondCheckbox", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "PreceedingSVGIcon", "Children", "Buttons"}
 	case SVGIcon:
 		res = []string{"Name", "SVG"}
 	case Tree:
@@ -1142,7 +1142,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Button:
 		res = []string{"Name", "Icon", "SVGIcon", "HasToolTip", "ToolTipText", "ToolTipPosition"}
 	case *Node:
-		res = []string{"Name", "FontStyle", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "HasSecondCheckboxButton", "IsSecondCheckboxChecked", "IsSecondCheckboxDisabled", "TextAfterSecondCheckbox", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "PreceedingSVGIcon", "Children", "Buttons"}
+		res = []string{"Name", "FontStyle", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "CheckboxHasToolTip", "CheckboxToolTipText", "CheckboxToolTipPosition", "HasSecondCheckboxButton", "IsSecondCheckboxChecked", "IsSecondCheckboxDisabled", "TextAfterSecondCheckbox", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "PreceedingSVGIcon", "Children", "Buttons"}
 	case *SVGIcon:
 		res = []string{"Name", "SVG"}
 	case *Tree:
@@ -1235,6 +1235,15 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsCheckboxDisabled)
 			res.valueBool = inferedInstance.IsCheckboxDisabled
 			res.GongFieldValueType = GongFieldValueTypeBool
+		case "CheckboxHasToolTip":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.CheckboxHasToolTip)
+			res.valueBool = inferedInstance.CheckboxHasToolTip
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "CheckboxToolTipText":
+			res.valueString = inferedInstance.CheckboxToolTipText
+		case "CheckboxToolTipPosition":
+			enum := inferedInstance.CheckboxToolTipPosition
+			res.valueString = enum.ToCodeString()
 		case "HasSecondCheckboxButton":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasSecondCheckboxButton)
 			res.valueBool = inferedInstance.HasSecondCheckboxButton
@@ -1360,6 +1369,15 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsCheckboxDisabled)
 			res.valueBool = inferedInstance.IsCheckboxDisabled
 			res.GongFieldValueType = GongFieldValueTypeBool
+		case "CheckboxHasToolTip":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.CheckboxHasToolTip)
+			res.valueBool = inferedInstance.CheckboxHasToolTip
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "CheckboxToolTipText":
+			res.valueString = inferedInstance.CheckboxToolTipText
+		case "CheckboxToolTipPosition":
+			enum := inferedInstance.CheckboxToolTipPosition
+			res.valueString = enum.ToCodeString()
 		case "HasSecondCheckboxButton":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasSecondCheckboxButton)
 			res.valueBool = inferedInstance.HasSecondCheckboxButton

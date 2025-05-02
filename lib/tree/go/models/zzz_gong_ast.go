@@ -701,6 +701,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Node[identifier].BackgroundColor = fielValue
+				case "CheckboxToolTipText":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Node[identifier].CheckboxToolTipText = fielValue
 				case "TextAfterSecondCheckbox":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -789,6 +793,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Node[identifier].IsCheckboxDisabled = fielValue
+				case "CheckboxHasToolTip":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Node[identifier].CheckboxHasToolTip = fielValue
 				case "HasSecondCheckboxButton":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
@@ -892,6 +903,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							log.Fatalln(err)
 						}
 						__gong__map_Node[identifier].FontStyle = FontStyleEnum(val)
+					case "CheckboxToolTipPosition":
+						var val ToolTipPositionEnum
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Node[identifier].CheckboxToolTipPosition = ToolTipPositionEnum(val)
 					}
 				case "SVGIcon":
 					switch fieldName {

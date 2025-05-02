@@ -18,12 +18,21 @@
             }
             
             <!-- Primary checkbox -->
+             <!-- Note that the tooltip stuff is not working as of angular 1.19
+             https://github.com/angular/components/issues/28107 -->
+
             @if (node.gongNode.HasCheckboxButton) {
                 <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" 
                              [disabled]="node.gongNode.IsCheckboxDisabled" 
                              [checked]="node.gongNode.IsChecked" 
                              (change)="toggleNodeCheckbox(node)"
-                             (click)="$event.stopPropagation()">
+                             (click)="$event.stopPropagation()"
+                             
+                             [matTooltip]="node.CheckboxToolTipText"
+                             [matTooltipPosition]="node.CheckboxToolTipPosition"
+                             [matTooltipDisabled]="!node.CheckboxHasToolTip">
+                            <!-- Note that the tooltip stuff is not working as of angular 1.19
+                                https://github.com/angular/components/issues/28107 -->    
                 </mat-checkbox>
             }
             
