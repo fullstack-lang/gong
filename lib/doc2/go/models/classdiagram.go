@@ -47,12 +47,10 @@ func (classdiagram *Classdiagram) RemoveGongStructShape(stage *Stage, gongstruct
 		log.Fatalln("Shape not found", gongstructName)
 	}
 	classdiagram.GongStructShapes = remove(classdiagram.GongStructShapes, gongstructshape)
-	gongstructshape.Position.Unstage(stage)
 	gongstructshape.Unstage(stage)
 
 	// remove links that go from this gongstructshape
 	for _, link := range gongstructshape.LinkShapes {
-		link.Middlevertice.Unstage(stage)
 		link.Unstage(stage)
 	}
 	gongstructshape.LinkShapes = []*LinkShape{}
@@ -65,7 +63,6 @@ func (classdiagram *Classdiagram) RemoveGongStructShape(stage *Stage, gongstruct
 			typeOfTheField := IdentifierToGongObjectName(gongstructshape.Identifier)
 			typeOfTheLink := IdentifierToGongObjectName(link.Fieldtypename)
 			if typeOfTheLink == typeOfTheField {
-				link.Middlevertice.Unstage(stage)
 				link.Unstage(stage)
 			} else {
 				newSliceOfLinks = append(newSliceOfLinks, link)
@@ -119,12 +116,8 @@ func (classdiagram *Classdiagram) AddGongStructShape(stage *Stage, diagramPackag
 	}
 	gongstructshape.Stage(stage)
 
-	var position Position
-	position.Name = "Pos-" + gongstructshape.Name
-	position.X = float64(int(rand.Float32()*100) + 10)
-	position.Y = float64(int(rand.Float32()*100) + 10)
-	gongstructshape.Position = &position
-	position.Stage(stage)
+	gongstructshape.X = float64(int(rand.Float32()*100) + 10)
+	gongstructshape.Y = float64(int(rand.Float32()*100) + 10)
 
 	classdiagram.GongStructShapes = append(classdiagram.GongStructShapes, &gongstructshape)
 
@@ -144,12 +137,8 @@ func (classdiagram *Classdiagram) AddGongEnumShape(stage *Stage, diagramPackage 
 
 	enumshape.Stage(stage)
 
-	var position Position
-	position.Name = "Pos-" + enumshape.Name
-	position.X = float64(int(rand.Float32()*100) + 10)
-	position.Y = float64(int(rand.Float32()*100) + 10)
-	enumshape.Position = &position
-	position.Stage(stage)
+	enumshape.X = float64(int(rand.Float32()*100) + 10)
+	enumshape.Y = float64(int(rand.Float32()*100) + 10)
 
 	classdiagram.GongEnumShapes = append(classdiagram.GongEnumShapes, &enumshape)
 
@@ -169,7 +158,6 @@ func (classdiagram *Classdiagram) RemoveGongEnumShape(stage *Stage, gongenumshap
 	}
 
 	classdiagram.GongEnumShapes = remove(classdiagram.GongEnumShapes, gongenumshape)
-	gongenumshape.Position.Unstage(stage)
 	gongenumshape.Unstage(stage)
 
 	// remove fields of the gongenumshape

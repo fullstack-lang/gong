@@ -29,8 +29,8 @@ func (rectImplGongenumShape *RectImplGongenumShape) RectUpdated(updatedRect *gon
 	log.Println("RectImplGongenumShape:RectUpdated")
 
 	// update the shape
-	rectImplGongenumShape.gongenumShape.Position.X = updatedRect.X
-	rectImplGongenumShape.gongenumShape.Position.Y = updatedRect.Y
+	rectImplGongenumShape.gongenumShape.X = updatedRect.X
+	rectImplGongenumShape.gongenumShape.Y = updatedRect.Y
 	rectImplGongenumShape.gongenumShape.Width = updatedRect.Width
 	rectImplGongenumShape.gongenumShape.Height = updatedRect.Height
 

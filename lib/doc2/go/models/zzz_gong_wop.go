@@ -62,6 +62,8 @@ func (from *DiagramPackage) CopyBasicFields(to *DiagramPackage) {
 type GongEnumShape_WOP struct {
 	// insertion point
 	Name string
+	X float64
+	Y float64
 	Identifier string
 	Width float64
 	Height float64
@@ -70,6 +72,8 @@ type GongEnumShape_WOP struct {
 func (from *GongEnumShape) CopyBasicFields(to *GongEnumShape) {
 	// insertion point
 	to.Name = from.Name
+	to.X = from.X
+	to.Y = from.Y
 	to.Identifier = from.Identifier
 	to.Width = from.Width
 	to.Height = from.Height
@@ -90,6 +94,8 @@ func (from *GongEnumValueEntry) CopyBasicFields(to *GongEnumValueEntry) {
 type GongStructShape_WOP struct {
 	// insertion point
 	Name string
+	X float64
+	Y float64
 	Identifier string
 	ShowNbInstances bool
 	NbInstances int
@@ -102,6 +108,8 @@ type GongStructShape_WOP struct {
 func (from *GongStructShape) CopyBasicFields(to *GongStructShape) {
 	// insertion point
 	to.Name = from.Name
+	to.X = from.X
+	to.Y = from.Y
 	to.Identifier = from.Identifier
 	to.ShowNbInstances = from.ShowNbInstances
 	to.NbInstances = from.NbInstances
@@ -124,6 +132,8 @@ type LinkShape_WOP struct {
 	SourceMultiplicity MultiplicityType
 	SourceMultiplicityOffsetX float64
 	SourceMultiplicityOffsetY float64
+	X float64
+	Y float64
 	StartOrientation OrientationType
 	StartRatio float64
 	EndOrientation OrientationType
@@ -144,6 +154,8 @@ func (from *LinkShape) CopyBasicFields(to *LinkShape) {
 	to.SourceMultiplicity = from.SourceMultiplicity
 	to.SourceMultiplicityOffsetX = from.SourceMultiplicityOffsetX
 	to.SourceMultiplicityOffsetY = from.SourceMultiplicityOffsetY
+	to.X = from.X
+	to.Y = from.Y
 	to.StartOrientation = from.StartOrientation
 	to.StartRatio = from.StartRatio
 	to.EndOrientation = from.EndOrientation
@@ -191,20 +203,6 @@ func (from *NoteShapeLink) CopyBasicFields(to *NoteShapeLink) {
 	to.Type = from.Type
 }
 
-type Position_WOP struct {
-	// insertion point
-	X float64
-	Y float64
-	Name string
-}
-
-func (from *Position) CopyBasicFields(to *Position) {
-	// insertion point
-	to.X = from.X
-	to.Y = from.Y
-	to.Name = from.Name
-}
-
 type UmlState_WOP struct {
 	// insertion point
 	Name string
@@ -231,19 +229,5 @@ func (from *Umlsc) CopyBasicFields(to *Umlsc) {
 	to.Name = from.Name
 	to.Activestate = from.Activestate
 	to.IsInDrawMode = from.IsInDrawMode
-}
-
-type Vertice_WOP struct {
-	// insertion point
-	X float64
-	Y float64
-	Name string
-}
-
-func (from *Vertice) CopyBasicFields(to *Vertice) {
-	// insertion point
-	to.X = from.X
-	to.Y = from.Y
-	to.Name = from.Name
 }
 

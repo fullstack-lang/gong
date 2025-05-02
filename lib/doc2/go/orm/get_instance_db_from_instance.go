@@ -51,10 +51,6 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		noteshapelinkInstance := any(concreteInstance).(*models.NoteShapeLink)
 		ret2 := backRepo.BackRepoNoteShapeLink.GetNoteShapeLinkDBFromNoteShapeLinkPtr(noteshapelinkInstance)
 		ret = any(ret2).(*T2)
-	case *models.Position:
-		positionInstance := any(concreteInstance).(*models.Position)
-		ret2 := backRepo.BackRepoPosition.GetPositionDBFromPositionPtr(positionInstance)
-		ret = any(ret2).(*T2)
 	case *models.UmlState:
 		umlstateInstance := any(concreteInstance).(*models.UmlState)
 		ret2 := backRepo.BackRepoUmlState.GetUmlStateDBFromUmlStatePtr(umlstateInstance)
@@ -62,10 +58,6 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 	case *models.Umlsc:
 		umlscInstance := any(concreteInstance).(*models.Umlsc)
 		ret2 := backRepo.BackRepoUmlsc.GetUmlscDBFromUmlscPtr(umlscInstance)
-		ret = any(ret2).(*T2)
-	case *models.Vertice:
-		verticeInstance := any(concreteInstance).(*models.Vertice)
-		ret2 := backRepo.BackRepoVertice.GetVerticeDBFromVerticePtr(verticeInstance)
 		ret = any(ret2).(*T2)
 	default:
 		_ = concreteInstance
@@ -125,11 +117,6 @@ func GetID[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
-	case *models.Position:
-		tmp := GetInstanceDBFromInstance[models.Position, PositionDB](
-			stage, backRepo, inst,
-		)
-		id = int(tmp.ID)
 	case *models.UmlState:
 		tmp := GetInstanceDBFromInstance[models.UmlState, UmlStateDB](
 			stage, backRepo, inst,
@@ -137,11 +124,6 @@ func GetID[T models.Gongstruct](
 		id = int(tmp.ID)
 	case *models.Umlsc:
 		tmp := GetInstanceDBFromInstance[models.Umlsc, UmlscDB](
-			stage, backRepo, inst,
-		)
-		id = int(tmp.ID)
-	case *models.Vertice:
-		tmp := GetInstanceDBFromInstance[models.Vertice, VerticeDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -203,11 +185,6 @@ func GetIDPointer[T models.PointerToGongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
-	case *models.Position:
-		tmp := GetInstanceDBFromInstance[models.Position, PositionDB](
-			stage, backRepo, inst,
-		)
-		id = int(tmp.ID)
 	case *models.UmlState:
 		tmp := GetInstanceDBFromInstance[models.UmlState, UmlStateDB](
 			stage, backRepo, inst,
@@ -215,11 +192,6 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.Umlsc:
 		tmp := GetInstanceDBFromInstance[models.Umlsc, UmlscDB](
-			stage, backRepo, inst,
-		)
-		id = int(tmp.ID)
-	case *models.Vertice:
-		tmp := GetInstanceDBFromInstance[models.Vertice, VerticeDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

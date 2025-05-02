@@ -56,10 +56,6 @@ type DBLite struct {
 
 	nextIDNoteShapeLinkDB uint
 
-	positionDBs map[uint]*PositionDB
-
-	nextIDPositionDB uint
-
 	umlstateDBs map[uint]*UmlStateDB
 
 	nextIDUmlStateDB uint
@@ -67,10 +63,6 @@ type DBLite struct {
 	umlscDBs map[uint]*UmlscDB
 
 	nextIDUmlscDB uint
-
-	verticeDBs map[uint]*VerticeDB
-
-	nextIDVerticeDB uint
 }
 
 // NewDBLite creates a new instance of DBLite
@@ -96,13 +88,9 @@ func NewDBLite() *DBLite {
 
 		noteshapelinkDBs: make(map[uint]*NoteShapeLinkDB),
 
-		positionDBs: make(map[uint]*PositionDB),
-
 		umlstateDBs: make(map[uint]*UmlStateDB),
 
 		umlscDBs: make(map[uint]*UmlscDB),
-
-		verticeDBs: make(map[uint]*VerticeDB),
 	}
 }
 
@@ -153,10 +141,6 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDNoteShapeLinkDB++
 		v.ID = db.nextIDNoteShapeLinkDB
 		db.noteshapelinkDBs[v.ID] = v
-	case *PositionDB:
-		db.nextIDPositionDB++
-		v.ID = db.nextIDPositionDB
-		db.positionDBs[v.ID] = v
 	case *UmlStateDB:
 		db.nextIDUmlStateDB++
 		v.ID = db.nextIDUmlStateDB
@@ -165,10 +149,6 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDUmlscDB++
 		v.ID = db.nextIDUmlscDB
 		db.umlscDBs[v.ID] = v
-	case *VerticeDB:
-		db.nextIDVerticeDB++
-		v.ID = db.nextIDVerticeDB
-		db.verticeDBs[v.ID] = v
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/doc2/go, unsupported type in Create")
 	}
@@ -215,14 +195,10 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.noteshapeDBs, v.ID)
 	case *NoteShapeLinkDB:
 		delete(db.noteshapelinkDBs, v.ID)
-	case *PositionDB:
-		delete(db.positionDBs, v.ID)
 	case *UmlStateDB:
 		delete(db.umlstateDBs, v.ID)
 	case *UmlscDB:
 		delete(db.umlscDBs, v.ID)
-	case *VerticeDB:
-		delete(db.verticeDBs, v.ID)
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/doc2/go, unsupported type in Delete")
 	}
@@ -268,17 +244,11 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 	case *NoteShapeLinkDB:
 		db.noteshapelinkDBs[v.ID] = v
 		return db, nil
-	case *PositionDB:
-		db.positionDBs[v.ID] = v
-		return db, nil
 	case *UmlStateDB:
 		db.umlstateDBs[v.ID] = v
 		return db, nil
 	case *UmlscDB:
 		db.umlscDBs[v.ID] = v
-		return db, nil
-	case *VerticeDB:
-		db.verticeDBs[v.ID] = v
 		return db, nil
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/doc2/go, Save: unsupported type")
@@ -350,12 +320,6 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db NoteShapeLink github.com/fullstack-lang/gong/lib/doc2/go, record not found")
 		}
-	case *PositionDB:
-		if existing, ok := db.positionDBs[v.ID]; ok {
-			*existing = *v
-		} else {
-			return nil, errors.New("db Position github.com/fullstack-lang/gong/lib/doc2/go, record not found")
-		}
 	case *UmlStateDB:
 		if existing, ok := db.umlstateDBs[v.ID]; ok {
 			*existing = *v
@@ -367,12 +331,6 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Umlsc github.com/fullstack-lang/gong/lib/doc2/go, record not found")
-		}
-	case *VerticeDB:
-		if existing, ok := db.verticeDBs[v.ID]; ok {
-			*existing = *v
-		} else {
-			return nil, errors.New("db Vertice github.com/fullstack-lang/gong/lib/doc2/go, record not found")
 		}
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/doc2/go, unsupported type in Updates")
@@ -442,12 +400,6 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
-	case *[]PositionDB:
-		*ptr = make([]PositionDB, 0, len(db.positionDBs))
-		for _, v := range db.positionDBs {
-			*ptr = append(*ptr, *v)
-		}
-		return db, nil
 	case *[]UmlStateDB:
 		*ptr = make([]UmlStateDB, 0, len(db.umlstateDBs))
 		for _, v := range db.umlstateDBs {
@@ -457,12 +409,6 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]UmlscDB:
 		*ptr = make([]UmlscDB, 0, len(db.umlscDBs))
 		for _, v := range db.umlscDBs {
-			*ptr = append(*ptr, *v)
-		}
-		return db, nil
-	case *[]VerticeDB:
-		*ptr = make([]VerticeDB, 0, len(db.verticeDBs))
-		for _, v := range db.verticeDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -589,16 +535,6 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		noteshapelinkDB, _ := instanceDB.(*NoteShapeLinkDB)
 		*noteshapelinkDB = *tmp
 		
-	case *PositionDB:
-		tmp, ok := db.positionDBs[uint(i)]
-
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("db.First Position Unkown entry %d", i))
-		}
-
-		positionDB, _ := instanceDB.(*PositionDB)
-		*positionDB = *tmp
-		
 	case *UmlStateDB:
 		tmp, ok := db.umlstateDBs[uint(i)]
 
@@ -618,16 +554,6 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		umlscDB, _ := instanceDB.(*UmlscDB)
 		*umlscDB = *tmp
-		
-	case *VerticeDB:
-		tmp, ok := db.verticeDBs[uint(i)]
-
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("db.First Vertice Unkown entry %d", i))
-		}
-
-		verticeDB, _ := instanceDB.(*VerticeDB)
-		*verticeDB = *tmp
 		
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/doc2/go, Unkown type")

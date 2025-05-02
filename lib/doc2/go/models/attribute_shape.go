@@ -180,12 +180,10 @@ func (classdiagram *Classdiagram) AddLinkFieldShape(
 		link.Fieldtypename = GongStructNameToIdentifier(targetStructName)
 
 		gongStructShape.LinkShapes = append(gongStructShape.LinkShapes, link)
-		link.Middlevertice = new(Vertice).Stage(stage)
-		link.Middlevertice.Name = "Verticle in class diagram " + diagramPackage.SelectedClassdiagram.Name +
-			" in middle between " + gongStructShape.Name + " and " + targetGongStructShape.Name
-		link.Middlevertice.X = (gongStructShape.Position.X+targetGongStructShape.Position.X)/2.0 +
+
+		link.X = (gongStructShape.X+targetGongStructShape.X)/2.0 +
 			gongStructShape.Width*1.5
-		link.Middlevertice.Y = (gongStructShape.Position.Y+targetGongStructShape.Position.Y)/2.0 +
+		link.Y = (gongStructShape.Y+targetGongStructShape.Y)/2.0 +
 			gongStructShape.Height/2.0
 
 		link.StartOrientation = ORIENTATION_HORIZONTAL

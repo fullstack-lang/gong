@@ -110,11 +110,6 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *Position:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
 	case *UmlState:
 		switch reverseField.GongstructName {
 		// insertion point
@@ -137,11 +132,6 @@ func GetReverseFieldOwnerName(
 					res = _diagrampackage.Name
 				}
 			}
-		}
-
-	case *Vertice:
-		switch reverseField.GongstructName {
-		// insertion point
 		}
 
 	default:
@@ -243,11 +233,6 @@ func GetReverseFieldOwner[T Gongstruct](
 			}
 		}
 
-	case *Position:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
 	case *UmlState:
 		switch reverseField.GongstructName {
 		// insertion point
@@ -266,11 +251,6 @@ func GetReverseFieldOwner[T Gongstruct](
 			case "Umlscs":
 				res = stage.DiagramPackage_Umlscs_reverseMap[inst]
 			}
-		}
-
-	case *Vertice:
-		switch reverseField.GongstructName {
-		// insertion point
 		}
 
 	default:
