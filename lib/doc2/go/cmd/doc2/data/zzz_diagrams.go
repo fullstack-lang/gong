@@ -25,11 +25,14 @@ func _(stage *models.Stage) {
 	// Declaration of instances to stage
 
 	__Classdiagram__000000_Default := (&models.Classdiagram{}).Stage(stage)
+	__Classdiagram__000001_Default_1 := (&models.Classdiagram{}).Stage(stage)
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_01T10_49_57Z := (&models.DiagramPackage{}).Stage(stage)
 
 	__GongStructShape__000000_Default_Classdiagram := (&models.GongStructShape{}).Stage(stage)
 	__GongStructShape__000001_Default_DiagramPackage := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000002_Default_1_Classdiagram := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000003_Default_1_DiagramPackage := (&models.GongStructShape{}).Stage(stage)
 
 	__Position__000000_Pos_Default_Classdiagram := (&models.Position{}).Stage(stage)
 	__Position__000001_Pos_Default_Classdiagram := (&models.Position{}).Stage(stage)
@@ -46,12 +49,18 @@ func _(stage *models.Stage) {
 	__Position__000012_Pos_Default_DiagramPackage := (&models.Position{}).Stage(stage)
 	__Position__000013_Pos_Default_Classdiagram := (&models.Position{}).Stage(stage)
 	__Position__000014_Pos_Default_DiagramPackage := (&models.Position{}).Stage(stage)
+	__Position__000015_Pos_Default_1_Classdiagram := (&models.Position{}).Stage(stage)
+	__Position__000016_Pos_Default_1_DiagramPackage := (&models.Position{}).Stage(stage)
 
 	// Setup of values
 
 	__Classdiagram__000000_Default.Name = `Default`
 	__Classdiagram__000000_Default.IsInDrawMode = true
-	__Classdiagram__000000_Default.IsExpanded = true
+	__Classdiagram__000000_Default.IsExpanded = false
+
+	__Classdiagram__000001_Default_1.Name = `Default_1`
+	__Classdiagram__000001_Default_1.IsInDrawMode = true
+	__Classdiagram__000001_Default_1.IsExpanded = false
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_01T10_49_57Z.Name = `Diagram Package created the 2025-05-01T10:49:57Z`
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_01T10_49_57Z.Path = ``
@@ -79,6 +88,26 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_DiagramPackage.Width = 240.000000
 	__GongStructShape__000001_Default_DiagramPackage.Height = 63.000000
 	__GongStructShape__000001_Default_DiagramPackage.IsSelected = false
+
+	__GongStructShape__000002_Default_1_Classdiagram.Name = `Default_1-Classdiagram`
+
+	//gong:ident [ref_models.Classdiagram] comment added to overcome the problem with the comment map association
+	__GongStructShape__000002_Default_1_Classdiagram.Identifier = `ref_models.Classdiagram`
+	__GongStructShape__000002_Default_1_Classdiagram.ShowNbInstances = false
+	__GongStructShape__000002_Default_1_Classdiagram.NbInstances = 0
+	__GongStructShape__000002_Default_1_Classdiagram.Width = 240.000000
+	__GongStructShape__000002_Default_1_Classdiagram.Height = 63.000000
+	__GongStructShape__000002_Default_1_Classdiagram.IsSelected = false
+
+	__GongStructShape__000003_Default_1_DiagramPackage.Name = `Default_1-DiagramPackage`
+
+	//gong:ident [ref_models.DiagramPackage] comment added to overcome the problem with the comment map association
+	__GongStructShape__000003_Default_1_DiagramPackage.Identifier = `ref_models.DiagramPackage`
+	__GongStructShape__000003_Default_1_DiagramPackage.ShowNbInstances = false
+	__GongStructShape__000003_Default_1_DiagramPackage.NbInstances = 0
+	__GongStructShape__000003_Default_1_DiagramPackage.Width = 240.000000
+	__GongStructShape__000003_Default_1_DiagramPackage.Height = 63.000000
+	__GongStructShape__000003_Default_1_DiagramPackage.IsSelected = false
 
 	__Position__000000_Pos_Default_Classdiagram.X = 97.000000
 	__Position__000000_Pos_Default_Classdiagram.Y = 63.000000
@@ -132,23 +161,36 @@ func _(stage *models.Stage) {
 	__Position__000012_Pos_Default_DiagramPackage.Y = 95.000000
 	__Position__000012_Pos_Default_DiagramPackage.Name = `Pos-Default-DiagramPackage`
 
-	__Position__000013_Pos_Default_Classdiagram.X = 518.000000
-	__Position__000013_Pos_Default_Classdiagram.Y = 156.000000
+	__Position__000013_Pos_Default_Classdiagram.X = 435.000000
+	__Position__000013_Pos_Default_Classdiagram.Y = 113.000000
 	__Position__000013_Pos_Default_Classdiagram.Name = `Pos-Default-Classdiagram`
 
-	__Position__000014_Pos_Default_DiagramPackage.X = 103.000000
-	__Position__000014_Pos_Default_DiagramPackage.Y = 106.000000
+	__Position__000014_Pos_Default_DiagramPackage.X = 99.000000
+	__Position__000014_Pos_Default_DiagramPackage.Y = 123.000000
 	__Position__000014_Pos_Default_DiagramPackage.Name = `Pos-Default-DiagramPackage`
+
+	__Position__000015_Pos_Default_1_Classdiagram.X = 45.000000
+	__Position__000015_Pos_Default_1_Classdiagram.Y = 305.000000
+	__Position__000015_Pos_Default_1_Classdiagram.Name = `Pos-Default_1-Classdiagram`
+
+	__Position__000016_Pos_Default_1_DiagramPackage.X = 15.000000
+	__Position__000016_Pos_Default_1_DiagramPackage.Y = 101.000000
+	__Position__000016_Pos_Default_1_DiagramPackage.Name = `Pos-Default_1-DiagramPackage`
 
 	// Setup of pointers
 	// setup of Classdiagram instances pointers
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000000_Default_Classdiagram)
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000001_Default_DiagramPackage)
+	__Classdiagram__000001_Default_1.GongStructShapes = append(__Classdiagram__000001_Default_1.GongStructShapes, __GongStructShape__000002_Default_1_Classdiagram)
+	__Classdiagram__000001_Default_1.GongStructShapes = append(__Classdiagram__000001_Default_1.GongStructShapes, __GongStructShape__000003_Default_1_DiagramPackage)
 	// setup of DiagramPackage instances pointers
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_01T10_49_57Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_01T10_49_57Z.Classdiagrams, __Classdiagram__000000_Default)
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_01T10_49_57Z.SelectedClassdiagram = __Classdiagram__000000_Default
+	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_01T10_49_57Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_01T10_49_57Z.Classdiagrams, __Classdiagram__000001_Default_1)
+	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_01T10_49_57Z.SelectedClassdiagram = __Classdiagram__000001_Default_1
 	// setup of GongStructShape instances pointers
 	__GongStructShape__000000_Default_Classdiagram.Position = __Position__000013_Pos_Default_Classdiagram
 	__GongStructShape__000001_Default_DiagramPackage.Position = __Position__000014_Pos_Default_DiagramPackage
+	__GongStructShape__000002_Default_1_Classdiagram.Position = __Position__000015_Pos_Default_1_Classdiagram
+	__GongStructShape__000003_Default_1_DiagramPackage.Position = __Position__000016_Pos_Default_1_DiagramPackage
 	// setup of Position instances pointers
 }
