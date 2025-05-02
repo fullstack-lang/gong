@@ -164,7 +164,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 		return
 	} else {
 	log.Printf(
-		"%s github.com/fullstack-lang/gong/lib/tree/go: %03d: '%s', index %d",
+		"%s github.com/fullstack-lang/gong/lib/cursor/go: %03d: '%s', index %d",
 		time.Now().Format("2006-01-02 15:04:05.000000"),
 		refresh,
 		stackPath, index,
@@ -197,7 +197,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 					return
 				} else {
 					log.Printf(
-						"%s github.com/fullstack-lang/gong/lib/tree/go: %03d: '%s', index %d",
+						"%s github.com/fullstack-lang/gong/lib/cursor/go: %03d: '%s', index %d",
 						time.Now().Format("2006-01-02 15:04:05.000000"),
 						refresh,
 						stackPath, index,
