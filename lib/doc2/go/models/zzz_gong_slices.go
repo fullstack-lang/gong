@@ -51,7 +51,7 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
-	// Compute reverse map for named struct Field
+	// Compute reverse map for named struct FieldShape
 	// insertion point per field
 
 	// Compute reverse map for named struct GongEnumShape
@@ -70,24 +70,24 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct GongStructShape
 	// insertion point per field
-	clear(stage.GongStructShape_Fields_reverseMap)
-	stage.GongStructShape_Fields_reverseMap = make(map[*FieldShape]*GongStructShape)
+	clear(stage.GongStructShape_FieldShapes_reverseMap)
+	stage.GongStructShape_FieldShapes_reverseMap = make(map[*AttributeShape]*GongStructShape)
 	for gongstructshape := range stage.GongStructShapes {
 		_ = gongstructshape
-		for _, _field := range gongstructshape.FieldShapes {
-			stage.GongStructShape_Fields_reverseMap[_field] = gongstructshape
+		for _, _fieldshape := range gongstructshape.AttributeShapes {
+			stage.GongStructShape_FieldShapes_reverseMap[_fieldshape] = gongstructshape
 		}
 	}
 	clear(stage.GongStructShape_Links_reverseMap)
-	stage.GongStructShape_Links_reverseMap = make(map[*Link]*GongStructShape)
+	stage.GongStructShape_Links_reverseMap = make(map[*LinkShape]*GongStructShape)
 	for gongstructshape := range stage.GongStructShapes {
 		_ = gongstructshape
-		for _, _link := range gongstructshape.Links {
-			stage.GongStructShape_Links_reverseMap[_link] = gongstructshape
+		for _, _linkshape := range gongstructshape.Links {
+			stage.GongStructShape_Links_reverseMap[_linkshape] = gongstructshape
 		}
 	}
 
-	// Compute reverse map for named struct Link
+	// Compute reverse map for named struct LinkShape
 	// insertion point per field
 
 	// Compute reverse map for named struct NoteShape

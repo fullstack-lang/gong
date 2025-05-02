@@ -10,12 +10,12 @@ import (
 // it meets the interface of AnchoredTextImplInterface
 // and updates the link field name position
 type AnchoredTextImplLinkSourceMultiplicity struct {
-	link         *Link
+	link         *LinkShape
 	gongdocStage *Stage
 }
 
 func NewAnchoredTextImplLinkSourceMultiplicity(
-	anchoredtext *Link,
+	anchoredtext *LinkShape,
 	gongdocStage *Stage) (anchoredtextImplAnchoredText *AnchoredTextImplLinkSourceMultiplicity) {
 
 	anchoredtextImplAnchoredText = new(AnchoredTextImplLinkSourceMultiplicity)

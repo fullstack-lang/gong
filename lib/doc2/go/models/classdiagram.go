@@ -55,12 +55,12 @@ func (classdiagram *Classdiagram) RemoveGongStructShape(stage *Stage, gongstruct
 		link.Middlevertice.Unstage(stage)
 		link.Unstage(stage)
 	}
-	gongstructshape.Links = []*Link{}
+	gongstructshape.Links = []*LinkShape{}
 
 	// remove association links that go to this gongstructshape
 	for _, fromGongStructShape := range classdiagram.GongStructShapes {
 
-		newSliceOfLinks := make([]*Link, 0)
+		newSliceOfLinks := make([]*LinkShape, 0)
 		for _, link := range fromGongStructShape.Links {
 			typeOfTheField := IdentifierToGongObjectName(gongstructshape.Identifier)
 			typeOfTheLink := IdentifierToGongObjectName(link.Fieldtypename)
@@ -75,7 +75,7 @@ func (classdiagram *Classdiagram) RemoveGongStructShape(stage *Stage, gongstruct
 	}
 
 	// remove fields of the gongstructshape
-	for _, field := range gongstructshape.FieldShapes {
+	for _, field := range gongstructshape.AttributeShapes {
 		field.Unstage(stage)
 	}
 

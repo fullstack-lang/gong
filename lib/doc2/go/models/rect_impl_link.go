@@ -9,12 +9,12 @@ import (
 // LinkImplLink
 // it meets the interface of LinkImplInterface
 type LinkImplLink struct {
-	link         *Link
+	link         *LinkShape
 	gongdocStage *Stage
 }
 
 func NewLinkImplLink(
-	link *Link,
+	link *LinkShape,
 	gongdocStage *Stage) (linkImplLink *LinkImplLink) {
 
 	linkImplLink = new(LinkImplLink)

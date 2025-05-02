@@ -14,9 +14,9 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDiagramPackageCreateCallback != nil {
 			stage.OnAfterDiagramPackageCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *FieldShape:
-		if stage.OnAfterFieldCreateCallback != nil {
-			stage.OnAfterFieldCreateCallback.OnAfterCreate(stage, target)
+	case *AttributeShape:
+		if stage.OnAfterFieldShapeCreateCallback != nil {
+			stage.OnAfterFieldShapeCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *GongEnumShape:
 		if stage.OnAfterGongEnumShapeCreateCallback != nil {
@@ -30,9 +30,9 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterGongStructShapeCreateCallback != nil {
 			stage.OnAfterGongStructShapeCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *Link:
-		if stage.OnAfterLinkCreateCallback != nil {
-			stage.OnAfterLinkCreateCallback.OnAfterCreate(stage, target)
+	case *LinkShape:
+		if stage.OnAfterLinkShapeCreateCallback != nil {
+			stage.OnAfterLinkShapeCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *NoteShape:
 		if stage.OnAfterNoteShapeCreateCallback != nil {
@@ -78,10 +78,10 @@ func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterDiagramPackageUpdateCallback != nil {
 			stage.OnAfterDiagramPackageUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-	case *FieldShape:
-		newTarget := any(new).(*FieldShape)
-		if stage.OnAfterFieldUpdateCallback != nil {
-			stage.OnAfterFieldUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+	case *AttributeShape:
+		newTarget := any(new).(*AttributeShape)
+		if stage.OnAfterFieldShapeUpdateCallback != nil {
+			stage.OnAfterFieldShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *GongEnumShape:
 		newTarget := any(new).(*GongEnumShape)
@@ -98,10 +98,10 @@ func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterGongStructShapeUpdateCallback != nil {
 			stage.OnAfterGongStructShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-	case *Link:
-		newTarget := any(new).(*Link)
-		if stage.OnAfterLinkUpdateCallback != nil {
-			stage.OnAfterLinkUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+	case *LinkShape:
+		newTarget := any(new).(*LinkShape)
+		if stage.OnAfterLinkShapeUpdateCallback != nil {
+			stage.OnAfterLinkShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *NoteShape:
 		newTarget := any(new).(*NoteShape)
@@ -153,10 +153,10 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*DiagramPackage)
 			stage.OnAfterDiagramPackageDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *FieldShape:
-		if stage.OnAfterFieldDeleteCallback != nil {
-			staged := any(staged).(*FieldShape)
-			stage.OnAfterFieldDeleteCallback.OnAfterDelete(stage, staged, front)
+	case *AttributeShape:
+		if stage.OnAfterFieldShapeDeleteCallback != nil {
+			staged := any(staged).(*AttributeShape)
+			stage.OnAfterFieldShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *GongEnumShape:
 		if stage.OnAfterGongEnumShapeDeleteCallback != nil {
@@ -173,10 +173,10 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*GongStructShape)
 			stage.OnAfterGongStructShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *Link:
-		if stage.OnAfterLinkDeleteCallback != nil {
-			staged := any(staged).(*Link)
-			stage.OnAfterLinkDeleteCallback.OnAfterDelete(stage, staged, front)
+	case *LinkShape:
+		if stage.OnAfterLinkShapeDeleteCallback != nil {
+			staged := any(staged).(*LinkShape)
+			stage.OnAfterLinkShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *NoteShape:
 		if stage.OnAfterNoteShapeDeleteCallback != nil {
@@ -226,9 +226,9 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDiagramPackageReadCallback != nil {
 			stage.OnAfterDiagramPackageReadCallback.OnAfterRead(stage, target)
 		}
-	case *FieldShape:
-		if stage.OnAfterFieldReadCallback != nil {
-			stage.OnAfterFieldReadCallback.OnAfterRead(stage, target)
+	case *AttributeShape:
+		if stage.OnAfterFieldShapeReadCallback != nil {
+			stage.OnAfterFieldShapeReadCallback.OnAfterRead(stage, target)
 		}
 	case *GongEnumShape:
 		if stage.OnAfterGongEnumShapeReadCallback != nil {
@@ -242,9 +242,9 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterGongStructShapeReadCallback != nil {
 			stage.OnAfterGongStructShapeReadCallback.OnAfterRead(stage, target)
 		}
-	case *Link:
-		if stage.OnAfterLinkReadCallback != nil {
-			stage.OnAfterLinkReadCallback.OnAfterRead(stage, target)
+	case *LinkShape:
+		if stage.OnAfterLinkShapeReadCallback != nil {
+			stage.OnAfterLinkShapeReadCallback.OnAfterRead(stage, target)
 		}
 	case *NoteShape:
 		if stage.OnAfterNoteShapeReadCallback != nil {
@@ -287,8 +287,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *DiagramPackage:
 		stage.OnAfterDiagramPackageUpdateCallback = any(callback).(OnAfterUpdateInterface[DiagramPackage])
 
-	case *FieldShape:
-		stage.OnAfterFieldUpdateCallback = any(callback).(OnAfterUpdateInterface[FieldShape])
+	case *AttributeShape:
+		stage.OnAfterFieldShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[AttributeShape])
 
 	case *GongEnumShape:
 		stage.OnAfterGongEnumShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GongEnumShape])
@@ -299,8 +299,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *GongStructShape:
 		stage.OnAfterGongStructShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GongStructShape])
 
-	case *Link:
-		stage.OnAfterLinkUpdateCallback = any(callback).(OnAfterUpdateInterface[Link])
+	case *LinkShape:
+		stage.OnAfterLinkShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[LinkShape])
 
 	case *NoteShape:
 		stage.OnAfterNoteShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteShape])
@@ -333,8 +333,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *DiagramPackage:
 		stage.OnAfterDiagramPackageCreateCallback = any(callback).(OnAfterCreateInterface[DiagramPackage])
 
-	case *FieldShape:
-		stage.OnAfterFieldCreateCallback = any(callback).(OnAfterCreateInterface[FieldShape])
+	case *AttributeShape:
+		stage.OnAfterFieldShapeCreateCallback = any(callback).(OnAfterCreateInterface[AttributeShape])
 
 	case *GongEnumShape:
 		stage.OnAfterGongEnumShapeCreateCallback = any(callback).(OnAfterCreateInterface[GongEnumShape])
@@ -345,8 +345,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *GongStructShape:
 		stage.OnAfterGongStructShapeCreateCallback = any(callback).(OnAfterCreateInterface[GongStructShape])
 
-	case *Link:
-		stage.OnAfterLinkCreateCallback = any(callback).(OnAfterCreateInterface[Link])
+	case *LinkShape:
+		stage.OnAfterLinkShapeCreateCallback = any(callback).(OnAfterCreateInterface[LinkShape])
 
 	case *NoteShape:
 		stage.OnAfterNoteShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteShape])
@@ -379,8 +379,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *DiagramPackage:
 		stage.OnAfterDiagramPackageDeleteCallback = any(callback).(OnAfterDeleteInterface[DiagramPackage])
 
-	case *FieldShape:
-		stage.OnAfterFieldDeleteCallback = any(callback).(OnAfterDeleteInterface[FieldShape])
+	case *AttributeShape:
+		stage.OnAfterFieldShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[AttributeShape])
 
 	case *GongEnumShape:
 		stage.OnAfterGongEnumShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GongEnumShape])
@@ -391,8 +391,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *GongStructShape:
 		stage.OnAfterGongStructShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GongStructShape])
 
-	case *Link:
-		stage.OnAfterLinkDeleteCallback = any(callback).(OnAfterDeleteInterface[Link])
+	case *LinkShape:
+		stage.OnAfterLinkShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[LinkShape])
 
 	case *NoteShape:
 		stage.OnAfterNoteShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteShape])
@@ -425,8 +425,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	case *DiagramPackage:
 		stage.OnAfterDiagramPackageReadCallback = any(callback).(OnAfterReadInterface[DiagramPackage])
 
-	case *FieldShape:
-		stage.OnAfterFieldReadCallback = any(callback).(OnAfterReadInterface[FieldShape])
+	case *AttributeShape:
+		stage.OnAfterFieldShapeReadCallback = any(callback).(OnAfterReadInterface[AttributeShape])
 
 	case *GongEnumShape:
 		stage.OnAfterGongEnumShapeReadCallback = any(callback).(OnAfterReadInterface[GongEnumShape])
@@ -437,8 +437,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	case *GongStructShape:
 		stage.OnAfterGongStructShapeReadCallback = any(callback).(OnAfterReadInterface[GongStructShape])
 
-	case *Link:
-		stage.OnAfterLinkReadCallback = any(callback).(OnAfterReadInterface[Link])
+	case *LinkShape:
+		stage.OnAfterLinkShapeReadCallback = any(callback).(OnAfterReadInterface[LinkShape])
 
 	case *NoteShape:
 		stage.OnAfterNoteShapeReadCallback = any(callback).(OnAfterReadInterface[NoteShape])
