@@ -230,6 +230,12 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", classdiagram.NodeGongEnumsIsExpanded))
 		initializerStatements += setValueField
 
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NodeGongNotesIsExpanded")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", classdiagram.NodeGongNotesIsExpanded))
+		initializerStatements += setValueField
+
 	}
 
 	map_DiagramPackage_Identifiers := make(map[*DiagramPackage]string)
@@ -776,6 +782,12 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Matched")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", noteshape.Matched))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsExpanded")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", noteshape.IsExpanded))
 		initializerStatements += setValueField
 
 	}

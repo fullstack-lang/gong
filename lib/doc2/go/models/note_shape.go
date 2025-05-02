@@ -34,4 +34,6 @@ type NoteShape struct {
 	Matched       bool // if a note with the same name has been found
 
 	NoteShapeLinks []*NoteShapeLink
+
+	IsExpanded bool
 }

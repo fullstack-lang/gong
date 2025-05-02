@@ -197,6 +197,8 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(classdiagram_.NodeNamedStructsIsExpanded), formDiv)
 		case "NodeGongEnumsIsExpanded":
 			FormDivBasicFieldToField(&(classdiagram_.NodeGongEnumsIsExpanded), formDiv)
+		case "NodeGongNotesIsExpanded":
+			FormDivBasicFieldToField(&(classdiagram_.NodeGongNotesIsExpanded), formDiv)
 		case "DiagramPackage:Classdiagrams":
 			// we need to retrieve the field owner before the change
 			var pastDiagramPackageOwner *models.DiagramPackage
@@ -958,6 +960,8 @@ func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(noteshape_.Height), formDiv)
 		case "Matched":
 			FormDivBasicFieldToField(&(noteshape_.Matched), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(noteshape_.IsExpanded), formDiv)
 		case "Classdiagram:NoteShapes":
 			// we need to retrieve the field owner before the change
 			var pastClassdiagramOwner *models.Classdiagram
