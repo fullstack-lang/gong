@@ -8,7 +8,8 @@ const GongStructShapeDefaultHeight = 48.0
 type GongStructShape struct {
 	Name string
 
-	Position *Position
+	X float64
+	Y float64
 
 	// Identifier is the identifier of the struct referenced by the shape in the modeled package
 	//gong:ident

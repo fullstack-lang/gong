@@ -37,14 +37,10 @@ func fillUpTablePointerToGongstruct[T models.PointerToGongstruct](
 		fillUpTable[models.NoteShape](probe)
 	case *models.NoteShapeLink:
 		fillUpTable[models.NoteShapeLink](probe)
-	case *models.Position:
-		fillUpTable[models.Position](probe)
 	case *models.UmlState:
 		fillUpTable[models.UmlState](probe)
 	case *models.Umlsc:
 		fillUpTable[models.Umlsc](probe)
-	case *models.Vertice:
-		fillUpTable[models.Vertice](probe)
 	default:
 		log.Println("unknow type")
 	}

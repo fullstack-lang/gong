@@ -48,10 +48,6 @@ type GongEnumShapeAPI struct {
 type GongEnumShapePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
-	// field Position is a pointer to another Struct (optional or 0..1)
-	// This field is generated into another field to enable AS ONE association
-	PositionID sql.NullInt64
-
 	// field GongEnumValueEntrys is a slice of pointers to another Struct (optional or 0..1)
 	GongEnumValueEntrys IntSlice `gorm:"type:TEXT"`
 }
@@ -69,6 +65,12 @@ type GongEnumShapeDB struct {
 
 	// Declation for basic field gongenumshapeDB.Name
 	Name_Data sql.NullString
+
+	// Declation for basic field gongenumshapeDB.X
+	X_Data sql.NullFloat64
+
+	// Declation for basic field gongenumshapeDB.Y
+	Y_Data sql.NullFloat64
 
 	// Declation for basic field gongenumshapeDB.Identifier
 	Identifier_Data sql.NullString
@@ -103,11 +105,15 @@ type GongEnumShapeWOP struct {
 
 	Name string `xlsx:"1"`
 
-	Identifier string `xlsx:"2"`
+	X float64 `xlsx:"2"`
 
-	Width float64 `xlsx:"3"`
+	Y float64 `xlsx:"3"`
 
-	Height float64 `xlsx:"4"`
+	Identifier string `xlsx:"4"`
+
+	Width float64 `xlsx:"5"`
+
+	Height float64 `xlsx:"6"`
 	// insertion for WOP pointer fields
 }
 
@@ -115,6 +121,8 @@ var GongEnumShape_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"X",
+	"Y",
 	"Identifier",
 	"Width",
 	"Height",
@@ -248,18 +256,6 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CommitPhaseTwoInstance
 		gongenumshapeDB.CopyBasicFieldsFromGongEnumShape(gongenumshape)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// commit pointer value gongenumshape.Position translates to updating the gongenumshape.PositionID
-		gongenumshapeDB.PositionID.Valid = true // allow for a 0 value (nil association)
-		if gongenumshape.Position != nil {
-			if PositionId, ok := backRepo.BackRepoPosition.Map_PositionPtr_PositionDBID[gongenumshape.Position]; ok {
-				gongenumshapeDB.PositionID.Int64 = int64(PositionId)
-				gongenumshapeDB.PositionID.Valid = true
-			}
-		} else {
-			gongenumshapeDB.PositionID.Int64 = 0
-			gongenumshapeDB.PositionID.Valid = true
-		}
-
 		// 1. reset
 		gongenumshapeDB.GongEnumShapePointersEncoding.GongEnumValueEntrys = make([]int, 0)
 		// 2. encode
@@ -391,27 +387,6 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CheckoutPhaseTwoInstan
 func (gongenumshapeDB *GongEnumShapeDB) DecodePointers(backRepo *BackRepoStruct, gongenumshape *models.GongEnumShape) {
 
 	// insertion point for checkout of pointer encoding
-	// Position field	
-	{
-		id := gongenumshapeDB.PositionID.Int64
-		if id != 0 {
-			tmp, ok := backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr[uint(id)]
-
-			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
-			if !ok {
-				log.Println("DecodePointers: gongenumshape.Position, unknown pointer id", id)
-				gongenumshape.Position = nil
-			} else {
-				// updates only if field has changed
-				if gongenumshape.Position == nil || gongenumshape.Position != tmp {
-					gongenumshape.Position = tmp
-				}
-			}
-		} else {
-			gongenumshape.Position = nil
-		}
-	}
-	
 	// This loop redeem gongenumshape.GongEnumValueEntrys in the stage from the encode in the back repo
 	// It parses all GongEnumValueEntryDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
@@ -458,6 +433,12 @@ func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsFromGongEnumShape(gongenu
 	gongenumshapeDB.Name_Data.String = gongenumshape.Name
 	gongenumshapeDB.Name_Data.Valid = true
 
+	gongenumshapeDB.X_Data.Float64 = gongenumshape.X
+	gongenumshapeDB.X_Data.Valid = true
+
+	gongenumshapeDB.Y_Data.Float64 = gongenumshape.Y
+	gongenumshapeDB.Y_Data.Valid = true
+
 	gongenumshapeDB.Identifier_Data.String = gongenumshape.Identifier
 	gongenumshapeDB.Identifier_Data.Valid = true
 
@@ -474,6 +455,12 @@ func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsFromGongEnumShape_WOP(gon
 
 	gongenumshapeDB.Name_Data.String = gongenumshape.Name
 	gongenumshapeDB.Name_Data.Valid = true
+
+	gongenumshapeDB.X_Data.Float64 = gongenumshape.X
+	gongenumshapeDB.X_Data.Valid = true
+
+	gongenumshapeDB.Y_Data.Float64 = gongenumshape.Y
+	gongenumshapeDB.Y_Data.Valid = true
 
 	gongenumshapeDB.Identifier_Data.String = gongenumshape.Identifier
 	gongenumshapeDB.Identifier_Data.Valid = true
@@ -492,6 +479,12 @@ func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsFromGongEnumShapeWOP(gong
 	gongenumshapeDB.Name_Data.String = gongenumshape.Name
 	gongenumshapeDB.Name_Data.Valid = true
 
+	gongenumshapeDB.X_Data.Float64 = gongenumshape.X
+	gongenumshapeDB.X_Data.Valid = true
+
+	gongenumshapeDB.Y_Data.Float64 = gongenumshape.Y
+	gongenumshapeDB.Y_Data.Valid = true
+
 	gongenumshapeDB.Identifier_Data.String = gongenumshape.Identifier
 	gongenumshapeDB.Identifier_Data.Valid = true
 
@@ -506,6 +499,8 @@ func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsFromGongEnumShapeWOP(gong
 func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsToGongEnumShape(gongenumshape *models.GongEnumShape) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongenumshape.Name = gongenumshapeDB.Name_Data.String
+	gongenumshape.X = gongenumshapeDB.X_Data.Float64
+	gongenumshape.Y = gongenumshapeDB.Y_Data.Float64
 	gongenumshape.Identifier = gongenumshapeDB.Identifier_Data.String
 	gongenumshape.Width = gongenumshapeDB.Width_Data.Float64
 	gongenumshape.Height = gongenumshapeDB.Height_Data.Float64
@@ -515,6 +510,8 @@ func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsToGongEnumShape(gongenums
 func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsToGongEnumShape_WOP(gongenumshape *models.GongEnumShape_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongenumshape.Name = gongenumshapeDB.Name_Data.String
+	gongenumshape.X = gongenumshapeDB.X_Data.Float64
+	gongenumshape.Y = gongenumshapeDB.Y_Data.Float64
 	gongenumshape.Identifier = gongenumshapeDB.Identifier_Data.String
 	gongenumshape.Width = gongenumshapeDB.Width_Data.Float64
 	gongenumshape.Height = gongenumshapeDB.Height_Data.Float64
@@ -525,6 +522,8 @@ func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsToGongEnumShapeWOP(gongen
 	gongenumshape.ID = int(gongenumshapeDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongenumshape.Name = gongenumshapeDB.Name_Data.String
+	gongenumshape.X = gongenumshapeDB.X_Data.Float64
+	gongenumshape.Y = gongenumshapeDB.Y_Data.Float64
 	gongenumshape.Identifier = gongenumshapeDB.Identifier_Data.String
 	gongenumshape.Width = gongenumshapeDB.Width_Data.Float64
 	gongenumshape.Height = gongenumshapeDB.Height_Data.Float64
@@ -685,12 +684,6 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) RestorePhaseTwo() {
 		_ = gongenumshapeDB
 
 		// insertion point for reindexing pointers encoding
-		// reindexing Position field
-		if gongenumshapeDB.PositionID.Int64 != 0 {
-			gongenumshapeDB.PositionID.Int64 = int64(BackRepoPositionid_atBckpTime_newID[uint(gongenumshapeDB.PositionID.Int64)])
-			gongenumshapeDB.PositionID.Valid = true
-		}
-
 		// update databse with new index encoding
 		db, _ := backRepoGongEnumShape.db.Model(gongenumshapeDB)
 		_, err := db.Updates(*gongenumshapeDB)

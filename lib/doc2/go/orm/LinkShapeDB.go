@@ -47,10 +47,6 @@ type LinkShapeAPI struct {
 // reverse pointers of slice of poitners to Struct
 type LinkShapePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-
-	// field Middlevertice is a pointer to another Struct (optional or 0..1)
-	// This field is generated into another field to enable AS ONE association
-	MiddleverticeID sql.NullInt64
 }
 
 // LinkShapeDB describes a linkshape in the database
@@ -96,6 +92,12 @@ type LinkShapeDB struct {
 
 	// Declation for basic field linkshapeDB.SourceMultiplicityOffsetY
 	SourceMultiplicityOffsetY_Data sql.NullFloat64
+
+	// Declation for basic field linkshapeDB.X
+	X_Data sql.NullFloat64
+
+	// Declation for basic field linkshapeDB.Y
+	Y_Data sql.NullFloat64
 
 	// Declation for basic field linkshapeDB.StartOrientation
 	StartOrientation_Data sql.NullString
@@ -156,15 +158,19 @@ type LinkShapeWOP struct {
 
 	SourceMultiplicityOffsetY float64 `xlsx:"11"`
 
-	StartOrientation models.OrientationType `xlsx:"12"`
+	X float64 `xlsx:"12"`
 
-	StartRatio float64 `xlsx:"13"`
+	Y float64 `xlsx:"13"`
 
-	EndOrientation models.OrientationType `xlsx:"14"`
+	StartOrientation models.OrientationType `xlsx:"14"`
 
-	EndRatio float64 `xlsx:"15"`
+	StartRatio float64 `xlsx:"15"`
 
-	CornerOffsetRatio float64 `xlsx:"16"`
+	EndOrientation models.OrientationType `xlsx:"16"`
+
+	EndRatio float64 `xlsx:"17"`
+
+	CornerOffsetRatio float64 `xlsx:"18"`
 	// insertion for WOP pointer fields
 }
 
@@ -182,6 +188,8 @@ var LinkShape_Fields = []string{
 	"SourceMultiplicity",
 	"SourceMultiplicityOffsetX",
 	"SourceMultiplicityOffsetY",
+	"X",
+	"Y",
 	"StartOrientation",
 	"StartRatio",
 	"EndOrientation",
@@ -317,18 +325,6 @@ func (backRepoLinkShape *BackRepoLinkShapeStruct) CommitPhaseTwoInstance(backRep
 		linkshapeDB.CopyBasicFieldsFromLinkShape(linkshape)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// commit pointer value linkshape.Middlevertice translates to updating the linkshape.MiddleverticeID
-		linkshapeDB.MiddleverticeID.Valid = true // allow for a 0 value (nil association)
-		if linkshape.Middlevertice != nil {
-			if MiddleverticeId, ok := backRepo.BackRepoVertice.Map_VerticePtr_VerticeDBID[linkshape.Middlevertice]; ok {
-				linkshapeDB.MiddleverticeID.Int64 = int64(MiddleverticeId)
-				linkshapeDB.MiddleverticeID.Valid = true
-			}
-		} else {
-			linkshapeDB.MiddleverticeID.Int64 = 0
-			linkshapeDB.MiddleverticeID.Valid = true
-		}
-
 		_, err := backRepoLinkShape.db.Save(linkshapeDB)
 		if err != nil {
 			log.Fatal(err)
@@ -442,27 +438,6 @@ func (backRepoLinkShape *BackRepoLinkShapeStruct) CheckoutPhaseTwoInstance(backR
 func (linkshapeDB *LinkShapeDB) DecodePointers(backRepo *BackRepoStruct, linkshape *models.LinkShape) {
 
 	// insertion point for checkout of pointer encoding
-	// Middlevertice field	
-	{
-		id := linkshapeDB.MiddleverticeID.Int64
-		if id != 0 {
-			tmp, ok := backRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr[uint(id)]
-
-			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
-			if !ok {
-				log.Println("DecodePointers: linkshape.Middlevertice, unknown pointer id", id)
-				linkshape.Middlevertice = nil
-			} else {
-				// updates only if field has changed
-				if linkshape.Middlevertice == nil || linkshape.Middlevertice != tmp {
-					linkshape.Middlevertice = tmp
-				}
-			}
-		} else {
-			linkshape.Middlevertice = nil
-		}
-	}
-	
 	return
 }
 
@@ -530,6 +505,12 @@ func (linkshapeDB *LinkShapeDB) CopyBasicFieldsFromLinkShape(linkshape *models.L
 	linkshapeDB.SourceMultiplicityOffsetY_Data.Float64 = linkshape.SourceMultiplicityOffsetY
 	linkshapeDB.SourceMultiplicityOffsetY_Data.Valid = true
 
+	linkshapeDB.X_Data.Float64 = linkshape.X
+	linkshapeDB.X_Data.Valid = true
+
+	linkshapeDB.Y_Data.Float64 = linkshape.Y
+	linkshapeDB.Y_Data.Valid = true
+
 	linkshapeDB.StartOrientation_Data.String = linkshape.StartOrientation.ToString()
 	linkshapeDB.StartOrientation_Data.Valid = true
 
@@ -582,6 +563,12 @@ func (linkshapeDB *LinkShapeDB) CopyBasicFieldsFromLinkShape_WOP(linkshape *mode
 
 	linkshapeDB.SourceMultiplicityOffsetY_Data.Float64 = linkshape.SourceMultiplicityOffsetY
 	linkshapeDB.SourceMultiplicityOffsetY_Data.Valid = true
+
+	linkshapeDB.X_Data.Float64 = linkshape.X
+	linkshapeDB.X_Data.Valid = true
+
+	linkshapeDB.Y_Data.Float64 = linkshape.Y
+	linkshapeDB.Y_Data.Valid = true
 
 	linkshapeDB.StartOrientation_Data.String = linkshape.StartOrientation.ToString()
 	linkshapeDB.StartOrientation_Data.Valid = true
@@ -636,6 +623,12 @@ func (linkshapeDB *LinkShapeDB) CopyBasicFieldsFromLinkShapeWOP(linkshape *LinkS
 	linkshapeDB.SourceMultiplicityOffsetY_Data.Float64 = linkshape.SourceMultiplicityOffsetY
 	linkshapeDB.SourceMultiplicityOffsetY_Data.Valid = true
 
+	linkshapeDB.X_Data.Float64 = linkshape.X
+	linkshapeDB.X_Data.Valid = true
+
+	linkshapeDB.Y_Data.Float64 = linkshape.Y
+	linkshapeDB.Y_Data.Valid = true
+
 	linkshapeDB.StartOrientation_Data.String = linkshape.StartOrientation.ToString()
 	linkshapeDB.StartOrientation_Data.Valid = true
 
@@ -666,6 +659,8 @@ func (linkshapeDB *LinkShapeDB) CopyBasicFieldsToLinkShape(linkshape *models.Lin
 	linkshape.SourceMultiplicity.FromString(linkshapeDB.SourceMultiplicity_Data.String)
 	linkshape.SourceMultiplicityOffsetX = linkshapeDB.SourceMultiplicityOffsetX_Data.Float64
 	linkshape.SourceMultiplicityOffsetY = linkshapeDB.SourceMultiplicityOffsetY_Data.Float64
+	linkshape.X = linkshapeDB.X_Data.Float64
+	linkshape.Y = linkshapeDB.Y_Data.Float64
 	linkshape.StartOrientation.FromString(linkshapeDB.StartOrientation_Data.String)
 	linkshape.StartRatio = linkshapeDB.StartRatio_Data.Float64
 	linkshape.EndOrientation.FromString(linkshapeDB.EndOrientation_Data.String)
@@ -687,6 +682,8 @@ func (linkshapeDB *LinkShapeDB) CopyBasicFieldsToLinkShape_WOP(linkshape *models
 	linkshape.SourceMultiplicity.FromString(linkshapeDB.SourceMultiplicity_Data.String)
 	linkshape.SourceMultiplicityOffsetX = linkshapeDB.SourceMultiplicityOffsetX_Data.Float64
 	linkshape.SourceMultiplicityOffsetY = linkshapeDB.SourceMultiplicityOffsetY_Data.Float64
+	linkshape.X = linkshapeDB.X_Data.Float64
+	linkshape.Y = linkshapeDB.Y_Data.Float64
 	linkshape.StartOrientation.FromString(linkshapeDB.StartOrientation_Data.String)
 	linkshape.StartRatio = linkshapeDB.StartRatio_Data.Float64
 	linkshape.EndOrientation.FromString(linkshapeDB.EndOrientation_Data.String)
@@ -709,6 +706,8 @@ func (linkshapeDB *LinkShapeDB) CopyBasicFieldsToLinkShapeWOP(linkshape *LinkSha
 	linkshape.SourceMultiplicity.FromString(linkshapeDB.SourceMultiplicity_Data.String)
 	linkshape.SourceMultiplicityOffsetX = linkshapeDB.SourceMultiplicityOffsetX_Data.Float64
 	linkshape.SourceMultiplicityOffsetY = linkshapeDB.SourceMultiplicityOffsetY_Data.Float64
+	linkshape.X = linkshapeDB.X_Data.Float64
+	linkshape.Y = linkshapeDB.Y_Data.Float64
 	linkshape.StartOrientation.FromString(linkshapeDB.StartOrientation_Data.String)
 	linkshape.StartRatio = linkshapeDB.StartRatio_Data.Float64
 	linkshape.EndOrientation.FromString(linkshapeDB.EndOrientation_Data.String)
@@ -871,12 +870,6 @@ func (backRepoLinkShape *BackRepoLinkShapeStruct) RestorePhaseTwo() {
 		_ = linkshapeDB
 
 		// insertion point for reindexing pointers encoding
-		// reindexing Middlevertice field
-		if linkshapeDB.MiddleverticeID.Int64 != 0 {
-			linkshapeDB.MiddleverticeID.Int64 = int64(BackRepoVerticeid_atBckpTime_newID[uint(linkshapeDB.MiddleverticeID.Int64)])
-			linkshapeDB.MiddleverticeID.Valid = true
-		}
-
 		// update databse with new index encoding
 		db, _ := backRepoLinkShape.db.Model(linkshapeDB)
 		_, err := db.Updates(*linkshapeDB)

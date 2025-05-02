@@ -78,8 +78,8 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		docSVGMapper.map_Structname_Rect[gongstructShape.Identifier] = rect
 
 		rectLayer.Rects = append(rectLayer.Rects, rect)
-		rect.X = gongstructShape.Position.X
-		rect.Y = gongstructShape.Position.Y
+		rect.X = gongstructShape.X
+		rect.Y = gongstructShape.Y
 
 		rect.Width = gongstructShape.Width
 		rect.Height = gongstructShape.Height
@@ -315,8 +315,8 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		docSVGMapper.map_Structname_Rect[gongenumShape.Identifier] = rect
 
 		rectLayer.Rects = append(rectLayer.Rects, rect)
-		rect.X = gongenumShape.Position.X
-		rect.Y = gongenumShape.Position.Y
+		rect.X = gongenumShape.X
+		rect.Y = gongenumShape.Y
 
 		rect.Width = gongenumShape.Width
 		rect.Height = gongenumShape.Height

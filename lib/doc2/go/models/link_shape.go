@@ -34,13 +34,12 @@ type LinkShape struct {
 	SourceMultiplicityOffsetX float64
 	SourceMultiplicityOffsetY float64
 
-	// For link with control points
-	// Vertices at the middle
-	Middlevertice *Vertice
-
 	// for links with floating anchors
 	// if link type is floating orthogonal ratio, from 0 to 1,
 	// where the anchor starts on the edge (horizontal / vertical)
+	// Vertice in the middle
+	X                float64
+	Y                float64
 	StartOrientation OrientationType
 	StartRatio       float64
 	EndOrientation   OrientationType
