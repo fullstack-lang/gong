@@ -23,8 +23,7 @@ func _(stage *models.Stage) {
 
 	// Declaration of instances to stage
 
-	__Classdiagram__000000_Default := (&models.Classdiagram{}).Stage(stage)
-	__Classdiagram__000001_Default_1 := (&models.Classdiagram{}).Stage(stage)
+	__Classdiagram__000000_Defaultxxx := (&models.Classdiagram{}).Stage(stage)
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z := (&models.DiagramPackage{}).Stage(stage)
 
@@ -33,21 +32,13 @@ func _(stage *models.Stage) {
 
 	// Setup of values
 
-	__Classdiagram__000000_Default.Name = `Default`
-	__Classdiagram__000000_Default.IsInDrawMode = true
-	__Classdiagram__000000_Default.IsInRenameMode = false
-	__Classdiagram__000000_Default.IsExpanded = false
-	__Classdiagram__000000_Default.NodeNamedStructsIsExpanded = false
-	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = false
-	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = false
-
-	__Classdiagram__000001_Default_1.Name = `Default_1`
-	__Classdiagram__000001_Default_1.IsInDrawMode = true
-	__Classdiagram__000001_Default_1.IsInRenameMode = false
-	__Classdiagram__000001_Default_1.IsExpanded = true
-	__Classdiagram__000001_Default_1.NodeNamedStructsIsExpanded = true
-	__Classdiagram__000001_Default_1.NodeGongEnumsIsExpanded = false
-	__Classdiagram__000001_Default_1.NodeGongNotesIsExpanded = false
+	__Classdiagram__000000_Defaultxxx.Name = `Defaultxxx`
+	__Classdiagram__000000_Defaultxxx.IsInDrawMode = true
+	__Classdiagram__000000_Defaultxxx.IsInRenameMode = false
+	__Classdiagram__000000_Defaultxxx.IsExpanded = true
+	__Classdiagram__000000_Defaultxxx.NodeNamedStructsIsExpanded = false
+	__Classdiagram__000000_Defaultxxx.NodeGongEnumsIsExpanded = false
+	__Classdiagram__000000_Defaultxxx.NodeGongNotesIsExpanded = false
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Name = `Diagram Package created the 2025-05-02T09:21:37Z`
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Path = ``
@@ -84,11 +75,10 @@ func _(stage *models.Stage) {
 
 	// Setup of pointers
 	// setup of Classdiagram instances pointers
-	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000000_Default_AttributeShape)
-	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000001_Default_Classdiagram)
+	__Classdiagram__000000_Defaultxxx.GongStructShapes = append(__Classdiagram__000000_Defaultxxx.GongStructShapes, __GongStructShape__000000_Default_AttributeShape)
+	__Classdiagram__000000_Defaultxxx.GongStructShapes = append(__Classdiagram__000000_Defaultxxx.GongStructShapes, __GongStructShape__000001_Default_Classdiagram)
 	// setup of DiagramPackage instances pointers
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Classdiagrams, __Classdiagram__000000_Default)
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Classdiagrams, __Classdiagram__000001_Default_1)
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.SelectedClassdiagram = __Classdiagram__000001_Default_1
+	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Classdiagrams, __Classdiagram__000000_Defaultxxx)
+	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.SelectedClassdiagram = __Classdiagram__000000_Defaultxxx
 	// setup of GongStructShape instances pointers
 }
