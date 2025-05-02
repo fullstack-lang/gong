@@ -20,12 +20,16 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 		Name:       "Class Diagrams",
 		IsExpanded: true,
 		Buttons: []*tree.Button{
-			tree.NewButton(
-				&ButtonNewClassdiagramProxy{
+			{
+				Name: "Class Diagramm Add Button",
+				Icon: string(buttons.BUTTON_add),
+				Impl: &ButtonNewClassdiagramProxy{
 					stager: stager,
 				},
-				"Class Diagramm Add Button",
-				string(buttons.BUTTON_add)),
+				HasToolTip:      true,
+				ToolTipText:     "Create a new diagram",
+				ToolTipPosition: tree.Above,
+			},
 		},
 	}
 
@@ -59,27 +63,44 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 					nodeClassdiagram,
 					REMOVE,
 				),
-			},
-			&tree.Button{
-				Name: classDiagram.GetName() + " " + string(buttons.BUTTON_edit_note),
-				Icon: string(buttons.BUTTON_edit_note),
-				Impl: NewClassDiagramButtonProxy(
-					stager,
-					classDiagram,
-					nodeClassdiagram,
-					RENAME,
-				),
-			},
-			&tree.Button{
-				Name: classDiagram.GetName() + " " + string(buttons.BUTTON_edit_off),
-				Icon: string(buttons.BUTTON_edit_off),
-				Impl: NewClassDiagramButtonProxy(
-					stager,
-					classDiagram,
-					nodeClassdiagram,
-					RENAME_CANCEL,
-				),
-			},
+				HasToolTip:      true,
+				ToolTipText:     "Delete the diagram",
+				ToolTipPosition: tree.Above,
+			})
+
+		if !classDiagram.IsInRenameMode {
+			nodeClassdiagram.Buttons = append(nodeClassdiagram.Buttons,
+				&tree.Button{
+					Name: classDiagram.GetName() + " " + string(buttons.BUTTON_edit_note),
+					Icon: string(buttons.BUTTON_edit_note),
+					Impl: NewClassDiagramButtonProxy(
+						stager,
+						classDiagram,
+						nodeClassdiagram,
+						RENAME,
+					),
+					HasToolTip:      true,
+					ToolTipText:     "Rename the diagram",
+					ToolTipPosition: tree.Above,
+				})
+		} else {
+			nodeClassdiagram.Buttons = append(nodeClassdiagram.Buttons,
+				&tree.Button{
+					Name: classDiagram.GetName() + " " + string(buttons.BUTTON_edit_off),
+					Icon: string(buttons.BUTTON_edit_off),
+					Impl: NewClassDiagramButtonProxy(
+						stager,
+						classDiagram,
+						nodeClassdiagram,
+						RENAME_CANCEL,
+					),
+					HasToolTip:      true,
+					ToolTipText:     "Cancel renaming",
+					ToolTipPosition: tree.Above,
+				})
+		}
+
+		nodeClassdiagram.Buttons = append(nodeClassdiagram.Buttons,
 			&tree.Button{
 				Name: classDiagram.GetName() + " " + string(buttons.BUTTON_copy_all),
 				Icon: string(buttons.BUTTON_copy_all),
@@ -89,8 +110,10 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 					nodeClassdiagram,
 					DUPLICATE,
 				),
-			},
-		)
+				HasToolTip:      true,
+				ToolTipText:     "Duplicate diagram",
+				ToolTipPosition: tree.Above,
+			})
 
 		root.Children = append(root.Children, nodeClassdiagram)
 
