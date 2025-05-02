@@ -29,8 +29,8 @@ func (rectImplGongstructShape *RectImplGongstructShape) RectUpdated(updatedRect 
 	log.Println("RectImplGongstructShape:RectUpdated")
 
 	// update the shape
-	rectImplGongstructShape.gongstructShape.Position.X = updatedRect.X
-	rectImplGongstructShape.gongstructShape.Position.Y = updatedRect.Y
+	rectImplGongstructShape.gongstructShape.X = updatedRect.X
+	rectImplGongstructShape.gongstructShape.Y = updatedRect.Y
 	rectImplGongstructShape.gongstructShape.Width = updatedRect.Width
 	rectImplGongstructShape.gongstructShape.Height = updatedRect.Height
 

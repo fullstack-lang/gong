@@ -112,13 +112,6 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/noteshapelinks/:id", GetController().UpdateNoteShapeLink)
 		v1.DELETE("/v1/noteshapelinks/:id", GetController().DeleteNoteShapeLink)
 
-		v1.GET("/v1/positions", GetController().GetPositions)
-		v1.GET("/v1/positions/:id", GetController().GetPosition)
-		v1.POST("/v1/positions", GetController().PostPosition)
-		v1.PATCH("/v1/positions/:id", GetController().UpdatePosition)
-		v1.PUT("/v1/positions/:id", GetController().UpdatePosition)
-		v1.DELETE("/v1/positions/:id", GetController().DeletePosition)
-
 		v1.GET("/v1/umlstates", GetController().GetUmlStates)
 		v1.GET("/v1/umlstates/:id", GetController().GetUmlState)
 		v1.POST("/v1/umlstates", GetController().PostUmlState)
@@ -132,13 +125,6 @@ func registerControllers(r *gin.Engine) {
 		v1.PATCH("/v1/umlscs/:id", GetController().UpdateUmlsc)
 		v1.PUT("/v1/umlscs/:id", GetController().UpdateUmlsc)
 		v1.DELETE("/v1/umlscs/:id", GetController().DeleteUmlsc)
-
-		v1.GET("/v1/vertices", GetController().GetVertices)
-		v1.GET("/v1/vertices/:id", GetController().GetVertice)
-		v1.POST("/v1/vertices", GetController().PostVertice)
-		v1.PATCH("/v1/vertices/:id", GetController().UpdateVertice)
-		v1.PUT("/v1/vertices/:id", GetController().UpdateVertice)
-		v1.DELETE("/v1/vertices/:id", GetController().DeleteVertice)
 
 		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)

@@ -79,17 +79,11 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "NoteShapeLink" {
 		fillUpTable[models.NoteShapeLink](nodeImplGongstruct.probe)
 	}
-	if nodeImplGongstruct.gongStruct.GetName() == "Position" {
-		fillUpTable[models.Position](nodeImplGongstruct.probe)
-	}
 	if nodeImplGongstruct.gongStruct.GetName() == "UmlState" {
 		fillUpTable[models.UmlState](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Umlsc" {
 		fillUpTable[models.Umlsc](nodeImplGongstruct.probe)
-	}
-	if nodeImplGongstruct.gongStruct.GetName() == "Vertice" {
-		fillUpTable[models.Vertice](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

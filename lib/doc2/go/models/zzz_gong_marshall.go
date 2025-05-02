@@ -325,6 +325,18 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongenumshape.Name))
 		initializerStatements += setValueField
 
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "X")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gongenumshape.X))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gongenumshape.Y))
+		initializerStatements += setValueField
+
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
 			fmt.Sprintf("\n\n\t//gong:ident [%s] comment added to overcome the problem with the comment map association\n\t{{Identifier}}",
@@ -435,6 +447,18 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongstructshape.Name))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "X")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gongstructshape.X))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gongstructshape.Y))
 		initializerStatements += setValueField
 
 		setValueField = StringInitStatement
@@ -591,6 +615,18 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "SourceMultiplicityOffsetY")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", linkshape.SourceMultiplicityOffsetY))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "X")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", linkshape.X))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", linkshape.Y))
 		initializerStatements += setValueField
 
 		if linkshape.StartOrientation != "" {
@@ -779,59 +815,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
-	map_Position_Identifiers := make(map[*Position]string)
-	_ = map_Position_Identifiers
-
-	positionOrdered := []*Position{}
-	for position := range stage.Positions {
-		positionOrdered = append(positionOrdered, position)
-	}
-	sort.Slice(positionOrdered[:], func(i, j int) bool {
-		positioni := positionOrdered[i]
-		positionj := positionOrdered[j]
-		positioni_order, oki := stage.PositionMap_Staged_Order[positioni]
-		positionj_order, okj := stage.PositionMap_Staged_Order[positionj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return positioni_order < positionj_order
-	})
-	if len(positionOrdered) > 0 {
-		identifiersDecl += "\n"
-	}
-	for idx, position := range positionOrdered {
-
-		id = generatesIdentifier("Position", idx, position.Name)
-		map_Position_Identifiers[position] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Position")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", position.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "X")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", position.X))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", position.Y))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(position.Name))
-		initializerStatements += setValueField
-
-	}
-
 	map_UmlState_Identifiers := make(map[*UmlState]string)
 	_ = map_UmlState_Identifiers
 
@@ -938,59 +921,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
-	map_Vertice_Identifiers := make(map[*Vertice]string)
-	_ = map_Vertice_Identifiers
-
-	verticeOrdered := []*Vertice{}
-	for vertice := range stage.Vertices {
-		verticeOrdered = append(verticeOrdered, vertice)
-	}
-	sort.Slice(verticeOrdered[:], func(i, j int) bool {
-		verticei := verticeOrdered[i]
-		verticej := verticeOrdered[j]
-		verticei_order, oki := stage.VerticeMap_Staged_Order[verticei]
-		verticej_order, okj := stage.VerticeMap_Staged_Order[verticej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return verticei_order < verticej_order
-	})
-	if len(verticeOrdered) > 0 {
-		identifiersDecl += "\n"
-	}
-	for idx, vertice := range verticeOrdered {
-
-		id = generatesIdentifier("Vertice", idx, vertice.Name)
-		map_Vertice_Identifiers[vertice] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Vertice")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", vertice.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "X")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vertice.X))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vertice.Y))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(vertice.Name))
-		initializerStatements += setValueField
-
-	}
-
 	// insertion initialization of objects to stage
 	if len(attributeshapeOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of AttributeShape instances pointers"
@@ -1090,14 +1020,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		map_GongEnumShape_Identifiers[gongenumshape] = id
 
 		// Initialisation of values
-		if gongenumshape.Position != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Position")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Position_Identifiers[gongenumshape.Position])
-			pointersInitializesStatements += setPointerField
-		}
-
 		for _, _gongenumvalueentry := range gongenumshape.GongEnumValueEntrys {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
@@ -1132,14 +1054,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		map_GongStructShape_Identifiers[gongstructshape] = id
 
 		// Initialisation of values
-		if gongstructshape.Position != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Position")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Position_Identifiers[gongstructshape.Position])
-			pointersInitializesStatements += setPointerField
-		}
-
 		for _, _attributeshape := range gongstructshape.AttributeShapes {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
@@ -1169,14 +1083,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		map_LinkShape_Identifiers[linkshape] = id
 
 		// Initialisation of values
-		if linkshape.Middlevertice != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Middlevertice")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Vertice_Identifiers[linkshape.Middlevertice])
-			pointersInitializesStatements += setPointerField
-		}
-
 	}
 
 	if len(noteshapeOrdered) > 0 {
@@ -1213,19 +1119,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		// Initialisation of values
 	}
 
-	if len(positionOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Position instances pointers"
-	}
-	for idx, position := range positionOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Position", idx, position.Name)
-		map_Position_Identifiers[position] = id
-
-		// Initialisation of values
-	}
-
 	if len(umlstateOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of UmlState instances pointers"
 	}
@@ -1258,19 +1151,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 			pointersInitializesStatements += setPointerField
 		}
 
-	}
-
-	if len(verticeOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Vertice instances pointers"
-	}
-	for idx, vertice := range verticeOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Vertice", idx, vertice.Name)
-		map_Vertice_Identifiers[vertice] = id
-
-		// Initialisation of values
 	}
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)

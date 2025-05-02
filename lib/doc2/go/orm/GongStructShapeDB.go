@@ -48,10 +48,6 @@ type GongStructShapeAPI struct {
 type GongStructShapePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
-	// field Position is a pointer to another Struct (optional or 0..1)
-	// This field is generated into another field to enable AS ONE association
-	PositionID sql.NullInt64
-
 	// field AttributeShapes is a slice of pointers to another Struct (optional or 0..1)
 	AttributeShapes IntSlice `gorm:"type:TEXT"`
 
@@ -72,6 +68,12 @@ type GongStructShapeDB struct {
 
 	// Declation for basic field gongstructshapeDB.Name
 	Name_Data sql.NullString
+
+	// Declation for basic field gongstructshapeDB.X
+	X_Data sql.NullFloat64
+
+	// Declation for basic field gongstructshapeDB.Y
+	Y_Data sql.NullFloat64
 
 	// Declation for basic field gongstructshapeDB.Identifier
 	Identifier_Data sql.NullString
@@ -121,19 +123,23 @@ type GongStructShapeWOP struct {
 
 	Name string `xlsx:"1"`
 
-	Identifier string `xlsx:"2"`
+	X float64 `xlsx:"2"`
 
-	ShowNbInstances bool `xlsx:"3"`
+	Y float64 `xlsx:"3"`
 
-	NbInstances int `xlsx:"4"`
+	Identifier string `xlsx:"4"`
 
-	Width float64 `xlsx:"5"`
+	ShowNbInstances bool `xlsx:"5"`
 
-	Height float64 `xlsx:"6"`
+	NbInstances int `xlsx:"6"`
 
-	IsSelected bool `xlsx:"7"`
+	Width float64 `xlsx:"7"`
 
-	IsExpanded bool `xlsx:"8"`
+	Height float64 `xlsx:"8"`
+
+	IsSelected bool `xlsx:"9"`
+
+	IsExpanded bool `xlsx:"10"`
 	// insertion for WOP pointer fields
 }
 
@@ -141,6 +147,8 @@ var GongStructShape_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"X",
+	"Y",
 	"Identifier",
 	"ShowNbInstances",
 	"NbInstances",
@@ -278,18 +286,6 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CommitPhaseTwoInst
 		gongstructshapeDB.CopyBasicFieldsFromGongStructShape(gongstructshape)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// commit pointer value gongstructshape.Position translates to updating the gongstructshape.PositionID
-		gongstructshapeDB.PositionID.Valid = true // allow for a 0 value (nil association)
-		if gongstructshape.Position != nil {
-			if PositionId, ok := backRepo.BackRepoPosition.Map_PositionPtr_PositionDBID[gongstructshape.Position]; ok {
-				gongstructshapeDB.PositionID.Int64 = int64(PositionId)
-				gongstructshapeDB.PositionID.Valid = true
-			}
-		} else {
-			gongstructshapeDB.PositionID.Int64 = 0
-			gongstructshapeDB.PositionID.Valid = true
-		}
-
 		// 1. reset
 		gongstructshapeDB.GongStructShapePointersEncoding.AttributeShapes = make([]int, 0)
 		// 2. encode
@@ -439,27 +435,6 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CheckoutPhaseTwoIn
 func (gongstructshapeDB *GongStructShapeDB) DecodePointers(backRepo *BackRepoStruct, gongstructshape *models.GongStructShape) {
 
 	// insertion point for checkout of pointer encoding
-	// Position field	
-	{
-		id := gongstructshapeDB.PositionID.Int64
-		if id != 0 {
-			tmp, ok := backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr[uint(id)]
-
-			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
-			if !ok {
-				log.Println("DecodePointers: gongstructshape.Position, unknown pointer id", id)
-				gongstructshape.Position = nil
-			} else {
-				// updates only if field has changed
-				if gongstructshape.Position == nil || gongstructshape.Position != tmp {
-					gongstructshape.Position = tmp
-				}
-			}
-		} else {
-			gongstructshape.Position = nil
-		}
-	}
-	
 	// This loop redeem gongstructshape.AttributeShapes in the stage from the encode in the back repo
 	// It parses all AttributeShapeDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
@@ -515,6 +490,12 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsFromGongStructShape(g
 	gongstructshapeDB.Name_Data.String = gongstructshape.Name
 	gongstructshapeDB.Name_Data.Valid = true
 
+	gongstructshapeDB.X_Data.Float64 = gongstructshape.X
+	gongstructshapeDB.X_Data.Valid = true
+
+	gongstructshapeDB.Y_Data.Float64 = gongstructshape.Y
+	gongstructshapeDB.Y_Data.Valid = true
+
 	gongstructshapeDB.Identifier_Data.String = gongstructshape.Identifier
 	gongstructshapeDB.Identifier_Data.Valid = true
 
@@ -543,6 +524,12 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsFromGongStructShape_W
 
 	gongstructshapeDB.Name_Data.String = gongstructshape.Name
 	gongstructshapeDB.Name_Data.Valid = true
+
+	gongstructshapeDB.X_Data.Float64 = gongstructshape.X
+	gongstructshapeDB.X_Data.Valid = true
+
+	gongstructshapeDB.Y_Data.Float64 = gongstructshape.Y
+	gongstructshapeDB.Y_Data.Valid = true
 
 	gongstructshapeDB.Identifier_Data.String = gongstructshape.Identifier
 	gongstructshapeDB.Identifier_Data.Valid = true
@@ -573,6 +560,12 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsFromGongStructShapeWO
 	gongstructshapeDB.Name_Data.String = gongstructshape.Name
 	gongstructshapeDB.Name_Data.Valid = true
 
+	gongstructshapeDB.X_Data.Float64 = gongstructshape.X
+	gongstructshapeDB.X_Data.Valid = true
+
+	gongstructshapeDB.Y_Data.Float64 = gongstructshape.Y
+	gongstructshapeDB.Y_Data.Valid = true
+
 	gongstructshapeDB.Identifier_Data.String = gongstructshape.Identifier
 	gongstructshapeDB.Identifier_Data.Valid = true
 
@@ -599,6 +592,8 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsFromGongStructShapeWO
 func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsToGongStructShape(gongstructshape *models.GongStructShape) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongstructshape.Name = gongstructshapeDB.Name_Data.String
+	gongstructshape.X = gongstructshapeDB.X_Data.Float64
+	gongstructshape.Y = gongstructshapeDB.Y_Data.Float64
 	gongstructshape.Identifier = gongstructshapeDB.Identifier_Data.String
 	gongstructshape.ShowNbInstances = gongstructshapeDB.ShowNbInstances_Data.Bool
 	gongstructshape.NbInstances = int(gongstructshapeDB.NbInstances_Data.Int64)
@@ -612,6 +607,8 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsToGongStructShape(gon
 func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsToGongStructShape_WOP(gongstructshape *models.GongStructShape_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongstructshape.Name = gongstructshapeDB.Name_Data.String
+	gongstructshape.X = gongstructshapeDB.X_Data.Float64
+	gongstructshape.Y = gongstructshapeDB.Y_Data.Float64
 	gongstructshape.Identifier = gongstructshapeDB.Identifier_Data.String
 	gongstructshape.ShowNbInstances = gongstructshapeDB.ShowNbInstances_Data.Bool
 	gongstructshape.NbInstances = int(gongstructshapeDB.NbInstances_Data.Int64)
@@ -626,6 +623,8 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsToGongStructShapeWOP(
 	gongstructshape.ID = int(gongstructshapeDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongstructshape.Name = gongstructshapeDB.Name_Data.String
+	gongstructshape.X = gongstructshapeDB.X_Data.Float64
+	gongstructshape.Y = gongstructshapeDB.Y_Data.Float64
 	gongstructshape.Identifier = gongstructshapeDB.Identifier_Data.String
 	gongstructshape.ShowNbInstances = gongstructshapeDB.ShowNbInstances_Data.Bool
 	gongstructshape.NbInstances = int(gongstructshapeDB.NbInstances_Data.Int64)
@@ -790,12 +789,6 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) RestorePhaseTwo() 
 		_ = gongstructshapeDB
 
 		// insertion point for reindexing pointers encoding
-		// reindexing Position field
-		if gongstructshapeDB.PositionID.Int64 != 0 {
-			gongstructshapeDB.PositionID.Int64 = int64(BackRepoPositionid_atBckpTime_newID[uint(gongstructshapeDB.PositionID.Int64)])
-			gongstructshapeDB.PositionID.Valid = true
-		}
-
 		// update databse with new index encoding
 		db, _ := backRepoGongStructShape.db.Model(gongstructshapeDB)
 		_, err := db.Updates(*gongstructshapeDB)

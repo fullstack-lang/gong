@@ -22,13 +22,9 @@ type BackRepoData struct {
 
 	NoteShapeLinkAPIs []*NoteShapeLinkAPI
 
-	PositionAPIs []*PositionAPI
-
 	UmlStateAPIs []*UmlStateAPI
 
 	UmlscAPIs []*UmlscAPI
-
-	VerticeAPIs []*VerticeAPI
 
 	// index of the web socket for this stack type (unique among all stack instances)
 	GONG__Index int
@@ -131,16 +127,6 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		backRepoData.NoteShapeLinkAPIs = append(backRepoData.NoteShapeLinkAPIs, &noteshapelinkAPI)
 	}
 
-	for _, positionDB := range backRepo.BackRepoPosition.Map_PositionDBID_PositionDB {
-
-		var positionAPI PositionAPI
-		positionAPI.ID = positionDB.ID
-		positionAPI.PositionPointersEncoding = positionDB.PositionPointersEncoding
-		positionDB.CopyBasicFieldsToPosition_WOP(&positionAPI.Position_WOP)
-
-		backRepoData.PositionAPIs = append(backRepoData.PositionAPIs, &positionAPI)
-	}
-
 	for _, umlstateDB := range backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStateDB {
 
 		var umlstateAPI UmlStateAPI
@@ -159,16 +145,6 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		umlscDB.CopyBasicFieldsToUmlsc_WOP(&umlscAPI.Umlsc_WOP)
 
 		backRepoData.UmlscAPIs = append(backRepoData.UmlscAPIs, &umlscAPI)
-	}
-
-	for _, verticeDB := range backRepo.BackRepoVertice.Map_VerticeDBID_VerticeDB {
-
-		var verticeAPI VerticeAPI
-		verticeAPI.ID = verticeDB.ID
-		verticeAPI.VerticePointersEncoding = verticeDB.VerticePointersEncoding
-		verticeDB.CopyBasicFieldsToVertice_WOP(&verticeAPI.Vertice_WOP)
-
-		backRepoData.VerticeAPIs = append(backRepoData.VerticeAPIs, &verticeAPI)
 	}
 
 }

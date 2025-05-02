@@ -8,7 +8,7 @@ const GongEnumShapeDefaultHeight = 48.0
 type GongEnumShape struct {
 	Name string
 
-	Position *Position
+	X, Y float64
 
 	// Identifier is the identifier of the struct referenced by the shape in the modeled package
 	//gong:ident
