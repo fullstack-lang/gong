@@ -24,7 +24,9 @@ type Classdiagram struct {
 	IsInDrawMode bool
 
 	// IsExpanded is true if the corresponding node is expanded
-	IsExpanded bool
+	IsExpanded                 bool
+	NodeNamedStructsIsExpanded bool
+	NodeGongEnumsIsExpanded    bool
 }
 
 func (classdiagram *Classdiagram) HasGongStructShape(gongstructName string) (foundGongStructShape bool, gongstructshape *GongStructShape) {
