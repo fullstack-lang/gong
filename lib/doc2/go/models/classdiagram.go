@@ -23,6 +23,9 @@ type Classdiagram struct {
 	// or not (in production mode)
 	IsInDrawMode bool
 
+	// IsInRenameMode means the user can edit the node
+	IsInRenameMode bool
+
 	// IsExpanded is true if the corresponding node is expanded
 	IsExpanded                 bool
 	NodeNamedStructsIsExpanded bool

@@ -41,6 +41,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			HasCheckboxButton: true,
 			IsChecked:         selected,
 			IsExpanded:        classDiagram.IsExpanded,
+			IsInEditMode:      classDiagram.IsInRenameMode,
 		}
 		nodeClassdiagram.Impl = &ClassDiagramNodeProxy{
 			node:         nodeClassdiagram,
@@ -57,6 +58,26 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 					classDiagram,
 					nodeClassdiagram,
 					REMOVE,
+				),
+			},
+			&tree.Button{
+				Name: classDiagram.GetName() + " " + string(buttons.BUTTON_edit_note),
+				Icon: string(buttons.BUTTON_edit_note),
+				Impl: NewClassDiagramButtonProxy(
+					stager,
+					classDiagram,
+					nodeClassdiagram,
+					RENAME,
+				),
+			},
+			&tree.Button{
+				Name: classDiagram.GetName() + " " + string(buttons.BUTTON_edit_off),
+				Icon: string(buttons.BUTTON_edit_off),
+				Impl: NewClassDiagramButtonProxy(
+					stager,
+					classDiagram,
+					nodeClassdiagram,
+					RENAME_CANCEL,
 				),
 			},
 		)
