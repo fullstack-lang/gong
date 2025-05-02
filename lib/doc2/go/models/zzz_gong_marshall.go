@@ -815,112 +815,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
-	map_UmlState_Identifiers := make(map[*UmlState]string)
-	_ = map_UmlState_Identifiers
-
-	umlstateOrdered := []*UmlState{}
-	for umlstate := range stage.UmlStates {
-		umlstateOrdered = append(umlstateOrdered, umlstate)
-	}
-	sort.Slice(umlstateOrdered[:], func(i, j int) bool {
-		umlstatei := umlstateOrdered[i]
-		umlstatej := umlstateOrdered[j]
-		umlstatei_order, oki := stage.UmlStateMap_Staged_Order[umlstatei]
-		umlstatej_order, okj := stage.UmlStateMap_Staged_Order[umlstatej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return umlstatei_order < umlstatej_order
-	})
-	if len(umlstateOrdered) > 0 {
-		identifiersDecl += "\n"
-	}
-	for idx, umlstate := range umlstateOrdered {
-
-		id = generatesIdentifier("UmlState", idx, umlstate.Name)
-		map_UmlState_Identifiers[umlstate] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "UmlState")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", umlstate.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(umlstate.Name))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "X")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", umlstate.X))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", umlstate.Y))
-		initializerStatements += setValueField
-
-	}
-
-	map_Umlsc_Identifiers := make(map[*Umlsc]string)
-	_ = map_Umlsc_Identifiers
-
-	umlscOrdered := []*Umlsc{}
-	for umlsc := range stage.Umlscs {
-		umlscOrdered = append(umlscOrdered, umlsc)
-	}
-	sort.Slice(umlscOrdered[:], func(i, j int) bool {
-		umlsci := umlscOrdered[i]
-		umlscj := umlscOrdered[j]
-		umlsci_order, oki := stage.UmlscMap_Staged_Order[umlsci]
-		umlscj_order, okj := stage.UmlscMap_Staged_Order[umlscj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return umlsci_order < umlscj_order
-	})
-	if len(umlscOrdered) > 0 {
-		identifiersDecl += "\n"
-	}
-	for idx, umlsc := range umlscOrdered {
-
-		id = generatesIdentifier("Umlsc", idx, umlsc.Name)
-		map_Umlsc_Identifiers[umlsc] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Umlsc")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", umlsc.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(umlsc.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Activestate")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(umlsc.Activestate))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsInDrawMode")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", umlsc.IsInDrawMode))
-		initializerStatements += setValueField
-
-	}
-
 	// insertion initialization of objects to stage
 	if len(attributeshapeOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of AttributeShape instances pointers"
@@ -996,14 +890,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "SelectedClassdiagram")
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Classdiagram_Identifiers[diagrampackage.SelectedClassdiagram])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _umlsc := range diagrampackage.Umlscs {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Umlscs")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Umlsc_Identifiers[_umlsc])
 			pointersInitializesStatements += setPointerField
 		}
 
@@ -1117,40 +1003,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		map_NoteShapeLink_Identifiers[noteshapelink] = id
 
 		// Initialisation of values
-	}
-
-	if len(umlstateOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of UmlState instances pointers"
-	}
-	for idx, umlstate := range umlstateOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("UmlState", idx, umlstate.Name)
-		map_UmlState_Identifiers[umlstate] = id
-
-		// Initialisation of values
-	}
-
-	if len(umlscOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Umlsc instances pointers"
-	}
-	for idx, umlsc := range umlscOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Umlsc", idx, umlsc.Name)
-		map_Umlsc_Identifiers[umlsc] = id
-
-		// Initialisation of values
-		for _, _umlstate := range umlsc.States {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "States")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_UmlState_Identifiers[_umlstate])
-			pointersInitializesStatements += setPointerField
-		}
-
 	}
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)

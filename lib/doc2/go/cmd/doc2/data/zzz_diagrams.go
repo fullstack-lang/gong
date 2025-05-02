@@ -75,7 +75,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_Classdiagram.Width = 240.000000
 	__GongStructShape__000001_Default_Classdiagram.Height = 63.000000
 	__GongStructShape__000001_Default_Classdiagram.IsSelected = false
-	__GongStructShape__000001_Default_Classdiagram.IsExpanded = true
+	__GongStructShape__000001_Default_Classdiagram.IsExpanded = false
 
 	__LinkShape__000000_GongStructShapes.Name = `GongStructShapes`
 

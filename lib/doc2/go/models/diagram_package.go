@@ -38,9 +38,6 @@ type DiagramPackage struct {
 	Ast   *ast.Package
 	Fset  *token.FileSet
 
-	// Umlscs stores UML State charts diagrams
-	Umlscs []*Umlsc
-
 	// IsEditable indicates wether the end user can edit the diagram
 	// When a diagram is used in production for navigation, the
 	// model is not IsEditable.

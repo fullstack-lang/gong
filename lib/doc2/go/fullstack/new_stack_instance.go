@@ -51,8 +51,6 @@ func NewStackInstance(
 	models.SetOrchestratorOnAfterUpdate[models.LinkShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.NoteShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.NoteShapeLink](stage)
-	models.SetOrchestratorOnAfterUpdate[models.UmlState](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Umlsc](stage)
 
 	return
 }

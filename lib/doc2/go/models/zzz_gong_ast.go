@@ -323,8 +323,6 @@ var __gong__map_GongStructShape = make(map[string]*GongStructShape)
 var __gong__map_LinkShape = make(map[string]*LinkShape)
 var __gong__map_NoteShape = make(map[string]*NoteShape)
 var __gong__map_NoteShapeLink = make(map[string]*NoteShapeLink)
-var __gong__map_UmlState = make(map[string]*UmlState)
-var __gong__map_Umlsc = make(map[string]*Umlsc)
 
 // Parser needs to be configured for having the [Name1.Name2] or [pkg.Name1] ...
 // to be recognized as a proper identifier.
@@ -551,18 +549,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										instanceNoteShapeLink.Stage(stage)
 										instance = any(instanceNoteShapeLink)
 										__gong__map_NoteShapeLink[identifier] = instanceNoteShapeLink
-									case "UmlState":
-										instanceUmlState := new(UmlState)
-										instanceUmlState.Name = instanceName
-										instanceUmlState.Stage(stage)
-										instance = any(instanceUmlState)
-										__gong__map_UmlState[identifier] = instanceUmlState
-									case "Umlsc":
-										instanceUmlsc := new(Umlsc)
-										instanceUmlsc.Name = instanceName
-										instanceUmlsc.Stage(stage)
-										instance = any(instanceUmlsc)
-										__gong__map_Umlsc[identifier] = instanceUmlsc
 									}
 									__gong__map_Indentifiers_gongstructName[identifier] = gongstructName
 									return
@@ -635,14 +621,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							switch fieldName {
 							// insertion point for date assign code
 							}
-						case "UmlState":
-							switch fieldName {
-							// insertion point for date assign code
-							}
-						case "Umlsc":
-							switch fieldName {
-							// insertion point for date assign code
-							}
 						}
 					}
 				}
@@ -703,12 +681,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							target := __gong__map_Classdiagram[targetIdentifier]
 							__gong__map_DiagramPackage[identifier].Classdiagrams =
 								append(__gong__map_DiagramPackage[identifier].Classdiagrams, target)
-						case "Umlscs":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							target := __gong__map_Umlsc[targetIdentifier]
-							__gong__map_DiagramPackage[identifier].Umlscs =
-								append(__gong__map_DiagramPackage[identifier].Umlscs, target)
 						}
 					case "GongEnumShape":
 						switch fieldName {
@@ -757,20 +729,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "NoteShapeLink":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						}
-					case "UmlState":
-						switch fieldName {
-						// insertion point for slice of pointers assign code
-						}
-					case "Umlsc":
-						switch fieldName {
-						// insertion point for slice of pointers assign code
-						case "States":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							target := __gong__map_UmlState[targetIdentifier]
-							__gong__map_Umlsc[identifier].States =
-								append(__gong__map_Umlsc[identifier].States, target)
 						}
 					}
 				case *ast.SelectorExpr:
@@ -1125,40 +1083,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_NoteShapeLink[identifier].Identifier = fielValue
 				}
-			case "UmlState":
-				switch fieldName {
-				// insertion point for field dependant code
-				case "Name":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_UmlState[identifier].Name = fielValue
-				case "X":
-					// convert string to float64
-					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_UmlState[identifier].X = exprSign * fielValue
-				case "Y":
-					// convert string to float64
-					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_UmlState[identifier].Y = exprSign * fielValue
-				}
-			case "Umlsc":
-				switch fieldName {
-				// insertion point for field dependant code
-				case "Name":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Umlsc[identifier].Name = fielValue
-				case "Activestate":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Umlsc[identifier].Activestate = fielValue
-				}
 			}
 		case *ast.Ident:
 			// assignment to boolean field ?
@@ -1268,21 +1192,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				switch fieldName {
 				// insertion point for field dependant code
 				}
-			case "UmlState":
-				switch fieldName {
-				// insertion point for field dependant code
-				}
-			case "Umlsc":
-				switch fieldName {
-				// insertion point for field dependant code
-				case "IsInDrawMode":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Umlsc[identifier].IsInDrawMode = fielValue
-				}
 			}
 		case *ast.SelectorExpr:
 			// assignment to enum field
@@ -1381,14 +1290,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							log.Fatalln(err)
 						}
 						__gong__map_NoteShapeLink[identifier].Type = NoteShapeLinkType(val)
-					}
-				case "UmlState":
-					switch fieldName {
-					// insertion point for enum assign code
-					}
-				case "Umlsc":
-					switch fieldName {
-					// insertion point for enum assign code
 					}
 				}
 			}

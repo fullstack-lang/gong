@@ -51,14 +51,6 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		noteshapelinkInstance := any(concreteInstance).(*models.NoteShapeLink)
 		ret2 := backRepo.BackRepoNoteShapeLink.GetNoteShapeLinkDBFromNoteShapeLinkPtr(noteshapelinkInstance)
 		ret = any(ret2).(*T2)
-	case *models.UmlState:
-		umlstateInstance := any(concreteInstance).(*models.UmlState)
-		ret2 := backRepo.BackRepoUmlState.GetUmlStateDBFromUmlStatePtr(umlstateInstance)
-		ret = any(ret2).(*T2)
-	case *models.Umlsc:
-		umlscInstance := any(concreteInstance).(*models.Umlsc)
-		ret2 := backRepo.BackRepoUmlsc.GetUmlscDBFromUmlscPtr(umlscInstance)
-		ret = any(ret2).(*T2)
 	default:
 		_ = concreteInstance
 	}
@@ -117,16 +109,6 @@ func GetID[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
-	case *models.UmlState:
-		tmp := GetInstanceDBFromInstance[models.UmlState, UmlStateDB](
-			stage, backRepo, inst,
-		)
-		id = int(tmp.ID)
-	case *models.Umlsc:
-		tmp := GetInstanceDBFromInstance[models.Umlsc, UmlscDB](
-			stage, backRepo, inst,
-		)
-		id = int(tmp.ID)
 	default:
 		_ = inst
 	}
@@ -182,16 +164,6 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.NoteShapeLink:
 		tmp := GetInstanceDBFromInstance[models.NoteShapeLink, NoteShapeLinkDB](
-			stage, backRepo, inst,
-		)
-		id = int(tmp.ID)
-	case *models.UmlState:
-		tmp := GetInstanceDBFromInstance[models.UmlState, UmlStateDB](
-			stage, backRepo, inst,
-		)
-		id = int(tmp.ID)
-	case *models.Umlsc:
-		tmp := GetInstanceDBFromInstance[models.Umlsc, UmlscDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

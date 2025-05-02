@@ -42,14 +42,6 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterNoteShapeLinkCreateCallback != nil {
 			stage.OnAfterNoteShapeLinkCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *UmlState:
-		if stage.OnAfterUmlStateCreateCallback != nil {
-			stage.OnAfterUmlStateCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Umlsc:
-		if stage.OnAfterUmlscCreateCallback != nil {
-			stage.OnAfterUmlscCreateCallback.OnAfterCreate(stage, target)
-		}
 	default:
 		_ = target
 	}
@@ -104,16 +96,6 @@ func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*NoteShapeLink)
 		if stage.OnAfterNoteShapeLinkUpdateCallback != nil {
 			stage.OnAfterNoteShapeLinkUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *UmlState:
-		newTarget := any(new).(*UmlState)
-		if stage.OnAfterUmlStateUpdateCallback != nil {
-			stage.OnAfterUmlStateUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Umlsc:
-		newTarget := any(new).(*Umlsc)
-		if stage.OnAfterUmlscUpdateCallback != nil {
-			stage.OnAfterUmlscUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	default:
 		_ = oldTarget
@@ -170,16 +152,6 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*NoteShapeLink)
 			stage.OnAfterNoteShapeLinkDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *UmlState:
-		if stage.OnAfterUmlStateDeleteCallback != nil {
-			staged := any(staged).(*UmlState)
-			stage.OnAfterUmlStateDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Umlsc:
-		if stage.OnAfterUmlscDeleteCallback != nil {
-			staged := any(staged).(*Umlsc)
-			stage.OnAfterUmlscDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
 	default:
 		_ = front
 	}
@@ -226,14 +198,6 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterNoteShapeLinkReadCallback != nil {
 			stage.OnAfterNoteShapeLinkReadCallback.OnAfterRead(stage, target)
 		}
-	case *UmlState:
-		if stage.OnAfterUmlStateReadCallback != nil {
-			stage.OnAfterUmlStateReadCallback.OnAfterRead(stage, target)
-		}
-	case *Umlsc:
-		if stage.OnAfterUmlscReadCallback != nil {
-			stage.OnAfterUmlscReadCallback.OnAfterRead(stage, target)
-		}
 	default:
 		_ = target
 	}
@@ -272,12 +236,6 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *NoteShapeLink:
 		stage.OnAfterNoteShapeLinkUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteShapeLink])
 	
-	case *UmlState:
-		stage.OnAfterUmlStateUpdateCallback = any(callback).(OnAfterUpdateInterface[UmlState])
-	
-	case *Umlsc:
-		stage.OnAfterUmlscUpdateCallback = any(callback).(OnAfterUpdateInterface[Umlsc])
-	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -311,12 +269,6 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	
 	case *NoteShapeLink:
 		stage.OnAfterNoteShapeLinkCreateCallback = any(callback).(OnAfterCreateInterface[NoteShapeLink])
-	
-	case *UmlState:
-		stage.OnAfterUmlStateCreateCallback = any(callback).(OnAfterCreateInterface[UmlState])
-	
-	case *Umlsc:
-		stage.OnAfterUmlscCreateCallback = any(callback).(OnAfterCreateInterface[Umlsc])
 	
 	}
 }
@@ -352,12 +304,6 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *NoteShapeLink:
 		stage.OnAfterNoteShapeLinkDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteShapeLink])
 	
-	case *UmlState:
-		stage.OnAfterUmlStateDeleteCallback = any(callback).(OnAfterDeleteInterface[UmlState])
-	
-	case *Umlsc:
-		stage.OnAfterUmlscDeleteCallback = any(callback).(OnAfterDeleteInterface[Umlsc])
-	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -391,12 +337,6 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	
 	case *NoteShapeLink:
 		stage.OnAfterNoteShapeLinkReadCallback = any(callback).(OnAfterReadInterface[NoteShapeLink])
-	
-	case *UmlState:
-		stage.OnAfterUmlStateReadCallback = any(callback).(OnAfterReadInterface[UmlState])
-	
-	case *Umlsc:
-		stage.OnAfterUmlscReadCallback = any(callback).(OnAfterReadInterface[Umlsc])
 	
 	}
 }
