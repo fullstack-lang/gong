@@ -16,6 +16,132 @@ const __dummmy__time = time.Nanosecond
 var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
+func __gong__New__AttributeShapeFormCallback(
+	attributeshape *models.AttributeShape,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (attributeshapeFormCallback *AttributeShapeFormCallback) {
+	attributeshapeFormCallback = new(AttributeShapeFormCallback)
+	attributeshapeFormCallback.probe = probe
+	attributeshapeFormCallback.attributeshape = attributeshape
+	attributeshapeFormCallback.formGroup = formGroup
+
+	attributeshapeFormCallback.CreationMode = (attributeshape == nil)
+
+	return
+}
+
+type AttributeShapeFormCallback struct {
+	attributeshape *models.AttributeShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (attributeshapeFormCallback *AttributeShapeFormCallback) OnSave() {
+
+	log.Println("AttributeShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	attributeshapeFormCallback.probe.formStage.Checkout()
+
+	if attributeshapeFormCallback.attributeshape == nil {
+		attributeshapeFormCallback.attributeshape = new(models.AttributeShape).Stage(attributeshapeFormCallback.probe.stageOfInterest)
+	}
+	attributeshape_ := attributeshapeFormCallback.attributeshape
+	_ = attributeshape_
+
+	for _, formDiv := range attributeshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(attributeshape_.Name), formDiv)
+		case "Identifier":
+			FormDivBasicFieldToField(&(attributeshape_.Identifier), formDiv)
+		case "FieldTypeAsString":
+			FormDivBasicFieldToField(&(attributeshape_.FieldTypeAsString), formDiv)
+		case "Structname":
+			FormDivBasicFieldToField(&(attributeshape_.Structname), formDiv)
+		case "Fieldtypename":
+			FormDivBasicFieldToField(&(attributeshape_.Fieldtypename), formDiv)
+		case "GongStructShape:AttributeShapes":
+			// we need to retrieve the field owner before the change
+			var pastGongStructShapeOwner *models.GongStructShape
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "GongStructShape"
+			rf.Fieldname = "AttributeShapes"
+			reverseFieldOwner := models.GetReverseFieldOwner(
+				attributeshapeFormCallback.probe.stageOfInterest,
+				attributeshape_,
+				&rf)
+
+			if reverseFieldOwner != nil {
+				pastGongStructShapeOwner = reverseFieldOwner.(*models.GongStructShape)
+			}
+			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+				if pastGongStructShapeOwner != nil {
+					idx := slices.Index(pastGongStructShapeOwner.AttributeShapes, attributeshape_)
+					pastGongStructShapeOwner.AttributeShapes = slices.Delete(pastGongStructShapeOwner.AttributeShapes, idx, idx+1)
+				}
+			} else {
+				// we need to retrieve the field owner after the change
+				// parse all astrcut and get the one with the name in the
+				// div
+				for _gongstructshape := range *models.GetGongstructInstancesSet[models.GongStructShape](attributeshapeFormCallback.probe.stageOfInterest) {
+
+					// the match is base on the name
+					if _gongstructshape.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
+						newGongStructShapeOwner := _gongstructshape // we have a match
+						if pastGongStructShapeOwner != nil {
+							if newGongStructShapeOwner != pastGongStructShapeOwner {
+								idx := slices.Index(pastGongStructShapeOwner.AttributeShapes, attributeshape_)
+								pastGongStructShapeOwner.AttributeShapes = slices.Delete(pastGongStructShapeOwner.AttributeShapes, idx, idx+1)
+								newGongStructShapeOwner.AttributeShapes = append(newGongStructShapeOwner.AttributeShapes, attributeshape_)
+							}
+						} else {
+							newGongStructShapeOwner.AttributeShapes = append(newGongStructShapeOwner.AttributeShapes, attributeshape_)
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if attributeshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		attributeshape_.Unstage(attributeshapeFormCallback.probe.stageOfInterest)
+	}
+
+	attributeshapeFormCallback.probe.stageOfInterest.Commit()
+	fillUpTable[models.AttributeShape](
+		attributeshapeFormCallback.probe,
+	)
+	attributeshapeFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if attributeshapeFormCallback.CreationMode || attributeshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		attributeshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(attributeshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__AttributeShapeFormCallback(
+			nil,
+			attributeshapeFormCallback.probe,
+			newFormGroup,
+		)
+		attributeshape := new(models.AttributeShape)
+		FillUpForm(attributeshape, newFormGroup, attributeshapeFormCallback.probe)
+		attributeshapeFormCallback.probe.formStage.Commit()
+	}
+
+	fillUpTree(attributeshapeFormCallback.probe)
+}
 func __gong__New__ClassdiagramFormCallback(
 	classdiagram *models.Classdiagram,
 	probe *Probe,
@@ -226,132 +352,6 @@ func (diagrampackageFormCallback *DiagramPackageFormCallback) OnSave() {
 	}
 
 	fillUpTree(diagrampackageFormCallback.probe)
-}
-func __gong__New__FieldShapeFormCallback(
-	fieldshape *models.AttributeShape,
-	probe *Probe,
-	formGroup *table.FormGroup,
-) (fieldshapeFormCallback *FieldShapeFormCallback) {
-	fieldshapeFormCallback = new(FieldShapeFormCallback)
-	fieldshapeFormCallback.probe = probe
-	fieldshapeFormCallback.fieldshape = fieldshape
-	fieldshapeFormCallback.formGroup = formGroup
-
-	fieldshapeFormCallback.CreationMode = (fieldshape == nil)
-
-	return
-}
-
-type FieldShapeFormCallback struct {
-	fieldshape *models.AttributeShape
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *table.FormGroup
-}
-
-func (fieldshapeFormCallback *FieldShapeFormCallback) OnSave() {
-
-	log.Println("FieldShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	fieldshapeFormCallback.probe.formStage.Checkout()
-
-	if fieldshapeFormCallback.fieldshape == nil {
-		fieldshapeFormCallback.fieldshape = new(models.AttributeShape).Stage(fieldshapeFormCallback.probe.stageOfInterest)
-	}
-	fieldshape_ := fieldshapeFormCallback.fieldshape
-	_ = fieldshape_
-
-	for _, formDiv := range fieldshapeFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(fieldshape_.Name), formDiv)
-		case "Identifier":
-			FormDivBasicFieldToField(&(fieldshape_.Identifier), formDiv)
-		case "FieldTypeAsString":
-			FormDivBasicFieldToField(&(fieldshape_.FieldTypeAsString), formDiv)
-		case "Structname":
-			FormDivBasicFieldToField(&(fieldshape_.Structname), formDiv)
-		case "Fieldtypename":
-			FormDivBasicFieldToField(&(fieldshape_.Fieldtypename), formDiv)
-		case "GongStructShape:FieldShapes":
-			// we need to retrieve the field owner before the change
-			var pastGongStructShapeOwner *models.GongStructShape
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "GongStructShape"
-			rf.Fieldname = "FieldShapes"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				fieldshapeFormCallback.probe.stageOfInterest,
-				fieldshape_,
-				&rf)
-
-			if reverseFieldOwner != nil {
-				pastGongStructShapeOwner = reverseFieldOwner.(*models.GongStructShape)
-			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
-				if pastGongStructShapeOwner != nil {
-					idx := slices.Index(pastGongStructShapeOwner.AttributeShapes, fieldshape_)
-					pastGongStructShapeOwner.AttributeShapes = slices.Delete(pastGongStructShapeOwner.AttributeShapes, idx, idx+1)
-				}
-			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _gongstructshape := range *models.GetGongstructInstancesSet[models.GongStructShape](fieldshapeFormCallback.probe.stageOfInterest) {
-
-					// the match is base on the name
-					if _gongstructshape.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newGongStructShapeOwner := _gongstructshape // we have a match
-						if pastGongStructShapeOwner != nil {
-							if newGongStructShapeOwner != pastGongStructShapeOwner {
-								idx := slices.Index(pastGongStructShapeOwner.AttributeShapes, fieldshape_)
-								pastGongStructShapeOwner.AttributeShapes = slices.Delete(pastGongStructShapeOwner.AttributeShapes, idx, idx+1)
-								newGongStructShapeOwner.AttributeShapes = append(newGongStructShapeOwner.AttributeShapes, fieldshape_)
-							}
-						} else {
-							newGongStructShapeOwner.AttributeShapes = append(newGongStructShapeOwner.AttributeShapes, fieldshape_)
-						}
-					}
-				}
-			}
-		}
-	}
-
-	// manage the suppress operation
-	if fieldshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		fieldshape_.Unstage(fieldshapeFormCallback.probe.stageOfInterest)
-	}
-
-	fieldshapeFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.AttributeShape](
-		fieldshapeFormCallback.probe,
-	)
-	fieldshapeFormCallback.probe.tableStage.Commit()
-
-	// display a new form by reset the form stage
-	if fieldshapeFormCallback.CreationMode || fieldshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		fieldshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
-			Name: FormName,
-		}).Stage(fieldshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__FieldShapeFormCallback(
-			nil,
-			fieldshapeFormCallback.probe,
-			newFormGroup,
-		)
-		fieldshape := new(models.AttributeShape)
-		FillUpForm(fieldshape, newFormGroup, fieldshapeFormCallback.probe)
-		fieldshapeFormCallback.probe.formStage.Commit()
-	}
-
-	fillUpTree(fieldshapeFormCallback.probe)
 }
 func __gong__New__GongEnumShapeFormCallback(
 	gongenumshape *models.GongEnumShape,
@@ -810,13 +810,13 @@ func (linkshapeFormCallback *LinkShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(linkshape_.EndRatio), formDiv)
 		case "CornerOffsetRatio":
 			FormDivBasicFieldToField(&(linkshape_.CornerOffsetRatio), formDiv)
-		case "GongStructShape:Links":
+		case "GongStructShape:LinkShapes":
 			// we need to retrieve the field owner before the change
 			var pastGongStructShapeOwner *models.GongStructShape
 			var rf models.ReverseField
 			_ = rf
 			rf.GongstructName = "GongStructShape"
-			rf.Fieldname = "Links"
+			rf.Fieldname = "LinkShapes"
 			reverseFieldOwner := models.GetReverseFieldOwner(
 				linkshapeFormCallback.probe.stageOfInterest,
 				linkshape_,
@@ -827,8 +827,8 @@ func (linkshapeFormCallback *LinkShapeFormCallback) OnSave() {
 			}
 			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
 				if pastGongStructShapeOwner != nil {
-					idx := slices.Index(pastGongStructShapeOwner.Links, linkshape_)
-					pastGongStructShapeOwner.Links = slices.Delete(pastGongStructShapeOwner.Links, idx, idx+1)
+					idx := slices.Index(pastGongStructShapeOwner.LinkShapes, linkshape_)
+					pastGongStructShapeOwner.LinkShapes = slices.Delete(pastGongStructShapeOwner.LinkShapes, idx, idx+1)
 				}
 			} else {
 				// we need to retrieve the field owner after the change
@@ -841,12 +841,12 @@ func (linkshapeFormCallback *LinkShapeFormCallback) OnSave() {
 						newGongStructShapeOwner := _gongstructshape // we have a match
 						if pastGongStructShapeOwner != nil {
 							if newGongStructShapeOwner != pastGongStructShapeOwner {
-								idx := slices.Index(pastGongStructShapeOwner.Links, linkshape_)
-								pastGongStructShapeOwner.Links = slices.Delete(pastGongStructShapeOwner.Links, idx, idx+1)
-								newGongStructShapeOwner.Links = append(newGongStructShapeOwner.Links, linkshape_)
+								idx := slices.Index(pastGongStructShapeOwner.LinkShapes, linkshape_)
+								pastGongStructShapeOwner.LinkShapes = slices.Delete(pastGongStructShapeOwner.LinkShapes, idx, idx+1)
+								newGongStructShapeOwner.LinkShapes = append(newGongStructShapeOwner.LinkShapes, linkshape_)
 							}
 						} else {
-							newGongStructShapeOwner.Links = append(newGongStructShapeOwner.Links, linkshape_)
+							newGongStructShapeOwner.LinkShapes = append(newGongStructShapeOwner.LinkShapes, linkshape_)
 						}
 					}
 				}

@@ -184,7 +184,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 	for _, gongstructShape := range selectedDiagram.GongStructShapes {
 
 		startRect := docSVGMapper.map_GongstructShape_Rect[gongstructShape]
-		for _, linkOfDocLib := range gongstructShape.Links {
+		for _, linkOfDocLib := range gongstructShape.LinkShapes {
 
 			endRect, ok := docSVGMapper.map_Structname_Rect[linkOfDocLib.Fieldtypename]
 

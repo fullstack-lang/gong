@@ -47,7 +47,7 @@ func (stager *Stager) compute_map_modelElement_shape(
 			}
 		}
 
-		for _, linkShape := range gongStructShape.Links {
+		for _, linkShape := range gongStructShape.LinkShapes {
 			linkShapeName := IdentifierToFieldName(linkShape.Identifier)
 
 			for _, link := range gongStruct.SliceOfPointerToGongStructFields {

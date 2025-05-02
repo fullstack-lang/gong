@@ -5,6 +5,9 @@ package models
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
+	// Compute reverse map for named struct AttributeShape
+	// insertion point per field
+
 	// Compute reverse map for named struct Classdiagram
 	// insertion point per field
 	clear(stage.Classdiagram_GongStructShapes_reverseMap)
@@ -51,9 +54,6 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
-	// Compute reverse map for named struct FieldShape
-	// insertion point per field
-
 	// Compute reverse map for named struct GongEnumShape
 	// insertion point per field
 	clear(stage.GongEnumShape_GongEnumValueEntrys_reverseMap)
@@ -70,20 +70,20 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct GongStructShape
 	// insertion point per field
-	clear(stage.GongStructShape_FieldShapes_reverseMap)
-	stage.GongStructShape_FieldShapes_reverseMap = make(map[*AttributeShape]*GongStructShape)
+	clear(stage.GongStructShape_AttributeShapes_reverseMap)
+	stage.GongStructShape_AttributeShapes_reverseMap = make(map[*AttributeShape]*GongStructShape)
 	for gongstructshape := range stage.GongStructShapes {
 		_ = gongstructshape
-		for _, _fieldshape := range gongstructshape.AttributeShapes {
-			stage.GongStructShape_FieldShapes_reverseMap[_fieldshape] = gongstructshape
+		for _, _attributeshape := range gongstructshape.AttributeShapes {
+			stage.GongStructShape_AttributeShapes_reverseMap[_attributeshape] = gongstructshape
 		}
 	}
-	clear(stage.GongStructShape_Links_reverseMap)
-	stage.GongStructShape_Links_reverseMap = make(map[*LinkShape]*GongStructShape)
+	clear(stage.GongStructShape_LinkShapes_reverseMap)
+	stage.GongStructShape_LinkShapes_reverseMap = make(map[*LinkShape]*GongStructShape)
 	for gongstructshape := range stage.GongStructShapes {
 		_ = gongstructshape
-		for _, _linkshape := range gongstructshape.Links {
-			stage.GongStructShape_Links_reverseMap[_linkshape] = gongstructshape
+		for _, _linkshape := range gongstructshape.LinkShapes {
+			stage.GongStructShape_LinkShapes_reverseMap[_linkshape] = gongstructshape
 		}
 	}
 
