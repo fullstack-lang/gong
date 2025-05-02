@@ -14,7 +14,7 @@ import (
 )
 
 // declaration in order to justify use of the models import
-var __Field__dummysDeclaration__ models.Field
+var __Field__dummysDeclaration__ models.FieldShape
 var __Field_time__dummyDeclaration time.Duration
 
 var mutexField sync.Mutex
@@ -67,12 +67,12 @@ func (controller *Controller) GetFields(c *gin.Context) {
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "GET Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k, _ := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoField.GetDB()
@@ -137,12 +137,12 @@ func (controller *Controller) PostField(c *gin.Context) {
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "Post Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k, _ := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoField.GetDB()
@@ -214,12 +214,12 @@ func (controller *Controller) GetField(c *gin.Context) {
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k, _ := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoField.GetDB()
@@ -270,12 +270,12 @@ func (controller *Controller) UpdateField(c *gin.Context) {
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "PATCH Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k, _ := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoField.GetDB()
@@ -319,7 +319,7 @@ func (controller *Controller) UpdateField(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	fieldNew := new(models.Field)
+	fieldNew := new(models.FieldShape)
 	fieldDB.CopyBasicFieldsToField(fieldNew)
 
 	// redeem pointers
@@ -367,12 +367,12 @@ func (controller *Controller) DeleteField(c *gin.Context) {
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "DELETE Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k, _ := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoField.GetDB()
@@ -393,7 +393,7 @@ func (controller *Controller) DeleteField(c *gin.Context) {
 	db.Delete(&fieldDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
-	fieldDeleted := new(models.Field)
+	fieldDeleted := new(models.FieldShape)
 	fieldDB.CopyBasicFieldsToField(fieldDeleted)
 
 	// get stage instance from DB instance, and call callback function

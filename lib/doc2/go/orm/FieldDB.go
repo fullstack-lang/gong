@@ -124,10 +124,10 @@ type BackRepoFieldStruct struct {
 	Map_FieldDBID_FieldDB map[uint]*FieldDB
 
 	// stores FieldDB ID according to Field address
-	Map_FieldPtr_FieldDBID map[*models.Field]uint
+	Map_FieldPtr_FieldDBID map[*models.FieldShape]uint
 
 	// stores Field according to their gorm ID
-	Map_FieldDBID_FieldPtr map[uint]*models.Field
+	Map_FieldDBID_FieldPtr map[uint]*models.FieldShape
 
 	db db.DBInterface
 
@@ -144,7 +144,7 @@ func (backRepoField *BackRepoFieldStruct) GetDB() db.DBInterface {
 }
 
 // GetFieldDBFromFieldPtr is a handy function to access the back repo instance from the stage instance
-func (backRepoField *BackRepoFieldStruct) GetFieldDBFromFieldPtr(field *models.Field) (fieldDB *FieldDB) {
+func (backRepoField *BackRepoFieldStruct) GetFieldDBFromFieldPtr(field *models.FieldShape) (fieldDB *FieldDB) {
 	id := backRepoField.Map_FieldPtr_FieldDBID[field]
 	fieldDB = backRepoField.Map_FieldDBID_FieldDB[id]
 	return
@@ -154,7 +154,7 @@ func (backRepoField *BackRepoFieldStruct) GetFieldDBFromFieldPtr(field *models.F
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
 func (backRepoField *BackRepoFieldStruct) CommitPhaseOne(stage *models.Stage) (Error error) {
 
-	var fields []*models.Field
+	var fields []*models.FieldShape
 	for field := range stage.Fields {
 		fields = append(fields, field)
 	}
@@ -202,7 +202,7 @@ func (backRepoField *BackRepoFieldStruct) CommitDeleteInstance(id uint) (Error e
 
 // BackRepoField.CommitPhaseOneInstance commits field staged instances of Field to the BackRepo
 // Phase One is the creation of instance in the database if it is not yet done to get the unique ID for each staged instance
-func (backRepoField *BackRepoFieldStruct) CommitPhaseOneInstance(field *models.Field) (Error error) {
+func (backRepoField *BackRepoFieldStruct) CommitPhaseOneInstance(field *models.FieldShape) (Error error) {
 
 	// check if the field is not commited yet
 	if _, ok := backRepoField.Map_FieldPtr_FieldDBID[field]; ok {
@@ -239,7 +239,7 @@ func (backRepoField *BackRepoFieldStruct) CommitPhaseTwo(backRepo *BackRepoStruc
 
 // BackRepoField.CommitPhaseTwoInstance commits {{structname }} of models.Field to the BackRepo
 // Phase Two is the update of instance with the field in the database
-func (backRepoField *BackRepoFieldStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruct, idx uint, field *models.Field) (Error error) {
+func (backRepoField *BackRepoFieldStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruct, idx uint, field *models.FieldShape) (Error error) {
 
 	// fetch matching fieldDB
 	if fieldDB, ok := backRepoField.Map_FieldDBID_FieldDB[idx]; ok {
@@ -275,7 +275,7 @@ func (backRepoField *BackRepoFieldStruct) CheckoutPhaseOne() (Error error) {
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	fieldInstancesToBeRemovedFromTheStage := make(map[*models.Field]any)
+	fieldInstancesToBeRemovedFromTheStage := make(map[*models.FieldShape]any)
 	for key, value := range backRepoField.stage.Fields {
 		fieldInstancesToBeRemovedFromTheStage[key] = value
 	}
@@ -312,7 +312,7 @@ func (backRepoField *BackRepoFieldStruct) CheckoutPhaseOneInstance(fieldDB *Fiel
 
 	field, ok := backRepoField.Map_FieldDBID_FieldPtr[fieldDB.ID]
 	if !ok {
-		field = new(models.Field)
+		field = new(models.FieldShape)
 
 		backRepoField.Map_FieldDBID_FieldPtr[fieldDB.ID] = field
 		backRepoField.Map_FieldPtr_FieldDBID[field] = fieldDB.ID
@@ -357,14 +357,14 @@ func (backRepoField *BackRepoFieldStruct) CheckoutPhaseTwoInstance(backRepo *Bac
 	return
 }
 
-func (fieldDB *FieldDB) DecodePointers(backRepo *BackRepoStruct, field *models.Field) {
+func (fieldDB *FieldDB) DecodePointers(backRepo *BackRepoStruct, field *models.FieldShape) {
 
 	// insertion point for checkout of pointer encoding
 	return
 }
 
 // CommitField allows commit of a single field (if already staged)
-func (backRepo *BackRepoStruct) CommitField(field *models.Field) {
+func (backRepo *BackRepoStruct) CommitField(field *models.FieldShape) {
 	backRepo.BackRepoField.CommitPhaseOneInstance(field)
 	if id, ok := backRepo.BackRepoField.Map_FieldPtr_FieldDBID[field]; ok {
 		backRepo.BackRepoField.CommitPhaseTwoInstance(backRepo, id, field)
@@ -373,7 +373,7 @@ func (backRepo *BackRepoStruct) CommitField(field *models.Field) {
 }
 
 // CommitField allows checkout of a single field (if already staged and with a BackRepo id)
-func (backRepo *BackRepoStruct) CheckoutField(field *models.Field) {
+func (backRepo *BackRepoStruct) CheckoutField(field *models.FieldShape) {
 	// check if the field is staged
 	if _, ok := backRepo.BackRepoField.Map_FieldPtr_FieldDBID[field]; ok {
 
@@ -391,7 +391,7 @@ func (backRepo *BackRepoStruct) CheckoutField(field *models.Field) {
 }
 
 // CopyBasicFieldsFromField
-func (fieldDB *FieldDB) CopyBasicFieldsFromField(field *models.Field) {
+func (fieldDB *FieldDB) CopyBasicFieldsFromField(field *models.FieldShape) {
 	// insertion point for fields commit
 
 	fieldDB.Name_Data.String = field.Name
@@ -451,7 +451,7 @@ func (fieldDB *FieldDB) CopyBasicFieldsFromFieldWOP(field *FieldWOP) {
 }
 
 // CopyBasicFieldsToField
-func (fieldDB *FieldDB) CopyBasicFieldsToField(field *models.Field) {
+func (fieldDB *FieldDB) CopyBasicFieldsToField(field *models.FieldShape) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	field.Name = fieldDB.Name_Data.String
 	field.Identifier = fieldDB.Identifier_Data.String
@@ -657,7 +657,7 @@ func (backRepoField *BackRepoFieldStruct) ResetReversePointers(backRepo *BackRep
 	return
 }
 
-func (backRepoField *BackRepoFieldStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, field *models.Field) (Error error) {
+func (backRepoField *BackRepoFieldStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, field *models.FieldShape) (Error error) {
 
 	// fetch matching fieldDB
 	if fieldDB, ok := backRepoField.Map_FieldDBID_FieldDB[idx]; ok {

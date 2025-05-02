@@ -31,7 +31,7 @@ func (stager *Stager) compute_map_modelElement_shape(
 		}
 		map_ModelElement_Shape[gongStruct] = gongStructShape
 
-		for _, fieldShape := range gongStructShape.Fields {
+		for _, fieldShape := range gongStructShape.FieldShapes {
 			fieldShapeName := IdentifierToFieldName(fieldShape.Identifier)
 
 			var fieldFound bool

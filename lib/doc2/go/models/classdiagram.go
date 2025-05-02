@@ -23,7 +23,7 @@ type Classdiagram struct {
 	// or not (in production mode)
 	IsInDrawMode bool
 
-	// IsExpanded is true if the node for the classdiagram is expanded
+	// IsExpanded is true if the corresponding node is expanded
 	IsExpanded bool
 }
 
@@ -75,7 +75,7 @@ func (classdiagram *Classdiagram) RemoveGongStructShape(stage *Stage, gongstruct
 	}
 
 	// remove fields of the gongstructshape
-	for _, field := range gongstructshape.Fields {
+	for _, field := range gongstructshape.FieldShapes {
 		field.Unstage(stage)
 	}
 

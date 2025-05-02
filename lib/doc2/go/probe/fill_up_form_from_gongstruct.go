@@ -43,7 +43,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.Field:
+	case *models.FieldShape:
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,
 			Label: "Field Form",

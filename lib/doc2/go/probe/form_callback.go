@@ -228,7 +228,7 @@ func (diagrampackageFormCallback *DiagramPackageFormCallback) OnSave() {
 	fillUpTree(diagrampackageFormCallback.probe)
 }
 func __gong__New__FieldFormCallback(
-	field *models.Field,
+	field *models.FieldShape,
 	probe *Probe,
 	formGroup *table.FormGroup,
 ) (fieldFormCallback *FieldFormCallback) {
@@ -243,7 +243,7 @@ func __gong__New__FieldFormCallback(
 }
 
 type FieldFormCallback struct {
-	field *models.Field
+	field *models.FieldShape
 
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
@@ -262,7 +262,7 @@ func (fieldFormCallback *FieldFormCallback) OnSave() {
 	fieldFormCallback.probe.formStage.Checkout()
 
 	if fieldFormCallback.field == nil {
-		fieldFormCallback.field = new(models.Field).Stage(fieldFormCallback.probe.stageOfInterest)
+		fieldFormCallback.field = new(models.FieldShape).Stage(fieldFormCallback.probe.stageOfInterest)
 	}
 	field_ := fieldFormCallback.field
 	_ = field_
@@ -297,8 +297,8 @@ func (fieldFormCallback *FieldFormCallback) OnSave() {
 			}
 			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
 				if pastGongStructShapeOwner != nil {
-					idx := slices.Index(pastGongStructShapeOwner.Fields, field_)
-					pastGongStructShapeOwner.Fields = slices.Delete(pastGongStructShapeOwner.Fields, idx, idx+1)
+					idx := slices.Index(pastGongStructShapeOwner.FieldShapes, field_)
+					pastGongStructShapeOwner.FieldShapes = slices.Delete(pastGongStructShapeOwner.FieldShapes, idx, idx+1)
 				}
 			} else {
 				// we need to retrieve the field owner after the change
@@ -311,12 +311,12 @@ func (fieldFormCallback *FieldFormCallback) OnSave() {
 						newGongStructShapeOwner := _gongstructshape // we have a match
 						if pastGongStructShapeOwner != nil {
 							if newGongStructShapeOwner != pastGongStructShapeOwner {
-								idx := slices.Index(pastGongStructShapeOwner.Fields, field_)
-								pastGongStructShapeOwner.Fields = slices.Delete(pastGongStructShapeOwner.Fields, idx, idx+1)
-								newGongStructShapeOwner.Fields = append(newGongStructShapeOwner.Fields, field_)
+								idx := slices.Index(pastGongStructShapeOwner.FieldShapes, field_)
+								pastGongStructShapeOwner.FieldShapes = slices.Delete(pastGongStructShapeOwner.FieldShapes, idx, idx+1)
+								newGongStructShapeOwner.FieldShapes = append(newGongStructShapeOwner.FieldShapes, field_)
 							}
 						} else {
-							newGongStructShapeOwner.Fields = append(newGongStructShapeOwner.Fields, field_)
+							newGongStructShapeOwner.FieldShapes = append(newGongStructShapeOwner.FieldShapes, field_)
 						}
 					}
 				}
@@ -330,7 +330,7 @@ func (fieldFormCallback *FieldFormCallback) OnSave() {
 	}
 
 	fieldFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Field](
+	fillUpTable[models.FieldShape](
 		fieldFormCallback.probe,
 	)
 	fieldFormCallback.probe.tableStage.Commit()
@@ -346,7 +346,7 @@ func (fieldFormCallback *FieldFormCallback) OnSave() {
 			fieldFormCallback.probe,
 			newFormGroup,
 		)
-		field := new(models.Field)
+		field := new(models.FieldShape)
 		FillUpForm(field, newFormGroup, fieldFormCallback.probe)
 		fieldFormCallback.probe.formStage.Commit()
 	}
@@ -658,6 +658,8 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongstructshape_.Height), formDiv)
 		case "IsSelected":
 			FormDivBasicFieldToField(&(gongstructshape_.IsSelected), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(gongstructshape_.IsExpanded), formDiv)
 		case "Classdiagram:GongStructShapes":
 			// we need to retrieve the field owner before the change
 			var pastClassdiagramOwner *models.Classdiagram

@@ -86,7 +86,7 @@ func fillUpTree(
 			}
 		case "Field":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.Field](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSet[models.FieldShape](probe.stageOfInterest)
 			for _field := range set {
 				nodeInstance := (&tree.Node{Name: _field.GetName()}).Stage(probe.treeStage)
 				nodeInstance.IsNodeClickable = true

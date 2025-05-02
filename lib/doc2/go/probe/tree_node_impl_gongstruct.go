@@ -12,7 +12,7 @@ import (
 
 type TreeNodeImplGongstruct struct {
 	gongStruct *gong_models.GongStruct
-	probe *Probe
+	probe      *Probe
 }
 
 func NewTreeNodeImplGongstruct(
@@ -59,7 +59,7 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 		fillUpTable[models.DiagramPackage](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Field" {
-		fillUpTable[models.Field](nodeImplGongstruct.probe)
+		fillUpTable[models.FieldShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongEnumShape" {
 		fillUpTable[models.GongEnumShape](nodeImplGongstruct.probe)
