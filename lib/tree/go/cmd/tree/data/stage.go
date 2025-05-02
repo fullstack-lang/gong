@@ -43,7 +43,7 @@ func _(stage *models.Stage) {
 	__Node__000005_test_1_1 := (&models.Node{}).Stage(stage)
 	__Node__000006_test_1_2_clickable_ := (&models.Node{}).Stage(stage)
 	__Node__000007_test_1_3 := (&models.Node{}).Stage(stage)
-	__Node__000008_test_1_3_1 := (&models.Node{}).Stage(stage)
+	__Node__000008_test_1_3_1_F := (&models.Node{}).Stage(stage)
 	__Node__000009_test_1_3_1_svg_icon := (&models.Node{}).Stage(stage)
 	__Node__000010_test_1_4 := (&models.Node{}).Stage(stage)
 	__Node__000011_test_2_1 := (&models.Node{}).Stage(stage)
@@ -121,7 +121,7 @@ func _(stage *models.Stage) {
 
 	__Node__000002_root2.Name = `root2`
 	__Node__000002_root2.BackgroundColor = ``
-	__Node__000002_root2.IsExpanded = true
+	__Node__000002_root2.IsExpanded = false
 	__Node__000002_root2.HasCheckboxButton = false
 	__Node__000002_root2.IsChecked = false
 	__Node__000002_root2.IsCheckboxDisabled = false
@@ -197,7 +197,7 @@ func _(stage *models.Stage) {
 	__Node__000007_test_1_3.Name = `test 1.3`
 	__Node__000007_test_1_3.FontStyle = models.ITALIC
 	__Node__000007_test_1_3.BackgroundColor = `yellow`
-	__Node__000007_test_1_3.IsExpanded = false
+	__Node__000007_test_1_3.IsExpanded = true
 	__Node__000007_test_1_3.HasCheckboxButton = false
 	__Node__000007_test_1_3.IsChecked = true
 	__Node__000007_test_1_3.IsCheckboxDisabled = false
@@ -210,21 +210,21 @@ func _(stage *models.Stage) {
 	__Node__000007_test_1_3.IsWithPreceedingIcon = false
 	__Node__000007_test_1_3.PreceedingIcon = ``
 
-	__Node__000008_test_1_3_1.Name = `test 1.3.1`
-	__Node__000008_test_1_3_1.FontStyle = models.ITALIC
-	__Node__000008_test_1_3_1.BackgroundColor = ``
-	__Node__000008_test_1_3_1.IsExpanded = false
-	__Node__000008_test_1_3_1.HasCheckboxButton = false
-	__Node__000008_test_1_3_1.IsChecked = false
-	__Node__000008_test_1_3_1.IsCheckboxDisabled = false
-	__Node__000008_test_1_3_1.HasSecondCheckboxButton = false
-	__Node__000008_test_1_3_1.IsSecondCheckboxChecked = false
-	__Node__000008_test_1_3_1.IsSecondCheckboxDisabled = false
-	__Node__000008_test_1_3_1.TextAfterSecondCheckbox = ``
-	__Node__000008_test_1_3_1.IsInEditMode = true
-	__Node__000008_test_1_3_1.IsNodeClickable = false
-	__Node__000008_test_1_3_1.IsWithPreceedingIcon = true
-	__Node__000008_test_1_3_1.PreceedingIcon = `query_stats`
+	__Node__000008_test_1_3_1_F.Name = `test 1.3.1..F`
+	__Node__000008_test_1_3_1_F.FontStyle = models.ITALIC
+	__Node__000008_test_1_3_1_F.BackgroundColor = ``
+	__Node__000008_test_1_3_1_F.IsExpanded = false
+	__Node__000008_test_1_3_1_F.HasCheckboxButton = false
+	__Node__000008_test_1_3_1_F.IsChecked = false
+	__Node__000008_test_1_3_1_F.IsCheckboxDisabled = false
+	__Node__000008_test_1_3_1_F.HasSecondCheckboxButton = false
+	__Node__000008_test_1_3_1_F.IsSecondCheckboxChecked = false
+	__Node__000008_test_1_3_1_F.IsSecondCheckboxDisabled = false
+	__Node__000008_test_1_3_1_F.TextAfterSecondCheckbox = ``
+	__Node__000008_test_1_3_1_F.IsInEditMode = false
+	__Node__000008_test_1_3_1_F.IsNodeClickable = false
+	__Node__000008_test_1_3_1_F.IsWithPreceedingIcon = true
+	__Node__000008_test_1_3_1_F.PreceedingIcon = `query_stats`
 
 	__Node__000009_test_1_3_1_svg_icon.Name = `test 1.3.1 / svg icon`
 	__Node__000009_test_1_3_1_svg_icon.BackgroundColor = ``
@@ -313,7 +313,7 @@ func _(stage *models.Stage) {
 	__Node__000005_test_1_1.Buttons = append(__Node__000005_test_1_1.Buttons, __Button__000007_logout)
 	__Node__000005_test_1_1.Buttons = append(__Node__000005_test_1_1.Buttons, __Button__000004_dataset)
 	__Node__000006_test_1_2_clickable_.Buttons = append(__Node__000006_test_1_2_clickable_.Buttons, __Button__000006_key)
-	__Node__000007_test_1_3.Children = append(__Node__000007_test_1_3.Children, __Node__000008_test_1_3_1)
+	__Node__000007_test_1_3.Children = append(__Node__000007_test_1_3.Children, __Node__000008_test_1_3_1_F)
 	__Node__000007_test_1_3.Children = append(__Node__000007_test_1_3.Children, __Node__000009_test_1_3_1_svg_icon)
 	__Node__000009_test_1_3_1_svg_icon.PreceedingSVGIcon = __SVGIcon__000001_sync_alt_rotated_90
 	__Node__000009_test_1_3_1_svg_icon.Buttons = append(__Node__000009_test_1_3_1_svg_icon.Buttons, __Button__000001_PreceedingSVGIcon)
