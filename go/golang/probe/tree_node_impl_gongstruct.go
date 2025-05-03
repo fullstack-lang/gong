@@ -4,8 +4,6 @@ const TreeNodeImplGongstructFileTemplate = `// generated code - do not edit
 package probe
 
 import (
-	"log"
-
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gongtree_models "github.com/fullstack-lang/gong/lib/tree/go/models"
 
@@ -51,7 +49,7 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// the node was selected. Therefore, one request the
 	// table to route to the table
-	log.Println("NodeImplGongstruct:OnAfterUpdate with: ", nodeImplGongstruct.gongStruct.GetName())
+	// log.Println("NodeImplGongstruct:OnAfterUpdate with: ", nodeImplGongstruct.gongStruct.GetName())
 
 	// insertion point{{` + string(rune(NodeImplGongstruct)) + `}}
 
