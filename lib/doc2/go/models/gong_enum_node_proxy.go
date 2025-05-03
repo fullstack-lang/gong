@@ -11,6 +11,7 @@ type GongEnumNodeProxy struct {
 	classDiagram  *Classdiagram
 	gongenum      *gong.GongEnum
 	gongEnumShape *GongEnumShape
+	rank          int
 }
 
 func (proxy *GongEnumNodeProxy) OnAfterUpdate(
@@ -40,13 +41,15 @@ func (proxy *GongEnumNodeProxy) OnAfterUpdate(
 	}
 
 	if front.IsExpanded && !staged.IsExpanded {
-		proxy.gongEnumShape.IsExpanded = true
+		ToggleNodeExpanded(&proxy.classDiagram.NodeGongEnumNodeExpansionBinaryEncoding, proxy.rank)
+
 		front.IsExpanded = false
 
 		proxy.stager.stage.Commit()
 	}
 	if !front.IsExpanded && staged.IsExpanded {
-		proxy.gongEnumShape.IsExpanded = false
+		ToggleNodeExpanded(&proxy.classDiagram.NodeGongEnumNodeExpansionBinaryEncoding, proxy.rank)
+
 		front.IsExpanded = true
 
 		proxy.stager.stage.Commit()

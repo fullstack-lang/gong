@@ -810,13 +810,27 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Classdiagram[identifier].Name = fielValue
-				case "NodeGongStructsBinaryEncoding":
+				case "NodeGongStructNodeExpansionBinaryEncoding":
 					// convert string to int
 					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Classdiagram[identifier].NodeGongStructsBinaryEncoding = int(exprSign) * int(fielValue)
+					__gong__map_Classdiagram[identifier].NodeGongStructNodeExpansionBinaryEncoding = int(exprSign) * int(fielValue)
+				case "NodeGongEnumNodeExpansionBinaryEncoding":
+					// convert string to int
+					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Classdiagram[identifier].NodeGongEnumNodeExpansionBinaryEncoding = int(exprSign) * int(fielValue)
+				case "NodeGongNoteNodeExpansionBinaryEncoding":
+					// convert string to int
+					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Classdiagram[identifier].NodeGongNoteNodeExpansionBinaryEncoding = int(exprSign) * int(fielValue)
 				}
 			case "DiagramPackage":
 				switch fieldName {
