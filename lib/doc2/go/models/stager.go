@@ -112,6 +112,17 @@ func NewStager(
 		},
 	})
 
+	split.StageBranch(stager.splitStage, &split.View{
+		Name: "Gong Probe",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: (&split.Split{
+					StackName: stager.gongStage.GetProbeSplitStageName(),
+				}),
+			},
+		},
+	})
+
 	// if no diagram package is present, creates one
 	diagramPackages := *GetGongstructInstancesSet[DiagramPackage](stage)
 	var diagramPackage *DiagramPackage
