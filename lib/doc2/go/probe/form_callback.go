@@ -195,12 +195,16 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(classdiagram_.IsExpanded), formDiv)
 		case "NodeGongStructsIsExpanded":
 			FormDivBasicFieldToField(&(classdiagram_.NodeGongStructsIsExpanded), formDiv)
-		case "NodeGongStructsBinaryEncoding":
-			FormDivBasicFieldToField(&(classdiagram_.NodeGongStructsBinaryEncoding), formDiv)
+		case "NodeGongStructNodeExpansionBinaryEncoding":
+			FormDivBasicFieldToField(&(classdiagram_.NodeGongStructNodeExpansionBinaryEncoding), formDiv)
 		case "NodeGongEnumsIsExpanded":
 			FormDivBasicFieldToField(&(classdiagram_.NodeGongEnumsIsExpanded), formDiv)
+		case "NodeGongEnumNodeExpansionBinaryEncoding":
+			FormDivBasicFieldToField(&(classdiagram_.NodeGongEnumNodeExpansionBinaryEncoding), formDiv)
 		case "NodeGongNotesIsExpanded":
 			FormDivBasicFieldToField(&(classdiagram_.NodeGongNotesIsExpanded), formDiv)
+		case "NodeGongNoteNodeExpansionBinaryEncoding":
+			FormDivBasicFieldToField(&(classdiagram_.NodeGongNoteNodeExpansionBinaryEncoding), formDiv)
 		case "DiagramPackage:Classdiagrams":
 			// we need to retrieve the field owner before the change
 			var pastDiagramPackageOwner *models.DiagramPackage

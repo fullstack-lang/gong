@@ -41,14 +41,14 @@ func (proxy *GongstructNodeProxy) OnAfterUpdate(
 	}
 
 	if front.IsExpanded && !staged.IsExpanded {
-		ToggleNodeExpanded(&proxy.classDiagram.NodeGongStructsBinaryEncoding, proxy.rank)
+		ToggleNodeExpanded(&proxy.classDiagram.NodeGongStructNodeExpansionBinaryEncoding, proxy.rank)
 		front.IsExpanded = false
 
 		proxy.stager.UpdateAndCommitTreeStage()
 		proxy.stager.stage.Commit()
 	}
 	if !front.IsExpanded && staged.IsExpanded {
-		ToggleNodeExpanded(&proxy.classDiagram.NodeGongStructsBinaryEncoding, proxy.rank)
+		ToggleNodeExpanded(&proxy.classDiagram.NodeGongStructNodeExpansionBinaryEncoding, proxy.rank)
 		front.IsExpanded = true
 
 		proxy.stager.UpdateAndCommitTreeStage()
