@@ -345,11 +345,11 @@ func NewStage(name string) (stage *Stage) {
 		// end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			&NamedStruct{name: "DisplaySelection"},
-			&NamedStruct{name: "XLCell"},
-			&NamedStruct{name: "XLFile"},
-			&NamedStruct{name: "XLRow"},
-			&NamedStruct{name: "XLSheet"},
+			{name: "DisplaySelection"},
+			{name: "XLCell"},
+			{name: "XLFile"},
+			{name: "XLRow"},
+			{name: "XLSheet"},
 		}, // end of insertion point
 	}
 

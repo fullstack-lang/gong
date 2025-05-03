@@ -21,6 +21,9 @@ export class NodeAPI {
 	HasCheckboxButton: boolean = false
 	IsChecked: boolean = false
 	IsCheckboxDisabled: boolean = false
+	CheckboxHasToolTip: boolean = false
+	CheckboxToolTipText: string = ""
+	CheckboxToolTipPosition: string = ""
 	HasSecondCheckboxButton: boolean = false
 	IsSecondCheckboxChecked: boolean = false
 	IsSecondCheckboxDisabled: boolean = false
