@@ -1,26 +1,25 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { Observable, Subscription, timer } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 
 import { Router, RouterState } from '@angular/router';
 
-
-import * as tree from '../../../../tree/src/public-api' 
+import * as tree from '../../../../tree/src/public-api'
 import { IconService } from '../icon-service.service';
 
 /**
@@ -29,7 +28,6 @@ import { IconService } from '../icon-service.service';
  */
 interface Node {
   name: string;
-
   gongNode: tree.Node;
   children?: Node[];
 }
@@ -37,7 +35,6 @@ interface Node {
 /** Flat node with expandable and level information */
 interface FlatNode {
   expandable: boolean;
-
   name: string;
   gongNode: tree.Node;
   level: number;
@@ -54,20 +51,27 @@ interface FlatNode {
     MatTreeModule,
     MatCheckboxModule,
     MatFormFieldModule,
+    MatInputModule,
     MatRadioModule,
+    MatTooltipModule,
   ],
   templateUrl: './tree-specific.component.html',
   styleUrl: './tree-specific.component.css'
 })
-export class TreeSpecificComponent {
+export class TreeSpecificComponent implements OnInit, AfterViewChecked {
 
   @Input() name: string = ""
   @Input() Name: string = ""
+  
+  // Reference to the input element for node editing
+  @ViewChild('nodeNameInput') nodeNameInput?: ElementRef;
+  
+  // Track which node is currently being edited
+  private currentEditingNode?: FlatNode;
 
   private _transformer = (node: Node, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
-
       gongNode: node.gongNode,
       name: node.name,
       level: level,
@@ -102,23 +106,25 @@ export class TreeSpecificComponent {
   ) {
   }
 
-
   ngOnInit(): void {
-
     this.gongtreeFrontRepoService.connectToWebSocket(this.Name).subscribe(
       gongtreesFrontRepo => {
         this.gongtreeFrontRepo = gongtreesFrontRepo
 
+        console.log(this.Name, "tree name", "nb of trees",
+          this.gongtreeFrontRepo.getFrontArray<tree.Tree>(tree.Tree.GONGSTRUCT_NAME).length)
+
         var treeSingloton: tree.Tree = new (tree.Tree)
         var selected: boolean = false
         for (let instance of this.gongtreeFrontRepo.getFrontArray<tree.Tree>(tree.Tree.GONGSTRUCT_NAME)) {
+          console.log(this.Name, "tree name", instance.Name)
           if (instance.Name == this.name) {
             treeSingloton = instance
             selected = true
           }
         }
         if (!selected) {
-          // console.log("no tree matching with name \"" + this.name + "\"")
+          console.log(this.Name, "no tree matching with name \"" + this.name + "\"")
           return
         }
 
@@ -142,30 +148,27 @@ export class TreeSpecificComponent {
 
         this.dataSource.data = rootNodes
 
-        // expand nodes that were exapanded before
+        // expand nodes that were expanded before
         this.treeControl.dataNodes?.forEach(
           node => {
-
-            let gongNode = node.gongNode
-            if (gongNode && gongNode.Buttons) {
-
-              if (gongNode.Buttons.length > 0) {
-                // console.log("Button", gongNode.Name)
-              }
+            if (node.gongNode && node.gongNode.IsInEditMode) {
+              this.currentEditingNode = node;
             }
-
-            if (gongNode && gongNode.IsWithPreceedingIcon) {
-              // console.log("Node with preceeding icon", gongNode.Name, gongNode.PreceedingIcon)
-            }
-
+            
             if (node.gongNode.IsExpanded) {
               this.treeControl.expand(node)
             }
           }
         )
-
       }
     )
+  }
+  
+  // Focus on input field when a node enters edit mode
+  ngAfterViewChecked() {
+    if (this.nodeNameInput && this.currentEditingNode) {
+      this.nodeNameInput.nativeElement.focus();
+    }
   }
 
   gongNodeToMatTreeNode(nodeDB: tree.Node): Node {
@@ -178,8 +181,6 @@ export class TreeSpecificComponent {
   }
 
   toggleNodeExpansion(node: FlatNode): void {
-    // console.log(node.name)
-
     node.gongNode.IsExpanded = !node.gongNode.IsExpanded
 
     this.gongtreeNodeService.updateFront(node.gongNode, this.Name).subscribe(
@@ -191,57 +192,55 @@ export class TreeSpecificComponent {
 
   // toggling behavior is controlled from the back
   toggleNodeCheckbox(node: FlatNode): void {
-    let buttons = node.gongNode.Buttons
-
-    const d = new Date()
-    // console.log("TreeComponent ", this.Name, " name ", this.name, " toggleNodeCheckbox, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` + " " + this.name)
     node.gongNode.IsChecked = !node.gongNode.IsChecked
     this.gongtreeNodeService.updateFront(node.gongNode, this.Name).subscribe(
       gongtreeNode => {
+        // Success
       }
     )
   }
+  
   // toggling behavior is controlled from the back
   toggleNodeSecondCheckbox(node: FlatNode): void {
-    let buttons = node.gongNode.Buttons
-
-    const d = new Date()
-    // console.log("TreeComponent ", this.Name, " name ", this.name, " toggleNodeCheckbox, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` + " " + this.name)
     node.gongNode.IsSecondCheckboxChecked = !node.gongNode.IsSecondCheckboxChecked
     this.gongtreeNodeService.updateFront(node.gongNode, this.Name).subscribe(
       gongtreeNode => {
+        // Success
       }
     )
   }
 
   onButtonClick(event: Event, node: FlatNode, button: tree.Button) {
-
     // Stop the click event from propagating to the parent node
     event.stopPropagation();
 
     this.gongtreeButtonService.updateFront(button, this.Name).subscribe(
       gongtreeButton => {
-        // console.log("button pressed")
+        // Success
       }
     )
   }
 
   update(node: FlatNode) {
-
-    node.gongNode.IsInEditMode = false
+    // Update node name from edit field
+    node.name = node.gongNode.Name;
+    
+    // Exit edit mode
+    node.gongNode.IsInEditMode = false;
+    this.currentEditingNode = undefined;
+    
     this.gongtreeNodeService.updateFront(node.gongNode, this.Name).subscribe(
       gongtreeNode => {
-        // console.log("node.gongNode.IsInEditMode = false, updated node")
+        console.log("updated")
       }
     )
   }
 
   onNodeClick(node: FlatNode): void {
-
     if (node.gongNode.IsNodeClickable) {
       this.gongtreeNodeService.updateFront(node.gongNode, this.Name).subscribe(
         gongtreeNode => {
-          // console.log("onNodeClick: updated node")
+          // Success
         }
       )
     }
@@ -261,11 +260,11 @@ export class TreeSpecificComponent {
   getStyle(node: FlatNode): { 'font-style': string } {
     if (node.gongNode.FontStyle == tree.FontStyleEnum.ITALIC) {
       return {
-        'font-style': 'italic', // You can also use 'normal' or 'oblique'
+        'font-style': 'italic',
       }
     } else {
       return {
-        'font-style': 'normal', // You can also use 'normal' or 'oblique'
+        'font-style': 'normal',
       }
     }
   }

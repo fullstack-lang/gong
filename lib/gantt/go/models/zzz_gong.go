@@ -393,13 +393,13 @@ func NewStage(name string) (stage *Stage) {
 		// end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			&NamedStruct{name: "Arrow"},
-			&NamedStruct{name: "Bar"},
-			&NamedStruct{name: "Gantt"},
-			&NamedStruct{name: "Group"},
-			&NamedStruct{name: "Lane"},
-			&NamedStruct{name: "LaneUse"},
-			&NamedStruct{name: "Milestone"},
+			{name: "Arrow"},
+			{name: "Bar"},
+			{name: "Gantt"},
+			{name: "Group"},
+			{name: "Lane"},
+			{name: "LaneUse"},
+			{name: "Milestone"},
 		}, // end of insertion point
 	}
 

@@ -117,6 +117,21 @@
       ]
     },
     {
+      "label": "01 - gongc doc2",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/lib/doc2"
+      },
+      "command": "gongc",
+      "group": "build",
+      "args": [
+        "-skipGoModCommands",
+        "-skipNpmWorkspaces",
+        "-skipStager=false",
+        "go/models"
+      ]
+    },
+    {
       "label": "01 - gongc doc -clean",
       "type": "shell",
       "options": {
@@ -433,6 +448,19 @@
       "type": "shell",
       "options": {
         "cwd": "lib/doc/ng-github.com-fullstack-lang-gong-lib-doc"
+      },
+      "command": "ng",
+      "group": "build",
+      "args": [
+        "serve",
+        ""
+      ]
+    },
+    {
+      "label": "03 - ng serve doc2 ",
+      "type": "shell",
+      "options": {
+        "cwd": "lib/doc2/ng-github.com-fullstack-lang-gong-lib-doc2"
       },
       "command": "ng",
       "group": "build",

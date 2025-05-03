@@ -287,7 +287,7 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 		return stage.{{Structname}}Map_Staged_Order[instance]`,
 
 	ModelGongNamedStructsSliceInit: `
-			&NamedStruct{name: "{{Structname}}"},`,
+			{name: "{{Structname}}"},`,
 	ModelGongNamedStructsInstancesNames: `
 		case "{{Structname}}":
 			res = GetNamedStructInstances(stage.{{Structname}}s, stage.{{Structname}}Map_Staged_Order)`,
