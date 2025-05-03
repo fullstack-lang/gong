@@ -69,7 +69,7 @@ func (controller *Controller) GetRectLinkLinks(c *gin.Context) {
 		message := "GET Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
@@ -139,7 +139,7 @@ func (controller *Controller) PostRectLinkLink(c *gin.Context) {
 		message := "Post Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
@@ -216,7 +216,7 @@ func (controller *Controller) GetRectLinkLink(c *gin.Context) {
 		message := "Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
@@ -272,7 +272,7 @@ func (controller *Controller) UpdateRectLinkLink(c *gin.Context) {
 		message := "PATCH Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
@@ -369,7 +369,7 @@ func (controller *Controller) DeleteRectLinkLink(c *gin.Context) {
 		message := "DELETE Stack github.com/fullstack-lang/gong/lib/svg/go, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			

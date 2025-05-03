@@ -498,18 +498,18 @@ func NewStage(name string) (stage *Stage) {
 		// end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			&NamedStruct{name: "GongBasicField"},
-			&NamedStruct{name: "GongEnum"},
-			&NamedStruct{name: "GongEnumValue"},
-			&NamedStruct{name: "GongLink"},
-			&NamedStruct{name: "GongNote"},
-			&NamedStruct{name: "GongStruct"},
-			&NamedStruct{name: "GongTimeField"},
-			&NamedStruct{name: "Meta"},
-			&NamedStruct{name: "MetaReference"},
-			&NamedStruct{name: "ModelPkg"},
-			&NamedStruct{name: "PointerToGongStructField"},
-			&NamedStruct{name: "SliceOfPointerToGongStructField"},
+			{name: "GongBasicField"},
+			{name: "GongEnum"},
+			{name: "GongEnumValue"},
+			{name: "GongLink"},
+			{name: "GongNote"},
+			{name: "GongStruct"},
+			{name: "GongTimeField"},
+			{name: "Meta"},
+			{name: "MetaReference"},
+			{name: "ModelPkg"},
+			{name: "PointerToGongStructField"},
+			{name: "SliceOfPointerToGongStructField"},
 		}, // end of insertion point
 	}
 

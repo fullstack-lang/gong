@@ -69,7 +69,7 @@ func (controller *Controller) GetPointerToGongStructFields(c *gin.Context) {
 		message := "GET Stack github.com/fullstack-lang/gong/go, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
@@ -139,7 +139,7 @@ func (controller *Controller) PostPointerToGongStructField(c *gin.Context) {
 		message := "Post Stack github.com/fullstack-lang/gong/go, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
@@ -216,7 +216,7 @@ func (controller *Controller) GetPointerToGongStructField(c *gin.Context) {
 		message := "Stack github.com/fullstack-lang/gong/go, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
@@ -272,7 +272,7 @@ func (controller *Controller) UpdatePointerToGongStructField(c *gin.Context) {
 		message := "PATCH Stack github.com/fullstack-lang/gong/go, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
@@ -369,7 +369,7 @@ func (controller *Controller) DeletePointerToGongStructField(c *gin.Context) {
 		message := "DELETE Stack github.com/fullstack-lang/gong/go, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
