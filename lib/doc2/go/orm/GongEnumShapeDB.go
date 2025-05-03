@@ -48,8 +48,8 @@ type GongEnumShapeAPI struct {
 type GongEnumShapePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
-	// field GongEnumValueEntrys is a slice of pointers to another Struct (optional or 0..1)
-	GongEnumValueEntrys IntSlice `gorm:"type:TEXT"`
+	// field GongEnumValueShapes is a slice of pointers to another Struct (optional or 0..1)
+	GongEnumValueShapes IntSlice `gorm:"type:TEXT"`
 }
 
 // GongEnumShapeDB describes a gongenumshape in the database
@@ -264,21 +264,21 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CommitPhaseTwoInstance
 
 		// insertion point for translating pointers encodings into actual pointers
 		// 1. reset
-		gongenumshapeDB.GongEnumShapePointersEncoding.GongEnumValueEntrys = make([]int, 0)
+		gongenumshapeDB.GongEnumShapePointersEncoding.GongEnumValueShapes = make([]int, 0)
 		// 2. encode
-		for _, gongenumvalueentryAssocEnd := range gongenumshape.GongEnumValueEntrys {
-			gongenumvalueentryAssocEnd_DB :=
-				backRepo.BackRepoGongEnumValueEntry.GetGongEnumValueEntryDBFromGongEnumValueEntryPtr(gongenumvalueentryAssocEnd)
+		for _, gongenumvalueshapeAssocEnd := range gongenumshape.GongEnumValueShapes {
+			gongenumvalueshapeAssocEnd_DB :=
+				backRepo.BackRepoGongEnumValueShape.GetGongEnumValueShapeDBFromGongEnumValueShapePtr(gongenumvalueshapeAssocEnd)
 			
-			// the stage might be inconsistant, meaning that the gongenumvalueentryAssocEnd_DB might
+			// the stage might be inconsistant, meaning that the gongenumvalueshapeAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
-			if gongenumvalueentryAssocEnd_DB == nil {
+			if gongenumvalueshapeAssocEnd_DB == nil {
 				continue
 			}
 			
-			gongenumshapeDB.GongEnumShapePointersEncoding.GongEnumValueEntrys =
-				append(gongenumshapeDB.GongEnumShapePointersEncoding.GongEnumValueEntrys, int(gongenumvalueentryAssocEnd_DB.ID))
+			gongenumshapeDB.GongEnumShapePointersEncoding.GongEnumValueShapes =
+				append(gongenumshapeDB.GongEnumShapePointersEncoding.GongEnumValueShapes, int(gongenumvalueshapeAssocEnd_DB.ID))
 		}
 
 		_, err := backRepoGongEnumShape.db.Save(gongenumshapeDB)
@@ -394,13 +394,13 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CheckoutPhaseTwoInstan
 func (gongenumshapeDB *GongEnumShapeDB) DecodePointers(backRepo *BackRepoStruct, gongenumshape *models.GongEnumShape) {
 
 	// insertion point for checkout of pointer encoding
-	// This loop redeem gongenumshape.GongEnumValueEntrys in the stage from the encode in the back repo
-	// It parses all GongEnumValueEntryDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// This loop redeem gongenumshape.GongEnumValueShapes in the stage from the encode in the back repo
+	// It parses all GongEnumValueShapeDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
-	gongenumshape.GongEnumValueEntrys = gongenumshape.GongEnumValueEntrys[:0]
-	for _, _GongEnumValueEntryid := range gongenumshapeDB.GongEnumShapePointersEncoding.GongEnumValueEntrys {
-		gongenumshape.GongEnumValueEntrys = append(gongenumshape.GongEnumValueEntrys, backRepo.BackRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryPtr[uint(_GongEnumValueEntryid)])
+	gongenumshape.GongEnumValueShapes = gongenumshape.GongEnumValueShapes[:0]
+	for _, _GongEnumValueShapeid := range gongenumshapeDB.GongEnumShapePointersEncoding.GongEnumValueShapes {
+		gongenumshape.GongEnumValueShapes = append(gongenumshape.GongEnumValueShapes, backRepo.BackRepoGongEnumValueShape.Map_GongEnumValueShapeDBID_GongEnumValueShapePtr[uint(_GongEnumValueShapeid)])
 	}
 
 	return

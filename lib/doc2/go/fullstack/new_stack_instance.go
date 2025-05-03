@@ -46,7 +46,7 @@ func NewStackInstance(
 	models.SetOrchestratorOnAfterUpdate[models.Classdiagram](stage)
 	models.SetOrchestratorOnAfterUpdate[models.DiagramPackage](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongEnumShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.GongEnumValueEntry](stage)
+	models.SetOrchestratorOnAfterUpdate[models.GongEnumValueShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongStructShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.LinkShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.NoteShape](stage)

@@ -31,9 +31,9 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		gongenumshapeInstance := any(concreteInstance).(*models.GongEnumShape)
 		ret2 := backRepo.BackRepoGongEnumShape.GetGongEnumShapeDBFromGongEnumShapePtr(gongenumshapeInstance)
 		ret = any(ret2).(*T2)
-	case *models.GongEnumValueEntry:
-		gongenumvalueentryInstance := any(concreteInstance).(*models.GongEnumValueEntry)
-		ret2 := backRepo.BackRepoGongEnumValueEntry.GetGongEnumValueEntryDBFromGongEnumValueEntryPtr(gongenumvalueentryInstance)
+	case *models.GongEnumValueShape:
+		gongenumvalueshapeInstance := any(concreteInstance).(*models.GongEnumValueShape)
+		ret2 := backRepo.BackRepoGongEnumValueShape.GetGongEnumValueShapeDBFromGongEnumValueShapePtr(gongenumvalueshapeInstance)
 		ret = any(ret2).(*T2)
 	case *models.GongStructShape:
 		gongstructshapeInstance := any(concreteInstance).(*models.GongStructShape)
@@ -84,8 +84,8 @@ func GetID[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
-	case *models.GongEnumValueEntry:
-		tmp := GetInstanceDBFromInstance[models.GongEnumValueEntry, GongEnumValueEntryDB](
+	case *models.GongEnumValueShape:
+		tmp := GetInstanceDBFromInstance[models.GongEnumValueShape, GongEnumValueShapeDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -142,8 +142,8 @@ func GetIDPointer[T models.PointerToGongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
-	case *models.GongEnumValueEntry:
-		tmp := GetInstanceDBFromInstance[models.GongEnumValueEntry, GongEnumValueEntryDB](
+	case *models.GongEnumValueShape:
+		tmp := GetInstanceDBFromInstance[models.GongEnumValueShape, GongEnumValueShapeDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

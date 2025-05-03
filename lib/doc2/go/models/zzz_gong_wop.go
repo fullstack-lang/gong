@@ -95,13 +95,13 @@ func (from *GongEnumShape) CopyBasicFields(to *GongEnumShape) {
 	to.IsExpanded = from.IsExpanded
 }
 
-type GongEnumValueEntry_WOP struct {
+type GongEnumValueShape_WOP struct {
 	// insertion point
 	Name string
 	Identifier string
 }
 
-func (from *GongEnumValueEntry) CopyBasicFields(to *GongEnumValueEntry) {
+func (from *GongEnumValueShape) CopyBasicFields(to *GongEnumValueShape) {
 	// insertion point
 	to.Name = from.Name
 	to.Identifier = from.Identifier

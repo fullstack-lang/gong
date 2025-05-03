@@ -48,16 +48,16 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct GongEnumShape
 	// insertion point per field
-	clear(stage.GongEnumShape_GongEnumValueEntrys_reverseMap)
-	stage.GongEnumShape_GongEnumValueEntrys_reverseMap = make(map[*GongEnumValueEntry]*GongEnumShape)
+	clear(stage.GongEnumShape_GongEnumValueShapes_reverseMap)
+	stage.GongEnumShape_GongEnumValueShapes_reverseMap = make(map[*GongEnumValueShape]*GongEnumShape)
 	for gongenumshape := range stage.GongEnumShapes {
 		_ = gongenumshape
-		for _, _gongenumvalueentry := range gongenumshape.GongEnumValueEntrys {
-			stage.GongEnumShape_GongEnumValueEntrys_reverseMap[_gongenumvalueentry] = gongenumshape
+		for _, _gongenumvalueshape := range gongenumshape.GongEnumValueShapes {
+			stage.GongEnumShape_GongEnumValueShapes_reverseMap[_gongenumvalueshape] = gongenumshape
 		}
 	}
 
-	// Compute reverse map for named struct GongEnumValueEntry
+	// Compute reverse map for named struct GongEnumValueShape
 	// insertion point per field
 
 	// Compute reverse map for named struct GongStructShape

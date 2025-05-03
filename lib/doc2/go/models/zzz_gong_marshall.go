@@ -408,35 +408,35 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
-	map_GongEnumValueEntry_Identifiers := make(map[*GongEnumValueEntry]string)
-	_ = map_GongEnumValueEntry_Identifiers
+	map_GongEnumValueShape_Identifiers := make(map[*GongEnumValueShape]string)
+	_ = map_GongEnumValueShape_Identifiers
 
-	gongenumvalueentryOrdered := []*GongEnumValueEntry{}
-	for gongenumvalueentry := range stage.GongEnumValueEntrys {
-		gongenumvalueentryOrdered = append(gongenumvalueentryOrdered, gongenumvalueentry)
+	gongenumvalueshapeOrdered := []*GongEnumValueShape{}
+	for gongenumvalueshape := range stage.GongEnumValueShapes {
+		gongenumvalueshapeOrdered = append(gongenumvalueshapeOrdered, gongenumvalueshape)
 	}
-	sort.Slice(gongenumvalueentryOrdered[:], func(i, j int) bool {
-		gongenumvalueentryi := gongenumvalueentryOrdered[i]
-		gongenumvalueentryj := gongenumvalueentryOrdered[j]
-		gongenumvalueentryi_order, oki := stage.GongEnumValueEntryMap_Staged_Order[gongenumvalueentryi]
-		gongenumvalueentryj_order, okj := stage.GongEnumValueEntryMap_Staged_Order[gongenumvalueentryj]
+	sort.Slice(gongenumvalueshapeOrdered[:], func(i, j int) bool {
+		gongenumvalueshapei := gongenumvalueshapeOrdered[i]
+		gongenumvalueshapej := gongenumvalueshapeOrdered[j]
+		gongenumvalueshapei_order, oki := stage.GongEnumValueShapeMap_Staged_Order[gongenumvalueshapei]
+		gongenumvalueshapej_order, okj := stage.GongEnumValueShapeMap_Staged_Order[gongenumvalueshapej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
-		return gongenumvalueentryi_order < gongenumvalueentryj_order
+		return gongenumvalueshapei_order < gongenumvalueshapej_order
 	})
-	if len(gongenumvalueentryOrdered) > 0 {
+	if len(gongenumvalueshapeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, gongenumvalueentry := range gongenumvalueentryOrdered {
+	for idx, gongenumvalueshape := range gongenumvalueshapeOrdered {
 
-		id = generatesIdentifier("GongEnumValueEntry", idx, gongenumvalueentry.Name)
-		map_GongEnumValueEntry_Identifiers[gongenumvalueentry] = id
+		id = generatesIdentifier("GongEnumValueShape", idx, gongenumvalueshape.Name)
+		map_GongEnumValueShape_Identifiers[gongenumvalueshape] = id
 
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongEnumValueEntry")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongenumvalueentry.Name)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongEnumValueShape")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongenumvalueshape.Name)
 		identifiersDecl += decl
 
 		initializerStatements += "\n"
@@ -444,16 +444,16 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongenumvalueentry.Name))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongenumvalueshape.Name))
 		initializerStatements += setValueField
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
 			fmt.Sprintf("\n\n\t//gong:ident [%s] comment added to overcome the problem with the comment map association\n\t{{Identifier}}",
-				string(gongenumvalueentry.Identifier)))
+				string(gongenumvalueshape.Identifier)))
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Identifier")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongenumvalueentry.Identifier))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongenumvalueshape.Identifier))
 		initializerStatements += setValueField
 
 	}
@@ -954,25 +954,25 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		map_GongEnumShape_Identifiers[gongenumshape] = id
 
 		// Initialisation of values
-		for _, _gongenumvalueentry := range gongenumshape.GongEnumValueEntrys {
+		for _, _gongenumvalueshape := range gongenumshape.GongEnumValueShapes {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "GongEnumValueEntrys")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_GongEnumValueEntry_Identifiers[_gongenumvalueentry])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "GongEnumValueShapes")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_GongEnumValueShape_Identifiers[_gongenumvalueshape])
 			pointersInitializesStatements += setPointerField
 		}
 
 	}
 
-	if len(gongenumvalueentryOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of GongEnumValueEntry instances pointers"
+	if len(gongenumvalueshapeOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of GongEnumValueShape instances pointers"
 	}
-	for idx, gongenumvalueentry := range gongenumvalueentryOrdered {
+	for idx, gongenumvalueshape := range gongenumvalueshapeOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("GongEnumValueEntry", idx, gongenumvalueentry.Name)
-		map_GongEnumValueEntry_Identifiers[gongenumvalueentry] = id
+		id = generatesIdentifier("GongEnumValueShape", idx, gongenumvalueshape.Name)
+		map_GongEnumValueShape_Identifiers[gongenumvalueshape] = id
 
 		// Initialisation of values
 	}

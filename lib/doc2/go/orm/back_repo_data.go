@@ -12,7 +12,7 @@ type BackRepoData struct {
 
 	GongEnumShapeAPIs []*GongEnumShapeAPI
 
-	GongEnumValueEntryAPIs []*GongEnumValueEntryAPI
+	GongEnumValueShapeAPIs []*GongEnumValueShapeAPI
 
 	GongStructShapeAPIs []*GongStructShapeAPI
 
@@ -73,14 +73,14 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		backRepoData.GongEnumShapeAPIs = append(backRepoData.GongEnumShapeAPIs, &gongenumshapeAPI)
 	}
 
-	for _, gongenumvalueentryDB := range backRepo.BackRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryDB {
+	for _, gongenumvalueshapeDB := range backRepo.BackRepoGongEnumValueShape.Map_GongEnumValueShapeDBID_GongEnumValueShapeDB {
 
-		var gongenumvalueentryAPI GongEnumValueEntryAPI
-		gongenumvalueentryAPI.ID = gongenumvalueentryDB.ID
-		gongenumvalueentryAPI.GongEnumValueEntryPointersEncoding = gongenumvalueentryDB.GongEnumValueEntryPointersEncoding
-		gongenumvalueentryDB.CopyBasicFieldsToGongEnumValueEntry_WOP(&gongenumvalueentryAPI.GongEnumValueEntry_WOP)
+		var gongenumvalueshapeAPI GongEnumValueShapeAPI
+		gongenumvalueshapeAPI.ID = gongenumvalueshapeDB.ID
+		gongenumvalueshapeAPI.GongEnumValueShapePointersEncoding = gongenumvalueshapeDB.GongEnumValueShapePointersEncoding
+		gongenumvalueshapeDB.CopyBasicFieldsToGongEnumValueShape_WOP(&gongenumvalueshapeAPI.GongEnumValueShape_WOP)
 
-		backRepoData.GongEnumValueEntryAPIs = append(backRepoData.GongEnumValueEntryAPIs, &gongenumvalueentryAPI)
+		backRepoData.GongEnumValueShapeAPIs = append(backRepoData.GongEnumValueShapeAPIs, &gongenumvalueshapeAPI)
 	}
 
 	for _, gongstructshapeDB := range backRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapeDB {
