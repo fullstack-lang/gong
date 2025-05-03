@@ -25,6 +25,8 @@ type Stager struct {
 	gongStage  *gong.Stage
 
 	sidebarTree *tree.Tree
+
+	embeddedDiagrams bool
 }
 
 func NewStager(
@@ -34,6 +36,8 @@ func NewStager(
 	treeStage *tree.Stage,
 	svgStage *svg.Stage,
 	gongStage *gong.Stage,
+
+	embeddedDiagrams bool,
 ) (stager *Stager) {
 
 	stager = new(Stager)
@@ -43,6 +47,8 @@ func NewStager(
 	stager.treeStage = treeStage
 	stager.svgStage = svgStage
 	stager.gongStage = gongStage
+
+	stager.embeddedDiagrams = embeddedDiagrams
 
 	// StageBranch will stage on the the first argument
 	// all instances related to the second argument

@@ -58,57 +58,68 @@ func _(stage *models.Stage) {
 
 	__Button__000000_Button_For_Empty_Space.Name = `Button For Empty Space`
 	__Button__000000_Button_For_Empty_Space.Icon = ``
+	__Button__000000_Button_For_Empty_Space.IsDisabled = false
 	__Button__000000_Button_For_Empty_Space.HasToolTip = false
 	__Button__000000_Button_For_Empty_Space.ToolTipText = ``
 
 	__Button__000001_PreceedingSVGIcon.Name = `PreceedingSVGIcon`
 	__Button__000001_PreceedingSVGIcon.Icon = ``
+	__Button__000001_PreceedingSVGIcon.IsDisabled = false
 	__Button__000001_PreceedingSVGIcon.HasToolTip = false
 	__Button__000001_PreceedingSVGIcon.ToolTipText = ``
 
 	__Button__000002_Test_1_2_add.Name = `Test 1.2 add`
 	__Button__000002_Test_1_2_add.Icon = `add`
+	__Button__000002_Test_1_2_add.IsDisabled = false
 	__Button__000002_Test_1_2_add.HasToolTip = false
 	__Button__000002_Test_1_2_add.ToolTipText = ``
 
 	__Button__000003_arrow_circle_left.Name = `arrow_circle_left`
 	__Button__000003_arrow_circle_left.Icon = `arrow_circle_left`
+	__Button__000003_arrow_circle_left.IsDisabled = true
 	__Button__000003_arrow_circle_left.HasToolTip = true
 	__Button__000003_arrow_circle_left.ToolTipText = `This is a tooltip for the button`
 	__Button__000003_arrow_circle_left.ToolTipPosition = models.Above
 
 	__Button__000004_dataset.Name = `dataset`
 	__Button__000004_dataset.Icon = `dataset`
+	__Button__000004_dataset.IsDisabled = false
 	__Button__000004_dataset.HasToolTip = false
 	__Button__000004_dataset.ToolTipText = ``
 
 	__Button__000005_dynamic_form.Name = `dynamic_form`
 	__Button__000005_dynamic_form.Icon = `dynamic_form`
+	__Button__000005_dynamic_form.IsDisabled = false
 	__Button__000005_dynamic_form.HasToolTip = false
 	__Button__000005_dynamic_form.ToolTipText = ``
 
 	__Button__000006_key.Name = `key`
 	__Button__000006_key.Icon = `key`
+	__Button__000006_key.IsDisabled = false
 	__Button__000006_key.HasToolTip = false
 	__Button__000006_key.ToolTipText = ``
 
 	__Button__000007_logout.Name = `logout`
 	__Button__000007_logout.Icon = `logout`
+	__Button__000007_logout.IsDisabled = false
 	__Button__000007_logout.HasToolTip = false
 	__Button__000007_logout.ToolTipText = ``
 
 	__Button__000008_root_2_add.Name = `root 2 - add`
 	__Button__000008_root_2_add.Icon = `add`
+	__Button__000008_root_2_add.IsDisabled = false
 	__Button__000008_root_2_add.HasToolTip = false
 	__Button__000008_root_2_add.ToolTipText = ``
 
 	__Button__000009_settings.Name = `settings`
 	__Button__000009_settings.Icon = `settings`
+	__Button__000009_settings.IsDisabled = false
 	__Button__000009_settings.HasToolTip = false
 	__Button__000009_settings.ToolTipText = ``
 
 	__Button__000010_test.Name = `test`
 	__Button__000010_test.Icon = `edit`
+	__Button__000010_test.IsDisabled = false
 	__Button__000010_test.HasToolTip = false
 	__Button__000010_test.ToolTipText = ``
 

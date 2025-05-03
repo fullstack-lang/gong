@@ -47,5 +47,6 @@ func Prepare(
 		splitStage,
 		treeStage,
 		svgStage,
-		gongStage)
+		gongStage,
+		embeddedDiagrams)
 }
