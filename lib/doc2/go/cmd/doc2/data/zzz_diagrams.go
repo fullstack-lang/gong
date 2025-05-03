@@ -35,6 +35,9 @@ func _(stage *models.Stage) {
 	__GongEnumValueShape__000003_REMOVE := (&models.GongEnumValueShape{}).Stage(stage)
 	__GongEnumValueShape__000004_RENAME_CANCEL := (&models.GongEnumValueShape{}).Stage(stage)
 
+	__GongStructShape__000000_Default_AttributeShape := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000001_Default_Classdiagram := (&models.GongStructShape{}).Stage(stage)
+
 	// Setup of values
 
 	__Classdiagram__000000_Default.Name = `Default`
@@ -90,8 +93,34 @@ func _(stage *models.Stage) {
 	//gong:ident [ref_models.ButtonType.RENAME_CANCEL] comment added to overcome the problem with the comment map association
 	__GongEnumValueShape__000004_RENAME_CANCEL.Identifier = `ref_models.ButtonType.RENAME_CANCEL`
 
+	__GongStructShape__000000_Default_AttributeShape.Name = `Default-AttributeShape`
+	__GongStructShape__000000_Default_AttributeShape.X = 89.000000
+	__GongStructShape__000000_Default_AttributeShape.Y = 78.000000
+
+	//gong:ident [ref_models.AttributeShape] comment added to overcome the problem with the comment map association
+	__GongStructShape__000000_Default_AttributeShape.Identifier = `ref_models.AttributeShape`
+	__GongStructShape__000000_Default_AttributeShape.ShowNbInstances = false
+	__GongStructShape__000000_Default_AttributeShape.NbInstances = 0
+	__GongStructShape__000000_Default_AttributeShape.Width = 240.000000
+	__GongStructShape__000000_Default_AttributeShape.Height = 63.000000
+	__GongStructShape__000000_Default_AttributeShape.IsSelected = false
+
+	__GongStructShape__000001_Default_Classdiagram.Name = `Default-Classdiagram`
+	__GongStructShape__000001_Default_Classdiagram.X = 78.000000
+	__GongStructShape__000001_Default_Classdiagram.Y = 62.000000
+
+	//gong:ident [ref_models.Classdiagram] comment added to overcome the problem with the comment map association
+	__GongStructShape__000001_Default_Classdiagram.Identifier = `ref_models.Classdiagram`
+	__GongStructShape__000001_Default_Classdiagram.ShowNbInstances = false
+	__GongStructShape__000001_Default_Classdiagram.NbInstances = 0
+	__GongStructShape__000001_Default_Classdiagram.Width = 240.000000
+	__GongStructShape__000001_Default_Classdiagram.Height = 63.000000
+	__GongStructShape__000001_Default_Classdiagram.IsSelected = false
+
 	// Setup of pointers
 	// setup of Classdiagram instances pointers
+	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000000_Default_AttributeShape)
+	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000001_Default_Classdiagram)
 	__Classdiagram__000000_Default.GongEnumShapes = append(__Classdiagram__000000_Default.GongEnumShapes, __GongEnumShape__000000_Default_ButtonType)
 	// setup of DiagramPackage instances pointers
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Classdiagrams, __Classdiagram__000000_Default)
@@ -103,4 +132,5 @@ func _(stage *models.Stage) {
 	__GongEnumShape__000000_Default_ButtonType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_ButtonType.GongEnumValueShapes, __GongEnumValueShape__000003_REMOVE)
 	__GongEnumShape__000000_Default_ButtonType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_ButtonType.GongEnumValueShapes, __GongEnumValueShape__000004_RENAME_CANCEL)
 	// setup of GongEnumValueShape instances pointers
+	// setup of GongStructShape instances pointers
 }
