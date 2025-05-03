@@ -551,21 +551,21 @@ func NewStage(name string) (stage *Stage) {
 		// end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			&NamedStruct{name: "AsSplit"},
-			&NamedStruct{name: "AsSplitArea"},
-			&NamedStruct{name: "Button"},
-			&NamedStruct{name: "Cursor"},
-			&NamedStruct{name: "Doc"},
-			&NamedStruct{name: "Form"},
-			&NamedStruct{name: "Load"},
-			&NamedStruct{name: "Slider"},
-			&NamedStruct{name: "Split"},
-			&NamedStruct{name: "Svg"},
-			&NamedStruct{name: "Table"},
-			&NamedStruct{name: "Tone"},
-			&NamedStruct{name: "Tree"},
-			&NamedStruct{name: "View"},
-			&NamedStruct{name: "Xlsx"},
+			{name: "AsSplit"},
+			{name: "AsSplitArea"},
+			{name: "Button"},
+			{name: "Cursor"},
+			{name: "Doc"},
+			{name: "Form"},
+			{name: "Load"},
+			{name: "Slider"},
+			{name: "Split"},
+			{name: "Svg"},
+			{name: "Table"},
+			{name: "Tone"},
+			{name: "Tree"},
+			{name: "View"},
+			{name: "Xlsx"},
 		}, // end of insertion point
 	}
 

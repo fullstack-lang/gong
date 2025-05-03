@@ -395,13 +395,13 @@ func NewStage(name string) (stage *Stage) {
 		// end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			&NamedStruct{name: "Astruct"},
-			&NamedStruct{name: "AstructBstruct2Use"},
-			&NamedStruct{name: "AstructBstructUse"},
-			&NamedStruct{name: "Bstruct"},
-			&NamedStruct{name: "Dstruct"},
-			&NamedStruct{name: "Fstruct"},
-			&NamedStruct{name: "Gstruct"},
+			{name: "Astruct"},
+			{name: "AstructBstruct2Use"},
+			{name: "AstructBstructUse"},
+			{name: "Bstruct"},
+			{name: "Dstruct"},
+			{name: "Fstruct"},
+			{name: "Gstruct"},
 		}, // end of insertion point
 	}
 

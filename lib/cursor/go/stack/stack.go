@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/fullstack-lang/gong/lib/cursor/go/fullstack"
 	"github.com/fullstack-lang/gong/lib/cursor/go/models"
@@ -19,23 +20,39 @@ import (
 // hook marhalling to stage
 type BeforeCommitImplementation struct {
 	marshallOnCommit string
+
+	packageName string
 }
 
 func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
-	file, err := os.Create(fmt.Sprintf("./%s.go", impl.marshallOnCommit))
+
+	// the ".go" is not provided
+	filename := impl.marshallOnCommit
+	if !strings.HasSuffix(filename, ".go") {
+		filename = filename + ".go"
+	}
+
+	file, err := os.Create(fmt.Sprintf("./%s", filename))
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 	defer file.Close()
 
+	packageName := impl.packageName
+	if packageName == "" {
+		packageName = "main"
+	}
+
 	stage.Checkout()
-	stage.Marshall(file, "github.com/fullstack-lang/gong/lib/cursor/go/models", "main")
+	stage.Marshall(file, "github.com/fullstack-lang/gong/lib/cursor/go/models", packageName)
 }
 
 type Stack struct {
 	Probe    *probe.Probe
 	Stage    *models.Stage
 	BackRepo *orm.BackRepoStruct
+
+	hook *BeforeCommitImplementation
 }
 
 // NewStack initializes and configures a new stack instance for a full-stack application.
@@ -116,9 +133,9 @@ func NewStack(
 
 	// hook automatic marshall to go code at every commit
 	if marshallOnCommit != "" {
-		hook := new(BeforeCommitImplementation)
-		hook.marshallOnCommit = marshallOnCommit
-		stage.OnInitCommitCallback = hook
+		stack.hook = new(BeforeCommitImplementation)
+		stack.hook.marshallOnCommit = marshallOnCommit
+		stage.OnInitCommitCallback = stack.hook
 	}
 
 	if withProbe {
@@ -132,4 +149,9 @@ func NewStack(
 func NewTranscientStack(r *gin.Engine, stackPath string, withProbe bool) (stack *Stack) {
 
 	return NewStack(r, stackPath, "", "", "", true, withProbe)
+}
+
+// SetMarshallPackageName overrides the "main" package default generated
+func (stack *Stack) SetMarshallPackageName(packageName string) {
+	stack.hook.packageName = packageName
 }

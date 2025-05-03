@@ -1,111 +1,157 @@
 <div class="vertical-paper">
     <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-        <!-- This is the tree node template for leaf nodes -->
-        <mat-tree-node class="custom-tree-node" [ngStyle]="{'background-color': getNodeBackgroundColor(node)}" *matTreeNodeDef="let node" matTreeNodePadding (click)="onNodeClick(node)">
-
-
-            <!-- use a disabled button to provide padding for tree leaf -->
-            <button mat-icon-button disabled></button>
-            <ng-container *ngIf="node.gongNode.IsWithPreceedingIcon">
-                <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{node.gongNode.PreceedingIcon}}
+        <!-- Common node content template -->
+        <ng-template #nodeContent let-node>
+            <!-- Preceding icons -->
+            @if (node.gongNode.IsWithPreceedingIcon) {
+                <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}">
+                    {{node.gongNode.PreceedingIcon}}
                 </mat-icon>
-                &nbsp;&nbsp;
-            </ng-container>
-            <ng-container *ngIf="node.gongNode.PreceedingSVGIcon">
-                <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}" svgIcon="{{node.gongNode.PreceedingSVGIcon.Name}}"></mat-icon>
-                &nbsp;&nbsp;
-            </ng-container>
-            <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" 
-                *ngIf="node.gongNode.HasCheckboxButton" 
-                [disabled]="node.gongNode.IsCheckboxDisabled" 
-                [checked]="node.gongNode.IsChecked" 
-                (change)="toggleNodeCheckbox(node)"
-                (click)="$event.stopPropagation()">
-            </mat-checkbox>
-            <div [id]="'node' + node.gongNode.Name" [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode'>
-                {{node.name}}
-            </div>
-            <mat-form-field *ngIf='node.gongNode.IsInEditMode' mat-form-field class="mat-mdc-form-field">
-                <mat-label>Name</mat-label>
-                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="node.gongNode.Name">
-            </mat-form-field>
-            <button [id]="'button-save-' + node.gongNode.Name" *ngIf='node.gongNode.IsInEditMode' mat-icon-button (click)="update(node)">
-                <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}">save
-                </mat-icon>
-            </button>
-            <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" 
-                *ngIf="node.gongNode.HasSecondCheckboxButton" 
-                [disabled]="node.gongNode.IsSecondCheckboxDisabled" 
-                [checked]="node.gongNode.IsSecondCheckboxChecked" 
-                (change)="toggleNodeSecondCheckbox(node)"
-                (click)="$event.stopPropagation()">
-            </mat-checkbox>
-            @if (!node.gongNode.HasSecondCheckboxButton && node.gongNode.TextAfterSecondCheckbox != "") {
                 &nbsp;&nbsp;
             }
-            <div [id]="'node' + node.gongNode.TextAfterSecondCheckbox" [ngStyle]="getStyle(node)">
-                {{node.gongNode.TextAfterSecondCheckbox}}
-            </div>
-            <ng-container *ngFor="let button of node.gongNode.Buttons">
-                <button [id]="'button-' + button.Name" mat-icon-button (click)="onButtonClick($event, node, button)" class="tight-buttons">
-                    <mat-icon *ngIf="button.SVGIcon == undefined" [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{button.Icon}}
-                    </mat-icon>
-                    <mat-icon *ngIf="button.SVGIcon" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" svgIcon="{{button.SVGIcon.Name}}">
-                    </mat-icon>
+            
+            @if (node.gongNode.PreceedingSVGIcon) {
+                <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}" 
+                         svgIcon="{{node.gongNode.PreceedingSVGIcon.Name}}">
+                </mat-icon>
+                &nbsp;&nbsp;
+            }
+            
+            <!-- Primary checkbox -->
+             <!-- Note that the tooltip stuff is not working as of angular 1.19
+             https://github.com/angular/components/issues/28107 -->
+
+            @if (node.gongNode.HasCheckboxButton) {
+                <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" 
+                             [disabled]="node.gongNode.IsCheckboxDisabled" 
+                             [checked]="node.gongNode.IsChecked" 
+                             (change)="toggleNodeCheckbox(node)"
+                             (click)="$event.stopPropagation()"
+                             
+                             [matTooltip]="node.CheckboxToolTipText"
+                             [matTooltipPosition]="node.CheckboxToolTipPosition"
+                             [matTooltipDisabled]="!node.CheckboxHasToolTip">
+                            <!-- Note that the tooltip stuff is not working as of angular 1.19
+                                https://github.com/angular/components/issues/28107 -->    
+                </mat-checkbox>
+            }
+            
+            <!-- Node name display or edit mode -->
+            @if (!node.gongNode.IsInEditMode) {
+                <div [id]="'node' + node.gongNode.Name" 
+                     [ngStyle]="getStyle(node)">
+                    {{node.name}}
+                </div>
+            } @else {
+                <span class="node-edit-container">
+                    <mat-form-field appearance="outline" class="node-edit-field">
+                        <input name="nodeName" 
+                               [ngModelOptions]="{standalone: true}" 
+                               matInput 
+                               [(ngModel)]="node.gongNode.Name"
+                               #nodeNameInput
+                               (keyup.enter)="update(node)">
+                    </mat-form-field>
+                    <button [id]="'button-save-' + node.gongNode.Name" 
+                            mat-icon-button 
+                            color="primary"
+                            class="node-edit-save-button"
+                            (click)="update(node)"
+                            matTooltip="Save changes">
+                        <mat-icon>save</mat-icon>
+                    </button>
+                </span>
+            }
+            
+            <!-- Secondary checkbox -->
+            @if (node.gongNode.HasSecondCheckboxButton) {
+                <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" 
+                             [disabled]="node.gongNode.IsSecondCheckboxDisabled" 
+                             [checked]="node.gongNode.IsSecondCheckboxChecked" 
+                             (change)="toggleNodeSecondCheckbox(node)"
+                             (click)="$event.stopPropagation()">
+                </mat-checkbox>
+            }
+            
+            <!-- Text after second checkbox -->
+            @if (!node.gongNode.HasSecondCheckboxButton && node.gongNode.TextAfterSecondCheckbox != "") {
+                &nbsp;&nbsp;
+                <div [id]="'node' + node.gongNode.TextAfterSecondCheckbox" 
+                     [ngStyle]="getStyle(node)">
+                    {{node.gongNode.TextAfterSecondCheckbox}}
+                </div>
+            } @else if (node.gongNode.TextAfterSecondCheckbox != "") {
+                <div [id]="'node' + node.gongNode.TextAfterSecondCheckbox" 
+                     [ngStyle]="getStyle(node)">
+                    {{node.gongNode.TextAfterSecondCheckbox}}
+                </div>
+            }
+        </ng-template>
+
+        <!-- Common buttons template -->
+        <ng-template #nodeButtons let-node let-buttonClass="buttonClass">
+            @for (button of node.gongNode.Buttons; track button.Name) {
+                <button [id]="'button-' + button.Name"
+                        mat-icon-button
+                        [class]="buttonClass"
+                        (click)="onButtonClick($event, node, button)"
+            
+                        [matTooltip]="button.ToolTipText"
+                        [matTooltipPosition]="button.ToolTipPosition"
+                        [matTooltipDisabled]="!button.HasToolTip">
+            
+                    @if (!button.SVGIcon) {
+                        <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}">
+                            {{button.Icon}}
+                        </mat-icon>
+                    } @else {
+                        <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}"
+                                  [svgIcon]="button.SVGIcon.Name">
+                        </mat-icon>
+                    }
                 </button>
-            </ng-container>
-        </mat-tree-node>
-        <!-- This is the tree node template for expandable nodes -->
+            }
+        </ng-template>
+        
+        <!-- Tree node template for leaf nodes -->
         <mat-tree-node class="custom-tree-node" 
-            [ngStyle]="{'background-color': getNodeBackgroundColor(node)}" 
-            *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding 
-            (click)="onNodeClick(node)">
-
-            <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name" 
-            (click)="toggleNodeExpansion(node)"
-            (click)="$event.stopPropagation()">
-                <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}" class="mat-icon-rtl-mirror">
-                    {{treeControl.isExpanded(node) ?
-                    'expand_more' : 'chevron_right'}}
+                       [ngStyle]="{'background-color': getNodeBackgroundColor(node)}" 
+                       *matTreeNodeDef="let node" 
+                       matTreeNodePadding 
+                       (click)="onNodeClick(node)">
+            <!-- Padding button for leaf nodes -->
+            <button mat-icon-button disabled></button>
+            
+            <!-- Reuse the common node content -->
+            <ng-container *ngTemplateOutlet="nodeContent; context: {$implicit: node}"></ng-container>
+            
+            <!-- Reuse the common buttons template -->
+            <ng-container *ngTemplateOutlet="nodeButtons; context: {$implicit: node, buttonClass: 'tight-buttons'}"></ng-container>
+        </mat-tree-node>
+        
+        <!-- Tree node template for expandable nodes -->
+        <mat-tree-node class="custom-tree-node" 
+                      [ngStyle]="{'background-color': getNodeBackgroundColor(node)}" 
+                      *matTreeNodeDef="let node; when: hasChild" 
+                      matTreeNodePadding 
+                      (click)="onNodeClick(node)">
+            <!-- Toggle expand/collapse button -->
+            <button mat-icon-button 
+                   matTreeNodeToggle 
+                   [attr.aria-label]="'Toggle ' + node.name" 
+                   (click)="toggleNodeExpansion(node)"
+                   (click)="$event.stopPropagation()">
+                <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}" 
+                         class="mat-icon-rtl-mirror">
+                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
                 </mat-icon>
             </button>
-            <ng-container *ngIf="node.gongNode.PreceedingSVGIcon">
-                <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}" svgIcon="{{node.gongNode.PreceedingSVGIcon.Name}}"></mat-icon>
-                &nbsp;&nbsp;
-            </ng-container>
-            <ng-container *ngIf="node.gongNode.IsWithPreceedingIcon">
-                <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{node.gongNode.PreceedingIcon}}
-                </mat-icon>
-                &nbsp;&nbsp;
-            </ng-container>
-            <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" 
-                *ngIf="node.gongNode.HasCheckboxButton" 
-                [disabled]="node.gongNode.IsCheckboxDisabled" 
-                [checked]="node.gongNode.IsChecked" 
-                (change)="toggleNodeCheckbox(node)"
-                (click)="$event.stopPropagation()">
-            </mat-checkbox>
-            <div [id]="'node' + node.gongNode.Name" [ngStyle]="getStyle(node)" *ngIf='!node.gongNode.IsInEditMode'>
-                {{node.name}}
-            </div>
-            <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" *ngIf="node.gongNode.HasSecondCheckboxButton" [disabled]="node.gongNode.IsSecondCheckboxDisabled" [checked]="node.gongNode.IsSecondCheckboxChecked" (change)="toggleNodeSecondCheckbox(node)">
-            </mat-checkbox>
-            @if (!node.gongNode.HasSecondCheckboxButton && node.gongNode.TextAfterSecondCheckbox != "") {
-                &nbsp;&nbsp;
-            }
-            <div [id]="'node' + node.gongNode.TextAfterSecondCheckbox" [ngStyle]="getStyle(node)">
-                {{node.gongNode.TextAfterSecondCheckbox}}
-            </div>
-            <ng-container *ngFor="let button of node.gongNode.Buttons">
-                <button [id]="'button-' + button.Name" 
-                        mat-icon-button (click)="onButtonClick($event, node, button)">
-                    <mat-icon *ngIf="button.SVGIcon == undefined" [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{button.Icon}}
-                    </mat-icon>
-                    <mat-icon *ngIf="button.SVGIcon" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" svgIcon="{{button.SVGIcon.Name}}">
-                    </mat-icon>
-                </button>
-            </ng-container>
-
+            
+            <!-- Reuse the common node content -->
+            <ng-container *ngTemplateOutlet="nodeContent; context: {$implicit: node}"></ng-container>
+            
+            <!-- Reuse the common buttons template -->
+            <ng-container *ngTemplateOutlet="nodeButtons; context: {$implicit: node, buttonClass: ''}"></ng-container>
         </mat-tree-node>
     </mat-tree>
 </div>
