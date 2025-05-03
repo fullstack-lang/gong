@@ -77,19 +77,19 @@ func FillUpFormFromGongstructName(
 		gongenumshape := new(models.GongEnumShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(gongenumshape, formGroup, probe)
-	case "GongEnumValueEntry":
+	case "GongEnumValueShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
-			Label: prefix + "GongEnumValueEntry Form",
+			Label: prefix + "GongEnumValueShape Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__GongEnumValueEntryFormCallback(
+		formGroup.OnSave = __gong__New__GongEnumValueShapeFormCallback(
 			nil,
 			probe,
 			formGroup,
 		)
-		gongenumvalueentry := new(models.GongEnumValueEntry)
+		gongenumvalueshape := new(models.GongEnumValueShape)
 		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(gongenumvalueentry, formGroup, probe)
+		FillUpForm(gongenumvalueshape, formGroup, probe)
 	case "GongStructShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

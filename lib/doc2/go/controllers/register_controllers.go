@@ -77,12 +77,12 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/gongenumshapes/:id", GetController().UpdateGongEnumShape)
 		v1.DELETE("/v1/gongenumshapes/:id", GetController().DeleteGongEnumShape)
 
-		v1.GET("/v1/gongenumvalueentrys", GetController().GetGongEnumValueEntrys)
-		v1.GET("/v1/gongenumvalueentrys/:id", GetController().GetGongEnumValueEntry)
-		v1.POST("/v1/gongenumvalueentrys", GetController().PostGongEnumValueEntry)
-		v1.PATCH("/v1/gongenumvalueentrys/:id", GetController().UpdateGongEnumValueEntry)
-		v1.PUT("/v1/gongenumvalueentrys/:id", GetController().UpdateGongEnumValueEntry)
-		v1.DELETE("/v1/gongenumvalueentrys/:id", GetController().DeleteGongEnumValueEntry)
+		v1.GET("/v1/gongenumvalueshapes", GetController().GetGongEnumValueShapes)
+		v1.GET("/v1/gongenumvalueshapes/:id", GetController().GetGongEnumValueShape)
+		v1.POST("/v1/gongenumvalueshapes", GetController().PostGongEnumValueShape)
+		v1.PATCH("/v1/gongenumvalueshapes/:id", GetController().UpdateGongEnumValueShape)
+		v1.PUT("/v1/gongenumvalueshapes/:id", GetController().UpdateGongEnumValueShape)
+		v1.DELETE("/v1/gongenumvalueshapes/:id", GetController().DeleteGongEnumValueShape)
 
 		v1.GET("/v1/gongstructshapes", GetController().GetGongStructShapes)
 		v1.GET("/v1/gongstructshapes/:id", GetController().GetGongStructShape)

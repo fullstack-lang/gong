@@ -50,13 +50,13 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *GongEnumValueEntry:
+	case *GongEnumValueShape:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongEnumShape":
 			switch reverseField.Fieldname {
-			case "GongEnumValueEntrys":
-				if _gongenumshape, ok := stage.GongEnumShape_GongEnumValueEntrys_reverseMap[inst]; ok {
+			case "GongEnumValueShapes":
+				if _gongenumshape, ok := stage.GongEnumShape_GongEnumValueShapes_reverseMap[inst]; ok {
 					res = _gongenumshape.Name
 				}
 			}
@@ -159,13 +159,13 @@ func GetReverseFieldOwner[T Gongstruct](
 			}
 		}
 
-	case *GongEnumValueEntry:
+	case *GongEnumValueShape:
 		switch reverseField.GongstructName {
 		// insertion point
 		case "GongEnumShape":
 			switch reverseField.Fieldname {
-			case "GongEnumValueEntrys":
-				res = stage.GongEnumShape_GongEnumValueEntrys_reverseMap[inst]
+			case "GongEnumValueShapes":
+				res = stage.GongEnumShape_GongEnumValueShapes_reverseMap[inst]
 			}
 		}
 

@@ -62,8 +62,8 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "GongEnumShape" {
 		fillUpTable[models.GongEnumShape](nodeImplGongstruct.probe)
 	}
-	if nodeImplGongstruct.gongStruct.GetName() == "GongEnumValueEntry" {
-		fillUpTable[models.GongEnumValueEntry](nodeImplGongstruct.probe)
+	if nodeImplGongstruct.gongStruct.GetName() == "GongEnumValueShape" {
+		fillUpTable[models.GongEnumValueShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongStructShape" {
 		fillUpTable[models.GongStructShape](nodeImplGongstruct.probe)

@@ -497,23 +497,23 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 
 	fillUpTree(gongenumshapeFormCallback.probe)
 }
-func __gong__New__GongEnumValueEntryFormCallback(
-	gongenumvalueentry *models.GongEnumValueEntry,
+func __gong__New__GongEnumValueShapeFormCallback(
+	gongenumvalueshape *models.GongEnumValueShape,
 	probe *Probe,
 	formGroup *table.FormGroup,
-) (gongenumvalueentryFormCallback *GongEnumValueEntryFormCallback) {
-	gongenumvalueentryFormCallback = new(GongEnumValueEntryFormCallback)
-	gongenumvalueentryFormCallback.probe = probe
-	gongenumvalueentryFormCallback.gongenumvalueentry = gongenumvalueentry
-	gongenumvalueentryFormCallback.formGroup = formGroup
+) (gongenumvalueshapeFormCallback *GongEnumValueShapeFormCallback) {
+	gongenumvalueshapeFormCallback = new(GongEnumValueShapeFormCallback)
+	gongenumvalueshapeFormCallback.probe = probe
+	gongenumvalueshapeFormCallback.gongenumvalueshape = gongenumvalueshape
+	gongenumvalueshapeFormCallback.formGroup = formGroup
 
-	gongenumvalueentryFormCallback.CreationMode = (gongenumvalueentry == nil)
+	gongenumvalueshapeFormCallback.CreationMode = (gongenumvalueshape == nil)
 
 	return
 }
 
-type GongEnumValueEntryFormCallback struct {
-	gongenumvalueentry *models.GongEnumValueEntry
+type GongEnumValueShapeFormCallback struct {
+	gongenumvalueshape *models.GongEnumValueShape
 
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
@@ -523,37 +523,37 @@ type GongEnumValueEntryFormCallback struct {
 	formGroup *table.FormGroup
 }
 
-func (gongenumvalueentryFormCallback *GongEnumValueEntryFormCallback) OnSave() {
+func (gongenumvalueshapeFormCallback *GongEnumValueShapeFormCallback) OnSave() {
 
-	log.Println("GongEnumValueEntryFormCallback, OnSave")
+	log.Println("GongEnumValueShapeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	gongenumvalueentryFormCallback.probe.formStage.Checkout()
+	gongenumvalueshapeFormCallback.probe.formStage.Checkout()
 
-	if gongenumvalueentryFormCallback.gongenumvalueentry == nil {
-		gongenumvalueentryFormCallback.gongenumvalueentry = new(models.GongEnumValueEntry).Stage(gongenumvalueentryFormCallback.probe.stageOfInterest)
+	if gongenumvalueshapeFormCallback.gongenumvalueshape == nil {
+		gongenumvalueshapeFormCallback.gongenumvalueshape = new(models.GongEnumValueShape).Stage(gongenumvalueshapeFormCallback.probe.stageOfInterest)
 	}
-	gongenumvalueentry_ := gongenumvalueentryFormCallback.gongenumvalueentry
-	_ = gongenumvalueentry_
+	gongenumvalueshape_ := gongenumvalueshapeFormCallback.gongenumvalueshape
+	_ = gongenumvalueshape_
 
-	for _, formDiv := range gongenumvalueentryFormCallback.formGroup.FormDivs {
+	for _, formDiv := range gongenumvalueshapeFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(gongenumvalueentry_.Name), formDiv)
+			FormDivBasicFieldToField(&(gongenumvalueshape_.Name), formDiv)
 		case "Identifier":
-			FormDivBasicFieldToField(&(gongenumvalueentry_.Identifier), formDiv)
-		case "GongEnumShape:GongEnumValueEntrys":
+			FormDivBasicFieldToField(&(gongenumvalueshape_.Identifier), formDiv)
+		case "GongEnumShape:GongEnumValueShapes":
 			// we need to retrieve the field owner before the change
 			var pastGongEnumShapeOwner *models.GongEnumShape
 			var rf models.ReverseField
 			_ = rf
 			rf.GongstructName = "GongEnumShape"
-			rf.Fieldname = "GongEnumValueEntrys"
+			rf.Fieldname = "GongEnumValueShapes"
 			reverseFieldOwner := models.GetReverseFieldOwner(
-				gongenumvalueentryFormCallback.probe.stageOfInterest,
-				gongenumvalueentry_,
+				gongenumvalueshapeFormCallback.probe.stageOfInterest,
+				gongenumvalueshape_,
 				&rf)
 
 			if reverseFieldOwner != nil {
@@ -561,26 +561,26 @@ func (gongenumvalueentryFormCallback *GongEnumValueEntryFormCallback) OnSave() {
 			}
 			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
 				if pastGongEnumShapeOwner != nil {
-					idx := slices.Index(pastGongEnumShapeOwner.GongEnumValueEntrys, gongenumvalueentry_)
-					pastGongEnumShapeOwner.GongEnumValueEntrys = slices.Delete(pastGongEnumShapeOwner.GongEnumValueEntrys, idx, idx+1)
+					idx := slices.Index(pastGongEnumShapeOwner.GongEnumValueShapes, gongenumvalueshape_)
+					pastGongEnumShapeOwner.GongEnumValueShapes = slices.Delete(pastGongEnumShapeOwner.GongEnumValueShapes, idx, idx+1)
 				}
 			} else {
 				// we need to retrieve the field owner after the change
 				// parse all astrcut and get the one with the name in the
 				// div
-				for _gongenumshape := range *models.GetGongstructInstancesSet[models.GongEnumShape](gongenumvalueentryFormCallback.probe.stageOfInterest) {
+				for _gongenumshape := range *models.GetGongstructInstancesSet[models.GongEnumShape](gongenumvalueshapeFormCallback.probe.stageOfInterest) {
 
 					// the match is base on the name
 					if _gongenumshape.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
 						newGongEnumShapeOwner := _gongenumshape // we have a match
 						if pastGongEnumShapeOwner != nil {
 							if newGongEnumShapeOwner != pastGongEnumShapeOwner {
-								idx := slices.Index(pastGongEnumShapeOwner.GongEnumValueEntrys, gongenumvalueentry_)
-								pastGongEnumShapeOwner.GongEnumValueEntrys = slices.Delete(pastGongEnumShapeOwner.GongEnumValueEntrys, idx, idx+1)
-								newGongEnumShapeOwner.GongEnumValueEntrys = append(newGongEnumShapeOwner.GongEnumValueEntrys, gongenumvalueentry_)
+								idx := slices.Index(pastGongEnumShapeOwner.GongEnumValueShapes, gongenumvalueshape_)
+								pastGongEnumShapeOwner.GongEnumValueShapes = slices.Delete(pastGongEnumShapeOwner.GongEnumValueShapes, idx, idx+1)
+								newGongEnumShapeOwner.GongEnumValueShapes = append(newGongEnumShapeOwner.GongEnumValueShapes, gongenumvalueshape_)
 							}
 						} else {
-							newGongEnumShapeOwner.GongEnumValueEntrys = append(newGongEnumShapeOwner.GongEnumValueEntrys, gongenumvalueentry_)
+							newGongEnumShapeOwner.GongEnumValueShapes = append(newGongEnumShapeOwner.GongEnumValueShapes, gongenumvalueshape_)
 						}
 					}
 				}
@@ -589,33 +589,33 @@ func (gongenumvalueentryFormCallback *GongEnumValueEntryFormCallback) OnSave() {
 	}
 
 	// manage the suppress operation
-	if gongenumvalueentryFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		gongenumvalueentry_.Unstage(gongenumvalueentryFormCallback.probe.stageOfInterest)
+	if gongenumvalueshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		gongenumvalueshape_.Unstage(gongenumvalueshapeFormCallback.probe.stageOfInterest)
 	}
 
-	gongenumvalueentryFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.GongEnumValueEntry](
-		gongenumvalueentryFormCallback.probe,
+	gongenumvalueshapeFormCallback.probe.stageOfInterest.Commit()
+	fillUpTable[models.GongEnumValueShape](
+		gongenumvalueshapeFormCallback.probe,
 	)
-	gongenumvalueentryFormCallback.probe.tableStage.Commit()
+	gongenumvalueshapeFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
-	if gongenumvalueentryFormCallback.CreationMode || gongenumvalueentryFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		gongenumvalueentryFormCallback.probe.formStage.Reset()
+	if gongenumvalueshapeFormCallback.CreationMode || gongenumvalueshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		gongenumvalueshapeFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: FormName,
-		}).Stage(gongenumvalueentryFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__GongEnumValueEntryFormCallback(
+		}).Stage(gongenumvalueshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__GongEnumValueShapeFormCallback(
 			nil,
-			gongenumvalueentryFormCallback.probe,
+			gongenumvalueshapeFormCallback.probe,
 			newFormGroup,
 		)
-		gongenumvalueentry := new(models.GongEnumValueEntry)
-		FillUpForm(gongenumvalueentry, newFormGroup, gongenumvalueentryFormCallback.probe)
-		gongenumvalueentryFormCallback.probe.formStage.Commit()
+		gongenumvalueshape := new(models.GongEnumValueShape)
+		FillUpForm(gongenumvalueshape, newFormGroup, gongenumvalueshapeFormCallback.probe)
+		gongenumvalueshapeFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(gongenumvalueentryFormCallback.probe)
+	fillUpTree(gongenumvalueshapeFormCallback.probe)
 }
 func __gong__New__GongStructShapeFormCallback(
 	gongstructshape *models.GongStructShape,

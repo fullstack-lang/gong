@@ -318,7 +318,7 @@ var __gong__map_AttributeShape = make(map[string]*AttributeShape)
 var __gong__map_Classdiagram = make(map[string]*Classdiagram)
 var __gong__map_DiagramPackage = make(map[string]*DiagramPackage)
 var __gong__map_GongEnumShape = make(map[string]*GongEnumShape)
-var __gong__map_GongEnumValueEntry = make(map[string]*GongEnumValueEntry)
+var __gong__map_GongEnumValueShape = make(map[string]*GongEnumValueShape)
 var __gong__map_GongStructShape = make(map[string]*GongStructShape)
 var __gong__map_LinkShape = make(map[string]*LinkShape)
 var __gong__map_NoteShape = make(map[string]*NoteShape)
@@ -519,12 +519,12 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										instanceGongEnumShape.Stage(stage)
 										instance = any(instanceGongEnumShape)
 										__gong__map_GongEnumShape[identifier] = instanceGongEnumShape
-									case "GongEnumValueEntry":
-										instanceGongEnumValueEntry := new(GongEnumValueEntry)
-										instanceGongEnumValueEntry.Name = instanceName
-										instanceGongEnumValueEntry.Stage(stage)
-										instance = any(instanceGongEnumValueEntry)
-										__gong__map_GongEnumValueEntry[identifier] = instanceGongEnumValueEntry
+									case "GongEnumValueShape":
+										instanceGongEnumValueShape := new(GongEnumValueShape)
+										instanceGongEnumValueShape.Name = instanceName
+										instanceGongEnumValueShape.Stage(stage)
+										instance = any(instanceGongEnumValueShape)
+										__gong__map_GongEnumValueShape[identifier] = instanceGongEnumValueShape
 									case "GongStructShape":
 										instanceGongStructShape := new(GongStructShape)
 										instanceGongStructShape.Name = instanceName
@@ -601,7 +601,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							switch fieldName {
 							// insertion point for date assign code
 							}
-						case "GongEnumValueEntry":
+						case "GongEnumValueShape":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -685,14 +685,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "GongEnumShape":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "GongEnumValueEntrys":
+						case "GongEnumValueShapes":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_GongEnumValueEntry[targetIdentifier]
-							__gong__map_GongEnumShape[identifier].GongEnumValueEntrys =
-								append(__gong__map_GongEnumShape[identifier].GongEnumValueEntrys, target)
+							target := __gong__map_GongEnumValueShape[targetIdentifier]
+							__gong__map_GongEnumShape[identifier].GongEnumValueShapes =
+								append(__gong__map_GongEnumShape[identifier].GongEnumValueShapes, target)
 						}
-					case "GongEnumValueEntry":
+					case "GongEnumValueShape":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						}
@@ -892,17 +892,17 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					}
 					__gong__map_GongEnumShape[identifier].Height = exprSign * fielValue
 				}
-			case "GongEnumValueEntry":
+			case "GongEnumValueShape":
 				switch fieldName {
 				// insertion point for field dependant code
 				case "Name":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_GongEnumValueEntry[identifier].Name = fielValue
+					__gong__map_GongEnumValueShape[identifier].Name = fielValue
 				case "Identifier":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_GongEnumValueEntry[identifier].Identifier = fielValue
+					__gong__map_GongEnumValueShape[identifier].Identifier = fielValue
 				}
 			case "GongStructShape":
 				switch fieldName {
@@ -1200,7 +1200,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					}
 					__gong__map_GongEnumShape[identifier].IsExpanded = fielValue
 				}
-			case "GongEnumValueEntry":
+			case "GongEnumValueShape":
 				switch fieldName {
 				// insertion point for field dependant code
 				}
@@ -1292,7 +1292,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					switch fieldName {
 					// insertion point for enum assign code
 					}
-				case "GongEnumValueEntry":
+				case "GongEnumValueShape":
 					switch fieldName {
 					// insertion point for enum assign code
 					}

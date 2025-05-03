@@ -238,20 +238,27 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 				node:          node,
 				stager:        stager,
 				classDiagram:  classDiagram,
-				gongenum:      gongEnum,
+				gongEnum:      gongEnum,
 				gongEnumShape: gongEnumShape,
 				rank:          idx,
 			}
 			nodeGongEnums.Children = append(nodeGongEnums.Children, node)
 
-			for _, enumValue := range gongEnum.GongEnumValues {
+			for _, gongEnumValue := range gongEnum.GongEnumValues {
 
-				_, isEnumValueInDiagram := map_modelElement_shape[enumValue]
+				_, isEnumValueInDiagram := map_modelElement_shape[gongEnumValue]
 				nodeEnumValue := &tree.Node{
-					Name:               enumValue.Name,
+					Name:               gongEnumValue.Name,
 					HasCheckboxButton:  true,
 					IsChecked:          isEnumValueInDiagram,
 					IsCheckboxDisabled: !isEnumInDiagram,
+				}
+				nodeEnumValue.Impl = &GongEnumNodeValueProxy{
+					stager:        stager,
+					classDiagram:  classDiagram,
+					gongEnumShape: gongEnumShape,
+					gongEnum:      gongEnum,
+					gongEnumValue: gongEnumValue,
 				}
 				node.Children = append(node.Children, nodeEnumValue)
 			}
