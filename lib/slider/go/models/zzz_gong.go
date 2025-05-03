@@ -322,10 +322,10 @@ func NewStage(name string) (stage *Stage) {
 		// end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			&NamedStruct{name: "Checkbox"},
-			&NamedStruct{name: "Group"},
-			&NamedStruct{name: "Layout"},
-			&NamedStruct{name: "Slider"},
+			{name: "Checkbox"},
+			{name: "Group"},
+			{name: "Layout"},
+			{name: "Slider"},
 		}, // end of insertion point
 	}
 

@@ -85,7 +85,7 @@ func (controller *Controller) Get{{Structname}}s(c *gin.Context) {
 		message := "GET Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
@@ -155,7 +155,7 @@ func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 		message := "Post Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
@@ -232,7 +232,7 @@ func (controller *Controller) Get{{Structname}}(c *gin.Context) {
 		message := "Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
@@ -288,7 +288,7 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 		message := "PATCH Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
@@ -385,7 +385,7 @@ func (controller *Controller) Delete{{Structname}}(c *gin.Context) {
 		message := "DELETE Stack {{PkgPathRoot}}, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
