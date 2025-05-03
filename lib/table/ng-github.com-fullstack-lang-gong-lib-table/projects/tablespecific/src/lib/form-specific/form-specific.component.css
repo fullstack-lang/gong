@@ -48,3 +48,31 @@
     /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
     /* Optional: Adds a subtle shadow for a raised effect */
 }
+
+/* Additional styles for textarea */
+textarea.mat-input-element {
+    resize: vertical;
+    min-height: 100px;
+    overflow-y: auto !important;
+    /* This helps ensure the scrollbar appears correctly */
+    padding-right: 10px;
+  }
+  
+  /* Force scrollbar to appear at all times for better UX */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
