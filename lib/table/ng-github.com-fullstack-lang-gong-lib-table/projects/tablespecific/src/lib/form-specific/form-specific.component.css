@@ -1,78 +1,78 @@
 .custom-form-field {
-    margin-bottom: 16px;
-    /* Adjust this value to get the desired spacing */
+  margin-bottom: 16px;
+  /* Adjust this value to get the desired spacing */
 }
 
 .custom-checkbox {
-    margin-top: 16px;
-    margin-bottom: 16px;
-    /* Adjust this value to get the desired spacing */
+  margin-top: 16px;
+  margin-bottom: 16px;
+  /* Adjust this value to get the desired spacing */
 }
 
 .custom-button {
-    /* margin-top: 16px; */
-    margin-bottom: 32px;
-    /* Adjust this value to get the desired spacing */
+  /* margin-top: 16px; */
+  margin-bottom: 32px;
+  /* Adjust this value to get the desired spacing */
 }
 
 .flex-align-items-center {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    /* This is to provide a little spacing between the elements. Adjust as needed */
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  /* This is to provide a little spacing between the elements. Adjust as needed */
 }
 
 .custom-text {
-    font-size: 14px;
-    /* this is an approximation */
-    font-weight: 400;
-    /* regular weight */
-    color: rgba(0, 0, 0, 0.87);
-    /* default text color from Angular Material */
-    margin-bottom: 50px;
-    margin-left: 16px;
-    gap: 20px;
-    line-height: 1.5;
-    /* making the line height similar to material */
+  font-size: 14px;
+  /* this is an approximation */
+  font-weight: 400;
+  /* regular weight */
+  color: rgba(0, 0, 0, 0.87);
+  /* default text color from Angular Material */
+  margin-bottom: 50px;
+  margin-left: 16px;
+  gap: 20px;
+  line-height: 1.5;
+  /* making the line height similar to material */
 }
 
 .sticky-container {
-    position: sticky;
+  position: sticky;
 
-    top: 0;
-    z-index: 100;
-    background-color: white;
-    /* Sets the background color to white */
-    padding: 2px;
-    /* Adds some space inside the container */
-    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
-    /* Optional: Adds a subtle shadow for a raised effect */
+  top: 0;
+  z-index: 100;
+  background-color: white;
+  /* Sets the background color to white */
+  padding: 2px;
+  /* Adds some space inside the container */
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+  /* Optional: Adds a subtle shadow for a raised effect */
 }
 
 /* Additional styles for textarea */
 textarea.mat-input-element {
-    resize: vertical;
-    min-height: 100px;
-    overflow-y: auto !important;
-    /* This helps ensure the scrollbar appears correctly */
-    padding-right: 10px;
-  }
-  
-  /* Force scrollbar to appear at all times for better UX */
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-  
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
+  resize: vertical;
+  min-height: 100px;
+  overflow-y: auto !important;
+  /* This helps ensure the scrollbar appears correctly */
+  padding-right: 10px;
+}
+
+/* Force scrollbar to appear at all times for better UX */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

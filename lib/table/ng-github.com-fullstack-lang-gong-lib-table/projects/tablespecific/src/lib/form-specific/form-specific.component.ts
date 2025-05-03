@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Inject, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { Subscription, forkJoin } from 'rxjs';
 
 import * as table from '../../../../table/src/public-api'
@@ -43,26 +43,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   templateUrl: './form-specific.component.html',
   styleUrl: './form-specific.component.css'
 })
-export class FormSpecificComponent implements OnInit, AfterViewInit  {
+export class FormSpecificComponent {
   @Input() Name: string = ""
 
-  @ViewChildren('textArea') textAreas!: QueryList<ElementRef>;
-
-  ngAfterViewInit() {
-    // Initialize all textareas to scroll to bottom
-    setTimeout(() => {
-      this.textAreas.forEach(textArea => {
-        this.scrollToBottom(textArea.nativeElement);
-      });
-    });
-  }
-
-  scrollToBottom(textArea: HTMLTextAreaElement) {
-    setTimeout(() => {
-      textArea.scrollTop = textArea.scrollHeight;
-    });
-  }
-  
   // within the same stack, there can be multiple form. This one is the form to display
   @Input() FormName: string = ""
 
