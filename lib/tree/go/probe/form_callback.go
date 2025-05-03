@@ -65,6 +65,12 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(button_.Icon), formDiv)
 		case "SVGIcon":
 			FormDivSelectFieldToField(&(button_.SVGIcon), buttonFormCallback.probe.stageOfInterest, formDiv)
+		case "HasToolTip":
+			FormDivBasicFieldToField(&(button_.HasToolTip), formDiv)
+		case "ToolTipText":
+			FormDivBasicFieldToField(&(button_.ToolTipText), formDiv)
+		case "ToolTipPosition":
+			FormDivEnumStringFieldToField(&(button_.ToolTipPosition), formDiv)
 		case "Node:Buttons":
 			// we need to retrieve the field owner before the change
 			var pastNodeOwner *models.Node
@@ -195,6 +201,12 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(node_.IsChecked), formDiv)
 		case "IsCheckboxDisabled":
 			FormDivBasicFieldToField(&(node_.IsCheckboxDisabled), formDiv)
+		case "CheckboxHasToolTip":
+			FormDivBasicFieldToField(&(node_.CheckboxHasToolTip), formDiv)
+		case "CheckboxToolTipText":
+			FormDivBasicFieldToField(&(node_.CheckboxToolTipText), formDiv)
+		case "CheckboxToolTipPosition":
+			FormDivEnumStringFieldToField(&(node_.CheckboxToolTipPosition), formDiv)
 		case "HasSecondCheckboxButton":
 			FormDivBasicFieldToField(&(node_.HasSecondCheckboxButton), formDiv)
 		case "IsSecondCheckboxChecked":

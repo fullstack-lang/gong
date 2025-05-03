@@ -253,7 +253,7 @@ func NewStage(name string) (stage *Stage) {
 		// end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			&NamedStruct{name: "Probe2"},
+			{name: "Probe2"},
 		}, // end of insertion point
 	}
 
