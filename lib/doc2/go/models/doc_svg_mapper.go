@@ -29,6 +29,7 @@ const ClassBoxStrokeWidth = 3
 
 func (docSVGMapper *DocSVGMapper) GenerateSvg(
 	gongdocStage *Stage,
+	embeddedDiagram bool,
 ) {
 
 	// log.Println("DocSVGMapper.GenerateSvg")
@@ -60,7 +61,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 
 	svg := new(svg_models.SVG).Stage(docSVGMapper.svgStage)
 	svg.Name = selectedDiagram.Name
-	svg.IsEditable = selectedDiagram.IsInDrawMode
+	svg.IsEditable = !embeddedDiagram
 
 	for _, gongstructShape := range selectedDiagram.GongStructShapes {
 

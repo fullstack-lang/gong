@@ -1082,7 +1082,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case Button:
-		res = []string{"Name", "Icon", "SVGIcon", "HasToolTip", "ToolTipText", "ToolTipPosition"}
+		res = []string{"Name", "Icon", "SVGIcon", "IsDisabled", "HasToolTip", "ToolTipText", "ToolTipPosition"}
 	case Node:
 		res = []string{"Name", "FontStyle", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "CheckboxHasToolTip", "CheckboxToolTipText", "CheckboxToolTipPosition", "HasSecondCheckboxButton", "IsSecondCheckboxChecked", "IsSecondCheckboxDisabled", "TextAfterSecondCheckbox", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "PreceedingSVGIcon", "Children", "Buttons"}
 	case SVGIcon:
@@ -1140,7 +1140,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *Button:
-		res = []string{"Name", "Icon", "SVGIcon", "HasToolTip", "ToolTipText", "ToolTipPosition"}
+		res = []string{"Name", "Icon", "SVGIcon", "IsDisabled", "HasToolTip", "ToolTipText", "ToolTipPosition"}
 	case *Node:
 		res = []string{"Name", "FontStyle", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "CheckboxHasToolTip", "CheckboxToolTipText", "CheckboxToolTipPosition", "HasSecondCheckboxButton", "IsSecondCheckboxChecked", "IsSecondCheckboxDisabled", "TextAfterSecondCheckbox", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "PreceedingSVGIcon", "Children", "Buttons"}
 	case *SVGIcon:
@@ -1199,6 +1199,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			if inferedInstance.SVGIcon != nil {
 				res.valueString = inferedInstance.SVGIcon.Name
 			}
+		case "IsDisabled":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsDisabled)
+			res.valueBool = inferedInstance.IsDisabled
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "HasToolTip":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasToolTip)
 			res.valueBool = inferedInstance.HasToolTip
@@ -1333,6 +1337,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			if inferedInstance.SVGIcon != nil {
 				res.valueString = inferedInstance.SVGIcon.Name
 			}
+		case "IsDisabled":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsDisabled)
+			res.valueBool = inferedInstance.IsDisabled
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "HasToolTip":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasToolTip)
 			res.valueBool = inferedInstance.HasToolTip

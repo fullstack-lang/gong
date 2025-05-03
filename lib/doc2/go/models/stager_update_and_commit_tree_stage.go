@@ -20,21 +20,22 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 	}
 
 	// put a "class diagram button at the root"
+	addDiagramButton := &tree.Button{
+		Name: "Class Diagramm Add Button",
+		Icon: string(buttons.BUTTON_add),
+		Impl: &ButtonNewClassdiagramProxy{
+			stager: stager,
+		},
+		HasToolTip:      true,
+		ToolTipText:     "Create a new diagram",
+		ToolTipPosition: tree.Above,
+	}
 	root := &tree.Node{
 		Name:       "Class Diagrams",
 		IsExpanded: true,
-		Buttons: []*tree.Button{
-			{
-				Name: "Class Diagramm Add Button",
-				Icon: string(buttons.BUTTON_add),
-				Impl: &ButtonNewClassdiagramProxy{
-					stager: stager,
-				},
-				HasToolTip:      true,
-				ToolTipText:     "Create a new diagram",
-				ToolTipPosition: tree.Above,
-			},
-		},
+	}
+	if !stager.embeddedDiagrams {
+		root.Buttons = append(root.Buttons, addDiagramButton)
 	}
 	classdiagramsTree.RootNodes = append(classdiagramsTree.RootNodes, root)
 
@@ -58,7 +59,9 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			classDiagram: classDiagram,
 		}
 
-		stager.addButtonsToClassdiagramNode(nodeClassdiagram, classDiagram)
+		if !stager.embeddedDiagrams {
+			stager.addButtonsToClassdiagramNode(nodeClassdiagram, classDiagram)
+		}
 
 		// if the classdiagram appear as sub node of the classdiagram node
 		// uses the following line instead
@@ -136,10 +139,11 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			isExpanded := IsNodeExpanded(classDiagram.NodeGongStructNodeExpansionBinaryEncoding, idx)
 
 			nodeNamedStruct := &tree.Node{
-				Name:              gongStruct.Name,
-				HasCheckboxButton: true,
-				IsChecked:         isGongStructShapeInDiagram,
-				IsExpanded:        isExpanded,
+				Name:               gongStruct.Name,
+				HasCheckboxButton:  true,
+				IsCheckboxDisabled: stager.embeddedDiagrams,
+				IsChecked:          isGongStructShapeInDiagram,
+				IsExpanded:         isExpanded,
 			}
 			nodeNamedStruct.Impl = &GongstructNodeProxy{
 				node:            nodeNamedStruct,
@@ -166,7 +170,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 						Name:               field.GetName(),
 						HasCheckboxButton:  true,
 						IsChecked:          isInDiagram,
-						IsCheckboxDisabled: !isGongStructShapeInDiagram,
+						IsCheckboxDisabled: !isGongStructShapeInDiagram || stager.embeddedDiagrams,
 					}
 
 					nodeField.Impl = &AttributeFieldNodeProxy{
@@ -206,7 +210,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 						Name:               field.GetName(),
 						HasCheckboxButton:  true,
 						IsChecked:          isInDiagram,
-						IsCheckboxDisabled: !isGongStructShapeInDiagram || isTargetGongstructAbsent,
+						IsCheckboxDisabled: !isGongStructShapeInDiagram || isTargetGongstructAbsent || stager.embeddedDiagrams,
 					}
 
 					nodeField.Impl = &LinkFieldNodeProxy{
@@ -237,10 +241,11 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			isExpanded := IsNodeExpanded(classDiagram.NodeGongEnumNodeExpansionBinaryEncoding, idx)
 
 			node := &tree.Node{
-				Name:              gongEnum.Name,
-				HasCheckboxButton: true,
-				IsChecked:         isEnumInDiagram,
-				IsExpanded:        isExpanded,
+				Name:               gongEnum.Name,
+				HasCheckboxButton:  true,
+				IsChecked:          isEnumInDiagram,
+				IsExpanded:         isExpanded,
+				IsCheckboxDisabled: stager.embeddedDiagrams,
 			}
 			node.Impl = &GongEnumNodeProxy{
 				node:          node,
@@ -259,7 +264,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 					Name:               gongEnumValue.Name,
 					HasCheckboxButton:  true,
 					IsChecked:          isEnumValueInDiagram,
-					IsCheckboxDisabled: !isEnumInDiagram,
+					IsCheckboxDisabled: !isEnumInDiagram || stager.embeddedDiagrams,
 				}
 				nodeEnumValue.Impl = &GongEnumNodeValueProxy{
 					stager:        stager,
@@ -286,10 +291,11 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 				isExpanded = gongNoteShape.IsExpanded
 			}
 			gongNoteNode := &tree.Node{
-				Name:              gongNote.Name,
-				HasCheckboxButton: true,
-				IsChecked:         isInDiagram,
-				IsExpanded:        isExpanded,
+				Name:               gongNote.Name,
+				HasCheckboxButton:  true,
+				IsChecked:          isInDiagram,
+				IsExpanded:         isExpanded,
+				IsCheckboxDisabled: stager.embeddedDiagrams,
 			}
 			nodeGongNotes.Children = append(nodeGongNotes.Children, gongNoteNode)
 
