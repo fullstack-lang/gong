@@ -20,7 +20,7 @@ func (proxy *ButtonNewClassdiagramProxy) ButtonUpdated(
 
 	diagramPackages := *GetGongstructInstancesSet[DiagramPackage](stage)
 	var diagramPackage *DiagramPackage
-	for k, _ := range diagramPackages {
+	for k := range diagramPackages {
 		diagramPackage = k
 	}
 	if diagramPackage == nil {

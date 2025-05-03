@@ -33,7 +33,4 @@ type GongStructShape struct {
 	// this is always false in the backend, but it can be set to true by the front end
 	// this means it is selected by the user
 	IsSelected bool
-
-	// IsExpanded is true if the corresponding node is expanded
-	IsExpanded bool
 }
