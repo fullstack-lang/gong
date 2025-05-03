@@ -67,12 +67,12 @@ func (controller *Controller) GetClassdiagrams(c *gin.Context) {
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "GET Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoClassdiagram.GetDB()
@@ -137,12 +137,12 @@ func (controller *Controller) PostClassdiagram(c *gin.Context) {
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "Post Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoClassdiagram.GetDB()
@@ -214,12 +214,12 @@ func (controller *Controller) GetClassdiagram(c *gin.Context) {
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoClassdiagram.GetDB()
@@ -270,12 +270,12 @@ func (controller *Controller) UpdateClassdiagram(c *gin.Context) {
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "PATCH Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoClassdiagram.GetDB()
@@ -367,12 +367,12 @@ func (controller *Controller) DeleteClassdiagram(c *gin.Context) {
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "DELETE Stack github.com/fullstack-lang/gong/lib/doc2/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoClassdiagram.GetDB()
