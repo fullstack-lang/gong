@@ -23,13 +23,13 @@ import (
 )
 
 type Probe struct {
-	r                  *gin.Engine
-	stageOfInterest    *models.Stage
-	gongStage          *gong_models.Stage
-	treeStage          *tree.Stage
-	formStage          *form.Stage
-	tableStage         *form.Stage
-	splitStage         *split.Stage
+	r               *gin.Engine
+	stageOfInterest *models.Stage
+	gongStage       *gong_models.Stage
+	treeStage       *tree.Stage
+	formStage       *form.Stage
+	tableStage      *form.Stage
+	splitStage      *split.Stage
 }
 
 func NewProbe(
@@ -93,7 +93,7 @@ func updateSplitStage(probe *Probe) {
 
 	probe.splitStage.Reset()
 
-	(&split.View{
+	split.StageBranch(probe.splitStage, &split.View{
 		Name: "Main view",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
@@ -110,8 +110,8 @@ func updateSplitStage(probe *Probe) {
 								Name:      "Sidebar",
 								StackName: probe.treeStage.GetName(),
 								TreeName:  SideBarTreeName,
-							}).Stage(probe.splitStage),
-						}).Stage(probe.splitStage),
+							}),
+						}),
 						(&split.AsSplitArea{
 							Name: "table",
 							Size: 50,
@@ -119,8 +119,8 @@ func updateSplitStage(probe *Probe) {
 								Name:      "Table",
 								StackName: probe.tableStage.GetName(),
 								TableName: TableName,
-							}).Stage(probe.splitStage),
-						}).Stage(probe.splitStage),
+							}),
+						}),
 						(&split.AsSplitArea{
 							Name: "form",
 							Size: 30,
@@ -128,21 +128,21 @@ func updateSplitStage(probe *Probe) {
 								Name:      "Form",
 								StackName: probe.formStage.GetName(),
 								FormName:  FormName,
-							}).Stage(probe.splitStage),
-						}).Stage(probe.splitStage),
+							}),
+						}),
 					},
-				}).Stage(probe.splitStage),
-			}).Stage(probe.splitStage),
+				}),
+			}),
 			(&split.AsSplitArea{
 				Name: "Bottom",
-				Size: 50,
+				Size: 25,
 				Doc: (&split.Doc{
 					Name:      "Doc",
 					StackName: probe.splitStage.GetName(),
-				}).Stage(probe.splitStage),
-			}).Stage(probe.splitStage),
+				}),
+			}),
 		},
-	}).Stage(probe.splitStage)
+	})
 
 	probe.splitStage.Commit()
 }
