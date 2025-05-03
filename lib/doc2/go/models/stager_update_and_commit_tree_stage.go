@@ -286,7 +286,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 					IsChecked:         isInDiagram,
 					IsExpanded:        isExpanded,
 				}
-				nodeGongNotes.Children = append(nodeGongNotes.Children, docLinkNode)
+				gongNoteNode.Children = append(gongNoteNode.Children, docLinkNode)
 			}
 		}
 	}
