@@ -36,9 +36,9 @@ type DBLite struct {
 
 	nextIDGongEnumShapeDB uint
 
-	gongenumvalueentryDBs map[uint]*GongEnumValueEntryDB
+	gongenumvalueshapeDBs map[uint]*GongEnumValueShapeDB
 
-	nextIDGongEnumValueEntryDB uint
+	nextIDGongEnumValueShapeDB uint
 
 	gongstructshapeDBs map[uint]*GongStructShapeDB
 
@@ -70,7 +70,7 @@ func NewDBLite() *DBLite {
 
 		gongenumshapeDBs: make(map[uint]*GongEnumShapeDB),
 
-		gongenumvalueentryDBs: make(map[uint]*GongEnumValueEntryDB),
+		gongenumvalueshapeDBs: make(map[uint]*GongEnumValueShapeDB),
 
 		gongstructshapeDBs: make(map[uint]*GongStructShapeDB),
 
@@ -109,10 +109,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDGongEnumShapeDB++
 		v.ID = db.nextIDGongEnumShapeDB
 		db.gongenumshapeDBs[v.ID] = v
-	case *GongEnumValueEntryDB:
-		db.nextIDGongEnumValueEntryDB++
-		v.ID = db.nextIDGongEnumValueEntryDB
-		db.gongenumvalueentryDBs[v.ID] = v
+	case *GongEnumValueShapeDB:
+		db.nextIDGongEnumValueShapeDB++
+		v.ID = db.nextIDGongEnumValueShapeDB
+		db.gongenumvalueshapeDBs[v.ID] = v
 	case *GongStructShapeDB:
 		db.nextIDGongStructShapeDB++
 		v.ID = db.nextIDGongStructShapeDB
@@ -165,8 +165,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.diagrampackageDBs, v.ID)
 	case *GongEnumShapeDB:
 		delete(db.gongenumshapeDBs, v.ID)
-	case *GongEnumValueEntryDB:
-		delete(db.gongenumvalueentryDBs, v.ID)
+	case *GongEnumValueShapeDB:
+		delete(db.gongenumvalueshapeDBs, v.ID)
 	case *GongStructShapeDB:
 		delete(db.gongstructshapeDBs, v.ID)
 	case *LinkShapeDB:
@@ -205,8 +205,8 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 	case *GongEnumShapeDB:
 		db.gongenumshapeDBs[v.ID] = v
 		return db, nil
-	case *GongEnumValueEntryDB:
-		db.gongenumvalueentryDBs[v.ID] = v
+	case *GongEnumValueShapeDB:
+		db.gongenumvalueshapeDBs[v.ID] = v
 		return db, nil
 	case *GongStructShapeDB:
 		db.gongstructshapeDBs[v.ID] = v
@@ -260,11 +260,11 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db GongEnumShape github.com/fullstack-lang/gong/lib/doc2/go, record not found")
 		}
-	case *GongEnumValueEntryDB:
-		if existing, ok := db.gongenumvalueentryDBs[v.ID]; ok {
+	case *GongEnumValueShapeDB:
+		if existing, ok := db.gongenumvalueshapeDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("db GongEnumValueEntry github.com/fullstack-lang/gong/lib/doc2/go, record not found")
+			return nil, errors.New("db GongEnumValueShape github.com/fullstack-lang/gong/lib/doc2/go, record not found")
 		}
 	case *GongStructShapeDB:
 		if existing, ok := db.gongstructshapeDBs[v.ID]; ok {
@@ -328,9 +328,9 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
-	case *[]GongEnumValueEntryDB:
-		*ptr = make([]GongEnumValueEntryDB, 0, len(db.gongenumvalueentryDBs))
-		for _, v := range db.gongenumvalueentryDBs {
+	case *[]GongEnumValueShapeDB:
+		*ptr = make([]GongEnumValueShapeDB, 0, len(db.gongenumvalueshapeDBs))
+		for _, v := range db.gongenumvalueshapeDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -431,15 +431,15 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		gongenumshapeDB, _ := instanceDB.(*GongEnumShapeDB)
 		*gongenumshapeDB = *tmp
 		
-	case *GongEnumValueEntryDB:
-		tmp, ok := db.gongenumvalueentryDBs[uint(i)]
+	case *GongEnumValueShapeDB:
+		tmp, ok := db.gongenumvalueshapeDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db.First GongEnumValueEntry Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First GongEnumValueShape Unkown entry %d", i))
 		}
 
-		gongenumvalueentryDB, _ := instanceDB.(*GongEnumValueEntryDB)
-		*gongenumvalueentryDB = *tmp
+		gongenumvalueshapeDB, _ := instanceDB.(*GongEnumValueShapeDB)
+		*gongenumvalueshapeDB = *tmp
 		
 	case *GongStructShapeDB:
 		tmp, ok := db.gongstructshapeDBs[uint(i)]

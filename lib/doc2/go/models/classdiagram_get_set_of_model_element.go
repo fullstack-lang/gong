@@ -75,7 +75,7 @@ func (stager *Stager) compute_map_modelElement_shape(
 
 		map_ModelElement_Shape[gongEnum] = gongEnumShape
 
-		for _, valueShape := range gongEnumShape.GongEnumValueEntrys {
+		for _, valueShape := range gongEnumShape.GongEnumValueShapes {
 			valueShapeName := IdentifierToFieldName(valueShape.Identifier)
 
 			for _, value := range gongEnum.GongEnumValues {

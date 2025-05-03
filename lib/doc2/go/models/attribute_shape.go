@@ -28,7 +28,7 @@ func (classdiagram *Classdiagram) RemoveAttributeFieldShape(
 
 	idx := slices.Index(gongStructShape.AttributeShapes, attributeShape)
 	gongStructShape.AttributeShapes = slices.Delete(gongStructShape.AttributeShapes, idx, idx+1)
-	gongStructShape.Height = gongStructShape.Height - 15
+	gongStructShape.Height = gongStructShape.Height - HeightBetween2AttributeShapes
 	attributeShape.Unstage(stage)
 
 }
@@ -41,7 +41,7 @@ func (classdiagram *Classdiagram) RemoveLinkFieldShape(
 
 	idx := slices.Index(gongStructShape.LinkShapes, linkShape)
 	gongStructShape.LinkShapes = slices.Delete(gongStructShape.LinkShapes, idx, idx+1)
-	gongStructShape.Height = gongStructShape.Height - 15
+	gongStructShape.Height = gongStructShape.Height - HeightBetween2AttributeShapes
 	linkShape.Unstage(stage)
 
 }
@@ -80,7 +80,7 @@ func (classdiagram *Classdiagram) AddAttributeFieldShape(
 		concreteField.Structname = IdentifierToGongObjectName(gongStructShape.Identifier)
 		concreteField.Stage(stage)
 
-		gongStructShape.Height = gongStructShape.Height + 15
+		gongStructShape.Height = gongStructShape.Height + HeightBetween2AttributeShapes
 
 		// construct ordered slice of fields
 		map_Field_Rank := make(map[gong.FieldInterface]int, 0)

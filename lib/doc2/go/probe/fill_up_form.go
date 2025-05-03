@@ -127,7 +127,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Identifier", instanceWithInferedType.Identifier, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationSliceToForm("GongEnumValueEntrys", instanceWithInferedType, &instanceWithInferedType.GongEnumValueEntrys, formGroup, probe)
+		AssociationSliceToForm("GongEnumValueShapes", instanceWithInferedType, &instanceWithInferedType.GongEnumValueShapes, formGroup, probe)
 		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Height", instanceWithInferedType.Height, instanceWithInferedType, probe.formStage, formGroup,
@@ -157,7 +157,7 @@ func FillUpForm(
 			}
 		}
 
-	case *models.GongEnumValueEntry:
+	case *models.GongEnumValueShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -167,19 +167,19 @@ func FillUpForm(
 			var rf models.ReverseField
 			_ = rf
 			rf.GongstructName = "GongEnumShape"
-			rf.Fieldname = "GongEnumValueEntrys"
+			rf.Fieldname = "GongEnumValueShapes"
 			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.GongEnumShape),
-					"GongEnumValueEntrys",
+					"GongEnumValueShapes",
 					instanceWithInferedType,
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.GongEnumShape, *models.GongEnumValueEntry](
+				AssociationReverseFieldToForm[*models.GongEnumShape, *models.GongEnumValueShape](
 					nil,
-					"GongEnumValueEntrys",
+					"GongEnumValueShapes",
 					instanceWithInferedType,
 					formGroup,
 					probe)

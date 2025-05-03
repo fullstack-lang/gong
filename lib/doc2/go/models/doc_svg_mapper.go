@@ -151,7 +151,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 
 			// field position
 			fieldText.X_Offset = 10
-			fieldText.Y_Offset = 20 + 30 + float64(idx)*15
+			fieldText.Y_Offset = 20 + 30 + float64(idx)*HeightBetween2AttributeShapes
 			fieldText.RectAnchorType = svg_models.RECT_TOP_LEFT
 			fieldText.TextAnchorType = svg_models.TEXT_ANCHOR_START
 
@@ -373,14 +373,14 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		//
 		// fields
 		//
-		for idx, field := range gongenumShape.GongEnumValueEntrys {
+		for idx, field := range gongenumShape.GongEnumValueShapes {
 			fieldText := new(svg_models.RectAnchoredText).Stage(docSVGMapper.svgStage)
 			fieldText.Name = field.Name
 			fieldText.Content = field.Name
 
 			// field position
 			fieldText.X_Offset = 10
-			fieldText.Y_Offset = 20 + 30 + float64(idx)*15
+			fieldText.Y_Offset = 20 + 30 + float64(idx)*HeightBetween2AttributeShapes
 			fieldText.RectAnchorType = svg_models.RECT_TOP_LEFT
 			fieldText.TextAnchorType = svg_models.TEXT_ANCHOR_START
 
