@@ -65,7 +65,9 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("NodeNamedStructsIsExpanded", instanceWithInferedType.NodeNamedStructsIsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("NodeGongStructsIsExpanded", instanceWithInferedType.NodeGongStructsIsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("NodeGongStructsBinaryEncoding", instanceWithInferedType.NodeGongStructsBinaryEncoding, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("NodeGongEnumsIsExpanded", instanceWithInferedType.NodeGongEnumsIsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -201,8 +203,6 @@ func FillUpForm(
 		BasicFieldtoForm("Height", instanceWithInferedType.Height, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsSelected", instanceWithInferedType.IsSelected, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		{
 			var rf models.ReverseField

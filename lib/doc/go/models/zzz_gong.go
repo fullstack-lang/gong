@@ -525,19 +525,19 @@ func NewStage(name string) (stage *Stage) {
 		// end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			&NamedStruct{name: "Classdiagram"},
-			&NamedStruct{name: "DiagramPackage"},
-			&NamedStruct{name: "Field"},
-			&NamedStruct{name: "GongEnumShape"},
-			&NamedStruct{name: "GongEnumValueEntry"},
-			&NamedStruct{name: "GongStructShape"},
-			&NamedStruct{name: "Link"},
-			&NamedStruct{name: "NoteShape"},
-			&NamedStruct{name: "NoteShapeLink"},
-			&NamedStruct{name: "Position"},
-			&NamedStruct{name: "UmlState"},
-			&NamedStruct{name: "Umlsc"},
-			&NamedStruct{name: "Vertice"},
+			{name: "Classdiagram"},
+			{name: "DiagramPackage"},
+			{name: "Field"},
+			{name: "GongEnumShape"},
+			{name: "GongEnumValueEntry"},
+			{name: "GongStructShape"},
+			{name: "Link"},
+			{name: "NoteShape"},
+			{name: "NoteShapeLink"},
+			{name: "Position"},
+			{name: "UmlState"},
+			{name: "Umlsc"},
+			{name: "Vertice"},
 		}, // end of insertion point
 	}
 

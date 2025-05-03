@@ -69,7 +69,7 @@ func (controller *Controller) GetXLRows(c *gin.Context) {
 		message := "GET Stack github.com/fullstack-lang/gong/lib/xlsx/go, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
@@ -139,7 +139,7 @@ func (controller *Controller) PostXLRow(c *gin.Context) {
 		message := "Post Stack github.com/fullstack-lang/gong/lib/xlsx/go, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
@@ -216,7 +216,7 @@ func (controller *Controller) GetXLRow(c *gin.Context) {
 		message := "Stack github.com/fullstack-lang/gong/lib/xlsx/go, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
@@ -272,7 +272,7 @@ func (controller *Controller) UpdateXLRow(c *gin.Context) {
 		message := "PATCH Stack github.com/fullstack-lang/gong/lib/xlsx/go, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
@@ -369,7 +369,7 @@ func (controller *Controller) DeleteXLRow(c *gin.Context) {
 		message := "DELETE Stack github.com/fullstack-lang/gong/lib/xlsx/go, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			

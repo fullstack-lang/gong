@@ -144,7 +144,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 		message := "WebSocket Connect, Stack github.com/fullstack-lang/gong/lib/button/go, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 
@@ -238,7 +238,7 @@ func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
 		message := "Stack github.com/fullstack-lang/gong/lib/button/go, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
@@ -265,7 +265,7 @@ func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
 		message := "GET Stack github.com/fullstack-lang/gong/lib/button/go, Unkown stack: \"" + stackPath + "\"\n"
 		
 		message += "Availabe stack names are:\n"
-		for k, _ := range controller.Map_BackRepos {
+		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
 			
