@@ -11,6 +11,7 @@ type GongstructNodeProxy struct {
 	classDiagram    *Classdiagram
 	gongstruct      *gong.GongStruct
 	gongStructShape *GongStructShape
+	rank            int
 }
 
 func (proxy *GongstructNodeProxy) OnAfterUpdate(
@@ -40,15 +41,17 @@ func (proxy *GongstructNodeProxy) OnAfterUpdate(
 	}
 
 	if front.IsExpanded && !staged.IsExpanded {
-		proxy.gongStructShape.IsExpanded = true
+		ToggleNodeExpanded(&proxy.classDiagram.NodeGongStructsBinaryEncoding, proxy.rank)
 		front.IsExpanded = false
 
+		proxy.stager.UpdateAndCommitTreeStage()
 		proxy.stager.stage.Commit()
 	}
 	if !front.IsExpanded && staged.IsExpanded {
-		proxy.gongStructShape.IsExpanded = false
+		ToggleNodeExpanded(&proxy.classDiagram.NodeGongStructsBinaryEncoding, proxy.rank)
 		front.IsExpanded = true
 
+		proxy.stager.UpdateAndCommitTreeStage()
 		proxy.stager.stage.Commit()
 	}
 }

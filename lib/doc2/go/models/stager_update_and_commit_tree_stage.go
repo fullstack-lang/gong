@@ -73,7 +73,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 		}
 		nodeNamedStructs := &tree.Node{
 			Name:       fmt.Sprintf("Gongstructs (%d/%d)", nbGongstructsInDiagram, len(gongstructs)),
-			IsExpanded: classDiagram.NodeNamedStructsIsExpanded,
+			IsExpanded: classDiagram.NodeGongStructsIsExpanded,
 			Impl: &ClassDiagramGongstructsNodeProxy{
 				stager:       stager,
 				classDiagram: classDiagram,
@@ -117,23 +117,20 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 		}
 		nodeClassdiagram.Children = append(nodeClassdiagram.Children, nodeGongNotes)
 
-		for _, gongStruct := range gongstructs {
+		for idx, gongStruct := range gongstructs {
 
-			shape, isInDiagram := map_modelElement_shape[gongStruct]
+			shape, isGongStructShapeInDiagram := map_modelElement_shape[gongStruct]
 
 			gongStructShape, ok := shape.(*GongStructShape)
-			if isInDiagram && !ok {
+			if isGongStructShapeInDiagram && !ok {
 				log.Fatalln("A gongstruct shape should be mapped to a gongstruct")
 			}
-			var isExpanded bool
-			if isInDiagram {
-				isExpanded = gongStructShape.IsExpanded
-			}
+			isExpanded := IsNodeExpanded(classDiagram.NodeGongStructsBinaryEncoding, idx)
 
 			nodeNamedStruct := &tree.Node{
 				Name:              gongStruct.Name,
 				HasCheckboxButton: true,
-				IsChecked:         isInDiagram,
+				IsChecked:         isGongStructShapeInDiagram,
 				IsExpanded:        isExpanded,
 			}
 			nodeNamedStruct.Impl = &GongstructNodeProxy{
@@ -142,6 +139,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 				classDiagram:    classDiagram,
 				gongstruct:      gongStruct,
 				gongStructShape: gongStructShape,
+				rank:            idx,
 			}
 			nodeNamedStructs.Children = append(nodeNamedStructs.Children, nodeNamedStruct)
 
@@ -157,9 +155,10 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 					}
 
 					nodeField := &tree.Node{
-						Name:              field.GetName(),
-						HasCheckboxButton: true,
-						IsChecked:         isInDiagram,
+						Name:               field.GetName(),
+						HasCheckboxButton:  true,
+						IsChecked:          isInDiagram,
+						IsCheckboxDisabled: !isGongStructShapeInDiagram,
 					}
 
 					nodeField.Impl = &AttributeFieldNodeProxy{
@@ -183,15 +182,15 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 
 					// if field is a link to another, disable the checkbox
 					// if the target gong struct shape is not in the diagram
-					isCheckboxDisabled := false
+					isTargetGongstructAbsent := false
 					if link, ok := field.(*gong.PointerToGongStructField); ok {
 						if _, ok = map_modelElement_shape[link.GongStruct]; !ok {
-							isCheckboxDisabled = true
+							isTargetGongstructAbsent = true
 						}
 					}
 					if link, ok := field.(*gong.SliceOfPointerToGongStructField); ok {
 						if _, ok = map_modelElement_shape[link.GongStruct]; !ok {
-							isCheckboxDisabled = true
+							isTargetGongstructAbsent = true
 						}
 					}
 
@@ -199,7 +198,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 						Name:               field.GetName(),
 						HasCheckboxButton:  true,
 						IsChecked:          isInDiagram,
-						IsCheckboxDisabled: isCheckboxDisabled,
+						IsCheckboxDisabled: !isGongStructShapeInDiagram || isTargetGongstructAbsent,
 					}
 
 					nodeField.Impl = &LinkFieldNodeProxy{

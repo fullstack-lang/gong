@@ -810,6 +810,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Classdiagram[identifier].Name = fielValue
+				case "NodeGongStructsBinaryEncoding":
+					// convert string to int
+					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Classdiagram[identifier].NodeGongStructsBinaryEncoding = int(exprSign) * int(fielValue)
 				}
 			case "DiagramPackage":
 				switch fieldName {
@@ -1125,13 +1132,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Classdiagram[identifier].IsExpanded = fielValue
-				case "NodeNamedStructsIsExpanded":
+				case "NodeGongStructsIsExpanded":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Classdiagram[identifier].NodeNamedStructsIsExpanded = fielValue
+					__gong__map_Classdiagram[identifier].NodeGongStructsIsExpanded = fielValue
 				case "NodeGongEnumsIsExpanded":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
@@ -1200,13 +1207,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_GongStructShape[identifier].IsSelected = fielValue
-				case "IsExpanded":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_GongStructShape[identifier].IsExpanded = fielValue
 				}
 			case "LinkShape":
 				switch fieldName {
