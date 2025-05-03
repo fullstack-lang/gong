@@ -15,6 +15,10 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 
 	stager.treeStage.Reset()
 
+	classdiagramsTree := &tree.Tree{
+		Name: stager.stage.GetProbeTreeSidebarStageName(),
+	}
+
 	// put a "class diagram button at the root"
 	root := &tree.Node{
 		Name:       "Class Diagrams",
@@ -32,6 +36,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			},
 		},
 	}
+	classdiagramsTree.RootNodes = append(classdiagramsTree.RootNodes, root)
 
 	// append a node below for each diagram
 	diagramPackage := getTheDiagramPackage(stager.stage)
@@ -55,7 +60,10 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 
 		stager.addButtonsToClassdiagramNode(nodeClassdiagram, classDiagram)
 
-		root.Children = append(root.Children, nodeClassdiagram)
+		// if the classdiagram appear as sub node of the classdiagram node
+		// uses the following line instead
+		// 	root.Children = append(root.Children, nodeClassdiagram)
+		classdiagramsTree.RootNodes = append(classdiagramsTree.RootNodes, nodeClassdiagram)
 
 		// if diagramPackage.SelectedClassdiagram != classDiagram {
 		// 	continue
@@ -298,10 +306,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 		}
 	}
 	tree.StageBranch(stager.treeStage,
-		&tree.Tree{
-			Name:      stager.stage.GetProbeTreeSidebarStageName(),
-			RootNodes: []*tree.Node{root},
-		},
+		classdiagramsTree,
 	)
 
 	stager.treeStage.Commit()
