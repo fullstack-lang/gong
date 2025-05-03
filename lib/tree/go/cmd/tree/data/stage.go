@@ -124,6 +124,7 @@ func _(stage *models.Stage) {
 	__Button__000010_test.ToolTipText = ``
 
 	__Node__000000_Test_1_2_without_checkbox.Name = `Test 1.2 without checkbox`
+	__Node__000000_Test_1_2_without_checkbox.FontStyle = models.NORMAL
 	__Node__000000_Test_1_2_without_checkbox.BackgroundColor = ``
 	__Node__000000_Test_1_2_without_checkbox.IsExpanded = false
 	__Node__000000_Test_1_2_without_checkbox.HasCheckboxButton = false
