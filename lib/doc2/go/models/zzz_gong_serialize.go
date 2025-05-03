@@ -20,7 +20,7 @@ func SerializeStage(stage *Stage, filename string) {
 		SerializeExcelizePointerToGongstruct[*Classdiagram](stage, f)
 		SerializeExcelizePointerToGongstruct[*DiagramPackage](stage, f)
 		SerializeExcelizePointerToGongstruct[*GongEnumShape](stage, f)
-		SerializeExcelizePointerToGongstruct[*GongEnumValueEntry](stage, f)
+		SerializeExcelizePointerToGongstruct[*GongEnumValueShape](stage, f)
 		SerializeExcelizePointerToGongstruct[*GongStructShape](stage, f)
 		SerializeExcelizePointerToGongstruct[*LinkShape](stage, f)
 		SerializeExcelizePointerToGongstruct[*NoteShape](stage, f)

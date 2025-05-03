@@ -17,8 +17,8 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *GongEnumShape:
 		ok = stage.IsStagedGongEnumShape(target)
 
-	case *GongEnumValueEntry:
-		ok = stage.IsStagedGongEnumValueEntry(target)
+	case *GongEnumValueShape:
+		ok = stage.IsStagedGongEnumValueShape(target)
 
 	case *GongStructShape:
 		ok = stage.IsStagedGongStructShape(target)
@@ -67,9 +67,9 @@ func (stage *Stage) IsStagedGongEnumShape(gongenumshape *GongEnumShape) (ok bool
 	return
 }
 
-func (stage *Stage) IsStagedGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry) (ok bool) {
+func (stage *Stage) IsStagedGongEnumValueShape(gongenumvalueshape *GongEnumValueShape) (ok bool) {
 
-	_, ok = stage.GongEnumValueEntrys[gongenumvalueentry]
+	_, ok = stage.GongEnumValueShapes[gongenumvalueshape]
 
 	return
 }
@@ -122,8 +122,8 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *GongEnumShape:
 		stage.StageBranchGongEnumShape(target)
 
-	case *GongEnumValueEntry:
-		stage.StageBranchGongEnumValueEntry(target)
+	case *GongEnumValueShape:
+		stage.StageBranchGongEnumValueShape(target)
 
 	case *GongStructShape:
 		stage.StageBranchGongStructShape(target)
@@ -215,20 +215,20 @@ func (stage *Stage) StageBranchGongEnumShape(gongenumshape *GongEnumShape) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _gongenumvalueentry := range gongenumshape.GongEnumValueEntrys {
-		StageBranch(stage, _gongenumvalueentry)
+	for _, _gongenumvalueshape := range gongenumshape.GongEnumValueShapes {
+		StageBranch(stage, _gongenumvalueshape)
 	}
 
 }
 
-func (stage *Stage) StageBranchGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry) {
+func (stage *Stage) StageBranchGongEnumValueShape(gongenumvalueshape *GongEnumValueShape) {
 
 	// check if instance is already staged
-	if IsStaged(stage, gongenumvalueentry) {
+	if IsStaged(stage, gongenumvalueshape) {
 		return
 	}
 
-	gongenumvalueentry.Stage(stage)
+	gongenumvalueshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -332,8 +332,8 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchGongEnumShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *GongEnumValueEntry:
-		toT := CopyBranchGongEnumValueEntry(mapOrigCopy, fromT)
+	case *GongEnumValueShape:
+		toT := CopyBranchGongEnumValueShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *GongStructShape:
@@ -446,24 +446,24 @@ func CopyBranchGongEnumShape(mapOrigCopy map[any]any, gongenumshapeFrom *GongEnu
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _gongenumvalueentry := range gongenumshapeFrom.GongEnumValueEntrys {
-		gongenumshapeTo.GongEnumValueEntrys = append(gongenumshapeTo.GongEnumValueEntrys, CopyBranchGongEnumValueEntry(mapOrigCopy, _gongenumvalueentry))
+	for _, _gongenumvalueshape := range gongenumshapeFrom.GongEnumValueShapes {
+		gongenumshapeTo.GongEnumValueShapes = append(gongenumshapeTo.GongEnumValueShapes, CopyBranchGongEnumValueShape(mapOrigCopy, _gongenumvalueshape))
 	}
 
 	return
 }
 
-func CopyBranchGongEnumValueEntry(mapOrigCopy map[any]any, gongenumvalueentryFrom *GongEnumValueEntry) (gongenumvalueentryTo *GongEnumValueEntry) {
+func CopyBranchGongEnumValueShape(mapOrigCopy map[any]any, gongenumvalueshapeFrom *GongEnumValueShape) (gongenumvalueshapeTo *GongEnumValueShape) {
 
-	// gongenumvalueentryFrom has already been copied
-	if _gongenumvalueentryTo, ok := mapOrigCopy[gongenumvalueentryFrom]; ok {
-		gongenumvalueentryTo = _gongenumvalueentryTo.(*GongEnumValueEntry)
+	// gongenumvalueshapeFrom has already been copied
+	if _gongenumvalueshapeTo, ok := mapOrigCopy[gongenumvalueshapeFrom]; ok {
+		gongenumvalueshapeTo = _gongenumvalueshapeTo.(*GongEnumValueShape)
 		return
 	}
 
-	gongenumvalueentryTo = new(GongEnumValueEntry)
-	mapOrigCopy[gongenumvalueentryFrom] = gongenumvalueentryTo
-	gongenumvalueentryFrom.CopyBasicFields(gongenumvalueentryTo)
+	gongenumvalueshapeTo = new(GongEnumValueShape)
+	mapOrigCopy[gongenumvalueshapeFrom] = gongenumvalueshapeTo
+	gongenumvalueshapeFrom.CopyBasicFields(gongenumvalueshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -577,8 +577,8 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *GongEnumShape:
 		stage.UnstageBranchGongEnumShape(target)
 
-	case *GongEnumValueEntry:
-		stage.UnstageBranchGongEnumValueEntry(target)
+	case *GongEnumValueShape:
+		stage.UnstageBranchGongEnumValueShape(target)
 
 	case *GongStructShape:
 		stage.UnstageBranchGongStructShape(target)
@@ -670,20 +670,20 @@ func (stage *Stage) UnstageBranchGongEnumShape(gongenumshape *GongEnumShape) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _gongenumvalueentry := range gongenumshape.GongEnumValueEntrys {
-		UnstageBranch(stage, _gongenumvalueentry)
+	for _, _gongenumvalueshape := range gongenumshape.GongEnumValueShapes {
+		UnstageBranch(stage, _gongenumvalueshape)
 	}
 
 }
 
-func (stage *Stage) UnstageBranchGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry) {
+func (stage *Stage) UnstageBranchGongEnumValueShape(gongenumvalueshape *GongEnumValueShape) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, gongenumvalueentry) {
+	if !IsStaged(stage, gongenumvalueshape) {
 		return
 	}
 
-	gongenumvalueentry.Unstage(stage)
+	gongenumvalueshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 

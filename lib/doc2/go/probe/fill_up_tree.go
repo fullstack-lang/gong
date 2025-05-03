@@ -104,13 +104,13 @@ func fillUpTree(
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-		case "GongEnumValueEntry":
+		case "GongEnumValueShape":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.GongEnumValueEntry](probe.stageOfInterest)
-			for _gongenumvalueentry := range set {
-				nodeInstance := (&tree.Node{Name: _gongenumvalueentry.GetName()}).Stage(probe.treeStage)
+			set := *models.GetGongstructInstancesSet[models.GongEnumValueShape](probe.stageOfInterest)
+			for _gongenumvalueshape := range set {
+				nodeInstance := (&tree.Node{Name: _gongenumvalueshape.GetName()}).Stage(probe.treeStage)
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_gongenumvalueentry, "GongEnumValueEntry", probe)
+				nodeInstance.Impl = NewInstanceNodeCallback(_gongenumvalueshape, "GongEnumValueShape", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}

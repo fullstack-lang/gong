@@ -112,21 +112,21 @@ type Stage struct {
 	GongEnumShapes_mapString map[string]*GongEnumShape
 
 	// insertion point for slice of pointers maps
-	GongEnumShape_GongEnumValueEntrys_reverseMap map[*GongEnumValueEntry]*GongEnumShape
+	GongEnumShape_GongEnumValueShapes_reverseMap map[*GongEnumValueShape]*GongEnumShape
 
 	OnAfterGongEnumShapeCreateCallback OnAfterCreateInterface[GongEnumShape]
 	OnAfterGongEnumShapeUpdateCallback OnAfterUpdateInterface[GongEnumShape]
 	OnAfterGongEnumShapeDeleteCallback OnAfterDeleteInterface[GongEnumShape]
 	OnAfterGongEnumShapeReadCallback   OnAfterReadInterface[GongEnumShape]
 
-	GongEnumValueEntrys           map[*GongEnumValueEntry]any
-	GongEnumValueEntrys_mapString map[string]*GongEnumValueEntry
+	GongEnumValueShapes           map[*GongEnumValueShape]any
+	GongEnumValueShapes_mapString map[string]*GongEnumValueShape
 
 	// insertion point for slice of pointers maps
-	OnAfterGongEnumValueEntryCreateCallback OnAfterCreateInterface[GongEnumValueEntry]
-	OnAfterGongEnumValueEntryUpdateCallback OnAfterUpdateInterface[GongEnumValueEntry]
-	OnAfterGongEnumValueEntryDeleteCallback OnAfterDeleteInterface[GongEnumValueEntry]
-	OnAfterGongEnumValueEntryReadCallback   OnAfterReadInterface[GongEnumValueEntry]
+	OnAfterGongEnumValueShapeCreateCallback OnAfterCreateInterface[GongEnumValueShape]
+	OnAfterGongEnumValueShapeUpdateCallback OnAfterUpdateInterface[GongEnumValueShape]
+	OnAfterGongEnumValueShapeDeleteCallback OnAfterDeleteInterface[GongEnumValueShape]
+	OnAfterGongEnumValueShapeReadCallback   OnAfterReadInterface[GongEnumValueShape]
 
 	GongStructShapes           map[*GongStructShape]any
 	GongStructShapes_mapString map[string]*GongStructShape
@@ -208,8 +208,8 @@ type Stage struct {
 	GongEnumShapeOrder            uint
 	GongEnumShapeMap_Staged_Order map[*GongEnumShape]uint
 
-	GongEnumValueEntryOrder            uint
-	GongEnumValueEntryMap_Staged_Order map[*GongEnumValueEntry]uint
+	GongEnumValueShapeOrder            uint
+	GongEnumValueShapeMap_Staged_Order map[*GongEnumValueShape]uint
 
 	GongStructShapeOrder            uint
 	GongStructShapeMap_Staged_Order map[*GongStructShape]uint
@@ -274,8 +274,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 			res = GetNamedStructInstances(stage.DiagramPackages, stage.DiagramPackageMap_Staged_Order)
 		case "GongEnumShape":
 			res = GetNamedStructInstances(stage.GongEnumShapes, stage.GongEnumShapeMap_Staged_Order)
-		case "GongEnumValueEntry":
-			res = GetNamedStructInstances(stage.GongEnumValueEntrys, stage.GongEnumValueEntryMap_Staged_Order)
+		case "GongEnumValueShape":
+			res = GetNamedStructInstances(stage.GongEnumValueShapes, stage.GongEnumValueShapeMap_Staged_Order)
 		case "GongStructShape":
 			res = GetNamedStructInstances(stage.GongStructShapes, stage.GongStructShapeMap_Staged_Order)
 		case "LinkShape":
@@ -362,8 +362,8 @@ type BackRepoInterface interface {
 	CheckoutDiagramPackage(diagrampackage *DiagramPackage)
 	CommitGongEnumShape(gongenumshape *GongEnumShape)
 	CheckoutGongEnumShape(gongenumshape *GongEnumShape)
-	CommitGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry)
-	CheckoutGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry)
+	CommitGongEnumValueShape(gongenumvalueshape *GongEnumValueShape)
+	CheckoutGongEnumValueShape(gongenumvalueshape *GongEnumValueShape)
 	CommitGongStructShape(gongstructshape *GongStructShape)
 	CheckoutGongStructShape(gongstructshape *GongStructShape)
 	CommitLinkShape(linkshape *LinkShape)
@@ -391,8 +391,8 @@ func NewStage(name string) (stage *Stage) {
 		GongEnumShapes:           make(map[*GongEnumShape]any),
 		GongEnumShapes_mapString: make(map[string]*GongEnumShape),
 
-		GongEnumValueEntrys:           make(map[*GongEnumValueEntry]any),
-		GongEnumValueEntrys_mapString: make(map[string]*GongEnumValueEntry),
+		GongEnumValueShapes:           make(map[*GongEnumValueShape]any),
+		GongEnumValueShapes_mapString: make(map[string]*GongEnumValueShape),
 
 		GongStructShapes:           make(map[*GongStructShape]any),
 		GongStructShapes_mapString: make(map[string]*GongStructShape),
@@ -424,7 +424,7 @@ func NewStage(name string) (stage *Stage) {
 
 		GongEnumShapeMap_Staged_Order: make(map[*GongEnumShape]uint),
 
-		GongEnumValueEntryMap_Staged_Order: make(map[*GongEnumValueEntry]uint),
+		GongEnumValueShapeMap_Staged_Order: make(map[*GongEnumValueShape]uint),
 
 		GongStructShapeMap_Staged_Order: make(map[*GongStructShape]uint),
 
@@ -441,7 +441,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Classdiagram"},
 			{name: "DiagramPackage"},
 			{name: "GongEnumShape"},
-			{name: "GongEnumValueEntry"},
+			{name: "GongEnumValueShape"},
 			{name: "GongStructShape"},
 			{name: "LinkShape"},
 			{name: "NoteShape"},
@@ -464,8 +464,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.DiagramPackageMap_Staged_Order[instance]
 	case *GongEnumShape:
 		return stage.GongEnumShapeMap_Staged_Order[instance]
-	case *GongEnumValueEntry:
-		return stage.GongEnumValueEntryMap_Staged_Order[instance]
+	case *GongEnumValueShape:
+		return stage.GongEnumValueShapeMap_Staged_Order[instance]
 	case *GongStructShape:
 		return stage.GongStructShapeMap_Staged_Order[instance]
 	case *LinkShape:
@@ -503,7 +503,7 @@ func (stage *Stage) Commit() {
 	stage.Map_GongStructName_InstancesNb["Classdiagram"] = len(stage.Classdiagrams)
 	stage.Map_GongStructName_InstancesNb["DiagramPackage"] = len(stage.DiagramPackages)
 	stage.Map_GongStructName_InstancesNb["GongEnumShape"] = len(stage.GongEnumShapes)
-	stage.Map_GongStructName_InstancesNb["GongEnumValueEntry"] = len(stage.GongEnumValueEntrys)
+	stage.Map_GongStructName_InstancesNb["GongEnumValueShape"] = len(stage.GongEnumValueShapes)
 	stage.Map_GongStructName_InstancesNb["GongStructShape"] = len(stage.GongStructShapes)
 	stage.Map_GongStructName_InstancesNb["LinkShape"] = len(stage.LinkShapes)
 	stage.Map_GongStructName_InstancesNb["NoteShape"] = len(stage.NoteShapes)
@@ -522,7 +522,7 @@ func (stage *Stage) Checkout() {
 	stage.Map_GongStructName_InstancesNb["Classdiagram"] = len(stage.Classdiagrams)
 	stage.Map_GongStructName_InstancesNb["DiagramPackage"] = len(stage.DiagramPackages)
 	stage.Map_GongStructName_InstancesNb["GongEnumShape"] = len(stage.GongEnumShapes)
-	stage.Map_GongStructName_InstancesNb["GongEnumValueEntry"] = len(stage.GongEnumValueEntrys)
+	stage.Map_GongStructName_InstancesNb["GongEnumValueShape"] = len(stage.GongEnumValueShapes)
 	stage.Map_GongStructName_InstancesNb["GongStructShape"] = len(stage.GongStructShapes)
 	stage.Map_GongStructName_InstancesNb["LinkShape"] = len(stage.LinkShapes)
 	stage.Map_GongStructName_InstancesNb["NoteShape"] = len(stage.NoteShapes)
@@ -779,59 +779,59 @@ func (gongenumshape *GongEnumShape) GetName() (res string) {
 	return gongenumshape.Name
 }
 
-// Stage puts gongenumvalueentry to the model stage
-func (gongenumvalueentry *GongEnumValueEntry) Stage(stage *Stage) *GongEnumValueEntry {
+// Stage puts gongenumvalueshape to the model stage
+func (gongenumvalueshape *GongEnumValueShape) Stage(stage *Stage) *GongEnumValueShape {
 
-	if _, ok := stage.GongEnumValueEntrys[gongenumvalueentry]; !ok {
-		stage.GongEnumValueEntrys[gongenumvalueentry] = __member
-		stage.GongEnumValueEntryMap_Staged_Order[gongenumvalueentry] = stage.GongEnumValueEntryOrder
-		stage.GongEnumValueEntryOrder++
+	if _, ok := stage.GongEnumValueShapes[gongenumvalueshape]; !ok {
+		stage.GongEnumValueShapes[gongenumvalueshape] = __member
+		stage.GongEnumValueShapeMap_Staged_Order[gongenumvalueshape] = stage.GongEnumValueShapeOrder
+		stage.GongEnumValueShapeOrder++
 	}
-	stage.GongEnumValueEntrys_mapString[gongenumvalueentry.Name] = gongenumvalueentry
+	stage.GongEnumValueShapes_mapString[gongenumvalueshape.Name] = gongenumvalueshape
 
-	return gongenumvalueentry
+	return gongenumvalueshape
 }
 
-// Unstage removes gongenumvalueentry off the model stage
-func (gongenumvalueentry *GongEnumValueEntry) Unstage(stage *Stage) *GongEnumValueEntry {
-	delete(stage.GongEnumValueEntrys, gongenumvalueentry)
-	delete(stage.GongEnumValueEntrys_mapString, gongenumvalueentry.Name)
-	return gongenumvalueentry
+// Unstage removes gongenumvalueshape off the model stage
+func (gongenumvalueshape *GongEnumValueShape) Unstage(stage *Stage) *GongEnumValueShape {
+	delete(stage.GongEnumValueShapes, gongenumvalueshape)
+	delete(stage.GongEnumValueShapes_mapString, gongenumvalueshape.Name)
+	return gongenumvalueshape
 }
 
-// UnstageVoid removes gongenumvalueentry off the model stage
-func (gongenumvalueentry *GongEnumValueEntry) UnstageVoid(stage *Stage) {
-	delete(stage.GongEnumValueEntrys, gongenumvalueentry)
-	delete(stage.GongEnumValueEntrys_mapString, gongenumvalueentry.Name)
+// UnstageVoid removes gongenumvalueshape off the model stage
+func (gongenumvalueshape *GongEnumValueShape) UnstageVoid(stage *Stage) {
+	delete(stage.GongEnumValueShapes, gongenumvalueshape)
+	delete(stage.GongEnumValueShapes_mapString, gongenumvalueshape.Name)
 }
 
-// commit gongenumvalueentry to the back repo (if it is already staged)
-func (gongenumvalueentry *GongEnumValueEntry) Commit(stage *Stage) *GongEnumValueEntry {
-	if _, ok := stage.GongEnumValueEntrys[gongenumvalueentry]; ok {
+// commit gongenumvalueshape to the back repo (if it is already staged)
+func (gongenumvalueshape *GongEnumValueShape) Commit(stage *Stage) *GongEnumValueShape {
+	if _, ok := stage.GongEnumValueShapes[gongenumvalueshape]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CommitGongEnumValueEntry(gongenumvalueentry)
+			stage.BackRepo.CommitGongEnumValueShape(gongenumvalueshape)
 		}
 	}
-	return gongenumvalueentry
+	return gongenumvalueshape
 }
 
-func (gongenumvalueentry *GongEnumValueEntry) CommitVoid(stage *Stage) {
-	gongenumvalueentry.Commit(stage)
+func (gongenumvalueshape *GongEnumValueShape) CommitVoid(stage *Stage) {
+	gongenumvalueshape.Commit(stage)
 }
 
-// Checkout gongenumvalueentry to the back repo (if it is already staged)
-func (gongenumvalueentry *GongEnumValueEntry) Checkout(stage *Stage) *GongEnumValueEntry {
-	if _, ok := stage.GongEnumValueEntrys[gongenumvalueentry]; ok {
+// Checkout gongenumvalueshape to the back repo (if it is already staged)
+func (gongenumvalueshape *GongEnumValueShape) Checkout(stage *Stage) *GongEnumValueShape {
+	if _, ok := stage.GongEnumValueShapes[gongenumvalueshape]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutGongEnumValueEntry(gongenumvalueentry)
+			stage.BackRepo.CheckoutGongEnumValueShape(gongenumvalueshape)
 		}
 	}
-	return gongenumvalueentry
+	return gongenumvalueshape
 }
 
 // for satisfaction of GongStruct interface
-func (gongenumvalueentry *GongEnumValueEntry) GetName() (res string) {
-	return gongenumvalueentry.Name
+func (gongenumvalueshape *GongEnumValueShape) GetName() (res string) {
+	return gongenumvalueshape.Name
 }
 
 // Stage puts gongstructshape to the model stage
@@ -1060,7 +1060,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMClassdiagram(Classdiagram *Classdiagram)
 	CreateORMDiagramPackage(DiagramPackage *DiagramPackage)
 	CreateORMGongEnumShape(GongEnumShape *GongEnumShape)
-	CreateORMGongEnumValueEntry(GongEnumValueEntry *GongEnumValueEntry)
+	CreateORMGongEnumValueShape(GongEnumValueShape *GongEnumValueShape)
 	CreateORMGongStructShape(GongStructShape *GongStructShape)
 	CreateORMLinkShape(LinkShape *LinkShape)
 	CreateORMNoteShape(NoteShape *NoteShape)
@@ -1072,7 +1072,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMClassdiagram(Classdiagram *Classdiagram)
 	DeleteORMDiagramPackage(DiagramPackage *DiagramPackage)
 	DeleteORMGongEnumShape(GongEnumShape *GongEnumShape)
-	DeleteORMGongEnumValueEntry(GongEnumValueEntry *GongEnumValueEntry)
+	DeleteORMGongEnumValueShape(GongEnumValueShape *GongEnumValueShape)
 	DeleteORMGongStructShape(GongStructShape *GongStructShape)
 	DeleteORMLinkShape(LinkShape *LinkShape)
 	DeleteORMNoteShape(NoteShape *NoteShape)
@@ -1100,10 +1100,10 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.GongEnumShapeMap_Staged_Order = make(map[*GongEnumShape]uint)
 	stage.GongEnumShapeOrder = 0
 
-	stage.GongEnumValueEntrys = make(map[*GongEnumValueEntry]any)
-	stage.GongEnumValueEntrys_mapString = make(map[string]*GongEnumValueEntry)
-	stage.GongEnumValueEntryMap_Staged_Order = make(map[*GongEnumValueEntry]uint)
-	stage.GongEnumValueEntryOrder = 0
+	stage.GongEnumValueShapes = make(map[*GongEnumValueShape]any)
+	stage.GongEnumValueShapes_mapString = make(map[string]*GongEnumValueShape)
+	stage.GongEnumValueShapeMap_Staged_Order = make(map[*GongEnumValueShape]uint)
+	stage.GongEnumValueShapeOrder = 0
 
 	stage.GongStructShapes = make(map[*GongStructShape]any)
 	stage.GongStructShapes_mapString = make(map[string]*GongStructShape)
@@ -1140,8 +1140,8 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.GongEnumShapes = nil
 	stage.GongEnumShapes_mapString = nil
 
-	stage.GongEnumValueEntrys = nil
-	stage.GongEnumValueEntrys_mapString = nil
+	stage.GongEnumValueShapes = nil
+	stage.GongEnumValueShapes_mapString = nil
 
 	stage.GongStructShapes = nil
 	stage.GongStructShapes_mapString = nil
@@ -1174,8 +1174,8 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		gongenumshape.Unstage(stage)
 	}
 
-	for gongenumvalueentry := range stage.GongEnumValueEntrys {
-		gongenumvalueentry.Unstage(stage)
+	for gongenumvalueshape := range stage.GongEnumValueShapes {
+		gongenumvalueshape.Unstage(stage)
 	}
 
 	for gongstructshape := range stage.GongStructShapes {
@@ -1263,8 +1263,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.DiagramPackages).(*Type)
 	case map[*GongEnumShape]any:
 		return any(&stage.GongEnumShapes).(*Type)
-	case map[*GongEnumValueEntry]any:
-		return any(&stage.GongEnumValueEntrys).(*Type)
+	case map[*GongEnumValueShape]any:
+		return any(&stage.GongEnumValueShapes).(*Type)
 	case map[*GongStructShape]any:
 		return any(&stage.GongStructShapes).(*Type)
 	case map[*LinkShape]any:
@@ -1293,8 +1293,8 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 		return any(&stage.DiagramPackages_mapString).(*Type)
 	case map[string]*GongEnumShape:
 		return any(&stage.GongEnumShapes_mapString).(*Type)
-	case map[string]*GongEnumValueEntry:
-		return any(&stage.GongEnumValueEntrys_mapString).(*Type)
+	case map[string]*GongEnumValueShape:
+		return any(&stage.GongEnumValueShapes_mapString).(*Type)
 	case map[string]*GongStructShape:
 		return any(&stage.GongStructShapes_mapString).(*Type)
 	case map[string]*LinkShape:
@@ -1323,8 +1323,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 		return any(&stage.DiagramPackages).(*map[*Type]any)
 	case GongEnumShape:
 		return any(&stage.GongEnumShapes).(*map[*Type]any)
-	case GongEnumValueEntry:
-		return any(&stage.GongEnumValueEntrys).(*map[*Type]any)
+	case GongEnumValueShape:
+		return any(&stage.GongEnumValueShapes).(*map[*Type]any)
 	case GongStructShape:
 		return any(&stage.GongStructShapes).(*map[*Type]any)
 	case LinkShape:
@@ -1353,8 +1353,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.DiagramPackages).(*map[Type]any)
 	case *GongEnumShape:
 		return any(&stage.GongEnumShapes).(*map[Type]any)
-	case *GongEnumValueEntry:
-		return any(&stage.GongEnumValueEntrys).(*map[Type]any)
+	case *GongEnumValueShape:
+		return any(&stage.GongEnumValueShapes).(*map[Type]any)
 	case *GongStructShape:
 		return any(&stage.GongStructShapes).(*map[Type]any)
 	case *LinkShape:
@@ -1383,8 +1383,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.DiagramPackages_mapString).(*map[string]*Type)
 	case GongEnumShape:
 		return any(&stage.GongEnumShapes_mapString).(*map[string]*Type)
-	case GongEnumValueEntry:
-		return any(&stage.GongEnumValueEntrys_mapString).(*map[string]*Type)
+	case GongEnumValueShape:
+		return any(&stage.GongEnumValueShapes_mapString).(*map[string]*Type)
 	case GongStructShape:
 		return any(&stage.GongStructShapes_mapString).(*map[string]*Type)
 	case LinkShape:
@@ -1432,11 +1432,11 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case GongEnumShape:
 		return any(&GongEnumShape{
 			// Initialisation of associations
-			// field is initialized with an instance of GongEnumValueEntry with the name of the field
-			GongEnumValueEntrys: []*GongEnumValueEntry{{Name: "GongEnumValueEntrys"}},
+			// field is initialized with an instance of GongEnumValueShape with the name of the field
+			GongEnumValueShapes: []*GongEnumValueShape{{Name: "GongEnumValueShapes"}},
 		}).(*Type)
-	case GongEnumValueEntry:
-		return any(&GongEnumValueEntry{
+	case GongEnumValueShape:
+		return any(&GongEnumValueShape{
 			// Initialisation of associations
 		}).(*Type)
 	case GongStructShape:
@@ -1516,8 +1516,8 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of GongEnumValueEntry
-	case GongEnumValueEntry:
+	// reverse maps of direct associations of GongEnumValueShape
+	case GongEnumValueShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -1608,17 +1608,17 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case GongEnumShape:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "GongEnumValueEntrys":
-			res := make(map[*GongEnumValueEntry]*GongEnumShape)
+		case "GongEnumValueShapes":
+			res := make(map[*GongEnumValueShape]*GongEnumShape)
 			for gongenumshape := range stage.GongEnumShapes {
-				for _, gongenumvalueentry_ := range gongenumshape.GongEnumValueEntrys {
-					res[gongenumvalueentry_] = gongenumshape
+				for _, gongenumvalueshape_ := range gongenumshape.GongEnumValueShapes {
+					res[gongenumvalueshape_] = gongenumshape
 				}
 			}
 			return any(res).(map[*End]*Start)
 		}
-	// reverse maps of direct associations of GongEnumValueEntry
-	case GongEnumValueEntry:
+	// reverse maps of direct associations of GongEnumValueShape
+	case GongEnumValueShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -1686,8 +1686,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "DiagramPackage"
 	case GongEnumShape:
 		res = "GongEnumShape"
-	case GongEnumValueEntry:
-		res = "GongEnumValueEntry"
+	case GongEnumValueShape:
+		res = "GongEnumValueShape"
 	case GongStructShape:
 		res = "GongStructShape"
 	case LinkShape:
@@ -1716,8 +1716,8 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "DiagramPackage"
 	case *GongEnumShape:
 		res = "GongEnumShape"
-	case *GongEnumValueEntry:
-		res = "GongEnumValueEntry"
+	case *GongEnumValueShape:
+		res = "GongEnumValueShape"
 	case *GongStructShape:
 		res = "GongStructShape"
 	case *LinkShape:
@@ -1744,8 +1744,8 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case DiagramPackage:
 		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "IsEditable", "IsReloaded", "AbsolutePathToDiagramPackage"}
 	case GongEnumShape:
-		res = []string{"Name", "X", "Y", "Identifier", "GongEnumValueEntrys", "Width", "Height", "IsExpanded"}
-	case GongEnumValueEntry:
+		res = []string{"Name", "X", "Y", "Identifier", "GongEnumValueShapes", "Width", "Height", "IsExpanded"}
+	case GongEnumValueShape:
 		res = []string{"Name", "Identifier"}
 	case GongStructShape:
 		res = []string{"Name", "X", "Y", "Identifier", "ShowNbInstances", "NbInstances", "AttributeShapes", "LinkShapes", "Width", "Height", "IsSelected"}
@@ -1794,11 +1794,11 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		rf.GongstructName = "Classdiagram"
 		rf.Fieldname = "GongEnumShapes"
 		res = append(res, rf)
-	case GongEnumValueEntry:
+	case GongEnumValueShape:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "GongEnumShape"
-		rf.Fieldname = "GongEnumValueEntrys"
+		rf.Fieldname = "GongEnumValueShapes"
 		res = append(res, rf)
 	case GongStructShape:
 		var rf ReverseField
@@ -1842,8 +1842,8 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *DiagramPackage:
 		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "IsEditable", "IsReloaded", "AbsolutePathToDiagramPackage"}
 	case *GongEnumShape:
-		res = []string{"Name", "X", "Y", "Identifier", "GongEnumValueEntrys", "Width", "Height", "IsExpanded"}
-	case *GongEnumValueEntry:
+		res = []string{"Name", "X", "Y", "Identifier", "GongEnumValueShapes", "Width", "Height", "IsExpanded"}
+	case *GongEnumValueShape:
 		res = []string{"Name", "Identifier"}
 	case *GongStructShape:
 		res = []string{"Name", "X", "Y", "Identifier", "ShowNbInstances", "NbInstances", "AttributeShapes", "LinkShapes", "Width", "Height", "IsSelected"}
@@ -2017,8 +2017,8 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Identifier":
 			res.valueString = inferedInstance.Identifier
-		case "GongEnumValueEntrys":
-			for idx, __instance__ := range inferedInstance.GongEnumValueEntrys {
+		case "GongEnumValueShapes":
+			for idx, __instance__ := range inferedInstance.GongEnumValueShapes {
 				if idx > 0 {
 					res.valueString += "\n"
 				}
@@ -2037,7 +2037,7 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueBool = inferedInstance.IsExpanded
 			res.GongFieldValueType = GongFieldValueTypeBool
 		}
-	case *GongEnumValueEntry:
+	case *GongEnumValueShape:
 		switch fieldName {
 		// string value of fields
 		case "Name":
@@ -2348,8 +2348,8 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Identifier":
 			res.valueString = inferedInstance.Identifier
-		case "GongEnumValueEntrys":
-			for idx, __instance__ := range inferedInstance.GongEnumValueEntrys {
+		case "GongEnumValueShapes":
+			for idx, __instance__ := range inferedInstance.GongEnumValueShapes {
 				if idx > 0 {
 					res.valueString += "\n"
 				}
@@ -2368,7 +2368,7 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueBool = inferedInstance.IsExpanded
 			res.GongFieldValueType = GongFieldValueTypeBool
 		}
-	case GongEnumValueEntry:
+	case GongEnumValueShape:
 		switch fieldName {
 		// string value of fields
 		case "Name":

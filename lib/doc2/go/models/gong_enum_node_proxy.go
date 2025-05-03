@@ -9,7 +9,7 @@ type GongEnumNodeProxy struct {
 	node          *tree.Node
 	stager        *Stager
 	classDiagram  *Classdiagram
-	gongenum      *gong.GongEnum
+	gongEnum      *gong.GongEnum
 	gongEnumShape *GongEnumShape
 	rank          int
 }
@@ -22,7 +22,7 @@ func (proxy *GongEnumNodeProxy) OnAfterUpdate(
 	if front.IsChecked && !staged.IsChecked {
 		// uncheck all other diagram
 		diagramPackage := getTheDiagramPackage(proxy.stager.stage)
-		proxy.classDiagram.AddGongEnumShape(proxy.stager.stage, diagramPackage, proxy.gongenum.Name)
+		proxy.classDiagram.AddGongEnumShape(proxy.stager.stage, diagramPackage, proxy.gongEnum.Name)
 
 		proxy.stager.UpdateAndCommitTreeStage()
 		proxy.stager.UpdateAndCommitSVGStage()
@@ -32,7 +32,7 @@ func (proxy *GongEnumNodeProxy) OnAfterUpdate(
 
 	// the checked node is unchecked
 	if !front.IsChecked && staged.IsChecked {
-		proxy.classDiagram.RemoveGongEnumShape(proxy.stager.stage, proxy.gongenum.Name)
+		proxy.classDiagram.RemoveGongEnumShape(proxy.stager.stage, proxy.gongEnum.Name)
 
 		proxy.stager.UpdateAndCommitTreeStage()
 		proxy.stager.UpdateAndCommitSVGStage()
