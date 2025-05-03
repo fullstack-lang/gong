@@ -31,7 +31,8 @@ type Classdiagram_WOP struct {
 	IsInDrawMode bool
 	IsInRenameMode bool
 	IsExpanded bool
-	NodeNamedStructsIsExpanded bool
+	NodeGongStructsIsExpanded bool
+	NodeGongStructsBinaryEncoding int
 	NodeGongEnumsIsExpanded bool
 	NodeGongNotesIsExpanded bool
 }
@@ -42,7 +43,8 @@ func (from *Classdiagram) CopyBasicFields(to *Classdiagram) {
 	to.IsInDrawMode = from.IsInDrawMode
 	to.IsInRenameMode = from.IsInRenameMode
 	to.IsExpanded = from.IsExpanded
-	to.NodeNamedStructsIsExpanded = from.NodeNamedStructsIsExpanded
+	to.NodeGongStructsIsExpanded = from.NodeGongStructsIsExpanded
+	to.NodeGongStructsBinaryEncoding = from.NodeGongStructsBinaryEncoding
 	to.NodeGongEnumsIsExpanded = from.NodeGongEnumsIsExpanded
 	to.NodeGongNotesIsExpanded = from.NodeGongNotesIsExpanded
 }
@@ -112,7 +114,6 @@ type GongStructShape_WOP struct {
 	Width float64
 	Height float64
 	IsSelected bool
-	IsExpanded bool
 }
 
 func (from *GongStructShape) CopyBasicFields(to *GongStructShape) {
@@ -126,7 +127,6 @@ func (from *GongStructShape) CopyBasicFields(to *GongStructShape) {
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsSelected = from.IsSelected
-	to.IsExpanded = from.IsExpanded
 }
 
 type LinkShape_WOP struct {

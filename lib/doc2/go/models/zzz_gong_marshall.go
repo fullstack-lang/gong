@@ -9,6 +9,7 @@ import (
 	"regexp"
 	"sort"
 	"strings"
+	"time"
 )
 
 const marshallRes = `package {{PackageName}}
@@ -71,7 +72,7 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		log.Fatalln(name + " is not a go filename")
 	}
 
-	log.Println("filename of marshall output is " + name)
+	log.Printf("%s Marshalling %s", time.Now().Format("2006-01-02 15:04:05.000000"), name)
 	newBase := filepath.Base(file.Name())
 
 	res := marshallRes
@@ -220,8 +221,14 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NodeNamedStructsIsExpanded")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", classdiagram.NodeNamedStructsIsExpanded))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NodeGongStructsIsExpanded")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", classdiagram.NodeGongStructsIsExpanded))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NodeGongStructsBinaryEncoding")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", classdiagram.NodeGongStructsBinaryEncoding))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
@@ -527,12 +534,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsSelected")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongstructshape.IsSelected))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsExpanded")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongstructshape.IsExpanded))
 		initializerStatements += setValueField
 
 	}

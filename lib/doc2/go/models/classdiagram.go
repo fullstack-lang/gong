@@ -29,9 +29,19 @@ type Classdiagram struct {
 	// IsExpanded is true if the corresponding node is expanded
 	IsExpanded bool
 
-	NodeNamedStructsIsExpanded bool
-	NodeGongEnumsIsExpanded    bool
-	NodeGongNotesIsExpanded    bool
+	NodeGongStructsIsExpanded bool
+
+	// encoding of the the expanded status per named struct node
+	// the bit position is the NodeNamedStruct position
+	// beyond 63, there is no storage of expanded status
+	//
+	// bit 0 at 0 means first gong struct is not encoded
+	// bit 1 at 0 means second gong struct is not encoded
+	// etc...
+	NodeGongStructsBinaryEncoding int
+
+	NodeGongEnumsIsExpanded bool
+	NodeGongNotesIsExpanded bool
 }
 
 func (classdiagram *Classdiagram) HasGongStructShape(gongstructName string) (foundGongStructShape bool, gongstructshape *GongStructShape) {
@@ -200,4 +210,21 @@ func (classdiagram *Classdiagram) DuplicateDiagram() (newClassdiagram *Classdiag
 	newClassdiagram = CopyBranch(classdiagram)
 
 	return
+}
+
+func IsNodeExpanded(binaryEncoding, nodeRank int) bool {
+	if nodeRank < 0 || nodeRank > 63 {
+		// Rank must be between 0 and 63 for a 64-bit integer
+		return false
+	}
+	// Check if the rank-th note is played
+	return binaryEncoding&(1<<nodeRank) != 0
+}
+
+func ToggleNodeExpanded(binaryEncoding *int, nodeRank int) {
+	if nodeRank < 0 || nodeRank > 63 {
+		return // Ignore invalid ranks
+	}
+
+	*binaryEncoding ^= 1 << nodeRank
 }
