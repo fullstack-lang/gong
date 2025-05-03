@@ -33,8 +33,8 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.IsInDrawMode = true
 	__Classdiagram__000000_Default.IsInRenameMode = false
 	__Classdiagram__000000_Default.IsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = false
-	__Classdiagram__000000_Default.NodeGongStructsBinaryEncoding = 0
+	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true
+	__Classdiagram__000000_Default.NodeGongStructsBinaryEncoding = 8
 	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = true
 	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = false
 
