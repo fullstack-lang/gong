@@ -193,8 +193,10 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(classdiagram_.IsInRenameMode), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(classdiagram_.IsExpanded), formDiv)
-		case "NodeNamedStructsIsExpanded":
-			FormDivBasicFieldToField(&(classdiagram_.NodeNamedStructsIsExpanded), formDiv)
+		case "NodeGongStructsIsExpanded":
+			FormDivBasicFieldToField(&(classdiagram_.NodeGongStructsIsExpanded), formDiv)
+		case "NodeGongStructsBinaryEncoding":
+			FormDivBasicFieldToField(&(classdiagram_.NodeGongStructsBinaryEncoding), formDiv)
 		case "NodeGongEnumsIsExpanded":
 			FormDivBasicFieldToField(&(classdiagram_.NodeGongEnumsIsExpanded), formDiv)
 		case "NodeGongNotesIsExpanded":
@@ -672,8 +674,6 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongstructshape_.Height), formDiv)
 		case "IsSelected":
 			FormDivBasicFieldToField(&(gongstructshape_.IsSelected), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(gongstructshape_.IsExpanded), formDiv)
 		case "Classdiagram:GongStructShapes":
 			// we need to retrieve the field owner before the change
 			var pastClassdiagramOwner *models.Classdiagram

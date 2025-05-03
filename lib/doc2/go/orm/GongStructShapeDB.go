@@ -95,10 +95,6 @@ type GongStructShapeDB struct {
 	// provide the sql storage for the boolan
 	IsSelected_Data sql.NullBool
 
-	// Declation for basic field gongstructshapeDB.IsExpanded
-	// provide the sql storage for the boolan
-	IsExpanded_Data sql.NullBool
-
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	GongStructShapePointersEncoding
@@ -138,8 +134,6 @@ type GongStructShapeWOP struct {
 	Height float64 `xlsx:"8"`
 
 	IsSelected bool `xlsx:"9"`
-
-	IsExpanded bool `xlsx:"10"`
 	// insertion for WOP pointer fields
 }
 
@@ -155,7 +149,6 @@ var GongStructShape_Fields = []string{
 	"Width",
 	"Height",
 	"IsSelected",
-	"IsExpanded",
 }
 
 type BackRepoGongStructShapeStruct struct {
@@ -513,9 +506,6 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsFromGongStructShape(g
 
 	gongstructshapeDB.IsSelected_Data.Bool = gongstructshape.IsSelected
 	gongstructshapeDB.IsSelected_Data.Valid = true
-
-	gongstructshapeDB.IsExpanded_Data.Bool = gongstructshape.IsExpanded
-	gongstructshapeDB.IsExpanded_Data.Valid = true
 }
 
 // CopyBasicFieldsFromGongStructShape_WOP
@@ -548,9 +538,6 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsFromGongStructShape_W
 
 	gongstructshapeDB.IsSelected_Data.Bool = gongstructshape.IsSelected
 	gongstructshapeDB.IsSelected_Data.Valid = true
-
-	gongstructshapeDB.IsExpanded_Data.Bool = gongstructshape.IsExpanded
-	gongstructshapeDB.IsExpanded_Data.Valid = true
 }
 
 // CopyBasicFieldsFromGongStructShapeWOP
@@ -583,9 +570,6 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsFromGongStructShapeWO
 
 	gongstructshapeDB.IsSelected_Data.Bool = gongstructshape.IsSelected
 	gongstructshapeDB.IsSelected_Data.Valid = true
-
-	gongstructshapeDB.IsExpanded_Data.Bool = gongstructshape.IsExpanded
-	gongstructshapeDB.IsExpanded_Data.Valid = true
 }
 
 // CopyBasicFieldsToGongStructShape
@@ -600,7 +584,6 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsToGongStructShape(gon
 	gongstructshape.Width = gongstructshapeDB.Width_Data.Float64
 	gongstructshape.Height = gongstructshapeDB.Height_Data.Float64
 	gongstructshape.IsSelected = gongstructshapeDB.IsSelected_Data.Bool
-	gongstructshape.IsExpanded = gongstructshapeDB.IsExpanded_Data.Bool
 }
 
 // CopyBasicFieldsToGongStructShape_WOP
@@ -615,7 +598,6 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsToGongStructShape_WOP
 	gongstructshape.Width = gongstructshapeDB.Width_Data.Float64
 	gongstructshape.Height = gongstructshapeDB.Height_Data.Float64
 	gongstructshape.IsSelected = gongstructshapeDB.IsSelected_Data.Bool
-	gongstructshape.IsExpanded = gongstructshapeDB.IsExpanded_Data.Bool
 }
 
 // CopyBasicFieldsToGongStructShapeWOP
@@ -631,7 +613,6 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsToGongStructShapeWOP(
 	gongstructshape.Width = gongstructshapeDB.Width_Data.Float64
 	gongstructshape.Height = gongstructshapeDB.Height_Data.Float64
 	gongstructshape.IsSelected = gongstructshapeDB.IsSelected_Data.Bool
-	gongstructshape.IsExpanded = gongstructshapeDB.IsExpanded_Data.Bool
 }
 
 // Backup generates a json file from a slice of all GongStructShapeDB instances in the backrepo
