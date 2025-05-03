@@ -125,7 +125,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			if isGongStructShapeInDiagram && !ok {
 				log.Fatalln("A gongstruct shape should be mapped to a gongstruct")
 			}
-			isExpanded := IsNodeExpanded(classDiagram.NodeGongStructsBinaryEncoding, idx)
+			isExpanded := IsNodeExpanded(classDiagram.NodeGongStructNodeExpansionBinaryEncoding, idx)
 
 			nodeNamedStruct := &tree.Node{
 				Name:              gongStruct.Name,
@@ -217,7 +217,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 				}
 			}
 		}
-		for _, gongEnum := range gongenums {
+		for idx, gongEnum := range gongenums {
 			shape, isEnumInDiagram := map_modelElement_shape[gongEnum]
 
 			gongEnumShape, ok := shape.(*GongEnumShape)
@@ -226,10 +226,8 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			}
 			_ = gongEnumShape
 
-			var isExpanded bool
-			if isEnumInDiagram {
-				isExpanded = gongEnumShape.IsExpanded
-			}
+			isExpanded := IsNodeExpanded(classDiagram.NodeGongEnumNodeExpansionBinaryEncoding, idx)
+
 			node := &tree.Node{
 				Name:              gongEnum.Name,
 				HasCheckboxButton: true,
@@ -242,6 +240,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 				classDiagram:  classDiagram,
 				gongenum:      gongEnum,
 				gongEnumShape: gongEnumShape,
+				rank:          idx,
 			}
 			nodeGongEnums.Children = append(nodeGongEnums.Children, node)
 

@@ -32,11 +32,13 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.Name = `Default`
 	__Classdiagram__000000_Default.IsInDrawMode = true
 	__Classdiagram__000000_Default.IsInRenameMode = false
-	__Classdiagram__000000_Default.IsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructsBinaryEncoding = 8
-	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = true
+	__Classdiagram__000000_Default.IsExpanded = false
+	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = false
+	__Classdiagram__000000_Default.NodeGongStructNodeExpansionBinaryEncoding = 0
+	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = false
+	__Classdiagram__000000_Default.NodeGongEnumNodeExpansionBinaryEncoding = 7
 	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = false
+	__Classdiagram__000000_Default.NodeGongNoteNodeExpansionBinaryEncoding = 0
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Name = `Diagram Package created the 2025-05-02T09:21:37Z`
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Path = ``
