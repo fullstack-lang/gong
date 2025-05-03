@@ -270,13 +270,24 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			if isInDiagram {
 				isExpanded = gongNoteShape.IsExpanded
 			}
-			node := &tree.Node{
+			gongNoteNode := &tree.Node{
 				Name:              gongNote.Name,
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
 				IsExpanded:        isExpanded,
 			}
-			nodeGongNotes.Children = append(nodeGongNotes.Children, node)
+			nodeGongNotes.Children = append(nodeGongNotes.Children, gongNoteNode)
+
+			for _, docLink := range gongNote.Links {
+
+				docLinkNode := &tree.Node{
+					Name:              docLink.Name,
+					HasCheckboxButton: true,
+					IsChecked:         isInDiagram,
+					IsExpanded:        isExpanded,
+				}
+				nodeGongNotes.Children = append(nodeGongNotes.Children, docLinkNode)
+			}
 		}
 	}
 	tree.StageBranch(stager.treeStage,

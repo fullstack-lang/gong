@@ -67,12 +67,12 @@ func (controller *Controller) GetCheckboxs(c *gin.Context) {
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "GET Stack github.com/fullstack-lang/gong/lib/slider/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoCheckbox.GetDB()
@@ -137,12 +137,12 @@ func (controller *Controller) PostCheckbox(c *gin.Context) {
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "Post Stack github.com/fullstack-lang/gong/lib/slider/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoCheckbox.GetDB()
@@ -214,12 +214,12 @@ func (controller *Controller) GetCheckbox(c *gin.Context) {
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "Stack github.com/fullstack-lang/gong/lib/slider/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoCheckbox.GetDB()
@@ -270,12 +270,12 @@ func (controller *Controller) UpdateCheckbox(c *gin.Context) {
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "PATCH Stack github.com/fullstack-lang/gong/lib/slider/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoCheckbox.GetDB()
@@ -367,12 +367,12 @@ func (controller *Controller) DeleteCheckbox(c *gin.Context) {
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "DELETE Stack github.com/fullstack-lang/gong/lib/slider/go, Unkown stack: \"" + stackPath + "\"\n"
-		
+
 		message += "Availabe stack names are:\n"
 		for k := range controller.Map_BackRepos {
 			message += k + "\n"
 		}
-			
+
 		log.Panic(message)
 	}
 	db := backRepo.BackRepoCheckbox.GetDB()
