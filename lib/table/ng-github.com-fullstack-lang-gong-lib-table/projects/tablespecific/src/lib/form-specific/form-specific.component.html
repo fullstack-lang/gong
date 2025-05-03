@@ -61,12 +61,7 @@
           }
           
           @if (formField.FormFieldString && formField.FormFieldString.IsTextArea) {
-            <textarea matInput 
-                     [formControlName]="formField.Name" 
-                     [placeholder]="formField.Placeholder"
-                     #textArea
-                     (focus)="scrollToBottom(textArea)"
-                     (input)="scrollToBottom(textArea)"></textarea>
+            <textarea matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder"></textarea>
           }
           
           @if (formField.FormFieldDate) {
