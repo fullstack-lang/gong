@@ -187,8 +187,6 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(classdiagram_.Name), formDiv)
-		case "IsInDrawMode":
-			FormDivBasicFieldToField(&(classdiagram_.IsInDrawMode), formDiv)
 		case "IsInRenameMode":
 			FormDivBasicFieldToField(&(classdiagram_.IsInRenameMode), formDiv)
 		case "IsExpanded":
@@ -329,10 +327,6 @@ func (diagrampackageFormCallback *DiagramPackageFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagrampackage_.GongModelPath), formDiv)
 		case "SelectedClassdiagram":
 			FormDivSelectFieldToField(&(diagrampackage_.SelectedClassdiagram), diagrampackageFormCallback.probe.stageOfInterest, formDiv)
-		case "IsEditable":
-			FormDivBasicFieldToField(&(diagrampackage_.IsEditable), formDiv)
-		case "IsReloaded":
-			FormDivBasicFieldToField(&(diagrampackage_.IsReloaded), formDiv)
 		case "AbsolutePathToDiagramPackage":
 			FormDivBasicFieldToField(&(diagrampackage_.AbsolutePathToDiagramPackage), formDiv)
 		}
