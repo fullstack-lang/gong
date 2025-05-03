@@ -36,7 +36,7 @@ func Prepare(
 	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
 	treeStage := tree_stack.NewStack(r, doc2StackName+":doc2-sidebar", "", "", "", false, true).Stage
 	svgStage := svg_stack.NewStack(r, doc2StackName+":doc2-svg", "", "", "", false, false).Stage
-	gongStage := gong_stack.NewStack(r, doc2StackName+":doc2-gong", "", "", "", false, false).Stage
+	gongStage := gong_stack.NewStack(r, doc2StackName+":doc2-gong", "", "", "", false, true).Stage
 
 	// load the code of the model of interest into the gongStage
 	gong.LoadEmbedded(gongStage, goModelsDir)
