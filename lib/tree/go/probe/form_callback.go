@@ -65,6 +65,8 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(button_.Icon), formDiv)
 		case "SVGIcon":
 			FormDivSelectFieldToField(&(button_.SVGIcon), buttonFormCallback.probe.stageOfInterest, formDiv)
+		case "IsDisabled":
+			FormDivBasicFieldToField(&(button_.IsDisabled), formDiv)
 		case "HasToolTip":
 			FormDivBasicFieldToField(&(button_.HasToolTip), formDiv)
 		case "ToolTipText":

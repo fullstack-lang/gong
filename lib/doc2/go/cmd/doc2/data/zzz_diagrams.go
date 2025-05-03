@@ -23,114 +23,111 @@ func _(stage *models.Stage) {
 
 	// Declaration of instances to stage
 
+	__AttributeShape__000000_Name := (&models.AttributeShape{}).Stage(stage)
+
 	__Classdiagram__000000_Default := (&models.Classdiagram{}).Stage(stage)
+	__Classdiagram__000001_Default_1 := (&models.Classdiagram{}).Stage(stage)
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z := (&models.DiagramPackage{}).Stage(stage)
 
-	__GongEnumShape__000000_Default_ButtonType := (&models.GongEnumShape{}).Stage(stage)
+	__GongStructShape__000000_Default_Classdiagram := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000001_Default_GongStructShape := (&models.GongStructShape{}).Stage(stage)
 
-	__GongEnumValueShape__000000_DUPLICATE := (&models.GongEnumValueShape{}).Stage(stage)
-	__GongEnumValueShape__000001_EDIT_CANCEL := (&models.GongEnumValueShape{}).Stage(stage)
-	__GongEnumValueShape__000002_EDIT := (&models.GongEnumValueShape{}).Stage(stage)
-	__GongEnumValueShape__000003_REMOVE := (&models.GongEnumValueShape{}).Stage(stage)
-	__GongEnumValueShape__000004_RENAME_CANCEL := (&models.GongEnumValueShape{}).Stage(stage)
-
-	__GongStructShape__000000_Default_AttributeShape := (&models.GongStructShape{}).Stage(stage)
-	__GongStructShape__000001_Default_Classdiagram := (&models.GongStructShape{}).Stage(stage)
+	__LinkShape__000000_GongStructShapes := (&models.LinkShape{}).Stage(stage)
 
 	// Setup of values
 
+	__AttributeShape__000000_Name.Name = `Name`
+
+	//gong:ident [ref_models.Classdiagram.Name] comment added to overcome the problem with the comment map association
+	__AttributeShape__000000_Name.Identifier = `ref_models.Classdiagram.Name`
+	__AttributeShape__000000_Name.FieldTypeAsString = ``
+	__AttributeShape__000000_Name.Structname = `Classdiagram`
+	__AttributeShape__000000_Name.Fieldtypename = `string`
+
 	__Classdiagram__000000_Default.Name = `Default`
-	__Classdiagram__000000_Default.IsInDrawMode = true
 	__Classdiagram__000000_Default.IsInRenameMode = false
 	__Classdiagram__000000_Default.IsExpanded = true
 	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true
 	__Classdiagram__000000_Default.NodeGongStructNodeExpansionBinaryEncoding = 0
-	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = false
-	__Classdiagram__000000_Default.NodeGongEnumNodeExpansionBinaryEncoding = 6
+	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = true
+	__Classdiagram__000000_Default.NodeGongEnumNodeExpansionBinaryEncoding = 0
 	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = false
 	__Classdiagram__000000_Default.NodeGongNoteNodeExpansionBinaryEncoding = 0
+
+	__Classdiagram__000001_Default_1.Name = `Default_1`
+	__Classdiagram__000001_Default_1.IsInRenameMode = false
+	__Classdiagram__000001_Default_1.IsExpanded = false
+	__Classdiagram__000001_Default_1.NodeGongStructsIsExpanded = false
+	__Classdiagram__000001_Default_1.NodeGongStructNodeExpansionBinaryEncoding = 0
+	__Classdiagram__000001_Default_1.NodeGongEnumsIsExpanded = false
+	__Classdiagram__000001_Default_1.NodeGongEnumNodeExpansionBinaryEncoding = 0
+	__Classdiagram__000001_Default_1.NodeGongNotesIsExpanded = false
+	__Classdiagram__000001_Default_1.NodeGongNoteNodeExpansionBinaryEncoding = 0
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Name = `Diagram Package created the 2025-05-02T09:21:37Z`
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Path = ``
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.GongModelPath = ``
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.IsEditable = false
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.IsReloaded = false
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.AbsolutePathToDiagramPackage = ``
 
-	__GongEnumShape__000000_Default_ButtonType.Name = `Default-ButtonType`
-	__GongEnumShape__000000_Default_ButtonType.X = 106.000000
-	__GongEnumShape__000000_Default_ButtonType.Y = 105.000000
-
-	//gong:ident [ref_models.ButtonType] comment added to overcome the problem with the comment map association
-	__GongEnumShape__000000_Default_ButtonType.Identifier = `ref_models.ButtonType`
-	__GongEnumShape__000000_Default_ButtonType.Width = 240.000000
-	__GongEnumShape__000000_Default_ButtonType.Height = 163.000000
-	__GongEnumShape__000000_Default_ButtonType.IsExpanded = false
-
-	__GongEnumValueShape__000000_DUPLICATE.Name = `DUPLICATE`
-
-	//gong:ident [ref_models.ButtonType.DUPLICATE] comment added to overcome the problem with the comment map association
-	__GongEnumValueShape__000000_DUPLICATE.Identifier = `ref_models.ButtonType.DUPLICATE`
-
-	__GongEnumValueShape__000001_EDIT_CANCEL.Name = `EDIT_CANCEL`
-
-	//gong:ident [ref_models.ButtonType.EDIT_CANCEL] comment added to overcome the problem with the comment map association
-	__GongEnumValueShape__000001_EDIT_CANCEL.Identifier = `ref_models.ButtonType.EDIT_CANCEL`
-
-	__GongEnumValueShape__000002_EDIT.Name = `EDIT`
-
-	//gong:ident [ref_models.ButtonType.EDIT] comment added to overcome the problem with the comment map association
-	__GongEnumValueShape__000002_EDIT.Identifier = `ref_models.ButtonType.EDIT`
-
-	__GongEnumValueShape__000003_REMOVE.Name = `REMOVE`
-
-	//gong:ident [ref_models.ButtonType.REMOVE] comment added to overcome the problem with the comment map association
-	__GongEnumValueShape__000003_REMOVE.Identifier = `ref_models.ButtonType.REMOVE`
-
-	__GongEnumValueShape__000004_RENAME_CANCEL.Name = `RENAME_CANCEL`
-
-	//gong:ident [ref_models.ButtonType.RENAME_CANCEL] comment added to overcome the problem with the comment map association
-	__GongEnumValueShape__000004_RENAME_CANCEL.Identifier = `ref_models.ButtonType.RENAME_CANCEL`
-
-	__GongStructShape__000000_Default_AttributeShape.Name = `Default-AttributeShape`
-	__GongStructShape__000000_Default_AttributeShape.X = 89.000000
-	__GongStructShape__000000_Default_AttributeShape.Y = 78.000000
-
-	//gong:ident [ref_models.AttributeShape] comment added to overcome the problem with the comment map association
-	__GongStructShape__000000_Default_AttributeShape.Identifier = `ref_models.AttributeShape`
-	__GongStructShape__000000_Default_AttributeShape.ShowNbInstances = false
-	__GongStructShape__000000_Default_AttributeShape.NbInstances = 0
-	__GongStructShape__000000_Default_AttributeShape.Width = 240.000000
-	__GongStructShape__000000_Default_AttributeShape.Height = 63.000000
-	__GongStructShape__000000_Default_AttributeShape.IsSelected = false
-
-	__GongStructShape__000001_Default_Classdiagram.Name = `Default-Classdiagram`
-	__GongStructShape__000001_Default_Classdiagram.X = 78.000000
-	__GongStructShape__000001_Default_Classdiagram.Y = 62.000000
+	__GongStructShape__000000_Default_Classdiagram.Name = `Default-Classdiagram`
+	__GongStructShape__000000_Default_Classdiagram.X = 128.000000
+	__GongStructShape__000000_Default_Classdiagram.Y = 94.000000
 
 	//gong:ident [ref_models.Classdiagram] comment added to overcome the problem with the comment map association
-	__GongStructShape__000001_Default_Classdiagram.Identifier = `ref_models.Classdiagram`
-	__GongStructShape__000001_Default_Classdiagram.ShowNbInstances = false
-	__GongStructShape__000001_Default_Classdiagram.NbInstances = 0
-	__GongStructShape__000001_Default_Classdiagram.Width = 240.000000
-	__GongStructShape__000001_Default_Classdiagram.Height = 63.000000
-	__GongStructShape__000001_Default_Classdiagram.IsSelected = false
+	__GongStructShape__000000_Default_Classdiagram.Identifier = `ref_models.Classdiagram`
+	__GongStructShape__000000_Default_Classdiagram.ShowNbInstances = false
+	__GongStructShape__000000_Default_Classdiagram.NbInstances = 0
+	__GongStructShape__000000_Default_Classdiagram.Width = 240.000000
+	__GongStructShape__000000_Default_Classdiagram.Height = 83.000000
+	__GongStructShape__000000_Default_Classdiagram.IsSelected = false
+
+	__GongStructShape__000001_Default_GongStructShape.Name = `Default-GongStructShape`
+	__GongStructShape__000001_Default_GongStructShape.X = 621.000000
+	__GongStructShape__000001_Default_GongStructShape.Y = 163.000000
+
+	//gong:ident [ref_models.GongStructShape] comment added to overcome the problem with the comment map association
+	__GongStructShape__000001_Default_GongStructShape.Identifier = `ref_models.GongStructShape`
+	__GongStructShape__000001_Default_GongStructShape.ShowNbInstances = false
+	__GongStructShape__000001_Default_GongStructShape.NbInstances = 0
+	__GongStructShape__000001_Default_GongStructShape.Width = 240.000000
+	__GongStructShape__000001_Default_GongStructShape.Height = 63.000000
+	__GongStructShape__000001_Default_GongStructShape.IsSelected = false
+
+	__LinkShape__000000_GongStructShapes.Name = `GongStructShapes`
+
+	//gong:ident [ref_models.Classdiagram.GongStructShapes] comment added to overcome the problem with the comment map association
+	__LinkShape__000000_GongStructShapes.Identifier = `ref_models.Classdiagram.GongStructShapes`
+
+	//gong:ident [ref_models.GongStructShape] comment added to overcome the problem with the comment map association
+	__LinkShape__000000_GongStructShapes.Fieldtypename = `ref_models.GongStructShape`
+	__LinkShape__000000_GongStructShapes.FieldOffsetX = 0.000000
+	__LinkShape__000000_GongStructShapes.FieldOffsetY = 0.000000
+	__LinkShape__000000_GongStructShapes.TargetMultiplicity = models.MANY
+	__LinkShape__000000_GongStructShapes.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__000000_GongStructShapes.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__000000_GongStructShapes.SourceMultiplicity = models.MANY
+	__LinkShape__000000_GongStructShapes.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__000000_GongStructShapes.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__000000_GongStructShapes.X = 713.000000
+	__LinkShape__000000_GongStructShapes.Y = 161.000000
+	__LinkShape__000000_GongStructShapes.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__000000_GongStructShapes.StartRatio = 0.500000
+	__LinkShape__000000_GongStructShapes.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__000000_GongStructShapes.EndRatio = 0.500000
+	__LinkShape__000000_GongStructShapes.CornerOffsetRatio = 1.380000
 
 	// Setup of pointers
+	// setup of AttributeShape instances pointers
 	// setup of Classdiagram instances pointers
-	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000000_Default_AttributeShape)
-	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000001_Default_Classdiagram)
-	__Classdiagram__000000_Default.GongEnumShapes = append(__Classdiagram__000000_Default.GongEnumShapes, __GongEnumShape__000000_Default_ButtonType)
+	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000000_Default_Classdiagram)
+	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000001_Default_GongStructShape)
 	// setup of DiagramPackage instances pointers
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Classdiagrams, __Classdiagram__000000_Default)
+	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Classdiagrams, __Classdiagram__000001_Default_1)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.SelectedClassdiagram = __Classdiagram__000000_Default
-	// setup of GongEnumShape instances pointers
-	__GongEnumShape__000000_Default_ButtonType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_ButtonType.GongEnumValueShapes, __GongEnumValueShape__000000_DUPLICATE)
-	__GongEnumShape__000000_Default_ButtonType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_ButtonType.GongEnumValueShapes, __GongEnumValueShape__000001_EDIT_CANCEL)
-	__GongEnumShape__000000_Default_ButtonType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_ButtonType.GongEnumValueShapes, __GongEnumValueShape__000002_EDIT)
-	__GongEnumShape__000000_Default_ButtonType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_ButtonType.GongEnumValueShapes, __GongEnumValueShape__000003_REMOVE)
-	__GongEnumShape__000000_Default_ButtonType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_ButtonType.GongEnumValueShapes, __GongEnumValueShape__000004_RENAME_CANCEL)
-	// setup of GongEnumValueShape instances pointers
 	// setup of GongStructShape instances pointers
+	__GongStructShape__000000_Default_Classdiagram.AttributeShapes = append(__GongStructShape__000000_Default_Classdiagram.AttributeShapes, __AttributeShape__000000_Name)
+	__GongStructShape__000000_Default_Classdiagram.LinkShapes = append(__GongStructShape__000000_Default_Classdiagram.LinkShapes, __LinkShape__000000_GongStructShapes)
+	// setup of LinkShape instances pointers
 }

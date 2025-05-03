@@ -754,6 +754,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "SVGIcon":
 					targetIdentifier := ident.Name
 					__gong__map_Button[identifier].SVGIcon = __gong__map_SVGIcon[targetIdentifier]
+				case "IsDisabled":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Button[identifier].IsDisabled = fielValue
 				case "HasToolTip":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
