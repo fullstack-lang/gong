@@ -227,8 +227,8 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NodeGongStructsBinaryEncoding")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", classdiagram.NodeGongStructsBinaryEncoding))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NodeGongStructNodeExpansionBinaryEncoding")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", classdiagram.NodeGongStructNodeExpansionBinaryEncoding))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
@@ -239,8 +239,20 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NodeGongEnumNodeExpansionBinaryEncoding")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", classdiagram.NodeGongEnumNodeExpansionBinaryEncoding))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NodeGongNotesIsExpanded")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", classdiagram.NodeGongNotesIsExpanded))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NodeGongNoteNodeExpansionBinaryEncoding")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", classdiagram.NodeGongNoteNodeExpansionBinaryEncoding))
 		initializerStatements += setValueField
 
 	}

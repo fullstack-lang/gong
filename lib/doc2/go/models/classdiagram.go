@@ -38,10 +38,13 @@ type Classdiagram struct {
 	// bit 0 at 0 means first gong struct is not encoded
 	// bit 1 at 0 means second gong struct is not encoded
 	// etc...
-	NodeGongStructsBinaryEncoding int
+	NodeGongStructNodeExpansionBinaryEncoding int
 
-	NodeGongEnumsIsExpanded bool
-	NodeGongNotesIsExpanded bool
+	NodeGongEnumsIsExpanded                 bool
+	NodeGongEnumNodeExpansionBinaryEncoding int
+
+	NodeGongNotesIsExpanded                 bool
+	NodeGongNoteNodeExpansionBinaryEncoding int
 }
 
 func (classdiagram *Classdiagram) HasGongStructShape(gongstructName string) (foundGongStructShape bool, gongstructshape *GongStructShape) {
