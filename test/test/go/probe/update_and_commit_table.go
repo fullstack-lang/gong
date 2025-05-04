@@ -13,26 +13,26 @@ import (
 	"github.com/fullstack-lang/gong/test/test/go/models"
 )
 
-func fillUpTablePointerToGongstruct[T models.PointerToGongstruct](
+func updateAndCommitTablePointerToGongstruct[T models.PointerToGongstruct](
 	probe *Probe,
 ) {
 	var typedInstance T
 	switch any(typedInstance).(type) {
 	// insertion point
 	case *models.Astruct:
-		fillUpTable[models.Astruct](probe)
+		updateAndCommitTable[models.Astruct](probe)
 	case *models.AstructBstruct2Use:
-		fillUpTable[models.AstructBstruct2Use](probe)
+		updateAndCommitTable[models.AstructBstruct2Use](probe)
 	case *models.AstructBstructUse:
-		fillUpTable[models.AstructBstructUse](probe)
+		updateAndCommitTable[models.AstructBstructUse](probe)
 	case *models.Bstruct:
-		fillUpTable[models.Bstruct](probe)
+		updateAndCommitTable[models.Bstruct](probe)
 	case *models.Dstruct:
-		fillUpTable[models.Dstruct](probe)
+		updateAndCommitTable[models.Dstruct](probe)
 	case *models.Fstruct:
-		fillUpTable[models.Fstruct](probe)
+		updateAndCommitTable[models.Fstruct](probe)
 	case *models.Gstruct:
-		fillUpTable[models.Gstruct](probe)
+		updateAndCommitTable[models.Gstruct](probe)
 	default:
 		log.Println("unknow type")
 	}
@@ -40,7 +40,7 @@ func fillUpTablePointerToGongstruct[T models.PointerToGongstruct](
 
 const TableName = "Table"
 
-func fillUpTable[T models.Gongstruct](
+func updateAndCommitTable[T models.Gongstruct](
 	probe *Probe,
 ) {
 

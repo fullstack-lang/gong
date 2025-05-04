@@ -69,8 +69,11 @@ func NewProbe(
 	probe.tableStage = tableStage
 	probe.splitStage = splitStage
 
-	receivingAsSplitArea := updateSplitStage(probe)
-	fillUpTree(probe)
+	// prepare the receiving AsSplitArea
+	receivingAsSplitArea := &split.AsSplitArea{
+		Name: "Bottom",
+		Size: 50,
+	}
 
 	prepare.Prepare(
 		r,
@@ -81,36 +84,6 @@ func NewProbe(
 		test_go.GoDiagramsDir,
 		receivingAsSplitArea,
 	)
-
-	split.StageBranch(probe.splitStage, receivingAsSplitArea)
-
-	// gongdoc_load.Load(
-	// 	"",
-	// 	probe.stageOfInterest.GetProbeSplitStageName(),
-	// 	goModelsDir,
-	// 	goDiagramsDir,
-	// 	r,
-	// 	embeddedDiagrams,
-	// 	stageOfInterest.Map_GongStructName_InstancesNb)
-
-	return
-}
-
-func (probe *Probe) Refresh() {
-	fillUpTree(probe)
-}
-
-func (probe *Probe) GetFormStage() *form.Stage {
-	return probe.formStage
-}
-
-func updateSplitStage(probe *Probe) (receivingAsSplitArea *split.AsSplitArea) {
-	receivingAsSplitArea = &split.AsSplitArea{
-		Name: "Bottom",
-		Size: 50,
-	}
-
-	probe.splitStage.Reset()
 
 	split.StageBranch(probe.splitStage, &split.View{
 		Name: "Main view",
@@ -155,6 +128,33 @@ func updateSplitStage(probe *Probe) (receivingAsSplitArea *split.AsSplitArea) {
 			receivingAsSplitArea,
 		},
 	})
+	probe.splitStage.Commit()
+
+	updateAndCommitTree(probe)
+
+	// gongdoc_load.Load(
+	// 	"",
+	// 	probe.stageOfInterest.GetProbeSplitStageName(),
+	// 	goModelsDir,
+	// 	goDiagramsDir,
+	// 	r,
+	// 	embeddedDiagrams,
+	// 	stageOfInterest.Map_GongStructName_InstancesNb)
+
+	return
+}
+
+func (probe *Probe) Refresh() {
+	updateAndCommitTree(probe)
+}
+
+func (probe *Probe) GetFormStage() *form.Stage {
+	return probe.formStage
+}
+
+func updateSplitStage(probe *Probe) (receivingAsSplitArea *split.AsSplitArea) {
+
+	probe.splitStage.Reset()
 
 	probe.splitStage.Commit()
 
