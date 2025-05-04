@@ -23,16 +23,16 @@ import (
 )
 
 // hook marhalling to stage
-type BeforeCommitImplementation struct {
+type beforeCommitImplementation struct {
 	marshallOnCommit string
 
 	packageName string
 }
 
-func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
+func (beforeCommitImplementation *beforeCommitImplementation) BeforeCommit(stage *models.Stage) {
 
 	// the ".go" is not provided
-	filename := impl.marshallOnCommit
+	filename := beforeCommitImplementation.marshallOnCommit
 	if !strings.HasSuffix(filename, ".go") {
 		filename = filename + ".go"
 	}
@@ -43,7 +43,7 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
 	}
 	defer file.Close()
 
-	packageName := impl.packageName
+	packageName := beforeCommitImplementation.packageName
 	if packageName == "" {
 		packageName = "main"
 	}
@@ -63,7 +63,7 @@ func Prepare(
 ) {
 	var stage *models.Stage
 
-	stage, _ = fullstack.NewStackInstance(r, doc2StackName, pathToDocStageFile)
+	stage, _ = fullstack.NewStackInstance(r, doc2StackName)
 
 	stage.Checkout()
 	stage.Reset()
@@ -78,8 +78,11 @@ func Prepare(
 
 	stage.Commit()
 
-	hook := new(BeforeCommitImplementation)
-	stage.OnInitCommitCallback = hook
+	BeforeCommitImplementation := &beforeCommitImplementation{
+		marshallOnCommit: pathToDocStageFile,
+		packageName:      "diagrams", // necessity because the diagram file is in a diagrams package
+	}
+	stage.OnInitCommitCallback = BeforeCommitImplementation
 
 	stage.Checkout()
 

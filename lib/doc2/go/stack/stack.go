@@ -140,7 +140,7 @@ func NewStack(
 
 	if withProbe {
 		if embeddedDiagrams {
-			log.Panic("load of embedded diagram with doc2 not yet implemented")
+			// log.Panic("load of embedded diagram with doc2 not yet implemented")
 		} else {
 			// if the application edits the diagrams via the probe, it is surmised
 			// that the application is launched from "go/cmd/<appl>/". Therefore, to reach
