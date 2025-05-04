@@ -10,7 +10,7 @@ import (
 
 type TreeNodeImplGongstruct struct {
 	gongStruct *gong_models.GongStruct
-	probe *Probe
+	probe      *Probe
 }
 
 func NewTreeNodeImplGongstruct(
@@ -51,31 +51,31 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "AttributeShape" {
-		fillUpTable[models.AttributeShape](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.AttributeShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Classdiagram" {
-		fillUpTable[models.Classdiagram](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Classdiagram](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "DiagramPackage" {
-		fillUpTable[models.DiagramPackage](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.DiagramPackage](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongEnumShape" {
-		fillUpTable[models.GongEnumShape](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.GongEnumShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongEnumValueShape" {
-		fillUpTable[models.GongEnumValueShape](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.GongEnumValueShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongStructShape" {
-		fillUpTable[models.GongStructShape](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.GongStructShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "LinkShape" {
-		fillUpTable[models.LinkShape](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.LinkShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "NoteShape" {
-		fillUpTable[models.NoteShape](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.NoteShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "NoteShapeLink" {
-		fillUpTable[models.NoteShapeLink](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.NoteShapeLink](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

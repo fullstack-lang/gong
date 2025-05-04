@@ -10,7 +10,7 @@ import (
 
 type TreeNodeImplGongstruct struct {
 	gongStruct *gong_models.GongStruct
-	probe *Probe
+	probe      *Probe
 }
 
 func NewTreeNodeImplGongstruct(
@@ -51,19 +51,19 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "DisplaySelection" {
-		fillUpTable[models.DisplaySelection](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.DisplaySelection](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "XLCell" {
-		fillUpTable[models.XLCell](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.XLCell](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "XLFile" {
-		fillUpTable[models.XLFile](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.XLFile](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "XLRow" {
-		fillUpTable[models.XLRow](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.XLRow](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "XLSheet" {
-		fillUpTable[models.XLSheet](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.XLSheet](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color
