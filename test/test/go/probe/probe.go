@@ -71,8 +71,9 @@ func NewProbe(
 
 	// prepare the receiving AsSplitArea
 	receivingAsSplitArea := &split.AsSplitArea{
-		Name: "Bottom",
-		Size: 50,
+		Name:             "Bottom",
+		ShowNameInHeader: false,
+		Size:             50,
 	}
 
 	prepare.Prepare(
