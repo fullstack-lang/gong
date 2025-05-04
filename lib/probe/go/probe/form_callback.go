@@ -70,7 +70,7 @@ func (probe2FormCallback *Probe2FormCallback) OnSave() {
 	}
 
 	probe2FormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Probe2](
+	updateAndCommitTable[models.Probe2](
 		probe2FormCallback.probe,
 	)
 	probe2FormCallback.probe.tableStage.Commit()
@@ -91,5 +91,5 @@ func (probe2FormCallback *Probe2FormCallback) OnSave() {
 		probe2FormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(probe2FormCallback.probe)
+	updateAndCommitTree(probe2FormCallback.probe)
 }

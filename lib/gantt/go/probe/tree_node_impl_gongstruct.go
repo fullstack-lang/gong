@@ -10,7 +10,7 @@ import (
 
 type TreeNodeImplGongstruct struct {
 	gongStruct *gong_models.GongStruct
-	probe *Probe
+	probe      *Probe
 }
 
 func NewTreeNodeImplGongstruct(
@@ -51,25 +51,25 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Arrow" {
-		fillUpTable[models.Arrow](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Arrow](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Bar" {
-		fillUpTable[models.Bar](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Bar](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Gantt" {
-		fillUpTable[models.Gantt](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Gantt](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Group" {
-		fillUpTable[models.Group](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Group](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Lane" {
-		fillUpTable[models.Lane](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Lane](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "LaneUse" {
-		fillUpTable[models.LaneUse](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.LaneUse](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Milestone" {
-		fillUpTable[models.Milestone](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Milestone](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

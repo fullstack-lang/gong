@@ -74,7 +74,7 @@ func (displayselectionFormCallback *DisplaySelectionFormCallback) OnSave() {
 	}
 
 	displayselectionFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.DisplaySelection](
+	updateAndCommitTable[models.DisplaySelection](
 		displayselectionFormCallback.probe,
 	)
 	displayselectionFormCallback.probe.tableStage.Commit()
@@ -95,7 +95,7 @@ func (displayselectionFormCallback *DisplaySelectionFormCallback) OnSave() {
 		displayselectionFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(displayselectionFormCallback.probe)
+	updateAndCommitTree(displayselectionFormCallback.probe)
 }
 func __gong__New__XLCellFormCallback(
 	xlcell *models.XLCell,
@@ -237,7 +237,7 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 	}
 
 	xlcellFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.XLCell](
+	updateAndCommitTable[models.XLCell](
 		xlcellFormCallback.probe,
 	)
 	xlcellFormCallback.probe.tableStage.Commit()
@@ -258,7 +258,7 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 		xlcellFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(xlcellFormCallback.probe)
+	updateAndCommitTree(xlcellFormCallback.probe)
 }
 func __gong__New__XLFileFormCallback(
 	xlfile *models.XLFile,
@@ -316,7 +316,7 @@ func (xlfileFormCallback *XLFileFormCallback) OnSave() {
 	}
 
 	xlfileFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.XLFile](
+	updateAndCommitTable[models.XLFile](
 		xlfileFormCallback.probe,
 	)
 	xlfileFormCallback.probe.tableStage.Commit()
@@ -337,7 +337,7 @@ func (xlfileFormCallback *XLFileFormCallback) OnSave() {
 		xlfileFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(xlfileFormCallback.probe)
+	updateAndCommitTree(xlfileFormCallback.probe)
 }
 func __gong__New__XLRowFormCallback(
 	xlrow *models.XLRow,
@@ -436,7 +436,7 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 	}
 
 	xlrowFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.XLRow](
+	updateAndCommitTable[models.XLRow](
 		xlrowFormCallback.probe,
 	)
 	xlrowFormCallback.probe.tableStage.Commit()
@@ -457,7 +457,7 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 		xlrowFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(xlrowFormCallback.probe)
+	updateAndCommitTree(xlrowFormCallback.probe)
 }
 func __gong__New__XLSheetFormCallback(
 	xlsheet *models.XLSheet,
@@ -560,7 +560,7 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 	}
 
 	xlsheetFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.XLSheet](
+	updateAndCommitTable[models.XLSheet](
 		xlsheetFormCallback.probe,
 	)
 	xlsheetFormCallback.probe.tableStage.Commit()
@@ -581,5 +581,5 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 		xlsheetFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(xlsheetFormCallback.probe)
+	updateAndCommitTree(xlsheetFormCallback.probe)
 }

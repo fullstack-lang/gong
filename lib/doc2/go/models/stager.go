@@ -18,51 +18,62 @@ import (
 )
 
 type Stager struct {
-	stage      *Stage
-	splitStage *split.Stage
-	treeStage  *tree.Stage
-	svgStage   *svg.Stage
-	gongStage  *gong.Stage
+	stage     *Stage
+	treeStage *tree.Stage
+	svgStage  *svg.Stage
+	gongStage *gong.Stage
 
 	sidebarTree *tree.Tree
+
+	embeddedDiagrams bool
 }
 
 func NewStager(
 	r *gin.Engine,
+	receivingAsSplitArea *split.AsSplitArea,
 	stage *Stage,
-	splitStage *split.Stage,
 	treeStage *tree.Stage,
 	svgStage *svg.Stage,
 	gongStage *gong.Stage,
+
+	embeddedDiagrams bool,
 ) (stager *Stager) {
 
 	stager = new(Stager)
 
 	stager.stage = stage
-	stager.splitStage = splitStage
 	stager.treeStage = treeStage
 	stager.svgStage = svgStage
 	stager.gongStage = gongStage
 
+	stager.embeddedDiagrams = embeddedDiagrams
+
 	// StageBranch will stage on the the first argument
 	// all instances related to the second argument
-	split.StageBranch(stager.splitStage, &split.View{
-		Name: "Probe",
-		RootAsSplitAreas: []*split.AsSplitArea{
+	receivingAsSplitArea.AsSplit = &split.AsSplit{
+		Name:      "Root As Split for doc2 receiving area",
+		Direction: split.Horizontal,
+		AsSplitAreas: []*split.AsSplitArea{
 			{
-				Size: 50,
+				Name:             "AsSplitArea 50% for Slit (Tree & Svg)",
+				ShowNameInHeader: false,
+				Size:             50,
 				AsSplit: (&split.AsSplit{
 					Direction: split.Horizontal,
 					AsSplitAreas: []*split.AsSplitArea{
 						{
-							Size: 25,
+							Name:             "doc2 Tree",
+							ShowNameInHeader: false,
+							Size:             25,
 							Tree: &split.Tree{
 								StackName: stager.treeStage.GetName(),
 								TreeName:  stager.stage.GetProbeTreeSidebarStageName(),
 							},
 						},
 						{
-							Size: 75,
+							Name:             "doc2 SVG",
+							ShowNameInHeader: false,
+							Size:             75,
 							Svg: &split.Svg{
 								StackName: stager.svgStage.GetName(),
 							},
@@ -70,58 +81,8 @@ func NewStager(
 					},
 				}),
 			},
-			{
-				Size: 50,
-				Split: (&split.Split{
-					StackName: stage.GetProbeSplitStageName(),
-				}),
-			},
 		},
-	})
-
-	split.StageBranch(stager.splitStage, &split.View{
-		Name: "Doc2 tree stage probe",
-		RootAsSplitAreas: []*split.AsSplitArea{
-			{
-				Split: (&split.Split{
-					StackName: stager.treeStage.GetProbeSplitStageName(),
-				}),
-			},
-		},
-	})
-
-	split.StageBranch(stager.splitStage, &split.View{
-		Name: "Doc2 Probe",
-		RootAsSplitAreas: []*split.AsSplitArea{
-			{
-				Split: (&split.Split{
-					StackName: stager.stage.GetProbeSplitStageName(),
-				}),
-			},
-		},
-	})
-
-	split.StageBranch(stager.splitStage, &split.View{
-		Name: "SVG Probe",
-		RootAsSplitAreas: []*split.AsSplitArea{
-			{
-				Split: (&split.Split{
-					StackName: stager.svgStage.GetProbeSplitStageName(),
-				}),
-			},
-		},
-	})
-
-	split.StageBranch(stager.splitStage, &split.View{
-		Name: "Gong Probe",
-		RootAsSplitAreas: []*split.AsSplitArea{
-			{
-				Split: (&split.Split{
-					StackName: stager.gongStage.GetProbeSplitStageName(),
-				}),
-			},
-		},
-	})
+	}
 
 	// if no diagram package is present, creates one
 	diagramPackages := *GetGongstructInstancesSet[DiagramPackage](stage)
@@ -138,7 +99,6 @@ func NewStager(
 
 	stager.UpdateAndCommitSVGStage()
 	stager.UpdateAndCommitTreeStage()
-	stager.splitStage.Commit()
 
 	return
 }
