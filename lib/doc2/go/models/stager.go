@@ -23,8 +23,6 @@ type Stager struct {
 	svgStage  *svg.Stage
 	gongStage *gong.Stage
 
-	sidebarTree *tree.Tree
-
 	embeddedDiagrams bool
 }
 
@@ -87,11 +85,11 @@ func NewStager(
 	// if no diagram package is present, creates one
 	diagramPackages := *GetGongstructInstancesSet[DiagramPackage](stage)
 	var diagramPackage *DiagramPackage
-	for k, _ := range diagramPackages {
+	for k := range diagramPackages {
 		diagramPackage = k
 	}
 	if diagramPackage == nil {
-		diagramPackage = (&DiagramPackage{
+		(&DiagramPackage{
 			Name: fmt.Sprintf("Diagram Package created the %s", time.Now().Local().UTC().Format(time.RFC3339)),
 		}).Stage(stage)
 		stage.Commit()
