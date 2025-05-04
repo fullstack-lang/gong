@@ -3,6 +3,7 @@ package models
 
 import (
 	"bufio"
+	"embed"
 	"errors"
 	"go/ast"
 	"go/doc/comment"
@@ -18,7 +19,9 @@ import (
 )
 
 var dummy_strconv_import strconv.NumError
+var _ = dummy_strconv_import
 var dummy_time_import time.Time
+var _ = dummy_time_import
 
 // swagger:ignore
 type GONG__ExpressionType string
@@ -52,6 +55,49 @@ func ParseAstFile(stage *Stage, pathToFile string) error {
 		return errors.New("Unable to parser " + errParser.Error())
 	}
 
+	return ParseAstFileFromAst(stage, inFile, fset)
+}
+
+// ParseAstEmbeddedFile parses the Go source code from an embedded file
+// specified by pathToFile within the provided embed.FS directory and
+// stages instances declared in the file using the provided Stage.
+//
+// Parameters:
+//
+//	stage:      The staging area to populate.
+//	directory:  The embedded filesystem containing the file.
+//	pathToFile: The path to the Go source file within the embedded filesystem.
+//
+// Returns:
+//
+//	An error if reading or parsing the file fails, or if ParseAstFileFromAst fails.
+func ParseAstEmbeddedFile(stage *Stage, directory embed.FS, pathToFile string) error {
+
+	// 1. Read the content from the embedded filesystem.
+	//    We don't need filepath.Abs as embed.FS uses relative paths.
+	//    We also skip ReplaceOldDeclarationsInFile as embedded files are read-only.
+	fileContentBytes, err := directory.ReadFile(pathToFile)
+	if err != nil {
+		// Return a specific error if the file can't be read from the embed.FS
+		return errors.New("Unable to read embedded file '" + pathToFile + "': " + err.Error())
+	}
+
+	// 2. Create a FileSet to manage position information.
+	fset := token.NewFileSet()
+
+	// 3. Parse the file content.
+	//    Instead of passing a filename for the OS to read, we pass the pathToFile
+	//    as the identifier and the actual file content (fileContentBytes) as the source.
+	//    parser.ParseComments is included to match the original function's behavior.
+	//    The type *ast.File is returned by parser.ParseFile.
+	inFile, errParser := parser.ParseFile(fset, pathToFile, fileContentBytes, parser.ParseComments)
+	if errParser != nil {
+		// Return a specific error if parsing fails
+		return errors.New("Unable to parse embedded file '" + pathToFile + "': " + errParser.Error())
+	}
+
+	// 4. Call the common AST processing logic.
+	//    Pass the parsed AST (*ast.File), the FileSet, and the stage.
 	return ParseAstFileFromAst(stage, inFile, fset)
 }
 
