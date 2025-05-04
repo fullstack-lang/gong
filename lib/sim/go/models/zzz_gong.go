@@ -15,12 +15,16 @@ import (
 	sim_go "github.com/fullstack-lang/gong/lib/sim/go"
 )
 
+// can be used for
+//     days := __Gong__Abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
 func __Gong__Abs(x int) int {
 	if x < 0 {
 		return -x
 	}
 	return x
 }
+
+var _ = __Gong__Abs
 
 const ProbeTreeSidebarSuffix = "-sidebar"
 const ProbeTableSuffix = "-table"
