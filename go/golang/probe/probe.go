@@ -83,8 +83,8 @@ func NewProbe(
 		embeddedDiagrams,
 		pathToDiagramFile,
 		stageOfInterest.GetName(),
-		test_go.GoModelsDir,
-		test_go.GoDiagramsDir,
+		{{pkgname}}_go.GoModelsDir,
+		{{pkgname}}_go.GoDiagramsDir,
 		receivingAsSplitArea,
 	)
 
