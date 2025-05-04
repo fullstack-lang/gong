@@ -28,7 +28,7 @@ func updateAndCommitTablePointerToGongstruct[T models.PointerToGongstruct](
 
 const TableName = "Table"
 
-func updateAndCommitTree[T models.Gongstruct](
+func updateAndCommitTable[T models.Gongstruct](
 	probe *Probe,
 ) {
 
