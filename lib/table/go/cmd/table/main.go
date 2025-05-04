@@ -9,8 +9,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	gongtable_go "github.com/fullstack-lang/gong/lib/table/go"
-
 	// gongtable_data "github.com/fullstack-lang/gong/lib/table/go/data"
 
 	gongtable_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
@@ -18,7 +16,6 @@ import (
 
 	gongtable_models "github.com/fullstack-lang/gong/lib/table/go/models"
 	gongtable_orm "github.com/fullstack-lang/gong/lib/table/go/orm"
-	gongtable_probe "github.com/fullstack-lang/gong/lib/table/go/probe"
 	gongtable_static "github.com/fullstack-lang/gong/lib/table/go/static"
 )
 
@@ -163,23 +160,23 @@ func main() {
 		stageForManualyEditedForm.OnInitCommitFromBackCallback = hook  // callback when the probe is used
 	}
 
-	gongtable_probe.NewProbe(r,
-		gongtable_go.GoModelsDir,
-		gongtable_go.GoDiagramsDir,
-		*embeddedDiagrams,
-		stageForManualyEditedTable)
+	// gongtable_probe.NewProbe(r,
+	// 	gongtable_go.GoModelsDir,
+	// 	gongtable_go.GoDiagramsDir,
+	// 	*embeddedDiagrams,
+	// 	stageForManualyEditedTable)
 
-	gongtable_probe.NewProbe(r,
-		gongtable_go.GoModelsDir,
-		gongtable_go.GoDiagramsDir,
-		*embeddedDiagrams,
-		stageForManualyEditedForm)
+	// gongtable_probe.NewProbe(r,
+	// 	gongtable_go.GoModelsDir,
+	// 	gongtable_go.GoDiagramsDir,
+	// 	*embeddedDiagrams,
+	// 	stageForManualyEditedForm)
 
-	gongtable_probe.NewProbe(r,
-		gongtable_go.GoModelsDir,
-		gongtable_go.GoDiagramsDir,
-		*embeddedDiagrams,
-		stageForGeneratedTable)
+	// gongtable_probe.NewProbe(r,
+	// 	gongtable_go.GoModelsDir,
+	// 	gongtable_go.GoDiagramsDir,
+	// 	*embeddedDiagrams,
+	// 	stageForGeneratedTable)
 
 	log.Printf("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
