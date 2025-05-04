@@ -32,6 +32,7 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000000_Default_Classdiagram := (&models.GongStructShape{}).Stage(stage)
 	__GongStructShape__000001_Default_GongStructShape := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000002_Default_1_Classdiagram := (&models.GongStructShape{}).Stage(stage)
 
 	__LinkShape__000000_GongStructShapes := (&models.LinkShape{}).Stage(stage)
 
@@ -48,16 +49,16 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.Name = `Default`
 	__Classdiagram__000000_Default.IsInRenameMode = false
 	__Classdiagram__000000_Default.IsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true
+	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = false
 	__Classdiagram__000000_Default.NodeGongStructNodeExpansionBinaryEncoding = 0
-	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = true
+	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = false
 	__Classdiagram__000000_Default.NodeGongEnumNodeExpansionBinaryEncoding = 0
 	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = false
 	__Classdiagram__000000_Default.NodeGongNoteNodeExpansionBinaryEncoding = 0
 
 	__Classdiagram__000001_Default_1.Name = `Default_1`
 	__Classdiagram__000001_Default_1.IsInRenameMode = false
-	__Classdiagram__000001_Default_1.IsExpanded = false
+	__Classdiagram__000001_Default_1.IsExpanded = true
 	__Classdiagram__000001_Default_1.NodeGongStructsIsExpanded = false
 	__Classdiagram__000001_Default_1.NodeGongStructNodeExpansionBinaryEncoding = 0
 	__Classdiagram__000001_Default_1.NodeGongEnumsIsExpanded = false
@@ -94,6 +95,18 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_GongStructShape.Height = 63.000000
 	__GongStructShape__000001_Default_GongStructShape.IsSelected = false
 
+	__GongStructShape__000002_Default_1_Classdiagram.Name = `Default_1-Classdiagram`
+	__GongStructShape__000002_Default_1_Classdiagram.X = 42.000000
+	__GongStructShape__000002_Default_1_Classdiagram.Y = 49.000000
+
+	//gong:ident [ref_models.Classdiagram] comment added to overcome the problem with the comment map association
+	__GongStructShape__000002_Default_1_Classdiagram.Identifier = `ref_models.Classdiagram`
+	__GongStructShape__000002_Default_1_Classdiagram.ShowNbInstances = false
+	__GongStructShape__000002_Default_1_Classdiagram.NbInstances = 0
+	__GongStructShape__000002_Default_1_Classdiagram.Width = 240.000000
+	__GongStructShape__000002_Default_1_Classdiagram.Height = 63.000000
+	__GongStructShape__000002_Default_1_Classdiagram.IsSelected = false
+
 	__LinkShape__000000_GongStructShapes.Name = `GongStructShapes`
 
 	//gong:ident [ref_models.Classdiagram.GongStructShapes] comment added to overcome the problem with the comment map association
@@ -122,10 +135,11 @@ func _(stage *models.Stage) {
 	// setup of Classdiagram instances pointers
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000000_Default_Classdiagram)
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000001_Default_GongStructShape)
+	__Classdiagram__000001_Default_1.GongStructShapes = append(__Classdiagram__000001_Default_1.GongStructShapes, __GongStructShape__000002_Default_1_Classdiagram)
 	// setup of DiagramPackage instances pointers
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Classdiagrams, __Classdiagram__000000_Default)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.Classdiagrams, __Classdiagram__000001_Default_1)
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.SelectedClassdiagram = __Classdiagram__000000_Default
+	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_02T09_21_37Z.SelectedClassdiagram = __Classdiagram__000001_Default_1
 	// setup of GongStructShape instances pointers
 	__GongStructShape__000000_Default_Classdiagram.AttributeShapes = append(__GongStructShape__000000_Default_Classdiagram.AttributeShapes, __AttributeShape__000000_Name)
 	__GongStructShape__000000_Default_Classdiagram.LinkShapes = append(__GongStructShape__000000_Default_Classdiagram.LinkShapes, __LinkShape__000000_GongStructShapes)

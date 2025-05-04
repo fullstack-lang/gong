@@ -51,33 +51,35 @@ func NewStager(
 	// StageBranch will stage on the the first argument
 	// all instances related to the second argument
 	receivingAsSplitArea.AsSplit = &split.AsSplit{
-		Direction: split.Horizontal,
+		Name:             "Root As Split for doc2 receiving area",
+		ShowNameInHeader: false,
+		Direction:        split.Horizontal,
 		AsSplitAreas: []*split.AsSplitArea{
 			{
-				Size: 50,
+				Name:             "AsSplitArea 50% for Slit (Tree & Svg)",
+				ShowNameInHeader: false,
+				Size:             50,
 				AsSplit: (&split.AsSplit{
 					Direction: split.Horizontal,
 					AsSplitAreas: []*split.AsSplitArea{
 						{
-							Size: 25,
+							Name:             "doc2 Tree",
+							ShowNameInHeader: false,
+							Size:             25,
 							Tree: &split.Tree{
 								StackName: stager.treeStage.GetName(),
 								TreeName:  stager.stage.GetProbeTreeSidebarStageName(),
 							},
 						},
 						{
-							Size: 75,
+							Name:             "doc2 SVG",
+							ShowNameInHeader: false,
+							Size:             75,
 							Svg: &split.Svg{
 								StackName: stager.svgStage.GetName(),
 							},
 						},
 					},
-				}),
-			},
-			{
-				Size: 50,
-				Split: (&split.Split{
-					StackName: stage.GetProbeSplitStageName(),
 				}),
 			},
 		},
