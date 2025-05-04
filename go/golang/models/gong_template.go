@@ -17,13 +17,6 @@ import (
 	{{pkgname}}_go "{{PkgPathRoot}}"
 )
 
-func __Gong__Abs(x int) int {
-	if x < 0 {
-		return -x
-	}
-	return x
-}
-
 const ProbeTreeSidebarSuffix = "-sidebar"
 const ProbeTableSuffix = "-table"
 const ProbeFormSuffix = "-form"

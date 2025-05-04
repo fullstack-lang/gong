@@ -139,8 +139,16 @@ func NewStack(
 	}
 
 	if withProbe {
-		stack.Probe = probe.NewProbe(r, doc2_go.GoModelsDir, doc2_go.GoDiagramsDir,
-			embeddedDiagrams, stage, "../../diagrams/diagrams.go")
+		// if the application edits the diagrams via the probe, it is surmised
+		// that the application is launched from "go/cmd/<appl>/". Therefore, to reach
+		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"	
+		stack.Probe = probe.NewProbe(
+			r,
+			doc2_go.GoModelsDir,
+			doc2_go.GoDiagramsDir,
+			embeddedDiagrams,
+			stage,
+			"../../diagrams/diagrams.go")
 	}
 
 	return

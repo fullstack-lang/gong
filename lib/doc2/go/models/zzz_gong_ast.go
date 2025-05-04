@@ -19,7 +19,9 @@ import (
 )
 
 var dummy_strconv_import strconv.NumError
+var _ = dummy_strconv_import
 var dummy_time_import time.Time
+var _ = dummy_time_import
 
 // swagger:ignore
 type GONG__ExpressionType string
