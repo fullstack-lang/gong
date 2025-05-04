@@ -15,7 +15,7 @@ import (
 	"{{PkgPathRoot}}/models"
 )
 
-func fillUpTablePointerToGongstruct[T models.PointerToGongstruct](
+func updateAndCommitTablePointerToGongstruct[T models.PointerToGongstruct](
 	probe *Probe,
 ) {
 	var typedInstance T
@@ -28,7 +28,7 @@ func fillUpTablePointerToGongstruct[T models.PointerToGongstruct](
 
 const TableName = "Table"
 
-func fillUpTable[T models.Gongstruct](
+func updateAndCommitTree[T models.Gongstruct](
 	probe *Probe,
 ) {
 
@@ -216,7 +216,7 @@ map[string]string{
 
 	string(rune(FillUpTableCaseForCastingDown)): `
 	case *models.{{Structname}}:
-		fillUpTable[models.{{Structname}}](probe)`,
+		updateAndCommitTable[models.{{Structname}}](probe)`,
 	string(rune(FillUpTableCase)): `
 	case *models.{{Structname}}:
 		formGroup := (&gongtable.FormGroup{
