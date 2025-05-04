@@ -65,6 +65,8 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(button_.Icon), formDiv)
 		case "SVGIcon":
 			FormDivSelectFieldToField(&(button_.SVGIcon), buttonFormCallback.probe.stageOfInterest, formDiv)
+		case "IsDisabled":
+			FormDivBasicFieldToField(&(button_.IsDisabled), formDiv)
 		case "HasToolTip":
 			FormDivBasicFieldToField(&(button_.HasToolTip), formDiv)
 		case "ToolTipText":
@@ -121,7 +123,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 	}
 
 	buttonFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Button](
+	updateAndCommitTable[models.Button](
 		buttonFormCallback.probe,
 	)
 	buttonFormCallback.probe.tableStage.Commit()
@@ -142,7 +144,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 		buttonFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(buttonFormCallback.probe)
+	updateAndCommitTree(buttonFormCallback.probe)
 }
 func __gong__New__NodeFormCallback(
 	node *models.Node,
@@ -316,7 +318,7 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 	}
 
 	nodeFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Node](
+	updateAndCommitTable[models.Node](
 		nodeFormCallback.probe,
 	)
 	nodeFormCallback.probe.tableStage.Commit()
@@ -337,7 +339,7 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 		nodeFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(nodeFormCallback.probe)
+	updateAndCommitTree(nodeFormCallback.probe)
 }
 func __gong__New__SVGIconFormCallback(
 	svgicon *models.SVGIcon,
@@ -395,7 +397,7 @@ func (svgiconFormCallback *SVGIconFormCallback) OnSave() {
 	}
 
 	svgiconFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.SVGIcon](
+	updateAndCommitTable[models.SVGIcon](
 		svgiconFormCallback.probe,
 	)
 	svgiconFormCallback.probe.tableStage.Commit()
@@ -416,7 +418,7 @@ func (svgiconFormCallback *SVGIconFormCallback) OnSave() {
 		svgiconFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(svgiconFormCallback.probe)
+	updateAndCommitTree(svgiconFormCallback.probe)
 }
 func __gong__New__TreeFormCallback(
 	tree *models.Tree,
@@ -472,7 +474,7 @@ func (treeFormCallback *TreeFormCallback) OnSave() {
 	}
 
 	treeFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Tree](
+	updateAndCommitTable[models.Tree](
 		treeFormCallback.probe,
 	)
 	treeFormCallback.probe.tableStage.Commit()
@@ -493,5 +495,5 @@ func (treeFormCallback *TreeFormCallback) OnSave() {
 		treeFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(treeFormCallback.probe)
+	updateAndCommitTree(treeFormCallback.probe)
 }

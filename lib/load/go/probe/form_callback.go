@@ -72,7 +72,7 @@ func (filetodownloadFormCallback *FileToDownloadFormCallback) OnSave() {
 	}
 
 	filetodownloadFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.FileToDownload](
+	updateAndCommitTable[models.FileToDownload](
 		filetodownloadFormCallback.probe,
 	)
 	filetodownloadFormCallback.probe.tableStage.Commit()
@@ -93,5 +93,5 @@ func (filetodownloadFormCallback *FileToDownloadFormCallback) OnSave() {
 		filetodownloadFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(filetodownloadFormCallback.probe)
+	updateAndCommitTree(filetodownloadFormCallback.probe)
 }

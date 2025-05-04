@@ -72,7 +72,7 @@ func (assplitFormCallback *AsSplitFormCallback) OnSave() {
 	}
 
 	assplitFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.AsSplit](
+	updateAndCommitTable[models.AsSplit](
 		assplitFormCallback.probe,
 	)
 	assplitFormCallback.probe.tableStage.Commit()
@@ -93,7 +93,7 @@ func (assplitFormCallback *AsSplitFormCallback) OnSave() {
 		assplitFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(assplitFormCallback.probe)
+	updateAndCommitTree(assplitFormCallback.probe)
 }
 func __gong__New__AsSplitAreaFormCallback(
 	assplitarea *models.AsSplitArea,
@@ -267,7 +267,7 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 	}
 
 	assplitareaFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.AsSplitArea](
+	updateAndCommitTable[models.AsSplitArea](
 		assplitareaFormCallback.probe,
 	)
 	assplitareaFormCallback.probe.tableStage.Commit()
@@ -288,7 +288,7 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 		assplitareaFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(assplitareaFormCallback.probe)
+	updateAndCommitTree(assplitareaFormCallback.probe)
 }
 func __gong__New__ButtonFormCallback(
 	button *models.Button,
@@ -346,7 +346,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 	}
 
 	buttonFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Button](
+	updateAndCommitTable[models.Button](
 		buttonFormCallback.probe,
 	)
 	buttonFormCallback.probe.tableStage.Commit()
@@ -367,7 +367,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 		buttonFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(buttonFormCallback.probe)
+	updateAndCommitTree(buttonFormCallback.probe)
 }
 func __gong__New__CursorFormCallback(
 	cursor *models.Cursor,
@@ -427,7 +427,7 @@ func (cursorFormCallback *CursorFormCallback) OnSave() {
 	}
 
 	cursorFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Cursor](
+	updateAndCommitTable[models.Cursor](
 		cursorFormCallback.probe,
 	)
 	cursorFormCallback.probe.tableStage.Commit()
@@ -448,7 +448,7 @@ func (cursorFormCallback *CursorFormCallback) OnSave() {
 		cursorFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(cursorFormCallback.probe)
+	updateAndCommitTree(cursorFormCallback.probe)
 }
 func __gong__New__DocFormCallback(
 	doc *models.Doc,
@@ -506,7 +506,7 @@ func (docFormCallback *DocFormCallback) OnSave() {
 	}
 
 	docFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Doc](
+	updateAndCommitTable[models.Doc](
 		docFormCallback.probe,
 	)
 	docFormCallback.probe.tableStage.Commit()
@@ -527,7 +527,7 @@ func (docFormCallback *DocFormCallback) OnSave() {
 		docFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(docFormCallback.probe)
+	updateAndCommitTree(docFormCallback.probe)
 }
 func __gong__New__FormFormCallback(
 	form *models.Form,
@@ -587,7 +587,7 @@ func (formFormCallback *FormFormCallback) OnSave() {
 	}
 
 	formFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Form](
+	updateAndCommitTable[models.Form](
 		formFormCallback.probe,
 	)
 	formFormCallback.probe.tableStage.Commit()
@@ -608,7 +608,7 @@ func (formFormCallback *FormFormCallback) OnSave() {
 		formFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(formFormCallback.probe)
+	updateAndCommitTree(formFormCallback.probe)
 }
 func __gong__New__LoadFormCallback(
 	load *models.Load,
@@ -666,7 +666,7 @@ func (loadFormCallback *LoadFormCallback) OnSave() {
 	}
 
 	loadFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Load](
+	updateAndCommitTable[models.Load](
 		loadFormCallback.probe,
 	)
 	loadFormCallback.probe.tableStage.Commit()
@@ -687,7 +687,7 @@ func (loadFormCallback *LoadFormCallback) OnSave() {
 		loadFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(loadFormCallback.probe)
+	updateAndCommitTree(loadFormCallback.probe)
 }
 func __gong__New__SliderFormCallback(
 	slider *models.Slider,
@@ -745,7 +745,7 @@ func (sliderFormCallback *SliderFormCallback) OnSave() {
 	}
 
 	sliderFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Slider](
+	updateAndCommitTable[models.Slider](
 		sliderFormCallback.probe,
 	)
 	sliderFormCallback.probe.tableStage.Commit()
@@ -766,7 +766,7 @@ func (sliderFormCallback *SliderFormCallback) OnSave() {
 		sliderFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(sliderFormCallback.probe)
+	updateAndCommitTree(sliderFormCallback.probe)
 }
 func __gong__New__SplitFormCallback(
 	split *models.Split,
@@ -824,7 +824,7 @@ func (splitFormCallback *SplitFormCallback) OnSave() {
 	}
 
 	splitFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Split](
+	updateAndCommitTable[models.Split](
 		splitFormCallback.probe,
 	)
 	splitFormCallback.probe.tableStage.Commit()
@@ -845,7 +845,7 @@ func (splitFormCallback *SplitFormCallback) OnSave() {
 		splitFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(splitFormCallback.probe)
+	updateAndCommitTree(splitFormCallback.probe)
 }
 func __gong__New__SvgFormCallback(
 	svg *models.Svg,
@@ -905,7 +905,7 @@ func (svgFormCallback *SvgFormCallback) OnSave() {
 	}
 
 	svgFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Svg](
+	updateAndCommitTable[models.Svg](
 		svgFormCallback.probe,
 	)
 	svgFormCallback.probe.tableStage.Commit()
@@ -926,7 +926,7 @@ func (svgFormCallback *SvgFormCallback) OnSave() {
 		svgFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(svgFormCallback.probe)
+	updateAndCommitTree(svgFormCallback.probe)
 }
 func __gong__New__TableFormCallback(
 	table *models.Table,
@@ -986,7 +986,7 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 	}
 
 	tableFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Table](
+	updateAndCommitTable[models.Table](
 		tableFormCallback.probe,
 	)
 	tableFormCallback.probe.tableStage.Commit()
@@ -1007,7 +1007,7 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 		tableFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(tableFormCallback.probe)
+	updateAndCommitTree(tableFormCallback.probe)
 }
 func __gong__New__ToneFormCallback(
 	tone *models.Tone,
@@ -1065,7 +1065,7 @@ func (toneFormCallback *ToneFormCallback) OnSave() {
 	}
 
 	toneFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Tone](
+	updateAndCommitTable[models.Tone](
 		toneFormCallback.probe,
 	)
 	toneFormCallback.probe.tableStage.Commit()
@@ -1086,7 +1086,7 @@ func (toneFormCallback *ToneFormCallback) OnSave() {
 		toneFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(toneFormCallback.probe)
+	updateAndCommitTree(toneFormCallback.probe)
 }
 func __gong__New__TreeFormCallback(
 	tree *models.Tree,
@@ -1146,7 +1146,7 @@ func (treeFormCallback *TreeFormCallback) OnSave() {
 	}
 
 	treeFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Tree](
+	updateAndCommitTable[models.Tree](
 		treeFormCallback.probe,
 	)
 	treeFormCallback.probe.tableStage.Commit()
@@ -1167,7 +1167,7 @@ func (treeFormCallback *TreeFormCallback) OnSave() {
 		treeFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(treeFormCallback.probe)
+	updateAndCommitTree(treeFormCallback.probe)
 }
 func __gong__New__ViewFormCallback(
 	view *models.View,
@@ -1225,7 +1225,7 @@ func (viewFormCallback *ViewFormCallback) OnSave() {
 	}
 
 	viewFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.View](
+	updateAndCommitTable[models.View](
 		viewFormCallback.probe,
 	)
 	viewFormCallback.probe.tableStage.Commit()
@@ -1246,7 +1246,7 @@ func (viewFormCallback *ViewFormCallback) OnSave() {
 		viewFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(viewFormCallback.probe)
+	updateAndCommitTree(viewFormCallback.probe)
 }
 func __gong__New__XlsxFormCallback(
 	xlsx *models.Xlsx,
@@ -1304,7 +1304,7 @@ func (xlsxFormCallback *XlsxFormCallback) OnSave() {
 	}
 
 	xlsxFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Xlsx](
+	updateAndCommitTable[models.Xlsx](
 		xlsxFormCallback.probe,
 	)
 	xlsxFormCallback.probe.tableStage.Commit()
@@ -1325,5 +1325,5 @@ func (xlsxFormCallback *XlsxFormCallback) OnSave() {
 		xlsxFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(xlsxFormCallback.probe)
+	updateAndCommitTree(xlsxFormCallback.probe)
 }

@@ -24,16 +24,16 @@ func NewStager(r *gin.Engine, stage *Stage) (stager *Stager) {
 	// that do not develop their specific angular component
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
-	(&split.View{
+	split.StageBranch(stager.splitStage, &split.View{
 		Name: "Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
 				Split: (&split.Split{
 					StackName: stage.GetProbeSplitStageName(),
-				}).Stage(stager.splitStage),
-			}).Stage(stager.splitStage),
+				}),
+			}),
 		},
-	}).Stage(stager.splitStage)
+	})
 
 	stager.splitStage.Commit()
 

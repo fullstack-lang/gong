@@ -12,7 +12,7 @@ import (
 
 type TreeNodeImplGongstruct struct {
 	gongStruct *gong_models.GongStruct
-	probe *Probe
+	probe      *Probe
 }
 
 func NewTreeNodeImplGongstruct(
@@ -74,6 +74,6 @@ var TreeNodeImplGongstructSubTemplateCode map[string]string = // new line
 map[string]string{
 	string(rune(NodeImplGongstruct)): `
 	if nodeImplGongstruct.gongStruct.GetName() == "{{Structname}}" {
-		fillUpTable[models.{{Structname}}](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.{{Structname}}](nodeImplGongstruct.probe)
 	}`,
 }

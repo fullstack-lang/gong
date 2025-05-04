@@ -72,10 +72,6 @@ type ClassdiagramDB struct {
 	// Declation for basic field classdiagramDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field classdiagramDB.IsInDrawMode
-	// provide the sql storage for the boolan
-	IsInDrawMode_Data sql.NullBool
-
 	// Declation for basic field classdiagramDB.IsInRenameMode
 	// provide the sql storage for the boolan
 	IsInRenameMode_Data sql.NullBool
@@ -129,23 +125,21 @@ type ClassdiagramWOP struct {
 
 	Name string `xlsx:"1"`
 
-	IsInDrawMode bool `xlsx:"2"`
+	IsInRenameMode bool `xlsx:"2"`
 
-	IsInRenameMode bool `xlsx:"3"`
+	IsExpanded bool `xlsx:"3"`
 
-	IsExpanded bool `xlsx:"4"`
+	NodeGongStructsIsExpanded bool `xlsx:"4"`
 
-	NodeGongStructsIsExpanded bool `xlsx:"5"`
+	NodeGongStructNodeExpansionBinaryEncoding int `xlsx:"5"`
 
-	NodeGongStructNodeExpansionBinaryEncoding int `xlsx:"6"`
+	NodeGongEnumsIsExpanded bool `xlsx:"6"`
 
-	NodeGongEnumsIsExpanded bool `xlsx:"7"`
+	NodeGongEnumNodeExpansionBinaryEncoding int `xlsx:"7"`
 
-	NodeGongEnumNodeExpansionBinaryEncoding int `xlsx:"8"`
+	NodeGongNotesIsExpanded bool `xlsx:"8"`
 
-	NodeGongNotesIsExpanded bool `xlsx:"9"`
-
-	NodeGongNoteNodeExpansionBinaryEncoding int `xlsx:"10"`
+	NodeGongNoteNodeExpansionBinaryEncoding int `xlsx:"9"`
 	// insertion for WOP pointer fields
 }
 
@@ -153,7 +147,6 @@ var Classdiagram_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
-	"IsInDrawMode",
 	"IsInRenameMode",
 	"IsExpanded",
 	"NodeGongStructsIsExpanded",
@@ -523,9 +516,6 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsFromClassdiagram(classdiagr
 	classdiagramDB.Name_Data.String = classdiagram.Name
 	classdiagramDB.Name_Data.Valid = true
 
-	classdiagramDB.IsInDrawMode_Data.Bool = classdiagram.IsInDrawMode
-	classdiagramDB.IsInDrawMode_Data.Valid = true
-
 	classdiagramDB.IsInRenameMode_Data.Bool = classdiagram.IsInRenameMode
 	classdiagramDB.IsInRenameMode_Data.Valid = true
 
@@ -557,9 +547,6 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsFromClassdiagram_WOP(classd
 
 	classdiagramDB.Name_Data.String = classdiagram.Name
 	classdiagramDB.Name_Data.Valid = true
-
-	classdiagramDB.IsInDrawMode_Data.Bool = classdiagram.IsInDrawMode
-	classdiagramDB.IsInDrawMode_Data.Valid = true
 
 	classdiagramDB.IsInRenameMode_Data.Bool = classdiagram.IsInRenameMode
 	classdiagramDB.IsInRenameMode_Data.Valid = true
@@ -593,9 +580,6 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsFromClassdiagramWOP(classdi
 	classdiagramDB.Name_Data.String = classdiagram.Name
 	classdiagramDB.Name_Data.Valid = true
 
-	classdiagramDB.IsInDrawMode_Data.Bool = classdiagram.IsInDrawMode
-	classdiagramDB.IsInDrawMode_Data.Valid = true
-
 	classdiagramDB.IsInRenameMode_Data.Bool = classdiagram.IsInRenameMode
 	classdiagramDB.IsInRenameMode_Data.Valid = true
 
@@ -625,7 +609,6 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsFromClassdiagramWOP(classdi
 func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsToClassdiagram(classdiagram *models.Classdiagram) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	classdiagram.Name = classdiagramDB.Name_Data.String
-	classdiagram.IsInDrawMode = classdiagramDB.IsInDrawMode_Data.Bool
 	classdiagram.IsInRenameMode = classdiagramDB.IsInRenameMode_Data.Bool
 	classdiagram.IsExpanded = classdiagramDB.IsExpanded_Data.Bool
 	classdiagram.NodeGongStructsIsExpanded = classdiagramDB.NodeGongStructsIsExpanded_Data.Bool
@@ -640,7 +623,6 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsToClassdiagram(classdiagram
 func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsToClassdiagram_WOP(classdiagram *models.Classdiagram_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	classdiagram.Name = classdiagramDB.Name_Data.String
-	classdiagram.IsInDrawMode = classdiagramDB.IsInDrawMode_Data.Bool
 	classdiagram.IsInRenameMode = classdiagramDB.IsInRenameMode_Data.Bool
 	classdiagram.IsExpanded = classdiagramDB.IsExpanded_Data.Bool
 	classdiagram.NodeGongStructsIsExpanded = classdiagramDB.NodeGongStructsIsExpanded_Data.Bool
@@ -656,7 +638,6 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsToClassdiagramWOP(classdiag
 	classdiagram.ID = int(classdiagramDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	classdiagram.Name = classdiagramDB.Name_Data.String
-	classdiagram.IsInDrawMode = classdiagramDB.IsInDrawMode_Data.Bool
 	classdiagram.IsInRenameMode = classdiagramDB.IsInRenameMode_Data.Bool
 	classdiagram.IsExpanded = classdiagramDB.IsExpanded_Data.Bool
 	classdiagram.NodeGongStructsIsExpanded = classdiagramDB.NodeGongStructsIsExpanded_Data.Bool

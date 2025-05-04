@@ -22,8 +22,8 @@ func NewCellDeleteIconImpl[T models.Gongstruct](
 }
 
 type CellDeleteIconImpl[T models.Gongstruct] struct {
-	Instance   *T
-	probe *Probe
+	Instance *T
+	probe    *Probe
 }
 
 func (cellDeleteIconImpl *CellDeleteIconImpl[T]) CellIconUpdated(stage *gongtable.Stage,
@@ -37,11 +37,10 @@ func (cellDeleteIconImpl *CellDeleteIconImpl[T]) CellIconUpdated(stage *gongtabl
 	}
 	cellDeleteIconImpl.probe.stageOfInterest.Commit()
 
-	fillUpTable[T](cellDeleteIconImpl.probe)
-	fillUpTree(cellDeleteIconImpl.probe)
+	updateAndCommitTable[T](cellDeleteIconImpl.probe)
+	updateAndCommitTree(cellDeleteIconImpl.probe)
 	cellDeleteIconImpl.probe.tableStage.Commit()
 }
-
 `
 
 type CellDeleteIconImplInsertionId int
