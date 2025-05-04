@@ -15,7 +15,7 @@ import (
 	gong "github.com/fullstack-lang/gong/go/models"
 	gong_stack "github.com/fullstack-lang/gong/go/stack"
 
-	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
 )
 
 func Prepare(
@@ -25,26 +25,26 @@ func Prepare(
 	doc2StackName string,
 	goModelsDir embed.FS,
 	goDiagramsDir embed.FS,
+	receivingAsSplitArea *split.AsSplitArea, // split area that will receive the doc2 areas
 ) {
 
-	stack := doc2_stack.NewStack(r, doc2StackName+":doc", pathToDocStageFile, pathToDocStageFile, "", embeddedDiagrams, true)
+	stack := doc2_stack.NewStack(r, doc2StackName+":doc2", pathToDocStageFile, pathToDocStageFile, "", embeddedDiagrams, false)
 	// stack.SetMarshallPackageName("models")
 	doc2Stage := stack.Stage
 
 	doc2Stage.Checkout()
 
-	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
-	treeStage := tree_stack.NewStack(r, doc2StackName+":doc2-sidebar", "", "", "", false, true).Stage
+	treeStage := tree_stack.NewStack(r, doc2StackName+":doc2-sidebar", "", "", "", false, false).Stage
 	svgStage := svg_stack.NewStack(r, doc2StackName+":doc2-svg", "", "", "", false, false).Stage
-	gongStage := gong_stack.NewStack(r, doc2StackName+":doc2-gong", "", "", "", false, true).Stage
+	gongStage := gong_stack.NewStack(r, doc2StackName+":doc2-gong", "", "", "", false, false).Stage
 
 	// load the code of the model of interest into the gongStage
 	gong.LoadEmbedded(gongStage, goModelsDir)
 
 	doc2_models.NewStager(
 		r,
+		receivingAsSplitArea,
 		doc2Stage,
-		splitStage,
 		treeStage,
 		svgStage,
 		gongStage,
