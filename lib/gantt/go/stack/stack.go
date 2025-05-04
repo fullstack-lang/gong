@@ -148,7 +148,7 @@ func NewStack(
 			gantt_go.GoDiagramsDir,
 			embeddedDiagrams,
 			stage,
-			"../../diagrams/diagrams.go")
+		)
 	}
 
 	return
