@@ -117,7 +117,7 @@ func (checkboxFormCallback *CheckboxFormCallback) OnSave() {
 	}
 
 	checkboxFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Checkbox](
+	updateAndCommitTable[models.Checkbox](
 		checkboxFormCallback.probe,
 	)
 	checkboxFormCallback.probe.tableStage.Commit()
@@ -138,7 +138,7 @@ func (checkboxFormCallback *CheckboxFormCallback) OnSave() {
 		checkboxFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(checkboxFormCallback.probe)
+	updateAndCommitTree(checkboxFormCallback.probe)
 }
 func __gong__New__GroupFormCallback(
 	group *models.Group,
@@ -237,7 +237,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 	}
 
 	groupFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Group](
+	updateAndCommitTable[models.Group](
 		groupFormCallback.probe,
 	)
 	groupFormCallback.probe.tableStage.Commit()
@@ -258,7 +258,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 		groupFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(groupFormCallback.probe)
+	updateAndCommitTree(groupFormCallback.probe)
 }
 func __gong__New__LayoutFormCallback(
 	layout *models.Layout,
@@ -314,7 +314,7 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 	}
 
 	layoutFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Layout](
+	updateAndCommitTable[models.Layout](
 		layoutFormCallback.probe,
 	)
 	layoutFormCallback.probe.tableStage.Commit()
@@ -335,7 +335,7 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 		layoutFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(layoutFormCallback.probe)
+	updateAndCommitTree(layoutFormCallback.probe)
 }
 func __gong__New__SliderFormCallback(
 	slider *models.Slider,
@@ -452,7 +452,7 @@ func (sliderFormCallback *SliderFormCallback) OnSave() {
 	}
 
 	sliderFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Slider](
+	updateAndCommitTable[models.Slider](
 		sliderFormCallback.probe,
 	)
 	sliderFormCallback.probe.tableStage.Commit()
@@ -473,5 +473,5 @@ func (sliderFormCallback *SliderFormCallback) OnSave() {
 		sliderFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(sliderFormCallback.probe)
+	updateAndCommitTree(sliderFormCallback.probe)
 }

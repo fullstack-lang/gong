@@ -7,13 +7,7 @@ import (
 
 	// insertion point for models import
 
-	"github.com/fullstack-lang/gong/lib/doc2/go/prepare"
-
-	doc2_go "github.com/fullstack-lang/gong/lib/doc2/go"
 	doc2_static "github.com/fullstack-lang/gong/lib/doc2/go/static"
-
-	split "github.com/fullstack-lang/gong/lib/split/go/models"
-	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 )
 
 var (
@@ -38,37 +32,9 @@ func main() {
 	// setup the static file server and get the controller
 	r := doc2_static.ServeStaticFiles(*logGINFlag)
 
-	splitStage := split_stack.NewStack(r, "", "", "", "", false, true).Stage
-	receivingAsSplitArea := &split.AsSplitArea{
-		Name:             "Doc2 receiving area",
-		ShowNameInHeader: false,
-	}
-
-	prepare.Prepare(r, *embeddedDiagrams, "./data/zzz_diagrams.go", "doc2test", doc2_go.GoModelsDir, doc2_go.GoDiagramsDir, receivingAsSplitArea)
-
-	split.StageBranch(splitStage, &split.View{
-		Name:         "Receiving doc2",
-		ShowViewName: true,
-		RootAsSplitAreas: []*split.AsSplitArea{
-			receivingAsSplitArea,
-		},
-	})
-
-	// split.StageBranch(splitStage, &split.View{
-	// 	Name:         "Split probe view",
-	// 	ShowViewName: true,
-	// 	RootAsSplitAreas: []*split.AsSplitArea{
-	// 		{
-	// 			Name:             "Root Split Area for probe",
-	// 			ShowNameInHeader: true,
-	// 			Split: (&split.Split{
-	// 				StackName: splitStage.GetProbeSplitStageName(),
-	// 			}),
-	// 		},
-	// 	},
-	// })
-
-	splitStage.Commit()
+	// setup model stack with its probe
+	// stack := doc2_stack.NewStack(r, "doc2", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	// stack.Probe.Refresh()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
