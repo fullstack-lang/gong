@@ -9,6 +9,8 @@ type Button struct {
 
 	Impl ButtonImplInterface
 
+	IsDisabled bool
+
 	HasToolTip      bool
 	ToolTipText     string
 	ToolTipPosition ToolTipPositionEnum

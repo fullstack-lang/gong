@@ -70,6 +70,10 @@ type ButtonDB struct {
 	// Declation for basic field buttonDB.Icon
 	Icon_Data sql.NullString
 
+	// Declation for basic field buttonDB.IsDisabled
+	// provide the sql storage for the boolan
+	IsDisabled_Data sql.NullBool
+
 	// Declation for basic field buttonDB.HasToolTip
 	// provide the sql storage for the boolan
 	HasToolTip_Data sql.NullBool
@@ -106,11 +110,13 @@ type ButtonWOP struct {
 
 	Icon string `xlsx:"2"`
 
-	HasToolTip bool `xlsx:"3"`
+	IsDisabled bool `xlsx:"3"`
 
-	ToolTipText string `xlsx:"4"`
+	HasToolTip bool `xlsx:"4"`
 
-	ToolTipPosition models.ToolTipPositionEnum `xlsx:"5"`
+	ToolTipText string `xlsx:"5"`
+
+	ToolTipPosition models.ToolTipPositionEnum `xlsx:"6"`
 	// insertion for WOP pointer fields
 }
 
@@ -119,6 +125,7 @@ var Button_Fields = []string{
 	"ID",
 	"Name",
 	"Icon",
+	"IsDisabled",
 	"HasToolTip",
 	"ToolTipText",
 	"ToolTipPosition",
@@ -438,6 +445,9 @@ func (buttonDB *ButtonDB) CopyBasicFieldsFromButton(button *models.Button) {
 	buttonDB.Icon_Data.String = button.Icon
 	buttonDB.Icon_Data.Valid = true
 
+	buttonDB.IsDisabled_Data.Bool = button.IsDisabled
+	buttonDB.IsDisabled_Data.Valid = true
+
 	buttonDB.HasToolTip_Data.Bool = button.HasToolTip
 	buttonDB.HasToolTip_Data.Valid = true
 
@@ -457,6 +467,9 @@ func (buttonDB *ButtonDB) CopyBasicFieldsFromButton_WOP(button *models.Button_WO
 
 	buttonDB.Icon_Data.String = button.Icon
 	buttonDB.Icon_Data.Valid = true
+
+	buttonDB.IsDisabled_Data.Bool = button.IsDisabled
+	buttonDB.IsDisabled_Data.Valid = true
 
 	buttonDB.HasToolTip_Data.Bool = button.HasToolTip
 	buttonDB.HasToolTip_Data.Valid = true
@@ -478,6 +491,9 @@ func (buttonDB *ButtonDB) CopyBasicFieldsFromButtonWOP(button *ButtonWOP) {
 	buttonDB.Icon_Data.String = button.Icon
 	buttonDB.Icon_Data.Valid = true
 
+	buttonDB.IsDisabled_Data.Bool = button.IsDisabled
+	buttonDB.IsDisabled_Data.Valid = true
+
 	buttonDB.HasToolTip_Data.Bool = button.HasToolTip
 	buttonDB.HasToolTip_Data.Valid = true
 
@@ -493,6 +509,7 @@ func (buttonDB *ButtonDB) CopyBasicFieldsToButton(button *models.Button) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	button.Name = buttonDB.Name_Data.String
 	button.Icon = buttonDB.Icon_Data.String
+	button.IsDisabled = buttonDB.IsDisabled_Data.Bool
 	button.HasToolTip = buttonDB.HasToolTip_Data.Bool
 	button.ToolTipText = buttonDB.ToolTipText_Data.String
 	button.ToolTipPosition.FromString(buttonDB.ToolTipPosition_Data.String)
@@ -503,6 +520,7 @@ func (buttonDB *ButtonDB) CopyBasicFieldsToButton_WOP(button *models.Button_WOP)
 	// insertion point for checkout of basic fields (back repo to stage)
 	button.Name = buttonDB.Name_Data.String
 	button.Icon = buttonDB.Icon_Data.String
+	button.IsDisabled = buttonDB.IsDisabled_Data.Bool
 	button.HasToolTip = buttonDB.HasToolTip_Data.Bool
 	button.ToolTipText = buttonDB.ToolTipText_Data.String
 	button.ToolTipPosition.FromString(buttonDB.ToolTipPosition_Data.String)
@@ -514,6 +532,7 @@ func (buttonDB *ButtonDB) CopyBasicFieldsToButtonWOP(button *ButtonWOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	button.Name = buttonDB.Name_Data.String
 	button.Icon = buttonDB.Icon_Data.String
+	button.IsDisabled = buttonDB.IsDisabled_Data.Bool
 	button.HasToolTip = buttonDB.HasToolTip_Data.Bool
 	button.ToolTipText = buttonDB.ToolTipText_Data.String
 	button.ToolTipPosition.FromString(buttonDB.ToolTipPosition_Data.String)

@@ -2,21 +2,55 @@ package prepare
 
 import (
 	"embed"
+	"fmt"
+	"log"
+	"os"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 
-	doc2_models "github.com/fullstack-lang/gong/lib/doc2/go/models"
-	doc2_stack "github.com/fullstack-lang/gong/lib/doc2/go/stack"
+	"github.com/fullstack-lang/gong/lib/doc2/go/fullstack"
+	"github.com/fullstack-lang/gong/lib/doc2/go/models"
 
-	tree_stack "github.com/fullstack-lang/gong/lib/tree/go/stack"
+	tree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
 
-	svg_stack "github.com/fullstack-lang/gong/lib/svg/go/stack"
+	svg_fullstack "github.com/fullstack-lang/gong/lib/svg/go/fullstack"
 
+	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
 	gong "github.com/fullstack-lang/gong/go/models"
-	gong_stack "github.com/fullstack-lang/gong/go/stack"
 
-	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
 )
+
+// hook marhalling to stage
+type BeforeCommitImplementation struct {
+	marshallOnCommit string
+
+	packageName string
+}
+
+func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
+
+	// the ".go" is not provided
+	filename := impl.marshallOnCommit
+	if !strings.HasSuffix(filename, ".go") {
+		filename = filename + ".go"
+	}
+
+	file, err := os.Create(fmt.Sprintf("./%s", filename))
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	defer file.Close()
+
+	packageName := impl.packageName
+	if packageName == "" {
+		packageName = "main"
+	}
+
+	stage.Checkout()
+	stage.Marshall(file, "github.com/fullstack-lang/gong/lib/doc2/go/models", packageName)
+}
 
 func Prepare(
 	r *gin.Engine,
@@ -25,27 +59,43 @@ func Prepare(
 	doc2StackName string,
 	goModelsDir embed.FS,
 	goDiagramsDir embed.FS,
+	receivingAsSplitArea *split.AsSplitArea, // split area that will receive the doc2 areas
 ) {
+	var stage *models.Stage
 
-	stack := doc2_stack.NewStack(r, doc2StackName+":doc", pathToDocStageFile, pathToDocStageFile, "", embeddedDiagrams, true)
-	// stack.SetMarshallPackageName("models")
-	doc2Stage := stack.Stage
+	stage, _ = fullstack.NewStackInstance(r, doc2StackName, pathToDocStageFile)
 
-	doc2Stage.Checkout()
+	stage.Checkout()
+	stage.Reset()
+	stage.Commit()
+	err := models.ParseAstFile(stage, pathToDocStageFile)
 
-	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
-	treeStage := tree_stack.NewStack(r, doc2StackName+":doc2-sidebar", "", "", "", false, true).Stage
-	svgStage := svg_stack.NewStack(r, doc2StackName+":doc2-svg", "", "", "", false, false).Stage
-	gongStage := gong_stack.NewStack(r, doc2StackName+":doc2-gong", "", "", "", false, true).Stage
+	// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
+	// xxx.go might be absent the first time. However, this shall not be a show stopper.
+	if err != nil {
+		log.Println("no file to read " + err.Error())
+	}
+
+	stage.Commit()
+
+	hook := new(BeforeCommitImplementation)
+	stage.OnInitCommitCallback = hook
+
+	stage.Checkout()
+
+	treeStage, _ := tree_fullstack.NewStackInstance(r, doc2StackName+":doc2-sidebar", "", "")
+	svgStage, _ := svg_fullstack.NewStackInstance(r, doc2StackName+":doc2-svg", "", "", "")
+	gongStage, _ := gong_fullstack.NewStackInstance(r, doc2StackName+":doc2-gong", "", "")
 
 	// load the code of the model of interest into the gongStage
 	gong.LoadEmbedded(gongStage, goModelsDir)
 
-	doc2_models.NewStager(
+	models.NewStager(
 		r,
-		doc2Stage,
-		splitStage,
+		receivingAsSplitArea,
+		stage,
 		treeStage,
 		svgStage,
-		gongStage)
+		gongStage,
+		embeddedDiagrams)
 }

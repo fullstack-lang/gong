@@ -10,7 +10,7 @@ import (
 
 type TreeNodeImplGongstruct struct {
 	gongStruct *gong_models.GongStruct
-	probe *Probe
+	probe      *Probe
 }
 
 func NewTreeNodeImplGongstruct(
@@ -51,22 +51,22 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Command" {
-		fillUpTable[models.Command](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Command](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "DummyAgent" {
-		fillUpTable[models.DummyAgent](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.DummyAgent](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Engine" {
-		fillUpTable[models.Engine](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Engine](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Event" {
-		fillUpTable[models.Event](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Event](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Status" {
-		fillUpTable[models.Status](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Status](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "UpdateState" {
-		fillUpTable[models.UpdateState](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.UpdateState](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

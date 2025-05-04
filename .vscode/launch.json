@@ -207,6 +207,18 @@
             ],
         },
         {
+            "name": "go run doc2 -embeddedDiagrams=true",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/doc2/go/cmd/doc2",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage",
+                "-embeddedDiagrams=true"
+            ],
+        },
+        {
             "name": "go run load",
             "type": "go",
             "request": "launch",

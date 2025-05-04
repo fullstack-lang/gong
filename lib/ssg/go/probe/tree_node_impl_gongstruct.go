@@ -10,7 +10,7 @@ import (
 
 type TreeNodeImplGongstruct struct {
 	gongStruct *gong_models.GongStruct
-	probe *Probe
+	probe      *Probe
 }
 
 func NewTreeNodeImplGongstruct(
@@ -51,13 +51,13 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Chapter" {
-		fillUpTable[models.Chapter](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Chapter](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Content" {
-		fillUpTable[models.Content](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Content](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Page" {
-		fillUpTable[models.Page](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Page](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

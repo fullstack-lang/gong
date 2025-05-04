@@ -70,7 +70,7 @@ func (aFormCallback *AFormCallback) OnSave() {
 	}
 
 	aFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.A](
+	updateAndCommitTable[models.A](
 		aFormCallback.probe,
 	)
 	aFormCallback.probe.tableStage.Commit()
@@ -91,7 +91,7 @@ func (aFormCallback *AFormCallback) OnSave() {
 		aFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(aFormCallback.probe)
+	updateAndCommitTree(aFormCallback.probe)
 }
 func __gong__New__BFormCallback(
 	b *models.B,
@@ -147,7 +147,7 @@ func (bFormCallback *BFormCallback) OnSave() {
 	}
 
 	bFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.B](
+	updateAndCommitTable[models.B](
 		bFormCallback.probe,
 	)
 	bFormCallback.probe.tableStage.Commit()
@@ -168,5 +168,5 @@ func (bFormCallback *BFormCallback) OnSave() {
 		bFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(bFormCallback.probe)
+	updateAndCommitTree(bFormCallback.probe)
 }

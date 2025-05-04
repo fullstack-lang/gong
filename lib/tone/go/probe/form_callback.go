@@ -111,7 +111,7 @@ func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
 	}
 
 	freqencyFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Freqency](
+	updateAndCommitTable[models.Freqency](
 		freqencyFormCallback.probe,
 	)
 	freqencyFormCallback.probe.tableStage.Commit()
@@ -132,7 +132,7 @@ func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
 		freqencyFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(freqencyFormCallback.probe)
+	updateAndCommitTree(freqencyFormCallback.probe)
 }
 func __gong__New__NoteFormCallback(
 	note *models.Note,
@@ -196,7 +196,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 	}
 
 	noteFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Note](
+	updateAndCommitTable[models.Note](
 		noteFormCallback.probe,
 	)
 	noteFormCallback.probe.tableStage.Commit()
@@ -217,7 +217,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 		noteFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(noteFormCallback.probe)
+	updateAndCommitTree(noteFormCallback.probe)
 }
 func __gong__New__PlayerFormCallback(
 	player *models.Player,
@@ -275,7 +275,7 @@ func (playerFormCallback *PlayerFormCallback) OnSave() {
 	}
 
 	playerFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Player](
+	updateAndCommitTable[models.Player](
 		playerFormCallback.probe,
 	)
 	playerFormCallback.probe.tableStage.Commit()
@@ -296,5 +296,5 @@ func (playerFormCallback *PlayerFormCallback) OnSave() {
 		playerFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(playerFormCallback.probe)
+	updateAndCommitTree(playerFormCallback.probe)
 }

@@ -13,6 +13,6 @@ func (stager *Stager) UpdateSVGStage() {
 	stager.svgStage.Reset()
 
 	docSVG := NewDocSVGMapper(stager.svgStage)
-	docSVG.GenerateSvg(stager.stage)
+	docSVG.GenerateSvg(stager.stage, stager.embeddedDiagrams)
 
 }

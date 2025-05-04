@@ -10,7 +10,7 @@ import (
 
 type TreeNodeImplGongstruct struct {
 	gongStruct *gong_models.GongStruct
-	probe *Probe
+	probe      *Probe
 }
 
 func NewTreeNodeImplGongstruct(
@@ -51,49 +51,49 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "AsSplit" {
-		fillUpTable[models.AsSplit](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.AsSplit](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "AsSplitArea" {
-		fillUpTable[models.AsSplitArea](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.AsSplitArea](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Button" {
-		fillUpTable[models.Button](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Button](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Cursor" {
-		fillUpTable[models.Cursor](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Cursor](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Doc" {
-		fillUpTable[models.Doc](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Doc](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Form" {
-		fillUpTable[models.Form](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Form](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Load" {
-		fillUpTable[models.Load](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Load](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Slider" {
-		fillUpTable[models.Slider](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Slider](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Split" {
-		fillUpTable[models.Split](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Split](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Svg" {
-		fillUpTable[models.Svg](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Svg](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Table" {
-		fillUpTable[models.Table](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Table](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Tone" {
-		fillUpTable[models.Tone](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Tone](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Tree" {
-		fillUpTable[models.Tree](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Tree](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "View" {
-		fillUpTable[models.View](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.View](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Xlsx" {
-		fillUpTable[models.Xlsx](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Xlsx](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

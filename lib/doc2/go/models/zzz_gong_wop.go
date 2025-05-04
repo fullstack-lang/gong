@@ -28,7 +28,6 @@ func (from *AttributeShape) CopyBasicFields(to *AttributeShape) {
 type Classdiagram_WOP struct {
 	// insertion point
 	Name string
-	IsInDrawMode bool
 	IsInRenameMode bool
 	IsExpanded bool
 	NodeGongStructsIsExpanded bool
@@ -42,7 +41,6 @@ type Classdiagram_WOP struct {
 func (from *Classdiagram) CopyBasicFields(to *Classdiagram) {
 	// insertion point
 	to.Name = from.Name
-	to.IsInDrawMode = from.IsInDrawMode
 	to.IsInRenameMode = from.IsInRenameMode
 	to.IsExpanded = from.IsExpanded
 	to.NodeGongStructsIsExpanded = from.NodeGongStructsIsExpanded
@@ -58,8 +56,6 @@ type DiagramPackage_WOP struct {
 	Name string
 	Path string
 	GongModelPath string
-	IsEditable bool
-	IsReloaded bool
 	AbsolutePathToDiagramPackage string
 }
 
@@ -68,8 +64,6 @@ func (from *DiagramPackage) CopyBasicFields(to *DiagramPackage) {
 	to.Name = from.Name
 	to.Path = from.Path
 	to.GongModelPath = from.GongModelPath
-	to.IsEditable = from.IsEditable
-	to.IsReloaded = from.IsReloaded
 	to.AbsolutePathToDiagramPackage = from.AbsolutePathToDiagramPackage
 }
 
