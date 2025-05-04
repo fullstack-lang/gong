@@ -38,17 +38,18 @@ func main() {
 
 	// setup model stack with its probe
 	stack := doc2_stack.NewStack(r, "doc2", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
-	stack.Probe.Refresh()
 
 	// since we do not use the default stager, we need to create the root split
 	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
+
+	probeSplitStageName := stack.Stage.GetProbeSplitStageName()
 
 	split.StageBranch(splitStage, &split.View{
 		Name: "Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
 				Split: (&split.Split{
-					StackName: stack.Stage.GetProbeSplitStageName(),
+					StackName: probeSplitStageName,
 				}),
 			}),
 		},
