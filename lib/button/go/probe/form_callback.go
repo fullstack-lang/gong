@@ -115,7 +115,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 	}
 
 	buttonFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Button](
+	updateAndCommitTable[models.Button](
 		buttonFormCallback.probe,
 	)
 	buttonFormCallback.probe.tableStage.Commit()
@@ -136,7 +136,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 		buttonFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(buttonFormCallback.probe)
+	updateAndCommitTree(buttonFormCallback.probe)
 }
 func __gong__New__GroupFormCallback(
 	group *models.Group,
@@ -235,7 +235,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 	}
 
 	groupFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Group](
+	updateAndCommitTable[models.Group](
 		groupFormCallback.probe,
 	)
 	groupFormCallback.probe.tableStage.Commit()
@@ -256,7 +256,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 		groupFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(groupFormCallback.probe)
+	updateAndCommitTree(groupFormCallback.probe)
 }
 func __gong__New__LayoutFormCallback(
 	layout *models.Layout,
@@ -312,7 +312,7 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 	}
 
 	layoutFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Layout](
+	updateAndCommitTable[models.Layout](
 		layoutFormCallback.probe,
 	)
 	layoutFormCallback.probe.tableStage.Commit()
@@ -333,5 +333,5 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 		layoutFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(layoutFormCallback.probe)
+	updateAndCommitTree(layoutFormCallback.probe)
 }

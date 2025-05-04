@@ -10,7 +10,7 @@ import (
 
 type TreeNodeImplGongstruct struct {
 	gongStruct *gong_models.GongStruct
-	probe *Probe
+	probe      *Probe
 }
 
 func NewTreeNodeImplGongstruct(
@@ -51,7 +51,7 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Probe2" {
-		fillUpTable[models.Probe2](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Probe2](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

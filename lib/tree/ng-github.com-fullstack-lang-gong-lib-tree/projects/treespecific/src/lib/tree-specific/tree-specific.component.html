@@ -95,6 +95,7 @@
                         mat-icon-button
                         [class]="buttonClass"
                         (click)="onButtonClick($event, node, button)"
+                        [disabled]="button.IsDisabled"
             
                         [matTooltip]="button.ToolTipText"
                         [matTooltipPosition]="button.ToolTipPosition"

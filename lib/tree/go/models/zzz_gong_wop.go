@@ -11,6 +11,7 @@ type Button_WOP struct {
 	// insertion point
 	Name string
 	Icon string
+	IsDisabled bool
 	HasToolTip bool
 	ToolTipText string
 	ToolTipPosition ToolTipPositionEnum
@@ -20,6 +21,7 @@ func (from *Button) CopyBasicFields(to *Button) {
 	// insertion point
 	to.Name = from.Name
 	to.Icon = from.Icon
+	to.IsDisabled = from.IsDisabled
 	to.HasToolTip = from.HasToolTip
 	to.ToolTipText = from.ToolTipText
 	to.ToolTipPosition = from.ToolTipPosition

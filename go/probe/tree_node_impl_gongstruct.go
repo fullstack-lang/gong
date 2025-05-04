@@ -10,7 +10,7 @@ import (
 
 type TreeNodeImplGongstruct struct {
 	gongStruct *gong_models.GongStruct
-	probe *Probe
+	probe      *Probe
 }
 
 func NewTreeNodeImplGongstruct(
@@ -51,40 +51,40 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "GongBasicField" {
-		fillUpTable[models.GongBasicField](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.GongBasicField](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongEnum" {
-		fillUpTable[models.GongEnum](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.GongEnum](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongEnumValue" {
-		fillUpTable[models.GongEnumValue](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.GongEnumValue](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongLink" {
-		fillUpTable[models.GongLink](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.GongLink](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongNote" {
-		fillUpTable[models.GongNote](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.GongNote](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongStruct" {
-		fillUpTable[models.GongStruct](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.GongStruct](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongTimeField" {
-		fillUpTable[models.GongTimeField](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.GongTimeField](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Meta" {
-		fillUpTable[models.Meta](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Meta](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "MetaReference" {
-		fillUpTable[models.MetaReference](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.MetaReference](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "ModelPkg" {
-		fillUpTable[models.ModelPkg](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.ModelPkg](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "PointerToGongStructField" {
-		fillUpTable[models.PointerToGongStructField](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.PointerToGongStructField](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "SliceOfPointerToGongStructField" {
-		fillUpTable[models.SliceOfPointerToGongStructField](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.SliceOfPointerToGongStructField](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

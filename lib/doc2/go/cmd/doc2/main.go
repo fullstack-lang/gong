@@ -7,9 +7,6 @@ import (
 
 	// insertion point for models import
 
-	"github.com/fullstack-lang/gong/lib/doc2/go/prepare"
-
-	doc2_go "github.com/fullstack-lang/gong/lib/doc2/go"
 	doc2_static "github.com/fullstack-lang/gong/lib/doc2/go/static"
 )
 
@@ -35,7 +32,9 @@ func main() {
 	// setup the static file server and get the controller
 	r := doc2_static.ServeStaticFiles(*logGINFlag)
 
-	prepare.Prepare(r, *embeddedDiagrams, "./data/zzz_diagrams.go", "doc2test", doc2_go.GoModelsDir, doc2_go.GoDiagramsDir)
+	// setup model stack with its probe
+	// stack := doc2_stack.NewStack(r, "doc2", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	// stack.Probe.Refresh()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))

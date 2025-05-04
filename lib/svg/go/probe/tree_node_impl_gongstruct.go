@@ -10,7 +10,7 @@ import (
 
 type TreeNodeImplGongstruct struct {
 	gongStruct *gong_models.GongStruct
-	probe *Probe
+	probe      *Probe
 }
 
 func NewTreeNodeImplGongstruct(
@@ -51,61 +51,61 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Animate" {
-		fillUpTable[models.Animate](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Animate](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Circle" {
-		fillUpTable[models.Circle](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Circle](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Ellipse" {
-		fillUpTable[models.Ellipse](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Ellipse](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Layer" {
-		fillUpTable[models.Layer](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Layer](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Line" {
-		fillUpTable[models.Line](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Line](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Link" {
-		fillUpTable[models.Link](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Link](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "LinkAnchoredText" {
-		fillUpTable[models.LinkAnchoredText](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.LinkAnchoredText](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Path" {
-		fillUpTable[models.Path](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Path](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Point" {
-		fillUpTable[models.Point](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Point](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Polygone" {
-		fillUpTable[models.Polygone](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Polygone](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Polyline" {
-		fillUpTable[models.Polyline](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Polyline](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Rect" {
-		fillUpTable[models.Rect](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Rect](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "RectAnchoredPath" {
-		fillUpTable[models.RectAnchoredPath](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.RectAnchoredPath](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "RectAnchoredRect" {
-		fillUpTable[models.RectAnchoredRect](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.RectAnchoredRect](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "RectAnchoredText" {
-		fillUpTable[models.RectAnchoredText](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.RectAnchoredText](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "RectLinkLink" {
-		fillUpTable[models.RectLinkLink](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.RectLinkLink](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "SVG" {
-		fillUpTable[models.SVG](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.SVG](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "SvgText" {
-		fillUpTable[models.SvgText](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.SvgText](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Text" {
-		fillUpTable[models.Text](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Text](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

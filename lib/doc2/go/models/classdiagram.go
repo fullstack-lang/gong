@@ -19,10 +19,6 @@ type Classdiagram struct {
 	// list of notes in the diagram
 	NoteShapes []*NoteShape
 
-	// IsInDrawMode indicates the the drawing can be edited (in development mode)
-	// or not (in production mode)
-	IsInDrawMode bool
-
 	// IsInRenameMode means the user can edit the node
 	IsInRenameMode bool
 
@@ -146,8 +142,6 @@ func (classdiagram *Classdiagram) AddGongStructShape(stage *Stage, diagramPackag
 	// log.Println("AddGongStructShape, after commit, nb ", Stage.BackRepo.GetLastCommitFromBackNb())
 
 }
-
-
 
 // DuplicateDiagram generates a new diagram with duplicated shapes
 func (classdiagram *Classdiagram) DuplicateDiagram() (newClassdiagram *Classdiagram) {
