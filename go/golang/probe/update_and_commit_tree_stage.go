@@ -17,7 +17,7 @@ import (
 
 const SideBarTreeName = "gong"
 
-func fillUpTree(
+func updateAndCommitTree(
 	probe *Probe,
 ) {
 	// keep in memory which nodes have been unfolded / folded
