@@ -133,7 +133,7 @@ func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
 	}
 
 	gongbasicfieldFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.GongBasicField](
+	updateAndCommitTable[models.GongBasicField](
 		gongbasicfieldFormCallback.probe,
 	)
 	gongbasicfieldFormCallback.probe.tableStage.Commit()
@@ -154,7 +154,7 @@ func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
 		gongbasicfieldFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(gongbasicfieldFormCallback.probe)
+	updateAndCommitTree(gongbasicfieldFormCallback.probe)
 }
 func __gong__New__GongEnumFormCallback(
 	gongenum *models.GongEnum,
@@ -212,7 +212,7 @@ func (gongenumFormCallback *GongEnumFormCallback) OnSave() {
 	}
 
 	gongenumFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.GongEnum](
+	updateAndCommitTable[models.GongEnum](
 		gongenumFormCallback.probe,
 	)
 	gongenumFormCallback.probe.tableStage.Commit()
@@ -233,7 +233,7 @@ func (gongenumFormCallback *GongEnumFormCallback) OnSave() {
 		gongenumFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(gongenumFormCallback.probe)
+	updateAndCommitTree(gongenumFormCallback.probe)
 }
 func __gong__New__GongEnumValueFormCallback(
 	gongenumvalue *models.GongEnumValue,
@@ -332,7 +332,7 @@ func (gongenumvalueFormCallback *GongEnumValueFormCallback) OnSave() {
 	}
 
 	gongenumvalueFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.GongEnumValue](
+	updateAndCommitTable[models.GongEnumValue](
 		gongenumvalueFormCallback.probe,
 	)
 	gongenumvalueFormCallback.probe.tableStage.Commit()
@@ -353,7 +353,7 @@ func (gongenumvalueFormCallback *GongEnumValueFormCallback) OnSave() {
 		gongenumvalueFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(gongenumvalueFormCallback.probe)
+	updateAndCommitTree(gongenumvalueFormCallback.probe)
 }
 func __gong__New__GongLinkFormCallback(
 	gonglink *models.GongLink,
@@ -454,7 +454,7 @@ func (gonglinkFormCallback *GongLinkFormCallback) OnSave() {
 	}
 
 	gonglinkFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.GongLink](
+	updateAndCommitTable[models.GongLink](
 		gonglinkFormCallback.probe,
 	)
 	gonglinkFormCallback.probe.tableStage.Commit()
@@ -475,7 +475,7 @@ func (gonglinkFormCallback *GongLinkFormCallback) OnSave() {
 		gonglinkFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(gonglinkFormCallback.probe)
+	updateAndCommitTree(gonglinkFormCallback.probe)
 }
 func __gong__New__GongNoteFormCallback(
 	gongnote *models.GongNote,
@@ -535,7 +535,7 @@ func (gongnoteFormCallback *GongNoteFormCallback) OnSave() {
 	}
 
 	gongnoteFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.GongNote](
+	updateAndCommitTable[models.GongNote](
 		gongnoteFormCallback.probe,
 	)
 	gongnoteFormCallback.probe.tableStage.Commit()
@@ -556,7 +556,7 @@ func (gongnoteFormCallback *GongNoteFormCallback) OnSave() {
 		gongnoteFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(gongnoteFormCallback.probe)
+	updateAndCommitTree(gongnoteFormCallback.probe)
 }
 func __gong__New__GongStructFormCallback(
 	gongstruct *models.GongStruct,
@@ -616,7 +616,7 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 	}
 
 	gongstructFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.GongStruct](
+	updateAndCommitTable[models.GongStruct](
 		gongstructFormCallback.probe,
 	)
 	gongstructFormCallback.probe.tableStage.Commit()
@@ -637,7 +637,7 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 		gongstructFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(gongstructFormCallback.probe)
+	updateAndCommitTree(gongstructFormCallback.probe)
 }
 func __gong__New__GongTimeFieldFormCallback(
 	gongtimefield *models.GongTimeField,
@@ -740,7 +740,7 @@ func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
 	}
 
 	gongtimefieldFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.GongTimeField](
+	updateAndCommitTable[models.GongTimeField](
 		gongtimefieldFormCallback.probe,
 	)
 	gongtimefieldFormCallback.probe.tableStage.Commit()
@@ -761,7 +761,7 @@ func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
 		gongtimefieldFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(gongtimefieldFormCallback.probe)
+	updateAndCommitTree(gongtimefieldFormCallback.probe)
 }
 func __gong__New__MetaFormCallback(
 	meta *models.Meta,
@@ -819,7 +819,7 @@ func (metaFormCallback *MetaFormCallback) OnSave() {
 	}
 
 	metaFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Meta](
+	updateAndCommitTable[models.Meta](
 		metaFormCallback.probe,
 	)
 	metaFormCallback.probe.tableStage.Commit()
@@ -840,7 +840,7 @@ func (metaFormCallback *MetaFormCallback) OnSave() {
 		metaFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(metaFormCallback.probe)
+	updateAndCommitTree(metaFormCallback.probe)
 }
 func __gong__New__MetaReferenceFormCallback(
 	metareference *models.MetaReference,
@@ -937,7 +937,7 @@ func (metareferenceFormCallback *MetaReferenceFormCallback) OnSave() {
 	}
 
 	metareferenceFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.MetaReference](
+	updateAndCommitTable[models.MetaReference](
 		metareferenceFormCallback.probe,
 	)
 	metareferenceFormCallback.probe.tableStage.Commit()
@@ -958,7 +958,7 @@ func (metareferenceFormCallback *MetaReferenceFormCallback) OnSave() {
 		metareferenceFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(metareferenceFormCallback.probe)
+	updateAndCommitTree(metareferenceFormCallback.probe)
 }
 func __gong__New__ModelPkgFormCallback(
 	modelpkg *models.ModelPkg,
@@ -1046,7 +1046,7 @@ func (modelpkgFormCallback *ModelPkgFormCallback) OnSave() {
 	}
 
 	modelpkgFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.ModelPkg](
+	updateAndCommitTable[models.ModelPkg](
 		modelpkgFormCallback.probe,
 	)
 	modelpkgFormCallback.probe.tableStage.Commit()
@@ -1067,7 +1067,7 @@ func (modelpkgFormCallback *ModelPkgFormCallback) OnSave() {
 		modelpkgFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(modelpkgFormCallback.probe)
+	updateAndCommitTree(modelpkgFormCallback.probe)
 }
 func __gong__New__PointerToGongStructFieldFormCallback(
 	pointertogongstructfield *models.PointerToGongStructField,
@@ -1172,7 +1172,7 @@ func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback
 	}
 
 	pointertogongstructfieldFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.PointerToGongStructField](
+	updateAndCommitTable[models.PointerToGongStructField](
 		pointertogongstructfieldFormCallback.probe,
 	)
 	pointertogongstructfieldFormCallback.probe.tableStage.Commit()
@@ -1193,7 +1193,7 @@ func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback
 		pointertogongstructfieldFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(pointertogongstructfieldFormCallback.probe)
+	updateAndCommitTree(pointertogongstructfieldFormCallback.probe)
 }
 func __gong__New__SliceOfPointerToGongStructFieldFormCallback(
 	sliceofpointertogongstructfield *models.SliceOfPointerToGongStructField,
@@ -1296,7 +1296,7 @@ func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFie
 	}
 
 	sliceofpointertogongstructfieldFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.SliceOfPointerToGongStructField](
+	updateAndCommitTable[models.SliceOfPointerToGongStructField](
 		sliceofpointertogongstructfieldFormCallback.probe,
 	)
 	sliceofpointertogongstructfieldFormCallback.probe.tableStage.Commit()
@@ -1317,5 +1317,5 @@ func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFie
 		sliceofpointertogongstructfieldFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(sliceofpointertogongstructfieldFormCallback.probe)
+	updateAndCommitTree(sliceofpointertogongstructfieldFormCallback.probe)
 }

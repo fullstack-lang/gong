@@ -10,7 +10,7 @@ import (
 
 type TreeNodeImplGongstruct struct {
 	gongStruct *gong_models.GongStruct
-	probe *Probe
+	probe      *Probe
 }
 
 func NewTreeNodeImplGongstruct(
@@ -51,43 +51,43 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Classdiagram" {
-		fillUpTable[models.Classdiagram](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Classdiagram](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "DiagramPackage" {
-		fillUpTable[models.DiagramPackage](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.DiagramPackage](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Field" {
-		fillUpTable[models.Field](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Field](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongEnumShape" {
-		fillUpTable[models.GongEnumShape](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.GongEnumShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongEnumValueEntry" {
-		fillUpTable[models.GongEnumValueEntry](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.GongEnumValueEntry](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongStructShape" {
-		fillUpTable[models.GongStructShape](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.GongStructShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Link" {
-		fillUpTable[models.Link](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Link](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "NoteShape" {
-		fillUpTable[models.NoteShape](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.NoteShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "NoteShapeLink" {
-		fillUpTable[models.NoteShapeLink](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.NoteShapeLink](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Position" {
-		fillUpTable[models.Position](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Position](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "UmlState" {
-		fillUpTable[models.UmlState](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.UmlState](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Umlsc" {
-		fillUpTable[models.Umlsc](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Umlsc](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Vertice" {
-		fillUpTable[models.Vertice](nodeImplGongstruct.probe)
+		updateAndCommitTable[models.Vertice](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

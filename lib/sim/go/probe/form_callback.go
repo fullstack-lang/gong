@@ -76,7 +76,7 @@ func (commandFormCallback *CommandFormCallback) OnSave() {
 	}
 
 	commandFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Command](
+	updateAndCommitTable[models.Command](
 		commandFormCallback.probe,
 	)
 	commandFormCallback.probe.tableStage.Commit()
@@ -97,7 +97,7 @@ func (commandFormCallback *CommandFormCallback) OnSave() {
 		commandFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(commandFormCallback.probe)
+	updateAndCommitTree(commandFormCallback.probe)
 }
 func __gong__New__DummyAgentFormCallback(
 	dummyagent *models.DummyAgent,
@@ -155,7 +155,7 @@ func (dummyagentFormCallback *DummyAgentFormCallback) OnSave() {
 	}
 
 	dummyagentFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.DummyAgent](
+	updateAndCommitTable[models.DummyAgent](
 		dummyagentFormCallback.probe,
 	)
 	dummyagentFormCallback.probe.tableStage.Commit()
@@ -176,7 +176,7 @@ func (dummyagentFormCallback *DummyAgentFormCallback) OnSave() {
 		dummyagentFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(dummyagentFormCallback.probe)
+	updateAndCommitTree(dummyagentFormCallback.probe)
 }
 func __gong__New__EngineFormCallback(
 	engine *models.Engine,
@@ -248,7 +248,7 @@ func (engineFormCallback *EngineFormCallback) OnSave() {
 	}
 
 	engineFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Engine](
+	updateAndCommitTable[models.Engine](
 		engineFormCallback.probe,
 	)
 	engineFormCallback.probe.tableStage.Commit()
@@ -269,7 +269,7 @@ func (engineFormCallback *EngineFormCallback) OnSave() {
 		engineFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(engineFormCallback.probe)
+	updateAndCommitTree(engineFormCallback.probe)
 }
 func __gong__New__EventFormCallback(
 	event *models.Event,
@@ -327,7 +327,7 @@ func (eventFormCallback *EventFormCallback) OnSave() {
 	}
 
 	eventFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Event](
+	updateAndCommitTable[models.Event](
 		eventFormCallback.probe,
 	)
 	eventFormCallback.probe.tableStage.Commit()
@@ -348,7 +348,7 @@ func (eventFormCallback *EventFormCallback) OnSave() {
 		eventFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(eventFormCallback.probe)
+	updateAndCommitTree(eventFormCallback.probe)
 }
 func __gong__New__StatusFormCallback(
 	status *models.Status,
@@ -412,7 +412,7 @@ func (statusFormCallback *StatusFormCallback) OnSave() {
 	}
 
 	statusFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Status](
+	updateAndCommitTable[models.Status](
 		statusFormCallback.probe,
 	)
 	statusFormCallback.probe.tableStage.Commit()
@@ -433,7 +433,7 @@ func (statusFormCallback *StatusFormCallback) OnSave() {
 		statusFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(statusFormCallback.probe)
+	updateAndCommitTree(statusFormCallback.probe)
 }
 func __gong__New__UpdateStateFormCallback(
 	updatestate *models.UpdateState,
@@ -493,7 +493,7 @@ func (updatestateFormCallback *UpdateStateFormCallback) OnSave() {
 	}
 
 	updatestateFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.UpdateState](
+	updateAndCommitTable[models.UpdateState](
 		updatestateFormCallback.probe,
 	)
 	updatestateFormCallback.probe.tableStage.Commit()
@@ -514,5 +514,5 @@ func (updatestateFormCallback *UpdateStateFormCallback) OnSave() {
 		updatestateFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(updatestateFormCallback.probe)
+	updateAndCommitTree(updatestateFormCallback.probe)
 }
