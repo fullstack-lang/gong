@@ -38,19 +38,37 @@ func main() {
 	// setup the static file server and get the controller
 	r := doc2_static.ServeStaticFiles(*logGINFlag)
 
-	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
+	splitStage := split_stack.NewStack(r, "", "", "", "", false, true).Stage
 	receivingAsSplitArea := &split.AsSplitArea{
-		Name: "Doc2 receiving area",
+		Name:             "Doc2 receiving area",
+		ShowNameInHeader: false,
 	}
 
+	prepare.Prepare(r, *embeddedDiagrams, "./data/zzz_diagrams.go", "doc2test", doc2_go.GoModelsDir, doc2_go.GoDiagramsDir, receivingAsSplitArea)
+
 	split.StageBranch(splitStage, &split.View{
-		Name: "Receiving doc2",
+		Name:         "Receiving doc2",
+		ShowViewName: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			receivingAsSplitArea,
 		},
 	})
 
-	prepare.Prepare(r, *embeddedDiagrams, "./data/zzz_diagrams.go", "doc2test", doc2_go.GoModelsDir, doc2_go.GoDiagramsDir, receivingAsSplitArea)
+	// split.StageBranch(splitStage, &split.View{
+	// 	Name:         "Split probe view",
+	// 	ShowViewName: true,
+	// 	RootAsSplitAreas: []*split.AsSplitArea{
+	// 		{
+	// 			Name:             "Root Split Area for probe",
+	// 			ShowNameInHeader: true,
+	// 			Split: (&split.Split{
+	// 				StackName: splitStage.GetProbeSplitStageName(),
+	// 			}),
+	// 		},
+	// 	},
+	// })
+
+	splitStage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
