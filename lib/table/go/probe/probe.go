@@ -13,8 +13,6 @@ import (
 	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
-	gongdoc_load "github.com/fullstack-lang/gong/lib/doc/go/load"
-
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	form "github.com/fullstack-lang/gong/lib/table/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
@@ -23,13 +21,13 @@ import (
 )
 
 type Probe struct {
-	r                  *gin.Engine
-	stageOfInterest    *models.Stage
-	gongStage          *gong_models.Stage
-	treeStage          *tree.Stage
-	formStage          *form.Stage
-	tableStage         *form.Stage
-	splitStage         *split.Stage
+	r               *gin.Engine
+	stageOfInterest *models.Stage
+	gongStage       *gong_models.Stage
+	treeStage       *tree.Stage
+	formStage       *form.Stage
+	tableStage      *form.Stage
+	splitStage      *split.Stage
 }
 
 func NewProbe(
@@ -40,7 +38,6 @@ func NewProbe(
 	stageOfInterest *models.Stage) (probe *Probe) {
 
 	gongStage, _ := gong_fullstack.NewStackInstance(r, stageOfInterest.GetName())
-
 	gong_models.LoadEmbedded(gongStage, goModelsDir)
 
 	// treeForSelectingDate that is on the sidebar
@@ -69,14 +66,14 @@ func NewProbe(
 	updateSplitStage(probe)
 	fillUpTree(probe)
 
-	gongdoc_load.Load(
-		"",
-		probe.stageOfInterest.GetProbeSplitStageName(),
-		goModelsDir,
-		goDiagramsDir,
-		r,
-		embeddedDiagrams,
-		stageOfInterest.Map_GongStructName_InstancesNb)
+	// gongdoc_load.Load(
+	// 	"",
+	// 	probe.stageOfInterest.GetProbeSplitStageName(),
+	// 	goModelsDir,
+	// 	goDiagramsDir,
+	// 	r,
+	// 	embeddedDiagrams,
+	// 	stageOfInterest.Map_GongStructName_InstancesNb)
 
 	return
 }
@@ -93,7 +90,7 @@ func updateSplitStage(probe *Probe) {
 
 	probe.splitStage.Reset()
 
-	(&split.View{
+	split.StageBranch(probe.splitStage, &split.View{
 		Name: "Main view",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
@@ -110,8 +107,8 @@ func updateSplitStage(probe *Probe) {
 								Name:      "Sidebar",
 								StackName: probe.treeStage.GetName(),
 								TreeName:  SideBarTreeName,
-							}).Stage(probe.splitStage),
-						}).Stage(probe.splitStage),
+							}),
+						}),
 						(&split.AsSplitArea{
 							Name: "table",
 							Size: 50,
@@ -119,8 +116,8 @@ func updateSplitStage(probe *Probe) {
 								Name:      "Table",
 								StackName: probe.tableStage.GetName(),
 								TableName: TableName,
-							}).Stage(probe.splitStage),
-						}).Stage(probe.splitStage),
+							}),
+						}),
 						(&split.AsSplitArea{
 							Name: "form",
 							Size: 30,
@@ -128,21 +125,21 @@ func updateSplitStage(probe *Probe) {
 								Name:      "Form",
 								StackName: probe.formStage.GetName(),
 								FormName:  FormName,
-							}).Stage(probe.splitStage),
-						}).Stage(probe.splitStage),
+							}),
+						}),
 					},
-				}).Stage(probe.splitStage),
-			}).Stage(probe.splitStage),
+				}),
+			}),
 			(&split.AsSplitArea{
 				Name: "Bottom",
 				Size: 50,
 				Doc: (&split.Doc{
 					Name:      "Doc",
 					StackName: probe.splitStage.GetName(),
-				}).Stage(probe.splitStage),
-			}).Stage(probe.splitStage),
+				}),
+			}),
 		},
-	}).Stage(probe.splitStage)
+	})
 
 	probe.splitStage.Commit()
 }
