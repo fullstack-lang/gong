@@ -11,6 +11,9 @@ import (
 
 	doc2_go "github.com/fullstack-lang/gong/lib/doc2/go"
 	doc2_static "github.com/fullstack-lang/gong/lib/doc2/go/static"
+
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 )
 
 var (
@@ -35,7 +38,19 @@ func main() {
 	// setup the static file server and get the controller
 	r := doc2_static.ServeStaticFiles(*logGINFlag)
 
-	prepare.Prepare(r, *embeddedDiagrams, "./data/zzz_diagrams.go", "doc2test", doc2_go.GoModelsDir, doc2_go.GoDiagramsDir)
+	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
+	receivingAsSplitArea := &split.AsSplitArea{
+		Name: "Doc2 receiving area",
+	}
+
+	split.StageBranch(splitStage, &split.View{
+		Name: "Receiving doc2",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			receivingAsSplitArea,
+		},
+	})
+
+	prepare.Prepare(r, *embeddedDiagrams, "./data/zzz_diagrams.go", "doc2test", doc2_go.GoModelsDir, doc2_go.GoDiagramsDir, receivingAsSplitArea)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
