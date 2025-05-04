@@ -17,6 +17,17 @@ import (
 	{{pkgname}}_go "{{PkgPathRoot}}"
 )
 
+// can be used for
+//     days := __Gong__Abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
+func __Gong__Abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
+}
+
+var _ = __Gong__Abs
+
 const ProbeTreeSidebarSuffix = "-sidebar"
 const ProbeTableSuffix = "-table"
 const ProbeFormSuffix = "-form"
