@@ -194,7 +194,7 @@ func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(
 	tablePickSaver.probe.stageOfInterest.Commit()
 
 	// see the result
-	fillUpTablePointerToGongstruct[InstanceType](
+	updateAndCommitTablePointerToGongstruct[InstanceType](
 		tablePickSaver.probe,
 	)
 	tablePickSaver.probe.tableStage.Commit()

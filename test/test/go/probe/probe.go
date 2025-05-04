@@ -133,15 +133,6 @@ func NewProbe(
 
 	updateAndCommitTree(probe)
 
-	// gongdoc_load.Load(
-	// 	"",
-	// 	probe.stageOfInterest.GetProbeSplitStageName(),
-	// 	goModelsDir,
-	// 	goDiagramsDir,
-	// 	r,
-	// 	embeddedDiagrams,
-	// 	stageOfInterest.Map_GongStructName_InstancesNb)
-
 	return
 }
 
@@ -151,13 +142,4 @@ func (probe *Probe) Refresh() {
 
 func (probe *Probe) GetFormStage() *form.Stage {
 	return probe.formStage
-}
-
-func updateSplitStage(probe *Probe) (receivingAsSplitArea *split.AsSplitArea) {
-
-	probe.splitStage.Reset()
-
-	probe.splitStage.Commit()
-
-	return
 }
