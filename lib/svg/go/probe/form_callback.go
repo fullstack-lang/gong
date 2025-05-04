@@ -492,7 +492,7 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 	}
 
 	animateFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Animate](
+	updateAndCommitTable[models.Animate](
 		animateFormCallback.probe,
 	)
 	animateFormCallback.probe.tableStage.Commit()
@@ -513,7 +513,7 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 		animateFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(animateFormCallback.probe)
+	updateAndCommitTree(animateFormCallback.probe)
 }
 func __gong__New__CircleFormCallback(
 	circle *models.Circle,
@@ -632,7 +632,7 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 	}
 
 	circleFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Circle](
+	updateAndCommitTable[models.Circle](
 		circleFormCallback.probe,
 	)
 	circleFormCallback.probe.tableStage.Commit()
@@ -653,7 +653,7 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 		circleFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(circleFormCallback.probe)
+	updateAndCommitTree(circleFormCallback.probe)
 }
 func __gong__New__EllipseFormCallback(
 	ellipse *models.Ellipse,
@@ -774,7 +774,7 @@ func (ellipseFormCallback *EllipseFormCallback) OnSave() {
 	}
 
 	ellipseFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Ellipse](
+	updateAndCommitTable[models.Ellipse](
 		ellipseFormCallback.probe,
 	)
 	ellipseFormCallback.probe.tableStage.Commit()
@@ -795,7 +795,7 @@ func (ellipseFormCallback *EllipseFormCallback) OnSave() {
 		ellipseFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(ellipseFormCallback.probe)
+	updateAndCommitTree(ellipseFormCallback.probe)
 }
 func __gong__New__LayerFormCallback(
 	layer *models.Layer,
@@ -894,7 +894,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 	}
 
 	layerFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Layer](
+	updateAndCommitTable[models.Layer](
 		layerFormCallback.probe,
 	)
 	layerFormCallback.probe.tableStage.Commit()
@@ -915,7 +915,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 		layerFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(layerFormCallback.probe)
+	updateAndCommitTree(layerFormCallback.probe)
 }
 func __gong__New__LineFormCallback(
 	line *models.Line,
@@ -1040,7 +1040,7 @@ func (lineFormCallback *LineFormCallback) OnSave() {
 	}
 
 	lineFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Line](
+	updateAndCommitTable[models.Line](
 		lineFormCallback.probe,
 	)
 	lineFormCallback.probe.tableStage.Commit()
@@ -1061,7 +1061,7 @@ func (lineFormCallback *LineFormCallback) OnSave() {
 		lineFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(lineFormCallback.probe)
+	updateAndCommitTree(lineFormCallback.probe)
 }
 func __gong__New__LinkFormCallback(
 	link *models.Link,
@@ -1206,7 +1206,7 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 	}
 
 	linkFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Link](
+	updateAndCommitTable[models.Link](
 		linkFormCallback.probe,
 	)
 	linkFormCallback.probe.tableStage.Commit()
@@ -1227,7 +1227,7 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 		linkFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(linkFormCallback.probe)
+	updateAndCommitTree(linkFormCallback.probe)
 }
 func __gong__New__LinkAnchoredTextFormCallback(
 	linkanchoredtext *models.LinkAnchoredText,
@@ -1397,7 +1397,7 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 	}
 
 	linkanchoredtextFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.LinkAnchoredText](
+	updateAndCommitTable[models.LinkAnchoredText](
 		linkanchoredtextFormCallback.probe,
 	)
 	linkanchoredtextFormCallback.probe.tableStage.Commit()
@@ -1418,7 +1418,7 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 		linkanchoredtextFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(linkanchoredtextFormCallback.probe)
+	updateAndCommitTree(linkanchoredtextFormCallback.probe)
 }
 func __gong__New__PathFormCallback(
 	path *models.Path,
@@ -1533,7 +1533,7 @@ func (pathFormCallback *PathFormCallback) OnSave() {
 	}
 
 	pathFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Path](
+	updateAndCommitTable[models.Path](
 		pathFormCallback.probe,
 	)
 	pathFormCallback.probe.tableStage.Commit()
@@ -1554,7 +1554,7 @@ func (pathFormCallback *PathFormCallback) OnSave() {
 		pathFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(pathFormCallback.probe)
+	updateAndCommitTree(pathFormCallback.probe)
 }
 func __gong__New__PointFormCallback(
 	point *models.Point,
@@ -1655,7 +1655,7 @@ func (pointFormCallback *PointFormCallback) OnSave() {
 	}
 
 	pointFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Point](
+	updateAndCommitTable[models.Point](
 		pointFormCallback.probe,
 	)
 	pointFormCallback.probe.tableStage.Commit()
@@ -1676,7 +1676,7 @@ func (pointFormCallback *PointFormCallback) OnSave() {
 		pointFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(pointFormCallback.probe)
+	updateAndCommitTree(pointFormCallback.probe)
 }
 func __gong__New__PolygoneFormCallback(
 	polygone *models.Polygone,
@@ -1791,7 +1791,7 @@ func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
 	}
 
 	polygoneFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Polygone](
+	updateAndCommitTable[models.Polygone](
 		polygoneFormCallback.probe,
 	)
 	polygoneFormCallback.probe.tableStage.Commit()
@@ -1812,7 +1812,7 @@ func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
 		polygoneFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(polygoneFormCallback.probe)
+	updateAndCommitTree(polygoneFormCallback.probe)
 }
 func __gong__New__PolylineFormCallback(
 	polyline *models.Polyline,
@@ -1927,7 +1927,7 @@ func (polylineFormCallback *PolylineFormCallback) OnSave() {
 	}
 
 	polylineFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Polyline](
+	updateAndCommitTable[models.Polyline](
 		polylineFormCallback.probe,
 	)
 	polylineFormCallback.probe.tableStage.Commit()
@@ -1948,7 +1948,7 @@ func (polylineFormCallback *PolylineFormCallback) OnSave() {
 		polylineFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(polylineFormCallback.probe)
+	updateAndCommitTree(polylineFormCallback.probe)
 }
 func __gong__New__RectFormCallback(
 	rect *models.Rect,
@@ -2097,7 +2097,7 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 	}
 
 	rectFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Rect](
+	updateAndCommitTable[models.Rect](
 		rectFormCallback.probe,
 	)
 	rectFormCallback.probe.tableStage.Commit()
@@ -2118,7 +2118,7 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 		rectFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(rectFormCallback.probe)
+	updateAndCommitTree(rectFormCallback.probe)
 }
 func __gong__New__RectAnchoredPathFormCallback(
 	rectanchoredpath *models.RectAnchoredPath,
@@ -2243,7 +2243,7 @@ func (rectanchoredpathFormCallback *RectAnchoredPathFormCallback) OnSave() {
 	}
 
 	rectanchoredpathFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.RectAnchoredPath](
+	updateAndCommitTable[models.RectAnchoredPath](
 		rectanchoredpathFormCallback.probe,
 	)
 	rectanchoredpathFormCallback.probe.tableStage.Commit()
@@ -2264,7 +2264,7 @@ func (rectanchoredpathFormCallback *RectAnchoredPathFormCallback) OnSave() {
 		rectanchoredpathFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(rectanchoredpathFormCallback.probe)
+	updateAndCommitTree(rectanchoredpathFormCallback.probe)
 }
 func __gong__New__RectAnchoredRectFormCallback(
 	rectanchoredrect *models.RectAnchoredRect,
@@ -2397,7 +2397,7 @@ func (rectanchoredrectFormCallback *RectAnchoredRectFormCallback) OnSave() {
 	}
 
 	rectanchoredrectFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.RectAnchoredRect](
+	updateAndCommitTable[models.RectAnchoredRect](
 		rectanchoredrectFormCallback.probe,
 	)
 	rectanchoredrectFormCallback.probe.tableStage.Commit()
@@ -2418,7 +2418,7 @@ func (rectanchoredrectFormCallback *RectAnchoredRectFormCallback) OnSave() {
 		rectanchoredrectFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(rectanchoredrectFormCallback.probe)
+	updateAndCommitTree(rectanchoredrectFormCallback.probe)
 }
 func __gong__New__RectAnchoredTextFormCallback(
 	rectanchoredtext *models.RectAnchoredText,
@@ -2547,7 +2547,7 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 	}
 
 	rectanchoredtextFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.RectAnchoredText](
+	updateAndCommitTable[models.RectAnchoredText](
 		rectanchoredtextFormCallback.probe,
 	)
 	rectanchoredtextFormCallback.probe.tableStage.Commit()
@@ -2568,7 +2568,7 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 		rectanchoredtextFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(rectanchoredtextFormCallback.probe)
+	updateAndCommitTree(rectanchoredtextFormCallback.probe)
 }
 func __gong__New__RectLinkLinkFormCallback(
 	rectlinklink *models.RectLinkLink,
@@ -2687,7 +2687,7 @@ func (rectlinklinkFormCallback *RectLinkLinkFormCallback) OnSave() {
 	}
 
 	rectlinklinkFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.RectLinkLink](
+	updateAndCommitTable[models.RectLinkLink](
 		rectlinklinkFormCallback.probe,
 	)
 	rectlinklinkFormCallback.probe.tableStage.Commit()
@@ -2708,7 +2708,7 @@ func (rectlinklinkFormCallback *RectLinkLinkFormCallback) OnSave() {
 		rectlinklinkFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(rectlinklinkFormCallback.probe)
+	updateAndCommitTree(rectlinklinkFormCallback.probe)
 }
 func __gong__New__SVGFormCallback(
 	svg *models.SVG,
@@ -2774,7 +2774,7 @@ func (svgFormCallback *SVGFormCallback) OnSave() {
 	}
 
 	svgFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.SVG](
+	updateAndCommitTable[models.SVG](
 		svgFormCallback.probe,
 	)
 	svgFormCallback.probe.tableStage.Commit()
@@ -2795,7 +2795,7 @@ func (svgFormCallback *SVGFormCallback) OnSave() {
 		svgFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(svgFormCallback.probe)
+	updateAndCommitTree(svgFormCallback.probe)
 }
 func __gong__New__SvgTextFormCallback(
 	svgtext *models.SvgText,
@@ -2853,7 +2853,7 @@ func (svgtextFormCallback *SvgTextFormCallback) OnSave() {
 	}
 
 	svgtextFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.SvgText](
+	updateAndCommitTable[models.SvgText](
 		svgtextFormCallback.probe,
 	)
 	svgtextFormCallback.probe.tableStage.Commit()
@@ -2874,7 +2874,7 @@ func (svgtextFormCallback *SvgTextFormCallback) OnSave() {
 		svgtextFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(svgtextFormCallback.probe)
+	updateAndCommitTree(svgtextFormCallback.probe)
 }
 func __gong__New__TextFormCallback(
 	text *models.Text,
@@ -2993,7 +2993,7 @@ func (textFormCallback *TextFormCallback) OnSave() {
 	}
 
 	textFormCallback.probe.stageOfInterest.Commit()
-	fillUpTable[models.Text](
+	updateAndCommitTable[models.Text](
 		textFormCallback.probe,
 	)
 	textFormCallback.probe.tableStage.Commit()
@@ -3014,5 +3014,5 @@ func (textFormCallback *TextFormCallback) OnSave() {
 		textFormCallback.probe.formStage.Commit()
 	}
 
-	fillUpTree(textFormCallback.probe)
+	updateAndCommitTree(textFormCallback.probe)
 }
