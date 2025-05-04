@@ -148,7 +148,7 @@ func NewStack(
 			sim_go.GoDiagramsDir,
 			embeddedDiagrams,
 			stage,
-			"../../diagrams/diagrams.go")
+		)
 	}
 
 	return

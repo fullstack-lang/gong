@@ -40,8 +40,7 @@ func NewProbe(
 	goModelsDir embed.FS,
 	goDiagramsDir embed.FS,
 	embeddedDiagrams bool,
-	stageOfInterest *models.Stage,
-	pathToDiagramFile string) (probe *Probe) {
+	stageOfInterest *models.Stage) (probe *Probe) {
 
 	// split stage for the whole probe
 	splitStage, _ := gongsplit_fullstack.NewStackInstance(r, stageOfInterest.GetProbeSplitStageName())
@@ -81,7 +80,6 @@ func NewProbe(
 	prepare.Prepare(
 		r,
 		embeddedDiagrams,
-		pathToDiagramFile,
 		stageOfInterest.GetName(),
 		{{pkgname}}_go.GoModelsDir,
 		{{pkgname}}_go.GoDiagramsDir,
