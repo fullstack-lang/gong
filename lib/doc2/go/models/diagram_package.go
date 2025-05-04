@@ -1,9 +1,7 @@
 package models
 
 import (
-	"fmt"
 	"log"
-	"os"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 )
@@ -48,34 +46,4 @@ func getTheDiagramPackage(stage *Stage) (diagramPackage *DiagramPackage) {
 		log.Fatalln("There should be at least one diagram package on the stage")
 	}
 	return
-}
-
-const preludeRef string = `package diagrams
-
-import (
-	uml "github.com/fullstack-lang/gong/lib/doc/go/models"
-
-	// insertion points for import of the illustrated model{{Imports}}
-)
-
-`
-
-func contains[T comparable](elems []T, v T) bool {
-	for _, s := range elems {
-		if v == s {
-			return true
-		}
-	}
-	return false
-}
-
-func closeFile(f *os.File) {
-	fmt.Println("Closing file (legacy)", f.Name())
-
-	err := f.Close()
-
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "error: %v\n", err)
-		os.Exit(1)
-	}
 }
