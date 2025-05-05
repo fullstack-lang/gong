@@ -611,6 +611,264 @@ func (gongenumvalueshapeFormCallback *GongEnumValueShapeFormCallback) OnSave() {
 
 	updateAndCommitTree(gongenumvalueshapeFormCallback.probe)
 }
+func __gong__New__GongNoteLinkShapeFormCallback(
+	gongnotelinkshape *models.GongNoteLinkShape,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (gongnotelinkshapeFormCallback *GongNoteLinkShapeFormCallback) {
+	gongnotelinkshapeFormCallback = new(GongNoteLinkShapeFormCallback)
+	gongnotelinkshapeFormCallback.probe = probe
+	gongnotelinkshapeFormCallback.gongnotelinkshape = gongnotelinkshape
+	gongnotelinkshapeFormCallback.formGroup = formGroup
+
+	gongnotelinkshapeFormCallback.CreationMode = (gongnotelinkshape == nil)
+
+	return
+}
+
+type GongNoteLinkShapeFormCallback struct {
+	gongnotelinkshape *models.GongNoteLinkShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (gongnotelinkshapeFormCallback *GongNoteLinkShapeFormCallback) OnSave() {
+
+	log.Println("GongNoteLinkShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	gongnotelinkshapeFormCallback.probe.formStage.Checkout()
+
+	if gongnotelinkshapeFormCallback.gongnotelinkshape == nil {
+		gongnotelinkshapeFormCallback.gongnotelinkshape = new(models.GongNoteLinkShape).Stage(gongnotelinkshapeFormCallback.probe.stageOfInterest)
+	}
+	gongnotelinkshape_ := gongnotelinkshapeFormCallback.gongnotelinkshape
+	_ = gongnotelinkshape_
+
+	for _, formDiv := range gongnotelinkshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(gongnotelinkshape_.Name), formDiv)
+		case "Identifier":
+			FormDivBasicFieldToField(&(gongnotelinkshape_.Identifier), formDiv)
+		case "Type":
+			FormDivEnumStringFieldToField(&(gongnotelinkshape_.Type), formDiv)
+		case "GongNoteShape:GongNoteLinkShapes":
+			// we need to retrieve the field owner before the change
+			var pastGongNoteShapeOwner *models.GongNoteShape
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "GongNoteShape"
+			rf.Fieldname = "GongNoteLinkShapes"
+			reverseFieldOwner := models.GetReverseFieldOwner(
+				gongnotelinkshapeFormCallback.probe.stageOfInterest,
+				gongnotelinkshape_,
+				&rf)
+
+			if reverseFieldOwner != nil {
+				pastGongNoteShapeOwner = reverseFieldOwner.(*models.GongNoteShape)
+			}
+			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+				if pastGongNoteShapeOwner != nil {
+					idx := slices.Index(pastGongNoteShapeOwner.GongNoteLinkShapes, gongnotelinkshape_)
+					pastGongNoteShapeOwner.GongNoteLinkShapes = slices.Delete(pastGongNoteShapeOwner.GongNoteLinkShapes, idx, idx+1)
+				}
+			} else {
+				// we need to retrieve the field owner after the change
+				// parse all astrcut and get the one with the name in the
+				// div
+				for _gongnoteshape := range *models.GetGongstructInstancesSet[models.GongNoteShape](gongnotelinkshapeFormCallback.probe.stageOfInterest) {
+
+					// the match is base on the name
+					if _gongnoteshape.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
+						newGongNoteShapeOwner := _gongnoteshape // we have a match
+						if pastGongNoteShapeOwner != nil {
+							if newGongNoteShapeOwner != pastGongNoteShapeOwner {
+								idx := slices.Index(pastGongNoteShapeOwner.GongNoteLinkShapes, gongnotelinkshape_)
+								pastGongNoteShapeOwner.GongNoteLinkShapes = slices.Delete(pastGongNoteShapeOwner.GongNoteLinkShapes, idx, idx+1)
+								newGongNoteShapeOwner.GongNoteLinkShapes = append(newGongNoteShapeOwner.GongNoteLinkShapes, gongnotelinkshape_)
+							}
+						} else {
+							newGongNoteShapeOwner.GongNoteLinkShapes = append(newGongNoteShapeOwner.GongNoteLinkShapes, gongnotelinkshape_)
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if gongnotelinkshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		gongnotelinkshape_.Unstage(gongnotelinkshapeFormCallback.probe.stageOfInterest)
+	}
+
+	gongnotelinkshapeFormCallback.probe.stageOfInterest.Commit()
+	updateAndCommitTable[models.GongNoteLinkShape](
+		gongnotelinkshapeFormCallback.probe,
+	)
+	gongnotelinkshapeFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if gongnotelinkshapeFormCallback.CreationMode || gongnotelinkshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		gongnotelinkshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(gongnotelinkshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__GongNoteLinkShapeFormCallback(
+			nil,
+			gongnotelinkshapeFormCallback.probe,
+			newFormGroup,
+		)
+		gongnotelinkshape := new(models.GongNoteLinkShape)
+		FillUpForm(gongnotelinkshape, newFormGroup, gongnotelinkshapeFormCallback.probe)
+		gongnotelinkshapeFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(gongnotelinkshapeFormCallback.probe)
+}
+func __gong__New__GongNoteShapeFormCallback(
+	gongnoteshape *models.GongNoteShape,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (gongnoteshapeFormCallback *GongNoteShapeFormCallback) {
+	gongnoteshapeFormCallback = new(GongNoteShapeFormCallback)
+	gongnoteshapeFormCallback.probe = probe
+	gongnoteshapeFormCallback.gongnoteshape = gongnoteshape
+	gongnoteshapeFormCallback.formGroup = formGroup
+
+	gongnoteshapeFormCallback.CreationMode = (gongnoteshape == nil)
+
+	return
+}
+
+type GongNoteShapeFormCallback struct {
+	gongnoteshape *models.GongNoteShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (gongnoteshapeFormCallback *GongNoteShapeFormCallback) OnSave() {
+
+	log.Println("GongNoteShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	gongnoteshapeFormCallback.probe.formStage.Checkout()
+
+	if gongnoteshapeFormCallback.gongnoteshape == nil {
+		gongnoteshapeFormCallback.gongnoteshape = new(models.GongNoteShape).Stage(gongnoteshapeFormCallback.probe.stageOfInterest)
+	}
+	gongnoteshape_ := gongnoteshapeFormCallback.gongnoteshape
+	_ = gongnoteshape_
+
+	for _, formDiv := range gongnoteshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(gongnoteshape_.Name), formDiv)
+		case "Identifier":
+			FormDivBasicFieldToField(&(gongnoteshape_.Identifier), formDiv)
+		case "Body":
+			FormDivBasicFieldToField(&(gongnoteshape_.Body), formDiv)
+		case "BodyHTML":
+			FormDivBasicFieldToField(&(gongnoteshape_.BodyHTML), formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(gongnoteshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(gongnoteshape_.Y), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(gongnoteshape_.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(gongnoteshape_.Height), formDiv)
+		case "Matched":
+			FormDivBasicFieldToField(&(gongnoteshape_.Matched), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(gongnoteshape_.IsExpanded), formDiv)
+		case "Classdiagram:GongNoteShapes":
+			// we need to retrieve the field owner before the change
+			var pastClassdiagramOwner *models.Classdiagram
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Classdiagram"
+			rf.Fieldname = "GongNoteShapes"
+			reverseFieldOwner := models.GetReverseFieldOwner(
+				gongnoteshapeFormCallback.probe.stageOfInterest,
+				gongnoteshape_,
+				&rf)
+
+			if reverseFieldOwner != nil {
+				pastClassdiagramOwner = reverseFieldOwner.(*models.Classdiagram)
+			}
+			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+				if pastClassdiagramOwner != nil {
+					idx := slices.Index(pastClassdiagramOwner.GongNoteShapes, gongnoteshape_)
+					pastClassdiagramOwner.GongNoteShapes = slices.Delete(pastClassdiagramOwner.GongNoteShapes, idx, idx+1)
+				}
+			} else {
+				// we need to retrieve the field owner after the change
+				// parse all astrcut and get the one with the name in the
+				// div
+				for _classdiagram := range *models.GetGongstructInstancesSet[models.Classdiagram](gongnoteshapeFormCallback.probe.stageOfInterest) {
+
+					// the match is base on the name
+					if _classdiagram.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
+						newClassdiagramOwner := _classdiagram // we have a match
+						if pastClassdiagramOwner != nil {
+							if newClassdiagramOwner != pastClassdiagramOwner {
+								idx := slices.Index(pastClassdiagramOwner.GongNoteShapes, gongnoteshape_)
+								pastClassdiagramOwner.GongNoteShapes = slices.Delete(pastClassdiagramOwner.GongNoteShapes, idx, idx+1)
+								newClassdiagramOwner.GongNoteShapes = append(newClassdiagramOwner.GongNoteShapes, gongnoteshape_)
+							}
+						} else {
+							newClassdiagramOwner.GongNoteShapes = append(newClassdiagramOwner.GongNoteShapes, gongnoteshape_)
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if gongnoteshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		gongnoteshape_.Unstage(gongnoteshapeFormCallback.probe.stageOfInterest)
+	}
+
+	gongnoteshapeFormCallback.probe.stageOfInterest.Commit()
+	updateAndCommitTable[models.GongNoteShape](
+		gongnoteshapeFormCallback.probe,
+	)
+	gongnoteshapeFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if gongnoteshapeFormCallback.CreationMode || gongnoteshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		gongnoteshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(gongnoteshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__GongNoteShapeFormCallback(
+			nil,
+			gongnoteshapeFormCallback.probe,
+			newFormGroup,
+		)
+		gongnoteshape := new(models.GongNoteShape)
+		FillUpForm(gongnoteshape, newFormGroup, gongnoteshapeFormCallback.probe)
+		gongnoteshapeFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(gongnoteshapeFormCallback.probe)
+}
 func __gong__New__GongStructShapeFormCallback(
 	gongstructshape *models.GongStructShape,
 	probe *Probe,
@@ -896,262 +1154,4 @@ func (linkshapeFormCallback *LinkShapeFormCallback) OnSave() {
 	}
 
 	updateAndCommitTree(linkshapeFormCallback.probe)
-}
-func __gong__New__NoteShapeFormCallback(
-	noteshape *models.NoteShape,
-	probe *Probe,
-	formGroup *table.FormGroup,
-) (noteshapeFormCallback *NoteShapeFormCallback) {
-	noteshapeFormCallback = new(NoteShapeFormCallback)
-	noteshapeFormCallback.probe = probe
-	noteshapeFormCallback.noteshape = noteshape
-	noteshapeFormCallback.formGroup = formGroup
-
-	noteshapeFormCallback.CreationMode = (noteshape == nil)
-
-	return
-}
-
-type NoteShapeFormCallback struct {
-	noteshape *models.NoteShape
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *table.FormGroup
-}
-
-func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
-
-	log.Println("NoteShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	noteshapeFormCallback.probe.formStage.Checkout()
-
-	if noteshapeFormCallback.noteshape == nil {
-		noteshapeFormCallback.noteshape = new(models.NoteShape).Stage(noteshapeFormCallback.probe.stageOfInterest)
-	}
-	noteshape_ := noteshapeFormCallback.noteshape
-	_ = noteshape_
-
-	for _, formDiv := range noteshapeFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(noteshape_.Name), formDiv)
-		case "Identifier":
-			FormDivBasicFieldToField(&(noteshape_.Identifier), formDiv)
-		case "Body":
-			FormDivBasicFieldToField(&(noteshape_.Body), formDiv)
-		case "BodyHTML":
-			FormDivBasicFieldToField(&(noteshape_.BodyHTML), formDiv)
-		case "X":
-			FormDivBasicFieldToField(&(noteshape_.X), formDiv)
-		case "Y":
-			FormDivBasicFieldToField(&(noteshape_.Y), formDiv)
-		case "Width":
-			FormDivBasicFieldToField(&(noteshape_.Width), formDiv)
-		case "Height":
-			FormDivBasicFieldToField(&(noteshape_.Height), formDiv)
-		case "Matched":
-			FormDivBasicFieldToField(&(noteshape_.Matched), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(noteshape_.IsExpanded), formDiv)
-		case "Classdiagram:NoteShapes":
-			// we need to retrieve the field owner before the change
-			var pastClassdiagramOwner *models.Classdiagram
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Classdiagram"
-			rf.Fieldname = "NoteShapes"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				noteshapeFormCallback.probe.stageOfInterest,
-				noteshape_,
-				&rf)
-
-			if reverseFieldOwner != nil {
-				pastClassdiagramOwner = reverseFieldOwner.(*models.Classdiagram)
-			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
-				if pastClassdiagramOwner != nil {
-					idx := slices.Index(pastClassdiagramOwner.NoteShapes, noteshape_)
-					pastClassdiagramOwner.NoteShapes = slices.Delete(pastClassdiagramOwner.NoteShapes, idx, idx+1)
-				}
-			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _classdiagram := range *models.GetGongstructInstancesSet[models.Classdiagram](noteshapeFormCallback.probe.stageOfInterest) {
-
-					// the match is base on the name
-					if _classdiagram.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newClassdiagramOwner := _classdiagram // we have a match
-						if pastClassdiagramOwner != nil {
-							if newClassdiagramOwner != pastClassdiagramOwner {
-								idx := slices.Index(pastClassdiagramOwner.NoteShapes, noteshape_)
-								pastClassdiagramOwner.NoteShapes = slices.Delete(pastClassdiagramOwner.NoteShapes, idx, idx+1)
-								newClassdiagramOwner.NoteShapes = append(newClassdiagramOwner.NoteShapes, noteshape_)
-							}
-						} else {
-							newClassdiagramOwner.NoteShapes = append(newClassdiagramOwner.NoteShapes, noteshape_)
-						}
-					}
-				}
-			}
-		}
-	}
-
-	// manage the suppress operation
-	if noteshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		noteshape_.Unstage(noteshapeFormCallback.probe.stageOfInterest)
-	}
-
-	noteshapeFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.NoteShape](
-		noteshapeFormCallback.probe,
-	)
-	noteshapeFormCallback.probe.tableStage.Commit()
-
-	// display a new form by reset the form stage
-	if noteshapeFormCallback.CreationMode || noteshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		noteshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
-			Name: FormName,
-		}).Stage(noteshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__NoteShapeFormCallback(
-			nil,
-			noteshapeFormCallback.probe,
-			newFormGroup,
-		)
-		noteshape := new(models.NoteShape)
-		FillUpForm(noteshape, newFormGroup, noteshapeFormCallback.probe)
-		noteshapeFormCallback.probe.formStage.Commit()
-	}
-
-	updateAndCommitTree(noteshapeFormCallback.probe)
-}
-func __gong__New__NoteShapeLinkFormCallback(
-	noteshapelink *models.NoteShapeLink,
-	probe *Probe,
-	formGroup *table.FormGroup,
-) (noteshapelinkFormCallback *NoteShapeLinkFormCallback) {
-	noteshapelinkFormCallback = new(NoteShapeLinkFormCallback)
-	noteshapelinkFormCallback.probe = probe
-	noteshapelinkFormCallback.noteshapelink = noteshapelink
-	noteshapelinkFormCallback.formGroup = formGroup
-
-	noteshapelinkFormCallback.CreationMode = (noteshapelink == nil)
-
-	return
-}
-
-type NoteShapeLinkFormCallback struct {
-	noteshapelink *models.NoteShapeLink
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *table.FormGroup
-}
-
-func (noteshapelinkFormCallback *NoteShapeLinkFormCallback) OnSave() {
-
-	log.Println("NoteShapeLinkFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	noteshapelinkFormCallback.probe.formStage.Checkout()
-
-	if noteshapelinkFormCallback.noteshapelink == nil {
-		noteshapelinkFormCallback.noteshapelink = new(models.NoteShapeLink).Stage(noteshapelinkFormCallback.probe.stageOfInterest)
-	}
-	noteshapelink_ := noteshapelinkFormCallback.noteshapelink
-	_ = noteshapelink_
-
-	for _, formDiv := range noteshapelinkFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(noteshapelink_.Name), formDiv)
-		case "Identifier":
-			FormDivBasicFieldToField(&(noteshapelink_.Identifier), formDiv)
-		case "Type":
-			FormDivEnumStringFieldToField(&(noteshapelink_.Type), formDiv)
-		case "NoteShape:NoteShapeLinks":
-			// we need to retrieve the field owner before the change
-			var pastNoteShapeOwner *models.NoteShape
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "NoteShape"
-			rf.Fieldname = "NoteShapeLinks"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				noteshapelinkFormCallback.probe.stageOfInterest,
-				noteshapelink_,
-				&rf)
-
-			if reverseFieldOwner != nil {
-				pastNoteShapeOwner = reverseFieldOwner.(*models.NoteShape)
-			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
-				if pastNoteShapeOwner != nil {
-					idx := slices.Index(pastNoteShapeOwner.NoteShapeLinks, noteshapelink_)
-					pastNoteShapeOwner.NoteShapeLinks = slices.Delete(pastNoteShapeOwner.NoteShapeLinks, idx, idx+1)
-				}
-			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _noteshape := range *models.GetGongstructInstancesSet[models.NoteShape](noteshapelinkFormCallback.probe.stageOfInterest) {
-
-					// the match is base on the name
-					if _noteshape.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newNoteShapeOwner := _noteshape // we have a match
-						if pastNoteShapeOwner != nil {
-							if newNoteShapeOwner != pastNoteShapeOwner {
-								idx := slices.Index(pastNoteShapeOwner.NoteShapeLinks, noteshapelink_)
-								pastNoteShapeOwner.NoteShapeLinks = slices.Delete(pastNoteShapeOwner.NoteShapeLinks, idx, idx+1)
-								newNoteShapeOwner.NoteShapeLinks = append(newNoteShapeOwner.NoteShapeLinks, noteshapelink_)
-							}
-						} else {
-							newNoteShapeOwner.NoteShapeLinks = append(newNoteShapeOwner.NoteShapeLinks, noteshapelink_)
-						}
-					}
-				}
-			}
-		}
-	}
-
-	// manage the suppress operation
-	if noteshapelinkFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		noteshapelink_.Unstage(noteshapelinkFormCallback.probe.stageOfInterest)
-	}
-
-	noteshapelinkFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.NoteShapeLink](
-		noteshapelinkFormCallback.probe,
-	)
-	noteshapelinkFormCallback.probe.tableStage.Commit()
-
-	// display a new form by reset the form stage
-	if noteshapelinkFormCallback.CreationMode || noteshapelinkFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		noteshapelinkFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
-			Name: FormName,
-		}).Stage(noteshapelinkFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__NoteShapeLinkFormCallback(
-			nil,
-			noteshapelinkFormCallback.probe,
-			newFormGroup,
-		)
-		noteshapelink := new(models.NoteShapeLink)
-		FillUpForm(noteshapelink, newFormGroup, noteshapelinkFormCallback.probe)
-		noteshapelinkFormCallback.probe.formStage.Commit()
-	}
-
-	updateAndCommitTree(noteshapelinkFormCallback.probe)
 }

@@ -21,10 +21,10 @@ func SerializeStage(stage *Stage, filename string) {
 		SerializeExcelizePointerToGongstruct[*DiagramPackage](stage, f)
 		SerializeExcelizePointerToGongstruct[*GongEnumShape](stage, f)
 		SerializeExcelizePointerToGongstruct[*GongEnumValueShape](stage, f)
+		SerializeExcelizePointerToGongstruct[*GongNoteLinkShape](stage, f)
+		SerializeExcelizePointerToGongstruct[*GongNoteShape](stage, f)
 		SerializeExcelizePointerToGongstruct[*GongStructShape](stage, f)
 		SerializeExcelizePointerToGongstruct[*LinkShape](stage, f)
-		SerializeExcelizePointerToGongstruct[*NoteShape](stage, f)
-		SerializeExcelizePointerToGongstruct[*NoteShapeLink](stage, f)
 	}
 
 	// Create a style with wrap text enabled

@@ -54,8 +54,8 @@ func _(stage *models.Stage) {
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.AbsolutePathToDiagramPackage = ``
 
 	__GongStructShape__000000_Default_AttributeShape.Name = `Default-AttributeShape`
-	__GongStructShape__000000_Default_AttributeShape.X = 1445.000000
-	__GongStructShape__000000_Default_AttributeShape.Y = 157.000000
+	__GongStructShape__000000_Default_AttributeShape.X = 1444.000000
+	__GongStructShape__000000_Default_AttributeShape.Y = 26.000000
 
 	//gong:ident [ref_models.AttributeShape] comment added to overcome the problem with the comment map association
 	__GongStructShape__000000_Default_AttributeShape.Identifier = `ref_models.AttributeShape`
@@ -66,8 +66,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_AttributeShape.IsSelected = false
 
 	__GongStructShape__000001_Default_DiagramPackage.Name = `Default-DiagramPackage`
-	__GongStructShape__000001_Default_DiagramPackage.X = 59.000000
-	__GongStructShape__000001_Default_DiagramPackage.Y = 167.000000
+	__GongStructShape__000001_Default_DiagramPackage.X = 58.000000
+	__GongStructShape__000001_Default_DiagramPackage.Y = 36.000000
 
 	//gong:ident [ref_models.DiagramPackage] comment added to overcome the problem with the comment map association
 	__GongStructShape__000001_Default_DiagramPackage.Identifier = `ref_models.DiagramPackage`
@@ -78,8 +78,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_DiagramPackage.IsSelected = false
 
 	__GongStructShape__000002_Default_GongStructShape.Name = `Default-GongStructShape`
-	__GongStructShape__000002_Default_GongStructShape.X = 986.000000
-	__GongStructShape__000002_Default_GongStructShape.Y = 163.000000
+	__GongStructShape__000002_Default_GongStructShape.X = 985.000000
+	__GongStructShape__000002_Default_GongStructShape.Y = 32.000000
 
 	//gong:ident [ref_models.GongStructShape] comment added to overcome the problem with the comment map association
 	__GongStructShape__000002_Default_GongStructShape.Identifier = `ref_models.GongStructShape`
@@ -90,8 +90,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__000002_Default_GongStructShape.IsSelected = false
 
 	__GongStructShape__000003_Default_Classdiagram.Name = `Default-Classdiagram`
-	__GongStructShape__000003_Default_Classdiagram.X = 518.000000
-	__GongStructShape__000003_Default_Classdiagram.Y = 166.000000
+	__GongStructShape__000003_Default_Classdiagram.X = 517.000000
+	__GongStructShape__000003_Default_Classdiagram.Y = 35.000000
 
 	//gong:ident [ref_models.Classdiagram] comment added to overcome the problem with the comment map association
 	__GongStructShape__000003_Default_Classdiagram.Identifier = `ref_models.Classdiagram`

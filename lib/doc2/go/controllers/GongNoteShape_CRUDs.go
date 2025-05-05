@@ -14,16 +14,16 @@ import (
 )
 
 // declaration in order to justify use of the models import
-var __NoteShape__dummysDeclaration__ models.NoteShape
-var __NoteShape_time__dummyDeclaration time.Duration
+var __GongNoteShape__dummysDeclaration__ models.GongNoteShape
+var __GongNoteShape_time__dummyDeclaration time.Duration
 
-var mutexNoteShape sync.Mutex
+var mutexGongNoteShape sync.Mutex
 
-// An NoteShapeID parameter model.
+// An GongNoteShapeID parameter model.
 //
 // This is used for operations that want the ID of an order in the path
-// swagger:parameters getNoteShape updateNoteShape deleteNoteShape
-type NoteShapeID struct {
+// swagger:parameters getGongNoteShape updateGongNoteShape deleteGongNoteShape
+type GongNoteShapeID struct {
 	// The ID of the order
 	//
 	// in: path
@@ -31,29 +31,29 @@ type NoteShapeID struct {
 	ID int64
 }
 
-// NoteShapeInput is a schema that can validate the user’s
+// GongNoteShapeInput is a schema that can validate the user’s
 // input to prevent us from getting invalid data
-// swagger:parameters postNoteShape updateNoteShape
-type NoteShapeInput struct {
-	// The NoteShape to submit or modify
+// swagger:parameters postGongNoteShape updateGongNoteShape
+type GongNoteShapeInput struct {
+	// The GongNoteShape to submit or modify
 	// in: body
-	NoteShape *orm.NoteShapeAPI
+	GongNoteShape *orm.GongNoteShapeAPI
 }
 
-// GetNoteShapes
+// GetGongNoteShapes
 //
-// swagger:route GET /noteshapes noteshapes getNoteShapes
+// swagger:route GET /gongnoteshapes gongnoteshapes getGongNoteShapes
 //
-// # Get all noteshapes
+// # Get all gongnoteshapes
 //
 // Responses:
 // default: genericError
 //
-//	200: noteshapeDBResponse
-func (controller *Controller) GetNoteShapes(c *gin.Context) {
+//	200: gongnoteshapeDBResponse
+func (controller *Controller) GetGongNoteShapes(c *gin.Context) {
 
 	// source slice
-	var noteshapeDBs []orm.NoteShapeDB
+	var gongnoteshapeDBs []orm.GongNoteShapeDB
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -61,7 +61,7 @@ func (controller *Controller) GetNoteShapes(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetNoteShapes", "Name", stackPath)
+			// log.Println("GetGongNoteShapes", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -75,9 +75,9 @@ func (controller *Controller) GetNoteShapes(c *gin.Context) {
 
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoNoteShape.GetDB()
+	db := backRepo.BackRepoGongNoteShape.GetDB()
 
-	_, err := db.Find(&noteshapeDBs)
+	_, err := db.Find(&gongnoteshapeDBs)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -88,29 +88,29 @@ func (controller *Controller) GetNoteShapes(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	noteshapeAPIs := make([]orm.NoteShapeAPI, 0)
+	gongnoteshapeAPIs := make([]orm.GongNoteShapeAPI, 0)
 
-	// for each noteshape, update fields from the database nullable fields
-	for idx := range noteshapeDBs {
-		noteshapeDB := &noteshapeDBs[idx]
-		_ = noteshapeDB
-		var noteshapeAPI orm.NoteShapeAPI
+	// for each gongnoteshape, update fields from the database nullable fields
+	for idx := range gongnoteshapeDBs {
+		gongnoteshapeDB := &gongnoteshapeDBs[idx]
+		_ = gongnoteshapeDB
+		var gongnoteshapeAPI orm.GongNoteShapeAPI
 
 		// insertion point for updating fields
-		noteshapeAPI.ID = noteshapeDB.ID
-		noteshapeDB.CopyBasicFieldsToNoteShape_WOP(&noteshapeAPI.NoteShape_WOP)
-		noteshapeAPI.NoteShapePointersEncoding = noteshapeDB.NoteShapePointersEncoding
-		noteshapeAPIs = append(noteshapeAPIs, noteshapeAPI)
+		gongnoteshapeAPI.ID = gongnoteshapeDB.ID
+		gongnoteshapeDB.CopyBasicFieldsToGongNoteShape_WOP(&gongnoteshapeAPI.GongNoteShape_WOP)
+		gongnoteshapeAPI.GongNoteShapePointersEncoding = gongnoteshapeDB.GongNoteShapePointersEncoding
+		gongnoteshapeAPIs = append(gongnoteshapeAPIs, gongnoteshapeAPI)
 	}
 
-	c.JSON(http.StatusOK, noteshapeAPIs)
+	c.JSON(http.StatusOK, gongnoteshapeAPIs)
 }
 
-// PostNoteShape
+// PostGongNoteShape
 //
-// swagger:route POST /noteshapes noteshapes postNoteShape
+// swagger:route POST /gongnoteshapes gongnoteshapes postGongNoteShape
 //
-// Creates a noteshape
+// Creates a gongnoteshape
 //
 //	Consumes:
 //	- application/json
@@ -120,10 +120,10 @@ func (controller *Controller) GetNoteShapes(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostNoteShape(c *gin.Context) {
+func (controller *Controller) PostGongNoteShape(c *gin.Context) {
 
-	mutexNoteShape.Lock()
-	defer mutexNoteShape.Unlock()
+	mutexGongNoteShape.Lock()
+	defer mutexGongNoteShape.Unlock()
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -131,7 +131,7 @@ func (controller *Controller) PostNoteShape(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("PostNoteShapes", "Name", stackPath)
+			// log.Println("PostGongNoteShapes", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -145,10 +145,10 @@ func (controller *Controller) PostNoteShape(c *gin.Context) {
 
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoNoteShape.GetDB()
+	db := backRepo.BackRepoGongNoteShape.GetDB()
 
 	// Validate input
-	var input orm.NoteShapeAPI
+	var input orm.GongNoteShapeAPI
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -160,12 +160,12 @@ func (controller *Controller) PostNoteShape(c *gin.Context) {
 		return
 	}
 
-	// Create noteshape
-	noteshapeDB := orm.NoteShapeDB{}
-	noteshapeDB.NoteShapePointersEncoding = input.NoteShapePointersEncoding
-	noteshapeDB.CopyBasicFieldsFromNoteShape_WOP(&input.NoteShape_WOP)
+	// Create gongnoteshape
+	gongnoteshapeDB := orm.GongNoteShapeDB{}
+	gongnoteshapeDB.GongNoteShapePointersEncoding = input.GongNoteShapePointersEncoding
+	gongnoteshapeDB.CopyBasicFieldsFromGongNoteShape_WOP(&input.GongNoteShape_WOP)
 
-	_, err = db.Create(&noteshapeDB)
+	_, err = db.Create(&gongnoteshapeDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -176,31 +176,31 @@ func (controller *Controller) PostNoteShape(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	backRepo.BackRepoNoteShape.CheckoutPhaseOneInstance(&noteshapeDB)
-	noteshape := backRepo.BackRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr[noteshapeDB.ID]
+	backRepo.BackRepoGongNoteShape.CheckoutPhaseOneInstance(&gongnoteshapeDB)
+	gongnoteshape := backRepo.BackRepoGongNoteShape.Map_GongNoteShapeDBID_GongNoteShapePtr[gongnoteshapeDB.ID]
 
-	if noteshape != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), noteshape)
+	if gongnoteshape != nil {
+		models.AfterCreateFromFront(backRepo.GetStage(), gongnoteshape)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, noteshapeDB)
+	c.JSON(http.StatusOK, gongnoteshapeDB)
 }
 
-// GetNoteShape
+// GetGongNoteShape
 //
-// swagger:route GET /noteshapes/{ID} noteshapes getNoteShape
+// swagger:route GET /gongnoteshapes/{ID} gongnoteshapes getGongNoteShape
 //
-// Gets the details for a noteshape.
+// Gets the details for a gongnoteshape.
 //
 // Responses:
 // default: genericError
 //
-//	200: noteshapeDBResponse
-func (controller *Controller) GetNoteShape(c *gin.Context) {
+//	200: gongnoteshapeDBResponse
+func (controller *Controller) GetGongNoteShape(c *gin.Context) {
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -208,7 +208,7 @@ func (controller *Controller) GetNoteShape(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetNoteShape", "Name", stackPath)
+			// log.Println("GetGongNoteShape", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -222,11 +222,11 @@ func (controller *Controller) GetNoteShape(c *gin.Context) {
 
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoNoteShape.GetDB()
+	db := backRepo.BackRepoGongNoteShape.GetDB()
 
-	// Get noteshapeDB in DB
-	var noteshapeDB orm.NoteShapeDB
-	if _, err := db.First(&noteshapeDB, c.Param("id")); err != nil {
+	// Get gongnoteshapeDB in DB
+	var gongnoteshapeDB orm.GongNoteShapeDB
+	if _, err := db.First(&gongnoteshapeDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -235,28 +235,28 @@ func (controller *Controller) GetNoteShape(c *gin.Context) {
 		return
 	}
 
-	var noteshapeAPI orm.NoteShapeAPI
-	noteshapeAPI.ID = noteshapeDB.ID
-	noteshapeAPI.NoteShapePointersEncoding = noteshapeDB.NoteShapePointersEncoding
-	noteshapeDB.CopyBasicFieldsToNoteShape_WOP(&noteshapeAPI.NoteShape_WOP)
+	var gongnoteshapeAPI orm.GongNoteShapeAPI
+	gongnoteshapeAPI.ID = gongnoteshapeDB.ID
+	gongnoteshapeAPI.GongNoteShapePointersEncoding = gongnoteshapeDB.GongNoteShapePointersEncoding
+	gongnoteshapeDB.CopyBasicFieldsToGongNoteShape_WOP(&gongnoteshapeAPI.GongNoteShape_WOP)
 
-	c.JSON(http.StatusOK, noteshapeAPI)
+	c.JSON(http.StatusOK, gongnoteshapeAPI)
 }
 
-// UpdateNoteShape
+// UpdateGongNoteShape
 //
-// swagger:route PATCH /noteshapes/{ID} noteshapes updateNoteShape
+// swagger:route PATCH /gongnoteshapes/{ID} gongnoteshapes updateGongNoteShape
 //
-// # Update a noteshape
+// # Update a gongnoteshape
 //
 // Responses:
 // default: genericError
 //
-//	200: noteshapeDBResponse
-func (controller *Controller) UpdateNoteShape(c *gin.Context) {
+//	200: gongnoteshapeDBResponse
+func (controller *Controller) UpdateGongNoteShape(c *gin.Context) {
 
-	mutexNoteShape.Lock()
-	defer mutexNoteShape.Unlock()
+	mutexGongNoteShape.Lock()
+	defer mutexGongNoteShape.Unlock()
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -264,7 +264,7 @@ func (controller *Controller) UpdateNoteShape(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("UpdateNoteShape", "Name", stackPath)
+			// log.Println("UpdateGongNoteShape", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -278,10 +278,10 @@ func (controller *Controller) UpdateNoteShape(c *gin.Context) {
 
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoNoteShape.GetDB()
+	db := backRepo.BackRepoGongNoteShape.GetDB()
 
 	// Validate input
-	var input orm.NoteShapeAPI
+	var input orm.GongNoteShapeAPI
 	if err := c.ShouldBindJSON(&input); err != nil {
 		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -289,10 +289,10 @@ func (controller *Controller) UpdateNoteShape(c *gin.Context) {
 	}
 
 	// Get model if exist
-	var noteshapeDB orm.NoteShapeDB
+	var gongnoteshapeDB orm.GongNoteShapeDB
 
-	// fetch the noteshape
-	_, err := db.First(&noteshapeDB, c.Param("id"))
+	// fetch the gongnoteshape
+	_, err := db.First(&gongnoteshapeDB, c.Param("id"))
 
 	if err != nil {
 		var returnError GenericError
@@ -304,11 +304,11 @@ func (controller *Controller) UpdateNoteShape(c *gin.Context) {
 	}
 
 	// update
-	noteshapeDB.CopyBasicFieldsFromNoteShape_WOP(&input.NoteShape_WOP)
-	noteshapeDB.NoteShapePointersEncoding = input.NoteShapePointersEncoding
+	gongnoteshapeDB.CopyBasicFieldsFromGongNoteShape_WOP(&input.GongNoteShape_WOP)
+	gongnoteshapeDB.GongNoteShapePointersEncoding = input.GongNoteShapePointersEncoding
 
-	db, _ = db.Model(&noteshapeDB)
-	_, err = db.Updates(&noteshapeDB)
+	db, _ = db.Model(&gongnoteshapeDB)
+	_, err = db.Updates(&gongnoteshapeDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -319,16 +319,16 @@ func (controller *Controller) UpdateNoteShape(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	noteshapeNew := new(models.NoteShape)
-	noteshapeDB.CopyBasicFieldsToNoteShape(noteshapeNew)
+	gongnoteshapeNew := new(models.GongNoteShape)
+	gongnoteshapeDB.CopyBasicFieldsToGongNoteShape(gongnoteshapeNew)
 
 	// redeem pointers
-	noteshapeDB.DecodePointers(backRepo, noteshapeNew)
+	gongnoteshapeDB.DecodePointers(backRepo, gongnoteshapeNew)
 
 	// get stage instance from DB instance, and call callback function
-	noteshapeOld := backRepo.BackRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr[noteshapeDB.ID]
-	if noteshapeOld != nil {
-		models.AfterUpdateFromFront(backRepo.GetStage(), noteshapeOld, noteshapeNew)
+	gongnoteshapeOld := backRepo.BackRepoGongNoteShape.Map_GongNoteShapeDBID_GongNoteShapePtr[gongnoteshapeDB.ID]
+	if gongnoteshapeOld != nil {
+		models.AfterUpdateFromFront(backRepo.GetStage(), gongnoteshapeOld, gongnoteshapeNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -337,23 +337,23 @@ func (controller *Controller) UpdateNoteShape(c *gin.Context) {
 	// generates a checkout
 	backRepo.IncrementPushFromFrontNb()
 
-	// return status OK with the marshalling of the the noteshapeDB
-	c.JSON(http.StatusOK, noteshapeDB)
+	// return status OK with the marshalling of the the gongnoteshapeDB
+	c.JSON(http.StatusOK, gongnoteshapeDB)
 }
 
-// DeleteNoteShape
+// DeleteGongNoteShape
 //
-// swagger:route DELETE /noteshapes/{ID} noteshapes deleteNoteShape
+// swagger:route DELETE /gongnoteshapes/{ID} gongnoteshapes deleteGongNoteShape
 //
-// # Delete a noteshape
+// # Delete a gongnoteshape
 //
 // default: genericError
 //
-//	200: noteshapeDBResponse
-func (controller *Controller) DeleteNoteShape(c *gin.Context) {
+//	200: gongnoteshapeDBResponse
+func (controller *Controller) DeleteGongNoteShape(c *gin.Context) {
 
-	mutexNoteShape.Lock()
-	defer mutexNoteShape.Unlock()
+	mutexGongNoteShape.Lock()
+	defer mutexGongNoteShape.Unlock()
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -361,7 +361,7 @@ func (controller *Controller) DeleteNoteShape(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("DeleteNoteShape", "Name", stackPath)
+			// log.Println("DeleteGongNoteShape", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -375,11 +375,11 @@ func (controller *Controller) DeleteNoteShape(c *gin.Context) {
 
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoNoteShape.GetDB()
+	db := backRepo.BackRepoGongNoteShape.GetDB()
 
 	// Get model if exist
-	var noteshapeDB orm.NoteShapeDB
-	if _, err := db.First(&noteshapeDB, c.Param("id")); err != nil {
+	var gongnoteshapeDB orm.GongNoteShapeDB
+	if _, err := db.First(&gongnoteshapeDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -390,16 +390,16 @@ func (controller *Controller) DeleteNoteShape(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped()
-	db.Delete(&noteshapeDB)
+	db.Delete(&gongnoteshapeDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
-	noteshapeDeleted := new(models.NoteShape)
-	noteshapeDB.CopyBasicFieldsToNoteShape(noteshapeDeleted)
+	gongnoteshapeDeleted := new(models.GongNoteShape)
+	gongnoteshapeDB.CopyBasicFieldsToGongNoteShape(gongnoteshapeDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	noteshapeStaged := backRepo.BackRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr[noteshapeDB.ID]
-	if noteshapeStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), noteshapeStaged, noteshapeDeleted)
+	gongnoteshapeStaged := backRepo.BackRepoGongNoteShape.Map_GongNoteShapeDBID_GongNoteShapePtr[gongnoteshapeDB.ID]
+	if gongnoteshapeStaged != nil {
+		models.AfterDeleteFromFront(backRepo.GetStage(), gongnoteshapeStaged, gongnoteshapeDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
