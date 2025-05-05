@@ -50,8 +50,8 @@ func _(stage *models.Stage) {
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_30_30Z.AbsolutePathToDiagramPackage = ``
 
 	__GongStructShape__000000_Default_Astruct.Name = `Default-Astruct`
-	__GongStructShape__000000_Default_Astruct.X = 35.000000
-	__GongStructShape__000000_Default_Astruct.Y = 91.000000
+	__GongStructShape__000000_Default_Astruct.X = 31.000000
+	__GongStructShape__000000_Default_Astruct.Y = 96.000000
 
 	//gong:ident [ref_models.Astruct] comment added to overcome the problem with the comment map association
 	__GongStructShape__000000_Default_Astruct.Identifier = `ref_models.Astruct`
