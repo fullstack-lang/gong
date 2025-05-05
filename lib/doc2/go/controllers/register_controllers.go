@@ -84,6 +84,20 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/gongenumvalueshapes/:id", GetController().UpdateGongEnumValueShape)
 		v1.DELETE("/v1/gongenumvalueshapes/:id", GetController().DeleteGongEnumValueShape)
 
+		v1.GET("/v1/gongnotelinkshapes", GetController().GetGongNoteLinkShapes)
+		v1.GET("/v1/gongnotelinkshapes/:id", GetController().GetGongNoteLinkShape)
+		v1.POST("/v1/gongnotelinkshapes", GetController().PostGongNoteLinkShape)
+		v1.PATCH("/v1/gongnotelinkshapes/:id", GetController().UpdateGongNoteLinkShape)
+		v1.PUT("/v1/gongnotelinkshapes/:id", GetController().UpdateGongNoteLinkShape)
+		v1.DELETE("/v1/gongnotelinkshapes/:id", GetController().DeleteGongNoteLinkShape)
+
+		v1.GET("/v1/gongnoteshapes", GetController().GetGongNoteShapes)
+		v1.GET("/v1/gongnoteshapes/:id", GetController().GetGongNoteShape)
+		v1.POST("/v1/gongnoteshapes", GetController().PostGongNoteShape)
+		v1.PATCH("/v1/gongnoteshapes/:id", GetController().UpdateGongNoteShape)
+		v1.PUT("/v1/gongnoteshapes/:id", GetController().UpdateGongNoteShape)
+		v1.DELETE("/v1/gongnoteshapes/:id", GetController().DeleteGongNoteShape)
+
 		v1.GET("/v1/gongstructshapes", GetController().GetGongStructShapes)
 		v1.GET("/v1/gongstructshapes/:id", GetController().GetGongStructShape)
 		v1.POST("/v1/gongstructshapes", GetController().PostGongStructShape)
@@ -97,20 +111,6 @@ func registerControllers(r *gin.Engine) {
 		v1.PATCH("/v1/linkshapes/:id", GetController().UpdateLinkShape)
 		v1.PUT("/v1/linkshapes/:id", GetController().UpdateLinkShape)
 		v1.DELETE("/v1/linkshapes/:id", GetController().DeleteLinkShape)
-
-		v1.GET("/v1/noteshapes", GetController().GetNoteShapes)
-		v1.GET("/v1/noteshapes/:id", GetController().GetNoteShape)
-		v1.POST("/v1/noteshapes", GetController().PostNoteShape)
-		v1.PATCH("/v1/noteshapes/:id", GetController().UpdateNoteShape)
-		v1.PUT("/v1/noteshapes/:id", GetController().UpdateNoteShape)
-		v1.DELETE("/v1/noteshapes/:id", GetController().DeleteNoteShape)
-
-		v1.GET("/v1/noteshapelinks", GetController().GetNoteShapeLinks)
-		v1.GET("/v1/noteshapelinks/:id", GetController().GetNoteShapeLink)
-		v1.POST("/v1/noteshapelinks", GetController().PostNoteShapeLink)
-		v1.PATCH("/v1/noteshapelinks/:id", GetController().UpdateNoteShapeLink)
-		v1.PUT("/v1/noteshapelinks/:id", GetController().UpdateNoteShapeLink)
-		v1.DELETE("/v1/noteshapelinks/:id", GetController().DeleteNoteShapeLink)
 
 		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)

@@ -47,10 +47,10 @@ func NewStackInstance(
 	models.SetOrchestratorOnAfterUpdate[models.DiagramPackage](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongEnumShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongEnumValueShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.GongNoteLinkShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.GongNoteShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongStructShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.LinkShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.NoteShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.NoteShapeLink](stage)
 
 	return
 }

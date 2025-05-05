@@ -79,6 +79,30 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.GongNoteLinkShape:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "GongNoteLinkShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GongNoteLinkShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.GongNoteShape:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "GongNoteShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GongNoteShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.GongStructShape:
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,
@@ -97,30 +121,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 			Label: "LinkShape Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__LinkShapeFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.NoteShape:
-		formGroup := (&gongtable.FormGroup{
-			Name:  formName,
-			Label: "NoteShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__NoteShapeFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.NoteShapeLink:
-		formGroup := (&gongtable.FormGroup{
-			Name:  formName,
-			Label: "NoteShapeLink Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__NoteShapeLinkFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

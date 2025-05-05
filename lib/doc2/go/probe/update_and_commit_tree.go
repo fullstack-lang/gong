@@ -114,6 +114,26 @@ func updateAndCommitTree(
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
+		case "GongNoteLinkShape":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.GongNoteLinkShape](probe.stageOfInterest)
+			for _gongnotelinkshape := range set {
+				nodeInstance := (&tree.Node{Name: _gongnotelinkshape.GetName()}).Stage(probe.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_gongnotelinkshape, "GongNoteLinkShape", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "GongNoteShape":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.GongNoteShape](probe.stageOfInterest)
+			for _gongnoteshape := range set {
+				nodeInstance := (&tree.Node{Name: _gongnoteshape.GetName()}).Stage(probe.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_gongnoteshape, "GongNoteShape", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
 		case "GongStructShape":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSet[models.GongStructShape](probe.stageOfInterest)
@@ -131,26 +151,6 @@ func updateAndCommitTree(
 				nodeInstance := (&tree.Node{Name: _linkshape.GetName()}).Stage(probe.treeStage)
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_linkshape, "LinkShape", probe)
-
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-		case "NoteShape":
-			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.NoteShape](probe.stageOfInterest)
-			for _noteshape := range set {
-				nodeInstance := (&tree.Node{Name: _noteshape.GetName()}).Stage(probe.treeStage)
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_noteshape, "NoteShape", probe)
-
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-		case "NoteShapeLink":
-			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.NoteShapeLink](probe.stageOfInterest)
-			for _noteshapelink := range set {
-				nodeInstance := (&tree.Node{Name: _noteshapelink.GetName()}).Stage(probe.treeStage)
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_noteshapelink, "NoteShapeLink", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}

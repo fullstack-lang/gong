@@ -145,7 +145,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 				IsChecked:          isGongStructShapeInDiagram,
 				IsExpanded:         isExpanded,
 			}
-			nodeNamedStruct.Impl = &GongstructNodeProxy{
+			nodeNamedStruct.Impl = &GongStructNodeProxy{
 				node:            nodeNamedStruct,
 				stager:          stager,
 				classDiagram:    classDiagram,
@@ -277,25 +277,31 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			}
 		}
 
-		for _, gongNote := range gongnotes {
+		for idx, gongNote := range gongnotes {
 			shape, isInDiagram := map_modelElement_shape[gongNote]
 
-			gongNoteShape, ok := shape.(*NoteShape)
+			gongNoteShape, ok := shape.(*GongNoteShape)
 			if isInDiagram && !ok {
 				log.Fatalln("a gongnote should be associated to a gongnote shape")
 			}
 			_ = gongNoteShape
 
-			var isExpanded bool
-			if isInDiagram {
-				isExpanded = gongNoteShape.IsExpanded
-			}
+			isExpanded := IsNodeExpanded(classDiagram.NodeGongNoteNodeExpansionBinaryEncoding, idx)
+
 			gongNoteNode := &tree.Node{
 				Name:               gongNote.Name,
 				HasCheckboxButton:  true,
 				IsChecked:          isInDiagram,
 				IsExpanded:         isExpanded,
 				IsCheckboxDisabled: stager.embeddedDiagrams,
+			}
+			gongNoteNode.Impl = &GongNoteNodeProxy{
+				node:          gongNoteNode,
+				stager:        stager,
+				classDiagram:  classDiagram,
+				gongNote:      gongNote,
+				gongNoteShape: gongNoteShape,
+				rank:          idx,
 			}
 			nodeGongNotes.Children = append(nodeGongNotes.Children, gongNoteNode)
 
