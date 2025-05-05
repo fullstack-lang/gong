@@ -4,6 +4,7 @@ package models
 
 import (
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -93,6 +94,33 @@ func NewStager(
 			Name: fmt.Sprintf("Diagram Package created the %s", time.Now().Local().UTC().Format(time.RFC3339)),
 		}).Stage(stage)
 		stage.Commit()
+	}
+
+	// refresh all notes body from the original gong note in the package models
+	// because, note are not synchronized via the gopls renaming request
+	//
+	// if a can be traced, this is probably for a lack of diagram maintenance
+	gongNotes := *gong.GetGongstructInstancesMap[gong.GongNote](stager.gongStage)
+	for _, classdiagram := range diagramPackage.Classdiagrams {
+
+		for _, gongNoteShape := range classdiagram.GongNoteShapes {
+
+			gongNote, ok := gongNotes[IdentifierToGongObjectName(gongNoteShape.Identifier)]
+
+			if !ok {
+				log.Println("UnmarshallOneDiagram: In diagram", classdiagram.Name, "unknown note related to note shape", gongNoteShape.Identifier)
+				gongNoteShape.Unstage(stage)
+
+				if contains(classdiagram.GongNoteShapes, gongNoteShape) {
+					classdiagram.GongNoteShapes = remove(classdiagram.GongNoteShapes, gongNoteShape)
+				}
+				continue
+			}
+
+			gongNoteShape.Body = gongNote.Body
+			gongNoteShape.BodyHTML = gongNote.BodyHTML
+		}
+
 	}
 
 	stager.UpdateAndCommitSVGStage()
