@@ -14,13 +14,13 @@ type BackRepoData struct {
 
 	GongEnumValueShapeAPIs []*GongEnumValueShapeAPI
 
+	GongNoteLinkShapeAPIs []*GongNoteLinkShapeAPI
+
+	GongNoteShapeAPIs []*GongNoteShapeAPI
+
 	GongStructShapeAPIs []*GongStructShapeAPI
 
 	LinkShapeAPIs []*LinkShapeAPI
-
-	NoteShapeAPIs []*NoteShapeAPI
-
-	NoteShapeLinkAPIs []*NoteShapeLinkAPI
 
 	// index of the web socket for this stack type (unique among all stack instances)
 	GONG__Index int
@@ -83,6 +83,26 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		backRepoData.GongEnumValueShapeAPIs = append(backRepoData.GongEnumValueShapeAPIs, &gongenumvalueshapeAPI)
 	}
 
+	for _, gongnotelinkshapeDB := range backRepo.BackRepoGongNoteLinkShape.Map_GongNoteLinkShapeDBID_GongNoteLinkShapeDB {
+
+		var gongnotelinkshapeAPI GongNoteLinkShapeAPI
+		gongnotelinkshapeAPI.ID = gongnotelinkshapeDB.ID
+		gongnotelinkshapeAPI.GongNoteLinkShapePointersEncoding = gongnotelinkshapeDB.GongNoteLinkShapePointersEncoding
+		gongnotelinkshapeDB.CopyBasicFieldsToGongNoteLinkShape_WOP(&gongnotelinkshapeAPI.GongNoteLinkShape_WOP)
+
+		backRepoData.GongNoteLinkShapeAPIs = append(backRepoData.GongNoteLinkShapeAPIs, &gongnotelinkshapeAPI)
+	}
+
+	for _, gongnoteshapeDB := range backRepo.BackRepoGongNoteShape.Map_GongNoteShapeDBID_GongNoteShapeDB {
+
+		var gongnoteshapeAPI GongNoteShapeAPI
+		gongnoteshapeAPI.ID = gongnoteshapeDB.ID
+		gongnoteshapeAPI.GongNoteShapePointersEncoding = gongnoteshapeDB.GongNoteShapePointersEncoding
+		gongnoteshapeDB.CopyBasicFieldsToGongNoteShape_WOP(&gongnoteshapeAPI.GongNoteShape_WOP)
+
+		backRepoData.GongNoteShapeAPIs = append(backRepoData.GongNoteShapeAPIs, &gongnoteshapeAPI)
+	}
+
 	for _, gongstructshapeDB := range backRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapeDB {
 
 		var gongstructshapeAPI GongStructShapeAPI
@@ -101,26 +121,6 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		linkshapeDB.CopyBasicFieldsToLinkShape_WOP(&linkshapeAPI.LinkShape_WOP)
 
 		backRepoData.LinkShapeAPIs = append(backRepoData.LinkShapeAPIs, &linkshapeAPI)
-	}
-
-	for _, noteshapeDB := range backRepo.BackRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB {
-
-		var noteshapeAPI NoteShapeAPI
-		noteshapeAPI.ID = noteshapeDB.ID
-		noteshapeAPI.NoteShapePointersEncoding = noteshapeDB.NoteShapePointersEncoding
-		noteshapeDB.CopyBasicFieldsToNoteShape_WOP(&noteshapeAPI.NoteShape_WOP)
-
-		backRepoData.NoteShapeAPIs = append(backRepoData.NoteShapeAPIs, &noteshapeAPI)
-	}
-
-	for _, noteshapelinkDB := range backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB {
-
-		var noteshapelinkAPI NoteShapeLinkAPI
-		noteshapelinkAPI.ID = noteshapelinkDB.ID
-		noteshapelinkAPI.NoteShapeLinkPointersEncoding = noteshapelinkDB.NoteShapeLinkPointersEncoding
-		noteshapelinkDB.CopyBasicFieldsToNoteShapeLink_WOP(&noteshapelinkAPI.NoteShapeLink_WOP)
-
-		backRepoData.NoteShapeLinkAPIs = append(backRepoData.NoteShapeLinkAPIs, &noteshapelinkAPI)
 	}
 
 }

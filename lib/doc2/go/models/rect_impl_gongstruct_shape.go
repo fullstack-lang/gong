@@ -1,8 +1,6 @@
 package models
 
 import (
-	"log"
-
 	gongsvg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
@@ -26,7 +24,7 @@ func NewRectImplGongstructShape(
 
 func (rectImplGongstructShape *RectImplGongstructShape) RectUpdated(updatedRect *gongsvg_models.Rect) {
 
-	log.Println("RectImplGongstructShape:RectUpdated")
+	// log.Println("RectImplGongstructShape:RectUpdated")
 
 	// update the shape
 	rectImplGongstructShape.gongstructShape.X = updatedRect.X
