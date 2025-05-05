@@ -26,12 +26,12 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Classdiagram_GongEnumShapes_reverseMap[_gongenumshape] = classdiagram
 		}
 	}
-	clear(stage.Classdiagram_NoteShapes_reverseMap)
-	stage.Classdiagram_NoteShapes_reverseMap = make(map[*NoteShape]*Classdiagram)
+	clear(stage.Classdiagram_GongNoteShapes_reverseMap)
+	stage.Classdiagram_GongNoteShapes_reverseMap = make(map[*GongNoteShape]*Classdiagram)
 	for classdiagram := range stage.Classdiagrams {
 		_ = classdiagram
-		for _, _noteshape := range classdiagram.NoteShapes {
-			stage.Classdiagram_NoteShapes_reverseMap[_noteshape] = classdiagram
+		for _, _gongnoteshape := range classdiagram.GongNoteShapes {
+			stage.Classdiagram_GongNoteShapes_reverseMap[_gongnoteshape] = classdiagram
 		}
 	}
 
@@ -60,6 +60,20 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct GongEnumValueShape
 	// insertion point per field
 
+	// Compute reverse map for named struct GongNoteLinkShape
+	// insertion point per field
+
+	// Compute reverse map for named struct GongNoteShape
+	// insertion point per field
+	clear(stage.GongNoteShape_GongNoteLinkShapes_reverseMap)
+	stage.GongNoteShape_GongNoteLinkShapes_reverseMap = make(map[*GongNoteLinkShape]*GongNoteShape)
+	for gongnoteshape := range stage.GongNoteShapes {
+		_ = gongnoteshape
+		for _, _gongnotelinkshape := range gongnoteshape.GongNoteLinkShapes {
+			stage.GongNoteShape_GongNoteLinkShapes_reverseMap[_gongnotelinkshape] = gongnoteshape
+		}
+	}
+
 	// Compute reverse map for named struct GongStructShape
 	// insertion point per field
 	clear(stage.GongStructShape_AttributeShapes_reverseMap)
@@ -80,20 +94,6 @@ func (stage *Stage) ComputeReverseMaps() {
 	}
 
 	// Compute reverse map for named struct LinkShape
-	// insertion point per field
-
-	// Compute reverse map for named struct NoteShape
-	// insertion point per field
-	clear(stage.NoteShape_NoteShapeLinks_reverseMap)
-	stage.NoteShape_NoteShapeLinks_reverseMap = make(map[*NoteShapeLink]*NoteShape)
-	for noteshape := range stage.NoteShapes {
-		_ = noteshape
-		for _, _noteshapelink := range noteshape.NoteShapeLinks {
-			stage.NoteShape_NoteShapeLinks_reverseMap[_noteshapelink] = noteshape
-		}
-	}
-
-	// Compute reverse map for named struct NoteShapeLink
 	// insertion point per field
 
 }

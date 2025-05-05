@@ -70,3 +70,8 @@ func GongStructNameToIdentifier(structName string) (identifier string) {
 	identifier = RefPrefixReferencedPackage + "models." + structName
 	return
 }
+
+func GongNoteNameToIdentifier(gongNoteName string) (identifier string) {
+
+	return GongStructNameToIdentifier(gongNoteName)
+}

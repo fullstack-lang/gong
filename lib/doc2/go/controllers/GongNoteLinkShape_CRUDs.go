@@ -14,16 +14,16 @@ import (
 )
 
 // declaration in order to justify use of the models import
-var __NoteShapeLink__dummysDeclaration__ models.NoteShapeLink
-var __NoteShapeLink_time__dummyDeclaration time.Duration
+var __GongNoteLinkShape__dummysDeclaration__ models.GongNoteLinkShape
+var __GongNoteLinkShape_time__dummyDeclaration time.Duration
 
-var mutexNoteShapeLink sync.Mutex
+var mutexGongNoteLinkShape sync.Mutex
 
-// An NoteShapeLinkID parameter model.
+// An GongNoteLinkShapeID parameter model.
 //
 // This is used for operations that want the ID of an order in the path
-// swagger:parameters getNoteShapeLink updateNoteShapeLink deleteNoteShapeLink
-type NoteShapeLinkID struct {
+// swagger:parameters getGongNoteLinkShape updateGongNoteLinkShape deleteGongNoteLinkShape
+type GongNoteLinkShapeID struct {
 	// The ID of the order
 	//
 	// in: path
@@ -31,29 +31,29 @@ type NoteShapeLinkID struct {
 	ID int64
 }
 
-// NoteShapeLinkInput is a schema that can validate the user’s
+// GongNoteLinkShapeInput is a schema that can validate the user’s
 // input to prevent us from getting invalid data
-// swagger:parameters postNoteShapeLink updateNoteShapeLink
-type NoteShapeLinkInput struct {
-	// The NoteShapeLink to submit or modify
+// swagger:parameters postGongNoteLinkShape updateGongNoteLinkShape
+type GongNoteLinkShapeInput struct {
+	// The GongNoteLinkShape to submit or modify
 	// in: body
-	NoteShapeLink *orm.NoteShapeLinkAPI
+	GongNoteLinkShape *orm.GongNoteLinkShapeAPI
 }
 
-// GetNoteShapeLinks
+// GetGongNoteLinkShapes
 //
-// swagger:route GET /noteshapelinks noteshapelinks getNoteShapeLinks
+// swagger:route GET /gongnotelinkshapes gongnotelinkshapes getGongNoteLinkShapes
 //
-// # Get all noteshapelinks
+// # Get all gongnotelinkshapes
 //
 // Responses:
 // default: genericError
 //
-//	200: noteshapelinkDBResponse
-func (controller *Controller) GetNoteShapeLinks(c *gin.Context) {
+//	200: gongnotelinkshapeDBResponse
+func (controller *Controller) GetGongNoteLinkShapes(c *gin.Context) {
 
 	// source slice
-	var noteshapelinkDBs []orm.NoteShapeLinkDB
+	var gongnotelinkshapeDBs []orm.GongNoteLinkShapeDB
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -61,7 +61,7 @@ func (controller *Controller) GetNoteShapeLinks(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetNoteShapeLinks", "Name", stackPath)
+			// log.Println("GetGongNoteLinkShapes", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -75,9 +75,9 @@ func (controller *Controller) GetNoteShapeLinks(c *gin.Context) {
 
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoNoteShapeLink.GetDB()
+	db := backRepo.BackRepoGongNoteLinkShape.GetDB()
 
-	_, err := db.Find(&noteshapelinkDBs)
+	_, err := db.Find(&gongnotelinkshapeDBs)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -88,29 +88,29 @@ func (controller *Controller) GetNoteShapeLinks(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	noteshapelinkAPIs := make([]orm.NoteShapeLinkAPI, 0)
+	gongnotelinkshapeAPIs := make([]orm.GongNoteLinkShapeAPI, 0)
 
-	// for each noteshapelink, update fields from the database nullable fields
-	for idx := range noteshapelinkDBs {
-		noteshapelinkDB := &noteshapelinkDBs[idx]
-		_ = noteshapelinkDB
-		var noteshapelinkAPI orm.NoteShapeLinkAPI
+	// for each gongnotelinkshape, update fields from the database nullable fields
+	for idx := range gongnotelinkshapeDBs {
+		gongnotelinkshapeDB := &gongnotelinkshapeDBs[idx]
+		_ = gongnotelinkshapeDB
+		var gongnotelinkshapeAPI orm.GongNoteLinkShapeAPI
 
 		// insertion point for updating fields
-		noteshapelinkAPI.ID = noteshapelinkDB.ID
-		noteshapelinkDB.CopyBasicFieldsToNoteShapeLink_WOP(&noteshapelinkAPI.NoteShapeLink_WOP)
-		noteshapelinkAPI.NoteShapeLinkPointersEncoding = noteshapelinkDB.NoteShapeLinkPointersEncoding
-		noteshapelinkAPIs = append(noteshapelinkAPIs, noteshapelinkAPI)
+		gongnotelinkshapeAPI.ID = gongnotelinkshapeDB.ID
+		gongnotelinkshapeDB.CopyBasicFieldsToGongNoteLinkShape_WOP(&gongnotelinkshapeAPI.GongNoteLinkShape_WOP)
+		gongnotelinkshapeAPI.GongNoteLinkShapePointersEncoding = gongnotelinkshapeDB.GongNoteLinkShapePointersEncoding
+		gongnotelinkshapeAPIs = append(gongnotelinkshapeAPIs, gongnotelinkshapeAPI)
 	}
 
-	c.JSON(http.StatusOK, noteshapelinkAPIs)
+	c.JSON(http.StatusOK, gongnotelinkshapeAPIs)
 }
 
-// PostNoteShapeLink
+// PostGongNoteLinkShape
 //
-// swagger:route POST /noteshapelinks noteshapelinks postNoteShapeLink
+// swagger:route POST /gongnotelinkshapes gongnotelinkshapes postGongNoteLinkShape
 //
-// Creates a noteshapelink
+// Creates a gongnotelinkshape
 //
 //	Consumes:
 //	- application/json
@@ -120,10 +120,10 @@ func (controller *Controller) GetNoteShapeLinks(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostNoteShapeLink(c *gin.Context) {
+func (controller *Controller) PostGongNoteLinkShape(c *gin.Context) {
 
-	mutexNoteShapeLink.Lock()
-	defer mutexNoteShapeLink.Unlock()
+	mutexGongNoteLinkShape.Lock()
+	defer mutexGongNoteLinkShape.Unlock()
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -131,7 +131,7 @@ func (controller *Controller) PostNoteShapeLink(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("PostNoteShapeLinks", "Name", stackPath)
+			// log.Println("PostGongNoteLinkShapes", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -145,10 +145,10 @@ func (controller *Controller) PostNoteShapeLink(c *gin.Context) {
 
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoNoteShapeLink.GetDB()
+	db := backRepo.BackRepoGongNoteLinkShape.GetDB()
 
 	// Validate input
-	var input orm.NoteShapeLinkAPI
+	var input orm.GongNoteLinkShapeAPI
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -160,12 +160,12 @@ func (controller *Controller) PostNoteShapeLink(c *gin.Context) {
 		return
 	}
 
-	// Create noteshapelink
-	noteshapelinkDB := orm.NoteShapeLinkDB{}
-	noteshapelinkDB.NoteShapeLinkPointersEncoding = input.NoteShapeLinkPointersEncoding
-	noteshapelinkDB.CopyBasicFieldsFromNoteShapeLink_WOP(&input.NoteShapeLink_WOP)
+	// Create gongnotelinkshape
+	gongnotelinkshapeDB := orm.GongNoteLinkShapeDB{}
+	gongnotelinkshapeDB.GongNoteLinkShapePointersEncoding = input.GongNoteLinkShapePointersEncoding
+	gongnotelinkshapeDB.CopyBasicFieldsFromGongNoteLinkShape_WOP(&input.GongNoteLinkShape_WOP)
 
-	_, err = db.Create(&noteshapelinkDB)
+	_, err = db.Create(&gongnotelinkshapeDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -176,31 +176,31 @@ func (controller *Controller) PostNoteShapeLink(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	backRepo.BackRepoNoteShapeLink.CheckoutPhaseOneInstance(&noteshapelinkDB)
-	noteshapelink := backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr[noteshapelinkDB.ID]
+	backRepo.BackRepoGongNoteLinkShape.CheckoutPhaseOneInstance(&gongnotelinkshapeDB)
+	gongnotelinkshape := backRepo.BackRepoGongNoteLinkShape.Map_GongNoteLinkShapeDBID_GongNoteLinkShapePtr[gongnotelinkshapeDB.ID]
 
-	if noteshapelink != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), noteshapelink)
+	if gongnotelinkshape != nil {
+		models.AfterCreateFromFront(backRepo.GetStage(), gongnotelinkshape)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, noteshapelinkDB)
+	c.JSON(http.StatusOK, gongnotelinkshapeDB)
 }
 
-// GetNoteShapeLink
+// GetGongNoteLinkShape
 //
-// swagger:route GET /noteshapelinks/{ID} noteshapelinks getNoteShapeLink
+// swagger:route GET /gongnotelinkshapes/{ID} gongnotelinkshapes getGongNoteLinkShape
 //
-// Gets the details for a noteshapelink.
+// Gets the details for a gongnotelinkshape.
 //
 // Responses:
 // default: genericError
 //
-//	200: noteshapelinkDBResponse
-func (controller *Controller) GetNoteShapeLink(c *gin.Context) {
+//	200: gongnotelinkshapeDBResponse
+func (controller *Controller) GetGongNoteLinkShape(c *gin.Context) {
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -208,7 +208,7 @@ func (controller *Controller) GetNoteShapeLink(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetNoteShapeLink", "Name", stackPath)
+			// log.Println("GetGongNoteLinkShape", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -222,11 +222,11 @@ func (controller *Controller) GetNoteShapeLink(c *gin.Context) {
 
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoNoteShapeLink.GetDB()
+	db := backRepo.BackRepoGongNoteLinkShape.GetDB()
 
-	// Get noteshapelinkDB in DB
-	var noteshapelinkDB orm.NoteShapeLinkDB
-	if _, err := db.First(&noteshapelinkDB, c.Param("id")); err != nil {
+	// Get gongnotelinkshapeDB in DB
+	var gongnotelinkshapeDB orm.GongNoteLinkShapeDB
+	if _, err := db.First(&gongnotelinkshapeDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -235,28 +235,28 @@ func (controller *Controller) GetNoteShapeLink(c *gin.Context) {
 		return
 	}
 
-	var noteshapelinkAPI orm.NoteShapeLinkAPI
-	noteshapelinkAPI.ID = noteshapelinkDB.ID
-	noteshapelinkAPI.NoteShapeLinkPointersEncoding = noteshapelinkDB.NoteShapeLinkPointersEncoding
-	noteshapelinkDB.CopyBasicFieldsToNoteShapeLink_WOP(&noteshapelinkAPI.NoteShapeLink_WOP)
+	var gongnotelinkshapeAPI orm.GongNoteLinkShapeAPI
+	gongnotelinkshapeAPI.ID = gongnotelinkshapeDB.ID
+	gongnotelinkshapeAPI.GongNoteLinkShapePointersEncoding = gongnotelinkshapeDB.GongNoteLinkShapePointersEncoding
+	gongnotelinkshapeDB.CopyBasicFieldsToGongNoteLinkShape_WOP(&gongnotelinkshapeAPI.GongNoteLinkShape_WOP)
 
-	c.JSON(http.StatusOK, noteshapelinkAPI)
+	c.JSON(http.StatusOK, gongnotelinkshapeAPI)
 }
 
-// UpdateNoteShapeLink
+// UpdateGongNoteLinkShape
 //
-// swagger:route PATCH /noteshapelinks/{ID} noteshapelinks updateNoteShapeLink
+// swagger:route PATCH /gongnotelinkshapes/{ID} gongnotelinkshapes updateGongNoteLinkShape
 //
-// # Update a noteshapelink
+// # Update a gongnotelinkshape
 //
 // Responses:
 // default: genericError
 //
-//	200: noteshapelinkDBResponse
-func (controller *Controller) UpdateNoteShapeLink(c *gin.Context) {
+//	200: gongnotelinkshapeDBResponse
+func (controller *Controller) UpdateGongNoteLinkShape(c *gin.Context) {
 
-	mutexNoteShapeLink.Lock()
-	defer mutexNoteShapeLink.Unlock()
+	mutexGongNoteLinkShape.Lock()
+	defer mutexGongNoteLinkShape.Unlock()
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -264,7 +264,7 @@ func (controller *Controller) UpdateNoteShapeLink(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("UpdateNoteShapeLink", "Name", stackPath)
+			// log.Println("UpdateGongNoteLinkShape", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -278,10 +278,10 @@ func (controller *Controller) UpdateNoteShapeLink(c *gin.Context) {
 
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoNoteShapeLink.GetDB()
+	db := backRepo.BackRepoGongNoteLinkShape.GetDB()
 
 	// Validate input
-	var input orm.NoteShapeLinkAPI
+	var input orm.GongNoteLinkShapeAPI
 	if err := c.ShouldBindJSON(&input); err != nil {
 		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -289,10 +289,10 @@ func (controller *Controller) UpdateNoteShapeLink(c *gin.Context) {
 	}
 
 	// Get model if exist
-	var noteshapelinkDB orm.NoteShapeLinkDB
+	var gongnotelinkshapeDB orm.GongNoteLinkShapeDB
 
-	// fetch the noteshapelink
-	_, err := db.First(&noteshapelinkDB, c.Param("id"))
+	// fetch the gongnotelinkshape
+	_, err := db.First(&gongnotelinkshapeDB, c.Param("id"))
 
 	if err != nil {
 		var returnError GenericError
@@ -304,11 +304,11 @@ func (controller *Controller) UpdateNoteShapeLink(c *gin.Context) {
 	}
 
 	// update
-	noteshapelinkDB.CopyBasicFieldsFromNoteShapeLink_WOP(&input.NoteShapeLink_WOP)
-	noteshapelinkDB.NoteShapeLinkPointersEncoding = input.NoteShapeLinkPointersEncoding
+	gongnotelinkshapeDB.CopyBasicFieldsFromGongNoteLinkShape_WOP(&input.GongNoteLinkShape_WOP)
+	gongnotelinkshapeDB.GongNoteLinkShapePointersEncoding = input.GongNoteLinkShapePointersEncoding
 
-	db, _ = db.Model(&noteshapelinkDB)
-	_, err = db.Updates(&noteshapelinkDB)
+	db, _ = db.Model(&gongnotelinkshapeDB)
+	_, err = db.Updates(&gongnotelinkshapeDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -319,16 +319,16 @@ func (controller *Controller) UpdateNoteShapeLink(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	noteshapelinkNew := new(models.NoteShapeLink)
-	noteshapelinkDB.CopyBasicFieldsToNoteShapeLink(noteshapelinkNew)
+	gongnotelinkshapeNew := new(models.GongNoteLinkShape)
+	gongnotelinkshapeDB.CopyBasicFieldsToGongNoteLinkShape(gongnotelinkshapeNew)
 
 	// redeem pointers
-	noteshapelinkDB.DecodePointers(backRepo, noteshapelinkNew)
+	gongnotelinkshapeDB.DecodePointers(backRepo, gongnotelinkshapeNew)
 
 	// get stage instance from DB instance, and call callback function
-	noteshapelinkOld := backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr[noteshapelinkDB.ID]
-	if noteshapelinkOld != nil {
-		models.AfterUpdateFromFront(backRepo.GetStage(), noteshapelinkOld, noteshapelinkNew)
+	gongnotelinkshapeOld := backRepo.BackRepoGongNoteLinkShape.Map_GongNoteLinkShapeDBID_GongNoteLinkShapePtr[gongnotelinkshapeDB.ID]
+	if gongnotelinkshapeOld != nil {
+		models.AfterUpdateFromFront(backRepo.GetStage(), gongnotelinkshapeOld, gongnotelinkshapeNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -337,23 +337,23 @@ func (controller *Controller) UpdateNoteShapeLink(c *gin.Context) {
 	// generates a checkout
 	backRepo.IncrementPushFromFrontNb()
 
-	// return status OK with the marshalling of the the noteshapelinkDB
-	c.JSON(http.StatusOK, noteshapelinkDB)
+	// return status OK with the marshalling of the the gongnotelinkshapeDB
+	c.JSON(http.StatusOK, gongnotelinkshapeDB)
 }
 
-// DeleteNoteShapeLink
+// DeleteGongNoteLinkShape
 //
-// swagger:route DELETE /noteshapelinks/{ID} noteshapelinks deleteNoteShapeLink
+// swagger:route DELETE /gongnotelinkshapes/{ID} gongnotelinkshapes deleteGongNoteLinkShape
 //
-// # Delete a noteshapelink
+// # Delete a gongnotelinkshape
 //
 // default: genericError
 //
-//	200: noteshapelinkDBResponse
-func (controller *Controller) DeleteNoteShapeLink(c *gin.Context) {
+//	200: gongnotelinkshapeDBResponse
+func (controller *Controller) DeleteGongNoteLinkShape(c *gin.Context) {
 
-	mutexNoteShapeLink.Lock()
-	defer mutexNoteShapeLink.Unlock()
+	mutexGongNoteLinkShape.Lock()
+	defer mutexGongNoteLinkShape.Unlock()
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -361,7 +361,7 @@ func (controller *Controller) DeleteNoteShapeLink(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("DeleteNoteShapeLink", "Name", stackPath)
+			// log.Println("DeleteGongNoteLinkShape", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -375,11 +375,11 @@ func (controller *Controller) DeleteNoteShapeLink(c *gin.Context) {
 
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoNoteShapeLink.GetDB()
+	db := backRepo.BackRepoGongNoteLinkShape.GetDB()
 
 	// Get model if exist
-	var noteshapelinkDB orm.NoteShapeLinkDB
-	if _, err := db.First(&noteshapelinkDB, c.Param("id")); err != nil {
+	var gongnotelinkshapeDB orm.GongNoteLinkShapeDB
+	if _, err := db.First(&gongnotelinkshapeDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -390,16 +390,16 @@ func (controller *Controller) DeleteNoteShapeLink(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped()
-	db.Delete(&noteshapelinkDB)
+	db.Delete(&gongnotelinkshapeDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
-	noteshapelinkDeleted := new(models.NoteShapeLink)
-	noteshapelinkDB.CopyBasicFieldsToNoteShapeLink(noteshapelinkDeleted)
+	gongnotelinkshapeDeleted := new(models.GongNoteLinkShape)
+	gongnotelinkshapeDB.CopyBasicFieldsToGongNoteLinkShape(gongnotelinkshapeDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	noteshapelinkStaged := backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr[noteshapelinkDB.ID]
-	if noteshapelinkStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), noteshapelinkStaged, noteshapelinkDeleted)
+	gongnotelinkshapeStaged := backRepo.BackRepoGongNoteLinkShape.Map_GongNoteLinkShapeDBID_GongNoteLinkShapePtr[gongnotelinkshapeDB.ID]
+	if gongnotelinkshapeStaged != nil {
+		models.AfterDeleteFromFront(backRepo.GetStage(), gongnotelinkshapeStaged, gongnotelinkshapeDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

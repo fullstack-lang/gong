@@ -27,6 +27,8 @@ func _(stage *models.Stage) {
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z := (&models.DiagramPackage{}).Stage(stage)
 
+	__GongNoteShape__000000_Default_NoteOnGongdoc := (&models.GongNoteShape{}).Stage(stage)
+
 	__GongStructShape__000000_Default_AttributeShape := (&models.GongStructShape{}).Stage(stage)
 	__GongStructShape__000001_Default_DiagramPackage := (&models.GongStructShape{}).Stage(stage)
 	__GongStructShape__000002_Default_GongStructShape := (&models.GongStructShape{}).Stage(stage)
@@ -41,21 +43,43 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.Name = `Default`
 	__Classdiagram__000000_Default.IsInRenameMode = false
 	__Classdiagram__000000_Default.IsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true
+	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = false
 	__Classdiagram__000000_Default.NodeGongStructNodeExpansionBinaryEncoding = 32
 	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = false
 	__Classdiagram__000000_Default.NodeGongEnumNodeExpansionBinaryEncoding = 0
-	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = false
-	__Classdiagram__000000_Default.NodeGongNoteNodeExpansionBinaryEncoding = 0
+	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = true
+	__Classdiagram__000000_Default.NodeGongNoteNodeExpansionBinaryEncoding = 1
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Name = `Diagram Package created the 2025-05-04T22:53:27Z`
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Path = ``
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.GongModelPath = ``
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.AbsolutePathToDiagramPackage = ``
 
+	__GongNoteShape__000000_Default_NoteOnGongdoc.Name = `Default-NoteOnGongdoc`
+
+	//gong:ident [ref_models.NoteOnGongdoc] comment added to overcome the problem with the comment map association
+	__GongNoteShape__000000_Default_NoteOnGongdoc.Identifier = `ref_models.NoteOnGongdoc`
+	__GongNoteShape__000000_Default_NoteOnGongdoc.Body = `Note Example
+
+This note can refers to [models.GongNoteShape]
+or to [models.Classdiagram.GongNoteShapes]
+or to [models.OrientationType]
+`
+	__GongNoteShape__000000_Default_NoteOnGongdoc.BodyHTML = `<p>Note Example
+<p>This note can refers to <a href="/models#GongNoteShape">models.GongNoteShape</a>
+or to <a href="/models#Classdiagram.GongNoteShapes">models.Classdiagram.GongNoteShapes</a>
+or to <a href="/models#OrientationType">models.OrientationType</a>
+`
+	__GongNoteShape__000000_Default_NoteOnGongdoc.X = 61.000000
+	__GongNoteShape__000000_Default_NoteOnGongdoc.Y = 196.000000
+	__GongNoteShape__000000_Default_NoteOnGongdoc.Width = 370.000000
+	__GongNoteShape__000000_Default_NoteOnGongdoc.Height = 112.000000
+	__GongNoteShape__000000_Default_NoteOnGongdoc.Matched = false
+	__GongNoteShape__000000_Default_NoteOnGongdoc.IsExpanded = false
+
 	__GongStructShape__000000_Default_AttributeShape.Name = `Default-AttributeShape`
-	__GongStructShape__000000_Default_AttributeShape.X = 1445.000000
-	__GongStructShape__000000_Default_AttributeShape.Y = 157.000000
+	__GongStructShape__000000_Default_AttributeShape.X = 1444.000000
+	__GongStructShape__000000_Default_AttributeShape.Y = 26.000000
 
 	//gong:ident [ref_models.AttributeShape] comment added to overcome the problem with the comment map association
 	__GongStructShape__000000_Default_AttributeShape.Identifier = `ref_models.AttributeShape`
@@ -66,8 +90,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_AttributeShape.IsSelected = false
 
 	__GongStructShape__000001_Default_DiagramPackage.Name = `Default-DiagramPackage`
-	__GongStructShape__000001_Default_DiagramPackage.X = 59.000000
-	__GongStructShape__000001_Default_DiagramPackage.Y = 167.000000
+	__GongStructShape__000001_Default_DiagramPackage.X = 58.000000
+	__GongStructShape__000001_Default_DiagramPackage.Y = 36.000000
 
 	//gong:ident [ref_models.DiagramPackage] comment added to overcome the problem with the comment map association
 	__GongStructShape__000001_Default_DiagramPackage.Identifier = `ref_models.DiagramPackage`
@@ -78,8 +102,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_DiagramPackage.IsSelected = false
 
 	__GongStructShape__000002_Default_GongStructShape.Name = `Default-GongStructShape`
-	__GongStructShape__000002_Default_GongStructShape.X = 986.000000
-	__GongStructShape__000002_Default_GongStructShape.Y = 163.000000
+	__GongStructShape__000002_Default_GongStructShape.X = 985.000000
+	__GongStructShape__000002_Default_GongStructShape.Y = 32.000000
 
 	//gong:ident [ref_models.GongStructShape] comment added to overcome the problem with the comment map association
 	__GongStructShape__000002_Default_GongStructShape.Identifier = `ref_models.GongStructShape`
@@ -90,8 +114,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__000002_Default_GongStructShape.IsSelected = false
 
 	__GongStructShape__000003_Default_Classdiagram.Name = `Default-Classdiagram`
-	__GongStructShape__000003_Default_Classdiagram.X = 518.000000
-	__GongStructShape__000003_Default_Classdiagram.Y = 166.000000
+	__GongStructShape__000003_Default_Classdiagram.X = 517.000000
+	__GongStructShape__000003_Default_Classdiagram.Y = 35.000000
 
 	//gong:ident [ref_models.Classdiagram] comment added to overcome the problem with the comment map association
 	__GongStructShape__000003_Default_Classdiagram.Identifier = `ref_models.Classdiagram`
@@ -176,9 +200,11 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000001_Default_DiagramPackage)
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000002_Default_GongStructShape)
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000003_Default_Classdiagram)
+	__Classdiagram__000000_Default.GongNoteShapes = append(__Classdiagram__000000_Default.GongNoteShapes, __GongNoteShape__000000_Default_NoteOnGongdoc)
 	// setup of DiagramPackage instances pointers
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams, __Classdiagram__000000_Default)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.SelectedClassdiagram = __Classdiagram__000000_Default
+	// setup of GongNoteShape instances pointers
 	// setup of GongStructShape instances pointers
 	__GongStructShape__000001_Default_DiagramPackage.LinkShapes = append(__GongStructShape__000001_Default_DiagramPackage.LinkShapes, __LinkShape__000000_Classdiagrams)
 	__GongStructShape__000002_Default_GongStructShape.LinkShapes = append(__GongStructShape__000002_Default_GongStructShape.LinkShapes, __LinkShape__000002_AttributeShapes)
