@@ -26,6 +26,14 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterGongEnumValueShapeCreateCallback != nil {
 			stage.OnAfterGongEnumValueShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *GongNoteLinkShape:
+		if stage.OnAfterGongNoteLinkShapeCreateCallback != nil {
+			stage.OnAfterGongNoteLinkShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *GongNoteShape:
+		if stage.OnAfterGongNoteShapeCreateCallback != nil {
+			stage.OnAfterGongNoteShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *GongStructShape:
 		if stage.OnAfterGongStructShapeCreateCallback != nil {
 			stage.OnAfterGongStructShapeCreateCallback.OnAfterCreate(stage, target)
@@ -33,14 +41,6 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *LinkShape:
 		if stage.OnAfterLinkShapeCreateCallback != nil {
 			stage.OnAfterLinkShapeCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *NoteShape:
-		if stage.OnAfterNoteShapeCreateCallback != nil {
-			stage.OnAfterNoteShapeCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *NoteShapeLink:
-		if stage.OnAfterNoteShapeLinkCreateCallback != nil {
-			stage.OnAfterNoteShapeLinkCreateCallback.OnAfterCreate(stage, target)
 		}
 	default:
 		_ = target
@@ -77,6 +77,16 @@ func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterGongEnumValueShapeUpdateCallback != nil {
 			stage.OnAfterGongEnumValueShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *GongNoteLinkShape:
+		newTarget := any(new).(*GongNoteLinkShape)
+		if stage.OnAfterGongNoteLinkShapeUpdateCallback != nil {
+			stage.OnAfterGongNoteLinkShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *GongNoteShape:
+		newTarget := any(new).(*GongNoteShape)
+		if stage.OnAfterGongNoteShapeUpdateCallback != nil {
+			stage.OnAfterGongNoteShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *GongStructShape:
 		newTarget := any(new).(*GongStructShape)
 		if stage.OnAfterGongStructShapeUpdateCallback != nil {
@@ -86,16 +96,6 @@ func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*LinkShape)
 		if stage.OnAfterLinkShapeUpdateCallback != nil {
 			stage.OnAfterLinkShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *NoteShape:
-		newTarget := any(new).(*NoteShape)
-		if stage.OnAfterNoteShapeUpdateCallback != nil {
-			stage.OnAfterNoteShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *NoteShapeLink:
-		newTarget := any(new).(*NoteShapeLink)
-		if stage.OnAfterNoteShapeLinkUpdateCallback != nil {
-			stage.OnAfterNoteShapeLinkUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	default:
 		_ = oldTarget
@@ -132,6 +132,16 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*GongEnumValueShape)
 			stage.OnAfterGongEnumValueShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *GongNoteLinkShape:
+		if stage.OnAfterGongNoteLinkShapeDeleteCallback != nil {
+			staged := any(staged).(*GongNoteLinkShape)
+			stage.OnAfterGongNoteLinkShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *GongNoteShape:
+		if stage.OnAfterGongNoteShapeDeleteCallback != nil {
+			staged := any(staged).(*GongNoteShape)
+			stage.OnAfterGongNoteShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *GongStructShape:
 		if stage.OnAfterGongStructShapeDeleteCallback != nil {
 			staged := any(staged).(*GongStructShape)
@@ -141,16 +151,6 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 		if stage.OnAfterLinkShapeDeleteCallback != nil {
 			staged := any(staged).(*LinkShape)
 			stage.OnAfterLinkShapeDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *NoteShape:
-		if stage.OnAfterNoteShapeDeleteCallback != nil {
-			staged := any(staged).(*NoteShape)
-			stage.OnAfterNoteShapeDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *NoteShapeLink:
-		if stage.OnAfterNoteShapeLinkDeleteCallback != nil {
-			staged := any(staged).(*NoteShapeLink)
-			stage.OnAfterNoteShapeLinkDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	default:
 		_ = front
@@ -182,6 +182,14 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterGongEnumValueShapeReadCallback != nil {
 			stage.OnAfterGongEnumValueShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *GongNoteLinkShape:
+		if stage.OnAfterGongNoteLinkShapeReadCallback != nil {
+			stage.OnAfterGongNoteLinkShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *GongNoteShape:
+		if stage.OnAfterGongNoteShapeReadCallback != nil {
+			stage.OnAfterGongNoteShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *GongStructShape:
 		if stage.OnAfterGongStructShapeReadCallback != nil {
 			stage.OnAfterGongStructShapeReadCallback.OnAfterRead(stage, target)
@@ -189,14 +197,6 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *LinkShape:
 		if stage.OnAfterLinkShapeReadCallback != nil {
 			stage.OnAfterLinkShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *NoteShape:
-		if stage.OnAfterNoteShapeReadCallback != nil {
-			stage.OnAfterNoteShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *NoteShapeLink:
-		if stage.OnAfterNoteShapeLinkReadCallback != nil {
-			stage.OnAfterNoteShapeLinkReadCallback.OnAfterRead(stage, target)
 		}
 	default:
 		_ = target
@@ -224,17 +224,17 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *GongEnumValueShape:
 		stage.OnAfterGongEnumValueShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GongEnumValueShape])
 	
+	case *GongNoteLinkShape:
+		stage.OnAfterGongNoteLinkShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GongNoteLinkShape])
+	
+	case *GongNoteShape:
+		stage.OnAfterGongNoteShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GongNoteShape])
+	
 	case *GongStructShape:
 		stage.OnAfterGongStructShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GongStructShape])
 	
 	case *LinkShape:
 		stage.OnAfterLinkShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[LinkShape])
-	
-	case *NoteShape:
-		stage.OnAfterNoteShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteShape])
-	
-	case *NoteShapeLink:
-		stage.OnAfterNoteShapeLinkUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteShapeLink])
 	
 	}
 }
@@ -258,17 +258,17 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *GongEnumValueShape:
 		stage.OnAfterGongEnumValueShapeCreateCallback = any(callback).(OnAfterCreateInterface[GongEnumValueShape])
 	
+	case *GongNoteLinkShape:
+		stage.OnAfterGongNoteLinkShapeCreateCallback = any(callback).(OnAfterCreateInterface[GongNoteLinkShape])
+	
+	case *GongNoteShape:
+		stage.OnAfterGongNoteShapeCreateCallback = any(callback).(OnAfterCreateInterface[GongNoteShape])
+	
 	case *GongStructShape:
 		stage.OnAfterGongStructShapeCreateCallback = any(callback).(OnAfterCreateInterface[GongStructShape])
 	
 	case *LinkShape:
 		stage.OnAfterLinkShapeCreateCallback = any(callback).(OnAfterCreateInterface[LinkShape])
-	
-	case *NoteShape:
-		stage.OnAfterNoteShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteShape])
-	
-	case *NoteShapeLink:
-		stage.OnAfterNoteShapeLinkCreateCallback = any(callback).(OnAfterCreateInterface[NoteShapeLink])
 	
 	}
 }
@@ -292,17 +292,17 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *GongEnumValueShape:
 		stage.OnAfterGongEnumValueShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GongEnumValueShape])
 	
+	case *GongNoteLinkShape:
+		stage.OnAfterGongNoteLinkShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GongNoteLinkShape])
+	
+	case *GongNoteShape:
+		stage.OnAfterGongNoteShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GongNoteShape])
+	
 	case *GongStructShape:
 		stage.OnAfterGongStructShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GongStructShape])
 	
 	case *LinkShape:
 		stage.OnAfterLinkShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[LinkShape])
-	
-	case *NoteShape:
-		stage.OnAfterNoteShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteShape])
-	
-	case *NoteShapeLink:
-		stage.OnAfterNoteShapeLinkDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteShapeLink])
 	
 	}
 }
@@ -326,17 +326,17 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	case *GongEnumValueShape:
 		stage.OnAfterGongEnumValueShapeReadCallback = any(callback).(OnAfterReadInterface[GongEnumValueShape])
 	
+	case *GongNoteLinkShape:
+		stage.OnAfterGongNoteLinkShapeReadCallback = any(callback).(OnAfterReadInterface[GongNoteLinkShape])
+	
+	case *GongNoteShape:
+		stage.OnAfterGongNoteShapeReadCallback = any(callback).(OnAfterReadInterface[GongNoteShape])
+	
 	case *GongStructShape:
 		stage.OnAfterGongStructShapeReadCallback = any(callback).(OnAfterReadInterface[GongStructShape])
 	
 	case *LinkShape:
 		stage.OnAfterLinkShapeReadCallback = any(callback).(OnAfterReadInterface[LinkShape])
-	
-	case *NoteShape:
-		stage.OnAfterNoteShapeReadCallback = any(callback).(OnAfterReadInterface[NoteShape])
-	
-	case *NoteShapeLink:
-		stage.OnAfterNoteShapeLinkReadCallback = any(callback).(OnAfterReadInterface[NoteShapeLink])
 	
 	}
 }
