@@ -101,6 +101,48 @@ func (from *GongEnumValueShape) CopyBasicFields(to *GongEnumValueShape) {
 	to.Identifier = from.Identifier
 }
 
+type GongNoteLinkShape_WOP struct {
+	// insertion point
+	Name string
+	Identifier string
+	Type NoteShapeLinkType
+}
+
+func (from *GongNoteLinkShape) CopyBasicFields(to *GongNoteLinkShape) {
+	// insertion point
+	to.Name = from.Name
+	to.Identifier = from.Identifier
+	to.Type = from.Type
+}
+
+type GongNoteShape_WOP struct {
+	// insertion point
+	Name string
+	Identifier string
+	Body string
+	BodyHTML string
+	X float64
+	Y float64
+	Width float64
+	Height float64
+	Matched bool
+	IsExpanded bool
+}
+
+func (from *GongNoteShape) CopyBasicFields(to *GongNoteShape) {
+	// insertion point
+	to.Name = from.Name
+	to.Identifier = from.Identifier
+	to.Body = from.Body
+	to.BodyHTML = from.BodyHTML
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.Matched = from.Matched
+	to.IsExpanded = from.IsExpanded
+}
+
 type GongStructShape_WOP struct {
 	// insertion point
 	Name string
@@ -169,47 +211,5 @@ func (from *LinkShape) CopyBasicFields(to *LinkShape) {
 	to.EndOrientation = from.EndOrientation
 	to.EndRatio = from.EndRatio
 	to.CornerOffsetRatio = from.CornerOffsetRatio
-}
-
-type NoteShape_WOP struct {
-	// insertion point
-	Name string
-	Identifier string
-	Body string
-	BodyHTML string
-	X float64
-	Y float64
-	Width float64
-	Height float64
-	Matched bool
-	IsExpanded bool
-}
-
-func (from *NoteShape) CopyBasicFields(to *NoteShape) {
-	// insertion point
-	to.Name = from.Name
-	to.Identifier = from.Identifier
-	to.Body = from.Body
-	to.BodyHTML = from.BodyHTML
-	to.X = from.X
-	to.Y = from.Y
-	to.Width = from.Width
-	to.Height = from.Height
-	to.Matched = from.Matched
-	to.IsExpanded = from.IsExpanded
-}
-
-type NoteShapeLink_WOP struct {
-	// insertion point
-	Name string
-	Identifier string
-	Type NoteShapeLinkType
-}
-
-func (from *NoteShapeLink) CopyBasicFields(to *NoteShapeLink) {
-	// insertion point
-	to.Name = from.Name
-	to.Identifier = from.Identifier
-	to.Type = from.Type
 }
 

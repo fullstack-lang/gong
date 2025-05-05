@@ -90,6 +90,32 @@ func FillUpFormFromGongstructName(
 		gongenumvalueshape := new(models.GongEnumValueShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(gongenumvalueshape, formGroup, probe)
+	case "GongNoteLinkShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "GongNoteLinkShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GongNoteLinkShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		gongnotelinkshape := new(models.GongNoteLinkShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(gongnotelinkshape, formGroup, probe)
+	case "GongNoteShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "GongNoteShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GongNoteShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		gongnoteshape := new(models.GongNoteShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(gongnoteshape, formGroup, probe)
 	case "GongStructShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -116,32 +142,6 @@ func FillUpFormFromGongstructName(
 		linkshape := new(models.LinkShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(linkshape, formGroup, probe)
-	case "NoteShape":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "NoteShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__NoteShapeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		noteshape := new(models.NoteShape)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(noteshape, formGroup, probe)
-	case "NoteShapeLink":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "NoteShapeLink Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__NoteShapeLinkFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		noteshapelink := new(models.NoteShapeLink)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(noteshapelink, formGroup, probe)
 	}
 	formStage.Commit()
 }
