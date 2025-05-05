@@ -54,8 +54,8 @@ type ClassdiagramPointersEncoding struct {
 	// field GongEnumShapes is a slice of pointers to another Struct (optional or 0..1)
 	GongEnumShapes IntSlice `gorm:"type:TEXT"`
 
-	// field NoteShapes is a slice of pointers to another Struct (optional or 0..1)
-	NoteShapes IntSlice `gorm:"type:TEXT"`
+	// field GongNoteShapes is a slice of pointers to another Struct (optional or 0..1)
+	GongNoteShapes IntSlice `gorm:"type:TEXT"`
 }
 
 // ClassdiagramDB describes a classdiagram in the database
@@ -322,21 +322,21 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) CommitPhaseTwoInstance(b
 		}
 
 		// 1. reset
-		classdiagramDB.ClassdiagramPointersEncoding.NoteShapes = make([]int, 0)
+		classdiagramDB.ClassdiagramPointersEncoding.GongNoteShapes = make([]int, 0)
 		// 2. encode
-		for _, noteshapeAssocEnd := range classdiagram.NoteShapes {
-			noteshapeAssocEnd_DB :=
-				backRepo.BackRepoNoteShape.GetNoteShapeDBFromNoteShapePtr(noteshapeAssocEnd)
+		for _, gongnoteshapeAssocEnd := range classdiagram.GongNoteShapes {
+			gongnoteshapeAssocEnd_DB :=
+				backRepo.BackRepoGongNoteShape.GetGongNoteShapeDBFromGongNoteShapePtr(gongnoteshapeAssocEnd)
 			
-			// the stage might be inconsistant, meaning that the noteshapeAssocEnd_DB might
+			// the stage might be inconsistant, meaning that the gongnoteshapeAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
-			if noteshapeAssocEnd_DB == nil {
+			if gongnoteshapeAssocEnd_DB == nil {
 				continue
 			}
 			
-			classdiagramDB.ClassdiagramPointersEncoding.NoteShapes =
-				append(classdiagramDB.ClassdiagramPointersEncoding.NoteShapes, int(noteshapeAssocEnd_DB.ID))
+			classdiagramDB.ClassdiagramPointersEncoding.GongNoteShapes =
+				append(classdiagramDB.ClassdiagramPointersEncoding.GongNoteShapes, int(gongnoteshapeAssocEnd_DB.ID))
 		}
 
 		_, err := backRepoClassdiagram.db.Save(classdiagramDB)
@@ -470,13 +470,13 @@ func (classdiagramDB *ClassdiagramDB) DecodePointers(backRepo *BackRepoStruct, c
 		classdiagram.GongEnumShapes = append(classdiagram.GongEnumShapes, backRepo.BackRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapePtr[uint(_GongEnumShapeid)])
 	}
 
-	// This loop redeem classdiagram.NoteShapes in the stage from the encode in the back repo
-	// It parses all NoteShapeDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// This loop redeem classdiagram.GongNoteShapes in the stage from the encode in the back repo
+	// It parses all GongNoteShapeDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
-	classdiagram.NoteShapes = classdiagram.NoteShapes[:0]
-	for _, _NoteShapeid := range classdiagramDB.ClassdiagramPointersEncoding.NoteShapes {
-		classdiagram.NoteShapes = append(classdiagram.NoteShapes, backRepo.BackRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr[uint(_NoteShapeid)])
+	classdiagram.GongNoteShapes = classdiagram.GongNoteShapes[:0]
+	for _, _GongNoteShapeid := range classdiagramDB.ClassdiagramPointersEncoding.GongNoteShapes {
+		classdiagram.GongNoteShapes = append(classdiagram.GongNoteShapes, backRepo.BackRepoGongNoteShape.Map_GongNoteShapeDBID_GongNoteShapePtr[uint(_GongNoteShapeid)])
 	}
 
 	return

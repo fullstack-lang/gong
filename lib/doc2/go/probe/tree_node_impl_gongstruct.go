@@ -65,17 +65,17 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "GongEnumValueShape" {
 		updateAndCommitTable[models.GongEnumValueShape](nodeImplGongstruct.probe)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "GongNoteLinkShape" {
+		updateAndCommitTable[models.GongNoteLinkShape](nodeImplGongstruct.probe)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "GongNoteShape" {
+		updateAndCommitTable[models.GongNoteShape](nodeImplGongstruct.probe)
+	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongStructShape" {
 		updateAndCommitTable[models.GongStructShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "LinkShape" {
 		updateAndCommitTable[models.LinkShape](nodeImplGongstruct.probe)
-	}
-	if nodeImplGongstruct.gongStruct.GetName() == "NoteShape" {
-		updateAndCommitTable[models.NoteShape](nodeImplGongstruct.probe)
-	}
-	if nodeImplGongstruct.gongStruct.GetName() == "NoteShapeLink" {
-		updateAndCommitTable[models.NoteShapeLink](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

@@ -35,6 +35,14 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		gongenumvalueshapeInstance := any(concreteInstance).(*models.GongEnumValueShape)
 		ret2 := backRepo.BackRepoGongEnumValueShape.GetGongEnumValueShapeDBFromGongEnumValueShapePtr(gongenumvalueshapeInstance)
 		ret = any(ret2).(*T2)
+	case *models.GongNoteLinkShape:
+		gongnotelinkshapeInstance := any(concreteInstance).(*models.GongNoteLinkShape)
+		ret2 := backRepo.BackRepoGongNoteLinkShape.GetGongNoteLinkShapeDBFromGongNoteLinkShapePtr(gongnotelinkshapeInstance)
+		ret = any(ret2).(*T2)
+	case *models.GongNoteShape:
+		gongnoteshapeInstance := any(concreteInstance).(*models.GongNoteShape)
+		ret2 := backRepo.BackRepoGongNoteShape.GetGongNoteShapeDBFromGongNoteShapePtr(gongnoteshapeInstance)
+		ret = any(ret2).(*T2)
 	case *models.GongStructShape:
 		gongstructshapeInstance := any(concreteInstance).(*models.GongStructShape)
 		ret2 := backRepo.BackRepoGongStructShape.GetGongStructShapeDBFromGongStructShapePtr(gongstructshapeInstance)
@@ -42,14 +50,6 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 	case *models.LinkShape:
 		linkshapeInstance := any(concreteInstance).(*models.LinkShape)
 		ret2 := backRepo.BackRepoLinkShape.GetLinkShapeDBFromLinkShapePtr(linkshapeInstance)
-		ret = any(ret2).(*T2)
-	case *models.NoteShape:
-		noteshapeInstance := any(concreteInstance).(*models.NoteShape)
-		ret2 := backRepo.BackRepoNoteShape.GetNoteShapeDBFromNoteShapePtr(noteshapeInstance)
-		ret = any(ret2).(*T2)
-	case *models.NoteShapeLink:
-		noteshapelinkInstance := any(concreteInstance).(*models.NoteShapeLink)
-		ret2 := backRepo.BackRepoNoteShapeLink.GetNoteShapeLinkDBFromNoteShapeLinkPtr(noteshapelinkInstance)
 		ret = any(ret2).(*T2)
 	default:
 		_ = concreteInstance
@@ -89,6 +89,16 @@ func GetID[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
+	case *models.GongNoteLinkShape:
+		tmp := GetInstanceDBFromInstance[models.GongNoteLinkShape, GongNoteLinkShapeDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.GongNoteShape:
+		tmp := GetInstanceDBFromInstance[models.GongNoteShape, GongNoteShapeDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
 	case *models.GongStructShape:
 		tmp := GetInstanceDBFromInstance[models.GongStructShape, GongStructShapeDB](
 			stage, backRepo, inst,
@@ -96,16 +106,6 @@ func GetID[T models.Gongstruct](
 		id = int(tmp.ID)
 	case *models.LinkShape:
 		tmp := GetInstanceDBFromInstance[models.LinkShape, LinkShapeDB](
-			stage, backRepo, inst,
-		)
-		id = int(tmp.ID)
-	case *models.NoteShape:
-		tmp := GetInstanceDBFromInstance[models.NoteShape, NoteShapeDB](
-			stage, backRepo, inst,
-		)
-		id = int(tmp.ID)
-	case *models.NoteShapeLink:
-		tmp := GetInstanceDBFromInstance[models.NoteShapeLink, NoteShapeLinkDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -147,6 +147,16 @@ func GetIDPointer[T models.PointerToGongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
+	case *models.GongNoteLinkShape:
+		tmp := GetInstanceDBFromInstance[models.GongNoteLinkShape, GongNoteLinkShapeDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.GongNoteShape:
+		tmp := GetInstanceDBFromInstance[models.GongNoteShape, GongNoteShapeDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
 	case *models.GongStructShape:
 		tmp := GetInstanceDBFromInstance[models.GongStructShape, GongStructShapeDB](
 			stage, backRepo, inst,
@@ -154,16 +164,6 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.LinkShape:
 		tmp := GetInstanceDBFromInstance[models.LinkShape, LinkShapeDB](
-			stage, backRepo, inst,
-		)
-		id = int(tmp.ID)
-	case *models.NoteShape:
-		tmp := GetInstanceDBFromInstance[models.NoteShape, NoteShapeDB](
-			stage, backRepo, inst,
-		)
-		id = int(tmp.ID)
-	case *models.NoteShapeLink:
-		tmp := GetInstanceDBFromInstance[models.NoteShapeLink, NoteShapeLinkDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

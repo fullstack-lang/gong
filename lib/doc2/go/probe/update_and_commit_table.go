@@ -29,14 +29,14 @@ func updateAndCommitTablePointerToGongstruct[T models.PointerToGongstruct](
 		updateAndCommitTable[models.GongEnumShape](probe)
 	case *models.GongEnumValueShape:
 		updateAndCommitTable[models.GongEnumValueShape](probe)
+	case *models.GongNoteLinkShape:
+		updateAndCommitTable[models.GongNoteLinkShape](probe)
+	case *models.GongNoteShape:
+		updateAndCommitTable[models.GongNoteShape](probe)
 	case *models.GongStructShape:
 		updateAndCommitTable[models.GongStructShape](probe)
 	case *models.LinkShape:
 		updateAndCommitTable[models.LinkShape](probe)
-	case *models.NoteShape:
-		updateAndCommitTable[models.NoteShape](probe)
-	case *models.NoteShapeLink:
-		updateAndCommitTable[models.NoteShapeLink](probe)
 	default:
 		log.Println("unknow type")
 	}

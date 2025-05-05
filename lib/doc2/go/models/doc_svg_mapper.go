@@ -9,7 +9,7 @@ import (
 type DocSVGMapper struct {
 	map_GongstructShape_Rect map[*GongStructShape]*svg_models.Rect
 	map_GongenumShape_Rect   map[*GongEnumShape]*svg_models.Rect
-	map_NoteShape_Rect       map[*NoteShape]*svg_models.Rect
+	map_NoteShape_Rect       map[*GongNoteShape]*svg_models.Rect
 	map_Structname_Rect      map[string]*svg_models.Rect
 	map_Fieldname_Link       map[string]*svg_models.Link
 
@@ -36,7 +36,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 
 	docSVGMapper.map_GongstructShape_Rect = make(map[*GongStructShape]*svg_models.Rect)
 	docSVGMapper.map_GongenumShape_Rect = make(map[*GongEnumShape]*svg_models.Rect)
-	docSVGMapper.map_NoteShape_Rect = make(map[*NoteShape]*svg_models.Rect)
+	docSVGMapper.map_NoteShape_Rect = make(map[*GongNoteShape]*svg_models.Rect)
 
 	docSVGMapper.map_Structname_Rect = make(map[string]*svg_models.Rect)
 	docSVGMapper.map_Fieldname_Link = make(map[string]*svg_models.Link)
@@ -394,7 +394,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 	//
 	// Notes
 	//
-	for _, noteShape := range selectedDiagram.NoteShapes {
+	for _, noteShape := range selectedDiagram.GongNoteShapes {
 
 		rectLayer := new(svg_models.Layer).Stage(docSVGMapper.svgStage)
 		rectLayer.Name = "Layer" + noteShape.Identifier
@@ -483,12 +483,12 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 	//
 	// Links between notes and othe shapes
 	//
-	for _, noteShape := range selectedDiagram.NoteShapes {
+	for _, noteShape := range selectedDiagram.GongNoteShapes {
 
 		startRect := docSVGMapper.map_NoteShape_Rect[noteShape]
 		_ = startRect
 
-		for _, noteLink := range noteShape.NoteShapeLinks {
+		for _, noteLink := range noteShape.GongNoteLinkShapes {
 
 			if noteLink.Type == NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE {
 

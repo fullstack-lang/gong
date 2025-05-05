@@ -40,6 +40,14 @@ type DBLite struct {
 
 	nextIDGongEnumValueShapeDB uint
 
+	gongnotelinkshapeDBs map[uint]*GongNoteLinkShapeDB
+
+	nextIDGongNoteLinkShapeDB uint
+
+	gongnoteshapeDBs map[uint]*GongNoteShapeDB
+
+	nextIDGongNoteShapeDB uint
+
 	gongstructshapeDBs map[uint]*GongStructShapeDB
 
 	nextIDGongStructShapeDB uint
@@ -47,14 +55,6 @@ type DBLite struct {
 	linkshapeDBs map[uint]*LinkShapeDB
 
 	nextIDLinkShapeDB uint
-
-	noteshapeDBs map[uint]*NoteShapeDB
-
-	nextIDNoteShapeDB uint
-
-	noteshapelinkDBs map[uint]*NoteShapeLinkDB
-
-	nextIDNoteShapeLinkDB uint
 }
 
 // NewDBLite creates a new instance of DBLite
@@ -72,13 +72,13 @@ func NewDBLite() *DBLite {
 
 		gongenumvalueshapeDBs: make(map[uint]*GongEnumValueShapeDB),
 
+		gongnotelinkshapeDBs: make(map[uint]*GongNoteLinkShapeDB),
+
+		gongnoteshapeDBs: make(map[uint]*GongNoteShapeDB),
+
 		gongstructshapeDBs: make(map[uint]*GongStructShapeDB),
 
 		linkshapeDBs: make(map[uint]*LinkShapeDB),
-
-		noteshapeDBs: make(map[uint]*NoteShapeDB),
-
-		noteshapelinkDBs: make(map[uint]*NoteShapeLinkDB),
 	}
 }
 
@@ -113,6 +113,14 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDGongEnumValueShapeDB++
 		v.ID = db.nextIDGongEnumValueShapeDB
 		db.gongenumvalueshapeDBs[v.ID] = v
+	case *GongNoteLinkShapeDB:
+		db.nextIDGongNoteLinkShapeDB++
+		v.ID = db.nextIDGongNoteLinkShapeDB
+		db.gongnotelinkshapeDBs[v.ID] = v
+	case *GongNoteShapeDB:
+		db.nextIDGongNoteShapeDB++
+		v.ID = db.nextIDGongNoteShapeDB
+		db.gongnoteshapeDBs[v.ID] = v
 	case *GongStructShapeDB:
 		db.nextIDGongStructShapeDB++
 		v.ID = db.nextIDGongStructShapeDB
@@ -121,14 +129,6 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDLinkShapeDB++
 		v.ID = db.nextIDLinkShapeDB
 		db.linkshapeDBs[v.ID] = v
-	case *NoteShapeDB:
-		db.nextIDNoteShapeDB++
-		v.ID = db.nextIDNoteShapeDB
-		db.noteshapeDBs[v.ID] = v
-	case *NoteShapeLinkDB:
-		db.nextIDNoteShapeLinkDB++
-		v.ID = db.nextIDNoteShapeLinkDB
-		db.noteshapelinkDBs[v.ID] = v
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/doc2/go, unsupported type in Create")
 	}
@@ -167,14 +167,14 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.gongenumshapeDBs, v.ID)
 	case *GongEnumValueShapeDB:
 		delete(db.gongenumvalueshapeDBs, v.ID)
+	case *GongNoteLinkShapeDB:
+		delete(db.gongnotelinkshapeDBs, v.ID)
+	case *GongNoteShapeDB:
+		delete(db.gongnoteshapeDBs, v.ID)
 	case *GongStructShapeDB:
 		delete(db.gongstructshapeDBs, v.ID)
 	case *LinkShapeDB:
 		delete(db.linkshapeDBs, v.ID)
-	case *NoteShapeDB:
-		delete(db.noteshapeDBs, v.ID)
-	case *NoteShapeLinkDB:
-		delete(db.noteshapelinkDBs, v.ID)
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/doc2/go, unsupported type in Delete")
 	}
@@ -208,17 +208,17 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 	case *GongEnumValueShapeDB:
 		db.gongenumvalueshapeDBs[v.ID] = v
 		return db, nil
+	case *GongNoteLinkShapeDB:
+		db.gongnotelinkshapeDBs[v.ID] = v
+		return db, nil
+	case *GongNoteShapeDB:
+		db.gongnoteshapeDBs[v.ID] = v
+		return db, nil
 	case *GongStructShapeDB:
 		db.gongstructshapeDBs[v.ID] = v
 		return db, nil
 	case *LinkShapeDB:
 		db.linkshapeDBs[v.ID] = v
-		return db, nil
-	case *NoteShapeDB:
-		db.noteshapeDBs[v.ID] = v
-		return db, nil
-	case *NoteShapeLinkDB:
-		db.noteshapelinkDBs[v.ID] = v
 		return db, nil
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/doc2/go, Save: unsupported type")
@@ -266,6 +266,18 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db GongEnumValueShape github.com/fullstack-lang/gong/lib/doc2/go, record not found")
 		}
+	case *GongNoteLinkShapeDB:
+		if existing, ok := db.gongnotelinkshapeDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db GongNoteLinkShape github.com/fullstack-lang/gong/lib/doc2/go, record not found")
+		}
+	case *GongNoteShapeDB:
+		if existing, ok := db.gongnoteshapeDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db GongNoteShape github.com/fullstack-lang/gong/lib/doc2/go, record not found")
+		}
 	case *GongStructShapeDB:
 		if existing, ok := db.gongstructshapeDBs[v.ID]; ok {
 			*existing = *v
@@ -277,18 +289,6 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db LinkShape github.com/fullstack-lang/gong/lib/doc2/go, record not found")
-		}
-	case *NoteShapeDB:
-		if existing, ok := db.noteshapeDBs[v.ID]; ok {
-			*existing = *v
-		} else {
-			return nil, errors.New("db NoteShape github.com/fullstack-lang/gong/lib/doc2/go, record not found")
-		}
-	case *NoteShapeLinkDB:
-		if existing, ok := db.noteshapelinkDBs[v.ID]; ok {
-			*existing = *v
-		} else {
-			return nil, errors.New("db NoteShapeLink github.com/fullstack-lang/gong/lib/doc2/go, record not found")
 		}
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/doc2/go, unsupported type in Updates")
@@ -334,6 +334,18 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
+	case *[]GongNoteLinkShapeDB:
+		*ptr = make([]GongNoteLinkShapeDB, 0, len(db.gongnotelinkshapeDBs))
+		for _, v := range db.gongnotelinkshapeDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]GongNoteShapeDB:
+		*ptr = make([]GongNoteShapeDB, 0, len(db.gongnoteshapeDBs))
+		for _, v := range db.gongnoteshapeDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]GongStructShapeDB:
 		*ptr = make([]GongStructShapeDB, 0, len(db.gongstructshapeDBs))
 		for _, v := range db.gongstructshapeDBs {
@@ -343,18 +355,6 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]LinkShapeDB:
 		*ptr = make([]LinkShapeDB, 0, len(db.linkshapeDBs))
 		for _, v := range db.linkshapeDBs {
-			*ptr = append(*ptr, *v)
-		}
-		return db, nil
-	case *[]NoteShapeDB:
-		*ptr = make([]NoteShapeDB, 0, len(db.noteshapeDBs))
-		for _, v := range db.noteshapeDBs {
-			*ptr = append(*ptr, *v)
-		}
-		return db, nil
-	case *[]NoteShapeLinkDB:
-		*ptr = make([]NoteShapeLinkDB, 0, len(db.noteshapelinkDBs))
-		for _, v := range db.noteshapelinkDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -441,6 +441,26 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		gongenumvalueshapeDB, _ := instanceDB.(*GongEnumValueShapeDB)
 		*gongenumvalueshapeDB = *tmp
 		
+	case *GongNoteLinkShapeDB:
+		tmp, ok := db.gongnotelinkshapeDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First GongNoteLinkShape Unkown entry %d", i))
+		}
+
+		gongnotelinkshapeDB, _ := instanceDB.(*GongNoteLinkShapeDB)
+		*gongnotelinkshapeDB = *tmp
+		
+	case *GongNoteShapeDB:
+		tmp, ok := db.gongnoteshapeDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First GongNoteShape Unkown entry %d", i))
+		}
+
+		gongnoteshapeDB, _ := instanceDB.(*GongNoteShapeDB)
+		*gongnoteshapeDB = *tmp
+		
 	case *GongStructShapeDB:
 		tmp, ok := db.gongstructshapeDBs[uint(i)]
 
@@ -460,26 +480,6 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		linkshapeDB, _ := instanceDB.(*LinkShapeDB)
 		*linkshapeDB = *tmp
-		
-	case *NoteShapeDB:
-		tmp, ok := db.noteshapeDBs[uint(i)]
-
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("db.First NoteShape Unkown entry %d", i))
-		}
-
-		noteshapeDB, _ := instanceDB.(*NoteShapeDB)
-		*noteshapeDB = *tmp
-		
-	case *NoteShapeLinkDB:
-		tmp, ok := db.noteshapelinkDBs[uint(i)]
-
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("db.First NoteShapeLink Unkown entry %d", i))
-		}
-
-		noteshapelinkDB, _ := instanceDB.(*NoteShapeLinkDB)
-		*noteshapelinkDB = *tmp
 		
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/doc2/go, Unkown type")

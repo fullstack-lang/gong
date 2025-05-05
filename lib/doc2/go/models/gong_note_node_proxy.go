@@ -5,16 +5,16 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-type GongstructNodeProxy struct {
-	node            *tree.Node
-	stager          *Stager
-	classDiagram    *Classdiagram
-	gongstruct      *gong.GongStruct
-	gongStructShape *GongStructShape
-	rank            int
+type GongNoteNodeProxy struct {
+	node          *tree.Node
+	stager        *Stager
+	classDiagram  *Classdiagram
+	gongNote      *gong.GongNote
+	gongNoteShape *GongNoteShape
+	rank          int
 }
 
-func (proxy *GongstructNodeProxy) OnAfterUpdate(
+func (proxy *GongNoteNodeProxy) OnAfterUpdate(
 	stage *tree.Stage,
 	staged, front *tree.Node) {
 
@@ -22,7 +22,7 @@ func (proxy *GongstructNodeProxy) OnAfterUpdate(
 	if front.IsChecked && !staged.IsChecked {
 		// uncheck all other diagram
 		diagramPackage := getTheDiagramPackage(proxy.stager.stage)
-		proxy.classDiagram.AddGongStructShape(proxy.stager.stage, diagramPackage, proxy.gongstruct.Name)
+		proxy.classDiagram.AddGongNoteShape(proxy.stager.stage, diagramPackage, proxy.gongNote.Name)
 
 		proxy.stager.UpdateAndCommitTreeStage()
 		proxy.stager.UpdateAndCommitSVGStage()
@@ -32,7 +32,7 @@ func (proxy *GongstructNodeProxy) OnAfterUpdate(
 
 	// the checked node is unchecked
 	if !front.IsChecked && staged.IsChecked {
-		proxy.classDiagram.RemoveGongStructShape(proxy.stager.stage, proxy.gongstruct.Name)
+		proxy.classDiagram.RemoveGongNoteShape(proxy.stager.stage, proxy.gongNote.Name)
 
 		proxy.stager.UpdateAndCommitTreeStage()
 		proxy.stager.UpdateAndCommitSVGStage()
@@ -41,17 +41,17 @@ func (proxy *GongstructNodeProxy) OnAfterUpdate(
 	}
 
 	if front.IsExpanded && !staged.IsExpanded {
-		ToggleNodeExpanded(&proxy.classDiagram.NodeGongStructNodeExpansionBinaryEncoding, proxy.rank)
+		ToggleNodeExpanded(&proxy.classDiagram.NodeGongNoteNodeExpansionBinaryEncoding, proxy.rank)
+
 		front.IsExpanded = false
 
-		proxy.stager.UpdateAndCommitTreeStage()
 		proxy.stager.stage.Commit()
 	}
 	if !front.IsExpanded && staged.IsExpanded {
-		ToggleNodeExpanded(&proxy.classDiagram.NodeGongStructNodeExpansionBinaryEncoding, proxy.rank)
+		ToggleNodeExpanded(&proxy.classDiagram.NodeGongNoteNodeExpansionBinaryEncoding, proxy.rank)
+
 		front.IsExpanded = true
 
-		proxy.stager.UpdateAndCommitTreeStage()
 		proxy.stager.stage.Commit()
 	}
 }
