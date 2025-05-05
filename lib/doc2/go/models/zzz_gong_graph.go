@@ -20,17 +20,17 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *GongEnumValueShape:
 		ok = stage.IsStagedGongEnumValueShape(target)
 
+	case *GongNoteLinkShape:
+		ok = stage.IsStagedGongNoteLinkShape(target)
+
+	case *GongNoteShape:
+		ok = stage.IsStagedGongNoteShape(target)
+
 	case *GongStructShape:
 		ok = stage.IsStagedGongStructShape(target)
 
 	case *LinkShape:
 		ok = stage.IsStagedLinkShape(target)
-
-	case *NoteShape:
-		ok = stage.IsStagedNoteShape(target)
-
-	case *NoteShapeLink:
-		ok = stage.IsStagedNoteShapeLink(target)
 
 	default:
 		_ = target
@@ -74,6 +74,20 @@ func (stage *Stage) IsStagedGongEnumValueShape(gongenumvalueshape *GongEnumValue
 	return
 }
 
+func (stage *Stage) IsStagedGongNoteLinkShape(gongnotelinkshape *GongNoteLinkShape) (ok bool) {
+
+	_, ok = stage.GongNoteLinkShapes[gongnotelinkshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedGongNoteShape(gongnoteshape *GongNoteShape) (ok bool) {
+
+	_, ok = stage.GongNoteShapes[gongnoteshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedGongStructShape(gongstructshape *GongStructShape) (ok bool) {
 
 	_, ok = stage.GongStructShapes[gongstructshape]
@@ -84,20 +98,6 @@ func (stage *Stage) IsStagedGongStructShape(gongstructshape *GongStructShape) (o
 func (stage *Stage) IsStagedLinkShape(linkshape *LinkShape) (ok bool) {
 
 	_, ok = stage.LinkShapes[linkshape]
-
-	return
-}
-
-func (stage *Stage) IsStagedNoteShape(noteshape *NoteShape) (ok bool) {
-
-	_, ok = stage.NoteShapes[noteshape]
-
-	return
-}
-
-func (stage *Stage) IsStagedNoteShapeLink(noteshapelink *NoteShapeLink) (ok bool) {
-
-	_, ok = stage.NoteShapeLinks[noteshapelink]
 
 	return
 }
@@ -125,17 +125,17 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *GongEnumValueShape:
 		stage.StageBranchGongEnumValueShape(target)
 
+	case *GongNoteLinkShape:
+		stage.StageBranchGongNoteLinkShape(target)
+
+	case *GongNoteShape:
+		stage.StageBranchGongNoteShape(target)
+
 	case *GongStructShape:
 		stage.StageBranchGongStructShape(target)
 
 	case *LinkShape:
 		stage.StageBranchLinkShape(target)
-
-	case *NoteShape:
-		stage.StageBranchNoteShape(target)
-
-	case *NoteShapeLink:
-		stage.StageBranchNoteShapeLink(target)
 
 	default:
 		_ = target
@@ -176,8 +176,8 @@ func (stage *Stage) StageBranchClassdiagram(classdiagram *Classdiagram) {
 	for _, _gongenumshape := range classdiagram.GongEnumShapes {
 		StageBranch(stage, _gongenumshape)
 	}
-	for _, _noteshape := range classdiagram.NoteShapes {
-		StageBranch(stage, _noteshape)
+	for _, _gongnoteshape := range classdiagram.GongNoteShapes {
+		StageBranch(stage, _gongnoteshape)
 	}
 
 }
@@ -236,6 +236,39 @@ func (stage *Stage) StageBranchGongEnumValueShape(gongenumvalueshape *GongEnumVa
 
 }
 
+func (stage *Stage) StageBranchGongNoteLinkShape(gongnotelinkshape *GongNoteLinkShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, gongnotelinkshape) {
+		return
+	}
+
+	gongnotelinkshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchGongNoteShape(gongnoteshape *GongNoteShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, gongnoteshape) {
+		return
+	}
+
+	gongnoteshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _gongnotelinkshape := range gongnoteshape.GongNoteLinkShapes {
+		StageBranch(stage, _gongnotelinkshape)
+	}
+
+}
+
 func (stage *Stage) StageBranchGongStructShape(gongstructshape *GongStructShape) {
 
 	// check if instance is already staged
@@ -265,39 +298,6 @@ func (stage *Stage) StageBranchLinkShape(linkshape *LinkShape) {
 	}
 
 	linkshape.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
-
-	// check if instance is already staged
-	if IsStaged(stage, noteshape) {
-		return
-	}
-
-	noteshape.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _noteshapelink := range noteshape.NoteShapeLinks {
-		StageBranch(stage, _noteshapelink)
-	}
-
-}
-
-func (stage *Stage) StageBranchNoteShapeLink(noteshapelink *NoteShapeLink) {
-
-	// check if instance is already staged
-	if IsStaged(stage, noteshapelink) {
-		return
-	}
-
-	noteshapelink.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -336,20 +336,20 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchGongEnumValueShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *GongNoteLinkShape:
+		toT := CopyBranchGongNoteLinkShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *GongNoteShape:
+		toT := CopyBranchGongNoteShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *GongStructShape:
 		toT := CopyBranchGongStructShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *LinkShape:
 		toT := CopyBranchLinkShape(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
-	case *NoteShape:
-		toT := CopyBranchNoteShape(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
-	case *NoteShapeLink:
-		toT := CopyBranchNoteShapeLink(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -399,8 +399,8 @@ func CopyBranchClassdiagram(mapOrigCopy map[any]any, classdiagramFrom *Classdiag
 	for _, _gongenumshape := range classdiagramFrom.GongEnumShapes {
 		classdiagramTo.GongEnumShapes = append(classdiagramTo.GongEnumShapes, CopyBranchGongEnumShape(mapOrigCopy, _gongenumshape))
 	}
-	for _, _noteshape := range classdiagramFrom.NoteShapes {
-		classdiagramTo.NoteShapes = append(classdiagramTo.NoteShapes, CopyBranchNoteShape(mapOrigCopy, _noteshape))
+	for _, _gongnoteshape := range classdiagramFrom.GongNoteShapes {
+		classdiagramTo.GongNoteShapes = append(classdiagramTo.GongNoteShapes, CopyBranchGongNoteShape(mapOrigCopy, _gongnoteshape))
 	}
 
 	return
@@ -472,6 +472,47 @@ func CopyBranchGongEnumValueShape(mapOrigCopy map[any]any, gongenumvalueshapeFro
 	return
 }
 
+func CopyBranchGongNoteLinkShape(mapOrigCopy map[any]any, gongnotelinkshapeFrom *GongNoteLinkShape) (gongnotelinkshapeTo *GongNoteLinkShape) {
+
+	// gongnotelinkshapeFrom has already been copied
+	if _gongnotelinkshapeTo, ok := mapOrigCopy[gongnotelinkshapeFrom]; ok {
+		gongnotelinkshapeTo = _gongnotelinkshapeTo.(*GongNoteLinkShape)
+		return
+	}
+
+	gongnotelinkshapeTo = new(GongNoteLinkShape)
+	mapOrigCopy[gongnotelinkshapeFrom] = gongnotelinkshapeTo
+	gongnotelinkshapeFrom.CopyBasicFields(gongnotelinkshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchGongNoteShape(mapOrigCopy map[any]any, gongnoteshapeFrom *GongNoteShape) (gongnoteshapeTo *GongNoteShape) {
+
+	// gongnoteshapeFrom has already been copied
+	if _gongnoteshapeTo, ok := mapOrigCopy[gongnoteshapeFrom]; ok {
+		gongnoteshapeTo = _gongnoteshapeTo.(*GongNoteShape)
+		return
+	}
+
+	gongnoteshapeTo = new(GongNoteShape)
+	mapOrigCopy[gongnoteshapeFrom] = gongnoteshapeTo
+	gongnoteshapeFrom.CopyBasicFields(gongnoteshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _gongnotelinkshape := range gongnoteshapeFrom.GongNoteLinkShapes {
+		gongnoteshapeTo.GongNoteLinkShapes = append(gongnoteshapeTo.GongNoteLinkShapes, CopyBranchGongNoteLinkShape(mapOrigCopy, _gongnotelinkshape))
+	}
+
+	return
+}
+
 func CopyBranchGongStructShape(mapOrigCopy map[any]any, gongstructshapeFrom *GongStructShape) (gongstructshapeTo *GongStructShape) {
 
 	// gongstructshapeFrom has already been copied
@@ -516,47 +557,6 @@ func CopyBranchLinkShape(mapOrigCopy map[any]any, linkshapeFrom *LinkShape) (lin
 	return
 }
 
-func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (noteshapeTo *NoteShape) {
-
-	// noteshapeFrom has already been copied
-	if _noteshapeTo, ok := mapOrigCopy[noteshapeFrom]; ok {
-		noteshapeTo = _noteshapeTo.(*NoteShape)
-		return
-	}
-
-	noteshapeTo = new(NoteShape)
-	mapOrigCopy[noteshapeFrom] = noteshapeTo
-	noteshapeFrom.CopyBasicFields(noteshapeTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _noteshapelink := range noteshapeFrom.NoteShapeLinks {
-		noteshapeTo.NoteShapeLinks = append(noteshapeTo.NoteShapeLinks, CopyBranchNoteShapeLink(mapOrigCopy, _noteshapelink))
-	}
-
-	return
-}
-
-func CopyBranchNoteShapeLink(mapOrigCopy map[any]any, noteshapelinkFrom *NoteShapeLink) (noteshapelinkTo *NoteShapeLink) {
-
-	// noteshapelinkFrom has already been copied
-	if _noteshapelinkTo, ok := mapOrigCopy[noteshapelinkFrom]; ok {
-		noteshapelinkTo = _noteshapelinkTo.(*NoteShapeLink)
-		return
-	}
-
-	noteshapelinkTo = new(NoteShapeLink)
-	mapOrigCopy[noteshapelinkFrom] = noteshapelinkTo
-	noteshapelinkFrom.CopyBasicFields(noteshapelinkTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-	return
-}
-
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
 //
@@ -580,17 +580,17 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *GongEnumValueShape:
 		stage.UnstageBranchGongEnumValueShape(target)
 
+	case *GongNoteLinkShape:
+		stage.UnstageBranchGongNoteLinkShape(target)
+
+	case *GongNoteShape:
+		stage.UnstageBranchGongNoteShape(target)
+
 	case *GongStructShape:
 		stage.UnstageBranchGongStructShape(target)
 
 	case *LinkShape:
 		stage.UnstageBranchLinkShape(target)
-
-	case *NoteShape:
-		stage.UnstageBranchNoteShape(target)
-
-	case *NoteShapeLink:
-		stage.UnstageBranchNoteShapeLink(target)
 
 	default:
 		_ = target
@@ -631,8 +631,8 @@ func (stage *Stage) UnstageBranchClassdiagram(classdiagram *Classdiagram) {
 	for _, _gongenumshape := range classdiagram.GongEnumShapes {
 		UnstageBranch(stage, _gongenumshape)
 	}
-	for _, _noteshape := range classdiagram.NoteShapes {
-		UnstageBranch(stage, _noteshape)
+	for _, _gongnoteshape := range classdiagram.GongNoteShapes {
+		UnstageBranch(stage, _gongnoteshape)
 	}
 
 }
@@ -691,6 +691,39 @@ func (stage *Stage) UnstageBranchGongEnumValueShape(gongenumvalueshape *GongEnum
 
 }
 
+func (stage *Stage) UnstageBranchGongNoteLinkShape(gongnotelinkshape *GongNoteLinkShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, gongnotelinkshape) {
+		return
+	}
+
+	gongnotelinkshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchGongNoteShape(gongnoteshape *GongNoteShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, gongnoteshape) {
+		return
+	}
+
+	gongnoteshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _gongnotelinkshape := range gongnoteshape.GongNoteLinkShapes {
+		UnstageBranch(stage, _gongnotelinkshape)
+	}
+
+}
+
 func (stage *Stage) UnstageBranchGongStructShape(gongstructshape *GongStructShape) {
 
 	// check if instance is already staged
@@ -720,39 +753,6 @@ func (stage *Stage) UnstageBranchLinkShape(linkshape *LinkShape) {
 	}
 
 	linkshape.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, noteshape) {
-		return
-	}
-
-	noteshape.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _noteshapelink := range noteshape.NoteShapeLinks {
-		UnstageBranch(stage, _noteshapelink)
-	}
-
-}
-
-func (stage *Stage) UnstageBranchNoteShapeLink(noteshapelink *NoteShapeLink) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, noteshapelink) {
-		return
-	}
-
-	noteshapelink.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 

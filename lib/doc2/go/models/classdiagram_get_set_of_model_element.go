@@ -87,7 +87,7 @@ func (stager *Stager) compute_map_modelElement_shape(
 	}
 
 	gongNoteSet := *gong.GetGongstructInstancesMap[gong.GongNote](gongStage)
-	for _, gongNoteShape := range classdiagram.NoteShapes {
+	for _, gongNoteShape := range classdiagram.GongNoteShapes {
 
 		gongNoteName := IdentifierToGongObjectName(gongNoteShape.Identifier)
 		gongNote, ok := gongNoteSet[gongNoteName]
@@ -97,7 +97,7 @@ func (stager *Stager) compute_map_modelElement_shape(
 
 		map_ModelElement_Shape[gongNote] = gongNoteShape
 
-		for _, noteLinkShape := range gongNoteShape.NoteShapeLinks {
+		for _, noteLinkShape := range gongNoteShape.GongNoteLinkShapes {
 
 			switch noteLinkShape.Type {
 			case NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE:

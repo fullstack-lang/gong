@@ -13,9 +13,6 @@ const LegacyDiagramUmarshalling = false
 type DiagramPackage struct {
 	Name string
 
-	// Stage_ where the DiagamPackage lives
-	Stage_ *Stage
-
 	// Path to the "diagrams" directory
 	Path string
 
