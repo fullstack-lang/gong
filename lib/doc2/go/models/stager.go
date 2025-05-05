@@ -90,7 +90,7 @@ func NewStager(
 		diagramPackage = k
 	}
 	if diagramPackage == nil {
-		(&DiagramPackage{
+		diagramPackage = (&DiagramPackage{
 			Name: fmt.Sprintf("Diagram Package created the %s", time.Now().Local().UTC().Format(time.RFC3339)),
 		}).Stage(stage)
 		stage.Commit()
