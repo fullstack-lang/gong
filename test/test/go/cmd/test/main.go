@@ -34,11 +34,11 @@ func main() {
 	r := test_static.ServeStaticFiles(*logGINFlag)
 
 	// setup model stack with its probe
-	stack := test_stack.NewStack(r, "test", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	stack := test_stack.NewStack(r, "", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
 
 	// insertion point for call to stager
-	test_models.NewStager(r, stack.Stage)
+	test_models.NewStager(r, stack.Stage, "test/test/go/cmd/test/main.go")
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
