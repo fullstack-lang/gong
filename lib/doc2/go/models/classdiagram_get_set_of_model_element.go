@@ -26,7 +26,7 @@ func (stager *Stager) compute_map_modelElement_shape(
 		gongStruct, ok := gongStructSet[gongStructName]
 
 		if !ok {
-			log.Panicln("Diagram", classdiagram.GetName(), "has a shape named", gongStructName, "but no gongstruct exists")
+			log.Println("Diagram", classdiagram.GetName(), "has a shape named", gongStructName, "but no gongstruct exists")
 			continue
 		}
 		map_ModelElement_Shape[gongStruct] = gongStructShape
