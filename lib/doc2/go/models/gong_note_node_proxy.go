@@ -22,7 +22,8 @@ func (proxy *GongNoteNodeProxy) OnAfterUpdate(
 	if front.IsChecked && !staged.IsChecked {
 		// uncheck all other diagram
 		diagramPackage := getTheDiagramPackage(proxy.stager.stage)
-		proxy.classDiagram.AddGongNoteShape(proxy.stager.stage, diagramPackage, proxy.gongNote.Name)
+
+		proxy.classDiagram.AddGongNoteShape(proxy.stager.stage, proxy.gongNote, diagramPackage, proxy.gongNote.Name)
 
 		proxy.stager.UpdateAndCommitTreeStage()
 		proxy.stager.UpdateAndCommitSVGStage()
