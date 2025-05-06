@@ -3,6 +3,8 @@ package models
 import (
 	"log"
 	"math/rand"
+
+	gong "github.com/fullstack-lang/gong/go/models"
 )
 
 // GongNoteShape is a UML note in a class diagram
@@ -111,13 +113,16 @@ func (classdiagram *Classdiagram) RemoveGongNoteShape(stage *Stage, gongNoteName
 	// log.Println("RemoveGongNoteShape, after commit, nb ", Stage.BackRepo.GetLastCommitFromBackNb())
 }
 
-func (classdiagram *Classdiagram) AddGongNoteShape(stage *Stage, diagramPackage *DiagramPackage, gongNoteShapeName string) {
+func (classdiagram *Classdiagram) AddGongNoteShape(stage *Stage, gongNote *gong.GongNote, diagramPackage *DiagramPackage, gongNoteShapeName string) {
 
 	var gongNoteShape GongNoteShape
 	gongNoteShape.Name = classdiagram.Name + "-" + gongNoteShapeName
 	gongNoteShape.Identifier = GongNoteNameToIdentifier(gongNoteShapeName)
 	gongNoteShape.Width = 240
 	gongNoteShape.Height = 63
+
+	gongNoteShape.Body = gongNote.Body
+	gongNoteShape.BodyHTML = gongNote.BodyHTML
 
 	gongNoteShape.Stage(stage)
 
