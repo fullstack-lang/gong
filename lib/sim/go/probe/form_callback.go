@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"log"
 	"slices"
 	"time"
 
@@ -44,7 +43,7 @@ type CommandFormCallback struct {
 
 func (commandFormCallback *CommandFormCallback) OnSave() {
 
-	log.Println("CommandFormCallback, OnSave")
+	// log.Println("CommandFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -127,7 +126,7 @@ type DummyAgentFormCallback struct {
 
 func (dummyagentFormCallback *DummyAgentFormCallback) OnSave() {
 
-	log.Println("DummyAgentFormCallback, OnSave")
+	// log.Println("DummyAgentFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -206,7 +205,7 @@ type EngineFormCallback struct {
 
 func (engineFormCallback *EngineFormCallback) OnSave() {
 
-	log.Println("EngineFormCallback, OnSave")
+	// log.Println("EngineFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -299,7 +298,7 @@ type EventFormCallback struct {
 
 func (eventFormCallback *EventFormCallback) OnSave() {
 
-	log.Println("EventFormCallback, OnSave")
+	// log.Println("EventFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -378,7 +377,7 @@ type StatusFormCallback struct {
 
 func (statusFormCallback *StatusFormCallback) OnSave() {
 
-	log.Println("StatusFormCallback, OnSave")
+	// log.Println("StatusFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -463,7 +462,7 @@ type UpdateStateFormCallback struct {
 
 func (updatestateFormCallback *UpdateStateFormCallback) OnSave() {
 
-	log.Println("UpdateStateFormCallback, OnSave")
+	// log.Println("UpdateStateFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)

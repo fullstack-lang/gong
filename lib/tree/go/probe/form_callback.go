@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"log"
 	"slices"
 	"time"
 
@@ -44,7 +43,7 @@ type ButtonFormCallback struct {
 
 func (buttonFormCallback *ButtonFormCallback) OnSave() {
 
-	log.Println("ButtonFormCallback, OnSave")
+	// log.Println("ButtonFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -88,28 +87,38 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastNodeOwner = reverseFieldOwner.(*models.Node)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastNodeOwner != nil {
 					idx := slices.Index(pastNodeOwner.Buttons, button_)
 					pastNodeOwner.Buttons = slices.Delete(pastNodeOwner.Buttons, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _node := range *models.GetGongstructInstancesSet[models.Node](buttonFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _node.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newNodeOwner := _node // we have a match
-						if pastNodeOwner != nil {
-							if newNodeOwner != pastNodeOwner {
-								idx := slices.Index(pastNodeOwner.Buttons, button_)
-								pastNodeOwner.Buttons = slices.Delete(pastNodeOwner.Buttons, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastNodeOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _node := range *models.GetGongstructInstancesSet[models.Node](buttonFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _node.GetName() == fieldValue.GetName() {
+							newNodeOwner := _node // we have a match
+							
+							// we remove the button_ instance from the pastNodeOwner field
+							if pastNodeOwner != nil {
+								if newNodeOwner != pastNodeOwner {
+									idx := slices.Index(pastNodeOwner.Buttons, button_)
+									pastNodeOwner.Buttons = slices.Delete(pastNodeOwner.Buttons, idx, idx+1)
+									newNodeOwner.Buttons = append(newNodeOwner.Buttons, button_)
+								}
+							} else {
 								newNodeOwner.Buttons = append(newNodeOwner.Buttons, button_)
 							}
-						} else {
-							newNodeOwner.Buttons = append(newNodeOwner.Buttons, button_)
 						}
 					}
 				}
@@ -174,7 +183,7 @@ type NodeFormCallback struct {
 
 func (nodeFormCallback *NodeFormCallback) OnSave() {
 
-	log.Println("NodeFormCallback, OnSave")
+	// log.Println("NodeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -242,28 +251,38 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastNodeOwner = reverseFieldOwner.(*models.Node)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastNodeOwner != nil {
 					idx := slices.Index(pastNodeOwner.Children, node_)
 					pastNodeOwner.Children = slices.Delete(pastNodeOwner.Children, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _node := range *models.GetGongstructInstancesSet[models.Node](nodeFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _node.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newNodeOwner := _node // we have a match
-						if pastNodeOwner != nil {
-							if newNodeOwner != pastNodeOwner {
-								idx := slices.Index(pastNodeOwner.Children, node_)
-								pastNodeOwner.Children = slices.Delete(pastNodeOwner.Children, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastNodeOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _node := range *models.GetGongstructInstancesSet[models.Node](nodeFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _node.GetName() == fieldValue.GetName() {
+							newNodeOwner := _node // we have a match
+							
+							// we remove the node_ instance from the pastNodeOwner field
+							if pastNodeOwner != nil {
+								if newNodeOwner != pastNodeOwner {
+									idx := slices.Index(pastNodeOwner.Children, node_)
+									pastNodeOwner.Children = slices.Delete(pastNodeOwner.Children, idx, idx+1)
+									newNodeOwner.Children = append(newNodeOwner.Children, node_)
+								}
+							} else {
 								newNodeOwner.Children = append(newNodeOwner.Children, node_)
 							}
-						} else {
-							newNodeOwner.Children = append(newNodeOwner.Children, node_)
 						}
 					}
 				}
@@ -283,28 +302,38 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastTreeOwner = reverseFieldOwner.(*models.Tree)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastTreeOwner != nil {
 					idx := slices.Index(pastTreeOwner.RootNodes, node_)
 					pastTreeOwner.RootNodes = slices.Delete(pastTreeOwner.RootNodes, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _tree := range *models.GetGongstructInstancesSet[models.Tree](nodeFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _tree.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newTreeOwner := _tree // we have a match
-						if pastTreeOwner != nil {
-							if newTreeOwner != pastTreeOwner {
-								idx := slices.Index(pastTreeOwner.RootNodes, node_)
-								pastTreeOwner.RootNodes = slices.Delete(pastTreeOwner.RootNodes, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastTreeOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _tree := range *models.GetGongstructInstancesSet[models.Tree](nodeFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _tree.GetName() == fieldValue.GetName() {
+							newTreeOwner := _tree // we have a match
+							
+							// we remove the node_ instance from the pastTreeOwner field
+							if pastTreeOwner != nil {
+								if newTreeOwner != pastTreeOwner {
+									idx := slices.Index(pastTreeOwner.RootNodes, node_)
+									pastTreeOwner.RootNodes = slices.Delete(pastTreeOwner.RootNodes, idx, idx+1)
+									newTreeOwner.RootNodes = append(newTreeOwner.RootNodes, node_)
+								}
+							} else {
 								newTreeOwner.RootNodes = append(newTreeOwner.RootNodes, node_)
 							}
-						} else {
-							newTreeOwner.RootNodes = append(newTreeOwner.RootNodes, node_)
 						}
 					}
 				}
@@ -369,7 +398,7 @@ type SVGIconFormCallback struct {
 
 func (svgiconFormCallback *SVGIconFormCallback) OnSave() {
 
-	log.Println("SVGIconFormCallback, OnSave")
+	// log.Println("SVGIconFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -448,7 +477,7 @@ type TreeFormCallback struct {
 
 func (treeFormCallback *TreeFormCallback) OnSave() {
 
-	log.Println("TreeFormCallback, OnSave")
+	// log.Println("TreeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)

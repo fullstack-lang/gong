@@ -390,7 +390,7 @@
             "program": "${workspaceFolder}/test/test/go/cmd/test",
             "args": [
                 "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage_out"
+                "-marshallOnCommit=data/stage"
             ]
         },
         {
