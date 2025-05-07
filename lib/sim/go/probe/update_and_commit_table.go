@@ -207,7 +207,7 @@ type RowUpdate[T models.Gongstruct] struct {
 }
 
 func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.Stage, row, updatedRow *gongtable.Row) {
-	log.Println("RowUpdate: RowUpdated", updatedRow.Name)
+	// log.Println("RowUpdate: RowUpdated", updatedRow.Name)
 
 	FillUpFormFromGongstruct(rowUpdate.Instance, rowUpdate.probe)
 }

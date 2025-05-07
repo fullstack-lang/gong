@@ -5,7 +5,6 @@ package probe
 
 import (
 	"fmt"
-	"log"
 	"sort"
 
 	gongtable_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
@@ -167,7 +166,7 @@ type TablePickSaver[InstanceType models.PointerToGongstruct, FieldType models.Po
 func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(
 	stage *form.Stage,
 	table, updatedTable *form.Table) {
-	log.Println("TablePickSaver: TableUpdated")
+	// log.Println("TablePickSaver: TableUpdated")
 
 	// checkout to the stage to get the rows that have been checked and not
 	stage.Checkout()

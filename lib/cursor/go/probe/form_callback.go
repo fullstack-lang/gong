@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"log"
 	"slices"
 	"time"
 
@@ -44,7 +43,7 @@ type CursorFormCallback struct {
 
 func (cursorFormCallback *CursorFormCallback) OnSave() {
 
-	log.Println("CursorFormCallback, OnSave")
+	// log.Println("CursorFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)

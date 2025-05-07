@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"log"
 	"slices"
 	"time"
 
@@ -44,7 +43,7 @@ type AnimateFormCallback struct {
 
 func (animateFormCallback *AnimateFormCallback) OnSave() {
 
-	log.Println("AnimateFormCallback, OnSave")
+	// log.Println("AnimateFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -88,28 +87,38 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastCircleOwner = reverseFieldOwner.(*models.Circle)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastCircleOwner != nil {
 					idx := slices.Index(pastCircleOwner.Animations, animate_)
 					pastCircleOwner.Animations = slices.Delete(pastCircleOwner.Animations, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _circle := range *models.GetGongstructInstancesSet[models.Circle](animateFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _circle.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newCircleOwner := _circle // we have a match
-						if pastCircleOwner != nil {
-							if newCircleOwner != pastCircleOwner {
-								idx := slices.Index(pastCircleOwner.Animations, animate_)
-								pastCircleOwner.Animations = slices.Delete(pastCircleOwner.Animations, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastCircleOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _circle := range *models.GetGongstructInstancesSet[models.Circle](animateFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _circle.GetName() == fieldValue.GetName() {
+							newCircleOwner := _circle // we have a match
+							
+							// we remove the animate_ instance from the pastCircleOwner field
+							if pastCircleOwner != nil {
+								if newCircleOwner != pastCircleOwner {
+									idx := slices.Index(pastCircleOwner.Animations, animate_)
+									pastCircleOwner.Animations = slices.Delete(pastCircleOwner.Animations, idx, idx+1)
+									newCircleOwner.Animations = append(newCircleOwner.Animations, animate_)
+								}
+							} else {
 								newCircleOwner.Animations = append(newCircleOwner.Animations, animate_)
 							}
-						} else {
-							newCircleOwner.Animations = append(newCircleOwner.Animations, animate_)
 						}
 					}
 				}
@@ -129,28 +138,38 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastEllipseOwner = reverseFieldOwner.(*models.Ellipse)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastEllipseOwner != nil {
 					idx := slices.Index(pastEllipseOwner.Animates, animate_)
 					pastEllipseOwner.Animates = slices.Delete(pastEllipseOwner.Animates, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _ellipse := range *models.GetGongstructInstancesSet[models.Ellipse](animateFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _ellipse.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newEllipseOwner := _ellipse // we have a match
-						if pastEllipseOwner != nil {
-							if newEllipseOwner != pastEllipseOwner {
-								idx := slices.Index(pastEllipseOwner.Animates, animate_)
-								pastEllipseOwner.Animates = slices.Delete(pastEllipseOwner.Animates, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastEllipseOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _ellipse := range *models.GetGongstructInstancesSet[models.Ellipse](animateFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _ellipse.GetName() == fieldValue.GetName() {
+							newEllipseOwner := _ellipse // we have a match
+							
+							// we remove the animate_ instance from the pastEllipseOwner field
+							if pastEllipseOwner != nil {
+								if newEllipseOwner != pastEllipseOwner {
+									idx := slices.Index(pastEllipseOwner.Animates, animate_)
+									pastEllipseOwner.Animates = slices.Delete(pastEllipseOwner.Animates, idx, idx+1)
+									newEllipseOwner.Animates = append(newEllipseOwner.Animates, animate_)
+								}
+							} else {
 								newEllipseOwner.Animates = append(newEllipseOwner.Animates, animate_)
 							}
-						} else {
-							newEllipseOwner.Animates = append(newEllipseOwner.Animates, animate_)
 						}
 					}
 				}
@@ -170,28 +189,38 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastLineOwner = reverseFieldOwner.(*models.Line)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastLineOwner != nil {
 					idx := slices.Index(pastLineOwner.Animates, animate_)
 					pastLineOwner.Animates = slices.Delete(pastLineOwner.Animates, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _line := range *models.GetGongstructInstancesSet[models.Line](animateFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _line.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newLineOwner := _line // we have a match
-						if pastLineOwner != nil {
-							if newLineOwner != pastLineOwner {
-								idx := slices.Index(pastLineOwner.Animates, animate_)
-								pastLineOwner.Animates = slices.Delete(pastLineOwner.Animates, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastLineOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _line := range *models.GetGongstructInstancesSet[models.Line](animateFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _line.GetName() == fieldValue.GetName() {
+							newLineOwner := _line // we have a match
+							
+							// we remove the animate_ instance from the pastLineOwner field
+							if pastLineOwner != nil {
+								if newLineOwner != pastLineOwner {
+									idx := slices.Index(pastLineOwner.Animates, animate_)
+									pastLineOwner.Animates = slices.Delete(pastLineOwner.Animates, idx, idx+1)
+									newLineOwner.Animates = append(newLineOwner.Animates, animate_)
+								}
+							} else {
 								newLineOwner.Animates = append(newLineOwner.Animates, animate_)
 							}
-						} else {
-							newLineOwner.Animates = append(newLineOwner.Animates, animate_)
 						}
 					}
 				}
@@ -211,28 +240,38 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastLinkAnchoredTextOwner = reverseFieldOwner.(*models.LinkAnchoredText)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastLinkAnchoredTextOwner != nil {
 					idx := slices.Index(pastLinkAnchoredTextOwner.Animates, animate_)
 					pastLinkAnchoredTextOwner.Animates = slices.Delete(pastLinkAnchoredTextOwner.Animates, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _linkanchoredtext := range *models.GetGongstructInstancesSet[models.LinkAnchoredText](animateFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _linkanchoredtext.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newLinkAnchoredTextOwner := _linkanchoredtext // we have a match
-						if pastLinkAnchoredTextOwner != nil {
-							if newLinkAnchoredTextOwner != pastLinkAnchoredTextOwner {
-								idx := slices.Index(pastLinkAnchoredTextOwner.Animates, animate_)
-								pastLinkAnchoredTextOwner.Animates = slices.Delete(pastLinkAnchoredTextOwner.Animates, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastLinkAnchoredTextOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _linkanchoredtext := range *models.GetGongstructInstancesSet[models.LinkAnchoredText](animateFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _linkanchoredtext.GetName() == fieldValue.GetName() {
+							newLinkAnchoredTextOwner := _linkanchoredtext // we have a match
+							
+							// we remove the animate_ instance from the pastLinkAnchoredTextOwner field
+							if pastLinkAnchoredTextOwner != nil {
+								if newLinkAnchoredTextOwner != pastLinkAnchoredTextOwner {
+									idx := slices.Index(pastLinkAnchoredTextOwner.Animates, animate_)
+									pastLinkAnchoredTextOwner.Animates = slices.Delete(pastLinkAnchoredTextOwner.Animates, idx, idx+1)
+									newLinkAnchoredTextOwner.Animates = append(newLinkAnchoredTextOwner.Animates, animate_)
+								}
+							} else {
 								newLinkAnchoredTextOwner.Animates = append(newLinkAnchoredTextOwner.Animates, animate_)
 							}
-						} else {
-							newLinkAnchoredTextOwner.Animates = append(newLinkAnchoredTextOwner.Animates, animate_)
 						}
 					}
 				}
@@ -252,28 +291,38 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastPathOwner = reverseFieldOwner.(*models.Path)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastPathOwner != nil {
 					idx := slices.Index(pastPathOwner.Animates, animate_)
 					pastPathOwner.Animates = slices.Delete(pastPathOwner.Animates, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _path := range *models.GetGongstructInstancesSet[models.Path](animateFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _path.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newPathOwner := _path // we have a match
-						if pastPathOwner != nil {
-							if newPathOwner != pastPathOwner {
-								idx := slices.Index(pastPathOwner.Animates, animate_)
-								pastPathOwner.Animates = slices.Delete(pastPathOwner.Animates, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastPathOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _path := range *models.GetGongstructInstancesSet[models.Path](animateFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _path.GetName() == fieldValue.GetName() {
+							newPathOwner := _path // we have a match
+							
+							// we remove the animate_ instance from the pastPathOwner field
+							if pastPathOwner != nil {
+								if newPathOwner != pastPathOwner {
+									idx := slices.Index(pastPathOwner.Animates, animate_)
+									pastPathOwner.Animates = slices.Delete(pastPathOwner.Animates, idx, idx+1)
+									newPathOwner.Animates = append(newPathOwner.Animates, animate_)
+								}
+							} else {
 								newPathOwner.Animates = append(newPathOwner.Animates, animate_)
 							}
-						} else {
-							newPathOwner.Animates = append(newPathOwner.Animates, animate_)
 						}
 					}
 				}
@@ -293,28 +342,38 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastPolygoneOwner = reverseFieldOwner.(*models.Polygone)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastPolygoneOwner != nil {
 					idx := slices.Index(pastPolygoneOwner.Animates, animate_)
 					pastPolygoneOwner.Animates = slices.Delete(pastPolygoneOwner.Animates, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _polygone := range *models.GetGongstructInstancesSet[models.Polygone](animateFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _polygone.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newPolygoneOwner := _polygone // we have a match
-						if pastPolygoneOwner != nil {
-							if newPolygoneOwner != pastPolygoneOwner {
-								idx := slices.Index(pastPolygoneOwner.Animates, animate_)
-								pastPolygoneOwner.Animates = slices.Delete(pastPolygoneOwner.Animates, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastPolygoneOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _polygone := range *models.GetGongstructInstancesSet[models.Polygone](animateFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _polygone.GetName() == fieldValue.GetName() {
+							newPolygoneOwner := _polygone // we have a match
+							
+							// we remove the animate_ instance from the pastPolygoneOwner field
+							if pastPolygoneOwner != nil {
+								if newPolygoneOwner != pastPolygoneOwner {
+									idx := slices.Index(pastPolygoneOwner.Animates, animate_)
+									pastPolygoneOwner.Animates = slices.Delete(pastPolygoneOwner.Animates, idx, idx+1)
+									newPolygoneOwner.Animates = append(newPolygoneOwner.Animates, animate_)
+								}
+							} else {
 								newPolygoneOwner.Animates = append(newPolygoneOwner.Animates, animate_)
 							}
-						} else {
-							newPolygoneOwner.Animates = append(newPolygoneOwner.Animates, animate_)
 						}
 					}
 				}
@@ -334,28 +393,38 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastPolylineOwner = reverseFieldOwner.(*models.Polyline)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastPolylineOwner != nil {
 					idx := slices.Index(pastPolylineOwner.Animates, animate_)
 					pastPolylineOwner.Animates = slices.Delete(pastPolylineOwner.Animates, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _polyline := range *models.GetGongstructInstancesSet[models.Polyline](animateFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _polyline.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newPolylineOwner := _polyline // we have a match
-						if pastPolylineOwner != nil {
-							if newPolylineOwner != pastPolylineOwner {
-								idx := slices.Index(pastPolylineOwner.Animates, animate_)
-								pastPolylineOwner.Animates = slices.Delete(pastPolylineOwner.Animates, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastPolylineOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _polyline := range *models.GetGongstructInstancesSet[models.Polyline](animateFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _polyline.GetName() == fieldValue.GetName() {
+							newPolylineOwner := _polyline // we have a match
+							
+							// we remove the animate_ instance from the pastPolylineOwner field
+							if pastPolylineOwner != nil {
+								if newPolylineOwner != pastPolylineOwner {
+									idx := slices.Index(pastPolylineOwner.Animates, animate_)
+									pastPolylineOwner.Animates = slices.Delete(pastPolylineOwner.Animates, idx, idx+1)
+									newPolylineOwner.Animates = append(newPolylineOwner.Animates, animate_)
+								}
+							} else {
 								newPolylineOwner.Animates = append(newPolylineOwner.Animates, animate_)
 							}
-						} else {
-							newPolylineOwner.Animates = append(newPolylineOwner.Animates, animate_)
 						}
 					}
 				}
@@ -375,28 +444,38 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastRectOwner = reverseFieldOwner.(*models.Rect)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastRectOwner != nil {
 					idx := slices.Index(pastRectOwner.Animations, animate_)
 					pastRectOwner.Animations = slices.Delete(pastRectOwner.Animations, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _rect := range *models.GetGongstructInstancesSet[models.Rect](animateFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _rect.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newRectOwner := _rect // we have a match
-						if pastRectOwner != nil {
-							if newRectOwner != pastRectOwner {
-								idx := slices.Index(pastRectOwner.Animations, animate_)
-								pastRectOwner.Animations = slices.Delete(pastRectOwner.Animations, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastRectOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _rect := range *models.GetGongstructInstancesSet[models.Rect](animateFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _rect.GetName() == fieldValue.GetName() {
+							newRectOwner := _rect // we have a match
+							
+							// we remove the animate_ instance from the pastRectOwner field
+							if pastRectOwner != nil {
+								if newRectOwner != pastRectOwner {
+									idx := slices.Index(pastRectOwner.Animations, animate_)
+									pastRectOwner.Animations = slices.Delete(pastRectOwner.Animations, idx, idx+1)
+									newRectOwner.Animations = append(newRectOwner.Animations, animate_)
+								}
+							} else {
 								newRectOwner.Animations = append(newRectOwner.Animations, animate_)
 							}
-						} else {
-							newRectOwner.Animations = append(newRectOwner.Animations, animate_)
 						}
 					}
 				}
@@ -416,28 +495,38 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastRectAnchoredTextOwner = reverseFieldOwner.(*models.RectAnchoredText)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastRectAnchoredTextOwner != nil {
 					idx := slices.Index(pastRectAnchoredTextOwner.Animates, animate_)
 					pastRectAnchoredTextOwner.Animates = slices.Delete(pastRectAnchoredTextOwner.Animates, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _rectanchoredtext := range *models.GetGongstructInstancesSet[models.RectAnchoredText](animateFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _rectanchoredtext.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newRectAnchoredTextOwner := _rectanchoredtext // we have a match
-						if pastRectAnchoredTextOwner != nil {
-							if newRectAnchoredTextOwner != pastRectAnchoredTextOwner {
-								idx := slices.Index(pastRectAnchoredTextOwner.Animates, animate_)
-								pastRectAnchoredTextOwner.Animates = slices.Delete(pastRectAnchoredTextOwner.Animates, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastRectAnchoredTextOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _rectanchoredtext := range *models.GetGongstructInstancesSet[models.RectAnchoredText](animateFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _rectanchoredtext.GetName() == fieldValue.GetName() {
+							newRectAnchoredTextOwner := _rectanchoredtext // we have a match
+							
+							// we remove the animate_ instance from the pastRectAnchoredTextOwner field
+							if pastRectAnchoredTextOwner != nil {
+								if newRectAnchoredTextOwner != pastRectAnchoredTextOwner {
+									idx := slices.Index(pastRectAnchoredTextOwner.Animates, animate_)
+									pastRectAnchoredTextOwner.Animates = slices.Delete(pastRectAnchoredTextOwner.Animates, idx, idx+1)
+									newRectAnchoredTextOwner.Animates = append(newRectAnchoredTextOwner.Animates, animate_)
+								}
+							} else {
 								newRectAnchoredTextOwner.Animates = append(newRectAnchoredTextOwner.Animates, animate_)
 							}
-						} else {
-							newRectAnchoredTextOwner.Animates = append(newRectAnchoredTextOwner.Animates, animate_)
 						}
 					}
 				}
@@ -457,28 +546,38 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastTextOwner = reverseFieldOwner.(*models.Text)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastTextOwner != nil {
 					idx := slices.Index(pastTextOwner.Animates, animate_)
 					pastTextOwner.Animates = slices.Delete(pastTextOwner.Animates, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _text := range *models.GetGongstructInstancesSet[models.Text](animateFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _text.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newTextOwner := _text // we have a match
-						if pastTextOwner != nil {
-							if newTextOwner != pastTextOwner {
-								idx := slices.Index(pastTextOwner.Animates, animate_)
-								pastTextOwner.Animates = slices.Delete(pastTextOwner.Animates, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastTextOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _text := range *models.GetGongstructInstancesSet[models.Text](animateFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _text.GetName() == fieldValue.GetName() {
+							newTextOwner := _text // we have a match
+							
+							// we remove the animate_ instance from the pastTextOwner field
+							if pastTextOwner != nil {
+								if newTextOwner != pastTextOwner {
+									idx := slices.Index(pastTextOwner.Animates, animate_)
+									pastTextOwner.Animates = slices.Delete(pastTextOwner.Animates, idx, idx+1)
+									newTextOwner.Animates = append(newTextOwner.Animates, animate_)
+								}
+							} else {
 								newTextOwner.Animates = append(newTextOwner.Animates, animate_)
 							}
-						} else {
-							newTextOwner.Animates = append(newTextOwner.Animates, animate_)
 						}
 					}
 				}
@@ -543,7 +642,7 @@ type CircleFormCallback struct {
 
 func (circleFormCallback *CircleFormCallback) OnSave() {
 
-	log.Println("CircleFormCallback, OnSave")
+	// log.Println("CircleFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -597,28 +696,38 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastLayerOwner = reverseFieldOwner.(*models.Layer)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastLayerOwner != nil {
 					idx := slices.Index(pastLayerOwner.Circles, circle_)
 					pastLayerOwner.Circles = slices.Delete(pastLayerOwner.Circles, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _layer := range *models.GetGongstructInstancesSet[models.Layer](circleFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _layer.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newLayerOwner := _layer // we have a match
-						if pastLayerOwner != nil {
-							if newLayerOwner != pastLayerOwner {
-								idx := slices.Index(pastLayerOwner.Circles, circle_)
-								pastLayerOwner.Circles = slices.Delete(pastLayerOwner.Circles, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastLayerOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _layer := range *models.GetGongstructInstancesSet[models.Layer](circleFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _layer.GetName() == fieldValue.GetName() {
+							newLayerOwner := _layer // we have a match
+							
+							// we remove the circle_ instance from the pastLayerOwner field
+							if pastLayerOwner != nil {
+								if newLayerOwner != pastLayerOwner {
+									idx := slices.Index(pastLayerOwner.Circles, circle_)
+									pastLayerOwner.Circles = slices.Delete(pastLayerOwner.Circles, idx, idx+1)
+									newLayerOwner.Circles = append(newLayerOwner.Circles, circle_)
+								}
+							} else {
 								newLayerOwner.Circles = append(newLayerOwner.Circles, circle_)
 							}
-						} else {
-							newLayerOwner.Circles = append(newLayerOwner.Circles, circle_)
 						}
 					}
 				}
@@ -683,7 +792,7 @@ type EllipseFormCallback struct {
 
 func (ellipseFormCallback *EllipseFormCallback) OnSave() {
 
-	log.Println("EllipseFormCallback, OnSave")
+	// log.Println("EllipseFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -739,28 +848,38 @@ func (ellipseFormCallback *EllipseFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastLayerOwner = reverseFieldOwner.(*models.Layer)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastLayerOwner != nil {
 					idx := slices.Index(pastLayerOwner.Ellipses, ellipse_)
 					pastLayerOwner.Ellipses = slices.Delete(pastLayerOwner.Ellipses, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _layer := range *models.GetGongstructInstancesSet[models.Layer](ellipseFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _layer.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newLayerOwner := _layer // we have a match
-						if pastLayerOwner != nil {
-							if newLayerOwner != pastLayerOwner {
-								idx := slices.Index(pastLayerOwner.Ellipses, ellipse_)
-								pastLayerOwner.Ellipses = slices.Delete(pastLayerOwner.Ellipses, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastLayerOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _layer := range *models.GetGongstructInstancesSet[models.Layer](ellipseFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _layer.GetName() == fieldValue.GetName() {
+							newLayerOwner := _layer // we have a match
+							
+							// we remove the ellipse_ instance from the pastLayerOwner field
+							if pastLayerOwner != nil {
+								if newLayerOwner != pastLayerOwner {
+									idx := slices.Index(pastLayerOwner.Ellipses, ellipse_)
+									pastLayerOwner.Ellipses = slices.Delete(pastLayerOwner.Ellipses, idx, idx+1)
+									newLayerOwner.Ellipses = append(newLayerOwner.Ellipses, ellipse_)
+								}
+							} else {
 								newLayerOwner.Ellipses = append(newLayerOwner.Ellipses, ellipse_)
 							}
-						} else {
-							newLayerOwner.Ellipses = append(newLayerOwner.Ellipses, ellipse_)
 						}
 					}
 				}
@@ -825,7 +944,7 @@ type LayerFormCallback struct {
 
 func (layerFormCallback *LayerFormCallback) OnSave() {
 
-	log.Println("LayerFormCallback, OnSave")
+	// log.Println("LayerFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -859,28 +978,38 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastSVGOwner = reverseFieldOwner.(*models.SVG)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastSVGOwner != nil {
 					idx := slices.Index(pastSVGOwner.Layers, layer_)
 					pastSVGOwner.Layers = slices.Delete(pastSVGOwner.Layers, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _svg := range *models.GetGongstructInstancesSet[models.SVG](layerFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _svg.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newSVGOwner := _svg // we have a match
-						if pastSVGOwner != nil {
-							if newSVGOwner != pastSVGOwner {
-								idx := slices.Index(pastSVGOwner.Layers, layer_)
-								pastSVGOwner.Layers = slices.Delete(pastSVGOwner.Layers, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastSVGOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _svg := range *models.GetGongstructInstancesSet[models.SVG](layerFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _svg.GetName() == fieldValue.GetName() {
+							newSVGOwner := _svg // we have a match
+							
+							// we remove the layer_ instance from the pastSVGOwner field
+							if pastSVGOwner != nil {
+								if newSVGOwner != pastSVGOwner {
+									idx := slices.Index(pastSVGOwner.Layers, layer_)
+									pastSVGOwner.Layers = slices.Delete(pastSVGOwner.Layers, idx, idx+1)
+									newSVGOwner.Layers = append(newSVGOwner.Layers, layer_)
+								}
+							} else {
 								newSVGOwner.Layers = append(newSVGOwner.Layers, layer_)
 							}
-						} else {
-							newSVGOwner.Layers = append(newSVGOwner.Layers, layer_)
 						}
 					}
 				}
@@ -945,7 +1074,7 @@ type LineFormCallback struct {
 
 func (lineFormCallback *LineFormCallback) OnSave() {
 
-	log.Println("LineFormCallback, OnSave")
+	// log.Println("LineFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1005,28 +1134,38 @@ func (lineFormCallback *LineFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastLayerOwner = reverseFieldOwner.(*models.Layer)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastLayerOwner != nil {
 					idx := slices.Index(pastLayerOwner.Lines, line_)
 					pastLayerOwner.Lines = slices.Delete(pastLayerOwner.Lines, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _layer := range *models.GetGongstructInstancesSet[models.Layer](lineFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _layer.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newLayerOwner := _layer // we have a match
-						if pastLayerOwner != nil {
-							if newLayerOwner != pastLayerOwner {
-								idx := slices.Index(pastLayerOwner.Lines, line_)
-								pastLayerOwner.Lines = slices.Delete(pastLayerOwner.Lines, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastLayerOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _layer := range *models.GetGongstructInstancesSet[models.Layer](lineFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _layer.GetName() == fieldValue.GetName() {
+							newLayerOwner := _layer // we have a match
+							
+							// we remove the line_ instance from the pastLayerOwner field
+							if pastLayerOwner != nil {
+								if newLayerOwner != pastLayerOwner {
+									idx := slices.Index(pastLayerOwner.Lines, line_)
+									pastLayerOwner.Lines = slices.Delete(pastLayerOwner.Lines, idx, idx+1)
+									newLayerOwner.Lines = append(newLayerOwner.Lines, line_)
+								}
+							} else {
 								newLayerOwner.Lines = append(newLayerOwner.Lines, line_)
 							}
-						} else {
-							newLayerOwner.Lines = append(newLayerOwner.Lines, line_)
 						}
 					}
 				}
@@ -1091,7 +1230,7 @@ type LinkFormCallback struct {
 
 func (linkFormCallback *LinkFormCallback) OnSave() {
 
-	log.Println("LinkFormCallback, OnSave")
+	// log.Println("LinkFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1171,28 +1310,38 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastLayerOwner = reverseFieldOwner.(*models.Layer)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastLayerOwner != nil {
 					idx := slices.Index(pastLayerOwner.Links, link_)
 					pastLayerOwner.Links = slices.Delete(pastLayerOwner.Links, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _layer := range *models.GetGongstructInstancesSet[models.Layer](linkFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _layer.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newLayerOwner := _layer // we have a match
-						if pastLayerOwner != nil {
-							if newLayerOwner != pastLayerOwner {
-								idx := slices.Index(pastLayerOwner.Links, link_)
-								pastLayerOwner.Links = slices.Delete(pastLayerOwner.Links, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastLayerOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _layer := range *models.GetGongstructInstancesSet[models.Layer](linkFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _layer.GetName() == fieldValue.GetName() {
+							newLayerOwner := _layer // we have a match
+							
+							// we remove the link_ instance from the pastLayerOwner field
+							if pastLayerOwner != nil {
+								if newLayerOwner != pastLayerOwner {
+									idx := slices.Index(pastLayerOwner.Links, link_)
+									pastLayerOwner.Links = slices.Delete(pastLayerOwner.Links, idx, idx+1)
+									newLayerOwner.Links = append(newLayerOwner.Links, link_)
+								}
+							} else {
 								newLayerOwner.Links = append(newLayerOwner.Links, link_)
 							}
-						} else {
-							newLayerOwner.Links = append(newLayerOwner.Links, link_)
 						}
 					}
 				}
@@ -1257,7 +1406,7 @@ type LinkAnchoredTextFormCallback struct {
 
 func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 
-	log.Println("LinkAnchoredTextFormCallback, OnSave")
+	// log.Println("LinkAnchoredTextFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1321,28 +1470,38 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastLinkOwner = reverseFieldOwner.(*models.Link)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastLinkOwner != nil {
 					idx := slices.Index(pastLinkOwner.TextAtArrowEnd, linkanchoredtext_)
 					pastLinkOwner.TextAtArrowEnd = slices.Delete(pastLinkOwner.TextAtArrowEnd, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _link := range *models.GetGongstructInstancesSet[models.Link](linkanchoredtextFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _link.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newLinkOwner := _link // we have a match
-						if pastLinkOwner != nil {
-							if newLinkOwner != pastLinkOwner {
-								idx := slices.Index(pastLinkOwner.TextAtArrowEnd, linkanchoredtext_)
-								pastLinkOwner.TextAtArrowEnd = slices.Delete(pastLinkOwner.TextAtArrowEnd, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastLinkOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _link := range *models.GetGongstructInstancesSet[models.Link](linkanchoredtextFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _link.GetName() == fieldValue.GetName() {
+							newLinkOwner := _link // we have a match
+							
+							// we remove the linkanchoredtext_ instance from the pastLinkOwner field
+							if pastLinkOwner != nil {
+								if newLinkOwner != pastLinkOwner {
+									idx := slices.Index(pastLinkOwner.TextAtArrowEnd, linkanchoredtext_)
+									pastLinkOwner.TextAtArrowEnd = slices.Delete(pastLinkOwner.TextAtArrowEnd, idx, idx+1)
+									newLinkOwner.TextAtArrowEnd = append(newLinkOwner.TextAtArrowEnd, linkanchoredtext_)
+								}
+							} else {
 								newLinkOwner.TextAtArrowEnd = append(newLinkOwner.TextAtArrowEnd, linkanchoredtext_)
 							}
-						} else {
-							newLinkOwner.TextAtArrowEnd = append(newLinkOwner.TextAtArrowEnd, linkanchoredtext_)
 						}
 					}
 				}
@@ -1362,28 +1521,38 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastLinkOwner = reverseFieldOwner.(*models.Link)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastLinkOwner != nil {
 					idx := slices.Index(pastLinkOwner.TextAtArrowStart, linkanchoredtext_)
 					pastLinkOwner.TextAtArrowStart = slices.Delete(pastLinkOwner.TextAtArrowStart, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _link := range *models.GetGongstructInstancesSet[models.Link](linkanchoredtextFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _link.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newLinkOwner := _link // we have a match
-						if pastLinkOwner != nil {
-							if newLinkOwner != pastLinkOwner {
-								idx := slices.Index(pastLinkOwner.TextAtArrowStart, linkanchoredtext_)
-								pastLinkOwner.TextAtArrowStart = slices.Delete(pastLinkOwner.TextAtArrowStart, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastLinkOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _link := range *models.GetGongstructInstancesSet[models.Link](linkanchoredtextFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _link.GetName() == fieldValue.GetName() {
+							newLinkOwner := _link // we have a match
+							
+							// we remove the linkanchoredtext_ instance from the pastLinkOwner field
+							if pastLinkOwner != nil {
+								if newLinkOwner != pastLinkOwner {
+									idx := slices.Index(pastLinkOwner.TextAtArrowStart, linkanchoredtext_)
+									pastLinkOwner.TextAtArrowStart = slices.Delete(pastLinkOwner.TextAtArrowStart, idx, idx+1)
+									newLinkOwner.TextAtArrowStart = append(newLinkOwner.TextAtArrowStart, linkanchoredtext_)
+								}
+							} else {
 								newLinkOwner.TextAtArrowStart = append(newLinkOwner.TextAtArrowStart, linkanchoredtext_)
 							}
-						} else {
-							newLinkOwner.TextAtArrowStart = append(newLinkOwner.TextAtArrowStart, linkanchoredtext_)
 						}
 					}
 				}
@@ -1448,7 +1617,7 @@ type PathFormCallback struct {
 
 func (pathFormCallback *PathFormCallback) OnSave() {
 
-	log.Println("PathFormCallback, OnSave")
+	// log.Println("PathFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1498,28 +1667,38 @@ func (pathFormCallback *PathFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastLayerOwner = reverseFieldOwner.(*models.Layer)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastLayerOwner != nil {
 					idx := slices.Index(pastLayerOwner.Paths, path_)
 					pastLayerOwner.Paths = slices.Delete(pastLayerOwner.Paths, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _layer := range *models.GetGongstructInstancesSet[models.Layer](pathFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _layer.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newLayerOwner := _layer // we have a match
-						if pastLayerOwner != nil {
-							if newLayerOwner != pastLayerOwner {
-								idx := slices.Index(pastLayerOwner.Paths, path_)
-								pastLayerOwner.Paths = slices.Delete(pastLayerOwner.Paths, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastLayerOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _layer := range *models.GetGongstructInstancesSet[models.Layer](pathFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _layer.GetName() == fieldValue.GetName() {
+							newLayerOwner := _layer // we have a match
+							
+							// we remove the path_ instance from the pastLayerOwner field
+							if pastLayerOwner != nil {
+								if newLayerOwner != pastLayerOwner {
+									idx := slices.Index(pastLayerOwner.Paths, path_)
+									pastLayerOwner.Paths = slices.Delete(pastLayerOwner.Paths, idx, idx+1)
+									newLayerOwner.Paths = append(newLayerOwner.Paths, path_)
+								}
+							} else {
 								newLayerOwner.Paths = append(newLayerOwner.Paths, path_)
 							}
-						} else {
-							newLayerOwner.Paths = append(newLayerOwner.Paths, path_)
 						}
 					}
 				}
@@ -1584,7 +1763,7 @@ type PointFormCallback struct {
 
 func (pointFormCallback *PointFormCallback) OnSave() {
 
-	log.Println("PointFormCallback, OnSave")
+	// log.Println("PointFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1620,28 +1799,38 @@ func (pointFormCallback *PointFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastLinkOwner = reverseFieldOwner.(*models.Link)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastLinkOwner != nil {
 					idx := slices.Index(pastLinkOwner.ControlPoints, point_)
 					pastLinkOwner.ControlPoints = slices.Delete(pastLinkOwner.ControlPoints, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _link := range *models.GetGongstructInstancesSet[models.Link](pointFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _link.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newLinkOwner := _link // we have a match
-						if pastLinkOwner != nil {
-							if newLinkOwner != pastLinkOwner {
-								idx := slices.Index(pastLinkOwner.ControlPoints, point_)
-								pastLinkOwner.ControlPoints = slices.Delete(pastLinkOwner.ControlPoints, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastLinkOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _link := range *models.GetGongstructInstancesSet[models.Link](pointFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _link.GetName() == fieldValue.GetName() {
+							newLinkOwner := _link // we have a match
+							
+							// we remove the point_ instance from the pastLinkOwner field
+							if pastLinkOwner != nil {
+								if newLinkOwner != pastLinkOwner {
+									idx := slices.Index(pastLinkOwner.ControlPoints, point_)
+									pastLinkOwner.ControlPoints = slices.Delete(pastLinkOwner.ControlPoints, idx, idx+1)
+									newLinkOwner.ControlPoints = append(newLinkOwner.ControlPoints, point_)
+								}
+							} else {
 								newLinkOwner.ControlPoints = append(newLinkOwner.ControlPoints, point_)
 							}
-						} else {
-							newLinkOwner.ControlPoints = append(newLinkOwner.ControlPoints, point_)
 						}
 					}
 				}
@@ -1706,7 +1895,7 @@ type PolygoneFormCallback struct {
 
 func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
 
-	log.Println("PolygoneFormCallback, OnSave")
+	// log.Println("PolygoneFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1756,28 +1945,38 @@ func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastLayerOwner = reverseFieldOwner.(*models.Layer)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastLayerOwner != nil {
 					idx := slices.Index(pastLayerOwner.Polygones, polygone_)
 					pastLayerOwner.Polygones = slices.Delete(pastLayerOwner.Polygones, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _layer := range *models.GetGongstructInstancesSet[models.Layer](polygoneFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _layer.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newLayerOwner := _layer // we have a match
-						if pastLayerOwner != nil {
-							if newLayerOwner != pastLayerOwner {
-								idx := slices.Index(pastLayerOwner.Polygones, polygone_)
-								pastLayerOwner.Polygones = slices.Delete(pastLayerOwner.Polygones, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastLayerOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _layer := range *models.GetGongstructInstancesSet[models.Layer](polygoneFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _layer.GetName() == fieldValue.GetName() {
+							newLayerOwner := _layer // we have a match
+							
+							// we remove the polygone_ instance from the pastLayerOwner field
+							if pastLayerOwner != nil {
+								if newLayerOwner != pastLayerOwner {
+									idx := slices.Index(pastLayerOwner.Polygones, polygone_)
+									pastLayerOwner.Polygones = slices.Delete(pastLayerOwner.Polygones, idx, idx+1)
+									newLayerOwner.Polygones = append(newLayerOwner.Polygones, polygone_)
+								}
+							} else {
 								newLayerOwner.Polygones = append(newLayerOwner.Polygones, polygone_)
 							}
-						} else {
-							newLayerOwner.Polygones = append(newLayerOwner.Polygones, polygone_)
 						}
 					}
 				}
@@ -1842,7 +2041,7 @@ type PolylineFormCallback struct {
 
 func (polylineFormCallback *PolylineFormCallback) OnSave() {
 
-	log.Println("PolylineFormCallback, OnSave")
+	// log.Println("PolylineFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1892,28 +2091,38 @@ func (polylineFormCallback *PolylineFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastLayerOwner = reverseFieldOwner.(*models.Layer)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastLayerOwner != nil {
 					idx := slices.Index(pastLayerOwner.Polylines, polyline_)
 					pastLayerOwner.Polylines = slices.Delete(pastLayerOwner.Polylines, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _layer := range *models.GetGongstructInstancesSet[models.Layer](polylineFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _layer.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newLayerOwner := _layer // we have a match
-						if pastLayerOwner != nil {
-							if newLayerOwner != pastLayerOwner {
-								idx := slices.Index(pastLayerOwner.Polylines, polyline_)
-								pastLayerOwner.Polylines = slices.Delete(pastLayerOwner.Polylines, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastLayerOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _layer := range *models.GetGongstructInstancesSet[models.Layer](polylineFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _layer.GetName() == fieldValue.GetName() {
+							newLayerOwner := _layer // we have a match
+							
+							// we remove the polyline_ instance from the pastLayerOwner field
+							if pastLayerOwner != nil {
+								if newLayerOwner != pastLayerOwner {
+									idx := slices.Index(pastLayerOwner.Polylines, polyline_)
+									pastLayerOwner.Polylines = slices.Delete(pastLayerOwner.Polylines, idx, idx+1)
+									newLayerOwner.Polylines = append(newLayerOwner.Polylines, polyline_)
+								}
+							} else {
 								newLayerOwner.Polylines = append(newLayerOwner.Polylines, polyline_)
 							}
-						} else {
-							newLayerOwner.Polylines = append(newLayerOwner.Polylines, polyline_)
 						}
 					}
 				}
@@ -1978,7 +2187,7 @@ type RectFormCallback struct {
 
 func (rectFormCallback *RectFormCallback) OnSave() {
 
-	log.Println("RectFormCallback, OnSave")
+	// log.Println("RectFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -2062,28 +2271,38 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastLayerOwner = reverseFieldOwner.(*models.Layer)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastLayerOwner != nil {
 					idx := slices.Index(pastLayerOwner.Rects, rect_)
 					pastLayerOwner.Rects = slices.Delete(pastLayerOwner.Rects, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _layer := range *models.GetGongstructInstancesSet[models.Layer](rectFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _layer.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newLayerOwner := _layer // we have a match
-						if pastLayerOwner != nil {
-							if newLayerOwner != pastLayerOwner {
-								idx := slices.Index(pastLayerOwner.Rects, rect_)
-								pastLayerOwner.Rects = slices.Delete(pastLayerOwner.Rects, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastLayerOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _layer := range *models.GetGongstructInstancesSet[models.Layer](rectFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _layer.GetName() == fieldValue.GetName() {
+							newLayerOwner := _layer // we have a match
+							
+							// we remove the rect_ instance from the pastLayerOwner field
+							if pastLayerOwner != nil {
+								if newLayerOwner != pastLayerOwner {
+									idx := slices.Index(pastLayerOwner.Rects, rect_)
+									pastLayerOwner.Rects = slices.Delete(pastLayerOwner.Rects, idx, idx+1)
+									newLayerOwner.Rects = append(newLayerOwner.Rects, rect_)
+								}
+							} else {
 								newLayerOwner.Rects = append(newLayerOwner.Rects, rect_)
 							}
-						} else {
-							newLayerOwner.Rects = append(newLayerOwner.Rects, rect_)
 						}
 					}
 				}
@@ -2148,7 +2367,7 @@ type RectAnchoredPathFormCallback struct {
 
 func (rectanchoredpathFormCallback *RectAnchoredPathFormCallback) OnSave() {
 
-	log.Println("RectAnchoredPathFormCallback, OnSave")
+	// log.Println("RectAnchoredPathFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -2208,28 +2427,38 @@ func (rectanchoredpathFormCallback *RectAnchoredPathFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastRectOwner = reverseFieldOwner.(*models.Rect)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastRectOwner != nil {
 					idx := slices.Index(pastRectOwner.RectAnchoredPaths, rectanchoredpath_)
 					pastRectOwner.RectAnchoredPaths = slices.Delete(pastRectOwner.RectAnchoredPaths, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _rect := range *models.GetGongstructInstancesSet[models.Rect](rectanchoredpathFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _rect.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newRectOwner := _rect // we have a match
-						if pastRectOwner != nil {
-							if newRectOwner != pastRectOwner {
-								idx := slices.Index(pastRectOwner.RectAnchoredPaths, rectanchoredpath_)
-								pastRectOwner.RectAnchoredPaths = slices.Delete(pastRectOwner.RectAnchoredPaths, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastRectOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _rect := range *models.GetGongstructInstancesSet[models.Rect](rectanchoredpathFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _rect.GetName() == fieldValue.GetName() {
+							newRectOwner := _rect // we have a match
+							
+							// we remove the rectanchoredpath_ instance from the pastRectOwner field
+							if pastRectOwner != nil {
+								if newRectOwner != pastRectOwner {
+									idx := slices.Index(pastRectOwner.RectAnchoredPaths, rectanchoredpath_)
+									pastRectOwner.RectAnchoredPaths = slices.Delete(pastRectOwner.RectAnchoredPaths, idx, idx+1)
+									newRectOwner.RectAnchoredPaths = append(newRectOwner.RectAnchoredPaths, rectanchoredpath_)
+								}
+							} else {
 								newRectOwner.RectAnchoredPaths = append(newRectOwner.RectAnchoredPaths, rectanchoredpath_)
 							}
-						} else {
-							newRectOwner.RectAnchoredPaths = append(newRectOwner.RectAnchoredPaths, rectanchoredpath_)
 						}
 					}
 				}
@@ -2294,7 +2523,7 @@ type RectAnchoredRectFormCallback struct {
 
 func (rectanchoredrectFormCallback *RectAnchoredRectFormCallback) OnSave() {
 
-	log.Println("RectAnchoredRectFormCallback, OnSave")
+	// log.Println("RectAnchoredRectFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -2362,28 +2591,38 @@ func (rectanchoredrectFormCallback *RectAnchoredRectFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastRectOwner = reverseFieldOwner.(*models.Rect)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastRectOwner != nil {
 					idx := slices.Index(pastRectOwner.RectAnchoredRects, rectanchoredrect_)
 					pastRectOwner.RectAnchoredRects = slices.Delete(pastRectOwner.RectAnchoredRects, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _rect := range *models.GetGongstructInstancesSet[models.Rect](rectanchoredrectFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _rect.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newRectOwner := _rect // we have a match
-						if pastRectOwner != nil {
-							if newRectOwner != pastRectOwner {
-								idx := slices.Index(pastRectOwner.RectAnchoredRects, rectanchoredrect_)
-								pastRectOwner.RectAnchoredRects = slices.Delete(pastRectOwner.RectAnchoredRects, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastRectOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _rect := range *models.GetGongstructInstancesSet[models.Rect](rectanchoredrectFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _rect.GetName() == fieldValue.GetName() {
+							newRectOwner := _rect // we have a match
+							
+							// we remove the rectanchoredrect_ instance from the pastRectOwner field
+							if pastRectOwner != nil {
+								if newRectOwner != pastRectOwner {
+									idx := slices.Index(pastRectOwner.RectAnchoredRects, rectanchoredrect_)
+									pastRectOwner.RectAnchoredRects = slices.Delete(pastRectOwner.RectAnchoredRects, idx, idx+1)
+									newRectOwner.RectAnchoredRects = append(newRectOwner.RectAnchoredRects, rectanchoredrect_)
+								}
+							} else {
 								newRectOwner.RectAnchoredRects = append(newRectOwner.RectAnchoredRects, rectanchoredrect_)
 							}
-						} else {
-							newRectOwner.RectAnchoredRects = append(newRectOwner.RectAnchoredRects, rectanchoredrect_)
 						}
 					}
 				}
@@ -2448,7 +2687,7 @@ type RectAnchoredTextFormCallback struct {
 
 func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 
-	log.Println("RectAnchoredTextFormCallback, OnSave")
+	// log.Println("RectAnchoredTextFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -2512,28 +2751,38 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastRectOwner = reverseFieldOwner.(*models.Rect)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastRectOwner != nil {
 					idx := slices.Index(pastRectOwner.RectAnchoredTexts, rectanchoredtext_)
 					pastRectOwner.RectAnchoredTexts = slices.Delete(pastRectOwner.RectAnchoredTexts, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _rect := range *models.GetGongstructInstancesSet[models.Rect](rectanchoredtextFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _rect.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newRectOwner := _rect // we have a match
-						if pastRectOwner != nil {
-							if newRectOwner != pastRectOwner {
-								idx := slices.Index(pastRectOwner.RectAnchoredTexts, rectanchoredtext_)
-								pastRectOwner.RectAnchoredTexts = slices.Delete(pastRectOwner.RectAnchoredTexts, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastRectOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _rect := range *models.GetGongstructInstancesSet[models.Rect](rectanchoredtextFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _rect.GetName() == fieldValue.GetName() {
+							newRectOwner := _rect // we have a match
+							
+							// we remove the rectanchoredtext_ instance from the pastRectOwner field
+							if pastRectOwner != nil {
+								if newRectOwner != pastRectOwner {
+									idx := slices.Index(pastRectOwner.RectAnchoredTexts, rectanchoredtext_)
+									pastRectOwner.RectAnchoredTexts = slices.Delete(pastRectOwner.RectAnchoredTexts, idx, idx+1)
+									newRectOwner.RectAnchoredTexts = append(newRectOwner.RectAnchoredTexts, rectanchoredtext_)
+								}
+							} else {
 								newRectOwner.RectAnchoredTexts = append(newRectOwner.RectAnchoredTexts, rectanchoredtext_)
 							}
-						} else {
-							newRectOwner.RectAnchoredTexts = append(newRectOwner.RectAnchoredTexts, rectanchoredtext_)
 						}
 					}
 				}
@@ -2598,7 +2847,7 @@ type RectLinkLinkFormCallback struct {
 
 func (rectlinklinkFormCallback *RectLinkLinkFormCallback) OnSave() {
 
-	log.Println("RectLinkLinkFormCallback, OnSave")
+	// log.Println("RectLinkLinkFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -2652,28 +2901,38 @@ func (rectlinklinkFormCallback *RectLinkLinkFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastLayerOwner = reverseFieldOwner.(*models.Layer)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastLayerOwner != nil {
 					idx := slices.Index(pastLayerOwner.RectLinkLinks, rectlinklink_)
 					pastLayerOwner.RectLinkLinks = slices.Delete(pastLayerOwner.RectLinkLinks, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _layer := range *models.GetGongstructInstancesSet[models.Layer](rectlinklinkFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _layer.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newLayerOwner := _layer // we have a match
-						if pastLayerOwner != nil {
-							if newLayerOwner != pastLayerOwner {
-								idx := slices.Index(pastLayerOwner.RectLinkLinks, rectlinklink_)
-								pastLayerOwner.RectLinkLinks = slices.Delete(pastLayerOwner.RectLinkLinks, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastLayerOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _layer := range *models.GetGongstructInstancesSet[models.Layer](rectlinklinkFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _layer.GetName() == fieldValue.GetName() {
+							newLayerOwner := _layer // we have a match
+							
+							// we remove the rectlinklink_ instance from the pastLayerOwner field
+							if pastLayerOwner != nil {
+								if newLayerOwner != pastLayerOwner {
+									idx := slices.Index(pastLayerOwner.RectLinkLinks, rectlinklink_)
+									pastLayerOwner.RectLinkLinks = slices.Delete(pastLayerOwner.RectLinkLinks, idx, idx+1)
+									newLayerOwner.RectLinkLinks = append(newLayerOwner.RectLinkLinks, rectlinklink_)
+								}
+							} else {
 								newLayerOwner.RectLinkLinks = append(newLayerOwner.RectLinkLinks, rectlinklink_)
 							}
-						} else {
-							newLayerOwner.RectLinkLinks = append(newLayerOwner.RectLinkLinks, rectlinklink_)
 						}
 					}
 				}
@@ -2738,7 +2997,7 @@ type SVGFormCallback struct {
 
 func (svgFormCallback *SVGFormCallback) OnSave() {
 
-	log.Println("SVGFormCallback, OnSave")
+	// log.Println("SVGFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -2825,7 +3084,7 @@ type SvgTextFormCallback struct {
 
 func (svgtextFormCallback *SvgTextFormCallback) OnSave() {
 
-	log.Println("SvgTextFormCallback, OnSave")
+	// log.Println("SvgTextFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -2904,7 +3163,7 @@ type TextFormCallback struct {
 
 func (textFormCallback *TextFormCallback) OnSave() {
 
-	log.Println("TextFormCallback, OnSave")
+	// log.Println("TextFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -2958,28 +3217,38 @@ func (textFormCallback *TextFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastLayerOwner = reverseFieldOwner.(*models.Layer)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastLayerOwner != nil {
 					idx := slices.Index(pastLayerOwner.Texts, text_)
 					pastLayerOwner.Texts = slices.Delete(pastLayerOwner.Texts, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _layer := range *models.GetGongstructInstancesSet[models.Layer](textFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _layer.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newLayerOwner := _layer // we have a match
-						if pastLayerOwner != nil {
-							if newLayerOwner != pastLayerOwner {
-								idx := slices.Index(pastLayerOwner.Texts, text_)
-								pastLayerOwner.Texts = slices.Delete(pastLayerOwner.Texts, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastLayerOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _layer := range *models.GetGongstructInstancesSet[models.Layer](textFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _layer.GetName() == fieldValue.GetName() {
+							newLayerOwner := _layer // we have a match
+							
+							// we remove the text_ instance from the pastLayerOwner field
+							if pastLayerOwner != nil {
+								if newLayerOwner != pastLayerOwner {
+									idx := slices.Index(pastLayerOwner.Texts, text_)
+									pastLayerOwner.Texts = slices.Delete(pastLayerOwner.Texts, idx, idx+1)
+									newLayerOwner.Texts = append(newLayerOwner.Texts, text_)
+								}
+							} else {
 								newLayerOwner.Texts = append(newLayerOwner.Texts, text_)
 							}
-						} else {
-							newLayerOwner.Texts = append(newLayerOwner.Texts, text_)
 						}
 					}
 				}
