@@ -558,11 +558,11 @@
             ]
         },
         {
-            "name": "Launch Chrome (test3) on 4200",
+            "name": "Launch Chrome (test) on 4200",
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/test3/ng-github.com-fullstack-lang-gong-test3",
+            "webRoot": "${workspaceFolder}/test/ng-github.com-fullstack-lang-gong-test",
             "sourceMaps": true,
         },
         {
