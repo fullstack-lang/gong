@@ -541,32 +541,43 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastAstructOwner = reverseFieldOwner.(*models.Astruct)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastAstructOwner != nil {
 					idx := slices.Index(pastAstructOwner.Anotherarrayofb, bstruct_)
 					pastAstructOwner.Anotherarrayofb = slices.Delete(pastAstructOwner.Anotherarrayofb, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](bstructFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _astruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newAstructOwner := _astruct // we have a match
-						if pastAstructOwner != nil {
-							if newAstructOwner != pastAstructOwner {
-								idx := slices.Index(pastAstructOwner.Anotherarrayofb, bstruct_)
-								pastAstructOwner.Anotherarrayofb = slices.Delete(pastAstructOwner.Anotherarrayofb, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastAstructOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](bstructFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _astruct.GetName() == fieldValue.GetName() {
+							newAstructOwner := _astruct // we have a match
+
+							// we remove the bstruct instance from the pastAstructOwner field
+							if pastAstructOwner != nil {
+								if newAstructOwner != pastAstructOwner {
+									idx := slices.Index(pastAstructOwner.Anotherarrayofb, bstruct_)
+									pastAstructOwner.Anotherarrayofb = slices.Delete(pastAstructOwner.Anotherarrayofb, idx, idx+1)
+									newAstructOwner.Anotherarrayofb = append(newAstructOwner.Anotherarrayofb, bstruct_)
+								}
+							} else {
 								newAstructOwner.Anotherarrayofb = append(newAstructOwner.Anotherarrayofb, bstruct_)
 							}
-						} else {
-							newAstructOwner.Anotherarrayofb = append(newAstructOwner.Anotherarrayofb, bstruct_)
 						}
 					}
 				}
 			}
+			log.Println("End of case")
 		case "Dstruct:Anarrayofb":
 			// we need to retrieve the field owner before the change
 			var pastDstructOwner *models.Dstruct

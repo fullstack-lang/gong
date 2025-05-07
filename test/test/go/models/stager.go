@@ -34,21 +34,15 @@ func NewStager(r *gin.Engine, stage *Stage, name string) (stager *Stager) {
 		Name: "Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
-				Size: 50,
+				Size: 20,
 				Svg: (&split.Svg{
 					StackName: stager.svgStage.GetName(),
 				}),
 			}),
 			(&split.AsSplitArea{
-				Size: 25,
+				Size: 80,
 				Split: (&split.Split{
 					StackName: stage.GetProbeSplitStageName(),
-				}),
-			}),
-			(&split.AsSplitArea{
-				Size: 25,
-				Split: (&split.Split{
-					StackName: stager.svgStage.GetProbeSplitStageName(),
 				}),
 			}),
 		},
