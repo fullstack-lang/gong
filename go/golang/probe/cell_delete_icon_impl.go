@@ -4,7 +4,6 @@ const CellDeleteIconImplTemplate = `// generated code - do not edit
 package probe
 
 import (
-	"log"
 
 	gongtable "github.com/fullstack-lang/gong/lib/table/go/models"
 
@@ -28,7 +27,7 @@ type CellDeleteIconImpl[T models.Gongstruct] struct {
 
 func (cellDeleteIconImpl *CellDeleteIconImpl[T]) CellIconUpdated(stage *gongtable.Stage,
 	row, updatedCellIcon *gongtable.CellIcon) {
-	log.Println("CellIconUpdate: CellIconUpdated", updatedCellIcon.Name)
+	// log.Println("CellIconUpdate: CellIconUpdated", updatedCellIcon.Name)
 
 	switch instancesTyped := any(cellDeleteIconImpl.Instance).(type) {
 	// insertion point{{` + string(rune(CellDeleteIconImplSwitchCase)) + `}}

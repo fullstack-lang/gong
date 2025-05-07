@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"log"
 	"slices"
 	"time"
 
@@ -44,7 +43,7 @@ type ChapterFormCallback struct {
 
 func (chapterFormCallback *ChapterFormCallback) OnSave() {
 
-	log.Println("ChapterFormCallback, OnSave")
+	// log.Println("ChapterFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -78,28 +77,38 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastContentOwner = reverseFieldOwner.(*models.Content)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastContentOwner != nil {
 					idx := slices.Index(pastContentOwner.Chapters, chapter_)
 					pastContentOwner.Chapters = slices.Delete(pastContentOwner.Chapters, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _content := range *models.GetGongstructInstancesSet[models.Content](chapterFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _content.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newContentOwner := _content // we have a match
-						if pastContentOwner != nil {
-							if newContentOwner != pastContentOwner {
-								idx := slices.Index(pastContentOwner.Chapters, chapter_)
-								pastContentOwner.Chapters = slices.Delete(pastContentOwner.Chapters, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastContentOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _content := range *models.GetGongstructInstancesSet[models.Content](chapterFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _content.GetName() == fieldValue.GetName() {
+							newContentOwner := _content // we have a match
+							
+							// we remove the chapter_ instance from the pastContentOwner field
+							if pastContentOwner != nil {
+								if newContentOwner != pastContentOwner {
+									idx := slices.Index(pastContentOwner.Chapters, chapter_)
+									pastContentOwner.Chapters = slices.Delete(pastContentOwner.Chapters, idx, idx+1)
+									newContentOwner.Chapters = append(newContentOwner.Chapters, chapter_)
+								}
+							} else {
 								newContentOwner.Chapters = append(newContentOwner.Chapters, chapter_)
 							}
-						} else {
-							newContentOwner.Chapters = append(newContentOwner.Chapters, chapter_)
 						}
 					}
 				}
@@ -164,7 +173,7 @@ type ContentFormCallback struct {
 
 func (contentFormCallback *ContentFormCallback) OnSave() {
 
-	log.Println("ContentFormCallback, OnSave")
+	// log.Println("ContentFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -253,7 +262,7 @@ type PageFormCallback struct {
 
 func (pageFormCallback *PageFormCallback) OnSave() {
 
-	log.Println("PageFormCallback, OnSave")
+	// log.Println("PageFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -287,28 +296,38 @@ func (pageFormCallback *PageFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastChapterOwner = reverseFieldOwner.(*models.Chapter)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastChapterOwner != nil {
 					idx := slices.Index(pastChapterOwner.Pages, page_)
 					pastChapterOwner.Pages = slices.Delete(pastChapterOwner.Pages, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _chapter := range *models.GetGongstructInstancesSet[models.Chapter](pageFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _chapter.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newChapterOwner := _chapter // we have a match
-						if pastChapterOwner != nil {
-							if newChapterOwner != pastChapterOwner {
-								idx := slices.Index(pastChapterOwner.Pages, page_)
-								pastChapterOwner.Pages = slices.Delete(pastChapterOwner.Pages, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastChapterOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _chapter := range *models.GetGongstructInstancesSet[models.Chapter](pageFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _chapter.GetName() == fieldValue.GetName() {
+							newChapterOwner := _chapter // we have a match
+							
+							// we remove the page_ instance from the pastChapterOwner field
+							if pastChapterOwner != nil {
+								if newChapterOwner != pastChapterOwner {
+									idx := slices.Index(pastChapterOwner.Pages, page_)
+									pastChapterOwner.Pages = slices.Delete(pastChapterOwner.Pages, idx, idx+1)
+									newChapterOwner.Pages = append(newChapterOwner.Pages, page_)
+								}
+							} else {
 								newChapterOwner.Pages = append(newChapterOwner.Pages, page_)
 							}
-						} else {
-							newChapterOwner.Pages = append(newChapterOwner.Pages, page_)
 						}
 					}
 				}
