@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"log"
 	"slices"
 	"time"
 
@@ -44,7 +43,7 @@ type AstructFormCallback struct {
 
 func (astructFormCallback *AstructFormCallback) OnSave() {
 
-	log.Println("AstructFormCallback, OnSave")
+	// log.Println("AstructFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -136,28 +135,38 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastAstructOwner = reverseFieldOwner.(*models.Astruct)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastAstructOwner != nil {
 					idx := slices.Index(pastAstructOwner.Anarrayofa, astruct_)
 					pastAstructOwner.Anarrayofa = slices.Delete(pastAstructOwner.Anarrayofa, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](astructFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _astruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newAstructOwner := _astruct // we have a match
-						if pastAstructOwner != nil {
-							if newAstructOwner != pastAstructOwner {
-								idx := slices.Index(pastAstructOwner.Anarrayofa, astruct_)
-								pastAstructOwner.Anarrayofa = slices.Delete(pastAstructOwner.Anarrayofa, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastAstructOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](astructFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _astruct.GetName() == fieldValue.GetName() {
+							newAstructOwner := _astruct // we have a match
+							
+							// we remove the astruct_ instance from the pastAstructOwner field
+							if pastAstructOwner != nil {
+								if newAstructOwner != pastAstructOwner {
+									idx := slices.Index(pastAstructOwner.Anarrayofa, astruct_)
+									pastAstructOwner.Anarrayofa = slices.Delete(pastAstructOwner.Anarrayofa, idx, idx+1)
+									newAstructOwner.Anarrayofa = append(newAstructOwner.Anarrayofa, astruct_)
+								}
+							} else {
 								newAstructOwner.Anarrayofa = append(newAstructOwner.Anarrayofa, astruct_)
 							}
-						} else {
-							newAstructOwner.Anarrayofa = append(newAstructOwner.Anarrayofa, astruct_)
 						}
 					}
 				}
@@ -222,7 +231,7 @@ type AstructBstruct2UseFormCallback struct {
 
 func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 
-	log.Println("AstructBstruct2UseFormCallback, OnSave")
+	// log.Println("AstructBstruct2UseFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -256,28 +265,38 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastAstructOwner = reverseFieldOwner.(*models.Astruct)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastAstructOwner != nil {
 					idx := slices.Index(pastAstructOwner.Anarrayofb2Use, astructbstruct2use_)
 					pastAstructOwner.Anarrayofb2Use = slices.Delete(pastAstructOwner.Anarrayofb2Use, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](astructbstruct2useFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _astruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newAstructOwner := _astruct // we have a match
-						if pastAstructOwner != nil {
-							if newAstructOwner != pastAstructOwner {
-								idx := slices.Index(pastAstructOwner.Anarrayofb2Use, astructbstruct2use_)
-								pastAstructOwner.Anarrayofb2Use = slices.Delete(pastAstructOwner.Anarrayofb2Use, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastAstructOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](astructbstruct2useFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _astruct.GetName() == fieldValue.GetName() {
+							newAstructOwner := _astruct // we have a match
+							
+							// we remove the astructbstruct2use_ instance from the pastAstructOwner field
+							if pastAstructOwner != nil {
+								if newAstructOwner != pastAstructOwner {
+									idx := slices.Index(pastAstructOwner.Anarrayofb2Use, astructbstruct2use_)
+									pastAstructOwner.Anarrayofb2Use = slices.Delete(pastAstructOwner.Anarrayofb2Use, idx, idx+1)
+									newAstructOwner.Anarrayofb2Use = append(newAstructOwner.Anarrayofb2Use, astructbstruct2use_)
+								}
+							} else {
 								newAstructOwner.Anarrayofb2Use = append(newAstructOwner.Anarrayofb2Use, astructbstruct2use_)
 							}
-						} else {
-							newAstructOwner.Anarrayofb2Use = append(newAstructOwner.Anarrayofb2Use, astructbstruct2use_)
 						}
 					}
 				}
@@ -342,7 +361,7 @@ type AstructBstructUseFormCallback struct {
 
 func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 
-	log.Println("AstructBstructUseFormCallback, OnSave")
+	// log.Println("AstructBstructUseFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -376,28 +395,38 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastAstructOwner = reverseFieldOwner.(*models.Astruct)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastAstructOwner != nil {
 					idx := slices.Index(pastAstructOwner.AnarrayofbUse, astructbstructuse_)
 					pastAstructOwner.AnarrayofbUse = slices.Delete(pastAstructOwner.AnarrayofbUse, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](astructbstructuseFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _astruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newAstructOwner := _astruct // we have a match
-						if pastAstructOwner != nil {
-							if newAstructOwner != pastAstructOwner {
-								idx := slices.Index(pastAstructOwner.AnarrayofbUse, astructbstructuse_)
-								pastAstructOwner.AnarrayofbUse = slices.Delete(pastAstructOwner.AnarrayofbUse, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastAstructOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](astructbstructuseFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _astruct.GetName() == fieldValue.GetName() {
+							newAstructOwner := _astruct // we have a match
+							
+							// we remove the astructbstructuse_ instance from the pastAstructOwner field
+							if pastAstructOwner != nil {
+								if newAstructOwner != pastAstructOwner {
+									idx := slices.Index(pastAstructOwner.AnarrayofbUse, astructbstructuse_)
+									pastAstructOwner.AnarrayofbUse = slices.Delete(pastAstructOwner.AnarrayofbUse, idx, idx+1)
+									newAstructOwner.AnarrayofbUse = append(newAstructOwner.AnarrayofbUse, astructbstructuse_)
+								}
+							} else {
 								newAstructOwner.AnarrayofbUse = append(newAstructOwner.AnarrayofbUse, astructbstructuse_)
 							}
-						} else {
-							newAstructOwner.AnarrayofbUse = append(newAstructOwner.AnarrayofbUse, astructbstructuse_)
 						}
 					}
 				}
@@ -462,7 +491,7 @@ type BstructFormCallback struct {
 
 func (bstructFormCallback *BstructFormCallback) OnSave() {
 
-	log.Println("BstructFormCallback, OnSave")
+	// log.Println("BstructFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -500,28 +529,38 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastAstructOwner = reverseFieldOwner.(*models.Astruct)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastAstructOwner != nil {
 					idx := slices.Index(pastAstructOwner.Anarrayofb, bstruct_)
 					pastAstructOwner.Anarrayofb = slices.Delete(pastAstructOwner.Anarrayofb, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](bstructFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _astruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newAstructOwner := _astruct // we have a match
-						if pastAstructOwner != nil {
-							if newAstructOwner != pastAstructOwner {
-								idx := slices.Index(pastAstructOwner.Anarrayofb, bstruct_)
-								pastAstructOwner.Anarrayofb = slices.Delete(pastAstructOwner.Anarrayofb, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastAstructOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](bstructFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _astruct.GetName() == fieldValue.GetName() {
+							newAstructOwner := _astruct // we have a match
+							
+							// we remove the bstruct_ instance from the pastAstructOwner field
+							if pastAstructOwner != nil {
+								if newAstructOwner != pastAstructOwner {
+									idx := slices.Index(pastAstructOwner.Anarrayofb, bstruct_)
+									pastAstructOwner.Anarrayofb = slices.Delete(pastAstructOwner.Anarrayofb, idx, idx+1)
+									newAstructOwner.Anarrayofb = append(newAstructOwner.Anarrayofb, bstruct_)
+								}
+							} else {
 								newAstructOwner.Anarrayofb = append(newAstructOwner.Anarrayofb, bstruct_)
 							}
-						} else {
-							newAstructOwner.Anarrayofb = append(newAstructOwner.Anarrayofb, bstruct_)
 						}
 					}
 				}
@@ -541,28 +580,38 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastAstructOwner = reverseFieldOwner.(*models.Astruct)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastAstructOwner != nil {
 					idx := slices.Index(pastAstructOwner.Anotherarrayofb, bstruct_)
 					pastAstructOwner.Anotherarrayofb = slices.Delete(pastAstructOwner.Anotherarrayofb, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](bstructFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _astruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newAstructOwner := _astruct // we have a match
-						if pastAstructOwner != nil {
-							if newAstructOwner != pastAstructOwner {
-								idx := slices.Index(pastAstructOwner.Anotherarrayofb, bstruct_)
-								pastAstructOwner.Anotherarrayofb = slices.Delete(pastAstructOwner.Anotherarrayofb, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastAstructOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](bstructFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _astruct.GetName() == fieldValue.GetName() {
+							newAstructOwner := _astruct // we have a match
+							
+							// we remove the bstruct_ instance from the pastAstructOwner field
+							if pastAstructOwner != nil {
+								if newAstructOwner != pastAstructOwner {
+									idx := slices.Index(pastAstructOwner.Anotherarrayofb, bstruct_)
+									pastAstructOwner.Anotherarrayofb = slices.Delete(pastAstructOwner.Anotherarrayofb, idx, idx+1)
+									newAstructOwner.Anotherarrayofb = append(newAstructOwner.Anotherarrayofb, bstruct_)
+								}
+							} else {
 								newAstructOwner.Anotherarrayofb = append(newAstructOwner.Anotherarrayofb, bstruct_)
 							}
-						} else {
-							newAstructOwner.Anotherarrayofb = append(newAstructOwner.Anotherarrayofb, bstruct_)
 						}
 					}
 				}
@@ -582,28 +631,38 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastDstructOwner = reverseFieldOwner.(*models.Dstruct)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastDstructOwner != nil {
 					idx := slices.Index(pastDstructOwner.Anarrayofb, bstruct_)
 					pastDstructOwner.Anarrayofb = slices.Delete(pastDstructOwner.Anarrayofb, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _dstruct := range *models.GetGongstructInstancesSet[models.Dstruct](bstructFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _dstruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newDstructOwner := _dstruct // we have a match
-						if pastDstructOwner != nil {
-							if newDstructOwner != pastDstructOwner {
-								idx := slices.Index(pastDstructOwner.Anarrayofb, bstruct_)
-								pastDstructOwner.Anarrayofb = slices.Delete(pastDstructOwner.Anarrayofb, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastDstructOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _dstruct := range *models.GetGongstructInstancesSet[models.Dstruct](bstructFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _dstruct.GetName() == fieldValue.GetName() {
+							newDstructOwner := _dstruct // we have a match
+							
+							// we remove the bstruct_ instance from the pastDstructOwner field
+							if pastDstructOwner != nil {
+								if newDstructOwner != pastDstructOwner {
+									idx := slices.Index(pastDstructOwner.Anarrayofb, bstruct_)
+									pastDstructOwner.Anarrayofb = slices.Delete(pastDstructOwner.Anarrayofb, idx, idx+1)
+									newDstructOwner.Anarrayofb = append(newDstructOwner.Anarrayofb, bstruct_)
+								}
+							} else {
 								newDstructOwner.Anarrayofb = append(newDstructOwner.Anarrayofb, bstruct_)
 							}
-						} else {
-							newDstructOwner.Anarrayofb = append(newDstructOwner.Anarrayofb, bstruct_)
 						}
 					}
 				}
@@ -668,7 +727,7 @@ type DstructFormCallback struct {
 
 func (dstructFormCallback *DstructFormCallback) OnSave() {
 
-	log.Println("DstructFormCallback, OnSave")
+	// log.Println("DstructFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -702,28 +761,38 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastAstructOwner = reverseFieldOwner.(*models.Astruct)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastAstructOwner != nil {
 					idx := slices.Index(pastAstructOwner.Dstruct4s, dstruct_)
 					pastAstructOwner.Dstruct4s = slices.Delete(pastAstructOwner.Dstruct4s, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](dstructFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _astruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newAstructOwner := _astruct // we have a match
-						if pastAstructOwner != nil {
-							if newAstructOwner != pastAstructOwner {
-								idx := slices.Index(pastAstructOwner.Dstruct4s, dstruct_)
-								pastAstructOwner.Dstruct4s = slices.Delete(pastAstructOwner.Dstruct4s, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastAstructOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](dstructFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _astruct.GetName() == fieldValue.GetName() {
+							newAstructOwner := _astruct // we have a match
+							
+							// we remove the dstruct_ instance from the pastAstructOwner field
+							if pastAstructOwner != nil {
+								if newAstructOwner != pastAstructOwner {
+									idx := slices.Index(pastAstructOwner.Dstruct4s, dstruct_)
+									pastAstructOwner.Dstruct4s = slices.Delete(pastAstructOwner.Dstruct4s, idx, idx+1)
+									newAstructOwner.Dstruct4s = append(newAstructOwner.Dstruct4s, dstruct_)
+								}
+							} else {
 								newAstructOwner.Dstruct4s = append(newAstructOwner.Dstruct4s, dstruct_)
 							}
-						} else {
-							newAstructOwner.Dstruct4s = append(newAstructOwner.Dstruct4s, dstruct_)
 						}
 					}
 				}
@@ -788,7 +857,7 @@ type FstructFormCallback struct {
 
 func (fstructFormCallback *FstructFormCallback) OnSave() {
 
-	log.Println("FstructFormCallback, OnSave")
+	// log.Println("FstructFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -867,7 +936,7 @@ type GstructFormCallback struct {
 
 func (gstructFormCallback *GstructFormCallback) OnSave() {
 
-	log.Println("GstructFormCallback, OnSave")
+	// log.Println("GstructFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -905,28 +974,38 @@ func (gstructFormCallback *GstructFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastDstructOwner = reverseFieldOwner.(*models.Dstruct)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastDstructOwner != nil {
 					idx := slices.Index(pastDstructOwner.Gstructs, gstruct_)
 					pastDstructOwner.Gstructs = slices.Delete(pastDstructOwner.Gstructs, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _dstruct := range *models.GetGongstructInstancesSet[models.Dstruct](gstructFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _dstruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newDstructOwner := _dstruct // we have a match
-						if pastDstructOwner != nil {
-							if newDstructOwner != pastDstructOwner {
-								idx := slices.Index(pastDstructOwner.Gstructs, gstruct_)
-								pastDstructOwner.Gstructs = slices.Delete(pastDstructOwner.Gstructs, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastDstructOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _dstruct := range *models.GetGongstructInstancesSet[models.Dstruct](gstructFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _dstruct.GetName() == fieldValue.GetName() {
+							newDstructOwner := _dstruct // we have a match
+							
+							// we remove the gstruct_ instance from the pastDstructOwner field
+							if pastDstructOwner != nil {
+								if newDstructOwner != pastDstructOwner {
+									idx := slices.Index(pastDstructOwner.Gstructs, gstruct_)
+									pastDstructOwner.Gstructs = slices.Delete(pastDstructOwner.Gstructs, idx, idx+1)
+									newDstructOwner.Gstructs = append(newDstructOwner.Gstructs, gstruct_)
+								}
+							} else {
 								newDstructOwner.Gstructs = append(newDstructOwner.Gstructs, gstruct_)
 							}
-						} else {
-							newDstructOwner.Gstructs = append(newDstructOwner.Gstructs, gstruct_)
 						}
 					}
 				}

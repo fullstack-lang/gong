@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"log"
 	"slices"
 	"time"
 
@@ -44,7 +43,7 @@ type AFormCallback struct {
 
 func (aFormCallback *AFormCallback) OnSave() {
 
-	log.Println("AFormCallback, OnSave")
+	// log.Println("AFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -125,7 +124,7 @@ type BFormCallback struct {
 
 func (bFormCallback *BFormCallback) OnSave() {
 
-	log.Println("BFormCallback, OnSave")
+	// log.Println("BFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -157,28 +156,38 @@ func (bFormCallback *BFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastAOwner = reverseFieldOwner.(*models.A)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastAOwner != nil {
 					idx := slices.Index(pastAOwner.Bs, b_)
 					pastAOwner.Bs = slices.Delete(pastAOwner.Bs, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _a := range *models.GetGongstructInstancesSet[models.A](bFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _a.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newAOwner := _a // we have a match
-						if pastAOwner != nil {
-							if newAOwner != pastAOwner {
-								idx := slices.Index(pastAOwner.Bs, b_)
-								pastAOwner.Bs = slices.Delete(pastAOwner.Bs, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastAOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _a := range *models.GetGongstructInstancesSet[models.A](bFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _a.GetName() == fieldValue.GetName() {
+							newAOwner := _a // we have a match
+							
+							// we remove the b_ instance from the pastAOwner field
+							if pastAOwner != nil {
+								if newAOwner != pastAOwner {
+									idx := slices.Index(pastAOwner.Bs, b_)
+									pastAOwner.Bs = slices.Delete(pastAOwner.Bs, idx, idx+1)
+									newAOwner.Bs = append(newAOwner.Bs, b_)
+								}
+							} else {
 								newAOwner.Bs = append(newAOwner.Bs, b_)
 							}
-						} else {
-							newAOwner.Bs = append(newAOwner.Bs, b_)
 						}
 					}
 				}
