@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"log"
 	"slices"
 	"time"
 
@@ -44,7 +43,7 @@ type FreqencyFormCallback struct {
 
 func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
 
-	log.Println("FreqencyFormCallback, OnSave")
+	// log.Println("FreqencyFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -76,28 +75,38 @@ func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastNoteOwner = reverseFieldOwner.(*models.Note)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastNoteOwner != nil {
 					idx := slices.Index(pastNoteOwner.Frequencies, freqency_)
 					pastNoteOwner.Frequencies = slices.Delete(pastNoteOwner.Frequencies, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _note := range *models.GetGongstructInstancesSet[models.Note](freqencyFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _note.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newNoteOwner := _note // we have a match
-						if pastNoteOwner != nil {
-							if newNoteOwner != pastNoteOwner {
-								idx := slices.Index(pastNoteOwner.Frequencies, freqency_)
-								pastNoteOwner.Frequencies = slices.Delete(pastNoteOwner.Frequencies, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastNoteOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _note := range *models.GetGongstructInstancesSet[models.Note](freqencyFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _note.GetName() == fieldValue.GetName() {
+							newNoteOwner := _note // we have a match
+							
+							// we remove the freqency_ instance from the pastNoteOwner field
+							if pastNoteOwner != nil {
+								if newNoteOwner != pastNoteOwner {
+									idx := slices.Index(pastNoteOwner.Frequencies, freqency_)
+									pastNoteOwner.Frequencies = slices.Delete(pastNoteOwner.Frequencies, idx, idx+1)
+									newNoteOwner.Frequencies = append(newNoteOwner.Frequencies, freqency_)
+								}
+							} else {
 								newNoteOwner.Frequencies = append(newNoteOwner.Frequencies, freqency_)
 							}
-						} else {
-							newNoteOwner.Frequencies = append(newNoteOwner.Frequencies, freqency_)
 						}
 					}
 				}
@@ -162,7 +171,7 @@ type NoteFormCallback struct {
 
 func (noteFormCallback *NoteFormCallback) OnSave() {
 
-	log.Println("NoteFormCallback, OnSave")
+	// log.Println("NoteFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -247,7 +256,7 @@ type PlayerFormCallback struct {
 
 func (playerFormCallback *PlayerFormCallback) OnSave() {
 
-	log.Println("PlayerFormCallback, OnSave")
+	// log.Println("PlayerFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)

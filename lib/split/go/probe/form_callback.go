@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"log"
 	"slices"
 	"time"
 
@@ -44,7 +43,7 @@ type AsSplitFormCallback struct {
 
 func (assplitFormCallback *AsSplitFormCallback) OnSave() {
 
-	log.Println("AsSplitFormCallback, OnSave")
+	// log.Println("AsSplitFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -123,7 +122,7 @@ type AsSplitAreaFormCallback struct {
 
 func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 
-	log.Println("AsSplitAreaFormCallback, OnSave")
+	// log.Println("AsSplitAreaFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -191,28 +190,38 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastAsSplitOwner = reverseFieldOwner.(*models.AsSplit)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastAsSplitOwner != nil {
 					idx := slices.Index(pastAsSplitOwner.AsSplitAreas, assplitarea_)
 					pastAsSplitOwner.AsSplitAreas = slices.Delete(pastAsSplitOwner.AsSplitAreas, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _assplit := range *models.GetGongstructInstancesSet[models.AsSplit](assplitareaFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _assplit.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newAsSplitOwner := _assplit // we have a match
-						if pastAsSplitOwner != nil {
-							if newAsSplitOwner != pastAsSplitOwner {
-								idx := slices.Index(pastAsSplitOwner.AsSplitAreas, assplitarea_)
-								pastAsSplitOwner.AsSplitAreas = slices.Delete(pastAsSplitOwner.AsSplitAreas, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastAsSplitOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _assplit := range *models.GetGongstructInstancesSet[models.AsSplit](assplitareaFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _assplit.GetName() == fieldValue.GetName() {
+							newAsSplitOwner := _assplit // we have a match
+							
+							// we remove the assplitarea_ instance from the pastAsSplitOwner field
+							if pastAsSplitOwner != nil {
+								if newAsSplitOwner != pastAsSplitOwner {
+									idx := slices.Index(pastAsSplitOwner.AsSplitAreas, assplitarea_)
+									pastAsSplitOwner.AsSplitAreas = slices.Delete(pastAsSplitOwner.AsSplitAreas, idx, idx+1)
+									newAsSplitOwner.AsSplitAreas = append(newAsSplitOwner.AsSplitAreas, assplitarea_)
+								}
+							} else {
 								newAsSplitOwner.AsSplitAreas = append(newAsSplitOwner.AsSplitAreas, assplitarea_)
 							}
-						} else {
-							newAsSplitOwner.AsSplitAreas = append(newAsSplitOwner.AsSplitAreas, assplitarea_)
 						}
 					}
 				}
@@ -232,28 +241,38 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastViewOwner = reverseFieldOwner.(*models.View)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastViewOwner != nil {
 					idx := slices.Index(pastViewOwner.RootAsSplitAreas, assplitarea_)
 					pastViewOwner.RootAsSplitAreas = slices.Delete(pastViewOwner.RootAsSplitAreas, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _view := range *models.GetGongstructInstancesSet[models.View](assplitareaFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _view.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newViewOwner := _view // we have a match
-						if pastViewOwner != nil {
-							if newViewOwner != pastViewOwner {
-								idx := slices.Index(pastViewOwner.RootAsSplitAreas, assplitarea_)
-								pastViewOwner.RootAsSplitAreas = slices.Delete(pastViewOwner.RootAsSplitAreas, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastViewOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _view := range *models.GetGongstructInstancesSet[models.View](assplitareaFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _view.GetName() == fieldValue.GetName() {
+							newViewOwner := _view // we have a match
+							
+							// we remove the assplitarea_ instance from the pastViewOwner field
+							if pastViewOwner != nil {
+								if newViewOwner != pastViewOwner {
+									idx := slices.Index(pastViewOwner.RootAsSplitAreas, assplitarea_)
+									pastViewOwner.RootAsSplitAreas = slices.Delete(pastViewOwner.RootAsSplitAreas, idx, idx+1)
+									newViewOwner.RootAsSplitAreas = append(newViewOwner.RootAsSplitAreas, assplitarea_)
+								}
+							} else {
 								newViewOwner.RootAsSplitAreas = append(newViewOwner.RootAsSplitAreas, assplitarea_)
 							}
-						} else {
-							newViewOwner.RootAsSplitAreas = append(newViewOwner.RootAsSplitAreas, assplitarea_)
 						}
 					}
 				}
@@ -318,7 +337,7 @@ type ButtonFormCallback struct {
 
 func (buttonFormCallback *ButtonFormCallback) OnSave() {
 
-	log.Println("ButtonFormCallback, OnSave")
+	// log.Println("ButtonFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -397,7 +416,7 @@ type CursorFormCallback struct {
 
 func (cursorFormCallback *CursorFormCallback) OnSave() {
 
-	log.Println("CursorFormCallback, OnSave")
+	// log.Println("CursorFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -478,7 +497,7 @@ type DocFormCallback struct {
 
 func (docFormCallback *DocFormCallback) OnSave() {
 
-	log.Println("DocFormCallback, OnSave")
+	// log.Println("DocFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -557,7 +576,7 @@ type FormFormCallback struct {
 
 func (formFormCallback *FormFormCallback) OnSave() {
 
-	log.Println("FormFormCallback, OnSave")
+	// log.Println("FormFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -638,7 +657,7 @@ type LoadFormCallback struct {
 
 func (loadFormCallback *LoadFormCallback) OnSave() {
 
-	log.Println("LoadFormCallback, OnSave")
+	// log.Println("LoadFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -717,7 +736,7 @@ type SliderFormCallback struct {
 
 func (sliderFormCallback *SliderFormCallback) OnSave() {
 
-	log.Println("SliderFormCallback, OnSave")
+	// log.Println("SliderFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -796,7 +815,7 @@ type SplitFormCallback struct {
 
 func (splitFormCallback *SplitFormCallback) OnSave() {
 
-	log.Println("SplitFormCallback, OnSave")
+	// log.Println("SplitFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -875,7 +894,7 @@ type SvgFormCallback struct {
 
 func (svgFormCallback *SvgFormCallback) OnSave() {
 
-	log.Println("SvgFormCallback, OnSave")
+	// log.Println("SvgFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -956,7 +975,7 @@ type TableFormCallback struct {
 
 func (tableFormCallback *TableFormCallback) OnSave() {
 
-	log.Println("TableFormCallback, OnSave")
+	// log.Println("TableFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1037,7 +1056,7 @@ type ToneFormCallback struct {
 
 func (toneFormCallback *ToneFormCallback) OnSave() {
 
-	log.Println("ToneFormCallback, OnSave")
+	// log.Println("ToneFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1116,7 +1135,7 @@ type TreeFormCallback struct {
 
 func (treeFormCallback *TreeFormCallback) OnSave() {
 
-	log.Println("TreeFormCallback, OnSave")
+	// log.Println("TreeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1197,7 +1216,7 @@ type ViewFormCallback struct {
 
 func (viewFormCallback *ViewFormCallback) OnSave() {
 
-	log.Println("ViewFormCallback, OnSave")
+	// log.Println("ViewFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1276,7 +1295,7 @@ type XlsxFormCallback struct {
 
 func (xlsxFormCallback *XlsxFormCallback) OnSave() {
 
-	log.Println("XlsxFormCallback, OnSave")
+	// log.Println("XlsxFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)

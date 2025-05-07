@@ -18,7 +18,6 @@ const FormCallbackGongstructFileTemplate = `// generated code - do not edit
 package probe
 
 import (
-	"log"
 	"slices"
 	"time"
 
@@ -72,7 +71,7 @@ type {{Structname}}FormCallback struct {
 
 func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
 
-	log.Println("{{Structname}}FormCallback, OnSave")
+	// log.Println("{{Structname}}FormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)

@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"log"
 
 	gongtree_models "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
@@ -25,7 +24,7 @@ func (buttonImpl *ButtonImplRefresh) ButtonUpdated(
 	gongtreeStage *gongtree_models.Stage,
 	stageButton, front *gongtree_models.Button) {
 
-	log.Println("ButtonImplRefresh: ButtonUpdated")
+	// log.Println("ButtonImplRefresh: ButtonUpdated")
 
 	buttonImpl.probe.Refresh()
 }
