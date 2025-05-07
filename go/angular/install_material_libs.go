@@ -73,7 +73,7 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 
 	{
 		start := time.Now()
-		cmd := exec.Command("npm", "install", "--save",
+		cmd := exec.Command("npm", "install",
 			"angular-split@19",
 			"tone",
 			"material-icons")
