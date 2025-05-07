@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"log"
 	"slices"
 	"time"
 
@@ -44,7 +43,7 @@ type CheckboxFormCallback struct {
 
 func (checkboxFormCallback *CheckboxFormCallback) OnSave() {
 
-	log.Println("CheckboxFormCallback, OnSave")
+	// log.Println("CheckboxFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -82,28 +81,38 @@ func (checkboxFormCallback *CheckboxFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastGroupOwner = reverseFieldOwner.(*models.Group)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastGroupOwner != nil {
 					idx := slices.Index(pastGroupOwner.Checkboxes, checkbox_)
 					pastGroupOwner.Checkboxes = slices.Delete(pastGroupOwner.Checkboxes, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _group := range *models.GetGongstructInstancesSet[models.Group](checkboxFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _group.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newGroupOwner := _group // we have a match
-						if pastGroupOwner != nil {
-							if newGroupOwner != pastGroupOwner {
-								idx := slices.Index(pastGroupOwner.Checkboxes, checkbox_)
-								pastGroupOwner.Checkboxes = slices.Delete(pastGroupOwner.Checkboxes, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastGroupOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _group := range *models.GetGongstructInstancesSet[models.Group](checkboxFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _group.GetName() == fieldValue.GetName() {
+							newGroupOwner := _group // we have a match
+							
+							// we remove the checkbox_ instance from the pastGroupOwner field
+							if pastGroupOwner != nil {
+								if newGroupOwner != pastGroupOwner {
+									idx := slices.Index(pastGroupOwner.Checkboxes, checkbox_)
+									pastGroupOwner.Checkboxes = slices.Delete(pastGroupOwner.Checkboxes, idx, idx+1)
+									newGroupOwner.Checkboxes = append(newGroupOwner.Checkboxes, checkbox_)
+								}
+							} else {
 								newGroupOwner.Checkboxes = append(newGroupOwner.Checkboxes, checkbox_)
 							}
-						} else {
-							newGroupOwner.Checkboxes = append(newGroupOwner.Checkboxes, checkbox_)
 						}
 					}
 				}
@@ -168,7 +177,7 @@ type GroupFormCallback struct {
 
 func (groupFormCallback *GroupFormCallback) OnSave() {
 
-	log.Println("GroupFormCallback, OnSave")
+	// log.Println("GroupFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -202,28 +211,38 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastLayoutOwner = reverseFieldOwner.(*models.Layout)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastLayoutOwner != nil {
 					idx := slices.Index(pastLayoutOwner.Groups, group_)
 					pastLayoutOwner.Groups = slices.Delete(pastLayoutOwner.Groups, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _layout := range *models.GetGongstructInstancesSet[models.Layout](groupFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _layout.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newLayoutOwner := _layout // we have a match
-						if pastLayoutOwner != nil {
-							if newLayoutOwner != pastLayoutOwner {
-								idx := slices.Index(pastLayoutOwner.Groups, group_)
-								pastLayoutOwner.Groups = slices.Delete(pastLayoutOwner.Groups, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastLayoutOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _layout := range *models.GetGongstructInstancesSet[models.Layout](groupFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _layout.GetName() == fieldValue.GetName() {
+							newLayoutOwner := _layout // we have a match
+							
+							// we remove the group_ instance from the pastLayoutOwner field
+							if pastLayoutOwner != nil {
+								if newLayoutOwner != pastLayoutOwner {
+									idx := slices.Index(pastLayoutOwner.Groups, group_)
+									pastLayoutOwner.Groups = slices.Delete(pastLayoutOwner.Groups, idx, idx+1)
+									newLayoutOwner.Groups = append(newLayoutOwner.Groups, group_)
+								}
+							} else {
 								newLayoutOwner.Groups = append(newLayoutOwner.Groups, group_)
 							}
-						} else {
-							newLayoutOwner.Groups = append(newLayoutOwner.Groups, group_)
 						}
 					}
 				}
@@ -288,7 +307,7 @@ type LayoutFormCallback struct {
 
 func (layoutFormCallback *LayoutFormCallback) OnSave() {
 
-	log.Println("LayoutFormCallback, OnSave")
+	// log.Println("LayoutFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -365,7 +384,7 @@ type SliderFormCallback struct {
 
 func (sliderFormCallback *SliderFormCallback) OnSave() {
 
-	log.Println("SliderFormCallback, OnSave")
+	// log.Println("SliderFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -417,28 +436,38 @@ func (sliderFormCallback *SliderFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastGroupOwner = reverseFieldOwner.(*models.Group)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastGroupOwner != nil {
 					idx := slices.Index(pastGroupOwner.Sliders, slider_)
 					pastGroupOwner.Sliders = slices.Delete(pastGroupOwner.Sliders, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _group := range *models.GetGongstructInstancesSet[models.Group](sliderFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _group.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newGroupOwner := _group // we have a match
-						if pastGroupOwner != nil {
-							if newGroupOwner != pastGroupOwner {
-								idx := slices.Index(pastGroupOwner.Sliders, slider_)
-								pastGroupOwner.Sliders = slices.Delete(pastGroupOwner.Sliders, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastGroupOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _group := range *models.GetGongstructInstancesSet[models.Group](sliderFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _group.GetName() == fieldValue.GetName() {
+							newGroupOwner := _group // we have a match
+							
+							// we remove the slider_ instance from the pastGroupOwner field
+							if pastGroupOwner != nil {
+								if newGroupOwner != pastGroupOwner {
+									idx := slices.Index(pastGroupOwner.Sliders, slider_)
+									pastGroupOwner.Sliders = slices.Delete(pastGroupOwner.Sliders, idx, idx+1)
+									newGroupOwner.Sliders = append(newGroupOwner.Sliders, slider_)
+								}
+							} else {
 								newGroupOwner.Sliders = append(newGroupOwner.Sliders, slider_)
 							}
-						} else {
-							newGroupOwner.Sliders = append(newGroupOwner.Sliders, slider_)
 						}
 					}
 				}

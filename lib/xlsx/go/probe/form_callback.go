@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"log"
 	"slices"
 	"time"
 
@@ -44,7 +43,7 @@ type DisplaySelectionFormCallback struct {
 
 func (displayselectionFormCallback *DisplaySelectionFormCallback) OnSave() {
 
-	log.Println("DisplaySelectionFormCallback, OnSave")
+	// log.Println("DisplaySelectionFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -125,7 +124,7 @@ type XLCellFormCallback struct {
 
 func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 
-	log.Println("XLCellFormCallback, OnSave")
+	// log.Println("XLCellFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -161,28 +160,38 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastXLRowOwner = reverseFieldOwner.(*models.XLRow)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastXLRowOwner != nil {
 					idx := slices.Index(pastXLRowOwner.Cells, xlcell_)
 					pastXLRowOwner.Cells = slices.Delete(pastXLRowOwner.Cells, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _xlrow := range *models.GetGongstructInstancesSet[models.XLRow](xlcellFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _xlrow.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newXLRowOwner := _xlrow // we have a match
-						if pastXLRowOwner != nil {
-							if newXLRowOwner != pastXLRowOwner {
-								idx := slices.Index(pastXLRowOwner.Cells, xlcell_)
-								pastXLRowOwner.Cells = slices.Delete(pastXLRowOwner.Cells, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastXLRowOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _xlrow := range *models.GetGongstructInstancesSet[models.XLRow](xlcellFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _xlrow.GetName() == fieldValue.GetName() {
+							newXLRowOwner := _xlrow // we have a match
+							
+							// we remove the xlcell_ instance from the pastXLRowOwner field
+							if pastXLRowOwner != nil {
+								if newXLRowOwner != pastXLRowOwner {
+									idx := slices.Index(pastXLRowOwner.Cells, xlcell_)
+									pastXLRowOwner.Cells = slices.Delete(pastXLRowOwner.Cells, idx, idx+1)
+									newXLRowOwner.Cells = append(newXLRowOwner.Cells, xlcell_)
+								}
+							} else {
 								newXLRowOwner.Cells = append(newXLRowOwner.Cells, xlcell_)
 							}
-						} else {
-							newXLRowOwner.Cells = append(newXLRowOwner.Cells, xlcell_)
 						}
 					}
 				}
@@ -202,28 +211,38 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastXLSheetOwner = reverseFieldOwner.(*models.XLSheet)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastXLSheetOwner != nil {
 					idx := slices.Index(pastXLSheetOwner.SheetCells, xlcell_)
 					pastXLSheetOwner.SheetCells = slices.Delete(pastXLSheetOwner.SheetCells, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _xlsheet := range *models.GetGongstructInstancesSet[models.XLSheet](xlcellFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _xlsheet.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newXLSheetOwner := _xlsheet // we have a match
-						if pastXLSheetOwner != nil {
-							if newXLSheetOwner != pastXLSheetOwner {
-								idx := slices.Index(pastXLSheetOwner.SheetCells, xlcell_)
-								pastXLSheetOwner.SheetCells = slices.Delete(pastXLSheetOwner.SheetCells, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastXLSheetOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _xlsheet := range *models.GetGongstructInstancesSet[models.XLSheet](xlcellFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _xlsheet.GetName() == fieldValue.GetName() {
+							newXLSheetOwner := _xlsheet // we have a match
+							
+							// we remove the xlcell_ instance from the pastXLSheetOwner field
+							if pastXLSheetOwner != nil {
+								if newXLSheetOwner != pastXLSheetOwner {
+									idx := slices.Index(pastXLSheetOwner.SheetCells, xlcell_)
+									pastXLSheetOwner.SheetCells = slices.Delete(pastXLSheetOwner.SheetCells, idx, idx+1)
+									newXLSheetOwner.SheetCells = append(newXLSheetOwner.SheetCells, xlcell_)
+								}
+							} else {
 								newXLSheetOwner.SheetCells = append(newXLSheetOwner.SheetCells, xlcell_)
 							}
-						} else {
-							newXLSheetOwner.SheetCells = append(newXLSheetOwner.SheetCells, xlcell_)
 						}
 					}
 				}
@@ -288,7 +307,7 @@ type XLFileFormCallback struct {
 
 func (xlfileFormCallback *XLFileFormCallback) OnSave() {
 
-	log.Println("XLFileFormCallback, OnSave")
+	// log.Println("XLFileFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -367,7 +386,7 @@ type XLRowFormCallback struct {
 
 func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 
-	log.Println("XLRowFormCallback, OnSave")
+	// log.Println("XLRowFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -401,28 +420,38 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastXLSheetOwner = reverseFieldOwner.(*models.XLSheet)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastXLSheetOwner != nil {
 					idx := slices.Index(pastXLSheetOwner.Rows, xlrow_)
 					pastXLSheetOwner.Rows = slices.Delete(pastXLSheetOwner.Rows, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _xlsheet := range *models.GetGongstructInstancesSet[models.XLSheet](xlrowFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _xlsheet.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newXLSheetOwner := _xlsheet // we have a match
-						if pastXLSheetOwner != nil {
-							if newXLSheetOwner != pastXLSheetOwner {
-								idx := slices.Index(pastXLSheetOwner.Rows, xlrow_)
-								pastXLSheetOwner.Rows = slices.Delete(pastXLSheetOwner.Rows, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastXLSheetOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _xlsheet := range *models.GetGongstructInstancesSet[models.XLSheet](xlrowFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _xlsheet.GetName() == fieldValue.GetName() {
+							newXLSheetOwner := _xlsheet // we have a match
+							
+							// we remove the xlrow_ instance from the pastXLSheetOwner field
+							if pastXLSheetOwner != nil {
+								if newXLSheetOwner != pastXLSheetOwner {
+									idx := slices.Index(pastXLSheetOwner.Rows, xlrow_)
+									pastXLSheetOwner.Rows = slices.Delete(pastXLSheetOwner.Rows, idx, idx+1)
+									newXLSheetOwner.Rows = append(newXLSheetOwner.Rows, xlrow_)
+								}
+							} else {
 								newXLSheetOwner.Rows = append(newXLSheetOwner.Rows, xlrow_)
 							}
-						} else {
-							newXLSheetOwner.Rows = append(newXLSheetOwner.Rows, xlrow_)
 						}
 					}
 				}
@@ -487,7 +516,7 @@ type XLSheetFormCallback struct {
 
 func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 
-	log.Println("XLSheetFormCallback, OnSave")
+	// log.Println("XLSheetFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -525,28 +554,38 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastXLFileOwner = reverseFieldOwner.(*models.XLFile)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastXLFileOwner != nil {
 					idx := slices.Index(pastXLFileOwner.Sheets, xlsheet_)
 					pastXLFileOwner.Sheets = slices.Delete(pastXLFileOwner.Sheets, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _xlfile := range *models.GetGongstructInstancesSet[models.XLFile](xlsheetFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _xlfile.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newXLFileOwner := _xlfile // we have a match
-						if pastXLFileOwner != nil {
-							if newXLFileOwner != pastXLFileOwner {
-								idx := slices.Index(pastXLFileOwner.Sheets, xlsheet_)
-								pastXLFileOwner.Sheets = slices.Delete(pastXLFileOwner.Sheets, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastXLFileOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _xlfile := range *models.GetGongstructInstancesSet[models.XLFile](xlsheetFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _xlfile.GetName() == fieldValue.GetName() {
+							newXLFileOwner := _xlfile // we have a match
+							
+							// we remove the xlsheet_ instance from the pastXLFileOwner field
+							if pastXLFileOwner != nil {
+								if newXLFileOwner != pastXLFileOwner {
+									idx := slices.Index(pastXLFileOwner.Sheets, xlsheet_)
+									pastXLFileOwner.Sheets = slices.Delete(pastXLFileOwner.Sheets, idx, idx+1)
+									newXLFileOwner.Sheets = append(newXLFileOwner.Sheets, xlsheet_)
+								}
+							} else {
 								newXLFileOwner.Sheets = append(newXLFileOwner.Sheets, xlsheet_)
 							}
-						} else {
-							newXLFileOwner.Sheets = append(newXLFileOwner.Sheets, xlsheet_)
 						}
 					}
 				}
