@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"log"
 	"slices"
 	"time"
 
@@ -44,7 +43,7 @@ type AstructFormCallback struct {
 
 func (astructFormCallback *AstructFormCallback) OnSave() {
 
-	log.Println("AstructFormCallback, OnSave")
+	// log.Println("AstructFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -232,7 +231,7 @@ type AstructBstruct2UseFormCallback struct {
 
 func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 
-	log.Println("AstructBstruct2UseFormCallback, OnSave")
+	// log.Println("AstructBstruct2UseFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -362,7 +361,7 @@ type AstructBstructUseFormCallback struct {
 
 func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 
-	log.Println("AstructBstructUseFormCallback, OnSave")
+	// log.Println("AstructBstructUseFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -492,7 +491,7 @@ type BstructFormCallback struct {
 
 func (bstructFormCallback *BstructFormCallback) OnSave() {
 
-	log.Println("BstructFormCallback, OnSave")
+	// log.Println("BstructFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -728,7 +727,7 @@ type DstructFormCallback struct {
 
 func (dstructFormCallback *DstructFormCallback) OnSave() {
 
-	log.Println("DstructFormCallback, OnSave")
+	// log.Println("DstructFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -858,7 +857,7 @@ type FstructFormCallback struct {
 
 func (fstructFormCallback *FstructFormCallback) OnSave() {
 
-	log.Println("FstructFormCallback, OnSave")
+	// log.Println("FstructFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -937,7 +936,7 @@ type GstructFormCallback struct {
 
 func (gstructFormCallback *GstructFormCallback) OnSave() {
 
-	log.Println("GstructFormCallback, OnSave")
+	// log.Println("GstructFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)

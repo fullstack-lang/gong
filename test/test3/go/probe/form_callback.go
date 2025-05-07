@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"log"
 	"slices"
 	"time"
 
@@ -44,7 +43,7 @@ type AFormCallback struct {
 
 func (aFormCallback *AFormCallback) OnSave() {
 
-	log.Println("AFormCallback, OnSave")
+	// log.Println("AFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -121,7 +120,7 @@ type BFormCallback struct {
 
 func (bFormCallback *BFormCallback) OnSave() {
 
-	log.Println("BFormCallback, OnSave")
+	// log.Println("BFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)

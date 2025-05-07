@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"log"
 	"slices"
 	"time"
 
@@ -44,7 +43,7 @@ type ArrowFormCallback struct {
 
 func (arrowFormCallback *ArrowFormCallback) OnSave() {
 
-	log.Println("ArrowFormCallback, OnSave")
+	// log.Println("ArrowFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -84,28 +83,38 @@ func (arrowFormCallback *ArrowFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastGanttOwner = reverseFieldOwner.(*models.Gantt)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastGanttOwner != nil {
 					idx := slices.Index(pastGanttOwner.Arrows, arrow_)
 					pastGanttOwner.Arrows = slices.Delete(pastGanttOwner.Arrows, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _gantt := range *models.GetGongstructInstancesSet[models.Gantt](arrowFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _gantt.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newGanttOwner := _gantt // we have a match
-						if pastGanttOwner != nil {
-							if newGanttOwner != pastGanttOwner {
-								idx := slices.Index(pastGanttOwner.Arrows, arrow_)
-								pastGanttOwner.Arrows = slices.Delete(pastGanttOwner.Arrows, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastGanttOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _gantt := range *models.GetGongstructInstancesSet[models.Gantt](arrowFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _gantt.GetName() == fieldValue.GetName() {
+							newGanttOwner := _gantt // we have a match
+							
+							// we remove the arrow_ instance from the pastGanttOwner field
+							if pastGanttOwner != nil {
+								if newGanttOwner != pastGanttOwner {
+									idx := slices.Index(pastGanttOwner.Arrows, arrow_)
+									pastGanttOwner.Arrows = slices.Delete(pastGanttOwner.Arrows, idx, idx+1)
+									newGanttOwner.Arrows = append(newGanttOwner.Arrows, arrow_)
+								}
+							} else {
 								newGanttOwner.Arrows = append(newGanttOwner.Arrows, arrow_)
 							}
-						} else {
-							newGanttOwner.Arrows = append(newGanttOwner.Arrows, arrow_)
 						}
 					}
 				}
@@ -170,7 +179,7 @@ type BarFormCallback struct {
 
 func (barFormCallback *BarFormCallback) OnSave() {
 
-	log.Println("BarFormCallback, OnSave")
+	// log.Println("BarFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -218,28 +227,38 @@ func (barFormCallback *BarFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastLaneOwner = reverseFieldOwner.(*models.Lane)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastLaneOwner != nil {
 					idx := slices.Index(pastLaneOwner.Bars, bar_)
 					pastLaneOwner.Bars = slices.Delete(pastLaneOwner.Bars, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _lane := range *models.GetGongstructInstancesSet[models.Lane](barFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _lane.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newLaneOwner := _lane // we have a match
-						if pastLaneOwner != nil {
-							if newLaneOwner != pastLaneOwner {
-								idx := slices.Index(pastLaneOwner.Bars, bar_)
-								pastLaneOwner.Bars = slices.Delete(pastLaneOwner.Bars, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastLaneOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _lane := range *models.GetGongstructInstancesSet[models.Lane](barFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _lane.GetName() == fieldValue.GetName() {
+							newLaneOwner := _lane // we have a match
+							
+							// we remove the bar_ instance from the pastLaneOwner field
+							if pastLaneOwner != nil {
+								if newLaneOwner != pastLaneOwner {
+									idx := slices.Index(pastLaneOwner.Bars, bar_)
+									pastLaneOwner.Bars = slices.Delete(pastLaneOwner.Bars, idx, idx+1)
+									newLaneOwner.Bars = append(newLaneOwner.Bars, bar_)
+								}
+							} else {
 								newLaneOwner.Bars = append(newLaneOwner.Bars, bar_)
 							}
-						} else {
-							newLaneOwner.Bars = append(newLaneOwner.Bars, bar_)
 						}
 					}
 				}
@@ -304,7 +323,7 @@ type GanttFormCallback struct {
 
 func (ganttFormCallback *GanttFormCallback) OnSave() {
 
-	log.Println("GanttFormCallback, OnSave")
+	// log.Println("GanttFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -429,7 +448,7 @@ type GroupFormCallback struct {
 
 func (groupFormCallback *GroupFormCallback) OnSave() {
 
-	log.Println("GroupFormCallback, OnSave")
+	// log.Println("GroupFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -461,28 +480,38 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastGanttOwner = reverseFieldOwner.(*models.Gantt)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastGanttOwner != nil {
 					idx := slices.Index(pastGanttOwner.Groups, group_)
 					pastGanttOwner.Groups = slices.Delete(pastGanttOwner.Groups, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _gantt := range *models.GetGongstructInstancesSet[models.Gantt](groupFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _gantt.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newGanttOwner := _gantt // we have a match
-						if pastGanttOwner != nil {
-							if newGanttOwner != pastGanttOwner {
-								idx := slices.Index(pastGanttOwner.Groups, group_)
-								pastGanttOwner.Groups = slices.Delete(pastGanttOwner.Groups, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastGanttOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _gantt := range *models.GetGongstructInstancesSet[models.Gantt](groupFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _gantt.GetName() == fieldValue.GetName() {
+							newGanttOwner := _gantt // we have a match
+							
+							// we remove the group_ instance from the pastGanttOwner field
+							if pastGanttOwner != nil {
+								if newGanttOwner != pastGanttOwner {
+									idx := slices.Index(pastGanttOwner.Groups, group_)
+									pastGanttOwner.Groups = slices.Delete(pastGanttOwner.Groups, idx, idx+1)
+									newGanttOwner.Groups = append(newGanttOwner.Groups, group_)
+								}
+							} else {
 								newGanttOwner.Groups = append(newGanttOwner.Groups, group_)
 							}
-						} else {
-							newGanttOwner.Groups = append(newGanttOwner.Groups, group_)
 						}
 					}
 				}
@@ -547,7 +576,7 @@ type LaneFormCallback struct {
 
 func (laneFormCallback *LaneFormCallback) OnSave() {
 
-	log.Println("LaneFormCallback, OnSave")
+	// log.Println("LaneFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -581,28 +610,38 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastGanttOwner = reverseFieldOwner.(*models.Gantt)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastGanttOwner != nil {
 					idx := slices.Index(pastGanttOwner.Lanes, lane_)
 					pastGanttOwner.Lanes = slices.Delete(pastGanttOwner.Lanes, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _gantt := range *models.GetGongstructInstancesSet[models.Gantt](laneFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _gantt.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newGanttOwner := _gantt // we have a match
-						if pastGanttOwner != nil {
-							if newGanttOwner != pastGanttOwner {
-								idx := slices.Index(pastGanttOwner.Lanes, lane_)
-								pastGanttOwner.Lanes = slices.Delete(pastGanttOwner.Lanes, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastGanttOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _gantt := range *models.GetGongstructInstancesSet[models.Gantt](laneFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _gantt.GetName() == fieldValue.GetName() {
+							newGanttOwner := _gantt // we have a match
+							
+							// we remove the lane_ instance from the pastGanttOwner field
+							if pastGanttOwner != nil {
+								if newGanttOwner != pastGanttOwner {
+									idx := slices.Index(pastGanttOwner.Lanes, lane_)
+									pastGanttOwner.Lanes = slices.Delete(pastGanttOwner.Lanes, idx, idx+1)
+									newGanttOwner.Lanes = append(newGanttOwner.Lanes, lane_)
+								}
+							} else {
 								newGanttOwner.Lanes = append(newGanttOwner.Lanes, lane_)
 							}
-						} else {
-							newGanttOwner.Lanes = append(newGanttOwner.Lanes, lane_)
 						}
 					}
 				}
@@ -622,28 +661,38 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastGroupOwner = reverseFieldOwner.(*models.Group)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastGroupOwner != nil {
 					idx := slices.Index(pastGroupOwner.GroupLanes, lane_)
 					pastGroupOwner.GroupLanes = slices.Delete(pastGroupOwner.GroupLanes, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _group := range *models.GetGongstructInstancesSet[models.Group](laneFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _group.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newGroupOwner := _group // we have a match
-						if pastGroupOwner != nil {
-							if newGroupOwner != pastGroupOwner {
-								idx := slices.Index(pastGroupOwner.GroupLanes, lane_)
-								pastGroupOwner.GroupLanes = slices.Delete(pastGroupOwner.GroupLanes, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastGroupOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _group := range *models.GetGongstructInstancesSet[models.Group](laneFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _group.GetName() == fieldValue.GetName() {
+							newGroupOwner := _group // we have a match
+							
+							// we remove the lane_ instance from the pastGroupOwner field
+							if pastGroupOwner != nil {
+								if newGroupOwner != pastGroupOwner {
+									idx := slices.Index(pastGroupOwner.GroupLanes, lane_)
+									pastGroupOwner.GroupLanes = slices.Delete(pastGroupOwner.GroupLanes, idx, idx+1)
+									newGroupOwner.GroupLanes = append(newGroupOwner.GroupLanes, lane_)
+								}
+							} else {
 								newGroupOwner.GroupLanes = append(newGroupOwner.GroupLanes, lane_)
 							}
-						} else {
-							newGroupOwner.GroupLanes = append(newGroupOwner.GroupLanes, lane_)
 						}
 					}
 				}
@@ -708,7 +757,7 @@ type LaneUseFormCallback struct {
 
 func (laneuseFormCallback *LaneUseFormCallback) OnSave() {
 
-	log.Println("LaneUseFormCallback, OnSave")
+	// log.Println("LaneUseFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -742,28 +791,38 @@ func (laneuseFormCallback *LaneUseFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastMilestoneOwner = reverseFieldOwner.(*models.Milestone)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastMilestoneOwner != nil {
 					idx := slices.Index(pastMilestoneOwner.LanesToDisplayMilestoneUse, laneuse_)
 					pastMilestoneOwner.LanesToDisplayMilestoneUse = slices.Delete(pastMilestoneOwner.LanesToDisplayMilestoneUse, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _milestone := range *models.GetGongstructInstancesSet[models.Milestone](laneuseFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _milestone.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newMilestoneOwner := _milestone // we have a match
-						if pastMilestoneOwner != nil {
-							if newMilestoneOwner != pastMilestoneOwner {
-								idx := slices.Index(pastMilestoneOwner.LanesToDisplayMilestoneUse, laneuse_)
-								pastMilestoneOwner.LanesToDisplayMilestoneUse = slices.Delete(pastMilestoneOwner.LanesToDisplayMilestoneUse, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastMilestoneOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _milestone := range *models.GetGongstructInstancesSet[models.Milestone](laneuseFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _milestone.GetName() == fieldValue.GetName() {
+							newMilestoneOwner := _milestone // we have a match
+							
+							// we remove the laneuse_ instance from the pastMilestoneOwner field
+							if pastMilestoneOwner != nil {
+								if newMilestoneOwner != pastMilestoneOwner {
+									idx := slices.Index(pastMilestoneOwner.LanesToDisplayMilestoneUse, laneuse_)
+									pastMilestoneOwner.LanesToDisplayMilestoneUse = slices.Delete(pastMilestoneOwner.LanesToDisplayMilestoneUse, idx, idx+1)
+									newMilestoneOwner.LanesToDisplayMilestoneUse = append(newMilestoneOwner.LanesToDisplayMilestoneUse, laneuse_)
+								}
+							} else {
 								newMilestoneOwner.LanesToDisplayMilestoneUse = append(newMilestoneOwner.LanesToDisplayMilestoneUse, laneuse_)
 							}
-						} else {
-							newMilestoneOwner.LanesToDisplayMilestoneUse = append(newMilestoneOwner.LanesToDisplayMilestoneUse, laneuse_)
 						}
 					}
 				}
@@ -828,7 +887,7 @@ type MilestoneFormCallback struct {
 
 func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 
-	log.Println("MilestoneFormCallback, OnSave")
+	// log.Println("MilestoneFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -864,28 +923,38 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastGanttOwner = reverseFieldOwner.(*models.Gantt)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastGanttOwner != nil {
 					idx := slices.Index(pastGanttOwner.Milestones, milestone_)
 					pastGanttOwner.Milestones = slices.Delete(pastGanttOwner.Milestones, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _gantt := range *models.GetGongstructInstancesSet[models.Gantt](milestoneFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _gantt.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newGanttOwner := _gantt // we have a match
-						if pastGanttOwner != nil {
-							if newGanttOwner != pastGanttOwner {
-								idx := slices.Index(pastGanttOwner.Milestones, milestone_)
-								pastGanttOwner.Milestones = slices.Delete(pastGanttOwner.Milestones, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastGanttOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _gantt := range *models.GetGongstructInstancesSet[models.Gantt](milestoneFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _gantt.GetName() == fieldValue.GetName() {
+							newGanttOwner := _gantt // we have a match
+							
+							// we remove the milestone_ instance from the pastGanttOwner field
+							if pastGanttOwner != nil {
+								if newGanttOwner != pastGanttOwner {
+									idx := slices.Index(pastGanttOwner.Milestones, milestone_)
+									pastGanttOwner.Milestones = slices.Delete(pastGanttOwner.Milestones, idx, idx+1)
+									newGanttOwner.Milestones = append(newGanttOwner.Milestones, milestone_)
+								}
+							} else {
 								newGanttOwner.Milestones = append(newGanttOwner.Milestones, milestone_)
 							}
-						} else {
-							newGanttOwner.Milestones = append(newGanttOwner.Milestones, milestone_)
 						}
 					}
 				}
