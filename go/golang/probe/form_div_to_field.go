@@ -4,7 +4,6 @@ const FormDivToFieldTemplate = `// generated code - do not edit
 package probe
 
 import (
-	"log"
 	"time"
 
 	form "github.com/fullstack-lang/gong/lib/table/go/models"
@@ -61,7 +60,7 @@ func FormDivBasicFieldToField[TF models.GongtructBasicField](field *TF, formDiv 
 func FormDivEnumStringFieldToField[TF models.PointerToGongstructEnumStringField](field TF, formDiv *form.FormDiv) {
 	if value := formDiv.FormFields[0].FormFieldSelect.Value; value != nil {
 		if err := (field).FromCodeString(value.GetName()); err != nil {
-			log.Println("Unkwnown enum value", value.GetName())
+			// log.Println("Unkwnown enum value", value.GetName())
 		}
 	}
 }
@@ -69,7 +68,7 @@ func FormDivEnumStringFieldToField[TF models.PointerToGongstructEnumStringField]
 func FormDivEnumIntFieldToField[TF models.PointerToGongstructEnumIntField](field TF, formDiv *form.FormDiv) {
 	if value := formDiv.FormFields[0].FormFieldSelect.Value; value != nil {
 		if err := (field).FromCodeString(value.GetName()); err != nil {
-			log.Println("Unkwnown enum value", value.GetName())
+			// log.Println("Unkwnown enum value", value.GetName())
 		}
 	}
 }

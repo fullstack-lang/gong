@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"log"
 	"slices"
 	"time"
 
@@ -44,7 +43,7 @@ type CellFormCallback struct {
 
 func (cellFormCallback *CellFormCallback) OnSave() {
 
-	log.Println("CellFormCallback, OnSave")
+	// log.Println("CellFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -86,28 +85,38 @@ func (cellFormCallback *CellFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastRowOwner = reverseFieldOwner.(*models.Row)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastRowOwner != nil {
 					idx := slices.Index(pastRowOwner.Cells, cell_)
 					pastRowOwner.Cells = slices.Delete(pastRowOwner.Cells, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _row := range *models.GetGongstructInstancesSet[models.Row](cellFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _row.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newRowOwner := _row // we have a match
-						if pastRowOwner != nil {
-							if newRowOwner != pastRowOwner {
-								idx := slices.Index(pastRowOwner.Cells, cell_)
-								pastRowOwner.Cells = slices.Delete(pastRowOwner.Cells, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastRowOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _row := range *models.GetGongstructInstancesSet[models.Row](cellFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _row.GetName() == fieldValue.GetName() {
+							newRowOwner := _row // we have a match
+							
+							// we remove the cell_ instance from the pastRowOwner field
+							if pastRowOwner != nil {
+								if newRowOwner != pastRowOwner {
+									idx := slices.Index(pastRowOwner.Cells, cell_)
+									pastRowOwner.Cells = slices.Delete(pastRowOwner.Cells, idx, idx+1)
+									newRowOwner.Cells = append(newRowOwner.Cells, cell_)
+								}
+							} else {
 								newRowOwner.Cells = append(newRowOwner.Cells, cell_)
 							}
-						} else {
-							newRowOwner.Cells = append(newRowOwner.Cells, cell_)
 						}
 					}
 				}
@@ -172,7 +181,7 @@ type CellBooleanFormCallback struct {
 
 func (cellbooleanFormCallback *CellBooleanFormCallback) OnSave() {
 
-	log.Println("CellBooleanFormCallback, OnSave")
+	// log.Println("CellBooleanFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -251,7 +260,7 @@ type CellFloat64FormCallback struct {
 
 func (cellfloat64FormCallback *CellFloat64FormCallback) OnSave() {
 
-	log.Println("CellFloat64FormCallback, OnSave")
+	// log.Println("CellFloat64FormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -330,7 +339,7 @@ type CellIconFormCallback struct {
 
 func (celliconFormCallback *CellIconFormCallback) OnSave() {
 
-	log.Println("CellIconFormCallback, OnSave")
+	// log.Println("CellIconFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -409,7 +418,7 @@ type CellIntFormCallback struct {
 
 func (cellintFormCallback *CellIntFormCallback) OnSave() {
 
-	log.Println("CellIntFormCallback, OnSave")
+	// log.Println("CellIntFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -488,7 +497,7 @@ type CellStringFormCallback struct {
 
 func (cellstringFormCallback *CellStringFormCallback) OnSave() {
 
-	log.Println("CellStringFormCallback, OnSave")
+	// log.Println("CellStringFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -567,7 +576,7 @@ type CheckBoxFormCallback struct {
 
 func (checkboxFormCallback *CheckBoxFormCallback) OnSave() {
 
-	log.Println("CheckBoxFormCallback, OnSave")
+	// log.Println("CheckBoxFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -601,28 +610,38 @@ func (checkboxFormCallback *CheckBoxFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastFormDivOwner = reverseFieldOwner.(*models.FormDiv)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastFormDivOwner != nil {
 					idx := slices.Index(pastFormDivOwner.CheckBoxs, checkbox_)
 					pastFormDivOwner.CheckBoxs = slices.Delete(pastFormDivOwner.CheckBoxs, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _formdiv := range *models.GetGongstructInstancesSet[models.FormDiv](checkboxFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _formdiv.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newFormDivOwner := _formdiv // we have a match
-						if pastFormDivOwner != nil {
-							if newFormDivOwner != pastFormDivOwner {
-								idx := slices.Index(pastFormDivOwner.CheckBoxs, checkbox_)
-								pastFormDivOwner.CheckBoxs = slices.Delete(pastFormDivOwner.CheckBoxs, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastFormDivOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _formdiv := range *models.GetGongstructInstancesSet[models.FormDiv](checkboxFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _formdiv.GetName() == fieldValue.GetName() {
+							newFormDivOwner := _formdiv // we have a match
+							
+							// we remove the checkbox_ instance from the pastFormDivOwner field
+							if pastFormDivOwner != nil {
+								if newFormDivOwner != pastFormDivOwner {
+									idx := slices.Index(pastFormDivOwner.CheckBoxs, checkbox_)
+									pastFormDivOwner.CheckBoxs = slices.Delete(pastFormDivOwner.CheckBoxs, idx, idx+1)
+									newFormDivOwner.CheckBoxs = append(newFormDivOwner.CheckBoxs, checkbox_)
+								}
+							} else {
 								newFormDivOwner.CheckBoxs = append(newFormDivOwner.CheckBoxs, checkbox_)
 							}
-						} else {
-							newFormDivOwner.CheckBoxs = append(newFormDivOwner.CheckBoxs, checkbox_)
 						}
 					}
 				}
@@ -687,7 +706,7 @@ type DisplayedColumnFormCallback struct {
 
 func (displayedcolumnFormCallback *DisplayedColumnFormCallback) OnSave() {
 
-	log.Println("DisplayedColumnFormCallback, OnSave")
+	// log.Println("DisplayedColumnFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -719,28 +738,38 @@ func (displayedcolumnFormCallback *DisplayedColumnFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastTableOwner = reverseFieldOwner.(*models.Table)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastTableOwner != nil {
 					idx := slices.Index(pastTableOwner.DisplayedColumns, displayedcolumn_)
 					pastTableOwner.DisplayedColumns = slices.Delete(pastTableOwner.DisplayedColumns, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _table := range *models.GetGongstructInstancesSet[models.Table](displayedcolumnFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _table.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newTableOwner := _table // we have a match
-						if pastTableOwner != nil {
-							if newTableOwner != pastTableOwner {
-								idx := slices.Index(pastTableOwner.DisplayedColumns, displayedcolumn_)
-								pastTableOwner.DisplayedColumns = slices.Delete(pastTableOwner.DisplayedColumns, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastTableOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _table := range *models.GetGongstructInstancesSet[models.Table](displayedcolumnFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _table.GetName() == fieldValue.GetName() {
+							newTableOwner := _table // we have a match
+							
+							// we remove the displayedcolumn_ instance from the pastTableOwner field
+							if pastTableOwner != nil {
+								if newTableOwner != pastTableOwner {
+									idx := slices.Index(pastTableOwner.DisplayedColumns, displayedcolumn_)
+									pastTableOwner.DisplayedColumns = slices.Delete(pastTableOwner.DisplayedColumns, idx, idx+1)
+									newTableOwner.DisplayedColumns = append(newTableOwner.DisplayedColumns, displayedcolumn_)
+								}
+							} else {
 								newTableOwner.DisplayedColumns = append(newTableOwner.DisplayedColumns, displayedcolumn_)
 							}
-						} else {
-							newTableOwner.DisplayedColumns = append(newTableOwner.DisplayedColumns, displayedcolumn_)
 						}
 					}
 				}
@@ -805,7 +834,7 @@ type FormDivFormCallback struct {
 
 func (formdivFormCallback *FormDivFormCallback) OnSave() {
 
-	log.Println("FormDivFormCallback, OnSave")
+	// log.Println("FormDivFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -841,28 +870,38 @@ func (formdivFormCallback *FormDivFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastFormGroupOwner = reverseFieldOwner.(*models.FormGroup)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastFormGroupOwner != nil {
 					idx := slices.Index(pastFormGroupOwner.FormDivs, formdiv_)
 					pastFormGroupOwner.FormDivs = slices.Delete(pastFormGroupOwner.FormDivs, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _formgroup := range *models.GetGongstructInstancesSet[models.FormGroup](formdivFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _formgroup.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newFormGroupOwner := _formgroup // we have a match
-						if pastFormGroupOwner != nil {
-							if newFormGroupOwner != pastFormGroupOwner {
-								idx := slices.Index(pastFormGroupOwner.FormDivs, formdiv_)
-								pastFormGroupOwner.FormDivs = slices.Delete(pastFormGroupOwner.FormDivs, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastFormGroupOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _formgroup := range *models.GetGongstructInstancesSet[models.FormGroup](formdivFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _formgroup.GetName() == fieldValue.GetName() {
+							newFormGroupOwner := _formgroup // we have a match
+							
+							// we remove the formdiv_ instance from the pastFormGroupOwner field
+							if pastFormGroupOwner != nil {
+								if newFormGroupOwner != pastFormGroupOwner {
+									idx := slices.Index(pastFormGroupOwner.FormDivs, formdiv_)
+									pastFormGroupOwner.FormDivs = slices.Delete(pastFormGroupOwner.FormDivs, idx, idx+1)
+									newFormGroupOwner.FormDivs = append(newFormGroupOwner.FormDivs, formdiv_)
+								}
+							} else {
 								newFormGroupOwner.FormDivs = append(newFormGroupOwner.FormDivs, formdiv_)
 							}
-						} else {
-							newFormGroupOwner.FormDivs = append(newFormGroupOwner.FormDivs, formdiv_)
 						}
 					}
 				}
@@ -927,7 +966,7 @@ type FormEditAssocButtonFormCallback struct {
 
 func (formeditassocbuttonFormCallback *FormEditAssocButtonFormCallback) OnSave() {
 
-	log.Println("FormEditAssocButtonFormCallback, OnSave")
+	// log.Println("FormEditAssocButtonFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1006,7 +1045,7 @@ type FormFieldFormCallback struct {
 
 func (formfieldFormCallback *FormFieldFormCallback) OnSave() {
 
-	log.Println("FormFieldFormCallback, OnSave")
+	// log.Println("FormFieldFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1066,28 +1105,38 @@ func (formfieldFormCallback *FormFieldFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastFormDivOwner = reverseFieldOwner.(*models.FormDiv)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastFormDivOwner != nil {
 					idx := slices.Index(pastFormDivOwner.FormFields, formfield_)
 					pastFormDivOwner.FormFields = slices.Delete(pastFormDivOwner.FormFields, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _formdiv := range *models.GetGongstructInstancesSet[models.FormDiv](formfieldFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _formdiv.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newFormDivOwner := _formdiv // we have a match
-						if pastFormDivOwner != nil {
-							if newFormDivOwner != pastFormDivOwner {
-								idx := slices.Index(pastFormDivOwner.FormFields, formfield_)
-								pastFormDivOwner.FormFields = slices.Delete(pastFormDivOwner.FormFields, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastFormDivOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _formdiv := range *models.GetGongstructInstancesSet[models.FormDiv](formfieldFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _formdiv.GetName() == fieldValue.GetName() {
+							newFormDivOwner := _formdiv // we have a match
+							
+							// we remove the formfield_ instance from the pastFormDivOwner field
+							if pastFormDivOwner != nil {
+								if newFormDivOwner != pastFormDivOwner {
+									idx := slices.Index(pastFormDivOwner.FormFields, formfield_)
+									pastFormDivOwner.FormFields = slices.Delete(pastFormDivOwner.FormFields, idx, idx+1)
+									newFormDivOwner.FormFields = append(newFormDivOwner.FormFields, formfield_)
+								}
+							} else {
 								newFormDivOwner.FormFields = append(newFormDivOwner.FormFields, formfield_)
 							}
-						} else {
-							newFormDivOwner.FormFields = append(newFormDivOwner.FormFields, formfield_)
 						}
 					}
 				}
@@ -1152,7 +1201,7 @@ type FormFieldDateFormCallback struct {
 
 func (formfielddateFormCallback *FormFieldDateFormCallback) OnSave() {
 
-	log.Println("FormFieldDateFormCallback, OnSave")
+	// log.Println("FormFieldDateFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1231,7 +1280,7 @@ type FormFieldDateTimeFormCallback struct {
 
 func (formfielddatetimeFormCallback *FormFieldDateTimeFormCallback) OnSave() {
 
-	log.Println("FormFieldDateTimeFormCallback, OnSave")
+	// log.Println("FormFieldDateTimeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1310,7 +1359,7 @@ type FormFieldFloat64FormCallback struct {
 
 func (formfieldfloat64FormCallback *FormFieldFloat64FormCallback) OnSave() {
 
-	log.Println("FormFieldFloat64FormCallback, OnSave")
+	// log.Println("FormFieldFloat64FormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1397,7 +1446,7 @@ type FormFieldIntFormCallback struct {
 
 func (formfieldintFormCallback *FormFieldIntFormCallback) OnSave() {
 
-	log.Println("FormFieldIntFormCallback, OnSave")
+	// log.Println("FormFieldIntFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1484,7 +1533,7 @@ type FormFieldSelectFormCallback struct {
 
 func (formfieldselectFormCallback *FormFieldSelectFormCallback) OnSave() {
 
-	log.Println("FormFieldSelectFormCallback, OnSave")
+	// log.Println("FormFieldSelectFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1565,7 +1614,7 @@ type FormFieldStringFormCallback struct {
 
 func (formfieldstringFormCallback *FormFieldStringFormCallback) OnSave() {
 
-	log.Println("FormFieldStringFormCallback, OnSave")
+	// log.Println("FormFieldStringFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1646,7 +1695,7 @@ type FormFieldTimeFormCallback struct {
 
 func (formfieldtimeFormCallback *FormFieldTimeFormCallback) OnSave() {
 
-	log.Println("FormFieldTimeFormCallback, OnSave")
+	// log.Println("FormFieldTimeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1727,7 +1776,7 @@ type FormGroupFormCallback struct {
 
 func (formgroupFormCallback *FormGroupFormCallback) OnSave() {
 
-	log.Println("FormGroupFormCallback, OnSave")
+	// log.Println("FormGroupFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1810,7 +1859,7 @@ type FormSortAssocButtonFormCallback struct {
 
 func (formsortassocbuttonFormCallback *FormSortAssocButtonFormCallback) OnSave() {
 
-	log.Println("FormSortAssocButtonFormCallback, OnSave")
+	// log.Println("FormSortAssocButtonFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1889,7 +1938,7 @@ type OptionFormCallback struct {
 
 func (optionFormCallback *OptionFormCallback) OnSave() {
 
-	log.Println("OptionFormCallback, OnSave")
+	// log.Println("OptionFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -1921,28 +1970,38 @@ func (optionFormCallback *OptionFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastFormFieldSelectOwner = reverseFieldOwner.(*models.FormFieldSelect)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastFormFieldSelectOwner != nil {
 					idx := slices.Index(pastFormFieldSelectOwner.Options, option_)
 					pastFormFieldSelectOwner.Options = slices.Delete(pastFormFieldSelectOwner.Options, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _formfieldselect := range *models.GetGongstructInstancesSet[models.FormFieldSelect](optionFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _formfieldselect.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newFormFieldSelectOwner := _formfieldselect // we have a match
-						if pastFormFieldSelectOwner != nil {
-							if newFormFieldSelectOwner != pastFormFieldSelectOwner {
-								idx := slices.Index(pastFormFieldSelectOwner.Options, option_)
-								pastFormFieldSelectOwner.Options = slices.Delete(pastFormFieldSelectOwner.Options, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastFormFieldSelectOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _formfieldselect := range *models.GetGongstructInstancesSet[models.FormFieldSelect](optionFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _formfieldselect.GetName() == fieldValue.GetName() {
+							newFormFieldSelectOwner := _formfieldselect // we have a match
+							
+							// we remove the option_ instance from the pastFormFieldSelectOwner field
+							if pastFormFieldSelectOwner != nil {
+								if newFormFieldSelectOwner != pastFormFieldSelectOwner {
+									idx := slices.Index(pastFormFieldSelectOwner.Options, option_)
+									pastFormFieldSelectOwner.Options = slices.Delete(pastFormFieldSelectOwner.Options, idx, idx+1)
+									newFormFieldSelectOwner.Options = append(newFormFieldSelectOwner.Options, option_)
+								}
+							} else {
 								newFormFieldSelectOwner.Options = append(newFormFieldSelectOwner.Options, option_)
 							}
-						} else {
-							newFormFieldSelectOwner.Options = append(newFormFieldSelectOwner.Options, option_)
 						}
 					}
 				}
@@ -2007,7 +2066,7 @@ type RowFormCallback struct {
 
 func (rowFormCallback *RowFormCallback) OnSave() {
 
-	log.Println("RowFormCallback, OnSave")
+	// log.Println("RowFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
@@ -2041,28 +2100,38 @@ func (rowFormCallback *RowFormCallback) OnSave() {
 			if reverseFieldOwner != nil {
 				pastTableOwner = reverseFieldOwner.(*models.Table)
 			}
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
+			if fieldValue == nil {
 				if pastTableOwner != nil {
 					idx := slices.Index(pastTableOwner.Rows, row_)
 					pastTableOwner.Rows = slices.Delete(pastTableOwner.Rows, idx, idx+1)
 				}
 			} else {
-				// we need to retrieve the field owner after the change
-				// parse all astrcut and get the one with the name in the
-				// div
-				for _table := range *models.GetGongstructInstancesSet[models.Table](rowFormCallback.probe.stageOfInterest) {
 
-					// the match is base on the name
-					if _table.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						newTableOwner := _table // we have a match
-						if pastTableOwner != nil {
-							if newTableOwner != pastTableOwner {
-								idx := slices.Index(pastTableOwner.Rows, row_)
-								pastTableOwner.Rows = slices.Delete(pastTableOwner.Rows, idx, idx+1)
+				// if the name of the field value is the same as of the past owner
+				// it is assumed the owner has not changed
+				// therefore, the owner must be eventualy changed if the name is different
+				if pastTableOwner.GetName() != fieldValue.GetName() {
+
+					// we need to retrieve the field owner after the change
+					// parse all astrcut and get the one with the name in the
+					// div
+					for _table := range *models.GetGongstructInstancesSet[models.Table](rowFormCallback.probe.stageOfInterest) {
+
+						// the match is base on the name
+						if _table.GetName() == fieldValue.GetName() {
+							newTableOwner := _table // we have a match
+							
+							// we remove the row_ instance from the pastTableOwner field
+							if pastTableOwner != nil {
+								if newTableOwner != pastTableOwner {
+									idx := slices.Index(pastTableOwner.Rows, row_)
+									pastTableOwner.Rows = slices.Delete(pastTableOwner.Rows, idx, idx+1)
+									newTableOwner.Rows = append(newTableOwner.Rows, row_)
+								}
+							} else {
 								newTableOwner.Rows = append(newTableOwner.Rows, row_)
 							}
-						} else {
-							newTableOwner.Rows = append(newTableOwner.Rows, row_)
 						}
 					}
 				}
@@ -2127,7 +2196,7 @@ type TableFormCallback struct {
 
 func (tableFormCallback *TableFormCallback) OnSave() {
 
-	log.Println("TableFormCallback, OnSave")
+	// log.Println("TableFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)

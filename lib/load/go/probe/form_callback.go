@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"log"
 	"slices"
 	"time"
 
@@ -44,7 +43,7 @@ type FileToDownloadFormCallback struct {
 
 func (filetodownloadFormCallback *FileToDownloadFormCallback) OnSave() {
 
-	log.Println("FileToDownloadFormCallback, OnSave")
+	// log.Println("FileToDownloadFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)

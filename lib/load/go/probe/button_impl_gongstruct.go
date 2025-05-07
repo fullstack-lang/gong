@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"log"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gongtree_buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
@@ -33,7 +32,7 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 	gongtreeStage *gongtree_models.Stage,
 	stageButton, front *gongtree_models.Button) {
 
-	log.Println("ButtonImplGongstruct: ButtonUpdated")
+	// log.Println("ButtonImplGongstruct: ButtonUpdated")
 
 	FillUpFormFromGongstructName(
 		buttonImpl.probe,
