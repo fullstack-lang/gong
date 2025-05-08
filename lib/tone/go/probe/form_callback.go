@@ -2,6 +2,7 @@
 package probe
 
 import (
+	"log"
 	"slices"
 	"time"
 
@@ -10,9 +11,20 @@ import (
 	"github.com/fullstack-lang/gong/lib/tone/go/models"
 )
 
+// code to avoid error when generated code does not need to import packages
 const __dummmy__time = time.Nanosecond
 
+var _ = __dummmy__time
+
 var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+
+var _ = __dummmy__letters
+
+const __dummy__log = log.Ldate
+
+var _ = __dummy__log
+
+// end of code to avoid error when generated code does not need to import packages
 
 // insertion point
 func __gong__New__FreqencyFormCallback(
@@ -61,56 +73,84 @@ func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(freqency_.Name), formDiv)
 		case "Note:Frequencies":
-			// we need to retrieve the field owner before the change
-			var pastNoteOwner *models.Note
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Note"
-			rf.Fieldname = "Frequencies"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				freqencyFormCallback.probe.stageOfInterest,
-				freqency_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Note.Frequencies []*Freqency" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Freqency). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// the algorithm is
+			// 1/ get the former source of the association
+			var formerSource *models.Note
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Note"
+				rf.Fieldname = "Frequencies"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					freqencyFormCallback.probe.stageOfInterest,
+					freqency_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastNoteOwner = reverseFieldOwner.(*models.Note)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastNoteOwner != nil {
-					idx := slices.Index(pastNoteOwner.Frequencies, freqency_)
-					pastNoteOwner.Frequencies = slices.Delete(pastNoteOwner.Frequencies, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastNoteOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _note := range *models.GetGongstructInstancesSet[models.Note](freqencyFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _note.GetName() == fieldValue.GetName() {
-							newNoteOwner := _note // we have a match
-							
-							// we remove the freqency_ instance from the pastNoteOwner field
-							if pastNoteOwner != nil {
-								if newNoteOwner != pastNoteOwner {
-									idx := slices.Index(pastNoteOwner.Frequencies, freqency_)
-									pastNoteOwner.Frequencies = slices.Delete(pastNoteOwner.Frequencies, idx, idx+1)
-									newNoteOwner.Frequencies = append(newNoteOwner.Frequencies, freqency_)
-								}
-							} else {
-								newNoteOwner.Frequencies = append(newNoteOwner.Frequencies, freqency_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Note)
+					if !ok {
+						log.Fatalln("Source of Note.Frequencies []*Freqency, is not an Note instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Frequencies, freqency_)
+					formerSource.Frequencies = slices.Delete(formerSource.Frequencies, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// we need to deal with the 2 cases:
+			// 1 the field source is unchanged
+			// 2 the field source is changed
+
+			// 1 field source is unchanged
+			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
+				break // nothing else to do for this field
+			}
+
+			// 2 field source is changed -->
+			// (1) clear the source slice field if it exist
+			// (2) find the new source
+			// (3) append the new value to the new source field
+
+			// (1) clear the source slice field if it exist
+			if formerSource != nil {
+				idx := slices.Index(formerSource.Frequencies, freqency_)
+				formerSource.Frequencies = slices.Delete(formerSource.Frequencies, idx, idx+1)
+			}
+
+			// (2) find the source
+			var newSource *models.Note
+			for _note := range *models.GetGongstructInstancesSet[models.Note](freqencyFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _note.GetName() == newSourceName.GetName() {
+					newSource = _note // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Note.Frequencies []*Freqency, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Frequencies = append(newSource.Frequencies, freqency_)
 		}
 	}
 
