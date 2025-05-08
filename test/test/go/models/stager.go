@@ -18,7 +18,7 @@ type Stager struct {
 	svgStage   *svg.Stage
 }
 
-func NewStager(r *gin.Engine, stage *Stage, name string) (stager *Stager) {
+func NewStager(r *gin.Engine, stage *Stage) (stager *Stager) {
 
 	stager = new(Stager)
 
@@ -28,7 +28,7 @@ func NewStager(r *gin.Engine, stage *Stage, name string) (stager *Stager) {
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
-	stager.svgStage = svg_stack.NewStack(r, name, svgPersistanceFile, svgPersistanceFile, "", true, true).Stage
+	stager.svgStage = svg_stack.NewStack(r, stage.name, svgPersistanceFile, svgPersistanceFile, "", true, true).Stage
 
 	split.StageBranch(stager.splitStage, &split.View{
 		Name: "Probe",
