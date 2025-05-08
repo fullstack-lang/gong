@@ -1,7 +1,9 @@
 package models
 
 type RectAnchoredText struct {
-	Name    string
+	Name string
+
+	//gong:text width:300 height:300
 	Content string
 
 	// "bold", "normal", ...
