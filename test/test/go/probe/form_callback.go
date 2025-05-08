@@ -2,6 +2,7 @@
 package probe
 
 import (
+	"log"
 	"slices"
 	"time"
 
@@ -156,7 +157,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 						// the match is base on the name
 						if _astruct.GetName() == fieldValue.GetName() {
 							newAstructOwner := _astruct // we have a match
-							
+
 							// we remove the astruct_ instance from the pastAstructOwner field
 							if pastAstructOwner != nil {
 								if newAstructOwner != pastAstructOwner {
@@ -286,7 +287,7 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 						// the match is base on the name
 						if _astruct.GetName() == fieldValue.GetName() {
 							newAstructOwner := _astruct // we have a match
-							
+
 							// we remove the astructbstruct2use_ instance from the pastAstructOwner field
 							if pastAstructOwner != nil {
 								if newAstructOwner != pastAstructOwner {
@@ -416,7 +417,7 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 						// the match is base on the name
 						if _astruct.GetName() == fieldValue.GetName() {
 							newAstructOwner := _astruct // we have a match
-							
+
 							// we remove the astructbstructuse_ instance from the pastAstructOwner field
 							if pastAstructOwner != nil {
 								if newAstructOwner != pastAstructOwner {
@@ -515,56 +516,87 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 		case "Intfield":
 			FormDivBasicFieldToField(&(bstruct_.Intfield), formDiv)
 		case "Astruct:Anarrayofb":
-			// we need to retrieve the field owner before the change
-			var pastAstructOwner *models.Astruct
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Astruct"
-			rf.Fieldname = "Anarrayofb"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				bstructFormCallback.probe.stageOfInterest,
-				bstruct_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Astruct.Anarrayofb []*Bstruct" but
+			// it work only for 1-N associations
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Bstruct). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// the algorithm is
+			// 1/ get the former source of the association
+			var formerSource *models.Astruct
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Astruct"
+				rf.Fieldname = "Anarrayofb"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					bstructFormCallback.probe.stageOfInterest,
+					bstruct_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastAstructOwner = reverseFieldOwner.(*models.Astruct)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastAstructOwner != nil {
-					idx := slices.Index(pastAstructOwner.Anarrayofb, bstruct_)
-					pastAstructOwner.Anarrayofb = slices.Delete(pastAstructOwner.Anarrayofb, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastAstructOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](bstructFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _astruct.GetName() == fieldValue.GetName() {
-							newAstructOwner := _astruct // we have a match
-							
-							// we remove the bstruct_ instance from the pastAstructOwner field
-							if pastAstructOwner != nil {
-								if newAstructOwner != pastAstructOwner {
-									idx := slices.Index(pastAstructOwner.Anarrayofb, bstruct_)
-									pastAstructOwner.Anarrayofb = slices.Delete(pastAstructOwner.Anarrayofb, idx, idx+1)
-									newAstructOwner.Anarrayofb = append(newAstructOwner.Anarrayofb, bstruct_)
-								}
-							} else {
-								newAstructOwner.Anarrayofb = append(newAstructOwner.Anarrayofb, bstruct_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Astruct)
+					if !ok {
+						log.Fatalln("Source of Astruct.Anarrayofb []*Bstruct, is not an Astruct instance")
 					}
 				}
 			}
+
+			newAssociationSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newAssociationSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Anarrayofb, bstruct_)
+					formerSource.Anarrayofb = slices.Delete(formerSource.Anarrayofb, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			log.Println("The new field value is ", newAssociationSourceName.Name)
+
+			// we need to deal with the 2 cases:
+			// 1 the field source is unchanged
+			// 2 the field source is changed
+
+			// 1 field source is unchanged
+			if formerSource != nil && formerSource.GetName() == newAssociationSourceName.GetName() {
+				break // nothing else to do for this field
+			}
+
+			// 2 field source is changed -->
+			// (1) clear the source slice field if it exist
+			// (2) find the new source
+			// (3) append the new value to the new source field
+
+			// (1) clear the source slice field if it exist
+			if formerSource != nil {
+				idx := slices.Index(formerSource.Anarrayofb, bstruct_)
+				formerSource.Anarrayofb = slices.Delete(formerSource.Anarrayofb, idx, idx+1)
+			}
+
+			// (2) find the source
+			var newSource *models.Astruct
+			for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](bstructFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _astruct.GetName() == newAssociationSourceName.GetName() {
+					newSource = _astruct // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Astruct.Anarrayofb []*Bstruct, with name", newAssociationSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Anarrayofb = append(newSource.Anarrayofb, bstruct_)
+
 		case "Astruct:Anotherarrayofb":
 			// we need to retrieve the field owner before the change
 			var pastAstructOwner *models.Astruct
@@ -601,7 +633,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 						// the match is base on the name
 						if _astruct.GetName() == fieldValue.GetName() {
 							newAstructOwner := _astruct // we have a match
-							
+
 							// we remove the bstruct_ instance from the pastAstructOwner field
 							if pastAstructOwner != nil {
 								if newAstructOwner != pastAstructOwner {
@@ -652,7 +684,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 						// the match is base on the name
 						if _dstruct.GetName() == fieldValue.GetName() {
 							newDstructOwner := _dstruct // we have a match
-							
+
 							// we remove the bstruct_ instance from the pastDstructOwner field
 							if pastDstructOwner != nil {
 								if newDstructOwner != pastDstructOwner {
@@ -782,7 +814,7 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 						// the match is base on the name
 						if _astruct.GetName() == fieldValue.GetName() {
 							newAstructOwner := _astruct // we have a match
-							
+
 							// we remove the dstruct_ instance from the pastAstructOwner field
 							if pastAstructOwner != nil {
 								if newAstructOwner != pastAstructOwner {
@@ -995,7 +1027,7 @@ func (gstructFormCallback *GstructFormCallback) OnSave() {
 						// the match is base on the name
 						if _dstruct.GetName() == fieldValue.GetName() {
 							newDstructOwner := _dstruct // we have a match
-							
+
 							// we remove the gstruct_ instance from the pastDstructOwner field
 							if pastDstructOwner != nil {
 								if newDstructOwner != pastDstructOwner {
