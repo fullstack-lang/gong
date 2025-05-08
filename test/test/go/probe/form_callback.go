@@ -122,56 +122,84 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		case "TextArea":
 			FormDivBasicFieldToField(&(astruct_.TextArea), formDiv)
 		case "Astruct:Anarrayofa":
-			// we need to retrieve the field owner before the change
-			var pastAstructOwner *models.Astruct
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Astruct"
-			rf.Fieldname = "Anarrayofa"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				astructFormCallback.probe.stageOfInterest,
-				astruct_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Astruct.Anarrayofa []*Astruct" but
+			// it work only for 1-N associations
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Astruct). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// the algorithm is
+			// 1/ get the former source of the association
+			var formerSource *models.Astruct
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Astruct"
+				rf.Fieldname = "Anarrayofa"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					astructFormCallback.probe.stageOfInterest,
+					astruct_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastAstructOwner = reverseFieldOwner.(*models.Astruct)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastAstructOwner != nil {
-					idx := slices.Index(pastAstructOwner.Anarrayofa, astruct_)
-					pastAstructOwner.Anarrayofa = slices.Delete(pastAstructOwner.Anarrayofa, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastAstructOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](astructFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _astruct.GetName() == fieldValue.GetName() {
-							newAstructOwner := _astruct // we have a match
-
-							// we remove the astruct_ instance from the pastAstructOwner field
-							if pastAstructOwner != nil {
-								if newAstructOwner != pastAstructOwner {
-									idx := slices.Index(pastAstructOwner.Anarrayofa, astruct_)
-									pastAstructOwner.Anarrayofa = slices.Delete(pastAstructOwner.Anarrayofa, idx, idx+1)
-									newAstructOwner.Anarrayofa = append(newAstructOwner.Anarrayofa, astruct_)
-								}
-							} else {
-								newAstructOwner.Anarrayofa = append(newAstructOwner.Anarrayofa, astruct_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Astruct)
+					if !ok {
+						log.Fatalln("Source of Astruct.Anarrayofa []*Astruct, is not an Astruct instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Anarrayofa, astruct_)
+					formerSource.Anarrayofa = slices.Delete(formerSource.Anarrayofa, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// we need to deal with the 2 cases:
+			// 1 the field source is unchanged
+			// 2 the field source is changed
+
+			// 1 field source is unchanged
+			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
+				break // nothing else to do for this field
+			}
+
+			// 2 field source is changed -->
+			// (1) clear the source slice field if it exist
+			// (2) find the new source
+			// (3) append the new value to the new source field
+
+			// (1) clear the source slice field if it exist
+			if formerSource != nil {
+				idx := slices.Index(formerSource.Anarrayofa, astruct_)
+				formerSource.Anarrayofa = slices.Delete(formerSource.Anarrayofa, idx, idx+1)
+			}
+
+			// (2) find the source
+			var newSource *models.Astruct
+			for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](astructFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _astruct.GetName() == newSourceName.GetName() {
+					newSource = _astruct // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Astruct.Anarrayofa []*Astruct, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Anarrayofa = append(newSource.Anarrayofa, astruct_)
 		}
 	}
 
@@ -252,56 +280,84 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 		case "Bstrcut2":
 			FormDivSelectFieldToField(&(astructbstruct2use_.Bstrcut2), astructbstruct2useFormCallback.probe.stageOfInterest, formDiv)
 		case "Astruct:Anarrayofb2Use":
-			// we need to retrieve the field owner before the change
-			var pastAstructOwner *models.Astruct
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Astruct"
-			rf.Fieldname = "Anarrayofb2Use"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				astructbstruct2useFormCallback.probe.stageOfInterest,
-				astructbstruct2use_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Astruct.Anarrayofb2Use []*AstructBstruct2Use" but
+			// it work only for 1-N associations
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of AstructBstruct2Use). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// the algorithm is
+			// 1/ get the former source of the association
+			var formerSource *models.Astruct
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Astruct"
+				rf.Fieldname = "Anarrayofb2Use"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					astructbstruct2useFormCallback.probe.stageOfInterest,
+					astructbstruct2use_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastAstructOwner = reverseFieldOwner.(*models.Astruct)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastAstructOwner != nil {
-					idx := slices.Index(pastAstructOwner.Anarrayofb2Use, astructbstruct2use_)
-					pastAstructOwner.Anarrayofb2Use = slices.Delete(pastAstructOwner.Anarrayofb2Use, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastAstructOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](astructbstruct2useFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _astruct.GetName() == fieldValue.GetName() {
-							newAstructOwner := _astruct // we have a match
-
-							// we remove the astructbstruct2use_ instance from the pastAstructOwner field
-							if pastAstructOwner != nil {
-								if newAstructOwner != pastAstructOwner {
-									idx := slices.Index(pastAstructOwner.Anarrayofb2Use, astructbstruct2use_)
-									pastAstructOwner.Anarrayofb2Use = slices.Delete(pastAstructOwner.Anarrayofb2Use, idx, idx+1)
-									newAstructOwner.Anarrayofb2Use = append(newAstructOwner.Anarrayofb2Use, astructbstruct2use_)
-								}
-							} else {
-								newAstructOwner.Anarrayofb2Use = append(newAstructOwner.Anarrayofb2Use, astructbstruct2use_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Astruct)
+					if !ok {
+						log.Fatalln("Source of Astruct.Anarrayofb2Use []*AstructBstruct2Use, is not an Astruct instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Anarrayofb2Use, astructbstruct2use_)
+					formerSource.Anarrayofb2Use = slices.Delete(formerSource.Anarrayofb2Use, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// we need to deal with the 2 cases:
+			// 1 the field source is unchanged
+			// 2 the field source is changed
+
+			// 1 field source is unchanged
+			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
+				break // nothing else to do for this field
+			}
+
+			// 2 field source is changed -->
+			// (1) clear the source slice field if it exist
+			// (2) find the new source
+			// (3) append the new value to the new source field
+
+			// (1) clear the source slice field if it exist
+			if formerSource != nil {
+				idx := slices.Index(formerSource.Anarrayofb2Use, astructbstruct2use_)
+				formerSource.Anarrayofb2Use = slices.Delete(formerSource.Anarrayofb2Use, idx, idx+1)
+			}
+
+			// (2) find the source
+			var newSource *models.Astruct
+			for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](astructbstruct2useFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _astruct.GetName() == newSourceName.GetName() {
+					newSource = _astruct // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Astruct.Anarrayofb2Use []*AstructBstruct2Use, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Anarrayofb2Use = append(newSource.Anarrayofb2Use, astructbstruct2use_)
 		}
 	}
 
@@ -382,56 +438,84 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 		case "Bstruct2":
 			FormDivSelectFieldToField(&(astructbstructuse_.Bstruct2), astructbstructuseFormCallback.probe.stageOfInterest, formDiv)
 		case "Astruct:AnarrayofbUse":
-			// we need to retrieve the field owner before the change
-			var pastAstructOwner *models.Astruct
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Astruct"
-			rf.Fieldname = "AnarrayofbUse"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				astructbstructuseFormCallback.probe.stageOfInterest,
-				astructbstructuse_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Astruct.AnarrayofbUse []*AstructBstructUse" but
+			// it work only for 1-N associations
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of AstructBstructUse). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// the algorithm is
+			// 1/ get the former source of the association
+			var formerSource *models.Astruct
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Astruct"
+				rf.Fieldname = "AnarrayofbUse"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					astructbstructuseFormCallback.probe.stageOfInterest,
+					astructbstructuse_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastAstructOwner = reverseFieldOwner.(*models.Astruct)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastAstructOwner != nil {
-					idx := slices.Index(pastAstructOwner.AnarrayofbUse, astructbstructuse_)
-					pastAstructOwner.AnarrayofbUse = slices.Delete(pastAstructOwner.AnarrayofbUse, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastAstructOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](astructbstructuseFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _astruct.GetName() == fieldValue.GetName() {
-							newAstructOwner := _astruct // we have a match
-
-							// we remove the astructbstructuse_ instance from the pastAstructOwner field
-							if pastAstructOwner != nil {
-								if newAstructOwner != pastAstructOwner {
-									idx := slices.Index(pastAstructOwner.AnarrayofbUse, astructbstructuse_)
-									pastAstructOwner.AnarrayofbUse = slices.Delete(pastAstructOwner.AnarrayofbUse, idx, idx+1)
-									newAstructOwner.AnarrayofbUse = append(newAstructOwner.AnarrayofbUse, astructbstructuse_)
-								}
-							} else {
-								newAstructOwner.AnarrayofbUse = append(newAstructOwner.AnarrayofbUse, astructbstructuse_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Astruct)
+					if !ok {
+						log.Fatalln("Source of Astruct.AnarrayofbUse []*AstructBstructUse, is not an Astruct instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.AnarrayofbUse, astructbstructuse_)
+					formerSource.AnarrayofbUse = slices.Delete(formerSource.AnarrayofbUse, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// we need to deal with the 2 cases:
+			// 1 the field source is unchanged
+			// 2 the field source is changed
+
+			// 1 field source is unchanged
+			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
+				break // nothing else to do for this field
+			}
+
+			// 2 field source is changed -->
+			// (1) clear the source slice field if it exist
+			// (2) find the new source
+			// (3) append the new value to the new source field
+
+			// (1) clear the source slice field if it exist
+			if formerSource != nil {
+				idx := slices.Index(formerSource.AnarrayofbUse, astructbstructuse_)
+				formerSource.AnarrayofbUse = slices.Delete(formerSource.AnarrayofbUse, idx, idx+1)
+			}
+
+			// (2) find the source
+			var newSource *models.Astruct
+			for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](astructbstructuseFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _astruct.GetName() == newSourceName.GetName() {
+					newSource = _astruct // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Astruct.AnarrayofbUse []*AstructBstructUse, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.AnarrayofbUse = append(newSource.AnarrayofbUse, astructbstructuse_)
 		}
 	}
 
@@ -546,10 +630,10 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 				}
 			}
 
-			newAssociationSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
 			// case when the user set empty for the source value
-			if newAssociationSourceName == nil {
+			if newSourceName == nil {
 				if formerSource != nil {
 					idx := slices.Index(formerSource.Anarrayofb, bstruct_)
 					formerSource.Anarrayofb = slices.Delete(formerSource.Anarrayofb, idx, idx+1)
@@ -557,14 +641,12 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 				break // nothing else to do for this field
 			}
 
-			log.Println("The new field value is ", newAssociationSourceName.Name)
-
 			// we need to deal with the 2 cases:
 			// 1 the field source is unchanged
 			// 2 the field source is changed
 
 			// 1 field source is unchanged
-			if formerSource != nil && formerSource.GetName() == newAssociationSourceName.GetName() {
+			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
 				break // nothing else to do for this field
 			}
 
@@ -584,121 +666,176 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 			for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](bstructFormCallback.probe.stageOfInterest) {
 
 				// the match is base on the name
-				if _astruct.GetName() == newAssociationSourceName.GetName() {
+				if _astruct.GetName() == newSourceName.GetName() {
 					newSource = _astruct // we have a match
 					break
 				}
 			}
 			if newSource == nil {
-				log.Println("Source of Astruct.Anarrayofb []*Bstruct, with name", newAssociationSourceName, ", does not exist")
+				log.Println("Source of Astruct.Anarrayofb []*Bstruct, with name", newSourceName, ", does not exist")
 				break
 			}
 
 			// (3) append the new value to the new source field
 			newSource.Anarrayofb = append(newSource.Anarrayofb, bstruct_)
-
 		case "Astruct:Anotherarrayofb":
-			// we need to retrieve the field owner before the change
-			var pastAstructOwner *models.Astruct
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Astruct"
-			rf.Fieldname = "Anotherarrayofb"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				bstructFormCallback.probe.stageOfInterest,
-				bstruct_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Astruct.Anotherarrayofb []*Bstruct" but
+			// it work only for 1-N associations
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Bstruct). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// the algorithm is
+			// 1/ get the former source of the association
+			var formerSource *models.Astruct
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Astruct"
+				rf.Fieldname = "Anotherarrayofb"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					bstructFormCallback.probe.stageOfInterest,
+					bstruct_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastAstructOwner = reverseFieldOwner.(*models.Astruct)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastAstructOwner != nil {
-					idx := slices.Index(pastAstructOwner.Anotherarrayofb, bstruct_)
-					pastAstructOwner.Anotherarrayofb = slices.Delete(pastAstructOwner.Anotherarrayofb, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastAstructOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](bstructFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _astruct.GetName() == fieldValue.GetName() {
-							newAstructOwner := _astruct // we have a match
-
-							// we remove the bstruct_ instance from the pastAstructOwner field
-							if pastAstructOwner != nil {
-								if newAstructOwner != pastAstructOwner {
-									idx := slices.Index(pastAstructOwner.Anotherarrayofb, bstruct_)
-									pastAstructOwner.Anotherarrayofb = slices.Delete(pastAstructOwner.Anotherarrayofb, idx, idx+1)
-									newAstructOwner.Anotherarrayofb = append(newAstructOwner.Anotherarrayofb, bstruct_)
-								}
-							} else {
-								newAstructOwner.Anotherarrayofb = append(newAstructOwner.Anotherarrayofb, bstruct_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Astruct)
+					if !ok {
+						log.Fatalln("Source of Astruct.Anotherarrayofb []*Bstruct, is not an Astruct instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Anotherarrayofb, bstruct_)
+					formerSource.Anotherarrayofb = slices.Delete(formerSource.Anotherarrayofb, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// we need to deal with the 2 cases:
+			// 1 the field source is unchanged
+			// 2 the field source is changed
+
+			// 1 field source is unchanged
+			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
+				break // nothing else to do for this field
+			}
+
+			// 2 field source is changed -->
+			// (1) clear the source slice field if it exist
+			// (2) find the new source
+			// (3) append the new value to the new source field
+
+			// (1) clear the source slice field if it exist
+			if formerSource != nil {
+				idx := slices.Index(formerSource.Anotherarrayofb, bstruct_)
+				formerSource.Anotherarrayofb = slices.Delete(formerSource.Anotherarrayofb, idx, idx+1)
+			}
+
+			// (2) find the source
+			var newSource *models.Astruct
+			for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](bstructFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _astruct.GetName() == newSourceName.GetName() {
+					newSource = _astruct // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Astruct.Anotherarrayofb []*Bstruct, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Anotherarrayofb = append(newSource.Anotherarrayofb, bstruct_)
 		case "Dstruct:Anarrayofb":
-			// we need to retrieve the field owner before the change
-			var pastDstructOwner *models.Dstruct
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Dstruct"
-			rf.Fieldname = "Anarrayofb"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				bstructFormCallback.probe.stageOfInterest,
-				bstruct_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Dstruct.Anarrayofb []*Bstruct" but
+			// it work only for 1-N associations
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Bstruct). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// the algorithm is
+			// 1/ get the former source of the association
+			var formerSource *models.Dstruct
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Dstruct"
+				rf.Fieldname = "Anarrayofb"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					bstructFormCallback.probe.stageOfInterest,
+					bstruct_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastDstructOwner = reverseFieldOwner.(*models.Dstruct)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastDstructOwner != nil {
-					idx := slices.Index(pastDstructOwner.Anarrayofb, bstruct_)
-					pastDstructOwner.Anarrayofb = slices.Delete(pastDstructOwner.Anarrayofb, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastDstructOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _dstruct := range *models.GetGongstructInstancesSet[models.Dstruct](bstructFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _dstruct.GetName() == fieldValue.GetName() {
-							newDstructOwner := _dstruct // we have a match
-
-							// we remove the bstruct_ instance from the pastDstructOwner field
-							if pastDstructOwner != nil {
-								if newDstructOwner != pastDstructOwner {
-									idx := slices.Index(pastDstructOwner.Anarrayofb, bstruct_)
-									pastDstructOwner.Anarrayofb = slices.Delete(pastDstructOwner.Anarrayofb, idx, idx+1)
-									newDstructOwner.Anarrayofb = append(newDstructOwner.Anarrayofb, bstruct_)
-								}
-							} else {
-								newDstructOwner.Anarrayofb = append(newDstructOwner.Anarrayofb, bstruct_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Dstruct)
+					if !ok {
+						log.Fatalln("Source of Dstruct.Anarrayofb []*Bstruct, is not an Dstruct instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Anarrayofb, bstruct_)
+					formerSource.Anarrayofb = slices.Delete(formerSource.Anarrayofb, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// we need to deal with the 2 cases:
+			// 1 the field source is unchanged
+			// 2 the field source is changed
+
+			// 1 field source is unchanged
+			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
+				break // nothing else to do for this field
+			}
+
+			// 2 field source is changed -->
+			// (1) clear the source slice field if it exist
+			// (2) find the new source
+			// (3) append the new value to the new source field
+
+			// (1) clear the source slice field if it exist
+			if formerSource != nil {
+				idx := slices.Index(formerSource.Anarrayofb, bstruct_)
+				formerSource.Anarrayofb = slices.Delete(formerSource.Anarrayofb, idx, idx+1)
+			}
+
+			// (2) find the source
+			var newSource *models.Dstruct
+			for _dstruct := range *models.GetGongstructInstancesSet[models.Dstruct](bstructFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _dstruct.GetName() == newSourceName.GetName() {
+					newSource = _dstruct // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Dstruct.Anarrayofb []*Bstruct, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Anarrayofb = append(newSource.Anarrayofb, bstruct_)
 		}
 	}
 
@@ -779,56 +916,84 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 		case "Gstruct":
 			FormDivSelectFieldToField(&(dstruct_.Gstruct), dstructFormCallback.probe.stageOfInterest, formDiv)
 		case "Astruct:Dstruct4s":
-			// we need to retrieve the field owner before the change
-			var pastAstructOwner *models.Astruct
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Astruct"
-			rf.Fieldname = "Dstruct4s"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				dstructFormCallback.probe.stageOfInterest,
-				dstruct_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Astruct.Dstruct4s []*Dstruct" but
+			// it work only for 1-N associations
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Dstruct). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// the algorithm is
+			// 1/ get the former source of the association
+			var formerSource *models.Astruct
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Astruct"
+				rf.Fieldname = "Dstruct4s"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					dstructFormCallback.probe.stageOfInterest,
+					dstruct_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastAstructOwner = reverseFieldOwner.(*models.Astruct)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastAstructOwner != nil {
-					idx := slices.Index(pastAstructOwner.Dstruct4s, dstruct_)
-					pastAstructOwner.Dstruct4s = slices.Delete(pastAstructOwner.Dstruct4s, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastAstructOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](dstructFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _astruct.GetName() == fieldValue.GetName() {
-							newAstructOwner := _astruct // we have a match
-
-							// we remove the dstruct_ instance from the pastAstructOwner field
-							if pastAstructOwner != nil {
-								if newAstructOwner != pastAstructOwner {
-									idx := slices.Index(pastAstructOwner.Dstruct4s, dstruct_)
-									pastAstructOwner.Dstruct4s = slices.Delete(pastAstructOwner.Dstruct4s, idx, idx+1)
-									newAstructOwner.Dstruct4s = append(newAstructOwner.Dstruct4s, dstruct_)
-								}
-							} else {
-								newAstructOwner.Dstruct4s = append(newAstructOwner.Dstruct4s, dstruct_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Astruct)
+					if !ok {
+						log.Fatalln("Source of Astruct.Dstruct4s []*Dstruct, is not an Astruct instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Dstruct4s, dstruct_)
+					formerSource.Dstruct4s = slices.Delete(formerSource.Dstruct4s, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// we need to deal with the 2 cases:
+			// 1 the field source is unchanged
+			// 2 the field source is changed
+
+			// 1 field source is unchanged
+			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
+				break // nothing else to do for this field
+			}
+
+			// 2 field source is changed -->
+			// (1) clear the source slice field if it exist
+			// (2) find the new source
+			// (3) append the new value to the new source field
+
+			// (1) clear the source slice field if it exist
+			if formerSource != nil {
+				idx := slices.Index(formerSource.Dstruct4s, dstruct_)
+				formerSource.Dstruct4s = slices.Delete(formerSource.Dstruct4s, idx, idx+1)
+			}
+
+			// (2) find the source
+			var newSource *models.Astruct
+			for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](dstructFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _astruct.GetName() == newSourceName.GetName() {
+					newSource = _astruct // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Astruct.Dstruct4s []*Dstruct, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Dstruct4s = append(newSource.Dstruct4s, dstruct_)
 		}
 	}
 
@@ -992,56 +1157,84 @@ func (gstructFormCallback *GstructFormCallback) OnSave() {
 		case "Intfield":
 			FormDivBasicFieldToField(&(gstruct_.Intfield), formDiv)
 		case "Dstruct:Gstructs":
-			// we need to retrieve the field owner before the change
-			var pastDstructOwner *models.Dstruct
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Dstruct"
-			rf.Fieldname = "Gstructs"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				gstructFormCallback.probe.stageOfInterest,
-				gstruct_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Dstruct.Gstructs []*Gstruct" but
+			// it work only for 1-N associations
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Gstruct). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// the algorithm is
+			// 1/ get the former source of the association
+			var formerSource *models.Dstruct
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Dstruct"
+				rf.Fieldname = "Gstructs"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					gstructFormCallback.probe.stageOfInterest,
+					gstruct_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastDstructOwner = reverseFieldOwner.(*models.Dstruct)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastDstructOwner != nil {
-					idx := slices.Index(pastDstructOwner.Gstructs, gstruct_)
-					pastDstructOwner.Gstructs = slices.Delete(pastDstructOwner.Gstructs, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastDstructOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _dstruct := range *models.GetGongstructInstancesSet[models.Dstruct](gstructFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _dstruct.GetName() == fieldValue.GetName() {
-							newDstructOwner := _dstruct // we have a match
-
-							// we remove the gstruct_ instance from the pastDstructOwner field
-							if pastDstructOwner != nil {
-								if newDstructOwner != pastDstructOwner {
-									idx := slices.Index(pastDstructOwner.Gstructs, gstruct_)
-									pastDstructOwner.Gstructs = slices.Delete(pastDstructOwner.Gstructs, idx, idx+1)
-									newDstructOwner.Gstructs = append(newDstructOwner.Gstructs, gstruct_)
-								}
-							} else {
-								newDstructOwner.Gstructs = append(newDstructOwner.Gstructs, gstruct_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Dstruct)
+					if !ok {
+						log.Fatalln("Source of Dstruct.Gstructs []*Gstruct, is not an Dstruct instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Gstructs, gstruct_)
+					formerSource.Gstructs = slices.Delete(formerSource.Gstructs, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// we need to deal with the 2 cases:
+			// 1 the field source is unchanged
+			// 2 the field source is changed
+
+			// 1 field source is unchanged
+			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
+				break // nothing else to do for this field
+			}
+
+			// 2 field source is changed -->
+			// (1) clear the source slice field if it exist
+			// (2) find the new source
+			// (3) append the new value to the new source field
+
+			// (1) clear the source slice field if it exist
+			if formerSource != nil {
+				idx := slices.Index(formerSource.Gstructs, gstruct_)
+				formerSource.Gstructs = slices.Delete(formerSource.Gstructs, idx, idx+1)
+			}
+
+			// (2) find the source
+			var newSource *models.Dstruct
+			for _dstruct := range *models.GetGongstructInstancesSet[models.Dstruct](gstructFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _dstruct.GetName() == newSourceName.GetName() {
+					newSource = _dstruct // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Dstruct.Gstructs []*Gstruct, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Gstructs = append(newSource.Gstructs, gstruct_)
 		}
 	}
 
