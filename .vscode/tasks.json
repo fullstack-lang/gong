@@ -758,7 +758,7 @@
         "run",
         ".",
         "-unmarshallFromCode=data/rectangle.go",
-        "-marshallOnCommit=data/rectangle_out"
+        "-marshallOnCommit=data/rectangle.go"
       ],
       "group": "build"
     },
