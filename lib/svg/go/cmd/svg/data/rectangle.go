@@ -33,12 +33,16 @@ func _(stage *models.Stage) {
 	__Layer__000003_Link_layer_vertical_to_horizontal := (&models.Layer{}).Stage(stage)
 	__Layer__000004_Middle_Rect_Layer := (&models.Layer{}).Stage(stage)
 	__Layer__000005_Top_Rectangle_layer := (&models.Layer{}).Stage(stage)
+	__Layer__000006_Test_Automatic_Layout := (&models.Layer{}).Stage(stage)
 
 	__Line__000000_Line_connecting_rect_Bottom_to_Top := (&models.Line{}).Stage(stage)
 
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal := (&models.Link{}).Stage(stage)
 	__Link__000001_Start_Middle := (&models.Link{}).Stage(stage)
 	__Link__000002_Top_to_Middle_issue_645_ := (&models.Link{}).Stage(stage)
+	__Link__000003_Auto_1 := (&models.Link{}).Stage(stage)
+	__Link__000004_Auto_2 := (&models.Link{}).Stage(stage)
+	__Link__000005_Auto_3 := (&models.Link{}).Stage(stage)
 
 	__LinkAnchoredText__000000_End_Left_Top := (&models.LinkAnchoredText{}).Stage(stage)
 	__LinkAnchoredText__000001_End_Right_Bottom := (&models.LinkAnchoredText{}).Stage(stage)
@@ -48,10 +52,14 @@ func _(stage *models.Stage) {
 	__LinkAnchoredText__000005_Start_Right_Bottom := (&models.LinkAnchoredText{}).Stage(stage)
 	__LinkAnchoredText__000006_Issue_645 := (&models.LinkAnchoredText{}).Stage(stage)
 	__LinkAnchoredText__000007_Right_to_the_end_anchored_text := (&models.LinkAnchoredText{}).Stage(stage)
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM := (&models.LinkAnchoredText{}).Stage(stage)
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP := (&models.LinkAnchoredText{}).Stage(stage)
 
 	__Rect__000000_Bottom_Rect := (&models.Rect{}).Stage(stage)
 	__Rect__000001_Middle_Rect := (&models.Rect{}).Stage(stage)
 	__Rect__000002_Top_Rect := (&models.Rect{}).Stage(stage)
+	__Rect__000003_Test_Automatic_Layout_Start := (&models.Rect{}).Stage(stage)
+	__Rect__000004_End := (&models.Rect{}).Stage(stage)
 
 	__RectAnchoredPath__000000_Logo_to_add := (&models.RectAnchoredPath{}).Stage(stage)
 	__RectAnchoredPath__000001_second_log := (&models.RectAnchoredPath{}).Stage(stage)
@@ -63,6 +71,9 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__000001_Top_Left := (&models.RectAnchoredText{}).Stage(stage)
 	__RectAnchoredText__000002_Top_anchored_bottom_middle := (&models.RectAnchoredText{}).Stage(stage)
 	__RectAnchoredText__000003_Top_anchored_top_middle := (&models.RectAnchoredText{}).Stage(stage)
+	__RectAnchoredText__000004_Start := (&models.RectAnchoredText{}).Stage(stage)
+	__RectAnchoredText__000005_End := (&models.RectAnchoredText{}).Stage(stage)
+	__RectAnchoredText__000006_ := (&models.RectAnchoredText{}).Stage(stage)
 
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link := (&models.RectLinkLink{}).Stage(stage)
 
@@ -112,6 +123,9 @@ func _(stage *models.Stage) {
 
 	__Layer__000005_Top_Rectangle_layer.Display = false
 	__Layer__000005_Top_Rectangle_layer.Name = `Top Rectangle layer`
+
+	__Layer__000006_Test_Automatic_Layout.Display = false
+	__Layer__000006_Test_Automatic_Layout.Name = `Test Automatic Layout`
 
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.Name = `Line connecting rect Bottom to Top`
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.X1 = 374.000000
@@ -198,6 +212,72 @@ func _(stage *models.Stage) {
 	__Link__000002_Top_to_Middle_issue_645_.StrokeDashArray = ``
 	__Link__000002_Top_to_Middle_issue_645_.StrokeDashArrayWhenSelected = ``
 	__Link__000002_Top_to_Middle_issue_645_.Transform = ``
+
+	__Link__000003_Auto_1.Name = `Auto 1`
+	__Link__000003_Auto_1.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
+	__Link__000003_Auto_1.IsBezierCurve = false
+	__Link__000003_Auto_1.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000003_Auto_1.StartRatio = 0.355990
+	__Link__000003_Auto_1.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000003_Auto_1.EndRatio = 0.153353
+	__Link__000003_Auto_1.CornerOffsetRatio = 7.192308
+	__Link__000003_Auto_1.CornerRadius = 0.000000
+	__Link__000003_Auto_1.HasEndArrow = true
+	__Link__000003_Auto_1.EndArrowSize = 5.000000
+	__Link__000003_Auto_1.HasStartArrow = false
+	__Link__000003_Auto_1.StartArrowSize = 0.000000
+	__Link__000003_Auto_1.Color = ``
+	__Link__000003_Auto_1.FillOpacity = 0.000000
+	__Link__000003_Auto_1.Stroke = `black`
+	__Link__000003_Auto_1.StrokeOpacity = 1.000000
+	__Link__000003_Auto_1.StrokeWidth = 1.000000
+	__Link__000003_Auto_1.StrokeDashArray = ``
+	__Link__000003_Auto_1.StrokeDashArrayWhenSelected = ``
+	__Link__000003_Auto_1.Transform = ``
+
+	__Link__000004_Auto_2.Name = `Auto 2`
+	__Link__000004_Auto_2.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
+	__Link__000004_Auto_2.IsBezierCurve = false
+	__Link__000004_Auto_2.StartOrientation = models.ORIENTATION_VERTICAL
+	__Link__000004_Auto_2.StartRatio = 0.435714
+	__Link__000004_Auto_2.EndOrientation = models.ORIENTATION_VERTICAL
+	__Link__000004_Auto_2.EndRatio = 0.407692
+	__Link__000004_Auto_2.CornerOffsetRatio = 1.153325
+	__Link__000004_Auto_2.CornerRadius = 0.000000
+	__Link__000004_Auto_2.HasEndArrow = true
+	__Link__000004_Auto_2.EndArrowSize = 5.000000
+	__Link__000004_Auto_2.HasStartArrow = false
+	__Link__000004_Auto_2.StartArrowSize = 0.000000
+	__Link__000004_Auto_2.Color = ``
+	__Link__000004_Auto_2.FillOpacity = 0.000000
+	__Link__000004_Auto_2.Stroke = `black`
+	__Link__000004_Auto_2.StrokeOpacity = 1.000000
+	__Link__000004_Auto_2.StrokeWidth = 1.000000
+	__Link__000004_Auto_2.StrokeDashArray = ``
+	__Link__000004_Auto_2.StrokeDashArrayWhenSelected = ``
+	__Link__000004_Auto_2.Transform = ``
+
+	__Link__000005_Auto_3.Name = `Auto 3`
+	__Link__000005_Auto_3.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
+	__Link__000005_Auto_3.IsBezierCurve = false
+	__Link__000005_Auto_3.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000005_Auto_3.StartRatio = 0.620556
+	__Link__000005_Auto_3.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000005_Auto_3.EndRatio = 0.738937
+	__Link__000005_Auto_3.CornerOffsetRatio = -1.476923
+	__Link__000005_Auto_3.CornerRadius = 0.000000
+	__Link__000005_Auto_3.HasEndArrow = true
+	__Link__000005_Auto_3.EndArrowSize = 5.000000
+	__Link__000005_Auto_3.HasStartArrow = false
+	__Link__000005_Auto_3.StartArrowSize = 0.000000
+	__Link__000005_Auto_3.Color = ``
+	__Link__000005_Auto_3.FillOpacity = 0.000000
+	__Link__000005_Auto_3.Stroke = `black`
+	__Link__000005_Auto_3.StrokeOpacity = 1.000000
+	__Link__000005_Auto_3.StrokeWidth = 1.000000
+	__Link__000005_Auto_3.StrokeDashArray = ``
+	__Link__000005_Auto_3.StrokeDashArrayWhenSelected = ``
+	__Link__000005_Auto_3.Transform = ``
 
 	__LinkAnchoredText__000000_End_Left_Top.Name = `End Left/Top`
 	__LinkAnchoredText__000000_End_Left_Top.Content = `End Left/Top`
@@ -345,6 +425,42 @@ Third Line`
 	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.StrokeDashArrayWhenSelected = ``
 	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.Transform = ``
 
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Name = `AA_RIGHT_OR_BOTTOM`
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Content = `RIGHT_OR_BOTTOM`
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.AutomaticLayout = true
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.LinkAnchorType = models.LINK_RIGHT_OR_BOTTOM
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.X_Offset = 0.000000
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Y_Offset = 0.000000
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.FontWeight = ``
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.FontSize = ``
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.LetterSpacing = ``
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Color = `black`
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.FillOpacity = 1.000000
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Stroke = `black`
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.StrokeOpacity = 1.000000
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.StrokeWidth = 1.000000
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.StrokeDashArray = ``
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.StrokeDashArrayWhenSelected = ``
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Transform = ``
+
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Name = `AA_LEFT_OR_TOP`
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Content = `LEFT_OR_TOP`
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.AutomaticLayout = true
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.LinkAnchorType = models.LINK_LEFT_OR_TOP
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.X_Offset = 0.000000
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Y_Offset = 0.000000
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.FontWeight = ``
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.FontSize = ``
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.LetterSpacing = ``
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Color = `black`
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.FillOpacity = 1.000000
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Stroke = `black`
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.StrokeOpacity = 1.000000
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.StrokeWidth = 1.000000
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.StrokeDashArray = ``
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.StrokeDashArrayWhenSelected = ``
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Transform = ``
+
 	__Rect__000000_Bottom_Rect.Name = `Bottom Rect`
 	__Rect__000000_Bottom_Rect.X = 440.000000
 	__Rect__000000_Bottom_Rect.Y = 592.000000
@@ -428,6 +544,62 @@ Third Line`
 	__Rect__000002_Top_Rect.HasBottomHandle = false
 	__Rect__000002_Top_Rect.CanMoveHorizontaly = true
 	__Rect__000002_Top_Rect.CanMoveVerticaly = true
+
+	__Rect__000003_Test_Automatic_Layout_Start.Name = `Test Automatic Layout / Start`
+	__Rect__000003_Test_Automatic_Layout_Start.X = 1081.000000
+	__Rect__000003_Test_Automatic_Layout_Start.Y = 44.000000
+	__Rect__000003_Test_Automatic_Layout_Start.Width = 130.000000
+	__Rect__000003_Test_Automatic_Layout_Start.Height = 401.000000
+	__Rect__000003_Test_Automatic_Layout_Start.RX = 0.000000
+	__Rect__000003_Test_Automatic_Layout_Start.Color = ``
+	__Rect__000003_Test_Automatic_Layout_Start.FillOpacity = 0.000000
+	__Rect__000003_Test_Automatic_Layout_Start.Stroke = `black`
+	__Rect__000003_Test_Automatic_Layout_Start.StrokeOpacity = 1.000000
+	__Rect__000003_Test_Automatic_Layout_Start.StrokeWidth = 1.000000
+	__Rect__000003_Test_Automatic_Layout_Start.StrokeDashArray = ``
+	__Rect__000003_Test_Automatic_Layout_Start.StrokeDashArrayWhenSelected = ``
+	__Rect__000003_Test_Automatic_Layout_Start.Transform = ``
+	__Rect__000003_Test_Automatic_Layout_Start.IsSelectable = true
+	__Rect__000003_Test_Automatic_Layout_Start.IsSelected = false
+	__Rect__000003_Test_Automatic_Layout_Start.CanHaveLeftHandle = true
+	__Rect__000003_Test_Automatic_Layout_Start.HasLeftHandle = false
+	__Rect__000003_Test_Automatic_Layout_Start.CanHaveRightHandle = true
+	__Rect__000003_Test_Automatic_Layout_Start.HasRightHandle = false
+	__Rect__000003_Test_Automatic_Layout_Start.CanHaveTopHandle = true
+	__Rect__000003_Test_Automatic_Layout_Start.HasTopHandle = false
+	__Rect__000003_Test_Automatic_Layout_Start.IsScalingProportionally = false
+	__Rect__000003_Test_Automatic_Layout_Start.CanHaveBottomHandle = true
+	__Rect__000003_Test_Automatic_Layout_Start.HasBottomHandle = false
+	__Rect__000003_Test_Automatic_Layout_Start.CanMoveHorizontaly = true
+	__Rect__000003_Test_Automatic_Layout_Start.CanMoveVerticaly = true
+
+	__Rect__000004_End.Name = `End`
+	__Rect__000004_End.X = 1697.000000
+	__Rect__000004_End.Y = 78.000000
+	__Rect__000004_End.Width = 140.000000
+	__Rect__000004_End.Height = 384.000000
+	__Rect__000004_End.RX = 0.000000
+	__Rect__000004_End.Color = ``
+	__Rect__000004_End.FillOpacity = 0.000000
+	__Rect__000004_End.Stroke = `black`
+	__Rect__000004_End.StrokeOpacity = 1.000000
+	__Rect__000004_End.StrokeWidth = 1.000000
+	__Rect__000004_End.StrokeDashArray = ``
+	__Rect__000004_End.StrokeDashArrayWhenSelected = ``
+	__Rect__000004_End.Transform = ``
+	__Rect__000004_End.IsSelectable = true
+	__Rect__000004_End.IsSelected = false
+	__Rect__000004_End.CanHaveLeftHandle = true
+	__Rect__000004_End.HasLeftHandle = false
+	__Rect__000004_End.CanHaveRightHandle = true
+	__Rect__000004_End.HasRightHandle = false
+	__Rect__000004_End.CanHaveTopHandle = true
+	__Rect__000004_End.HasTopHandle = false
+	__Rect__000004_End.IsScalingProportionally = false
+	__Rect__000004_End.CanHaveBottomHandle = true
+	__Rect__000004_End.HasBottomHandle = false
+	__Rect__000004_End.CanMoveHorizontaly = true
+	__Rect__000004_End.CanMoveVerticaly = true
 
 	__RectAnchoredPath__000000_Logo_to_add.Name = `Logo to add`
 	__RectAnchoredPath__000000_Logo_to_add.Definition = `M532-131q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-90T395-320q0-37 11-78t38-106q23-57 32-87.5t9-56.5q0-34-15-63.5T423-771q-6-6-9.5-14t-3.5-16q0-8 3-14.5t8-12.5q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T518-474q-25 60-34 92t-9 61q0 35 14.5 67.5T534-188q5 6 8 13t3 15q0 8-3 15.5T532-131Zm195 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T590-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T618-771q-6-6-9-13.5t-3-15.5q0-8 2.5-14.5T616-827q6-6 14-9.5t16-3.5q8 0 14.5 3t12.5 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T713-473q-25 60-34 92t-9 60q0 35 15 68.5t45 65.5q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Zm-390 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T200-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T228-771q-7-6-10-13.5t-3-15.5q0-8 3-15t8-13q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 85.5T370-648q0 35-10 73.5T324-474q-25 60-34 92t-9 61q0 35 14.5 68.5T340-187q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Z`
@@ -583,6 +755,58 @@ line 3`
 	__RectAnchoredText__000003_Top_anchored_top_middle.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__000003_Top_anchored_top_middle.Transform = ``
 
+	__RectAnchoredText__000004_Start.Name = `Start`
+	__RectAnchoredText__000004_Start.Content = `Start`
+	__RectAnchoredText__000004_Start.FontWeight = ``
+	__RectAnchoredText__000004_Start.FontSize = 27
+	__RectAnchoredText__000004_Start.FontStyle = ``
+	__RectAnchoredText__000004_Start.X_Offset = 0.000000
+	__RectAnchoredText__000004_Start.Y_Offset = 0.000000
+	__RectAnchoredText__000004_Start.RectAnchorType = models.RECT_CENTER
+	__RectAnchoredText__000004_Start.TextAnchorType = models.TEXT_ANCHOR_CENTER
+	__RectAnchoredText__000004_Start.Color = `black`
+	__RectAnchoredText__000004_Start.FillOpacity = 1.000000
+	__RectAnchoredText__000004_Start.Stroke = `black`
+	__RectAnchoredText__000004_Start.StrokeOpacity = 1.000000
+	__RectAnchoredText__000004_Start.StrokeWidth = 1.000000
+	__RectAnchoredText__000004_Start.StrokeDashArray = ``
+	__RectAnchoredText__000004_Start.StrokeDashArrayWhenSelected = ``
+	__RectAnchoredText__000004_Start.Transform = ``
+
+	__RectAnchoredText__000005_End.Name = `End`
+	__RectAnchoredText__000005_End.Content = `End`
+	__RectAnchoredText__000005_End.FontWeight = ``
+	__RectAnchoredText__000005_End.FontSize = 27
+	__RectAnchoredText__000005_End.FontStyle = ``
+	__RectAnchoredText__000005_End.X_Offset = 0.000000
+	__RectAnchoredText__000005_End.Y_Offset = 0.000000
+	__RectAnchoredText__000005_End.RectAnchorType = models.RECT_CENTER
+	__RectAnchoredText__000005_End.TextAnchorType = models.TEXT_ANCHOR_CENTER
+	__RectAnchoredText__000005_End.Color = `black`
+	__RectAnchoredText__000005_End.FillOpacity = 1.000000
+	__RectAnchoredText__000005_End.Stroke = `black`
+	__RectAnchoredText__000005_End.StrokeOpacity = 1.000000
+	__RectAnchoredText__000005_End.StrokeWidth = 1.000000
+	__RectAnchoredText__000005_End.StrokeDashArray = ``
+	__RectAnchoredText__000005_End.StrokeDashArrayWhenSelected = ``
+	__RectAnchoredText__000005_End.Transform = ``
+
+	__RectAnchoredText__000006_.Name = ``
+	__RectAnchoredText__000006_.Content = ``
+	__RectAnchoredText__000006_.FontWeight = ``
+	__RectAnchoredText__000006_.FontSize = 27
+	__RectAnchoredText__000006_.FontStyle = ``
+	__RectAnchoredText__000006_.X_Offset = 0.000000
+	__RectAnchoredText__000006_.Y_Offset = 0.000000
+	__RectAnchoredText__000006_.Color = ``
+	__RectAnchoredText__000006_.FillOpacity = 0.000000
+	__RectAnchoredText__000006_.Stroke = ``
+	__RectAnchoredText__000006_.StrokeOpacity = 0.000000
+	__RectAnchoredText__000006_.StrokeWidth = 0.000000
+	__RectAnchoredText__000006_.StrokeDashArray = ``
+	__RectAnchoredText__000006_.StrokeDashArrayWhenSelected = ``
+	__RectAnchoredText__000006_.Transform = ``
+
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Name = `Test Middle to Top-Bottom Link`
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.TargetAnchorPosition = 0.600000
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Color = ``
@@ -718,6 +942,11 @@ line 3`
 	__Layer__000003_Link_layer_vertical_to_horizontal.Links = append(__Layer__000003_Link_layer_vertical_to_horizontal.Links, __Link__000002_Top_to_Middle_issue_645_)
 	__Layer__000004_Middle_Rect_Layer.Rects = append(__Layer__000004_Middle_Rect_Layer.Rects, __Rect__000001_Middle_Rect)
 	__Layer__000005_Top_Rectangle_layer.Rects = append(__Layer__000005_Top_Rectangle_layer.Rects, __Rect__000002_Top_Rect)
+	__Layer__000006_Test_Automatic_Layout.Rects = append(__Layer__000006_Test_Automatic_Layout.Rects, __Rect__000003_Test_Automatic_Layout_Start)
+	__Layer__000006_Test_Automatic_Layout.Rects = append(__Layer__000006_Test_Automatic_Layout.Rects, __Rect__000004_End)
+	__Layer__000006_Test_Automatic_Layout.Links = append(__Layer__000006_Test_Automatic_Layout.Links, __Link__000003_Auto_1)
+	__Layer__000006_Test_Automatic_Layout.Links = append(__Layer__000006_Test_Automatic_Layout.Links, __Link__000004_Auto_2)
+	__Layer__000006_Test_Automatic_Layout.Links = append(__Layer__000006_Test_Automatic_Layout.Links, __Link__000005_Auto_3)
 	// setup of Line instances pointers
 	// setup of Link instances pointers
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000002_Top_Rect
@@ -735,6 +964,24 @@ line 3`
 	__Link__000002_Top_to_Middle_issue_645_.End = __Rect__000001_Middle_Rect
 	__Link__000002_Top_to_Middle_issue_645_.TextAtArrowEnd = append(__Link__000002_Top_to_Middle_issue_645_.TextAtArrowEnd, __LinkAnchoredText__000006_Issue_645)
 	__Link__000002_Top_to_Middle_issue_645_.TextAtArrowEnd = append(__Link__000002_Top_to_Middle_issue_645_.TextAtArrowEnd, __LinkAnchoredText__000007_Right_to_the_end_anchored_text)
+	__Link__000003_Auto_1.Start = __Rect__000003_Test_Automatic_Layout_Start
+	__Link__000003_Auto_1.End = __Rect__000004_End
+	__Link__000003_Auto_1.TextAtArrowEnd = append(__Link__000003_Auto_1.TextAtArrowEnd, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
+	__Link__000003_Auto_1.TextAtArrowEnd = append(__Link__000003_Auto_1.TextAtArrowEnd, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
+	__Link__000003_Auto_1.TextAtArrowStart = append(__Link__000003_Auto_1.TextAtArrowStart, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
+	__Link__000003_Auto_1.TextAtArrowStart = append(__Link__000003_Auto_1.TextAtArrowStart, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
+	__Link__000004_Auto_2.Start = __Rect__000004_End
+	__Link__000004_Auto_2.End = __Rect__000003_Test_Automatic_Layout_Start
+	__Link__000004_Auto_2.TextAtArrowEnd = append(__Link__000004_Auto_2.TextAtArrowEnd, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
+	__Link__000004_Auto_2.TextAtArrowEnd = append(__Link__000004_Auto_2.TextAtArrowEnd, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
+	__Link__000004_Auto_2.TextAtArrowStart = append(__Link__000004_Auto_2.TextAtArrowStart, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
+	__Link__000004_Auto_2.TextAtArrowStart = append(__Link__000004_Auto_2.TextAtArrowStart, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
+	__Link__000005_Auto_3.Start = __Rect__000003_Test_Automatic_Layout_Start
+	__Link__000005_Auto_3.End = __Rect__000004_End
+	__Link__000005_Auto_3.TextAtArrowEnd = append(__Link__000005_Auto_3.TextAtArrowEnd, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
+	__Link__000005_Auto_3.TextAtArrowEnd = append(__Link__000005_Auto_3.TextAtArrowEnd, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
+	__Link__000005_Auto_3.TextAtArrowStart = append(__Link__000005_Auto_3.TextAtArrowStart, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
+	__Link__000005_Auto_3.TextAtArrowStart = append(__Link__000005_Auto_3.TextAtArrowStart, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
 	// setup of LinkAnchoredText instances pointers
 	// setup of Rect instances pointers
 	__Rect__000000_Bottom_Rect.RectAnchoredTexts = append(__Rect__000000_Bottom_Rect.RectAnchoredTexts, __RectAnchoredText__000000_Bottom_Text)
@@ -744,6 +991,8 @@ line 3`
 	__Rect__000001_Middle_Rect.RectAnchoredTexts = append(__Rect__000001_Middle_Rect.RectAnchoredTexts, __RectAnchoredText__000003_Top_anchored_top_middle)
 	__Rect__000002_Top_Rect.RectAnchoredRects = append(__Rect__000002_Top_Rect.RectAnchoredRects, __RectAnchoredRect__000000_Rect_within_top)
 	__Rect__000002_Top_Rect.RectAnchoredPaths = append(__Rect__000002_Top_Rect.RectAnchoredPaths, __RectAnchoredPath__000000_Logo_to_add)
+	__Rect__000003_Test_Automatic_Layout_Start.RectAnchoredTexts = append(__Rect__000003_Test_Automatic_Layout_Start.RectAnchoredTexts, __RectAnchoredText__000004_Start)
+	__Rect__000004_End.RectAnchoredTexts = append(__Rect__000004_End.RectAnchoredTexts, __RectAnchoredText__000005_End)
 	// setup of RectAnchoredPath instances pointers
 	// setup of RectAnchoredRect instances pointers
 	// setup of RectAnchoredText instances pointers
@@ -752,10 +1001,11 @@ line 3`
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.End = __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal
 	// setup of SVG instances pointers
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000005_Top_Rectangle_layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000004_Middle_Rect_Layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000003_Link_layer_vertical_to_horizontal)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000003_Link_layer_vertical_to_horizontal)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000004_Middle_Rect_Layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000006_Test_Automatic_Layout)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000005_Top_Rectangle_layer)
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom_Rect
 	__SVG__000000_SVG.EndRect = __Rect__000002_Top_Rect
 	// setup of SvgText instances pointers

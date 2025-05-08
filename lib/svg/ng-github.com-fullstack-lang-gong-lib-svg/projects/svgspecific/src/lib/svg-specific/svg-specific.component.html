@@ -332,33 +332,91 @@
             }
           }
           @for(text of rect.RectAnchoredTexts!; track text) {
-            @if(text.RectAnchorType == RectAnchorType.RECT_TOP_LEFT) {
-              <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
-                      text: text, 
-                      anchorX: rect.X + text.X_Offset, 
-                      anchorY: rect.Y + text.Y_Offset }">
-              </ng-container>
-            }
-            @if(text.RectAnchorType == RectAnchorType.RECT_TOP) {
-              <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
-                      text: text, 
-                      anchorX: rect.X + rect.Width/2 + text.X_Offset, 
-                      anchorY: rect.Y + text.Y_Offset }">
-              </ng-container>
-            }
-            @if(text.RectAnchorType == RectAnchorType.RECT_TOP_RIGHT) {
-              <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
-                      text: text, 
-                      anchorX: rect.X + rect.Width + text.X_Offset, 
-                      anchorY: rect.Y + text.Y_Offset }">
-              </ng-container>
-            }
-            @if(text.RectAnchorType == RectAnchorType.RECT_BOTTOM) {
-              <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
-                      text: text, 
-                      anchorX: rect.X + rect.Width/2 + text.X_Offset, 
-                      anchorY: rect.Y + rect.Height + text.Y_Offset }">
-              </ng-container>
+            @switch(text.RectAnchorType) {
+              @case(RectAnchorType.RECT_TOP_LEFT) {
+                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
+                  text: text, 
+                  anchorX: rect.X + text.X_Offset, 
+                  anchorY: rect.Y + text.Y_Offset }">
+                </ng-container>
+              }
+              @case(RectAnchorType.RECT_TOP) {
+                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
+                  text: text, 
+                  anchorX: rect.X + rect.Width/2 + text.X_Offset, 
+                  anchorY: rect.Y + text.Y_Offset }">
+                </ng-container>
+              }
+              @case(RectAnchorType.RECT_TOP_RIGHT) {
+                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
+                  text: text, 
+                  anchorX: rect.X + rect.Width + text.X_Offset, 
+                  anchorY: rect.Y + text.Y_Offset }">
+                </ng-container>
+              }
+              @case(RectAnchorType.RECT_BOTTOM) {
+                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
+                  text: text, 
+                  anchorX: rect.X + rect.Width/2 + text.X_Offset, 
+                  anchorY: rect.Y + rect.Height + text.Y_Offset }">
+                </ng-container>
+              }
+              @case(RectAnchorType.RECT_BOTTOM_LEFT) {
+                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
+                  text: text, 
+                  anchorX: rect.X + text.X_Offset, 
+                  anchorY: rect.Y + rect.Height + text.Y_Offset }">
+                </ng-container>
+              }
+              @case(RectAnchorType.RECT_BOTTOM_LEFT_LEFT) {
+                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
+                  text: text, 
+                  anchorX: rect.X - text.X_Offset, 
+                  anchorY: rect.Y + rect.Height + text.Y_Offset }">
+                </ng-container>
+              }
+              @case(RectAnchorType.RECT_BOTTOM_BOTTOM_LEFT) {
+                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
+                  text: text, 
+                  anchorX: rect.X + text.X_Offset, 
+                  anchorY: rect.Y + rect.Height + text.Y_Offset * 2 }">
+                </ng-container>
+              }
+              @case(RectAnchorType.RECT_BOTTOM_RIGHT) {
+                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
+                  text: text, 
+                  anchorX: rect.X + rect.Width + text.X_Offset, 
+                  anchorY: rect.Y + rect.Height + text.Y_Offset }">
+                </ng-container>
+              }
+              @case(RectAnchorType.RECT_BOTTOM_INSIDE_RIGHT) {
+                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
+                  text: text, 
+                  anchorX: rect.X + rect.Width - text.X_Offset, 
+                  anchorY: rect.Y + rect.Height - text.Y_Offset }">
+                </ng-container>
+              }
+              @case(RectAnchorType.RECT_LEFT) {
+                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
+                  text: text, 
+                  anchorX: rect.X + text.X_Offset, 
+                  anchorY: rect.Y + rect.Height/2 + text.Y_Offset }">
+                </ng-container>
+              }
+              @case(RectAnchorType.RECT_RIGHT) {
+                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
+                  text: text, 
+                  anchorX: rect.X + rect.Width + text.X_Offset, 
+                  anchorY: rect.Y + rect.Height/2 + text.Y_Offset }">
+                </ng-container>
+              }
+              @case(RectAnchorType.RECT_CENTER) {
+                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
+                  text: text, 
+                  anchorX: rect.X + rect.Width/2 + text.X_Offset, 
+                  anchorY: rect.Y + rect.Height/2 + text.Y_Offset }">
+                </ng-container>
+              }
             }
           }
           <ng-container>
@@ -523,8 +581,24 @@
                         [attr.stroke-dasharray]="text.StrokeDashArray"
                         [attr.transform]="text.Transform">
                         @for(line of lines; track line) {
-                          <tspan [attr.x]="segment.EndPoint.X + auto_X_offset(link, segment, text, line, PositionOnArrowType.POSITION_ON_ARROW_END)"
-                                 [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'">{{line}}</tspan>
+                          @if (segment.Orientation === "ORIENTATION_VERTICAL") {
+                            <tspan [attr.x]="segment.EndPoint.X"
+                            [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'"
+                            [attr.text-anchor]="text.LinkAnchorType === 'LINK_LEFT_OR_TOP' ? 'end' : 'start'">
+                            &nbsp;{{line}}&nbsp;</tspan>
+                          }@else {
+                            @if (segment.EndPoint.X > segment.StartPoint.X) {
+                              <tspan [attr.x]="segment.EndPoint.X"
+                              [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'"
+                              [attr.text-anchor]="'end'">
+                              &nbsp;{{line}}&nbsp;</tspan>
+                            } @else {
+                              <tspan [attr.x]="segment.EndPoint.X"
+                              [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'"
+                              [attr.text-anchor]="'start'">
+                              &nbsp;{{line}}&nbsp;</tspan>
+                            }
+                          }
                         }
                       </text>
                     }
@@ -570,8 +644,24 @@
                         [attr.stroke-dasharray]="text.StrokeDashArray"
                         [attr.transform]="text.Transform">
                         @for(line of lines; track line) {
-                          <tspan [attr.x]="segment.StartPoint.X + auto_X_offset(link, segment, text, line, PositionOnArrowType.POSITION_ON_ARROW_START)"
-                                 [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'">{{line}}</tspan>
+                          @if (segment.Orientation === "ORIENTATION_VERTICAL") {
+                            <tspan [attr.x]="segment.StartPoint.X"
+                                  [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'"
+                                  [attr.text-anchor]="text.LinkAnchorType === 'LINK_LEFT_OR_TOP' ? 'end' : 'start'">
+                                  &nbsp;{{line}}&nbsp;</tspan>
+                          } @else {
+                            @if (segment.EndPoint.X > segment.StartPoint.X) {
+                              <tspan [attr.x]="segment.StartPoint.X"
+                              [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'"
+                              [attr.text-anchor]="'start'">
+                              &nbsp;{{line}}&nbsp;</tspan>
+                            } @else {
+                              <tspan [attr.x]="segment.StartPoint.X"
+                              [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'"
+                              [attr.text-anchor]="'end'">
+                              &nbsp;{{line}}&nbsp;</tspan>
+                            }
+                          }
                         }
                       </text>
                     }

@@ -173,8 +173,8 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__000002_Default_GongStructShape.IsSelected = false
 
 	__GongStructShape__000003_Default_Classdiagram.Name = `Default-Classdiagram`
-	__GongStructShape__000003_Default_Classdiagram.X = 517.000000
-	__GongStructShape__000003_Default_Classdiagram.Y = 35.000000
+	__GongStructShape__000003_Default_Classdiagram.X = 545.000000
+	__GongStructShape__000003_Default_Classdiagram.Y = 94.000000
 
 	//gong:ident [ref_models.Classdiagram] comment added to overcome the problem with the comment map association
 	__GongStructShape__000003_Default_Classdiagram.Identifier = `ref_models.Classdiagram`
@@ -312,7 +312,7 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__LinkShape__000000_Classdiagrams.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__LinkShape__000000_Classdiagrams.StartRatio = 0.500000
 	__LinkShape__000000_Classdiagrams.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__000000_Classdiagrams.EndRatio = 0.500000
+	__LinkShape__000000_Classdiagrams.EndRatio = 0.460379
 	__LinkShape__000000_Classdiagrams.CornerOffsetRatio = 1.380000
 
 	__LinkShape__000001_GongStructShapes.Name = `GongStructShapes`
@@ -335,7 +335,7 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__LinkShape__000001_GongStructShapes.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__LinkShape__000001_GongStructShapes.StartRatio = 0.500000
 	__LinkShape__000001_GongStructShapes.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__000001_GongStructShapes.EndRatio = 0.500000
+	__LinkShape__000001_GongStructShapes.EndRatio = 0.412760
 	__LinkShape__000001_GongStructShapes.CornerOffsetRatio = 1.380000
 
 	__LinkShape__000002_AttributeShapes.Name = `AttributeShapes`

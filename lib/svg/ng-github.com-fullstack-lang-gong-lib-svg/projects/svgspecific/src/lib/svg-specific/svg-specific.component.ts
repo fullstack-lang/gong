@@ -33,7 +33,6 @@ import { selectRectsByArea } from '../select-rects-by-area';
 import { LinkConf, computeLinkFromMouseEvent } from '../compute.link.from.mouse.event';
 import { updateLinkFromCursor } from '../update.link.from.cursor';
 import { TextWidthCalculatorComponent } from '../text-width-calculator/text-width-calculator.component';
-import { auto_X_offset } from '../auto-x-offset';
 import { auto_Y_offset } from '../auto-y-offset';
 import { drawLineFromRectToB } from '../draw.line.from.rect.to.point';
 import { LinkSegmentsPipe } from '../link-segments.pipe'
@@ -947,17 +946,6 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     // console.log(getFunctionName(), "text", text.Content)
 
     return auto_Y_offset(link, segment, text, draggedSegmentPositionOnArrow, this.oneEm)
-  }
-
-  auto_X_offset(
-    link: svg.Link,
-    segment: Segment,
-    text: svg.LinkAnchoredText,
-    line: string,
-    draggedSegmentPositionOnArrow: string): number {
-
-    return auto_X_offset(link, segment, text, line, draggedSegmentPositionOnArrow,
-      this.map_text_textWidth, this.oneEm, this.textWidthCalculator!)
   }
 
   public getPosition(
