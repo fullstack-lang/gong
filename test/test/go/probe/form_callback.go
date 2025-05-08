@@ -11,9 +11,20 @@ import (
 	"github.com/fullstack-lang/gong/test/test/go/models"
 )
 
+// code to avoid error when generated code does not need to import packages
 const __dummmy__time = time.Nanosecond
 
+var _ = __dummmy__time
+
 var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+
+var _ = __dummmy__letters
+
+const __dummy__log = log.Ldate
+
+var _ = __dummy__log
+
+// end of code to avoid error when generated code does not need to import packages
 
 // insertion point
 func __gong__New__AstructFormCallback(
@@ -123,7 +134,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(astruct_.TextArea), formDiv)
 		case "Astruct:Anarrayofa":
 			// WARNING : this form deals with the N-N association "Astruct.Anarrayofa []*Astruct" but
-			// it work only for 1-N associations
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
 			//
 			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
 			// association. For those use cases, it is handy to set the source of the assocation with
@@ -281,7 +292,7 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(astructbstruct2use_.Bstrcut2), astructbstruct2useFormCallback.probe.stageOfInterest, formDiv)
 		case "Astruct:Anarrayofb2Use":
 			// WARNING : this form deals with the N-N association "Astruct.Anarrayofb2Use []*AstructBstruct2Use" but
-			// it work only for 1-N associations
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
 			//
 			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
 			// association. For those use cases, it is handy to set the source of the assocation with
@@ -439,7 +450,7 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(astructbstructuse_.Bstruct2), astructbstructuseFormCallback.probe.stageOfInterest, formDiv)
 		case "Astruct:AnarrayofbUse":
 			// WARNING : this form deals with the N-N association "Astruct.AnarrayofbUse []*AstructBstructUse" but
-			// it work only for 1-N associations
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
 			//
 			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
 			// association. For those use cases, it is handy to set the source of the assocation with
@@ -601,7 +612,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(bstruct_.Intfield), formDiv)
 		case "Astruct:Anarrayofb":
 			// WARNING : this form deals with the N-N association "Astruct.Anarrayofb []*Bstruct" but
-			// it work only for 1-N associations
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
 			//
 			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
 			// association. For those use cases, it is handy to set the source of the assocation with
@@ -680,7 +691,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 			newSource.Anarrayofb = append(newSource.Anarrayofb, bstruct_)
 		case "Astruct:Anotherarrayofb":
 			// WARNING : this form deals with the N-N association "Astruct.Anotherarrayofb []*Bstruct" but
-			// it work only for 1-N associations
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
 			//
 			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
 			// association. For those use cases, it is handy to set the source of the assocation with
@@ -759,7 +770,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 			newSource.Anotherarrayofb = append(newSource.Anotherarrayofb, bstruct_)
 		case "Dstruct:Anarrayofb":
 			// WARNING : this form deals with the N-N association "Dstruct.Anarrayofb []*Bstruct" but
-			// it work only for 1-N associations
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
 			//
 			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
 			// association. For those use cases, it is handy to set the source of the assocation with
@@ -917,7 +928,7 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(dstruct_.Gstruct), dstructFormCallback.probe.stageOfInterest, formDiv)
 		case "Astruct:Dstruct4s":
 			// WARNING : this form deals with the N-N association "Astruct.Dstruct4s []*Dstruct" but
-			// it work only for 1-N associations
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
 			//
 			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
 			// association. For those use cases, it is handy to set the source of the assocation with
@@ -1158,7 +1169,7 @@ func (gstructFormCallback *GstructFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gstruct_.Intfield), formDiv)
 		case "Dstruct:Gstructs":
 			// WARNING : this form deals with the N-N association "Dstruct.Gstructs []*Gstruct" but
-			// it work only for 1-N associations
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
 			//
 			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
 			// association. For those use cases, it is handy to set the source of the assocation with
