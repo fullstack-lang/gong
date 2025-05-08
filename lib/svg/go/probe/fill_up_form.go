@@ -976,7 +976,7 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			true, false, 0, false, 0)
 		BasicFieldtoForm("FontWeight", instanceWithInferedType.FontWeight, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("FontSize", instanceWithInferedType.FontSize, instanceWithInferedType, probe.formStage, formGroup,

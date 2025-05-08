@@ -47,6 +47,7 @@ func _(stage *models.Stage) {
 	__LinkAnchoredText__000004_Start_Left_Top := (&models.LinkAnchoredText{}).Stage(stage)
 	__LinkAnchoredText__000005_Start_Right_Bottom := (&models.LinkAnchoredText{}).Stage(stage)
 	__LinkAnchoredText__000006_Issue_645 := (&models.LinkAnchoredText{}).Stage(stage)
+	__LinkAnchoredText__000007_Right_to_the_end_anchored_text := (&models.LinkAnchoredText{}).Stage(stage)
 
 	__Rect__000000_Bottom_Rect := (&models.Rect{}).Stage(stage)
 	__Rect__000001_Middle_Rect := (&models.Rect{}).Stage(stage)
@@ -156,10 +157,10 @@ func _(stage *models.Stage) {
 	__Link__000001_Start_Middle.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000001_Start_Middle.IsBezierCurve = false
 	__Link__000001_Start_Middle.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000001_Start_Middle.StartRatio = 0.218766
+	__Link__000001_Start_Middle.StartRatio = 0.580613
 	__Link__000001_Start_Middle.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000001_Start_Middle.EndRatio = 0.478101
-	__Link__000001_Start_Middle.CornerOffsetRatio = -1.105485
+	__Link__000001_Start_Middle.EndRatio = 0.691786
+	__Link__000001_Start_Middle.CornerOffsetRatio = 2.492116
 	__Link__000001_Start_Middle.CornerRadius = 20.000000
 	__Link__000001_Start_Middle.HasEndArrow = true
 	__Link__000001_Start_Middle.EndArrowSize = 10.000000
@@ -180,10 +181,10 @@ func _(stage *models.Stage) {
 	__Link__000002_Top_to_Middle_issue_645_.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000002_Top_to_Middle_issue_645_.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000002_Top_to_Middle_issue_645_.StartOrientation = models.ORIENTATION_VERTICAL
-	__Link__000002_Top_to_Middle_issue_645_.StartRatio = 0.421941
-	__Link__000002_Top_to_Middle_issue_645_.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000002_Top_to_Middle_issue_645_.EndRatio = 0.575000
-	__Link__000002_Top_to_Middle_issue_645_.CornerOffsetRatio = 1.201485
+	__Link__000002_Top_to_Middle_issue_645_.StartRatio = 0.149234
+	__Link__000002_Top_to_Middle_issue_645_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000002_Top_to_Middle_issue_645_.EndRatio = 0.580144
+	__Link__000002_Top_to_Middle_issue_645_.CornerOffsetRatio = -0.050078
 	__Link__000002_Top_to_Middle_issue_645_.CornerRadius = 0.000000
 	__Link__000002_Top_to_Middle_issue_645_.HasEndArrow = true
 	__Link__000002_Top_to_Middle_issue_645_.EndArrowSize = 11.000000
@@ -317,14 +318,32 @@ Third Line`
 	__LinkAnchoredText__000006_Issue_645.FontWeight = ``
 	__LinkAnchoredText__000006_Issue_645.FontSize = ``
 	__LinkAnchoredText__000006_Issue_645.LetterSpacing = ``
-	__LinkAnchoredText__000006_Issue_645.Color = ``
-	__LinkAnchoredText__000006_Issue_645.FillOpacity = 0.000000
+	__LinkAnchoredText__000006_Issue_645.Color = `blue`
+	__LinkAnchoredText__000006_Issue_645.FillOpacity = 1.000000
 	__LinkAnchoredText__000006_Issue_645.Stroke = `blue`
 	__LinkAnchoredText__000006_Issue_645.StrokeOpacity = 1.000000
 	__LinkAnchoredText__000006_Issue_645.StrokeWidth = 1.000000
 	__LinkAnchoredText__000006_Issue_645.StrokeDashArray = ``
 	__LinkAnchoredText__000006_Issue_645.StrokeDashArrayWhenSelected = ``
 	__LinkAnchoredText__000006_Issue_645.Transform = ``
+
+	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.Name = `Right to the end anchored text`
+	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.Content = `Right to the end anchored text`
+	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.AutomaticLayout = true
+	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.LinkAnchorType = models.LINK_RIGHT_OR_BOTTOM
+	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.X_Offset = 0.000000
+	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.Y_Offset = 0.000000
+	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.FontWeight = ``
+	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.FontSize = ``
+	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.LetterSpacing = ``
+	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.Color = `blue`
+	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.FillOpacity = 1.000000
+	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.Stroke = `blue`
+	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.StrokeOpacity = 1.000000
+	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.StrokeWidth = 1.000000
+	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.StrokeDashArray = ``
+	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.StrokeDashArrayWhenSelected = ``
+	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.Transform = ``
 
 	__Rect__000000_Bottom_Rect.Name = `Bottom Rect`
 	__Rect__000000_Bottom_Rect.X = 440.000000
@@ -355,8 +374,8 @@ Third Line`
 	__Rect__000000_Bottom_Rect.CanMoveVerticaly = true
 
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 650.000000
-	__Rect__000001_Middle_Rect.Y = 423.000000
+	__Rect__000001_Middle_Rect.X = 387.500000
+	__Rect__000001_Middle_Rect.Y = 345.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -383,8 +402,8 @@ Third Line`
 	__Rect__000001_Middle_Rect.CanMoveVerticaly = true
 
 	__Rect__000002_Top_Rect.Name = `Top Rect`
-	__Rect__000002_Top_Rect.X = 522.999969
-	__Rect__000002_Top_Rect.Y = 44.000000
+	__Rect__000002_Top_Rect.X = 342.368390
+	__Rect__000002_Top_Rect.Y = 60.894737
 	__Rect__000002_Top_Rect.Width = 237.000000
 	__Rect__000002_Top_Rect.Height = 237.000000
 	__Rect__000002_Top_Rect.RX = 3.000000
@@ -715,6 +734,9 @@ line 3`
 	__Link__000002_Top_to_Middle_issue_645_.Start = __Rect__000002_Top_Rect
 	__Link__000002_Top_to_Middle_issue_645_.End = __Rect__000001_Middle_Rect
 	__Link__000002_Top_to_Middle_issue_645_.TextAtArrowEnd = append(__Link__000002_Top_to_Middle_issue_645_.TextAtArrowEnd, __LinkAnchoredText__000006_Issue_645)
+	__Link__000002_Top_to_Middle_issue_645_.TextAtArrowEnd = append(__Link__000002_Top_to_Middle_issue_645_.TextAtArrowEnd, __LinkAnchoredText__000007_Right_to_the_end_anchored_text)
+	__Link__000002_Top_to_Middle_issue_645_.TextAtArrowStart = append(__Link__000002_Top_to_Middle_issue_645_.TextAtArrowStart, __LinkAnchoredText__000006_Issue_645)
+	__Link__000002_Top_to_Middle_issue_645_.TextAtArrowStart = append(__Link__000002_Top_to_Middle_issue_645_.TextAtArrowStart, __LinkAnchoredText__000007_Right_to_the_end_anchored_text)
 	// setup of LinkAnchoredText instances pointers
 	// setup of Rect instances pointers
 	__Rect__000000_Bottom_Rect.RectAnchoredTexts = append(__Rect__000000_Bottom_Rect.RectAnchoredTexts, __RectAnchoredText__000000_Bottom_Text)
