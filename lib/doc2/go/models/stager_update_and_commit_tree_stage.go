@@ -19,25 +19,39 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 		Name: stager.stage.GetProbeTreeSidebarStageName(),
 	}
 
-	// put a "class diagram button at the root"
-	addDiagramButton := &tree.Button{
-		Name: "Class Diagramm Add Button",
-		Icon: string(buttons.BUTTON_add),
-		Impl: &ButtonNewClassdiagramProxy{
-			stager: stager,
-		},
-		HasToolTip:      true,
-		ToolTipText:     "Create a new diagram",
-		ToolTipPosition: tree.Above,
-	}
 	root := &tree.Node{
 		Name:       "Class Diagrams",
 		IsExpanded: true,
 	}
-	if !stager.embeddedDiagrams {
-		root.Buttons = append(root.Buttons, addDiagramButton)
-	}
 	classdiagramsTree.RootNodes = append(classdiagramsTree.RootNodes, root)
+
+	// if diagram can be edited
+	// 1/ put a "add a class diagram" button
+	// 2/ put a "generate sss" button
+	if !stager.embeddedDiagrams {
+		root.Buttons = append(root.Buttons,
+			&tree.Button{
+				Name: "Class Diagramm Add Button",
+				Icon: string(buttons.BUTTON_add),
+				Impl: &ButtonNewClassdiagramProxy{
+					stager: stager,
+				},
+				HasToolTip:      true,
+				ToolTipText:     "Create a new diagram",
+				ToolTipPosition: tree.Above,
+			},
+			&tree.Button{
+				Name: "Generates the documentation static web site",
+				Icon: string(buttons.BUTTON_web_asset),
+				Impl: &ButtonGeneratesStaticWebSiteProxy{
+					stager: stager,
+				},
+				HasToolTip:      true,
+				ToolTipText:     "Generates the documentation static web site",
+				ToolTipPosition: tree.Above,
+			},
+		)
+	}
 
 	// append a node below for each diagram
 	diagramPackage := getTheDiagramPackage(stager.stage)

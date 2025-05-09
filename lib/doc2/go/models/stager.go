@@ -9,15 +9,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	split "github.com/fullstack-lang/gong/lib/split/go/models"
-
-	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
-
-	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
-
 	gong "github.com/fullstack-lang/gong/go/models"
-
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	ssg "github.com/fullstack-lang/gong/lib/ssg/go/models"
+	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	table "github.com/fullstack-lang/gong/lib/table/go/models"
+	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
 type Stager struct {
@@ -26,6 +23,7 @@ type Stager struct {
 	svgStage  *svg.Stage
 	gongStage *gong.Stage
 	formStage *table.Stage
+	ssgStage  *ssg.Stage
 
 	embeddedDiagrams bool
 }
@@ -38,6 +36,7 @@ func NewStager(
 	svgStage *svg.Stage,
 	gongStage *gong.Stage,
 	formStage *table.Stage,
+	ssgStage *ssg.Stage,
 
 	embeddedDiagrams bool,
 ) (stager *Stager) {
@@ -49,6 +48,7 @@ func NewStager(
 	stager.svgStage = svgStage
 	stager.gongStage = gongStage
 	stager.formStage = formStage
+	stager.ssgStage = ssgStage
 
 	stager.embeddedDiagrams = embeddedDiagrams
 
