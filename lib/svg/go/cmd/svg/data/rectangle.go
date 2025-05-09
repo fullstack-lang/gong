@@ -217,7 +217,7 @@ func _(stage *models.Stage) {
 	__Link__000003_Auto_1.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000003_Auto_1.IsBezierCurve = false
 	__Link__000003_Auto_1.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000003_Auto_1.StartRatio = 0.355990
+	__Link__000003_Auto_1.StartRatio = 0.256863
 	__Link__000003_Auto_1.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000003_Auto_1.EndRatio = 0.153353
 	__Link__000003_Auto_1.CornerOffsetRatio = 7.192308
@@ -242,7 +242,7 @@ func _(stage *models.Stage) {
 	__Link__000004_Auto_2.StartRatio = 0.435714
 	__Link__000004_Auto_2.EndOrientation = models.ORIENTATION_VERTICAL
 	__Link__000004_Auto_2.EndRatio = 0.407692
-	__Link__000004_Auto_2.CornerOffsetRatio = 1.153325
+	__Link__000004_Auto_2.CornerOffsetRatio = -0.188802
 	__Link__000004_Auto_2.CornerRadius = 0.000000
 	__Link__000004_Auto_2.HasEndArrow = true
 	__Link__000004_Auto_2.EndArrowSize = 5.000000
@@ -263,7 +263,7 @@ func _(stage *models.Stage) {
 	__Link__000005_Auto_3.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000005_Auto_3.StartRatio = 0.620556
 	__Link__000005_Auto_3.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000005_Auto_3.EndRatio = 0.738937
+	__Link__000005_Auto_3.EndRatio = 0.589849
 	__Link__000005_Auto_3.CornerOffsetRatio = -1.476923
 	__Link__000005_Auto_3.CornerRadius = 0.000000
 	__Link__000005_Auto_3.HasEndArrow = true
@@ -317,8 +317,7 @@ func _(stage *models.Stage) {
 
 	__LinkAnchoredText__000002_Liine_1_Line_2.Name = `Liine 1
 Line 2`
-	__LinkAnchoredText__000002_Liine_1_Line_2.Content = `Liine 1
-Line 2`
+	__LinkAnchoredText__000002_Liine_1_Line_2.Content = `Liine 1`
 	__LinkAnchoredText__000002_Liine_1_Line_2.AutomaticLayout = false
 	__LinkAnchoredText__000002_Liine_1_Line_2.X_Offset = -61.000000
 	__LinkAnchoredText__000002_Liine_1_Line_2.Y_Offset = -35.000000
@@ -335,9 +334,7 @@ Line 2`
 	__LinkAnchoredText__000002_Liine_1_Line_2.Transform = ``
 
 	__LinkAnchoredText__000003_Start_Anchored_1.Name = `Start Anchored 1`
-	__LinkAnchoredText__000003_Start_Anchored_1.Content = `Start Anchored 1
-Second line
-Third Line`
+	__LinkAnchoredText__000003_Start_Anchored_1.Content = `Start Anchored 1`
 	__LinkAnchoredText__000003_Start_Anchored_1.AutomaticLayout = false
 	__LinkAnchoredText__000003_Start_Anchored_1.X_Offset = -129.000031
 	__LinkAnchoredText__000003_Start_Anchored_1.Y_Offset = 37.012512
@@ -426,13 +423,14 @@ Third Line`
 	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.Transform = ``
 
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Name = `AA_RIGHT_OR_BOTTOM`
-	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Content = `RIGHT_OR_BOTTOM`
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Content = `RIGHT_OR_BOTTOM
+RIGHT_OR_BOTTOM`
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.AutomaticLayout = true
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.LinkAnchorType = models.LINK_RIGHT_OR_BOTTOM
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.X_Offset = 0.000000
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Y_Offset = 0.000000
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.FontWeight = ``
-	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.FontSize = ``
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.FontSize = `16`
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.LetterSpacing = ``
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Color = `black`
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.FillOpacity = 1.000000
@@ -444,7 +442,10 @@ Third Line`
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Transform = ``
 
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Name = `AA_LEFT_OR_TOP`
-	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Content = `LEFT_OR_TOP`
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Content = `LEFT_OR_TOP
+LEFT_OR_TOP
+LEFT_OR_TOP
+`
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.AutomaticLayout = true
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.LinkAnchorType = models.LINK_LEFT_OR_TOP
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.X_Offset = 0.000000
@@ -490,8 +491,8 @@ Third Line`
 	__Rect__000000_Bottom_Rect.CanMoveVerticaly = true
 
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 650.000000
-	__Rect__000001_Middle_Rect.Y = 423.000000
+	__Rect__000001_Middle_Rect.X = 627.000000
+	__Rect__000001_Middle_Rect.Y = 444.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -546,8 +547,8 @@ Third Line`
 	__Rect__000002_Top_Rect.CanMoveVerticaly = true
 
 	__Rect__000003_Test_Automatic_Layout_Start.Name = `Test Automatic Layout / Start`
-	__Rect__000003_Test_Automatic_Layout_Start.X = 1081.000000
-	__Rect__000003_Test_Automatic_Layout_Start.Y = 44.000000
+	__Rect__000003_Test_Automatic_Layout_Start.X = 1086.000000
+	__Rect__000003_Test_Automatic_Layout_Start.Y = 33.000000
 	__Rect__000003_Test_Automatic_Layout_Start.Width = 130.000000
 	__Rect__000003_Test_Automatic_Layout_Start.Height = 401.000000
 	__Rect__000003_Test_Automatic_Layout_Start.RX = 0.000000
@@ -574,8 +575,8 @@ Third Line`
 	__Rect__000003_Test_Automatic_Layout_Start.CanMoveVerticaly = true
 
 	__Rect__000004_End.Name = `End`
-	__Rect__000004_End.X = 1697.000000
-	__Rect__000004_End.Y = 78.000000
+	__Rect__000004_End.X = 1663.000000
+	__Rect__000004_End.Y = 539.000000
 	__Rect__000004_End.Width = 140.000000
 	__Rect__000004_End.Height = 384.000000
 	__Rect__000004_End.RX = 0.000000
@@ -951,37 +952,35 @@ line 3`
 	// setup of Link instances pointers
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000002_Top_Rect
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom_Rect
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __LinkAnchoredText__000002_Liine_1_Line_2)
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __LinkAnchoredText__000002_Liine_1_Line_2)
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart, __LinkAnchoredText__000003_Start_Anchored_1)
 	__Link__000001_Start_Middle.Start = __Rect__000002_Top_Rect
 	__Link__000001_Start_Middle.End = __Rect__000001_Middle_Rect
-	__Link__000001_Start_Middle.TextAtArrowEnd = append(__Link__000001_Start_Middle.TextAtArrowEnd, __LinkAnchoredText__000001_End_Right_Bottom)
-	__Link__000001_Start_Middle.TextAtArrowEnd = append(__Link__000001_Start_Middle.TextAtArrowEnd, __LinkAnchoredText__000000_End_Left_Top)
 	__Link__000001_Start_Middle.TextAtArrowStart = append(__Link__000001_Start_Middle.TextAtArrowStart, __LinkAnchoredText__000004_Start_Left_Top)
 	__Link__000001_Start_Middle.TextAtArrowStart = append(__Link__000001_Start_Middle.TextAtArrowStart, __LinkAnchoredText__000005_Start_Right_Bottom)
+	__Link__000001_Start_Middle.TextAtArrowEnd = append(__Link__000001_Start_Middle.TextAtArrowEnd, __LinkAnchoredText__000001_End_Right_Bottom)
+	__Link__000001_Start_Middle.TextAtArrowEnd = append(__Link__000001_Start_Middle.TextAtArrowEnd, __LinkAnchoredText__000000_End_Left_Top)
 	__Link__000002_Top_to_Middle_issue_645_.Start = __Rect__000002_Top_Rect
 	__Link__000002_Top_to_Middle_issue_645_.End = __Rect__000001_Middle_Rect
 	__Link__000002_Top_to_Middle_issue_645_.TextAtArrowEnd = append(__Link__000002_Top_to_Middle_issue_645_.TextAtArrowEnd, __LinkAnchoredText__000006_Issue_645)
 	__Link__000002_Top_to_Middle_issue_645_.TextAtArrowEnd = append(__Link__000002_Top_to_Middle_issue_645_.TextAtArrowEnd, __LinkAnchoredText__000007_Right_to_the_end_anchored_text)
 	__Link__000003_Auto_1.Start = __Rect__000003_Test_Automatic_Layout_Start
 	__Link__000003_Auto_1.End = __Rect__000004_End
-	__Link__000003_Auto_1.TextAtArrowEnd = append(__Link__000003_Auto_1.TextAtArrowEnd, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
-	__Link__000003_Auto_1.TextAtArrowEnd = append(__Link__000003_Auto_1.TextAtArrowEnd, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
-	__Link__000003_Auto_1.TextAtArrowStart = append(__Link__000003_Auto_1.TextAtArrowStart, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
 	__Link__000003_Auto_1.TextAtArrowStart = append(__Link__000003_Auto_1.TextAtArrowStart, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
+	__Link__000003_Auto_1.TextAtArrowStart = append(__Link__000003_Auto_1.TextAtArrowStart, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
+	__Link__000003_Auto_1.TextAtArrowEnd = append(__Link__000003_Auto_1.TextAtArrowEnd, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
+	__Link__000003_Auto_1.TextAtArrowEnd = append(__Link__000003_Auto_1.TextAtArrowEnd, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
 	__Link__000004_Auto_2.Start = __Rect__000004_End
 	__Link__000004_Auto_2.End = __Rect__000003_Test_Automatic_Layout_Start
-	__Link__000004_Auto_2.TextAtArrowEnd = append(__Link__000004_Auto_2.TextAtArrowEnd, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
-	__Link__000004_Auto_2.TextAtArrowEnd = append(__Link__000004_Auto_2.TextAtArrowEnd, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
 	__Link__000004_Auto_2.TextAtArrowStart = append(__Link__000004_Auto_2.TextAtArrowStart, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
 	__Link__000004_Auto_2.TextAtArrowStart = append(__Link__000004_Auto_2.TextAtArrowStart, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
+	__Link__000004_Auto_2.TextAtArrowEnd = append(__Link__000004_Auto_2.TextAtArrowEnd, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
+	__Link__000004_Auto_2.TextAtArrowEnd = append(__Link__000004_Auto_2.TextAtArrowEnd, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
 	__Link__000005_Auto_3.Start = __Rect__000003_Test_Automatic_Layout_Start
 	__Link__000005_Auto_3.End = __Rect__000004_End
-	__Link__000005_Auto_3.TextAtArrowEnd = append(__Link__000005_Auto_3.TextAtArrowEnd, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
-	__Link__000005_Auto_3.TextAtArrowEnd = append(__Link__000005_Auto_3.TextAtArrowEnd, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
 	__Link__000005_Auto_3.TextAtArrowStart = append(__Link__000005_Auto_3.TextAtArrowStart, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
 	__Link__000005_Auto_3.TextAtArrowStart = append(__Link__000005_Auto_3.TextAtArrowStart, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
+	__Link__000005_Auto_3.TextAtArrowEnd = append(__Link__000005_Auto_3.TextAtArrowEnd, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
+	__Link__000005_Auto_3.TextAtArrowEnd = append(__Link__000005_Auto_3.TextAtArrowEnd, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
 	// setup of LinkAnchoredText instances pointers
 	// setup of Rect instances pointers
 	__Rect__000000_Bottom_Rect.RectAnchoredTexts = append(__Rect__000000_Bottom_Rect.RectAnchoredTexts, __RectAnchoredText__000000_Bottom_Text)
@@ -1000,12 +999,7 @@ line 3`
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Start = __Rect__000001_Middle_Rect
 	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.End = __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal
 	// setup of SVG instances pointers
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000003_Link_layer_vertical_to_horizontal)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000004_Middle_Rect_Layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000006_Test_Automatic_Layout)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000005_Top_Rectangle_layer)
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom_Rect
 	__SVG__000000_SVG.EndRect = __Rect__000002_Top_Rect
 	// setup of SvgText instances pointers

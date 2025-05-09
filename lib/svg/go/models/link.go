@@ -37,11 +37,11 @@ type Link struct {
 	HasStartArrow  bool
 	StartArrowSize float64
 
-	// to be displayed at the end
-	TextAtArrowEnd []*LinkAnchoredText
-
 	// to be displayed at the start
 	TextAtArrowStart []*LinkAnchoredText
+
+	// to be displayed at the end
+	TextAtArrowEnd []*LinkAnchoredText
 
 	// for non floating orthogonal anchors
 	ControlPoints []*Point

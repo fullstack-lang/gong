@@ -32,7 +32,7 @@ import { informBackEndOfEndOfLinkDrawing } from '../inform-backend-end-of-link-d
 import { selectRectsByArea } from '../select-rects-by-area';
 import { LinkConf, computeLinkFromMouseEvent } from '../compute.link.from.mouse.event';
 import { updateLinkFromCursor } from '../update.link.from.cursor';
-import { TextWidthCalculatorComponent } from '../text-width-calculator/text-width-calculator.component';
+import { TextWidthCalculatorComponent } from '../calc/calc.component';
 import { auto_Y_offset } from '../auto-y-offset';
 import { drawLineFromRectToB } from '../draw.line.from.rect.to.point';
 import { LinkSegmentsPipe } from '../link-segments.pipe'
