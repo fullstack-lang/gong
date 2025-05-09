@@ -1,6 +1,6 @@
 import * as svg from '../../../svg/src/public-api'
 import { Segment } from './draw.segments'
-import { TextWidthCalculatorComponent } from './text-width-calculator/text-width-calculator.component'
+import { TextWidthCalculatorComponent } from './calc/calc.component'
 
 export function auto_Y_offset(
     link: svg.Link,
