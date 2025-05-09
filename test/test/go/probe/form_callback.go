@@ -619,8 +619,8 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 			// the form of the target source (when editing an instance of Bstruct). Setting up a value
 			// will discard the former value is there is one.
 			//
-			// the algorithm is
-			// 1/ get the former source of the association
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
 			var formerSource *models.Astruct
 			{
 				var rf models.ReverseField
@@ -645,31 +645,15 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Anarrayofb, bstruct_)
-					formerSource.Anarrayofb = slices.Delete(formerSource.Anarrayofb, idx, idx+1)
-				}
+				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
 
-			// we need to deal with the 2 cases:
-			// 1 the field source is unchanged
-			// 2 the field source is changed
-
-			// 1 field source is unchanged
-			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
-				break // nothing else to do for this field
-			}
-
-			// 2 field source is changed -->
-			// (1) clear the source slice field if it exist
-			// (2) find the new source
-			// (3) append the new value to the new source field
-
-			// (1) clear the source slice field if it exist
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
 			if formerSource != nil {
-				idx := slices.Index(formerSource.Anarrayofb, bstruct_)
-				formerSource.Anarrayofb = slices.Delete(formerSource.Anarrayofb, idx, idx+1)
+				break // nothing else to do for this field
 			}
 
 			// (2) find the source
@@ -687,7 +671,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 				break
 			}
 
-			// (3) append the new value to the new source field
+			// append the value to the new source field
 			newSource.Anarrayofb = append(newSource.Anarrayofb, bstruct_)
 		case "Astruct:Anotherarrayofb":
 			// WARNING : this form deals with the N-N association "Astruct.Anotherarrayofb []*Bstruct" but
