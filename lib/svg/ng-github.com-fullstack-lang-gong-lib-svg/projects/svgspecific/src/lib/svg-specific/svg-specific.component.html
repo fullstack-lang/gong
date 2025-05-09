@@ -581,12 +581,13 @@
                         [attr.stroke-dasharray]="text.StrokeDashArray"
                         [attr.transform]="text.Transform">
                         @for(line of lines; track line) {
-                          @if (segment.Orientation === "ORIENTATION_VERTICAL") {
+                           @if (segment.Orientation === "ORIENTATION_VERTICAL") {
                             <tspan [attr.x]="segment.EndPoint.X"
                             [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'"
                             [attr.text-anchor]="text.LinkAnchorType === 'LINK_LEFT_OR_TOP' ? 'end' : 'start'">
                             &nbsp;{{line}}&nbsp;</tspan>
-                          }@else {
+                          }
+                          @else {
                             @if (segment.EndPoint.X > segment.StartPoint.X) {
                               <tspan [attr.x]="segment.EndPoint.X"
                               [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'"
@@ -598,7 +599,7 @@
                               [attr.text-anchor]="'start'">
                               &nbsp;{{line}}&nbsp;</tspan>
                             }
-                          }
+                          } 
                         }
                       </text>
                     }
@@ -644,12 +645,13 @@
                         [attr.stroke-dasharray]="text.StrokeDashArray"
                         [attr.transform]="text.Transform">
                         @for(line of lines; track line) {
-                          @if (segment.Orientation === "ORIENTATION_VERTICAL") {
+                           @if (segment.Orientation === "ORIENTATION_VERTICAL") {
                             <tspan [attr.x]="segment.StartPoint.X"
                                   [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'"
                                   [attr.text-anchor]="text.LinkAnchorType === 'LINK_LEFT_OR_TOP' ? 'end' : 'start'">
                                   &nbsp;{{line}}&nbsp;</tspan>
-                          } @else {
+                          }
+                          @else {
                             @if (segment.EndPoint.X > segment.StartPoint.X) {
                               <tspan [attr.x]="segment.StartPoint.X"
                               [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'"

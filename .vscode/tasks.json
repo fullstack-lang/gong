@@ -522,6 +522,19 @@
       ]
     },
     {
+      "label": "03 - ng build svg ",
+      "type": "shell",
+      "options": {
+        "cwd": "lib/svg/ng-github.com-fullstack-lang-gong-lib-svg"
+      },
+      "command": "ng",
+      "group": "build",
+      "args": [
+        "build",
+        ""
+      ]
+    },
+    {
       "label": "03 - ng serve table ",
       "type": "shell",
       "options": {
