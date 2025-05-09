@@ -93,8 +93,8 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 			// the form of the target source (when editing an instance of Button). Setting up a value
 			// will discard the former value is there is one.
 			//
-			// the algorithm is
-			// 1/ get the former source of the association
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
 			var formerSource *models.Node
 			{
 				var rf models.ReverseField
@@ -119,31 +119,15 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Buttons, button_)
-					formerSource.Buttons = slices.Delete(formerSource.Buttons, idx, idx+1)
-				}
+				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
 
-			// we need to deal with the 2 cases:
-			// 1 the field source is unchanged
-			// 2 the field source is changed
-
-			// 1 field source is unchanged
-			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
-				break // nothing else to do for this field
-			}
-
-			// 2 field source is changed -->
-			// (1) clear the source slice field if it exist
-			// (2) find the new source
-			// (3) append the new value to the new source field
-
-			// (1) clear the source slice field if it exist
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
 			if formerSource != nil {
-				idx := slices.Index(formerSource.Buttons, button_)
-				formerSource.Buttons = slices.Delete(formerSource.Buttons, idx, idx+1)
+				break // nothing else to do for this field
 			}
 
 			// (2) find the source
@@ -161,7 +145,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 				break
 			}
 
-			// (3) append the new value to the new source field
+			// append the value to the new source field
 			newSource.Buttons = append(newSource.Buttons, button_)
 		}
 	}
@@ -285,8 +269,8 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 			// the form of the target source (when editing an instance of Node). Setting up a value
 			// will discard the former value is there is one.
 			//
-			// the algorithm is
-			// 1/ get the former source of the association
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
 			var formerSource *models.Node
 			{
 				var rf models.ReverseField
@@ -311,31 +295,15 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Children, node_)
-					formerSource.Children = slices.Delete(formerSource.Children, idx, idx+1)
-				}
+				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
 
-			// we need to deal with the 2 cases:
-			// 1 the field source is unchanged
-			// 2 the field source is changed
-
-			// 1 field source is unchanged
-			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
-				break // nothing else to do for this field
-			}
-
-			// 2 field source is changed -->
-			// (1) clear the source slice field if it exist
-			// (2) find the new source
-			// (3) append the new value to the new source field
-
-			// (1) clear the source slice field if it exist
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
 			if formerSource != nil {
-				idx := slices.Index(formerSource.Children, node_)
-				formerSource.Children = slices.Delete(formerSource.Children, idx, idx+1)
+				break // nothing else to do for this field
 			}
 
 			// (2) find the source
@@ -353,7 +321,7 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 				break
 			}
 
-			// (3) append the new value to the new source field
+			// append the value to the new source field
 			newSource.Children = append(newSource.Children, node_)
 		case "Tree:RootNodes":
 			// WARNING : this form deals with the N-N association "Tree.RootNodes []*Node" but
@@ -364,8 +332,8 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 			// the form of the target source (when editing an instance of Node). Setting up a value
 			// will discard the former value is there is one.
 			//
-			// the algorithm is
-			// 1/ get the former source of the association
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
 			var formerSource *models.Tree
 			{
 				var rf models.ReverseField
@@ -390,31 +358,15 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
-				if formerSource != nil {
-					idx := slices.Index(formerSource.RootNodes, node_)
-					formerSource.RootNodes = slices.Delete(formerSource.RootNodes, idx, idx+1)
-				}
+				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
 
-			// we need to deal with the 2 cases:
-			// 1 the field source is unchanged
-			// 2 the field source is changed
-
-			// 1 field source is unchanged
-			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
-				break // nothing else to do for this field
-			}
-
-			// 2 field source is changed -->
-			// (1) clear the source slice field if it exist
-			// (2) find the new source
-			// (3) append the new value to the new source field
-
-			// (1) clear the source slice field if it exist
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
 			if formerSource != nil {
-				idx := slices.Index(formerSource.RootNodes, node_)
-				formerSource.RootNodes = slices.Delete(formerSource.RootNodes, idx, idx+1)
+				break // nothing else to do for this field
 			}
 
 			// (2) find the source
@@ -432,7 +384,7 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 				break
 			}
 
-			// (3) append the new value to the new source field
+			// append the value to the new source field
 			newSource.RootNodes = append(newSource.RootNodes, node_)
 		}
 	}
