@@ -193,6 +193,10 @@ map[FormCallbackSubTemplateId]string{
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.{{FieldName}}, {{structname}}_)
+					formerSource.{{FieldName}} = slices.Delete(formerSource.{{FieldName}}, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}

@@ -111,6 +111,10 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Buttons, button_)
+					formerSource.Buttons = slices.Delete(formerSource.Buttons, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -253,6 +257,10 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Groups, group_)
+					formerSource.Groups = slices.Delete(formerSource.Groups, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}

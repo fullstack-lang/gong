@@ -107,6 +107,10 @@ func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Frequencies, freqency_)
+					formerSource.Frequencies = slices.Delete(formerSource.Frequencies, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}

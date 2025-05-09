@@ -109,6 +109,10 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Classdiagrams, classdiagram_)
+					formerSource.Classdiagrams = slices.Delete(formerSource.Classdiagrams, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -346,6 +350,10 @@ func (fieldFormCallback *FieldFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Fields, field_)
+					formerSource.Fields = slices.Delete(formerSource.Fields, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -494,6 +502,10 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.GongEnumShapes, gongenumshape_)
+					formerSource.GongEnumShapes = slices.Delete(formerSource.GongEnumShapes, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -636,6 +648,10 @@ func (gongenumvalueentryFormCallback *GongEnumValueEntryFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.GongEnumValueEntrys, gongenumvalueentry_)
+					formerSource.GongEnumValueEntrys = slices.Delete(formerSource.GongEnumValueEntrys, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -790,6 +806,10 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.GongStructShapes, gongstructshape_)
+					formerSource.GongStructShapes = slices.Delete(formerSource.GongStructShapes, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -962,6 +982,10 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Links, link_)
+					formerSource.Links = slices.Delete(formerSource.Links, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -1118,6 +1142,10 @@ func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.NoteShapes, noteshape_)
+					formerSource.NoteShapes = slices.Delete(formerSource.NoteShapes, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -1262,6 +1290,10 @@ func (noteshapelinkFormCallback *NoteShapeLinkFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.NoteShapeLinks, noteshapelink_)
+					formerSource.NoteShapeLinks = slices.Delete(formerSource.NoteShapeLinks, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -1487,6 +1519,10 @@ func (umlstateFormCallback *UmlStateFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.States, umlstate_)
+					formerSource.States = slices.Delete(formerSource.States, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -1631,6 +1667,10 @@ func (umlscFormCallback *UmlscFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Umlscs, umlsc_)
+					formerSource.Umlscs = slices.Delete(formerSource.Umlscs, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}

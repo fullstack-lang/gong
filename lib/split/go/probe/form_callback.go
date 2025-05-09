@@ -222,6 +222,10 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.AsSplitAreas, assplitarea_)
+					formerSource.AsSplitAreas = slices.Delete(formerSource.AsSplitAreas, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -285,6 +289,10 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.RootAsSplitAreas, assplitarea_)
+					formerSource.RootAsSplitAreas = slices.Delete(formerSource.RootAsSplitAreas, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
