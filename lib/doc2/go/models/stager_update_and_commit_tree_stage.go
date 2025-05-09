@@ -61,11 +61,13 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			selected = true
 		}
 		nodeClassdiagram := &tree.Node{
-			Name:              classDiagram.Name,
-			HasCheckboxButton: true,
-			IsChecked:         selected,
-			IsExpanded:        classDiagram.IsExpanded,
-			IsInEditMode:      classDiagram.IsInRenameMode,
+			Name:                classDiagram.Name,
+			HasCheckboxButton:   true,
+			IsChecked:           selected,
+			CheckboxHasToolTip:  true,
+			CheckboxToolTipText: "Select this diagram for display",
+			IsExpanded:          classDiagram.IsExpanded,
+			IsInEditMode:        classDiagram.IsInRenameMode,
 		}
 		nodeClassdiagram.Impl = &ClassDiagramNodeProxy{
 			node:         nodeClassdiagram,
@@ -347,6 +349,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 }
 
 func (stager *Stager) addButtonsToClassdiagramNode(nodeClassdiagram *tree.Node, classDiagram *Classdiagram) {
+
 	nodeClassdiagram.Buttons = append(nodeClassdiagram.Buttons,
 		&tree.Button{
 			Name: classDiagram.GetName() + " " + string(buttons.BUTTON_delete),
@@ -408,4 +411,8 @@ func (stager *Stager) addButtonsToClassdiagramNode(nodeClassdiagram *tree.Node, 
 			ToolTipText:     "Duplicate diagram",
 			ToolTipPosition: tree.Above,
 		})
+
+	// add a second checkbox for including the diagram into
+	nodeClassdiagram.HasSecondCheckboxButton = true
+
 }

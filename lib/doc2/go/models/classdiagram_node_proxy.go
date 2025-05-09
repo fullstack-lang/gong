@@ -58,4 +58,11 @@ func (proxy *ClassDiagramNodeProxy) OnAfterUpdate(
 		proxy.stager.UpdateAndCommitTreeStage()
 		proxy.stager.stage.Commit()
 	}
+
+	// second checkbox
+	if front.IsSecondCheckboxChecked != staged.IsSecondCheckboxChecked {
+
+		staged.IsSecondCheckboxChecked = front.IsSecondCheckboxChecked
+		proxy.stager.stage.Commit()
+	}
 }

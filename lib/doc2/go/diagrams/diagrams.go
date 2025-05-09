@@ -91,17 +91,19 @@ func _(stage *models.Stage) {
 
 	__Classdiagram__000000_Default.Name = `Default`
 	__Classdiagram__000000_Default.Description = `This diagram describes the model of the doc2 package. A DiagramPackage is composed of ClassDiagram and each ClassDiagram has shapes.`
+	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = false
 	__Classdiagram__000000_Default.IsInRenameMode = false
 	__Classdiagram__000000_Default.IsExpanded = true
 	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = false
 	__Classdiagram__000000_Default.NodeGongStructNodeExpansionBinaryEncoding = 32
 	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = false
 	__Classdiagram__000000_Default.NodeGongEnumNodeExpansionBinaryEncoding = 0
-	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = true
+	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = false
 	__Classdiagram__000000_Default.NodeGongNoteNodeExpansionBinaryEncoding = 1
 
 	__Classdiagram__000001_spoil_diagram.Name = `spoil diagram`
 	__Classdiagram__000001_spoil_diagram.Description = `Spoil diagram`
+	__Classdiagram__000001_spoil_diagram.IsIncludedInStaticWebSite = false
 	__Classdiagram__000001_spoil_diagram.IsInRenameMode = false
 	__Classdiagram__000001_spoil_diagram.IsExpanded = false
 	__Classdiagram__000001_spoil_diagram.NodeGongStructsIsExpanded = true
@@ -429,7 +431,7 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	// setup of DiagramPackage instances pointers
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams, __Classdiagram__000000_Default)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams, __Classdiagram__000001_spoil_diagram)
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.SelectedClassdiagram = __Classdiagram__000000_Default
+	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.SelectedClassdiagram = __Classdiagram__000001_spoil_diagram
 	// setup of GongNoteShape instances pointers
 	// setup of GongStructShape instances pointers
 	__GongStructShape__000001_Default_DiagramPackage.LinkShapes = append(__GongStructShape__000001_Default_DiagramPackage.LinkShapes, __LinkShape__000000_Classdiagrams)
