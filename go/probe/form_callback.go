@@ -129,6 +129,10 @@ func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.GongBasicFields, gongbasicfield_)
+					formerSource.GongBasicFields = slices.Delete(formerSource.GongBasicFields, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -350,6 +354,10 @@ func (gongenumvalueFormCallback *GongEnumValueFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.GongEnumValues, gongenumvalue_)
+					formerSource.GongEnumValues = slices.Delete(formerSource.GongEnumValues, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -494,6 +502,10 @@ func (gonglinkFormCallback *GongLinkFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Links, gonglink_)
+					formerSource.Links = slices.Delete(formerSource.Links, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -802,6 +814,10 @@ func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.GongTimeFields, gongtimefield_)
+					formerSource.GongTimeFields = slices.Delete(formerSource.GongTimeFields, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -1021,6 +1037,10 @@ func (metareferenceFormCallback *MetaReferenceFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.MetaReferences, metareference_)
+					formerSource.MetaReferences = slices.Delete(formerSource.MetaReferences, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -1278,6 +1298,10 @@ func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.PointerToGongStructFields, pointertogongstructfield_)
+					formerSource.PointerToGongStructFields = slices.Delete(formerSource.PointerToGongStructFields, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -1424,6 +1448,10 @@ func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFie
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.SliceOfPointerToGongStructFields, sliceofpointertogongstructfield_)
+					formerSource.SliceOfPointerToGongStructFields = slices.Delete(formerSource.SliceOfPointerToGongStructFields, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}

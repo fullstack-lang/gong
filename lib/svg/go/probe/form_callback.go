@@ -119,6 +119,10 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animations, animate_)
+					formerSource.Animations = slices.Delete(formerSource.Animations, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -182,6 +186,10 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animates, animate_)
+					formerSource.Animates = slices.Delete(formerSource.Animates, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -245,6 +253,10 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animates, animate_)
+					formerSource.Animates = slices.Delete(formerSource.Animates, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -308,6 +320,10 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animates, animate_)
+					formerSource.Animates = slices.Delete(formerSource.Animates, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -371,6 +387,10 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animates, animate_)
+					formerSource.Animates = slices.Delete(formerSource.Animates, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -434,6 +454,10 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animates, animate_)
+					formerSource.Animates = slices.Delete(formerSource.Animates, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -497,6 +521,10 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animates, animate_)
+					formerSource.Animates = slices.Delete(formerSource.Animates, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -560,6 +588,10 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animations, animate_)
+					formerSource.Animations = slices.Delete(formerSource.Animations, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -623,6 +655,10 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animates, animate_)
+					formerSource.Animates = slices.Delete(formerSource.Animates, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -686,6 +722,10 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animates, animate_)
+					formerSource.Animates = slices.Delete(formerSource.Animates, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -848,6 +888,10 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Circles, circle_)
+					formerSource.Circles = slices.Delete(formerSource.Circles, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -1012,6 +1056,10 @@ func (ellipseFormCallback *EllipseFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Ellipses, ellipse_)
+					formerSource.Ellipses = slices.Delete(formerSource.Ellipses, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -1154,6 +1202,10 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Layers, layer_)
+					formerSource.Layers = slices.Delete(formerSource.Layers, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -1322,6 +1374,10 @@ func (lineFormCallback *LineFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Lines, line_)
+					formerSource.Lines = slices.Delete(formerSource.Lines, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -1510,6 +1566,10 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Links, link_)
+					formerSource.Links = slices.Delete(formerSource.Links, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -1682,6 +1742,10 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.TextAtArrowStart, linkanchoredtext_)
+					formerSource.TextAtArrowStart = slices.Delete(formerSource.TextAtArrowStart, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -1745,6 +1809,10 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.TextAtArrowEnd, linkanchoredtext_)
+					formerSource.TextAtArrowEnd = slices.Delete(formerSource.TextAtArrowEnd, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -1903,6 +1971,10 @@ func (pathFormCallback *PathFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Paths, path_)
+					formerSource.Paths = slices.Delete(formerSource.Paths, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -2047,6 +2119,10 @@ func (pointFormCallback *PointFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.ControlPoints, point_)
+					formerSource.ControlPoints = slices.Delete(formerSource.ControlPoints, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -2205,6 +2281,10 @@ func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Polygones, polygone_)
+					formerSource.Polygones = slices.Delete(formerSource.Polygones, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -2363,6 +2443,10 @@ func (polylineFormCallback *PolylineFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Polylines, polyline_)
+					formerSource.Polylines = slices.Delete(formerSource.Polylines, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -2555,6 +2639,10 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Rects, rect_)
+					formerSource.Rects = slices.Delete(formerSource.Rects, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -2723,6 +2811,10 @@ func (rectanchoredpathFormCallback *RectAnchoredPathFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.RectAnchoredPaths, rectanchoredpath_)
+					formerSource.RectAnchoredPaths = slices.Delete(formerSource.RectAnchoredPaths, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -2899,6 +2991,10 @@ func (rectanchoredrectFormCallback *RectAnchoredRectFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.RectAnchoredRects, rectanchoredrect_)
+					formerSource.RectAnchoredRects = slices.Delete(formerSource.RectAnchoredRects, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -3071,6 +3167,10 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.RectAnchoredTexts, rectanchoredtext_)
+					formerSource.RectAnchoredTexts = slices.Delete(formerSource.RectAnchoredTexts, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -3233,6 +3333,10 @@ func (rectlinklinkFormCallback *RectLinkLinkFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.RectLinkLinks, rectlinklink_)
+					formerSource.RectLinkLinks = slices.Delete(formerSource.RectLinkLinks, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -3561,6 +3665,10 @@ func (textFormCallback *TextFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Texts, text_)
+					formerSource.Texts = slices.Delete(formerSource.Texts, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}

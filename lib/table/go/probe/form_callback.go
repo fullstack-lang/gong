@@ -117,6 +117,10 @@ func (cellFormCallback *CellFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Cells, cell_)
+					formerSource.Cells = slices.Delete(formerSource.Cells, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -654,6 +658,10 @@ func (checkboxFormCallback *CheckBoxFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.CheckBoxs, checkbox_)
+					formerSource.CheckBoxs = slices.Delete(formerSource.CheckBoxs, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -794,6 +802,10 @@ func (displayedcolumnFormCallback *DisplayedColumnFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.DisplayedColumns, displayedcolumn_)
+					formerSource.DisplayedColumns = slices.Delete(formerSource.DisplayedColumns, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -938,6 +950,10 @@ func (formdivFormCallback *FormDivFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.FormDivs, formdiv_)
+					formerSource.FormDivs = slices.Delete(formerSource.FormDivs, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -1185,6 +1201,10 @@ func (formfieldFormCallback *FormFieldFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.FormFields, formfield_)
+					formerSource.FormFields = slices.Delete(formerSource.FormFields, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -2062,6 +2082,10 @@ func (optionFormCallback *OptionFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Options, option_)
+					formerSource.Options = slices.Delete(formerSource.Options, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -2204,6 +2228,10 @@ func (rowFormCallback *RowFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Rows, row_)
+					formerSource.Rows = slices.Delete(formerSource.Rows, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
