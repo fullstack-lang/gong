@@ -50,5 +50,13 @@ export function auto_Y_offset(
         offset += oneEm * 0.4
     }
 
-    return offset * offsetSign + text.Y_Offset
+    let lines = text.Content.split('\n')
+
+    let res = offset * offsetSign + text.Y_Offset
+
+    if (lines.length > 1 && text.LinkAnchorType == svg.LinkAnchorType.LINK_LEFT_OR_TOP) {
+        res -= (lines.length) *  oneEm * 0.4
+    }
+
+    return res
 }

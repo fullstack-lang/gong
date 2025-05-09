@@ -217,7 +217,7 @@ func _(stage *models.Stage) {
 	__Link__000003_Auto_1.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000003_Auto_1.IsBezierCurve = false
 	__Link__000003_Auto_1.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000003_Auto_1.StartRatio = 0.355990
+	__Link__000003_Auto_1.StartRatio = 0.256863
 	__Link__000003_Auto_1.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000003_Auto_1.EndRatio = 0.153353
 	__Link__000003_Auto_1.CornerOffsetRatio = 7.192308
@@ -242,7 +242,7 @@ func _(stage *models.Stage) {
 	__Link__000004_Auto_2.StartRatio = 0.435714
 	__Link__000004_Auto_2.EndOrientation = models.ORIENTATION_VERTICAL
 	__Link__000004_Auto_2.EndRatio = 0.407692
-	__Link__000004_Auto_2.CornerOffsetRatio = 1.153325
+	__Link__000004_Auto_2.CornerOffsetRatio = -0.188802
 	__Link__000004_Auto_2.CornerRadius = 0.000000
 	__Link__000004_Auto_2.HasEndArrow = true
 	__Link__000004_Auto_2.EndArrowSize = 5.000000
@@ -263,7 +263,7 @@ func _(stage *models.Stage) {
 	__Link__000005_Auto_3.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000005_Auto_3.StartRatio = 0.620556
 	__Link__000005_Auto_3.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000005_Auto_3.EndRatio = 0.738937
+	__Link__000005_Auto_3.EndRatio = 0.589849
 	__Link__000005_Auto_3.CornerOffsetRatio = -1.476923
 	__Link__000005_Auto_3.CornerRadius = 0.000000
 	__Link__000005_Auto_3.HasEndArrow = true
@@ -443,7 +443,9 @@ RIGHT_OR_BOTTOM`
 
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Name = `AA_LEFT_OR_TOP`
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Content = `LEFT_OR_TOP
-LEFT_OR_TOP`
+LEFT_OR_TOP
+LEFT_OR_TOP
+`
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.AutomaticLayout = true
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.LinkAnchorType = models.LINK_LEFT_OR_TOP
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.X_Offset = 0.000000
@@ -489,8 +491,8 @@ LEFT_OR_TOP`
 	__Rect__000000_Bottom_Rect.CanMoveVerticaly = true
 
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 650.000000
-	__Rect__000001_Middle_Rect.Y = 423.000000
+	__Rect__000001_Middle_Rect.X = 627.000000
+	__Rect__000001_Middle_Rect.Y = 444.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -573,8 +575,8 @@ LEFT_OR_TOP`
 	__Rect__000003_Test_Automatic_Layout_Start.CanMoveVerticaly = true
 
 	__Rect__000004_End.Name = `End`
-	__Rect__000004_End.X = 1697.000000
-	__Rect__000004_End.Y = 78.000000
+	__Rect__000004_End.X = 1663.000000
+	__Rect__000004_End.Y = 539.000000
 	__Rect__000004_End.Width = 140.000000
 	__Rect__000004_End.Height = 384.000000
 	__Rect__000004_End.RX = 0.000000
