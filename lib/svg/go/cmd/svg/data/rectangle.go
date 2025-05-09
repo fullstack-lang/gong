@@ -423,7 +423,8 @@ Line 2`
 	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.Transform = ``
 
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Name = `AA_RIGHT_OR_BOTTOM`
-	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Content = `RIGHT_OR_BOTTOM`
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Content = `RIGHT_OR_BOTTOM
+RIGHT_OR_BOTTOM`
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.AutomaticLayout = true
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.LinkAnchorType = models.LINK_RIGHT_OR_BOTTOM
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.X_Offset = 0.000000
@@ -441,7 +442,8 @@ Line 2`
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Transform = ``
 
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Name = `AA_LEFT_OR_TOP`
-	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Content = `LEFT_OR_TOP`
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Content = `LEFT_OR_TOP
+LEFT_OR_TOP`
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.AutomaticLayout = true
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.LinkAnchorType = models.LINK_LEFT_OR_TOP
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.X_Offset = 0.000000
@@ -949,8 +951,6 @@ line 3`
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000002_Top_Rect
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom_Rect
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowStart, __LinkAnchoredText__000003_Start_Anchored_1)
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __LinkAnchoredText__000002_Liine_1_Line_2)
-	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd = append(__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.TextAtArrowEnd, __LinkAnchoredText__000002_Liine_1_Line_2)
 	__Link__000001_Start_Middle.Start = __Rect__000002_Top_Rect
 	__Link__000001_Start_Middle.End = __Rect__000001_Middle_Rect
 	__Link__000001_Start_Middle.TextAtArrowStart = append(__Link__000001_Start_Middle.TextAtArrowStart, __LinkAnchoredText__000004_Start_Left_Top)
@@ -963,10 +963,22 @@ line 3`
 	__Link__000002_Top_to_Middle_issue_645_.TextAtArrowEnd = append(__Link__000002_Top_to_Middle_issue_645_.TextAtArrowEnd, __LinkAnchoredText__000007_Right_to_the_end_anchored_text)
 	__Link__000003_Auto_1.Start = __Rect__000003_Test_Automatic_Layout_Start
 	__Link__000003_Auto_1.End = __Rect__000004_End
+	__Link__000003_Auto_1.TextAtArrowStart = append(__Link__000003_Auto_1.TextAtArrowStart, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
+	__Link__000003_Auto_1.TextAtArrowStart = append(__Link__000003_Auto_1.TextAtArrowStart, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
+	__Link__000003_Auto_1.TextAtArrowEnd = append(__Link__000003_Auto_1.TextAtArrowEnd, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
+	__Link__000003_Auto_1.TextAtArrowEnd = append(__Link__000003_Auto_1.TextAtArrowEnd, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
 	__Link__000004_Auto_2.Start = __Rect__000004_End
 	__Link__000004_Auto_2.End = __Rect__000003_Test_Automatic_Layout_Start
+	__Link__000004_Auto_2.TextAtArrowStart = append(__Link__000004_Auto_2.TextAtArrowStart, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
+	__Link__000004_Auto_2.TextAtArrowStart = append(__Link__000004_Auto_2.TextAtArrowStart, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
+	__Link__000004_Auto_2.TextAtArrowEnd = append(__Link__000004_Auto_2.TextAtArrowEnd, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
+	__Link__000004_Auto_2.TextAtArrowEnd = append(__Link__000004_Auto_2.TextAtArrowEnd, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
 	__Link__000005_Auto_3.Start = __Rect__000003_Test_Automatic_Layout_Start
 	__Link__000005_Auto_3.End = __Rect__000004_End
+	__Link__000005_Auto_3.TextAtArrowStart = append(__Link__000005_Auto_3.TextAtArrowStart, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
+	__Link__000005_Auto_3.TextAtArrowStart = append(__Link__000005_Auto_3.TextAtArrowStart, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
+	__Link__000005_Auto_3.TextAtArrowEnd = append(__Link__000005_Auto_3.TextAtArrowEnd, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
+	__Link__000005_Auto_3.TextAtArrowEnd = append(__Link__000005_Auto_3.TextAtArrowEnd, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
 	// setup of LinkAnchoredText instances pointers
 	// setup of Rect instances pointers
 	__Rect__000000_Bottom_Rect.RectAnchoredTexts = append(__Rect__000000_Bottom_Rect.RectAnchoredTexts, __RectAnchoredText__000000_Bottom_Text)
