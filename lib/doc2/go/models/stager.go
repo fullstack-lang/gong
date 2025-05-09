@@ -16,6 +16,8 @@ import (
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 
 	gong "github.com/fullstack-lang/gong/go/models"
+
+	table "github.com/fullstack-lang/gong/lib/table/go/models"
 )
 
 type Stager struct {
@@ -23,6 +25,7 @@ type Stager struct {
 	treeStage *tree.Stage
 	svgStage  *svg.Stage
 	gongStage *gong.Stage
+	formStage *table.Stage
 
 	embeddedDiagrams bool
 }
@@ -34,6 +37,7 @@ func NewStager(
 	treeStage *tree.Stage,
 	svgStage *svg.Stage,
 	gongStage *gong.Stage,
+	formStage *table.Stage,
 
 	embeddedDiagrams bool,
 ) (stager *Stager) {
@@ -44,6 +48,7 @@ func NewStager(
 	stager.treeStage = treeStage
 	stager.svgStage = svgStage
 	stager.gongStage = gongStage
+	stager.formStage = formStage
 
 	stager.embeddedDiagrams = embeddedDiagrams
 
@@ -56,17 +61,32 @@ func NewStager(
 			{
 				Name:             "AsSplitArea 50% for Slit (Tree & Svg)",
 				ShowNameInHeader: false,
-				Size:             50,
 				AsSplit: (&split.AsSplit{
 					Direction: split.Horizontal,
 					AsSplitAreas: []*split.AsSplitArea{
 						{
-							Name:             "doc2 Tree",
-							ShowNameInHeader: false,
-							Size:             25,
-							Tree: &split.Tree{
-								StackName: stager.treeStage.GetName(),
-								TreeName:  stager.stage.GetProbeTreeSidebarStageName(),
+							Size: 25,
+							AsSplit: &split.AsSplit{
+								Direction: split.Vertical,
+								AsSplitAreas: []*split.AsSplitArea{
+									{
+										Name:             "doc2 Tree",
+										ShowNameInHeader: false,
+										Size:             66,
+										Tree: &split.Tree{
+											StackName: stager.treeStage.GetName(),
+											TreeName:  stager.stage.GetProbeTreeSidebarStageName(),
+										},
+									},
+									{
+										Name: "temporary form stack",
+										Size: 34,
+										Form: &split.Form{
+											StackName: stager.formStage.GetName(),
+											FormName:  stager.formStage.GetName(), // convention
+										},
+									},
+								},
 							},
 						},
 						{
@@ -125,6 +145,7 @@ func NewStager(
 
 	stager.UpdateAndCommitSVGStage()
 	stager.UpdateAndCommitTreeStage()
+	stager.UpdateAndCommitFormStage()
 
 	return
 }

@@ -6,6 +6,9 @@ package models
 type Classdiagram struct {
 	Name string
 
+	// gong:text width:400 height:400
+	Description string
+
 	// list of gongstructshapes in the diagram
 	GongStructShapes []*GongStructShape
 
