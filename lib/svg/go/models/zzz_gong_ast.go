@@ -903,18 +903,18 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "Link":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "TextAtArrowEnd":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							target := __gong__map_LinkAnchoredText[targetIdentifier]
-							__gong__map_Link[identifier].TextAtArrowEnd =
-								append(__gong__map_Link[identifier].TextAtArrowEnd, target)
 						case "TextAtArrowStart":
 							// remove first and last char
 							targetIdentifier := ident.Name
 							target := __gong__map_LinkAnchoredText[targetIdentifier]
 							__gong__map_Link[identifier].TextAtArrowStart =
 								append(__gong__map_Link[identifier].TextAtArrowStart, target)
+						case "TextAtArrowEnd":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_LinkAnchoredText[targetIdentifier]
+							__gong__map_Link[identifier].TextAtArrowEnd =
+								append(__gong__map_Link[identifier].TextAtArrowEnd, target)
 						case "ControlPoints":
 							// remove first and last char
 							targetIdentifier := ident.Name

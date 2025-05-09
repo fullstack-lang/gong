@@ -141,8 +141,8 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			// the form of the target source (when editing an instance of Astruct). Setting up a value
 			// will discard the former value is there is one.
 			//
-			// the algorithm is
-			// 1/ get the former source of the association
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
 			var formerSource *models.Astruct
 			{
 				var rf models.ReverseField
@@ -167,31 +167,15 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Anarrayofa, astruct_)
-					formerSource.Anarrayofa = slices.Delete(formerSource.Anarrayofa, idx, idx+1)
-				}
+				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
 
-			// we need to deal with the 2 cases:
-			// 1 the field source is unchanged
-			// 2 the field source is changed
-
-			// 1 field source is unchanged
-			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
-				break // nothing else to do for this field
-			}
-
-			// 2 field source is changed -->
-			// (1) clear the source slice field if it exist
-			// (2) find the new source
-			// (3) append the new value to the new source field
-
-			// (1) clear the source slice field if it exist
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
 			if formerSource != nil {
-				idx := slices.Index(formerSource.Anarrayofa, astruct_)
-				formerSource.Anarrayofa = slices.Delete(formerSource.Anarrayofa, idx, idx+1)
+				break // nothing else to do for this field
 			}
 
 			// (2) find the source
@@ -209,7 +193,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 				break
 			}
 
-			// (3) append the new value to the new source field
+			// append the value to the new source field
 			newSource.Anarrayofa = append(newSource.Anarrayofa, astruct_)
 		}
 	}
@@ -299,8 +283,8 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 			// the form of the target source (when editing an instance of AstructBstruct2Use). Setting up a value
 			// will discard the former value is there is one.
 			//
-			// the algorithm is
-			// 1/ get the former source of the association
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
 			var formerSource *models.Astruct
 			{
 				var rf models.ReverseField
@@ -325,31 +309,15 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Anarrayofb2Use, astructbstruct2use_)
-					formerSource.Anarrayofb2Use = slices.Delete(formerSource.Anarrayofb2Use, idx, idx+1)
-				}
+				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
 
-			// we need to deal with the 2 cases:
-			// 1 the field source is unchanged
-			// 2 the field source is changed
-
-			// 1 field source is unchanged
-			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
-				break // nothing else to do for this field
-			}
-
-			// 2 field source is changed -->
-			// (1) clear the source slice field if it exist
-			// (2) find the new source
-			// (3) append the new value to the new source field
-
-			// (1) clear the source slice field if it exist
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
 			if formerSource != nil {
-				idx := slices.Index(formerSource.Anarrayofb2Use, astructbstruct2use_)
-				formerSource.Anarrayofb2Use = slices.Delete(formerSource.Anarrayofb2Use, idx, idx+1)
+				break // nothing else to do for this field
 			}
 
 			// (2) find the source
@@ -367,7 +335,7 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 				break
 			}
 
-			// (3) append the new value to the new source field
+			// append the value to the new source field
 			newSource.Anarrayofb2Use = append(newSource.Anarrayofb2Use, astructbstruct2use_)
 		}
 	}
@@ -457,8 +425,8 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 			// the form of the target source (when editing an instance of AstructBstructUse). Setting up a value
 			// will discard the former value is there is one.
 			//
-			// the algorithm is
-			// 1/ get the former source of the association
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
 			var formerSource *models.Astruct
 			{
 				var rf models.ReverseField
@@ -483,31 +451,15 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
-				if formerSource != nil {
-					idx := slices.Index(formerSource.AnarrayofbUse, astructbstructuse_)
-					formerSource.AnarrayofbUse = slices.Delete(formerSource.AnarrayofbUse, idx, idx+1)
-				}
+				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
 
-			// we need to deal with the 2 cases:
-			// 1 the field source is unchanged
-			// 2 the field source is changed
-
-			// 1 field source is unchanged
-			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
-				break // nothing else to do for this field
-			}
-
-			// 2 field source is changed -->
-			// (1) clear the source slice field if it exist
-			// (2) find the new source
-			// (3) append the new value to the new source field
-
-			// (1) clear the source slice field if it exist
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
 			if formerSource != nil {
-				idx := slices.Index(formerSource.AnarrayofbUse, astructbstructuse_)
-				formerSource.AnarrayofbUse = slices.Delete(formerSource.AnarrayofbUse, idx, idx+1)
+				break // nothing else to do for this field
 			}
 
 			// (2) find the source
@@ -525,7 +477,7 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 				break
 			}
 
-			// (3) append the new value to the new source field
+			// append the value to the new source field
 			newSource.AnarrayofbUse = append(newSource.AnarrayofbUse, astructbstructuse_)
 		}
 	}
@@ -619,8 +571,8 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 			// the form of the target source (when editing an instance of Bstruct). Setting up a value
 			// will discard the former value is there is one.
 			//
-			// the algorithm is
-			// 1/ get the former source of the association
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
 			var formerSource *models.Astruct
 			{
 				var rf models.ReverseField
@@ -645,31 +597,15 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Anarrayofb, bstruct_)
-					formerSource.Anarrayofb = slices.Delete(formerSource.Anarrayofb, idx, idx+1)
-				}
+				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
 
-			// we need to deal with the 2 cases:
-			// 1 the field source is unchanged
-			// 2 the field source is changed
-
-			// 1 field source is unchanged
-			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
-				break // nothing else to do for this field
-			}
-
-			// 2 field source is changed -->
-			// (1) clear the source slice field if it exist
-			// (2) find the new source
-			// (3) append the new value to the new source field
-
-			// (1) clear the source slice field if it exist
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
 			if formerSource != nil {
-				idx := slices.Index(formerSource.Anarrayofb, bstruct_)
-				formerSource.Anarrayofb = slices.Delete(formerSource.Anarrayofb, idx, idx+1)
+				break // nothing else to do for this field
 			}
 
 			// (2) find the source
@@ -687,7 +623,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 				break
 			}
 
-			// (3) append the new value to the new source field
+			// append the value to the new source field
 			newSource.Anarrayofb = append(newSource.Anarrayofb, bstruct_)
 		case "Astruct:Anotherarrayofb":
 			// WARNING : this form deals with the N-N association "Astruct.Anotherarrayofb []*Bstruct" but
@@ -698,8 +634,8 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 			// the form of the target source (when editing an instance of Bstruct). Setting up a value
 			// will discard the former value is there is one.
 			//
-			// the algorithm is
-			// 1/ get the former source of the association
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
 			var formerSource *models.Astruct
 			{
 				var rf models.ReverseField
@@ -724,31 +660,15 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Anotherarrayofb, bstruct_)
-					formerSource.Anotherarrayofb = slices.Delete(formerSource.Anotherarrayofb, idx, idx+1)
-				}
+				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
 
-			// we need to deal with the 2 cases:
-			// 1 the field source is unchanged
-			// 2 the field source is changed
-
-			// 1 field source is unchanged
-			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
-				break // nothing else to do for this field
-			}
-
-			// 2 field source is changed -->
-			// (1) clear the source slice field if it exist
-			// (2) find the new source
-			// (3) append the new value to the new source field
-
-			// (1) clear the source slice field if it exist
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
 			if formerSource != nil {
-				idx := slices.Index(formerSource.Anotherarrayofb, bstruct_)
-				formerSource.Anotherarrayofb = slices.Delete(formerSource.Anotherarrayofb, idx, idx+1)
+				break // nothing else to do for this field
 			}
 
 			// (2) find the source
@@ -766,7 +686,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 				break
 			}
 
-			// (3) append the new value to the new source field
+			// append the value to the new source field
 			newSource.Anotherarrayofb = append(newSource.Anotherarrayofb, bstruct_)
 		case "Dstruct:Anarrayofb":
 			// WARNING : this form deals with the N-N association "Dstruct.Anarrayofb []*Bstruct" but
@@ -777,8 +697,8 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 			// the form of the target source (when editing an instance of Bstruct). Setting up a value
 			// will discard the former value is there is one.
 			//
-			// the algorithm is
-			// 1/ get the former source of the association
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
 			var formerSource *models.Dstruct
 			{
 				var rf models.ReverseField
@@ -803,31 +723,15 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Anarrayofb, bstruct_)
-					formerSource.Anarrayofb = slices.Delete(formerSource.Anarrayofb, idx, idx+1)
-				}
+				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
 
-			// we need to deal with the 2 cases:
-			// 1 the field source is unchanged
-			// 2 the field source is changed
-
-			// 1 field source is unchanged
-			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
-				break // nothing else to do for this field
-			}
-
-			// 2 field source is changed -->
-			// (1) clear the source slice field if it exist
-			// (2) find the new source
-			// (3) append the new value to the new source field
-
-			// (1) clear the source slice field if it exist
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
 			if formerSource != nil {
-				idx := slices.Index(formerSource.Anarrayofb, bstruct_)
-				formerSource.Anarrayofb = slices.Delete(formerSource.Anarrayofb, idx, idx+1)
+				break // nothing else to do for this field
 			}
 
 			// (2) find the source
@@ -845,7 +749,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 				break
 			}
 
-			// (3) append the new value to the new source field
+			// append the value to the new source field
 			newSource.Anarrayofb = append(newSource.Anarrayofb, bstruct_)
 		}
 	}
@@ -935,8 +839,8 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 			// the form of the target source (when editing an instance of Dstruct). Setting up a value
 			// will discard the former value is there is one.
 			//
-			// the algorithm is
-			// 1/ get the former source of the association
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
 			var formerSource *models.Astruct
 			{
 				var rf models.ReverseField
@@ -961,31 +865,15 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Dstruct4s, dstruct_)
-					formerSource.Dstruct4s = slices.Delete(formerSource.Dstruct4s, idx, idx+1)
-				}
+				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
 
-			// we need to deal with the 2 cases:
-			// 1 the field source is unchanged
-			// 2 the field source is changed
-
-			// 1 field source is unchanged
-			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
-				break // nothing else to do for this field
-			}
-
-			// 2 field source is changed -->
-			// (1) clear the source slice field if it exist
-			// (2) find the new source
-			// (3) append the new value to the new source field
-
-			// (1) clear the source slice field if it exist
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
 			if formerSource != nil {
-				idx := slices.Index(formerSource.Dstruct4s, dstruct_)
-				formerSource.Dstruct4s = slices.Delete(formerSource.Dstruct4s, idx, idx+1)
+				break // nothing else to do for this field
 			}
 
 			// (2) find the source
@@ -1003,7 +891,7 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 				break
 			}
 
-			// (3) append the new value to the new source field
+			// append the value to the new source field
 			newSource.Dstruct4s = append(newSource.Dstruct4s, dstruct_)
 		}
 	}
@@ -1176,8 +1064,8 @@ func (gstructFormCallback *GstructFormCallback) OnSave() {
 			// the form of the target source (when editing an instance of Gstruct). Setting up a value
 			// will discard the former value is there is one.
 			//
-			// the algorithm is
-			// 1/ get the former source of the association
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
 			var formerSource *models.Dstruct
 			{
 				var rf models.ReverseField
@@ -1202,31 +1090,15 @@ func (gstructFormCallback *GstructFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Gstructs, gstruct_)
-					formerSource.Gstructs = slices.Delete(formerSource.Gstructs, idx, idx+1)
-				}
+				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
 
-			// we need to deal with the 2 cases:
-			// 1 the field source is unchanged
-			// 2 the field source is changed
-
-			// 1 field source is unchanged
-			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
-				break // nothing else to do for this field
-			}
-
-			// 2 field source is changed -->
-			// (1) clear the source slice field if it exist
-			// (2) find the new source
-			// (3) append the new value to the new source field
-
-			// (1) clear the source slice field if it exist
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
 			if formerSource != nil {
-				idx := slices.Index(formerSource.Gstructs, gstruct_)
-				formerSource.Gstructs = slices.Delete(formerSource.Gstructs, idx, idx+1)
+				break // nothing else to do for this field
 			}
 
 			// (2) find the source
@@ -1244,7 +1116,7 @@ func (gstructFormCallback *GstructFormCallback) OnSave() {
 				break
 			}
 
-			// (3) append the new value to the new source field
+			// append the value to the new source field
 			newSource.Gstructs = append(newSource.Gstructs, gstruct_)
 		}
 	}

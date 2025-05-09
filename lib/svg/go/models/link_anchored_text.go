@@ -1,7 +1,9 @@
 package models
 
 type LinkAnchoredText struct {
-	Name    string
+	Name string
+
+	//gong:text width:300 height:300
 	Content string
 
 	// AutomaticLayout is true will have the front compute the
