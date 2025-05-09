@@ -115,6 +115,10 @@ func (attributeshapeFormCallback *AttributeShapeFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.AttributeShapes, attributeshape_)
+					formerSource.AttributeShapes = slices.Delete(formerSource.AttributeShapes, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -271,6 +275,10 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Classdiagrams, classdiagram_)
+					formerSource.Classdiagrams = slices.Delete(formerSource.Classdiagrams, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -508,6 +516,10 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.GongEnumShapes, gongenumshape_)
+					formerSource.GongEnumShapes = slices.Delete(formerSource.GongEnumShapes, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -650,6 +662,10 @@ func (gongenumvalueshapeFormCallback *GongEnumValueShapeFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.GongEnumValueShapes, gongenumvalueshape_)
+					formerSource.GongEnumValueShapes = slices.Delete(formerSource.GongEnumValueShapes, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -794,6 +810,10 @@ func (gongnotelinkshapeFormCallback *GongNoteLinkShapeFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.GongNoteLinkShapes, gongnotelinkshape_)
+					formerSource.GongNoteLinkShapes = slices.Delete(formerSource.GongNoteLinkShapes, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -952,6 +972,10 @@ func (gongnoteshapeFormCallback *GongNoteShapeFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.GongNoteShapes, gongnoteshape_)
+					formerSource.GongNoteShapes = slices.Delete(formerSource.GongNoteShapes, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -1108,6 +1132,10 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.GongStructShapes, gongstructshape_)
+					formerSource.GongStructShapes = slices.Delete(formerSource.GongStructShapes, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -1282,6 +1310,10 @@ func (linkshapeFormCallback *LinkShapeFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.LinkShapes, linkshape_)
+					formerSource.LinkShapes = slices.Delete(formerSource.LinkShapes, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}

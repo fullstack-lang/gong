@@ -115,6 +115,10 @@ func (arrowFormCallback *ArrowFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Arrows, arrow_)
+					formerSource.Arrows = slices.Delete(formerSource.Arrows, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -271,6 +275,10 @@ func (barFormCallback *BarFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Bars, bar_)
+					formerSource.Bars = slices.Delete(formerSource.Bars, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -536,6 +544,10 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Groups, group_)
+					formerSource.Groups = slices.Delete(formerSource.Groups, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -678,6 +690,10 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Lanes, lane_)
+					formerSource.Lanes = slices.Delete(formerSource.Lanes, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -741,6 +757,10 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.GroupLanes, lane_)
+					formerSource.GroupLanes = slices.Delete(formerSource.GroupLanes, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -883,6 +903,10 @@ func (laneuseFormCallback *LaneUseFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.LanesToDisplayMilestoneUse, laneuse_)
+					formerSource.LanesToDisplayMilestoneUse = slices.Delete(formerSource.LanesToDisplayMilestoneUse, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -1027,6 +1051,10 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Milestones, milestone_)
+					formerSource.Milestones = slices.Delete(formerSource.Milestones, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}

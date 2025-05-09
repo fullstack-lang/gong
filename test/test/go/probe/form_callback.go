@@ -167,6 +167,10 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Anarrayofa, astruct_)
+					formerSource.Anarrayofa = slices.Delete(formerSource.Anarrayofa, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -309,6 +313,10 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Anarrayofb2Use, astructbstruct2use_)
+					formerSource.Anarrayofb2Use = slices.Delete(formerSource.Anarrayofb2Use, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -451,6 +459,10 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.AnarrayofbUse, astructbstructuse_)
+					formerSource.AnarrayofbUse = slices.Delete(formerSource.AnarrayofbUse, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -597,6 +609,10 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Anarrayofb, bstruct_)
+					formerSource.Anarrayofb = slices.Delete(formerSource.Anarrayofb, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -660,6 +676,10 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Anotherarrayofb, bstruct_)
+					formerSource.Anotherarrayofb = slices.Delete(formerSource.Anotherarrayofb, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -723,6 +743,10 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Anarrayofb, bstruct_)
+					formerSource.Anarrayofb = slices.Delete(formerSource.Anarrayofb, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -865,6 +889,10 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Dstruct4s, dstruct_)
+					formerSource.Dstruct4s = slices.Delete(formerSource.Dstruct4s, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
@@ -1090,6 +1118,10 @@ func (gstructFormCallback *GstructFormCallback) OnSave() {
 
 			// case when the user set empty for the source value
 			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Gstructs, gstruct_)
+					formerSource.Gstructs = slices.Delete(formerSource.Gstructs, idx, idx+1)
+				}
 				// That could mean we clear the assocation for all source instances
 				break // nothing else to do for this field
 			}
