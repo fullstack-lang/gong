@@ -1175,6 +1175,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			case "Classdiagram":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "IsIncludedInStaticWebSite":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Classdiagram[identifier].IsIncludedInStaticWebSite = fielValue
 				case "IsInRenameMode":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
