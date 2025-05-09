@@ -20,6 +20,7 @@ func (proxy *ClassDiagramNodeProxy) OnAfterUpdate(
 		diagramPackage.SelectedClassdiagram = proxy.classDiagram
 
 		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.UpdateAndCommitFormStage()
 		proxy.stager.UpdateAndCommitSVGStage()
 
 		proxy.stager.stage.Commit()
@@ -31,6 +32,7 @@ func (proxy *ClassDiagramNodeProxy) OnAfterUpdate(
 		diagramPackage.SelectedClassdiagram = nil
 
 		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.UpdateAndCommitFormStage()
 		proxy.stager.UpdateAndCommitSVGStage()
 
 		proxy.stager.stage.Commit()

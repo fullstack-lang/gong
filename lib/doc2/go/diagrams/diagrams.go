@@ -90,8 +90,9 @@ func _(stage *models.Stage) {
 	__AttributeShape__000003_TargetMultiplicityOffsetY.Fieldtypename = `float64`
 
 	__Classdiagram__000000_Default.Name = `Default`
+	__Classdiagram__000000_Default.Description = `This diagram describes the model of the doc2 package. A DiagramPackage is composed of ClassDiagram and each ClassDiagram has shapes.`
 	__Classdiagram__000000_Default.IsInRenameMode = false
-	__Classdiagram__000000_Default.IsExpanded = false
+	__Classdiagram__000000_Default.IsExpanded = true
 	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = false
 	__Classdiagram__000000_Default.NodeGongStructNodeExpansionBinaryEncoding = 32
 	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = false
@@ -100,8 +101,9 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.NodeGongNoteNodeExpansionBinaryEncoding = 1
 
 	__Classdiagram__000001_spoil_diagram.Name = `spoil diagram`
+	__Classdiagram__000001_spoil_diagram.Description = `Spoil diagram`
 	__Classdiagram__000001_spoil_diagram.IsInRenameMode = false
-	__Classdiagram__000001_spoil_diagram.IsExpanded = true
+	__Classdiagram__000001_spoil_diagram.IsExpanded = false
 	__Classdiagram__000001_spoil_diagram.NodeGongStructsIsExpanded = true
 	__Classdiagram__000001_spoil_diagram.NodeGongStructNodeExpansionBinaryEncoding = 3
 	__Classdiagram__000001_spoil_diagram.NodeGongEnumsIsExpanded = false
