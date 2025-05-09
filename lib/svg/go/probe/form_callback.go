@@ -1887,85 +1887,6 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(linkanchoredtext_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(linkanchoredtext_.Transform), formDiv)
-		case "Link:TextAtArrowEnd":
-			// WARNING : this form deals with the N-N association "Link.TextAtArrowEnd []*LinkAnchoredText" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of LinkAnchoredText). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// the algorithm is
-			// 1/ get the former source of the association
-			var formerSource *models.Link
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "Link"
-				rf.Fieldname = "TextAtArrowEnd"
-				formerAssociationSource := models.GetReverseFieldOwner(
-					linkanchoredtextFormCallback.probe.stageOfInterest,
-					linkanchoredtext_,
-					&rf)
-
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.Link)
-					if !ok {
-						log.Fatalln("Source of Link.TextAtArrowEnd []*LinkAnchoredText, is not an Link instance")
-					}
-				}
-			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				if formerSource != nil {
-					idx := slices.Index(formerSource.TextAtArrowEnd, linkanchoredtext_)
-					formerSource.TextAtArrowEnd = slices.Delete(formerSource.TextAtArrowEnd, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// we need to deal with the 2 cases:
-			// 1 the field source is unchanged
-			// 2 the field source is changed
-
-			// 1 field source is unchanged
-			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
-				break // nothing else to do for this field
-			}
-
-			// 2 field source is changed -->
-			// (1) clear the source slice field if it exist
-			// (2) find the new source
-			// (3) append the new value to the new source field
-
-			// (1) clear the source slice field if it exist
-			if formerSource != nil {
-				idx := slices.Index(formerSource.TextAtArrowEnd, linkanchoredtext_)
-				formerSource.TextAtArrowEnd = slices.Delete(formerSource.TextAtArrowEnd, idx, idx+1)
-			}
-
-			// (2) find the source
-			var newSource *models.Link
-			for _link := range *models.GetGongstructInstancesSet[models.Link](linkanchoredtextFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _link.GetName() == newSourceName.GetName() {
-					newSource = _link // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of Link.TextAtArrowEnd []*LinkAnchoredText, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.TextAtArrowEnd = append(newSource.TextAtArrowEnd, linkanchoredtext_)
 		case "Link:TextAtArrowStart":
 			// WARNING : this form deals with the N-N association "Link.TextAtArrowStart []*LinkAnchoredText" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -2045,6 +1966,85 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 
 			// (3) append the new value to the new source field
 			newSource.TextAtArrowStart = append(newSource.TextAtArrowStart, linkanchoredtext_)
+		case "Link:TextAtArrowEnd":
+			// WARNING : this form deals with the N-N association "Link.TextAtArrowEnd []*LinkAnchoredText" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of LinkAnchoredText). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// the algorithm is
+			// 1/ get the former source of the association
+			var formerSource *models.Link
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Link"
+				rf.Fieldname = "TextAtArrowEnd"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					linkanchoredtextFormCallback.probe.stageOfInterest,
+					linkanchoredtext_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Link)
+					if !ok {
+						log.Fatalln("Source of Link.TextAtArrowEnd []*LinkAnchoredText, is not an Link instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.TextAtArrowEnd, linkanchoredtext_)
+					formerSource.TextAtArrowEnd = slices.Delete(formerSource.TextAtArrowEnd, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// we need to deal with the 2 cases:
+			// 1 the field source is unchanged
+			// 2 the field source is changed
+
+			// 1 field source is unchanged
+			if formerSource != nil && formerSource.GetName() == newSourceName.GetName() {
+				break // nothing else to do for this field
+			}
+
+			// 2 field source is changed -->
+			// (1) clear the source slice field if it exist
+			// (2) find the new source
+			// (3) append the new value to the new source field
+
+			// (1) clear the source slice field if it exist
+			if formerSource != nil {
+				idx := slices.Index(formerSource.TextAtArrowEnd, linkanchoredtext_)
+				formerSource.TextAtArrowEnd = slices.Delete(formerSource.TextAtArrowEnd, idx, idx+1)
+			}
+
+			// (2) find the source
+			var newSource *models.Link
+			for _link := range *models.GetGongstructInstancesSet[models.Link](linkanchoredtextFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _link.GetName() == newSourceName.GetName() {
+					newSource = _link // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Link.TextAtArrowEnd []*LinkAnchoredText, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.TextAtArrowEnd = append(newSource.TextAtArrowEnd, linkanchoredtext_)
 		}
 	}
 

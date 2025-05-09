@@ -126,20 +126,20 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Link
 	// insertion point per field
-	clear(stage.Link_TextAtArrowEnd_reverseMap)
-	stage.Link_TextAtArrowEnd_reverseMap = make(map[*LinkAnchoredText]*Link)
-	for link := range stage.Links {
-		_ = link
-		for _, _linkanchoredtext := range link.TextAtArrowEnd {
-			stage.Link_TextAtArrowEnd_reverseMap[_linkanchoredtext] = link
-		}
-	}
 	clear(stage.Link_TextAtArrowStart_reverseMap)
 	stage.Link_TextAtArrowStart_reverseMap = make(map[*LinkAnchoredText]*Link)
 	for link := range stage.Links {
 		_ = link
 		for _, _linkanchoredtext := range link.TextAtArrowStart {
 			stage.Link_TextAtArrowStart_reverseMap[_linkanchoredtext] = link
+		}
+	}
+	clear(stage.Link_TextAtArrowEnd_reverseMap)
+	stage.Link_TextAtArrowEnd_reverseMap = make(map[*LinkAnchoredText]*Link)
+	for link := range stage.Links {
+		_ = link
+		for _, _linkanchoredtext := range link.TextAtArrowEnd {
+			stage.Link_TextAtArrowEnd_reverseMap[_linkanchoredtext] = link
 		}
 	}
 	clear(stage.Link_ControlPoints_reverseMap)

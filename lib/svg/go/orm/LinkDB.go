@@ -56,11 +56,11 @@ type LinkPointersEncoding struct {
 	// This field is generated into another field to enable AS ONE association
 	EndID sql.NullInt64
 
-	// field TextAtArrowEnd is a slice of pointers to another Struct (optional or 0..1)
-	TextAtArrowEnd IntSlice `gorm:"type:TEXT"`
-
 	// field TextAtArrowStart is a slice of pointers to another Struct (optional or 0..1)
 	TextAtArrowStart IntSlice `gorm:"type:TEXT"`
+
+	// field TextAtArrowEnd is a slice of pointers to another Struct (optional or 0..1)
+	TextAtArrowEnd IntSlice `gorm:"type:TEXT"`
 
 	// field ControlPoints is a slice of pointers to another Struct (optional or 0..1)
 	ControlPoints IntSlice `gorm:"type:TEXT"`
@@ -400,24 +400,6 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		}
 
 		// 1. reset
-		linkDB.LinkPointersEncoding.TextAtArrowEnd = make([]int, 0)
-		// 2. encode
-		for _, linkanchoredtextAssocEnd := range link.TextAtArrowEnd {
-			linkanchoredtextAssocEnd_DB :=
-				backRepo.BackRepoLinkAnchoredText.GetLinkAnchoredTextDBFromLinkAnchoredTextPtr(linkanchoredtextAssocEnd)
-			
-			// the stage might be inconsistant, meaning that the linkanchoredtextAssocEnd_DB might
-			// be missing from the stage. In this case, the commit operation is robust
-			// An alternative would be to crash here to reveal the missing element.
-			if linkanchoredtextAssocEnd_DB == nil {
-				continue
-			}
-			
-			linkDB.LinkPointersEncoding.TextAtArrowEnd =
-				append(linkDB.LinkPointersEncoding.TextAtArrowEnd, int(linkanchoredtextAssocEnd_DB.ID))
-		}
-
-		// 1. reset
 		linkDB.LinkPointersEncoding.TextAtArrowStart = make([]int, 0)
 		// 2. encode
 		for _, linkanchoredtextAssocEnd := range link.TextAtArrowStart {
@@ -433,6 +415,24 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 			
 			linkDB.LinkPointersEncoding.TextAtArrowStart =
 				append(linkDB.LinkPointersEncoding.TextAtArrowStart, int(linkanchoredtextAssocEnd_DB.ID))
+		}
+
+		// 1. reset
+		linkDB.LinkPointersEncoding.TextAtArrowEnd = make([]int, 0)
+		// 2. encode
+		for _, linkanchoredtextAssocEnd := range link.TextAtArrowEnd {
+			linkanchoredtextAssocEnd_DB :=
+				backRepo.BackRepoLinkAnchoredText.GetLinkAnchoredTextDBFromLinkAnchoredTextPtr(linkanchoredtextAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the linkanchoredtextAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if linkanchoredtextAssocEnd_DB == nil {
+				continue
+			}
+			
+			linkDB.LinkPointersEncoding.TextAtArrowEnd =
+				append(linkDB.LinkPointersEncoding.TextAtArrowEnd, int(linkanchoredtextAssocEnd_DB.ID))
 		}
 
 		// 1. reset
@@ -608,15 +608,6 @@ func (linkDB *LinkDB) DecodePointers(backRepo *BackRepoStruct, link *models.Link
 		}
 	}
 	
-	// This loop redeem link.TextAtArrowEnd in the stage from the encode in the back repo
-	// It parses all LinkAnchoredTextDB in the back repo and if the reverse pointer encoding matches the back repo ID
-	// it appends the stage instance
-	// 1. reset the slice
-	link.TextAtArrowEnd = link.TextAtArrowEnd[:0]
-	for _, _LinkAnchoredTextid := range linkDB.LinkPointersEncoding.TextAtArrowEnd {
-		link.TextAtArrowEnd = append(link.TextAtArrowEnd, backRepo.BackRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextPtr[uint(_LinkAnchoredTextid)])
-	}
-
 	// This loop redeem link.TextAtArrowStart in the stage from the encode in the back repo
 	// It parses all LinkAnchoredTextDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
@@ -624,6 +615,15 @@ func (linkDB *LinkDB) DecodePointers(backRepo *BackRepoStruct, link *models.Link
 	link.TextAtArrowStart = link.TextAtArrowStart[:0]
 	for _, _LinkAnchoredTextid := range linkDB.LinkPointersEncoding.TextAtArrowStart {
 		link.TextAtArrowStart = append(link.TextAtArrowStart, backRepo.BackRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextPtr[uint(_LinkAnchoredTextid)])
+	}
+
+	// This loop redeem link.TextAtArrowEnd in the stage from the encode in the back repo
+	// It parses all LinkAnchoredTextDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	link.TextAtArrowEnd = link.TextAtArrowEnd[:0]
+	for _, _LinkAnchoredTextid := range linkDB.LinkPointersEncoding.TextAtArrowEnd {
+		link.TextAtArrowEnd = append(link.TextAtArrowEnd, backRepo.BackRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextPtr[uint(_LinkAnchoredTextid)])
 	}
 
 	// This loop redeem link.ControlPoints in the stage from the encode in the back repo

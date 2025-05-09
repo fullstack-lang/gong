@@ -152,9 +152,9 @@ type Stage struct {
 	Links_mapString map[string]*Link
 
 	// insertion point for slice of pointers maps
-	Link_TextAtArrowEnd_reverseMap map[*LinkAnchoredText]*Link
-
 	Link_TextAtArrowStart_reverseMap map[*LinkAnchoredText]*Link
+
+	Link_TextAtArrowEnd_reverseMap map[*LinkAnchoredText]*Link
 
 	Link_ControlPoints_reverseMap map[*Point]*Link
 
@@ -2553,9 +2553,9 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Rect with the name of the field
 			End: &Rect{Name: "End"},
 			// field is initialized with an instance of LinkAnchoredText with the name of the field
-			TextAtArrowEnd: []*LinkAnchoredText{{Name: "TextAtArrowEnd"}},
-			// field is initialized with an instance of LinkAnchoredText with the name of the field
 			TextAtArrowStart: []*LinkAnchoredText{{Name: "TextAtArrowStart"}},
+			// field is initialized with an instance of LinkAnchoredText with the name of the field
+			TextAtArrowEnd: []*LinkAnchoredText{{Name: "TextAtArrowEnd"}},
 			// field is initialized with an instance of Point with the name of the field
 			ControlPoints: []*Point{{Name: "ControlPoints"}},
 		}).(*Type)
@@ -3005,18 +3005,18 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Link:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "TextAtArrowEnd":
-			res := make(map[*LinkAnchoredText]*Link)
-			for link := range stage.Links {
-				for _, linkanchoredtext_ := range link.TextAtArrowEnd {
-					res[linkanchoredtext_] = link
-				}
-			}
-			return any(res).(map[*End]*Start)
 		case "TextAtArrowStart":
 			res := make(map[*LinkAnchoredText]*Link)
 			for link := range stage.Links {
 				for _, linkanchoredtext_ := range link.TextAtArrowStart {
+					res[linkanchoredtext_] = link
+				}
+			}
+			return any(res).(map[*End]*Start)
+		case "TextAtArrowEnd":
+			res := make(map[*LinkAnchoredText]*Link)
+			for link := range stage.Links {
+				for _, linkanchoredtext_ := range link.TextAtArrowEnd {
 					res[linkanchoredtext_] = link
 				}
 			}
@@ -3305,7 +3305,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Line:
 		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case Link:
-		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "HasStartArrow", "StartArrowSize", "TextAtArrowEnd", "TextAtArrowStart", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "HasStartArrow", "StartArrowSize", "TextAtArrowStart", "TextAtArrowEnd", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case LinkAnchoredText:
 		res = []string{"Name", "Content", "AutomaticLayout", "LinkAnchorType", "X_Offset", "Y_Offset", "FontWeight", "FontSize", "LetterSpacing", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Path:
@@ -3417,10 +3417,10 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Link"
-		rf.Fieldname = "TextAtArrowEnd"
+		rf.Fieldname = "TextAtArrowStart"
 		res = append(res, rf)
 		rf.GongstructName = "Link"
-		rf.Fieldname = "TextAtArrowStart"
+		rf.Fieldname = "TextAtArrowEnd"
 		res = append(res, rf)
 	case Path:
 		var rf ReverseField
@@ -3510,7 +3510,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Line:
 		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case *Link:
-		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "HasStartArrow", "StartArrowSize", "TextAtArrowEnd", "TextAtArrowStart", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "HasStartArrow", "StartArrowSize", "TextAtArrowStart", "TextAtArrowEnd", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case *LinkAnchoredText:
 		res = []string{"Name", "Content", "AutomaticLayout", "LinkAnchorType", "X_Offset", "Y_Offset", "FontWeight", "FontSize", "LetterSpacing", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case *Path:
@@ -3897,15 +3897,15 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%f", inferedInstance.StartArrowSize)
 			res.valueFloat = inferedInstance.StartArrowSize
 			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "TextAtArrowEnd":
-			for idx, __instance__ := range inferedInstance.TextAtArrowEnd {
+		case "TextAtArrowStart":
+			for idx, __instance__ := range inferedInstance.TextAtArrowStart {
 				if idx > 0 {
 					res.valueString += "\n"
 				}
 				res.valueString += __instance__.Name
 			}
-		case "TextAtArrowStart":
-			for idx, __instance__ := range inferedInstance.TextAtArrowStart {
+		case "TextAtArrowEnd":
+			for idx, __instance__ := range inferedInstance.TextAtArrowEnd {
 				if idx > 0 {
 					res.valueString += "\n"
 				}
@@ -4881,15 +4881,15 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%f", inferedInstance.StartArrowSize)
 			res.valueFloat = inferedInstance.StartArrowSize
 			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "TextAtArrowEnd":
-			for idx, __instance__ := range inferedInstance.TextAtArrowEnd {
+		case "TextAtArrowStart":
+			for idx, __instance__ := range inferedInstance.TextAtArrowStart {
 				if idx > 0 {
 					res.valueString += "\n"
 				}
 				res.valueString += __instance__.Name
 			}
-		case "TextAtArrowStart":
-			for idx, __instance__ := range inferedInstance.TextAtArrowStart {
+		case "TextAtArrowEnd":
+			for idx, __instance__ := range inferedInstance.TextAtArrowEnd {
 				if idx > 0 {
 					res.valueString += "\n"
 				}
