@@ -8,6 +8,8 @@ type BackRepoData struct {
 
 	CircleAPIs []*CircleAPI
 
+	CommandAPIs []*CommandAPI
+
 	EllipseAPIs []*EllipseAPI
 
 	LayerAPIs []*LayerAPI
@@ -71,6 +73,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		circleDB.CopyBasicFieldsToCircle_WOP(&circleAPI.Circle_WOP)
 
 		backRepoData.CircleAPIs = append(backRepoData.CircleAPIs, &circleAPI)
+	}
+
+	for _, commandDB := range backRepo.BackRepoCommand.Map_CommandDBID_CommandDB {
+
+		var commandAPI CommandAPI
+		commandAPI.ID = commandDB.ID
+		commandAPI.CommandPointersEncoding = commandDB.CommandPointersEncoding
+		commandDB.CopyBasicFieldsToCommand_WOP(&commandAPI.Command_WOP)
+
+		backRepoData.CommandAPIs = append(backRepoData.CommandAPIs, &commandAPI)
 	}
 
 	for _, ellipseDB := range backRepo.BackRepoEllipse.Map_EllipseDBID_EllipseDB {

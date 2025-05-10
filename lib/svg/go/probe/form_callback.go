@@ -952,6 +952,85 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 
 	updateAndCommitTree(circleFormCallback.probe)
 }
+func __gong__New__CommandFormCallback(
+	command *models.Command,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (commandFormCallback *CommandFormCallback) {
+	commandFormCallback = new(CommandFormCallback)
+	commandFormCallback.probe = probe
+	commandFormCallback.command = command
+	commandFormCallback.formGroup = formGroup
+
+	commandFormCallback.CreationMode = (command == nil)
+
+	return
+}
+
+type CommandFormCallback struct {
+	command *models.Command
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (commandFormCallback *CommandFormCallback) OnSave() {
+
+	// log.Println("CommandFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	commandFormCallback.probe.formStage.Checkout()
+
+	if commandFormCallback.command == nil {
+		commandFormCallback.command = new(models.Command).Stage(commandFormCallback.probe.stageOfInterest)
+	}
+	command_ := commandFormCallback.command
+	_ = command_
+
+	for _, formDiv := range commandFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(command_.Name), formDiv)
+		case "CommandType":
+			FormDivEnumStringFieldToField(&(command_.CommandType), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if commandFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		command_.Unstage(commandFormCallback.probe.stageOfInterest)
+	}
+
+	commandFormCallback.probe.stageOfInterest.Commit()
+	updateAndCommitTable[models.Command](
+		commandFormCallback.probe,
+	)
+	commandFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if commandFormCallback.CreationMode || commandFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		commandFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(commandFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__CommandFormCallback(
+			nil,
+			commandFormCallback.probe,
+			newFormGroup,
+		)
+		command := new(models.Command)
+		FillUpForm(command, newFormGroup, commandFormCallback.probe)
+		commandFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(commandFormCallback.probe)
+}
 func __gong__New__EllipseFormCallback(
 	ellipse *models.Ellipse,
 	probe *Probe,

@@ -44,6 +44,7 @@ func NewStackInstance(
 	// insertion point
 	models.SetOrchestratorOnAfterUpdate[models.Animate](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Circle](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Command](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Ellipse](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Layer](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Line](stage)

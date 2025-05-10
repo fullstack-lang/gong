@@ -56,6 +56,9 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "Circle" {
 		updateAndCommitTable[models.Circle](nodeImplGongstruct.probe)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Command" {
+		updateAndCommitTable[models.Command](nodeImplGongstruct.probe)
+	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Ellipse" {
 		updateAndCommitTable[models.Ellipse](nodeImplGongstruct.probe)
 	}
