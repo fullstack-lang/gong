@@ -3,6 +3,7 @@ package models
 import (
 	"log"
 	"math"
+	"path/filepath"
 )
 
 type SVG struct {
@@ -51,7 +52,6 @@ func (svg *SVG) OnAfterUpdate(stage *Stage, _, frontSVG *SVG) {
 			// let's create a new layer with a line in it that connects both rectangles
 			layer := new(Layer).Stage(stage)
 			layer.Name = "Line layer"
-			layer.Display = true
 			svg.Layers = append(svg.Layers, layer)
 
 			line := closestMidpoints(svg.StartRect, svg.EndRect).Stage(stage)
@@ -67,6 +67,10 @@ func (svg *SVG) OnAfterUpdate(stage *Stage, _, frontSVG *SVG) {
 
 	if frontSVG.IsSVGBackEndFileGenerated {
 		log.Println("SVG generation requested")
+		err := svg.GenerateFile(filepath.Join(svg.DefaultDirectoryForGeneratedImages, svg.Name+".svg"))
+		if err != nil {
+			log.Println("SVG generation request failed", err.Error())
+		}
 	}
 
 }

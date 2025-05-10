@@ -95,22 +95,16 @@ func _(stage *models.Stage) {
 	__Circle__000000_Test.StrokeDashArrayWhenSelected = ``
 	__Circle__000000_Test.Transform = ``
 
-	__Layer__000000_Bottom_Rectangle_Layer.Display = false
 	__Layer__000000_Bottom_Rectangle_Layer.Name = `Bottom Rectangle Layer`
 
-	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Display = false
 	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Name = `Layer RectLinkLink Medium to Top-Bottom`
 
-	__Layer__000002_Line_layer.Display = false
 	__Layer__000002_Line_layer.Name = `Line layer`
 
-	__Layer__000003_Link_layer_vertical_to_horizontal.Display = false
 	__Layer__000003_Link_layer_vertical_to_horizontal.Name = `Link layer vertical to horizontal`
 
-	__Layer__000004_Middle_Rect_Layer.Display = false
 	__Layer__000004_Middle_Rect_Layer.Name = `Middle Rect Layer`
 
-	__Layer__000005_Top_Rectangle_layer.Display = false
 	__Layer__000005_Top_Rectangle_layer.Name = `Top Rectangle layer`
 
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.Name = `Line connecting rect Bottom to Top`
