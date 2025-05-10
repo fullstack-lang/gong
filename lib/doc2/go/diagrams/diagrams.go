@@ -91,7 +91,7 @@ func _(stage *models.Stage) {
 
 	__Classdiagram__000000_Default.Name = `Default`
 	__Classdiagram__000000_Default.Description = `This diagram describes the model of the doc2 package. A DiagramPackage is composed of ClassDiagram and each ClassDiagram has shapes.`
-	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = false
+	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = true
 	__Classdiagram__000000_Default.IsInRenameMode = false
 	__Classdiagram__000000_Default.IsExpanded = true
 	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = false

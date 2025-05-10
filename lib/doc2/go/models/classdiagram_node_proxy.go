@@ -63,6 +63,7 @@ func (proxy *ClassDiagramNodeProxy) OnAfterUpdate(
 	if front.IsSecondCheckboxChecked != staged.IsSecondCheckboxChecked {
 
 		staged.IsSecondCheckboxChecked = front.IsSecondCheckboxChecked
+		proxy.classDiagram.IsIncludedInStaticWebSite = front.IsSecondCheckboxChecked
 		proxy.stager.stage.Commit()
 	}
 }
