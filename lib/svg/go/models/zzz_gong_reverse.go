@@ -96,11 +96,6 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *Command:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
 	case *Ellipse:
 		switch reverseField.GongstructName {
 		// insertion point
@@ -372,11 +367,6 @@ func GetReverseFieldOwner[T Gongstruct](
 			case "Circles":
 				res = stage.Layer_Circles_reverseMap[inst]
 			}
-		}
-
-	case *Command:
-		switch reverseField.GongstructName {
-		// insertion point
 		}
 
 	case *Ellipse:

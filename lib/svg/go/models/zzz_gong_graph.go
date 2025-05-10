@@ -11,9 +11,6 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *Circle:
 		ok = stage.IsStagedCircle(target)
 
-	case *Command:
-		ok = stage.IsStagedCommand(target)
-
 	case *Ellipse:
 		ok = stage.IsStagedEllipse(target)
 
@@ -82,13 +79,6 @@ func (stage *Stage) IsStagedAnimate(animate *Animate) (ok bool) {
 func (stage *Stage) IsStagedCircle(circle *Circle) (ok bool) {
 
 	_, ok = stage.Circles[circle]
-
-	return
-}
-
-func (stage *Stage) IsStagedCommand(command *Command) (ok bool) {
-
-	_, ok = stage.Commands[command]
 
 	return
 }
@@ -226,9 +216,6 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Circle:
 		stage.StageBranchCircle(target)
 
-	case *Command:
-		stage.StageBranchCommand(target)
-
 	case *Ellipse:
 		stage.StageBranchEllipse(target)
 
@@ -316,21 +303,6 @@ func (stage *Stage) StageBranchCircle(circle *Circle) {
 	for _, _animate := range circle.Animations {
 		StageBranch(stage, _animate)
 	}
-
-}
-
-func (stage *Stage) StageBranchCommand(command *Command) {
-
-	// check if instance is already staged
-	if IsStaged(stage, command) {
-		return
-	}
-
-	command.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -704,10 +676,6 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchCircle(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *Command:
-		toT := CopyBranchCommand(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
 	case *Ellipse:
 		toT := CopyBranchEllipse(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -820,25 +788,6 @@ func CopyBranchCircle(mapOrigCopy map[any]any, circleFrom *Circle) (circleTo *Ci
 	for _, _animate := range circleFrom.Animations {
 		circleTo.Animations = append(circleTo.Animations, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
-
-	return
-}
-
-func CopyBranchCommand(mapOrigCopy map[any]any, commandFrom *Command) (commandTo *Command) {
-
-	// commandFrom has already been copied
-	if _commandTo, ok := mapOrigCopy[commandFrom]; ok {
-		commandTo = _commandTo.(*Command)
-		return
-	}
-
-	commandTo = new(Command)
-	mapOrigCopy[commandFrom] = commandTo
-	commandFrom.CopyBasicFields(commandTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -1276,9 +1225,6 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Circle:
 		stage.UnstageBranchCircle(target)
 
-	case *Command:
-		stage.UnstageBranchCommand(target)
-
 	case *Ellipse:
 		stage.UnstageBranchEllipse(target)
 
@@ -1366,21 +1312,6 @@ func (stage *Stage) UnstageBranchCircle(circle *Circle) {
 	for _, _animate := range circle.Animations {
 		UnstageBranch(stage, _animate)
 	}
-
-}
-
-func (stage *Stage) UnstageBranchCommand(command *Command) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, command) {
-		return
-	}
-
-	command.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 

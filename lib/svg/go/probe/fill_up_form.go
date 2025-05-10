@@ -304,12 +304,6 @@ func FillUpForm(
 			}
 		}
 
-	case *models.Command:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		EnumTypeStringToForm("CommandType", instanceWithInferedType.CommandType, instanceWithInferedType, probe.formStage, formGroup)
-
 	case *models.Ellipse:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -1092,7 +1086,11 @@ func FillUpForm(
 		AssociationFieldToForm("EndRect", instanceWithInferedType.EndRect, formGroup, probe)
 		BasicFieldtoForm("IsEditable", instanceWithInferedType.IsEditable, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsSVGFileGenerated", instanceWithInferedType.IsSVGFileGenerated, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsSVGFrontEndFileGenerated", instanceWithInferedType.IsSVGFrontEndFileGenerated, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsSVGBackEndFileGenerated", instanceWithInferedType.IsSVGBackEndFileGenerated, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("DefaultDirectoryForGeneratedImages", instanceWithInferedType.DefaultDirectoryForGeneratedImages, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 
 	case *models.SvgText:

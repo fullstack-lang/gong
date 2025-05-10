@@ -822,7 +822,9 @@ line 3`
 	__SVG__000000_SVG.Name = `SVG`
 	__SVG__000000_SVG.DrawingState = models.NOT_DRAWING_LINK
 	__SVG__000000_SVG.IsEditable = true
-	__SVG__000000_SVG.IsSVGFileGenerated = false
+	__SVG__000000_SVG.IsSVGFrontEndFileGenerated = false
+	__SVG__000000_SVG.IsSVGBackEndFileGenerated = false
+	__SVG__000000_SVG.DefaultDirectoryForGeneratedImages = `../../diagrams/images`
 
 	__SvgText__000000_Essai.Name = `Essai`
 	__SvgText__000000_Essai.Text = `<svg xmlns="http://www.w3.org/2000/svg" width="1376" height="882" viewBox="-400 -10 1376 882">

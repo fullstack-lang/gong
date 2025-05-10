@@ -61,18 +61,6 @@ func (from *Circle) CopyBasicFields(to *Circle) {
 	to.Transform = from.Transform
 }
 
-type Command_WOP struct {
-	// insertion point
-	Name string
-	CommandType CommandType
-}
-
-func (from *Command) CopyBasicFields(to *Command) {
-	// insertion point
-	to.Name = from.Name
-	to.CommandType = from.CommandType
-}
-
 type Ellipse_WOP struct {
 	// insertion point
 	Name string
@@ -572,7 +560,9 @@ type SVG_WOP struct {
 	Name string
 	DrawingState DrawingState
 	IsEditable bool
-	IsSVGFileGenerated bool
+	IsSVGFrontEndFileGenerated bool
+	IsSVGBackEndFileGenerated bool
+	DefaultDirectoryForGeneratedImages string
 }
 
 func (from *SVG) CopyBasicFields(to *SVG) {
@@ -580,7 +570,9 @@ func (from *SVG) CopyBasicFields(to *SVG) {
 	to.Name = from.Name
 	to.DrawingState = from.DrawingState
 	to.IsEditable = from.IsEditable
-	to.IsSVGFileGenerated = from.IsSVGFileGenerated
+	to.IsSVGFrontEndFileGenerated = from.IsSVGFrontEndFileGenerated
+	to.IsSVGBackEndFileGenerated = from.IsSVGBackEndFileGenerated
+	to.DefaultDirectoryForGeneratedImages = from.DefaultDirectoryForGeneratedImages
 }
 
 type SvgText_WOP struct {

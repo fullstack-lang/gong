@@ -49,7 +49,7 @@ func _(stage *models.Stage) {
 
 	__SVG__000000_.Name = ``
 	__SVG__000000_.IsEditable = false
-	__SVG__000000_.IsSVGFileGenerated = false
+	__SVG__000000_.IsSVGFrontEndFileGenerated = false
 
 	// Setup of pointers
 	// setup of Circle instances pointers

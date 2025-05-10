@@ -5,8 +5,6 @@ import { AnimateAPI } from './animate-api'
 
 import { CircleAPI } from './circle-api'
 
-import { CommandAPI } from './command-api'
-
 import { EllipseAPI } from './ellipse-api'
 
 import { LayerAPI } from './layer-api'
@@ -47,8 +45,6 @@ export class BackRepoData {
 	AnimateAPIs = new Array<AnimateAPI>()
 
 	CircleAPIs = new Array<CircleAPI>()
-
-	CommandAPIs = new Array<CommandAPI>()
 
 	EllipseAPIs = new Array<EllipseAPI>()
 
@@ -93,8 +89,6 @@ export class BackRepoData {
 		this.AnimateAPIs = data?.AnimateAPIs || [];
 
 		this.CircleAPIs = data?.CircleAPIs || [];
-
-		this.CommandAPIs = data?.CommandAPIs || [];
 
 		this.EllipseAPIs = data?.EllipseAPIs || [];
 

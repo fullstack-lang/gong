@@ -33,8 +33,6 @@ func (cellDeleteIconImpl *CellDeleteIconImpl[T]) CellIconUpdated(stage *gongtabl
 		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)
 	case *models.Circle:
 		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)
-	case *models.Command:
-		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)
 	case *models.Ellipse:
 		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)
 	case *models.Layer:
