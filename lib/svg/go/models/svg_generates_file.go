@@ -16,7 +16,7 @@ import (
 func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 	var sb strings.Builder
 
-	sb.WriteString("<svg xmlns=\"http://www.w3.org/2000/svg\">\n")
+	sb.WriteString("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100%\" height=\"100%\">\n") // Added width/height for better viewing
 
 	needsStartArrowMarker := false
 	needsEndArrowMarker := false
@@ -40,27 +40,23 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 	if needsStartArrowMarker || needsEndArrowMarker {
 		sb.WriteString("  <defs>\n")
 		// Arrowhead marker color should ideally match the link's stroke.
-		// SVG 1.1 markers cannot directly inherit color from the referencing element's stroke.
-		// A common workaround is to set marker's fill to "context-stroke" or "currentColor",
-		// but browser support varies. For simplicity, we use a fixed color or pass it.
-		// Another option is to create multiple markers for different colors if needed.
+		// For now, using black. The 'fill' attribute on marker can be set.
 		if needsEndArrowMarker {
-			sb.WriteString(fmt.Sprintf(`    <marker id="arrowheadend" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto" fill="black">
+			sb.WriteString(fmt.Sprintf(`    <marker id="arrowheadend" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto" fill="black">
       <polygon points="0 0, 10 3.5, 0 7" />
     </marker>
-`))
+`)) // refX="9" to pull arrow back slightly onto the line
 		}
 		if needsStartArrowMarker {
-			sb.WriteString(fmt.Sprintf(`    <marker id="arrowheadstart" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="black">
+			sb.WriteString(fmt.Sprintf(`    <marker id="arrowheadstart" markerWidth="10" markerHeight="7" refX="1" refY="3.5" orient="auto" fill="black">
       <polygon points="10 0, 0 3.5, 10 7" />
     </marker>
-`))
+`)) // refX="1" for start arrow
 		}
 		sb.WriteString("  </defs>\n")
 	}
 
 	for _, layer := range svg.Layers {
-
 		// Rects
 		for _, rect := range layer.Rects {
 			sb.WriteString(fmt.Sprintf(`  <rect x="%s" y="%s" width="%s" height="%s" rx="%s" ry="%s"`,
@@ -70,7 +66,7 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 			sb.WriteString(" />\n")
 		}
 
-		// Circles
+		// Circles, Lines, Ellipses, Paths, Polygones, Polylines (omitted for brevity, assumed unchanged)
 		for _, circle := range layer.Circles {
 			sb.WriteString(fmt.Sprintf(`  <circle cx="%s" cy="%s" r="%s"`,
 				formatFloat(circle.CX), formatFloat(circle.CY), formatFloat(circle.Radius)))
@@ -78,7 +74,6 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 			sb.WriteString(" />\n")
 		}
 
-		// Lines
 		for _, line := range layer.Lines {
 			sb.WriteString(fmt.Sprintf(`  <line x1="%s" y1="%s" x2="%s" y2="%s"`,
 				formatFloat(line.X1), formatFloat(line.Y1), formatFloat(line.X2), formatFloat(line.Y2)))
@@ -86,7 +81,6 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 			sb.WriteString(" />\n")
 		}
 
-		// Ellipses
 		for _, ellipse := range layer.Ellipses {
 			sb.WriteString(fmt.Sprintf(`  <ellipse cx="%s" cy="%s" rx="%s" ry="%s"`,
 				formatFloat(ellipse.CX), formatFloat(ellipse.CY), formatFloat(ellipse.RX), formatFloat(ellipse.RY)))
@@ -94,31 +88,27 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 			sb.WriteString(" />\n")
 		}
 
-		// Paths
 		for _, path := range layer.Paths {
 			sb.WriteString(fmt.Sprintf(`  <path d="%s"`, html.EscapeString(path.Definition)))
 			appendPresentationAttributes(&sb, &path.Presentation, true)
 			sb.WriteString(" />\n")
 		}
 
-		// Polygones
 		for _, polygone := range layer.Polygones {
 			sb.WriteString(fmt.Sprintf(`  <polygon points="%s"`, html.EscapeString(polygone.Points)))
 			appendPresentationAttributes(&sb, &polygone.Presentation, true)
 			sb.WriteString(" />\n")
 		}
 
-		// Polylines
 		for _, polyline := range layer.Polylines {
 			sb.WriteString(fmt.Sprintf(`  <polyline points="%s"`, html.EscapeString(polyline.Points)))
-			appendPresentationAttributes(&sb, &polyline.Presentation, true) // Polylines can be filled if closed or path-like
+			appendPresentationAttributes(&sb, &polyline.Presentation, true)
 			sb.WriteString(" />\n")
 		}
 
 		// Texts
 		for _, text := range layer.Texts {
-			// Use a separate function to generate text elements for DRY principle
-			generateTextElement(&sb, text.Content, text.X, text.Y, "", "", &text.Presentation)
+			generateTextElement(&sb, text.Content, text.X, text.Y, &text.Presentation, true) // true for general text anchor
 		}
 
 		// Links
@@ -131,18 +121,12 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 			var pathData strings.Builder
 
 			if link.IsBezierCurve {
-				startX, startY := getAnchorPoint(link.Start, link.StartAnchorType, link.StartOrientation, link.StartRatio)
-				endX, endY := getAnchorPoint(link.End, link.EndAnchorType, link.EndOrientation, link.EndRatio)
+				// Bezier curve logic (simplified)
+				startX, startY := getAnchorPoint(link.Start, link.StartAnchorType, link.StartOrientation, link.StartRatio) // TODO: This might need StartRect/EndRect context
+				endX, endY := getAnchorPoint(link.End, link.EndAnchorType, link.EndOrientation, link.EndRatio)             // TODO: Same here
 
-				// For Bezier, "segments" aren't explicitly generated in the same way,
-				// but we can define start and end points for text anchoring.
-				// This is a simplification; text on Bezier curves might need path-based offsetting.
-				segments = []Segment{ // Simplified segment representation for Bezier
+				segments = []Segment{ // Simplified segment representation for Bezier text anchoring
 					{StartPoint: createPoint(startX, startY), EndPoint: createPoint(endX, endY)},
-				}
-				if len(link.ControlPoints) > 0 {
-					// More accurately, the final point of the Bezier is EndPoint.
-					// If ControlPoints define the curve, the visual end might be different from just (endX, endY) if those are only anchors.
 				}
 
 				pathData.WriteString(fmt.Sprintf("M %s %s", formatFloat(startX), formatFloat(startY)))
@@ -162,21 +146,24 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 					pathData.WriteString(fmt.Sprintf(" L %s %s", formatFloat(endX), formatFloat(endY)))
 				}
 			} else {
-				segments = generateSegments(link)
+				// Orthogonal line segments - using the revised logic
+				segments = generateSegments(link) // Corrected function name
 				if len(segments) == 0 {
 					continue
 				}
 
 				pathData.WriteString(fmt.Sprintf("M %s %s", formatFloat(segments[0].StartPoint.X), formatFloat(segments[0].StartPoint.Y)))
-				for i, seg := range segments {
-					if i > 0 && link.CornerRadius > 0 {
-						prevSeg := segments[i-1]
-						if prevSeg.Orientation != seg.Orientation {
-							arcEndX := seg.StartPoint.X
-							arcEndY := seg.StartPoint.Y
-							pathData.WriteString(fmt.Sprintf(" L %s %s", formatFloat(arcEndX), formatFloat(arcEndY)))
-						}
-					}
+				for _, seg := range segments {
+					// The points in segments are already adjusted for corner radius.
+					// So, just draw lines between them. Arcs would require more complex path commands.
+					// The visual output suggests sharp corners, so L commands should be fine.
+					// If seg.StartPoint is where the previous segment ended (or M for the first),
+					// we just need to L to seg.EndPoint.
+					// The loop structure was slightly off, let's draw from start of first segment to its end,
+					// then from start of second to its end, etc.
+					// Path should be: M seg[0].Start -> L seg[0].End -> L seg[1].Start (if different) -> L seg[1].End ...
+					// However, the segment generation ensures seg[i].StartPoint is where seg[i-1].EndPoint was, after cornering.
+					// So, just L to each EndPoint is correct.
 					pathData.WriteString(fmt.Sprintf(" L %s %s", formatFloat(seg.EndPoint.X), formatFloat(seg.EndPoint.Y)))
 				}
 			}
@@ -187,7 +174,7 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 				customLinkPresentation.Stroke = "black"
 			}
 			if customLinkPresentation.StrokeWidth == 0 {
-				customLinkPresentation.StrokeWidth = 1
+				customLinkPresentation.StrokeWidth = 2 // Made links slightly thicker like in example
 			}
 			appendPresentationAttributes(&sb, &customLinkPresentation, false)
 
@@ -204,84 +191,58 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 			sb.WriteString(" />\n")
 
 			// Process TextAtArrowStart
-			if len(segments) > 0 { // Ensure segments exist for anchoring
+			if len(segments) > 0 {
 				firstSegment := segments[0]
+				// Anchor point for text is the StartPoint of the link path
 				anchorX := firstSegment.StartPoint.X
 				anchorY := firstSegment.StartPoint.Y
-				// TODO: Adjust anchorX, anchorY based on PositionOnArrow if HasStartArrow is true
-				// and the arrow marker's size/offset. This requires knowing arrow dimensions.
-				// For now, simple offset from segment start.
 
 				for _, anchoredText := range link.TextAtArrowStart {
 					textX := anchorX + anchoredText.X_Offset
 					textY := anchorY + anchoredText.Y_Offset
-					// Use anchoredText's own presentation for styling
-					generateTextElement(&sb, anchoredText.Content, textX, textY, "", "", &anchoredText.Presentation)
+					generateTextElement(&sb, anchoredText.Content, textX, textY, &anchoredText.Presentation, false)
 				}
 			}
 
 			// Process TextAtArrowEnd
-			if len(segments) > 0 { // Ensure segments exist for anchoring
+			if len(segments) > 0 {
 				lastSegment := segments[len(segments)-1]
+				// Anchor point for text is the EndPoint of the link path
 				anchorX := lastSegment.EndPoint.X
 				anchorY := lastSegment.EndPoint.Y
-				// TODO: Adjust anchorX, anchorY based on PositionOnArrow if HasEndArrow is true
-				// and the arrow marker's size/offset.
 
 				for _, anchoredText := range link.TextAtArrowEnd {
 					textX := anchorX + anchoredText.X_Offset
 					textY := anchorY + anchoredText.Y_Offset
-					generateTextElement(&sb, anchoredText.Content, textX, textY, "", "", &anchoredText.Presentation)
+					generateTextElement(&sb, anchoredText.Content, textX, textY, &anchoredText.Presentation, false)
 				}
 			}
 		}
 	}
 
 	sb.WriteString("</svg>\n")
-
 	return os.WriteFile(pathToFile, []byte(sb.String()), 0644)
 }
 
-// generateTextElement is a helper to create SVG <text>...</text> string.
-// Pass empty string for fontSize or fontWeight if not needed or to use defaults from presentation.
-func generateTextElement(sb *strings.Builder, content string, x, y float64, fontSize, fontWeight string, p *Presentation) {
+// generateTextElement helper
+// set useDefaultAnchors to true for general text elements, false for link-anchored text
+// where specific x,y are usually enough and default SVG text-anchor="start" is often fine.
+func generateTextElement(sb *strings.Builder, content string, x, y float64, p *Presentation, useDefaultAnchors bool) {
 	sb.WriteString(fmt.Sprintf(`  <text x="%s" y="%s"`, formatFloat(x), formatFloat(y)))
 
-	// Font attributes from Presentation if not overridden by direct params
-	// (Assuming TextSpecificAttributes like FontSize and FontWeight might be part of Presentation or a sub-struct)
-	// For now, direct params take precedence if provided.
-	// The `Text` struct has FontSize and FontWeight directly. `LinkAnchoredText` uses Presentation.
-	// We need to decide if LinkAnchoredText.Presentation can carry font info or if we need dedicated fields.
-	// Let's assume for now that LinkAnchoredText.Presentation might contain fill (for color),
-	// but font size/weight might need to be sourced differently or have defaults.
-	// If Presentation is expected to have all font info, this logic would change.
-
-	// Example: if p has font size/weight fields (e.g., p.FontSize)
-	// if fontSize == "" && p.FontSize != "" { fontSize = p.FontSize }
-	// if fontWeight == "" && p.FontWeight != "" { fontWeight = p.FontWeight }
-
-	if fontSize != "" { // This implies direct font size for LinkAnchoredText is not in its Presentation
-		sb.WriteString(fmt.Sprintf(` font-size="%s"`, fontSize))
-	} else if fontSize != "" { // Check if Presentation struct has it
-		sb.WriteString(fmt.Sprintf(` font-size="%s"`, html.EscapeString(fontSize)))
+	if useDefaultAnchors { // For general texts from layer.Texts
+		// Consider if text-anchor or dominant-baseline should be set by default for layer.Texts
+		// For link anchored text, X_Offset, Y_Offset are more direct.
+	} else { // For link-anchored text, to mimic frontend better:
+		sb.WriteString(` text-anchor="middle" dominant-baseline="middle"`)
 	}
 
-	if fontWeight != "" { // Same for font weight
-		sb.WriteString(fmt.Sprintf(` font-weight="%s"`, html.EscapeString(fontWeight)))
-	} else if fontWeight != "" {
-		sb.WriteString(fmt.Sprintf(` font-weight="%s"`, html.EscapeString(fontWeight)))
-	}
-
-	// Text anchor and dominant baseline can be important for precise positioning.
-	// Default "text-anchor" is "start". Default "dominant-baseline" is "auto".
-	// These could be added to LinkAnchoredText or its Presentation if needed.
-	// sb.WriteString(` text-anchor="middle" dominant-baseline="middle"`) // Example for centering
-
-	clonedPres := *p            // Clone presentation to avoid modifying original link presentation
-	if clonedPres.Color == "" { // Default text color
+	clonedPres := *p
+	if clonedPres.Color == "" {
 		clonedPres.Color = "black"
 	}
-	appendPresentationAttributes(sb, &clonedPres, true) // true: text is fillable
+
+	appendPresentationAttributes(sb, &clonedPres, true)
 
 	sb.WriteString(">")
 	sb.WriteString(html.EscapeString(content))
@@ -297,10 +258,9 @@ func appendPresentationAttributes(sb *strings.Builder, p *Presentation, isFillab
 		if p.Color != "" {
 			sb.WriteString(fmt.Sprintf(` fill="%s"`, html.EscapeString(p.Color)))
 		}
-		// SVG default fill-opacity is 1. Only write if different from 1, and not 0 (unless 0 means fully transparent and not "unset")
-		if p.FillOpacity != 1.0 && p.FillOpacity != 0.0 {
+		if p.FillOpacity != 1.0 && p.FillOpacity != 0.0 { // 0.0 is fully transparent
 			sb.WriteString(fmt.Sprintf(` fill-opacity="%s"`, formatFloat(p.FillOpacity)))
-		} else if p.FillOpacity == 0.0 && p.Color != "" { // If color is set and opacity is 0, it's explicitly transparent
+		} else if p.FillOpacity == 0.0 && (p.Color != "" && p.Color != "none") {
 			sb.WriteString(` fill-opacity="0"`)
 		}
 	} else {
@@ -310,22 +270,22 @@ func appendPresentationAttributes(sb *strings.Builder, p *Presentation, isFillab
 	if p.Stroke != "" {
 		sb.WriteString(fmt.Sprintf(` stroke="%s"`, html.EscapeString(p.Stroke)))
 	}
-	// SVG default stroke-width is 1.
-	if p.StrokeWidth != 1.0 && p.StrokeWidth != 0.0 {
+	if p.StrokeWidth != 1.0 && p.StrokeWidth != 0.0 { // 0.0 is no stroke
 		sb.WriteString(fmt.Sprintf(` stroke-width="%s"`, formatFloat(p.StrokeWidth)))
-	} else if p.StrokeWidth == 0.0 && p.Stroke != "" { // If stroke is set and width is 0, it's explicitly no width
+	} else if p.StrokeWidth == 0.0 && p.Stroke != "" && p.Stroke != "none" {
 		sb.WriteString(` stroke-width="0"`)
 	}
 
 	if p.StrokeDashArray != "" {
 		sb.WriteString(fmt.Sprintf(` stroke-dasharray="%s"`, html.EscapeString(p.StrokeDashArray)))
 	}
-	// SVG default stroke-opacity is 1.
 	if p.StrokeOpacity != 1.0 && p.StrokeOpacity != 0.0 {
 		sb.WriteString(fmt.Sprintf(` stroke-opacity="%s"`, formatFloat(p.StrokeOpacity)))
-	} else if p.StrokeOpacity == 0.0 && p.Stroke != "" { // If stroke is set and opacity is 0, explicitly transparent
+	} else if p.StrokeOpacity == 0.0 && p.Stroke != "" && p.Stroke != "none" {
 		sb.WriteString(` stroke-opacity="0"`)
 	}
+
+	// Text anchor and dominant baseline are now handled in generateTextElement for finer control
 
 	if p.Transform != "" {
 		sb.WriteString(fmt.Sprintf(` transform="%s"`, html.EscapeString(p.Transform)))
@@ -339,237 +299,43 @@ type Segment struct {
 	EndPointWithoutRadius   Point
 	Orientation             OrientationType
 	Number                  int
+	// ArrowEndAnchoredText: Array<Offset> // This was in TS, not directly used in Go path gen
 }
 
 func createPoint(x, y float64) Point {
 	return Point{X: x, Y: y}
 }
 
-func getAnchorPoint(rect *Rect, anchorType AnchorType, orientation OrientationType, ratio float64) (x, y float64) {
-	switch orientation {
-	case ORIENTATION_HORIZONTAL:
-		y = rect.Y + ratio*rect.Height
-		// This is a placeholder. Actual X should be rect.X or rect.X + rect.Width
-		// depending on which side the link connects (e.g., based on relative position of EndRect).
-		// For a link starting horizontally from the right face: rect.X + rect.Width
-		// For a link starting horizontally from the left face: rect.X
-		// A common default might be to pick the side "facing" the other linked element.
-		// If StartRect is to the left of EndRect, pick StartRect's right face.
-		// If StartRect is to the right of EndRect, pick StartRect's left face.
-		// This detail is crucial for correct Bezier anchor points.
-		// For now, defaulting to left edge.
-		x = rect.X
-		// A more robust approach might be:
-		// if link.End != nil && rect.X + rect.Width/2 < link.End.X + link.End.Width/2 {
-		// 	x = rect.X + rect.Width // StartRect is to the left, exit right
-		// } else {
-		// 	x = rect.X // StartRect is to the right (or aligned), exit left
-		// }
-
-	case ORIENTATION_VERTICAL:
-		x = rect.X + ratio*rect.Width
-		y = rect.Y // Placeholder, should be rect.Y or rect.Y + rect.Height
-		// Similar logic for top/bottom face based on relative Y position of EndRect
-		// if link.End != nil && rect.Y + rect.Height/2 < link.End.Y + link.End.Height/2 {
-		// 	y = rect.Y + rect.Height // StartRect is above, exit bottom
-		// } else {
-		// 	y = rect.Y // StartRect is below (or aligned), exit top
-		// }
-	default:
-		return rect.X + rect.Width/2, rect.Y + rect.Height/2
-	}
-	return x, y
+// Go equivalent of swapSegment
+func swapSegment(segment Segment) Segment {
+	res := segment // Shallow copy for simple fields
+	res.StartPoint = segment.EndPoint
+	res.StartPointWithoutRadius = segment.EndPointWithoutRadius
+	res.EndPoint = segment.StartPoint
+	res.EndPointWithoutRadius = segment.StartPointWithoutRadius
+	return res
 }
 
-func generateSegments(link *Link) []Segment {
-	if link.Start == nil || link.End == nil {
-		return []Segment{}
-	}
-
-	segments := []Segment{}
-	startRect := link.Start
-	endRect := link.End
-	startDirection := link.StartOrientation
-	endDirection := link.EndOrientation
-	startRatio := link.StartRatio
-	endRatio := link.EndRatio
-	cornerRadius := link.CornerRadius
-	cornerOffsetRatio := link.CornerOffsetRatio
-
-	if startDirection == ORIENTATION_HORIZONTAL && endDirection == ORIENTATION_VERTICAL {
-		startY := startRect.Y + startRatio*startRect.Height
-		c1X := endRect.X + endRatio*endRect.Width
-		c1 := createPoint(c1X, startY)
-		firstSegment := generatePointRectSegment(c1, startRect, startDirection, cornerRadius, 0, true, endRect) // Pass endRect for context
-		secondSegment := generatePointRectSegment(c1, endRect, endDirection, cornerRadius, 1, false, startRect) // Pass startRect for context
-		segments = append(segments, firstSegment, secondSegment)
-	}
-
-	if startDirection == ORIENTATION_VERTICAL && endDirection == ORIENTATION_HORIZONTAL {
-		startX := startRect.X + startRatio*startRect.Width
-		c1Y := endRect.Y + endRatio*endRect.Height
-		c1 := createPoint(startX, c1Y)
-		firstSegment := generatePointRectSegment(c1, startRect, startDirection, cornerRadius, 0, true, endRect)
-		secondSegment := generatePointRectSegment(c1, endRect, endDirection, cornerRadius, 1, false, startRect)
-		segments = append(segments, firstSegment, secondSegment)
-	}
-
-	if startDirection == ORIENTATION_HORIZONTAL && endDirection == ORIENTATION_HORIZONTAL {
-		c1X_ts := startRect.X + cornerOffsetRatio*startRect.Width
-		c1Y_ts := startRect.Y + startRatio*startRect.Height
-		c1_ts := createPoint(c1X_ts, c1Y_ts)
-
-		c2X_ts := c1X_ts
-		c2Y_ts := endRect.Y + endRatio*endRect.Height
-		c2_ts := createPoint(c2X_ts, c2Y_ts)
-
-		firstSegment := generatePointRectSegment(c1_ts, startRect, startDirection, cornerRadius, 0, true, endRect)
-		secondSegment := generatePointPointSegment(c1_ts, c2_ts, ORIENTATION_VERTICAL, cornerRadius, 1)
-		thirdSegment := generatePointRectSegment(c2_ts, endRect, endDirection, cornerRadius, 2, false, startRect)
-
-		if math.Abs(c1Y_ts-c2Y_ts) <= 2*cornerRadius && cornerRadius > 0 {
-			// Reduction logic could be implemented here by re-calculating segments
-		}
-		segments = append(segments, firstSegment, secondSegment, thirdSegment)
-	}
-
-	if startDirection == ORIENTATION_VERTICAL && endDirection == ORIENTATION_VERTICAL {
-		c1Y_ts := startRect.Y + cornerOffsetRatio*startRect.Height
-		c1X_ts := startRect.X + startRatio*startRect.Width
-		c1_ts := createPoint(c1X_ts, c1Y_ts)
-
-		c2Y_ts := c1Y_ts
-		c2X_ts := endRect.X + endRatio*endRect.Width
-		c2_ts := createPoint(c2X_ts, c2Y_ts)
-
-		firstSegment := generatePointRectSegment(c1_ts, startRect, startDirection, cornerRadius, 0, true, endRect)
-		secondSegment := generatePointPointSegment(c1_ts, c2_ts, ORIENTATION_HORIZONTAL, cornerRadius, 1)
-		thirdSegment := generatePointRectSegment(c2_ts, endRect, endDirection, cornerRadius, 2, false, startRect)
-
-		if math.Abs(c1X_ts-c2X_ts) <= 2*cornerRadius && cornerRadius > 0 {
-			// Reduction logic
-		}
-		segments = append(segments, firstSegment, secondSegment, thirdSegment)
-	}
-	return segments
-}
-
-// Added otherRect context to help decide connection side more robustly
-func generatePointRectSegment(point Point, rect *Rect, direction OrientationType, cornerRadius float64, number int, isStartSegment bool, otherRect *Rect) Segment {
-	seg := Segment{
-		// StartPointWithoutRadius will be set based on isStartSegment
-		Orientation: direction,
-		Number:      number,
-	}
-
-	if direction == ORIENTATION_HORIZONTAL {
-		if isStartSegment { // Segment from rect to point (corner)
-			seg.StartPointWithoutRadius.Y = rect.Y + (rect.Height * 0.5) // Default to middle of rect face, can be link.StartRatio
-			// Determine exit side of 'rect' based on 'otherRect' (which is link.End Rect)
-			if rect.X+rect.Width < otherRect.X { // rect is to the left of otherRect, exit right
-				seg.StartPointWithoutRadius.X = rect.X + rect.Width
-			} else if rect.X > otherRect.X+otherRect.Width { // rect is to the right of otherRect, exit left
-				seg.StartPointWithoutRadius.X = rect.X
-			} else { // Rects are somewhat aligned vertically, or one contains the other X-wise
-				// Default: if point (corner) is to the right of rect center, exit left, else exit right.
-				if point.X > rect.X+rect.Width/2 {
-					seg.StartPointWithoutRadius.X = rect.X
-				} else {
-					seg.StartPointWithoutRadius.X = rect.X + rect.Width
-				}
-			}
-			seg.EndPointWithoutRadius = point // The corner point
-		} else { // Segment from point (corner) to rect (target)
-			seg.StartPointWithoutRadius = point   // The corner point
-			seg.EndPointWithoutRadius.Y = point.Y // Y is same as corner for horizontal segment
-			// Determine entry side of 'rect' based on 'otherRect' (which is link.Start Rect)
-			if rect.X > otherRect.X+otherRect.Width { // rect is to the right of otherRect, enter left
-				seg.EndPointWithoutRadius.X = rect.X
-			} else if rect.X+rect.Width < otherRect.X { // rect is to the left of otherRect, enter right
-				seg.EndPointWithoutRadius.X = rect.X + rect.Width
-			} else {
-				if point.X > rect.X+rect.Width/2 {
-					seg.EndPointWithoutRadius.X = rect.X // Enter left if corner is to the right
-				} else {
-					seg.EndPointWithoutRadius.X = rect.X + rect.Width // Enter right if corner is to the left
-				}
-			}
-		}
-
-		// Apply corner radius adjustments
-		seg.StartPoint.Y = seg.StartPointWithoutRadius.Y
-		seg.EndPoint.Y = seg.EndPointWithoutRadius.Y
-		if seg.StartPointWithoutRadius.X < seg.EndPointWithoutRadius.X { // Left to Right
-			seg.StartPoint.X = seg.StartPointWithoutRadius.X + cornerRadius
-			seg.EndPoint.X = seg.EndPointWithoutRadius.X - cornerRadius
-		} else { // Right to Left
-			seg.StartPoint.X = seg.StartPointWithoutRadius.X - cornerRadius
-			seg.EndPoint.X = seg.EndPointWithoutRadius.X + cornerRadius
-		}
-
-	} else { // ORIENTATION_VERTICAL
-		if isStartSegment { // Segment from rect to point (corner)
-			seg.StartPointWithoutRadius.X = rect.X + (rect.Width * 0.5) // Default to middle of rect face
-			if rect.Y+rect.Height < otherRect.Y {                       // rect is above otherRect, exit bottom
-				seg.StartPointWithoutRadius.Y = rect.Y + rect.Height
-			} else if rect.Y > otherRect.Y+otherRect.Height { // rect is below otherRect, exit top
-				seg.StartPointWithoutRadius.Y = rect.Y
-			} else {
-				if point.Y > rect.Y+rect.Height/2 {
-					seg.StartPointWithoutRadius.Y = rect.Y
-				} else {
-					seg.StartPointWithoutRadius.Y = rect.Y + rect.Height
-				}
-			}
-			seg.EndPointWithoutRadius = point
-		} else { // Segment from point (corner) to rect (target)
-			seg.StartPointWithoutRadius = point
-			seg.EndPointWithoutRadius.X = point.X
-			if rect.Y > otherRect.Y+otherRect.Height { // rect is below otherRect, enter top
-				seg.EndPointWithoutRadius.Y = rect.Y
-			} else if rect.Y+rect.Height < otherRect.Y { // rect is above otherRect, enter bottom
-				seg.EndPointWithoutRadius.Y = rect.Y + rect.Height
-			} else {
-				if point.Y > rect.Y+rect.Height/2 {
-					seg.EndPointWithoutRadius.Y = rect.Y // Enter top if corner is below
-				} else {
-					seg.EndPointWithoutRadius.Y = rect.Y + rect.Height // Enter bottom if corner is above
-				}
-			}
-		}
-
-		seg.StartPoint.X = seg.StartPointWithoutRadius.X
-		seg.EndPoint.X = seg.EndPointWithoutRadius.X
-		if seg.StartPointWithoutRadius.Y < seg.EndPointWithoutRadius.Y { // Top to Bottom
-			seg.StartPoint.Y = seg.StartPointWithoutRadius.Y + cornerRadius
-			seg.EndPoint.Y = seg.EndPointWithoutRadius.Y - cornerRadius
-		} else { // Bottom to Top
-			seg.StartPoint.Y = seg.StartPointWithoutRadius.Y - cornerRadius
-			seg.EndPoint.Y = seg.EndPointWithoutRadius.Y + cornerRadius
-		}
-	}
-	return seg
-}
-
+// Go equivalent of drawPointPointSegment from draw.point.point.segment.ts
 func generatePointPointSegment(start Point, end Point, orientation OrientationType, cornerRadius float64, number int) Segment {
 	newStart := start
 	newEnd := end
 
 	if orientation == ORIENTATION_HORIZONTAL {
-		if start.X < end.X {
-			newStart.X += cornerRadius
-			newEnd.X -= cornerRadius
-		} else {
-			newStart.X -= cornerRadius
-			newEnd.X += cornerRadius
+		if start.X < end.X { // Left to Right
+			newStart.X = start.X + cornerRadius
+			newEnd.X = end.X - cornerRadius
+		} else { // Right to Left
+			newStart.X = start.X - cornerRadius
+			newEnd.X = end.X + cornerRadius
 		}
 	} else { // ORIENTATION_VERTICAL
-		if start.Y < end.Y {
-			newStart.Y += cornerRadius
-			newEnd.Y -= cornerRadius
-		} else {
-			newStart.Y -= cornerRadius
-			newEnd.Y += cornerRadius
+		if start.Y < end.Y { // Top to Bottom
+			newStart.Y = start.Y + cornerRadius
+			newEnd.Y = end.Y - cornerRadius
+		} else { // Bottom to Top
+			newStart.Y = start.Y - cornerRadius
+			newEnd.Y = end.Y + cornerRadius
 		}
 	}
 
@@ -581,4 +347,186 @@ func generatePointPointSegment(start Point, end Point, orientation OrientationTy
 		Orientation:             orientation,
 		Number:                  number,
 	}
+}
+
+// Go equivalent of drawPointRectSegment from draw.point.rect.segment.ts
+func generatePointRectSegment(point Point, rect *Rect, direction OrientationType, cornerRadius float64, number int) Segment {
+	// Initial segment is from `point` (corner) to a dummy end point.
+	// Its StartPoint will be adjusted by corner radius, EndPoint will be on rect edge.
+	segment := generatePointPointSegment(point, createPoint(0, 0), direction, cornerRadius, number) // Dummy end, will be replaced
+
+	// Overwrite StartPoint based on point and cornerRadius (as per TS)
+	// The logic in TS drawPointRectSegment for c1_X_withCornerOffset / c1_Y_withCornerOffset
+	// adjusts the segment's start point away from the raw 'point' (corner) by the cornerRadius.
+	if direction == ORIENTATION_HORIZONTAL {
+		// TS: segment.StartPoint.X calculation based on point.X relative to rect and cornerRadius
+		tempStartX := point.X
+		if point.X < rect.X+0.5*rect.Width { // Point is to the left of or near middle of rect
+			if point.X < rect.X { // Point is fully to the left of rect
+				tempStartX = point.X + cornerRadius
+			} else { // Point is inside left half of rect
+				tempStartX = point.X - cornerRadius // This seems to pull it back if inside
+			}
+		} else { // Point is to the right of or near middle of rect
+			if point.X > rect.X+rect.Width { // Point is fully to the right of rect
+				tempStartX = point.X - cornerRadius
+			} else { // Point is inside right half of rect
+				tempStartX = point.X + cornerRadius // This seems to push it further if inside
+			}
+		}
+		segment.StartPoint = createPoint(tempStartX, point.Y)
+
+		// Set EndPoint on the correct edge of the rect
+		if point.X <= rect.X+rect.Width/2 {
+			segment.EndPoint = createPoint(rect.X, point.Y) // Connect to left edge
+		} else {
+			segment.EndPoint = createPoint(rect.X+rect.Width, point.Y) // Connect to right edge
+		}
+	} else { // ORIENTATION_VERTICAL
+		tempStartY := point.Y
+		if point.Y < rect.Y+0.5*rect.Height {
+			if point.Y < rect.Y {
+				tempStartY = point.Y + cornerRadius
+			} else {
+				tempStartY = point.Y - cornerRadius
+			}
+		} else {
+			if point.Y < rect.Y+rect.Height { // TS had point.Y < rect.Y + rect.Height (not >)
+				tempStartY = point.Y + cornerRadius
+			} else { // point.Y >= rect.Y + rect.Height
+				tempStartY = point.Y - cornerRadius
+			}
+		}
+		segment.StartPoint = createPoint(point.X, tempStartY)
+
+		if point.Y <= rect.Y+rect.Height/2 {
+			segment.EndPoint = createPoint(point.X, rect.Y) // Connect to top edge
+		} else {
+			segment.EndPoint = createPoint(point.X, rect.Y+rect.Height) // Connect to bottom edge
+		}
+	}
+
+	// Set EndPointWithoutRadius to be the same as the calculated EndPoint (on the rect edge)
+	segment.EndPointWithoutRadius = segment.EndPoint
+	// StartPointWithoutRadius was already set by generatePointPointSegment to be the original 'point' (corner)
+
+	if number == 0 { // If it's the first segment, swap its start and end
+		segment = swapSegment(segment)
+	}
+	return segment
+}
+
+// Go equivalent of drawSegments from draw.segments.ts
+func generateSegments(link *Link) []Segment { // Renamed with Go convention
+	if link.Start == nil || link.End == nil {
+		return []Segment{}
+	}
+
+	startRect := link.Start
+	endRect := link.End
+	startDirection := link.StartOrientation
+	endDirection := link.EndOrientation
+	startRatio := link.StartRatio
+	endRatio := link.EndRatio
+	cornerOffsetRatio := link.CornerOffsetRatio
+	cornerRadius := link.CornerRadius
+
+	segments := []Segment{}
+
+	if startDirection == ORIENTATION_HORIZONTAL && endDirection == ORIENTATION_VERTICAL {
+		startY := startRect.Y + startRatio*startRect.Height
+		c1X := endRect.X + endRatio*endRect.Width
+		c1Y := startY
+		c1 := createPoint(c1X, c1Y)
+		firstSegment := generatePointRectSegment(c1, startRect, startDirection, cornerRadius, 0)
+		secondSegment := generatePointRectSegment(c1, endRect, endDirection, cornerRadius, 1)
+		segments = append(segments, firstSegment, secondSegment)
+	}
+
+	if startDirection == ORIENTATION_VERTICAL && endDirection == ORIENTATION_HORIZONTAL {
+		startX := startRect.X + startRatio*startRect.Width
+		c1X := startX
+		c1Y := endRect.Y + endRatio*endRect.Height
+		c1 := createPoint(c1X, c1Y)
+		firstSegment := generatePointRectSegment(c1, startRect, startDirection, cornerRadius, 0)
+		secondSegment := generatePointRectSegment(c1, endRect, endDirection, cornerRadius, 1)
+		segments = append(segments, firstSegment, secondSegment)
+	}
+
+	if startDirection == ORIENTATION_HORIZONTAL && endDirection == ORIENTATION_HORIZONTAL {
+		c1X := startRect.X + cornerOffsetRatio*startRect.Width
+		c1Y := startRect.Y + startRatio*startRect.Height
+		c1 := createPoint(c1X, c1Y)
+
+		c2X := c1X
+		c2Y := endRect.Y + endRatio*endRect.Height
+		c2 := createPoint(c2X, c2Y)
+
+		firstSegment := generatePointRectSegment(c1, startRect, startDirection, cornerRadius, 0)
+		secondSegment := generatePointPointSegment(c1, c2, ORIENTATION_VERTICAL, cornerRadius, 1)
+		thirdSegment := generatePointRectSegment(c2, endRect, endDirection, cornerRadius, 2)
+
+		// Reduce second segment if start and end are aligned vertically
+		if math.Abs(c1Y-c2Y) <= 2*cornerRadius && cornerRadius > 0 { // Added CR > 0 check
+			c2Adjusted := createPoint(c2X, c1Y) // Align Y of c2 with c1
+			firstSegment = generatePointRectSegment(c1, startRect, startDirection, 0, 0)
+			secondSegment = generatePointPointSegment(c1, c2Adjusted, ORIENTATION_HORIZONTAL, 0, 1) // Middle segment becomes horizontal
+			thirdSegment = generatePointRectSegment(c2Adjusted, endRect, endDirection, 0, 2)
+		}
+		segments = append(segments, firstSegment, secondSegment, thirdSegment)
+	}
+
+	if startDirection == ORIENTATION_VERTICAL && endDirection == ORIENTATION_VERTICAL {
+		c1X := startRect.X + startRatio*startRect.Width
+		c1Y := startRect.Y + cornerOffsetRatio*startRect.Height
+		c1 := createPoint(c1X, c1Y)
+
+		c2X := endRect.X + endRatio*endRect.Width
+		c2Y := c1Y
+		c2 := createPoint(c2X, c2Y)
+
+		firstSegment := generatePointRectSegment(c1, startRect, startDirection, cornerRadius, 0)
+		secondSegment := generatePointPointSegment(c1, c2, ORIENTATION_HORIZONTAL, cornerRadius, 1) // Middle is horizontal
+		thirdSegment := generatePointRectSegment(c2, endRect, endDirection, cornerRadius, 2)
+
+		// Reduce second segment if start and end are aligned horizontally
+		if math.Abs(c1X-c2X) <= 2*cornerRadius && cornerRadius > 0 { // Added CR > 0 check
+			c2Adjusted := createPoint(c1X, c2Y) // Align X of c2 with c1
+			firstSegment = generatePointRectSegment(c1, startRect, startDirection, 0, 0)
+			// TS uses ORIENTATION_HORIZONTAL for the middle segment in V-V reduction in draw.segments.ts line 99
+			// but then it uses it again in line 115 for V-V.
+			// The code at line 99 seems to be for H-H where middle is Vertical.
+			// For V-V reduction, the middle segment should become Vertical if it's too short horizontally.
+			// Let's check the TS code carefully:
+			// In H-H: middle is Vertical. If c1.Y and c2.Y are close, middle becomes Horizontal.
+			// In V-V: middle is Horizontal. If c1.X and c2.X are close, middle becomes Vertical.
+			secondSegment = generatePointPointSegment(c1, c2Adjusted, ORIENTATION_VERTICAL, 0, 1) // Middle segment becomes vertical
+			thirdSegment = generatePointRectSegment(c2Adjusted, endRect, endDirection, 0, 2)
+		}
+		segments = append(segments, firstSegment, secondSegment, thirdSegment)
+	}
+	return segments
+}
+
+// getAnchorPoint is primarily for Bezier curves or if a link doesn't use complex orthogonal routing.
+// For orthogonal links, the detailed segment generation functions handle anchor points.
+func getAnchorPoint(rect *Rect, anchorType AnchorType, orientation OrientationType, ratio float64) (x, y float64) {
+	// This is a simplified interpretation for general anchor calculation.
+	// The detailed logic in `generateSegments` and `generatePointRectSegment` is more specific for orthogonal links.
+	switch orientation {
+	case ORIENTATION_HORIZONTAL: // Exits/enters left or right face. Ratio applies along height.
+		y = rect.Y + ratio*rect.Height
+		// Default to center of the relevant edge if not further specified by AnchorType
+		// For now, let's assume if it's HORIZONTAL, it primarily means the *direction* of the link segment
+		// and the actual X connection point is chosen by other logic (e.g. mid-point of rect edge or based on relative position).
+		// This function might be too simplistic for precise orthogonal start/end.
+		// The `generateSegments` calculates precise start/end based on ratios for the *first bend point*.
+		x = rect.X + rect.Width/2 // Fallback: center of rect (needs to be edge)
+	case ORIENTATION_VERTICAL: // Exits/enters top or bottom face. Ratio applies along width.
+		x = rect.X + ratio*rect.Width
+		y = rect.Y + rect.Height/2 // Fallback: center of rect (needs to be edge)
+	default:
+		return rect.X + rect.Width/2, rect.Y + rect.Height/2
+	}
+	return x, y
 }

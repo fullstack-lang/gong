@@ -416,8 +416,7 @@ Line 2`
 	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.Transform = ``
 
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Name = `AA_RIGHT_OR_BOTTOM`
-	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Content = `RIGHT_OR_BOTTOM
-RIGHT_OR_BOTTOM`
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Content = `RIGHT_OR_BOTTOM`
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.AutomaticLayout = true
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.LinkAnchorType = models.LINK_RIGHT_OR_BOTTOM
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.X_Offset = 0.000000
@@ -435,10 +434,7 @@ RIGHT_OR_BOTTOM`
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Transform = ``
 
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Name = `AA_LEFT_OR_TOP`
-	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Content = `LEFT_OR_TOP
-LEFT_OR_TOP
-LEFT_OR_TOP
-`
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Content = `LEFT_OR_TOP`
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.AutomaticLayout = true
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.LinkAnchorType = models.LINK_LEFT_OR_TOP
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.X_Offset = 0.000000
