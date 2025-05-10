@@ -38,7 +38,6 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 				formatFloat(rect.RX), formatFloat(rect.RX))) // SVG spec allows ry to be omitted if same as rx
 			appendPresentationAttributes(&sb, &rect.Presentation, true) // true: isFillable
 			sb.WriteString(" />\n")
-
 		}
 
 		// Circles
@@ -102,9 +101,6 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 			sb.WriteString(html.EscapeString(text.Content))
 			sb.WriteString("</text>\n")
 		}
-
-		// Optional: Close <g> for layer
-		// sb.WriteString("  </g>\n")
 	}
 
 	sb.WriteString("</svg>\n")
