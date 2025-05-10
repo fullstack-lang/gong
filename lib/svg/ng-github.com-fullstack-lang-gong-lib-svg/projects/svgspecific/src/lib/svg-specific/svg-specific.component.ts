@@ -248,7 +248,6 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     private anchoredTextService: svg.LinkAnchoredTextService,
     private rectAnchoredPathService: svg.RectAnchoredPathService,
     private svgTextService: svg.SvgTextService,
-    private commandService: svg.CommandService,
 
     private changeDetectorRef: ChangeDetectorRef,
 
@@ -352,7 +351,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
         // Manually trigger change detection
         this.changeDetectorRef.detectChanges()
 
-        if (this.svg.IsSVGFileGenerated) {
+        if (this.svg.IsSVGFrontEndFileGenerated) {
           this.generatesSVG(false)
         }
 
@@ -1109,26 +1108,19 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
 
   generatesSVGInTheBack(arg0: boolean) {
 
-    console.log("generatesSVGInTheBack begin")
+    console.log("generatesSVGInTheBack", "begin")
+    this.svg.IsSVGBackEndFileGenerated = true
 
-    let generateSVG = new (svg.CommandAPI)
-
-    generateSVG.CommandType = svg.CommandType.CommandTypeSVGInTheBack
-
-    this.commandService.post(generateSVG, this.Name, this.gongsvgFrontRepo!).subscribe(
-
-      generateCommand => {
-
-        console.log("Command post completed")
-
-        // destroy the command
-        this.commandService.delete(generateCommand, this.Name).subscribe(
-          () => {
-            console.log("Command delete completed")
+    this.svgService.updateFront(this.svg, this.Name).subscribe(
+      svg => {
+        console.log("generatesSVGInTheBack", "request for back end generation sent")
+        this.svg.IsSVGBackEndFileGenerated = false
+        this.svgService.updateFront(this.svg, this.Name).subscribe(
+          svg => {
+            console.log("generatesSVGInTheBack", "svg set back to normal")
           }
         )
       }
     )
-
   }
 }

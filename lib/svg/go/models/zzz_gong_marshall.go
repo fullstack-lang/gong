@@ -278,55 +278,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
-	map_Command_Identifiers := make(map[*Command]string)
-	_ = map_Command_Identifiers
-
-	commandOrdered := []*Command{}
-	for command := range stage.Commands {
-		commandOrdered = append(commandOrdered, command)
-	}
-	sort.Slice(commandOrdered[:], func(i, j int) bool {
-		commandi := commandOrdered[i]
-		commandj := commandOrdered[j]
-		commandi_order, oki := stage.CommandMap_Staged_Order[commandi]
-		commandj_order, okj := stage.CommandMap_Staged_Order[commandj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return commandi_order < commandj_order
-	})
-	if len(commandOrdered) > 0 {
-		identifiersDecl += "\n"
-	}
-	for idx, command := range commandOrdered {
-
-		id = generatesIdentifier("Command", idx, command.Name)
-		map_Command_Identifiers[command] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Command")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", command.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(command.Name))
-		initializerStatements += setValueField
-
-		if command.CommandType != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CommandType")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+command.CommandType.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-	}
-
 	map_Ellipse_Identifiers := make(map[*Ellipse]string)
 	_ = map_Ellipse_Identifiers
 
@@ -2038,8 +1989,20 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsSVGFileGenerated")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", svg.IsSVGFileGenerated))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsSVGFrontEndFileGenerated")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", svg.IsSVGFrontEndFileGenerated))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsSVGBackEndFileGenerated")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", svg.IsSVGBackEndFileGenerated))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "DefaultDirectoryForGeneratedImages")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(svg.DefaultDirectoryForGeneratedImages))
 		initializerStatements += setValueField
 
 	}
@@ -2231,19 +2194,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 			pointersInitializesStatements += setPointerField
 		}
 
-	}
-
-	if len(commandOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Command instances pointers"
-	}
-	for idx, command := range commandOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Command", idx, command.Name)
-		map_Command_Identifiers[command] = id
-
-		// Initialisation of values
 	}
 
 	if len(ellipseOrdered) > 0 {

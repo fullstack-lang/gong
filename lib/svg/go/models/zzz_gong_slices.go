@@ -19,9 +19,6 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
-	// Compute reverse map for named struct Command
-	// insertion point per field
-
 	// Compute reverse map for named struct Ellipse
 	// insertion point per field
 	clear(stage.Ellipse_Animates_reverseMap)

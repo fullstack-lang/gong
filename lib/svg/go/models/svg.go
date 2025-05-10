@@ -1,6 +1,7 @@
 package models
 
 import (
+	"log"
 	"math"
 )
 
@@ -22,9 +23,14 @@ type SVG struct {
 
 	IsEditable bool
 
-	// IsSVGFileGenerated means the SVG file is grabbed from the rendering engine
+	// IsSVGFrontEndFileGenerated means the SVG file is grabbed from the rendering engine
 	// and is download with a <name of the svg>.svg
-	IsSVGFileGenerated bool
+	IsSVGFrontEndFileGenerated bool
+
+	// IsSVGBackEndFileGenerated means the SVG file is grabbed from the rendering engine
+	// and is download with a <name of the svg>.svg
+	IsSVGBackEndFileGenerated          bool
+	DefaultDirectoryForGeneratedImages string
 
 	Impl SVGImplInterface
 }
@@ -57,6 +63,10 @@ func (svg *SVG) OnAfterUpdate(stage *Stage, _, frontSVG *SVG) {
 
 			stage.Commit()
 		}
+	}
+
+	if frontSVG.IsSVGBackEndFileGenerated {
+		log.Println("SVG generation requested")
 	}
 
 }

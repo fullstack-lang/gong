@@ -63,13 +63,6 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/circles/:id", GetController().UpdateCircle)
 		v1.DELETE("/v1/circles/:id", GetController().DeleteCircle)
 
-		v1.GET("/v1/commands", GetController().GetCommands)
-		v1.GET("/v1/commands/:id", GetController().GetCommand)
-		v1.POST("/v1/commands", GetController().PostCommand)
-		v1.PATCH("/v1/commands/:id", GetController().UpdateCommand)
-		v1.PUT("/v1/commands/:id", GetController().UpdateCommand)
-		v1.DELETE("/v1/commands/:id", GetController().DeleteCommand)
-
 		v1.GET("/v1/ellipses", GetController().GetEllipses)
 		v1.GET("/v1/ellipses/:id", GetController().GetEllipse)
 		v1.POST("/v1/ellipses", GetController().PostEllipse)

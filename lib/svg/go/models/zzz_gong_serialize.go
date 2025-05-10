@@ -18,7 +18,6 @@ func SerializeStage(stage *Stage, filename string) {
 		// insertion point
 		SerializeExcelizePointerToGongstruct[*Animate](stage, f)
 		SerializeExcelizePointerToGongstruct[*Circle](stage, f)
-		SerializeExcelizePointerToGongstruct[*Command](stage, f)
 		SerializeExcelizePointerToGongstruct[*Ellipse](stage, f)
 		SerializeExcelizePointerToGongstruct[*Layer](stage, f)
 		SerializeExcelizePointerToGongstruct[*Line](stage, f)

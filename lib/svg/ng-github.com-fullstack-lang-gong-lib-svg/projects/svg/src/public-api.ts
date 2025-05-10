@@ -21,10 +21,6 @@ export * from './lib/circle-api'
 export * from './lib/circle'
 export * from './lib/circle.service'
 
-export * from './lib/command-api'
-export * from './lib/command'
-export * from './lib/command.service'
-
 export * from './lib/ellipse-api'
 export * from './lib/ellipse'
 export * from './lib/ellipse.service'
@@ -96,7 +92,6 @@ export * from './lib/text.service'
 
 export * from './lib/AnchorType'
 export * from './lib/ColorType'
-export * from './lib/CommandType'
 export * from './lib/DrawingState'
 export * from './lib/LinkAnchorType'
 export * from './lib/LinkType'
