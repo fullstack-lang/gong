@@ -1687,6 +1687,8 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(linkanchoredtext_.FontWeight), formDiv)
 		case "FontSize":
 			FormDivBasicFieldToField(&(linkanchoredtext_.FontSize), formDiv)
+		case "FontStyle":
+			FormDivBasicFieldToField(&(linkanchoredtext_.FontStyle), formDiv)
 		case "LetterSpacing":
 			FormDivBasicFieldToField(&(linkanchoredtext_.LetterSpacing), formDiv)
 		case "Color":
@@ -3106,6 +3108,8 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rectanchoredtext_.FontSize), formDiv)
 		case "FontStyle":
 			FormDivBasicFieldToField(&(rectanchoredtext_.FontStyle), formDiv)
+		case "LetterSpacing":
+			FormDivBasicFieldToField(&(rectanchoredtext_.LetterSpacing), formDiv)
 		case "X_Offset":
 			FormDivBasicFieldToField(&(rectanchoredtext_.X_Offset), formDiv)
 		case "Y_Offset":
@@ -3636,6 +3640,8 @@ func (textFormCallback *TextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(text_.FontWeight), formDiv)
 		case "FontSize":
 			FormDivBasicFieldToField(&(text_.FontSize), formDiv)
+		case "FontStyle":
+			FormDivBasicFieldToField(&(text_.FontStyle), formDiv)
 		case "LetterSpacing":
 			FormDivBasicFieldToField(&(text_.LetterSpacing), formDiv)
 		case "Layer:Texts":

@@ -507,7 +507,7 @@ a special case of go Note convention. See example
 for details in the go code of the models.
 `
 	__RectAnchoredText__000000_Bottom_Text.FontWeight = `100`
-	__RectAnchoredText__000000_Bottom_Text.FontSize = 0
+	__RectAnchoredText__000000_Bottom_Text.FontSize = ``
 	__RectAnchoredText__000000_Bottom_Text.FontStyle = ``
 	__RectAnchoredText__000000_Bottom_Text.X_Offset = 0.000000
 	__RectAnchoredText__000000_Bottom_Text.Y_Offset = 20.000000
@@ -525,7 +525,7 @@ for details in the go code of the models.
 	__RectAnchoredText__000001_Top_Left.Name = `Top Left`
 	__RectAnchoredText__000001_Top_Left.Content = `Top Left`
 	__RectAnchoredText__000001_Top_Left.FontWeight = ``
-	__RectAnchoredText__000001_Top_Left.FontSize = 0
+	__RectAnchoredText__000001_Top_Left.FontSize = ``
 	__RectAnchoredText__000001_Top_Left.FontStyle = ``
 	__RectAnchoredText__000001_Top_Left.X_Offset = 0.000000
 	__RectAnchoredText__000001_Top_Left.Y_Offset = 0.000000
@@ -542,7 +542,7 @@ for details in the go code of the models.
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.Name = `Top anchored bottom middle`
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.Content = `Top anchored bottom middle`
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.FontWeight = ``
-	__RectAnchoredText__000002_Top_anchored_bottom_middle.FontSize = 0
+	__RectAnchoredText__000002_Top_anchored_bottom_middle.FontSize = ``
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.FontStyle = ``
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.X_Offset = 0.000000
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.Y_Offset = 20.000000
@@ -562,7 +562,7 @@ for details in the go code of the models.
 top middle
 line 3`
 	__RectAnchoredText__000003_Top_anchored_top_middle.FontWeight = `bold`
-	__RectAnchoredText__000003_Top_anchored_top_middle.FontSize = 0
+	__RectAnchoredText__000003_Top_anchored_top_middle.FontSize = ``
 	__RectAnchoredText__000003_Top_anchored_top_middle.FontStyle = `italic`
 	__RectAnchoredText__000003_Top_anchored_top_middle.X_Offset = 0.000000
 	__RectAnchoredText__000003_Top_anchored_top_middle.Y_Offset = 20.000000

@@ -105,6 +105,9 @@ type TextDB struct {
 	// Declation for basic field textDB.FontSize
 	FontSize_Data sql.NullString
 
+	// Declation for basic field textDB.FontStyle
+	FontStyle_Data sql.NullString
+
 	// Declation for basic field textDB.LetterSpacing
 	LetterSpacing_Data sql.NullString
 
@@ -158,7 +161,9 @@ type TextWOP struct {
 
 	FontSize string `xlsx:"14"`
 
-	LetterSpacing string `xlsx:"15"`
+	FontStyle string `xlsx:"15"`
+
+	LetterSpacing string `xlsx:"16"`
 	// insertion for WOP pointer fields
 }
 
@@ -179,6 +184,7 @@ var Text_Fields = []string{
 	"Transform",
 	"FontWeight",
 	"FontSize",
+	"FontStyle",
 	"LetterSpacing",
 }
 
@@ -526,6 +532,9 @@ func (textDB *TextDB) CopyBasicFieldsFromText(text *models.Text) {
 	textDB.FontSize_Data.String = text.FontSize
 	textDB.FontSize_Data.Valid = true
 
+	textDB.FontStyle_Data.String = text.FontStyle
+	textDB.FontStyle_Data.Valid = true
+
 	textDB.LetterSpacing_Data.String = text.LetterSpacing
 	textDB.LetterSpacing_Data.Valid = true
 }
@@ -575,6 +584,9 @@ func (textDB *TextDB) CopyBasicFieldsFromText_WOP(text *models.Text_WOP) {
 
 	textDB.FontSize_Data.String = text.FontSize
 	textDB.FontSize_Data.Valid = true
+
+	textDB.FontStyle_Data.String = text.FontStyle
+	textDB.FontStyle_Data.Valid = true
 
 	textDB.LetterSpacing_Data.String = text.LetterSpacing
 	textDB.LetterSpacing_Data.Valid = true
@@ -626,6 +638,9 @@ func (textDB *TextDB) CopyBasicFieldsFromTextWOP(text *TextWOP) {
 	textDB.FontSize_Data.String = text.FontSize
 	textDB.FontSize_Data.Valid = true
 
+	textDB.FontStyle_Data.String = text.FontStyle
+	textDB.FontStyle_Data.Valid = true
+
 	textDB.LetterSpacing_Data.String = text.LetterSpacing
 	textDB.LetterSpacing_Data.Valid = true
 }
@@ -647,6 +662,7 @@ func (textDB *TextDB) CopyBasicFieldsToText(text *models.Text) {
 	text.Transform = textDB.Transform_Data.String
 	text.FontWeight = textDB.FontWeight_Data.String
 	text.FontSize = textDB.FontSize_Data.String
+	text.FontStyle = textDB.FontStyle_Data.String
 	text.LetterSpacing = textDB.LetterSpacing_Data.String
 }
 
@@ -667,6 +683,7 @@ func (textDB *TextDB) CopyBasicFieldsToText_WOP(text *models.Text_WOP) {
 	text.Transform = textDB.Transform_Data.String
 	text.FontWeight = textDB.FontWeight_Data.String
 	text.FontSize = textDB.FontSize_Data.String
+	text.FontStyle = textDB.FontStyle_Data.String
 	text.LetterSpacing = textDB.LetterSpacing_Data.String
 }
 
@@ -688,6 +705,7 @@ func (textDB *TextDB) CopyBasicFieldsToTextWOP(text *TextWOP) {
 	text.Transform = textDB.Transform_Data.String
 	text.FontWeight = textDB.FontWeight_Data.String
 	text.FontSize = textDB.FontSize_Data.String
+	text.FontStyle = textDB.FontStyle_Data.String
 	text.LetterSpacing = textDB.LetterSpacing_Data.String
 }
 

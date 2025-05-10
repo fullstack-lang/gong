@@ -27,6 +27,7 @@ export class TextAPI {
 	Transform: string = ""
 	FontWeight: string = ""
 	FontSize: string = ""
+	FontStyle: string = ""
 	LetterSpacing: string = ""
 
 	// insertion point for other decls

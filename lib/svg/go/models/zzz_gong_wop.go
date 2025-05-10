@@ -207,6 +207,7 @@ type LinkAnchoredText_WOP struct {
 	Y_Offset float64
 	FontWeight string
 	FontSize string
+	FontStyle string
 	LetterSpacing string
 	Color string
 	FillOpacity float64
@@ -228,6 +229,7 @@ func (from *LinkAnchoredText) CopyBasicFields(to *LinkAnchoredText) {
 	to.Y_Offset = from.Y_Offset
 	to.FontWeight = from.FontWeight
 	to.FontSize = from.FontSize
+	to.FontStyle = from.FontStyle
 	to.LetterSpacing = from.LetterSpacing
 	to.Color = from.Color
 	to.FillOpacity = from.FillOpacity
@@ -488,8 +490,9 @@ type RectAnchoredText_WOP struct {
 	Name string
 	Content string
 	FontWeight string
-	FontSize int
+	FontSize string
 	FontStyle string
+	LetterSpacing string
 	X_Offset float64
 	Y_Offset float64
 	RectAnchorType RectAnchorType
@@ -511,6 +514,7 @@ func (from *RectAnchoredText) CopyBasicFields(to *RectAnchoredText) {
 	to.FontWeight = from.FontWeight
 	to.FontSize = from.FontSize
 	to.FontStyle = from.FontStyle
+	to.LetterSpacing = from.LetterSpacing
 	to.X_Offset = from.X_Offset
 	to.Y_Offset = from.Y_Offset
 	to.RectAnchorType = from.RectAnchorType
@@ -601,6 +605,7 @@ type Text_WOP struct {
 	Transform string
 	FontWeight string
 	FontSize string
+	FontStyle string
 	LetterSpacing string
 }
 
@@ -620,6 +625,7 @@ func (from *Text) CopyBasicFields(to *Text) {
 	to.Transform = from.Transform
 	to.FontWeight = from.FontWeight
 	to.FontSize = from.FontSize
+	to.FontStyle = from.FontStyle
 	to.LetterSpacing = from.LetterSpacing
 }
 
