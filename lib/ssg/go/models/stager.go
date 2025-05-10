@@ -7,11 +7,11 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	split_fullstack "github.com/fullstack-lang/gong/lib/split/go/fullstack"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
-	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 
+	button_fullstack "github.com/fullstack-lang/gong/lib/button/go/fullstack"
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
-	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
 )
 
 type Stager struct {
@@ -42,9 +42,9 @@ func NewStager(r *gin.Engine, stage *Stage) (stager *Stager) {
 
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
-	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
+	stager.splitStage, _ = split_fullstack.NewStackInstance(r, "")
 
-	stager.buttonStage = button_stack.NewStack(r, name, "", "", "", true, true).Stage
+	stager.buttonStage, _ = button_fullstack.NewStackInstance(r, name)
 
 	// StageBranch will stage on the the first argument
 	// all instances related to the second argument

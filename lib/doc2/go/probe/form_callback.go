@@ -224,6 +224,10 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(classdiagram_.Name), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(classdiagram_.Description), formDiv)
+		case "IsIncludedInStaticWebSite":
+			FormDivBasicFieldToField(&(classdiagram_.IsIncludedInStaticWebSite), formDiv)
 		case "IsInRenameMode":
 			FormDivBasicFieldToField(&(classdiagram_.IsInRenameMode), formDiv)
 		case "IsExpanded":
