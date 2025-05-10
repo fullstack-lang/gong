@@ -6,12 +6,7 @@ type RectAnchoredText struct {
 	//gong:text width:300 height:300
 	Content string
 
-	// "bold", "normal", ...
-	FontWeight string
-	FontSize   int
-
-	// Specifies the style of the font (e.g., normal, italic, oblique).
-	FontStyle string
+	TextAttributes
 
 	X_Offset float64
 	Y_Offset float64

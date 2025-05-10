@@ -32,6 +32,7 @@ export class Text {
 	Transform: string = ""
 	FontWeight: string = ""
 	FontSize: string = ""
+	FontStyle: string = ""
 	LetterSpacing: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
@@ -59,6 +60,7 @@ export function CopyTextToTextAPI(text: Text, textAPI: TextAPI) {
 	textAPI.Transform = text.Transform
 	textAPI.FontWeight = text.FontWeight
 	textAPI.FontSize = text.FontSize
+	textAPI.FontStyle = text.FontStyle
 	textAPI.LetterSpacing = text.LetterSpacing
 
 	// insertion point for pointer fields encoding
@@ -96,6 +98,7 @@ export function CopyTextAPIToText(textAPI: TextAPI, text: Text, frontRepo: Front
 	text.Transform = textAPI.Transform
 	text.FontWeight = textAPI.FontWeight
 	text.FontSize = textAPI.FontSize
+	text.FontStyle = textAPI.FontStyle
 	text.LetterSpacing = textAPI.LetterSpacing
 
 	// insertion point for pointer fields encoding

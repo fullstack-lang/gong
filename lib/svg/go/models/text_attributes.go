@@ -57,6 +57,9 @@ type TextAttributes struct {
 	*/
 	FontSize string
 
+	// Specifies the style of the font (e.g., normal, italic, oblique).
+	FontStyle string
+
 	/*
 		Absolute Units
 
