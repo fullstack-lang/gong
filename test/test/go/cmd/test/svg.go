@@ -44,7 +44,6 @@ func _(stage *models.Stage) {
 	__Circle__000000_.StrokeDashArrayWhenSelected = ``
 	__Circle__000000_.Transform = ``
 
-	__Layer__000000_.Display = true
 	__Layer__000000_.Name = ``
 
 	__SVG__000000_.Name = ``

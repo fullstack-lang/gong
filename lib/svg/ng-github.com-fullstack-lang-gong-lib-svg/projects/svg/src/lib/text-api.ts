@@ -25,6 +25,9 @@ export class TextAPI {
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
+	FontWeight: string = ""
+	FontSize: string = ""
+	LetterSpacing: string = ""
 
 	// insertion point for other decls
 

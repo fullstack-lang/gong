@@ -97,13 +97,11 @@ func (from *Ellipse) CopyBasicFields(to *Ellipse) {
 
 type Layer_WOP struct {
 	// insertion point
-	Display bool
 	Name string
 }
 
 func (from *Layer) CopyBasicFields(to *Layer) {
 	// insertion point
-	to.Display = from.Display
 	to.Name = from.Name
 }
 
@@ -601,6 +599,9 @@ type Text_WOP struct {
 	StrokeDashArray string
 	StrokeDashArrayWhenSelected string
 	Transform string
+	FontWeight string
+	FontSize string
+	LetterSpacing string
 }
 
 func (from *Text) CopyBasicFields(to *Text) {
@@ -617,5 +618,8 @@ func (from *Text) CopyBasicFields(to *Text) {
 	to.StrokeDashArray = from.StrokeDashArray
 	to.StrokeDashArrayWhenSelected = from.StrokeDashArrayWhenSelected
 	to.Transform = from.Transform
+	to.FontWeight = from.FontWeight
+	to.FontSize = from.FontSize
+	to.LetterSpacing = from.LetterSpacing
 }
 

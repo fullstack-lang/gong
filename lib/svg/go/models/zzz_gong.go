@@ -3301,7 +3301,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Ellipse:
 		res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Layer:
-		res = []string{"Display", "Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths", "Links", "RectLinkLinks"}
+		res = []string{"Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths", "Links", "RectLinkLinks"}
 	case Line:
 		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case Link:
@@ -3331,7 +3331,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case SvgText:
 		res = []string{"Name", "Text"}
 	case Text:
-		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "FontWeight", "FontSize", "LetterSpacing", "Animates"}
 	}
 	return
 }
@@ -3506,7 +3506,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Ellipse:
 		res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case *Layer:
-		res = []string{"Display", "Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths", "Links", "RectLinkLinks"}
+		res = []string{"Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths", "Links", "RectLinkLinks"}
 	case *Line:
 		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case *Link:
@@ -3536,7 +3536,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *SvgText:
 		res = []string{"Name", "Text"}
 	case *Text:
-		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "FontWeight", "FontSize", "LetterSpacing", "Animates"}
 	}
 	return
 }
@@ -3697,10 +3697,6 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 	case *Layer:
 		switch fieldName {
 		// string value of fields
-		case "Display":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.Display)
-			res.valueBool = inferedInstance.Display
-			res.GongFieldValueType = GongFieldValueTypeBool
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Rects":
@@ -4550,6 +4546,12 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "FontWeight":
+			res.valueString = inferedInstance.FontWeight
+		case "FontSize":
+			res.valueString = inferedInstance.FontSize
+		case "LetterSpacing":
+			res.valueString = inferedInstance.LetterSpacing
 		case "Animates":
 			for idx, __instance__ := range inferedInstance.Animates {
 				if idx > 0 {
@@ -4687,10 +4689,6 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 	case Layer:
 		switch fieldName {
 		// string value of fields
-		case "Display":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.Display)
-			res.valueBool = inferedInstance.Display
-			res.GongFieldValueType = GongFieldValueTypeBool
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Rects":
@@ -5540,6 +5538,12 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "FontWeight":
+			res.valueString = inferedInstance.FontWeight
+		case "FontSize":
+			res.valueString = inferedInstance.FontSize
+		case "LetterSpacing":
+			res.valueString = inferedInstance.LetterSpacing
 		case "Animates":
 			for idx, __instance__ := range inferedInstance.Animates {
 				if idx > 0 {

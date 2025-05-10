@@ -30,6 +30,9 @@ export class Text {
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
+	FontWeight: string = ""
+	FontSize: string = ""
+	LetterSpacing: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 	Animates: Array<Animate> = []
@@ -54,6 +57,9 @@ export function CopyTextToTextAPI(text: Text, textAPI: TextAPI) {
 	textAPI.StrokeDashArray = text.StrokeDashArray
 	textAPI.StrokeDashArrayWhenSelected = text.StrokeDashArrayWhenSelected
 	textAPI.Transform = text.Transform
+	textAPI.FontWeight = text.FontWeight
+	textAPI.FontSize = text.FontSize
+	textAPI.LetterSpacing = text.LetterSpacing
 
 	// insertion point for pointer fields encoding
 
@@ -88,6 +94,9 @@ export function CopyTextAPIToText(textAPI: TextAPI, text: Text, frontRepo: Front
 	text.StrokeDashArray = textAPI.StrokeDashArray
 	text.StrokeDashArrayWhenSelected = textAPI.StrokeDashArrayWhenSelected
 	text.Transform = textAPI.Transform
+	text.FontWeight = textAPI.FontWeight
+	text.FontSize = textAPI.FontSize
+	text.LetterSpacing = textAPI.LetterSpacing
 
 	// insertion point for pointer fields encoding
 

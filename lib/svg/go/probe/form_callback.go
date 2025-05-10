@@ -1163,8 +1163,6 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 	for _, formDiv := range layerFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
-		case "Display":
-			FormDivBasicFieldToField(&(layer_.Display), formDiv)
 		case "Name":
 			FormDivBasicFieldToField(&(layer_.Name), formDiv)
 		case "SVG:Layers":
@@ -3634,6 +3632,12 @@ func (textFormCallback *TextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(text_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(text_.Transform), formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&(text_.FontWeight), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(text_.FontSize), formDiv)
+		case "LetterSpacing":
+			FormDivBasicFieldToField(&(text_.LetterSpacing), formDiv)
 		case "Layer:Texts":
 			// WARNING : this form deals with the N-N association "Layer.Texts []*Text" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
