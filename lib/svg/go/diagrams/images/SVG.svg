@@ -7,15 +7,14 @@
   <text x="502.99996899999996" y="95.847542" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="black" stroke="black">Start Right/Bottom</text>
   <text x="607" y="527.109332" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="black" stroke="black">End Right/Bottom</text>
   <text x="567" y="507.109332" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="blue" fill-opacity="0" stroke="blue">End Left/Top</text>
-  <line x1="374" y1="258" x2="555.999969" y2="523" fill="none" stroke="olivedrab" stroke-width="4" />
   <path d="M 514.999969 219.431192 L 161.99997499999998 219.431192 L 153.99997499999998 760.126273105265 L 432 768.126273105265" fill="none" stroke="green" stroke-width="4" />
   <path d="M 433.414213562 769.540486667265 L 422 758.126273105265 M 433.414213562 766.712059543265 L 422 778.126273105265" fill="none" stroke="green" stroke-width="4" />
   <text x="385.99993799999993" y="256.443704" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="cyan" fill-opacity="100" stroke="cyan">Start Anchored 1</text>
   <path d="M 622.9999859999999 281 L 622.9999859999999 328.751945 L 742 328.751945 L 742 444" fill="none" stroke="black" stroke-width="2" />
   <path d="M 742.707106781 444.707106781 L 731 433 M 741.292893219 444.707106781 L 753 433" fill="none" stroke="black" stroke-width="2" />
   <rect x="627" y="444" width="200" height="132" rx="3" ry="3" fill="lavender" fill-opacity="50" stroke="turquoise" />
-  <rect x="1086" y="33" width="130" height="401" rx="0" ry="0" stroke="black" />
-  <rect x="1663" y="539" width="140" height="384" rx="0" ry="0" stroke="black" />
+  <rect x="1086" y="33" width="130" height="401" rx="0" ry="0" fill="white" fill-opacity="0" stroke="black" />
+  <rect x="1663" y="539" width="140" height="384" rx="0" ry="0" fill="white" fill-opacity="0" stroke="black" />
   <path d="M 1723.99996 539 L 1723.99996 466.500032 L 1138.99996 466.500032 L 1138.99996 434" fill="none" stroke="black" />
   <path d="M 1138.6464066095 433.6464466095 L 1143.99996 439 M 1139.3535133905002 433.6464466095 L 1133.99996 439" fill="none" stroke="black" />
   <text x="1723.99996" y="539" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="black" stroke="black">LEFT_OR_TOP</text>

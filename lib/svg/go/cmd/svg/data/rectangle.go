@@ -35,8 +35,6 @@ func _(stage *models.Stage) {
 	__Layer__000005_Top_Rectangle_layer := (&models.Layer{}).Stage(stage)
 	__Layer__000006_Test_Automatic_Layout := (&models.Layer{}).Stage(stage)
 
-	__Line__000000_Line_connecting_rect_Bottom_to_Top := (&models.Line{}).Stage(stage)
-
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal := (&models.Link{}).Stage(stage)
 	__Link__000001_Start_Middle := (&models.Link{}).Stage(stage)
 	__Link__000002_Top_to_Middle_issue_645_ := (&models.Link{}).Stage(stage)
@@ -74,8 +72,6 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__000004_Start := (&models.RectAnchoredText{}).Stage(stage)
 	__RectAnchoredText__000005_End := (&models.RectAnchoredText{}).Stage(stage)
 	__RectAnchoredText__000006_ := (&models.RectAnchoredText{}).Stage(stage)
-
-	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link := (&models.RectLinkLink{}).Stage(stage)
 
 	__SVG__000000_SVG := (&models.SVG{}).Stage(stage)
 
@@ -119,22 +115,6 @@ func _(stage *models.Stage) {
 	__Layer__000005_Top_Rectangle_layer.Name = `Top Rectangle layer`
 
 	__Layer__000006_Test_Automatic_Layout.Name = `Test Automatic Layout`
-
-	__Line__000000_Line_connecting_rect_Bottom_to_Top.Name = `Line connecting rect Bottom to Top`
-	__Line__000000_Line_connecting_rect_Bottom_to_Top.X1 = 374.000000
-	__Line__000000_Line_connecting_rect_Bottom_to_Top.Y1 = 258.000000
-	__Line__000000_Line_connecting_rect_Bottom_to_Top.X2 = 555.999969
-	__Line__000000_Line_connecting_rect_Bottom_to_Top.Y2 = 523.000000
-	__Line__000000_Line_connecting_rect_Bottom_to_Top.Color = `olivedrab`
-	__Line__000000_Line_connecting_rect_Bottom_to_Top.FillOpacity = 0.000000
-	__Line__000000_Line_connecting_rect_Bottom_to_Top.Stroke = `olivedrab`
-	__Line__000000_Line_connecting_rect_Bottom_to_Top.StrokeOpacity = 1.000000
-	__Line__000000_Line_connecting_rect_Bottom_to_Top.StrokeWidth = 4.000000
-	__Line__000000_Line_connecting_rect_Bottom_to_Top.StrokeDashArray = ``
-	__Line__000000_Line_connecting_rect_Bottom_to_Top.StrokeDashArrayWhenSelected = ``
-	__Line__000000_Line_connecting_rect_Bottom_to_Top.Transform = ``
-	__Line__000000_Line_connecting_rect_Bottom_to_Top.MouseClickX = 0.000000
-	__Line__000000_Line_connecting_rect_Bottom_to_Top.MouseClickY = 0.000000
 
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Name = `Arrow - Top to Bottom vertical to horizontal`
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
@@ -797,17 +777,6 @@ line 3`
 	__RectAnchoredText__000006_.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__000006_.Transform = ``
 
-	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Name = `Test Middle to Top-Bottom Link`
-	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.TargetAnchorPosition = 0.600000
-	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Color = ``
-	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.FillOpacity = 0.000000
-	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Stroke = `lightgreen`
-	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.StrokeOpacity = 1.000000
-	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.StrokeWidth = 4.000000
-	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.StrokeDashArray = ``
-	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.StrokeDashArrayWhenSelected = ``
-	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Transform = ``
-
 	__SVG__000000_SVG.Name = `SVG`
 	__SVG__000000_SVG.DrawingState = models.NOT_DRAWING_LINK
 	__SVG__000000_SVG.IsEditable = true
@@ -931,8 +900,6 @@ line 3`
 	// setup of Layer instances pointers
 	__Layer__000000_Bottom_Rectangle_Layer.Rects = append(__Layer__000000_Bottom_Rectangle_Layer.Rects, __Rect__000000_Bottom_Rect)
 	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Links = append(__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Links, __Link__000001_Start_Middle)
-	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.RectLinkLinks = append(__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.RectLinkLinks, __RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link)
-	__Layer__000002_Line_layer.Lines = append(__Layer__000002_Line_layer.Lines, __Line__000000_Line_connecting_rect_Bottom_to_Top)
 	__Layer__000003_Link_layer_vertical_to_horizontal.Links = append(__Layer__000003_Link_layer_vertical_to_horizontal.Links, __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal)
 	__Layer__000003_Link_layer_vertical_to_horizontal.Links = append(__Layer__000003_Link_layer_vertical_to_horizontal.Links, __Link__000002_Top_to_Middle_issue_645_)
 	__Layer__000004_Middle_Rect_Layer.Rects = append(__Layer__000004_Middle_Rect_Layer.Rects, __Rect__000001_Middle_Rect)
@@ -942,7 +909,6 @@ line 3`
 	__Layer__000006_Test_Automatic_Layout.Links = append(__Layer__000006_Test_Automatic_Layout.Links, __Link__000004_Auto_2)
 	__Layer__000006_Test_Automatic_Layout.Links = append(__Layer__000006_Test_Automatic_Layout.Links, __Link__000005_Auto_3)
 	__Layer__000006_Test_Automatic_Layout.Links = append(__Layer__000006_Test_Automatic_Layout.Links, __Link__000003_Auto_1)
-	// setup of Line instances pointers
 	// setup of Link instances pointers
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000002_Top_Rect
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom_Rect
@@ -986,9 +952,6 @@ line 3`
 	// setup of RectAnchoredPath instances pointers
 	// setup of RectAnchoredRect instances pointers
 	// setup of RectAnchoredText instances pointers
-	// setup of RectLinkLink instances pointers
-	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.Start = __Rect__000001_Middle_Rect
-	__RectLinkLink__000000_Test_Middle_to_Top_Bottom_Link.End = __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal
 	// setup of SVG instances pointers
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom)

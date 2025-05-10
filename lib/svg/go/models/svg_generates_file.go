@@ -18,41 +18,76 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 	for _, layer := range svg.Layers {
 		// Rects
 		for _, rect := range layer.Rects {
+			// Apply default styling for rectangles to match frontend (white fill, black stroke)
+			rectPresentation := rect.Presentation // Make a copy to modify
+			if rectPresentation.Color == "" {
+				rectPresentation.Color = "white" // Default fill to white
+			}
+			if rectPresentation.Stroke == "" {
+				rectPresentation.Stroke = "black" // Default stroke to black
+			}
+			if rectPresentation.StrokeWidth == 0 { // If stroke width is not set, default to 1
+				rectPresentation.StrokeWidth = 1
+			}
+
 			sb.WriteString(fmt.Sprintf(`  <rect x="%s" y="%s" width="%s" height="%s" rx="%s" ry="%s"`,
 				formatFloat(rect.X), formatFloat(rect.Y), formatFloat(rect.Width), formatFloat(rect.Height),
 				formatFloat(rect.RX), formatFloat(rect.RX)))
-			appendPresentationAttributes(&sb, &rect.Presentation, true)
+			appendPresentationAttributes(&sb, &rectPresentation, true) // Pass modified presentation
 			sb.WriteString(" />\n")
 		}
 
 		// Circles
 		for _, circle := range layer.Circles {
+			// Apply similar default styling for circles if needed, or keep as is
+			circlePresentation := circle.Presentation
+			if circlePresentation.Color == "" { // Example: default circles to white fill too
+				// circlePresentation.Color = "white"
+			}
+			if circlePresentation.Stroke == "" {
+				// circlePresentation.Stroke = "black"
+			}
+			if circlePresentation.StrokeWidth == 0 && circlePresentation.Stroke != "" && circlePresentation.Stroke != "none" {
+				// circlePresentation.StrokeWidth = 1
+			}
 			sb.WriteString(fmt.Sprintf(`  <circle cx="%s" cy="%s" r="%s"`,
 				formatFloat(circle.CX), formatFloat(circle.CY), formatFloat(circle.Radius)))
-			appendPresentationAttributes(&sb, &circle.Presentation, true)
+			appendPresentationAttributes(&sb, &circlePresentation, true)
 			sb.WriteString(" />\n")
 		}
 
 		// Lines
 		for _, line := range layer.Lines {
+			linePresentation := line.Presentation
+			if linePresentation.Stroke == "" {
+				linePresentation.Stroke = "black" // Default lines to black
+			}
+			if linePresentation.StrokeWidth == 0 {
+				linePresentation.StrokeWidth = 1
+			}
 			sb.WriteString(fmt.Sprintf(`  <line x1="%s" y1="%s" x2="%s" y2="%s"`,
 				formatFloat(line.X1), formatFloat(line.Y1), formatFloat(line.X2), formatFloat(line.Y2)))
-			appendPresentationAttributes(&sb, &line.Presentation, false)
+			appendPresentationAttributes(&sb, &linePresentation, false)
 			sb.WriteString(" />\n")
 		}
 
 		// Ellipses
 		for _, ellipse := range layer.Ellipses {
+			ellipsePresentation := ellipse.Presentation
+			// Apply defaults if needed
+			// if ellipsePresentation.Color == "" { ellipsePresentation.Color = "white" }
+			// if ellipsePresentation.Stroke == "" { ellipsePresentation.Stroke = "black" }
+			// if ellipsePresentation.StrokeWidth == 0 { ellipsePresentation.StrokeWidth = 1 }
 			sb.WriteString(fmt.Sprintf(`  <ellipse cx="%s" cy="%s" rx="%s" ry="%s"`,
 				formatFloat(ellipse.CX), formatFloat(ellipse.CY), formatFloat(ellipse.RX), formatFloat(ellipse.RY)))
-			appendPresentationAttributes(&sb, &ellipse.Presentation, true)
+			appendPresentationAttributes(&sb, &ellipsePresentation, true)
 			sb.WriteString(" />\n")
 		}
 
 		// Paths (general paths, not links or arrows)
 		for _, pathElement := range layer.Paths {
 			sb.WriteString(fmt.Sprintf(`  <path d="%s"`, html.EscapeString(pathElement.Definition)))
-			appendPresentationAttributes(&sb, &pathElement.Presentation, true)
+			appendPresentationAttributes(&sb, &pathElement.Presentation, true) // Path can be fillable
 			sb.WriteString(" />\n")
 		}
 
@@ -65,14 +100,23 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 
 		// Polylines
 		for _, polyline := range layer.Polylines {
+			// Polylines are often not filled by default in some renderers, but can be.
+			// SVG default fill is black. If you want them open with no fill unless specified:
+			polylinePresentation := polyline.Presentation
+			// if polylinePresentation.Color == "" { // If Color means fill for polyline
+			// 	// To make it behave like an open path, ensure fill is "none" if not specified
+			//  // However, appendPresentationAttributes with isFillable=true and empty Color will lead to SVG default black fill.
+			//  // So, if default for polyline should be no fill:
+			//  // Option 1: Set polylinePresentation.Color = "none" if empty
+			//  // Option 2: Call appendPresentationAttributes with isFillable=false if Color is empty
+			// }
 			sb.WriteString(fmt.Sprintf(`  <polyline points="%s"`, html.EscapeString(polyline.Points)))
-			appendPresentationAttributes(&sb, &polyline.Presentation, true)
+			appendPresentationAttributes(&sb, &polylinePresentation, true) // isFillable=true, so fill will be black if Color is empty
 			sb.WriteString(" />\n")
 		}
 
 		// Texts
 		for _, text := range layer.Texts {
-			// For general texts, pass their own font attributes if they exist, otherwise use defaults from generateTextElement
 			generateTextElement(&sb, text.Content, text.X, text.Y, text.FontSize, text.FontWeight, &text.Presentation, true)
 		}
 
@@ -88,7 +132,7 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 			if link.IsBezierCurve {
 				startX, startY := getAnchorPoint(link.Start, link.StartAnchorType, link.StartOrientation, link.StartRatio)
 				endX, endY := getAnchorPoint(link.End, link.EndAnchorType, link.EndOrientation, link.EndRatio)
-				segments = []Segment{ // Simplified for text anchoring
+				segments = []Segment{
 					{StartPoint: createPoint(startX, startY), EndPoint: createPoint(endX, endY)},
 				}
 
@@ -152,8 +196,6 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 				for _, anchoredText := range link.TextAtArrowStart {
 					textX := anchorXStart + anchoredText.X_Offset
 					textY := anchorYStart + anchoredText.Y_Offset
-					// LinkAnchoredText uses its own Presentation. Font attributes are not in Presentation struct.
-					// So, pass empty strings for explicit font size/weight, relying on defaults or what appendPresentationAttributes might do.
 					generateTextElement(&sb, anchoredText.Content, textX, textY, "", "", &anchoredText.Presentation, false)
 				}
 
@@ -173,42 +215,29 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 	return os.WriteFile(pathToFile, []byte(sb.String()), 0644)
 }
 
-// generateTextElement helper
-// explicitFontSize and explicitFontWeight are for Text struct fields.
-// For LinkAnchoredText, these will be empty, and we rely on defaults or Presentation if it ever gets font fields.
 func generateTextElement(sb *strings.Builder, content string, x, y float64, explicitFontSize, explicitFontWeight string, p *Presentation, useDefaultAnchors bool) {
 	sb.WriteString(fmt.Sprintf(`  <text x="%s" y="%s"`, formatFloat(x), formatFloat(y)))
-	if !useDefaultAnchors { // For link-anchored text
+	if !useDefaultAnchors {
 		sb.WriteString(` text-anchor="middle" dominant-baseline="middle"`)
 	}
 
-	clonedPres := *p // Make a copy to set defaults without modifying the original
+	clonedPres := *p
 	if clonedPres.Color == "" {
 		clonedPres.Color = "black"
 	}
 
-	// Handle font size and weight
-	// If explicit values are provided (from Text struct), use them.
-	// Otherwise, check Presentation (though it doesn't have them now) or use a default.
 	finalFontSize := explicitFontSize
-	if finalFontSize == "" { // Not provided by Text struct, or called for LinkAnchoredText
-		// if p.FontSize != "" { finalFontSize = p.FontSize } // If Presentation had font size
-		// else {
-		finalFontSize = "10px" // Default if no other source
-		// }
+	if finalFontSize == "" {
+		finalFontSize = "10px"
 	}
 	sb.WriteString(fmt.Sprintf(` font-size="%s"`, html.EscapeString(finalFontSize)))
 
 	finalFontWeight := explicitFontWeight
-	if finalFontWeight == "" {
-		// if p.FontWeight != "" { finalFontWeight = p.FontWeight } // If Presentation had font weight
-		// No default font weight, browser will handle.
-	}
 	if finalFontWeight != "" {
 		sb.WriteString(fmt.Sprintf(` font-weight="%s"`, html.EscapeString(finalFontWeight)))
 	}
 
-	appendPresentationAttributes(sb, &clonedPres, true) // Pass the copy
+	appendPresentationAttributes(sb, &clonedPres, true)
 
 	sb.WriteString(">")
 	sb.WriteString(html.EscapeString(content))
@@ -222,24 +251,48 @@ func formatFloat(f float64) string {
 func appendPresentationAttributes(sb *strings.Builder, p *Presentation, isFillable bool) {
 	if isFillable {
 		if p.Color != "" {
-			sb.WriteString(fmt.Sprintf(` fill="%s"`, html.EscapeString(p.Color)))
+			// If color is "none", treat it as such, otherwise escape it.
+			if strings.ToLower(p.Color) == "none" {
+				sb.WriteString(` fill="none"`)
+			} else {
+				sb.WriteString(fmt.Sprintf(` fill="%s"`, html.EscapeString(p.Color)))
+			}
+		} else {
+			// If p.Color is empty for a fillable element, SVG defaults to black.
+			// This was the issue for rectangles. Now handled by defaulting rectPresentation.Color to "white".
+			// For other fillable elements, if Color is empty, they will get SVG default black fill.
 		}
+
 		if p.FillOpacity != 1.0 && p.FillOpacity != 0.0 {
 			sb.WriteString(fmt.Sprintf(` fill-opacity="%s"`, formatFloat(p.FillOpacity)))
-		} else if p.FillOpacity == 0.0 && (p.Color != "" && p.Color != "none") {
+		} else if p.FillOpacity == 0.0 && (p.Color != "" && strings.ToLower(p.Color) != "none") {
 			sb.WriteString(` fill-opacity="0"`)
 		}
-	} else {
+	} else { // Not fillable (e.g., lines, link paths)
 		sb.WriteString(` fill="none"`)
 	}
 
 	if p.Stroke != "" {
-		sb.WriteString(fmt.Sprintf(` stroke="%s"`, html.EscapeString(p.Stroke)))
+		if strings.ToLower(p.Stroke) == "none" {
+			sb.WriteString(` stroke="none"`)
+		} else {
+			sb.WriteString(fmt.Sprintf(` stroke="%s"`, html.EscapeString(p.Stroke)))
+		}
+	} else {
+		// If stroke is not defined, SVG default is "none".
+		// For elements like rects where we want a default border, this is handled by setting p.Stroke to "black" before this call.
 	}
-	if p.StrokeWidth != 1.0 && p.StrokeWidth != 0.0 {
-		sb.WriteString(fmt.Sprintf(` stroke-width="%s"`, formatFloat(p.StrokeWidth)))
-	} else if p.StrokeWidth == 0.0 && p.Stroke != "" && p.Stroke != "none" {
-		sb.WriteString(` stroke-width="0"`)
+
+	// Handle stroke-width carefully:
+	// SVG default stroke-width is 1.
+	// If p.StrokeWidth is 0, it means "hairline" or thinnest possible, not "no stroke".
+	// To have "no stroke", p.Stroke should be "none" or empty.
+	if p.Stroke != "" && strings.ToLower(p.Stroke) != "none" { // Only apply stroke-width if there's a stroke color
+		if p.StrokeWidth != 1.0 { // Write only if not the default 1.0
+			sb.WriteString(fmt.Sprintf(` stroke-width="%s"`, formatFloat(p.StrokeWidth)))
+		}
+		// If p.StrokeWidth is 1.0 (default), we don't need to write it.
+		// If p.StrokeWidth is 0, it will be written as "0".
 	}
 
 	if p.StrokeDashArray != "" {
@@ -247,13 +300,9 @@ func appendPresentationAttributes(sb *strings.Builder, p *Presentation, isFillab
 	}
 	if p.StrokeOpacity != 1.0 && p.StrokeOpacity != 0.0 {
 		sb.WriteString(fmt.Sprintf(` stroke-opacity="%s"`, formatFloat(p.StrokeOpacity)))
-	} else if p.StrokeOpacity == 0.0 && p.Stroke != "" && p.Stroke != "none" {
+	} else if p.StrokeOpacity == 0.0 && p.Stroke != "" && strings.ToLower(p.Stroke) != "none" {
 		sb.WriteString(` stroke-opacity="0"`)
 	}
-
-	// Fontsize and fontweight are NOT part of the generic Presentation struct
-	// They are handled by generateTextElement directly or via Text struct fields.
-	// So, no p.FontSize or p.FontWeight access here.
 
 	if p.Transform != "" {
 		sb.WriteString(fmt.Sprintf(` transform="%s"`, html.EscapeString(p.Transform)))
@@ -297,48 +346,38 @@ func rotateToSegmentDirection(segment Segment, localX, localY float64) (float64,
 			return -localY, -localX
 		}
 	}
-	return localX, localY // Fallback
+	return localX, localY
 }
 
 func generateArrowPath(link *Link, segment Segment, arrowSize float64, isStartArrow bool) string {
 	if arrowSize <= 0 {
 		return ""
 	}
-	const tsRatio = 0.3535533905 // (1/sqrt(2))/2, from TS for base point offsetting
+	const tsRatio = 0.3535533905
 
 	refX, refY := 0.0, 0.0
 	var localTip1X, localTip1Y, localBase1X, localBase1Y float64
 	var localTip2X, localTip2Y, localBase2X, localBase2Y float64
 
-	if isStartArrow { // Arrow at segment.StartPoint, pointing towards segment.EndPoint
+	if isStartArrow {
 		refX, refY = segment.StartPoint.X, segment.StartPoint.Y
-		// Local coords for arrow pointing right (+X direction) relative to refX, refY
-		// Tip components define the ends of the two lines forming the ">"
 		localTip1X = arrowSize
-		localTip1Y = -arrowSize // Upper leg of ">"
+		localTip1Y = -arrowSize
 		localTip2X = arrowSize
-		localTip2Y = arrowSize // Lower leg of ">"
+		localTip2Y = arrowSize
 
-		// Base components from TS logic, adjusted for arrow pointing right
-		// Original TS for end arrow (pointing left): (sw*ratio, sw*ratio) and (sw*ratio, -sw*ratio)
-		// For start arrow (pointing right), X base offset might be negative to be "behind" the tip.
-		// Or, if base is where the lines *start* at the anchor point, localBase can be 0,0.
-		// Let's use the TS logic for base points for consistency:
-		localBase1X = -link.StrokeWidth * tsRatio // Offset "behind" the tip along X
-		localBase1Y = link.StrokeWidth * tsRatio  // Offset perpendicular for one leg
-		localBase2X = -link.StrokeWidth * tsRatio // Same X offset
-		localBase2Y = -link.StrokeWidth * tsRatio // Offset perpendicular for the other leg
+		localBase1X = -link.StrokeWidth * tsRatio
+		localBase1Y = link.StrokeWidth * tsRatio
+		localBase2X = -link.StrokeWidth * tsRatio
+		localBase2Y = -link.StrokeWidth * tsRatio
 
-	} else { // End Arrow: at segment.EndPoint, pointing "backwards" (like "<")
+	} else {
 		refX, refY = segment.EndPoint.X, segment.EndPoint.Y
-		// Local coords for arrow pointing left (-X direction) relative to refX, refY
-		// Tip components
 		localTip1X = -arrowSize
-		localTip1Y = -arrowSize // Upper leg of "<"
+		localTip1Y = -arrowSize
 		localTip2X = -arrowSize
-		localTip2Y = arrowSize // Lower leg of "<"
+		localTip2Y = arrowSize
 
-		// Base components from TS logic (getEndArrowPath)
 		localBase1X = link.StrokeWidth * tsRatio
 		localBase1Y = link.StrokeWidth * tsRatio
 		localBase2X = link.StrokeWidth * tsRatio
@@ -360,7 +399,6 @@ func generateArrowPath(link *Link, segment Segment, arrowSize float64, isStartAr
 	finalBase2X := refX + rotatedBase2X
 	finalBase2Y := refY + rotatedBase2Y
 
-	// Path: M Base1 L Tip1 M Base2 L Tip2
 	return fmt.Sprintf("M %s %s L %s %s M %s %s L %s %s",
 		formatFloat(finalBase1X), formatFloat(finalBase1Y),
 		formatFloat(finalTip1X), formatFloat(finalTip1Y),
@@ -378,7 +416,7 @@ func generatePointPointSegment(start Point, end Point, orientation OrientationTy
 			newStart.X -= cornerRadius
 			newEnd.X += cornerRadius
 		}
-	} else { // ORIENTATION_VERTICAL
+	} else {
 		if start.Y < end.Y {
 			newStart.Y += cornerRadius
 			newEnd.Y -= cornerRadius
@@ -394,7 +432,6 @@ func generatePointPointSegment(start Point, end Point, orientation OrientationTy
 	}
 }
 
-// generatePointRectSegment now uses link.StartRatio/EndRatio correctly
 func generatePointRectSegment(point Point, rect *Rect, link *Link, direction OrientationType, cornerRadius float64, number int, isStartSegment bool) Segment {
 	var ratio float64
 	if isStartSegment {
@@ -406,13 +443,12 @@ func generatePointRectSegment(point Point, rect *Rect, link *Link, direction Ori
 	var rectConnectionPoint Point
 	if direction == ORIENTATION_HORIZONTAL {
 		rectConnectionPoint.Y = rect.Y + ratio*rect.Height
-		// Original TS logic for choosing X connection point based on corner's relative position:
 		if point.X <= rect.X+rect.Width/2 {
 			rectConnectionPoint.X = rect.X
 		} else {
 			rectConnectionPoint.X = rect.X + rect.Width
 		}
-	} else { // ORIENTATION_VERTICAL
+	} else {
 		rectConnectionPoint.X = rect.X + ratio*rect.Width
 		if point.Y <= rect.Y+rect.Height/2 {
 			rectConnectionPoint.Y = rect.Y
@@ -497,12 +533,10 @@ func generateSegments(link *Link) []Segment {
 func getAnchorPoint(rect *Rect, _ AnchorType, orientation OrientationType, ratio float64) (x, y float64) {
 	if orientation == ORIENTATION_HORIZONTAL {
 		y = rect.Y + ratio*rect.Height
-		// For Bezier, deciding which X (rect.X or rect.X + rect.Width) can be complex.
-		// Defaulting to rect.X for now. A better heuristic might be needed.
 		x = rect.X
 	} else if orientation == ORIENTATION_VERTICAL {
 		x = rect.X + ratio*rect.Width
-		y = rect.Y // Defaulting to rect.Y
+		y = rect.Y
 	} else {
 		x, y = rect.X+rect.Width/2, rect.Y+rect.Height/2
 	}
