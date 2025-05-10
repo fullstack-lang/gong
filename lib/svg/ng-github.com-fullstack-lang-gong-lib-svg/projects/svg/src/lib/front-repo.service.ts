@@ -12,6 +12,10 @@ import { CircleAPI } from './circle-api'
 import { Circle, CopyCircleAPIToCircle } from './circle'
 import { CircleService } from './circle.service'
 
+import { CommandAPI } from './command-api'
+import { Command, CopyCommandAPIToCommand } from './command'
+import { CommandService } from './command.service'
+
 import { EllipseAPI } from './ellipse-api'
 import { Ellipse, CopyEllipseAPIToEllipse } from './ellipse'
 import { EllipseService } from './ellipse.service'
@@ -93,6 +97,9 @@ export class FrontRepo { // insertion point sub template
 	array_Circles = new Array<Circle>() // array of front instances
 	map_ID_Circle = new Map<number, Circle>() // map of front instances
 
+	array_Commands = new Array<Command>() // array of front instances
+	map_ID_Command = new Map<number, Command>() // map of front instances
+
 	array_Ellipses = new Array<Ellipse>() // array of front instances
 	map_ID_Ellipse = new Map<number, Ellipse>() // map of front instances
 
@@ -157,6 +164,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_Animates as unknown as Array<Type>
 			case 'Circle':
 				return this.array_Circles as unknown as Array<Type>
+			case 'Command':
+				return this.array_Commands as unknown as Array<Type>
 			case 'Ellipse':
 				return this.array_Ellipses as unknown as Array<Type>
 			case 'Layer':
@@ -203,6 +212,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_Animate as unknown as Map<number, Type>
 			case 'Circle':
 				return this.map_ID_Circle as unknown as Map<number, Type>
+			case 'Command':
+				return this.map_ID_Command as unknown as Map<number, Type>
 			case 'Ellipse':
 				return this.map_ID_Ellipse as unknown as Map<number, Type>
 			case 'Layer':
@@ -306,6 +317,7 @@ export class FrontRepoService {
 		private http: HttpClient, // insertion point sub template 
 		private animateService: AnimateService,
 		private circleService: CircleService,
+		private commandService: CommandService,
 		private ellipseService: EllipseService,
 		private layerService: LayerService,
 		private lineService: LineService,
@@ -357,6 +369,7 @@ export class FrontRepoService {
 		// insertion point sub template 
 		Observable<AnimateAPI[]>,
 		Observable<CircleAPI[]>,
+		Observable<CommandAPI[]>,
 		Observable<EllipseAPI[]>,
 		Observable<LayerAPI[]>,
 		Observable<LineAPI[]>,
@@ -391,6 +404,7 @@ export class FrontRepoService {
 			// insertion point sub template
 			this.animateService.getAnimates(this.Name, this.frontRepo),
 			this.circleService.getCircles(this.Name, this.frontRepo),
+			this.commandService.getCommands(this.Name, this.frontRepo),
 			this.ellipseService.getEllipses(this.Name, this.frontRepo),
 			this.layerService.getLayers(this.Name, this.frontRepo),
 			this.lineService.getLines(this.Name, this.frontRepo),
@@ -420,6 +434,7 @@ export class FrontRepoService {
 						// insertion point sub template for declarations 
 						animates_,
 						circles_,
+						commands_,
 						ellipses_,
 						layers_,
 						lines_,
@@ -445,6 +460,8 @@ export class FrontRepoService {
 						animates = animates_ as AnimateAPI[]
 						var circles: CircleAPI[]
 						circles = circles_ as CircleAPI[]
+						var commands: CommandAPI[]
+						commands = commands_ as CommandAPI[]
 						var ellipses: EllipseAPI[]
 						ellipses = ellipses_ as EllipseAPI[]
 						var layers: LayerAPI[]
@@ -504,6 +521,18 @@ export class FrontRepoService {
 								let circle = new Circle
 								this.frontRepo.array_Circles.push(circle)
 								this.frontRepo.map_ID_Circle.set(circleAPI.ID, circle)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_Commands = []
+						this.frontRepo.map_ID_Command.clear()
+
+						commands.forEach(
+							commandAPI => {
+								let command = new Command
+								this.frontRepo.array_Commands.push(command)
+								this.frontRepo.map_ID_Command.set(commandAPI.ID, command)
 							}
 						)
 
@@ -732,6 +761,14 @@ export class FrontRepoService {
 						)
 
 						// fill up front objects
+						commands.forEach(
+							commandAPI => {
+								let command = this.frontRepo.map_ID_Command.get(commandAPI.ID)
+								CopyCommandAPIToCommand(commandAPI, command!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
 						ellipses.forEach(
 							ellipseAPI => {
 								let ellipse = this.frontRepo.map_ID_Ellipse.get(ellipseAPI.ID)
@@ -922,6 +959,18 @@ export class FrontRepoService {
 						let circle = new Circle
 						frontRepo.array_Circles.push(circle)
 						frontRepo.map_ID_Circle.set(circleAPI.ID, circle)
+					}
+				)
+
+				// init the arrays
+				frontRepo.array_Commands = []
+				frontRepo.map_ID_Command.clear()
+
+				backRepoData.CommandAPIs.forEach(
+					commandAPI => {
+						let command = new Command
+						frontRepo.array_Commands.push(command)
+						frontRepo.map_ID_Command.set(commandAPI.ID, command)
 					}
 				)
 
@@ -1152,6 +1201,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.CommandAPIs.forEach(
+					commandAPI => {
+						let command = frontRepo.map_ID_Command.get(commandAPI.ID)
+						CopyCommandAPIToCommand(commandAPI, command!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.EllipseAPIs.forEach(
 					ellipseAPI => {
 						let ellipse = frontRepo.map_ID_Ellipse.get(ellipseAPI.ID)
@@ -1312,54 +1369,57 @@ export function getAnimateUniqueID(id: number): number {
 export function getCircleUniqueID(id: number): number {
 	return 37 * id
 }
-export function getEllipseUniqueID(id: number): number {
+export function getCommandUniqueID(id: number): number {
 	return 41 * id
 }
-export function getLayerUniqueID(id: number): number {
+export function getEllipseUniqueID(id: number): number {
 	return 43 * id
 }
-export function getLineUniqueID(id: number): number {
+export function getLayerUniqueID(id: number): number {
 	return 47 * id
 }
-export function getLinkUniqueID(id: number): number {
+export function getLineUniqueID(id: number): number {
 	return 53 * id
 }
-export function getLinkAnchoredTextUniqueID(id: number): number {
+export function getLinkUniqueID(id: number): number {
 	return 59 * id
 }
-export function getPathUniqueID(id: number): number {
+export function getLinkAnchoredTextUniqueID(id: number): number {
 	return 61 * id
 }
-export function getPointUniqueID(id: number): number {
+export function getPathUniqueID(id: number): number {
 	return 67 * id
 }
-export function getPolygoneUniqueID(id: number): number {
+export function getPointUniqueID(id: number): number {
 	return 71 * id
 }
-export function getPolylineUniqueID(id: number): number {
+export function getPolygoneUniqueID(id: number): number {
 	return 73 * id
 }
-export function getRectUniqueID(id: number): number {
+export function getPolylineUniqueID(id: number): number {
 	return 79 * id
 }
-export function getRectAnchoredPathUniqueID(id: number): number {
+export function getRectUniqueID(id: number): number {
 	return 83 * id
 }
-export function getRectAnchoredRectUniqueID(id: number): number {
+export function getRectAnchoredPathUniqueID(id: number): number {
 	return 89 * id
 }
-export function getRectAnchoredTextUniqueID(id: number): number {
+export function getRectAnchoredRectUniqueID(id: number): number {
 	return 97 * id
 }
-export function getRectLinkLinkUniqueID(id: number): number {
+export function getRectAnchoredTextUniqueID(id: number): number {
 	return 101 * id
 }
-export function getSVGUniqueID(id: number): number {
+export function getRectLinkLinkUniqueID(id: number): number {
 	return 103 * id
 }
-export function getSvgTextUniqueID(id: number): number {
+export function getSVGUniqueID(id: number): number {
 	return 107 * id
 }
-export function getTextUniqueID(id: number): number {
+export function getSvgTextUniqueID(id: number): number {
 	return 109 * id
+}
+export function getTextUniqueID(id: number): number {
+	return 113 * id
 }

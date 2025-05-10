@@ -37,6 +37,8 @@ func _(stage *models.Stage) {
 	// Setup of values
 
 	__Classdiagram__000000_Default.Name = `Default`
+	__Classdiagram__000000_Default.Description = ``
+	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = false
 	__Classdiagram__000000_Default.IsInRenameMode = false
 	__Classdiagram__000000_Default.IsExpanded = true
 	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true

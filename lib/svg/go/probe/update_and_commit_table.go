@@ -23,6 +23,8 @@ func updateAndCommitTablePointerToGongstruct[T models.PointerToGongstruct](
 		updateAndCommitTable[models.Animate](probe)
 	case *models.Circle:
 		updateAndCommitTable[models.Circle](probe)
+	case *models.Command:
+		updateAndCommitTable[models.Command](probe)
 	case *models.Ellipse:
 		updateAndCommitTable[models.Ellipse](probe)
 	case *models.Layer:

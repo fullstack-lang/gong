@@ -97,6 +97,15 @@ type Stage struct {
 	OnAfterCircleDeleteCallback OnAfterDeleteInterface[Circle]
 	OnAfterCircleReadCallback   OnAfterReadInterface[Circle]
 
+	Commands           map[*Command]any
+	Commands_mapString map[string]*Command
+
+	// insertion point for slice of pointers maps
+	OnAfterCommandCreateCallback OnAfterCreateInterface[Command]
+	OnAfterCommandUpdateCallback OnAfterUpdateInterface[Command]
+	OnAfterCommandDeleteCallback OnAfterDeleteInterface[Command]
+	OnAfterCommandReadCallback   OnAfterReadInterface[Command]
+
 	Ellipses           map[*Ellipse]any
 	Ellipses_mapString map[string]*Ellipse
 
@@ -334,6 +343,9 @@ type Stage struct {
 	CircleOrder            uint
 	CircleMap_Staged_Order map[*Circle]uint
 
+	CommandOrder            uint
+	CommandMap_Staged_Order map[*Command]uint
+
 	EllipseOrder            uint
 	EllipseMap_Staged_Order map[*Ellipse]uint
 
@@ -432,6 +444,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 			res = GetNamedStructInstances(stage.Animates, stage.AnimateMap_Staged_Order)
 		case "Circle":
 			res = GetNamedStructInstances(stage.Circles, stage.CircleMap_Staged_Order)
+		case "Command":
+			res = GetNamedStructInstances(stage.Commands, stage.CommandMap_Staged_Order)
 		case "Ellipse":
 			res = GetNamedStructInstances(stage.Ellipses, stage.EllipseMap_Staged_Order)
 		case "Layer":
@@ -540,6 +554,8 @@ type BackRepoInterface interface {
 	CheckoutAnimate(animate *Animate)
 	CommitCircle(circle *Circle)
 	CheckoutCircle(circle *Circle)
+	CommitCommand(command *Command)
+	CheckoutCommand(command *Command)
 	CommitEllipse(ellipse *Ellipse)
 	CheckoutEllipse(ellipse *Ellipse)
 	CommitLayer(layer *Layer)
@@ -586,6 +602,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Circles:           make(map[*Circle]any),
 		Circles_mapString: make(map[string]*Circle),
+
+		Commands:           make(map[*Command]any),
+		Commands_mapString: make(map[string]*Command),
 
 		Ellipses:           make(map[*Ellipse]any),
 		Ellipses_mapString: make(map[string]*Ellipse),
@@ -652,6 +671,8 @@ func NewStage(name string) (stage *Stage) {
 
 		CircleMap_Staged_Order: make(map[*Circle]uint),
 
+		CommandMap_Staged_Order: make(map[*Command]uint),
+
 		EllipseMap_Staged_Order: make(map[*Ellipse]uint),
 
 		LayerMap_Staged_Order: make(map[*Layer]uint),
@@ -691,6 +712,7 @@ func NewStage(name string) (stage *Stage) {
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "Animate"},
 			{name: "Circle"},
+			{name: "Command"},
 			{name: "Ellipse"},
 			{name: "Layer"},
 			{name: "Line"},
@@ -722,6 +744,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.AnimateMap_Staged_Order[instance]
 	case *Circle:
 		return stage.CircleMap_Staged_Order[instance]
+	case *Command:
+		return stage.CommandMap_Staged_Order[instance]
 	case *Ellipse:
 		return stage.EllipseMap_Staged_Order[instance]
 	case *Layer:
@@ -783,6 +807,7 @@ func (stage *Stage) Commit() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Animate"] = len(stage.Animates)
 	stage.Map_GongStructName_InstancesNb["Circle"] = len(stage.Circles)
+	stage.Map_GongStructName_InstancesNb["Command"] = len(stage.Commands)
 	stage.Map_GongStructName_InstancesNb["Ellipse"] = len(stage.Ellipses)
 	stage.Map_GongStructName_InstancesNb["Layer"] = len(stage.Layers)
 	stage.Map_GongStructName_InstancesNb["Line"] = len(stage.Lines)
@@ -812,6 +837,7 @@ func (stage *Stage) Checkout() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Animate"] = len(stage.Animates)
 	stage.Map_GongStructName_InstancesNb["Circle"] = len(stage.Circles)
+	stage.Map_GongStructName_InstancesNb["Command"] = len(stage.Commands)
 	stage.Map_GongStructName_InstancesNb["Ellipse"] = len(stage.Ellipses)
 	stage.Map_GongStructName_InstancesNb["Layer"] = len(stage.Layers)
 	stage.Map_GongStructName_InstancesNb["Line"] = len(stage.Lines)
@@ -969,6 +995,61 @@ func (circle *Circle) Checkout(stage *Stage) *Circle {
 // for satisfaction of GongStruct interface
 func (circle *Circle) GetName() (res string) {
 	return circle.Name
+}
+
+// Stage puts command to the model stage
+func (command *Command) Stage(stage *Stage) *Command {
+
+	if _, ok := stage.Commands[command]; !ok {
+		stage.Commands[command] = __member
+		stage.CommandMap_Staged_Order[command] = stage.CommandOrder
+		stage.CommandOrder++
+	}
+	stage.Commands_mapString[command.Name] = command
+
+	return command
+}
+
+// Unstage removes command off the model stage
+func (command *Command) Unstage(stage *Stage) *Command {
+	delete(stage.Commands, command)
+	delete(stage.Commands_mapString, command.Name)
+	return command
+}
+
+// UnstageVoid removes command off the model stage
+func (command *Command) UnstageVoid(stage *Stage) {
+	delete(stage.Commands, command)
+	delete(stage.Commands_mapString, command.Name)
+}
+
+// commit command to the back repo (if it is already staged)
+func (command *Command) Commit(stage *Stage) *Command {
+	if _, ok := stage.Commands[command]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitCommand(command)
+		}
+	}
+	return command
+}
+
+func (command *Command) CommitVoid(stage *Stage) {
+	command.Commit(stage)
+}
+
+// Checkout command to the back repo (if it is already staged)
+func (command *Command) Checkout(stage *Stage) *Command {
+	if _, ok := stage.Commands[command]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutCommand(command)
+		}
+	}
+	return command
+}
+
+// for satisfaction of GongStruct interface
+func (command *Command) GetName() (res string) {
+	return command.Name
 }
 
 // Stage puts ellipse to the model stage
@@ -1910,6 +1991,7 @@ func (text *Text) GetName() (res string) {
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAnimate(Animate *Animate)
 	CreateORMCircle(Circle *Circle)
+	CreateORMCommand(Command *Command)
 	CreateORMEllipse(Ellipse *Ellipse)
 	CreateORMLayer(Layer *Layer)
 	CreateORMLine(Line *Line)
@@ -1932,6 +2014,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMAnimate(Animate *Animate)
 	DeleteORMCircle(Circle *Circle)
+	DeleteORMCommand(Command *Command)
 	DeleteORMEllipse(Ellipse *Ellipse)
 	DeleteORMLayer(Layer *Layer)
 	DeleteORMLine(Line *Line)
@@ -1961,6 +2044,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Circles_mapString = make(map[string]*Circle)
 	stage.CircleMap_Staged_Order = make(map[*Circle]uint)
 	stage.CircleOrder = 0
+
+	stage.Commands = make(map[*Command]any)
+	stage.Commands_mapString = make(map[string]*Command)
+	stage.CommandMap_Staged_Order = make(map[*Command]uint)
+	stage.CommandOrder = 0
 
 	stage.Ellipses = make(map[*Ellipse]any)
 	stage.Ellipses_mapString = make(map[string]*Ellipse)
@@ -2056,6 +2144,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Circles = nil
 	stage.Circles_mapString = nil
 
+	stage.Commands = nil
+	stage.Commands_mapString = nil
+
 	stage.Ellipses = nil
 	stage.Ellipses_mapString = nil
 
@@ -2116,6 +2207,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for circle := range stage.Circles {
 		circle.Unstage(stage)
+	}
+
+	for command := range stage.Commands {
+		command.Unstage(stage)
 	}
 
 	for ellipse := range stage.Ellipses {
@@ -2251,6 +2346,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Animates).(*Type)
 	case map[*Circle]any:
 		return any(&stage.Circles).(*Type)
+	case map[*Command]any:
+		return any(&stage.Commands).(*Type)
 	case map[*Ellipse]any:
 		return any(&stage.Ellipses).(*Type)
 	case map[*Layer]any:
@@ -2301,6 +2398,8 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 		return any(&stage.Animates_mapString).(*Type)
 	case map[string]*Circle:
 		return any(&stage.Circles_mapString).(*Type)
+	case map[string]*Command:
+		return any(&stage.Commands_mapString).(*Type)
 	case map[string]*Ellipse:
 		return any(&stage.Ellipses_mapString).(*Type)
 	case map[string]*Layer:
@@ -2351,6 +2450,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 		return any(&stage.Animates).(*map[*Type]any)
 	case Circle:
 		return any(&stage.Circles).(*map[*Type]any)
+	case Command:
+		return any(&stage.Commands).(*map[*Type]any)
 	case Ellipse:
 		return any(&stage.Ellipses).(*map[*Type]any)
 	case Layer:
@@ -2401,6 +2502,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Animates).(*map[Type]any)
 	case *Circle:
 		return any(&stage.Circles).(*map[Type]any)
+	case *Command:
+		return any(&stage.Commands).(*map[Type]any)
 	case *Ellipse:
 		return any(&stage.Ellipses).(*map[Type]any)
 	case *Layer:
@@ -2451,6 +2554,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Animates_mapString).(*map[string]*Type)
 	case Circle:
 		return any(&stage.Circles_mapString).(*map[string]*Type)
+	case Command:
+		return any(&stage.Commands_mapString).(*map[string]*Type)
 	case Ellipse:
 		return any(&stage.Ellipses_mapString).(*map[string]*Type)
 	case Layer:
@@ -2508,6 +2613,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Animate with the name of the field
 			Animations: []*Animate{{Name: "Animations"}},
+		}).(*Type)
+	case Command:
+		return any(&Command{
+			// Initialisation of associations
 		}).(*Type)
 	case Ellipse:
 		return any(&Ellipse{
@@ -2666,6 +2775,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of Circle
 	case Circle:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Command
+	case Command:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -2889,6 +3003,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End]*Start)
+		}
+	// reverse maps of direct associations of Command
+	case Command:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Ellipse
 	case Ellipse:
@@ -3199,6 +3318,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "Animate"
 	case Circle:
 		res = "Circle"
+	case Command:
+		res = "Command"
 	case Ellipse:
 		res = "Ellipse"
 	case Layer:
@@ -3249,6 +3370,8 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "Animate"
 	case *Circle:
 		res = "Circle"
+	case *Command:
+		res = "Command"
 	case *Ellipse:
 		res = "Ellipse"
 	case *Layer:
@@ -3298,6 +3421,8 @@ func GetFields[Type Gongstruct]() (res []string) {
 		res = []string{"Name", "AttributeName", "Values", "From", "To", "Dur", "RepeatCount"}
 	case Circle:
 		res = []string{"Name", "CX", "CY", "Radius", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations"}
+	case Command:
+		res = []string{"Name", "CommandType"}
 	case Ellipse:
 		res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Layer:
@@ -3389,6 +3514,9 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		rf.GongstructName = "Layer"
 		rf.Fieldname = "Circles"
 		res = append(res, rf)
+	case Command:
+		var rf ReverseField
+		_ = rf
 	case Ellipse:
 		var rf ReverseField
 		_ = rf
@@ -3503,6 +3631,8 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 		res = []string{"Name", "AttributeName", "Values", "From", "To", "Dur", "RepeatCount"}
 	case *Circle:
 		res = []string{"Name", "CX", "CY", "Radius", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations"}
+	case *Command:
+		res = []string{"Name", "CommandType"}
 	case *Ellipse:
 		res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case *Layer:
@@ -3642,6 +3772,15 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 				}
 				res.valueString += __instance__.Name
 			}
+		}
+	case *Command:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "CommandType":
+			enum := inferedInstance.CommandType
+			res.valueString = enum.ToCodeString()
 		}
 	case *Ellipse:
 		switch fieldName {
@@ -4626,6 +4765,15 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 				}
 				res.valueString += __instance__.Name
 			}
+		}
+	case Command:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "CommandType":
+			enum := inferedInstance.CommandType
+			res.valueString = enum.ToCodeString()
 		}
 	case Ellipse:
 		switch fieldName {

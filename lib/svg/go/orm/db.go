@@ -28,6 +28,10 @@ type DBLite struct {
 
 	nextIDCircleDB uint
 
+	commandDBs map[uint]*CommandDB
+
+	nextIDCommandDB uint
+
 	ellipseDBs map[uint]*EllipseDB
 
 	nextIDEllipseDB uint
@@ -106,6 +110,8 @@ func NewDBLite() *DBLite {
 
 		circleDBs: make(map[uint]*CircleDB),
 
+		commandDBs: make(map[uint]*CommandDB),
+
 		ellipseDBs: make(map[uint]*EllipseDB),
 
 		layerDBs: make(map[uint]*LayerDB),
@@ -161,6 +167,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDCircleDB++
 		v.ID = db.nextIDCircleDB
 		db.circleDBs[v.ID] = v
+	case *CommandDB:
+		db.nextIDCommandDB++
+		v.ID = db.nextIDCommandDB
+		db.commandDBs[v.ID] = v
 	case *EllipseDB:
 		db.nextIDEllipseDB++
 		v.ID = db.nextIDEllipseDB
@@ -261,6 +271,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.animateDBs, v.ID)
 	case *CircleDB:
 		delete(db.circleDBs, v.ID)
+	case *CommandDB:
+		delete(db.commandDBs, v.ID)
 	case *EllipseDB:
 		delete(db.ellipseDBs, v.ID)
 	case *LayerDB:
@@ -318,6 +330,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *CircleDB:
 		db.circleDBs[v.ID] = v
+		return db, nil
+	case *CommandDB:
+		db.commandDBs[v.ID] = v
 		return db, nil
 	case *EllipseDB:
 		db.ellipseDBs[v.ID] = v
@@ -397,6 +412,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Circle github.com/fullstack-lang/gong/lib/svg/go, record not found")
+		}
+	case *CommandDB:
+		if existing, ok := db.commandDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Command github.com/fullstack-lang/gong/lib/svg/go, record not found")
 		}
 	case *EllipseDB:
 		if existing, ok := db.ellipseDBs[v.ID]; ok {
@@ -523,6 +544,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]CircleDB:
 		*ptr = make([]CircleDB, 0, len(db.circleDBs))
 		for _, v := range db.circleDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]CommandDB:
+		*ptr = make([]CommandDB, 0, len(db.commandDBs))
+		for _, v := range db.commandDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -680,6 +707,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		circleDB, _ := instanceDB.(*CircleDB)
 		*circleDB = *tmp
+		
+	case *CommandDB:
+		tmp, ok := db.commandDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Command Unkown entry %d", i))
+		}
+
+		commandDB, _ := instanceDB.(*CommandDB)
+		*commandDB = *tmp
 		
 	case *EllipseDB:
 		tmp, ok := db.ellipseDBs[uint(i)]

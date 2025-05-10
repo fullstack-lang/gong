@@ -61,6 +61,18 @@ func (from *Circle) CopyBasicFields(to *Circle) {
 	to.Transform = from.Transform
 }
 
+type Command_WOP struct {
+	// insertion point
+	Name string
+	CommandType CommandType
+}
+
+func (from *Command) CopyBasicFields(to *Command) {
+	// insertion point
+	to.Name = from.Name
+	to.CommandType = from.CommandType
+}
+
 type Ellipse_WOP struct {
 	// insertion point
 	Name string

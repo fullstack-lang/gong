@@ -304,6 +304,12 @@ func FillUpForm(
 			}
 		}
 
+	case *models.Command:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		EnumTypeStringToForm("CommandType", instanceWithInferedType.CommandType, instanceWithInferedType, probe.formStage, formGroup)
+
 	case *models.Ellipse:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
