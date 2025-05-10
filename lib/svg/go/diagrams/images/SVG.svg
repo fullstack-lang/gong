@@ -8,15 +8,58 @@
     </marker>
   </defs>
   <rect x="440" y="592" width="565" height="266.999985" rx="5" ry="5" fill="bisque" fill-opacity="50" stroke="lightcoral" stroke-width="3" />
-  <path d="M 739.999969 95.847542 L 281.00002399999994 95.847542 L 261.00002399999994 115.847542 L 261.00002399999994 487.109332 L 281.00002399999994 507.109332 L 807 507.109332" fill="none" stroke="red" stroke-width="5" stroke-opacity="0.7" marker-start="url(#arrowheadstart)" marker-end="url(#arrowheadend)" />
+  <path d="M 739.999969 162.5 L 281.00002399999994 95.847542 L 261.00002399999994 115.847542 L 261.00002399999994 487.109332 L 281.00002399999994 507.109332 L 807 507.109332" fill="none" stroke="red" stroke-width="5" stroke-opacity="0.7" marker-start="url(#arrowheadstart)" marker-end="url(#arrowheadend)" />
+  <text x="739.999969" y="162.5" fill="black" fill-opacity="0" stroke="black">Start Left/Top</text>
+  <text x="739.999969" y="162.5" fill="black" stroke="black">Start Right/Bottom</text>
+  <text x="807" y="527.109332" fill="black" stroke="black">End Right/Bottom</text>
+  <text x="767" y="507.109332" fill="blue" fill-opacity="0" stroke="blue">End Left/Top</text>
   <line x1="374" y1="258" x2="555.999969" y2="523" fill="none" stroke="olivedrab" stroke-width="4" />
-  <path d="M 751.999969 219.431192 L 161.99997499999998 219.431192 L 153.99997499999998 227.431192 L 153.99997499999998 760.126273105265 L 161.99997499999998 768.126273105265 L 997 768.126273105265" fill="none" stroke="green" stroke-width="4" marker-end="url(#arrowheadend)" />
-  <path d="M 622.9999859999999 44 L 622.9999859999999 328.751945 L 742 328.751945 L 742 576" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrowheadend)" />
+  <path d="M 751.999969 162.5 L 161.99997499999998 219.431192 L 153.99997499999998 227.431192 L 153.99997499999998 760.126273105265 L 161.99997499999998 768.126273105265 L 997 768.126273105265" fill="none" stroke="green" stroke-width="4" marker-end="url(#arrowheadend)" />
+  <text x="622.9999379999999" y="199.51251200000002" fill="cyan" fill-opacity="100" stroke="cyan">Start Anchored 1</text>
+  <path d="M 641.499969 281 L 622.9999859999999 328.751945 L 742 328.751945 L 742 444" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrowheadend)" />
+  <text x="742" y="444" fill="blue" stroke="blue">varylongverylongnamexxxxxxxxxxxx</text>
+  <text x="742" y="444" fill="blue" stroke="blue">Right to the end anchored text</text>
   <rect x="627" y="444" width="200" height="132" rx="3" ry="3" fill="lavender" fill-opacity="50" stroke="turquoise" />
   <rect x="1086" y="33" width="130" height="401" rx="0" ry="0" stroke="black" />
   <rect x="1663" y="539" width="140" height="384" rx="0" ry="0" stroke="black" />
-  <path d="M 1723.99996 923 L 1723.99996 466.500032 L 1138.99996 466.500032 L 1138.99996 33" fill="none" stroke="black" marker-end="url(#arrowheadend)" />
-  <path d="M 1216 281.842956 L 894.00001 281.842956 L 894.00001 765.502016 L 1803 765.502016" fill="none" stroke="black" marker-end="url(#arrowheadend)" />
-  <path d="M 1086 136.002063 L 2021.00004 136.002063 L 2021.00004 597.887552 L 1663 597.887552" fill="none" stroke="black" marker-end="url(#arrowheadend)" />
+  <path d="M 1733 539 L 1723.99996 466.500032 L 1138.99996 466.500032 L 1138.99996 434" fill="none" stroke="black" marker-end="url(#arrowheadend)" />
+  <text x="1733" y="539" fill="black" stroke="black">LEFT_OR_TOP
+LEFT_OR_TOP
+LEFT_OR_TOP
+</text>
+  <text x="1733" y="539" fill="black" stroke="black">RIGHT_OR_BOTTOM
+RIGHT_OR_BOTTOM</text>
+  <text x="1138.99996" y="434" fill="black" stroke="black">LEFT_OR_TOP
+LEFT_OR_TOP
+LEFT_OR_TOP
+</text>
+  <text x="1138.99996" y="434" fill="black" stroke="black">RIGHT_OR_BOTTOM
+RIGHT_OR_BOTTOM</text>
+  <path d="M 1216 233.5 L 894.00001 281.842956 L 894.00001 765.502016 L 1663 765.502016" fill="none" stroke="black" marker-end="url(#arrowheadend)" />
+  <text x="1216" y="233.5" fill="black" stroke="black">LEFT_OR_TOP
+LEFT_OR_TOP
+LEFT_OR_TOP
+</text>
+  <text x="1216" y="233.5" fill="black" stroke="black">RIGHT_OR_BOTTOM
+RIGHT_OR_BOTTOM</text>
+  <text x="1663" y="765.502016" fill="black" stroke="black">LEFT_OR_TOP
+LEFT_OR_TOP
+LEFT_OR_TOP
+</text>
+  <text x="1663" y="765.502016" fill="black" stroke="black">RIGHT_OR_BOTTOM
+RIGHT_OR_BOTTOM</text>
+  <path d="M 1216 233.5 L 2021.00004 136.002063 L 2021.00004 597.887552 L 1663 597.887552" fill="none" stroke="black" marker-end="url(#arrowheadend)" />
+  <text x="1216" y="233.5" fill="black" stroke="black">LEFT_OR_TOP
+LEFT_OR_TOP
+LEFT_OR_TOP
+</text>
+  <text x="1216" y="233.5" fill="black" stroke="black">RIGHT_OR_BOTTOM
+RIGHT_OR_BOTTOM</text>
+  <text x="1663" y="597.887552" fill="black" stroke="black">LEFT_OR_TOP
+LEFT_OR_TOP
+LEFT_OR_TOP
+</text>
+  <text x="1663" y="597.887552" fill="black" stroke="black">RIGHT_OR_BOTTOM
+RIGHT_OR_BOTTOM</text>
   <rect x="522.999969" y="44" width="237" height="237" rx="3" ry="3" fill="lightcyan" fill-opacity="100" stroke="darkcyan" stroke-width="2" />
 </svg>
