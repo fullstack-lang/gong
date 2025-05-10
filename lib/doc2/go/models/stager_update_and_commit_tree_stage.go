@@ -61,13 +61,18 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			selected = true
 		}
 		nodeClassdiagram := &tree.Node{
-			Name:                classDiagram.Name,
-			HasCheckboxButton:   true,
+			Name: classDiagram.Name,
+
 			IsChecked:           selected,
 			CheckboxHasToolTip:  true,
 			CheckboxToolTipText: "Select this diagram for display",
-			IsExpanded:          classDiagram.IsExpanded,
-			IsInEditMode:        classDiagram.IsInRenameMode,
+
+			IsExpanded: classDiagram.IsExpanded,
+
+			IsInEditMode: classDiagram.IsInRenameMode,
+
+			HasCheckboxButton:       true,
+			IsSecondCheckboxChecked: classDiagram.IsIncludedInStaticWebSite,
 		}
 		nodeClassdiagram.Impl = &ClassDiagramNodeProxy{
 			node:         nodeClassdiagram,
