@@ -1,41 +1,38 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-  <defs>
-    <marker id="arrowheadend" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto" fill="black">
-      <polygon points="0 0, 10 3.5, 0 7" />
-    </marker>
-    <marker id="arrowheadstart" markerWidth="10" markerHeight="7" refX="1" refY="3.5" orient="auto" fill="black">
-      <polygon points="10 0, 0 3.5, 10 7" />
-    </marker>
-  </defs>
   <rect x="440" y="592" width="565" height="266.999985" rx="5" ry="5" fill="bisque" fill-opacity="50" stroke="lightcoral" stroke-width="3" />
-  <path d="M 522.999969 95.847542 L 281.00002399999994 95.847542 L 261.00002399999994 487.109332 L 627 507.109332" fill="none" stroke="red" stroke-width="5" stroke-opacity="0.7" marker-start="url(#arrowheadstart)" marker-end="url(#arrowheadend)" />
-  <text x="522.999969" y="95.847542" text-anchor="middle" dominant-baseline="middle" fill="black" fill-opacity="0" stroke="black">Start Left/Top</text>
-  <text x="522.999969" y="95.847542" text-anchor="middle" dominant-baseline="middle" fill="black" stroke="black">Start Right/Bottom</text>
-  <text x="627" y="527.109332" text-anchor="middle" dominant-baseline="middle" fill="black" stroke="black">End Right/Bottom</text>
-  <text x="587" y="507.109332" text-anchor="middle" dominant-baseline="middle" fill="blue" fill-opacity="0" stroke="blue">End Left/Top</text>
+  <path d="M 502.99996899999996 95.847542 L 281.00002399999994 95.847542 L 261.00002399999994 487.109332 L 607 507.109332" fill="none" stroke="red" stroke-width="5" stroke-opacity="0.7" />
+  <path d="M 504.76773595249995 97.6153089525 L 492.99996899999996 85.847542 M 504.76773595249995 94.07977504750001 L 492.99996899999996 105.847542" fill="none" stroke="red" stroke-width="5" stroke-opacity="0.7" />
+  <path d="M 608.7677669525 508.8770989525 L 597 497.109332 M 608.7677669525 505.3415650475 L 597 517.109332" fill="none" stroke="red" stroke-width="5" stroke-opacity="0.7" />
+  <text x="502.99996899999996" y="95.847542" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="black" fill-opacity="0" stroke="black">Start Left/Top</text>
+  <text x="502.99996899999996" y="95.847542" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="black" stroke="black">Start Right/Bottom</text>
+  <text x="607" y="527.109332" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="black" stroke="black">End Right/Bottom</text>
+  <text x="567" y="507.109332" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="blue" fill-opacity="0" stroke="blue">End Left/Top</text>
   <line x1="374" y1="258" x2="555.999969" y2="523" fill="none" stroke="olivedrab" stroke-width="4" />
-  <path d="M 522.999969 219.431192 L 161.99997499999998 219.431192 L 153.99997499999998 760.126273105265 L 440 768.126273105265" fill="none" stroke="green" stroke-width="4" marker-end="url(#arrowheadend)" />
-  <text x="393.99993799999993" y="256.443704" text-anchor="middle" dominant-baseline="middle" fill="cyan" fill-opacity="100" stroke="cyan">Start Anchored 1</text>
-  <path d="M 622.9999859999999 281 L 622.9999859999999 328.751945 L 742 328.751945 L 742 444" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrowheadend)" />
-  <text x="742" y="444" text-anchor="middle" dominant-baseline="middle" fill="blue" stroke="blue">varylongverylongnamexxxxxxxxxxxx</text>
-  <text x="742" y="444" text-anchor="middle" dominant-baseline="middle" fill="blue" stroke="blue">Right to the end anchored text</text>
+  <path d="M 514.999969 219.431192 L 161.99997499999998 219.431192 L 153.99997499999998 760.126273105265 L 432 768.126273105265" fill="none" stroke="green" stroke-width="4" />
+  <path d="M 433.414213562 769.540486667265 L 422 758.126273105265 M 433.414213562 766.712059543265 L 422 778.126273105265" fill="none" stroke="green" stroke-width="4" />
+  <text x="385.99993799999993" y="256.443704" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="cyan" fill-opacity="100" stroke="cyan">Start Anchored 1</text>
+  <path d="M 622.9999859999999 281 L 622.9999859999999 328.751945 L 742 328.751945 L 742 444" fill="none" stroke="black" stroke-width="2" />
+  <path d="M 742.707106781 444.707106781 L 731 433 M 741.292893219 444.707106781 L 753 433" fill="none" stroke="black" stroke-width="2" />
   <rect x="627" y="444" width="200" height="132" rx="3" ry="3" fill="lavender" fill-opacity="50" stroke="turquoise" />
   <rect x="1086" y="33" width="130" height="401" rx="0" ry="0" stroke="black" />
   <rect x="1663" y="539" width="140" height="384" rx="0" ry="0" stroke="black" />
-  <path d="M 1723.99996 539 L 1723.99996 466.500032 L 1138.99996 466.500032 L 1138.99996 434" fill="none" stroke="black" marker-end="url(#arrowheadend)" />
-  <text x="1723.99996" y="539" text-anchor="middle" dominant-baseline="middle" fill="black" stroke="black">LEFT_OR_TOP</text>
-  <text x="1723.99996" y="539" text-anchor="middle" dominant-baseline="middle" fill="black" stroke="black">RIGHT_OR_BOTTOM</text>
-  <text x="1138.99996" y="434" text-anchor="middle" dominant-baseline="middle" fill="black" stroke="black">LEFT_OR_TOP</text>
-  <text x="1138.99996" y="434" text-anchor="middle" dominant-baseline="middle" fill="black" stroke="black">RIGHT_OR_BOTTOM</text>
-  <path d="M 1086 281.842956 L 894.00001 281.842956 L 894.00001 765.502016 L 1663 765.502016" fill="none" stroke="black" marker-end="url(#arrowheadend)" />
-  <text x="1086" y="281.842956" text-anchor="middle" dominant-baseline="middle" fill="black" stroke="black">LEFT_OR_TOP</text>
-  <text x="1086" y="281.842956" text-anchor="middle" dominant-baseline="middle" fill="black" stroke="black">RIGHT_OR_BOTTOM</text>
-  <text x="1663" y="765.502016" text-anchor="middle" dominant-baseline="middle" fill="black" stroke="black">LEFT_OR_TOP</text>
-  <text x="1663" y="765.502016" text-anchor="middle" dominant-baseline="middle" fill="black" stroke="black">RIGHT_OR_BOTTOM</text>
-  <path d="M 1216 136.002063 L 2021.00004 136.002063 L 2021.00004 597.887552 L 1803 597.887552" fill="none" stroke="black" marker-end="url(#arrowheadend)" />
-  <text x="1216" y="136.002063" text-anchor="middle" dominant-baseline="middle" fill="black" stroke="black">LEFT_OR_TOP</text>
-  <text x="1216" y="136.002063" text-anchor="middle" dominant-baseline="middle" fill="black" stroke="black">RIGHT_OR_BOTTOM</text>
-  <text x="1803" y="597.887552" text-anchor="middle" dominant-baseline="middle" fill="black" stroke="black">LEFT_OR_TOP</text>
-  <text x="1803" y="597.887552" text-anchor="middle" dominant-baseline="middle" fill="black" stroke="black">RIGHT_OR_BOTTOM</text>
+  <path d="M 1723.99996 539 L 1723.99996 466.500032 L 1138.99996 466.500032 L 1138.99996 434" fill="none" stroke="black" />
+  <path d="M 1138.6464066095 433.6464466095 L 1143.99996 439 M 1139.3535133905002 433.6464466095 L 1133.99996 439" fill="none" stroke="black" />
+  <text x="1723.99996" y="539" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="black" stroke="black">LEFT_OR_TOP</text>
+  <text x="1723.99996" y="539" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="black" stroke="black">RIGHT_OR_BOTTOM</text>
+  <text x="1138.99996" y="434" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="black" stroke="black">LEFT_OR_TOP</text>
+  <text x="1138.99996" y="434" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="black" stroke="black">RIGHT_OR_BOTTOM</text>
+  <path d="M 1086 281.842956 L 894.00001 281.842956 L 894.00001 765.502016 L 1663 765.502016" fill="none" stroke="black" />
+  <path d="M 1663.3535533905 765.8555693905 L 1658 760.502016 M 1663.3535533905 765.1484626095 L 1658 770.502016" fill="none" stroke="black" />
+  <text x="1086" y="281.842956" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="black" stroke="black">LEFT_OR_TOP</text>
+  <text x="1086" y="281.842956" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="black" stroke="black">RIGHT_OR_BOTTOM</text>
+  <text x="1663" y="765.502016" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="black" stroke="black">LEFT_OR_TOP</text>
+  <text x="1663" y="765.502016" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="black" stroke="black">RIGHT_OR_BOTTOM</text>
+  <path d="M 1216 136.002063 L 2021.00004 136.002063 L 2021.00004 597.887552 L 1803 597.887552" fill="none" stroke="black" />
+  <path d="M 1802.6464466095 598.2411053905 L 1808 592.887552 M 1802.6464466095 597.5339986095 L 1808 602.887552" fill="none" stroke="black" />
+  <text x="1216" y="136.002063" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="black" stroke="black">LEFT_OR_TOP</text>
+  <text x="1216" y="136.002063" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="black" stroke="black">RIGHT_OR_BOTTOM</text>
+  <text x="1803" y="597.887552" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="black" stroke="black">LEFT_OR_TOP</text>
+  <text x="1803" y="597.887552" text-anchor="middle" dominant-baseline="middle" font-size="10px" fill="black" stroke="black">RIGHT_OR_BOTTOM</text>
   <rect x="522.999969" y="44" width="237" height="237" rx="3" ry="3" fill="lightcyan" fill-opacity="100" stroke="darkcyan" stroke-width="2" />
 </svg>
