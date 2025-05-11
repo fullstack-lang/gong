@@ -1,6 +1,10 @@
 package models
 
-import "math"
+import (
+	"fmt"
+	"math"
+	"strings"
+)
 
 type Link struct {
 	Name string
@@ -123,4 +127,54 @@ func (link *Link) generateSegments() []Segment {
 		segments = append(segments, s1, s2, s3)
 	}
 	return segments
+}
+
+func (link *Link) WriteSVGEndArrow(sb *strings.Builder, segment *Segment) {
+	const ratio = 0.707106781 / 2 // (1/sqrt(2)) / 2
+
+	arrowSize := link.EndArrowSize
+
+	firstStartX := segment.EndPointWithoutRadius.X
+	firstStartY := segment.EndPointWithoutRadius.Y
+
+	secondStartX := segment.EndPointWithoutRadius.X
+	secondStartY := segment.EndPointWithoutRadius.Y
+
+	firstTipX := segment.EndPointWithoutRadius.X
+	firstTipY := segment.EndPointWithoutRadius.Y
+	secondTipX := segment.EndPointWithoutRadius.X
+	secondTipY := segment.EndPointWithoutRadius.Y
+
+	// Calculate first tip and start points
+	dx, dy := rotateToSegmentDirection(segment, -arrowSize, -arrowSize)
+	firstTipX += dx
+	firstTipY += dy
+
+	dx, dy = rotateToSegmentDirection(segment, link.StrokeWidth*ratio, link.StrokeWidth*ratio)
+	firstStartX += dx
+	firstStartY += dy
+
+	// Calculate second tip and start points
+	dx, dy = rotateToSegmentDirection(segment, -arrowSize, arrowSize)
+	secondTipX += dx
+	secondTipY += dy
+
+	dx, dy = rotateToSegmentDirection(segment, link.StrokeWidth*ratio, -link.StrokeWidth*ratio)
+	secondStartX += dx
+	secondStartY += dy
+
+	sb.WriteString(fmt.Sprintf("		<path d=\"M %f %f L %f %f M %f %f L %f %f\"",
+		firstStartX,
+		firstStartY,
+		firstTipX,
+		firstTipY,
+
+		secondStartX,
+		secondStartY,
+		secondTipX,
+		secondTipY))
+
+	link.Presentation.WriteSVG(sb)
+	sb.WriteString(" />\n")
+
 }
