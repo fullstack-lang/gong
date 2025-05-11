@@ -54,11 +54,6 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 				maxX_, maxY_ := segment.WriteSVG(&sb, link)
 				updateMaxx(maxX_, maxY_, &maxX, &maxY)
 
-				// draw arcs between segment
-				if idx < len(segments)-1 {
-					link.WriteSVGArcPath(&sb, &segment, &segments[idx+1])
-				}
-
 				// draw the end arrow
 				if segment.Type == EndSegment && link.HasEndArrow {
 					link.WriteSVGEndArrow(&sb, &segment)
@@ -66,10 +61,21 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 
 				// draw the start arrow (yes, that's strange, why start and end ?)
 				if segment.Type == StartSegment && link.HasStartArrow {
-					segment = swapSegment(segment)
-					link.WriteSVGEndArrow(&sb, &segment)
+					swapedSegment := swapSegment(segment)
+					link.WriteSVGEndArrow(&sb, &swapedSegment)
 				}
 
+				// draw arcs between segment
+				if idx < len(segments)-1 {
+					link.WriteSVGArcPath(&sb, &segment, &segments[idx+1])
+				}
+
+				// draw the text at the end of the link
+				if segment.Type == EndSegment {
+					for _, linkAnchoredText := range link.TextAtArrowEnd {
+						linkAnchoredText.WriteSVG(&sb, link, &segment)
+					}
+				}
 			}
 
 			_ = segments

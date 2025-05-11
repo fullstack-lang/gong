@@ -189,11 +189,11 @@ func _(stage *models.Stage) {
 	__Link__000003_Auto_1.Name = `Auto 1`
 	__Link__000003_Auto_1.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000003_Auto_1.IsBezierCurve = false
-	__Link__000003_Auto_1.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000003_Auto_1.StartRatio = 0.256863
-	__Link__000003_Auto_1.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000003_Auto_1.EndRatio = 0.153353
-	__Link__000003_Auto_1.CornerOffsetRatio = 6.614872
+	__Link__000003_Auto_1.StartOrientation = models.ORIENTATION_VERTICAL
+	__Link__000003_Auto_1.StartRatio = 0.648333
+	__Link__000003_Auto_1.EndOrientation = models.ORIENTATION_VERTICAL
+	__Link__000003_Auto_1.EndRatio = 0.105194
+	__Link__000003_Auto_1.CornerOffsetRatio = 1.342271
 	__Link__000003_Auto_1.CornerRadius = 20.000000
 	__Link__000003_Auto_1.HasEndArrow = true
 	__Link__000003_Auto_1.EndArrowSize = 15.000000
@@ -212,10 +212,10 @@ func _(stage *models.Stage) {
 	__Link__000004_Auto_2.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000004_Auto_2.IsBezierCurve = false
 	__Link__000004_Auto_2.StartOrientation = models.ORIENTATION_VERTICAL
-	__Link__000004_Auto_2.StartRatio = 0.435714
-	__Link__000004_Auto_2.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000004_Auto_2.EndRatio = 0.407692
-	__Link__000004_Auto_2.CornerOffsetRatio = -0.330653
+	__Link__000004_Auto_2.StartRatio = 0.917160
+	__Link__000004_Auto_2.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000004_Auto_2.EndRatio = 0.211931
+	__Link__000004_Auto_2.CornerOffsetRatio = -2.831685
 	__Link__000004_Auto_2.CornerRadius = 40.000000
 	__Link__000004_Auto_2.HasEndArrow = true
 	__Link__000004_Auto_2.EndArrowSize = 15.000000
@@ -526,8 +526,8 @@ Line 2`
 	__Rect__000002_Top_Rect.CanMoveVerticaly = true
 
 	__Rect__000003_Start.Name = `Start`
-	__Rect__000003_Start.X = 929.333333
-	__Rect__000003_Start.Y = 29.333333
+	__Rect__000003_Start.X = 908.333333
+	__Rect__000003_Start.Y = 91.333348
 	__Rect__000003_Start.Width = 200.000000
 	__Rect__000003_Start.Height = 238.571429
 	__Rect__000003_Start.RX = 20.000000
@@ -554,9 +554,9 @@ Line 2`
 	__Rect__000003_Start.CanMoveVerticaly = true
 
 	__Rect__000004_End.Name = `End`
-	__Rect__000004_End.X = 1750.769231
+	__Rect__000004_End.X = 1422.769231
 	__Rect__000004_End.Y = 476.256410
-	__Rect__000004_End.Width = 140.000000
+	__Rect__000004_End.Width = 468.000000
 	__Rect__000004_End.Height = 384.000000
 	__Rect__000004_End.RX = 20.000000
 	__Rect__000004_End.Color = ``
