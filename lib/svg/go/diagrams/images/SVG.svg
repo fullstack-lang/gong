@@ -1,46 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-<style>text { font-family: Roboto, Arial, sans-serif !important; }</style>  <rect x="400" y="581" width="584" height="266.999985" rx="5" ry="5"
-			fill="bisque"
-            fill-opacity="50.000000"
-            stroke="lightcoral"
-            stroke-opacity="1.000000"
-            stroke-width="3.000000"
-            stroke-dasharray=""
-            transform="" />
-  <text xml:space="preserve"
-			x="692" 
-			y="581" 
-			text-anchor="middle"
-			font-weight="100"
-			font-style=""
-			font-size=""
-			fill="black"
-            fill-opacity="100.000000"
-            stroke="black"
-            stroke-opacity="1.000000"
-            stroke-width="1.000000"
-            stroke-dasharray=""
-            transform="" >
-    <tspan x="692" dy="1.2em">This is an example of a note that</tspan>
-    <tspan x="692" dy="1.2em">could be displayed on a diagram.</tspan>
-    <tspan x="692" dy="1.2em"> </tspan>
-    <tspan x="692" dy="1.2em">It could explain one aspect of the model</tspan>
-    <tspan x="692" dy="1.2em">for instance, describing relations between structs</tspan>
-    <tspan x="692" dy="1.2em"> </tspan>
-    <tspan x="692" dy="1.2em">The text of a UML note refers a comment with the GONGNOTE keyword which is</tspan>
-    <tspan x="692" dy="1.2em">a special case of go Note convention. See example</tspan>
-    <tspan x="692" dy="1.2em">for details in the go code of the models.</tspan>
-    <tspan x="692" dy="1.2em"> </tspan>
-</text>
-  <rect x="607" y="413" width="200" height="132" rx="3" ry="3"
-			fill="lavender"
-            fill-opacity="50.000000"
-            stroke="turquoise"
-            stroke-opacity="1.000000"
-            stroke-width="1.000000"
-            stroke-dasharray=""
-            transform="" />
-  <rect x="1086" y="33" width="130" height="401" rx="0" ry="0"
+<style>text { font-family: Roboto, Arial, sans-serif !important; }</style>  <rect x="1000" y="100" width="200" height="400" rx="0" ry="0"
 			fill=""
             fill-opacity="0.000000"
             stroke="black"
@@ -49,8 +8,8 @@
             stroke-dasharray=""
             transform="" />
   <text xml:space="preserve"
-			x="1151" 
-			y="233.5" 
+			x="1100" 
+			y="300" 
 			text-anchor="middle"
 			font-weight=""
 			font-style=""
@@ -62,7 +21,7 @@
             stroke-width="1.000000"
             stroke-dasharray=""
             transform="" >
-    <tspan x="1151" dy="1.2em">Start</tspan>
+    <tspan>Start</tspan>
 </text>
   <rect x="1900" y="370" width="140" height="384" rx="0" ry="0"
 			fill=""
@@ -86,14 +45,6 @@
             stroke-width="1.000000"
             stroke-dasharray=""
             transform="" >
-    <tspan x="1970" dy="1.2em">End</tspan>
+    <tspan text-anchor="middle">End</tspan>
 </text>
-  <rect x="522.999969" y="44" width="237" height="237" rx="3" ry="3"
-			fill="lightcyan"
-            fill-opacity="100.000000"
-            stroke="darkcyan"
-            stroke-opacity="1.000000"
-            stroke-width="2.000000"
-            stroke-dasharray=""
-            transform="" />
 </svg>

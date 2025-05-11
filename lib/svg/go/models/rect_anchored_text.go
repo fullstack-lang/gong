@@ -46,14 +46,18 @@ func (rectAnchoredText *RectAnchoredText) WriteString(sb *strings.Builder, x, y 
 	sb.WriteString(" >\n")
 
 	lines := strings.Split(rectAnchoredText.Content, "\n")
-	for _, line := range lines {
+	for i, line := range lines {
 
 		// if line is empty, it is not displayed by SVG
 		if line == "" {
 			line = " "
 		}
 
-		sb.WriteString(fmt.Sprintf("    <tspan x=\"%s\" dy=\"1.2em\">%s</tspan>\n", formatFloat(x), line))
+		if i == 0 && rectAnchoredText.RectAnchorType != RECT_TOP {
+			sb.WriteString(fmt.Sprintf("    <tspan >%s</tspan>\n", line))
+		} else {
+			sb.WriteString(fmt.Sprintf("    <tspan x=\"%s\" dy=\"1.2em\">%s</tspan>\n", formatFloat(x), line))
+		}
 	}
 	sb.WriteString("</text>\n")
 }
