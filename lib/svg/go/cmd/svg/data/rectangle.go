@@ -442,9 +442,9 @@ Line 2`
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Transform = ``
 
 	__Rect__000000_Bottom_Rect.Name = `Bottom Rect`
-	__Rect__000000_Bottom_Rect.X = 440.000000
-	__Rect__000000_Bottom_Rect.Y = 592.000000
-	__Rect__000000_Bottom_Rect.Width = 565.000000
+	__Rect__000000_Bottom_Rect.X = 400.000000
+	__Rect__000000_Bottom_Rect.Y = 581.000000
+	__Rect__000000_Bottom_Rect.Width = 584.000000
 	__Rect__000000_Bottom_Rect.Height = 266.999985
 	__Rect__000000_Bottom_Rect.RX = 5.000000
 	__Rect__000000_Bottom_Rect.Color = `bisque`
