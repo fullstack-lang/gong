@@ -24,7 +24,7 @@ type Presentation struct {
 	Transform string
 }
 
-func (p *Presentation) WriteString(sb *strings.Builder) {
+func (p *Presentation) WriteSVG(sb *strings.Builder) {
 
 	sb.WriteString(
 		fmt.Sprintf(

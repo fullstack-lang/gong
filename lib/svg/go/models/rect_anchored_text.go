@@ -23,7 +23,7 @@ type RectAnchoredText struct {
 	Animates []*Animate
 }
 
-func (rectAnchoredText *RectAnchoredText) WriteString(sb *strings.Builder, x, y float64) {
+func (rectAnchoredText *RectAnchoredText) WriteSVG(sb *strings.Builder, x, y float64) {
 
 	sb.WriteString(
 		fmt.Sprintf(
@@ -42,7 +42,7 @@ func (rectAnchoredText *RectAnchoredText) WriteString(sb *strings.Builder, x, y 
 			rectAnchoredText.FontSize,
 		))
 
-	rectAnchoredText.Presentation.WriteString(sb)
+	rectAnchoredText.Presentation.WriteSVG(sb)
 	sb.WriteString(" >\n")
 
 	lines := strings.Split(rectAnchoredText.Content, "\n")
