@@ -744,7 +744,7 @@
       [attr.text-anchor]="text.TextAnchorType"
       [attr.font-weight]="text.FontWeight"
       [attr.font-style]="text.FontStyle"
-      [attr.font-size]="text.FontSize !== 0 ? text.FontSize + 'px' : null">
+      [attr.font-size]="text.FontSize !== 0 ? text.FontSize : null">
       @for(line of lines; track line) {
         <tspan [attr.x]="anchorX"
                [attr.dy]="(lines.indexOf(line) > 0) ? '1em' : '0'"

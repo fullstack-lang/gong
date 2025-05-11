@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"log"
+	"path/filepath"
 	"strconv"
 
 	// insertion point for models import
@@ -54,7 +55,10 @@ func main() {
 	NewStager(r, stack.Stage)
 
 	for svg := range *svg_models.GetGongstructInstancesSet[svg_models.SVG](stack.Stage) {
-		svg.GenerateFile("../../diagrams/images")
+		err := svg.GenerateFile(filepath.Join("../../diagrams/images", svg.Name+".svg"))
+		if err != nil {
+			log.Fatalln("Unable to generate file", err.Error())
+		}
 	}
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
