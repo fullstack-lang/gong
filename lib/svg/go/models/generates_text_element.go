@@ -7,7 +7,10 @@ import (
 	"strings"
 )
 
-func generateTextElement(sb *strings.Builder, content string, x, y float64,
+func generateTextElement(
+	sb *strings.Builder,
+	content string,
+	x, y float64,
 	explicitFontSize, explicitFontWeight, explicitFontStyle, textAnchor string,
 	p *Presentation) {
 
@@ -46,7 +49,7 @@ func generateTextElement(sb *strings.Builder, content string, x, y float64,
 		sb.WriteString(fmt.Sprintf(` font-style="%s"`, html.EscapeString(explicitFontStyle)))
 	}
 
-	appendPresentationAttributes(sb, &clonedPres, true)
+	p.WriteString(sb)
 	sb.WriteString(">\n")
 
 	for i, line := range lines {
