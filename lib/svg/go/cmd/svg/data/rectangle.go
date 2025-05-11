@@ -196,9 +196,9 @@ func _(stage *models.Stage) {
 	__Link__000003_Auto_1.CornerOffsetRatio = 6.614872
 	__Link__000003_Auto_1.CornerRadius = 20.000000
 	__Link__000003_Auto_1.HasEndArrow = true
-	__Link__000003_Auto_1.EndArrowSize = 5.000000
-	__Link__000003_Auto_1.HasStartArrow = false
-	__Link__000003_Auto_1.StartArrowSize = 0.000000
+	__Link__000003_Auto_1.EndArrowSize = 15.000000
+	__Link__000003_Auto_1.HasStartArrow = true
+	__Link__000003_Auto_1.StartArrowSize = 10.000000
 	__Link__000003_Auto_1.Color = ``
 	__Link__000003_Auto_1.FillOpacity = 0.000000
 	__Link__000003_Auto_1.Stroke = `black`
@@ -215,12 +215,12 @@ func _(stage *models.Stage) {
 	__Link__000004_Auto_2.StartRatio = 0.435714
 	__Link__000004_Auto_2.EndOrientation = models.ORIENTATION_VERTICAL
 	__Link__000004_Auto_2.EndRatio = 0.407692
-	__Link__000004_Auto_2.CornerOffsetRatio = -0.128472
+	__Link__000004_Auto_2.CornerOffsetRatio = -0.330653
 	__Link__000004_Auto_2.CornerRadius = 40.000000
 	__Link__000004_Auto_2.HasEndArrow = true
-	__Link__000004_Auto_2.EndArrowSize = 5.000000
-	__Link__000004_Auto_2.HasStartArrow = false
-	__Link__000004_Auto_2.StartArrowSize = 0.000000
+	__Link__000004_Auto_2.EndArrowSize = 15.000000
+	__Link__000004_Auto_2.HasStartArrow = true
+	__Link__000004_Auto_2.StartArrowSize = 10.000000
 	__Link__000004_Auto_2.Color = ``
 	__Link__000004_Auto_2.FillOpacity = 0.000000
 	__Link__000004_Auto_2.Stroke = `black`
@@ -240,9 +240,9 @@ func _(stage *models.Stage) {
 	__Link__000005_Auto_3.CornerOffsetRatio = -1.476923
 	__Link__000005_Auto_3.CornerRadius = 30.000000
 	__Link__000005_Auto_3.HasEndArrow = true
-	__Link__000005_Auto_3.EndArrowSize = 5.000000
-	__Link__000005_Auto_3.HasStartArrow = false
-	__Link__000005_Auto_3.StartArrowSize = 0.000000
+	__Link__000005_Auto_3.EndArrowSize = 15.000000
+	__Link__000005_Auto_3.HasStartArrow = true
+	__Link__000005_Auto_3.StartArrowSize = 10.000000
 	__Link__000005_Auto_3.Color = ``
 	__Link__000005_Auto_3.FillOpacity = 0.000000
 	__Link__000005_Auto_3.Stroke = `black`
@@ -529,7 +529,7 @@ Line 2`
 	__Rect__000003_Start.X = 929.333333
 	__Rect__000003_Start.Y = 29.333333
 	__Rect__000003_Start.Width = 200.000000
-	__Rect__000003_Start.Height = 400.000000
+	__Rect__000003_Start.Height = 238.571429
 	__Rect__000003_Start.RX = 20.000000
 	__Rect__000003_Start.Color = ``
 	__Rect__000003_Start.FillOpacity = 0.000000
@@ -1133,6 +1133,8 @@ line 3`
 	__Layer__000006_Test_Automatic_Layout.Rects = append(__Layer__000006_Test_Automatic_Layout.Rects, __Rect__000003_Start)
 	__Layer__000006_Test_Automatic_Layout.Rects = append(__Layer__000006_Test_Automatic_Layout.Rects, __Rect__000004_End)
 	__Layer__000006_Test_Automatic_Layout.Links = append(__Layer__000006_Test_Automatic_Layout.Links, __Link__000005_Auto_3)
+	__Layer__000006_Test_Automatic_Layout.Links = append(__Layer__000006_Test_Automatic_Layout.Links, __Link__000003_Auto_1)
+	__Layer__000006_Test_Automatic_Layout.Links = append(__Layer__000006_Test_Automatic_Layout.Links, __Link__000004_Auto_2)
 	// setup of Link instances pointers
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000002_Top_Rect
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom_Rect
@@ -1177,7 +1179,13 @@ line 3`
 	// setup of RectAnchoredRect instances pointers
 	// setup of RectAnchoredText instances pointers
 	// setup of SVG instances pointers
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Line_layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000003_Link_layer_vertical_to_horizontal)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000004_Middle_Rect_Layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000006_Test_Automatic_Layout)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000005_Top_Rectangle_layer)
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom_Rect
 	__SVG__000000_SVG.EndRect = __Rect__000002_Top_Rect
 	// setup of SvgText instances pointers

@@ -53,6 +53,16 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 			for _, segment := range segments {
 				maxX_, maxY_ := segment.WriteSVG(&sb, link)
 				updateMaxx(maxX_, maxY_, &maxX, &maxY)
+
+				// draw the end arrow
+				if segment.Type == EndSegment && link.HasEndArrow {
+					link.WriteSVGEndArrow(&sb, &segment)
+				}
+
+				if segment.Type == StartSegment && link.HasStartArrow {
+					segment = swapSegment(segment)
+					link.WriteSVGEndArrow(&sb, &segment)
+				}
 			}
 
 			_ = segments
