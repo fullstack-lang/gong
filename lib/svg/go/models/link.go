@@ -1,5 +1,7 @@
 package models
 
+import "math"
+
 type Link struct {
 	Name string
 
@@ -56,4 +58,69 @@ func (link *Link) OnAfterUpdate(stage *Stage, _, frontLink *Link) {
 	if link.Impl != nil {
 		link.Impl.LinkUpdated(frontLink)
 	}
+}
+
+func (link *Link) generateSegments() []Segment {
+	if link.Start == nil || link.End == nil {
+		return []Segment{}
+	}
+	startRect, endRect := link.Start, link.End
+	startDirection, endDirection := link.StartOrientation, link.EndOrientation
+	startRatio, endRatio := link.StartRatio, link.EndRatio
+	cornerOffsetRatio, cornerRadius := link.CornerOffsetRatio, link.CornerRadius
+	segments := []Segment{}
+
+	if startDirection == ORIENTATION_HORIZONTAL && endDirection == ORIENTATION_VERTICAL {
+		c1Y := startRect.Y + startRatio*startRect.Height
+		c1X := endRect.X + endRatio*endRect.Width
+		c1 := createPoint(c1X, c1Y)
+		s1 := generatePointRectSegment(c1, startRect, link, startDirection, cornerRadius, 0, true, StartSegment)
+		s2 := generatePointRectSegment(c1, endRect, link, endDirection, cornerRadius, 1, false, EndSegment)
+		segments = append(segments, s1, s2)
+
+	} else if startDirection == ORIENTATION_VERTICAL && endDirection == ORIENTATION_HORIZONTAL {
+		c1X := startRect.X + startRatio*startRect.Width
+		c1Y := endRect.Y + endRatio*endRect.Height
+		c1 := createPoint(c1X, c1Y)
+		s1 := generatePointRectSegment(c1, startRect, link, startDirection, cornerRadius, 0, true, StartSegment)
+		s2 := generatePointRectSegment(c1, endRect, link, endDirection, cornerRadius, 1, false, EndSegment)
+		segments = append(segments, s1, s2)
+
+	} else if startDirection == ORIENTATION_HORIZONTAL && endDirection == ORIENTATION_HORIZONTAL {
+		c1X := startRect.X + cornerOffsetRatio*startRect.Width
+		c1Y := startRect.Y + startRatio*startRect.Height
+		c1 := createPoint(c1X, c1Y)
+		c2X := c1X
+		c2Y := endRect.Y + endRatio*endRect.Height
+		c2 := createPoint(c2X, c2Y)
+		s1 := generatePointRectSegment(c1, startRect, link, startDirection, cornerRadius, 0, true, StartSegment)
+		s2 := generatePointPointSegment(c1, c2, ORIENTATION_VERTICAL, cornerRadius, 1)
+		s3 := generatePointRectSegment(c2, endRect, link, endDirection, cornerRadius, 2, false, EndSegment)
+		if math.Abs(c1Y-c2Y) <= 2*cornerRadius && cornerRadius > 0 {
+			c2a := createPoint(c2X, c1Y)
+			s1 = generatePointRectSegment(c1, startRect, link, startDirection, 0, 0, true, StartSegment)
+			s2 = generatePointPointSegment(c1, c2a, ORIENTATION_HORIZONTAL, 0, 1)
+			s3 = generatePointRectSegment(c2a, endRect, link, endDirection, 0, 2, false, EndSegment)
+		}
+		segments = append(segments, s1, s2, s3)
+
+	} else if startDirection == ORIENTATION_VERTICAL && endDirection == ORIENTATION_VERTICAL {
+		c1X := startRect.X + startRatio*startRect.Width
+		c1Y := startRect.Y + cornerOffsetRatio*startRect.Height
+		c1 := createPoint(c1X, c1Y)
+		c2X := endRect.X + endRatio*endRect.Width
+		c2Y := c1Y
+		c2 := createPoint(c2X, c2Y)
+		s1 := generatePointRectSegment(c1, startRect, link, startDirection, cornerRadius, 0, true, StartSegment)
+		s2 := generatePointPointSegment(c1, c2, ORIENTATION_HORIZONTAL, cornerRadius, 1)
+		s3 := generatePointRectSegment(c2, endRect, link, endDirection, cornerRadius, 2, false, EndSegment)
+		if math.Abs(c1X-c2X) <= 2*cornerRadius && cornerRadius > 0 {
+			c2a := createPoint(c1X, c2Y)
+			s1 = generatePointRectSegment(c1, startRect, link, startDirection, 0, 0, true, StartSegment)
+			s2 = generatePointPointSegment(c1, c2a, ORIENTATION_VERTICAL, 0, 1)
+			s3 = generatePointRectSegment(c2a, endRect, link, endDirection, 0, 2, false, EndSegment)
+		}
+		segments = append(segments, s1, s2, s3)
+	}
+	return segments
 }

@@ -43,6 +43,21 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 			updateMaxx(maxX_, maxY_, &maxX, &maxY)
 		}
 
+		for _, link := range layer.Links {
+			if link.Start == nil || link.End == nil {
+				continue
+			}
+
+			segments := link.generateSegments()
+
+			for _, segment := range segments {
+				maxX_, maxY_ := segment.WriteSVG(&sb, link)
+				updateMaxx(maxX_, maxY_, &maxX, &maxY)
+			}
+
+			_ = segments
+		}
+
 		/*
 			// Circles
 			for _, circle := range layer.Circles {
