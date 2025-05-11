@@ -9,6 +9,15 @@ import (
 	"strings"
 )
 
+func updateMaxx(maxX_, maxY_ float64, maxX, maxY *float64) {
+	if maxX_ > *maxX {
+		*maxX = maxX_
+	}
+	if maxY_ > *maxY {
+		*maxY = maxY_
+	}
+}
+
 // GenerateFile generates an SVG file that represents the content of the SVG object.
 func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 	var sb strings.Builder
@@ -31,13 +40,7 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 		for _, rect := range layer.Rects {
 
 			maxX_, maxY_ := rect.WriteSVG(&sb)
-			if maxX_ > maxX {
-				maxX = maxX_
-			}
-			if maxY_ > maxY {
-				maxY = maxY_
-			}
-
+			updateMaxx(maxX_, maxY_, &maxX, &maxY)
 		}
 
 		/*
