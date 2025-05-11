@@ -3,6 +3,7 @@ package models
 import (
 
 	// For escaping text and attribute values
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -12,14 +13,30 @@ import (
 func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 	var sb strings.Builder
 
-	sb.WriteString("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100%\" height=\"100%\">\n")
+	maxX_string_to_be_replaced := "__gong__maxX_string_to_be_replaced"
+	maxY_string_to_be_replaced := "__gong__maxY_string_to_be_replaced"
+
+	sb.WriteString(
+		fmt.Sprintf(`
+<svg xmlns="http://www.w3.org/2000/svg" width="100%%" height="100%%" viewBox="-10 -10 %s %s">
+`,
+			maxX_string_to_be_replaced,
+			maxY_string_to_be_replaced))
 	sb.WriteString("<style>text { font-family: Roboto, Arial, sans-serif !important; }</style>")
+
+	maxX, maxY := 0.0, 0.0
 
 	for _, layer := range svg.Layers {
 		// Rects
 		for _, rect := range layer.Rects {
 
-			rect.WriteString(&sb)
+			maxX_, maxY_ := rect.WriteSVG(&sb)
+			if maxX_ > maxX {
+				maxX = maxX_
+			}
+			if maxY_ > maxY {
+				maxY = maxY_
+			}
 
 		}
 
@@ -209,7 +226,13 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 	}
 
 	sb.WriteString("</svg>\n")
-	return os.WriteFile(pathToFile, []byte(sb.String()), 0644)
+
+	result := sb.String()
+
+	result = strings.ReplaceAll(result, maxX_string_to_be_replaced, fmt.Sprintf("%f", maxX+10))
+	result = strings.ReplaceAll(result, maxY_string_to_be_replaced, fmt.Sprintf("%f", maxY+10))
+
+	return os.WriteFile(pathToFile, []byte(result), 0644)
 }
 
 func getRectAnchorPoint(rect *Rect, anchorType RectAnchorType) (x, y float64) {

@@ -49,7 +49,7 @@ func generateTextElement(
 		sb.WriteString(fmt.Sprintf(` font-style="%s"`, html.EscapeString(explicitFontStyle)))
 	}
 
-	p.WriteString(sb)
+	p.WriteSVG(sb)
 	sb.WriteString(">\n")
 
 	for i, line := range lines {

@@ -48,7 +48,7 @@ func (rect *Rect) OnAfterUpdate(stage *Stage, _, frontRect *Rect) {
 	}
 }
 
-func (rect *Rect) WriteString(sb *strings.Builder) {
+func (rect *Rect) WriteSVG(sb *strings.Builder) (maxX, maxY float64) {
 
 	sb.WriteString(
 		fmt.Sprintf(
@@ -60,14 +60,19 @@ func (rect *Rect) WriteString(sb *strings.Builder) {
 			formatFloat(rect.RX),
 			formatFloat(rect.RX)))
 
-	rect.Presentation.WriteString(sb)
+	maxX = rect.X + rect.Width
+	maxY = rect.Y + rect.Height
+
+	rect.Presentation.WriteSVG(sb)
 	sb.WriteString(" />\n")
 
 	for _, anchoredText := range rect.RectAnchoredTexts {
 
 		x, y := getRectAnchorPoint(rect, anchoredText.RectAnchorType)
 
-		anchoredText.WriteString(sb, x, y)
+		anchoredText.WriteSVG(sb, x, y)
 
 	}
+
+	return
 }
