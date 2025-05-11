@@ -193,8 +193,8 @@ func _(stage *models.Stage) {
 	__Link__000003_Auto_1.StartRatio = 0.256863
 	__Link__000003_Auto_1.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000003_Auto_1.EndRatio = 0.153353
-	__Link__000003_Auto_1.CornerOffsetRatio = 8.084615
-	__Link__000003_Auto_1.CornerRadius = 0.000000
+	__Link__000003_Auto_1.CornerOffsetRatio = 6.614872
+	__Link__000003_Auto_1.CornerRadius = 20.000000
 	__Link__000003_Auto_1.HasEndArrow = true
 	__Link__000003_Auto_1.EndArrowSize = 5.000000
 	__Link__000003_Auto_1.HasStartArrow = false
@@ -215,8 +215,8 @@ func _(stage *models.Stage) {
 	__Link__000004_Auto_2.StartRatio = 0.435714
 	__Link__000004_Auto_2.EndOrientation = models.ORIENTATION_VERTICAL
 	__Link__000004_Auto_2.EndRatio = 0.407692
-	__Link__000004_Auto_2.CornerOffsetRatio = 0.393234
-	__Link__000004_Auto_2.CornerRadius = 0.000000
+	__Link__000004_Auto_2.CornerOffsetRatio = -0.128472
+	__Link__000004_Auto_2.CornerRadius = 40.000000
 	__Link__000004_Auto_2.HasEndArrow = true
 	__Link__000004_Auto_2.EndArrowSize = 5.000000
 	__Link__000004_Auto_2.HasStartArrow = false
@@ -238,7 +238,7 @@ func _(stage *models.Stage) {
 	__Link__000005_Auto_3.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000005_Auto_3.EndRatio = 0.589849
 	__Link__000005_Auto_3.CornerOffsetRatio = -1.476923
-	__Link__000005_Auto_3.CornerRadius = 0.000000
+	__Link__000005_Auto_3.CornerRadius = 30.000000
 	__Link__000005_Auto_3.HasEndArrow = true
 	__Link__000005_Auto_3.EndArrowSize = 5.000000
 	__Link__000005_Auto_3.HasStartArrow = false
@@ -526,11 +526,11 @@ Line 2`
 	__Rect__000002_Top_Rect.CanMoveVerticaly = true
 
 	__Rect__000003_Start.Name = `Start`
-	__Rect__000003_Start.X = 1000.000000
-	__Rect__000003_Start.Y = 100.000000
+	__Rect__000003_Start.X = 929.333333
+	__Rect__000003_Start.Y = 29.333333
 	__Rect__000003_Start.Width = 200.000000
 	__Rect__000003_Start.Height = 400.000000
-	__Rect__000003_Start.RX = 0.000000
+	__Rect__000003_Start.RX = 20.000000
 	__Rect__000003_Start.Color = ``
 	__Rect__000003_Start.FillOpacity = 0.000000
 	__Rect__000003_Start.Stroke = `black`
@@ -554,11 +554,11 @@ Line 2`
 	__Rect__000003_Start.CanMoveVerticaly = true
 
 	__Rect__000004_End.Name = `End`
-	__Rect__000004_End.X = 1900.000000
-	__Rect__000004_End.Y = 370.000000
+	__Rect__000004_End.X = 1750.769231
+	__Rect__000004_End.Y = 476.256410
 	__Rect__000004_End.Width = 140.000000
 	__Rect__000004_End.Height = 384.000000
-	__Rect__000004_End.RX = 0.000000
+	__Rect__000004_End.RX = 20.000000
 	__Rect__000004_End.Color = ``
 	__Rect__000004_End.FillOpacity = 0.000000
 	__Rect__000004_End.Stroke = `black`
@@ -1132,9 +1132,7 @@ line 3`
 	__Layer__000005_Top_Rectangle_layer.Rects = append(__Layer__000005_Top_Rectangle_layer.Rects, __Rect__000002_Top_Rect)
 	__Layer__000006_Test_Automatic_Layout.Rects = append(__Layer__000006_Test_Automatic_Layout.Rects, __Rect__000003_Start)
 	__Layer__000006_Test_Automatic_Layout.Rects = append(__Layer__000006_Test_Automatic_Layout.Rects, __Rect__000004_End)
-	__Layer__000006_Test_Automatic_Layout.Links = append(__Layer__000006_Test_Automatic_Layout.Links, __Link__000004_Auto_2)
 	__Layer__000006_Test_Automatic_Layout.Links = append(__Layer__000006_Test_Automatic_Layout.Links, __Link__000005_Auto_3)
-	__Layer__000006_Test_Automatic_Layout.Links = append(__Layer__000006_Test_Automatic_Layout.Links, __Link__000003_Auto_1)
 	// setup of Link instances pointers
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000002_Top_Rect
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.End = __Rect__000000_Bottom_Rect
