@@ -178,3 +178,94 @@ func (link *Link) WriteSVGEndArrow(sb *strings.Builder, segment *Segment) {
 	sb.WriteString(" />\n")
 
 }
+
+func (link *Link) WriteSVGArcPath(sb *strings.Builder, segment, nextSegment *Segment) {
+
+	// The TypeScript version uses constant startDegree and endDegree,
+	// which means startRadians and endRadians are also constant.
+	// However, largeArcFlag depends on these, so we keep the calculation
+	// for clarity, even though it's currently fixed.
+	const startDegree = 180.0
+	const endDegree = 270.0
+	// const startRadians = (startDegree * math.Pi) / 180.0 // Not directly used in path string
+	// const endRadians = (endDegree * math.Pi) / 180.0 // Not directly used in path string
+
+	startX := segment.EndPoint.X
+	startY := segment.EndPoint.Y
+	endX := nextSegment.StartPoint.X
+	endY := nextSegment.StartPoint.Y
+
+	largeArcFlag := 0
+	if (endDegree - startDegree) > 180.0 { // Or endDegree - startDegree <= 180 ? 0 : 1
+		largeArcFlag = 1
+	}
+
+	sweepFlag := 0
+
+	if segment.Orientation == ORIENTATION_HORIZONTAL {
+		segmentDirection := 0
+		if segment.EndPoint.X > segment.StartPoint.X {
+			segmentDirection = 1
+		} else {
+			segmentDirection = -1
+		}
+
+		cornerDirection := 0
+		if segment.EndPoint.Y < nextSegment.StartPoint.Y {
+			cornerDirection = 1
+		} else {
+			cornerDirection = -1
+		}
+
+		if segmentDirection*cornerDirection == 1 {
+			sweepFlag = 1
+		} else {
+			sweepFlag = 0
+		}
+
+	} else if segment.Orientation == ORIENTATION_VERTICAL {
+		segmentDirection := 0
+		if segment.EndPoint.Y > segment.StartPoint.Y {
+			segmentDirection = 1
+		} else {
+			segmentDirection = -1
+		}
+
+		cornerDirection := 0
+		if segment.EndPoint.X < nextSegment.StartPoint.X { // Corrected based on typical SVG arc logic (clockwise/counter-clockwise)
+			cornerDirection = 1
+		} else {
+			cornerDirection = -1
+		}
+
+		// This logic for sweepFlag in vertical orientation seems to be swapped compared to horizontal
+		// in the original TS. If the visual output is correct with the TS code,
+		// then this translation maintains that logic.
+		if segmentDirection*cornerDirection == 1 {
+			sweepFlag = 0
+		} else {
+			sweepFlag = 1
+		}
+	}
+
+	// Ensure link.CornerRadius is available and has a sensible value.
+	// If link.CornerRadius could be zero, SVG arc with 0 radius is problematic.
+	// The original TS code doesn't show a default or handling for 0.
+	cornerRadius := link.CornerRadius
+	if cornerRadius <= 0 {
+		// Default to a small radius if not set or invalid, or handle as an error
+		// For now, let's assume it's always positive as in the TS
+		// For a straight line instead of an arc if radius is 0, one might use L command
+		// return fmt.Sprintf("M %f %f L %f %f", startX, startY, endX, endY)
+	}
+
+	sb.WriteString(fmt.Sprintf("		<path d=\"M %f %f A %f %f 0 %d %d %f %f\"",
+		startX, startY,
+		cornerRadius, cornerRadius, /* rx, ry */
+		largeArcFlag, sweepFlag,
+		endX, endY))
+
+	link.Presentation.WriteSVG(sb)
+	sb.WriteString(" />\n")
+
+}
