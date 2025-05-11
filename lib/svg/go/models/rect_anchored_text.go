@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"html"
 	"strings"
 )
 
@@ -28,7 +27,7 @@ func (rectAnchoredText *RectAnchoredText) WriteString(sb *strings.Builder, x, y 
 
 	sb.WriteString(
 		fmt.Sprintf(
-			`  <text 
+			`  <text xml:space="preserve"
 			x="%s" 
 			y="%s" 
 			text-anchor="%s"
@@ -44,16 +43,17 @@ func (rectAnchoredText *RectAnchoredText) WriteString(sb *strings.Builder, x, y 
 		))
 
 	rectAnchoredText.Presentation.WriteString(sb)
-	sb.WriteString(" >")
+	sb.WriteString(" >\n")
 
 	lines := strings.Split(rectAnchoredText.Content, "\n")
-	for i, line := range lines {
-		if i == 0 {
-			sb.WriteString(fmt.Sprintf("    <tspan>%s</tspan>\n", html.EscapeString(line)))
-		} else {
-			sb.WriteString(fmt.Sprintf("    <tspan x=\"%s\" dy=\"1.2em\">%s</tspan>\n", formatFloat(x), html.EscapeString(line)))
+	for _, line := range lines {
+
+		// if line is empty, it is not displayed by SVG
+		if line == "" {
+			line = " "
 		}
+
+		sb.WriteString(fmt.Sprintf("    <tspan x=\"%s\" dy=\"1.2em\">%s</tspan>\n", formatFloat(x), line))
 	}
-	sb.WriteString(rectAnchoredText.Content)
 	sb.WriteString("</text>\n")
 }

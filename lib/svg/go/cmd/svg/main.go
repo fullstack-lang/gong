@@ -53,6 +53,10 @@ func main() {
 	// insertion point for call to stager
 	NewStager(r, stack.Stage)
 
+	for svg := range *svg_models.GetGongstructInstancesSet[svg_models.SVG](stack.Stage) {
+		svg.GenerateFile("../../diagrams/images")
+	}
+
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
 	if err != nil {
