@@ -1,5 +1,10 @@
 package models
 
+import (
+	"fmt"
+	"strings"
+)
+
 type Presentation struct {
 	Color                       string
 	FillOpacity                 float64
@@ -17,4 +22,25 @@ type Presentation struct {
 	// scale(1 0.5)
 	// gong:text gong:width 600 gong:height 400
 	Transform string
+}
+
+func (p *Presentation) WriteString(sb *strings.Builder) {
+
+	sb.WriteString(
+		fmt.Sprintf(
+			`
+			fill="%s"
+            fill-opacity="%s"
+            stroke="%s"
+            stroke-opacity="%s"
+            stroke-width="%s"
+            stroke-dasharray="%s"
+            transform="%s"`,
+			p.Color,
+			fmt.Sprintf("%f", p.FillOpacity),
+			p.Stroke,
+			fmt.Sprintf("%f", p.StrokeOpacity),
+			fmt.Sprintf("%f", p.StrokeWidth),
+			p.StrokeDashArray,
+			p.Transform))
 }

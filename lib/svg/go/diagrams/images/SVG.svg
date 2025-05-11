@@ -1,7 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-  <rect x="440" y="592" width="565" height="266.999985" rx="5" ry="5" fill="bisque" fill-opacity="50" stroke="lightcoral" stroke-width="3" />
-  <text x="722.5" y="612" text-anchor="middle" dominant-baseline="middle" font-size="12px" font-weight="100" fill="black" fill-opacity="100" stroke="black">
-    <tspan>This is an example of a note that</tspan>
+<style>text { font-family: Roboto, Arial, sans-serif !important; }</style>  <rect x="440" y="592" width="565" height="266.999985" rx="5" ry="5"
+			fill="bisque"
+            fill-opacity="50.000000"
+            stroke="lightcoral"
+            stroke-opacity="1.000000"
+            stroke-width="3.000000"
+            stroke-dasharray=""
+            transform="" />
+  <text 
+			x="722.5" 
+			y="592" 
+			text-anchor="middle"
+			font-weight="100"
+			font-style=""
+			font-size=""
+			fill="black"
+            fill-opacity="100.000000"
+            stroke="black"
+            stroke-opacity="1.000000"
+            stroke-width="1.000000"
+            stroke-dasharray=""
+            transform="" >    <tspan>This is an example of a note that</tspan>
     <tspan x="722.5" dy="1.2em">could be displayed on a diagram.</tspan>
     <tspan x="722.5" dy="1.2em"></tspan>
     <tspan x="722.5" dy="1.2em">It could explain one aspect of the model</tspan>
@@ -11,79 +30,76 @@
     <tspan x="722.5" dy="1.2em">a special case of go Note convention. See example</tspan>
     <tspan x="722.5" dy="1.2em">for details in the go code of the models.</tspan>
     <tspan x="722.5" dy="1.2em"></tspan>
-  </text>
-  <path d="M 502.99996899999996 95.847542 L 281.00002399999994 95.847542 L 261.00002399999994 456.109332 L 587 476.109332" fill="none" stroke="red" stroke-width="5" stroke-opacity="0.7" />
-  <path d="M 504.76773595249995 97.6153089525 L 492.99996899999996 85.847542 M 504.76773595249995 94.07977504750001 L 492.99996899999996 105.847542" fill="none" stroke="red" stroke-width="5" stroke-opacity="0.7" />
-  <path d="M 588.7677669525 477.8770989525 L 577 466.109332 M 588.7677669525 474.3415650475 L 577 486.109332" fill="none" stroke="red" stroke-width="5" stroke-opacity="0.7" />
-  <text x="502.99996899999996" y="95.847542" text-anchor="middle" dominant-baseline="middle" font-size="12px" font-weight="normal" fill="black" fill-opacity="0" stroke="black">
-    <tspan>Start Left/Top</tspan>
-  </text>
-  <text x="502.99996899999996" y="95.847542" text-anchor="middle" dominant-baseline="middle" font-size="12px" font-weight="normal" fill="black" stroke="black">
-    <tspan>Start Right/Bottom</tspan>
-  </text>
-  <text x="587" y="496.109332" text-anchor="middle" dominant-baseline="middle" font-size="12px" font-weight="normal" fill="black" stroke="black">
-    <tspan>End Right/Bottom</tspan>
-  </text>
-  <text x="547" y="476.109332" text-anchor="middle" dominant-baseline="middle" font-size="12px" font-weight="normal" fill="blue" fill-opacity="0" stroke="blue">
-    <tspan>End Left/Top</tspan>
-  </text>
-  <path d="M 514.999969 219.431192 L 161.99997499999998 219.431192 L 153.99997499999998 760.126273105265 L 432 768.126273105265" fill="none" stroke="green" stroke-width="4" />
-  <path d="M 433.414213562 769.540486667265 L 422 758.126273105265 M 433.414213562 766.712059543265 L 422 778.126273105265" fill="none" stroke="green" stroke-width="4" />
-  <text x="385.99993799999993" y="256.443704" text-anchor="middle" dominant-baseline="middle" font-size="12px" font-weight="light" fill="cyan" fill-opacity="100" stroke="cyan">
-    <tspan>Start Anchored 1</tspan>
-  </text>
-  <path d="M 622.9999859999999 281 L 622.9999859999999 311.00206699999995 L 722 311.00206699999995 L 722 413" fill="none" stroke="black" stroke-width="2" />
-  <path d="M 722.707106781 413.707106781 L 711 402 M 721.292893219 413.707106781 L 733 402" fill="none" stroke="black" stroke-width="2" />
-  <rect x="607" y="413" width="200" height="132" rx="3" ry="3" fill="lavender" fill-opacity="50" stroke="turquoise" />
-  <rect x="1086" y="33" width="130" height="401" rx="0" ry="0" fill="white" fill-opacity="0" stroke="black" />
-  <text x="1151" y="233.5" text-anchor="middle" dominant-baseline="middle" font-size="27px" fill="black" stroke="black">
-    <tspan>Start</tspan>
-  </text>
-  <rect x="1900" y="370" width="140" height="384" rx="0" ry="0" fill="white" fill-opacity="0" stroke="black" />
-  <text x="1970" y="562" text-anchor="middle" dominant-baseline="middle" font-size="27px" fill="black" stroke="black">
-    <tspan>End</tspan>
-  </text>
-  <path d="M 1960.99996 370 L 1960.99996 521.001856 L 1138.99996 521.001856 L 1138.99996 434" fill="none" stroke="black" />
-  <path d="M 1138.6464066095 433.6464466095 L 1143.99996 439 M 1139.3535133905002 433.6464466095 L 1133.99996 439" fill="none" stroke="black" />
-  <text x="1960.99996" y="370" text-anchor="middle" dominant-baseline="middle" font-size="12px" fill="black" stroke="black">
-    <tspan>LEFT_OR_TOP</tspan>
-  </text>
-  <text x="1960.99996" y="370" text-anchor="middle" dominant-baseline="middle" font-size="16px" fill="black" stroke="black">
-    <tspan>RIGHT_OR_BOTTOM</tspan>
-  </text>
-  <text x="1138.99996" y="434" text-anchor="middle" dominant-baseline="middle" font-size="12px" fill="black" stroke="black">
-    <tspan>LEFT_OR_TOP</tspan>
-  </text>
-  <text x="1138.99996" y="434" text-anchor="middle" dominant-baseline="middle" font-size="16px" fill="black" stroke="black">
-    <tspan>RIGHT_OR_BOTTOM</tspan>
-  </text>
-  <path d="M 1086 281.842956 L 894.00001 281.842956 L 894.00001 596.502016 L 1900 596.502016" fill="none" stroke="black" />
-  <path d="M 1900.3535533905 596.8555693905 L 1895 591.502016 M 1900.3535533905 596.1484626095 L 1895 601.502016" fill="none" stroke="black" />
-  <text x="1086" y="281.842956" text-anchor="middle" dominant-baseline="middle" font-size="12px" fill="black" stroke="black">
-    <tspan>LEFT_OR_TOP</tspan>
-  </text>
-  <text x="1086" y="281.842956" text-anchor="middle" dominant-baseline="middle" font-size="16px" fill="black" stroke="black">
-    <tspan>RIGHT_OR_BOTTOM</tspan>
-  </text>
-  <text x="1900" y="596.502016" text-anchor="middle" dominant-baseline="middle" font-size="12px" fill="black" stroke="black">
-    <tspan>LEFT_OR_TOP</tspan>
-  </text>
-  <text x="1900" y="596.502016" text-anchor="middle" dominant-baseline="middle" font-size="16px" fill="black" stroke="black">
-    <tspan>RIGHT_OR_BOTTOM</tspan>
-  </text>
-  <path d="M 1216 136.002063 L 2136.99995 136.002063 L 2136.99995 428.88755199999997 L 2040 428.88755199999997" fill="none" stroke="black" />
-  <path d="M 2039.6464466095 429.24110539049997 L 2045 423.88755199999997 M 2039.6464466095 428.5339986095 L 2045 433.88755199999997" fill="none" stroke="black" />
-  <text x="1216" y="136.002063" text-anchor="middle" dominant-baseline="middle" font-size="12px" fill="black" stroke="black">
-    <tspan>LEFT_OR_TOP</tspan>
-  </text>
-  <text x="1216" y="136.002063" text-anchor="middle" dominant-baseline="middle" font-size="16px" fill="black" stroke="black">
-    <tspan>RIGHT_OR_BOTTOM</tspan>
-  </text>
-  <text x="2040" y="428.88755199999997" text-anchor="middle" dominant-baseline="middle" font-size="12px" fill="black" stroke="black">
-    <tspan>LEFT_OR_TOP</tspan>
-  </text>
-  <text x="2040" y="428.88755199999997" text-anchor="middle" dominant-baseline="middle" font-size="16px" fill="black" stroke="black">
-    <tspan>RIGHT_OR_BOTTOM</tspan>
-  </text>
-  <rect x="522.999969" y="44" width="237" height="237" rx="3" ry="3" fill="lightcyan" fill-opacity="100" stroke="darkcyan" stroke-width="2" />
+This is an example of a note that
+could be displayed on a diagram.
+
+It could explain one aspect of the model
+for instance, describing relations between structs
+
+The text of a UML note refers a comment with the GONGNOTE keyword which is
+a special case of go Note convention. See example
+for details in the go code of the models.
+</text>
+  <rect x="607" y="413" width="200" height="132" rx="3" ry="3"
+			fill="lavender"
+            fill-opacity="50.000000"
+            stroke="turquoise"
+            stroke-opacity="1.000000"
+            stroke-width="1.000000"
+            stroke-dasharray=""
+            transform="" />
+  <rect x="1086" y="33" width="130" height="401" rx="0" ry="0"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="black"
+            stroke-opacity="1.000000"
+            stroke-width="1.000000"
+            stroke-dasharray=""
+            transform="" />
+  <text 
+			x="1151" 
+			y="233.5" 
+			text-anchor="middle"
+			font-weight=""
+			font-style=""
+			font-size="27px"
+			fill="black"
+            fill-opacity="1.000000"
+            stroke="black"
+            stroke-opacity="1.000000"
+            stroke-width="1.000000"
+            stroke-dasharray=""
+            transform="" >    <tspan>Start</tspan>
+Start</text>
+  <rect x="1900" y="370" width="140" height="384" rx="0" ry="0"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="black"
+            stroke-opacity="1.000000"
+            stroke-width="1.000000"
+            stroke-dasharray=""
+            transform="" />
+  <text 
+			x="1970" 
+			y="562" 
+			text-anchor="middle"
+			font-weight=""
+			font-style=""
+			font-size="27px"
+			fill="black"
+            fill-opacity="1.000000"
+            stroke="black"
+            stroke-opacity="1.000000"
+            stroke-width="1.000000"
+            stroke-dasharray=""
+            transform="" >    <tspan>End</tspan>
+End</text>
+  <rect x="522.999969" y="44" width="237" height="237" rx="3" ry="3"
+			fill="lightcyan"
+            fill-opacity="100.000000"
+            stroke="darkcyan"
+            stroke-opacity="1.000000"
+            stroke-width="2.000000"
+            stroke-dasharray=""
+            transform="" />
 </svg>
