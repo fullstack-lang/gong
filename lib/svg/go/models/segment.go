@@ -141,23 +141,16 @@ func generatePointRectSegment(
 	isStartSegment bool,
 	segmentType SegmentType) Segment {
 
-	var ratio float64
-	if isStartSegment {
-		ratio = link.StartRatio
-	} else {
-		ratio = link.EndRatio
-	}
-
 	var rectConnectionPoint Point
 	if direction == ORIENTATION_HORIZONTAL {
-		rectConnectionPoint.Y = rect.Y + ratio*rect.Height
+		rectConnectionPoint.Y = point.Y
 		if point.X <= rect.X+rect.Width/2 {
 			rectConnectionPoint.X = rect.X
 		} else {
 			rectConnectionPoint.X = rect.X + rect.Width
 		}
 	} else {
-		rectConnectionPoint.X = rect.X + ratio*rect.Width
+		rectConnectionPoint.X = point.X
 		if point.Y <= rect.Y+rect.Height/2 {
 			rectConnectionPoint.Y = rect.Y
 		} else {
