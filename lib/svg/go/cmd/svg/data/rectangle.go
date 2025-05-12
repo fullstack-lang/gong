@@ -211,11 +211,11 @@ func _(stage *models.Stage) {
 	__Link__000004_Auto_2.Name = `Auto 2`
 	__Link__000004_Auto_2.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000004_Auto_2.IsBezierCurve = false
-	__Link__000004_Auto_2.StartOrientation = models.ORIENTATION_VERTICAL
-	__Link__000004_Auto_2.StartRatio = 0.917160
+	__Link__000004_Auto_2.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000004_Auto_2.StartRatio = 0.256869
 	__Link__000004_Auto_2.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000004_Auto_2.EndRatio = 0.211931
-	__Link__000004_Auto_2.CornerOffsetRatio = -2.831685
+	__Link__000004_Auto_2.CornerOffsetRatio = -0.454635
 	__Link__000004_Auto_2.CornerRadius = 40.000000
 	__Link__000004_Auto_2.HasEndArrow = true
 	__Link__000004_Auto_2.EndArrowSize = 15.000000
@@ -554,8 +554,8 @@ Line 2`
 	__Rect__000003_Start.CanMoveVerticaly = true
 
 	__Rect__000004_End.Name = `End`
-	__Rect__000004_End.X = 1422.769231
-	__Rect__000004_End.Y = 476.256410
+	__Rect__000004_End.X = 1613.769231
+	__Rect__000004_End.Y = 111.256357
 	__Rect__000004_End.Width = 468.000000
 	__Rect__000004_End.Height = 384.000000
 	__Rect__000004_End.RX = 20.000000
@@ -1132,8 +1132,6 @@ line 3`
 	__Layer__000005_Top_Rectangle_layer.Rects = append(__Layer__000005_Top_Rectangle_layer.Rects, __Rect__000002_Top_Rect)
 	__Layer__000006_Test_Automatic_Layout.Rects = append(__Layer__000006_Test_Automatic_Layout.Rects, __Rect__000003_Start)
 	__Layer__000006_Test_Automatic_Layout.Rects = append(__Layer__000006_Test_Automatic_Layout.Rects, __Rect__000004_End)
-	__Layer__000006_Test_Automatic_Layout.Links = append(__Layer__000006_Test_Automatic_Layout.Links, __Link__000005_Auto_3)
-	__Layer__000006_Test_Automatic_Layout.Links = append(__Layer__000006_Test_Automatic_Layout.Links, __Link__000003_Auto_1)
 	__Layer__000006_Test_Automatic_Layout.Links = append(__Layer__000006_Test_Automatic_Layout.Links, __Link__000004_Auto_2)
 	// setup of Link instances pointers
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000002_Top_Rect
@@ -1179,13 +1177,7 @@ line 3`
 	// setup of RectAnchoredRect instances pointers
 	// setup of RectAnchoredText instances pointers
 	// setup of SVG instances pointers
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Line_layer)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000003_Link_layer_vertical_to_horizontal)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000004_Middle_Rect_Layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000006_Test_Automatic_Layout)
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000005_Top_Rectangle_layer)
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom_Rect
 	__SVG__000000_SVG.EndRect = __Rect__000002_Top_Rect
 	// setup of SvgText instances pointers
