@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 )
 
@@ -38,31 +37,30 @@ func (linkAnchoredText *LinkAnchoredText) OnAfterUpdate(stage *Stage, _, frontLi
 
 func (linkAnchoredText *LinkAnchoredText) WriteSVG(sb *strings.Builder, link *Link, segment *Segment) {
 
+	segmentOfInterest := *segment
+	var positionArrowType PositionOnArrowType
+
+	if segmentOfInterest.Type == StartSegment {
+		positionArrowType = POSITION_ON_ARROW_START
+		segmentOfInterest = swapSegment(segmentOfInterest)
+	} else {
+		positionArrowType = POSITION_ON_ARROW_END
+	}
+
 	lines := strings.Split(linkAnchoredText.Content, "\n")
-	x, y := segment.EndPointWithoutRadius.X, segment.EndPointWithoutRadius.Y
+	x, y := segmentOfInterest.EndPointWithoutRadius.X, segmentOfInterest.EndPointWithoutRadius.Y
+
+	y += linkAnchoredText.auto_Y_offset(link, segment, positionArrowType)
+	y += linkAnchoredText.Y_Offset
+	x += linkAnchoredText.X_Offset
 
 	offset := 10.0
 
-	offsetPerLine := offset
-
-	s := linkAnchoredText.FontSize
-	if strings.HasSuffix(s, "px") {
-		numericStr := strings.TrimSuffix(s, "px")
-
-		// Try to convert the numeric string part to an integer
-		value, err := strconv.Atoi(numericStr)
-		if err != nil {
-
-		} else {
-			offsetPerLine = float64(value)
-		}
-	}
-
 	var anchorType string
-	switch segment.Orientation {
+	switch segmentOfInterest.Orientation {
 	case ORIENTATION_HORIZONTAL:
 
-		if segment.EndPoint.X > segment.StartPoint.X {
+		if segmentOfInterest.EndPoint.X > segmentOfInterest.StartPoint.X {
 			x -= offset / 2
 			if link.HasEndArrow {
 				x -= link.EndArrowSize
@@ -75,18 +73,7 @@ func (linkAnchoredText *LinkAnchoredText) WriteSVG(sb *strings.Builder, link *Li
 			}
 			anchorType = TEXT_ANCHOR_START.ToString()
 		}
-
-		switch linkAnchoredText.LinkAnchorType {
-		case LINK_LEFT_OR_TOP:
-			y = y - offsetPerLine*float64(len(lines))
-		case LINK_RIGHT_OR_BOTTOM:
-			y += offset
-			if link.HasEndArrow {
-				y += link.EndArrowSize
-			}
-		}
 	case ORIENTATION_VERTICAL:
-		y -= offset
 
 		if linkAnchoredText.LinkAnchorType == LINK_LEFT_OR_TOP {
 			x -= offset / 2
@@ -129,8 +116,65 @@ func (linkAnchoredText *LinkAnchoredText) WriteSVG(sb *strings.Builder, link *Li
 		if i == 0 {
 			sb.WriteString(fmt.Sprintf("    <tspan >%s</tspan>\n", line))
 		} else {
-			sb.WriteString(fmt.Sprintf("    <tspan x=\"%s\" dy=\"1.2em\">%s</tspan>\n", formatFloat(x), line))
+			sb.WriteString(fmt.Sprintf("    <tspan x=\"%s\" dy=\"1em\">%s</tspan>\n", formatFloat(x), line))
 		}
 	}
 	sb.WriteString("</text>\n")
+}
+
+func (linkAnchoredText *LinkAnchoredText) auto_Y_offset(
+	link *Link,
+	segment *Segment,
+	positionType PositionOnArrowType) (res float64) {
+
+	offset := 0.0
+	offsetSign := 1.0
+	oneEm := 6.0
+
+	if !linkAnchoredText.AutomaticLayout {
+		return offset
+	}
+
+	var orientation OrientationType
+	if positionType == POSITION_ON_ARROW_END {
+		orientation = link.EndOrientation
+	} else {
+		orientation = link.StartOrientation
+	}
+
+	if positionType == POSITION_ON_ARROW_START {
+		offsetSign = -offsetSign
+	}
+
+	if orientation == ORIENTATION_VERTICAL {
+		if segment.EndPoint.Y > segment.StartPoint.Y {
+			offsetSign = -offsetSign
+		}
+	} else {
+		if positionType == POSITION_ON_ARROW_END {
+			offsetSign = -offsetSign
+		}
+		if linkAnchoredText.LinkAnchorType == LINK_RIGHT_OR_BOTTOM {
+			offsetSign = -offsetSign
+		}
+	}
+
+	if link.HasEndArrow {
+		offset += link.EndArrowSize
+	}
+	if offsetSign == 1 {
+		offset += oneEm
+	} else {
+		offset += oneEm * 0.4
+	}
+
+	lines := strings.Split(linkAnchoredText.Content, "\n")
+
+	res = offset*offsetSign + linkAnchoredText.Y_Offset
+
+	if len(lines) > 1 && linkAnchoredText.LinkAnchorType == LINK_LEFT_OR_TOP {
+		res -= float64(len(lines)) * oneEm * 0.4
+	}
+
+	return
 }
