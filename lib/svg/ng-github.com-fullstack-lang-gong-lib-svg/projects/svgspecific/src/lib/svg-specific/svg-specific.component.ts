@@ -60,6 +60,7 @@ import { LayoutService } from '../layout.service';
 })
 export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
 
+
   @ViewChild('controlsContainer') controlsContainerRef!: ElementRef<HTMLDivElement>;
 
   private destroy$ = new Subject<void>();
@@ -251,13 +252,13 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     private changeDetectorRef: ChangeDetectorRef,
 
     private layoutService: LayoutService
-  ) { 
+  ) {
 
     // Debounce resize events to avoid excessive calculations
     this.resizeSubject.pipe(
       debounceTime(100), // Wait for 100ms of silence before recalculating
       takeUntil(this.destroy$)
-  ).subscribe(() => this.updateHeight());
+    ).subscribe(() => this.updateHeight());
   }
 
   updateHeight(): void {
@@ -266,7 +267,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
       // Send the calculated height to the shared service
       this.layoutService.updateControlsHeight(height);
     } else {
-       console.warn('Controls container ref not ready in updateHeight');
+      console.warn('Controls container ref not ready in updateHeight');
     }
   }
 
@@ -350,7 +351,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
         // Manually trigger change detection
         this.changeDetectorRef.detectChanges()
 
-        if (this.svg.IsSVGFileGenerated) {
+        if (this.svg.IsSVGFrontEndFileGenerated) {
           this.generatesSVG(false)
         }
 
@@ -987,7 +988,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     return coordinate
   }
 
-  generatesSVG(download : boolean) {
+  generatesSVG(download: boolean) {
     // Retrieve the native SVG element through the ViewChild/ElementRef
     const svgElement: SVGSVGElement = this.svgContainer.nativeElement;
 
@@ -995,8 +996,8 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     // This assumes your drawable content is within the first <g> tag directly under <svg>
     const contentGroup = svgElement.querySelector('g');
     if (!contentGroup) {
-        console.error("Could not find the main content group <g> element.");
-        return; // Exit if the group isn't found
+      console.error("Could not find the main content group <g> element.");
+      return; // Exit if the group isn't found
     }
 
     // Calculate the bounding box of the content group
@@ -1066,8 +1067,8 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     // --- SvgText Update Logic (Keep if needed) ---
     let svgText: svg.SvgText | undefined;
     if (this.gongsvgFrontRepo?.array_SvgTexts) {
-        // Assuming only one SvgText exists or you want the last one
-        svgText = this.gongsvgFrontRepo.array_SvgTexts[this.gongsvgFrontRepo.array_SvgTexts.length - 1];
+      // Assuming only one SvgText exists or you want the last one
+      svgText = this.gongsvgFrontRepo.array_SvgTexts[this.gongsvgFrontRepo.array_SvgTexts.length - 1];
     }
 
     if (svgText !== undefined && this.svgTextService) { // Check if svgTextService is available
@@ -1096,13 +1097,30 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
       URL.revokeObjectURL(url);
     }
   }
-  
-    /**
-   * Called when zoom, shiftX, or shiftY slider value changes.
-   * Manually triggers change detection because the detector is detached.
-   */
-    onTransformChange(): void {
-      this.changeDetectorRef.detectChanges();
-    }
-  
+
+  /**
+ * Called when zoom, shiftX, or shiftY slider value changes.
+ * Manually triggers change detection because the detector is detached.
+ */
+  onTransformChange(): void {
+    this.changeDetectorRef.detectChanges();
+  }
+
+  generatesSVGInTheBack(arg0: boolean) {
+
+    console.log("generatesSVGInTheBack", "begin")
+    this.svg.IsSVGBackEndFileGenerated = true
+
+    this.svgService.updateFront(this.svg, this.Name).subscribe(
+      svg => {
+        console.log("generatesSVGInTheBack", "request for back end generation sent")
+        this.svg.IsSVGBackEndFileGenerated = false
+        this.svgService.updateFront(this.svg, this.Name).subscribe(
+          svg => {
+            console.log("generatesSVGInTheBack", "svg set back to normal")
+          }
+        )
+      }
+    )
+  }
 }

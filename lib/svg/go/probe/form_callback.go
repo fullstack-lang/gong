@@ -1163,8 +1163,6 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 	for _, formDiv := range layerFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
-		case "Display":
-			FormDivBasicFieldToField(&(layer_.Display), formDiv)
 		case "Name":
 			FormDivBasicFieldToField(&(layer_.Name), formDiv)
 		case "SVG:Layers":
@@ -1689,6 +1687,8 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(linkanchoredtext_.FontWeight), formDiv)
 		case "FontSize":
 			FormDivBasicFieldToField(&(linkanchoredtext_.FontSize), formDiv)
+		case "FontStyle":
+			FormDivBasicFieldToField(&(linkanchoredtext_.FontStyle), formDiv)
 		case "LetterSpacing":
 			FormDivBasicFieldToField(&(linkanchoredtext_.LetterSpacing), formDiv)
 		case "Color":
@@ -3108,6 +3108,8 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rectanchoredtext_.FontSize), formDiv)
 		case "FontStyle":
 			FormDivBasicFieldToField(&(rectanchoredtext_.FontStyle), formDiv)
+		case "LetterSpacing":
+			FormDivBasicFieldToField(&(rectanchoredtext_.LetterSpacing), formDiv)
 		case "X_Offset":
 			FormDivBasicFieldToField(&(rectanchoredtext_.X_Offset), formDiv)
 		case "Y_Offset":
@@ -3450,8 +3452,12 @@ func (svgFormCallback *SVGFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(svg_.EndRect), svgFormCallback.probe.stageOfInterest, formDiv)
 		case "IsEditable":
 			FormDivBasicFieldToField(&(svg_.IsEditable), formDiv)
-		case "IsSVGFileGenerated":
-			FormDivBasicFieldToField(&(svg_.IsSVGFileGenerated), formDiv)
+		case "IsSVGFrontEndFileGenerated":
+			FormDivBasicFieldToField(&(svg_.IsSVGFrontEndFileGenerated), formDiv)
+		case "IsSVGBackEndFileGenerated":
+			FormDivBasicFieldToField(&(svg_.IsSVGBackEndFileGenerated), formDiv)
+		case "DefaultDirectoryForGeneratedImages":
+			FormDivBasicFieldToField(&(svg_.DefaultDirectoryForGeneratedImages), formDiv)
 		}
 	}
 
@@ -3630,6 +3636,14 @@ func (textFormCallback *TextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(text_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(text_.Transform), formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&(text_.FontWeight), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(text_.FontSize), formDiv)
+		case "FontStyle":
+			FormDivBasicFieldToField(&(text_.FontStyle), formDiv)
+		case "LetterSpacing":
+			FormDivBasicFieldToField(&(text_.LetterSpacing), formDiv)
 		case "Layer:Texts":
 			// WARNING : this form deals with the N-N association "Layer.Texts []*Text" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
