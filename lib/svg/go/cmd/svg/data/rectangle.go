@@ -192,10 +192,10 @@ func _(stage *models.Stage) {
 	__Link__000003_Auto_1.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000003_Auto_1.IsBezierCurve = false
 	__Link__000003_Auto_1.StartOrientation = models.ORIENTATION_VERTICAL
-	__Link__000003_Auto_1.StartRatio = 0.839202
+	__Link__000003_Auto_1.StartRatio = 0.388824
 	__Link__000003_Auto_1.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000003_Auto_1.EndRatio = 0.389793
-	__Link__000003_Auto_1.CornerOffsetRatio = -0.240763
+	__Link__000003_Auto_1.EndRatio = 0.626972
+	__Link__000003_Auto_1.CornerOffsetRatio = 1.956431
 	__Link__000003_Auto_1.CornerRadius = 20.000000
 	__Link__000003_Auto_1.HasEndArrow = true
 	__Link__000003_Auto_1.EndArrowSize = 15.000000
@@ -213,11 +213,11 @@ func _(stage *models.Stage) {
 	__Link__000004_Auto_2.Name = `Auto 2`
 	__Link__000004_Auto_2.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000004_Auto_2.IsBezierCurve = false
-	__Link__000004_Auto_2.StartOrientation = models.ORIENTATION_VERTICAL
-	__Link__000004_Auto_2.StartRatio = 0.364152
+	__Link__000004_Auto_2.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000004_Auto_2.StartRatio = 0.647783
 	__Link__000004_Auto_2.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000004_Auto_2.EndRatio = 0.175469
-	__Link__000004_Auto_2.CornerOffsetRatio = 1.295932
+	__Link__000004_Auto_2.EndRatio = 0.909340
+	__Link__000004_Auto_2.CornerOffsetRatio = 1.030819
 	__Link__000004_Auto_2.CornerRadius = 40.000000
 	__Link__000004_Auto_2.HasEndArrow = true
 	__Link__000004_Auto_2.EndArrowSize = 15.000000
@@ -238,8 +238,8 @@ func _(stage *models.Stage) {
 	__Link__000005_Auto_3.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000005_Auto_3.StartRatio = 0.620556
 	__Link__000005_Auto_3.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000005_Auto_3.EndRatio = 0.929033
-	__Link__000005_Auto_3.CornerOffsetRatio = -0.196787
+	__Link__000005_Auto_3.EndRatio = 0.408200
+	__Link__000005_Auto_3.CornerOffsetRatio = -0.383744
 	__Link__000005_Auto_3.CornerRadius = 30.000000
 	__Link__000005_Auto_3.HasEndArrow = true
 	__Link__000005_Auto_3.EndArrowSize = 15.000000
@@ -566,10 +566,10 @@ Line 2`
 	__Rect__000002_Top_Rect.CanMoveVerticaly = true
 
 	__Rect__000003_Start.Name = `Start`
-	__Rect__000003_Start.X = 675.333333
-	__Rect__000003_Start.Y = 99.333317
-	__Rect__000003_Start.Width = 568.000000
-	__Rect__000003_Start.Height = 238.571429
+	__Rect__000003_Start.X = 443.333333
+	__Rect__000003_Start.Y = 56.333332
+	__Rect__000003_Start.Width = 853.000000
+	__Rect__000003_Start.Height = 125.571444
 	__Rect__000003_Start.RX = 20.000000
 	__Rect__000003_Start.Color = ``
 	__Rect__000003_Start.FillOpacity = 0.000000
@@ -594,8 +594,8 @@ Line 2`
 	__Rect__000003_Start.CanMoveVerticaly = true
 
 	__Rect__000004_End.Name = `End`
-	__Rect__000004_End.X = 1379.769231
-	__Rect__000004_End.Y = 214.256327
+	__Rect__000004_End.X = 354.769231
+	__Rect__000004_End.Y = 429.256327
 	__Rect__000004_End.Width = 624.000000
 	__Rect__000004_End.Height = 384.000000
 	__Rect__000004_End.RX = 20.000000
@@ -1172,8 +1172,8 @@ line 3`
 	__Layer__000005_Top_Rectangle_layer.Rects = append(__Layer__000005_Top_Rectangle_layer.Rects, __Rect__000002_Top_Rect)
 	__Layer__000006_Test_Automatic_Layout.Rects = append(__Layer__000006_Test_Automatic_Layout.Rects, __Rect__000003_Start)
 	__Layer__000006_Test_Automatic_Layout.Rects = append(__Layer__000006_Test_Automatic_Layout.Rects, __Rect__000004_End)
-	__Layer__000006_Test_Automatic_Layout.Links = append(__Layer__000006_Test_Automatic_Layout.Links, __Link__000004_Auto_2)
 	__Layer__000006_Test_Automatic_Layout.Links = append(__Layer__000006_Test_Automatic_Layout.Links, __Link__000003_Auto_1)
+	__Layer__000006_Test_Automatic_Layout.Links = append(__Layer__000006_Test_Automatic_Layout.Links, __Link__000004_Auto_2)
 	__Layer__000006_Test_Automatic_Layout.Links = append(__Layer__000006_Test_Automatic_Layout.Links, __Link__000005_Auto_3)
 	// setup of Link instances pointers
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Start = __Rect__000002_Top_Rect
