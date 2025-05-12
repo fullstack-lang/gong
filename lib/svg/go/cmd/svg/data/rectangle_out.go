@@ -95,22 +95,16 @@ func _(stage *models.Stage) {
 	__Circle__000000_Test.StrokeDashArrayWhenSelected = ``
 	__Circle__000000_Test.Transform = ``
 
-	__Layer__000000_Bottom_Rectangle_Layer.Display = false
 	__Layer__000000_Bottom_Rectangle_Layer.Name = `Bottom Rectangle Layer`
 
-	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Display = false
 	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Name = `Layer RectLinkLink Medium to Top-Bottom`
 
-	__Layer__000002_Line_layer.Display = false
 	__Layer__000002_Line_layer.Name = `Line layer`
 
-	__Layer__000003_Link_layer_vertical_to_horizontal.Display = false
 	__Layer__000003_Link_layer_vertical_to_horizontal.Name = `Link layer vertical to horizontal`
 
-	__Layer__000004_Middle_Rect_Layer.Display = false
 	__Layer__000004_Middle_Rect_Layer.Name = `Middle Rect Layer`
 
-	__Layer__000005_Top_Rectangle_layer.Display = false
 	__Layer__000005_Top_Rectangle_layer.Name = `Top Rectangle layer`
 
 	__Line__000000_Line_connecting_rect_Bottom_to_Top.Name = `Line connecting rect Bottom to Top`
@@ -513,7 +507,7 @@ a special case of go Note convention. See example
 for details in the go code of the models.
 `
 	__RectAnchoredText__000000_Bottom_Text.FontWeight = `100`
-	__RectAnchoredText__000000_Bottom_Text.FontSize = 0
+	__RectAnchoredText__000000_Bottom_Text.FontSize = ``
 	__RectAnchoredText__000000_Bottom_Text.FontStyle = ``
 	__RectAnchoredText__000000_Bottom_Text.X_Offset = 0.000000
 	__RectAnchoredText__000000_Bottom_Text.Y_Offset = 20.000000
@@ -531,7 +525,7 @@ for details in the go code of the models.
 	__RectAnchoredText__000001_Top_Left.Name = `Top Left`
 	__RectAnchoredText__000001_Top_Left.Content = `Top Left`
 	__RectAnchoredText__000001_Top_Left.FontWeight = ``
-	__RectAnchoredText__000001_Top_Left.FontSize = 0
+	__RectAnchoredText__000001_Top_Left.FontSize = ``
 	__RectAnchoredText__000001_Top_Left.FontStyle = ``
 	__RectAnchoredText__000001_Top_Left.X_Offset = 0.000000
 	__RectAnchoredText__000001_Top_Left.Y_Offset = 0.000000
@@ -548,7 +542,7 @@ for details in the go code of the models.
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.Name = `Top anchored bottom middle`
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.Content = `Top anchored bottom middle`
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.FontWeight = ``
-	__RectAnchoredText__000002_Top_anchored_bottom_middle.FontSize = 0
+	__RectAnchoredText__000002_Top_anchored_bottom_middle.FontSize = ``
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.FontStyle = ``
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.X_Offset = 0.000000
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.Y_Offset = 20.000000
@@ -568,7 +562,7 @@ for details in the go code of the models.
 top middle
 line 3`
 	__RectAnchoredText__000003_Top_anchored_top_middle.FontWeight = `bold`
-	__RectAnchoredText__000003_Top_anchored_top_middle.FontSize = 0
+	__RectAnchoredText__000003_Top_anchored_top_middle.FontSize = ``
 	__RectAnchoredText__000003_Top_anchored_top_middle.FontStyle = `italic`
 	__RectAnchoredText__000003_Top_anchored_top_middle.X_Offset = 0.000000
 	__RectAnchoredText__000003_Top_anchored_top_middle.Y_Offset = 20.000000
@@ -597,7 +591,7 @@ line 3`
 	__SVG__000000_SVG.Name = `SVG`
 	__SVG__000000_SVG.DrawingState = models.NOT_DRAWING_LINK
 	__SVG__000000_SVG.IsEditable = true
-	__SVG__000000_SVG.IsSVGFileGenerated = false
+	__SVG__000000_SVG.IsSVGFrontEndFileGenerated = false
 
 	__SvgText__000000_Essai.Name = `Essai`
 	__SvgText__000000_Essai.Text = `<svg xmlns="http://www.w3.org/2000/svg" width="1376" height="882" viewBox="-400 -10 1376 882">

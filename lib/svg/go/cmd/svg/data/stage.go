@@ -125,10 +125,8 @@ func _(stage *models.Stage) {
 	__Ellipse__000000_Ellipse_Example_SVG.StrokeDashArrayWhenSelected = ``
 	__Ellipse__000000_Ellipse_Example_SVG.Transform = ``
 
-	__Layer__000000_Default_Layer.Display = true
 	__Layer__000000_Default_Layer.Name = `Default Layer`
 
-	__Layer__000001_Test_Layer.Display = true
 	__Layer__000001_Test_Layer.Name = `Test Layer`
 
 	__Line__000000_Line.Name = `Line`

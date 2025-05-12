@@ -358,8 +358,6 @@ func FillUpForm(
 
 	case *models.Layer:
 		// insertion point
-		BasicFieldtoForm("Display", instanceWithInferedType.Display, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("Rects", instanceWithInferedType, &instanceWithInferedType.Rects, formGroup, probe)
@@ -538,6 +536,8 @@ func FillUpForm(
 		BasicFieldtoForm("FontWeight", instanceWithInferedType.FontWeight, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("FontSize", instanceWithInferedType.FontSize, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("FontStyle", instanceWithInferedType.FontStyle, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("LetterSpacing", instanceWithInferedType.LetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -983,6 +983,8 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("FontStyle", instanceWithInferedType.FontStyle, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("LetterSpacing", instanceWithInferedType.LetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		BasicFieldtoForm("X_Offset", instanceWithInferedType.X_Offset, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Y_Offset", instanceWithInferedType.Y_Offset, instanceWithInferedType, probe.formStage, formGroup,
@@ -1086,7 +1088,11 @@ func FillUpForm(
 		AssociationFieldToForm("EndRect", instanceWithInferedType.EndRect, formGroup, probe)
 		BasicFieldtoForm("IsEditable", instanceWithInferedType.IsEditable, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsSVGFileGenerated", instanceWithInferedType.IsSVGFileGenerated, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsSVGFrontEndFileGenerated", instanceWithInferedType.IsSVGFrontEndFileGenerated, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsSVGBackEndFileGenerated", instanceWithInferedType.IsSVGBackEndFileGenerated, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("DefaultDirectoryForGeneratedImages", instanceWithInferedType.DefaultDirectoryForGeneratedImages, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 
 	case *models.SvgText:
@@ -1122,6 +1128,14 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 400)
+		BasicFieldtoForm("FontWeight", instanceWithInferedType.FontWeight, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("FontSize", instanceWithInferedType.FontSize, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("FontStyle", instanceWithInferedType.FontStyle, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("LetterSpacing", instanceWithInferedType.LetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		AssociationSliceToForm("Animates", instanceWithInferedType, &instanceWithInferedType.Animates, formGroup, probe)
 		{
 			var rf models.ReverseField
