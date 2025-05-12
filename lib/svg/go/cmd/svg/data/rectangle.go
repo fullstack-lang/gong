@@ -566,8 +566,8 @@ Line 2`
 	__Rect__000002_Top_Rect.CanMoveVerticaly = true
 
 	__Rect__000003_Start.Name = `Start`
-	__Rect__000003_Start.X = 443.333333
-	__Rect__000003_Start.Y = 56.333332
+	__Rect__000003_Start.X = 1180.333333
+	__Rect__000003_Start.Y = 77.333332
 	__Rect__000003_Start.Width = 853.000000
 	__Rect__000003_Start.Height = 125.571444
 	__Rect__000003_Start.RX = 20.000000
@@ -594,8 +594,8 @@ Line 2`
 	__Rect__000003_Start.CanMoveVerticaly = true
 
 	__Rect__000004_End.Name = `End`
-	__Rect__000004_End.X = 354.769231
-	__Rect__000004_End.Y = 429.256327
+	__Rect__000004_End.X = 1081.769231
+	__Rect__000004_End.Y = 385.256327
 	__Rect__000004_End.Width = 624.000000
 	__Rect__000004_End.Height = 384.000000
 	__Rect__000004_End.RX = 20.000000
@@ -1223,7 +1223,13 @@ line 3`
 	// setup of RectAnchoredRect instances pointers
 	// setup of RectAnchoredText instances pointers
 	// setup of SVG instances pointers
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Bottom_Rectangle_Layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000002_Line_layer)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000003_Link_layer_vertical_to_horizontal)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000004_Middle_Rect_Layer)
 	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000006_Test_Automatic_Layout)
+	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000005_Top_Rectangle_layer)
 	__SVG__000000_SVG.StartRect = __Rect__000000_Bottom_Rect
 	__SVG__000000_SVG.EndRect = __Rect__000002_Top_Rect
 	// setup of SvgText instances pointers
