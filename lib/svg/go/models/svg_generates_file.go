@@ -76,6 +76,12 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 						linkAnchoredText.WriteSVG(&sb, link, &segment)
 					}
 				}
+
+				if segment.Type == StartSegment {
+					for _, linkAnchoredText := range link.TextAtArrowStart {
+						linkAnchoredText.WriteSVG(&sb, link, &segment)
+					}
+				}
 			}
 
 			_ = segments
