@@ -116,7 +116,7 @@ func (linkAnchoredText *LinkAnchoredText) auto_Y_offset(
 
 	offset := 0.0
 	offsetSign := 1.0
-	oneEm := 6.0
+	oneEm := 19.0 // this is measured from the console log in the front
 
 	if !linkAnchoredText.AutomaticLayout {
 		return offset
