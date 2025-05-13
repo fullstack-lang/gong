@@ -80,6 +80,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     // Now you can use textWidthCalculator
     this.changeDetectorRef.detectChanges() // this is necessary to have the width configuration working
     this.oneEm = this.textWidthCalculator!.measureTextHeight("A");
+    console.log("this.oneEm", this.oneEm)
     this.changeDetectorRef.detectChanges() // this is necessary to have the width configuration working
 
     // Initial height calculation after view is ready
