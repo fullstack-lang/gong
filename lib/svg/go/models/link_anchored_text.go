@@ -73,7 +73,7 @@ func (linkAnchoredText *LinkAnchoredText) WriteSVG(sb *strings.Builder, link *Li
 	}
 	sb.WriteString(
 		fmt.Sprintf(
-			`  <text xml:space="preserve"
+			`	<text xml:space="preserve"
 			x="%s" 
 			y="%s" 
 			text-anchor="%s"
@@ -100,13 +100,13 @@ func (linkAnchoredText *LinkAnchoredText) WriteSVG(sb *strings.Builder, link *Li
 
 		if i == 0 {
 			// Preserve leading/trailing spaces and make them non-breaking
-			sb.WriteString(fmt.Sprintf("    <tspan xml:space=\"preserve\">\u00A0%s\u00A0</tspan>\n", line))
+			sb.WriteString(fmt.Sprintf("		<tspan xml:space=\"preserve\">\u00A0%s\u00A0</tspan>\n", line))
 		} else {
 			// Preserve leading/trailing spaces and make them non-breaking
-			sb.WriteString(fmt.Sprintf("    <tspan xml:space=\"preserve\" x=\"%s\" dy=\"1em\">\u00A0%s\u00A0</tspan>\n", formatFloat(x), line))
+			sb.WriteString(fmt.Sprintf("		<tspan xml:space=\"preserve\" x=\"%s\" dy=\"1em\">\u00A0%s\u00A0</tspan>\n", formatFloat(x), line))
 		}
 	}
-	sb.WriteString("</text>\n")
+	sb.WriteString("	</text>\n")
 }
 
 func (linkAnchoredText *LinkAnchoredText) auto_Y_offset(
