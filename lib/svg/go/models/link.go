@@ -163,7 +163,7 @@ func (link *Link) WriteSVGEndArrow(sb *strings.Builder, segment *Segment) {
 	secondStartX += dx
 	secondStartY += dy
 
-	sb.WriteString(fmt.Sprintf("		<path d=\"M %f %f L %f %f M %f %f L %f %f\"",
+	sb.WriteString(fmt.Sprintf("	<path d=\"M %f %f L %f %f M %f %f L %f %f\"",
 		firstStartX,
 		firstStartY,
 		firstTipX,
@@ -259,7 +259,7 @@ func (link *Link) WriteSVGArcPath(sb *strings.Builder, segment, nextSegment *Seg
 		// return fmt.Sprintf("M %f %f L %f %f", startX, startY, endX, endY)
 	}
 
-	sb.WriteString(fmt.Sprintf("		<path d=\"M %f %f A %f %f 0 %d %d %f %f\"",
+	sb.WriteString(fmt.Sprintf("	<path d=\"M %f %f A %f %f 0 %d %d %f %f\"",
 		startX, startY,
 		cornerRadius, cornerRadius, /* rx, ry */
 		largeArcFlag, sweepFlag,
