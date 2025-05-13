@@ -28,6 +28,7 @@ func _(stage *models.Stage) {
 	__Link__000000_Start_to_End := (&models.Link{}).Stage(stage)
 
 	__LinkAnchoredText__000000_LEFT_OR_TOP := (&models.LinkAnchoredText{}).Stage(stage)
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM := (&models.LinkAnchoredText{}).Stage(stage)
 
 	__Rect__000000_Start := (&models.Rect{}).Stage(stage)
 	__Rect__000001_End := (&models.Rect{}).Stage(stage)
@@ -78,6 +79,25 @@ func _(stage *models.Stage) {
 	__LinkAnchoredText__000000_LEFT_OR_TOP.StrokeDashArray = ``
 	__LinkAnchoredText__000000_LEFT_OR_TOP.StrokeDashArrayWhenSelected = ``
 	__LinkAnchoredText__000000_LEFT_OR_TOP.Transform = ``
+
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.Name = `RIGHT_OR_BOTTOM`
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.Content = `RIGHT_OR_BOTTOM`
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.AutomaticLayout = true
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.LinkAnchorType = models.LINK_RIGHT_OR_BOTTOM
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.X_Offset = 0.000000
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.Y_Offset = 0.000000
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.FontWeight = ``
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.FontSize = ``
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.FontStyle = ``
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.LetterSpacing = ``
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.Color = `black`
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.FillOpacity = 1.000000
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.Stroke = `black`
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.StrokeOpacity = 1.000000
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.StrokeWidth = 1.000000
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.StrokeDashArray = ``
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.StrokeDashArrayWhenSelected = ``
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.Transform = ``
 
 	__Rect__000000_Start.Name = `Start`
 	__Rect__000000_Start.X = 100.000000
@@ -150,7 +170,9 @@ func _(stage *models.Stage) {
 	__Link__000000_Start_to_End.Start = __Rect__000000_Start
 	__Link__000000_Start_to_End.End = __Rect__000001_End
 	__Link__000000_Start_to_End.TextAtArrowStart = append(__Link__000000_Start_to_End.TextAtArrowStart, __LinkAnchoredText__000000_LEFT_OR_TOP)
+	__Link__000000_Start_to_End.TextAtArrowStart = append(__Link__000000_Start_to_End.TextAtArrowStart, __LinkAnchoredText__000001_RIGHT_OR_BOTTOM)
 	__Link__000000_Start_to_End.TextAtArrowEnd = append(__Link__000000_Start_to_End.TextAtArrowEnd, __LinkAnchoredText__000000_LEFT_OR_TOP)
+	__Link__000000_Start_to_End.TextAtArrowEnd = append(__Link__000000_Start_to_End.TextAtArrowEnd, __LinkAnchoredText__000001_RIGHT_OR_BOTTOM)
 	// setup of LinkAnchoredText instances pointers
 	// setup of Rect instances pointers
 	// setup of SVG instances pointers

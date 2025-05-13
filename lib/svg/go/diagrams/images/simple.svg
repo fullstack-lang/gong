@@ -48,6 +48,22 @@
             transform="">
 		<tspan xml:space="preserve"> LEFT_OR_TOP </tspan>
 	</text>
+	<text xml:space="preserve"
+			x="300" 
+			y="129" 
+			text-anchor="start"
+			font-weight=""
+			font-style=""
+			font-size=""
+			fill="black"
+            fill-opacity="1.000000"
+            stroke="black"
+            stroke-opacity="1.000000"
+            stroke-width="1.000000"
+            stroke-dasharray=""
+            transform="">
+		<tspan xml:space="preserve"> RIGHT_OR_BOTTOM </tspan>
+	</text>
 	<line x1="500" y1="100" x2="500" y2="100"
 			fill=""
             fill-opacity="0.000000"
@@ -95,5 +111,21 @@
             stroke-dasharray=""
             transform="">
 		<tspan xml:space="preserve"> LEFT_OR_TOP </tspan>
+	</text>
+	<text xml:space="preserve"
+			x="700" 
+			y="129" 
+			text-anchor="end"
+			font-weight=""
+			font-style=""
+			font-size=""
+			fill="black"
+            fill-opacity="1.000000"
+            stroke="black"
+            stroke-opacity="1.000000"
+            stroke-width="1.000000"
+            stroke-dasharray=""
+            transform="">
+		<tspan xml:space="preserve"> RIGHT_OR_BOTTOM </tspan>
 	</text>
 </svg>
