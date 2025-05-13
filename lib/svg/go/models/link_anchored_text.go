@@ -54,33 +54,18 @@ func (linkAnchoredText *LinkAnchoredText) WriteSVG(sb *strings.Builder, link *Li
 	y += linkAnchoredText.Y_Offset
 	x += linkAnchoredText.X_Offset
 
-	offset := 10.0
-
 	var anchorType string
 	switch segmentOfInterest.Orientation {
 	case ORIENTATION_HORIZONTAL:
 
 		if segmentOfInterest.EndPoint.X > segmentOfInterest.StartPoint.X {
-			x -= offset / 2
-			if link.HasEndArrow {
-				x -= link.EndArrowSize
-			}
 			anchorType = TEXT_ANCHOR_END.ToString()
 		} else {
-			x += offset / 2
-			if link.HasEndArrow {
-				x += link.EndArrowSize
-			}
 			anchorType = TEXT_ANCHOR_START.ToString()
 		}
 	case ORIENTATION_VERTICAL:
 
 		if linkAnchoredText.LinkAnchorType == LINK_LEFT_OR_TOP {
-			x -= offset / 2
-
-			if link.HasEndArrow {
-				x -= link.EndArrowSize
-			}
 			anchorType = TEXT_ANCHOR_END.ToString()
 		} else {
 			anchorType = TEXT_ANCHOR_START.ToString()
@@ -88,7 +73,7 @@ func (linkAnchoredText *LinkAnchoredText) WriteSVG(sb *strings.Builder, link *Li
 	}
 	sb.WriteString(
 		fmt.Sprintf(
-			`  <text xml:space="preserve"
+			`	<text xml:space="preserve"
 			x="%s" 
 			y="%s" 
 			text-anchor="%s"
@@ -104,7 +89,7 @@ func (linkAnchoredText *LinkAnchoredText) WriteSVG(sb *strings.Builder, link *Li
 		))
 
 	linkAnchoredText.Presentation.WriteSVG(sb)
-	sb.WriteString(" >\n")
+	sb.WriteString(">\n")
 
 	for i, line := range lines {
 
@@ -114,12 +99,14 @@ func (linkAnchoredText *LinkAnchoredText) WriteSVG(sb *strings.Builder, link *Li
 		}
 
 		if i == 0 {
-			sb.WriteString(fmt.Sprintf("    <tspan >%s</tspan>\n", line))
+			// Preserve leading/trailing spaces and make them non-breaking
+			sb.WriteString(fmt.Sprintf("		<tspan xml:space=\"preserve\">\u00A0%s\u00A0</tspan>\n", line))
 		} else {
-			sb.WriteString(fmt.Sprintf("    <tspan x=\"%s\" dy=\"1em\">%s</tspan>\n", formatFloat(x), line))
+			// Preserve leading/trailing spaces and make them non-breaking
+			sb.WriteString(fmt.Sprintf("		<tspan xml:space=\"preserve\" x=\"%s\" dy=\"1em\">\u00A0%s\u00A0</tspan>\n", formatFloat(x), line))
 		}
 	}
-	sb.WriteString("</text>\n")
+	sb.WriteString("	</text>\n")
 }
 
 func (linkAnchoredText *LinkAnchoredText) auto_Y_offset(
@@ -129,7 +116,7 @@ func (linkAnchoredText *LinkAnchoredText) auto_Y_offset(
 
 	offset := 0.0
 	offsetSign := 1.0
-	oneEm := 6.0
+	oneEm := 19.0 // this is measured from the console log in the front
 
 	if !linkAnchoredText.AutomaticLayout {
 		return offset
