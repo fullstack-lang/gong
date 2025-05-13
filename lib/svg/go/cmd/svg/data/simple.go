@@ -32,7 +32,7 @@ func _(stage *models.Stage) {
 	__Rect__000000_Start := (&models.Rect{}).Stage(stage)
 	__Rect__000001_End := (&models.Rect{}).Stage(stage)
 
-	__SVG__000000_SVG := (&models.SVG{}).Stage(stage)
+	__SVG__000000_simple := (&models.SVG{}).Stage(stage)
 
 	// Setup of values
 
@@ -45,7 +45,7 @@ func _(stage *models.Stage) {
 	__Link__000000_Start_to_End.StartRatio = 0.000000
 	__Link__000000_Start_to_End.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000000_Start_to_End.EndRatio = 0.000000
-	__Link__000000_Start_to_End.CornerOffsetRatio = 0.000000
+	__Link__000000_Start_to_End.CornerOffsetRatio = 2.000000
 	__Link__000000_Start_to_End.CornerRadius = 0.000000
 	__Link__000000_Start_to_End.HasEndArrow = true
 	__Link__000000_Start_to_End.EndArrowSize = 10.000000
@@ -108,7 +108,7 @@ func _(stage *models.Stage) {
 	__Rect__000000_Start.CanMoveVerticaly = false
 
 	__Rect__000001_End.Name = `End`
-	__Rect__000001_End.X = 500.000000
+	__Rect__000001_End.X = 700.000000
 	__Rect__000001_End.Y = 100.000000
 	__Rect__000001_End.Width = 200.000000
 	__Rect__000001_End.Height = 200.000000
@@ -135,11 +135,11 @@ func _(stage *models.Stage) {
 	__Rect__000001_End.CanMoveHorizontaly = false
 	__Rect__000001_End.CanMoveVerticaly = false
 
-	__SVG__000000_SVG.Name = `SVG`
-	__SVG__000000_SVG.IsEditable = false
-	__SVG__000000_SVG.IsSVGFrontEndFileGenerated = false
-	__SVG__000000_SVG.IsSVGBackEndFileGenerated = false
-	__SVG__000000_SVG.DefaultDirectoryForGeneratedImages = ``
+	__SVG__000000_simple.Name = `simple`
+	__SVG__000000_simple.IsEditable = false
+	__SVG__000000_simple.IsSVGFrontEndFileGenerated = false
+	__SVG__000000_simple.IsSVGBackEndFileGenerated = false
+	__SVG__000000_simple.DefaultDirectoryForGeneratedImages = `../../diagrams/images`
 
 	// Setup of pointers
 	// setup of Layer instances pointers
@@ -149,9 +149,10 @@ func _(stage *models.Stage) {
 	// setup of Link instances pointers
 	__Link__000000_Start_to_End.Start = __Rect__000000_Start
 	__Link__000000_Start_to_End.End = __Rect__000001_End
+	__Link__000000_Start_to_End.TextAtArrowStart = append(__Link__000000_Start_to_End.TextAtArrowStart, __LinkAnchoredText__000000_LEFT_OR_TOP)
 	__Link__000000_Start_to_End.TextAtArrowEnd = append(__Link__000000_Start_to_End.TextAtArrowEnd, __LinkAnchoredText__000000_LEFT_OR_TOP)
 	// setup of LinkAnchoredText instances pointers
 	// setup of Rect instances pointers
 	// setup of SVG instances pointers
-	__SVG__000000_SVG.Layers = append(__SVG__000000_SVG.Layers, __Layer__000000_Layer_1)
+	__SVG__000000_simple.Layers = append(__SVG__000000_simple.Layers, __Layer__000000_Layer_1)
 }
