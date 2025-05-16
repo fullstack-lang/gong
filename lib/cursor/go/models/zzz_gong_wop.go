@@ -6,23 +6,40 @@ import "time"
 // to avoid compile error if no time field is present
 var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 
+var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+
 // insertion point
 type Cursor_WOP struct {
 	// insertion point
+
 	Name string
+
 	StartX float64
+
 	EndX float64
+
 	Y1 float64
+
 	Y2 float64
+
 	DurationSeconds float64
+
 	Color string
+
 	FillOpacity float64
+
 	Stroke string
+
 	StrokeOpacity float64
+
 	StrokeWidth float64
+
 	StrokeDashArray string
+
 	StrokeDashArrayWhenSelected string
+
 	Transform string
+
 	IsPlaying bool
 }
 

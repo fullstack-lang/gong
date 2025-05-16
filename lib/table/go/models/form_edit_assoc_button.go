@@ -40,4 +40,5 @@ func (formEditAssocButton *FormEditAssocButton) OnAfterUpdate(
 
 type FormEditAssocButtonInterface interface {
 	OnButtonPressed()
+	OnSave()
 }

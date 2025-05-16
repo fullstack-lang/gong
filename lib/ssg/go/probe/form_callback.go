@@ -10,9 +10,10 @@ import (
 	"github.com/fullstack-lang/gong/lib/ssg/go/models"
 )
 
-const __dummmy__time = time.Nanosecond
+// to avoid errors when time and slices packages are not used in the generated code
+const _ = time.Nanosecond
 
-var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+var _ = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
 func __gong__New__ChapterFormCallback(
@@ -98,7 +99,7 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 						// the match is base on the name
 						if _content.GetName() == fieldValue.GetName() {
 							newContentOwner := _content // we have a match
-							
+
 							// we remove the chapter_ instance from the pastContentOwner field
 							if pastContentOwner != nil {
 								if newContentOwner != pastContentOwner {
@@ -317,7 +318,7 @@ func (pageFormCallback *PageFormCallback) OnSave() {
 						// the match is base on the name
 						if _chapter.GetName() == fieldValue.GetName() {
 							newChapterOwner := _chapter // we have a match
-							
+
 							// we remove the page_ instance from the pastChapterOwner field
 							if pastChapterOwner != nil {
 								if newChapterOwner != pastChapterOwner {

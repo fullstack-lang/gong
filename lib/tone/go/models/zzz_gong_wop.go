@@ -6,9 +6,12 @@ import "time"
 // to avoid compile error if no time field is present
 var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 
+var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+
 // insertion point
 type Freqency_WOP struct {
 	// insertion point
+
 	Name string
 }
 
@@ -19,10 +22,15 @@ func (from *Freqency) CopyBasicFields(to *Freqency) {
 
 type Note_WOP struct {
 	// insertion point
+
 	Name string
+
 	Start float64
+
 	Duration float64
+
 	Velocity float64
+
 	Info string
 }
 
@@ -37,7 +45,9 @@ func (from *Note) CopyBasicFields(to *Note) {
 
 type Player_WOP struct {
 	// insertion point
+
 	Name string
+
 	Status Status
 }
 
