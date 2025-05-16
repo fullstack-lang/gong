@@ -10,9 +10,10 @@ import (
 	"github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-const __dummmy__time = time.Nanosecond
+// to avoid errors when time and slices packages are not used in the generated code
+const _ = time.Nanosecond
 
-var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+var _ = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
 func __gong__New__ButtonFormCallback(
@@ -108,7 +109,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 						// the match is base on the name
 						if _node.GetName() == fieldValue.GetName() {
 							newNodeOwner := _node // we have a match
-							
+
 							// we remove the button_ instance from the pastNodeOwner field
 							if pastNodeOwner != nil {
 								if newNodeOwner != pastNodeOwner {
@@ -272,7 +273,7 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 						// the match is base on the name
 						if _node.GetName() == fieldValue.GetName() {
 							newNodeOwner := _node // we have a match
-							
+
 							// we remove the node_ instance from the pastNodeOwner field
 							if pastNodeOwner != nil {
 								if newNodeOwner != pastNodeOwner {
@@ -323,7 +324,7 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 						// the match is base on the name
 						if _tree.GetName() == fieldValue.GetName() {
 							newTreeOwner := _tree // we have a match
-							
+
 							// we remove the node_ instance from the pastTreeOwner field
 							if pastTreeOwner != nil {
 								if newTreeOwner != pastTreeOwner {

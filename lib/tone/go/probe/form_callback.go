@@ -10,9 +10,10 @@ import (
 	"github.com/fullstack-lang/gong/lib/tone/go/models"
 )
 
-const __dummmy__time = time.Nanosecond
+// to avoid errors when time and slices packages are not used in the generated code
+const _ = time.Nanosecond
 
-var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+var _ = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
 func __gong__New__FreqencyFormCallback(
@@ -96,7 +97,7 @@ func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
 						// the match is base on the name
 						if _note.GetName() == fieldValue.GetName() {
 							newNoteOwner := _note // we have a match
-							
+
 							// we remove the freqency_ instance from the pastNoteOwner field
 							if pastNoteOwner != nil {
 								if newNoteOwner != pastNoteOwner {

@@ -16,7 +16,8 @@ import (
 )
 
 // can be used for
-//     days := __Gong__Abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
+//
+//	days := __Gong__Abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
 func __Gong__Abs(x int) int {
 	if x < 0 {
 		return -x
@@ -53,8 +54,12 @@ var errUnkownEnum = errors.New("unkown enum")
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
 
+var _ = __dummy__fmt_variable
+
 // idem for math package when not need by generated code
 var __dummy_math_variable = math.E
+
+var _ = __dummy_math_variable
 
 // swagger:ignore
 type __void any
@@ -321,38 +326,37 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]u
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-	// insertion point for case 
-		case "Classdiagram":
-			res = GetNamedStructInstances(stage.Classdiagrams, stage.ClassdiagramMap_Staged_Order)
-		case "DiagramPackage":
-			res = GetNamedStructInstances(stage.DiagramPackages, stage.DiagramPackageMap_Staged_Order)
-		case "Field":
-			res = GetNamedStructInstances(stage.Fields, stage.FieldMap_Staged_Order)
-		case "GongEnumShape":
-			res = GetNamedStructInstances(stage.GongEnumShapes, stage.GongEnumShapeMap_Staged_Order)
-		case "GongEnumValueEntry":
-			res = GetNamedStructInstances(stage.GongEnumValueEntrys, stage.GongEnumValueEntryMap_Staged_Order)
-		case "GongStructShape":
-			res = GetNamedStructInstances(stage.GongStructShapes, stage.GongStructShapeMap_Staged_Order)
-		case "Link":
-			res = GetNamedStructInstances(stage.Links, stage.LinkMap_Staged_Order)
-		case "NoteShape":
-			res = GetNamedStructInstances(stage.NoteShapes, stage.NoteShapeMap_Staged_Order)
-		case "NoteShapeLink":
-			res = GetNamedStructInstances(stage.NoteShapeLinks, stage.NoteShapeLinkMap_Staged_Order)
-		case "Position":
-			res = GetNamedStructInstances(stage.Positions, stage.PositionMap_Staged_Order)
-		case "UmlState":
-			res = GetNamedStructInstances(stage.UmlStates, stage.UmlStateMap_Staged_Order)
-		case "Umlsc":
-			res = GetNamedStructInstances(stage.Umlscs, stage.UmlscMap_Staged_Order)
-		case "Vertice":
-			res = GetNamedStructInstances(stage.Vertices, stage.VerticeMap_Staged_Order)
+	// insertion point for case
+	case "Classdiagram":
+		res = GetNamedStructInstances(stage.Classdiagrams, stage.ClassdiagramMap_Staged_Order)
+	case "DiagramPackage":
+		res = GetNamedStructInstances(stage.DiagramPackages, stage.DiagramPackageMap_Staged_Order)
+	case "Field":
+		res = GetNamedStructInstances(stage.Fields, stage.FieldMap_Staged_Order)
+	case "GongEnumShape":
+		res = GetNamedStructInstances(stage.GongEnumShapes, stage.GongEnumShapeMap_Staged_Order)
+	case "GongEnumValueEntry":
+		res = GetNamedStructInstances(stage.GongEnumValueEntrys, stage.GongEnumValueEntryMap_Staged_Order)
+	case "GongStructShape":
+		res = GetNamedStructInstances(stage.GongStructShapes, stage.GongStructShapeMap_Staged_Order)
+	case "Link":
+		res = GetNamedStructInstances(stage.Links, stage.LinkMap_Staged_Order)
+	case "NoteShape":
+		res = GetNamedStructInstances(stage.NoteShapes, stage.NoteShapeMap_Staged_Order)
+	case "NoteShapeLink":
+		res = GetNamedStructInstances(stage.NoteShapeLinks, stage.NoteShapeLinkMap_Staged_Order)
+	case "Position":
+		res = GetNamedStructInstances(stage.Positions, stage.PositionMap_Staged_Order)
+	case "UmlState":
+		res = GetNamedStructInstances(stage.UmlStates, stage.UmlStateMap_Staged_Order)
+	case "Umlsc":
+		res = GetNamedStructInstances(stage.Umlscs, stage.UmlscMap_Staged_Order)
+	case "Vertice":
+		res = GetNamedStructInstances(stage.Vertices, stage.VerticeMap_Staged_Order)
 	}
 
 	return
 }
-
 
 type NamedStruct struct {
 	name string
@@ -549,6 +553,41 @@ func NewStage(name string) (stage *Stage) {
 }
 
 func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
+
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations
+	case *Classdiagram:
+		return stage.ClassdiagramMap_Staged_Order[instance]
+	case *DiagramPackage:
+		return stage.DiagramPackageMap_Staged_Order[instance]
+	case *Field:
+		return stage.FieldMap_Staged_Order[instance]
+	case *GongEnumShape:
+		return stage.GongEnumShapeMap_Staged_Order[instance]
+	case *GongEnumValueEntry:
+		return stage.GongEnumValueEntryMap_Staged_Order[instance]
+	case *GongStructShape:
+		return stage.GongStructShapeMap_Staged_Order[instance]
+	case *Link:
+		return stage.LinkMap_Staged_Order[instance]
+	case *NoteShape:
+		return stage.NoteShapeMap_Staged_Order[instance]
+	case *NoteShapeLink:
+		return stage.NoteShapeLinkMap_Staged_Order[instance]
+	case *Position:
+		return stage.PositionMap_Staged_Order[instance]
+	case *UmlState:
+		return stage.UmlStateMap_Staged_Order[instance]
+	case *Umlsc:
+		return stage.UmlscMap_Staged_Order[instance]
+	case *Vertice:
+		return stage.VerticeMap_Staged_Order[instance]
+	default:
+		return 0 // should not happen
+	}
+}
+
+func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations

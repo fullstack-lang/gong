@@ -10,9 +10,10 @@ import (
 	"github.com/fullstack-lang/gong/lib/slider/go/models"
 )
 
-const __dummmy__time = time.Nanosecond
+// to avoid errors when time and slices packages are not used in the generated code
+const _ = time.Nanosecond
 
-var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+var _ = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
 func __gong__New__CheckboxFormCallback(
@@ -102,7 +103,7 @@ func (checkboxFormCallback *CheckboxFormCallback) OnSave() {
 						// the match is base on the name
 						if _group.GetName() == fieldValue.GetName() {
 							newGroupOwner := _group // we have a match
-							
+
 							// we remove the checkbox_ instance from the pastGroupOwner field
 							if pastGroupOwner != nil {
 								if newGroupOwner != pastGroupOwner {
@@ -232,7 +233,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 						// the match is base on the name
 						if _layout.GetName() == fieldValue.GetName() {
 							newLayoutOwner := _layout // we have a match
-							
+
 							// we remove the group_ instance from the pastLayoutOwner field
 							if pastLayoutOwner != nil {
 								if newLayoutOwner != pastLayoutOwner {
@@ -457,7 +458,7 @@ func (sliderFormCallback *SliderFormCallback) OnSave() {
 						// the match is base on the name
 						if _group.GetName() == fieldValue.GetName() {
 							newGroupOwner := _group // we have a match
-							
+
 							// we remove the slider_ instance from the pastGroupOwner field
 							if pastGroupOwner != nil {
 								if newGroupOwner != pastGroupOwner {

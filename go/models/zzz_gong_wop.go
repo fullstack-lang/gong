@@ -6,19 +6,32 @@ import "time"
 // to avoid compile error if no time field is present
 var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 
+var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+
 // insertion point
 type GongBasicField_WOP struct {
 	// insertion point
+
 	Name string
+
 	BasicKindName string
+
 	DeclaredType string
+
 	CompositeStructName string
+
 	Index int
+
 	IsDocLink bool
+
 	IsTextArea bool
+
 	IsBespokeWidth bool
+
 	BespokeWidth int
+
 	IsBespokeHeight bool
+
 	BespokeHeight int
 }
 
@@ -39,7 +52,9 @@ func (from *GongBasicField) CopyBasicFields(to *GongBasicField) {
 
 type GongEnum_WOP struct {
 	// insertion point
+
 	Name string
+
 	Type GongEnumType
 }
 
@@ -51,7 +66,9 @@ func (from *GongEnum) CopyBasicFields(to *GongEnum) {
 
 type GongEnumValue_WOP struct {
 	// insertion point
+
 	Name string
+
 	Value string
 }
 
@@ -63,8 +80,11 @@ func (from *GongEnumValue) CopyBasicFields(to *GongEnumValue) {
 
 type GongLink_WOP struct {
 	// insertion point
+
 	Name string
+
 	Recv string
+
 	ImportPath string
 }
 
@@ -77,8 +97,11 @@ func (from *GongLink) CopyBasicFields(to *GongLink) {
 
 type GongNote_WOP struct {
 	// insertion point
+
 	Name string
+
 	Body string
+
 	BodyHTML string
 }
 
@@ -91,8 +114,11 @@ func (from *GongNote) CopyBasicFields(to *GongNote) {
 
 type GongStruct_WOP struct {
 	// insertion point
+
 	Name string
+
 	HasOnAfterUpdateSignature bool
+
 	IsIgnoredForFront bool
 }
 
@@ -105,9 +131,13 @@ func (from *GongStruct) CopyBasicFields(to *GongStruct) {
 
 type GongTimeField_WOP struct {
 	// insertion point
+
 	Name string
+
 	Index int
+
 	CompositeStructName string
+
 	BespokeTimeFormat string
 }
 
@@ -121,7 +151,9 @@ func (from *GongTimeField) CopyBasicFields(to *GongTimeField) {
 
 type Meta_WOP struct {
 	// insertion point
+
 	Name string
+
 	Text string
 }
 
@@ -133,6 +165,7 @@ func (from *Meta) CopyBasicFields(to *Meta) {
 
 type MetaReference_WOP struct {
 	// insertion point
+
 	Name string
 }
 
@@ -143,22 +176,39 @@ func (from *MetaReference) CopyBasicFields(to *MetaReference) {
 
 type ModelPkg_WOP struct {
 	// insertion point
+
 	Name string
+
 	PkgPath string
+
 	PathToGoSubDirectory string
+
 	OrmPkgGenPath string
+
 	DbOrmPkgGenPath string
+
 	DbLiteOrmPkgGenPath string
+
 	DbPkgGenPath string
+
 	ControllersPkgGenPath string
+
 	FullstackPkgGenPath string
+
 	StackPkgGenPath string
+
 	StaticPkgGenPath string
+
 	ProbePkgGenPath string
+
 	NgWorkspacePath string
+
 	NgWorkspaceName string
+
 	NgDataLibrarySourceCodeDirectory string
+
 	NgSpecificLibrarySourceCodeDirectory string
+
 	MaterialLibDatamodelTargetPath string
 }
 
@@ -185,9 +235,13 @@ func (from *ModelPkg) CopyBasicFields(to *ModelPkg) {
 
 type PointerToGongStructField_WOP struct {
 	// insertion point
+
 	Name string
+
 	Index int
+
 	CompositeStructName string
+
 	IsType bool
 }
 
@@ -201,8 +255,11 @@ func (from *PointerToGongStructField) CopyBasicFields(to *PointerToGongStructFie
 
 type SliceOfPointerToGongStructField_WOP struct {
 	// insertion point
+
 	Name string
+
 	Index int
+
 	CompositeStructName string
 }
 

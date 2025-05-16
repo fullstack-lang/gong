@@ -10,9 +10,10 @@ import (
 	"github.com/fullstack-lang/gong/lib/doc/go/models"
 )
 
-const __dummmy__time = time.Nanosecond
+// to avoid errors when time and slices packages are not used in the generated code
+const _ = time.Nanosecond
 
-var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+var _ = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
 func __gong__New__ClassdiagramFormCallback(
@@ -98,7 +99,7 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 						// the match is base on the name
 						if _diagrampackage.GetName() == fieldValue.GetName() {
 							newDiagramPackageOwner := _diagrampackage // we have a match
-							
+
 							// we remove the classdiagram_ instance from the pastDiagramPackageOwner field
 							if pastDiagramPackageOwner != nil {
 								if newDiagramPackageOwner != pastDiagramPackageOwner {
@@ -323,7 +324,7 @@ func (fieldFormCallback *FieldFormCallback) OnSave() {
 						// the match is base on the name
 						if _gongstructshape.GetName() == fieldValue.GetName() {
 							newGongStructShapeOwner := _gongstructshape // we have a match
-							
+
 							// we remove the field_ instance from the pastGongStructShapeOwner field
 							if pastGongStructShapeOwner != nil {
 								if newGongStructShapeOwner != pastGongStructShapeOwner {
@@ -459,7 +460,7 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 						// the match is base on the name
 						if _classdiagram.GetName() == fieldValue.GetName() {
 							newClassdiagramOwner := _classdiagram // we have a match
-							
+
 							// we remove the gongenumshape_ instance from the pastClassdiagramOwner field
 							if pastClassdiagramOwner != nil {
 								if newClassdiagramOwner != pastClassdiagramOwner {
@@ -589,7 +590,7 @@ func (gongenumvalueentryFormCallback *GongEnumValueEntryFormCallback) OnSave() {
 						// the match is base on the name
 						if _gongenumshape.GetName() == fieldValue.GetName() {
 							newGongEnumShapeOwner := _gongenumshape // we have a match
-							
+
 							// we remove the gongenumvalueentry_ instance from the pastGongEnumShapeOwner field
 							if pastGongEnumShapeOwner != nil {
 								if newGongEnumShapeOwner != pastGongEnumShapeOwner {
@@ -731,7 +732,7 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 						// the match is base on the name
 						if _classdiagram.GetName() == fieldValue.GetName() {
 							newClassdiagramOwner := _classdiagram // we have a match
-							
+
 							// we remove the gongstructshape_ instance from the pastClassdiagramOwner field
 							if pastClassdiagramOwner != nil {
 								if newClassdiagramOwner != pastClassdiagramOwner {
@@ -891,7 +892,7 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 						// the match is base on the name
 						if _gongstructshape.GetName() == fieldValue.GetName() {
 							newGongStructShapeOwner := _gongstructshape // we have a match
-							
+
 							// we remove the link_ instance from the pastGongStructShapeOwner field
 							if pastGongStructShapeOwner != nil {
 								if newGongStructShapeOwner != pastGongStructShapeOwner {
@@ -1035,7 +1036,7 @@ func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
 						// the match is base on the name
 						if _classdiagram.GetName() == fieldValue.GetName() {
 							newClassdiagramOwner := _classdiagram // we have a match
-							
+
 							// we remove the noteshape_ instance from the pastClassdiagramOwner field
 							if pastClassdiagramOwner != nil {
 								if newClassdiagramOwner != pastClassdiagramOwner {
@@ -1167,7 +1168,7 @@ func (noteshapelinkFormCallback *NoteShapeLinkFormCallback) OnSave() {
 						// the match is base on the name
 						if _noteshape.GetName() == fieldValue.GetName() {
 							newNoteShapeOwner := _noteshape // we have a match
-							
+
 							// we remove the noteshapelink_ instance from the pastNoteShapeOwner field
 							if pastNoteShapeOwner != nil {
 								if newNoteShapeOwner != pastNoteShapeOwner {
@@ -1380,7 +1381,7 @@ func (umlstateFormCallback *UmlStateFormCallback) OnSave() {
 						// the match is base on the name
 						if _umlsc.GetName() == fieldValue.GetName() {
 							newUmlscOwner := _umlsc // we have a match
-							
+
 							// we remove the umlstate_ instance from the pastUmlscOwner field
 							if pastUmlscOwner != nil {
 								if newUmlscOwner != pastUmlscOwner {
@@ -1512,7 +1513,7 @@ func (umlscFormCallback *UmlscFormCallback) OnSave() {
 						// the match is base on the name
 						if _diagrampackage.GetName() == fieldValue.GetName() {
 							newDiagramPackageOwner := _diagrampackage // we have a match
-							
+
 							// we remove the umlsc_ instance from the pastDiagramPackageOwner field
 							if pastDiagramPackageOwner != nil {
 								if newDiagramPackageOwner != pastDiagramPackageOwner {

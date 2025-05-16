@@ -10,9 +10,10 @@ import (
 	"github.com/fullstack-lang/gong/lib/gantt/go/models"
 )
 
-const __dummmy__time = time.Nanosecond
+// to avoid errors when time and slices packages are not used in the generated code
+const _ = time.Nanosecond
 
-var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+var _ = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
 func __gong__New__ArrowFormCallback(
@@ -104,7 +105,7 @@ func (arrowFormCallback *ArrowFormCallback) OnSave() {
 						// the match is base on the name
 						if _gantt.GetName() == fieldValue.GetName() {
 							newGanttOwner := _gantt // we have a match
-							
+
 							// we remove the arrow_ instance from the pastGanttOwner field
 							if pastGanttOwner != nil {
 								if newGanttOwner != pastGanttOwner {
@@ -248,7 +249,7 @@ func (barFormCallback *BarFormCallback) OnSave() {
 						// the match is base on the name
 						if _lane.GetName() == fieldValue.GetName() {
 							newLaneOwner := _lane // we have a match
-							
+
 							// we remove the bar_ instance from the pastLaneOwner field
 							if pastLaneOwner != nil {
 								if newLaneOwner != pastLaneOwner {
@@ -501,7 +502,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 						// the match is base on the name
 						if _gantt.GetName() == fieldValue.GetName() {
 							newGanttOwner := _gantt // we have a match
-							
+
 							// we remove the group_ instance from the pastGanttOwner field
 							if pastGanttOwner != nil {
 								if newGanttOwner != pastGanttOwner {
@@ -631,7 +632,7 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 						// the match is base on the name
 						if _gantt.GetName() == fieldValue.GetName() {
 							newGanttOwner := _gantt // we have a match
-							
+
 							// we remove the lane_ instance from the pastGanttOwner field
 							if pastGanttOwner != nil {
 								if newGanttOwner != pastGanttOwner {
@@ -682,7 +683,7 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 						// the match is base on the name
 						if _group.GetName() == fieldValue.GetName() {
 							newGroupOwner := _group // we have a match
-							
+
 							// we remove the lane_ instance from the pastGroupOwner field
 							if pastGroupOwner != nil {
 								if newGroupOwner != pastGroupOwner {
@@ -812,7 +813,7 @@ func (laneuseFormCallback *LaneUseFormCallback) OnSave() {
 						// the match is base on the name
 						if _milestone.GetName() == fieldValue.GetName() {
 							newMilestoneOwner := _milestone // we have a match
-							
+
 							// we remove the laneuse_ instance from the pastMilestoneOwner field
 							if pastMilestoneOwner != nil {
 								if newMilestoneOwner != pastMilestoneOwner {
@@ -944,7 +945,7 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 						// the match is base on the name
 						if _gantt.GetName() == fieldValue.GetName() {
 							newGanttOwner := _gantt // we have a match
-							
+
 							// we remove the milestone_ instance from the pastGanttOwner field
 							if pastGanttOwner != nil {
 								if newGanttOwner != pastGanttOwner {

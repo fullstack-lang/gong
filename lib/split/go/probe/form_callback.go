@@ -10,9 +10,10 @@ import (
 	"github.com/fullstack-lang/gong/lib/split/go/models"
 )
 
-const __dummmy__time = time.Nanosecond
+// to avoid errors when time and slices packages are not used in the generated code
+const _ = time.Nanosecond
 
-var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+var _ = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
 func __gong__New__AsSplitFormCallback(
@@ -211,7 +212,7 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 						// the match is base on the name
 						if _assplit.GetName() == fieldValue.GetName() {
 							newAsSplitOwner := _assplit // we have a match
-							
+
 							// we remove the assplitarea_ instance from the pastAsSplitOwner field
 							if pastAsSplitOwner != nil {
 								if newAsSplitOwner != pastAsSplitOwner {
@@ -262,7 +263,7 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 						// the match is base on the name
 						if _view.GetName() == fieldValue.GetName() {
 							newViewOwner := _view // we have a match
-							
+
 							// we remove the assplitarea_ instance from the pastViewOwner field
 							if pastViewOwner != nil {
 								if newViewOwner != pastViewOwner {

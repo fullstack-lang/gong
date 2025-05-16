@@ -10,9 +10,10 @@ import (
 	"github.com/fullstack-lang/gong/test/test2/go/models"
 )
 
-const __dummmy__time = time.Nanosecond
+// to avoid errors when time and slices packages are not used in the generated code
+const _ = time.Nanosecond
 
-var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+var _ = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
 func __gong__New__AFormCallback(
@@ -177,7 +178,7 @@ func (bFormCallback *BFormCallback) OnSave() {
 						// the match is base on the name
 						if _a.GetName() == fieldValue.GetName() {
 							newAOwner := _a // we have a match
-							
+
 							// we remove the b_ instance from the pastAOwner field
 							if pastAOwner != nil {
 								if newAOwner != pastAOwner {

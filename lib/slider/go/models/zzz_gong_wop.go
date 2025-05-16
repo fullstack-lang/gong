@@ -6,12 +6,18 @@ import "time"
 // to avoid compile error if no time field is present
 var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 
+var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+
 // insertion point
 type Checkbox_WOP struct {
 	// insertion point
+
 	Name string
+
 	ValueBool bool
+
 	LabelForTrue string
+
 	LabelForFalse string
 }
 
@@ -25,7 +31,9 @@ func (from *Checkbox) CopyBasicFields(to *Checkbox) {
 
 type Group_WOP struct {
 	// insertion point
+
 	Name string
+
 	Percentage float64
 }
 
@@ -37,6 +45,7 @@ func (from *Group) CopyBasicFields(to *Group) {
 
 type Layout_WOP struct {
 	// insertion point
+
 	Name string
 }
 
@@ -47,16 +56,27 @@ func (from *Layout) CopyBasicFields(to *Layout) {
 
 type Slider_WOP struct {
 	// insertion point
+
 	Name string
+
 	IsFloat64 bool
+
 	IsInt bool
+
 	MinInt int
+
 	MaxInt int
+
 	StepInt int
+
 	ValueInt int
+
 	MinFloat64 float64
+
 	MaxFloat64 float64
+
 	StepFloat64 float64
+
 	ValueFloat64 float64
 }
 
