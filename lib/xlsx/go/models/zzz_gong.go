@@ -16,7 +16,8 @@ import (
 )
 
 // can be used for
-//     days := __Gong__Abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
+//
+//	days := __Gong__Abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
 func __Gong__Abs(x int) int {
 	if x < 0 {
 		return -x
@@ -53,8 +54,12 @@ var errUnkownEnum = errors.New("unkown enum")
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
 
+var _ = __dummy__fmt_variable
+
 // idem for math package when not need by generated code
 var __dummy_math_variable = math.E
+
+var _ = __dummy_math_variable
 
 // swagger:ignore
 type __void any
@@ -213,22 +218,21 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]u
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-	// insertion point for case 
-		case "DisplaySelection":
-			res = GetNamedStructInstances(stage.DisplaySelections, stage.DisplaySelectionMap_Staged_Order)
-		case "XLCell":
-			res = GetNamedStructInstances(stage.XLCells, stage.XLCellMap_Staged_Order)
-		case "XLFile":
-			res = GetNamedStructInstances(stage.XLFiles, stage.XLFileMap_Staged_Order)
-		case "XLRow":
-			res = GetNamedStructInstances(stage.XLRows, stage.XLRowMap_Staged_Order)
-		case "XLSheet":
-			res = GetNamedStructInstances(stage.XLSheets, stage.XLSheetMap_Staged_Order)
+	// insertion point for case
+	case "DisplaySelection":
+		res = GetNamedStructInstances(stage.DisplaySelections, stage.DisplaySelectionMap_Staged_Order)
+	case "XLCell":
+		res = GetNamedStructInstances(stage.XLCells, stage.XLCellMap_Staged_Order)
+	case "XLFile":
+		res = GetNamedStructInstances(stage.XLFiles, stage.XLFileMap_Staged_Order)
+	case "XLRow":
+		res = GetNamedStructInstances(stage.XLRows, stage.XLRowMap_Staged_Order)
+	case "XLSheet":
+		res = GetNamedStructInstances(stage.XLSheets, stage.XLSheetMap_Staged_Order)
 	}
 
 	return
 }
-
 
 type NamedStruct struct {
 	name string
@@ -361,6 +365,25 @@ func NewStage(name string) (stage *Stage) {
 }
 
 func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
+
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations
+	case *DisplaySelection:
+		return stage.DisplaySelectionMap_Staged_Order[instance]
+	case *XLCell:
+		return stage.XLCellMap_Staged_Order[instance]
+	case *XLFile:
+		return stage.XLFileMap_Staged_Order[instance]
+	case *XLRow:
+		return stage.XLRowMap_Staged_Order[instance]
+	case *XLSheet:
+		return stage.XLSheetMap_Staged_Order[instance]
+	default:
+		return 0 // should not happen
+	}
+}
+
+func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations

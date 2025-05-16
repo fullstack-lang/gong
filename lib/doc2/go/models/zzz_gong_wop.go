@@ -6,13 +6,20 @@ import "time"
 // to avoid compile error if no time field is present
 var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 
+var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+
 // insertion point
 type AttributeShape_WOP struct {
 	// insertion point
+
 	Name string
+
 	Identifier string
+
 	FieldTypeAsString string
+
 	Structname string
+
 	Fieldtypename string
 }
 
@@ -27,14 +34,23 @@ func (from *AttributeShape) CopyBasicFields(to *AttributeShape) {
 
 type Classdiagram_WOP struct {
 	// insertion point
+
 	Name string
+
 	IsInRenameMode bool
+
 	IsExpanded bool
+
 	NodeGongStructsIsExpanded bool
+
 	NodeGongStructNodeExpansionBinaryEncoding int
+
 	NodeGongEnumsIsExpanded bool
+
 	NodeGongEnumNodeExpansionBinaryEncoding int
+
 	NodeGongNotesIsExpanded bool
+
 	NodeGongNoteNodeExpansionBinaryEncoding int
 }
 
@@ -53,9 +69,13 @@ func (from *Classdiagram) CopyBasicFields(to *Classdiagram) {
 
 type DiagramPackage_WOP struct {
 	// insertion point
+
 	Name string
+
 	Path string
+
 	GongModelPath string
+
 	AbsolutePathToDiagramPackage string
 }
 
@@ -69,12 +89,19 @@ func (from *DiagramPackage) CopyBasicFields(to *DiagramPackage) {
 
 type GongEnumShape_WOP struct {
 	// insertion point
+
 	Name string
+
 	X float64
+
 	Y float64
+
 	Identifier string
+
 	Width float64
+
 	Height float64
+
 	IsExpanded bool
 }
 
@@ -91,7 +118,9 @@ func (from *GongEnumShape) CopyBasicFields(to *GongEnumShape) {
 
 type GongEnumValueShape_WOP struct {
 	// insertion point
+
 	Name string
+
 	Identifier string
 }
 
@@ -103,8 +132,11 @@ func (from *GongEnumValueShape) CopyBasicFields(to *GongEnumValueShape) {
 
 type GongNoteLinkShape_WOP struct {
 	// insertion point
+
 	Name string
+
 	Identifier string
+
 	Type NoteShapeLinkType
 }
 
@@ -117,15 +149,25 @@ func (from *GongNoteLinkShape) CopyBasicFields(to *GongNoteLinkShape) {
 
 type GongNoteShape_WOP struct {
 	// insertion point
+
 	Name string
+
 	Identifier string
+
 	Body string
+
 	BodyHTML string
+
 	X float64
+
 	Y float64
+
 	Width float64
+
 	Height float64
+
 	Matched bool
+
 	IsExpanded bool
 }
 
@@ -145,14 +187,23 @@ func (from *GongNoteShape) CopyBasicFields(to *GongNoteShape) {
 
 type GongStructShape_WOP struct {
 	// insertion point
+
 	Name string
+
 	X float64
+
 	Y float64
+
 	Identifier string
+
 	ShowNbInstances bool
+
 	NbInstances int
+
 	Width float64
+
 	Height float64
+
 	IsSelected bool
 }
 
@@ -171,23 +222,41 @@ func (from *GongStructShape) CopyBasicFields(to *GongStructShape) {
 
 type LinkShape_WOP struct {
 	// insertion point
+
 	Name string
+
 	Identifier string
+
 	Fieldtypename string
+
 	FieldOffsetX float64
+
 	FieldOffsetY float64
+
 	TargetMultiplicity MultiplicityType
+
 	TargetMultiplicityOffsetX float64
+
 	TargetMultiplicityOffsetY float64
+
 	SourceMultiplicity MultiplicityType
+
 	SourceMultiplicityOffsetX float64
+
 	SourceMultiplicityOffsetY float64
+
 	X float64
+
 	Y float64
+
 	StartOrientation OrientationType
+
 	StartRatio float64
+
 	EndOrientation OrientationType
+
 	EndRatio float64
+
 	CornerOffsetRatio float64
 }
 

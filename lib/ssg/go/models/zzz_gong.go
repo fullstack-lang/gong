@@ -16,7 +16,8 @@ import (
 )
 
 // can be used for
-//     days := __Gong__Abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
+//
+//	days := __Gong__Abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
 func __Gong__Abs(x int) int {
 	if x < 0 {
 		return -x
@@ -53,8 +54,12 @@ var errUnkownEnum = errors.New("unkown enum")
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
 
+var _ = __dummy__fmt_variable
+
 // idem for math package when not need by generated code
 var __dummy_math_variable = math.E
+
+var _ = __dummy_math_variable
 
 // swagger:ignore
 type __void any
@@ -185,18 +190,17 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]u
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-	// insertion point for case 
-		case "Chapter":
-			res = GetNamedStructInstances(stage.Chapters, stage.ChapterMap_Staged_Order)
-		case "Content":
-			res = GetNamedStructInstances(stage.Contents, stage.ContentMap_Staged_Order)
-		case "Page":
-			res = GetNamedStructInstances(stage.Pages, stage.PageMap_Staged_Order)
+	// insertion point for case
+	case "Chapter":
+		res = GetNamedStructInstances(stage.Chapters, stage.ChapterMap_Staged_Order)
+	case "Content":
+		res = GetNamedStructInstances(stage.Contents, stage.ContentMap_Staged_Order)
+	case "Page":
+		res = GetNamedStructInstances(stage.Pages, stage.PageMap_Staged_Order)
 	}
 
 	return
 }
-
 
 type NamedStruct struct {
 	name string
@@ -313,6 +317,21 @@ func NewStage(name string) (stage *Stage) {
 }
 
 func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
+
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations
+	case *Chapter:
+		return stage.ChapterMap_Staged_Order[instance]
+	case *Content:
+		return stage.ContentMap_Staged_Order[instance]
+	case *Page:
+		return stage.PageMap_Staged_Order[instance]
+	default:
+		return 0 // should not happen
+	}
+}
+
+func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations

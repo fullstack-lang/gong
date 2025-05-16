@@ -16,7 +16,8 @@ import (
 )
 
 // can be used for
-//     days := __Gong__Abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
+//
+//	days := __Gong__Abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
 func __Gong__Abs(x int) int {
 	if x < 0 {
 		return -x
@@ -53,8 +54,12 @@ var errUnkownEnum = errors.New("unkown enum")
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
 
+var _ = __dummy__fmt_variable
+
 // idem for math package when not need by generated code
 var __dummy_math_variable = math.E
+
+var _ = __dummy_math_variable
 
 // swagger:ignore
 type __void any
@@ -245,26 +250,25 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]u
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-	// insertion point for case 
-		case "Astruct":
-			res = GetNamedStructInstances(stage.Astructs, stage.AstructMap_Staged_Order)
-		case "AstructBstruct2Use":
-			res = GetNamedStructInstances(stage.AstructBstruct2Uses, stage.AstructBstruct2UseMap_Staged_Order)
-		case "AstructBstructUse":
-			res = GetNamedStructInstances(stage.AstructBstructUses, stage.AstructBstructUseMap_Staged_Order)
-		case "Bstruct":
-			res = GetNamedStructInstances(stage.Bstructs, stage.BstructMap_Staged_Order)
-		case "Dstruct":
-			res = GetNamedStructInstances(stage.Dstructs, stage.DstructMap_Staged_Order)
-		case "Fstruct":
-			res = GetNamedStructInstances(stage.Fstructs, stage.FstructMap_Staged_Order)
-		case "Gstruct":
-			res = GetNamedStructInstances(stage.Gstructs, stage.GstructMap_Staged_Order)
+	// insertion point for case
+	case "Astruct":
+		res = GetNamedStructInstances(stage.Astructs, stage.AstructMap_Staged_Order)
+	case "AstructBstruct2Use":
+		res = GetNamedStructInstances(stage.AstructBstruct2Uses, stage.AstructBstruct2UseMap_Staged_Order)
+	case "AstructBstructUse":
+		res = GetNamedStructInstances(stage.AstructBstructUses, stage.AstructBstructUseMap_Staged_Order)
+	case "Bstruct":
+		res = GetNamedStructInstances(stage.Bstructs, stage.BstructMap_Staged_Order)
+	case "Dstruct":
+		res = GetNamedStructInstances(stage.Dstructs, stage.DstructMap_Staged_Order)
+	case "Fstruct":
+		res = GetNamedStructInstances(stage.Fstructs, stage.FstructMap_Staged_Order)
+	case "Gstruct":
+		res = GetNamedStructInstances(stage.Gstructs, stage.GstructMap_Staged_Order)
 	}
 
 	return
 }
-
 
 type NamedStruct struct {
 	name string
@@ -413,6 +417,29 @@ func NewStage(name string) (stage *Stage) {
 }
 
 func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
+
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations
+	case *Astruct:
+		return stage.AstructMap_Staged_Order[instance]
+	case *AstructBstruct2Use:
+		return stage.AstructBstruct2UseMap_Staged_Order[instance]
+	case *AstructBstructUse:
+		return stage.AstructBstructUseMap_Staged_Order[instance]
+	case *Bstruct:
+		return stage.BstructMap_Staged_Order[instance]
+	case *Dstruct:
+		return stage.DstructMap_Staged_Order[instance]
+	case *Fstruct:
+		return stage.FstructMap_Staged_Order[instance]
+	case *Gstruct:
+		return stage.GstructMap_Staged_Order[instance]
+	default:
+		return 0 // should not happen
+	}
+}
+
+func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
