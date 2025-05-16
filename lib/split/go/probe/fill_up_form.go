@@ -65,7 +65,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.AsSplit, *models.AsSplitArea](
+				AssociationReverseFieldToForm[*models.AsSplit](
 					nil,
 					"AsSplitAreas",
 					instanceWithInferedType,
@@ -87,7 +87,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.View, *models.AsSplitArea](
+				AssociationReverseFieldToForm[*models.View](
 					nil,
 					"RootAsSplitAreas",
 					instanceWithInferedType,

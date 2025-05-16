@@ -56,7 +56,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.GongStruct, *models.GongBasicField](
+				AssociationReverseFieldToForm[*models.GongStruct](
 					nil,
 					"GongBasicFields",
 					instanceWithInferedType,
@@ -92,7 +92,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.GongEnum, *models.GongEnumValue](
+				AssociationReverseFieldToForm[*models.GongEnum](
 					nil,
 					"GongEnumValues",
 					instanceWithInferedType,
@@ -123,7 +123,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.GongNote, *models.GongLink](
+				AssociationReverseFieldToForm[*models.GongNote](
 					nil,
 					"Links",
 					instanceWithInferedType,
@@ -179,7 +179,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.GongStruct, *models.GongTimeField](
+				AssociationReverseFieldToForm[*models.GongStruct](
 					nil,
 					"GongTimeFields",
 					instanceWithInferedType,
@@ -214,7 +214,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Meta, *models.MetaReference](
+				AssociationReverseFieldToForm[*models.Meta](
 					nil,
 					"MetaReferences",
 					instanceWithInferedType,
@@ -285,7 +285,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.GongStruct, *models.PointerToGongStructField](
+				AssociationReverseFieldToForm[*models.GongStruct](
 					nil,
 					"PointerToGongStructFields",
 					instanceWithInferedType,
@@ -317,7 +317,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.GongStruct, *models.SliceOfPointerToGongStructField](
+				AssociationReverseFieldToForm[*models.GongStruct](
 					nil,
 					"SliceOfPointerToGongStructFields",
 					instanceWithInferedType,

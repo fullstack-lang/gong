@@ -88,7 +88,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Astruct, *models.Astruct](
+				AssociationReverseFieldToForm[*models.Astruct](
 					nil,
 					"Anarrayofa",
 					instanceWithInferedType,
@@ -116,7 +116,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Astruct, *models.AstructBstruct2Use](
+				AssociationReverseFieldToForm[*models.Astruct](
 					nil,
 					"Anarrayofb2Use",
 					instanceWithInferedType,
@@ -144,7 +144,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Astruct, *models.AstructBstructUse](
+				AssociationReverseFieldToForm[*models.Astruct](
 					nil,
 					"AnarrayofbUse",
 					instanceWithInferedType,
@@ -177,7 +177,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Astruct, *models.Bstruct](
+				AssociationReverseFieldToForm[*models.Astruct](
 					nil,
 					"Anarrayofb",
 					instanceWithInferedType,
@@ -199,7 +199,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Astruct, *models.Bstruct](
+				AssociationReverseFieldToForm[*models.Astruct](
 					nil,
 					"Anotherarrayofb",
 					instanceWithInferedType,
@@ -221,7 +221,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Dstruct, *models.Bstruct](
+				AssociationReverseFieldToForm[*models.Dstruct](
 					nil,
 					"Anarrayofb",
 					instanceWithInferedType,
@@ -251,7 +251,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Astruct, *models.Dstruct](
+				AssociationReverseFieldToForm[*models.Astruct](
 					nil,
 					"Dstruct4s",
 					instanceWithInferedType,
@@ -291,7 +291,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Dstruct, *models.Gstruct](
+				AssociationReverseFieldToForm[*models.Dstruct](
 					nil,
 					"Gstructs",
 					instanceWithInferedType,

@@ -46,7 +46,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.XLRow, *models.XLCell](
+				AssociationReverseFieldToForm[*models.XLRow](
 					nil,
 					"Cells",
 					instanceWithInferedType,
@@ -68,7 +68,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.XLSheet, *models.XLCell](
+				AssociationReverseFieldToForm[*models.XLSheet](
 					nil,
 					"SheetCells",
 					instanceWithInferedType,
@@ -106,7 +106,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.XLSheet, *models.XLRow](
+				AssociationReverseFieldToForm[*models.XLSheet](
 					nil,
 					"Rows",
 					instanceWithInferedType,
@@ -141,7 +141,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.XLFile, *models.XLSheet](
+				AssociationReverseFieldToForm[*models.XLFile](
 					nil,
 					"Sheets",
 					instanceWithInferedType,

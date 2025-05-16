@@ -78,7 +78,7 @@ func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed
 		}
 	}
 
-	table.Impl = NewTableSortSaver[InstanceType, FieldType](
+	table.Impl = NewTableSortSaver(
 		onSortingEditon.instance,
 		onSortingEditon.field,
 		onSortingEditon.probe,
