@@ -20,6 +20,7 @@ export class FormEditAssocButton {
 	Name: string = ""
 	Label: string = ""
 	AssociationStorage: string = ""
+	HasChanged: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
 }
@@ -34,6 +35,7 @@ export function CopyFormEditAssocButtonToFormEditAssocButtonAPI(formeditassocbut
 	formeditassocbuttonAPI.Name = formeditassocbutton.Name
 	formeditassocbuttonAPI.Label = formeditassocbutton.Label
 	formeditassocbuttonAPI.AssociationStorage = formeditassocbutton.AssociationStorage
+	formeditassocbuttonAPI.HasChanged = formeditassocbutton.HasChanged
 
 	// insertion point for pointer fields encoding
 
@@ -54,6 +56,7 @@ export function CopyFormEditAssocButtonAPIToFormEditAssocButton(formeditassocbut
 	formeditassocbutton.Name = formeditassocbuttonAPI.Name
 	formeditassocbutton.Label = formeditassocbuttonAPI.Label
 	formeditassocbutton.AssociationStorage = formeditassocbuttonAPI.AssociationStorage
+	formeditassocbutton.HasChanged = formeditassocbuttonAPI.HasChanged
 
 	// insertion point for pointer fields encoding
 
