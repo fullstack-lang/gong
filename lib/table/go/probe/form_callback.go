@@ -985,6 +985,8 @@ func (formeditassocbuttonFormCallback *FormEditAssocButtonFormCallback) OnSave()
 			FormDivBasicFieldToField(&(formeditassocbutton_.Name), formDiv)
 		case "Label":
 			FormDivBasicFieldToField(&(formeditassocbutton_.Label), formDiv)
+		case "AssociationStorage":
+			FormDivBasicFieldToField(&(formeditassocbutton_.AssociationStorage), formDiv)
 		}
 	}
 

@@ -14,6 +14,7 @@ export class FormEditAssocButtonAPI {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Label: string = ""
+	AssociationStorage: string = ""
 
 	// insertion point for other decls
 
