@@ -40,7 +40,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.DiagramPackage, *models.Classdiagram](
+				AssociationReverseFieldToForm[*models.DiagramPackage](
 					nil,
 					"Classdiagrams",
 					instanceWithInferedType,
@@ -93,7 +93,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.GongStructShape, *models.Field](
+				AssociationReverseFieldToForm[*models.GongStructShape](
 					nil,
 					"Fields",
 					instanceWithInferedType,
@@ -128,7 +128,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Classdiagram, *models.GongEnumShape](
+				AssociationReverseFieldToForm[*models.Classdiagram](
 					nil,
 					"GongEnumShapes",
 					instanceWithInferedType,
@@ -157,7 +157,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.GongEnumShape, *models.GongEnumValueEntry](
+				AssociationReverseFieldToForm[*models.GongEnumShape](
 					nil,
 					"GongEnumValueEntrys",
 					instanceWithInferedType,
@@ -199,7 +199,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Classdiagram, *models.GongStructShape](
+				AssociationReverseFieldToForm[*models.Classdiagram](
 					nil,
 					"GongStructShapes",
 					instanceWithInferedType,
@@ -253,7 +253,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.GongStructShape, *models.Link](
+				AssociationReverseFieldToForm[*models.GongStructShape](
 					nil,
 					"Links",
 					instanceWithInferedType,
@@ -297,7 +297,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Classdiagram, *models.NoteShape](
+				AssociationReverseFieldToForm[*models.Classdiagram](
 					nil,
 					"NoteShapes",
 					instanceWithInferedType,
@@ -327,7 +327,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.NoteShape, *models.NoteShapeLink](
+				AssociationReverseFieldToForm[*models.NoteShape](
 					nil,
 					"NoteShapeLinks",
 					instanceWithInferedType,
@@ -367,7 +367,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Umlsc, *models.UmlState](
+				AssociationReverseFieldToForm[*models.Umlsc](
 					nil,
 					"States",
 					instanceWithInferedType,
@@ -399,7 +399,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.DiagramPackage, *models.Umlsc](
+				AssociationReverseFieldToForm[*models.DiagramPackage](
 					nil,
 					"Umlscs",
 					instanceWithInferedType,

@@ -41,7 +41,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Gantt, *models.Arrow](
+				AssociationReverseFieldToForm[*models.Gantt](
 					nil,
 					"Arrows",
 					instanceWithInferedType,
@@ -84,7 +84,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Lane, *models.Bar](
+				AssociationReverseFieldToForm[*models.Lane](
 					nil,
 					"Bars",
 					instanceWithInferedType,
@@ -169,7 +169,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Gantt, *models.Group](
+				AssociationReverseFieldToForm[*models.Gantt](
 					nil,
 					"Groups",
 					instanceWithInferedType,
@@ -199,7 +199,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Gantt, *models.Lane](
+				AssociationReverseFieldToForm[*models.Gantt](
 					nil,
 					"Lanes",
 					instanceWithInferedType,
@@ -221,7 +221,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Group, *models.Lane](
+				AssociationReverseFieldToForm[*models.Group](
 					nil,
 					"GroupLanes",
 					instanceWithInferedType,
@@ -249,7 +249,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Milestone, *models.LaneUse](
+				AssociationReverseFieldToForm[*models.Milestone](
 					nil,
 					"LanesToDisplayMilestoneUse",
 					instanceWithInferedType,
@@ -281,7 +281,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Gantt, *models.Milestone](
+				AssociationReverseFieldToForm[*models.Gantt](
 					nil,
 					"Milestones",
 					instanceWithInferedType,
