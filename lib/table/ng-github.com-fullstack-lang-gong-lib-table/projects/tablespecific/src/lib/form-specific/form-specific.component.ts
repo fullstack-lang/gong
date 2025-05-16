@@ -336,6 +336,9 @@ export class FormSpecificComponent {
           }
         }
       }
+      if (formDiv.FormEditAssocButton && formDiv.FormEditAssocButton.HasChanged) {
+         promises.push(this.formEditAssocButtonService.updateFront(formDiv.FormEditAssocButton, this.Name))
+      }
     }
 
     // wait till all promises are completed to update the form group itself
@@ -343,7 +346,7 @@ export class FormSpecificComponent {
       () => {
         this.formGroupService.updateFront(this.selectedFormGroup!, this.Name).subscribe(
           () => {
-
+            console.log("Form refreshed",promises.length)
             // a refresh is necessary to redeem all associations
             // this.refresh()
           }
@@ -354,6 +357,8 @@ export class FormSpecificComponent {
     if (promises.length == 0) {
       this.formGroupService.updateFront(this.selectedFormGroup!, this.Name).subscribe(
         () => {
+            console.log("Form refreshed without updates")
+
           // a refresh is necessary to redeem all associations
           // this.refresh()
         }
@@ -412,6 +417,7 @@ export class FormSpecificComponent {
 
                   if (this.currentFormEditAssocButton) {
                     this.currentFormEditAssocButton.AssociationStorage = encodeIntArrayToString_json(selectedIDs)
+                    this.currentFormEditAssocButton.HasChanged = true
                     console.log('Result:', this.currentFormEditAssocButton.AssociationStorage)
                   }                 
                 }

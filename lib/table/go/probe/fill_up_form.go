@@ -179,6 +179,8 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("AssociationStorage", instanceWithInferedType.AssociationStorage, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("HasChanged", instanceWithInferedType.HasChanged, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 
 	case *models.FormField:
 		// insertion point

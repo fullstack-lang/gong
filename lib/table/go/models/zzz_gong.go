@@ -3736,7 +3736,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case FormDiv:
 		res = []string{"Name", "FormFields", "CheckBoxs", "FormEditAssocButton", "FormSortAssocButton"}
 	case FormEditAssocButton:
-		res = []string{"Name", "Label", "AssociationStorage"}
+		res = []string{"Name", "Label", "AssociationStorage", "HasChanged"}
 	case FormField:
 		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect", "HasBespokeWidth", "BespokeWidthPx", "HasBespokeHeight", "BespokeHeightPx"}
 	case FormFieldDate:
@@ -3901,7 +3901,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *FormDiv:
 		res = []string{"Name", "FormFields", "CheckBoxs", "FormEditAssocButton", "FormSortAssocButton"}
 	case *FormEditAssocButton:
-		res = []string{"Name", "Label", "AssociationStorage"}
+		res = []string{"Name", "Label", "AssociationStorage", "HasChanged"}
 	case *FormField:
 		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect", "HasBespokeWidth", "BespokeWidthPx", "HasBespokeHeight", "BespokeHeightPx"}
 	case *FormFieldDate:
@@ -4094,6 +4094,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.Label
 		case "AssociationStorage":
 			res.valueString = inferedInstance.AssociationStorage
+		case "HasChanged":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasChanged)
+			res.valueBool = inferedInstance.HasChanged
+			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case *FormField:
 		switch fieldName {
@@ -4510,6 +4514,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.Label
 		case "AssociationStorage":
 			res.valueString = inferedInstance.AssociationStorage
+		case "HasChanged":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasChanged)
+			res.valueBool = inferedInstance.HasChanged
+			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case FormField:
 		switch fieldName {

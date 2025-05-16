@@ -1433,6 +1433,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			case "FormEditAssocButton":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "HasChanged":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_FormEditAssocButton[identifier].HasChanged = fielValue
 				}
 			case "FormField":
 				switch fieldName {
