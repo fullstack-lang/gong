@@ -1,12 +1,16 @@
 package models
 
 // FormEditAssocButton is a button on the
-// front end to edit a 0..1-N association
-// when submitted, it will
+// front end to edit a N-N association
+// the association is stored in the object and
 type FormEditAssocButton struct {
 	Name string
 
 	Label string
+
+	// AssociationStorage is the encoding into a string of the IDs of the associatied instances
+	// the format is json
+	AssociationStorage string
 
 	// swagger:ignore
 	OnAssocEditon FormEditAssocButtonInterface

@@ -66,6 +66,9 @@ type FormEditAssocButtonDB struct {
 	// Declation for basic field formeditassocbuttonDB.Label
 	Label_Data sql.NullString
 
+	// Declation for basic field formeditassocbuttonDB.AssociationStorage
+	AssociationStorage_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormEditAssocButtonPointersEncoding
@@ -91,6 +94,8 @@ type FormEditAssocButtonWOP struct {
 	Name string `xlsx:"1"`
 
 	Label string `xlsx:"2"`
+
+	AssociationStorage string `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -99,6 +104,7 @@ var FormEditAssocButton_Fields = []string{
 	"ID",
 	"Name",
 	"Label",
+	"AssociationStorage",
 }
 
 type BackRepoFormEditAssocButtonStruct struct {
@@ -381,6 +387,9 @@ func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsFromFormEditA
 
 	formeditassocbuttonDB.Label_Data.String = formeditassocbutton.Label
 	formeditassocbuttonDB.Label_Data.Valid = true
+
+	formeditassocbuttonDB.AssociationStorage_Data.String = formeditassocbutton.AssociationStorage
+	formeditassocbuttonDB.AssociationStorage_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormEditAssocButton_WOP
@@ -392,6 +401,9 @@ func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsFromFormEditA
 
 	formeditassocbuttonDB.Label_Data.String = formeditassocbutton.Label
 	formeditassocbuttonDB.Label_Data.Valid = true
+
+	formeditassocbuttonDB.AssociationStorage_Data.String = formeditassocbutton.AssociationStorage
+	formeditassocbuttonDB.AssociationStorage_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormEditAssocButtonWOP
@@ -403,6 +415,9 @@ func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsFromFormEditA
 
 	formeditassocbuttonDB.Label_Data.String = formeditassocbutton.Label
 	formeditassocbuttonDB.Label_Data.Valid = true
+
+	formeditassocbuttonDB.AssociationStorage_Data.String = formeditassocbutton.AssociationStorage
+	formeditassocbuttonDB.AssociationStorage_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormEditAssocButton
@@ -410,6 +425,7 @@ func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsToFormEditAss
 	// insertion point for checkout of basic fields (back repo to stage)
 	formeditassocbutton.Name = formeditassocbuttonDB.Name_Data.String
 	formeditassocbutton.Label = formeditassocbuttonDB.Label_Data.String
+	formeditassocbutton.AssociationStorage = formeditassocbuttonDB.AssociationStorage_Data.String
 }
 
 // CopyBasicFieldsToFormEditAssocButton_WOP
@@ -417,6 +433,7 @@ func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsToFormEditAss
 	// insertion point for checkout of basic fields (back repo to stage)
 	formeditassocbutton.Name = formeditassocbuttonDB.Name_Data.String
 	formeditassocbutton.Label = formeditassocbuttonDB.Label_Data.String
+	formeditassocbutton.AssociationStorage = formeditassocbuttonDB.AssociationStorage_Data.String
 }
 
 // CopyBasicFieldsToFormEditAssocButtonWOP
@@ -425,6 +442,7 @@ func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsToFormEditAss
 	// insertion point for checkout of basic fields (back repo to stage)
 	formeditassocbutton.Name = formeditassocbuttonDB.Name_Data.String
 	formeditassocbutton.Label = formeditassocbuttonDB.Label_Data.String
+	formeditassocbutton.AssociationStorage = formeditassocbuttonDB.AssociationStorage_Data.String
 }
 
 // Backup generates a json file from a slice of all FormEditAssocButtonDB instances in the backrepo
