@@ -99,7 +99,7 @@ map[ButtonImplSubTemplateId]string{
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.{{AssocStructName}}, *models.{{Structname}}](
+				AssociationReverseFieldToForm[*models.{{AssocStructName}}](
 					nil,
 					"{{FieldName}}",
 					instanceWithInferedType,
