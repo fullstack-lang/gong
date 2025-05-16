@@ -38,7 +38,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Content, *models.Chapter](
+				AssociationReverseFieldToForm[*models.Content](
 					nil,
 					"Chapters",
 					instanceWithInferedType,
@@ -84,7 +84,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Chapter, *models.Page](
+				AssociationReverseFieldToForm[*models.Chapter](
 					nil,
 					"Pages",
 					instanceWithInferedType,

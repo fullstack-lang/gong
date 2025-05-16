@@ -39,7 +39,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Group, *models.Button](
+				AssociationReverseFieldToForm[*models.Group](
 					nil,
 					"Buttons",
 					instanceWithInferedType,
@@ -69,7 +69,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Layout, *models.Group](
+				AssociationReverseFieldToForm[*models.Layout](
 					nil,
 					"Groups",
 					instanceWithInferedType,

@@ -45,7 +45,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Node, *models.Button](
+				AssociationReverseFieldToForm[*models.Node](
 					nil,
 					"Buttons",
 					instanceWithInferedType,
@@ -107,7 +107,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Node, *models.Node](
+				AssociationReverseFieldToForm[*models.Node](
 					nil,
 					"Children",
 					instanceWithInferedType,
@@ -129,7 +129,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Tree, *models.Node](
+				AssociationReverseFieldToForm[*models.Tree](
 					nil,
 					"RootNodes",
 					instanceWithInferedType,

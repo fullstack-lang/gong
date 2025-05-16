@@ -41,7 +41,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Group, *models.Checkbox](
+				AssociationReverseFieldToForm[*models.Group](
 					nil,
 					"Checkboxes",
 					instanceWithInferedType,
@@ -72,7 +72,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Layout, *models.Group](
+				AssociationReverseFieldToForm[*models.Layout](
 					nil,
 					"Groups",
 					instanceWithInferedType,
@@ -125,7 +125,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Group, *models.Slider](
+				AssociationReverseFieldToForm[*models.Group](
 					nil,
 					"Sliders",
 					instanceWithInferedType,

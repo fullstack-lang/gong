@@ -35,7 +35,7 @@ func FillUpForm(
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Note, *models.Freqency](
+				AssociationReverseFieldToForm[*models.Note](
 					nil,
 					"Frequencies",
 					instanceWithInferedType,
