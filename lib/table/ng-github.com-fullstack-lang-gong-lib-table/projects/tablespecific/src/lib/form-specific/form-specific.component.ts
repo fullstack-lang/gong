@@ -384,12 +384,25 @@ export class FormSpecificComponent {
               console.log("assoc button updated")
 
               // when the association button is pressed
-              this.dialog.open(TableSpecificComponent, {
+              let dialogRef = this.dialog.open(TableSpecificComponent, {
                 data: {
                   Name: this.Name + table.TableExtraPathEnum.StackNamePostFixForTableForAssociation,
                   TableName: table.TableExtraNameEnum.TableSelectExtraName
                 },
               });
+
+              dialogRef.afterClosed().subscribe(result => {
+                console.log('The dialog was closed');
+                // 'result' will contain any data passed when closing the dialog
+                // For example, if you close the dialog like this: dialogRef.close('I am a result');
+                // then 'result' will be 'I am a result'
+                if (result) {
+                  console.log('Result:', result);
+                  // You can now perform actions based on the result or the fact that the dialog is closed.
+                  // For example, refresh data, navigate, etc.
+                }
+              });
+
             }
           )
         }
