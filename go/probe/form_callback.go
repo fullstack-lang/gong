@@ -10,9 +10,10 @@ import (
 	"github.com/fullstack-lang/gong/go/models"
 )
 
-const __dummmy__time = time.Nanosecond
+// to avoid errors when time and slices packages are not used in the generated code
+const _ = time.Nanosecond
 
-var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+var _ = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
 func __gong__New__GongBasicFieldFormCallback(
@@ -118,7 +119,7 @@ func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
 						// the match is base on the name
 						if _gongstruct.GetName() == fieldValue.GetName() {
 							newGongStructOwner := _gongstruct // we have a match
-							
+
 							// we remove the gongbasicfield_ instance from the pastGongStructOwner field
 							if pastGongStructOwner != nil {
 								if newGongStructOwner != pastGongStructOwner {
@@ -327,7 +328,7 @@ func (gongenumvalueFormCallback *GongEnumValueFormCallback) OnSave() {
 						// the match is base on the name
 						if _gongenum.GetName() == fieldValue.GetName() {
 							newGongEnumOwner := _gongenum // we have a match
-							
+
 							// we remove the gongenumvalue_ instance from the pastGongEnumOwner field
 							if pastGongEnumOwner != nil {
 								if newGongEnumOwner != pastGongEnumOwner {
@@ -459,7 +460,7 @@ func (gonglinkFormCallback *GongLinkFormCallback) OnSave() {
 						// the match is base on the name
 						if _gongnote.GetName() == fieldValue.GetName() {
 							newGongNoteOwner := _gongnote // we have a match
-							
+
 							// we remove the gonglink_ instance from the pastGongNoteOwner field
 							if pastGongNoteOwner != nil {
 								if newGongNoteOwner != pastGongNoteOwner {
@@ -755,7 +756,7 @@ func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
 						// the match is base on the name
 						if _gongstruct.GetName() == fieldValue.GetName() {
 							newGongStructOwner := _gongstruct // we have a match
-							
+
 							// we remove the gongtimefield_ instance from the pastGongStructOwner field
 							if pastGongStructOwner != nil {
 								if newGongStructOwner != pastGongStructOwner {
@@ -962,7 +963,7 @@ func (metareferenceFormCallback *MetaReferenceFormCallback) OnSave() {
 						// the match is base on the name
 						if _meta.GetName() == fieldValue.GetName() {
 							newMetaOwner := _meta // we have a match
-							
+
 							// we remove the metareference_ instance from the pastMetaOwner field
 							if pastMetaOwner != nil {
 								if newMetaOwner != pastMetaOwner {
@@ -1207,7 +1208,7 @@ func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback
 						// the match is base on the name
 						if _gongstruct.GetName() == fieldValue.GetName() {
 							newGongStructOwner := _gongstruct // we have a match
-							
+
 							// we remove the pointertogongstructfield_ instance from the pastGongStructOwner field
 							if pastGongStructOwner != nil {
 								if newGongStructOwner != pastGongStructOwner {
@@ -1341,7 +1342,7 @@ func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFie
 						// the match is base on the name
 						if _gongstruct.GetName() == fieldValue.GetName() {
 							newGongStructOwner := _gongstruct // we have a match
-							
+
 							// we remove the sliceofpointertogongstructfield_ instance from the pastGongStructOwner field
 							if pastGongStructOwner != nil {
 								if newGongStructOwner != pastGongStructOwner {

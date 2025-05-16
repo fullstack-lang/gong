@@ -10,9 +10,10 @@ import (
 	"github.com/fullstack-lang/gong/lib/xlsx/go/models"
 )
 
-const __dummmy__time = time.Nanosecond
+// to avoid errors when time and slices packages are not used in the generated code
+const _ = time.Nanosecond
 
-var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+var _ = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
 func __gong__New__DisplaySelectionFormCallback(
@@ -181,7 +182,7 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 						// the match is base on the name
 						if _xlrow.GetName() == fieldValue.GetName() {
 							newXLRowOwner := _xlrow // we have a match
-							
+
 							// we remove the xlcell_ instance from the pastXLRowOwner field
 							if pastXLRowOwner != nil {
 								if newXLRowOwner != pastXLRowOwner {
@@ -232,7 +233,7 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 						// the match is base on the name
 						if _xlsheet.GetName() == fieldValue.GetName() {
 							newXLSheetOwner := _xlsheet // we have a match
-							
+
 							// we remove the xlcell_ instance from the pastXLSheetOwner field
 							if pastXLSheetOwner != nil {
 								if newXLSheetOwner != pastXLSheetOwner {
@@ -441,7 +442,7 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 						// the match is base on the name
 						if _xlsheet.GetName() == fieldValue.GetName() {
 							newXLSheetOwner := _xlsheet // we have a match
-							
+
 							// we remove the xlrow_ instance from the pastXLSheetOwner field
 							if pastXLSheetOwner != nil {
 								if newXLSheetOwner != pastXLSheetOwner {
@@ -575,7 +576,7 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 						// the match is base on the name
 						if _xlfile.GetName() == fieldValue.GetName() {
 							newXLFileOwner := _xlfile // we have a match
-							
+
 							// we remove the xlsheet_ instance from the pastXLFileOwner field
 							if pastXLFileOwner != nil {
 								if newXLFileOwner != pastXLFileOwner {

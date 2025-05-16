@@ -194,6 +194,11 @@ type OnAssocEditon struct {
 	sourceStack *gongtable_models.Stage
 }
 
+// OnSave implements models.FormEditAssocButtonInterface.
+func (onAssocEditon *OnAssocEditon) OnSave() {
+	panic("unimplemented")
+}
+
 func (onAssocEditon *OnAssocEditon) OnButtonPressed() {
 	// create a new with the name append "-table"
 	newStage, _ := gongtable_fullstack.NewStackInstance(

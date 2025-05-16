@@ -6,30 +6,54 @@ import "time"
 // to avoid compile error if no time field is present
 var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 
+var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+
 // insertion point
 type Astruct_WOP struct {
 	// insertion point
+
 	Name string
+
 	Date time.Time
+
 	Date2 time.Time
+
 	Booleanfield bool
+
 	Aenum AEnumType
+
 	Aenum_2 AEnumType
+
 	Benum BEnumType
+
 	CEnum CEnumTypeInt
+
 	CName string
+
 	CFloatfield float64
+
 	Floatfield float64
+
 	Intfield int
+
 	Anotherbooleanfield bool
+
 	Duration1 time.Duration
+
 	StructRef string
+
 	FieldRef string
+
 	EnumIntRef string
+
 	EnumStringRef string
+
 	EnumValue string
+
 	ConstIdentifierValue string
+
 	TextFieldBespokeSize string
+
 	TextArea string
 }
 
@@ -61,6 +85,7 @@ func (from *Astruct) CopyBasicFields(to *Astruct) {
 
 type AstructBstruct2Use_WOP struct {
 	// insertion point
+
 	Name string
 }
 
@@ -71,6 +96,7 @@ func (from *AstructBstruct2Use) CopyBasicFields(to *AstructBstruct2Use) {
 
 type AstructBstructUse_WOP struct {
 	// insertion point
+
 	Name string
 }
 
@@ -81,9 +107,13 @@ func (from *AstructBstructUse) CopyBasicFields(to *AstructBstructUse) {
 
 type Bstruct_WOP struct {
 	// insertion point
+
 	Name string
+
 	Floatfield float64
+
 	Floatfield2 float64
+
 	Intfield int
 }
 
@@ -97,6 +127,7 @@ func (from *Bstruct) CopyBasicFields(to *Bstruct) {
 
 type Dstruct_WOP struct {
 	// insertion point
+
 	Name string
 }
 
@@ -107,7 +138,9 @@ func (from *Dstruct) CopyBasicFields(to *Dstruct) {
 
 type Fstruct_WOP struct {
 	// insertion point
+
 	Name string
+
 	Date time.Time
 }
 
@@ -119,9 +152,13 @@ func (from *Fstruct) CopyBasicFields(to *Fstruct) {
 
 type Gstruct_WOP struct {
 	// insertion point
+
 	Name string
+
 	Floatfield float64
+
 	Floatfield2 float64
+
 	Intfield int
 }
 

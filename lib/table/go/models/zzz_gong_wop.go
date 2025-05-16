@@ -405,3 +405,4 @@ func (from *Table) CopyBasicFields(to *Table) {
 	to.SavingInProgress = from.SavingInProgress
 	to.NbOfStickyColumns = from.NbOfStickyColumns
 }
+

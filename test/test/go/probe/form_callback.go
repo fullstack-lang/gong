@@ -10,9 +10,10 @@ import (
 	"github.com/fullstack-lang/gong/test/test/go/models"
 )
 
-const __dummmy__time = time.Nanosecond
+// to avoid errors when time and slices packages are not used in the generated code
+const _ = time.Nanosecond
 
-var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+var _ = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
 func __gong__New__AstructFormCallback(
@@ -156,7 +157,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 						// the match is base on the name
 						if _astruct.GetName() == fieldValue.GetName() {
 							newAstructOwner := _astruct // we have a match
-							
+
 							// we remove the astruct_ instance from the pastAstructOwner field
 							if pastAstructOwner != nil {
 								if newAstructOwner != pastAstructOwner {
@@ -286,7 +287,7 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 						// the match is base on the name
 						if _astruct.GetName() == fieldValue.GetName() {
 							newAstructOwner := _astruct // we have a match
-							
+
 							// we remove the astructbstruct2use_ instance from the pastAstructOwner field
 							if pastAstructOwner != nil {
 								if newAstructOwner != pastAstructOwner {
@@ -416,7 +417,7 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 						// the match is base on the name
 						if _astruct.GetName() == fieldValue.GetName() {
 							newAstructOwner := _astruct // we have a match
-							
+
 							// we remove the astructbstructuse_ instance from the pastAstructOwner field
 							if pastAstructOwner != nil {
 								if newAstructOwner != pastAstructOwner {
@@ -550,7 +551,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 						// the match is base on the name
 						if _astruct.GetName() == fieldValue.GetName() {
 							newAstructOwner := _astruct // we have a match
-							
+
 							// we remove the bstruct_ instance from the pastAstructOwner field
 							if pastAstructOwner != nil {
 								if newAstructOwner != pastAstructOwner {
@@ -601,7 +602,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 						// the match is base on the name
 						if _astruct.GetName() == fieldValue.GetName() {
 							newAstructOwner := _astruct // we have a match
-							
+
 							// we remove the bstruct_ instance from the pastAstructOwner field
 							if pastAstructOwner != nil {
 								if newAstructOwner != pastAstructOwner {
@@ -652,7 +653,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 						// the match is base on the name
 						if _dstruct.GetName() == fieldValue.GetName() {
 							newDstructOwner := _dstruct // we have a match
-							
+
 							// we remove the bstruct_ instance from the pastDstructOwner field
 							if pastDstructOwner != nil {
 								if newDstructOwner != pastDstructOwner {
@@ -782,7 +783,7 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 						// the match is base on the name
 						if _astruct.GetName() == fieldValue.GetName() {
 							newAstructOwner := _astruct // we have a match
-							
+
 							// we remove the dstruct_ instance from the pastAstructOwner field
 							if pastAstructOwner != nil {
 								if newAstructOwner != pastAstructOwner {
@@ -995,7 +996,7 @@ func (gstructFormCallback *GstructFormCallback) OnSave() {
 						// the match is base on the name
 						if _dstruct.GetName() == fieldValue.GetName() {
 							newDstructOwner := _dstruct // we have a match
-							
+
 							// we remove the gstruct_ instance from the pastDstructOwner field
 							if pastDstructOwner != nil {
 								if newDstructOwner != pastDstructOwner {

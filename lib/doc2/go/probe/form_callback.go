@@ -10,9 +10,10 @@ import (
 	"github.com/fullstack-lang/gong/lib/doc2/go/models"
 )
 
-const __dummmy__time = time.Nanosecond
+// to avoid errors when time and slices packages are not used in the generated code
+const _ = time.Nanosecond
 
-var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+var _ = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
 func __gong__New__AttributeShapeFormCallback(
@@ -104,7 +105,7 @@ func (attributeshapeFormCallback *AttributeShapeFormCallback) OnSave() {
 						// the match is base on the name
 						if _gongstructshape.GetName() == fieldValue.GetName() {
 							newGongStructShapeOwner := _gongstructshape // we have a match
-							
+
 							// we remove the attributeshape_ instance from the pastGongStructShapeOwner field
 							if pastGongStructShapeOwner != nil {
 								if newGongStructShapeOwner != pastGongStructShapeOwner {
@@ -248,7 +249,7 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 						// the match is base on the name
 						if _diagrampackage.GetName() == fieldValue.GetName() {
 							newDiagramPackageOwner := _diagrampackage // we have a match
-							
+
 							// we remove the classdiagram_ instance from the pastDiagramPackageOwner field
 							if pastDiagramPackageOwner != nil {
 								if newDiagramPackageOwner != pastDiagramPackageOwner {
@@ -473,7 +474,7 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 						// the match is base on the name
 						if _classdiagram.GetName() == fieldValue.GetName() {
 							newClassdiagramOwner := _classdiagram // we have a match
-							
+
 							// we remove the gongenumshape_ instance from the pastClassdiagramOwner field
 							if pastClassdiagramOwner != nil {
 								if newClassdiagramOwner != pastClassdiagramOwner {
@@ -603,7 +604,7 @@ func (gongenumvalueshapeFormCallback *GongEnumValueShapeFormCallback) OnSave() {
 						// the match is base on the name
 						if _gongenumshape.GetName() == fieldValue.GetName() {
 							newGongEnumShapeOwner := _gongenumshape // we have a match
-							
+
 							// we remove the gongenumvalueshape_ instance from the pastGongEnumShapeOwner field
 							if pastGongEnumShapeOwner != nil {
 								if newGongEnumShapeOwner != pastGongEnumShapeOwner {
@@ -735,7 +736,7 @@ func (gongnotelinkshapeFormCallback *GongNoteLinkShapeFormCallback) OnSave() {
 						// the match is base on the name
 						if _gongnoteshape.GetName() == fieldValue.GetName() {
 							newGongNoteShapeOwner := _gongnoteshape // we have a match
-							
+
 							// we remove the gongnotelinkshape_ instance from the pastGongNoteShapeOwner field
 							if pastGongNoteShapeOwner != nil {
 								if newGongNoteShapeOwner != pastGongNoteShapeOwner {
@@ -881,7 +882,7 @@ func (gongnoteshapeFormCallback *GongNoteShapeFormCallback) OnSave() {
 						// the match is base on the name
 						if _classdiagram.GetName() == fieldValue.GetName() {
 							newClassdiagramOwner := _classdiagram // we have a match
-							
+
 							// we remove the gongnoteshape_ instance from the pastClassdiagramOwner field
 							if pastClassdiagramOwner != nil {
 								if newClassdiagramOwner != pastClassdiagramOwner {
@@ -1025,7 +1026,7 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 						// the match is base on the name
 						if _classdiagram.GetName() == fieldValue.GetName() {
 							newClassdiagramOwner := _classdiagram // we have a match
-							
+
 							// we remove the gongstructshape_ instance from the pastClassdiagramOwner field
 							if pastClassdiagramOwner != nil {
 								if newClassdiagramOwner != pastClassdiagramOwner {
@@ -1187,7 +1188,7 @@ func (linkshapeFormCallback *LinkShapeFormCallback) OnSave() {
 						// the match is base on the name
 						if _gongstructshape.GetName() == fieldValue.GetName() {
 							newGongStructShapeOwner := _gongstructshape // we have a match
-							
+
 							// we remove the linkshape_ instance from the pastGongStructShapeOwner field
 							if pastGongStructShapeOwner != nil {
 								if newGongStructShapeOwner != pastGongStructShapeOwner {
