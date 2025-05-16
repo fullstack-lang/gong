@@ -114,6 +114,7 @@ type FormEditAssocButton_WOP struct {
 	Name string
 	Label string
 	AssociationStorage string
+	HasChanged bool
 }
 
 func (from *FormEditAssocButton) CopyBasicFields(to *FormEditAssocButton) {
@@ -121,6 +122,7 @@ func (from *FormEditAssocButton) CopyBasicFields(to *FormEditAssocButton) {
 	to.Name = from.Name
 	to.Label = from.Label
 	to.AssociationStorage = from.AssociationStorage
+	to.HasChanged = from.HasChanged
 }
 
 type FormField_WOP struct {

@@ -12,6 +12,10 @@ type FormEditAssocButton struct {
 	// the format is json
 	AssociationStorage string
 
+	// HasChanged is true when the end user has used this form
+	// When true, the instance will be updated to the back
+	HasChanged bool
+
 	// swagger:ignore
 	OnAssocEditon FormEditAssocButtonInterface
 }
