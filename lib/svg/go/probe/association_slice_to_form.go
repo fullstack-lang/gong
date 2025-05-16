@@ -123,7 +123,7 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 		row.Cells = append(row.Cells, cell)
 		cellInt := (&gongtable_models.CellInt{
 			Name: "ID",
-			Value: int(models.GetOrderPointerGongstruct[FieldType](
+			Value: int(models.GetOrderPointerGongstruct(
 				onAssocEditon.probe.stageOfInterest,
 				instance,
 			)),
