@@ -15,6 +15,7 @@ export class FormEditAssocButtonAPI {
 	Name: string = ""
 	Label: string = ""
 	AssociationStorage: string = ""
+	HasChanged: boolean = false
 
 	// insertion point for other decls
 
