@@ -93,6 +93,10 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 	table.HasCheckableRows = true
 	table.HasSaveButton = true
 
+	column := new(gongtable_models.DisplayedColumn).Stage(tableStageForSelection)
+	column.Name = "ID"
+	table.DisplayedColumns = append(table.DisplayedColumns, column)
+
 	// filterdInstanceSet is the set of instance that are part of the field
 	filterdInstanceSet := make(map[FieldType]any, 0)
 	for _, instance := range *onAssocEditon.field {
@@ -112,6 +116,19 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 		if _, ok := filterdInstanceSet[instance]; ok {
 			row.IsChecked = true
 		}
+
+		cell := (&gongtable_models.Cell{
+			Name: "ID",
+		}).Stage(tableStageForSelection)
+		row.Cells = append(row.Cells, cell)
+		cellInt := (&gongtable_models.CellInt{
+			Name: "ID",
+			Value: int(models.GetOrderPointerGongstruct[FieldType](
+				onAssocEditon.probe.stageOfInterest,
+				instance,
+			)),
+		}).Stage(tableStageForSelection)
+		cell.CellInt = cellInt
 
 		for _, fieldName := range models.GetFieldsFromPointer[FieldType]() {
 			cell := new(gongtable_models.Cell).Stage(tableStageForSelection)

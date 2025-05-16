@@ -16,7 +16,8 @@ import (
 )
 
 // can be used for
-//     days := __Gong__Abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
+//
+//	days := __Gong__Abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
 func __Gong__Abs(x int) int {
 	if x < 0 {
 		return -x
@@ -427,50 +428,49 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]u
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-	// insertion point for case 
-		case "Animate":
-			res = GetNamedStructInstances(stage.Animates, stage.AnimateMap_Staged_Order)
-		case "Circle":
-			res = GetNamedStructInstances(stage.Circles, stage.CircleMap_Staged_Order)
-		case "Ellipse":
-			res = GetNamedStructInstances(stage.Ellipses, stage.EllipseMap_Staged_Order)
-		case "Layer":
-			res = GetNamedStructInstances(stage.Layers, stage.LayerMap_Staged_Order)
-		case "Line":
-			res = GetNamedStructInstances(stage.Lines, stage.LineMap_Staged_Order)
-		case "Link":
-			res = GetNamedStructInstances(stage.Links, stage.LinkMap_Staged_Order)
-		case "LinkAnchoredText":
-			res = GetNamedStructInstances(stage.LinkAnchoredTexts, stage.LinkAnchoredTextMap_Staged_Order)
-		case "Path":
-			res = GetNamedStructInstances(stage.Paths, stage.PathMap_Staged_Order)
-		case "Point":
-			res = GetNamedStructInstances(stage.Points, stage.PointMap_Staged_Order)
-		case "Polygone":
-			res = GetNamedStructInstances(stage.Polygones, stage.PolygoneMap_Staged_Order)
-		case "Polyline":
-			res = GetNamedStructInstances(stage.Polylines, stage.PolylineMap_Staged_Order)
-		case "Rect":
-			res = GetNamedStructInstances(stage.Rects, stage.RectMap_Staged_Order)
-		case "RectAnchoredPath":
-			res = GetNamedStructInstances(stage.RectAnchoredPaths, stage.RectAnchoredPathMap_Staged_Order)
-		case "RectAnchoredRect":
-			res = GetNamedStructInstances(stage.RectAnchoredRects, stage.RectAnchoredRectMap_Staged_Order)
-		case "RectAnchoredText":
-			res = GetNamedStructInstances(stage.RectAnchoredTexts, stage.RectAnchoredTextMap_Staged_Order)
-		case "RectLinkLink":
-			res = GetNamedStructInstances(stage.RectLinkLinks, stage.RectLinkLinkMap_Staged_Order)
-		case "SVG":
-			res = GetNamedStructInstances(stage.SVGs, stage.SVGMap_Staged_Order)
-		case "SvgText":
-			res = GetNamedStructInstances(stage.SvgTexts, stage.SvgTextMap_Staged_Order)
-		case "Text":
-			res = GetNamedStructInstances(stage.Texts, stage.TextMap_Staged_Order)
+	// insertion point for case
+	case "Animate":
+		res = GetNamedStructInstances(stage.Animates, stage.AnimateMap_Staged_Order)
+	case "Circle":
+		res = GetNamedStructInstances(stage.Circles, stage.CircleMap_Staged_Order)
+	case "Ellipse":
+		res = GetNamedStructInstances(stage.Ellipses, stage.EllipseMap_Staged_Order)
+	case "Layer":
+		res = GetNamedStructInstances(stage.Layers, stage.LayerMap_Staged_Order)
+	case "Line":
+		res = GetNamedStructInstances(stage.Lines, stage.LineMap_Staged_Order)
+	case "Link":
+		res = GetNamedStructInstances(stage.Links, stage.LinkMap_Staged_Order)
+	case "LinkAnchoredText":
+		res = GetNamedStructInstances(stage.LinkAnchoredTexts, stage.LinkAnchoredTextMap_Staged_Order)
+	case "Path":
+		res = GetNamedStructInstances(stage.Paths, stage.PathMap_Staged_Order)
+	case "Point":
+		res = GetNamedStructInstances(stage.Points, stage.PointMap_Staged_Order)
+	case "Polygone":
+		res = GetNamedStructInstances(stage.Polygones, stage.PolygoneMap_Staged_Order)
+	case "Polyline":
+		res = GetNamedStructInstances(stage.Polylines, stage.PolylineMap_Staged_Order)
+	case "Rect":
+		res = GetNamedStructInstances(stage.Rects, stage.RectMap_Staged_Order)
+	case "RectAnchoredPath":
+		res = GetNamedStructInstances(stage.RectAnchoredPaths, stage.RectAnchoredPathMap_Staged_Order)
+	case "RectAnchoredRect":
+		res = GetNamedStructInstances(stage.RectAnchoredRects, stage.RectAnchoredRectMap_Staged_Order)
+	case "RectAnchoredText":
+		res = GetNamedStructInstances(stage.RectAnchoredTexts, stage.RectAnchoredTextMap_Staged_Order)
+	case "RectLinkLink":
+		res = GetNamedStructInstances(stage.RectLinkLinks, stage.RectLinkLinkMap_Staged_Order)
+	case "SVG":
+		res = GetNamedStructInstances(stage.SVGs, stage.SVGMap_Staged_Order)
+	case "SvgText":
+		res = GetNamedStructInstances(stage.SvgTexts, stage.SvgTextMap_Staged_Order)
+	case "Text":
+		res = GetNamedStructInstances(stage.Texts, stage.TextMap_Staged_Order)
 	}
 
 	return
 }
-
 
 type NamedStruct struct {
 	name string
@@ -715,6 +715,53 @@ func NewStage(name string) (stage *Stage) {
 }
 
 func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
+
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations
+	case *Animate:
+		return stage.AnimateMap_Staged_Order[instance]
+	case *Circle:
+		return stage.CircleMap_Staged_Order[instance]
+	case *Ellipse:
+		return stage.EllipseMap_Staged_Order[instance]
+	case *Layer:
+		return stage.LayerMap_Staged_Order[instance]
+	case *Line:
+		return stage.LineMap_Staged_Order[instance]
+	case *Link:
+		return stage.LinkMap_Staged_Order[instance]
+	case *LinkAnchoredText:
+		return stage.LinkAnchoredTextMap_Staged_Order[instance]
+	case *Path:
+		return stage.PathMap_Staged_Order[instance]
+	case *Point:
+		return stage.PointMap_Staged_Order[instance]
+	case *Polygone:
+		return stage.PolygoneMap_Staged_Order[instance]
+	case *Polyline:
+		return stage.PolylineMap_Staged_Order[instance]
+	case *Rect:
+		return stage.RectMap_Staged_Order[instance]
+	case *RectAnchoredPath:
+		return stage.RectAnchoredPathMap_Staged_Order[instance]
+	case *RectAnchoredRect:
+		return stage.RectAnchoredRectMap_Staged_Order[instance]
+	case *RectAnchoredText:
+		return stage.RectAnchoredTextMap_Staged_Order[instance]
+	case *RectLinkLink:
+		return stage.RectLinkLinkMap_Staged_Order[instance]
+	case *SVG:
+		return stage.SVGMap_Staged_Order[instance]
+	case *SvgText:
+		return stage.SvgTextMap_Staged_Order[instance]
+	case *Text:
+		return stage.TextMap_Staged_Order[instance]
+	default:
+		return 0 // should not happen
+	}
+}
+
+func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
