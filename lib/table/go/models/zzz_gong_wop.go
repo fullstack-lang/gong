@@ -113,12 +113,14 @@ type FormEditAssocButton_WOP struct {
 	// insertion point
 	Name string
 	Label string
+	AssociationStorage string
 }
 
 func (from *FormEditAssocButton) CopyBasicFields(to *FormEditAssocButton) {
 	// insertion point
 	to.Name = from.Name
 	to.Label = from.Label
+	to.AssociationStorage = from.AssociationStorage
 }
 
 type FormField_WOP struct {

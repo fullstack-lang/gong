@@ -62,10 +62,13 @@ export class FormSpecificComponent {
   public gongtableFrontRepo?: table.FrontRepo
 
   // for selection
-  selectedFormGroup: table.FormGroup | undefined = undefined;
+  selectedFormGroup: table.FormGroup | undefined = undefined
 
   // generated form by getting info from the back
   angularFormGroup: FormGroup | undefined
+
+  currentFormEditAssocButton : table.FormEditAssocButton | undefined = undefined
+
 
   constructor(
     public dialog: MatDialog,
@@ -379,6 +382,8 @@ export class FormSpecificComponent {
       if (formDiv.FormEditAssocButton) {
         if (formDiv.FormEditAssocButton.Name == fieldName) {
 
+          this.currentFormEditAssocButton = formDiv.FormEditAssocButton
+
           this.formEditAssocButtonService.updateFront(formDiv.FormEditAssocButton, this.Name).subscribe(
             () => {
               console.log("assoc button updated")
@@ -397,9 +402,18 @@ export class FormSpecificComponent {
                 // For example, if you close the dialog like this: dialogRef.close('I am a result');
                 // then 'result' will be 'I am a result'
                 if (result) {
-                  console.log('Result:', result);
-                  // You can now perform actions based on the result or the fact that the dialog is closed.
-                  // For example, refresh data, navigate, etc.
+
+
+                  let selectedIDs = new Array<number>()
+                  for (let row of result) {
+                    // fetch the first cell CellInt Value
+                    selectedIDs.push(row.Cells[0].CellInt.Value)
+                  }
+
+                  if (this.currentFormEditAssocButton) {
+                    this.currentFormEditAssocButton.AssociationStorage = encodeIntArrayToString_json(selectedIDs)
+                    console.log('Result:', this.currentFormEditAssocButton.AssociationStorage)
+                  }                 
                 }
               });
 
@@ -501,4 +515,39 @@ export function integerValidator(control: AbstractControl): ValidationErrors | n
     return { 'integer': 'Input must be an integer' }
   }
   return null
+}
+
+/**
+ * Encodes an array of integers into a JSON string.
+ *
+ * @param data - The array of integers to encode.
+ * @returns A JSON string representation of the integer array.
+ */
+function encodeIntArrayToString_json(data: number[]): string {
+  return JSON.stringify(data);
+}
+
+/**
+ * Decodes a JSON string (previously encoded with encodeIntArrayToString_json)
+ * back into an array of integers.
+ *
+ * @param str - The JSON string to decode.
+ * @returns An array of integers.
+ * @throws Error if the string is not valid JSON or does not represent an array of numbers.
+ */
+function decodeStringToIntArray_json(str: string): number[] {
+  try {
+    const parsedData = JSON.parse(str);
+    if (Array.isArray(parsedData) && parsedData.every(item => typeof item === 'number')) {
+      return parsedData as number[];
+    } else {
+      // Or handle more gracefully, e.g., return [] or throw a custom error
+      console.error("Decoded data is not an array of numbers:", parsedData);
+      return [];
+    }
+  } catch (error) {
+    console.error("Failed to decode JSON string:", error);
+    // Or re-throw, or return [], depending on desired error handling
+    return [];
+  }
 }

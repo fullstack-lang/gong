@@ -3736,7 +3736,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case FormDiv:
 		res = []string{"Name", "FormFields", "CheckBoxs", "FormEditAssocButton", "FormSortAssocButton"}
 	case FormEditAssocButton:
-		res = []string{"Name", "Label"}
+		res = []string{"Name", "Label", "AssociationStorage"}
 	case FormField:
 		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect", "HasBespokeWidth", "BespokeWidthPx", "HasBespokeHeight", "BespokeHeightPx"}
 	case FormFieldDate:
@@ -3901,7 +3901,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *FormDiv:
 		res = []string{"Name", "FormFields", "CheckBoxs", "FormEditAssocButton", "FormSortAssocButton"}
 	case *FormEditAssocButton:
-		res = []string{"Name", "Label"}
+		res = []string{"Name", "Label", "AssociationStorage"}
 	case *FormField:
 		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect", "HasBespokeWidth", "BespokeWidthPx", "HasBespokeHeight", "BespokeHeightPx"}
 	case *FormFieldDate:
@@ -4092,6 +4092,8 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.Name
 		case "Label":
 			res.valueString = inferedInstance.Label
+		case "AssociationStorage":
+			res.valueString = inferedInstance.AssociationStorage
 		}
 	case *FormField:
 		switch fieldName {
@@ -4506,6 +4508,8 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.Name
 		case "Label":
 			res.valueString = inferedInstance.Label
+		case "AssociationStorage":
+			res.valueString = inferedInstance.AssociationStorage
 		}
 	case FormField:
 		switch fieldName {
