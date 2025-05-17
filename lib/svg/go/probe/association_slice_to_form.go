@@ -113,11 +113,6 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 		row.Name = instance.GetName()
 		table.Rows = append(table.Rows, row)
 
-		// #651, it is now the front that initiates what are the selected rows
-		// if _, ok := filterdInstanceSet[instance]; ok {
-		// 	row.IsChecked = true
-		// }
-
 		cell := (&gongtable_models.Cell{
 			Name: "ID",
 		}).Stage(tableStageForSelection)

@@ -6,15 +6,24 @@ import "time"
 // to avoid compile error if no time field is present
 var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 
+var _ = __GONG_time_The_fool_doth_think_he_is_wise__
+
 // insertion point
 type Animate_WOP struct {
 	// insertion point
+
 	Name string
+
 	AttributeName string
+
 	Values string
+
 	From string
+
 	To string
+
 	Dur string
+
 	RepeatCount string
 }
 
@@ -31,17 +40,29 @@ func (from *Animate) CopyBasicFields(to *Animate) {
 
 type Circle_WOP struct {
 	// insertion point
+
 	Name string
+
 	CX float64
+
 	CY float64
+
 	Radius float64
+
 	Color string
+
 	FillOpacity float64
+
 	Stroke string
+
 	StrokeOpacity float64
+
 	StrokeWidth float64
+
 	StrokeDashArray string
+
 	StrokeDashArrayWhenSelected string
+
 	Transform string
 }
 
@@ -63,18 +84,31 @@ func (from *Circle) CopyBasicFields(to *Circle) {
 
 type Ellipse_WOP struct {
 	// insertion point
+
 	Name string
+
 	CX float64
+
 	CY float64
+
 	RX float64
+
 	RY float64
+
 	Color string
+
 	FillOpacity float64
+
 	Stroke string
+
 	StrokeOpacity float64
+
 	StrokeWidth float64
+
 	StrokeDashArray string
+
 	StrokeDashArrayWhenSelected string
+
 	Transform string
 }
 
@@ -97,7 +131,9 @@ func (from *Ellipse) CopyBasicFields(to *Ellipse) {
 
 type Layer_WOP struct {
 	// insertion point
+
 	Display bool
+
 	Name string
 }
 
@@ -109,20 +145,35 @@ func (from *Layer) CopyBasicFields(to *Layer) {
 
 type Line_WOP struct {
 	// insertion point
+
 	Name string
+
 	X1 float64
+
 	Y1 float64
+
 	X2 float64
+
 	Y2 float64
+
 	Color string
+
 	FillOpacity float64
+
 	Stroke string
+
 	StrokeOpacity float64
+
 	StrokeWidth float64
+
 	StrokeDashArray string
+
 	StrokeDashArrayWhenSelected string
+
 	Transform string
+
 	MouseClickX float64
+
 	MouseClickY float64
 }
 
@@ -147,28 +198,51 @@ func (from *Line) CopyBasicFields(to *Line) {
 
 type Link_WOP struct {
 	// insertion point
+
 	Name string
+
 	Type LinkType
+
 	IsBezierCurve bool
+
 	StartAnchorType AnchorType
+
 	EndAnchorType AnchorType
+
 	StartOrientation OrientationType
+
 	StartRatio float64
+
 	EndOrientation OrientationType
+
 	EndRatio float64
+
 	CornerOffsetRatio float64
+
 	CornerRadius float64
+
 	HasEndArrow bool
+
 	EndArrowSize float64
+
 	HasStartArrow bool
+
 	StartArrowSize float64
+
 	Color string
+
 	FillOpacity float64
+
 	Stroke string
+
 	StrokeOpacity float64
+
 	StrokeWidth float64
+
 	StrokeDashArray string
+
 	StrokeDashArrayWhenSelected string
+
 	Transform string
 }
 
@@ -201,22 +275,39 @@ func (from *Link) CopyBasicFields(to *Link) {
 
 type LinkAnchoredText_WOP struct {
 	// insertion point
+
 	Name string
+
 	Content string
+
 	AutomaticLayout bool
+
 	LinkAnchorType LinkAnchorType
+
 	X_Offset float64
+
 	Y_Offset float64
+
 	FontWeight string
+
 	FontSize string
+
 	LetterSpacing string
+
 	Color string
+
 	FillOpacity float64
+
 	Stroke string
+
 	StrokeOpacity float64
+
 	StrokeWidth float64
+
 	StrokeDashArray string
+
 	StrokeDashArrayWhenSelected string
+
 	Transform string
 }
 
@@ -243,15 +334,25 @@ func (from *LinkAnchoredText) CopyBasicFields(to *LinkAnchoredText) {
 
 type Path_WOP struct {
 	// insertion point
+
 	Name string
+
 	Definition string
+
 	Color string
+
 	FillOpacity float64
+
 	Stroke string
+
 	StrokeOpacity float64
+
 	StrokeWidth float64
+
 	StrokeDashArray string
+
 	StrokeDashArrayWhenSelected string
+
 	Transform string
 }
 
@@ -271,8 +372,11 @@ func (from *Path) CopyBasicFields(to *Path) {
 
 type Point_WOP struct {
 	// insertion point
+
 	Name string
+
 	X float64
+
 	Y float64
 }
 
@@ -285,15 +389,25 @@ func (from *Point) CopyBasicFields(to *Point) {
 
 type Polygone_WOP struct {
 	// insertion point
+
 	Name string
+
 	Points string
+
 	Color string
+
 	FillOpacity float64
+
 	Stroke string
+
 	StrokeOpacity float64
+
 	StrokeWidth float64
+
 	StrokeDashArray string
+
 	StrokeDashArrayWhenSelected string
+
 	Transform string
 }
 
@@ -313,15 +427,25 @@ func (from *Polygone) CopyBasicFields(to *Polygone) {
 
 type Polyline_WOP struct {
 	// insertion point
+
 	Name string
+
 	Points string
+
 	Color string
+
 	FillOpacity float64
+
 	Stroke string
+
 	StrokeOpacity float64
+
 	StrokeWidth float64
+
 	StrokeDashArray string
+
 	StrokeDashArrayWhenSelected string
+
 	Transform string
 }
 
@@ -341,32 +465,59 @@ func (from *Polyline) CopyBasicFields(to *Polyline) {
 
 type Rect_WOP struct {
 	// insertion point
+
 	Name string
+
 	X float64
+
 	Y float64
+
 	Width float64
+
 	Height float64
+
 	RX float64
+
 	Color string
+
 	FillOpacity float64
+
 	Stroke string
+
 	StrokeOpacity float64
+
 	StrokeWidth float64
+
 	StrokeDashArray string
+
 	StrokeDashArrayWhenSelected string
+
 	Transform string
+
 	IsSelectable bool
+
 	IsSelected bool
+
 	CanHaveLeftHandle bool
+
 	HasLeftHandle bool
+
 	CanHaveRightHandle bool
+
 	HasRightHandle bool
+
 	CanHaveTopHandle bool
+
 	HasTopHandle bool
+
 	IsScalingProportionally bool
+
 	CanHaveBottomHandle bool
+
 	HasBottomHandle bool
+
 	CanMoveHorizontaly bool
+
 	CanMoveVerticaly bool
 }
 
@@ -403,20 +554,35 @@ func (from *Rect) CopyBasicFields(to *Rect) {
 
 type RectAnchoredPath_WOP struct {
 	// insertion point
+
 	Name string
+
 	Definition string
+
 	X_Offset float64
+
 	Y_Offset float64
+
 	RectAnchorType RectAnchorType
+
 	ScalePropotionnally bool
+
 	AppliedScaling float64
+
 	Color string
+
 	FillOpacity float64
+
 	Stroke string
+
 	StrokeOpacity float64
+
 	StrokeWidth float64
+
 	StrokeDashArray string
+
 	StrokeDashArrayWhenSelected string
+
 	Transform string
 }
 
@@ -441,24 +607,43 @@ func (from *RectAnchoredPath) CopyBasicFields(to *RectAnchoredPath) {
 
 type RectAnchoredRect_WOP struct {
 	// insertion point
+
 	Name string
+
 	X float64
+
 	Y float64
+
 	Width float64
+
 	Height float64
+
 	RX float64
+
 	X_Offset float64
+
 	Y_Offset float64
+
 	RectAnchorType RectAnchorType
+
 	WidthFollowRect bool
+
 	HeightFollowRect bool
+
 	Color string
+
 	FillOpacity float64
+
 	Stroke string
+
 	StrokeOpacity float64
+
 	StrokeWidth float64
+
 	StrokeDashArray string
+
 	StrokeDashArrayWhenSelected string
+
 	Transform string
 }
 
@@ -487,22 +672,39 @@ func (from *RectAnchoredRect) CopyBasicFields(to *RectAnchoredRect) {
 
 type RectAnchoredText_WOP struct {
 	// insertion point
+
 	Name string
+
 	Content string
+
 	FontWeight string
+
 	FontSize int
+
 	FontStyle string
+
 	X_Offset float64
+
 	Y_Offset float64
+
 	RectAnchorType RectAnchorType
+
 	TextAnchorType TextAnchorType
+
 	Color string
+
 	FillOpacity float64
+
 	Stroke string
+
 	StrokeOpacity float64
+
 	StrokeWidth float64
+
 	StrokeDashArray string
+
 	StrokeDashArrayWhenSelected string
+
 	Transform string
 }
 
@@ -529,15 +731,25 @@ func (from *RectAnchoredText) CopyBasicFields(to *RectAnchoredText) {
 
 type RectLinkLink_WOP struct {
 	// insertion point
+
 	Name string
+
 	TargetAnchorPosition float64
+
 	Color string
+
 	FillOpacity float64
+
 	Stroke string
+
 	StrokeOpacity float64
+
 	StrokeWidth float64
+
 	StrokeDashArray string
+
 	StrokeDashArrayWhenSelected string
+
 	Transform string
 }
 
@@ -557,9 +769,13 @@ func (from *RectLinkLink) CopyBasicFields(to *RectLinkLink) {
 
 type SVG_WOP struct {
 	// insertion point
+
 	Name string
+
 	DrawingState DrawingState
+
 	IsEditable bool
+
 	IsSVGFileGenerated bool
 }
 
@@ -573,7 +789,9 @@ func (from *SVG) CopyBasicFields(to *SVG) {
 
 type SvgText_WOP struct {
 	// insertion point
+
 	Name string
+
 	Text string
 }
 
@@ -585,17 +803,29 @@ func (from *SvgText) CopyBasicFields(to *SvgText) {
 
 type Text_WOP struct {
 	// insertion point
+
 	Name string
+
 	X float64
+
 	Y float64
+
 	Content string
+
 	Color string
+
 	FillOpacity float64
+
 	Stroke string
+
 	StrokeOpacity float64
+
 	StrokeWidth float64
+
 	StrokeDashArray string
+
 	StrokeDashArrayWhenSelected string
+
 	Transform string
 }
 
@@ -614,4 +844,3 @@ func (from *Text) CopyBasicFields(to *Text) {
 	to.StrokeDashArrayWhenSelected = from.StrokeDashArrayWhenSelected
 	to.Transform = from.Transform
 }
-
