@@ -34,11 +34,11 @@ func (formEditAssocButton *FormEditAssocButton) OnAfterUpdate(
 	}
 
 	if frontInstance.IsForSavePurpose {
-		// TODO update the association
+		stagedInstance.OnAssocEditon.OnSave(formEditAssocButton.AssociationStorage)
 	}
 }
 
 type FormEditAssocButtonInterface interface {
 	OnButtonPressed()
-	OnSave()
+	OnSave(associationStorage string)
 }

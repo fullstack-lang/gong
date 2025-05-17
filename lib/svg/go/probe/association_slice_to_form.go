@@ -191,9 +191,35 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 	tableStageForSelection.Commit()
 }
 
-func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnSave() {
+func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnSave(associationStorage string) {
 
 	// decode the storage
-	log.Println("wait here")
+	log.Println("association storage", associationStorage)
 
+	//
+
+	instanceSet := *models.GetGongstructInstancesSetFromPointerType[FieldType](onAssocEditon.probe.stageOfInterest)
+	instanceSlice := make([]FieldType, 0)
+
+	// make a map of all instances by their ID
+	map_id_instances := make(map[uint]FieldType)
+
+	for instance := range instanceSet {
+		id := models.GetOrderPointerGongstruct(
+			onAssocEditon.probe.stageOfInterest,
+			instance,
+		)
+		map_id_instances[id] = instance
+	}
+
+	ids, err := DecodeStringToIntSlice(associationStorage)
+
+	if err != nil {
+		log.Panic("not a good storage", associationStorage)
+	}
+	for _, id := range ids {
+		instanceSlice = append(instanceSlice, map_id_instances[id])
+	}
+
+	onAssocEditon.field = &instanceSlice
 }
