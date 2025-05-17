@@ -25,6 +25,7 @@ import { MatTableModule } from '@angular/material/table'
 import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatInputModule } from '@angular/material/input'
 import { MatButtonModule } from '@angular/material/button'
+import { decodeStringToIntArray_json } from '../association-storage'
 
 
 @Component({
@@ -188,6 +189,24 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
                 this.initialSelection.push(Row)
               }
             })
+          }
+
+          if (this.tableDialogData && this.tableDialogData.AssociationStorage) {
+
+            let sliceOfIDs = decodeStringToIntArray_json(this.tableDialogData.AssociationStorage)
+
+            // parse all rows, get the ID (first cell), and if the ID is in the association storage,
+            // push the row into the initial selection
+            this.selectedTable.Rows.forEach(Row => {
+              if (Row.Cells.length > 0 && Row.Cells[0].CellInt) {
+                let id = Row.Cells[0].CellInt.Value
+ 
+                if (sliceOfIDs.includes(id) ) {
+                  this.initialSelection.push(Row)
+                }
+              }
+            })
+
           }
           // Re-initialize selection model with current data
           this.selection = new SelectionModel<table.Row>(allowMultiSelect, this.initialSelection)
