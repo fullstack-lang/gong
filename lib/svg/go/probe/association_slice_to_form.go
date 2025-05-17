@@ -113,9 +113,10 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 		row.Name = instance.GetName()
 		table.Rows = append(table.Rows, row)
 
-		if _, ok := filterdInstanceSet[instance]; ok {
-			row.IsChecked = true
-		}
+		// #651, it is now the front that initiates what are the selected rows
+		// if _, ok := filterdInstanceSet[instance]; ok {
+		// 	row.IsChecked = true
+		// }
 
 		cell := (&gongtable_models.Cell{
 			Name: "ID",
@@ -144,72 +145,5 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 		}
 	}
 
-	// set up control inversion for the saving of the table
-	table.Impl = NewTablePickSaver(
-		onAssocEditon.instance,
-		onAssocEditon.field,
-		onAssocEditon.fieldName,
-		onAssocEditon.probe)
-
 	tableStageForSelection.Commit()
-}
-
-func NewTablePickSaver[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct](
-	instance InstanceType,
-	field *[]FieldType,
-	fieldName string,
-	probe *Probe,
-
-) (tablePickSaver *TablePickSaver[InstanceType, FieldType]) {
-
-	tablePickSaver = new(TablePickSaver[InstanceType, FieldType])
-	tablePickSaver.instance = instance
-	tablePickSaver.field = field
-	tablePickSaver.fieldName = fieldName
-	tablePickSaver.probe = probe
-
-	return
-}
-
-type TablePickSaver[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
-	instance  InstanceType
-	field     *[]FieldType
-	fieldName string
-	probe     *Probe
-}
-
-func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(
-	stage *form.Stage,
-	table, updatedTable *form.Table) {
-	// log.Println("TablePickSaver: TableUpdated")
-
-	// checkout to the stage to get the rows that have been checked and not
-	stage.Checkout()
-
-	instanceSet := *models.GetGongstructInstancesSetFromPointerType[FieldType](tablePickSaver.probe.stageOfInterest)
-	instanceSlice := make([]FieldType, 0)
-	for instance := range instanceSet {
-		instanceSlice = append(instanceSlice, instance)
-	}
-	sort.Slice(instanceSlice, func(i, j int) bool {
-		return instanceSlice[i].GetName() < instanceSlice[j].GetName()
-	})
-
-	*tablePickSaver.field = make([]FieldType, 0)
-
-	for idx, row := range table.Rows {
-		if row.IsChecked {
-			instance := instanceSlice[idx]
-			*tablePickSaver.field = append(*tablePickSaver.field, instance)
-		}
-	}
-
-	// commit the whole
-	tablePickSaver.probe.stageOfInterest.Commit()
-
-	// see the result
-	updateAndCommitTablePointerToGongstruct[InstanceType](
-		tablePickSaver.probe,
-	)
-	tablePickSaver.probe.tableStage.Commit()
 }
