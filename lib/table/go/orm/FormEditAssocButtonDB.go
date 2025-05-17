@@ -73,6 +73,10 @@ type FormEditAssocButtonDB struct {
 	// provide the sql storage for the boolan
 	HasChanged_Data sql.NullBool
 
+	// Declation for basic field formeditassocbuttonDB.IsForSavePurpose
+	// provide the sql storage for the boolan
+	IsForSavePurpose_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormEditAssocButtonPointersEncoding
@@ -102,6 +106,8 @@ type FormEditAssocButtonWOP struct {
 	AssociationStorage string `xlsx:"3"`
 
 	HasChanged bool `xlsx:"4"`
+
+	IsForSavePurpose bool `xlsx:"5"`
 	// insertion for WOP pointer fields
 }
 
@@ -112,6 +118,7 @@ var FormEditAssocButton_Fields = []string{
 	"Label",
 	"AssociationStorage",
 	"HasChanged",
+	"IsForSavePurpose",
 }
 
 type BackRepoFormEditAssocButtonStruct struct {
@@ -400,6 +407,9 @@ func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsFromFormEditA
 
 	formeditassocbuttonDB.HasChanged_Data.Bool = formeditassocbutton.HasChanged
 	formeditassocbuttonDB.HasChanged_Data.Valid = true
+
+	formeditassocbuttonDB.IsForSavePurpose_Data.Bool = formeditassocbutton.IsForSavePurpose
+	formeditassocbuttonDB.IsForSavePurpose_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormEditAssocButton_WOP
@@ -417,6 +427,9 @@ func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsFromFormEditA
 
 	formeditassocbuttonDB.HasChanged_Data.Bool = formeditassocbutton.HasChanged
 	formeditassocbuttonDB.HasChanged_Data.Valid = true
+
+	formeditassocbuttonDB.IsForSavePurpose_Data.Bool = formeditassocbutton.IsForSavePurpose
+	formeditassocbuttonDB.IsForSavePurpose_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormEditAssocButtonWOP
@@ -434,6 +447,9 @@ func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsFromFormEditA
 
 	formeditassocbuttonDB.HasChanged_Data.Bool = formeditassocbutton.HasChanged
 	formeditassocbuttonDB.HasChanged_Data.Valid = true
+
+	formeditassocbuttonDB.IsForSavePurpose_Data.Bool = formeditassocbutton.IsForSavePurpose
+	formeditassocbuttonDB.IsForSavePurpose_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormEditAssocButton
@@ -443,6 +459,7 @@ func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsToFormEditAss
 	formeditassocbutton.Label = formeditassocbuttonDB.Label_Data.String
 	formeditassocbutton.AssociationStorage = formeditassocbuttonDB.AssociationStorage_Data.String
 	formeditassocbutton.HasChanged = formeditassocbuttonDB.HasChanged_Data.Bool
+	formeditassocbutton.IsForSavePurpose = formeditassocbuttonDB.IsForSavePurpose_Data.Bool
 }
 
 // CopyBasicFieldsToFormEditAssocButton_WOP
@@ -452,6 +469,7 @@ func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsToFormEditAss
 	formeditassocbutton.Label = formeditassocbuttonDB.Label_Data.String
 	formeditassocbutton.AssociationStorage = formeditassocbuttonDB.AssociationStorage_Data.String
 	formeditassocbutton.HasChanged = formeditassocbuttonDB.HasChanged_Data.Bool
+	formeditassocbutton.IsForSavePurpose = formeditassocbuttonDB.IsForSavePurpose_Data.Bool
 }
 
 // CopyBasicFieldsToFormEditAssocButtonWOP
@@ -462,6 +480,7 @@ func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsToFormEditAss
 	formeditassocbutton.Label = formeditassocbuttonDB.Label_Data.String
 	formeditassocbutton.AssociationStorage = formeditassocbuttonDB.AssociationStorage_Data.String
 	formeditassocbutton.HasChanged = formeditassocbuttonDB.HasChanged_Data.Bool
+	formeditassocbutton.IsForSavePurpose = formeditassocbuttonDB.IsForSavePurpose_Data.Bool
 }
 
 // Backup generates a json file from a slice of all FormEditAssocButtonDB instances in the backrepo

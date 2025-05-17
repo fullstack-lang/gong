@@ -16,6 +16,10 @@ type FormEditAssocButton struct {
 	// When true, the instance will be updated to the back
 	HasChanged bool
 
+	// IsForSavePurpose is true when the FormEditAssocButton is updated
+	// by the submit of the front (it is false when the button is pressed)
+	IsForSavePurpose bool
+
 	// swagger:ignore
 	OnAssocEditon FormEditAssocButtonInterface
 }
@@ -27,6 +31,10 @@ func (formEditAssocButton *FormEditAssocButton) OnAfterUpdate(
 
 	if stagedInstance.OnAssocEditon != nil {
 		stagedInstance.OnAssocEditon.OnButtonPressed()
+	}
+
+	if frontInstance.IsForSavePurpose {
+		// TODO update the association
 	}
 }
 

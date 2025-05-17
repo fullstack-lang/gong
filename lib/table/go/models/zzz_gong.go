@@ -16,7 +16,8 @@ import (
 )
 
 // can be used for
-//     days := __Gong__Abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
+//
+//	days := __Gong__Abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
 func __Gong__Abs(x int) int {
 	if x < 0 {
 		return -x
@@ -53,8 +54,12 @@ var errUnkownEnum = errors.New("unkown enum")
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
 
+var _ = __dummy__fmt_variable
+
 // idem for math package when not need by generated code
 var __dummy_math_variable = math.E
+
+var _ = __dummy_math_variable
 
 // swagger:ignore
 type __void any
@@ -435,58 +440,57 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]u
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-	// insertion point for case 
-		case "Cell":
-			res = GetNamedStructInstances(stage.Cells, stage.CellMap_Staged_Order)
-		case "CellBoolean":
-			res = GetNamedStructInstances(stage.CellBooleans, stage.CellBooleanMap_Staged_Order)
-		case "CellFloat64":
-			res = GetNamedStructInstances(stage.CellFloat64s, stage.CellFloat64Map_Staged_Order)
-		case "CellIcon":
-			res = GetNamedStructInstances(stage.CellIcons, stage.CellIconMap_Staged_Order)
-		case "CellInt":
-			res = GetNamedStructInstances(stage.CellInts, stage.CellIntMap_Staged_Order)
-		case "CellString":
-			res = GetNamedStructInstances(stage.CellStrings, stage.CellStringMap_Staged_Order)
-		case "CheckBox":
-			res = GetNamedStructInstances(stage.CheckBoxs, stage.CheckBoxMap_Staged_Order)
-		case "DisplayedColumn":
-			res = GetNamedStructInstances(stage.DisplayedColumns, stage.DisplayedColumnMap_Staged_Order)
-		case "FormDiv":
-			res = GetNamedStructInstances(stage.FormDivs, stage.FormDivMap_Staged_Order)
-		case "FormEditAssocButton":
-			res = GetNamedStructInstances(stage.FormEditAssocButtons, stage.FormEditAssocButtonMap_Staged_Order)
-		case "FormField":
-			res = GetNamedStructInstances(stage.FormFields, stage.FormFieldMap_Staged_Order)
-		case "FormFieldDate":
-			res = GetNamedStructInstances(stage.FormFieldDates, stage.FormFieldDateMap_Staged_Order)
-		case "FormFieldDateTime":
-			res = GetNamedStructInstances(stage.FormFieldDateTimes, stage.FormFieldDateTimeMap_Staged_Order)
-		case "FormFieldFloat64":
-			res = GetNamedStructInstances(stage.FormFieldFloat64s, stage.FormFieldFloat64Map_Staged_Order)
-		case "FormFieldInt":
-			res = GetNamedStructInstances(stage.FormFieldInts, stage.FormFieldIntMap_Staged_Order)
-		case "FormFieldSelect":
-			res = GetNamedStructInstances(stage.FormFieldSelects, stage.FormFieldSelectMap_Staged_Order)
-		case "FormFieldString":
-			res = GetNamedStructInstances(stage.FormFieldStrings, stage.FormFieldStringMap_Staged_Order)
-		case "FormFieldTime":
-			res = GetNamedStructInstances(stage.FormFieldTimes, stage.FormFieldTimeMap_Staged_Order)
-		case "FormGroup":
-			res = GetNamedStructInstances(stage.FormGroups, stage.FormGroupMap_Staged_Order)
-		case "FormSortAssocButton":
-			res = GetNamedStructInstances(stage.FormSortAssocButtons, stage.FormSortAssocButtonMap_Staged_Order)
-		case "Option":
-			res = GetNamedStructInstances(stage.Options, stage.OptionMap_Staged_Order)
-		case "Row":
-			res = GetNamedStructInstances(stage.Rows, stage.RowMap_Staged_Order)
-		case "Table":
-			res = GetNamedStructInstances(stage.Tables, stage.TableMap_Staged_Order)
+	// insertion point for case
+	case "Cell":
+		res = GetNamedStructInstances(stage.Cells, stage.CellMap_Staged_Order)
+	case "CellBoolean":
+		res = GetNamedStructInstances(stage.CellBooleans, stage.CellBooleanMap_Staged_Order)
+	case "CellFloat64":
+		res = GetNamedStructInstances(stage.CellFloat64s, stage.CellFloat64Map_Staged_Order)
+	case "CellIcon":
+		res = GetNamedStructInstances(stage.CellIcons, stage.CellIconMap_Staged_Order)
+	case "CellInt":
+		res = GetNamedStructInstances(stage.CellInts, stage.CellIntMap_Staged_Order)
+	case "CellString":
+		res = GetNamedStructInstances(stage.CellStrings, stage.CellStringMap_Staged_Order)
+	case "CheckBox":
+		res = GetNamedStructInstances(stage.CheckBoxs, stage.CheckBoxMap_Staged_Order)
+	case "DisplayedColumn":
+		res = GetNamedStructInstances(stage.DisplayedColumns, stage.DisplayedColumnMap_Staged_Order)
+	case "FormDiv":
+		res = GetNamedStructInstances(stage.FormDivs, stage.FormDivMap_Staged_Order)
+	case "FormEditAssocButton":
+		res = GetNamedStructInstances(stage.FormEditAssocButtons, stage.FormEditAssocButtonMap_Staged_Order)
+	case "FormField":
+		res = GetNamedStructInstances(stage.FormFields, stage.FormFieldMap_Staged_Order)
+	case "FormFieldDate":
+		res = GetNamedStructInstances(stage.FormFieldDates, stage.FormFieldDateMap_Staged_Order)
+	case "FormFieldDateTime":
+		res = GetNamedStructInstances(stage.FormFieldDateTimes, stage.FormFieldDateTimeMap_Staged_Order)
+	case "FormFieldFloat64":
+		res = GetNamedStructInstances(stage.FormFieldFloat64s, stage.FormFieldFloat64Map_Staged_Order)
+	case "FormFieldInt":
+		res = GetNamedStructInstances(stage.FormFieldInts, stage.FormFieldIntMap_Staged_Order)
+	case "FormFieldSelect":
+		res = GetNamedStructInstances(stage.FormFieldSelects, stage.FormFieldSelectMap_Staged_Order)
+	case "FormFieldString":
+		res = GetNamedStructInstances(stage.FormFieldStrings, stage.FormFieldStringMap_Staged_Order)
+	case "FormFieldTime":
+		res = GetNamedStructInstances(stage.FormFieldTimes, stage.FormFieldTimeMap_Staged_Order)
+	case "FormGroup":
+		res = GetNamedStructInstances(stage.FormGroups, stage.FormGroupMap_Staged_Order)
+	case "FormSortAssocButton":
+		res = GetNamedStructInstances(stage.FormSortAssocButtons, stage.FormSortAssocButtonMap_Staged_Order)
+	case "Option":
+		res = GetNamedStructInstances(stage.Options, stage.OptionMap_Staged_Order)
+	case "Row":
+		res = GetNamedStructInstances(stage.Rows, stage.RowMap_Staged_Order)
+	case "Table":
+		res = GetNamedStructInstances(stage.Tables, stage.TableMap_Staged_Order)
 	}
 
 	return
 }
-
 
 type NamedStruct struct {
 	name string
@@ -763,6 +767,61 @@ func NewStage(name string) (stage *Stage) {
 }
 
 func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
+
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations
+	case *Cell:
+		return stage.CellMap_Staged_Order[instance]
+	case *CellBoolean:
+		return stage.CellBooleanMap_Staged_Order[instance]
+	case *CellFloat64:
+		return stage.CellFloat64Map_Staged_Order[instance]
+	case *CellIcon:
+		return stage.CellIconMap_Staged_Order[instance]
+	case *CellInt:
+		return stage.CellIntMap_Staged_Order[instance]
+	case *CellString:
+		return stage.CellStringMap_Staged_Order[instance]
+	case *CheckBox:
+		return stage.CheckBoxMap_Staged_Order[instance]
+	case *DisplayedColumn:
+		return stage.DisplayedColumnMap_Staged_Order[instance]
+	case *FormDiv:
+		return stage.FormDivMap_Staged_Order[instance]
+	case *FormEditAssocButton:
+		return stage.FormEditAssocButtonMap_Staged_Order[instance]
+	case *FormField:
+		return stage.FormFieldMap_Staged_Order[instance]
+	case *FormFieldDate:
+		return stage.FormFieldDateMap_Staged_Order[instance]
+	case *FormFieldDateTime:
+		return stage.FormFieldDateTimeMap_Staged_Order[instance]
+	case *FormFieldFloat64:
+		return stage.FormFieldFloat64Map_Staged_Order[instance]
+	case *FormFieldInt:
+		return stage.FormFieldIntMap_Staged_Order[instance]
+	case *FormFieldSelect:
+		return stage.FormFieldSelectMap_Staged_Order[instance]
+	case *FormFieldString:
+		return stage.FormFieldStringMap_Staged_Order[instance]
+	case *FormFieldTime:
+		return stage.FormFieldTimeMap_Staged_Order[instance]
+	case *FormGroup:
+		return stage.FormGroupMap_Staged_Order[instance]
+	case *FormSortAssocButton:
+		return stage.FormSortAssocButtonMap_Staged_Order[instance]
+	case *Option:
+		return stage.OptionMap_Staged_Order[instance]
+	case *Row:
+		return stage.RowMap_Staged_Order[instance]
+	case *Table:
+		return stage.TableMap_Staged_Order[instance]
+	default:
+		return 0 // should not happen
+	}
+}
+
+func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
@@ -3736,7 +3795,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case FormDiv:
 		res = []string{"Name", "FormFields", "CheckBoxs", "FormEditAssocButton", "FormSortAssocButton"}
 	case FormEditAssocButton:
-		res = []string{"Name", "Label", "AssociationStorage", "HasChanged"}
+		res = []string{"Name", "Label", "AssociationStorage", "HasChanged", "IsForSavePurpose"}
 	case FormField:
 		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect", "HasBespokeWidth", "BespokeWidthPx", "HasBespokeHeight", "BespokeHeightPx"}
 	case FormFieldDate:
@@ -3901,7 +3960,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *FormDiv:
 		res = []string{"Name", "FormFields", "CheckBoxs", "FormEditAssocButton", "FormSortAssocButton"}
 	case *FormEditAssocButton:
-		res = []string{"Name", "Label", "AssociationStorage", "HasChanged"}
+		res = []string{"Name", "Label", "AssociationStorage", "HasChanged", "IsForSavePurpose"}
 	case *FormField:
 		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect", "HasBespokeWidth", "BespokeWidthPx", "HasBespokeHeight", "BespokeHeightPx"}
 	case *FormFieldDate:
@@ -4097,6 +4156,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "HasChanged":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasChanged)
 			res.valueBool = inferedInstance.HasChanged
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "IsForSavePurpose":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsForSavePurpose)
+			res.valueBool = inferedInstance.IsForSavePurpose
 			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case *FormField:
@@ -4517,6 +4580,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "HasChanged":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasChanged)
 			res.valueBool = inferedInstance.HasChanged
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "IsForSavePurpose":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsForSavePurpose)
+			res.valueBool = inferedInstance.IsForSavePurpose
 			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case FormField:

@@ -338,6 +338,7 @@ export class FormSpecificComponent {
         }
       }
       if (formDiv.FormEditAssocButton && formDiv.FormEditAssocButton.HasChanged) {
+        formDiv.FormEditAssocButton.IsForSavePurpose = true
          promises.push(this.formEditAssocButtonService.updateFront(formDiv.FormEditAssocButton, this.Name))
       }
     }
