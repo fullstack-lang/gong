@@ -191,5 +191,9 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 	tableStageForSelection.Commit()
 }
 
-func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnSave() {
+func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnSave(associationStorage string) {
+
+	// decode the storage
+	log.Println("wait here")
+
 }
