@@ -98,12 +98,12 @@
           <div class="flex-align-items-center">
             @if (div.FormEditAssocButton) {
               <p class="custom-text">{{div.FormEditAssocButton.Label}}</p>
-              <button (click)="openTableAssociation(div.FormEditAssocButton.Name)" mat-raised-button class="custom-button">
+              <button type="button" (click)="openTableAssociation(div.FormEditAssocButton.Name)" mat-raised-button class="custom-button">
                 <mat-icon>list</mat-icon>
               </button>
             }
             @if (div.FormSortAssocButton) {
-              <button (click)="openTableSort(div.FormSortAssocButton.Name)" mat-raised-button class="custom-button">
+              <button type="button" (click)="openTableSort(div.FormSortAssocButton.Name)" mat-raised-button class="custom-button">
                 <mat-icon>shuffle</mat-icon>
               </button>
             }
