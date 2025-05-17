@@ -18,7 +18,8 @@ import (
 )
 
 // can be used for
-//     days := __Gong__Abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
+//
+//	days := __Gong__Abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
 func __Gong__Abs(x int) int {
 	if x < 0 {
 		return -x
