@@ -4,7 +4,9 @@ const AssociationSliceToFormTemplate = `// generated code - do not edit
 package probe
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"sort"
 
 	gongtable_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
@@ -13,6 +15,32 @@ import (
 
 	"{{PkgPathRoot}}/models"
 )
+
+// EncodeIntSliceToString encodes a slice of integers into a JSON string.
+// It returns the JSON string and an error if marshalling fails.
+func EncodeIntSliceToString(data []uint) (string, error) {
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		return "", fmt.Errorf("failed to marshal uint slice to JSON: %w", err)
+	}
+	return string(jsonData), nil
+}
+
+// DecodeStringToIntSlice decodes a JSON string into a slice of integers.
+// It returns the slice of integers and an error if unmarshalling fails
+// or if the string is not a valid JSON representation of an int slice.
+func DecodeStringToIntSlice(str string) ([]uint, error) {
+	var decodedData []uint
+	err := json.Unmarshal([]byte(str), &decodedData)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal JSON string to uint slice: %w", err)
+	}
+	// Note: json.Unmarshal will also return an error if the JSON structure
+	// doesn't match []int (e.g., if it's a JSON object or an array of strings).
+	// So, an explicit type check like in the TypeScript example is less critical here
+	// as Unmarshal handles type mismatches by returning an error.
+	return decodedData, nil
+}
 
 // AssociationSliceToForm add a form div with 2 buttons
 // - one for selection
@@ -30,9 +58,29 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 	}).Stage(probe.formStage)
 	formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
 
+	// filteredInstanceSet is the set of instance that are part of the field
+	filteredInstanceSet := make(map[FieldType]any, 0)
+	for _, instance := range *field {
+		filteredInstanceSet[instance] = nil
+	}
+
+	instanceSliceID := make([]uint, 0)
+	for instance := range filteredInstanceSet {
+		id := uint(models.GetOrderPointerGongstruct(
+			probe.stageOfInterest,
+			instance,
+		))
+		instanceSliceID = append(instanceSliceID, id)
+	}
+	storage, err := EncodeIntSliceToString(instanceSliceID)
+	if err != nil {
+		log.Panic("Unable to encode association")
+	}
+
 	formEditAssocButton := (&form.FormEditAssocButton{
-		Name:  fieldName,
-		Label: fieldName,
+		Name:               fieldName,
+		Label:              fieldName,
+		AssociationStorage: storage,
 	}).Stage(probe.formStage)
 	formDiv.FormEditAssocButton = formEditAssocButton
 	onAssocEditon := NewOnAssocEditon(instance, field, fieldName, probe)
