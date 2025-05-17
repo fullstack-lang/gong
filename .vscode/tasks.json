@@ -443,6 +443,16 @@
       "group": "build",
       "problemMatcher": []
     },
+        {
+      "label": "03 - ng build svg",
+      "type": "shell",
+      "options": {
+        "cwd": "lib/svg/ng-github.com-fullstack-lang-gong-lib-svg"
+      },
+      "command": "ng build",
+      "group": "build",
+      "problemMatcher": []
+    },
     {
       "label": "03 - ng serve doc ",
       "type": "shell",
