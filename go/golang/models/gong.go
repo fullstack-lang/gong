@@ -289,8 +289,8 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 	ModelGongNamedStructsSliceInit: `
 			{name: "{{Structname}}"},`,
 	ModelGongNamedStructsInstancesNames: `
-		case "{{Structname}}":
-			res = GetNamedStructInstances(stage.{{Structname}}s, stage.{{Structname}}Map_Staged_Order)`,
+	case "{{Structname}}":
+		res = GetNamedStructInstances(stage.{{Structname}}s, stage.{{Structname}}Map_Staged_Order)`,
 }
 
 // Sub sub Templates identifiers per gong field

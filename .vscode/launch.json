@@ -103,6 +103,19 @@
             ]
         },
         {
+            "name": "gongc svg -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/lib/svg/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmInstall",
+                "-skipNpmWorkspaces"
+            ]
+        },
+        {
             "name": "gongc test -skipGoModCommands -skipNpmWorkspaces -skipStager=false",
             "type": "go",
             "request": "launch",
