@@ -56,8 +56,12 @@ var errUnkownEnum = errors.New("unkown enum")
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
 
+var _ = __dummy__fmt_variable
+
 // idem for math package when not need by generated code
 var __dummy_math_variable = math.E
+
+var _ = __dummy_math_variable
 
 // swagger:ignore
 type __void any
@@ -148,12 +152,11 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]u
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-	// insertion point for case {{` + string(rune(ModelGongNamedStructsInstancesNames)) + `}}
+	// insertion point for case{{` + string(rune(ModelGongNamedStructsInstancesNames)) + `}}
 	}
 
 	return
 }
-
 
 type NamedStruct struct {
 	name string
@@ -246,6 +249,15 @@ func NewStage(name string) (stage *Stage) {
 }
 
 func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
+
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations{{` + string(rune(ModelGongOrderSwitchGet)) + `}}
+	default:
+		return 0 // should not happen
+	}
+}
+
+func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations{{` + string(rune(ModelGongOrderSwitchGet)) + `}}
