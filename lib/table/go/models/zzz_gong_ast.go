@@ -391,11 +391,9 @@ var __gong__map_Table = make(map[string]*Table)
 func lookupPackage(name string) (importPath string, ok bool) {
 	return name, true
 }
-func lookupSym(recv, name string) (ok bool) {
-	if recv == "" {
-		return true
-	}
-	return false
+
+func lookupSym(recv, name string) bool {
+	return recv == ""
 }
 
 // UnmarshallGoStaging unmarshall a go assign statement
@@ -1440,6 +1438,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_FormEditAssocButton[identifier].HasChanged = fielValue
+				case "IsForSavePurpose":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_FormEditAssocButton[identifier].IsForSavePurpose = fielValue
 				}
 			case "FormField":
 				switch fieldName {

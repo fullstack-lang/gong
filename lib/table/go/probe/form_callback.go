@@ -10,9 +10,10 @@ import (
 	"github.com/fullstack-lang/gong/lib/table/go/models"
 )
 
-const __dummmy__time = time.Nanosecond
+// to avoid errors when time and slices packages are not used in the generated code
+const _ = time.Nanosecond
 
-var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+var _ = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
 func __gong__New__CellFormCallback(
@@ -106,7 +107,7 @@ func (cellFormCallback *CellFormCallback) OnSave() {
 						// the match is base on the name
 						if _row.GetName() == fieldValue.GetName() {
 							newRowOwner := _row // we have a match
-							
+
 							// we remove the cell_ instance from the pastRowOwner field
 							if pastRowOwner != nil {
 								if newRowOwner != pastRowOwner {
@@ -631,7 +632,7 @@ func (checkboxFormCallback *CheckBoxFormCallback) OnSave() {
 						// the match is base on the name
 						if _formdiv.GetName() == fieldValue.GetName() {
 							newFormDivOwner := _formdiv // we have a match
-							
+
 							// we remove the checkbox_ instance from the pastFormDivOwner field
 							if pastFormDivOwner != nil {
 								if newFormDivOwner != pastFormDivOwner {
@@ -759,7 +760,7 @@ func (displayedcolumnFormCallback *DisplayedColumnFormCallback) OnSave() {
 						// the match is base on the name
 						if _table.GetName() == fieldValue.GetName() {
 							newTableOwner := _table // we have a match
-							
+
 							// we remove the displayedcolumn_ instance from the pastTableOwner field
 							if pastTableOwner != nil {
 								if newTableOwner != pastTableOwner {
@@ -891,7 +892,7 @@ func (formdivFormCallback *FormDivFormCallback) OnSave() {
 						// the match is base on the name
 						if _formgroup.GetName() == fieldValue.GetName() {
 							newFormGroupOwner := _formgroup // we have a match
-							
+
 							// we remove the formdiv_ instance from the pastFormGroupOwner field
 							if pastFormGroupOwner != nil {
 								if newFormGroupOwner != pastFormGroupOwner {
@@ -989,6 +990,8 @@ func (formeditassocbuttonFormCallback *FormEditAssocButtonFormCallback) OnSave()
 			FormDivBasicFieldToField(&(formeditassocbutton_.AssociationStorage), formDiv)
 		case "HasChanged":
 			FormDivBasicFieldToField(&(formeditassocbutton_.HasChanged), formDiv)
+		case "IsForSavePurpose":
+			FormDivBasicFieldToField(&(formeditassocbutton_.IsForSavePurpose), formDiv)
 		}
 	}
 
@@ -1130,7 +1133,7 @@ func (formfieldFormCallback *FormFieldFormCallback) OnSave() {
 						// the match is base on the name
 						if _formdiv.GetName() == fieldValue.GetName() {
 							newFormDivOwner := _formdiv // we have a match
-							
+
 							// we remove the formfield_ instance from the pastFormDivOwner field
 							if pastFormDivOwner != nil {
 								if newFormDivOwner != pastFormDivOwner {
@@ -1995,7 +1998,7 @@ func (optionFormCallback *OptionFormCallback) OnSave() {
 						// the match is base on the name
 						if _formfieldselect.GetName() == fieldValue.GetName() {
 							newFormFieldSelectOwner := _formfieldselect // we have a match
-							
+
 							// we remove the option_ instance from the pastFormFieldSelectOwner field
 							if pastFormFieldSelectOwner != nil {
 								if newFormFieldSelectOwner != pastFormFieldSelectOwner {
@@ -2125,7 +2128,7 @@ func (rowFormCallback *RowFormCallback) OnSave() {
 						// the match is base on the name
 						if _table.GetName() == fieldValue.GetName() {
 							newTableOwner := _table // we have a match
-							
+
 							// we remove the row_ instance from the pastTableOwner field
 							if pastTableOwner != nil {
 								if newTableOwner != pastTableOwner {
