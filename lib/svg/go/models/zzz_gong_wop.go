@@ -844,3 +844,4 @@ func (from *Text) CopyBasicFields(to *Text) {
 	to.StrokeDashArrayWhenSelected = from.StrokeDashArrayWhenSelected
 	to.Transform = from.Transform
 }
+
