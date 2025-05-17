@@ -60,19 +60,19 @@ var GongWopSubSubTemplate map[GongWopSubSubTemplateInsertionsId]string = // new 
 map[GongWopSubSubTemplateInsertionsId]string{
 
 	GongWopBasicFieldDecl: `
-	{{DeclarationPrefixPrologue}}
+{{DeclarationPrefixPrologue}}
 	{{FieldName}} {{BasicKindName}}{{DeclarationPrefixEpilogue}}`,
 
 	GongWopEnumFieldDecl: `
-	{{DeclarationPrefixPrologue}}
+{{DeclarationPrefixPrologue}}
 	{{FieldName}} {{EnumType}}{{DeclarationPrefixEpilogue}}`,
 
 	GongWopTimeFieldDecl: `
-	{{DeclarationPrefixPrologue}}
+{{DeclarationPrefixPrologue}}
 	{{FieldName}} time.Time{{DeclarationPrefixEpilogue}}`,
 
 	GongWopDurationFieldDecl: `
-	{{DeclarationPrefixPrologue}}
+{{DeclarationPrefixPrologue}}
 	{{FieldName}} time.Duration{{DeclarationPrefixEpilogue}}`,
 
 	GongWopBasicFieldCopy: `
