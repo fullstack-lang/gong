@@ -24,6 +24,7 @@ import { TableDialogData } from '../table-dialog-data';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { encodeIntArrayToString_json } from '../association-storage';
 
 @Component({
   selector: 'lib-form-specific',
@@ -389,6 +390,9 @@ export class FormSpecificComponent {
 
           this.currentFormEditAssocButton = formDiv.FormEditAssocButton
 
+          // This update will have the back generates the table stack for selecting the associated fields
+          // this table stack front "-table-pick" will be fill with the storage for having
+          // the rows selected
           this.formEditAssocButtonService.updateFront(formDiv.FormEditAssocButton, this.Name).subscribe(
             () => {
               console.log("assoc button updated")
@@ -397,7 +401,8 @@ export class FormSpecificComponent {
               let dialogRef = this.dialog.open(TableSpecificComponent, {
                 data: {
                   Name: this.Name + table.TableExtraPathEnum.StackNamePostFixForTableForAssociation,
-                  TableName: table.TableExtraNameEnum.TableSelectExtraName
+                  TableName: table.TableExtraNameEnum.TableSelectExtraName,
+                  AssociationStorage: this.currentFormEditAssocButton?.AssociationStorage
                 },
               });
 
@@ -522,39 +527,4 @@ export function integerValidator(control: AbstractControl): ValidationErrors | n
     return { 'integer': 'Input must be an integer' }
   }
   return null
-}
-
-/**
- * Encodes an array of integers into a JSON string.
- *
- * @param data - The array of integers to encode.
- * @returns A JSON string representation of the integer array.
- */
-function encodeIntArrayToString_json(data: number[]): string {
-  return JSON.stringify(data);
-}
-
-/**
- * Decodes a JSON string (previously encoded with encodeIntArrayToString_json)
- * back into an array of integers.
- *
- * @param str - The JSON string to decode.
- * @returns An array of integers.
- * @throws Error if the string is not valid JSON or does not represent an array of numbers.
- */
-function decodeStringToIntArray_json(str: string): number[] {
-  try {
-    const parsedData = JSON.parse(str);
-    if (Array.isArray(parsedData) && parsedData.every(item => typeof item === 'number')) {
-      return parsedData as number[];
-    } else {
-      // Or handle more gracefully, e.g., return [] or throw a custom error
-      console.error("Decoded data is not an array of numbers:", parsedData);
-      return [];
-    }
-  } catch (error) {
-    console.error("Failed to decode JSON string:", error);
-    // Or re-throw, or return [], depending on desired error handling
-    return [];
-  }
 }
