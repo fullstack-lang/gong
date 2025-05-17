@@ -489,12 +489,13 @@ export class FormSpecificComponent {
           return
         }
         this.selectedFormGroup.HasSuppressButtonBeenPressed = true
-        this.formGroupService.updateFront(
-          this.selectedFormGroup, this.Name).subscribe(
-            () => {
+        // #651 do not generate an update of the group !
+        // this.formGroupService.updateFront(
+        //   this.selectedFormGroup, this.Name).subscribe(
+        //     () => {
 
-            }
-          )
+        //     }
+        //   )
       }
     });
   }

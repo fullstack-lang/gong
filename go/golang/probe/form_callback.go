@@ -183,7 +183,7 @@ map[FormCallbackSubTemplateId]string{
 						// the match is base on the name
 						if _{{assocStructName}}.GetName() == fieldValue.GetName() {
 							new{{AssocStructName}}Owner := _{{assocStructName}} // we have a match
-							
+
 							// we remove the {{structname}}_ instance from the past{{AssocStructName}}Owner field
 							if past{{AssocStructName}}Owner != nil {
 								if new{{AssocStructName}}Owner != past{{AssocStructName}}Owner {
