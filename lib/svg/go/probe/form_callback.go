@@ -10,9 +10,9 @@ import (
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
-const _ = time.Nanosecond
+const __dummmy__time = time.Nanosecond
 
-var _ = slices.Delete([]string{"a"}, 0, 1)
+var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
 func __gong__New__AnimateFormCallback(
@@ -108,7 +108,7 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 						// the match is base on the name
 						if _circle.GetName() == fieldValue.GetName() {
 							newCircleOwner := _circle // we have a match
-
+							
 							// we remove the animate_ instance from the pastCircleOwner field
 							if pastCircleOwner != nil {
 								if newCircleOwner != pastCircleOwner {
@@ -159,7 +159,7 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 						// the match is base on the name
 						if _ellipse.GetName() == fieldValue.GetName() {
 							newEllipseOwner := _ellipse // we have a match
-
+							
 							// we remove the animate_ instance from the pastEllipseOwner field
 							if pastEllipseOwner != nil {
 								if newEllipseOwner != pastEllipseOwner {
@@ -210,7 +210,7 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 						// the match is base on the name
 						if _line.GetName() == fieldValue.GetName() {
 							newLineOwner := _line // we have a match
-
+							
 							// we remove the animate_ instance from the pastLineOwner field
 							if pastLineOwner != nil {
 								if newLineOwner != pastLineOwner {
@@ -261,7 +261,7 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 						// the match is base on the name
 						if _linkanchoredtext.GetName() == fieldValue.GetName() {
 							newLinkAnchoredTextOwner := _linkanchoredtext // we have a match
-
+							
 							// we remove the animate_ instance from the pastLinkAnchoredTextOwner field
 							if pastLinkAnchoredTextOwner != nil {
 								if newLinkAnchoredTextOwner != pastLinkAnchoredTextOwner {
@@ -312,7 +312,7 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 						// the match is base on the name
 						if _path.GetName() == fieldValue.GetName() {
 							newPathOwner := _path // we have a match
-
+							
 							// we remove the animate_ instance from the pastPathOwner field
 							if pastPathOwner != nil {
 								if newPathOwner != pastPathOwner {
@@ -363,7 +363,7 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 						// the match is base on the name
 						if _polygone.GetName() == fieldValue.GetName() {
 							newPolygoneOwner := _polygone // we have a match
-
+							
 							// we remove the animate_ instance from the pastPolygoneOwner field
 							if pastPolygoneOwner != nil {
 								if newPolygoneOwner != pastPolygoneOwner {
@@ -414,7 +414,7 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 						// the match is base on the name
 						if _polyline.GetName() == fieldValue.GetName() {
 							newPolylineOwner := _polyline // we have a match
-
+							
 							// we remove the animate_ instance from the pastPolylineOwner field
 							if pastPolylineOwner != nil {
 								if newPolylineOwner != pastPolylineOwner {
@@ -465,7 +465,7 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 						// the match is base on the name
 						if _rect.GetName() == fieldValue.GetName() {
 							newRectOwner := _rect // we have a match
-
+							
 							// we remove the animate_ instance from the pastRectOwner field
 							if pastRectOwner != nil {
 								if newRectOwner != pastRectOwner {
@@ -516,7 +516,7 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 						// the match is base on the name
 						if _rectanchoredtext.GetName() == fieldValue.GetName() {
 							newRectAnchoredTextOwner := _rectanchoredtext // we have a match
-
+							
 							// we remove the animate_ instance from the pastRectAnchoredTextOwner field
 							if pastRectAnchoredTextOwner != nil {
 								if newRectAnchoredTextOwner != pastRectAnchoredTextOwner {
@@ -567,7 +567,7 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 						// the match is base on the name
 						if _text.GetName() == fieldValue.GetName() {
 							newTextOwner := _text // we have a match
-
+							
 							// we remove the animate_ instance from the pastTextOwner field
 							if pastTextOwner != nil {
 								if newTextOwner != pastTextOwner {
@@ -717,7 +717,7 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the circle_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {
@@ -869,7 +869,7 @@ func (ellipseFormCallback *EllipseFormCallback) OnSave() {
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the ellipse_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {
@@ -999,7 +999,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 						// the match is base on the name
 						if _svg.GetName() == fieldValue.GetName() {
 							newSVGOwner := _svg // we have a match
-
+							
 							// we remove the layer_ instance from the pastSVGOwner field
 							if pastSVGOwner != nil {
 								if newSVGOwner != pastSVGOwner {
@@ -1155,7 +1155,7 @@ func (lineFormCallback *LineFormCallback) OnSave() {
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the line_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {
@@ -1331,7 +1331,7 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the link_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {
@@ -1491,7 +1491,7 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 						// the match is base on the name
 						if _link.GetName() == fieldValue.GetName() {
 							newLinkOwner := _link // we have a match
-
+							
 							// we remove the linkanchoredtext_ instance from the pastLinkOwner field
 							if pastLinkOwner != nil {
 								if newLinkOwner != pastLinkOwner {
@@ -1542,7 +1542,7 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 						// the match is base on the name
 						if _link.GetName() == fieldValue.GetName() {
 							newLinkOwner := _link // we have a match
-
+							
 							// we remove the linkanchoredtext_ instance from the pastLinkOwner field
 							if pastLinkOwner != nil {
 								if newLinkOwner != pastLinkOwner {
@@ -1688,7 +1688,7 @@ func (pathFormCallback *PathFormCallback) OnSave() {
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the path_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {
@@ -1820,7 +1820,7 @@ func (pointFormCallback *PointFormCallback) OnSave() {
 						// the match is base on the name
 						if _link.GetName() == fieldValue.GetName() {
 							newLinkOwner := _link // we have a match
-
+							
 							// we remove the point_ instance from the pastLinkOwner field
 							if pastLinkOwner != nil {
 								if newLinkOwner != pastLinkOwner {
@@ -1966,7 +1966,7 @@ func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the polygone_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {
@@ -2112,7 +2112,7 @@ func (polylineFormCallback *PolylineFormCallback) OnSave() {
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the polyline_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {
@@ -2292,7 +2292,7 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the rect_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {
@@ -2448,7 +2448,7 @@ func (rectanchoredpathFormCallback *RectAnchoredPathFormCallback) OnSave() {
 						// the match is base on the name
 						if _rect.GetName() == fieldValue.GetName() {
 							newRectOwner := _rect // we have a match
-
+							
 							// we remove the rectanchoredpath_ instance from the pastRectOwner field
 							if pastRectOwner != nil {
 								if newRectOwner != pastRectOwner {
@@ -2612,7 +2612,7 @@ func (rectanchoredrectFormCallback *RectAnchoredRectFormCallback) OnSave() {
 						// the match is base on the name
 						if _rect.GetName() == fieldValue.GetName() {
 							newRectOwner := _rect // we have a match
-
+							
 							// we remove the rectanchoredrect_ instance from the pastRectOwner field
 							if pastRectOwner != nil {
 								if newRectOwner != pastRectOwner {
@@ -2772,7 +2772,7 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 						// the match is base on the name
 						if _rect.GetName() == fieldValue.GetName() {
 							newRectOwner := _rect // we have a match
-
+							
 							// we remove the rectanchoredtext_ instance from the pastRectOwner field
 							if pastRectOwner != nil {
 								if newRectOwner != pastRectOwner {
@@ -2922,7 +2922,7 @@ func (rectlinklinkFormCallback *RectLinkLinkFormCallback) OnSave() {
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the rectlinklink_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {
@@ -3238,7 +3238,7 @@ func (textFormCallback *TextFormCallback) OnSave() {
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the text_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {
