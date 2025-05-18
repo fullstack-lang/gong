@@ -35,14 +35,16 @@ func _(stage *models.Stage) {
 	// Setup of values
 
 	__Classdiagram__000000_Default.Name = `Default`
+	__Classdiagram__000000_Default.Description = ``
+	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = false
 	__Classdiagram__000000_Default.IsInRenameMode = false
 	__Classdiagram__000000_Default.IsExpanded = true
 	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructNodeExpansionBinaryEncoding = 1
-	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = false
-	__Classdiagram__000000_Default.NodeGongEnumNodeExpansionBinaryEncoding = 0
-	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = false
-	__Classdiagram__000000_Default.NodeGongNoteNodeExpansionBinaryEncoding = 0
+	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[true,false,false,true]`
+	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = true
+	__Classdiagram__000000_Default.NodeGongEnumNodeExpansion = `[false,true,true]`
+	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = true
+	__Classdiagram__000000_Default.NodeGongNoteNodeExpansion = `[false]`
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_30_30Z.Name = `Diagram Package created the 2025-05-04T22:30:30Z`
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_30_30Z.Path = ``
