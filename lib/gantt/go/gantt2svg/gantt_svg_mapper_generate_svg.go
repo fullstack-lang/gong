@@ -40,12 +40,10 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 
 	layerLanes := new(gongsvg_models.Layer).Stage(gongsvgStage)
 	layerLanes.Name = "Lanes layer"
-	layerLanes.Display = true
 	svg.Layers = append(svg.Layers, layerLanes)
 
 	layerBars := new(gongsvg_models.Layer).Stage(gongsvgStage)
 	layerBars.Name = "Bars layer"
-	layerBars.Display = true
 	svg.Layers = append(svg.Layers, layerBars)
 
 	//
