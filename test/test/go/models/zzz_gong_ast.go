@@ -365,7 +365,7 @@ var __gong__map_AstructBstruct2Use = make(map[string]*AstructBstruct2Use)
 var __gong__map_AstructBstructUse = make(map[string]*AstructBstructUse)
 var __gong__map_Bstruct = make(map[string]*Bstruct)
 var __gong__map_Dstruct = make(map[string]*Dstruct)
-var __gong__map_Fstruct = make(map[string]*Fstruct)
+var __gong__map_F0123456789012345678901234567890 = make(map[string]*F0123456789012345678901234567890)
 var __gong__map_Gstruct = make(map[string]*Gstruct)
 
 // Parser needs to be configured for having the [Name1.Name2] or [pkg.Name1] ...
@@ -567,12 +567,12 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										instanceDstruct.Stage(stage)
 										instance = any(instanceDstruct)
 										__gong__map_Dstruct[identifier] = instanceDstruct
-									case "Fstruct":
-										instanceFstruct := new(Fstruct)
-										instanceFstruct.Name = instanceName
-										instanceFstruct.Stage(stage)
-										instance = any(instanceFstruct)
-										__gong__map_Fstruct[identifier] = instanceFstruct
+									case "F0123456789012345678901234567890":
+										instanceF0123456789012345678901234567890 := new(F0123456789012345678901234567890)
+										instanceF0123456789012345678901234567890.Name = instanceName
+										instanceF0123456789012345678901234567890.Stage(stage)
+										instance = any(instanceF0123456789012345678901234567890)
+										__gong__map_F0123456789012345678901234567890[identifier] = instanceF0123456789012345678901234567890
 									case "Gstruct":
 										instanceGstruct := new(Gstruct)
 										instanceGstruct.Name = instanceName
@@ -643,11 +643,11 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							switch fieldName {
 							// insertion point for date assign code
 							}
-						case "Fstruct":
+						case "F0123456789012345678901234567890":
 							switch fieldName {
 							// insertion point for date assign code
 							case "Date":
-								__gong__map_Fstruct[identifier].Date, _ = time.Parse(
+								__gong__map_F0123456789012345678901234567890[identifier].Date, _ = time.Parse(
 									"2006-01-02 15:04:05.999999999 -0700 MST",
 									date)
 							}
@@ -748,7 +748,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							__gong__map_Dstruct[identifier].Gstructs =
 								append(__gong__map_Dstruct[identifier].Gstructs, target)
 						}
-					case "Fstruct":
+					case "F0123456789012345678901234567890":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						}
@@ -930,13 +930,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Dstruct[identifier].Name = fielValue
 				}
-			case "Fstruct":
+			case "F0123456789012345678901234567890":
 				switch fieldName {
 				// insertion point for field dependant code
 				case "Name":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Fstruct[identifier].Name = fielValue
+					__gong__map_F0123456789012345678901234567890[identifier].Name = fielValue
 				}
 			case "Gstruct":
 				switch fieldName {
@@ -1051,7 +1051,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					targetIdentifier := ident.Name
 					__gong__map_Dstruct[identifier].Gstruct = __gong__map_Gstruct[targetIdentifier]
 				}
-			case "Fstruct":
+			case "F0123456789012345678901234567890":
 				switch fieldName {
 				// insertion point for field dependant code
 				}
@@ -1135,7 +1135,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					switch fieldName {
 					// insertion point for enum assign code
 					}
-				case "Fstruct":
+				case "F0123456789012345678901234567890":
 					switch fieldName {
 					// insertion point for enum assign code
 					}
