@@ -20,6 +20,7 @@ func (proxy *ClassDiagramNodeProxy) OnAfterUpdate(
 		diagramPackage.SelectedClassdiagram = proxy.classDiagram
 
 		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.UpdateAndCommitFormStage()
 		proxy.stager.UpdateAndCommitSVGStage()
 
 		proxy.stager.stage.Commit()
@@ -31,6 +32,7 @@ func (proxy *ClassDiagramNodeProxy) OnAfterUpdate(
 		diagramPackage.SelectedClassdiagram = nil
 
 		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.UpdateAndCommitFormStage()
 		proxy.stager.UpdateAndCommitSVGStage()
 
 		proxy.stager.stage.Commit()
@@ -54,6 +56,14 @@ func (proxy *ClassDiagramNodeProxy) OnAfterUpdate(
 		proxy.classDiagram.IsInRenameMode = false
 
 		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.stage.Commit()
+	}
+
+	// second checkbox
+	if front.IsSecondCheckboxChecked != staged.IsSecondCheckboxChecked {
+
+		staged.IsSecondCheckboxChecked = front.IsSecondCheckboxChecked
+		proxy.classDiagram.IsIncludedInStaticWebSite = front.IsSecondCheckboxChecked
 		proxy.stager.stage.Commit()
 	}
 }

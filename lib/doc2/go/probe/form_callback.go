@@ -216,6 +216,10 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(classdiagram_.Name), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(classdiagram_.Description), formDiv)
+		case "IsIncludedInStaticWebSite":
+			FormDivBasicFieldToField(&(classdiagram_.IsIncludedInStaticWebSite), formDiv)
 		case "GongStructShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongStructShape](classdiagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongStructShape, 0)

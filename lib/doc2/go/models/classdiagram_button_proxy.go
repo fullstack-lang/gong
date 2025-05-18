@@ -80,6 +80,7 @@ func (proxy *ClassDiagramButtonProxy) ButtonUpdated(
 		}
 
 		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.UpdateAndCommitFormStage()
 		proxy.stager.UpdateAndCommitSVGStage()
 		proxy.stager.stage.Commit()
 
