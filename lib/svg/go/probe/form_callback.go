@@ -16,6 +16,8 @@ const _ = time.Nanosecond
 
 var _ = slices.Delete([]string{"a"}, 0, 1)
 
+var _ = log.Panicf
+
 // insertion point
 func __gong__New__AnimateFormCallback(
 	animate *models.Animate,
@@ -683,6 +685,31 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(circle_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(circle_.Transform), formDiv)
+	case "Animations":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](circleFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Animate, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Animate)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					circleFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			circle_.Animations = instanceSlice
+
 		case "Layer:Circles":
 			// we need to retrieve the field owner before the change
 			var pastLayerOwner *models.Layer
@@ -835,6 +862,31 @@ func (ellipseFormCallback *EllipseFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(ellipse_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(ellipse_.Transform), formDiv)
+	case "Animates":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](ellipseFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Animate, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Animate)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					ellipseFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			ellipse_.Animates = instanceSlice
+
 		case "Layer:Ellipses":
 			// we need to retrieve the field owner before the change
 			var pastLayerOwner *models.Layer
@@ -965,6 +1017,256 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(layer_.Display), formDiv)
 		case "Name":
 			FormDivBasicFieldToField(&(layer_.Name), formDiv)
+	case "Rects":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Rect](layerFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Rect, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Rect)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					layerFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			layer_.Rects = instanceSlice
+
+	case "Texts":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Text](layerFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Text, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Text)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					layerFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			layer_.Texts = instanceSlice
+
+	case "Circles":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Circle](layerFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Circle, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Circle)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					layerFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			layer_.Circles = instanceSlice
+
+	case "Lines":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Line](layerFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Line, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Line)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					layerFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			layer_.Lines = instanceSlice
+
+	case "Ellipses":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Ellipse](layerFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Ellipse, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Ellipse)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					layerFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			layer_.Ellipses = instanceSlice
+
+	case "Polylines":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Polyline](layerFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Polyline, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Polyline)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					layerFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			layer_.Polylines = instanceSlice
+
+	case "Polygones":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Polygone](layerFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Polygone, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Polygone)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					layerFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			layer_.Polygones = instanceSlice
+
+	case "Paths":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Path](layerFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Path, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Path)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					layerFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			layer_.Paths = instanceSlice
+
+	case "Links":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Link](layerFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Link, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Link)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					layerFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			layer_.Links = instanceSlice
+
+	case "RectLinkLinks":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectLinkLink](layerFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.RectLinkLink, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.RectLinkLink)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					layerFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			layer_.RectLinkLinks = instanceSlice
+
 		case "SVG:Layers":
 			// we need to retrieve the field owner before the change
 			var pastSVGOwner *models.SVG
@@ -1117,6 +1419,31 @@ func (lineFormCallback *LineFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(line_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(line_.Transform), formDiv)
+	case "Animates":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](lineFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Animate, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Animate)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					lineFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			line_.Animates = instanceSlice
+
 		case "MouseClickX":
 			FormDivBasicFieldToField(&(line_.MouseClickX), formDiv)
 		case "MouseClickY":
@@ -1281,6 +1608,81 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(link_.HasStartArrow), formDiv)
 		case "StartArrowSize":
 			FormDivBasicFieldToField(&(link_.StartArrowSize), formDiv)
+	case "TextAtArrowEnd":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredText](linkFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.LinkAnchoredText, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.LinkAnchoredText)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					linkFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			link_.TextAtArrowEnd = instanceSlice
+
+	case "TextAtArrowStart":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredText](linkFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.LinkAnchoredText, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.LinkAnchoredText)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					linkFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			link_.TextAtArrowStart = instanceSlice
+
+	case "ControlPoints":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Point](linkFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Point, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Point)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					linkFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			link_.ControlPoints = instanceSlice
+
 		case "Color":
 			FormDivBasicFieldToField(&(link_.Color), formDiv)
 		case "FillOpacity":
@@ -1457,6 +1859,31 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(linkanchoredtext_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(linkanchoredtext_.Transform), formDiv)
+	case "Animates":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](linkanchoredtextFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Animate, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Animate)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					linkanchoredtextFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			linkanchoredtext_.Animates = instanceSlice
+
 		case "Link:TextAtArrowEnd":
 			// we need to retrieve the field owner before the change
 			var pastLinkOwner *models.Link
@@ -1654,6 +2081,31 @@ func (pathFormCallback *PathFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(path_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(path_.Transform), formDiv)
+	case "Animates":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](pathFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Animate, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Animate)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					pathFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			path_.Animates = instanceSlice
+
 		case "Layer:Paths":
 			// we need to retrieve the field owner before the change
 			var pastLayerOwner *models.Layer
@@ -1932,6 +2384,31 @@ func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(polygone_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(polygone_.Transform), formDiv)
+	case "Animates":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](polygoneFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Animate, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Animate)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					polygoneFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			polygone_.Animates = instanceSlice
+
 		case "Layer:Polygones":
 			// we need to retrieve the field owner before the change
 			var pastLayerOwner *models.Layer
@@ -2078,6 +2555,31 @@ func (polylineFormCallback *PolylineFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(polyline_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(polyline_.Transform), formDiv)
+	case "Animates":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](polylineFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Animate, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Animate)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					polylineFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			polyline_.Animates = instanceSlice
+
 		case "Layer:Polylines":
 			// we need to retrieve the field owner before the change
 			var pastLayerOwner *models.Layer
@@ -2232,6 +2734,31 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rect_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(rect_.Transform), formDiv)
+	case "Animations":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](rectFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Animate, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Animate)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rectFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			rect_.Animations = instanceSlice
+
 		case "IsSelectable":
 			FormDivBasicFieldToField(&(rect_.IsSelectable), formDiv)
 		case "IsSelected":
@@ -2258,6 +2785,81 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rect_.CanMoveHorizontaly), formDiv)
 		case "CanMoveVerticaly":
 			FormDivBasicFieldToField(&(rect_.CanMoveVerticaly), formDiv)
+	case "RectAnchoredTexts":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredText](rectFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.RectAnchoredText, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.RectAnchoredText)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rectFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			rect_.RectAnchoredTexts = instanceSlice
+
+	case "RectAnchoredRects":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredRect](rectFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.RectAnchoredRect, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.RectAnchoredRect)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rectFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			rect_.RectAnchoredRects = instanceSlice
+
+	case "RectAnchoredPaths":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredPath](rectFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.RectAnchoredPath, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.RectAnchoredPath)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rectFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			rect_.RectAnchoredPaths = instanceSlice
+
 		case "Layer:Rects":
 			// we need to retrieve the field owner before the change
 			var pastLayerOwner *models.Layer
@@ -2738,6 +3340,31 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rectanchoredtext_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(rectanchoredtext_.Transform), formDiv)
+	case "Animates":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](rectanchoredtextFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Animate, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Animate)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rectanchoredtextFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			rectanchoredtext_.Animates = instanceSlice
+
 		case "Rect:RectAnchoredTexts":
 			// we need to retrieve the field owner before the change
 			var pastRectOwner *models.Rect
@@ -3016,17 +3643,7 @@ func (svgFormCallback *SVGFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(svg_.Name), formDiv)
-		case "DrawingState":
-			FormDivEnumStringFieldToField(&(svg_.DrawingState), formDiv)
-		case "StartRect":
-			FormDivSelectFieldToField(&(svg_.StartRect), svgFormCallback.probe.stageOfInterest, formDiv)
-		case "EndRect":
-			FormDivSelectFieldToField(&(svg_.EndRect), svgFormCallback.probe.stageOfInterest, formDiv)
-		case "IsEditable":
-			FormDivBasicFieldToField(&(svg_.IsEditable), formDiv)
-		case "IsSVGFileGenerated":
-			FormDivBasicFieldToField(&(svg_.IsSVGFileGenerated), formDiv)
-		case "Layers":
+	case "Layers":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Layer](svgFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Layer, 0)
 
@@ -3050,6 +3667,17 @@ func (svgFormCallback *SVGFormCallback) OnSave() {
 				instanceSlice = append(instanceSlice, map_id_instances[id])
 			}
 			svg_.Layers = instanceSlice
+
+		case "DrawingState":
+			FormDivEnumStringFieldToField(&(svg_.DrawingState), formDiv)
+		case "StartRect":
+			FormDivSelectFieldToField(&(svg_.StartRect), svgFormCallback.probe.stageOfInterest, formDiv)
+		case "EndRect":
+			FormDivSelectFieldToField(&(svg_.EndRect), svgFormCallback.probe.stageOfInterest, formDiv)
+		case "IsEditable":
+			FormDivBasicFieldToField(&(svg_.IsEditable), formDiv)
+		case "IsSVGFileGenerated":
+			FormDivBasicFieldToField(&(svg_.IsSVGFileGenerated), formDiv)
 		}
 	}
 
@@ -3228,6 +3856,31 @@ func (textFormCallback *TextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(text_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(text_.Transform), formDiv)
+	case "Animates":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](textFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Animate, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Animate)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					textFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			text_.Animates = instanceSlice
+
 		case "Layer:Texts":
 			// we need to retrieve the field owner before the change
 			var pastLayerOwner *models.Layer
