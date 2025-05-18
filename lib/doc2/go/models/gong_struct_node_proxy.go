@@ -1,8 +1,13 @@
 package models
 
 import (
+	"log" // Added for logging errors
+
 	gong "github.com/fullstack-lang/gong/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
+
+	// Updated import path for the nodestates package
+	"github.com/fullstack-lang/gong/lib/doc2/go/models/nodestates"
 )
 
 type GongStructNodeProxy struct {
@@ -11,7 +16,7 @@ type GongStructNodeProxy struct {
 	classDiagram    *Classdiagram
 	gongstruct      *gong.GongStruct
 	gongStructShape *GongStructShape
-	rank            int
+	rank            int // This corresponds to the 'index' in nodestates functions
 }
 
 func (proxy *GongStructNodeProxy) OnAfterUpdate(
@@ -20,14 +25,12 @@ func (proxy *GongStructNodeProxy) OnAfterUpdate(
 
 	// intercept update to the node that are when the node is checked
 	if front.IsChecked && !staged.IsChecked {
-		// uncheck all other diagram
 		diagramPackage := getTheDiagramPackage(proxy.stager.stage)
 		proxy.classDiagram.AddGongStructShape(proxy.stager.stage, diagramPackage, proxy.gongstruct.Name)
 
 		proxy.stager.UpdateAndCommitTreeStage()
 		proxy.stager.UpdateAndCommitFormStage()
 		proxy.stager.UpdateAndCommitSVGStage()
-
 		proxy.stager.stage.Commit()
 	}
 
@@ -38,22 +41,34 @@ func (proxy *GongStructNodeProxy) OnAfterUpdate(
 		proxy.stager.UpdateAndCommitTreeStage()
 		proxy.stager.UpdateAndCommitFormStage()
 		proxy.stager.UpdateAndCommitSVGStage()
-
 		proxy.stager.stage.Commit()
 	}
+
+	expansionToggled := false
+	currentExpansionStateInDiagram := proxy.classDiagram.NodeGongStructNodeExpansion
 
 	if front.IsExpanded && !staged.IsExpanded {
-		ToggleNodeExpanded(&proxy.classDiagram.NodeGongStructNodeExpansionBinaryEncoding, proxy.rank)
-		front.IsExpanded = false
-
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.stage.Commit()
+		err := nodestates.ToggleNodeExpanded(&currentExpansionStateInDiagram, proxy.rank)
+		if err != nil {
+			log.Printf("Error toggling node expansion for GongStruct %s (rank %d) to expanded: %v", proxy.gongstruct.Name, proxy.rank, err)
+		} else {
+			proxy.classDiagram.NodeGongStructNodeExpansion = currentExpansionStateInDiagram
+			expansionToggled = true
+		}
 	}
-	if !front.IsExpanded && staged.IsExpanded {
-		ToggleNodeExpanded(&proxy.classDiagram.NodeGongStructNodeExpansionBinaryEncoding, proxy.rank)
-		front.IsExpanded = true
 
-		proxy.stager.UpdateAndCommitTreeStage()
+	if !front.IsExpanded && staged.IsExpanded {
+		err := nodestates.ToggleNodeExpanded(&currentExpansionStateInDiagram, proxy.rank)
+		if err != nil {
+			log.Printf("Error toggling node expansion for GongStruct %s (rank %d) to collapsed: %v", proxy.gongstruct.Name, proxy.rank, err)
+		} else {
+			proxy.classDiagram.NodeGongStructNodeExpansion = currentExpansionStateInDiagram
+			expansionToggled = true
+		}
+	}
+
+	if expansionToggled {
 		proxy.stager.stage.Commit()
+		// proxy.stager.UpdateAndCommitTreeStage() // Consider if this is needed or handled elsewhere
 	}
 }

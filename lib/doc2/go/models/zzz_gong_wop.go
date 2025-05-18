@@ -47,15 +47,15 @@ type Classdiagram_WOP struct {
 
 	NodeGongStructsIsExpanded bool
 
-	NodeGongStructNodeExpansionBinaryEncoding int
+	NodeGongStructNodeExpansion string
 
 	NodeGongEnumsIsExpanded bool
 
-	NodeGongEnumNodeExpansionBinaryEncoding int
+	NodeGongEnumNodeExpansion string
 
 	NodeGongNotesIsExpanded bool
 
-	NodeGongNoteNodeExpansionBinaryEncoding int
+	NodeGongNoteNodeExpansion string
 }
 
 func (from *Classdiagram) CopyBasicFields(to *Classdiagram) {
@@ -66,11 +66,11 @@ func (from *Classdiagram) CopyBasicFields(to *Classdiagram) {
 	to.IsInRenameMode = from.IsInRenameMode
 	to.IsExpanded = from.IsExpanded
 	to.NodeGongStructsIsExpanded = from.NodeGongStructsIsExpanded
-	to.NodeGongStructNodeExpansionBinaryEncoding = from.NodeGongStructNodeExpansionBinaryEncoding
+	to.NodeGongStructNodeExpansion = from.NodeGongStructNodeExpansion
 	to.NodeGongEnumsIsExpanded = from.NodeGongEnumsIsExpanded
-	to.NodeGongEnumNodeExpansionBinaryEncoding = from.NodeGongEnumNodeExpansionBinaryEncoding
+	to.NodeGongEnumNodeExpansion = from.NodeGongEnumNodeExpansion
 	to.NodeGongNotesIsExpanded = from.NodeGongNotesIsExpanded
-	to.NodeGongNoteNodeExpansionBinaryEncoding = from.NodeGongNoteNodeExpansionBinaryEncoding
+	to.NodeGongNoteNodeExpansion = from.NodeGongNoteNodeExpansion
 }
 
 type DiagramPackage_WOP struct {

@@ -69,15 +69,15 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("NodeGongStructsIsExpanded", instanceWithInferedType.NodeGongStructsIsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("NodeGongStructNodeExpansionBinaryEncoding", instanceWithInferedType.NodeGongStructNodeExpansionBinaryEncoding, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("NodeGongStructNodeExpansion", instanceWithInferedType.NodeGongStructNodeExpansion, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("NodeGongEnumsIsExpanded", instanceWithInferedType.NodeGongEnumsIsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("NodeGongEnumNodeExpansionBinaryEncoding", instanceWithInferedType.NodeGongEnumNodeExpansionBinaryEncoding, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("NodeGongEnumNodeExpansion", instanceWithInferedType.NodeGongEnumNodeExpansion, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("NodeGongNotesIsExpanded", instanceWithInferedType.NodeGongNotesIsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("NodeGongNoteNodeExpansionBinaryEncoding", instanceWithInferedType.NodeGongNoteNodeExpansionBinaryEncoding, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("NodeGongNoteNodeExpansion", instanceWithInferedType.NodeGongNoteNodeExpansion, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		{
 			var rf models.ReverseField
