@@ -2,6 +2,7 @@
 package probe
 
 import (
+	"log"
 	"slices"
 	"time"
 
@@ -14,6 +15,8 @@ import (
 const _ = time.Nanosecond
 
 var _ = slices.Delete([]string{"a"}, 0, 1)
+
+var _ = log.Panicf
 
 // insertion point
 func __gong__New__AFormCallback(
@@ -65,6 +68,31 @@ func (aFormCallback *AFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(a_.NumberField), formDiv)
 		case "B":
 			FormDivSelectFieldToField(&(a_.B), aFormCallback.probe.stageOfInterest, formDiv)
+	case "Bs":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.B](aFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.B, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.B)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					aFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			a_.Bs = instanceSlice
+
 		}
 	}
 

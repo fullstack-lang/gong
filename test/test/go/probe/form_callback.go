@@ -2,6 +2,7 @@
 package probe
 
 import (
+	"log"
 	"slices"
 	"time"
 
@@ -14,6 +15,8 @@ import (
 const _ = time.Nanosecond
 
 var _ = slices.Delete([]string{"a"}, 0, 1)
+
+var _ = log.Panicf
 
 // insertion point
 func __gong__New__AstructFormCallback(
@@ -63,6 +66,31 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(astruct_.Name), formDiv)
 		case "Associationtob":
 			FormDivSelectFieldToField(&(astruct_.Associationtob), astructFormCallback.probe.stageOfInterest, formDiv)
+	case "Anarrayofb":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Bstruct](astructFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Bstruct, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Bstruct)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					astructFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			astruct_.Anarrayofb = instanceSlice
+
 		case "Anotherassociationtob_2":
 			FormDivSelectFieldToField(&(astruct_.Anotherassociationtob_2), astructFormCallback.probe.stageOfInterest, formDiv)
 		case "Date":
@@ -95,6 +123,31 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(astruct_.Dstruct3), astructFormCallback.probe.stageOfInterest, formDiv)
 		case "Dstruct4":
 			FormDivSelectFieldToField(&(astruct_.Dstruct4), astructFormCallback.probe.stageOfInterest, formDiv)
+	case "Dstruct4s":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Dstruct](astructFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Dstruct, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Dstruct)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					astructFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			astruct_.Dstruct4s = instanceSlice
+
 		case "Floatfield":
 			FormDivBasicFieldToField(&(astruct_.Floatfield), formDiv)
 		case "Intfield":
@@ -103,6 +156,106 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(astruct_.Anotherbooleanfield), formDiv)
 		case "Duration1":
 			FormDivBasicFieldToField(&(astruct_.Duration1), formDiv)
+	case "Anarrayofa":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Astruct](astructFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Astruct, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Astruct)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					astructFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			astruct_.Anarrayofa = instanceSlice
+
+	case "Anotherarrayofb":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Bstruct](astructFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Bstruct, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Bstruct)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					astructFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			astruct_.Anotherarrayofb = instanceSlice
+
+	case "AnarrayofbUse":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AstructBstructUse](astructFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.AstructBstructUse, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.AstructBstructUse)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					astructFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			astruct_.AnarrayofbUse = instanceSlice
+
+	case "Anarrayofb2Use":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AstructBstruct2Use](astructFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.AstructBstruct2Use, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.AstructBstruct2Use)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					astructFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			astruct_.Anarrayofb2Use = instanceSlice
+
 		case "AnAstruct":
 			FormDivSelectFieldToField(&(astruct_.AnAstruct), astructFormCallback.probe.stageOfInterest, formDiv)
 		case "StructRef":
@@ -745,8 +898,58 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(dstruct_.Name), formDiv)
+	case "Anarrayofb":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Bstruct](dstructFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Bstruct, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Bstruct)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					dstructFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			dstruct_.Anarrayofb = instanceSlice
+
 		case "Gstruct":
 			FormDivSelectFieldToField(&(dstruct_.Gstruct), dstructFormCallback.probe.stageOfInterest, formDiv)
+	case "Gstructs":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Gstruct](dstructFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Gstruct, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Gstruct)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					dstructFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			dstruct_.Gstructs = instanceSlice
+
 		case "Astruct:Dstruct4s":
 			// we need to retrieve the field owner before the change
 			var pastAstructOwner *models.Astruct
