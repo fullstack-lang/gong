@@ -198,7 +198,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(group_.Name), formDiv)
 		case "Percentage":
 			FormDivBasicFieldToField(&(group_.Percentage), formDiv)
-	case "Buttons":
+		case "Buttons":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Button](groupFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Button, 0)
 
@@ -351,7 +351,7 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(layout_.Name), formDiv)
-	case "Groups":
+		case "Groups":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](layoutFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Group, 0)
 

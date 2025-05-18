@@ -685,7 +685,7 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(circle_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(circle_.Transform), formDiv)
-	case "Animations":
+		case "Animations":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](circleFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
@@ -862,7 +862,7 @@ func (ellipseFormCallback *EllipseFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(ellipse_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(ellipse_.Transform), formDiv)
-	case "Animates":
+		case "Animates":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](ellipseFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
@@ -1017,7 +1017,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(layer_.Display), formDiv)
 		case "Name":
 			FormDivBasicFieldToField(&(layer_.Name), formDiv)
-	case "Rects":
+		case "Rects":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Rect](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Rect, 0)
 
@@ -1042,7 +1042,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			}
 			layer_.Rects = instanceSlice
 
-	case "Texts":
+		case "Texts":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Text](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Text, 0)
 
@@ -1067,7 +1067,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			}
 			layer_.Texts = instanceSlice
 
-	case "Circles":
+		case "Circles":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Circle](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Circle, 0)
 
@@ -1092,7 +1092,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			}
 			layer_.Circles = instanceSlice
 
-	case "Lines":
+		case "Lines":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Line](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Line, 0)
 
@@ -1117,7 +1117,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			}
 			layer_.Lines = instanceSlice
 
-	case "Ellipses":
+		case "Ellipses":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Ellipse](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Ellipse, 0)
 
@@ -1142,7 +1142,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			}
 			layer_.Ellipses = instanceSlice
 
-	case "Polylines":
+		case "Polylines":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Polyline](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Polyline, 0)
 
@@ -1167,7 +1167,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			}
 			layer_.Polylines = instanceSlice
 
-	case "Polygones":
+		case "Polygones":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Polygone](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Polygone, 0)
 
@@ -1192,7 +1192,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			}
 			layer_.Polygones = instanceSlice
 
-	case "Paths":
+		case "Paths":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Path](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Path, 0)
 
@@ -1217,7 +1217,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			}
 			layer_.Paths = instanceSlice
 
-	case "Links":
+		case "Links":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Link](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Link, 0)
 
@@ -1242,7 +1242,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			}
 			layer_.Links = instanceSlice
 
-	case "RectLinkLinks":
+		case "RectLinkLinks":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectLinkLink](layerFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.RectLinkLink, 0)
 
@@ -1419,7 +1419,7 @@ func (lineFormCallback *LineFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(line_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(line_.Transform), formDiv)
-	case "Animates":
+		case "Animates":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](lineFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
@@ -1608,7 +1608,7 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(link_.HasStartArrow), formDiv)
 		case "StartArrowSize":
 			FormDivBasicFieldToField(&(link_.StartArrowSize), formDiv)
-	case "TextAtArrowEnd":
+		case "TextAtArrowEnd":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredText](linkFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.LinkAnchoredText, 0)
 
@@ -1633,7 +1633,7 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			}
 			link_.TextAtArrowEnd = instanceSlice
 
-	case "TextAtArrowStart":
+		case "TextAtArrowStart":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredText](linkFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.LinkAnchoredText, 0)
 
@@ -1658,7 +1658,7 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			}
 			link_.TextAtArrowStart = instanceSlice
 
-	case "ControlPoints":
+		case "ControlPoints":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Point](linkFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Point, 0)
 
@@ -1859,7 +1859,7 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(linkanchoredtext_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(linkanchoredtext_.Transform), formDiv)
-	case "Animates":
+		case "Animates":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](linkanchoredtextFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
@@ -2081,7 +2081,7 @@ func (pathFormCallback *PathFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(path_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(path_.Transform), formDiv)
-	case "Animates":
+		case "Animates":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](pathFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
@@ -2384,7 +2384,7 @@ func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(polygone_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(polygone_.Transform), formDiv)
-	case "Animates":
+		case "Animates":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](polygoneFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
@@ -2555,7 +2555,7 @@ func (polylineFormCallback *PolylineFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(polyline_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(polyline_.Transform), formDiv)
-	case "Animates":
+		case "Animates":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](polylineFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
@@ -2734,7 +2734,7 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rect_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(rect_.Transform), formDiv)
-	case "Animations":
+		case "Animations":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](rectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
@@ -2785,7 +2785,7 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rect_.CanMoveHorizontaly), formDiv)
 		case "CanMoveVerticaly":
 			FormDivBasicFieldToField(&(rect_.CanMoveVerticaly), formDiv)
-	case "RectAnchoredTexts":
+		case "RectAnchoredTexts":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredText](rectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.RectAnchoredText, 0)
 
@@ -2810,7 +2810,7 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			}
 			rect_.RectAnchoredTexts = instanceSlice
 
-	case "RectAnchoredRects":
+		case "RectAnchoredRects":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredRect](rectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.RectAnchoredRect, 0)
 
@@ -2835,7 +2835,7 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			}
 			rect_.RectAnchoredRects = instanceSlice
 
-	case "RectAnchoredPaths":
+		case "RectAnchoredPaths":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredPath](rectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.RectAnchoredPath, 0)
 
@@ -3340,7 +3340,7 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rectanchoredtext_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(rectanchoredtext_.Transform), formDiv)
-	case "Animates":
+		case "Animates":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](rectanchoredtextFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
@@ -3643,7 +3643,7 @@ func (svgFormCallback *SVGFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(svg_.Name), formDiv)
-	case "Layers":
+		case "Layers":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Layer](svgFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Layer, 0)
 
@@ -3856,7 +3856,7 @@ func (textFormCallback *TextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(text_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(text_.Transform), formDiv)
-	case "Animates":
+		case "Animates":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](textFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
 
