@@ -65,8 +65,8 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "Dstruct" {
 		updateAndCommitTable[models.Dstruct](nodeImplGongstruct.probe)
 	}
-	if nodeImplGongstruct.gongStruct.GetName() == "Fstruct" {
-		updateAndCommitTable[models.Fstruct](nodeImplGongstruct.probe)
+	if nodeImplGongstruct.gongStruct.GetName() == "F0123456789012345678901234567890" {
+		updateAndCommitTable[models.F0123456789012345678901234567890](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Gstruct" {
 		updateAndCommitTable[models.Gstruct](nodeImplGongstruct.probe)
