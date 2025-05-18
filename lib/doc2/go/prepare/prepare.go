@@ -12,11 +12,12 @@ import (
 	"github.com/fullstack-lang/gong/lib/doc2/go/fullstack"
 	"github.com/fullstack-lang/gong/lib/doc2/go/models"
 
+	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
+	ssg_fullstack "github.com/fullstack-lang/gong/lib/ssg/go/fullstack"
+	svg_fullstack "github.com/fullstack-lang/gong/lib/svg/go/fullstack"
+	table_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	tree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
 
-	svg_fullstack "github.com/fullstack-lang/gong/lib/svg/go/fullstack"
-
-	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
 	gong "github.com/fullstack-lang/gong/go/models"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
@@ -98,7 +99,9 @@ func Prepare(
 
 	treeStage, _ := tree_fullstack.NewStackInstance(r, doc2StackName+":doc2-sidebar", "", "")
 	svgStage, _ := svg_fullstack.NewStackInstance(r, doc2StackName+":doc2-svg", "", "", "")
+	ssgStage, _ := ssg_fullstack.NewStackInstance(r, doc2StackName+":doc2-ssg", "", "", "")
 	gongStage, _ := gong_fullstack.NewStackInstance(r, doc2StackName+":doc2-gong", "", "")
+	formStage, _ := table_fullstack.NewStackInstance(r, doc2StackName+":doc2-diagramForm", "", "")
 
 	// load the code of the model of interest into the gongStage
 	gong.LoadEmbedded(gongStage, goModelsDir)
@@ -110,5 +113,7 @@ func Prepare(
 		treeStage,
 		svgStage,
 		gongStage,
+		formStage,
+		ssgStage,
 		embeddedDiagrams)
 }
