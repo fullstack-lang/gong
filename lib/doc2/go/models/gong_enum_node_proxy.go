@@ -25,6 +25,7 @@ func (proxy *GongEnumNodeProxy) OnAfterUpdate(
 		proxy.classDiagram.AddGongEnumShape(proxy.stager.stage, diagramPackage, proxy.gongEnum.Name)
 
 		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.UpdateAndCommitFormStage()
 		proxy.stager.UpdateAndCommitSVGStage()
 
 		proxy.stager.stage.Commit()
@@ -35,6 +36,7 @@ func (proxy *GongEnumNodeProxy) OnAfterUpdate(
 		proxy.classDiagram.RemoveGongEnumShape(proxy.stager.stage, proxy.gongEnum.Name)
 
 		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.UpdateAndCommitFormStage()
 		proxy.stager.UpdateAndCommitSVGStage()
 
 		proxy.stager.stage.Commit()

@@ -854,6 +854,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Classdiagram[identifier].Name = fielValue
+				case "Description":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Classdiagram[identifier].Description = fielValue
 				case "NodeGongStructNodeExpansionBinaryEncoding":
 					// convert string to int
 					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
@@ -1169,6 +1173,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			case "Classdiagram":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "IsIncludedInStaticWebSite":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Classdiagram[identifier].IsIncludedInStaticWebSite = fielValue
 				case "IsInRenameMode":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
