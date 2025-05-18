@@ -1145,23 +1145,23 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 
 	updateAndCommitTree(dstructFormCallback.probe)
 }
-func __gong__New__FstructFormCallback(
-	fstruct *models.Fstruct,
+func __gong__New__F0123456789012345678901234567890FormCallback(
+	f0123456789012345678901234567890 *models.F0123456789012345678901234567890,
 	probe *Probe,
 	formGroup *table.FormGroup,
-) (fstructFormCallback *FstructFormCallback) {
-	fstructFormCallback = new(FstructFormCallback)
-	fstructFormCallback.probe = probe
-	fstructFormCallback.fstruct = fstruct
-	fstructFormCallback.formGroup = formGroup
+) (f0123456789012345678901234567890FormCallback *F0123456789012345678901234567890FormCallback) {
+	f0123456789012345678901234567890FormCallback = new(F0123456789012345678901234567890FormCallback)
+	f0123456789012345678901234567890FormCallback.probe = probe
+	f0123456789012345678901234567890FormCallback.f0123456789012345678901234567890 = f0123456789012345678901234567890
+	f0123456789012345678901234567890FormCallback.formGroup = formGroup
 
-	fstructFormCallback.CreationMode = (fstruct == nil)
+	f0123456789012345678901234567890FormCallback.CreationMode = (f0123456789012345678901234567890 == nil)
 
 	return
 }
 
-type FstructFormCallback struct {
-	fstruct *models.Fstruct
+type F0123456789012345678901234567890FormCallback struct {
+	f0123456789012345678901234567890 *models.F0123456789012345678901234567890
 
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
@@ -1171,58 +1171,58 @@ type FstructFormCallback struct {
 	formGroup *table.FormGroup
 }
 
-func (fstructFormCallback *FstructFormCallback) OnSave() {
+func (f0123456789012345678901234567890FormCallback *F0123456789012345678901234567890FormCallback) OnSave() {
 
-	// log.Println("FstructFormCallback, OnSave")
+	// log.Println("F0123456789012345678901234567890FormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	fstructFormCallback.probe.formStage.Checkout()
+	f0123456789012345678901234567890FormCallback.probe.formStage.Checkout()
 
-	if fstructFormCallback.fstruct == nil {
-		fstructFormCallback.fstruct = new(models.Fstruct).Stage(fstructFormCallback.probe.stageOfInterest)
+	if f0123456789012345678901234567890FormCallback.f0123456789012345678901234567890 == nil {
+		f0123456789012345678901234567890FormCallback.f0123456789012345678901234567890 = new(models.F0123456789012345678901234567890).Stage(f0123456789012345678901234567890FormCallback.probe.stageOfInterest)
 	}
-	fstruct_ := fstructFormCallback.fstruct
-	_ = fstruct_
+	f0123456789012345678901234567890_ := f0123456789012345678901234567890FormCallback.f0123456789012345678901234567890
+	_ = f0123456789012345678901234567890_
 
-	for _, formDiv := range fstructFormCallback.formGroup.FormDivs {
+	for _, formDiv := range f0123456789012345678901234567890FormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(fstruct_.Name), formDiv)
+			FormDivBasicFieldToField(&(f0123456789012345678901234567890_.Name), formDiv)
 		case "Date":
-			FormDivBasicFieldToField(&(fstruct_.Date), formDiv)
+			FormDivBasicFieldToField(&(f0123456789012345678901234567890_.Date), formDiv)
 		}
 	}
 
 	// manage the suppress operation
-	if fstructFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		fstruct_.Unstage(fstructFormCallback.probe.stageOfInterest)
+	if f0123456789012345678901234567890FormCallback.formGroup.HasSuppressButtonBeenPressed {
+		f0123456789012345678901234567890_.Unstage(f0123456789012345678901234567890FormCallback.probe.stageOfInterest)
 	}
 
-	fstructFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Fstruct](
-		fstructFormCallback.probe,
+	f0123456789012345678901234567890FormCallback.probe.stageOfInterest.Commit()
+	updateAndCommitTable[models.F0123456789012345678901234567890](
+		f0123456789012345678901234567890FormCallback.probe,
 	)
-	fstructFormCallback.probe.tableStage.Commit()
+	f0123456789012345678901234567890FormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
-	if fstructFormCallback.CreationMode || fstructFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		fstructFormCallback.probe.formStage.Reset()
+	if f0123456789012345678901234567890FormCallback.CreationMode || f0123456789012345678901234567890FormCallback.formGroup.HasSuppressButtonBeenPressed {
+		f0123456789012345678901234567890FormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: FormName,
-		}).Stage(fstructFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__FstructFormCallback(
+		}).Stage(f0123456789012345678901234567890FormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__F0123456789012345678901234567890FormCallback(
 			nil,
-			fstructFormCallback.probe,
+			f0123456789012345678901234567890FormCallback.probe,
 			newFormGroup,
 		)
-		fstruct := new(models.Fstruct)
-		FillUpForm(fstruct, newFormGroup, fstructFormCallback.probe)
-		fstructFormCallback.probe.formStage.Commit()
+		f0123456789012345678901234567890 := new(models.F0123456789012345678901234567890)
+		FillUpForm(f0123456789012345678901234567890, newFormGroup, f0123456789012345678901234567890FormCallback.probe)
+		f0123456789012345678901234567890FormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(fstructFormCallback.probe)
+	updateAndCommitTree(f0123456789012345678901234567890FormCallback.probe)
 }
 func __gong__New__GstructFormCallback(
 	gstruct *models.Gstruct,

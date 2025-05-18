@@ -29,8 +29,8 @@ func updateAndCommitTablePointerToGongstruct[T models.PointerToGongstruct](
 		updateAndCommitTable[models.Bstruct](probe)
 	case *models.Dstruct:
 		updateAndCommitTable[models.Dstruct](probe)
-	case *models.Fstruct:
-		updateAndCommitTable[models.Fstruct](probe)
+	case *models.F0123456789012345678901234567890:
+		updateAndCommitTable[models.F0123456789012345678901234567890](probe)
 	case *models.Gstruct:
 		updateAndCommitTable[models.Gstruct](probe)
 	default:
