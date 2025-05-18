@@ -2,6 +2,7 @@
 package probe
 
 import (
+	"log"
 	"slices"
 	"time"
 
@@ -14,6 +15,8 @@ import (
 const _ = time.Nanosecond
 
 var _ = slices.Delete([]string{"a"}, 0, 1)
+
+var _ = log.Panicf
 
 // insertion point
 func __gong__New__AttributeShapeFormCallback(
@@ -197,6 +200,81 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(classdiagram_.Name), formDiv)
+	case "GongStructShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongStructShape](classdiagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.GongStructShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.GongStructShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					classdiagramFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			classdiagram_.GongStructShapes = instanceSlice
+
+	case "GongEnumShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongEnumShape](classdiagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.GongEnumShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.GongEnumShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					classdiagramFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			classdiagram_.GongEnumShapes = instanceSlice
+
+	case "GongNoteShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongNoteShape](classdiagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.GongNoteShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.GongNoteShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					classdiagramFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			classdiagram_.GongNoteShapes = instanceSlice
+
 		case "IsInRenameMode":
 			FormDivBasicFieldToField(&(classdiagram_.IsInRenameMode), formDiv)
 		case "IsExpanded":
@@ -345,6 +423,31 @@ func (diagrampackageFormCallback *DiagramPackageFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagrampackage_.Path), formDiv)
 		case "GongModelPath":
 			FormDivBasicFieldToField(&(diagrampackage_.GongModelPath), formDiv)
+	case "Classdiagrams":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Classdiagram](diagrampackageFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Classdiagram, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Classdiagram)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagrampackageFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			diagrampackage_.Classdiagrams = instanceSlice
+
 		case "SelectedClassdiagram":
 			FormDivSelectFieldToField(&(diagrampackage_.SelectedClassdiagram), diagrampackageFormCallback.probe.stageOfInterest, formDiv)
 		case "AbsolutePathToDiagramPackage":
@@ -432,6 +535,31 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongenumshape_.Y), formDiv)
 		case "Identifier":
 			FormDivBasicFieldToField(&(gongenumshape_.Identifier), formDiv)
+	case "GongEnumValueShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongEnumValueShape](gongenumshapeFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.GongEnumValueShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.GongEnumValueShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					gongenumshapeFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			gongenumshape_.GongEnumValueShapes = instanceSlice
+
 		case "Width":
 			FormDivBasicFieldToField(&(gongenumshape_.Width), formDiv)
 		case "Height":
@@ -844,6 +972,31 @@ func (gongnoteshapeFormCallback *GongNoteShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongnoteshape_.Height), formDiv)
 		case "Matched":
 			FormDivBasicFieldToField(&(gongnoteshape_.Matched), formDiv)
+	case "GongNoteLinkShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongNoteLinkShape](gongnoteshapeFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.GongNoteLinkShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.GongNoteLinkShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					gongnoteshapeFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			gongnoteshape_.GongNoteLinkShapes = instanceSlice
+
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(gongnoteshape_.IsExpanded), formDiv)
 		case "Classdiagram:GongNoteShapes":
@@ -984,6 +1137,56 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongstructshape_.ShowNbInstances), formDiv)
 		case "NbInstances":
 			FormDivBasicFieldToField(&(gongstructshape_.NbInstances), formDiv)
+	case "AttributeShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AttributeShape](gongstructshapeFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.AttributeShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.AttributeShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					gongstructshapeFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			gongstructshape_.AttributeShapes = instanceSlice
+
+	case "LinkShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkShape](gongstructshapeFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.LinkShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.LinkShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					gongstructshapeFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			gongstructshape_.LinkShapes = instanceSlice
+
 		case "Width":
 			FormDivBasicFieldToField(&(gongstructshape_.Width), formDiv)
 		case "Height":

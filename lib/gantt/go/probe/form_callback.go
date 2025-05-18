@@ -2,6 +2,7 @@
 package probe
 
 import (
+	"log"
 	"slices"
 	"time"
 
@@ -14,6 +15,8 @@ import (
 const _ = time.Nanosecond
 
 var _ = slices.Delete([]string{"a"}, 0, 1)
+
+var _ = log.Panicf
 
 // insertion point
 func __gong__New__ArrowFormCallback(
@@ -389,6 +392,106 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gantt_.DateYOffset), formDiv)
 		case "AlignOnStartEndOnYearStart":
 			FormDivBasicFieldToField(&(gantt_.AlignOnStartEndOnYearStart), formDiv)
+	case "Lanes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Lane](ganttFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Lane, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Lane)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					ganttFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			gantt_.Lanes = instanceSlice
+
+	case "Milestones":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Milestone](ganttFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Milestone, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Milestone)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					ganttFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			gantt_.Milestones = instanceSlice
+
+	case "Groups":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](ganttFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Group, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Group)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					ganttFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			gantt_.Groups = instanceSlice
+
+	case "Arrows":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Arrow](ganttFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Arrow, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Arrow)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					ganttFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			gantt_.Arrows = instanceSlice
+
 		}
 	}
 
@@ -466,6 +569,31 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(group_.Name), formDiv)
+	case "GroupLanes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Lane](groupFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Lane, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Lane)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					groupFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			group_.GroupLanes = instanceSlice
+
 		case "Gantt:Groups":
 			// we need to retrieve the field owner before the change
 			var pastGanttOwner *models.Gantt
@@ -596,6 +724,31 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(lane_.Name), formDiv)
 		case "Order":
 			FormDivBasicFieldToField(&(lane_.Order), formDiv)
+	case "Bars":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Bar](laneFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Bar, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Bar)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					laneFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			lane_.Bars = instanceSlice
+
 		case "Gantt:Lanes":
 			// we need to retrieve the field owner before the change
 			var pastGanttOwner *models.Gantt
@@ -909,6 +1062,31 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(milestone_.Date), formDiv)
 		case "DisplayVerticalBar":
 			FormDivBasicFieldToField(&(milestone_.DisplayVerticalBar), formDiv)
+	case "LanesToDisplayMilestoneUse":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LaneUse](milestoneFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.LaneUse, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.LaneUse)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					milestoneFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			milestone_.LanesToDisplayMilestoneUse = instanceSlice
+
 		case "Gantt:Milestones":
 			// we need to retrieve the field owner before the change
 			var pastGanttOwner *models.Gantt

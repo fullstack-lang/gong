@@ -2,6 +2,7 @@
 package probe
 
 import (
+	"log"
 	"slices"
 	"time"
 
@@ -14,6 +15,8 @@ import (
 const _ = time.Nanosecond
 
 var _ = slices.Delete([]string{"a"}, 0, 1)
+
+var _ = log.Panicf
 
 // insertion point
 func __gong__New__DisplaySelectionFormCallback(
@@ -327,6 +330,31 @@ func (xlfileFormCallback *XLFileFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(xlfile_.Name), formDiv)
 		case "NbSheets":
 			FormDivBasicFieldToField(&(xlfile_.NbSheets), formDiv)
+	case "Sheets":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.XLSheet](xlfileFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.XLSheet, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.XLSheet)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					xlfileFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			xlfile_.Sheets = instanceSlice
+
 		}
 	}
 
@@ -406,6 +434,31 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(xlrow_.Name), formDiv)
 		case "RowIndex":
 			FormDivBasicFieldToField(&(xlrow_.RowIndex), formDiv)
+	case "Cells":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.XLCell](xlrowFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.XLCell, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.XLCell)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					xlrowFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			xlrow_.Cells = instanceSlice
+
 		case "XLSheet:Rows":
 			// we need to retrieve the field owner before the change
 			var pastXLSheetOwner *models.XLSheet
@@ -540,6 +593,56 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(xlsheet_.MaxCol), formDiv)
 		case "NbRows":
 			FormDivBasicFieldToField(&(xlsheet_.NbRows), formDiv)
+	case "Rows":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.XLRow](xlsheetFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.XLRow, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.XLRow)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					xlsheetFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			xlsheet_.Rows = instanceSlice
+
+	case "SheetCells":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.XLCell](xlsheetFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.XLCell, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.XLCell)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					xlsheetFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			xlsheet_.SheetCells = instanceSlice
+
 		case "XLFile:Sheets":
 			// we need to retrieve the field owner before the change
 			var pastXLFileOwner *models.XLFile

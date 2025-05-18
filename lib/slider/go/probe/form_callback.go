@@ -2,6 +2,7 @@
 package probe
 
 import (
+	"log"
 	"slices"
 	"time"
 
@@ -14,6 +15,8 @@ import (
 const _ = time.Nanosecond
 
 var _ = slices.Delete([]string{"a"}, 0, 1)
+
+var _ = log.Panicf
 
 // insertion point
 func __gong__New__CheckboxFormCallback(
@@ -197,6 +200,56 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(group_.Name), formDiv)
 		case "Percentage":
 			FormDivBasicFieldToField(&(group_.Percentage), formDiv)
+	case "Sliders":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Slider](groupFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Slider, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Slider)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					groupFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			group_.Sliders = instanceSlice
+
+	case "Checkboxes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Checkbox](groupFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Checkbox, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Checkbox)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					groupFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			group_.Checkboxes = instanceSlice
+
 		case "Layout:Groups":
 			// we need to retrieve the field owner before the change
 			var pastLayoutOwner *models.Layout
@@ -325,6 +378,31 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(layout_.Name), formDiv)
+	case "Groups":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](layoutFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Group, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Group)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					layoutFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			layout_.Groups = instanceSlice
+
 		}
 	}
 
