@@ -26,9 +26,9 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDstructCreateCallback != nil {
 			stage.OnAfterDstructCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *Fstruct:
-		if stage.OnAfterFstructCreateCallback != nil {
-			stage.OnAfterFstructCreateCallback.OnAfterCreate(stage, target)
+	case *F0123456789012345678901234567890:
+		if stage.OnAfterF0123456789012345678901234567890CreateCallback != nil {
+			stage.OnAfterF0123456789012345678901234567890CreateCallback.OnAfterCreate(stage, target)
 		}
 	case *Gstruct:
 		if stage.OnAfterGstructCreateCallback != nil {
@@ -69,10 +69,10 @@ func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterDstructUpdateCallback != nil {
 			stage.OnAfterDstructUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-	case *Fstruct:
-		newTarget := any(new).(*Fstruct)
-		if stage.OnAfterFstructUpdateCallback != nil {
-			stage.OnAfterFstructUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+	case *F0123456789012345678901234567890:
+		newTarget := any(new).(*F0123456789012345678901234567890)
+		if stage.OnAfterF0123456789012345678901234567890UpdateCallback != nil {
+			stage.OnAfterF0123456789012345678901234567890UpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Gstruct:
 		newTarget := any(new).(*Gstruct)
@@ -114,10 +114,10 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Dstruct)
 			stage.OnAfterDstructDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *Fstruct:
-		if stage.OnAfterFstructDeleteCallback != nil {
-			staged := any(staged).(*Fstruct)
-			stage.OnAfterFstructDeleteCallback.OnAfterDelete(stage, staged, front)
+	case *F0123456789012345678901234567890:
+		if stage.OnAfterF0123456789012345678901234567890DeleteCallback != nil {
+			staged := any(staged).(*F0123456789012345678901234567890)
+			stage.OnAfterF0123456789012345678901234567890DeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *Gstruct:
 		if stage.OnAfterGstructDeleteCallback != nil {
@@ -154,9 +154,9 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDstructReadCallback != nil {
 			stage.OnAfterDstructReadCallback.OnAfterRead(stage, target)
 		}
-	case *Fstruct:
-		if stage.OnAfterFstructReadCallback != nil {
-			stage.OnAfterFstructReadCallback.OnAfterRead(stage, target)
+	case *F0123456789012345678901234567890:
+		if stage.OnAfterF0123456789012345678901234567890ReadCallback != nil {
+			stage.OnAfterF0123456789012345678901234567890ReadCallback.OnAfterRead(stage, target)
 		}
 	case *Gstruct:
 		if stage.OnAfterGstructReadCallback != nil {
@@ -188,8 +188,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *Dstruct:
 		stage.OnAfterDstructUpdateCallback = any(callback).(OnAfterUpdateInterface[Dstruct])
 	
-	case *Fstruct:
-		stage.OnAfterFstructUpdateCallback = any(callback).(OnAfterUpdateInterface[Fstruct])
+	case *F0123456789012345678901234567890:
+		stage.OnAfterF0123456789012345678901234567890UpdateCallback = any(callback).(OnAfterUpdateInterface[F0123456789012345678901234567890])
 	
 	case *Gstruct:
 		stage.OnAfterGstructUpdateCallback = any(callback).(OnAfterUpdateInterface[Gstruct])
@@ -216,8 +216,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *Dstruct:
 		stage.OnAfterDstructCreateCallback = any(callback).(OnAfterCreateInterface[Dstruct])
 	
-	case *Fstruct:
-		stage.OnAfterFstructCreateCallback = any(callback).(OnAfterCreateInterface[Fstruct])
+	case *F0123456789012345678901234567890:
+		stage.OnAfterF0123456789012345678901234567890CreateCallback = any(callback).(OnAfterCreateInterface[F0123456789012345678901234567890])
 	
 	case *Gstruct:
 		stage.OnAfterGstructCreateCallback = any(callback).(OnAfterCreateInterface[Gstruct])
@@ -244,8 +244,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *Dstruct:
 		stage.OnAfterDstructDeleteCallback = any(callback).(OnAfterDeleteInterface[Dstruct])
 	
-	case *Fstruct:
-		stage.OnAfterFstructDeleteCallback = any(callback).(OnAfterDeleteInterface[Fstruct])
+	case *F0123456789012345678901234567890:
+		stage.OnAfterF0123456789012345678901234567890DeleteCallback = any(callback).(OnAfterDeleteInterface[F0123456789012345678901234567890])
 	
 	case *Gstruct:
 		stage.OnAfterGstructDeleteCallback = any(callback).(OnAfterDeleteInterface[Gstruct])
@@ -272,8 +272,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	case *Dstruct:
 		stage.OnAfterDstructReadCallback = any(callback).(OnAfterReadInterface[Dstruct])
 	
-	case *Fstruct:
-		stage.OnAfterFstructReadCallback = any(callback).(OnAfterReadInterface[Fstruct])
+	case *F0123456789012345678901234567890:
+		stage.OnAfterF0123456789012345678901234567890ReadCallback = any(callback).(OnAfterReadInterface[F0123456789012345678901234567890])
 	
 	case *Gstruct:
 		stage.OnAfterGstructReadCallback = any(callback).(OnAfterReadInterface[Gstruct])

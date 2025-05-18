@@ -41,3 +41,4 @@ lib/load/go/cmd/load/load
 lib/probe/go/cmd/probe/probe
 lib/ssg/go/cmd/ssg/ssg
 lib/doc2/go/cmd/doc2/doc2
+test/test/go/cmd/test/~$foo.xlsx

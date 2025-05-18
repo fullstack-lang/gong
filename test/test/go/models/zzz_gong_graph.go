@@ -20,8 +20,8 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *Dstruct:
 		ok = stage.IsStagedDstruct(target)
 
-	case *Fstruct:
-		ok = stage.IsStagedFstruct(target)
+	case *F0123456789012345678901234567890:
+		ok = stage.IsStagedF0123456789012345678901234567890(target)
 
 	case *Gstruct:
 		ok = stage.IsStagedGstruct(target)
@@ -68,9 +68,9 @@ func (stage *Stage) IsStagedDstruct(dstruct *Dstruct) (ok bool) {
 	return
 }
 
-func (stage *Stage) IsStagedFstruct(fstruct *Fstruct) (ok bool) {
+func (stage *Stage) IsStagedF0123456789012345678901234567890(f0123456789012345678901234567890 *F0123456789012345678901234567890) (ok bool) {
 
-	_, ok = stage.Fstructs[fstruct]
+	_, ok = stage.F0123456789012345678901234567890s[f0123456789012345678901234567890]
 
 	return
 }
@@ -105,8 +105,8 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Dstruct:
 		stage.StageBranchDstruct(target)
 
-	case *Fstruct:
-		stage.StageBranchFstruct(target)
+	case *F0123456789012345678901234567890:
+		stage.StageBranchF0123456789012345678901234567890(target)
 
 	case *Gstruct:
 		stage.StageBranchGstruct(target)
@@ -252,14 +252,14 @@ func (stage *Stage) StageBranchDstruct(dstruct *Dstruct) {
 
 }
 
-func (stage *Stage) StageBranchFstruct(fstruct *Fstruct) {
+func (stage *Stage) StageBranchF0123456789012345678901234567890(f0123456789012345678901234567890 *F0123456789012345678901234567890) {
 
 	// check if instance is already staged
-	if IsStaged(stage, fstruct) {
+	if IsStaged(stage, f0123456789012345678901234567890) {
 		return
 	}
 
-	fstruct.Stage(stage)
+	f0123456789012345678901234567890.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -313,8 +313,8 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchDstruct(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *Fstruct:
-		toT := CopyBranchFstruct(mapOrigCopy, fromT)
+	case *F0123456789012345678901234567890:
+		toT := CopyBranchF0123456789012345678901234567890(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Gstruct:
@@ -483,17 +483,17 @@ func CopyBranchDstruct(mapOrigCopy map[any]any, dstructFrom *Dstruct) (dstructTo
 	return
 }
 
-func CopyBranchFstruct(mapOrigCopy map[any]any, fstructFrom *Fstruct) (fstructTo *Fstruct) {
+func CopyBranchF0123456789012345678901234567890(mapOrigCopy map[any]any, f0123456789012345678901234567890From *F0123456789012345678901234567890) (f0123456789012345678901234567890To *F0123456789012345678901234567890) {
 
-	// fstructFrom has already been copied
-	if _fstructTo, ok := mapOrigCopy[fstructFrom]; ok {
-		fstructTo = _fstructTo.(*Fstruct)
+	// f0123456789012345678901234567890From has already been copied
+	if _f0123456789012345678901234567890To, ok := mapOrigCopy[f0123456789012345678901234567890From]; ok {
+		f0123456789012345678901234567890To = _f0123456789012345678901234567890To.(*F0123456789012345678901234567890)
 		return
 	}
 
-	fstructTo = new(Fstruct)
-	mapOrigCopy[fstructFrom] = fstructTo
-	fstructFrom.CopyBasicFields(fstructTo)
+	f0123456789012345678901234567890To = new(F0123456789012345678901234567890)
+	mapOrigCopy[f0123456789012345678901234567890From] = f0123456789012345678901234567890To
+	f0123456789012345678901234567890From.CopyBasicFields(f0123456789012345678901234567890To)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -544,8 +544,8 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Dstruct:
 		stage.UnstageBranchDstruct(target)
 
-	case *Fstruct:
-		stage.UnstageBranchFstruct(target)
+	case *F0123456789012345678901234567890:
+		stage.UnstageBranchF0123456789012345678901234567890(target)
 
 	case *Gstruct:
 		stage.UnstageBranchGstruct(target)
@@ -691,14 +691,14 @@ func (stage *Stage) UnstageBranchDstruct(dstruct *Dstruct) {
 
 }
 
-func (stage *Stage) UnstageBranchFstruct(fstruct *Fstruct) {
+func (stage *Stage) UnstageBranchF0123456789012345678901234567890(f0123456789012345678901234567890 *F0123456789012345678901234567890) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, fstruct) {
+	if !IsStaged(stage, f0123456789012345678901234567890) {
 		return
 	}
 
-	fstruct.Unstage(stage)
+	f0123456789012345678901234567890.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 

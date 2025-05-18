@@ -260,7 +260,7 @@ func FillUpForm(
 			}
 		}
 
-	case *models.Fstruct:
+	case *models.F0123456789012345678901234567890:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
