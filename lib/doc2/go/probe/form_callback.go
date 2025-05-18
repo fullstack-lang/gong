@@ -73,56 +73,72 @@ func (attributeshapeFormCallback *AttributeShapeFormCallback) OnSave() {
 		case "Fieldtypename":
 			FormDivBasicFieldToField(&(attributeshape_.Fieldtypename), formDiv)
 		case "GongStructShape:AttributeShapes":
-			// we need to retrieve the field owner before the change
-			var pastGongStructShapeOwner *models.GongStructShape
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "GongStructShape"
-			rf.Fieldname = "AttributeShapes"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				attributeshapeFormCallback.probe.stageOfInterest,
-				attributeshape_,
-				&rf)
+			// WARNING : this form deals with the N-N association "GongStructShape.AttributeShapes []*AttributeShape" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of AttributeShape). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.GongStructShape
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "GongStructShape"
+				rf.Fieldname = "AttributeShapes"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					attributeshapeFormCallback.probe.stageOfInterest,
+					attributeshape_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastGongStructShapeOwner = reverseFieldOwner.(*models.GongStructShape)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastGongStructShapeOwner != nil {
-					idx := slices.Index(pastGongStructShapeOwner.AttributeShapes, attributeshape_)
-					pastGongStructShapeOwner.AttributeShapes = slices.Delete(pastGongStructShapeOwner.AttributeShapes, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastGongStructShapeOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _gongstructshape := range *models.GetGongstructInstancesSet[models.GongStructShape](attributeshapeFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _gongstructshape.GetName() == fieldValue.GetName() {
-							newGongStructShapeOwner := _gongstructshape // we have a match
-
-							// we remove the attributeshape_ instance from the pastGongStructShapeOwner field
-							if pastGongStructShapeOwner != nil {
-								if newGongStructShapeOwner != pastGongStructShapeOwner {
-									idx := slices.Index(pastGongStructShapeOwner.AttributeShapes, attributeshape_)
-									pastGongStructShapeOwner.AttributeShapes = slices.Delete(pastGongStructShapeOwner.AttributeShapes, idx, idx+1)
-									newGongStructShapeOwner.AttributeShapes = append(newGongStructShapeOwner.AttributeShapes, attributeshape_)
-								}
-							} else {
-								newGongStructShapeOwner.AttributeShapes = append(newGongStructShapeOwner.AttributeShapes, attributeshape_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.GongStructShape)
+					if !ok {
+						log.Fatalln("Source of GongStructShape.AttributeShapes []*AttributeShape, is not an GongStructShape instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.AttributeShapes, attributeshape_)
+					formerSource.AttributeShapes = slices.Delete(formerSource.AttributeShapes, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.GongStructShape
+			for _gongstructshape := range *models.GetGongstructInstancesSet[models.GongStructShape](attributeshapeFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _gongstructshape.GetName() == newSourceName.GetName() {
+					newSource = _gongstructshape // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of GongStructShape.AttributeShapes []*AttributeShape, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.AttributeShapes = append(newSource.AttributeShapes, attributeshape_)
 		}
 	}
 
@@ -292,56 +308,72 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 		case "NodeGongNoteNodeExpansionBinaryEncoding":
 			FormDivBasicFieldToField(&(classdiagram_.NodeGongNoteNodeExpansionBinaryEncoding), formDiv)
 		case "DiagramPackage:Classdiagrams":
-			// we need to retrieve the field owner before the change
-			var pastDiagramPackageOwner *models.DiagramPackage
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "DiagramPackage"
-			rf.Fieldname = "Classdiagrams"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				classdiagramFormCallback.probe.stageOfInterest,
-				classdiagram_,
-				&rf)
+			// WARNING : this form deals with the N-N association "DiagramPackage.Classdiagrams []*Classdiagram" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Classdiagram). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.DiagramPackage
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "DiagramPackage"
+				rf.Fieldname = "Classdiagrams"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					classdiagramFormCallback.probe.stageOfInterest,
+					classdiagram_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastDiagramPackageOwner = reverseFieldOwner.(*models.DiagramPackage)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastDiagramPackageOwner != nil {
-					idx := slices.Index(pastDiagramPackageOwner.Classdiagrams, classdiagram_)
-					pastDiagramPackageOwner.Classdiagrams = slices.Delete(pastDiagramPackageOwner.Classdiagrams, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastDiagramPackageOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _diagrampackage := range *models.GetGongstructInstancesSet[models.DiagramPackage](classdiagramFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _diagrampackage.GetName() == fieldValue.GetName() {
-							newDiagramPackageOwner := _diagrampackage // we have a match
-
-							// we remove the classdiagram_ instance from the pastDiagramPackageOwner field
-							if pastDiagramPackageOwner != nil {
-								if newDiagramPackageOwner != pastDiagramPackageOwner {
-									idx := slices.Index(pastDiagramPackageOwner.Classdiagrams, classdiagram_)
-									pastDiagramPackageOwner.Classdiagrams = slices.Delete(pastDiagramPackageOwner.Classdiagrams, idx, idx+1)
-									newDiagramPackageOwner.Classdiagrams = append(newDiagramPackageOwner.Classdiagrams, classdiagram_)
-								}
-							} else {
-								newDiagramPackageOwner.Classdiagrams = append(newDiagramPackageOwner.Classdiagrams, classdiagram_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.DiagramPackage)
+					if !ok {
+						log.Fatalln("Source of DiagramPackage.Classdiagrams []*Classdiagram, is not an DiagramPackage instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Classdiagrams, classdiagram_)
+					formerSource.Classdiagrams = slices.Delete(formerSource.Classdiagrams, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.DiagramPackage
+			for _diagrampackage := range *models.GetGongstructInstancesSet[models.DiagramPackage](classdiagramFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _diagrampackage.GetName() == newSourceName.GetName() {
+					newSource = _diagrampackage // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of DiagramPackage.Classdiagrams []*Classdiagram, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Classdiagrams = append(newSource.Classdiagrams, classdiagram_)
 		}
 	}
 
@@ -567,56 +599,72 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(gongenumshape_.IsExpanded), formDiv)
 		case "Classdiagram:GongEnumShapes":
-			// we need to retrieve the field owner before the change
-			var pastClassdiagramOwner *models.Classdiagram
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Classdiagram"
-			rf.Fieldname = "GongEnumShapes"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				gongenumshapeFormCallback.probe.stageOfInterest,
-				gongenumshape_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Classdiagram.GongEnumShapes []*GongEnumShape" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of GongEnumShape). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Classdiagram
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Classdiagram"
+				rf.Fieldname = "GongEnumShapes"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					gongenumshapeFormCallback.probe.stageOfInterest,
+					gongenumshape_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastClassdiagramOwner = reverseFieldOwner.(*models.Classdiagram)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastClassdiagramOwner != nil {
-					idx := slices.Index(pastClassdiagramOwner.GongEnumShapes, gongenumshape_)
-					pastClassdiagramOwner.GongEnumShapes = slices.Delete(pastClassdiagramOwner.GongEnumShapes, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastClassdiagramOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _classdiagram := range *models.GetGongstructInstancesSet[models.Classdiagram](gongenumshapeFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _classdiagram.GetName() == fieldValue.GetName() {
-							newClassdiagramOwner := _classdiagram // we have a match
-
-							// we remove the gongenumshape_ instance from the pastClassdiagramOwner field
-							if pastClassdiagramOwner != nil {
-								if newClassdiagramOwner != pastClassdiagramOwner {
-									idx := slices.Index(pastClassdiagramOwner.GongEnumShapes, gongenumshape_)
-									pastClassdiagramOwner.GongEnumShapes = slices.Delete(pastClassdiagramOwner.GongEnumShapes, idx, idx+1)
-									newClassdiagramOwner.GongEnumShapes = append(newClassdiagramOwner.GongEnumShapes, gongenumshape_)
-								}
-							} else {
-								newClassdiagramOwner.GongEnumShapes = append(newClassdiagramOwner.GongEnumShapes, gongenumshape_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Classdiagram)
+					if !ok {
+						log.Fatalln("Source of Classdiagram.GongEnumShapes []*GongEnumShape, is not an Classdiagram instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.GongEnumShapes, gongenumshape_)
+					formerSource.GongEnumShapes = slices.Delete(formerSource.GongEnumShapes, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Classdiagram
+			for _classdiagram := range *models.GetGongstructInstancesSet[models.Classdiagram](gongenumshapeFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _classdiagram.GetName() == newSourceName.GetName() {
+					newSource = _classdiagram // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Classdiagram.GongEnumShapes []*GongEnumShape, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.GongEnumShapes = append(newSource.GongEnumShapes, gongenumshape_)
 		}
 	}
 
@@ -697,56 +745,72 @@ func (gongenumvalueshapeFormCallback *GongEnumValueShapeFormCallback) OnSave() {
 		case "Identifier":
 			FormDivBasicFieldToField(&(gongenumvalueshape_.Identifier), formDiv)
 		case "GongEnumShape:GongEnumValueShapes":
-			// we need to retrieve the field owner before the change
-			var pastGongEnumShapeOwner *models.GongEnumShape
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "GongEnumShape"
-			rf.Fieldname = "GongEnumValueShapes"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				gongenumvalueshapeFormCallback.probe.stageOfInterest,
-				gongenumvalueshape_,
-				&rf)
+			// WARNING : this form deals with the N-N association "GongEnumShape.GongEnumValueShapes []*GongEnumValueShape" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of GongEnumValueShape). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.GongEnumShape
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "GongEnumShape"
+				rf.Fieldname = "GongEnumValueShapes"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					gongenumvalueshapeFormCallback.probe.stageOfInterest,
+					gongenumvalueshape_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastGongEnumShapeOwner = reverseFieldOwner.(*models.GongEnumShape)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastGongEnumShapeOwner != nil {
-					idx := slices.Index(pastGongEnumShapeOwner.GongEnumValueShapes, gongenumvalueshape_)
-					pastGongEnumShapeOwner.GongEnumValueShapes = slices.Delete(pastGongEnumShapeOwner.GongEnumValueShapes, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastGongEnumShapeOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _gongenumshape := range *models.GetGongstructInstancesSet[models.GongEnumShape](gongenumvalueshapeFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _gongenumshape.GetName() == fieldValue.GetName() {
-							newGongEnumShapeOwner := _gongenumshape // we have a match
-
-							// we remove the gongenumvalueshape_ instance from the pastGongEnumShapeOwner field
-							if pastGongEnumShapeOwner != nil {
-								if newGongEnumShapeOwner != pastGongEnumShapeOwner {
-									idx := slices.Index(pastGongEnumShapeOwner.GongEnumValueShapes, gongenumvalueshape_)
-									pastGongEnumShapeOwner.GongEnumValueShapes = slices.Delete(pastGongEnumShapeOwner.GongEnumValueShapes, idx, idx+1)
-									newGongEnumShapeOwner.GongEnumValueShapes = append(newGongEnumShapeOwner.GongEnumValueShapes, gongenumvalueshape_)
-								}
-							} else {
-								newGongEnumShapeOwner.GongEnumValueShapes = append(newGongEnumShapeOwner.GongEnumValueShapes, gongenumvalueshape_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.GongEnumShape)
+					if !ok {
+						log.Fatalln("Source of GongEnumShape.GongEnumValueShapes []*GongEnumValueShape, is not an GongEnumShape instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.GongEnumValueShapes, gongenumvalueshape_)
+					formerSource.GongEnumValueShapes = slices.Delete(formerSource.GongEnumValueShapes, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.GongEnumShape
+			for _gongenumshape := range *models.GetGongstructInstancesSet[models.GongEnumShape](gongenumvalueshapeFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _gongenumshape.GetName() == newSourceName.GetName() {
+					newSource = _gongenumshape // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of GongEnumShape.GongEnumValueShapes []*GongEnumValueShape, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.GongEnumValueShapes = append(newSource.GongEnumValueShapes, gongenumvalueshape_)
 		}
 	}
 
@@ -829,56 +893,72 @@ func (gongnotelinkshapeFormCallback *GongNoteLinkShapeFormCallback) OnSave() {
 		case "Type":
 			FormDivEnumStringFieldToField(&(gongnotelinkshape_.Type), formDiv)
 		case "GongNoteShape:GongNoteLinkShapes":
-			// we need to retrieve the field owner before the change
-			var pastGongNoteShapeOwner *models.GongNoteShape
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "GongNoteShape"
-			rf.Fieldname = "GongNoteLinkShapes"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				gongnotelinkshapeFormCallback.probe.stageOfInterest,
-				gongnotelinkshape_,
-				&rf)
+			// WARNING : this form deals with the N-N association "GongNoteShape.GongNoteLinkShapes []*GongNoteLinkShape" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of GongNoteLinkShape). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.GongNoteShape
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "GongNoteShape"
+				rf.Fieldname = "GongNoteLinkShapes"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					gongnotelinkshapeFormCallback.probe.stageOfInterest,
+					gongnotelinkshape_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastGongNoteShapeOwner = reverseFieldOwner.(*models.GongNoteShape)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastGongNoteShapeOwner != nil {
-					idx := slices.Index(pastGongNoteShapeOwner.GongNoteLinkShapes, gongnotelinkshape_)
-					pastGongNoteShapeOwner.GongNoteLinkShapes = slices.Delete(pastGongNoteShapeOwner.GongNoteLinkShapes, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastGongNoteShapeOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _gongnoteshape := range *models.GetGongstructInstancesSet[models.GongNoteShape](gongnotelinkshapeFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _gongnoteshape.GetName() == fieldValue.GetName() {
-							newGongNoteShapeOwner := _gongnoteshape // we have a match
-
-							// we remove the gongnotelinkshape_ instance from the pastGongNoteShapeOwner field
-							if pastGongNoteShapeOwner != nil {
-								if newGongNoteShapeOwner != pastGongNoteShapeOwner {
-									idx := slices.Index(pastGongNoteShapeOwner.GongNoteLinkShapes, gongnotelinkshape_)
-									pastGongNoteShapeOwner.GongNoteLinkShapes = slices.Delete(pastGongNoteShapeOwner.GongNoteLinkShapes, idx, idx+1)
-									newGongNoteShapeOwner.GongNoteLinkShapes = append(newGongNoteShapeOwner.GongNoteLinkShapes, gongnotelinkshape_)
-								}
-							} else {
-								newGongNoteShapeOwner.GongNoteLinkShapes = append(newGongNoteShapeOwner.GongNoteLinkShapes, gongnotelinkshape_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.GongNoteShape)
+					if !ok {
+						log.Fatalln("Source of GongNoteShape.GongNoteLinkShapes []*GongNoteLinkShape, is not an GongNoteShape instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.GongNoteLinkShapes, gongnotelinkshape_)
+					formerSource.GongNoteLinkShapes = slices.Delete(formerSource.GongNoteLinkShapes, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.GongNoteShape
+			for _gongnoteshape := range *models.GetGongstructInstancesSet[models.GongNoteShape](gongnotelinkshapeFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _gongnoteshape.GetName() == newSourceName.GetName() {
+					newSource = _gongnoteshape // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of GongNoteShape.GongNoteLinkShapes []*GongNoteLinkShape, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.GongNoteLinkShapes = append(newSource.GongNoteLinkShapes, gongnotelinkshape_)
 		}
 	}
 
@@ -1000,56 +1080,72 @@ func (gongnoteshapeFormCallback *GongNoteShapeFormCallback) OnSave() {
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(gongnoteshape_.IsExpanded), formDiv)
 		case "Classdiagram:GongNoteShapes":
-			// we need to retrieve the field owner before the change
-			var pastClassdiagramOwner *models.Classdiagram
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Classdiagram"
-			rf.Fieldname = "GongNoteShapes"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				gongnoteshapeFormCallback.probe.stageOfInterest,
-				gongnoteshape_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Classdiagram.GongNoteShapes []*GongNoteShape" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of GongNoteShape). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Classdiagram
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Classdiagram"
+				rf.Fieldname = "GongNoteShapes"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					gongnoteshapeFormCallback.probe.stageOfInterest,
+					gongnoteshape_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastClassdiagramOwner = reverseFieldOwner.(*models.Classdiagram)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastClassdiagramOwner != nil {
-					idx := slices.Index(pastClassdiagramOwner.GongNoteShapes, gongnoteshape_)
-					pastClassdiagramOwner.GongNoteShapes = slices.Delete(pastClassdiagramOwner.GongNoteShapes, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastClassdiagramOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _classdiagram := range *models.GetGongstructInstancesSet[models.Classdiagram](gongnoteshapeFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _classdiagram.GetName() == fieldValue.GetName() {
-							newClassdiagramOwner := _classdiagram // we have a match
-
-							// we remove the gongnoteshape_ instance from the pastClassdiagramOwner field
-							if pastClassdiagramOwner != nil {
-								if newClassdiagramOwner != pastClassdiagramOwner {
-									idx := slices.Index(pastClassdiagramOwner.GongNoteShapes, gongnoteshape_)
-									pastClassdiagramOwner.GongNoteShapes = slices.Delete(pastClassdiagramOwner.GongNoteShapes, idx, idx+1)
-									newClassdiagramOwner.GongNoteShapes = append(newClassdiagramOwner.GongNoteShapes, gongnoteshape_)
-								}
-							} else {
-								newClassdiagramOwner.GongNoteShapes = append(newClassdiagramOwner.GongNoteShapes, gongnoteshape_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Classdiagram)
+					if !ok {
+						log.Fatalln("Source of Classdiagram.GongNoteShapes []*GongNoteShape, is not an Classdiagram instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.GongNoteShapes, gongnoteshape_)
+					formerSource.GongNoteShapes = slices.Delete(formerSource.GongNoteShapes, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Classdiagram
+			for _classdiagram := range *models.GetGongstructInstancesSet[models.Classdiagram](gongnoteshapeFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _classdiagram.GetName() == newSourceName.GetName() {
+					newSource = _classdiagram // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Classdiagram.GongNoteShapes []*GongNoteShape, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.GongNoteShapes = append(newSource.GongNoteShapes, gongnoteshape_)
 		}
 	}
 
@@ -1194,56 +1290,72 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 		case "IsSelected":
 			FormDivBasicFieldToField(&(gongstructshape_.IsSelected), formDiv)
 		case "Classdiagram:GongStructShapes":
-			// we need to retrieve the field owner before the change
-			var pastClassdiagramOwner *models.Classdiagram
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Classdiagram"
-			rf.Fieldname = "GongStructShapes"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				gongstructshapeFormCallback.probe.stageOfInterest,
-				gongstructshape_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Classdiagram.GongStructShapes []*GongStructShape" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of GongStructShape). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Classdiagram
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Classdiagram"
+				rf.Fieldname = "GongStructShapes"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					gongstructshapeFormCallback.probe.stageOfInterest,
+					gongstructshape_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastClassdiagramOwner = reverseFieldOwner.(*models.Classdiagram)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastClassdiagramOwner != nil {
-					idx := slices.Index(pastClassdiagramOwner.GongStructShapes, gongstructshape_)
-					pastClassdiagramOwner.GongStructShapes = slices.Delete(pastClassdiagramOwner.GongStructShapes, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastClassdiagramOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _classdiagram := range *models.GetGongstructInstancesSet[models.Classdiagram](gongstructshapeFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _classdiagram.GetName() == fieldValue.GetName() {
-							newClassdiagramOwner := _classdiagram // we have a match
-
-							// we remove the gongstructshape_ instance from the pastClassdiagramOwner field
-							if pastClassdiagramOwner != nil {
-								if newClassdiagramOwner != pastClassdiagramOwner {
-									idx := slices.Index(pastClassdiagramOwner.GongStructShapes, gongstructshape_)
-									pastClassdiagramOwner.GongStructShapes = slices.Delete(pastClassdiagramOwner.GongStructShapes, idx, idx+1)
-									newClassdiagramOwner.GongStructShapes = append(newClassdiagramOwner.GongStructShapes, gongstructshape_)
-								}
-							} else {
-								newClassdiagramOwner.GongStructShapes = append(newClassdiagramOwner.GongStructShapes, gongstructshape_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Classdiagram)
+					if !ok {
+						log.Fatalln("Source of Classdiagram.GongStructShapes []*GongStructShape, is not an Classdiagram instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.GongStructShapes, gongstructshape_)
+					formerSource.GongStructShapes = slices.Delete(formerSource.GongStructShapes, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Classdiagram
+			for _classdiagram := range *models.GetGongstructInstancesSet[models.Classdiagram](gongstructshapeFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _classdiagram.GetName() == newSourceName.GetName() {
+					newSource = _classdiagram // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Classdiagram.GongStructShapes []*GongStructShape, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.GongStructShapes = append(newSource.GongStructShapes, gongstructshape_)
 		}
 	}
 
@@ -1356,56 +1468,72 @@ func (linkshapeFormCallback *LinkShapeFormCallback) OnSave() {
 		case "CornerOffsetRatio":
 			FormDivBasicFieldToField(&(linkshape_.CornerOffsetRatio), formDiv)
 		case "GongStructShape:LinkShapes":
-			// we need to retrieve the field owner before the change
-			var pastGongStructShapeOwner *models.GongStructShape
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "GongStructShape"
-			rf.Fieldname = "LinkShapes"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				linkshapeFormCallback.probe.stageOfInterest,
-				linkshape_,
-				&rf)
+			// WARNING : this form deals with the N-N association "GongStructShape.LinkShapes []*LinkShape" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of LinkShape). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.GongStructShape
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "GongStructShape"
+				rf.Fieldname = "LinkShapes"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					linkshapeFormCallback.probe.stageOfInterest,
+					linkshape_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastGongStructShapeOwner = reverseFieldOwner.(*models.GongStructShape)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastGongStructShapeOwner != nil {
-					idx := slices.Index(pastGongStructShapeOwner.LinkShapes, linkshape_)
-					pastGongStructShapeOwner.LinkShapes = slices.Delete(pastGongStructShapeOwner.LinkShapes, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastGongStructShapeOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _gongstructshape := range *models.GetGongstructInstancesSet[models.GongStructShape](linkshapeFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _gongstructshape.GetName() == fieldValue.GetName() {
-							newGongStructShapeOwner := _gongstructshape // we have a match
-
-							// we remove the linkshape_ instance from the pastGongStructShapeOwner field
-							if pastGongStructShapeOwner != nil {
-								if newGongStructShapeOwner != pastGongStructShapeOwner {
-									idx := slices.Index(pastGongStructShapeOwner.LinkShapes, linkshape_)
-									pastGongStructShapeOwner.LinkShapes = slices.Delete(pastGongStructShapeOwner.LinkShapes, idx, idx+1)
-									newGongStructShapeOwner.LinkShapes = append(newGongStructShapeOwner.LinkShapes, linkshape_)
-								}
-							} else {
-								newGongStructShapeOwner.LinkShapes = append(newGongStructShapeOwner.LinkShapes, linkshape_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.GongStructShape)
+					if !ok {
+						log.Fatalln("Source of GongStructShape.LinkShapes []*LinkShape, is not an GongStructShape instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.LinkShapes, linkshape_)
+					formerSource.LinkShapes = slices.Delete(formerSource.LinkShapes, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.GongStructShape
+			for _gongstructshape := range *models.GetGongstructInstancesSet[models.GongStructShape](linkshapeFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _gongstructshape.GetName() == newSourceName.GetName() {
+					newSource = _gongstructshape // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of GongStructShape.LinkShapes []*LinkShape, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.LinkShapes = append(newSource.LinkShapes, linkshape_)
 		}
 	}
 
