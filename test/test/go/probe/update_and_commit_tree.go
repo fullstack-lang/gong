@@ -114,13 +114,13 @@ func updateAndCommitTree(
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-		case "Fstruct":
+		case "F0123456789012345678901234567890":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.Fstruct](probe.stageOfInterest)
-			for _fstruct := range set {
-				nodeInstance := (&tree.Node{Name: _fstruct.GetName()}).Stage(probe.treeStage)
+			set := *models.GetGongstructInstancesSet[models.F0123456789012345678901234567890](probe.stageOfInterest)
+			for _f0123456789012345678901234567890 := range set {
+				nodeInstance := (&tree.Node{Name: _f0123456789012345678901234567890.GetName()}).Stage(probe.treeStage)
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_fstruct, "Fstruct", probe)
+				nodeInstance.Impl = NewInstanceNodeCallback(_f0123456789012345678901234567890, "F0123456789012345678901234567890", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}

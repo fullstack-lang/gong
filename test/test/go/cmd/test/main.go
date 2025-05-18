@@ -40,6 +40,8 @@ func main() {
 	// insertion point for call to stager
 	test_models.NewStager(r, stack.Stage, "test/test/go/cmd/test/main.go")
 
+	test_models.SerializeStage(stack.Stage, "foo.xlsx")
+
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
 	if err != nil {
