@@ -1205,8 +1205,6 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 	for _, formDiv := range layerFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
-		case "Display":
-			FormDivBasicFieldToField(&(layer_.Display), formDiv)
 		case "Name":
 			FormDivBasicFieldToField(&(layer_.Name), formDiv)
 		case "Rects":
@@ -1832,31 +1830,6 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(link_.HasStartArrow), formDiv)
 		case "StartArrowSize":
 			FormDivBasicFieldToField(&(link_.StartArrowSize), formDiv)
-		case "TextAtArrowEnd":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredText](linkFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.LinkAnchoredText, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.LinkAnchoredText)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					linkFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
-			}
-			link_.TextAtArrowEnd = instanceSlice
-
 		case "TextAtArrowStart":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredText](linkFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.LinkAnchoredText, 0)
@@ -1881,6 +1854,31 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 				instanceSlice = append(instanceSlice, map_id_instances[id])
 			}
 			link_.TextAtArrowStart = instanceSlice
+
+		case "TextAtArrowEnd":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredText](linkFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.LinkAnchoredText, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.LinkAnchoredText)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					linkFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			link_.TextAtArrowEnd = instanceSlice
 
 		case "ControlPoints":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Point](linkFormCallback.probe.stageOfInterest)
@@ -2081,6 +2079,8 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(linkanchoredtext_.FontWeight), formDiv)
 		case "FontSize":
 			FormDivBasicFieldToField(&(linkanchoredtext_.FontSize), formDiv)
+		case "FontStyle":
+			FormDivBasicFieldToField(&(linkanchoredtext_.FontStyle), formDiv)
 		case "LetterSpacing":
 			FormDivBasicFieldToField(&(linkanchoredtext_.LetterSpacing), formDiv)
 		case "Color":
@@ -2124,73 +2124,6 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			}
 			linkanchoredtext_.Animates = instanceSlice
 
-		case "Link:TextAtArrowEnd":
-			// WARNING : this form deals with the N-N association "Link.TextAtArrowEnd []*LinkAnchoredText" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of LinkAnchoredText). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.Link
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "Link"
-				rf.Fieldname = "TextAtArrowEnd"
-				formerAssociationSource := models.GetReverseFieldOwner(
-					linkanchoredtextFormCallback.probe.stageOfInterest,
-					linkanchoredtext_,
-					&rf)
-
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.Link)
-					if !ok {
-						log.Fatalln("Source of Link.TextAtArrowEnd []*LinkAnchoredText, is not an Link instance")
-					}
-				}
-			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.TextAtArrowEnd, linkanchoredtext_)
-					formerSource.TextAtArrowEnd = slices.Delete(formerSource.TextAtArrowEnd, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.Link
-			for _link := range *models.GetGongstructInstancesSet[models.Link](linkanchoredtextFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _link.GetName() == newSourceName.GetName() {
-					newSource = _link // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of Link.TextAtArrowEnd []*LinkAnchoredText, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.TextAtArrowEnd = append(newSource.TextAtArrowEnd, linkanchoredtext_)
 		case "Link:TextAtArrowStart":
 			// WARNING : this form deals with the N-N association "Link.TextAtArrowStart []*LinkAnchoredText" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -2258,6 +2191,73 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 
 			// (3) append the new value to the new source field
 			newSource.TextAtArrowStart = append(newSource.TextAtArrowStart, linkanchoredtext_)
+		case "Link:TextAtArrowEnd":
+			// WARNING : this form deals with the N-N association "Link.TextAtArrowEnd []*LinkAnchoredText" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of LinkAnchoredText). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Link
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Link"
+				rf.Fieldname = "TextAtArrowEnd"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					linkanchoredtextFormCallback.probe.stageOfInterest,
+					linkanchoredtext_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Link)
+					if !ok {
+						log.Fatalln("Source of Link.TextAtArrowEnd []*LinkAnchoredText, is not an Link instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.TextAtArrowEnd, linkanchoredtext_)
+					formerSource.TextAtArrowEnd = slices.Delete(formerSource.TextAtArrowEnd, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Link
+			for _link := range *models.GetGongstructInstancesSet[models.Link](linkanchoredtextFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _link.GetName() == newSourceName.GetName() {
+					newSource = _link // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Link.TextAtArrowEnd []*LinkAnchoredText, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.TextAtArrowEnd = append(newSource.TextAtArrowEnd, linkanchoredtext_)
 		}
 	}
 
@@ -3700,6 +3700,8 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rectanchoredtext_.FontSize), formDiv)
 		case "FontStyle":
 			FormDivBasicFieldToField(&(rectanchoredtext_.FontStyle), formDiv)
+		case "LetterSpacing":
+			FormDivBasicFieldToField(&(rectanchoredtext_.LetterSpacing), formDiv)
 		case "X_Offset":
 			FormDivBasicFieldToField(&(rectanchoredtext_.X_Offset), formDiv)
 		case "Y_Offset":
@@ -4092,8 +4094,12 @@ func (svgFormCallback *SVGFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(svg_.EndRect), svgFormCallback.probe.stageOfInterest, formDiv)
 		case "IsEditable":
 			FormDivBasicFieldToField(&(svg_.IsEditable), formDiv)
-		case "IsSVGFileGenerated":
-			FormDivBasicFieldToField(&(svg_.IsSVGFileGenerated), formDiv)
+		case "IsSVGFrontEndFileGenerated":
+			FormDivBasicFieldToField(&(svg_.IsSVGFrontEndFileGenerated), formDiv)
+		case "IsSVGBackEndFileGenerated":
+			FormDivBasicFieldToField(&(svg_.IsSVGBackEndFileGenerated), formDiv)
+		case "DefaultDirectoryForGeneratedImages":
+			FormDivBasicFieldToField(&(svg_.DefaultDirectoryForGeneratedImages), formDiv)
 		}
 	}
 
@@ -4272,6 +4278,14 @@ func (textFormCallback *TextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(text_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(text_.Transform), formDiv)
+		case "FontWeight":
+			FormDivBasicFieldToField(&(text_.FontWeight), formDiv)
+		case "FontSize":
+			FormDivBasicFieldToField(&(text_.FontSize), formDiv)
+		case "FontStyle":
+			FormDivBasicFieldToField(&(text_.FontStyle), formDiv)
+		case "LetterSpacing":
+			FormDivBasicFieldToField(&(text_.LetterSpacing), formDiv)
 		case "Animates":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](textFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
