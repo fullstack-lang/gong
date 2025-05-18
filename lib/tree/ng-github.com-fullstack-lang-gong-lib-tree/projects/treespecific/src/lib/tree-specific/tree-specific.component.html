@@ -69,7 +69,12 @@
                              [disabled]="node.gongNode.IsSecondCheckboxDisabled" 
                              [checked]="node.gongNode.IsSecondCheckboxChecked" 
                              (change)="toggleNodeSecondCheckbox(node)"
-                             (click)="$event.stopPropagation()">
+                             (click)="$event.stopPropagation()"
+                             
+                                                          
+                             [matTooltip]="node.SecondCheckboxToolTipText"
+                             [matTooltipPosition]="node.SecondCheckboxToolTipPosition"
+                             [matTooltipDisabled]="!node.SecondCheckboxHasToolTip">
                 </mat-checkbox>
             }
             

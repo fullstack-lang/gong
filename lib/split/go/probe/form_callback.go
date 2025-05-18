@@ -11,12 +11,9 @@ import (
 	"github.com/fullstack-lang/gong/lib/split/go/models"
 )
 
-// to avoid errors when time and slices packages are not used in the generated code
-const _ = time.Nanosecond
+const __dummmy__time = time.Nanosecond
 
-var _ = slices.Delete([]string{"a"}, 0, 1)
-
-var _ = log.Panicf
+var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
 func __gong__New__AsSplitFormCallback(
@@ -205,42 +202,63 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 		case "DivStyle":
 			FormDivBasicFieldToField(&(assplitarea_.DivStyle), formDiv)
 		case "AsSplit:AsSplitAreas":
-			// we need to retrieve the field owner before the change
-			var pastAsSplitOwner *models.AsSplit
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "AsSplit"
-			rf.Fieldname = "AsSplitAreas"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				assplitareaFormCallback.probe.stageOfInterest,
-				assplitarea_,
-				&rf)
+			// WARNING : this form deals with the N-N association "AsSplit.AsSplitAreas []*AsSplitArea" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of AsSplitArea). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.AsSplit
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "AsSplit"
+				rf.Fieldname = "AsSplitAreas"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					assplitareaFormCallback.probe.stageOfInterest,
+					assplitarea_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastAsSplitOwner = reverseFieldOwner.(*models.AsSplit)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastAsSplitOwner != nil {
-					idx := slices.Index(pastAsSplitOwner.AsSplitAreas, assplitarea_)
-					pastAsSplitOwner.AsSplitAreas = slices.Delete(pastAsSplitOwner.AsSplitAreas, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.AsSplit)
+					if !ok {
+						log.Fatalln("Source of AsSplit.AsSplitAreas []*AsSplitArea, is not an AsSplit instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastAsSplitOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _assplit := range *models.GetGongstructInstancesSet[models.AsSplit](assplitareaFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.AsSplitAreas, assplitarea_)
+					formerSource.AsSplitAreas = slices.Delete(formerSource.AsSplitAreas, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.AsSplit
+			for _assplit := range *models.GetGongstructInstancesSet[models.AsSplit](assplitareaFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _assplit.GetName() == fieldValue.GetName() {
 							newAsSplitOwner := _assplit // we have a match
-
+							
 							// we remove the assplitarea_ instance from the pastAsSplitOwner field
 							if pastAsSplitOwner != nil {
 								if newAsSplitOwner != pastAsSplitOwner {
@@ -256,42 +274,63 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 				}
 			}
 		case "View:RootAsSplitAreas":
-			// we need to retrieve the field owner before the change
-			var pastViewOwner *models.View
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "View"
-			rf.Fieldname = "RootAsSplitAreas"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				assplitareaFormCallback.probe.stageOfInterest,
-				assplitarea_,
-				&rf)
+			// WARNING : this form deals with the N-N association "View.RootAsSplitAreas []*AsSplitArea" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of AsSplitArea). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.View
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "View"
+				rf.Fieldname = "RootAsSplitAreas"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					assplitareaFormCallback.probe.stageOfInterest,
+					assplitarea_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastViewOwner = reverseFieldOwner.(*models.View)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastViewOwner != nil {
-					idx := slices.Index(pastViewOwner.RootAsSplitAreas, assplitarea_)
-					pastViewOwner.RootAsSplitAreas = slices.Delete(pastViewOwner.RootAsSplitAreas, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.View)
+					if !ok {
+						log.Fatalln("Source of View.RootAsSplitAreas []*AsSplitArea, is not an View instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastViewOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _view := range *models.GetGongstructInstancesSet[models.View](assplitareaFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.RootAsSplitAreas, assplitarea_)
+					formerSource.RootAsSplitAreas = slices.Delete(formerSource.RootAsSplitAreas, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.View
+			for _view := range *models.GetGongstructInstancesSet[models.View](assplitareaFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _view.GetName() == fieldValue.GetName() {
 							newViewOwner := _view // we have a match
-
+							
 							// we remove the assplitarea_ instance from the pastViewOwner field
 							if pastViewOwner != nil {
 								if newViewOwner != pastViewOwner {

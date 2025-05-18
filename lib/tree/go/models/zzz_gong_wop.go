@@ -6,8 +6,6 @@ import "time"
 // to avoid compile error if no time field is present
 var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 
-var _ = __GONG_time_The_fool_doth_think_he_is_wise__
-
 // insertion point
 type Button_WOP struct {
 	// insertion point
@@ -65,8 +63,7 @@ type Node_WOP struct {
 	IsSecondCheckboxDisabled bool
 
 	TextAfterSecondCheckbox string
-
-	IsInEditMode bool
+	IsInEditMode            bool
 
 	IsNodeClickable bool
 
@@ -91,6 +88,9 @@ func (from *Node) CopyBasicFields(to *Node) {
 	to.IsSecondCheckboxChecked = from.IsSecondCheckboxChecked
 	to.IsSecondCheckboxDisabled = from.IsSecondCheckboxDisabled
 	to.TextAfterSecondCheckbox = from.TextAfterSecondCheckbox
+	to.SecondCheckboxHasToolTip = from.SecondCheckboxHasToolTip
+	to.SecondCheckboxToolTipText = from.SecondCheckboxToolTipText
+	to.SecondCheckboxToolTipPosition = from.SecondCheckboxToolTipPosition
 	to.IsInEditMode = from.IsInEditMode
 	to.IsNodeClickable = from.IsNodeClickable
 	to.IsWithPreceedingIcon = from.IsWithPreceedingIcon
@@ -121,4 +121,3 @@ func (from *Tree) CopyBasicFields(to *Tree) {
 	// insertion point
 	to.Name = from.Name
 }
-

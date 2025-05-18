@@ -11,12 +11,9 @@ import (
 	"github.com/fullstack-lang/gong/lib/xlsx/go/models"
 )
 
-// to avoid errors when time and slices packages are not used in the generated code
-const _ = time.Nanosecond
+const __dummmy__time = time.Nanosecond
 
-var _ = slices.Delete([]string{"a"}, 0, 1)
-
-var _ = log.Panicf
+var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
 func __gong__New__DisplaySelectionFormCallback(
@@ -150,42 +147,63 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 		case "Y":
 			FormDivBasicFieldToField(&(xlcell_.Y), formDiv)
 		case "XLRow:Cells":
-			// we need to retrieve the field owner before the change
-			var pastXLRowOwner *models.XLRow
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "XLRow"
-			rf.Fieldname = "Cells"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				xlcellFormCallback.probe.stageOfInterest,
-				xlcell_,
-				&rf)
+			// WARNING : this form deals with the N-N association "XLRow.Cells []*XLCell" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of XLCell). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.XLRow
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "XLRow"
+				rf.Fieldname = "Cells"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					xlcellFormCallback.probe.stageOfInterest,
+					xlcell_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastXLRowOwner = reverseFieldOwner.(*models.XLRow)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastXLRowOwner != nil {
-					idx := slices.Index(pastXLRowOwner.Cells, xlcell_)
-					pastXLRowOwner.Cells = slices.Delete(pastXLRowOwner.Cells, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.XLRow)
+					if !ok {
+						log.Fatalln("Source of XLRow.Cells []*XLCell, is not an XLRow instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastXLRowOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _xlrow := range *models.GetGongstructInstancesSet[models.XLRow](xlcellFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Cells, xlcell_)
+					formerSource.Cells = slices.Delete(formerSource.Cells, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.XLRow
+			for _xlrow := range *models.GetGongstructInstancesSet[models.XLRow](xlcellFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _xlrow.GetName() == fieldValue.GetName() {
 							newXLRowOwner := _xlrow // we have a match
-
+							
 							// we remove the xlcell_ instance from the pastXLRowOwner field
 							if pastXLRowOwner != nil {
 								if newXLRowOwner != pastXLRowOwner {
@@ -201,42 +219,63 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 				}
 			}
 		case "XLSheet:SheetCells":
-			// we need to retrieve the field owner before the change
-			var pastXLSheetOwner *models.XLSheet
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "XLSheet"
-			rf.Fieldname = "SheetCells"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				xlcellFormCallback.probe.stageOfInterest,
-				xlcell_,
-				&rf)
+			// WARNING : this form deals with the N-N association "XLSheet.SheetCells []*XLCell" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of XLCell). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.XLSheet
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "XLSheet"
+				rf.Fieldname = "SheetCells"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					xlcellFormCallback.probe.stageOfInterest,
+					xlcell_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastXLSheetOwner = reverseFieldOwner.(*models.XLSheet)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastXLSheetOwner != nil {
-					idx := slices.Index(pastXLSheetOwner.SheetCells, xlcell_)
-					pastXLSheetOwner.SheetCells = slices.Delete(pastXLSheetOwner.SheetCells, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.XLSheet)
+					if !ok {
+						log.Fatalln("Source of XLSheet.SheetCells []*XLCell, is not an XLSheet instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastXLSheetOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _xlsheet := range *models.GetGongstructInstancesSet[models.XLSheet](xlcellFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.SheetCells, xlcell_)
+					formerSource.SheetCells = slices.Delete(formerSource.SheetCells, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.XLSheet
+			for _xlsheet := range *models.GetGongstructInstancesSet[models.XLSheet](xlcellFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _xlsheet.GetName() == fieldValue.GetName() {
 							newXLSheetOwner := _xlsheet // we have a match
-
+							
 							// we remove the xlcell_ instance from the pastXLSheetOwner field
 							if pastXLSheetOwner != nil {
 								if newXLSheetOwner != pastXLSheetOwner {
@@ -460,42 +499,63 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 			xlrow_.Cells = instanceSlice
 
 		case "XLSheet:Rows":
-			// we need to retrieve the field owner before the change
-			var pastXLSheetOwner *models.XLSheet
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "XLSheet"
-			rf.Fieldname = "Rows"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				xlrowFormCallback.probe.stageOfInterest,
-				xlrow_,
-				&rf)
+			// WARNING : this form deals with the N-N association "XLSheet.Rows []*XLRow" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of XLRow). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.XLSheet
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "XLSheet"
+				rf.Fieldname = "Rows"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					xlrowFormCallback.probe.stageOfInterest,
+					xlrow_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastXLSheetOwner = reverseFieldOwner.(*models.XLSheet)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastXLSheetOwner != nil {
-					idx := slices.Index(pastXLSheetOwner.Rows, xlrow_)
-					pastXLSheetOwner.Rows = slices.Delete(pastXLSheetOwner.Rows, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.XLSheet)
+					if !ok {
+						log.Fatalln("Source of XLSheet.Rows []*XLRow, is not an XLSheet instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastXLSheetOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _xlsheet := range *models.GetGongstructInstancesSet[models.XLSheet](xlrowFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Rows, xlrow_)
+					formerSource.Rows = slices.Delete(formerSource.Rows, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.XLSheet
+			for _xlsheet := range *models.GetGongstructInstancesSet[models.XLSheet](xlrowFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _xlsheet.GetName() == fieldValue.GetName() {
 							newXLSheetOwner := _xlsheet // we have a match
-
+							
 							// we remove the xlrow_ instance from the pastXLSheetOwner field
 							if pastXLSheetOwner != nil {
 								if newXLSheetOwner != pastXLSheetOwner {
@@ -644,42 +704,63 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 			xlsheet_.SheetCells = instanceSlice
 
 		case "XLFile:Sheets":
-			// we need to retrieve the field owner before the change
-			var pastXLFileOwner *models.XLFile
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "XLFile"
-			rf.Fieldname = "Sheets"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				xlsheetFormCallback.probe.stageOfInterest,
-				xlsheet_,
-				&rf)
+			// WARNING : this form deals with the N-N association "XLFile.Sheets []*XLSheet" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of XLSheet). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.XLFile
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "XLFile"
+				rf.Fieldname = "Sheets"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					xlsheetFormCallback.probe.stageOfInterest,
+					xlsheet_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastXLFileOwner = reverseFieldOwner.(*models.XLFile)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastXLFileOwner != nil {
-					idx := slices.Index(pastXLFileOwner.Sheets, xlsheet_)
-					pastXLFileOwner.Sheets = slices.Delete(pastXLFileOwner.Sheets, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.XLFile)
+					if !ok {
+						log.Fatalln("Source of XLFile.Sheets []*XLSheet, is not an XLFile instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastXLFileOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _xlfile := range *models.GetGongstructInstancesSet[models.XLFile](xlsheetFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Sheets, xlsheet_)
+					formerSource.Sheets = slices.Delete(formerSource.Sheets, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.XLFile
+			for _xlfile := range *models.GetGongstructInstancesSet[models.XLFile](xlsheetFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _xlfile.GetName() == fieldValue.GetName() {
 							newXLFileOwner := _xlfile // we have a match
-
+							
 							// we remove the xlsheet_ instance from the pastXLFileOwner field
 							if pastXLFileOwner != nil {
 								if newXLFileOwner != pastXLFileOwner {

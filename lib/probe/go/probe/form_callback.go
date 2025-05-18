@@ -2,7 +2,6 @@
 package probe
 
 import (
-	"log"
 	"slices"
 	"time"
 
@@ -11,12 +10,9 @@ import (
 	"github.com/fullstack-lang/gong/lib/probe/go/models"
 )
 
-// to avoid errors when time and slices packages are not used in the generated code
-const _ = time.Nanosecond
+const __dummmy__time = time.Nanosecond
 
-var _ = slices.Delete([]string{"a"}, 0, 1)
-
-var _ = log.Panicf
+var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
 func __gong__New__Probe2FormCallback(

@@ -90,10 +90,6 @@ type LayerDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field layerDB.Display
-	// provide the sql storage for the boolan
-	Display_Data sql.NullBool
-
 	// Declation for basic field layerDB.Name
 	Name_Data sql.NullString
 
@@ -119,16 +115,13 @@ type LayerWOP struct {
 
 	// insertion for WOP basic fields
 
-	Display bool `xlsx:"1"`
-
-	Name string `xlsx:"2"`
+	Name string `xlsx:"1"`
 	// insertion for WOP pointer fields
 }
 
 var Layer_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
-	"Display",
 	"Name",
 }
 
@@ -677,9 +670,6 @@ func (backRepo *BackRepoStruct) CheckoutLayer(layer *models.Layer) {
 func (layerDB *LayerDB) CopyBasicFieldsFromLayer(layer *models.Layer) {
 	// insertion point for fields commit
 
-	layerDB.Display_Data.Bool = layer.Display
-	layerDB.Display_Data.Valid = true
-
 	layerDB.Name_Data.String = layer.Name
 	layerDB.Name_Data.Valid = true
 }
@@ -687,9 +677,6 @@ func (layerDB *LayerDB) CopyBasicFieldsFromLayer(layer *models.Layer) {
 // CopyBasicFieldsFromLayer_WOP
 func (layerDB *LayerDB) CopyBasicFieldsFromLayer_WOP(layer *models.Layer_WOP) {
 	// insertion point for fields commit
-
-	layerDB.Display_Data.Bool = layer.Display
-	layerDB.Display_Data.Valid = true
 
 	layerDB.Name_Data.String = layer.Name
 	layerDB.Name_Data.Valid = true
@@ -699,9 +686,6 @@ func (layerDB *LayerDB) CopyBasicFieldsFromLayer_WOP(layer *models.Layer_WOP) {
 func (layerDB *LayerDB) CopyBasicFieldsFromLayerWOP(layer *LayerWOP) {
 	// insertion point for fields commit
 
-	layerDB.Display_Data.Bool = layer.Display
-	layerDB.Display_Data.Valid = true
-
 	layerDB.Name_Data.String = layer.Name
 	layerDB.Name_Data.Valid = true
 }
@@ -709,14 +693,12 @@ func (layerDB *LayerDB) CopyBasicFieldsFromLayerWOP(layer *LayerWOP) {
 // CopyBasicFieldsToLayer
 func (layerDB *LayerDB) CopyBasicFieldsToLayer(layer *models.Layer) {
 	// insertion point for checkout of basic fields (back repo to stage)
-	layer.Display = layerDB.Display_Data.Bool
 	layer.Name = layerDB.Name_Data.String
 }
 
 // CopyBasicFieldsToLayer_WOP
 func (layerDB *LayerDB) CopyBasicFieldsToLayer_WOP(layer *models.Layer_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
-	layer.Display = layerDB.Display_Data.Bool
 	layer.Name = layerDB.Name_Data.String
 }
 
@@ -724,7 +706,6 @@ func (layerDB *LayerDB) CopyBasicFieldsToLayer_WOP(layer *models.Layer_WOP) {
 func (layerDB *LayerDB) CopyBasicFieldsToLayerWOP(layer *LayerWOP) {
 	layer.ID = int(layerDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
-	layer.Display = layerDB.Display_Data.Bool
 	layer.Name = layerDB.Name_Data.String
 }
 

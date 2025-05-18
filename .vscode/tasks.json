@@ -532,6 +532,19 @@
       ]
     },
     {
+      "label": "03 - ng build svg ",
+      "type": "shell",
+      "options": {
+        "cwd": "lib/svg/ng-github.com-fullstack-lang-gong-lib-svg"
+      },
+      "command": "ng",
+      "group": "build",
+      "args": [
+        "build",
+        ""
+      ]
+    },
+    {
       "label": "03 - ng serve table ",
       "type": "shell",
       "options": {
@@ -768,7 +781,22 @@
         "run",
         ".",
         "-unmarshallFromCode=data/rectangle.go",
-        "-marshallOnCommit=data/rectangle_out"
+        "-marshallOnCommit=data/rectangle.go"
+      ],
+      "group": "build"
+    },
+        {
+      "label": "04 - go run svg on simple",
+      "type": "shell",
+      "options": {
+        "cwd": "./lib/svg/go/cmd/svg"
+      },
+      "command": "go",
+      "args": [
+        "run",
+        ".",
+        "-unmarshallFromCode=data/simple.go",
+        "-marshallOnCommit=data/simple.go"
       ],
       "group": "build"
     },

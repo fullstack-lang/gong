@@ -1109,7 +1109,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Button:
 		res = []string{"Name", "Icon", "SVGIcon", "IsDisabled", "HasToolTip", "ToolTipText", "ToolTipPosition"}
 	case Node:
-		res = []string{"Name", "FontStyle", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "CheckboxHasToolTip", "CheckboxToolTipText", "CheckboxToolTipPosition", "HasSecondCheckboxButton", "IsSecondCheckboxChecked", "IsSecondCheckboxDisabled", "TextAfterSecondCheckbox", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "PreceedingSVGIcon", "Children", "Buttons"}
+		res = []string{"Name", "FontStyle", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "CheckboxHasToolTip", "CheckboxToolTipText", "CheckboxToolTipPosition", "HasSecondCheckboxButton", "IsSecondCheckboxChecked", "IsSecondCheckboxDisabled", "TextAfterSecondCheckbox", "SecondCheckboxHasToolTip", "SecondCheckboxToolTipText", "SecondCheckboxToolTipPosition", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "PreceedingSVGIcon", "Children", "Buttons"}
 	case SVGIcon:
 		res = []string{"Name", "SVG"}
 	case Tree:
@@ -1167,7 +1167,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Button:
 		res = []string{"Name", "Icon", "SVGIcon", "IsDisabled", "HasToolTip", "ToolTipText", "ToolTipPosition"}
 	case *Node:
-		res = []string{"Name", "FontStyle", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "CheckboxHasToolTip", "CheckboxToolTipText", "CheckboxToolTipPosition", "HasSecondCheckboxButton", "IsSecondCheckboxChecked", "IsSecondCheckboxDisabled", "TextAfterSecondCheckbox", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "PreceedingSVGIcon", "Children", "Buttons"}
+		res = []string{"Name", "FontStyle", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "CheckboxHasToolTip", "CheckboxToolTipText", "CheckboxToolTipPosition", "HasSecondCheckboxButton", "IsSecondCheckboxChecked", "IsSecondCheckboxDisabled", "TextAfterSecondCheckbox", "SecondCheckboxHasToolTip", "SecondCheckboxToolTipText", "SecondCheckboxToolTipPosition", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "PreceedingSVGIcon", "Children", "Buttons"}
 	case *SVGIcon:
 		res = []string{"Name", "SVG"}
 	case *Tree:
@@ -1287,6 +1287,15 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "TextAfterSecondCheckbox":
 			res.valueString = inferedInstance.TextAfterSecondCheckbox
+		case "SecondCheckboxHasToolTip":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.SecondCheckboxHasToolTip)
+			res.valueBool = inferedInstance.SecondCheckboxHasToolTip
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "SecondCheckboxToolTipText":
+			res.valueString = inferedInstance.SecondCheckboxToolTipText
+		case "SecondCheckboxToolTipPosition":
+			enum := inferedInstance.SecondCheckboxToolTipPosition
+			res.valueString = enum.ToCodeString()
 		case "IsInEditMode":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInEditMode)
 			res.valueBool = inferedInstance.IsInEditMode
@@ -1425,6 +1434,15 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "TextAfterSecondCheckbox":
 			res.valueString = inferedInstance.TextAfterSecondCheckbox
+		case "SecondCheckboxHasToolTip":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.SecondCheckboxHasToolTip)
+			res.valueBool = inferedInstance.SecondCheckboxHasToolTip
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "SecondCheckboxToolTipText":
+			res.valueString = inferedInstance.SecondCheckboxToolTipText
+		case "SecondCheckboxToolTipPosition":
+			enum := inferedInstance.SecondCheckboxToolTipPosition
+			res.valueString = enum.ToCodeString()
 		case "IsInEditMode":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInEditMode)
 			res.valueBool = inferedInstance.IsInEditMode

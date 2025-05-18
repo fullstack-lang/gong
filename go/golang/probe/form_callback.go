@@ -27,12 +27,29 @@ import (
 	"{{PkgPathRoot}}/models"
 )
 
+<<<<<<< HEAD
 // to avoid errors when time and slices packages are not used in the generated code
 const _ = time.Nanosecond
 
 var _ = slices.Delete([]string{"a"}, 0, 1)
 
 var _ = log.Panicf
+=======
+// code to avoid error when generated code does not need to import packages
+const __dummmy__time = time.Nanosecond
+
+var _ = __dummmy__time
+
+var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+>>>>>>> origin/main
+
+var _ = __dummmy__letters
+
+const __dummy__log = log.Ldate
+
+var _ = __dummy__log
+
+// end of code to avoid error when generated code does not need to import packages
 
 // insertion point{{` + string(rune(FillUpTreeStructCase)) + `}}
 `
@@ -178,17 +195,28 @@ map[FormCallbackSubTemplateId]string{
 `,
 	FormCallbackSubTmplSliceOfPointersReversePointer: `
 		case "{{AssocStructName}}:{{FieldName}}":
-			// we need to retrieve the field owner before the change
-			var past{{AssocStructName}}Owner *models.{{AssocStructName}}
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "{{AssocStructName}}"
-			rf.Fieldname = "{{FieldName}}"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				{{structname}}FormCallback.probe.stageOfInterest,
-				{{structname}}_,
-				&rf)
+			// WARNING : this form deals with the N-N association "{{AssocStructName}}.{{FieldName}} []*{{Structname}}" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of {{Structname}}). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.{{AssocStructName}}
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "{{AssocStructName}}"
+				rf.Fieldname = "{{FieldName}}"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					{{structname}}FormCallback.probe.stageOfInterest,
+					{{structname}}_,
+					&rf)
 
+<<<<<<< HEAD
 			if reverseFieldOwner != nil {
 				past{{AssocStructName}}Owner = reverseFieldOwner.(*models.{{AssocStructName}})
 			}
@@ -225,9 +253,53 @@ map[FormCallbackSubTemplateId]string{
 								new{{AssocStructName}}Owner.{{FieldName}} = append(new{{AssocStructName}}Owner.{{FieldName}}, {{structname}}_)
 							}
 						}
+=======
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.{{AssocStructName}})
+					if !ok {
+						log.Fatalln("Source of {{AssocStructName}}.{{FieldName}} []*{{Structname}}, is not an {{AssocStructName}} instance")
+>>>>>>> origin/main
 					}
 				}
-			}`,
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.{{FieldName}}, {{structname}}_)
+					formerSource.{{FieldName}} = slices.Delete(formerSource.{{FieldName}}, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.{{AssocStructName}}
+			for _{{assocStructName}} := range *models.GetGongstructInstancesSet[models.{{AssocStructName}}]({{structname}}FormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _{{assocStructName}}.GetName() == newSourceName.GetName() {
+					newSource = _{{assocStructName}} // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of {{AssocStructName}}.{{FieldName}} []*{{Structname}}, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// append the value to the new source field
+			newSource.{{FieldName}} = append(newSource.{{FieldName}}, {{structname}}_)`,
 }
 
 func CodeGeneratorModelFormCallback(

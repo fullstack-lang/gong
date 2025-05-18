@@ -345,14 +345,25 @@
             ],
         },
         {
-            "name": "go run svg -unmarshallFromCode=rectangle.go -marshallOnCommit=rectangle_out",
+            "name": "go run svg -unmarshallFromCode=rectangle.go -marshallOnCommit=rectangle.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
             "args": [
                 "-unmarshallFromCode=data/rectangle.go",
-                "-marshallOnCommit=data/rectangle_out"
+                "-marshallOnCommit=data/rectangle.go"
+            ],
+        },
+                {
+            "name": "go run svg -unmarshallFromCode=simple.go -marshallOnCommit=simple.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
+            "args": [
+                "-unmarshallFromCode=data/simple.go",
+                "-marshallOnCommit=data/simple.go"
             ],
         },
         {

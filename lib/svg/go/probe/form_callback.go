@@ -11,12 +11,9 @@ import (
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
-// to avoid errors when time and slices packages are not used in the generated code
-const _ = time.Nanosecond
+const __dummmy__time = time.Nanosecond
 
-var _ = slices.Delete([]string{"a"}, 0, 1)
-
-var _ = log.Panicf
+var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
 func __gong__New__AnimateFormCallback(
@@ -77,42 +74,63 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 		case "RepeatCount":
 			FormDivBasicFieldToField(&(animate_.RepeatCount), formDiv)
 		case "Circle:Animations":
-			// we need to retrieve the field owner before the change
-			var pastCircleOwner *models.Circle
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Circle"
-			rf.Fieldname = "Animations"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				animateFormCallback.probe.stageOfInterest,
-				animate_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Circle.Animations []*Animate" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Animate). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Circle
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Circle"
+				rf.Fieldname = "Animations"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					animateFormCallback.probe.stageOfInterest,
+					animate_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastCircleOwner = reverseFieldOwner.(*models.Circle)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastCircleOwner != nil {
-					idx := slices.Index(pastCircleOwner.Animations, animate_)
-					pastCircleOwner.Animations = slices.Delete(pastCircleOwner.Animations, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Circle)
+					if !ok {
+						log.Fatalln("Source of Circle.Animations []*Animate, is not an Circle instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastCircleOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _circle := range *models.GetGongstructInstancesSet[models.Circle](animateFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animations, animate_)
+					formerSource.Animations = slices.Delete(formerSource.Animations, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Circle
+			for _circle := range *models.GetGongstructInstancesSet[models.Circle](animateFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _circle.GetName() == fieldValue.GetName() {
 							newCircleOwner := _circle // we have a match
-
+							
 							// we remove the animate_ instance from the pastCircleOwner field
 							if pastCircleOwner != nil {
 								if newCircleOwner != pastCircleOwner {
@@ -128,42 +146,63 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				}
 			}
 		case "Ellipse:Animates":
-			// we need to retrieve the field owner before the change
-			var pastEllipseOwner *models.Ellipse
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Ellipse"
-			rf.Fieldname = "Animates"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				animateFormCallback.probe.stageOfInterest,
-				animate_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Ellipse.Animates []*Animate" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Animate). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Ellipse
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Ellipse"
+				rf.Fieldname = "Animates"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					animateFormCallback.probe.stageOfInterest,
+					animate_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastEllipseOwner = reverseFieldOwner.(*models.Ellipse)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastEllipseOwner != nil {
-					idx := slices.Index(pastEllipseOwner.Animates, animate_)
-					pastEllipseOwner.Animates = slices.Delete(pastEllipseOwner.Animates, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Ellipse)
+					if !ok {
+						log.Fatalln("Source of Ellipse.Animates []*Animate, is not an Ellipse instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastEllipseOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _ellipse := range *models.GetGongstructInstancesSet[models.Ellipse](animateFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animates, animate_)
+					formerSource.Animates = slices.Delete(formerSource.Animates, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Ellipse
+			for _ellipse := range *models.GetGongstructInstancesSet[models.Ellipse](animateFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _ellipse.GetName() == fieldValue.GetName() {
 							newEllipseOwner := _ellipse // we have a match
-
+							
 							// we remove the animate_ instance from the pastEllipseOwner field
 							if pastEllipseOwner != nil {
 								if newEllipseOwner != pastEllipseOwner {
@@ -179,42 +218,63 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				}
 			}
 		case "Line:Animates":
-			// we need to retrieve the field owner before the change
-			var pastLineOwner *models.Line
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Line"
-			rf.Fieldname = "Animates"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				animateFormCallback.probe.stageOfInterest,
-				animate_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Line.Animates []*Animate" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Animate). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Line
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Line"
+				rf.Fieldname = "Animates"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					animateFormCallback.probe.stageOfInterest,
+					animate_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastLineOwner = reverseFieldOwner.(*models.Line)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastLineOwner != nil {
-					idx := slices.Index(pastLineOwner.Animates, animate_)
-					pastLineOwner.Animates = slices.Delete(pastLineOwner.Animates, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Line)
+					if !ok {
+						log.Fatalln("Source of Line.Animates []*Animate, is not an Line instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastLineOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _line := range *models.GetGongstructInstancesSet[models.Line](animateFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animates, animate_)
+					formerSource.Animates = slices.Delete(formerSource.Animates, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Line
+			for _line := range *models.GetGongstructInstancesSet[models.Line](animateFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _line.GetName() == fieldValue.GetName() {
 							newLineOwner := _line // we have a match
-
+							
 							// we remove the animate_ instance from the pastLineOwner field
 							if pastLineOwner != nil {
 								if newLineOwner != pastLineOwner {
@@ -230,42 +290,63 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				}
 			}
 		case "LinkAnchoredText:Animates":
-			// we need to retrieve the field owner before the change
-			var pastLinkAnchoredTextOwner *models.LinkAnchoredText
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "LinkAnchoredText"
-			rf.Fieldname = "Animates"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				animateFormCallback.probe.stageOfInterest,
-				animate_,
-				&rf)
+			// WARNING : this form deals with the N-N association "LinkAnchoredText.Animates []*Animate" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Animate). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.LinkAnchoredText
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "LinkAnchoredText"
+				rf.Fieldname = "Animates"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					animateFormCallback.probe.stageOfInterest,
+					animate_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastLinkAnchoredTextOwner = reverseFieldOwner.(*models.LinkAnchoredText)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastLinkAnchoredTextOwner != nil {
-					idx := slices.Index(pastLinkAnchoredTextOwner.Animates, animate_)
-					pastLinkAnchoredTextOwner.Animates = slices.Delete(pastLinkAnchoredTextOwner.Animates, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.LinkAnchoredText)
+					if !ok {
+						log.Fatalln("Source of LinkAnchoredText.Animates []*Animate, is not an LinkAnchoredText instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastLinkAnchoredTextOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _linkanchoredtext := range *models.GetGongstructInstancesSet[models.LinkAnchoredText](animateFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animates, animate_)
+					formerSource.Animates = slices.Delete(formerSource.Animates, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.LinkAnchoredText
+			for _linkanchoredtext := range *models.GetGongstructInstancesSet[models.LinkAnchoredText](animateFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _linkanchoredtext.GetName() == fieldValue.GetName() {
 							newLinkAnchoredTextOwner := _linkanchoredtext // we have a match
-
+							
 							// we remove the animate_ instance from the pastLinkAnchoredTextOwner field
 							if pastLinkAnchoredTextOwner != nil {
 								if newLinkAnchoredTextOwner != pastLinkAnchoredTextOwner {
@@ -281,42 +362,63 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				}
 			}
 		case "Path:Animates":
-			// we need to retrieve the field owner before the change
-			var pastPathOwner *models.Path
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Path"
-			rf.Fieldname = "Animates"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				animateFormCallback.probe.stageOfInterest,
-				animate_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Path.Animates []*Animate" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Animate). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Path
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Path"
+				rf.Fieldname = "Animates"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					animateFormCallback.probe.stageOfInterest,
+					animate_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastPathOwner = reverseFieldOwner.(*models.Path)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastPathOwner != nil {
-					idx := slices.Index(pastPathOwner.Animates, animate_)
-					pastPathOwner.Animates = slices.Delete(pastPathOwner.Animates, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Path)
+					if !ok {
+						log.Fatalln("Source of Path.Animates []*Animate, is not an Path instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastPathOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _path := range *models.GetGongstructInstancesSet[models.Path](animateFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animates, animate_)
+					formerSource.Animates = slices.Delete(formerSource.Animates, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Path
+			for _path := range *models.GetGongstructInstancesSet[models.Path](animateFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _path.GetName() == fieldValue.GetName() {
 							newPathOwner := _path // we have a match
-
+							
 							// we remove the animate_ instance from the pastPathOwner field
 							if pastPathOwner != nil {
 								if newPathOwner != pastPathOwner {
@@ -332,42 +434,63 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				}
 			}
 		case "Polygone:Animates":
-			// we need to retrieve the field owner before the change
-			var pastPolygoneOwner *models.Polygone
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Polygone"
-			rf.Fieldname = "Animates"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				animateFormCallback.probe.stageOfInterest,
-				animate_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Polygone.Animates []*Animate" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Animate). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Polygone
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Polygone"
+				rf.Fieldname = "Animates"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					animateFormCallback.probe.stageOfInterest,
+					animate_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastPolygoneOwner = reverseFieldOwner.(*models.Polygone)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastPolygoneOwner != nil {
-					idx := slices.Index(pastPolygoneOwner.Animates, animate_)
-					pastPolygoneOwner.Animates = slices.Delete(pastPolygoneOwner.Animates, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Polygone)
+					if !ok {
+						log.Fatalln("Source of Polygone.Animates []*Animate, is not an Polygone instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastPolygoneOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _polygone := range *models.GetGongstructInstancesSet[models.Polygone](animateFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animates, animate_)
+					formerSource.Animates = slices.Delete(formerSource.Animates, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Polygone
+			for _polygone := range *models.GetGongstructInstancesSet[models.Polygone](animateFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _polygone.GetName() == fieldValue.GetName() {
 							newPolygoneOwner := _polygone // we have a match
-
+							
 							// we remove the animate_ instance from the pastPolygoneOwner field
 							if pastPolygoneOwner != nil {
 								if newPolygoneOwner != pastPolygoneOwner {
@@ -383,42 +506,63 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				}
 			}
 		case "Polyline:Animates":
-			// we need to retrieve the field owner before the change
-			var pastPolylineOwner *models.Polyline
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Polyline"
-			rf.Fieldname = "Animates"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				animateFormCallback.probe.stageOfInterest,
-				animate_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Polyline.Animates []*Animate" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Animate). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Polyline
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Polyline"
+				rf.Fieldname = "Animates"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					animateFormCallback.probe.stageOfInterest,
+					animate_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastPolylineOwner = reverseFieldOwner.(*models.Polyline)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastPolylineOwner != nil {
-					idx := slices.Index(pastPolylineOwner.Animates, animate_)
-					pastPolylineOwner.Animates = slices.Delete(pastPolylineOwner.Animates, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Polyline)
+					if !ok {
+						log.Fatalln("Source of Polyline.Animates []*Animate, is not an Polyline instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastPolylineOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _polyline := range *models.GetGongstructInstancesSet[models.Polyline](animateFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animates, animate_)
+					formerSource.Animates = slices.Delete(formerSource.Animates, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Polyline
+			for _polyline := range *models.GetGongstructInstancesSet[models.Polyline](animateFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _polyline.GetName() == fieldValue.GetName() {
 							newPolylineOwner := _polyline // we have a match
-
+							
 							// we remove the animate_ instance from the pastPolylineOwner field
 							if pastPolylineOwner != nil {
 								if newPolylineOwner != pastPolylineOwner {
@@ -434,42 +578,63 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				}
 			}
 		case "Rect:Animations":
-			// we need to retrieve the field owner before the change
-			var pastRectOwner *models.Rect
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Rect"
-			rf.Fieldname = "Animations"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				animateFormCallback.probe.stageOfInterest,
-				animate_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Rect.Animations []*Animate" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Animate). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Rect
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Rect"
+				rf.Fieldname = "Animations"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					animateFormCallback.probe.stageOfInterest,
+					animate_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastRectOwner = reverseFieldOwner.(*models.Rect)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastRectOwner != nil {
-					idx := slices.Index(pastRectOwner.Animations, animate_)
-					pastRectOwner.Animations = slices.Delete(pastRectOwner.Animations, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Rect)
+					if !ok {
+						log.Fatalln("Source of Rect.Animations []*Animate, is not an Rect instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastRectOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _rect := range *models.GetGongstructInstancesSet[models.Rect](animateFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animations, animate_)
+					formerSource.Animations = slices.Delete(formerSource.Animations, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Rect
+			for _rect := range *models.GetGongstructInstancesSet[models.Rect](animateFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _rect.GetName() == fieldValue.GetName() {
 							newRectOwner := _rect // we have a match
-
+							
 							// we remove the animate_ instance from the pastRectOwner field
 							if pastRectOwner != nil {
 								if newRectOwner != pastRectOwner {
@@ -485,42 +650,63 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				}
 			}
 		case "RectAnchoredText:Animates":
-			// we need to retrieve the field owner before the change
-			var pastRectAnchoredTextOwner *models.RectAnchoredText
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "RectAnchoredText"
-			rf.Fieldname = "Animates"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				animateFormCallback.probe.stageOfInterest,
-				animate_,
-				&rf)
+			// WARNING : this form deals with the N-N association "RectAnchoredText.Animates []*Animate" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Animate). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.RectAnchoredText
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "RectAnchoredText"
+				rf.Fieldname = "Animates"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					animateFormCallback.probe.stageOfInterest,
+					animate_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastRectAnchoredTextOwner = reverseFieldOwner.(*models.RectAnchoredText)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastRectAnchoredTextOwner != nil {
-					idx := slices.Index(pastRectAnchoredTextOwner.Animates, animate_)
-					pastRectAnchoredTextOwner.Animates = slices.Delete(pastRectAnchoredTextOwner.Animates, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.RectAnchoredText)
+					if !ok {
+						log.Fatalln("Source of RectAnchoredText.Animates []*Animate, is not an RectAnchoredText instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastRectAnchoredTextOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _rectanchoredtext := range *models.GetGongstructInstancesSet[models.RectAnchoredText](animateFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animates, animate_)
+					formerSource.Animates = slices.Delete(formerSource.Animates, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.RectAnchoredText
+			for _rectanchoredtext := range *models.GetGongstructInstancesSet[models.RectAnchoredText](animateFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _rectanchoredtext.GetName() == fieldValue.GetName() {
 							newRectAnchoredTextOwner := _rectanchoredtext // we have a match
-
+							
 							// we remove the animate_ instance from the pastRectAnchoredTextOwner field
 							if pastRectAnchoredTextOwner != nil {
 								if newRectAnchoredTextOwner != pastRectAnchoredTextOwner {
@@ -536,42 +722,63 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				}
 			}
 		case "Text:Animates":
-			// we need to retrieve the field owner before the change
-			var pastTextOwner *models.Text
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Text"
-			rf.Fieldname = "Animates"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				animateFormCallback.probe.stageOfInterest,
-				animate_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Text.Animates []*Animate" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Animate). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Text
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Text"
+				rf.Fieldname = "Animates"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					animateFormCallback.probe.stageOfInterest,
+					animate_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastTextOwner = reverseFieldOwner.(*models.Text)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastTextOwner != nil {
-					idx := slices.Index(pastTextOwner.Animates, animate_)
-					pastTextOwner.Animates = slices.Delete(pastTextOwner.Animates, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Text)
+					if !ok {
+						log.Fatalln("Source of Text.Animates []*Animate, is not an Text instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastTextOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _text := range *models.GetGongstructInstancesSet[models.Text](animateFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Animates, animate_)
+					formerSource.Animates = slices.Delete(formerSource.Animates, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Text
+			for _text := range *models.GetGongstructInstancesSet[models.Text](animateFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _text.GetName() == fieldValue.GetName() {
 							newTextOwner := _text // we have a match
-
+							
 							// we remove the animate_ instance from the pastTextOwner field
 							if pastTextOwner != nil {
 								if newTextOwner != pastTextOwner {
@@ -711,42 +918,63 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 			circle_.Animations = instanceSlice
 
 		case "Layer:Circles":
-			// we need to retrieve the field owner before the change
-			var pastLayerOwner *models.Layer
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Layer"
-			rf.Fieldname = "Circles"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				circleFormCallback.probe.stageOfInterest,
-				circle_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Layer.Circles []*Circle" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Circle). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Layer
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Layer"
+				rf.Fieldname = "Circles"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					circleFormCallback.probe.stageOfInterest,
+					circle_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastLayerOwner = reverseFieldOwner.(*models.Layer)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastLayerOwner != nil {
-					idx := slices.Index(pastLayerOwner.Circles, circle_)
-					pastLayerOwner.Circles = slices.Delete(pastLayerOwner.Circles, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Layer)
+					if !ok {
+						log.Fatalln("Source of Layer.Circles []*Circle, is not an Layer instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastLayerOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _layer := range *models.GetGongstructInstancesSet[models.Layer](circleFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Circles, circle_)
+					formerSource.Circles = slices.Delete(formerSource.Circles, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Layer
+			for _layer := range *models.GetGongstructInstancesSet[models.Layer](circleFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the circle_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {
@@ -888,42 +1116,63 @@ func (ellipseFormCallback *EllipseFormCallback) OnSave() {
 			ellipse_.Animates = instanceSlice
 
 		case "Layer:Ellipses":
-			// we need to retrieve the field owner before the change
-			var pastLayerOwner *models.Layer
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Layer"
-			rf.Fieldname = "Ellipses"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				ellipseFormCallback.probe.stageOfInterest,
-				ellipse_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Layer.Ellipses []*Ellipse" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Ellipse). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Layer
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Layer"
+				rf.Fieldname = "Ellipses"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					ellipseFormCallback.probe.stageOfInterest,
+					ellipse_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastLayerOwner = reverseFieldOwner.(*models.Layer)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastLayerOwner != nil {
-					idx := slices.Index(pastLayerOwner.Ellipses, ellipse_)
-					pastLayerOwner.Ellipses = slices.Delete(pastLayerOwner.Ellipses, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Layer)
+					if !ok {
+						log.Fatalln("Source of Layer.Ellipses []*Ellipse, is not an Layer instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastLayerOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _layer := range *models.GetGongstructInstancesSet[models.Layer](ellipseFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Ellipses, ellipse_)
+					formerSource.Ellipses = slices.Delete(formerSource.Ellipses, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Layer
+			for _layer := range *models.GetGongstructInstancesSet[models.Layer](ellipseFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the ellipse_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {
@@ -1013,8 +1262,6 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 	for _, formDiv := range layerFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
-		case "Display":
-			FormDivBasicFieldToField(&(layer_.Display), formDiv)
 		case "Name":
 			FormDivBasicFieldToField(&(layer_.Name), formDiv)
 	case "Rects":
@@ -1268,42 +1515,63 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 			layer_.RectLinkLinks = instanceSlice
 
 		case "SVG:Layers":
-			// we need to retrieve the field owner before the change
-			var pastSVGOwner *models.SVG
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "SVG"
-			rf.Fieldname = "Layers"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				layerFormCallback.probe.stageOfInterest,
-				layer_,
-				&rf)
+			// WARNING : this form deals with the N-N association "SVG.Layers []*Layer" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Layer). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.SVG
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "SVG"
+				rf.Fieldname = "Layers"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					layerFormCallback.probe.stageOfInterest,
+					layer_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastSVGOwner = reverseFieldOwner.(*models.SVG)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastSVGOwner != nil {
-					idx := slices.Index(pastSVGOwner.Layers, layer_)
-					pastSVGOwner.Layers = slices.Delete(pastSVGOwner.Layers, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.SVG)
+					if !ok {
+						log.Fatalln("Source of SVG.Layers []*Layer, is not an SVG instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastSVGOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _svg := range *models.GetGongstructInstancesSet[models.SVG](layerFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Layers, layer_)
+					formerSource.Layers = slices.Delete(formerSource.Layers, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.SVG
+			for _svg := range *models.GetGongstructInstancesSet[models.SVG](layerFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _svg.GetName() == fieldValue.GetName() {
 							newSVGOwner := _svg // we have a match
-
+							
 							// we remove the layer_ instance from the pastSVGOwner field
 							if pastSVGOwner != nil {
 								if newSVGOwner != pastSVGOwner {
@@ -1449,42 +1717,63 @@ func (lineFormCallback *LineFormCallback) OnSave() {
 		case "MouseClickY":
 			FormDivBasicFieldToField(&(line_.MouseClickY), formDiv)
 		case "Layer:Lines":
-			// we need to retrieve the field owner before the change
-			var pastLayerOwner *models.Layer
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Layer"
-			rf.Fieldname = "Lines"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				lineFormCallback.probe.stageOfInterest,
-				line_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Layer.Lines []*Line" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Line). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Layer
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Layer"
+				rf.Fieldname = "Lines"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					lineFormCallback.probe.stageOfInterest,
+					line_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastLayerOwner = reverseFieldOwner.(*models.Layer)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastLayerOwner != nil {
-					idx := slices.Index(pastLayerOwner.Lines, line_)
-					pastLayerOwner.Lines = slices.Delete(pastLayerOwner.Lines, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Layer)
+					if !ok {
+						log.Fatalln("Source of Layer.Lines []*Line, is not an Layer instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastLayerOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _layer := range *models.GetGongstructInstancesSet[models.Layer](lineFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Lines, line_)
+					formerSource.Lines = slices.Delete(formerSource.Lines, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Layer
+			for _layer := range *models.GetGongstructInstancesSet[models.Layer](lineFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the line_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {
@@ -1700,42 +1989,63 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 		case "Transform":
 			FormDivBasicFieldToField(&(link_.Transform), formDiv)
 		case "Layer:Links":
-			// we need to retrieve the field owner before the change
-			var pastLayerOwner *models.Layer
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Layer"
-			rf.Fieldname = "Links"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				linkFormCallback.probe.stageOfInterest,
-				link_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Layer.Links []*Link" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Link). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Layer
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Layer"
+				rf.Fieldname = "Links"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					linkFormCallback.probe.stageOfInterest,
+					link_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastLayerOwner = reverseFieldOwner.(*models.Layer)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastLayerOwner != nil {
-					idx := slices.Index(pastLayerOwner.Links, link_)
-					pastLayerOwner.Links = slices.Delete(pastLayerOwner.Links, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Layer)
+					if !ok {
+						log.Fatalln("Source of Layer.Links []*Link, is not an Layer instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastLayerOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _layer := range *models.GetGongstructInstancesSet[models.Layer](linkFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Links, link_)
+					formerSource.Links = slices.Delete(formerSource.Links, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Layer
+			for _layer := range *models.GetGongstructInstancesSet[models.Layer](linkFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the link_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {
@@ -1841,6 +2151,8 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(linkanchoredtext_.FontWeight), formDiv)
 		case "FontSize":
 			FormDivBasicFieldToField(&(linkanchoredtext_.FontSize), formDiv)
+		case "FontStyle":
+			FormDivBasicFieldToField(&(linkanchoredtext_.FontStyle), formDiv)
 		case "LetterSpacing":
 			FormDivBasicFieldToField(&(linkanchoredtext_.LetterSpacing), formDiv)
 		case "Color":
@@ -1859,31 +2171,6 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(linkanchoredtext_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(linkanchoredtext_.Transform), formDiv)
-	case "Animates":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](linkanchoredtextFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Animate, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Animate)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					linkanchoredtextFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
-			}
-			linkanchoredtext_.Animates = instanceSlice
-
 		case "Link:TextAtArrowEnd":
 			// we need to retrieve the field owner before the change
 			var pastLinkOwner *models.Link
@@ -1896,31 +2183,42 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 				linkanchoredtext_,
 				&rf)
 
-			if reverseFieldOwner != nil {
-				pastLinkOwner = reverseFieldOwner.(*models.Link)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastLinkOwner != nil {
-					idx := slices.Index(pastLinkOwner.TextAtArrowEnd, linkanchoredtext_)
-					pastLinkOwner.TextAtArrowEnd = slices.Delete(pastLinkOwner.TextAtArrowEnd, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Link)
+					if !ok {
+						log.Fatalln("Source of Link.TextAtArrowStart []*LinkAnchoredText, is not an Link instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastLinkOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _link := range *models.GetGongstructInstancesSet[models.Link](linkanchoredtextFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.TextAtArrowStart, linkanchoredtext_)
+					formerSource.TextAtArrowStart = slices.Delete(formerSource.TextAtArrowStart, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Link
+			for _link := range *models.GetGongstructInstancesSet[models.Link](linkanchoredtextFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _link.GetName() == fieldValue.GetName() {
 							newLinkOwner := _link // we have a match
-
+							
 							// we remove the linkanchoredtext_ instance from the pastLinkOwner field
 							if pastLinkOwner != nil {
 								if newLinkOwner != pastLinkOwner {
@@ -1947,31 +2245,42 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 				linkanchoredtext_,
 				&rf)
 
-			if reverseFieldOwner != nil {
-				pastLinkOwner = reverseFieldOwner.(*models.Link)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastLinkOwner != nil {
-					idx := slices.Index(pastLinkOwner.TextAtArrowStart, linkanchoredtext_)
-					pastLinkOwner.TextAtArrowStart = slices.Delete(pastLinkOwner.TextAtArrowStart, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Link)
+					if !ok {
+						log.Fatalln("Source of Link.TextAtArrowEnd []*LinkAnchoredText, is not an Link instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastLinkOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _link := range *models.GetGongstructInstancesSet[models.Link](linkanchoredtextFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.TextAtArrowEnd, linkanchoredtext_)
+					formerSource.TextAtArrowEnd = slices.Delete(formerSource.TextAtArrowEnd, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Link
+			for _link := range *models.GetGongstructInstancesSet[models.Link](linkanchoredtextFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _link.GetName() == fieldValue.GetName() {
 							newLinkOwner := _link // we have a match
-
+							
 							// we remove the linkanchoredtext_ instance from the pastLinkOwner field
 							if pastLinkOwner != nil {
 								if newLinkOwner != pastLinkOwner {
@@ -2107,42 +2416,63 @@ func (pathFormCallback *PathFormCallback) OnSave() {
 			path_.Animates = instanceSlice
 
 		case "Layer:Paths":
-			// we need to retrieve the field owner before the change
-			var pastLayerOwner *models.Layer
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Layer"
-			rf.Fieldname = "Paths"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				pathFormCallback.probe.stageOfInterest,
-				path_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Layer.Paths []*Path" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Path). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Layer
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Layer"
+				rf.Fieldname = "Paths"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					pathFormCallback.probe.stageOfInterest,
+					path_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastLayerOwner = reverseFieldOwner.(*models.Layer)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastLayerOwner != nil {
-					idx := slices.Index(pastLayerOwner.Paths, path_)
-					pastLayerOwner.Paths = slices.Delete(pastLayerOwner.Paths, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Layer)
+					if !ok {
+						log.Fatalln("Source of Layer.Paths []*Path, is not an Layer instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastLayerOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _layer := range *models.GetGongstructInstancesSet[models.Layer](pathFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Paths, path_)
+					formerSource.Paths = slices.Delete(formerSource.Paths, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Layer
+			for _layer := range *models.GetGongstructInstancesSet[models.Layer](pathFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the path_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {
@@ -2239,42 +2569,63 @@ func (pointFormCallback *PointFormCallback) OnSave() {
 		case "Y":
 			FormDivBasicFieldToField(&(point_.Y), formDiv)
 		case "Link:ControlPoints":
-			// we need to retrieve the field owner before the change
-			var pastLinkOwner *models.Link
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Link"
-			rf.Fieldname = "ControlPoints"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				pointFormCallback.probe.stageOfInterest,
-				point_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Link.ControlPoints []*Point" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Point). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Link
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Link"
+				rf.Fieldname = "ControlPoints"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					pointFormCallback.probe.stageOfInterest,
+					point_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastLinkOwner = reverseFieldOwner.(*models.Link)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastLinkOwner != nil {
-					idx := slices.Index(pastLinkOwner.ControlPoints, point_)
-					pastLinkOwner.ControlPoints = slices.Delete(pastLinkOwner.ControlPoints, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Link)
+					if !ok {
+						log.Fatalln("Source of Link.ControlPoints []*Point, is not an Link instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastLinkOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _link := range *models.GetGongstructInstancesSet[models.Link](pointFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.ControlPoints, point_)
+					formerSource.ControlPoints = slices.Delete(formerSource.ControlPoints, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Link
+			for _link := range *models.GetGongstructInstancesSet[models.Link](pointFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _link.GetName() == fieldValue.GetName() {
 							newLinkOwner := _link // we have a match
-
+							
 							// we remove the point_ instance from the pastLinkOwner field
 							if pastLinkOwner != nil {
 								if newLinkOwner != pastLinkOwner {
@@ -2410,42 +2761,63 @@ func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
 			polygone_.Animates = instanceSlice
 
 		case "Layer:Polygones":
-			// we need to retrieve the field owner before the change
-			var pastLayerOwner *models.Layer
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Layer"
-			rf.Fieldname = "Polygones"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				polygoneFormCallback.probe.stageOfInterest,
-				polygone_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Layer.Polygones []*Polygone" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Polygone). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Layer
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Layer"
+				rf.Fieldname = "Polygones"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					polygoneFormCallback.probe.stageOfInterest,
+					polygone_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastLayerOwner = reverseFieldOwner.(*models.Layer)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastLayerOwner != nil {
-					idx := slices.Index(pastLayerOwner.Polygones, polygone_)
-					pastLayerOwner.Polygones = slices.Delete(pastLayerOwner.Polygones, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Layer)
+					if !ok {
+						log.Fatalln("Source of Layer.Polygones []*Polygone, is not an Layer instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastLayerOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _layer := range *models.GetGongstructInstancesSet[models.Layer](polygoneFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Polygones, polygone_)
+					formerSource.Polygones = slices.Delete(formerSource.Polygones, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Layer
+			for _layer := range *models.GetGongstructInstancesSet[models.Layer](polygoneFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the polygone_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {
@@ -2581,42 +2953,63 @@ func (polylineFormCallback *PolylineFormCallback) OnSave() {
 			polyline_.Animates = instanceSlice
 
 		case "Layer:Polylines":
-			// we need to retrieve the field owner before the change
-			var pastLayerOwner *models.Layer
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Layer"
-			rf.Fieldname = "Polylines"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				polylineFormCallback.probe.stageOfInterest,
-				polyline_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Layer.Polylines []*Polyline" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Polyline). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Layer
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Layer"
+				rf.Fieldname = "Polylines"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					polylineFormCallback.probe.stageOfInterest,
+					polyline_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastLayerOwner = reverseFieldOwner.(*models.Layer)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastLayerOwner != nil {
-					idx := slices.Index(pastLayerOwner.Polylines, polyline_)
-					pastLayerOwner.Polylines = slices.Delete(pastLayerOwner.Polylines, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Layer)
+					if !ok {
+						log.Fatalln("Source of Layer.Polylines []*Polyline, is not an Layer instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastLayerOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _layer := range *models.GetGongstructInstancesSet[models.Layer](polylineFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Polylines, polyline_)
+					formerSource.Polylines = slices.Delete(formerSource.Polylines, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Layer
+			for _layer := range *models.GetGongstructInstancesSet[models.Layer](polylineFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the polyline_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {
@@ -2861,42 +3254,63 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			rect_.RectAnchoredPaths = instanceSlice
 
 		case "Layer:Rects":
-			// we need to retrieve the field owner before the change
-			var pastLayerOwner *models.Layer
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Layer"
-			rf.Fieldname = "Rects"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				rectFormCallback.probe.stageOfInterest,
-				rect_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Layer.Rects []*Rect" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Rect). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Layer
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Layer"
+				rf.Fieldname = "Rects"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					rectFormCallback.probe.stageOfInterest,
+					rect_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastLayerOwner = reverseFieldOwner.(*models.Layer)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastLayerOwner != nil {
-					idx := slices.Index(pastLayerOwner.Rects, rect_)
-					pastLayerOwner.Rects = slices.Delete(pastLayerOwner.Rects, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Layer)
+					if !ok {
+						log.Fatalln("Source of Layer.Rects []*Rect, is not an Layer instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastLayerOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _layer := range *models.GetGongstructInstancesSet[models.Layer](rectFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Rects, rect_)
+					formerSource.Rects = slices.Delete(formerSource.Rects, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Layer
+			for _layer := range *models.GetGongstructInstancesSet[models.Layer](rectFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the rect_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {
@@ -3017,42 +3431,63 @@ func (rectanchoredpathFormCallback *RectAnchoredPathFormCallback) OnSave() {
 		case "Transform":
 			FormDivBasicFieldToField(&(rectanchoredpath_.Transform), formDiv)
 		case "Rect:RectAnchoredPaths":
-			// we need to retrieve the field owner before the change
-			var pastRectOwner *models.Rect
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Rect"
-			rf.Fieldname = "RectAnchoredPaths"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				rectanchoredpathFormCallback.probe.stageOfInterest,
-				rectanchoredpath_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Rect.RectAnchoredPaths []*RectAnchoredPath" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of RectAnchoredPath). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Rect
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Rect"
+				rf.Fieldname = "RectAnchoredPaths"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					rectanchoredpathFormCallback.probe.stageOfInterest,
+					rectanchoredpath_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastRectOwner = reverseFieldOwner.(*models.Rect)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastRectOwner != nil {
-					idx := slices.Index(pastRectOwner.RectAnchoredPaths, rectanchoredpath_)
-					pastRectOwner.RectAnchoredPaths = slices.Delete(pastRectOwner.RectAnchoredPaths, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Rect)
+					if !ok {
+						log.Fatalln("Source of Rect.RectAnchoredPaths []*RectAnchoredPath, is not an Rect instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastRectOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _rect := range *models.GetGongstructInstancesSet[models.Rect](rectanchoredpathFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.RectAnchoredPaths, rectanchoredpath_)
+					formerSource.RectAnchoredPaths = slices.Delete(formerSource.RectAnchoredPaths, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Rect
+			for _rect := range *models.GetGongstructInstancesSet[models.Rect](rectanchoredpathFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _rect.GetName() == fieldValue.GetName() {
 							newRectOwner := _rect // we have a match
-
+							
 							// we remove the rectanchoredpath_ instance from the pastRectOwner field
 							if pastRectOwner != nil {
 								if newRectOwner != pastRectOwner {
@@ -3181,42 +3616,63 @@ func (rectanchoredrectFormCallback *RectAnchoredRectFormCallback) OnSave() {
 		case "Transform":
 			FormDivBasicFieldToField(&(rectanchoredrect_.Transform), formDiv)
 		case "Rect:RectAnchoredRects":
-			// we need to retrieve the field owner before the change
-			var pastRectOwner *models.Rect
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Rect"
-			rf.Fieldname = "RectAnchoredRects"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				rectanchoredrectFormCallback.probe.stageOfInterest,
-				rectanchoredrect_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Rect.RectAnchoredRects []*RectAnchoredRect" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of RectAnchoredRect). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Rect
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Rect"
+				rf.Fieldname = "RectAnchoredRects"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					rectanchoredrectFormCallback.probe.stageOfInterest,
+					rectanchoredrect_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastRectOwner = reverseFieldOwner.(*models.Rect)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastRectOwner != nil {
-					idx := slices.Index(pastRectOwner.RectAnchoredRects, rectanchoredrect_)
-					pastRectOwner.RectAnchoredRects = slices.Delete(pastRectOwner.RectAnchoredRects, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Rect)
+					if !ok {
+						log.Fatalln("Source of Rect.RectAnchoredRects []*RectAnchoredRect, is not an Rect instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastRectOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _rect := range *models.GetGongstructInstancesSet[models.Rect](rectanchoredrectFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.RectAnchoredRects, rectanchoredrect_)
+					formerSource.RectAnchoredRects = slices.Delete(formerSource.RectAnchoredRects, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Rect
+			for _rect := range *models.GetGongstructInstancesSet[models.Rect](rectanchoredrectFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _rect.GetName() == fieldValue.GetName() {
 							newRectOwner := _rect // we have a match
-
+							
 							// we remove the rectanchoredrect_ instance from the pastRectOwner field
 							if pastRectOwner != nil {
 								if newRectOwner != pastRectOwner {
@@ -3316,6 +3772,8 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rectanchoredtext_.FontSize), formDiv)
 		case "FontStyle":
 			FormDivBasicFieldToField(&(rectanchoredtext_.FontStyle), formDiv)
+		case "LetterSpacing":
+			FormDivBasicFieldToField(&(rectanchoredtext_.LetterSpacing), formDiv)
 		case "X_Offset":
 			FormDivBasicFieldToField(&(rectanchoredtext_.X_Offset), formDiv)
 		case "Y_Offset":
@@ -3366,42 +3824,63 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 			rectanchoredtext_.Animates = instanceSlice
 
 		case "Rect:RectAnchoredTexts":
-			// we need to retrieve the field owner before the change
-			var pastRectOwner *models.Rect
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Rect"
-			rf.Fieldname = "RectAnchoredTexts"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				rectanchoredtextFormCallback.probe.stageOfInterest,
-				rectanchoredtext_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Rect.RectAnchoredTexts []*RectAnchoredText" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of RectAnchoredText). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Rect
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Rect"
+				rf.Fieldname = "RectAnchoredTexts"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					rectanchoredtextFormCallback.probe.stageOfInterest,
+					rectanchoredtext_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastRectOwner = reverseFieldOwner.(*models.Rect)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastRectOwner != nil {
-					idx := slices.Index(pastRectOwner.RectAnchoredTexts, rectanchoredtext_)
-					pastRectOwner.RectAnchoredTexts = slices.Delete(pastRectOwner.RectAnchoredTexts, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Rect)
+					if !ok {
+						log.Fatalln("Source of Rect.RectAnchoredTexts []*RectAnchoredText, is not an Rect instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastRectOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _rect := range *models.GetGongstructInstancesSet[models.Rect](rectanchoredtextFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.RectAnchoredTexts, rectanchoredtext_)
+					formerSource.RectAnchoredTexts = slices.Delete(formerSource.RectAnchoredTexts, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Rect
+			for _rect := range *models.GetGongstructInstancesSet[models.Rect](rectanchoredtextFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _rect.GetName() == fieldValue.GetName() {
 							newRectOwner := _rect // we have a match
-
+							
 							// we remove the rectanchoredtext_ instance from the pastRectOwner field
 							if pastRectOwner != nil {
 								if newRectOwner != pastRectOwner {
@@ -3516,42 +3995,63 @@ func (rectlinklinkFormCallback *RectLinkLinkFormCallback) OnSave() {
 		case "Transform":
 			FormDivBasicFieldToField(&(rectlinklink_.Transform), formDiv)
 		case "Layer:RectLinkLinks":
-			// we need to retrieve the field owner before the change
-			var pastLayerOwner *models.Layer
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Layer"
-			rf.Fieldname = "RectLinkLinks"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				rectlinklinkFormCallback.probe.stageOfInterest,
-				rectlinklink_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Layer.RectLinkLinks []*RectLinkLink" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of RectLinkLink). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Layer
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Layer"
+				rf.Fieldname = "RectLinkLinks"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					rectlinklinkFormCallback.probe.stageOfInterest,
+					rectlinklink_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastLayerOwner = reverseFieldOwner.(*models.Layer)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastLayerOwner != nil {
-					idx := slices.Index(pastLayerOwner.RectLinkLinks, rectlinklink_)
-					pastLayerOwner.RectLinkLinks = slices.Delete(pastLayerOwner.RectLinkLinks, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Layer)
+					if !ok {
+						log.Fatalln("Source of Layer.RectLinkLinks []*RectLinkLink, is not an Layer instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastLayerOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _layer := range *models.GetGongstructInstancesSet[models.Layer](rectlinklinkFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.RectLinkLinks, rectlinklink_)
+					formerSource.RectLinkLinks = slices.Delete(formerSource.RectLinkLinks, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Layer
+			for _layer := range *models.GetGongstructInstancesSet[models.Layer](rectlinklinkFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the rectlinklink_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {
@@ -3676,8 +4176,12 @@ func (svgFormCallback *SVGFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(svg_.EndRect), svgFormCallback.probe.stageOfInterest, formDiv)
 		case "IsEditable":
 			FormDivBasicFieldToField(&(svg_.IsEditable), formDiv)
-		case "IsSVGFileGenerated":
-			FormDivBasicFieldToField(&(svg_.IsSVGFileGenerated), formDiv)
+		case "IsSVGFrontEndFileGenerated":
+			FormDivBasicFieldToField(&(svg_.IsSVGFrontEndFileGenerated), formDiv)
+		case "IsSVGBackEndFileGenerated":
+			FormDivBasicFieldToField(&(svg_.IsSVGBackEndFileGenerated), formDiv)
+		case "DefaultDirectoryForGeneratedImages":
+			FormDivBasicFieldToField(&(svg_.DefaultDirectoryForGeneratedImages), formDiv)
 		}
 	}
 
@@ -3856,68 +4360,64 @@ func (textFormCallback *TextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(text_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(text_.Transform), formDiv)
-	case "Animates":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](textFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Animate, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Animate)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					textFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
-			}
-			text_.Animates = instanceSlice
-
 		case "Layer:Texts":
-			// we need to retrieve the field owner before the change
-			var pastLayerOwner *models.Layer
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Layer"
-			rf.Fieldname = "Texts"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				textFormCallback.probe.stageOfInterest,
-				text_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Layer.Texts []*Text" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Text). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Layer
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Layer"
+				rf.Fieldname = "Texts"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					textFormCallback.probe.stageOfInterest,
+					text_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastLayerOwner = reverseFieldOwner.(*models.Layer)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastLayerOwner != nil {
-					idx := slices.Index(pastLayerOwner.Texts, text_)
-					pastLayerOwner.Texts = slices.Delete(pastLayerOwner.Texts, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Layer)
+					if !ok {
+						log.Fatalln("Source of Layer.Texts []*Text, is not an Layer instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastLayerOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _layer := range *models.GetGongstructInstancesSet[models.Layer](textFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Texts, text_)
+					formerSource.Texts = slices.Delete(formerSource.Texts, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Layer
+			for _layer := range *models.GetGongstructInstancesSet[models.Layer](textFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _layer.GetName() == fieldValue.GetName() {
 							newLayerOwner := _layer // we have a match
-
+							
 							// we remove the text_ instance from the pastLayerOwner field
 							if pastLayerOwner != nil {
 								if newLayerOwner != pastLayerOwner {

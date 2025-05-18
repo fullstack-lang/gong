@@ -149,12 +149,12 @@ func GetReverseFieldOwnerName(
 		// insertion point
 		case "Link":
 			switch reverseField.Fieldname {
-			case "TextAtArrowEnd":
-				if _link, ok := stage.Link_TextAtArrowEnd_reverseMap[inst]; ok {
-					res = _link.Name
-				}
 			case "TextAtArrowStart":
 				if _link, ok := stage.Link_TextAtArrowStart_reverseMap[inst]; ok {
+					res = _link.Name
+				}
+			case "TextAtArrowEnd":
+				if _link, ok := stage.Link_TextAtArrowEnd_reverseMap[inst]; ok {
 					res = _link.Name
 				}
 			}
@@ -414,10 +414,10 @@ func GetReverseFieldOwner[T Gongstruct](
 		// insertion point
 		case "Link":
 			switch reverseField.Fieldname {
-			case "TextAtArrowEnd":
-				res = stage.Link_TextAtArrowEnd_reverseMap[inst]
 			case "TextAtArrowStart":
 				res = stage.Link_TextAtArrowStart_reverseMap[inst]
+			case "TextAtArrowEnd":
+				res = stage.Link_TextAtArrowEnd_reverseMap[inst]
 			}
 		}
 

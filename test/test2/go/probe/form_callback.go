@@ -11,12 +11,9 @@ import (
 	"github.com/fullstack-lang/gong/test/test2/go/models"
 )
 
-// to avoid errors when time and slices packages are not used in the generated code
-const _ = time.Nanosecond
+const __dummmy__time = time.Nanosecond
 
-var _ = slices.Delete([]string{"a"}, 0, 1)
-
-var _ = log.Panicf
+var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
 
 // insertion point
 func __gong__New__AFormCallback(
@@ -171,42 +168,63 @@ func (bFormCallback *BFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(b_.Name), formDiv)
 		case "A:Bs":
-			// we need to retrieve the field owner before the change
-			var pastAOwner *models.A
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A"
-			rf.Fieldname = "Bs"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				bFormCallback.probe.stageOfInterest,
-				b_,
-				&rf)
+			// WARNING : this form deals with the N-N association "A.Bs []*B" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of B). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.A
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "A"
+				rf.Fieldname = "Bs"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					bFormCallback.probe.stageOfInterest,
+					b_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastAOwner = reverseFieldOwner.(*models.A)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastAOwner != nil {
-					idx := slices.Index(pastAOwner.Bs, b_)
-					pastAOwner.Bs = slices.Delete(pastAOwner.Bs, idx, idx+1)
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.A)
+					if !ok {
+						log.Fatalln("Source of A.Bs []*B, is not an A instance")
+					}
 				}
-			} else {
+			}
 
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastAOwner.GetName() != fieldValue.GetName() {
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
 
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _a := range *models.GetGongstructInstancesSet[models.A](bFormCallback.probe.stageOfInterest) {
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Bs, b_)
+					formerSource.Bs = slices.Delete(formerSource.Bs, idx, idx+1)
+				}
+				// That could mean we clear the assocation for all source instances
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.A
+			for _a := range *models.GetGongstructInstancesSet[models.A](bFormCallback.probe.stageOfInterest) {
 
 						// the match is base on the name
 						if _a.GetName() == fieldValue.GetName() {
 							newAOwner := _a // we have a match
-
+							
 							// we remove the b_ instance from the pastAOwner field
 							if pastAOwner != nil {
 								if newAOwner != pastAOwner {

@@ -33,6 +33,9 @@ export class Node {
 	IsSecondCheckboxChecked: boolean = false
 	IsSecondCheckboxDisabled: boolean = false
 	TextAfterSecondCheckbox: string = ""
+	SecondCheckboxHasToolTip: boolean = false
+	SecondCheckboxToolTipText: string = ""
+	SecondCheckboxToolTipPosition: string = ""
 	IsInEditMode: boolean = false
 	IsNodeClickable: boolean = false
 	IsWithPreceedingIcon: boolean = false
@@ -66,6 +69,9 @@ export function CopyNodeToNodeAPI(node: Node, nodeAPI: NodeAPI) {
 	nodeAPI.IsSecondCheckboxChecked = node.IsSecondCheckboxChecked
 	nodeAPI.IsSecondCheckboxDisabled = node.IsSecondCheckboxDisabled
 	nodeAPI.TextAfterSecondCheckbox = node.TextAfterSecondCheckbox
+	nodeAPI.SecondCheckboxHasToolTip = node.SecondCheckboxHasToolTip
+	nodeAPI.SecondCheckboxToolTipText = node.SecondCheckboxToolTipText
+	nodeAPI.SecondCheckboxToolTipPosition = node.SecondCheckboxToolTipPosition
 	nodeAPI.IsInEditMode = node.IsInEditMode
 	nodeAPI.IsNodeClickable = node.IsNodeClickable
 	nodeAPI.IsWithPreceedingIcon = node.IsWithPreceedingIcon
@@ -118,6 +124,9 @@ export function CopyNodeAPIToNode(nodeAPI: NodeAPI, node: Node, frontRepo: Front
 	node.IsSecondCheckboxChecked = nodeAPI.IsSecondCheckboxChecked
 	node.IsSecondCheckboxDisabled = nodeAPI.IsSecondCheckboxDisabled
 	node.TextAfterSecondCheckbox = nodeAPI.TextAfterSecondCheckbox
+	node.SecondCheckboxHasToolTip = nodeAPI.SecondCheckboxHasToolTip
+	node.SecondCheckboxToolTipText = nodeAPI.SecondCheckboxToolTipText
+	node.SecondCheckboxToolTipPosition = nodeAPI.SecondCheckboxToolTipPosition
 	node.IsInEditMode = nodeAPI.IsInEditMode
 	node.IsNodeClickable = nodeAPI.IsNodeClickable
 	node.IsWithPreceedingIcon = nodeAPI.IsWithPreceedingIcon
