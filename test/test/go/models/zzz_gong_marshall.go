@@ -467,35 +467,35 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
-	map_Fstruct_Identifiers := make(map[*Fstruct]string)
-	_ = map_Fstruct_Identifiers
+	map_F0123456789012345678901234567890_Identifiers := make(map[*F0123456789012345678901234567890]string)
+	_ = map_F0123456789012345678901234567890_Identifiers
 
-	fstructOrdered := []*Fstruct{}
-	for fstruct := range stage.Fstructs {
-		fstructOrdered = append(fstructOrdered, fstruct)
+	f0123456789012345678901234567890Ordered := []*F0123456789012345678901234567890{}
+	for f0123456789012345678901234567890 := range stage.F0123456789012345678901234567890s {
+		f0123456789012345678901234567890Ordered = append(f0123456789012345678901234567890Ordered, f0123456789012345678901234567890)
 	}
-	sort.Slice(fstructOrdered[:], func(i, j int) bool {
-		fstructi := fstructOrdered[i]
-		fstructj := fstructOrdered[j]
-		fstructi_order, oki := stage.FstructMap_Staged_Order[fstructi]
-		fstructj_order, okj := stage.FstructMap_Staged_Order[fstructj]
+	sort.Slice(f0123456789012345678901234567890Ordered[:], func(i, j int) bool {
+		f0123456789012345678901234567890i := f0123456789012345678901234567890Ordered[i]
+		f0123456789012345678901234567890j := f0123456789012345678901234567890Ordered[j]
+		f0123456789012345678901234567890i_order, oki := stage.F0123456789012345678901234567890Map_Staged_Order[f0123456789012345678901234567890i]
+		f0123456789012345678901234567890j_order, okj := stage.F0123456789012345678901234567890Map_Staged_Order[f0123456789012345678901234567890j]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
-		return fstructi_order < fstructj_order
+		return f0123456789012345678901234567890i_order < f0123456789012345678901234567890j_order
 	})
-	if len(fstructOrdered) > 0 {
+	if len(f0123456789012345678901234567890Ordered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, fstruct := range fstructOrdered {
+	for idx, f0123456789012345678901234567890 := range f0123456789012345678901234567890Ordered {
 
-		id = generatesIdentifier("Fstruct", idx, fstruct.Name)
-		map_Fstruct_Identifiers[fstruct] = id
+		id = generatesIdentifier("F0123456789012345678901234567890", idx, f0123456789012345678901234567890.Name)
+		map_F0123456789012345678901234567890_Identifiers[f0123456789012345678901234567890] = id
 
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Fstruct")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fstruct.Name)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "F0123456789012345678901234567890")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", f0123456789012345678901234567890.Name)
 		identifiersDecl += decl
 
 		initializerStatements += "\n"
@@ -503,13 +503,13 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(fstruct.Name))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(f0123456789012345678901234567890.Name))
 		initializerStatements += setValueField
 
 		setValueField = TimeInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Date")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fstruct.Date.String())
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", f0123456789012345678901234567890.Date.String())
 		initializerStatements += setValueField
 
 	}
@@ -799,15 +799,15 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
-	if len(fstructOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Fstruct instances pointers"
+	if len(f0123456789012345678901234567890Ordered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of F0123456789012345678901234567890 instances pointers"
 	}
-	for idx, fstruct := range fstructOrdered {
+	for idx, f0123456789012345678901234567890 := range f0123456789012345678901234567890Ordered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Fstruct", idx, fstruct.Name)
-		map_Fstruct_Identifiers[fstruct] = id
+		id = generatesIdentifier("F0123456789012345678901234567890", idx, f0123456789012345678901234567890.Name)
+		map_F0123456789012345678901234567890_Identifiers[f0123456789012345678901234567890] = id
 
 		// Initialisation of values
 	}
