@@ -394,6 +394,7 @@ export class FormSpecificComponent {
           // This update will have the back generates the table stack for selecting the associated fields
           // this table stack front "-table-pick" will be fill with the storage for having
           // the rows selected
+          formDiv.FormEditAssocButton.IsForSavePurpose = false
           this.formEditAssocButtonService.updateFront(formDiv.FormEditAssocButton, this.Name).subscribe(
             () => {
               console.log("assoc button updated")
