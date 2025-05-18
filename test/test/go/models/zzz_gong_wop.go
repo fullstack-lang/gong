@@ -136,7 +136,7 @@ func (from *Dstruct) CopyBasicFields(to *Dstruct) {
 	to.Name = from.Name
 }
 
-type Fstruct_WOP struct {
+type F0123456789012345678901234567890_WOP struct {
 	// insertion point
 
 	Name string
@@ -144,7 +144,7 @@ type Fstruct_WOP struct {
 	Date time.Time
 }
 
-func (from *Fstruct) CopyBasicFields(to *Fstruct) {
+func (from *F0123456789012345678901234567890) CopyBasicFields(to *F0123456789012345678901234567890) {
 	// insertion point
 	to.Name = from.Name
 	to.Date = from.Date
