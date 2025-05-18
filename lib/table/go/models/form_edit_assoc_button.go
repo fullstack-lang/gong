@@ -32,13 +32,8 @@ func (formEditAssocButton *FormEditAssocButton) OnAfterUpdate(
 	if stagedInstance.OnAssocEditon != nil {
 		stagedInstance.OnAssocEditon.OnButtonPressed()
 	}
-
-	if frontInstance.IsForSavePurpose {
-		stagedInstance.OnAssocEditon.OnSave(formEditAssocButton.AssociationStorage)
-	}
 }
 
 type FormEditAssocButtonInterface interface {
 	OnButtonPressed()
-	OnSave(associationStorage string)
 }
