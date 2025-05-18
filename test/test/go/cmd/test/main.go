@@ -44,12 +44,11 @@ func main() {
 	// that do not develop their specific angular component
 	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
-	// insertion point for call to stager
 	stager := test_models.NewStager(r, stack.Stage, splitStage)
 
 	// one for the probe of the
 	split.StageBranch(splitStage, &split.View{
-		Name: "Test with Probe of test",
+		Name: stack.Stage.GetName() + "with Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
 				Size: 50,
