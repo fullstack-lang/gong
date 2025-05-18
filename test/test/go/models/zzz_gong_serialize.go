@@ -144,14 +144,6 @@ func SerializeStage(stage *Stage, filename string) {
 			fmt.Println("cannot write xl file : ", err)
 		}
 	}
-
-}
-
-// Tabulator is an interface for writing to a table strings
-type Tabulator interface {
-	AddSheet(sheetName string)
-	AddRow(sheetName string) int
-	AddCell(sheetName string, rowId, columnIndex int, value string)
 }
 
 func shortenString(s string) string {
@@ -159,6 +151,13 @@ func shortenString(s string) string {
 		return s[:31]
 	}
 	return s
+}
+
+// Tabulator is an interface for writing to a table strings
+type Tabulator interface {
+	AddSheet(sheetName string)
+	AddRow(sheetName string) int
+	AddCell(sheetName string, rowId, columnIndex int, value string)
 }
 
 func Serialize[Type Gongstruct](stage *Stage, tab Tabulator) {
