@@ -80,7 +80,7 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *Fstruct:
+	case *F0123456789012345678901234567890:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
@@ -168,7 +168,7 @@ func GetReverseFieldOwner[T Gongstruct](
 			}
 		}
 
-	case *Fstruct:
+	case *F0123456789012345678901234567890:
 		switch reverseField.GongstructName {
 		// insertion point
 		}

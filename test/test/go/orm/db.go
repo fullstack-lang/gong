@@ -40,9 +40,9 @@ type DBLite struct {
 
 	nextIDDstructDB uint
 
-	fstructDBs map[uint]*FstructDB
+	f0123456789012345678901234567890DBs map[uint]*F0123456789012345678901234567890DB
 
-	nextIDFstructDB uint
+	nextIDF0123456789012345678901234567890DB uint
 
 	gstructDBs map[uint]*GstructDB
 
@@ -64,7 +64,7 @@ func NewDBLite() *DBLite {
 
 		dstructDBs: make(map[uint]*DstructDB),
 
-		fstructDBs: make(map[uint]*FstructDB),
+		f0123456789012345678901234567890DBs: make(map[uint]*F0123456789012345678901234567890DB),
 
 		gstructDBs: make(map[uint]*GstructDB),
 	}
@@ -101,10 +101,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDDstructDB++
 		v.ID = db.nextIDDstructDB
 		db.dstructDBs[v.ID] = v
-	case *FstructDB:
-		db.nextIDFstructDB++
-		v.ID = db.nextIDFstructDB
-		db.fstructDBs[v.ID] = v
+	case *F0123456789012345678901234567890DB:
+		db.nextIDF0123456789012345678901234567890DB++
+		v.ID = db.nextIDF0123456789012345678901234567890DB
+		db.f0123456789012345678901234567890DBs[v.ID] = v
 	case *GstructDB:
 		db.nextIDGstructDB++
 		v.ID = db.nextIDGstructDB
@@ -147,8 +147,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.bstructDBs, v.ID)
 	case *DstructDB:
 		delete(db.dstructDBs, v.ID)
-	case *FstructDB:
-		delete(db.fstructDBs, v.ID)
+	case *F0123456789012345678901234567890DB:
+		delete(db.f0123456789012345678901234567890DBs, v.ID)
 	case *GstructDB:
 		delete(db.gstructDBs, v.ID)
 	default:
@@ -184,8 +184,8 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 	case *DstructDB:
 		db.dstructDBs[v.ID] = v
 		return db, nil
-	case *FstructDB:
-		db.fstructDBs[v.ID] = v
+	case *F0123456789012345678901234567890DB:
+		db.f0123456789012345678901234567890DBs[v.ID] = v
 		return db, nil
 	case *GstructDB:
 		db.gstructDBs[v.ID] = v
@@ -236,11 +236,11 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db Dstruct github.com/fullstack-lang/gong/test/test/go, record not found")
 		}
-	case *FstructDB:
-		if existing, ok := db.fstructDBs[v.ID]; ok {
+	case *F0123456789012345678901234567890DB:
+		if existing, ok := db.f0123456789012345678901234567890DBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("db Fstruct github.com/fullstack-lang/gong/test/test/go, record not found")
+			return nil, errors.New("db F0123456789012345678901234567890 github.com/fullstack-lang/gong/test/test/go, record not found")
 		}
 	case *GstructDB:
 		if existing, ok := db.gstructDBs[v.ID]; ok {
@@ -292,9 +292,9 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
-	case *[]FstructDB:
-		*ptr = make([]FstructDB, 0, len(db.fstructDBs))
-		for _, v := range db.fstructDBs {
+	case *[]F0123456789012345678901234567890DB:
+		*ptr = make([]F0123456789012345678901234567890DB, 0, len(db.f0123456789012345678901234567890DBs))
+		for _, v := range db.f0123456789012345678901234567890DBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -387,15 +387,15 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		dstructDB, _ := instanceDB.(*DstructDB)
 		*dstructDB = *tmp
 		
-	case *FstructDB:
-		tmp, ok := db.fstructDBs[uint(i)]
+	case *F0123456789012345678901234567890DB:
+		tmp, ok := db.f0123456789012345678901234567890DBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db.First Fstruct Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First F0123456789012345678901234567890 Unkown entry %d", i))
 		}
 
-		fstructDB, _ := instanceDB.(*FstructDB)
-		*fstructDB = *tmp
+		f0123456789012345678901234567890DB, _ := instanceDB.(*F0123456789012345678901234567890DB)
+		*f0123456789012345678901234567890DB = *tmp
 		
 	case *GstructDB:
 		tmp, ok := db.gstructDBs[uint(i)]

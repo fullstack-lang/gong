@@ -21,7 +21,7 @@ func SerializeStage(stage *Stage, filename string) {
 		SerializeExcelizePointerToGongstruct[*AstructBstructUse](stage, f)
 		SerializeExcelizePointerToGongstruct[*Bstruct](stage, f)
 		SerializeExcelizePointerToGongstruct[*Dstruct](stage, f)
-		SerializeExcelizePointerToGongstruct[*Fstruct](stage, f)
+		SerializeExcelizePointerToGongstruct[*F0123456789012345678901234567890](stage, f)
 		SerializeExcelizePointerToGongstruct[*Gstruct](stage, f)
 	}
 

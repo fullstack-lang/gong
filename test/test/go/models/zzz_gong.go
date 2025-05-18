@@ -143,14 +143,14 @@ type Stage struct {
 	OnAfterDstructDeleteCallback OnAfterDeleteInterface[Dstruct]
 	OnAfterDstructReadCallback   OnAfterReadInterface[Dstruct]
 
-	Fstructs           map[*Fstruct]any
-	Fstructs_mapString map[string]*Fstruct
+	F0123456789012345678901234567890s           map[*F0123456789012345678901234567890]any
+	F0123456789012345678901234567890s_mapString map[string]*F0123456789012345678901234567890
 
 	// insertion point for slice of pointers maps
-	OnAfterFstructCreateCallback OnAfterCreateInterface[Fstruct]
-	OnAfterFstructUpdateCallback OnAfterUpdateInterface[Fstruct]
-	OnAfterFstructDeleteCallback OnAfterDeleteInterface[Fstruct]
-	OnAfterFstructReadCallback   OnAfterReadInterface[Fstruct]
+	OnAfterF0123456789012345678901234567890CreateCallback OnAfterCreateInterface[F0123456789012345678901234567890]
+	OnAfterF0123456789012345678901234567890UpdateCallback OnAfterUpdateInterface[F0123456789012345678901234567890]
+	OnAfterF0123456789012345678901234567890DeleteCallback OnAfterDeleteInterface[F0123456789012345678901234567890]
+	OnAfterF0123456789012345678901234567890ReadCallback   OnAfterReadInterface[F0123456789012345678901234567890]
 
 	Gstructs           map[*Gstruct]any
 	Gstructs_mapString map[string]*Gstruct
@@ -202,8 +202,8 @@ type Stage struct {
 	DstructOrder            uint
 	DstructMap_Staged_Order map[*Dstruct]uint
 
-	FstructOrder            uint
-	FstructMap_Staged_Order map[*Fstruct]uint
+	F0123456789012345678901234567890Order            uint
+	F0123456789012345678901234567890Map_Staged_Order map[*F0123456789012345678901234567890]uint
 
 	GstructOrder            uint
 	GstructMap_Staged_Order map[*Gstruct]uint
@@ -261,8 +261,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Bstructs, stage.BstructMap_Staged_Order)
 	case "Dstruct":
 		res = GetNamedStructInstances(stage.Dstructs, stage.DstructMap_Staged_Order)
-	case "Fstruct":
-		res = GetNamedStructInstances(stage.Fstructs, stage.FstructMap_Staged_Order)
+	case "F0123456789012345678901234567890":
+		res = GetNamedStructInstances(stage.F0123456789012345678901234567890s, stage.F0123456789012345678901234567890Map_Staged_Order)
 	case "Gstruct":
 		res = GetNamedStructInstances(stage.Gstructs, stage.GstructMap_Staged_Order)
 	}
@@ -344,8 +344,8 @@ type BackRepoInterface interface {
 	CheckoutBstruct(bstruct *Bstruct)
 	CommitDstruct(dstruct *Dstruct)
 	CheckoutDstruct(dstruct *Dstruct)
-	CommitFstruct(fstruct *Fstruct)
-	CheckoutFstruct(fstruct *Fstruct)
+	CommitF0123456789012345678901234567890(f0123456789012345678901234567890 *F0123456789012345678901234567890)
+	CheckoutF0123456789012345678901234567890(f0123456789012345678901234567890 *F0123456789012345678901234567890)
 	CommitGstruct(gstruct *Gstruct)
 	CheckoutGstruct(gstruct *Gstruct)
 	GetLastCommitFromBackNb() uint
@@ -370,8 +370,8 @@ func NewStage(name string) (stage *Stage) {
 		Dstructs:           make(map[*Dstruct]any),
 		Dstructs_mapString: make(map[string]*Dstruct),
 
-		Fstructs:           make(map[*Fstruct]any),
-		Fstructs_mapString: make(map[string]*Fstruct),
+		F0123456789012345678901234567890s:           make(map[*F0123456789012345678901234567890]any),
+		F0123456789012345678901234567890s_mapString: make(map[string]*F0123456789012345678901234567890),
 
 		Gstructs:           make(map[*Gstruct]any),
 		Gstructs_mapString: make(map[string]*Gstruct),
@@ -396,7 +396,7 @@ func NewStage(name string) (stage *Stage) {
 
 		DstructMap_Staged_Order: make(map[*Dstruct]uint),
 
-		FstructMap_Staged_Order: make(map[*Fstruct]uint),
+		F0123456789012345678901234567890Map_Staged_Order: make(map[*F0123456789012345678901234567890]uint),
 
 		GstructMap_Staged_Order: make(map[*Gstruct]uint),
 
@@ -408,7 +408,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "AstructBstructUse"},
 			{name: "Bstruct"},
 			{name: "Dstruct"},
-			{name: "Fstruct"},
+			{name: "F0123456789012345678901234567890"},
 			{name: "Gstruct"},
 		}, // end of insertion point
 	}
@@ -430,8 +430,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.BstructMap_Staged_Order[instance]
 	case *Dstruct:
 		return stage.DstructMap_Staged_Order[instance]
-	case *Fstruct:
-		return stage.FstructMap_Staged_Order[instance]
+	case *F0123456789012345678901234567890:
+		return stage.F0123456789012345678901234567890Map_Staged_Order[instance]
 	case *Gstruct:
 		return stage.GstructMap_Staged_Order[instance]
 	default:
@@ -453,8 +453,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.BstructMap_Staged_Order[instance]
 	case *Dstruct:
 		return stage.DstructMap_Staged_Order[instance]
-	case *Fstruct:
-		return stage.FstructMap_Staged_Order[instance]
+	case *F0123456789012345678901234567890:
+		return stage.F0123456789012345678901234567890Map_Staged_Order[instance]
 	case *Gstruct:
 		return stage.GstructMap_Staged_Order[instance]
 	default:
@@ -487,7 +487,7 @@ func (stage *Stage) Commit() {
 	stage.Map_GongStructName_InstancesNb["AstructBstructUse"] = len(stage.AstructBstructUses)
 	stage.Map_GongStructName_InstancesNb["Bstruct"] = len(stage.Bstructs)
 	stage.Map_GongStructName_InstancesNb["Dstruct"] = len(stage.Dstructs)
-	stage.Map_GongStructName_InstancesNb["Fstruct"] = len(stage.Fstructs)
+	stage.Map_GongStructName_InstancesNb["F0123456789012345678901234567890"] = len(stage.F0123456789012345678901234567890s)
 	stage.Map_GongStructName_InstancesNb["Gstruct"] = len(stage.Gstructs)
 
 }
@@ -504,7 +504,7 @@ func (stage *Stage) Checkout() {
 	stage.Map_GongStructName_InstancesNb["AstructBstructUse"] = len(stage.AstructBstructUses)
 	stage.Map_GongStructName_InstancesNb["Bstruct"] = len(stage.Bstructs)
 	stage.Map_GongStructName_InstancesNb["Dstruct"] = len(stage.Dstructs)
-	stage.Map_GongStructName_InstancesNb["Fstruct"] = len(stage.Fstructs)
+	stage.Map_GongStructName_InstancesNb["F0123456789012345678901234567890"] = len(stage.F0123456789012345678901234567890s)
 	stage.Map_GongStructName_InstancesNb["Gstruct"] = len(stage.Gstructs)
 
 }
@@ -813,59 +813,59 @@ func (dstruct *Dstruct) GetName() (res string) {
 	return dstruct.Name
 }
 
-// Stage puts fstruct to the model stage
-func (fstruct *Fstruct) Stage(stage *Stage) *Fstruct {
+// Stage puts f0123456789012345678901234567890 to the model stage
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Stage(stage *Stage) *F0123456789012345678901234567890 {
 
-	if _, ok := stage.Fstructs[fstruct]; !ok {
-		stage.Fstructs[fstruct] = __member
-		stage.FstructMap_Staged_Order[fstruct] = stage.FstructOrder
-		stage.FstructOrder++
+	if _, ok := stage.F0123456789012345678901234567890s[f0123456789012345678901234567890]; !ok {
+		stage.F0123456789012345678901234567890s[f0123456789012345678901234567890] = __member
+		stage.F0123456789012345678901234567890Map_Staged_Order[f0123456789012345678901234567890] = stage.F0123456789012345678901234567890Order
+		stage.F0123456789012345678901234567890Order++
 	}
-	stage.Fstructs_mapString[fstruct.Name] = fstruct
+	stage.F0123456789012345678901234567890s_mapString[f0123456789012345678901234567890.Name] = f0123456789012345678901234567890
 
-	return fstruct
+	return f0123456789012345678901234567890
 }
 
-// Unstage removes fstruct off the model stage
-func (fstruct *Fstruct) Unstage(stage *Stage) *Fstruct {
-	delete(stage.Fstructs, fstruct)
-	delete(stage.Fstructs_mapString, fstruct.Name)
-	return fstruct
+// Unstage removes f0123456789012345678901234567890 off the model stage
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Unstage(stage *Stage) *F0123456789012345678901234567890 {
+	delete(stage.F0123456789012345678901234567890s, f0123456789012345678901234567890)
+	delete(stage.F0123456789012345678901234567890s_mapString, f0123456789012345678901234567890.Name)
+	return f0123456789012345678901234567890
 }
 
-// UnstageVoid removes fstruct off the model stage
-func (fstruct *Fstruct) UnstageVoid(stage *Stage) {
-	delete(stage.Fstructs, fstruct)
-	delete(stage.Fstructs_mapString, fstruct.Name)
+// UnstageVoid removes f0123456789012345678901234567890 off the model stage
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) UnstageVoid(stage *Stage) {
+	delete(stage.F0123456789012345678901234567890s, f0123456789012345678901234567890)
+	delete(stage.F0123456789012345678901234567890s_mapString, f0123456789012345678901234567890.Name)
 }
 
-// commit fstruct to the back repo (if it is already staged)
-func (fstruct *Fstruct) Commit(stage *Stage) *Fstruct {
-	if _, ok := stage.Fstructs[fstruct]; ok {
+// commit f0123456789012345678901234567890 to the back repo (if it is already staged)
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Commit(stage *Stage) *F0123456789012345678901234567890 {
+	if _, ok := stage.F0123456789012345678901234567890s[f0123456789012345678901234567890]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CommitFstruct(fstruct)
+			stage.BackRepo.CommitF0123456789012345678901234567890(f0123456789012345678901234567890)
 		}
 	}
-	return fstruct
+	return f0123456789012345678901234567890
 }
 
-func (fstruct *Fstruct) CommitVoid(stage *Stage) {
-	fstruct.Commit(stage)
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) CommitVoid(stage *Stage) {
+	f0123456789012345678901234567890.Commit(stage)
 }
 
-// Checkout fstruct to the back repo (if it is already staged)
-func (fstruct *Fstruct) Checkout(stage *Stage) *Fstruct {
-	if _, ok := stage.Fstructs[fstruct]; ok {
+// Checkout f0123456789012345678901234567890 to the back repo (if it is already staged)
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Checkout(stage *Stage) *F0123456789012345678901234567890 {
+	if _, ok := stage.F0123456789012345678901234567890s[f0123456789012345678901234567890]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutFstruct(fstruct)
+			stage.BackRepo.CheckoutF0123456789012345678901234567890(f0123456789012345678901234567890)
 		}
 	}
-	return fstruct
+	return f0123456789012345678901234567890
 }
 
 // for satisfaction of GongStruct interface
-func (fstruct *Fstruct) GetName() (res string) {
-	return fstruct.Name
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GetName() (res string) {
+	return f0123456789012345678901234567890.Name
 }
 
 // Stage puts gstruct to the model stage
@@ -930,7 +930,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMAstructBstructUse(AstructBstructUse *AstructBstructUse)
 	CreateORMBstruct(Bstruct *Bstruct)
 	CreateORMDstruct(Dstruct *Dstruct)
-	CreateORMFstruct(Fstruct *Fstruct)
+	CreateORMF0123456789012345678901234567890(F0123456789012345678901234567890 *F0123456789012345678901234567890)
 	CreateORMGstruct(Gstruct *Gstruct)
 }
 
@@ -940,7 +940,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMAstructBstructUse(AstructBstructUse *AstructBstructUse)
 	DeleteORMBstruct(Bstruct *Bstruct)
 	DeleteORMDstruct(Dstruct *Dstruct)
-	DeleteORMFstruct(Fstruct *Fstruct)
+	DeleteORMF0123456789012345678901234567890(F0123456789012345678901234567890 *F0123456789012345678901234567890)
 	DeleteORMGstruct(Gstruct *Gstruct)
 }
 
@@ -970,10 +970,10 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.DstructMap_Staged_Order = make(map[*Dstruct]uint)
 	stage.DstructOrder = 0
 
-	stage.Fstructs = make(map[*Fstruct]any)
-	stage.Fstructs_mapString = make(map[string]*Fstruct)
-	stage.FstructMap_Staged_Order = make(map[*Fstruct]uint)
-	stage.FstructOrder = 0
+	stage.F0123456789012345678901234567890s = make(map[*F0123456789012345678901234567890]any)
+	stage.F0123456789012345678901234567890s_mapString = make(map[string]*F0123456789012345678901234567890)
+	stage.F0123456789012345678901234567890Map_Staged_Order = make(map[*F0123456789012345678901234567890]uint)
+	stage.F0123456789012345678901234567890Order = 0
 
 	stage.Gstructs = make(map[*Gstruct]any)
 	stage.Gstructs_mapString = make(map[string]*Gstruct)
@@ -998,8 +998,8 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Dstructs = nil
 	stage.Dstructs_mapString = nil
 
-	stage.Fstructs = nil
-	stage.Fstructs_mapString = nil
+	stage.F0123456789012345678901234567890s = nil
+	stage.F0123456789012345678901234567890s_mapString = nil
 
 	stage.Gstructs = nil
 	stage.Gstructs_mapString = nil
@@ -1027,8 +1027,8 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		dstruct.Unstage(stage)
 	}
 
-	for fstruct := range stage.Fstructs {
-		fstruct.Unstage(stage)
+	for f0123456789012345678901234567890 := range stage.F0123456789012345678901234567890s {
+		f0123456789012345678901234567890.Unstage(stage)
 	}
 
 	for gstruct := range stage.Gstructs {
@@ -1106,8 +1106,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Bstructs).(*Type)
 	case map[*Dstruct]any:
 		return any(&stage.Dstructs).(*Type)
-	case map[*Fstruct]any:
-		return any(&stage.Fstructs).(*Type)
+	case map[*F0123456789012345678901234567890]any:
+		return any(&stage.F0123456789012345678901234567890s).(*Type)
 	case map[*Gstruct]any:
 		return any(&stage.Gstructs).(*Type)
 	default:
@@ -1132,8 +1132,8 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 		return any(&stage.Bstructs_mapString).(*Type)
 	case map[string]*Dstruct:
 		return any(&stage.Dstructs_mapString).(*Type)
-	case map[string]*Fstruct:
-		return any(&stage.Fstructs_mapString).(*Type)
+	case map[string]*F0123456789012345678901234567890:
+		return any(&stage.F0123456789012345678901234567890s_mapString).(*Type)
 	case map[string]*Gstruct:
 		return any(&stage.Gstructs_mapString).(*Type)
 	default:
@@ -1158,8 +1158,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 		return any(&stage.Bstructs).(*map[*Type]any)
 	case Dstruct:
 		return any(&stage.Dstructs).(*map[*Type]any)
-	case Fstruct:
-		return any(&stage.Fstructs).(*map[*Type]any)
+	case F0123456789012345678901234567890:
+		return any(&stage.F0123456789012345678901234567890s).(*map[*Type]any)
 	case Gstruct:
 		return any(&stage.Gstructs).(*map[*Type]any)
 	default:
@@ -1184,8 +1184,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Bstructs).(*map[Type]any)
 	case *Dstruct:
 		return any(&stage.Dstructs).(*map[Type]any)
-	case *Fstruct:
-		return any(&stage.Fstructs).(*map[Type]any)
+	case *F0123456789012345678901234567890:
+		return any(&stage.F0123456789012345678901234567890s).(*map[Type]any)
 	case *Gstruct:
 		return any(&stage.Gstructs).(*map[Type]any)
 	default:
@@ -1210,8 +1210,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Bstructs_mapString).(*map[string]*Type)
 	case Dstruct:
 		return any(&stage.Dstructs_mapString).(*map[string]*Type)
-	case Fstruct:
-		return any(&stage.Fstructs_mapString).(*map[string]*Type)
+	case F0123456789012345678901234567890:
+		return any(&stage.F0123456789012345678901234567890s_mapString).(*map[string]*Type)
 	case Gstruct:
 		return any(&stage.Gstructs_mapString).(*map[string]*Type)
 	default:
@@ -1278,8 +1278,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Gstruct with the name of the field
 			Gstructs: []*Gstruct{{Bstruct: Bstruct{Name: "Gstructs"}}},
 		}).(*Type)
-	case Fstruct:
-		return any(&Fstruct{
+	case F0123456789012345678901234567890:
+		return any(&F0123456789012345678901234567890{
 			// Initialisation of associations
 		}).(*Type)
 	case Gstruct:
@@ -1533,8 +1533,8 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 			}
 			return any(res).(map[*End][]*Start)
 		}
-	// reverse maps of direct associations of Fstruct
-	case Fstruct:
+	// reverse maps of direct associations of F0123456789012345678901234567890
+	case F0123456789012345678901234567890:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -1648,8 +1648,8 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End]*Start)
 		}
-	// reverse maps of direct associations of Fstruct
-	case Fstruct:
+	// reverse maps of direct associations of F0123456789012345678901234567890
+	case F0123456789012345678901234567890:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -1680,8 +1680,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "Bstruct"
 	case Dstruct:
 		res = "Dstruct"
-	case Fstruct:
-		res = "Fstruct"
+	case F0123456789012345678901234567890:
+		res = "F0123456789012345678901234567890"
 	case Gstruct:
 		res = "Gstruct"
 	}
@@ -1706,8 +1706,8 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "Bstruct"
 	case *Dstruct:
 		res = "Dstruct"
-	case *Fstruct:
-		res = "Fstruct"
+	case *F0123456789012345678901234567890:
+		res = "F0123456789012345678901234567890"
 	case *Gstruct:
 		res = "Gstruct"
 	}
@@ -1731,7 +1731,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 		res = []string{"Name", "Floatfield", "Floatfield2", "Intfield"}
 	case Dstruct:
 		res = []string{"Name", "Anarrayofb", "Gstruct", "Gstructs"}
-	case Fstruct:
+	case F0123456789012345678901234567890:
 		res = []string{"Name", "Date"}
 	case Gstruct:
 		res = []string{"Name", "Floatfield", "Floatfield2", "Intfield"}
@@ -1789,7 +1789,7 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		rf.GongstructName = "Astruct"
 		rf.Fieldname = "Dstruct4s"
 		res = append(res, rf)
-	case Fstruct:
+	case F0123456789012345678901234567890:
 		var rf ReverseField
 		_ = rf
 	case Gstruct:
@@ -1819,7 +1819,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 		res = []string{"Name", "Floatfield", "Floatfield2", "Intfield"}
 	case *Dstruct:
 		res = []string{"Name", "Anarrayofb", "Gstruct", "Gstructs"}
-	case *Fstruct:
+	case *F0123456789012345678901234567890:
 		res = []string{"Name", "Date"}
 	case *Gstruct:
 		res = []string{"Name", "Floatfield", "Floatfield2", "Intfield"}
@@ -2105,7 +2105,7 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 				res.valueString += __instance__.Name
 			}
 		}
-	case *Fstruct:
+	case *F0123456789012345678901234567890:
 		switch fieldName {
 		// string value of fields
 		case "Name":
@@ -2382,7 +2382,7 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 				res.valueString += __instance__.Name
 			}
 		}
-	case Fstruct:
+	case F0123456789012345678901234567890:
 		switch fieldName {
 		// string value of fields
 		case "Name":

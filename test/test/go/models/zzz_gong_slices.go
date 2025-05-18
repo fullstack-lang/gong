@@ -84,7 +84,7 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
-	// Compute reverse map for named struct Fstruct
+	// Compute reverse map for named struct F0123456789012345678901234567890
 	// insertion point per field
 
 	// Compute reverse map for named struct Gstruct
