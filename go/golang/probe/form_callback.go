@@ -18,6 +18,7 @@ const FormCallbackGongstructFileTemplate = `// generated code - do not edit
 package probe
 
 import (
+	"log"
 	"slices"
 	"time"
 
@@ -30,6 +31,8 @@ import (
 const _ = time.Nanosecond
 
 var _ = slices.Delete([]string{"a"}, 0, 1)
+
+var _ = log.Panicf
 
 // insertion point{{` + string(rune(FillUpTreeStructCase)) + `}}
 `
@@ -128,6 +131,7 @@ const (
 	FormCallbackSubTmplBasicFieldEnumString
 	FormCallbackSubTmplBasicFieldEnumInt
 	FormCallbackSubTmplPointerToStruct
+	FormCallbackSubTmplSliceOfPointers
 	FormCallbackSubTmplSliceOfPointersReversePointer
 )
 
@@ -146,6 +150,32 @@ map[FormCallbackSubTemplateId]string{
 	FormCallbackSubTmplPointerToStruct: `
 		case "{{FieldName}}":
 			FormDivSelectFieldToField(&({{structname}}_.{{FieldName}}), {{structname}}FormCallback.probe.stageOfInterest, formDiv)`,
+	FormCallbackSubTmplSliceOfPointers: `
+	case "{{FieldName}}":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.{{AssocStructName}}]({{structname}}FormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.{{AssocStructName}}, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.{{AssocStructName}})
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					{{structname}}FormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			{{structname}}_.{{FieldName}} = instanceSlice
+`,
 	FormCallbackSubTmplSliceOfPointersReversePointer: `
 		case "{{AssocStructName}}:{{FieldName}}":
 			// we need to retrieve the field owner before the change
@@ -265,6 +295,11 @@ func CodeGeneratorModelFormCallback(
 					fieldToFormCode += models.Replace1(
 						FormCallbackFileFieldFieldSubTemplateCode[FormCallbackSubTmplPointerToStruct],
 						"{{FieldName}}", field.Name)
+				case *models.SliceOfPointerToGongStructField:
+					fieldToFormCode += models.Replace2(
+						FormCallbackFileFieldFieldSubTemplateCode[FormCallbackSubTmplSliceOfPointers],
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name)
 				default:
 				}
 
