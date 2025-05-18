@@ -99,6 +99,18 @@ type TextDB struct {
 	// Declation for basic field textDB.Transform
 	Transform_Data sql.NullString
 
+	// Declation for basic field textDB.FontWeight
+	FontWeight_Data sql.NullString
+
+	// Declation for basic field textDB.FontSize
+	FontSize_Data sql.NullString
+
+	// Declation for basic field textDB.FontStyle
+	FontStyle_Data sql.NullString
+
+	// Declation for basic field textDB.LetterSpacing
+	LetterSpacing_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	TextPointersEncoding
@@ -144,6 +156,14 @@ type TextWOP struct {
 	StrokeDashArrayWhenSelected string `xlsx:"11"`
 
 	Transform string `xlsx:"12"`
+
+	FontWeight string `xlsx:"13"`
+
+	FontSize string `xlsx:"14"`
+
+	FontStyle string `xlsx:"15"`
+
+	LetterSpacing string `xlsx:"16"`
 	// insertion for WOP pointer fields
 }
 
@@ -162,6 +182,10 @@ var Text_Fields = []string{
 	"StrokeDashArray",
 	"StrokeDashArrayWhenSelected",
 	"Transform",
+	"FontWeight",
+	"FontSize",
+	"FontStyle",
+	"LetterSpacing",
 }
 
 type BackRepoTextStruct struct {
@@ -501,6 +525,18 @@ func (textDB *TextDB) CopyBasicFieldsFromText(text *models.Text) {
 
 	textDB.Transform_Data.String = text.Transform
 	textDB.Transform_Data.Valid = true
+
+	textDB.FontWeight_Data.String = text.FontWeight
+	textDB.FontWeight_Data.Valid = true
+
+	textDB.FontSize_Data.String = text.FontSize
+	textDB.FontSize_Data.Valid = true
+
+	textDB.FontStyle_Data.String = text.FontStyle
+	textDB.FontStyle_Data.Valid = true
+
+	textDB.LetterSpacing_Data.String = text.LetterSpacing
+	textDB.LetterSpacing_Data.Valid = true
 }
 
 // CopyBasicFieldsFromText_WOP
@@ -542,6 +578,18 @@ func (textDB *TextDB) CopyBasicFieldsFromText_WOP(text *models.Text_WOP) {
 
 	textDB.Transform_Data.String = text.Transform
 	textDB.Transform_Data.Valid = true
+
+	textDB.FontWeight_Data.String = text.FontWeight
+	textDB.FontWeight_Data.Valid = true
+
+	textDB.FontSize_Data.String = text.FontSize
+	textDB.FontSize_Data.Valid = true
+
+	textDB.FontStyle_Data.String = text.FontStyle
+	textDB.FontStyle_Data.Valid = true
+
+	textDB.LetterSpacing_Data.String = text.LetterSpacing
+	textDB.LetterSpacing_Data.Valid = true
 }
 
 // CopyBasicFieldsFromTextWOP
@@ -583,6 +631,18 @@ func (textDB *TextDB) CopyBasicFieldsFromTextWOP(text *TextWOP) {
 
 	textDB.Transform_Data.String = text.Transform
 	textDB.Transform_Data.Valid = true
+
+	textDB.FontWeight_Data.String = text.FontWeight
+	textDB.FontWeight_Data.Valid = true
+
+	textDB.FontSize_Data.String = text.FontSize
+	textDB.FontSize_Data.Valid = true
+
+	textDB.FontStyle_Data.String = text.FontStyle
+	textDB.FontStyle_Data.Valid = true
+
+	textDB.LetterSpacing_Data.String = text.LetterSpacing
+	textDB.LetterSpacing_Data.Valid = true
 }
 
 // CopyBasicFieldsToText
@@ -600,6 +660,10 @@ func (textDB *TextDB) CopyBasicFieldsToText(text *models.Text) {
 	text.StrokeDashArray = textDB.StrokeDashArray_Data.String
 	text.StrokeDashArrayWhenSelected = textDB.StrokeDashArrayWhenSelected_Data.String
 	text.Transform = textDB.Transform_Data.String
+	text.FontWeight = textDB.FontWeight_Data.String
+	text.FontSize = textDB.FontSize_Data.String
+	text.FontStyle = textDB.FontStyle_Data.String
+	text.LetterSpacing = textDB.LetterSpacing_Data.String
 }
 
 // CopyBasicFieldsToText_WOP
@@ -617,6 +681,10 @@ func (textDB *TextDB) CopyBasicFieldsToText_WOP(text *models.Text_WOP) {
 	text.StrokeDashArray = textDB.StrokeDashArray_Data.String
 	text.StrokeDashArrayWhenSelected = textDB.StrokeDashArrayWhenSelected_Data.String
 	text.Transform = textDB.Transform_Data.String
+	text.FontWeight = textDB.FontWeight_Data.String
+	text.FontSize = textDB.FontSize_Data.String
+	text.FontStyle = textDB.FontStyle_Data.String
+	text.LetterSpacing = textDB.LetterSpacing_Data.String
 }
 
 // CopyBasicFieldsToTextWOP
@@ -635,6 +703,10 @@ func (textDB *TextDB) CopyBasicFieldsToTextWOP(text *TextWOP) {
 	text.StrokeDashArray = textDB.StrokeDashArray_Data.String
 	text.StrokeDashArrayWhenSelected = textDB.StrokeDashArrayWhenSelected_Data.String
 	text.Transform = textDB.Transform_Data.String
+	text.FontWeight = textDB.FontWeight_Data.String
+	text.FontSize = textDB.FontSize_Data.String
+	text.FontStyle = textDB.FontStyle_Data.String
+	text.LetterSpacing = textDB.LetterSpacing_Data.String
 }
 
 // Backup generates a json file from a slice of all TextDB instances in the backrepo

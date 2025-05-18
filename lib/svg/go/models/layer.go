@@ -1,8 +1,6 @@
 package models
 
 type Layer struct {
-	Display bool
-
 	Name string
 
 	Rects         []*Rect

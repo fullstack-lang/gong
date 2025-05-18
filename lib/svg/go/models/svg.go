@@ -1,7 +1,9 @@
 package models
 
 import (
+	"log"
 	"math"
+	"path/filepath"
 )
 
 type SVG struct {
@@ -22,9 +24,14 @@ type SVG struct {
 
 	IsEditable bool
 
-	// IsSVGFileGenerated means the SVG file is grabbed from the rendering engine
+	// IsSVGFrontEndFileGenerated means the SVG file is grabbed from the rendering engine
 	// and is download with a <name of the svg>.svg
-	IsSVGFileGenerated bool
+	IsSVGFrontEndFileGenerated bool
+
+	// IsSVGBackEndFileGenerated means the SVG file is grabbed from the rendering engine
+	// and is download with a <name of the svg>.svg
+	IsSVGBackEndFileGenerated          bool
+	DefaultDirectoryForGeneratedImages string
 
 	Impl SVGImplInterface
 }
@@ -45,7 +52,6 @@ func (svg *SVG) OnAfterUpdate(stage *Stage, _, frontSVG *SVG) {
 			// let's create a new layer with a line in it that connects both rectangles
 			layer := new(Layer).Stage(stage)
 			layer.Name = "Line layer"
-			layer.Display = true
 			svg.Layers = append(svg.Layers, layer)
 
 			line := closestMidpoints(svg.StartRect, svg.EndRect).Stage(stage)
@@ -56,6 +62,14 @@ func (svg *SVG) OnAfterUpdate(stage *Stage, _, frontSVG *SVG) {
 			layer.Lines = append(layer.Lines, line)
 
 			stage.Commit()
+		}
+	}
+
+	if frontSVG.IsSVGBackEndFileGenerated {
+		log.Println("SVG generation requested")
+		err := svg.GenerateFile(filepath.Join(svg.DefaultDirectoryForGeneratedImages, svg.Name+".svg"))
+		if err != nil {
+			log.Println("SVG generation request failed", err.Error())
 		}
 	}
 

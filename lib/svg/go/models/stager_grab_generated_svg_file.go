@@ -41,7 +41,7 @@ func GrabGeneratedSVGFile(stage *Stage, imageFilePath string, timeout time.Durat
 	// And reset the generation flag regardless of success/failure path
 	defer func() {
 		if svgInstance != nil { // Check svgInstance isn't nil before accessing
-			svgInstance.IsSVGFileGenerated = false
+			svgInstance.IsSVGFrontEndFileGenerated = false
 		}
 		// Only clear the proxy if we temporarily set it for this operation.
 		// This assumes the proxy is *only* for this function's purpose.
@@ -64,7 +64,7 @@ func GrabGeneratedSVGFile(stage *Stage, imageFilePath string, timeout time.Durat
 	// Create a channel to receive the SvgText content
 	updateChan := make(chan string, 1) // Buffer of 1 might prevent blocking sender if receiver is slow
 
-	svgInstance.IsSVGFileGenerated = true
+	svgInstance.IsSVGFrontEndFileGenerated = true
 
 	// Assign the proxy with the channel
 	// Ensure the SvgTextProxy implementation properly handles sending

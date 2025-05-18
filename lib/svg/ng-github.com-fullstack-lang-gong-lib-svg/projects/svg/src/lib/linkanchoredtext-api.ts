@@ -21,6 +21,7 @@ export class LinkAnchoredTextAPI {
 	Y_Offset: number = 0
 	FontWeight: string = ""
 	FontSize: string = ""
+	FontStyle: string = ""
 	LetterSpacing: string = ""
 	Color: string = ""
 	FillOpacity: number = 0

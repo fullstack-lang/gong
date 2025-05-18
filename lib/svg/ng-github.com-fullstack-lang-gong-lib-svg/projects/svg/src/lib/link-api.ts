@@ -50,7 +50,7 @@ export class LinkPointersEncoding {
 
 	EndID: NullInt64 = new NullInt64 // if pointer is null, End.ID = 0
 
-	TextAtArrowEnd: number[] = []
 	TextAtArrowStart: number[] = []
+	TextAtArrowEnd: number[] = []
 	ControlPoints: number[] = []
 }

@@ -405,10 +405,10 @@ func (stage *Stage) StageBranchLink(link *Link) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _linkanchoredtext := range link.TextAtArrowEnd {
+	for _, _linkanchoredtext := range link.TextAtArrowStart {
 		StageBranch(stage, _linkanchoredtext)
 	}
-	for _, _linkanchoredtext := range link.TextAtArrowStart {
+	for _, _linkanchoredtext := range link.TextAtArrowEnd {
 		StageBranch(stage, _linkanchoredtext)
 	}
 	for _, _point := range link.ControlPoints {
@@ -906,11 +906,11 @@ func CopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo *Link) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _linkanchoredtext := range linkFrom.TextAtArrowEnd {
-		linkTo.TextAtArrowEnd = append(linkTo.TextAtArrowEnd, CopyBranchLinkAnchoredText(mapOrigCopy, _linkanchoredtext))
-	}
 	for _, _linkanchoredtext := range linkFrom.TextAtArrowStart {
 		linkTo.TextAtArrowStart = append(linkTo.TextAtArrowStart, CopyBranchLinkAnchoredText(mapOrigCopy, _linkanchoredtext))
+	}
+	for _, _linkanchoredtext := range linkFrom.TextAtArrowEnd {
+		linkTo.TextAtArrowEnd = append(linkTo.TextAtArrowEnd, CopyBranchLinkAnchoredText(mapOrigCopy, _linkanchoredtext))
 	}
 	for _, _point := range linkFrom.ControlPoints {
 		linkTo.ControlPoints = append(linkTo.ControlPoints, CopyBranchPoint(mapOrigCopy, _point))
@@ -1414,10 +1414,10 @@ func (stage *Stage) UnstageBranchLink(link *Link) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _linkanchoredtext := range link.TextAtArrowEnd {
+	for _, _linkanchoredtext := range link.TextAtArrowStart {
 		UnstageBranch(stage, _linkanchoredtext)
 	}
-	for _, _linkanchoredtext := range link.TextAtArrowStart {
+	for _, _linkanchoredtext := range link.TextAtArrowEnd {
 		UnstageBranch(stage, _linkanchoredtext)
 	}
 	for _, _point := range link.ControlPoints {

@@ -49,8 +49,8 @@ export class Link {
 
 	End?: Rect
 
-	TextAtArrowEnd: Array<LinkAnchoredText> = []
 	TextAtArrowStart: Array<LinkAnchoredText> = []
+	TextAtArrowEnd: Array<LinkAnchoredText> = []
 	ControlPoints: Array<Point> = []
 }
 
@@ -102,14 +102,14 @@ export function CopyLinkToLinkAPI(link: Link, linkAPI: LinkAPI) {
 
 
 	// insertion point for slice of pointers fields encoding
-	linkAPI.LinkPointersEncoding.TextAtArrowEnd = []
-	for (let _linkanchoredtext of link.TextAtArrowEnd) {
-		linkAPI.LinkPointersEncoding.TextAtArrowEnd.push(_linkanchoredtext.ID)
-	}
-
 	linkAPI.LinkPointersEncoding.TextAtArrowStart = []
 	for (let _linkanchoredtext of link.TextAtArrowStart) {
 		linkAPI.LinkPointersEncoding.TextAtArrowStart.push(_linkanchoredtext.ID)
+	}
+
+	linkAPI.LinkPointersEncoding.TextAtArrowEnd = []
+	for (let _linkanchoredtext of link.TextAtArrowEnd) {
+		linkAPI.LinkPointersEncoding.TextAtArrowEnd.push(_linkanchoredtext.ID)
 	}
 
 	linkAPI.LinkPointersEncoding.ControlPoints = []
@@ -159,18 +159,6 @@ export function CopyLinkAPIToLink(linkAPI: LinkAPI, link: Link, frontRepo: Front
 	link.End = frontRepo.map_ID_Rect.get(linkAPI.LinkPointersEncoding.EndID.Int64)
 
 	// insertion point for slice of pointers fields encoding
-	if (!Array.isArray(linkAPI.LinkPointersEncoding.TextAtArrowEnd)) {
-		console.error('Rects is not an array:', linkAPI.LinkPointersEncoding.TextAtArrowEnd);
-		return;
-	}
-
-	link.TextAtArrowEnd = new Array<LinkAnchoredText>()
-	for (let _id of linkAPI.LinkPointersEncoding.TextAtArrowEnd) {
-		let _linkanchoredtext = frontRepo.map_ID_LinkAnchoredText.get(_id)
-		if (_linkanchoredtext != undefined) {
-			link.TextAtArrowEnd.push(_linkanchoredtext!)
-		}
-	}
 	if (!Array.isArray(linkAPI.LinkPointersEncoding.TextAtArrowStart)) {
 		console.error('Rects is not an array:', linkAPI.LinkPointersEncoding.TextAtArrowStart);
 		return;
@@ -181,6 +169,18 @@ export function CopyLinkAPIToLink(linkAPI: LinkAPI, link: Link, frontRepo: Front
 		let _linkanchoredtext = frontRepo.map_ID_LinkAnchoredText.get(_id)
 		if (_linkanchoredtext != undefined) {
 			link.TextAtArrowStart.push(_linkanchoredtext!)
+		}
+	}
+	if (!Array.isArray(linkAPI.LinkPointersEncoding.TextAtArrowEnd)) {
+		console.error('Rects is not an array:', linkAPI.LinkPointersEncoding.TextAtArrowEnd);
+		return;
+	}
+
+	link.TextAtArrowEnd = new Array<LinkAnchoredText>()
+	for (let _id of linkAPI.LinkPointersEncoding.TextAtArrowEnd) {
+		let _linkanchoredtext = frontRepo.map_ID_LinkAnchoredText.get(_id)
+		if (_linkanchoredtext != undefined) {
+			link.TextAtArrowEnd.push(_linkanchoredtext!)
 		}
 	}
 	if (!Array.isArray(linkAPI.LinkPointersEncoding.ControlPoints)) {

@@ -22,7 +22,9 @@ export class SVG {
 	Name: string = ""
 	DrawingState: string = ""
 	IsEditable: boolean = false
-	IsSVGFileGenerated: boolean = false
+	IsSVGFrontEndFileGenerated: boolean = false
+	IsSVGBackEndFileGenerated: boolean = false
+	DefaultDirectoryForGeneratedImages: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 	Layers: Array<Layer> = []
@@ -42,7 +44,9 @@ export function CopySVGToSVGAPI(svg: SVG, svgAPI: SVGAPI) {
 	svgAPI.Name = svg.Name
 	svgAPI.DrawingState = svg.DrawingState
 	svgAPI.IsEditable = svg.IsEditable
-	svgAPI.IsSVGFileGenerated = svg.IsSVGFileGenerated
+	svgAPI.IsSVGFrontEndFileGenerated = svg.IsSVGFrontEndFileGenerated
+	svgAPI.IsSVGBackEndFileGenerated = svg.IsSVGBackEndFileGenerated
+	svgAPI.DefaultDirectoryForGeneratedImages = svg.DefaultDirectoryForGeneratedImages
 
 	// insertion point for pointer fields encoding
 	svgAPI.SVGPointersEncoding.StartRectID.Valid = true
@@ -82,7 +86,9 @@ export function CopySVGAPIToSVG(svgAPI: SVGAPI, svg: SVG, frontRepo: FrontRepo) 
 	svg.Name = svgAPI.Name
 	svg.DrawingState = svgAPI.DrawingState
 	svg.IsEditable = svgAPI.IsEditable
-	svg.IsSVGFileGenerated = svgAPI.IsSVGFileGenerated
+	svg.IsSVGFrontEndFileGenerated = svgAPI.IsSVGFrontEndFileGenerated
+	svg.IsSVGBackEndFileGenerated = svgAPI.IsSVGBackEndFileGenerated
+	svg.DefaultDirectoryForGeneratedImages = svgAPI.DefaultDirectoryForGeneratedImages
 
 	// insertion point for pointer fields encoding
 	svg.StartRect = frontRepo.map_ID_Rect.get(svgAPI.SVGPointersEncoding.StartRectID.Int64)
