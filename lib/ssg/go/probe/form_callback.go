@@ -2,6 +2,7 @@
 package probe
 
 import (
+	"log"
 	"slices"
 	"time"
 
@@ -14,6 +15,8 @@ import (
 const _ = time.Nanosecond
 
 var _ = slices.Delete([]string{"a"}, 0, 1)
+
+var _ = log.Panicf
 
 // insertion point
 func __gong__New__ChapterFormCallback(
@@ -63,6 +66,31 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(chapter_.Name), formDiv)
 		case "MardownContent":
 			FormDivBasicFieldToField(&(chapter_.MardownContent), formDiv)
+	case "Pages":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Page](chapterFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Page, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Page)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					chapterFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			chapter_.Pages = instanceSlice
+
 		case "Content:Chapters":
 			// we need to retrieve the field owner before the change
 			var pastContentOwner *models.Content
@@ -203,6 +231,31 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(content_.StaticPath), formDiv)
 		case "Target":
 			FormDivEnumStringFieldToField(&(content_.Target), formDiv)
+	case "Chapters":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Chapter](contentFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Chapter, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Chapter)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					contentFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			content_.Chapters = instanceSlice
+
 		}
 	}
 
