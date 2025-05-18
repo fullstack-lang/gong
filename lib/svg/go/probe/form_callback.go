@@ -2,6 +2,7 @@
 package probe
 
 import (
+	"log"
 	"slices"
 	"time"
 
@@ -3025,6 +3026,30 @@ func (svgFormCallback *SVGFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(svg_.IsEditable), formDiv)
 		case "IsSVGFileGenerated":
 			FormDivBasicFieldToField(&(svg_.IsSVGFileGenerated), formDiv)
+		case "Layers":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Layer](svgFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Layer, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Layer)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					svgFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			svg_.Layers = instanceSlice
 		}
 	}
 
