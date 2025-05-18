@@ -356,6 +356,17 @@
             ],
         },
         {
+            "name": "go run svg -unmarshallFromCode=simple.go -marshallOnCommit=simple.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
+            "args": [
+                "-unmarshallFromCode=data/simple.go",
+                "-marshallOnCommit=data/simple.go"
+            ],
+        },
+        {
             "name": "go run table",
             "type": "go",
             "request": "launch",

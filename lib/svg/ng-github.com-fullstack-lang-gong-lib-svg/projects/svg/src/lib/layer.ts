@@ -27,7 +27,6 @@ export class Layer {
 	ID: number = 0
 
 	// insertion point for basic fields declarations
-	Display: boolean = false
 	Name: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
@@ -50,7 +49,6 @@ export function CopyLayerToLayerAPI(layer: Layer, layerAPI: LayerAPI) {
 	layerAPI.ID = layer.ID
 
 	// insertion point for basic fields copy operations
-	layerAPI.Display = layer.Display
 	layerAPI.Name = layer.Name
 
 	// insertion point for pointer fields encoding
@@ -119,7 +117,6 @@ export function CopyLayerAPIToLayer(layerAPI: LayerAPI, layer: Layer, frontRepo:
 	layer.ID = layerAPI.ID
 
 	// insertion point for basic fields copy operations
-	layer.Display = layerAPI.Display
 	layer.Name = layerAPI.Name
 
 	// insertion point for pointer fields encoding

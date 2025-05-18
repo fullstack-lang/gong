@@ -17,7 +17,9 @@ export class SVGAPI {
 	Name: string = ""
 	DrawingState: string = ""
 	IsEditable: boolean = false
-	IsSVGFileGenerated: boolean = false
+	IsSVGFrontEndFileGenerated: boolean = false
+	IsSVGBackEndFileGenerated: boolean = false
+	DefaultDirectoryForGeneratedImages: string = ""
 
 	// insertion point for other decls
 

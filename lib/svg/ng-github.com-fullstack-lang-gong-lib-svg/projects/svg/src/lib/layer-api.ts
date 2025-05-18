@@ -22,7 +22,6 @@ export class LayerAPI {
 	ID: number = 0
 
 	// insertion point for basic fields declarations
-	Display: boolean = false
 	Name: string = ""
 
 	// insertion point for other decls

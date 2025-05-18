@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TextWidthCalculatorComponent } from './text-width-calculator.component';
+import { TextWidthCalculatorComponent } from './calc.component';
 
 describe('TextWidthCalculatorComponent', () => {
   let component: TextWidthCalculatorComponent;

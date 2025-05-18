@@ -132,14 +132,11 @@ func (from *Ellipse) CopyBasicFields(to *Ellipse) {
 type Layer_WOP struct {
 	// insertion point
 
-	Display bool
-
 	Name string
 }
 
 func (from *Layer) CopyBasicFields(to *Layer) {
 	// insertion point
-	to.Display = from.Display
 	to.Name = from.Name
 }
 
@@ -292,6 +289,8 @@ type LinkAnchoredText_WOP struct {
 
 	FontSize string
 
+	FontStyle string
+
 	LetterSpacing string
 
 	Color string
@@ -321,6 +320,7 @@ func (from *LinkAnchoredText) CopyBasicFields(to *LinkAnchoredText) {
 	to.Y_Offset = from.Y_Offset
 	to.FontWeight = from.FontWeight
 	to.FontSize = from.FontSize
+	to.FontStyle = from.FontStyle
 	to.LetterSpacing = from.LetterSpacing
 	to.Color = from.Color
 	to.FillOpacity = from.FillOpacity
@@ -679,9 +679,11 @@ type RectAnchoredText_WOP struct {
 
 	FontWeight string
 
-	FontSize int
+	FontSize string
 
 	FontStyle string
+
+	LetterSpacing string
 
 	X_Offset float64
 
@@ -715,6 +717,7 @@ func (from *RectAnchoredText) CopyBasicFields(to *RectAnchoredText) {
 	to.FontWeight = from.FontWeight
 	to.FontSize = from.FontSize
 	to.FontStyle = from.FontStyle
+	to.LetterSpacing = from.LetterSpacing
 	to.X_Offset = from.X_Offset
 	to.Y_Offset = from.Y_Offset
 	to.RectAnchorType = from.RectAnchorType
@@ -776,7 +779,11 @@ type SVG_WOP struct {
 
 	IsEditable bool
 
-	IsSVGFileGenerated bool
+	IsSVGFrontEndFileGenerated bool
+
+	IsSVGBackEndFileGenerated bool
+
+	DefaultDirectoryForGeneratedImages string
 }
 
 func (from *SVG) CopyBasicFields(to *SVG) {
@@ -784,7 +791,9 @@ func (from *SVG) CopyBasicFields(to *SVG) {
 	to.Name = from.Name
 	to.DrawingState = from.DrawingState
 	to.IsEditable = from.IsEditable
-	to.IsSVGFileGenerated = from.IsSVGFileGenerated
+	to.IsSVGFrontEndFileGenerated = from.IsSVGFrontEndFileGenerated
+	to.IsSVGBackEndFileGenerated = from.IsSVGBackEndFileGenerated
+	to.DefaultDirectoryForGeneratedImages = from.DefaultDirectoryForGeneratedImages
 }
 
 type SvgText_WOP struct {
@@ -827,6 +836,14 @@ type Text_WOP struct {
 	StrokeDashArrayWhenSelected string
 
 	Transform string
+
+	FontWeight string
+
+	FontSize string
+
+	FontStyle string
+
+	LetterSpacing string
 }
 
 func (from *Text) CopyBasicFields(to *Text) {
@@ -843,5 +860,9 @@ func (from *Text) CopyBasicFields(to *Text) {
 	to.StrokeDashArray = from.StrokeDashArray
 	to.StrokeDashArrayWhenSelected = from.StrokeDashArrayWhenSelected
 	to.Transform = from.Transform
+	to.FontWeight = from.FontWeight
+	to.FontSize = from.FontSize
+	to.FontStyle = from.FontStyle
+	to.LetterSpacing = from.LetterSpacing
 }
 

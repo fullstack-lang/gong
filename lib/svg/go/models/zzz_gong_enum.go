@@ -2372,6 +2372,96 @@ func (rectanchortype RectAnchorType) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for SegmentType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (segmenttype SegmentType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch segmenttype {
+	// insertion code per enum code
+	case StartSegment:
+		res = "Start Segment"
+	case MiddleSegment:
+		res = "Middle Segment"
+	case EndSegment:
+		res = "End Segment"
+	}
+	return
+}
+
+func (segmenttype *SegmentType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "Start Segment":
+		*segmenttype = StartSegment
+		return
+	case "Middle Segment":
+		*segmenttype = MiddleSegment
+		return
+	case "End Segment":
+		*segmenttype = EndSegment
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (segmenttype *SegmentType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "StartSegment":
+		*segmenttype = StartSegment
+	case "MiddleSegment":
+		*segmenttype = MiddleSegment
+	case "EndSegment":
+		*segmenttype = EndSegment
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (segmenttype *SegmentType) ToCodeString() (res string) {
+
+	switch *segmenttype {
+	// insertion code per enum code
+	case StartSegment:
+		res = "StartSegment"
+	case MiddleSegment:
+		res = "MiddleSegment"
+	case EndSegment:
+		res = "EndSegment"
+	}
+	return
+}
+
+func (segmenttype SegmentType) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "StartSegment")
+	res = append(res, "MiddleSegment")
+	res = append(res, "EndSegment")
+
+	return
+}
+
+func (segmenttype SegmentType) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "Start Segment")
+	res = append(res, "Middle Segment")
+	res = append(res, "End Segment")
+
+	return
+}
+
 // Utility function for SideType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value

@@ -157,9 +157,9 @@ type Stage struct {
 	Links_mapString map[string]*Link
 
 	// insertion point for slice of pointers maps
-	Link_TextAtArrowEnd_reverseMap map[*LinkAnchoredText]*Link
-
 	Link_TextAtArrowStart_reverseMap map[*LinkAnchoredText]*Link
+
+	Link_TextAtArrowEnd_reverseMap map[*LinkAnchoredText]*Link
 
 	Link_ControlPoints_reverseMap map[*Point]*Link
 
@@ -2604,9 +2604,9 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Rect with the name of the field
 			End: &Rect{Name: "End"},
 			// field is initialized with an instance of LinkAnchoredText with the name of the field
-			TextAtArrowEnd: []*LinkAnchoredText{{Name: "TextAtArrowEnd"}},
-			// field is initialized with an instance of LinkAnchoredText with the name of the field
 			TextAtArrowStart: []*LinkAnchoredText{{Name: "TextAtArrowStart"}},
+			// field is initialized with an instance of LinkAnchoredText with the name of the field
+			TextAtArrowEnd: []*LinkAnchoredText{{Name: "TextAtArrowEnd"}},
 			// field is initialized with an instance of Point with the name of the field
 			ControlPoints: []*Point{{Name: "ControlPoints"}},
 		}).(*Type)
@@ -3056,18 +3056,18 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Link:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "TextAtArrowEnd":
-			res := make(map[*LinkAnchoredText]*Link)
-			for link := range stage.Links {
-				for _, linkanchoredtext_ := range link.TextAtArrowEnd {
-					res[linkanchoredtext_] = link
-				}
-			}
-			return any(res).(map[*End]*Start)
 		case "TextAtArrowStart":
 			res := make(map[*LinkAnchoredText]*Link)
 			for link := range stage.Links {
 				for _, linkanchoredtext_ := range link.TextAtArrowStart {
+					res[linkanchoredtext_] = link
+				}
+			}
+			return any(res).(map[*End]*Start)
+		case "TextAtArrowEnd":
+			res := make(map[*LinkAnchoredText]*Link)
+			for link := range stage.Links {
+				for _, linkanchoredtext_ := range link.TextAtArrowEnd {
 					res[linkanchoredtext_] = link
 				}
 			}
@@ -3352,13 +3352,13 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Ellipse:
 		res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Layer:
-		res = []string{"Display", "Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths", "Links", "RectLinkLinks"}
+		res = []string{"Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths", "Links", "RectLinkLinks"}
 	case Line:
 		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case Link:
-		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "HasStartArrow", "StartArrowSize", "TextAtArrowEnd", "TextAtArrowStart", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "HasStartArrow", "StartArrowSize", "TextAtArrowStart", "TextAtArrowEnd", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case LinkAnchoredText:
-		res = []string{"Name", "Content", "AutomaticLayout", "LinkAnchorType", "X_Offset", "Y_Offset", "FontWeight", "FontSize", "LetterSpacing", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Content", "AutomaticLayout", "LinkAnchorType", "X_Offset", "Y_Offset", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Path:
 		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Point:
@@ -3374,15 +3374,15 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case RectAnchoredRect:
 		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "X_Offset", "Y_Offset", "RectAnchorType", "WidthFollowRect", "HeightFollowRect", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case RectAnchoredText:
-		res = []string{"Name", "Content", "FontWeight", "FontSize", "FontStyle", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Content", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case RectLinkLink:
 		res = []string{"Name", "Start", "End", "TargetAnchorPosition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case SVG:
-		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable", "IsSVGFileGenerated"}
+		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable", "IsSVGFrontEndFileGenerated", "IsSVGBackEndFileGenerated", "DefaultDirectoryForGeneratedImages"}
 	case SvgText:
 		res = []string{"Name", "Text"}
 	case Text:
-		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "Animates"}
 	}
 	return
 }
@@ -3468,10 +3468,10 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Link"
-		rf.Fieldname = "TextAtArrowEnd"
+		rf.Fieldname = "TextAtArrowStart"
 		res = append(res, rf)
 		rf.GongstructName = "Link"
-		rf.Fieldname = "TextAtArrowStart"
+		rf.Fieldname = "TextAtArrowEnd"
 		res = append(res, rf)
 	case Path:
 		var rf ReverseField
@@ -3557,13 +3557,13 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Ellipse:
 		res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case *Layer:
-		res = []string{"Display", "Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths", "Links", "RectLinkLinks"}
+		res = []string{"Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths", "Links", "RectLinkLinks"}
 	case *Line:
 		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case *Link:
-		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "HasStartArrow", "StartArrowSize", "TextAtArrowEnd", "TextAtArrowStart", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "HasStartArrow", "StartArrowSize", "TextAtArrowStart", "TextAtArrowEnd", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case *LinkAnchoredText:
-		res = []string{"Name", "Content", "AutomaticLayout", "LinkAnchorType", "X_Offset", "Y_Offset", "FontWeight", "FontSize", "LetterSpacing", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Content", "AutomaticLayout", "LinkAnchorType", "X_Offset", "Y_Offset", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case *Path:
 		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case *Point:
@@ -3579,15 +3579,15 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *RectAnchoredRect:
 		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "X_Offset", "Y_Offset", "RectAnchorType", "WidthFollowRect", "HeightFollowRect", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case *RectAnchoredText:
-		res = []string{"Name", "Content", "FontWeight", "FontSize", "FontStyle", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Content", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case *RectLinkLink:
 		res = []string{"Name", "Start", "End", "TargetAnchorPosition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case *SVG:
-		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable", "IsSVGFileGenerated"}
+		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable", "IsSVGFrontEndFileGenerated", "IsSVGBackEndFileGenerated", "DefaultDirectoryForGeneratedImages"}
 	case *SvgText:
 		res = []string{"Name", "Text"}
 	case *Text:
-		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "Animates"}
 	}
 	return
 }
@@ -3748,10 +3748,6 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 	case *Layer:
 		switch fieldName {
 		// string value of fields
-		case "Display":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.Display)
-			res.valueBool = inferedInstance.Display
-			res.GongFieldValueType = GongFieldValueTypeBool
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Rects":
@@ -3948,15 +3944,15 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%f", inferedInstance.StartArrowSize)
 			res.valueFloat = inferedInstance.StartArrowSize
 			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "TextAtArrowEnd":
-			for idx, __instance__ := range inferedInstance.TextAtArrowEnd {
+		case "TextAtArrowStart":
+			for idx, __instance__ := range inferedInstance.TextAtArrowStart {
 				if idx > 0 {
 					res.valueString += "\n"
 				}
 				res.valueString += __instance__.Name
 			}
-		case "TextAtArrowStart":
-			for idx, __instance__ := range inferedInstance.TextAtArrowStart {
+		case "TextAtArrowEnd":
+			for idx, __instance__ := range inferedInstance.TextAtArrowEnd {
 				if idx > 0 {
 					res.valueString += "\n"
 				}
@@ -4018,6 +4014,8 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.FontWeight
 		case "FontSize":
 			res.valueString = inferedInstance.FontSize
+		case "FontStyle":
+			res.valueString = inferedInstance.FontStyle
 		case "LetterSpacing":
 			res.valueString = inferedInstance.LetterSpacing
 		case "Color":
@@ -4429,11 +4427,11 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "FontWeight":
 			res.valueString = inferedInstance.FontWeight
 		case "FontSize":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.FontSize)
-			res.valueInt = inferedInstance.FontSize
-			res.GongFieldValueType = GongFieldValueTypeInt
+			res.valueString = inferedInstance.FontSize
 		case "FontStyle":
 			res.valueString = inferedInstance.FontStyle
+		case "LetterSpacing":
+			res.valueString = inferedInstance.LetterSpacing
 		case "X_Offset":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.X_Offset)
 			res.valueFloat = inferedInstance.X_Offset
@@ -4545,10 +4543,16 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsEditable)
 			res.valueBool = inferedInstance.IsEditable
 			res.GongFieldValueType = GongFieldValueTypeBool
-		case "IsSVGFileGenerated":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.IsSVGFileGenerated)
-			res.valueBool = inferedInstance.IsSVGFileGenerated
+		case "IsSVGFrontEndFileGenerated":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsSVGFrontEndFileGenerated)
+			res.valueBool = inferedInstance.IsSVGFrontEndFileGenerated
 			res.GongFieldValueType = GongFieldValueTypeBool
+		case "IsSVGBackEndFileGenerated":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsSVGBackEndFileGenerated)
+			res.valueBool = inferedInstance.IsSVGBackEndFileGenerated
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "DefaultDirectoryForGeneratedImages":
+			res.valueString = inferedInstance.DefaultDirectoryForGeneratedImages
 		}
 	case *SvgText:
 		switch fieldName {
@@ -4595,6 +4599,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "FontWeight":
+			res.valueString = inferedInstance.FontWeight
+		case "FontSize":
+			res.valueString = inferedInstance.FontSize
+		case "FontStyle":
+			res.valueString = inferedInstance.FontStyle
+		case "LetterSpacing":
+			res.valueString = inferedInstance.LetterSpacing
 		case "Animates":
 			for idx, __instance__ := range inferedInstance.Animates {
 				if idx > 0 {
@@ -4732,10 +4744,6 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 	case Layer:
 		switch fieldName {
 		// string value of fields
-		case "Display":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.Display)
-			res.valueBool = inferedInstance.Display
-			res.GongFieldValueType = GongFieldValueTypeBool
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Rects":
@@ -4932,15 +4940,15 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%f", inferedInstance.StartArrowSize)
 			res.valueFloat = inferedInstance.StartArrowSize
 			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "TextAtArrowEnd":
-			for idx, __instance__ := range inferedInstance.TextAtArrowEnd {
+		case "TextAtArrowStart":
+			for idx, __instance__ := range inferedInstance.TextAtArrowStart {
 				if idx > 0 {
 					res.valueString += "\n"
 				}
 				res.valueString += __instance__.Name
 			}
-		case "TextAtArrowStart":
-			for idx, __instance__ := range inferedInstance.TextAtArrowStart {
+		case "TextAtArrowEnd":
+			for idx, __instance__ := range inferedInstance.TextAtArrowEnd {
 				if idx > 0 {
 					res.valueString += "\n"
 				}
@@ -5002,6 +5010,8 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.FontWeight
 		case "FontSize":
 			res.valueString = inferedInstance.FontSize
+		case "FontStyle":
+			res.valueString = inferedInstance.FontStyle
 		case "LetterSpacing":
 			res.valueString = inferedInstance.LetterSpacing
 		case "Color":
@@ -5413,11 +5423,11 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "FontWeight":
 			res.valueString = inferedInstance.FontWeight
 		case "FontSize":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.FontSize)
-			res.valueInt = inferedInstance.FontSize
-			res.GongFieldValueType = GongFieldValueTypeInt
+			res.valueString = inferedInstance.FontSize
 		case "FontStyle":
 			res.valueString = inferedInstance.FontStyle
+		case "LetterSpacing":
+			res.valueString = inferedInstance.LetterSpacing
 		case "X_Offset":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.X_Offset)
 			res.valueFloat = inferedInstance.X_Offset
@@ -5529,10 +5539,16 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsEditable)
 			res.valueBool = inferedInstance.IsEditable
 			res.GongFieldValueType = GongFieldValueTypeBool
-		case "IsSVGFileGenerated":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.IsSVGFileGenerated)
-			res.valueBool = inferedInstance.IsSVGFileGenerated
+		case "IsSVGFrontEndFileGenerated":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsSVGFrontEndFileGenerated)
+			res.valueBool = inferedInstance.IsSVGFrontEndFileGenerated
 			res.GongFieldValueType = GongFieldValueTypeBool
+		case "IsSVGBackEndFileGenerated":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsSVGBackEndFileGenerated)
+			res.valueBool = inferedInstance.IsSVGBackEndFileGenerated
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "DefaultDirectoryForGeneratedImages":
+			res.valueString = inferedInstance.DefaultDirectoryForGeneratedImages
 		}
 	case SvgText:
 		switch fieldName {
@@ -5579,6 +5595,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "FontWeight":
+			res.valueString = inferedInstance.FontWeight
+		case "FontSize":
+			res.valueString = inferedInstance.FontSize
+		case "FontStyle":
+			res.valueString = inferedInstance.FontStyle
+		case "LetterSpacing":
+			res.valueString = inferedInstance.LetterSpacing
 		case "Animates":
 			for idx, __instance__ := range inferedInstance.Animates {
 				if idx > 0 {
