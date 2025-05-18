@@ -200,7 +200,7 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(classdiagram_.Name), formDiv)
-	case "GongStructShapes":
+		case "GongStructShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongStructShape](classdiagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongStructShape, 0)
 
@@ -225,7 +225,7 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 			}
 			classdiagram_.GongStructShapes = instanceSlice
 
-	case "GongEnumShapes":
+		case "GongEnumShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongEnumShape](classdiagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongEnumShape, 0)
 
@@ -250,7 +250,7 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 			}
 			classdiagram_.GongEnumShapes = instanceSlice
 
-	case "GongNoteShapes":
+		case "GongNoteShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongNoteShape](classdiagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongNoteShape, 0)
 
@@ -423,7 +423,7 @@ func (diagrampackageFormCallback *DiagramPackageFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagrampackage_.Path), formDiv)
 		case "GongModelPath":
 			FormDivBasicFieldToField(&(diagrampackage_.GongModelPath), formDiv)
-	case "Classdiagrams":
+		case "Classdiagrams":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Classdiagram](diagrampackageFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Classdiagram, 0)
 
@@ -535,7 +535,7 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongenumshape_.Y), formDiv)
 		case "Identifier":
 			FormDivBasicFieldToField(&(gongenumshape_.Identifier), formDiv)
-	case "GongEnumValueShapes":
+		case "GongEnumValueShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongEnumValueShape](gongenumshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongEnumValueShape, 0)
 
@@ -972,7 +972,7 @@ func (gongnoteshapeFormCallback *GongNoteShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongnoteshape_.Height), formDiv)
 		case "Matched":
 			FormDivBasicFieldToField(&(gongnoteshape_.Matched), formDiv)
-	case "GongNoteLinkShapes":
+		case "GongNoteLinkShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongNoteLinkShape](gongnoteshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongNoteLinkShape, 0)
 
@@ -1137,7 +1137,7 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongstructshape_.ShowNbInstances), formDiv)
 		case "NbInstances":
 			FormDivBasicFieldToField(&(gongstructshape_.NbInstances), formDiv)
-	case "AttributeShapes":
+		case "AttributeShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AttributeShape](gongstructshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.AttributeShape, 0)
 
@@ -1162,7 +1162,7 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 			}
 			gongstructshape_.AttributeShapes = instanceSlice
 
-	case "LinkShapes":
+		case "LinkShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkShape](gongstructshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.LinkShape, 0)
 

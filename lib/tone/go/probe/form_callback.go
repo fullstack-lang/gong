@@ -192,7 +192,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(note_.Name), formDiv)
-	case "Frequencies":
+		case "Frequencies":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Freqency](noteFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Freqency, 0)
 

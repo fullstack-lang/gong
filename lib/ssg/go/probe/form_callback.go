@@ -66,7 +66,7 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(chapter_.Name), formDiv)
 		case "MardownContent":
 			FormDivBasicFieldToField(&(chapter_.MardownContent), formDiv)
-	case "Pages":
+		case "Pages":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Page](chapterFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Page, 0)
 
@@ -231,7 +231,7 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(content_.StaticPath), formDiv)
 		case "Target":
 			FormDivEnumStringFieldToField(&(content_.Target), formDiv)
-	case "Chapters":
+		case "Chapters":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Chapter](contentFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Chapter, 0)
 

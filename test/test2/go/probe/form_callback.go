@@ -68,7 +68,7 @@ func (aFormCallback *AFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(a_.NumberField), formDiv)
 		case "B":
 			FormDivSelectFieldToField(&(a_.B), aFormCallback.probe.stageOfInterest, formDiv)
-	case "Bs":
+		case "Bs":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.B](aFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.B, 0)
 

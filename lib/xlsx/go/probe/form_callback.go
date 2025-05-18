@@ -330,7 +330,7 @@ func (xlfileFormCallback *XLFileFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(xlfile_.Name), formDiv)
 		case "NbSheets":
 			FormDivBasicFieldToField(&(xlfile_.NbSheets), formDiv)
-	case "Sheets":
+		case "Sheets":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.XLSheet](xlfileFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.XLSheet, 0)
 
@@ -434,7 +434,7 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(xlrow_.Name), formDiv)
 		case "RowIndex":
 			FormDivBasicFieldToField(&(xlrow_.RowIndex), formDiv)
-	case "Cells":
+		case "Cells":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.XLCell](xlrowFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.XLCell, 0)
 
@@ -593,7 +593,7 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(xlsheet_.MaxCol), formDiv)
 		case "NbRows":
 			FormDivBasicFieldToField(&(xlsheet_.NbRows), formDiv)
-	case "Rows":
+		case "Rows":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.XLRow](xlsheetFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.XLRow, 0)
 
@@ -618,7 +618,7 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 			}
 			xlsheet_.Rows = instanceSlice
 
-	case "SheetCells":
+		case "SheetCells":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.XLCell](xlsheetFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.XLCell, 0)
 

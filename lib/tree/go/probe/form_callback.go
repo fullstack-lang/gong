@@ -240,7 +240,7 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(node_.PreceedingIcon), formDiv)
 		case "PreceedingSVGIcon":
 			FormDivSelectFieldToField(&(node_.PreceedingSVGIcon), nodeFormCallback.probe.stageOfInterest, formDiv)
-	case "Children":
+		case "Children":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Node](nodeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Node, 0)
 
@@ -265,7 +265,7 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 			}
 			node_.Children = instanceSlice
 
-	case "Buttons":
+		case "Buttons":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Button](nodeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Button, 0)
 
@@ -548,7 +548,7 @@ func (treeFormCallback *TreeFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(tree_.Name), formDiv)
-	case "RootNodes":
+		case "RootNodes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Node](treeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Node, 0)
 
