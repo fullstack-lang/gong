@@ -73,56 +73,72 @@ func (arrowFormCallback *ArrowFormCallback) OnSave() {
 		case "OptionnalStroke":
 			FormDivBasicFieldToField(&(arrow_.OptionnalStroke), formDiv)
 		case "Gantt:Arrows":
-			// we need to retrieve the field owner before the change
-			var pastGanttOwner *models.Gantt
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Gantt"
-			rf.Fieldname = "Arrows"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				arrowFormCallback.probe.stageOfInterest,
-				arrow_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Gantt.Arrows []*Arrow" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Arrow). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Gantt
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Gantt"
+				rf.Fieldname = "Arrows"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					arrowFormCallback.probe.stageOfInterest,
+					arrow_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastGanttOwner = reverseFieldOwner.(*models.Gantt)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastGanttOwner != nil {
-					idx := slices.Index(pastGanttOwner.Arrows, arrow_)
-					pastGanttOwner.Arrows = slices.Delete(pastGanttOwner.Arrows, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastGanttOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _gantt := range *models.GetGongstructInstancesSet[models.Gantt](arrowFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _gantt.GetName() == fieldValue.GetName() {
-							newGanttOwner := _gantt // we have a match
-
-							// we remove the arrow_ instance from the pastGanttOwner field
-							if pastGanttOwner != nil {
-								if newGanttOwner != pastGanttOwner {
-									idx := slices.Index(pastGanttOwner.Arrows, arrow_)
-									pastGanttOwner.Arrows = slices.Delete(pastGanttOwner.Arrows, idx, idx+1)
-									newGanttOwner.Arrows = append(newGanttOwner.Arrows, arrow_)
-								}
-							} else {
-								newGanttOwner.Arrows = append(newGanttOwner.Arrows, arrow_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Gantt)
+					if !ok {
+						log.Fatalln("Source of Gantt.Arrows []*Arrow, is not an Gantt instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Arrows, arrow_)
+					formerSource.Arrows = slices.Delete(formerSource.Arrows, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Gantt
+			for _gantt := range *models.GetGongstructInstancesSet[models.Gantt](arrowFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _gantt.GetName() == newSourceName.GetName() {
+					newSource = _gantt // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Gantt.Arrows []*Arrow, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Arrows = append(newSource.Arrows, arrow_)
 		}
 	}
 
@@ -217,56 +233,72 @@ func (barFormCallback *BarFormCallback) OnSave() {
 		case "StrokeDashArray":
 			FormDivBasicFieldToField(&(bar_.StrokeDashArray), formDiv)
 		case "Lane:Bars":
-			// we need to retrieve the field owner before the change
-			var pastLaneOwner *models.Lane
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Lane"
-			rf.Fieldname = "Bars"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				barFormCallback.probe.stageOfInterest,
-				bar_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Lane.Bars []*Bar" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Bar). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Lane
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Lane"
+				rf.Fieldname = "Bars"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					barFormCallback.probe.stageOfInterest,
+					bar_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastLaneOwner = reverseFieldOwner.(*models.Lane)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastLaneOwner != nil {
-					idx := slices.Index(pastLaneOwner.Bars, bar_)
-					pastLaneOwner.Bars = slices.Delete(pastLaneOwner.Bars, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastLaneOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _lane := range *models.GetGongstructInstancesSet[models.Lane](barFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _lane.GetName() == fieldValue.GetName() {
-							newLaneOwner := _lane // we have a match
-
-							// we remove the bar_ instance from the pastLaneOwner field
-							if pastLaneOwner != nil {
-								if newLaneOwner != pastLaneOwner {
-									idx := slices.Index(pastLaneOwner.Bars, bar_)
-									pastLaneOwner.Bars = slices.Delete(pastLaneOwner.Bars, idx, idx+1)
-									newLaneOwner.Bars = append(newLaneOwner.Bars, bar_)
-								}
-							} else {
-								newLaneOwner.Bars = append(newLaneOwner.Bars, bar_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Lane)
+					if !ok {
+						log.Fatalln("Source of Lane.Bars []*Bar, is not an Lane instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Bars, bar_)
+					formerSource.Bars = slices.Delete(formerSource.Bars, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Lane
+			for _lane := range *models.GetGongstructInstancesSet[models.Lane](barFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _lane.GetName() == newSourceName.GetName() {
+					newSource = _lane // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Lane.Bars []*Bar, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Bars = append(newSource.Bars, bar_)
 		}
 	}
 
@@ -595,56 +627,72 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			group_.GroupLanes = instanceSlice
 
 		case "Gantt:Groups":
-			// we need to retrieve the field owner before the change
-			var pastGanttOwner *models.Gantt
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Gantt"
-			rf.Fieldname = "Groups"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				groupFormCallback.probe.stageOfInterest,
-				group_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Gantt.Groups []*Group" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Group). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Gantt
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Gantt"
+				rf.Fieldname = "Groups"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					groupFormCallback.probe.stageOfInterest,
+					group_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastGanttOwner = reverseFieldOwner.(*models.Gantt)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastGanttOwner != nil {
-					idx := slices.Index(pastGanttOwner.Groups, group_)
-					pastGanttOwner.Groups = slices.Delete(pastGanttOwner.Groups, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastGanttOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _gantt := range *models.GetGongstructInstancesSet[models.Gantt](groupFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _gantt.GetName() == fieldValue.GetName() {
-							newGanttOwner := _gantt // we have a match
-
-							// we remove the group_ instance from the pastGanttOwner field
-							if pastGanttOwner != nil {
-								if newGanttOwner != pastGanttOwner {
-									idx := slices.Index(pastGanttOwner.Groups, group_)
-									pastGanttOwner.Groups = slices.Delete(pastGanttOwner.Groups, idx, idx+1)
-									newGanttOwner.Groups = append(newGanttOwner.Groups, group_)
-								}
-							} else {
-								newGanttOwner.Groups = append(newGanttOwner.Groups, group_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Gantt)
+					if !ok {
+						log.Fatalln("Source of Gantt.Groups []*Group, is not an Gantt instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Groups, group_)
+					formerSource.Groups = slices.Delete(formerSource.Groups, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Gantt
+			for _gantt := range *models.GetGongstructInstancesSet[models.Gantt](groupFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _gantt.GetName() == newSourceName.GetName() {
+					newSource = _gantt // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Gantt.Groups []*Group, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Groups = append(newSource.Groups, group_)
 		}
 	}
 
@@ -750,107 +798,139 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 			lane_.Bars = instanceSlice
 
 		case "Gantt:Lanes":
-			// we need to retrieve the field owner before the change
-			var pastGanttOwner *models.Gantt
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Gantt"
-			rf.Fieldname = "Lanes"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				laneFormCallback.probe.stageOfInterest,
-				lane_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Gantt.Lanes []*Lane" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Lane). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Gantt
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Gantt"
+				rf.Fieldname = "Lanes"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					laneFormCallback.probe.stageOfInterest,
+					lane_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastGanttOwner = reverseFieldOwner.(*models.Gantt)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastGanttOwner != nil {
-					idx := slices.Index(pastGanttOwner.Lanes, lane_)
-					pastGanttOwner.Lanes = slices.Delete(pastGanttOwner.Lanes, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastGanttOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _gantt := range *models.GetGongstructInstancesSet[models.Gantt](laneFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _gantt.GetName() == fieldValue.GetName() {
-							newGanttOwner := _gantt // we have a match
-
-							// we remove the lane_ instance from the pastGanttOwner field
-							if pastGanttOwner != nil {
-								if newGanttOwner != pastGanttOwner {
-									idx := slices.Index(pastGanttOwner.Lanes, lane_)
-									pastGanttOwner.Lanes = slices.Delete(pastGanttOwner.Lanes, idx, idx+1)
-									newGanttOwner.Lanes = append(newGanttOwner.Lanes, lane_)
-								}
-							} else {
-								newGanttOwner.Lanes = append(newGanttOwner.Lanes, lane_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Gantt)
+					if !ok {
+						log.Fatalln("Source of Gantt.Lanes []*Lane, is not an Gantt instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Lanes, lane_)
+					formerSource.Lanes = slices.Delete(formerSource.Lanes, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Gantt
+			for _gantt := range *models.GetGongstructInstancesSet[models.Gantt](laneFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _gantt.GetName() == newSourceName.GetName() {
+					newSource = _gantt // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Gantt.Lanes []*Lane, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Lanes = append(newSource.Lanes, lane_)
 		case "Group:GroupLanes":
-			// we need to retrieve the field owner before the change
-			var pastGroupOwner *models.Group
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Group"
-			rf.Fieldname = "GroupLanes"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				laneFormCallback.probe.stageOfInterest,
-				lane_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Group.GroupLanes []*Lane" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Lane). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Group
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Group"
+				rf.Fieldname = "GroupLanes"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					laneFormCallback.probe.stageOfInterest,
+					lane_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastGroupOwner = reverseFieldOwner.(*models.Group)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastGroupOwner != nil {
-					idx := slices.Index(pastGroupOwner.GroupLanes, lane_)
-					pastGroupOwner.GroupLanes = slices.Delete(pastGroupOwner.GroupLanes, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastGroupOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _group := range *models.GetGongstructInstancesSet[models.Group](laneFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _group.GetName() == fieldValue.GetName() {
-							newGroupOwner := _group // we have a match
-
-							// we remove the lane_ instance from the pastGroupOwner field
-							if pastGroupOwner != nil {
-								if newGroupOwner != pastGroupOwner {
-									idx := slices.Index(pastGroupOwner.GroupLanes, lane_)
-									pastGroupOwner.GroupLanes = slices.Delete(pastGroupOwner.GroupLanes, idx, idx+1)
-									newGroupOwner.GroupLanes = append(newGroupOwner.GroupLanes, lane_)
-								}
-							} else {
-								newGroupOwner.GroupLanes = append(newGroupOwner.GroupLanes, lane_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Group)
+					if !ok {
+						log.Fatalln("Source of Group.GroupLanes []*Lane, is not an Group instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.GroupLanes, lane_)
+					formerSource.GroupLanes = slices.Delete(formerSource.GroupLanes, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Group
+			for _group := range *models.GetGongstructInstancesSet[models.Group](laneFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _group.GetName() == newSourceName.GetName() {
+					newSource = _group // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Group.GroupLanes []*Lane, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.GroupLanes = append(newSource.GroupLanes, lane_)
 		}
 	}
 
@@ -931,56 +1011,72 @@ func (laneuseFormCallback *LaneUseFormCallback) OnSave() {
 		case "Lane":
 			FormDivSelectFieldToField(&(laneuse_.Lane), laneuseFormCallback.probe.stageOfInterest, formDiv)
 		case "Milestone:LanesToDisplayMilestoneUse":
-			// we need to retrieve the field owner before the change
-			var pastMilestoneOwner *models.Milestone
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Milestone"
-			rf.Fieldname = "LanesToDisplayMilestoneUse"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				laneuseFormCallback.probe.stageOfInterest,
-				laneuse_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Milestone.LanesToDisplayMilestoneUse []*LaneUse" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of LaneUse). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Milestone
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Milestone"
+				rf.Fieldname = "LanesToDisplayMilestoneUse"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					laneuseFormCallback.probe.stageOfInterest,
+					laneuse_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastMilestoneOwner = reverseFieldOwner.(*models.Milestone)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastMilestoneOwner != nil {
-					idx := slices.Index(pastMilestoneOwner.LanesToDisplayMilestoneUse, laneuse_)
-					pastMilestoneOwner.LanesToDisplayMilestoneUse = slices.Delete(pastMilestoneOwner.LanesToDisplayMilestoneUse, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastMilestoneOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _milestone := range *models.GetGongstructInstancesSet[models.Milestone](laneuseFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _milestone.GetName() == fieldValue.GetName() {
-							newMilestoneOwner := _milestone // we have a match
-
-							// we remove the laneuse_ instance from the pastMilestoneOwner field
-							if pastMilestoneOwner != nil {
-								if newMilestoneOwner != pastMilestoneOwner {
-									idx := slices.Index(pastMilestoneOwner.LanesToDisplayMilestoneUse, laneuse_)
-									pastMilestoneOwner.LanesToDisplayMilestoneUse = slices.Delete(pastMilestoneOwner.LanesToDisplayMilestoneUse, idx, idx+1)
-									newMilestoneOwner.LanesToDisplayMilestoneUse = append(newMilestoneOwner.LanesToDisplayMilestoneUse, laneuse_)
-								}
-							} else {
-								newMilestoneOwner.LanesToDisplayMilestoneUse = append(newMilestoneOwner.LanesToDisplayMilestoneUse, laneuse_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Milestone)
+					if !ok {
+						log.Fatalln("Source of Milestone.LanesToDisplayMilestoneUse []*LaneUse, is not an Milestone instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.LanesToDisplayMilestoneUse, laneuse_)
+					formerSource.LanesToDisplayMilestoneUse = slices.Delete(formerSource.LanesToDisplayMilestoneUse, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Milestone
+			for _milestone := range *models.GetGongstructInstancesSet[models.Milestone](laneuseFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _milestone.GetName() == newSourceName.GetName() {
+					newSource = _milestone // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Milestone.LanesToDisplayMilestoneUse []*LaneUse, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.LanesToDisplayMilestoneUse = append(newSource.LanesToDisplayMilestoneUse, laneuse_)
 		}
 	}
 
@@ -1088,56 +1184,72 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 			milestone_.LanesToDisplayMilestoneUse = instanceSlice
 
 		case "Gantt:Milestones":
-			// we need to retrieve the field owner before the change
-			var pastGanttOwner *models.Gantt
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Gantt"
-			rf.Fieldname = "Milestones"
-			reverseFieldOwner := models.GetReverseFieldOwner(
-				milestoneFormCallback.probe.stageOfInterest,
-				milestone_,
-				&rf)
+			// WARNING : this form deals with the N-N association "Gantt.Milestones []*Milestone" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Milestone). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Gantt
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Gantt"
+				rf.Fieldname = "Milestones"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					milestoneFormCallback.probe.stageOfInterest,
+					milestone_,
+					&rf)
 
-			if reverseFieldOwner != nil {
-				pastGanttOwner = reverseFieldOwner.(*models.Gantt)
-			}
-			fieldValue := formDiv.FormFields[0].FormFieldSelect.Value
-			if fieldValue == nil {
-				if pastGanttOwner != nil {
-					idx := slices.Index(pastGanttOwner.Milestones, milestone_)
-					pastGanttOwner.Milestones = slices.Delete(pastGanttOwner.Milestones, idx, idx+1)
-				}
-			} else {
-
-				// if the name of the field value is the same as of the past owner
-				// it is assumed the owner has not changed
-				// therefore, the owner must be eventualy changed if the name is different
-				if pastGanttOwner.GetName() != fieldValue.GetName() {
-
-					// we need to retrieve the field owner after the change
-					// parse all astrcut and get the one with the name in the
-					// div
-					for _gantt := range *models.GetGongstructInstancesSet[models.Gantt](milestoneFormCallback.probe.stageOfInterest) {
-
-						// the match is base on the name
-						if _gantt.GetName() == fieldValue.GetName() {
-							newGanttOwner := _gantt // we have a match
-
-							// we remove the milestone_ instance from the pastGanttOwner field
-							if pastGanttOwner != nil {
-								if newGanttOwner != pastGanttOwner {
-									idx := slices.Index(pastGanttOwner.Milestones, milestone_)
-									pastGanttOwner.Milestones = slices.Delete(pastGanttOwner.Milestones, idx, idx+1)
-									newGanttOwner.Milestones = append(newGanttOwner.Milestones, milestone_)
-								}
-							} else {
-								newGanttOwner.Milestones = append(newGanttOwner.Milestones, milestone_)
-							}
-						}
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Gantt)
+					if !ok {
+						log.Fatalln("Source of Gantt.Milestones []*Milestone, is not an Gantt instance")
 					}
 				}
 			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Milestones, milestone_)
+					formerSource.Milestones = slices.Delete(formerSource.Milestones, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Gantt
+			for _gantt := range *models.GetGongstructInstancesSet[models.Gantt](milestoneFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _gantt.GetName() == newSourceName.GetName() {
+					newSource = _gantt // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Gantt.Milestones []*Milestone, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Milestones = append(newSource.Milestones, milestone_)
 		}
 	}
 
