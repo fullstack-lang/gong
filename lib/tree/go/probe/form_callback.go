@@ -2,6 +2,7 @@
 package probe
 
 import (
+	"log"
 	"slices"
 	"time"
 
@@ -14,6 +15,8 @@ import (
 const _ = time.Nanosecond
 
 var _ = slices.Delete([]string{"a"}, 0, 1)
+
+var _ = log.Panicf
 
 // insertion point
 func __gong__New__ButtonFormCallback(
@@ -237,6 +240,56 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(node_.PreceedingIcon), formDiv)
 		case "PreceedingSVGIcon":
 			FormDivSelectFieldToField(&(node_.PreceedingSVGIcon), nodeFormCallback.probe.stageOfInterest, formDiv)
+	case "Children":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Node](nodeFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Node, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Node)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					nodeFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			node_.Children = instanceSlice
+
+	case "Buttons":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Button](nodeFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Button, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Button)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					nodeFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			node_.Buttons = instanceSlice
+
 		case "Node:Children":
 			// we need to retrieve the field owner before the change
 			var pastNodeOwner *models.Node
@@ -495,6 +548,31 @@ func (treeFormCallback *TreeFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(tree_.Name), formDiv)
+	case "RootNodes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Node](treeFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Node, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Node)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					treeFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			tree_.RootNodes = instanceSlice
+
 		}
 	}
 
