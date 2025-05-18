@@ -19,25 +19,39 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 		Name: stager.stage.GetProbeTreeSidebarStageName(),
 	}
 
-	// put a "class diagram button at the root"
-	addDiagramButton := &tree.Button{
-		Name: "Class Diagramm Add Button",
-		Icon: string(buttons.BUTTON_add),
-		Impl: &ButtonNewClassdiagramProxy{
-			stager: stager,
-		},
-		HasToolTip:      true,
-		ToolTipText:     "Create a new diagram",
-		ToolTipPosition: tree.Above,
-	}
 	root := &tree.Node{
 		Name:       "Class Diagrams",
 		IsExpanded: true,
 	}
-	if !stager.embeddedDiagrams {
-		root.Buttons = append(root.Buttons, addDiagramButton)
-	}
 	classdiagramsTree.RootNodes = append(classdiagramsTree.RootNodes, root)
+
+	// if diagram can be edited
+	// 1/ put a "add a class diagram" button
+	// 2/ put a "generate sss" button
+	if !stager.embeddedDiagrams {
+		root.Buttons = append(root.Buttons,
+			&tree.Button{
+				Name: "Class Diagramm Add Button",
+				Icon: string(buttons.BUTTON_add),
+				Impl: &ButtonNewClassdiagramProxy{
+					stager: stager,
+				},
+				HasToolTip:      true,
+				ToolTipText:     "Create a new diagram",
+				ToolTipPosition: tree.Above,
+			},
+			&tree.Button{
+				Name: "Generates the documentation static web site",
+				Icon: string(buttons.BUTTON_web_asset),
+				Impl: &ButtonGeneratesStaticWebSiteProxy{
+					stager: stager,
+				},
+				HasToolTip:      true,
+				ToolTipText:     "Generates the documentation static web site",
+				ToolTipPosition: tree.Above,
+			},
+		)
+	}
 
 	// append a node below for each diagram
 	diagramPackage := getTheDiagramPackage(stager.stage)
@@ -47,11 +61,18 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			selected = true
 		}
 		nodeClassdiagram := &tree.Node{
-			Name:              classDiagram.Name,
-			HasCheckboxButton: true,
-			IsChecked:         selected,
-			IsExpanded:        classDiagram.IsExpanded,
-			IsInEditMode:      classDiagram.IsInRenameMode,
+			Name: classDiagram.Name,
+
+			IsChecked:           selected,
+			CheckboxHasToolTip:  true,
+			CheckboxToolTipText: "Select this diagram for display",
+
+			IsExpanded: classDiagram.IsExpanded,
+
+			IsInEditMode: classDiagram.IsInRenameMode,
+
+			HasCheckboxButton:       true,
+			IsSecondCheckboxChecked: classDiagram.IsIncludedInStaticWebSite,
 		}
 		nodeClassdiagram.Impl = &ClassDiagramNodeProxy{
 			node:         nodeClassdiagram,
@@ -333,6 +354,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 }
 
 func (stager *Stager) addButtonsToClassdiagramNode(nodeClassdiagram *tree.Node, classDiagram *Classdiagram) {
+
 	nodeClassdiagram.Buttons = append(nodeClassdiagram.Buttons,
 		&tree.Button{
 			Name: classDiagram.GetName() + " " + string(buttons.BUTTON_delete),
@@ -394,4 +416,8 @@ func (stager *Stager) addButtonsToClassdiagramNode(nodeClassdiagram *tree.Node, 
 			ToolTipText:     "Duplicate diagram",
 			ToolTipPosition: tree.Above,
 		})
+
+	// add a second checkbox for including the diagram into
+	nodeClassdiagram.HasSecondCheckboxButton = true
+
 }
