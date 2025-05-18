@@ -855,7 +855,7 @@ func (formdivFormCallback *FormDivFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(formdiv_.Name), formDiv)
-	case "FormFields":
+		case "FormFields":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.FormField](formdivFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.FormField, 0)
 
@@ -880,7 +880,7 @@ func (formdivFormCallback *FormDivFormCallback) OnSave() {
 			}
 			formdiv_.FormFields = instanceSlice
 
-	case "CheckBoxs":
+		case "CheckBoxs":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.CheckBox](formdivFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.CheckBox, 0)
 
@@ -1612,7 +1612,7 @@ func (formfieldselectFormCallback *FormFieldSelectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(formfieldselect_.Name), formDiv)
 		case "Value":
 			FormDivSelectFieldToField(&(formfieldselect_.Value), formfieldselectFormCallback.probe.stageOfInterest, formDiv)
-	case "Options":
+		case "Options":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Option](formfieldselectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Option, 0)
 
@@ -1880,7 +1880,7 @@ func (formgroupFormCallback *FormGroupFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(formgroup_.Name), formDiv)
 		case "Label":
 			FormDivBasicFieldToField(&(formgroup_.Label), formDiv)
-	case "FormDivs":
+		case "FormDivs":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.FormDiv](formgroupFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.FormDiv, 0)
 
@@ -2193,7 +2193,7 @@ func (rowFormCallback *RowFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(row_.Name), formDiv)
-	case "Cells":
+		case "Cells":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Cell](rowFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Cell, 0)
 
@@ -2348,7 +2348,7 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(table_.Name), formDiv)
-	case "DisplayedColumns":
+		case "DisplayedColumns":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DisplayedColumn](tableFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.DisplayedColumn, 0)
 
@@ -2373,7 +2373,7 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 			}
 			table_.DisplayedColumns = instanceSlice
 
-	case "Rows":
+		case "Rows":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Row](tableFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Row, 0)
 

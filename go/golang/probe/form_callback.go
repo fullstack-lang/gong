@@ -151,7 +151,7 @@ map[FormCallbackSubTemplateId]string{
 		case "{{FieldName}}":
 			FormDivSelectFieldToField(&({{structname}}_.{{FieldName}}), {{structname}}FormCallback.probe.stageOfInterest, formDiv)`,
 	FormCallbackSubTmplSliceOfPointers: `
-	case "{{FieldName}}":
+		case "{{FieldName}}":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.{{AssocStructName}}]({{structname}}FormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.{{AssocStructName}}, 0)
 

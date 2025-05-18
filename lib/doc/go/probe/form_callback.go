@@ -64,7 +64,7 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(classdiagram_.Name), formDiv)
-	case "GongStructShapes":
+		case "GongStructShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongStructShape](classdiagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongStructShape, 0)
 
@@ -89,7 +89,7 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 			}
 			classdiagram_.GongStructShapes = instanceSlice
 
-	case "GongEnumShapes":
+		case "GongEnumShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongEnumShape](classdiagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongEnumShape, 0)
 
@@ -114,7 +114,7 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 			}
 			classdiagram_.GongEnumShapes = instanceSlice
 
-	case "NoteShapes":
+		case "NoteShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteShape](classdiagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.NoteShape, 0)
 
@@ -273,7 +273,7 @@ func (diagrampackageFormCallback *DiagramPackageFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagrampackage_.Path), formDiv)
 		case "GongModelPath":
 			FormDivBasicFieldToField(&(diagrampackage_.GongModelPath), formDiv)
-	case "Classdiagrams":
+		case "Classdiagrams":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Classdiagram](diagrampackageFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Classdiagram, 0)
 
@@ -300,7 +300,7 @@ func (diagrampackageFormCallback *DiagramPackageFormCallback) OnSave() {
 
 		case "SelectedClassdiagram":
 			FormDivSelectFieldToField(&(diagrampackage_.SelectedClassdiagram), diagrampackageFormCallback.probe.stageOfInterest, formDiv)
-	case "Umlscs":
+		case "Umlscs":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Umlsc](diagrampackageFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Umlsc, 0)
 
@@ -548,7 +548,7 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(gongenumshape_.Position), gongenumshapeFormCallback.probe.stageOfInterest, formDiv)
 		case "Identifier":
 			FormDivBasicFieldToField(&(gongenumshape_.Identifier), formDiv)
-	case "GongEnumValueEntrys":
+		case "GongEnumValueEntrys":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongEnumValueEntry](gongenumshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongEnumValueEntry, 0)
 
@@ -843,7 +843,7 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongstructshape_.ShowNbInstances), formDiv)
 		case "NbInstances":
 			FormDivBasicFieldToField(&(gongstructshape_.NbInstances), formDiv)
-	case "Fields":
+		case "Fields":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Field](gongstructshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Field, 0)
 
@@ -868,7 +868,7 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 			}
 			gongstructshape_.Fields = instanceSlice
 
-	case "Links":
+		case "Links":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Link](gongstructshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Link, 0)
 
@@ -1203,7 +1203,7 @@ func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(noteshape_.Height), formDiv)
 		case "Matched":
 			FormDivBasicFieldToField(&(noteshape_.Matched), formDiv)
-	case "NoteShapeLinks":
+		case "NoteShapeLinks":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteShapeLink](noteshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.NoteShapeLink, 0)
 
@@ -1701,7 +1701,7 @@ func (umlscFormCallback *UmlscFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(umlsc_.Name), formDiv)
-	case "States":
+		case "States":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.UmlState](umlscFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.UmlState, 0)
 

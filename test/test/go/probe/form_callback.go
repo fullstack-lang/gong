@@ -66,7 +66,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(astruct_.Name), formDiv)
 		case "Associationtob":
 			FormDivSelectFieldToField(&(astruct_.Associationtob), astructFormCallback.probe.stageOfInterest, formDiv)
-	case "Anarrayofb":
+		case "Anarrayofb":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Bstruct](astructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Bstruct, 0)
 
@@ -123,7 +123,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(astruct_.Dstruct3), astructFormCallback.probe.stageOfInterest, formDiv)
 		case "Dstruct4":
 			FormDivSelectFieldToField(&(astruct_.Dstruct4), astructFormCallback.probe.stageOfInterest, formDiv)
-	case "Dstruct4s":
+		case "Dstruct4s":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Dstruct](astructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Dstruct, 0)
 
@@ -156,7 +156,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(astruct_.Anotherbooleanfield), formDiv)
 		case "Duration1":
 			FormDivBasicFieldToField(&(astruct_.Duration1), formDiv)
-	case "Anarrayofa":
+		case "Anarrayofa":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Astruct](astructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Astruct, 0)
 
@@ -181,7 +181,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			}
 			astruct_.Anarrayofa = instanceSlice
 
-	case "Anotherarrayofb":
+		case "Anotherarrayofb":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Bstruct](astructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Bstruct, 0)
 
@@ -206,7 +206,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			}
 			astruct_.Anotherarrayofb = instanceSlice
 
-	case "AnarrayofbUse":
+		case "AnarrayofbUse":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AstructBstructUse](astructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.AstructBstructUse, 0)
 
@@ -231,7 +231,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			}
 			astruct_.AnarrayofbUse = instanceSlice
 
-	case "Anarrayofb2Use":
+		case "Anarrayofb2Use":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AstructBstruct2Use](astructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.AstructBstruct2Use, 0)
 
@@ -898,7 +898,7 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(dstruct_.Name), formDiv)
-	case "Anarrayofb":
+		case "Anarrayofb":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Bstruct](dstructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Bstruct, 0)
 
@@ -925,7 +925,7 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 
 		case "Gstruct":
 			FormDivSelectFieldToField(&(dstruct_.Gstruct), dstructFormCallback.probe.stageOfInterest, formDiv)
-	case "Gstructs":
+		case "Gstructs":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Gstruct](dstructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Gstruct, 0)
 
