@@ -66,7 +66,7 @@ func (assplitFormCallback *AsSplitFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(assplit_.Name), formDiv)
 		case "Direction":
 			FormDivEnumStringFieldToField(&(assplit_.Direction), formDiv)
-	case "AsSplitAreas":
+		case "AsSplitAreas":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AsSplitArea](assplitFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.AsSplitArea, 0)
 
@@ -1264,7 +1264,7 @@ func (viewFormCallback *ViewFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(view_.Name), formDiv)
 		case "ShowViewName":
 			FormDivBasicFieldToField(&(view_.ShowViewName), formDiv)
-	case "RootAsSplitAreas":
+		case "RootAsSplitAreas":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AsSplitArea](viewFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.AsSplitArea, 0)
 

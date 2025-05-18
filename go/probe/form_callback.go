@@ -216,7 +216,7 @@ func (gongenumFormCallback *GongEnumFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongenum_.Name), formDiv)
 		case "Type":
 			FormDivEnumIntFieldToField(&(gongenum_.Type), formDiv)
-	case "GongEnumValues":
+		case "GongEnumValues":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongEnumValue](gongenumFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongEnumValue, 0)
 
@@ -584,7 +584,7 @@ func (gongnoteFormCallback *GongNoteFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongnote_.Body), formDiv)
 		case "BodyHTML":
 			FormDivBasicFieldToField(&(gongnote_.BodyHTML), formDiv)
-	case "Links":
+		case "Links":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongLink](gongnoteFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongLink, 0)
 
@@ -686,7 +686,7 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(gongstruct_.Name), formDiv)
-	case "GongBasicFields":
+		case "GongBasicFields":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongBasicField](gongstructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongBasicField, 0)
 
@@ -711,7 +711,7 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 			}
 			gongstruct_.GongBasicFields = instanceSlice
 
-	case "GongTimeFields":
+		case "GongTimeFields":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongTimeField](gongstructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongTimeField, 0)
 
@@ -736,7 +736,7 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 			}
 			gongstruct_.GongTimeFields = instanceSlice
 
-	case "PointerToGongStructFields":
+		case "PointerToGongStructFields":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PointerToGongStructField](gongstructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.PointerToGongStructField, 0)
 
@@ -761,7 +761,7 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 			}
 			gongstruct_.PointerToGongStructFields = instanceSlice
 
-	case "SliceOfPointerToGongStructFields":
+		case "SliceOfPointerToGongStructFields":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SliceOfPointerToGongStructField](gongstructFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.SliceOfPointerToGongStructField, 0)
 
@@ -1003,7 +1003,7 @@ func (metaFormCallback *MetaFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(meta_.Name), formDiv)
 		case "Text":
 			FormDivBasicFieldToField(&(meta_.Text), formDiv)
-	case "MetaReferences":
+		case "MetaReferences":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.MetaReference](metaFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.MetaReference, 0)
 

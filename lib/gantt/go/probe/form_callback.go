@@ -392,7 +392,7 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gantt_.DateYOffset), formDiv)
 		case "AlignOnStartEndOnYearStart":
 			FormDivBasicFieldToField(&(gantt_.AlignOnStartEndOnYearStart), formDiv)
-	case "Lanes":
+		case "Lanes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Lane](ganttFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Lane, 0)
 
@@ -417,7 +417,7 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 			}
 			gantt_.Lanes = instanceSlice
 
-	case "Milestones":
+		case "Milestones":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Milestone](ganttFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Milestone, 0)
 
@@ -442,7 +442,7 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 			}
 			gantt_.Milestones = instanceSlice
 
-	case "Groups":
+		case "Groups":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](ganttFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Group, 0)
 
@@ -467,7 +467,7 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 			}
 			gantt_.Groups = instanceSlice
 
-	case "Arrows":
+		case "Arrows":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Arrow](ganttFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Arrow, 0)
 
@@ -569,7 +569,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(group_.Name), formDiv)
-	case "GroupLanes":
+		case "GroupLanes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Lane](groupFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Lane, 0)
 
@@ -724,7 +724,7 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(lane_.Name), formDiv)
 		case "Order":
 			FormDivBasicFieldToField(&(lane_.Order), formDiv)
-	case "Bars":
+		case "Bars":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Bar](laneFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Bar, 0)
 
@@ -1062,7 +1062,7 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(milestone_.Date), formDiv)
 		case "DisplayVerticalBar":
 			FormDivBasicFieldToField(&(milestone_.DisplayVerticalBar), formDiv)
-	case "LanesToDisplayMilestoneUse":
+		case "LanesToDisplayMilestoneUse":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LaneUse](milestoneFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.LaneUse, 0)
 
