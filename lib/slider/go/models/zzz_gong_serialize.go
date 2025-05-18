@@ -132,7 +132,7 @@ func SerializeStage(stage *Stage, filename string) {
 			}
 		}
 	}
-	
+
 	var tab ExcelizeTabulator
 	tab.SetExcelizeFile(f)
 	{
@@ -141,7 +141,13 @@ func SerializeStage(stage *Stage, filename string) {
 			fmt.Println("cannot write xl file : ", err)
 		}
 	}
-		
+}
+
+func shortenString(s string) string {
+	if len(s) > 31 {
+		return s[:31]
+	}
+	return s
 }
 
 // Tabulator is an interface for writing to a table strings
@@ -153,6 +159,8 @@ type Tabulator interface {
 
 func Serialize[Type Gongstruct](stage *Stage, tab Tabulator) {
 	sheetName := GetGongstructName[Type]()
+
+	sheetName = shortenString(sheetName)
 
 	// Create a new sheet.
 	tab.AddSheet(sheetName)
@@ -197,6 +205,8 @@ func (tab *ExcelizeTabulator) AddCell(sheetName string, rowId, columnIndex int, 
 
 func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage, f *excelize.File) {
 	sheetName := GetPointerToGongstructName[Type]()
+
+	sheetName = shortenString(sheetName)
 
 	// Create a new sheet.
 	f.NewSheet(sheetName)
@@ -251,6 +261,8 @@ func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage
 
 func SerializeExcelize[Type Gongstruct](stage *Stage, f *excelize.File) {
 	sheetName := GetGongstructName[Type]()
+
+	sheetName = shortenString(sheetName)
 
 	// Create a new sheet.
 	f.NewSheet(sheetName)
