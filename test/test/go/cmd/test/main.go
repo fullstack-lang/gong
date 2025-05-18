@@ -47,17 +47,21 @@ func main() {
 	// insertion point for call to stager
 	stager := test_models.NewStager(r, stack.Stage, splitStage)
 
-	// creates two tabs, one for test
-	split.StageBranch(splitStage, &split.View{
-		Name:             "Test",
-		RootAsSplitAreas: stager.GetAsSplitAreas(),
-	})
-
 	// one for the probe of the
 	split.StageBranch(splitStage, &split.View{
-		Name: "Probe of test",
+		Name: "Test with Probe of test",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
+				Size: 50,
+				AsSplit: (&split.AsSplit{
+					Direction: split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						stager.GetAsSplitArea(),
+					},
+				}),
+			}),
+			(&split.AsSplitArea{
+				Size: 50,
 				Split: (&split.Split{
 					StackName: stack.Stage.GetProbeSplitStageName(),
 				}),

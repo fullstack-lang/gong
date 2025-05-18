@@ -12,10 +12,10 @@ import (
 )
 
 type Stager struct {
-	stage        *Stage
-	splitStage   *split.Stage
-	svgStage     *svg.Stage
-	asSplitAreas []*split.AsSplitArea
+	stage       *Stage
+	splitStage  *split.Stage
+	svgStage    *svg.Stage
+	asSplitArea *split.AsSplitArea
 }
 
 func NewStager(r *gin.Engine, stage *Stage, splitStage *split.Stage) (stager *Stager) {
@@ -29,25 +29,12 @@ func NewStager(r *gin.Engine, stage *Stage, splitStage *split.Stage) (stager *St
 	svgPersistanceFile := "svg.go"
 	stager.svgStage = svg_stack.NewStack(r, stage.GetName(), svgPersistanceFile, svgPersistanceFile, "", true, true).Stage
 
-	stager.asSplitAreas = []*split.AsSplitArea{
-		(&split.AsSplitArea{
-			Size: 50,
-			Svg: (&split.Svg{
-				StackName: stager.svgStage.GetName(),
-			}),
-		}),
-		(&split.AsSplitArea{
-			Size: 50,
-			Split: (&split.Split{
-				StackName: stager.svgStage.GetProbeSplitStageName(),
-			}),
-		}),
-	}
+	stager.asSplitArea = &split.AsSplitArea{}
 
 	return
 }
 
-func (stager *Stager) GetAsSplitAreas() (asSplitAreas []*split.AsSplitArea) {
-	asSplitAreas = stager.asSplitAreas
+func (stager *Stager) GetAsSplitArea() (asSplitArea *split.AsSplitArea) {
+	asSplitArea = stager.asSplitArea
 	return
 }
