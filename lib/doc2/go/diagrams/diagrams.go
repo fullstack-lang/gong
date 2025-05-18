@@ -94,12 +94,12 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = true
 	__Classdiagram__000000_Default.IsInRenameMode = false
 	__Classdiagram__000000_Default.IsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = false
-	__Classdiagram__000000_Default.NodeGongStructNodeExpansionBinaryEncoding = 32
+	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true
+	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[false,false,false,true,false,false,false,true]`
 	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = false
-	__Classdiagram__000000_Default.NodeGongEnumNodeExpansionBinaryEncoding = 0
-	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = false
-	__Classdiagram__000000_Default.NodeGongNoteNodeExpansionBinaryEncoding = 1
+	__Classdiagram__000000_Default.NodeGongEnumNodeExpansion = ``
+	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = true
+	__Classdiagram__000000_Default.NodeGongNoteNodeExpansion = `[true]`
 
 	__Classdiagram__000001_spoil_diagram.Name = `spoil diagram`
 	__Classdiagram__000001_spoil_diagram.Description = `Spoil diagram`
@@ -107,11 +107,11 @@ func _(stage *models.Stage) {
 	__Classdiagram__000001_spoil_diagram.IsInRenameMode = false
 	__Classdiagram__000001_spoil_diagram.IsExpanded = false
 	__Classdiagram__000001_spoil_diagram.NodeGongStructsIsExpanded = true
-	__Classdiagram__000001_spoil_diagram.NodeGongStructNodeExpansionBinaryEncoding = 3
+	__Classdiagram__000001_spoil_diagram.NodeGongStructNodeExpansion = ``
 	__Classdiagram__000001_spoil_diagram.NodeGongEnumsIsExpanded = false
-	__Classdiagram__000001_spoil_diagram.NodeGongEnumNodeExpansionBinaryEncoding = 0
+	__Classdiagram__000001_spoil_diagram.NodeGongEnumNodeExpansion = ``
 	__Classdiagram__000001_spoil_diagram.NodeGongNotesIsExpanded = false
-	__Classdiagram__000001_spoil_diagram.NodeGongNoteNodeExpansionBinaryEncoding = 0
+	__Classdiagram__000001_spoil_diagram.NodeGongNoteNodeExpansion = ``
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Name = `Diagram Package created the 2025-05-04T22:53:27Z`
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Path = ``
@@ -431,7 +431,7 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	// setup of DiagramPackage instances pointers
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams, __Classdiagram__000000_Default)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams, __Classdiagram__000001_spoil_diagram)
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.SelectedClassdiagram = __Classdiagram__000001_spoil_diagram
+	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.SelectedClassdiagram = __Classdiagram__000000_Default
 	// setup of GongNoteShape instances pointers
 	// setup of GongStructShape instances pointers
 	__GongStructShape__000001_Default_DiagramPackage.LinkShapes = append(__GongStructShape__000001_Default_DiagramPackage.LinkShapes, __LinkShape__000000_Classdiagrams)

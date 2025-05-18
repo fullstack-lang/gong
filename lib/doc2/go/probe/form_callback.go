@@ -301,16 +301,16 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(classdiagram_.IsExpanded), formDiv)
 		case "NodeGongStructsIsExpanded":
 			FormDivBasicFieldToField(&(classdiagram_.NodeGongStructsIsExpanded), formDiv)
-		case "NodeGongStructNodeExpansionBinaryEncoding":
-			FormDivBasicFieldToField(&(classdiagram_.NodeGongStructNodeExpansionBinaryEncoding), formDiv)
+		case "NodeGongStructNodeExpansion":
+			FormDivBasicFieldToField(&(classdiagram_.NodeGongStructNodeExpansion), formDiv)
 		case "NodeGongEnumsIsExpanded":
 			FormDivBasicFieldToField(&(classdiagram_.NodeGongEnumsIsExpanded), formDiv)
-		case "NodeGongEnumNodeExpansionBinaryEncoding":
-			FormDivBasicFieldToField(&(classdiagram_.NodeGongEnumNodeExpansionBinaryEncoding), formDiv)
+		case "NodeGongEnumNodeExpansion":
+			FormDivBasicFieldToField(&(classdiagram_.NodeGongEnumNodeExpansion), formDiv)
 		case "NodeGongNotesIsExpanded":
 			FormDivBasicFieldToField(&(classdiagram_.NodeGongNotesIsExpanded), formDiv)
-		case "NodeGongNoteNodeExpansionBinaryEncoding":
-			FormDivBasicFieldToField(&(classdiagram_.NodeGongNoteNodeExpansionBinaryEncoding), formDiv)
+		case "NodeGongNoteNodeExpansion":
+			FormDivBasicFieldToField(&(classdiagram_.NodeGongNoteNodeExpansion), formDiv)
 		case "DiagramPackage:Classdiagrams":
 			// WARNING : this form deals with the N-N association "DiagramPackage.Classdiagrams []*Classdiagram" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

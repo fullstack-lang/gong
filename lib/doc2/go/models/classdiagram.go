@@ -1,7 +1,6 @@
 package models
 
 // Classdiagram diagram struct store a class diagram
-// temporary here
 // swagger:model Classdiagram
 type Classdiagram struct {
 	Name string
@@ -9,7 +8,7 @@ type Classdiagram struct {
 	// gong:text width:400 height:400
 	Description string
 
-	// IsIncludedInStaticWebSite is true is the diagram
+	// IsIncludedInStaticWebSite is true if the diagram
 	// is present in the generated static web site documenting
 	// the package
 	IsIncludedInStaticWebSite bool
@@ -25,25 +24,29 @@ type Classdiagram struct {
 	// IsInRenameMode means the user can edit the node
 	IsInRenameMode bool
 
-	// IsExpanded is true if the corresponding node is expanded
+	// IsExpanded is true if the corresponding Classdiagram node itself is expanded in a tree.
 	IsExpanded bool
 
+	// NodeGongStructsIsExpanded stores the expansion state of the "GongStructs" category node.
 	NodeGongStructsIsExpanded bool
 
-	// encoding of the the expanded status per named struct node
-	// the bit position is the NodeNamedStruct position
-	// beyond 63, there is no storage of expanded status
-	//
-	// bit 0 at 0 means first gong struct is not encoded
-	// bit 1 at 0 means second gong struct is not encoded
-	// etc...
-	NodeGongStructNodeExpansionBinaryEncoding int
+	// NodeGongStructNodeExpansion stores the expanded status per individual named struct node
+	// within the "GongStructs" category, as a JSON string (e.g., "[true, false, true]").
+	NodeGongStructNodeExpansion string // Refactored from NodeGongStructNodeExpansionBinaryEncoding int
 
-	NodeGongEnumsIsExpanded                 bool
-	NodeGongEnumNodeExpansionBinaryEncoding int
+	// NodeGongEnumsIsExpanded stores the expansion state of the "GongEnums" category node.
+	NodeGongEnumsIsExpanded bool
 
-	NodeGongNotesIsExpanded                 bool
-	NodeGongNoteNodeExpansionBinaryEncoding int
+	// NodeGongEnumNodeExpansion stores the expanded status per individual enum node
+	// within the "GongEnums" category, as a JSON string.
+	NodeGongEnumNodeExpansion string // Refactored from NodeGongEnumNodeExpansionBinaryEncoding int
+
+	// NodeGongNotesIsExpanded stores the expansion state of the "GongNotes" category node.
+	NodeGongNotesIsExpanded bool
+
+	// NodeGongNoteNodeExpansion stores the expanded status per individual note node
+	// within the "GongNotes" category, as a JSON string.
+	NodeGongNoteNodeExpansion string // Refactored from NodeGongNoteNodeExpansionBinaryEncoding int
 }
 
 // DuplicateDiagram generates a new diagram with duplicated shapes
@@ -51,22 +54,7 @@ func (classdiagram *Classdiagram) DuplicateDiagram() (newClassdiagram *Classdiag
 
 	newClassdiagram = CopyBranch(classdiagram)
 
+	// All fields, including boolean ...IsExpanded and string ...NodeExpansion JSON strings,
+	// are copied by CopyBranch.
 	return
-}
-
-func IsNodeExpanded(binaryEncoding, nodeRank int) bool {
-	if nodeRank < 0 || nodeRank > 63 {
-		// Rank must be between 0 and 63 for a 64-bit integer
-		return false
-	}
-	// Check if the rank-th note is played
-	return binaryEncoding&(1<<nodeRank) != 0
-}
-
-func ToggleNodeExpanded(binaryEncoding *int, nodeRank int) {
-	if nodeRank < 0 || nodeRank > 63 {
-		return // Ignore invalid ranks
-	}
-
-	*binaryEncoding ^= 1 << nodeRank
 }
