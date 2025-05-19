@@ -182,6 +182,7 @@
       "args": [
         "-skipGoModCommands",
         "-skipNpmWorkspaces",
+        "-skipStager=false",
         "go/models"
       ]
     },
