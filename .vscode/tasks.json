@@ -416,7 +416,7 @@
       ]
     },
     {
-      "label": "01 - remove test main.go",
+      "label": "01 - remove test main.go and stager.go",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/test/test/go/cmd/test"
@@ -424,7 +424,8 @@
       "command": "rm",
       "group": "build",
       "args": [
-        "main.go"
+        "main.go",
+        "../../models/stager.go"
       ]
     },
     {
@@ -443,7 +444,7 @@
       "group": "build",
       "problemMatcher": []
     },
-        {
+    {
       "label": "03 - ng build svg",
       "type": "shell",
       "options": {
