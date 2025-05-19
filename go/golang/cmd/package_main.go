@@ -21,6 +21,9 @@ import (
 	// insertion point for models import{{modelsImportDirective}}
 	{{pkgname}}_stack "{{PkgPathRoot}}/stack"
 	{{pkgname}}_static "{{PkgPathRoot}}/static"
+
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 )
 
 var (
@@ -49,7 +52,36 @@ func main() {
 	stack := {{pkgname}}_stack.NewStack(r, "{{pkgname}}", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
 
-	// insertion point for call to stager{{newStagerCall}}
+	// the root split name is "" by convention. Is is the same for all gong applications
+	// that do not develop their specific angular component
+	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
+
+	stager := {{pkgname}}_models.NewStager(r, stack.Stage, splitStage)
+
+	// one for the probe of the
+	split.StageBranch(splitStage, &split.View{
+		Name: stack.Stage.GetName() + "with Probe",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Size: 50,
+				AsSplit: (&split.AsSplit{
+					Direction: split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						stager.GetAsSplitArea(),
+					},
+				}),
+			}),
+			(&split.AsSplitArea{
+				Size: 50,
+				Split: (&split.Split{
+					StackName: stack.Stage.GetProbeSplitStageName(),
+				}),
+			}),
+		},
+	})
+
+	// commit the split stage (this will initiate the front components)
+	splitStage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))

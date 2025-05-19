@@ -9,7 +9,7 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "preLaunchTask": "01 - remove test main.go",
+            "preLaunchTask": "01 - remove test main.go and stager.go",
             "cwd": "${workspaceFolder}/test/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
@@ -23,7 +23,7 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "preLaunchTask": "01 - remove test main.go",
+            "preLaunchTask": "01 - remove test main.go and stager.go",
             "cwd": "${workspaceFolder}/test/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
@@ -38,7 +38,7 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "preLaunchTask": "01 - remove test main.go",
+            "preLaunchTask": "01 - remove test main.go and stager.go",
             "cwd": "${workspaceFolder}/test",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
@@ -79,7 +79,7 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "preLaunchTask": "01 - remove test main.go",
+            "preLaunchTask": "01 - remove test main.go and stager.go",
             "cwd": "${workspaceFolder}/test/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
@@ -93,7 +93,7 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "preLaunchTask": "01 - remove test main.go",
+            "preLaunchTask": "01 - remove test main.go and stager.go",
             "cwd": "${workspaceFolder}/test/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
@@ -115,7 +115,7 @@
                 "-skipNpmWorkspaces"
             ]
         },
-                {
+        {
             "name": "gongc svg -skipGoModCommands -skipNg",
             "type": "go",
             "request": "launch",
@@ -132,7 +132,7 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "preLaunchTask": "01 - remove test main.go",
+            "preLaunchTask": "01 - remove test main.go and stager.go",
             "cwd": "${workspaceFolder}/test/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
@@ -146,7 +146,7 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "preLaunchTask": "01 - remove test main.go",
+            "preLaunchTask": "01 - remove test main.go and stager.go",
             "cwd": "${workspaceFolder}/test/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
@@ -184,7 +184,7 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "preLaunchTask": "01 - remove test main.go",
+            "preLaunchTask": "01 - remove test main.go and stager.go",
             "cwd": "${workspaceFolder}/test/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
