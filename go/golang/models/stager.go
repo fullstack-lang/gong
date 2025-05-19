@@ -8,39 +8,28 @@ import (
 	"github.com/gin-gonic/gin"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
-	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 )
 
 type Stager struct {
-	stage      *Stage
-	splitStage *split.Stage
+	stage       *Stage
+	splitStage  *split.Stage
+	asSplitArea *split.AsSplitArea
 }
 
-func NewStager(r *gin.Engine, stage *Stage) (stager *Stager) {
+func NewStager(r *gin.Engine, stage *Stage, splitStage *split.Stage) (stager *Stager) {
 
 	stager = new(Stager)
 
 	stager.stage = stage
+	stager.splitStage = splitStage
 
-	// the root split name is "" by convention. Is is the same for all gong applications
-	// that do not develop their specific angular component
-	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
+	stager.asSplitArea = &split.AsSplitArea{}
 
-	// StageBranch will stage on the the first argument
-	// all instances related to the second argument
-	split.StageBranch(stager.splitStage, &split.View{
-		Name: "Probe",
-		RootAsSplitAreas: []*split.AsSplitArea{
-			{
-				Split: (&split.Split{
-					StackName: stage.GetProbeSplitStageName(),
-				}),
-			},
-		},
-	})
+	return
+}
 
-	stager.splitStage.Commit()
-
+func (stager *Stager) GetAsSplitArea() (asSplitArea *split.AsSplitArea) {
+	asSplitArea = stager.asSplitArea
 	return
 }
 `
