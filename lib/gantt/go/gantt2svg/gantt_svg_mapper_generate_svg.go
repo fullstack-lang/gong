@@ -16,10 +16,7 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 	gongganttStage *gonggantt_models.Stage,
 	gongsvgStage *gongsvg_models.Stage) {
 
-	// remove all gongsvg stage/repo
-	gongsvgStage.Checkout()
 	gongsvgStage.Reset()
-	gongsvgStage.Commit()
 
 	if len(*gonggantt_models.GetGongstructInstancesSet[gonggantt_models.Gantt](gongganttStage)) != 1 {
 		log.Printf("It is supposed to have only one gantt chart")
