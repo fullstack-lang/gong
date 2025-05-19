@@ -9,6 +9,9 @@ import (
 	test_models "github.com/fullstack-lang/gong/test/test/go/models"
 	test_stack "github.com/fullstack-lang/gong/test/test/go/stack"
 	test_static "github.com/fullstack-lang/gong/test/test/go/static"
+
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 )
 
 var (
@@ -34,13 +37,39 @@ func main() {
 	r := test_static.ServeStaticFiles(*logGINFlag)
 
 	// setup model stack with its probe
-	stack := test_stack.NewStack(r, "", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	stack := test_stack.NewStack(r, "test", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
 
-	// insertion point for call to stager
-	test_models.NewStager(r, stack.Stage, "test/test/go/cmd/test/main.go")
+	// the root split name is "" by convention. Is is the same for all gong applications
+	// that do not develop their specific angular component
+	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
-	test_models.SerializeStage(stack.Stage, "foo.xlsx")
+	stager := test_models.NewStager(r, stack.Stage, splitStage)
+
+	// one for the probe of the
+	split.StageBranch(splitStage, &split.View{
+		Name: stack.Stage.GetName() + "with Probe",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Size: 50,
+				AsSplit: (&split.AsSplit{
+					Direction: split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						stager.GetAsSplitArea(),
+					},
+				}),
+			}),
+			(&split.AsSplitArea{
+				Size: 50,
+				Split: (&split.Split{
+					StackName: stack.Stage.GetProbeSplitStageName(),
+				}),
+			}),
+		},
+	})
+
+	// commit the split stage (this will initiate the front components)
+	splitStage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
