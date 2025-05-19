@@ -2,17 +2,16 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
-	"os"
 	"strconv"
 
+	// insertion point for models import
 	gantt_models "github.com/fullstack-lang/gong/lib/gantt/go/models"
 	gantt_stack "github.com/fullstack-lang/gong/lib/gantt/go/stack"
 	gantt_static "github.com/fullstack-lang/gong/lib/gantt/go/static"
 
-	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
-	svg_stack "github.com/fullstack-lang/gong/lib/svg/go/stack"
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 
 	"github.com/fullstack-lang/gong/lib/gantt/go/gantt2svg"
 )
@@ -39,12 +38,15 @@ func main() {
 	// setup the static file server and get the controller
 	r := gantt_static.ServeStaticFiles(*logGINFlag)
 
-	// setup stackgantt
-	stackgantt := gantt_stack.NewStack(r, gantt_models.GanttStackName.ToString(), *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
-	stackgantt.Probe.Refresh()
+	// setup model stack with its probe
+	stack := gantt_stack.NewStack(r, "gantt", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	stack.Probe.Refresh()
 
-	stacksvg := svg_stack.NewStack(r, gantt_models.SvgStackName.ToString(), "", "", "", true, true)
-	stacksvg.Probe.Refresh()
+	// the root split name is "" by convention. Is is the same for all gong applications
+	// that do not develop their specific angular component
+	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
+
+	stager := gantt_models.NewStager(r, stack.Stage, splitStage)
 
 	// set up the GanttSVGMapper that will intercept
 	// commits on the gantt stage and that will
@@ -53,45 +55,44 @@ func main() {
 	ganttSVGMapper.GanttOuputFile = *marshallOnCommit
 
 	commitOnGanttStage := new(CommitFromFrontOnGanttStage)
-	commitOnGanttStage.gongsvgStage = stacksvg.Stage
+	commitOnGanttStage.gongsvgStage = stager.GetSvgStage()
 	commitOnGanttStage.ganttSVGMapper = ganttSVGMapper
 
 	// hook on the commit from front
-	stackgantt.Stage.OnInitCommitFromFrontCallback = commitOnGanttStage
-	stackgantt.Stage.OnInitCommitFromBackCallback = commitOnGanttStage
+	stack.Stage.OnInitCommitFromFrontCallback = commitOnGanttStage
+	stack.Stage.OnInitCommitFromBackCallback = commitOnGanttStage
 
 	// initial publication
-	ganttSVGMapper.GenerateSvg(stackgantt.Stage, stacksvg.Stage)
+	ganttSVGMapper.GenerateSvg(stack.Stage, stager.GetSvgStage())
+
+	// one for the probe of the
+	split.StageBranch(splitStage, &split.View{
+		Name: stack.Stage.GetName() + "with Probe",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Size: 50,
+				AsSplit: (&split.AsSplit{
+					Direction: split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						stager.GetAsSplitArea(),
+					},
+				}),
+			}),
+			(&split.AsSplitArea{
+				Size: 50,
+				Split: (&split.Split{
+					StackName: stack.Stage.GetProbeSplitStageName(),
+				}),
+			}),
+		},
+	})
+
+	// commit the split stage (this will initiate the front components)
+	splitStage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
-}
-
-// hook marhalling to stage
-type CommitFromFrontOnGanttStage struct {
-	gongsvgStage   *svg_models.Stage
-	ganttSVGMapper *gantt2svg.GanttSVGMapper
-}
-
-// BeforeCommit meets the interface for the commit on the gantt stage
-// It performs 2 tasks
-// 1 - update the SVG stack
-// 2 - persists the data to the gantt file
-func (beforeCommitFromFrontOnGanttStage *CommitFromFrontOnGanttStage) BeforeCommit(
-	ganttStage *gantt_models.Stage) {
-	file, err := os.Create(fmt.Sprintf("./%s.go", *marshallOnCommit))
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	defer file.Close()
-
-	// update the gantt stage with the back repo data that was updated from the front
-	ganttStage.Checkout()
-
-	// marshall to the file
-	ganttStage.Marshall(file, "github.com/fullstack-lang/gong/lib/gantt/go/models", "main")
-	beforeCommitFromFrontOnGanttStage.ganttSVGMapper.GenerateSvg(ganttStage, beforeCommitFromFrontOnGanttStage.gongsvgStage)
 }
