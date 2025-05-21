@@ -21,10 +21,11 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 		return
 	}
 
-	for gantt := range *GetGongstructInstancesSet[Gantt](gongganttStage) {
-		ganttSVGMapper.ganttToRender = gantt
+	var gantt *Gantt
+	for gantt_ := range *GetGongstructInstancesSet[Gantt](gongganttStage) {
+		gantt = gantt_
 	}
-	ganttSVGMapper.ganttToRender.ComputeStartAndEndDate()
+	gantt.ComputeStartAndEndDate()
 
 	//
 	// SVG
@@ -45,17 +46,17 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 	// Time Line
 	//
 	// creates a tick lane
-	LaneHeight := ganttSVGMapper.ganttToRender.LaneHeight
-	RatioBarToLaneHeight := ganttSVGMapper.ganttToRender.RatioBarToLaneHeight
+	LaneHeight := gantt.LaneHeight
+	RatioBarToLaneHeight := gantt.RatioBarToLaneHeight
 	barHeigth := LaneHeight * RatioBarToLaneHeight
-	YTopMargin := ganttSVGMapper.ganttToRender.YTopMargin
+	YTopMargin := gantt.YTopMargin
 	yTimeLine := LaneHeight*float64(len(*GetGongstructInstancesSet[Lane](gongganttStage))) + YTopMargin
 
-	XLeftText := ganttSVGMapper.ganttToRender.XLeftText
-	TextHeight := ganttSVGMapper.ganttToRender.TextHeight
+	XLeftText := gantt.XLeftText
+	TextHeight := gantt.TextHeight
 
-	XLeftLanes := ganttSVGMapper.ganttToRender.XLeftLanes
-	XRightMargin := ganttSVGMapper.ganttToRender.XRightMargin
+	XLeftLanes := gantt.XLeftLanes
+	XRightMargin := gantt.XRightMargin
 
 	timeLine := new(gongsvg_models.Line).Stage(gongsvgStage)
 	timeLine.Name = "Time Line"
@@ -64,10 +65,10 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 	timeLine.X2 = XRightMargin
 	timeLine.Y2 = yTimeLine
 
-	timeLine.Color = ganttSVGMapper.ganttToRender.TimeLine_Color
-	timeLine.FillOpacity = ganttSVGMapper.ganttToRender.TimeLine_FillOpacity
-	timeLine.Stroke = ganttSVGMapper.ganttToRender.TimeLine_Stroke
-	timeLine.StrokeWidth = ganttSVGMapper.ganttToRender.TimeLine_StrokeWidth
+	timeLine.Color = gantt.TimeLine_Color
+	timeLine.FillOpacity = gantt.TimeLine_FillOpacity
+	timeLine.Stroke = gantt.TimeLine_Stroke
+	timeLine.StrokeWidth = gantt.TimeLine_StrokeWidth
 
 	layerLanes.Lines = append(layerLanes.Lines, timeLine)
 
@@ -83,12 +84,12 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 	DateYOffset := 20.0
 
 	// put a date for every year
-	for year := ganttSVGMapper.ganttToRender.ComputedStart.Year(); year <= ganttSVGMapper.ganttToRender.ComputedEnd.Year(); year++ {
+	for year := gantt.ComputedStart.Year(); year <= gantt.ComputedEnd.Year(); year++ {
 		yearTime := time.Date(year, time.January, 1, 0, 0, 0, 0, time.UTC)
-		durationBetweenYearAndGanttStart := yearTime.Sub(ganttSVGMapper.ganttToRender.ComputedStart)
+		durationBetweenYearAndGanttStart := yearTime.Sub(gantt.ComputedStart)
 
 		durationBetweenYearStartAndGanttStartRelativeToGanttDuration :=
-			float64(durationBetweenYearAndGanttStart) / float64(ganttSVGMapper.ganttToRender.ComputedEnd.Sub(ganttSVGMapper.ganttToRender.ComputedStart))
+			float64(durationBetweenYearAndGanttStart) / float64(gantt.ComputedEnd.Sub(gantt.ComputedStart))
 
 		yearText := new(gongsvg_models.Text).Stage(gongsvgStage)
 		yearText.Name = fmt.Sprintf("%d", year)
@@ -126,8 +127,8 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 	//
 	// Sort Lanes according to the Order
 	//
-	sort.Slice(ganttSVGMapper.ganttToRender.Lanes, func(i, j int) bool {
-		return ganttSVGMapper.ganttToRender.Lanes[i].Order < ganttSVGMapper.ganttToRender.Lanes[j].Order
+	sort.Slice(gantt.Lanes, func(i, j int) bool {
+		return gantt.Lanes[i].Order < gantt.Lanes[j].Order
 	})
 
 	laneIndex := 0
@@ -136,7 +137,7 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 	mapBar_Rect := make(map[*Bar]*gongsvg_models.Rect)
 	mapRect4Bar_Bar := make(map[*gongsvg_models.Rect]*Bar)
 
-	for _, lane := range ganttSVGMapper.ganttToRender.Lanes {
+	for _, lane := range gantt.Lanes {
 
 		laneSVG := new(gongsvg_models.Rect).Stage(gongsvgStage)
 		layerLanes.Rects = append(layerLanes.Rects, laneSVG)
@@ -184,7 +185,7 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 			// connects the call on rect to the bar
 			barImpl := new(BarImpl)
 			barImpl.Bar = bar
-			barImpl.GanttToRender = ganttSVGMapper.ganttToRender
+			barImpl.GanttToRender = gantt
 			barImpl.GongganttStage = gongganttStage
 			rect4Bar.Impl = barImpl
 
@@ -192,23 +193,23 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 
 			// if start and end dates of the gantt are set manualy, then
 			// reset start and end dates of the bar to display
-			if ganttSVGMapper.ganttToRender.UseManualStartAndEndDates {
-				if bar.Start.Before(ganttSVGMapper.ganttToRender.ManualStart) {
-					barToDisplay.Start = ganttSVGMapper.ganttToRender.ManualStart
+			if gantt.UseManualStartAndEndDates {
+				if bar.Start.Before(gantt.ManualStart) {
+					barToDisplay.Start = gantt.ManualStart
 				}
-				if bar.End.After(ganttSVGMapper.ganttToRender.ManualEnd) {
-					barToDisplay.End = ganttSVGMapper.ganttToRender.ManualEnd
+				if bar.End.After(gantt.ManualEnd) {
+					barToDisplay.End = gantt.ManualEnd
 				}
 			}
 
-			durationFromGanttStartToBarStart := barToDisplay.Start.Sub(ganttSVGMapper.ganttToRender.ComputedStart)
+			durationFromGanttStartToBarStart := barToDisplay.Start.Sub(gantt.ComputedStart)
 			durationBetweenBarStartAndGanttStartRelativeToGanttDuration :=
-				float64(durationFromGanttStartToBarStart) / float64(ganttSVGMapper.ganttToRender.ComputedEnd.Sub(ganttSVGMapper.ganttToRender.ComputedStart))
+				float64(durationFromGanttStartToBarStart) / float64(gantt.ComputedEnd.Sub(gantt.ComputedStart))
 			// log.Printf("Duration is %f", durationBetweenBarStartAndGanttStartRelativeToGanttDuration)
 
 			durationFromBarEndAndBarStart := barToDisplay.End.Sub(barToDisplay.Start)
 			durationBetweenBarEndAndBarStartRelativeToGanttDuration :=
-				float64(durationFromBarEndAndBarStart) / float64(ganttSVGMapper.ganttToRender.ComputedEnd.Sub(ganttSVGMapper.ganttToRender.ComputedStart))
+				float64(durationFromBarEndAndBarStart) / float64(gantt.ComputedEnd.Sub(gantt.ComputedStart))
 			// log.Printf("Relative Duration is %f", durationBetweenBarEndAndBarStartRelativeToGanttDuration)
 
 			rect4Bar.X = XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenBarStartAndGanttStartRelativeToGanttDuration
@@ -254,20 +255,20 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 	//
 	// Milestones
 	//
-	for _, milestone := range ganttSVGMapper.ganttToRender.Milestones {
+	for _, milestone := range gantt.Milestones {
 
-		if ganttSVGMapper.ganttToRender.UseManualStartAndEndDates &&
-			(milestone.Date.Before(ganttSVGMapper.ganttToRender.ManualStart) ||
-				milestone.Date.After(ganttSVGMapper.ganttToRender.ManualEnd)) {
+		if gantt.UseManualStartAndEndDates &&
+			(milestone.Date.Before(gantt.ManualStart) ||
+				milestone.Date.After(gantt.ManualEnd)) {
 			continue
 		}
-		durationBetweenMilestoneAndGanttStart := milestone.Date.Sub(ganttSVGMapper.ganttToRender.ComputedStart)
+		durationBetweenMilestoneAndGanttStart := milestone.Date.Sub(gantt.ComputedStart)
 
 		durationBetweenMilestoneAndGanttStartString := durationBetweenMilestoneAndGanttStart.String()
 		_ = durationBetweenMilestoneAndGanttStartString
 
 		durationBetweenMilestoneAndGanttStartRelativeToGanttDuration :=
-			float64(durationBetweenMilestoneAndGanttStart) / float64(ganttSVGMapper.ganttToRender.ComputedEnd.Sub(ganttSVGMapper.ganttToRender.ComputedStart))
+			float64(durationBetweenMilestoneAndGanttStart) / float64(gantt.ComputedEnd.Sub(gantt.ComputedStart))
 
 		//
 		// draw the line
@@ -320,7 +321,7 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 	//
 	// start : middle of the end of the "Start" bar on
 	//
-	for _, arrow := range ganttSVGMapper.ganttToRender.Arrows {
+	for _, arrow := range gantt.Arrows {
 
 		startBar := mapBar_Rect[arrow.From]
 		endBar := mapBar_Rect[arrow.To]
@@ -332,8 +333,8 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 			endBar.X,
 			startBar.Y+barHeigth/2.0,
 			endBar.Y+barHeigth/2.0,
-			ganttSVGMapper.ganttToRender.ArrowLengthToTheRightOfStartBar,
-			ganttSVGMapper.ganttToRender.ArrowTipLenght,
+			gantt.ArrowLengthToTheRightOfStartBar,
+			gantt.ArrowTipLenght,
 			arrow.Name,
 			arrow.OptionnalColor,
 			arrow.OptionnalStroke)
@@ -342,7 +343,7 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 	//
 	// Groups of Lanes
 	//
-	for _, group := range ganttSVGMapper.ganttToRender.Groups {
+	for _, group := range gantt.Groups {
 
 		if len(group.GroupLanes) == 0 {
 			continue
@@ -359,26 +360,26 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 			if groupTopY > mapLane_TopY[lane] {
 				groupTopY = mapLane_TopY[lane]
 			}
-			if groupBottomY < (mapLane_TopY[lane] + ganttSVGMapper.ganttToRender.LaneHeight) {
-				groupBottomY = mapLane_TopY[lane] + ganttSVGMapper.ganttToRender.LaneHeight
+			if groupBottomY < (mapLane_TopY[lane] + gantt.LaneHeight) {
+				groupBottomY = mapLane_TopY[lane] + gantt.LaneHeight
 			}
 		}
 
 		groupSVG.X = 0
 		groupSVG.Y = groupTopY
-		groupSVG.Width = ganttSVGMapper.ganttToRender.XRightMargin - groupSVG.X
+		groupSVG.Width = gantt.XRightMargin - groupSVG.X
 		groupSVG.Height = groupBottomY - groupTopY
 
-		groupSVG.Stroke = ganttSVGMapper.ganttToRender.Group_Stroke
-		groupSVG.StrokeWidth = ganttSVGMapper.ganttToRender.Group_StrokeWidth
-		groupSVG.StrokeDashArray = ganttSVGMapper.ganttToRender.Group_StrokeDashArray
+		groupSVG.Stroke = gantt.Group_Stroke
+		groupSVG.StrokeWidth = gantt.Group_StrokeWidth
+		groupSVG.StrokeDashArray = gantt.Group_StrokeDashArray
 
 		// text
 		groupText := new(gongsvg_models.Text).Stage(gongsvgStage)
 		groupText.Name = group.Name
 		groupText.Content = groupText.Name
 		groupText.X = XLeftText
-		groupText.Y = groupTopY + ganttSVGMapper.ganttToRender.DateYOffset
+		groupText.Y = groupTopY + gantt.DateYOffset
 		groupText.Color = "blue"
 		groupText.FillOpacity = 0.5
 		layerLanes.Texts = append(layerLanes.Texts, groupText)
