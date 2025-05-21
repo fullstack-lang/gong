@@ -77,7 +77,7 @@ func _(stage *models.Stage) {
 
 	__Bar__000003_Bar_4.Name = `Bar-4`
 	__Bar__000003_Bar_4.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2023-10-06 01:55:12 +0000 UTC")
-	__Bar__000003_Bar_4.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-04-17 18:58:42.461538368 +0000 UTC")
+	__Bar__000003_Bar_4.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-12-25 10:42:27.692307648 +0000 UTC")
 	__Bar__000003_Bar_4.ComputedDuration = 79895010461538368
 	__Bar__000003_Bar_4.OptionnalColor = ``
 	__Bar__000003_Bar_4.OptionnalStroke = ``

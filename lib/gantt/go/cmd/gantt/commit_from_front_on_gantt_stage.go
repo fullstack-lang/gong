@@ -8,14 +8,12 @@ import (
 	gantt_models "github.com/fullstack-lang/gong/lib/gantt/go/models"
 
 	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
-
-	"github.com/fullstack-lang/gong/lib/gantt/go/gantt2svg"
 )
 
 // hook marhalling to stage
 type CommitFromFrontOnGanttStage struct {
 	gongsvgStage   *svg_models.Stage
-	ganttSVGMapper *gantt2svg.GanttSVGMapper
+	ganttSVGMapper *gantt_models.GanttSVGMapper
 }
 
 // BeforeCommit meets the interface for the commit on the gantt stage

@@ -12,8 +12,6 @@ import (
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
-
-	"github.com/fullstack-lang/gong/lib/gantt/go/gantt2svg"
 )
 
 var (
@@ -51,7 +49,7 @@ func main() {
 	// set up the GanttSVGMapper that will intercept
 	// commits on the gantt stage and that will
 	// generate the svg
-	ganttSVGMapper := new(gantt2svg.GanttSVGMapper)
+	ganttSVGMapper := new(gantt_models.GanttSVGMapper)
 	ganttSVGMapper.GanttOuputFile = *marshallOnCommit
 
 	commitOnGanttStage := new(CommitFromFrontOnGanttStage)
