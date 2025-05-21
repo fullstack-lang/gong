@@ -50,7 +50,6 @@ func main() {
 	// commits on the gantt stage and that will
 	// generate the svg
 	ganttSVGMapper := new(gantt_models.GanttSVGMapper)
-	ganttSVGMapper.GanttOuputFile = *marshallOnCommit
 
 	commitOnGanttStage := new(CommitFromFrontOnGanttStage)
 	commitOnGanttStage.gongsvgStage = stager.GetSvgStage()
