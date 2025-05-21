@@ -1,4 +1,4 @@
-package svg2gantt
+package models
 
 import "time"
 
