@@ -1,4 +1,4 @@
-package gantt2svg
+package models
 
 import (
 	"fmt"

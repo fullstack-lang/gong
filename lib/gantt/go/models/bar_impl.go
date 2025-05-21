@@ -1,16 +1,15 @@
-package svg2gantt
+package models
 
 import (
 	"log"
 
-	gonggantt_models "github.com/fullstack-lang/gong/lib/gantt/go/models"
 	gongsvg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
 type BarImpl struct {
-	Bar            *gonggantt_models.Bar
-	GanttToRender  *gonggantt_models.Gantt
-	GongganttStage *gonggantt_models.Stage
+	Bar            *Bar
+	GanttToRender  *Gantt
+	GongganttStage *Stage
 }
 
 func (barImpl *BarImpl) RectUpdated(updatedRect *gongsvg_models.Rect) {
