@@ -25,7 +25,7 @@ func ServeStaticFiles(logGINFlag bool) (r *gin.Engine) {
 	}
 	r = gin.Default()
 	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"http://localhost:8080", "http://localhost:4200"} // Allow requests from localhost:8080 and localhost:4200
+	config.AllowOrigins = []string{"*"} // Allow requests from localhost:8080 and localhost:4200
 
 	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"} // Allow specific HTTP methods
 
