@@ -774,6 +774,25 @@
       ],
       "group": "build"
     },
+        {
+      "label": "04 - go run svg on simple port 8090",
+      "type": "shell",
+      "options": {
+        "cwd": "./lib/svg/go/cmd/svg"
+      },
+      "command": "go",
+      "args": [
+        "run",
+        ".",
+        "-unmarshallFromCode",
+        "data/simple.go",
+        "-marshallOnCommit",
+        "data/simple.go",
+        "-port",
+        "8090"
+      ],
+      "group": "build"
+    },
     {
       "label": "04 - go run test",
       "type": "shell",
@@ -790,7 +809,7 @@
       "group": "build"
     },
     {
-      "label": "04 - go run test -marshallOnStartup=stage",
+      "label": "04 - go run test -unmarshallFromCode=data/stage.go -marshallOnCommidata=data/stage.go",
       "type": "shell",
       "options": {
         "cwd": "./test/test/go/cmd/test"
@@ -799,8 +818,10 @@
       "args": [
         "run",
         "main.go",
-        "stage.go",
-        "-marshallOnStartup=stage"
+        "-unmarshallFromCode",
+        "data/stage.go",
+        "-marshallOnCommit",
+        "data/stage.go"
       ],
       "group": "build"
     },
