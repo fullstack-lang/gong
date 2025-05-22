@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/url"
+	"strconv"
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/xlsx/go/orm"
@@ -117,10 +119,38 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 
 	// Upgrader specifies parameters for upgrading an HTTP connection to a
 	// WebSocket connection.
-	var upgrader = websocket.Upgrader{
+var upgrader = websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool {
 			origin := r.Header.Get("Origin")
-			return origin == "http://localhost:8080" || origin == "http://localhost:4200"
+			if origin == "" {
+				return false // Or handle as per your security policy
+			}
+
+			u, err := url.Parse(origin)
+			if err != nil {
+				return false // Invalid URL
+			}
+
+			hostname := u.Hostname()
+			portStr := u.Port()
+
+			if hostname != "localhost" {
+				return false
+			}
+
+			if portStr == "" {
+				// If no port is specified, it might be using default HTTP/HTTPS ports.
+				// For this specific request, we'll assume a port must be present.
+				return false
+			}
+
+			port, err := strconv.Atoi(portStr)
+			if err != nil {
+				return false // Port is not a valid number
+			}
+
+			// Check if the port is 4200 OR in the range 8000-9000
+			return port == 4200 || (port >= 8000 && port <= 9000)
 		},
 	}
 
