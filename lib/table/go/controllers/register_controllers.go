@@ -245,15 +245,18 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 
 	// Upgrader specifies parameters for upgrading an HTTP connection to a
 	// WebSocket connection.
-var upgrader = websocket.Upgrader{
+
+	var upgrader = websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool {
 			origin := r.Header.Get("Origin")
 			if origin == "" {
+				log.Printf("CheckOrigin: Rejected - Origin header is empty. Request from: %s", r.RemoteAddr)
 				return false // Or handle as per your security policy
 			}
 
 			u, err := url.Parse(origin)
 			if err != nil {
+				log.Printf("CheckOrigin: Rejected - Invalid Origin URL '%s'. Error: %v", origin, err)
 				return false // Invalid URL
 			}
 
@@ -262,16 +265,25 @@ var upgrader = websocket.Upgrader{
 			if portStr == "" {
 				// If no port is specified, it might be using default HTTP/HTTPS ports.
 				// For this specific request, we'll assume a port must be present.
+				log.Printf("CheckOrigin: Rejected - No port specified in Origin URL '%s'", origin)
 				return false
 			}
 
 			port, err := strconv.Atoi(portStr)
 			if err != nil {
+				log.Printf("CheckOrigin: Rejected - Port '%s' in Origin URL '%s' is not a valid number. Error: %v", portStr, origin, err)
 				return false // Port is not a valid number
 			}
 
 			// Check if the port is 4200 OR in the range 8000-9000
-			return port == 4200 || (port >= 8000 && port <= 9000)
+			allowed := port == 4200 || (port >= 8000 && port <= 9000)
+			if !allowed {
+				log.Printf("CheckOrigin: Rejected - Port %d from Origin '%s' is not in the allowed list (4200 or 8000-9000)", port, origin)
+				return false
+			}
+
+			log.Printf("CheckOrigin: Accepted - Origin '%s' with port %d", origin, port)
+			return true
 		},
 	}
 
