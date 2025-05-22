@@ -289,8 +289,23 @@ export class FrontRepoService {
 		this.Name = Name
 
 
+		// Determine the base URL for the WebSocket connection dynamically
+		// window.location.host includes hostname and port (e.g., "localhost:8080" or "yourdomain.com:8090")
+		// If running on standard ports (80 for http, 443 for https), the port might not be explicitly in window.location.host
+		// but WebSocket constructor handles 'ws://' and 'wss://' correctly with host.
+		let host = window.location.host; // e.g., localhost:4200 or myapp.com
+		const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'; // Use wss for https, ws for http
+
+		// Check if the host is localhost:4200 and change it to localhost:8080 (when using ng serve)
+		if (host === 'localhost:4200') {
+			host = 'localhost:8080';
+		}
+
+		// Construct the base path using the dynamic host and protocol
+		// The API path remains the same.
+		let basePath = `${protocol}//${host}/api/github.com/fullstack-lang/gong/lib/tone/go/v1/ws/stage`
+
 		let params = new HttpParams().set("Name", this.Name)
-		let basePath = 'ws://localhost:8080/api/github.com/fullstack-lang/gong/lib/tone/go/v1/ws/stage'
 		let paramString = params.toString()
 		let url = `${basePath}?${paramString}`
 		this.socket = new WebSocket(url)
