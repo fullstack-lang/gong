@@ -257,12 +257,7 @@ var upgrader = websocket.Upgrader{
 				return false // Invalid URL
 			}
 
-			hostname := u.Hostname()
 			portStr := u.Port()
-
-			if hostname != "localhost" {
-				return false
-			}
 
 			if portStr == "" {
 				// If no port is specified, it might be using default HTTP/HTTPS ports.
