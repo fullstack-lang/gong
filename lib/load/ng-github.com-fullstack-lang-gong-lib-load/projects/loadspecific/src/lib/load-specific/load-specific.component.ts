@@ -16,7 +16,12 @@ export class LoadSpecificComponent implements OnInit {
   @Input() Name: string = ""
 
   public frontRepo?: load.FrontRepo;
+
   public fileToDownload?: load.FileToDownload
+
+  // to upload a file, the back must instance a fileToUpload
+  // the front will update its name and content
+  public fileToUpload?: load.FileToDownload
 
   constructor(
     private frontRepoService: load.FrontRepoService,
@@ -35,7 +40,12 @@ export class LoadSpecificComponent implements OnInit {
           this.fileToDownload = file_
         }
 
-        if (this.fileToDownload == undefined) {
+        for (let file_ of this.frontRepo.getFrontArray<load.FileToUpload>(load.FileToUpload.GONGSTRUCT_NAME)) 
+        {
+          this.fileToUpload = file_
+        }
+
+        if (this.fileToDownload == undefined && this.fileToUpload == undefined) {
           return
         }
 
@@ -43,20 +53,27 @@ export class LoadSpecificComponent implements OnInit {
           return
         }
 
+          if (this.frontRepo.getFrontArray<load.FileToUpload>(load.FileToUpload.GONGSTRUCT_NAME).length > 1) {
+          return
+        }
+
         // Create a Blob from the file string
-        const blob = new Blob([this.fileToDownload.Content], { type: 'text/plain' });
+        if (this.fileToDownload) {
+          const blob = new Blob([this.fileToDownload.Content], { type: 'text/plain' });
 
-        // Generate a temporary URL for the Blob
-        const url = URL.createObjectURL(blob);
+          // Generate a temporary URL for the Blob
+          const url = URL.createObjectURL(blob);
 
-        // Create a link element, set its href to the Blob URL, and initiate download
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = this.fileToDownload.Name;  // The name of the file to be downloaded
-        link.click();
+          // Create a link element, set its href to the Blob URL, and initiate download
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = this.fileToDownload.Name;  // The name of the file to be downloaded
+          link.click();
 
-        // Clean up the URL object once finished
-        URL.revokeObjectURL(url);
+          // Clean up the URL object once finished
+          URL.revokeObjectURL(url);
+        }
+
       }
     }
     )
@@ -115,13 +132,16 @@ export class LoadSpecificComponent implements OnInit {
   }
 
   private uploadFile(fileName: string, fileContent: string): void {
+
+    if (this.fileToUpload == undefined) {
+      return
+    }
+
     // Keep the content of function empty as requested
+    this.fileToUpload.Name = fileName
+    this.fileToUpload.Content = fileContent
 
-    let fileToUpload = new(load.FileToUpload)
-    fileToUpload.Name = fileName
-    fileToUpload.Content = fileContent
-
-    this.fileToUploadService.postFront(fileToUpload, this.Name).subscribe(
+    this.fileToUploadService.updateFront(this.fileToUpload, this.Name).subscribe(
       ()=> {
           this.isUploading.set(false);
           this.uploadStatus.set(`File "${fileName}" processed successfully`);
