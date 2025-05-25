@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output, signal  } from '@angular/core';
 
 import * as load from '../../../../load/src/public-api'
 
@@ -10,14 +10,22 @@ import * as load from '../../../../load/src/public-api'
   styleUrl: './load-specific.component.css'
 })
 export class LoadSpecificComponent implements OnInit {
+  @Output() fileDropped = new EventEmitter<File>();
+  isDragging = false;
 
   @Input() Name: string = ""
 
   public frontRepo?: load.FrontRepo;
+
   public fileToDownload?: load.FileToDownload
+
+  // to upload a file, the back must instance a fileToUpload
+  // the front will update its name and content
+  public fileToUpload?: load.FileToDownload
 
   constructor(
     private frontRepoService: load.FrontRepoService,
+    private fileToUploadService: load.FileToUploadService,
   ) { }
 
   ngOnInit(): void {
@@ -32,7 +40,12 @@ export class LoadSpecificComponent implements OnInit {
           this.fileToDownload = file_
         }
 
-        if (this.fileToDownload == undefined) {
+        for (let file_ of this.frontRepo.getFrontArray<load.FileToUpload>(load.FileToUpload.GONGSTRUCT_NAME)) 
+        {
+          this.fileToUpload = file_
+        }
+
+        if (this.fileToDownload == undefined && this.fileToUpload == undefined) {
           return
         }
 
@@ -40,22 +53,99 @@ export class LoadSpecificComponent implements OnInit {
           return
         }
 
+          if (this.frontRepo.getFrontArray<load.FileToUpload>(load.FileToUpload.GONGSTRUCT_NAME).length > 1) {
+          return
+        }
+
         // Create a Blob from the file string
-        const blob = new Blob([this.fileToDownload.Content], { type: 'text/plain' });
+        if (this.fileToDownload) {
+          const blob = new Blob([this.fileToDownload.Content], { type: 'text/plain' });
 
-        // Generate a temporary URL for the Blob
-        const url = URL.createObjectURL(blob);
+          // Generate a temporary URL for the Blob
+          const url = URL.createObjectURL(blob);
 
-        // Create a link element, set its href to the Blob URL, and initiate download
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = this.fileToDownload.Name;  // The name of the file to be downloaded
-        link.click();
+          // Create a link element, set its href to the Blob URL, and initiate download
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = this.fileToDownload.Name;  // The name of the file to be downloaded
+          link.click();
 
-        // Clean up the URL object once finished
-        URL.revokeObjectURL(url);
+          // Clean up the URL object once finished
+          URL.revokeObjectURL(url);
+        }
+
       }
     }
+    )
+  }
+
+ isDragOver = signal(false);
+  isUploading = signal(false);
+  uploadStatus = signal<string>('');
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver.set(true);
+  }
+
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver.set(false);
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver.set(false);
+
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      this.handleFile(files[0]);
+    }
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.handleFile(input.files[0]);
+    }
+  }
+
+  private handleFile(file: File): void {
+    this.isUploading.set(true);
+    this.uploadStatus.set('Reading file...');
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const fileContent = e.target?.result as string;
+      this.uploadFile(file.name, fileContent);
+    };
+
+    reader.onerror = () => {
+      this.uploadStatus.set('Error reading file');
+      this.isUploading.set(false);
+    };
+
+    reader.readAsText(file);
+  }
+
+  private uploadFile(fileName: string, fileContent: string): void {
+
+    if (this.fileToUpload == undefined) {
+      return
+    }
+
+    // Keep the content of function empty as requested
+    this.fileToUpload.Name = fileName
+    this.fileToUpload.Content = fileContent
+
+    this.fileToUploadService.updateFront(this.fileToUpload, this.Name).subscribe(
+      ()=> {
+          this.isUploading.set(false);
+          this.uploadStatus.set(`File "${fileName}" processed successfully`);
+      }
     )
   }
 }
