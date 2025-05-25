@@ -14,6 +14,8 @@ type Astruct_WOP struct {
 
 	Name string
 
+	Field any
+
 	Date time.Time
 
 	Date2 time.Time
@@ -60,6 +62,7 @@ type Astruct_WOP struct {
 func (from *Astruct) CopyBasicFields(to *Astruct) {
 	// insertion point
 	to.Name = from.Name
+	to.Field = from.Field
 	to.Date = from.Date
 	to.Date2 = from.Date2
 	to.Booleanfield = from.Booleanfield

@@ -206,47 +206,49 @@ type AstructWOP struct {
 
 	Name string `xlsx:"1"`
 
-	Date time.Time `xlsx:"2"`
+	Field any `xlsx:"2"`
 
-	Date2 time.Time `xlsx:"3"`
+	Date time.Time `xlsx:"3"`
 
-	Booleanfield bool `xlsx:"4"`
+	Date2 time.Time `xlsx:"4"`
 
-	Aenum models.AEnumType `xlsx:"5"`
+	Booleanfield bool `xlsx:"5"`
 
-	Aenum_2 models.AEnumType `xlsx:"6"`
+	Aenum models.AEnumType `xlsx:"6"`
 
-	Benum models.BEnumType `xlsx:"7"`
+	Aenum_2 models.AEnumType `xlsx:"7"`
 
-	CEnum models.CEnumTypeInt `xlsx:"8"`
+	Benum models.BEnumType `xlsx:"8"`
 
-	CName string `xlsx:"9"`
+	CEnum models.CEnumTypeInt `xlsx:"9"`
 
-	CFloatfield float64 `xlsx:"10"`
+	CName string `xlsx:"10"`
 
-	Floatfield float64 `xlsx:"11"`
+	CFloatfield float64 `xlsx:"11"`
 
-	Intfield int `xlsx:"12"`
+	Floatfield float64 `xlsx:"12"`
 
-	Anotherbooleanfield bool `xlsx:"13"`
+	Intfield int `xlsx:"13"`
 
-	Duration1 time.Duration `xlsx:"14"`
+	Anotherbooleanfield bool `xlsx:"14"`
 
-	StructRef string `xlsx:"15"`
+	Duration1 time.Duration `xlsx:"15"`
 
-	FieldRef string `xlsx:"16"`
+	StructRef string `xlsx:"16"`
 
-	EnumIntRef string `xlsx:"17"`
+	FieldRef string `xlsx:"17"`
 
-	EnumStringRef string `xlsx:"18"`
+	EnumIntRef string `xlsx:"18"`
 
-	EnumValue string `xlsx:"19"`
+	EnumStringRef string `xlsx:"19"`
 
-	ConstIdentifierValue string `xlsx:"20"`
+	EnumValue string `xlsx:"20"`
 
-	TextFieldBespokeSize string `xlsx:"21"`
+	ConstIdentifierValue string `xlsx:"21"`
 
-	TextArea string `xlsx:"22"`
+	TextFieldBespokeSize string `xlsx:"22"`
+
+	TextArea string `xlsx:"23"`
 	// insertion for WOP pointer fields
 }
 
@@ -254,6 +256,7 @@ var Astruct_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"Field",
 	"Date",
 	"Date2",
 	"Booleanfield",

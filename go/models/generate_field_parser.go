@@ -122,6 +122,31 @@ func GenerateFieldParser(
 			switch __fieldType := field.Type.(type) {
 			case *ast.Ident:
 				switch __fieldType.Name {
+				case "any":
+					// we are interested in meta fields, where there is "//gong:meta" and "any" type
+					if field.Doc == nil {
+						break
+					}
+					var isMetaField bool
+					for _, comment := range field.Doc.List {
+						text := comment.Text
+						if strings.HasPrefix(text, "//gong:meta") {
+							isMetaField = true
+						}
+					}
+					if !isMetaField {
+						break
+					}
+					gongField :=
+						&GongBasicField{
+							Name:                fieldName,
+							basicKind:           types.UntypedNil,
+							BasicKindName:       "any",
+							DeclaredType:        "any",
+							Index:               len(owningGongstruct.Fields),
+							CompositeStructName: compositeTypeStructName,
+						}
+					owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
 				case "string":
 					gongField :=
 						&GongBasicField{
@@ -137,7 +162,6 @@ func GenerateFieldParser(
 							IsBespokeHeight:     isBespokeHeight,
 							BespokeHeight:       bespokeHeight,
 						}
-
 					if field.Doc != nil {
 						for _, comment := range field.Doc.List {
 							text := comment.Text
@@ -146,9 +170,7 @@ func GenerateFieldParser(
 							}
 						}
 					}
-
 					owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
-
 				case "int":
 					gongField :=
 						&GongBasicField{
