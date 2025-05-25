@@ -34,7 +34,7 @@ var (
 	skipCoder         = flag.Bool("skipCoder", true, "do not generate coder file")
 	skipSerialize     = flag.Bool("skipSerialize", false, "do not generate models/gong_serialize code for xl ouput")
 	skipNpmWorkspaces = flag.Bool("skipNpmWorkspaces", false, "do not generate package.json at the root for npm workspaces")
-	skipStager        = flag.Bool("skipStager", false, "do not generate blolerplate stager.go in models and in main.go")
+	skipStager        = flag.Bool("skipStager", true, "do not generate blolerplate stager.go in models and in main.go")
 
 	clean = flag.Bool("clean", false, "let gongc remove files & dir that are generated. The program then exits.")
 
