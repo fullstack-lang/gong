@@ -74,6 +74,16 @@ func updateAndCommitTree(
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
+		case "FileToUpload":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.FileToUpload](probe.stageOfInterest)
+			for _filetoupload := range set {
+				nodeInstance := (&tree.Node{Name: _filetoupload.GetName()}).Stage(probe.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_filetoupload, "FileToUpload", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
 		}
 
 		nodeGongstruct.IsNodeClickable = true

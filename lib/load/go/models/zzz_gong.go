@@ -91,6 +91,15 @@ type Stage struct {
 	OnAfterFileToDownloadDeleteCallback OnAfterDeleteInterface[FileToDownload]
 	OnAfterFileToDownloadReadCallback   OnAfterReadInterface[FileToDownload]
 
+	FileToUploads           map[*FileToUpload]any
+	FileToUploads_mapString map[string]*FileToUpload
+
+	// insertion point for slice of pointers maps
+	OnAfterFileToUploadCreateCallback OnAfterCreateInterface[FileToUpload]
+	OnAfterFileToUploadUpdateCallback OnAfterUpdateInterface[FileToUpload]
+	OnAfterFileToUploadDeleteCallback OnAfterDeleteInterface[FileToUpload]
+	OnAfterFileToUploadReadCallback   OnAfterReadInterface[FileToUpload]
+
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
@@ -119,6 +128,9 @@ type Stage struct {
 	// insertion point for order fields declaration
 	FileToDownloadOrder            uint
 	FileToDownloadMap_Staged_Order map[*FileToDownload]uint
+
+	FileToUploadOrder            uint
+	FileToUploadMap_Staged_Order map[*FileToUpload]uint
 
 	// end of insertion point
 
@@ -165,6 +177,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	// insertion point for case
 	case "FileToDownload":
 		res = GetNamedStructInstances(stage.FileToDownloads, stage.FileToDownloadMap_Staged_Order)
+	case "FileToUpload":
+		res = GetNamedStructInstances(stage.FileToUploads, stage.FileToUploadMap_Staged_Order)
 	}
 
 	return
@@ -236,6 +250,8 @@ type BackRepoInterface interface {
 	// insertion point for Commit and Checkout signatures
 	CommitFileToDownload(filetodownload *FileToDownload)
 	CheckoutFileToDownload(filetodownload *FileToDownload)
+	CommitFileToUpload(filetoupload *FileToUpload)
+	CheckoutFileToUpload(filetoupload *FileToUpload)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -245,6 +261,9 @@ func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
 		FileToDownloads:           make(map[*FileToDownload]any),
 		FileToDownloads_mapString: make(map[string]*FileToDownload),
+
+		FileToUploads:           make(map[*FileToUpload]any),
+		FileToUploads_mapString: make(map[string]*FileToUpload),
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
@@ -258,10 +277,13 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		FileToDownloadMap_Staged_Order: make(map[*FileToDownload]uint),
 
+		FileToUploadMap_Staged_Order: make(map[*FileToUpload]uint),
+
 		// end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "FileToDownload"},
+			{name: "FileToUpload"},
 		}, // end of insertion point
 	}
 
@@ -274,6 +296,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	// insertion point for order map initialisations
 	case *FileToDownload:
 		return stage.FileToDownloadMap_Staged_Order[instance]
+	case *FileToUpload:
+		return stage.FileToUploadMap_Staged_Order[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -285,6 +309,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	// insertion point for order map initialisations
 	case *FileToDownload:
 		return stage.FileToDownloadMap_Staged_Order[instance]
+	case *FileToUpload:
+		return stage.FileToUploadMap_Staged_Order[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -311,6 +337,7 @@ func (stage *Stage) Commit() {
 
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["FileToDownload"] = len(stage.FileToDownloads)
+	stage.Map_GongStructName_InstancesNb["FileToUpload"] = len(stage.FileToUploads)
 
 }
 
@@ -322,6 +349,7 @@ func (stage *Stage) Checkout() {
 	stage.ComputeReverseMaps()
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["FileToDownload"] = len(stage.FileToDownloads)
+	stage.Map_GongStructName_InstancesNb["FileToUpload"] = len(stage.FileToUploads)
 
 }
 
@@ -409,13 +437,70 @@ func (filetodownload *FileToDownload) GetName() (res string) {
 	return filetodownload.Name
 }
 
+// Stage puts filetoupload to the model stage
+func (filetoupload *FileToUpload) Stage(stage *Stage) *FileToUpload {
+
+	if _, ok := stage.FileToUploads[filetoupload]; !ok {
+		stage.FileToUploads[filetoupload] = __member
+		stage.FileToUploadMap_Staged_Order[filetoupload] = stage.FileToUploadOrder
+		stage.FileToUploadOrder++
+	}
+	stage.FileToUploads_mapString[filetoupload.Name] = filetoupload
+
+	return filetoupload
+}
+
+// Unstage removes filetoupload off the model stage
+func (filetoupload *FileToUpload) Unstage(stage *Stage) *FileToUpload {
+	delete(stage.FileToUploads, filetoupload)
+	delete(stage.FileToUploads_mapString, filetoupload.Name)
+	return filetoupload
+}
+
+// UnstageVoid removes filetoupload off the model stage
+func (filetoupload *FileToUpload) UnstageVoid(stage *Stage) {
+	delete(stage.FileToUploads, filetoupload)
+	delete(stage.FileToUploads_mapString, filetoupload.Name)
+}
+
+// commit filetoupload to the back repo (if it is already staged)
+func (filetoupload *FileToUpload) Commit(stage *Stage) *FileToUpload {
+	if _, ok := stage.FileToUploads[filetoupload]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitFileToUpload(filetoupload)
+		}
+	}
+	return filetoupload
+}
+
+func (filetoupload *FileToUpload) CommitVoid(stage *Stage) {
+	filetoupload.Commit(stage)
+}
+
+// Checkout filetoupload to the back repo (if it is already staged)
+func (filetoupload *FileToUpload) Checkout(stage *Stage) *FileToUpload {
+	if _, ok := stage.FileToUploads[filetoupload]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutFileToUpload(filetoupload)
+		}
+	}
+	return filetoupload
+}
+
+// for satisfaction of GongStruct interface
+func (filetoupload *FileToUpload) GetName() (res string) {
+	return filetoupload.Name
+}
+
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMFileToDownload(FileToDownload *FileToDownload)
+	CreateORMFileToUpload(FileToUpload *FileToUpload)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMFileToDownload(FileToDownload *FileToDownload)
+	DeleteORMFileToUpload(FileToUpload *FileToUpload)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -424,17 +509,29 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.FileToDownloadMap_Staged_Order = make(map[*FileToDownload]uint)
 	stage.FileToDownloadOrder = 0
 
+	stage.FileToUploads = make(map[*FileToUpload]any)
+	stage.FileToUploads_mapString = make(map[string]*FileToUpload)
+	stage.FileToUploadMap_Staged_Order = make(map[*FileToUpload]uint)
+	stage.FileToUploadOrder = 0
+
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
 	stage.FileToDownloads = nil
 	stage.FileToDownloads_mapString = nil
 
+	stage.FileToUploads = nil
+	stage.FileToUploads_mapString = nil
+
 }
 
 func (stage *Stage) Unstage() { // insertion point for array nil
 	for filetodownload := range stage.FileToDownloads {
 		filetodownload.Unstage(stage)
+	}
+
+	for filetoupload := range stage.FileToUploads {
+		filetoupload.Unstage(stage)
 	}
 
 }
@@ -500,6 +597,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 	// insertion point for generic get functions
 	case map[*FileToDownload]any:
 		return any(&stage.FileToDownloads).(*Type)
+	case map[*FileToUpload]any:
+		return any(&stage.FileToUploads).(*Type)
 	default:
 		return nil
 	}
@@ -514,6 +613,8 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 	// insertion point for generic get functions
 	case map[string]*FileToDownload:
 		return any(&stage.FileToDownloads_mapString).(*Type)
+	case map[string]*FileToUpload:
+		return any(&stage.FileToUploads_mapString).(*Type)
 	default:
 		return nil
 	}
@@ -528,6 +629,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 	// insertion point for generic get functions
 	case FileToDownload:
 		return any(&stage.FileToDownloads).(*map[*Type]any)
+	case FileToUpload:
+		return any(&stage.FileToUploads).(*map[*Type]any)
 	default:
 		return nil
 	}
@@ -542,6 +645,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 	// insertion point for generic get functions
 	case *FileToDownload:
 		return any(&stage.FileToDownloads).(*map[Type]any)
+	case *FileToUpload:
+		return any(&stage.FileToUploads).(*map[Type]any)
 	default:
 		return nil
 	}
@@ -556,6 +661,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 	// insertion point for generic get functions
 	case FileToDownload:
 		return any(&stage.FileToDownloads_mapString).(*map[string]*Type)
+	case FileToUpload:
+		return any(&stage.FileToUploads_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -572,6 +679,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case FileToDownload:
 		return any(&FileToDownload{
+			// Initialisation of associations
+		}).(*Type)
+	case FileToUpload:
+		return any(&FileToUpload{
 			// Initialisation of associations
 		}).(*Type)
 	default:
@@ -597,6 +708,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of FileToUpload
+	case FileToUpload:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	}
 	return nil
 }
@@ -618,6 +734,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of FileToUpload
+	case FileToUpload:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	}
 	return nil
 }
@@ -632,6 +753,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 	// insertion point for generic get gongstruct name
 	case FileToDownload:
 		res = "FileToDownload"
+	case FileToUpload:
+		res = "FileToUpload"
 	}
 	return res
 }
@@ -646,6 +769,8 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 	// insertion point for generic get gongstruct name
 	case *FileToDownload:
 		res = "FileToDownload"
+	case *FileToUpload:
+		res = "FileToUpload"
 	}
 	return res
 }
@@ -658,6 +783,8 @@ func GetFields[Type Gongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case FileToDownload:
+		res = []string{"Name", "Content"}
+	case FileToUpload:
 		res = []string{"Name", "Content"}
 	}
 	return
@@ -680,6 +807,9 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	case FileToDownload:
 		var rf ReverseField
 		_ = rf
+	case FileToUpload:
+		var rf ReverseField
+		_ = rf
 	}
 	return
 }
@@ -692,6 +822,8 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *FileToDownload:
+		res = []string{"Name", "Content"}
+	case *FileToUpload:
 		res = []string{"Name", "Content"}
 	}
 	return
@@ -742,6 +874,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "Content":
 			res.valueString = inferedInstance.Content
 		}
+	case *FileToUpload:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "Content":
+			res.valueString = inferedInstance.Content
+		}
 	default:
 		_ = inferedInstance
 	}
@@ -753,6 +893,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
 	case FileToDownload:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "Content":
+			res.valueString = inferedInstance.Content
+		}
+	case FileToUpload:
 		switch fieldName {
 		// string value of fields
 		case "Name":
