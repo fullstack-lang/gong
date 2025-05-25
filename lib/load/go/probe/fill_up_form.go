@@ -24,6 +24,13 @@ func FillUpForm(
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 2000)
 
+	case *models.FileToUpload:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, true, 600, false, 0)
+		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
+			true, true, 600, true, 2000)
+
 	default:
 		_ = instanceWithInferedType
 	}

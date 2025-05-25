@@ -23,13 +23,7 @@ func _(stage *models.Stage) {
 
 	// Declaration of instances to stage
 
-	__FileToDownload__000000_a := (&models.FileToDownload{}).Stage(stage)
-
 	// Setup of values
 
-	__FileToDownload__000000_a.Name = `a`
-	__FileToDownload__000000_a.Content = `a`
-
 	// Setup of pointers
-	// setup of FileToDownload instances pointers
 }

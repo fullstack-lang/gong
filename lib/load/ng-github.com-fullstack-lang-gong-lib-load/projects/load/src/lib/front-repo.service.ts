@@ -8,6 +8,10 @@ import { FileToDownloadAPI } from './filetodownload-api'
 import { FileToDownload, CopyFileToDownloadAPIToFileToDownload } from './filetodownload'
 import { FileToDownloadService } from './filetodownload.service'
 
+import { FileToUploadAPI } from './filetoupload-api'
+import { FileToUpload, CopyFileToUploadAPIToFileToUpload } from './filetoupload'
+import { FileToUploadService } from './filetoupload.service'
+
 
 import { BackRepoData } from './back-repo-data'
 
@@ -17,6 +21,9 @@ export const StackType = "github.com/fullstack-lang/gong/lib/load/go/models"
 export class FrontRepo { // insertion point sub template
 	array_FileToDownloads = new Array<FileToDownload>() // array of front instances
 	map_ID_FileToDownload = new Map<number, FileToDownload>() // map of front instances
+
+	array_FileToUploads = new Array<FileToUpload>() // array of front instances
+	map_ID_FileToUpload = new Map<number, FileToUpload>() // map of front instances
 
 
 	public GONG__Index = -1
@@ -29,6 +36,8 @@ export class FrontRepo { // insertion point sub template
 			// insertion point
 			case 'FileToDownload':
 				return this.array_FileToDownloads as unknown as Array<Type>
+			case 'FileToUpload':
+				return this.array_FileToUploads as unknown as Array<Type>
 			default:
 				throw new Error("Type not recognized");
 		}
@@ -39,6 +48,8 @@ export class FrontRepo { // insertion point sub template
 			// insertion point
 			case 'FileToDownload':
 				return this.map_ID_FileToDownload as unknown as Map<number, Type>
+			case 'FileToUpload':
+				return this.map_ID_FileToUpload as unknown as Map<number, Type>
 			default:
 				throw new Error("Type not recognized");
 		}
@@ -107,6 +118,7 @@ export class FrontRepoService {
 	constructor(
 		private http: HttpClient, // insertion point sub template 
 		private filetodownloadService: FileToDownloadService,
+		private filetouploadService: FileToUploadService,
 	) { }
 
 	// postService provides a post function for each struct name
@@ -140,6 +152,7 @@ export class FrontRepoService {
 		Observable<null>, // see below for the of(null) observable
 		// insertion point sub template 
 		Observable<FileToDownloadAPI[]>,
+		Observable<FileToUploadAPI[]>,
 	];
 
 	//
@@ -156,6 +169,7 @@ export class FrontRepoService {
 			of(null), // see above for justification
 			// insertion point sub template
 			this.filetodownloadService.getFileToDownloads(this.Name, this.frontRepo),
+			this.filetouploadService.getFileToUploads(this.Name, this.frontRepo),
 		]
 
 		return new Observable<FrontRepo>(
@@ -167,12 +181,15 @@ export class FrontRepoService {
 						___of_null, // see above for the explanation about of
 						// insertion point sub template for declarations 
 						filetodownloads_,
+						filetouploads_,
 					]) => {
 						let _this = this
 						// Typing can be messy with many items. Therefore, type casting is necessary here
 						// insertion point sub template for type casting 
 						var filetodownloads: FileToDownloadAPI[]
 						filetodownloads = filetodownloads_ as FileToDownloadAPI[]
+						var filetouploads: FileToUploadAPI[]
+						filetouploads = filetouploads_ as FileToUploadAPI[]
 
 						// 
 						// First Step: init map of instances
@@ -189,6 +206,18 @@ export class FrontRepoService {
 							}
 						)
 
+						// init the arrays
+						this.frontRepo.array_FileToUploads = []
+						this.frontRepo.map_ID_FileToUpload.clear()
+
+						filetouploads.forEach(
+							filetouploadAPI => {
+								let filetoupload = new FileToUpload
+								this.frontRepo.array_FileToUploads.push(filetoupload)
+								this.frontRepo.map_ID_FileToUpload.set(filetouploadAPI.ID, filetoupload)
+							}
+						)
+
 
 						// 
 						// Second Step: reddeem front objects
@@ -198,6 +227,14 @@ export class FrontRepoService {
 							filetodownloadAPI => {
 								let filetodownload = this.frontRepo.map_ID_FileToDownload.get(filetodownloadAPI.ID)
 								CopyFileToDownloadAPIToFileToDownload(filetodownloadAPI, filetodownload!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						filetouploads.forEach(
+							filetouploadAPI => {
+								let filetoupload = this.frontRepo.map_ID_FileToUpload.get(filetouploadAPI.ID)
+								CopyFileToUploadAPIToFileToUpload(filetouploadAPI, filetoupload!, this.frontRepo)
 							}
 						)
 
@@ -262,6 +299,18 @@ export class FrontRepoService {
 					}
 				)
 
+				// init the arrays
+				frontRepo.array_FileToUploads = []
+				frontRepo.map_ID_FileToUpload.clear()
+
+				backRepoData.FileToUploadAPIs.forEach(
+					filetouploadAPI => {
+						let filetoupload = new FileToUpload
+						frontRepo.array_FileToUploads.push(filetoupload)
+						frontRepo.map_ID_FileToUpload.set(filetouploadAPI.ID, filetoupload)
+					}
+				)
+
 
 				// 
 				// Second Step: reddeem front objects
@@ -273,6 +322,14 @@ export class FrontRepoService {
 					filetodownloadAPI => {
 						let filetodownload = frontRepo.map_ID_FileToDownload.get(filetodownloadAPI.ID)
 						CopyFileToDownloadAPIToFileToDownload(filetodownloadAPI, filetodownload!, frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.FileToUploadAPIs.forEach(
+					filetouploadAPI => {
+						let filetoupload = frontRepo.map_ID_FileToUpload.get(filetouploadAPI.ID)
+						CopyFileToUploadAPIToFileToUpload(filetouploadAPI, filetoupload!, frontRepo)
 					}
 				)
 
@@ -297,4 +354,7 @@ export class FrontRepoService {
 // insertion point for get unique ID per struct 
 export function getFileToDownloadUniqueID(id: number): number {
 	return 31 * id
+}
+export function getFileToUploadUniqueID(id: number): number {
+	return 37 * id
 }

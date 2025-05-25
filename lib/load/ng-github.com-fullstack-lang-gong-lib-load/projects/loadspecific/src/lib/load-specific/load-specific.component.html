@@ -1,1 +1,36 @@
-<p>load-specific</p>
+<div class="file-upload-container">
+  <div 
+    class="drop-zone"
+    [class.drag-over]="isDragOver()"
+    [class.uploading]="isUploading()"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)"
+    (click)="fileInput.click()">
+    
+    <div class="drop-zone-content">
+      @if (isUploading()) {
+        <div class="upload-spinner"></div>
+        <p class="upload-text">Uploading...</p>
+      } @else {
+        <div class="upload-icon">📁</div>
+        <p class="upload-text">
+          Drop your file here or <span class="click-text">click to browse</span>
+        </p>
+      }
+    </div>
+
+    <input 
+      #fileInput 
+      type="file" 
+      class="file-input" 
+      (change)="onFileSelected($event)"
+      hidden>
+  </div>
+
+  @if (uploadStatus()) {
+    <div class="status-message" [class.success]="!isUploading()">
+      {{ uploadStatus() }}
+    </div>
+  }
+</div>
