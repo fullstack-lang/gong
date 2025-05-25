@@ -38,6 +38,19 @@ func FillUpFormFromGongstructName(
 		filetodownload := new(models.FileToDownload)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(filetodownload, formGroup, probe)
+	case "FileToUpload":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "FileToUpload Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__FileToUploadFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		filetoupload := new(models.FileToUpload)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(filetoupload, formGroup, probe)
 	}
 	formStage.Commit()
 }
