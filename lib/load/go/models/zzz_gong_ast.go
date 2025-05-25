@@ -361,6 +361,7 @@ var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 
 // insertion point for identifiers maps
 var __gong__map_FileToDownload = make(map[string]*FileToDownload)
+var __gong__map_FileToUpload = make(map[string]*FileToUpload)
 
 // Parser needs to be configured for having the [Name1.Name2] or [pkg.Name1] ...
 // to be recognized as a proper identifier.
@@ -537,6 +538,12 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										instanceFileToDownload.Stage(stage)
 										instance = any(instanceFileToDownload)
 										__gong__map_FileToDownload[identifier] = instanceFileToDownload
+									case "FileToUpload":
+										instanceFileToUpload := new(FileToUpload)
+										instanceFileToUpload.Name = instanceName
+										instanceFileToUpload.Stage(stage)
+										instance = any(instanceFileToUpload)
+										__gong__map_FileToUpload[identifier] = instanceFileToUpload
 									}
 									__gong__map_Indentifiers_gongstructName[identifier] = gongstructName
 									return
@@ -577,6 +584,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							switch fieldName {
 							// insertion point for date assign code
 							}
+						case "FileToUpload":
+							switch fieldName {
+							// insertion point for date assign code
+							}
 						}
 					}
 				}
@@ -603,6 +614,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					switch gongstructName {
 					// insertion point for slice of pointers assignments
 					case "FileToDownload":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						}
+					case "FileToUpload":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						}
@@ -667,6 +682,18 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_FileToDownload[identifier].Content = fielValue
 				}
+			case "FileToUpload":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_FileToUpload[identifier].Name = fielValue
+				case "Content":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_FileToUpload[identifier].Content = fielValue
+				}
 			}
 		case *ast.Ident:
 			// assignment to boolean field ?
@@ -682,6 +709,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			switch gongstructName {
 			// insertion point for bool & pointers assignments
 			case "FileToDownload":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
+			case "FileToUpload":
 				switch fieldName {
 				// insertion point for field dependant code
 				}
@@ -714,6 +745,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				switch gongstructName {
 				// insertion point for enums assignments
 				case "FileToDownload":
+					switch fieldName {
+					// insertion point for enum assign code
+					}
+				case "FileToUpload":
 					switch fieldName {
 					// insertion point for enum assign code
 					}
