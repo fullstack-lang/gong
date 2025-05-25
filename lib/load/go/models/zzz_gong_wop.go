@@ -23,3 +23,17 @@ func (from *FileToDownload) CopyBasicFields(to *FileToDownload) {
 	to.Content = from.Content
 }
 
+type FileToUpload_WOP struct {
+	// insertion point
+
+	Name string
+
+	Content string
+}
+
+func (from *FileToUpload) CopyBasicFields(to *FileToUpload) {
+	// insertion point
+	to.Name = from.Name
+	to.Content = from.Content
+}
+
