@@ -141,6 +141,53 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
+	map_FileToUpload_Identifiers := make(map[*FileToUpload]string)
+	_ = map_FileToUpload_Identifiers
+
+	filetouploadOrdered := []*FileToUpload{}
+	for filetoupload := range stage.FileToUploads {
+		filetouploadOrdered = append(filetouploadOrdered, filetoupload)
+	}
+	sort.Slice(filetouploadOrdered[:], func(i, j int) bool {
+		filetouploadi := filetouploadOrdered[i]
+		filetouploadj := filetouploadOrdered[j]
+		filetouploadi_order, oki := stage.FileToUploadMap_Staged_Order[filetouploadi]
+		filetouploadj_order, okj := stage.FileToUploadMap_Staged_Order[filetouploadj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return filetouploadi_order < filetouploadj_order
+	})
+	if len(filetouploadOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, filetoupload := range filetouploadOrdered {
+
+		id = generatesIdentifier("FileToUpload", idx, filetoupload.Name)
+		map_FileToUpload_Identifiers[filetoupload] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FileToUpload")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", filetoupload.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(filetoupload.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Content")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(filetoupload.Content))
+		initializerStatements += setValueField
+
+	}
+
 	// insertion initialization of objects to stage
 	if len(filetodownloadOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of FileToDownload instances pointers"
@@ -151,6 +198,19 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 		id = generatesIdentifier("FileToDownload", idx, filetodownload.Name)
 		map_FileToDownload_Identifiers[filetodownload] = id
+
+		// Initialisation of values
+	}
+
+	if len(filetouploadOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of FileToUpload instances pointers"
+	}
+	for idx, filetoupload := range filetouploadOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("FileToUpload", idx, filetoupload.Name)
+		map_FileToUpload_Identifiers[filetoupload] = id
 
 		// Initialisation of values
 	}
