@@ -98,3 +98,82 @@ func (filetodownloadFormCallback *FileToDownloadFormCallback) OnSave() {
 
 	updateAndCommitTree(filetodownloadFormCallback.probe)
 }
+func __gong__New__FileToUploadFormCallback(
+	filetoupload *models.FileToUpload,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (filetouploadFormCallback *FileToUploadFormCallback) {
+	filetouploadFormCallback = new(FileToUploadFormCallback)
+	filetouploadFormCallback.probe = probe
+	filetouploadFormCallback.filetoupload = filetoupload
+	filetouploadFormCallback.formGroup = formGroup
+
+	filetouploadFormCallback.CreationMode = (filetoupload == nil)
+
+	return
+}
+
+type FileToUploadFormCallback struct {
+	filetoupload *models.FileToUpload
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (filetouploadFormCallback *FileToUploadFormCallback) OnSave() {
+
+	// log.Println("FileToUploadFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	filetouploadFormCallback.probe.formStage.Checkout()
+
+	if filetouploadFormCallback.filetoupload == nil {
+		filetouploadFormCallback.filetoupload = new(models.FileToUpload).Stage(filetouploadFormCallback.probe.stageOfInterest)
+	}
+	filetoupload_ := filetouploadFormCallback.filetoupload
+	_ = filetoupload_
+
+	for _, formDiv := range filetouploadFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(filetoupload_.Name), formDiv)
+		case "Content":
+			FormDivBasicFieldToField(&(filetoupload_.Content), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if filetouploadFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		filetoupload_.Unstage(filetouploadFormCallback.probe.stageOfInterest)
+	}
+
+	filetouploadFormCallback.probe.stageOfInterest.Commit()
+	updateAndCommitTable[models.FileToUpload](
+		filetouploadFormCallback.probe,
+	)
+	filetouploadFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if filetouploadFormCallback.CreationMode || filetouploadFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		filetouploadFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(filetouploadFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__FileToUploadFormCallback(
+			nil,
+			filetouploadFormCallback.probe,
+			newFormGroup,
+		)
+		filetoupload := new(models.FileToUpload)
+		FillUpForm(filetoupload, newFormGroup, filetouploadFormCallback.probe)
+		filetouploadFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(filetouploadFormCallback.probe)
+}

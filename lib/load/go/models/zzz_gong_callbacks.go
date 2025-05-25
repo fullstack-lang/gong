@@ -10,6 +10,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterFileToDownloadCreateCallback != nil {
 			stage.OnAfterFileToDownloadCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *FileToUpload:
+		if stage.OnAfterFileToUploadCreateCallback != nil {
+			stage.OnAfterFileToUploadCreateCallback.OnAfterCreate(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -24,6 +28,11 @@ func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*FileToDownload)
 		if stage.OnAfterFileToDownloadUpdateCallback != nil {
 			stage.OnAfterFileToDownloadUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *FileToUpload:
+		newTarget := any(new).(*FileToUpload)
+		if stage.OnAfterFileToUploadUpdateCallback != nil {
+			stage.OnAfterFileToUploadUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	default:
 		_ = oldTarget
@@ -40,6 +49,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*FileToDownload)
 			stage.OnAfterFileToDownloadDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *FileToUpload:
+		if stage.OnAfterFileToUploadDeleteCallback != nil {
+			staged := any(staged).(*FileToUpload)
+			stage.OnAfterFileToUploadDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	default:
 		_ = front
 	}
@@ -53,6 +67,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *FileToDownload:
 		if stage.OnAfterFileToDownloadReadCallback != nil {
 			stage.OnAfterFileToDownloadReadCallback.OnAfterRead(stage, target)
+		}
+	case *FileToUpload:
+		if stage.OnAfterFileToUploadReadCallback != nil {
+			stage.OnAfterFileToUploadReadCallback.OnAfterRead(stage, target)
 		}
 	default:
 		_ = target
@@ -68,6 +86,9 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *FileToDownload:
 		stage.OnAfterFileToDownloadUpdateCallback = any(callback).(OnAfterUpdateInterface[FileToDownload])
 	
+	case *FileToUpload:
+		stage.OnAfterFileToUploadUpdateCallback = any(callback).(OnAfterUpdateInterface[FileToUpload])
+	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -77,6 +98,9 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *FileToDownload:
 		stage.OnAfterFileToDownloadCreateCallback = any(callback).(OnAfterCreateInterface[FileToDownload])
+	
+	case *FileToUpload:
+		stage.OnAfterFileToUploadCreateCallback = any(callback).(OnAfterCreateInterface[FileToUpload])
 	
 	}
 }
@@ -88,6 +112,9 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *FileToDownload:
 		stage.OnAfterFileToDownloadDeleteCallback = any(callback).(OnAfterDeleteInterface[FileToDownload])
 	
+	case *FileToUpload:
+		stage.OnAfterFileToUploadDeleteCallback = any(callback).(OnAfterDeleteInterface[FileToUpload])
+	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -97,6 +124,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		// insertion point
 	case *FileToDownload:
 		stage.OnAfterFileToDownloadReadCallback = any(callback).(OnAfterReadInterface[FileToDownload])
+	
+	case *FileToUpload:
+		stage.OnAfterFileToUploadReadCallback = any(callback).(OnAfterReadInterface[FileToUpload])
 	
 	}
 }
