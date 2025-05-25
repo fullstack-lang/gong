@@ -10,6 +10,9 @@ type Astruct struct {
 	// a "Name" field is necessary to generate a GongStruct
 	Name string
 
+	//gong:meta
+	Field any
+
 	// AnonymousStructField1 struct {
 	// 	// Timevar time.Time
 	// 	// Bollean bool

@@ -99,7 +99,8 @@
             "args": [
                 "-skipGoModCommands",
                 "-skipNpmInstall",
-                "-skipNpmWorkspaces"
+                "-skipNpmWorkspaces",
+                "-skipStager=false"
             ]
         },
         {
