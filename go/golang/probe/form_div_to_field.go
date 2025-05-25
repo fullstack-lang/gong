@@ -50,7 +50,7 @@ func FormDivBasicFieldToField[TF models.GongtructBasicField](field *TF, formDiv 
 				time.Duration(minutes)*time.Minute +
 				time.Duration(seconds)*time.Second
 
-		if !isNeg {
+		if isNeg {
 			*fieldWithInterferedType = -*fieldWithInterferedType
 		}
 
