@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	// insertion point for models import
+	"github.com/fullstack-lang/gong/lib/load/go/models"
 	load_models "github.com/fullstack-lang/gong/lib/load/go/models"
 	load_stack "github.com/fullstack-lang/gong/lib/load/go/stack"
 	load_static "github.com/fullstack-lang/gong/lib/load/go/static"
@@ -24,6 +25,14 @@ var (
 
 	port = flag.Int("port", 8080, "port server")
 )
+
+type OnAfterFileTouploadCreate struct {
+}
+
+// OnAfterCreate implements models.OnAfterCreateInterface.
+func (o *OnAfterFileTouploadCreate) OnAfterCreate(stage *load_models.Stage, fileToUpload *models.FileToUpload) {
+	log.Println("Upload file", fileToUpload.GetName(), fileToUpload.Content)
+}
 
 func main() {
 
@@ -45,6 +54,8 @@ func main() {
 	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
 	stager := load_models.NewStager(r, stack.Stage, splitStage)
+
+	stack.Stage.OnAfterFileToUploadCreateCallback = &OnAfterFileTouploadCreate{}
 
 	// one for the probe of the
 	split.StageBranch(splitStage, &split.View{
