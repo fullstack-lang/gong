@@ -20,6 +20,9 @@ type GongStructShape struct {
 	//gong:ident
 	Identifier string
 
+	//gong:meta
+	IdentifierMeta any
+
 	// gongdoc can be integrated in a runtime application
 	// the application can then set up the number of instances of Struct
 	ShowNbInstances bool
@@ -118,6 +121,7 @@ func (classdiagram *Classdiagram) AddGongStructShape(stage *Stage, diagramPackag
 	var gongstructshape GongStructShape
 	gongstructshape.Name = classdiagram.Name + "-" + gongstructshapeName
 	gongstructshape.Identifier = GongStructNameToIdentifier(gongstructshapeName)
+	gongstructshape.IdentifierMeta = gongstructshape.Identifier
 	gongstructshape.Width = 240
 	gongstructshape.Height = 63
 
