@@ -2,7 +2,7 @@ package defaults
 
 import "embed"
 
-//go:embed layouts
+//go:embed all:layouts
 var LayoutsDir embed.FS
 
 //go:embed layouts/_default
