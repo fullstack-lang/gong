@@ -125,15 +125,17 @@ type GongStructShapeWOP struct {
 
 	Identifier string `xlsx:"4"`
 
-	ShowNbInstances bool `xlsx:"5"`
+	IdentifierMeta any `xlsx:"5"`
 
-	NbInstances int `xlsx:"6"`
+	ShowNbInstances bool `xlsx:"6"`
 
-	Width float64 `xlsx:"7"`
+	NbInstances int `xlsx:"7"`
 
-	Height float64 `xlsx:"8"`
+	Width float64 `xlsx:"8"`
 
-	IsSelected bool `xlsx:"9"`
+	Height float64 `xlsx:"9"`
+
+	IsSelected bool `xlsx:"10"`
 	// insertion for WOP pointer fields
 }
 
@@ -144,6 +146,7 @@ var GongStructShape_Fields = []string{
 	"X",
 	"Y",
 	"Identifier",
+	"IdentifierMeta",
 	"ShowNbInstances",
 	"NbInstances",
 	"Width",
