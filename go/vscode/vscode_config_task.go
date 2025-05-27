@@ -148,5 +148,17 @@ const VsCodeTasksConfig = `{
 		],
 		"group": "build"
 	  },
+   	  {
+		"label": "00 - go install",
+		"type": "shell",
+		"options": {
+		  "cwd": "${workspaceFolder}/go/cmd/{{pkgname}}"
+		},
+		"command": "go",
+		"args": [
+		  "install"
+		],
+		"group": "build"
+	  },
 	]
   }`
