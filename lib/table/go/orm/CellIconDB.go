@@ -66,6 +66,13 @@ type CellIconDB struct {
 	// Declation for basic field celliconDB.Icon
 	Icon_Data sql.NullString
 
+	// Declation for basic field celliconDB.NeedsConfirmation
+	// provide the sql storage for the boolan
+	NeedsConfirmation_Data sql.NullBool
+
+	// Declation for basic field celliconDB.ConfirmationMessage
+	ConfirmationMessage_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	CellIconPointersEncoding
@@ -91,6 +98,10 @@ type CellIconWOP struct {
 	Name string `xlsx:"1"`
 
 	Icon string `xlsx:"2"`
+
+	NeedsConfirmation bool `xlsx:"3"`
+
+	ConfirmationMessage string `xlsx:"4"`
 	// insertion for WOP pointer fields
 }
 
@@ -99,6 +110,8 @@ var CellIcon_Fields = []string{
 	"ID",
 	"Name",
 	"Icon",
+	"NeedsConfirmation",
+	"ConfirmationMessage",
 }
 
 type BackRepoCellIconStruct struct {
@@ -381,6 +394,12 @@ func (celliconDB *CellIconDB) CopyBasicFieldsFromCellIcon(cellicon *models.CellI
 
 	celliconDB.Icon_Data.String = cellicon.Icon
 	celliconDB.Icon_Data.Valid = true
+
+	celliconDB.NeedsConfirmation_Data.Bool = cellicon.NeedsConfirmation
+	celliconDB.NeedsConfirmation_Data.Valid = true
+
+	celliconDB.ConfirmationMessage_Data.String = cellicon.ConfirmationMessage
+	celliconDB.ConfirmationMessage_Data.Valid = true
 }
 
 // CopyBasicFieldsFromCellIcon_WOP
@@ -392,6 +411,12 @@ func (celliconDB *CellIconDB) CopyBasicFieldsFromCellIcon_WOP(cellicon *models.C
 
 	celliconDB.Icon_Data.String = cellicon.Icon
 	celliconDB.Icon_Data.Valid = true
+
+	celliconDB.NeedsConfirmation_Data.Bool = cellicon.NeedsConfirmation
+	celliconDB.NeedsConfirmation_Data.Valid = true
+
+	celliconDB.ConfirmationMessage_Data.String = cellicon.ConfirmationMessage
+	celliconDB.ConfirmationMessage_Data.Valid = true
 }
 
 // CopyBasicFieldsFromCellIconWOP
@@ -403,6 +428,12 @@ func (celliconDB *CellIconDB) CopyBasicFieldsFromCellIconWOP(cellicon *CellIconW
 
 	celliconDB.Icon_Data.String = cellicon.Icon
 	celliconDB.Icon_Data.Valid = true
+
+	celliconDB.NeedsConfirmation_Data.Bool = cellicon.NeedsConfirmation
+	celliconDB.NeedsConfirmation_Data.Valid = true
+
+	celliconDB.ConfirmationMessage_Data.String = cellicon.ConfirmationMessage
+	celliconDB.ConfirmationMessage_Data.Valid = true
 }
 
 // CopyBasicFieldsToCellIcon
@@ -410,6 +441,8 @@ func (celliconDB *CellIconDB) CopyBasicFieldsToCellIcon(cellicon *models.CellIco
 	// insertion point for checkout of basic fields (back repo to stage)
 	cellicon.Name = celliconDB.Name_Data.String
 	cellicon.Icon = celliconDB.Icon_Data.String
+	cellicon.NeedsConfirmation = celliconDB.NeedsConfirmation_Data.Bool
+	cellicon.ConfirmationMessage = celliconDB.ConfirmationMessage_Data.String
 }
 
 // CopyBasicFieldsToCellIcon_WOP
@@ -417,6 +450,8 @@ func (celliconDB *CellIconDB) CopyBasicFieldsToCellIcon_WOP(cellicon *models.Cel
 	// insertion point for checkout of basic fields (back repo to stage)
 	cellicon.Name = celliconDB.Name_Data.String
 	cellicon.Icon = celliconDB.Icon_Data.String
+	cellicon.NeedsConfirmation = celliconDB.NeedsConfirmation_Data.Bool
+	cellicon.ConfirmationMessage = celliconDB.ConfirmationMessage_Data.String
 }
 
 // CopyBasicFieldsToCellIconWOP
@@ -425,6 +460,8 @@ func (celliconDB *CellIconDB) CopyBasicFieldsToCellIconWOP(cellicon *CellIconWOP
 	// insertion point for checkout of basic fields (back repo to stage)
 	cellicon.Name = celliconDB.Name_Data.String
 	cellicon.Icon = celliconDB.Icon_Data.String
+	cellicon.NeedsConfirmation = celliconDB.NeedsConfirmation_Data.Bool
+	cellicon.ConfirmationMessage = celliconDB.ConfirmationMessage_Data.String
 }
 
 // Backup generates a json file from a slice of all CellIconDB instances in the backrepo

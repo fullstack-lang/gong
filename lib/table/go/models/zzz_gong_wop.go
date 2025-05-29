@@ -54,12 +54,18 @@ type CellIcon_WOP struct {
 	Name string
 
 	Icon string
+
+	NeedsConfirmation bool
+
+	ConfirmationMessage string
 }
 
 func (from *CellIcon) CopyBasicFields(to *CellIcon) {
 	// insertion point
 	to.Name = from.Name
 	to.Icon = from.Icon
+	to.NeedsConfirmation = from.NeedsConfirmation
+	to.ConfirmationMessage = from.ConfirmationMessage
 }
 
 type CellInt_WOP struct {
