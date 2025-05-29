@@ -1586,7 +1586,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 // The function provides a map with keys as instances of End and values to *Start instances
 // the map is construed by iterating over all Start instances and populating keys with End instances
 // and values with the Start instances
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End]*Start {
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
 
 	var ret Start
 
@@ -1602,55 +1602,55 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		case "GongStructShapes":
-			res := make(map[*GongStructShape]*Classdiagram)
+			res := make(map[*GongStructShape][]*Classdiagram)
 			for classdiagram := range stage.Classdiagrams {
 				for _, gongstructshape_ := range classdiagram.GongStructShapes {
-					res[gongstructshape_] = classdiagram
+					res[gongstructshape_] = append(res[gongstructshape_], classdiagram)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "GongEnumShapes":
-			res := make(map[*GongEnumShape]*Classdiagram)
+			res := make(map[*GongEnumShape][]*Classdiagram)
 			for classdiagram := range stage.Classdiagrams {
 				for _, gongenumshape_ := range classdiagram.GongEnumShapes {
-					res[gongenumshape_] = classdiagram
+					res[gongenumshape_] = append(res[gongenumshape_], classdiagram)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "GongNoteShapes":
-			res := make(map[*GongNoteShape]*Classdiagram)
+			res := make(map[*GongNoteShape][]*Classdiagram)
 			for classdiagram := range stage.Classdiagrams {
 				for _, gongnoteshape_ := range classdiagram.GongNoteShapes {
-					res[gongnoteshape_] = classdiagram
+					res[gongnoteshape_] = append(res[gongnoteshape_], classdiagram)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of DiagramPackage
 	case DiagramPackage:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Classdiagrams":
-			res := make(map[*Classdiagram]*DiagramPackage)
+			res := make(map[*Classdiagram][]*DiagramPackage)
 			for diagrampackage := range stage.DiagramPackages {
 				for _, classdiagram_ := range diagrampackage.Classdiagrams {
-					res[classdiagram_] = diagrampackage
+					res[classdiagram_] = append(res[classdiagram_], diagrampackage)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of GongEnumShape
 	case GongEnumShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "GongEnumValueShapes":
-			res := make(map[*GongEnumValueShape]*GongEnumShape)
+			res := make(map[*GongEnumValueShape][]*GongEnumShape)
 			for gongenumshape := range stage.GongEnumShapes {
 				for _, gongenumvalueshape_ := range gongenumshape.GongEnumValueShapes {
-					res[gongenumvalueshape_] = gongenumshape
+					res[gongenumvalueshape_] = append(res[gongenumvalueshape_], gongenumshape)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of GongEnumValueShape
 	case GongEnumValueShape:
@@ -1667,34 +1667,34 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		case "GongNoteLinkShapes":
-			res := make(map[*GongNoteLinkShape]*GongNoteShape)
+			res := make(map[*GongNoteLinkShape][]*GongNoteShape)
 			for gongnoteshape := range stage.GongNoteShapes {
 				for _, gongnotelinkshape_ := range gongnoteshape.GongNoteLinkShapes {
-					res[gongnotelinkshape_] = gongnoteshape
+					res[gongnotelinkshape_] = append(res[gongnotelinkshape_], gongnoteshape)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of GongStructShape
 	case GongStructShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "AttributeShapes":
-			res := make(map[*AttributeShape]*GongStructShape)
+			res := make(map[*AttributeShape][]*GongStructShape)
 			for gongstructshape := range stage.GongStructShapes {
 				for _, attributeshape_ := range gongstructshape.AttributeShapes {
-					res[attributeshape_] = gongstructshape
+					res[attributeshape_] = append(res[attributeshape_], gongstructshape)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "LinkShapes":
-			res := make(map[*LinkShape]*GongStructShape)
+			res := make(map[*LinkShape][]*GongStructShape)
 			for gongstructshape := range stage.GongStructShapes {
 				for _, linkshape_ := range gongstructshape.LinkShapes {
-					res[linkshape_] = gongstructshape
+					res[linkshape_] = append(res[linkshape_], gongstructshape)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of LinkShape
 	case LinkShape:

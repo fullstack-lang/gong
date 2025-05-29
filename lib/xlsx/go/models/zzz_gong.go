@@ -1125,7 +1125,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 // The function provides a map with keys as instances of End and values to *Start instances
 // the map is construed by iterating over all Start instances and populating keys with End instances
 // and values with the Start instances
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End]*Start {
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
 
 	var ret Start
 
@@ -1146,47 +1146,47 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Sheets":
-			res := make(map[*XLSheet]*XLFile)
+			res := make(map[*XLSheet][]*XLFile)
 			for xlfile := range stage.XLFiles {
 				for _, xlsheet_ := range xlfile.Sheets {
-					res[xlsheet_] = xlfile
+					res[xlsheet_] = append(res[xlsheet_], xlfile)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of XLRow
 	case XLRow:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Cells":
-			res := make(map[*XLCell]*XLRow)
+			res := make(map[*XLCell][]*XLRow)
 			for xlrow := range stage.XLRows {
 				for _, xlcell_ := range xlrow.Cells {
-					res[xlcell_] = xlrow
+					res[xlcell_] = append(res[xlcell_], xlrow)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of XLSheet
 	case XLSheet:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Rows":
-			res := make(map[*XLRow]*XLSheet)
+			res := make(map[*XLRow][]*XLSheet)
 			for xlsheet := range stage.XLSheets {
 				for _, xlrow_ := range xlsheet.Rows {
-					res[xlrow_] = xlsheet
+					res[xlrow_] = append(res[xlrow_], xlsheet)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "SheetCells":
-			res := make(map[*XLCell]*XLSheet)
+			res := make(map[*XLCell][]*XLSheet)
 			for xlsheet := range stage.XLSheets {
 				for _, xlcell_ := range xlsheet.SheetCells {
-					res[xlcell_] = xlsheet
+					res[xlcell_] = append(res[xlcell_], xlsheet)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	}
 	return nil
