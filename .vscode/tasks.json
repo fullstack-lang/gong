@@ -793,6 +793,19 @@
       ],
       "group": "build"
     },
+            {
+      "label": "04 - go run table",
+      "type": "shell",
+      "options": {
+        "cwd": "./lib/table/go/cmd/table"
+      },
+      "command": "go",
+      "args": [
+        "run",
+        "main.go"
+      ],
+      "group": "build"
+    },
     {
       "label": "04 - go run test",
       "type": "shell",
