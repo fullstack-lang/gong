@@ -3472,7 +3472,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 // The function provides a map with keys as instances of End and values to *Start instances
 // the map is construed by iterating over all Start instances and populating keys with End instances
 // and values with the Start instances
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End]*Start {
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
 
 	var ret Start
 
@@ -3523,21 +3523,21 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		case "FormFields":
-			res := make(map[*FormField]*FormDiv)
+			res := make(map[*FormField][]*FormDiv)
 			for formdiv := range stage.FormDivs {
 				for _, formfield_ := range formdiv.FormFields {
-					res[formfield_] = formdiv
+					res[formfield_] = append(res[formfield_], formdiv)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "CheckBoxs":
-			res := make(map[*CheckBox]*FormDiv)
+			res := make(map[*CheckBox][]*FormDiv)
 			for formdiv := range stage.FormDivs {
 				for _, checkbox_ := range formdiv.CheckBoxs {
-					res[checkbox_] = formdiv
+					res[checkbox_] = append(res[checkbox_], formdiv)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of FormEditAssocButton
 	case FormEditAssocButton:
@@ -3574,13 +3574,13 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Options":
-			res := make(map[*Option]*FormFieldSelect)
+			res := make(map[*Option][]*FormFieldSelect)
 			for formfieldselect := range stage.FormFieldSelects {
 				for _, option_ := range formfieldselect.Options {
-					res[option_] = formfieldselect
+					res[option_] = append(res[option_], formfieldselect)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of FormFieldString
 	case FormFieldString:
@@ -3597,13 +3597,13 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		case "FormDivs":
-			res := make(map[*FormDiv]*FormGroup)
+			res := make(map[*FormDiv][]*FormGroup)
 			for formgroup := range stage.FormGroups {
 				for _, formdiv_ := range formgroup.FormDivs {
-					res[formdiv_] = formgroup
+					res[formdiv_] = append(res[formdiv_], formgroup)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of FormSortAssocButton
 	case FormSortAssocButton:
@@ -3620,34 +3620,34 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Cells":
-			res := make(map[*Cell]*Row)
+			res := make(map[*Cell][]*Row)
 			for row := range stage.Rows {
 				for _, cell_ := range row.Cells {
-					res[cell_] = row
+					res[cell_] = append(res[cell_], row)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Table
 	case Table:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "DisplayedColumns":
-			res := make(map[*DisplayedColumn]*Table)
+			res := make(map[*DisplayedColumn][]*Table)
 			for table := range stage.Tables {
 				for _, displayedcolumn_ := range table.DisplayedColumns {
-					res[displayedcolumn_] = table
+					res[displayedcolumn_] = append(res[displayedcolumn_], table)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "Rows":
-			res := make(map[*Row]*Table)
+			res := make(map[*Row][]*Table)
 			for table := range stage.Tables {
 				for _, row_ := range table.Rows {
-					res[row_] = table
+					res[row_] = append(res[row_], table)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	}
 	return nil

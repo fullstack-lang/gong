@@ -99,10 +99,10 @@ func (classdiagram *Classdiagram) RemoveGongNoteShape(stage *Stage, gongNoteName
 		if noteShapeLink.Name == gongNoteName {
 
 			// get the note shape
-			noteShape := map_NoteShapeLink_NoteShape[noteShapeLink]
+			noteShapes := map_NoteShapeLink_NoteShape[noteShapeLink]
 
 			// remove it from the slice of links
-			noteShape.GongNoteLinkShapes = remove(noteShape.GongNoteLinkShapes, noteShapeLink)
+			noteShapes[0].GongNoteLinkShapes = remove(noteShapes[0].GongNoteLinkShapes, noteShapeLink)
 
 			noteShapeLink.Unstage(stage)
 		}

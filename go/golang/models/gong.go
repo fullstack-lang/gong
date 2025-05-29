@@ -479,13 +479,13 @@ map[GongFilePerStructSubTemplateId]string{
 
 	GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction: `
 		case "{{FieldName}}":
-			res := make(map[*{{AssocStructName}}]*{{Structname}})
+			res := make(map[*{{AssocStructName}}][]*{{Structname}})
 			for {{structname}} := range stage.{{Structname}}s {
 				for _, {{assocstructname}}_ := range {{structname}}.{{FieldName}} {
-					res[{{assocstructname}}_] = {{structname}}
+					res[{{assocstructname}}_] = append(res[{{assocstructname}}_], {{structname}})
 				}
 			}
-			return any(res).(map[*End]*Start)`,
+			return any(res).(map[*End][]*Start)`,
 }
 
 func CodeGeneratorModelGong(

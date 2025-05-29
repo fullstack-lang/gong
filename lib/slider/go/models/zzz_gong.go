@@ -967,7 +967,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 // The function provides a map with keys as instances of End and values to *Start instances
 // the map is construed by iterating over all Start instances and populating keys with End instances
 // and values with the Start instances
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End]*Start {
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
 
 	var ret Start
 
@@ -983,34 +983,34 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Sliders":
-			res := make(map[*Slider]*Group)
+			res := make(map[*Slider][]*Group)
 			for group := range stage.Groups {
 				for _, slider_ := range group.Sliders {
-					res[slider_] = group
+					res[slider_] = append(res[slider_], group)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "Checkboxes":
-			res := make(map[*Checkbox]*Group)
+			res := make(map[*Checkbox][]*Group)
 			for group := range stage.Groups {
 				for _, checkbox_ := range group.Checkboxes {
-					res[checkbox_] = group
+					res[checkbox_] = append(res[checkbox_], group)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Layout
 	case Layout:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Groups":
-			res := make(map[*Group]*Layout)
+			res := make(map[*Group][]*Layout)
 			for layout := range stage.Layouts {
 				for _, group_ := range layout.Groups {
-					res[group_] = layout
+					res[group_] = append(res[group_], layout)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Slider
 	case Slider:

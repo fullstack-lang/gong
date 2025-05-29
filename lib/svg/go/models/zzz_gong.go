@@ -2917,7 +2917,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 // The function provides a map with keys as instances of End and values to *Start instances
 // the map is construed by iterating over all Start instances and populating keys with End instances
 // and values with the Start instances
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End]*Start {
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
 
 	var ret Start
 
@@ -2933,179 +2933,179 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Animations":
-			res := make(map[*Animate]*Circle)
+			res := make(map[*Animate][]*Circle)
 			for circle := range stage.Circles {
 				for _, animate_ := range circle.Animations {
-					res[animate_] = circle
+					res[animate_] = append(res[animate_], circle)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Ellipse
 	case Ellipse:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Animates":
-			res := make(map[*Animate]*Ellipse)
+			res := make(map[*Animate][]*Ellipse)
 			for ellipse := range stage.Ellipses {
 				for _, animate_ := range ellipse.Animates {
-					res[animate_] = ellipse
+					res[animate_] = append(res[animate_], ellipse)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Layer
 	case Layer:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Rects":
-			res := make(map[*Rect]*Layer)
+			res := make(map[*Rect][]*Layer)
 			for layer := range stage.Layers {
 				for _, rect_ := range layer.Rects {
-					res[rect_] = layer
+					res[rect_] = append(res[rect_], layer)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "Texts":
-			res := make(map[*Text]*Layer)
+			res := make(map[*Text][]*Layer)
 			for layer := range stage.Layers {
 				for _, text_ := range layer.Texts {
-					res[text_] = layer
+					res[text_] = append(res[text_], layer)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "Circles":
-			res := make(map[*Circle]*Layer)
+			res := make(map[*Circle][]*Layer)
 			for layer := range stage.Layers {
 				for _, circle_ := range layer.Circles {
-					res[circle_] = layer
+					res[circle_] = append(res[circle_], layer)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "Lines":
-			res := make(map[*Line]*Layer)
+			res := make(map[*Line][]*Layer)
 			for layer := range stage.Layers {
 				for _, line_ := range layer.Lines {
-					res[line_] = layer
+					res[line_] = append(res[line_], layer)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "Ellipses":
-			res := make(map[*Ellipse]*Layer)
+			res := make(map[*Ellipse][]*Layer)
 			for layer := range stage.Layers {
 				for _, ellipse_ := range layer.Ellipses {
-					res[ellipse_] = layer
+					res[ellipse_] = append(res[ellipse_], layer)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "Polylines":
-			res := make(map[*Polyline]*Layer)
+			res := make(map[*Polyline][]*Layer)
 			for layer := range stage.Layers {
 				for _, polyline_ := range layer.Polylines {
-					res[polyline_] = layer
+					res[polyline_] = append(res[polyline_], layer)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "Polygones":
-			res := make(map[*Polygone]*Layer)
+			res := make(map[*Polygone][]*Layer)
 			for layer := range stage.Layers {
 				for _, polygone_ := range layer.Polygones {
-					res[polygone_] = layer
+					res[polygone_] = append(res[polygone_], layer)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "Paths":
-			res := make(map[*Path]*Layer)
+			res := make(map[*Path][]*Layer)
 			for layer := range stage.Layers {
 				for _, path_ := range layer.Paths {
-					res[path_] = layer
+					res[path_] = append(res[path_], layer)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "Links":
-			res := make(map[*Link]*Layer)
+			res := make(map[*Link][]*Layer)
 			for layer := range stage.Layers {
 				for _, link_ := range layer.Links {
-					res[link_] = layer
+					res[link_] = append(res[link_], layer)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "RectLinkLinks":
-			res := make(map[*RectLinkLink]*Layer)
+			res := make(map[*RectLinkLink][]*Layer)
 			for layer := range stage.Layers {
 				for _, rectlinklink_ := range layer.RectLinkLinks {
-					res[rectlinklink_] = layer
+					res[rectlinklink_] = append(res[rectlinklink_], layer)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Line
 	case Line:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Animates":
-			res := make(map[*Animate]*Line)
+			res := make(map[*Animate][]*Line)
 			for line := range stage.Lines {
 				for _, animate_ := range line.Animates {
-					res[animate_] = line
+					res[animate_] = append(res[animate_], line)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Link
 	case Link:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "TextAtArrowStart":
-			res := make(map[*LinkAnchoredText]*Link)
+			res := make(map[*LinkAnchoredText][]*Link)
 			for link := range stage.Links {
 				for _, linkanchoredtext_ := range link.TextAtArrowStart {
-					res[linkanchoredtext_] = link
+					res[linkanchoredtext_] = append(res[linkanchoredtext_], link)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "TextAtArrowEnd":
-			res := make(map[*LinkAnchoredText]*Link)
+			res := make(map[*LinkAnchoredText][]*Link)
 			for link := range stage.Links {
 				for _, linkanchoredtext_ := range link.TextAtArrowEnd {
-					res[linkanchoredtext_] = link
+					res[linkanchoredtext_] = append(res[linkanchoredtext_], link)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "ControlPoints":
-			res := make(map[*Point]*Link)
+			res := make(map[*Point][]*Link)
 			for link := range stage.Links {
 				for _, point_ := range link.ControlPoints {
-					res[point_] = link
+					res[point_] = append(res[point_], link)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of LinkAnchoredText
 	case LinkAnchoredText:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Animates":
-			res := make(map[*Animate]*LinkAnchoredText)
+			res := make(map[*Animate][]*LinkAnchoredText)
 			for linkanchoredtext := range stage.LinkAnchoredTexts {
 				for _, animate_ := range linkanchoredtext.Animates {
-					res[animate_] = linkanchoredtext
+					res[animate_] = append(res[animate_], linkanchoredtext)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Path
 	case Path:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Animates":
-			res := make(map[*Animate]*Path)
+			res := make(map[*Animate][]*Path)
 			for path := range stage.Paths {
 				for _, animate_ := range path.Animates {
-					res[animate_] = path
+					res[animate_] = append(res[animate_], path)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Point
 	case Point:
@@ -3117,63 +3117,63 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Animates":
-			res := make(map[*Animate]*Polygone)
+			res := make(map[*Animate][]*Polygone)
 			for polygone := range stage.Polygones {
 				for _, animate_ := range polygone.Animates {
-					res[animate_] = polygone
+					res[animate_] = append(res[animate_], polygone)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Polyline
 	case Polyline:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Animates":
-			res := make(map[*Animate]*Polyline)
+			res := make(map[*Animate][]*Polyline)
 			for polyline := range stage.Polylines {
 				for _, animate_ := range polyline.Animates {
-					res[animate_] = polyline
+					res[animate_] = append(res[animate_], polyline)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Rect
 	case Rect:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Animations":
-			res := make(map[*Animate]*Rect)
+			res := make(map[*Animate][]*Rect)
 			for rect := range stage.Rects {
 				for _, animate_ := range rect.Animations {
-					res[animate_] = rect
+					res[animate_] = append(res[animate_], rect)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "RectAnchoredTexts":
-			res := make(map[*RectAnchoredText]*Rect)
+			res := make(map[*RectAnchoredText][]*Rect)
 			for rect := range stage.Rects {
 				for _, rectanchoredtext_ := range rect.RectAnchoredTexts {
-					res[rectanchoredtext_] = rect
+					res[rectanchoredtext_] = append(res[rectanchoredtext_], rect)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "RectAnchoredRects":
-			res := make(map[*RectAnchoredRect]*Rect)
+			res := make(map[*RectAnchoredRect][]*Rect)
 			for rect := range stage.Rects {
 				for _, rectanchoredrect_ := range rect.RectAnchoredRects {
-					res[rectanchoredrect_] = rect
+					res[rectanchoredrect_] = append(res[rectanchoredrect_], rect)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "RectAnchoredPaths":
-			res := make(map[*RectAnchoredPath]*Rect)
+			res := make(map[*RectAnchoredPath][]*Rect)
 			for rect := range stage.Rects {
 				for _, rectanchoredpath_ := range rect.RectAnchoredPaths {
-					res[rectanchoredpath_] = rect
+					res[rectanchoredpath_] = append(res[rectanchoredpath_], rect)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of RectAnchoredPath
 	case RectAnchoredPath:
@@ -3190,13 +3190,13 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Animates":
-			res := make(map[*Animate]*RectAnchoredText)
+			res := make(map[*Animate][]*RectAnchoredText)
 			for rectanchoredtext := range stage.RectAnchoredTexts {
 				for _, animate_ := range rectanchoredtext.Animates {
-					res[animate_] = rectanchoredtext
+					res[animate_] = append(res[animate_], rectanchoredtext)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of RectLinkLink
 	case RectLinkLink:
@@ -3208,13 +3208,13 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Layers":
-			res := make(map[*Layer]*SVG)
+			res := make(map[*Layer][]*SVG)
 			for svg := range stage.SVGs {
 				for _, layer_ := range svg.Layers {
-					res[layer_] = svg
+					res[layer_] = append(res[layer_], svg)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of SvgText
 	case SvgText:
@@ -3226,13 +3226,13 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Animates":
-			res := make(map[*Animate]*Text)
+			res := make(map[*Animate][]*Text)
 			for text := range stage.Texts {
 				for _, animate_ := range text.Animates {
-					res[animate_] = text
+					res[animate_] = append(res[animate_], text)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	}
 	return nil
