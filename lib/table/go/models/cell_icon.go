@@ -6,6 +6,10 @@ type CellIcon struct {
 	// reference of the material icon (ex "home", "delete", "edit")
 	Icon string
 
+	// needs confirmation ? (for instance if the icon is a delete icon)
+	NeedsConfirmation   bool
+	ConfirmationMessage string
+
 	// swagger:ignore
 	Impl CellIconImplInterface
 }
