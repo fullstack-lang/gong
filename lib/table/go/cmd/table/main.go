@@ -21,6 +21,9 @@ import (
 	gongtable_probe "github.com/fullstack-lang/gong/lib/table/go/probe"
 
 	gongtable_go "github.com/fullstack-lang/gong/lib/table/go"
+
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 )
 
 var (
@@ -181,6 +184,111 @@ func main() {
 		gongtable_go.GoDiagramsDir,
 		*embeddedDiagrams,
 		stageForGeneratedTable)
+
+	// the root split name is "" by convention. Is is the same for all gong applications
+	// that do not develop their specific angular component
+	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
+
+	// one for the probe of the
+	split.StageBranch(splitStage, &split.View{
+		Name: stageForManualyEditedTable.GetName(),
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Size: 50,
+				AsSplit: (&split.AsSplit{
+					Direction: split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						(&split.AsSplitArea{
+							Name: "table",
+							Size: 50,
+							Table: (&split.Table{
+								Name:      "Table",
+								StackName: stageForManualyEditedTable.GetName(),
+								TableName: "Table with 5 types",
+							}),
+						}),
+						(&split.AsSplitArea{
+							Name: "table",
+							Size: 50,
+							Table: (&split.Table{
+								Name:      "Table",
+								StackName: stageForManualyEditedTable.GetName(),
+								TableName: "EmptyTable",
+							}),
+						}),
+					},
+				}),
+			}),
+			(&split.AsSplitArea{
+				Size: 50,
+				Split: (&split.Split{
+					StackName: stageForManualyEditedTable.GetProbeSplitStageName(),
+				}),
+			}),
+		},
+	})
+
+	// one for the probe of the
+	split.StageBranch(splitStage, &split.View{
+		Name: stageForManualyEditedForm.GetName(),
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Size: 50,
+				AsSplit: (&split.AsSplit{
+					Direction: split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						(&split.AsSplitArea{
+							Name: "Form",
+							Size: 50,
+							Form: (&split.Form{
+								Name:      "Form",
+								StackName: stageForManualyEditedForm.GetName(),
+								FormName:  "Form 1",
+							}),
+						}),
+					},
+				}),
+			}),
+			(&split.AsSplitArea{
+				Size: 50,
+				Split: (&split.Split{
+					StackName: stageForManualyEditedForm.GetProbeSplitStageName(),
+				}),
+			}),
+		},
+	})
+
+	// one for the probe of the
+	split.StageBranch(splitStage, &split.View{
+		Name: stageForGeneratedTable.GetName(),
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Size: 50,
+				AsSplit: (&split.AsSplit{
+					Direction: split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						(&split.AsSplitArea{
+							Name: "table",
+							Size: 50,
+							Table: (&split.Table{
+								Name:      "Table",
+								StackName: stageForGeneratedTable.GetName(),
+								TableName: "Table",
+							}),
+						}),
+					},
+				}),
+			}),
+			(&split.AsSplitArea{
+				Size: 50,
+				Split: (&split.Split{
+					StackName: stageForGeneratedTable.GetProbeSplitStageName(),
+				}),
+			}),
+		},
+	})
+
+	splitStage.Commit()
 
 	log.Printf("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))

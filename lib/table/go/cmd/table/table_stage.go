@@ -224,6 +224,7 @@ func _(stage *models.Stage) {
 	__Table__000002_Table_with_5_types.NbOfStickyColumns = 3
 
 	// Setup of pointers
+	// setup of Cell instances pointers
 	__Cell__000000_Row_1_Cell_1.CellBool = __CellBoolean__000000_Row_1_Cell_1_Cell_False
 	__Cell__000001_Row_1_Cell_2.CellFloat64 = __CellFloat64__000000_Row_1_Cell2_Float
 	__Cell__000002_Row_1_Cell_3.CellIcon = __CellIcon__000000_Row_1_Cell_3_Delete
@@ -240,6 +241,13 @@ func _(stage *models.Stage) {
 	__Cell__000013_T2_R2_B.CellString = __CellString__000005_T2_R2_B
 	__Cell__000014_T2_R3_A.CellString = __CellString__000006_T2_R3_A
 	__Cell__000015_T2_R3_B.CellString = __CellString__000007_T2_R3_B
+	// setup of CellBoolean instances pointers
+	// setup of CellFloat64 instances pointers
+	// setup of CellIcon instances pointers
+	// setup of CellInt instances pointers
+	// setup of CellString instances pointers
+	// setup of DisplayedColumn instances pointers
+	// setup of Row instances pointers
 	__Row__000000_Row_1.Cells = append(__Row__000000_Row_1.Cells, __Cell__000000_Row_1_Cell_1)
 	__Row__000000_Row_1.Cells = append(__Row__000000_Row_1.Cells, __Cell__000001_Row_1_Cell_2)
 	__Row__000000_Row_1.Cells = append(__Row__000000_Row_1.Cells, __Cell__000002_Row_1_Cell_3)
@@ -256,6 +264,7 @@ func _(stage *models.Stage) {
 	__Row__000003_Table_2_Row_2.Cells = append(__Row__000003_Table_2_Row_2.Cells, __Cell__000012_T2_R2_A)
 	__Row__000004_Table_2_Row_3.Cells = append(__Row__000004_Table_2_Row_3.Cells, __Cell__000014_T2_R3_A)
 	__Row__000004_Table_2_Row_3.Cells = append(__Row__000004_Table_2_Row_3.Cells, __Cell__000015_T2_R3_B)
+	// setup of Table instances pointers
 	__Table__000001_Table_2.DisplayedColumns = append(__Table__000001_Table_2.DisplayedColumns, __DisplayedColumn__000000_A)
 	__Table__000001_Table_2.Rows = append(__Table__000001_Table_2.Rows, __Row__000003_Table_2_Row_2)
 	__Table__000001_Table_2.Rows = append(__Table__000001_Table_2.Rows, __Row__000002_Table_2_Row_1)
