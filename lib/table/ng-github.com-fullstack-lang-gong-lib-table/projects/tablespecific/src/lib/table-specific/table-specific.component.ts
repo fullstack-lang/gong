@@ -26,6 +26,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatInputModule } from '@angular/material/input'
 import { MatButtonModule } from '@angular/material/button'
 import { decodeStringToIntArray_json } from '../association-storage'
+import { ConfirmationDialogComponent } from '../dialog/dialog.component'
 
 
 @Component({
@@ -151,7 +152,7 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
           return
         }
 
-        let tableNames = new(Array<string>)
+        let tableNames = new (Array<string>)
         for (let item of this.gongtableFrontRepo.getFrontArray<table.Table>(table.Table.GONGSTRUCT_NAME)) {
           tableNames.push(item.Name)
           if (item.Name == this.TableName) {
@@ -415,10 +416,30 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
 
   onClickCellIcon(cellIcon: table.CellIcon): void {
     console.log("Cell Icon clicked:", cellIcon.Name || 'Unnamed Icon')
-    this.celliconService.updateFront(cellIcon, this.Name).subscribe(
-      () => {
-        console.log("Cell icon updated:", cellIcon.Name || 'Unnamed Icon')
-      }
-    )
+
+    if (cellIcon.NeedsConfirmation) {
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '250px',
+        data: { message: cellIcon.ConfirmationMessage }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (!result) {
+          return
+        } else {
+          this.celliconService.updateFront(cellIcon, this.Name).subscribe(
+            () => {
+              console.log("Cell icon updated after confirmation:", cellIcon.Name || 'Unnamed Icon')
+            }
+          )
+        }
+      });
+    } else {
+            this.celliconService.updateFront(cellIcon, this.Name).subscribe(
+        () => {
+          console.log("Cell icon updated:", cellIcon.Name || 'Unnamed Icon')
+        }
+      )
+    }
   }
 }
