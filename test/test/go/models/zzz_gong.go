@@ -1553,7 +1553,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 // The function provides a map with keys as instances of End and values to *Start instances
 // the map is construed by iterating over all Start instances and populating keys with End instances
 // and values with the Start instances
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End]*Start {
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
 
 	var ret Start
 
@@ -1564,53 +1564,53 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Anarrayofb":
-			res := make(map[*Bstruct]*Astruct)
+			res := make(map[*Bstruct][]*Astruct)
 			for astruct := range stage.Astructs {
 				for _, bstruct_ := range astruct.Anarrayofb {
-					res[bstruct_] = astruct
+					res[bstruct_] = append(res[bstruct_], astruct)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "Dstruct4s":
-			res := make(map[*Dstruct]*Astruct)
+			res := make(map[*Dstruct][]*Astruct)
 			for astruct := range stage.Astructs {
 				for _, dstruct_ := range astruct.Dstruct4s {
-					res[dstruct_] = astruct
+					res[dstruct_] = append(res[dstruct_], astruct)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "Anarrayofa":
-			res := make(map[*Astruct]*Astruct)
+			res := make(map[*Astruct][]*Astruct)
 			for astruct := range stage.Astructs {
 				for _, astruct_ := range astruct.Anarrayofa {
-					res[astruct_] = astruct
+					res[astruct_] = append(res[astruct_], astruct)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "Anotherarrayofb":
-			res := make(map[*Bstruct]*Astruct)
+			res := make(map[*Bstruct][]*Astruct)
 			for astruct := range stage.Astructs {
 				for _, bstruct_ := range astruct.Anotherarrayofb {
-					res[bstruct_] = astruct
+					res[bstruct_] = append(res[bstruct_], astruct)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "AnarrayofbUse":
-			res := make(map[*AstructBstructUse]*Astruct)
+			res := make(map[*AstructBstructUse][]*Astruct)
 			for astruct := range stage.Astructs {
 				for _, astructbstructuse_ := range astruct.AnarrayofbUse {
-					res[astructbstructuse_] = astruct
+					res[astructbstructuse_] = append(res[astructbstructuse_], astruct)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "Anarrayofb2Use":
-			res := make(map[*AstructBstruct2Use]*Astruct)
+			res := make(map[*AstructBstruct2Use][]*Astruct)
 			for astruct := range stage.Astructs {
 				for _, astructbstruct2use_ := range astruct.Anarrayofb2Use {
-					res[astructbstruct2use_] = astruct
+					res[astructbstruct2use_] = append(res[astructbstruct2use_], astruct)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of AstructBstruct2Use
 	case AstructBstruct2Use:
@@ -1632,21 +1632,21 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Anarrayofb":
-			res := make(map[*Bstruct]*Dstruct)
+			res := make(map[*Bstruct][]*Dstruct)
 			for dstruct := range stage.Dstructs {
 				for _, bstruct_ := range dstruct.Anarrayofb {
-					res[bstruct_] = dstruct
+					res[bstruct_] = append(res[bstruct_], dstruct)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "Gstructs":
-			res := make(map[*Gstruct]*Dstruct)
+			res := make(map[*Gstruct][]*Dstruct)
 			for dstruct := range stage.Dstructs {
 				for _, gstruct_ := range dstruct.Gstructs {
-					res[gstruct_] = dstruct
+					res[gstruct_] = append(res[gstruct_], dstruct)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of F0123456789012345678901234567890
 	case F0123456789012345678901234567890:

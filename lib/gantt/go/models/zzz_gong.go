@@ -1388,7 +1388,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 // The function provides a map with keys as instances of End and values to *Start instances
 // the map is construed by iterating over all Start instances and populating keys with End instances
 // and values with the Start instances
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End]*Start {
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
 
 	var ret Start
 
@@ -1409,63 +1409,63 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Lanes":
-			res := make(map[*Lane]*Gantt)
+			res := make(map[*Lane][]*Gantt)
 			for gantt := range stage.Gantts {
 				for _, lane_ := range gantt.Lanes {
-					res[lane_] = gantt
+					res[lane_] = append(res[lane_], gantt)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "Milestones":
-			res := make(map[*Milestone]*Gantt)
+			res := make(map[*Milestone][]*Gantt)
 			for gantt := range stage.Gantts {
 				for _, milestone_ := range gantt.Milestones {
-					res[milestone_] = gantt
+					res[milestone_] = append(res[milestone_], gantt)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "Groups":
-			res := make(map[*Group]*Gantt)
+			res := make(map[*Group][]*Gantt)
 			for gantt := range stage.Gantts {
 				for _, group_ := range gantt.Groups {
-					res[group_] = gantt
+					res[group_] = append(res[group_], gantt)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		case "Arrows":
-			res := make(map[*Arrow]*Gantt)
+			res := make(map[*Arrow][]*Gantt)
 			for gantt := range stage.Gantts {
 				for _, arrow_ := range gantt.Arrows {
-					res[arrow_] = gantt
+					res[arrow_] = append(res[arrow_], gantt)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Group
 	case Group:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "GroupLanes":
-			res := make(map[*Lane]*Group)
+			res := make(map[*Lane][]*Group)
 			for group := range stage.Groups {
 				for _, lane_ := range group.GroupLanes {
-					res[lane_] = group
+					res[lane_] = append(res[lane_], group)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Lane
 	case Lane:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Bars":
-			res := make(map[*Bar]*Lane)
+			res := make(map[*Bar][]*Lane)
 			for lane := range stage.Lanes {
 				for _, bar_ := range lane.Bars {
-					res[bar_] = lane
+					res[bar_] = append(res[bar_], lane)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of LaneUse
 	case LaneUse:
@@ -1477,13 +1477,13 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		case "LanesToDisplayMilestoneUse":
-			res := make(map[*LaneUse]*Milestone)
+			res := make(map[*LaneUse][]*Milestone)
 			for milestone := range stage.Milestones {
 				for _, laneuse_ := range milestone.LanesToDisplayMilestoneUse {
-					res[laneuse_] = milestone
+					res[laneuse_] = append(res[laneuse_], milestone)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	}
 	return nil
