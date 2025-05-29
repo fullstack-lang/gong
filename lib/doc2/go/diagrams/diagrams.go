@@ -5,8 +5,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/doc2/go/models"
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
-
-	ref_models "github.com/fullstack-lang/gong/lib/doc2/go/models"
 )
 
 // generated in order to avoid error in the package import
@@ -50,7 +48,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__000010_Default_1_GongNoteShape := (&models.GongStructShape{}).Stage(stage)
 	__GongStructShape__000011_Default_1_GongStructShape := (&models.GongStructShape{}).Stage(stage)
 	__GongStructShape__000012_Default_1_LinkShape := (&models.GongStructShape{}).Stage(stage)
-	__GongStructShape__000013_Default_GongEnumShape := (&models.GongStructShape{}).Stage(stage)
 
 	__LinkShape__000000_Classdiagrams := (&models.LinkShape{}).Stage(stage)
 	__LinkShape__000001_GongStructShapes := (&models.LinkShape{}).Stage(stage)
@@ -299,19 +296,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__000012_Default_1_LinkShape.Height = 103.000000
 	__GongStructShape__000012_Default_1_LinkShape.IsSelected = false
 
-	__GongStructShape__000013_Default_GongEnumShape.Name = `Default-GongEnumShape`
-	__GongStructShape__000013_Default_GongEnumShape.X = 66.000000
-	__GongStructShape__000013_Default_GongEnumShape.Y = 86.000000
-
-	//gong:ident [ref_models.GongEnumShape] comment added to overcome the problem with the comment map association
-	__GongStructShape__000013_Default_GongEnumShape.Identifier = `ref_models.GongEnumShape`
-	__GongStructShape__000013_Default_GongEnumShape.IdentifierMeta = ref_models.GongEnumShape{}
-	__GongStructShape__000013_Default_GongEnumShape.ShowNbInstances = false
-	__GongStructShape__000013_Default_GongEnumShape.NbInstances = 0
-	__GongStructShape__000013_Default_GongEnumShape.Width = 240.000000
-	__GongStructShape__000013_Default_GongEnumShape.Height = 63.000000
-	__GongStructShape__000013_Default_GongEnumShape.IsSelected = false
-
 	__LinkShape__000000_Classdiagrams.Name = `Classdiagrams`
 
 	//gong:ident [ref_models.DiagramPackage.Classdiagrams] comment added to overcome the problem with the comment map association
@@ -434,7 +418,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000001_Default_DiagramPackage)
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000002_Default_GongStructShape)
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000003_Default_Classdiagram)
-	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000013_Default_GongEnumShape)
 	__Classdiagram__000000_Default.GongNoteShapes = append(__Classdiagram__000000_Default.GongNoteShapes, __GongNoteShape__000000_Default_NoteOnGongdoc)
 	__Classdiagram__000001_spoil_diagram.GongStructShapes = append(__Classdiagram__000001_spoil_diagram.GongStructShapes, __GongStructShape__000004_Default_1_AttributeShape)
 	__Classdiagram__000001_spoil_diagram.GongStructShapes = append(__Classdiagram__000001_spoil_diagram.GongStructShapes, __GongStructShape__000005_Default_1_Classdiagram)
