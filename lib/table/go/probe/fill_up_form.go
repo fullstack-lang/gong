@@ -69,6 +69,10 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Icon", instanceWithInferedType.Icon, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("NeedsConfirmation", instanceWithInferedType.NeedsConfirmation, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ConfirmationMessage", instanceWithInferedType.ConfirmationMessage, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 
 	case *models.CellInt:
 		// insertion point
