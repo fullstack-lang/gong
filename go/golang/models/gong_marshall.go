@@ -89,6 +89,7 @@ const (
 	GongMarshallFileFieldSubTmplSetBasicFieldEnumInt
 	GongMarshallFileFieldSubTmplSetBasicFieldFloat64
 	GongMarshallFileFieldSubTmplSetBasicFieldString
+	GongMarshallFileFieldSubTmplSetBasicFieldMeta
 	GongMarshallFileFieldSubTmplSetBasicFieldStringDocLink
 	GongMarshallFileFieldSubTmplSetTimeField
 	GongMarshallFileFieldSubTmplSetPointerField
@@ -148,6 +149,15 @@ map[GongMarshallFilePerStructSubTemplateId]string{
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string({{structname}}.{{FieldName}}))
 		initializerStatements += setValueField
+`,
+	GongMarshallFileFieldSubTmplSetBasicFieldMeta: `
+		if str, ok := {{structname}}.{{FieldName}}.(string); ok {
+			setValueField = MetaFieldStructInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IdentifierMeta")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", str)
+			initializerStatements += setValueField
+		}
 `,
 	GongMarshallFileFieldSubTmplSetBasicFieldStringDocLink: `
 		setValueField = StringInitStatement
@@ -254,6 +264,10 @@ func CodeGeneratorModelGongMarshall(
 								GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetBasicFieldEnumInt],
 								"{{FieldName}}", field.Name)
 						}
+					case types.UntypedNil:
+						valInitCode += models.Replace1(
+							GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetBasicFieldMeta],
+							"{{FieldName}}", field.Name)
 					default:
 					}
 				case *models.GongTimeField:
