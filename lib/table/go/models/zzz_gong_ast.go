@@ -1081,6 +1081,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_CellIcon[identifier].Icon = fielValue
+				case "ConfirmationMessage":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_CellIcon[identifier].ConfirmationMessage = fielValue
 				}
 			case "CellInt":
 				switch fieldName {
@@ -1394,6 +1398,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			case "CellIcon":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "NeedsConfirmation":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_CellIcon[identifier].NeedsConfirmation = fielValue
 				}
 			case "CellInt":
 				switch fieldName {

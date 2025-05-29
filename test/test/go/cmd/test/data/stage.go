@@ -29,7 +29,6 @@ func _(stage *models.Stage) {
 	__Astruct__000001_A2 := (&models.Astruct{}).Stage(stage)
 	__Astruct__000002_A3 := (&models.Astruct{}).Stage(stage)
 	__Astruct__000003_A3 := (&models.Astruct{}).Stage(stage)
-	__Astruct__000004_A5 := (&models.Astruct{}).Stage(stage)
 
 	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{}).Stage(stage)
 	__AstructBstruct2Use__000001_ := (&models.AstructBstruct2Use{}).Stage(stage)
@@ -69,17 +68,17 @@ Second Line`
 	//gong:ident [gongdoc_models.GongStructShape.Name] comment added to overcome the problem with the comment map association
 	__Astruct__000000_A1.FieldRef = `gongdoc_models.GongStructShape.Name`
 
-	//gong:ident [...................] comment added to overcome the problem with the comment map association
-	__Astruct__000000_A1.EnumIntRef = `...................`
+	//gong:ident [......................] comment added to overcome the problem with the comment map association
+	__Astruct__000000_A1.EnumIntRef = `......................`
 
-	//gong:ident [...................] comment added to overcome the problem with the comment map association
-	__Astruct__000000_A1.EnumStringRef = `...................`
+	//gong:ident [......................] comment added to overcome the problem with the comment map association
+	__Astruct__000000_A1.EnumStringRef = `......................`
 
-	//gong:ident [...................] comment added to overcome the problem with the comment map association
-	__Astruct__000000_A1.EnumValue = `...................`
+	//gong:ident [......................] comment added to overcome the problem with the comment map association
+	__Astruct__000000_A1.EnumValue = `......................`
 
-	//gong:ident [...................] comment added to overcome the problem with the comment map association
-	__Astruct__000000_A1.ConstIdentifierValue = `...................`
+	//gong:ident [......................] comment added to overcome the problem with the comment map association
+	__Astruct__000000_A1.ConstIdentifierValue = `......................`
 	__Astruct__000000_A1.TextFieldBespokeSize = ``
 	__Astruct__000000_A1.TextArea = ``
 
@@ -95,23 +94,23 @@ Second Line`
 	__Astruct__000001_A2.Anotherbooleanfield = false
 	__Astruct__000001_A2.Duration1 = 796530000000000000
 
-	//gong:ident [..............] comment added to overcome the problem with the comment map association
-	__Astruct__000001_A2.StructRef = `..............`
+	//gong:ident [.................] comment added to overcome the problem with the comment map association
+	__Astruct__000001_A2.StructRef = `.................`
 
-	//gong:ident [..............] comment added to overcome the problem with the comment map association
-	__Astruct__000001_A2.FieldRef = `..............`
+	//gong:ident [.................] comment added to overcome the problem with the comment map association
+	__Astruct__000001_A2.FieldRef = `.................`
 
-	//gong:ident [..............] comment added to overcome the problem with the comment map association
-	__Astruct__000001_A2.EnumIntRef = `..............`
+	//gong:ident [.................] comment added to overcome the problem with the comment map association
+	__Astruct__000001_A2.EnumIntRef = `.................`
 
-	//gong:ident [..............] comment added to overcome the problem with the comment map association
-	__Astruct__000001_A2.EnumStringRef = `..............`
+	//gong:ident [.................] comment added to overcome the problem with the comment map association
+	__Astruct__000001_A2.EnumStringRef = `.................`
 
-	//gong:ident [..............] comment added to overcome the problem with the comment map association
-	__Astruct__000001_A2.EnumValue = `..............`
+	//gong:ident [.................] comment added to overcome the problem with the comment map association
+	__Astruct__000001_A2.EnumValue = `.................`
 
-	//gong:ident [..............] comment added to overcome the problem with the comment map association
-	__Astruct__000001_A2.ConstIdentifierValue = `..............`
+	//gong:ident [.................] comment added to overcome the problem with the comment map association
+	__Astruct__000001_A2.ConstIdentifierValue = `.................`
 	__Astruct__000001_A2.TextFieldBespokeSize = ``
 	__Astruct__000001_A2.TextArea = ``
 
@@ -128,23 +127,23 @@ Second Line`
 	__Astruct__000002_A3.Anotherbooleanfield = false
 	__Astruct__000002_A3.Duration1 = -79653000000000
 
-	//gong:ident [...................] comment added to overcome the problem with the comment map association
-	__Astruct__000002_A3.StructRef = `...................`
+	//gong:ident [......................] comment added to overcome the problem with the comment map association
+	__Astruct__000002_A3.StructRef = `......................`
 
-	//gong:ident [...................] comment added to overcome the problem with the comment map association
-	__Astruct__000002_A3.FieldRef = `...................`
+	//gong:ident [......................] comment added to overcome the problem with the comment map association
+	__Astruct__000002_A3.FieldRef = `......................`
 
-	//gong:ident [...................] comment added to overcome the problem with the comment map association
-	__Astruct__000002_A3.EnumIntRef = `...................`
+	//gong:ident [......................] comment added to overcome the problem with the comment map association
+	__Astruct__000002_A3.EnumIntRef = `......................`
 
-	//gong:ident [...................] comment added to overcome the problem with the comment map association
-	__Astruct__000002_A3.EnumStringRef = `...................`
+	//gong:ident [......................] comment added to overcome the problem with the comment map association
+	__Astruct__000002_A3.EnumStringRef = `......................`
 
-	//gong:ident [...................] comment added to overcome the problem with the comment map association
-	__Astruct__000002_A3.EnumValue = `...................`
+	//gong:ident [......................] comment added to overcome the problem with the comment map association
+	__Astruct__000002_A3.EnumValue = `......................`
 
-	//gong:ident [...................] comment added to overcome the problem with the comment map association
-	__Astruct__000002_A3.ConstIdentifierValue = `...................`
+	//gong:ident [......................] comment added to overcome the problem with the comment map association
+	__Astruct__000002_A3.ConstIdentifierValue = `......................`
 	__Astruct__000002_A3.TextFieldBespokeSize = ``
 	__Astruct__000002_A3.TextArea = ``
 
@@ -160,57 +159,25 @@ Second Line`
 	__Astruct__000003_A3.Anotherbooleanfield = false
 	__Astruct__000003_A3.Duration1 = 0
 
-	//gong:ident [......] comment added to overcome the problem with the comment map association
-	__Astruct__000003_A3.StructRef = `......`
+	//gong:ident [.........] comment added to overcome the problem with the comment map association
+	__Astruct__000003_A3.StructRef = `.........`
 
-	//gong:ident [......] comment added to overcome the problem with the comment map association
-	__Astruct__000003_A3.FieldRef = `......`
+	//gong:ident [.........] comment added to overcome the problem with the comment map association
+	__Astruct__000003_A3.FieldRef = `.........`
 
-	//gong:ident [......] comment added to overcome the problem with the comment map association
-	__Astruct__000003_A3.EnumIntRef = `......`
+	//gong:ident [.........] comment added to overcome the problem with the comment map association
+	__Astruct__000003_A3.EnumIntRef = `.........`
 
-	//gong:ident [......] comment added to overcome the problem with the comment map association
-	__Astruct__000003_A3.EnumStringRef = `......`
+	//gong:ident [.........] comment added to overcome the problem with the comment map association
+	__Astruct__000003_A3.EnumStringRef = `.........`
 
-	//gong:ident [......] comment added to overcome the problem with the comment map association
-	__Astruct__000003_A3.EnumValue = `......`
+	//gong:ident [.........] comment added to overcome the problem with the comment map association
+	__Astruct__000003_A3.EnumValue = `.........`
 
-	//gong:ident [......] comment added to overcome the problem with the comment map association
-	__Astruct__000003_A3.ConstIdentifierValue = `......`
+	//gong:ident [.........] comment added to overcome the problem with the comment map association
+	__Astruct__000003_A3.ConstIdentifierValue = `.........`
 	__Astruct__000003_A3.TextFieldBespokeSize = ``
 	__Astruct__000003_A3.TextArea = ``
-
-	__Astruct__000004_A5.Name = `A5`
-	__Astruct__000004_A5.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Astruct__000004_A5.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Astruct__000004_A5.Booleanfield = false
-	__Astruct__000004_A5.CEnum = models.CENUM_VAL1
-	__Astruct__000004_A5.CName = ``
-	__Astruct__000004_A5.CFloatfield = 0.000000
-	__Astruct__000004_A5.Floatfield = 0.000000
-	__Astruct__000004_A5.Intfield = 0
-	__Astruct__000004_A5.Anotherbooleanfield = false
-	__Astruct__000004_A5.Duration1 = 1260000000000
-
-	//gong:ident [..] comment added to overcome the problem with the comment map association
-	__Astruct__000004_A5.StructRef = `..`
-
-	//gong:ident [..] comment added to overcome the problem with the comment map association
-	__Astruct__000004_A5.FieldRef = `..`
-
-	//gong:ident [..] comment added to overcome the problem with the comment map association
-	__Astruct__000004_A5.EnumIntRef = `..`
-
-	//gong:ident [..] comment added to overcome the problem with the comment map association
-	__Astruct__000004_A5.EnumStringRef = `..`
-
-	//gong:ident [..] comment added to overcome the problem with the comment map association
-	__Astruct__000004_A5.EnumValue = `..`
-
-	//gong:ident [..] comment added to overcome the problem with the comment map association
-	__Astruct__000004_A5.ConstIdentifierValue = `..`
-	__Astruct__000004_A5.TextFieldBespokeSize = ``
-	__Astruct__000004_A5.TextArea = ``
 
 	__AstructBstruct2Use__000000_.Name = ``
 

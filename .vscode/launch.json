@@ -656,6 +656,14 @@
             "sourceMaps": true,
         },
         {
+            "name": "Launch Chrome (table) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/table/ng-github.com-fullstack-lang-gong-lib-table",
+            "sourceMaps": true,
+        },
+        {
             "name": "Launch Chrome (tone) on 4200",
             "request": "launch",
             "type": "chrome",

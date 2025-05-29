@@ -14,6 +14,8 @@ export class CellIconAPI {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Icon: string = ""
+	NeedsConfirmation: boolean = false
+	ConfirmationMessage: string = ""
 
 	// insertion point for other decls
 
