@@ -127,9 +127,13 @@ func _(stage *models.Stage) {
 
 	__CellIcon__000000_Row_1_Cell_3_Delete.Name = `Row 1 - Cell 3 - Delete`
 	__CellIcon__000000_Row_1_Cell_3_Delete.Icon = `delete`
+	__CellIcon__000000_Row_1_Cell_3_Delete.NeedsConfirmation = true
+	__CellIcon__000000_Row_1_Cell_3_Delete.ConfirmationMessage = `Do you confirm deletion`
 
 	__CellIcon__000001_Row_2_Cell_3_home.Name = `Row 2 - Cell 3 - home`
 	__CellIcon__000001_Row_2_Cell_3_home.Icon = `edit`
+	__CellIcon__000001_Row_2_Cell_3_home.NeedsConfirmation = false
+	__CellIcon__000001_Row_2_Cell_3_home.ConfirmationMessage = ``
 
 	__CellInt__000000_Row_1_Cell_4_Int.Name = `Row 1 - Cell 4 - Int`
 	__CellInt__000000_Row_1_Cell_4_Int.Value = 10
