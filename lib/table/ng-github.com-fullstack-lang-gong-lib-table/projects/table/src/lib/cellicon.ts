@@ -19,6 +19,8 @@ export class CellIcon {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Icon: string = ""
+	NeedsConfirmation: boolean = false
+	ConfirmationMessage: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 }
@@ -32,6 +34,8 @@ export function CopyCellIconToCellIconAPI(cellicon: CellIcon, celliconAPI: CellI
 	// insertion point for basic fields copy operations
 	celliconAPI.Name = cellicon.Name
 	celliconAPI.Icon = cellicon.Icon
+	celliconAPI.NeedsConfirmation = cellicon.NeedsConfirmation
+	celliconAPI.ConfirmationMessage = cellicon.ConfirmationMessage
 
 	// insertion point for pointer fields encoding
 
@@ -51,6 +55,8 @@ export function CopyCellIconAPIToCellIcon(celliconAPI: CellIconAPI, cellicon: Ce
 	// insertion point for basic fields copy operations
 	cellicon.Name = celliconAPI.Name
 	cellicon.Icon = celliconAPI.Icon
+	cellicon.NeedsConfirmation = celliconAPI.NeedsConfirmation
+	cellicon.ConfirmationMessage = celliconAPI.ConfirmationMessage
 
 	// insertion point for pointer fields encoding
 

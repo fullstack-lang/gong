@@ -378,6 +378,10 @@ func (celliconFormCallback *CellIconFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(cellicon_.Name), formDiv)
 		case "Icon":
 			FormDivBasicFieldToField(&(cellicon_.Icon), formDiv)
+		case "NeedsConfirmation":
+			FormDivBasicFieldToField(&(cellicon_.NeedsConfirmation), formDiv)
+		case "ConfirmationMessage":
+			FormDivBasicFieldToField(&(cellicon_.ConfirmationMessage), formDiv)
 		}
 	}
 
