@@ -202,6 +202,8 @@ type GongStructShape_WOP struct {
 
 	Identifier string
 
+	IdentifierMeta any
+
 	ShowNbInstances bool
 
 	NbInstances int
@@ -219,6 +221,7 @@ func (from *GongStructShape) CopyBasicFields(to *GongStructShape) {
 	to.X = from.X
 	to.Y = from.Y
 	to.Identifier = from.Identifier
+	to.IdentifierMeta = from.IdentifierMeta
 	to.ShowNbInstances = from.ShowNbInstances
 	to.NbInstances = from.NbInstances
 	to.Width = from.Width
