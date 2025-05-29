@@ -746,7 +746,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 // The function provides a map with keys as instances of End and values to *Start instances
 // the map is construed by iterating over all Start instances and populating keys with End instances
 // and values with the Start instances
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End]*Start {
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
 
 	var ret Start
 
@@ -757,13 +757,13 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Bs":
-			res := make(map[*B]*A)
+			res := make(map[*B][]*A)
 			for a := range stage.As {
 				for _, b_ := range a.Bs {
-					res[b_] = a
+					res[b_] = append(res[b_], a)
 				}
 			}
-			return any(res).(map[*End]*Start)
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of B
 	case B:
