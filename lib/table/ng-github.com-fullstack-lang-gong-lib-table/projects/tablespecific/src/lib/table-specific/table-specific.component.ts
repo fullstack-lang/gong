@@ -26,6 +26,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatInputModule } from '@angular/material/input'
 import { MatButtonModule } from '@angular/material/button'
 import { decodeStringToIntArray_json } from '../association-storage'
+import { ConfirmationDialogComponent } from '../dialog/dialog.component'
 
 
 @Component({
@@ -116,9 +117,9 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
     // To fix this, ensure your 'TableDialogData' interface (in '../table-dialog-data.ts')
     // includes 'initialSelection?: table.Row[]' as an optional property.
     if (this.tableDialogData && this.tableDialogData.initialSelection) {
-        // Assuming TableDialogData can carry an initial selection
-        // this.initialSelection = this.tableDialogData.initialSelection
-        // this.selection = new SelectionModel<table.Row>(allowMultiSelect, this.initialSelection)
+      // Assuming TableDialogData can carry an initial selection
+      // this.initialSelection = this.tableDialogData.initialSelection
+      // this.selection = new SelectionModel<table.Row>(allowMultiSelect, this.initialSelection)
     }
   }
 
@@ -147,11 +148,13 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
         this.selectedTable = undefined
 
         if (!this.gongtableFrontRepo) { // Guard against undefined front repo
-            console.error("Gongtable front repo is not available.")
-            return
+          console.error("Gongtable front repo is not available.")
+          return
         }
 
+        let tableNames = new (Array<string>)
         for (let item of this.gongtableFrontRepo.getFrontArray<table.Table>(table.Table.GONGSTRUCT_NAME)) {
+          tableNames.push(item.Name)
           if (item.Name == this.TableName) {
             this.selectedTable = item
             break // Found the table, no need to continue loop
@@ -159,7 +162,7 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
         }
 
         if (!this.selectedTable) {
-          console.error("Selected table not found:", this.TableName)
+          console.error(this.selectedTable, "not found among table names", tableNames)
           return
         }
 
@@ -168,12 +171,12 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
         this.mapHeaderIdIndex = new Map<string, number>()
         this.displayedColumns = []
         if (this.selectedTable.DisplayedColumns) {
-            this.selectedTable.DisplayedColumns.forEach((column, index) => {
-                if(column.Name) { // Ensure column name exists
-                    this.mapHeaderIdIndex.set(column.Name, index)
-                    this.displayedColumns.push(column.Name)
-                }
-            })
+          this.selectedTable.DisplayedColumns.forEach((column, index) => {
+            if (column.Name) { // Ensure column name exists
+              this.mapHeaderIdIndex.set(column.Name, index)
+              this.displayedColumns.push(column.Name)
+            }
+          })
         }
 
 
@@ -200,8 +203,8 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
             this.selectedTable.Rows.forEach(Row => {
               if (Row.Cells.length > 0 && Row.Cells[0].CellInt) {
                 let id = Row.Cells[0].CellInt.Value
- 
-                if (sliceOfIDs.includes(id) ) {
+
+                if (sliceOfIDs.includes(id)) {
                   this.initialSelection.push(Row)
                 }
               }
@@ -259,10 +262,10 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     // Ensure sort and paginator are assigned if they exist
     if (this.sort) {
-        this.dataSource.sort = this.sort
+      this.dataSource.sort = this.sort
     }
     if (this.paginator) {
-        this.dataSource.paginator = this.paginator
+      this.dataSource.paginator = this.paginator
     }
   }
 
@@ -314,7 +317,7 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
       this.tableService.updateFront(this.selectedTable, this.Name).subscribe({
         next: () => {
           console.log('Table state saved (no selection changes).')
-          if(this.selectedTable) this.selectedTable.SavingInProgress = false // Ensure selectedTable is defined
+          if (this.selectedTable) this.selectedTable.SavingInProgress = false // Ensure selectedTable is defined
           if (this.tableDialogData && this.dialogRef) {
             // Pass the current selection (which might be empty or unchanged)
             this.dialogRef.close(this.selection.selected)
@@ -322,7 +325,7 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
         },
         error: (err) => {
           console.error('Error saving table state:', err)
-          if(this.selectedTable) this.selectedTable.SavingInProgress = false // Ensure selectedTable is defined
+          if (this.selectedTable) this.selectedTable.SavingInProgress = false // Ensure selectedTable is defined
         }
       })
       return
@@ -336,14 +339,14 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
       next: () => {
         console.log('Modified rows updated.')
         // After rows are updated, update the table itself
-        if(!this.selectedTable) { // Guard against undefined selectedTable
-            console.error("Selected table became undefined during save operation.")
-            return
+        if (!this.selectedTable) { // Guard against undefined selectedTable
+          console.error("Selected table became undefined during save operation.")
+          return
         }
         this.tableService.updateFront(this.selectedTable, this.Name).subscribe({
           next: () => {
             console.log('Table updated after row modifications.')
-            if(this.selectedTable) this.selectedTable.SavingInProgress = false // Ensure selectedTable is defined
+            if (this.selectedTable) this.selectedTable.SavingInProgress = false // Ensure selectedTable is defined
             if (this.tableDialogData && this.dialogRef) {
               // Pass the final selection state
               this.dialogRef.close(this.selection.selected)
@@ -351,13 +354,13 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
           },
           error: (err) => {
             console.error('Error updating table after row modifications:', err)
-            if(this.selectedTable) this.selectedTable.SavingInProgress = false // Ensure selectedTable is defined
+            if (this.selectedTable) this.selectedTable.SavingInProgress = false // Ensure selectedTable is defined
           }
         })
       },
       error: (err) => {
         console.error('Error updating one or more rows:', err)
-        if(this.selectedTable) this.selectedTable.SavingInProgress = false // Ensure selectedTable is defined
+        if (this.selectedTable) this.selectedTable.SavingInProgress = false // Ensure selectedTable is defined
       }
     })
   }
@@ -381,7 +384,7 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
     if (this.tableDialogData && this.dialogRef) {
       this.dialogRef.close(this.selection.selected)
     } else if (this.dialogRef) {
-        this.dialogRef.close()
+      this.dialogRef.close()
     }
   }
 
@@ -404,19 +407,39 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
 
     if (this.selectedTable.NbOfStickyColumns && columnIndex < this.selectedTable.NbOfStickyColumns) {
       styles['position'] = 'sticky'
-      styles['left'] = '0px' 
-      styles['background'] = 'white' 
-      styles['z-index'] = '1' 
+      styles['left'] = '0px'
+      styles['background'] = 'white'
+      styles['z-index'] = '1'
     }
     return styles
   }
 
   onClickCellIcon(cellIcon: table.CellIcon): void {
     console.log("Cell Icon clicked:", cellIcon.Name || 'Unnamed Icon')
-    this.celliconService.updateFront(cellIcon, this.Name).subscribe(
-      () => {
-        console.log("Cell icon updated:", cellIcon.Name || 'Unnamed Icon')
-      }
-    )
+
+    if (cellIcon.NeedsConfirmation) {
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '250px',
+        data: { message: cellIcon.ConfirmationMessage }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (!result) {
+          return
+        } else {
+          this.celliconService.updateFront(cellIcon, this.Name).subscribe(
+            () => {
+              console.log("Cell icon updated after confirmation:", cellIcon.Name || 'Unnamed Icon')
+            }
+          )
+        }
+      });
+    } else {
+            this.celliconService.updateFront(cellIcon, this.Name).subscribe(
+        () => {
+          console.log("Cell icon updated:", cellIcon.Name || 'Unnamed Icon')
+        }
+      )
+    }
   }
 }

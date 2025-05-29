@@ -3783,7 +3783,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case CellFloat64:
 		res = []string{"Name", "Value"}
 	case CellIcon:
-		res = []string{"Name", "Icon"}
+		res = []string{"Name", "Icon", "NeedsConfirmation", "ConfirmationMessage"}
 	case CellInt:
 		res = []string{"Name", "Value"}
 	case CellString:
@@ -3948,7 +3948,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *CellFloat64:
 		res = []string{"Name", "Value"}
 	case *CellIcon:
-		res = []string{"Name", "Icon"}
+		res = []string{"Name", "Icon", "NeedsConfirmation", "ConfirmationMessage"}
 	case *CellInt:
 		res = []string{"Name", "Value"}
 	case *CellString:
@@ -4081,6 +4081,12 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.Name
 		case "Icon":
 			res.valueString = inferedInstance.Icon
+		case "NeedsConfirmation":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.NeedsConfirmation)
+			res.valueBool = inferedInstance.NeedsConfirmation
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "ConfirmationMessage":
+			res.valueString = inferedInstance.ConfirmationMessage
 		}
 	case *CellInt:
 		switch fieldName {
@@ -4505,6 +4511,12 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.Name
 		case "Icon":
 			res.valueString = inferedInstance.Icon
+		case "NeedsConfirmation":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.NeedsConfirmation)
+			res.valueBool = inferedInstance.NeedsConfirmation
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "ConfirmationMessage":
+			res.valueString = inferedInstance.ConfirmationMessage
 		}
 	case CellInt:
 		switch fieldName {
