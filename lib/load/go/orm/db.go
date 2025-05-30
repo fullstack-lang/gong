@@ -27,6 +27,10 @@ type DBLite struct {
 	filetouploadDBs map[uint]*FileToUploadDB
 
 	nextIDFileToUploadDB uint
+
+	messageDBs map[uint]*MessageDB
+
+	nextIDMessageDB uint
 }
 
 // NewDBLite creates a new instance of DBLite
@@ -37,6 +41,8 @@ func NewDBLite() *DBLite {
 		filetodownloadDBs: make(map[uint]*FileToDownloadDB),
 
 		filetouploadDBs: make(map[uint]*FileToUploadDB),
+
+		messageDBs: make(map[uint]*MessageDB),
 	}
 }
 
@@ -59,6 +65,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDFileToUploadDB++
 		v.ID = db.nextIDFileToUploadDB
 		db.filetouploadDBs[v.ID] = v
+	case *MessageDB:
+		db.nextIDMessageDB++
+		v.ID = db.nextIDMessageDB
+		db.messageDBs[v.ID] = v
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/load/go, unsupported type in Create")
 	}
@@ -91,6 +101,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.filetodownloadDBs, v.ID)
 	case *FileToUploadDB:
 		delete(db.filetouploadDBs, v.ID)
+	case *MessageDB:
+		delete(db.messageDBs, v.ID)
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/load/go, unsupported type in Delete")
 	}
@@ -114,6 +126,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *FileToUploadDB:
 		db.filetouploadDBs[v.ID] = v
+		return db, nil
+	case *MessageDB:
+		db.messageDBs[v.ID] = v
 		return db, nil
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/load/go, Save: unsupported type")
@@ -143,6 +158,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db FileToUpload github.com/fullstack-lang/gong/lib/load/go, record not found")
 		}
+	case *MessageDB:
+		if existing, ok := db.messageDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Message github.com/fullstack-lang/gong/lib/load/go, record not found")
+		}
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/load/go, unsupported type in Updates")
 	}
@@ -166,6 +187,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]FileToUploadDB:
 		*ptr = make([]FileToUploadDB, 0, len(db.filetouploadDBs))
 		for _, v := range db.filetouploadDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]MessageDB:
+		*ptr = make([]MessageDB, 0, len(db.messageDBs))
+		for _, v := range db.messageDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -221,6 +248,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		filetouploadDB, _ := instanceDB.(*FileToUploadDB)
 		*filetouploadDB = *tmp
+		
+	case *MessageDB:
+		tmp, ok := db.messageDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Message Unkown entry %d", i))
+		}
+
+		messageDB, _ := instanceDB.(*MessageDB)
+		*messageDB = *tmp
 		
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/load/go, Unkown type")

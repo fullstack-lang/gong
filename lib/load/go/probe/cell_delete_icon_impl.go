@@ -33,6 +33,8 @@ func (cellDeleteIconImpl *CellDeleteIconImpl[T]) CellIconUpdated(stage *gongtabl
 		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)
 	case *models.FileToUpload:
 		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)
+	case *models.Message:
+		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)
 	default:
 		_ = instancesTyped
 	}

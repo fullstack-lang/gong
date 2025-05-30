@@ -30,10 +30,11 @@ func FillUpForm(
 			false, true, 600, false, 0)
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 2000)
-		BasicFieldtoForm("InvitationToUpload", instanceWithInferedType.InvitationToUpload, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("AfterProcessingMessage", instanceWithInferedType.AfterProcessingMessage, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+
+	case *models.Message:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			true, true, 600, true, 2000)
 
 	default:
 		_ = instanceWithInferedType

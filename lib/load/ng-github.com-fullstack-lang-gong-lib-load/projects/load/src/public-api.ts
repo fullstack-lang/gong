@@ -21,4 +21,8 @@ export * from './lib/filetoupload-api'
 export * from './lib/filetoupload'
 export * from './lib/filetoupload.service'
 
+export * from './lib/message-api'
+export * from './lib/message'
+export * from './lib/message.service'
+
 
