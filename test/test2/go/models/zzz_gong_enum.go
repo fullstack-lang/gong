@@ -42,7 +42,7 @@ func (aenumtype *AEnumType) FromCodeString(input string) (err error) {
 	case "ENUM_VAL2":
 		*aenumtype = ENUM_VAL2
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }

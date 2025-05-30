@@ -84,7 +84,7 @@ func (commandtype *CommandType) FromCodeString(input string) (err error) {
 	case "DECREASE_SPEED_50_PERCENTS":
 		*commandtype = DECREASE_SPEED_50_PERCENTS
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -187,7 +187,7 @@ func (controlmode *ControlMode) FromCodeString(input string) (err error) {
 	case "CLIENT_CONTROL":
 		*controlmode = CLIENT_CONTROL
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -294,7 +294,7 @@ func (enginedriverstate *EngineDriverState) FromCodeString(input string) (err er
 	case "UNKOWN":
 		*enginedriverstate = UNKOWN
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -389,7 +389,7 @@ func (enginerunmode *EngineRunMode) FromCodeString(input string) (err error) {
 	case "FULL_SPEED":
 		*enginerunmode = FULL_SPEED
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -475,7 +475,7 @@ func (enginestate *EngineState) FromCodeString(input string) (err error) {
 	case "OVER":
 		*enginestate = OVER
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -558,7 +558,7 @@ func (enginestopmode *EngineStopMode) FromCodeString(input string) (err error) {
 	case "STATE_CHANGED":
 		*enginestopmode = STATE_CHANGED
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -644,7 +644,7 @@ func (speedcommandtype *SpeedCommandType) FromCodeString(input string) (err erro
 	case "COMMAND_SPEED_STEADY":
 		*speedcommandtype = COMMAND_SPEED_STEADY
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }

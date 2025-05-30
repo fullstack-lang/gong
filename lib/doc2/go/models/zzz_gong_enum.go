@@ -77,7 +77,7 @@ func (buttontype *ButtonType) FromCodeString(input string) (err error) {
 	case "SAVE":
 		*buttontype = SAVE
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -176,7 +176,7 @@ func (gongenumshapetype *GongEnumShapeType) FromCodeString(input string) (err er
 	case "String":
 		*gongenumshapetype = String
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -262,7 +262,7 @@ func (multiplicitytype *MultiplicityType) FromCodeString(input string) (err erro
 	case "MANY":
 		*multiplicitytype = MANY
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -345,7 +345,7 @@ func (noteshapelinktype *NoteShapeLinkType) FromCodeString(input string) (err er
 	case "NOTE_SHAPE_LINK_TO_GONG_FIELD":
 		*noteshapelinktype = NOTE_SHAPE_LINK_TO_GONG_FIELD
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -424,7 +424,7 @@ func (orientationtype *OrientationType) FromCodeString(input string) (err error)
 	case "ORIENTATION_VERTICAL":
 		*orientationtype = ORIENTATION_VERTICAL
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -503,7 +503,7 @@ func (treenames *TreeNames) FromCodeString(input string) (err error) {
 	case "Model":
 		*treenames = Model
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
