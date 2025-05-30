@@ -11,6 +11,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *FileToUpload:
 		ok = stage.IsStagedFileToUpload(target)
 
+	case *Message:
+		ok = stage.IsStagedMessage(target)
+
 	default:
 		_ = target
 	}
@@ -32,6 +35,13 @@ func (stage *Stage) IsStagedFileToUpload(filetoupload *FileToUpload) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedMessage(message *Message) (ok bool) {
+
+	_, ok = stage.Messages[message]
+
+	return
+}
+
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -45,6 +55,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *FileToUpload:
 		stage.StageBranchFileToUpload(target)
+
+	case *Message:
+		stage.StageBranchMessage(target)
 
 	default:
 		_ = target
@@ -82,6 +95,21 @@ func (stage *Stage) StageBranchFileToUpload(filetoupload *FileToUpload) {
 
 }
 
+func (stage *Stage) StageBranchMessage(message *Message) {
+
+	// check if instance is already staged
+	if IsStaged(stage, message) {
+		return
+	}
+
+	message.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -99,6 +127,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *FileToUpload:
 		toT := CopyBranchFileToUpload(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Message:
+		toT := CopyBranchMessage(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -146,6 +178,25 @@ func CopyBranchFileToUpload(mapOrigCopy map[any]any, filetouploadFrom *FileToUpl
 	return
 }
 
+func CopyBranchMessage(mapOrigCopy map[any]any, messageFrom *Message) (messageTo *Message) {
+
+	// messageFrom has already been copied
+	if _messageTo, ok := mapOrigCopy[messageFrom]; ok {
+		messageTo = _messageTo.(*Message)
+		return
+	}
+
+	messageTo = new(Message)
+	mapOrigCopy[messageFrom] = messageTo
+	messageFrom.CopyBasicFields(messageTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
 //
@@ -159,6 +210,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *FileToUpload:
 		stage.UnstageBranchFileToUpload(target)
+
+	case *Message:
+		stage.UnstageBranchMessage(target)
 
 	default:
 		_ = target
@@ -189,6 +243,21 @@ func (stage *Stage) UnstageBranchFileToUpload(filetoupload *FileToUpload) {
 	}
 
 	filetoupload.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchMessage(message *Message) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, message) {
+		return
+	}
+
+	message.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 

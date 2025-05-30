@@ -11,4 +11,7 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct FileToUpload
 	// insertion point per field
 
+	// Compute reverse map for named struct Message
+	// insertion point per field
+
 }

@@ -12,6 +12,10 @@ import { FileToUploadAPI } from './filetoupload-api'
 import { FileToUpload, CopyFileToUploadAPIToFileToUpload } from './filetoupload'
 import { FileToUploadService } from './filetoupload.service'
 
+import { MessageAPI } from './message-api'
+import { Message, CopyMessageAPIToMessage } from './message'
+import { MessageService } from './message.service'
+
 
 import { BackRepoData } from './back-repo-data'
 
@@ -24,6 +28,9 @@ export class FrontRepo { // insertion point sub template
 
 	array_FileToUploads = new Array<FileToUpload>() // array of front instances
 	map_ID_FileToUpload = new Map<number, FileToUpload>() // map of front instances
+
+	array_Messages = new Array<Message>() // array of front instances
+	map_ID_Message = new Map<number, Message>() // map of front instances
 
 
 	public GONG__Index = -1
@@ -38,6 +45,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_FileToDownloads as unknown as Array<Type>
 			case 'FileToUpload':
 				return this.array_FileToUploads as unknown as Array<Type>
+			case 'Message':
+				return this.array_Messages as unknown as Array<Type>
 			default:
 				throw new Error("Type not recognized");
 		}
@@ -50,6 +59,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_FileToDownload as unknown as Map<number, Type>
 			case 'FileToUpload':
 				return this.map_ID_FileToUpload as unknown as Map<number, Type>
+			case 'Message':
+				return this.map_ID_Message as unknown as Map<number, Type>
 			default:
 				throw new Error("Type not recognized");
 		}
@@ -119,6 +130,7 @@ export class FrontRepoService {
 		private http: HttpClient, // insertion point sub template 
 		private filetodownloadService: FileToDownloadService,
 		private filetouploadService: FileToUploadService,
+		private messageService: MessageService,
 	) { }
 
 	// postService provides a post function for each struct name
@@ -153,6 +165,7 @@ export class FrontRepoService {
 		// insertion point sub template 
 		Observable<FileToDownloadAPI[]>,
 		Observable<FileToUploadAPI[]>,
+		Observable<MessageAPI[]>,
 	];
 
 	//
@@ -170,6 +183,7 @@ export class FrontRepoService {
 			// insertion point sub template
 			this.filetodownloadService.getFileToDownloads(this.Name, this.frontRepo),
 			this.filetouploadService.getFileToUploads(this.Name, this.frontRepo),
+			this.messageService.getMessages(this.Name, this.frontRepo),
 		]
 
 		return new Observable<FrontRepo>(
@@ -182,6 +196,7 @@ export class FrontRepoService {
 						// insertion point sub template for declarations 
 						filetodownloads_,
 						filetouploads_,
+						messages_,
 					]) => {
 						let _this = this
 						// Typing can be messy with many items. Therefore, type casting is necessary here
@@ -190,6 +205,8 @@ export class FrontRepoService {
 						filetodownloads = filetodownloads_ as FileToDownloadAPI[]
 						var filetouploads: FileToUploadAPI[]
 						filetouploads = filetouploads_ as FileToUploadAPI[]
+						var messages: MessageAPI[]
+						messages = messages_ as MessageAPI[]
 
 						// 
 						// First Step: init map of instances
@@ -218,6 +235,18 @@ export class FrontRepoService {
 							}
 						)
 
+						// init the arrays
+						this.frontRepo.array_Messages = []
+						this.frontRepo.map_ID_Message.clear()
+
+						messages.forEach(
+							messageAPI => {
+								let message = new Message
+								this.frontRepo.array_Messages.push(message)
+								this.frontRepo.map_ID_Message.set(messageAPI.ID, message)
+							}
+						)
+
 
 						// 
 						// Second Step: reddeem front objects
@@ -235,6 +264,14 @@ export class FrontRepoService {
 							filetouploadAPI => {
 								let filetoupload = this.frontRepo.map_ID_FileToUpload.get(filetouploadAPI.ID)
 								CopyFileToUploadAPIToFileToUpload(filetouploadAPI, filetoupload!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						messages.forEach(
+							messageAPI => {
+								let message = this.frontRepo.map_ID_Message.get(messageAPI.ID)
+								CopyMessageAPIToMessage(messageAPI, message!, this.frontRepo)
 							}
 						)
 
@@ -311,6 +348,18 @@ export class FrontRepoService {
 					}
 				)
 
+				// init the arrays
+				frontRepo.array_Messages = []
+				frontRepo.map_ID_Message.clear()
+
+				backRepoData.MessageAPIs.forEach(
+					messageAPI => {
+						let message = new Message
+						frontRepo.array_Messages.push(message)
+						frontRepo.map_ID_Message.set(messageAPI.ID, message)
+					}
+				)
+
 
 				// 
 				// Second Step: reddeem front objects
@@ -330,6 +379,14 @@ export class FrontRepoService {
 					filetouploadAPI => {
 						let filetoupload = frontRepo.map_ID_FileToUpload.get(filetouploadAPI.ID)
 						CopyFileToUploadAPIToFileToUpload(filetouploadAPI, filetoupload!, frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.MessageAPIs.forEach(
+					messageAPI => {
+						let message = frontRepo.map_ID_Message.get(messageAPI.ID)
+						CopyMessageAPIToMessage(messageAPI, message!, frontRepo)
 					}
 				)
 
@@ -357,4 +414,7 @@ export function getFileToDownloadUniqueID(id: number): number {
 }
 export function getFileToUploadUniqueID(id: number): number {
 	return 37 * id
+}
+export function getMessageUniqueID(id: number): number {
+	return 41 * id
 }

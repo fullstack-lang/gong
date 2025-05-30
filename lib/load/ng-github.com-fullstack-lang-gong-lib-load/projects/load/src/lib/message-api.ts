@@ -3,9 +3,9 @@
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
 
-export class FileToUploadAPI {
+export class MessageAPI {
 
-	static GONGSTRUCT_NAME = "FileToUpload"
+	static GONGSTRUCT_NAME = "Message"
 
 	CreatedAt?: string
 	DeletedAt?: string
@@ -13,13 +13,12 @@ export class FileToUploadAPI {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
-	Content: string = ""
 
 	// insertion point for other decls
 
-	FileToUploadPointersEncoding: FileToUploadPointersEncoding = new FileToUploadPointersEncoding
+	MessagePointersEncoding: MessagePointersEncoding = new MessagePointersEncoding
 }
 
-export class FileToUploadPointersEncoding {
+export class MessagePointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
 }
