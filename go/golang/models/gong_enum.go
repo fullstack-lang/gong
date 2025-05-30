@@ -86,7 +86,7 @@ func ({{enumName}} *{{EnumName}}) FromCodeString(input string) (err error) {
 	switch input {
 	// insertion code per enum code{{FromCodeStringPerCodeCode}}
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }

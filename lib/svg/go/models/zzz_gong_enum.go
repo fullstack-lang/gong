@@ -63,7 +63,7 @@ func (anchortype *AnchorType) FromCodeString(input string) (err error) {
 	case "ANCHOR_CENTER":
 		*anchortype = ANCHOR_CENTER
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -1169,7 +1169,7 @@ func (colortype *ColorType) FromCodeString(input string) (err error) {
 	case "Yellowgreen":
 		*colortype = Yellowgreen
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -1828,7 +1828,7 @@ func (drawingstate *DrawingState) FromCodeString(input string) (err error) {
 	case "DRAWING_LINK":
 		*drawingstate = DRAWING_LINK
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -1907,7 +1907,7 @@ func (linkanchortype *LinkAnchorType) FromCodeString(input string) (err error) {
 	case "LINK_RIGHT_OR_BOTTOM":
 		*linkanchortype = LINK_RIGHT_OR_BOTTOM
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -1986,7 +1986,7 @@ func (linktype *LinkType) FromCodeString(input string) (err error) {
 	case "LINK_TYPE_FLOATING_ORTHOGONAL":
 		*linktype = LINK_TYPE_FLOATING_ORTHOGONAL
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -2065,7 +2065,7 @@ func (orientationtype *OrientationType) FromCodeString(input string) (err error)
 	case "ORIENTATION_VERTICAL":
 		*orientationtype = ORIENTATION_VERTICAL
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -2144,7 +2144,7 @@ func (positiononarrowtype *PositionOnArrowType) FromCodeString(input string) (er
 	case "POSITION_ON_ARROW_END":
 		*positiononarrowtype = POSITION_ON_ARROW_END
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -2293,7 +2293,7 @@ func (rectanchortype *RectAnchorType) FromCodeString(input string) (err error) {
 	case "RECT_CENTER":
 		*rectanchortype = RECT_CENTER
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -2419,7 +2419,7 @@ func (segmenttype *SegmentType) FromCodeString(input string) (err error) {
 	case "EndSegment":
 		*segmenttype = EndSegment
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -2516,7 +2516,7 @@ func (sidetype *SideType) FromCodeString(input string) (err error) {
 	case "SIDE_RIGHT":
 		*sidetype = SIDE_RIGHT
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -2596,7 +2596,7 @@ func (stackname *StackName) FromCodeString(input string) (err error) {
 	case "StackNameDefault":
 		*stackname = StackNameDefault
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -2678,7 +2678,7 @@ func (textanchortype *TextAnchorType) FromCodeString(input string) (err error) {
 	case "TEXT_ANCHOR_END":
 		*textanchortype = TEXT_ANCHOR_END
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }

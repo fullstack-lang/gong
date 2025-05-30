@@ -42,7 +42,7 @@ func (fontstyleenum *FontStyleEnum) FromCodeString(input string) (err error) {
 	case "ITALIC":
 		*fontstyleenum = ITALIC
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -135,7 +135,7 @@ func (tooltippositionenum *ToolTipPositionEnum) FromCodeString(input string) (er
 	case "Right":
 		*tooltippositionenum = Right
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -215,7 +215,7 @@ func (treestackname *TreeStackName) FromCodeString(input string) (err error) {
 	case "TreeStackDefaultName":
 		*treestackname = TreeStackDefaultName
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }

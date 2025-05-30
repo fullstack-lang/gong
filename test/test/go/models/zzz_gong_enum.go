@@ -42,7 +42,7 @@ func (aenumtype *AEnumType) FromCodeString(input string) (err error) {
 	case "ENUM_VAL2":
 		*aenumtype = ENUM_VAL2
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -121,7 +121,7 @@ func (benumtype *BEnumType) FromCodeString(input string) (err error) {
 	case "BENUM_VAL2":
 		*benumtype = BENUM_VAL2
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -200,7 +200,7 @@ func (cenumtypeint *CEnumTypeInt) FromCodeString(input string) (err error) {
 	case "CENUM_VAL2":
 		*cenumtypeint = CENUM_VAL2
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -239,6 +239,63 @@ func (cenumtypeint CEnumTypeInt) CodeValues() (res []int) {
 	return
 }
 
+// Utility function for FEnumType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (fenumtype FEnumType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch fenumtype {
+	// insertion code per enum code
+	}
+	return
+}
+
+func (fenumtype *FEnumType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (fenumtype *FEnumType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (fenumtype *FEnumType) ToCodeString() (res string) {
+
+	switch *fenumtype {
+	// insertion code per enum code
+	}
+	return
+}
+
+func (fenumtype FEnumType) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+
+	return
+}
+
+func (fenumtype FEnumType) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+
+	return
+}
+
 // Utility function for StacksNames
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -272,7 +329,7 @@ func (stacksnames *StacksNames) FromCodeString(input string) (err error) {
 	case "Test":
 		*stacksnames = Test
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }

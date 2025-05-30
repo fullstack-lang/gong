@@ -35,7 +35,7 @@ func (stacksnames *StacksNames) FromCodeString(input string) (err error) {
 	case "SliderStackName":
 		*stacksnames = SliderStackName
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
