@@ -35,7 +35,7 @@ func (formgroupname *FormGroupName) FromCodeString(input string) (err error) {
 	case "FormGroupDefaultName":
 		*formgroupname = FormGroupDefaultName
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -208,7 +208,7 @@ func (inputtypeenum *InputTypeEnum) FromCodeString(input string) (err error) {
 	case "Week":
 		*inputtypeenum = Week
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -343,7 +343,7 @@ func (tableextranameenum *TableExtraNameEnum) FromCodeString(input string) (err 
 	case "TableSortExtraName":
 		*tableextranameenum = TableSortExtraName
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -443,7 +443,7 @@ func (tableextrapathenum *TableExtraPathEnum) FromCodeString(input string) (err 
 	case "StackNamePostFixForTableForAssociationSorting":
 		*tableextrapathenum = StackNamePostFixForTableForAssociationSorting
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -527,7 +527,7 @@ func (tablename *TableName) FromCodeString(input string) (err error) {
 	case "TableDefaultName":
 		*tablename = TableDefaultName
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -609,7 +609,7 @@ func (tabletestnameenum *TableTestNameEnum) FromCodeString(input string) (err er
 	case "GeneratedTableStackName":
 		*tabletestnameenum = GeneratedTableStackName
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }

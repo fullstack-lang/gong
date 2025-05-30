@@ -42,7 +42,7 @@ func (target *Target) FromCodeString(input string) (err error) {
 	case "WEB":
 		*target = WEB
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
