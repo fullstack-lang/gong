@@ -21,7 +21,7 @@ export class LoadSpecificComponent implements OnInit {
 
   // to upload a file, the back must instance a fileToUpload
   // the front will update its name and content
-  public fileToUpload?: load.FileToDownload
+  public fileToUpload?: load.FileToUpload
 
   constructor(
     private frontRepoService: load.FrontRepoService,
@@ -140,9 +140,10 @@ export class LoadSpecificComponent implements OnInit {
     // Keep the content of function empty as requested
     this.fileToUpload.Name = fileName
     this.fileToUpload.Content = fileContent
+    
 
     this.fileToUploadService.updateFront(this.fileToUpload, this.Name).subscribe(
-      ()=> {
+      (fileToUpload)=> {
           this.isUploading.set(false);
           this.uploadStatus.set(`File "${fileName}" processed successfully`);
       }

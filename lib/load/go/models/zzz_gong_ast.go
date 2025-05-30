@@ -693,6 +693,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_FileToUpload[identifier].Content = fielValue
+				case "InvitationToUpload":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_FileToUpload[identifier].InvitationToUpload = fielValue
+				case "AfterProcessingMessage":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_FileToUpload[identifier].AfterProcessingMessage = fielValue
 				}
 			}
 		case *ast.Ident:

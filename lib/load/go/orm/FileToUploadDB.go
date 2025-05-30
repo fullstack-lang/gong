@@ -66,6 +66,12 @@ type FileToUploadDB struct {
 	// Declation for basic field filetouploadDB.Content
 	Content_Data sql.NullString
 
+	// Declation for basic field filetouploadDB.InvitationToUpload
+	InvitationToUpload_Data sql.NullString
+
+	// Declation for basic field filetouploadDB.AfterProcessingMessage
+	AfterProcessingMessage_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FileToUploadPointersEncoding
@@ -91,6 +97,10 @@ type FileToUploadWOP struct {
 	Name string `xlsx:"1"`
 
 	Content string `xlsx:"2"`
+
+	InvitationToUpload string `xlsx:"3"`
+
+	AfterProcessingMessage string `xlsx:"4"`
 	// insertion for WOP pointer fields
 }
 
@@ -99,6 +109,8 @@ var FileToUpload_Fields = []string{
 	"ID",
 	"Name",
 	"Content",
+	"InvitationToUpload",
+	"AfterProcessingMessage",
 }
 
 type BackRepoFileToUploadStruct struct {
@@ -381,6 +393,12 @@ func (filetouploadDB *FileToUploadDB) CopyBasicFieldsFromFileToUpload(filetouplo
 
 	filetouploadDB.Content_Data.String = filetoupload.Content
 	filetouploadDB.Content_Data.Valid = true
+
+	filetouploadDB.InvitationToUpload_Data.String = filetoupload.InvitationToUpload
+	filetouploadDB.InvitationToUpload_Data.Valid = true
+
+	filetouploadDB.AfterProcessingMessage_Data.String = filetoupload.AfterProcessingMessage
+	filetouploadDB.AfterProcessingMessage_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFileToUpload_WOP
@@ -392,6 +410,12 @@ func (filetouploadDB *FileToUploadDB) CopyBasicFieldsFromFileToUpload_WOP(fileto
 
 	filetouploadDB.Content_Data.String = filetoupload.Content
 	filetouploadDB.Content_Data.Valid = true
+
+	filetouploadDB.InvitationToUpload_Data.String = filetoupload.InvitationToUpload
+	filetouploadDB.InvitationToUpload_Data.Valid = true
+
+	filetouploadDB.AfterProcessingMessage_Data.String = filetoupload.AfterProcessingMessage
+	filetouploadDB.AfterProcessingMessage_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFileToUploadWOP
@@ -403,6 +427,12 @@ func (filetouploadDB *FileToUploadDB) CopyBasicFieldsFromFileToUploadWOP(filetou
 
 	filetouploadDB.Content_Data.String = filetoupload.Content
 	filetouploadDB.Content_Data.Valid = true
+
+	filetouploadDB.InvitationToUpload_Data.String = filetoupload.InvitationToUpload
+	filetouploadDB.InvitationToUpload_Data.Valid = true
+
+	filetouploadDB.AfterProcessingMessage_Data.String = filetoupload.AfterProcessingMessage
+	filetouploadDB.AfterProcessingMessage_Data.Valid = true
 }
 
 // CopyBasicFieldsToFileToUpload
@@ -410,6 +440,8 @@ func (filetouploadDB *FileToUploadDB) CopyBasicFieldsToFileToUpload(filetoupload
 	// insertion point for checkout of basic fields (back repo to stage)
 	filetoupload.Name = filetouploadDB.Name_Data.String
 	filetoupload.Content = filetouploadDB.Content_Data.String
+	filetoupload.InvitationToUpload = filetouploadDB.InvitationToUpload_Data.String
+	filetoupload.AfterProcessingMessage = filetouploadDB.AfterProcessingMessage_Data.String
 }
 
 // CopyBasicFieldsToFileToUpload_WOP
@@ -417,6 +449,8 @@ func (filetouploadDB *FileToUploadDB) CopyBasicFieldsToFileToUpload_WOP(filetoup
 	// insertion point for checkout of basic fields (back repo to stage)
 	filetoupload.Name = filetouploadDB.Name_Data.String
 	filetoupload.Content = filetouploadDB.Content_Data.String
+	filetoupload.InvitationToUpload = filetouploadDB.InvitationToUpload_Data.String
+	filetoupload.AfterProcessingMessage = filetouploadDB.AfterProcessingMessage_Data.String
 }
 
 // CopyBasicFieldsToFileToUploadWOP
@@ -425,6 +459,8 @@ func (filetouploadDB *FileToUploadDB) CopyBasicFieldsToFileToUploadWOP(filetoupl
 	// insertion point for checkout of basic fields (back repo to stage)
 	filetoupload.Name = filetouploadDB.Name_Data.String
 	filetoupload.Content = filetouploadDB.Content_Data.String
+	filetoupload.InvitationToUpload = filetouploadDB.InvitationToUpload_Data.String
+	filetoupload.AfterProcessingMessage = filetouploadDB.AfterProcessingMessage_Data.String
 }
 
 // Backup generates a json file from a slice of all FileToUploadDB instances in the backrepo
