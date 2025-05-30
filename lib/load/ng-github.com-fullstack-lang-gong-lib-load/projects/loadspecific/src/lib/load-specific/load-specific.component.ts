@@ -23,6 +23,8 @@ export class LoadSpecificComponent implements OnInit {
   // the front will update its name and content
   public fileToUpload?: load.FileToUpload
 
+  public message?: load.Message
+
   constructor(
     private frontRepoService: load.FrontRepoService,
     private fileToUploadService: load.FileToUploadService,
@@ -34,6 +36,11 @@ export class LoadSpecificComponent implements OnInit {
     this.frontRepoService.connectToWebSocket(this.Name).subscribe({
       next: (frontRepo) => {
         this.frontRepo = frontRepo;
+
+        for (let message_ of this.frontRepo.getFrontArray<load.Message>(load.Message.GONGSTRUCT_NAME)) 
+        {
+          this.message = message_
+        }
 
         for (let file_ of this.frontRepo.getFrontArray<load.FileToDownload>(load.FileToDownload.GONGSTRUCT_NAME)) 
         {

@@ -1,4 +1,11 @@
 <div class="file-upload-container">
+  @if (this.message != undefined) {
+  <div>
+          <p class="upload-text">
+              {{ message.Name }}
+          </p>
+  </div>
+  }
   @if (this.fileToUpload != undefined) {
   <div class="drop-zone" [class.drag-over]="isDragOver()" [class.uploading]="isUploading()"
     (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"

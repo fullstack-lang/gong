@@ -27,12 +27,6 @@ type FileToUpload struct {
 	Content string
 
 	FileToUploadProxy FileToUploadProxy
-
-	// invitation to upload the file
-	InvitationToUpload string
-
-	// message that is displayed after the file has been processsed
-	AfterProcessingMessage string
 }
 
 func (fileToUpload *FileToUpload) OnAfterUpdate(stage *Stage, staged, front *FileToUpload) {
@@ -40,4 +34,12 @@ func (fileToUpload *FileToUpload) OnAfterUpdate(stage *Stage, staged, front *Fil
 	if fileToUpload.FileToUploadProxy != nil {
 		fileToUpload.FileToUploadProxy.OnFileUpload(front)
 	}
+}
+
+// Message is displayed to the user
+type Message struct {
+
+	//gong:text
+	//gong:width 600 gong:height 2000
+	Name string
 }

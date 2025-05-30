@@ -8,6 +8,8 @@ type BackRepoData struct {
 
 	FileToUploadAPIs []*FileToUploadAPI
 
+	MessageAPIs []*MessageAPI
+
 	// index of the web socket for this stack type (unique among all stack instances)
 	GONG__Index int
 }
@@ -37,6 +39,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		filetouploadDB.CopyBasicFieldsToFileToUpload_WOP(&filetouploadAPI.FileToUpload_WOP)
 
 		backRepoData.FileToUploadAPIs = append(backRepoData.FileToUploadAPIs, &filetouploadAPI)
+	}
+
+	for _, messageDB := range backRepo.BackRepoMessage.Map_MessageDBID_MessageDB {
+
+		var messageAPI MessageAPI
+		messageAPI.ID = messageDB.ID
+		messageAPI.MessagePointersEncoding = messageDB.MessagePointersEncoding
+		messageDB.CopyBasicFieldsToMessage_WOP(&messageAPI.Message_WOP)
+
+		backRepoData.MessageAPIs = append(backRepoData.MessageAPIs, &messageAPI)
 	}
 
 }
