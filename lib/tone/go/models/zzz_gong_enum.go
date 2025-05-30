@@ -42,7 +42,7 @@ func (status *Status) FromCodeString(input string) (err error) {
 	case "PAUSED":
 		*status = PAUSED
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }

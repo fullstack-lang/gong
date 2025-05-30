@@ -210,7 +210,7 @@ func (generatedgofilepath *GeneratedGoFilePath) FromCodeString(input string) (er
 	case "DocsGoFilePath":
 		*generatedgofilepath = DocsGoFilePath
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
@@ -385,7 +385,7 @@ func (gongenumtype *GongEnumType) FromCodeString(input string) (err error) {
 	case "String":
 		*gongenumtype = String
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }

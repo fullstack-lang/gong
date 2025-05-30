@@ -42,7 +42,7 @@ func (direction *Direction) FromCodeString(input string) (err error) {
 	case "Horizontal":
 		*direction = Horizontal
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }

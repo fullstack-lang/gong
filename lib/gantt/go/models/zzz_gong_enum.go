@@ -42,7 +42,7 @@ func (ganttstacksnames *GanttStacksNames) FromCodeString(input string) (err erro
 	case "GanttStackName":
 		*ganttstacksnames = GanttStackName
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }

@@ -77,7 +77,7 @@ func (fieldtype *FieldType) FromCodeString(input string) (err error) {
 	case "FieldTypeSliceOfPointer":
 		*fieldtype = FieldTypeSliceOfPointer
 	default:
-		return errUnkownEnum
+		err = errUnkownEnum
 	}
 	return
 }
