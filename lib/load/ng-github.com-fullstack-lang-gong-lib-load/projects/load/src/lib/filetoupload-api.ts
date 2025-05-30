@@ -14,6 +14,8 @@ export class FileToUploadAPI {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Content: string = ""
+	InvitationToUpload: string = ""
+	AfterProcessingMessage: string = ""
 
 	// insertion point for other decls
 

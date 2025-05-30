@@ -12,7 +12,7 @@ type FileToDownload struct {
 }
 
 type FileToUploadProxy interface {
-	OnFileUpload(*FileToUpload)
+	OnFileUpload(*FileToUpload) error
 }
 
 // FileToUpload is the content that need to be downloaded
@@ -27,6 +27,12 @@ type FileToUpload struct {
 	Content string
 
 	FileToUploadProxy FileToUploadProxy
+
+	// invitation to upload the file
+	InvitationToUpload string
+
+	// message that is displayed after the file has been processsed
+	AfterProcessingMessage string
 }
 
 func (fileToUpload *FileToUpload) OnAfterUpdate(stage *Stage, staged, front *FileToUpload) {
