@@ -25,6 +25,8 @@ func _(stage *models.Stage) {
 
 	__FileToUpload__000000_DOORS_export_sample_1_reqif := (&models.FileToUpload{}).Stage(stage)
 
+	__Message__000000__Messsage_Messsage := (&models.Message{}).Stage(stage)
+
 	// Setup of values
 
 	__FileToUpload__000000_DOORS_export_sample_1_reqif.Name = `DOORS export sample 1.reqif`
@@ -206,6 +208,11 @@ func _(stage *models.Stage) {
 </REQ-IF>
 `
 
+	__Message__000000__Messsage_Messsage.Name = `
+Messsage
+Messsage`
+
 	// Setup of pointers
 	// setup of FileToUpload instances pointers
+	// setup of Message instances pointers
 }

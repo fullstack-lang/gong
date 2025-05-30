@@ -189,16 +189,45 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(filetoupload.Content))
 		initializerStatements += setValueField
 
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "InvitationToUpload")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(filetoupload.InvitationToUpload))
-		initializerStatements += setValueField
+	}
 
+	map_Message_Identifiers := make(map[*Message]string)
+	_ = map_Message_Identifiers
+
+	messageOrdered := []*Message{}
+	for message := range stage.Messages {
+		messageOrdered = append(messageOrdered, message)
+	}
+	sort.Slice(messageOrdered[:], func(i, j int) bool {
+		messagei := messageOrdered[i]
+		messagej := messageOrdered[j]
+		messagei_order, oki := stage.MessageMap_Staged_Order[messagei]
+		messagej_order, okj := stage.MessageMap_Staged_Order[messagej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return messagei_order < messagej_order
+	})
+	if len(messageOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, message := range messageOrdered {
+
+		id = generatesIdentifier("Message", idx, message.Name)
+		map_Message_Identifiers[message] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Message")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", message.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "AfterProcessingMessage")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(filetoupload.AfterProcessingMessage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(message.Name))
 		initializerStatements += setValueField
 
 	}
@@ -226,6 +255,19 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 		id = generatesIdentifier("FileToUpload", idx, filetoupload.Name)
 		map_FileToUpload_Identifiers[filetoupload] = id
+
+		// Initialisation of values
+	}
+
+	if len(messageOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Message instances pointers"
+	}
+	for idx, message := range messageOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Message", idx, message.Name)
+		map_Message_Identifiers[message] = id
 
 		// Initialisation of values
 	}

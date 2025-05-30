@@ -23,6 +23,8 @@ func updateAndCommitTablePointerToGongstruct[T models.PointerToGongstruct](
 		updateAndCommitTable[models.FileToDownload](probe)
 	case *models.FileToUpload:
 		updateAndCommitTable[models.FileToUpload](probe)
+	case *models.Message:
+		updateAndCommitTable[models.Message](probe)
 	default:
 		log.Println("unknow type")
 	}
