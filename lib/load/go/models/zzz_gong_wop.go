@@ -29,11 +29,17 @@ type FileToUpload_WOP struct {
 	Name string
 
 	Content string
+
+	InvitationToUpload string
+
+	AfterProcessingMessage string
 }
 
 func (from *FileToUpload) CopyBasicFields(to *FileToUpload) {
 	// insertion point
 	to.Name = from.Name
 	to.Content = from.Content
+	to.InvitationToUpload = from.InvitationToUpload
+	to.AfterProcessingMessage = from.AfterProcessingMessage
 }
 

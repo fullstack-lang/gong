@@ -785,7 +785,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case FileToDownload:
 		res = []string{"Name", "Content"}
 	case FileToUpload:
-		res = []string{"Name", "Content"}
+		res = []string{"Name", "Content", "InvitationToUpload", "AfterProcessingMessage"}
 	}
 	return
 }
@@ -824,7 +824,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *FileToDownload:
 		res = []string{"Name", "Content"}
 	case *FileToUpload:
-		res = []string{"Name", "Content"}
+		res = []string{"Name", "Content", "InvitationToUpload", "AfterProcessingMessage"}
 	}
 	return
 }
@@ -881,6 +881,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.Name
 		case "Content":
 			res.valueString = inferedInstance.Content
+		case "InvitationToUpload":
+			res.valueString = inferedInstance.InvitationToUpload
+		case "AfterProcessingMessage":
+			res.valueString = inferedInstance.AfterProcessingMessage
 		}
 	default:
 		_ = inferedInstance
@@ -907,6 +911,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.Name
 		case "Content":
 			res.valueString = inferedInstance.Content
+		case "InvitationToUpload":
+			res.valueString = inferedInstance.InvitationToUpload
+		case "AfterProcessingMessage":
+			res.valueString = inferedInstance.AfterProcessingMessage
 		}
 	default:
 		_ = inferedInstance

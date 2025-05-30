@@ -145,6 +145,10 @@ func (filetouploadFormCallback *FileToUploadFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(filetoupload_.Name), formDiv)
 		case "Content":
 			FormDivBasicFieldToField(&(filetoupload_.Content), formDiv)
+		case "InvitationToUpload":
+			FormDivBasicFieldToField(&(filetoupload_.InvitationToUpload), formDiv)
+		case "AfterProcessingMessage":
+			FormDivBasicFieldToField(&(filetoupload_.AfterProcessingMessage), formDiv)
 		}
 	}
 
