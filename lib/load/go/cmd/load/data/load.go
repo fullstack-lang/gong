@@ -30,7 +30,7 @@ func _(stage *models.Stage) {
 	// Setup of values
 
 	__FileToUpload__000000_DOORS_export_sample_1_reqif.Name = `DOORS export sample 1.reqif`
-	__FileToUpload__000000_DOORS_export_sample_1_reqif.Content = `<?xml version="1.0" encoding="UTF-8"?>
+	__FileToUpload__000000_DOORS_export_sample_1_reqif.Base64EncodedContent = `<?xml version="1.0" encoding="UTF-8"?>
 <REQ-IF xmlns="http://www.omg.org/spec/ReqIF/20110401/reqif.xsd"
     xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <THE-HEADER>

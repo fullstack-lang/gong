@@ -185,8 +185,8 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Content")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(filetoupload.Content))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Base64EncodedContent")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(filetoupload.Base64EncodedContent))
 		initializerStatements += setValueField
 
 	}
