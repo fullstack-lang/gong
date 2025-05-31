@@ -65,6 +65,11 @@ func Prepare(
 
 	stage, _ = fullstack.NewStackInstance(r, doc2StackName)
 
+	stage.MetaPackageImportAlias = "ref_models"
+
+	splits := strings.Split(doc2StackName, ":")
+	stage.MetaPackageImportPath = `"` + splits[0] + `/models"`
+
 	stage.Checkout()
 	stage.Reset()
 	stage.Commit()
