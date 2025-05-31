@@ -63,8 +63,8 @@ type FileToUploadDB struct {
 	// Declation for basic field filetouploadDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field filetouploadDB.Content
-	Content_Data sql.NullString
+	// Declation for basic field filetouploadDB.Base64EncodedContent
+	Base64EncodedContent_Data sql.NullString
 
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
@@ -90,7 +90,7 @@ type FileToUploadWOP struct {
 
 	Name string `xlsx:"1"`
 
-	Content string `xlsx:"2"`
+	Base64EncodedContent string `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -98,7 +98,7 @@ var FileToUpload_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
-	"Content",
+	"Base64EncodedContent",
 }
 
 type BackRepoFileToUploadStruct struct {
@@ -379,8 +379,8 @@ func (filetouploadDB *FileToUploadDB) CopyBasicFieldsFromFileToUpload(filetouplo
 	filetouploadDB.Name_Data.String = filetoupload.Name
 	filetouploadDB.Name_Data.Valid = true
 
-	filetouploadDB.Content_Data.String = filetoupload.Content
-	filetouploadDB.Content_Data.Valid = true
+	filetouploadDB.Base64EncodedContent_Data.String = filetoupload.Base64EncodedContent
+	filetouploadDB.Base64EncodedContent_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFileToUpload_WOP
@@ -390,8 +390,8 @@ func (filetouploadDB *FileToUploadDB) CopyBasicFieldsFromFileToUpload_WOP(fileto
 	filetouploadDB.Name_Data.String = filetoupload.Name
 	filetouploadDB.Name_Data.Valid = true
 
-	filetouploadDB.Content_Data.String = filetoupload.Content
-	filetouploadDB.Content_Data.Valid = true
+	filetouploadDB.Base64EncodedContent_Data.String = filetoupload.Base64EncodedContent
+	filetouploadDB.Base64EncodedContent_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFileToUploadWOP
@@ -401,22 +401,22 @@ func (filetouploadDB *FileToUploadDB) CopyBasicFieldsFromFileToUploadWOP(filetou
 	filetouploadDB.Name_Data.String = filetoupload.Name
 	filetouploadDB.Name_Data.Valid = true
 
-	filetouploadDB.Content_Data.String = filetoupload.Content
-	filetouploadDB.Content_Data.Valid = true
+	filetouploadDB.Base64EncodedContent_Data.String = filetoupload.Base64EncodedContent
+	filetouploadDB.Base64EncodedContent_Data.Valid = true
 }
 
 // CopyBasicFieldsToFileToUpload
 func (filetouploadDB *FileToUploadDB) CopyBasicFieldsToFileToUpload(filetoupload *models.FileToUpload) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	filetoupload.Name = filetouploadDB.Name_Data.String
-	filetoupload.Content = filetouploadDB.Content_Data.String
+	filetoupload.Base64EncodedContent = filetouploadDB.Base64EncodedContent_Data.String
 }
 
 // CopyBasicFieldsToFileToUpload_WOP
 func (filetouploadDB *FileToUploadDB) CopyBasicFieldsToFileToUpload_WOP(filetoupload *models.FileToUpload_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	filetoupload.Name = filetouploadDB.Name_Data.String
-	filetoupload.Content = filetouploadDB.Content_Data.String
+	filetoupload.Base64EncodedContent = filetouploadDB.Base64EncodedContent_Data.String
 }
 
 // CopyBasicFieldsToFileToUploadWOP
@@ -424,7 +424,7 @@ func (filetouploadDB *FileToUploadDB) CopyBasicFieldsToFileToUploadWOP(filetoupl
 	filetoupload.ID = int(filetouploadDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	filetoupload.Name = filetouploadDB.Name_Data.String
-	filetoupload.Content = filetouploadDB.Content_Data.String
+	filetoupload.Base64EncodedContent = filetouploadDB.Base64EncodedContent_Data.String
 }
 
 // Backup generates a json file from a slice of all FileToUploadDB instances in the backrepo

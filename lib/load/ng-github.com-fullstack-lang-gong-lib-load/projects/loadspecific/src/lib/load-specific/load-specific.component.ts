@@ -138,22 +138,61 @@ export class LoadSpecificComponent implements OnInit {
     reader.readAsText(file);
   }
 
-  private uploadFile(fileName: string, fileContent: string): void {
-
+private uploadFile(fileName: string, fileContent: string | ArrayBuffer): void {
+    // Minimal guard for component state, though "no error" implies this should be met.
     if (this.fileToUpload == undefined) {
-      return
+      // If truly "no error is possible", this path would not be hit.
+      // You might choose to remove it if the calling context absolutely guarantees fileToUpload exists.
+      console.warn("FileToUpload instance is not ready.");
+      this.isUploading.set(false); // Reset UI state if proceed further is impossible
+      this.uploadStatus.set("Upload cancelled: component not ready.");
+      return;
     }
 
-    // Keep the content of function empty as requested
-    this.fileToUpload.Name = fileName
-    this.fileToUpload.Content = fileContent
-    
+    let base64EncodedContent: string;
 
-    this.fileToUploadService.updateFront(this.fileToUpload, this.Name).subscribe(
-      (fileToUpload)=> {
+    if (typeof fileContent === 'string') {
+      // fileContent is a raw string, needs UTF-8 conversion then Base64 encoding
+      const encoder = new TextEncoder(); // Handles UTF-8 correctly
+      const utf8Bytes = encoder.encode(fileContent);
+
+      // Convert Uint8Array to a binary string
+      let binaryString = '';
+      utf8Bytes.forEach((byte) => {
+          binaryString += String.fromCharCode(byte);
+      });
+      base64EncodedContent = btoa(binaryString);
+    } else {
+      // fileContent is an ArrayBuffer (binary data)
+      // The type assertion `string | ArrayBuffer` and "no error" means if it's not string, it's ArrayBuffer.
+      const uint8Array = new Uint8Array(fileContent);
+
+      // Convert Uint8Array to a binary string
+      let binaryString = '';
+      uint8Array.forEach((byte) => {
+          binaryString += String.fromCharCode(byte);
+      });
+      base64EncodedContent = btoa(binaryString);
+    }
+
+    this.fileToUpload.Name = fileName;
+    this.fileToUpload.Base64EncodedContent = base64EncodedContent;
+
+    // The service call is asynchronous and can still fail (network issues, server errors).
+    // The template shows `uploadStatus()`, so handling service call outcomes is still relevant for the UI.
+    this.fileToUploadService.updateFront(this.fileToUpload, this.Name /* Assuming this.Name is context for updateFront */).subscribe(
+      (fileToUploadResponse: load.FileToUpload) => { // Use the actual type returned by the service
           this.isUploading.set(false);
           this.uploadStatus.set(`File "${fileName}" processed successfully`);
+          // console.log("Upload successful", fileToUploadResponse); // Optional: for debugging
+      },
+      (serviceError: any) => {
+          this.isUploading.set(false);
+          // Even if "no front-end errors" are assumed in logic, service calls can fail.
+          // The UI (uploadStatus) should reflect this.
+          this.uploadStatus.set(`Upload failed for "${fileName}": ${serviceError.message || 'Server error'}`);
+          // console.error("Service upload error:", serviceError); // Optional: for debugging
       }
-    )
-  }
+    );
+}
 }
