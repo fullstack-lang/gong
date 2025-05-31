@@ -34,8 +34,8 @@ func (rectAnchoredText *RectAnchoredText) WriteSVG(sb *strings.Builder, x, y flo
 			font-weight="%s"
 			font-style="%s"
 			font-size="%s"`,
-			formatFloat(x),
-			formatFloat(y),
+			formatFloat(x+rectAnchoredText.X_Offset),
+			formatFloat(y+rectAnchoredText.Y_Offset),
 			rectAnchoredText.TextAnchorType.ToString(),
 			rectAnchoredText.FontWeight,
 			rectAnchoredText.FontStyle,
@@ -53,7 +53,7 @@ func (rectAnchoredText *RectAnchoredText) WriteSVG(sb *strings.Builder, x, y flo
 			line = " "
 		}
 
-		if i == 0 && rectAnchoredText.RectAnchorType != RECT_TOP {
+		if i == 0 {
 			sb.WriteString(fmt.Sprintf("    <tspan >%s</tspan>\n", line))
 		} else {
 			sb.WriteString(fmt.Sprintf("    <tspan x=\"%s\" dy=\"1.2em\">%s</tspan>\n", formatFloat(x), line))
