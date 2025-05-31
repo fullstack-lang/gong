@@ -164,7 +164,7 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet) er
 						assignStmt := stmt
 						instance, id, gongstruct, fieldName :=
 							UnmarshallGongstructStaging(
-								stage, &cmap, assignStmt, astCoordinate)
+								stage, &cmap, assignStmt, astCoordinate, fset)
 						_ = instance
 						_ = id
 						_ = gongstruct
@@ -383,7 +383,7 @@ func lookupSym(recv, name string) bool {
 }
 
 // UnmarshallGoStaging unmarshall a go assign statement
-func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string) (
+func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string, fset *token.FileSet) (
 	instance any,
 	identifier string,
 	gongstructName string,
@@ -792,7 +792,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					}
 				}
 			}
-		case *ast.BasicLit, *ast.UnaryExpr:
+		case *ast.BasicLit, *ast.UnaryExpr, *ast.CompositeLit:
 
 			var basicLit *ast.BasicLit
 			var exprSign = 1.0
@@ -806,6 +806,23 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				// we want to extract a *ast.BasicLit from the *ast.UnaryExpr
 				basicLit = ue.X.(*ast.BasicLit)
 				exprSign = -1
+			}
+
+			// in case of meta field one creates a fake litteral of basic type
+			if cl, ok := expr.(*ast.CompositeLit); ok {
+
+				var sl *ast.SelectorExpr
+				if sl, ok = cl.Type.(*ast.SelectorExpr); !ok {
+					break
+				}
+
+				var ident *ast.Ident
+				if ident, ok = sl.X.(*ast.Ident); !ok {
+					break
+				}
+
+				basicLit = new(ast.BasicLit)
+				basicLit.Value = ident.Name + "." + sl.Sel.Name + "{}"
 			}
 
 			// astCoordinate := astCoordinate + "\tBasicLit" + "." + basicLit.Value
@@ -1028,6 +1045,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_GongStructShape[identifier].Identifier = fielValue
+				case "IdentifierMeta":
+					__gong__map_GongStructShape[identifier].IdentifierMeta = basicLit.Value
 				case "NbInstances":
 					// convert string to int
 					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
@@ -1374,6 +1393,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					}
 				}
 			}
+
 		}
 	}
 	return
