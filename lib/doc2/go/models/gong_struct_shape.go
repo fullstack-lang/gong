@@ -121,7 +121,9 @@ func (classdiagram *Classdiagram) AddGongStructShape(stage *Stage, diagramPackag
 	var gongstructshape GongStructShape
 	gongstructshape.Name = classdiagram.Name + "-" + gongstructshapeName
 	gongstructshape.Identifier = GongStructNameToIdentifier(gongstructshapeName)
-	gongstructshape.IdentifierMeta = gongstructshape.Identifier
+
+	// for instanciation of the struct ref_models.Astruct{}
+	gongstructshape.IdentifierMeta = gongstructshape.Identifier + "{}"
 	gongstructshape.Width = 240
 	gongstructshape.Height = 63
 

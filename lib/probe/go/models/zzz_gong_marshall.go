@@ -49,7 +49,7 @@ const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
 
 const MetaFieldStructInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}} = ` + `{{GeneratedFieldNameValue}}` + "{}"
+	{{Identifier}}.{{GeneratedFieldName}} = ` + `{{GeneratedFieldNameValue}}`
 
 const StringEnumInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`

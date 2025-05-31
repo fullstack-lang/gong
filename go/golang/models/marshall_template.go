@@ -54,7 +54,7 @@ const StringInitStatement = ` + "`" + `
 
 const MetaFieldStructInitStatement = ` + "`" + `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + ` + ` + "`" +
-	`{{GeneratedFieldNameValue}}` + "`" + ` + ` + `"` + `{}` + `"` + `
+	`{{GeneratedFieldNameValue}}` + "`" + `
 
 const StringEnumInitStatement = ` + "`" + `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}` + "`" + `
