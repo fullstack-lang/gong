@@ -15,6 +15,11 @@ type AttributeShape struct {
 	//gong:ident
 	Identifier string
 
+	// for storing the reference as a renaming target for gopls
+	// for instance 'ref_models.Astruct.IntField'
+	//gong:meta
+	IdentifierMeta any
+
 	FieldTypeAsString string
 	Structname        string
 	Fieldtypename     string
@@ -60,8 +65,14 @@ func (classdiagram *Classdiagram) AddAttributeFieldShape(
 		// concrete in the sense of UML concrete syntax
 		var concreteField AttributeShape
 		concreteField.Name = field.GetName()
-		concreteField.Identifier = GongstructAndFieldnameToFieldIdentifier(
+
+		fieldIdentifier := GongstructAndFieldnameToFieldIdentifier(
 			gongStruct.Name, field.GetName())
+
+		concreteField.Identifier = fieldIdentifier
+
+		// turn ref_models.Button.Name{} into ref_models.Button{}.Name
+		concreteField.IdentifierMeta = moveStructLiteralToType(fieldIdentifier)
 
 		switch realField := field.(type) {
 		case *gong.GongBasicField:
@@ -192,4 +203,22 @@ func (classdiagram *Classdiagram) AddLinkFieldShape(
 		link.EndRatio = 0.5
 		link.CornerOffsetRatio = 1.38
 	}
+}
+
+// moveStructLiteralToType converts "Type.Field{}" to "Type{}.Field"
+func moveStructLiteralToType(input string) string {
+
+	// Find the last dot to separate type from field
+	lastDotIndex := strings.LastIndex(input, ".")
+	if lastDotIndex == -1 {
+		// No dot found, return as is
+		return input
+	}
+
+	// Split into type part and field part
+	typePart := input[:lastDotIndex]    // Everything before the last dot
+	fieldPart := input[lastDotIndex+1:] // Everything after the last dot
+
+	// Rebuild as "Type{}.Field" and add quotes back
+	return typePart + "{}." + fieldPart
 }

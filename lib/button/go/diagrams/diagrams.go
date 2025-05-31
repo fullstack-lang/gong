@@ -25,6 +25,8 @@ func _(stage *models.Stage) {
 
 	// Declaration of instances to stage
 
+	__AttributeShape__000000_Name := (&models.AttributeShape{}).Stage(stage)
+
 	__Classdiagram__000000_Default := (&models.Classdiagram{}).Stage(stage)
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_31T10_57_01Z := (&models.DiagramPackage{}).Stage(stage)
@@ -32,6 +34,15 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_Button := (&models.GongStructShape{}).Stage(stage)
 
 	// Setup of values
+
+	__AttributeShape__000000_Name.Name = `Name`
+
+	//gong:ident [ref_models.Button.Name] comment added to overcome the problem with the comment map association
+	__AttributeShape__000000_Name.Identifier = `ref_models.Button.Name`
+	__AttributeShape__000000_Name.IdentifierMeta = ref_models.Button{}.Name
+	__AttributeShape__000000_Name.FieldTypeAsString = ``
+	__AttributeShape__000000_Name.Structname = `Button`
+	__AttributeShape__000000_Name.Fieldtypename = `string`
 
 	__Classdiagram__000000_Default.Name = `Default`
 	__Classdiagram__000000_Default.Description = ``
@@ -56,18 +67,19 @@ func _(stage *models.Stage) {
 
 	//gong:ident [ref_models.Button] comment added to overcome the problem with the comment map association
 	__GongStructShape__000000_Default_Button.Identifier = `ref_models.Button`
-	__GongStructShape__000000_Default_Button.IdentifierMeta = ref_models.Button{}
 	__GongStructShape__000000_Default_Button.ShowNbInstances = false
 	__GongStructShape__000000_Default_Button.NbInstances = 0
 	__GongStructShape__000000_Default_Button.Width = 240.000000
-	__GongStructShape__000000_Default_Button.Height = 63.000000
+	__GongStructShape__000000_Default_Button.Height = 83.000000
 	__GongStructShape__000000_Default_Button.IsSelected = false
 
 	// Setup of pointers
+	// setup of AttributeShape instances pointers
 	// setup of Classdiagram instances pointers
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000000_Default_Button)
 	// setup of DiagramPackage instances pointers
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_31T10_57_01Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_31T10_57_01Z.Classdiagrams, __Classdiagram__000000_Default)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_31T10_57_01Z.SelectedClassdiagram = __Classdiagram__000000_Default
 	// setup of GongStructShape instances pointers
+	__GongStructShape__000000_Default_Button.AttributeShapes = append(__GongStructShape__000000_Default_Button.AttributeShapes, __AttributeShape__000000_Name)
 }
