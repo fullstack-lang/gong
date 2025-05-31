@@ -910,7 +910,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case FileToDownload:
 		res = []string{"Name", "Content"}
 	case FileToUpload:
-		res = []string{"Name", "Content"}
+		res = []string{"Name", "Base64EncodedContent"}
 	case Message:
 		res = []string{"Name"}
 	}
@@ -954,7 +954,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *FileToDownload:
 		res = []string{"Name", "Content"}
 	case *FileToUpload:
-		res = []string{"Name", "Content"}
+		res = []string{"Name", "Base64EncodedContent"}
 	case *Message:
 		res = []string{"Name"}
 	}
@@ -1011,8 +1011,8 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
-		case "Content":
-			res.valueString = inferedInstance.Content
+		case "Base64EncodedContent":
+			res.valueString = inferedInstance.Base64EncodedContent
 		}
 	case *Message:
 		switch fieldName {
@@ -1043,8 +1043,8 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
-		case "Content":
-			res.valueString = inferedInstance.Content
+		case "Base64EncodedContent":
+			res.valueString = inferedInstance.Base64EncodedContent
 		}
 	case Message:
 		switch fieldName {

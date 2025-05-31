@@ -28,13 +28,13 @@ type FileToUpload_WOP struct {
 
 	Name string
 
-	Content string
+	Base64EncodedContent string
 }
 
 func (from *FileToUpload) CopyBasicFields(to *FileToUpload) {
 	// insertion point
 	to.Name = from.Name
-	to.Content = from.Content
+	to.Base64EncodedContent = from.Base64EncodedContent
 }
 
 type Message_WOP struct {
