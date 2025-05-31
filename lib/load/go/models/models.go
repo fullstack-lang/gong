@@ -24,7 +24,7 @@ type FileToUpload struct {
 
 	//gong:text
 	//gong:width 600 gong:height 2000
-	Content string
+	Base64EncodedContent string
 
 	FileToUploadProxy FileToUploadProxy
 }

@@ -143,8 +143,8 @@ func (filetouploadFormCallback *FileToUploadFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(filetoupload_.Name), formDiv)
-		case "Content":
-			FormDivBasicFieldToField(&(filetoupload_.Content), formDiv)
+		case "Base64EncodedContent":
+			FormDivBasicFieldToField(&(filetoupload_.Base64EncodedContent), formDiv)
 		}
 	}
 

@@ -13,7 +13,7 @@ export class FileToUploadAPI {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
-	Content: string = ""
+	Base64EncodedContent: string = ""
 
 	// insertion point for other decls
 

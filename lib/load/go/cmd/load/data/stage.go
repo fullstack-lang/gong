@@ -28,7 +28,7 @@ func _(stage *models.Stage) {
 	// Setup of values
 
 	__FileToUpload__000000_astruct_ts.Name = `astruct.ts`
-	__FileToUpload__000000_astruct_ts.Content = `// generated code - do not edit
+	__FileToUpload__000000_astruct_ts.Base64EncodedContent = `// generated code - do not edit
 
 import { AstructAPI } from './astruct-api'
 import { FrontRepo } from './front-repo.service';
