@@ -276,8 +276,8 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 
 	result := sb.String()
 
-	result = strings.ReplaceAll(result, maxX_string_to_be_replaced, fmt.Sprintf("%f", maxX+10))
-	result = strings.ReplaceAll(result, maxY_string_to_be_replaced, fmt.Sprintf("%f", maxY+10))
+	result = strings.ReplaceAll(result, maxX_string_to_be_replaced, fmt.Sprintf("%f", maxX+100))
+	result = strings.ReplaceAll(result, maxY_string_to_be_replaced, fmt.Sprintf("%f", maxY+100))
 
 	return os.WriteFile(pathToFile, []byte(result), 0644)
 }
