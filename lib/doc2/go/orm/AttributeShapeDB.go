@@ -101,11 +101,13 @@ type AttributeShapeWOP struct {
 
 	Identifier string `xlsx:"2"`
 
-	FieldTypeAsString string `xlsx:"3"`
+	IdentifierMeta any `xlsx:"3"`
 
-	Structname string `xlsx:"4"`
+	FieldTypeAsString string `xlsx:"4"`
 
-	Fieldtypename string `xlsx:"5"`
+	Structname string `xlsx:"5"`
+
+	Fieldtypename string `xlsx:"6"`
 	// insertion for WOP pointer fields
 }
 
@@ -114,6 +116,7 @@ var AttributeShape_Fields = []string{
 	"ID",
 	"Name",
 	"Identifier",
+	"IdentifierMeta",
 	"FieldTypeAsString",
 	"Structname",
 	"Fieldtypename",
