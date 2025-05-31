@@ -140,37 +140,39 @@ type LinkShapeWOP struct {
 
 	Identifier string `xlsx:"2"`
 
-	Fieldtypename string `xlsx:"3"`
+	IdentifierMeta any `xlsx:"3"`
 
-	FieldOffsetX float64 `xlsx:"4"`
+	Fieldtypename string `xlsx:"4"`
 
-	FieldOffsetY float64 `xlsx:"5"`
+	FieldOffsetX float64 `xlsx:"5"`
 
-	TargetMultiplicity models.MultiplicityType `xlsx:"6"`
+	FieldOffsetY float64 `xlsx:"6"`
 
-	TargetMultiplicityOffsetX float64 `xlsx:"7"`
+	TargetMultiplicity models.MultiplicityType `xlsx:"7"`
 
-	TargetMultiplicityOffsetY float64 `xlsx:"8"`
+	TargetMultiplicityOffsetX float64 `xlsx:"8"`
 
-	SourceMultiplicity models.MultiplicityType `xlsx:"9"`
+	TargetMultiplicityOffsetY float64 `xlsx:"9"`
 
-	SourceMultiplicityOffsetX float64 `xlsx:"10"`
+	SourceMultiplicity models.MultiplicityType `xlsx:"10"`
 
-	SourceMultiplicityOffsetY float64 `xlsx:"11"`
+	SourceMultiplicityOffsetX float64 `xlsx:"11"`
 
-	X float64 `xlsx:"12"`
+	SourceMultiplicityOffsetY float64 `xlsx:"12"`
 
-	Y float64 `xlsx:"13"`
+	X float64 `xlsx:"13"`
 
-	StartOrientation models.OrientationType `xlsx:"14"`
+	Y float64 `xlsx:"14"`
 
-	StartRatio float64 `xlsx:"15"`
+	StartOrientation models.OrientationType `xlsx:"15"`
 
-	EndOrientation models.OrientationType `xlsx:"16"`
+	StartRatio float64 `xlsx:"16"`
 
-	EndRatio float64 `xlsx:"17"`
+	EndOrientation models.OrientationType `xlsx:"17"`
 
-	CornerOffsetRatio float64 `xlsx:"18"`
+	EndRatio float64 `xlsx:"18"`
+
+	CornerOffsetRatio float64 `xlsx:"19"`
 	// insertion for WOP pointer fields
 }
 
@@ -179,6 +181,7 @@ var LinkShape_Fields = []string{
 	"ID",
 	"Name",
 	"Identifier",
+	"IdentifierMeta",
 	"Fieldtypename",
 	"FieldOffsetX",
 	"FieldOffsetY",
