@@ -12,6 +12,11 @@ type LinkShape struct {
 	//gong:ident
 	Identifier string
 
+	// for storing the reference as a renaming target for gopls
+	// for instance 'ref_models.Astruct.Anarrayofb'
+	//gong:meta
+	IdentifierMeta any
+
 	//gong:ident
 	Fieldtypename string
 
