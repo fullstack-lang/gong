@@ -73,6 +73,7 @@ const (
 	ModelGongAstFieldAssignString ModelGongAstFieldInsertionId = iota
 	ModelGongAstFieldAssignMetaField
 	ModelGongAstFieldAssignMetaFieldIndented
+	ModelGongAstFieldAssignMetaFieldDoublyIndented
 	ModelGongAstFieldAssignInt
 	ModelGongAstFieldAssignFloat64
 	ModelGongAstFieldAssignDate
@@ -98,6 +99,9 @@ map[ModelGongAstFieldInsertionId]string{
 	ModelGongAstFieldAssignMetaFieldIndented: `
 					case "{{FieldName}}":
 						__gong__map_{{Structname}}[identifier].{{FieldName}} = basicLit.Value`,
+	ModelGongAstFieldAssignMetaFieldDoublyIndented: `
+						case "{{FieldName}}":
+							__gong__map_{{Structname}}[identifier].{{FieldName}} = basicLit.Value`,
 	ModelGongAstFieldAssignInt: `
 				case "{{FieldName}}":
 					// convert string to int
@@ -236,6 +240,9 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 							"{{FieldName}}", field.Name)
 						selectorExprAssgmCode += models.Replace1(
 							ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignMetaFieldIndented],
+							"{{FieldName}}", field.Name)
+						sliceOfPointersAssignCode += models.Replace1(
+							ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignMetaFieldDoublyIndented],
 							"{{FieldName}}", field.Name)
 					}
 				case *models.PointerToGongStructField:
