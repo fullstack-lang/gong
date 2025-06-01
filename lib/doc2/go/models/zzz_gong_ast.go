@@ -164,7 +164,7 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet) er
 						assignStmt := stmt
 						instance, id, gongstruct, fieldName :=
 							UnmarshallGongstructStaging(
-								stage, &cmap, assignStmt, astCoordinate, fset)
+								stage, &cmap, assignStmt, astCoordinate)
 						_ = instance
 						_ = id
 						_ = gongstruct
@@ -383,7 +383,7 @@ func lookupSym(recv, name string) bool {
 }
 
 // UnmarshallGoStaging unmarshall a go assign statement
-func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string, fset *token.FileSet) (
+func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string) (
 	instance any,
 	identifier string,
 	gongstructName string,
