@@ -64,9 +64,9 @@ func _(stage *models.Stage) {
 	__Classdiagram__000001_Default_1.Description = ``
 	__Classdiagram__000001_Default_1.IsIncludedInStaticWebSite = false
 	__Classdiagram__000001_Default_1.IsInRenameMode = false
-	__Classdiagram__000001_Default_1.IsExpanded = true
+	__Classdiagram__000001_Default_1.IsExpanded = false
 	__Classdiagram__000001_Default_1.NodeGongStructsIsExpanded = true
-	__Classdiagram__000001_Default_1.NodeGongStructNodeExpansion = ``
+	__Classdiagram__000001_Default_1.NodeGongStructNodeExpansion = `[true]`
 	__Classdiagram__000001_Default_1.NodeGongEnumsIsExpanded = false
 	__Classdiagram__000001_Default_1.NodeGongEnumNodeExpansion = ``
 	__Classdiagram__000001_Default_1.NodeGongNotesIsExpanded = false
@@ -135,7 +135,6 @@ func _(stage *models.Stage) {
 	// setup of DiagramPackage instances pointers
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_30_30Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_30_30Z.Classdiagrams, __Classdiagram__000000_Default)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_30_30Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_30_30Z.Classdiagrams, __Classdiagram__000001_Default_1)
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_30_30Z.SelectedClassdiagram = __Classdiagram__000000_Default
 	// setup of GongStructShape instances pointers
 	__GongStructShape__000001_Default_Astruct.AttributeShapes = append(__GongStructShape__000001_Default_Astruct.AttributeShapes, __AttributeShape__000000_Name)
 	__GongStructShape__000001_Default_Astruct.LinkShapes = append(__GongStructShape__000001_Default_Astruct.LinkShapes, __LinkShape__000000_Associationtob)
