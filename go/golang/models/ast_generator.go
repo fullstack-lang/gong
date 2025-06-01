@@ -71,6 +71,7 @@ type ModelGongAstFieldInsertionId int
 
 const (
 	ModelGongAstFieldAssignString ModelGongAstFieldInsertionId = iota
+	ModelGongAstFieldAssignMetaField
 	ModelGongAstFieldAssignInt
 	ModelGongAstFieldAssignFloat64
 	ModelGongAstFieldAssignDate
@@ -90,6 +91,9 @@ map[ModelGongAstFieldInsertionId]string{
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_{{Structname}}[identifier].{{FieldName}} = fielValue`,
+	ModelGongAstFieldAssignMetaField: `
+				case "{{FieldName}}":
+					__gong__map_{{Structname}}[identifier].{{FieldName}} = basicLit.Value`,
 	ModelGongAstFieldAssignInt: `
 				case "{{FieldName}}":
 					// convert string to int
@@ -218,6 +222,10 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 					case types.Bool:
 						boolAndPointerAssignCode += models.Replace1(
 							ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignBoolean],
+							"{{FieldName}}", field.Name)
+					case types.UntypedNil:
+						basicLitAssignCode += models.Replace1(
+							ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignMetaField],
 							"{{FieldName}}", field.Name)
 					}
 				case *models.PointerToGongStructField:
