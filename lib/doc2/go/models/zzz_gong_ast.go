@@ -671,7 +671,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					}
 				}
 			case *ast.Ident:
-
 				// pick up the first arg
 				if len(callExpr.Args) != 1 {
 					break
@@ -693,6 +692,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				// For a "fake" literal, Kind might be set to something like token.STRING or a custom indicator
 				basicLit.Kind = token.STRING // Or another appropriate token.Kind
 				basicLit.Value = "new(" + seXident.Name + "." + se.Sel.Name + ")"
+				_ = basicLit
 			}
 			for _, arg := range callExpr.Args {
 				// astCoordinate := astCoordinate + "\tArg"
@@ -722,6 +722,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "AttributeShape":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
+						case "IdentifierMeta":
+							__gong__map_AttributeShape[identifier].IdentifierMeta = basicLit.Value
 						}
 					case "Classdiagram":
 						switch fieldName {
@@ -758,14 +760,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "GongEnumShape":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
+						case "IdentifierMeta":
+							__gong__map_GongEnumShape[identifier].IdentifierMeta = basicLit.Value
 						case "GongEnumValueShapes":
 							// remove first and last char
 							targetIdentifier := ident.Name
 							target := __gong__map_GongEnumValueShape[targetIdentifier]
 							__gong__map_GongEnumShape[identifier].GongEnumValueShapes =
 								append(__gong__map_GongEnumShape[identifier].GongEnumValueShapes, target)
-						case "IdentifierMeta":
-							__gong__map_GongEnumShape[identifier].IdentifierMeta = basicLit.Value
 						}
 					case "GongEnumValueShape":
 						switch fieldName {
@@ -788,6 +790,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "GongStructShape":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
+						case "IdentifierMeta":
+							__gong__map_GongStructShape[identifier].IdentifierMeta = basicLit.Value
 						case "AttributeShapes":
 							// remove first and last char
 							targetIdentifier := ident.Name
@@ -804,6 +808,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "LinkShape":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
+						case "IdentifierMeta":
+							__gong__map_LinkShape[identifier].IdentifierMeta = basicLit.Value
 						}
 					}
 				}
