@@ -1305,8 +1305,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				}
 			}
 		case *ast.SelectorExpr:
-
-			var assignmentMetaField bool
 			var basicLit *ast.BasicLit
 			var ident *ast.Ident
 
@@ -1320,7 +1318,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				// astCoordinate := astCoordinate + "\tX" + "." + ident.Name
 				// log.Println(astCoordinate)
 			case *ast.CompositeLit:
-				assignmentMetaField = true
 				var ok bool
 				var sl *ast.SelectorExpr
 
@@ -1336,11 +1333,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				// For a "fake" literal, Kind might be set to something like token.STRING or a custom indicator
 				basicLit.Kind = token.STRING // Or another appropriate token.Kind
 				basicLit.Value = ident.Name + "." + sl.Sel.Name + "{}." + selectorExpr.Sel.Name
-				assignmentMetaField = true
-			}
-
-			if assignmentMetaField {
-				break
 			}
 
 			if Sel := selectorExpr.Sel; Sel != nil {
@@ -1362,7 +1354,9 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				// insertion point for enums assignments
 				case "AttributeShape":
 					switch fieldName {
-					// insertion point for enum assign code
+					case "IdentifierMeta":
+						__gong__map_AttributeShape[identifier].IdentifierMeta = basicLit.Value
+						// insertion point for enum assign code
 					}
 				case "Classdiagram":
 					switch fieldName {
