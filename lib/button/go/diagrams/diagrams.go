@@ -27,6 +27,10 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000000_Name := (&models.AttributeShape{}).Stage(stage)
 
+	__GongNoteLinkShape__000000_Name := (&models.GongNoteLinkShape{}).Stage(stage)
+
 	__AttributeShape__000000_Name.IdentifierMeta = ref_models.Button{}.Name
+
+	__GongNoteLinkShape__000000_Name.Type = models.RefPackagePlusPeriod
 
 }
