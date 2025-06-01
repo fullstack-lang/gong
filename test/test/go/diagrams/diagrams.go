@@ -25,118 +25,47 @@ func _(stage *models.Stage) {
 
 	// Declaration of instances to stage
 
-	__AttributeShape__000000_Name := (&models.AttributeShape{}).Stage(stage)
-
 	__Classdiagram__000000_Default := (&models.Classdiagram{}).Stage(stage)
-	__Classdiagram__000001_Default_1 := (&models.Classdiagram{}).Stage(stage)
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_30_30Z := (&models.DiagramPackage{}).Stage(stage)
 
-	__GongStructShape__000000_Default_Bstruct := (&models.GongStructShape{}).Stage(stage)
-	__GongStructShape__000001_Default_Astruct := (&models.GongStructShape{}).Stage(stage)
-
-	__LinkShape__000000_Associationtob := (&models.LinkShape{}).Stage(stage)
+	__GongEnumShape__000000_Default_AEnumType := (&models.GongEnumShape{}).Stage(stage)
 
 	// Setup of values
-
-	__AttributeShape__000000_Name.Name = `Name`
-
-	//gong:ident [ref_models.Astruct.Name] comment added to overcome the problem with the comment map association
-	__AttributeShape__000000_Name.Identifier = `ref_models.Astruct.Name`
-	__AttributeShape__000000_Name.IdentifierMeta = ref_models.Astruct{}.Name
-	__AttributeShape__000000_Name.FieldTypeAsString = ``
-	__AttributeShape__000000_Name.Structname = `Astruct`
-	__AttributeShape__000000_Name.Fieldtypename = `string`
 
 	__Classdiagram__000000_Default.Name = `Default`
 	__Classdiagram__000000_Default.Description = ``
 	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = false
 	__Classdiagram__000000_Default.IsInRenameMode = false
-	__Classdiagram__000000_Default.IsExpanded = false
-	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[true,false,false,true]`
+	__Classdiagram__000000_Default.IsExpanded = true
+	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = false
+	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = ``
 	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = true
-	__Classdiagram__000000_Default.NodeGongEnumNodeExpansion = `[false,true,true]`
+	__Classdiagram__000000_Default.NodeGongEnumNodeExpansion = ``
 	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = true
-	__Classdiagram__000000_Default.NodeGongNoteNodeExpansion = `[false]`
-
-	__Classdiagram__000001_Default_1.Name = `Default_1`
-	__Classdiagram__000001_Default_1.Description = ``
-	__Classdiagram__000001_Default_1.IsIncludedInStaticWebSite = false
-	__Classdiagram__000001_Default_1.IsInRenameMode = false
-	__Classdiagram__000001_Default_1.IsExpanded = false
-	__Classdiagram__000001_Default_1.NodeGongStructsIsExpanded = true
-	__Classdiagram__000001_Default_1.NodeGongStructNodeExpansion = `[true]`
-	__Classdiagram__000001_Default_1.NodeGongEnumsIsExpanded = false
-	__Classdiagram__000001_Default_1.NodeGongEnumNodeExpansion = ``
-	__Classdiagram__000001_Default_1.NodeGongNotesIsExpanded = false
-	__Classdiagram__000001_Default_1.NodeGongNoteNodeExpansion = ``
+	__Classdiagram__000000_Default.NodeGongNoteNodeExpansion = ``
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_30_30Z.Name = `Diagram Package created the 2025-05-04T22:30:30Z`
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_30_30Z.Path = ``
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_30_30Z.GongModelPath = ``
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_30_30Z.AbsolutePathToDiagramPackage = ``
 
-	__GongStructShape__000000_Default_Bstruct.Name = `Default-Bstruct`
-	__GongStructShape__000000_Default_Bstruct.X = 620.000000
-	__GongStructShape__000000_Default_Bstruct.Y = 166.000000
+	__GongEnumShape__000000_Default_AEnumType.Name = `Default-AEnumType`
+	__GongEnumShape__000000_Default_AEnumType.X = 72.000000
+	__GongEnumShape__000000_Default_AEnumType.Y = 85.000000
 
-	//gong:ident [ref_models.Bstruct] comment added to overcome the problem with the comment map association
-	__GongStructShape__000000_Default_Bstruct.Identifier = `ref_models.Bstruct`
-	__GongStructShape__000000_Default_Bstruct.IdentifierMeta = ref_models.Bstruct{}
-	__GongStructShape__000000_Default_Bstruct.ShowNbInstances = false
-	__GongStructShape__000000_Default_Bstruct.NbInstances = 0
-	__GongStructShape__000000_Default_Bstruct.Width = 240.000000
-	__GongStructShape__000000_Default_Bstruct.Height = 63.000000
-	__GongStructShape__000000_Default_Bstruct.IsSelected = false
-
-	__GongStructShape__000001_Default_Astruct.Name = `Default-Astruct`
-	__GongStructShape__000001_Default_Astruct.X = 81.000000
-	__GongStructShape__000001_Default_Astruct.Y = 47.000000
-
-	//gong:ident [ref_models.Astruct] comment added to overcome the problem with the comment map association
-	__GongStructShape__000001_Default_Astruct.Identifier = `ref_models.Astruct`
-	__GongStructShape__000001_Default_Astruct.IdentifierMeta = ref_models.Astruct{}
-	__GongStructShape__000001_Default_Astruct.ShowNbInstances = false
-	__GongStructShape__000001_Default_Astruct.NbInstances = 0
-	__GongStructShape__000001_Default_Astruct.Width = 240.000000
-	__GongStructShape__000001_Default_Astruct.Height = 83.000000
-	__GongStructShape__000001_Default_Astruct.IsSelected = false
-
-	__LinkShape__000000_Associationtob.Name = `Associationtob`
-
-	//gong:ident [ref_models.Astruct.Associationtob] comment added to overcome the problem with the comment map association
-	__LinkShape__000000_Associationtob.Identifier = `ref_models.Astruct.Associationtob`
-	__LinkShape__000000_Associationtob.IdentifierMeta = ref_models.Astruct{}.Associationtob
-
-	//gong:ident [ref_models.Bstruct] comment added to overcome the problem with the comment map association
-	__LinkShape__000000_Associationtob.Fieldtypename = `ref_models.Bstruct`
-	__LinkShape__000000_Associationtob.FieldOffsetX = 0.000000
-	__LinkShape__000000_Associationtob.FieldOffsetY = 0.000000
-	__LinkShape__000000_Associationtob.TargetMultiplicity = models.ZERO_ONE
-	__LinkShape__000000_Associationtob.TargetMultiplicityOffsetX = 0.000000
-	__LinkShape__000000_Associationtob.TargetMultiplicityOffsetY = 0.000000
-	__LinkShape__000000_Associationtob.SourceMultiplicity = models.MANY
-	__LinkShape__000000_Associationtob.SourceMultiplicityOffsetX = 0.000000
-	__LinkShape__000000_Associationtob.SourceMultiplicityOffsetY = 0.000000
-	__LinkShape__000000_Associationtob.X = 415.000000
-	__LinkShape__000000_Associationtob.Y = 98.000000
-	__LinkShape__000000_Associationtob.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__000000_Associationtob.StartRatio = 0.500000
-	__LinkShape__000000_Associationtob.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__000000_Associationtob.EndRatio = 0.500000
-	__LinkShape__000000_Associationtob.CornerOffsetRatio = 1.380000
+	//gong:ident [ref_models.AEnumType] comment added to overcome the problem with the comment map association
+	__GongEnumShape__000000_Default_AEnumType.Identifier = `ref_models.AEnumType`
+	__GongEnumShape__000000_Default_AEnumType.IdentifierMeta = new(ref_models.AEnumType)
+	__GongEnumShape__000000_Default_AEnumType.Width = 240.000000
+	__GongEnumShape__000000_Default_AEnumType.Height = 63.000000
+	__GongEnumShape__000000_Default_AEnumType.IsExpanded = false
 
 	// Setup of pointers
-	// setup of AttributeShape instances pointers
 	// setup of Classdiagram instances pointers
-	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000000_Default_Bstruct)
-	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000001_Default_Astruct)
+	__Classdiagram__000000_Default.GongEnumShapes = append(__Classdiagram__000000_Default.GongEnumShapes, __GongEnumShape__000000_Default_AEnumType)
 	// setup of DiagramPackage instances pointers
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_30_30Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_30_30Z.Classdiagrams, __Classdiagram__000000_Default)
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_30_30Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_30_30Z.Classdiagrams, __Classdiagram__000001_Default_1)
-	// setup of GongStructShape instances pointers
-	__GongStructShape__000001_Default_Astruct.AttributeShapes = append(__GongStructShape__000001_Default_Astruct.AttributeShapes, __AttributeShape__000000_Name)
-	__GongStructShape__000001_Default_Astruct.LinkShapes = append(__GongStructShape__000001_Default_Astruct.LinkShapes, __LinkShape__000000_Associationtob)
-	// setup of LinkShape instances pointers
+	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_30_30Z.SelectedClassdiagram = __Classdiagram__000000_Default
+	// setup of GongEnumShape instances pointers
 }
