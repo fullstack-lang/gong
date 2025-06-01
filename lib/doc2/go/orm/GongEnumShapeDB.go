@@ -115,11 +115,13 @@ type GongEnumShapeWOP struct {
 
 	Identifier string `xlsx:"4"`
 
-	Width float64 `xlsx:"5"`
+	IdentifierMeta any `xlsx:"5"`
 
-	Height float64 `xlsx:"6"`
+	Width float64 `xlsx:"6"`
 
-	IsExpanded bool `xlsx:"7"`
+	Height float64 `xlsx:"7"`
+
+	IsExpanded bool `xlsx:"8"`
 	// insertion for WOP pointer fields
 }
 
@@ -130,6 +132,7 @@ var GongEnumShape_Fields = []string{
 	"X",
 	"Y",
 	"Identifier",
+	"IdentifierMeta",
 	"Width",
 	"Height",
 	"IsExpanded",
