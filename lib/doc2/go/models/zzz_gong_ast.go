@@ -1305,6 +1305,11 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				}
 			}
 		case *ast.SelectorExpr:
+
+			var assignmentMetaField bool
+			var basicLit *ast.BasicLit
+			var ident *ast.Ident
+
 			// assignment to enum field
 			selectorExpr := expr
 			// astCoordinate := astCoordinate + "\tSelectorExpr"
@@ -1314,7 +1319,30 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				_ = ident
 				// astCoordinate := astCoordinate + "\tX" + "." + ident.Name
 				// log.Println(astCoordinate)
+			case *ast.CompositeLit:
+				assignmentMetaField = true
+				var ok bool
+				var sl *ast.SelectorExpr
+
+				if sl, ok = X.Type.(*ast.SelectorExpr); !ok {
+					break // Exits the switch case
+				}
+
+				if ident, ok = sl.X.(*ast.Ident); !ok {
+					break // Exits the switch case
+				}
+
+				basicLit = new(ast.BasicLit)
+				// For a "fake" literal, Kind might be set to something like token.STRING or a custom indicator
+				basicLit.Kind = token.STRING // Or another appropriate token.Kind
+				basicLit.Value = ident.Name + "." + sl.Sel.Name + "{}." + selectorExpr.Sel.Name
+				assignmentMetaField = true
 			}
+
+			if assignmentMetaField {
+				break
+			}
+
 			if Sel := selectorExpr.Sel; Sel != nil {
 				// astCoordinate := astCoordinate + "\tSel" + "." + Sel.Name
 				// log.Println(astCoordinate)
@@ -1329,6 +1357,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				// remove first and last char
 				enumValue := Sel.Name
 				_ = enumValue
+
 				switch gongstructName {
 				// insertion point for enums assignments
 				case "AttributeShape":
