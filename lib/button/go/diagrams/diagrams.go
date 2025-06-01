@@ -31,6 +31,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000000_Name.IdentifierMeta = ref_models.Button{}.Name
 
-	__GongNoteLinkShape__000000_Name.Type = models.RefPackagePlusPeriod
+	__GongNoteLinkShape__000000_Name.Type = models.NOTE_SHAPE_LINK_TO_GONG_FIELD
 
 }
