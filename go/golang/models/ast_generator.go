@@ -23,7 +23,7 @@ const (
 	ModelGongAstStageProcessing
 	ModelGongAstBasicLitAssignment
 	ModelGongAstIdentBooleanAndPointerAssignment
-	ModelGongAstIdentEnumAssignment
+	ModelGongAstIdentSelectorExprAssignment
 	ModelGongAstDateAssignment
 	ModelGongAstSliceOfPointersAssignment
 	ModelGongAstStructInsertionsNb
@@ -50,10 +50,10 @@ var __gong__map_{{Structname}} = make(map[string]*{{Structname}})`,
 				switch fieldName {
 				// insertion point for field dependant code{{boolAndPointerAssignCode}}
 				}`,
-	ModelGongAstIdentEnumAssignment: `
+	ModelGongAstIdentSelectorExprAssignment: `
 				case "{{Structname}}":
 					switch fieldName {
-					// insertion point for enum assign code{{enumAssignCode}}
+					// insertion point for selector expr assign code{{selectorExprAssignCode}}
 					}`,
 	ModelGongAstDateAssignment: `
 						case "{{Structname}}":
@@ -72,6 +72,7 @@ type ModelGongAstFieldInsertionId int
 const (
 	ModelGongAstFieldAssignString ModelGongAstFieldInsertionId = iota
 	ModelGongAstFieldAssignMetaField
+	ModelGongAstFieldAssignMetaFieldIndented
 	ModelGongAstFieldAssignInt
 	ModelGongAstFieldAssignFloat64
 	ModelGongAstFieldAssignDate
@@ -94,6 +95,9 @@ map[ModelGongAstFieldInsertionId]string{
 	ModelGongAstFieldAssignMetaField: `
 				case "{{FieldName}}":
 					__gong__map_{{Structname}}[identifier].{{FieldName}} = basicLit.Value`,
+	ModelGongAstFieldAssignMetaFieldIndented: `
+					case "{{FieldName}}":
+						__gong__map_{{Structname}}[identifier].{{FieldName}} = basicLit.Value`,
 	ModelGongAstFieldAssignInt: `
 				case "{{FieldName}}":
 					// convert string to int
@@ -179,7 +183,7 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 		for subStructTemplate := range ModelGongAstStructSubTemplateCode {
 			basicLitAssignCode := ""
 			boolAndPointerAssignCode := ""
-			enumAssignCode := ""
+			selectorExprAssgmCode := ""
 			dateAssignCode := ""
 			sliceOfPointersAssignCode := ""
 
@@ -189,7 +193,7 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 					switch field.GetBasicKind() {
 					case types.String:
 						if field.GongEnum != nil {
-							enumAssignCode += models.Replace2(
+							selectorExprAssgmCode += models.Replace2(
 								ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignEnum],
 								"{{FieldName}}", field.Name,
 								"{{EnumType}}", field.GongEnum.Name)
@@ -200,7 +204,7 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 							"{{FieldName}}", field.Name)
 					case types.Int, types.Int64:
 						if field.GongEnum != nil {
-							enumAssignCode += models.Replace2(
+							selectorExprAssgmCode += models.Replace2(
 								ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignEnum],
 								"{{FieldName}}", field.Name,
 								"{{EnumType}}", field.GongEnum.Name)
@@ -224,8 +228,14 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 							ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignBoolean],
 							"{{FieldName}}", field.Name)
 					case types.UntypedNil:
+						// we have 2 possible assignments
+						// one for ref_models.Astruct{}
+						// one for ref_models.Astruct{}.Name
 						basicLitAssignCode += models.Replace1(
 							ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignMetaField],
+							"{{FieldName}}", field.Name)
+						selectorExprAssgmCode += models.Replace1(
+							ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignMetaFieldIndented],
 							"{{FieldName}}", field.Name)
 					}
 				case *models.PointerToGongStructField:
@@ -250,7 +260,7 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 				"{{Structname}}", gongStruct.Name,
 				"{{basicLitAssignCode}}", basicLitAssignCode,
 				"{{boolAndPointerAssignCode}}", boolAndPointerAssignCode,
-				"{{enumAssignCode}}", enumAssignCode,
+				"{{selectorExprAssignCode}}", selectorExprAssgmCode,
 				"{{sliceOfPointersAssignCode}}", sliceOfPointersAssignCode,
 				"{{dateAssignCode}}", dateAssignCode,
 			)
@@ -260,7 +270,7 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 				"{{Structname}}", gongStruct.Name,
 				"{{basicLitAssignCode}}", basicLitAssignCode,
 				"{{FieldNameString}}", boolAndPointerAssignCode,
-				"{{enumAssignCode}}", enumAssignCode,
+				"{{selectorExprAssignCode}}", selectorExprAssgmCode,
 				"{{sliceOfPointersAssignCode}}", sliceOfPointersAssignCode,
 				"{{dateAssignCode}}", dateAssignCode,
 			)
