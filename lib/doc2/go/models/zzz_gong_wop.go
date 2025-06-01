@@ -107,6 +107,8 @@ type GongEnumShape_WOP struct {
 
 	Identifier string
 
+	IdentifierMeta any
+
 	Width float64
 
 	Height float64
@@ -120,6 +122,7 @@ func (from *GongEnumShape) CopyBasicFields(to *GongEnumShape) {
 	to.X = from.X
 	to.Y = from.Y
 	to.Identifier = from.Identifier
+	to.IdentifierMeta = from.IdentifierMeta
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsExpanded = from.IsExpanded
