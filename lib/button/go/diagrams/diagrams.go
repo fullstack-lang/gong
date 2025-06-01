@@ -23,7 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	__GongStructShape__000000_Default_Button := (&models.GongStructShape{}).Stage(stage)
+	// Declaration of instances to stage
 
-	__GongStructShape__000000_Default_Button.IdentifierMeta = ref_models.Button{}
+	__AttributeShape__000000_Name := (&models.AttributeShape{}).Stage(stage)
+
+	__AttributeShape__000000_Name.IdentifierMeta = ref_models.Button{}.Name
+
 }
