@@ -393,6 +393,14 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongenumshape.Identifier))
 		initializerStatements += setValueField
 
+		if str, ok := gongenumshape.IdentifierMeta.(string); ok {
+			setValueField = MetaFieldStructInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IdentifierMeta")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", str)
+			initializerStatements += setValueField
+		}
+
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Width")

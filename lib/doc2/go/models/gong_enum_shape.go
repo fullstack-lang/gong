@@ -16,6 +16,9 @@ type GongEnumShape struct {
 	//gong:ident
 	Identifier string
 
+	//gong:meta
+	IdentifierMeta any
+
 	GongEnumValueShapes []*GongEnumValueShape
 
 	// with and height of the shape when they are rendered on SVG or with jointjs
@@ -37,6 +40,9 @@ func (classdiagram *Classdiagram) AddGongEnumShape(stage *Stage, diagramPackage 
 	var enumshape GongEnumShape
 	enumshape.Name = classdiagram.Name + "-" + enumshapeName
 	enumshape.Identifier = GongStructNameToIdentifier(enumshapeName)
+
+	// this is a way to initiate an enum
+	enumshape.IdentifierMeta = "new(" + enumshape.Identifier + ")"
 	enumshape.Width = 240
 	enumshape.Height = 63
 

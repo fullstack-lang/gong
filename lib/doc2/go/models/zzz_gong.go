@@ -1779,7 +1779,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case DiagramPackage:
 		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "AbsolutePathToDiagramPackage"}
 	case GongEnumShape:
-		res = []string{"Name", "X", "Y", "Identifier", "GongEnumValueShapes", "Width", "Height", "IsExpanded"}
+		res = []string{"Name", "X", "Y", "Identifier", "IdentifierMeta", "GongEnumValueShapes", "Width", "Height", "IsExpanded"}
 	case GongEnumValueShape:
 		res = []string{"Name", "Identifier"}
 	case GongNoteLinkShape:
@@ -1877,7 +1877,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *DiagramPackage:
 		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "AbsolutePathToDiagramPackage"}
 	case *GongEnumShape:
-		res = []string{"Name", "X", "Y", "Identifier", "GongEnumValueShapes", "Width", "Height", "IsExpanded"}
+		res = []string{"Name", "X", "Y", "Identifier", "IdentifierMeta", "GongEnumValueShapes", "Width", "Height", "IsExpanded"}
 	case *GongEnumValueShape:
 		res = []string{"Name", "Identifier"}
 	case *GongNoteLinkShape:

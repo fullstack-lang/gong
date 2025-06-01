@@ -942,6 +942,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_GongEnumShape[identifier].Identifier = fielValue
+				case "IdentifierMeta":
+					__gong__map_GongEnumShape[identifier].IdentifierMeta = basicLit.Value
 				case "Width":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
@@ -1368,6 +1370,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "GongEnumShape":
 					switch fieldName {
 					// insertion point for selector expr assign code
+					case "IdentifierMeta":
+						__gong__map_GongEnumShape[identifier].IdentifierMeta = basicLit.Value
 					}
 				case "GongEnumValueShape":
 					switch fieldName {
